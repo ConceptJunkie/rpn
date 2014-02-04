@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.4.0'
+RPN_VERSION = '5.4.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -75,30 +75,30 @@ unitStack = [ ]
 #//******************************************************************************
 
 class Measurement( mpf ):
-    def __new__( cls, value, types=None ):
+    def __new__( cls, value, units=None ):
         return mpf.__new__( cls, value )
 
-    def __init__( self, value, types=None ):
+    def __init__( self, value, units=None ):
         mpf.__init__( value )
-        self.types = { }
+        self.units = { }
 
-        if types is not None:
-            if isinstance( types, str ):
-                self.increment( types )
-            elif isinstance( types, ( list, tuple ) ):
-                for type in types:
-                    self.increment( type )
-            elif isinstance( types, dict ):
-                self.update( types )
+        if units is not None:
+            if isinstance( units, str ):
+                self.increment( units )
+            elif isinstance( units, ( list, tuple ) ):
+                for unit in units:
+                    self.increment( unit )
+            elif isinstance( units, dict ):
+                self.update( units )
             else:
-                raise ValueError( 'invalid types specifier' )
+                raise ValueError( 'invalid units specifier' )
 
 
     def __eq__( self, other ):
         result = mpf.__eq__( other )
 
         if isinstance( other, Measurement ):
-            result &= ( types == other.types )
+            result &= ( self.units == other.units )
 
         return result
 
@@ -108,31 +108,31 @@ class Measurement( mpf ):
 
 
     def increment( self, value, amount=1 ):
-        if value not in self.types:
-            self.types[ value ] = amount
+        if value not in self.units:
+            self.units[ value ] = amount
         else:
-            self.types[ value ] += amount
+            self.units[ value ] += amount
 
 
     def decrement( self, value, amount=1 ):
-        if value not in self.types:
-            self.types[ value ] = -amount
+        if value not in self.units:
+            self.units[ value ] = -amount
         else:
-            self.types[ value ] -= amount
+            self.units[ value ] -= amount
 
 
-    def update( self, types ):
-        if not isinstance( types, dict ):
+    def update( self, units ):
+        if not isinstance( units, dict ):
             raise ValueError( 'dict expected' )
 
-        self.types.update( types )
+        self.units.update( units )
 
 
     def isCompatible( self, other ):
         if isinstance( other, dict ):
-            return self.getType( ) == other
+            return self.getTypes( ) == other
         elif isinstance( other, Measurement ):
-            return self.getType( ) == other.getType( )
+            return self.getTypes( ) == other.getTypes( )
         else:
             raise ValueError( 'Measurement or dict expected' )
 
@@ -140,14 +140,19 @@ class Measurement( mpf ):
     def getValue( self ):
         return mpf( self )
 
-    def getType( self ):
+
+    def getUnits( self ):
+        return self.units
+
+
+    def getTypes( self ):
         unitTypes = { }
 
-        for unit in self.types:
+        for unit in self.units:
             if unit not in unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
-            unitType = unitOperators[ unit ]
+            unitType = unitOperators[ unit ][ 0 ]
 
             for key in unitType:
                 if key in unitTypes:
@@ -160,11 +165,11 @@ class Measurement( mpf ):
 
     def getConversion( self, other ):
         if self.isCompatible( other ):
-            unit1 = [ k for k, v in self.types.items( ) ][ 0 ]
-            unit2 = [ k for k, v in other.types.items( ) ][ 0 ]
+            unit1 = [ k for k, v in self.units.items( ) ][ 0 ]
+            unit2 = [ k for k, v in other.units.items( ) ][ 0 ]
             return mpmathify( unitConversionMatrix[ ( unit1, unit2 ) ] )
         else:
-            raise ValueError( 'incompatible types cannot be converted' )
+            raise ValueError( 'incompatible units cannot be converted' )
             return 0
 
 
@@ -2717,7 +2722,7 @@ def getNSphereRadius( n, k ):
     if not isinstance( k, Measurement ):
         return Measurement( k, 'length' )  # default is 'length' anyway
 
-    measurementType = k.getType( )
+    measurementType = k.getTypes( )
 
     if measurementType == { 'length' : 1 }:
         return 1
@@ -2753,7 +2758,7 @@ def getNSphereSurfaceArea( n, k ):
     if n < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
-    measurementType = k.getType( )
+    measurementType = k.getTypes( )
 
     if measurementType == { 'length' : 1 }:
         return fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
@@ -2787,7 +2792,7 @@ def getNSphereVolume( n, k ):
     if not isinstance( k, Measurement ):
         return getNSphereVolume( n, Measurement( k, 'length' ) )
 
-    measurementType = k.getType( )
+    measurementType = k.getTypes( )
 
     if measurementType == { 'length' : 1 }:
         return fmul( fdiv( power( pi, fdiv( n, 2 ) ),
@@ -4853,13 +4858,15 @@ def convertUnits( unit1, unit2 ):
     global unitConversionMatrix
 
     #print( unit1 )
+    #print( unit1.getUnits( ) )
     #print( unit2 )
+    #print( unit2.getUnits( ) )
 
     conversion = unit1.getConversion( unit2 )
 
     #print( conversion )
 
-    return Measurement( fmul( unit1, conversion ), unit2.types )
+    return Measurement( fmul( unit1, conversion ), unit2.getUnits( ) )
 
 
 #//******************************************************************************
@@ -5984,7 +5991,7 @@ def main( ):
                                       formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1,
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=defaultAccuracy, # -1
                          const=defaultAccuracy )
     parser.add_argument( '-b', '--input_radix', type=str, action='store', default=defaultInputRadix )
     parser.add_argument( '-c', '--comma', action='store_true' )
@@ -6266,9 +6273,19 @@ def main( ):
                 # output the answer with all the extras according to command-line arguments
                 resultString = nstr( result, mp.dps )
 
-                print( formatOutput( resultString, outputRadix, numerals, integerGrouping, integerDelimiter,
-                                     leadingZero, args.decimal_grouping, ' ', baseAsDigits,
-                                     args.output_accuracy ) )
+                outputString = formatOutput( resultString, outputRadix, numerals, integerGrouping,
+                                             integerDelimiter, leadingZero, args.decimal_grouping,
+                                             ' ', baseAsDigits, args.output_accuracy )
+
+                if isinstance( result, Measurement ):
+                    for unit in result.getUnits( ):
+                        outputString += ' ' + unitOperators[ unit ][ 1 ]
+                        exponent = result.getUnits( )[ unit ]
+
+                        if exponent > 1:
+                            outputString += '^' + str( exponent )
+
+                print( outputString )
 
                 # handle --identify
                 if args.identify:

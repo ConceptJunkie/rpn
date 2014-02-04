@@ -28,7 +28,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-RPN_VERSION = '5.3.0'
+RPN_VERSION = '5.4.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -46,78 +46,78 @@ unitTypes = [
 ]
 
 unitOperators = {
-    'acre'              : { 'length' : 2 },
-    'are'               : { 'length' : 2 },
-    'area'              : { 'length' : 2 },
-    'barn'              : { 'length' : 2 },
-    'shed'              : { 'length' : 2 },
-    'square_meter'      : { 'length' : 2 },
-    'square_yard'       : { 'length' : 2 },
+    'acre'              : [ { 'length' : 2 }, 'acres' ],
+    'are'               : [ { 'length' : 2 }, 'ares' ],
+    'area'              : [ { 'length' : 2 }, 'area' ],
+    'barn'              : [ { 'length' : 2 }, 'barns' ],
+    'shed'              : [ { 'length' : 2 }, 'sheds' ],
+    'square_meter'      : [ { 'length' : 2 }, 'square meters' ],
+    'square_yard'       : [ { 'length' : 2 }, 'square yards' ],
 
-    'angstrom'          : { 'length' : 1 },
-    'astronomical_unit' : { 'length' : 1 },
-    'chain'             : { 'length' : 1 },
-    'foot'              : { 'length' : 1 },
-    'furlong'           : { 'length' : 1 },
-    'inch'              : { 'length' : 1 },
-    'league'            : { 'length' : 1 },
-    'length'            : { 'length' : 1 },
-    'light_day'         : { 'length' : 1 },
-    'light_hour'        : { 'length' : 1 },
-    'light_minute'      : { 'length' : 1 },
-    'light_second'      : { 'length' : 1 },
-    'light_year'        : { 'length' : 1 },
-    'meter'             : { 'length' : 1 },
-    'micron'            : { 'length' : 1 },
-    'mile'              : { 'length' : 1 },
-    'nautical_mile'     : { 'length' : 1 },
-    'rod'               : { 'length' : 1 },
-    'yard'              : { 'length' : 1 },
+    'angstrom'          : [ { 'length' : 1 }, 'angstroms' ],
+    'astronomical_unit' : [ { 'length' : 1 }, 'astronomical units' ],
+    'chain'             : [ { 'length' : 1 }, 'chain' ],
+    'foot'              : [ { 'length' : 1 }, 'feet' ],
+    'furlong'           : [ { 'length' : 1 }, 'furlongs' ],
+    'inch'              : [ { 'length' : 1 }, 'inches' ],
+    'league'            : [ { 'length' : 1 }, 'leagues' ],
+    'length'            : [ { 'length' : 1 }, 'length' ],
+    'light_day'         : [ { 'length' : 1 }, 'light days' ],
+    'light_hour'        : [ { 'length' : 1 }, 'light hours' ],
+    'light_minute'      : [ { 'length' : 1 }, 'light minutes' ],
+    'light_second'      : [ { 'length' : 1 }, 'light seconds' ],
+    'light_year'        : [ { 'length' : 1 }, 'light years' ],
+    'meter'             : [ { 'length' : 1 }, 'meters' ],
+    'micron'            : [ { 'length' : 1 }, 'microns' ],
+    'mile'              : [ { 'length' : 1 }, 'miles' ],
+    'nautical_mile'     : [ { 'length' : 1 }, 'nautical miles' ],
+    'rod'               : [ { 'length' : 1 }, 'rods' ],
+    'yard'              : [ { 'length' : 1 }, 'yards' ],
 
-    'grain'             : { 'mass' : 1 },
-    'gram'              : { 'mass' : 1 },
-    'mass'              : { 'mass' : 1 },
-    'ounce'             : { 'mass' : 1 },
-    'pennyweight'       : { 'mass' : 1 },
-    'pound'             : { 'mass' : 1 },
-    'stone'             : { 'mass' : 1 },
-    'ton'               : { 'mass' : 1 },
-    'tonne'             : { 'mass' : 1 },
-    'troy_ounce'        : { 'mass' : 1 },
-    'troy_pound'        : { 'mass' : 1 },
+    'grain'             : [ { 'mass' : 1 },   'grains' ],
+    'gram'              : [ { 'mass' : 1 },   'grams' ],
+    'mass'              : [ { 'mass' : 1 },   'mass' ],
+    'ounce'             : [ { 'mass' : 1 },   'ounces' ],
+    'pennyweight'       : [ { 'mass' : 1 },   'pennyweights' ],
+    'pound'             : [ { 'mass' : 1 },   'pounds' ],
+    'stone'             : [ { 'mass' : 1 },   'stone' ],
+    'ton'               : [ { 'mass' : 1 },   'ton' ],
+    'tonne'             : [ { 'mass' : 1 },   'tonnes' ],
+    'troy_ounce'        : [ { 'mass' : 1 },   'troy ounces' ],
+    'troy_pound'        : [ { 'mass' : 1 },   'troy pounds' ],
 
-    'day'               : { 'time' : 1 },
-    'fortnight'         : { 'time' : 1 },
-    'hour'              : { 'time' : 1 },
-    'minute'            : { 'time' : 1 },
-    'second'            : { 'time' : 1 },
-    'time'              : { 'time' : 1 },
-    'week'              : { 'time' : 1 },
+    'day'               : [ { 'time' : 1 },   'days' ],
+    'fortnight'         : [ { 'time' : 1 },   'fortnights' ],
+    'hour'              : [ { 'time' : 1 },   'hours' ],
+    'minute'            : [ { 'time' : 1 },   'minutes' ],
+    'second'            : [ { 'time' : 1 },   'seconds' ],
+    'time'              : [ { 'time' : 1 },   'time' ],
+    'week'              : [ { 'time' : 1 },   'weeks' ],
 
-    'cubic_foot'        : { 'length' : 3 },
-    'cubic_meter'       : { 'length' : 3 },
-    'cup'               : { 'length' : 3 },
-    'fifth'             : { 'length' : 3 },
-    'firkin'            : { 'length' : 3 },
-    'fluid_ounce'       : { 'length' : 3 },
-    'gallon'            : { 'length' : 3 },
-    'gill'              : { 'length' : 3 },
-    'liter'             : { 'length' : 3 },
-    'pinch'             : { 'length' : 3 },
-    'pint'              : { 'length' : 3 },
-    'quart'             : { 'length' : 3 },
-    'tablespoon'        : { 'length' : 3 },
-    'teaspoon'          : { 'length' : 3 },
-    'volume'            : { 'length' : 3 },
+    'cubic_foot'        : [ { 'length' : 3 }, 'cubic feet' ],
+    'cubic_meter'       : [ { 'length' : 3 }, 'cubic meters' ],
+    'cup'               : [ { 'length' : 3 }, 'cups' ],
+    'fifth'             : [ { 'length' : 3 }, 'fifths' ],
+    'firkin'            : [ { 'length' : 3 }, 'firkins' ],
+    'fluid_ounce'       : [ { 'length' : 3 }, 'fluid ounces' ],
+    'gallon'            : [ { 'length' : 3 }, 'gallons' ],
+    'gill'              : [ { 'length' : 3 }, 'gills' ],
+    'liter'             : [ { 'length' : 3 }, 'liters' ],
+    'pinch'             : [ { 'length' : 3 }, 'pinches' ],
+    'pint'              : [ { 'length' : 3 }, 'pints' ],
+    'quart'             : [ { 'length' : 3 }, 'quarts' ],
+    'tablespoon'        : [ { 'length' : 3 }, 'tablespoons' ],
+    'teaspoon'          : [ { 'length' : 3 }, 'teaspoons' ],
+    'volume'            : [ { 'length' : 3 }, 'volumes' ],
 }
 
 
 metricUnits = [
-    ( 'meter',  'm', [ 'metre' ] ),
-    ( 'second', 's', [ ] ),
-    ( 'liter',  'l', [ 'litre' ] ),
-    ( 'gram',   'g', [ 'gramme' ] ),
-    ( 'are',    'a', [ ] ),
+    ( 'meter',  'meters',  'm', [ 'metre' ] ),
+    ( 'second', 'seconds', 's', [ ] ),
+    ( 'liter',  'liters',  'l', [ 'litre' ] ),
+    ( 'gram',   'grams',   'g', [ 'gramme' ] ),
+    ( 'are',    'ares',    'a', [ ] ),
 ]
 
 
@@ -218,13 +218,13 @@ def makeAliases( ):
     newAliases = { }
 
     for metricUnit in metricUnits:
-        newAliases[ metricUnit[ 1 ] ] = metricUnit[ 0 ]
+        newAliases[ metricUnit[ 2 ] ] = metricUnit[ 0 ]
 
         for prefix in metricPrefixes:
             unit = makeMetricUnit( prefix[ 0 ], metricUnit[ 0 ] )
             newAliases[ prefix[ 1 ] + metricUnit[ 1 ] ] = unit
 
-            for alternateUnit in metricUnit[ 2 ]:
+            for alternateUnit in metricUnit[ 3 ]:
                 newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
 
     #for i in newAliases:
@@ -254,16 +254,18 @@ def initializeConversionMatrix( unitConversionMatrix ):
     newOperators = { }
 
     for operator in unitOperators:
-        if unitOperators[ operator ] == { 'length' : 1 }:
+        if unitOperators[ operator ][ 0 ] == { 'length' : 1 }:
             newOp = 'square_' + operator
 
             if newOp not in unitOperators:
-                newOperators[ newOp ] = { 'length' : 2 }
+                newOperators[ newOp ] = [ { 'length' : 2 },
+                                            'square_' + unitOperators[ operator ][ 1 ] ]
 
             newOp = 'cubic_'+ operator
 
             if newOp not in unitOperators:
-                newOperators[ newOp ] = { 'length' : 3 }
+                newOperators[ newOp ] = [ { 'length' : 3 },
+                                            'cubic_' + unitOperators[ operator ][ 1 ] ]
 
     unitOperators.update( newOperators )
 
@@ -271,7 +273,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     newConversions = { }
 
     for op1, op2 in unitConversionMatrix:
-        if unitOperators[ op1 ] == { 'length' : 1 }:
+        if unitOperators[ op1 ][ 0 ] == { 'length' : 1 }:
             conversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
             newConversions[ ( 'square_' + op1, 'square_' + op2 ) ] = str( power( conversion, 2 ) )
             newConversions[ ( 'cubic_' + op1, 'cubic_' + op2 ) ] = str( power( conversion, 3 ) )
@@ -325,7 +327,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     for unit in metricUnits:
         for prefix in metricPrefixes:
             newName = makeMetricUnit( prefix[ 0 ], unit[ 0 ] )
-            unitOperators[ newName ] = unitOperators[ unit[ 0 ] ]
+            newPlural = makeMetricUnit( prefix[ 0 ], unit[ 1 ] )
+            unitOperators[ newName ] = [ unitOperators[ unit[ 0 ] ], newPlural ]
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
             unitConversionMatrix[ ( newName, unit[ 0 ] ) ] = str( newConversion )
 
@@ -364,6 +367,10 @@ def initializeConversionMatrix( unitConversionMatrix ):
 #//******************************************************************************
 
 def main( ):
+    print( PROGRAM_DESCRIPTION )
+    print( COPYRIGHT_MESSAGE )
+    print( )
+
     initializeConversionMatrix( unitConversionMatrix )
 
 
