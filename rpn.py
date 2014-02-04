@@ -6,13 +6,11 @@ import contextlib
 import math
 import os
 import pickle
+import pyprimes
 import random
 import sys
 import time
 import types
-
-from Euler import is_prime as isPrime
-
 
 from fractions import Fraction
 from functools import reduce
@@ -26,7 +24,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.5.0"
+RPN_VERSION = "4.6.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -71,31 +69,31 @@ def loadTable( fileName, default ):
 
 
 def loadSmallPrimes( ):
-    return loadTable( 'smallPrimes', { 3: 5 } )
+    return loadTable( 'small_primes', { 4 : 7 } )
 
 def loadLargePrimes( ):
-    return loadTable( 'largePrimes', { 3: 5 } )
+    return loadTable( 'large_primes', { 1000000 : 15485863 } )
 
 def loadTwinPrimes( ):
-    return loadTable( 'twin_primes', { 3: 11 } )
+    return loadTable( 'twin_primes', { 3 : 11 } )
 
 def loadBalancedPrimes( ):
-    return loadTable( 'balanced_primes', { 3: 11 } )
+    return loadTable( 'balanced_primes', { 2 : 53 } )
 
 def loadSophiePrimes( ):
-    return loadTable( 'sophie_primes', { 3: 5 } )
+    return loadTable( 'sophie_primes', { 4 : 11 } )
 
 def loadCousinPrimes( ):
-    return loadTable( 'cousin_primes', { 2: 7 } )
+    return loadTable( 'cousin_primes', { 2 : 7 } )
 
 def loadSexyPrimes( ):
-    return loadTable( 'sexy_primes', { 2: 7 } )
+    return loadTable( 'sexy_primes', { 2 : 7 } )
 
 def loadTripletPrimes( ):
-    return loadTable( 'triplet_primes', { 2: 7 } )
+    return loadTable( 'triplet_primes', { 2 : 7 } )
 
-def loadQuadruplePrimes( ):
-    return loadTable( 'quad_primes', { 1: 5 } )
+def loadQuadrupletPrimes( ):
+    return loadTable( 'quad_primes', { 2 : 11 } )
 
 
 #//******************************************************************************
@@ -111,10 +109,10 @@ def saveTable( fileName, var ):
         pickle.dump( var, pickleFile )
 
 def saveSmallPrimes( smallPrimes ):
-    saveTable( 'smallPrimes', smallPrimes )
+    saveTable( 'small_primes', smallPrimes )
 
 def saveLargePrimes( largePrimes ):
-    saveTable( 'largePrimes', largePrimes )
+    saveTable( 'large_primes', largePrimes )
 
 def saveTwinPrimes( twinPrimes ):
     saveTable( 'twin_primes', twinPrimes )
@@ -134,7 +132,7 @@ def saveSexyPrimes( sexyPrimes ):
 def saveTripletPrimes( tripletPrimes ):
     saveTable( 'triplet_primes', tripletPrimes )
 
-def saveQuadruplePrimes( quadPrimes ):
+def saveQuadrupletPrimes( quadPrimes ):
     saveTable( 'quad_primes', quadPrimes )
 
 
@@ -161,55 +159,64 @@ def makeTable( start, end, step, func, name ):
 
 def makeSmallPrimes( start, end, step ):
     global smallPrimes
+    getNthPrime( 100 )  # force the cache to load
     end = makeTable( start, end, step, getNthPrime, 'small' )
     saveSmallPrimes( smallPrimes )
     return end
 
 def makeLargePrimes( start, end, step ):
     global largePrimes
+    getNthPrime( 1000000 )  # force the cache to load
     end = makeTable( start, end, step, getNthPrime, 'prime' )
     saveLargePrimes( largePrimes )
     return end
 
 def makeTwinPrimes( start, end, step ):
     global twinPrimes
+    getNthTwinPrimes( 100 )  # force the cache to load
     end = makeTable( start, end, step, getNthTwinPrimes, 'twin' )
     saveTwinPrimes( twinPrimes )
     return end
 
 def makeBalancedPrimes( start, end, step ):
     global balancedPrimes
+    getNthBalancedPrimes( 100 )  # force the cache to load
     end = makeTable( start, end, step, getNthBalancedPrimes, 'balanced' )
     saveBalancedPrimes( balancedPrimes )
     return end
 
 def makeSophiePrimes( start, end, step ):
     global sophiePrimes
+    getNthSophiePrime( 100 )  # force the cache to load
     end = makeTable( start, end, step, getNthSophiePrime, 'sophie' )
     saveSophiePrimes( sophiePrimes )
     return end
 
 def makeCousinPrimes( start, end, step ):
     global cousinPrimes
+    getNthCousinPrimes( 100 )  # force the cache to load
     end = makeTable( start, end, step, getNthCousinPrimes, 'cousin' )
     saveCousinPrimes( cousinPrimes )
     return end
 
 def makeSexyPrimes( start, end, step ):
     global sexyPrimes
+    getNthSexyPrimes( 100 )  # force the cache to load
     end = makeTable( start, end, step, getNthSexyPrimes, 'sexy' )
     saveSexyPrimes( sexyPrimes )
     return end
 
 def makeTripletPrimes( start, end, step ):
     global tripletPrimes
+    getNthTripletPrimes( 100 )  # force the cache to load
     end = makeTable( start, end, step, getNthTripletPrimes, 'triplet' )
     saveTripletPrimes( tripletPrimes )
     return end
 
-def makeQuadruplePrimes( start, end, step ):
+def makeQuadrupletPrimes( start, end, step ):
     global quadPrimes
-    end = makeTable( start, end, step, getNthQuadruplePrimes, 'quad' )
+    getNthQuadrupletPrimes( 10 )  # force the cache to load
+    end = makeTable( start, end, step, getNthQuadrupletPrimes, 'quad' )
     saveQuadrupletPrimes( quadPrimes )
     return end
 
@@ -252,8 +259,18 @@ def dumpSexyPrimes( ):
 def dumpTripletPrimes( ):
     return dumpTable( loadTripletPrimes, 'triplet' )
 
-def dumpQuadruplePrimes( ):
-    return dumpTable( loadQuadruplePrimes, 'quad' )
+def dumpQuadrupletPrimes( ):
+    return dumpTable( loadQuadrupletPrimes, 'quad' )
+
+
+#//******************************************************************************
+#//
+#//  isPrime
+#//
+#//******************************************************************************
+
+def isPrime( arg ):
+    return pyprimes.isprime( int( arg ) )
 
 
 #//******************************************************************************
@@ -274,32 +291,46 @@ def getNthPrime( arg ):
     if n == 2:
         return 3
 
-    if n > 1000000:
+    if n == 3:
+        return 5
+
+    if n >= 1000000:
         if largePrimes == { }:
             largePrimes = loadLargePrimes( )
 
-        startingPlace = max( key for key in largePrimes if key < n )
+        startingPlace = max( key for key in largePrimes if key <= n )
         p = largePrimes[ startingPlace ]
-    elif n > 100:
-        if smallPrimes == { }:
-            smallPrimes = loadSmalPrimes( )
 
-        startingPlace = max( key for key in smallPrimes if key < n )
+    elif n >= 100:
+        if smallPrimes == { }:
+            smallPrimes = loadSmallPrimes( )
+
+        startingPlace = max( key for key in smallPrimes if key <= n )
         p = smallPrimes[ startingPlace ]
     else:
-        startingPlace = 3
-        p = 5
+        startingPlace = 4
+        p = 7
 
-    f = p % 6 == 5
+    f = p % 10
 
     while n > startingPlace:
-        p += 3 - f
-        f = -f
+        if f == 1:
+            p += 2
+            f = 3
+        elif f == 3:
+            p += 4
+            f = 7
+        elif f == 7:
+            p += 2
+            f = 9
+        else:
+            p += 2
+            f = 1
 
         if isPrime( p ):
             n -= 1
 
-    if n > 1000000:
+    if n >= 1000000:
         largePrimes.update( { int( arg ) : p } )
     else:
         smallPrimes.update( { int( arg ) : p } )
@@ -325,7 +356,7 @@ def getNthTwinPrimes( arg ):
     elif n == 3:
         return [ 11, 13 ]
 
-    if n > 100:
+    if n >= 100:
         if twinPrimes == { }:
             twinPrimes = loadTwinPrimes( )
 
@@ -335,11 +366,18 @@ def getNthTwinPrimes( arg ):
         startingPlace = 3
         p = 11
 
-    f = p % 6 == 5
+    f = p % 10
 
     while n > startingPlace:
-        p += 3 - f
-        f = -f
+        if f == 1:
+            p += 6
+            f = 7
+        elif f == 7:
+            p += 2
+            f = 9
+        else:
+            p += 2
+            f = 1
 
         if isPrime( p ) and isPrime( p + 2 ):
             n -= 1
@@ -363,27 +401,35 @@ def getNthBalancedPrimes( arg ):
     if n == 1:
         return [ 3, 5, 7 ]
 
-    if n > 100:
+    if n >= 100:
         if balancedPrimes == { }:
             balancedPrimes = loadBalancedPrimes( )
 
         startingPlace = max( key for key in balancedPrimes if key < n )
         p = balancedPrimes[ startingPlace ]
     else:
-        startingPlace = 1
-        p = 11
+        startingPlace = 2
+        p = 53
 
     prevPrime = secondPrevPrime = p
 
-    f = p % 6 == 5
+    f = p % 10
 
     while n > startingPlace:
-        p += 3 - f
-        f = -f
+        if f == 1:
+            p += 2
+            f = 3
+        elif f == 3:
+            p += 4
+            f = 7
+        elif f == 7:
+            p += 2
+            f = 9
+        else:
+            p += 2
+            f = 1
 
         if isPrime( p ):
-            #print( secondPrevPrime, prevPrime, p )
-
             if ( prevPrime - secondPrevPrime ) == ( p - prevPrime ):
                 n -= 1
 
@@ -411,22 +457,34 @@ def getNthSophiePrime( arg ):
         return 2
     elif n == 2:
         return 3
+    elif n == 3:
+        return 5
 
-    if n > 100:
+    if n >= 100:
         if sophiePrimes == { }:
             sophiePrimes = loadSophiePrimes( )
 
         startingPlace = max( key for key in sophiePrimes if key <= n )
         p = sophiePrimes[ startingPlace ]
     else:
-        startingPlace = 3
-        p = 5
+        startingPlace = 4
+        p = 11
 
-    f = p % 6 == 5
+    f = p % 10
 
     while n > startingPlace:
-        p += 3 - f
-        f = -f
+        if f == 1:
+            p += 2
+            f = 3
+        elif f == 3:
+            p += 4
+            f = 7
+        elif f == 7:
+            p += 2
+            f = 9
+        else:
+            p += 2
+            f = 1
 
         if isPrime( p ) and isPrime( 2 * p + 1 ):
             n -= 1
@@ -450,7 +508,7 @@ def getNthCousinPrimes( arg ):
     if n == 1:
         return [ 3, 7 ]
 
-    if n > 100:
+    if n >= 100:
         if cousinPrimes == { }:
             cousinPrimes = loadCousinPrimes( )
 
@@ -460,11 +518,21 @@ def getNthCousinPrimes( arg ):
         startingPlace = 2
         p = 7
 
-    f = p % 6 == 5
+    f = p % 10
 
     while n > startingPlace:
-        p += 3 - f
-        f = -f
+        if f == 1:
+            p += 2
+            f = 3
+        elif f == 3:
+            p += 4
+            f = 7
+        elif f == 7:
+            p += 2
+            f = 9
+        else:
+            p += 2
+            f = 1
 
         if isPrime( p ) and isPrime( p + 4 ):
             n -= 1
@@ -486,9 +554,9 @@ def getNthSexyPrimes( arg ):
     n = int( arg )
 
     if n == 1:
-        return [ 3, 9 ]
+        return [ 5, 11 ]
 
-    if n > 100:
+    if n >= 100:
         if sexyPrimes == { }:
             sexyPrimes = loadCousinPrimes( )
 
@@ -498,11 +566,18 @@ def getNthSexyPrimes( arg ):
         startingPlace = 2
         p = 7
 
-    f = p % 6 == 5
+    f = p % 10
 
     while n > startingPlace:
-        p += 3 - f
-        f = -f
+        if f == 1:
+            p += 2
+            f = 3
+        elif f == 3:
+            p += 4
+            f = 7
+        else:
+            p += 4
+            f = 1
 
         if isPrime( p ) and isPrime( p + 6 ):
             n -= 1
@@ -528,7 +603,7 @@ def getNthTripletPrimes( arg ):
     elif n == 2:
         return [ 7, 11, 13 ]
 
-    if n > 100:
+    if n >= 100:
         if tripletPrimes == { }:
             tripletPrimes = loadTripletPrimes( )
 
@@ -545,11 +620,18 @@ def getNthTripletPrimes( arg ):
         p = 11
         middle = 2
 
-    f = p % 6 == 5
+    f = p % 10
 
     while n > startingPlace:
-        p += 3 - f
-        f = -f
+        if f == 1:
+            p += 2
+            f = 3
+        elif f == 3:
+            p += 4
+            f = 7
+        else:
+            p += 4
+            f = 1
 
         if isPrime( p ) and isPrime( p + 6 ):
             if isPrime( p + 2 ):
@@ -566,29 +648,29 @@ def getNthTripletPrimes( arg ):
 
 #//******************************************************************************
 #//
-#//  getNthQuadruplePrimes
+#//  getNthQuadrupletPrimes
 #//
 #//******************************************************************************
 
-def getNthQuadruplePrimes( arg ):
+def getNthQuadrupletPrimes( arg ):
     global quadPrimes
 
     n = int( arg )
 
     if n == 1:
         return 5
+    elif n == 2:
+        return 11
 
-    if n > 9:
+    if n >= 10:
         if quadPrimes == { }:
-            quadPrimes = loadQuadruplePrimes( )
+            quadPrimes = loadQuadrupletPrimes( )
 
         startingPlace = max( key for key in quadPrimes if key <= n )
         p = quadPrimes[ startingPlace ]
     else:
         startingPlace = 2
         p = 11
-
-    f = p % 6 == 5
 
     # after 5, the first of a prime quadruplet must be a number of the form 30n + 11
     while n > startingPlace:
@@ -637,13 +719,23 @@ def getNthPrimeRange( arg1, arg2 ):
         p = getNthPrime( n )
         result = [ p ]
 
-    f = p % 6 == 5
+    f = p % 10
 
     found = 0
 
-    while found < count:
-        p += 3 - f
-        f = -f
+    while found > count:
+        if f == 1:
+            p += 2
+            f = 3
+        elif f == 3:
+            p += 4
+            f = 7
+        elif f == 7:
+            p += 2
+            f = 9
+        else:
+            p += 2
+            f = 1
 
         if isPrime( p ):
             result.append( p )
@@ -1111,7 +1203,7 @@ def getNthLucas( n ):
     if n == 1:
         return 1
     else:
-        return round( power( phi, n ) )
+        return floor( fadd( power( phi, n ), 0.5 ) )
 
 
 #//******************************************************************************
@@ -1588,11 +1680,11 @@ def dumpStats( ):
     print( '{:10,} operators\n'.format( len( modifiers ) + len( list_operators ) +
                                         len( list_operators_2 ) + len( operators ) ) )
 
-    primes = loadSmallPrimes( )
+    smallPrimes = loadSmallPrimes( )
     print( '{:10,} small primes,          max: {:,}'.format( len( smallPrimes ),
                                                          max( [ key for key in smallPrimes ] ) ) )
 
-    primes = loadLargePrimes( )
+    largePrimes = loadLargePrimes( )
     print( '{:10,} large primes,          max: {:,}'.format( len( largePrimes ),
                                                          max( [ key for key in largePrimes ] ) ) )
 
@@ -1620,7 +1712,7 @@ def dumpStats( ):
     print( '{:10,} triplet primes,        max: {:,}'.format( len( tripletPrimes ),
                                                          max( [ key for key in tripletPrimes ] ) ) )
 
-    quadPrimes = loadQuadruplePrimes( )
+    quadPrimes = loadQuadrupletPrimes( )
     print( '{:10,} quadruplet primes,     max: {:,}\n'.format( len( quadPrimes ),
                                                            max( [ key for key in quadPrimes ] ) ) )
 
@@ -1950,6 +2042,7 @@ operators = {
     'hypot'       : [ hypot, 2 ],
     'i'           : [ makeImaginary, 1 ],
     'inv'         : [ lambda i: fdiv( 1, i ), 1 ],
+    'isdiv'       : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2 ],
     'isprime'     : [ lambda i: 1 if isPrime( i ) else 0, 1 ],
     'issqr'       : [ isSquare, 1 ],
     'issquare'    : [ isSquare, 1 ],
@@ -1981,8 +2074,8 @@ operators = {
     'power'       : [ power, 2 ],
     'prime'       : [ getNthPrime, 1 ],
     'primepi'     : [ primepi, 1 ],
-    'quad'        : [ getNthQuadruplePrimes, 1 ],
-    'quadprime'   : [ getNthQuadruplePrimes, 1 ],
+    'quad'        : [ getNthQuadrupletPrimes, 1 ],
+    'quadprime'   : [ getNthQuadrupletPrimes, 1 ],
     'rad'         : [ degrees, 1 ],
     'radians'     : [ degrees, 1 ],
     'rand'        : [ rand, 0 ],
@@ -2026,7 +2119,7 @@ operators = {
     '_dumpcousin' : [ dumpCousinPrimes, 0 ],
     '_dumpsmall'  : [ dumpSmallPrimes, 0 ],
     '_dumpprimes' : [ dumpLargePrimes, 0 ],
-    '_dumpquad'   : [ dumpQuadruplePrimes, 0 ],
+    '_dumpquad'   : [ dumpQuadrupletPrimes, 0 ],
     '_dumpsexy'   : [ dumpSexyPrimes, 0 ],
     '_dumpsophie' : [ dumpSophiePrimes, 0 ],
     '_dumptriplet': [ dumpTripletPrimes, 0 ],
@@ -2035,7 +2128,7 @@ operators = {
     '_makecousin' : [ makeCousinPrimes, 3 ],
     '_makesmall'  : [ makeSmallPrimes, 3 ],
     '_makeprimes' : [ makeLargePrimes, 3 ],
-    '_makequad'   : [ makeQuadruplePrimes, 3 ],
+    '_makequad'   : [ makeQuadrupletPrimes, 3 ],
     '_makesexy'   : [ makeSexyPrimes, 3 ],
     '_makesophie' : [ makeSophiePrimes, 3 ],
     '_maketriplet': [ makeTripletPrimes, 3 ],
@@ -2280,8 +2373,8 @@ Arguments are interpreted as Reverse Polish Notation.
 Supported unary operators (synonyms are separated by commas):
     !, fac; !!, fac2 (double factorial); %, mod, modulo; 1/x, inv (take
     reciprocal); abs; cbrt, root3 (cube root); ceil; cube; exp; exp10; expphi;
-    floor; gamma; hypot; hyperfac; lgamma; log, ln; log10; neg; rand; round;
-    sqr; sqrt, root2; superfac
+    fac2 (double factorial) floor; gamma; hypot; hyperfac; isdiv; isprime;
+    lgamma; log, ln; log10; neg; rand; round; sqr; sqrt, root2; superfac
 
 Supported unary trigonometric operators:
     deg, degrees (treat term as degrees (i.e., convert to radians), e.g.,
@@ -2297,21 +2390,26 @@ Supported integer sequence unary operators:
     triangular number is this); pent (nth pentagonal number); antipent (which
     pentagonal number is this); hex (nth hexagonal number); antihex (which
     hexagonal number is this); sqtri (nth square triangular number)*; tet,
-    tetra (nth tetrahedral number); prime (nth prime)
+    tetra (nth tetrahedral number); prime (nth prime); twin (nth twin prime);
+    bal, balanced (nth balanced prime); cousin (nth cousin prime); sexy
+    (nth sexy prime); sophie (nth Sophie Germain prime); triplet (nth prime
+    triplet); quad (nth prime quadruplet)
 
     * requires sufficient precision for accuracy (see Notes)
 
 Supported binary operators:
-    +, add; -, sub; *, mult; /, div; **, ^, power; ***, hyper4 (tetration);
-    hyper4_2 (tetration, right-associative); //, root; logxy; binomial, nCr,
-    ncr (binomial coefficient (combinations)); perm, nRp, nrp (permutations)
+    +, add; -, sub; *, mult; /, div; **, ^, power; ***, mod, modulo, %; hyper4
+    (tetration); hyper4_2 (tetration, right-associative); //, root; logxy;
+    binomial, nCr, ncr (binomial coefficient (combinations)); perm, nRp, nrp
+    (permutations)
 
 Supported list operators (requires a list as an operand):
     sum; prod; mean, avg, average; cf (treat as a continued fraction);
     base (sort of the reverse of -R, with the base being the last argument);
     solve (solve polynomial), altsum (sum terms, alternating add and subtract);
     altsum2 (sum terms, alternating subtract and add); tower (calculate power
-    tower), tower2 (calculate left-associative power tower)
+    tower), tower2 (calculate left-associative power tower), nonzero, zero,
+    index
 
 Supported constants:
     e; pi; phi (the Golden Ratio); itoi (i^i); euler (Euler's constant);
