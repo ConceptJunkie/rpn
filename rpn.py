@@ -25,7 +25,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.9.0"
+RPN_VERSION = "4.10.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -1890,6 +1890,43 @@ def getNthPolytopeNumber( n, d ):
 
 #//******************************************************************************
 #//
+#//  getNthDelannoyNumber
+#//
+#//******************************************************************************
+
+def getNthDelannoyNumber( n ):
+    result = 0
+
+    for k in arange( 0, fadd( n, 1 ) ):
+        result = fadd( result, fmul( binomial( n, k ), binomial( fadd( n, k ), k ) ) )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  getNthSchroederNumber
+#//
+#//******************************************************************************
+
+def getNthSchroederNumber( n ):
+    if n == 1:
+        return 1
+
+    # raise exception for n < 0  !!!!!
+
+    n = fsub( n, 1 )
+
+    result = 0
+
+    for k in arange( 0, fadd( n, 1 ) ):
+        result = fadd( result, fdiv( fprod( [ power( 2, k ), binomial( n, k ), binomial( n, fsub( k, 1 ) ) ] ), n ) )
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  getPrimorial
 #//
 #//******************************************************************************
@@ -2421,9 +2458,17 @@ def dumpStats( ):
     print( '{:10,} triplet primes,        max: {:,}'.format( len( tripletPrimes ),
                                                          max( [ key for key in tripletPrimes ] ) ) )
 
+    sexyTriplets = loadSexyTriplets( )
+    print( '{:10,} sexy triplet primes    max: {:,}'.format( len( sexyTriplets ),
+                                                         max( [ key for key in sexyTriplets ] ) ) )
+
     quadPrimes = loadQuadrupletPrimes( )
     print( '{:10,} quadruplet primes,     max: {:,}'.format( len( quadPrimes ),
                                                          max( [ key for key in quadPrimes ] ) ) )
+
+    sexyQuadruplets = loadSexyQuadruplets( )
+    print( '{:10,} sexy quadruplet primes max: {:,}'.format( len( sexyQuadruplets ),
+                                                         max( [ key for key in sexyQuadruplets ] ) ) )
 
     quintPrimes = loadQuintupletPrimes( )
     print( '{:10,} quintuplet primes,     max: {:,}'.format( len( quintPrimes ),
@@ -2722,9 +2767,6 @@ operators = {
     'acsch'       : [ acsch, 1 ],
     'add'         : [ fadd, 2 ],
     'and'         : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x & y ), 2 ],
-    'antihex'     : [ getAntiHexagonalNumber, 1 ],
-    'antipent'    : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1 ],
-    'antitri'     : [ getAntiTriangularNumber, 1 ],
     'apery'       : [ apery, 0 ],
     'asec'        : [ asec, 1 ],
     'asech'       : [ asech, 1 ],
@@ -2736,7 +2778,8 @@ operators = {
     'balanced'    : [ getNthBalancedPrimes, 1 ],
     'bernoulli'   : [ bernoulli, 1 ],
     'binomial'    : [ binomial, 2 ],
-    'catalan'     : [ catalan, 0 ],
+    'catalan'     : [ lambda i: fdiv( binomial( fmul( 2, i ), i ), fadd( i, 1 ) ), 1 ],
+    'catmer'      : [ catalan, 0 ],
     'cbrt'        : [ cbrt, 1 ],
     'ccube'       : [ getNthCenteredCubeNumber, 1 ],
     'ceil'        : [ ceil, 1 ],
@@ -2754,6 +2797,7 @@ operators = {
     'cube'        : [ lambda i: power( i, 3 ), 1 ],
     'deg'         : [ radians, 1 ],
     'degrees'     : [ radians, 1 ],
+    'delannoy'    : [ getNthDelannoyNumber, 1 ],
     'e'           : [ e, 0 ],
     'egypt'       : [ getGreedyEgyptianFraction, 2 ],
     'euler'       : [ euler, 0 ],
@@ -2772,6 +2816,7 @@ operators = {
     'harm'        : [ harmonic, 1 ],
     'harmonic'    : [ harmonic, 1 ],
     'hex'         : [ lambda i: fsub( fprod( 2, i, i ), i ), 1 ],
+    'hex?'        : [ getAntiHexagonalNumber, 1 ],
     'hyper4'      : [ tetrate, 2 ],
     'hyper4_2'    : [ tetrateLarge, 2 ],
     'hyperfac'    : [ hyperfac, 1 ],
@@ -2797,14 +2842,16 @@ operators = {
     'modulo'      : [ fmod, 2 ],
     'mulitply'    : [ fmul, 2 ],
     'mult'        : [ fmul, 2 ],
+    'narayana'    : [ lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2 ],
     'neg'         : [ fneg, 1 ],
-    'nPr'         : [ getPermutations, 2 ],
     'npr'         : [ getPermutations, 2 ],
+    'nPr'         : [ getPermutations, 2 ],
     'oct'         : [ getNthOctahedralNumber, 1 ],
     'octahedral'  : [ getNthOctahedralNumber, 1 ],
     'omega'       : [ lambda: lambertw( 1 ), 0 ],
     'or'          : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
     'pent'        : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1 ],
+    'pent?'       : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1 ],
     'pentatope'   : [ getNthPentatopeNumber, 1 ],
     'perm'        : [ getPermutations, 2 ],
     'phi'         : [ phi, 0 ],
@@ -2834,6 +2881,7 @@ operators = {
     'root2'       : [ sqrt, 1 ],
     'root3'       : [ cbrt, 1 ],
     'round'       : [ lambda i: floor( fadd( i, 0.5 ) ), 1 ],
+    'schroeder'   : [ getNthSchroederNumber, 1 ],
     'sec'         : [ sec, 1 ],
     'sech'        : [ sech, 1 ],
     'sext'        : [ getNthSextupletPrimes, 1 ],
@@ -2861,6 +2909,7 @@ operators = {
     'tet'         : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1 ],
     'tetra'       : [ getNthTetrahedralNumber, 1 ],
     'tri'         : [ getNthTriangularNumber, 1 ],
+    'tri?'        : [ getAntiTriangularNumber, 1 ],
     'triplet'     : [ getNthTripletPrimes, 1 ],
     'tripletprime': [ getNthTripletPrimes, 1 ],
     'truncoct'    : [ getNthTruncatedOctahedralNumber, 1 ],
@@ -2901,8 +2950,8 @@ operators = {
     '~'           : [ getInvertedBits, 1 ],
 #   'antitet'     : [ getAntiTetrahedralNumber, 1 ],
 #   'bernfrac'    : [ bernfrac, 1 ],
-#   'powmod'      : [ getPowMod, 3 ],
 #   'count'       : [ countElements, 1 ],
+#   'powmod'      : [ getPowMod, 3 ],
 }
 
 
@@ -3403,7 +3452,7 @@ Calculate various constants:
 
     Apery's Constant
         = rpn -p20 [ 1 5000 range ] 3 power 1/x sum
-        = rpn -p20  3 zeta
+        = rpn -p20 3 zeta
         = rpn -p20 apery
 
     Omega Constant
