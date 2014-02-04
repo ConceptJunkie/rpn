@@ -34,11 +34,11 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.23.1'
+RPN_VERSION = '4.23.2'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
-defaultPrecision = 12
+defaultPrecision = 20
 defaultAccuracy = 10
 defaultCFTerms = 10
 defaultBitwiseGroupSize = 16
@@ -2390,7 +2390,8 @@ def getNthPellNumber( n ):
 #//******************************************************************************
 
 def getNthBaseKRepunit( n, k ):
-    return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], n )
+    return fdiv( fsub( power( k, n ), 1 ), fsub( k, 1 ) )
+    # return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], n )
 
 
 #//******************************************************************************
@@ -4719,12 +4720,6 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'repunit'   : [ getNthBaseKRepunit, 2,
-'algebra', 'returns the nth repunit in base k',
-'''
-''',
-'''
-''' ],
     'solve'     : [ solvePolynomial, 1,
 'algebra', 'interprets list n as a polynomial and solves for its roots',
 '''
@@ -5961,6 +5956,16 @@ given the way calculating prime numbers is currently done.
     'reciprocal'    : [ lambda n : fdiv( 1, n ), 1,
 'arithmetic', 'returns the reciprocal of n',
 '''
+''',
+'''
+''' ],
+    'repunit'   : [ getNthBaseKRepunit, 2,
+'algebra', 'returns the nth repunit in base k',
+'''
+'repunit' calculates the nth reupunit in base k.  A repunit is a number whose
+digits consist entirely of 1's.
+
+This operator calculates the equivilent of (k^n-1)/(k-1).
 ''',
 '''
 ''' ],
@@ -7341,8 +7346,7 @@ Bitwise operators force all arguments to integers by truncation if necessary.
 
         addAliases( operatorList )
 
-        print( '    ' + ',\n    '.join( sorted( operatorList ) ) )
-
+        printParagraph( ', '.join( sorted( operatorList ) ), 75, 4 )
 
 
 #//******************************************************************************
