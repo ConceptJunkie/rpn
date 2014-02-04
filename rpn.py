@@ -14,7 +14,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.10.0"
+RPN_VERSION = "2.11.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -163,12 +163,22 @@ def getE( valueList ):
 
 #//******************************************************************************
 #//
+#//  calculatePhi
+#//
+#//******************************************************************************
+
+def calculatePhi( ):
+    return ( Decimal( 1 ) + Decimal( 5 ) ** Decimal( 0.5 ) ) / Decimal( 2 )
+
+
+#//******************************************************************************
+#//
 #//  getPhi
 #//
 #//******************************************************************************
 
 def getPhi( valueList ):
-    valueList.append( ( Decimal( 1 ) + Decimal( 5 ) ** Decimal( 0.5 ) ) / Decimal( 2 ) )
+    valueList.append( calculatePhi( ) )
 
 
 #//******************************************************************************
@@ -435,6 +445,16 @@ def takeExp10( valueList ):
 
 #//******************************************************************************
 #//
+#//  takeExpPhi
+#//
+#//******************************************************************************
+
+def takeExpPhi( valueList ):
+    valueList.append( calculatePhi( ) ** Decimal( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
 #//  Decimal trig functions
 #//
 #//  http://code.activestate.com/recipes/523018-sin-cos-tan-for-decimal/
@@ -595,6 +615,52 @@ def getNthFibonacci( valueList ):
 
 #//******************************************************************************
 #//
+#//  getNthTriangularNumber
+#//
+#//******************************************************************************
+
+def getNthTriangularNumber( valueList ):
+    n = valueList.pop( )
+    valueList.append( ( n * ( n + 1 ) ) / 2 )
+
+
+#//******************************************************************************
+#//
+#//  getNthPentagonalNumber
+#//
+#//******************************************************************************
+
+def getNthPentagonalNumber( valueList ):
+    n = valueList.pop( )
+    valueList.append( ( ( 3 * n * n ) - n ) / 2 )
+
+
+#//******************************************************************************
+#//
+#//  getNthHexagonalNumber
+#//
+#//******************************************************************************
+
+def getNthHexagonalNumber( valueList ):
+    n = valueList.pop( )
+    valueList.append( ( 2 * n * n ) - n )
+
+
+#//******************************************************************************
+#//
+#//  getNthSquareTriangularNumber
+#//
+#//******************************************************************************
+
+def getNthSquareTriangularNumber( valueList ):
+    n = valueList.pop( )
+    sqrt2 = Decimal( 2 ) ** Decimal( 0.5 )
+
+    valueList.append( math.ceil( ( ( pow( 1 + sqrt2, 2 * n ) - pow( 1 - sqrt2, 2 * n ) ) / ( 4 * sqrt2 ) ) ** 2 ) )
+
+
+#//******************************************************************************
+#//
 #//  expressions
 #//
 #//  Function names and number of args needed
@@ -618,6 +684,7 @@ expressions = {
     'log10'  : [ takeLog10, 1 ],
     'exp'    : [ takeExp, 1 ],
     'exp10'  : [ takeExp10, 1 ],
+    'expphi' : [ takeExpPhi, 1 ],
     'sin'    : [ takeSin, 1 ],
     'cos'    : [ takeCos, 1 ],
     'tan'    : [ takeTan, 1 ],
@@ -629,6 +696,10 @@ expressions = {
     'sqrt'   : [ takeSquareRoot, 1 ],
     'powmod' : [ takePowMod, 3 ],
     'fib'    : [ getNthFibonacci, 1 ],
+    'tri'    : [ getNthTriangularNumber, 1 ],
+    'pent'   : [ getNthPentagonalNumber, 1 ],
+    'hex'    : [ getNthHexagonalNumber, 1 ],
+    'sqtri'  : [ getNthSquareTriangularNumber, 1 ],
     'sum'    : [ sum, 2 ],          # this one eats the whole stack
     'mult'   : [ multiplyAll, 2 ],  # this one eats the whole stack
     'mean'   : [ takeMean, 2 ]      # this one eats the whole stack
@@ -692,9 +763,17 @@ def main( ):
 Arguments are interpreted as Reverse Polish Notation.
 
 Supported unary operators:
-    !, cos, deg (radians to degrees), exp, exp10, gamma, lgamma, log, log10,
-    rad (degrees to radians), sin, sqr, sqrt, tan, fib (compute nth
-    Fibonacci number)
+    !, cos, deg (radians to degrees), exp, exp10, expphi, gamma, lgamma, log,
+    log10, rad (degrees to radians), sin, sqr, sqrt, tan
+
+Supported integer sequence unary operators
+    fib (nth Fibonacci number)*
+    tri (nth triangular number)
+    pent (nth pentagonal number)
+    hex (nth hexagonal number)
+    sqtri (nth square triangular number)*
+
+* requires sufficient precision for accuracy (see Notes)
 
 Supported binary operators:
     +, -, *, /, ** (power), *** (tetration), // (root), logxy
@@ -719,8 +798,12 @@ interpreted as binary.
 Note:  tetration forces the second argument to an integer.
 
 Note:  To compute the nth Fibonacci number accurately, set the precision to
-       about 12 more than the number of digits in the result.  I'd like to
-       add logic to do this automatically.
+       about 12 more than the number of digits in the result.
+
+       The sqtri operator needs a similar precision to get the correct answer.
+
+       I'd like to add logic to do this automatically.
+
 ''',
                                       formatter_class=RawTextHelpFormatter )
 
@@ -793,7 +876,9 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
         if len( valueList ) > 1:
             print( "rpn: unexpected end of input" )
         else:
-            if ( args.comma ):
+            if valueList.pop( ) == 0:
+                print( 0 )
+            elif ( args.comma ):
                 formatString = '{:<' + str( args.precision ) + ',}'
                 if outputRadix == 10:
                     print( formatString.format( valueList.pop( ) ).strip( ) )
