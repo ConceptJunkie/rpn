@@ -34,7 +34,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.26.0'
+RPN_VERSION = '4.26.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -2579,6 +2579,16 @@ def findCenteredPolygonalNumber( n, k ):
 
 #//******************************************************************************
 #//
+#//  getNthHexagonalSquareNumber
+#//
+#//  http://oeis.org/A046177
+#//
+#//  a(n) = floor(1/32*(tan(3*pi/8))^(8*n-4))
+#//
+#//******************************************************************************
+
+#//******************************************************************************
+#//
 #//  getNthHexagonalPentagonalNumber
 #//
 #//  http://oeis.org/A046178
@@ -2869,13 +2879,13 @@ def getNthNonagonalOctagonalNumber( n ):
                               power( fadd( sqrt6, sqrt7 ), fsub( fmul( 8, n ), 5 ) ) ),
                         672 ) )
 
-# Hex-square
-# http://oeis.org/A046177
-# a(n) = floor(1/32*(tan(3*pi/8))^(8*n-4)).
-
 # Dec-tri
 # http://oeis.org/A133216
 # a(n) = floor ( 1/64 * (9 + 4*sqrt(2)*(-1)^n) * (1+sqrt(2))^(4*n-6) )
+
+# Dec-square
+# http://oeis.org/A133142
+#  a(n)=(1/8)+(7/16)*[721-228*sqrt(10)]^n-(1/8)*[721-228*sqrt(10)]^n*sqrt(10)+(1/8)*[721+228 *sqrt(10)]^n*sqrt(10)+(7/16)*[721+228*sqrt(10)]^n
 
 # Dec-pent
 # http://oeis.org/A202563
@@ -2988,10 +2998,6 @@ def getNthPolygonalPyramidalNumber( n, k ):
 
 #// A022095         Fibonacci sequence beginning 1 5.
 #//                 a(n) = ((2*sqrt(5)-1)*(((1+sqrt(5))/2)^(n+1)) + (2*sqrt(5)+1)*(((1-sqrt(5))/2)^(n+1)))/(sqrt(5)).
-
-#// A147875         Second heptagonal numbers: n(5n+3)/2.
-
-#// A179986         Second 9-gonal (or nonagonal) numbers: n(7n+5)/2.
 
 #// A005894         Centered tetrahedral numbers.
 #//                 a(n)=(2*n+1)*(n^2+n+3)/3
