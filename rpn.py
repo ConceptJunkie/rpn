@@ -15,7 +15,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.17.0"
+RPN_VERSION = "2.18.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -23,7 +23,9 @@ defaultPrecision = 12
 
 degreesPerRadian = Decimal( 180 ) / Decimal( math.pi )
 
-numerals = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+defaultNumerals = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+numerals = ""
 
 phiBase = -1
 fibBase = -2
@@ -143,7 +145,7 @@ def convertToFibBase( num ):
 #//
 #//******************************************************************************
 
-def convertToBaseN( value, base, baseAsDigits ):
+def convertToBaseN( value, base, baseAsDigits, numerals ):
     """
     Converts any integer to a base 2-62 string.
 
@@ -525,12 +527,37 @@ def exponentiate( valueList ):
 #//
 #//  tetrate
 #//
+#//  This is the smaller (left-associative) version of the hyper4 operator.
+#//
 #//  This function forces the second argument to an integer and runs at O( n )
 #//  based on the second argument.
 #//
 #//******************************************************************************
 
 def tetrate( valueList ):
+    value = valueList.pop( )
+
+    operand = valueList.pop( )
+    result = operand
+
+    for i in range( 1, int( value ) ):
+        result **= operand
+
+    valueList.append( result )
+
+
+#//******************************************************************************
+#//
+#//  tetrate2
+#//
+#//  This is the larger (right-associative) version of the hyper4 operator.
+#//
+#//  This function forces the second argument to an integer and runs at O( n )
+#//  based on the second argument.
+#//
+#//******************************************************************************
+
+def tetrateLarge( valueList ):
     value = valueList.pop( )
 
     operand = valueList.pop( )
@@ -853,7 +880,7 @@ def takePowMod( valueList ):
 def getNthFibonacci( valueList ):
     n = valueList.pop( )
     sqrt5 = Decimal( 5 ) ** Decimal( 0.5 )
-    valueList.append( int( ( pow( 1 + sqrt5, n ) - pow( 1 - sqrt5, n ) ) / ( pow( 2, n ) * sqrt5 ) ) )
+    valueList.append( Decimal( ( pow( 1 + sqrt5, n ) - pow( 1 - sqrt5, n ) ) / ( pow( 2, n ) * sqrt5 ) ).quantize( Decimal( '1.' ) ) )
 
 
 #//******************************************************************************
@@ -1104,12 +1131,12 @@ def parseInputValue( term, inputRadix ):
                 return Decimal( int( integer, 8 ) )
         elif inputRadix == 10:
             result = Decimal( integer )
-            return -result if negative else result
+            return Decimal( -result if negative else result )
 
     # finally, we have a non-radix 10 number to parse
     result = convertToBase10( integer, mantissa, inputRadix )
 
-    return -result if negative else result
+    return Decimal( -result if negative else result )
 
 
 #//******************************************************************************
@@ -1118,7 +1145,7 @@ def parseInputValue( term, inputRadix ):
 #//
 #//******************************************************************************
 
-def formatOutput( output, radix, comma, decimalGrouping, baseAsDigits ):
+def formatOutput( output, radix, numerals, comma, decimalGrouping, baseAsDigits ):
     strOutput = str( output )
 
     if '.' in strOutput:
@@ -1139,7 +1166,7 @@ def formatOutput( output, radix, comma, decimalGrouping, baseAsDigits ):
     if mantissa != '':
         mantissa = mantissa.rstrip( '0' )
 
-    if radix != 10:
+    if radix != 10 or numerals != defaultNumerals:
         integer = str( convertToBaseN( Decimal( integer ), radix, baseAsDigits ) )
 
         if mantissa:
@@ -1190,6 +1217,8 @@ def formatOutput( output, radix, comma, decimalGrouping, baseAsDigits ):
 #//******************************************************************************
 
 def main( ):
+    global numerals
+
     parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
                                       PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
                                       epilog=
@@ -1263,6 +1292,8 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
                          help="add commas to result, e.g., 1,234,567.0" )
     parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
                          help="number decimal places separated into groups (default: 0)" )
+    parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals,
+                         help="characters set to use as numerals for output" )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
                          help="precision, i.e., number of significant digits to use" )
     parser.add_argument( '-r', '--output_radix', type=str, action='store', default=10,
@@ -1284,6 +1315,8 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
         outputRadix = fibBase
     else:
         outputRadix = int( args.output_radix )
+
+    numerals = args.numerals
 
     if args.hex:
         if outputRadix != 10:
@@ -1370,7 +1403,7 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
             print( "rpn: unexpected end of input" )
         else:
             result = format( valueList.pop( ), "f" )
-            print( formatOutput( result, outputRadix, args.comma, args.decimal_grouping, baseAsDigits ) )
+            print( formatOutput( result, outputRadix, numerals, args.comma, args.decimal_grouping, baseAsDigits ) )
 
 
 
