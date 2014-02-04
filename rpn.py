@@ -13,20 +13,14 @@
 #//******************************************************************************
 
 import argparse
-import bz2
 import collections
-import contextlib
 import itertools
-import math
 import os
-import pickle
 import pyprimes
 import random
-import re as regex
 import sys
+import textwrap
 import time
-import types
-import urllib.request
 
 from fractions import Fraction
 from functools import reduce
@@ -40,7 +34,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.21.1'
+RPN_VERSION = '4.22.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -213,6 +207,9 @@ class Polynomial(object):
 #//******************************************************************************
 
 def downloadOEISSequence( id ):
+    import urllib.request
+    import re as regex
+
     data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3A{:06}'.format( id ) + '&fmt=text' ).read( )
 
     pattern = regex.compile( b'%S A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
@@ -247,6 +244,10 @@ def getOEISSequence( n ):
 
 def loadTable( fileName, default ):
     global dataPath
+
+    import bz2
+    import contextlib
+    import pickle
 
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'rb' ) ) as pickleFile:
@@ -315,8 +316,13 @@ def loadSextupletPrimes( ):
 def saveTable( fileName, var ):
     global dataPath
 
+    import bz2
+    import contextlib
+    import pickle
+
     with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'wb' ) ) as pickleFile:
         pickle.dump( var, pickleFile )
+
 
 def saveSmallPrimes( smallPrimes ):
     saveTable( 'small_primes', smallPrimes )
@@ -2472,12 +2478,28 @@ def getNthSylvester( n ):
 
 #//******************************************************************************
 #//
-#//  getNthTriangularNumber
+#//  getNthPolygonalNumber
 #//
 #//******************************************************************************
 
-def getNthTriangularNumber( n ):
-    return fdiv( fmul( n, fadd( n, 1 ) ), 2 )
+def getNthPolygonalNumber( n, k ):
+    # TODO: throw if k < 3
+    coeff = fdiv( fsub( k, 2 ), 2 )
+    return polyval( [ coeff, fneg( fsub( coeff, 1 ) ), 0 ], n )
+
+
+#//******************************************************************************
+#//
+#//  findNthPolygonalNumber
+#//
+#//  http://www.wolframalpha.com/input/?i=solve+%28+%28+k+%2F+2+%29+-+1+%29+x^2+-+%28+%28+k+%2F+2+%29+-+2+%29+x+%2B+0+%3D+n+for+x
+#//
+#//******************************************************************************
+
+def findNthPolygonalNumber( n, k ):
+    return fdiv( fsum( [ sqrt( fsum( [ power( k, 2 ), fprod( [ 8, k, n ] ),
+                                       fneg( fmul( 8, k ) ), fneg( fmul( 16, n ) ), 16 ] ) ),
+                         k, -4 ] ), fmul( 2, fsub( k, 2 ) ) )
 
 
 #//******************************************************************************
@@ -2494,28 +2516,25 @@ def findTriangularNumber( n ):
 
 #//******************************************************************************
 #//
-#//  findAntiHexagonalNumber
-#//
-#//  Thanks for wolframalpha.com for solving the reverse of the above formula.
+#//  getCenteredPolygonalNumber
 #//
 #//******************************************************************************
 
-def findHexagonalNumber( n ):
-    return fdiv( fadd( sqrt( fadd( fmul( 8, n ), 1 ) ), 1 ), 4 )
+def getCenteredPolygonalNumber( n, sides ):
+    coefficient = fdiv( sides, 2 )
+    return polyval( [ coefficient, fneg( coefficient ), 1 ], n )
 
 
 #//******************************************************************************
 #//
-#//  getNthHeptagonalNumber
-#//
-#//  http://oeis.org/A000566
-#//
-#//  a(n)=n*(5*n-3)/2
+#//  findCenteredPolygonalNumber
 #//
 #//******************************************************************************
 
-def getNthHeptagonalNumber( n ):
-    return fdiv( fmul( n, fsub( fmul( 5, n ), 3 ) ), 2 )
+def findCenteredPolygonalNumber( n, sides ):
+    s = fdiv( sides, 2 )
+
+    return fdiv( fadd( sqrt( s ), sqrt( fsum( [ fmul( 4, n ), s, -4 ] ) ) ), fmul( 2, sqrt( s ) ) )
 
 
 #//******************************************************************************
@@ -3807,18 +3826,24 @@ def unlist( valueList ):
 #//
 #//  flatten
 #//
+#//  http://rightfootin.blogspot.com/2006/09/more-on-python-flatten.html
+#//
 #//******************************************************************************
 
-# TODO:  try writing a generator that emits on item at a time from the original list
+def _flatten( L, containers=( list, tuple ) ):
+    i = 0
 
-def _flatten(l, ltypes=(list, tuple)):
-    n = 0
-    for i in iter(l):
-        if isinstance(i, ltypes):
-            l[n:n+1] = []
-            n += 1
-            l[n:n] = list(i)
-    return l
+    while i < len( L ):
+        while isinstance( L[ i ], containers ):
+            if not L[ i ]:
+                L.pop( i )
+                i -= 1
+                break
+            else:
+                L[ i : i + 1 ] = ( L[ i ] )
+        i += 1
+    return L
+
 
 def flatten( valueList ):
     valueList.append( _flatten( valueList.pop( ) ) )
@@ -4048,11 +4073,27 @@ operatorAliases = {
     'bal?'      : 'balanced?',
     'bal_'      : 'balanced_',
     'cbrt'      : 'root3',
+    'cdec'      : 'cdecagonal',
+    'cdec?'     : 'cdecagonal?',
     'ceil'      : 'ceiling',
     'champ'     : 'champernowne',
+    'chept'     : 'cheptagonal',
+    'chept?'    : 'cheptagonal?',
+    'chex'      : 'chexagonal',
+    'chex?'     : 'chexagonal?',
+    'cnon'      : 'cnonagonal',
+    'cnon?'     : 'cnonagonal?',
+    'coct'      : 'coctagonal',
+    'coct?'     : 'coctagonal?',
     'cousin'    : 'cousinprime',
     'cousin?'   : 'cousinprime?',
     'cousin_'   : 'cousinprime_',
+    'cpent'     : 'cpentagonal',
+    'cpent?'    : 'cpentagonal?',
+    'cpoly'     : 'cpolygonal',
+    'cpoly?'    : 'cpolygonal?',
+    'ctri'      : 'ctriangular',
+    'ctri?'     : 'ctriangular?',
     'cuberoot'  : 'root3',
     'dec'       : 'decagonal',
     'dec?'      : 'decagonal?',
@@ -4083,6 +4124,8 @@ operatorAliases = {
     'p!'        : 'primorial',
     'pent'      : 'pentagonal',
     'pent?'     : 'pentagonal?',
+    'poly'      : 'polygonal',
+    'poly?'     : 'polygonal?',
     'prod'      : 'product',
     'pyr'       : 'pyramid',
     'quad'      : 'quadprime',
@@ -4334,8 +4377,16 @@ list_operators = {
     'sort'      : [ sort, 1,
 'list_operators', 'sort the elements of list n numerically in ascending order',
 '''
+The sort operator gets applied recursively, so all sublists will be sorted as
+well.  I might have to reconsider that.
 ''',
 '''
+c:>rpn [ rand rand rand ] sort
+[ 0.782934612763, 0.956555810967, 0.97728726503 ]
+
+c:>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
+[ [ 10 ], [ 9 ], [ 8 ], [ 5, 6, 7 ], [ 4 ], [ 3 ], [ 1, 2 ], [ 0 ], [ -1 ] ]
+
 ''' ],
     'sortdesc'  : [ sortDescending, 1,
 'list_operators', 'sorts the elements of list n numerically in descending order',
@@ -4574,6 +4625,18 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'cdecagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 10 ), 1,
+'polygonal_numbers', 'calculates the nth centered decagonal number',
+'''
+''',
+'''
+''' ],
+    'cdecagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 10 ), 1,
+'polygonal_numbers', 'finds the index of the centered decagonal number of value n',
+'''
+''',
+'''
+''' ],
     'ceiling'       : [ ceil, 1,
 'arithmetic', 'returns the next highest integer for n',
 '''
@@ -4582,6 +4645,54 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'champernowne'  : [ getChampernowne, 0,
 'constants', 'returns the Champernowne constant',
+'''
+''',
+'''
+''' ],
+    'cheptagonal'   : [ lambda n: getCenteredPolygonalNumber( n, 7 ), 1,
+'polygonal_numbers', 'calculates the nth centered heptagonal number',
+'''
+''',
+'''
+''' ],
+    'cheptagonal?'  : [ lambda n: findCenteredPolygonalNumber( n, 7 ), 1,
+'polygonal_numbers', 'finds the index of the centered heptagonal number of value n',
+'''
+''',
+'''
+''' ],
+    'chexagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 6 ), 1,
+'polygonal_numbers', 'calculates the nth centered hexagonal number',
+'''
+''',
+'''
+''' ],
+    'chexagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 6 ), 1,
+'polygonal_numbers', 'finds the index of the centered hexagonal number of value n',
+'''
+''',
+'''
+''' ],
+    'cnonagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 9 ), 1,
+'polygonal_numbers', 'calculates the nth centered nonagonal number',
+'''
+''',
+'''
+''' ],
+    'cnonagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 9 ), 1,
+'polygonal_numbers', 'finds the index of the centered nonagonal number of value n',
+'''
+''',
+'''
+''' ],
+    'coctagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 8 ), 1,
+'polygonal_numbers', 'calculates the nth centered octagonal number',
+'''
+''',
+'''
+''' ],
+    'coctagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 8 ), 1,
+'polygonal_numbers', 'finds the index of the centered octgonal number of value n',
 '''
 ''',
 '''
@@ -4637,6 +4748,30 @@ c:\>rpn 1 20 range divcount
 ''',
 '''
 ''' ],
+    'cpentagonal'   : [ lambda n: getCenteredPolygonalNumber( n, 5 ), 1,
+'polygonal_numbers', 'calculates the nth centered pentagonal number',
+'''
+''',
+'''
+''' ],
+    'cpentagonal?'  : [ lambda n: findCenteredPolygonalNumber( n, 5 ), 1,
+'polygonal_numbers', 'finds the index of the centered pentagonal number of value n',
+'''
+''',
+'''
+''' ],
+    'cpolygonal'    : [ lambda n, k: getCenteredPolygonalNumber( n, k ), 2,
+'polygonal_numbers', 'calculates the nth centered hexagonal number',
+'''
+''',
+'''
+''' ],
+    'cpolygonal?'   : [ lambda n, k: findCenteredPolygonalNumber( n, k ), 2,
+'polygonal_numbers', 'finds the index of the centered polygonal number of value n',
+'''
+''',
+'''
+''' ],
     'csc'           : [ csc, 1,
 'trigonometry', 'calculates the cosecant of n',
 '''
@@ -4649,14 +4784,44 @@ c:\>rpn 1 20 range divcount
 ''',
 '''
 ''' ],
+    'csquare'       : [ lambda n: getCenteredPolygonalNumber( n, 4 ), 1,
+'polygonal_numbers', 'calculates the nth centered square number',
+'''
+''',
+'''
+''' ],
+    'csquare?'       : [ lambda n: findCenteredPolygonalNumber( n, 4 ), 1,
+'polygonal_numbers', 'finds the index of the centered square number of value n',
+'''
+''',
+'''
+''' ],
+    'ctriangular'   : [ lambda n: getCenteredPolygonalNumber( n, 3 ), 1,
+'polygonal_numbers', 'calculates the nth centered triangular number',
+'''
+''',
+'''
+''' ],
+    'ctriangular?'   : [ lambda n: findCenteredPolygonalNumber( n, 3 ), 1,
+'polygonal_numbers', 'finds the index of the centered triangular number of value n',
+'''
+''',
+'''
+''' ],
     'cube'          : [ lambda n: power( n, 3 ), 1,
 'powers_and_roots', 'calculates the cube of n',
 '''
 ''',
 '''
 ''' ],
-    'decagonal'     : [ lambda n: polyval( [ 4, -3, 0 ],  n ), 1,
+    'decagonal'     : [ lambda n: getNthPolygonalNumber( n, 10 ), 1,
 'polygonal_numbers', 'calculates the nth decagonal number',
+'''
+''',
+'''
+''' ],
+    'decagonal?'    : [ lambda n: findNthPolygonalNumber( n, 10 ), 1,
+'polygonal_numbers', 'finds the index of the decagonal number of value n',
 '''
 ''',
 '''
@@ -4807,8 +4972,14 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'heptagonal'    : [ getNthHeptagonalNumber, 1,
+    'heptagonal'    : [ lambda n: getNthPolygonalNumber( n, 7 ), 1,
 'polygonal_numbers', 'calculates the nth heptagonal number',
+'''
+''',
+'''
+''' ],
+    'heptagonal?'   : [ lambda n: findNthPolygonalNumber( n, 7 ), 1,
+'polygonal_numbers', 'finds the index of the heptagonal number of value n',
 '''
 ''',
 '''
@@ -4831,14 +5002,14 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'hexagonal'     : [ lambda i: fsub( fprod( 2, i, i ), i ), 1,
+    'hexagonal'     : [ lambda n: getNthPolygonalNumber( n, 6 ), 1,
 'polygonal_numbers', 'calculates the nth hexagonal number',
 '''
 ''',
 '''
 ''' ],
-    'hex?'          : [ findHexagonalNumber, 1,
-'number_theory', 'finds index of the closest hexagonal number over n',
+    'hexagonal?'    : [ lambda n: findNthPolygonalNumber( n, 6 ), 1,
+'polygonal_numbers', 'finds the index of the hexagonal number of value n',
 '''
 ''',
 '''
@@ -4957,6 +5128,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'log2'          : [ lambda n: log( n, 2 ), 1,
+'logarithms', 'calculates the base-2 logarithm of n',
+'''
+''',
+'''
+''' ],
     'logxy'         : [ log, 2,
 'logarithms', 'calculates the base-k logarithm of n',
 '''
@@ -5011,8 +5188,14 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'nonagonal'     : [ lambda n: fdiv( polyval( [ 7, -5, 0 ], n ), 2 ), 1,
+    'nonagonal'     : [ lambda n: getNthPolygonalNumber( n, 9 ), 1,
 'polygonal_numbers', 'calculates the nth nonagonal number',
+'''
+''',
+'''
+''' ],
+    'nonagonal?'    : [ lambda n: findNthPolygonalNumber( n, 9 ), 1,
+'polygonal_numbers', 'finds the index of the nonagonal number of value n',
 '''
 ''',
 '''
@@ -5035,8 +5218,14 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'octagonal'     : [ lambda n: polyval( [ 3, -2, 0 ], n ), 1,
+    'octagonal'     : [ lambda n: getNthPolygonalNumber( n, 8 ), 1,
 'polygonal_numbers', 'calculates the nth octagonal number',
+'''
+''',
+'''
+''' ],
+    'octagonal?'    : [ lambda n: findNthPolygonalNumber( n, 8 ), 1,
+'polygonal_numbers', 'finds the index of the octagonal number of value n',
 '''
 ''',
 '''
@@ -5095,14 +5284,14 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'pentagonal'    : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1,
+    'pentagonal'    : [ lambda n: getNthPolygonalNumber( n, 5 ), 1,
 'polygonal_numbers', 'calculates the nth pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'pentagonal?'   : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1,
-'polygonal_numbers', 'finds the index of n as a pentagonal number',
+    'pentagonal?'   : [ lambda n: findNthPolygonalNumber( n, 5 ), 1,
+'polygonal_numbers', 'finds the index of the pentagonal number of value n',
 '''
 ''',
 '''
@@ -5145,6 +5334,18 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'polygamma'     : [ psi, 2,
 'number_theory', 'calculates the polygamma function for n',
+'''
+''',
+'''
+''' ],
+    'polygonal'     : [ getNthPolygonalNumber, 2,
+'number_theory', 'calculates the nth polygonal number with k sides',
+'''
+''',
+'''
+''' ],
+    'polygonal?'     : [ findNthPolygonalNumber, 2,
+'number_theory', 'finds the index of the polygonal number with k sides of value n',
 '''
 ''',
 '''
@@ -5501,14 +5702,14 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
-    'triangular'    : [ getNthTriangularNumber, 1,
+    'triangular'    : [ lambda n : getNthPolygonalNumber( n, 3 ), 1,
 'polygonal_numbers', 'calcuates the nth triangular number',
 '''
 ''',
 '''
 ''' ],
-    'triangular?'   : [ findTriangularNumber, 1,
-'polygonal_numbers', 'finds nearest triangular number index for n',
+    'triangular?'   : [ lambda n : findNthPolygonalNumber( n, 3 ), 1,
+'polygonal_numbers', 'finds the index of the triangular number of value n',
 '''
 ''',
 '''
@@ -6145,7 +6346,17 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
     return resultString
 
 
+#//******************************************************************************
+#//
+#//  printParagraph
+#//
+#//******************************************************************************
 
+def printParagraph( text, length = 79, indent = 0 ):
+    lines = textwrap.wrap( text, length )
+
+    for line in lines:
+        print( ' ' * indent + line )
 
 
 #//******************************************************************************
@@ -6155,21 +6366,24 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
 #//******************************************************************************
 
 def printGeneralHelp( basicCategories, operatorCategories ):
-    print(
-'\n' + PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
-'''
+    print( )
+    print( PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION )
+    print( COPYRIGHT_MESSAGE )
+    print( )
+    printParagraph(
+'''For help on a specific topic, add a help topic, operator category or a specific operator name.  Adding
+'example', or 'ex' after an operator name will result in examples of using being printed as well.''' )
+    print( )
+    print( 'The following is a list of general topics:' )
+    print( )
 
-For help on a specific topic, add a help topic, operator category or a
-specific operator name.  Adding 'example', or 'ex' after an operator name will
-result in examples of using being printed as well.
+    printParagraph( ', '.join( sorted( basicCategories ) ), 75, 4 )
 
-The following is a list of general topics:
+    print( )
+    print( 'The following is a list of operator categories:' )
+    print( )
 
-    ''' + ',\n    '.join( sorted( basicCategories ) ) + '''
-
-The following is a list of operator categories:
-
-    ''' + ',\n    '.join( sorted( operatorCategories ) ) )
+    printParagraph( ', '.join( sorted( operatorCategories ) ), 75, 4 )
 
 
 #//******************************************************************************
@@ -6481,8 +6695,12 @@ Calculations with lists:
 
         c:\>rpn 1 1000 range pent 1 1732 range tri intersection
 
-Please note that a lot of the following commands are broken up into multiple
-lines for readability, but are all single commands to rpn.
+Please note that several of the following commands are broken up into multiple
+lines for readability, but all of them are single commands to rpn.
+
+In some commands, the precision is explicitly set such to limit the output to
+what is accurately calculated.   If no precision options are used then the
+calculation will be correct regardless of precision.
 
 Calculation (or approximation) of various mathematical constants:
 
@@ -6492,7 +6710,7 @@ Calculation (or approximation) of various mathematical constants:
 
     Schwartzchild Constant (Conic Constant)
         = rpn -p20 2 0 30 range ** 0 30 range ! / sum
-        = rpn -p20 e 2 **
+        = rpn e 2 **
 
     Somos\' Quadratic Recurrence Constant
         = rpn -p20 1 100 range 0.5 0.5 100 georange ** prod
@@ -6501,11 +6719,11 @@ Calculation (or approximation) of various mathematical constants:
         = rpn -p20 1 100 range fib 1/x sum
 
     Euler's number = rpn -p20 0 100 range fac 1/x sum
-                   = rpn -p20 e
+                   = rpn e
 
     Gelfond Constant
         = rpn -p20 pi 0 100 range power 0 100 range ! / sum
-        = rpn -p20 e pi power
+        = rpn e pi power
 
     Bloch-Landau Constant
         = rpn -p20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /
@@ -6514,21 +6732,21 @@ Calculation (or approximation) of various mathematical constants:
         = rpn -p20 2 0 100 range 2 * 1 + power 0 100 range 2 * 1 + *
             1/x sum 3 0 100 range 2 * 1 + power 0 100 range 2 * 1 +
             * 1/x sum /
-        = rpn -p20 3 log 2 log /
+        = rpn 3 log 2 log /
 
     Machin-Gregory Series
         = rpn -p20 1 1000 2 range2 2 1 1000 2 range2 power * 1/x altsum
-        = rpn -p20 1 2 / atan
+        = rpn 1 2 / atan
 
     Beta(3)
         = rpn -p17 1 1000000 2 range2 3 power 1/x altsum
-        = rpn -p20 pi 3 power 32 /
+        = rpn pi 3 power 32 /
 
     Cahen's constant
         = rpn -p20 1 20 range sylvester 1 - 1/x altsum
 
     Lemniscate Constant
-        = rpn -p20 4 2 pi / sqrt * 0.25 ! sqr *
+        = rpn 4 2 pi / sqrt * 0.25 ! sqr *
 
     sqrt( e )
         = rpn -p20 2 0 20 range power [ 0 20 range ] ! * 1/x sum
@@ -6638,6 +6856,39 @@ Bitwise operators force all arguments to integers by truncation if necessary.
         addAliases( operatorList )
 
         print( '    ' + ',\n    '.join( sorted( operatorList ) ) )
+
+
+
+#//******************************************************************************
+#//
+#//  validateOptions
+#//
+#//******************************************************************************
+
+def validateOptions( args ):
+    return True
+
+
+#//******************************************************************************
+#//
+#//  validateArguments
+#//
+#//******************************************************************************
+
+def validateArguments( terms ):
+    bracketCount = 0
+
+    for term in terms:
+        if term == '[':
+            bracketCount += 1
+        elif term == ']':
+            bracketCount -= 1
+
+    if bracketCount:
+        print( 'rpn:  mismatched brackets (count: {})'.format( bracketCount ) )
+        return False
+
+    return True
 
 
 #//******************************************************************************
@@ -6751,6 +7002,9 @@ def main( ):
         printHelp( [ ] )
         return
 
+    if not validateOptions( args ):
+        return
+
     mp.dps = args.precision
 
     if args.time:
@@ -6765,6 +7019,14 @@ def main( ):
     if mp.dps < args.output_accuracy + 2:
         mp.dps = args.output_accuracy + 2
 
+    # handle -n
+    numerals = args.numerals
+
+    # handle -b
+    inputRadix = int( args.input_radix )
+
+
+
     # handle -r
     if args.output_radix == 'phi':
         outputRadix = phiBase
@@ -6774,19 +7036,17 @@ def main( ):
         try:
             outputRadix = int( args.output_radix )
         except ValueError as error:
-            print( "rpn:  can't interpret output radix '%s' as a number" % args.output_radix )
+            print( 'rpn:  can\'t interpret output radix \'%s\' as a number' % args.output_radix )
             return
-
-    numerals = args.numerals
 
     # handle -x
     if args.hex:
         if outputRadix != 10 and outputRadix != 16:
-            print( "rpn:  -r and -x can't be used together" )
+            print( 'rpn:  -r and -x can\'t be used together' )
             return
 
         if args.octal:
-            print( "rpn:  -x and -o can't be used together" )
+            print( 'rpn:  -x and -o can\'t be used together' )
             return
 
         outputRadix = 16
@@ -6797,7 +7057,7 @@ def main( ):
     # handle -o
     if args.octal:
         if outputRadix != 10 and outputRadix != 8:
-            print( "rpn:  -r and -o can't be used together" )
+            print( 'rpn:  -r and -o can\'t be used together' )
             return
 
         outputRadix = 8
@@ -6805,17 +7065,14 @@ def main( ):
         integerGrouping = 3
         bitwiseGroupSize = 9
 
-    # handle -b
-    inputRadix = int( args.input_radix )
-
     # handle -R
     if args.output_radix_numerals > 0:
         if args.hex:
-            print( "rpn:  -R and -x can't be used together" )
+            print( 'rpn:  -R and -x can\'t be used together' )
             return
 
         if args.output_radix != 10:
-            print( "rpn:  -R and -r can't be used together" )
+            print( 'rpn:  -R and -r can\'t be used together' )
             return
 
         baseAsDigits = True
@@ -6826,20 +7083,20 @@ def main( ):
     # -r/-R validation
     if baseAsDigits:
         if ( outputRadix < 2 ):
-            print( "rpn:  output radix must be greater than 1" )
+            print( 'rpn:  output radix must be greater than 1' )
             return
     else:
         if ( outputRadix != phiBase and outputRadix != fibBase and
              ( outputRadix < 2 or outputRadix > 62 ) ):
-            print( "rpn:  output radix must be from 2 to 62, or phi" )
+            print( 'rpn:  output radix must be from 2 to 62, or phi' )
             return
 
     if args.comma and args.integer_grouping > 0 :
-        print( "rpn:  -c can't be used with -i" )
+        print( 'rpn:  -c can\'t be used with -i' )
         return
 
     if baseAsDigits and ( args.comma or args.decimal_grouping > 0 or args.integer_grouping > 0 ):
-        print( "rpn:  -c, -d and -i can't be used with -R" )
+        print( 'rpn:  -c, -d and -i can\'t be used with -R' )
         return
 
     # handle -y and -u:  mpmath wants precision of at least 53 for these functions
@@ -6873,6 +7130,10 @@ def main( ):
         print( 'rpn:  no terms found' )
         return
 
+    # let's check out the arguments before we start to do any calculations
+    if not validateArguments( args.terms ):
+        return
+
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
         if term in operatorAliases:
@@ -6899,13 +7160,16 @@ def main( ):
                 break
 
             try:
-                argList = list( )
+                if argsNeeded == 0:
+                    result = callers[ 0 ]( operators[ term ][ 0 ], None )
+                else:
+                    argList = list( )
 
-                for i in range( 0, argsNeeded ):
-                    arg = currentValueList.pop( )
-                    argList.append( arg if isinstance( arg, list ) else [ arg ] )
+                    for i in range( 0, argsNeeded ):
+                        arg = currentValueList.pop( )
+                        argList.append( arg if isinstance( arg, list ) else [ arg ] )
 
-                result = callers[ argsNeeded ]( operators[ term ][ 0 ], *argList )
+                    result = callers[ argsNeeded ]( operators[ term ][ 0 ], *argList )
 
                 if len( result ) == 1:
                     result = result[ 0 ]
@@ -6936,9 +7200,7 @@ def main( ):
 
             try:
                 if argsNeeded == 1:
-                    fred = currentValueList.pop( )
-                    print( 'fred: ' + str( fred ) )
-                    currentValueList.append( evaluateOneListFunction( list_operators[ term ][ 0 ], fred ) )
+                    currentValueList.append( evaluateOneListFunction( list_operators[ term ][ 0 ], currentValueList.pop( ) ) )
                 else:
                     listArgs = [ ]
 
