@@ -7,6 +7,7 @@ import random
 import sys
 from mpmath import *
 from functools import reduce
+from fractions import Fraction
 
 
 #//******************************************************************************
@@ -30,6 +31,70 @@ phiBase = -1
 fibBase = -2
 
 bitwiseGroupSize = 16
+
+
+#//******************************************************************************
+#//
+#//  getContinuedFraction
+#//
+#//  Adapted from ActiveState Python, recipe 578647
+#//
+#//******************************************************************************
+
+class CFraction( list ):
+    """
+    A continued fraction, represented as a list of integer terms.
+    """
+
+    def __init__( self, value, maxterms=15, cutoff=1e-10 ):
+        if isinstance( value, ( int, float, mpf ) ):
+            value = mpf( value )
+            remainder = floor( value )
+            self.append( remainder )
+
+            while len( self ) < maxterms:
+                value -= remainder
+
+                if value > cutoff:
+                    value = fdiv( 1, value )
+                    remainder = floor( value )
+                    self.append( remainder )
+                else:
+                    break
+
+        elif isinstance( value, ( list, tuple ) ):
+            self.extend( value )
+        else:
+            raise ValueError( "CFraction requires number or list" )
+
+    def getFraction( self, terms=None ):
+        "Convert to a Fraction."
+
+        #print( str( self ) )
+
+        if terms is None or terms >= len( self ):
+            terms = len( self ) - 1
+
+        frac = Fraction( 1, int( self[ terms ] ) )
+        #print( "Frac: " + str( frac ) )
+
+        for t in reversed( self[ 1 : terms ] ):
+            #print( "Term: %d" % t )
+            frac = 1 / ( frac + int( t ) )
+            #print( "Frac: " + str( frac ) )
+
+        #print( "Term: %d" % int( self[ 0 ] ) )
+        frac += int( self[ 0 ] )
+        #print( "Frac: " + str( frac ) )
+
+        return frac
+
+    def __float__( self ):
+        return float( self.getFraction( ) )
+
+    def __str__( self ):
+        return "[%s]" % ", ".join( [ str( int( x ) ) for x in self ] )
+
 
 
 #//******************************************************************************
@@ -729,6 +794,37 @@ def getPermutations( valueList ):
 
 #//******************************************************************************
 #//
+#//  interpretAsContinuedFraction
+#//
+#//******************************************************************************
+
+def interpretAsContinuedFraction( valueList ):
+    list = [ ]
+
+    while valueList:
+        list.insert( 0, valueList.pop( ) )
+
+    fraction = CFraction( list ).getFraction( )
+
+    valueList.append( fdiv( fraction.numerator, fraction.denominator ) )
+
+
+#//******************************************************************************
+#//
+#//  duplicateTerm
+#//
+#//******************************************************************************
+
+def duplicateTerm( valueList ):
+    count = int( valueList.pop( ) )
+    value = valueList.pop( )
+
+    for i in range( 0, count ):
+        valueList.append( value )
+
+
+#//******************************************************************************
+#//
 #//  expressions
 #//
 #//  Function names and number of args needed.  One line/zero-or-one arg
@@ -769,6 +865,7 @@ expressions = {
     'catalan'   : [ lambda v: v.append( catalan ), 0 ],
     'cbrt'      : [ lambda v: v.append( cbrt( v.pop( ) ) ), 1 ],
     'ceil'      : [ lambda v: v.append( ceil( v.pop( ) ) ), 1 ],
+    'cf'        : [ interpretAsContinuedFraction, 2 ],              # this one eats the whole value stack
     'cos'       : [ lambda v: v.append( cos( v.pop( ) ) ), 1 ],
     'cosh'      : [ lambda v: v.append( cosh( v.pop( ) ) ), 1 ],
     'cot'       : [ lambda v: v.append( cot( v.pop( ) ) ), 1 ],
@@ -778,6 +875,7 @@ expressions = {
     'cube'      : [ lambda v: v.append( power( v.pop( ), 3 ) ), 1 ],
     'deg'       : [ lambda v: v.append( radians( v.pop( ) ) ), 1 ],
     'degrees'   : [ lambda v: v.append( radians( v.pop( ) ) ), 1 ],
+    'dup'       : [ duplicateTerm, 2 ],
     'e'         : [ lambda v: v.append( e ), 0 ],
     'euler'     : [ lambda v: v.append( euler ), 0 ],
     'exp'       : [ lambda v: v.append( exp( v.pop( ) ) ), 1 ],
@@ -803,11 +901,11 @@ expressions = {
     'logxy'     : [ getLogXY, 2 ],
     'luc'       : [ getNthLucas, 1 ],
     'lucas'     : [ getNthLucas, 1 ],
-    'mean'      : [ getMean, 2 ],                                    # this one eats the whole value stack
+    'mean'      : [ getMean, 2 ],                                   # this one eats the whole value stack
     'mertens'   : [ lambda v: v.append( mertens ), 0 ],
     'mod'       : [ getModulo, 2 ],
     'modulo'    : [ getModulo, 2 ],
-    'mult'      : [ multiplyAll, 2 ],                                # this one eats the whole value stack
+    'mult'      : [ multiplyAll, 2 ],                               # this one eats the whole value stack
     'nCr'       : [ getCombinations, 2 ],
     'ncr'       : [ getCombinations, 2 ],
     'neg'       : [ lambda v: v.append( fneg( v.pop( ) ) ), 1 ],
@@ -832,7 +930,7 @@ expressions = {
     'sqr'       : [ lambda v: v.append( power( v.pop( ), 2 ) ), 1 ],
     'sqrt'      : [ lambda v: v.append( sqrt( v.pop( ) ) ), 1 ],
     'sqtri'     : [ getNthSquareTriangularNumber, 1 ],
-    'sum'       : [ sum, 2 ],                                        # this one eats the whole value stack
+    'sum'       : [ sum, 2 ],                                       # this one eats the whole value stack
     'superfac'  : [ lambda v: v.append( superfac( v.pop( ) ) ), 1 ],
     'tan'       : [ lambda v: v.append( tan( v.pop( ) ) ), 1 ],
     'tanh'      : [ lambda v: v.append( tanh( v.pop( ) ) ), 1 ],
@@ -1103,6 +1201,8 @@ Notes:
                          help="add commas to result, e.g., 1,234,567.0" )
     parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
                          help="display decimal places separated into groups (default: 0)" )
+    parser.add_argument( '-e', '--continued_fraction', type=int, action='store', default=0,
+                         help="express result as a continued fraction" )
     parser.add_argument( '-f', '--factor', action='store_true',
                          help="compute prime factors of result (truncated to an integer)" )
     parser.add_argument( '-i', '--integer_grouping', type=int, action='store', default=0,
@@ -1256,19 +1356,24 @@ Notes:
             print( "rpn: unexpected end of input" )
         else:
             mp.pretty = True
-            result = nstr( valueList.pop( ), mp.dps )
+            result = valueList.pop( )
+            resultString = nstr( result, mp.dps )
 
             if args.comma:
-                print( formatOutput( result, outputRadix, numerals, 3, ',', False,
+                print( formatOutput( resultString, outputRadix, numerals, 3, ',', False,
                                      args.decimal_grouping, ' ', baseAsDigits ) )
             else:
-                print( formatOutput( result, outputRadix, numerals, integerGrouping, ' ', leadingZero,
+                print( formatOutput( resultString, outputRadix, numerals, integerGrouping, ' ', leadingZero,
                                      args.decimal_grouping, ' ', baseAsDigits ) )
 
             if args.factor:
                 factorInteger( int( floor( result ) ) )
 
+            if args.continued_fraction:
+                cf = CFraction( mpf( result ), maxterms=args.continued_fraction )
 
+                print( "    = " + str( cf ) )
+                print( "    ~= " + str( cf.getFraction( ) ) )
 
 
 #//******************************************************************************
