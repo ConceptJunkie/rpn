@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.19.0'
+RPN_VERSION = '4.20.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -2851,6 +2851,9 @@ def getPermutations( n, r ):
 #//******************************************************************************
 
 def convertFromContinuedFraction( i ):
+    if not isinstance( i, list ):
+        i = [ i ]
+
     fraction = ContinuedFraction( i ).getFraction( )
     return fdiv( fraction.numerator, fraction.denominator )
 
@@ -2873,7 +2876,10 @@ def interpretAsFraction( i, j ):
 #//******************************************************************************
 
 def interpretAsBase( args, base ):
-    args.reverse( )
+    if isinstance( args, list ):
+        args.reverse( )
+    else:
+        args = [ args ]
 
     value = mpmathify( 0 )
     multiplier = mpmathify( 1 )
@@ -3197,12 +3203,15 @@ def calculatePowerTower2( args ):
 #//******************************************************************************
 
 def getAlternatingSum( args ):
-    result = args[ 0 ]
+    if isinstance( args, list ):
+        result = args[ 0 ]
 
-    for i in range( 1, len( args ), 2 ):
-        args[ i ] = fneg( args[ i ] )
+        for i in range( 1, len( args ), 2 ):
+            args[ i ] = fneg( args[ i ] )
 
-    return fsum( args )
+        return fsum( args )
+    else:
+        return args
 
 
 #//******************************************************************************
@@ -3212,12 +3221,15 @@ def getAlternatingSum( args ):
 #//******************************************************************************
 
 def getAlternatingSum2( args ):
-    result = args[ 0 ]
+    if isinstance( args, list ):
+        result = args[ 0 ]
 
-    for i in range( 0, len( args ), 2 ):
-        args[ i ] = fneg( args[ i ] )
+        for i in range( 0, len( args ), 2 ):
+            args[ i ] = fneg( args[ i ] )
 
-    return fsum( args )
+        return fsum( args )
+    else:
+        return args
 
 
 #//******************************************************************************
@@ -3487,21 +3499,52 @@ def appendLists( valueList ):
 
 #//******************************************************************************
 #//
+#//  alternateSigns
+#//
+#//******************************************************************************
+
+def alternateSigns( valueList ):
+    arg1 = valueList.pop( )
+
+    for i in range( 1, len( arg1 ), 2 ):
+        arg1[ i ] = -arg1[ i ]
+
+    valueList.append( arg1 )
+
+
+#//******************************************************************************
+#//
+#//  alternateSigns2
+#//
+#//******************************************************************************
+
+def alternateSigns2( valueList ):
+    arg1 = valueList.pop( )
+
+    for i in range( 0, len( arg1 ), 2 ):
+        arg1[ i ] = -arg1[ i ]
+
+    valueList.append( arg1 )
+
+
+#//******************************************************************************
+#//
 #//  expandRange
 #//
 #//******************************************************************************
 
-def expandRange( valueList ):
-    end = valueList.pop( )
-    start = valueList.pop( )
-
+def expandRange( start, end ):
     if start > end:
         step = -1
     else:
         step = 1
 
+    result = [ ]
+
     for i in arange( start, end + step, step ):
-        valueList.append( i )
+        result.append( i )
+
+    return result
 
 
 #//******************************************************************************
@@ -3510,13 +3553,13 @@ def expandRange( valueList ):
 #//
 #//******************************************************************************
 
-def expandSteppedRange( valueList ):
-    step = valueList.pop( )
-    end = valueList.pop( )
-    start = valueList.pop( )
+def expandSteppedRange( start, end, step ):
+    result = [ ]
 
     for i in arange( start, end + 1, step ):
-        valueList.append( i )
+        result.append( i )
+
+    return result
 
 
 #//******************************************************************************
@@ -3979,6 +4022,18 @@ modifiers = {
 ''',
 '''
 ''' ],
+    'altsign': [ alternateSigns, 1,
+'modifiers', 'alternates signs in the list by making every even element negative',
+'''
+''',
+'''
+''' ],
+    'altsign2': [ alternateSigns2, 1,
+'modifiers', 'alternates signs in the list by making every odd element negative',
+'''
+''',
+'''
+''' ],
     'dup'       : [ duplicateTerm, 2,
 'modifiers', 'duplicates a argument n k times',
 '''
@@ -4011,18 +4066,6 @@ modifiers = {
 ''' ],
     'primes'     : [ getPrimes, 2,
 'modifiers', 'generates a range of primes from index n to index k',
-'''
-''',
-'''
-''' ],
-    'range'     : [ expandRange, 2,
-'modifiers', 'generates a list of successive integers from n to k',
-'''
-''',
-'''
-''' ],
-    'range2'    : [ expandSteppedRange, 3,
-'modifiers', 'generates a list of arithmetic progression of numbers',
 '''
 ''',
 '''
@@ -4552,6 +4595,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'factorial'     : [ fac, 1,
+'number_theory', 'calculates the prime factorization of n',
+'''
+''',
+'''
+''' ],
     'fibonacci'     : [ fib, 1,
 'number_theory', 'calculates the nth Fibonacci number',
 '''
@@ -5028,6 +5077,18 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'random'        : [ rand, 0,
 'special', 'returns a random value from 0 to 1',
+'''
+''',
+'''
+''' ],
+    'range'         : [ expandRange, 2,
+'modifiers', 'generates a list of successive integers from n to k',
+'''
+''',
+'''
+''' ],
+    'range2'        : [ expandSteppedRange, 3,
+'modifiers', 'generates a list of arithmetic progression of numbers',
 '''
 ''',
 '''
@@ -6674,6 +6735,7 @@ def main( ):
                        format( argsNeeded ) + ' argument', end='' )
 
                 print( 's' if argsNeeded > 1 else '' )
+                break
 
             try:
                 argList = list( )
@@ -6701,10 +6763,14 @@ def main( ):
                 print( 'rpn:  division by zero' )
                 break
         elif term in list_operators:
+            argsNeeded = list_operators[ term ][ 1 ]
+
             # first we validate, and make sure the operator has enough arguments
-            if len( currentValueList ) < 1:
-                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term +
-                       ' requires a list argument' )
+            if len( currentValueList ) < argsNeeded:
+                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
+                       format( argsNeeded ) + ' argument', end='' )
+
+                print( 's' if argsNeeded > 1 else '' )
                 break
 
             try:
@@ -6727,10 +6793,14 @@ def main( ):
                 print( 'rpn:  division by zero' )
                 break
         elif term in list_operators_2:
+            argsNeeded = list_operators_2[ term ][ 1 ]
+
             # first we validate, and make sure the operator has enough arguments
-            if len( currentValueList ) < 2:
-                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term +
-                       ' requires two arguments' )
+            if len( currentValueList ) < argsNeeded:
+                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
+                       format( argsNeeded ) + ' argument', end='' )
+
+                print( 's' if argsNeeded > 1 else '' )
                 break
 
             try:
