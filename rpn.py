@@ -3,6 +3,7 @@
 import argparse
 import bz2
 import contextlib
+import itertools
 import math
 import os
 import pickle
@@ -24,7 +25,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.7.0"
+RPN_VERSION = "4.8.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -45,6 +46,8 @@ phiBase = -1
 fibBase = -2
 
 inputRadix = 10
+
+updateDicts = False
 
 
 #//******************************************************************************
@@ -140,6 +143,10 @@ def saveQuadrupletPrimes( quadPrimes ):
 #//******************************************************************************
 
 def makeTable( start, end, step, func, name ):
+    global updateDicts
+
+    updateDicts = True
+
     try:
         for i in range( int( start ), int( end ) + 1, int( step ) ):
             p = func( i )
@@ -272,6 +279,29 @@ def isPrime( arg ):
 
 #//******************************************************************************
 #//
+#//  findPrime
+#//
+#//******************************************************************************
+
+def getNextPrimeCandidate( p, f ):
+    if f == 1:
+        p += 2
+        f = 3
+    elif f == 3:
+        p += 4
+        f = 7
+    elif f == 7:
+        p += 2
+        f = 9
+    else:
+        p += 2
+        f = 1
+
+    return p, f
+
+
+#//******************************************************************************
+#//
 #//  getNthPrime
 #//
 #//******************************************************************************
@@ -279,6 +309,7 @@ def isPrime( arg ):
 def getNthPrime( arg ):
     global smallPrimes
     global largePrimes
+    global updateDicts
 
     n = int( arg )
 
@@ -295,44 +326,116 @@ def getNthPrime( arg ):
         if largePrimes == { }:
             largePrimes = loadLargePrimes( )
 
-        startingPlace = max( key for key in largePrimes if key <= n )
-        p = largePrimes[ startingPlace ]
+        maxIndex = max( key for key in largePrimes )
 
+        if n > maxIndex:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
+
+        currentIndex = max( key for key in largePrimes if key <= n )
+        p = largePrimes[ currentIndex ]
+
+        #print( 'starting: ' + str( currentIndex ) )
     elif n >= 100:
         if smallPrimes == { }:
             smallPrimes = loadSmallPrimes( )
 
-        startingPlace = max( key for key in smallPrimes if key <= n )
-        p = smallPrimes[ startingPlace ]
+        currentIndex = max( key for key in smallPrimes if key <= n )
+        p = smallPrimes[ currentIndex ]
+
+        #print( 'looking for nth: ' + str( n ) + ' - starting: ' + str( currentIndex ) + ', p: ' + str( p ) )
     else:
-        startingPlace = 4
+        currentIndex = 4
         p = 7
 
     f = p % 10
 
-    while n > startingPlace:
-        if f == 1:
-            p += 2
-            f = 3
-        elif f == 3:
-            p += 4
-            f = 7
-        elif f == 7:
-            p += 2
-            f = 9
-        else:
-            p += 2
-            f = 1
+    while n > currentIndex:
+        p, f = getNextPrimeCandidate( p, f )
 
         if isPrime( p ):
-            n -= 1
+            currentIndex += 1
 
-    if n >= 1000000:
-        largePrimes.update( { int( arg ) : p } )
-    else:
-        smallPrimes.update( { int( arg ) : p } )
+    if updateDicts:
+        if n >= 1000000:
+            largePrimes[ n ] = p
+        else:
+            smallPrimes[ n ] = p
 
+    #print( 'finished: ' + str( n ) + ', ' + str( p ) )
     return p
+
+
+
+#//******************************************************************************
+#//
+#//  findPrimeIndex
+#//
+#//******************************************************************************
+
+def findPrimeIndex( arg ):
+    global smallPrimes
+    global largePrimes
+
+    target = int( arg )
+
+    if target < 2:
+        return 1
+    elif target == 3:
+        return 2
+    elif target < 5:
+        return 3
+    elif target < 541:          # 100th prime
+        currentIndex = 4
+        p = 7
+    elif target < 15485863:     # 1,000,000th prime
+        if smallPrimes == { }:
+            smallPrimes = loadSmallPrimes( )
+
+        currentIndex = max( key for key in smallPrimes if smallPrimes[ key ] <= target )
+        p = smallPrimes[ currentIndex ]
+    else:
+        if largePrimes == { }:
+            largePrimes = loadLargePrimes( )
+
+        currentIndex = max( key for key in largePrimes if largePrimes[ key ] <= target )
+        p = largePrimes[ currentIndex ]
+
+    f = p % 10
+
+    while True:
+        p, f = getNextPrimeCandidate( p, f )
+
+        if isPrime( p ):
+            if p > target:
+                return currentIndex
+            else:
+                currentIndex += 1
+
+
+#//******************************************************************************
+#//
+#//  getNthSuperPrime
+#//
+#//******************************************************************************
+
+def getNthSuperPrime( arg ):
+    return getNthPrime( getNthPrime( arg ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthPolyPrime
+#//
+#//******************************************************************************
+
+def getNthPolyPrime( n, poly ):
+    result = getNthPrime( n )
+
+    for i in arange( 1, poly ):
+        result = getNthPrime( result )
+
+    return result
 
 
 #//******************************************************************************
@@ -343,6 +446,7 @@ def getNthPrime( arg ):
 
 def getNthTwinPrimes( arg ):
     global twinPrimes
+    global updateDicts
 
     n = int( arg )
 
@@ -379,7 +483,8 @@ def getNthTwinPrimes( arg ):
         if isPrime( p ) and isPrime( p + 2 ):
             n -= 1
 
-    twinPrimes.update( { int( arg ) : p } )
+    if updateDicts:
+        twinPrimes[ int( arg ) ] = p
 
     return [ p, p + 2 ]
 
@@ -392,6 +497,7 @@ def getNthTwinPrimes( arg ):
 
 def getNthBalancedPrimes( arg ):
     global balancedPrimes
+    global updateDicts
 
     n = int( arg )
 
@@ -434,7 +540,8 @@ def getNthBalancedPrimes( arg ):
                 secondPrevPrime = prevPrime
                 prevPrime = p
 
-    balancedPrimes.update( { int( arg ) : prevPrime } )
+    if updateDicts:
+        balancedPrimes[ int( arg ) ] = prevPrime
 
     return [ secondPrevPrime, prevPrime, p  ]
 
@@ -447,6 +554,7 @@ def getNthBalancedPrimes( arg ):
 
 def getNthSophiePrime( arg ):
     global sophiePrimes
+    global updateDicts
 
     n = int( arg )
 
@@ -486,7 +594,8 @@ def getNthSophiePrime( arg ):
         if isPrime( p ) and isPrime( 2 * p + 1 ):
             n -= 1
 
-    sophiePrimes.update( { int( arg ) : p } )
+    if updateDicts:
+        sophiePrimes[ int( arg ) ] = p
 
     return p
 
@@ -499,6 +608,7 @@ def getNthSophiePrime( arg ):
 
 def getNthCousinPrimes( arg ):
     global cousinPrimes
+    global updateDicts
 
     n = int( arg )
 
@@ -534,7 +644,8 @@ def getNthCousinPrimes( arg ):
         if isPrime( p ) and isPrime( p + 4 ):
             n -= 1
 
-    cousinPrimes.update( { int( arg ) : p } )
+    if updateDicts:
+        cousinPrimes[ int( arg ) ] = p
 
     return [ p, p + 4 ]
 
@@ -547,6 +658,7 @@ def getNthCousinPrimes( arg ):
 
 def getNthSexyPrimes( arg ):
     global sexyPrimes
+    global updateDicts
 
     n = int( arg )
 
@@ -579,7 +691,8 @@ def getNthSexyPrimes( arg ):
         if isPrime( p ) and isPrime( p + 6 ):
             n -= 1
 
-    sexyPrimes.update( { int( arg ) : p } )
+    if updateDicts:
+        sexyPrimes[ int( arg ) ] = p
 
     return [ p, p + 6 ]
 
@@ -592,6 +705,7 @@ def getNthSexyPrimes( arg ):
 
 def getNthTripletPrimes( arg ):
     global tripletPrimes
+    global updateDicts
 
     n = int( arg )
 
@@ -638,7 +752,8 @@ def getNthTripletPrimes( arg ):
                 middle = 4
                 n -= 1
 
-    tripletPrimes.update( { int( arg ) : p } )
+    if updateDicts:
+        tripletPrimes[ int( arg ) ] = p
 
     return [ p, p + middle, p + 6 ]
 
@@ -651,13 +766,14 @@ def getNthTripletPrimes( arg ):
 
 def getNthQuadrupletPrimes( arg ):
     global quadPrimes
+    global updateDicts
 
     n = int( arg )
 
     if n == 1:
-        return 5
+        return [ 5, 7, 11, 13 ]
     elif n == 2:
-        return 11
+        return [ 11, 13, 17, 19 ]
 
     if n >= 10:
         if quadPrimes == { }:
@@ -676,7 +792,8 @@ def getNthQuadrupletPrimes( arg ):
         if isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ):
             n -= 1
 
-    quadPrimes.update( { int( arg ) : p } )
+    if updateDicts:
+        quadPrimes[ int( arg ) ] = p
 
     return [ p, p + 2, p + 6, p + 8 ]
 
@@ -720,19 +837,8 @@ def getNthPrimeRange( arg1, arg2 ):
 
     found = 0
 
-    while found > count:
-        if f == 1:
-            p += 2
-            f = 3
-        elif f == 3:
-            p += 4
-            f = 7
-        elif f == 7:
-            p += 2
-            f = 9
-        else:
-            p += 2
-            f = 1
+    while found < count:
+        p, f = getNextPrimeCandidate( p, f )
 
         if isPrime( p ):
             result.append( p )
@@ -1813,6 +1919,119 @@ def getAlternatingSum2( args ):
 
 #//******************************************************************************
 #//
+#//  getGCDForTwo
+#//
+#//******************************************************************************
+
+def getGCDForTwo( a, b ):
+    a, b = fabs( a ), fabs( b )
+
+    while a:
+        b, a = a, fmod( b, a )
+
+    return b
+
+
+#//******************************************************************************
+#//
+#//  getGCD
+#//
+#//******************************************************************************
+
+def getGCD( args ):
+    result = max( args )
+
+    for pair in itertools.permutations( args, 2 ):
+        gcd = getGCDForTwo( *pair )
+
+        if gcd < result:
+            result = gcd
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  getGreedyEgyptianFraction
+#//
+#//******************************************************************************
+
+def getGreedyEgyptianFraction( n, d ):
+    if n > d:
+        raise ValueError( "'solve' requires at least an order-1 polynomial (i.e., 2 terms)" )
+
+    # Create a list to store the Egyptian fraction representation.
+    result = [ ]
+
+    rational = Fraction( int( n ), int( d ) )
+
+    # Now, iteratively subtract out the largest unit fraction that may be
+    # subtracted out until we arrive at a unit fraction.
+    while True:
+        # If the rational number has numerator 1, we're done.
+        if rational.numerator == 1:
+            result.append( rational )
+            return result
+
+        # Otherwise, find the largest unit fraction less than the current rational number.
+        # This is given by the ceiling of the denominator divided by the numerator.
+        unitFraction = Fraction( 1, rational.denominator // rational.numerator + 1 )
+
+        result.append( unitFraction )
+
+        # Subtract out this unit fraction.
+        rational = rational - unitFraction
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  listOperators
+#//
+#//******************************************************************************
+
+def listOperators( ):
+    print( 'argument modifiers:' )
+
+    for i in sorted( [ key for key in modifiers ] ):
+        print( '   ' + i )
+
+    print( )
+
+    print( 'list operators:' )
+
+    for i in sorted( [ key for key in list_operators ] ):
+        print( '   ' + i )
+
+    print( )
+
+    print( 'list operators with 2 args:' )
+
+    for i in sorted( [ key for key in list_operators_2 ] ):
+        print( '   ' + i )
+
+    print( )
+
+    print( 'operators:' )
+
+    for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
+        print( '   ' + i + ', args: ' + str( operators[ i ][ 1 ] ) )
+
+    print( )
+
+    print( 'special operators:' )
+
+    for i in sorted( [ key for key in operators if key[ 0 ] == '_' ] ):
+        print( '   ' + i + ', args: ' + str( operators[ i ][ 1 ] ) )
+
+    print( )
+
+    return [ int( i ) for i in RPN_VERSION.split( '.' ) ]
+
+
+#//******************************************************************************
+#//
 #//  dumpStats
 #//
 #//******************************************************************************
@@ -2090,17 +2309,19 @@ list_operators = {
     'altsum2'   : getAlternatingSum2,
     'average'   : lambda i: fdiv( fsum( i ), len( i ) ),
     'avg'       : lambda i: fdiv( fsum( i ), len( i ) ),
-    'cf'        : convertFromContinuedFraction,
-    'zeroes'    : lambda i: [ index for index, e in enumerate( i ) if e == 0 ],
+    'cf2'        : convertFromContinuedFraction,
+    'count'     : lambda i: len( i ),
+    'gcd'       : getGCD,
+    'mean'      : lambda i: fdiv( fsum( i ), len( i ) ),
     'nonzero'   : lambda i: [ index for index, e in enumerate( i ) if e != 0 ],
     'nonzeroes' : lambda i: [ index for index, e in enumerate( i ) if e != 0 ],
-    'mean'      : lambda i: fdiv( fsum( i ), len( i ) ),
     'prod'      : fprod,
     'product'   : fprod,
     'solve'     : solvePolynomial,
     'sum'       : fsum,
     'tower'     : calculatePowerTower,
     'tower2'    : calculatePowerTower2,
+    'zeroes'    : lambda i: [ index for index, e in enumerate( i ) if e == 0 ],
 }
 
 list_operators_2 = {
@@ -2148,7 +2369,7 @@ operators = {
     'cbrt'        : [ cbrt, 1 ],
     'ccube'       : [ getNthCenteredCubeNumber, 1 ],
     'ceil'        : [ ceil, 1 ],
-    'cf2'         : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
+    'cf'          : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
     'champ'       : [ getChampernowne, 0 ],
     'copeland'    : [ getCopelandErdos, 0 ],
     'cos'         : [ cos, 1 ],
@@ -2163,6 +2384,7 @@ operators = {
     'deg'         : [ radians, 1 ],
     'degrees'     : [ radians, 1 ],
     'e'           : [ e, 0 ],
+    'egypt'       : [ getGreedyEgyptianFraction, 2 ],
     'euler'       : [ euler, 0 ],
     'exp'         : [ exp, 1 ],
     'exp10'       : [ lambda i: power( 10, i ), 1 ],
@@ -2217,9 +2439,11 @@ operators = {
     'phi'         : [ phi, 0 ],
     'pi'          : [ pi, 0 ],
     'plastic'     : [ getPlasticConstant, 0 ],
+    'polyprime'   : [ getNthPolyPrime, 2 ],
     'polytope'    : [ getNthPolytopeNumber, 2 ],
     'power'       : [ power, 2 ],
     'prime'       : [ getNthPrime, 1 ],
+    'prime?'      : [ findPrimeIndex, 1 ],
     'primepi'     : [ primepi, 1 ],
     'pyr'         : [ getNthPyramidalNumber, 1 ],
     'pyramid'     : [ getNthPyramidalNumber, 1 ],
@@ -2251,6 +2475,7 @@ operators = {
     'sub'         : [ fsub, 2 ],
     'subtract'    : [ fsub, 2 ],
     'superfac'    : [ superfac, 1 ],
+    'superprime'  : [ getNthSuperPrime, 1 ],
     'syl'         : [ getNthSylvester, 1 ],
     'sylvester'   : [ getNthSylvester, 1 ],
     'tan'         : [ tan, 1 ],
@@ -2277,6 +2502,7 @@ operators = {
     '_dumpsophie' : [ dumpSophiePrimes, 0 ],
     '_dumptriplet': [ dumpTripletPrimes, 0 ],
     '_dumptwin'   : [ dumpTwinPrimes, 0 ],
+    '_listops'    : [ listOperators, 0 ],
     '_makebal'    : [ makeBalancedPrimes, 3 ],
     '_makecousin' : [ makeCousinPrimes, 3 ],
     '_makeprimes' : [ makeLargePrimes, 3 ],
@@ -2510,6 +2736,39 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
         result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + imaginaryValue + 'j )'
 
     return result
+
+
+
+#//******************************************************************************
+#//
+#//  formatListOutput
+#//
+#//******************************************************************************
+
+def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
+                      decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
+    resultString = ''
+
+    for item in result:
+        if resultString == '':
+            resultString = '[ '
+        else:
+            resultString += ', '
+
+        if isinstance( item, list ):
+            resultString += formatListOutput( item, radix, numerals, integerGrouping, integerDelimiter,
+                                              leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
+                                              outputAccuracy )
+        else:
+            itemString = nstr( item, mp.dps )
+
+            resultString += formatOutput( itemString, radix, numerals, integerGrouping, integerDelimiter,
+                                          leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
+                                          outputAccuracy )
+
+    resultString += ' ]'
+
+    return resultString
 
 
 #//******************************************************************************
@@ -2805,6 +3064,7 @@ def main( ):
     global sophiePrimes
     global tripletPrimes
     global twinPrimes
+    global updateDicts
 
     # initialize globals
     nestedListLevel = 0
@@ -3008,7 +3268,8 @@ def main( ):
             try:
                 modifiers[ term ]( currentValueList )
             except IndexError as error:
-                print( "rpn:  index error for operator at arg " + format( index ) + ".  Are your arguments in the right order?" )
+                print( "rpn:  index error for operator at arg " + format( index ) +
+                       ".  Are your arguments in the right order?" )
                 break
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
@@ -3050,7 +3311,8 @@ def main( ):
         elif term in list_operators:
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < 1:
-                print( "rpn:  error in arg " + format( index ) + ":  operator " + term + " requires a list argument" )
+                print( "rpn:  error in arg " + format( index ) + ":  operator " + term +
+                       " requires a list argument" )
                 break
 
             try:
@@ -3066,12 +3328,14 @@ def main( ):
                 print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
             except IndexError as error:
-                print( "rpn:  index error for operator at arg " + format( index ) + ".  Are your arguments in the right order?" )
+                print( "rpn:  index error for operator at arg " + format( index ) +
+                       ".  Are your arguments in the right order?" )
                 break
         elif term in list_operators_2:
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < 2:
-                print( "rpn:  error in arg " + format( index ) + ":  operator " + term + " requires two arguments" )
+                print( "rpn:  error in arg " + format( index ) + ":  operator " + term +
+                       " requires two arguments" )
                 break
 
             try:
@@ -3103,7 +3367,8 @@ def main( ):
                 print( "rpn:  error in arg " + format( index ) + ":  {0}".format( error ) )
                 break
             except TypeError as error:
-                print( "rpn:  error in arg " + format( index ) + ":  unrecognized argument: '%s'" % sys.argv[ index ] )
+                print( "rpn:  error in arg " + format( index ) +
+                       ":  unrecognized argument: '%s'" % sys.argv[ index ] )
                 break
 
         index = index + 1
@@ -3122,21 +3387,9 @@ def main( ):
                 integerDelimiter = ' '
 
             if isinstance( result, list ):
-                resultString = ''
-
-                for item in result:
-                    if resultString == '':
-                        resultString = '[ '
-                    else:
-                        resultString += ', '
-
-                    itemString = nstr( item, mp.dps )
-
-                    resultString += formatOutput( itemString, outputRadix, numerals, integerGrouping,
-                                               integerDelimiter, leadingZero, args.decimal_grouping, ' ',
-                                               baseAsDigits, args.output_accuracy )
-
-                print( resultString + ' ]' )
+                print( formatListOutput( result, outputRadix, numerals, integerGrouping, integerDelimiter,
+                                         leadingZero, args.decimal_grouping, ' ', baseAsDigits,
+                                         args.output_accuracy ) )
             else:
                 # output the answer with all the extras according to command-line arguments
                 resultString = nstr( result, mp.dps )
@@ -3150,7 +3403,11 @@ def main( ):
                     formula = identify( result )
 
                     if formula is None:
-                        base = [ 'pi', 'e', 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime', 'omega' ]
+                        base = [ 'pi', 'e' ]
+                        formula = identify( result, base )
+
+                    if formula is None:
+                        base.append( 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' )
                         formula = identify( result, base )
 
                     if formula is None:
@@ -3176,7 +3433,10 @@ def main( ):
                         poly = str( findpoly( result, args.find_poly, maxcoeff=100000 ) )
 
                     if poly == 'None':
-                        poly = str( findpoly( result, args.find_poly, maxcoeff=100000, tol=1e-10 ) )
+                        poly = str( findpoly( result, args.find_poly, maxcoeff=1000000 ) )
+
+                    if poly == 'None':
+                        poly = str( findpoly( result, args.find_poly, maxcoeff=1000000, tol=1e-10 ) )
 
                     if poly == 'None':
                         print( '    = polynomial of degree <= %d not found' % args.find_poly )
