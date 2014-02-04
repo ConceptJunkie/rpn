@@ -17,7 +17,7 @@ from fractions import Fraction
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.4.7"
+RPN_VERSION = "3.5.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -48,7 +48,7 @@ class CFraction( list ):
 
     def __init__( self, value, maxterms=15, cutoff=1e-10 ):
         if isinstance( value, ( int, float, mpf ) ):
-            value = mpf( value )
+            value = mpmathify( value )
             remainder = floor( value )
             self.append( remainder )
 
@@ -185,7 +185,7 @@ def factorInteger( n ):
     if ( multiplication != exponents ):
         print( "    = " + getStringFromFactorsWithMultiplication( factors ) )
 
-    print
+    print( )
 
 
 #//******************************************************************************
@@ -207,9 +207,7 @@ def convertToPhiBase( num ):
     originalPlace = 0
 
     while remaining > epsilon:
-        #print( remaining )
         place = int( floor( log( remaining, phi ) ) )
-        #print( place )
 
         if start:
             output = '1'
@@ -249,32 +247,35 @@ def convertToPhiBase( num ):
 #//
 #//******************************************************************************
 
-def convertToFibBase( num ):
+def convertToFibBase( value ):
     # Return string with Fibonacci encoding for n (n >= 1).
     result = ""
+
+    n = value
 
     if n >= 1:
         a = 1
         b = 1
-        c = a + b   # next Fibonacci number
-        fibs = [b]  # list of Fibonacci numbers, starting with F(2), each <= n
+
+        c = fadd( a, b )    # next Fibonacci number
+        fibs = [ b ]        # list of Fibonacci numbers, starting with F(2), each <= n
+
         while n >= c:
-            fibs.append(c)  # add next Fibonacci number to end of list
+            fibs.append( c )  # add next Fibonacci number to end of list
             a = b
             b = c
-            c = a + b
-        result = "1"  # extra "1" at end
-        for fibnum in reversed(fibs):
+            c = fadd( a, b )
+
+        result = ""
+
+        for fibnum in reversed( fibs ):
             if n >= fibnum:
-                n = n - fibnum
-                result = "1" + result
+                n = fsub( n, fibnum )
+                result = result + "1"
             else:
-                result = "0" + result
+                result = result + "0"
 
     return result
-
-#print encode_fib(65)  # displays "0100100011"
-
 
 
 #//******************************************************************************
@@ -397,8 +398,8 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
 #//******************************************************************************
 
 def convertToBase10( integer, mantissa, inputRadix ):
-    result = mpf( 0 )
-    base = mpf( 1 )
+    result = mpmathify( 0 )
+    base = mpmathify( 1 )
 
     validNumerals = numerals[ : inputRadix ]
 
@@ -411,7 +412,7 @@ def convertToBase10( integer, mantissa, inputRadix ):
         result += digit * base
         base *= inputRadix
 
-    base = mpf( 1 ) / inputRadix
+    base = fdiv( 1, inputRadix )
 
     for i in range( 0, len( mantissa ) ):
         digit = validNumerals.find( mantissa[ i ] )
@@ -438,11 +439,11 @@ def getInvertedBits( valueList ):
     # determine how many groups of bits we will be looking at
     groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), bitwiseGroupSize ) ), 1 ) )
 
-    placeValue = mpf( 1 << bitwiseGroupSize )
-    multiplier = mpf( 1 )
+    placeValue = mpmathify( 1 << bitwiseGroupSize )
+    multiplier = mpmathify( 1 )
     remaining = value
 
-    result = mpf( 0 )
+    result = mpmathify( 0 )
 
     for i in range( 0, groupings ):
         result = fadd( fmul( fsum( [ placeValue, fneg( fmod( remaining, placeValue ) ), -1 ] ), multiplier ), result )
@@ -476,12 +477,12 @@ def performBitwiseOperation( valueList, operation ):
     if groupings2 > groupings:
         groupings = groupings2
 
-    placeValue = mpf( 1 << bitwiseGroupSize )
-    multiplier = mpf( 1 )
+    placeValue = mpmathify( 1 << bitwiseGroupSize )
+    multiplier = mpmathify( 1 )
     remaining1 = value1
     remaining2 = value2
 
-    result = mpf( 0 )
+    result = mpmathify( 0 )
 
     for i in range( 0, groupings ):
         mod1 = fmod( remaining1, placeValue )
@@ -716,7 +717,7 @@ def getNthPentagonalNumber( valueList ):
 
 def getAntiPentagonalNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( fdiv( fadd( power( ( fadd( fmul( 24 , n ), 1 ) ), 0.5 ), 1 ), 6 ) )
+    valueList.append( fdiv( fadd( sqrt( fadd( fmul( 24 , n ), 1 ) ), 1 ), 6 ) )
 
 
 #//******************************************************************************
@@ -859,8 +860,8 @@ def interpretAsBase( valueList ):
     while valueList:
         list.append( valueList.pop( ) )
 
-    value = mpf( 0 )
-    multiplier = mpf( 1 )
+    value = mpmathify( 0 )
+    multiplier = mpmathify( 1 )
 
     for i in list:
         value = fadd( value, fmul( i, multiplier ) )
@@ -937,7 +938,7 @@ def solveCubicPolynomial( a, b, c, d ):
     f = fdiv( fsub( fdiv( fmul( 3, c ), a ), fdiv( power( b, 2 ), power( a, 2 ) ) ), 3 )
 
     g = fdiv( fadd( fsub( fdiv( fmul( 2, power( b, 3 ) ), power( a, 3 ) ),
-                          fdiv( fmul( fmul( 9, b ), c ), power( a, 2 ) ) ),
+                          fdiv( fprod( [ 9, b, c ] ), power( a, 2 ) ) ),
                     fdiv( fmul( 27, d ), a ) ), 27 )
     h = fadd( fdiv( power( g, 2 ), 4 ), fdiv( power( f, 3 ), 27 ) )
 
@@ -968,17 +969,23 @@ def solveCubicPolynomial( a, b, c, d ):
         x2 = mpc( real, imaginary )
         x3 = mpc( real, fneg( imaginary ) )
     else:
-        i = power( fsub( fdiv( power( g, 2 ), 4 ), h ), 0.5 )
-        k = acos( fneg( fdiv( g, fmul( 2, i ) ) ) )
+        j = sqrt( fsub( fdiv( power( g, 2 ), 4 ), h ) )
+        k = acos( fneg( fdiv( g, fmul( 2, j ) ) ) )
+
+        if j < 0:
+            l = fneg( root( fneg( j ), 3 ) )
+        else:
+            l = root( j, 3 )
+
         m = cos( fdiv( k, 3 ) )
         n = fmul( sqrt( 3 ), sin( fdiv( k, 3 ) ) )
         p = fneg( fdiv( b, fmul( 3, a ) ) )
 
-        x1 = fsub( fmul( fmul( 2, j ), cos( fdiv( k, 3 ) ) ), fdiv( b, fmul( 3, a ) ) )
-        x2 = fadd( fmul( fneg( root( i, 3 ) ), fadd( m, n ) ), p )
-        x3 = fadd( fmul( fneg( root( i, 3 ) ), fsub( m, n ) ), p )
+        x1 = fsub( fmul( fmul( 2, l ), cos( fdiv( k, 3 ) ) ), fdiv( b, fmul( 3, a ) ) )
+        x2 = fadd( fmul( fneg( l ), fadd( m, n ) ), p )
+        x3 = fadd( fmul( fneg( l ), fsub( m, n ) ), p )
 
-    return x1, x2, x3
+    return chop( x1 ), chop( x2 ), chop( x3 )
 
 
 #//******************************************************************************
@@ -988,8 +995,8 @@ def solveCubicPolynomial( a, b, c, d ):
 #//******************************************************************************
 
 def solveOrder3( valueList ):
-    if mp.dps < 20:
-        mp.dps = 20
+    if mp.dps < 30:
+        mp.dps = 30
 
     d = valueList.pop( )
     c = valueList.pop( )
@@ -1011,22 +1018,51 @@ def solveOrder3( valueList ):
 
 def solveQuarticPolynomial( a, b, c, d, e ):
     f = fsub( c, fdiv( fmul( 3, power( b, 2 ) ), 8 ) )
-
-    print( f )
-
     g = fsub( fadd( d, fdiv( power( b, 3 ), 8 ) ), fdiv( fmul( b, c ), 2 ) )
     h = fadd( fsub( e, fdiv( fmul( 3, power( b, 4 ) ), 256 ) ),
               fsub( fmul( power( b, 2 ), fdiv( c, 16 ) ), fdiv( fmul( b, d ), 4 ) ) )
 
-    y1, y2, y3 = solveCubicPolynomial( 1, fdiv( f, 2 ), fdiv( fsub( power( f, 2 ),
-                                       fmul( 4, h ) ), 16 ), fneg( fdiv( power( g, 2 ), 64 ) ) )
+    y1, y2, y3 = solveCubicPolynomial( 1, fdiv( f, 2 ), fdiv( fsub( power( f, 2 ), fmul( 4, h ) ), 16 ),
+                                       fneg( fdiv( power( g, 2 ), 64 ) ) )
 
-    x1 = 0
-    x2 = 0
-    x3 = 0
-    x4 = 0
+    # pick two non-zero roots, if there are two imaginary roots, use them
+    if im( y1 ) != 0:
+        root1 = y1
 
-    return x1, x2, x3, x4
+        if y2 == 0 or im( y2 ) == 0:
+            root2 = y3
+        else:
+            root2 = y2
+    elif y1 == 0:
+        root1 = y2
+        root2 = y3
+    elif y2 == 0:
+        root1 = y1
+        root2 = y3
+    else:
+        root1 = y2
+        root2 = y3
+
+    # more variables...
+    if re( root1 ) > 0:
+        p = sqrt( root1 )
+    else:
+        p = fneg( sqrt( fneg( root1 ) ) )
+
+    if re( root2 ) > 0:
+        q = sqrt( root2 )
+    else:
+        q = fneg( sqrt( fneg( root2 ) ) )
+
+    r = fdiv( fneg( g ), fprod( [ 8, p, q ] ) )
+    s = fneg( fdiv( b, fmul( 4, a ) ) )
+
+    x1 = fsum( [ p, q, r, s ] )
+    x2 = fsum( [ p, fneg( q ), fneg( r ), s ] )
+    x3 = fsum( [ fneg( p ), q, fneg( r ), s ] )
+    x4 = fsum( [ fneg( p ), fneg( q ), r, s ] )
+
+    return chop( x1 ), chop( x2 ), chop( x3 ), chop( x4 )
 
 
 #//******************************************************************************
@@ -1045,7 +1081,8 @@ def solveOrder4( valueList ):
     b = valueList.pop( )
     a = valueList.pop( )
 
-    x1, x2, x3, x4 = solveQuarticPolynomial( a, b, c, d, e )
+    x1, x2, x3, x4 = solveQuarticPolynomial( mpmathify( 1 ), fdiv( b, a ), fdiv( c, a ),
+                                             fdiv( d, a ), fdiv( e, a ) )
 
     valueList.append( [ x1, x2, x3, x4 ] )
 
@@ -1192,7 +1229,7 @@ expressions = {
 
 def parseInputValue( term, inputRadix ):
     if term == '0':
-        return mpf( 0 )
+        return mpmathify( 0 )
 
     if term[ 0 ] == '\\':
         term = term[ 1 : ]
@@ -1207,7 +1244,7 @@ def parseInputValue( term, inputRadix ):
             if mp.dps < newPrecision:
                 mp.dps = newPrecision
 
-            return mpf( term )
+            return mpmathify( term )
 
         decimal = term.find( '.' )
     else:
@@ -1236,7 +1273,7 @@ def parseInputValue( term, inputRadix ):
                 if mp.dps < newPrecision:
                     mp.dps = newPrecision
 
-                return mpf( int( integer[ 2 : ], 16 ) )
+                return mpmathify( int( integer[ 2 : ], 16 ) )
             elif integer[ -1 ] in 'bB':
                 # set the precision big enough to handle this value
                 newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
@@ -1245,22 +1282,22 @@ def parseInputValue( term, inputRadix ):
                     mp.dps = newPrecision
 
                 integer = integer[ : -1 ]
-                return mpf( int( integer, 2 ) * ( -1 if negative else 1 ) )
+                return mpmathify( int( integer, 2 ) * ( -1 if negative else 1 ) )
             else:
                 integer = integer[ 1 : ]
 
-                return mpf( int( integer, 8 ) )
+                return mpmathify( int( integer, 8 ) )
         elif inputRadix == 10:
             newPrecision = len( integer ) + 1
 
             if mp.dps < newPrecision:
                 mp.dps = newPrecision
 
-            return fneg( integer ) if negative else mpf( integer )
+            return fneg( integer ) if negative else mpmathify( integer )
 
     # finally, we have a non-radix 10 number to parse
     result = convertToBase10( integer, mantissa, inputRadix )
-    return fneg( result ) if negative else mpf( result )
+    return fneg( result ) if negative else mpmathify( result )
 
 
 #//******************************************************************************
@@ -1316,14 +1353,17 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
             mantissa = mantissa.rstrip( '0' )
 
     #print( "mantissa: %s" % mantissa )
+    #print( "output: %s" % output )
 
     if radix == phiBase:
-        integer, mantissa = convertToPhiBase( mpf( output ) )
+        integer, mantissa = convertToPhiBase( mpmathify( output ) )
+    elif radix == fibBase:
+        integer = convertToFibBase( floor( mpmathify( output ) ) )
     elif radix != 10 or numerals != defaultNumerals:
-        integer = str( convertToBaseN( mpf( integer ), radix, baseAsDigits, numerals ) )
+        integer = str( convertToBaseN( mpmathify( integer ), radix, baseAsDigits, numerals ) )
 
         if mantissa:
-            mantissa = str( convertFractionToBaseN( mpf( '.' + mantissa ), radix,
+            mantissa = str( convertFractionToBaseN( mpmathify( '0.' + mantissa ), radix,
                             int( ( mp.dps - integerLength ) / math.log10( radix ) ),
                             baseAsDigits, outputAccuracy ) )
     else:
@@ -1633,12 +1673,7 @@ def main( ):
         bitwiseGroupSize = 9
 
     # handle -b
-    if args.input_radix == 'phi':
-        intputRadix = phiBase
-    elif args.output_radix == 'fib':
-        inputRadix = fibBase
-    else:
-        inputRadix = int( args.input_radix )
+    inputRadix = int( args.input_radix )
 
     # handle -R
     if args.output_radix_numerals > 0:
@@ -1683,8 +1718,6 @@ def main( ):
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
-        argType = expressions
-
         if term in expressions:
             argsNeeded = expressions[ term ][ 1 ]
 
@@ -1738,7 +1771,7 @@ def main( ):
 
             if args.continued_fraction:
                 try:
-                    cf = CFraction( mpf( result ), maxterms=args.continued_fraction )
+                    cf = CFraction( mpmathify( result ), maxterms=args.continued_fraction )
                 except KeyboardInterrupt as error:
                     print( "rpn:  keyboard interrupt" )
                     return
