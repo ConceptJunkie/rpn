@@ -24,7 +24,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.6.0"
+RPN_VERSION = "4.7.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -43,9 +43,6 @@ numerals = ""
 
 phiBase = -1
 fibBase = -2
-
-numberArg = -1
-listArg = -2
 
 inputRadix = 10
 
@@ -558,7 +555,7 @@ def getNthSexyPrimes( arg ):
 
     if n >= 100:
         if sexyPrimes == { }:
-            sexyPrimes = loadCousinPrimes( )
+            sexyPrimes = loadSexyPrimes( )
 
         startingPlace = max( key for key in sexyPrimes if key <= n )
         p = sexyPrimes[ startingPlace ]
@@ -1232,8 +1229,8 @@ def getNthSylvester( n ):
 #//
 #//******************************************************************************
 
-def getNthTriangularNumber( i ):
-    return fdiv( fmul( i, fadd( i, 1 ) ), 2 )
+def getNthTriangularNumber( n ):
+    return fdiv( fmul( n, fadd( n, 1 ) ), 2 )
 
 
 #//******************************************************************************
@@ -1244,8 +1241,8 @@ def getNthTriangularNumber( i ):
 #//
 #//******************************************************************************
 
-def getAntiTriangularNumber( i ):
-    return fmul( 0.5, fsub( sqrt( fadd( fmul( 8, i ), 1 ) ), 1 ) )
+def getAntiTriangularNumber( n ):
+    return fmul( 0.5, fsub( sqrt( fadd( fmul( 8, n ), 1 ) ), 1 ) )
 
 
 #//******************************************************************************
@@ -1256,8 +1253,8 @@ def getAntiTriangularNumber( i ):
 #//
 #//******************************************************************************
 
-def getAntiHexagonalNumber( ui ):
-    return fdiv( fadd( sqrt( fadd( fmul( 8, i ), 1 ) ), 1 ), 4 )
+def getAntiHexagonalNumber( n ):
+    return fdiv( fadd( sqrt( fadd( fmul( 8, n ), 1 ) ), 1 ), 4 )
 
 
 #//******************************************************************************
@@ -1266,8 +1263,8 @@ def getAntiHexagonalNumber( ui ):
 #//
 #//******************************************************************************
 
-def getNthTetrahedralNumber( i ):
-    return fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 )
+def getNthTetrahedralNumber( n ):
+    return fdiv( fsum( [ power( n, 3 ), fmul( 3, power( n, 2 ) ), fmul( 2, n ) ] ), 6 )
 
 
 #//******************************************************************************
@@ -1278,7 +1275,7 @@ def getNthTetrahedralNumber( i ):
 #//
 #//******************************************************************************
 
-def getAntiTetrahedralNumber( i ):
+def getAntiTetrahedralNumber( n ):
     sqrt3 = sqrt( 3 )
     curt3 = cbrt( 3 )
 
@@ -1290,21 +1287,165 @@ def getAntiTetrahedralNumber( i ):
 
 #//******************************************************************************
 #//
+#//  getNthTruncatedTetrahedralNumber
+#//
+#//  Take the (3n-2)th terahedral number and chop off the (n-1)th tetrahedral
+#//  number from each corner.
+#//
+#//  from Conway and Guy's "The Book of Numbers"
+#//
+#//******************************************************************************
+
+def getNthTruncatedTetrahedralNumber( n ):
+    return fmul( fdiv( n, 6 ), fsum( [ fprod( [ 23, n, n ] ), fmul( -27, n ), 10 ] ) )
+
+
+#//******************************************************************************
+#//
 #//  getNthSquareTriangularNumber
 #//
 #//******************************************************************************
 
-def getNthSquareTriangularNumber( i ):
-    neededPrecision = int( i * 3.5 )  # determined by experimentation
+def getNthSquareTriangularNumber( n ):
+    neededPrecision = int( n * 3.5 )  # determined by experimentation
 
     if mp.dps < neededPrecision:
         mp.dps = neededPrecision
 
     sqrt2 = sqrt( 2 )
 
-    return ceil( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, i ) ),
-                                    power( fsub( 1, sqrt2 ), fmul( 2, i ) ) ),
+    return ceil( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, n ) ),
+                                    power( fsub( 1, sqrt2 ), fmul( 2, n ) ) ),
                               fmul( 4, sqrt2 ) ), 2 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthPyramidalNumber
+#//
+#//  from Conway and Guy's "The Book of Numbers"
+#//
+#//******************************************************************************
+
+def getNthPyramidalNumber( n ):
+    return fprod( [ fdiv( n, 6 ), fadd( n, 1 ), fadd( fmul( 2, n ), 1 ) ] )
+
+
+#//******************************************************************************
+#//
+#//  getNthOctahedralNumber
+#//
+#//  Oct( n ) = Pyr( n ) + Pyr( n - 1)
+#//
+#//  from Conway and Guy's "The Book of Numbers"
+#//
+#//******************************************************************************
+
+def getNthOctahedralNumber( n ):
+    return fmul( fdiv( n, 3 ), fadd( fprod( [ 2, n, n ] ), 1 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthStellaOctangulaNumber
+#//
+#//  Stel( n ) = Oct( n ) + 8 Tet( n - 1 )
+#//
+#//  from Conway and Guy's "The Book of Numbers"
+#//
+#//******************************************************************************
+
+def getNthStellaOctangulaNumber( n ):
+    return fmul( 2, fsub( fprod( [ 2, n, n ] ), 1 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthCenteredCube
+#//
+#//  from Conway and Guy's "The Book of Numbers"
+#//
+#//******************************************************************************
+
+def getNthCenteredCubeNumber( n ):
+    return fadd( power( n, 3 ), power( fsub( n, 1 ), 3 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthTruncatedOctahedralNumber
+#//
+#//  Take the (3n-2)th octahedral number and chop off the (n-1)th square pyramid
+#//  number from each of the six vertices.
+#//
+#//  16n^3 - 33n^2 + 24n - 6
+#//
+#//  from Conway and Guy's "The Book of Numbers"
+#//
+#//******************************************************************************
+
+def getNthTruncatedOctahedralNumber( n ):
+    return polyval( [ 16, -33, 24, 6 ], n )
+
+
+#//******************************************************************************
+#//
+#//  getNthRhombicDodecahedralNumber
+#//
+#//  Take the (3n-2)th octahedral number and chop off the (n-1)th square pyramid
+#//  number from each of the six vertices.
+#//
+#//  Rho(n) = CCub(n) + 6 Pyr(n-1)
+#//
+#//  4n^3 + 6n^2 + 4n + 1
+#//
+#//  from Conway and Guy's "The Book of Numbers"
+#//
+#//******************************************************************************
+
+def getNthRhombicDodecahedralNumber( n ):
+    return polyval( [ 4, 6, 4, 1 ], n )
+
+
+#//******************************************************************************
+#//
+#//  getNthPentatopeNumber
+#//
+#//  1/24n ( n + 1 )( n + 2 )( n + 3 )
+#//
+#//  1/24 n^4 + 1/4 n^3 + 11/24 n^2 + 1/4 n
+#//
+#//  1/24 ( n^4 + 6 n^3 + 11 n^2 + 6n )
+#//
+#//  from Conway and Guy's "The Book of Numbers"
+#//
+#//******************************************************************************
+
+def getNthPentatopeNumber( n ):
+    return fdiv( polyval( [ 1, 6, 11, 6, 0 ], n ), 24 )
+
+
+#//******************************************************************************
+#//
+#//  getNthPolytopeNumber
+#//
+#//  d = dimension
+#//
+#//  ( 1 / ( d - 1 )! ) PI k=0 to n-1 ( n + k )
+#//
+#//  from Conway and Guy's "The Book of Numbers"
+#//
+#//******************************************************************************
+
+def getNthPolytopeNumber( n, d ):
+    result = n
+    m = n + 1
+
+    for i in arange( 1, d - 1 ):
+        result = fmul( result, m )
+        m += 1
+
+    return fdiv( result, fac( d - 1 ) )
 
 
 #//******************************************************************************
@@ -1964,6 +2105,7 @@ list_operators = {
 
 list_operators_2 = {
     'base'      : interpretAsBase,
+    'polyval'   : polyval,
 }
 
 operators = {
@@ -2004,6 +2146,7 @@ operators = {
     'binomial'    : [ binomial, 2 ],
     'catalan'     : [ catalan, 0 ],
     'cbrt'        : [ cbrt, 1 ],
+    'ccube'       : [ getNthCenteredCubeNumber, 1 ],
     'ceil'        : [ ceil, 1 ],
     'cf2'         : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
     'champ'       : [ getChampernowne, 0 ],
@@ -2062,24 +2205,31 @@ operators = {
     'mulitply'    : [ fmul, 2 ],
     'mult'        : [ fmul, 2 ],
     'neg'         : [ fneg, 1 ],
-    'nPr'         : [ getPermutations, 2 ],
     'npr'         : [ getPermutations, 2 ],
+    'nPr'         : [ getPermutations, 2 ],
+    'oct'         : [ getNthOctahedralNumber, 1 ],
+    'octahedral'  : [ getNthOctahedralNumber, 1 ],
     'omega'       : [ lambda: lambertw( 1 ), 0 ],
     'or'          : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
     'pent'        : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1 ],
+    'pentatope'   : [ getNthPentatopeNumber, 1 ],
     'perm'        : [ getPermutations, 2 ],
     'phi'         : [ phi, 0 ],
     'pi'          : [ pi, 0 ],
     'plastic'     : [ getPlasticConstant, 0 ],
+    'polytope'    : [ getNthPolytopeNumber, 2 ],
     'power'       : [ power, 2 ],
     'prime'       : [ getNthPrime, 1 ],
     'primepi'     : [ primepi, 1 ],
+    'pyr'         : [ getNthPyramidalNumber, 1 ],
+    'pyramid'     : [ getNthPyramidalNumber, 1 ],
     'quad'        : [ getNthQuadrupletPrimes, 1 ],
     'quadprime'   : [ getNthQuadrupletPrimes, 1 ],
     'rad'         : [ degrees, 1 ],
     'radians'     : [ degrees, 1 ],
     'rand'        : [ rand, 0 ],
     'random'      : [ rand, 0 ],
+    'rhombdodec'  : [ getNthRhombicDodecahedralNumber, 1 ],
     'root'        : [ root, 2 ],
     'root2'       : [ sqrt, 1 ],
     'root3'       : [ cbrt, 1 ],
@@ -2097,6 +2247,7 @@ operators = {
     'sqr'         : [ lambda i: power( i, 2 ), 1 ],
     'sqrt'        : [ sqrt, 1 ],
     'sqtri'       : [ getNthSquareTriangularNumber, 1 ],
+    'steloct'     : [ getNthStellaOctangulaNumber, 1 ],
     'sub'         : [ fsub, 2 ],
     'subtract'    : [ fsub, 2 ],
     'superfac'    : [ superfac, 1 ],
@@ -2109,6 +2260,8 @@ operators = {
     'tri'         : [ getNthTriangularNumber, 1 ],
     'triplet'     : [ getNthTripletPrimes, 1 ],
     'tripletprime': [ getNthTripletPrimes, 1 ],
+    'truncoct'    : [ getNthTruncatedOctahedralNumber, 1 ],
+    'trunctet'    : [ getNthTruncatedTetrahedralNumber, 1 ],
     'twin'        : [ getNthTwinPrimes, 1 ],
     'twinprime'   : [ getNthTwinPrimes, 1 ],
     'unitroots'   : [ lambda i: unitroots( int( i ) ), 1 ],
@@ -2117,19 +2270,19 @@ operators = {
     '^'           : [ power, 2 ],
     '_dumpbal'    : [ dumpBalancedPrimes, 0 ],
     '_dumpcousin' : [ dumpCousinPrimes, 0 ],
-    '_dumpsmall'  : [ dumpSmallPrimes, 0 ],
     '_dumpprimes' : [ dumpLargePrimes, 0 ],
     '_dumpquad'   : [ dumpQuadrupletPrimes, 0 ],
     '_dumpsexy'   : [ dumpSexyPrimes, 0 ],
+    '_dumpsmall'  : [ dumpSmallPrimes, 0 ],
     '_dumpsophie' : [ dumpSophiePrimes, 0 ],
     '_dumptriplet': [ dumpTripletPrimes, 0 ],
     '_dumptwin'   : [ dumpTwinPrimes, 0 ],
     '_makebal'    : [ makeBalancedPrimes, 3 ],
     '_makecousin' : [ makeCousinPrimes, 3 ],
-    '_makesmall'  : [ makeSmallPrimes, 3 ],
     '_makeprimes' : [ makeLargePrimes, 3 ],
     '_makequad'   : [ makeQuadrupletPrimes, 3 ],
     '_makesexy'   : [ makeSexyPrimes, 3 ],
+    '_makesmall'  : [ makeSmallPrimes, 3 ],
     '_makesophie' : [ makeSophiePrimes, 3 ],
     '_maketriplet': [ makeTripletPrimes, 3 ],
     '_maketwin'   : [ makeTwinPrimes, 3 ],
@@ -2891,9 +3044,9 @@ def main( ):
             except ValueError as error:
                 print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
-#            except TypeError as error:
-#                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
-#                break
+            except TypeError as error:
+                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                break
         elif term in list_operators:
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < 1:
@@ -2962,7 +3115,7 @@ def main( ):
             result = valueList.pop( )
 
             if args.comma:
-                integerGrouping = 3     # overridde whatever was set on the command-line
+                integerGrouping = 3     # override whatever was set on the command-line
                 leadingZero = False     # this one, too
                 integerDelimiter = ','
             else:
@@ -2997,6 +3150,14 @@ def main( ):
                     formula = identify( result )
 
                     if formula is None:
+                        base = [ 'pi', 'e', 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime', 'omega' ]
+                        formula = identify( result, base )
+
+                    if formula is None:
+                        base.append( 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' )
+                        formula = identify( result, base )
+
+                    if formula is None:
                         print( '    = [formula cannot be found]' )
                     else:
                         print( '    = ' + formula )
@@ -3004,6 +3165,18 @@ def main( ):
                 # handle --find_poly
                 if args.find_poly > 0:
                     poly = str( findpoly( result, args.find_poly ) )
+
+                    if poly == 'None':
+                        poly = str( findpoly( result, args.find_poly, maxcoeff=1000 ) )
+
+                    if poly == 'None':
+                        poly = str( findpoly( result, args.find_poly, maxcoeff=10000 ) )
+
+                    if poly == 'None':
+                        poly = str( findpoly( result, args.find_poly, maxcoeff=100000 ) )
+
+                    if poly == 'None':
+                        poly = str( findpoly( result, args.find_poly, maxcoeff=100000, tol=1e-10 ) )
 
                     if poly == 'None':
                         print( '    = polynomial of degree <= %d not found' % args.find_poly )
