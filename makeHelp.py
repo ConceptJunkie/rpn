@@ -25,9 +25,9 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.7.3'
+PROGRAM_VERSION = '5.7.4'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
-COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
+COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
 defaultPrecision = 20
 defaultAccuracy = 10

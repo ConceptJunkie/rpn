@@ -28,9 +28,9 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.7.3'
+PROGRAM_VERSION = '5.7.4'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
-COPYRIGHT_MESSAGE = 'copyright (c) 2013, Rick Gutleber (rickg@his.com)'
+COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
 
 #//******************************************************************************
@@ -245,7 +245,7 @@ unitOperators = {
         UnitInfo( 'pressure', 'pascal', 'pascal', 'Pa', [ ] ),
 
     'psi' :
-        UnitInfo( 'pressure', 'psi', 'pounds/inch^2', 'psi', [ 'lb/in^2' ] ),
+        UnitInfo( 'pressure', 'pound/inch^2', 'pounds/inch^2', 'psi', [ 'lb/in^2' ] ),
 
     'torr' :
         UnitInfo( 'pressure', 'torr', 'torr', '', [ ] ),
@@ -276,7 +276,7 @@ unitOperators = {
     # velocity
 
     'meter/second' :
-        UnitInfo( 'velocity', 'meter/second', 'meters per second', 'c', [ 'light' ] ),
+        UnitInfo( 'velocity', 'meter/second', 'meters per second', 'm/s', [ 'light' ] ),
 
     'light' :
         UnitInfo( 'velocity', 'light', 'x_speed_of_light', 'c', [ 'speed_of_light' ] ),
@@ -611,7 +611,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
                     newAliases[ 'sq' + unitInfo.abbrev ] = newOp
 
                 newOperators[ newOp ] = \
-                    UnitInfo( 'area', newOp, 'square_' + unitInfo.plural, abbrev, [ ] )
+                    UnitInfo( 'area', operator + '^2', 'square_' + unitInfo.plural, abbrev, [ ] )
 
                 newAliases[ 'square_' + unitInfo.plural ] = newOp
                 newAliases[ 'sq' + unitInfo.plural ] = newOp
@@ -628,8 +628,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
                     newAliases[ 'cu' + unitInfo.abbrev ] = newOp
 
                 newOperators[ newOp ] = \
-                    UnitInfo( 'volume', operator + '^3',
-                              'cubic_' + unitInfo.plural, abbrev, [ ] )
+                    UnitInfo( 'volume', operator + '^3', 'cubic_' + unitInfo.plural, abbrev, [ ] )
 
                 newAliases[ 'cubic_' + unitInfo.plural ] = newOp
                 newAliases[ 'cu' + unitInfo.plural ] = newOp

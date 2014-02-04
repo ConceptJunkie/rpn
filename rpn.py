@@ -41,9 +41,9 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.7.3'
+PROGRAM_VERSION = '5.7.4'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
-COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
+COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
 defaultPrecision = 20
 defaultAccuracy = 10
@@ -172,7 +172,10 @@ def parseUnitString( expression ):
 #//******************************************************************************
 
 def getUnitType( unit ):
-    return unitOperators[ unit ].unitType
+    if unit in unitOperators:
+        return unitOperators[ unit ].unitType
+    else:
+        return unit 
 
 
 #//******************************************************************************
@@ -182,12 +185,17 @@ def getUnitType( unit ):
 #//******************************************************************************
 
 def getSimpleUnitType( unit ):
-    return unitTypes[ getUnitType( unit ) ]
+    if unit in unitOperators:
+        return unitOperators[ unit ].representation
+    else:
+        return unit 
 
 
 #//******************************************************************************
 #//
 #//  getSimpleUnitTypes
+#//
+#//  not sure what this should do, or is doing...
 #//
 #//******************************************************************************
 
@@ -248,7 +256,7 @@ def invertUnits( units ):
 #//******************************************************************************
 
 def divideUnits( units1, units2 ):
-    newUnits = combineUnits( units1, invertUnits( units2 ) )
+    newUnits = combineUnits( simplifyUnits( units1 ), invertUnits( simplifyUnits( units2 ) ) )
 
     result = { }
 
@@ -261,12 +269,35 @@ def divideUnits( units1, units2 ):
 
 #//******************************************************************************
 #//
+#//  simplifyUnits
+#//
+#//******************************************************************************
+
+def simplifyUnits( units ):
+    result = { }
+    
+    for unit in units:
+        simpleUnits = parseUnitString( unitOperators[ unit ].representation ) 
+
+        exponent = units[ unit ]
+
+        if exponent != 1:   # handle exponent
+            for unit2 in simpleUnits:
+                simpleUnits[ unit2 ] *= exponent
+
+        result = combineUnits( result, simpleUnits )        
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  multiplyUnits
 #//
 #//******************************************************************************
 
 def multiplyUnits( units1, units2 ):
-    newUnits = combineUnits( units1, units2 )
+    newUnits = combineUnits( simplifyUnits( units1 ), simplifyUnits( units2 ) )
 
     result = { }
 
@@ -6058,22 +6089,8 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
 
 def formatUnits( measurement ):
     unitString = ''
-    units = measurement.getUnits( )
-
-    newUnits = { }
-
+    units = simplifyUnits( measurement.getUnits( ) )
     value = mpf( measurement )
-
-    # some units are really compound units
-    for unit in units:
-        parsed = parseUnitString( unit )
-
-        for unit2 in parsed:
-            parsed[ unit2 ] *= units[ unit ]
-
-        newUnits = multiplyUnits( newUnits, parsed )
-
-    units = newUnits
 
     # now that we've expanded the compound units, let's format...
     for unit in units:
@@ -6143,7 +6160,7 @@ def printGeneralHelp( basicCategories, operatorCategories ):
     print( )
     printParagraph(
 '''For help on a specific topic, add a help topic, operator category or a specific operator name.  Adding
-'example', or 'ex' after an operator name will result in examples of using being printed as well.''' )
+'example', or 'ex' after an operator name will result in examples of use being printed as well.''' )
     print( )
     print( 'The following is a list of general topics:' )
     print( )
