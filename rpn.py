@@ -18,7 +18,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.0.1"
+RPN_VERSION = "4.0.2"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -274,10 +274,10 @@ def convertToFibBase( value ):
 def convertToBaseN( value, base, baseAsDigits, numerals ):
     if baseAsDigits:
         if ( base < 2 ):
-            raise ValueError( 'Base must be greater than 1' )
+            raise ValueError( 'base must be greater than 1' )
     else:
         if not ( 2 <= base <= len( numerals ) ):
-            raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
+            raise ValueError( 'base must be from 2 to %d' % len( numerals ) )
 
     if value == 0:
         return 0
@@ -314,13 +314,13 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
 def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
     if baseAsDigits:
         if ( base < 2 ):
-            raise ValueError( 'Base must be greater than 1' )
+            raise ValueError( 'base must be greater than 1' )
     else:
         if not ( 2 <= base <= len( numerals ) ):
-            raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
+            raise ValueError( 'base must be from 2 to %d' % len( numerals ) )
 
     if value < 0 or value >= 1.0:
-        raise ValueError( 'Value (%s) must be >= 0 and < 1.0' % value )
+        raise ValueError( 'value (%s) must be >= 0 and < 1.0' % value )
 
     if base == 10:
         return str( value )
@@ -371,7 +371,7 @@ def convertToBase10( integer, mantissa, inputRadix ):
         digit = validNumerals.find( integer[ i ] )
 
         if digit == -1:
-            raise ValueError( 'Invalid numeral \'%c\' for base %d' % ( integer[ i ], inputRadix ) )
+            raise ValueError( 'invalid numeral \'%c\' for base %d' % ( integer[ i ], inputRadix ) )
 
         result += digit * base
         base *= inputRadix
@@ -382,7 +382,7 @@ def convertToBase10( integer, mantissa, inputRadix ):
         digit = validNumerals.find( mantissa[ i ] )
 
         if digit == -1:
-            raise ValueError( 'Invalid numeral \'%c\' for base %d' % ( mantissa[ i ], inputRadix ) )
+            raise ValueError( 'invalid numeral \'%c\' for base %d' % ( mantissa[ i ], inputRadix ) )
 
         result += digit * base
         base /= inputRadix
@@ -624,7 +624,7 @@ def getNthSquareTriangularNumber( i ):
 
 def getPermutations( n, r ):
     if ( r > n ):
-        raise ValueError( 'Number of elements (%d) cannot exceed the size of the set (%d)' % ( r, n ) )
+        raise ValueError( 'number of elements (%d) cannot exceed the size of the set (%d)' % ( r, n ) )
 
     return fdiv( fac( n ), fac( fsub( n, r ) ) )
 
@@ -690,7 +690,7 @@ def getPlasticConstant( ):
 def solveQuadraticPolynomial( a, b, c ):
     if a == 0:
         if b == 0:
-            raise ValueError( "Invalid equation, no variable coefficients" )
+            raise ValueError( "invalid equation, no variable coefficients" )
         else:
             # linear equation, one root
             return [ fdiv( fneg( c ), b ) ]
@@ -854,7 +854,7 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
 
 def solvePolynomial( args ):
     if len( args ) < 2:
-        raise ValueError( "solve requires at least an order-1 polynomial (i.e., 2 terms)" )
+        raise ValueError( "'solve' requires at least an order-1 polynomial (i.e., 2 terms)" )
 
     return polyroots( args )
 
@@ -948,7 +948,7 @@ def decrementNestedListLevel( valueList ):
     nestedListLevel -= 1
 
     if nestedListLevel < 0:
-        raise ValueError( "Negative list level (too many ']'s)" )
+        raise ValueError( "negative list level (too many ']'s)" )
 
 
 #//******************************************************************************
@@ -1085,7 +1085,7 @@ def getCurrentArgList( valueList ):
 #//******************************************************************************
 
 modifiers = {
-    'dup'       : duplicateTerm, # 2 ],
+    'dup'       : duplicateTerm, #2 ],
     'range'     : expandRange, #2 ],
     'range2'    : expandSteppedRange, #3 ],
     'georange'  : expandGeometricRange, #3 ],
@@ -1151,8 +1151,8 @@ list_operators = {
     'avg'       : lambda i: fdiv( fsum( i ), len( i ) ),
     'cf'        : convertFromContinuedFraction,
     'mean'      : lambda i: fdiv( fsum( i ), len( i ) ),
-    'mult'      : fprod,
     'prod'      : fprod,
+    'product'   : fprod,
     'solve'     : solvePolynomial,
     'sum'       : fsum,
     'tower'     : calculatePowerTower,
@@ -1169,7 +1169,6 @@ operators = {
     '*'         : [ fmul, 2 ],
     '**'        : [ power, 2 ],
     '***'       : [ tetrate, 2 ],
-    #'bernfrac'  : [ bernfrac, 1 ],
     '+'         : [ fadd, 2 ],
     '-'         : [ fsub, 2 ],
     '/'         : [ fdiv, 2 ],
@@ -1246,12 +1245,15 @@ operators = {
     'mertens'   : [ mertens, 0 ],
     'mod'       : [ fmod, 2 ],
     'modulo'    : [ fmod, 2 ],
+    'mulitply'  : [ fmul, 2 ],
+    'mult'      : [ fmul, 2 ],
     'neg'       : [ fneg, 1 ],
     'nPr'       : [ getPermutations, 2 ],
     'npr'       : [ getPermutations, 2 ],
     'omega'     : [ lambda: lambertw( 1 ), 0 ],
     'or'        : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
     'pent'      : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1 ],
+    'perm'      : [ getPermutations, 2 ],
     'phi'       : [ phi, 0 ],
     'pi'        : [ pi, 0 ],
     'plastic'   : [ getPlasticConstant, 0 ],
@@ -1275,7 +1277,10 @@ operators = {
     'sqr'       : [ lambda i: power( i, 2 ), 1 ],
     'sqrt'      : [ sqrt, 1 ],
     'sqtri'     : [ getNthSquareTriangularNumber, 1 ],
+    'sub'       : [ fsub, 2 ],
+    'subtract'  : [ fsub, 2 ],
     'superfac'  : [ superfac, 1 ],
+    'syl'       : [ getNthSylvester, 1 ],
     'sylvester' : [ getNthSylvester, 1 ],
     'tan'       : [ tan, 1 ],
     'tanh'      : [ tanh, 1 ],
@@ -1285,11 +1290,13 @@ operators = {
     'twinprime' : [ twinprime, 0 ],
     'unitroots' : [ lambda i: unitroots( int( i ) ), 1 ],
     'xor'       : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
+    'zeta'      : [ zeta, 1 ],
     '^'         : [ power, 2 ],
     '~'         : [ getInvertedBits, 1 ],
 #    'antitet'  : [ getAntiTetrahedralNumber, 1 ],
 #    'isprime'  : [ isPrime, 1 ],
 #    'powmod'   : [ getPowMod, 3 ],
+#    'bernfrac'  : [ bernfrac, 1 ],
 }
 
 
@@ -1523,10 +1530,10 @@ def printMoreHelp( ):
 Arguments are interpreted as Reverse Polish Notation.
 
 Supported unary operators (synonyms are separated by commas):
-    !, fac; %, mod, modulo; 1/x, inv (take reciprocal); abs;
-    cbrt, root3 (cube root); ceil; cube; exp; exp10; expphi; floor; gamma;
-    hypot; hyperfac; lgamma; log, ln; log10; neg; rand; round; sqr;
-    sqrt, root2; superfac
+    !, fac; !!, fac2 (double factorial); %, mod, modulo; 1/x, inv (take
+    reciprocal); abs; cbrt, root3 (cube root); ceil; cube; exp; exp10; expphi;
+    floor; gamma; hypot; hyperfac; lgamma; log, ln; log10; neg; rand; round;
+    sqr; sqrt, root2; superfac
 
 Supported unary trigonometric operators:
     deg, degrees (treat term as degrees (i.e., convert to radians), e.g.,
@@ -1537,23 +1544,26 @@ Supported unary trigonometric operators:
     sec; asec; sech; asech; csc; acsc; csch; acsch; cot; acot; coth; acoth
 
 Supported integer sequence unary operators:
-    fib (nth Fibonacci number); luc (nth Lucas number);
-    tri (nth triangular number); antitri (which triangular number is this);
-    pent (nth pentagonal number); antipent (which pentagonal number is this);
-    hex (nth hexagonal number); antihex (which hexagonal number is this);
-    sqtri (nth square triangular number)*; tet, tetra (nth tetrahedral number)
+    fib (nth Fibonacci number); luc, lucas (nth Lucas number); sylvester, syl
+    (nth Sylvester number); tri (nth triangular number); antitri (which
+    triangular number is this); pent (nth pentagonal number); antipent (which
+    pentagonal number is this); hex (nth hexagonal number); antihex (which
+    hexagonal number is this); sqtri (nth square triangular number)*; tet,
+    tetra (nth tetrahedral number)
 
     * requires sufficient precision for accuracy (see Notes)
 
 Supported binary operators:
-    +; -; *; /; **, ^ (power); *** (tetration); // (root); logxy;
-    nCr, ncr (combinations); nRp, nrp (permutations), dup (duplicate previous
-    term a number of times, useful with cf)
+    +, add; -, sub; *, mult; /, div; **, ^, power; ***, hyper4 (tetration);
+    hyper4_2 (tetration, right-associative); //, root; logxy; binomial, nCr,
+    ncr (combinations); perm, nRp, nrp (permutations)
 
-Supported multi operators (operate on all preceding operands):
-    sum; mult; mean, cf (treat all preceding terms as part of a continued
-    fraction, and evalutate), base (sort of the reverse of -R, with the
-    base being the last argument)
+Supported list operators (requires a list as an operand):
+    sum; prod; mean, avg, average; cf (treat as a continued fraction);
+    base (sort of the reverse of -R, with the base being the last argument);
+    solve (solve polynomial), altsum (sum terms, alternating add and subtract);
+    altsum2 (sum terms, alternating subtract and add); tower(calculate power
+    tower)
 
 Supported constants:
     e; pi; phi (the Golden Ratio); itoi (i^i); euler (Euler's constant);
@@ -1570,6 +1580,9 @@ Polynomial solvers:
     solve4 (solve quartic equation, 5 args)
     solve  (solve arbitrary polynomial, list of coefficients followed by
             the number of coefficients )
+
+Argument modifiers:
+    dup; range; range2; georange; interleave; [; ]
 
 Input:
     For integers, rpn understands hexidecimal input of the form '0x....'.
@@ -1640,7 +1653,7 @@ Basic trigonometry usage:
 
 Convert an IP address to a 32-bit value and back:
 
-    c:\>rpn 192 168 0 1 256 base -x
+    c:\>rpn [ 192 168 0 1 ] 256 base -x
     c0a8 0001
 
     c:\>rpn 0xc0a80001 -R 256
@@ -1648,53 +1661,68 @@ Convert an IP address to a 32-bit value and back:
 
 Construct the square root of two from a continued fraction:
 
-    c:\>rpn 2 sqrt
-    1.41421356237
+    c:\>rpn -p20 2 sqrt
+    1.41421356237309504880
 
-    c:\>rpn 2 sqrt -e20 -p20
-    1.4142135623730950488
-        = [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
-        ~= 22619537/15994428
+    c:\>rpn -p20 2 sqrt 20 cf2
+    [ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
 
-    c:\>rpn 1 2 20 dup cf -p20
-    1.41421356237
+    c:\>rpn -p20 2 sqrt 20 frac
+    [ 22619537, 15994428 ]
+
+    c:\>rpn -p20 [ 1 2 30 ] dup cf
+    1.41421356237309504880
+
+Calculate various constants:
+
+    Polya random walk constant
+        = rpn -p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 /
+                gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -
+
+    conic constant
+        = rpn -p20 2 [ 0 30 range ] ** [ 0 30 range ] ! / sum
+        = rpn -p20 e 2 **
+
+    Somos\' quadratic recurrence constant
+        = rpn -p20 [ 1 100 range ] [ 0.5 0.5 100 georange ] ** prod
+
+    Prevost constant
+        = rpn -p20 [ 1 100 range ] fib 1/x sum
+
+    Euler's number = rpn -p20 [ 0 100 range ] fac 1/x sum
+                   = rpn -p20 e
+
+    Gelfond constant
+        = rpn -p20 pi [ 0 100 range ] power [ 0 100 range ] ! / sum
+        = rpn -p20 e pi power
+
+    Bloch-Landau constant
+        = rpn -p20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /
+
+    Hausdorff dimension
+        = rpn -p20 2 [ 0 100 range ] 2 * 1 + power [ 0 100 range ] 2 * 1 + *
+            1/x sum 3 [ 0 100 range ] 2 * 1 + power [ 0 100 range ] 2 * 1 +
+            * 1/x sum /
+        = rpn -p20 3 log 2 log /
+
+    Machin-Gregory series
+        = rpn -p20 [ 1 1000 2 range2 ] 2 [ 1 1000 2 range2 ] power * 1/x altsum
+        = rpn -p20 1 2 / atan
+
+    Beta(3)
+        = rpn -p17 [ 1 1000000 2 range2 ] 3 power 1/x altsum
+        = rpn -p20 pi 3 power 32 /
+
+    Cahen's constant
+        = rpn -p20 [ 1 20 range ] sylvester 1 - 1/x altsum
+
+    Lemniscate constant
+        = rpn -p20 4 2 pi / sqrt * 0.25 ! sqr *
 
 ''' )
 
-
-#  Polya random walk constant = rpn -p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 / gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -
-
-#  conic constant = rpn -p20 2 [ 0 30 range ] ** [ 0 30 range ] ! / sum
-#                 = rpn -p20 e 2 **
-
-#  Somos' quadratic recurrence constant = rpn -p20 [ 1 100 range ] [ 0.5 0.5 100 georange ] ** prod
-
-#  Prevost constant = rpn -p20 [ 1 100 range ] fib 1/x sum
-
-#  Euler's number = rpn -p20 [ 0 100 range ] fac 1/x sum
-#                 = rpn -p20 e
-
-#  Gelfond constant = rpn -p20 pi [ 0 100 range ] power [ 0 100 range ] ! / sum
-#                   = rpn -p20 e pi power
-
-#  Bloch-Landau constant = rpn -p20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /
-
-#  Hausdorff dimension = rpn -p20 2 [ 0 100 range ] 2 * 1 + power [ 0 100 range ] 2 * 1 + * 1/x sum 3 [ 0 100 range ] 2 * 1 + power [ 0 100 range ] 2 * 1 + * 1/x sum /
-#                      = rpn -p20 3 log 2 log /
-
-#  Machin-Gregory series = rpn -p20 [ 1 1000 2 range2 ] 2 [ 1 1000 2 range2 ] power * 1/x altsum
-#                        = rpn -p20 1 2 / atan
-
-#  Beta(3) = rpn -p17 [ 1 1000000 2 range2 ] 3 power 1/x altsum
-#            rpn -p20 pi 3 power 32 /
-
 #  But it's wrong, is the formula wrong?
 #  Gieseking constant = rpn 3 3 sqrt * 4 / 1 [ 0 10000 range ] 3 * 2 + sqr 1/x sum [ 1 10000 range ] 3 * 1 + sqr 1/x sum + - *
-
-#  Cahen's constant = rpn -p20 [ 1 20 range ] sylvester 1 - 1/x altsum
-
-#  Lemniscate constant = rpn -p20 4 2 pi / sqrt * 0.25 ! sqr *
-
 
 
 #//******************************************************************************
