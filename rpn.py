@@ -43,7 +43,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.10.5'
+PROGRAM_VERSION = '5.10.6'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -293,6 +293,11 @@ def getSimpleUnitType( unit ):
 #//******************************************************************************
 
 def combineUnits( units1, units2 ):
+    global unitConversionMatrix
+
+    if unitConversionMatrix is None:
+        loadUnitConversionMatrix( )
+
     #print( 'units1:', units1 )
     #print( 'units2:', units2 )
     newUnits = { }
@@ -581,6 +586,13 @@ class Measurement( mpf ):
     def isCompatible( self, other ):
         if isinstance( other, dict ):
             return self.getTypes( ) == other
+        elif isinstance( other, list ):
+            result = True
+
+            for item in other:
+                result = result and self.isCompatible( item )
+
+            return result
         elif isinstance( other, Measurement ):
             if self.getTypes( ) == other.getTypes( ):
                 return True
@@ -4872,11 +4884,6 @@ callers = [
 #//******************************************************************************
 
 def convertUnits( unit1, unit2 ):
-    global unitConversionMatrix
-
-    if unitConversionMatrix is None:
-        loadUnitConversionMatrix( )
-
     #print( )
     #print( 'unit1:', unit1.getTypes( ) )
     #print( 'unit2:', unit2.getTypes( ) )
@@ -5094,6 +5101,7 @@ listOperators = {
     'altsum2'       : [ getAlternatingSum2, 1 ],
     'base'          : [ interpretAsBase, 2 ],
     'cf'            : [ convertFromContinuedFraction, 1 ],
+    'convert'       : [ convertUnits, 2 ],
     'count'         : [ countElements, 1 ],
     'diffs'         : [ getListDiffs, 1 ],
     'gcd'           : [ getGCD, 1 ],
@@ -5182,7 +5190,6 @@ operators = {
     'cnonagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 9 ), 1 ],
     'coctagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 8 ), 1 ],
     'coctagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 8 ), 1 ],
-    'convert'       : [ convertUnits, 2 ],
     'copeland'      : [ getCopelandErdos, 0 ],
     'cos'           : [ cos, 1 ],
     'cosh'          : [ cosh, 1 ],
@@ -6328,9 +6335,9 @@ def main( ):
                 break
         elif term in unitOperators:
             if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
-                currentValueList.append( Measurement( 1, term, term ) )
+                currentValueList.append( Measurement( 1, term, term, unitOperators[ term ].plural ) )
             else:
-                value = Measurement( currentValueList.pop( ), term, term )
+                value = Measurement( currentValueList.pop( ), term, term, unitOperators[ term ].plural )
                 currentValueList.append( value )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
@@ -6365,9 +6372,9 @@ def main( ):
             except ValueError as error:
                 print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -6400,9 +6407,9 @@ def main( ):
             except ValueError as error:
                 print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except IndexError as error:
                 print( 'rpn:  index error for operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
