@@ -17,7 +17,7 @@ from fractions import Fraction
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.4.4"
+RPN_VERSION = "3.4.5"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -1281,6 +1281,69 @@ Notes:
 
 #//******************************************************************************
 #//
+#//  printEvenMoreHelp
+#//
+#//******************************************************************************
+
+def printEvenMoreHelp( ):
+    print(
+'''
+Examples of rpn usage follow.
+
+Basic arithmetic operations:
+
+    c:\>rpn 2 3 +
+    5
+
+    c:\>rpn 12 9 -
+    3
+
+    c:\>rpn 23 47 *
+    1081
+
+    c:\>rpn 10 7 /
+    1.42857142857
+
+Basic trigonometry usage:
+
+    c:\>rpn 60 deg sin         # sine of 60 degrees
+    0.866025403784
+
+    c:\>rpn 45 deg tan         # tangent of 45 degrees
+    1
+
+    c:\>rpn 2 pi * rad         # 2 pi radians is how many degrees?
+    360
+
+    c:\>rpn 2 atan rad         # What angle (in degrees) has a slope of 2?
+    63.4349488229
+
+Convert an IP address to a 32-bit value and back:
+
+    c:\>rpn 192 168 0 1 256 base -x
+    c0a8 0001
+
+    c:\>rpn 0xc0a80001 -R 256
+    192 168 0 1
+
+Construct the square root of two from a continued fraction:
+
+    c:\>rpn 2 sqrt
+    1.41421356237
+
+    c:\>rpn 2 sqrt -e20 -p20
+    1.4142135623730950488
+        = [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+        ~= 22619537/15994428
+
+    c:\>rpn 1 2 20 dup cf -p20
+    1.41421356237
+
+''' )
+
+
+#//******************************************************************************
+#//
 #//  main
 #//
 #//******************************************************************************
@@ -1306,6 +1369,8 @@ def main( ):
                          help="compute prime factors of result (truncated to an integer)" )
     parser.add_argument( '-hh', '--more_help', action='store_true',
                          help="display additional help information" )
+    parser.add_argument( '-hhh', '--even_more_help', action='store_true',
+                         help="display examples of various rpn functionality in use" )
     parser.add_argument( '-i', '--integer_grouping', type=int, action='store', default=0,
                          help="display integer separated into groups (default: 0)" )
     parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals,
@@ -1331,8 +1396,11 @@ def main( ):
     mp.dps = args.precision
 
     if args.more_help:
-        parser.print_help( )
         printMoreHelp( )
+        return
+
+    if args.even_more_help:
+        printEvenMoreHelp( )
         return
 
     # these are either globals or can be modified by other options (like -x)
