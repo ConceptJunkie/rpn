@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.4.5'
+PROGRAM_VERSION = '5.5.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -211,7 +211,7 @@ def parseUnitString( expression ):
 
         # parse out a unit name
         for c in expression[ start : ]:
-            if c not in string.ascii_letters and c != '_' and c not in string.digits:
+            if c not in string.ascii_letters and c != '_' and c != '-' and c not in string.digits:
                 break
 
             index += 1
@@ -278,24 +278,6 @@ def getSimpleUnitTypes( unitTypes ):
 
 #//******************************************************************************
 #//
-#//  multiplyUnits
-#//
-#//******************************************************************************
-
-def multiplyUnits( units1, units2 ):
-    newUnits = combineUnits( units1, units2 )
-
-    result = { }
-
-    for unit in newUnits:
-        if newUnits[ unit ] != 0:
-            result[ unit ] = newUnits[ unit ]
-
-    return result
-
-
-#//******************************************************************************
-#//
 #//  combineUnits
 #//
 #//  Combine units2 into units1
@@ -338,6 +320,24 @@ def invertUnits( units ):
 
 def divideUnits( units1, units2 ):
     newUnits = combineUnits( units1, invertUnits( units2 ) )
+
+    result = { }
+
+    for unit in newUnits:
+        if newUnits[ unit ] != 0:
+            result[ unit ] = newUnits[ unit ]
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  multiplyUnits
+#//
+#//******************************************************************************
+
+def multiplyUnits( units1, units2 ):
+    newUnits = combineUnits( units1, units2 )
 
     result = { }
 
@@ -405,8 +405,7 @@ class Measurement( mpf ):
         newValue = fmul( self, other )
 
         if isinstance( other, Measurement ):
-            conversion, newUnits = multiplyUnits( self.getUnits( ), other.getUnits( ) )
-            self = Measurement( fmul( newValue, conversion ), newUnits )
+            self = Measurement( newValue, multiplyUnits( self.getUnits( ), other.getUnits( ) ) )
         else:
             self = Measurement( newValue, self.getUnits( ) )
 

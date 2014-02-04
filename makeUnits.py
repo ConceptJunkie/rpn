@@ -28,7 +28,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.4.5'
+PROGRAM_VERSION = '5.5.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -37,19 +37,21 @@ COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 #//
 #//  unitTypes
 #//
-#//  unit type : conversion from more basic unit types
+#//  unit type : conversion from the basic unit types (length, mass, time)
 #//
 #//******************************************************************************
 
 unitTypes = {
+    'acceleration'  : 'length/time^2',
+    'area'          : 'length^2',
+    'energy'        : 'mass*length^2/time^2',
+    'force'         : 'mass*length/time',
     'length'        : 'length',
     'mass'          : 'mass',
+    'power'         : 'mass*length^2/time',
     'time'          : 'time',
-    'area'          : 'length^2',
-    'volume'        : 'length^3',
     'velocity'      : 'length/time',
-    'acceleration'  : 'length/time^2',
-    'force'         : 'mass*length/time',
+    'volume'        : 'length^3',
 }
 
 
@@ -62,34 +64,32 @@ unitTypes = {
 #//******************************************************************************
 
 unitOperators = {
-    'acre'              : [ 'area',     'acres',            [ ] ],
-    'are'               : [ 'area',     'ares',             [ ] ],
-    'area'              : [ 'area',     'area',             [ ] ],
-    'barn'              : [ 'area',     'barns',            [ ] ],
-    'shed'              : [ 'area',     'sheds',            [ ] ],
-    'square_meter'      : [ 'area',     'square_meters',    [ 'sqm', 'm^2', 'meter^2', 'meters^2' ] ],
-    'square_yard'       : [ 'area',     'square_yards',     [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ] ],
+    'acre'                  : [ 'area',     'acres',            [ ] ],
+    'are'                   : [ 'area',     'ares',             [ ] ],
+    'area'                  : [ 'area',     'area',             [ ] ],
+    'barn'                  : [ 'area',     'barns',            [ ] ],
+    'shed'                  : [ 'area',     'sheds',            [ ] ],
+    'square_meter'          : [ 'area',     'square_meters',    [ 'sqm', 'm^2', 'meter^2', 'meters^2' ] ],
+    'square_yard'           : [ 'area',     'square_yards',     [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ] ],
 
-    'angstrom'          : [ 'length',   'angstroms',            [ ] ],
-    'astronomical_unit' : [ 'length',   'astronomical_units',   [ 'au' ] ],
-    'chain'             : [ 'length',   'chain',                [ ] ],
-    'foot'              : [ 'length',   'feet',                 [ 'ft' ] ],
-    'furlong'           : [ 'length',   'furlongs',             [ ] ],
-    'inch'              : [ 'length',   'inches',               [ 'in' ] ],
-    'league'            : [ 'length',   'leagues',              [ ] ],
-    'length'            : [ 'length',   'length',               [ ] ],
-    'light_day'         : [ 'length',   'light_days',           [ ] ],
-    'light_hour'        : [ 'length',   'light_hours',          [ ] ],
-    'light_minute'      : [ 'length',   'light_minutes',        [ ] ],
-    'light_second'      : [ 'length',   'light_seconds',        [ ] ],
-    'light_year'        : [ 'length',   'light_years',          [ ] ],
-    'meter'             : [ 'length',   'meters',               [ 'm' ] ],
-    'micron'            : [ 'length',   'microns',              [ ] ],
-    'mile'              : [ 'length',   'miles',                [ 'mi' ] ],
-    'nautical_mile'     : [ 'length',   'nautical_miles',       [ ] ],
-    'rod'               : [ 'length',   'rods',                 [ ] ],
-    'yard'              : [ 'length',   'yards',                [ 'yd' ] ],
+    'angstrom'              : [ 'length',   'angstroms',            [ ] ],
+    'astronomical_unit'     : [ 'length',   'astronomical_units',   [ 'au' ] ],
+    'chain'                 : [ 'length',   'chain',                [ ] ],
+    'foot'                  : [ 'length',   'feet',                 [ 'ft' ] ],
+    'furlong'               : [ 'length',   'furlongs',             [ ] ],
+    'inch'                  : [ 'length',   'inches',               [ 'in' ] ],
+    'league'                : [ 'length',   'leagues',              [ ] ],
+    'length'                : [ 'length',   'length',               [ ] ],
+    'light-second'          : [ 'length',   'light-seconds',        [ ] ],
+    'meter'                 : [ 'length',   'meters',               [ 'm' ] ],
+    'micron'                : [ 'length',   'microns',              [ ] ],
+    'mile'                  : [ 'length',   'miles',                [ 'mi' ] ],
+    'nautical_mile'         : [ 'length',   'nautical_miles',       [ ] ],
+    'rod'                   : [ 'length',   'rods',                 [ ] ],
+    'yard'                  : [ 'length',   'yards',                [ 'yd' ] ],
+    'speed_of_light*second' : [ 'length',   'light-seconds',        [ ] ],
 
+    'carat'             : [ 'mass',     'carats',           [ 'kt' ] ],
     'grain'             : [ 'mass',     'grains',           [ 'gr' ] ],
     'gram'              : [ 'mass',     'grams',            [ 'g' ] ],
     'mass'              : [ 'mass',     'mass',             [ ] ],
@@ -131,6 +131,23 @@ unitOperators = {
 
     'meter/second^2'    : [ 'acceleration', 'meters/second^2',      [ ] ],
     'standard_gravity'  : [ 'acceleration', 'standard_gravities',   [ 'G' ] ],
+
+    'horsepower'        : [ 'power',        'horsepower',           [ 'hp' ] ],
+    'watt'              : [ 'power',        'watts',                [ 'W' ] ],
+    'joule/second'      : [ 'power',        'joules/second',        [ 'W' ] ],
+
+    'BTU'               : [ 'energy',   'BTUs',                 [ 'btu' ] ],
+    'calorie'           : [ 'energy',   'calories',             [ 'cal' ] ],
+    'electron-volt'     : [ 'energy',   'electron-volts',       [ 'eV' ] ],
+    'erg'               : [ 'energy',   'ergs',                 [ 'erg' ] ],
+    'horsepower-second' : [ 'energy',   'horsepower-seconds',   [ 'hps' ] ],
+    'horsepower*second' : [ 'energy',   'horsepower-seconds',   [ 'hps' ] ],
+    'joule'             : [ 'energy',   'joules',               [ 'J' ] ],
+    'kilogram*meter^2/second^2'
+                        : [ 'energy',   'kg*m^2/s^2',           [ ] ],
+    'ton_of_TNT'        : [ 'energy',   'tons of TNT',          [ 'tTNT' ] ],
+    'watt-second'       : [ 'energy',   'Watt-seconds',         [ 'Ws' ] ],
+    'watt*second'       : [ 'energy',   'Watt-seconds',         [ 'Ws' ] ],
 }
 
 
@@ -138,16 +155,24 @@ unitOperators = {
 #//
 #//  metricUnits
 #//
+#//  ... or any units that should get the SI prefixes
+#//
 #//  ( name, plural name, abbreviation, aliases, plural aliases )
 #//
 #//******************************************************************************
 
 metricUnits = [
-    ( 'meter',  'meters',  'm', [ 'metre' ], [ 'metres' ] ),
-    ( 'second', 'seconds', 's', [ ], [ ] ),
-    ( 'liter',  'liters',  'l', [ 'litre' ], [ 'litres' ] ),
-    ( 'gram',   'grams',   'g', [ 'gramme' ], [ 'grammes' ] ),
-    ( 'are',    'ares',    'a', [ ], [ ] ),
+    ( 'meter',          'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
+    ( 'second',         'seconds',          's',    [ ], [ ] ),
+    ( 'liter',          'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
+    ( 'gram',           'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
+    ( 'are',            'ares',             'a',    [ ], [ ] ),
+    ( 'joule',          'joules',           'J',    [ ], [ ] ),
+    ( 'electron-volt',  'electron-volts',   'eV',   [ ], [ ] ),
+    ( 'watt',           'watts',            'W',    [ ], [ ] ),
+    ( 'calorie',        'calories',         'Cal',  [ ], [ ] ),
+    ( 'ton_of_TNT',     'tons_of_TNT',      'tTNT', [ ], [ ] ),
+    ( 'watt-second',    'watt-seconds',     'Ws',   [ ], [ ] ),
 ]
 
 
@@ -192,54 +217,62 @@ metricPrefixes = [
 #//******************************************************************************
 
 unitConversionMatrix = {
-    ( 'acre',              'square_yard' )      : '4840',
-    ( 'meter',             'angstrom' )         : '10000000000',
-    ( 'are',               'square_meter' )     : '100',
-    ( 'astronomical_unit', 'meter' )            : '149597870700',
-    ( 'chain',             'yard' )             : '22',
-    ( 'cup',               'fluid_ounce' )      : '8',
-    ( 'cup',               'gill' )             : '2',
-    ( 'day',               'hour' )             : '24',
-    ( 'firkin',            'gallon' )           : '9',
-    ( 'fluid_ounce',       'tablespoon' )       : '2',
-    ( 'foot',              'inch' )             : '12',
-    ( 'furlong',           'yard' )             : '220',
-    ( 'gallon',            'fifth' )            : '5',
-    ( 'gallon',            'quart' )            : '4',
-    ( 'hour',              'minute' )           : '60',
-    ( 'inch',              'meter' )            : '0.0254',
-    ( 'league',            'mile' )             : '3',
-    ( 'light_day',         'light_hour' )       : '24',
-    ( 'light_hour',        'light_minute' )     : '60',
-    ( 'light_minute',      'light_second' )     : '60',
-    ( 'light_second',      'meter' )            : '299792458',
-    ( 'light_year',        'light_day' )        : '365.25',
-    ( 'cubic_meter',       'liter' )            : '1000',
-    ( 'meter',             'micron' )           : '1000000',
-    ( 'mile',              'foot' )             : '5280',
-    ( 'minute',            'second' )           : '60',
-    ( 'nautical_mile',     'meter' )            : '1852',
-    ( 'ounce',             'gram' )             : '28.349523125',
-    ( 'pound',             'grain' )            : '7000',
-    ( 'pound',             'ounce' )            : '16',
-    ( 'quart',             'cup' )              : '4',
-    ( 'quart',             'liter' )            : '0.946352946',
-    ( 'quart',             'pint' )             : '2',
-    ( 'rod',               'foot' )             : '16.5',
-    ( 'square_meter',      'barn' )             : '1.0e28',
-    ( 'square_meter',      'shed' )             : '1.0e52',
-    ( 'stone',             'pound' )            : '14',
-    ( 'tablespoon',        'teaspoon' )         : '3',
-    ( 'teaspoon',          'pinch' )            : '8',
-    ( 'ton',               'pound' )            : '2000',
-    ( 'tonne',             'gram' )             : '1000000',
-    ( 'troy_ounce',        'gram' )             : '31.1034768',
-    ( 'troy_pound',        'pound' )            : '12',
-    ( 'yard',              'foot' )             : '3',
-    ( 'fortnight',         'day' )              : '14',
-    ( 'week',              'day' )              : '7',
-    ( 'speed_of_light',    'meter/second' )     : '299792458',
-    ( 'standard_gravity',  'meter/second^2' )   : '9.806650',
+    ( 'acre',                  'square_yard' )                     : '4840',
+    ( 'are',                   'square_meter' )                    : '100',
+    ( 'astronomical_unit',     'meter' )                           : '149597870700',
+    ( 'BTU',                   'joule' )                           : '1054.5',
+    ( 'calorie',               'joule' )                           : '4.184',
+    ( 'carat',                 'grain' )                           : '3.1666666666666666666666',
+    ( 'chain',                 'yard' )                            : '22',
+    ( 'cubic_meter',           'liter' )                           : '1000',
+    ( 'cup',                   'fluid_ounce' )                     : '8',
+    ( 'cup',                   'gill' )                            : '2',
+    ( 'day',                   'hour' )                            : '24',
+    ( 'firkin',                'gallon' )                          : '9',
+    ( 'fluid_ounce',           'tablespoon' )                      : '2',
+    ( 'foot',                  'inch' )                            : '12',
+    ( 'fortnight',             'day' )                             : '14',
+    ( 'furlong',               'yard' )                            : '220',
+    ( 'gallon',                'fifth' )                           : '5',
+    ( 'gallon',                'quart' )                           : '4',
+    ( 'horsepower-second',     'joule' )                           : '745.69987158227022',
+    ( 'hour',                  'minute' )                          : '60',
+    ( 'inch',                  'meter' )                           : '0.0254',
+    ( 'joule',                 'electron-volt' )                   : '6.24150974e18',
+    ( 'joule',                 'erg' )                             : '10000000',
+    ( 'joule',                 'kilogram*meter^2/second^2' )       : '1',
+    ( 'league',                'mile' )                            : '3',
+    ( 'light-second',          'meter' )                           : '299792458',
+    ( 'meter',                 'angstrom' )                        : '10000000000',
+    ( 'meter',                 'micron' )                          : '1000000',
+    ( 'mile',                  'foot' )                            : '5280',
+    ( 'minute',                'second' )                          : '60',
+    ( 'nautical_mile',         'meter' )                           : '1852',
+    ( 'ounce',                 'gram' )                            : '28.349523125',
+    ( 'pound',                 'grain' )                           : '7000',
+    ( 'pound',                 'ounce' )                           : '16',
+    ( 'quart',                 'cup' )                             : '4',
+    ( 'quart',                 'liter' )                           : '0.946352946',
+    ( 'quart',                 'pint' )                            : '2',
+    ( 'rod',                   'foot' )                            : '16.5',
+    ( 'speed_of_light',        'meter/second' )                    : '299792458',
+    ( 'square_meter',          'barn' )                            : '1.0e28',
+    ( 'square_meter',          'shed' )                            : '1.0e52',
+    ( 'standard_gravity',      'meter/second^2' )                  : '9.806650',
+    ( 'stone',                 'pound' )                           : '14',
+    ( 'tablespoon',            'teaspoon' )                        : '3',
+    ( 'teaspoon',              'pinch' )                           : '8',
+    ( 'ton',                   'pound' )                           : '2000',
+    ( 'tonne',                 'gram' )                            : '1000000',
+    ( 'ton_of_TNT',            'joule' )                           : '4184000000',
+    ( 'troy_ounce',            'gram' )                            : '31.1034768',
+    ( 'troy_pound',            'pound' )                           : '12',
+    ( 'watt-second',           'joule' )                           : '1',
+    ( 'week',                  'day' )                             : '7',
+    ( 'yard',                  'foot' )                            : '3',
+    ( 'watt-second',           'watt*second' )                     : '1',
+    ( 'horsepower',            'watt' )                            : '745.69987158227022',
+    ( 'joule/second',          'watt' )                            : '1',
 }
 
 
