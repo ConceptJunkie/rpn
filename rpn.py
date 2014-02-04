@@ -17,7 +17,7 @@ from fractions import Fraction
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.4.3 (7 cubed version!)"
+RPN_VERSION = "3.4.4"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -860,6 +860,54 @@ def getPlasticConstant( valueList ):
 
 #//******************************************************************************
 #//
+#//  solveQuadraticPolynomial
+#//
+#//******************************************************************************
+
+def solveQuadraticPolynomial( valueList ):
+    c = valueList.pop( )
+    b = valueList.pop( )
+    a = valueList.pop( )
+
+    d = sqrt( fsub( power( b, 2 ), fmul( 4, fmul( a, c ) ) ) )
+
+    result = list( )
+    result.append( fdiv( fadd( fneg( b ), d ), fmul( 2, a ) ) )
+    result.append( fdiv( fsub( fneg( b ), d ), fmul( 2, a ) ) )
+
+    valueList.append( result )
+
+
+#//******************************************************************************
+#//
+#//  solveCubicPolynomial
+#//
+#//******************************************************************************
+
+def solveCubicPolynomial( valueList ):
+    d = valueList.pop( )
+    c = valueList.pop( )
+    b = valueList.pop( )
+    a = valueList.pop( )
+
+    p = fdiv( fneg( b ), fmul( 3, a ) )
+    q = fadd( power( p, 3 ), fdiv( fsub( fmul( b, c ), fmul( 6, power( a, 2 ) ) ) ) )
+    r = fdiv( c, fmul( 3, a ) )
+
+    result = list( )
+    result.append( fdiv( fadd( fneg( b ), d ), fmul( 2, a ) ) )
+    result.append( fdiv( fsub( fneg( b ), d ), fmul( 2, a ) ) )
+
+    valueList.append( result )
+
+
+#x =   {q + [q2 + (r-p2)3]1/2}1/3   +   {q - [q2 + (r-p2)3]1/2}1/3   +   p
+#
+#where
+#p = -b/(3a),   q = p3 + (bc-3ad)/(6a2),   r = c/(3a)
+
+#//******************************************************************************
+#//
 #//  expressions
 #//
 #//  Function names and number of args needed.  One line/zero-or-one arg
@@ -964,6 +1012,7 @@ expressions = {
     'sech'      : [ lambda v: v.append( sech( v.pop( ) ) ), 1 ],
     'sin'       : [ lambda v: v.append( sin( v.pop( ) ) ), 1 ],
     'sinh'      : [ lambda v: v.append( sinh( v.pop( ) ) ), 1 ],
+    'solve2'    : [ solveQuadraticPolynomial, 3 ],
     'sqr'       : [ lambda v: v.append( power( v.pop( ), 2 ) ), 1 ],
     'sqrt'      : [ lambda v: v.append( sqrt( v.pop( ) ) ), 1 ],
     'sqtri'     : [ getNthSquareTriangularNumber, 1 ],
