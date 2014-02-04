@@ -17,7 +17,7 @@ from fractions import Fraction
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.4.6"
+RPN_VERSION = "3.4.7"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -216,7 +216,7 @@ def convertToPhiBase( num ):
             start = False
             originalPlace = place
         else:
-            if place < -originalPlace:
+            if place < -( originalPlace + 1 ):
                 break
 
             for i in range( previousPlace, place + 1, -1 ):
@@ -245,10 +245,36 @@ def convertToPhiBase( num ):
 #//
 #//  convertToFibBase
 #//
+#//  adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
+#//
 #//******************************************************************************
 
 def convertToFibBase( num ):
-    return '***fib-base***'
+    # Return string with Fibonacci encoding for n (n >= 1).
+    result = ""
+
+    if n >= 1:
+        a = 1
+        b = 1
+        c = a + b   # next Fibonacci number
+        fibs = [b]  # list of Fibonacci numbers, starting with F(2), each <= n
+        while n >= c:
+            fibs.append(c)  # add next Fibonacci number to end of list
+            a = b
+            b = c
+            c = a + b
+        result = "1"  # extra "1" at end
+        for fibnum in reversed(fibs):
+            if n >= fibnum:
+                n = n - fibnum
+                result = "1" + result
+            else:
+                result = "0" + result
+
+    return result
+
+#print encode_fib(65)  # displays "0100100011"
+
 
 
 #//******************************************************************************
@@ -874,47 +900,156 @@ def getPlasticConstant( valueList ):
 #//
 #//******************************************************************************
 
-def solveQuadraticPolynomial( valueList ):
+def solveQuadraticPolynomial( a, b, c ):
+    d = sqrt( fsub( power( b, 2 ), fmul( 4, fmul( a, c ) ) ) )
+
+    x1 = fdiv( fadd( fneg( b ), d ), fmul( 2, a ) )
+    x2 = fdiv( fsub( fneg( b ), d ), fmul( 2, a ) )
+
+    return x1, x2
+
+
+#//******************************************************************************
+#//
+#//  solveOrder2
+#//
+#//******************************************************************************
+
+def solveOrder2( valueList ):
     c = valueList.pop( )
     b = valueList.pop( )
     a = valueList.pop( )
 
-    d = sqrt( fsub( power( b, 2 ), fmul( 4, fmul( a, c ) ) ) )
+    x1, x2 = solveQuadraticPolynomial( a, b, c )
 
-    result = list( )
-    result.append( fdiv( fadd( fneg( b ), d ), fmul( 2, a ) ) )
-    result.append( fdiv( fsub( fneg( b ), d ), fmul( 2, a ) ) )
-
-    valueList.append( result )
+    valueList.append( [ x1, x2 ] )
 
 
 #//******************************************************************************
 #//
 #//  solveCubicPolynomial
 #//
+#//  http://www.1728.org/cubic2.htm
+#//
 #//******************************************************************************
 
-def solveCubicPolynomial( valueList ):
+def solveCubicPolynomial( a, b, c, d ):
+    f = fdiv( fsub( fdiv( fmul( 3, c ), a ), fdiv( power( b, 2 ), power( a, 2 ) ) ), 3 )
+
+    g = fdiv( fadd( fsub( fdiv( fmul( 2, power( b, 3 ) ), power( a, 3 ) ),
+                          fdiv( fmul( fmul( 9, b ), c ), power( a, 2 ) ) ),
+                    fdiv( fmul( 27, d ), a ) ), 27 )
+    h = fadd( fdiv( power( g, 2 ), 4 ), fdiv( power( f, 3 ), 27 ) )
+
+    if h == 0:
+        x1 = fneg( root( fdiv( d, a ), 3 ) )
+        x2 = x1
+        x3 = x2
+    elif h > 0:
+        r = fadd( fneg( fdiv( g, 2 ) ), sqrt( h ) )
+
+        if r < 0:
+            s = fneg( root( fneg( r ), 3 ) )
+        else:
+            s = root( r, 3 )
+
+        t = fsub( fneg( fdiv( g, 2 ) ), sqrt( h ) )
+
+        if t < 0:
+            u = fneg( root( fneg( t ), 3 ) )
+        else:
+            u = root( t, 3 )
+
+        x1 = fsub( fadd( s, u ), fdiv( b, fmul( 3, a ) ) )
+
+        real = fsub( fdiv( fneg( fadd( s, u ) ), 2 ), fdiv( b, fmul( 3, a ) ) )
+        imaginary = fdiv( fmul( fsub( s, u ), sqrt( 3 ) ), 2 )
+
+        x2 = mpc( real, imaginary )
+        x3 = mpc( real, fneg( imaginary ) )
+    else:
+        i = power( fsub( fdiv( power( g, 2 ), 4 ), h ), 0.5 )
+        k = acos( fneg( fdiv( g, fmul( 2, i ) ) ) )
+        m = cos( fdiv( k, 3 ) )
+        n = fmul( sqrt( 3 ), sin( fdiv( k, 3 ) ) )
+        p = fneg( fdiv( b, fmul( 3, a ) ) )
+
+        x1 = fsub( fmul( fmul( 2, j ), cos( fdiv( k, 3 ) ) ), fdiv( b, fmul( 3, a ) ) )
+        x2 = fadd( fmul( fneg( root( i, 3 ) ), fadd( m, n ) ), p )
+        x3 = fadd( fmul( fneg( root( i, 3 ) ), fsub( m, n ) ), p )
+
+    return x1, x2, x3
+
+
+#//******************************************************************************
+#//
+#//  solveOrder3
+#//
+#//******************************************************************************
+
+def solveOrder3( valueList ):
+    if mp.dps < 20:
+        mp.dps = 20
+
     d = valueList.pop( )
     c = valueList.pop( )
     b = valueList.pop( )
     a = valueList.pop( )
 
-    p = fdiv( fneg( b ), fmul( 3, a ) )
-    q = fadd( power( p, 3 ), fdiv( fsub( fmul( b, c ), fmul( 6, power( a, 2 ) ) ) ) )
-    r = fdiv( c, fmul( 3, a ) )
+    x1, x2, x3 = solveCubicPolynomial( a, b, c, d )
 
-    result = list( )
-    result.append( fdiv( fadd( fneg( b ), d ), fmul( 2, a ) ) )
-    result.append( fdiv( fsub( fneg( b ), d ), fmul( 2, a ) ) )
-
-    valueList.append( result )
+    valueList.append( [ x1, x2, x3 ] )
 
 
-#x =   {q + [q2 + (r-p2)3]1/2}1/3   +   {q - [q2 + (r-p2)3]1/2}1/3   +   p
-#
-#where
-#p = -b/(3a),   q = p3 + (bc-3ad)/(6a2),   r = c/(3a)
+#//******************************************************************************
+#//
+#//  solveQuarticPolynomial
+#//
+#//  http://www.1728.org/quartic2.htm
+#//
+#//******************************************************************************
+
+def solveQuarticPolynomial( a, b, c, d, e ):
+    f = fsub( c, fdiv( fmul( 3, power( b, 2 ) ), 8 ) )
+
+    print( f )
+
+    g = fsub( fadd( d, fdiv( power( b, 3 ), 8 ) ), fdiv( fmul( b, c ), 2 ) )
+    h = fadd( fsub( e, fdiv( fmul( 3, power( b, 4 ) ), 256 ) ),
+              fsub( fmul( power( b, 2 ), fdiv( c, 16 ) ), fdiv( fmul( b, d ), 4 ) ) )
+
+    y1, y2, y3 = solveCubicPolynomial( 1, fdiv( f, 2 ), fdiv( fsub( power( f, 2 ),
+                                       fmul( 4, h ) ), 16 ), fneg( fdiv( power( g, 2 ), 64 ) ) )
+
+    x1 = 0
+    x2 = 0
+    x3 = 0
+    x4 = 0
+
+    return x1, x2, x3, x4
+
+
+#//******************************************************************************
+#//
+#//  solveOrder4
+#//
+#//******************************************************************************
+
+def solveOrder4( valueList ):
+    if mp.dps < 30:
+        mp.dps = 30
+
+    e = valueList.pop( )
+    d = valueList.pop( )
+    c = valueList.pop( )
+    b = valueList.pop( )
+    a = valueList.pop( )
+
+    x1, x2, x3, x4 = solveQuarticPolynomial( a, b, c, d, e )
+
+    valueList.append( [ x1, x2, x3, x4 ] )
+
+
 
 #//******************************************************************************
 #//
@@ -990,6 +1125,7 @@ expressions = {
     'itoi'      : [ lambda v: v.append( exp( fmul( -0.5, pi ) ) ), 0 ],
     'khinchin'  : [ lambda v: v.append( khinchin ), 0 ],
     'lgamma'    : [ lambda v: v.append( loggamma( v.pop( ) ) ), 1 ],
+    'ln'        : [ lambda v: v.append( ln( v.pop( ) ) ), 1 ],
     'log'       : [ lambda v: v.append( ln( v.pop( ) ) ), 1 ],
     'log10'     : [ lambda v: v.append( log10( v.pop( ) ) ), 1 ],
     'logxy'     : [ getLogXY, 2 ],
@@ -1022,7 +1158,9 @@ expressions = {
     'sech'      : [ lambda v: v.append( sech( v.pop( ) ) ), 1 ],
     'sin'       : [ lambda v: v.append( sin( v.pop( ) ) ), 1 ],
     'sinh'      : [ lambda v: v.append( sinh( v.pop( ) ) ), 1 ],
-    'solve2'    : [ solveQuadraticPolynomial, 3 ],
+    'solve2'    : [ solveOrder2, 3 ],
+    'solve3'    : [ solveOrder3, 4 ],
+    'solve4'    : [ solveOrder4, 5 ],
     'sqr'       : [ lambda v: v.append( power( v.pop( ), 2 ) ), 1 ],
     'sqrt'      : [ lambda v: v.append( sqrt( v.pop( ) ) ), 1 ],
     'sqtri'     : [ getNthSquareTriangularNumber, 1 ],
@@ -1251,8 +1389,8 @@ Arguments are interpreted as Reverse Polish Notation.
 Supported unary operators (synonyms are separated by commas):
     !, fac; %, mod, modulo; 1/x, inv (take reciprocal); abs;
     cbrt, root3 (cube root); ceil; cube; exp; exp10; expphi; floor; gamma;
-    hypot; hyperfac; lgamma; log; log10; neg; rand; round; sqr; sqrt, root2;
-    superfac
+    hypot; hyperfac; lgamma; log, ln; log10; neg; rand; round; sqr;
+    sqrt, root2; superfac
 
 Supported unary trigonometric operators:
     deg, degrees (treat term as degrees (i.e., convert to radians), e.g.,
@@ -1289,6 +1427,11 @@ Supported constants:
 
 Supported bitwise operators:
     ~, not; and; or; xor
+
+Polynomial solvers:
+    solve2 (solve quadratic equation, 3 args)
+    solve3 (solve cubic equation, 4 args)
+    solve4 (solve quartic equation, 5 args)
 
 Input:
     For integers, rpn understands hexidecimal input of the form '0x....'.
@@ -1518,8 +1661,9 @@ def main( ):
             print( "rpn:  output radix must be greater than 1" )
             return
     else:
-        if ( outputRadix != phiBase and outputRadix != fibBase and ( outputRadix < 2 or outputRadix > 62 ) ):
-            print( "rpn:  output radix must be from 2 to 62" )
+        if ( outputRadix != phiBase and outputRadix != fibBase and
+             ( outputRadix < 2 or outputRadix > 62 ) ):
+            print( "rpn:  output radix must be from 2 to 62, or phi" )
             return
 
     if args.comma and args.integer_grouping > 0 :
@@ -1586,10 +1730,18 @@ def main( ):
                                      args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy ) )
 
             if args.factor:
-                factorInteger( int( floor( result ) ) )
+                try:
+                    factorInteger( int( floor( result ) ) )
+                except KeyboardInterrupt as error:
+                    print( "rpn:  keyboard interrupt" )
+                    return
 
             if args.continued_fraction:
-                cf = CFraction( mpf( result ), maxterms=args.continued_fraction )
+                try:
+                    cf = CFraction( mpf( result ), maxterms=args.continued_fraction )
+                except KeyboardInterrupt as error:
+                    print( "rpn:  keyboard interrupt" )
+                    return
 
                 # format the fraction output
                 fraction = str( cf.getFraction( ) )
