@@ -17,7 +17,7 @@ from fractions import Fraction
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.4.5"
+RPN_VERSION = "3.4.6"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -307,7 +307,7 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
 #//
 #//******************************************************************************
 
-def convertFractionToBaseN( value, base, precision, baseAsDigits ):
+def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
     """
     Convert any fraction to base/radix 2-36 and returns the resulting mantissa as a string.
 
@@ -340,6 +340,13 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits ):
         value = value * base
         digit = int( value )
 
+        if len( result ) == accuracy:
+            value -= digit
+            newDigit = int( value ) % base
+
+            if newDigit >= base // 2:
+                digit += 1
+
         if baseAsDigits:
             if result != '':
                 result += ' '
@@ -347,6 +354,9 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits ):
             result += str( digit % base )
         else:
             result += numerals[ digit % base ]
+
+        if len( result ) == accuracy:
+            break
 
         value -= digit
         precision -= 1
@@ -1117,12 +1127,35 @@ def parseInputValue( term, inputRadix ):
 
 #//******************************************************************************
 #//
+#//  roundMantissa
+#//
+#//******************************************************************************
+
+def roundMantissa( mantissa, accuracy ):
+    if len( mantissa ) <= accuracy:
+        return mantissa
+
+    last_digit = int( mantissa[ accuracy - 1 ] )
+    extra_digit = int( mantissa[ accuracy ] )
+
+    result = mantissa[ : accuracy - 1 ]
+
+    if extra_digit >= 5:
+        result += str( last_digit + 1 )
+    else:
+        result += str( last_digit )
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  formatOutput
 #//
 #//******************************************************************************
 
 def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
-                  decimalGrouping, decimalDelimiter, baseAsDigits ):
+                  decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
     strOutput = str( output )
 
     if '.' in strOutput:
@@ -1141,7 +1174,8 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
     mantissa = strOutput[ decimal + 1 : ]
 
     if mantissa != '' and mantissa.find( 'e' ) == -1:
-        mantissa = mantissa.rstrip( '0' )
+        if outputAccuracy == -1:
+            mantissa = mantissa.rstrip( '0' )
 
     #print( "mantissa: %s" % mantissa )
 
@@ -1153,7 +1187,12 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
         if mantissa:
             mantissa = str( convertFractionToBaseN( mpf( '.' + mantissa ), radix,
                             int( ( mp.dps - integerLength ) / math.log10( radix ) ),
-                            baseAsDigits ) )
+                            baseAsDigits, outputAccuracy ) )
+    else:
+        if outputAccuracy == 0:
+            mantissa = ''
+        elif outputAccuracy > 0:
+            mantissa = roundMantissa( mantissa, outputAccuracy )
 
     if integerGrouping > 0:
         firstDelimiter = len( integer ) % integerGrouping
@@ -1357,13 +1396,15 @@ def main( ):
                                       formatter_class=RawTextHelpFormatter )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1, const=12,
+                         help="maximum number of decimal places to display, irrespective of internal precision" )
     parser.add_argument( '-b', '--input_radix', type=str, action='store', default=10,
                          help="specify the radix for input (default: 10)" )
     parser.add_argument( '-c', '--comma', action='store_true',
                          help="add commas to result, e.g., 1,234,567.0" )
     parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
                          help="display decimal places separated into groups (default: 0)" )
-    parser.add_argument( '-e', '--continued_fraction', type=int, action='store', default=0,
+    parser.add_argument( '-e', '--continued_fraction', nargs='?', type=int, action='store', default=0, const=12,
                          help="number of terms to represent as a continued fraction" )
     parser.add_argument( '-f', '--factor', action='store_true',
                          help="compute prime factors of result (truncated to an integer)" )
@@ -1539,10 +1580,10 @@ def main( ):
 
             if args.comma:
                 print( formatOutput( resultString, outputRadix, numerals, 3, ',', False,
-                                     args.decimal_grouping, ' ', baseAsDigits ) )
+                                     args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy ) )
             else:
                 print( formatOutput( resultString, outputRadix, numerals, integerGrouping, ' ', leadingZero,
-                                     args.decimal_grouping, ' ', baseAsDigits ) )
+                                     args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy ) )
 
             if args.factor:
                 factorInteger( int( floor( result ) ) )
@@ -1550,8 +1591,32 @@ def main( ):
             if args.continued_fraction:
                 cf = CFraction( mpf( result ), maxterms=args.continued_fraction )
 
+                # format the fraction output
+                fraction = str( cf.getFraction( ) )
+                solidus = fraction.find( '/' )
+
+                if solidus == -1:    # should never happen
+                    numerator = fraction
+                    denominator = ''
+                else:
+                    numerator = fraction[ : solidus ]
+                    denominator = fraction [ solidus + 1 : ]
+
+                if args.comma:
+                    numerator = formatOutput( numerator, outputRadix, numerals, 3, ',', False,
+                                              args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
+                    if denominator != '':
+                        denominator = formatOutput( denominator, outputRadix, numerals, 3, ',', False,
+                                                    args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
+                else:
+                    numerator = formatOutput( numerator, outputRadix, numerals, integerGrouping, ' ', leadingZero,
+                                              args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
+                    if denominator != '':
+                        denominator = formatOutput( denominator, outputRadix, numerals, integerGrouping, ' ', leadingZero,
+                                                    args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
+
                 print( "    = " + str( cf ) )
-                print( "    ~= " + str( cf.getFraction( ) ) )
+                print( "    ~= " + numerator + ' / ' + denominator )
 
 
 #//******************************************************************************
