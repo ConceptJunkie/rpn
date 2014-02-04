@@ -14,7 +14,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.0.0"
+RPN_VERSION = "3.1.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -26,6 +26,8 @@ numerals = ""
 
 phiBase = -1
 fibBase = -2
+
+bitwiseGroupSize = 16
 
 
 #//******************************************************************************
@@ -172,7 +174,7 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits ):
             raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
 
     if value < 0 or value >= 1.0:
-        raise ValueError( 'Value must be >= 0 and < 1.0' )
+        raise ValueError( 'Value (%s) must be >= 0 and < 1.0' % value )
 
     result = ''
 
@@ -231,42 +233,89 @@ def convertToBase10( integer, mantissa, inputRadix ):
 
 #//******************************************************************************
 #//
-#//  getPi
+#//  getInvertedBits
 #//
 #//******************************************************************************
 
-def getPi( valueList ):
-    valueList.append( pi )
+def getInvertedBits( valueList ):
+    global bitwiseGroupSize
 
+    value = floor( valueList.pop( ) )
+    # determine how many groups of bits we will be looking at
+    groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), bitwiseGroupSize ) ), 1 ) )
 
-#//******************************************************************************
-#//
-#//  getE
-#//
-#//******************************************************************************
+    placeValue = mpf( 1 << bitwiseGroupSize )
+    multiplier = mpf( 1 )
+    remaining = value
 
-def getE( valueList ):
-    valueList.append( e )
+    result = mpf( 0 )
 
+    for i in range( 0, groupings ):
+        result = fadd( fmul( fsum( [ placeValue, fneg( fmod( remaining, placeValue ) ), -1 ] ), multiplier ), result )
+        remaining = floor( fdiv( remaining, placeValue ) )
+        multiplier = fmul( multiplier, placeValue )
 
-#//******************************************************************************
-#//
-#//  getPhi
-#//
-#//******************************************************************************
-
-def getPhi( valueList ):
-    valueList.append( phi )
+    valueList.append( result )
 
 
 #//******************************************************************************
 #//
-#//  getIToTheIPower
+#//  performBitwiseOperation
 #//
 #//******************************************************************************
 
-def getIToTheIPower( valueList ):
-    valueList.append( fexp( mpf( -0.5 ) * pi ) )
+def performBitwiseOperation( valueList, operation ):
+    global bitwiseGroupSize
+
+    value1 = floor( valueList.pop( ) )
+    value2 = floor( valueList.pop( ) )
+
+    # determine how many groups of bits we will be looking at
+    groupings = int( fadd( floor( fdiv( ( log( value1, 2 ) ), bitwiseGroupSize ) ), 1 ) )
+    groupings2 = int( fadd( floor( fdiv( ( log( value1, 2 ) ), bitwiseGroupSize ) ), 1 ) )
+
+    if groupings2 > groupings:
+        groupings = groupings2
+
+    placeValue = mpf( 1 << bitwiseGroupSize )
+    multiplier = mpf( 1 )
+    remaining1 = value1
+    remaining2 = value2
+
+    result = mpf( 0 )
+
+    for i in range( 0, groupings ):
+        mod1 = fmod( remaining1, placeValue )
+        mod2 = fmod( remaining2, placeValue )
+
+        result = fadd( fmul( operation( int( mod1 ), int( mod2 ) ), multiplier ), result )
+
+        remaining1 = floor( fdiv( remaining1, placeValue ) )
+        remaining2 = floor( fdiv( remaining2, placeValue ) )
+
+        multiplier = fmul( multiplier, placeValue )
+
+    valueList.append( result )
+
+
+#//******************************************************************************
+#//
+#//  getBitwiseAnd
+#//
+#//******************************************************************************
+
+def getBitwiseAnd( valueList ):
+    performBitwiseOperation( valueList, lambda x, y:  x & y )
+
+
+#//******************************************************************************
+#//
+#//  getBitwiseOr
+#//
+#//******************************************************************************
+
+def getBitwiseOr( valueList ):
+    performBitwiseOperation( valueList, lambda x, y:  x | y )
 
 
 #//******************************************************************************
@@ -385,36 +434,6 @@ def getHypotenuse( valueList ):
 
 #//******************************************************************************
 #//
-#//  getAbsoluteValue
-#//
-#//******************************************************************************
-
-def getAbsoluteValue( valueList ):
-    valueList.append( fabs( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getNegative
-#//
-#//******************************************************************************
-
-def getNegative( valueList ):
-    valueList.append( fneg( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getRandom
-#//
-#//******************************************************************************
-
-def getRandom( valueList ):
-    valueList.append( rand( ) )
-
-
-#//******************************************************************************
-#//
 #//  exponentiate
 #//
 #//******************************************************************************
@@ -472,48 +491,6 @@ def tetrateLarge( valueList ):
 
 #//******************************************************************************
 #//
-#//  getSquare
-#//
-#//******************************************************************************
-
-def getSquare( valueList ):
-    value = valueList.pop( )
-    valueList.append( power( value, 2 ) )
-
-
-#//******************************************************************************
-#//
-#//  getCube
-#//
-#//******************************************************************************
-
-def getCube( valueList ):
-    value = valueList.pop( )
-    valueList.append( power( value, 3 ) )
-
-
-#//******************************************************************************
-#//
-#//  getSquareRoot
-#//
-#//******************************************************************************
-
-def getSquareRoot( valueList ):
-    valueList.append( sqrt( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getCubeRoot
-#//
-#//******************************************************************************
-
-def getCubeRoot( valueList ):
-    valueList.append( cbrt( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
 #//  antiexponentiate
 #//
 #//******************************************************************************
@@ -536,202 +513,17 @@ def getLogXY( valueList ):
 
 #//******************************************************************************
 #//
-#//  getFactorial
+#//  getNthLucas
 #//
 #//******************************************************************************
 
-def getFactorial( valueList ):
-    valueList.append( fac( valueList.pop( ) ) )
+def getNthLucas( valueList ):
+    value = valueList.pop
 
-
-#//******************************************************************************
-#//
-#//  getSuperfactorial
-#//
-#//******************************************************************************
-
-def getSuperfactorial( valueList ):
-    valueList.append( superfac( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getHyperfactorial
-#//
-#//******************************************************************************
-
-def getHyperfactorial( valueList ):
-    valueList.append( hyperfac( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getHarmonic
-#//
-#//******************************************************************************
-
-def getHarmonic( valueList ):
-    valueList.append( harmonic( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getLog
-#//
-#//******************************************************************************
-
-def getLog( valueList ):
-    valueList.append( ln( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getLog10
-#//
-#//******************************************************************************
-
-def getLog10( valueList ):
-    valueList.append( log10( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getGamma
-#//
-#//******************************************************************************
-
-def getGamma( valueList ):
-    valueList.append( gamma( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getLGamma
-#//
-#//******************************************************************************
-
-def getLGamma( valueList ):
-    valueList.append( loggamma( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getExp
-#//
-#//******************************************************************************
-
-def getExp( valueList ):
-    valueList.append( exp( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getExp10
-#//
-#//******************************************************************************
-
-def getExp10( valueList ):
-    valueList.append( power( 10, valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getExpPhi
-#//
-#//******************************************************************************
-
-def getExpPhi( valueList ):
-    valueList.append( power( phi, valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getSine
-#//
-#//******************************************************************************
-
-def getSine( valueList ):
-    valueList.append( sin( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getArcsine
-#//
-#//******************************************************************************
-
-def getArcsine( valueList ):
-    valueList.append( asin( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getCosine
-#//
-#//******************************************************************************
-
-def getCosine( valueList ):
-    valueList.append( cos( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getArccosine
-#//
-#//******************************************************************************
-
-def getArccosine( valueList ):
-    valueList.append( acos( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getTangent
-#//
-#//******************************************************************************
-
-def getTangent( valueList ):
-    valueList.append( tan( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getArctangent
-#//
-#//******************************************************************************
-
-def getArctangent( valueList ):
-    valueList.append( atan( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  convertRadiansToDegrees
-#//
-#//******************************************************************************
-
-def convertRadiansToDegrees( valueList ):
-    valueList.append( degrees( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  convertDegreesToRadians
-#//
-#//******************************************************************************
-
-def convertDegreesToRadians( valueList ):
-    valueList.append( radians( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getNthFibonacci
-#//
-#//******************************************************************************
-
-def getNthFibonacci( valueList ):
-    n = valueList.append( fib( valueList.pop( ) ) )
+    if value == 1:
+        valueList.append( 1 )
+    else:
+        valueList.append( round( power( phi, valueList.pop( ) ) ) )
 
 
 #//******************************************************************************
@@ -814,7 +606,6 @@ def getAntiHexagonalNumber( valueList ):
 
 def getNthTetrahedralNumber( valueList ):
     n = valueList.pop( )
-
     valueList.append( fdiv( fsum( [ power( n, 3 ), fmul( 3, power( n, 2 ) ), fmul( 2, n ) ] ), 6 ) )
 
 # p=(1/6)*(n^3+3*n^2+2*n)
@@ -862,34 +653,47 @@ def getNthSquareTriangularNumber( valueList ):
 
 #//******************************************************************************
 #//
-#//  getFloor
+#//  getCombinations
 #//
 #//******************************************************************************
 
-def getFloor( valueList ):
-    valueList.append( floor( valueList.pop( ) ) )
+def getCombinations( valueList ):
+    r = valueList.pop( )
+    n = valueList.pop( )
+
+    if ( r > n ):
+        raise ValueError( 'Number of elements (%d) cannot exceed the size of the set (%d)' % ( r, n ) )
+
+    valueList.append( fdiv( fac( n ), fmul( fac( r ), fac( fsub( n, r ) ) ) ) )
 
 
 #//******************************************************************************
 #//
-#//  getCeiling
+#//  getPermutations
 #//
 #//******************************************************************************
 
-def getCeiling( valueList ):
-    valueList.append( ceil( valueList.pop( ) ) )
+def getPermutations( valueList ):
+    r = valueList.pop( )
+    n = valueList.pop( )
+
+    if ( r > n ):
+        raise ValueError( 'Number of elements (%d) cannot exceed the size of the set (%d)' % ( r, n ) )
+
+    valueList.append( fdiv( fac( n ), fac( fsub( n, r ) ) ) )
 
 
 #//******************************************************************************
 #//
 #//  expressions
 #//
-#//  Function names and number of args needed
+#//  Function names and number of args needed.  One line/zero-or-one arg
+#//  functions are implemented as lambdas.
 #//
 #//******************************************************************************
 
 expressions = {
-    '!'        : [ getFactorial, 1 ],
+    '!'        : [ lambda v: v.append( fac( v.pop( ) ) ), 1 ],
     '%'        : [ getModulo, 2 ],
     '*'        : [ multiply, 2 ],
     '**'       : [ exponentiate, 2 ],
@@ -898,63 +702,94 @@ expressions = {
     '-'        : [ subtract, 2 ],
     '/'        : [ divide, 2 ],
     '//'       : [ antiexponentiate, 2 ],
-    'abs'      : [ getAbsoluteValue, 1 ],
-    'acos'     : [ getArccosine, 1 ],
+    '1/x'      : [ lambda v: v.append( fdiv( 1, v.pop( ) ) ), 1 ],
+    'abs'      : [ lambda v: v.append( fabs( v.pop( ) ) ), 1 ],
+    'acos'     : [ lambda v: v.append( acos( v.pop( ) ) ), 1 ],
+    'acosh'    : [ lambda v: v.append( acosh( v.pop( ) ) ), 1 ],
+    'acosh'    : [ lambda v: v.append( acosh( v.pop( ) ) ), 1 ],
+    'acot'     : [ lambda v: v.append( acot( v.pop( ) ) ), 1 ],
+    'acoth'    : [ lambda v: v.append( acoth( v.pop( ) ) ), 1 ],
+    'acsc'     : [ lambda v: v.append( acsc( v.pop( ) ) ), 1 ],
+    'acsch'    : [ lambda v: v.append( acsch( v.pop( ) ) ), 1 ],
+    'and'      : [ lambda v: performBitwiseOperation( v, lambda x, y:  x & y ), 2 ],
     'antihex'  : [ getAntiHexagonalNumber, 1 ],
     'antipent' : [ getAntiPentagonalNumber, 1 ],
     'antitri'  : [ getAntiTriangularNumber, 1 ],
-    'asin'     : [ getArcsine, 1 ],
-    'atan'     : [ getArctangent, 1 ],
-    'cbrt'     : [ getCubeRoot, 1 ],
-    'ceil'     : [ getCeiling, 1 ],
-    'cos'      : [ getCosine, 1 ],
-    'cosine'   : [ getCosine, 1 ],
-    'cube'     : [ getCube, 1 ],
-    'deg'      : [ convertRadiansToDegrees, 1 ],
-    'degrees'  : [ convertRadiansToDegrees, 1 ],
-    'e'        : [ getE, 0 ],
-    'exp'      : [ getExp, 1 ],
-    'exp10'    : [ getExp10, 1 ],
-    'expphi'   : [ getExpPhi, 1 ],
-    'fac'      : [ getFactorial, 1 ],
-    'fib'      : [ getNthFibonacci, 1 ],
-    'floor'    : [ getFloor, 1 ],
-    'gamma'    : [ getGamma, 1 ],
-    'harm'     : [ getHarmonic, 1 ],
-    'harmonic' : [ getHarmonic, 1 ],
+    'asec'     : [ lambda v: v.append( asec( v.pop( ) ) ), 1 ],
+    'asech'    : [ lambda v: v.append( asech( v.pop( ) ) ), 1 ],
+    'asin'     : [ lambda v: v.append( asin( v.pop( ) ) ), 1 ],
+    'asinh'    : [ lambda v: v.append( asinh( v.pop( ) ) ), 1 ],
+    'atan'     : [ lambda v: v.append( atan( v.pop( ) ) ), 1 ],
+    'atanh'    : [ lambda v: v.append( atanh( v.pop( ) ) ), 1 ],
+    'cbrt'     : [ lambda v: v.append( cbrt( v.pop( ) ) ), 1 ],
+    'ceil'     : [ lambda v: v.append( ceil( v.pop( ) ) ), 1 ],
+    'cos'      : [ lambda v: v.append( cos( v.pop( ) ) ), 1 ],
+    'cosh'     : [ lambda v: v.append( cosh( v.pop( ) ) ), 1 ],
+    'cot'      : [ lambda v: v.append( cot( v.pop( ) ) ), 1 ],
+    'coth'     : [ lambda v: v.append( coth( v.pop( ) ) ), 1 ],
+    'csc'      : [ lambda v: v.append( csc( v.pop( ) ) ), 1 ],
+    'csch'     : [ lambda v: v.append( csch( v.pop( ) ) ), 1 ],
+    'cube'     : [ lambda v: v.append( power( v.pop( ), 3 ) ), 1 ],
+    'deg'      : [ lambda v: v.append( radians( v.pop( ) ) ), 1 ],
+    'degrees'  : [ lambda v: v.append( radians( v.pop( ) ) ), 1 ],
+    'e'        : [ lambda v: v.append( e ), 1 ],
+    'exp'      : [ lambda v: v.append( exp( v.pop( ) ) ), 1 ],
+    'exp10'    : [ lambda v: v.append( power( 10, v.pop( ) ) ), 1 ],
+    'expphi'   : [ lambda v: v.append( power( phi, v.pop( ) ) ), 1 ],
+    'fac'      : [ lambda v: v.append( fac( v.pop( ) ) ), 1 ],
+    'fib'      : [ lambda v: v.append( fib( v.pop( ) ) ), 1 ],
+    'floor'    : [ lambda v: v.append( floor( v.pop( ) ) ), 1 ],
+    'floor'    : [ lambda v: v.append( floor( vadd( v.pop( ), 0.5 ) ) ), 1 ],
+    'gamma'    : [ lambda v: v.append( gamma( v.pop( ) ) ), 1 ],
+    'harm'     : [ lambda v: v.append( harmonic( v.pop( ) ) ), 1 ],
+    'harmonic' : [ lambda v: v.append( harmonic( v.pop( ) ) ), 1 ],
     'hex'      : [ getNthHexagonalNumber, 1 ],
-    'hyperfac' : [ getHyperfactorial, 1 ],
+    'hyperfac' : [ lambda v: v.append( hyperfac( v.pop( ) ) ), 1 ],
     'hypot'    : [ getHypotenuse, 2 ],
-    'itoi'     : [ getIToTheIPower, 0 ],
-    'lgamma'   : [ getLGamma, 1 ],
-    'log'      : [ getLog, 1 ],
-    'log10'    : [ getLog10, 1 ],
+    'inv'      : [ lambda v: v.append( fdiv( 1, v.pop( ) ) ), 1 ],
+    'itoi'     : [ lambda v: v.append( exp( fmul( -0.5, pi ) ) ), 0 ],
+    'lgamma'   : [ lambda v: v.append( loggamma( v.pop( ) ) ), 1 ],
+    'log'      : [ lambda v: v.append( ln( v.pop( ) ) ), 1 ],
+    'log10'    : [ lambda v: v.append( log10( v.pop( ) ) ), 1 ],
     'logxy'    : [ getLogXY, 2 ],
-    'mean'     : [ getMean, 2 ],      # this one eats the whole stack
+    'luc'      : [ getNthLucas, 1 ],
+    'lucas'    : [ getNthLucas, 1 ],
+    'mean'     : [ getMean, 2 ],                                    # this one eats the whole stack
     'mod'      : [ getModulo, 2 ],
     'modulo'   : [ getModulo, 2 ],
-    'mult'     : [ multiplyAll, 2 ],  # this one eats the whole stack
-    'neg'      : [ getNegative, 1 ],
+    'mult'     : [ multiplyAll, 2 ],                                # this one eats the whole stack
+    'nCr'      : [ getCombinations, 2 ],
+    'ncr'      : [ getCombinations, 2 ],
+    'neg'      : [ lambda v: v.append( fneg( v.pop( ) ) ), 1 ],
+    'nPr'      : [ getPermutations, 2 ],
+    'npr'      : [ getPermutations, 2 ],
+    'or'       : [ lambda v: performBitwiseOperation( v, lambda x, y:  x | y ), 2 ],
     'pent'     : [ getNthPentagonalNumber, 1 ],
-    'phi'      : [ getPhi, 0 ],
-    'pi'       : [ getPi, 0 ],
-    'rad'      : [ convertDegreesToRadians, 1 ],
-    'radians'  : [ convertDegreesToRadians, 1 ],
-    'rand'     : [ getRandom, 0 ],
-    'random'   : [ getRandom, 0 ],
-    'sin'      : [ getSine, 1 ],
-    'sine'     : [ getSine, 1 ],
-    'sqr'      : [ getSquare, 1 ],
-    'sqrt'     : [ getSquareRoot, 1 ],
+    'phi'      : [ lambda v: v.append( phi ), 1 ],
+    'pi'       : [ lambda v: v.append( pi ), 1 ],
+    'rad'      : [ lambda v: v.append( degrees( v.pop( ) ) ), 1 ],
+    'radians'  : [ lambda v: v.append( degrees( v.pop( ) ) ), 1 ],
+    'rand'     : [ lambda v: v.append( rand( ) ), 0 ],
+    'random'   : [ lambda v: v.append( rand( ) ), 0 ],
+    'root2'    : [ lambda v: v.append( sqrt( v.pop( ) ) ), 1 ],
+    'root3'    : [ lambda v: v.append( cbrt( v.pop( ) ) ), 1 ],
+    'sec'      : [ lambda v: v.append( sec( v.pop( ) ) ), 1 ],
+    'sech'     : [ lambda v: v.append( sech( v.pop( ) ) ), 1 ],
+    'sin'      : [ lambda v: v.append( sin( v.pop( ) ) ), 1 ],
+    'sinh'     : [ lambda v: v.append( sinh( v.pop( ) ) ), 1 ],
+    'sqr'      : [ lambda v: v.append( power( v.pop( ), 2 ) ), 1 ],
+    'sqrt'     : [ lambda v: v.append( sqrt( v.pop( ) ) ), 1 ],
     'sqtri'    : [ getNthSquareTriangularNumber, 1 ],
-    'sum'      : [ sum, 2 ],          # this one eats the whole stack
-    'superfac' : [ getSuperfactorial, 1 ],
-    'tan'      : [ getTangent, 1 ],
-    'tangent'  : [ getTangent, 1 ],
+    'sum'      : [ sum, 2 ],                                        # this one eats the whole stack
+    'superfac' : [ lambda v: v.append( superfac( v.pop( ) ) ), 1 ],
+    'tan'      : [ lambda v: v.append( tan( v.pop( ) ) ), 1 ],
+    'tanh'     : [ lambda v: v.append( tanh( v.pop( ) ) ), 1 ],
     'tet'      : [ getNthTetrahedralNumber, 1 ],
     'tetra'    : [ getNthTetrahedralNumber, 1 ],
     'tri'      : [ getNthTriangularNumber, 1 ],
+    'xor'      : [ lambda v: performBitwiseOperation( v, lambda x, y:  x ^ y ), 2 ],
     '^'        : [ exponentiate, 2 ],
+    '~'        : [ getInvertedBits, 1 ],
 #    'antitet'  : [ getAntiTetrahedralNumber, 1 ],
 #    'isprime'  : [ isPrime, 1 ],
 #    'powmod'   : [ getPowMod, 3 ],
@@ -1005,8 +840,19 @@ def parseInputValue( term, inputRadix ):
     if not ignoreSpecial and mantissa == '':
         if integer[ 0 ] == '0':
             if integer[ 1 ] in 'Xx':
-                return mpf( int( integer, 16 ) )
+                # set the precision big enough to handle this value
+                newPrecision = int( ceil( fadd( fmul( log( 16, 10 ), len( integer ) - 2 ), 1 ) ) )
+
+                if mp.dps < newPrecision:
+                    mp.dps = newPrecision
+
+                return mpf( int( integer[ 2 : ], 16 ) )
             elif integer[ -1 ] in 'bB':
+                # set the precision big enough to handle this value
+                newPrecision = ceil( fmul( log( 2, 10 ), len( integer ) - 1 ) )
+                if mp.dps < newPrecision:
+                    mp.dps = newPrecision
+
                 integer = integer[ : -1 ]
                 return mpf( int( integer, 2 ) * ( -1 if negative else 1 ) )
             else:
@@ -1029,7 +875,8 @@ def parseInputValue( term, inputRadix ):
 #//
 #//******************************************************************************
 
-def formatOutput( output, radix, numerals, comma, decimalGrouping, baseAsDigits ):
+def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
+                  decimalGrouping, decimalDelimiter, baseAsDigits ):
     strOutput = str( output )
 
     if '.' in strOutput:
@@ -1050,6 +897,8 @@ def formatOutput( output, radix, numerals, comma, decimalGrouping, baseAsDigits 
     if mantissa != '' and mantissa.find( 'e' ) == -1:
         mantissa = mantissa.rstrip( '0' )
 
+    #print( "mantissa: %s" % mantissa )
+
     if radix == phiBase:
         integer, mantissa = convertToPhiBase( mpf( output ) )
     elif radix != 10 or numerals != defaultNumerals:
@@ -1060,15 +909,22 @@ def formatOutput( output, radix, numerals, comma, decimalGrouping, baseAsDigits 
                             int( ( mp.dps - integerLength ) / math.log10( radix ) ),
                             baseAsDigits ) )
 
-    if comma:
-        firstComma = len( integer ) % 3
-        integerResult = integer[ : firstComma ]
+    if integerGrouping > 0:
+        firstDelimiter = len( integer ) % integerGrouping
 
-        for i in range( firstComma, len( integer ), 3 ):
+        if leadingZero and firstDelimiter > 0:
+            integerResult = '0' * ( integerGrouping - firstDelimiter )
+        else:
+            integerResult = ''
+
+        integerResult += integer[ : firstDelimiter ]
+
+        for i in range( firstDelimiter, len( integer ), integerGrouping ):
             if integerResult != '':
-                integerResult += ','
+                integerResult += integerDelimiter
 
-            integerResult += integer[ i : i + 3 ]
+            integerResult += integer[ i : i + integerGrouping ]
+
     else:
         integerResult = integer
 
@@ -1077,7 +933,7 @@ def formatOutput( output, radix, numerals, comma, decimalGrouping, baseAsDigits 
 
         for i in range( 0, len( mantissa ), decimalGrouping ):
             if mantissaResult != '':
-                mantissaResult += ' '
+                mantissaResult += decimalDelimiter
 
             mantissaResult += mantissa[ i : i + decimalGrouping ]
     else:
@@ -1104,6 +960,7 @@ def formatOutput( output, radix, numerals, comma, decimalGrouping, baseAsDigits 
 
 def main( ):
     global numerals
+    global bitwiseGroupSize
 
     parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
                                       PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
@@ -1112,13 +969,15 @@ def main( ):
 Arguments are interpreted as Reverse Polish Notation.
 
 Supported unary operators:
+    ~ (invert bits)
     !, fac
     %, mod, modulo
+    1/x, inv (take reciprocal)
     abs
-    cbrt (cube root)
+    cbrt, root3 (cube root)
     ceil
     cube
-    deg, degrees (radians to degrees),
+    deg, degrees (treat value as radians converted to degrees)
     exp
     exp10
     expphi
@@ -1130,22 +989,20 @@ Supported unary operators:
     log
     log10
     neg
-    rad, radians (degrees to radians),
+    rad, radians (treat value as degrees converted to radians)
     rand
+    round
     sqr
-    sqrt
+    sqrt, root2
     superfac
 
 Supported unary trigonometric operators:
-    sin, sine
-    cos, cosine
-    tan, tangent
-    asin
-    acos
-    atan
+    sin, asin, sinh, asinh, cos, acos, cosh, acosh, tan, atan, tanh, atanh,
+    sec, asec, sech, asech, csc, acsc, csch, acsch, cot, acot, coth, acoth
 
-Supported integer sequence unary operators
-    fib (nth Fibonacci number)*
+Supported integer sequence unary operators:
+    fib (nth Fibonacci number)
+    luc (nth Lucas number)
 
     tri (nth triangular number)
     antitri (which triangular number is this)
@@ -1163,13 +1020,33 @@ Supported integer sequence unary operators
     * requires sufficient precision for accuracy (see Notes)
 
 Supported binary operators:
-    +, -, *, /, ** (power), ^ (power), *** (tetration), // (root), logxy
+    +
+    -
+    *
+    /
+    **, ^ (power)
+    *** (tetration),
+    // (root)
+    logxy
+    nCr, ncr (combinations)
+    nRp, nrp (permutations)
 
 Supported multi operators (operate on all preceding operands):
-    sum, mult, mean
+    sum
+    mult
+    mean
 
 Supported constants:
-    e, pi, phi (the Golden Ratio), itoi (i^i)
+    e,
+    pi,
+    phi (the Golden Ratio),
+    itoi (i^i)
+
+Supported bitwise operators:
+    ~, not
+    and
+    or
+    xor
 
 For integers, rpn understands hexidecimal input of the form '0x....'.
 Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B' is
@@ -1191,6 +1068,8 @@ Note:  tetration forces the second argument to an integer.
 Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
        a level sufficient to guarantee a correct answer.
 
+Note:  Some of the trig functions return complex results as provided by mpmath,
+       but rpn doesn't otherwise support complex numbers.
 ''',
                                       formatter_class=RawTextHelpFormatter )
 
@@ -1200,7 +1079,9 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
     parser.add_argument( '-c', '--comma', action='store_true',
                          help="add commas to result, e.g., 1,234,567.0" )
     parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
-                         help="number decimal places separated into groups (default: 0)" )
+                         help="display decimal places separated into groups (default: 0)" )
+    parser.add_argument( '-i', '--integer_grouping', type=int, action='store', default=0,
+                         help="display integer separated into groups (default: 0)" )
     parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals,
                          help="characters set to use as numerals for output" )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
@@ -1209,7 +1090,12 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
                          help="output in a different base (2 to 62, or phi)" )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
                          help="each digit is a space-delimited base-10 number" )
-    parser.add_argument( '-x', '--hex', action='store_true', help="equivalent to '-r 16'" )
+    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=16,
+                         help="bitwise operations group values by this size (default: 16)" )
+    parser.add_argument( '-x', '--hex', action='store_true', help="hex mode: equivalent to '-r16 -i4 -z'" )
+    parser.add_argument( '-z', '--leading_zero', action='store_true', help="add leading zeros if needed with -i" )
+
+    # OK, let's parse and validate the arguments
 
     if len( sys.argv ) == 1:
         parser.print_help( )
@@ -1218,22 +1104,36 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
     args = parser.parse_args( )
     mp.dps = args.precision
 
+    # these are either globals or can be modified by other options (like -x)
+    bitwiseGroupSize = args.bitwise_group_size
+    integerGrouping = args.integer_grouping
+    leadingZero = args.leading_zero
+
+    # handle -r
     if args.output_radix == 'phi':
         outputRadix = phiBase
     elif args.output_radix == 'fib':
         outputRadix = fibBase
     else:
-        outputRadix = int( args.output_radix )
+        try:
+            outputRadix = int( args.output_radix )
+        except ValueError as error:
+            print( "rpn:  can't interpret output radix '%s' as a number" % args.output_radix )
+            return
 
     numerals = args.numerals
 
+    # handle -x
     if args.hex:
         if outputRadix != 10:
             print( "rpn:  -r and -x can't be used together" )
             return
 
         outputRadix = 16
+        leadingZero = True
+        integerGrouping = 4
 
+    # handle -b
     if args.input_radix == 'phi':
         intputRadix = phiBase
     elif args.output_radix == 'fib':
@@ -1241,6 +1141,7 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
     else:
         inputRadix = int( args.input_radix )
 
+    # handle -R
     if args.output_radix_numerals > 0:
         if args.hex:
             print( "rpn:  -R and -x can't be used together" )
@@ -1255,23 +1156,28 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
     else:
         baseAsDigits = False
 
+    # -r/-R validation
     if baseAsDigits:
         if ( outputRadix < 2 ):
-            print( "rpn:  output radix greater than 1" )
+            print( "rpn:  output radix must be greater than 1" )
             return
     else:
         if ( outputRadix != phiBase and outputRadix != fibBase and ( outputRadix < 2 or outputRadix > 62 ) ):
             print( "rpn:  output radix must be from 2 to 62" )
             return
 
-    if baseAsDigits and ( args.comma or args.decimal_grouping > 0 ):
-        print( "rpn:  -c and -d can't be used with -R" )
+    if args.comma and args.integer_grouping > 0 :
+        print( "rpn:  -c can't be used with -i" )
+        return
+
+    if baseAsDigits and ( args.comma or args.decimal_grouping > 0 or args.integer_grouping > 0 ):
+        print( "rpn:  -c, -d and -i can't be used with -R" )
         return
 
     index = 1                 # only used for error messages
     valueList = list( )
 
-    # start parsing terms and populating the evaluation stack
+    # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
         argType = expressions
 
@@ -1293,11 +1199,8 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
             except KeyboardInterrupt as error:
                 print( "rpn:  keyboard interrupt" )
                 break
-            except OverflowError as error:
-                print( "rpn:  error in arg " + format( index ) + " ('" + term + "'): {0}".format( error ) )
-                break
-            except Overflow as error:
-                print( "rpn:  decimal overflow error" )
+            except Exception as error:
+                print( "rpn: error in arg " + format( index ) + ": {0}".format( error ) )
                 break
         else:
             try:
@@ -1312,8 +1215,13 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
             print( "rpn: unexpected end of input" )
         else:
             result = nstr( valueList.pop( ), mp.dps )
-            print( formatOutput( result, outputRadix, numerals, args.comma, args.decimal_grouping, baseAsDigits ) )
 
+            if args.comma:
+                print( formatOutput( result, outputRadix, numerals, 3, ',', False,
+                                     args.decimal_grouping, ' ', baseAsDigits ) )
+            else:
+                print( formatOutput( result, outputRadix, numerals, integerGrouping, ' ', leadingZero,
+                                     args.decimal_grouping, ' ', baseAsDigits ) )
 
 
 #//******************************************************************************
