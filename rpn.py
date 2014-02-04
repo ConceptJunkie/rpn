@@ -13,7 +13,7 @@ from decimal import *
 #//
 #//******************************************************************************
 
-RPN_VERSION = "2.5.1"
+RPN_VERSION = "2.6.0"
 COPYRIGHT_MESSAGE = "copyright 2013 (1988), Rick Gutleber (rickg@his.com)"
 
 defaultPrecision = 12
@@ -307,6 +307,94 @@ def takeExp10( valueList ):
 
 #//******************************************************************************
 #//
+#//  takeCos
+#//
+#//  from http://docs.python.org/3/library/decimal.html
+#//
+#//******************************************************************************
+
+def takeCos( valueList ):
+    """Return the cosine of x as measured in radians.
+
+    The Taylor series approximation works best for a small value of x.
+    For larger values, first compute x = x % (2 * pi).
+
+    >>> print(cos(Decimal('0.5')))
+    0.8775825618903727161162815826
+    >>> print(cos(0.5))
+    0.87758256189
+    >>> print(cos(0.5+0j))
+    (0.87758256189+0j)
+
+    """
+    getcontext( ).prec += 2
+
+    value = valueList.pop( )
+
+    i, last_s, s, fact, num, sign = 0, 0, 1, 1, 1, 1
+
+    while s != last_s:
+        last_s = s
+        i += 2
+        fact *= i * ( i - 1 )
+        num *= value * value
+        sign *= -1
+        s += num / fact * sign
+
+    getcontext( ).prec -= 2
+
+    # quantize to precision defined by -p
+    #quantize = Decimal( 10 ) ** -getcontext( ).prec
+    #valueList.append( Decimal( +s ).quantize( quantize ) )
+    valueList.append( +s )
+
+
+#//******************************************************************************
+#//
+#//  takeSin
+#//
+#//  from http://docs.python.org/3/library/decimal.html
+#//
+#//******************************************************************************
+
+def takeSin( valueList ):
+    """Return the sine of x as measured in radians.
+
+    The Taylor series approximation works best for a small value of x.
+    For larger values, first compute x = x % (2 * pi).
+
+    >>> print(sin(Decimal('0.5')))
+    0.4794255386042030002732879352
+    >>> print(sin(0.5))
+    0.479425538604
+    >>> print(sin(0.5+0j))
+    (0.479425538604+0j)
+
+    """
+    getcontext( ).prec += 2
+
+    value = valueList.pop( )
+
+    i, last_s, s, fact, num, sign = 1, 0, value, 1, value, 1
+
+    while s != last_s:
+        last_s = s
+        i += 2
+        fact *= i * ( i - 1 )
+        num *= value * value
+        sign *= -1
+        s += num / fact * sign
+
+    getcontext( ).prec -= 2
+
+    # quantize to precision defined by -p
+    #quantize = Decimal( 10 ) ** -getcontext( ).prec
+    #valueList.append( Decimal( +s ).quantize( quantize ) )
+    valueList.append( +s )
+
+
+#//******************************************************************************
+#//
 #//  expressions
 #//
 #//  Function names and number of args needed
@@ -328,6 +416,8 @@ expressions = {
     'log10' : [ takeLog10, 1 ],
     'exp'   : [ takeExp, 1 ],
     'exp10' : [ takeExp10, 1 ],
+    'sin' : [ takeSin, 1 ],
+    'cos' : [ takeCos, 1 ],
 }
 
 
@@ -382,7 +472,7 @@ def main( ):
                                       ' - ' + COPYRIGHT_MESSAGE,
                                        epilog="Arguments are interpreted as Reverse Polish Notation.\n\n" +
                                        "Supported binary operators: +, -, *, /, ** (power), // (root), logxy\n" +
-                                       "Supported unary operators: !, log, log10, exp, exp10, cos, sin\n\n" +
+                                       "Supported unary operators: !, log, log10, exp, exp10\n\n" +
                                        "Note:  Unary operators are also postfix.\n\n" +
                                        "Note:  rpn supports arbitrary precision using Decimal( ), however the\n" +
                                        "        following operators do not always provide arbitrary precision: **, //,\n" +
