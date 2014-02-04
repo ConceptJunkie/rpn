@@ -25,7 +25,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.10.0"
+RPN_VERSION = "4.11.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -73,6 +73,9 @@ def loadSmallPrimes( ):
 
 def loadLargePrimes( ):
     return loadTable( 'large_primes', { 1000000 : 15485863 } )
+
+def loadIsolatedPrimes( ):
+    return loadTable( 'isolated_primes', { 2 : 23 } )
 
 def loadTwinPrimes( ):
     return loadTable( 'twin_primes', { 3 : 11 } )
@@ -126,6 +129,9 @@ def saveSmallPrimes( smallPrimes ):
 def saveLargePrimes( largePrimes ):
     saveTable( 'large_primes', largePrimes )
 
+def saveIsolatedPrimes( isolatedPrimes ):
+    saveTable( 'isolated_primes', isolatedPrimes )
+
 def saveTwinPrimes( twinPrimes ):
     saveTable( 'twin_primes', twinPrimes )
 
@@ -158,6 +164,68 @@ def saveQuintupletPrimes( quintPrimes ):
 
 def saveSextupletPrimes( sextPrimes ):
     saveTable( 'sext_primes', sextPrimes )
+
+
+#//******************************************************************************
+#//
+#//  importTable
+#//
+#//******************************************************************************
+
+def importTable( fileName, loadTableFunc, saveTableFunc  ):
+    print( fileName )
+    var = loadTableFunc( )
+
+    with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
+        imported = pickle.load( pickleFile )
+
+    var.update( imported )
+
+    saveTableFunc( var )
+
+    return len( var )
+
+def importSmallPrimes( fileName ):
+    return importTable( fileName, loadSmallPrimes, saveSmallPrimes )
+
+def importLargePrimes( fileName ):
+    return importTable( fileName, loadLargePrimes, saveLargePrimes )
+
+def importIsolatedPrimes( fileName ):
+    return importTable( fileName, loadIsolatedPrimes, saveIsolatedPrimes )
+
+def importTwinPrimes( fileName ):
+    return importTable( fileName, loadTwinPrimes, saveTwinPrimes )
+
+def importBalancedPrimes( fileName ):
+    return importTable( fileName, loadBalancedPrimes, saveBalancedPrimes )
+
+def importSophiePrimes( fileName ):
+    return importTable( fileName, loadSophiePrimes, saveSophiePrimes )
+
+def importCousinPrimes( fileName ):
+    return importTable( fileName, loadCousinPrimes, saveCousinPrimes )
+
+def importSexyPrimes( fileName ):
+    return importTable( fileName, loadSexyPrimes, saveSexyPrimes )
+
+def importSexyTriplets( fileName ):
+    return importTable( fileName, loadSexyTriplets, saveSexyTriplets )
+
+def importSexyQuadruplets( fileName ):
+    return importTable( fileName, loadSexyQuadruplets, saveSexyQuadruplets )
+
+def importTripletPrimes( fileName ):
+    return importTable( fileName, loadTripletPrimes, saveTripletPrimes )
+
+def importQuadrupletPrimes( fileName ):
+    return importTable( fileName, loadQuadrupletPrimes, saveQuadrupletPrimes )
+
+def importQuintupletPrimes( fileName ):
+    return importTable( fileName, loadQuintupletPrimes, saveQuintupletPrimes )
+
+def importSextupletPrimes( fileName ):
+    return importTable( fileName, loadSextupletPrimes, saveSextupletPrimes )
 
 
 #//******************************************************************************
@@ -197,6 +265,13 @@ def makeLargePrimes( start, end, step ):
     getNthPrime( 1000000 )  # force the cache to load
     end = makeTable( start, end, step, getNthPrime, 'prime' )
     saveLargePrimes( largePrimes )
+    return end
+
+def makeIsolatedPrimes( start, end, step ):
+    global isolatedPrimes
+    getNthIsolatedPrime( 100 )  # force the cache to load
+    end = makeTable( start, end, step, getNthIsolatedPrime, 'isolated' )
+    saveIsolatedPrimes( isolatedPrimes )
     return end
 
 def makeSuperPrimes( start, end ):
@@ -323,6 +398,9 @@ def dumpSmallPrimes( ):
 def dumpLargePrimes( ):
     return dumpTable( loadLargePrimes, 'prime' )
 
+def dumpIsolatedPrimes( ):
+    return dumpTable( loadIsolatedPrimes, 'isolated' )
+
 def dumpTwinPrimes( ):
     return dumpTable( loadTwinPrimes, 'twin' )
 
@@ -424,16 +502,12 @@ def getNthPrime( arg ):
 
         currentIndex = max( key for key in largePrimes if key <= n )
         p = largePrimes[ currentIndex ]
-
-        #print( 'starting: ' + str( currentIndex ) )
     elif n >= 100:
         if smallPrimes == { }:
             smallPrimes = loadSmallPrimes( )
 
         currentIndex = max( key for key in smallPrimes if key <= n )
         p = smallPrimes[ currentIndex ]
-
-        #print( 'looking for nth: ' + str( n ) + ' - starting: ' + str( currentIndex ) + ', p: ' + str( p ) )
     else:
         currentIndex = 4
         p = 7
@@ -452,7 +526,6 @@ def getNthPrime( arg ):
         else:
             smallPrimes[ n ] = p
 
-    #print( 'finished: ' + str( n ) + ', ' + str( p ) )
     return p
 
 
@@ -500,6 +573,48 @@ def findPrimeIndex( arg ):
                 return currentIndex
             else:
                 currentIndex += 1
+
+
+#//******************************************************************************
+#//
+#//  getNthIsolatedPrime
+#//
+#//******************************************************************************
+
+def getNthIsolatedPrime( arg ):
+    global isolatedPrimes
+    global updateDicts
+
+    n = int( arg )
+
+    if n == 1:
+        return 2
+
+    if n == 2:
+        return 23
+
+    if n >= 100:
+        if isolatedPrimes == { }:
+            isolatedPrimes = loadIsolatedPrimes( )
+
+        currentIndex = max( key for key in isolatedPrimes if key <= n )
+        p = isolatedPrimes[ currentIndex ]
+    else:
+        currentIndex = 2
+        p = 23
+
+    f = p % 10
+
+    while n > currentIndex:
+        p, f = getNextPrimeCandidate( p, f )
+
+        if isPrime( p ) and not isPrime( p - 2 ) and not isPrime( p + 2 ):
+            currentIndex += 1
+
+    if updateDicts:
+        isolatedPrimes[ n ] = p
+
+    return p
 
 
 #//******************************************************************************
@@ -1699,6 +1814,95 @@ def getAntiHexagonalNumber( n ):
 
 #//******************************************************************************
 #//
+#//  getNthHeptagonalNumber
+#//
+#//  http://oeis.org/A000566
+#//
+#//  a(n)=n*(5*n-3)/2
+#//
+#//******************************************************************************
+
+def getNthHeptagonalNumber( n ):
+    return fdiv( fmul( n, fsub( fmul( 5, n ), 3 ) ), 2 )
+
+
+#//******************************************************************************
+#//
+#//  getNthHeptagonalPentagonalNumber
+#//
+#//  http://oeis.org/A048900
+#//
+#//  a(n) = floor(1/240*((2+sqrt(15))^2*(4+sqrt(15))^(4n-3)))
+#//
+#//******************************************************************************
+
+def getNthHeptagonalPentagonalNumber( n ):
+    return floor( fdiv( fmul( power( fadd( 2, sqrt( 15 ) ), 2 ),
+                              power( fadd( 4, sqrt( 15 ) ), fsub( fmul( 4, n ), 3 ) ) ), 240 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthHeptagonalHexagonalNumber
+#//
+#//  http://oeis.org/A048903
+#//
+#//  a(n) = floor(1/80*(sqrt(5)-1)*(2+sqrt(5))^(8n-5))
+#//
+#//******************************************************************************
+
+def getNthHeptagonalHexagonalNumber( n ):
+    return floor( fdiv( fmul( fsub( sqrt( 5 ), 1 ),
+                              power( fadd( 2, sqrt( 5 ) ), fsub( fmul( 8, n ), 5 ) ) ), 80 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthOctagonalHeptagonalNumber
+#//
+#//  http://oeis.org/A048906
+#//
+#//  a(n) = floor(1/480*(17+2*sqrt(30))*(sqrt(5)+sqrt(6))^(8n-6))
+#//
+#//******************************************************************************
+
+def getNthOctagonalHeptagonalNumber( n ):
+    return floor( fdiv( fmul( fadd( 17, fmul( sqrt( 30 ), 2 ) ),
+                              power( fadd( sqrt( 5 ), sqrt( 6 ) ), fsub( fmul( 8, n ), 6 ) ) ), 480 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthOctagonalPentagonalNumber
+#//
+#//  http://oeis.org/A046189
+#//
+#//  a(n) = floor(1/96*(11-6*sqrt(2)*(-1)^n)*(1+sqrt(2))^(8*n-6))
+#//
+#//******************************************************************************
+
+def getNthOctagonalPentagonalNumber( n ):
+    return floor( fdiv( fmul( fsub( 11, fprod( [ 6, sqrt( 2 ), power( -1, n ) ] ) ),
+                              power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 8, n ), 6 ) ) ), 96 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthOctagonalHexagonalNumber
+#//
+#//  http://oeis.org/A046192
+#//
+#//  a(n) = floor(1/96*(3*sqrt(3)-sqrt(2))*(sqrt(3)+sqrt(2))^(8n-5))
+#//
+#//******************************************************************************
+
+def getNthOctagonalHexagonalNumber( n ):
+    return floor( fdiv( fmul( fsub( fmul( 3, sqrt( 3 ) ), sqrt( 2 ) ),
+                              power( fadd( sqrt( 3 ), sqrt( 2 ) ), fsub( fmul( 8, n ), 5 ) ) ), 96 ) )
+
+
+#//******************************************************************************
+#//
 #//  getNthTetrahedralNumber
 #//
 #//******************************************************************************
@@ -1920,9 +2124,30 @@ def getNthSchroederNumber( n ):
     result = 0
 
     for k in arange( 0, fadd( n, 1 ) ):
-        result = fadd( result, fdiv( fprod( [ power( 2, k ), binomial( n, k ), binomial( n, fsub( k, 1 ) ) ] ), n ) )
+        result = fadd( result, fdiv( fprod( [ power( 2, k ), binomial( n, k ),
+                                              binomial( n, fsub( k, 1 ) ) ] ), n ) )
 
     return result
+
+
+#//******************************************************************************
+#//
+#//  getNthMotzkinNumber
+#//
+#//  http://oeis.org/A001006
+#//
+#//  a(n) = sum((-1)^j*binomial(n+1, j)*binomial(2n-3j, n), j=0..floor(n/3))/(n+1)
+#//
+#//******************************************************************************
+
+def getNthMotzkinNumber( n ):
+    result = 0
+
+    for j in arange( 0, floor( fdiv( n, 3 ) ) + 1 ):
+        result = fadd( result, fprod( [ power( -1, j ), binomial( fadd( n, 1 ), j ),
+                                      binomial( fsub( fmul( 2, n ), fmul( 3, j ) ), n ) ] ) )
+
+    return fdiv( result, fadd( n, 1 ) )
 
 
 #//******************************************************************************
@@ -2427,55 +2652,59 @@ def dumpStats( ):
                                         len( list_operators_2 ) + len( operators ) ) )
 
     smallPrimes = loadSmallPrimes( )
-    print( '{:10,} small primes,          max: {:,}'.format( len( smallPrimes ),
+    print( '{:10,} small primes,           max: {:,}'.format( len( smallPrimes ),
                                                          max( [ key for key in smallPrimes ] ) ) )
 
     largePrimes = loadLargePrimes( )
-    print( '{:10,} large primes,          max: {:,}'.format( len( largePrimes ),
+    print( '{:10,} large primes,           max: {:,}'.format( len( largePrimes ),
                                                          max( [ key for key in largePrimes ] ) ) )
 
+    isolatedPrimes = loadIsolatedPrimes( )
+    print( '{:10,} isolated primes,        max: {:,}'.format( len( isolatedPrimes ),
+                                                         max( [ key for key in isolatedPrimes ] ) ) )
+
     twinPrimes = loadTwinPrimes( )
-    print( '{:10,} twin primes,           max: {:,}'.format( len( twinPrimes ),
+    print( '{:10,} twin primes,            max: {:,}'.format( len( twinPrimes ),
                                                          max( [ key for key in twinPrimes ] ) ) )
 
     balancedPrimes = loadBalancedPrimes( )
-    print( '{:10,} balanced primes        max: {:,}'.format( len( balancedPrimes ),
+    print( '{:10,} balanced primes,        max: {:,}'.format( len( balancedPrimes ),
                                                          max( [ key for key in balancedPrimes ] ) ) )
 
     sophiePrimes = loadSophiePrimes( )
-    print( '{:10,} Sophie Germain primes, max: {:,}'.format( len( sophiePrimes ),
+    print( '{:10,} Sophie Germain primes,  max: {:,}'.format( len( sophiePrimes ),
                                                          max( [ key for key in sophiePrimes ] ) ) )
 
     cousinPrimes = loadCousinPrimes( )
-    print( '{:10,} cousin primes,         max: {:,}'.format( len( cousinPrimes ),
+    print( '{:10,} cousin primes,          max: {:,}'.format( len( cousinPrimes ),
                                                          max( [ key for key in cousinPrimes ] ) ) )
 
     sexyPrimes = loadSexyPrimes( )
-    print( '{:10,} sexy primes,           max: {:,}'.format( len( sexyPrimes ),
+    print( '{:10,} sexy primes,            max: {:,}'.format( len( sexyPrimes ),
                                                          max( [ key for key in sexyPrimes ] ) ) )
 
     tripletPrimes = loadTripletPrimes( )
-    print( '{:10,} triplet primes,        max: {:,}'.format( len( tripletPrimes ),
+    print( '{:10,} triplet primes,         max: {:,}'.format( len( tripletPrimes ),
                                                          max( [ key for key in tripletPrimes ] ) ) )
 
     sexyTriplets = loadSexyTriplets( )
-    print( '{:10,} sexy triplet primes    max: {:,}'.format( len( sexyTriplets ),
+    print( '{:10,} sexy triplet primes,    max: {:,}'.format( len( sexyTriplets ),
                                                          max( [ key for key in sexyTriplets ] ) ) )
 
     quadPrimes = loadQuadrupletPrimes( )
-    print( '{:10,} quadruplet primes,     max: {:,}'.format( len( quadPrimes ),
+    print( '{:10,} quadruplet primes,      max: {:,}'.format( len( quadPrimes ),
                                                          max( [ key for key in quadPrimes ] ) ) )
 
     sexyQuadruplets = loadSexyQuadruplets( )
-    print( '{:10,} sexy quadruplet primes max: {:,}'.format( len( sexyQuadruplets ),
+    print( '{:10,} sexy quadruplet primes, max: {:,}'.format( len( sexyQuadruplets ),
                                                          max( [ key for key in sexyQuadruplets ] ) ) )
 
     quintPrimes = loadQuintupletPrimes( )
-    print( '{:10,} quintuplet primes,     max: {:,}'.format( len( quintPrimes ),
+    print( '{:10,} quintuplet primes,      max: {:,}'.format( len( quintPrimes ),
                                                          max( [ key for key in quintPrimes ] ) ) )
 
     sextPrimes = loadSextupletPrimes( )
-    print( '{:10,} sextuplet primes,      max: {:,}\n'.format( len( sextPrimes ),
+    print( '{:10,} sextuplet primes,       max: {:,}\n'.format( len( sextPrimes ),
                                                          max( [ key for key in sextPrimes ] ) ) )
 
     return [ int( i ) for i in RPN_VERSION.split( '.' ) ]
@@ -2746,212 +2975,237 @@ list_operators_2 = {
 }
 
 operators = {
-    '!!'          : [ fac2, 1 ],
-    '!'           : [ fac, 1 ],
-    '%'           : [ fmod, 2 ],
-    '*'           : [ fmul, 2 ],
-    '**'          : [ power, 2 ],
-    '***'         : [ tetrate, 2 ],
-    '+'           : [ fadd, 2 ],
-    '-'           : [ fsub, 2 ],
-    '/'           : [ fdiv, 2 ],
-    '//'          : [ root, 2 ],
-    '1/x'         : [ lambda i: fdiv( 1, i ), 1 ],
-    'abs'         : [ fabs, 1 ],
-    'acos'        : [ acos, 1 ],
-    'acosh'       : [ acosh, 1 ],
-    'acosh'       : [ acosh, 1 ],
-    'acot'        : [ acot, 1 ],
-    'acoth'       : [ acoth, 1 ],
-    'acsc'        : [ acsc, 1 ],
-    'acsch'       : [ acsch, 1 ],
-    'add'         : [ fadd, 2 ],
-    'and'         : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x & y ), 2 ],
-    'apery'       : [ apery, 0 ],
-    'asec'        : [ asec, 1 ],
-    'asech'       : [ asech, 1 ],
-    'asin'        : [ asin, 1 ],
-    'asinh'       : [ asinh, 1 ],
-    'atan'        : [ atan, 1 ],
-    'atanh'       : [ atanh, 1 ],
-    'bal'         : [ getNthBalancedPrimes, 1 ],
-    'balanced'    : [ getNthBalancedPrimes, 1 ],
-    'bernoulli'   : [ bernoulli, 1 ],
-    'binomial'    : [ binomial, 2 ],
-    'catalan'     : [ lambda i: fdiv( binomial( fmul( 2, i ), i ), fadd( i, 1 ) ), 1 ],
-    'catmer'      : [ catalan, 0 ],
-    'cbrt'        : [ cbrt, 1 ],
-    'ccube'       : [ getNthCenteredCubeNumber, 1 ],
-    'ceil'        : [ ceil, 1 ],
-    'cf'          : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
-    'champ'       : [ getChampernowne, 0 ],
-    'copeland'    : [ getCopelandErdos, 0 ],
-    'cos'         : [ cos, 1 ],
-    'cosh'        : [ cosh, 1 ],
-    'cot'         : [ cot, 1 ],
-    'coth'        : [ coth, 1 ],
-    'cousin'      : [ getNthCousinPrime, 1 ],
-    'cousinprime' : [ getNthCousinPrime, 1 ],
-    'csc'         : [ csc, 1 ],
-    'csch'        : [ csch, 1 ],
-    'cube'        : [ lambda i: power( i, 3 ), 1 ],
-    'deg'         : [ radians, 1 ],
-    'degrees'     : [ radians, 1 ],
-    'delannoy'    : [ getNthDelannoyNumber, 1 ],
-    'e'           : [ e, 0 ],
-    'egypt'       : [ getGreedyEgyptianFraction, 2 ],
-    'euler'       : [ euler, 0 ],
-    'exp'         : [ exp, 1 ],
-    'exp10'       : [ lambda i: power( 10, i ), 1 ],
-    'expphi'      : [ phi, 1 ],
-    'fac'         : [ fac, 1 ],
-    'fac2'        : [ fac2, 1 ],
-    'factor'      : [ lambda i: getExpandedFactorList( factorize( i ) ), 1 ],
-    'fib'         : [ fib, 1 ],
-    'floor'       : [ floor, 1 ],
-    'frac'        : [ interpretAsFraction, 2 ],
-    'fraction'    : [ interpretAsFraction, 2 ],
-    'gamma'       : [ gamma, 1 ],
-    'glaisher'    : [ glaisher, 0 ],
-    'harm'        : [ harmonic, 1 ],
-    'harmonic'    : [ harmonic, 1 ],
-    'hex'         : [ lambda i: fsub( fprod( 2, i, i ), i ), 1 ],
-    'hex?'        : [ getAntiHexagonalNumber, 1 ],
-    'hyper4'      : [ tetrate, 2 ],
-    'hyper4_2'    : [ tetrateLarge, 2 ],
-    'hyperfac'    : [ hyperfac, 1 ],
-    'hypot'       : [ hypot, 2 ],
-    'i'           : [ makeImaginary, 1 ],
-    'inv'         : [ lambda i: fdiv( 1, i ), 1 ],
-    'isdiv'       : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2 ],
-    'isprime'     : [ lambda i: 1 if isPrime( i ) else 0, 1 ],
-    'issqr'       : [ isSquare, 1 ],
-    'issquare'    : [ isSquare, 1 ],
-    'itoi'        : [ lambda: exp( fmul( -0.5, pi ) ), 0 ],
-    'khinchin'    : [ khinchin, 0 ],
-    'lambertw'    : [ lambertw, 1 ],
-    'lgamma'      : [ loggamma, 1 ],
-    'ln'          : [ ln, 1 ],
-    'log'         : [ ln, 1 ],
-    'log10'       : [ log10, 1 ],
-    'logxy'       : [ log, 2 ],
-    'luc'         : [ getNthLucas, 1 ],
-    'lucas'       : [ getNthLucas, 1 ],
-    'mertens'     : [ mertens, 0 ],
-    'mod'         : [ fmod, 2 ],
-    'modulo'      : [ fmod, 2 ],
-    'mulitply'    : [ fmul, 2 ],
-    'mult'        : [ fmul, 2 ],
-    'narayana'    : [ lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2 ],
-    'neg'         : [ fneg, 1 ],
-    'npr'         : [ getPermutations, 2 ],
-    'nPr'         : [ getPermutations, 2 ],
-    'oct'         : [ getNthOctahedralNumber, 1 ],
-    'octahedral'  : [ getNthOctahedralNumber, 1 ],
-    'omega'       : [ lambda: lambertw( 1 ), 0 ],
-    'or'          : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
-    'pent'        : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1 ],
-    'pent?'       : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1 ],
-    'pentatope'   : [ getNthPentatopeNumber, 1 ],
-    'perm'        : [ getPermutations, 2 ],
-    'phi'         : [ phi, 0 ],
-    'pi'          : [ pi, 0 ],
-    'plastic'     : [ getPlasticConstant, 0 ],
-    'polygamma'   : [ psi, 2 ],
-    'polyprime'   : [ getNthPolyPrime, 2 ],
-    'polytope'    : [ getNthPolytopeNumber, 2 ],
-    'power'       : [ power, 2 ],
-    'prime'       : [ getNthPrime, 1 ],
-    'prime?'      : [ findPrimeIndex, 1 ],
-    'primepi'     : [ primepi, 1 ],
-    'primorial'   : [ getPrimorial, 1 ],
-    'psi'         : [ psi, 2 ],
-    'pyr'         : [ getNthPyramidalNumber, 1 ],
-    'pyramid'     : [ getNthPyramidalNumber, 1 ],
-    'quad'        : [ getNthQuadrupletPrime, 1 ],
-    'quadprime'   : [ getNthQuadrupletPrime, 1 ],
-    'quint'       : [ getNthQuintupletPrimes, 1 ],
-    'quintprime'  : [ getNthQuintupletPrimes, 1 ],
-    'rad'         : [ degrees, 1 ],
-    'radians'     : [ degrees, 1 ],
-    'rand'        : [ rand, 0 ],
-    'random'      : [ rand, 0 ],
-    'rhombdodec'  : [ getNthRhombicDodecahedralNumber, 1 ],
-    'root'        : [ root, 2 ],
-    'root2'       : [ sqrt, 1 ],
-    'root3'       : [ cbrt, 1 ],
-    'round'       : [ lambda i: floor( fadd( i, 0.5 ) ), 1 ],
-    'schroeder'   : [ getNthSchroederNumber, 1 ],
-    'sec'         : [ sec, 1 ],
-    'sech'        : [ sech, 1 ],
-    'sext'        : [ getNthSextupletPrimes, 1 ],
-    'sextprime'   : [ getNthSextupletPrimes, 1 ],
-    'sexy'        : [ getNthSexyPrime, 1 ],
-    'sexyprime'   : [ getNthSexyPrime, 1 ],
-    'sin'         : [ sin, 1 ],
-    'sinh'        : [ sinh, 1 ],
-    'solve2'      : [ solveQuadraticPolynomial, 3 ],
-    'solve3'      : [ solveCubicPolynomial, 4 ],
-    'solve4'      : [ solveQuarticPolynomial, 5 ],
-    'sophie'      : [ getNthSophiePrime, 1 ],
-    'sqr'         : [ lambda i: power( i, 2 ), 1 ],
-    'sqrt'        : [ sqrt, 1 ],
-    'sqtri'       : [ getNthSquareTriangularNumber, 1 ],
-    'steloct'     : [ getNthStellaOctangulaNumber, 1 ],
-    'sub'         : [ fsub, 2 ],
-    'subtract'    : [ fsub, 2 ],
-    'superfac'    : [ superfac, 1 ],
-    'superprime'  : [ getNthSuperPrime, 1 ],
-    'syl'         : [ getNthSylvester, 1 ],
-    'sylvester'   : [ getNthSylvester, 1 ],
-    'tan'         : [ tan, 1 ],
-    'tanh'        : [ tanh, 1 ],
-    'tet'         : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1 ],
-    'tetra'       : [ getNthTetrahedralNumber, 1 ],
-    'tri'         : [ getNthTriangularNumber, 1 ],
-    'tri?'        : [ getAntiTriangularNumber, 1 ],
-    'triplet'     : [ getNthTripletPrimes, 1 ],
-    'tripletprime': [ getNthTripletPrimes, 1 ],
-    'truncoct'    : [ getNthTruncatedOctahedralNumber, 1 ],
-    'trunctet'    : [ getNthTruncatedTetrahedralNumber, 1 ],
-    'twin'        : [ getNthTwinPrime, 1 ],
-    'twinprime'   : [ getNthTwinPrime, 1 ],
-    'unitroots'   : [ lambda i: unitroots( int( i ) ), 1 ],
-    'xor'         : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
-    'zeta'        : [ zeta, 1 ],
-    '^'           : [ power, 2 ],
-    '_dumpbal'    : [ dumpBalancedPrimes, 0 ],
-    '_dumpcousin' : [ dumpCousinPrimes, 0 ],
-    '_dumpprimes' : [ dumpLargePrimes, 0 ],
-    '_dumpquad'   : [ dumpQuadrupletPrimes, 0 ],
-    '_dumpquint'  : [ dumpQuintupletPrimes, 0 ],
-    '_dumpsext'   : [ dumpSextupletPrimes, 0 ],
-    '_dumpsexy'   : [ dumpSexyPrimes, 0 ],
-    '_dumpsmall'  : [ dumpSmallPrimes, 0 ],
-    '_dumpsophie' : [ dumpSophiePrimes, 0 ],
-    '_dumptriplet': [ dumpTripletPrimes, 0 ],
-    '_dumptwin'   : [ dumpTwinPrimes, 0 ],
-    '_listops'    : [ listOperators, 0 ],
-    '_makebal'    : [ makeBalancedPrimes, 3 ],
-    '_makecousin' : [ makeCousinPrimes, 3 ],
-    '_makeprimes' : [ makeLargePrimes, 3 ],
-    '_makequad'   : [ makeQuadrupletPrimes, 3 ],
-    '_makequint'  : [ makeQuintupletPrimes, 3 ],
-    '_makesext'   : [ makeSextupletPrimes, 3 ],
-    '_makesexy'   : [ makeSexyPrimes, 3 ],
-    '_makesexy3'  : [ makeSexyTriplets, 3 ],
-    '_makesexy4'  : [ makeSexyQuadruplets, 3 ],
-    '_makesmall'  : [ makeSmallPrimes, 3 ],
-    '_makesophie' : [ makeSophiePrimes, 3 ],
-    '_makesuper'  : [ makeSuperPrimes, 2 ],
-    '_maketriplet': [ makeTripletPrimes, 3 ],
-    '_maketwin'   : [ makeTwinPrimes, 3 ],
-    '_stats'      : [ dumpStats, 0 ],
-    '~'           : [ getInvertedBits, 1 ],
-#   'antitet'     : [ getAntiTetrahedralNumber, 1 ],
-#   'bernfrac'    : [ bernfrac, 1 ],
-#   'count'       : [ countElements, 1 ],
-#   'powmod'      : [ getPowMod, 3 ],
+    '!!'            : [ fac2, 1 ],
+    '!'             : [ fac, 1 ],
+    '%'             : [ fmod, 2 ],
+    '*'             : [ fmul, 2 ],
+    '**'            : [ power, 2 ],
+    '***'           : [ tetrate, 2 ],
+    '+'             : [ fadd, 2 ],
+    '-'             : [ fsub, 2 ],
+    '/'             : [ fdiv, 2 ],
+    '//'            : [ root, 2 ],
+    '1/x'           : [ lambda i: fdiv( 1, i ), 1 ],
+    'abs'           : [ fabs, 1 ],
+    'acos'          : [ acos, 1 ],
+    'acosh'         : [ acosh, 1 ],
+    'acosh'         : [ acosh, 1 ],
+    'acot'          : [ acot, 1 ],
+    'acoth'         : [ acoth, 1 ],
+    'acsc'          : [ acsc, 1 ],
+    'acsch'         : [ acsch, 1 ],
+    'add'           : [ fadd, 2 ],
+    'and'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x & y ), 2 ],
+    'apery'         : [ apery, 0 ],
+    'asec'          : [ asec, 1 ],
+    'asech'         : [ asech, 1 ],
+    'asin'          : [ asin, 1 ],
+    'asinh'         : [ asinh, 1 ],
+    'atan'          : [ atan, 1 ],
+    'atanh'         : [ atanh, 1 ],
+    'bal'           : [ getNthBalancedPrimes, 1 ],
+    'balanced'      : [ getNthBalancedPrimes, 1 ],
+    'bernoulli'     : [ bernoulli, 1 ],
+    'binomial'      : [ binomial, 2 ],
+    'catalan'       : [ lambda i: fdiv( binomial( fmul( 2, i ), i ), fadd( i, 1 ) ), 1 ],
+    'catmer'        : [ catalan, 0 ],
+    'cbrt'          : [ cbrt, 1 ],
+    'ccube'         : [ getNthCenteredCubeNumber, 1 ],
+    'ceil'          : [ ceil, 1 ],
+    'cf'            : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
+    'champ'         : [ getChampernowne, 0 ],
+    'copeland'      : [ getCopelandErdos, 0 ],
+    'cos'           : [ cos, 1 ],
+    'cosh'          : [ cosh, 1 ],
+    'cot'           : [ cot, 1 ],
+    'coth'          : [ coth, 1 ],
+    'cousin'        : [ getNthCousinPrime, 1 ],
+    'cousinprime'   : [ getNthCousinPrime, 1 ],
+    'csc'           : [ csc, 1 ],
+    'csch'          : [ csch, 1 ],
+    'cube'          : [ lambda i: power( i, 3 ), 1 ],
+    'dec'           : [ lambda i: polyval( [ 4, -3, 0 ],  i ), 1 ],
+    'deg'           : [ radians, 1 ],
+    'degrees'       : [ radians, 1 ],
+    'delannoy'      : [ getNthDelannoyNumber, 1 ],
+    'e'             : [ e, 0 ],
+    'egypt'         : [ getGreedyEgyptianFraction, 2 ],
+    'euler'         : [ euler, 0 ],
+    'exp'           : [ exp, 1 ],
+    'exp10'         : [ lambda i: power( 10, i ), 1 ],
+    'expphi'        : [ phi, 1 ],
+    'fac'           : [ fac, 1 ],
+    'fac2'          : [ fac2, 1 ],
+    'factor'        : [ lambda i: getExpandedFactorList( factorize( i ) ), 1 ],
+    'fib'           : [ fib, 1 ],
+    'floor'         : [ floor, 1 ],
+    'frac'          : [ interpretAsFraction, 2 ],
+    'fraction'      : [ interpretAsFraction, 2 ],
+    'gamma'         : [ gamma, 1 ],
+    'glaisher'      : [ glaisher, 0 ],
+    'harm'          : [ harmonic, 1 ],
+    'harmonic'      : [ harmonic, 1 ],
+    'hept'          : [ getNthHeptagonalNumber, 1 ],
+    'hepthex'       : [ getNthHeptagonalHexagonalNumber, 1 ],
+    'heptpent'      : [ getNthHeptagonalPentagonalNumber, 1 ],
+    'hex'           : [ lambda i: fsub( fprod( 2, i, i ), i ), 1 ],
+    'hex?'          : [ getAntiHexagonalNumber, 1 ],
+    'hyper4'        : [ tetrate, 2 ],
+    'hyper4_2'      : [ tetrateLarge, 2 ],
+    'hyperfac'      : [ hyperfac, 1 ],
+    'hypot'         : [ hypot, 2 ],
+    'i'             : [ makeImaginary, 1 ],
+    'inv'           : [ lambda i: fdiv( 1, i ), 1 ],
+    'isdiv'         : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2 ],
+    'isprime'       : [ lambda i: 1 if isPrime( i ) else 0, 1 ],
+    'issqr'         : [ isSquare, 1 ],
+    'issquare'      : [ isSquare, 1 ],
+    'itoi'          : [ lambda: exp( fmul( -0.5, pi ) ), 0 ],
+    'khinchin'      : [ khinchin, 0 ],
+    'lambertw'      : [ lambertw, 1 ],
+    'lgamma'        : [ loggamma, 1 ],
+    'ln'            : [ ln, 1 ],
+    'log'           : [ ln, 1 ],
+    'log10'         : [ log10, 1 ],
+    'logxy'         : [ log, 2 ],
+    'luc'           : [ getNthLucas, 1 ],
+    'lucas'         : [ getNthLucas, 1 ],
+    'mertens'       : [ mertens, 0 ],
+    'mod'           : [ fmod, 2 ],
+    'modulo'        : [ fmod, 2 ],
+    'motzkin'       : [ getNthMotzkinNumber, 1 ],
+    'mulitply'      : [ fmul, 2 ],
+    'mult'          : [ fmul, 2 ],
+    'narayana'      : [ lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2 ],
+    'neg'           : [ fneg, 1 ],
+    'non'           : [ lambda n: fdiv( polyval( [ 7, -5, 0 ], n ), 2 ), 1 ],
+    'npr'           : [ getPermutations, 2 ],
+    'nPr'           : [ getPermutations, 2 ],
+    'oct'           : [ lambda n: polyval( [ 3, -2, 0 ], n ), 1 ],
+    'octhept'       : [ getNthOctagonalHeptagonalNumber, 1 ],
+    'octhex'        : [ getNthOctagonalHexagonalNumber, 1 ],
+    'octahedral'    : [ getNthOctahedralNumber, 1 ],
+    'octpent'       : [ getNthOctagonalPentagonalNumber, 1 ],
+    'omega'         : [ lambda: lambertw( 1 ), 0 ],
+    'or'            : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
+    'pent'          : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1 ],
+    'pent?'         : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1 ],
+    'pentatope'     : [ getNthPentatopeNumber, 1 ],
+    'perm'          : [ getPermutations, 2 ],
+    'phi'           : [ phi, 0 ],
+    'pi'            : [ pi, 0 ],
+    'plastic'       : [ getPlasticConstant, 0 ],
+    'polygamma'     : [ psi, 2 ],
+    'polyprime'     : [ getNthPolyPrime, 2 ],
+    'polytope'      : [ getNthPolytopeNumber, 2 ],
+    'power'         : [ power, 2 ],
+    'prime'         : [ getNthPrime, 1 ],
+    'prime?'        : [ findPrimeIndex, 1 ],
+    'primepi'       : [ primepi, 1 ],
+    'primorial'     : [ getPrimorial, 1 ],
+    'psi'           : [ psi, 2 ],
+    'pyr'           : [ getNthPyramidalNumber, 1 ],
+    'pyramid'       : [ getNthPyramidalNumber, 1 ],
+    'quad'          : [ getNthQuadrupletPrime, 1 ],
+    'quadprime'     : [ getNthQuadrupletPrime, 1 ],
+    'quint'         : [ getNthQuintupletPrimes, 1 ],
+    'quintprime'    : [ getNthQuintupletPrimes, 1 ],
+    'rad'           : [ degrees, 1 ],
+    'radians'       : [ degrees, 1 ],
+    'rand'          : [ rand, 0 ],
+    'random'        : [ rand, 0 ],
+    'rhombdodec'    : [ getNthRhombicDodecahedralNumber, 1 ],
+    'root'          : [ root, 2 ],
+    'root2'         : [ sqrt, 1 ],
+    'root3'         : [ cbrt, 1 ],
+    'round'         : [ lambda i: floor( fadd( i, 0.5 ) ), 1 ],
+    'schroeder'     : [ getNthSchroederNumber, 1 ],
+    'sec'           : [ sec, 1 ],
+    'sech'          : [ sech, 1 ],
+    'sext'          : [ getNthSextupletPrimes, 1 ],
+    'sextprime'     : [ getNthSextupletPrimes, 1 ],
+    'sexy'          : [ getNthSexyPrime, 1 ],
+    'sexyprime'     : [ getNthSexyPrime, 1 ],
+    'sin'           : [ sin, 1 ],
+    'sinh'          : [ sinh, 1 ],
+    'solve2'        : [ solveQuadraticPolynomial, 3 ],
+    'solve3'        : [ solveCubicPolynomial, 4 ],
+    'solve4'        : [ solveQuarticPolynomial, 5 ],
+    'sophie'        : [ getNthSophiePrime, 1 ],
+    'sqr'           : [ lambda i: power( i, 2 ), 1 ],
+    'sqrt'          : [ sqrt, 1 ],
+    'sqtri'         : [ getNthSquareTriangularNumber, 1 ],
+    'steloct'       : [ getNthStellaOctangulaNumber, 1 ],
+    'sub'           : [ fsub, 2 ],
+    'subtract'      : [ fsub, 2 ],
+    'superfac'      : [ superfac, 1 ],
+    'superprime'    : [ getNthSuperPrime, 1 ],
+    'syl'           : [ getNthSylvester, 1 ],
+    'sylvester'     : [ getNthSylvester, 1 ],
+    'tan'           : [ tan, 1 ],
+    'tanh'          : [ tanh, 1 ],
+    'tet'           : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1 ],
+    'tetra'         : [ getNthTetrahedralNumber, 1 ],
+    'tri'           : [ getNthTriangularNumber, 1 ],
+    'tri?'          : [ getAntiTriangularNumber, 1 ],
+    'triplet'       : [ getNthTripletPrimes, 1 ],
+    'tripletprime'  : [ getNthTripletPrimes, 1 ],
+    'truncoct'      : [ getNthTruncatedOctahedralNumber, 1 ],
+    'trunctet'      : [ getNthTruncatedTetrahedralNumber, 1 ],
+    'twin'          : [ getNthTwinPrime, 1 ],
+    'twinprime'     : [ getNthTwinPrime, 1 ],
+    'unitroots'     : [ lambda i: unitroots( int( i ) ), 1 ],
+    'xor'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
+    'zeta'          : [ zeta, 1 ],
+    '^'             : [ power, 2 ],
+    '_dumpbal'      : [ dumpBalancedPrimes, 0 ],
+    '_dumpiso'      : [ dumpIsolatedPrimes, 0 ],
+    '_dumpcousin'   : [ dumpCousinPrimes, 0 ],
+    '_dumpprimes'   : [ dumpLargePrimes, 0 ],
+    '_dumpquad'     : [ dumpQuadrupletPrimes, 0 ],
+    '_dumpquint'    : [ dumpQuintupletPrimes, 0 ],
+    '_dumpsext'     : [ dumpSextupletPrimes, 0 ],
+    '_dumpsexy'     : [ dumpSexyPrimes, 0 ],
+    '_dumpsmall'    : [ dumpSmallPrimes, 0 ],
+    '_dumpsophie'   : [ dumpSophiePrimes, 0 ],
+    '_dumptriplet'  : [ dumpTripletPrimes, 0 ],
+    '_dumptwin'     : [ dumpTwinPrimes, 0 ],
+    '_listops'      : [ listOperators, 0 ],
+    '_makebal'      : [ makeBalancedPrimes, 3 ],
+    '_makecousin'   : [ makeCousinPrimes, 3 ],
+    '_makeiso'      : [ makeIsolatedPrimes, 3 ],
+    '_makeprimes'   : [ makeLargePrimes, 3 ],
+    '_makequad'     : [ makeQuadrupletPrimes, 3 ],
+    '_makequint'    : [ makeQuintupletPrimes, 3 ],
+    '_makesext'     : [ makeSextupletPrimes, 3 ],
+    '_makesexy'     : [ makeSexyPrimes, 3 ],
+    '_makesexy3'    : [ makeSexyTriplets, 3 ],
+    '_makesexy4'    : [ makeSexyQuadruplets, 3 ],
+    '_makesmall'    : [ makeSmallPrimes, 3 ],
+    '_makesophie'   : [ makeSophiePrimes, 3 ],
+    '_makesuper'    : [ makeSuperPrimes, 2 ],
+    '_maketriplet'  : [ makeTripletPrimes, 3 ],
+    '_maketwin'     : [ makeTwinPrimes, 3 ],
+    '_importbal'    : [ importBalancedPrimes, 1 ],
+    '_importcousin' : [ importCousinPrimes, 1 ],
+    '_importiso'    : [ importIsolatedPrimes, 1 ],
+    '_importprimes' : [ importLargePrimes, 1 ],
+    '_importquad'   : [ importQuadrupletPrimes, 1 ],
+    '_importquint'  : [ importQuintupletPrimes, 1 ],
+    '_importsext'   : [ importSextupletPrimes, 1 ],
+    '_importsexy'   : [ importSexyPrimes, 1 ],
+    '_importsexy3'  : [ importSexyTriplets, 1 ],
+    '_importsexy4'  : [ importSexyQuadruplets, 1 ],
+    '_importsmall'  : [ importSmallPrimes, 1 ],
+    '_importsophie' : [ importSophiePrimes, 1 ],
+    '_importtriplet': [ importTripletPrimes, 1 ],
+    '_importtwin'   : [ importTwinPrimes, 1 ],
+    '_stats'        : [ dumpStats, 0 ],
+    '~'             : [ getInvertedBits, 1 ],
+#   'antitet'       : [ getAntiTetrahedralNumber, 1 ],
+#   'bernfrac'      : [ bernfrac, 1 ],
+#   'count'         : [ countElements, 1 ],
+#   'powmod'        : [ getPowMod, 3 ],
 }
 
 
@@ -3494,6 +3748,7 @@ def main( ):
 
     global balancedPrimes
     global cousinPrimes
+    global isolatedPrimes
     global largePrimes
     global quadPrimes
     global quintPrimes
@@ -3512,6 +3767,7 @@ def main( ):
 
     balancedPrimes = { }
     cousinPrimes = { }
+    isolatedPrimes = { }
     largePrimes = { }
     quadPrimes = { }
     quintPrimes = { }
@@ -3813,9 +4069,10 @@ def main( ):
                 print( "rpn:  error in arg " + format( index ) + ":  {0}".format( error ) )
                 break
             except TypeError as error:
-                print( "rpn:  error in arg " + format( index ) +
-                       ":  unrecognized argument: '%s'" % sys.argv[ index ] )
-                break
+                currentValueList.append( term )
+                #print( "rpn:  error in arg " + format( index ) +
+                #       ":  unrecognized argument: '%s'" % sys.argv[ index ] )
+                #break
 
         index = index + 1
     else:    # i.e., if the for loop completes
@@ -3871,12 +4128,6 @@ def main( ):
 
                     if poly == 'None':
                         poly = str( findpoly( result, args.find_poly, maxcoeff=1000 ) )
-
-                    if poly == 'None':
-                        poly = str( findpoly( result, args.find_poly, maxcoeff=10000 ) )
-
-                    if poly == 'None':
-                        poly = str( findpoly( result, args.find_poly, maxcoeff=100000 ) )
 
                     if poly == 'None':
                         poly = str( findpoly( result, args.find_poly, maxcoeff=1000000 ) )
