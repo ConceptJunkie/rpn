@@ -8,6 +8,7 @@ import os
 import pickle
 import random
 import sys
+import time
 import types
 
 from Euler import is_prime as isPrime
@@ -25,7 +26,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.3.0"
+RPN_VERSION = "4.4.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -53,347 +54,158 @@ inputRadix = 10
 
 #//******************************************************************************
 #//
-#//  loadPrimes
+#//  loadTable
 #//
 #//******************************************************************************
 
-def loadPrimes( ):
+def loadTable( fileName, default ):
     global dataPath
 
     try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'primes.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'rb' ) ) as pickleFile:
             primes = pickle.load( pickleFile )
     except FileNotFoundError as error:
-        primes = { 3: 5, }
+        primes = default
 
     return primes
 
 
+def loadPrimes( ):
+    return loadTable( 'primes', { 3: 5 } )
+
+def loadTwinPrimes( ):
+    return loadTable( 'twin_primes', { 3: 11 } )
+
+def loadCousinPrimes( ):
+    return loadTable( 'cousin_primes', { 2: 7 } )
+
+def loadSexyPrimes( ):
+    return loadTable( 'sexy_primes', { 2: 7 } )
+
+def loadTripletPrimes( ):
+    return loadTable( 'triplet_primes', { 2: 7 } )
+
+def loadQuadruplePrimes( ):
+    return loadTable( 'quad_primes', { 1: 5 } )
+
+
 #//******************************************************************************
 #//
-#//  savePrimes
+#//  saveTable
 #//
 #//******************************************************************************
 
-def savePrimes( primes ):
+def saveTable( fileName, var ):
     global dataPath
 
-    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'primes.pckl.bz2', 'wb' ) ) as pickleFile:
-        pickle.dump( primes, pickleFile )
+    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'wb' ) ) as pickleFile:
+        pickle.dump( var, pickleFile )
+
+def savePrimes( primes ):
+    saveTable( 'primes', primes )
+
+def saveTwinPrimes( twinPrimes ):
+    saveTable( 'twin_primes', twinPrimes )
+
+def saveCousinPrimes( cousinPrimes ):
+    saveTable( 'cousin_primes', cousinPrimes )
+
+def saveSexyPrimes( sexyPrimes ):
+    saveTable( 'sexy_primes', sexyPrimes )
+
+def saveTripletPrimes( tripletPrimes ):
+    saveTable( 'triplet_primes', tripletPrimes )
+
+def saveQuadruplePrimes( quadPrimes ):
+    saveTable( 'quad_primes', quadPrimes )
 
 
 #//******************************************************************************
 #//
-#//  makePrimes
+#//  makeTable
 #//
 #//******************************************************************************
+
+def makeTable( start, end, step, func, name ):
+    for i in range( int( start ), int( end ) + 1, int( step ) ):
+        p = func( i )
+
+        if isinstance( p, list ):
+            p = p[ 0 ]
+
+        print( name + ':  {:,} : {:,}'.format( i, p ) )
+        sys.stdout.flush( )
+
+    return end
 
 def makePrimes( start, end, step ):
     global primes
-
-    for i in range( int( start ), int( end ) + 1, int( step ) ):
-        p = getNthPrime( i )
-        print( "prime:  " + str( i ) + " : " + str( p ) )
-        sys.stdout.flush( )
-
-        primes.update( { i : p } )
-
+    end = makeTable( start, end, step, getNthPrime, 'prime' )
     savePrimes( primes )
-
     return end
-
-
-#//******************************************************************************
-#//
-#//  dumpPrimes
-#//
-#//******************************************************************************
-
-def dumpPrimes( ):
-    global primes
-
-    primes = loadPrimes( )
-
-    for i in sorted( [ key for key in primes ] ):
-        print( "prime:  " + str( i ) + " : " + str( primes[ i ] ) )
-
-    return max( [ key for key in primes ] )
-
-
-#//******************************************************************************
-#//
-#//  loadTwinPrimes
-#//
-#//******************************************************************************
-
-def loadTwinPrimes( ):
-    global dataPath
-
-    try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'twin_primes.pckl.bz2', 'rb' ) ) as pickleFile:
-            twinPrimes = pickle.load( pickleFile )
-    except FileNotFoundError as error:
-        twinPrimes = { 3: 11, }
-
-    return twinPrimes
-
-
-#//******************************************************************************
-#//
-#//  saveTwinPrimes
-#//
-#//******************************************************************************
-
-def saveTwinPrimes( twinPrimes ):
-    global dataPath
-
-    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'twin_primes.pckl.bz2', 'wb' ) ) as pickleFile:
-        pickle.dump( twinPrimes, pickleFile )
-
-
-#//******************************************************************************
-#//
-#//  makeTwinPrimes
-#//
-#//******************************************************************************
 
 def makeTwinPrimes( start, end, step ):
     global twinPrimes
-
-    for i in range( int( start ), int( end ) + 1, int( step ) ):
-        p = getNthTwinPrime( i )
-        print( "twin:  " + str( i ) + " : " + str( p ) )
-        sys.stdout.flush( )
-
-        twinPrimes.update( { i : p } )
-
+    end = makeTable( start, end, step, getNthTwinPrimes, 'twin' )
     saveTwinPrimes( twinPrimes )
-
     return end
-
-
-#//******************************************************************************
-#//
-#//  dumpTwinPrimes
-#//
-#//******************************************************************************
-
-def dumpTwinPrimes( ):
-    global twinPrimes
-
-    twinPrimes = loadTwinPrimes( )
-
-    for i in sorted( [ key for key in twinPrimes ] ):
-        print( "twin:  " + str( i ) + " : " + str( twinPrimes[ i ] ) )
-
-    return max( [ key for key in twinPrimes ] )
-
-
-#//******************************************************************************
-#//
-#//  loadCousinPrimes
-#//
-#//******************************************************************************
-
-def loadCousinPrimes( ):
-    global dataPath
-
-    try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'cousin_primes.pckl.bz2', 'rb' ) ) as pickleFile:
-            cousinPrimes = pickle.load( pickleFile )
-    except FileNotFoundError as error:
-        cousinPrimes = { 2: 7, }
-
-    return cousinPrimes
-
-
-#//******************************************************************************
-#//
-#//  saveCousinPrimes
-#//
-#//******************************************************************************
-
-def saveCousinPrimes( cousinPrimes ):
-    global dataPath
-
-    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'cousin_primes.pckl.bz2', 'wb' ) ) as pickleFile:
-        pickle.dump( cousinPrimes, pickleFile )
-
-
-#//******************************************************************************
-#//
-#//  makeCousinPrimes
-#//
-#//******************************************************************************
 
 def makeCousinPrimes( start, end, step ):
     global cousinPrimes
-
-    for i in range( int( start ), int( end ) + 1, int( step ) ):
-        p = getNthCousinPrime( i )
-        print( "cousin:  " + str( i ) + " : " + str( p ) )
-        sys.stdout.flush( )
-
-        cousinPrimes.update( { i : p } )
-
+    end = makeTable( start, end, step, getNthCousinPrimes, 'cousin' )
     saveCousinPrimes( cousinPrimes )
-
     return end
-
-
-#//******************************************************************************
-#//
-#//  dumpCousinPrimes
-#//
-#//******************************************************************************
-
-def dumpCousinPrimes( ):
-    global cousinPrimes
-
-    cousinPrimes = loadCousinPrimes( )
-
-    for i in sorted( [ key for key in cousinPrimes ] ):
-        print( "cousin:  " + str( i ) + " : " + str( cousinPrimes[ i ] ) )
-
-    return max( [ key for key in cousinPrimes ] )
-
-
-#//******************************************************************************
-#//
-#//  loadSexyPrimes
-#//
-#//******************************************************************************
-
-def loadSexyPrimes( ):
-    global dataPath
-
-    try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'sexy_primes.pckl.bz2', 'rb' ) ) as pickleFile:
-            sexyPrimes = pickle.load( pickleFile )
-    except FileNotFoundError as error:
-        sexyPrimes = { 2: 7, }
-
-    return sexyPrimes
-
-
-#//******************************************************************************
-#//
-#//  saveSexyPrimes
-#//
-#//******************************************************************************
-
-def saveSexyPrimes( sexyPrimes ):
-    global dataPath
-
-    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'sexy_primes.pckl.bz2', 'wb' ) ) as pickleFile:
-        pickle.dump( sexyPrimes, pickleFile )
-
-
-#//******************************************************************************
-#//
-#//  makeSexyPrimes
-#//
-#//******************************************************************************
 
 def makeSexyPrimes( start, end, step ):
     global sexyPrimes
-
-    for i in range( int( start ), int( end ) + 1, int( step ) ):
-        p = getNthSexyPrime( i )
-        print( "sexy:  " + str( i ) + " : " + str( p ) )
-        sys.stdout.flush( )
-
-        sexyPrimes.update( { i : p } )
-
+    end = makeTable( start, end, step, getNthSexyPrimes, 'sexy' )
     saveSexyPrimes( sexyPrimes )
-
     return end
 
+def makeTripletPrimes( start, end, step ):
+    global tripletPrimes
+    end = makeTable( start, end, step, getNthTripletPrimes, 'triplet' )
+    saveTripletPrimes( tripletPrimes )
+    return end
+
+def makeQuadruplePrimes( start, end, step ):
+    global quadPrimes
+    end = makeTable( start, end, step, getNthQuadruplePrimes, 'quad' )
+    saveQuadrupletPrimes( quadPrimes )
+    return edn
+
 
 #//******************************************************************************
 #//
-#//  dumpSexyPrimes
+#//  dumpTable
 #//
 #//******************************************************************************
+
+def dumpTable( loadFunc, name ):
+    var = loadFunc( )
+
+    for i in sorted( [ key for key in var ] ):
+        print( name + ':  ' + str( i ) + ' : ' + str( var[ i ] ) )
+
+    return max( [ key for key in var ] )
+
+def dumpPrimes( ):
+    return dumpTable( loadPrimes, 'prime' )
+
+def dumpTwinPrimes( ):
+    return dumpTable( loadTwinPrimes, 'twin' )
+
+def dumpCousinPrimes( ):
+    return dumpTable( loadCousinPrimes, 'cousin' )
 
 def dumpSexyPrimes( ):
-    global sexyPrimes
+    return dumpTable( loadSexyPrimes, 'sexy' )
 
-    sexyPrimes = loadSexyPrimes( )
+def dumpTripletPrimes( ):
+    return dumpTable( loadTripletPrimes, 'triplet' )
 
-    for i in sorted( [ key for key in sexyPrimes ] ):
-        print( "sexy:  " + str( i ) + " : " + str( sexyPrimes[ i ] ) )
-
-    return max( [ key for key in sexyPrimes ] )
-
-
-#//******************************************************************************
-#//
-#//  loadQuadPrimes
-#//
-#//******************************************************************************
-
-def loadQuadPrimes( ):
-    global dataPath
-
-    try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'quad_primes.pckl.bz2', 'rb' ) ) as pickleFile:
-            quadPrimes = pickle.load( pickleFile )
-    except FileNotFoundError as error:
-        quadPrimes = { 1: 5, }
-
-    return quadPrimes
-
-
-#//******************************************************************************
-#//
-#//  saveQuadPrimes
-#//
-#//******************************************************************************
-
-def saveQuadPrimes( quadPrimes ):
-    global dataPath
-
-    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'quad_primes.pckl.bz2', 'wb' ) ) as pickleFile:
-        pickle.dump( quadPrimes, pickleFile )
-
-
-#//******************************************************************************
-#//
-#//  makeQuadPrimes
-#//
-#//******************************************************************************
-
-def makeQuadPrimes( start, end, step ):
-    global quadPrimes
-
-    for i in range( int( start ), int( end ) + 1, int( step ) ):
-        p = getNthQuadPrime( i )
-        print( "quad:  " + str( i ) + " : " + str( p ) )
-        sys.stdout.flush( )
-
-        quadPrimes.update( { i : p } )
-
-    saveQuadPrimes( quadPrimes )
-
-    return end
-
-
-#//******************************************************************************
-#//
-#//  dumpQuadPrimes
-#//
-#//******************************************************************************
-
-def dumpQuadPrimes( ):
-    global quadPrimes
-
-    quadPrimes = loadQuadPrimes( )
-
-    for i in sorted( [ key for key in quadPrimes ] ):
-        print( "quad:  " + str( i ) + " : " + str( quadPrimes[ i ] ) )
-
-    return max( [ key for key in quadPrimes ] )
+def dumpQuadruplePrimes( ):
+    return dumpTable( loadQuadruplePrimes, 'quad' )
 
 
 #//******************************************************************************
@@ -420,8 +232,8 @@ def getNthPrime( arg ):
         startingPlace = max( key for key in primes if key < n )
         p = primes[ startingPlace ]
     else:
-        p = 5
         startingPlace = 3
+        p = 5
 
     f = p % 6 == 5
 
@@ -432,32 +244,38 @@ def getNthPrime( arg ):
         if isPrime( p ):
             n -= 1
 
+    primes.update( { int( arg ) : p } )
+
     return p
 
 
 #//******************************************************************************
 #//
-#//  getNthTwinPrime
+#//  getNthTwinPrimes
 #//
 #//******************************************************************************
 
-def getNthTwinPrime( arg ):
+def getNthTwinPrimes( arg ):
     global twinPrimes
 
     n = int( arg )
 
     if n == 1:
-        return 3
+        return [ 3, 5 ]
+    elif n == 2:
+        return [ 5, 7 ]
+    elif n == 3:
+        return [ 11, 13 ]
 
     if n > 100:
         if twinPrimes == { }:
             twinPrimes = loadTwinPrimes( )
 
-        startingPlace = max( key for key in twinPrimes if key < n )
+        startingPlace = max( key for key in twinPrimes if key <= n )
         p = twinPrimes[ startingPlace ]
     else:
-        p = 5
-        startingPlace = 2
+        startingPlace = 3
+        p = 11
 
     f = p % 6 == 5
 
@@ -468,32 +286,34 @@ def getNthTwinPrime( arg ):
         if isPrime( p ) and isPrime( p + 2 ):
             n -= 1
 
-    return p
+    twinPrimes.update( { int( arg ) : p } )
+
+    return [ p, p + 2 ]
 
 
 #//******************************************************************************
 #//
-#//  getNthCousinPrime
+#//  getNthCousinPrimes
 #//
 #//******************************************************************************
 
-def getNthCousinPrime( arg ):
+def getNthCousinPrimes( arg ):
     global cousinPrimes
 
     n = int( arg )
 
     if n == 1:
-        return 3
+        return [ 3, 7 ]
 
     if n > 100:
         if cousinPrimes == { }:
             cousinPrimes = loadCousinPrimes( )
 
-        startingPlace = max( key for key in cousinPrimes if key < n )
+        startingPlace = max( key for key in cousinPrimes if key <= n )
         p = cousinPrimes[ startingPlace ]
     else:
-        p = 7
         startingPlace = 2
+        p = 7
 
     f = p % 6 == 5
 
@@ -504,32 +324,34 @@ def getNthCousinPrime( arg ):
         if isPrime( p ) and isPrime( p + 4 ):
             n -= 1
 
-    return p
+    cousinPrimes.update( { int( arg ) : p } )
+
+    return [ p, p + 4 ]
 
 
 #//******************************************************************************
 #//
-#//  getNthSexyPrime
+#//  getNthSexyPrimes
 #//
 #//******************************************************************************
 
-def getNthSexyPrime( arg ):
+def getNthSexyPrimes( arg ):
     global sexyPrimes
 
     n = int( arg )
 
     if n == 1:
-        return 3
+        return [ 3, 9 ]
 
     if n > 100:
         if sexyPrimes == { }:
             sexyPrimes = loadCousinPrimes( )
 
-        startingPlace = max( key for key in sexyPrimes if key < n )
+        startingPlace = max( key for key in sexyPrimes if key <= n )
         p = sexyPrimes[ startingPlace ]
     else:
-        p = 7
         startingPlace = 2
+        p = 7
 
     f = p % 6 == 5
 
@@ -540,16 +362,70 @@ def getNthSexyPrime( arg ):
         if isPrime( p ) and isPrime( p + 6 ):
             n -= 1
 
-    return p
+    sexyPrimes.update( { int( arg ) : p } )
+
+    return [ p, p + 6 ]
 
 
 #//******************************************************************************
 #//
-#//  getNthQuadPrime
+#//  getNthTripletPrimes
 #//
 #//******************************************************************************
 
-def getNthQuadPrime( arg ):
+def getNthTripletPrimes( arg ):
+    global tripletPrimes
+
+    n = int( arg )
+
+    if n == 1:
+        return [ 5, 7, 11 ]
+    elif n == 2:
+        return [ 7, 11, 13 ]
+
+    if n > 100:
+        if tripletPrimes == { }:
+            tripletPrimes = loadTripletPrimes( )
+
+        startingPlace = max( key for key in tripletPrimes if key <= n )
+        p = tripletPrimes[ startingPlace ]
+
+        if isPrime( p + 2 ):
+            middle = 2
+        else:
+            middle = 4
+
+    else:
+        startingPlace = 3
+        p = 11
+        middle = 2
+
+    f = p % 6 == 5
+
+    while n > startingPlace:
+        p += 3 - f
+        f = -f
+
+        if isPrime( p ) and isPrime( p + 6 ):
+            if isPrime( p + 2 ):
+                middle = 2
+                n -= 1
+            elif isPrime( p + 4 ):
+                middle = 4
+                n -= 1
+
+    tripletPrimes.update( { int( arg ) : p } )
+
+    return [ p, p + middle, p + 6 ]
+
+
+#//******************************************************************************
+#//
+#//  getNthQuadruplePrimes
+#//
+#//******************************************************************************
+
+def getNthQuadruplePrimes( arg ):
     global quadPrimes
 
     n = int( arg )
@@ -559,13 +435,13 @@ def getNthQuadPrime( arg ):
 
     if n > 9:
         if quadPrimes == { }:
-            quadPrimes = loadQuadPrimes( )
+            quadPrimes = loadQuadruplePrimes( )
 
-        startingPlace = max( key for key in quadPrimes if key < n )
+        startingPlace = max( key for key in quadPrimes if key <= n )
         p = quadPrimes[ startingPlace ]
     else:
-        p = 11
         startingPlace = 2
+        p = 11
 
     f = p % 6 == 5
 
@@ -576,7 +452,9 @@ def getNthQuadPrime( arg ):
         if isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ):
             n -= 1
 
-    return p
+    quadPrimes.update( { int( arg ) : p } )
+
+    return [ p, p + 2, p + 6, p + 8 ]
 
 
 #//******************************************************************************
@@ -636,7 +514,6 @@ def getNthPrimeRange( arg1, arg2 ):
 #//  A continued fraction, represented as a list of integer terms.
 #//
 #//  adapted from ActiveState Python, recipe 578647
-
 #//
 #//******************************************************************************
 
@@ -1536,11 +1413,38 @@ def getCopelandErdos( ):
 
 #//******************************************************************************
 #//
-#//  dumpRPNStats
+#//  dumpStats
 #//
 #//******************************************************************************
 
-def dumpRPNStats( ):
+def dumpStats( ):
+    print( '%d operators\n' % ( len( modifiers ) + len( list_operators ) +
+                                len( list_operators_2 ) + len( operators ) ) )
+
+    primes = loadPrimes( )
+    print( '{:10,} primes,            max: {:,}'.format( len( primes ),
+                                                         max( [ key for key in primes ] ) ) )
+
+    twinPrimes = loadTwinPrimes( )
+    print( '{:10,} twin primes,       max: {:,}'.format( len( twinPrimes ),
+                                                         max( [ key for key in twinPrimes ] ) ) )
+
+    cousinPrimes = loadCousinPrimes( )
+    print( '{:10,} cousin primes,     max: {:,}'.format( len( cousinPrimes ),
+                                                         max( [ key for key in cousinPrimes ] ) ) )
+
+    sexyPrimes = loadSexyPrimes( )
+    print( '{:10,} sexy primes,       max: {:,}'.format( len( sexyPrimes ),
+                                                         max( [ key for key in sexyPrimes ] ) ) )
+
+    tripletPrimes = loadTripletPrimes( )
+    print( '{:10,} triplet primes,    max: {:,}'.format( len( tripletPrimes ),
+                                                         max( [ key for key in tripletPrimes ] ) ) )
+
+    quadPrimes = loadQuadruplePrimes( )
+    print( '{:10,} quadruplet primes, max: {:,}\n'.format( len( quadPrimes ),
+                                                           max( [ key for key in quadPrimes ] ) ) )
+
     return [ int( i ) for i in RPN_VERSION.split( '.' ) ]
 
 
@@ -1789,157 +1693,161 @@ list_operators_2 = {
 }
 
 operators = {
-    '!!'         : [ fac2, 1 ],
-    '!'          : [ fac, 1 ],
-    '%'          : [ fmod, 2 ],
-    '*'          : [ fmul, 2 ],
-    '**'         : [ power, 2 ],
-    '***'        : [ tetrate, 2 ],
-    '+'          : [ fadd, 2 ],
-    '-'          : [ fsub, 2 ],
-    '/'          : [ fdiv, 2 ],
-    '//'         : [ root, 2 ],
-    '1/x'        : [ lambda i: fdiv( 1, i ), 1 ],
-    'abs'        : [ fabs, 1 ],
-    'acos'       : [ acos, 1 ],
-    'acosh'      : [ acosh, 1 ],
-    'acosh'      : [ acosh, 1 ],
-    'acot'       : [ acot, 1 ],
-    'acoth'      : [ acoth, 1 ],
-    'acsc'       : [ acsc, 1 ],
-    'acsch'      : [ acsch, 1 ],
-    'add'        : [ fadd, 2 ],
-    'and'        : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x & y ), 2 ],
-    'antihex'    : [ getAntiHexagonalNumber, 1 ],
-    'antipent'   : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1 ],
-    'antitri'    : [ getAntiTriangularNumber, 1 ],
-    'apery'      : [ apery, 0 ],
-    'asec'       : [ asec, 1 ],
-    'asech'      : [ asech, 1 ],
-    'asin'       : [ asin, 1 ],
-    'asinh'      : [ asinh, 1 ],
-    'atan'       : [ atan, 1 ],
-    'atanh'      : [ atanh, 1 ],
-    'bernoulli'  : [ bernoulli, 1 ],
-    'binomial'   : [ binomial, 2 ],
-    'catalan'    : [ catalan, 0 ],
-    'cbrt'       : [ cbrt, 1 ],
-    'ceil'       : [ ceil, 1 ],
-    'cf2'        : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
-    'champ'      : [ getChampernowne, 0 ],
-    'copeland'   : [ getCopelandErdos, 0 ],
-    'cos'        : [ cos, 1 ],
-    'cosh'       : [ cosh, 1 ],
-    'cot'        : [ cot, 1 ],
-    'coth'       : [ coth, 1 ],
-    'cousin'     : [ getNthCousinPrime, 1 ],
-    'cousinprime': [ getNthCousinPrime, 1 ],
-    'csc'        : [ csc, 1 ],
-    'csch'       : [ csch, 1 ],
-    'cube'       : [ lambda i: power( i, 3 ), 1 ],
-    'deg'        : [ radians, 1 ],
-    'degrees'    : [ radians, 1 ],
-    'e'          : [ e, 0 ],
-    'euler'      : [ euler, 0 ],
-    'exp'        : [ exp, 1 ],
-    'exp10'      : [ lambda i: power( 10, i ), 1 ],
-    'expphi'     : [ phi, 1 ],
-    'fac'        : [ fac, 1 ],
-    'fac2'       : [ fac2, 1 ],
-    'factor'     : [ lambda i: getExpandedFactorList( factorize( i ) ), 1 ],
-    'fib'        : [ fib, 1 ],
-    'floor'      : [ floor, 1 ],
-    'frac'       : [ interpretAsFraction, 2 ],
-    'fraction'   : [ interpretAsFraction, 2 ],
-    'gamma'      : [ gamma, 1 ],
-    'glaisher'   : [ glaisher, 0 ],
-    'harm'       : [ harmonic, 1 ],
-    'harmonic'   : [ harmonic, 1 ],
-    'hex'        : [ lambda i: fsub( fprod( 2, i, i ), i ), 1 ],
-    'hyper4'     : [ tetrate, 2 ],
-    'hyper4_2'   : [ tetrateLarge, 2 ],
-    'hyperfac'   : [ hyperfac, 1 ],
-    'hypot'      : [ hypot, 2 ],
-    'inv'        : [ lambda i: fdiv( 1, i ), 1 ],
-    'isprime'    : [ lambda i: 1 if isPrime( i ) else 0, 1 ],
-    'itoi'       : [ lambda: exp( fmul( -0.5, pi ) ), 0 ],
-    'khinchin'   : [ khinchin, 0 ],
-    'lambertw'   : [ lambertw, 1 ],
-    'lgamma'     : [ loggamma, 1 ],
-    'ln'         : [ ln, 1 ],
-    'log'        : [ ln, 1 ],
-    'log10'      : [ log10, 1 ],
-    'logxy'      : [ log, 2 ],
-    'luc'        : [ getNthLucas, 1 ],
-    'lucas'      : [ getNthLucas, 1 ],
-    'mertens'    : [ mertens, 0 ],
-    'mod'        : [ fmod, 2 ],
-    'modulo'     : [ fmod, 2 ],
-    'mulitply'   : [ fmul, 2 ],
-    'mult'       : [ fmul, 2 ],
-    'neg'        : [ fneg, 1 ],
-    'nPr'        : [ getPermutations, 2 ],
-    'npr'        : [ getPermutations, 2 ],
-    'omega'      : [ lambda: lambertw( 1 ), 0 ],
-    'or'         : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
-    'pent'       : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1 ],
-    'perm'       : [ getPermutations, 2 ],
-    'phi'        : [ phi, 0 ],
-    'pi'         : [ pi, 0 ],
-    'plastic'    : [ getPlasticConstant, 0 ],
-    'power'      : [ power, 2 ],
-    'prime'      : [ getNthPrime, 1 ],
-    'primepi'    : [ primepi, 1 ],
-    'quad'       : [ getNthQuadPrime, 1 ],
-    'quadprime'  : [ getNthQuadPrime, 1 ],
-    'rad'        : [ degrees, 1 ],
-    'radians'    : [ degrees, 1 ],
-    'rand'       : [ rand, 0 ],
-    'random'     : [ rand, 0 ],
-    'root'       : [ root, 2 ],
-    'root2'      : [ sqrt, 1 ],
-    'root3'      : [ cbrt, 1 ],
-    'round'      : [ lambda i: floor( fadd( i, 0.5 ) ), 1 ],
-    'sec'        : [ sec, 1 ],
-    'sech'       : [ sech, 1 ],
-    'sexy'       : [ getNthSexyPrime, 1 ],
-    'sexyprime'  : [ getNthSexyPrime, 1 ],
-    'sin'        : [ sin, 1 ],
-    'sinh'       : [ sinh, 1 ],
-    'solve2'     : [ solveQuadraticPolynomial, 3 ],
-    'solve3'     : [ solveCubicPolynomial, 4 ],
-    'solve4'     : [ solveQuarticPolynomial, 5 ],
-    'sqr'        : [ lambda i: power( i, 2 ), 1 ],
-    'sqrt'       : [ sqrt, 1 ],
-    'sqtri'      : [ getNthSquareTriangularNumber, 1 ],
-    'sub'        : [ fsub, 2 ],
-    'subtract'   : [ fsub, 2 ],
-    'superfac'   : [ superfac, 1 ],
-    'syl'        : [ getNthSylvester, 1 ],
-    'sylvester'  : [ getNthSylvester, 1 ],
-    'tan'        : [ tan, 1 ],
-    'tanh'       : [ tanh, 1 ],
-    'tet'        : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1 ],
-    'tetra'      : [ getNthTetrahedralNumber, 1 ],
-    'tri'        : [ getNthTriangularNumber, 1 ],
-    'twin'       : [ getNthTwinPrime, 1 ],
-    'twinprime'  : [ getNthTwinPrime, 1 ],
-    'unitroots'  : [ lambda i: unitroots( int( i ) ), 1 ],
-    'xor'        : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
-    'zeta'       : [ zeta, 1 ],
-    '^'          : [ power, 2 ],
-    '_dumpcousin': [ dumpCousinPrimes, 0 ],
-    '_dumpprimes': [ dumpPrimes, 0 ],
-    '_dumpquad'  : [ dumpQuadPrimes, 0 ],
-    '_dumpsexy'  : [ dumpSexyPrimes, 0 ],
-    '_dumptwin'  : [ dumpTwinPrimes, 0 ],
-    '_makecousin': [ makeCousinPrimes, 3 ],
-    '_makeprimes': [ makePrimes, 3 ],
-    '_makequad'  : [ makeQuadPrimes, 3 ],
-    '_makesexy': [ makeSexyPrimes, 3 ],
-    '_maketwin'  : [ makeTwinPrimes, 3 ],
-    '_stats'     : [ dumpRPNStats, 0 ],
-    '~'          : [ getInvertedBits, 1 ],
+    '!!'          : [ fac2, 1 ],
+    '!'           : [ fac, 1 ],
+    '%'           : [ fmod, 2 ],
+    '*'           : [ fmul, 2 ],
+    '**'          : [ power, 2 ],
+    '***'         : [ tetrate, 2 ],
+    '+'           : [ fadd, 2 ],
+    '-'           : [ fsub, 2 ],
+    '/'           : [ fdiv, 2 ],
+    '//'          : [ root, 2 ],
+    '1/x'         : [ lambda i: fdiv( 1, i ), 1 ],
+    'abs'         : [ fabs, 1 ],
+    'acos'        : [ acos, 1 ],
+    'acosh'       : [ acosh, 1 ],
+    'acosh'       : [ acosh, 1 ],
+    'acot'        : [ acot, 1 ],
+    'acoth'       : [ acoth, 1 ],
+    'acsc'        : [ acsc, 1 ],
+    'acsch'       : [ acsch, 1 ],
+    'add'         : [ fadd, 2 ],
+    'and'         : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x & y ), 2 ],
+    'antihex'     : [ getAntiHexagonalNumber, 1 ],
+    'antipent'    : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1 ],
+    'antitri'     : [ getAntiTriangularNumber, 1 ],
+    'apery'       : [ apery, 0 ],
+    'asec'        : [ asec, 1 ],
+    'asech'       : [ asech, 1 ],
+    'asin'        : [ asin, 1 ],
+    'asinh'       : [ asinh, 1 ],
+    'atan'        : [ atan, 1 ],
+    'atanh'       : [ atanh, 1 ],
+    'bernoulli'   : [ bernoulli, 1 ],
+    'binomial'    : [ binomial, 2 ],
+    'catalan'     : [ catalan, 0 ],
+    'cbrt'        : [ cbrt, 1 ],
+    'ceil'        : [ ceil, 1 ],
+    'cf2'         : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
+    'champ'       : [ getChampernowne, 0 ],
+    'copeland'    : [ getCopelandErdos, 0 ],
+    'cos'         : [ cos, 1 ],
+    'cosh'        : [ cosh, 1 ],
+    'cot'         : [ cot, 1 ],
+    'coth'        : [ coth, 1 ],
+    'cousin'      : [ getNthCousinPrimes, 1 ],
+    'cousinprime' : [ getNthCousinPrimes, 1 ],
+    'csc'         : [ csc, 1 ],
+    'csch'        : [ csch, 1 ],
+    'cube'        : [ lambda i: power( i, 3 ), 1 ],
+    'deg'         : [ radians, 1 ],
+    'degrees'     : [ radians, 1 ],
+    'e'           : [ e, 0 ],
+    'euler'       : [ euler, 0 ],
+    'exp'         : [ exp, 1 ],
+    'exp10'       : [ lambda i: power( 10, i ), 1 ],
+    'expphi'      : [ phi, 1 ],
+    'fac'         : [ fac, 1 ],
+    'fac2'        : [ fac2, 1 ],
+    'factor'      : [ lambda i: getExpandedFactorList( factorize( i ) ), 1 ],
+    'fib'         : [ fib, 1 ],
+    'floor'       : [ floor, 1 ],
+    'frac'        : [ interpretAsFraction, 2 ],
+    'fraction'    : [ interpretAsFraction, 2 ],
+    'gamma'       : [ gamma, 1 ],
+    'glaisher'    : [ glaisher, 0 ],
+    'harm'        : [ harmonic, 1 ],
+    'harmonic'    : [ harmonic, 1 ],
+    'hex'         : [ lambda i: fsub( fprod( 2, i, i ), i ), 1 ],
+    'hyper4'      : [ tetrate, 2 ],
+    'hyper4_2'    : [ tetrateLarge, 2 ],
+    'hyperfac'    : [ hyperfac, 1 ],
+    'hypot'       : [ hypot, 2 ],
+    'inv'         : [ lambda i: fdiv( 1, i ), 1 ],
+    'isprime'     : [ lambda i: 1 if isPrime( i ) else 0, 1 ],
+    'itoi'        : [ lambda: exp( fmul( -0.5, pi ) ), 0 ],
+    'khinchin'    : [ khinchin, 0 ],
+    'lambertw'    : [ lambertw, 1 ],
+    'lgamma'      : [ loggamma, 1 ],
+    'ln'          : [ ln, 1 ],
+    'log'         : [ ln, 1 ],
+    'log10'       : [ log10, 1 ],
+    'logxy'       : [ log, 2 ],
+    'luc'         : [ getNthLucas, 1 ],
+    'lucas'       : [ getNthLucas, 1 ],
+    'mertens'     : [ mertens, 0 ],
+    'mod'         : [ fmod, 2 ],
+    'modulo'      : [ fmod, 2 ],
+    'mulitply'    : [ fmul, 2 ],
+    'mult'        : [ fmul, 2 ],
+    'neg'         : [ fneg, 1 ],
+    'nPr'         : [ getPermutations, 2 ],
+    'npr'         : [ getPermutations, 2 ],
+    'omega'       : [ lambda: lambertw( 1 ), 0 ],
+    'or'          : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
+    'pent'        : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1 ],
+    'perm'        : [ getPermutations, 2 ],
+    'phi'         : [ phi, 0 ],
+    'pi'          : [ pi, 0 ],
+    'plastic'     : [ getPlasticConstant, 0 ],
+    'power'       : [ power, 2 ],
+    'prime'       : [ getNthPrime, 1 ],
+    'primepi'     : [ primepi, 1 ],
+    'quad'        : [ getNthQuadruplePrimes, 1 ],
+    'quadprime'   : [ getNthQuadruplePrimes, 1 ],
+    'rad'         : [ degrees, 1 ],
+    'radians'     : [ degrees, 1 ],
+    'rand'        : [ rand, 0 ],
+    'random'      : [ rand, 0 ],
+    'root'        : [ root, 2 ],
+    'root2'       : [ sqrt, 1 ],
+    'root3'       : [ cbrt, 1 ],
+    'round'       : [ lambda i: floor( fadd( i, 0.5 ) ), 1 ],
+    'sec'         : [ sec, 1 ],
+    'sech'        : [ sech, 1 ],
+    'sexy'        : [ getNthSexyPrimes, 1 ],
+    'sexyprime'   : [ getNthSexyPrimes, 1 ],
+    'sin'         : [ sin, 1 ],
+    'sinh'        : [ sinh, 1 ],
+    'solve2'      : [ solveQuadraticPolynomial, 3 ],
+    'solve3'      : [ solveCubicPolynomial, 4 ],
+    'solve4'      : [ solveQuarticPolynomial, 5 ],
+    'sqr'         : [ lambda i: power( i, 2 ), 1 ],
+    'sqrt'        : [ sqrt, 1 ],
+    'sqtri'       : [ getNthSquareTriangularNumber, 1 ],
+    'sub'         : [ fsub, 2 ],
+    'subtract'    : [ fsub, 2 ],
+    'superfac'    : [ superfac, 1 ],
+    'syl'         : [ getNthSylvester, 1 ],
+    'sylvester'   : [ getNthSylvester, 1 ],
+    'tan'         : [ tan, 1 ],
+    'tanh'        : [ tanh, 1 ],
+    'tet'         : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1 ],
+    'tetra'       : [ getNthTetrahedralNumber, 1 ],
+    'tri'         : [ getNthTriangularNumber, 1 ],
+    'triplet'     : [ getNthTripletPrimes, 1 ],
+    'tripletprime': [ getNthTripletPrimes, 1 ],
+    'twin'        : [ getNthTwinPrimes, 1 ],
+    'twinprime'   : [ getNthTwinPrimes, 1 ],
+    'unitroots'   : [ lambda i: unitroots( int( i ) ), 1 ],
+    'xor'         : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
+    'zeta'        : [ zeta, 1 ],
+    '^'           : [ power, 2 ],
+    '_dumpcousin' : [ dumpCousinPrimes, 0 ],
+    '_dumpprimes' : [ dumpPrimes, 0 ],
+    '_dumpquad'   : [ dumpQuadruplePrimes, 0 ],
+    '_dumpsexy'   : [ dumpSexyPrimes, 0 ],
+    '_dumptriplet': [ dumpTripletPrimes, 0 ],
+    '_dumptwin'   : [ dumpTwinPrimes, 0 ],
+    '_makecousin' : [ makeCousinPrimes, 3 ],
+    '_makeprimes' : [ makePrimes, 3 ],
+    '_makequad'   : [ makeQuadruplePrimes, 3 ],
+    '_makesexy'   : [ makeSexyPrimes, 3 ],
+    '_maketriplet': [ makeTripletPrimes, 3 ],
+    '_maketwin'   : [ makeTwinPrimes, 3 ],
+    '_stats'      : [ dumpStats, 0 ],
+    '~'           : [ getInvertedBits, 1 ],
 #    'antitet'    : [ getAntiTetrahedralNumber, 1 ],
 #    'powmod'     : [ getPowMod, 3 ],
 #    'bernfrac'   : [ bernfrac, 1 ],
@@ -2429,17 +2337,18 @@ Calculate various constants:
 #//******************************************************************************
 
 def main( ):
-    global numerals
-    global bitwiseGroupSize
     global addToListArgument
+    global bitwiseGroupSize
+    global cousinPrimes
+    global dataPath
     global inputRadix
     global nestedListLevel
+    global numerals
     global primes
-    global twinPrimes
-    global cousinPrimes
-    global sexyPrimes
     global quadPrimes
-    global dataPath
+    global sexyPrimes
+    global tripletPrimes
+    global twinPrimes
 
     # initialize globals
     nestedListLevel = 0
@@ -2448,6 +2357,7 @@ def main( ):
     twinPrimes = { }
     cousinPrimes = { }
     sexyPrimes = { }
+    tripletPrimes = { }
     quadPrimes = { }
 
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' )
@@ -2510,6 +2420,9 @@ def main( ):
     if args.even_more_help:
         printEvenMoreHelp( )
         return
+
+    if args.time:
+        time.clock( )
 
     # these are either globals or can be modified by other options (like -x)
     bitwiseGroupSize = args.bitwise_group_size
@@ -2672,9 +2585,9 @@ def main( ):
             except ValueError as error:
                 print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
-            except TypeError as error:
-                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
-                break
+#            except TypeError as error:
+#                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+#                break
         elif term in list_operators:
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < 1:
@@ -2790,6 +2703,9 @@ def main( ):
                         print( '    = polynomial of degree <= %d not found' % args.find_poly )
                     else:
                         print( '    = polynomial ' + poly )
+
+        if args.time:
+            print( "\n%.3f seconds" % time.clock( ) )
 
 
 #//******************************************************************************
