@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.8.6'
+PROGRAM_VERSION = '5.8.7'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -49,24 +49,28 @@ basicUnitTypes = {
     'capacitance'               : 'current^2*time^4/mass*length^2',
     'charge'                    : 'current*time',
     'current'                   : 'current',
+    'data_rate'                 : 'information_entropy/time',
     'electrical_conductance'    : 'time*current^2/mass*length^2',
     'electrical_resistance'     : 'mass*length^2/time*current^2',
     'electric_potential'        : 'mass*length^2/current*time^3',
     'energy'                    : 'mass*length^2/time^2',
     'force'                     : 'mass*length/time',
     'illuminance'               : 'luminous_intensity*angle^2/length^2',
+    'inductance'                : 'electric_potential*time/current',
     'information_entropy'       : 'information_entropy',
     'length'                    : 'length',
     'luminance'                 : 'luminous_intensity/length^2',
     'luminous_flux'             : 'luminous_intensity*angle^2',
     'luminous_intensity'        : 'luminous_intensity',
+    'magnetic_flux'             : 'electric_potential*time',
+    'magnetic_flux_density'     : 'electric_potential*time/length^2',
     'mass'                      : 'mass',
     'power'                     : 'mass*length^2/time^3',
     'pressure'                  : 'mass/length*time^2',
     'radiation_absorbed_dose'   : 'radiation_absorbed_dose',
-    'radioactivity'             : 'radioactivity',
     'radiation_equivalent_dose' : 'radiation_equivalent_dose',
     'radiation_exposure'        : 'radiation_exposure',
+    'radioactivity'             : 'radioactivity',
     'solid_angle'               : 'angle^2',
     'temperature'               : 'temperature',
     'time'                      : 'time',
@@ -215,6 +219,14 @@ unitOperators = {
     'coulomb/second' :
         UnitInfo( 'current', 'coulomb/second', 'coulombs/second', 'C/s', [ 'C/sec', 'coulomb/sec', 'coulombs/sec', 'coulomb/s', 'coulombs/s' ] ),
 
+    # data_rate
+
+    'bit/second' :
+        UnitInfo( 'data_rate', 'bit/second', 'bits/second', 'b/s', [ 'bit/s', 'bits/s', 'bit/sec', 'bits/sec' ] ),
+
+    'byte/second' :
+        UnitInfo( 'data_rate', 'byte/second', 'bytes/second', 'B/s', [ 'byte/s', 'bytes/s' 'byte/sec', 'bytes/sec' ] ),
+
     # electric_potential
 
     'coulomb/farad' :
@@ -231,7 +243,7 @@ unitOperators = {
     'ampere/volt' :
         UnitInfo( 'electrical_conductance', 'ampere/volt', 'amperes/volt', 'A/V', [ 'amp/V', 'amps/V', 'ampere/V', 'amperes/V', 'A/volt', 'amp/volt', 'amps/volt', 'A/volts', 'amp/volts', 'amps/volts', 'amperes/volts', ] ),
 
-    'second^3*ampere^2/kilogram*meter^2':
+    'second^3-ampere^2/kilogram-meter^2':
         UnitInfo( 'electrical_conductance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ] ),
 
     'siemens' :
@@ -242,7 +254,7 @@ unitOperators = {
     '1/siemens' :
         UnitInfo( 'electrical_resistance', '1/siemens', '1/siemens', '1/S', [ '1/mho' ] ),
 
-    'kilogram*meter^2/second^3*ampere^2' :
+    'kilogram-meter^2/second^3-ampere^2' :
         UnitInfo( 'electrical_resistance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ] ),
 
     'abohm' :
@@ -254,19 +266,19 @@ unitOperators = {
     'jacobi' :
         UnitInfo( 'electrical_resistance', 'jacobi', 'jacobis', '', [ ] ),
 
-    'joule*second/coulomb^2' :
+    'joule-second/coulomb^2' :
         UnitInfo( 'electrical_resistance', 'joule*second/coulomb^2', 'joule*second/coulomb^2', 'J*s/C^2', [ ] ),
 
-    'joule/second*ampere^2' :
+    'joule/second-ampere^2' :
         UnitInfo( 'electrical_resistance', 'joule/second*ampere^2', 'joule/second*ampere^2', 'J/s*A^2', [ ] ),
 
-    'kilogram*meter^2/second^3*ampere^2' :
+    'kilogram-meter^2/second^3-ampere^2' :
         UnitInfo( 'electrical_resistance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ] ),
 
     'matthiessen' :
         UnitInfo( 'electrical_resistance', 'matthiessen', 'matthiessens', '', [ ] ),
 
-    'meter^2*kilogram/second*couloumb^2' :
+    'meter^2-kilogram/second-couloumb^2' :
         UnitInfo( 'electrical_resistance', 'meter^2*kilogram/second*couloumb^2', 'meter^2*kilogram/second*couloumb^2', 'm^2*kg/s*C^2', [ ] ),
 
     'ohm' :
@@ -304,8 +316,11 @@ unitOperators = {
     'joule' :
         UnitInfo( 'energy', 'joule', 'joules', 'J', [ ] ),
 
-    'kilogram*meter^2/second^2' :
+    'kilogram-meter^2/second^2' :
         UnitInfo( 'energy', 'kilogram*meter^2/second^2', 'kilogram*meter^2/second^2', 'kg*m^2/s^2', [ ] ),
+
+    'newton-meter' :
+        UnitInfo( 'energy', 'newton*meter', 'newton-meters', 'N*m', [ ] ),
 
     'planck_energy' :
         UnitInfo( 'energy', 'planck_energy', 'planck_energy', 'EP', [ ] ),
@@ -336,7 +351,7 @@ unitOperators = {
     'pond' :
         UnitInfo( 'force', 'pond', 'ponds', 'p', [ ] ),
 
-    'pound*foot/second^2' :
+    'pound-foot/second^2' :
         UnitInfo( 'force', 'pound*foot/second^2', 'pound*foot/second^2', 'lb*ft/sec^2', [ ] ),
 
     'poundal' :
@@ -361,6 +376,14 @@ unitOperators = {
 
     'phot' :
         UnitInfo( 'illuminance', 'phot', 'phots', 'ph', [ ] ),   # CGS unit
+
+    # inductance
+
+    'henry' :
+        UnitInfo( 'inductance', 'henry', 'henries', 'H', [ ] ),
+
+    'weber/ampere' :
+        UnitInfo( 'inductance', 'weber/ampere', 'webers/ampere', 'Wb/A', [ 'Wb/ampere', 'Wb/ampere', 'weber/A', 'webers/A', 'Wb/amp', 'weber/amp', 'webers/amp' ] ),
 
     # information_entropy
 
@@ -486,6 +509,9 @@ unitOperators = {
     'link' :
         UnitInfo( 'length', 'link', 'link', '', [ ] ),
 
+    'marathon' :
+        UnitInfo( 'length', 'marathon', 'marathons', '', [ ] ),
+
     'meter' :
         UnitInfo( 'length', 'meter', 'meters', 'm', [ ] ),
 
@@ -555,7 +581,7 @@ unitOperators = {
         UnitInfo( 'luminance', 'bril', 'brils', '', [ ] ),
 
     'candela/meter^2' :
-        UnitInfo( 'luminance', 'candela/meter^2', 'candelas/meter^2', 'cd/m^2', [ ] ),
+        UnitInfo( 'luminance', 'candela/meter^2', 'candelas/meter^2', 'cd/m^2', [ 'candela/m^2', 'candelas/m^2', 'candela/square_meter', 'candelas/square_meter', 'cd/square_meter' ] ),
 
     'footlambert' :
         UnitInfo( 'luminance', 'footlambert', 'footlamberts', 'fL', [ 'foot-lambert' ] ),
@@ -577,13 +603,41 @@ unitOperators = {
     'lumen' :
         UnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm', [ ] ),
 
-    'candela*steradian' :
+    'candela-steradian' :
         UnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm', [ ] ),
 
     # luminous_intensity
 
     'candela' :
         UnitInfo( 'luminous_intensity', 'candela', 'candelas', 'cd', [ ] ),
+
+    # magnetic_flux
+
+    'maxwell' :
+        UnitInfo( 'magnetic_flux', 'maxwell', 'maxwells', 'Mx', [ ] ),      # CGS
+
+    'volt-second' :
+        UnitInfo( 'magnetic_flux', 'volt*second', 'volts*seconds', 'V*s', [ ] ),
+
+    'weber' :
+        UnitInfo( 'magnetic_flux', 'weber', 'webers', 'Wb', [ ] ),
+
+    # magnetic_flux_density
+
+    'gauss' :
+        UnitInfo( 'magnetic_flux_density', 'gauss', 'gauss', '', [ ] ),
+
+    'kilogram/ampere-second^2' :
+        UnitInfo( 'magnetic_flux_density', 'kilogram/ampere*second^2', 'kilogram/ampere*second^2', 'kg/A*s^2', [ ] ),
+
+    'maxwell/centimeter^2' :
+        UnitInfo( 'magnetic_flux_density', 'maxwell/centimeter^2', 'maxwells/centimeter^2', 'Mx/cm^2', [ 'maxwell/cm^2', 'maxwells/cm^2', 'Mx/centimeter^2', 'Mx/square_centimeter', 'Mx/square_cm', 'maxwell/square_centimeter', 'maxwells/square_centimeter', 'maxwell/square_cm', 'maxwells/square_cm' ] ),  # CGS
+
+    'tesla' :
+        UnitInfo( 'magnetic_flux_density', 'tesla', 'teslas', 'T', [ ] ),
+
+    'weber/meter^2' :
+        UnitInfo( 'magnetic_flux_density', 'weber/meter^2', 'webers/meter^2', 'Wb/m^2', [ ] ),
 
     # mass
 
@@ -655,10 +709,10 @@ unitOperators = {
     'joule/second' :
         UnitInfo( 'power', 'joule/second', 'joules/second', 'J/s', [ ] ),
 
-    'kilogram*meter^2/second^3' :
+    'kilogram-meter^2/second^3' :
         UnitInfo( 'power', 'kilogram*meter^2/second^3', 'kilogram*meter^2/second^3', 'kg*m^2/s^3', [ ] ),
 
-    'newton*meter/second' :
+    'newton-meter/second' :
         UnitInfo( 'power', 'newton*meter/second', 'newton*meter/second', 'N*m/s', [ ] ),
 
     'poncelet' :
@@ -732,7 +786,7 @@ unitOperators = {
         UnitInfo( 'solid_angle', 'degree^2', 'degrees^2', 'deg^2', [ 'square_degrees', 'sqdeg' ] ),
 
     'square_octant' :
-        UnitInfo( 'solid_angle', 'octant^2', 'octants^2', '', [ 'sqaure_octants', 'sqoctant', 'sqoctants' ] ),
+        UnitInfo( 'solid_angle', 'octant^2', 'octants^2', '', [ 'square_octants', 'sqoctant', 'sqoctants' ] ),
 
     'square_quadrant' :
         UnitInfo( 'solid_angle', 'quadrant^2', 'quadrants^2', '', [ 'square_quadrants', 'sqquadrant', 'sqquadrants' ] ),
@@ -980,15 +1034,14 @@ metricUnits = [
     ( 'ampere',         'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
     ( 'are',            'ares',             'a',    [ ], [ ] ),
     ( 'becquerel',      'becquerels',       'Bq',   [ ], [ ] ),
-    ( 'bit',            'bits',             'b',    [ ], [ ] ),
     ( 'blintz',         'blintzes',         '',     [ ], [ ] ),
-    ( 'byte',           'bytes',            'B',    [ ], [ ] ),
     ( 'coulomb',        'coulombs',         'C',    [ ], [ ] ),
     ( 'calorie',        'calories',         'cal',  [ ], [ ] ),
     ( 'electron-volt',  'electron-volts',   'eV',   [ ], [ ] ),
     ( 'farad',          'farad',            'F',    [ ], [ ] ),
     ( 'gram',           'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
     ( 'gram-force',     'grams-force',      'gf',   [ 'gramme-force' ], [ 'grammes-force' ] ),
+    ( 'henry',          'henries',          'H',    [ ], [ ] ),
     ( 'joule',          'joules',           'J',    [ ], [ ] ),
     ( 'liter',          'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
     ( 'light-year',     'light-years',      'ly',   [ ], [ ] ),
@@ -1003,10 +1056,30 @@ metricUnits = [
     ( 'potrzebie',      'potrzebies',       'pz',   [ ], [ ] ),
     ( 'second',         'seconds',          's',    [ ], [ ] ),
     ( 'stere',          'steres',           'st',   [ ], [ ] ),
+    ( 'tesla',          'teslas',           'T',    [ ], [ ] ),
     ( 'ton_of_TNT',     'tons_of_TNT',      'tTNT', [ ], [ ] ),
     ( 'volt',           'volt',             'V',    [ ], [ ] ),
     ( 'watt',           'watts',            'W',    [ ], [ ] ),
     ( 'watt-second',    'watt-seconds',     'Ws',   [ ], [ ] ),
+]
+
+
+#//******************************************************************************
+#//
+#//  dataUnits
+#//
+#//  ... or any units that should get the SI prefixes (positive powers of 10)
+#//  and the binary prefixes
+#//
+#//  ( name, plural name, abbreviation, aliases, plural aliases )
+#//
+#//******************************************************************************
+
+dataUnits = [
+    ( 'bit',            'bits',             'b',    [ ], [ ] ),
+    ( 'bit/second',     'bits/second',      'bps',  [ ], [ ] ),
+    ( 'byte',           'bytes',            'B',    [ ], [ ] ),
+    ( 'byte/second',    'bytes/second',     'Bps',  [ ], [ ] ),
 ]
 
 
@@ -1046,13 +1119,33 @@ metricPrefixes = [
     ( 'deci',       'd',      '-1' ),
     ( 'centi',      'c',      '-2' ),
     ( 'milli',      'm',      '-3' ),
-    ( 'micro',      'mc',     '-6' ),
+    ( 'micro',      'mc',     '-6' ),  # what about 'u'?
     ( 'nano',       'n',      '-9' ),
     ( 'pico',       'p',      '-12' ),
     ( 'femto',      'f',      '-15' ),
     ( 'atto',       'a',      '-18' ),
     ( 'zepto',      'z',      '-21' ),
     ( 'yocto',      'y',      '-24' ),
+]
+
+
+#//******************************************************************************
+#//
+#//  dataPrefixes
+#//
+#//  ( name, abbreviation, power of 10 )
+#//
+#//******************************************************************************
+
+dataPrefixes = [
+    ( 'yotta',      'Y',      '24' ),
+    ( 'zetta',      'Z',      '21' ),
+    ( 'exa',        'E',      '18' ),
+    ( 'peta',       'P',      '15' ),
+    ( 'tera',       'T',      '12' ),
+    ( 'giga',       'G',      '9' ),
+    ( 'mega',       'M',      '6' ),
+    ( 'kilo',       'k',      '3' ),
 ]
 
 
@@ -1155,12 +1248,14 @@ unitConversionMatrix = {
     ( 'furshlugginer_potrzebie', 'potrzebie' )                          : '1000000',
     ( 'gallon',                'fifth' )                                : '5',
     ( 'gallon',                'quart' )                                : '4',
+    ( 'gauss',                 'maxwell/centimeter^2' )                 : '1',
     ( 'grad',                  'degree' )                               : '0.9',
     ( 'gram',                  'planck_mass' )                          : '45940.892447777',
     ( 'gray',                  'rad' )                                  : '100',
     ( 'greek_cubit',           'inch' )                                 : '18.22',
     ( 'gregorian_year',        'day' )                                  : '365.2425',
     ( 'handbreadth',           'inch' )                                 : '3',
+    ( 'henry',                 'weber/ampere' )                         : '1',
     ( 'hogshead',              'gallon' )                               : '63',
     ( 'homestead',             'acre' )                                 : '160',
     ( 'horsepower',            'watt' )                                 : '745.69987158227022',
@@ -1175,7 +1270,7 @@ unitConversionMatrix = {
     ( 'inch',                  'twip' )                                 : '1440',
     ( 'joule',                 'electron-volt' )                        : '6.24150974e18',
     ( 'joule',                 'erg' )                                  : '10000000',
-    ( 'joule',                 'kilogram*meter^2/second^2' )            : '1',
+    ( 'joule',                 'kilogram-meter^2/second^2' )            : '1',
     ( 'joule/second',          'watt' )                                 : '1',
     ( 'ken',                   'inch' )                                 : '83.4',
     ( 'kovac',                 'wolverton' )                            : '1000',
@@ -1190,6 +1285,7 @@ unitConversionMatrix = {
     ( 'long_reed',             'foot' )                                 : '10.5',
     ( 'lux',                   'lumen/meter^2' )                        : '1',
     ( 'mach',                  'meter/second' )                         : '295.0464',
+    ( 'marathon',              'yard' )                                 : '46145',
     ( 'martin',                'kovac' )                                : '100',
     ( 'meter',                 'angstrom' )                             : '10000000000',
     ( 'meter',                 'micron' )                               : '1000000',
@@ -1216,11 +1312,11 @@ unitConversionMatrix = {
     ( 'ohm',                   'abohm' )                                : '1e9',
     ( 'ohm',                   'german_mile' )                          : '57.44',
     ( 'ohm',                   'jacobi' )                               : '0.6367',
-    ( 'ohm',                   'joule*second/coulomb^2' )               : '1',
-    ( 'ohm',                   'joule/second*ampere^2' )                : '1',
-    ( 'ohm',                   'kilogram*meter^2/second^3*ampere^2' )   : '1',
+    ( 'ohm',                   'joule-second/coulomb^2' )               : '1',
+    ( 'ohm',                   'joule/second-ampere^2' )                : '1',
+    ( 'ohm',                   'kilogram-meter^2/second^3-ampere^2' )   : '1',
     ( 'ohm',                   'matthiessen' )                          : '13.59',
-    ( 'ohm',                   'meter^2*kilogram/second*couloumb^2' )   : '1',
+    ( 'ohm',                   'meter^2-kilogram/second-couloumb^2' )   : '1',
     ( 'ohm',                   'second/farad' )                         : '1',
     ( 'ohm',                   'varley' )                               : '25.61',
     ( 'ohm',                   'volt/ampere' )                          : '1',
@@ -1264,7 +1360,7 @@ unitConversionMatrix = {
     ( 'siderial_day',          'second' )                               : '86164.1',
     ( 'siderial_year',         'day' )                                  : '365.256363',
     ( 'siemens',               'ampere/volt' )                          : '1',
-    ( 'siemens',               'kilogram*meter^2/second^3*ampere^2' )   : '1',
+    ( 'siemens',               'kilogram-meter^2/second^3-ampere^2' )   : '1',
     ( 'skot',                  'bril' )                                 : '1.0e4',
     ( 'skot',                  'lambert' )                              : '1.0e7',
     ( 'slug',                  'pound' )                                : '32.174048556',
@@ -1288,6 +1384,9 @@ unitConversionMatrix = {
     ( 'stone',                 'pound' )                                : '14',
     ( 'tablespoon',            'teaspoon' )                             : '3',
     ( 'teaspoon',              'pinch' )                                : '8',
+    ( 'tesla',                 'gauss' )                                : '10000',
+    ( 'tesla',                 'kilogram/ampere-second^2' )             : '1',
+    ( 'tesla',                 'weber/meter^2' )                        : '1',
     ( 'ton',                   'pound' )                                : '2000',
     ( 'tonne',                 'gram' )                                 : '1000000',
     ( 'ton_of_TNT',            'joule' )                                : '4184000000',
@@ -1300,16 +1399,17 @@ unitConversionMatrix = {
     ( 'tryte',                 'trit' )                                 : '6',   # as defined by the Setun computer
     ( 'tun',                   'gallon' )                               : '252',
     ( 'watt',                  'erg/second' )                           : '1.0e7',
-    ( 'watt',                  'kilogram*meter^2/second^3' )            : '1',
-    ( 'watt',                  'newton*meter/second' )                  : '1',
+    ( 'watt',                  'kilogram-meter^2/second^3' )            : '1',
+    ( 'watt',                  'newton-meter/second' )                  : '1',
     ( 'watt-second',           'joule' )                                : '1',
+    ( 'weber',                 'maxwell' )                              : '1.0e8',
+    ( 'weber',                 'volt-second' )                          : '1',
     ( 'week',                  'day' )                                  : '7',
     ( 'wey',                   'pound' )                                : '252',
     ( 'wood',                  'martin' )                               : '100',
     ( 'word',                  'bit' )                                  : '16',
     ( 'yard',                  'foot' )                                 : '3',
     ( 'year',                  'day' )                                  : '365.25',
-
 }
 
 
@@ -1375,6 +1475,35 @@ def makeAliases( ):
 
             for alternateUnit in metricUnit[ 4 ]:                # add alternate spelling plural alias
                 newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
+
+    for dataUnit in dataUnits:
+        newAliases[ dataUnit[ 2 ] ] = dataUnit[ 0 ]
+
+        for prefix in dataPrefixes:
+            unit = prefix[ 0 ] + dataUnit[ 0 ]
+            pluralUnit = prefix[ 0 ] + dataUnit[ 1 ]
+            newAliases[ pluralUnit ] = unit                     # add plural alias
+
+            newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit   # add SI abbreviation alias
+
+            for alternateUnit in dataUnit[ 3 ]:                # add alternate spelling alias
+                newAliases[ prefix[ 0 ] + alternateUnit ] = unit
+
+            for alternateUnit in dataUnit[ 4 ]:                # add alternate spelling plural alias
+                newAliases[ prefix[ 0 ] + alternateUnit ] = unit
+
+        for prefix in binaryPrefixes:
+            unit = prefix[ 0 ] + dataUnit[ 0 ]
+            pluralUnit = prefix[ 0 ] + dataUnit[ 1 ]
+            newAliases[ pluralUnit ] = unit                     # add plural alias
+
+            newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit   # add SI abbreviation alias
+
+            for alternateUnit in dataUnit[ 3 ]:                # add alternate spelling alias
+                newAliases[ prefix[ 0 ] + alternateUnit ] = unit
+
+            for alternateUnit in dataUnit[ 4 ]:                # add alternate spelling plural alias
+                newAliases[ prefix[ 0 ] + alternateUnit ] = unit
 
     for unit in unitOperators:
         unitInfo = unitOperators[ unit ]
@@ -1476,6 +1605,72 @@ def expandMetricUnits( newAliases ):
                         elif op2 == oldUnit and newUnit!= op1:
                             newConversions[ ( op1, newUnit) ] = str( fmul( oldConversion, volumeConversion ) )
                             #print( op1, newUnit, volumeConversion )
+
+    return newConversions
+
+
+#//******************************************************************************
+#//
+#//  expandDataUnits
+#//
+#//  Every data unit needs to be permuted for all positive SI power types and
+#//  the binary power types.  We need to create conversions for each new type,
+#//  as well as aliases.
+#//
+#//******************************************************************************
+
+def expandDataUnits( newAliases ):
+    # expand data measurements for all prefixes
+    newConversions = { }
+
+    for dataUnit in dataUnits:
+        for prefix in dataPrefixes:
+            newName = prefix[ 0 ] + dataUnit[ 0 ]
+            newPlural = prefix[ 0 ] + dataUnit[ 1 ]
+
+            # constuct unit operator info
+            unitOperators[ newName ] = \
+                UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
+                                         prefix[ 1 ] + dataUnit[ 2 ], [ ] )
+
+            newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
+            unitConversionMatrix[ ( newName, dataUnit[ 0 ] ) ] = str( newConversion )
+            newConversion = fdiv( 1, newConversion )
+            unitConversionMatrix[ ( dataUnit[ 0 ], newName ) ] = str( newConversion )
+
+            for op1, op2 in unitConversionMatrix:
+                if ( op1 == dataUnit[ 0 ] ) or ( op2 == dataUnit[ 0 ] ):
+                    oldConversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
+
+                    if op1 == dataUnit[ 0 ] and newName != op2:
+                        newConversions[ ( newName, op2 ) ] = str( fdiv( oldConversion, newConversion ) )
+                        #print( '(', newName, op2, ')', str( fdiv( oldConversion, newConversion ) ) )
+                    elif op2 == dataUnit[ 0 ] and newName != op1:
+                        newConversions[ ( op1, newName ) ] = str( fmul( oldConversion, newConversion ) )
+                        #print( '(', op1, newName, ')', str( fmul( oldConversion, newConversion ) ) )
+
+        for prefix in binaryPrefixes:
+            newName = prefix[ 0 ] + dataUnit[ 0 ]
+            newPlural = prefix[ 0 ] + dataUnit[ 1 ]
+
+            # constuct unit operator info
+            unitOperators[ newName ] = \
+                UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
+                                         prefix[ 1 ] + dataUnit[ 2 ], [ ] )
+
+            newConversion = power( 2, mpmathify( prefix[ 2 ] ) )
+            unitConversionMatrix[ ( newName, dataUnit[ 0 ] ) ] = str( newConversion )
+            newConversion = fdiv( 1, newConversion )
+            unitConversionMatrix[ ( dataUnit[ 0 ], newName ) ] = str( newConversion )
+
+            for op1, op2 in unitConversionMatrix:
+                if ( op1 == dataUnit[ 0 ] ) or ( op2 == dataUnit[ 0 ] ):
+                    oldConversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
+
+                    if op1 == dataUnit[ 0 ] and newName != op2:
+                        newConversions[ ( newName, op2 ) ] = str( fdiv( oldConversion, newConversion ) )
+                    elif op2 == dataUnit[ 0 ] and newName != op1:
+                        newConversions[ ( op1, newName ) ] = str( fmul( oldConversion, newConversion ) )
 
     return newConversions
 
@@ -1679,6 +1874,18 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     unitConversionMatrix.update( expandMetricUnits( newAliases ) )
 
+    # the second pass allows the full permuation of conversions between base types of the same unit type
+    # (e.g., it's necessary to get a conversion between 'megameter' and 'megapotrzebie' )
+    print( 'Expanding metric units (second pass)...' )
+    unitConversionMatrix.update( expandMetricUnits( newAliases ) )
+
+    print( 'Expanding data units against the list of SI and binary prefixes...' )
+
+    unitConversionMatrix.update( expandDataUnits( newAliases ) )
+
+    print( 'Expanding data units (second pass)...' )
+    unitConversionMatrix.update( expandDataUnits( newAliases ) )
+
     # add new operators for compound time units
     print( 'Expanding compound time units...' )
 
@@ -1709,12 +1916,44 @@ def initializeConversionMatrix( unitConversionMatrix ):
                     newAliases[ alias + '-' + timeUnit[ 1 ] ] = newUnit
 
                 newUnitOperators[ newUnit ] = \
-                    UnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ],
-                              newPlural, '', [ ] )
+                    UnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural, '', [ ] )
 
                 conversion = mpmathify( timeUnit[ 3 ] )
                 unitConversionMatrix[ ( newUnit, unit ) ] = str( conversion )
                 unitConversionMatrix[ ( unit, newUnit ) ] = str( fdiv( 1, conversion ) )
+
+    unitOperators.update( newUnitOperators )
+
+    newUnitOperators = { }
+
+    for unit in unitOperators:
+        if unit[ -7 : ] == '/second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_':
+            unitRoot = unit[ : -7 ]
+
+            unitInfo = unitOperators[ unit ]
+            rootUnitInfo = unitOperators[ unitRoot ]
+
+            for timeUnit in timeUnits:
+                newUnit = unitRoot + '/' + timeUnit[ 0 ]
+                newPlural = unitRoot + '/' + timeUnit[ 1 ]
+                newAliases[ newPlural ] = newUnit
+                newAliases[ unitRoot + '/' + timeUnit[ 1 ] ] = newUnit
+
+                # We assume the abbrev ends with an s for second
+                if unitInfo.abbrev != '':
+                    newAbbrev = unitInfo.abbrev[ : -1 ] + timeUnit[ 2 ]
+                    newAliases[ newAbbrev ] = newUnit
+
+                for alias in rootUnitInfo.aliases:
+                    newAliases[ alias + '/' + timeUnit[ 0 ] ] = newUnit
+                    newAliases[ alias + '/' + timeUnit[ 1 ] ] = newUnit
+
+                newUnitOperators[ newUnit ] = \
+                    UnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural, '', [ ] )
+
+                conversion = mpmathify( timeUnit[ 3 ] )
+                unitConversionMatrix[ ( newUnit, unit ) ] = str( fdiv( 1, conversion ) )
+                unitConversionMatrix[ ( unit, newUnit ) ] = str( conversion )
 
     unitOperators.update( newUnitOperators )
 
