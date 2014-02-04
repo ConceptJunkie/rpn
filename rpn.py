@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
 import argparse
-from argparse import RawTextHelpFormatter
 import math
+import os
 import random
 import sys
-from mpmath import *
-from functools import reduce
+
 from fractions import Fraction
+from functools import reduce
+from mpmath import *
 
 
 #//******************************************************************************
@@ -17,7 +18,7 @@ from fractions import Fraction
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.5.0"
+RPN_VERSION = "3.5.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -31,6 +32,12 @@ phiBase = -1
 fibBase = -2
 
 bitwiseGroupSize = 16
+
+argumentPrefixLinux = '-'
+argumentPrefixWindows = '/'
+
+prefixListLinux = argumentPrefixLinux
+prefixListWindows = argumentPrefixLinux + argumentPrefixWindows
 
 
 #//******************************************************************************
@@ -902,12 +909,18 @@ def getPlasticConstant( valueList ):
 #//******************************************************************************
 
 def solveQuadraticPolynomial( a, b, c ):
-    d = sqrt( fsub( power( b, 2 ), fmul( 4, fmul( a, c ) ) ) )
+    if a == 0:
+        if b == 0:
+            raise ValueError( "Invalid equation, no variable coefficients" )
+        else:
+            valueList.append( [ fdiv( fneg( c ), b ) ] )
+    else:
+        d = sqrt( fsub( power( b, 2 ), fmul( 4, fmul( a, c ) ) ) )
 
-    x1 = fdiv( fadd( fneg( b ), d ), fmul( 2, a ) )
-    x2 = fdiv( fsub( fneg( b ), d ), fmul( 2, a ) )
+        x1 = fdiv( fadd( fneg( b ), d ), fmul( 2, a ) )
+        x2 = fdiv( fsub( fneg( b ), d ), fmul( 2, a ) )
 
-    return x1, x2
+        return [ x1, x2 ]
 
 
 #//******************************************************************************
@@ -921,9 +934,7 @@ def solveOrder2( valueList ):
     b = valueList.pop( )
     a = valueList.pop( )
 
-    x1, x2 = solveQuadraticPolynomial( a, b, c )
-
-    valueList.append( [ x1, x2 ] )
+    valueList.append( solveQuadraticPolynomial( a, b, c ) )
 
 
 #//******************************************************************************
@@ -935,6 +946,9 @@ def solveOrder2( valueList ):
 #//******************************************************************************
 
 def solveCubicPolynomial( a, b, c, d ):
+    if a == 0:
+        return solveQuadraticPolynomial( b, c, d )
+
     f = fdiv( fsub( fdiv( fmul( 3, c ), a ), fdiv( power( b, 2 ), power( a, 2 ) ) ), 3 )
 
     g = fdiv( fadd( fsub( fdiv( fmul( 2, power( b, 3 ) ), power( a, 3 ) ),
@@ -985,7 +999,7 @@ def solveCubicPolynomial( a, b, c, d ):
         x2 = fadd( fmul( fneg( l ), fadd( m, n ) ), p )
         x3 = fadd( fmul( fneg( l ), fsub( m, n ) ), p )
 
-    return chop( x1 ), chop( x2 ), chop( x3 )
+    return [ chop( x1 ), chop( x2 ), chop( x3 ) ]
 
 
 #//******************************************************************************
@@ -995,17 +1009,12 @@ def solveCubicPolynomial( a, b, c, d ):
 #//******************************************************************************
 
 def solveOrder3( valueList ):
-    if mp.dps < 30:
-        mp.dps = 30
-
     d = valueList.pop( )
     c = valueList.pop( )
     b = valueList.pop( )
     a = valueList.pop( )
 
-    x1, x2, x3 = solveCubicPolynomial( a, b, c, d )
-
-    valueList.append( [ x1, x2, x3 ] )
+    valueList.append( solveCubicPolynomial( a, b, c, d ) )
 
 
 #//******************************************************************************
@@ -1017,6 +1026,16 @@ def solveOrder3( valueList ):
 #//******************************************************************************
 
 def solveQuarticPolynomial( a, b, c, d, e ):
+    if a == 0:
+        return solveCubicPolynomial( b, c, d, e )
+    elif b == 0 and c == 0 and d == 0:
+        x1 = root( fneg( e ), 4 )
+        x2 = fneg( root( fneg( e ), 4 ) )
+        x3 = mpc( 0, root( fneg( e ), 4 ) )
+        x4 = mpc( 0, fneg( root( fneg( e ), 4 ) ) )
+
+        return [ x1, x2, x3, x4 ]
+
     f = fsub( c, fdiv( fmul( 3, power( b, 2 ) ), 8 ) )
     g = fsub( fadd( d, fdiv( power( b, 3 ), 8 ) ), fdiv( fmul( b, c ), 2 ) )
     h = fadd( fsub( e, fdiv( fmul( 3, power( b, 4 ) ), 256 ) ),
@@ -1062,7 +1081,7 @@ def solveQuarticPolynomial( a, b, c, d, e ):
     x3 = fsum( [ fneg( p ), q, fneg( r ), s ] )
     x4 = fsum( [ fneg( p ), fneg( q ), r, s ] )
 
-    return chop( x1 ), chop( x2 ), chop( x3 ), chop( x4 )
+    return [ chop( x1 ), chop( x2 ), chop( x3 ), chop( x4 ) ]
 
 
 #//******************************************************************************
@@ -1072,20 +1091,14 @@ def solveQuarticPolynomial( a, b, c, d, e ):
 #//******************************************************************************
 
 def solveOrder4( valueList ):
-    if mp.dps < 30:
-        mp.dps = 30
-
     e = valueList.pop( )
     d = valueList.pop( )
     c = valueList.pop( )
     b = valueList.pop( )
     a = valueList.pop( )
 
-    x1, x2, x3, x4 = solveQuarticPolynomial( mpmathify( 1 ), fdiv( b, a ), fdiv( c, a ),
-                                             fdiv( d, a ), fdiv( e, a ) )
-
-    valueList.append( [ x1, x2, x3, x4 ] )
-
+    valueList.append( solveQuarticPolynomial( mpmathify( 1 ), fdiv( b, a ),
+                                              fdiv( c, a ), fdiv( d, a ), fdiv( e, a ) ) )
 
 
 #//******************************************************************************
@@ -1331,7 +1344,23 @@ def roundMantissa( mantissa, accuracy ):
 
 def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
                   decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
-    strOutput = str( output )
+    imaginary = im( mpmathify( output ) )
+
+    if imaginary != 0:
+        if imaginary < 0:
+            imaginary = fabs( imaginary )
+            negativeImaginary = True
+        else:
+            negativeImaginary = False
+
+        imaginaryValue = formatOutput( nstr( imaginary, mp.dps ), radix, numerals, integerGrouping, integerDelimiter,
+                                       leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
+                                       outputAccuracy )
+
+        strOutput = str( re( mpmathify( output ) ) )
+    else:
+        imaginaryValue = ''
+        strOutput = str( output )
 
     if '.' in strOutput:
         decimal = strOutput.find( '.' )
@@ -1411,6 +1440,9 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
 
     if mantissaResult != '':
         result += '.' + mantissaResult
+
+    if imaginaryValue != '':
+        result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + imaginaryValue + 'j )'
 
     return result
 
@@ -1574,9 +1606,16 @@ def main( ):
     global numerals
     global bitwiseGroupSize
 
+    if os.name == 'nt':
+        argumentPrefix = argumentPrefixWindows
+        prefixList = prefixListWindows
+    else:
+        argumentPrefix = argumentPrefixLinux
+        prefixList = prefixListLinux
+
     parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
                                       PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
-                                      formatter_class=RawTextHelpFormatter )
+                                      formatter_class=argparse.RawTextHelpFormatter, prefix_chars=prefixList )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
     parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1, const=12,
@@ -1610,6 +1649,7 @@ def main( ):
                          help="bitwise operations group values by this size (default: 16)" )
     parser.add_argument( '-x', '--hex', action='store_true', help="hex mode: equivalent to '-r16 -w16 -i4 -z'" )
     parser.add_argument( '-z', '--leading_zero', action='store_true', help="add leading zeros if needed with -i" )
+    parser.add_argument( '-?', '--print_options', action='store_true', help="print values for all options" )
 
     # OK, let's parse and validate the arguments
     if len( sys.argv ) == 1:
@@ -1712,6 +1752,24 @@ def main( ):
     index = 1                 # only used for error messages
     valueList = list( )
 
+    if args.print_options:
+        print( '--output_accuracy:  %d' % args.output_accuracy )
+        print( '--input_radix:  %d'% inputRadix )
+        print( '--comma:  ' + ( 'true' if args.comma else 'false' ) )
+        print( '--decimal_grouping:  %d' % args.decimal_grouping )
+        print( '--continued_fraction:  %d' % args.continued_fraction )
+        print( '--factor:  ' + ( 'true' if args.factor else 'false' ) )
+        print( '--integer_grouping:  %d' % integerGrouping )
+        print( '--numerals:  ' + args.numerals )
+        print( '--octal:  ' + ( 'true' if args.octal else 'false' ) )
+        print( '--precision:  %d' % args.precision )
+        print( '--output_radix:  %d' % args.output_radix )
+        print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
+        print( '--bitwise_group_size:  %d' % bitwiseGroupSize )
+        print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
+        print( '--leading_zero:  ' + ( 'true' if leadingZero else 'false' ) )
+        print( )
+
     if len( args.terms ) == 0:
         print( "rpn:  no terms found" )
         return
@@ -1722,7 +1780,7 @@ def main( ):
             argsNeeded = expressions[ term ][ 1 ]
 
             if len( valueList ) < argsNeeded:
-                print( "rpn:  error in arg " + format( index ) + ": operator " + term + " requires " +
+                print( "rpn:  error in arg " + format( index ) + ":  operator " + term + " requires " +
                        format( argsNeeded ) + " argument", end='' )
 
                 if argsNeeded > 1:
@@ -1736,14 +1794,14 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( "rpn:  keyboard interrupt" )
                 break
-            except Exception as error:
-                print( "rpn:  error in arg " + format( index ) + ": {0}".format( error ) )
-                break
+            #except Exception as error:
+            #    print( "rpn:  error in arg " + format( index ) + ":  {0}".format( error ) )
+            #    break
         else:
             try:
                 valueList.append( parseInputValue( term, inputRadix ) )
             except Exception as error:
-                print( "rpn: error in arg " + format( index ) + ": {0}".format( error ) )
+                print( "rpn: error in arg " + format( index ) + ":  {0}".format( error ) )
                 break
 
         index = index + 1
@@ -1753,55 +1811,73 @@ def main( ):
         else:
             mp.pretty = True
             result = valueList.pop( )
-            resultString = nstr( result, mp.dps )
 
             if args.comma:
-                print( formatOutput( resultString, outputRadix, numerals, 3, ',', False,
-                                     args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy ) )
+                integerGrouping = 3     # overridde whatever was set on the command-line
+                leadingZero = False     # this one, too
+                integerDelimiter = ','
             else:
-                print( formatOutput( resultString, outputRadix, numerals, integerGrouping, ' ', leadingZero,
-                                     args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy ) )
+                integerDelimiter = ' '
 
-            if args.factor:
-                try:
-                    factorInteger( int( floor( result ) ) )
-                except KeyboardInterrupt as error:
-                    print( "rpn:  keyboard interrupt" )
-                    return
+            if isinstance( result, list ):
+                resultString = ''
 
-            if args.continued_fraction:
-                try:
-                    cf = CFraction( mpmathify( result ), maxterms=args.continued_fraction )
-                except KeyboardInterrupt as error:
-                    print( "rpn:  keyboard interrupt" )
-                    return
+                for item in result:
+                    if resultString == '':
+                        resultString = '[ '
+                    else:
+                        resultString += ', '
 
-                # format the fraction output
-                fraction = str( cf.getFraction( ) )
-                solidus = fraction.find( '/' )
+                    itemString = nstr( item, mp.dps )
 
-                if solidus == -1:    # should never happen
-                    numerator = fraction
-                    denominator = ''
-                else:
-                    numerator = fraction[ : solidus ]
-                    denominator = fraction [ solidus + 1 : ]
+                    resultString += formatOutput( itemString, outputRadix, numerals, integerGrouping,
+                                               integerDelimiter, leadingZero, args.decimal_grouping, ' ',
+                                               baseAsDigits, args.output_accuracy )
 
-                if args.comma:
-                    numerator = formatOutput( numerator, outputRadix, numerals, 3, ',', False,
-                                              args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
+                print( resultString + ' ]' )
+            else:
+                resultString = nstr( result, mp.dps )
+
+                print( formatOutput( resultString, outputRadix, numerals, integerGrouping, integerDelimiter,
+                                     leadingZero, args.decimal_grouping, ' ', baseAsDigits,
+                                     args.output_accuracy ) )
+
+                if args.factor:
+                    try:
+                        factorInteger( int( floor( result ) ) )
+                    except KeyboardInterrupt as error:
+                        print( "rpn:  keyboard interrupt" )
+                        return
+
+                if args.continued_fraction:
+                    try:
+                        cf = CFraction( mpmathify( result ), maxterms=args.continued_fraction )
+                    except KeyboardInterrupt as error:
+                        print( "rpn:  keyboard interrupt" )
+                        return
+
+                    # format the fraction output
+                    fraction = str( cf.getFraction( ) )
+                    solidus = fraction.find( '/' )
+
+                    if solidus == -1:    # should never happen
+                        numerator = fraction
+                        denominator = ''
+                    else:
+                        numerator = fraction[ : solidus ]
+                        denominator = fraction [ solidus + 1 : ]
+
+                    numerator = formatOutput( numerator, outputRadix, numerals, integerGrouping, integerDelimiter,
+                                              leadingZero, args.decimal_grouping, ' ', baseAsDigits,
+                                              args.output_accuracy )
+
                     if denominator != '':
-                        denominator = formatOutput( denominator, outputRadix, numerals, 3, ',', False,
-                                                    args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
-                else:
-                    numerator = formatOutput( numerator, outputRadix, numerals, integerGrouping, ' ', leadingZero,
-                                              args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
-                    if denominator != '':
-                        denominator = formatOutput( denominator, outputRadix, numerals, integerGrouping, ' ', leadingZero,
-                                                    args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
+                        denominator = formatOutput( denominator, outputRadix, numerals, integerGrouping, integerDelimter,
+                                                    leadingZero, args.decimal_grouping, ' ', baseAsDigits,
+                                                    args.output_accuracy )
 
-                print( "    = " + str( cf ) )
-                print( "    ~= " + numerator + ' / ' + denominator )
+                    print( "    = " + str( cf ) )
+                    print( "    ~= " + numerator + ' / ' + denominator )
 
 
 #//******************************************************************************
