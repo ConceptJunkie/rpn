@@ -28,71 +28,69 @@ from mpmath import *
 #//******************************************************************************
 
 unitTypes = [
-    'area',
     'length',
     'mass',
     'time',
-    'volume',
 ]
 
 unitOperators = {
-    'are'               : 'area',
-    'acre'              : 'area',
-    'barn'              : 'area',
-    'shed'              : 'area',
-    'square_meter'      : 'area',
-    'square_yard'       : 'area',
+    'are'               : { 'length' : 2 },
+    'acre'              : { 'length' : 2 },
+    'barn'              : { 'length' : 2 },
+    'shed'              : { 'length' : 2 },
+    'square_meter'      : { 'length' : 2 },
+    'square_yard'       : { 'length' : 2 },
 
-    'foot'              : 'length',
-    'inch'              : 'length',
-    'meter'             : 'length',
-    'micron'            : 'length',
-    'mile'              : 'length',
-    'yard'              : 'length',
-    'rod'               : 'length',
-    'astronomical_unit' : 'length',
-    'furlong'           : 'length',
-    'chain'             : 'length',
-    'league'            : 'length',
-    'light_second'      : 'length',
-    'light_minute'      : 'length',
-    'light_hour'        : 'length',
-    'light_day'         : 'length',
-    'light_year'        : 'length',
-    'nautical_mile'     : 'length',
-    'angstrom'          : 'length',
+    'foot'              : { 'length' : 1 },
+    'inch'              : { 'length' : 1 },
+    'meter'             : { 'length' : 1 },
+    'micron'            : { 'length' : 1 },
+    'mile'              : { 'length' : 1 },
+    'yard'              : { 'length' : 1 },
+    'rod'               : { 'length' : 1 },
+    'astronomical_unit' : { 'length' : 1 },
+    'furlong'           : { 'length' : 1 },
+    'chain'             : { 'length' : 1 },
+    'league'            : { 'length' : 1 },
+    'light_second'      : { 'length' : 1 },
+    'light_minute'      : { 'length' : 1 },
+    'light_hour'        : { 'length' : 1 },
+    'light_day'         : { 'length' : 1 },
+    'light_year'        : { 'length' : 1 },
+    'nautical_mile'     : { 'length' : 1 },
+    'angstrom'          : { 'length' : 1 },
 
-    'grain'             : 'mass',
-    'gram'              : 'mass',
-    'ounce'             : 'mass',
-    'pennyweight'       : 'mass',
-    'pound'             : 'mass',
-    'stone'             : 'mass',
-    'ton'               : 'mass',
-    'tonne'             : 'mass',
-    'troy_ounce'        : 'mass',
-    'troy_pound'        : 'mass',
+    'grain'             : { 'mass' : 1 },
+    'gram'              : { 'mass' : 1 },
+    'ounce'             : { 'mass' : 1 },
+    'pennyweight'       : { 'mass' : 1 },
+    'pound'             : { 'mass' : 1 },
+    'stone'             : { 'mass' : 1 },
+    'ton'               : { 'mass' : 1 },
+    'tonne'             : { 'mass' : 1 },
+    'troy_ounce'        : { 'mass' : 1 },
+    'troy_pound'        : { 'mass' : 1 },
 
-    'day'               : 'time',
-    'fortnight'         : 'time',
-    'hour'              : 'time',
-    'minute'            : 'time',
-    'second'            : 'time',
-    'week'              : 'time',
+    'day'               : { 'time' : 1 },
+    'fortnight'         : { 'time' : 1 },
+    'hour'              : { 'time' : 1 },
+    'minute'            : { 'time' : 1 },
+    'second'            : { 'time' : 1 },
+    'week'              : { 'time' : 1 },
 
-    'cubic_foot'        : 'volume',
-    'cup'               : 'volume',
-    'fifth'             : 'volume',
-    'firkin'            : 'volume',
-    'fluid_ounce'       : 'volume',
-    'gallon'            : 'volume',
-    'gill'              : 'volume',
-    'liter'             : 'volume',
-    'pinch'             : 'volume',
-    'pint'              : 'volume',
-    'quart'             : 'volume',
-    'tablespoon'        : 'volume',
-    'teaspoon'          : 'volume',
+    'cubic_foot'        : { 'length' : 3 },
+    'cup'               : { 'length' : 3 },
+    'fifth'             : { 'length' : 3 },
+    'firkin'            : { 'length' : 3 },
+    'fluid_ounce'       : { 'length' : 3 },
+    'gallon'            : { 'length' : 3 },
+    'gill'              : { 'length' : 3 },
+    'liter'             : { 'length' : 3 },
+    'pinch'             : { 'length' : 3 },
+    'pint'              : { 'length' : 3 },
+    'quart'             : { 'length' : 3 },
+    'tablespoon'        : { 'length' : 3 },
+    'teaspoon'          : { 'length' : 3 },
 }
 
 
@@ -240,16 +238,16 @@ def initializeConversionMatrix( unitConversionMatrix ):
     newOperators = { }
 
     for operator in unitOperators:
-        if unitOperators[ operator ] == 'length':
+        if unitOperators[ operator ] == { 'length' : 1 }:
             newOp = 'square_' + operator
 
             if newOp not in unitOperators:
-                newOperators[ newOp ] = 'area'
+                newOperators[ newOp ] = { 'length' : 2 }
 
             newOp = 'cubic_'+ operator
 
             if newOp not in unitOperators:
-                newOperators[ newOp ] = 'volume'
+                newOperators[ newOp ] = { 'length' : 3 }
 
     unitOperators.update( newOperators )
 
@@ -257,7 +255,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     newConversions = { }
 
     for op1, op2 in unitConversionMatrix:
-        if unitOperators[ op1 ] == 'length':
+        if unitOperators[ op1 ] == { 'length' : 1 }:
             conversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
             newConversions[ ( 'square_' + op1, 'square_' + op2 ) ] = str( power( conversion, 2 ) )
             newConversions[ ( 'cubic_' + op1, 'cubic_' + op2 ) ] = str( power( conversion, 3 ) )

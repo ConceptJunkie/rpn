@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.2.3'
+RPN_VERSION = '5.2.4'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -74,14 +74,33 @@ unitStack = [ ]
 #//******************************************************************************
 
 class UnitOfMeasurement( dict ):
-    def __init__( self, value={ } ):
-        if isinstance( value, str ):
-            self.increment( value )
-        elif isinstance( value, ( list, tuple ) ):
-            for unit in value:
-                self.increment( unit )
+    # one arg can initialize the scalar or the types depending on its type
+    def __init__( self, scalar, types=None ):
+        if types is None:
+            if isinstance( scalar, str ):
+                self.increment( scalar )
+                self.scalar = nan
+            elif isinstance( scalar, list, tuple ):
+                for unit in scalar:
+                    self.increment( unit )
+                self.scalar = nan
+            elif isinstance( scalar, dict ):
+                self.update( scalar )
+                self.scalar = nan
+            else:
+                self.scalar = mpmathify( scalar )
         else:
-            raise ValueError( 'UnitOfMeasurement requires a string or a list' )
+            self.scalar = mpmathify( scalar )
+
+            if isinstance( types, str ):
+                self.increment( types )
+            elif isinstance( types, ( list, tuple ) ):
+                for type in types:
+                    self.increment( type )
+            elif isinstance( types, dict ):
+                self.update( types )
+            else:
+                raise ValueError( 'invalid types specifier' )
 
     def increment( self, value, amount=1 ):
         if value not in self:
@@ -110,10 +129,11 @@ class UnitOfMeasurement( dict ):
 
             unitType = unitOperators[ unit ]
 
-            if unitType not in unitTypes:
-                unitTypes[ unitType ] = self[ unit ]
-            else:
-                unitTypes[ unitType ] += self[ unit ]
+            for key in unitType:
+                if key in unitTypes:
+                    unitTypes[ key ] += unitType[ key ]
+                else:
+                    unitTypes[ key ] = unitType[ key ]
 
         return unitTypes
 
@@ -2776,6 +2796,12 @@ def findCenteredPolygonalNumber( n, k ):
 #//
 #//******************************************************************************
 
+def getNthHexagonalPentagonalNumber( n ):
+    return ceil( fdiv( fmul( fsub( sqrt( 3 ), 1 ),
+                             power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ) ),
+                       12 ) )
+
+
 #//******************************************************************************
 #//
 #//  getNthHeptagonalTriangularNumber
@@ -4725,9 +4751,7 @@ def convertUnits( valueList ):
     if len( valueList ) == 0:
         valueList.append( mpmathify( 1 ) )
 
-        return evaluateOneArgFunction( lambda i: fmul( i, conversion ), valueList.pop( ) )
-    else:
-        raise ValueError( 'no conversion is defined between \'{}\' and \'{}\''.format( unit1, unit2 ) )
+    return evaluateOneArgFunction( lambda i: fmul( i, conversion ), valueList.pop( ) )
 
 
 #//******************************************************************************
@@ -5851,6 +5875,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'hexanacci'     : [ getNthHexanacci, 1,
 'number_theory', 'calculates the nth Hexanacci number',
+'''
+''',
+'''
+''' ],
+    'hexpent'       : [ getNthHexagonalPentagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth hexagonal pentagonal number',
 '''
 ''',
 '''
@@ -8240,12 +8270,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            except ValueError as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except ValueError as error:
+            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except IndexError as error:
                 print( 'rpn:  index error for operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
