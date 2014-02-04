@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.21.0'
+RPN_VERSION = '4.21.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -1919,10 +1919,7 @@ def getDivisorCount( n ):
     if n == 1:
         return 1
 
-    result = [ i[ 1 ] + 1 for i in factor( n ) ]
-
-    from operator import mul
-    return reduce( mul, result, 1 )
+    return fprod( [ i[ 1 ] + 1 for i in factor( n ) ] )
 
 
 #//******************************************************************************
@@ -3279,23 +3276,32 @@ def calculatePowerTower2( args ):
 
 #//******************************************************************************
 #//
+#//  evaluateOneListFunction
+#//
+#//******************************************************************************
+
+def evaluateOneListFunction( func, args ):
+    if isinstance( args, list ):
+        for arg in args:
+            if isinstance( arg, list ):
+                return [ evaluateOneListFunction( func, arg ) for arg in args ]
+
+        return func( args )
+    else:
+        return func( [ args ] )
+
+
+#//******************************************************************************
+#//
 #//  getAlternatingSum
 #//
 #//******************************************************************************
 
 def getAlternatingSum( args ):
-    if isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ getAlternatingSum( arg ) for arg in args ]
-        else:
-            result = args[ 0 ]
+    for i in range( 1, len( args ), 2 ):
+        args[ i ] = fneg( args[ i ] )
 
-        for i in range( 1, len( args ), 2 ):
-            args[ i ] = fneg( args[ i ] )
-
-        return fsum( args )
-    else:
-        return args
+    return fsum( args )
 
 
 #//******************************************************************************
@@ -3305,18 +3311,10 @@ def getAlternatingSum( args ):
 #//******************************************************************************
 
 def getAlternatingSum2( args ):
-    if isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ getAlternatingSum( arg ) for arg in args ]
-        else:
-            result = args[ 0 ]
+    for i in range( 0, len( args ), 2 ):
+        args[ i ] = fneg( args[ i ] )
 
-        for i in range( 0, len( args ), 2 ):
-            args[ i ] = fneg( args[ i ] )
-
-        return fsum( args )
-    else:
-        return args
+    return fsum( args )
 
 
 #//******************************************************************************
@@ -3587,9 +3585,8 @@ def appendLists( valueList ):
 #//******************************************************************************
 
 def alternateSigns( n ):
-    if isinstance( n, list ):
-        for i in range( 1, len( n ), 2 ):
-            n[ i ] = -n[ i ]
+    for i in range( 1, len( n ), 2 ):
+        n[ i ] = -n[ i ]
 
     return n
 
@@ -3601,11 +3598,8 @@ def alternateSigns( n ):
 #//******************************************************************************
 
 def alternateSigns2( n ):
-    if isinstance( n, list ):
-        for i in range( 0, len( n ), 2 ):
-            n[ i ] = -n[ i ]
-    else:
-        n = -n
+    for i in range( 0, len( n ), 2 ):
+        n[ i ] = -n[ i ]
 
     return n
 
@@ -3759,34 +3753,38 @@ def makeIntersection( arg1, arg2 ):
 
 #//******************************************************************************
 #//
-#//  getMax
+#//  getIndexOfMax
 #//
 #//******************************************************************************
 
-def getMax( arg ):
-    if isinstance( arg, list ):
-        if isinstance( arg[ 0 ], list ):
-            return [ getMax( i ) for i in arg ]
-        else:
-            return max( arg )
-    else:
-        return arg
+def getIndexOfMax( arg ):
+    maximum = -inf
+    index = -1
+
+    for i in range( 0, len( arg ) ):
+        if arg[ i ] > maximum:
+            maximum = arg[ i ]
+            index = i
+
+    return index
 
 
 #//******************************************************************************
 #//
-#//  getMin
+#//  getIndexOfMin
 #//
 #//******************************************************************************
 
-def getMin( arg ):
-    if isinstance( arg, list ):
-        if isinstance( arg[ 0 ], list ):
-            return [ getMin( i ) for i in arg ]
-        else:
-            return min( arg )
-    else:
-        return arg
+def getIndexOfMin( arg ):
+    minimum = inf
+    index = -1
+
+    for i in range( 0, len( arg ) ):
+        if arg[ i ] < minimum:
+            minimum = arg[ i ]
+            index = i
+
+    return index
 
 
 #//******************************************************************************
@@ -3807,6 +3805,27 @@ def unlist( valueList ):
 
 #//******************************************************************************
 #//
+#//  flatten
+#//
+#//******************************************************************************
+
+# TODO:  try writing a generator that emits on item at a time from the original list
+
+def _flatten(l, ltypes=(list, tuple)):
+    n = 0
+    for i in iter(l):
+        if isinstance(i, ltypes):
+            l[n:n+1] = []
+            n += 1
+            l[n:n] = list(i)
+    return l
+
+def flatten( valueList ):
+    valueList.append( _flatten( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
 #//  getListElement
 #//
 #//******************************************************************************
@@ -3816,6 +3835,7 @@ def getListElement( arg, index ):
         return arg[ int( index ) ]
     else:
         return arg
+        # TODO: throw exception if index > 0
 
 
 #//******************************************************************************
@@ -3866,28 +3886,6 @@ def getListDiffs( args ):
         else:
             if i < len( args ) - 1:
                 result.append( fsub( args[ i + 1 ], args[ i ] ) )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  flatten
-#//
-#//******************************************************************************
-
-def flatten( args ):
-    result = [ ]
-
-    if isinstance( args[ 0 ], list ):
-        for i in range( 0, len( args ) ):
-            newList = flatten( args[ i ] )
-
-            for j in range( 0, len( newList ) ):
-                result.append( newList[ j ] )
-    else:
-        for i in range( 0, len( args ) ):
-            result.append( args[ i ] )
 
     return result
 
@@ -3979,14 +3977,24 @@ def getCurrentArgList( valueList ):
 
 #//******************************************************************************
 #//
-#//  twoArgCaller
+#//  evaluateOneArgFunction
 #//
 #//******************************************************************************
 
-def twoArgCaller( func, args ):
-    arg1 = args[ 0 ]
-    arg2 = args[ 1 ]
+def evaluateOneArgFunction( func, args ):
+    if isinstance( args, list ):
+        return [ evaluateOneArgFunction( func, i ) for i in args ]
+    else:
+        return func( args )
 
+
+#//******************************************************************************
+#//
+#//  evaluateTwoArgFunction
+#//
+#//******************************************************************************
+
+def evaluateTwoArgFunction( func, arg1, arg2 ):
     #print( 'arg1: ' + str( arg1 ) )
     #print( 'arg2: ' + str( arg2 ) )
 
@@ -4009,19 +4017,16 @@ def twoArgCaller( func, args ):
             return [ func( arg2[ 0 ], arg1[ 0 ] ) ]
 
 
-#//******************************************************************************
-#//
-#//  operators
-#//
-#//******************************************************************************
-
 callers = [
     lambda func, args: [ func( ) ],
-    lambda func, args: [ func( n ) for n in args[ 0 ] ],
-    twoArgCaller,
-    lambda func, args: [ func( a, b, c ) for c in args[ 0 ] for b in args[ 1 ] for a in args[ 2 ] ],
-    lambda func, args: [ func( a, b, c, d ) for d in args[ 0 ] for c in args[ 1 ] for d in args[ 2 ] for a in args[ 3 ] ],
-    lambda func, args: [ func( a, b, c, d, e ) for e in args[ 0 ] for d in args[ 1 ] for c in args[ 2 ] for b in args[ 3 ] for a in args[ 4 ] ],
+    evaluateOneArgFunction,
+    evaluateTwoArgFunction,
+    lambda func, arg1, arg2, arg3:
+        [ func( a, b, c ) for c in arg1 for b in arg2 for a in arg3 ],
+    lambda func, arg1, arg2, arg3, arg4:
+        [ func( a, b, c, d ) for d in arg1 for c in arg2 for b in arg3 for a in arg4 ],
+    lambda func, arg1, arg2, arg3, arg4, arg5:
+        [ func( a, b, c, d, e ) for e in arg1 for d in arg2 for c in arg3 for b in arg4 for a in arg5 ],
 ]
 
 
@@ -4052,6 +4057,7 @@ operatorAliases = {
     'dec'       : 'decagonal',
     'dec?'      : 'decagonal?',
     'deg'       : 'degrees',
+    'divcount'  : 'countdiv',
     'fac'       : 'factorial',
     'fac2'      : 'doublefac',
     'fib'       : 'fibonacci',
@@ -4133,6 +4139,12 @@ operatorAliases = {
 modifiers = {
     'dup'       : [ duplicateTerm, 2,
 'modifiers', 'duplicates a argument n k times',
+'''
+''',
+'''
+''' ],
+    'flatten'   : [ flatten, 1,
+'list_operators', 'flattens a nested lists in list n to a single level',
 '''
 ''',
 '''
@@ -4223,12 +4235,6 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'flatten'   : [ flatten, 1,
-'list_operators', 'flattens a nested lists in list n to a single level',
-'''
-''',
-'''
-''' ],
     'gcd'       : [ getGCD, 1,
 'arithmetic', 'calculates the greatest common denominator of elements in list n',
 '''
@@ -4247,8 +4253,14 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'max'       : [ getMax, 1,
+    'max'       : [ max, 1,
 'arithmetic', 'returns the largest value in list n',
+'''
+''',
+'''
+''' ],
+    'maxindex'  : [ getIndexOfMax, 1,
+'arithmetic', 'returns the index of largest value in list n',
 '''
 ''',
 '''
@@ -4259,8 +4271,14 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'min'       : [ getMin, 1,
+    'min'       : [ min, 1,
 'arithmetic', 'returns the smallest value in list n',
+'''
+''',
+'''
+''' ],
+    'minindex'  : [ getIndexOfMin, 1,
+'arithmetic', 'returns the index of smallest value in list n',
 '''
 ''',
 '''
@@ -4371,6 +4389,8 @@ list_operators = {
 
 
 #//******************************************************************************
+#//
+#//  operators
 #//
 #//  Regular operators expect zero or more single values and if those arguments
 #//  are lists, rpn will iterate calls to the operator handler for each element
@@ -4596,6 +4616,21 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'countdiv'      : [ getDivisorCount, 1,
+'number_theory', 'returns a count of the divisors of n',
+'''
+The divcount operator factors the argument and then calculates number of divisors
+from the list of prime factors.  'divisors count' calculates the same result, but
+the 'divisors' operator can generate prohibitively large lists for numbers with a
+lot of factors.
+''',
+'''
+c:\>rpn 98280 divcount
+128
+
+c:\>rpn 1 20 range divcount
+[ 1, 2, 2, 3, 2, 4, 2, 4, 3, 4, 2, 6, 2, 4, 4, 5, 2, 6, 2, 6 ]
+''' ],
     'cousinprime'   : [ getNthCousinPrime, 1,
 'prime_numbers', 'returns the nth cousin prime',
 '''
@@ -4637,21 +4672,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''',
 '''
-''' ],
-    'divcount'      : [ getDivisorCount, 1,
-'number_theory', 'returns a count of the divisors of n',
-'''
-The divcount operator factors the argument and then calculates number of divisors
-from the list of prime factors.  'divisors count' calculates the same result, but
-the 'divisors' operator can generate prohibitively large lists for numbers with a
-lot of factors.
-''',
-'''
-c:\>rpn 98280 divcount
-128
-
-c:\>rpn 1 20 range divcount
-[ 1, 2, 2, 3, 2, 4, 2, 4, 3, 4, 2, 6, 2, 4, 4, 5, 2, 6, 2, 6 ]
 ''' ],
     'divide'        : [ fdiv, 2,
 'arithmetic', 'divides n by k',
@@ -6872,7 +6892,7 @@ def main( ):
 
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
-                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
+                print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
                        format( argsNeeded ) + ' argument', end='' )
 
                 print( 's' if argsNeeded > 1 else '' )
@@ -6885,7 +6905,7 @@ def main( ):
                     arg = currentValueList.pop( )
                     argList.append( arg if isinstance( arg, list ) else [ arg ] )
 
-                result = callers[ argsNeeded ]( operators[ term ][ 0 ], argList )
+                result = callers[ argsNeeded ]( operators[ term ][ 0 ], *argList )
 
                 if len( result ) == 1:
                     result = result[ 0 ]
@@ -6915,12 +6935,17 @@ def main( ):
                 break
 
             try:
-                listArgs = [ ]
+                if argsNeeded == 1:
+                    fred = currentValueList.pop( )
+                    print( 'fred: ' + str( fred ) )
+                    currentValueList.append( evaluateOneListFunction( list_operators[ term ][ 0 ], fred ) )
+                else:
+                    listArgs = [ ]
 
-                for i in range( 0, argsNeeded ):
-                    listArgs.insert( 0, currentValueList.pop( ) )
+                    for i in range( 0, argsNeeded ):
+                        listArgs.insert( 0, currentValueList.pop( ) )
 
-                currentValueList.append( list_operators[ term ][ 0 ]( *listArgs ) )
+                    currentValueList.append( list_operators[ term ][ 0 ]( *listArgs ) )
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
