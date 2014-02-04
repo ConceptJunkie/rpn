@@ -13,7 +13,7 @@ from decimal import *
 #//
 #//**********************************************************************
 
-RPN_VERSION = "2.3.0"
+RPN_VERSION = "2.4.0"
 COPYRIGHT_MESSAGE = "copyright 2013 (1988), Rick Gutleber (rickg@his.com)"
 
 defaultPrecision = 12
@@ -68,20 +68,21 @@ def convertToBaseN( num, base, numerals="0123456789abcdefghijklmnopqrstuvwxyz" )
 #//
 #//**********************************************************************
 
-def decimal_log(self, base=10):
-    cur_prec = getcontext().prec
-    getcontext().prec += 2
-    baseDec = Decimal(10)
+def decimal_log( self, base = 10 ):
+    cur_prec = getcontext( ).prec
+    getcontext( ).prec += 2
+
+    baseDec = Decimal( 10 )
     retValue = self
 
-    if isinstance(base, Decimal):
+    if isinstance( base, Decimal ):
         baseDec = base
-    elif isinstance(base, float):
-        baseDec = Decimal("%f" % (base))
+    elif isinstance( base, float ):
+        baseDec = Decimal( "%f" % ( base ) )
     else:
-        baseDec = Decimal(base)
+        baseDec = Decimal( base )
 
-    integer_part = Decimal(0)
+    integer_part = Decimal( 0 )
 
     while retValue < 1:
         integer_part = integer_part - 1
@@ -92,19 +93,22 @@ def decimal_log(self, base=10):
         retValue = retValue / baseDec
 
     retValue = retValue ** 10
-    decimal_frac = Decimal(0)
-    partial_part = Decimal(1)
+    decimal_frac = Decimal( 0 )
+    partial_part = Decimal( 1 )
 
     while cur_prec > 0:
-        partial_part = partial_part / Decimal(10)
-        digit = Decimal(0)
+        partial_part = partial_part / Decimal( 10 )
+        digit = Decimal( 0 )
+
         while retValue >= baseDec:
             digit += 1
             retValue = retValue / baseDec
+
         decimal_frac = decimal_frac + digit * partial_part
         retValue = retValue ** 10
         cur_prec -= 1
-    getcontext().prec -= 2
+
+    getcontext( ).prec -= 2
 
     return integer_part + decimal_frac
 
@@ -309,22 +313,22 @@ def takeExp10( valueList ):
 #//
 #//**********************************************************************
 
-expressions = { 'pi' : [ getPI, 0 ],
-                'e'  : [ getE, 0 ],
-                '+'  : [ add, 2 ],
-                '-'  : [ subtract, 2 ],
-                '*'  : [ multiply, 2 ],
-                '/'  : [ divide, 2 ],
-                '**' : [ exponentiate, 2 ],
-                '//' : [ antiexponentiate, 2 ],
-                'logxy' : [ takeLogXY, 2 ],
-                '!'     : [ takeFactorial, 1 ],
-                'log'   : [ takeLog, 1 ],
-                'log10' : [ takeLog10, 1 ],
-                'exp'   : [ takeExp, 1 ],
-                'exp10' : [ takeExp10, 1 ],
+expressions = {
+    'pi' : [ getPI, 0 ],
+    'e'  : [ getE, 0 ],
+    '+'  : [ add, 2 ],
+    '-'  : [ subtract, 2 ],
+    '*'  : [ multiply, 2 ],
+    '/'  : [ divide, 2 ],
+    '**' : [ exponentiate, 2 ],
+    '//' : [ antiexponentiate, 2 ],
+    'logxy' : [ takeLogXY, 2 ],
+    '!'     : [ takeFactorial, 1 ],
+    'log'   : [ takeLog, 1 ],
+    'log10' : [ takeLog10, 1 ],
+    'exp'   : [ takeExp, 1 ],
+    'exp10' : [ takeExp10, 1 ],
 }
-
 
 #//**********************************************************************
 #//
@@ -333,21 +337,22 @@ expressions = { 'pi' : [ getPI, 0 ],
 #//**********************************************************************
 
 def main( ):
-    parser = argparse.ArgumentParser( prog='rpn', description='whereis - ' + RPN_VERSION +
+    parser = argparse.ArgumentParser( prog='rpn', description='rpn - ' + RPN_VERSION +
                                       ' - ' + COPYRIGHT_MESSAGE,
                                        epilog="Arguments are interpreted as Reverse Polish Notation.\n\n" +
                                        "Supported binary operators: +, -, *, /, ** (power), // (root), logxy\n" +
                                        "Supported unary operators: !, log, log10, exp, exp10\n\n" +
                                        "Note:  Unary operators are also postfix.\n\n" +
                                        "Note:  rpn supports arbitrary precision using Decimal( ), however the following operators\n" +
-                                       "       do not always provide arbitrary precision: **, //, exp, exp10.",
+                                       "       do not always provide arbitrary precision: **, //, exp, exp10." +
+                                       "Note:  rpn understands hexidecimal input of the form '0x....'",
                                        formatter_class=RawTextHelpFormatter )
 
     parser.add_argument( 'terms', nargs='+', metavar='term' )
-    parser.add_argument( '-x', '--hex', action='store_true', "equivalent to '-r 16'" )
+    parser.add_argument( '-x', '--hex', action='store_true', help="equivalent to '-r 16'" )
     parser.add_argument( '-r', '--output_radix', type=int, action='store', default=10, help="output in a different base (drops fractional part of the result)" )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision, help="precision, i.e., number of significant digits to use" )
-    parser.add_argument( '-c', '--comma', action='store_true', help="add commas to result, e.g., 1,234,567.0 (can't be used with -r or -x)" )
+    parser.add_argument( '-c', '--comma', action='store_true', help="add commas to result, e.g., 1,234,567.0 (cannot be used with -r or -x)" )
 
     if len( sys.argv ) == 1:
         parser.print_help( )
@@ -364,7 +369,6 @@ def main( ):
     if outputRadix < 2 or outputRadix > 36:
         print( "rpn only supports output radix between 2 and 36" )
         return
-
 
     if outputRadix != 10 and args.comma:
         print( "-c cannot currently be used with -r or -x" )
@@ -396,7 +400,9 @@ def main( ):
                 break
         else:
             try:
-                valueList.append( Decimal( term ) )
+                value = Decimal( int( term, 0 ) )
+
+                valueList.append( value )
             except:
                 print( "rpn: error parsing arg " + format( index ) + " ('" + term + "')" )
                 break
