@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.7.7'
+PROGRAM_VERSION = '5.7.8'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -38,7 +38,7 @@ COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 #//
 #//  basicUnitTypes
 #//
-#//  unit type : conversion from the basic unit types (length, mass, time)
+#//  conversion from the basic unit types (length, mass, time, current, angle)
 #//
 #//******************************************************************************
 
@@ -46,14 +46,18 @@ basicUnitTypes = {
     'acceleration'  : 'length/time^2',
     'angle'         : 'angle',
     'area'          : 'length^2',
+    'charge'        : 'current*time',
+    'current'       : 'current',
     'energy'        : 'mass*length^2/time^2',
     'force'         : 'mass*length/time',
     'length'        : 'length',
     'mass'          : 'mass',
     'power'         : 'mass*length^2/time',
     'pressure'      : 'mass/length*time^2',
+    'resistance'    : 'mass*length^2/time*current^2',
     'time'          : 'time',
     'velocity'      : 'length/time',
+    'voltage'       : 'mass*length^2/time*current',
     'volume'        : 'length^3',
 }
 
@@ -114,6 +118,9 @@ unitOperators = {
     'barn' :
         UnitInfo( 'area', 'barn', 'barns', '', [ ] ),
 
+    'homestead':
+        UnitInfo( 'area', 'homestead', 'homesteads', '', [ ] ),
+
     'rood' :
         UnitInfo( 'area', 'rood', 'roods', '', [ ] ),
 
@@ -125,6 +132,17 @@ unitOperators = {
 
     'square_yard' :
         UnitInfo( 'area', 'yard^2', 'square_yards', 'sqyd', [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ] ),
+
+    'township':
+        UnitInfo( 'area', 'township', 'townships', '', [ ] ),
+
+    # charge
+
+    'coulomb' :
+        UnitInfo( 'charge', 'coulomb', 'coulombs', 'C', [ ] ),
+
+    'planck_charge' :
+        UnitInfo( 'charge', 'planck_charge', 'planck_charges', '', [ ] ),
 
     # energy
 
@@ -419,6 +437,9 @@ unitOperators = {
     'fortnight' :
         UnitInfo( 'time', 'fortnight', 'fortnights', '', [ ] ),
 
+    'gregorian_year' :
+        UnitInfo( 'time', 'gregorian_year', 'gregorian_years', '', [ '' ] ),
+
     'hour' :
         UnitInfo( 'time', 'hour', 'hours', 'hr', [ ] ),
 
@@ -440,6 +461,15 @@ unitOperators = {
     'second' :
         UnitInfo( 'time', 'second', 'seconds', '', [ ] ),   # 'sec' is already an operator
 
+    'siderial_day' :
+        UnitInfo( 'time', 'siderial_day', 'siderial_days', '', [ ] ),
+
+    'siderial_year' :
+        UnitInfo( 'time', 'siderial_year', 'siderial_years', '', [ ] ),
+
+    'tropical_year' :
+        UnitInfo( 'time', 'tropical_year', 'tropical_years', '', [ 'solar_year', 'solar_years' ] ),
+
     'week' :
         UnitInfo( 'time', 'week', 'weeks', 'wk', [ ] ),
 
@@ -450,7 +480,7 @@ unitOperators = {
         UnitInfo( 'time', 'wood', 'woods', '', [ ] ),
 
     'year' :
-        UnitInfo( 'time', 'year', 'year', 'y', [ ] ),
+        UnitInfo( 'time', 'year', 'years', '', [ 'julian_year', 'julian_years' ] ),
 
     # velocity
 
@@ -594,7 +624,7 @@ timeUnits = [
     ( 'minute',     'minutes',      'm',        '60' ),
     ( 'hour',       'hours',        'h',        '3600' ),
     ( 'day',        'days',         'd',        '86400' ),
-    ( 'year',       'years',        'y',        '31557600' ),   # 365.25 days
+    ( 'year',       'years',        'y',        '31557600' ),   # Julian year == 365.25 days
 ]
 
 
@@ -722,7 +752,7 @@ unitConversionMatrix = {
     ( 'square_meter',          'barn' )                            : '1.0e28',
     ( 'square_meter',          'shed' )                            : '1.0e52',
     ( 'standard_gravity',      'galileo' )                         : '980.6650',
-    ( 'standard_gravity',      'meter/second^2' )                  : '9.806650',
+    ( 'standard_gravity',      'meter/second^2' )                  : '9.80665',
     ( 'sthene',                'newton' )                          : '1000',
     ( 'stone',                 'pound' )                           : '14',
     ( 'tablespoon',            'teaspoon' )                        : '3',
@@ -739,6 +769,10 @@ unitConversionMatrix = {
     ( 'wood',                  'martin' )                          : '100',
     ( 'yard',                  'foot' )                            : '3',
     ( 'year',                  'day' )                             : '365.25',
+    ( 'gregorian_year',        'day' )                             : '365.2425',
+    ( 'tropical_year',         'day' )                             : '365.24219',
+    ( 'siderial_year',         'day' )                             : '365.256363',
+    ( 'siderial_day',          'second' )                          : '86164.1',
     ( 'rope',                  'foot' )                            : '20',
     ( 'perch',                 'foot' )                            : '16.5',
     ( 'fathom',                'foot' )                            : '6',
@@ -768,7 +802,9 @@ unitConversionMatrix = {
     ( 'planck_time',           'second' )                          : '5.39106e-44',
     ( 'planck_energy',         'joule' )                           : '1.956e9',
     ( 'planck_length',         'meter' )                           : '1.616199e-35',
-#    ( 'planck_charge',         'coulomb' )                         : '1.875545956e-18',
+    ( 'homestead',             'acre' )                            : '160',
+    ( 'township',              'acre' )                            : '23040',
+    ( 'planck_charge',         'coulomb' )                         : '1.875545956e-18',
 }
 
 

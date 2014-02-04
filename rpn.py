@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.7.7'
+PROGRAM_VERSION = '5.7.8'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -137,7 +137,7 @@ def parseUnitString( expression ):
         raise ValueError( 'only one \'/\' is permitted' )
     elif len( pieces ) == 2:
         return combineUnits( parseUnitString( pieces[ 0 ] ),
-                             invertUnits( parseUnitString( pieces[ 1 ] ) ) )
+                             invertUnits( parseUnitString( pieces[ 1 ] ) ) )[ 1 ]
     else:
         result = { }
 
@@ -162,6 +162,7 @@ def parseUnitString( expression ):
                 else:
                     result[ operands[ 0 ] ] = exponent
 
+        #print( 'parseUnitString result:', result )
         return result
 
 
@@ -200,16 +201,32 @@ def getSimpleUnitType( unit ):
 #//******************************************************************************
 
 def combineUnits( units1, units2 ):
+    #print( 'combine1:', units1 )
+    #print( 'combine2:', units2 )
+
     newUnits = { }
     newUnits.update( units1 )
 
-    for unit in units2:
-        if unit in newUnits:
-            newUnits[ unit ] += units2[ unit ]
-        else:
-            newUnits[ unit ] = units2[ unit ]
+    factor = mpmathify( 1 )
 
-    return newUnits
+    for unit2 in units2:
+        #print( 'unit2:', unit2 )
+        if unit2 in newUnits:
+            newUnits[ unit2 ] += units2[ unit2 ]
+        else:
+            for unit1 in units1:
+                if unit1 == unit2:
+                    newUnits[ unit2 ] += units2[ unit2 ]
+                    break
+                elif getUnitType( unit1 ) == getUnitType( unit2 ):
+                    factor = fdiv( factor, pow( mpmathify( unitConversionMatrix[ ( unit1, unit2 ) ] ), units2[ unit2 ] ) )
+                    newUnits[ unit1 ] += units2[ unit2 ]
+                    break
+            else:
+                #print( '!!!:', units2[ unit2 ] )
+                newUnits[ unit2 ] = units2[ unit2 ]
+
+    return factor, newUnits
 
 
 #//******************************************************************************
@@ -234,7 +251,7 @@ def invertUnits( units ):
 #//******************************************************************************
 
 def divideUnits( units1, units2 ):
-    newUnits = combineUnits( simplifyUnits( units1 ), invertUnits( simplifyUnits( units2 ) ) )
+    factor, newUnits = combineUnits( simplifyUnits( units1 ), invertUnits( simplifyUnits( units2 ) ) )
 
     result = { }
 
@@ -242,7 +259,8 @@ def divideUnits( units1, units2 ):
         if newUnits[ unit ] != 0:
             result[ unit ] = newUnits[ unit ]
 
-    return result
+    #print( 'divideUnits:', factor, result )
+    return factor, result
 
 
 #//******************************************************************************
@@ -263,7 +281,7 @@ def getBasicUnitTypes( unitTypes ):
             for unitType2 in basicUnits:
                 basicUnits[ unitType2 ] *= exponent
 
-        result = combineUnits( result, basicUnits )
+        result = combineUnits( result, basicUnits )[ 1 ]
 
     return result
 
@@ -275,10 +293,13 @@ def getBasicUnitTypes( unitTypes ):
 #//******************************************************************************
 
 def simplifyUnits( units ):
+    #print( 'simplify in:', units )
+
     result = { }
 
     for unit in units:
         simpleUnits = parseUnitString( unitOperators[ unit ].representation )
+        #print( 'simple units:', simpleUnits )
 
         exponent = units[ unit ]
 
@@ -286,8 +307,9 @@ def simplifyUnits( units ):
             for unit2 in simpleUnits:
                 simpleUnits[ unit2 ] *= exponent
 
-        result = combineUnits( result, simpleUnits )
+        result = combineUnits( result, simpleUnits )[ 1 ]
 
+    #print( 'simplify out:', result )
     return result
 
 
@@ -298,7 +320,13 @@ def simplifyUnits( units ):
 #//******************************************************************************
 
 def multiplyUnits( units1, units2 ):
-    newUnits = combineUnits( simplifyUnits( units1 ), simplifyUnits( units2 ) )
+    #print( )
+    #print( 'units1:', units1 )
+    #print( 'units2:', units2 )
+    #print( 'simple1:', simplifyUnits( units1 ) )
+    #print( 'simple2:', simplifyUnits( units2 ) )
+
+    factor, newUnits = combineUnits( simplifyUnits( units1 ), simplifyUnits( units2 ) )
 
     result = { }
 
@@ -306,7 +334,7 @@ def multiplyUnits( units1, units2 ):
         if newUnits[ unit ] != 0:
             result[ unit ] = newUnits[ unit ]
 
-    return result
+    return factor, result
 
 
 #//******************************************************************************
@@ -367,7 +395,8 @@ class Measurement( mpf ):
         newValue = fmul( self, other )
 
         if isinstance( other, Measurement ):
-            self = Measurement( newValue, multiplyUnits( self.getUnits( ), other.getUnits( ) ) )
+            factor, units = multiplyUnits( self.getUnits( ), other.getUnits( ) )
+            self = Measurement( fmul( newValue, factor ), units )
         else:
             self = Measurement( newValue, self.getUnits( ) )
 
@@ -378,7 +407,8 @@ class Measurement( mpf ):
         newValue = fdiv( self, other )
 
         if isinstance( other, Measurement ):
-            self = Measurement( newValue, divideUnits( self.getUnits( ), other.getUnits( ) ) )
+            factor, units = divideUnits( self.getUnits( ), other.getUnits( ) )
+            self = Measurement( fmul( newValue, factor ), units )
         else:
             self = Measurement( newValue, self.getUnits( ) )
 
@@ -6663,12 +6693,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            except ValueError as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except ValueError as error:
+            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -6698,16 +6728,16 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            except ValueError as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except IndexError as error:
-                print( 'rpn:  index error for operator at arg ' + format( index ) +
-                       '.  Are your arguments in the right order?' )
-                break
+            #except ValueError as error:
+            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except IndexError as error:
+            #    print( 'rpn:  index error for operator at arg ' + format( index ) +
+            #           '.  Are your arguments in the right order?' )
+            #    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
