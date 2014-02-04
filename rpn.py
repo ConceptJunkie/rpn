@@ -27,7 +27,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.12.0"
+RPN_VERSION = "4.13.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -1927,6 +1927,95 @@ def getNthLucas( n ):
 
 #//******************************************************************************
 #//
+#//  getNthTribonacci
+#//
+#//******************************************************************************
+
+def getNthTribonacci( n ):
+    roots = polyroots( [ 1, -1, -1, -1  ] )
+    roots2 = polyroots( [ 44, 0, -2, -1 ] )
+
+    result = 0
+
+    for i in range( 0, 3 ):
+        result += fmul( roots2[ i ], power( roots[ i ], n ) )
+
+    return round( re( result ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthTetranacci
+#//
+#//  http://mathworld.wolfram.com/TetranacciNumber.html
+#//
+#//******************************************************************************
+
+def getNthTetranacci( n ):
+    roots = polyroots( [ 1, -1, -1, -1, -1 ] )
+    roots2 = polyroots( [ 563, 0, -20, -5, -1 ] )
+
+    result = 0
+
+    for i in range( 0, 4 ):
+        result += fmul( roots2[ i ], power( roots[ i ], n ) )
+
+    return round( re( result ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthPentanacci
+#//
+#//******************************************************************************
+
+def getNthPentanacci( n ):
+    roots = polyroots( [ 1, -1, -1, -1, -1, -1 ] )
+
+    result = 0
+
+    for i in range( 0, 5 ):
+        result += fdiv( power( roots[ i ], n ), polyval( [ -1, 0, 1, 8, -1 ], roots[ i ] ) )
+
+    return round( re( result ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthHexanacci
+#//
+#//******************************************************************************
+
+def getNthHexanacci( n ):
+    roots = polyroots( [ 1, -1, -1, -1, -1, -1, -1 ] )
+
+    result = 0
+
+    for i in range( 0, 6 ):
+        result += fdiv( power( roots[ i ], n ), polyval( [ -1, 0, 1, 2, 10, -1 ], roots[ i ] ) )
+
+    return round( re( result ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthHeptanacci
+#//
+#//******************************************************************************
+
+def getNthHeptanacci( n ):
+    roots = polyroots( [ 1, -1, -1, -1, -1, -1, -1, -1 ] )
+
+    result = 0
+
+    for i in range( 0, 7 ):
+        result += fdiv( power( roots[ i ], n ), polyval( [ -1, 0, 1, 2, 3, 12, -1 ], roots[ i ] ) )
+
+    return round( re( result ) )
+
+
+#//******************************************************************************
+#//
 #//  getNthSylvester
 #//
 #//******************************************************************************
@@ -3246,10 +3335,12 @@ operators = {
     'harm'          : [ harmonic, 1 ],
     'harmonic'      : [ harmonic, 1 ],
     'hept'          : [ getNthHeptagonalNumber, 1 ],
+    'heptanacci'    : [ getNthHeptanacci, 1 ],
     'hepthex'       : [ getNthHeptagonalHexagonalNumber, 1 ],
     'heptpent'      : [ getNthHeptagonalPentagonalNumber, 1 ],
     'hex'           : [ lambda i: fsub( fprod( 2, i, i ), i ), 1 ],
     'hex?'          : [ getAntiHexagonalNumber, 1 ],
+    'hexanacci'     : [ getNthHexanacci, 1 ],
     'hyper4'        : [ tetrate, 2 ],
     'hyper4_2'      : [ tetrateLarge, 2 ],
     'hyperfac'      : [ hyperfac, 1 ],
@@ -3291,6 +3382,7 @@ operators = {
     'or'            : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
     'pent'          : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1 ],
     'pent?'         : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1 ],
+    'pentanacci'    : [ getNthPentanacci, 1 ],
     'pentatope'     : [ getNthPentatopeNumber, 1 ],
     'perm'          : [ getPermutations, 2 ],
     'phi'           : [ phi, 0 ],
@@ -3347,8 +3439,10 @@ operators = {
     'tanh'          : [ tanh, 1 ],
     'tet'           : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1 ],
     'tetra'         : [ getNthTetrahedralNumber, 1 ],
+    'tetranacci'    : [ getNthTetranacci, 1 ],
     'tri'           : [ getNthTriangularNumber, 1 ],
     'tri?'          : [ getAntiTriangularNumber, 1 ],
+    'tribonacci'    : [ getNthTribonacci, 1 ],
     'triplebal'     : [ getNthTripleBalancedPrimes, 1 ],
     'triplet'       : [ getNthTripletPrimes, 1 ],
     'tripletprime'  : [ getNthTripletPrimes, 1 ],
