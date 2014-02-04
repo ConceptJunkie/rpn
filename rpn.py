@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.7.2'
+PROGRAM_VERSION = '5.7.3'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -5620,7 +5620,6 @@ operators = {
     'primes'        : [ getPrimes, 2 ],
     'prime?'        : [ lambda n: findPrime( n )[ 1 ], 1 ],
     'primorial'     : [ getPrimorial, 1 ],
-    'psi'           : [ psi, 2 ],
     'pyramid'       : [ lambda n: getNthPolygonalPyramidalNumber( n, 4 ), 1 ],
     'quadprime?'    : [ lambda i: findQuadrupletPrimes( i )[ 1 ], 1 ],
     'quadprime'     : [ getNthQuadrupletPrime, 1 ],

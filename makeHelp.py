@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.7.2'
+PROGRAM_VERSION = '5.7.3'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -2355,6 +2355,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     'zeta'          : [
 'number_theory', 'calculates the zeta function for n',
+'''
+''',
+'''
+''' ],
+    '_dumpalias'    : [
+'internal', 'dumps the list of aliases for operators',
 '''
 ''',
 '''
