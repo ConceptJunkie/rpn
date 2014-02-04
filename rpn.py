@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.8.1'
+PROGRAM_VERSION = '5.8.2'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -148,24 +148,6 @@ specialUnitConversionMatrix = {
     ( 'romer',                 'reaumur' )                         : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 32, 21 ) ),
 
 }
-
-  #  'delisle' :
-  #      UnitInfo( 'temperature', 'delisle', 'degrees delisle', '', [ ] ),                   # K = 373.15 - 2/3 De
-  #
-  #  'fahrenheit' :
-  #      UnitInfo( 'temperature', 'fahrenheit', 'degrees fahrenheit', '', [ 'fahr' ] ),      # K = F + 459.67 * 5/9
-  #
-  #  'gas_mark' :
-  #      UnitInfo( 'temperature', 'gas_mark', 'degrees gas_mark', 'GM', [ 'regulo', 'regulo_gas_mark' ] ),   # K = N * 100/33 + 273.15
-  #
-  #  'degrees_newton' :
-  #      UnitInfo( 'temperature', 'degrees_newton', 'degrees newton', '', [ ] ),             # K = R * 5/9
-  #
-  #  'rankine' :
-  #      UnitInfo( 'temperature', 'rankine', 'degrees rankine', '', [ ] ),                   # K = ( Ro - 7.5 ) * 40/21 + 273.15
-  #
-  #  'reaumur' :
-  #      UnitInfo( 'temperature', 'reaumur', 'degrees reaumur', '', [ ] ),                   # K = GM * 125/9 + 422.038
 
 
 #//******************************************************************************
@@ -5449,6 +5431,7 @@ operatorAliases = {
     'fermi'       : 'femtometer',
     'fib'         : 'fibonacci',
     'frac'        : 'fraction',
+    'gigohm'      : 'gigaohm',
     'harm'        : 'harmonic',
     'hept'        : 'heptagonal',
     'hept?'       : 'heptagonal?',
@@ -5478,6 +5461,7 @@ operatorAliases = {
     'maxuint32'   : 'maxulong',
     'maxuint64'   : 'maxulonglong',
     'maxuint8'    : 'maxuchar',
+    'megaohm'     : 'megohm',
     'minint'      : 'minlong',
     'minint128'   : 'minquadlong',
     'minint16'    : 'minshort',
