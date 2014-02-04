@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.6.0'
+PROGRAM_VERSION = '5.6.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -107,6 +107,47 @@ def makeUnitString( units ):
         resultString += '/' + denominator
 
     return resultString
+
+
+#//******************************************************************************
+#//
+#//  parseUnitString
+#//
+#//******************************************************************************
+
+def parseUnitString( expression ):
+    pieces = expression.split( '/' )
+
+    if len( pieces ) > 2:
+        raise ValueError( 'only one \'/\' is permitted' )
+    elif len( pieces ) == 2:
+        return combineUnits( parseUnitString( pieces[ 0 ] ),
+                             invertUnits( parseUnitString( pieces[ 1 ] ) ) )
+    else:
+        result = { }
+
+        units = expression.split( '*' )
+
+        for unit in units:
+            if unit == '':
+                raise ValueError( 'wasn\'t expecting another \'*\'', start )
+
+            operands = unit.split( '^' )
+
+            if len( operands ) > 2:
+                raise ValueError( 'wasn\'t expecting another exponent' )
+            else:
+                if len( operands ) == 2:
+                    exponent = int( operands[ 1 ] )
+                else:
+                    exponent = 1
+
+                if operands[ 0 ] in result:
+                    result[ operands[ 0 ] ] += exponent
+                else:
+                    result[ operands[ 0 ] ] = exponent
+
+        return result
 
 
 #//******************************************************************************
@@ -4568,6 +4609,19 @@ def dumpOperators( ):
 
 #//******************************************************************************
 #//
+#//  dumpAliases
+#//
+#//******************************************************************************
+
+def dumpAliases( ):
+    for alias in sorted( [ key for key in operatorAliases ] ):
+        print( alias, operatorAliases[ alias ] )
+
+    return len( operatorAliases )
+
+
+#//******************************************************************************
+#//
 #//  convertToSignedInt
 #//
 #//  two's compliment logic is in effect here
@@ -5645,7 +5699,7 @@ operators = {
     'octhex'        : [ getNthOctagonalHexagonalNumber, 1 ],
     'octpent'       : [ getNthOctagonalPentagonalNumber, 1 ],
     'octsquare'     : [ getNthOctagonalSquareNumber, 1 ],
-    'octtri'       : [ getNthOctagonalTriangularNumber, 1 ],
+    'octtri'        : [ getNthOctagonalTriangularNumber, 1 ],
     'oeis'          : [ lambda n: downloadOEISSequence( int( n ) ), 1 ],
     'oeiscomment'   : [ lambda n: downloadOEISText( int( n ), 'C', True ), 1 ],
     'oeisex'        : [ lambda n: downloadOEISText( int( n ), 'E', True ), 1 ],
@@ -5754,10 +5808,12 @@ operators = {
     'uchar'         : [ lambda n: int( fmod( n, power( 2, 8 ) ) ), 1 ],
     'xor'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
     'zeta'          : [ zeta, 1 ],
+    '_dumpalias'    : [ dumpAliases, 0 ],
     '_dumpbal'      : [ dumpBalancedPrimes, 0 ],
     '_dumpcousin'   : [ dumpCousinPrimes, 0 ],
     '_dumpdouble'   : [ dumpDoubleBalancedPrimes, 0 ],
     '_dumpiso'      : [ dumpIsolatedPrimes, 0 ],
+    '_dumpops'      : [ dumpOperators, 0 ],
     '_dumpops'      : [ dumpOperators, 0 ],
     '_dumpprimes'   : [ dumpLargePrimes, 0 ],
     '_dumpquad'     : [ dumpQuadrupletPrimes, 0 ],
@@ -6116,6 +6172,20 @@ def formatUnits( measurement ):
     unitString = ''
     units = measurement.getUnits( )
 
+    newUnits = { }
+
+    # some units are really compound units
+    for unit in units:
+        parsed = parseUnitString( unit )
+
+        for unit2 in parsed:
+            parsed[ unit2 ] *= units[ unit ]
+
+        newUnits = multiplyUnits( newUnits, parsed )
+
+    units = newUnits
+
+    # now that we've expanded the compound units, let's format...
     for unit in units:
         exponent = units[ unit ]
 
@@ -6316,9 +6386,9 @@ def printHelp( helpArgs ):
         print( 'parentheses):' )
         print( )
 
-        operatorList = [ key for key in operators if operators[ key ][ 2 ] == term ]
-        operatorList.extend( [ key for key in listOperators if listOperators[ key ][ 2 ] == term ] )
-        operatorList.extend( [ key for key in modifiers if modifiers[ key ][ 2 ] == term ] )
+        operatorList = [ key for key in operators if operatorHelp[ key ][ 0 ] == term ]
+        operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == term ] )
+        operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == term ] )
 
         addAliases( operatorList )
 
@@ -6819,5 +6889,13 @@ def main( ):
 #//******************************************************************************
 
 if __name__ == '__main__':
+    # print( parseUnitString( 'meter' ) )
+    # print( parseUnitString( 'meter^2' ) )
+    # print( parseUnitString( 'meter/second' ) )
+    # print( parseUnitString( 'meter*second' ) )
+    # print( parseUnitString( 'meter*meter' ) )
+    # print( parseUnitString( 'meter/meter' ) )
+    # print( parseUnitString( 'meter^2*fred/second^3' ) )
+
     main( )
 

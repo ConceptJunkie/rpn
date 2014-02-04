@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.6.0'
+PROGRAM_VERSION = '5.6.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -959,6 +959,12 @@ number.
 ''',
 '''
 ''' ],
+    'double'        : [
+'conversion', 'convert n to the representation of a 64-bit IEEE 754 float',
+'''
+''',
+'''
+''' ],
     'doublebal'     : [
 'prime_numbers', 'returns the nth set of double balanced primes',
 '''
@@ -1054,6 +1060,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'flatten'   : [
 'listOperators', 'flattens a nested lists in list n to a single level',
+'''
+''',
+'''
+''' ],
+    'float'         : [
+'conversion', 'convert n to the representation of a 32-bit IEEE 754 float',
 '''
 ''',
 '''

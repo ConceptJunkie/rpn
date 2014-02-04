@@ -28,7 +28,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.6.0'
+PROGRAM_VERSION = '5.6.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -65,97 +65,97 @@ unitTypes = {
 #//******************************************************************************
 
 unitOperators = {
-    'acre'                  : [ 'area',     'acres',            [ ] ],
-    'are'                   : [ 'area',     'ares',             [ ] ],
-    'area'                  : [ 'area',     'area',             [ ] ],
-    'barn'                  : [ 'area',     'barns',            [ ] ],
-    'shed'                  : [ 'area',     'sheds',            [ ] ],
-    'square_meter'          : [ 'area',     'square_meters',    [ 'sqm', 'm^2', 'meter^2', 'meters^2' ] ],
-    'square_yard'           : [ 'area',     'square_yards',     [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ] ],
+    'meter/second^2'        : ( 'acceleration', 'meters/second^2',      '',     [ ] ),
+    'standard_gravity'      : ( 'acceleration', 'standard_gravities',   'G',    [ ] ),
 
-    'angstrom'              : [ 'length',   'angstroms',            [ ] ],
-    'astronomical_unit'     : [ 'length',   'astronomical_units',   [ 'au' ] ],
-    'chain'                 : [ 'length',   'chain',                [ ] ],
-    'foot'                  : [ 'length',   'feet',                 [ 'ft' ] ],
-    'furlong'               : [ 'length',   'furlongs',             [ ] ],
-    'inch'                  : [ 'length',   'inches',               [ 'in' ] ],
-    'league'                : [ 'length',   'leagues',              [ ] ],
-    'length'                : [ 'length',   'length',               [ ] ],
-    'light-second'          : [ 'length',   'light-seconds',        [ ] ],
-    'meter'                 : [ 'length',   'meters',               [ 'm' ] ],
-    'micron'                : [ 'length',   'microns',              [ ] ],
-    'mile'                  : [ 'length',   'miles',                [ 'mi' ] ],
-    'nautical_mile'         : [ 'length',   'nautical_miles',       [ ] ],
-    'rod'                   : [ 'length',   'rods',                 [ ] ],
-    'yard'                  : [ 'length',   'yards',                [ 'yd' ] ],
-    'speed_of_light*second' : [ 'length',   'light-seconds',        [ ] ],
+    'acre'                  : ( 'area',         'acres',                'ac',   [ ] ),
+    'are'                   : ( 'area',         'ares',                 'a',    [ ] ),
+    'area'                  : ( 'area',         'area',                 '',     [ ] ),
+    'barn'                  : ( 'area',         'barns',                '',     [ ] ),
+    'shed'                  : ( 'area',         'sheds',                '',     [ ] ),
+    'square_meter'          : ( 'area',         'square_meters',        'm^2',  [ 'meter^2', 'meters^2' ] ),
+    'square_yard'           : ( 'area',         'square_yards',         'sqyd', [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ] ),
 
-    'carat'             : [ 'mass',     'carats',           [ 'kt' ] ],
-    'grain'             : [ 'mass',     'grains',           [ 'gr' ] ],
-    'gram'              : [ 'mass',     'grams',            [ 'g' ] ],
-    'mass'              : [ 'mass',     'mass',             [ ] ],
-    'ounce'             : [ 'mass',     'ounces',           [ 'oz' ] ],
-    'pennyweight'       : [ 'mass',     'pennyweights',     [ 'dwt' ] ],
-    'pound'             : [ 'mass',     'pounds',           [ 'lb' ] ],
-    'stone'             : [ 'mass',     'stone',            [ ] ],
-    'ton'               : [ 'mass',     'tons',             [ ] ],
-    'tonne'             : [ 'mass',     'tonnes',           [ ] ],
-    'troy_ounce'        : [ 'mass',     'troy_ounces',      [ ] ],
-    'troy_pound'        : [ 'mass',     'troy_pounds',      [ ] ],
-
-    'horsepower'        : [ 'power',    'horsepower',       [ 'hp' ] ],
-    'joule/second'      : [ 'power',    'joules/second',    [ 'W' ] ],
-    'watt'              : [ 'power',    'watts',            [ 'W' ] ],
-
-    'atmosphere'        : [ 'pressure', 'atmospheres',      [ 'atm' ] ],
-    'bar'               : [ 'pressure', 'bar',              [ ] ],
-    'mmHg'              : [ 'pressure', 'mmHg',             [ ] ],
-    'pascal'            : [ 'pressure', 'pascal',           [ 'Pa' ] ],
-    'pound/inch^2'      : [ 'pressure', 'pounds/inch^2',    [ 'lb/in^2', 'psi' ] ],
-    'torr'              : [ 'pressure', 'torr',             [ ] ],
-
-    'day'               : [ 'time',     'days',             [ ] ],
-    'fortnight'         : [ 'time',     'fortnights',       [ ] ],
-    'hour'              : [ 'time',     'hours',            [ 'hr' ] ],
-    'minute'            : [ 'time',     'minutes',          [ ] ],   # 'min' is already an operator
-    'second'            : [ 'time',     'seconds',          [ ] ],   # 'sec' is already an operator
-    'time'              : [ 'time',     'time',             [ ] ],
-    'week'              : [ 'time',     'weeks',            [ 'wk' ] ],
-
-    'cubic_foot'        : [ 'volume',   'cubic_feet',       [ 'cuft', 'ft^3', 'foot^3', 'feet^3' ] ],
-    'cubic_meter'       : [ 'volume',   'cubic_meters',     [ 'cum', 'm^3', 'meter^3', 'meters^3' ] ],
-    'cup'               : [ 'volume',   'cups',             [ ] ],
-    'fifth'             : [ 'volume',   'fifths',           [ ] ],
-    'firkin'            : [ 'volume',   'firkins',          [ ] ],
-    'fluid_ounce'       : [ 'volume',   'fluid_ounces',     [ 'floz' ] ],
-    'gallon'            : [ 'volume',   'gallons',          [ 'gal' ] ],
-    'gill'              : [ 'volume',   'gills',            [ ] ],
-    'liter'             : [ 'volume',   'liters',           [ 'l' ] ],
-    'pinch'             : [ 'volume',   'pinches',          [ ] ],
-    'pint'              : [ 'volume',   'pints',            [ 'pt' ] ],
-    'quart'             : [ 'volume',   'quarts',           [ 'qt' ] ],
-    'tablespoon'        : [ 'volume',   'tablespoons',      [ 'tsp' ] ],
-    'teaspoon'          : [ 'volume',   'teaspoons',        [ 'tbsp' ] ],
-    'volume'            : [ 'volume',   'volume',           [ ] ],
-
-    'meter/second'      : [ 'velocity',     'meters/second',        [ ] ],
-    'speed_of_light'    : [ 'velocity',     'x_speed_of_light',     [ 'c' ] ],
-
-    'meter/second^2'    : [ 'acceleration', 'meters/second^2',      [ ] ],
-    'standard_gravity'  : [ 'acceleration', 'standard_gravities',   [ 'G' ] ],
-
-    'BTU'               : [ 'energy',   'BTUs',                 [ 'btu' ] ],
-    'calorie'           : [ 'energy',   'calories',             [ 'cal' ] ],
-    'electron-volt'     : [ 'energy',   'electron-volts',       [ 'eV' ] ],
-    'erg'               : [ 'energy',   'ergs',                 [ 'erg' ] ],
-    'horsepower-second' : [ 'energy',   'horsepower-seconds',   [ 'hps' ] ],
-    'horsepower*second' : [ 'energy',   'horsepower-seconds',   [ 'hps' ] ],
-    'joule'             : [ 'energy',   'joules',               [ 'J' ] ],
+    'BTU'                   : ( 'energy',       'BTUs',                 'BTU',  [ 'btu' ] ),
+    'calorie'               : ( 'energy',       'calories',             'cal',  [ ] ),
+    'electron-volt'         : ( 'energy',       'electron-volts',       'eV',   [ ] ),
+    'erg'                   : ( 'energy',       'ergs',                 'erg',  [ ] ),
+    'horsepower-second'     : ( 'energy',       'horsepower-seconds',   'hps',  [ ] ),
+    'horsepower*second'     : ( 'energy',       'horsepower-seconds',   'hps',  [ ] ),
+    'joule'                 : ( 'energy',       'joules',               'J',    [ ] ),
     'kilogram*meter^2/second^2'
-                        : [ 'energy',   'kg*m^2/s^2',           [ ] ],
-    'ton_of_TNT'        : [ 'energy',   'tons of TNT',          [ 'tTNT' ] ],
-    'watt-second'       : [ 'energy',   'watt-seconds',         [ 'Ws' ] ],
-    'watt*second'       : [ 'energy',   'watt-seconds',         [ 'Ws' ] ],
+                            : ( 'energy',       'kg*m^2/s^2',           '',     [ ] ),
+    'ton_of_TNT'            : ( 'energy',       'tons of TNT',          'tTNT', [ ] ),
+    'watt-second'           : ( 'energy',       'watt-seconds',         'Ws',   [ ] ),
+    'watt*second'           : ( 'energy',       'watt-seconds',         'Ws',   [ ] ),
+
+    'angstrom'              : ( 'length',       'angstroms',            'A',    [ ] ),
+    'astronomical_unit'     : ( 'length',       'astronomical_units',   'au',   [ ] ),
+    'chain'                 : ( 'length',       'chain',                '',     [ ] ),
+    'foot'                  : ( 'length',       'feet',                 'ft',   [ ] ),
+    'furlong'               : ( 'length',       'furlongs',             '',     [ ] ),
+    'inch'                  : ( 'length',       'inches',               'in',   [ ] ),
+    'league'                : ( 'length',       'leagues',              '',     [ ] ),
+    'length'                : ( 'length',       'length',               '',     [ ] ),
+    'light-second'          : ( 'length',       'light-seconds',        '',     [ ] ),
+    'meter'                 : ( 'length',       'meters',               'm',    [ ] ),
+    'micron'                : ( 'length',       'microns',              '',     [ ] ),
+    'mile'                  : ( 'length',       'miles',                'mi',   [ ] ),
+    'nautical_mile'         : ( 'length',       'nautical_miles',       '',     [ ] ),
+    'rod'                   : ( 'length',       'rods',                 '',     [ ] ),
+    'yard'                  : ( 'length',       'yards',                'yd',   [ '' ] ),
+    'speed_of_light*second' : ( 'length',       'light-seconds',        '',     [ ] ),
+
+    'carat'                 : ( 'mass',         'carats',               'kt',   [ ] ),
+    'grain'                 : ( 'mass',         'grains',               'gr',   [ ] ),
+    'gram'                  : ( 'mass',         'grams',                'g',    [ ] ),
+    'mass'                  : ( 'mass',         'mass',                 '',     [ ] ),
+    'ounce'                 : ( 'mass',         'ounces',               'oz',   [ ] ),
+    'pennyweight'           : ( 'mass',         'pennyweights',         'dwt',  [ ] ),
+    'pound'                 : ( 'mass',         'pounds',               'lb',   [ ] ),
+    'stone'                 : ( 'mass',         'stone',                '',     [ ] ),
+    'ton'                   : ( 'mass',         'tons',                 '',     [ ] ),
+    'tonne'                 : ( 'mass',         'tonnes',               '',     [ ] ),
+    'troy_ounce'            : ( 'mass',         'troy_ounces',          '',     [ ] ),
+    'troy_pound'            : ( 'mass',         'troy_pounds',          '',     [ ] ),
+
+    'horsepower'            : ( 'power',        'horsepower',           'hp',   [ ] ),
+    'joule/second'          : ( 'power',        'joules/second',        'W',    [ ] ),
+    'watt'                  : ( 'power',        'watts',                'W',    [ ] ),
+
+    'atmosphere'            : ( 'pressure',     'atmospheres',          'atm',  [ ] ),
+    'bar'                   : ( 'pressure',     'bar',                  '',     [ ] ),
+    'mmHg'                  : ( 'pressure',     'mmHg',                 '',     [ ] ),
+    'pascal'                : ( 'pressure',     'pascal',               'Pa',   [ ] ),
+    'pound/inch^2'          : ( 'pressure',     'pounds/inch^2',        'psi',  [ 'lb/in^2' ] ),
+    'torr'                  : ( 'pressure',     'torr',                 '',     [ ] ),
+
+    'day'                   : ( 'time',         'days',                 '',     [ ] ),
+    'fortnight'             : ( 'time',         'fortnights',           '',     [ ] ),
+    'hour'                  : ( 'time',         'hours',                'hr',   [ ] ),
+    'minute'                : ( 'time',         'minutes',              '',     [ ] ),   # 'min' is already an operator
+    'second'                : ( 'time',         'seconds',              '',     [ ] ),   # 'sec' is already an operator
+    'time'                  : ( 'time',         'time',                 '',     [ ] ),
+    'week'                  : ( 'time',         'weeks',                'wk',   [ ] ),
+
+    'meter/second'          : ( 'velocity',     'meters/second',        '',     [ ] ),
+    'speed_of_light'        : ( 'velocity',     'x_speed_of_light',     'c',    [ ] ),
+
+    'cubic_foot'            : ( 'volume',       'cubic_feet',           'cuft', [ 'ft^3', 'foot^3', 'feet^3' ] ),
+    'cubic_meter'           : ( 'volume',       'cubic_meters',         'm^3',  [ 'meter^3', 'meters^3' ] ),
+    'cup'                   : ( 'volume',       'cups',                 '',     [ ] ),
+    'fifth'                 : ( 'volume',       'fifths',               '',     [ ] ),
+    'firkin'                : ( 'volume',       'firkins',              '',     [ ] ),
+    'fluid_ounce'           : ( 'volume',       'fluid_ounces',         'floz', [ ] ),
+    'gallon'                : ( 'volume',       'gallons',              'gal',  [ ] ),
+    'gill'                  : ( 'volume',       'gills',                '',     [ ] ),
+    'liter'                 : ( 'volume',       'liters',               'l',    [ ] ),
+    'pinch'                 : ( 'volume',       'pinches',              '',     [ ] ),
+    'pint'                  : ( 'volume',       'pints',                'pt',   [ ] ),
+    'quart'                 : ( 'volume',       'quarts',               'qt',   [ ] ),
+    'tablespoon'            : ( 'volume',       'tablespoons',          'tsp',  [ ] ),
+    'teaspoon'              : ( 'volume',       'teaspoons',            'tbsp', [ ] ),
+    'volume'                : ( 'volume',       'volume',               '',     [ ] ),
 }
 
 
@@ -170,10 +170,10 @@ unitOperators = {
 #//******************************************************************************
 
 metricUnits = [
-    ( 'meter',          'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
-    ( 'second',         'seconds',          's',    [ ], [ ] ),
-    ( 'liter',          'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
-    ( 'gram',           'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
+    ( 'meter',          'meters',           'm',    [ 'metre' ],    [ 'metres' ] ),
+    ( 'second',         'seconds',          's',    [ ],            [ ] ),
+    ( 'liter',          'liters',           'l',    [ 'litre' ],    [ 'litres' ] ),
+    ( 'gram',           'grams',            'g',    [ 'gramme' ],   [ 'grammes' ] ),
     ( 'are',            'ares',             'a',    [ ], [ ] ),
     ( 'joule',          'joules',           'J',    [ ], [ ] ),
     ( 'electron-volt',  'electron-volts',   'eV',   [ ], [ ] ),
@@ -343,11 +343,11 @@ def makeAliases( ):
                 newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
 
     for unit in unitOperators:
-        newAliases[ unitOperators[ unit ][ 1 ] ] = unit
+        unitInfo = unitOperators[ unit ]
+        newAliases[ unitInfo[ 1 ] ] = unit
 
-        #print( unit )
-        for abbrev in unitOperators[ unit ][ 2 ]:
-            newAliases[ abbrev ] = unit
+        if unitInfo[ 2 ] != '':
+            newAliases[ unitInfo[ 2 ] ] = unit
 
     #for i in newAliases:
     #    print( i, newAliases[ i ] )
@@ -373,7 +373,7 @@ def expandMetricUnits( ):
             newPlural = makeMetricUnit( prefix[ 0 ], unit[ 1 ] )
 
             # constuct unit operator info (3 parts: unit type, plural name and alias list)
-            unitOperators[ newName ] = [ unitOperators[ unit[ 0 ] ][ 0 ], newPlural, [ prefix[ 1 ] + unit[ 2 ] ] ]
+            unitOperators[ newName ] = ( unitOperators[ unit[ 0 ] ][ 0 ], newPlural, prefix[ 1 ] + unit[ 2 ], [ ] )
 
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
             unitConversionMatrix[ ( newName, unit[ 0 ] ) ] = str( newConversion )
@@ -430,36 +430,36 @@ def initializeConversionMatrix( unitConversionMatrix ):
             newOp = 'square_' + operator
 
             if newOp not in unitOperators:
-                abbrevs = [ ]
+                if unitInfo[ 2 ] != '':
+                    abbrev = 'sq' + unitInfo[ 2 ]
+                    newAliases[ 'sq' + unitInfo[ 2 ] ] = newOp
+                else:
+                    abbrev = 'sq' + unitInfo[ 0 ]
 
-                for abbrev in unitInfo[ 2 ]:
-                    abbrevs.append( 'sq' + abbrev )
-                    abbrevs.append( abbrev + '^2' )
-
-                newOperators[ newOp ] = [ 'area', 'square_' + unitInfo[ 1 ], abbrevs ]
+                newOperators[ newOp ] = [ 'area', 'square_' + unitInfo[ 1 ], abbrev, [ ] ]
 
                 newAliases[ 'square_' + unitInfo[ 1 ] ] = newOp
+                newAliases[ 'sq' + unitInfo[ 0 ] ] = newOp
+                newAliases[ 'sq' + unitInfo[ 1 ] ] = newOp
                 newAliases[ operator +  '^2' ] = newOp
                 newAliases[ unitInfo[ 1 ] + '^2' ] = newOp
 
             newOp = 'cubic_'+ operator
 
             if newOp not in unitOperators:
-                newOperators[ newOp ] = [ 'volume', 'cubic_' + unitInfo[ 1 ], [ ] ]
+                if unitInfo[ 2 ] != '':
+                    abbrev = 'cu' + unitInfo[ 2 ]
+                    newAliases[ 'cu' + unitInfo[ 2 ] ] = newOp
+                else:
+                    abbrev = 'cu' + unitInfo[ 0 ]
+
+                newOperators[ newOp ] = [ 'volume', 'cubic_' + unitInfo[ 1 ], abbrev, [ ] ]
+
                 newAliases[ 'cubic_' + unitInfo[ 1 ] ] = newOp
-
-                abbrevs = [ ]
-
-                for abbrev in unitInfo[ 2 ]:
-                    abbrevs.append( 'cu' + abbrev )
-                    abbrevs.append( abbrev + '^3' )
-
-                newAliases[ 'square_' + unitInfo[ 1 ] ] = newOp
+                newAliases[ 'cu' + unitInfo[ 0 ] ] = newOp
+                newAliases[ 'cu' + unitInfo[ 1 ] ] = newOp
                 newAliases[ operator +  '^3' ] = newOp
                 newAliases[ unitInfo[ 1 ] + '^3' ] = newOp
-
-                for abbrev in abbrevs:
-                    newAliases[ abbrev ] = newOp
 
     unitOperators.update( newOperators )
 
@@ -526,7 +526,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
                 newAlias = unit[ : -6 ] + timeUnit[ 1 ]
                 newAliases[ newAlias ] = newUnit
 
-                newUnitOperators[ newUnit ] = [ unitInfo[ 0 ], newAlias, [ ] ]
+                newUnitOperators[ newUnit ] = [ unitInfo[ 0 ], newAlias, '', [ ] ]
 
                 conversion = mpmathify( timeUnit[ 3 ] )
                 unitConversionMatrix[ ( newUnit, unit ) ] = str( conversion )
@@ -550,9 +550,15 @@ def initializeConversionMatrix( unitConversionMatrix ):
                     if op1 == unit:
                         oldConversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
                         newUnitConversions[ ( newUnit, op2 ) ] = str( fmul( oldConversion, factor ) )
+
+                        if unitInfo[ 2 ] != '':
+                            newAliases[ unitInfo[ 2 ][ : -1 ] + timeUnit[ 2 ] ] = newUnit
                     elif op2 == unit:
                         oldConversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
                         newUnitConversions[ ( op1, newUnit ) ] = str( fdiv( oldConversion, factor ) )
+
+                        if unitInfo[ 2 ] != '':
+                            newAliases[ unitInfo[ 2 ][ : -1 ] + timeUnit[ 2 ] ] = newUnit
 
     unitConversionMatrix.update( newUnitConversions )
 
@@ -586,13 +592,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
 #//******************************************************************************
 
 def main( ):
-    #units = parseUnits( 'meter' )
-    #units = parseUnits( 'meter^2' )
-    #units = parseUnits( 'meter/second' )
-    #units = parseUnits( 'meter*second' )
-    #units = parseUnits( 'meter*meter' )
-    #units = parseUnits( 'meter/meter' )
-    #units = parseUnits( 'meter^2*fred/second^3' )
 
     print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
