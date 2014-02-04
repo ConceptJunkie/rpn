@@ -13,7 +13,7 @@ from decimal import *
 #//
 #//******************************************************************************
 
-RPN_VERSION = "2.6.0"
+RPN_VERSION = "2.6.1"
 COPYRIGHT_MESSAGE = "copyright 2013 (1988), Rick Gutleber (rickg@his.com)"
 
 defaultPrecision = 12
@@ -344,9 +344,9 @@ def takeCos( valueList ):
     getcontext( ).prec -= 2
 
     # quantize to precision defined by -p
-    #quantize = Decimal( 10 ) ** -getcontext( ).prec
-    #valueList.append( Decimal( +s ).quantize( quantize ) )
-    valueList.append( +s )
+    quantize = Decimal( 10 ) ** -getcontext( ).prec
+    valueList.append( Decimal( +s ).quantize( quantize ) )
+    #valueList.append( +s )
 
 
 #//******************************************************************************
@@ -388,9 +388,9 @@ def takeSin( valueList ):
     getcontext( ).prec -= 2
 
     # quantize to precision defined by -p
-    #quantize = Decimal( 10 ) ** -getcontext( ).prec
-    #valueList.append( Decimal( +s ).quantize( quantize ) )
-    valueList.append( +s )
+    quantize = Decimal( 10 ) ** -getcontext( ).prec
+    valueList.append( Decimal( +s ).quantize( quantize ) )
+    #valueList.append( +s )
 
 
 #//******************************************************************************
@@ -431,6 +431,9 @@ expressions = {
 #//******************************************************************************
 
 def parseInputValue( term ):
+    if term == '0':
+        return Decimal( 0 )
+
     if '.' in term:
         return Decimal( term )
 
@@ -552,7 +555,8 @@ def main( ):
                     print( formatString.format( convertToBaseN( valueList.pop( ), outputRadix ) ).strip( ) )
             else:
                 if outputRadix == 10:
-                    print( valueList.pop( ) )
+                    formatString = '{:<' + str( args.precision ) + 'f}'
+                    print( formatString.format( valueList.pop( ) ) )
                 else:
                     print( convertToBaseN( valueList.pop( ), outputRadix ) )
 
