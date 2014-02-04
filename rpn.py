@@ -34,7 +34,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.22.0'
+RPN_VERSION = '4.23.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -2357,6 +2357,44 @@ def getNthLucas( n ):
 
 #//******************************************************************************
 #//
+#//  getNthJacobsthalNumber
+#//
+#//  From: http://oeis.org/A001045
+#//
+#//  a(n) = ceiling(2^(n+1)/3)-ceiling(2^n/3)
+#//
+#//******************************************************************************
+
+def getNthJacobsthalNumber( n ):
+    return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], n )
+
+
+#//******************************************************************************
+#//
+#//  getNthPellNumber
+#//
+#//  From:  http://oeis.org/A000129
+#//
+#//  a(n) = round((1+sqrt(2))^n)
+#//
+#//******************************************************************************
+
+def getNthPellNumber( n ):
+    return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], n )
+
+
+#//******************************************************************************
+#//
+#//  getNthBaseKRepunit
+#//
+#//******************************************************************************
+
+def getNthBaseKRepunit( n, k ):
+    return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], n )
+
+
+#//******************************************************************************
+#//
 #//  getPrimePi
 #//
 #//******************************************************************************
@@ -2483,6 +2521,9 @@ def getNthSylvester( n ):
 #//******************************************************************************
 
 def getNthPolygonalNumber( n, k ):
+    if k < 3:
+        raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
+
     # TODO: throw if k < 3
     coeff = fdiv( fsub( k, 2 ), 2 )
     return polyval( [ coeff, fneg( fsub( coeff, 1 ) ), 0 ], n )
@@ -2497,21 +2538,12 @@ def getNthPolygonalNumber( n, k ):
 #//******************************************************************************
 
 def findNthPolygonalNumber( n, k ):
+    if k < 3:
+        raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
+
     return fdiv( fsum( [ sqrt( fsum( [ power( k, 2 ), fprod( [ 8, k, n ] ),
                                        fneg( fmul( 8, k ) ), fneg( fmul( 16, n ) ), 16 ] ) ),
                          k, -4 ] ), fmul( 2, fsub( k, 2 ) ) )
-
-
-#//******************************************************************************
-#//
-#//  findTriangularNumber
-#//
-#//  Thanks for wolframalpha.com for solving the reverse of the above formula.
-#//
-#//******************************************************************************
-
-def findTriangularNumber( n ):
-    return fmul( 0.5, fsub( sqrt( fadd( fmul( 8, n ), 1 ) ), 1 ) )
 
 
 #//******************************************************************************
@@ -2520,8 +2552,11 @@ def findTriangularNumber( n ):
 #//
 #//******************************************************************************
 
-def getCenteredPolygonalNumber( n, sides ):
-    coefficient = fdiv( sides, 2 )
+def getCenteredPolygonalNumber( n, k ):
+    if k < 3:
+        raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
+
+    coefficient = fdiv( k, 2 )
     return polyval( [ coefficient, fneg( coefficient ), 1 ], n )
 
 
@@ -2529,10 +2564,15 @@ def getCenteredPolygonalNumber( n, sides ):
 #//
 #//  findCenteredPolygonalNumber
 #//
+#//  wolframalpha.com solved this for me.
+#//
 #//******************************************************************************
 
-def findCenteredPolygonalNumber( n, sides ):
-    s = fdiv( sides, 2 )
+def findCenteredPolygonalNumber( n, k ):
+    if k < 3:
+        raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
+
+    s = fdiv( k, 2 )
 
     return fdiv( fadd( sqrt( s ), sqrt( fsum( [ fmul( 4, n ), s, -4 ] ) ) ), fmul( 2, sqrt( s ) ) )
 
@@ -2580,6 +2620,155 @@ def getNthHeptagonalHexagonalNumber( n ):
 def getNthOctagonalHeptagonalNumber( n ):
     return floor( fdiv( fmul( fadd( 17, fmul( sqrt( 30 ), 2 ) ),
                               power( fadd( sqrt( 5 ), sqrt( 6 ) ), fsub( fmul( 8, n ), 6 ) ) ), 480 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthOctagonalSquareNumber
+#//
+#//  From http://oeis.org/A036428:
+#//
+#//  a(n) = 1/12 * ((2 + sqrt(3)) ^ (4n-2) + (2 - sqrt(3)) ^ (4n-2) - 2).
+#//  a(n) = floor (1/12 * (2 + sqrt(3)) ^ (4n-2)).
+#//
+#//******************************************************************************
+
+#//******************************************************************************
+#//
+#//  getNthOctagonalTriangularNumber
+#//
+#//  From http://oeis.org/A046183
+#//
+#//  a(n) = 1/96*((7-2*sqrt(6)*(-1)^n)*(sqrt(3)+sqrt(2))^(4*n-2)+(7+2*sqrt(6)*(-1)^n)*(sqrt(3)-sqrt(2))^(4*n-2)-22).
+#//  a(n) = floor(1/96*(7-2*sqrt(6)*(-1)^n)*(sqrt(3)+sqrt(2))^(4n-2))
+#//
+#//  LinearRecurrence[{1, 9602, -9602, -1, 1}, {1, 21, 11781, 203841, 113123361}, 13]
+#//
+#//******************************************************************************
+
+#//******************************************************************************
+#//
+#//  getNthNonagonalHexagonalNumber
+#//
+#//  From http://oeis.org/A048907:
+#//
+#//  a( n ) = floor( 9/112 * ( 8 - 3 * sqrt( 7 ) * (-1) ^ n ) *
+#//                          ( 8 + 3 * sqrt( 7 ) ) ^ ( 4 * n - 4 ) )
+#//
+#//******************************************************************************
+
+def getNthNonagonalHexagonalNumber( n ):
+    #a = fmul( 3, sqrt( 7 ) )
+    #b = fadd( 8, a )
+    #c = fsub( 8, a )
+
+    #sign = 1 #power( -1, n )
+    #exponent = fsub( fmul( 4, n ), 4 )
+
+    #print( str( fmul( c, sign ) ) + '  ' + str( power( b, exponent ) ) )
+
+    #return floor( fprod( [ fdiv( 9, 112 ), fmul( c, sign ), power( b, exponent ) ] ) )
+
+    return getNthLinearRecurrence( [ 1, -1, -4162056194, 4162056194, 1 ],
+                                   [ 1, 325, 5330229625, 1353857339341, 22184715227362706161 ], n )
+
+
+#//******************************************************************************
+#//
+#//  getNthNonagonalOctagonalNumber
+#//
+#//  From http://oeis.org/A048924:
+#//
+#//  a(n) = floor(1/672*(11*sqrt(7)-9*sqrt(6))*(sqrt(6)+sqrt(7))^(8n-5)). (End)
+#//
+#//  LinearRecurrence[{454275, -454275, 1}, {1, 631125, 286703855361}, 30] (* Vincenzo Librandi, Dec 24 2011 *)
+#//
+#//******************************************************************************
+
+def getNthNonagonalOctagonalNumber( n ):
+    return 0
+
+
+#//******************************************************************************
+#//
+#//  getNthNonagonalPentagonalNumber
+#//
+#//  http://oeis.org/A048915
+#//
+#// a(n) = 1/336*((25+4*sqrt(21))*(5-sqrt(21)*(-1)^n)*(2*sqrt(7)+3*sqrt(3))^(4n-4)+ (25-4*sqrt(21))*(5+sqrt(21)*(-1)^n)*(2*sqrt(7)-3*sqrt(3))^(4n-4)-82).
+#//
+#// a(n) = floor(1/336*(25+4*sqrt(21))*(5-sqrt(21)*(-1)^n)*(2*sqrt(7)+3*sqrt(3))^(4n-4)).
+#//
+#// LinearRecurrence[{1, 146361602, -146361602, -1, 1}, {1, 651, 180868051, 95317119801, 26472137730696901}, 9] (* Ant King, Dec 20 2011 *)
+#//
+#//******************************************************************************
+
+#//******************************************************************************
+#//
+#//  getNthNonagonalHeptagonalNumber
+#//
+#//  From http://oeis.org/A048921
+#//
+#//  a(n) = 1/560*((39+4*sqrt(35))*(6+sqrt(35))^(4*n-3)+(39-4*sqrt(35))*(6-sqrt(35))^(4*n-3)-188).
+#//
+#// a(n) = floor(1/560*(39+4*sqrt(35))*(6+sqrt(35))^(4*n-3)).
+#//
+#// LinearRecurrence[{20163, -20163, 1}, {1, 26884, 542041975}, 9]; (* Ant King, Dec 31 2011 *)
+#//
+#//******************************************************************************
+
+#//******************************************************************************
+#//
+#//  getNthNonagonalTriangularNumber
+#//
+#//  From http://oeis.org/A048907:
+#//
+#//  a( n ) = ( 5/14 ) +
+#//           ( 9/28 ) * { [ 8 - 3 * sqrt(7) ] ^ n + [ 8 + 3 * sqrt( 7 ) ] ^ n } +
+#//           ( 3/28 ) * sqrt(7) * { [ 8 + 3 * sqrt(7) ] ^ n - [ 8 - 3 * sqrt(7) ] ^ n }
+#//
+#//******************************************************************************
+
+def getNthNonagonalTriangularNumber( n ):
+    a = fmul( 3, sqrt( 7 ) )
+    b = fadd( 8, a )
+    c = fsub( 8, a )
+
+    return fsum( [ fdiv( 5, 14 ),
+                   fmul( fdiv( 9, 28 ), fadd( power( b, n ), power( c, n ) ) ),
+                   fprod( [ fdiv( 3, 28 ),
+                            sqrt( 7 ),
+                            fsub( power( b, n ), power( c, n ) ) ] ) ] )
+
+
+#//******************************************************************************
+#//
+#//  getNthNonagonalSquareNumber
+#//
+#//  From http://oeis.org/A048911:
+#//
+#//  Indices of square numbers which are also 9-gonal.
+#//
+#//  Let p = 8 * sqrt( 7 ) + 9 * sqrt( 14 ) - 7 * sqrt( 2 ) - 28 and
+#//      q = 7 * sqrt( 2 ) + 9 * sqrt( 14 ) - 8 * sqrt( 7 ) - 28.
+#//
+#//  Then a( n ) = 1 / 112 *
+#//                 ( ( p + q * (-1) ^ n ) * ( 2 * sqrt( 2 ) + sqrt( 7 ) ) ^ n -
+#//                  ( p - q * (-1) ^ n ) * ( 2 * sqrt( 2 ) - sqrt( 7 ) ) ^ ( n - 1 ) )
+#//
+#//******************************************************************************
+
+def getNthNonagonalSquareNumber( n ):
+    p = fsum( [ fmul( 8, sqrt( 7 ) ), fmul( 9, sqrt( 14 ) ), fmul( -7, sqrt( 2 ) ), -28 ] )
+    q = fsum( [ fmul( 7, sqrt( 2 ) ), fmul( 9, sqrt( 14 ) ), fmul( -8, sqrt( 7 ) ), -28 ] )
+    sign = power( -1, n )
+
+    index = fdiv( fsub( fmul( fadd( p, fmul( q, sign ) ),
+                                    power( fadd( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), n ) ),
+                              fmul( fsub( p, fmul( q, sign ) ),
+                                    power( fsub( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), fsub( n, 1 ) ) ) ), 112 )
+
+    return power( round( index ), 2 )
 
 
 #//******************************************************************************
@@ -2676,11 +2865,70 @@ def getNthPyramidalNumber( n ):
     return fprod( [ fdiv( n, 6 ), fadd( n, 1 ), fadd( fmul( 2, n ), 1 ) ] )
 
 
+#// A002411         Pentagonal pyramidal numbers: n^2*(n+1)/2.
+#// A002415         4-dimensional pyramidal numbers: n^2*(n^2-1)/12.
+#// A002412         Hexagonal pyramidal numbers, or greengrocer's numbers.
+#//                 a(n) = n*(n+1)*(4*n-1)/6.
+#//                 LinearRecurrence[{4, -6, 4, -1}, {0, 1, 7, 22}, n]
+#// A001608         Perrin sequence (or Ondrej Such sequence): a(n) = a(n-2) + a(n-3).
+#//                 LinearRecurrence[{0, 1, 1}, {3, 0, 2}, n]
+#// A001845         Centered octahedral numbers (crystal ball sequence for cubic lattice).
+#//                 LinearRecurrence[{4, -6, 4, -1}, {1, 7, 25, 63}, 40]
+#// A002414         Octagonal pyramidal numbers: n*(n+1)*(2*n-1)/2.
+#// A046090         Consider all Pythagorean triples (X,X+1,Z) ordered by increasing Z; sequence gives X+1 values.
+#//                 a(n+1)=round((1+(7+5*sqrt(2))*(3+2*sqrt(2))^n)/2);
+#//                 LinearRecurrence[{7, -7, 1}, {1, 4, 21}, 25]
+#// A050534         Tritriangular numbers: a(n)=binomial(binomial(n,2),2) = n(n + 1)(n - 1)(n - 2)/8.
+#// A002817         Doubly triangular numbers: n*(n+1)*(n^2+n+2)/8.
+#//                 a(n) = 3*binomial(n+2, 4)+binomial(n+1, 2).
+#// A005585         5-dimensional pyramidal numbers: n(n+1)(n+2)(n+3)(2n+3)/5!.
+#// A007588         Stella octangula numbers: n*(2*n^2 - 1).
+#// A005803         Second-order Eulerian numbers: 2^n - 2*n.
+#// A002413         Heptagonal (or 7-gonal) pyramidal numbers: n*(n+1)*(5*n-2)/6.
+#// A060888         n^6-n^5+n^4-n^3+n^2-n+1.      -- general form of this
+#// A006566         Dodecahedral numbers: n(3n-1)(3n-2)/2.
+#// A048736         Dana Scott's sequence: a(n) = (a(n-2) + a(n-1) * a(n-3)) / a(n-4), a(0) = a(1) = a(2) = a(3) = 1.
+#// A022095         Fibonacci sequence beginning 1 5.
+#//                 a(n) = ((2*sqrt(5)-1)*(((1+sqrt(5))/2)^(n+1)) + (2*sqrt(5)+1)*(((1-sqrt(5))/2)^(n+1)))/(sqrt(5)).
+#// A147875         Second heptagonal numbers: n*(5*n+3)/2.
+#// A005894         Centered tetrahedral numbers.
+#//                 a(n)=(2*n+1)*(n^2+n+3)/3
+#// A015447         Generalized Fibonacci numbers: a(n) = a(n-1) + 11*a(n-2).
+#//                 a(n)={[ (1+3*sqrt(5))/2 ]^(n+1) - [ (1-3*sqrt(5))/2 ]^(n+1)}/3*sqrt(5).
+#//                 LinearRecurrence[{1, 11}, {1, 1}, 30]
+#//                 CoefficientList[Series[ 1/(1-x-11 x^2), {x, 0, 50}], x]
+#// A007585         10-gonal (or decagonal) pyramidal numbers: n(n+1)(8n-5)/6.
+#// A179986         Second 9-gonal (or nonagonal) numbers: n(7n+5)/2.
+#// A046176         Indices of square numbers which are also hexagonal.
+#// A056105         First spoke of a hexagonal spiral.
+#// A006522         4-dimensional analogue of centered polygonal numbers. Also number of regions created by sides and diagonals of n-gon in general position.
+#//                 a(n)=binomial(n, 4)+ binomial(n-1, 2)
+#// A022086         Fibonacci sequence beginning 0 3.
+#//                 a(n) = round( (6phi-3)/5 phi^n ) (works for n>2)
+#// A069778         q-factorial numbers 3!_q.
+#// A005021         Random walks (binomial transform of A006054).
+#// A007584         9-gonal (or enneagonal) pyramidal numbers: n(n+1)(7n-4)/6.
+#// A074584         Esanacci ("6-anacci") numbers.
+#//                 LinearRecurrence[{1, 1, 1, 1, 1, 1}, {6, 1, 3, 7, 15, 31}, 50]
+#// A195142         Concentric 10-gonal numbers.
+#// A000453         Stirling numbers of the second kind, S(n,4).
+#// A005915         Hexagonal prism numbers: (n + 1)*(3*n^2 + 3*n + 1).
+#// A015442         Generalized Fibonacci numbers: a(n) = a(n-1) + 7 a(n-2), a(0)=0, a(1)=1.
+#//                 a(n) = ( ((1+sqrt(29))/2)^(n+1) - ((1-sqrt(29))/2)^(n+1) )/sqrt(29)
+#// A002418         4-dimensional figurate numbers: (5*n-1)*binomial(n+2,3)/4.
+#// A005165         Alternating factorials: n! - (n-1)! + (n-2)! - ... 1!.
+#// A006007         4-dimensional analogue of centered polygonal numbers: a(n) = n(n+1)*(n^2+n+4)/12.
+#// A104621         Heptanacci-Lucas numbers.
+#//
+#//
+#//
+#//
+
 #//******************************************************************************
 #//
 #//  getNthOctahedralNumber
 #//
-#//  Oct( n ) = Pyr( n ) + Pyr( n - 1)
+#//  Oct(n) = Pyr(n) + Pyr(n-1)
 #//
 #//  from Conway and Guy's "The Book of Numbers"
 #//
@@ -2694,14 +2942,14 @@ def getNthOctahedralNumber( n ):
 #//
 #//  getNthStellaOctangulaNumber
 #//
-#//  Stel( n ) = Oct( n ) + 8 Tet( n - 1 )
+#//  Stel(n) = Oct(n) + 8 Tet(n-1)
 #//
 #//  from Conway and Guy's "The Book of Numbers"
 #//
 #//******************************************************************************
 
 def getNthStellaOctangulaNumber( n ):
-    return fmul( 2, fsub( fprod( [ 2, n, n ] ), 1 ) )
+    return polyval( [ 4, 0, -2 ], n )
 
 
 #//******************************************************************************
@@ -2776,7 +3024,7 @@ def getNthPentatopeNumber( n ):
 #//
 #//  d = dimension
 #//
-#//  ( 1 / ( d - 1 )! ) PI k=0 to n-1 ( n + k )
+#//  (1/(d-1)!) PI k=0 to n-1 (n+k)
 #//
 #//  from Conway and Guy's "The Book of Numbers"
 #//
@@ -3088,6 +3336,7 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
     # maybe it's really an order-3 polynomial
     if _a == 0:
         return solveCubicPolynomial( _b, _c, _d, _e )
+
     # degenerate case, just return the two real and two imaginary 4th roots of the
     # constant term divided by the 4th root of a
     elif _b == 0 and _c == 0 and _d == 0:
@@ -3880,6 +4129,53 @@ def getPrimes( value, count ):
 
 #//******************************************************************************
 #//
+#//  getNthLinearRecurrence
+#//
+#//  nth element of Fibonacci sequence = rpn [ 1 1 ] 1 n
+#//  nth element of Lucas sequence = rpn [ 1 1 ] [ 1 3 ] n
+#//
+#//******************************************************************************
+
+def getNthLinearRecurrence( recurrence, seeds, n ):
+    if not isinstance( recurrence, list ):
+        recurrence = [ recurrence ]
+
+    if not isinstance( seeds, list ):
+        seeds = [ seeds ]
+
+    if len( seeds ) == 0:
+        raise ValueError( 'internal error:  for operator \'linearrecur\', seeds list cannot be empty ' )
+
+    # calculate missing seeds
+    for i in range( len( seeds ), len( recurrence ) ):
+        seeds.append( getNthLinearRecurrence( recurrence[ : i ], seeds, i ) )
+
+    if isinstance( n, list ):
+        return [ getNthLinearRecurrence( recurrence, seeds, i ) for i in n ]
+
+    if n < len( seeds ):
+        return seeds[ int( n ) - 1 ]
+    else:
+        if len( recurrence ) == 0:
+            raise ValueError( 'internal error:  for operator \'linearrecur\', recurrence list cannot be empty ' )
+
+        result = [ ]
+        result.extend( seeds )
+
+        for i in arange( len( seeds ), n ):
+            newValue = 0
+
+            for j in range( -1, -( len( seeds ) + 1 ), -1 ):
+                newValue = fadd( newValue, fmul( result[ j ], recurrence[ j ] ) )
+
+            result.append( newValue )
+            del result[ 0 ]
+
+        return result[ -1 ]
+
+
+#//******************************************************************************
+#//
 #//  countElements
 #//
 #//******************************************************************************
@@ -3944,11 +4240,11 @@ def getUniqueElements( args ):
 
 #//******************************************************************************
 #//
-#//  sort
+#//  sortAscending
 #//
 #//******************************************************************************
 
-def sort( args ):
+def sortAscending( args ):
     result = [ ]
 
     if isinstance( args[ 0 ], list ):
@@ -3967,7 +4263,15 @@ def sort( args ):
 #//******************************************************************************
 
 def sortDescending( args ):
-    return reversed( sort( args ) )
+    result = [ ]
+
+    if isinstance( args[ 0 ], list ):
+        for i in range( 0, len( args ) ):
+            result.append( sorted( args[ i ], reverse=True ) )
+
+        return result
+    else:
+        return sorted( args, reverse=True )
 
 
 #//******************************************************************************
@@ -4112,12 +4416,14 @@ operatorAliases = {
     'inv'       : 'reciprocal',
     'isdiv'     : 'isdivisible',
     'issqr'     : 'issquare',
+    'linear'    : 'linearrecur',
     'log'       : 'ln',
     'mod'       : 'modulo',
     'mult'      : 'multiply',
     'neg'       : 'negative',
     'non'       : 'nonagonal',
     'non?'      : 'nonagonal?',
+    'nonasq'    : 'nonasquare',
     'nonzeroes' : 'nonzero',
     'oct'       : 'octagonal',
     'oct?'      : 'octagonal?',
@@ -4296,6 +4602,12 @@ list_operators = {
 ''',
 '''
 ''' ],
+    'linearrecur'   : [ getNthLinearRecurrence, 3,
+'arithmetic', 'calculates the nth value of a linear recurrence specified by a list of seeds and of factors'
+'''
+''',
+'''
+''' ],
     'max'       : [ max, 1,
 'arithmetic', 'returns the largest value in list n',
 '''
@@ -4368,16 +4680,22 @@ list_operators = {
 ''',
 '''
 ''' ],
+    'repunit'   : [ getNthBaseKRepunit, 2,
+'algebra', 'returns the nth repunit in base k',
+'''
+''',
+'''
+''' ],
     'solve'     : [ solvePolynomial, 1,
 'algebra', 'interprets list n as a polynomial and solves for its roots',
 '''
 ''',
 '''
 ''' ],
-    'sort'      : [ sort, 1,
+    'sort'      : [ sortAscending, 1,
 'list_operators', 'sort the elements of list n numerically in ascending order',
 '''
-The sort operator gets applied recursively, so all sublists will be sorted as
+The 'sort' operator gets applied recursively, so all sublists will be sorted as
 well.  I might have to reconsider that.
 ''',
 '''
@@ -4391,8 +4709,15 @@ c:>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
     'sortdesc'  : [ sortDescending, 1,
 'list_operators', 'sorts the elements of list n numerically in descending order',
 '''
+The 'sortdesc' operator works exactly like the sort operator, sorting the list
+(and all sublists), except in descending order.
 ''',
 '''
+c:\>rpn 1 70 6 range2 sortdesc
+[ 67, 61, 55, 49, 43, 37, 31, 25, 19, 13, 7, 1 ]
+
+c:\>rpn 1 20 range countdiv sortdesc
+[ 6, 6, 6, 5, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1 ]
 ''' ],
     'stddev'    : [ getStandardDeviation, 1,
 'arithmetic', 'calculates the standard deviation of values in list n',
@@ -4526,6 +4851,8 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
     'apery'         : [ apery, 0,
 'constants', 'returns Apery\'s constant',
 '''
+Apery's constant is the sum of the infinite series of the reciprocals of cubes
+from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
 ''' ],
@@ -4634,6 +4961,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
     'cdecagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 10 ), 1,
 'polygonal_numbers', 'finds the index of the centered decagonal number of value n',
 '''
+'cdecagonal?' solves for the index of the equation used by 'cdecagonal' to
+get the index i of the ith centered decagonal number that corresponds to the
+value n.
+
+If n is not a centered decagonal number, the result will not be a whole
+number.
 ''',
 '''
 ''' ],
@@ -4658,6 +4991,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
     'cheptagonal?'  : [ lambda n: findCenteredPolygonalNumber( n, 7 ), 1,
 'polygonal_numbers', 'finds the index of the centered heptagonal number of value n',
 '''
+'cheptagonal?' solves for the index of the equation used by 'cheptagonal' to
+get the index i of the ith centered heptagonal number that corresponds to the
+value n.
+
+If n is not a centered heptagonal number, the result will not be a whole
+number.
 ''',
 '''
 ''' ],
@@ -4670,6 +5009,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
     'chexagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 6 ), 1,
 'polygonal_numbers', 'finds the index of the centered hexagonal number of value n',
 '''
+'chexagonal?' solves for the index of the equation used by 'chexagonal' to
+get the index i of the ith centered hexagonal number that corresponds to the
+value n.
+
+If n is not a centered hexagonal number, the result will not be a whole
+number.
 ''',
 '''
 ''' ],
@@ -4682,6 +5027,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
     'cnonagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 9 ), 1,
 'polygonal_numbers', 'finds the index of the centered nonagonal number of value n',
 '''
+'cnonagonal?' solves for the index of the equation used by 'cnonagonal' to
+get the index i of the ith centered nonagonal number that corresponds to the
+value n.
+
+If n is not a centered nonagonal number, the result will not be a whole
+number.
 ''',
 '''
 ''' ],
@@ -4694,6 +5045,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
     'coctagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 8 ), 1,
 'polygonal_numbers', 'finds the index of the centered octgonal number of value n',
 '''
+'coctagonal?' solves for the index of the equation used by 'coctagonal' to
+get the index i of the ith centered octagonal number that corresponds to the
+value n.
+
+If n is not a centered octagonal number, the result will not be a whole
+number.
 ''',
 '''
 ''' ],
@@ -4757,11 +5114,17 @@ c:\>rpn 1 20 range divcount
     'cpentagonal?'  : [ lambda n: findCenteredPolygonalNumber( n, 5 ), 1,
 'polygonal_numbers', 'finds the index of the centered pentagonal number of value n',
 '''
+'cpentagonal?' solves for the index of the equation used by 'cpentagonal' to
+get the index i of the ith centered pentagonal number that corresponds to the
+value n.
+
+If n is not a centered pentagonal number, the result will not be a whole
+number.
 ''',
 '''
 ''' ],
     'cpolygonal'    : [ lambda n, k: getCenteredPolygonalNumber( n, k ), 2,
-'polygonal_numbers', 'calculates the nth centered hexagonal number',
+'polygonal_numbers', 'calculates the nth centered k-gonal number',
 '''
 ''',
 '''
@@ -4769,6 +5132,12 @@ c:\>rpn 1 20 range divcount
     'cpolygonal?'   : [ lambda n, k: findCenteredPolygonalNumber( n, k ), 2,
 'polygonal_numbers', 'finds the index of the centered polygonal number of value n',
 '''
+'cpolygonal?' solves for the index of the equation used by 'cpolygonal' to
+get the index i of the ith centered k-sided polygonal number that corresponds
+to the value n.
+
+If n is not a centered k-sided polygonal number, the result will not be a whole
+number.
 ''',
 '''
 ''' ],
@@ -4793,6 +5162,10 @@ c:\>rpn 1 20 range divcount
     'csquare?'       : [ lambda n: findCenteredPolygonalNumber( n, 4 ), 1,
 'polygonal_numbers', 'finds the index of the centered square number of value n',
 '''
+'csquare?' solves for the index of the equation used by 'csquare' to get the
+index i of the ith centered square number that corresponds to the value n.
+
+If n is not a centered square number, the result will not be a whole number.
 ''',
 '''
 ''' ],
@@ -4805,12 +5178,19 @@ c:\>rpn 1 20 range divcount
     'ctriangular?'   : [ lambda n: findCenteredPolygonalNumber( n, 3 ), 1,
 'polygonal_numbers', 'finds the index of the centered triangular number of value n',
 '''
+'ctriangular?' solves for the index of the equation used by 'ctriangular' to
+get the index i of the ith centered triangular number that corresponds to the
+value n.
+
+If n is not a centered triangular number, the result will not be a whole
+number.
 ''',
 '''
 ''' ],
     'cube'          : [ lambda n: power( n, 3 ), 1,
 'powers_and_roots', 'calculates the cube of n',
 '''
+'cube' simply returns the value of n to the third power.
 ''',
 '''
 ''' ],
@@ -4927,6 +5307,7 @@ c:\>rpn 3 expphi 2 expphi -
     'factorial'     : [ fac, 1,
 'number_theory', 'calculates the prime factorization of n',
 '''
+'factorial' calculates the product of all whole numbers from 1 to n.
 ''',
 '''
 ''' ],
@@ -5045,7 +5426,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'isdivisible'   : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2,
-'arithmetic', 'is divisible by n?',
+'arithmetic', 'is n divisible by k?',
 '''
 ''',
 '''
@@ -5063,13 +5444,19 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'issquare'      : [ isSquare, 1,
-'arithmetic', 'is perfect square?',
+'arithmetic', 'is n a perfect square?',
 '''
 ''',
 '''
 ''' ],
     'itoi'          : [ lambda: exp( fmul( -0.5, pi ) ), 0,
 'constants', 'returns i to the i power',
+'''
+''',
+'''
+''' ],
+    'jacobsthal'      : [ getNthJacobsthalNumber, 1,
+'number_theory', 'returns nth number of the Jacobsthal sequence',
 '''
 ''',
 '''
@@ -5200,6 +5587,27 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'nonahex'       : [ getNthNonagonalHexagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth nonagonal hexagonal number',
+'''
+'nonahex' calculates the nth number that is both nonagonal and hexagonal.
+''',
+'''
+''' ],
+    'nonasquare'    : [ getNthNonagonalSquareNumber, 1,
+'polygonal_numbers', 'calculates the nth nonagonal square number',
+'''
+'nonasquare' calculates the nth number that is both nonagonal and square.
+''',
+'''
+''' ],
+    'nonatri'    : [ getNthNonagonalTriangularNumber, 1,
+'polygonal_numbers', 'calculates the nth nonagonal triangular number',
+'''
+'nonatri' calculates the nth number that is both nonagonal and triangular.
+''',
+'''
+''' ],
     'not'           : [ getInvertedBits, 1,
 'logical', 'calculates the bitwise negation of n',
 '''
@@ -5280,6 +5688,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'pascal'        : [ getNthPascalLine, 1,
 'number_theory', 'calculates the nth line of Pascal\'s triangle',
+'''
+''',
+'''
+''' ],
+    'pell'          : [ getNthPellNumber, 1,
+'combinatorics', 'calculates the nth Pell number',
 '''
 ''',
 '''
@@ -5678,8 +6092,8 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
-    'tetrate'       : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1,
-'polyhedral_numbers', 'calculates the nth tetrahedral number',
+    'tetrate'       : [ tetrate, 2,
+'powers_and_roots', 'tetrates n by k',
 '''
 ''',
 '''
