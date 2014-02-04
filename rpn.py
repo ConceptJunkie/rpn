@@ -101,6 +101,12 @@ def loadTripletPrimes( ):
 def loadQuadrupletPrimes( ):
     return loadTable( 'quad_primes', { 2 : 11 } )
 
+def loadQuintupletPrimes( ):
+    return loadTable( 'quint_primes', { 3 : 11 } )
+
+def loadSextupletPrimes( ):
+    return loadTable( 'sext_primes', { 1 : 7 } )
+
 
 #//******************************************************************************
 #//
@@ -146,6 +152,12 @@ def saveTripletPrimes( tripletPrimes ):
 
 def saveQuadrupletPrimes( quadPrimes ):
     saveTable( 'quad_primes', quadPrimes )
+
+def saveQuintupletPrimes( quintPrimes ):
+    saveTable( 'quint_primes', quintPrimes )
+
+def saveSextupletPrimes( sextPrimes ):
+    saveTable( 'sext_primes', sextPrimes )
 
 
 #//******************************************************************************
@@ -215,8 +227,8 @@ def makeSuperPrimes( start, end ):
 
 def makeTwinPrimes( start, end, step ):
     global twinPrimes
-    getNthTwinPrimes( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthTwinPrimes, 'twin' )
+    getNthTwinPrime( 100 )  # force the cache to load
+    end = makeTable( start, end, step, getNthTwinPrime, 'twin' )
     saveTwinPrimes( twinPrimes )
     return end
 
@@ -236,30 +248,30 @@ def makeSophiePrimes( start, end, step ):
 
 def makeCousinPrimes( start, end, step ):
     global cousinPrimes
-    getNthCousinPrimes( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthCousinPrimes, 'cousin' )
+    getNthCousinPrime( 100 )  # force the cache to load
+    end = makeTable( start, end, step, getNthCousinPrime, 'cousin' )
     saveCousinPrimes( cousinPrimes )
     return end
 
 def makeSexyPrimes( start, end, step ):
     global sexyPrimes
-    getNthSexyPrimes( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthSexyPrimes, 'sexy' )
+    getNthSexyPrime( 100 )  # force the cache to load
+    end = makeTable( start, end, step, getNthSexyPrime, 'sexy' )
     saveSexyPrimes( sexyPrimes )
     return end
 
 def makeSexyTriplets( start, end, step ):
     global sexyTriplets
-    getNthSexyTriplets( 100 )  # force the cache to load
+    getNthSexyTriplet( 100 )  # force the cache to load
     end = makeTable( start, end, step, getNthSexyTriplet, 'sexytrip' )
     saveSexyTriplets( sexyTriplets )
     return end
 
 def makeSexyQuadruplets( start, end, step ):
     global sexyQUadruplets
-    getNthSexyQuadruplets( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthSexyQuadruplets, 'sexyquad' )
-    saveSexyPrimes( sexyQuadruplets )
+    getNthSexyQuadruplet( 100 )  # force the cache to load
+    end = makeTable( start, end, step, getNthSexyQuadruplet, 'sexyquad' )
+    saveSexyQuadruplets( sexyQuadruplets )
     return end
 
 def makeTripletPrimes( start, end, step ):
@@ -271,9 +283,23 @@ def makeTripletPrimes( start, end, step ):
 
 def makeQuadrupletPrimes( start, end, step ):
     global quadPrimes
-    getNthQuadrupletPrimes( 10 )  # force the cache to load
-    end = makeTable( start, end, step, getNthQuadrupletPrimes, 'quad' )
+    getNthQuadrupletPrime( 10 )  # force the cache to load
+    end = makeTable( start, end, step, getNthQuadrupletPrime, 'quad' )
     saveQuadrupletPrimes( quadPrimes )
+    return end
+
+def makeQuintupletPrimes( start, end, step ):
+    global quintPrimes
+    getNthQuintupletPrimes( 10 )  # force the cache to load
+    end = makeTable( start, end, step, getNthQuintupletPrimes, 'quint' )
+    saveQuintupletPrimes( quintPrimes )
+    return end
+
+def makeSextupletPrimes( start, end, step ):
+    global sextPrimes
+    getNthSextupletPrimes( 10 )  # force the cache to load
+    end = makeTable( start, end, step, getNthSextupletPrimes, 'sext' )
+    saveSextupletPrimes( sextPrimes )
     return end
 
 
@@ -323,6 +349,12 @@ def dumpTripletPrimes( ):
 
 def dumpQuadrupletPrimes( ):
     return dumpTable( loadQuadrupletPrimes, 'quad' )
+
+def dumpQuintupletPrimes( ):
+    return dumpTable( loadQuintupletPrimes, 'quint' )
+
+def dumpSextupletPrimes( ):
+    return dumpTable( loadQSextupletPrimes, 'sext' )
 
 
 #//******************************************************************************
@@ -386,7 +418,7 @@ def getNthPrime( arg ):
 
         maxIndex = max( key for key in largePrimes )
 
-        if n > maxIndex:
+        if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                                     format( n, maxIndex ) )
 
@@ -497,11 +529,11 @@ def getNthPolyPrime( n, poly ):
 
 #//******************************************************************************
 #//
-#//  getNthTwinPrimes
+#//  getNthTwinPrime
 #//
 #//******************************************************************************
 
-def getNthTwinPrimes( arg ):
+def getNthTwinPrime( arg ):
     global twinPrimes
     global updateDicts
 
@@ -517,6 +549,12 @@ def getNthTwinPrimes( arg ):
     if n >= 100:
         if twinPrimes == { }:
             twinPrimes = loadTwinPrimes( )
+
+        maxIndex = max( key for key in twinPrimes )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
 
         startingPlace = max( key for key in twinPrimes if key <= n )
         p = twinPrimes[ startingPlace ]
@@ -564,6 +602,12 @@ def getNthBalancedPrimes( arg ):
     if n >= 100:
         if balancedPrimes == { }:
             balancedPrimes = loadBalancedPrimes( )
+
+        maxIndex = max( key for key in balancedPrimes )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
 
         startingPlace = max( key for key in balancedPrimes if key < n )
         p = balancedPrimes[ startingPlace ]
@@ -626,6 +670,12 @@ def getNthSophiePrime( arg ):
         if sophiePrimes == { }:
             sophiePrimes = loadSophiePrimes( )
 
+        maxIndex = max( key for key in sophiePrimes )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
+
         startingPlace = max( key for key in sophiePrimes if key <= n )
         p = sophiePrimes[ startingPlace ]
     else:
@@ -659,11 +709,11 @@ def getNthSophiePrime( arg ):
 
 #//******************************************************************************
 #//
-#//  getNthCousinPrimes
+#//  getNthCousinPrime
 #//
 #//******************************************************************************
 
-def getNthCousinPrimes( arg ):
+def getNthCousinPrime( arg ):
     global cousinPrimes
     global updateDicts
 
@@ -675,6 +725,12 @@ def getNthCousinPrimes( arg ):
     if n >= 100:
         if cousinPrimes == { }:
             cousinPrimes = loadCousinPrimes( )
+
+        maxIndex = max( key for key in cousinPrimes )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
 
         startingPlace = max( key for key in cousinPrimes if key <= n )
         p = cousinPrimes[ startingPlace ]
@@ -709,11 +765,11 @@ def getNthCousinPrimes( arg ):
 
 #//******************************************************************************
 #//
-#//  getNthSexyPrimes
+#//  getNthSexyPrime
 #//
 #//******************************************************************************
 
-def getNthSexyPrimes( arg ):
+def getNthSexyPrime( arg ):
     global sexyPrimes
     global updateDicts
 
@@ -725,6 +781,12 @@ def getNthSexyPrimes( arg ):
     if n >= 100:
         if sexyPrimes == { }:
             sexyPrimes = loadSexyPrimes( )
+
+        maxIndex = max( key for key in sexyPrimes )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
 
         startingPlace = max( key for key in sexyPrimes if key <= n )
         p = sexyPrimes[ startingPlace ]
@@ -756,11 +818,11 @@ def getNthSexyPrimes( arg ):
 
 #//******************************************************************************
 #//
-#//  getNthSexyTriplets
+#//  getNthSexyTriplet
 #//
 #//******************************************************************************
 
-def getNthSexyPrimes( arg ):
+def getNthSexyTriplet( arg ):
     global sexyTriplets
     global updateDicts
 
@@ -772,6 +834,12 @@ def getNthSexyPrimes( arg ):
     if n >= 100:
         if sexyTriplets == { }:
             sexyTriplets = loadSexyTriplets( )
+
+        maxIndex = max( key for key in sexyTriplets )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
 
         startingPlace = max( key for key in sexyTriplets if key <= n )
         p = sexyTriplets[ startingPlace ]
@@ -789,11 +857,57 @@ def getNthSexyPrimes( arg ):
             p += 4
             f = 1
 
-        if isPrime( p ) and isPrime( p + 6 ) and isPrime( p + 12 ) and not isPrime( p + 18 ):
+        if isPrime( p ) and isPrime( p + 6 ) and isPrime( p + 12 ):
             n -= 1
 
     if updateDicts:
         sexyTriplets[ int( arg ) ] = p
+
+    return p
+
+
+#//******************************************************************************
+#//
+#//  getNthSexyQuadruplet
+#//
+#//******************************************************************************
+
+def getNthSexyQuadruplet( arg ):
+    global sexyQuadruplets
+    global updateDicts
+
+    n = int( arg )
+
+    if n == 1:
+        return 5
+
+    if sexyQuadruplets == { }:
+        sexyQuadruplets = loadSexyQuadruplets( )
+
+        maxIndex = max( key for key in sexyQuadruplets )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
+
+    startingPlace = max( key for key in sexyQuadruplets if key <= n )
+    p = sexyQuadruplets[ startingPlace ]
+
+    ten = True
+
+    while n > startingPlace:
+        if ten:
+            p += 10
+            ten = False
+        else:
+            p += 20
+            ten = True
+
+        if isPrime( p ) and isPrime( p + 6 ) and isPrime( p + 12 ) and isPrime( p + 18 ):
+            n -= 1
+
+    if updateDicts:
+        sexyQuadruplets[ int( arg ) ] = p
 
     return p
 
@@ -818,6 +932,12 @@ def getNthTripletPrimes( arg ):
     if n >= 100:
         if tripletPrimes == { }:
             tripletPrimes = loadTripletPrimes( )
+
+        maxIndex = max( key for key in tripletPrimes )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
 
         startingPlace = max( key for key in tripletPrimes if key <= n )
         p = tripletPrimes[ startingPlace ]
@@ -861,11 +981,11 @@ def getNthTripletPrimes( arg ):
 
 #//******************************************************************************
 #//
-#//  getNthQuadrupletPrimes
+#//  getNthQuadrupletPrime
 #//
 #//******************************************************************************
 
-def getNthQuadrupletPrimes( arg ):
+def getNthQuadrupletPrime( arg ):
     global quadPrimes
     global updateDicts
 
@@ -879,6 +999,12 @@ def getNthQuadrupletPrimes( arg ):
     if n >= 10:
         if quadPrimes == { }:
             quadPrimes = loadQuadrupletPrimes( )
+
+        maxIndex = max( key for key in quadPrimes )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
 
         startingPlace = max( key for key in quadPrimes if key <= n )
         p = quadPrimes[ startingPlace ]
@@ -897,6 +1023,113 @@ def getNthQuadrupletPrimes( arg ):
         quadPrimes[ int( arg ) ] = p
 
     return p
+
+
+#//******************************************************************************
+#//
+#//  getNthQuintupletPrimes
+#//
+#//******************************************************************************
+
+def getNthQuintupletPrimes( arg ):
+    global quintPrimes
+    global updateDicts
+
+    n = int( arg )
+
+    if n == 1:
+        return [ 5, 7, 11, 13, 17 ]
+    elif n == 2:
+        return [ 7, 11, 13, 17, 19 ]
+
+    if n >= 10:
+        if quintPrimes == { }:
+            quintPrimes = loadQuintupletPrimes( )
+
+        maxIndex = max( key for key in quintPrimes )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
+
+        startingPlace = max( key for key in quintPrimes if key <= n )
+        p = quintPrimes[ startingPlace ]
+    else:
+        startingPlace = 3
+        p = 11
+
+    f = p % 10
+
+    # after 5, the first of a prime quintruplet must be a number of the form 30n + 11
+    while n > startingPlace:
+        if f == 1:
+            p += 6
+            f = 7
+        else:
+            p += 4
+            f = 1
+
+        if p % 10 == 7 and isPrime( p ) and isPrime( p + 4 ) and isPrime( p + 6 ) and \
+            isPrime( p + 10 ) and isPrime( p + 12 ):
+                n -= 1
+        elif p % 30 == 11 and isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and \
+            isPrime( p + 8 ) and isPrime( p + 12 ):
+                n -= 1
+
+    if updateDicts:
+        quintPrimes[ int( arg ) ] = p
+
+    f = p % 10
+
+    if f == 1:
+        return [ p, p + 2, p + 6, p + 8, p + 12 ]
+    else:
+        return [ p, p + 4, p + 6, p + 10, p + 12 ]
+
+
+#//******************************************************************************
+#//
+#//  getNthSextupletPrimes
+#//
+#//******************************************************************************
+
+def getNthSextupletPrimes( arg ):
+    global sextPrimes
+    global updateDicts
+
+    n = int( arg )
+
+    if n == 1:
+        return [ 7, 11, 13, 17, 19, 23 ]
+
+    if n >= 10:
+        if sextPrimes == { }:
+            sextPrimes = loadSextupletPrimes( )
+
+        maxIndex = max( key for key in sextPrimes )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                    format( n, maxIndex ) )
+
+        startingPlace = max( key for key in sextPrimes if key <= n )
+        p = sextPrimes[ startingPlace ]
+    else:
+        startingPlace = 1
+        p = 7
+
+    # all sets of prime sextuplets must start with 30x+7
+    while n > startingPlace:
+        p += 30
+
+        if isPrime( p ) and isPrime( p + 4 ) and isPrime( p + 6 ) and \
+           isPrime( p + 10 ) and isPrime( p + 12 ) + isPrime( 16 ):
+            n -= 1
+
+    if updateDicts:
+        sextPrimes[ int( arg ) ] = p
+
+    return [ p, p + 4, p + 6, p + 10, p + 12, p + 16 ]
 
 
 #//******************************************************************************
@@ -2189,8 +2422,16 @@ def dumpStats( ):
                                                          max( [ key for key in tripletPrimes ] ) ) )
 
     quadPrimes = loadQuadrupletPrimes( )
-    print( '{:10,} quadruplet primes,     max: {:,}\n'.format( len( quadPrimes ),
-                                                           max( [ key for key in quadPrimes ] ) ) )
+    print( '{:10,} quadruplet primes,     max: {:,}'.format( len( quadPrimes ),
+                                                         max( [ key for key in quadPrimes ] ) ) )
+
+    quintPrimes = loadQuintupletPrimes( )
+    print( '{:10,} quintuplet primes,     max: {:,}'.format( len( quintPrimes ),
+                                                         max( [ key for key in quintPrimes ] ) ) )
+
+    sextPrimes = loadSextupletPrimes( )
+    print( '{:10,} sextuplet primes,      max: {:,}\n'.format( len( sextPrimes ),
+                                                         max( [ key for key in sextPrimes ] ) ) )
 
     return [ int( i ) for i in RPN_VERSION.split( '.' ) ]
 
@@ -2506,8 +2747,8 @@ operators = {
     'cosh'        : [ cosh, 1 ],
     'cot'         : [ cot, 1 ],
     'coth'        : [ coth, 1 ],
-    'cousin'      : [ getNthCousinPrimes, 1 ],
-    'cousinprime' : [ getNthCousinPrimes, 1 ],
+    'cousin'      : [ getNthCousinPrime, 1 ],
+    'cousinprime' : [ getNthCousinPrime, 1 ],
     'csc'         : [ csc, 1 ],
     'csch'        : [ csch, 1 ],
     'cube'        : [ lambda i: power( i, 3 ), 1 ],
@@ -2557,8 +2798,8 @@ operators = {
     'mulitply'    : [ fmul, 2 ],
     'mult'        : [ fmul, 2 ],
     'neg'         : [ fneg, 1 ],
-    'npr'         : [ getPermutations, 2 ],
     'nPr'         : [ getPermutations, 2 ],
+    'npr'         : [ getPermutations, 2 ],
     'oct'         : [ getNthOctahedralNumber, 1 ],
     'octahedral'  : [ getNthOctahedralNumber, 1 ],
     'omega'       : [ lambda: lambertw( 1 ), 0 ],
@@ -2573,15 +2814,17 @@ operators = {
     'polyprime'   : [ getNthPolyPrime, 2 ],
     'polytope'    : [ getNthPolytopeNumber, 2 ],
     'power'       : [ power, 2 ],
-    'primorial'   : [ getPrimorial, 1 ],
     'prime'       : [ getNthPrime, 1 ],
     'prime?'      : [ findPrimeIndex, 1 ],
     'primepi'     : [ primepi, 1 ],
+    'primorial'   : [ getPrimorial, 1 ],
     'psi'         : [ psi, 2 ],
     'pyr'         : [ getNthPyramidalNumber, 1 ],
     'pyramid'     : [ getNthPyramidalNumber, 1 ],
-    'quad'        : [ getNthQuadrupletPrimes, 1 ],
-    'quadprime'   : [ getNthQuadrupletPrimes, 1 ],
+    'quad'        : [ getNthQuadrupletPrime, 1 ],
+    'quadprime'   : [ getNthQuadrupletPrime, 1 ],
+    'quint'       : [ getNthQuintupletPrimes, 1 ],
+    'quintprime'  : [ getNthQuintupletPrimes, 1 ],
     'rad'         : [ degrees, 1 ],
     'radians'     : [ degrees, 1 ],
     'rand'        : [ rand, 0 ],
@@ -2593,8 +2836,10 @@ operators = {
     'round'       : [ lambda i: floor( fadd( i, 0.5 ) ), 1 ],
     'sec'         : [ sec, 1 ],
     'sech'        : [ sech, 1 ],
-    'sexy'        : [ getNthSexyPrimes, 1 ],
-    'sexyprime'   : [ getNthSexyPrimes, 1 ],
+    'sext'        : [ getNthSextupletPrimes, 1 ],
+    'sextprime'   : [ getNthSextupletPrimes, 1 ],
+    'sexy'        : [ getNthSexyPrime, 1 ],
+    'sexyprime'   : [ getNthSexyPrime, 1 ],
     'sin'         : [ sin, 1 ],
     'sinh'        : [ sinh, 1 ],
     'solve2'      : [ solveQuadraticPolynomial, 3 ],
@@ -2620,8 +2865,8 @@ operators = {
     'tripletprime': [ getNthTripletPrimes, 1 ],
     'truncoct'    : [ getNthTruncatedOctahedralNumber, 1 ],
     'trunctet'    : [ getNthTruncatedTetrahedralNumber, 1 ],
-    'twin'        : [ getNthTwinPrimes, 1 ],
-    'twinprime'   : [ getNthTwinPrimes, 1 ],
+    'twin'        : [ getNthTwinPrime, 1 ],
+    'twinprime'   : [ getNthTwinPrime, 1 ],
     'unitroots'   : [ lambda i: unitroots( int( i ) ), 1 ],
     'xor'         : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
     'zeta'        : [ zeta, 1 ],
@@ -2630,6 +2875,8 @@ operators = {
     '_dumpcousin' : [ dumpCousinPrimes, 0 ],
     '_dumpprimes' : [ dumpLargePrimes, 0 ],
     '_dumpquad'   : [ dumpQuadrupletPrimes, 0 ],
+    '_dumpquint'  : [ dumpQuintupletPrimes, 0 ],
+    '_dumpsext'   : [ dumpSextupletPrimes, 0 ],
     '_dumpsexy'   : [ dumpSexyPrimes, 0 ],
     '_dumpsmall'  : [ dumpSmallPrimes, 0 ],
     '_dumpsophie' : [ dumpSophiePrimes, 0 ],
@@ -2640,7 +2887,11 @@ operators = {
     '_makecousin' : [ makeCousinPrimes, 3 ],
     '_makeprimes' : [ makeLargePrimes, 3 ],
     '_makequad'   : [ makeQuadrupletPrimes, 3 ],
+    '_makequint'  : [ makeQuintupletPrimes, 3 ],
+    '_makesext'   : [ makeSextupletPrimes, 3 ],
     '_makesexy'   : [ makeSexyPrimes, 3 ],
+    '_makesexy3'  : [ makeSexyTriplets, 3 ],
+    '_makesexy4'  : [ makeSexyQuadruplets, 3 ],
     '_makesmall'  : [ makeSmallPrimes, 3 ],
     '_makesophie' : [ makeSophiePrimes, 3 ],
     '_makesuper'  : [ makeSuperPrimes, 2 ],
@@ -3185,32 +3436,41 @@ Calculate various constants:
 
 def main( ):
     global addToListArgument
-    global balancedPrimes
     global bitwiseGroupSize
-    global cousinPrimes
     global dataPath
     global inputRadix
-    global largePrimes
     global nestedListLevel
     global numerals
+    global updateDicts
+
+    global balancedPrimes
+    global cousinPrimes
+    global largePrimes
     global quadPrimes
+    global quintPrimes
+    global sextPrimes
     global sexyPrimes
+    global sexyQuadruplets
+    global sexyTriplets
     global smallPrimes
     global sophiePrimes
     global superPrimes
     global tripletPrimes
     global twinPrimes
-    global updateDicts
 
     # initialize globals
     nestedListLevel = 0
 
     balancedPrimes = { }
     cousinPrimes = { }
-    smallPrimes = { }
     largePrimes = { }
     quadPrimes = { }
+    quintPrimes = { }
+    sextPrimes = { }
     sexyPrimes = { }
+    sexyQuadruplets = { }
+    sexyTriplets = { }
+    smallPrimes = { }
     sophiePrimes = { }
     superPrimes = { }
     tripletPrimes = { }
