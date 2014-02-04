@@ -9,9 +9,11 @@ import os
 import pickle
 import pyprimes
 import random
+import re as regex
 import sys
 import time
 import types
+import urllib.request
 
 from fractions import Fraction
 from functools import reduce
@@ -25,7 +27,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.11.0"
+RPN_VERSION = "4.12.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -48,6 +50,39 @@ fibBase = -2
 inputRadix = 10
 
 updateDicts = False
+
+
+#//******************************************************************************
+#//
+#//  downloadOEISSequence
+#//
+#//******************************************************************************
+
+def downloadOEISSequence( id ):
+    data = urllib.request.urlopen( "http://oeis.org/search?q=id%3A" + id + "&fmt=text" ).read( )
+
+    pattern = regex.compile( b"%S A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n", regex.DOTALL )
+    result = pattern.findall( data )[ 0 ]
+
+    pattern = regex.compile( b"%T A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n", regex.DOTALL )
+    result += pattern.findall( data )[ 0 ]
+
+    pattern = regex.compile( b"%U A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n", regex.DOTALL )
+    result += pattern.findall( data )[ 0 ]
+
+    sequence = [ int( i ) for i in result.decode( 'ascii' ).split( ',' ) ]
+
+    return sequence
+
+
+#//******************************************************************************
+#//
+#//  getOEISSequence
+#//
+#//******************************************************************************
+
+def getOEISSequence( n ):
+    return downloadOEISSequence( str( n ) )
 
 
 #//******************************************************************************
@@ -82,6 +117,12 @@ def loadTwinPrimes( ):
 
 def loadBalancedPrimes( ):
     return loadTable( 'balanced_primes', { 2 : 53 } )
+
+def loadDoubleBalancedPrimes( ):
+    return loadTable( 'double_balanced_primes', { 1 : getNthDoubleBalancedPrimes( 1 ) } )
+
+def loadTripleBalancedPrimes( ):
+    return loadTable( 'triple_balanced_primes', { 1 : getNthTripleBalancedPrimes( 1 ) } )
 
 def loadSophiePrimes( ):
     return loadTable( 'sophie_primes', { 4 : 11 } )
@@ -137,6 +178,12 @@ def saveTwinPrimes( twinPrimes ):
 
 def saveBalancedPrimes( balancedPrimes ):
     saveTable( 'balanced_primes', balancedPrimes )
+
+def saveDoubleBalancedPrimes( doubleBalancedPrimes ):
+    saveTable( 'double_balanced_primes', doubleBalancedPrimes )
+
+def saveTripleBalancedPrimes( tripleBalancedPrimes ):
+    saveTable( 'triple_balanced_primes', tripleBalancedPrimes )
 
 def saveSophiePrimes( sophiePrimes ):
     saveTable( 'sophie_primes', sophiePrimes )
@@ -199,6 +246,12 @@ def importTwinPrimes( fileName ):
 
 def importBalancedPrimes( fileName ):
     return importTable( fileName, loadBalancedPrimes, saveBalancedPrimes )
+
+def importDoubleBalancedPrimes( fileName ):
+    return importTable( fileName, loadDoubleBalancedPrimes, saveDoubleBalancedPrimes )
+
+def importTripleBalancedPrimes( fileName ):
+    return importTable( fileName, loadTripleBalancedPrimes, saveTripleBalancedPrimes )
 
 def importSophiePrimes( fileName ):
     return importTable( fileName, loadSophiePrimes, saveSophiePrimes )
@@ -314,6 +367,18 @@ def makeBalancedPrimes( start, end, step ):
     saveBalancedPrimes( balancedPrimes )
     return end
 
+def makeDoubleBalancedPrimes( start, end, step ):
+    global doubleBalancedPrimes
+    end = makeTable( start, end, step, getNthDoubleBalancedPrimes, 'double_balanced' )
+    saveDoubleBalancedPrimes( doubleBalancedPrimes )
+    return end
+
+def makeTripleBalancedPrimes( start, end, step ):
+    global tripleBalancedPrimes
+    end = makeTable( start, end, step, getNthTripleBalancedPrimes, 'triple_balanced' )
+    saveTripleBalancedPrimes( tripleBalancedPrimes )
+    return end
+
 def makeSophiePrimes( start, end, step ):
     global sophiePrimes
     getNthSophiePrime( 100 )  # force the cache to load
@@ -406,6 +471,12 @@ def dumpTwinPrimes( ):
 
 def dumpBalancedPrimes( ):
     return dumpTable( loadBalancedPrimes, 'balanced' )
+
+def dumpDoubleBalancedPrimes( ):
+    return dumpTable( loadDoubleBalancedPrimes, 'double_balanced' )
+
+def dumpTripleBalancedPrimes( ):
+    return dumpTable( loadTripleBalancedPrimes, 'triple_balanced' )
 
 def dumpSophiePrimes( ):
     return dumpTable( loadSophiePrimes, 'sophie' )
@@ -735,18 +806,7 @@ def getNthBalancedPrimes( arg ):
     f = p % 10
 
     while n > startingPlace:
-        if f == 1:
-            p += 2
-            f = 3
-        elif f == 3:
-            p += 4
-            f = 7
-        elif f == 7:
-            p += 2
-            f = 9
-        else:
-            p += 2
-            f = 1
+        p, f = getNextPrimeCandidate( p, f )
 
         if isPrime( p ):
             if ( prevPrime - secondPrevPrime ) == ( p - prevPrime ):
@@ -760,6 +820,113 @@ def getNthBalancedPrimes( arg ):
         balancedPrimes[ int( arg ) ] = prevPrime
 
     return [ secondPrevPrime, prevPrime, p  ]
+
+
+#//******************************************************************************
+#//
+#//  getNthDoubleBalancedPrimes
+#//
+#//******************************************************************************
+
+def getNthDoubleBalancedPrimes( arg ):
+    global doubleBalancedPrimes
+    global updateDicts
+
+    n = int( arg )
+
+    if n == 1:
+        return [ 18713, 18719, 18731, 18743, 18749 ]
+
+    if doubleBalancedPrimes == { }:
+        doubleBalancedPrimes = loadDoubleBalancedPrimes( )
+
+    maxIndex = max( key for key in doubleBalancedPrimes )
+
+    if n > maxIndex and not updateDicts:
+        sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                format( n, maxIndex ) )
+
+    startingPlace = max( key for key in doubleBalancedPrimes if key <= n )
+    primes = [ ]
+
+    for p in doubleBalancedPrimes[ startingPlace ]:
+        primes.append( p )
+
+    p = primes[ -1 ]
+    f = p % 10
+
+    while n > startingPlace:
+        p, f = getNextPrimeCandidate( p, f )
+
+        if isPrime( p ):
+            primes.append( p )
+            del primes[ 0 ]
+
+            if ( ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 3 ] - primes[ 2 ] ) and
+                 ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 4 ] - primes[ 3 ] ) ):
+                startingPlace += 1
+
+    if updateDicts:
+        doubleBalancedPrimes[ n ] = [ ]
+
+        for p in primes:
+            doubleBalancedPrimes[ n ].append( p )
+
+    return primes
+
+
+#//******************************************************************************
+#//
+#//  getNthTripleBalancedPrimes
+#//
+#//******************************************************************************
+
+def getNthTripleBalancedPrimes( arg ):
+    global tripleBalancedPrimes
+    global updateDicts
+
+    n = int( arg )
+
+    if n == 1:
+        return [ 683747, 683759, 683777, 683783, 683789, 683807, 683819 ]
+
+    if tripleBalancedPrimes == { }:
+        tripleBalancedPrimes = loadTripleBalancedPrimes( )
+
+    maxIndex = max( key for key in tripleBalancedPrimes )
+
+    if n > maxIndex and not updateDicts:
+        sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                format( n, maxIndex ) )
+
+    startingPlace = max( key for key in tripleBalancedPrimes if key <= n )
+    primes = [ ]
+
+    for p in tripleBalancedPrimes[ startingPlace ]:
+        primes.append( p )
+
+    p = primes[ -1 ]
+    f = p % 10
+
+    while n > startingPlace:
+        p, f = getNextPrimeCandidate( p, f )
+
+        if isPrime( p ):
+            primes.append( p )
+            del primes[ 0 ]
+
+            if ( ( primes[ 3 ] - primes[ 2 ] ) == ( primes[ 4 ] - primes[ 3 ] ) and
+                 ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 5 ] - primes[ 4 ] ) and
+                 ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 6 ] - primes[ 5 ] ) ):
+                startingPlace += 1
+
+    if updateDicts:
+        tripleBalancedPrimes[ n ] = [ ]
+
+        for p in primes:
+            tripleBalancedPrimes[ n ].append( p )
+
+    return primes
 
 
 #//******************************************************************************
@@ -1780,6 +1947,29 @@ def getNthSylvester( n ):
 
 #//******************************************************************************
 #//
+#//  getNthBellNumber
+#//
+#//******************************************************************************
+
+def getNthBellNumber( n ):
+    a = [ 0 for i in arange( 0, n ) ]
+
+    a[ 0 ] = 1
+    R = [ 1, 1 ]
+
+    for i in range( 1, int( n ) ):
+        a[ i ] = a[ 0 ]
+
+        for k in range( i, 0, -1 ):
+            a[ k - 1 ] += a[ k ]
+
+        R.append( a[ 0 ] )
+
+    return R[ int( n - 1 ) ]
+
+
+#//******************************************************************************
+#//
 #//  getNthTriangularNumber
 #//
 #//******************************************************************************
@@ -2671,6 +2861,14 @@ def dumpStats( ):
     print( '{:10,} balanced primes,        max: {:,}'.format( len( balancedPrimes ),
                                                          max( [ key for key in balancedPrimes ] ) ) )
 
+    doubleBalancedPrimes = loadDoubleBalancedPrimes( )
+    print( '{:10,} double balanced primes, max: {:,}'.format( len( doubleBalancedPrimes ),
+                                                         max( [ key for key in doubleBalancedPrimes ] ) ) )
+
+    tripleBalancedPrimes = loadTripleBalancedPrimes( )
+    print( '{:10,} triple balanced primes, max: {:,}'.format( len( tripleBalancedPrimes ),
+                                                         max( [ key for key in tripleBalancedPrimes ] ) ) )
+
     sophiePrimes = loadSophiePrimes( )
     print( '{:10,} Sophie Germain primes,  max: {:,}'.format( len( sophiePrimes ),
                                                          max( [ key for key in sophiePrimes ] ) ) )
@@ -3005,6 +3203,7 @@ operators = {
     'atanh'         : [ atanh, 1 ],
     'bal'           : [ getNthBalancedPrimes, 1 ],
     'balanced'      : [ getNthBalancedPrimes, 1 ],
+    'bell'          : [ getNthBellNumber, 1 ],
     'bernoulli'     : [ bernoulli, 1 ],
     'binomial'      : [ binomial, 2 ],
     'catalan'       : [ lambda i: fdiv( binomial( fmul( 2, i ), i ), fadd( i, 1 ) ), 1 ],
@@ -3028,6 +3227,7 @@ operators = {
     'deg'           : [ radians, 1 ],
     'degrees'       : [ radians, 1 ],
     'delannoy'      : [ getNthDelannoyNumber, 1 ],
+    'doublebal'     : [ getNthDoubleBalancedPrimes, 1 ],
     'e'             : [ e, 0 ],
     'egypt'         : [ getGreedyEgyptianFraction, 2 ],
     'euler'         : [ euler, 0 ],
@@ -3079,13 +3279,14 @@ operators = {
     'narayana'      : [ lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2 ],
     'neg'           : [ fneg, 1 ],
     'non'           : [ lambda n: fdiv( polyval( [ 7, -5, 0 ], n ), 2 ), 1 ],
-    'npr'           : [ getPermutations, 2 ],
     'nPr'           : [ getPermutations, 2 ],
+    'npr'           : [ getPermutations, 2 ],
     'oct'           : [ lambda n: polyval( [ 3, -2, 0 ], n ), 1 ],
+    'octahedral'    : [ getNthOctahedralNumber, 1 ],
     'octhept'       : [ getNthOctagonalHeptagonalNumber, 1 ],
     'octhex'        : [ getNthOctagonalHexagonalNumber, 1 ],
-    'octahedral'    : [ getNthOctahedralNumber, 1 ],
     'octpent'       : [ getNthOctagonalPentagonalNumber, 1 ],
+    'oeis'          : [ getOEISSequence, 1 ],
     'omega'         : [ lambda: lambertw( 1 ), 0 ],
     'or'            : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
     'pent'          : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1 ],
@@ -3148,6 +3349,7 @@ operators = {
     'tetra'         : [ getNthTetrahedralNumber, 1 ],
     'tri'           : [ getNthTriangularNumber, 1 ],
     'tri?'          : [ getAntiTriangularNumber, 1 ],
+    'triplebal'     : [ getNthTripleBalancedPrimes, 1 ],
     'triplet'       : [ getNthTripletPrimes, 1 ],
     'tripletprime'  : [ getNthTripletPrimes, 1 ],
     'truncoct'      : [ getNthTruncatedOctahedralNumber, 1 ],
@@ -3159,8 +3361,9 @@ operators = {
     'zeta'          : [ zeta, 1 ],
     '^'             : [ power, 2 ],
     '_dumpbal'      : [ dumpBalancedPrimes, 0 ],
-    '_dumpiso'      : [ dumpIsolatedPrimes, 0 ],
     '_dumpcousin'   : [ dumpCousinPrimes, 0 ],
+    '_dumpdouble'   : [ dumpDoubleBalancedPrimes, 0 ],
+    '_dumpiso'      : [ dumpIsolatedPrimes, 0 ],
     '_dumpprimes'   : [ dumpLargePrimes, 0 ],
     '_dumpquad'     : [ dumpQuadrupletPrimes, 0 ],
     '_dumpquint'    : [ dumpQuintupletPrimes, 0 ],
@@ -3168,11 +3371,27 @@ operators = {
     '_dumpsexy'     : [ dumpSexyPrimes, 0 ],
     '_dumpsmall'    : [ dumpSmallPrimes, 0 ],
     '_dumpsophie'   : [ dumpSophiePrimes, 0 ],
+    '_dumptriple'   : [ dumpTripleBalancedPrimes, 0 ],
     '_dumptriplet'  : [ dumpTripletPrimes, 0 ],
     '_dumptwin'     : [ dumpTwinPrimes, 0 ],
+    '_importbal'    : [ importBalancedPrimes, 1 ],
+    '_importcousin' : [ importCousinPrimes, 1 ],
+    '_importdouble' : [ importDoubleBalancedPrimes, 1 ],
+    '_importiso'    : [ importIsolatedPrimes, 1 ],
+    '_importprimes' : [ importLargePrimes, 1 ],
+    '_importquad'   : [ importQuadrupletPrimes, 1 ],
+    '_importquint'  : [ importQuintupletPrimes, 1 ],
+    '_importsext'   : [ importSextupletPrimes, 1 ],
+    '_importsexy'   : [ importSexyPrimes, 1 ],
+    '_importsexy3'  : [ importSexyTriplets, 1 ],
+    '_importsexy4'  : [ importSexyQuadruplets, 1 ],
+    '_importsmall'  : [ importSmallPrimes, 1 ],
+    '_importsophie' : [ importSophiePrimes, 1 ],
+    '_importtriple' : [ importTripleBalancedPrimes, 1 ],
     '_listops'      : [ listOperators, 0 ],
     '_makebal'      : [ makeBalancedPrimes, 3 ],
     '_makecousin'   : [ makeCousinPrimes, 3 ],
+    '_makedouble'   : [ makeDoubleBalancedPrimes, 3 ],
     '_makeiso'      : [ makeIsolatedPrimes, 3 ],
     '_makeprimes'   : [ makeLargePrimes, 3 ],
     '_makequad'     : [ makeQuadrupletPrimes, 3 ],
@@ -3184,20 +3403,9 @@ operators = {
     '_makesmall'    : [ makeSmallPrimes, 3 ],
     '_makesophie'   : [ makeSophiePrimes, 3 ],
     '_makesuper'    : [ makeSuperPrimes, 2 ],
+    '_maketriple'   : [ makeTripleBalancedPrimes, 3 ],
     '_maketriplet'  : [ makeTripletPrimes, 3 ],
     '_maketwin'     : [ makeTwinPrimes, 3 ],
-    '_importbal'    : [ importBalancedPrimes, 1 ],
-    '_importcousin' : [ importCousinPrimes, 1 ],
-    '_importiso'    : [ importIsolatedPrimes, 1 ],
-    '_importprimes' : [ importLargePrimes, 1 ],
-    '_importquad'   : [ importQuadrupletPrimes, 1 ],
-    '_importquint'  : [ importQuintupletPrimes, 1 ],
-    '_importsext'   : [ importSextupletPrimes, 1 ],
-    '_importsexy'   : [ importSexyPrimes, 1 ],
-    '_importsexy3'  : [ importSexyTriplets, 1 ],
-    '_importsexy4'  : [ importSexyQuadruplets, 1 ],
-    '_importsmall'  : [ importSmallPrimes, 1 ],
-    '_importsophie' : [ importSophiePrimes, 1 ],
     '_importtriplet': [ importTripletPrimes, 1 ],
     '_importtwin'   : [ importTwinPrimes, 1 ],
     '_stats'        : [ dumpStats, 0 ],
@@ -3748,6 +3956,7 @@ def main( ):
 
     global balancedPrimes
     global cousinPrimes
+    global doubleBalancedPrimes
     global isolatedPrimes
     global largePrimes
     global quadPrimes
@@ -3759,6 +3968,7 @@ def main( ):
     global smallPrimes
     global sophiePrimes
     global superPrimes
+    global tripleBalancedPrimes
     global tripletPrimes
     global twinPrimes
 
@@ -3767,6 +3977,7 @@ def main( ):
 
     balancedPrimes = { }
     cousinPrimes = { }
+    doubleBalancedPrimes = { }
     isolatedPrimes = { }
     largePrimes = { }
     quadPrimes = { }
@@ -3778,6 +3989,7 @@ def main( ):
     smallPrimes = { }
     sophiePrimes = { }
     superPrimes = { }
+    tripleBalancedPrimes = { }
     tripletPrimes = { }
     twinPrimes = { }
 
@@ -4007,9 +4219,9 @@ def main( ):
             except ValueError as error:
                 print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
-            except TypeError as error:
-                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
-                break
+            #except TypeError as error:
+            #    print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+            #    break
         elif term in list_operators:
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < 1:
