@@ -32,6 +32,8 @@ unitOperators = {
     'acre'              : 'area',
     'barn'              : 'area',
     'shed'              : 'area',
+    'square_meter'      : 'area',
+    'square_yard'       : 'area',
 
     'foot'              : 'length',
     'inch'              : 'length',
@@ -94,26 +96,26 @@ metric_units = [
 
 
 metric_prefixes = [
-#    ( 'yotta',  'Y',  '24' ),
-#    ( 'zetta',  'Z',  '21' ),
-#    ( 'exa',    'E',  '18' ),
-#    ( 'peta',   'P',  '15' ),
-#    ( 'tera',   'T',  '12' ),
-#    ( 'giga',   'G',  '9' ),
-#    ( 'mega',   'M',  '6' ),
-#    ( 'kilo',   'k',  '3' ),
-#    ( 'hecto',  'h',  '2' ),
-#    ( 'deca',   'da', '1' ),
-#    ( 'deci',   'd',  '-1' ),
-#    ( 'centi',  'c',  '-2' ),
-#    ( 'milli',  'm',  '-3' ),
-#    ( 'micro',  'mc', '-6' ),
-#    ( 'nano',   'n',  '-9' ),
-#    ( 'pico',   'p',  '-12' ),
-#    ( 'femto',  'f',  '-15' ),
-#    ( 'atto',   'a',  '-18' ),
-#    ( 'zepto',  'z',  '-21' ),
-#    ( 'yocto',  'y',  '-24' ),
+    ( 'yotta',  'Y',  '24' ),
+    ( 'zetta',  'Z',  '21' ),
+    ( 'exa',    'E',  '18' ),
+    ( 'peta',   'P',  '15' ),
+    ( 'tera',   'T',  '12' ),
+    ( 'giga',   'G',  '9' ),
+    ( 'mega',   'M',  '6' ),
+    ( 'kilo',   'k',  '3' ),
+    ( 'hecto',  'h',  '2' ),
+    ( 'deca',   'da', '1' ),
+    ( 'deci',   'd',  '-1' ),
+    ( 'centi',  'c',  '-2' ),
+    ( 'milli',  'm',  '-3' ),
+    ( 'micro',  'mc', '-6' ),
+    ( 'nano',   'n',  '-9' ),
+    ( 'pico',   'p',  '-12' ),
+    ( 'femto',  'f',  '-15' ),
+    ( 'atto',   'a',  '-18' ),
+    ( 'zepto',  'z',  '-21' ),
+    ( 'yocto',  'y',  '-24' ),
 ]
 
 
@@ -173,7 +175,7 @@ unitConversionMatrix = {
 #//******************************************************************************
 
 def makeMetricUnit( prefix, unit ):
-    if unit[ 0 ] == 'a' and ( prefix[ -1 ] == 'a' or prefix[ -1 ] == 'o' ):
+    if unit[ 0 ] == 'a' and ( ( prefix[ -1 ] in 'a' ) or ( prefix[ -3 : ] == 'cto' ) ):
         return prefix[ : -1 ] + unit
     else:
         return prefix + unit
@@ -186,14 +188,9 @@ def makeMetricUnit( prefix, unit ):
 #//******************************************************************************
 
 def initializeConversionMatrix( unitConversionMatrix ):
-    #global unitOperators
-    #
-    #for unit in metric_units:
-    #    for prefix in metric_prefixes:
-    #        newName = makeMetricUnit( prefix[ 0 ], unit[ 0 ] )
-    #        unitOperators[ newName ] = unitOperators[ unit[ 0 ] ]
-    #        unitConversionMatrix[ ( newName, unit[ 0 ] ) ] = str( power( 10, mpmathify( prefix[ 2 ] ) ) )
+    mp.dps = 30
 
+    # reverse each conversion
     newConversions = { }
 
     for op1, op2 in unitConversionMatrix:
@@ -202,6 +199,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     unitConversionMatrix.update( newConversions )
 
+    # create area and volume units from all of the length units
     newOperators = { }
 
     for operator in unitOperators:
@@ -211,24 +209,18 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     unitOperators.update( newOperators )
 
-    #newConversions = { }
-    #
-    #for op1, op2 in unitConversionMatrix:
-    #    if unitOperators[ op1 ] == 'length':
-    #        conversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
-    #        newConversions[ ( 'square_' + op1, 'square_' + op2 ) ] = str( power( conversion, 2 ) )
-    #        newConversions[ ( 'cubic_' + op1, 'cubic_' + op2 ) ] = str( power( conversion, 3 ) )
-    #
-    #unitConversionMatrix.update( newConversions )
-
+    # add new conversions for the new area and volume units
     newConversions = { }
 
     for op1, op2 in unitConversionMatrix:
-        conversion = fdiv( 1, mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ) )
-        newConversions[ ( op2, op1 ) ] = str( conversion )
+        if unitOperators[ op1 ] == 'length':
+            conversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
+            newConversions[ ( 'square_' + op1, 'square_' + op2 ) ] = str( power( conversion, 2 ) )
+            newConversions[ ( 'cubic_' + op1, 'cubic_' + op2 ) ] = str( power( conversion, 3 ) )
 
     unitConversionMatrix.update( newConversions )
 
+    # extrapolate transitive conversions
     while True:
         newConversion = False
 
@@ -249,13 +241,34 @@ def initializeConversionMatrix( unitConversionMatrix ):
                         elif ( op2, op3 ) not in unitConversionMatrix and ( op1, op3 ) in unitConversionMatrix:
                             conversion = fdiv( mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ),
                                                mpmathify( unitConversionMatrix[ ( op1, op3 ) ] ) )
-                            unitConversionMatrix[ ( op2, op3 ) ] = str( conversion )
-                            unitConversionMatrix[ ( op3, op2 ) ] = str( fdiv( 1, conversion ) )
+                            unitConversionMatrix[ ( op2, op3 ) ] = str( fdiv( 1, conversion ) )
+                            unitConversionMatrix[ ( op3, op2 ) ] = str( conversion )
 
                             newConversion = True
 
         if not newConversion:
             break
+
+    # expand metric measurements for all prefixes
+    newConversions = { }
+
+    for unit in metric_units:
+        for prefix in metric_prefixes:
+            newName = makeMetricUnit( prefix[ 0 ], unit[ 0 ] )
+            unitOperators[ newName ] = unitOperators[ unit[ 0 ] ]
+            newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
+            unitConversionMatrix[ ( newName, unit[ 0 ] ) ] = str( newConversion )
+
+            for op1, op2 in unitConversionMatrix:
+                if ( op1 == unit[ 0 ] ) or ( op2 == unit[ 0 ] ):
+                    oldConversion = fdiv( 1, mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ) )
+
+                    if op1 == unit[ 0 ]:
+                        newConversions[ ( newName, op2 ) ] = str( fmul( oldConversion, newConversion  ) )
+                    elif op2 == unit[ 0 ]:
+                        newConversions[ ( op1, newName ) ] = str( fdiv( oldConversion, newConversion  ) )
+
+    unitConversionMatrix.update( newConversions )
 
     #for op1, op2 in unitConversionMatrix:
     #    print( op1, op2, unitConversionMatrix[ ( op1, op2 ) ] )

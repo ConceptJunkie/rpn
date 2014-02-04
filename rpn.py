@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.2.0'
+RPN_VERSION = '5.2.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -2723,9 +2723,24 @@ def findCenteredPolygonalNumber( n, k ):
 #//
 #//  http://oeis.org/A046194
 #//
-#//  a(n) = floor(1/80*(3-sqrt(5)*(-1)^n)*(2+sqrt(5))^(4n-2))
+#//  a(n) = 1/80*((3-sqrt(5)*(-1)^n)*(2+sqrt(5))^(4n-2)+
+#//               (3+sqrt(5)*(-1)^n)*(2-sqrt(5))^(4n-2)-14)
+#//
+#//  LinearRecurrence[ { 1, 103682, -103682, -1, 1 },
+#//                    { 1, 55, 121771, 5720653, 12625478965 }, n ]
 #//
 #//******************************************************************************
+
+def getNthHeptagonalTriangularNumber( n ):
+    #return floor( fdiv( fsum( [ fmul( fmul( fsub( 3, sqrt( 5 ) ), power( -1, n ) ) ),
+    #                                power( fadd( 2, sqrt( 5 ) ), fsub( fmul( 4, n ), 2 ) ) ),
+    #                            fmul( fmul( fadd( 3, sqrt( 5 ) ), power( -1, n ) ) ),
+    #                                  power( fsub( 2, sqrt( 5 ) ), fsub( fmul( 4, n ), 2 ) ) ),
+    #                            14 ] ),
+    #                    80 ) )
+
+    return getNthLinearRecurrence( [ 1, -1, -103682, 103682, 1 ],
+                                   [ 1, 55, 121771, 5720653, 12625478965 ], n )
 
 
 #//******************************************************************************
@@ -2734,7 +2749,8 @@ def findCenteredPolygonalNumber( n, k ):
 #//
 #//  http://oeis.org/A046195
 #//
-#//  LinearRecurrence[{1 , 0, 1442, -1442, 0, -1, 1}, {1, 6, 49, 961, 8214, 70225, 1385329}
+#//  LinearRecurrence[ { 1 , 0, 1442, -1442, 0, -1, 1 },
+#//                    { 1, 6, 49, 961, 8214, 70225, 1385329 }, n ]
 #//
 #//******************************************************************************
 
@@ -5729,14 +5745,20 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'heptpent'      : [ getNthHeptagonalPentagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth heptagonal pentagonal number',
+'''
+''',
+'''
+''' ],
     'heptsquare'    : [ getNthHeptagonalSquareNumber, 1,
 'polygonal_numbers', 'calculates the nth heptagonal square number',
 '''
 ''',
 '''
 ''' ],
-    'heptpent'      : [ getNthHeptagonalPentagonalNumber, 1,
-'polygonal_numbers', 'calculates the nth heptagonal pentagonal number',
+    'hepttri'       : [ getNthHeptagonalTriangularNumber, 1,
+'polygonal_numbers', 'calculates the nth heptagonal triangular number',
 '''
 ''',
 '''
