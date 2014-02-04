@@ -39,7 +39,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.0.1'
+RPN_VERSION = '5.1.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -3407,6 +3407,30 @@ def interpretAsBase( args, base ):
 
 #//******************************************************************************
 #//
+#//  unpackInteger
+#//
+#//******************************************************************************
+
+def unpackInteger( n, fields ):
+    if isinstance( n, list ):
+        return [ unpackInteger( i, fields ) for i in n ]
+
+    if not isinstance( fields, list ):
+        return unpackInteger( n, [ fields ] )
+
+    value = int( n )
+    result = [ ]
+
+    for i in reversed( fields ):
+        size = int( i )
+        result.insert( 0, value & ( 2 ** size - 1 ) )
+        value >>= size
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  getPlasticConstant
 #//
 #//******************************************************************************
@@ -3903,6 +3927,20 @@ def dumpOperators( ):
     print( )
 
     return [ int( i ) for i in RPN_VERSION.split( '.' ) ]
+
+
+#//******************************************************************************
+#//
+#//  convertToSignedInt
+#//
+#//******************************************************************************
+
+def convertToSignedInt( n, k ):
+    value = fadd( n, ( power( 2, fsub( k, 1 ) ) ) )
+    value = fmod( value, power( 2, k ) )
+    value = fsub( value, ( power( 2, fsub( k, 1 ) ) ) )
+
+    return value
 
 
 #//******************************************************************************
@@ -4623,7 +4661,6 @@ operatorAliases = {
     'cuberoot'    : 'root3',
     'dec'         : 'decagonal',
     'dec?'        : 'decagonal?',
-#    'decare'      : 'decaare',
     'deg'         : 'degrees',
     'divcount'    : 'countdiv',
     'fac'         : 'factorial',
@@ -4633,12 +4670,12 @@ operatorAliases = {
     'floz'        : 'fluid_ounce',
     'frac'        : 'fraction',
     'harm'        : 'harmonic',
-#    'hectare'     : 'hectoare',
     'hept'        : 'heptagonal',
     'hept?'       : 'heptagonal?',
     'hex'         : 'hexagonal',
     'hex?'        : 'hexagonal?',
     'hyper4'      : 'tetrate',
+    'int'         : 'integer',
     'inv'         : 'reciprocal',
     'isdiv'       : 'isdivisible',
     'issqr'       : 'issquare',
@@ -4700,6 +4737,7 @@ operatorAliases = {
     'twin'        : 'twinprime',
     'twin?'       : 'twinprime?',
     'twin_'       : 'twinprime_',
+    'uint'        : 'uinteger',
     'zeroes'      : 'zero',
     '^'           : 'power',
     '~'           : 'not',
@@ -4992,6 +5030,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     'unique'    : [ getUniqueElements, 1,
 'listOperators', 'replaces list n with a list of its unique elements',
+'''
+''',
+'''
+''' ],
+    'unpack'      : [ unpackInteger, 2,
+'number_theory', 'unpack an integer value into bit fields',
 '''
 ''',
 '''
@@ -5692,8 +5736,14 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'icosahedral'  : [ lambda n: polyval( [ 5/2, -5/2, 1, 0 ], n ), 1,
+    'icosahedral'   : [ lambda n: polyval( [ 5/2, -5/2, 1, 0 ], n ), 1,
 'polyhedral_numbers', 'returns the nth icosahedral number',
+'''
+''',
+'''
+''' ],
+    'integer'       : [ convertToSignedInt, 2,
+'conversion', 'convert the value to an signed ik-bit nteger',
 '''
 ''',
 '''
@@ -6508,6 +6558,12 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'twinprime_'    : [ getNthTwinPrimeList, 1,
 'prime_numbers', 'returns the nth set of twin primes',
+'''
+''',
+'''
+''' ],
+    'uinteger'      : [ lambda n, k: int( fmod( n, power( 2, k ) ) ), 2,
+'conversion', 'convert the value to an unsigned k-bit integer',
 '''
 ''',
 '''
