@@ -17,7 +17,7 @@ from fractions import Fraction
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.3.0"
+RPN_VERSION = "3.5.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -37,7 +37,7 @@ bitwiseGroupSize = 16
 #//
 #//  getContinuedFraction
 #//
-#//  Adapted from ActiveState Python, recipe 578647
+#//  adapted from ActiveState Python, recipe 578647
 #//
 #//******************************************************************************
 
@@ -48,7 +48,7 @@ class CFraction( list ):
 
     def __init__( self, value, maxterms=15, cutoff=1e-10 ):
         if isinstance( value, ( int, float, mpf ) ):
-            value = mpf( value )
+            value = mpmathify( value )
             remainder = floor( value )
             self.append( remainder )
 
@@ -185,7 +185,7 @@ def factorInteger( n ):
     if ( multiplication != exponents ):
         print( "    = " + getStringFromFactorsWithMultiplication( factors ) )
 
-    print
+    print( )
 
 
 #//******************************************************************************
@@ -207,16 +207,14 @@ def convertToPhiBase( num ):
     originalPlace = 0
 
     while remaining > epsilon:
-        #print( remaining )
         place = int( floor( log( remaining, phi ) ) )
-        #print( place )
 
         if start:
             output = '1'
             start = False
             originalPlace = place
         else:
-            if place < -originalPlace:
+            if place < -( originalPlace + 1 ):
                 break
 
             for i in range( previousPlace, place + 1, -1 ):
@@ -245,10 +243,39 @@ def convertToPhiBase( num ):
 #//
 #//  convertToFibBase
 #//
+#//  adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
+#//
 #//******************************************************************************
 
-def convertToFibBase( num ):
-    return '***fib-base***'
+def convertToFibBase( value ):
+    # Return string with Fibonacci encoding for n (n >= 1).
+    result = ""
+
+    n = value
+
+    if n >= 1:
+        a = 1
+        b = 1
+
+        c = fadd( a, b )    # next Fibonacci number
+        fibs = [ b ]        # list of Fibonacci numbers, starting with F(2), each <= n
+
+        while n >= c:
+            fibs.append( c )  # add next Fibonacci number to end of list
+            a = b
+            b = c
+            c = fadd( a, b )
+
+        result = ""
+
+        for fibnum in reversed( fibs ):
+            if n >= fibnum:
+                n = fsub( n, fibnum )
+                result = result + "1"
+            else:
+                result = result + "0"
+
+    return result
 
 
 #//******************************************************************************
@@ -307,7 +334,7 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
 #//
 #//******************************************************************************
 
-def convertFractionToBaseN( value, base, precision, baseAsDigits ):
+def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
     """
     Convert any fraction to base/radix 2-36 and returns the resulting mantissa as a string.
 
@@ -340,6 +367,13 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits ):
         value = value * base
         digit = int( value )
 
+        if len( result ) == accuracy:
+            value -= digit
+            newDigit = int( value ) % base
+
+            if newDigit >= base // 2:
+                digit += 1
+
         if baseAsDigits:
             if result != '':
                 result += ' '
@@ -347,6 +381,9 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits ):
             result += str( digit % base )
         else:
             result += numerals[ digit % base ]
+
+        if len( result ) == accuracy:
+            break
 
         value -= digit
         precision -= 1
@@ -361,8 +398,8 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits ):
 #//******************************************************************************
 
 def convertToBase10( integer, mantissa, inputRadix ):
-    result = mpf( 0 )
-    base = mpf( 1 )
+    result = mpmathify( 0 )
+    base = mpmathify( 1 )
 
     validNumerals = numerals[ : inputRadix ]
 
@@ -375,7 +412,7 @@ def convertToBase10( integer, mantissa, inputRadix ):
         result += digit * base
         base *= inputRadix
 
-    base = mpf( 1 ) / inputRadix
+    base = fdiv( 1, inputRadix )
 
     for i in range( 0, len( mantissa ) ):
         digit = validNumerals.find( mantissa[ i ] )
@@ -402,11 +439,11 @@ def getInvertedBits( valueList ):
     # determine how many groups of bits we will be looking at
     groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), bitwiseGroupSize ) ), 1 ) )
 
-    placeValue = mpf( 1 << bitwiseGroupSize )
-    multiplier = mpf( 1 )
+    placeValue = mpmathify( 1 << bitwiseGroupSize )
+    multiplier = mpmathify( 1 )
     remaining = value
 
-    result = mpf( 0 )
+    result = mpmathify( 0 )
 
     for i in range( 0, groupings ):
         result = fadd( fmul( fsum( [ placeValue, fneg( fmod( remaining, placeValue ) ), -1 ] ), multiplier ), result )
@@ -440,12 +477,12 @@ def performBitwiseOperation( valueList, operation ):
     if groupings2 > groupings:
         groupings = groupings2
 
-    placeValue = mpf( 1 << bitwiseGroupSize )
-    multiplier = mpf( 1 )
+    placeValue = mpmathify( 1 << bitwiseGroupSize )
+    multiplier = mpmathify( 1 )
     remaining1 = value1
     remaining2 = value2
 
-    result = mpf( 0 )
+    result = mpmathify( 0 )
 
     for i in range( 0, groupings ):
         mod1 = fmod( remaining1, placeValue )
@@ -680,7 +717,7 @@ def getNthPentagonalNumber( valueList ):
 
 def getAntiPentagonalNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( fdiv( fadd( power( ( fadd( fmul( 24 , n ), 1 ) ), 0.5 ), 1 ), 6 ) )
+    valueList.append( fdiv( fadd( sqrt( fadd( fmul( 24 , n ), 1 ) ), 1 ), 6 ) )
 
 
 #//******************************************************************************
@@ -811,6 +848,30 @@ def interpretAsContinuedFraction( valueList ):
 
 #//******************************************************************************
 #//
+#//  interpretAsBase
+#//
+#//******************************************************************************
+
+def interpretAsBase( valueList ):
+    base = valueList.pop( )
+
+    list = [ ]
+
+    while valueList:
+        list.append( valueList.pop( ) )
+
+    value = mpmathify( 0 )
+    multiplier = mpmathify( 1 )
+
+    for i in list:
+        value = fadd( value, fmul( i, multiplier ) )
+        multiplier = fmul( multiplier, base )
+
+    valueList.append( value )
+
+
+#//******************************************************************************
+#//
 #//  duplicateTerm
 #//
 #//******************************************************************************
@@ -821,6 +882,210 @@ def duplicateTerm( valueList ):
 
     for i in range( 0, count ):
         valueList.append( value )
+
+
+#//******************************************************************************
+#//
+#//  getPlasticConstant
+#//
+#//******************************************************************************
+
+def getPlasticConstant( valueList ):
+    term = fmul( 12, sqrt( 69 ) )
+    valueList.append( fdiv( fadd( cbrt( fadd( 108, term ) ), cbrt( fsub( 108, term ) ) ), 6 ) )
+
+
+#//******************************************************************************
+#//
+#//  solveQuadraticPolynomial
+#//
+#//******************************************************************************
+
+def solveQuadraticPolynomial( a, b, c ):
+    d = sqrt( fsub( power( b, 2 ), fmul( 4, fmul( a, c ) ) ) )
+
+    x1 = fdiv( fadd( fneg( b ), d ), fmul( 2, a ) )
+    x2 = fdiv( fsub( fneg( b ), d ), fmul( 2, a ) )
+
+    return x1, x2
+
+
+#//******************************************************************************
+#//
+#//  solveOrder2
+#//
+#//******************************************************************************
+
+def solveOrder2( valueList ):
+    c = valueList.pop( )
+    b = valueList.pop( )
+    a = valueList.pop( )
+
+    x1, x2 = solveQuadraticPolynomial( a, b, c )
+
+    valueList.append( [ x1, x2 ] )
+
+
+#//******************************************************************************
+#//
+#//  solveCubicPolynomial
+#//
+#//  http://www.1728.org/cubic2.htm
+#//
+#//******************************************************************************
+
+def solveCubicPolynomial( a, b, c, d ):
+    f = fdiv( fsub( fdiv( fmul( 3, c ), a ), fdiv( power( b, 2 ), power( a, 2 ) ) ), 3 )
+
+    g = fdiv( fadd( fsub( fdiv( fmul( 2, power( b, 3 ) ), power( a, 3 ) ),
+                          fdiv( fprod( [ 9, b, c ] ), power( a, 2 ) ) ),
+                    fdiv( fmul( 27, d ), a ) ), 27 )
+    h = fadd( fdiv( power( g, 2 ), 4 ), fdiv( power( f, 3 ), 27 ) )
+
+    if h == 0:
+        x1 = fneg( root( fdiv( d, a ), 3 ) )
+        x2 = x1
+        x3 = x2
+    elif h > 0:
+        r = fadd( fneg( fdiv( g, 2 ) ), sqrt( h ) )
+
+        if r < 0:
+            s = fneg( root( fneg( r ), 3 ) )
+        else:
+            s = root( r, 3 )
+
+        t = fsub( fneg( fdiv( g, 2 ) ), sqrt( h ) )
+
+        if t < 0:
+            u = fneg( root( fneg( t ), 3 ) )
+        else:
+            u = root( t, 3 )
+
+        x1 = fsub( fadd( s, u ), fdiv( b, fmul( 3, a ) ) )
+
+        real = fsub( fdiv( fneg( fadd( s, u ) ), 2 ), fdiv( b, fmul( 3, a ) ) )
+        imaginary = fdiv( fmul( fsub( s, u ), sqrt( 3 ) ), 2 )
+
+        x2 = mpc( real, imaginary )
+        x3 = mpc( real, fneg( imaginary ) )
+    else:
+        j = sqrt( fsub( fdiv( power( g, 2 ), 4 ), h ) )
+        k = acos( fneg( fdiv( g, fmul( 2, j ) ) ) )
+
+        if j < 0:
+            l = fneg( root( fneg( j ), 3 ) )
+        else:
+            l = root( j, 3 )
+
+        m = cos( fdiv( k, 3 ) )
+        n = fmul( sqrt( 3 ), sin( fdiv( k, 3 ) ) )
+        p = fneg( fdiv( b, fmul( 3, a ) ) )
+
+        x1 = fsub( fmul( fmul( 2, l ), cos( fdiv( k, 3 ) ) ), fdiv( b, fmul( 3, a ) ) )
+        x2 = fadd( fmul( fneg( l ), fadd( m, n ) ), p )
+        x3 = fadd( fmul( fneg( l ), fsub( m, n ) ), p )
+
+    return chop( x1 ), chop( x2 ), chop( x3 )
+
+
+#//******************************************************************************
+#//
+#//  solveOrder3
+#//
+#//******************************************************************************
+
+def solveOrder3( valueList ):
+    if mp.dps < 30:
+        mp.dps = 30
+
+    d = valueList.pop( )
+    c = valueList.pop( )
+    b = valueList.pop( )
+    a = valueList.pop( )
+
+    x1, x2, x3 = solveCubicPolynomial( a, b, c, d )
+
+    valueList.append( [ x1, x2, x3 ] )
+
+
+#//******************************************************************************
+#//
+#//  solveQuarticPolynomial
+#//
+#//  http://www.1728.org/quartic2.htm
+#//
+#//******************************************************************************
+
+def solveQuarticPolynomial( a, b, c, d, e ):
+    f = fsub( c, fdiv( fmul( 3, power( b, 2 ) ), 8 ) )
+    g = fsub( fadd( d, fdiv( power( b, 3 ), 8 ) ), fdiv( fmul( b, c ), 2 ) )
+    h = fadd( fsub( e, fdiv( fmul( 3, power( b, 4 ) ), 256 ) ),
+              fsub( fmul( power( b, 2 ), fdiv( c, 16 ) ), fdiv( fmul( b, d ), 4 ) ) )
+
+    y1, y2, y3 = solveCubicPolynomial( 1, fdiv( f, 2 ), fdiv( fsub( power( f, 2 ), fmul( 4, h ) ), 16 ),
+                                       fneg( fdiv( power( g, 2 ), 64 ) ) )
+
+    # pick two non-zero roots, if there are two imaginary roots, use them
+    if im( y1 ) != 0:
+        root1 = y1
+
+        if y2 == 0 or im( y2 ) == 0:
+            root2 = y3
+        else:
+            root2 = y2
+    elif y1 == 0:
+        root1 = y2
+        root2 = y3
+    elif y2 == 0:
+        root1 = y1
+        root2 = y3
+    else:
+        root1 = y2
+        root2 = y3
+
+    # more variables...
+    if re( root1 ) > 0:
+        p = sqrt( root1 )
+    else:
+        p = fneg( sqrt( fneg( root1 ) ) )
+
+    if re( root2 ) > 0:
+        q = sqrt( root2 )
+    else:
+        q = fneg( sqrt( fneg( root2 ) ) )
+
+    r = fdiv( fneg( g ), fprod( [ 8, p, q ] ) )
+    s = fneg( fdiv( b, fmul( 4, a ) ) )
+
+    x1 = fsum( [ p, q, r, s ] )
+    x2 = fsum( [ p, fneg( q ), fneg( r ), s ] )
+    x3 = fsum( [ fneg( p ), q, fneg( r ), s ] )
+    x4 = fsum( [ fneg( p ), fneg( q ), r, s ] )
+
+    return chop( x1 ), chop( x2 ), chop( x3 ), chop( x4 )
+
+
+#//******************************************************************************
+#//
+#//  solveOrder4
+#//
+#//******************************************************************************
+
+def solveOrder4( valueList ):
+    if mp.dps < 30:
+        mp.dps = 30
+
+    e = valueList.pop( )
+    d = valueList.pop( )
+    c = valueList.pop( )
+    b = valueList.pop( )
+    a = valueList.pop( )
+
+    x1, x2, x3, x4 = solveQuarticPolynomial( mpmathify( 1 ), fdiv( b, a ), fdiv( c, a ),
+                                             fdiv( d, a ), fdiv( e, a ) )
+
+    valueList.append( [ x1, x2, x3, x4 ] )
+
 
 
 #//******************************************************************************
@@ -862,6 +1127,7 @@ expressions = {
     'asinh'     : [ lambda v: v.append( asinh( v.pop( ) ) ), 1 ],
     'atan'      : [ lambda v: v.append( atan( v.pop( ) ) ), 1 ],
     'atanh'     : [ lambda v: v.append( atanh( v.pop( ) ) ), 1 ],
+    'base'      : [ interpretAsBase, 2 ],                           # this one eats the whole value stack
     'catalan'   : [ lambda v: v.append( catalan ), 0 ],
     'cbrt'      : [ lambda v: v.append( cbrt( v.pop( ) ) ), 1 ],
     'ceil'      : [ lambda v: v.append( ceil( v.pop( ) ) ), 1 ],
@@ -896,6 +1162,7 @@ expressions = {
     'itoi'      : [ lambda v: v.append( exp( fmul( -0.5, pi ) ) ), 0 ],
     'khinchin'  : [ lambda v: v.append( khinchin ), 0 ],
     'lgamma'    : [ lambda v: v.append( loggamma( v.pop( ) ) ), 1 ],
+    'ln'        : [ lambda v: v.append( ln( v.pop( ) ) ), 1 ],
     'log'       : [ lambda v: v.append( ln( v.pop( ) ) ), 1 ],
     'log10'     : [ lambda v: v.append( log10( v.pop( ) ) ), 1 ],
     'logxy'     : [ getLogXY, 2 ],
@@ -916,6 +1183,7 @@ expressions = {
     'pent'      : [ getNthPentagonalNumber, 1 ],
     'phi'       : [ lambda v: v.append( phi ), 0 ],
     'pi'        : [ lambda v: v.append( pi ), 0 ],
+    'plastic'   : [ getPlasticConstant, 0 ],
     'rad'       : [ lambda v: v.append( degrees( v.pop( ) ) ), 1 ],
     'radians'   : [ lambda v: v.append( degrees( v.pop( ) ) ), 1 ],
     'rand'      : [ lambda v: v.append( rand( ) ), 0 ],
@@ -927,6 +1195,9 @@ expressions = {
     'sech'      : [ lambda v: v.append( sech( v.pop( ) ) ), 1 ],
     'sin'       : [ lambda v: v.append( sin( v.pop( ) ) ), 1 ],
     'sinh'      : [ lambda v: v.append( sinh( v.pop( ) ) ), 1 ],
+    'solve2'    : [ solveOrder2, 3 ],
+    'solve3'    : [ solveOrder3, 4 ],
+    'solve4'    : [ solveOrder4, 5 ],
     'sqr'       : [ lambda v: v.append( power( v.pop( ), 2 ) ), 1 ],
     'sqrt'      : [ lambda v: v.append( sqrt( v.pop( ) ) ), 1 ],
     'sqtri'     : [ getNthSquareTriangularNumber, 1 ],
@@ -958,7 +1229,7 @@ expressions = {
 
 def parseInputValue( term, inputRadix ):
     if term == '0':
-        return mpf( 0 )
+        return mpmathify( 0 )
 
     if term[ 0 ] == '\\':
         term = term[ 1 : ]
@@ -973,7 +1244,7 @@ def parseInputValue( term, inputRadix ):
             if mp.dps < newPrecision:
                 mp.dps = newPrecision
 
-            return mpf( term )
+            return mpmathify( term )
 
         decimal = term.find( '.' )
     else:
@@ -1002,7 +1273,7 @@ def parseInputValue( term, inputRadix ):
                 if mp.dps < newPrecision:
                     mp.dps = newPrecision
 
-                return mpf( int( integer[ 2 : ], 16 ) )
+                return mpmathify( int( integer[ 2 : ], 16 ) )
             elif integer[ -1 ] in 'bB':
                 # set the precision big enough to handle this value
                 newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
@@ -1011,22 +1282,45 @@ def parseInputValue( term, inputRadix ):
                     mp.dps = newPrecision
 
                 integer = integer[ : -1 ]
-                return mpf( int( integer, 2 ) * ( -1 if negative else 1 ) )
+                return mpmathify( int( integer, 2 ) * ( -1 if negative else 1 ) )
             else:
                 integer = integer[ 1 : ]
 
-                return mpf( int( integer, 8 ) )
+                return mpmathify( int( integer, 8 ) )
         elif inputRadix == 10:
             newPrecision = len( integer ) + 1
 
             if mp.dps < newPrecision:
                 mp.dps = newPrecision
 
-            return fneg( integer ) if negative else mpf( integer )
+            return fneg( integer ) if negative else mpmathify( integer )
 
     # finally, we have a non-radix 10 number to parse
     result = convertToBase10( integer, mantissa, inputRadix )
-    return fneg( result ) if negative else mpf( result )
+    return fneg( result ) if negative else mpmathify( result )
+
+
+#//******************************************************************************
+#//
+#//  roundMantissa
+#//
+#//******************************************************************************
+
+def roundMantissa( mantissa, accuracy ):
+    if len( mantissa ) <= accuracy:
+        return mantissa
+
+    last_digit = int( mantissa[ accuracy - 1 ] )
+    extra_digit = int( mantissa[ accuracy ] )
+
+    result = mantissa[ : accuracy - 1 ]
+
+    if extra_digit >= 5:
+        result += str( last_digit + 1 )
+    else:
+        result += str( last_digit )
+
+    return result
 
 
 #//******************************************************************************
@@ -1036,7 +1330,7 @@ def parseInputValue( term, inputRadix ):
 #//******************************************************************************
 
 def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
-                  decimalGrouping, decimalDelimiter, baseAsDigits ):
+                  decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
     strOutput = str( output )
 
     if '.' in strOutput:
@@ -1055,19 +1349,28 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
     mantissa = strOutput[ decimal + 1 : ]
 
     if mantissa != '' and mantissa.find( 'e' ) == -1:
-        mantissa = mantissa.rstrip( '0' )
+        if outputAccuracy == -1:
+            mantissa = mantissa.rstrip( '0' )
 
     #print( "mantissa: %s" % mantissa )
+    #print( "output: %s" % output )
 
     if radix == phiBase:
-        integer, mantissa = convertToPhiBase( mpf( output ) )
+        integer, mantissa = convertToPhiBase( mpmathify( output ) )
+    elif radix == fibBase:
+        integer = convertToFibBase( floor( mpmathify( output ) ) )
     elif radix != 10 or numerals != defaultNumerals:
-        integer = str( convertToBaseN( mpf( integer ), radix, baseAsDigits, numerals ) )
+        integer = str( convertToBaseN( mpmathify( integer ), radix, baseAsDigits, numerals ) )
 
         if mantissa:
-            mantissa = str( convertFractionToBaseN( mpf( '.' + mantissa ), radix,
+            mantissa = str( convertFractionToBaseN( mpmathify( '0.' + mantissa ), radix,
                             int( ( mp.dps - integerLength ) / math.log10( radix ) ),
-                            baseAsDigits ) )
+                            baseAsDigits, outputAccuracy ) )
+    else:
+        if outputAccuracy == 0:
+            mantissa = ''
+        elif outputAccuracy > 0:
+            mantissa = roundMantissa( mantissa, outputAccuracy )
 
     if integerGrouping > 0:
         firstDelimiter = len( integer ) % integerGrouping
@@ -1114,29 +1417,25 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
 
 #//******************************************************************************
 #//
-#//  main
+#//  printMoreHelp
 #//
 #//******************************************************************************
 
-def main( ):
-    global numerals
-    global bitwiseGroupSize
-
-    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
-                                      PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
-                                      epilog=
+def printMoreHelp( ):
+    print(
 '''
 Arguments are interpreted as Reverse Polish Notation.
 
-Supported unary operators:
+Supported unary operators (synonyms are separated by commas):
     !, fac; %, mod, modulo; 1/x, inv (take reciprocal); abs;
     cbrt, root3 (cube root); ceil; cube; exp; exp10; expphi; floor; gamma;
-    hypot; hyperfac; lgamma; log; log10; neg; rand; round; sqr; sqrt, root2;
-    superfac
+    hypot; hyperfac; lgamma; log, ln; log10; neg; rand; round; sqr;
+    sqrt, root2; superfac
 
 Supported unary trigonometric operators:
-    deg, degrees (convert degrees to radians, e.g., "rpn 45 degrees tan")
-    rad, radians (convert radians to degrees, e.g., "rpn pi radians")
+    deg, degrees (treat term as degrees (i.e., convert to radians), e.g.,
+    "rpn 45 degrees tan"); rad, radians (treat term as radians (i.e., convert
+    to degrees), e.g., "rpn pi radians")
 
     sin; asin; sinh; asinh; cos; acos; cosh; acosh; tan; atan; tanh; atanh;
     sec; asec; sech; asech; csc; acsc; csch; acsch; cot; acot; coth; acoth
@@ -1152,10 +1451,13 @@ Supported integer sequence unary operators:
 
 Supported binary operators:
     +; -; *; /; **, ^ (power); *** (tetration); // (root); logxy;
-    nCr, ncr (combinations); nRp, nrp (permutations)
+    nCr, ncr (combinations); nRp, nrp (permutations), dup (duplicate previous
+    term a number of times, useful with cf)
 
 Supported multi operators (operate on all preceding operands):
-    sum; mult; mean
+    sum; mult; mean, cf (treat all preceding terms as part of a continued
+    fraction, and evalutate), base (sort of the reverse of -R, with the
+    base being the last argument)
 
 Supported constants:
     e; pi; phi (the Golden Ratio); itoi (i^i); euler (Euler's constant);
@@ -1165,6 +1467,11 @@ Supported constants:
 
 Supported bitwise operators:
     ~, not; and; or; xor
+
+Polynomial solvers:
+    solve2 (solve quadratic equation, 3 args)
+    solve3 (solve cubic equation, 4 args)
+    solve4 (solve quartic equation, 5 args)
 
 Input:
     For integers, rpn understands hexidecimal input of the form '0x....'.
@@ -1191,20 +1498,103 @@ Notes:
 
     Bitwise operators force all arguments to integers by truncation if
     necessary.
-''',
+''' )
+
+
+#//******************************************************************************
+#//
+#//  printEvenMoreHelp
+#//
+#//******************************************************************************
+
+def printEvenMoreHelp( ):
+    print(
+'''
+Examples of rpn usage follow.
+
+Basic arithmetic operations:
+
+    c:\>rpn 2 3 +
+    5
+
+    c:\>rpn 12 9 -
+    3
+
+    c:\>rpn 23 47 *
+    1081
+
+    c:\>rpn 10 7 /
+    1.42857142857
+
+Basic trigonometry usage:
+
+    c:\>rpn 60 deg sin         # sine of 60 degrees
+    0.866025403784
+
+    c:\>rpn 45 deg tan         # tangent of 45 degrees
+    1
+
+    c:\>rpn 2 pi * rad         # 2 pi radians is how many degrees?
+    360
+
+    c:\>rpn 2 atan rad         # What angle (in degrees) has a slope of 2?
+    63.4349488229
+
+Convert an IP address to a 32-bit value and back:
+
+    c:\>rpn 192 168 0 1 256 base -x
+    c0a8 0001
+
+    c:\>rpn 0xc0a80001 -R 256
+    192 168 0 1
+
+Construct the square root of two from a continued fraction:
+
+    c:\>rpn 2 sqrt
+    1.41421356237
+
+    c:\>rpn 2 sqrt -e20 -p20
+    1.4142135623730950488
+        = [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+        ~= 22619537/15994428
+
+    c:\>rpn 1 2 20 dup cf -p20
+    1.41421356237
+
+''' )
+
+
+#//******************************************************************************
+#//
+#//  main
+#//
+#//******************************************************************************
+
+def main( ):
+    global numerals
+    global bitwiseGroupSize
+
+    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
+                                      PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
                                       formatter_class=RawTextHelpFormatter )
 
-    parser.add_argument( 'terms', nargs='+', metavar='term' )
+    parser.add_argument( 'terms', nargs='*', metavar='term' )
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1, const=12,
+                         help="maximum number of decimal places to display, irrespective of internal precision" )
     parser.add_argument( '-b', '--input_radix', type=str, action='store', default=10,
                          help="specify the radix for input (default: 10)" )
     parser.add_argument( '-c', '--comma', action='store_true',
                          help="add commas to result, e.g., 1,234,567.0" )
     parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
                          help="display decimal places separated into groups (default: 0)" )
-    parser.add_argument( '-e', '--continued_fraction', type=int, action='store', default=0,
-                         help="express result as a continued fraction" )
+    parser.add_argument( '-e', '--continued_fraction', nargs='?', type=int, action='store', default=0, const=12,
+                         help="number of terms to represent as a continued fraction" )
     parser.add_argument( '-f', '--factor', action='store_true',
                          help="compute prime factors of result (truncated to an integer)" )
+    parser.add_argument( '-hh', '--more_help', action='store_true',
+                         help="display additional help information" )
+    parser.add_argument( '-hhh', '--even_more_help', action='store_true',
+                         help="display examples of various rpn functionality in use" )
     parser.add_argument( '-i', '--integer_grouping', type=int, action='store', default=0,
                          help="display integer separated into groups (default: 0)" )
     parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals,
@@ -1228,6 +1618,14 @@ Notes:
 
     args = parser.parse_args( )
     mp.dps = args.precision
+
+    if args.more_help:
+        printMoreHelp( )
+        return
+
+    if args.even_more_help:
+        printEvenMoreHelp( )
+        return
 
     # these are either globals or can be modified by other options (like -x)
     bitwiseGroupSize = args.bitwise_group_size
@@ -1275,12 +1673,7 @@ Notes:
         bitwiseGroupSize = 9
 
     # handle -b
-    if args.input_radix == 'phi':
-        intputRadix = phiBase
-    elif args.output_radix == 'fib':
-        inputRadix = fibBase
-    else:
-        inputRadix = int( args.input_radix )
+    inputRadix = int( args.input_radix )
 
     # handle -R
     if args.output_radix_numerals > 0:
@@ -1303,8 +1696,9 @@ Notes:
             print( "rpn:  output radix must be greater than 1" )
             return
     else:
-        if ( outputRadix != phiBase and outputRadix != fibBase and ( outputRadix < 2 or outputRadix > 62 ) ):
-            print( "rpn:  output radix must be from 2 to 62" )
+        if ( outputRadix != phiBase and outputRadix != fibBase and
+             ( outputRadix < 2 or outputRadix > 62 ) ):
+            print( "rpn:  output radix must be from 2 to 62, or phi" )
             return
 
     if args.comma and args.integer_grouping > 0 :
@@ -1318,15 +1712,17 @@ Notes:
     index = 1                 # only used for error messages
     valueList = list( )
 
+    if len( args.terms ) == 0:
+        print( "rpn:  no terms found" )
+        return
+
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
-        argType = expressions
-
         if term in expressions:
             argsNeeded = expressions[ term ][ 1 ]
 
             if len( valueList ) < argsNeeded:
-                print( "rpn: error in arg " + format( index ) + ": operator " + term + " requires " +
+                print( "rpn:  error in arg " + format( index ) + ": operator " + term + " requires " +
                        format( argsNeeded ) + " argument", end='' )
 
                 if argsNeeded > 1:
@@ -1341,7 +1737,7 @@ Notes:
                 print( "rpn:  keyboard interrupt" )
                 break
             except Exception as error:
-                print( "rpn: error in arg " + format( index ) + ": {0}".format( error ) )
+                print( "rpn:  error in arg " + format( index ) + ": {0}".format( error ) )
                 break
         else:
             try:
@@ -1353,7 +1749,7 @@ Notes:
         index = index + 1
     else:    # i.e., if the for loop completes
         if len( valueList ) > 1:
-            print( "rpn: unexpected end of input" )
+            print( "rpn:  unexpected end of input" )
         else:
             mp.pretty = True
             result = valueList.pop( )
@@ -1361,19 +1757,51 @@ Notes:
 
             if args.comma:
                 print( formatOutput( resultString, outputRadix, numerals, 3, ',', False,
-                                     args.decimal_grouping, ' ', baseAsDigits ) )
+                                     args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy ) )
             else:
                 print( formatOutput( resultString, outputRadix, numerals, integerGrouping, ' ', leadingZero,
-                                     args.decimal_grouping, ' ', baseAsDigits ) )
+                                     args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy ) )
 
             if args.factor:
-                factorInteger( int( floor( result ) ) )
+                try:
+                    factorInteger( int( floor( result ) ) )
+                except KeyboardInterrupt as error:
+                    print( "rpn:  keyboard interrupt" )
+                    return
 
             if args.continued_fraction:
-                cf = CFraction( mpf( result ), maxterms=args.continued_fraction )
+                try:
+                    cf = CFraction( mpmathify( result ), maxterms=args.continued_fraction )
+                except KeyboardInterrupt as error:
+                    print( "rpn:  keyboard interrupt" )
+                    return
+
+                # format the fraction output
+                fraction = str( cf.getFraction( ) )
+                solidus = fraction.find( '/' )
+
+                if solidus == -1:    # should never happen
+                    numerator = fraction
+                    denominator = ''
+                else:
+                    numerator = fraction[ : solidus ]
+                    denominator = fraction [ solidus + 1 : ]
+
+                if args.comma:
+                    numerator = formatOutput( numerator, outputRadix, numerals, 3, ',', False,
+                                              args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
+                    if denominator != '':
+                        denominator = formatOutput( denominator, outputRadix, numerals, 3, ',', False,
+                                                    args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
+                else:
+                    numerator = formatOutput( numerator, outputRadix, numerals, integerGrouping, ' ', leadingZero,
+                                              args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
+                    if denominator != '':
+                        denominator = formatOutput( denominator, outputRadix, numerals, integerGrouping, ' ', leadingZero,
+                                                    args.decimal_grouping, ' ', baseAsDigits, args.output_accuracy )
 
                 print( "    = " + str( cf ) )
-                print( "    ~= " + str( cf.getFraction( ) ) )
+                print( "    ~= " + numerator + ' / ' + denominator )
 
 
 #//******************************************************************************
