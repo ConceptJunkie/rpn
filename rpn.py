@@ -7,7 +7,7 @@
 #//  RPN command-line calculator
 #//  copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)
 #//
-#//  License: GNU GPL (see <http://www.gnu.org/licenses/gpl.html> for more
+#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #//  information).
 #//
 #//******************************************************************************
@@ -29,6 +29,8 @@ import sys
 import textwrap
 import time
 
+from rpnPrimeUtils import *
+
 from fractions import Fraction
 from functools import reduce
 from mpmath import *
@@ -41,7 +43,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.10.4'
+PROGRAM_VERSION = '5.10.5'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -66,6 +68,8 @@ inputRadix = 10
 updateDicts = False
 
 unitStack = [ ]
+
+unitConversionMatrix = None
 
 
 #//******************************************************************************
@@ -416,11 +420,11 @@ def simplifyUnits( units ):
 #//******************************************************************************
 
 class Measurement( mpf ):
-    def __new__( cls, value, units=None, unitName=None ):
+    def __new__( cls, value, units=None, unitName=None, pluralUnitName=None ):
         return mpf.__new__( cls, value )
 
 
-    def __init__( self, value, units=None, unitName=None ):
+    def __init__( self, value, units=None, unitName=None, pluralUnitName=None ):
         mpf.__init__( value )
 
         self.units = { }
@@ -437,6 +441,7 @@ class Measurement( mpf ):
                 raise ValueError( 'invalid units specifier' )
 
         self.unitName = unitName
+        self.pluralUnitName = pluralUnitName
 
 
     def __eq__( self, other ):
@@ -454,6 +459,7 @@ class Measurement( mpf ):
 
     def increment( self, value, amount=1 ):
         self.unitName = None
+        self.pluralUnitName = None
 
         if value not in self.units:
             self.units[ value ] = amount
@@ -463,6 +469,7 @@ class Measurement( mpf ):
 
     def decrement( self, value, amount=1 ):
         self.unitName = None
+        self.pluralUnitName = None
 
         if value not in self.units:
             self.units[ value ] = -amount
@@ -473,23 +480,27 @@ class Measurement( mpf ):
     def add( self, other ):
         if isinstance( other, Measurement ):
             if self.getUnits( ) == other.getUnits( ):
-                return Measurement( fadd( self, other ), self.getUnits( ), self.getUnitName( ) )
+                return Measurement( fadd( self, other ), self.getUnits( ),
+                                    self.getUnitName( ), self.getPluralUnitName( ) )
             else:
                 newOther = other.convertValue( self )
                 return add( self, newOther )
         else:
-            return Measurement( fadd( self, other ), self.getUnits( ), self.getUnitName( ) )
+            return Measurement( fadd( self, other ), self.getUnits( ),
+                                self.getUnitName( ), self.getPluralUnitName( ) )
 
 
     def subtract( self, other ):
         if isinstance( other, Measurement ):
             if self.getUnits( ) == other.getUnits( ):
-                return Measurement( fsub( self, other ), self.getUnits( ), self.getUnitName( ) )
+                return Measurement( fsub( self, other ), self.getUnits( ),
+                                    self.getUnitName( ), self.getPluralUnitName( ) )
             else:
                 newOther = other.convertValue( self )
                 return subtract( self, newOther )
         else:
-            return Measurement( fsub( self, other ), self.getUnits( ), self.getUnitName( ) )
+            return Measurement( fsub( self, other ), self.getUnits( ),
+                                self.getUnitName( ), self.getPluralUnitName( ) )
 
 
     def multiply( self, other ):
@@ -501,7 +512,8 @@ class Measurement( mpf ):
 
             self = Measurement( fmul( newValue, factor ), newUnits )
         else:
-            self = Measurement( newValue, self.getUnits( ), self.getUnitName( ) )
+            self = Measurement( newValue, self.getUnits( ),
+                                self.getUnitName( ), self.getPluralUnitName( ) )
 
         return self.normalizeUnits( )
 
@@ -515,7 +527,8 @@ class Measurement( mpf ):
 
             self = Measurement( fmul( newValue, factor ), newUnits )
         else:
-            self = Measurement( newValue, self.getUnits( ), self.getUnitName( ) )
+            self = Measurement( newValue, self.getUnits( ),
+                                self.getUnitName( ), self.getPluralUnitName( ) )
 
         return self.normalizeUnits( )
 
@@ -552,7 +565,7 @@ class Measurement( mpf ):
         if negative:
             return Measurement( value, newUnits ).invert( )
         else:
-            return Measurement( value, newUnits, self.getUnitName( ) )
+            return Measurement( value, newUnits, self.getUnitName( ), self.getPluralUnitName( ) )
 
 
     def update( self, units ):
@@ -560,6 +573,8 @@ class Measurement( mpf ):
             raise ValueError( 'dict expected' )
 
         self.unitName = None
+        self.pluralUnitName = None
+
         self.units.update( units )
 
 
@@ -593,6 +608,10 @@ class Measurement( mpf ):
         return self.unitName
 
 
+    def getPluralUnitName( self ):
+        return self.pluralUnitName
+
+
     def getTypes( self ):
         types = { }
 
@@ -624,6 +643,8 @@ class Measurement( mpf ):
 
 
     def convertValue( self, other ):
+        global unitConversionMatrix
+
         if self.isCompatible( other ):
             units1 = self.getUnits( )
             units2 = other.getUnits( )
@@ -634,6 +655,9 @@ class Measurement( mpf ):
             unit2String = makeUnitString( units2 )
 
             exponents = [ ]
+
+            if unitConversionMatrix is None:
+                loadUnitConversionMatrix( )
 
             # look for a straight-up conversion
             if ( unit1String, unit2String ) in unitConversionMatrix:
@@ -893,649 +917,6 @@ def downloadOEISText( id, char, addCR=False ):
         result += line.decode( 'ascii' )
 
     return result
-
-
-#//******************************************************************************
-#//
-#//  loadTable
-#//
-#//******************************************************************************
-
-def loadTable( fileName, default ):
-    global dataPath
-
-    try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'rb' ) ) as pickleFile:
-            primes = pickle.load( pickleFile )
-    except FileNotFoundError as error:
-        primes = default
-
-    return primes
-
-
-def loadSmallPrimes( ):
-    return loadTable( 'small_primes', { 4 : 7 } )
-
-def loadLargePrimes( ):
-    return loadTable( 'large_primes', { 1000000 : 15485863 } )
-
-def loadIsolatedPrimes( ):
-    return loadTable( 'isolated_primes', { 2 : 23 } )
-
-def loadTwinPrimes( ):
-    return loadTable( 'twin_primes', { 3 : 11 } )
-
-def loadBalancedPrimes( ):
-    return loadTable( 'balanced_primes', { 2 : 5 } )
-
-def loadDoubleBalancedPrimes( ):
-    return loadTable( 'double_balanced_primes', { 1 : getNthDoubleBalancedPrime( 1 ) } )
-
-def loadTripleBalancedPrimes( ):
-    return loadTable( 'triple_balanced_primes', { 1 : getNthTripleBalancedPrime( 1 ) } )
-
-def loadSophiePrimes( ):
-    return loadTable( 'sophie_primes', { 4 : 11 } )
-
-def loadCousinPrimes( ):
-    return loadTable( 'cousin_primes', { 2 : 7 } )
-
-def loadSexyPrimes( ):
-    return loadTable( 'sexy_primes', { 2 : 7 } )
-
-def loadSexyTripletPrimes( ):
-    return loadTable( 'sexy_triplets', { 2 : 7 } )
-
-def loadSexyQuadrupletPrimes( ):
-    return loadTable( 'sexy_quadruplets', { 2 : 11 } )
-
-def loadTripletPrimes( ):
-    return loadTable( 'triplet_primes', { 2 : 7 } )
-
-def loadQuadrupletPrimes( ):
-    return loadTable( 'quad_primes', { 2 : 11 } )
-
-def loadQuintupletPrimes( ):
-    return loadTable( 'quint_primes', { 3 : 11 } )
-
-def loadSextupletPrimes( ):
-    return loadTable( 'sext_primes', { 1 : 7 } )
-
-
-#//******************************************************************************
-#//
-#//  saveTable
-#//
-#//******************************************************************************
-
-def saveTable( fileName, var ):
-    global dataPath
-
-    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'wb' ) ) as pickleFile:
-        pickle.dump( var, pickleFile )
-
-
-def saveSmallPrimes( smallPrimes ):
-    saveTable( 'small_primes', smallPrimes )
-
-def saveLargePrimes( largePrimes ):
-    saveTable( 'large_primes', largePrimes )
-
-def saveIsolatedPrimes( isolatedPrimes ):
-    saveTable( 'isolated_primes', isolatedPrimes )
-
-def saveTwinPrimes( twinPrimes ):
-    saveTable( 'twin_primes', twinPrimes )
-
-def saveBalancedPrimes( balancedPrimes ):
-    saveTable( 'balanced_primes', balancedPrimes )
-
-def saveDoubleBalancedPrimes( doubleBalancedPrimes ):
-    saveTable( 'double_balanced_primes', doubleBalancedPrimes )
-
-def saveTripleBalancedPrimes( tripleBalancedPrimes ):
-    saveTable( 'triple_balanced_primes', tripleBalancedPrimes )
-
-def saveSophiePrimes( sophiePrimes ):
-    saveTable( 'sophie_primes', sophiePrimes )
-
-def saveCousinPrimes( cousinPrimes ):
-    saveTable( 'cousin_primes', cousinPrimes )
-
-def saveSexyPrimes( sexyPrimes ):
-    saveTable( 'sexy_primes', sexyPrimes )
-
-def saveSexyTriplets( sexyTriplets ):
-    saveTable( 'sexy_triplets', sexyTriplets )
-
-def saveSexyQuadruplets( sexyQuadruplets ):
-    saveTable( 'sexy_quadruplets', sexyQuadruplets )
-
-def saveTripletPrimes( tripletPrimes ):
-    saveTable( 'triplet_primes', tripletPrimes )
-
-def saveQuadrupletPrimes( quadPrimes ):
-    saveTable( 'quad_primes', quadPrimes )
-
-def saveQuintupletPrimes( quintPrimes ):
-    saveTable( 'quint_primes', quintPrimes )
-
-def saveSextupletPrimes( sextPrimes ):
-    saveTable( 'sext_primes', sextPrimes )
-
-
-#//******************************************************************************
-#//
-#//  importTable
-#//
-#//******************************************************************************
-
-def importTable( fileName, loadTableFunc, saveTableFunc  ):
-    print( fileName )
-    var = loadTableFunc( )
-
-    with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
-        imported = pickle.load( pickleFile )
-
-    var.update( imported )
-
-    saveTableFunc( var )
-
-    return len( var )
-
-def importSmallPrimes( fileName ):
-    return importTable( fileName, loadSmallPrimes, saveSmallPrimes )
-
-def importLargePrimes( fileName ):
-    return importTable( fileName, loadLargePrimes, saveLargePrimes )
-
-def importIsolatedPrimes( fileName ):
-    return importTable( fileName, loadIsolatedPrimes, saveIsolatedPrimes )
-
-def importTwinPrimes( fileName ):
-    return importTable( fileName, loadTwinPrimes, saveTwinPrimes )
-
-def importBalancedPrimes( fileName ):
-    return importTable( fileName, loadBalancedPrimes, saveBalancedPrimes )
-
-def importDoubleBalancedPrimes( fileName ):
-    return importTable( fileName, loadDoubleBalancedPrimes, saveDoubleBalancedPrimes )
-
-def importTripleBalancedPrimes( fileName ):
-    return importTable( fileName, loadTripleBalancedPrimes, saveTripleBalancedPrimes )
-
-def importSophiePrimes( fileName ):
-    return importTable( fileName, loadSophiePrimes, saveSophiePrimes )
-
-def importCousinPrimes( fileName ):
-    return importTable( fileName, loadCousinPrimes, saveCousinPrimes )
-
-def importSexyPrimes( fileName ):
-    return importTable( fileName, loadSexyPrimes, saveSexyPrimes )
-
-def importSexyTriplets( fileName ):
-    return importTable( fileName, loadSexyTripletPrimes, saveSexyTriplets )
-
-def importSexyQuadruplets( fileName ):
-    return importTable( fileName, loadSexyQuadrupletPrimes, saveSexyQuadruplets )
-
-def importTripletPrimes( fileName ):
-    return importTable( fileName, loadTripletPrimes, saveTripletPrimes )
-
-def importQuadrupletPrimes( fileName ):
-    return importTable( fileName, loadQuadrupletPrimes, saveQuadrupletPrimes )
-
-def importQuintupletPrimes( fileName ):
-    return importTable( fileName, loadQuintupletPrimes, saveQuintupletPrimes )
-
-def importSextupletPrimes( fileName ):
-    return importTable( fileName, loadSextupletPrimes, saveSextupletPrimes )
-
-
-#//******************************************************************************
-#//
-#//  makeTable
-#//
-#//******************************************************************************
-
-def makeTable( start, end, step, func, name ):
-    global updateDicts
-
-    updateDicts = True
-
-    try:
-        for i in range( int( start ), int( end ) + 1, int( step ) ):
-            p = func( i )
-
-            if isinstance( p, list ):
-                p = p[ 0 ]
-
-            print( name + ':  {:,} : {:,}'.format( i, p ) )
-            sys.stdout.flush( )
-    except KeyboardInterrupt as error:
-        pass
-
-    return end
-
-def makeSmallPrimes( start, end, step ):
-    global smallPrimes
-    getNthPrime( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthPrime, 'small' )
-    saveSmallPrimes( smallPrimes )
-    return end
-
-def makeLargePrimes( start, end, step ):
-    global largePrimes
-    getNthPrime( 1000000 )  # force the cache to load
-    end = makeTable( start, end, step, getNthPrime, 'prime' )
-    saveLargePrimes( largePrimes )
-    return end
-
-def makeIsolatedPrimes( start, end, step ):
-    global isolatedPrimes
-    getNthIsolatedPrime( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthIsolatedPrime, 'isolated' )
-    saveIsolatedPrimes( isolatedPrimes )
-    return end
-
-def makeSuperPrimes( start, end ):
-    global smallPrimes
-    global largePrimes
-    global updateDicts
-
-    getNthPrime( 100 )      # force small primes cache to load
-    getNthPrime( 1000000 )  # force large primes cache to load
-
-    try:
-        for i in range( int( start ), int( end ) + 1, 1 ):
-            updateDicts = False
-            nth = getNthPrime( i )
-
-            updateDicts = True
-            p = getNthPrime( nth )
-
-            print( 'super:  {:,} : {:,} : {:,}'.format( i, nth, p ) )
-            sys.stdout.flush( )
-    except KeyboardInterrupt as error:
-        pass
-
-    saveSmallPrimes( smallPrimes )
-    saveLargePrimes( largePrimes )
-
-    return end
-
-def makeTwinPrimes( start, end, step ):
-    global twinPrimes
-    getNthTwinPrime( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthTwinPrime, 'twin' )
-    saveTwinPrimes( twinPrimes )
-    return end
-
-def makeBalancedPrimes( start, end, step ):
-    global balancedPrimes
-    getNthBalancedPrimes( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthBalancedPrime, 'balanced' )
-    saveBalancedPrimes( balancedPrimes )
-    return end
-
-def makeDoubleBalancedPrimes( start, end, step ):
-    global doubleBalancedPrimes
-    end = makeTable( start, end, step, getNthDoubleBalancedPrime, 'double_balanced' )
-    saveDoubleBalancedPrimes( doubleBalancedPrimes )
-    return end
-
-def makeTripleBalancedPrimes( start, end, step ):
-    global tripleBalancedPrimes
-    end = makeTable( start, end, step, getNthTripleBalancedPrime, 'triple_balanced' )
-    saveTripleBalancedPrimes( tripleBalancedPrimes )
-    return end
-
-def makeSophiePrimes( start, end, step ):
-    global sophiePrimes
-    getNthSophiePrime( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthSophiePrime, 'sophie' )
-    saveSophiePrimes( sophiePrimes )
-    return end
-
-def makeCousinPrimes( start, end, step ):
-    global cousinPrimes
-    getNthCousinPrime( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthCousinPrime, 'cousin' )
-    saveCousinPrimes( cousinPrimes )
-    return end
-
-def makeSexyPrimes( start, end, step ):
-    global sexyPrimes
-    getNthSexyPrime( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthSexyPrime, 'sexy' )
-    saveSexyPrimes( sexyPrimes )
-    return end
-
-def makeSexyTriplets( start, end, step ):
-    global sexyTriplets
-    getNthSexyTriplet( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthSexyTriplet, 'sexytrip' )
-    saveSexyTriplets( sexyTriplets )
-    return end
-
-def makeSexyQuadruplets( start, end, step ):
-    global sexyQUadruplets
-    getNthSexyQuadruplet( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthSexyQuadruplet, 'sexyquad' )
-    saveSexyQuadruplets( sexyQuadruplets )
-    return end
-
-def makeTripletPrimes( start, end, step ):
-    global tripletPrimes
-    getNthTripletPrime( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthTripletPrime, 'triplet' )
-    saveTripletPrimes( tripletPrimes )
-    return end
-
-def makeQuadrupletPrimes( start, end, step ):
-    global quadPrimes
-    getNthQuadrupletPrime( 10 )  # force the cache to load
-    end = makeTable( start, end, step, getNthQuadrupletPrime, 'quad' )
-    saveQuadrupletPrimes( quadPrimes )
-    return end
-
-def makeQuintupletPrimes( start, end, step ):
-    global quintPrimes
-    getNthQuintupletPrime( 10 )  # force the cache to load
-    end = makeTable( start, end, step, getNthQuintupletPrime, 'quint' )
-    saveQuintupletPrimes( quintPrimes )
-    return end
-
-def makeSextupletPrimes( start, end, step ):
-    global sextPrimes
-    getNthSextupletPrime( 10 )  # force the cache to load
-    end = makeTable( start, end, step, getNthSextupletPrime, 'sext' )
-    saveSextupletPrimes( sextPrimes )
-    return end
-
-
-#//******************************************************************************
-#//
-#//  dumpTable
-#//
-#//******************************************************************************
-
-def dumpTable( loadFunc, name ):
-    var = loadFunc( )
-
-    for i in sorted( [ key for key in var ] ):
-        print( name + ':  ' + str( i ) + ' : ' + str( var[ i ] ) )
-
-    return max( [ key for key in var ] )
-
-def dumpSmallPrimes( ):
-    return dumpTable( loadSmallPrimes, 'small' )
-
-def dumpLargePrimes( ):
-    return dumpTable( loadLargePrimes, 'prime' )
-
-def dumpIsolatedPrimes( ):
-    return dumpTable( loadIsolatedPrimes, 'isolated' )
-
-def dumpTwinPrimes( ):
-    return dumpTable( loadTwinPrimes, 'twin' )
-
-def dumpBalancedPrimes( ):
-    return dumpTable( loadBalancedPrimes, 'balanced' )
-
-def dumpDoubleBalancedPrimes( ):
-    return dumpTable( loadDoubleBalancedPrimes, 'double_balanced' )
-
-def dumpTripleBalancedPrimes( ):
-    return dumpTable( loadTripleBalancedPrimes, 'triple_balanced' )
-
-def dumpSophiePrimes( ):
-    return dumpTable( loadSophiePrimes, 'sophie' )
-
-def dumpCousinPrimes( ):
-    return dumpTable( loadCousinPrimes, 'cousin' )
-
-def dumpSexyPrimes( ):
-    return dumpTable( loadSexyPrimes, 'sexy' )
-
-def dumpSexyTriplets( ):
-    return dumpTable( loadSexyTripletPrimes, 'sexytrip' )
-
-def dumpSexyQuadruplets( ):
-    return dumpTable( loadSexyQuadrupletPrimes, 'sexyquad' )
-
-def dumpTripletPrimes( ):
-    return dumpTable( loadTripletPrimes, 'triplet' )
-
-def dumpQuadrupletPrimes( ):
-    return dumpTable( loadQuadrupletPrimes, 'quad' )
-
-def dumpQuintupletPrimes( ):
-    return dumpTable( loadQuintupletPrimes, 'quint' )
-
-def dumpSextupletPrimes( ):
-    return dumpTable( loadQSextupletPrimes, 'sext' )
-
-
-#//******************************************************************************
-#//
-#//  isPrime
-#//
-#//******************************************************************************
-
-def isPrime( arg ):
-    return pyprimes.isprime( int( arg ) )
-
-
-#//******************************************************************************
-#//
-#//  getNextPrimeCandidate
-#//
-#//******************************************************************************
-
-def getNextPrimeCandidate( p, f ):
-    if f == 1:
-        p += 2
-        f = 3
-    elif f == 3:
-        p += 4
-        f = 7
-    elif f == 7:
-        p += 2
-        f = 9
-    else:
-        p += 2
-        f = 1
-
-    return p, f
-
-
-#//******************************************************************************
-#//
-#//  getNextPrime
-#//
-#//******************************************************************************
-
-def getNextPrime( p, f, func = getNextPrimeCandidate ):
-    p, f = getNextPrimeCandidate( p, f )
-
-    while not isPrime( p ):
-        p, f = func( p, f )
-
-    return p, f
-
-
-#//******************************************************************************
-#//
-#//  getNthPrime
-#//
-#//******************************************************************************
-
-def getNthPrime( arg ):
-    global smallPrimes
-    global largePrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 2
-
-    if n == 2:
-        return 3
-
-    if n == 3:
-        return 5
-
-    if n >= 1000000:
-        if largePrimes == { }:
-            largePrimes = loadLargePrimes( )
-
-        maxIndex = max( key for key in largePrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        currentIndex = max( key for key in largePrimes if key <= n )
-        p = largePrimes[ currentIndex ]
-    elif n >= 100:
-        if smallPrimes == { }:
-            smallPrimes = loadSmallPrimes( )
-
-        currentIndex = max( key for key in smallPrimes if key <= n )
-        p = smallPrimes[ currentIndex ]
-    else:
-        currentIndex = 4
-        p = 7
-
-    f = p % 10
-
-    while n > currentIndex:
-        p, f = getNextPrime( p, f )
-        currentIndex += 1
-
-    if updateDicts:
-        if n >= 1000000:
-            largePrimes[ n ] = p
-        else:
-            smallPrimes[ n ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  findPrime
-#//
-#//******************************************************************************
-
-def findPrime( arg ):
-    global smallPrimes
-    global largePrimes
-
-    target = int( arg )
-
-    if target < 2:
-        return 1
-    elif target == 3:
-        return 2
-    elif target < 5:
-        return 3
-    elif target < 541:          # 100th prime
-        currentIndex = 4
-        p = 7
-    elif target < 15485863:     # 1,000,000th prime
-        if smallPrimes == { }:
-            smallPrimes = loadSmallPrimes( )
-
-        currentIndex = max( key for key in smallPrimes if smallPrimes[ key ] <= target )
-        p = smallPrimes[ currentIndex ]
-    else:
-        if largePrimes == { }:
-            largePrimes = loadLargePrimes( )
-
-        currentIndex = max( key for key in largePrimes if largePrimes[ key ] <= target )
-        p = largePrimes[ currentIndex ]
-
-    f = p % 10
-    oldPrime = p
-
-    while True:
-        p, f = getNextPrime( p, f )
-        currentIndex += 1
-
-        if p > target:
-            return currentIndex, p
-
-
-#//******************************************************************************
-#//
-#//  findQuadrupletPrimes
-#//
-#//******************************************************************************
-
-def findQuadrupletPrimes( arg ):
-    global quadPrimes
-
-    target = int( arg )
-
-    if quadPrimes == { }:
-        quadPrimes = loadQuadrupletPrimes( )
-
-    currentIndex = max( key for key in quadPrimes if quadPrimes[ key ] <= target )
-    p = quadPrimes[ currentIndex ]
-
-    while True:
-        p += 30
-
-        if isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ):
-            currentIndex += 1
-
-            if p > target:
-                return currentIndex, [ p, p + 2, p + 6, p + 8 ]
-
-
-#//******************************************************************************
-#//
-#//  getNthIsolatedPrime
-#//
-#//******************************************************************************
-
-def getNthIsolatedPrime( arg ):
-    global isolatedPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 2
-
-    if n == 2:
-        return 23
-
-    if n >= 100:
-        if isolatedPrimes == { }:
-            isolatedPrimes = loadIsolatedPrimes( )
-
-        currentIndex = max( key for key in isolatedPrimes if key <= n )
-        p = isolatedPrimes[ currentIndex ]
-    else:
-        currentIndex = 2
-        p = 23
-
-    f = p % 10
-
-    while n > currentIndex:
-        p, f = getNextPrime( p, f )
-
-        if not isPrime( p - 2 ) and not isPrime( p + 2 ):
-            currentIndex += 1
-
-    if updateDicts:
-        isolatedPrimes[ n ] = p
-
-    return p
 
 
 #//******************************************************************************
@@ -4835,6 +4216,9 @@ def printStats( dict, name ):
 def dumpStats( ):
     global unitConversionMatrix
 
+    if unitConversionMatrix is None:
+        loadUnitConversionMatrix( )
+
     print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) + len( modifiers ) ) )
     print( '{:10,} unit conversions'.format( len( unitConversionMatrix ) ) )
     print( )
@@ -5490,11 +4874,15 @@ callers = [
 def convertUnits( unit1, unit2 ):
     global unitConversionMatrix
 
+    if unitConversionMatrix is None:
+        loadUnitConversionMatrix( )
+
     #print( )
     #print( 'unit1:', unit1.getTypes( ) )
     #print( 'unit2:', unit2.getTypes( ) )
 
-    return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ), unit2.getUnitName( ) )
+    return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
+                        unit2.getUnitName( ), unit2.getPluralUnitName( ) )
 
 
 #//******************************************************************************
@@ -6050,56 +5438,7 @@ operators = {
     'xor'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
     'zeta'          : [ zeta, 1 ],
     '_dumpalias'    : [ dumpAliases, 0 ],
-    '_dumpbal'      : [ dumpBalancedPrimes, 0 ],
-    '_dumpcousin'   : [ dumpCousinPrimes, 0 ],
-    '_dumpdouble'   : [ dumpDoubleBalancedPrimes, 0 ],
-    '_dumpiso'      : [ dumpIsolatedPrimes, 0 ],
     '_dumpops'      : [ dumpOperators, 0 ],
-    '_dumpops'      : [ dumpOperators, 0 ],
-    '_dumpops'      : [ dumpOperators, 0 ],
-    '_dumpprimes'   : [ dumpLargePrimes, 0 ],
-    '_dumpquad'     : [ dumpQuadrupletPrimes, 0 ],
-    '_dumpquint'    : [ dumpQuintupletPrimes, 0 ],
-    '_dumpsext'     : [ dumpSextupletPrimes, 0 ],
-    '_dumpsexy'     : [ dumpSexyPrimes, 0 ],
-    '_dumpsmall'    : [ dumpSmallPrimes, 0 ],
-    '_dumpsophie'   : [ dumpSophiePrimes, 0 ],
-    '_dumptriple'   : [ dumpTripleBalancedPrimes, 0 ],
-    '_dumptriplet'  : [ dumpTripletPrimes, 0 ],
-    '_dumptwin'     : [ dumpTwinPrimes, 0 ],
-    '_importbal'    : [ importBalancedPrimes, 1 ],
-    '_importcousin' : [ importCousinPrimes, 1 ],
-    '_importdouble' : [ importDoubleBalancedPrimes, 1 ],
-    '_importiso'    : [ importIsolatedPrimes, 1 ],
-    '_importprimes' : [ importLargePrimes, 1 ],
-    '_importquad'   : [ importQuadrupletPrimes, 1 ],
-    '_importquint'  : [ importQuintupletPrimes, 1 ],
-    '_importsext'   : [ importSextupletPrimes, 1 ],
-    '_importsexy'   : [ importSexyPrimes, 1 ],
-    '_importsexy3'  : [ importSexyTriplets, 1 ],
-    '_importsexy4'  : [ importSexyQuadruplets, 1 ],
-    '_importsmall'  : [ importSmallPrimes, 1 ],
-    '_importsophie' : [ importSophiePrimes, 1 ],
-    '_importtriple' : [ importTripleBalancedPrimes, 1 ],
-    '_importtriplet': [ importTripletPrimes, 1 ],
-    '_importtwin'   : [ importTwinPrimes, 1 ],
-    '_makebal'      : [ makeBalancedPrimes, 3 ],
-    '_makecousin'   : [ makeCousinPrimes, 3 ],
-    '_makedouble'   : [ makeDoubleBalancedPrimes, 3 ],
-    '_makeiso'      : [ makeIsolatedPrimes, 3 ],
-    '_makeprimes'   : [ makeLargePrimes, 3 ],
-    '_makequad'     : [ makeQuadrupletPrimes, 3 ],
-    '_makequint'    : [ makeQuintupletPrimes, 3 ],
-    '_makesext'     : [ makeSextupletPrimes, 3 ],
-    '_makesexy'     : [ makeSexyPrimes, 3 ],
-    '_makesexy3'    : [ makeSexyTriplets, 3 ],
-    '_makesexy4'    : [ makeSexyQuadruplets, 3 ],
-    '_makesmall'    : [ makeSmallPrimes, 3 ],
-    '_makesophie'   : [ makeSophiePrimes, 3 ],
-    '_makesuper'    : [ makeSuperPrimes, 2 ],
-    '_maketriple'   : [ makeTripleBalancedPrimes, 3 ],
-    '_maketriplet'  : [ makeTripletPrimes, 3 ],
-    '_maketwin'     : [ makeTwinPrimes, 3 ],
     '_stats'        : [ dumpStats, 0 ],
     '~'             : [ getInvertedBits, 1 ],
 #   'antitet'       : [ findTetrahedralNumber, 1 ],
@@ -6409,10 +5748,17 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
 #//******************************************************************************
 
 def formatUnits( measurement ):
+    value = mpf( measurement )
+
     if measurement.getUnitName( ) is not None:
         unitString = ''
 
-        for c in measurement.getUnitName( ):
+        if value < mpf( -1.0 ) or value >mpf( 1.0 ):
+            tempString = measurement.getPluralUnitName( )
+        else:
+            tempString = measurement.getUnitName( )
+
+        for c in tempString:
             if c == '_':
                 unitString += ' '
             else:
@@ -6424,7 +5770,6 @@ def formatUnits( measurement ):
 
     # first, we simplify the units
     units = simplifyUnits( measurement.getUnits( ) )
-    value = mpf( measurement )
 
     # now that we've expanded the compound units, let's format...
     for unit in units:
@@ -6719,6 +6064,22 @@ def validateArguments( terms ):
 
 #//******************************************************************************
 #//
+#//  loadUnitConversionMatrix
+#//
+#//******************************************************************************
+
+def loadUnitConversionMatrix( ):
+    global unitConversionMatrix
+
+    try:
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
+            unitConversionMatrix = pickle.load( pickleFile )
+    except FileNotFoundError as error:
+        print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
+
+
+#//******************************************************************************
+#//
 #//  main
 #//
 #//******************************************************************************
@@ -6945,11 +6306,8 @@ def main( ):
             unitOperators = pickle.load( pickleFile )
             operatorAliases.update( pickle.load( pickleFile ) )
             compoundUnits = pickle.load( pickleFile )
-
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
-            unitConversionMatrix = pickle.load( pickleFile )
     except FileNotFoundError as error:
-        print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
+        print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
 
     if unitsVersion != PROGRAM_VERSION:
         print( 'rpn  units data file version mismatch' )

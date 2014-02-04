@@ -7,7 +7,7 @@
 #//  RPN command-line calculator unit conversion data generator
 #//  copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)
 #//
-#//  License: GNU GPL (see <http://www.gnu.org/licenses/gpl.html> for more
+#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #//  information).
 #//
 #//******************************************************************************
@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.10.4'
+PROGRAM_VERSION = '5.10.5'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -1195,6 +1195,9 @@ unitOperators = {
     'jeroboam' :
         UnitInfo( 'volume', 'jeroboam', 'jeroboams', '', [ 'double_magnum' ], [ 'wine' ] ),
 
+    'jigger' :
+        UnitInfo( 'volume', 'jigger', 'jiggers', '', [ ], [ 'imperial' ] ),
+
     'kenning' :
         UnitInfo( 'volume', 'kenning', 'kennings', '', [ ], [ 'imperial' ] ),
 
@@ -1251,6 +1254,9 @@ unitOperators = {
 
     'pipe' :
         UnitInfo( 'volume', 'pipe', 'pipes', '', [ 'butt', 'butts' ], [ 'imperial' ] ),
+
+    'pony' :
+        UnitInfo( 'volume', 'pony', 'ponies', '', [ ], [ 'imperial' ] ),
 
     'pottle' :
         UnitInfo( 'volume', 'pottle', 'pottles', '', [ ], [ 'imperial' ] ),
@@ -1631,6 +1637,7 @@ unitConversionMatrix = {
     ( 'jack',                  'tablespoon' )                           : '5',
     ( 'jennie',                'liter' )                                : '0.5',
     ( 'jeroboam',              'liter' )                                : '3.0',  # some French regions use 4.5
+    ( 'jigger',                'pony' )                                 : '2',
     ( 'joule',                 'electronvolt' )                         : '6.24150974e18',
     ( 'joule',                 'erg' )                                  : '1.0e7',
     ( 'joule',                 'kilogram-meter^2/second^2' )            : '1',
@@ -1717,6 +1724,7 @@ unitConversionMatrix = {
     ( 'planck_length',         'meter' )                                : '1.616199e-35',
     ( 'planck_time',           'second' )                               : '5.39106e-44',
     ( 'poncelet',              'watt' )                                 : '980.665',
+    ( 'pony',                  'dram' )                                 : '6',
     ( 'potrzebie',             'farshimmelt_potrzebie' )                : '1.0e5',
     ( 'potrzebie',             'furshlugginer_potrzebie' )              : '1.0e-6',
     ( 'potrzebie',             'meter' )                                : '0.002263348517438173216473',  # see Mad #33

@@ -7,7 +7,7 @@
 #//  RPN command-line calculator help file generator
 #//  copyright (c) 2013, Rick Gutleber (rickg@his.com)
 #//
-#//  License: GNU GPL (see <http://www.gnu.org/licenses/gpl.html> for more
+#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #//  information).
 #//
 #//******************************************************************************
@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.10.4'
+PROGRAM_VERSION = '5.10.5'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
