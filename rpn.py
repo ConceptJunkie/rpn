@@ -8,7 +8,7 @@
 #//  copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)
 #//
 #//  License: GNU GPL (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information.
+#//  information).
 #//
 #//******************************************************************************
 
@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.17.0"
+RPN_VERSION = "4.17.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -270,7 +270,7 @@ def loadTwinPrimes( ):
     return loadTable( 'twin_primes', { 3 : 11 } )
 
 def loadBalancedPrimes( ):
-    return loadTable( 'balanced_primes', { 2 : 53 } )
+    return loadTable( 'balanced_primes', { 2 : 5 } )
 
 def loadDoubleBalancedPrimes( ):
     return loadTable( 'double_balanced_primes', { 1 : getNthDoubleBalancedPrimes( 1 ) } )
@@ -287,10 +287,10 @@ def loadCousinPrimes( ):
 def loadSexyPrimes( ):
     return loadTable( 'sexy_primes', { 2 : 7 } )
 
-def loadSexyTriplets( ):
+def loadSexyTripletPrimes( ):
     return loadTable( 'sexy_triplets', { 2 : 7 } )
 
-def loadSexyQuadruplets( ):
+def loadSexyQuadrupletPrimes( ):
     return loadTable( 'sexy_quadruplets', { 2 : 11 } )
 
 def loadTripletPrimes( ):
@@ -417,10 +417,10 @@ def importSexyPrimes( fileName ):
     return importTable( fileName, loadSexyPrimes, saveSexyPrimes )
 
 def importSexyTriplets( fileName ):
-    return importTable( fileName, loadSexyTriplets, saveSexyTriplets )
+    return importTable( fileName, loadSexyTripletPrimes, saveSexyTriplets )
 
 def importSexyQuadruplets( fileName ):
-    return importTable( fileName, loadSexyQuadruplets, saveSexyQuadruplets )
+    return importTable( fileName, loadSexyQuadrupletPrimes, saveSexyQuadruplets )
 
 def importTripletPrimes( fileName ):
     return importTable( fileName, loadTripletPrimes, saveTripletPrimes )
@@ -642,10 +642,10 @@ def dumpSexyPrimes( ):
     return dumpTable( loadSexyPrimes, 'sexy' )
 
 def dumpSexyTriplets( ):
-    return dumpTable( loadSexyTriplets, 'sexytrip' )
+    return dumpTable( loadSexyTripletPrimes, 'sexytrip' )
 
 def dumpSexyQuadruplets( ):
-    return dumpTable( loadSexyQuadruplets, 'sexyquad' )
+    return dumpTable( loadSexyQuadrupletPrimes, 'sexyquad' )
 
 def dumpTripletPrimes( ):
     return dumpTable( loadTripletPrimes, 'triplet' )
@@ -689,6 +689,21 @@ def getNextPrimeCandidate( p, f ):
     else:
         p += 2
         f = 1
+
+    return p, f
+
+
+#//******************************************************************************
+#//
+#//  findNextPrime
+#//
+#//******************************************************************************
+
+def findNextPrime( p, f, func = getNextPrimeCandidate ):
+    p, f = getNextPrimeCandidate( p, f )
+
+    while not isPrime( p ):
+        p, f = func( p, f )
 
     return p, f
 
@@ -740,10 +755,8 @@ def getNthPrime( arg ):
     f = p % 10
 
     while n > currentIndex:
-        p, f = getNextPrimeCandidate( p, f )
-
-        if isPrime( p ):
-            currentIndex += 1
+        p, f = findNextPrime( p, f )
+        currentIndex += 1
 
     if updateDicts:
         if n >= 1000000:
@@ -792,13 +805,11 @@ def findPrime( arg ):
     oldPrime = p
 
     while True:
-        p, f = getNextPrimeCandidate( p, f )
+        p, f = findNextPrime( p, f )
+        currentIndex += 1
 
-        if isPrime( p ):
-            currentIndex += 1
-
-            if p > target:
-                return currentIndex, p
+        if p > target:
+            return currentIndex, p
 
 
 #//******************************************************************************
@@ -859,9 +870,9 @@ def getNthIsolatedPrime( arg ):
     f = p % 10
 
     while n > currentIndex:
-        p, f = getNextPrimeCandidate( p, f )
+        p, f = findNextPrime( p, f )
 
-        if isPrime( p ) and not isPrime( p - 2 ) and not isPrime( p + 2 ):
+        if not isPrime( p - 2 ) and not isPrime( p + 2 ):
             currentIndex += 1
 
     if updateDicts:
@@ -993,6 +1004,8 @@ def getNthTwinPrime( arg ):
 #//
 #//  getNthBalancedPrimes
 #//
+#//  returns the first of a set of 3 balanced primes
+#//
 #//******************************************************************************
 
 def getNthBalancedPrimes( arg ):
@@ -1003,6 +1016,8 @@ def getNthBalancedPrimes( arg ):
 
     if n == 1:
         return 3
+    elif n == 2:
+        return 5
 
     if n >= 100:
         if balancedPrimes == { }:
@@ -1014,31 +1029,30 @@ def getNthBalancedPrimes( arg ):
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                                     format( n, maxIndex ) )
 
-        startingPlace = max( key for key in balancedPrimes if key < n )
-        p = balancedPrimes[ startingPlace ]
+        currentIndex = max( key for key in balancedPrimes if key < n )
+        p = balancedPrimes[ currentIndex ]
         prevPrime = 0
         secondPrevPrime = 0
     else:
-        startingPlace = 2
+        currentIndex = 2
         p = 11
         prevPrime = 7
         secondPrevPrime = 5
 
     f = p % 10
 
-    while n > startingPlace:
-        p, f = getNextPrimeCandidate( p, f )
+    while n > currentIndex:
+        p, f = findNextPrime( p, f )
 
-        if isPrime( p ):
-            if ( prevPrime - secondPrevPrime ) == ( p - prevPrime ):
-                n -= 1
+        if ( prevPrime - secondPrevPrime ) == ( p - prevPrime ):
+            currentIndex += 1
 
-            if n > startingPlace:
-                secondPrevPrime = prevPrime
-                prevPrime = p
+        if n > currentIndex:
+            secondPrevPrime = prevPrime
+            prevPrime = p
 
     if updateDicts:
-        balancedPrimes[ int( arg ) ] = prevPrime
+        balancedPrimes[ int( arg ) ] = secondPrevPrime
 
     return secondPrevPrime
 
@@ -1056,7 +1070,7 @@ def getNthDoubleBalancedPrimes( arg ):
     n = int( arg )
 
     if n == 1:
-        return [ 18713, 18719, 18731, 18743, 18749 ]
+        return 18713
 
     if doubleBalancedPrimes == { }:
         doubleBalancedPrimes = loadDoubleBalancedPrimes( )
@@ -1067,25 +1081,24 @@ def getNthDoubleBalancedPrimes( arg ):
         sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                                 format( n, maxIndex ) )
 
-    startingPlace = max( key for key in doubleBalancedPrimes if key <= n )
+    currentIndex = max( key for key in doubleBalancedPrimes if key <= n )
     primes = [ ]
 
-    for p in doubleBalancedPrimes[ startingPlace ]:
+    for p in doubleBalancedPrimes[ currentIndex ]:
         primes.append( p )
 
     p = primes[ -1 ]
     f = p % 10
 
-    while n > startingPlace:
-        p, f = getNextPrimeCandidate( p, f )
+    while n > currentIndex:
+        p, f = findNextPrime( p, f )
 
-        if isPrime( p ):
-            primes.append( p )
-            del primes[ 0 ]
+        primes.append( p )
+        del primes[ 0 ]
 
-            if ( ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 3 ] - primes[ 2 ] ) and
-                 ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 4 ] - primes[ 3 ] ) ):
-                startingPlace += 1
+        if ( ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 3 ] - primes[ 2 ] ) and
+             ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 4 ] - primes[ 3 ] ) ):
+            currentIndex += 1
 
     if updateDicts:
         doubleBalancedPrimes[ n ] = [ ]
@@ -1109,7 +1122,7 @@ def getNthTripleBalancedPrimes( arg ):
     n = int( arg )
 
     if n == 1:
-        return [ 683747, 683759, 683777, 683783, 683789, 683807, 683819 ]
+        return 683747
 
     if tripleBalancedPrimes == { }:
         tripleBalancedPrimes = loadTripleBalancedPrimes( )
@@ -1120,32 +1133,30 @@ def getNthTripleBalancedPrimes( arg ):
         sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                                 format( n, maxIndex ) )
 
-    startingPlace = max( key for key in tripleBalancedPrimes if key <= n )
-    primes = [ ]
+    currentIndex = max( key for key in tripleBalancedPrimes if key <= n )
 
-    for p in tripleBalancedPrimes[ startingPlace ]:
-        primes.append( p )
-
-    p = primes[ -1 ]
+    p = tripleBalancedPrimes[ currentIndex ]
     f = p % 10
 
-    while n > startingPlace:
-        p, f = getNextPrimeCandidate( p, f )
+    primes = [ p ]
 
-        if isPrime( p ):
-            primes.append( p )
-            del primes[ 0 ]
+    for i in range( 0, 6 ):
+        p, f = findNextPrime( p, f )
+        primes.append( p )
 
-            if ( ( primes[ 3 ] - primes[ 2 ] ) == ( primes[ 4 ] - primes[ 3 ] ) and
-                 ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 5 ] - primes[ 4 ] ) and
-                 ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 6 ] - primes[ 5 ] ) ):
-                startingPlace += 1
+    while n > currentIndex:
+        p, f = findNextPrime( p, f )
+
+        primes.append( p )
+        del primes[ 0 ]
+
+        if ( ( primes[ 3 ] - primes[ 2 ] ) == ( primes[ 4 ] - primes[ 3 ] ) and
+             ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 5 ] - primes[ 4 ] ) and
+             ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 6 ] - primes[ 5 ] ) ):
+            currentIndex += 1
 
     if updateDicts:
-        tripleBalancedPrimes[ n ] = [ ]
-
-        for p in primes:
-            tripleBalancedPrimes[ n ].append( p )
+        tripleBalancedPrimes[ n ] = p
 
     return primes
 
@@ -1327,7 +1338,7 @@ def getNthSexyTriplet( arg ):
 
     if n >= 100:
         if sexyTriplets == { }:
-            sexyTriplets = loadSexyTriplets( )
+            sexyTriplets = loadSexyTripletPrimes( )
 
         maxIndex = max( key for key in sexyTriplets )
 
@@ -1376,7 +1387,7 @@ def getNthSexyQuadruplet( arg ):
         return 5
 
     if sexyQuadruplets == { }:
-        sexyQuadruplets = loadSexyQuadruplets( )
+        sexyQuadruplets = loadSexyQuadrupletPrimes( )
 
         maxIndex = max( key for key in sexyQuadruplets )
 
@@ -1519,6 +1530,15 @@ def getNthQuadrupletPrime( arg ):
     return p
 
 
+def getNextQuintupletPrimeCandidate( p, f ):
+    if f == 1:
+        p += 6
+        f = 7
+    else:
+        p += 4
+        f = 1
+
+
 #//******************************************************************************
 #//
 #//  getNthQuintupletPrimes
@@ -1546,24 +1566,21 @@ def getNthQuintupletPrimes( arg ):
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                                     format( n, maxIndex ) )
 
-        startingPlace = max( key for key in quintPrimes if key <= n )
-        p = quintPrimes[ startingPlace ]
+        currentIndex = max( key for key in quintPrimes if key <= n )
+        p = quintPrimes[ currentIndex ]
     else:
-        startingPlace = 3
+        currentIndex = 3
         p = 11
 
     f = p % 10
 
     # after 5, the first of a prime quintruplet must be a number of the form 30n + 11
-    while n > startingPlace:
-        p, f = getNextPrimeCandidate( p, f )
+    while n > currentIndex:
+        p, f = findNextPrime( p, f, getNextQuintupletPrimeCandidate )
 
-        if isPrime( p ):
-            if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 10 ) ) or \
-               ( ( f == 3 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 10 ) ) or \
-               ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ) or \
-               ( ( f == 9 ) and isPrime( p + 2 ) and isPrime( p + 4 ) and isPrime( p + 8 ) and isPrime( p + 10 ) ):
-                n -= 1
+        if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
+           ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
+            currentIndex += 1
 
     if updateDicts:
         quintPrimes[ int( arg ) ] = p
@@ -1571,13 +1588,12 @@ def getNthQuintupletPrimes( arg ):
     f = p % 10
 
     if f == 1:
-        return [ p, p + 2, p + 6, p + 8, p + 10 ]
-    elif f == 3:
-        return [ p, p + 4, p + 6, p + 8, p + 10 ]
+        return [ p, p + 2, p + 6, p + 8, p + 12 ]
     elif f == 7:
         return [ p, p + 4, p + 6, p + 10, p + 12 ]
     else:
-        return [ p, p + 2, p + 4, p + 8, p + 10 ]
+        # not the right exception type
+        raise ValueError( 'internal error:  getNthQuintupletPrimes is broken' )
 
 
 #//******************************************************************************
@@ -3196,6 +3212,18 @@ def listOperators( ):
 
 #//******************************************************************************
 #//
+#//  printStats
+#//
+#//******************************************************************************
+
+def printStats( dict, name ):
+    index = max( [ key for key in dict ] )
+
+    print( '{:10,} {:23} max: {:13,} ({:,})'.format( len( dict ), name, index, dict[ index ] ) )
+
+
+#//******************************************************************************
+#//
 #//  dumpStats
 #//
 #//******************************************************************************
@@ -3204,69 +3232,24 @@ def dumpStats( ):
     print( '{:10,} operators\n'.format( len( modifiers ) + len( list_operators ) +
                                         len( list_operators_2 ) + len( operators ) ) )
 
-    smallPrimes = loadSmallPrimes( )
-    print( '{:10,} small primes,           max: {:,}'.format( len( smallPrimes ),
-                                                         max( [ key for key in smallPrimes ] ) ) )
+    printStats( loadSmallPrimes( ), 'small primes' )
+    printStats( loadLargePrimes( ), 'large primes' )
+    printStats( loadIsolatedPrimes( ), 'isolated primes' )
+    printStats( loadTwinPrimes( ), 'twin primes' )
+    printStats( loadBalancedPrimes( ), 'balanced primes' )
+    printStats( loadDoubleBalancedPrimes( ), 'double balanced primes' )
+    printStats( loadTripleBalancedPrimes( ), 'triple balanced primes' )
+    printStats( loadSophiePrimes( ), 'Sophie Germain primes' )
+    printStats( loadCousinPrimes( ), 'cousin primes' )
+    printStats( loadSexyPrimes( ), 'sexy primes' )
+    printStats( loadTripletPrimes( ), 'triplet primes' )
+    printStats( loadSexyTripletPrimes( ), 'sexy triplet primes' )
+    printStats( loadQuadrupletPrimes( ), 'quadruplet primes' )
+    printStats( loadSexyQuadrupletPrimes( ), 'sexy quadruplet primes' )
+    printStats( loadQuintupletPrimes( ), 'quintuplet primes' )
+    printStats( loadSextupletPrimes( ), 'sextuplet primes' )
 
-    largePrimes = loadLargePrimes( )
-    print( '{:10,} large primes,           max: {:,}'.format( len( largePrimes ),
-                                                         max( [ key for key in largePrimes ] ) ) )
-
-    isolatedPrimes = loadIsolatedPrimes( )
-    print( '{:10,} isolated primes,        max: {:,}'.format( len( isolatedPrimes ),
-                                                         max( [ key for key in isolatedPrimes ] ) ) )
-
-    twinPrimes = loadTwinPrimes( )
-    print( '{:10,} twin primes,            max: {:,}'.format( len( twinPrimes ),
-                                                         max( [ key for key in twinPrimes ] ) ) )
-
-    balancedPrimes = loadBalancedPrimes( )
-    print( '{:10,} balanced primes,        max: {:,}'.format( len( balancedPrimes ),
-                                                         max( [ key for key in balancedPrimes ] ) ) )
-
-    doubleBalancedPrimes = loadDoubleBalancedPrimes( )
-    print( '{:10,} double balanced primes, max: {:,}'.format( len( doubleBalancedPrimes ),
-                                                         max( [ key for key in doubleBalancedPrimes ] ) ) )
-
-    tripleBalancedPrimes = loadTripleBalancedPrimes( )
-    print( '{:10,} triple balanced primes, max: {:,}'.format( len( tripleBalancedPrimes ),
-                                                         max( [ key for key in tripleBalancedPrimes ] ) ) )
-
-    sophiePrimes = loadSophiePrimes( )
-    print( '{:10,} Sophie Germain primes,  max: {:,}'.format( len( sophiePrimes ),
-                                                         max( [ key for key in sophiePrimes ] ) ) )
-
-    cousinPrimes = loadCousinPrimes( )
-    print( '{:10,} cousin primes,          max: {:,}'.format( len( cousinPrimes ),
-                                                         max( [ key for key in cousinPrimes ] ) ) )
-
-    sexyPrimes = loadSexyPrimes( )
-    print( '{:10,} sexy primes,            max: {:,}'.format( len( sexyPrimes ),
-                                                         max( [ key for key in sexyPrimes ] ) ) )
-
-    tripletPrimes = loadTripletPrimes( )
-    print( '{:10,} triplet primes,         max: {:,}'.format( len( tripletPrimes ),
-                                                         max( [ key for key in tripletPrimes ] ) ) )
-
-    sexyTriplets = loadSexyTriplets( )
-    print( '{:10,} sexy triplet primes,    max: {:,}'.format( len( sexyTriplets ),
-                                                         max( [ key for key in sexyTriplets ] ) ) )
-
-    quadPrimes = loadQuadrupletPrimes( )
-    print( '{:10,} quadruplet primes,      max: {:,}'.format( len( quadPrimes ),
-                                                         max( [ key for key in quadPrimes ] ) ) )
-
-    sexyQuadruplets = loadSexyQuadruplets( )
-    print( '{:10,} sexy quadruplet primes, max: {:,}'.format( len( sexyQuadruplets ),
-                                                         max( [ key for key in sexyQuadruplets ] ) ) )
-
-    quintPrimes = loadQuintupletPrimes( )
-    print( '{:10,} quintuplet primes,      max: {:,}'.format( len( quintPrimes ),
-                                                         max( [ key for key in quintPrimes ] ) ) )
-
-    sextPrimes = loadSextupletPrimes( )
-    print( '{:10,} sextuplet primes,       max: {:,}\n'.format( len( sextPrimes ),
-                                                         max( [ key for key in sextPrimes ] ) ) )
+    print( )
 
     return [ int( i ) for i in RPN_VERSION.split( '.' ) ]
 
@@ -6427,9 +6410,9 @@ def main( ):
             except ValueError as error:
                 print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -6485,9 +6468,9 @@ def main( ):
             except ValueError as error:
                 print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
-            except TypeError as error:
-                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
-                break
+            #except TypeError as error:
+            #    print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+            #    break
         else:
             try:
                 currentValueList.append( parseInputValue( term, inputRadix ) )
@@ -6496,9 +6479,9 @@ def main( ):
                 break
             except TypeError as error:
                 currentValueList.append( term )
-                #print( "rpn:  error in arg " + format( index ) +
-                #       ":  unrecognized argument: '%s'" % sys.argv[ index ] )
-                #break
+                print( "rpn:  error in arg " + format( index ) +
+                       ":  unrecognized argument: '%s'" % sys.argv[ index ] )
+                break
 
         index = index + 1
     else:    # i.e., if the for loop completes
