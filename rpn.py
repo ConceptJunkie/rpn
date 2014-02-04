@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.7.8'
+PROGRAM_VERSION = '5.7.9'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -192,6 +192,7 @@ def getSimpleUnitType( unit ):
         return unit
 
 
+
 #//******************************************************************************
 #//
 #//  combineUnits
@@ -201,16 +202,12 @@ def getSimpleUnitType( unit ):
 #//******************************************************************************
 
 def combineUnits( units1, units2 ):
-    #print( 'combine1:', units1 )
-    #print( 'combine2:', units2 )
-
     newUnits = { }
     newUnits.update( units1 )
 
     factor = mpmathify( 1 )
 
     for unit2 in units2:
-        #print( 'unit2:', unit2 )
         if unit2 in newUnits:
             newUnits[ unit2 ] += units2[ unit2 ]
         else:
@@ -223,7 +220,6 @@ def combineUnits( units1, units2 ):
                     newUnits[ unit1 ] += units2[ unit2 ]
                     break
             else:
-                #print( '!!!:', units2[ unit2 ] )
                 newUnits[ unit2 ] = units2[ unit2 ]
 
     return factor, newUnits
@@ -246,25 +242,6 @@ def invertUnits( units ):
 
 #//******************************************************************************
 #//
-#//  divideUnits
-#//
-#//******************************************************************************
-
-def divideUnits( units1, units2 ):
-    factor, newUnits = combineUnits( simplifyUnits( units1 ), invertUnits( simplifyUnits( units2 ) ) )
-
-    result = { }
-
-    for unit in newUnits:
-        if newUnits[ unit ] != 0:
-            result[ unit ] = newUnits[ unit ]
-
-    #print( 'divideUnits:', factor, result )
-    return factor, result
-
-
-#//******************************************************************************
-#//
 #//  getBasicUnitTypes
 #//
 #//******************************************************************************
@@ -283,6 +260,8 @@ def getBasicUnitTypes( unitTypes ):
 
         result = combineUnits( result, basicUnits )[ 1 ]
 
+    #print( 'basic in:', unitTypes )
+    #print( 'basic out:', result )
     return result
 
 
@@ -311,30 +290,6 @@ def simplifyUnits( units ):
 
     #print( 'simplify out:', result )
     return result
-
-
-#//******************************************************************************
-#//
-#//  multiplyUnits
-#//
-#//******************************************************************************
-
-def multiplyUnits( units1, units2 ):
-    #print( )
-    #print( 'units1:', units1 )
-    #print( 'units2:', units2 )
-    #print( 'simple1:', simplifyUnits( units1 ) )
-    #print( 'simple2:', simplifyUnits( units2 ) )
-
-    factor, newUnits = combineUnits( simplifyUnits( units1 ), simplifyUnits( units2 ) )
-
-    result = { }
-
-    for unit in newUnits:
-        if newUnits[ unit ] != 0:
-            result[ unit ] = newUnits[ unit ]
-
-    return factor, result
 
 
 #//******************************************************************************
@@ -395,24 +350,63 @@ class Measurement( mpf ):
         newValue = fmul( self, other )
 
         if isinstance( other, Measurement ):
-            factor, units = multiplyUnits( self.getUnits( ), other.getUnits( ) )
-            self = Measurement( fmul( newValue, factor ), units )
+            factor, newUnits = combineUnits( simplifyUnits( self.getUnits( ) ),
+                                             simplifyUnits( other.getUnits( ) ) )
+
+            self = Measurement( fmul( newValue, factor ), newUnits )
         else:
             self = Measurement( newValue, self.getUnits( ) )
 
-        return self
+        return self.normalizeUnits( )
 
 
     def divide( self, other ):
         newValue = fdiv( self, other )
 
         if isinstance( other, Measurement ):
-            factor, units = divideUnits( self.getUnits( ), other.getUnits( ) )
-            self = Measurement( fmul( newValue, factor ), units )
+            factor, newUnits = combineUnits( simplifyUnits( self.getUnits( ) ),
+                                             invertUnits( simplifyUnits( other.getUnits( ) ) ) )
+
+            self = Measurement( fmul( newValue, factor ), newUnits )
         else:
             self = Measurement( newValue, self.getUnits( ) )
 
-        return self
+        return self.normalizeUnits( )
+
+
+    def invert( self ):
+        value = mpf( self )
+        units = self.getUnits( )
+
+        newUnits = { }
+
+        for unit in units:
+            newUnits[ unit ] = -units[ unit ]
+
+        return Measurement( fdiv( 1, value ), newUnits )
+
+
+    def normalizeUnits( self ):
+        value = mpf( self )
+        units = self.getUnits( )
+
+        newUnits = { }
+
+        for unit in units:
+            if units[ unit ] != 0:
+                newUnits[ unit ] = units[ unit ]
+
+        negative = True
+
+        for unit in newUnits:
+            if newUnits[ unit ] > 0:
+                negative = False
+                break
+
+        if negative:
+            return Measurement( value, newUnits ).invert( )
+        else:
+            return Measurement( value, newUnits )
 
 
     def update( self, units ):
@@ -469,6 +463,9 @@ class Measurement( mpf ):
     def getBasicTypes( self ):
         return getBasicUnitTypes( self.getTypes( ) )
 
+    def getNoncompoundTypes( self ):
+        return getNoncompoundTypes( self.getTypes( ) )
+
     def getConversion( self, other ):
         if self.isCompatible( other ):
             units1 = self.getUnits( )
@@ -484,6 +481,8 @@ class Measurement( mpf ):
             # look for a straight-up conversion
             if ( unit1String, unit2String ) in unitConversionMatrix:
                 value = mpmathify( unitConversionMatrix[ ( unit1String, unit2String ) ] )
+            #else if ( unit1String, unit2String in specialUnitConversionMatrix:
+            #    value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ](
             else:
                 conversionValue = mpmathify( 1 )
 
@@ -1426,6 +1425,22 @@ def multiply( n, k ):
         return Measurement( n ).multiply( k )
     else:
         return fmul( n, k )
+
+
+#//******************************************************************************
+#//
+#//  takeReciprocal
+#//
+#//  We used to be able to call fdiv directly, but now we want to handle
+#//  Measurements
+#//
+#//******************************************************************************
+
+def takeReciprocal( n ):
+    if isinstance( n, Measurement ):
+        return n.invert( )
+    else:
+        return fdiv( 1, n )
 
 
 #//******************************************************************************
@@ -5696,7 +5711,7 @@ operators = {
     'random'        : [ rand, 0 ],
     'range'         : [ expandRange, 2 ],
     'range2'        : [ expandSteppedRange, 3 ],
-    'reciprocal'    : [ lambda n : fdiv( 1, n ), 1 ],
+    'reciprocal'    : [ takeReciprocal, 1 ],
     'repunit'       : [ getNthBaseKRepunit, 2 ],
     'rhombdodec'    : [ getNthRhombicDodecahedralNumber, 1 ],
     'riesel'        : [ lambda n: fsub( fmul( n, power( 2, n ) ), 1 ), 1 ],
@@ -5940,7 +5955,6 @@ def roundMantissa( mantissa, accuracy ):
 
 def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
                   decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
-
     # filter out text strings
     for c in output:
         if c in '+-.':
@@ -6124,10 +6138,10 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
 
 def formatUnits( measurement ):
     unitString = ''
+
+    # first, we simplify the units
     units = simplifyUnits( measurement.getUnits( ) )
     value = mpf( measurement )
-
-    #print( units )
 
     # now that we've expanded the compound units, let's format...
     for unit in units:
@@ -6147,27 +6161,38 @@ def formatUnits( measurement ):
             if exponent > 1:
                 unitString += '^' + str( exponent )
 
-    negative = ''
+    negativeUnits = ''
 
-    for unit in units:
-        exponent = units[ unit ]
+    if unitString == '':
+        for unit in units:
+            exponent = units[ unit ]
 
-        if exponent < 0:
-            if negative == '':
-                negative = ' per '
-            else:
-                negative += ' '
+            if exponent < 0:
+                if negativeUnits != '':
+                    negativeUnits += ' '
 
-            negative += unit
+                negativeUnits += unit
+                negativeUnits += '^' + str( exponent )
+    else:
+        for unit in units:
+            exponent = units[ unit ]
 
-            if exponent > 1:
-                negative += '^' + str( exponent )
-            elif exponent < -1:
-                negative += '^' + str( -exponent )
+            if exponent < 0:
+                if negativeUnits == '':
+                    negativeUnits = ' per '
+                else:
+                    negativeUnits += ' '
+
+                negativeUnits += unit
+
+                if exponent > 1:
+                    negativeUnits += '^' + str( exponent )
+                elif exponent < -1:
+                    negativeUnits += '^' + str( -exponent )
 
     result = ''
 
-    for c in unitString + negative:
+    for c in unitString + negativeUnits:
         if c == '_':
             result += ' '
         else:

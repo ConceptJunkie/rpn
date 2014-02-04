@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.7.8'
+PROGRAM_VERSION = '5.7.9'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -43,22 +43,24 @@ COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 #//******************************************************************************
 
 basicUnitTypes = {
-    'acceleration'  : 'length/time^2',
-    'angle'         : 'angle',
-    'area'          : 'length^2',
-    'charge'        : 'current*time',
-    'current'       : 'current',
-    'energy'        : 'mass*length^2/time^2',
-    'force'         : 'mass*length/time',
-    'length'        : 'length',
-    'mass'          : 'mass',
-    'power'         : 'mass*length^2/time',
-    'pressure'      : 'mass/length*time^2',
-    'resistance'    : 'mass*length^2/time*current^2',
-    'time'          : 'time',
-    'velocity'      : 'length/time',
-    'voltage'       : 'mass*length^2/time*current',
-    'volume'        : 'length^3',
+    'acceleration'          : 'length/time^2',
+    'angle'                 : 'angle',
+    'area'                  : 'length^2',
+    'capacitance'           : 'current^2*time^4/mass*length^2',
+    'charge'                : 'current*time',
+    'current'               : 'current',
+    'electrical_resistance' : 'mass*length^2/time*current^2',
+    'electric_potential'    : 'mass*length^2/current*time^3',
+    'energy'                : 'mass*length^2/time^2',
+    'force'                 : 'mass*length/time',
+    'length'                : 'length',
+    'mass'                  : 'mass',
+    'power'                 : 'mass*length^2/time^3',
+    'pressure'              : 'mass/length*time^2',
+    'temperature'           : 'temperature',
+    'time'                  : 'time',
+    'velocity'              : 'length/time',
+    'volume'                : 'length^3',
 }
 
 
@@ -121,6 +123,9 @@ unitOperators = {
     'homestead':
         UnitInfo( 'area', 'homestead', 'homesteads', '', [ ] ),
 
+    'outhouse' :
+        UnitInfo( 'area', 'outhouse', 'outhouse', '', [ ] ),
+
     'rood' :
         UnitInfo( 'area', 'rood', 'roods', '', [ ] ),
 
@@ -136,13 +141,60 @@ unitOperators = {
     'township':
         UnitInfo( 'area', 'township', 'townships', '', [ ] ),
 
+    # capacitance
+
+    'coulomb/volt' :
+        UnitInfo( 'capacitance', 'coulomb/volt', 'coulombs/volt', 'C/V', [ 'coulomb/volts', 'coulombs/volts', 'C/volts', 'C/volt', 'coulomb/V', 'coulombs/V' ] ),
+
+    'farad' :
+        UnitInfo( 'capacitance', 'farad', 'farads', 'F', [ ] ),
+
     # charge
+
+    'ampere-second' :
+        UnitInfo( 'charge', 'ampere*second', 'ampere*second', 'A/s', [ 'ampere/sec', 'ampere/s', 'amp/sec', 'amp/s', 'amps/sec', 'amps/s' ] ),
 
     'coulomb' :
         UnitInfo( 'charge', 'coulomb', 'coulombs', 'C', [ ] ),
 
+    'farad-volt' :
+        UnitInfo( 'charge', 'farad*volt', 'farad-volts', 'F*V', [ 'F/volt', 'F/volts', 'farad/volts', 'farads/volts', 'farad/V', 'farads/V' ] ),
+
+    'electron_charge' :
+        UnitInfo( 'charge', 'electron_charge', 'electron_charges', '', [ ] ),
+
+    'faraday' :
+        UnitInfo( 'charge', 'faraday', 'faradays', '', [ ] ),
+
     'planck_charge' :
         UnitInfo( 'charge', 'planck_charge', 'planck_charges', '', [ ] ),
+
+    # current
+
+    'ampere' :
+        UnitInfo( 'current', 'ampere', 'amperes', 'A', [ 'amp', 'amps' ] ),
+
+    'coulomb/second' :
+        UnitInfo( 'current', 'coulomb/second', 'coulombs/second', 'C/s', [ 'C/sec', 'coulomb/sec', 'coulombs/sec', 'coulomb/s', 'coulombs/s' ] ),
+
+    # electric_potential
+
+    'coulomb/farad' :
+        UnitInfo( 'electric_potential', 'coulomb/farad', 'coulombs/farad', 'C/F', [ 'coulomb/F', 'coulombs/F', 'C/farad', 'C/farads', 'coulombs/farads' ] ),
+
+    'volt' :
+        UnitInfo( 'electric_potential', 'volt', 'volts', 'V', [ ] ),
+
+    'watt/ampere' :
+        UnitInfo( 'electric_potential', 'watt/ampere', 'watts/ampere', 'W/A', [ 'watt/amp', 'watt/amps', 'watt/A', 'watts/amp', 'watts/amps', 'watts/A', 'W/amp', 'W/amps', 'W/ampere', 'W/amperes' ] ),
+
+    # electrical_resistance
+
+    'ohm' :
+        UnitInfo( 'electrical_resistance', 'ohm', 'ohms', 'O', [ ] ),
+
+    'volt/ampere' :
+        UnitInfo( 'electrical_resistance', 'volt/ampere', 'volts/ampere', 'V/A', [ 'volt/amp', 'volt/amps', 'volt/A', 'volts/amp', 'volts/amps', 'volts/A', 'V/amp', 'V/amps', 'V/ampere', 'V/amperes' ] ),
 
     # energy
 
@@ -282,6 +334,9 @@ unitOperators = {
     'light-second' :
         UnitInfo( 'length', 'light*second', 'light-seconds', '', [ 'light-second' ] ),
 
+    'light-year' :
+        UnitInfo( 'length', 'light-year', 'light-years', 'ly', [ ] ),
+
     'link' :
         UnitInfo( 'length', 'link', 'link', '', [ ] ),
 
@@ -292,7 +347,7 @@ unitOperators = {
         UnitInfo( 'length', 'micron', 'microns', '', [ ] ),
 
     'mil' :
-        UnitInfo( 'length', 'mil', 'mils', '', [ ] ),
+        UnitInfo( 'length', 'mil', 'mils', '', [ 'thou' ] ),
 
     'mile' :
         UnitInfo( 'length', 'mile', 'miles', 'mi', [ ] ),
@@ -302,6 +357,9 @@ unitOperators = {
 
     'nautical_mile' :
         UnitInfo( 'length', 'nautical_mile', 'nautical_miles', '', [ ] ),
+
+    'parsec' :
+        UnitInfo( 'length', 'parsec', 'parsec', 'pc', [ ] ),
 
     'perch' :
         UnitInfo( 'length', 'perch', 'perches', '', [ 'pole', 'poles' ] ),
@@ -314,6 +372,9 @@ unitOperators = {
 
     'point' :
         UnitInfo( 'length', 'point', 'points', '', [ ] ),
+
+    'poppyseed' :
+        UnitInfo( 'length', 'poppyseed', 'poppyseeds', '', [ ] ),
 
     'reed' :
         UnitInfo( 'length', 'reed', 'reeds', '', [ ] ),
@@ -423,6 +484,32 @@ unitOperators = {
     'torr' :
         UnitInfo( 'pressure', 'torr', 'torr', '', [ ] ),
 
+    # temperature
+
+    'celsius' :
+        UnitInfo( 'temperature', 'celsius', 'degrees celsius', '', [ 'centigrade' ] ),
+
+    'degrees_newton' :
+        UnitInfo( 'temperature', 'degrees_newton', 'degrees newton', '', [ 'newton_degree', 'newton_degrees' ] ),
+
+    'delisle' :
+        UnitInfo( 'temperature', 'delisle', 'degrees delisle', '', [ ] ),
+
+    'fahrenheit' :
+        UnitInfo( 'temperature', 'fahrenheit', 'degrees fahrenheit', '', [ 'fahr' ] ),
+
+    'gas_mark' :
+        UnitInfo( 'temperature', 'gas_mark', 'degrees gas_mark', 'GM', [ 'regulo', 'regulo_gas_mark' ] ),
+
+    'kelvin' :
+        UnitInfo( 'temperature', 'kelvin', 'degrees kelvin', 'K', [ ] ),
+
+    'rankine' :
+        UnitInfo( 'temperature', 'rankine', 'degrees rankine', '', [ ] ),
+
+    'reaumur' :
+        UnitInfo( 'temperature', 'reaumur', 'degrees reaumur', '', [ ] ),
+
     # time
 
     'clarke' :
@@ -504,8 +591,14 @@ unitOperators = {
     'barrel' :
         UnitInfo( 'volume', 'barrel', 'barrels', '', [ ] ),
 
+    'bushel' :
+        UnitInfo( 'volume', 'bushel', 'bushels', 'bu', [ ] ),
+
     'cord' :
         UnitInfo( 'volume', 'cord', 'cord', '', [ ] ),
+
+    'cubic_inch' :
+        UnitInfo( 'volume', 'inch^3', 'cubic_inches', 'cuin', [ 'in^3', 'inch^3', 'inches^3' ] ),
 
     'cubic_foot' :
         UnitInfo( 'volume', 'foot^3', 'cubic_feet', 'cuft', [ 'ft^3', 'foot^3', 'feet^3' ] ),
@@ -522,14 +615,32 @@ unitOperators = {
     'dram' :
         UnitInfo( 'volume', 'dram', 'drams', '', [ ] ),
 
+    'dry_barrel' :
+        UnitInfo( 'volume', 'dry_barrel', 'dry_barrels', '', [ ] ),
+
+    'dry_gallon' :
+        UnitInfo( 'volume', 'dry_gallon', 'dry_gallons', '', [ ] ),
+
+    'dry_pint' :
+        UnitInfo( 'volume', 'dry_pint', 'dry_pints', '', [ ] ),
+
+    'dry_quart' :
+        UnitInfo( 'volume', 'dry_quart', 'dry_quarts', '', [ ] ),
+
     'fifth' :
         UnitInfo( 'volume', 'fifth', 'fifths', '', [ ] ),
 
     'firkin' :
         UnitInfo( 'volume', 'firkin', 'firkins', '', [ ] ),
 
+    'fluid_dram' :
+        UnitInfo( 'volume', 'fluid_dram', 'fluid_drams', '', [ 'fluidram', 'fluidrams', 'fluid_drachm', 'fluid_drachms' ] ),
+
     'fluid_ounce' :
-        UnitInfo( 'volume', 'fluid_ounce', 'fluid_ounces', 'floz', [ ] ),
+        UnitInfo( 'volume', 'fluid_ounce', 'fluid_ounces', '', [ ] ),
+
+    'fluid_scruple' :
+        UnitInfo( 'volume', 'fluid_scruple', 'fluid_scruples', '', [ 'scruple', 'scruples' ] ),
 
     'farshimmelt_ngogn' :
         UnitInfo( 'volume', 'farshimmelt_ngogn', 'farshimmelt ngogns', 'fn', [ 'far-ngogn' ] ),
@@ -557,6 +668,9 @@ unitOperators = {
 
     'oil_barrel' :
         UnitInfo( 'volume', 'oil_barrel', 'oil_barrels', 'bbl', [ ] ),
+
+    'peck' :
+        UnitInfo( 'volume', 'peck', 'pecks', 'pk', [ ] ),
 
     'pinch' :
         UnitInfo( 'volume', 'pinch', 'pinches', '', [ ] ),
@@ -592,23 +706,30 @@ unitOperators = {
 #//******************************************************************************
 
 metricUnits = [
+    ( 'ampere',         'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
     ( 'are',            'ares',             'a',    [ ], [ ] ),
     ( 'blintz',         'blintzes',         'b',    [ ], [ ] ),
+    ( 'coulomb',        'coulombs',         'C',    [ ], [ ] ),
     ( 'calorie',        'calories',         'cal',  [ ], [ ] ),
     ( 'electron-volt',  'electron-volts',   'eV',   [ ], [ ] ),
+    ( 'farad',          'farad',            'F',    [ ], [ ] ),
     ( 'gram',           'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
     ( 'gram-force',     'grams-force',      'gf',   [ 'gramme-force' ], [ 'grammes-force' ] ),
     ( 'joule',          'joules',           'J',    [ ], [ ] ),
     ( 'liter',          'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
+    ( 'light-year',     'light-years',      'ly',   [ ], [ ] ),
     ( 'meter',          'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
     ( 'newton',         'newtons',          'N',    [ ], [ ] ),
     ( 'ngogn',          'ngogns',           'n',    [ ], [ ] ),
+    ( 'ohm',            'ohms',             'O',    [ ], [ ] ),
+    ( 'parsec',         'parsecs',          'pc',   [ ], [ ] ),
     ( 'pascal',         'pascals',          'Pa',   [ ], [ ] ),
     ( 'pond',           'ponds',            'p',    [ ], [ ] ),
     ( 'potrzebie',      'potrzebies',       'pz',   [ ], [ ] ),
     ( 'second',         'seconds',          's',    [ ], [ ] ),
     ( 'stere',          'steres',           'st',   [ ], [ ] ),
     ( 'ton_of_TNT',     'tons_of_TNT',      'tTNT', [ ], [ ] ),
+    ( 'volt',           'volt',             'V',    [ ], [ ] ),
     ( 'watt',           'watts',            'W',    [ ], [ ] ),
     ( 'watt-second',    'watt-seconds',     'Ws',   [ ], [ ] ),
 ]
@@ -662,7 +783,7 @@ metricPrefixes = [
 
 #//******************************************************************************
 #//
-#//  metricPrefixes
+#//  unitConversionMatrix
 #//
 #//  ( first unit, second unit, conversion factor )
 #//
@@ -671,30 +792,53 @@ metricPrefixes = [
 unitConversionMatrix = {
     ( 'acre',                  'square_yard' )                     : '4840',
     ( 'acre-foot',             'cubic_foot' )                      : '43560',
+    ( 'aln',                   'inch' )                            : '23.377077865',
+    ( 'ampere',                'coulomb/second' )                  : '1',
     ( 'are',                   'square_meter' )                    : '100',
+    ( 'arpent',                'foot' )                            : '192',
     ( 'astronomical_unit',     'meter' )                           : '149597870700',
     ( 'atmosphere',            'pascal' )                          : '101325',
     ( 'bar',                   'pascal' )                          : '100000',
+    ( 'barleycorn',            'poppyseed' )                       : '4',
     ( 'barrel',                'gallon' )                          : '31.5',
     ( 'blintz',                'farshimmelt_blintz' )              : '100000',
     ( 'blintz',                'gram' )                            : '36.42538631',
     ( 'BTU',                   'joule' )                           : '1054.5',
+    ( 'bushel',                'peck' )                            : '4',
     ( 'calorie',               'joule' )                           : '4.184',
     ( 'carat',                 'grain' )                           : '3.1666666666666666666666',
     ( 'chain',                 'yard' )                            : '22',
     ( 'clarke',                'day' )                             : '1',
     ( 'clarke',                'wolverton' )                       : '100000',
     ( 'cord',                  'cubic_foot' )                      : '128',
+    ( 'coulomb',               'ampere-second' )                   : '1',
+    ( 'coulomb',               'electron_charge' )                 : '6.24150965e18',
+    ( 'coulomb/farad',         'volt' )                            : '1',
+    ( 'coulomb',               'farad-volt' )                      : '1',
+    ( 'coulomb/volt',          'farad' )                           : '1',
     ( 'cowznofski',            'mingo' )                           : '10',
     ( 'cubic_meter',           'liter' )                           : '1000',
+    ( 'cubit',                 'inch' )                            : '18',
     ( 'cup',                   'dram' )                            : '64',
     ( 'cup',                   'fluid_ounce' )                     : '8',
     ( 'cup',                   'gill' )                            : '2',
     ( 'day',                   'hour' )                            : '24',
     ( 'dessertspoon',          'teaspoon' )                        : '2',
+    ( 'dry_barrel',            'cubic_inch' )                      : '7056',
+    ( 'dry_gallon',            'dry_quart' )                       : '4',
+    ( 'dry_pint',              'cubic_inch' )                      : '33.6003125',
+    ( 'dry_quart',             'dry_pint' )                        : '2',
+    ( 'ell',                   'inch' )                            : '45',
+    ( 'famn',                  'aln' )                             : '3',
+    ( 'faraday',               'coulomb' )                         : '96485.3383',
+    ( 'fathom',                'foot' )                            : '6',
+    ( 'finger',                'inch' )                            : '4.5',
+    ( 'fingerbreadth',         'inch' )                            : '0.75',
     ( 'firkin',                'gallon' )                          : '9',
-    ( 'fluid_ounce',           'minim' )                           : '480',
+    ( 'fluid_dram',            'fluid_scruple' )                   : '3',
+    ( 'fluid_ounce',           'fluid_dram' )                      : '8',
     ( 'fluid_ounce',           'tablespoon' )                      : '2',
+    ( 'fluid_scruple',         'minim' )                           : '20',
     ( 'foot',                  'inch' )                            : '12',
     ( 'fortnight',             'day' )                             : '14',
     ( 'furlong',               'yard' )                            : '220',
@@ -705,29 +849,45 @@ unitConversionMatrix = {
     ( 'gallon',                'quart' )                           : '4',
     ( 'grad',                  'degree' )                          : '0.9',
     ( 'gram',                  'planck_mass' )                     : '45940.892447777',
+    ( 'greek_cubit',           'inch' )                            : '18.22',
+    ( 'gregorian_year',        'day' )                             : '365.2425',
+    ( 'handbreadth',           'inch' )                            : '3',
     ( 'hogshead',              'gallon' )                          : '63',
+    ( 'homestead',             'acre' )                            : '160',
     ( 'horsepower',            'watt' )                            : '745.69987158227022',
     ( 'horsepower-second',     'joule' )                           : '745.69987158227022',
     ( 'hour',                  'minute' )                          : '60',
+    ( 'inch',                  'barleycorn' )                      : '3',
+    ( 'inch',                  'caliber' )                         : '100',
     ( 'inch',                  'meter' )                           : '0.0254',
+    ( 'inch',                  'mil' )                             : '1000',
+    ( 'inch',                  'pica' )                            : '6',
+    ( 'inch',                  'point' )                           : '72',
+    ( 'inch',                  'twip' )                            : '1440',
     ( 'joule',                 'electron-volt' )                   : '6.24150974e18',
     ( 'joule',                 'erg' )                             : '10000000',
     ( 'joule',                 'kilogram*meter^2/second^2' )       : '1',
     ( 'joule/second',          'watt' )                            : '1',
-    ( 'meter/second',          'knot' )                            : '1.943844492',
+    ( 'ken',                   'inch' )                            : '83.4',
     ( 'kovac',                 'wolverton' )                       : '1000',
     ( 'league',                'mile' )                            : '3',
     ( 'light',                 'meter/second' )                    : '299792458',
     ( 'light-second',          'meter' )                           : '299792458',
+    ( 'light-year',            'light-second' )                    : '31557600',
+    ( 'link',                  'inch' )                            : '7.92',
     ( 'liter',                 'ngogn' )                           : '86.2477899004',
+    ( 'long_cubit',            'inch' )                            : '21',
+    ( 'long_reed',             'foot' )                            : '10.5',
     ( 'mach',                  'meter/second' )                    : '295.0464',
     ( 'martin',                'kovac' )                           : '100',
     ( 'meter',                 'angstrom' )                        : '10000000000',
     ( 'meter',                 'micron' )                          : '1000000',
+    ( 'meter/second',          'knot' )                            : '1.943844492',
     ( 'mile',                  'foot' )                            : '5280',
     ( 'mingo',                 'clarke' )                          : '10',
     ( 'minute',                'second' )                          : '60',
     ( 'mmHg',                  'pascal' )                          : '133.3224',        # approx.
+    ( 'nail',                  'inch' )                            : '2.25',
     ( 'nautical_mile',         'meter' )                           : '1852',
     ( 'newton',                'dyne' )                            : '100000',
     ( 'newton',                'joule/meter' )                     : '1',
@@ -735,9 +895,16 @@ unitConversionMatrix = {
     ( 'newton',                'poundal' )                         : '7.233013851',
     ( 'newton/meter^2',        'pascal' )                          : '1',
     ( 'ngogn',                 'farshimmelt_ngogn' )               : '100000',
+    ( 'ohm',                   'volt/ampere' )                     : '1',
     ( 'oil_barrel',            'gallon' )                          : '42',
     ( 'ounce',                 'gram' )                            : '28.349523125',
-#    ( 'parsec',                'light-year' )                      : '3.261563776971',
+    ( 'parsec',                'light-year' )                      : '3.261563776971',
+    ( 'peck',                  'dry_gallon' )                      : '2',
+    ( 'perch',                 'foot' )                            : '16.5',
+    ( 'planck_charge',         'coulomb' )                         : '1.875545956e-18',
+    ( 'planck_energy',         'joule' )                           : '1.956e9',
+    ( 'planck_length',         'meter' )                           : '1.616199e-35',
+    ( 'planck_time',           'second' )                          : '5.39106e-44',
     ( 'potrzebie',             'farshimmelt_potrzebie' )           : '100000',
     ( 'potrzebie',             'meter' )                           : '0.002263348517438173216473',  # see Mad #33
     ( 'pound',                 'grain' )                           : '7000',
@@ -747,9 +914,16 @@ unitConversionMatrix = {
     ( 'quart',                 'liter' )                           : '0.946352946',
     ( 'quart',                 'pint' )                            : '2',
     ( 'radian',                'degree' )                          : '57.2957795130823208768',
+    ( 'reed',                  'foot' )                            : '9',
     ( 'rod',                   'foot' )                            : '16.5',
     ( 'rood',                  'square_yard' )                     : '1210',
+    ( 'rope',                  'foot' )                            : '20',
+    ( 'siderial_day',          'second' )                          : '86164.1',
+    ( 'siderial_year',         'day' )                             : '365.256363',
+    ( 'slug',                  'pound' )                           : '32.174048556',
+    ( 'span',                  'inch' )                            : '9',
     ( 'square_meter',          'barn' )                            : '1.0e28',
+    ( 'square_meter',          'outhouse' )                        : '1.0e34',
     ( 'square_meter',          'shed' )                            : '1.0e52',
     ( 'standard_gravity',      'galileo' )                         : '980.6650',
     ( 'standard_gravity',      'meter/second^2' )                  : '9.80665',
@@ -761,6 +935,8 @@ unitConversionMatrix = {
     ( 'tonne',                 'gram' )                            : '1000000',
     ( 'ton_of_TNT',            'joule' )                           : '4184000000',
     ( 'torr',                  'mmHg' )                            : '1',
+    ( 'township',              'acre' )                            : '23040',
+    ( 'tropical_year',         'day' )                             : '365.24219',
     ( 'troy_ounce',            'gram' )                            : '31.1034768',
     ( 'troy_pound',            'pound' )                           : '12',
     ( 'tun',                   'gallon' )                          : '252',
@@ -769,43 +945,100 @@ unitConversionMatrix = {
     ( 'wood',                  'martin' )                          : '100',
     ( 'yard',                  'foot' )                            : '3',
     ( 'year',                  'day' )                             : '365.25',
-    ( 'gregorian_year',        'day' )                             : '365.2425',
-    ( 'tropical_year',         'day' )                             : '365.24219',
-    ( 'siderial_year',         'day' )                             : '365.256363',
-    ( 'siderial_day',          'second' )                          : '86164.1',
-    ( 'rope',                  'foot' )                            : '20',
-    ( 'perch',                 'foot' )                            : '16.5',
-    ( 'fathom',                'foot' )                            : '6',
-    ( 'ell',                   'inch' )                            : '45',
-    ( 'link',                  'inch' )                            : '7.92',
-    ( 'span',                  'inch' )                            : '9',
-    ( 'finger',                'inch' )                            : '4.5',
-    ( 'nail',                  'inch' )                            : '2.25',
-    ( 'inch',                  'barleycorn' )                      : '3',
-    ( 'inch',                  'mil' )                             : '1000',
-    ( 'arpent',                'foot' )                            : '192',
-    ( 'inch',                  'pica' )                            : '6',
-    ( 'inch',                  'point' )                           : '72',
-    ( 'inch',                  'twip' )                            : '1440',
-    ( 'famn',                  'aln' )                             : '3',
-    ( 'aln',                   'inch' )                            : '23.377077865',
-    ( 'inch',                  'caliber' )                         : '100',
-    ( 'ken',                   'inch' )                            : '83.4',
-    ( 'reed',                  'foot' )                            : '9',
-    ( 'long_reed',             'foot' )                            : '10.5',
-    ( 'cubit',                 'inch' )                            : '18',
-    ( 'greek_cubit',           'inch' )                            : '18.22',
-    ( 'long_cubit',            'inch' )                            : '21',
-    ( 'handbreadth',           'inch' )                            : '3',
-    ( 'fingerbreadth',         'inch' )                            : '0.75',
-    ( 'slug',                  'pound' )                           : '32.174048556',
-    ( 'planck_time',           'second' )                          : '5.39106e-44',
-    ( 'planck_energy',         'joule' )                           : '1.956e9',
-    ( 'planck_length',         'meter' )                           : '1.616199e-35',
-    ( 'homestead',             'acre' )                            : '160',
-    ( 'township',              'acre' )                            : '23040',
-    ( 'planck_charge',         'coulomb' )                         : '1.875545956e-18',
+    ( 'kelvin',                'rankine' )                         : '1.4',
 }
+
+
+#//******************************************************************************
+#//
+#//  specialUnitConversionMatrix
+#//
+#//  This is for units that can't be converted with a simple multiplication
+#//  factor.  So far, only temperatures require this.
+#//
+#//  Plus, I'm not going to do the transitive thing here, so it's necessary
+#//  to explicitly state the conversions for all permutations.
+#//
+#//  ( first unit, second unit, conversion function )
+#//
+#//******************************************************************************
+
+specialUnitConversionMatrix = {
+    ( 'celsius',               'delisle' )                         : lambda n: n,
+    ( 'celsius',               'degrees_newton' )                  : lambda n: n,
+    ( 'celsius',               'fahrenheit' )                      : lambda n: fadd( 32, fmul( n, fdiv( 9, 5 ) ) ),
+    ( 'celsius',               'gas_mark' )                        : lambda n: n,
+    ( 'celsius',               'kelvin' )                          : lambda n: fadd( n, 273.15 ),
+    ( 'celsius',               'rankine' )                         : lambda n: n,
+    ( 'celsius',               'reaumur' )                         : lambda n: n,
+
+    ( 'delisle',               'celsius' )                         : lambda n: n,
+    ( 'delisle',               'degrees_newton' )                  : lambda n: n,
+    ( 'delisle',               'fahrenheit' )                      : lambda n: n,
+    ( 'delisle',               'gas_mark' )                        : lambda n: n,
+    ( 'delisle',               'kelvin' )                          : lambda n: n,
+    ( 'delisle',               'rankine' )                         : lambda n: n,
+    ( 'delisle',               'reaumur' )                         : lambda n: n,
+
+    ( 'fahrenheit',            'celsius' )                         : lambda n: fsub( fmul( n, fdiv( 5, 9 ) ), 32 ),
+    ( 'fahrenheit',            'degrees_newton' )                  : lambda n: n,
+    ( 'fahrenheit',            'delisle' )                         : lambda n: n,
+    ( 'fahrenheit',            'gas_mark' )                        : lambda n: n,
+    ( 'fahrenheit',            'kelvin' )                          : lambda n: fsub( fmul( n, fdiv( 5, 9 ) ), 305.15 )
+    ( 'fahrenheit',            'rankine' )                         : lambda n: fadd( n, 459.67 ),
+    ( 'fahrenheit',            'reaumur' )                         : lambda n: n,
+
+    ( 'gas_mark',              'celsius' )                         : lambda n: n,
+    ( 'gas_mark',              'degrees_newton' )                  : lambda n: n,
+    ( 'gas_mark',              'delisle' )                         : lambda n: n,
+    ( 'gas_mark',              'fahrenheit' )                      : lambda n: n,
+    ( 'gas_mark',              'kelvin' )                          : lambda n: n,
+    ( 'gas_mark',              'rankine' )                         : lambda n: n,
+    ( 'gas_mark',              'reaumur' )                         : lambda n: n,
+
+    ( 'kelvin',                'celsius' )                         : lambda n: fsub( n, 273.15 ),
+    ( 'kelvin',                'degrees_newton' )                  : lambda n: n,
+    ( 'kelvin',                'delisle' )                         : lambda n: n,
+    ( 'kelvin',                'fahrenheit' )                      : lambda n: n,
+    ( 'kelvin',                'gas_mark' )                        : lambda n: n,
+   # ( 'kelvin',                'rankine' )                         : lambda n: n,
+    ( 'kelvin',                'reaumur' )                         : lambda n: n,
+
+    ( 'rankine',               'celsius' )                         : lambda n: n,
+    ( 'rankine',               'degrees_newton' )                  : lambda n: n,
+    ( 'rankine',               'delisle' )                         : lambda n: n,
+    ( 'rankine',               'fahrenheit' )                      : lambda n: fsub( n, 459.67 ),
+    ( 'rankine',               'gas_mark' )                        : lambda n: n,
+   # ( 'rankine',               'kelvin' )                          : lambda n: n,
+    ( 'rankine',               'reaumur' )                         : lambda n: n,
+
+    ( 'reaumur',               'celsius' )                         : lambda n: n,
+    ( 'reaumur',               'degrees_newton' )                  : lambda n: n,
+    ( 'reaumur',               'delisle' )                         : lambda n: n,
+    ( 'reaumur',               'fahrenheit' )                      : lambda n: n,
+    ( 'reaumur',               'gas_mark' )                        : lambda n: n,
+    ( 'reaumur',               'kelvin' )                          : lambda n: n,
+    ( 'reaumur',               'rankine' )                         : lambda n: n,
+}
+
+    'delisle' :
+        UnitInfo( 'temperature', 'delisle', 'degrees delisle', '', [ ] ),                   # K = 373.15 - 2/3 De
+
+    'fahrenheit' :
+        UnitInfo( 'temperature', 'fahrenheit', 'degrees fahrenheit', '', [ 'fahr' ] ),      # K = F + 459.67 * 5/9
+
+    'gas_mark' :
+        UnitInfo( 'temperature', 'gas_mark', 'degrees gas_mark', 'GM', [ 'regulo', 'regulo_gas_mark' ] ),   # K = N * 100/33 + 273.15
+
+    'degrees_newton' :
+        UnitInfo( 'temperature', 'degrees_newton', 'degrees newton', '', [ ] ),             # K = R * 5/9
+
+    'rankine' :
+        UnitInfo( 'temperature', 'rankine', 'degrees rankine', '', [ ] ),                   # K = ( Ro - 7.5 ) * 40/21 + 273.15
+
+    'reaumur' :
+        UnitInfo( 'temperature', 'reaumur', 'degrees reaumur', '', [ ] ),                   # K = GM * 125/9 + 422.038
+
 
 
 #//******************************************************************************
