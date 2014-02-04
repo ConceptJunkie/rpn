@@ -14,7 +14,9 @@
 
 import argparse
 import collections
+import datetime
 import itertools
+import math
 import os
 import pyprimes
 import random
@@ -34,7 +36,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.27.0'
+RPN_VERSION = '4.28.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -58,6 +60,9 @@ inputRadix = 10
 
 updateDicts = False
 
+currentUnitOperator = ''
+
+conversionMatrixInitialized = False
 
 #//******************************************************************************
 #//
@@ -2543,9 +2548,73 @@ def getNthPolygonalNumber( n, k ):
     if k < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
-    # TODO: throw if k < 3
     coeff = fdiv( fsub( k, 2 ), 2 )
     return polyval( [ coeff, fneg( fsub( coeff, 1 ) ), 0 ], n )
+
+
+#//******************************************************************************
+#//
+#//  getRegularPolygonArea
+#//
+#//  based on having sides of unit length
+#//
+#//  http://www.mathopenref.com/polygonregulararea.html
+#//
+#//******************************************************************************
+
+def getRegularPolygonArea( n ):
+    if n < 3:
+        raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
+
+    return fdiv( n, fmul( 4, tan( fdiv( pi, n ) ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getHypersphereSurfaceArea
+#//
+#//  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
+#//
+#//  n dimensions, radius k
+#//
+#//******************************************************************************
+
+def getHypersphereSurfaceArea( n, k ):
+    if n < 3:
+        raise ValueError( 'the number of dimensions must be at least 3' )
+
+    return fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
+                       gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, fsub( n, 1 ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getHypersphereVolume
+#//
+#//  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
+#//
+#//  n dimensions, radius k
+#//
+#//******************************************************************************
+
+def getHypersphereVolume( n, k ):
+    if n < 3:
+        raise ValueError( 'the number of dimensions must be at least 3' )
+
+    return fmul( fdiv( power( pi, fdiv( n, 2 ) ),
+                       gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, n ) )
+
+
+#//******************************************************************************
+#//
+#//  getTriangleArea
+#//
+#//  https://en.wikipedia.org/wiki/Equilateral_triangle#Area
+#//
+#//******************************************************************************
+
+def getTriangleArea( a, b, c ):
+    return fdiv( fsum( [ power( a, 2 ), power( b, 2 ), power( c, 2 ) ] ), fmul( 4, sqrt( 3 ) ) )
 
 
 #//******************************************************************************
@@ -4476,120 +4545,259 @@ callers = [
 ]
 
 
+#//******************************************************************************
+#//
+#//  measurement units
+#//
+#//******************************************************************************
+
+unit_operators = [
+    'meter',
+    'foot',
+    'inch',
+    'mile',
+    'yard',
+]
+
+
+metric_units = [
+    ( 'meter', 'm' ),
+    ( 'second', 's' ),
+]
+
+
+metric_prefixes = [
+    ( 'yotta',  'Y',  '24' ),
+    ( 'zetta',  'Z',  '21' ),
+    ( 'exa',    'E',  '18' ),
+    ( 'peta',   'P',  '15' ),
+    ( 'tera',   'T',  '12' ),
+    ( 'giga',   'G',  '9' ),
+    ( 'mega',   'M',  '6' ),
+    ( 'kilo',   'k',  '3' ),
+    ( 'hecto',  'h',  '2' ),
+    ( 'deca',   'da', '1' ),
+    ( 'deci',   'd',  '-1' ),
+    ( 'centi',  'c',  '-2' ),
+    ( 'milli',  'm',  '-3' ),
+    ( 'micro',  '',   '-6' ),
+    ( 'nano',   'n',  '-9' ),
+    ( 'pico',   'p',  '-12' ),
+    ( 'femto',  'f',  '-15' ),
+    ( 'atto',   'a',  '-18' ),
+    ( 'zepto',  'z',  '-21' ),
+    ( 'yocto',  'y',  '-24' ),
+]
+
+unitConversionMatrix = {
+    ( 'inch',   'meter' )   : '0.0254',
+    ( 'foot',   'inch' )    : '12',
+    ( 'yard',   'foot' )    : '3',
+    ( 'mile',   'foot' )    : '5280',
+}
+
+
+#//******************************************************************************
+#//
+#//  initializeConversionMatrix
+#//
+#//******************************************************************************
+
+def initializeConversionMatrix( unitConversionMatrix ):
+        #print( unitConversionMatrix )
+        #print( )
+        #print( )
+
+        for unit in metric_units:
+            for prefix in metric_prefixes:
+                unitConversionMatrix[ ( prefix[ 0 ] + unit[ 0 ], unit[ 0 ] ) ] = str( power( 10, mpmathify( prefix[ 2 ] ) ) )
+
+        #print( unitConversionMatrix )
+        #print( )
+        #print( )
+
+        newItems = { }
+
+        for op1, op2 in unitConversionMatrix:
+            conversion = fdiv( 1, mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ) )
+            newItems[ ( op2, op1 ) ] = str( conversion )
+
+        unitConversionMatrix.update( newItems )
+
+        #print( unitConversionMatrix )
+        #print( )
+        #print( )
+
+        newItems = { }
+
+        for op1, op2 in unitConversionMatrix:
+             for op3 in unit_operators:
+                if ( op1, op3 ) not in unitConversionMatrix and ( op2, op3 ) in unitConversionMatrix:
+                    conversion = fmul( mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ), mpmathify( unitConversionMatrix[ ( op2, op3 ) ] ) )
+                    newItems[ ( op1, op3 ) ] = str( conversion )
+
+        unitConversionMatrix.update( newItems )
+
+        #print( unitConversionMatrix )
+
+
+#//******************************************************************************
+#//
+#//  handleUnitOperator
+#//
+#//******************************************************************************
+
+def handleUnitOperator( operator, valueList ):
+    global currentUnitOperator
+    global conversionMatrixInitialized
+    global unitConversionMatrix
+
+    if not conversionMatrixInitialized:
+        initializeConversionMatrix( unitConversionMatrix )
+        conversionMatrixInitialized = True
+
+    if currentUnitOperator == '':
+        currentUnitOperator = operator
+    elif ( currentUnitOperator, operator ) in unitConversionMatrix:
+        conversion = mpmathify( unitConversionMatrix[ ( currentUnitOperator, operator ) ] )
+        valueList.append( evaluateOneArgFunction( lambda i: fmul( i, conversion ), valueList.pop( ) ) )
+    elif ( operator, currentUnitOperator ) in unitConversionMatrix:
+        conversion = mpmathify( unitConversionMatrix[ ( operator, currentUnitOperator ) ] )
+        valueList.append( evaluateOneArgFunction( lambda i: fdiv( i, conversion ), valueList.pop( ) ) )
+    else:
+        raise ValueError( 'no conversion is defined between \'{}\' and \'{}\''.format( currentUnitOperator, operator ) )
+
+
+#//******************************************************************************
+#//
+#//  operatorAliases
+#//
+#//******************************************************************************
+
 operatorAliases = {
-    '!!'        : 'doublefac',
-    '!'         : 'factorial',
-    '%'         : 'modulo',
-    '*'         : 'multiply',
-    '**'        : 'power',
-    '***'       : 'tetrate',
-    '+'         : 'add',
-    '-'         : 'subtract',
-    '/'         : 'divide',
-    '//'        : 'root',
-    '1/x'       : 'reciprocal',
-    'average'   : 'mean',
-    'avg'       : 'mean',
-    'bal'       : 'balanced',
-    'bal?'      : 'balanced?',
-    'bal_'      : 'balanced_',
-    'cbrt'      : 'root3',
-    'ccube'     : 'centeredcube',
-    'cdec'      : 'cdecagonal',
-    'cdec?'     : 'cdecagonal?',
-    'ceil'      : 'ceiling',
-    'champ'     : 'champernowne',
-    'chept'     : 'cheptagonal',
-    'chept?'    : 'cheptagonal?',
-    'chex'      : 'chexagonal',
-    'chex?'     : 'chexagonal?',
-    'cnon'      : 'cnonagonal',
-    'cnon?'     : 'cnonagonal?',
-    'coct'      : 'coctagonal',
-    'coct?'     : 'coctagonal?',
-    'cousin'    : 'cousinprime',
-    'cousin?'   : 'cousinprime?',
-    'cousin_'   : 'cousinprime_',
-    'cpent'     : 'cpentagonal',
-    'cpent?'    : 'cpentagonal?',
-    'cpoly'     : 'cpolygonal',
-    'cpoly?'    : 'cpolygonal?',
-    'ctri'      : 'ctriangular',
-    'ctri?'     : 'ctriangular?',
-    'cuberoot'  : 'root3',
-    'dec'       : 'decagonal',
-    'dec?'      : 'decagonal?',
-    'deg'       : 'degrees',
-    'divcount'  : 'countdiv',
-    'fac'       : 'factorial',
-    'fac2'      : 'doublefac',
-    'fib'       : 'fibonacci',
-    'frac'      : 'fraction',
-    'harm'      : 'harmonic',
-    'hept'      : 'heptagonal',
-    'hept?'     : 'heptagonal?',
-    'hex'       : 'hexagonal',
-    'hex?'      : 'hexagonal?',
-    'hyper4'    : 'tetrate',
-    'inv'       : 'reciprocal',
-    'isdiv'     : 'isdivisible',
-    'issqr'     : 'issquare',
-    'linear'    : 'linearrecur',
-    'log'       : 'ln',
-    'mod'       : 'modulo',
-    'mult'      : 'multiply',
-    'neg'       : 'negative',
-    'non'       : 'nonagonal',
-    'non?'      : 'nonagonal?',
-    'nonasq'    : 'nonasquare',
-    'nonzeroes' : 'nonzero',
-    'oct'       : 'octagonal',
-    'oct?'      : 'octagonal?',
-    'p!'        : 'primorial',
-    'pent'      : 'pentagonal',
-    'pent?'     : 'pentagonal?',
-    'poly'      : 'polygonal',
-    'poly?'     : 'polygonal?',
-    'prod'      : 'product',
-    'pyr'       : 'pyramid',
-    'quad'      : 'quadprime',
-    'quad?'     : 'quadprime?',
-    'quad_'     : 'quadprime_',
-    'quint'     : 'quintprime',
-    'quint?'    : 'quintprime?',
-    'quint_'    : 'quintprime_',
-    'rad'       : 'radians',
-    'rand'      : 'random',
-    'safe'      : 'safeprime',
-    'safe?'     : 'safeprime?',
-    'sext'      : 'sextprime',
-    'sext?'     : 'sextprime?',
-    'sext_'     : 'sextprime_',
-    'sexy'      : 'sexyprime',
-    'sexy3'     : 'sexytriplet',
-    'sexy3?'    : 'sexytriplet?',
-    'sexy3_'    : 'sexytriplet_',
-    'sexy4'     : 'sexyquad',
-    'sexy4?'    : 'sexyquad?',
-    'sexy4_'    : 'sexyquad_',
-    'sexy?'     : 'sexyprime?',
-    'sexy_'     : 'sexyprime',
-    'sophie'    : 'sophieprime',
-    'sophie?'   : 'sophieprime?',
-    'sqr'       : 'square',
-    'sqrt'      : 'root2',
-    'syl'       : 'sylvester',
-    'tri'       : 'triangular',
-    'tri?'      : 'triangular?',
-    'triplet'   : 'tripletprime',
-    'triplet?'  : 'tripletprime?',
-    'triplet_'  : 'tripletprime_',
-    'twin'      : 'twinprime',
-    'twin?'     : 'twinprime?',
-    'twin_'     : 'twinprime_',
-    'zeroes'    : 'zero',
-    '^'         : 'power',
-    '~'         : 'not',
+    '!!'          : 'doublefac',
+    '!'           : 'factorial',
+    '%'           : 'modulo',
+    '*'           : 'multiply',
+    '**'          : 'power',
+    '***'         : 'tetrate',
+    '+'           : 'add',
+    '-'           : 'subtract',
+    '/'           : 'divide',
+    '//'          : 'root',
+    '1/x'         : 'reciprocal',
+    'average'     : 'mean',
+    'avg'         : 'mean',
+    'bal'         : 'balanced',
+    'bal?'        : 'balanced?',
+    'bal_'        : 'balanced_',
+    'cbrt'        : 'root3',
+    'ccube'       : 'centeredcube',
+    'cdec'        : 'cdecagonal',
+    'cdec?'       : 'cdecagonal?',
+    'ceil'        : 'ceiling',
+    'champ'       : 'champernowne',
+    'chept'       : 'cheptagonal',
+    'chept?'      : 'cheptagonal?',
+    'chex'        : 'chexagonal',
+    'chex?'       : 'chexagonal?',
+    'cm'          : 'centimeter',
+    'cnon'        : 'cnonagonal',
+    'cnon?'       : 'cnonagonal?',
+    'coct'        : 'coctagonal',
+    'coct?'       : 'coctagonal?',
+    'cousin'      : 'cousinprime',
+    'cousin?'     : 'cousinprime?',
+    'cousin_'     : 'cousinprime_',
+    'cpent'       : 'cpentagonal',
+    'cpent?'      : 'cpentagonal?',
+    'cpoly'       : 'cpolygonal',
+    'cpoly?'      : 'cpolygonal?',
+    'ctri'        : 'ctriangular',
+    'ctri?'       : 'ctriangular?',
+    'cuberoot'    : 'root3',
+    'dec'         : 'decagonal',
+    'dec?'        : 'decagonal?',
+    'deg'         : 'degrees',
+    'divcount'    : 'countdiv',
+    'fac'         : 'factorial',
+    'fac2'        : 'doublefac',
+    'feet'        : 'foot',
+    'fib'         : 'fibonacci',
+    'frac'        : 'fraction',
+    'harm'        : 'harmonic',
+    'hept'        : 'heptagonal',
+    'hept?'       : 'heptagonal?',
+    'hex'         : 'hexagonal',
+    'hex?'        : 'hexagonal?',
+    'hyper4'      : 'tetrate',
+    'inches'      : 'inch',
+    'inv'         : 'reciprocal',
+    'isdiv'       : 'isdivisible',
+    'issqr'       : 'issquare',
+    'linear'      : 'linearrecur',
+    'log'         : 'ln',
+    'meters'      : 'meter',
+    'metre'       : 'meter',
+    'metres'      : 'meter',
+    'mi'          : 'mile',
+    'miles'       : 'mile',
+    'mod'         : 'modulo',
+    'mult'        : 'multiply',
+    'neg'         : 'negative',
+    'non'         : 'nonagonal',
+    'non?'        : 'nonagonal?',
+    'nonasq'      : 'nonasquare',
+    'nonzeroes'   : 'nonzero',
+    'oct'         : 'octagonal',
+    'oct?'        : 'octagonal?',
+    'p!'          : 'primorial',
+    'pent'        : 'pentagonal',
+    'pent?'       : 'pentagonal?',
+    'poly'        : 'polygonal',
+    'poly?'       : 'polygonal?',
+    'prod'        : 'product',
+    'pyr'         : 'pyramid',
+    'quad'        : 'quadprime',
+    'quad?'       : 'quadprime?',
+    'quad_'       : 'quadprime_',
+    'quint'       : 'quintprime',
+    'quint?'      : 'quintprime?',
+    'quint_'      : 'quintprime_',
+    'rad'         : 'radians',
+    'rand'        : 'random',
+    'safe'        : 'safeprime',
+    'safe?'       : 'safeprime?',
+    'sext'        : 'sextprime',
+    'sext?'       : 'sextprime?',
+    'sext_'       : 'sextprime_',
+    'sexy'        : 'sexyprime',
+    'sexy3'       : 'sexytriplet',
+    'sexy3?'      : 'sexytriplet?',
+    'sexy3_'      : 'sexytriplet_',
+    'sexy4'       : 'sexyquad',
+    'sexy4?'      : 'sexyquad?',
+    'sexy4_'      : 'sexyquad_',
+    'sexy?'       : 'sexyprime?',
+    'sexy_'       : 'sexyprime',
+    'sophie'      : 'sophieprime',
+    'sophie?'     : 'sophieprime?',
+    'sqr'         : 'square',
+    'sqrt'        : 'root2',
+    'syl'         : 'sylvester',
+    'tri'         : 'triangular',
+    'tri?'        : 'triangular?',
+    'triarea'     : 'trianglearea',
+    'triplet'     : 'tripletprime',
+    'triplet?'    : 'tripletprime?',
+    'triplet_'    : 'tripletprime_',
+    'twin'        : 'twinprime',
+    'twin?'       : 'twinprime?',
+    'twin_'       : 'twinprime_',
+    'yards'       : 'yard',
+    'zeroes'      : 'zero',
+    '^'           : 'power',
+    '~'           : 'not',
 }
 
 
@@ -4849,6 +5057,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     'sum'       : [ fsum, 1,
 'arithmetic', 'calculates the sum of values in list n',
+'''
+''',
+'''
+''' ],
+    'tounixtime'  : [ lambda i: datetime.datetime( *i ).timestamp( ), 1,
+'conversion', 'converts from date-time list to Unix time (seconds since epoch)'
 '''
 ''',
 '''
@@ -5463,6 +5677,14 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'fromunixtime'  : [ lambda n: [ time.localtime( n ).tm_year, time.localtime( n ).tm_mon,
+                                    time.localtime( n ).tm_mday, time.localtime( n ).tm_hour,
+                                    time.localtime( n ).tm_min, time.localtime( n ).tm_sec ], 1,
+'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
+'''
+''',
+'''
+''' ],
     'gamma'         : [ gamma, 1,
 'number_theory', 'calculates the gamma function for n',
 '''
@@ -5768,7 +5990,7 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'nonatri'    : [ getNthNonagonalTriangularNumber, 1,
+    'nonatri'       : [ getNthNonagonalTriangularNumber, 1,
 'polygonal_numbers', 'calculates the nth nonagonal triangular number',
 '''
 'nonatri' calculates the nth number that is both nonagonal and triangular.
@@ -5777,6 +5999,18 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'not'           : [ getInvertedBits, 1,
 'logical', 'calculates the bitwise negation of n',
+'''
+''',
+'''
+''' ],
+    'nspherearea'   : [ getHypersphereSurfaceArea, 2,
+'trigonometry', 'calculate the surface area of a k-sphere of radius n',
+'''
+''',
+'''
+''' ],
+    'nspherevolume' : [ getHypersphereVolume, 2,
+'trigonometry', 'calculate the volume of a k-sphere of radius n',
 '''
 ''',
 '''
@@ -5921,6 +6155,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'plastic'       : [ getPlasticConstant, 0,
 'constants', 'returns the Plastic constant',
+'''
+''',
+'''
+''' ],
+    'polyarea'   : [ getRegularPolygonArea, 1,
+'trigonometry', 'calculates the area of an regular n-sided polygon with sides of unit length',
 '''
 ''',
 '''
@@ -6295,6 +6535,12 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
+    'trianglearea'  : [ getTriangleArea, 3,
+'trigonometry', 'calculates the area of a triangle with sides of length a, b, and c'
+'''
+''',
+'''
+''' ],
     'triangular'    : [ lambda n : getNthPolygonalNumber( n, 3 ), 1,
 'polygonal_numbers', 'calcuates the nth triangular number',
 '''
@@ -6363,6 +6609,14 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'unitroots'     : [ lambda i: unitroots( int( i ) ), 1,
 'number_theory', 'calculates the nth roots of unity',
+'''
+''',
+'''
+''' ],
+    'fromunixtime'  : [ lambda n: [ time.localtime( n ).tm_year, time.localtime( n ).tm_mon,
+                                    time.localtime( n ).tm_mday, time.localtime( n ).tm_hour,
+                                    time.localtime( n ).tm_min, time.localtime( n ).tm_sec ], 1,
+'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
 '''
 ''',
 '''
@@ -6820,6 +7074,7 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
         strOutput = str( re( mpmathify( output ) ) )
     else:
         imaginaryValue = ''
+        #strOutput = nstr( output, outputAccuracy  )[ 1 : -2 ]     # nstr seems to add quotes
         strOutput = str( output )
 
     if '.' in strOutput and strOutput.find( 'e' ) == -1:
@@ -7744,6 +7999,8 @@ def main( ):
                 print( 'rpn:  index error for operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
                 break
+        elif term in unit_operators:
+            handleUnitOperator( term, currentValueList )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
 
@@ -7868,14 +8125,14 @@ def main( ):
                         formula = identify( result, base )
 
                     # I don't know if this would ever be useful to try.
-                    if formula is None:
-                        base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
-                        formula = identify( result, base )
-
+                    #if formula is None:
+                    #    base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
+                    #    formula = identify( result, base )
+                    #
                     # Nor this.
-                    if formula is None:
-                        base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
-                        formula = identify( result, base )
+                    #if formula is None:
+                    #    base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
+                    #    formula = identify( result, base )
 
                     if formula is None:
                         print( '    = [formula cannot be found]' )
