@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.18.0'
+RPN_VERSION = '4.19.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -101,7 +101,7 @@ class Polynomial(object):
         "Return self+val"
         if isinstance( val, Polynomial ):                    # add Polynomial
             res = [ a + b for a, b in itertools.izip_longest( self.coeffs, val.coeffs, fillvalue=0 ) ]
-        else:                                              # add scalar
+        else:                                                # add scalar
             if self.coeffs:
                 res = self.coeffs[ : ]
                 res[ 0 ] += val
@@ -273,10 +273,10 @@ def loadBalancedPrimes( ):
     return loadTable( 'balanced_primes', { 2 : 5 } )
 
 def loadDoubleBalancedPrimes( ):
-    return loadTable( 'double_balanced_primes', { 1 : getNthDoubleBalancedPrimes( 1 ) } )
+    return loadTable( 'double_balanced_primes', { 1 : getNthDoubleBalancedPrime( 1 ) } )
 
 def loadTripleBalancedPrimes( ):
-    return loadTable( 'triple_balanced_primes', { 1 : getNthTripleBalancedPrimes( 1 ) } )
+    return loadTable( 'triple_balanced_primes', { 1 : getNthTripleBalancedPrime( 1 ) } )
 
 def loadSophiePrimes( ):
     return loadTable( 'sophie_primes', { 4 : 11 } )
@@ -517,19 +517,19 @@ def makeTwinPrimes( start, end, step ):
 def makeBalancedPrimes( start, end, step ):
     global balancedPrimes
     getNthBalancedPrimes( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthBalancedPrimes, 'balanced' )
+    end = makeTable( start, end, step, getNthBalancedPrime, 'balanced' )
     saveBalancedPrimes( balancedPrimes )
     return end
 
 def makeDoubleBalancedPrimes( start, end, step ):
     global doubleBalancedPrimes
-    end = makeTable( start, end, step, getNthDoubleBalancedPrimes, 'double_balanced' )
+    end = makeTable( start, end, step, getNthDoubleBalancedPrime, 'double_balanced' )
     saveDoubleBalancedPrimes( doubleBalancedPrimes )
     return end
 
 def makeTripleBalancedPrimes( start, end, step ):
     global tripleBalancedPrimes
-    end = makeTable( start, end, step, getNthTripleBalancedPrimes, 'triple_balanced' )
+    end = makeTable( start, end, step, getNthTripleBalancedPrime, 'triple_balanced' )
     saveTripleBalancedPrimes( tripleBalancedPrimes )
     return end
 
@@ -570,8 +570,8 @@ def makeSexyQuadruplets( start, end, step ):
 
 def makeTripletPrimes( start, end, step ):
     global tripletPrimes
-    getNthTripletPrimes( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthTripletPrimes, 'triplet' )
+    getNthTripletPrime( 100 )  # force the cache to load
+    end = makeTable( start, end, step, getNthTripletPrime, 'triplet' )
     saveTripletPrimes( tripletPrimes )
     return end
 
@@ -584,15 +584,15 @@ def makeQuadrupletPrimes( start, end, step ):
 
 def makeQuintupletPrimes( start, end, step ):
     global quintPrimes
-    getNthQuintupletPrimes( 10 )  # force the cache to load
-    end = makeTable( start, end, step, getNthQuintupletPrimes, 'quint' )
+    getNthQuintupletPrime( 10 )  # force the cache to load
+    end = makeTable( start, end, step, getNthQuintupletPrime, 'quint' )
     saveQuintupletPrimes( quintPrimes )
     return end
 
 def makeSextupletPrimes( start, end, step ):
     global sextPrimes
-    getNthSextupletPrimes( 10 )  # force the cache to load
-    end = makeTable( start, end, step, getNthSextupletPrimes, 'sext' )
+    getNthSextupletPrime( 10 )  # force the cache to load
+    end = makeTable( start, end, step, getNthSextupletPrime, 'sext' )
     saveSextupletPrimes( sextPrimes )
     return end
 
@@ -695,11 +695,11 @@ def getNextPrimeCandidate( p, f ):
 
 #//******************************************************************************
 #//
-#//  findNextPrime
+#//  getNextPrime
 #//
 #//******************************************************************************
 
-def findNextPrime( p, f, func = getNextPrimeCandidate ):
+def getNextPrime( p, f, func = getNextPrimeCandidate ):
     p, f = getNextPrimeCandidate( p, f )
 
     while not isPrime( p ):
@@ -755,7 +755,7 @@ def getNthPrime( arg ):
     f = p % 10
 
     while n > currentIndex:
-        p, f = findNextPrime( p, f )
+        p, f = getNextPrime( p, f )
         currentIndex += 1
 
     if updateDicts:
@@ -805,7 +805,7 @@ def findPrime( arg ):
     oldPrime = p
 
     while True:
-        p, f = findNextPrime( p, f )
+        p, f = getNextPrime( p, f )
         currentIndex += 1
 
         if p > target:
@@ -870,7 +870,7 @@ def getNthIsolatedPrime( arg ):
     f = p % 10
 
     while n > currentIndex:
-        p, f = findNextPrime( p, f )
+        p, f = getNextPrime( p, f )
 
         if not isPrime( p - 2 ) and not isPrime( p + 2 ):
             currentIndex += 1
@@ -945,6 +945,26 @@ def getNthPascalLine( n ):
 
 #//******************************************************************************
 #//
+#//  getNextTwinPrimeCandidate
+#//
+#//******************************************************************************
+
+def getNextTwinPrimeCandidate( p, f ):
+    if f == 1:
+        p += 6
+        f = 7
+    elif f == 7:
+        p += 2
+        f = 9
+    else:
+        p += 2
+        f = 1
+
+    return p, f
+
+
+#//******************************************************************************
+#//
 #//  getNthTwinPrime
 #//
 #//******************************************************************************
@@ -972,27 +992,19 @@ def getNthTwinPrime( arg ):
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                                     format( n, maxIndex ) )
 
-        startingPlace = max( key for key in twinPrimes if key <= n )
-        p = twinPrimes[ startingPlace ]
+        currentIndex = max( key for key in twinPrimes if key <= n )
+        p = twinPrimes[ currentIndex ]
     else:
-        startingPlace = 3
+        currentIndex = 3
         p = 11
 
     f = p % 10
 
-    while n > startingPlace:
-        if f == 1:
-            p += 6
-            f = 7
-        elif f == 7:
-            p += 2
-            f = 9
-        else:
-            p += 2
-            f = 1
+    while n > currentIndex:
+        p, f = getNextPrime( p, f, getNextTwinPrimeCandidate )
 
-        if isPrime( p ) and isPrime( p + 2 ):
-            n -= 1
+        if isPrime( p + 2 ):
+            currentIndex += 1
 
     if updateDicts:
         twinPrimes[ int( arg ) ] = p
@@ -1002,13 +1014,24 @@ def getNthTwinPrime( arg ):
 
 #//******************************************************************************
 #//
-#//  getNthBalancedPrimes
+#//  getNthTwinPrimeList
+#//
+#//******************************************************************************
+
+def getNthTwinPrimeList( arg ):
+    p = getNthTwinPrime( arg )
+    return [ p, fadd( p, 2 ) ]
+
+
+#//******************************************************************************
+#//
+#//  getNthBalancedPrime
 #//
 #//  returns the first of a set of 3 balanced primes
 #//
 #//******************************************************************************
 
-def getNthBalancedPrimes( arg ):
+def getNthBalancedPrime( arg ):
     global balancedPrimes
     global updateDicts
 
@@ -1042,7 +1065,7 @@ def getNthBalancedPrimes( arg ):
     f = p % 10
 
     while n > currentIndex:
-        p, f = findNextPrime( p, f )
+        p, f = getNextPrime( p, f )
 
         if ( prevPrime - secondPrevPrime ) == ( p - prevPrime ):
             currentIndex += 1
@@ -1059,11 +1082,25 @@ def getNthBalancedPrimes( arg ):
 
 #//******************************************************************************
 #//
-#//  getNthDoubleBalancedPrimes
+#//  getNthBalancedPrimeList
 #//
 #//******************************************************************************
 
-def getNthDoubleBalancedPrimes( arg ):
+def getNthBalancedPrimeList( arg ):
+    p = getNthBalancedPrime( arg )
+    q = getNextPrime( p )
+    r = getNextPrime( q )
+
+    return [ p, q, r ]
+
+
+#//******************************************************************************
+#//
+#//  getNthDoubleBalancedPrime
+#//
+#//******************************************************************************
+
+def getNthDoubleBalancedPrime( arg ):
     global doubleBalancedPrimes
     global updateDicts
 
@@ -1091,7 +1128,7 @@ def getNthDoubleBalancedPrimes( arg ):
     f = p % 10
 
     while n > currentIndex:
-        p, f = findNextPrime( p, f )
+        p, f = getNextPrime( p, f )
 
         primes.append( p )
         del primes[ 0 ]
@@ -1111,11 +1148,28 @@ def getNthDoubleBalancedPrimes( arg ):
 
 #//******************************************************************************
 #//
-#//  getNthTripleBalancedPrimes
+#//  getNthDoubleBalancedPrimeList
 #//
 #//******************************************************************************
 
-def getNthTripleBalancedPrimes( arg ):
+def getNthDoubleBalancedPrimeList( arg ):
+    p = [ getNthDoubleBalancedPrime( arg ) ]
+    result = [ p ]
+
+    for i in range( 0, 4 ):
+       p = getNextPrime( p )
+       result.append( p )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  getNthTripleBalancedPrime
+#//
+#//******************************************************************************
+
+def getNthTripleBalancedPrime( arg ):
     global tripleBalancedPrimes
     global updateDicts
 
@@ -1141,11 +1195,11 @@ def getNthTripleBalancedPrimes( arg ):
     primes = [ p ]
 
     for i in range( 0, 6 ):
-        p, f = findNextPrime( p, f )
+        p, f = getNextPrime( p, f )
         primes.append( p )
 
     while n > currentIndex:
-        p, f = findNextPrime( p, f )
+        p, f = getNextPrime( p, f )
 
         primes.append( p )
         del primes[ 0 ]
@@ -1159,6 +1213,23 @@ def getNthTripleBalancedPrimes( arg ):
         tripleBalancedPrimes[ n ] = p
 
     return primes
+
+
+#//******************************************************************************
+#//
+#//  getNthTripleBalancedPrimeList
+#//
+#//******************************************************************************
+
+def getNthTripleBalancedPrimeList( arg ):
+    p = [ getNthTripleBalancedPrime( arg ) ]
+    result = [ p ]
+
+    for i in range( 0, 6 ):
+       p = getNextPrime( p )
+       result.append( p )
+
+    return result
 
 
 #//******************************************************************************
@@ -1190,19 +1261,19 @@ def getNthSophiePrime( arg ):
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                                     format( n, maxIndex ) )
 
-        startingPlace = max( key for key in sophiePrimes if key <= n )
-        p = sophiePrimes[ startingPlace ]
+        currentIndex = max( key for key in sophiePrimes if key <= n )
+        p = sophiePrimes[ currentIndex ]
     else:
-        startingPlace = 4
+        currentIndex = 4
         p = 11
 
     f = p % 10
 
-    while n > startingPlace:
-        p, f = getNextPrimeCandidate( p, f )
+    while n > currentIndex:
+        p, f = getNextPrime( p, f )
 
-        if isPrime( p ) and isPrime( 2 * p + 1 ):
-            n -= 1
+        if isPrime( 2 * p + 1 ):
+            currentIndex += 1
 
     if updateDicts:
         sophiePrimes[ int( arg ) ] = p
@@ -1235,35 +1306,53 @@ def getNthCousinPrime( arg ):
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                                     format( n, maxIndex ) )
 
-        startingPlace = max( key for key in cousinPrimes if key <= n )
-        p = cousinPrimes[ startingPlace ]
+        currentIndex = max( key for key in cousinPrimes if key <= n )
+        p = cousinPrimes[ currentIndex ]
     else:
-        startingPlace = 2
+        currentIndex = 2
         p = 7
 
     f = p % 10
 
-    while n > startingPlace:
-        if f == 1:
-            p += 2
-            f = 3
-        elif f == 3:
-            p += 4
-            f = 7
-        elif f == 7:
-            p += 2
-            f = 9
-        else:
-            p += 2
-            f = 1
+    while n > currentIndex:
+        p, f = getNextPrime( p, f )
 
-        if isPrime( p ) and isPrime( p + 4 ):
-            n -= 1
+        if isPrime( p + 4 ):
+            currentIndex += 1
 
     if updateDicts:
         cousinPrimes[ int( arg ) ] = p
 
     return p
+
+
+#//******************************************************************************
+#//
+#//  getNthCousinPrimeList
+#//
+#//******************************************************************************
+
+def getNthCousinPrimeList( arg ):
+    p = getNthCousinPrime( arg )
+    return [ p, fadd( p, 4 ) ]
+
+
+#//******************************************************************************
+#//
+#//  getNextSexyPrimeCandidate
+#//
+#//******************************************************************************
+
+def getNextSexyPrimeCandidate( p, f ):
+    if f == 1:
+        p += 2
+        f = 3
+    elif f == 3:
+        p += 4
+        f = 7
+    else:
+        p += 4
+        f = 1
 
 
 #//******************************************************************************
@@ -1300,23 +1389,26 @@ def getNthSexyPrime( arg ):
     f = p % 10
 
     while n > startingPlace:
-        if f == 1:
-            p += 2
-            f = 3
-        elif f == 3:
-            p += 4
-            f = 7
-        else:
-            p += 4
-            f = 1
+        p, f = getNextPrime( p, f, getNextSexyPrimeCandidate )
 
-        if isPrime( p ) and isPrime( p + 6 ):
+        if isPrime( p + 6 ):
             n -= 1
 
     if updateDicts:
         sexyPrimes[ int( arg ) ] = p
 
     return p
+
+
+#//******************************************************************************
+#//
+#//  getNthSexyPrimeList
+#//
+#//******************************************************************************
+
+def getNthSexyPrimeList( arg ):
+    p = getNthSexyPrime( arg )
+    return [ p, fadd( p, 6 ) ]
 
 
 #//******************************************************************************
@@ -1373,6 +1465,17 @@ def getNthSexyTriplet( arg ):
 
 #//******************************************************************************
 #//
+#//  getNthSexyTripletList
+#//
+#//******************************************************************************
+
+def getNthSexyTripletList( arg ):
+    p = getNthSexyTriplet( arg )
+    return [ p, fadd( p, 6 ), fadd( p, 12 ) ]
+
+
+#//******************************************************************************
+#//
 #//  getNthSexyQuadruplet
 #//
 #//******************************************************************************
@@ -1419,11 +1522,22 @@ def getNthSexyQuadruplet( arg ):
 
 #//******************************************************************************
 #//
-#//  getNthTripletPrimes
+#//  getNthSexyQuadrupletList
 #//
 #//******************************************************************************
 
-def getNthTripletPrimes( arg ):
+def getNthSexyQuadrupletList( arg ):
+    p = getNthSexyQuadrupletPrime( arg )
+    return [ p, fadd( p, 6 ), fadd( p, 12 ), fadd( p, 18 ) ]
+
+
+#//******************************************************************************
+#//
+#//  getNthTripletPrime
+#//
+#//******************************************************************************
+
+def getNthTripletPrime( arg ):
     global tripletPrimes
     global updateDicts
 
@@ -1444,8 +1558,8 @@ def getNthTripletPrimes( arg ):
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                                     format( n, maxIndex ) )
 
-        startingPlace = max( key for key in tripletPrimes if key <= n )
-        p = tripletPrimes[ startingPlace ]
+        currentIndex = max( key for key in tripletPrimes if key <= n )
+        p = tripletPrimes[ currentIndex ]
 
         if isPrime( p + 2 ):
             middle = 2
@@ -1453,13 +1567,13 @@ def getNthTripletPrimes( arg ):
             middle = 4
 
     else:
-        startingPlace = 3
+        currentIndex = 3
         p = 11
         middle = 2
 
     f = p % 10
 
-    while n > startingPlace:
+    while n > currentIndex:
         if f == 1:
             p += 2
             f = 3
@@ -1471,17 +1585,24 @@ def getNthTripletPrimes( arg ):
             f = 1
 
         if isPrime( p ) and isPrime( p + 6 ):
-            if isPrime( p + 2 ):
-                middle = 2
-                n -= 1
-            elif isPrime( p + 4 ):
-                middle = 4
-                n -= 1
+            if isPrime( p + 2 ) or isPrime( p + 4 ):
+                currentIndex += 1
 
     if updateDicts:
         tripletPrimes[ int( arg ) ] = p
 
-    return [ p, p + middle, p + 6 ]
+    return p
+
+
+#//******************************************************************************
+#//
+#//  getNthTripletPrimeList
+#//
+#//******************************************************************************
+
+def getNthTripletPrimeList( arg ):
+    p = getNthTripletPrime( arg )
+    return [ p, getNextPrime( p ), fadd( p, 6 ) ]
 
 
 #//******************************************************************************
@@ -1541,20 +1662,31 @@ def getNextQuintupletPrimeCandidate( p, f ):
 
 #//******************************************************************************
 #//
-#//  getNthQuintupletPrimes
+#//  getNthQuadrupletPrimeList
 #//
 #//******************************************************************************
 
-def getNthQuintupletPrimes( arg ):
+def getNthQuadrupletPrimeList( arg ):
+    p = getNthQuadrupletPrime( arg )
+    return [ p, fadd( p, 2 ), fadd( p, 6 ), fadd( p, 8 ) ]
+
+
+#//******************************************************************************
+#//
+#//  getNthQuintupletPrime
+#//
+#//******************************************************************************
+
+def getNthQuintupletPrime( arg ):
     global quintPrimes
     global updateDicts
 
     n = int( arg )
 
     if n == 1:
-        return [ 5, 7, 11, 13, 17 ]
+        return 5
     elif n == 2:
-        return [ 7, 11, 13, 17, 19 ]
+        return 7
 
     if n >= 10:
         if quintPrimes == { }:
@@ -1576,7 +1708,7 @@ def getNthQuintupletPrimes( arg ):
 
     # after 5, the first of a prime quintruplet must be a number of the form 30n + 11
     while n > currentIndex:
-        p, f = findNextPrime( p, f, getNextQuintupletPrimeCandidate )
+        p, f = getNextPrime( p, f, getNextQuintupletPrimeCandidate )
 
         if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
            ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
@@ -1585,31 +1717,43 @@ def getNthQuintupletPrimes( arg ):
     if updateDicts:
         quintPrimes[ int( arg ) ] = p
 
+    return p
+
+
+#//******************************************************************************
+#//
+#//  getNthQuintupletPrimeList
+#//
+#//******************************************************************************
+
+def getNthQuintupletPrimeList( arg ):
+    p = getNthQuintupletPrime( arg )
+
     f = p % 10
 
     if f == 1:
-        return [ p, p + 2, p + 6, p + 8, p + 12 ]
+        return [ p, fadd( p, 2 ), fadd( p, 6 ), fadd( p, 8 ), fadd( p, 12 ) ]
     elif f == 7:
-        return [ p, p + 4, p + 6, p + 10, p + 12 ]
+        return [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ) ]
     else:
         # not the right exception type
-        raise ValueError( 'internal error:  getNthQuintupletPrimes is broken' )
+        raise ValueError( 'internal error:  getNthQuintupletPrimeList is broken' )
 
 
 #//******************************************************************************
 #//
-#//  getNthSextupletPrimes
+#//  getNthSextupletPrime
 #//
 #//******************************************************************************
 
-def getNthSextupletPrimes( arg ):
+def getNthSextupletPrime( arg ):
     global sextPrimes
     global updateDicts
 
     n = int( arg )
 
     if n == 1:
-        return [ 7, 11, 13, 17, 19, 23 ]
+        return 7
 
     if n >= 10:
         if sextPrimes == { }:
@@ -1638,7 +1782,18 @@ def getNthSextupletPrimes( arg ):
     if updateDicts:
         sextPrimes[ int( arg ) ] = p
 
-    return [ p, p + 4, p + 6, p + 10, p + 12, p + 16 ]
+    return p
+
+
+#//******************************************************************************
+#//
+#//  getNthSextupletPrimeList
+#//
+#//******************************************************************************
+
+def getNthSextupletPrimeList( arg ):
+    p = getNthSextpletPrime( arg )
+    return [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ), fadd( p, 16 ) ]
 
 
 #//******************************************************************************
@@ -1745,15 +1900,15 @@ class ContinuedFraction( list ):
 
 #//******************************************************************************
 #//
-#//  factorize
+#//  factor
 #//
 #//  This is not my code, and I need to find the source so I can attribute it.
 #//
 #//******************************************************************************
 
-def factorize( n ):
+def factor( n ):
     if n < -1:
-        return [ ( -1, 1 ) ] + factorize( fneg( n ) )
+        return [ ( -1, 1 ) ] + factor( fneg( n ) )
     elif n == -1:
         return [ ( -1, 1 ) ]
     elif n == 0:
@@ -3299,6 +3454,39 @@ def duplicateTerm( valueList ):
 
 #//******************************************************************************
 #//
+#//  appendLists
+#//
+#//******************************************************************************
+
+def appendLists( valueList ):
+    arg2 = valueList.pop( )
+    arg1 = valueList.pop( )
+
+    list1 = isinstance( arg1, list )
+    list2 = isinstance( arg2, list )
+
+    result = [ ]
+
+    if list1:
+        result.extend( arg1 )
+
+        if list2:
+            result.extend( arg2 )
+        else:
+            result.append( arg2 )
+    else:
+        result.append( arg1 )
+
+        if list2:
+            result.extend( arg2 )
+        else:
+            result.append( arg2 )
+
+    valueList.append( result )
+
+
+#//******************************************************************************
+#//
 #//  expandRange
 #//
 #//******************************************************************************
@@ -3508,14 +3696,31 @@ def countElements( args ):
     result = [ ]
 
     if isinstance( args[ 0 ], list ):
-        result = [ ]
-
         for i in range( 0, len( args ) ):
             result.append( countElements( args[ i ] ) )
 
         return result
     else:
         return len( args )
+
+
+#//******************************************************************************
+#//
+#//  getListDiffs
+#//
+#//******************************************************************************
+
+def getListDiffs( args ):
+    result = [ ]
+
+    for i in range( 0, len( args ) ):
+        if isinstance( args[ i ], list ):
+            result.append( getListDiffs( args[ i ] ) )
+        else:
+            if i < len( args ) - 1:
+                result.append( fsub( args[ i + 1 ], args[ i ] ) )
+
+    return result
 
 
 #//******************************************************************************
@@ -3600,6 +3805,19 @@ def sortDescending( args ):
 
 #//******************************************************************************
 #//
+#//  getStandardDeviation
+#//
+#//******************************************************************************
+
+def getStandardDeviation( args ):
+    mean = fsum( args ) / len( args )
+
+    dev = [ power( fsub( i, mean ), 2 ) for i in args ]
+    return sqrt( fsum( dev ) / len( dev ) )
+
+
+#//******************************************************************************
+#//
 #//  getCurrentArgList
 #//
 #//******************************************************************************
@@ -3657,9 +3875,9 @@ callers = [
     lambda func, args: [ func( ) ],
     lambda func, args: [ func( n ) for n in args[ 0 ] ],
     twoArgCaller,
-    lambda func, args: [ func( a, b, c ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] ],
-    lambda func, args: [ func( a, b, c, d ) for a in args[ 0 ] for b in args[ 1 ] for c in args[ 2 ] for d in args[ 3 ] ],
-    lambda func, args: [ func( a, b, c, d, e ) for a in args[ 0 ] for b in args[ 1 ] for c in args[ 2 ] for d in args[ 3 ] for e in args[ 4 ] ],
+    lambda func, args: [ func( a, b, c ) for c in args[ 0 ] for b in args[ 1 ] for a in args[ 2 ] ],
+    lambda func, args: [ func( a, b, c, d ) for d in args[ 0 ] for c in args[ 1 ] for d in args[ 2 ] for a in args[ 3 ] ],
+    lambda func, args: [ func( a, b, c, d, e ) for e in args[ 0 ] for d in args[ 1 ] for c in args[ 2 ] for b in args[ 3 ] for a in args[ 4 ] ],
 ]
 
 
@@ -3678,17 +3896,23 @@ operatorAliases = {
     'average'   : 'mean',
     'avg'       : 'mean',
     'bal'       : 'balanced',
+    'bal?'      : 'balanced?',
+    'bal_'      : 'balanced_',
     'cbrt'      : 'root3',
     'ceil'      : 'ceiling',
     'cousin'    : 'cousinprime',
+    'cousin?'   : 'cousinprime?',
+    'cousin_'   : 'cousinprime_',
     'cuberoot'  : 'root3',
     'dec'       : 'decagonal',
+    'dec?'      : 'decagonal?',
     'deg'       : 'degrees',
     'fac'       : 'factorial',
     'fac2'      : 'doublefac',
     'fib'       : 'fibonacci',
     'harm'      : 'harmonic',
     'hept'      : 'heptagonal',
+    'hept?'     : 'heptagonal?',
     'hex'       : 'hexagonal',
     'hex?'      : 'hexagonal?',
     'hyper4'    : 'tetrate',
@@ -3700,8 +3924,10 @@ operatorAliases = {
     'mult'      : 'multiply',
     'neg'       : 'negative',
     'non'       : 'nonagonal',
+    'non?'      : 'nonagonal?',
     'nonzeroes' : 'nonzero',
     'oct'       : 'octagonal',
+    'oct?'      : 'octagonal?',
     'p!'        : 'primorial',
     'pent'      : 'pentagonal',
     'pent?'     : 'pentagonal?',
@@ -3709,30 +3935,50 @@ operatorAliases = {
     'pyr'       : 'pyramid',
     'quad'      : 'quadprime',
     'quad?'     : 'quadprime?',
-    'quint'     : 'quintprime',
+    'quad_'     : 'quadprime_',
     'quint'     : 'quintprime',
     'quint?'    : 'quintprime?',
+    'quint_'    : 'quintprime_',
     'rad'       : 'radians',
     'rand'      : 'random',
     'safe'      : 'safeprime',
+    'safe?'     : 'safeprime?',
     'sext'      : 'sextprime',
     'sext?'     : 'sextprime?',
+    'sext_'     : 'sextprime_',
     'sexy'      : 'sexyprime',
     'sexy3'     : 'sexytriplet',
+    'sexy3?'    : 'sexytriplet?',
+    'sexy3_'    : 'sexytriplet_',
     'sexy4'     : 'sexyquad',
+    'sexy4?'    : 'sexyquad?',
+    'sexy4_'    : 'sexyquad_',
+    'sexy?'     : 'sexyprime?',
+    'sexy_'     : 'sexyprime',
     'sophie'    : 'sophieprime',
+    'sophie?'   : 'sophieprime?',
     'sqr'       : 'square',
     'sqrt'      : 'root2',
     'tri'       : 'triangular',
     'tri?'      : 'triangular?',
     'triplet'   : 'tripletprime',
+    'triplet?'  : 'tripletprime?',
+    'triplet_'  : 'tripletprime_',
     'twin'      : 'twinprime',
+    'twin?'     : 'twinprime?',
+    'twin_'     : 'twinprime_',
     'zeroes'    : 'zero',
     '^'         : 'power',
 }
 
 
 modifiers = {
+    'append': [ appendLists, 2,
+'modifiers', 'appends the second list on to the first list',
+'''
+''',
+'''
+''' ],
     'dup'       : [ duplicateTerm, 2,
 'modifiers', 'duplicates a argument n k times',
 '''
@@ -3821,7 +4067,7 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'cf2'       : [ convertFromContinuedFraction, 1,
+    'cf'        : [ convertFromContinuedFraction, 1,
 'number_theory', 'interprets list n as a continued fraction',
 '''
 ''',
@@ -3829,6 +4075,12 @@ list_operators = {
 ''' ],
     'count'     : [ countElements, 1,
 'special', 'counts the elements of list n',
+'''
+''',
+'''
+''' ],
+    'diffs'      : [ getListDiffs, 1,
+'special', 'returns a list with the differences between successive elements of list n',
 '''
 ''',
 '''
@@ -3845,8 +4097,20 @@ list_operators = {
 ''',
 '''
 ''' ],
+    'max'       : [ max, 1,
+'arithmetic', 'returns the largest value in list n',
+'''
+''',
+'''
+''' ],
     'mean'      : [ lambda n: fdiv( fsum( n ), len( n ) ), 1,
 'arithmetic', 'calculates the mean of values in list n',
+'''
+''',
+'''
+''' ],
+    'min'       : [ min, 1,
+'arithmetic', 'returns the smallest value in list n',
 '''
 ''',
 '''
@@ -3887,8 +4151,14 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'sortdesc'      : [ sortDescending, 1,
+    'sortdesc'  : [ sortDescending, 1,
 'special', 'sorts the elements of list n numerically in descending order',
+'''
+''',
+'''
+''' ],
+    'stddev'    : [ getStandardDeviation, 1,
+'arithmetic', 'calculates the standard deviation of values in list n',
 '''
 ''',
 '''
@@ -4066,7 +4336,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'balanced'      : [ getNthBalancedPrimes, 1,
+    'balanced'      : [ getNthBalancedPrime, 1,
+'prime_numbers', 'calculate the first of the nth set of balanced primes',
+'''
+''',
+'''
+''' ],
+    'balanced_'     : [ getNthBalancedPrimeList, 1,
 'prime_numbers', 'calculate the nth set of balanced primes',
 '''
 ''',
@@ -4122,12 +4398,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'ceiling'       : [ ceil, 1,
 'arithmetic', 'returns the next highest integer for n',
-'''
-''',
-'''
-''' ],
-    'cf'            : [ lambda n, k: ContinuedFraction( n, maxterms=k, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2,
-'number_theory', 'calculates k terms of the continued fraction representation of n',
 '''
 ''',
 '''
@@ -4222,7 +4492,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'doublebal'     : [ getNthDoubleBalancedPrimes, 1,
+    'doublebal'     : [ getNthDoubleBalancedPrime, 1,
+'prime_numbers', 'returns the nth set of double balanced primes',
+'''
+''',
+'''
+''' ],
+    'doublebal_'    : [ getNthDoubleBalancedPrimeList, 1,
 'prime_numbers', 'returns the nth set of double balanced primes',
 '''
 ''',
@@ -4270,7 +4546,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'factor'        : [ lambda i: getExpandedFactorList( factorize( i ) ), 1,
+    'factor'        : [ lambda i: getExpandedFactorList( factor( i ) ), 1,
 'number_theory', 'calculates the prime factorization of n',
 '''
 ''',
@@ -4480,6 +4756,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'makecf'        : [ lambda n, k: ContinuedFraction( n, maxterms=k, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2,
+'number_theory', 'calculates k terms of the continued fraction representation of n',
+'''
+''',
+'''
+''' ],
     'mertens'       : [ mertens, 0,
 'constants', 'returns Merten\'s constant',
 '''
@@ -4583,7 +4865,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'padovan'  : [ getNthPadovanNumber, 1,
-'number_theory', 'calculates their the nth Padovan number',
+'number_theory', 'calculates the the nth Padovan number',
 '''
 ''',
 '''
@@ -4601,7 +4883,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'pentagonal?'   : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1,
-'polygonal_numbers', 'finds the index of the closest pentagonal number over n',
+'polygonal_numbers', 'finds the index of n as a pentagonal number',
 '''
 ''',
 '''
@@ -4715,12 +4997,24 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'quadprime'     : [ getNthQuadrupletPrime, 1,
+'prime_numbers', 'returns the first of the nth set of quadruplet primes',
+'''
+''',
+'''
+''' ],
+    'quadprime_'    : [ getNthQuadrupletPrimeList, 1,
 'prime_numbers', 'returns the nth set of quadruplet primes',
 '''
 ''',
 '''
 ''' ],
-    'quintprime'    : [ getNthQuintupletPrimes, 1,
+    'quintprime'    : [ getNthQuintupletPrime, 1,
+'prime_numbers', 'returns the first of the nth set of quintruplet primes',
+'''
+''',
+'''
+''' ],
+    'quintprime_'    : [ getNthQuintupletPrimeList, 1,
 'prime_numbers', 'returns the nth set of quintruplet primes',
 '''
 ''',
@@ -4798,26 +5092,50 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'sextprime'     : [ getNthSextupletPrimes, 1,
+    'sextprime'     : [ getNthSextupletPrime, 1,
+'prime_numbers', 'returns the first of the nth set of sextuplet primes',
+'''
+''',
+'''
+''' ],
+    'sextprime_'    : [ getNthSextupletPrimeList, 1,
 'prime_numbers', 'returns the nth set of sextuplet primes',
 '''
 ''',
 '''
 ''' ],
     'sexyprime'     : [ getNthSexyPrime, 1,
-'prime_numbers', 'returns the nth sexy prime',
+'prime_numbers', 'returns the first of the nth set of sexy primes',
 '''
 ''',
 '''
 ''' ],
-    'sexytriplet'     : [ getNthSexyTriplet, 1,
-'prime_numbers', 'returns first of the nth set of sexy triplet primes',
+    'sexyprime_'    : [ getNthSexyPrimeList, 1,
+'prime_numbers', 'returns the nth set of sexy primes',
+'''
+''',
+'''
+''' ],
+    'sexytriplet'   : [ getNthSexyTriplet, 1,
+'prime_numbers', 'returns the first of the nth set of sexy triplet primes',
+'''
+''',
+'''
+''' ],
+    'sexytriplet_'  : [ getNthSexyTripletList, 1,
+'prime_numbers', 'returns the nth set of sexy triplet primes',
 '''
 ''',
 '''
 ''' ],
     'sexyquad'     : [ getNthSexyQuadruplet, 1,
-'prime_numbers', 'returns first of the nth set of sexy quadruplet primes',
+'prime_numbers', 'returns the first of the nth set of sexy quadruplet primes',
+'''
+''',
+'''
+''' ],
+    'sexyquad_'    : [ getNthSexyQuadrupletList, 1,
+'prime_numbers', 'returns the nth set of sexy quadruplet primes',
 '''
 ''',
 '''
@@ -4966,13 +5284,25 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'triplebal'     : [ getNthTripleBalancedPrimes, 1,
+    'triplebal'     : [ getNthTripleBalancedPrime, 1,
+'prime_numbers', 'returns the first of the nth set of triple balanced primes',
+'''
+''',
+'''
+''' ],
+    'triplebal_'    : [ getNthTripleBalancedPrimeList, 1,
 'prime_numbers', 'returns the nth set of triple balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'tripletprime'  : [ getNthTripletPrimes, 1,
+    'tripletprime'  : [ getNthTripletPrime, 1,
+'prime_numbers', 'returns the first of the nth set of triplet primes',
+'''
+''',
+'''
+''' ],
+    'tripletprime'  : [ getNthTripletPrimeList, 1,
 'prime_numbers', 'returns the nth set of triplet primes',
 '''
 ''',
@@ -4991,7 +5321,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'twinprime'     : [ getNthTwinPrime, 1,
-'prime_numbers', 'returns the nth twin prime',
+'prime_numbers', 'returns the first of the nth set of twin primes',
+'''
+''',
+'''
+''' ],
+    'twinprime_'    : [ getNthTwinPrimeList, 1,
+'prime_numbers', 'returns the nth set of twin primes',
 '''
 ''',
 '''
@@ -6358,9 +6694,9 @@ def main( ):
             except ValueError as error:
                 print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -6416,9 +6752,9 @@ def main( ):
             except ValueError as error:
                 print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
         else:
             try:
                 currentValueList.append( parseInputValue( term, inputRadix ) )
