@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.2.2'
+RPN_VERSION = '5.2.3'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -3168,67 +3168,77 @@ def getNthPolygonalPyramidalNumber( n, k ):
 
 #// A002415         4-dimensional pyramidal numbers: n^2*(n^2-1)/12.
 #//                                                  n^4 - n^2 / 12
+#//
 #// A005585         5-dimensional pyramidal numbers: n(n+1)(n+2)(n+3)(2n+3)/5!.
-
+#//
 #// A001608         Perrin sequence (or Ondrej Such sequence): a(n) = a(n-2) + a(n-3).
 #//                 LinearRecurrence[{0, 1, 1}, {3, 0, 2}, n]
-
+#//
 #// A001845         Centered octahedral numbers (crystal ball sequence for cubic lattice).
 #//                 LinearRecurrence[{4, -6, 4, -1}, {1, 7, 25, 63}, 40]
-
+#//
 #// A046090         Consider all Pythagorean triples (X,X+1,Z) ordered by increasing Z; sequence gives X+1 values.
 #//                 a(n+1)=round((1+(7+5*sqrt(2))*(3+2*sqrt(2))^n)/2);
 #//                 LinearRecurrence[{7, -7, 1}, {1, 4, 21}, 25]
+#//
 #// A050534         Tritriangular numbers: a(n)=binomial(binomial(n,2),2) = n(n + 1)(n - 1)(n - 2)/8.
+#//
 #// A002817         Doubly triangular numbers: n*(n+1)*(n^2+n+2)/8.
 #//                 a(n) = 3*binomial(n+2, 4)+binomial(n+1, 2).
-
+#//
 #// A007588         Stella octangula numbers: n*(2*n^2 - 1).
-
+#//
 #// A005803         Second-order Eulerian numbers: 2^n - 2*n.
-
+#//
 #// A060888         n^6-n^5+n^4-n^3+n^2-n+1.      -- general form of this
-
+#//
 #// A048736         Dana Scott's sequence: a(n) = (a(n-2) + a(n-1) * a(n-3)) / a(n-4), a(0) = a(1) = a(2) = a(3) = 1.
-
+#//
 #// A022095         Fibonacci sequence beginning 1 5.
 #//                 a(n) = ((2*sqrt(5)-1)*(((1+sqrt(5))/2)^(n+1)) + (2*sqrt(5)+1)*(((1-sqrt(5))/2)^(n+1)))/(sqrt(5)).
-
+#//
 #// A005894         Centered tetrahedral numbers.
 #//                 a(n)=(2*n+1)*(n^2+n+3)/3
-
+#//
 #// A015447         Generalized Fibonacci numbers: a(n) = a(n-1) + 11*a(n-2).
 #//                 a(n)={[ (1+3*sqrt(5))/2 ]^(n+1) - [ (1-3*sqrt(5))/2 ]^(n+1)}/3*sqrt(5).
 #//                 LinearRecurrence[{1, 11}, {1, 1}, 30]
 #//                 CoefficientList[Series[ 1/(1-x-11 x^2), {x, 0, 50}], x]
-
+#//
 #// A046176         Indices of square numbers which are also hexagonal.
+#//
 #// A056105         First spoke of a hexagonal spiral.
+#//
 #// A006522         4-dimensional analogue of centered polygonal numbers. Also number of regions created by sides and diagonals of n-gon in general position.
 #//                 a(n)=binomial(n, 4)+ binomial(n-1, 2)
+#//
 #// A022086         Fibonacci sequence beginning 0 3.
 #//                 a(n) = round( (6phi-3)/5 phi^n ) (works for n>2)
+#//
 #// A069778         q-factorial numbers 3!_q.
+#//
 #// A005021         Random walks (binomial transform of A006054).
+#//
 #// A074584         Esanacci ("6-anacci") numbers.
 #//                 LinearRecurrence[{1, 1, 1, 1, 1, 1}, {6, 1, 3, 7, 15, 31}, 50]
+#//
 #// A195142         Concentric 10-gonal numbers.
+#//
 #// A000453         Stirling numbers of the second kind, S(n,4).
+#//
 #// A005915         Hexagonal prism numbers: (n + 1)*(3*n^2 + 3*n + 1).
+#//
 #// A015442         Generalized Fibonacci numbers: a(n) = a(n-1) + 7 a(n-2), a(0)=0, a(1)=1.
 #//                 a(n) = ( ((1+sqrt(29))/2)^(n+1) - ((1-sqrt(29))/2)^(n+1) )/sqrt(29)
+#//
 #// A002418         4-dimensional figurate numbers: (5*n-1)*binomial(n+2,3)/4.
+#//
 #// A005165         Alternating factorials: n! - (n-1)! + (n-2)! - ... 1!.
-
+#//
 #// A006007         4-dimensional analogue of centered polygonal numbers: a(n) = n(n+1)*(n^2+n+4)/12.
-
-
+#//
 #// A104621         Heptanacci-Lucas numbers.
 #//
-#//
-#//
-#//
-    return polyval( [ 5/2, -5/2, 1, 0 ], n )
 
 
 #//******************************************************************************
@@ -4706,8 +4716,8 @@ def convertUnits( valueList ):
     global unitStack
     global unitConversionMatrix
 
-    unit1 = unitStack.pop( )
     unit2 = unitStack.pop( )
+    unit1 = unitStack.pop( )
 
     conversion = unit1.getConversion( unit2 )
 

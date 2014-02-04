@@ -225,7 +225,7 @@ def makeAliases( ):
 #//******************************************************************************
 
 def initializeConversionMatrix( unitConversionMatrix ):
-    mp.dps = 30
+    mp.dps = 50
 
     # reverse each conversion
     newConversions = { }
@@ -285,8 +285,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
                         elif ( op2, op3 ) not in unitConversionMatrix and ( op1, op3 ) in unitConversionMatrix:
                             conversion = fdiv( mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ),
                                                mpmathify( unitConversionMatrix[ ( op1, op3 ) ] ) )
-                            unitConversionMatrix[ ( op2, op3 ) ] = str( fdiv( 1, conversion ) )
-                            unitConversionMatrix[ ( op3, op2 ) ] = str( conversion )
+                            unitConversionMatrix[ ( op2, op3 ) ] = str( conversion )
+                            unitConversionMatrix[ ( op3, op2 ) ] = str( fdiv( 1, conversion ) )
 
                             newConversion = True
 
@@ -305,11 +305,11 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
             for op1, op2 in unitConversionMatrix:
                 if ( op1 == unit[ 0 ] ) or ( op2 == unit[ 0 ] ):
-                    oldConversion = fdiv( 1, mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ) )
+                    oldConversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
 
-                    if op1 == unit[ 0 ]:
-                        newConversions[ ( newName, op2 ) ] = str( fmul( oldConversion, newConversion  ) )
-                    elif op2 == unit[ 0 ]:
+                    if op1 == unit[ 0 ] and newName != op2:
+                        newConversions[ ( newName, op2 ) ] = str( fmul( newConversion, oldConversion  ) )
+                    elif op2 == unit[ 0 ] and newName != op1:
                         newConversions[ ( op1, newName ) ] = str( fdiv( oldConversion, newConversion  ) )
 
     unitConversionMatrix.update( newConversions )
