@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.20.0'
+RPN_VERSION = '4.20.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -78,9 +78,9 @@ class Polynomial(object):
         """
         Create a polynomial in one of three ways:
 
-        p = Polynomial(poly)           # copy constructor
-        p = Polynomial([1,2,3 ...])    # from sequence
-        p = Polynomial(1, 2, 3 ...)    # from scalars
+        p = Polynomial( poly )              # copy constructor
+        p = Polynomial( [ 1, 2, 3 ... ] )   # from sequence
+        p = Polynomial( 1, 2, 3 ... )       # from scalars
         """
         super( Polynomial, self ).__init__( )
 
@@ -213,7 +213,7 @@ class Polynomial(object):
 #//******************************************************************************
 
 def downloadOEISSequence( id ):
-    data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3A' + id + '&fmt=text' ).read( )
+    data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3A{:06}'.format( id ) + '&fmt=text' ).read( )
 
     pattern = regex.compile( b'%S A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
     result = pattern.findall( data )[ 0 ]
@@ -236,7 +236,7 @@ def downloadOEISSequence( id ):
 #//******************************************************************************
 
 def getOEISSequence( n ):
-    return downloadOEISSequence( str( n ) )
+    return downloadOEISSequence( int( n ) )
 
 
 #//******************************************************************************
@@ -1900,6 +1900,17 @@ class ContinuedFraction( list ):
 
 #//******************************************************************************
 #//
+#//  getDivisors
+#//
+#//******************************************************************************
+
+def getDivisiors( n ):
+    # TODO: implement me
+    return [ 0, 1, 2, 3, 4, 5 ]
+
+
+#//******************************************************************************
+#//
 #//  factor
 #//
 #//  This is not my code, and I need to find the source so I can attribute it.
@@ -2873,6 +2884,9 @@ def interpretAsFraction( i, j ):
 #//
 #//  interpretAsBase
 #//
+#//  This is a list_operator so if the integer argument (base) is also a list,
+#//  we need to handle that explicitly here.
+#//
 #//******************************************************************************
 
 def interpretAsBase( args, base ):
@@ -2880,6 +2894,9 @@ def interpretAsBase( args, base ):
         args.reverse( )
     else:
         args = [ args ]
+
+    if isinstance( base, list ):
+        return [ interpretAsBase( args, i ) for i in base ]
 
     value = mpmathify( 0 )
     multiplier = mpmathify( 1 )
@@ -3155,6 +3172,19 @@ def multiplyPolynomials( a, b ):
 
 #//******************************************************************************
 #//
+#//  evaluatePolynomial
+#//
+#//******************************************************************************
+
+def evaluatePolynomial( a, b ):
+    if not isinstance( a, list ):
+        a = [ a ]
+
+    return polyval( a, b )
+
+
+#//******************************************************************************
+#//
 #//  solvePolynomial
 #//
 #//******************************************************************************
@@ -3337,23 +3367,9 @@ def getGreedyEgyptianFraction( n, d ):
 #//******************************************************************************
 
 def listOperators( ):
-    print( 'argument modifiers:' )
-
-    for i in sorted( [ key for key in modifiers ] ):
-        print( '   ' + i )
-
-    print( )
-
     print( 'list operators:' )
 
     for i in sorted( [ key for key in list_operators ] ):
-        print( '   ' + i )
-
-    print( )
-
-    print( 'list operators with 2 args:' )
-
-    for i in sorted( [ key for key in list_operators_2 ] ):
         print( '   ' + i )
 
     print( )
@@ -3394,8 +3410,7 @@ def printStats( dict, name ):
 #//******************************************************************************
 
 def dumpStats( ):
-    print( '{:10,} operators\n'.format( len( modifiers ) + len( list_operators ) +
-                                        len( list_operators_2 ) + len( operators ) ) )
+    print( '{:10,} operators\n'.format( len( list_operators ) + len( operators ) + len( modifiers ) ) )
 
     printStats( loadSmallPrimes( ), 'small primes' )
     printStats( loadLargePrimes( ), 'large primes' )
@@ -3423,13 +3438,22 @@ def dumpStats( ):
 #//
 #//  incrementNestedListLevel
 #//
+#//  Unlike all other operators, '[' and ']' change global state.
+#//
 #//******************************************************************************
 
-def incrementNestedListLevel( valueList ):
+def incrementNestedListLevel( ):
     global nestedListLevel
     nestedListLevel += 1
 
-    valueList.append( list( ) )
+    return [ ]
+
+#def incrementNestedListLevel( valueList ):
+#    global nestedListLevel
+#    nestedListLevel += 1
+#
+#    valueList.append( list( ) )
+
 
 
 #//******************************************************************************
@@ -3438,7 +3462,7 @@ def incrementNestedListLevel( valueList ):
 #//
 #//******************************************************************************
 
-def decrementNestedListLevel( valueList ):
+def decrementNestedListLevel( ):
     global nestedListLevel
     nestedListLevel -= 1
 
@@ -3539,7 +3563,7 @@ def expandRange( start, end ):
     else:
         step = 1
 
-    result = [ ]
+    result = list( )
 
     for i in arange( start, end + step, step ):
         result.append( i )
@@ -3554,7 +3578,7 @@ def expandRange( start, end ):
 #//******************************************************************************
 
 def expandSteppedRange( start, end, step ):
-    result = [ ]
+    result = list( )
 
     for i in arange( start, end + 1, step ):
         result.append( i )
@@ -3568,14 +3592,14 @@ def expandSteppedRange( start, end, step ):
 #//
 #//******************************************************************************
 
-def expandGeometricRange( valueList ):
-    count = int( valueList.pop( ) )
-    step = valueList.pop( )
-    value = valueList.pop( )
+def expandGeometricRange( value, step, count ):
+    result = list( )
 
     for i in range( 0, count ):
-        valueList.append( value )
+        result.append( value )
         value = fmul( value, step )
+
+    return result
 
 
 #//******************************************************************************
@@ -3584,10 +3608,7 @@ def expandGeometricRange( valueList ):
 #//
 #//******************************************************************************
 
-def interleave( valueList ):
-    arg2 = valueList.pop( )
-    arg1 = valueList.pop( )
-
+def interleave( arg1, arg2 ):
     list1 = isinstance( arg1, list )
     list2 = isinstance( arg2, list )
 
@@ -3613,7 +3634,7 @@ def interleave( valueList ):
             result.append( arg1 )
             result.append( arg2 )
 
-    valueList.append( result )
+    return result
 
 
 #//******************************************************************************
@@ -3622,10 +3643,7 @@ def interleave( valueList ):
 #//
 #//******************************************************************************
 
-def makeUnion( valueList ):
-    arg2 = valueList.pop( )
-    arg1 = valueList.pop( )
-
+def makeUnion( arg1, arg2 ):
     list1 = isinstance( arg1, list )
     list2 = isinstance( arg2, list )
 
@@ -3646,7 +3664,7 @@ def makeUnion( valueList ):
         else:
             result.append( arg2 )
 
-    valueList.append( result )
+    return result
 
 
 #//******************************************************************************
@@ -3655,10 +3673,7 @@ def makeUnion( valueList ):
 #//
 #//******************************************************************************
 
-def makeIntersection( valueList ):
-    arg2 = valueList.pop( )
-    arg1 = valueList.pop( )
-
+def makeIntersection( arg1, arg2 ):
     list1 = isinstance( arg1, list )
     list2 = isinstance( arg2, list )
 
@@ -3680,7 +3695,7 @@ def makeIntersection( valueList ):
             if arg1 == arg2:
                 result.append( arg1 )
 
-    valueList.append( result )
+    return result
 
 
 #//******************************************************************************
@@ -3705,14 +3720,11 @@ def unlist( valueList ):
 #//
 #//******************************************************************************
 
-def getListElement( valueList ):
-    index = valueList.pop( )
-    arg = valueList.pop( )
-
+def getListElement( arg, index ):
     if isinstance( arg, list ):
-        valueList.append( arg[ int( index ) ] )
+        return arg[ int( index ) ]
     else:
-        valueList.append( arg )
+        return arg
 
 
 #//******************************************************************************
@@ -3721,12 +3733,13 @@ def getListElement( valueList ):
 #//
 #//******************************************************************************
 
-def getPrimes( valueList ):
-    count = int( valueList.pop( ) )
-    value = int( valueList.pop( ) )
+def getPrimes( value, count ):
+    result = list( )
 
     for i in getNthPrimeRange( value, count ):
-        valueList.append( i )
+        result.append( i )
+
+    return result
 
 
 #//******************************************************************************
@@ -3781,13 +3794,11 @@ def flatten( args ):
 
             for j in range( 0, len( newList ) ):
                 result.append( newList[ j ] )
-
-        return result
     else:
         for i in range( 0, len( args ) ):
             result.append( args[ i ] )
 
-        return result
+    return result
 
 
 #//******************************************************************************
@@ -3803,7 +3814,6 @@ def getUniqueElements( args ):
         for i in range( 0, len( args ) ):
             result.append( getUniqueElements( args[ i ] ) )
 
-        return result
     else:
         seen = set( )
 
@@ -3815,7 +3825,7 @@ def getUniqueElements( args ):
         for i in seen:
             result.append( i )
 
-        return result
+    return result
 
 
 #//******************************************************************************
@@ -4015,63 +4025,19 @@ operatorAliases = {
 }
 
 
+#//******************************************************************************
+#//
+#//  modifiers are operators that directly modify the argument stack instead of
+#//  just returning a value.
+#//
+#//  '[' and ']' are special arguments that change global state in order to
+#//  create list operands.
+#//
+#//******************************************************************************
+
 modifiers = {
-    'append': [ appendLists, 2,
-'modifiers', 'appends the second list on to the first list',
-'''
-''',
-'''
-''' ],
-    'altsign': [ alternateSigns, 1,
-'modifiers', 'alternates signs in the list by making every even element negative',
-'''
-''',
-'''
-''' ],
-    'altsign2': [ alternateSigns2, 1,
-'modifiers', 'alternates signs in the list by making every odd element negative',
-'''
-''',
-'''
-''' ],
     'dup'       : [ duplicateTerm, 2,
 'modifiers', 'duplicates a argument n k times',
-'''
-''',
-'''
-''' ],
-    'element': [ getListElement, 2,
-'modifiers', 'return a single element from a list',
-'''
-''',
-'''
-''' ],
-    'georange'  : [ expandGeometricRange, 3,
-'modifiers', 'generates a list of geometric progression of numbers',
-'''
-''',
-'''
-''' ],
-    'interleave': [ interleave, 2,
-'modifiers', 'interleaves lists n and k into a single list',
-'''
-''',
-'''
-''' ],
-    'intersection': [ makeIntersection, 2,
-'modifiers', 'returns the intersection of two lists',
-'''
-''',
-'''
-''' ],
-    'primes'     : [ getPrimes, 2,
-'modifiers', 'generates a range of primes from index n to index k',
-'''
-''',
-'''
-''' ],
-    'union': [ makeUnion, 2,
-'modifiers', 'returns the union of two lists',
 '''
 ''',
 '''
@@ -4097,6 +4063,16 @@ modifiers = {
 }
 
 
+#//******************************************************************************
+#//
+#//  list_operators are operators that handle whether or not an argument is a
+#//  list themselves (because they require a list argument).  Unlike regular
+#//  operators, we don't want list_operators permutated over each list element,
+#//  and if we do for auxillary arguments, these operator handlers will do that
+#//  themselves.
+#//
+#//******************************************************************************
+
 list_operators = {
     'altsum'    : [ getAlternatingSum, 1,
 'arithmetic', 'calculates the alternating sum of list n (addition first)',
@@ -4106,6 +4082,12 @@ list_operators = {
 ''' ],
     'altsum2'   : [ getAlternatingSum2, 1,
 'arithmetic', 'calaculates the alternating sum of list n (subtraction first)',
+'''
+''',
+'''
+''' ],
+    'base'      : [ interpretAsBase, 2,
+'number_theory', 'interpret list elements as base k digits',
 '''
 ''',
 '''
@@ -4164,6 +4146,18 @@ list_operators = {
 ''',
 '''
 ''' ],
+    'polyadd'   : [ addPolynomials, 2,
+'algebra', 'interpret two lists as polynomials and add them',
+'''
+''',
+'''
+''' ],
+    'polymul'   : [ multiplyPolynomials, 2,
+'algebra', 'interpret two lists as polynomials and multiply them',
+'''
+''',
+'''
+''' ],
     'polyprod'  : [ multiplyListOfPolynomials, 1,
 'algebra', 'interprets elements of list n as polynomials and calculates their product',
 '''
@@ -4172,6 +4166,12 @@ list_operators = {
 ''' ],
     'polysum'   : [ addListOfPolynomials, 1,
 'algebra', 'interprets elements of list n as polynomials and calculates their sum',
+'''
+''',
+'''
+''' ],
+    'polyval'   : [ evaluatePolynomial, 2,
+'algebra', 'interpret the list as a polynomial and evaluate it for value k',
 '''
 ''',
 '''
@@ -4238,32 +4238,16 @@ list_operators = {
 ''' ],
 }
 
-list_operators_2 = {
-    'base'      : [ interpretAsBase, 2,
-'number_theory', 'interpret list elements as base k digits',
-'''
-''',
-'''
-''' ],
-    'polyadd'   : [ addPolynomials, 2,
-'algebra', 'interpret two lists as polynomials and add them',
-'''
-''',
-'''
-''' ],
-    'polymul'   : [ multiplyPolynomials, 2,
-'algebra', 'interpret two lists as polynomials and multiply them',
-'''
-''',
-'''
-''' ],
-    'polyval'   : [ polyval, 2,
-'algebra', 'interpret the list as a polynomial and evaluate it for value k',
-'''
-''',
-'''
-''' ],
-}
+
+#//******************************************************************************
+#//
+#//  Regular operators expect zero or more single values and if those arguments
+#//  are lists, rpn will iterate calls to the operator handler for each element
+#//  in the list.   Multiple lists for arguments are not permutated.  Instead,
+#//  the operator handler is called for each element in the first list, along
+#//  with the nth element of each other argument that is also a list.
+#//
+#//******************************************************************************
 
 operators = {
     'abs'           : [ fabs, 1,
@@ -4331,6 +4315,18 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'altsign'       : [ alternateSigns, 1,
+'modifiers', 'alternates signs in the list by making every even element negative',
+'''
+''',
+'''
+''' ],
+    'altsign2'      : [ alternateSigns2, 1,
+'modifiers', 'alternates signs in the list by making every odd element negative',
+'''
+''',
+'''
+''' ],
     'and'           : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x & y ), 2,
 'logical', 'calculates the bitwise \'and\' of n and k',
 '''
@@ -4339,6 +4335,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'apery'         : [ apery, 0,
 'constants', 'returns Apery\'s constant',
+'''
+''',
+'''
+''' ],
+    'append'        : [ appendLists, 2,
+'modifiers', 'appends the second list on to the first list',
 '''
 ''',
 '''
@@ -4421,7 +4423,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'carol'      : [ lambda n : fsub( power( fsub( power( 2, n ), 1 ), 2 ), 2 ), 1,
+    'carol'         : [ lambda n : fsub( power( fsub( power( 2, n ), 1 ), 2 ), 2 ), 1,
 'number_theory', 'gets the nth Carol number',
 '''
 ''',
@@ -4535,6 +4537,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'divsiors'      : getDivisors, 1,
+'number_theory', 'returns a list of divisors of n',
+'''
+''',
+'''
+''' ],
     'doublebal'     : [ getNthDoubleBalancedPrime, 1,
 'prime_numbers', 'returns the nth set of double balanced primes',
 '''
@@ -4561,6 +4569,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'egypt'         : [ getGreedyEgyptianFraction, 2,
 'number_theory', 'calculates the greedy Egyption fractions for n/k',
+'''
+''',
+'''
+''' ],
+    'element'       : [ getListElement, 2,
+'modifiers', 'return a single element from a list',
 '''
 ''',
 '''
@@ -4627,6 +4641,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'gamma'         : [ gamma, 1,
 'number_theory', 'calculates the gamma function for n',
+'''
+''',
+'''
+''' ],
+    'georange'      : [ expandGeometricRange, 3,
+'modifiers', 'generates a list of geometric progression of numbers',
 '''
 ''',
 '''
@@ -4709,6 +4729,18 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'interleave'    : [ interleave, 2,
+'modifiers', 'interleaves lists n and k into a single list',
+'''
+''',
+'''
+''' ],
+    'intersection'  : [ makeIntersection, 2,
+'modifiers', 'returns the intersection of two lists',
+'''
+''',
+'''
+''' ],
     'isdivisible'   : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2,
 'arithmetic', 'is divisible by n?',
 '''
@@ -4757,13 +4789,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'kynea'      : [ lambda n : fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ), 1,
+    'kynea'         : [ lambda n : fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ), 1,
 'number_theory', 'gets the nth Kynea number',
 '''
 ''',
 '''
 ''' ],
-    'leyland'      : [ lambda x, y : fadd( power( x, y ), power( y, x ) ), 2,
+    'leyland'       : [ lambda x, y : fadd( power( x, y ), power( y, x ) ), 2,
 'number_theory', 'gets the Leyland number for n and k',
 '''
 ''',
@@ -4913,7 +4945,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'padovan'  : [ getNthPadovanNumber, 1,
+    'padovan'       : [ getNthPadovanNumber, 1,
 'number_theory', 'calculates the the nth Padovan number',
 '''
 ''',
@@ -4979,7 +5011,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'polylog'            : [ polylog, 2,
+    'polylog'       : [ polylog, 2,
 'logarithms', 'calculates the polylogarithm of n, k',
 '''
 ''',
@@ -5011,6 +5043,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'primepi'       : [ primepi2, 1,
 'prime_numbers', 'estimates the count of prime numbers up to and including n',
+'''
+''',
+'''
+''' ],
+    'primes'        : [ getPrimes, 2,
+'modifiers', 'generates a range of primes from index n to index k',
 '''
 ''',
 '''
@@ -5063,7 +5101,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'quintprime_'    : [ getNthQuintupletPrimeList, 1,
+    'quintprime_'   : [ getNthQuintupletPrimeList, 1,
 'prime_numbers', 'returns the nth set of quintruplet primes',
 '''
 ''',
@@ -5093,7 +5131,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'reciprocal'        : [ lambda n : fdiv( 1, n ), 1,
+    'reciprocal'    : [ lambda n : fdiv( 1, n ), 1,
 'special', 'returns the reciprocal of n',
 '''
 ''',
@@ -5129,7 +5167,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'safeprime'   : [ lambda n: fadd( fmul( getNthSophiePrime( n ), 2 ), 1 ), 1,
+    'safeprime'     : [ lambda n: fadd( fmul( getNthSophiePrime( n ), 2 ), 1 ), 1,
 'prime_numbers', 'returns the nth safe prime',
 '''
 ''',
@@ -5195,7 +5233,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'sexyquad_'    : [ getNthSexyQuadrupletList, 1,
+    'sexyquad_'     : [ getNthSexyQuadrupletList, 1,
 'prime_numbers', 'returns the nth set of sexy quadruplet primes',
 '''
 ''',
@@ -5389,6 +5427,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'twinprime_'    : [ getNthTwinPrimeList, 1,
 'prime_numbers', 'returns the nth set of twin primes',
+'''
+''',
+'''
+''' ],
+    'union'         : [ makeUnion, 2,
+'modifiers', 'returns the union of two lists',
 '''
 ''',
 '''
@@ -5730,7 +5774,7 @@ def parseInputValue( term, inputRadix ):
     if term == '0':
         return mpmathify( 0 )
 
-    # ignore commans
+    # ignore commas
     term = ''.join( [ i for i in term if i not in ',' ] )
 
     if term[ 0 ] == '\\':
@@ -6437,9 +6481,8 @@ Bitwise operators force all arguments to integers by truncation if necessary.
 }
 
     operatorCategories = set( operators[ key ][ 2 ] for key in operators )
-    operatorCategories.update( set( modifiers[ key ][ 2 ] for key in modifiers ) )
     operatorCategories.update( set( list_operators[ key ][ 2 ] for key in list_operators ) )
-    operatorCategories.update( set( list_operators_2[ key ][ 2 ] for key in list_operators_2 ) )
+    operatorCategories.update( set( modifiers[ key ][ 2 ] for key in modifiers ) )
 
     if len( helpArgs ) == 0:
         printGeneralHelp( basicCategories, operatorCategories )
@@ -6456,9 +6499,6 @@ Bitwise operators force all arguments to integers by truncation if necessary.
     if term in list_operators:
         printOperatorHelp( helpArgs, term, list_operators[ term ] )
 
-    if term in list_operators_2:
-        printOperatorHelp( helpArgs, term, list_operators_2[ term ] )
-
     if term in modifiers:
         printOperatorHelp( helpArgs, term, modifiers[ term ] )
 
@@ -6473,7 +6513,6 @@ Bitwise operators force all arguments to integers by truncation if necessary.
 
         operatorList = [ key for key in operators if operators[ key ][ 2 ] == term ]
         operatorList.extend( [ key for key in list_operators if list_operators[ key ][ 2 ] == term ] )
-        operatorList.extend( [ key for key in list_operators_2 if list_operators_2[ key ][ 2 ] == term ] )
         operatorList.extend( [ key for key in modifiers if modifiers[ key ][ 2 ] == term ] )
 
         addAliases( operatorList )
@@ -6753,12 +6792,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            except ValueError as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except ValueError as error:
+            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -6774,8 +6813,12 @@ def main( ):
                 break
 
             try:
-                arg = currentValueList.pop( )
-                currentValueList.append( list_operators[ term ][ 0 ]( arg ) )
+                listArgs = [ ]
+
+                for i in range( 0, argsNeeded ):
+                    listArgs.insert( 0, currentValueList.pop( ) )
+
+                currentValueList.append( list_operators[ term ][ 0 ]( *listArgs ) )
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
@@ -6791,39 +6834,6 @@ def main( ):
                 break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
-                break
-        elif term in list_operators_2:
-            argsNeeded = list_operators_2[ term ][ 1 ]
-
-            # first we validate, and make sure the operator has enough arguments
-            if len( currentValueList ) < argsNeeded:
-                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
-                       format( argsNeeded ) + ' argument', end='' )
-
-                print( 's' if argsNeeded > 1 else '' )
-                break
-
-            try:
-                secondArg = currentValueList.pop( )
-                listArg = currentValueList.pop( )
-
-                if not isinstance( secondArg, list ):
-                    secondArg = [ secondArg ]
-
-                result = [ list_operators_2[ term ][ 0 ]( listArg, i ) for i in secondArg ]
-
-                if len( result ) == 1:
-                    result = result[ 0 ]
-
-                currentValueList.append( result )
-            except KeyboardInterrupt as error:
-                print( 'rpn:  keyboard interrupt' )
-                break
-            except ValueError as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
         else:
             try:
