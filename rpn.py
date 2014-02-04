@@ -32,7 +32,7 @@ import time
 from fractions import Fraction
 from functools import reduce
 from mpmath import *
-
+#from mpmath.ext_libmp import to_digits_exp
 
 #//******************************************************************************
 #//
@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.4.3'
+PROGRAM_VERSION = '5.4.4'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -66,6 +66,98 @@ inputRadix = 10
 updateDicts = False
 
 unitStack = [ ]
+
+
+#//******************************************************************************
+#//
+#//  getUnitType
+#//
+#//******************************************************************************
+
+def getUnitType( unit ):
+    return unitOperators[ unit ][ 0 ]
+
+
+#//******************************************************************************
+#//
+#//  getAlternateUnitTypes
+#//
+#//******************************************************************************
+
+def getAlternateUnitTypes( unit ):
+    return unitTypes[ unitOperators[ unit ][ 0 ] ]
+
+
+#//******************************************************************************
+#//
+#//  multiplyUnits
+#//
+#//******************************************************************************
+
+def multiplyUnits( oldUnits, targetUnits ):
+    return 1, targetUnits
+
+
+#//******************************************************************************
+#//
+#//  divideUnits
+#//
+#//******************************************************************************
+
+def divideUnits( oldUnits, targetUnits ):
+    #print( '1: ', oldUnits )
+    #print( '2: ', targetUnits )
+
+    newUnits = { }
+
+    for unit in oldUnits:
+        alternateUnitTypes = getAlternateUnitTypes( unit )
+
+        #print( 'alt: ', unit, alternateUnitTypes )
+
+        if alternateUnitTypes == { }:
+            if unit in newUnits:
+                newUnits[ unit ] = targetUnits[ unit ]
+            else:
+                newUnits[ unit ] = targetUnits[ unit ]
+        else:
+            for unit2 in alternateUnitTypes:
+                if unit2 in newUnits:
+                    newUnits[ unit2 ] = alternateUnitTypes[ unit2 ]
+                else:
+                    newUnits[ unit2 ] = alternateUnitTypes[ unit2 ]
+
+    #print( 'newUnits 1: ', newUnits )
+
+    for unit in targetUnits:
+        alternateUnitTypes = getAlternateUnitTypes( unit )
+
+        #print( 'alt2: ', unit, alternateUnitTypes )
+
+        if alternateUnitTypes == { }:
+            if unit in newUnits:
+                newUnits[ unit ] -= targetUnits[ unit ]
+            else:
+                newUnits[ unit ] = -targetUnits[ unit ]
+        else:
+            for unit2 in alternateUnitTypes:
+                #print( 'unit2: ', unit2, alternateUnitTypes[ unit2 ] )
+                if unit2 in newUnits:
+                    newUnits[ unit2 ] -= alternateUnitTypes[ unit2 ]
+                    #print( '3: ', newUnits[ unit2 ] )
+                else:
+                    newUnits[ unit2 ] = -alternateUnitTypes[ unit2 ]
+                    #print( '4: ', newUnits[ unit2 ] )
+
+    result = { }
+    result.update( newUnits )
+
+    for unit in newUnits:
+        if newUnits[ unit ] == 0:
+            del result[ unit ]
+
+    #print( 'result 2: ', result )
+    return result
 
 
 #//******************************************************************************
@@ -121,31 +213,26 @@ class Measurement( mpf ):
             self.units[ value ] -= amount
 
 
-    def multiply( self, value ):
-        self = Measurement( fmul( self, value ), self.units )
+    def multiply( self, other ):
+        newValue = fmul( self, other )
 
-        if isinstance( value, Measurement ):
-            for unit in value.units:
-                if unit not in self.units:
-                    self.units[ unit ] = value.units[ unit ]
-                else:
-                    self.units[ unit ] += value.units[ unit ]
+        if isinstance( other, Measurement ):
+            conversion, newUnits = multiplyUnits( self.getUnits( ), other.getUnits( ) )
+            self = Measurement( fmul( newValue, conversion ), newUnits )
+        else:
+            self = Measurement( newValue, self.getUnits( ) )
 
-        self.reduceAndConvertUnits( )
         return self
 
 
-    def divide( self, value ):
-        self = Measurement( fdiv( self, value ), self.units )
+    def divide( self, other ):
+        newValue = fdiv( self, other )
 
-        if isinstance( value, Measurement ):
-            for unit in value.units:
-                if unit not in self.units:
-                    self.units[ unit ] = -value.units[ unit ]
-                else:
-                    self.units[ unit ] -= value.units[ unit ]
+        if isinstance( other, Measurement ):
+            self = Measurement( newValue, divideUnits( self.getUnits( ), other.getUnits( ) ) )
+        else:
+            self = Measurement( newValue, self.getUnits( ) )
 
-        self.reduceAndConvertUnits( )
         return self
 
 
@@ -160,7 +247,11 @@ class Measurement( mpf ):
         if isinstance( other, dict ):
             return self.getTypes( ) == other
         elif isinstance( other, Measurement ):
-            return self.getTypes( ) == other.getTypes( )
+            print( self.getTypes( ) )
+            print( other.getTypes( ) )
+
+            if self.getTypes( ) == other.getTypes( ):
+                return True
         else:
             raise ValueError( 'Measurement or dict expected' )
 
@@ -180,90 +271,74 @@ class Measurement( mpf ):
             if unit not in unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
-            #print( 'unit: ', unit )
+            unitType = getUnitType( unit )
 
-            unitType = unitOperators[ unit ][ 0 ]
+            if unitType in types:
+                types[ unitType ] += 1
+            else:
+                types[ unitType ] = 1
 
-            #print( 'unitType: ', unitType )
+        return types
 
-            for key in unitType:
-                #print( 'type: ', type( types ) )
-                if key in types:
-                    types[ key ] += unitType[ key ]
+
+    def getAlternateTypes( self ):
+        types = { }
+
+        for unit in self.units:
+            if unit not in unitOperators:
+                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+
+            unitType = getUnitType( unit )
+
+            alternateTypes = unitTypes[ unitType ]
+
+            if alternateTypes == { }:
+                if unitType in types:
+                    types[ unitType ] += 1
                 else:
-                    types[ key ] = unitType[ key ]
+                    types[ unitType ] = 1
+            else:
+                for unit2 in alternateTypes:
+                    if unitType in types:
+                        types[ unitType ] += alternateTypes[ unit2 ]
+                    else:
+                        types[ unitType ] = alternateTypes[ unit2 ]
 
         return types
 
 
     def getConversion( self, other ):
         if self.isCompatible( other ):
-            unit1 = [ k for k, v in self.units.items( ) ][ 0 ]
-            unit2 = [ k for k, v in other.units.items( ) ][ 0 ]
-            return mpmathify( unitConversionMatrix[ ( unit1, unit2 ) ] )
+            units1 = self.getUnits( )
+            units2 = other.getUnits( )
+
+            print( 'units1: ', units1 )
+            print( 'units2: ', units2 )
+
+            conversions = [ ]
+
+            for unit1 in units1:
+                for unit2 in units2:
+                    if getUnitType( unit1 ) == getUnitType( unit2 ):
+                        conversions.append( [ unit1, unit2 ] )
+                        break
+
+            value = mpmathify( 1 )
+
+            for conversion in conversions:
+                #print( 'conversion: ', conversion )
+
+                conversionValue = mpmathify( unitConversionMatrix[ ( conversion[ 0 ], conversion[ 1 ] ) ] )
+
+                if units1[ conversion[ 0 ] ] < 0:
+                    conversionValue = fdiv( 1, conversionValue )
+
+                value = fmul( value, conversionValue )
+
+            return value
         else:
             raise ValueError( 'incompatible units cannot be converted' )
             return 0
-
-
-    def reduceAndConvertUnits( self ):
-        positive = [ ]
-        negative = [ ]
-
-        #print( 'units: ' )
-
-        for unit in self.units:
-            #print( '    ', unit, self.units[ unit ] )
-
-            if self.units[ unit ] > 0:
-                for i in range( 0, self.units[ unit ] ):
-                    positive.append( unit )
-            elif self.units[ unit ] < 0:
-                for i in range( 0, -self.units[ unit ] ):
-                    negative.append( unit )
-
-        print( 'positive: ', positive )
-        print( 'negative: ', negative )
-        print( )
-
-        conversion = 1
-
-        while True:
-            deleteFromPos = -1
-            deleteFromNeg = -1
-
-            for i1, unit1 in enumerate( positive ):
-                unitType1 = unitOperators[ unit1 ][ 0 ]
-
-                for i2, unit2 in enumerate( negative ):
-                    unitType2 = unitOperators[ unit2 ][ 0 ]
-
-                    if unitType1 == unitType2:
-                        print( 'unit1: ', unit1 )
-                        print( 'unit2: ', unit2 )
-
-                        print( 'unitType1: ', unitType1 )
-                        print( 'unitType2: ', unitType2 )
-                        print( )
-
-                        deleteFromPos = i1
-                        deleteFromNeg = i2
-
-                        if unit1 != unit2:
-                            conversion = unitConversionMatrix[ ( unit1, unit2 ) ]
-
-            if deleteFromPos == -1 and deleteFromNeg == -1:
-                break
-            else:
-                del positive[ deleteFromPos ]
-                del negative[ deleteFromNeg ]
-
-        print( )
-        print( 'conversion: ', conversion )
-        print( 'positive: ', positive )
-        print( 'negative: ', negative )
-        print( )
-
 
 
 #//******************************************************************************
@@ -5663,6 +5738,7 @@ def roundMantissa( mantissa, accuracy ):
 
 def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
                   decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
+
     # filter out text strings
     for c in output:
         if c in '+-.':
@@ -5671,9 +5747,13 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
         if c in string.whitespace or c in string.punctuation:
             return output
 
-    # filter out scientific notation, rpn doesn't grok that yet
-    if ( output.find( 'e+' ) != -1 ) or ( output.find( 'e-' ) != -1 ):
-        return output
+    exponentIndex = output.find( 'e' )
+
+    if exponentIndex > 0:
+        exponent = int( output[ exponentIndex + 1 : ] )
+        output = output[ : exponentIndex ]
+    else:
+        exponent = 0
 
     imaginary = im( mpmathify( output ) )
 
@@ -5691,8 +5771,10 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
         strOutput = str( re( mpmathify( output ) ) )
     else:
         imaginaryValue = ''
-        #strOutput = nstr( output, outputAccuracy  )[ 1 : -2 ]
-        strOutput = str( output )
+        strOutput = nstr( output, outputAccuracy  )[ 1 : -1 ]
+        #strOutput = str( output )
+
+    #print( strOutput )
 
     if '.' in strOutput:
         decimal = strOutput.find( '.' )
@@ -5713,8 +5795,26 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
     elif mantissa != '' and outputAccuracy == -1:
         mantissa = mantissa.rstrip( '0' )
 
-    #print( 'mantissa: %s' % mantissa )
-    #print( 'output: %s' % output )
+    #print( 'integer: ', integer )
+    #print( 'mantissa: ', mantissa )
+    #print( 'exponent: ', exponent )
+    #
+    #if exponent > 0:
+    #    if exponent > len( mantissa ):
+    #        integer += mantissa + '0' * ( exponent - len( mantissa ) )
+    #        mantissa = ''
+    #    else:
+    #        integer += mantissa[ : exponent ]
+    #        mantissa = mantissa[ exponent + 1 : ]
+    #elif exponent < 0:
+    #    exponent = -exponent
+    #
+    #    if exponent > len( integer ):
+    #        mantissa = '0' * ( exponent - len( integer ) ) + integer + mantissa
+    #        integer = '0'
+    #    else:
+    #        mantissa = integer[ exponent : ]
+    #        integer = integer[ : exponent - 1 ]
 
     if radix == phiBase:
         integer, mantissa = convertToPhiBase( mpmathify( output ) )
@@ -5775,6 +5875,9 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
 
     if imaginaryValue != '':
         result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + imaginaryValue + 'j )'
+
+    if exponent != 0:
+        result += 'e' + str( exponent )
 
     return result
 
@@ -5872,7 +5975,6 @@ def printParagraph( text, length = 79, indent = 0 ):
 #//******************************************************************************
 
 def printGeneralHelp( basicCategories, operatorCategories ):
-    print( )
     print( PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
@@ -5899,11 +6001,10 @@ def printGeneralHelp( basicCategories, operatorCategories ):
 #//******************************************************************************
 
 def printTitleScreen( ):
-    print(
-'\n' + PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
-'''
-
-For more information use, 'rpn help'.''' )
+    print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
+    print( COPYRIGHT_MESSAGE )
+    print( )
+    print( 'For more information use, \'rpn help\'.' )
 
 
 #//******************************************************************************

@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.4.3'
+PROGRAM_VERSION = '5.4.4'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -2688,8 +2688,7 @@ def makeHelp( basicCategories ):
 #//******************************************************************************
 
 def main( ):
-    print( PROGRAM_NAME, PROGRAM_VERSION )
-    print( PROGRAM_DESCRIPTION )
+    print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
 

@@ -28,89 +28,117 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.4.3'
+PROGRAM_VERSION = '5.4.4'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
 
 #//******************************************************************************
 #//
-#//  measurement units
+#//  unitTypes
+#//
+#//  unit type : conversion from more basic unit types
 #//
 #//******************************************************************************
 
-unitTypes = [
-    'length',
-    'mass',
-    'time',
-]
-
-unitOperators = {
-    'acre'              : [ { 'length' : 2 }, 'acres', [ ] ],
-    'are'               : [ { 'length' : 2 }, 'ares', [ ] ],
-    'area'              : [ { 'length' : 2 }, 'area', [ ] ],
-    'barn'              : [ { 'length' : 2 }, 'barns', [ ] ],
-    'shed'              : [ { 'length' : 2 }, 'sheds', [ ] ],
-    'square_meter'      : [ { 'length' : 2 }, 'square meters', [ 'sqm', 'm^2', 'meter^2', 'meters^2' ] ],
-    'square_yard'       : [ { 'length' : 2 }, 'square yards', [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ] ],
-
-    'angstrom'          : [ { 'length' : 1 }, 'angstroms', [ ] ],
-    'astronomical_unit' : [ { 'length' : 1 }, 'astronomical units', [ 'au' ] ],
-    'chain'             : [ { 'length' : 1 }, 'chain', [ ] ],
-    'foot'              : [ { 'length' : 1 }, 'feet', [ 'ft' ] ],
-    'furlong'           : [ { 'length' : 1 }, 'furlongs', [ ] ],
-    'inch'              : [ { 'length' : 1 }, 'inches', [ ] ],
-    'league'            : [ { 'length' : 1 }, 'leagues', [ ] ],
-    'length'            : [ { 'length' : 1 }, 'length', [ ] ],
-    'light_day'         : [ { 'length' : 1 }, 'light days', [ ] ],
-    'light_hour'        : [ { 'length' : 1 }, 'light hours', [ ] ],
-    'light_minute'      : [ { 'length' : 1 }, 'light minutes', [ ] ],
-    'light_second'      : [ { 'length' : 1 }, 'light seconds', [ ] ],
-    'light_year'        : [ { 'length' : 1 }, 'light years', [ ] ],
-    'meter'             : [ { 'length' : 1 }, 'meters', [ 'm' ] ],
-    'micron'            : [ { 'length' : 1 }, 'microns', [ ] ],
-    'mile'              : [ { 'length' : 1 }, 'miles', [ 'mi' ] ],
-    'nautical_mile'     : [ { 'length' : 1 }, 'nautical miles', [ ] ],
-    'rod'               : [ { 'length' : 1 }, 'rods', [ ] ],
-    'yard'              : [ { 'length' : 1 }, 'yards', [ 'yd' ] ],
-
-    'grain'             : [ { 'mass' : 1 },   'grains', [ ] ],
-    'gram'              : [ { 'mass' : 1 },   'grams', [ 'g' ] ],
-    'mass'              : [ { 'mass' : 1 },   'mass', [ ] ],
-    'ounce'             : [ { 'mass' : 1 },   'ounces', [ 'oz' ] ],
-    'pennyweight'       : [ { 'mass' : 1 },   'pennyweights', [ ] ],
-    'pound'             : [ { 'mass' : 1 },   'pounds', [ 'lb' ] ],
-    'stone'             : [ { 'mass' : 1 },   'stone', [ ] ],
-    'ton'               : [ { 'mass' : 1 },   'ton', [ ] ],
-    'tonne'             : [ { 'mass' : 1 },   'tonnes', [ ] ],
-    'troy_ounce'        : [ { 'mass' : 1 },   'troy ounces', [ ] ],
-    'troy_pound'        : [ { 'mass' : 1 },   'troy pounds', [ ] ],
-
-    'day'               : [ { 'time' : 1 },   'days', [ ] ],
-    'fortnight'         : [ { 'time' : 1 },   'fortnights', [ ] ],
-    'hour'              : [ { 'time' : 1 },   'hours', [ 'hr' ] ],
-    'minute'            : [ { 'time' : 1 },   'minutes', [ ] ],   # 'min' is already an operator
-    'second'            : [ { 'time' : 1 },   'seconds', [ ] ],   # 'sec' is already an operator
-    'time'              : [ { 'time' : 1 },   'time', [ ] ],
-    'week'              : [ { 'time' : 1 },   'weeks', [ 'wk' ] ],
-
-    'cubic_foot'        : [ { 'length' : 3 }, 'cubic feet', [ 'cuft', 'ft^3', 'foot^3', 'feet^3' ] ],
-    'cubic_meter'       : [ { 'length' : 3 }, 'cubic meters', [ 'cum', 'm^3', 'meter^3', 'meters^3' ] ],
-    'cup'               : [ { 'length' : 3 }, 'cups', [ ] ],
-    'fifth'             : [ { 'length' : 3 }, 'fifths', [ ] ],
-    'firkin'            : [ { 'length' : 3 }, 'firkins', [ ] ],
-    'fluid_ounce'       : [ { 'length' : 3 }, 'fluid ounces', [ 'floz' ] ],
-    'gallon'            : [ { 'length' : 3 }, 'gallons', [ 'gal' ] ],
-    'gill'              : [ { 'length' : 3 }, 'gills', [ ] ],
-    'liter'             : [ { 'length' : 3 }, 'liters', [ 'l' ] ],
-    'pinch'             : [ { 'length' : 3 }, 'pinches', [ ] ],
-    'pint'              : [ { 'length' : 3 }, 'pints', [ 'pt' ] ],
-    'quart'             : [ { 'length' : 3 }, 'quarts', [ 'qt' ] ],
-    'tablespoon'        : [ { 'length' : 3 }, 'tablespoons', [ 'tsp' ] ],
-    'teaspoon'          : [ { 'length' : 3 }, 'teaspoons', [ 'tbsp' ] ],
-    'volume'            : [ { 'length' : 3 }, 'volume', [ ] ],
+unitTypes = {
+    'length'        : { },
+    'mass'          : { },
+    'time'          : { },
+    'area'          : { 'length' : 2 },
+    'volume'        : { 'length' : 3 },
+    'velocity'      : { 'length' : 1, 'time' : -1 },
+    'acceleration'  : { 'length' : 1, 'time' : -2 },
+    'force'         : { 'mass' : 1, 'length' : 1, 'time' : -2 },
 }
 
+
+#//******************************************************************************
+#//
+#//  unitOperators
+#//
+#//  unit operator : unitType, plural name, aliases
+#//
+#//******************************************************************************
+
+unitOperators = {
+    'acre'              : [ 'area',     'acres',            [ ] ],
+    'are'               : [ 'area',     'ares',             [ ] ],
+    'area'              : [ 'area',     'area',             [ ] ],
+    'barn'              : [ 'area',     'barns',            [ ] ],
+    'shed'              : [ 'area',     'sheds',            [ ] ],
+    'square_meter'      : [ 'area',     'square meters',    [ 'sqm', 'm^2', 'meter^2', 'meters^2' ] ],
+    'square_yard'       : [ 'area',     'square yards',     [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ] ],
+
+    'angstrom'          : [ 'length',   'angstroms',            [ ] ],
+    'astronomical_unit' : [ 'length',   'astronomical units',   [ 'au' ] ],
+    'chain'             : [ 'length',   'chain',                [ ] ],
+    'foot'              : [ 'length',   'feet',                 [ 'ft' ] ],
+    'furlong'           : [ 'length',   'furlongs',             [ ] ],
+    'inch'              : [ 'length',   'inches',               [ 'in' ] ],
+    'league'            : [ 'length',   'leagues',              [ ] ],
+    'length'            : [ 'length',   'length',               [ ] ],
+    'light_day'         : [ 'length',   'light days',           [ ] ],
+    'light_hour'        : [ 'length',   'light hours',          [ ] ],
+    'light_minute'      : [ 'length',   'light minutes',        [ ] ],
+    'light_second'      : [ 'length',   'light seconds',        [ ] ],
+    'light_year'        : [ 'length',   'light years',          [ ] ],
+    'meter'             : [ 'length',   'meters',               [ 'm' ] ],
+    'micron'            : [ 'length',   'microns',              [ ] ],
+    'mile'              : [ 'length',   'miles',                [ 'mi' ] ],
+    'nautical_mile'     : [ 'length',   'nautical miles',       [ ] ],
+    'rod'               : [ 'length',   'rods',                 [ ] ],
+    'yard'              : [ 'length',   'yards',                [ 'yd' ] ],
+
+    'grain'             : [ 'mass',     'grains',           [ 'gr' ] ],
+    'gram'              : [ 'mass',     'grams',            [ 'g' ] ],
+    'mass'              : [ 'mass',     'mass',             [ ] ],
+    'ounce'             : [ 'mass',     'ounces',           [ 'oz' ] ],
+    'pennyweight'       : [ 'mass',     'pennyweights',     [ 'dwt' ] ],
+    'pound'             : [ 'mass',     'pounds',           [ 'lb' ] ],
+    'stone'             : [ 'mass',     'stone',            [ ] ],
+    'ton'               : [ 'mass',     'tons',             [ ] ],
+    'tonne'             : [ 'mass',     'tonnes',           [ ] ],
+    'troy_ounce'        : [ 'mass',     'troy ounces',      [ ] ],
+    'troy_pound'        : [ 'mass',     'troy pounds',      [ ] ],
+
+    'day'               : [ 'time',     'days',             [ ] ],
+    'fortnight'         : [ 'time',     'fortnights',       [ ] ],
+    'hour'              : [ 'time',     'hours',            [ 'hr' ] ],
+    'minute'            : [ 'time',     'minutes',          [ ] ],   # 'min' is already an operator
+    'second'            : [ 'time',     'seconds',          [ ] ],   # 'sec' is already an operator
+    'time'              : [ 'time',     'time',             [ ] ],
+    'week'              : [ 'time',     'weeks',            [ 'wk' ] ],
+
+    'cubic_foot'        : [ 'volume',   'cubic feet',       [ 'cuft', 'ft^3', 'foot^3', 'feet^3' ] ],
+    'cubic_meter'       : [ 'volume',   'cubic meters',     [ 'cum', 'm^3', 'meter^3', 'meters^3' ] ],
+    'cup'               : [ 'volume',   'cups',             [ ] ],
+    'fifth'             : [ 'volume',   'fifths',           [ ] ],
+    'firkin'            : [ 'volume',   'firkins',          [ ] ],
+    'fluid_ounce'       : [ 'volume',   'fluid ounces',     [ 'floz' ] ],
+    'gallon'            : [ 'volume',   'gallons',          [ 'gal' ] ],
+    'gill'              : [ 'volume',   'gills',            [ ] ],
+    'liter'             : [ 'volume',   'liters',           [ 'l' ] ],
+    'pinch'             : [ 'volume',   'pinches',          [ ] ],
+    'pint'              : [ 'volume',   'pints',            [ 'pt' ] ],
+    'quart'             : [ 'volume',   'quarts',           [ 'qt' ] ],
+    'tablespoon'        : [ 'volume',   'tablespoons',      [ 'tsp' ] ],
+    'teaspoon'          : [ 'volume',   'teaspoons',        [ 'tbsp' ] ],
+    'volume'            : [ 'volume',   'volume',           [ ] ],
+
+    'speed_of_light'    : [ 'velocity',     'x speed of light',     [ 'c' ] ],
+
+    'standard_gravity'  : [ 'acceleration', 'standard gravities',   [ 'G' ] ],
+}
+
+
+#//******************************************************************************
+#//
+#//  metricUnits
+#//
+#//  ( name, plural name, abbreviation, aliases, plural aliases )
+#//
+#//******************************************************************************
 
 metricUnits = [
     ( 'meter',  'meters',  'm', [ 'metre' ], [ 'metres' ] ),
@@ -120,6 +148,14 @@ metricUnits = [
     ( 'are',    'ares',    'a', [ ], [ ] ),
 ]
 
+
+#//******************************************************************************
+#//
+#//  metricPrefixes
+#//
+#//  ( name, abbreviation, power of 10 )
+#//
+#//******************************************************************************
 
 metricPrefixes = [
     ( 'yotta',  'Y',  '24' ),
@@ -144,6 +180,14 @@ metricPrefixes = [
     ( 'yocto',  'y',  '-24' ),
 ]
 
+
+#//******************************************************************************
+#//
+#//  metricPrefixes
+#//
+#//  ( first unit, second unit, conversion factor )
+#//
+#//******************************************************************************
 
 unitConversionMatrix = {
     ( 'acre',              'square_yard' )      : '4840',
@@ -192,6 +236,8 @@ unitConversionMatrix = {
     ( 'yard',              'foot' )             : '3',
     ( 'fortnight',         'day' )              : '14',
     ( 'week',              'day' )              : '7',
+    ( 'speed_of_light',    'meter/second' )     : '299792458',
+    ( 'standard_gravity',  'meter/second^2' )   : '9.806650',
 }
 
 
@@ -306,7 +352,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     for operator in unitOperators:
         unitInfo = unitOperators[ operator ]
 
-        if unitInfo[ 0 ] == { 'length' : 1 }:
+        if unitInfo[ 0 ] == 'length':
             newOp = 'square_' + operator
 
             if newOp not in unitOperators:
@@ -316,7 +362,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
                     abbrevs.append( 'sq' + abbrev )
                     abbrevs.append( abbrev + '^2' )
 
-                newOperators[ newOp ] = [ { 'length' : 2 }, 'square_' + unitInfo[ 1 ], abbrevs ]
+                newOperators[ newOp ] = [ 'area', 'square_' + unitInfo[ 1 ], abbrevs ]
 
                 newAliases[ 'square_' + unitInfo[ 1 ] ] = newOp
                 newAliases[ operator +  '^2' ] = newOp
@@ -325,8 +371,10 @@ def initializeConversionMatrix( unitConversionMatrix ):
             newOp = 'cubic_'+ operator
 
             if newOp not in unitOperators:
-                newOperators[ newOp ] = [ { 'length' : 3 }, 'cubic_' + unitInfo[ 1 ], [ ] ]
+                newOperators[ newOp ] = [ 'volume', 'cubic_' + unitInfo[ 1 ], [ ] ]
                 newAliases[ 'cubic_' + unitInfo[ 1 ] ] = newOp
+
+                abbrevs = [ ]
 
                 for abbrev in unitInfo[ 2 ]:
                     abbrevs.append( 'cu' + abbrev )
@@ -336,13 +384,16 @@ def initializeConversionMatrix( unitConversionMatrix ):
                 newAliases[ operator +  '^3' ] = newOp
                 newAliases[ unitInfo[ 1 ] + '^3' ] = newOp
 
+                for abbrev in abbrevs:
+                    newAliases[ abbrev ] = newOp
+
     unitOperators.update( newOperators )
 
     # add new conversions for the new area and volume units
     newConversions = { }
 
     for op1, op2 in unitConversionMatrix:
-        if unitOperators[ op1 ][ 0 ] == { 'length' : 1 }:
+        if unitOperators[ op1 ][ 0 ] == 'length':
             conversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
             newConversions[ ( 'square_' + op1, 'square_' + op2 ) ] = str( power( conversion, 2 ) )
             newConversions[ ( 'cubic_' + op1, 'cubic_' + op2 ) ] = str( power( conversion, 3 ) )
@@ -420,8 +471,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 #//******************************************************************************
 
 def main( ):
-    print( PROGRAM_NAME, PROGRAM_VERSION )
-    print( PROGRAM_DESCRIPTION )
+    print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
 
