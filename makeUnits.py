@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.10.1'
+PROGRAM_VERSION = '5.10.2'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -93,7 +93,7 @@ class UnitInfo( ):
         self.plural = plural
         self.abbrev = abbrev
         self.aliases = aliases
-        self.categories= categories
+        self.categories = categories
 
 
 #//******************************************************************************
@@ -129,14 +129,14 @@ unitOperators = {
     'grad' :
         UnitInfo( 'angle', 'grad', 'grads', '', [ 'gon', 'gons' ], [ 'mathematics' ] ),
 
+    'octant' :
+        UnitInfo( 'angle', 'octant', 'octants', '', [ ], [ 'mathematics' ] ),
+
     'quadrant' :
         UnitInfo( 'angle', 'quadrant', 'quadrants', '', [ ], [ 'mathematics' ] ),
 
     'quintant' :
         UnitInfo( 'angle', 'quintant', 'quintants', '', [ ], [ 'mathematics' ] ),
-
-    'octant' :
-        UnitInfo( 'angle', 'octant', 'octants', '', [ ], [ 'mathematics' ] ),
 
     'radian' :
         UnitInfo( 'angle', 'radian', 'radians', 'rad', [ ], [ 'mathematics', 'SI' ] ),
@@ -181,16 +181,20 @@ unitOperators = {
 
     # capacitance
 
+    'abfarad' :
+        UnitInfo( 'capacitance', 'abfarad', 'abfarads', 'abF', [ ], [ 'CGS' ] ),
+
     'coulomb/volt' :
         UnitInfo( 'capacitance', 'coulomb/volt', 'coulombs/volt', 'C/V', [ 'coulomb/volts', 'coulombs/volts', 'C/volts', 'C/volt', 'coulomb/V', 'coulombs/V' ], [ 'SI' ] ),
-
-    # http://www.translatorscafe.com/cafe/EN/units-converter/electrostatic-capacitance/c/
 
     'farad' :
         UnitInfo( 'capacitance', 'farad', 'farads', 'F', [ ], [ 'SI' ] ),
 
     'jar' :
         UnitInfo( 'capacitance', 'jar', 'jars', '', [ ], [ 'obsolete' ] ),
+
+    'statfarad' :
+        UnitInfo( 'capacitance', 'statfarad', 'statfarads', 'statF', [ ], [ 'CGS' ] ),
 
     # charge
 
@@ -268,12 +272,6 @@ unitOperators = {
     'ampere/volt' :
         UnitInfo( 'electrical_conductance', 'ampere/volt', 'amperes/volt', 'A/V', [ 'amp/V', 'amps/V', 'ampere/V', 'amperes/V', 'A/volt', 'amp/volt', 'amps/volt', 'A/volts', 'amp/volts', 'amps/volts', 'amperes/volts', ], [ 'SI' ] ),
 
-    # http://www.translatorscafe.com/cafe/EN/units-converter/electric-conductance/c/
-
-    # The quantized Hall conductance is a new practical standard for electrical conductance based on the
-    # resistance quantum given by the von Klitzing constant RK = 25812.807557(18) ohm. Quantized Hall
-    # conductance = 1 / 25812.807557(18) ohm = 0.00003874 S.
-
     'second^3-ampere^2/kilogram-meter^2':
         UnitInfo( 'electrical_conductance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ], [ 'SI' ] ),
 
@@ -315,15 +313,6 @@ unitOperators = {
     'ohm' :
         UnitInfo( 'electrical_resistance', 'ohm', 'ohms', 'O', [ ], [ 'SI' ] ),
 
-    # http://www.translatorscafe.com/cafe/EN/units-converter/electric-resistance/8-1/statohm-ohm/
-
-    # The Quantized Hall resistance is a new practical standard for electrical resistance. It is based on the resistance quantum
-    # given by the von Klitzing constant RK = h/e^2 = 25812.807557(18) ohm where h is the Plank's constant and e is the elementary
-    # charge. The quantum Hall effect is a quantum-mechanical version of the Hall effect, observed in MOSFETs
-    # (metal-oxide-semiconductor-field-effect-transistors) when they are subjected to low temperatures and strong magnetic fields,
-    # where the Hall conductivity takes on the quantized values. This quantization is incredibly precise, which justifies its use
-    # as a new practical standard for electrical resistance.
-
     'second/farad' :
         UnitInfo( 'electrical_resistance', 'second/farad', 'second/farad', 's/F', [ 's/farad', 's/farads', 'sec/farad', 'sec/farads', 'sec/F', 'second/F', 'seconds/F' ], [ 'SI' ] ),
 
@@ -332,6 +321,9 @@ unitOperators = {
 
     'varley' :
         UnitInfo( 'electrical_resistance', 'varley', 'varleys', '', [ ], [ 'obsolete' ] ),  # based on one mile of 1/16 inch diameter pure annealed copper wire at 15.5 degrees C
+
+    'von_klitzing_constant' :
+        UnitInfo( 'electrical_resistance', 'von_klitzing_constant', 'x_von_klitzing_constant', '', [ 'von_klitzing' ], [ 'natural' ] ),
 
     'volt/ampere' :
         UnitInfo( 'electrical_resistance', 'volt/ampere', 'volts/ampere', 'V/A', [ 'volt/amp', 'volt/amps', 'volt/A', 'volts/amp', 'volts/amps', 'volts/A', 'V/amp', 'V/amps', 'V/ampere', 'V/amperes' ], [ 'SI' ] ),
@@ -428,11 +420,17 @@ unitOperators = {
 
     # inductance
 
+    'abhenry' :
+        UnitInfo( 'inductance', 'abhenry', 'abhenries', 'abH', [ ], [ 'CGS' ] ),
+
     'henry' :
         UnitInfo( 'inductance', 'henry', 'henries', 'H', [ ], [ 'SI' ] ),
 
     'weber/ampere' :
         UnitInfo( 'inductance', 'weber/ampere', 'webers/ampere', 'Wb/A', [ 'Wb/ampere', 'Wb/ampere', 'weber/A', 'webers/A', 'Wb/amp', 'weber/amp', 'webers/amp' ], [ 'SI' ] ),
+
+    'stathenry' :
+        UnitInfo( 'inductance', 'stathenry', 'stathenries', 'statH', [ ], [ 'CGS' ] ),
 
     # information_entropy
 
@@ -731,6 +729,9 @@ unitOperators = {
     'dalton' :
         UnitInfo( 'mass', 'dalton', 'daltons', '', [ 'amu', 'atomic-mass-unit' ], [ 'science' ] ),
 
+    'electron_rest_mass' :
+        UnitInfo( 'mass', 'electron_rest_mass', 'x_electron_rest_mass', '', [ ], [ 'natural' ] ),
+
     'farshimmelt_blintz' :
         UnitInfo( 'mass', 'farshimmelt_blintz', 'farshimmelt_blintzes', 'fb', [ 'far-blintz' ], [ 'Potrzebie', 'humorous' ] ),
 
@@ -855,6 +856,7 @@ unitOperators = {
         UnitInfo( 'radioactivity', 'rutherford', 'rutherfords', 'rd', [ ], [ 'obsolete' ] ),
 
     # radiation_absorbed_dose
+
     'gray' :
         UnitInfo( 'radiation_absorbed_dose', 'gray', 'grays', 'Gy', [ ], [ 'SI' ] ),
 
@@ -864,12 +866,24 @@ unitOperators = {
     'rad' :
         UnitInfo( 'radiation_absorbed_dose', 'rad', 'rads', '', [ ], [ 'CGS' ] ),
 
+    # radiation_equivalent_dose
+
+    'banana_equivalent_dose' :
+        UnitInfo( 'radiation_equivalent_dose', 'banana_equivalent_dose', 'banana_equivalent_doses', '', [ 'banana' ], [ 'natural' ] ),
+
+    'rem' :
+        UnitInfo( 'radiation_equivalent_dose', 'rem', 'rems', '', [ 'roentgen_equivalent_man' ], [ 'CGS' ] ),
+
+    'sievert' :
+        UnitInfo( 'radiation_equivalent_dose', 'sievert', 'sieverts', 'Sv', [ ], [ 'SI' ] ),
+
     # radiation_exposure
+
     'coulomb/kilogram' :
         UnitInfo( 'radiation_exposure', 'coulomb/kilogram', 'coulombs/kilogram', 'C/kg', [ ], [ 'SI' ] ),
 
     'roentgen' :
-        UnitInfo( 'radiation_exposure', 'roentgen', 'roentgens', 'R', [ 'parker' ], [ ] ),
+        UnitInfo( 'radiation_exposure', 'roentgen', 'roentgens', 'R', [ 'parker' ], [ 'NIST' ] ),
 
     # solid_angle
     'square_arcminute' :
@@ -926,6 +940,7 @@ unitOperators = {
         UnitInfo( 'temperature', 'romer', 'degrees_romer', 'Ro', [ 'defRo' ], [ 'obsolete' ] ),
 
     # time
+
     'century' :
         UnitInfo( 'time', 'century', 'centuries', '', [ ], [ 'traditional', 'US' ] ),
 
@@ -1258,8 +1273,10 @@ metricUnits = [
     ( 'pascal',         'pascals',          'Pa',   [ ], [ ] ),
     ( 'pond',           'ponds',            'p',    [ ], [ ] ),
     ( 'potrzebie',      'potrzebies',       'pz',   [ ], [ ] ),
+    ( 'rem',            'rems',             'rem',  [ ], [ ] ),
     ( 'second',         'seconds',          's',    [ ], [ ] ),
     ( 'siemens',        'siemens',          'S',    [ 'mho' ], [ 'mhos' ] ),
+    ( 'sievert',        'sieverts',         'Sv',   [ ], [ ] ),
     ( 'stere',          'steres',           'st',   [ ], [ ] ),
     ( 'tesla',          'teslas',           'T',    [ ], [ ] ),
     ( 'ton_of_TNT',     'tons_of_TNT',      'tTNT', [ ], [ ] ),
@@ -1385,7 +1402,8 @@ binaryPrefixes = [
 unitConversionMatrix = {
     ( 'abampere',              'ampere' )                               : '10',
     ( 'abcoulomb',             'coulomb' )                              : '10',
-    ( 'abmho',                 'siemens' )                              : '1e9',
+    ( 'abfarad',               'farad' )                                : '1.0e9',
+    ( 'abmho',                 'siemens' )                              : '1.0e9',
     ( 'acre',                  'square_yard' )                          : '4840',
     ( 'acre-foot',             'cubic_foot' )                           : '43560',
     ( 'aln',                   'inch' )                                 : '23.377077865',
@@ -1398,6 +1416,7 @@ unitConversionMatrix = {
     ( 'atmosphere',            'pascal' )                               : '101325',
     ( 'balthazar',             'liter' )                                : '12.0',
     ( 'ban',                   'nat' )                                  : str( log( 10 ) ),
+    ( 'banana_equivalent_dose', 'sievert' )                             : '0.000000098',
     ( 'bar',                   'pascal' )                               : '100000',
     ( 'barleycorn',            'poppyseed' )                            : '4',
     ( 'barrel',                'gallon' )                               : '31.5',
@@ -1424,7 +1443,6 @@ unitConversionMatrix = {
     ( 'clavelin',              'liter' )                                : '0.62',
     ( 'cord',                  'cubic_foot' )                           : '128',
     ( 'coulomb',               'ampere-second' )                        : '1',
-    ( 'coulomb',               'electron_charge' )                      : '6.24150965e18',
     ( 'coulomb',               'farad-volt' )                           : '1',
     ( 'coulomb/farad',         'volt' )                                 : '1',
     ( 'coulomb/kilogram',      'roentgen' )                             : '3876',
@@ -1446,9 +1464,12 @@ unitConversionMatrix = {
     ( 'dry_pint',              'cubic_inch' )                           : '33.6003125',
     ( 'dry_quart',             'dry_pint' )                             : '2',
     ( 'dword',                 'bit' )                                  : '32',
+    ( 'electron_charge',       'coulomb' )                              : '1.602176565e-19',
+    ( 'electron_rest_mass',    'gram' )                                 : '9.10938291e-28',
     ( 'ell',                   'inch' )                                 : '45',
     ( 'famn',                  'aln' )                                  : '3',
     ( 'farad',                 'jar' )                                  : '9.0e8',
+    ( 'farad',                 'statfarad' )                            : '898755178736.5',
     ( 'faraday',               'coulomb' )                              : '96485.3383',
     ( 'fathom',                'foot' )                                 : '6',
     ( 'finger',                'inch' )                                 : '4.5',
@@ -1458,8 +1479,8 @@ unitConversionMatrix = {
     ( 'fluid_ounce',           'tablespoon' )                           : '2',
     ( 'foot',                  'inch' )                                 : '12',
     ( 'footcandle',            'lumen/foot^2' )                         : '1',
-    ( 'footcandle',            'lux' )                                  : '10.763910417',  # (m/ft)^2
-    ( 'footlambert',           'candela/meter^2' )                      : '3.42625909963539052691',  # 1/pi cd/ft^2
+    ( 'footcandle',            'lux' )                                  : '10.763910417',           # (m/ft)^2
+    ( 'footlambert',           'candela/meter^2' )                      : '3.42625909963539052691', # 1/pi cd/ft^2
     ( 'fortnight',             'day' )                                  : '14',
     ( 'fortnight',             'microfortnight' )                       : '1000000',
     ( 'furlong',               'yard' )                                 : '220',
@@ -1477,6 +1498,7 @@ unitConversionMatrix = {
     ( 'handbreadth',           'inch' )                                 : '3',
     ( 'hartree',               'rydberg' )                              : '2',
     ( 'hefnerkerze',           'candela' )                              : '0.920',  # approx.
+    ( 'henry',                 'abhenry' )                              : '1.0e9',
     ( 'henry',                 'weber/ampere' )                         : '1',
     ( 'hogshead',              'gallon' )                               : '63',
     ( 'homestead',             'acre' )                                 : '160',
@@ -1608,6 +1630,7 @@ unitConversionMatrix = {
     ( 'siderial_year',         'day' )                                  : '365.256363',
     ( 'siemens',               'ampere/volt' )                          : '1',
     ( 'siemens',               'kilogram-meter^2/second^3-ampere^2' )   : '1',
+    ( 'sievert',               'rem' )                                  : '100',
     ( 'skot',                  'bril' )                                 : '1.0e4',
     ( 'skot',                  'lambert' )                              : '1.0e7',
     ( 'slug',                  'pound' )                                : '32.174048556',
@@ -1628,6 +1651,7 @@ unitConversionMatrix = {
     ( 'standard_gravity',      'meter/second^2' )                       : '9.80665',
     ( 'statcoulomb',           'coulomb' )                              : '3.335641e-10',  # 0.1A*m/c, approx.
     ( 'statcoulomb',           'franklin' )                             : '1',
+    ( 'stathenry',             'henry' )                                : '898755178740',
     ( 'statmho',               'siemens' )                              : '8.99e11',
     ( 'statohm',               'ohm' )                                  : '898755178740',
     ( 'statvolt',              'volt' )                                 : '299.792458',
@@ -1661,6 +1685,7 @@ unitConversionMatrix = {
     ( 'tun',                   'rundlet' )                              : '14',
     ( 'tun',                   'tierce' )                               : '6',
     ( 'volt',                  'abvolt' )                               : '1.0e8',
+    ( 'von_klitzing_constant', 'ohm' )                                  : '25812.807557',
     ( 'watt',                  'erg/second' )                           : '1.0e7',
     ( 'watt',                  'kilogram-meter^2/second^3' )            : '1',
     ( 'watt',                  'newton-meter/second' )                  : '1',
