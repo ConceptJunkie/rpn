@@ -39,10 +39,10 @@ from mpmath import *
 #//
 #//******************************************************************************
 
-PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.17.1"
+PROGRAM_NAME = 'rpn'
+RPN_VERSION = '4.18.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
-COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
+COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
 defaultPrecision = 12
 defaultAccuracy = 10
@@ -53,9 +53,9 @@ defaultOutputRadix = 10
 defaultDecimalGrouping = 5
 defaultIntegerGrouping = 3
 
-defaultNumerals = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-numerals = ""
+numerals = ''
 
 phiBase = -1
 fibBase = -2
@@ -213,15 +213,15 @@ class Polynomial(object):
 #//******************************************************************************
 
 def downloadOEISSequence( id ):
-    data = urllib.request.urlopen( "http://oeis.org/search?q=id%3A" + id + "&fmt=text" ).read( )
+    data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3A' + id + '&fmt=text' ).read( )
 
-    pattern = regex.compile( b"%S A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n", regex.DOTALL )
+    pattern = regex.compile( b'%S A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
     result = pattern.findall( data )[ 0 ]
 
-    pattern = regex.compile( b"%T A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n", regex.DOTALL )
+    pattern = regex.compile( b'%T A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
     result += pattern.findall( data )[ 0 ]
 
-    pattern = regex.compile( b"%U A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n", regex.DOTALL )
+    pattern = regex.compile( b'%U A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
     result += pattern.findall( data )[ 0 ]
 
     sequence = [ int( i ) for i in result.decode( 'ascii' ).split( ',' ) ]
@@ -1720,7 +1720,7 @@ class ContinuedFraction( list ):
         elif isinstance( value, ( list, tuple ) ):
             self.extend( value )
         else:
-            raise ValueError( "ContinuedFraction requires number or list" )
+            raise ValueError( 'ContinuedFraction requires a number or a list' )
 
     def getFraction( self, terms=None ):
         if terms is None or terms >= len( self ):
@@ -1739,7 +1739,7 @@ class ContinuedFraction( list ):
         return float( self.getFraction( ) )
 
     def __str__( self ):
-        return "[%s]" % ", ".join( [ str( int( x ) ) for x in self ] )
+        return '[%s]' % ', '.join( [ str( int( x ) ) for x in self ] )
 
 
 
@@ -1873,7 +1873,7 @@ def convertToPhiBase( num ):
 #//******************************************************************************
 
 def convertToFibBase( value ):
-    result = ""
+    result = ''
 
     n = value
 
@@ -1890,14 +1890,12 @@ def convertToFibBase( value ):
             b = c
             c = fadd( a, b )
 
-        result = ""
-
         for fibnum in reversed( fibs ):
             if n >= fibnum:
                 n = fsub( n, fibnum )
-                result = result + "1"
+                result = result + '1'
             else:
-                result = result + "0"
+                result = result + '0'
 
     return result
 
@@ -2752,7 +2750,7 @@ def getPlasticConstant( ):
 def solveQuadraticPolynomial( a, b, c ):
     if a == 0:
         if b == 0:
-            raise ValueError( "invalid equation, no variable coefficients" )
+            raise ValueError( 'invalid equation, no variable coefficients' )
         else:
             # linear equation, one root
             return [ fdiv( fneg( c ), b ) ]
@@ -3627,8 +3625,8 @@ def twoArgCaller( func, args ):
     arg1 = args[ 0 ]
     arg2 = args[ 1 ]
 
-    #print( "arg1: " + str( arg1 ) )
-    #print( "arg2: " + str( arg2 ) )
+    #print( 'arg1: ' + str( arg1 ) )
+    #print( 'arg2: ' + str( arg2 ) )
 
     list1 = len( arg1 ) > 1
     list2 = len( arg2 ) > 1
@@ -4093,6 +4091,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'carol'      : [ lambda n : fsub( power( fsub( power( 2, n ), 1 ), 2 ), 2 ), 1,
+'number_theory', 'gets the nth Carol number',
+'''
+''',
+'''
+''' ],
     'catalans'      : [ catalan, 0,
 'constants', 'returns Catalan\'s constant',
 '''
@@ -4413,6 +4417,18 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'lambertw'      : [ lambertw, 1,
 '[TBD]', '',
+'''
+''',
+'''
+''' ],
+    'kynea'      : [ lambda n : fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ), 1,
+'number_theory', 'gets the nth Kynea number',
+'''
+''',
+'''
+''' ],
+    'leyland'      : [ lambda x, y : fadd( power( x, y ), power( y, x ) ), 2,
+'number_theory', 'gets the Leyland number for n and k',
 '''
 ''',
 '''
@@ -4909,6 +4925,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'thabit'        : [ lambda n : fsub( fmul( 3, power( 2, n ) ), 1 ), 1,
+'number_theory', 'gets the nth Thabit number',
+'''
+''',
+'''
+''' ],
     'tri'           : [ getNthTriangularNumber, 1,
 'polygonal_numbers', 'calcuates the nth triangular number',
 '''
@@ -5294,6 +5316,10 @@ def parseInputValue( term, inputRadix ):
     if term == '0':
         return mpmathify( 0 )
 
+    # ignore a trailing comma, since it's easy to want to use those in lists
+    if term[ -1 ] == ',':
+        term = term[ : -1 ]
+
     if term[ 0 ] == '\\':
         term = term[ 1 : ]
         ignoreSpecial = True
@@ -5433,8 +5459,8 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
         if outputAccuracy == -1:
             mantissa = mantissa.rstrip( '0' )
 
-    #print( "mantissa: %s" % mantissa )
-    #print( "output: %s" % output )
+    #print( 'mantissa: %s' % mantissa )
+    #print( 'output: %s' % output )
 
     if radix == phiBase:
         integer, mantissa = convertToPhiBase( mpmathify( output ) )
@@ -5532,103 +5558,7 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
     return resultString
 
 
-#//******************************************************************************
-#//
-#//  printMoreHelp
-#//
-#//******************************************************************************
 
-def printMoreHelp( ):
-    print(
-'''
-Arguments are interpreted as Reverse Polish Notation.
-
-Supported unary operators (synonyms are separated by commas):
-    !, fac; !!, fac2 (double factorial); %, mod, modulo; 1/x, inv (take
-    reciprocal); abs; cbrt, root3 (cube root); ceil; cube; exp; exp10; expphi;
-    fac2 (double factorial) floor; gamma; hypot; hyperfac; isdiv; isprime;
-    lgamma; log, ln; log10; neg; rand; round; sqr; sqrt, root2; superfac
-
-Supported unary trigonometric operators:
-    deg, degrees (treat term as degrees (i.e., convert to radians), e.g.,
-    "rpn 45 degrees tan"); rad, radians (treat term as radians (i.e., convert
-    to degrees), e.g., "rpn pi radians")
-
-    sin; asin; sinh; asinh; cos; acos; cosh; acosh; tan; atan; tanh; atanh;
-    sec; asec; sech; asech; csc; acsc; csch; acsch; cot; acot; coth; acoth
-
-Supported integer sequence unary operators:
-    fib (nth Fibonacci number); luc, lucas (nth Lucas number); sylvester, syl
-    (nth Sylvester number); tri (nth triangular number); antitri (which
-    triangular number is this); pent (nth pentagonal number); antipent (which
-    pentagonal number is this); hex (nth hexagonal number); antihex (which
-    hexagonal number is this); sqtri (nth square triangular number)*; tet,
-    tetra (nth tetrahedral number); prime (nth prime); twin (nth twin prime);
-    bal, balanced (nth balanced prime); cousin (nth cousin prime); sexy
-    (nth sexy prime); sophie (nth Sophie Germain prime); triplet (nth prime
-    triplet); quad (nth prime quadruplet)
-
-    * requires sufficient precision for accuracy (see Notes)
-
-Supported binary operators:
-    +, add; -, sub; *, mult; /, div; **, ^, power; ***, mod, modulo, %; hyper4
-    (tetration); hyper4_2 (tetration, right-associative); //, root; logxy;
-    binomial, nCr, ncr (binomial coefficient (combinations)); perm, nRp, nrp
-    (permutations)
-
-Supported list operators (requires a list as an operand):
-    sum; prod; mean, avg, average; cf (treat as a continued fraction);
-    base (sort of the reverse of -R, with the base being the last argument);
-    solve (solve polynomial), altsum (sum terms, alternating add and subtract);
-    altsum2 (sum terms, alternating subtract and add); tower (calculate power
-    tower), tower2 (calculate left-associative power tower), nonzero, zero,
-    index
-
-Supported constants:
-    e; pi; phi (the Golden Ratio); itoi (i^i); euler (Euler's constant);
-    catalan (Catalan's constant); apery (Apery's constant); khinchin
-    (Khinchin's constant); glaisher (Glaisher's constant); mertens (Merten's
-    constant); twinprime (Twin prime constant), omega (Omega constant)
-
-Supported bitwise operators:
-    ~, not; and; or; xor
-
-Polynomial solvers:
-    solve2 (solve quadratic equation, 3 args)
-    solve3 (solve cubic equation, 4 args)
-    solve4 (solve quartic equation, 5 args)
-    solve  (solve arbitrary polynomial, list of coefficients followed by
-            the number of coefficients )
-
-Argument modifiers:
-    dup; range; range2; georange; interleave; primes; [; ]
-
-Input:
-    For integers, rpn understands hexidecimal input of the form '0x....'.
-    Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B'
-    is interpreted as binary.  Decimal points are not allowed for binary,
-    octal or hexadecimal modes, but fractional numbers in another base can be
-    input using -b.
-
-    A leading '\\' forces the term to be a number rather than an operator (for
-    use with higher bases with -b).
-
-Notes:
-    When converting fractional output to other bases, rpn adjusts the precision
-    to the approximate equivalent for the new base since the precision is
-    applicable to base 10.
-
-    Tetration (hyperexponentiation) forces the second argument to an integer.
-
-    To compute the nth Fibonacci number accurately, rpn sets the precision to
-    a level sufficient to guarantee a correct answer.
-
-    Some of the trig functions return complex results as provided by mpmath,
-    but rpn doesn't otherwise support complex numbers.
-
-    Bitwise operators force all arguments to integers by truncation if
-    necessary.
-''' )
 
 
 #//******************************************************************************
@@ -5872,7 +5802,14 @@ Arguments:
 ''',
 'input' :
 '''
-    [ description of input formats supported by rpn ]
+    For integers, rpn understands hexidecimal input of the form '0x....'.
+    Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B'
+    is interpreted as binary.  Decimal points are not allowed for binary,
+    octal or hexadecimal modes, but fractional numbers in another base can be
+    input using -b.
+
+    A leading '\\' forces the term to be a number rather than an operator (for
+    use with higher bases with -b).
 ''',
 'output' :
 '''
@@ -6070,6 +6007,19 @@ Calculation (or approximation) of various mathematical constants:
 
     Infinite Tetration of i
         = rpn -p20 [ 1 i 1000 dup ] tower
+''',
+'notes' :
+'''
+When converting fractional output to other bases, rpn adjusts the precision
+to the approximate equivalent for the new base since the precision is
+applicable to base 10.
+
+Tetration (hyperexponentiation) forces the second argument to an integer.
+
+To compute the nth Fibonacci number accurately, rpn sets the precision to
+a level sufficient to guarantee a correct answer.
+
+Bitwise operators force all arguments to integers by truncation if necessary.
 '''
 }
 
@@ -6172,7 +6122,7 @@ def main( ):
     tripletPrimes = { }
     twinPrimes = { }
 
-    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' )
+    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
 
     help = False
     helpArgs = [ ]
@@ -6194,40 +6144,27 @@ def main( ):
                                       formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1, const=defaultAccuracy,
-                         help="maximum number of decimal places to display, irrespective\nof internal precision (default:  " +
-                              str( defaultAccuracy ) + ")" )
-    parser.add_argument( '-b', '--input_radix', type=str, action='store', default=defaultInputRadix,
-                         help="specify the radix for input (default:  " + str( defaultInputRadix ) + ")" )
-    parser.add_argument( '-c', '--comma', action='store_true',
-                         help="add commas to result, e.g., 1,234,567.0" )
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1, const=defaultAccuracy )
+    parser.add_argument( '-b', '--input_radix', type=str, action='store', default=defaultInputRadix )
+    parser.add_argument( '-c', '--comma', action='store_true' )
     parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
-                         const=defaultDecimalGrouping, help="display decimal places separated into groups (default: " +
-                                                            str( defaultDecimalGrouping ) + ")" )
-    parser.add_argument( '-h', '--help', action='store_true', help="display help information" )
+                         const=defaultDecimalGrouping )
+    parser.add_argument( '-h', '--help', action='store_true' )
     parser.add_argument( '-i', '--integer_grouping', nargs='?', type=int, action='store', default=0,
-                         const=defaultIntegerGrouping,
-                         help="display integer separated into groups (default: " + str( defaultIntegerGrouping ) + ")" )
-    parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals,
-                         help="characters set to use as numerals for output" )
-    parser.add_argument( '-o', '--octal', action='store_true', help="octal mode: equivalent to '-r8 -w9 -i3 -z'" )
-    parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
-                         help="precision, i.e., number of significant digits to use" )
-    parser.add_argument( '-r', '--output_radix', type=str, action='store', default=defaultOutputRadix,
-                         help="output in a different base (2 to 62, or phi)" )
-    parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
-                         help="each digit is a space-delimited base-10 number" )
-    parser.add_argument( '-t', '--time', action='store_true', help="display calculation time" )
-    parser.add_argument( '-u', '--find_poly', nargs='?', type=int, action='store', default=0, const=1000,
-                         help="find a polynomial such that P(x) ~= 0 of degree <= N" )
-    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=defaultBitwiseGroupSize,
-                         help="bitwise operations group values by this size (default: " +
-                              str( defaultBitwiseGroupSize ) + ")" )
-    parser.add_argument( '-x', '--hex', action='store_true', help="hex mode: equivalent to '-r16 -w16 -i4 -z'" )
-    parser.add_argument( '-y', '--identify', action='store_true', help="identify the result (may repeat input)" )
-    parser.add_argument( '-z', '--leading_zero', action='store_true', help="add leading zeros if needed with -i" )
-    parser.add_argument( '-!', '--print_options', action='store_true', help="print values for all options" )
-    parser.add_argument( '-?', '--other_help', action='store_true', help="display help information" )
+                         const=defaultIntegerGrouping )
+    parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals )
+    parser.add_argument( '-o', '--octal', action='store_true' )
+    parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision )
+    parser.add_argument( '-r', '--output_radix', type=str, action='store', default=defaultOutputRadix )
+    parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0 )
+    parser.add_argument( '-t', '--time', action='store_true' )
+    parser.add_argument( '-u', '--find_poly', nargs='?', type=int, action='store', default=0, const=1000 )
+    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=defaultBitwiseGroupSize )
+    parser.add_argument( '-x', '--hex', action='store_true' )
+    parser.add_argument( '-y', '--identify', action='store_true' )
+    parser.add_argument( '-z', '--leading_zero', action='store_true' )
+    parser.add_argument( '-!', '--print_options', action='store_true' )
+    parser.add_argument( '-?', '--other_help', action='store_true' )
 
     # OK, let's parse and validate the arguments
     if len( sys.argv ) == 1:
@@ -6359,7 +6296,7 @@ def main( ):
         print( )
 
     if len( args.terms ) == 0:
-        print( "rpn:  no terms found" )
+        print( 'rpn:  no terms found' )
         return
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
@@ -6384,12 +6321,7 @@ def main( ):
                 print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
                        format( argsNeeded ) + ' argument', end='' )
 
-                if argsNeeded > 1:
-                    print( "s" )
-                else:
-                    print( "" )
-
-                break
+                print( 's' if argsNeeded > 1 else '' )
 
             try:
                 argList = list( )
@@ -6463,30 +6395,30 @@ def main( ):
 
                 currentValueList.append( result )
             except KeyboardInterrupt as error:
-                print( "rpn:  keyboard interrupt" )
+                print( 'rpn:  keyboard interrupt' )
                 break
             except ValueError as error:
-                print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
             #except TypeError as error:
-            #    print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
             #    break
         else:
             try:
                 currentValueList.append( parseInputValue( term, inputRadix ) )
             except ValueError as error:
-                print( "rpn:  error in arg " + format( index ) + ":  {0}".format( error ) )
+                print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
             except TypeError as error:
                 currentValueList.append( term )
-                print( "rpn:  error in arg " + format( index ) +
-                       ":  unrecognized argument: '%s'" % sys.argv[ index ] )
+                print( 'rpn:  error in arg ' + format( index ) +
+                       ':  unrecognized argument: \'%s\'' % sys.argv[ index ] )
                 break
 
         index = index + 1
     else:    # i.e., if the for loop completes
         if len( valueList ) > 1:
-            print( "rpn:  unexpected end of input" )
+            print( 'rpn:  unexpected end of input' )
         else:
             mp.pretty = True
             result = valueList.pop( )
@@ -6550,7 +6482,7 @@ def main( ):
                         print( '    = polynomial ' + poly )
 
         if args.time:
-            print( "\n%.3f seconds" % time.clock( ) )
+            print( '\n%.3f seconds' % time.clock( ) )
 
 
 #//******************************************************************************
