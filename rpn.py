@@ -34,7 +34,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.26.1'
+RPN_VERSION = '4.27.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -945,6 +945,25 @@ def getNthPascalLine( n ):
 
     for i in arange( 0, n ):
         result.append( binomial( n - 1, i ) )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  getNthAperyNumber
+#//
+#//  http://oeis.org/A005259
+#//
+#//  a(n) = sum(k=0..n, C(n,k)^2 * C(n+k,k)^2 )
+#//
+#//******************************************************************************
+
+def getNthAperyNumber( n ):
+    result = 0
+
+    for k in arange( 0, n + 1 ):
+        result = fadd( result, fmul( power( binomial( n, k ), 2 ), power( binomial( fadd( n, k ), k ), 2 ) ) )
 
     return result
 
@@ -4956,6 +4975,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 Apery's constant is the sum of the infinite series of the reciprocals of cubes
 from 1 to infinity.  It is also, therefore, zeta( 3 ).
+''',
+'''
+''' ],
+    'aperynum'      : [ getNthAperyNumber, 1,
+'comnbinatorics', 'calculates the nth Apery number',
+'''
 ''',
 '''
 ''' ],
