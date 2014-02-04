@@ -13,10 +13,51 @@ from decimal import *
 #//
 #//**********************************************************************
 
-RPN_VERSION = "2.2.0"
-COPYRIGHT_MESSAGE = "copyright 2012 (1988), Rick Gutleber (rickg@his.com)"
+RPN_VERSION = "2.3.0"
+COPYRIGHT_MESSAGE = "copyright 2013 (1988), Rick Gutleber (rickg@his.com)"
 
 defaultPrecision = 12
+
+
+#//******************************************************************************
+#//
+#//  convertToBaseN
+#//
+#//  http://code.activestate.com/recipes/65212/
+#//
+#//******************************************************************************
+
+def convertToBaseN( num, base, numerals="0123456789abcdefghijklmnopqrstuvwxyz" ):
+    """
+    Convert any int to base/radix 2-36 string. Special numerals can be used
+    to convert to any base or radix you need. This function is essentially
+    an inverse int(s, base).
+
+    For example:
+    >>> baseN(-13, 4)
+    '-31'
+    >>> baseN(91321, 2)
+    '10110010010111001'
+    >>> baseN(791321, 36)
+    'gyl5'
+    >>> baseN(91321, 2, 'ab')
+    'babbaabaababbbaab'
+    """
+    if num == 0:
+        return "0"
+
+    if num < 0:
+        return '-' + convertToBaseN( ( -1 ) * num, base, numerals )
+
+    if not ( 2 <= base <= len( numerals ) ):
+        raise ValueError( 'Base must be between 2-%d' % len( numerals ) )
+
+    left_digits = num // base
+
+    if left_digits == 0:
+        return numerals[ int( num ) % base ]
+    else:
+        return convertToBaseN( left_digits, base, numerals ) + numerals[ int( num ) % base  ]
 
 
 #//**********************************************************************
@@ -303,15 +344,31 @@ def main( ):
                                        formatter_class=RawTextHelpFormatter )
 
     parser.add_argument( 'terms', nargs='+', metavar='term' )
-    parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision )
-    parser.add_argument( '-c', '--comma', action='store_true' )
+    parser.add_argument( '-x', '--hex', action='store_true', "equivalent to '-r 16'" )
+    parser.add_argument( '-r', '--output_radix', type=int, action='store', default=10, help="output in a different base (drops fractional part of the result)" )
+    parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision, help="precision, i.e., number of significant digits to use" )
+    parser.add_argument( '-c', '--comma', action='store_true', help="add commas to result, e.g., 1,234,567.0 (can't be used with -r or -x)" )
 
     if len( sys.argv ) == 1:
         parser.print_help( )
-        sys.exit( 1 )
+        return
 
     args = parser.parse_args( )
     getcontext( ).prec = args.precision
+
+    if args.hex:
+        outputRadix = 16
+    else:
+        outputRadix = args.output_radix
+
+    if outputRadix < 2 or outputRadix > 36:
+        print( "rpn only supports output radix between 2 and 36" )
+        return
+
+
+    if outputRadix != 10 and args.comma:
+        print( "-c cannot currently be used with -r or -x" )
+        return
 
     index = 1                 # only used for error messages
     valueList = list( )
@@ -351,9 +408,16 @@ def main( ):
         else:
             if ( args.comma ):
                 formatString = '{:<' + str( args.precision ) + ',}'
-                print( formatString.format( valueList.pop( ) ).strip( ) )
+                if outputRadix == 10:
+                    print( formatString.format( valueList.pop( ) ).strip( ) )
+                else:
+                    print( formatString.format( convertToBaseN( valueList.pop( ), outputRadix ) ).strip( ) )
             else:
-                print( valueList.pop( ) )
+                if outputRadix == 10:
+                    print( valueList.pop( ) )
+                else:
+                    print( convertToBaseN( valueList.pop( ), outputRadix ) )
+
 
 
 #//**********************************************************************
