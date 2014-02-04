@@ -14,7 +14,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.13.1"
+RPN_VERSION = "2.14.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -24,6 +24,29 @@ degreesPerRadian = Decimal( 180 ) / Decimal( math.pi )
 
 numerals = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+phiBase = -1
+fibBase = -2
+
+
+#//******************************************************************************
+#//
+#//  convertToPhiBase
+#//
+#//******************************************************************************
+
+def convertToPhiBase( num ):
+    return '***phi-base***'
+
+
+#//******************************************************************************
+#//
+#//  convertToFibBase
+#//
+#//******************************************************************************
+
+def convertToFibBase( num ):
+    return '***fib-base***'
+
 
 #//******************************************************************************
 #//
@@ -31,7 +54,7 @@ numerals = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 #//
 #//******************************************************************************
 
-def convertToBaseN( num, base, baseAsDigits ):
+def convertToBaseN( value, base, baseAsDigits ):
     """
     Converts any integer to a base 2-62 string.
 
@@ -44,6 +67,11 @@ def convertToBaseN( num, base, baseAsDigits ):
     'gyl5'
     """
 
+    if base == phiBase:
+        return convertToPhiBase( value )
+    elif base == fibBase:
+        return convertToFibBase( value )
+
     if baseAsDigits:
         if ( base < 2 ):
             raise ValueError( 'Base must be greater than 1' )
@@ -51,14 +79,14 @@ def convertToBaseN( num, base, baseAsDigits ):
         if not ( 2 <= base <= len( numerals ) ):
             raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
 
-    if num == 0:
+    if value == 0:
         return 0
 
-    if num < 0:
-        return '-' + convertToBaseN( ( -1 ) * num, base, baseAsDigits )
+    if value < 0:
+        return '-' + convertToBaseN( ( -1 ) * value, base, baseAsDigits )
 
     result = ''
-    left_digits = num
+    left_digits = value
 
     while left_digits > 0:
         if baseAsDigits:
@@ -1020,7 +1048,7 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
                                       formatter_class=RawTextHelpFormatter )
 
     parser.add_argument( 'terms', nargs='+', metavar='term' )
-    parser.add_argument( '-b', '--input_radix', type=int, action='store', default=10,
+    parser.add_argument( '-b', '--input_radix', type=str, action='store', default=10,
                          help="specify the radix for input (default: 10)" )
     parser.add_argument( '-c', '--comma', action='store_true',
                          help="add commas to result, e.g., 1,234,567.0" )
@@ -1028,7 +1056,7 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
                          help="number decimal places separated into groups (default: 0)" )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
                          help="precision, i.e., number of significant digits to use" )
-    parser.add_argument( '-r', '--output_radix', type=int, action='store', default=10,
+    parser.add_argument( '-r', '--output_radix', type=str, action='store', default=10,
                          help="output in a different base (2 to 62)" )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
                          help="each digit is a space-delimited base-10 number" )
@@ -1041,16 +1069,34 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
     args = parser.parse_args( )
     getcontext( ).prec = args.precision
 
-    if args.hex:
-        outputRadix = 16
+    if args.output_radix == 'phi':
+        outputRadix = phiBase
+    elif args.output_radix == 'fib':
+        outputRadix = fibBase
     else:
-        outputRadix = args.output_radix
+        outputRadix = int( args.output_radix )
 
-    inputRadix = args.input_radix
+    if args.hex:
+        if outputRadix != 10:
+            print( "rpn:  -r and -x can't be used together" )
+            return
+
+        outputRadix = 16
+
+    if args.input_radix == 'phi':
+        intputRadix = phiBase
+    elif args.output_radix == 'fib':
+        inputRadix = fibBase
+    else:
+        inputRadix = int( args.input_radix )
 
     if args.output_radix_numerals > 0:
+        if args.hex:
+            print( "rpn:  -R and -x can't be used together" )
+            return
+
         if args.output_radix != 10:
-            print( "rpn:  -r and -R can't be used together" )
+            print( "rpn:  -R and -r can't be used together" )
             return
 
         baseAsDigits = True
@@ -1063,7 +1109,7 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
             print( "rpn:  output radix greater than 1" )
             return
     else:
-        if ( outputRadix < 2 or outputRadix > 62 ):
+        if ( outputRadix != phiBase and outputRadix != fibBase and ( outputRadix < 2 or outputRadix > 62 ) ):
             print( "rpn:  output radix must be from 2 to 62" )
             return
 
