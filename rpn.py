@@ -25,7 +25,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.8.0"
+RPN_VERSION = "4.9.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -74,6 +74,9 @@ def loadSmallPrimes( ):
 def loadLargePrimes( ):
     return loadTable( 'large_primes', { 1000000 : 15485863 } )
 
+def loadSuperPrimes( ):
+    return loadTable( 'super_primes', { 3 : 11 } )
+
 def loadTwinPrimes( ):
     return loadTable( 'twin_primes', { 3 : 11 } )
 
@@ -113,6 +116,9 @@ def saveSmallPrimes( smallPrimes ):
 
 def saveLargePrimes( largePrimes ):
     saveTable( 'large_primes', largePrimes )
+
+def saveSuperPrimes( superPrimes ):
+    saveTable( 'super_primes', superPrimes )
 
 def saveTwinPrimes( twinPrimes ):
     saveTable( 'twin_primes', twinPrimes )
@@ -173,6 +179,13 @@ def makeLargePrimes( start, end, step ):
     getNthPrime( 1000000 )  # force the cache to load
     end = makeTable( start, end, step, getNthPrime, 'prime' )
     saveLargePrimes( largePrimes )
+    return end
+
+def makeSuperPrimes( start, end, step ):
+    global superPrimes
+    getNthSuperPrime( 100 )  # force the cache to load
+    end = makeTable( start, end, step, getNthSuperPrime, 'super' )
+    saveSuperPrimes( superPrimes )
     return end
 
 def makeTwinPrimes( start, end, step ):
@@ -240,10 +253,13 @@ def dumpTable( loadFunc, name ):
     return max( [ key for key in var ] )
 
 def dumpSmallPrimes( ):
-    return dumpTable( loadSmallPrimes, 'smallPrime' )
+    return dumpTable( loadSmallPrimes, 'small' )
 
 def dumpLargePrimes( ):
-    return dumpTable( loadLargePrimes, 'largePrime' )
+    return dumpTable( loadLargePrimes, 'prime' )
+
+def dumpSuperPrimes( ):
+    return dumpTable( loadSuperPrimes, 'super' )
 
 def dumpTwinPrimes( ):
     return dumpTable( loadTwinPrimes, 'twin' )
@@ -366,7 +382,6 @@ def getNthPrime( arg ):
     return p
 
 
-
 #//******************************************************************************
 #//
 #//  findPrimeIndex
@@ -420,7 +435,25 @@ def findPrimeIndex( arg ):
 #//******************************************************************************
 
 def getNthSuperPrime( arg ):
-    return getNthPrime( getNthPrime( arg ) )
+    global superPrimes
+
+    n = int( arg )
+
+    if n < 100:
+        p = getNthPrime( getNthPrime( arg ) )
+    else:
+        if superPrimes == { }:
+            superPrimes = loadSuperPrimes( )
+
+        if n in superPrimes:
+            return superPrimes[ n ]
+        else:
+            p = getNthPrime( getNthPrime( arg ) )
+
+    if updateDicts:
+        superPrimes[ n ] = p
+
+    return p
 
 
 #//******************************************************************************
@@ -2048,6 +2081,10 @@ def dumpStats( ):
     print( '{:10,} large primes,          max: {:,}'.format( len( largePrimes ),
                                                          max( [ key for key in largePrimes ] ) ) )
 
+    superPrimes = loadSuperPrimes( )
+    print( '{:10,} super primes,          max: {:,}'.format( len( superPrimes ),
+                                                         max( [ key for key in superPrimes ] ) ) )
+
     twinPrimes = loadTwinPrimes( )
     print( '{:10,} twin primes,           max: {:,}'.format( len( twinPrimes ),
                                                          max( [ key for key in twinPrimes ] ) ) )
@@ -2500,6 +2537,7 @@ operators = {
     '_dumpsexy'   : [ dumpSexyPrimes, 0 ],
     '_dumpsmall'  : [ dumpSmallPrimes, 0 ],
     '_dumpsophie' : [ dumpSophiePrimes, 0 ],
+    '_dumpsuper'  : [ dumpSuperPrimes, 0 ],
     '_dumptriplet': [ dumpTripletPrimes, 0 ],
     '_dumptwin'   : [ dumpTwinPrimes, 0 ],
     '_listops'    : [ listOperators, 0 ],
@@ -2510,6 +2548,7 @@ operators = {
     '_makesexy'   : [ makeSexyPrimes, 3 ],
     '_makesmall'  : [ makeSmallPrimes, 3 ],
     '_makesophie' : [ makeSophiePrimes, 3 ],
+    '_makesuper'  : [ makeSuperPrimes, 3 ],
     '_maketriplet': [ makeTripletPrimes, 3 ],
     '_maketwin'   : [ makeTwinPrimes, 3 ],
     '_stats'      : [ dumpStats, 0 ],
@@ -3062,6 +3101,7 @@ def main( ):
     global sexyPrimes
     global smallPrimes
     global sophiePrimes
+    global superPrimes
     global tripletPrimes
     global twinPrimes
     global updateDicts
@@ -3076,6 +3116,7 @@ def main( ):
     quadPrimes = { }
     sexyPrimes = { }
     sophiePrimes = { }
+    superPrimes = { }
     tripletPrimes = { }
     twinPrimes = { }
 
