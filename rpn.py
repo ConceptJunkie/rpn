@@ -14,7 +14,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.14.0"
+RPN_VERSION = "2.15.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -752,6 +752,19 @@ def getNthTriangularNumber( valueList ):
 
 #//******************************************************************************
 #//
+#//  getAntiTriangularNumber
+#//
+#//  Thanks for wolframalpha.com for solving the reverse of the above formula.
+#//
+#//******************************************************************************
+
+def getAntiTriangularNumber( valueList ):
+    n = valueList.pop( )
+    valueList.append( Decimal( 0.5 ) * ( pow( ( ( Decimal( 8 ) * n ) + 1 ), Decimal( 0.5 ) ) - 1 ) )
+
+
+#//******************************************************************************
+#//
 #//  getNthPentagonalNumber
 #//
 #//******************************************************************************
@@ -759,6 +772,19 @@ def getNthTriangularNumber( valueList ):
 def getNthPentagonalNumber( valueList ):
     n = valueList.pop( )
     valueList.append( ( ( 3 * n * n ) - n ) / 2 )
+
+
+#//******************************************************************************
+#//
+#//  getAntiPentagonalNumber
+#//
+#//  Thanks for wolframalpha.com for solving the reverse of the above formula.
+#//
+#//******************************************************************************
+
+def getAntiPentagonalNumber( valueList ):
+    n = valueList.pop( )
+    valueList.append( Decimal( 1 / 6 ) * ( pow( ( ( Decimal( 24 ) * n ) + 1 ), Decimal( 0.5 ) ) + 1 ) )
 
 
 #//******************************************************************************
@@ -774,6 +800,19 @@ def getNthHexagonalNumber( valueList ):
 
 #//******************************************************************************
 #//
+#//  getAntiHexagonalNumber
+#//
+#//  Thanks for wolframalpha.com for solving the reverse of the above formula.
+#//
+#//******************************************************************************
+
+def getAntiHexagonalNumber( valueList ):
+    n = valueList.pop( )
+    valueList.append( Decimal( 1 / 4 ) * ( pow( ( ( Decimal( 8 ) * n ) + 1 ), Decimal( 0.5 ) ) + 1 ) )
+
+
+#//******************************************************************************
+#//
 #//  getNthSquareTriangularNumber
 #//
 #//******************************************************************************
@@ -785,23 +824,24 @@ def getNthSquareTriangularNumber( valueList ):
     valueList.append( math.ceil( ( ( pow( 1 + sqrt2, 2 * n ) - pow( 1 - sqrt2, 2 * n ) ) / ( 4 * sqrt2 ) ) ** 2 ) )
 
 
-
 #//******************************************************************************
 #//
-#//  removeExponent
-#//
-#//  from http://docs.python.org/2/library/decimal.html
+#//  getFloor
 #//
 #//******************************************************************************
 
-def removeExponent( d ):
-    '''Remove exponent and trailing zeros.
+def getFloor( valueList ):
+    valueList.append( Decimal( valueList.pop( ) ).quantize( Decimal( '1.' ), rounding=ROUND_DOWN ) )
 
-    >>> remove_exponent(Decimal('5E+3'))
-    Decimal('5000')
 
-    '''
-    return d.quantize( Decimal( 1 ) ) if d == d.to_integral( ) else d.normalize( )
+#//******************************************************************************
+#//
+#//  getCeiling
+#//
+#//******************************************************************************
+
+def getCeiling( valueList ):
+    valueList.append( Decimal( valueList.pop( ) ).quantize( Decimal( '1.' ), rounding=ROUND_UP ) )
 
 
 #//******************************************************************************
@@ -813,41 +853,47 @@ def removeExponent( d ):
 #//******************************************************************************
 
 expressions = {
-    'pi'     : [ getPi, 0 ],
-    'e'      : [ getE, 0 ],
-    'phi'    : [ getPhi, 0 ],
-    '+'      : [ add, 2 ],
-    '-'      : [ subtract, 2 ],
-    '*'      : [ multiply, 2 ],
-    '/'      : [ divide, 2 ],
-    '**'     : [ exponentiate, 2 ],
-    '***'    : [ tetrate, 2 ],
-    '//'     : [ antiexponentiate, 2 ],
-    'logxy'  : [ takeLogXY, 2 ],
-    '!'      : [ takeFactorial, 1 ],
-    'log'    : [ takeLog, 1 ],
-    'log10'  : [ takeLog10, 1 ],
-    'exp'    : [ takeExp, 1 ],
-    'exp10'  : [ takeExp10, 1 ],
-    'expphi' : [ takeExpPhi, 1 ],
-    'sin'    : [ takeSin, 1 ],
-    'cos'    : [ takeCos, 1 ],
-    'tan'    : [ takeTan, 1 ],
-    'gamma'  : [ takeGamma, 1 ],
-    'lgamma' : [ takeLGamma, 1 ],
-    'deg'    : [ convertRadiansToDegrees, 1 ],
-    'rad'    : [ convertDegreesToRadians, 1 ],
-    'sqr'    : [ takeSquare, 1 ],
-    'sqrt'   : [ takeSquareRoot, 1 ],
-    'powmod' : [ takePowMod, 3 ],
-    'fib'    : [ getNthFibonacci, 1 ],
-    'tri'    : [ getNthTriangularNumber, 1 ],
-    'pent'   : [ getNthPentagonalNumber, 1 ],
-    'hex'    : [ getNthHexagonalNumber, 1 ],
-    'sqtri'  : [ getNthSquareTriangularNumber, 1 ],
-    'sum'    : [ sum, 2 ],          # this one eats the whole stack
-    'mult'   : [ multiplyAll, 2 ],  # this one eats the whole stack
-    'mean'   : [ takeMean, 2 ]      # this one eats the whole stack
+    'pi'       : [ getPi, 0 ],
+    'e'        : [ getE, 0 ],
+    'phi'      : [ getPhi, 0 ],
+    '+'        : [ add, 2 ],
+    '-'        : [ subtract, 2 ],
+    '*'        : [ multiply, 2 ],
+    '/'        : [ divide, 2 ],
+    '**'       : [ exponentiate, 2 ],
+    '^'        : [ exponentiate, 2 ],
+    '***'      : [ tetrate, 2 ],
+    '//'       : [ antiexponentiate, 2 ],
+    'logxy'    : [ takeLogXY, 2 ],
+    '!'        : [ takeFactorial, 1 ],
+    'log'      : [ takeLog, 1 ],
+    'log10'    : [ takeLog10, 1 ],
+    'exp'      : [ takeExp, 1 ],
+    'exp10'    : [ takeExp10, 1 ],
+    'expphi'   : [ takeExpPhi, 1 ],
+    'sin'      : [ takeSin, 1 ],
+    'cos'      : [ takeCos, 1 ],
+    'tan'      : [ takeTan, 1 ],
+    'gamma'    : [ takeGamma, 1 ],
+    'lgamma'   : [ takeLGamma, 1 ],
+    'deg'      : [ convertRadiansToDegrees, 1 ],
+    'rad'      : [ convertDegreesToRadians, 1 ],
+    'sqr'      : [ takeSquare, 1 ],
+    'sqrt'     : [ takeSquareRoot, 1 ],
+    'floor'    : [ getFloor, 1 ],
+    'ceil'     : [ getCeiling, 1 ],
+    'powmod'   : [ takePowMod, 3 ],
+    'fib'      : [ getNthFibonacci, 1 ],
+    'tri'      : [ getNthTriangularNumber, 1 ],
+    'antitri'  : [ getAntiTriangularNumber, 1 ],
+    'pent'     : [ getNthPentagonalNumber, 1 ],
+    'antipent' : [ getAntiPentagonalNumber, 1 ],
+    'hex'      : [ getNthHexagonalNumber, 1 ],
+    'antihex'  : [ getAntiHexagonalNumber, 1 ],
+    'sqtri'    : [ getNthSquareTriangularNumber, 1 ],
+    'sum'      : [ sum, 2 ],          # this one eats the whole stack
+    'mult'     : [ multiplyAll, 2 ],  # this one eats the whole stack
+    'mean'     : [ takeMean, 2 ]      # this one eats the whole stack
 }
 
 
@@ -937,6 +983,9 @@ def formatOutput( output, radix, comma, decimalGrouping, baseAsDigits ):
 
     mantissa = strOutput[ decimal + 1 : ]
 
+    if mantissa != '':
+        mantissa = mantissa.rstrip( '0' )
+
     if radix != 10:
         integer = str( convertToBaseN( Decimal( integer ), radix, baseAsDigits ) )
 
@@ -996,19 +1045,26 @@ Arguments are interpreted as Reverse Polish Notation.
 
 Supported unary operators:
     !, cos, deg (radians to degrees), exp, exp10, expphi, gamma, lgamma, log,
-    log10, rad (degrees to radians), sin, sqr, sqrt, tan
+    log10, rad (degrees to radians), sin, sqr, sqrt, tan, floor, ceil
 
 Supported integer sequence unary operators
     fib (nth Fibonacci number)*
+
     tri (nth triangular number)
+    antitri (which triangular number is this)
+
     pent (nth pentagonal number)
+    antipent( which pentagonal number is this)
+
     hex (nth hexagonal number)
+    antihex( which hexagonal number is this)
+
     sqtri (nth square triangular number)*
 
     * requires sufficient precision for accuracy (see Notes)
 
 Supported binary operators:
-    +, -, *, /, ** (power), *** (tetration), // (root), logxy
+    +, -, *, /, ** (power), ^ (power), *** (tetration), // (root), logxy
 
 Supported ternary operators:
     powmod ( x ^ y % z )
@@ -1160,7 +1216,7 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
         if len( valueList ) > 1:
             print( "rpn: unexpected end of input" )
         else:
-            result = removeExponent( Decimal( valueList.pop( ) ) )
+            result = format( valueList.pop( ), "f" )
             print( formatOutput( result, outputRadix, args.comma, args.decimal_grouping, baseAsDigits ) )
 
 
