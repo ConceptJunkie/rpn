@@ -74,9 +74,6 @@ def loadSmallPrimes( ):
 def loadLargePrimes( ):
     return loadTable( 'large_primes', { 1000000 : 15485863 } )
 
-def loadSuperPrimes( ):
-    return loadTable( 'super_primes', { 3 : 11 } )
-
 def loadTwinPrimes( ):
     return loadTable( 'twin_primes', { 3 : 11 } )
 
@@ -91,6 +88,12 @@ def loadCousinPrimes( ):
 
 def loadSexyPrimes( ):
     return loadTable( 'sexy_primes', { 2 : 7 } )
+
+def loadSexyTriplets( ):
+    return loadTable( 'sexy_triplets', { 2 : 17 } )
+
+def loadSexyQuadruplets( ):
+    return loadTable( 'sexy_quadruplets', { 2 : 11 } )
 
 def loadTripletPrimes( ):
     return loadTable( 'triplet_primes', { 2 : 7 } )
@@ -117,9 +120,6 @@ def saveSmallPrimes( smallPrimes ):
 def saveLargePrimes( largePrimes ):
     saveTable( 'large_primes', largePrimes )
 
-def saveSuperPrimes( superPrimes ):
-    saveTable( 'super_primes', superPrimes )
-
 def saveTwinPrimes( twinPrimes ):
     saveTable( 'twin_primes', twinPrimes )
 
@@ -134,6 +134,12 @@ def saveCousinPrimes( cousinPrimes ):
 
 def saveSexyPrimes( sexyPrimes ):
     saveTable( 'sexy_primes', sexyPrimes )
+
+def saveSexyTriplets( sexyTriplets ):
+    saveTable( 'sexy_triplets', sexyTriplets )
+
+def saveSexyQuadruplets( sexyQuadruplets ):
+    saveTable( 'sexy_quadruplets', sexyQuadruplets )
 
 def saveTripletPrimes( tripletPrimes ):
     saveTable( 'triplet_primes', tripletPrimes )
@@ -181,11 +187,30 @@ def makeLargePrimes( start, end, step ):
     saveLargePrimes( largePrimes )
     return end
 
-def makeSuperPrimes( start, end, step ):
-    global superPrimes
-    getNthSuperPrime( 100 )  # force the cache to load
-    end = makeTable( start, end, step, getNthSuperPrime, 'super' )
-    saveSuperPrimes( superPrimes )
+def makeSuperPrimes( start, end ):
+    global smallPrimes
+    global largePrimes
+    global updateDicts
+
+    getNthPrime( 100 )      # force small primes cache to load
+    getNthPrime( 1000000 )  # force large primes cache to load
+
+    try:
+        for i in range( int( start ), int( end ) + 1, 1 ):
+            updateDicts = False
+            nth = getNthPrime( i )
+
+            updateDicts = True
+            p = getNthPrime( nth )
+
+            print( 'super:  {:,} : {:,} : {:,}'.format( i, nth, p ) )
+            sys.stdout.flush( )
+    except KeyboardInterrupt as error:
+        pass
+
+    saveSmallPrimes( smallPrimes )
+    saveLargePrimes( largePrimes )
+
     return end
 
 def makeTwinPrimes( start, end, step ):
@@ -223,6 +248,20 @@ def makeSexyPrimes( start, end, step ):
     saveSexyPrimes( sexyPrimes )
     return end
 
+def makeSexyTriplets( start, end, step ):
+    global sexyTriplets
+    getNthSexyTriplets( 100 )  # force the cache to load
+    end = makeTable( start, end, step, getNthSexyTriplet, 'sexytrip' )
+    saveSexyTriplets( sexyTriplets )
+    return end
+
+def makeSexyQuadruplets( start, end, step ):
+    global sexyQUadruplets
+    getNthSexyQuadruplets( 100 )  # force the cache to load
+    end = makeTable( start, end, step, getNthSexyQuadruplets, 'sexyquad' )
+    saveSexyPrimes( sexyQuadruplets )
+    return end
+
 def makeTripletPrimes( start, end, step ):
     global tripletPrimes
     getNthTripletPrimes( 100 )  # force the cache to load
@@ -258,9 +297,6 @@ def dumpSmallPrimes( ):
 def dumpLargePrimes( ):
     return dumpTable( loadLargePrimes, 'prime' )
 
-def dumpSuperPrimes( ):
-    return dumpTable( loadSuperPrimes, 'super' )
-
 def dumpTwinPrimes( ):
     return dumpTable( loadTwinPrimes, 'twin' )
 
@@ -275,6 +311,12 @@ def dumpCousinPrimes( ):
 
 def dumpSexyPrimes( ):
     return dumpTable( loadSexyPrimes, 'sexy' )
+
+def dumpSexyTriplets( ):
+    return dumpTable( loadSexyTriplets, 'sexytrip' )
+
+def dumpSexyQuadruplets( ):
+    return dumpTable( loadSexyQuadruplets, 'sexyquad' )
 
 def dumpTripletPrimes( ):
     return dumpTable( loadTripletPrimes, 'triplet' )
@@ -435,25 +477,7 @@ def findPrimeIndex( arg ):
 #//******************************************************************************
 
 def getNthSuperPrime( arg ):
-    global superPrimes
-
-    n = int( arg )
-
-    if n < 100:
-        p = getNthPrime( getNthPrime( arg ) )
-    else:
-        if superPrimes == { }:
-            superPrimes = loadSuperPrimes( )
-
-        if n in superPrimes:
-            return superPrimes[ n ]
-        else:
-            p = getNthPrime( getNthPrime( arg ) )
-
-    if updateDicts:
-        superPrimes[ n ] = p
-
-    return p
+    return getNthPrime( getNthPrime( arg ) )
 
 
 #//******************************************************************************
@@ -484,11 +508,11 @@ def getNthTwinPrimes( arg ):
     n = int( arg )
 
     if n == 1:
-        return [ 3, 5 ]
+        return 3
     elif n == 2:
-        return [ 5, 7 ]
+        return 5
     elif n == 3:
-        return [ 11, 13 ]
+        return 11
 
     if n >= 100:
         if twinPrimes == { }:
@@ -519,7 +543,7 @@ def getNthTwinPrimes( arg ):
     if updateDicts:
         twinPrimes[ int( arg ) ] = p
 
-    return [ p, p + 2 ]
+    return p
 
 
 #//******************************************************************************
@@ -646,7 +670,7 @@ def getNthCousinPrimes( arg ):
     n = int( arg )
 
     if n == 1:
-        return [ 3, 7 ]
+        return 3
 
     if n >= 100:
         if cousinPrimes == { }:
@@ -680,7 +704,7 @@ def getNthCousinPrimes( arg ):
     if updateDicts:
         cousinPrimes[ int( arg ) ] = p
 
-    return [ p, p + 4 ]
+    return p
 
 
 #//******************************************************************************
@@ -696,7 +720,7 @@ def getNthSexyPrimes( arg ):
     n = int( arg )
 
     if n == 1:
-        return [ 5, 11 ]
+        return 5
 
     if n >= 100:
         if sexyPrimes == { }:
@@ -727,7 +751,51 @@ def getNthSexyPrimes( arg ):
     if updateDicts:
         sexyPrimes[ int( arg ) ] = p
 
-    return [ p, p + 6 ]
+    return p
+
+
+#//******************************************************************************
+#//
+#//  getNthSexyTriplets
+#//
+#//******************************************************************************
+
+def getNthSexyPrimes( arg ):
+    global sexyTriplets
+    global updateDicts
+
+    n = int( arg )
+
+    if n == 1:
+        return 7
+
+    if n >= 100:
+        if sexyTriplets == { }:
+            sexyTriplets = loadSexyTriplets( )
+
+        startingPlace = max( key for key in sexyTriplets if key <= n )
+        p = sexyTriplets[ startingPlace ]
+    else:
+        startingPlace = 1
+        p = 7
+
+    f = p % 10
+
+    while n > startingPlace:
+        if f == 1:
+            p += 6
+            f = 7
+        else:
+            p += 4
+            f = 1
+
+        if isPrime( p ) and isPrime( p + 6 ) and isPrime( p + 12 ) and not isPrime( p + 18 ):
+            n -= 1
+
+    if updateDicts:
+        sexyTriplets[ int( arg ) ] = p
+
+    return p
 
 
 #//******************************************************************************
@@ -804,9 +872,9 @@ def getNthQuadrupletPrimes( arg ):
     n = int( arg )
 
     if n == 1:
-        return [ 5, 7, 11, 13 ]
+        return 5
     elif n == 2:
-        return [ 11, 13, 17, 19 ]
+        return 11
 
     if n >= 10:
         if quadPrimes == { }:
@@ -828,7 +896,7 @@ def getNthQuadrupletPrimes( arg ):
     if updateDicts:
         quadPrimes[ int( arg ) ] = p
 
-    return [ p, p + 2, p + 6, p + 8 ]
+    return p
 
 
 #//******************************************************************************
@@ -1589,6 +1657,21 @@ def getNthPolytopeNumber( n, d ):
 
 #//******************************************************************************
 #//
+#//  getPrimorial
+#//
+#//******************************************************************************
+
+def getPrimorial( n ):
+    result = 2
+
+    for i in arange( 1, n ):
+        result = fmul( result, getNthPrime( i + 1 ) )
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  getPermutations
 #//
 #//******************************************************************************
@@ -2081,10 +2164,6 @@ def dumpStats( ):
     print( '{:10,} large primes,          max: {:,}'.format( len( largePrimes ),
                                                          max( [ key for key in largePrimes ] ) ) )
 
-    superPrimes = loadSuperPrimes( )
-    print( '{:10,} super primes,          max: {:,}'.format( len( superPrimes ),
-                                                         max( [ key for key in superPrimes ] ) ) )
-
     twinPrimes = loadTwinPrimes( )
     print( '{:10,} twin primes,           max: {:,}'.format( len( twinPrimes ),
                                                          max( [ key for key in twinPrimes ] ) ) )
@@ -2265,6 +2344,21 @@ def getPrimes( valueList ):
 
 #//******************************************************************************
 #//
+#//  countElements
+#//
+#//******************************************************************************
+
+def countElements( valueList ):
+    value = valueList.pop( )
+
+    if isinstance( value, list ):
+        return len( value )
+    else:
+        return 1
+
+
+#//******************************************************************************
+#//
 #//  getCurrentArgList
 #//
 #//******************************************************************************
@@ -2346,8 +2440,7 @@ list_operators = {
     'altsum2'   : getAlternatingSum2,
     'average'   : lambda i: fdiv( fsum( i ), len( i ) ),
     'avg'       : lambda i: fdiv( fsum( i ), len( i ) ),
-    'cf2'        : convertFromContinuedFraction,
-    'count'     : lambda i: len( i ),
+    'cf2'       : convertFromContinuedFraction,
     'gcd'       : getGCD,
     'mean'      : lambda i: fdiv( fsum( i ), len( i ) ),
     'nonzero'   : lambda i: [ index for index, e in enumerate( i ) if e != 0 ],
@@ -2476,12 +2569,15 @@ operators = {
     'phi'         : [ phi, 0 ],
     'pi'          : [ pi, 0 ],
     'plastic'     : [ getPlasticConstant, 0 ],
+    'polygamma'   : [ psi, 2 ],
     'polyprime'   : [ getNthPolyPrime, 2 ],
     'polytope'    : [ getNthPolytopeNumber, 2 ],
     'power'       : [ power, 2 ],
+    'primorial'   : [ getPrimorial, 1 ],
     'prime'       : [ getNthPrime, 1 ],
     'prime?'      : [ findPrimeIndex, 1 ],
     'primepi'     : [ primepi, 1 ],
+    'psi'         : [ psi, 2 ],
     'pyr'         : [ getNthPyramidalNumber, 1 ],
     'pyramid'     : [ getNthPyramidalNumber, 1 ],
     'quad'        : [ getNthQuadrupletPrimes, 1 ],
@@ -2537,7 +2633,6 @@ operators = {
     '_dumpsexy'   : [ dumpSexyPrimes, 0 ],
     '_dumpsmall'  : [ dumpSmallPrimes, 0 ],
     '_dumpsophie' : [ dumpSophiePrimes, 0 ],
-    '_dumpsuper'  : [ dumpSuperPrimes, 0 ],
     '_dumptriplet': [ dumpTripletPrimes, 0 ],
     '_dumptwin'   : [ dumpTwinPrimes, 0 ],
     '_listops'    : [ listOperators, 0 ],
@@ -2548,14 +2643,15 @@ operators = {
     '_makesexy'   : [ makeSexyPrimes, 3 ],
     '_makesmall'  : [ makeSmallPrimes, 3 ],
     '_makesophie' : [ makeSophiePrimes, 3 ],
-    '_makesuper'  : [ makeSuperPrimes, 3 ],
+    '_makesuper'  : [ makeSuperPrimes, 2 ],
     '_maketriplet': [ makeTripletPrimes, 3 ],
     '_maketwin'   : [ makeTwinPrimes, 3 ],
     '_stats'      : [ dumpStats, 0 ],
     '~'           : [ getInvertedBits, 1 ],
-#    'antitet'    : [ getAntiTetrahedralNumber, 1 ],
-#    'powmod'     : [ getPowMod, 3 ],
-#    'bernfrac'   : [ bernfrac, 1 ],
+#   'antitet'     : [ getAntiTetrahedralNumber, 1 ],
+#   'bernfrac'    : [ bernfrac, 1 ],
+#   'powmod'      : [ getPowMod, 3 ],
+#   'count'       : [ countElements, 1 ],
 }
 
 
