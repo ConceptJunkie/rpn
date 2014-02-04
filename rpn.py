@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.10.0'
+PROGRAM_VERSION = '5.10.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -160,13 +160,14 @@ specialUnitConversionMatrix = {
 #//******************************************************************************
 
 class UnitInfo( ):
-    def __init__( self, unitType, category, representation, plural, abbrev, aliases ):
+    def __init__( self, unitType, representation, plural, abbrev, aliases, categories ):
         self.unitType = unitType
         self.category = category
         self.representation = representation
         self.plural = plural
         self.abbrev = abbrev
         self.aliases = aliases
+        self.categories = categories
 
 
 #//******************************************************************************
@@ -666,7 +667,6 @@ class Measurement( mpf ):
             return value
         else:
             raise ValueError( 'incompatible units cannot be converted' )
-            return 0
 
 
 #//******************************************************************************
@@ -5525,6 +5525,7 @@ operatorAliases = {
     'fermi'       : 'femtometer',
     'fib'         : 'fibonacci',
     'frac'        : 'fraction',
+    'gemmho'      : 'micromho',
     'gigohm'      : 'gigaohm',
     'harm'        : 'harmonic',
     'hept'        : 'heptagonal',
@@ -5609,6 +5610,8 @@ operatorAliases = {
     'sexy4_'      : 'sexyquad_',
     'sexy?'       : 'sexyprime?',
     'sexy_'       : 'sexyprime',
+    'sigma'       : 'microsecond',
+    'sigmas'      : 'microsecond',
     'sophie'      : 'sophieprime',
     'sophie?'     : 'sophieprime?',
     'sqr'         : 'square',
@@ -5833,7 +5836,7 @@ operators = {
     'integer'       : [ convertToSignedInt, 2 ],
     'isdivisible'   : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2 ],
     'isolated'      : [ getNthIsolatedPrime, 1 ],
-    'isprime'       : [ lambda i: 1 if isPrime( i ) else 0, 1 ],
+    'isprime'       : [ lambda n: 1 if isPrime( n ) else 0, 1 ],
     'issquare'      : [ isSquare, 1 ],
     'itoi'          : [ lambda: exp( fmul( -0.5, pi ) ), 0 ],
     'jacobsthal'    : [ getNthJacobsthalNumber, 1 ],
@@ -6958,12 +6961,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            #except ValueError as error:
-            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+            except ValueError as error:
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -6993,16 +6996,16 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            #except ValueError as error:
-            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except IndexError as error:
-            #    print( 'rpn:  index error for operator at arg ' + format( index ) +
-            #           '.  Are your arguments in the right order?' )
-            #    break
+            except ValueError as error:
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except IndexError as error:
+                print( 'rpn:  index error for operator at arg ' + format( index ) +
+                       '.  Are your arguments in the right order?' )
+                break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
