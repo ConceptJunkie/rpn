@@ -17,7 +17,7 @@ from fractions import Fraction
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.4.2"
+RPN_VERSION = "3.4.3 (7 cubed version!)"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -1151,21 +1151,16 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
 
 #//******************************************************************************
 #//
-#//  main
+#//  printMoreHelp
 #//
 #//******************************************************************************
 
-def main( ):
-    global numerals
-    global bitwiseGroupSize
-
-    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
-                                      PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
-                                      epilog=
+def printMoreHelp( ):
+    print(
 '''
 Arguments are interpreted as Reverse Polish Notation.
 
-Supported unary operators:
+Supported unary operators (synonyms are separated by commas):
     !, fac; %, mod, modulo; 1/x, inv (take reciprocal); abs;
     cbrt, root3 (cube root); ceil; cube; exp; exp10; expphi; floor; gamma;
     hypot; hyperfac; lgamma; log; log10; neg; rand; round; sqr; sqrt, root2;
@@ -1232,10 +1227,24 @@ Notes:
 
     Bitwise operators force all arguments to integers by truncation if
     necessary.
-''',
+''' )
+
+
+#//******************************************************************************
+#//
+#//  main
+#//
+#//******************************************************************************
+
+def main( ):
+    global numerals
+    global bitwiseGroupSize
+
+    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
+                                      PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
                                       formatter_class=RawTextHelpFormatter )
 
-    parser.add_argument( 'terms', nargs='+', metavar='term' )
+    parser.add_argument( 'terms', nargs='*', metavar='term' )
     parser.add_argument( '-b', '--input_radix', type=str, action='store', default=10,
                          help="specify the radix for input (default: 10)" )
     parser.add_argument( '-c', '--comma', action='store_true',
@@ -1243,9 +1252,11 @@ Notes:
     parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
                          help="display decimal places separated into groups (default: 0)" )
     parser.add_argument( '-e', '--continued_fraction', type=int, action='store', default=0,
-                         help="express result as a continued fraction" )
+                         help="number of terms to represent as a continued fraction" )
     parser.add_argument( '-f', '--factor', action='store_true',
                          help="compute prime factors of result (truncated to an integer)" )
+    parser.add_argument( '-hh', '--more_help', action='store_true',
+                         help="display additional help information" )
     parser.add_argument( '-i', '--integer_grouping', type=int, action='store', default=0,
                          help="display integer separated into groups (default: 0)" )
     parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals,
@@ -1269,6 +1280,11 @@ Notes:
 
     args = parser.parse_args( )
     mp.dps = args.precision
+
+    if args.more_help:
+        parser.print_help( )
+        printMoreHelp( )
+        return
 
     # these are either globals or can be modified by other options (like -x)
     bitwiseGroupSize = args.bitwise_group_size
@@ -1359,6 +1375,10 @@ Notes:
     index = 1                 # only used for error messages
     valueList = list( )
 
+    if len( args.terms ) == 0:
+        print( "rpn:  no terms found" )
+        return
+
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
         argType = expressions
@@ -1367,7 +1387,7 @@ Notes:
             argsNeeded = expressions[ term ][ 1 ]
 
             if len( valueList ) < argsNeeded:
-                print( "rpn: error in arg " + format( index ) + ": operator " + term + " requires " +
+                print( "rpn:  error in arg " + format( index ) + ": operator " + term + " requires " +
                        format( argsNeeded ) + " argument", end='' )
 
                 if argsNeeded > 1:
@@ -1382,7 +1402,7 @@ Notes:
                 print( "rpn:  keyboard interrupt" )
                 break
             except Exception as error:
-                print( "rpn: error in arg " + format( index ) + ": {0}".format( error ) )
+                print( "rpn:  error in arg " + format( index ) + ": {0}".format( error ) )
                 break
         else:
             try:
@@ -1394,7 +1414,7 @@ Notes:
         index = index + 1
     else:    # i.e., if the for loop completes
         if len( valueList ) > 1:
-            print( "rpn: unexpected end of input" )
+            print( "rpn:  unexpected end of input" )
         else:
             mp.pretty = True
             result = valueList.pop( )
