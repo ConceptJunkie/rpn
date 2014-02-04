@@ -14,7 +14,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.11.0"
+RPN_VERSION = "2.12.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -22,6 +22,7 @@ defaultPrecision = 12
 
 degreesPerRadian = Decimal( 180 ) / Decimal( math.pi )
 
+numerals = "0123456789abcdefghijklmnopqrstuvwxyz"
 
 #//******************************************************************************
 #//
@@ -31,11 +32,9 @@ degreesPerRadian = Decimal( 180 ) / Decimal( math.pi )
 #//
 #//******************************************************************************
 
-def convertToBaseN( num, base, numerals="0123456789abcdefghijklmnopqrstuvwxyz" ):
+def convertToBaseN( num, base ):
     """
-    Convert any int to base/radix 2-36 string. Special numerals can be used
-    to convert to any base or radix you need. This function is essentially
-    an inverse int(s, base).
+    Converts any integer to a base 2-36 string.
 
     For example:
     >>> baseN( -13, 4 )
@@ -44,25 +43,63 @@ def convertToBaseN( num, base, numerals="0123456789abcdefghijklmnopqrstuvwxyz" )
     '10110010010111001'
     >>> baseN( 791321, 36 )
     'gyl5'
-    >>> baseN( 91321, 2, 'ab' )
-    'babbaabaababbbaab'
     """
+
+    if not ( 2 <= base <= len( numerals ) ):
+        raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
 
     if num == 0:
         return "0"
 
     if num < 0:
-        return '-' + convertToBaseN( ( -1 ) * num, base, numerals )
-
-    if not ( 2 <= base <= len( numerals ) ):
-        raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
+        return '-' + convertToBaseN( ( -1 ) * num, base )
 
     left_digits = num // base
 
     if left_digits == 0:
         return numerals[ int( num ) % base ]
     else:
-        return convertToBaseN( left_digits, base, numerals ) + numerals[ int( num ) % base  ]
+        return convertToBaseN( left_digits, base ) + numerals[ int( num ) % base  ]
+
+
+#//******************************************************************************
+#//
+#//  convertFractionToBaseN
+#//
+#//******************************************************************************
+
+def convertFractionToBaseN( value, base, precision ):
+    """
+    Convert any fraction to base/radix 2-36 and returns the resulting mantissa as a string.
+
+    0 <= value < 1
+
+    For example:
+    >>> convertFractionToBaseN( 1 / 64, 16, 10 )
+    '04'
+    >>> convertFractionToBaseN( 1 / 11, 2, 10 )
+    '0001011101'
+    >>> convertFractionToBaseN( 1 / 13, 36, 12 )
+    '2rox8b2rox8b'
+    """
+
+    if not ( 2 <= base <= len( numerals ) ):
+        raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
+
+    if value < 0 or value >= 1.0:
+        raise ValueError( 'Value must be >= 0 and < 1.0' )
+
+    result = ''
+
+    while value > 0 and precision > 0:
+        value = value * base
+        digit = int( value )
+        result = result + numerals[ digit % base ]
+
+        value -= digit
+        precision -= 1
+
+    return result
 
 
 #//******************************************************************************
@@ -659,6 +696,25 @@ def getNthSquareTriangularNumber( valueList ):
     valueList.append( math.ceil( ( ( pow( 1 + sqrt2, 2 * n ) - pow( 1 - sqrt2, 2 * n ) ) / ( 4 * sqrt2 ) ) ** 2 ) )
 
 
+
+#//******************************************************************************
+#//
+#//  removeExponent
+#//
+#//  from http://docs.python.org/2/library/decimal.html
+#//
+#//******************************************************************************
+
+def removeExponent( d ):
+    '''Remove exponent and trailing zeros.
+
+    >>> remove_exponent(Decimal('5E+3'))
+    Decimal('5000')
+
+    '''
+    return d.quantize( Decimal( 1 ) ) if d == d.to_integral( ) else d.normalize( )
+
+
 #//******************************************************************************
 #//
 #//  expressions
@@ -751,6 +807,70 @@ def parseInputValue( term ):
 
 #//******************************************************************************
 #//
+#//  formatOutput
+#//
+#//******************************************************************************
+
+def formatOutput( output, radix, comma, decimalGrouping ):
+    strOutput = str( output )
+
+    if '.' in strOutput:
+        decimal = strOutput.find( '.' )
+    else:
+        decimal = len( strOutput )
+
+    negative = strOutput[ 0 ] == '-'
+
+    strResult = '';
+
+    integer = strOutput[ 1 if negative else 0 : decimal ]
+    mantissa = strOutput[ decimal + 1 : ]
+
+    if radix != 10:
+        integer = str( convertToBaseN( Decimal( integer ), radix ) )
+
+        if mantissa:
+            mantissa = str( convertFractionToBaseN( Decimal( '.' + mantissa ), radix,
+                            int( ( getcontext( ).prec - len( integer ) ) / math.log10( radix ) ) ) )
+
+    if comma:
+        firstComma = len( integer ) % 3
+        integerResult = integer[ : firstComma ]
+
+        for i in range( firstComma, len( integer ), 3 ):
+            if integerResult != '':
+                integerResult += ','
+
+            integerResult += integer[ i : i + 3 ]
+    else:
+        integerResult = integer
+
+    if decimalGrouping > 0:
+        mantissaResult = ''
+
+        for i in range( 0, len( mantissa ), decimalGrouping ):
+            if mantissaResult != '':
+                mantissaResult += ' '
+
+            mantissaResult += mantissa[ i : i + decimalGrouping ]
+    else:
+        mantissaResult = mantissa
+
+    if negative:
+        result = '-'
+    else:
+        result = ''
+
+    result += integerResult
+
+    if mantissaResult != '':
+        result += '.' + mantissaResult
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  main
 #//
 #//******************************************************************************
@@ -795,6 +915,9 @@ For integers, rpn understands hexidecimal input of the form '0x....'.
 Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B' is
 interpreted as binary.
 
+Note:  rpn now supports converting fractional results to different bases, but
+       input in binary, octal or hex is still restricted to integers
+
 Note:  tetration forces the second argument to an integer.
 
 Note:  To compute the nth Fibonacci number accurately, set the precision to
@@ -809,9 +932,14 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
 
     parser.add_argument( 'terms', nargs='+', metavar='term' )
     parser.add_argument( '-x', '--hex', action='store_true', help="equivalent to '-r 16'" )
-    parser.add_argument( '-r', '--output_radix', type=int, action='store', default=10, help="output in a different base (drops fractional part of the result)" )
-    parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision, help="precision, i.e., number of significant digits to use" )
-    parser.add_argument( '-c', '--comma', action='store_true', help="add commas to result, e.g., 1,234,567.0 (cannot be used with -r or -x)" )
+    parser.add_argument( '-r', '--output_radix', type=int, action='store', default=10,
+                         help="output in a different base" )
+    parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
+                         help="precision, i.e., number of significant digits to use" )
+    parser.add_argument( '-c', '--comma', action='store_true',
+                         help="add commas to result, e.g., 1,234,567.0" )
+    parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
+                         help="number decimal places separated into groups (default: 0)" )
 
     if len( sys.argv ) == 1:
         parser.print_help( )
@@ -827,10 +955,6 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
 
     if outputRadix < 2 or outputRadix > 36:
         print( "rpn only supports an output radix from 2 to 36" )
-        return
-
-    if outputRadix != 10 and args.comma:
-        print( "-c cannot currently be used with -r or -x" )
         return
 
     index = 1                 # only used for error messages
@@ -876,20 +1000,8 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
         if len( valueList ) > 1:
             print( "rpn: unexpected end of input" )
         else:
-            if valueList.pop( ) == 0:
-                print( 0 )
-            elif ( args.comma ):
-                formatString = '{:<' + str( args.precision ) + ',}'
-                if outputRadix == 10:
-                    print( formatString.format( valueList.pop( ) ).strip( ) )
-                else:
-                    print( formatString.format( convertToBaseN( valueList.pop( ), outputRadix ) ).strip( ) )
-            else:
-                if outputRadix == 10:
-                    formatString = '{:<' + str( args.precision ) + '}'
-                    print( formatString.format( valueList.pop( ) ).strip( ) )
-                else:
-                    print( convertToBaseN( valueList.pop( ), outputRadix ).strip( ) )
+            result = removeExponent( Decimal( valueList.pop( ) ) )
+            print( formatOutput( result, outputRadix, args.comma, args.decimal_grouping ) )
 
 
 
