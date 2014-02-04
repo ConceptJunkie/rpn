@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.8.2'
+PROGRAM_VERSION = '5.8.3'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -349,6 +349,34 @@ def getBasicUnitTypes( unitTypes ):
 
 #//******************************************************************************
 #//
+#//  getCompoundUnitTypes
+#//
+#//******************************************************************************
+
+def getCompoundUnitTypes( unitTypes ):
+    result = { }
+
+    for unitType in unitTypes:
+        if unitType in compoundUnits:
+            basicUnits = parseUnitString( compoundUnits[ unitType ] )
+        else:
+            basicUnits = unitType
+
+        exponent = unitTypes[ unitType ]
+
+        if exponent != 1:   # handle exponent
+            for unitType2 in basicUnits:
+                basicUnits[ unitType2 ] *= exponent
+
+        result = combineUnits( result, basicUnits )[ 1 ]
+
+    #print( 'compound in:', unitTypes )
+    #print( 'compound out:', result )
+    return result
+
+
+#//******************************************************************************
+#//
 #//  simplifyUnits
 #//
 #//******************************************************************************
@@ -507,6 +535,8 @@ class Measurement( mpf ):
             elif self.getSimpleTypes( ) == other.getSimpleTypes( ):
                 return True
             elif self.getBasicTypes( ) == other.getBasicTypes( ):
+                return True
+            elif self.getCompoundTypes( ) == other.getCompoundTypes( ):
                 return True
             else:
                 return False

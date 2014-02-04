@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.8.2'
+PROGRAM_VERSION = '5.8.3'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -55,6 +55,8 @@ basicUnitTypes = {
     'energy'                    : 'mass*length^2/time^2',
     'force'                     : 'mass*length/time',
     'length'                    : 'length',
+    'luminance'                 : 'luminous_intensity/length^2',
+    'luminous_intensity'        : 'luminous_intensity',
     'mass'                      : 'mass',
     'power'                     : 'mass*length^2/time^3',
     'pressure'                  : 'mass/length*time^2',
@@ -171,6 +173,9 @@ unitOperators = {
         UnitInfo( 'charge', 'planck_charge', 'planck_charges', '', [ ] ),
 
     # current
+
+    'abampere' :
+        UnitInfo( 'current', 'abampere', 'abamperes', 'abamp', [ 'abamp', 'abamps' ] ),
 
     'ampere' :
         UnitInfo( 'current', 'ampere', 'amperes', 'A', [ 'amp', 'amps' ] ),
@@ -450,6 +455,25 @@ unitOperators = {
 
     'yard' :
         UnitInfo( 'length', 'yard', 'yards', 'yd', [ ] ),
+
+    # luminance
+
+    'candela/meter^2' :
+        UnitInfo( 'luminance', 'candela/meter^2', 'candelas/meter^2', 'cd/m^2', [ ] ),
+
+    'footlambert' :
+        UnitInfo( 'luminance', 'footlambert', 'footlamberts', 'fL', [ ] ),
+
+    'lambert' :
+        UnitInfo( 'luminance', 'lambert', 'lamberts', 'L', [ ] ),
+
+    'stilb' :
+        UnitInfo( 'luminance', 'stilb', 'stilbs', 'sb', [ ] ),
+
+    # luminous_intensity
+
+    'candela' :
+        UnitInfo( 'luminous_intensity', 'candela', 'candelas', 'cd', [ ] ),
 
     # mass
 
@@ -841,6 +865,7 @@ metricPrefixes = [
 #//******************************************************************************
 
 unitConversionMatrix = {
+    ( 'abampere',              'ampere' )                               : '10',
     ( 'acre',                  'square_yard' )                          : '4840',
     ( 'acre-foot',             'cubic_foot' )                           : '43560',
     ( 'aln',                   'inch' )                                 : '23.377077865',
@@ -891,6 +916,7 @@ unitConversionMatrix = {
     ( 'fluid_ounce',           'tablespoon' )                           : '2',
     ( 'fluid_scruple',         'minim' )                                : '20',
     ( 'foot',                  'inch' )                                 : '12',
+    ( 'footlambert',           'candela/meter^2' )                      : '3.42625909963539052691',  # 1/pi cd/ft^2
     ( 'fortnight',             'day' )                                  : '14',
     ( 'furlong',               'yard' )                                 : '220',
     ( 'furshlugginer_blintz',  'blintz' )                               : '1000000',
@@ -921,6 +947,7 @@ unitConversionMatrix = {
     ( 'joule/second',          'watt' )                                 : '1',
     ( 'ken',                   'inch' )                                 : '83.4',
     ( 'kovac',                 'wolverton' )                            : '1000',
+    ( 'lambert',               'candela/meter^2' )                      : '3183.098861837906715378',  # 10000/pi
     ( 'league',                'mile' )                                 : '3',
     ( 'light',                 'meter/second' )                         : '299792458',
     ( 'light-second',          'meter' )                                : '299792458',
@@ -993,6 +1020,7 @@ unitConversionMatrix = {
     ( 'standard_gravity',      'galileo' )                              : '980.6650',
     ( 'standard_gravity',      'meter/second^2' )                       : '9.80665',
     ( 'sthene',                'newton' )                               : '1000',
+    ( 'stilb',                 'candela/meter^2' )                      : '10000',
     ( 'stone',                 'pound' )                                : '14',
     ( 'tablespoon',            'teaspoon' )                             : '3',
     ( 'teaspoon',              'pinch' )                                : '8',
