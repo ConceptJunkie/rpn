@@ -2,7 +2,6 @@
 
 import argparse
 import math
-import os
 import random
 import sys
 import types
@@ -19,7 +18,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.8.0"
+RPN_VERSION = "3.9.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -42,8 +41,7 @@ fibBase = -2
 numberArg = -1
 listArg = -2
 
-argumentPrefixLinux = '-'
-argumentPrefixWindows = '/'
+inputRadix = 10
 
 
 #//******************************************************************************
@@ -51,9 +49,6 @@ argumentPrefixWindows = '/'
 #//  globals
 #//
 #//******************************************************************************
-
-prefixListLinux = argumentPrefixLinux
-prefixListWindows = argumentPrefixLinux + argumentPrefixWindows
 
 nestedListLevel = 0
 
@@ -185,8 +180,8 @@ def getExpandedFactorList( factors ):
 #//
 #//******************************************************************************
 
-def getFactors( valueList ):
-    valueList.append( getExpandedFactorList( factorize( valueList.pop( ) ) ) )
+def getFactors( n ):
+    valueList.append( getExpandedFactorList( factorize( n ) ) )
 
 
 #//******************************************************************************
@@ -300,6 +295,9 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
     if value < 0:
         return '-' + convertToBaseN( ( -1 ) * value, base, baseAsDigits, numerals )
 
+    if base == 10:
+        return str( value )
+
     result = ''
     left_digits = value
 
@@ -315,7 +313,6 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
         left_digits = floor( fdiv( left_digits, base ) )
 
     return result
-
 
 
 #//******************************************************************************
@@ -334,6 +331,9 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
 
     if value < 0 or value >= 1.0:
         raise ValueError( 'Value (%s) must be >= 0 and < 1.0' % value )
+
+    if base == 10:
+        return str( value )
 
     result = ''
 
@@ -406,10 +406,10 @@ def convertToBase10( integer, mantissa, inputRadix ):
 #//
 #//******************************************************************************
 
-def getInvertedBits( valueList ):
+def getInvertedBits( n ):
     global bitwiseGroupSize
 
-    value = floor( valueList.pop( ) )
+    value = floor( n )
     # determine how many groups of bits we will be looking at
     groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), bitwiseGroupSize ) ), 1 ) )
 
@@ -424,7 +424,7 @@ def getInvertedBits( valueList ):
         remaining = floor( fdiv( remaining, placeValue ) )
         multiplier = fmul( multiplier, placeValue )
 
-    valueList.append( result )
+    return result
 
 
 #//******************************************************************************
@@ -438,11 +438,11 @@ def getInvertedBits( valueList ):
 #//
 #//******************************************************************************
 
-def performBitwiseOperation( valueList, operation ):
+def performBitwiseOperation( i, j, operation ):
     global bitwiseGroupSize
 
-    value1 = floor( valueList.pop( ) )
-    value2 = floor( valueList.pop( ) )
+    value1 = floor( i )
+    value2 = floor( j )
 
     # determine how many groups of bits we will be looking at
     groupings = int( fadd( floor( fdiv( ( log( value1, 2 ) ), bitwiseGroupSize ) ), 1 ) )
@@ -469,22 +469,7 @@ def performBitwiseOperation( valueList, operation ):
 
         multiplier = fmul( multiplier, placeValue )
 
-    valueList.append( result )
-
-
-#//******************************************************************************
-#//
-#//  sum
-#//
-#//******************************************************************************
-
-def sum( valueList ):
-    args = valueList.pop( )
-
-    if not isinstance( args, list ):
-        args = [ args ]
-
-    valueList.append( fsum( args ) )
+    return result
 
 
 #//******************************************************************************
@@ -493,72 +478,13 @@ def sum( valueList ):
 #//
 #//******************************************************************************
 
-def getMean( valueList ):
+def getMean( args ):
     args = valueList.pop( )
 
     if not isinstance( args, list ):
         args = [ args ]
 
-    valueList.append( fdiv( fsum( args ), len( args ) ) )
-
-
-#//******************************************************************************
-#//
-#//  subtract
-#//
-#//******************************************************************************
-
-def subtract( valueList ):
-    value = valueList.pop( )
-    valueList.append( fsub( valueList.pop( ), value ) )
-
-
-#//******************************************************************************
-#//
-#//  multiplyAll
-#//
-#//******************************************************************************
-
-def multiplyAll( valueList ):
-    args = valueList.pop( )
-
-    if not isinstance( args, list ):
-        args = [ args ]
-
-    valueList.append( fprod( args ) )
-
-
-#//******************************************************************************
-#//
-#//  divide
-#//
-#//******************************************************************************
-
-def divide( valueList ):
-    value = valueList.pop( )
-    valueList.append( fdiv( valueList.pop( ), value ) )
-
-
-#//******************************************************************************
-#//
-#//  getModulo
-#//
-#//******************************************************************************
-
-def getModulo( valueList ):
-    value = valueList.pop( )
-    valueList.append( fmod( valueList.pop( ), value ) )
-
-
-#//******************************************************************************
-#//
-#//  exponentiate
-#//
-#//******************************************************************************
-
-def exponentiate( valueList ):
-    value = valueList.pop( )
-    valueList.append( power( valueList.pop( ), value ) )
+    return fdiv( fsum( args ), len( args ) )
 
 
 #//******************************************************************************
@@ -572,16 +498,13 @@ def exponentiate( valueList ):
 #//
 #//******************************************************************************
 
-def tetrate( valueList ):
-    value = valueList.pop( )
+def tetrate( i, j ):
+    result = i
 
-    operand = valueList.pop( )
-    result = operand
+    for x in range( 1, int( j ) ):
+        result = power( result, i )
 
-    for i in range( 1, int( value ) ):
-        result = power( result, operand )
-
-    valueList.append( result )
+    return result
 
 
 #//******************************************************************************
@@ -595,38 +518,13 @@ def tetrate( valueList ):
 #//
 #//******************************************************************************
 
-def tetrateLarge( valueList ):
-    value = valueList.pop( )
+def tetrateLarge( i, j ):
+    result = i
 
-    operand = valueList.pop( )
-    result = operand
+    for x in range( 1, int( j ) ):
+        result = power( i, result )
 
-    for i in range( 1, int( value ) ):
-        result = power( operand, result )
-
-    valueList.append( result )
-
-
-#//******************************************************************************
-#//
-#//  antiexponentiate
-#//
-#//******************************************************************************
-
-def antiexponentiate( valueList ):
-    value = valueList.pop( )
-    valueList.append( root( valueList.pop( ), value ) )
-
-
-#//******************************************************************************
-#//
-#//  getLogXY
-#//
-#//******************************************************************************
-
-def getLogXY( valueList ):
-    value = valueList.pop( )
-    valueList.append( log( valueList.pop( ), value ) )
+    return result
 
 
 #//******************************************************************************
@@ -635,13 +533,11 @@ def getLogXY( valueList ):
 #//
 #//******************************************************************************
 
-def getNthLucas( valueList ):
-    value = valueList.pop
-
-    if value == 1:
-        valueList.append( 1 )
+def getNthLucas( i ):
+    if i == 1:
+        return 1
     else:
-        valueList.append( round( power( phi, valueList.pop( ) ) ) )
+        return round( power( phi, i ) )
 
 
 #//******************************************************************************
@@ -650,9 +546,8 @@ def getNthLucas( valueList ):
 #//
 #//******************************************************************************
 
-def getNthTriangularNumber( valueList ):
-    n = valueList.pop( )
-    valueList.append( fdiv ( fmul( n, fadd( n, 1 ) ), 2 ) )
+def getNthTriangularNumber( i ):
+    return fdiv( fmul( i, fadd( i, 1 ) ), 2 )
 
 
 #//******************************************************************************
@@ -663,44 +558,8 @@ def getNthTriangularNumber( valueList ):
 #//
 #//******************************************************************************
 
-def getAntiTriangularNumber( valueList ):
-    n = valueList.pop( )
-    valueList.append( fmul( 0.5, fsub( sqrt( fadd( fmul( 8, n ), 1 ) ), 1 ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getNthPentagonalNumber
-#//
-#//******************************************************************************
-
-def getNthPentagonalNumber( valueList ):
-    n = valueList.pop( )
-    valueList.append( fdiv( fsub( fprod( [ 3, n, n ] ), n ), 2 ) )
-
-
-#//******************************************************************************
-#//
-#//  getAntiPentagonalNumber
-#//
-#//  Thanks for wolframalpha.com for solving the reverse of the above formula.
-#//
-#//******************************************************************************
-
-def getAntiPentagonalNumber( valueList ):
-    n = valueList.pop( )
-    valueList.append( fdiv( fadd( sqrt( fadd( fmul( 24 , n ), 1 ) ), 1 ), 6 ) )
-
-
-#//******************************************************************************
-#//
-#//  getNthHexagonalNumber
-#//
-#//******************************************************************************
-
-def getNthHexagonalNumber( valueList ):
-    n = valueList.pop( )
-    valueList.append( fsub( fprod( 2, n, n ), n ) )
+def getAntiTriangularNumber( i ):
+    return fmul( 0.5, fsub( sqrt( fadd( fmul( 8, i ), 1 ) ), 1 ) )
 
 
 #//******************************************************************************
@@ -711,9 +570,8 @@ def getNthHexagonalNumber( valueList ):
 #//
 #//******************************************************************************
 
-def getAntiHexagonalNumber( valueList ):
-    n = valueList.pop( )
-    valueList.append( fdiv( fadd( sqrt( fadd( fmul( 8, n ), 1 ) ), 1 ), 4 ) )
+def getAntiHexagonalNumber( ui ):
+    return fdiv( fadd( sqrt( fadd( fmul( 8, i ), 1 ) ), 1 ), 4 )
 
 
 #//******************************************************************************
@@ -722,9 +580,8 @@ def getAntiHexagonalNumber( valueList ):
 #//
 #//******************************************************************************
 
-def getNthTetrahedralNumber( valueList ):
-    n = valueList.pop( )
-    valueList.append( fdiv( fsum( [ power( n, 3 ), fmul( 3, power( n, 2 ) ), fmul( 2, n ) ] ), 6 ) )
+def getNthTetrahedralNumber( i ):
+    return fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 )
 
 
 #//******************************************************************************
@@ -735,9 +592,7 @@ def getNthTetrahedralNumber( valueList ):
 #//
 #//******************************************************************************
 
-def getAntiTetrahedralNumber( valueList ):
-    n = valueList.pop( )
-
+def getAntiTetrahedralNumber( i ):
     sqrt3 = sqrt( 3 )
     curt3 = cbrt( 3 )
 
@@ -753,18 +608,16 @@ def getAntiTetrahedralNumber( valueList ):
 #//
 #//******************************************************************************
 
-def getNthSquareTriangularNumber( valueList ):
-    n = valueList.pop( )
-
-    neededPrecision = int( n * 3.5 )  # determined by experimentation
+def getNthSquareTriangularNumber( i ):
+    neededPrecision = int( i * 3.5 )  # determined by experimentation
 
     if mp.dps < neededPrecision:
         mp.dps = neededPrecision
 
     sqrt2 = sqrt( 2 )
 
-    valueList.append( ceil( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, n ) ),
-                                               power( fsub( 1, sqrt2 ), fmul( 2, n ) ) ),
+    valueList.append( ceil( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, i ) ),
+                                               power( fsub( 1, sqrt2 ), fmul( 2, i ) ) ),
                                          fmul( 4, sqrt2 ) ), 2 ) ) )
 
 
@@ -774,10 +627,7 @@ def getNthSquareTriangularNumber( valueList ):
 #//
 #//******************************************************************************
 
-def getCombinations( valueList ):
-    r = valueList.pop( )
-    n = valueList.pop( )
-
+def getCombinations( r, n ):
     if ( r > n ):
         raise ValueError( 'Number of elements (%d) cannot exceed the size of the set (%d)' % ( r, n ) )
 
@@ -790,10 +640,7 @@ def getCombinations( valueList ):
 #//
 #//******************************************************************************
 
-def getPermutations( valueList ):
-    r = valueList.pop( )
-    n = valueList.pop( )
-
+def getPermutations( r, n ):
     if ( r > n ):
         raise ValueError( 'Number of elements (%d) cannot exceed the size of the set (%d)' % ( r, n ) )
 
@@ -916,17 +763,18 @@ def duplicateTerm( valueList ):
 #//
 #//******************************************************************************
 
-def expandRange( valueList ):
-    end = int( valueList.pop( ) )
-    start = int( valueList.pop( ) )
-
+def expandRange( start, end ):
     if start > end:
         step = -1
     else:
         step = 1
 
-    for i in range( start, end + step, step ):
-        valueList.append( i )
+    result = list( )
+
+    for i in range( int( start ), int( end ) + step, step ):
+        result.append( i )
+
+    return result
 
 
 #//******************************************************************************
@@ -935,13 +783,18 @@ def expandRange( valueList ):
 #//
 #//******************************************************************************
 
-def expandSteppedRange( valueList ):
-    step = int( valueList.pop( ) )
-    end = int( valueList.pop( ) )
-    start = int( valueList.pop( ) )
+def expandSteppedRange( start, end, step ):
+    result = list( )
 
-    for i in range( start, end + 1, step ):
-        valueList.append( i )
+    if start > end:
+        offset = -1
+    else:
+        offset = 1
+
+    for i in range( int( start ), int( end ) + offset, step ):
+        result.append( i )
+
+    return result
 
 
 #//******************************************************************************
@@ -950,9 +803,9 @@ def expandSteppedRange( valueList ):
 #//
 #//******************************************************************************
 
-def getPlasticConstant( valueList ):
+def getPlasticConstant( ):
     term = fmul( 12, sqrt( 69 ) )
-    valueList.append( fdiv( fadd( cbrt( fadd( 108, term ) ), cbrt( fsub( 108, term ) ) ), 6 ) )
+    return fdiv( fadd( cbrt( fadd( 108, term ) ), cbrt( fsub( 108, term ) ) ), 6 )
 
 
 #//******************************************************************************
@@ -975,20 +828,6 @@ def solveQuadraticPolynomial( a, b, c ):
         x2 = fdiv( fsub( fneg( b ), d ), fmul( 2, a ) )
 
         return [ x1, x2 ]
-
-
-#//******************************************************************************
-#//
-#//  solveOrder2
-#//
-#//******************************************************************************
-
-def solveOrder2( valueList ):
-    c = valueList.pop( )
-    b = valueList.pop( )
-    a = valueList.pop( )
-
-    valueList.append( solveQuadraticPolynomial( a, b, c ) )
 
 
 #//******************************************************************************
@@ -1057,21 +896,6 @@ def solveCubicPolynomial( a, b, c, d ):
         x3 = fadd( fmul( fneg( l ), fsub( m, n ) ), p )
 
     return [ chop( x1 ), chop( x2 ), chop( x3 ) ]
-
-
-#//******************************************************************************
-#//
-#//  solveOrder3
-#//
-#//******************************************************************************
-
-def solveOrder3( valueList ):
-    d = valueList.pop( )
-    c = valueList.pop( )
-    b = valueList.pop( )
-    a = valueList.pop( )
-
-    valueList.append( solveCubicPolynomial( a, b, c, d ) )
 
 
 #//******************************************************************************
@@ -1151,38 +975,35 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
 
 #//******************************************************************************
 #//
-#//  solveOrder4
-#//
-#//******************************************************************************
-
-def solveOrder4( valueList ):
-    e = valueList.pop( )
-    d = valueList.pop( )
-    c = valueList.pop( )
-    b = valueList.pop( )
-    a = valueList.pop( )
-
-    valueList.append( solveQuarticPolynomial( a, b, c, d, e ) )
-
-
-#//******************************************************************************
-#//
 #//  solvePolynomial
 #//
 #//******************************************************************************
 
-def solvePolynomial( valueList ):
-    args = valueList.pop( )
-
-    if isinstance( args, list ):
-        args.reverse( )
-    else:
-        args = [ args ]
-
-    if len( args ) < 2:
+def solvePolynomial( i ):
+    if len( i ) < 2:
         raise ValueError( "solve requires at least an order-1 polynomial (i.e., 2 terms)" )
 
-    valueList.append( polyroots( args ) )
+    valueList.append( polyroots( i ) )
+
+
+#//******************************************************************************
+#//
+#//  getChampernowne
+#//
+#//******************************************************************************
+
+def getChampernowne( ):
+    global inputRadix
+
+    result = ''
+
+    count = 1
+
+    while len( result ) < mp.dps:
+        result += convertToBaseN( count, inputRadix, False, defaultNumerals )
+        count += 1
+
+    return convertToBase10( '0', result, inputRadix )
 
 
 #//******************************************************************************
@@ -1240,138 +1061,157 @@ def getCurrentArgList( valueList ):
 #//
 #//******************************************************************************
 
-expressions = {
-    '!'         : [ lambda v: v.append( fac( v.pop( ) ) ), [ numberArg ] ],
-    '%'         : [ getModulo, [ numberArg ] * 2 ],
-    '*'         : [ lambda v: v.append( fmul( v.pop( ), v.pop( ) ) ), [ numberArg ] * 2 ],
-    '**'        : [ exponentiate, [ numberArg ] * 2 ],
-    '***'       : [ tetrate, [ numberArg ] * 2 ],
-    '+'         : [ lambda v: v.append( fadd( v.pop( ), v.pop( ) ) ), [ numberArg ] * 2 ],
-    '-'         : [ subtract, [ numberArg ] * 2 ],
-    '/'         : [ divide, [ numberArg ] * 2 ],
-    '1/x'       : [ lambda v: v.append( fdiv( 1, v.pop( ) ) ), [ numberArg ] ],
-    'abs'       : [ lambda v: v.append( fabs( v.pop( ) ) ), [ numberArg ] ],
-    'acos'      : [ lambda v: v.append( acos( v.pop( ) ) ), [ numberArg ] ],
-    'acosh'     : [ lambda v: v.append( acosh( v.pop( ) ) ), [ numberArg ] ],
-    'acosh'     : [ lambda v: v.append( acosh( v.pop( ) ) ), [ numberArg ] ],
-    'acot'      : [ lambda v: v.append( acot( v.pop( ) ) ), [ numberArg ] ],
-    'acoth'     : [ lambda v: v.append( acoth( v.pop( ) ) ), [ numberArg ] ],
-    'acsc'      : [ lambda v: v.append( acsc( v.pop( ) ) ), [ numberArg ] ],
-    'acsch'     : [ lambda v: v.append( acsch( v.pop( ) ) ), [ numberArg ] ],
-    'and'       : [ lambda v: performBitwiseOperation( v, lambda x, y:  x & y ), [ numberArg ] * 2 ],
-    'antihex'   : [ getAntiHexagonalNumber, [ numberArg ] ],
-    'antipent'  : [ getAntiPentagonalNumber, [ numberArg ] ],
-    'antitri'   : [ getAntiTriangularNumber, [ numberArg ] ],
-    'apery'     : [ lambda v: v.append( apery ), [ ] ],
-    'asec'      : [ lambda v: v.append( asec( v.pop( ) ) ), [ numberArg ] ],
-    'asech'     : [ lambda v: v.append( asech( v.pop( ) ) ), [ numberArg ] ],
-    'asin'      : [ lambda v: v.append( asin( v.pop( ) ) ), [ numberArg ] ],
-    'asinh'     : [ lambda v: v.append( asinh( v.pop( ) ) ), [ numberArg ] ],
-    'atan'      : [ lambda v: v.append( atan( v.pop( ) ) ), [ numberArg ] ],
-    'atanh'     : [ lambda v: v.append( atanh( v.pop( ) ) ), [ numberArg ] ],
-    'avg'       : [ getMean, [ listArg ] ],
-    'base'      : [ interpretAsBase, [ listArg, numberArg ] ],
-    'catalan'   : [ lambda v: v.append( catalan ), [ ] ],
-    'cbrt'      : [ lambda v: v.append( cbrt( v.pop( ) ) ), [ numberArg ] ],
-    'ceil'      : [ lambda v: v.append( ceil( v.pop( ) ) ), [ numberArg ] ],
-    'cf'        : [ interpretAsContinuedFraction, [ listArg ] ],
-    'cf2'       : [ interpretAsContinuedFractionWithCount, [ listArg, numberArg ] ],
-    'cos'       : [ lambda v: v.append( cos( v.pop( ) ) ), [ numberArg ] ],
-    'cosh'      : [ lambda v: v.append( cosh( v.pop( ) ) ), [ numberArg ] ],
-    'cot'       : [ lambda v: v.append( cot( v.pop( ) ) ), [ numberArg ] ],
-    'coth'      : [ lambda v: v.append( coth( v.pop( ) ) ), [ numberArg ] ],
-    'csc'       : [ lambda v: v.append( csc( v.pop( ) ) ), [ numberArg ] ],
-    'csch'      : [ lambda v: v.append( csch( v.pop( ) ) ), [ numberArg ] ],
-    'cube'      : [ lambda v: v.append( power( v.pop( ), 3 ) ), [ numberArg ] ],
-    'deg'       : [ lambda v: v.append( radians( v.pop( ) ) ), [ numberArg ] ],
-    'degrees'   : [ lambda v: v.append( radians( v.pop( ) ) ), [ numberArg ] ],
-    'dup'       : [ duplicateTerm, [ listArg, numberArg ] ],
-    'e'         : [ lambda v: v.append( e ), [ ] ],
-    'euler'     : [ lambda v: v.append( euler ), [ ] ],
-    'exp'       : [ lambda v: v.append( exp( v.pop( ) ) ), [ numberArg ] ],
-    'exp10'     : [ lambda v: v.append( power( 10, v.pop( ) ) ), [ numberArg ] ],
-    'expphi'    : [ lambda v: v.append( power( phi, v.pop( ) ) ), [ numberArg ] ],
-    'fac'       : [ lambda v: v.append( fac( v.pop( ) ) ), [ numberArg ] ],
-    'factor'    : [ lambda v: v.append( getExpandedFactorList( factorize( v.pop( ) ) ) ), [ numberArg ] ],
-    'fib'       : [ lambda v: v.append( fib( v.pop( ) ) ), [ numberArg ] ],
-    'floor'     : [ lambda v: v.append( floor( v.pop( ) ) ), [ numberArg ] ],
-    'frac'      : [ interpretAsFraction, [ listArg ] ],
-    'frac2'     : [ interpretAsFractionWithCount, [ listArg, numberArg ] ],
-    'fraction'  : [ interpretAsFraction, [ listArg ] ],
-    'fraction2' : [ interpretAsFractionWithCount, [ listArg, numberArg ] ],
-    'gamma'     : [ lambda v: v.append( gamma( v.pop( ) ) ), [ numberArg ] ],
-    'glaisher'  : [ lambda v: v.append( glaisher ), [ ] ],
-    'harm'      : [ lambda v: v.append( harmonic( v.pop( ) ) ), [ numberArg ] ],
-    'harmonic'  : [ lambda v: v.append( harmonic( v.pop( ) ) ), [ numberArg ] ],
-    'hex'       : [ getNthHexagonalNumber, [ numberArg ] ],
-    'hyper4'    : [ tetrate, [ numberArg ] * 2 ],
-    'hyper4_2'  : [ tetrateLarge, [ numberArg ] * 2 ],
-    'hyperfac'  : [ lambda v: v.append( hyperfac( v.pop( ) ) ), [ numberArg ] ],
-    'hypot'     : [ lambda v: v.append( hypot( v.pop( ), v.pop( ) ) ), [ numberArg ] * 2 ],
-    'inv'       : [ lambda v: v.append( fdiv( 1, v.pop( ) ) ), [ numberArg ] ],
-    'itoi'      : [ lambda v: v.append( exp( fmul( -0.5, pi ) ) ), [ ] ],
-    'khinchin'  : [ lambda v: v.append( khinchin ), [ ] ],
-    'lgamma'    : [ lambda v: v.append( loggamma( v.pop( ) ) ), [ numberArg ] ],
-    'ln'        : [ lambda v: v.append( ln( v.pop( ) ) ), [ numberArg ] ],
-    'log'       : [ lambda v: v.append( ln( v.pop( ) ) ), [ numberArg ] ],
-    'log10'     : [ lambda v: v.append( log10( v.pop( ) ) ), [ numberArg ] ],
-    'logxy'     : [ getLogXY, [ numberArg ] * 2 ],
-    'luc'       : [ getNthLucas, [ numberArg ] ],
-    'lucas'     : [ getNthLucas, [ numberArg ] ],
-    'mean'      : [ getMean, [ listArg ] ],
-    'mertens'   : [ lambda v: v.append( mertens ), [ ] ],
-    'mod'       : [ getModulo, [ numberArg ] * 2 ],
-    'modulo'    : [ getModulo, [ numberArg ] * 2 ],
-    'mult'      : [ multiplyAll, [ listArg ] ],
-    'nCr'       : [ getCombinations, [ numberArg ] * 2 ],
-    'ncr'       : [ getCombinations, [ numberArg ] * 2 ],
-    'neg'       : [ lambda v: v.append( fneg( v.pop( ) ) ), [ numberArg ] ],
-    'nPr'       : [ getPermutations, [ numberArg ] * 2 ],
-    'npr'       : [ getPermutations, [ numberArg ] * 2 ],
-    'omega'     : [ lambda v: v.append( lambertw( 1 ) ), [ ] ],
-    'or'        : [ lambda v: performBitwiseOperation( v, lambda x, y:  x | y ), [ numberArg ] * 2 ],
-    'pent'      : [ getNthPentagonalNumber, [ numberArg ] ],
-    'phi'       : [ lambda v: v.append( phi ), [ ] ],
-    'pi'        : [ lambda v: v.append( pi ), [ ] ],
-    'plastic'   : [ getPlasticConstant, [ ] ],
-    'prod'      : [ multiplyAll, [ listArg ] ],
-    'rad'       : [ lambda v: v.append( degrees( v.pop( ) ) ), [ numberArg ] ],
-    'radians'   : [ lambda v: v.append( degrees( v.pop( ) ) ), [ numberArg ] ],
-    'rand'      : [ lambda v: v.append( rand( ) ), [ ] ],
-    'random'    : [ lambda v: v.append( rand( ) ), [ ] ],
-    'range'     : [ expandRange, [ numberArg ] * 2 ],
-    'range2'    : [ expandSteppedRange, [ numberArg ] * 3 ],
-    'root'      : [ antiexponentiate, [ numberArg ] * 2 ],
-    'root2'     : [ lambda v: v.append( sqrt( v.pop( ) ) ), [ numberArg ] ],
-    'root3'     : [ lambda v: v.append( cbrt( v.pop( ) ) ), [ numberArg ] ],
-    'round'     : [ lambda v: v.append( floor( fadd( v.pop( ), 0.5 ) ) ), [ numberArg ] ],
-    'sec'       : [ lambda v: v.append( sec( v.pop( ) ) ), [ numberArg ] ],
-    'sech'      : [ lambda v: v.append( sech( v.pop( ) ) ), [ numberArg ] ],
-    'sin'       : [ lambda v: v.append( sin( v.pop( ) ) ), [ numberArg ] ],
-    'sinh'      : [ lambda v: v.append( sinh( v.pop( ) ) ), [ numberArg ] ],
-    'solve'     : [ solvePolynomial, [ listArg ] ],
-    'solve2'    : [ solveOrder2, [ numberArg ] * 3 ],
-    'solve3'    : [ solveOrder3, [ numberArg ] * 4 ],
-    'solve4'    : [ solveOrder4, [ numberArg ] * 5 ],
-    'sqr'       : [ lambda v: v.append( power( v.pop( ), 2 ) ), [ numberArg ] ],
-    'sqrt'      : [ lambda v: v.append( sqrt( v.pop( ) ) ), [ numberArg ] ],
-    'sqtri'     : [ getNthSquareTriangularNumber, [ numberArg ] ],
-    'sum'       : [ sum, [ listArg ] ],
-    'superfac'  : [ lambda v: v.append( superfac( v.pop( ) ) ), [ numberArg ] ],
-    'tan'       : [ lambda v: v.append( tan( v.pop( ) ) ), [ numberArg ] ],
-    'tanh'      : [ lambda v: v.append( tanh( v.pop( ) ) ), [ numberArg ] ],
-    'tet'       : [ getNthTetrahedralNumber, [ numberArg ] ],
-    'tetra'     : [ getNthTetrahedralNumber, [ numberArg ] ],
-    'tri'       : [ getNthTriangularNumber, [ numberArg ] ],
-    'twinprime' : [ lambda v: v.append( twinprime ), [ ] ],
-    'xor'       : [ lambda v: performBitwiseOperation( v, lambda x, y:  x ^ y ), [ numberArg ] * 2 ],
-    '['         : [ incrementNestedListLevel, [ ] ],
-    ']'         : [ decrementNestedListLevel, [ ] ],
-    '^'         : [ exponentiate, [ numberArg ] * 2 ],
-    '~'         : [ getInvertedBits, [ numberArg ] ],
-#    'antitet'  : [ getAntiTetrahedralNumber, [ numberArg ] ],
-#    'isprime'  : [ isPrime, [ numberArg ] ],
-#    'powmod'   : [ getPowMod, [ numberArg ] * 3 ],
+modifiers = {
+    '['         : incrementNestedListLevel,
+    ']'         : decrementNestedListLevel,
+}
+
+
+callers = [
+    lambda func, args: [ func( ) ],
+    lambda func, args: [ func( i ) for i in args[ 0 ] ],
+    lambda func, args: [ func( j, i ) for i in args[ 0 ] for j in args[ 1 ] ],
+    lambda func, args: [ func( k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] ],
+    lambda func, args: [ func( l, k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] for l in args[ 3 ] ],
+    lambda func, args: [ func( m, l, k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] for l in args[ 3 ] for m in args[ 4 ] ],
+]
+
+
+list_operators = {
+    'solve'     : [ solvePolynomial, 1 ],
+    'prod'      : [ fprod, 1 ],
+    'sum'       : [ fsum, 1 ],
+    'avg'       : [ getMean, 1 ],
+    'mult'      : [ fprod, 1 ],
+}
+
+operators = {
+    '!'         : [ fac, 1 ],
+    '%'         : [ fmod, 2 ],
+    '*'         : [ fmul, 2 ],
+    '**'        : [ power, 2 ],
+    '***'       : [ tetrate, 2 ],
+    '+'         : [ fadd, 2 ],
+    '-'         : [ fsub, 2 ],
+    '/'         : [ fdiv, 2 ],
+    '//'         : [ root, 2 ],
+    '1/x'       : [ lambda i: fdiv( 1, i ), 1 ],
+    'abs'       : [ fabs, 1 ],
+    'acos'      : [ acos, 1 ],
+    'acosh'     : [ acosh, 1 ],
+    'acosh'     : [ acosh, 1 ],
+    'acot'      : [ acot, 1 ],
+    'acoth'     : [ acoth, 1 ],
+    'acsc'      : [ acsc, 1 ],
+    'acsch'     : [ acsch, 1 ],
+    'and'       : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x & y ), 2 ],
+    'antihex'   : [ getAntiHexagonalNumber, 1 ],
+    'antipent'  : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1 ],
+    'antitri'   : [ getAntiTriangularNumber, 1 ],
+    'apery'     : [ apery, 0 ],
+    'asec'      : [ asec, 1 ],
+    'asech'     : [ asech, 1 ],
+    'asin'      : [ asin, 1 ],
+    'asinh'     : [ asinh, 1 ],
+    'atan'      : [ atan, 1 ],
+    'atanh'     : [ atanh, 1 ],
+    'base'      : [ interpretAsBase, 2 ],
+    'catalan'   : [ catalan, 0 ],
+    'cbrt'      : [ cbrt, 1 ],
+    'ceil'      : [ ceil, 1 ],
+    'cf'        : [ interpretAsContinuedFraction, 1 ],
+    'cf2'       : [ interpretAsContinuedFractionWithCount, 2 ],
+    'champ'     : [ getChampernowne, 0 ],
+    'cos'       : [ cos, 1 ],
+    'cosh'      : [ cosh, 1 ],
+    'cot'       : [ cot, 1 ],
+    'coth'      : [ coth, 1 ],
+    'csc'       : [ csc, 1 ],
+    'csch'      : [ csch, 1 ],
+    'cube'      : [ lambda i: power( i, 3 ), 1 ],
+    'deg'       : [ radians, 1 ],
+    'degrees'   : [ radians, 1 ],
+    'dup'       : [ duplicateTerm, 2 ],
+    'e'         : [ e, 0 ],
+    'euler'     : [ euler, 0 ],
+    'exp'       : [ exp, 1 ],
+    'exp10'     : [ lambda i: power( 10, i ), 1 ],
+    'expphi'    : [ phi, 1 ],
+    'fac'       : [ fac, 1 ],
+    'factor'    : [ lambda i: getExpandedFactorList( factorize( i ) ), 1 ],
+    'fib'       : [ fib, 1 ],
+    'floor'     : [ floor, 1 ],
+    'frac'      : [ interpretAsFraction, 1 ],
+    'frac2'     : [ interpretAsFractionWithCount, 2 ],
+    'fraction'  : [ interpretAsFraction, 1 ],
+    'fraction2' : [ interpretAsFractionWithCount, 2 ],
+    'gamma'     : [ gamma, 1 ],
+    'glaisher'  : [ glaisher, 0 ],
+    'harm'      : [ harmonic, 1 ],
+    'harmonic'  : [ harmonic, 1 ],
+    'hex'       : [ lambda i: fsub( fprod( 2, i, i ), i ), 1 ],
+    'hyper4'    : [ tetrate, 2 ],
+    'hyper4_2'  : [ tetrateLarge, 2 ],
+    'hyperfac'  : [ hyperfac, 1 ],
+    'hypot'     : [ hypot, 2 ],
+    'inv'       : [ lambda i: fdiv( 1, i ), 1 ],
+    'itoi'      : [ lambda: exp( fmul( -0.5, pi ) ), 0 ],
+    'khinchin'  : [ khinchin, 0 ],
+    'lgamma'    : [ loggamma, 1 ],
+    'ln'        : [ ln, 1 ],
+    'log'       : [ ln, 1 ],
+    'log10'     : [ log10, 1 ],
+    'logxy'     : [ log, 2 ],
+    'luc'       : [ getNthLucas, 1 ],
+    'lucas'     : [ getNthLucas, 1 ],
+    'mean'      : [ getMean, 1 ],
+    'mertens'   : [ mertens, 0 ],
+    'mod'       : [ fmod, 2 ],
+    'modulo'    : [ fmod, 2 ],
+    'nCr'       : [ getCombinations, 2 ],
+    'ncr'       : [ getCombinations, 2 ],
+    'neg'       : [ fneg, 1 ],
+    'nPr'       : [ getPermutations, 2 ],
+    'npr'       : [ getPermutations, 2 ],
+    'omega'     : [ lambda: lambertw( 1 ), 0 ],
+    'or'        : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
+    'pent'      : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1 ],
+    'phi'       : [ phi, 0 ],
+    'pi'        : [ pi, 0 ],
+    'plastic'   : [ getPlasticConstant, 0 ],
+    'rad'       : [ degrees, 1 ],
+    'radians'   : [ degrees, 1 ],
+    'rand'      : [ rand, 0 ],
+    'random'    : [ rand, 0 ],
+    'range'     : [ expandRange, 2 ],
+    'range2'    : [ expandSteppedRange, 3 ],
+    'root'      : [ root, 2 ],
+    'root2'     : [ sqrt, 1 ],
+    'root3'     : [ cbrt, 1 ],
+    'round'     : [ lambda i: floor( fadd( i, 0.5 ) ), 1 ],
+    'sec'       : [ sec, 1 ],
+    'sech'      : [ sech, 1 ],
+    'sin'       : [ sin, 1 ],
+    'sinh'      : [ sinh, 1 ],
+    'solve2'    : [ solveQuadraticPolynomial, 3 ],
+    'solve3'    : [ solveCubicPolynomial, 4 ],
+    'solve4'    : [ solveQuarticPolynomial, 5 ],
+    'sqr'       : [ power, 1 ],
+    'sqrt'      : [ sqrt, 1 ],
+    'sqtri'     : [ getNthSquareTriangularNumber, 1 ],
+    'superfac'  : [ superfac, 1 ],
+    'tan'       : [ tan, 1 ],
+    'tanh'      : [ tanh, 1 ],
+    'tet'       : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1 ],
+    'tetra'     : [ getNthTetrahedralNumber, 1 ],
+    'tri'       : [ getNthTriangularNumber, 1 ],
+    'twinprime' : [ twinprime, 0 ],
+    'xor'       : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
+    '^'         : [ power, 2 ],
+    '~'         : [ getInvertedBits, 1 ],
+#    'antitet'  : [ getAntiTetrahedralNumber, 1 ],
+#    'isprime'  : [ isPrime, 1 ],
+#    'powmod'   : [ getPowMod, 3 ],
 }
 
 
@@ -1754,17 +1594,11 @@ def main( ):
     global numerals
     global bitwiseGroupSize
     global addToListArgument
-
-    if os.name == 'nt':
-        argumentPrefix = argumentPrefixWindows
-        prefixList = prefixListWindows
-    else:
-        argumentPrefix = argumentPrefixLinux
-        prefixList = prefixListLinux
+    global inputRadix
 
     parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
                                       PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
-                                      formatter_class=argparse.RawTextHelpFormatter, prefix_chars=prefixList )
+                                      formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
     parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1, const=defaultAccuracy,
@@ -1823,8 +1657,6 @@ def main( ):
     bitwiseGroupSize = args.bitwise_group_size
     integerGrouping = args.integer_grouping
     leadingZero = args.leading_zero
-
-    #
 
     # handle -a - set precision to be at least 2 greater than output accuracy
     if mp.dps < args.output_accuracy + 2:
@@ -1943,12 +1775,13 @@ def main( ):
         #print( "valueList: " + str( valueList ) )
         #print( "current: " + str( currentValueList ) )
 
-        if term in expressions:
-            argsListNeeded = expressions[ term ][ 1 ]
-            parseError = False
-            argsNeeded = len( argsListNeeded )
+        if term in modifiers:
+            modifiers[ term ]( valueList )
+        elif term in operators:
+            argsNeeded = operators[ term ][ 1 ]
             currentValueList = getCurrentArgList( valueList )
 
+            # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
                 print( "rpn:  error in arg " + format( index ) + ":  operator " + term + " requires " +
                        format( argsNeeded ) + " argument", end='' )
@@ -1960,24 +1793,19 @@ def main( ):
 
                 break   # breaks out of term in args.terms, setting parseError isn't needed
 
-            for i in range( argsNeeded, 0, -1 ):
-                argType = argsListNeeded[ -i ]
-                arg = currentValueList[ -i ]
-
-                isList = isinstance( arg, list )
-
-                # a numerical argument is OK when a list is expected
-                if argType == numberArg and isList:
-                    print( "rpn:  operator '" + term + "' expects a numerical argument, not a list" )
-
-                    parseError = True
-                    break
-
-            if parseError:
-                break
-
             try:
-                expressions[ term ][ 0 ]( currentValueList )   # evaluate the expression
+                argList = list( )
+
+                for i in range( 0, argsNeeded ):
+                    arg = currentValueList.pop( )
+                    argList.append( arg if isinstance( arg, list ) else [ arg ] )
+
+                result = callers[ argsNeeded ]( operators[ term ][ 0 ], argList )
+
+                if len( result ) == 1:
+                    result = result[ 0 ]
+
+                currentValueList.append( result )
             except KeyboardInterrupt as error:
                 print( "rpn:  keyboard interrupt" )
                 break
@@ -1987,6 +1815,8 @@ def main( ):
             except TypeError as error:
                 print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
+        elif term in list_operators:
+            pass
         else:
             try:
                 currentValueList.append( parseInputValue( term, inputRadix ) )
