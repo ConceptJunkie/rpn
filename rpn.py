@@ -17,10 +17,10 @@ import bz2
 import collections
 import contextlib
 import datetime
+import pickle
 import itertools
 import math
 import os
-import pickle
 import pyprimes
 import random
 import string
@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.7.9'
+PROGRAM_VERSION = '5.8.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -66,6 +66,106 @@ inputRadix = 10
 updateDicts = False
 
 unitStack = [ ]
+
+
+#//******************************************************************************
+#//
+#//  specialUnitConversionMatrix
+#//
+#//  This is for units that can't be converted with a simple multiplication
+#//  factor.  So far, only temperatures require this.
+#//
+#//  Plus, I'm not going to do the transitive thing here, so it's necessary
+#//  to explicitly state the conversions for all permutations.
+#//
+#//  ( first unit, second unit, conversion function )
+#//
+#//******************************************************************************
+
+specialUnitConversionMatrix = {
+    ( 'celsius',               'delisle' )                         : lambda c: fmul( fsub( 100, c ), fdiv( 3, 2 ) ),
+    ( 'celsius',               'degrees_newton' )                  : lambda c: fmul( c, fdiv( 33, 100 ) ),
+    ( 'celsius',               'fahrenheit' )                      : lambda c: fadd( fmul( c, fdiv( 9, 5 ) ), 32 ),
+    ( 'celsius',               'kelvin' )                          : lambda c: fadd( c, mpf( '273.15' ) ),
+    ( 'celsius',               'rankine' )                         : lambda c: fmul( fadd( c, mpf( '273.15' ) ), fdiv( 9, 5 ) ),
+    ( 'celsius',               'reaumur' )                         : lambda c: fmul( c, fdiv( 4, 5 ) ),
+    ( 'celsius',               'romer' )                           : lambda c: fadd( fmul( c, fdiv( 21, 40 ) ), mpf( '7.5' ) ),
+
+    ( 'delisle',               'celsius' )                         : lambda d: fsub( 100, fmul( fdiv( 2, 3 ), d ) ),
+    ( 'delisle',               'degrees_newton' )                  : lambda d: fsub( 33, fmul( d, fdiv( 11, 50 ) ) ),
+    ( 'delisle',               'fahrenheit' )                      : lambda d: fsub( 212, fmul( fdiv( 6, 5 ), d ) ),
+    ( 'delisle',               'kelvin' )                          : lambda d: fsub( mpf( '373.15' ), fmul( fdiv( 2, 3 ), d ) ),
+    ( 'delisle',               'rankine' )                         : lambda d: fsub( mpf( '671.67' ), fmul( fdiv( 6, 5 ), d ) ),
+    ( 'delisle',               'reaumur' )                         : lambda d: fsub( 80, fmul( d, fdiv( 8, 15 ) ) ),
+    ( 'delisle',               'romer' )                           : lambda d: fsub( 60, fmul( d, fdiv( 7, 20 ) ) ),
+
+    ( 'degrees_newton',        'celsius' )                         : lambda n: fmul( n, fdiv( 100, 33 ) ),
+    ( 'degrees_newton',        'delisle' )                         : lambda n: fmul( fsub( 33, n ), fdiv( 50, 11 ) ),
+    ( 'degrees_newton',        'fahrenheit' )                      : lambda n: fadd( fmul( n, fdiv( 60, 11 ) ), 32 ),
+    ( 'degrees_newton',        'kelvin' )                          : lambda n: fadd( fmul( n, fdiv( 100, 33 ) ), mpf( '273.15' ) ),
+    ( 'degrees_newton',        'rankine' )                         : lambda n: fadd( fmul( n, fdiv( 60, 11 ) ), mpf( '491.67' ) ),
+    ( 'degrees_newton',        'reaumur' )                         : lambda n: fmul( re, fdiv( 80, 33 ) ),
+    ( 'degrees_newton',        'romer' )                           : lambda n: fadd( fmul( n, fdiv( 35, 22 ) ), mpf( 7.5 ) ),
+
+    ( 'fahrenheit',            'celsius' )                         : lambda f: fmul( fsub( f, 32 ), fdiv( 5, 9 ) ),
+    ( 'fahrenheit',            'degrees_newton' )                  : lambda f: fadd( fmul( n, fdiv( 60, 11 ) ), 32 ),
+    ( 'fahrenheit',            'delisle' )                         : lambda f: fmul( fsub( 212, f ), fdiv( 5, 6 ) ),
+    ( 'fahrenheit',            'kelvin' )                          : lambda f: fsub( fmul( f, fdiv( 5, 9 ) ), mpf( '305.15' ) ),
+    ( 'fahrenheit',            'rankine' )                         : lambda f: fadd( f, mpf( '459.67' ) ),
+    ( 'fahrenheit',            'reaumur' )                         : lambda f: fmul( fsub( f, 32 ), fdiv( 4, 9 ) ),
+    ( 'fahrenheit',            'romer' )                           : lambda f: fadd( fmul( fsub( f, 32 ), fdiv( 7, 24 ) ), mpf( '7.5' ) ),
+
+    ( 'kelvin',                'celsius' )                         : lambda k: fsub( k, mpf( '273.15' ) ),
+    ( 'kelvin',                'degrees_newton' )                  : lambda k: fmul( fsub( k, mpf( '273.15' ) ), fdiv( 33, 100 ) ),
+    ( 'kelvin',                'delisle' )                         : lambda k: fmul( fsub( mpf( '373.15' ), k ), fdiv( 3, 2 ) ),
+    ( 'kelvin',                'fahrenheit' )                      : lambda k: fsub( fmul( k, fdiv( 9, 5 ) ), mpf( '459.67' ) ),
+    ( 'kelvin',                'rankine' )                         : lambda k: fmul( k, fdiv( 9, 5 ) ),
+    ( 'kelvin',                'reaumur' )                         : lambda k: fmul( fsub( k, mpf( '273.15' ) ), fdiv( 4, 5 ) ),
+    ( 'kelvin',                'romer' )                           : lambda k: fadd( fmul( fsub( k, mpf( '273.15' ) ), fdiv( 21, 40 ) ), mpf( 7.5 ) ),
+
+    ( 'rankine',               'celsius' )                         : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 5, 9 ) ),
+    ( 'rankine',               'degrees_newton' )                  : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 11, 60 ) ),
+    ( 'rankine',               'delisle' )                         : lambda r: fmul( fsub( mpf( '671.67' ), r ), fdiv( 5, 6 ) ),
+    ( 'rankine',               'fahrenheit' )                      : lambda r: fsub( r, mpf( '459.67' ) ),
+    ( 'rankine',               'kelvin' )                          : lambda r: fmul( r, fdiv( 5, 9 ) ),
+    ( 'rankine',               'reaumur' )                         : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 4, 9 ) ),
+    ( 'rankine',               'romer' )                           : lambda r: fadd( fmul( fsub( r, mpf( '491.67' ) ), fdiv( 7, 24 ) ), mpf( '7.5' ) ),
+
+    ( 'reaumur',               'celsius' )                         : lambda re: fmul( re, fdiv( 5, 4 ) ),
+    ( 'reaumur',               'degrees_newton' )                  : lambda re: fmul( re, fdiv( 33, 80 ) ),
+    ( 'reaumur',               'delisle' )                         : lambda re: fmul( fsub( 80, re ), fdiv( 15, 8 ) ),
+    ( 'reaumur',               'fahrenheit' )                      : lambda re: fadd( fmul( re, fdiv( 9, 4 ) ), 32 ),
+    ( 'reaumur',               'kelvin' )                          : lambda re: fadd( fmul( re, fdiv( 5, 4 ) ), mpf( '273.15' ) ),
+    ( 'reaumur',               'rankine' )                         : lambda re: fadd( fmul( re, fdiv( 9, 4 ) ), mpf( '491.67' ) ),
+    ( 'reaumur',               'romer' )                           : lambda re: fadd( fmul( re, fdiv( 21, 32 ) ), mpf( 7.5 ) ),
+
+    ( 'romer',                 'celsius' )                         : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 40, 21 ) ),
+    ( 'romer',                 'degrees_newton' )                  : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 22, 35 ) ),
+    ( 'romer',                 'delisle' )                         : lambda ro: fmul( fsub( 60, ro ), fdiv( 20, 7 ) ),
+    ( 'romer',                 'fahrenheit' )                      : lambda ro: fadd( fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 24, 7 ) ), 32 ),
+    ( 'romer',                 'kelvin' )                          : lambda ro: fadd( fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 40, 21 ) ), mpf( '273.15' ) ),
+    ( 'romer',                 'rankine' )                         : lambda ro: fadd( fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 24, 7 ) ), mpf( '491.67' ) ),
+    ( 'romer',                 'reaumur' )                         : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 32, 21 ) ),
+
+}
+
+  #  'delisle' :
+  #      UnitInfo( 'temperature', 'delisle', 'degrees delisle', '', [ ] ),                   # K = 373.15 - 2/3 De
+  #
+  #  'fahrenheit' :
+  #      UnitInfo( 'temperature', 'fahrenheit', 'degrees fahrenheit', '', [ 'fahr' ] ),      # K = F + 459.67 * 5/9
+  #
+  #  'gas_mark' :
+  #      UnitInfo( 'temperature', 'gas_mark', 'degrees gas_mark', 'GM', [ 'regulo', 'regulo_gas_mark' ] ),   # K = N * 100/33 + 273.15
+  #
+  #  'degrees_newton' :
+  #      UnitInfo( 'temperature', 'degrees_newton', 'degrees newton', '', [ ] ),             # K = R * 5/9
+  #
+  #  'rankine' :
+  #      UnitInfo( 'temperature', 'rankine', 'degrees rankine', '', [ ] ),                   # K = ( Ro - 7.5 ) * 40/21 + 273.15
+  #
+  #  'reaumur' :
+  #      UnitInfo( 'temperature', 'reaumur', 'degrees reaumur', '', [ ] ),                   # K = GM * 125/9 + 422.038
 
 
 #//******************************************************************************
@@ -466,7 +566,7 @@ class Measurement( mpf ):
     def getNoncompoundTypes( self ):
         return getNoncompoundTypes( self.getTypes( ) )
 
-    def getConversion( self, other ):
+    def convertValue( self, other ):
         if self.isCompatible( other ):
             units1 = self.getUnits( )
             units2 = other.getUnits( )
@@ -480,9 +580,9 @@ class Measurement( mpf ):
 
             # look for a straight-up conversion
             if ( unit1String, unit2String ) in unitConversionMatrix:
-                value = mpmathify( unitConversionMatrix[ ( unit1String, unit2String ) ] )
-            #else if ( unit1String, unit2String in specialUnitConversionMatrix:
-            #    value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ](
+                value = fmul( mpf( self ), mpmathify( unitConversionMatrix[ ( unit1String, unit2String ) ] ) )
+            elif ( unit1String, unit2String ) in specialUnitConversionMatrix:
+                value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ]( mpf( self ) )
             else:
                 conversionValue = mpmathify( 1 )
 
@@ -520,6 +620,8 @@ class Measurement( mpf ):
                     index += 1
 
                     value = fmul( value, conversionValue )
+
+                value = fmul( mpf( self ), value )
 
             return value
         else:
@@ -5286,11 +5388,7 @@ def convertUnits( unit1, unit2 ):
     #print( 'unit1:', unit1.getTypes( ) )
     #print( 'unit2:', unit2.getTypes( ) )
 
-    conversion = unit1.getConversion( unit2 )
-
-    #print( 'conversion: ', conversion )
-
-    return Measurement( fmul( unit1, conversion ), unit2.getUnits( ) )
+    return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ) )
 
 
 #//******************************************************************************
@@ -5358,12 +5456,40 @@ operatorAliases = {
     'hex?'        : 'hexagonal?',
     'hyper4'      : 'tetrate',
     'int'         : 'long',
+    'int16'       : 'short',
+    'int32'       : 'long',
+    'int64'       : 'longlong',
+    'int8'        : 'char',
     'inv'         : 'reciprocal',
     'isdiv'       : 'isdivisible',
     'issqr'       : 'issquare',
     'left'        : 'shiftleft',
     'linear'      : 'linearrecur',
     'log'         : 'ln',
+    'maxint'      : 'maxlong',
+    'maxint128'   : 'maxquadlong',
+    'maxint16'    : 'maxshort',
+    'maxint32'    : 'maxlong',
+    'maxint64'    : 'maxlonglong',
+    'maxint8'     : 'maxchar',
+    'maxuint'     : 'maxulong',
+    'maxuint128'  : 'maxuquadlong',
+    'maxuint16'   : 'maxushort',
+    'maxuint32'   : 'maxulong',
+    'maxuint64'   : 'maxulonglong',
+    'maxuint8'    : 'maxuchar',
+    'minint'      : 'minlong',
+    'minint128'   : 'minquadlong',
+    'minint16'    : 'minshort',
+    'minint32'    : 'minlong',
+    'minint64'    : 'minlonglong',
+    'minint8'     : 'minchar',
+    'minuint'     : 'minulong',
+    'minuint128'  : 'minuquadlong',
+    'minuint16'   : 'minushort',
+    'minuint32'   : 'minulong',
+    'minuint64'   : 'minulonglong',
+    'minuint8'    : 'minuchar',
     'mod'         : 'modulo',
     'mult'        : 'multiply',
     'neg'         : 'negative',
@@ -5418,6 +5544,10 @@ operatorAliases = {
     'twin?'       : 'twinprime?',
     'twin_'       : 'twinprime_',
     'uint'        : 'ulong',
+    'uint16'      : 'ushort',
+    'uint32'      : 'ulong',
+    'uint64'      : 'ulonglong',
+    'uint8'       : 'uchar',
     'unsigned'    : 'uinteger',
     'woodall'     : 'riesel',
     'zeroes'      : 'zero',
@@ -5639,9 +5769,29 @@ operators = {
     'log2'          : [ lambda n: log( n, 2 ), 1 ],
     'logxy'         : [ log, 2 ],
     'lucas'         : [ getNthLucasNumber, 1 ],
+    'maxchar'       : [ lambda: ( 1 << 7 ) - 1, 0 ],
+    'maxshort'      : [ lambda: ( 1 << 15 ) - 1, 0 ],
+    'maxlong'       : [ lambda: ( 1 << 31 ) - 1, 0 ],
+    'maxlonglong'   : [ lambda: ( 1 << 63 ) - 1, 0 ],
+    'maxquadlong'   : [ lambda: ( 1 << 127 ) - 1, 0 ],
+    'maxuchar'      : [ lambda: ( 1 << 8 ) - 1, 0 ],
+    'maxushort'     : [ lambda: ( 1 << 16 ) - 1, 0 ],
+    'maxulong'      : [ lambda: ( 1 << 32 ) - 1, 0 ],
+    'maxulonglong'  : [ lambda: ( 1 << 64 ) - 1, 0 ],
+    'maxuquadlong'  : [ lambda: ( 1 << 128 ) - 1, 0 ],
     'makecf'        : [ lambda n, k: ContinuedFraction( n, maxterms=k,
                                                         cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
     'mertens'       : [ mertens, 0 ],
+    'minchar'       : [ lambda: -( 1 << 7 ), 0 ],
+    'minshort'      : [ lambda: -( 1 << 15 ), 0 ],
+    'minlong'       : [ lambda: -( 1 << 31 ), 0 ],
+    'minlonglong'   : [ lambda: -( 1 << 63 ), 0 ],
+    'minquadlong'   : [ lambda: -( 1 << 127 ), 0 ],
+    'minuchar'      : [ lambda: 0, 0 ],
+    'minushort'     : [ lambda: 0, 0 ],
+    'minulong'      : [ lambda: 0, 0 ],
+    'minulonglong'  : [ lambda: 0, 0 ],
+    'minuquadlong'  : [ lambda: 0, 0 ],
     'modulo'        : [ fmod, 2 ],
     'motzkin'       : [ getNthMotzkinNumber, 1 ],
     'multiply'      : [ multiply, 2 ],
@@ -6451,6 +6601,7 @@ def main( ):
     global unitOperators
     global basicUnitTypes
     global unitConversionMatrix
+    global specialUnitConversionMatrix
     global compoundUnits
 
     global balancedPrimes

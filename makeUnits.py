@@ -14,6 +14,7 @@
 
 import bz2
 import contextlib
+#import dill as pickle
 import itertools
 import os
 import pickle
@@ -29,7 +30,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.7.9'
+PROGRAM_VERSION = '5.8.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -487,28 +488,28 @@ unitOperators = {
     # temperature
 
     'celsius' :
-        UnitInfo( 'temperature', 'celsius', 'degrees celsius', '', [ 'centigrade' ] ),
+        UnitInfo( 'temperature', 'celsius', 'degrees celsius', '', [ 'centigrade', 'degC' ] ),
 
     'degrees_newton' :
-        UnitInfo( 'temperature', 'degrees_newton', 'degrees newton', '', [ 'newton_degree', 'newton_degrees' ] ),
+        UnitInfo( 'temperature', 'degrees_newton', 'degrees newton', '', [ 'newton_degree', 'newton_degrees', 'degN' ] ),
 
     'delisle' :
-        UnitInfo( 'temperature', 'delisle', 'degrees delisle', '', [ ] ),
+        UnitInfo( 'temperature', 'delisle', 'degrees delisle', 'De', [ 'degDe' ] ),
 
     'fahrenheit' :
-        UnitInfo( 'temperature', 'fahrenheit', 'degrees fahrenheit', '', [ 'fahr' ] ),
-
-    'gas_mark' :
-        UnitInfo( 'temperature', 'gas_mark', 'degrees gas_mark', 'GM', [ 'regulo', 'regulo_gas_mark' ] ),
+        UnitInfo( 'temperature', 'fahrenheit', 'degrees fahrenheit', '', [ 'fahr', 'degF' ] ),
 
     'kelvin' :
-        UnitInfo( 'temperature', 'kelvin', 'degrees kelvin', 'K', [ ] ),
+        UnitInfo( 'temperature', 'kelvin', 'degrees kelvin', 'K', [ 'degK' ] ),
 
     'rankine' :
-        UnitInfo( 'temperature', 'rankine', 'degrees rankine', '', [ ] ),
+        UnitInfo( 'temperature', 'rankine', 'degrees rankine', 'R', [ 'degR' ] ),
 
     'reaumur' :
-        UnitInfo( 'temperature', 'reaumur', 'degrees reaumur', '', [ ] ),
+        UnitInfo( 'temperature', 'reaumur', 'degrees reaumur', 'Re', [ 'degRe' ] ),
+
+    'romer' :
+        UnitInfo( 'temperature', 'romer', 'degrees romer', 'Ro', [ 'defRo' ] ),
 
     # time
 
@@ -947,97 +948,6 @@ unitConversionMatrix = {
     ( 'year',                  'day' )                             : '365.25',
     ( 'kelvin',                'rankine' )                         : '1.4',
 }
-
-
-#//******************************************************************************
-#//
-#//  specialUnitConversionMatrix
-#//
-#//  This is for units that can't be converted with a simple multiplication
-#//  factor.  So far, only temperatures require this.
-#//
-#//  Plus, I'm not going to do the transitive thing here, so it's necessary
-#//  to explicitly state the conversions for all permutations.
-#//
-#//  ( first unit, second unit, conversion function )
-#//
-#//******************************************************************************
-
-specialUnitConversionMatrix = {
-    ( 'celsius',               'delisle' )                         : lambda n: n,
-    ( 'celsius',               'degrees_newton' )                  : lambda n: n,
-    ( 'celsius',               'fahrenheit' )                      : lambda n: fadd( 32, fmul( n, fdiv( 9, 5 ) ) ),
-    ( 'celsius',               'gas_mark' )                        : lambda n: n,
-    ( 'celsius',               'kelvin' )                          : lambda n: fadd( n, 273.15 ),
-    ( 'celsius',               'rankine' )                         : lambda n: n,
-    ( 'celsius',               'reaumur' )                         : lambda n: n,
-
-    ( 'delisle',               'celsius' )                         : lambda n: n,
-    ( 'delisle',               'degrees_newton' )                  : lambda n: n,
-    ( 'delisle',               'fahrenheit' )                      : lambda n: n,
-    ( 'delisle',               'gas_mark' )                        : lambda n: n,
-    ( 'delisle',               'kelvin' )                          : lambda n: n,
-    ( 'delisle',               'rankine' )                         : lambda n: n,
-    ( 'delisle',               'reaumur' )                         : lambda n: n,
-
-    ( 'fahrenheit',            'celsius' )                         : lambda n: fsub( fmul( n, fdiv( 5, 9 ) ), 32 ),
-    ( 'fahrenheit',            'degrees_newton' )                  : lambda n: n,
-    ( 'fahrenheit',            'delisle' )                         : lambda n: n,
-    ( 'fahrenheit',            'gas_mark' )                        : lambda n: n,
-    ( 'fahrenheit',            'kelvin' )                          : lambda n: fsub( fmul( n, fdiv( 5, 9 ) ), 305.15 )
-    ( 'fahrenheit',            'rankine' )                         : lambda n: fadd( n, 459.67 ),
-    ( 'fahrenheit',            'reaumur' )                         : lambda n: n,
-
-    ( 'gas_mark',              'celsius' )                         : lambda n: n,
-    ( 'gas_mark',              'degrees_newton' )                  : lambda n: n,
-    ( 'gas_mark',              'delisle' )                         : lambda n: n,
-    ( 'gas_mark',              'fahrenheit' )                      : lambda n: n,
-    ( 'gas_mark',              'kelvin' )                          : lambda n: n,
-    ( 'gas_mark',              'rankine' )                         : lambda n: n,
-    ( 'gas_mark',              'reaumur' )                         : lambda n: n,
-
-    ( 'kelvin',                'celsius' )                         : lambda n: fsub( n, 273.15 ),
-    ( 'kelvin',                'degrees_newton' )                  : lambda n: n,
-    ( 'kelvin',                'delisle' )                         : lambda n: n,
-    ( 'kelvin',                'fahrenheit' )                      : lambda n: n,
-    ( 'kelvin',                'gas_mark' )                        : lambda n: n,
-   # ( 'kelvin',                'rankine' )                         : lambda n: n,
-    ( 'kelvin',                'reaumur' )                         : lambda n: n,
-
-    ( 'rankine',               'celsius' )                         : lambda n: n,
-    ( 'rankine',               'degrees_newton' )                  : lambda n: n,
-    ( 'rankine',               'delisle' )                         : lambda n: n,
-    ( 'rankine',               'fahrenheit' )                      : lambda n: fsub( n, 459.67 ),
-    ( 'rankine',               'gas_mark' )                        : lambda n: n,
-   # ( 'rankine',               'kelvin' )                          : lambda n: n,
-    ( 'rankine',               'reaumur' )                         : lambda n: n,
-
-    ( 'reaumur',               'celsius' )                         : lambda n: n,
-    ( 'reaumur',               'degrees_newton' )                  : lambda n: n,
-    ( 'reaumur',               'delisle' )                         : lambda n: n,
-    ( 'reaumur',               'fahrenheit' )                      : lambda n: n,
-    ( 'reaumur',               'gas_mark' )                        : lambda n: n,
-    ( 'reaumur',               'kelvin' )                          : lambda n: n,
-    ( 'reaumur',               'rankine' )                         : lambda n: n,
-}
-
-    'delisle' :
-        UnitInfo( 'temperature', 'delisle', 'degrees delisle', '', [ ] ),                   # K = 373.15 - 2/3 De
-
-    'fahrenheit' :
-        UnitInfo( 'temperature', 'fahrenheit', 'degrees fahrenheit', '', [ 'fahr' ] ),      # K = F + 459.67 * 5/9
-
-    'gas_mark' :
-        UnitInfo( 'temperature', 'gas_mark', 'degrees gas_mark', 'GM', [ 'regulo', 'regulo_gas_mark' ] ),   # K = N * 100/33 + 273.15
-
-    'degrees_newton' :
-        UnitInfo( 'temperature', 'degrees_newton', 'degrees newton', '', [ ] ),             # K = R * 5/9
-
-    'rankine' :
-        UnitInfo( 'temperature', 'rankine', 'degrees rankine', '', [ ] ),                   # K = ( Ro - 7.5 ) * 40/21 + 273.15
-
-    'reaumur' :
-        UnitInfo( 'temperature', 'reaumur', 'degrees reaumur', '', [ ] ),                   # K = GM * 125/9 + 422.038
 
 
 

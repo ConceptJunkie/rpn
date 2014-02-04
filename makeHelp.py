@@ -12,8 +12,8 @@
 #//
 #//******************************************************************************
 
-import contextlib
 import bz2
+import contextlib
 import pickle
 import os
 
@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.7.9'
+PROGRAM_VERSION = '5.8.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -408,61 +408,61 @@ Bitwise operators force all arguments to integers by truncation if necessary.
 #//******************************************************************************
 
 operatorHelp = {
-    '['         : [
+    '[' : [
 'modifiers', 'begins a list',
 '''
 ''',
 '''
 ''' ],
-    ']'         : [
+    ']' : [
 'modifiers', 'ends a list',
 '''
 ''',
 '''
 ''' ],
-    'abs'           : [
+    'abs' : [
 'arithmetic', 'calculates the absolute value of n',
 '''
 ''',
 '''
 ''' ],
-    'acos'          : [
+    'acos' : [
 'trigonometry', 'calculates the arccosine of n',
 '''
 ''',
 '''
 ''' ],
-    'acosh'         : [
+    'acosh' : [
 'trigonometry', 'calculates the hyperbolic arccosine of n',
 '''
 ''',
 '''
 ''' ],
-    'acot'          : [
+    'acot' : [
 'trigonometry', 'calcuates the arccotangent of n',
 '''
 ''',
 '''
 ''' ],
-    'acoth'         : [
+    'acoth' : [
 'trigonometry', 'calculates the hyperbolic arccotangent of n',
 '''
 ''',
 '''
 ''' ],
-    'acsc'          : [
+    'acsc' : [
 'trigonometry', 'calculates the arccosecant of n',
 '''
 ''',
 '''
 ''' ],
-    'acsch'         : [
+    'acsch' : [
 'trigonometry', 'calculates the hyperbolic arccosecant of n',
 '''
 ''',
 '''
 ''' ],
-    'add'           : [
+    'add' : [
 'arithmetic', 'adds n to k',
 '''
 This operator adds two terms together.
@@ -479,43 +479,43 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 10 10 10 ] add
 
 c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 [ 11, 12, 13 ]''' ],
-    'altfac'        : [
+    'altfac' : [
 'number_theory', 'calculates the alternating factorial of n',
 '''
 ''',
 '''
 ''' ],
-    'altsign'       : [
+    'altsign' : [
 'list_operators', 'alternates signs in the list by making every even element negative',
 '''
 ''',
 '''
 ''' ],
-    'altsign2'      : [
+    'altsign2' : [
 'list_operators', 'alternates signs in the list by making every odd element negative',
 '''
 ''',
 '''
 ''' ],
-    'altsum'        : [
+    'altsum' : [
 'arithmetic', 'calculates the alternating sum of list n (addition first)',
 '''
 ''',
 '''
 ''' ],
-    'altsum2'       : [
+    'altsum2' : [
 'arithmetic', 'calaculates the alternating sum of list n (subtraction first)',
 '''
 ''',
 '''
 ''' ],
-    'and'           : [
+    'and' : [
 'logical', 'calculates the bitwise \'and\' of n and k',
 '''
 ''',
 '''
 ''' ],
-    'apery'         : [
+    'apery' : [
 'constants', 'returns Apery\'s constant',
 '''
 Apery's constant is the sum of the infinite series of the reciprocals of cubes
@@ -523,127 +523,127 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
 ''' ],
-    'aperynum'      : [
+    'aperynum' : [
 'combinatorics', 'calculates the nth Apery number',
 '''
 ''',
 '''
 ''' ],
-    'append'        : [
+    'append' : [
 'list_operators', 'appends the second list on to the first list',
 '''
 ''',
 '''
 ''' ],
-    'asec'          : [
+    'asec' : [
 'trigonometry', 'calculates the arcsecant of n',
 '''
 ''',
 '''
 ''' ],
-    'asech'         : [
+    'asech' : [
 'trigonometry', 'calculates the hyperbolic arcsecant of n',
 '''
 ''',
 '''
 ''' ],
-    'asin'          : [
+    'asin' : [
 'trigonometry', 'calculates the arcsine of n',
 '''
 ''',
 '''
 ''' ],
-    'asinh'         : [
+    'asinh' : [
 'trigonometry', 'calculates the hyperbolic arcsine of n',
 '''
 ''',
 '''
 ''' ],
-    'atan'          : [
+    'atan' : [
 'trigonometry', 'calculates the arctangent of n',
 '''
 ''',
 '''
 ''' ],
-    'atanh'         : [
+    'atanh' : [
 'trigonometry', 'calculates the hyperbolic arctangent of n',
 '''
 ''',
 '''
 ''' ],
-    'balanced'      : [
+    'balanced' : [
 'prime_numbers', 'calculate the first of the nth set of balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'balanced_'     : [
+    'balanced_' : [
 'prime_numbers', 'calculate the nth set of balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'base'          : [
+    'base' : [
 'number_theory', 'interpret list elements as base k digits',
 '''
 ''',
 '''
 ''' ],
-    'bell'          : [
+    'bell' : [
 'combinatorics', 'calculate the nth Bell number',
 '''
 ''',
 '''
 ''' ],
-    'bellpoly'      : [
+    'bellpoly' : [
 'algebra', 'evaluates the nth Bell polynomial with k',
 '''
 ''',
 '''
 ''' ],
-    'bernoulli'     : [
+    'bernoulli' : [
 'combinatorics', 'calculate the nth Bernoulli number',
 '''
 ''',
 '''
 ''' ],
-    'binomial'      : [
+    'binomial' : [
 'combinatorics', 'calculates the binomial coefficient of n and k',
 '''
 ''',
 '''
 ''' ],
-    'catalan'       : [
+    'catalan' : [
 'combinatorics', 'calculates nth Catalan number',
 '''
 ''',
 '''
 ''' ],
-    'carol'         : [
+    'carol' : [
 'number_theory', 'gets the nth Carol number',
 '''
 ''',
 '''
 ''' ],
-    'catalans'      : [
+    'catalans' : [
 'constants', 'returns Catalan\'s constant',
 '''
 ''',
 '''
 ''' ],
-    'centeredcube'  : [
+    'centeredcube' : [
 'polyhedral_numbers', 'calculates the nth centered cube number',
 '''
 ''',
 '''
 ''' ],
-    'cdecagonal'    : [
+    'cdecagonal' : [
 'polygonal_numbers', 'calculates the nth centered decagonal number',
 '''
 ''',
 '''
 ''' ],
-    'cdecagonal?'   : [
+    'cdecagonal?' : [
 'polygonal_numbers', 'finds the index of the centered decagonal number of value n',
 '''
 'cdecagonal?' solves for the index of the equation used by 'cdecagonal' to
@@ -655,37 +655,37 @@ number.
 ''',
 '''
 ''' ],
-    'ceiling'       : [
+    'ceiling' : [
 'arithmetic', 'returns the next highest integer for n',
 '''
 ''',
 '''
 ''' ],
-    'cf'            : [
+    'cf' : [
 'number_theory', 'interprets list n as a continued fraction',
 '''
 ''',
 '''
 ''' ],
-    'champernowne'  : [
+    'champernowne' : [
 'constants', 'returns the Champernowne constant',
 '''
 ''',
 '''
 ''' ],
-    'char'          : [
+    'char' : [
 'conversion', 'converts the value to a signed 8-bit integer',
 '''
 ''',
 '''
 ''' ],
-    'cheptagonal'   : [
+    'cheptagonal' : [
 'polygonal_numbers', 'calculates the nth centered heptagonal number',
 '''
 ''',
 '''
 ''' ],
-    'cheptagonal?'  : [
+    'cheptagonal?' : [
 'polygonal_numbers', 'finds the index of the centered heptagonal number of value n',
 '''
 'cheptagonal?' solves for the index of the equation used by 'cheptagonal' to
@@ -697,13 +697,13 @@ number.
 ''',
 '''
 ''' ],
-    'chexagonal'    : [
+    'chexagonal' : [
 'polygonal_numbers', 'calculates the nth centered hexagonal number',
 '''
 ''',
 '''
 ''' ],
-    'chexagonal?'   : [
+    'chexagonal?' : [
 'polygonal_numbers', 'finds the index of the centered hexagonal number of value n',
 '''
 'chexagonal?' solves for the index of the equation used by 'chexagonal' to
@@ -715,13 +715,13 @@ number.
 ''',
 '''
 ''' ],
-    'cnonagonal'    : [
+    'cnonagonal' : [
 'polygonal_numbers', 'calculates the nth centered nonagonal number',
 '''
 ''',
 '''
 ''' ],
-    'cnonagonal?'   : [
+    'cnonagonal?' : [
 'polygonal_numbers', 'finds the index of the centered nonagonal number of value n',
 '''
 'cnonagonal?' solves for the index of the equation used by 'cnonagonal' to
@@ -733,13 +733,13 @@ number.
 ''',
 '''
 ''' ],
-    'coctagonal'    : [
+    'coctagonal' : [
 'polygonal_numbers', 'calculates the nth centered octagonal number',
 '''
 ''',
 '''
 ''' ],
-    'coctagonal?'   : [
+    'coctagonal?' : [
 'polygonal_numbers', 'finds the index of the centered octgonal number of value n',
 '''
 'coctagonal?' solves for the index of the equation used by 'coctagonal' to
@@ -751,7 +751,7 @@ number.
 ''',
 '''
 ''' ],
-    'convert'       : [
+    'convert' : [
 'conversion', 'perform unit conversion',
 '''
 This is a special operator that doesn't require an operand.  If there is no
@@ -759,49 +759,49 @@ numerical value, then rpn will assume a value of 1.
 ''',
 '''
 ''' ],
-    'copeland'      : [
+    'copeland' : [
 'constants', 'returns the Copeland Erdos constant',
 '''
 ''',
 '''
 ''' ],
-    'cos'           : [
+    'cos' : [
 'trigonometry', 'calculates the cosine of n',
 '''
 ''',
 '''
 ''' ],
-    'cosh'          : [
+    'cosh' : [
 'trigonometry', 'calculates the hyperbolic cosine of n',
 '''
 ''',
 '''
 ''' ],
-    'cot'           : [
+    'cot' : [
 'trigonometry', 'calculates the cotangent of n',
 '''
 ''',
 '''
 ''' ],
-    'coth'          : [
+    'coth' : [
 'trigonometry', 'calculates the hyperbolic cotangent of n',
 '''
 ''',
 '''
 ''' ],
-    'count'         : [
+    'count' : [
 'list_operators', 'counts the elements of list n',
 '''
 ''',
 '''
 ''' ],
-    'countbits'     : [
+    'countbits' : [
 'logical', 'returns the number of set bits in the value of n',
 '''
 ''',
 '''
 ''' ],
-    'countdiv'      : [
+    'countdiv' : [
 'number_theory', 'returns a count of the divisors of n',
 '''
 The divcount operator factors the argument and then calculates number of divisors
@@ -816,19 +816,19 @@ c:\>rpn 98280 divcount
 c:\>rpn 1 20 range divcount
 [ 1, 2, 2, 3, 2, 4, 2, 4, 3, 4, 2, 6, 2, 4, 4, 5, 2, 6, 2, 6 ]
 ''' ],
-    'cousinprime'   : [
+    'cousinprime' : [
 'prime_numbers', 'returns the nth cousin prime',
 '''
 ''',
 '''
 ''' ],
-    'cpentagonal'   : [
+    'cpentagonal' : [
 'polygonal_numbers', 'calculates the nth centered pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'cpentagonal?'  : [
+    'cpentagonal?' : [
 'polygonal_numbers', 'finds the index of the centered pentagonal number of value n',
 '''
 'cpentagonal?' solves for the index of the equation used by 'cpentagonal' to
@@ -840,13 +840,13 @@ number.
 ''',
 '''
 ''' ],
-    'cpolygonal'    : [
+    'cpolygonal' : [
 'polygonal_numbers', 'calculates the nth centered k-gonal number',
 '''
 ''',
 '''
 ''' ],
-    'cpolygonal?'   : [
+    'cpolygonal?' : [
 'polygonal_numbers', 'finds the index of the centered polygonal number of value n',
 '''
 'cpolygonal?' solves for the index of the equation used by 'cpolygonal' to
@@ -858,25 +858,25 @@ number.
 ''',
 '''
 ''' ],
-    'csc'           : [
+    'csc' : [
 'trigonometry', 'calculates the cosecant of n',
 '''
 ''',
 '''
 ''' ],
-    'csch'          : [
+    'csch' : [
 'trigonometry', 'calculates hyperbolic cosecant of n',
 '''
 ''',
 '''
 ''' ],
-    'csquare'       : [
+    'csquare' : [
 'polygonal_numbers', 'calculates the nth centered square number',
 '''
 ''',
 '''
 ''' ],
-    'csquare?'       : [
+    'csquare?' : [
 'polygonal_numbers', 'finds the index of the centered square number of value n',
 '''
 'csquare?' solves for the index of the equation used by 'csquare' to get the
@@ -886,13 +886,13 @@ If n is not a centered square number, the result will not be a whole number.
 ''',
 '''
 ''' ],
-    'ctriangular'   : [
+    'ctriangular' : [
 'polygonal_numbers', 'calculates the nth centered triangular number',
 '''
 ''',
 '''
 ''' ],
-    'ctriangular?'   : [
+    'ctriangular?' : [
 'polygonal_numbers', 'finds the index of the centered triangular number of value n',
 '''
 'ctriangular?' solves for the index of the equation used by 'ctriangular' to
@@ -904,128 +904,128 @@ number.
 ''',
 '''
 ''' ],
-    'cube'          : [
+    'cube' : [
 'powers_and_roots', 'calculates the cube of n',
 '''
 'cube' simply returns the value of n to the third power.
 ''',
 '''
 ''' ],
-    'decagonal'     : [
+    'decagonal' : [
 'polygonal_numbers', 'calculates the nth decagonal number',
 '''
 ''',
 '''
 ''' ],
-    'decagonal?'    : [
+    'decagonal?' : [
 'polygonal_numbers', 'finds the index of the decagonal number of value n',
 '''
 ''',
 '''
 ''' ],
-    'degrees'       : [
+    'degrees' : [
 'trigonometry', 'interprets n as degrees and converts to radians',
 '''
 ''',
 '''
 ''' ],
-    'delannoy'      : [
+    'delannoy' : [
 'combinatorics', 'calculates the nth Delannoy number',
 '''
 ''',
 '''
 ''' ],
-    'diffs'         : [
+    'diffs' : [
 'list_operators', 'returns a list with the differences between successive elements of list n',
 '''
 ''',
 '''
 ''' ],
-    'divide'        : [
+    'divide' : [
 'arithmetic', 'divides n by k',
 '''
 ''',
 '''
 ''' ],
-    'divisors'      : [
+    'divisors' : [
 'number_theory', 'returns a list of divisors of n',
 '''
 ''',
 '''
 ''' ],
-    'dodecahedral'  : [
+    'dodecahedral' : [
 'polyhedral_numbers', 'returns the nth dodecahedral number',
 '''
 ''',
 '''
 ''' ],
-    'double'        : [
+    'double' : [
 'conversion', 'convert n to the representation of a 64-bit IEEE 754 float',
 '''
 ''',
 '''
 ''' ],
-    'doublebal'     : [
+    'doublebal' : [
 'prime_numbers', 'returns the nth set of double balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'doublebal_'    : [
+    'doublebal_' : [
 'prime_numbers', 'returns the nth set of double balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'doublefac'     : [
+    'doublefac' : [
 'number_theory', 'calculates the double factorial of n',
 '''
 ''',
 '''
 ''' ],
-    'dup'       : [
+    'dup' : [
 'modifiers', 'duplicates a argument n k times',
 '''
 ''',
 '''
 ''' ],
-    'e'             : [
+    'e' : [
 'constants', 'returns e (Euler\'s number)',
 '''
 ''',
 '''
 ''' ],
-    'egypt'         : [
+    'egypt' : [
 'number_theory', 'calculates the greedy Egyption fractions for n/k',
 '''
 ''',
 '''
 ''' ],
-    'element'       : [
+    'element' : [
 'list_operators', 'return a single element from a list',
 '''
 ''',
 '''
 ''' ],
-    'euler'         : [
+    'euler' : [
 'constants', 'returns the Euler-Mascheroni constant',
 '''
 ''',
 '''
 ''' ],
-    'exp'           : [
+    'exp' : [
 'powers_and_roots', 'calculates the nth power of e',
 '''
 ''',
 '''
 ''' ],
-    'exp10'         : [
+    'exp10' : [
 'powers_and_roots', 'calculates nth power of 10',
 '''
 ''',
 '''
 ''' ],
-    'expphi'        : [
+    'expphi' : [
 'powers_and_roots', 'calculates the nth power of phi',
 '''
 expphi simply takes phi (the Golden Ratio) to the power of the argument n.
@@ -1039,464 +1039,584 @@ c:\>rpn 2 expphi
 c:\>rpn 3 expphi 2 expphi -
 1.61803398875
 ''' ],
-    'factor'        : [
+    'factor' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
 ''',
 '''
 ''' ],
-    'factorial'     : [
+    'factorial' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
 'factorial' calculates the product of all whole numbers from 1 to n.
 ''',
 '''
 ''' ],
-    'fibonacci'     : [
+    'fibonacci' : [
 'number_theory', 'calculates the nth Fibonacci number',
 '''
 ''',
 '''
 ''' ],
-    'flatten'   : [
+    'flatten' : [
 'list_operators', 'flattens a nested lists in list n to a single level',
 '''
 ''',
 '''
 ''' ],
-    'float'         : [
+    'float' : [
 'conversion', 'convert n to the representation of a 32-bit IEEE 754 float',
 '''
 ''',
 '''
 ''' ],
-    'floor'         : [
+    'floor' : [
 'arithmetic', 'calculates the next lowest integer for n',
 '''
 ''',
 '''
 ''' ],
-    'fraction'      : [
+    'fraction' : [
 'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
 '''
 ''',
 '''
 ''' ],
-    'fromunixtime'  : [
+    'fromunixtime' : [
 'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
 '''
 ''',
 '''
 ''' ],
-    'gamma'         : [
+    'gamma' : [
 'number_theory', 'calculates the gamma function for n',
 '''
 ''',
 '''
 ''' ],
-    'gcd'           : [
+    'gcd' : [
 'arithmetic', 'calculates the greatest common denominator of elements in list n',
 '''
 ''',
 '''
 ''' ],
-    'georange'      : [
+    'georange' : [
 'list_operators', 'generates a list of geometric progression of numbers',
 '''
 ''',
 '''
 ''' ],
-    'glaisher'      : [
+    'glaisher' : [
 'constants', 'returns Glaisher\'s constant',
 '''
 ''',
 '''
 ''' ],
-    'harmonic'      : [
+    'harmonic' : [
 'number_theory', 'returns the sum of the first n terms of the harmonic series',
 '''
 ''',
 '''
 ''' ],
-    'heptagonal'    : [
+    'heptagonal' : [
 'polygonal_numbers', 'calculates the nth heptagonal number',
 '''
 ''',
 '''
 ''' ],
-    'heptagonal?'   : [
+    'heptagonal?' : [
 'polygonal_numbers', 'finds the index of the heptagonal number of value n',
 '''
 ''',
 '''
 ''' ],
-    'heptanacci'    : [
+    'heptanacci' : [
 'polygonal_numbers', 'calculates the nth Heptanacci number',
 '''
 ''',
 '''
 ''' ],
-    'hepthex'       : [
+    'hepthex' : [
 'polygonal_numbers', 'calculates the nth heptagonal hexagonal number',
 '''
 ''',
 '''
 ''' ],
-    'heptpent'      : [
+    'heptpent' : [
 'polygonal_numbers', 'calculates the nth heptagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'heptsquare'    : [
+    'heptsquare' : [
 'polygonal_numbers', 'calculates the nth heptagonal square number',
 '''
 ''',
 '''
 ''' ],
-    'hepttri'       : [
+    'hepttri' : [
 'polygonal_numbers', 'calculates the nth heptagonal triangular number',
 '''
 ''',
 '''
 ''' ],
-    'hexagonal'     : [
+    'hexagonal' : [
 'polygonal_numbers', 'calculates the nth hexagonal number',
 '''
 ''',
 '''
 ''' ],
-    'hexagonal?'    : [
+    'hexagonal?' : [
 'polygonal_numbers', 'finds the index of the hexagonal number of value n',
 '''
 ''',
 '''
 ''' ],
-    'hexanacci'     : [
+    'hexanacci' : [
 'number_theory', 'calculates the nth Hexanacci number',
 '''
 ''',
 '''
 ''' ],
-    'hexpent'       : [
+    'hexpent' : [
 'polygonal_numbers', 'calculates the nth hexagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'hyper4_2'      : [
+    'hyper4_2' : [
 'powers_and_roots', 'calculates the right-associative tetration of n by k',
 '''
 ''',
 '''
 ''' ],
-    'hyperfac'      : [
+    'hyperfac' : [
 'number_theory', 'calculates the hyperfactorial of n',
 '''
 ''',
 '''
 ''' ],
-    'hypot'         : [
+    'hypot' : [
 'trigonometry', 'calculates the hypotenuse of n and k',
 '''
 ''',
 '''
 ''' ],
-    'i'             : [
+    'i' : [
 'complex_math', 'multiplies n by i',
 '''
 ''',
 '''
 ''' ],
-    'icosahedral'   : [
+    'icosahedral' : [
 'polyhedral_numbers', 'returns the nth icosahedral number',
 '''
 ''',
 '''
 ''' ],
-    'integer'       : [
+    'integer' : [
 'conversion', 'convert the value to an signed ik-bit nteger',
 '''
 ''',
 '''
 ''' ],
-    'interleave'    : [
+    'interleave' : [
 'list_operators', 'interleaves lists n and k into a single list',
 '''
 ''',
 '''
 ''' ],
-    'intersection'  : [
+    'intersection' : [
 'list_operators', 'returns the intersection of two lists',
 '''
 ''',
 '''
 ''' ],
-    'isdivisible'   : [
+    'isdivisible' : [
 'arithmetic', 'is n divisible by k?',
 '''
 ''',
 '''
 ''' ],
-    'isolated'      : [
+    'isolated' : [
 'prime_numbers', 'returns the nth isolated prime',
 '''
 ''',
 '''
 ''' ],
-    'isprime'       : [
+    'isprime' : [
 'number_theory', 'is prime?',
 '''
 ''',
 '''
 ''' ],
-    'issquare'      : [
+    'issquare' : [
 'arithmetic', 'is n a perfect square?',
 '''
 ''',
 '''
 ''' ],
-    'itoi'          : [
+    'itoi' : [
 'constants', 'returns i to the i power',
 '''
 ''',
 '''
 ''' ],
-    'jacobsthal'      : [
+    'jacobsthal' : [
 'number_theory', 'returns nth number of the Jacobsthal sequence',
 '''
 ''',
 '''
 ''' ],
-    'khinchin'      : [
+    'khinchin' : [
 'constants', 'returns Khinchin\'s constant',
 '''
 ''',
 '''
 ''' ],
-    'lah'           : [
+    'lah' : [
 'combinatorics', '',
 '''
 ''',
 '''
 ''' ],
-    'lambertw'      : [
+    'lambertw' : [
 'logarithms', '',
 '''
 ''',
 '''
 ''' ],
-    'kynea'         : [
+    'kynea' : [
 'number_theory', 'gets the nth Kynea number',
 '''
 ''',
 '''
 ''' ],
-    'leyland'       : [
+    'leyland' : [
 'number_theory', 'gets the Leyland number for n and k',
 '''
 ''',
 '''
 ''' ],
-    'lgamma'        : [
+    'lgamma' : [
 'number_theory', 'calculates the loggamma function for n',
 '''
 ''',
 '''
 ''' ],
-    'li'            : [
+    'li' : [
 'logarithms', 'calculates the logarithmic interval of n',
 '''
 ''',
 '''
 ''' ],
-    'linearrecur'   : [
+    'linearrecur' : [
 'arithmetic', 'calculates the nth value of a linear recurrence specified by a list of seeds and of factors'
 '''
 ''',
 '''
 ''' ],
-    'ln'            : [
+    'ln' : [
 'logarithms', 'calculates the natural logarithm of n',
 '''
 ''',
 '''
 ''' ],
-    'log10'         : [
+    'log10' : [
 'logarithms', 'calculates the base-10 logarithm of n',
 '''
 ''',
 '''
 ''' ],
-    'log2'          : [
+    'log2' : [
 'logarithms', 'calculates the base-2 logarithm of n',
 '''
 ''',
 '''
 ''' ],
-    'logxy'         : [
+    'logxy' : [
 'logarithms', 'calculates the base-k logarithm of n',
 '''
 ''',
 '''
 ''' ],
-    'long'          : [
+    'long' : [
 'conversion', 'converts the value to a signed 32-bit integer',
 '''
 ''',
 '''
 ''' ],
-    'longlong'      : [
+    'longlong' : [
 'conversion', 'converts the value to a signed 64-bit integer',
 '''
 ''',
 '''
 ''' ],
-    'lucas'         : [
+    'lucas' : [
 'number_theory', 'calculates the nth Lucas number',
 '''
 ''',
 '''
 ''' ],
-    'makecf'        : [
+    'makecf' : [
 'number_theory', 'calculates k terms of the continued fraction representation of n',
 '''
 ''',
 '''
 ''' ],
-    'max'       : [
+    'max' : [
 'arithmetic', 'returns the largest value in list n',
 '''
 ''',
 '''
 ''' ],
-    'maxindex'  : [
+    'maxchar' : [
+'conversion', 'returns the maximum 8-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'maxindex' : [
 'arithmetic', 'returns the index of largest value in list n',
 '''
 ''',
 '''
 ''' ],
-    'mean'      : [
+    'maxlong' : [
+'conversion', 'returns the maximum 32-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'maxlonglong' : [
+'conversion', 'returns the maximum 64-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'maxquadlong' : [
+'conversion', 'returns the maximum 128-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'maxshort' : [
+'conversion', 'returns the maximum 16-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'maxuchar' : [
+'conversion', 'returns the maximum 8-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'maxulong' : [
+'conversion', 'returns the maximum 32-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'maxulonglong' : [
+'conversion', 'returns the maximum 64-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'maxuquadlong' : [
+'conversion', 'returns the maximum 128-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'maxushort' : [
+'conversion', 'returns the maximum 16-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'mean' : [
 'arithmetic', 'calculates the mean of values in list n',
 '''
 ''',
 '''
 ''' ],
-    'mertens'       : [
+    'mertens' : [
 'constants', 'returns Merten\'s constant',
 '''
 ''',
 '''
 ''' ],
-    'min'       : [
+    'min' : [
 'arithmetic', 'returns the smallest value in list n',
 '''
 ''',
 '''
 ''' ],
-    'minindex'  : [
+    'minchar' : [
+'conversion', 'returns the minimum 8-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'minindex' : [
 'arithmetic', 'returns the index of smallest value in list n',
 '''
 ''',
 '''
 ''' ],
-    'modulo'        : [
+    'minlong' : [
+'conversion', 'returns the minimum 32-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'minlonglong' : [
+'conversion', 'returns the minimum 64-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'minquadlong' : [
+'conversion', 'returns the minimum 128-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'minshort' : [
+'conversion', 'returns the minimum 16-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'minuchar' : [
+'conversion', 'returns the minimum 8-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'minulong' : [
+'conversion', 'returns the minimum 32-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'minulonglong' : [
+'conversion', 'returns the minimum 64-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'minuquadlong' : [
+'conversion', 'returns the minimum 128-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'minushort' : [
+'conversion', 'returns the minimum 16-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'modulo' : [
 'arithmetic', 'calculates n modulo k',
 '''
 ''',
 '''
 ''' ],
-    'motzkin'       : [
+    'motzkin' : [
 'combinatorics', 'calculates the nth Motzkin number',
 '''
 ''',
 '''
 ''' ],
-    'multiply'      : [
+    'multiply' : [
 'arithmetic', 'multiplies n by k',
 '''
 ''',
 '''
 ''' ],
-    'narayana'      : [
+    'narayana' : [
 'combinatorics', '',
 '''
 ''',
 '''
 ''' ],
-    'negative'      : [
+    'negative' : [
 'arithmetic', 'calculates the negative of n',
 '''
 ''',
 '''
 ''' ],
-    'nonagonal'     : [
+    'nonagonal' : [
 'polygonal_numbers', 'calculates the nth nonagonal number',
 '''
 ''',
 '''
 ''' ],
-    'nonagonal?'    : [
+    'nonagonal?' : [
 'polygonal_numbers', 'finds the index of the nonagonal number of value n',
 '''
 ''',
 '''
 ''' ],
-    'nonahept'      : [
+    'nonahept' : [
 'polygonal_numbers', 'calculates the nth nonagonal heptagonal number',
 '''
 'nonahex' calculates the nth number that is both nonagonal and heptagonal.
 ''',
 '''
 ''' ],
-    'nonahex'       : [
+    'nonahex' : [
 'polygonal_numbers', 'calculates the nth nonagonal hexagonal number',
 '''
 'nonahex' calculates the nth number that is both nonagonal and hexagonal.
 ''',
 '''
 ''' ],
-    'nonaoct'       : [
+    'nonaoct' : [
 'polygonal_numbers', 'calculates the nth nonagonal octagonal number',
 '''
 'nonahex' calculates the nth number that is both nonagonal and octagonal.
 ''',
 '''
 ''' ],
-    'nonapent'      : [
+    'nonapent' : [
 'polygonal_numbers', 'calculates the nth nonagonal pentagonal number',
 '''
 'nonahex' calculates the nth number that is both nonagonal and pentgonal.
 ''',
 '''
 ''' ],
-    'nonasquare'    : [
+    'nonasquare' : [
 'polygonal_numbers', 'calculates the nth nonagonal square number',
 '''
 'nonasquare' calculates the nth number that is both nonagonal and square.
 ''',
 '''
 ''' ],
-    'nonatri'       : [
+    'nonatri' : [
 'polygonal_numbers', 'calculates the nth nonagonal triangular number',
 '''
 'nonatri' calculates the nth number that is both nonagonal and triangular.
 ''',
 '''
 ''' ],
-    'nonzero'   : [
+    'nonzero' : [
 'list_operators', 'returns the indices of elements of list n that are not zero',
 '''
 ''',
 '''
 ''' ],
-    'not'           : [
+    'not' : [
 'logical', 'calculates the bitwise negation of n',
 '''
 ''',
 '''
 ''' ],
-    'nspherearea'   : [
+    'nspherearea' : [
 'trigonometry', 'calculate the surface area of an n-sphere of size k (radius or volume)',
 '''
 ''',
@@ -1514,271 +1634,271 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'nthprime?'     : [
+    'nthprime?' : [
 'prime_numbers', 'finds the index of the closest prime over n',
 '''
 ''',
 '''
 ''' ],
-    'nthquad?'      : [
+    'nthquad?' : [
 'prime_numbers', 'finds the index of the first of the closest quadruplet prime set over n',
 '''
 ''',
 '''
 ''' ],
-    'octagonal'     : [
+    'octagonal' : [
 'polygonal_numbers', 'calculates the nth octagonal number',
 '''
 ''',
 '''
 ''' ],
-    'octagonal?'    : [
+    'octagonal?' : [
 'polygonal_numbers', 'finds the index of the octagonal number of value n',
 '''
 ''',
 '''
 ''' ],
-    'octahedral'    : [
+    'octahedral' : [
 'polyhedral_numbers', 'calculates the nth octahedral number',
 '''
 ''',
 '''
 ''' ],
-    'octhept'       : [
+    'octhept' : [
 'polygonal_numbers', 'nth octagonal heptagonal number',
 '''
 ''',
 '''
 ''' ],
-    'octhex'        : [
+    'octhex' : [
 'polygonal_numbers', 'calculates the nth octagonal hexagonal number',
 '''
 ''',
 '''
 ''' ],
-    'octpent'       : [
+    'octpent' : [
 'polygonal_numbers', 'calculates the nth octagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'octsquare'     : [
+    'octsquare' : [
 'polygonal_numbers', 'calculates the nth octagonal square number',
 '''
 ''',
 '''
 ''' ],
-    'octtri'        : [
+    'octtri' : [
 'polygonal_numbers', 'calculates the nth octagonal triangular number',
 '''
 ''',
 '''
 ''' ],
-    'oeis'          : [
+    'oeis' : [
 'special', 'downloads the OEIS integer series n',
 '''
 ''',
 '''
 ''' ],
-    'oeiscomment'   : [
+    'oeiscomment' : [
 'special', 'downloads the comment field for the OEIS integer series n',
 '''
 ''',
 '''
 ''' ],
-    'oeisex'        : [
+    'oeisex' : [
 'special', 'downloads the comment field for the OEIS integer series n',
 '''
 ''',
 '''
 ''' ],
-    'oeisname'      : [
+    'oeisname' : [
 'special', 'downloads the name of the OEIS integer series n',
 '''
 ''',
 '''
 ''' ],
-    'omega'         : [
+    'omega' : [
 'constants', 'return the Omega constant',
 '''
 ''',
 '''
 ''' ],
-    'or'            : [
+    'or' : [
 'logical', 'calculates the bitwise \'or\' of n and k',
 '''
 ''',
 '''
 ''' ],
-    'padovan'       : [
+    'padovan' : [
 'number_theory', 'calculates the the nth Padovan number',
 '''
 ''',
 '''
 ''' ],
-    'parity'        : [
+    'parity' : [
 'logical', 'returns the bit parity of n (0 == even, 1 == odd)',
 '''
 ''',
 '''
 ''' ],
-    'pascal'        : [
+    'pascal' : [
 'number_theory', 'calculates the nth line of Pascal\'s triangle',
 '''
 ''',
 '''
 ''' ],
-    'pell'          : [
+    'pell' : [
 'combinatorics', 'calculates the nth Pell number',
 '''
 ''',
 '''
 ''' ],
-    'pentagonal'    : [
+    'pentagonal' : [
 'polygonal_numbers', 'calculates the nth pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'pentagonal?'   : [
+    'pentagonal?' : [
 'polygonal_numbers', 'finds the index of the pentagonal number of value n',
 '''
 ''',
 '''
 ''' ],
-    'pentanacci'    : [
+    'pentanacci' : [
 'number_theory', 'calculates the nth Pentanacci number',
 '''
 ''',
 '''
 ''' ],
-    'pentatope'     : [
+    'pentatope' : [
 'polyhedral_numbers', 'calculates the nth pentatope number',
 '''
 ''',
 '''
 ''' ],
-    'perm'          : [
+    'perm' : [
 'combinatorics', 'calculates the number of permutations of k out of n objects',
 '''
 ''',
 '''
 ''' ],
-    'phi'           : [
+    'phi' : [
 'constants', 'returns phi (the Golden Ratio)',
 '''
 ''',
 '''
 ''' ],
-    'pi'            : [
+    'pi' : [
 'constants', 'returns pi (Archimedes\' constant)',
 '''
 ''',
 '''
 ''' ],
-    'plastic'       : [
+    'plastic' : [
 'constants', 'returns the Plastic constant',
 '''
 ''',
 '''
 ''' ],
-    'polyadd'   : [
+    'polyadd' : [
 'algebra', 'interpret two lists as polynomials and add them',
 '''
 ''',
 '''
 ''' ],
-    'polyarea'   : [
+    'polyarea' : [
 'trigonometry', 'calculates the area of an regular n-sided polygon with sides of unit length',
 '''
 ''',
 '''
 ''' ],
-    'polygamma'     : [
+    'polygamma' : [
 'number_theory', 'calculates the polygamma function for n',
 '''
 ''',
 '''
 ''' ],
-    'polygonal'     : [
+    'polygonal' : [
 'number_theory', 'calculates the nth polygonal number with k sides',
 '''
 ''',
 '''
 ''' ],
-    'polygonal?'     : [
+    'polygonal?' : [
 'number_theory', 'finds the index of the polygonal number with k sides of value n',
 '''
 ''',
 '''
 ''' ],
-    'polylog'       : [
+    'polylog' : [
 'logarithms', 'calculates the polylogarithm of n, k',
 '''
 ''',
 '''
 ''' ],
-    'polymul'   : [
+    'polymul' : [
 'algebra', 'interpret two lists as polynomials and multiply them',
 '''
 ''',
 '''
 ''' ],
-    'polyprime'     : [
+    'polyprime' : [
 'prime_numbers', 'returns the nth prime, recursively k times',
 '''
 ''',
 '''
 ''' ],
-    'polyprod'  : [
+    'polyprod' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their product',
 '''
 ''',
 '''
 ''' ],
-    'polysum'   : [
+    'polysum' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their sum',
 '''
 ''',
 '''
 ''' ],
-    'polytope'      : [
+    'polytope' : [
 'polyhedral_numbers', 'calculates nth polytope number of dimension k',
 '''
 ''',
 '''
 ''' ],
-    'polyval'   : [
+    'polyval' : [
 'algebra', 'interpret the list as a polynomial and evaluate it for value k',
 '''
 ''',
 '''
 ''' ],
-    'power'         : [
+    'power' : [
 'powers_and_roots', 'calculates the kth power of n',
 '''
 ''',
 '''
 ''' ],
-    'product'   : [
+    'product' : [
 'arithmetic', 'calculates the product of values in list n',
 '''
 ''',
 '''
 ''' ],
-    'prime'         : [
+    'prime' : [
 'prime_numbers', 'returns the nth prime',
 '''
 ''',
 '''
 ''' ],
-    'primepi'       : [
+    'primepi' : [
 'prime_numbers', 'estimates the count of prime numbers up to and including n',
 '''
 ''',
 '''
 ''' ],
-    'primes'        : [
+    'primes' : [
 'prime_numbers', 'generates a range of primes from index n to index k',
 '''
 This function is identical to 'n k range prime', but is much more efficient
@@ -1786,267 +1906,267 @@ given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
-    'prime?'        : [
+    'prime?' : [
 'prime_numbers', 'find the index of the closest prime at n or above',
 '''
 ''',
 '''
 ''' ],
-    'primorial'     : [
+    'primorial' : [
 'prime_numbers', 'calculates the nth primorial',
 '''
 ''',
 '''
 ''' ],
-    'pyramid'       : [
+    'pyramid' : [
 'polyhedral_numbers', 'calculates the nth square pyramidal number',
 '''
 ''',
 '''
 ''' ],
-    'quadprime?'    : [
+    'quadprime?' : [
 'prime_numbers', 'find the closest set of quadruplet primes above n',
 '''
 ''',
 '''
 ''' ],
-    'quadprime'     : [
+    'quadprime' : [
 'prime_numbers', 'returns the first of the nth set of quadruplet primes',
 '''
 ''',
 '''
 ''' ],
-    'quadprime_'    : [
+    'quadprime_' : [
 'prime_numbers', 'returns the nth set of quadruplet primes',
 '''
 ''',
 '''
 ''' ],
-    'quintprime'    : [
+    'quintprime' : [
 'prime_numbers', 'returns the first of the nth set of quintruplet primes',
 '''
 ''',
 '''
 ''' ],
-    'quintprime_'   : [
+    'quintprime_' : [
 'prime_numbers', 'returns the nth set of quintruplet primes',
 '''
 ''',
 '''
 ''' ],
-    'radians'       : [
+    'radians' : [
 'trigonometry', 'interprets n as radians and converts to degrees',
 '''
 ''',
 '''
 ''' ],
-    'random'        : [
+    'random' : [
 'special', 'returns a random value from 0 to 1',
 '''
 ''',
 '''
 ''' ],
-    'range'         : [
+    'range' : [
 'list_operators', 'generates a list of successive integers from n to k',
 '''
 ''',
 '''
 ''' ],
-    'range2'        : [
+    'range2' : [
 'list_operators', 'generates a list of arithmetic progression of numbers',
 '''
 ''',
 '''
 ''' ],
-    'reciprocal'    : [
+    'reciprocal' : [
 'arithmetic', 'returns the reciprocal of n',
 '''
 ''',
 '''
 ''' ],
-    'repunit'       : [
+    'repunit' : [
 'algebra', 'returns the nth repunit in base k',
 '''
 ''',
 '''
 ''' ],
-    'result'        : [
+    'result' : [
 'special', 'load previous result',
 '''
 ''',
 '''
 ''' ],
-    'rhombdodec'    : [
+    'rhombdodec' : [
 'polyhedral_numbers', 'calculates the nth rhombic dodecahedral number',
 '''
 ''',
 '''
 ''' ],
-    'riesel'        : [
+    'riesel' : [
 'number_theory', 'calculates the nth Riesel (or Woodall) number',
 '''
 ''',
 '''
 ''' ],
-    'root'          : [
+    'root' : [
 'powers_and_roots', 'calculates the kth root of n',
 '''
 ''',
 '''
 ''' ],
-    'root2'         : [
+    'root2' : [
 'powers_and_roots', 'calculates the square root of n',
 '''
 This operator is the equivalent of 'n 2 root'.
 ''',
 '''
 ''' ],
-    'root3'         : [
+    'root3' : [
 'powers_and_roots', 'calculates the cube root of n',
 '''
 This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
-    'round'         : [
+    'round' : [
 'arithmetic', 'rounds n to the nearest integer',
 '''
 ''',
 '''
 ''' ],
-    'safeprime'     : [
+    'safeprime' : [
 'prime_numbers', 'returns the nth safe prime',
 '''
 ''',
 '''
 ''' ],
-    'schroeder'     : [
+    'schroeder' : [
 'combinatorics', 'calculates the nth Schroeder number',
 '''
 ''',
 '''
 ''' ],
-    'sec'           : [
+    'sec' : [
 'trigonometry', 'calculates the secant of n',
 '''
 ''',
 '''
 ''' ],
-    'sech'          : [
+    'sech' : [
 'trigonometry', 'calculates the hyperbolic secant of n',
 '''
 ''',
 '''
 ''' ],
-    'sextprime'     : [
+    'sextprime' : [
 'prime_numbers', 'returns the first of the nth set of sextuplet primes',
 '''
 ''',
 '''
 ''' ],
-    'sextprime_'    : [
+    'sextprime_' : [
 'prime_numbers', 'returns the nth set of sextuplet primes',
 '''
 ''',
 '''
 ''' ],
-    'sexyprime'     : [
+    'sexyprime' : [
 'prime_numbers', 'returns the first of the nth set of sexy primes',
 '''
 ''',
 '''
 ''' ],
-    'sexyprime_'    : [
+    'sexyprime_' : [
 'prime_numbers', 'returns the nth set of sexy primes',
 '''
 ''',
 '''
 ''' ],
-    'sexytriplet'   : [
+    'sexytriplet' : [
 'prime_numbers', 'returns the first of the nth set of sexy triplet primes',
 '''
 ''',
 '''
 ''' ],
-    'sexytriplet_'  : [
+    'sexytriplet_' : [
 'prime_numbers', 'returns the nth set of sexy triplet primes',
 '''
 ''',
 '''
 ''' ],
-    'sexyquad'     : [
+    'sexyquad' : [
 'prime_numbers', 'returns the first of the nth set of sexy quadruplet primes',
 '''
 ''',
 '''
 ''' ],
-    'sexyquad_'     : [
+    'sexyquad_' : [
 'prime_numbers', 'returns the nth set of sexy quadruplet primes',
 '''
 ''',
 '''
 ''' ],
-    'short'         : [
+    'short' : [
 'conversion', 'converts the value to a signed 16-bit integer',
 '''
 ''',
 '''
 ''' ],
-    'sin'           : [
+    'sin' : [
 'trigonometry', 'calculates the sine of n',
 '''
 ''',
 '''
 ''' ],
-    'sinh'          : [
+    'sinh' : [
 'trigonometry', 'calculates the hyperbolic sine of n',
 '''
 ''',
 '''
 ''' ],
-    'shiftleft'     : [
+    'shiftleft' : [
 'logical', 'performs a bitwise left shift of value n by k bits',
 '''
 ''',
 '''
 ''' ],
-    'shiftright'    : [
+    'shiftright' : [
 'logical', 'performs a bitwise right shift of value n by k bits',
 '''
 ''',
 '''
 ''' ],
-    'solve'     : [
+    'solve' : [
 'algebra', 'interprets list n as a polynomial and solves for its roots',
 '''
 ''',
 '''
 ''' ],
-    'solve2'        : [
+    'solve2' : [
 'algebra', 'solves a quadratic equation',
 '''
 ''',
 '''
 ''' ],
-    'solve3'        : [
+    'solve3' : [
 'algebra', 'solves a cubic equation',
 '''
 ''',
 '''
 ''' ],
-    'solve4'        : [
+    'solve4' : [
 'algebra', 'solves a quartic equation',
 '''
 ''',
 '''
 ''' ],
-    'sophieprime'   : [
+    'sophieprime' : [
 'prime_numbers', 'returns the nth Sophie Germain prime',
 '''
 ''',
 '''
 ''' ],
-    'sort'      : [
+    'sort' : [
 'list_operators', 'sort the elements of list n numerically in ascending order',
 '''
 The 'sort' operator gets applied recursively, so all sublists will be sorted as
@@ -2062,7 +2182,7 @@ c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
 c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] flatten sort
 [ -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
-    'sortdesc'  : [
+    'sortdesc' : [
 'list_operators', 'sorts the elements of list n numerically in descending order',
 '''
 The 'sortdesc' operator works exactly like the sort operator, sorting the list
@@ -2075,7 +2195,7 @@ c:\>rpn 1 70 6 range2 sortdesc
 c:\>rpn 1 20 range countdiv sortdesc
 [ 6, 6, 6, 5, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1 ]
 ''' ],
-    'spherearea'   : [
+    'spherearea' : [
 'trigonometry', 'calculate the surface area of an sphere of size n (radius or volume)',
 '''
 ''',
@@ -2093,19 +2213,19 @@ c:\>rpn 1 20 range countdiv sortdesc
 ''',
 '''
 ''' ],
-    'square'        : [
+    'square' : [
 'powers_and_roots', 'calculates the square of n',
 '''
 ''',
 '''
 ''' ],
-    'squaretri'     : [
+    'squaretri' : [
 'polygonal_numbers', 'calculates the nth square triangular number',
 '''
 ''',
 '''
 ''' ],
-    'stddev'    : [
+    'stddev' : [
 'arithmetic', 'calculates the standard deviation of values in list n',
 '''
 ''',
@@ -2113,349 +2233,349 @@ c:\>rpn 1 20 range countdiv sortdesc
 c:\>rpn 1 50 range countdiv stddev
 2.14485430741
 ''' ],
-    'steloct'       : [
+    'steloct' : [
 'polyhedral_numbers', 'calculates the nth stella octangula number',
 '''
 ''',
 '''
 ''' ],
-    'subfac'        : [
+    'subfac' : [
 'number_theory', 'calculates the subfactorial of n',
 '''
 ''',
 '''
 ''' ],
-    'subtract'      : [
+    'subtract' : [
 'arithmetic', 'subtracts k from n',
 '''
 ''',
 '''
 ''' ],
-    'sum'       : [
+    'sum' : [
 'arithmetic', 'calculates the sum of values in list n',
 '''
 ''',
 '''
 ''' ],
-    'superfac'      : [
+    'superfac' : [
 'number_theory', 'calculates the superfactorial of n',
 '''
 ''',
 '''
 ''' ],
-    'superprime'    : [
+    'superprime' : [
 'prime_numbers', 'returns the nth superprime (the nth primeth prime)',
 '''
 ''',
 '''
 ''' ],
-    'sylvester'     : [
+    'sylvester' : [
 'combinatorics', 'calculates the nth Sylvester number',
 '''
 ''',
 '''
 ''' ],
-    'tan'           : [
+    'tan' : [
 'trigonometry', 'calculates the tangent of n',
 '''
 ''',
 '''
 ''' ],
-    'tanh'          : [
+    'tanh' : [
 'trigonometry', 'calculates the hyperbolic tangent of n',
 '''
 ''',
 '''
 ''' ],
-    'tetrate'       : [
+    'tetrate' : [
 'powers_and_roots', 'tetrates n by k',
 '''
 ''',
 '''
 ''' ],
-    'tetrahedral'   : [
+    'tetrahedral' : [
 'polyhedral_numbers', 'calculates the nth tetrahedral number',
 '''
 ''',
 '''
 ''' ],
-    'tetranacci'    : [
+    'tetranacci' : [
 'number_theory', 'calculates the nth Tetranacci number',
 '''
 ''',
 '''
 ''' ],
-    'thabit'        : [
+    'thabit' : [
 'number_theory', 'gets the nth Thabit number',
 '''
 ''',
 '''
 ''' ],
-    'tounixtime'    : [
+    'tounixtime' : [
 'conversion', 'converts from date-time list to Unix time (seconds since epoch)'
 '''
 ''',
 '''
 ''' ],
-    'tower'     : [
+    'tower' : [
 'powers_and_roots', 'calculates list n as a power tower',
 '''
 ''',
 '''
 ''' ],
-    'tower2'    : [
+    'tower2' : [
 'powers_and_roots', 'calculates list n as a right-associative power tower',
 '''
 ''',
 '''
 ''' ],
-    'trianglearea'  : [
+    'trianglearea' : [
 'trigonometry', 'calculates the area of a triangle with sides of length a, b, and c'
 '''
 ''',
 '''
 ''' ],
-    'triangular'    : [
+    'triangular' : [
 'polygonal_numbers', 'calcuates the nth triangular number',
 '''
 ''',
 '''
 ''' ],
-    'triangular?'   : [
+    'triangular?' : [
 'polygonal_numbers', 'finds the index of the triangular number of value n',
 '''
 ''',
 '''
 ''' ],
-    'tribonacci'    : [
+    'tribonacci' : [
 'number_theory', 'calculates the nth Tribonacci number',
 '''
 ''',
 '''
 ''' ],
-    'triplebal'     : [
+    'triplebal' : [
 'prime_numbers', 'returns the first of the nth set of triple balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'triplebal_'    : [
+    'triplebal_' : [
 'prime_numbers', 'returns the nth set of triple balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'tripletprime'  : [
+    'tripletprime' : [
 'prime_numbers', 'returns the first of the nth set of triplet primes',
 '''
 ''',
 '''
 ''' ],
-    'tripletprime'  : [
+    'tripletprime' : [
 'prime_numbers', 'returns the nth set of triplet primes',
 '''
 ''',
 '''
 ''' ],
-    'truncoct'      : [
+    'truncoct' : [
 'polyhedral_numbers', 'calculates the nth truncated octahedral number',
 '''
 ''',
 '''
 ''' ],
-    'trunctet'      : [
+    'trunctet' : [
 'polyhedral_numbers', 'calculates the nth truncated tetrahedral number',
 '''
 ''',
 '''
 ''' ],
-    'twinprime'     : [
+    'twinprime' : [
 'prime_numbers', 'returns the first of the nth set of twin primes',
 '''
 ''',
 '''
 ''' ],
-    'twinprime_'    : [
+    'twinprime_' : [
 'prime_numbers', 'returns the nth set of twin primes',
 '''
 ''',
 '''
 ''' ],
-    'uchar'         : [
+    'uchar' : [
 'conversion', 'converts the value to an unsigned 8-bit integer',
 '''
 ''',
 '''
 ''' ],
-    'uinteger'      : [
+    'uinteger' : [
 'conversion', 'convert the value to an unsigned k-bit integer',
 '''
 ''',
 '''
 ''' ],
-    'ulong'         : [
+    'ulong' : [
 'conversion', 'converts the value to an unsigned 32-bit integer',
 '''
 ''',
 '''
 ''' ],
-    'ulonglong'         : [
+    'ulonglong' : [
 'conversion', 'converts the value to an unsigned 64-bit integer',
 '''
 ''',
 '''
 ''' ],
-    'union'     : [
+    'union' : [
 'list_operators', 'returns the union of two lists',
 '''
 ''',
 '''
 ''' ],
-    'unique'    : [
+    'unique' : [
 'list_operators', 'replaces list n with a list of its unique elements',
 '''
 ''',
 '''
 ''' ],
-    'unitroots'     : [
+    'unitroots' : [
 'number_theory', 'calculates the nth roots of unity',
 '''
 ''',
 '''
 ''' ],
-    'unlist'    : [
+    'unlist' : [
 'modifiers', 'expands list n to individual arguments',
 '''
 ''',
 '''
 ''' ],
-    'unpack'    : [
+    'unpack' : [
 'number_theory', 'unpack an integer value into bit fields',
 '''
 ''',
 '''
 ''' ],
-    'ushort'        : [
+    'ushort' : [
 'conversion', 'converts the value to an unsigned 16-bit integer',
 '''
 ''',
 '''
 ''' ],
-    'xor'           : [
+    'xor' : [
 'logical', 'calculates the bitwise \'xor\' of n and k',
 '''
 ''',
 '''
 ''' ],
-    'zero'          : [
+    'zero' : [
 'list_operators', 'returns a list of the indices of elements in list n that are zero',
 '''
 ''',
 '''
 ''' ],
-    'zeta'          : [
+    'zeta' : [
 'number_theory', 'calculates the zeta function for n',
 '''
 ''',
 '''
 ''' ],
-    '_dumpalias'    : [
+    '_dumpalias' : [
 'internal', 'dumps the list of aliases for operators',
 '''
 ''',
 '''
 ''' ],
-    '_dumpbal'      : [
+    '_dumpbal' : [
 'internal', 'dumps the cached list of balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpcousin'   : [
+    '_dumpcousin' : [
 'internal', 'dumps the cached list of cousin primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpdouble'   : [
+    '_dumpdouble' : [
 'internal', 'dumps the cached list of double balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpiso'      : [
+    '_dumpiso' : [
 'internal', 'dumps the cached list of isolated primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpops'      : [
+    '_dumpops' : [
 'internal', 'lists all rpn operators',
 '''
 ''',
 '''
 ''' ],
-    '_dumpprimes'   : [
+    '_dumpprimes' : [
 'internal', 'dumps the cached list of large primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpquad'     : [
+    '_dumpquad' : [
 'internal', 'dumps the cached list of quadruplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpquint'    : [
+    '_dumpquint' : [
 'internal', 'dumps the cached list of quintuplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpsext'     : [
+    '_dumpsext' : [
 'internal', 'dumps the cached list of sextuplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpsexy'     : [
+    '_dumpsexy' : [
 'internal', 'dumps the cached list of sexy primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpsmall'    : [
+    '_dumpsmall' : [
 'internal', 'dumps the cached list of small primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpsophie'   : [
+    '_dumpsophie' : [
 'internal', 'dumps the cached list of Sophie Germain primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumptriple'   : [
+    '_dumptriple' : [
 'internal', 'dumps the cached list of triple balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumptriplet'  : [
+    '_dumptriplet' : [
 'internal', 'dumps the cached list of triplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumptwin'     : [
+    '_dumptwin' : [
 'internal', 'dumps the cached list of twin primes',
 '''
 ''',
 '''
 ''' ],
-    '_importbal'    : [
+    '_importbal' : [
 'internal', 'imports balanced primes from file n',
 '''
 ''',
@@ -2473,7 +2593,7 @@ c:\>rpn 1 50 range countdiv stddev
 ''',
 '''
 ''' ],
-    '_importiso'    : [
+    '_importiso' : [
 'internal', 'imports isolated primes from file n',
 '''
 ''',
@@ -2485,43 +2605,43 @@ c:\>rpn 1 50 range countdiv stddev
 ''',
 '''
 ''' ],
-    '_importquad'   : [
+    '_importquad' : [
 'internal', 'imports quadruplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importquint'  : [
+    '_importquint' : [
 'internal', 'imports quintuplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsext'   : [
+    '_importsext' : [
 'internal', 'imports sextuplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsexy'   : [
+    '_importsexy' : [
 'internal', 'imports sexy primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsexy3'  : [
+    '_importsexy3' : [
 'internal', 'imports sexy triplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsexy4'  : [
+    '_importsexy4' : [
 'internal', 'imports sexy quadruplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsmall'  : [
+    '_importsmall' : [
 'internal', 'imports small primes from file n',
 '''
 ''',
@@ -2545,135 +2665,135 @@ c:\>rpn 1 50 range countdiv stddev
 ''',
 '''
 ''' ],
-    '_importtwin'   : [
+    '_importtwin' : [
 'internal', 'imports twin primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_dumpops'      : [
+    '_dumpops' : [
 'internal', 'lists all rpn operators',
 '''
 ''',
 '''
 ''' ],
-    '_makebal'      : [
+    '_makebal' : [
 'internal', 'calculates and caches balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_makecousin'   : [
+    '_makecousin' : [
 'internal', 'calculates and caches cousin primes',
 '''
 ''',
 '''
 ''' ],
-    '_makedouble'   : [
+    '_makedouble' : [
 'internal', 'calculates and caches double balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_makeiso'      : [
+    '_makeiso' : [
 'internal', 'calculates and caches isolated primes',
 '''
 ''',
 '''
 ''' ],
-    '_makeprimes'   : [
+    '_makeprimes' : [
 'internal', 'calculates and caches large primes',
 '''
 ''',
 '''
 ''' ],
-    '_makequad'     : [
+    '_makequad' : [
 'internal', 'calculates and caches quaduplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_makequint'    : [
+    '_makequint' : [
 'internal', 'calculates and caches quintuplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesext'     : [
+    '_makesext' : [
 'internal', 'calculates and caches sextuplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesexy'     : [
+    '_makesexy' : [
 'internal', 'calculates and caches sexy primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesexy3'    : [
+    '_makesexy3' : [
 'internal', 'calculates and caches sexy triplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesexy4'    : [
+    '_makesexy4' : [
 'internal', 'calculates and caches sexy quadruplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesmall'    : [
+    '_makesmall' : [
 'internal', 'calculates and caches small primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesophie'   : [
+    '_makesophie' : [
 'internal', 'calculates and caches Sophie Germain primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesuper'    : [
+    '_makesuper' : [
 'internal', 'calculates and caches super primes',
 '''
 ''',
 '''
 ''' ],
-    '_maketriple'   : [
+    '_maketriple' : [
 'internal', 'calculates and caches triple balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_maketriplet'  : [
+    '_maketriplet' : [
 'internal', 'calculates and caches triplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_maketwin'     : [
+    '_maketwin' : [
 'internal', 'calculates and caches twin primes',
 '''
 ''',
 '''
 ''' ],
-    '_stats'        : [
+    '_stats' : [
 'internal', 'dumps rpn statistics',
 '''
 ''',
 '''
 ''' ],
-    '~'             : [
+    '~' : [
 'logical', 'calculates the bitwise negation of n',
 '''
 ''',
 '''
 ''' ],
-#   'antitet'       : [ findTetrahedralNumber, 1 ],
-#   'bernfrac'      : [ bernfrac, 1 ],
-#   'powmod'        : [ getPowMod, 3 ],
+#   'antitet' : [ findTetrahedralNumber, 1 ],
+#   'bernfrac' : [ bernfrac, 1 ],
+#   'powmod' : [ getPowMod, 3 ],
 }
 
 
