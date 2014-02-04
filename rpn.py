@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.10.2'
+PROGRAM_VERSION = '5.10.3'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -6902,9 +6902,11 @@ def main( ):
             unitsVersion = pickle.load( pickleFile )
             basicUnitTypes = pickle.load( pickleFile )
             unitOperators = pickle.load( pickleFile )
-            unitConversionMatrix = pickle.load( pickleFile )
             operatorAliases.update( pickle.load( pickleFile ) )
             compoundUnits = pickle.load( pickleFile )
+
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
+            unitConversionMatrix = pickle.load( pickleFile )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
 

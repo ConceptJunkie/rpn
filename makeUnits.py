@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.10.2'
+PROGRAM_VERSION = '5.10.3'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -333,8 +333,11 @@ unitOperators = {
 
     # energy
 
+    'aa_battery' :
+        UnitInfo( 'energy', 'AA_battery', 'AA_batteries', '', [ 'aa-battery', 'aa-batteries', 'AA-battery', 'AA-batteries' ], [ 'informal' ] ),
+
     'btu' :
-        UnitInfo( 'energy', 'btu', 'btus', '', [ 'BTU', 'BTUs' ], [ 'England', 'US' ] ),
+        UnitInfo( 'energy', 'BTU', 'BTUs', '', [ 'btu', 'btus' ], [ 'England', 'US' ] ),
 
     'calorie' :
         UnitInfo( 'energy', 'calorie', 'calories', 'cal', [ ], [ 'CGS' ] ),
@@ -344,6 +347,15 @@ unitOperators = {
 
     'erg' :
         UnitInfo( 'energy', 'erg', 'ergs', '', [ ], [ 'CGS' ] ),
+
+    'gallon_of_ethanol' :
+        UnitInfo( 'energy', 'gallon_of_ethanol', 'gallons_of_ethanol', '', [ ], [ 'informal' ] ),
+
+    'gallon_of_gasoline' :
+        UnitInfo( 'energy', 'gallon_of_gasoline', 'gallons_of_gasoline', '', [ 'gallon_of_gas', 'gallons_of_gas' ], [ 'informal' ] ),
+
+    'gram-equivalent' :
+        UnitInfo( 'energy', 'gram-equivalent', 'grams-equivalent', 'gE', [ 'gram-energy', 'grams-energy', 'gramme-equivalent', 'grammes-equivalent',  'gramme-energy', 'grammes-energy' ], [ 'natural' ] ),
 
     'hartree' :
         UnitInfo( 'energy', 'hartree', 'hartrees', 'Ha', [ ], [ 'science' ] ),
@@ -1033,8 +1045,11 @@ unitOperators = {
     'knot' :
         UnitInfo( 'velocity', 'knot', 'knots', '', [ ], [ 'nautical' ] ),
 
-    'light' :
-        UnitInfo( 'velocity', 'light', 'x_speed_of_light', 'c', [ 'speed_of_light' ], [ 'natural' ] ),
+    'light' :    # I shouldn't need a whole extra unit for what is really an alias, but this makes life easier
+        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', '', [ ], [ 'natural' ] ),
+
+    'speed_of_light' :
+        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', 'c', [ ], [ 'natural' ] ),
 
     'mach' :
         UnitInfo( 'velocity', 'mach', 'mach', '', [ ], [ 'US' ] ),
@@ -1249,40 +1264,41 @@ unitOperators = {
 #//******************************************************************************
 
 metricUnits = [
-    ( 'ampere',         'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
-    ( 'are',            'ares',             'a',    [ ], [ ] ),
-    ( 'becquerel',      'becquerels',       'Bq',   [ ], [ ] ),
-    ( 'blintz',         'blintzes',         'bl',   [ ], [ ] ),
-    ( 'coulomb',        'coulombs',         'C',    [ ], [ ] ),
-    ( 'calorie',        'calories',         'cal',  [ ], [ ] ),
-    ( 'electronvolt',   'electronvolts',    'eV',   [ ], [ ] ),
-    ( 'farad',          'farad',            'F',    [ ], [ ] ),
-    ( 'gram',           'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
-    ( 'gram-force',     'grams-force',      'gf',   [ 'gramme-force' ], [ 'grammes-force' ] ),
-    ( 'henry',          'henries',          'H',    [ ], [ ] ),
-    ( 'joule',          'joules',           'J',    [ ], [ ] ),
-    ( 'kelvin',         'kelvins',          'K',    [ ], [ ] ),
-    ( 'liter',          'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
-    ( 'light-year',     'light-years',      'ly',   [ ], [ ] ),
-    ( 'lux',            'lux',              'lx',   [ ], [ ] ),
-    ( 'meter',          'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
-    ( 'newton',         'newtons',          'N',    [ ], [ ] ),
-    ( 'ngogn',          'ngogns',           'n',    [ ], [ ] ),
-    ( 'ohm',            'ohms',             'O',    [ ], [ ] ),
-    ( 'parsec',         'parsecs',          'pc',   [ ], [ ] ),
-    ( 'pascal',         'pascals',          'Pa',   [ ], [ ] ),
-    ( 'pond',           'ponds',            'p',    [ ], [ ] ),
-    ( 'potrzebie',      'potrzebies',       'pz',   [ ], [ ] ),
-    ( 'rem',            'rems',             'rem',  [ ], [ ] ),
-    ( 'second',         'seconds',          's',    [ ], [ ] ),
-    ( 'siemens',        'siemens',          'S',    [ 'mho' ], [ 'mhos' ] ),
-    ( 'sievert',        'sieverts',         'Sv',   [ ], [ ] ),
-    ( 'stere',          'steres',           'st',   [ ], [ ] ),
-    ( 'tesla',          'teslas',           'T',    [ ], [ ] ),
-    ( 'ton_of_TNT',     'tons_of_TNT',      'tTNT', [ ], [ ] ),
-    ( 'volt',           'volts',            'V',    [ ], [ ] ),
-    ( 'watt',           'watts',            'W',    [ ], [ ] ),
-    ( 'watt-second',    'watt-seconds',     'Ws',   [ ], [ ] ),
+    ( 'ampere',             'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
+    ( 'are',                'ares',             'a',    [ ], [ ] ),
+    ( 'becquerel',          'becquerels',       'Bq',   [ ], [ ] ),
+    ( 'blintz',             'blintzes',         'bl',   [ ], [ ] ),
+    ( 'coulomb',            'coulombs',         'C',    [ ], [ ] ),
+    ( 'calorie',            'calories',         'cal',  [ 'cal' ], [ 'cals' ] ),
+    ( 'electronvolt',       'electronvolts',    'eV',   [ ], [ ] ),
+    ( 'farad',              'farad',            'F',    [ ], [ ] ),
+    ( 'gram-equivalent',    'grams-equivalent', 'gE',   [ 'gram-energy', 'gramme-energy' ], [ 'grams-energy', 'grammes-energy' ] ),
+    ( 'gram',               'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
+    ( 'gram-force',         'grams-force',      'gf',   [ 'gramme-force' ], [ 'grammes-force' ] ),
+    ( 'henry',              'henries',          'H',    [ ], [ ] ),
+    ( 'joule',              'joules',           'J',    [ ], [ ] ),
+    ( 'kelvin',             'kelvins',          'K',    [ ], [ ] ),
+    ( 'liter',              'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
+    ( 'light-year',         'light-years',      'ly',   [ ], [ ] ),
+    ( 'lux',                'lux',              'lx',   [ ], [ ] ),
+    ( 'meter',              'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
+    ( 'newton',             'newtons',          'N',    [ ], [ ] ),
+    ( 'ngogn',              'ngogns',           'n',    [ ], [ ] ),
+    ( 'ohm',                'ohms',             'O',    [ ], [ ] ),
+    ( 'parsec',             'parsecs',          'pc',   [ ], [ ] ),
+    ( 'pascal',             'pascals',          'Pa',   [ ], [ ] ),
+    ( 'pond',               'ponds',            'p',    [ ], [ ] ),
+    ( 'potrzebie',          'potrzebies',       'pz',   [ ], [ ] ),
+    ( 'rem',                'rems',             'rem',  [ ], [ ] ),
+    ( 'second',             'seconds',          's',    [ ], [ ] ),
+    ( 'siemens',            'siemens',          'S',    [ 'mho' ], [ 'mhos' ] ),
+    ( 'sievert',            'sieverts',         'Sv',   [ ], [ ] ),
+    ( 'stere',              'steres',           'st',   [ ], [ ] ),
+    ( 'tesla',              'teslas',           'T',    [ ], [ ] ),
+    ( 'ton_of_TNT',         'tons_of_TNT',      'tTNT', [ ], [ ] ),
+    ( 'volt',               'volts',            'V',    [ ], [ ] ),
+    ( 'watt',               'watts',            'W',    [ ], [ ] ),
+    ( 'watt-second',        'watt-seconds',     'Ws',   [ ], [ ] ),
 ]
 
 
@@ -1393,6 +1409,15 @@ binaryPrefixes = [
 
 #//******************************************************************************
 #//
+#//  conversion constants
+#//
+#//******************************************************************************
+
+speedOfLight = '299792458'   # in m/s by definition
+
+
+#//******************************************************************************
+#//
 #//  unitConversionMatrix
 #//
 #//  ( first unit, second unit, conversion factor )
@@ -1400,6 +1425,7 @@ binaryPrefixes = [
 #//******************************************************************************
 
 unitConversionMatrix = {
+    ( 'aa_battery',            'joule' )                                : '15400',
     ( 'abampere',              'ampere' )                               : '10',
     ( 'abcoulomb',             'coulomb' )                              : '10',
     ( 'abfarad',               'farad' )                                : '1.0e9',
@@ -1408,7 +1434,7 @@ unitConversionMatrix = {
     ( 'acre-foot',             'cubic_foot' )                           : '43560',
     ( 'aln',                   'inch' )                                 : '23.377077865',
     ( 'ampere',                'coulomb/second' )                       : '1',
-    ( 'ampere',                'statampere' )                           : '299792458',
+    ( 'ampere',                'statampere' )                           : speedOfLight,
     ( 'arcminute',             'arcsecond' )                            : '60',
     ( 'are',                   'square_meter' )                         : '100',
     ( 'arpent',                'foot' )                                 : '192',
@@ -1416,13 +1442,13 @@ unitConversionMatrix = {
     ( 'atmosphere',            'pascal' )                               : '101325',
     ( 'balthazar',             'liter' )                                : '12.0',
     ( 'ban',                   'nat' )                                  : str( log( 10 ) ),
-    ( 'banana_equivalent_dose', 'sievert' )                             : '0.000000098',
-    ( 'bar',                   'pascal' )                               : '100000',
+    ( 'banana_equivalent_dose', 'sievert' )                             : '9.8e-8',
+    ( 'bar',                   'pascal' )                               : '1.0e5',
     ( 'barleycorn',            'poppyseed' )                            : '4',
     ( 'barrel',                'gallon' )                               : '31.5',
     ( 'becquerel',             'curie' )                                : '3.7e10',
     ( 'bit',                   'nat' )                                  : str( log( 2 ) ),
-    ( 'blintz',                'farshimmelt_blintz' )                   : '100000',
+    ( 'blintz',                'farshimmelt_blintz' )                   : '1.0e5',
     ( 'blintz',                'furshlugginer_blintz' )                 : '1.0e-6',
     ( 'blintz',                'gram' )                                 : '36.42538631',
     ( 'btu',                   'joule' )                                : '1054.5',
@@ -1438,7 +1464,7 @@ unitConversionMatrix = {
     ( 'chain',                 'yard' )                                 : '22',
     ( 'chopine',               'liter' )                                : '0.25',
     ( 'clarke',                'day' )                                  : '1',
-    ( 'clarke',                'wolverton' )                            : '1000000',
+    ( 'clarke',                'wolverton' )                            : '1.0e6',
     ( 'clausius',              'joule/kelvin' )                         : '4186.8',
     ( 'clavelin',              'liter' )                                : '0.62',
     ( 'cord',                  'cubic_foot' )                           : '128',
@@ -1482,15 +1508,18 @@ unitConversionMatrix = {
     ( 'footcandle',            'lux' )                                  : '10.763910417',           # (m/ft)^2
     ( 'footlambert',           'candela/meter^2' )                      : '3.42625909963539052691', # 1/pi cd/ft^2
     ( 'fortnight',             'day' )                                  : '14',
-    ( 'fortnight',             'microfortnight' )                       : '1000000',
+    ( 'fortnight',             'microfortnight' )                       : '1.0e6',
     ( 'furlong',               'yard' )                                 : '220',
     ( 'gallon',                'fifth' )                                : '5',
     ( 'gallon',                'quart' )                                : '4',
+    ( 'gallon_of_gasoline',    'gallon_of_ethanol' )                    : '1.425',  # approx.
+    ( 'gallon_of_gasoline',    'joule' )                                : '1.2e8',  # approx. obviously
     ( 'gauss',                 'maxwell/centimeter^2' )                 : '1',
     ( 'goliath',               'liter' )                                : '27.0',
     ( 'grad',                  'degree' )                               : '0.9',
     ( 'gram',                  'dalton' )                               : '1.66053e-27',
     ( 'gram',                  'planck_mass' )                          : '45940.892447777',
+    ( 'gram-equivalent',       'joule' )                                : str( fdiv( power( mpf( speedOfLight ), 2 ), 1000 ) ),
     ( 'gray',                  'joule/kilogram' )                       : '1',
     ( 'gray',                  'rad' )                                  : '100',
     ( 'greek_cubit',           'inch' )                                 : '18.22',
@@ -1516,7 +1545,7 @@ unitConversionMatrix = {
     ( 'jennie',                'liter' )                                : '0.5',
     ( 'jeroboam',              'liter' )                                : '3.0',  # some French regions use 4.5
     ( 'joule',                 'electronvolt' )                         : '6.24150974e18',
-    ( 'joule',                 'erg' )                                  : '10000000',
+    ( 'joule',                 'erg' )                                  : '1.0e7',
     ( 'joule',                 'kilogram-meter^2/second^2' )            : '1',
     ( 'joule/second',          'watt' )                                 : '1',
     ( 'ken',                   'inch' )                                 : '83.4',
@@ -1524,8 +1553,8 @@ unitConversionMatrix = {
     ( 'kovac',                 'wolverton' )                            : '10',
     ( 'lambert',               'candela/meter^2' )                      : str( fdiv( 10000, pi ) ),
     ( 'league',                'mile' )                                 : '3',
-    ( 'light-second',          'meter' )                                : '299792458',
-    ( 'light-year',            'light-second' )                         : '31557600',
+    ( 'light',                 'speed_of_light' )                       : '1',
+    ( 'light-second',          'meter' )                                : speedOfLight,
     ( 'link',                  'inch' )                                 : '7.92',
     ( 'liter',                 'ngogn' )                                : '86.2477899004',
     ( 'long_cubit',            'inch' )                                 : '21',
@@ -1541,9 +1570,9 @@ unitConversionMatrix = {
     ( 'maxwell',               'gauss*centimeter^2' )                   : '1',
     ( 'melchior',              'liter' )                                : '18.0',
     ( 'melchizedek',           'liter' )                                : '30.0',
-    ( 'meter',                 'angstrom' )                             : '10000000000',
+    ( 'meter',                 'angstrom' )                             : '1.0e10',
     ( 'meter',                 'kyu' )                                  : '4000',
-    ( 'meter',                 'micron' )                               : '1000000',
+    ( 'meter',                 'micron' )                               : '1.0e6',
     ( 'meter/second',          'knot' )                                 : '1.943844492',
     ( 'methuselah',            'liter' )                                : '6.0',
     ( 'mile',                  'foot' )                                 : '5280',
@@ -1555,12 +1584,12 @@ unitConversionMatrix = {
     ( 'nat',                   'joule/kelvin' )                         : '1.380650e-23',
     ( 'nautical_mile',         'meter' )                                : '1852',
     ( 'nebuchadnezzar',        'liter' )                                : '15.0',
-    ( 'newton',                'dyne' )                                 : '100000',
+    ( 'newton',                'dyne' )                                 : '1.0e5',
     ( 'newton',                'joule/meter' )                          : '1',
     ( 'newton',                'pond' )                                 : '101.97161298',
     ( 'newton',                'poundal' )                              : '7.233013851',
     ( 'newton/meter^2',        'pascal' )                               : '1',
-    ( 'ngogn',                 'farshimmelt_ngogn' )                    : '100000',
+    ( 'ngogn',                 'farshimmelt_ngogn' )                    : '1.0e5',
     ( 'ngogn',                 'furshlugginer_ngogn' )                  : '1.0e-6',
     ( 'nibble',                'bit' )                                  : '4',
     ( 'nit',                   'apostilb' )                             : str( pi ),
@@ -1598,7 +1627,7 @@ unitConversionMatrix = {
     ( 'planck_length',         'meter' )                                : '1.616199e-35',
     ( 'planck_time',           'second' )                               : '5.39106e-44',
     ( 'poncelet',              'watt' )                                 : '980.665',
-    ( 'potrzebie',             'farshimmelt_potrzebie' )                : '100000',
+    ( 'potrzebie',             'farshimmelt_potrzebie' )                : '1.0e5',
     ( 'potrzebie',             'furshlugginer_potrzebie' )              : '1.0e-6',
     ( 'potrzebie',             'meter' )                                : '0.002263348517438173216473',  # see Mad #33
     ( 'pound',                 'grain' )                                : '7000',
@@ -1617,7 +1646,7 @@ unitConversionMatrix = {
     ( 'rod',                   'foot' )                                 : '16.5',
     ( 'rood',                  'square_yard' )                          : '1210',
     ( 'rope',                  'foot' )                                 : '20',
-    ( 'rutherford',            'becquerel' )                            : '1000000',
+    ( 'rutherford',            'becquerel' )                            : '1.0e6',
     ( 'rydberg',               'joule' )                                : '2.179872e-18',
     ( 'salmanazar',            'liter' )                                : '9.0',
     ( 'scruple',               'minim' )                                : '20',
@@ -1638,6 +1667,7 @@ unitConversionMatrix = {
     ( 'solomon',               'liter' )                                : '20.0',
     ( 'sovereign',             'liter' )                                : '25.0',
     ( 'span',                  'inch' )                                 : '9',
+    ( 'speed_of_light',        'meter/second' )                         : speedOfLight,
     ( 'square_arcminute',      'square_arcsecond' )                     : '3600',
     ( 'square_degree',         'square_arcminute' )                     : '3600',
     ( 'square_meter',          'barn' )                                 : '1.0e28',
@@ -1654,7 +1684,7 @@ unitConversionMatrix = {
     ( 'stathenry',             'henry' )                                : '898755178740',
     ( 'statmho',               'siemens' )                              : '8.99e11',
     ( 'statohm',               'ohm' )                                  : '898755178740',
-    ( 'statvolt',              'volt' )                                 : '299.792458',
+    ( 'statvolt',              'volt' )                                 : str( fdiv( mpf( speedOfLight ), mpf( '1.0e6' ) ) ),
     ( 'steradian',             'square_degree' )                        : str( power( fdiv( pi, 180 ), 2 ) ),
     ( 'steradian',             'square_grad' )                          : str( power( fdiv( pi, 200 ), 2 ) ),
     ( 'sthene',                'newton' )                               : '1000',
@@ -1670,8 +1700,8 @@ unitConversionMatrix = {
     ( 'tesla',                 'kilogram/ampere-second^2' )             : '1',
     ( 'tesla',                 'weber/meter^2' )                        : '1',
     ( 'ton',                   'pound' )                                : '2000',
-    ( 'tonne',                 'gram' )                                 : '1000000',
-    ( 'ton_of_TNT',            'joule' )                                : '4184000000',
+    ( 'tonne',                 'gram' )                                 : '1.0e6',
+    ( 'ton_of_TNT',            'joule' )                                : '4.184e9',
     ( 'torr',                  'mmHg' )                                 : '1',
     ( 'township',              'acre' )                                 : '23040',
     ( 'trit',                  'nat' )                                  : str( log( 3 ) ),
@@ -2189,8 +2219,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     for unit in unitOperators:
         if unit[ -7 : ] == '-second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_':
             unitRoot = unit[ : -7 ]
-
             unitInfo = unitOperators[ unit ]
+
             rootUnitInfo = unitOperators[ unitRoot ]
 
             for timeUnit in timeUnits:
@@ -2309,9 +2339,13 @@ def initializeConversionMatrix( unitConversionMatrix ):
         pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( basicUnitTypes, pickleFile )
         pickle.dump( unitOperators, pickleFile )
-        pickle.dump( unitConversionMatrix, pickleFile )
         pickle.dump( newAliases, pickleFile )
         pickle.dump( compoundUnits, pickleFile )
+
+    fileName = dataPath + os.sep + 'unit_conversions.pckl.bz2'
+
+    with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
+        pickle.dump( unitConversionMatrix, pickleFile )
 
     print( )
     print( '{:,} unit operators'.format( len( unitOperators ) ) )
