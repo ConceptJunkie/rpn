@@ -13,8 +13,10 @@ from decimal import *
 #//
 #//******************************************************************************
 
-RPN_VERSION = "2.7.1"
-COPYRIGHT_MESSAGE = "copyright 2013 (1988), Rick Gutleber (rickg@his.com)"
+PROGRAM_NAME = "rpn"
+RPN_VERSION = "2.7.2"
+PROGRAM_DESCRIPTION = 'RPN command-line calculator'
+COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
 defaultPrecision = 12
 
@@ -36,13 +38,13 @@ def convertToBaseN( num, base, numerals="0123456789abcdefghijklmnopqrstuvwxyz" )
     an inverse int(s, base).
 
     For example:
-    >>> baseN(-13, 4)
+    >>> baseN( -13, 4 )
     '-31'
-    >>> baseN(91321, 2)
+    >>> baseN( 91321, 2 )
     '10110010010111001'
-    >>> baseN(791321, 36)
+    >>> baseN( 791321, 36 )
     'gyl5'
-    >>> baseN(91321, 2, 'ab')
+    >>> baseN( 91321, 2, 'ab' )
     'babbaabaababbbaab'
     """
 
@@ -53,7 +55,7 @@ def convertToBaseN( num, base, numerals="0123456789abcdefghijklmnopqrstuvwxyz" )
         return '-' + convertToBaseN( ( -1 ) * num, base, numerals )
 
     if not ( 2 <= base <= len( numerals ) ):
-        raise ValueError( 'Base must be between 2-%d' % len( numerals ) )
+        raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
 
     left_digits = num // base
 
@@ -545,20 +547,28 @@ def parseInputValue( term ):
 #//******************************************************************************
 
 def main( ):
-    parser = argparse.ArgumentParser( prog='rpn', description='rpn - ' + RPN_VERSION +
-                                      ' - ' + COPYRIGHT_MESSAGE,
-                                       epilog="Arguments are interpreted as Reverse Polish Notation.\n\n" +
-                                       "Supported binary operators: +, -, *, /, ** (power), // (root), logxy\n" +
-                                       "Supported unary operators: !, log, log10, exp, exp10, sin, cos, tan, gamma,\n" +
-                                       "                           lgamma, rad (degrees to radians),\n" +
-                                       "                           deg (radians to degrees)\n\n"
-                                       "Note:  rpn supports arbitrary precision using Decimal( ), however the\n" +
-                                       "       following operators do not always provide arbitrary precision: **, //,\n" +
-                                       "       exp, exp10, gamma, lgamma.\n" +
-                                       "Note:  for integers, rpn understands hexidecimal input of the form '0x....', a\n" +
-                                       "       leading '0' means octal and a trailing 'b' or 'B' means binary (even with\n" +
-                                       "       with leading '0', but not with leading '0x')",
-                                       formatter_class=RawTextHelpFormatter )
+    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
+                                      PROGRAM_DESCRIPTION + ', ' + COPYRIGHT_MESSAGE,
+                                      epilog=
+'''
+Arguments are interpreted as Reverse Polish Notation.
+
+Supported binary operators:
+    +, -, *, /, ** (power), // (root), logxy
+
+Supported unary operators:
+    !, log, log10, exp, exp10, sin, cos, tan, gamma, lgamma,
+    rad (degrees to radians), deg (radians to degrees)
+
+rpn supports arbitrary precision using Decimal( ), however the following
+operators do not always provide arbitrary precision:
+    **, //, exp, exp10, gamma, lgamma
+
+For integers, rpn understands hexidecimal input of the form '0x....'.
+Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B' is
+interpreted as binary.
+''',
+                                      formatter_class=RawTextHelpFormatter )
 
     parser.add_argument( 'terms', nargs='+', metavar='term' )
     parser.add_argument( '-x', '--hex', action='store_true', help="equivalent to '-r 16'" )
@@ -645,7 +655,6 @@ def main( ):
 
 if __name__ == '__main__':
     main( )
-
 
 
 # http://www.programmish.com/?p=24
