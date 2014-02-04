@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.9.1'
+PROGRAM_VERSION = '5.10.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -82,7 +82,7 @@ unitStack = [ ]
 #//
 #//
 #//  I would have included this table in makeUnits.py, but pickle doesn't
-#//  work on lambdas, which is, to me, a very non-Pythonic thing.
+#//  work on lambdas, which is, to me, very non-Pythonic.
 #//
 #//******************************************************************************
 
@@ -460,6 +460,28 @@ class Measurement( mpf ):
             self.units[ value ] = -amount
         else:
             self.units[ value ] -= amount
+
+
+    def add( self, other ):
+        if isinstance( other, Measurement ):
+            if self.getUnits( ) == other.getUnits( ):
+                return Measurement( fadd( self, other ), self.getUnits( ) )
+            else:
+                newOther = other.convertValue( self )
+                return add( self, newOther )
+        else:
+            return Measurement( fadd( self, other ), self.getUnits( ) )
+
+
+    def subtract( self, other ):
+        if isinstance( other, Measurement ):
+            if self.getUnits( ) == other.getUnits( ):
+                return Measurement( fsub( self, other ), self.getUnits( ) )
+            else:
+                newOther = other.convertValue( self )
+                return subtract( self, newOther )
+        else:
+            return Measurement( fsub( self, other ), self.getUnits( ) )
 
 
     def multiply( self, other ):
@@ -1509,6 +1531,42 @@ def getNthPolyPrime( n, poly ):
         result = getNthPrime( result )
 
     return result
+
+
+#//******************************************************************************
+#//
+#//  add
+#//
+#//  We used to be able to call fadd directly, but now we want to be able to add
+#//  units.
+#//
+#//******************************************************************************
+
+def add( n, k ):
+    if isinstance( n, Measurement ):
+        return n.add( k )
+    elif isinstance( k, Measurement ):
+        return Measurement( n ).add( k )
+    else:
+        return fadd( n, k )
+
+
+#//******************************************************************************
+#//
+#//  subtract
+#//
+#//  We used to be able to call fsub directly, but now we want to be able to
+#//  subtract units.
+#//
+#//******************************************************************************
+
+def subtract( n, k ):
+    if isinstance( n, Measurement ):
+        return n.subtract( k )
+    elif isinstance( k, Measurement ):
+        return Measurement( n ).subtract( k )
+    else:
+        return fsub( n, k )
 
 
 #//******************************************************************************
@@ -5669,7 +5727,7 @@ operators = {
     'acoth'         : [ acoth, 1 ],
     'acsc'          : [ acsc, 1 ],
     'acsch'         : [ acsch, 1 ],
-    'add'           : [ fadd, 2 ],
+    'add'           : [ add, 2 ],
     'altfac'        : [ getNthAlternatingFactorial, 1 ],
     'and'           : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x & y ), 2 ],
     'apery'         : [ apery, 0 ],
@@ -5927,7 +5985,7 @@ operators = {
     'squaretri'     : [ getNthSquareTriangularNumber, 1 ],
     'steloct'       : [ getNthStellaOctangulaNumber, 1 ],
     'subfac'        : [ lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1 ],
-    'subtract'      : [ fsub, 2 ],
+    'subtract'      : [ subtract, 2 ],
     'superfac'      : [ superfac, 1 ],
     'superprime'    : [ getNthSuperPrime, 1 ],
     'sylvester'     : [ getNthSylvester, 1 ],
