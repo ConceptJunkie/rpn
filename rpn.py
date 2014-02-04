@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.16.1"
+RPN_VERSION = "4.17.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -1002,7 +1002,7 @@ def getNthBalancedPrimes( arg ):
     n = int( arg )
 
     if n == 1:
-        return [ 3, 5, 7 ]
+        return 3
 
     if n >= 100:
         if balancedPrimes == { }:
@@ -1040,7 +1040,7 @@ def getNthBalancedPrimes( arg ):
     if updateDicts:
         balancedPrimes[ int( arg ) ] = prevPrime
 
-    return [ secondPrevPrime, prevPrime, p  ]
+    return secondPrevPrime
 
 
 #//******************************************************************************
@@ -1188,18 +1188,7 @@ def getNthSophiePrime( arg ):
     f = p % 10
 
     while n > startingPlace:
-        if f == 1:
-            p += 2
-            f = 3
-        elif f == 3:
-            p += 4
-            f = 7
-        elif f == 7:
-            p += 2
-            f = 9
-        else:
-            p += 2
-            f = 1
+        p, f = getNextPrimeCandidate( p, f )
 
         if isPrime( p ) and isPrime( 2 * p + 1 ):
             n -= 1
@@ -1567,18 +1556,13 @@ def getNthQuintupletPrimes( arg ):
 
     # after 5, the first of a prime quintruplet must be a number of the form 30n + 11
     while n > startingPlace:
-        if f == 1:
-            p += 6
-            f = 7
-        else:
-            p += 4
-            f = 1
+        p, f = getNextPrimeCandidate( p, f )
 
-        if p % 10 == 7 and isPrime( p ) and isPrime( p + 4 ) and isPrime( p + 6 ) and \
-            isPrime( p + 10 ) and isPrime( p + 12 ):
-                n -= 1
-        elif p % 30 == 11 and isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and \
-            isPrime( p + 8 ) and isPrime( p + 12 ):
+        if isPrime( p ):
+            if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 10 ) ) or \
+               ( ( f == 3 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 10 ) ) or \
+               ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ) or \
+               ( ( f == 9 ) and isPrime( p + 2 ) and isPrime( p + 4 ) and isPrime( p + 8 ) and isPrime( p + 10 ) ):
                 n -= 1
 
     if updateDicts:
@@ -1587,9 +1571,13 @@ def getNthQuintupletPrimes( arg ):
     f = p % 10
 
     if f == 1:
-        return [ p, p + 2, p + 6, p + 8, p + 12 ]
-    else:
+        return [ p, p + 2, p + 6, p + 8, p + 10 ]
+    elif f == 3:
+        return [ p, p + 4, p + 6, p + 8, p + 10 ]
+    elif f == 7:
         return [ p, p + 4, p + 6, p + 10, p + 12 ]
+    else:
+        return [ p, p + 2, p + 4, p + 8, p + 10 ]
 
 
 #//******************************************************************************
@@ -2256,31 +2244,6 @@ def getNthSylvester( n ):
 
     return list[ -1 ]
 
-
-#//******************************************************************************
-#//
-#//  getNthBellNumber
-#//
-#//******************************************************************************
-
-def getNthBellNumber( n ):
-    a = [ 0 for i in arange( 0, n ) ]
-
-    a[ 0 ] = 1
-    result = [ 1, 1 ]
-
-    for i in range( 1, int( n ) ):
-        a[ i ] = a[ 0 ]
-
-        for k in range( i, 0, -1 ):
-            a[ k - 1 ] += a[ k ]
-
-        result.append( a[ 0 ] )
-
-    return result[ int( n - 1 ) ]
-
-
-# a(n)=sum{k=1..n, (1/k!)*sum{i=1..k, (-1)^(k-i)*binomial(k, i)*i^n}}+0^n;
 
 #//******************************************************************************
 #//
@@ -3761,6 +3724,7 @@ operatorAliases = {
     'quint?'    : 'quintprime?',
     'rad'       : 'radians',
     'rand'      : 'random',
+    'safe'      : 'safeprime',
     'sext'      : 'sextprime',
     'sext?'     : 'sextprime?',
     'sexy'      : 'sexyprime',
@@ -4116,8 +4080,14 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'bell'          : [ getNthBellNumber, 1,
+    'bell'          : [ bell, 1,
 'combinatorics', 'calculate the nth Bell number',
+'''
+''',
+'''
+''' ],
+    'bellpoly'      : [ bell, 2,
+'algebra', 'evaluates the nth Bell polynomial with k',
 '''
 ''',
 '''
@@ -4470,6 +4440,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'li'            : [ li, 1,
+'logarithms', 'calculates the logarithmic interval of n',
+'''
+''',
+'''
+''' ],
     'ln'            : [ ln, 1,
 'logarithms', 'calculates the natural logarithm of n',
 '''
@@ -4662,6 +4638,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'polylog'            : [ polylog, 2,
+'logarithms', 'calculates the polylogarithm of n, k',
+'''
+''',
+'''
+''' ],
     'polyprime'     : [ getNthPolyPrime, 2,
 'prime_numbers', 'returns the nth prime, recursively k times',
 '''
@@ -4682,6 +4664,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'prime'         : [ getNthPrime, 1,
 'prime_numbers', 'returns the nth prime',
+'''
+''',
+'''
+''' ],
+    'primepi'       : [ primepi2, 1,
+'prime_numbers', 'estimates the count of prime numbers up to and including n',
 '''
 ''',
 '''
@@ -4766,6 +4754,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'round'         : [ lambda i: floor( fadd( i, 0.5 ) ), 1,
 'arithmetic', 'rounds n to the nearest integer',
+'''
+''',
+'''
+''' ],
+    'safeprime'   : [ lambda n: fadd( fmul( getNthSophiePrime( n ), 2 ), 1 ), 1,
+'prime_numbers', 'returns the nth safe prime',
 '''
 ''',
 '''
