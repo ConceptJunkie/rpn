@@ -3,6 +3,7 @@
 import argparse
 from argparse import RawTextHelpFormatter
 import math
+import random
 import sys
 from decimal import *
 
@@ -14,7 +15,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.15.0"
+RPN_VERSION = "2.17.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -26,6 +27,94 @@ numerals = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 phiBase = -1
 fibBase = -2
+
+
+#//******************************************************************************
+#//
+#//  isPrime
+#//
+#//******************************************************************************
+
+def isBruteForcePrime( n ):
+    if n == 2 or n == 3:
+        return True
+
+    if n < 2 or n % 2 == 0:
+        return False
+
+    if n < 9:
+        return True
+
+    if n % 3 == 0:
+        return False
+
+    r = int( math.sqrt( n ) )
+
+    f = 5
+
+    while f <= r:
+        if n % f == 0:
+            return False
+
+        if n % ( f + 2 ) == 0:
+            return False
+
+        f +=6
+
+    return True
+
+
+def isPrimeCandidate( p, iterations = 7 ):
+    if p < 1 or pow( p, 1, 2 ) == 0:
+        return False
+    elif p < 100000000000:
+        return isBruteForcePrime( p )
+
+    odd = p - 1
+    count = 0
+
+    while pow( odd, 1, 2 ) == 0:
+        odd /= 2
+        count += 1
+
+    for i in range( iterations ):
+        r = random.randrange( 2, p - 2 )
+
+        test = pow( r, odd, p )
+
+        if test == 1 or test == p - 1:
+            continue
+
+        for j in range( count - 1 ):
+            test = pow( Decimal( test ), Decimal( 2 ), Decimal( p ) )
+
+            if test == 1:
+                return False
+
+            if test == p - 1:
+                break
+        else:
+            return False
+
+    return True
+
+
+def isPrime( valueList ):
+    valueList.append( Decimal( 1 ) if isPrimeCandidate( Decimal( valueList.pop( ) ) ) else Decimal( 0 ) )
+
+#
+#if __name__ == "__main__":
+#    if sys.argv[1] == "test":
+#        n = long(sys.argv[2])
+#        print (miller_rabin(n) and "PRIME" or "COMPOSITE")
+#    elif sys.argv[1] == "genprime":
+#        nbits = int(sys.argv[2])
+#        while True:
+#            p = random.getrandbits(nbits)
+#            p |= 2**nbits | 1
+#            if miller_rabin(p):
+#                print p
+#                break
 
 
 #//******************************************************************************
@@ -246,11 +335,11 @@ def decimal_log( self, base = 10 ):
 
 #//******************************************************************************
 #//
-#//  getPi
+#//  calculatePi
 #//
 #//******************************************************************************
 
-def getPi( valueList ):
+def calculatePi( ):
     """Compute Pi to the current precision.
 
     >>> print pi()
@@ -273,7 +362,17 @@ def getPi( valueList ):
         s += t
 
     getcontext( ).prec -= 2
-    valueList.append( +s )              # unary plus applies the new precision
+    return +s                  # unary plus applies the new precision
+
+
+#//******************************************************************************
+#//
+#//  getPi
+#//
+#//******************************************************************************
+
+def getPi( valueList ):
+    valueList.append( calculatePi( ) )
 
 
 #//******************************************************************************
@@ -305,6 +404,16 @@ def calculatePhi( ):
 
 def getPhi( valueList ):
     valueList.append( calculatePhi( ) )
+
+
+#//******************************************************************************
+#//
+#//  getIToTheIPower
+#//
+#//******************************************************************************
+
+def getIToTheIPower( valueList ):
+    valueList.append( calculateExp( Decimal( -0.5 ) * calculatePi( ) ) )
 
 
 #//******************************************************************************
@@ -531,11 +640,11 @@ def takeLGamma( valueList ):
 
 #//******************************************************************************
 #//
-#//  takeExp
+#//  calculateExp
 #//
 #//******************************************************************************
 
-def takeExp( valueList ):
+def calculateExp( value ):
     """Return e raised to the power of x.  Result type matches input type.
 
     (from http://docs.python.org/lib/decimal-recipes.html)
@@ -546,17 +655,25 @@ def takeExp( valueList ):
 
     i, last_s, s, fact, num = 0, 0, 1, 1, 1
 
-    x = valueList.pop( )
-
     while s != last_s:
         last_s = s
         i += 1
         fact *= i
-        num *= x
+        num *= value
         s += num / fact
 
     getcontext( ).prec -= 2
-    valueList.append( +s )        # unary plus applies the new precision
+    return +s         # unary plus applies the new precision
+
+
+#//******************************************************************************
+#//
+#//  takeExp
+#//
+#//******************************************************************************
+
+def takeExp( valueList ):
+    valueList.append( calculateExp( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -813,6 +930,38 @@ def getAntiHexagonalNumber( valueList ):
 
 #//******************************************************************************
 #//
+#//  getNthTetrahedralNumber
+#//
+#//******************************************************************************
+
+def getNthTetrahedralNumber( valueList ):
+    n = valueList.pop( )
+    valueList.append( Decimal( 1 / 6 ) * ( n * n * n + 3 * n * n + 2 * n ) )
+
+# p=(1/6)*(n^3+3*n^2+2*n)
+
+#//******************************************************************************
+#//
+#//  getAntiTetrahedralNumber
+#//
+#//  Thanks for wolframalpha.com for solving the reverse of the above formula.
+#//
+#//******************************************************************************
+
+def getAntiTetrahedralNumber( valueList ):
+    n = valueList.pop( )
+
+    sqrt3 = pow( Decimal( 3 ), Decimal( 0.5 ) )
+    cubert3 = pow( Decimal( 3 ), Decimal( 1 / 3 ) )
+
+    valueList.append( 0 )
+
+
+# http://www.wolframalpha.com/input/?i=solve+p%3D%281%2F6%29*%28n^3%2B3*n^2%2B2*n%29+for+n
+
+
+#//******************************************************************************
+#//
 #//  getNthSquareTriangularNumber
 #//
 #//******************************************************************************
@@ -856,6 +1005,7 @@ expressions = {
     'pi'       : [ getPi, 0 ],
     'e'        : [ getE, 0 ],
     'phi'      : [ getPhi, 0 ],
+    'itoi'     : [ getIToTheIPower, 0 ],
     '+'        : [ add, 2 ],
     '-'        : [ subtract, 2 ],
     '*'        : [ multiply, 2 ],
@@ -882,6 +1032,7 @@ expressions = {
     'sqrt'     : [ takeSquareRoot, 1 ],
     'floor'    : [ getFloor, 1 ],
     'ceil'     : [ getCeiling, 1 ],
+    'isprime'  : [ isPrime, 1 ],
     'powmod'   : [ takePowMod, 3 ],
     'fib'      : [ getNthFibonacci, 1 ],
     'tri'      : [ getNthTriangularNumber, 1 ],
@@ -890,6 +1041,8 @@ expressions = {
     'antipent' : [ getAntiPentagonalNumber, 1 ],
     'hex'      : [ getNthHexagonalNumber, 1 ],
     'antihex'  : [ getAntiHexagonalNumber, 1 ],
+    'tet'      : [ getNthTetrahedralNumber, 1 ],
+#    'antitet'  : [ getAntiTetrahedralNumber, 1 ],
     'sqtri'    : [ getNthSquareTriangularNumber, 1 ],
     'sum'      : [ sum, 2 ],          # this one eats the whole stack
     'mult'     : [ multiplyAll, 2 ],  # this one eats the whole stack
@@ -1073,7 +1226,7 @@ Supported multi operators (operate on all preceding operands):
     sum, mult, mean
 
 Supported constants:
-    e, pi, phi
+    e, pi, phi (the Golden Ratio), itoi (i^i)
 
 rpn supports arbitrary precision using Decimal( ), however the following
 operators do not always provide arbitrary precision:
