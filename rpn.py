@@ -17,7 +17,7 @@ from fractions import Fraction
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.3.0"
+RPN_VERSION = "3.4.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -37,7 +37,7 @@ bitwiseGroupSize = 16
 #//
 #//  getContinuedFraction
 #//
-#//  Adapted from ActiveState Python, recipe 578647
+#//  adapted from ActiveState Python, recipe 578647
 #//
 #//******************************************************************************
 
@@ -1152,10 +1152,12 @@ Supported integer sequence unary operators:
 
 Supported binary operators:
     +; -; *; /; **, ^ (power); *** (tetration); // (root); logxy;
-    nCr, ncr (combinations); nRp, nrp (permutations)
+    nCr, ncr (combinations); nRp, nrp (permutations), dup (duplicate previous
+    term a number of times, useful with cf)
 
 Supported multi operators (operate on all preceding operands):
-    sum; mult; mean
+    sum; mult; mean, cf (treat all preceding terms as part of a continued
+    fraction, and evalutate)
 
 Supported constants:
     e; pi; phi (the Golden Ratio); itoi (i^i); euler (Euler's constant);
