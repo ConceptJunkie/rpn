@@ -2,9 +2,9 @@
 
 #//******************************************************************************
 #//
-#//  rpn
+#//  makeUnits
 #//
-#//  RPN command-line calculator
+#//  RPN command-line calculator unit conversion data generator
 #//  copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)
 #//
 #//  License: GNU GPL (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -12,11 +12,11 @@
 #//
 #//******************************************************************************
 
-import argparse
-import contextlib
 import bz2
-import pickle
+import contextlib
 import os
+import pickle
+import string
 
 from mpmath import *
 
@@ -28,7 +28,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.4.4'
+PROGRAM_VERSION = '5.4.5'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -42,14 +42,14 @@ COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 #//******************************************************************************
 
 unitTypes = {
-    'length'        : { },
-    'mass'          : { },
-    'time'          : { },
-    'area'          : { 'length' : 2 },
-    'volume'        : { 'length' : 3 },
-    'velocity'      : { 'length' : 1, 'time' : -1 },
-    'acceleration'  : { 'length' : 1, 'time' : -2 },
-    'force'         : { 'mass' : 1, 'length' : 1, 'time' : -2 },
+    'length'        : 'length',
+    'mass'          : 'mass',
+    'time'          : 'time',
+    'area'          : 'length^2',
+    'volume'        : 'length^3',
+    'velocity'      : 'length/time',
+    'acceleration'  : 'length/time^2',
+    'force'         : 'mass*length/time',
 }
 
 
@@ -67,26 +67,26 @@ unitOperators = {
     'area'              : [ 'area',     'area',             [ ] ],
     'barn'              : [ 'area',     'barns',            [ ] ],
     'shed'              : [ 'area',     'sheds',            [ ] ],
-    'square_meter'      : [ 'area',     'square meters',    [ 'sqm', 'm^2', 'meter^2', 'meters^2' ] ],
-    'square_yard'       : [ 'area',     'square yards',     [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ] ],
+    'square_meter'      : [ 'area',     'square_meters',    [ 'sqm', 'm^2', 'meter^2', 'meters^2' ] ],
+    'square_yard'       : [ 'area',     'square_yards',     [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ] ],
 
     'angstrom'          : [ 'length',   'angstroms',            [ ] ],
-    'astronomical_unit' : [ 'length',   'astronomical units',   [ 'au' ] ],
+    'astronomical_unit' : [ 'length',   'astronomical_units',   [ 'au' ] ],
     'chain'             : [ 'length',   'chain',                [ ] ],
     'foot'              : [ 'length',   'feet',                 [ 'ft' ] ],
     'furlong'           : [ 'length',   'furlongs',             [ ] ],
     'inch'              : [ 'length',   'inches',               [ 'in' ] ],
     'league'            : [ 'length',   'leagues',              [ ] ],
     'length'            : [ 'length',   'length',               [ ] ],
-    'light_day'         : [ 'length',   'light days',           [ ] ],
-    'light_hour'        : [ 'length',   'light hours',          [ ] ],
-    'light_minute'      : [ 'length',   'light minutes',        [ ] ],
-    'light_second'      : [ 'length',   'light seconds',        [ ] ],
-    'light_year'        : [ 'length',   'light years',          [ ] ],
+    'light_day'         : [ 'length',   'light_days',           [ ] ],
+    'light_hour'        : [ 'length',   'light_hours',          [ ] ],
+    'light_minute'      : [ 'length',   'light_minutes',        [ ] ],
+    'light_second'      : [ 'length',   'light_seconds',        [ ] ],
+    'light_year'        : [ 'length',   'light_years',          [ ] ],
     'meter'             : [ 'length',   'meters',               [ 'm' ] ],
     'micron'            : [ 'length',   'microns',              [ ] ],
     'mile'              : [ 'length',   'miles',                [ 'mi' ] ],
-    'nautical_mile'     : [ 'length',   'nautical miles',       [ ] ],
+    'nautical_mile'     : [ 'length',   'nautical_miles',       [ ] ],
     'rod'               : [ 'length',   'rods',                 [ ] ],
     'yard'              : [ 'length',   'yards',                [ 'yd' ] ],
 
@@ -99,8 +99,8 @@ unitOperators = {
     'stone'             : [ 'mass',     'stone',            [ ] ],
     'ton'               : [ 'mass',     'tons',             [ ] ],
     'tonne'             : [ 'mass',     'tonnes',           [ ] ],
-    'troy_ounce'        : [ 'mass',     'troy ounces',      [ ] ],
-    'troy_pound'        : [ 'mass',     'troy pounds',      [ ] ],
+    'troy_ounce'        : [ 'mass',     'troy_ounces',      [ ] ],
+    'troy_pound'        : [ 'mass',     'troy_pounds',      [ ] ],
 
     'day'               : [ 'time',     'days',             [ ] ],
     'fortnight'         : [ 'time',     'fortnights',       [ ] ],
@@ -110,12 +110,12 @@ unitOperators = {
     'time'              : [ 'time',     'time',             [ ] ],
     'week'              : [ 'time',     'weeks',            [ 'wk' ] ],
 
-    'cubic_foot'        : [ 'volume',   'cubic feet',       [ 'cuft', 'ft^3', 'foot^3', 'feet^3' ] ],
-    'cubic_meter'       : [ 'volume',   'cubic meters',     [ 'cum', 'm^3', 'meter^3', 'meters^3' ] ],
+    'cubic_foot'        : [ 'volume',   'cubic_feet',       [ 'cuft', 'ft^3', 'foot^3', 'feet^3' ] ],
+    'cubic_meter'       : [ 'volume',   'cubic_meters',     [ 'cum', 'm^3', 'meter^3', 'meters^3' ] ],
     'cup'               : [ 'volume',   'cups',             [ ] ],
     'fifth'             : [ 'volume',   'fifths',           [ ] ],
     'firkin'            : [ 'volume',   'firkins',          [ ] ],
-    'fluid_ounce'       : [ 'volume',   'fluid ounces',     [ 'floz' ] ],
+    'fluid_ounce'       : [ 'volume',   'fluid_ounces',     [ 'floz' ] ],
     'gallon'            : [ 'volume',   'gallons',          [ 'gal' ] ],
     'gill'              : [ 'volume',   'gills',            [ ] ],
     'liter'             : [ 'volume',   'liters',           [ 'l' ] ],
@@ -126,9 +126,11 @@ unitOperators = {
     'teaspoon'          : [ 'volume',   'teaspoons',        [ 'tbsp' ] ],
     'volume'            : [ 'volume',   'volume',           [ ] ],
 
-    'speed_of_light'    : [ 'velocity',     'x speed of light',     [ 'c' ] ],
+    'meter/second'      : [ 'velocity',     'meters/second',        [ ] ],
+    'speed_of_light'    : [ 'velocity',     'x_speed_of_light',     [ 'c' ] ],
 
-    'standard_gravity'  : [ 'acceleration', 'standard gravities',   [ 'G' ] ],
+    'meter/second^2'    : [ 'acceleration', 'meters/second^2',      [ ] ],
+    'standard_gravity'  : [ 'acceleration', 'standard_gravities',   [ 'G' ] ],
 }
 
 
@@ -297,7 +299,7 @@ def makeAliases( ):
 #//
 #//  Every metric unit needs to be permuted for all SI power types.  We need to
 #//  create conversions for each new type, as well as aliases.
-#..
+#//
 #//******************************************************************************
 
 def expandMetricUnits( ):
@@ -314,15 +316,17 @@ def expandMetricUnits( ):
 
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
             unitConversionMatrix[ ( newName, unit[ 0 ] ) ] = str( newConversion )
+            newConversion = fdiv( 1, newConversion )
+            unitConversionMatrix[ ( unit[ 0 ], newName ) ] = str( newConversion )
 
             for op1, op2 in unitConversionMatrix:
                 if ( op1 == unit[ 0 ] ) or ( op2 == unit[ 0 ] ):
                     oldConversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
 
                     if op1 == unit[ 0 ] and newName != op2:
-                        newConversions[ ( newName, op2 ) ] = str( fmul( newConversion, oldConversion  ) )
+                        newConversions[ ( newName, op2 ) ] = str( fdiv( oldConversion, newConversion ) )
                     elif op2 == unit[ 0 ] and newName != op1:
-                        newConversions[ ( op1, newName ) ] = str( fdiv( oldConversion, newConversion  ) )
+                        newConversions[ ( op1, newName ) ] = str( fmul( oldConversion, newConversion ) )
 
     return newConversions
 
@@ -344,6 +348,15 @@ def initializeConversionMatrix( unitConversionMatrix ):
         newConversions[ ( op2, op1 ) ] = str( conversion )
 
     unitConversionMatrix.update( newConversions )
+
+    # create map for compound units based on the conversion matrix
+    compoundUnits = { }
+
+    for unit1, unit2 in unitConversionMatrix:
+        chars = set( '*/^' )
+
+        if any( ( c in chars ) for c in unit2 ):
+            compoundUnits[ unit1 ] = unit2
 
     # create area and volume units from all of the length units
     newOperators = { }
@@ -462,6 +475,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
         pickle.dump( unitOperators, pickleFile )
         pickle.dump( unitConversionMatrix, pickleFile )
         pickle.dump( newAliases, pickleFile )
+        pickle.dump( compoundUnits, pickleFile )
 
 
 #//******************************************************************************
@@ -471,6 +485,14 @@ def initializeConversionMatrix( unitConversionMatrix ):
 #//******************************************************************************
 
 def main( ):
+    #units = parseUnits( 'meter' )
+    #units = parseUnits( 'meter^2' )
+    #units = parseUnits( 'meter/second' )
+    #units = parseUnits( 'meter*second' )
+    #units = parseUnits( 'meter*meter' )
+    #units = parseUnits( 'meter/meter' )
+    #units = parseUnits( 'meter^2*fred/second^3' )
+
     print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )

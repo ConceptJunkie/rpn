@@ -32,7 +32,7 @@ import time
 from fractions import Fraction
 from functools import reduce
 from mpmath import *
-#from mpmath.ext_libmp import to_digits_exp
+
 
 #//******************************************************************************
 #//
@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.4.4'
+PROGRAM_VERSION = '5.4.5'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -70,6 +70,174 @@ unitStack = [ ]
 
 #//******************************************************************************
 #//
+#//  makeUnitString
+#//
+#//******************************************************************************
+
+def makeUnitString( units ):
+    resultString = ''
+
+    for unit in sorted( units ):
+        exponent = units[ unit ]
+
+        if exponent > 0:
+            if resultString != '':
+                resultString += '*'
+
+            resultString += unit
+
+            if exponent > 1:
+                resultString += '^' + str( exponent )
+
+    denominator = ''
+
+    for unit in sorted( units ):
+        exponent = units[ unit ]
+
+        if exponent < 0:
+            if denominator != '':
+                denominator += '*'
+
+            denominator += unit
+
+            if exponent < -1:
+                deonominator += '^' + str( -exponent )
+
+    if denominator != '':
+        resultString += '/' + denominator
+
+    return resultString
+
+
+#//******************************************************************************
+#//
+#//  parseUnitString
+#//
+#//******************************************************************************
+
+def parseUnitString( expression ):
+    units = { }
+
+    if expression == '':
+        return units
+
+    start = 0
+    index = -1
+    denominator = False
+
+    index = 0
+
+    exponent = 1
+
+    length = len( expression )
+    #print( 'expression: ', expression )
+    #print( 'length: ', length )
+
+    unit = ''
+
+    needToAdd = True
+
+    while True:
+        c = expression[ start ]
+
+        # handle multiplying
+        if c == '*':
+            if unit == '':
+                raise ValueError( 'expected a unit name starting at index: ', start )
+
+            if needToAdd:
+                if unit in units:
+                    units[ unit ] += exponent
+                else:
+                    units[ unit ] = exponent
+
+            start += 1
+        # handle dividing
+        elif c == '/':
+            if denominator:
+                raise ValueError( 'only one \'/\' is permitted' )
+
+            if unit == '':
+                raise ValueError( 'expected a unit name starting at index: ', start )
+
+            if needToAdd:
+                if unit in units:
+                    units[ unit ] += exponent
+                else:
+                    units[ unit ] = exponent
+
+            #print( 'denominator!' )
+            denominator = True
+            exponent = -1
+            start += 1
+        # handle an exponent
+        elif c == '^':
+            if not needToAdd:
+                raise ValueError( 'wasn\'t expecting another exponent' )
+
+            if unit == '':
+                raise ValueError( 'expected a unit name starting at index: ', start )
+
+            start += 1
+            index = start
+
+            for c in expression[ start : ]:
+                if c not in string.digits:
+                    break
+
+                index += 1
+
+            newExponent = int( expression[ start : index ] )
+
+            start = index
+
+            if denominator:
+                newExponent = -newExponent
+
+            if unit in units:
+                units[ unit ] += newExponent
+            else:
+                units[ unit ] = newExponent
+
+            needToAdd = False
+
+            if start >= length:
+                break
+            else:
+                continue
+
+        needToAdd = True
+        index = start
+
+        # parse out a unit name
+        for c in expression[ start : ]:
+            if c not in string.ascii_letters and c != '_' and c not in string.digits:
+                break
+
+            index += 1
+
+        unit = expression[ start : index ]
+        #print( 'unit: ', unit )
+
+        # if we've hit the end of the string, wrap up
+        if index >= length:
+            #print( 'wrapping up' )
+
+            if unit in units:
+                units[ unit ] += exponent
+            else:
+                units[ unit ] = exponent
+
+            break
+        else:
+            start = index
+
+    #print( units )
+    return units
+
+
+#//******************************************************************************
+#//
 #//  getUnitType
 #//
 #//******************************************************************************
@@ -80,12 +248,32 @@ def getUnitType( unit ):
 
 #//******************************************************************************
 #//
-#//  getAlternateUnitTypes
+#//  getSimpleUnitType
 #//
 #//******************************************************************************
 
-def getAlternateUnitTypes( unit ):
+def getSimpleUnitType( unit ):
     return unitTypes[ unitOperators[ unit ][ 0 ] ]
+
+
+#//******************************************************************************
+#//
+#//  getSimpleUnitTypes
+#//
+#//******************************************************************************
+
+def getSimpleUnitTypes( unitTypes ):
+    simpleTypes = { }
+
+    for unit in unitTypes:
+        simple = parseUnitString( getSimpleUnitType( unit ) )
+
+        for type in simple:
+            simple[ type ] *= unitTypes[ unit ]
+
+        combineUnits( simpleTypes, simple )
+
+    return simpleTypes
 
 
 #//******************************************************************************
@@ -94,8 +282,52 @@ def getAlternateUnitTypes( unit ):
 #//
 #//******************************************************************************
 
-def multiplyUnits( oldUnits, targetUnits ):
-    return 1, targetUnits
+def multiplyUnits( units1, units2 ):
+    newUnits = combineUnits( units1, units2 )
+
+    result = { }
+
+    for unit in newUnits:
+        if newUnits[ unit ] != 0:
+            result[ unit ] = newUnits[ unit ]
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  combineUnits
+#//
+#//  Combine units2 into units1
+#//
+#//******************************************************************************
+
+def combineUnits( units1, units2 ):
+    newUnits = { }
+    newUnits.update( units1 )
+
+    for unit in units2:
+        if unit in newUnits:
+            newUnits[ unit ] += units2[ unit ]
+        else:
+            newUnits[ unit ] = units2[ unit ]
+
+    return newUnits
+
+
+#//******************************************************************************
+#//
+#//  invertUnits
+#//
+#//******************************************************************************
+
+def invertUnits( units ):
+    newUnits = { }
+
+    for unit in units:
+        newUnits[ unit ] = -units[ unit ]
+
+    return newUnits
 
 
 #//******************************************************************************
@@ -104,59 +336,15 @@ def multiplyUnits( oldUnits, targetUnits ):
 #//
 #//******************************************************************************
 
-def divideUnits( oldUnits, targetUnits ):
-    #print( '1: ', oldUnits )
-    #print( '2: ', targetUnits )
-
-    newUnits = { }
-
-    for unit in oldUnits:
-        alternateUnitTypes = getAlternateUnitTypes( unit )
-
-        #print( 'alt: ', unit, alternateUnitTypes )
-
-        if alternateUnitTypes == { }:
-            if unit in newUnits:
-                newUnits[ unit ] = targetUnits[ unit ]
-            else:
-                newUnits[ unit ] = targetUnits[ unit ]
-        else:
-            for unit2 in alternateUnitTypes:
-                if unit2 in newUnits:
-                    newUnits[ unit2 ] = alternateUnitTypes[ unit2 ]
-                else:
-                    newUnits[ unit2 ] = alternateUnitTypes[ unit2 ]
-
-    #print( 'newUnits 1: ', newUnits )
-
-    for unit in targetUnits:
-        alternateUnitTypes = getAlternateUnitTypes( unit )
-
-        #print( 'alt2: ', unit, alternateUnitTypes )
-
-        if alternateUnitTypes == { }:
-            if unit in newUnits:
-                newUnits[ unit ] -= targetUnits[ unit ]
-            else:
-                newUnits[ unit ] = -targetUnits[ unit ]
-        else:
-            for unit2 in alternateUnitTypes:
-                #print( 'unit2: ', unit2, alternateUnitTypes[ unit2 ] )
-                if unit2 in newUnits:
-                    newUnits[ unit2 ] -= alternateUnitTypes[ unit2 ]
-                    #print( '3: ', newUnits[ unit2 ] )
-                else:
-                    newUnits[ unit2 ] = -alternateUnitTypes[ unit2 ]
-                    #print( '4: ', newUnits[ unit2 ] )
+def divideUnits( units1, units2 ):
+    newUnits = combineUnits( units1, invertUnits( units2 ) )
 
     result = { }
-    result.update( newUnits )
 
     for unit in newUnits:
-        if newUnits[ unit ] == 0:
-            del result[ unit ]
+        if newUnits[ unit ] != 0:
+            result[ unit ] = newUnits[ unit ]
 
-    #print( 'result 2: ', result )
     return result
 
 
@@ -247,11 +435,12 @@ class Measurement( mpf ):
         if isinstance( other, dict ):
             return self.getTypes( ) == other
         elif isinstance( other, Measurement ):
-            print( self.getTypes( ) )
-            print( other.getTypes( ) )
-
             if self.getTypes( ) == other.getTypes( ):
                 return True
+            elif self.getSimpleTypes( ) == other.getSimpleTypes( ):
+                return True
+            else:
+                return False
         else:
             raise ValueError( 'Measurement or dict expected' )
 
@@ -281,30 +470,8 @@ class Measurement( mpf ):
         return types
 
 
-    def getAlternateTypes( self ):
-        types = { }
-
-        for unit in self.units:
-            if unit not in unitOperators:
-                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
-            unitType = getUnitType( unit )
-
-            alternateTypes = unitTypes[ unitType ]
-
-            if alternateTypes == { }:
-                if unitType in types:
-                    types[ unitType ] += 1
-                else:
-                    types[ unitType ] = 1
-            else:
-                for unit2 in alternateTypes:
-                    if unitType in types:
-                        types[ unitType ] += alternateTypes[ unit2 ]
-                    else:
-                        types[ unitType ] = alternateTypes[ unit2 ]
-
-        return types
+    def getSimpleTypes( self ):
+        return getSimpleUnitTypes( self.units )
 
 
     def getConversion( self, other ):
@@ -312,28 +479,53 @@ class Measurement( mpf ):
             units1 = self.getUnits( )
             units2 = other.getUnits( )
 
-            print( 'units1: ', units1 )
-            print( 'units2: ', units2 )
-
             conversions = [ ]
 
-            for unit1 in units1:
-                for unit2 in units2:
-                    if getUnitType( unit1 ) == getUnitType( unit2 ):
-                        conversions.append( [ unit1, unit2 ] )
-                        break
+            unit1String = makeUnitString( units1 )
+            unit2String = makeUnitString( units2 )
 
-            value = mpmathify( 1 )
+            exponents = [ ]
 
-            for conversion in conversions:
-                #print( 'conversion: ', conversion )
+            # look for a straight-up conversion
+            if ( unit1String, unit2String ) in unitConversionMatrix:
+                value = mpmathify( unitConversionMatrix[ ( unit1String, unit2String ) ] )
+            else:
+                conversionValue = mpmathify( 1 )
 
-                conversionValue = mpmathify( unitConversionMatrix[ ( conversion[ 0 ], conversion[ 1 ] ) ] )
+                if unit1String in compoundUnits:
+                    newUnit1String = compoundUnits[ unit1String ]
+                    conversionValue = mpmathify( unitConversionMatrix[ unit1String, newUnit1String ] )
+                    units1 = parseUnitString( newUnit1String )
 
-                if units1[ conversion[ 0 ] ] < 0:
-                    conversionValue = fdiv( 1, conversionValue )
+                if unit2String in compoundUnits:
+                    newUnit2String = compoundUnits[ unit2String ]
+                    conversionValue = fmul( conversionValue,
+                                            mpmathify( unitConversionMatrix[ unit2String, newUnit2String ] ) )
+                    units2 = parseUnitString( newUnit2String )
 
-                value = fmul( value, conversionValue )
+                # if that isn't found, then we need to do the hard work and break the units down
+                for unit1 in units1:
+                    for unit2 in units2:
+                        if getUnitType( unit1 ) == getUnitType( unit2 ):
+                            conversions.append( [ unit1, unit2 ] )
+                            exponents.append( units1[ unit1 ] )
+                            break
+
+                value = conversionValue
+                index = 0
+
+                for conversion in conversions:
+                    #print( 'conversion: ', conversion, '^', exponents[ index ] )
+                    if conversion[ 0 ] == conversion[ 1 ]:
+                        continue  # no conversion needed
+
+                    conversionValue = mpmathify( unitConversionMatrix[ ( conversion[ 0 ], conversion[ 1 ] ) ] )
+                    conversionValue = power( conversionValue, exponents[ index ] )
+                    #print( 'conversion: ', conversion, conversionValue )
+
+                    index += 1
+
+                    value = fmul( value, conversionValue )
 
             return value
         else:
@@ -2932,15 +3124,15 @@ def getNSphereRadius( n, k ):
     if not isinstance( k, Measurement ):
         return Measurement( k, 'length' )  # default is 'length' anyway
 
-    measurementType = k.getTypes( )
+    measurementType = getSimpleUnitType( makeUnitString( k.getTypes( ) ) )
 
-    if measurementType == { 'length' : 1 }:
+    if measurementType == 'length':
         return 1
-    elif measurementType == { 'length' : 2 }:
+    elif measurementType == 'length^2':
         return fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                            fmul( n, power( pi, fdiv( n, 2 ) ) ) ),
                      root( k, fsub( n, 1 ) ) )
-    elif measurementType == { 'length' : 3 }:
+    elif measurementType == 'length^3':
         return root( fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                                  power( pi, fdiv( n, 2 ) ) ), k ), 3 )
     else:
@@ -5067,14 +5259,15 @@ callers = [
 def convertUnits( unit1, unit2 ):
     global unitConversionMatrix
 
-    #print( unit1 )
-    #print( unit1.getUnits( ) )
-    #print( unit2 )
-    #print( unit2.getUnits( ) )
+    #print( )
+    #print( 'unit1: ', unit1 )
+    #print( 'unit1 units: ', makeUnitString( unit1.getUnits( ) ) )
+    #print( 'unit2: ', unit2 )
+    #print( 'unit2 units: ', makeUnitString( unit2.getUnits( ) ) )
 
     conversion = unit1.getConversion( unit2 )
 
-    #print( conversion )
+    #print( 'conversion: ', conversion )
 
     return Measurement( fmul( unit1, conversion ), unit2.getUnits( ) )
 
@@ -5952,7 +6145,15 @@ def formatUnits( measurement ):
             if exponent > 1:
                 negative += '^' + str( exponent )
 
-    return unitString + negative
+    result = ''
+
+    for c in unitString + negative:
+        if c == '_':
+            result += ' '
+        else:
+            result += c
+
+    return result
 
 
 #//******************************************************************************
@@ -6086,7 +6287,6 @@ def printHelp( helpArgs ):
 
     if helpVersion != PROGRAM_VERSION:
         print( 'rpn:  help file version mismatch' )
-        return
 
     operatorCategories = set( operatorHelp[ key ][ 0 ] for key in operatorHelp )
 
@@ -6206,6 +6406,7 @@ def main( ):
     global unitOperators
     global unitTypes
     global unitConversionMatrix
+    global compoundUnits
 
     global balancedPrimes
     global cousinPrimes
@@ -6415,12 +6616,12 @@ def main( ):
             unitOperators = pickle.load( pickleFile )
             unitConversionMatrix = pickle.load( pickleFile )
             operatorAliases.update( pickle.load( pickleFile ) )
+            compoundUnits = pickle.load( pickleFile )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
 
     if unitsVersion != PROGRAM_VERSION:
-        print( 'rpn:  units data file version mismatch' )
-        return
+        print( 'rpn  units data file version mismatch' )
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
