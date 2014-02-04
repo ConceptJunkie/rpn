@@ -14,7 +14,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.12.1"
+RPN_VERSION = "2.13.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -124,6 +124,41 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits ):
 
         value -= digit
         precision -= 1
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  convertToBase10
+#//
+#//******************************************************************************
+
+def convertToBase10( integer, mantissa, inputRadix ):
+    result = Decimal( 0 )
+    base = Decimal( 1 )
+
+    validNumerals = numerals[ : inputRadix ]
+
+    for i in range( len( integer ) - 1, -1, -1 ):
+        digit = validNumerals.find( integer[ i ] )
+
+        if digit == -1:
+            raise ValueError( 'Invalid numeral \'%c\' for base %d' % ( integer[ i ], inputRadix ) )
+
+        result += digit * base
+        base *= inputRadix
+
+    base = Decimal( 1 ) / inputRadix
+
+    for i in range( 0, len( mantissa ) ):
+        digit = validNumerals.find( mantissa[ i ] )
+
+        if digit == -1:
+            raise ValueError( 'Invalid numeral \'%c\' for base %d' % ( mantissa[ i ], inputRadix ) )
+
+        result += digit * base
+        base /= inputRadix
 
     return result
 
@@ -797,38 +832,54 @@ expressions = {
 #//
 #//******************************************************************************
 
-def parseInputValue( term ):
+def parseInputValue( term, inputRadix ):
     if term == '0':
         return Decimal( 0 )
 
-    if '.' in term:
-        return Decimal( term )
-
-    # parse out the leading negative or positive sign
-    if term[ 0 ] == '-':
-        actual = term[ 1: ]
-        negative = True
-    elif term[ 0 ] == '+':
-        actual = term[ 1: ]
-        negative = False
+    if term[ 0 ] == '\\':
+        term = term[ 1 : ]
+        ignoreSpecial = True
     else:
-        actual = term
-        negative = False
+        ignoreSpecial = False
+
+    if '.' in term:
+        if inputRadix == 10:
+            return Decimal( term )
+
+        decimal = term.find( '.' )
+    else:
+        decimal = len( term )
+
+    negative = term[ 0 ] == '-'
+
+    if negative:
+        start = 1
+    else:
+        if term[ 0 ] == '+':
+            start = 1
+        else:
+            start = 0
+
+    integer = term[ start : decimal ]
+    mantissa = term[ decimal + 1 : ]
 
     # check for hex, then binary, then octal
-    if actual[ 0 ] == '0':
-        if actual[ 1 ] in 'Xx':
-            return Decimal( int( term, 16 ) )
-        elif actual[ -1 ] in 'bB':
-            actual = actual[ :-1 ]
-            return Decimal( int( actual, 2 ) * ( -1 if negative else 1 ) )
-        else:
-            actual = actual[ 1: ]
+    if not ignoreSpecial and mantissa == '':
+        if integer[ 0 ] == '0':
+            if integer[ 1 ] in 'Xx':
+                return Decimal( int( integer, 16 ) )
+            elif integer[ -1 ] in 'bB':
+                integer = integer[ : -1 ]
+                return Decimal( int( integer, 2 ) * ( -1 if negative else 1 ) )
+            else:
+                integer = integer[ 1 : ]
 
-            return Decimal( int( actual, 8 ) )
+                return Decimal( int( integer, 8 ) )
+        elif inputRadix == 10:
+            return Decimal( integer )
 
-    # otherwise, assume base 10
-    return Decimal( int( term, 0 ) )
+    # finally, we have a non-radix 10 number to parse
+    return convertToBase10( integer, mantissa, inputRadix )
 
 
 #//******************************************************************************
@@ -943,10 +994,15 @@ operators do not always provide arbitrary precision:
 
 For integers, rpn understands hexidecimal input of the form '0x....'.
 Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B' is
-interpreted as binary.
+interpreted as binary.  These rules hold regardless of what is specified by
+-b.
+
+A leading '\\' forces the term to be a number rather than an operator (for use
+with higher bases with -b).
 
 Note:  rpn now supports converting fractional results to different bases, but
-       input in binary, octal or hex is still restricted to integers
+       input in binary, octal or hex is still restricted to integers.  Use -b
+       for inputting fractional values in other bases.
 
 Note:  tetration forces the second argument to an integer.
 
@@ -961,17 +1017,19 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
                                       formatter_class=RawTextHelpFormatter )
 
     parser.add_argument( 'terms', nargs='+', metavar='term' )
-    parser.add_argument( '-x', '--hex', action='store_true', help="equivalent to '-r 16'" )
-    parser.add_argument( '-r', '--output_radix', type=int, action='store', default=10,
-                         help="output in a different base (2 to 62)" )
-    parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
-                         help="each digit is a space-delimited base-10 number" )
-    parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
-                         help="precision, i.e., number of significant digits to use" )
+    parser.add_argument( '-b', '--input_radix', type=int, action='store', default=10,
+                         help="specify the radix for input (default: 10)" )
     parser.add_argument( '-c', '--comma', action='store_true',
                          help="add commas to result, e.g., 1,234,567.0" )
     parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
                          help="number decimal places separated into groups (default: 0)" )
+    parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
+                         help="precision, i.e., number of significant digits to use" )
+    parser.add_argument( '-r', '--output_radix', type=int, action='store', default=10,
+                         help="output in a different base (2 to 62)" )
+    parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
+                         help="each digit is a space-delimited base-10 number" )
+    parser.add_argument( '-x', '--hex', action='store_true', help="equivalent to '-r 16'" )
 
     if len( sys.argv ) == 1:
         parser.print_help( )
@@ -984,6 +1042,8 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
         outputRadix = 16
     else:
         outputRadix = args.output_radix
+
+    inputRadix = args.input_radix
 
     if args.output_radix_numerals > 0:
         if args.output_radix != 10:
@@ -1041,7 +1101,7 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
                 break
         else:
             try:
-                valueList.append( parseInputValue( term ) )
+                valueList.append( parseInputValue( term, inputRadix ) )
             except Exception as error:
                 print( "rpn: error in arg " + format( index ) + ": {0}".format( error ) )
                 break
