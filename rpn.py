@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 
 import argparse
+import bz2
+import contextlib
 import math
+import pickle
 import random
 import sys
 import types
+
+from Euler import is_prime as isPrime
+
 
 from fractions import Fraction
 from functools import reduce
@@ -18,7 +24,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.0.2"
+RPN_VERSION = "4.1.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -46,11 +52,107 @@ inputRadix = 10
 
 #//******************************************************************************
 #//
-#//  globals
+#//  loadPrimes
 #//
 #//******************************************************************************
 
-nestedListLevel = 0
+def loadPrimes( ):
+    try:
+        with contextlib.closing( bz2.BZ2File( 'GetNthPrime.pckl.bz2', 'rb' ) ) as pickleFile:
+            primes = pickle.load( pickleFile )
+    except FileNotFoundError as error:
+        primes = { 3: 5, }
+
+    return primes
+
+
+#//******************************************************************************
+#//
+#//  getNthPrime
+#//
+#//******************************************************************************
+
+def getNthPrime( arg ):
+    global primes
+
+    n = int( arg )
+
+    if n == 1:
+        return 2
+
+    if n == 2:
+        return 3
+
+    if n > 100:
+        if primes == { }:
+            primes = loadPrimes( )
+
+        startingPlace = max( key for key in primes if key < n )
+        p = primes[ startingPlace ]
+    else:
+        p = 5
+        startingPlace = 3
+
+    f = p % 6 == 5
+
+    while n > startingPlace:
+        p += 3 - f
+        f = -f
+
+        if isPrime( p ):
+            n -= 1
+
+    return p
+
+
+#//******************************************************************************
+#//
+#//  getNthPrimeRange
+#//
+#//******************************************************************************
+
+def getNthPrimeRange( arg1, arg2 ):
+    n = int( arg1 )
+    count = int( arg2 )
+
+    if count < 1:
+        return [ ]
+
+    if n == 1:
+        if count == 1:
+            return [ 2 ]
+        elif count == 2:
+            return[ 2, 3 ]
+        else:
+            result = [ 2, 3, 5 ]
+            n = 3
+            count -= 3
+            p = 5
+    elif n == 2:
+        if count == 1:
+            return [ 3 ]
+        else:
+            result = [ 3, 5 ]
+            n = 3
+            count -= 2
+            p = 5
+    else:
+        p = getNthPrime( n )
+        result = [ p ]
+
+    f = p % 6 == 5
+
+    found = 0
+
+    while found < count:
+        p += 3 - f
+        f = -f
+
+        if isPrime( p ):
+            result.append( p )
+            found += 1
+
+    return result
 
 
 #//******************************************************************************
@@ -60,6 +162,7 @@ nestedListLevel = 0
 #//  A continued fraction, represented as a list of integer terms.
 #//
 #//  adapted from ActiveState Python, recipe 578647
+
 #//
 #//******************************************************************************
 
@@ -926,6 +1029,24 @@ def getChampernowne( ):
 
 #//******************************************************************************
 #//
+#//  getCopelandErdos
+#//
+#//******************************************************************************
+
+def getCopelandErdos( ):
+    result = ''
+
+    count = 1
+
+    while len( result ) < mp.dps:
+        result += str( getNthPrime( count ) )
+        count += 1
+
+    return convertToBase10( '0', result, 10 )
+
+
+#//******************************************************************************
+#//
 #//  incrementNestedListLevel
 #//
 #//******************************************************************************
@@ -1056,6 +1177,21 @@ def interleave( valueList ):
 
     valueList.append( result )
 
+
+#//******************************************************************************
+#//
+#//  getPrimes
+#//
+#//******************************************************************************
+
+def getPrimes( valueList ):
+    count = int( valueList.pop( ) )
+    value = int( valueList.pop( ) )
+
+    for i in getNthPrimeRange( value, count ):
+        valueList.append( i )
+
+
 #//******************************************************************************
 #//
 #//  getCurrentArgList
@@ -1071,28 +1207,6 @@ def getCurrentArgList( valueList ):
         argList = argList[ -1 ]
 
     return argList
-
-
-#//******************************************************************************
-#//
-#//  expressions
-#//
-#//  Function names and number of args needed.  One line/zero-or-one arg
-#//  functions are implemented as lambdas.
-#//
-#//  If the number of arguments is -1, then a list argument is expected.
-#//
-#//******************************************************************************
-
-modifiers = {
-    'dup'       : duplicateTerm, #2 ],
-    'range'     : expandRange, #2 ],
-    'range2'    : expandSteppedRange, #3 ],
-    'georange'  : expandGeometricRange, #3 ],
-    'interleave': interleave, #2 ],
-    '['         : incrementNestedListLevel, #0 ],
-    ']'         : decrementNestedListLevel, #0 ],
-}
 
 
 #//******************************************************************************
@@ -1133,6 +1247,18 @@ def twoArgCaller( func, args ):
 #//  operators
 #//
 #//******************************************************************************
+
+modifiers = {
+    'dup'       : duplicateTerm, #2 ],
+    'range'     : expandRange, #2 ],
+    'range2'    : expandSteppedRange, #3 ],
+    'georange'  : expandGeometricRange, #3 ],
+    'interleave': interleave, #2 ],
+    'primes'    : getPrimes, #2 ]
+    '['         : incrementNestedListLevel, #0 ],
+    ']'         : decrementNestedListLevel, #0 ],
+}
+
 
 callers = [
     lambda func, args: [ func( ) ],
@@ -1201,6 +1327,7 @@ operators = {
     'ceil'      : [ ceil, 1 ],
     'cf2'       : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
     'champ'     : [ getChampernowne, 0 ],
+    'copeland'  : [ getCopelandErdos, 0 ],
     'cos'       : [ cos, 1 ],
     'cosh'      : [ cosh, 1 ],
     'cot'       : [ cot, 1 ],
@@ -1258,6 +1385,7 @@ operators = {
     'pi'        : [ pi, 0 ],
     'plastic'   : [ getPlasticConstant, 0 ],
     'power'     : [ power, 2 ],
+    'prime'     : [ getNthPrime, 1 ],
     'primepi'   : [ primepi, 1 ],
     'rad'       : [ degrees, 1 ],
     'radians'   : [ degrees, 1 ],
@@ -1679,7 +1807,7 @@ Calculate various constants:
         = rpn -p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 /
                 gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -
 
-    conic constant
+    Schwartzchild constant (Conic constant)
         = rpn -p20 2 [ 0 30 range ] ** [ 0 30 range ] ! / sum
         = rpn -p20 e 2 **
 
@@ -1719,11 +1847,41 @@ Calculate various constants:
     Lemniscate constant
         = rpn -p20 4 2 pi / sqrt * 0.25 ! sqr *
 
+    sqrt( e )
+        = rpn -p20 2 [ 0 20 range ] power [ 0 20 range ] ! * 1/x sum
+        = rpn -p20 [ 0 20 range ] 2 * !! 1/x sum
+        = rpn -p20 e sqrt
+
+    Zeta( 6 )
+        = rpn -p25 -a19 1 1 1000 primes -6 power - 1/x prod
+        = rpn -p20 pi 6 power 945 /
+        = rpn -p20 6 zeta
+
+    Pythagoras' constant
+        = rpn -p20 [ 1 2 25 dup ] cf
+        = rpn -p20 2 sqrt
+
+    Digamma
+        = rpn -p25 -a20 1 1 1000 primes -6 power - 1/x prod
+        = rpn -a5 [ 0 100000 range ] 1 + 1/x [ 0 100000 range ] 1 4 / + 1/x - sum euler -
+
+    Strongly Carefree Constant
+        = rpn -a6 1 [ 1 100000 primes ] 3 * 2 - [ 1 100000 primes ] 3 power / - prod
+
+    Ramanujan-Forsythe constant
+        = rpn [ 0 100000 range ] 2 * 3 - fac2 [ 0 100000 range ] 2 * fac2 / sqr sum
+
+
+
 ''' )
+
+
 
 #  But it's wrong, is the formula wrong?
 #  Gieseking constant = rpn 3 3 sqrt * 4 / 1 [ 0 10000 range ] 3 * 2 + sqr 1/x sum [ 1 10000 range ] 3 * 1 + sqr 1/x sum + - *
 
+# Strongly Carefree Constant
+# rpn 6 pi sqr / 1 [ 1 10000 primes ] [ 1 10000 primes ] 1 + * 1/x - prod *
 
 #//******************************************************************************
 #//
@@ -1736,6 +1894,11 @@ def main( ):
     global bitwiseGroupSize
     global addToListArgument
     global inputRadix
+    global nestedListLevel
+    global primes
+
+    nestedListLevel = 0
+    primes = { }
 
     parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
                                       PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
