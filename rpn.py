@@ -3655,11 +3655,11 @@ def twoArgCaller( func, args ):
 
 callers = [
     lambda func, args: [ func( ) ],
-    lambda func, args: [ func( i ) for i in args[ 0 ] ],
+    lambda func, args: [ func( n ) for n in args[ 0 ] ],
     twoArgCaller,
-    lambda func, args: [ func( k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] ],
-    lambda func, args: [ func( l, k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] for l in args[ 3 ] ],
-    lambda func, args: [ func( m, l, k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] for l in args[ 3 ] for m in args[ 4 ] ],
+    lambda func, args: [ func( a, b, c ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] ],
+    lambda func, args: [ func( a, b, c, d ) for a in args[ 0 ] for b in args[ 1 ] for c in args[ 2 ] for d in args[ 3 ] ],
+    lambda func, args: [ func( a, b, c, d, e ) for a in args[ 0 ] for b in args[ 1 ] for c in args[ 2 ] for d in args[ 3 ] for e in args[ 4 ] ],
 ]
 
 
@@ -3682,11 +3682,15 @@ operatorAliases = {
     'ceil'      : 'ceiling',
     'cousin'    : 'cousinprime',
     'cuberoot'  : 'root3',
+    'dec'       : 'decagonal',
     'deg'       : 'degrees',
     'fac'       : 'factorial',
     'fac2'      : 'doublefac',
     'fib'       : 'fibonacci',
     'harm'      : 'harmonic',
+    'hept'      : 'heptagonal',
+    'hex'       : 'hexagonal',
+    'hex?'      : 'hexagonal?',
     'hyper4'    : 'tetrate',
     'inv'       : 'reciprocal',
     'isdiv'     : 'isdivisible',
@@ -3695,7 +3699,12 @@ operatorAliases = {
     'mod'       : 'modulo',
     'mult'      : 'multiply',
     'neg'       : 'negative',
+    'non'       : 'nonagonal',
     'nonzeroes' : 'nonzero',
+    'oct'       : 'octagonal',
+    'p!'        : 'primorial',
+    'pent'      : 'pentagonal',
+    'pent?'     : 'pentagonal?',
     'prod'      : 'product',
     'pyr'       : 'pyramid',
     'quad'      : 'quadprime',
@@ -3714,6 +3723,8 @@ operatorAliases = {
     'sophie'    : 'sophieprime',
     'sqr'       : 'square',
     'sqrt'      : 'root2',
+    'tri'       : 'triangular',
+    'tri?'      : 'triangular?',
     'triplet'   : 'tripletprime',
     'twin'      : 'twinprime',
     'zeroes'    : 'zero',
@@ -3834,13 +3845,13 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'mean'      : [ lambda i: fdiv( fsum( i ), len( i ) ), 1,
+    'mean'      : [ lambda n: fdiv( fsum( n ), len( n ) ), 1,
 'arithmetic', 'calculates the mean of values in list n',
 '''
 ''',
 '''
 ''' ],
-    'nonzero'   : [ lambda i: [ index for index, e in enumerate( i ) if e != 0 ], 1,
+    'nonzero'   : [ lambda n: [ index for index, e in enumerate( n ) if e != 0 ], 1,
 'special', 'returns the indices of elements of list n that are not zero',
 '''
 ''',
@@ -3906,7 +3917,7 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'zero'    : [ lambda i: [ index for index, e in enumerate( i ) if e == 0 ], 1,
+    'zero'    : [ lambda n: [ index for index, e in enumerate( n ) if e == 0 ], 1,
 'special', 'returns a list of the indices of elements in list n that are zero',
 '''
 ''',
@@ -4007,7 +4018,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'and'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x & y ), 2,
+    'and'           : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x & y ), 2,
 'logical', 'calculates the bitwise \'and\' of n and k',
 '''
 ''',
@@ -4085,7 +4096,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'catalan'       : [ lambda i: fdiv( binomial( fmul( 2, i ), i ), fadd( i, 1 ) ), 1,
+    'catalan'       : [ lambda n: fdiv( binomial( fmul( 2, n ), n ), fadd( n, 1 ) ), 1,
 'combinatorics', 'calculates nth Catalan number',
 '''
 ''',
@@ -4115,7 +4126,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'cf'            : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2,
+    'cf'            : [ lambda n, k: ContinuedFraction( n, maxterms=k, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2,
 'number_theory', 'calculates k terms of the continued fraction representation of n',
 '''
 ''',
@@ -4181,13 +4192,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'cube'          : [ lambda i: power( i, 3 ), 1,
+    'cube'          : [ lambda n: power( n, 3 ), 1,
 'powers_and_roots', 'calculates the cube of n',
 '''
 ''',
 '''
 ''' ],
-    'dec'           : [ lambda i: polyval( [ 4, -3, 0 ],  i ), 1,
+    'decagonal'     : [ lambda n: polyval( [ 4, -3, 0 ],  n ), 1,
 'polygonal_numbers', 'calculates the nth decagonal number',
 '''
 ''',
@@ -4307,7 +4318,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'hept'          : [ getNthHeptagonalNumber, 1,
+    'heptagonal'    : [ getNthHeptagonalNumber, 1,
 'polygonal_numbers', 'calculates the nth heptagonal number',
 '''
 ''',
@@ -4331,7 +4342,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'hex'           : [ lambda i: fsub( fprod( 2, i, i ), i ), 1,
+    'hexagonal'     : [ lambda i: fsub( fprod( 2, i, i ), i ), 1,
 'polygonal_numbers', 'calculates the nth hexagonal number',
 '''
 ''',
@@ -4505,7 +4516,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'non'           : [ lambda n: fdiv( polyval( [ 7, -5, 0 ], n ), 2 ), 1,
+    'nonagonal'     : [ lambda n: fdiv( polyval( [ 7, -5, 0 ], n ), 2 ), 1,
 'polygonal_numbers', 'calculates the nth nonagonal number',
 '''
 ''',
@@ -4523,7 +4534,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'oct'           : [ lambda n: polyval( [ 3, -2, 0 ], n ), 1,
+    'octagonal'     : [ lambda n: polyval( [ 3, -2, 0 ], n ), 1,
 'polygonal_numbers', 'calculates the nth octagonal number',
 '''
 ''',
@@ -4583,13 +4594,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'pent'          : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1,
+    'pentagonal'    : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1,
 'polygonal_numbers', 'calculates the nth pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'pent?'         : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1,
+    'pentagonal?'   : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1,
 'polygonal_numbers', 'finds the index of the closest pentagonal number over n',
 '''
 ''',
@@ -4673,7 +4684,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'prime?'        : [ lambda i: findPrime( i )[ 1 ], 1,
+    'prime?'        : [ lambda n: findPrime( n )[ 1 ], 1,
 'prime_numbers', 'find the index of the closest prime above n',
 '''
 ''',
@@ -4727,6 +4738,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'reciprocal'        : [ lambda n : fdiv( 1, n ), 1,
+'special', 'returns the reciprocal of n',
+'''
+''',
+'''
+''' ],
     'rhombdodec'    : [ getNthRhombicDodecahedralNumber, 1,
 'polyhedral_numbers', 'calculates the nth rhombic dodecahedral number',
 '''
@@ -4751,7 +4768,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'round'         : [ lambda i: floor( fadd( i, 0.5 ) ), 1,
+    'round'         : [ lambda n: floor( fadd( n, 0.5 ) ), 1,
 'arithmetic', 'rounds n to the nearest integer',
 '''
 ''',
@@ -4847,7 +4864,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'sqtri'         : [ getNthSquareTriangularNumber, 1,
+    'squaretri'     : [ getNthSquareTriangularNumber, 1,
 'polygonal_numbers', 'calculates the nth square triangular number',
 '''
 ''',
@@ -4931,13 +4948,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'tri'           : [ getNthTriangularNumber, 1,
+    'triangular'    : [ getNthTriangularNumber, 1,
 'polygonal_numbers', 'calcuates the nth triangular number',
 '''
 ''',
 '''
 ''' ],
-    'tri?'          : [ findTriangularNumber, 1,
+    'triangular?'   : [ findTriangularNumber, 1,
 'polygonal_numbers', 'finds nearest triangular number index for n',
 '''
 ''',
@@ -5316,9 +5333,8 @@ def parseInputValue( term, inputRadix ):
     if term == '0':
         return mpmathify( 0 )
 
-    # ignore a trailing comma, since it's easy to want to use those in lists
-    if term[ -1 ] == ',':
-        term = term[ : -1 ]
+    # ignore commans
+    term = ''.join( [ i for i in term if i not in ',' ] )
 
     if term[ 0 ] == '\\':
         term = term[ 1 : ]
