@@ -34,7 +34,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.23.0'
+RPN_VERSION = '4.23.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -2633,18 +2633,29 @@ def getNthOctagonalHeptagonalNumber( n ):
 #//
 #//******************************************************************************
 
+def getNthOctagonalSquareNumber( n ):
+    return floor( fdiv( power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ), 12 ) )
+
+
 #//******************************************************************************
 #//
 #//  getNthOctagonalTriangularNumber
 #//
 #//  From http://oeis.org/A046183
 #//
-#//  a(n) = 1/96*((7-2*sqrt(6)*(-1)^n)*(sqrt(3)+sqrt(2))^(4*n-2)+(7+2*sqrt(6)*(-1)^n)*(sqrt(3)-sqrt(2))^(4*n-2)-22).
 #//  a(n) = floor(1/96*(7-2*sqrt(6)*(-1)^n)*(sqrt(3)+sqrt(2))^(4n-2))
 #//
 #//  LinearRecurrence[{1, 9602, -9602, -1, 1}, {1, 21, 11781, 203841, 113123361}, 13]
 #//
 #//******************************************************************************
+
+def getNthOctagonalTriangularNumber( n ):
+    sign = power( -1, n )
+
+    return floor( fdiv( fmul( fsub( 7, fprod( [ 2, sqrt( 6 ), sign ] ) ),
+                              power( fadd( sqrt( 3 ), sqrt( 2 ) ), fsub( fmul( 4, n ), 2 ) ) ),
+                        96 ) )
+
 
 #//******************************************************************************
 #//
@@ -2679,14 +2690,19 @@ def getNthNonagonalHexagonalNumber( n ):
 #//
 #//  From http://oeis.org/A048924:
 #//
-#//  a(n) = floor(1/672*(11*sqrt(7)-9*sqrt(6))*(sqrt(6)+sqrt(7))^(8n-5)). (End)
+#//  a(n) = floor(1/672*(11*sqrt(7)-9*sqrt(6))*(sqrt(6)+sqrt(7))^(8n-5)).
 #//
 #//  LinearRecurrence[{454275, -454275, 1}, {1, 631125, 286703855361}, 30] (* Vincenzo Librandi, Dec 24 2011 *)
 #//
 #//******************************************************************************
 
 def getNthNonagonalOctagonalNumber( n ):
-    return 0
+    sqrt6 = sqrt( 6 )
+    sqrt7 = sqrt( 7 )
+
+    return floor( fdiv( fmul( fsub( fmul( 11, sqrt7 ), fmul( 9, sqrt6 ) ),
+                              power( fadd( sqrt6, sqrt7 ), fsub( fmul( 8, n ), 5 ) ) ),
+                        672 ) )
 
 
 #//******************************************************************************
@@ -2695,13 +2711,22 @@ def getNthNonagonalOctagonalNumber( n ):
 #//
 #//  http://oeis.org/A048915
 #//
-#// a(n) = 1/336*((25+4*sqrt(21))*(5-sqrt(21)*(-1)^n)*(2*sqrt(7)+3*sqrt(3))^(4n-4)+ (25-4*sqrt(21))*(5+sqrt(21)*(-1)^n)*(2*sqrt(7)-3*sqrt(3))^(4n-4)-82).
+#//  a(n) = floor(1/336*(25+4*sqrt(21))*(5-sqrt(21)*(-1)^n)*(2*sqrt(7)+3*sqrt(3))^(4n-4)).
 #//
-#// a(n) = floor(1/336*(25+4*sqrt(21))*(5-sqrt(21)*(-1)^n)*(2*sqrt(7)+3*sqrt(3))^(4n-4)).
-#//
-#// LinearRecurrence[{1, 146361602, -146361602, -1, 1}, {1, 651, 180868051, 95317119801, 26472137730696901}, 9] (* Ant King, Dec 20 2011 *)
+#//  LinearRecurrence[{1, 146361602, -146361602, -1, 1}, {1, 651, 180868051, 95317119801, 26472137730696901}, 9]
 #//
 #//******************************************************************************
+
+def getNthNonagonalPentagonalNumber( n ):
+    sqrt21 = sqrt( 21 )
+    sign = power( -1, n )
+
+    return floor( fdiv( fprod( [ fadd( 25, fmul( 4, sqrt21 ) ),
+                                 fsub( 5, fmul( sqrt21, sign ) ),
+                                 power( fadd( fmul( 2, sqrt( 7 ) ), fmul( 3, sqrt( 3 ) ) ),
+                                        fsub( fmul( 4, n ), 4 ) ) ] ),
+                        336 ) )
+
 
 #//******************************************************************************
 #//
@@ -2709,13 +2734,19 @@ def getNthNonagonalOctagonalNumber( n ):
 #//
 #//  From http://oeis.org/A048921
 #//
-#//  a(n) = 1/560*((39+4*sqrt(35))*(6+sqrt(35))^(4*n-3)+(39-4*sqrt(35))*(6-sqrt(35))^(4*n-3)-188).
+#//  a(n) = floor(1/560*(39+4*sqrt(35))*(6+sqrt(35))^(4*n-3)).
 #//
-#// a(n) = floor(1/560*(39+4*sqrt(35))*(6+sqrt(35))^(4*n-3)).
-#//
-#// LinearRecurrence[{20163, -20163, 1}, {1, 26884, 542041975}, 9]; (* Ant King, Dec 31 2011 *)
+#//  LinearRecurrence[{20163, -20163, 1}, {1, 26884, 542041975}, 9]; (* Ant King, Dec 31 2011 *)
 #//
 #//******************************************************************************
+
+def getNthNonagonalHeptagonalNumber( n ):
+    sqrt35 = sqrt( 35 )
+
+    return floor( fdiv( fmul( fadd( 39, fmul( 4, sqrt35 ) ),
+                        power( fadd( 6, sqrt35 ), fsub( fmul( 4, n ), 3 ) ) ),
+                        560 ) )
+
 
 #//******************************************************************************
 #//
@@ -2855,50 +2886,56 @@ def getNthSquareTriangularNumber( n ):
 
 #//******************************************************************************
 #//
-#//  getNthPyramidalNumber
-#//
-#//  from Conway and Guy's "The Book of Numbers"
+#//  getNthPolygonalPyramidalNumber
 #//
 #//******************************************************************************
 
-def getNthPyramidalNumber( n ):
-    return fprod( [ fdiv( n, 6 ), fadd( n, 1 ), fadd( fmul( 2, n ), 1 ) ] )
+def getNthPolygonalPyramidalNumber( n, k ):
+    return fprod( [ n, fadd( n, 1 ),
+                    fsub( fmul( fsub( k, 2 ), n ), fsub( k, 5 ) ),
+                    fdiv( 1, 6 ) ] )
 
 
-#// A002411         Pentagonal pyramidal numbers: n^2*(n+1)/2.
+
 #// A002415         4-dimensional pyramidal numbers: n^2*(n^2-1)/12.
-#// A002412         Hexagonal pyramidal numbers, or greengrocer's numbers.
-#//                 a(n) = n*(n+1)*(4*n-1)/6.
-#//                 LinearRecurrence[{4, -6, 4, -1}, {0, 1, 7, 22}, n]
+#//                                                  n^4 - n^2 / 12
+#// A005585         5-dimensional pyramidal numbers: n(n+1)(n+2)(n+3)(2n+3)/5!.
+
 #// A001608         Perrin sequence (or Ondrej Such sequence): a(n) = a(n-2) + a(n-3).
 #//                 LinearRecurrence[{0, 1, 1}, {3, 0, 2}, n]
+
 #// A001845         Centered octahedral numbers (crystal ball sequence for cubic lattice).
 #//                 LinearRecurrence[{4, -6, 4, -1}, {1, 7, 25, 63}, 40]
-#// A002414         Octagonal pyramidal numbers: n*(n+1)*(2*n-1)/2.
+
 #// A046090         Consider all Pythagorean triples (X,X+1,Z) ordered by increasing Z; sequence gives X+1 values.
 #//                 a(n+1)=round((1+(7+5*sqrt(2))*(3+2*sqrt(2))^n)/2);
 #//                 LinearRecurrence[{7, -7, 1}, {1, 4, 21}, 25]
 #// A050534         Tritriangular numbers: a(n)=binomial(binomial(n,2),2) = n(n + 1)(n - 1)(n - 2)/8.
 #// A002817         Doubly triangular numbers: n*(n+1)*(n^2+n+2)/8.
 #//                 a(n) = 3*binomial(n+2, 4)+binomial(n+1, 2).
-#// A005585         5-dimensional pyramidal numbers: n(n+1)(n+2)(n+3)(2n+3)/5!.
 #// A007588         Stella octangula numbers: n*(2*n^2 - 1).
 #// A005803         Second-order Eulerian numbers: 2^n - 2*n.
-#// A002413         Heptagonal (or 7-gonal) pyramidal numbers: n*(n+1)*(5*n-2)/6.
+
 #// A060888         n^6-n^5+n^4-n^3+n^2-n+1.      -- general form of this
+
 #// A006566         Dodecahedral numbers: n(3n-1)(3n-2)/2.
+
 #// A048736         Dana Scott's sequence: a(n) = (a(n-2) + a(n-1) * a(n-3)) / a(n-4), a(0) = a(1) = a(2) = a(3) = 1.
 #// A022095         Fibonacci sequence beginning 1 5.
 #//                 a(n) = ((2*sqrt(5)-1)*(((1+sqrt(5))/2)^(n+1)) + (2*sqrt(5)+1)*(((1-sqrt(5))/2)^(n+1)))/(sqrt(5)).
-#// A147875         Second heptagonal numbers: n*(5*n+3)/2.
+
+#// A147875         Second heptagonal numbers: n(5n+3)/2.
+
+#// A179986         Second 9-gonal (or nonagonal) numbers: n(7n+5)/2.
+
 #// A005894         Centered tetrahedral numbers.
 #//                 a(n)=(2*n+1)*(n^2+n+3)/3
+
 #// A015447         Generalized Fibonacci numbers: a(n) = a(n-1) + 11*a(n-2).
 #//                 a(n)={[ (1+3*sqrt(5))/2 ]^(n+1) - [ (1-3*sqrt(5))/2 ]^(n+1)}/3*sqrt(5).
 #//                 LinearRecurrence[{1, 11}, {1, 1}, 30]
 #//                 CoefficientList[Series[ 1/(1-x-11 x^2), {x, 0, 50}], x]
-#// A007585         10-gonal (or decagonal) pyramidal numbers: n(n+1)(8n-5)/6.
-#// A179986         Second 9-gonal (or nonagonal) numbers: n(7n+5)/2.
+
 #// A046176         Indices of square numbers which are also hexagonal.
 #// A056105         First spoke of a hexagonal spiral.
 #// A006522         4-dimensional analogue of centered polygonal numbers. Also number of regions created by sides and diagonals of n-gon in general position.
@@ -2907,7 +2944,6 @@ def getNthPyramidalNumber( n ):
 #//                 a(n) = round( (6phi-3)/5 phi^n ) (works for n>2)
 #// A069778         q-factorial numbers 3!_q.
 #// A005021         Random walks (binomial transform of A006054).
-#// A007584         9-gonal (or enneagonal) pyramidal numbers: n(n+1)(7n-4)/6.
 #// A074584         Esanacci ("6-anacci") numbers.
 #//                 LinearRecurrence[{1, 1, 1, 1, 1, 1}, {6, 1, 3, 7, 15, 31}, 50]
 #// A195142         Concentric 10-gonal numbers.
@@ -2917,7 +2953,10 @@ def getNthPyramidalNumber( n ):
 #//                 a(n) = ( ((1+sqrt(29))/2)^(n+1) - ((1-sqrt(29))/2)^(n+1) )/sqrt(29)
 #// A002418         4-dimensional figurate numbers: (5*n-1)*binomial(n+2,3)/4.
 #// A005165         Alternating factorials: n! - (n-1)! + (n-2)! - ... 1!.
+
 #// A006007         4-dimensional analogue of centered polygonal numbers: a(n) = n(n+1)*(n^2+n+4)/12.
+
+
 #// A104621         Heptanacci-Lucas numbers.
 #//
 #//
@@ -5587,10 +5626,31 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'nonahept'      : [ getNthNonagonalHeptagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth nonagonal heptagonal number',
+'''
+'nonahex' calculates the nth number that is both nonagonal and heptagonal.
+''',
+'''
+''' ],
     'nonahex'       : [ getNthNonagonalHexagonalNumber, 1,
 'polygonal_numbers', 'calculates the nth nonagonal hexagonal number',
 '''
 'nonahex' calculates the nth number that is both nonagonal and hexagonal.
+''',
+'''
+''' ],
+    'nonaoct'       : [ getNthNonagonalOctagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth nonagonal octagonal number',
+'''
+'nonahex' calculates the nth number that is both nonagonal and octagonal.
+''',
+'''
+''' ],
+    'nonapent'      : [ getNthNonagonalPentagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth nonagonal pentagonal number',
+'''
+'nonahex' calculates the nth number that is both nonagonal and pentgonal.
 ''',
 '''
 ''' ],
@@ -5658,6 +5718,18 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'octpent'       : [ getNthOctagonalPentagonalNumber, 1,
 'polygonal_numbers', 'calculates the nth octagonal pentagonal number',
+'''
+''',
+'''
+''' ],
+    'octsquare'     : [ getNthOctagonalSquareNumber, 1,
+'polygonal_numbers', 'calculates the nth octagonal square number',
+'''
+''',
+'''
+''' ],
+    'octtri'       : [ getNthOctagonalTriangularNumber, 1,
+'polygonal_numbers', 'calculates the nth octagonal triangular number',
 '''
 ''',
 '''
@@ -5826,8 +5898,8 @@ given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
-    'pyramid'       : [ getNthPyramidalNumber, 1,
-'polyhedral_numbers', 'calculates the nth pyramidal number',
+    'pyramid'       : [ lambda n: getNthPolygonalPyramidalNumber( n, 4 ), 1,
+'polyhedral_numbers', 'calculates the nth square pyramidal number',
 '''
 ''',
 '''
