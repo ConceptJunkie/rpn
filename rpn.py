@@ -6,15 +6,17 @@ import math
 import random
 import sys
 from mpmath import *
+from functools import reduce
 
 
 #//******************************************************************************
+#//
 #//  constants
 #//
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.1.1"
+RPN_VERSION = "3.2.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -28,6 +30,162 @@ phiBase = -1
 fibBase = -2
 
 bitwiseGroupSize = 16
+
+
+#//******************************************************************************
+#//
+#//  factorize
+#//
+#//******************************************************************************
+
+def factorize( n ):
+    if n < -1:
+        return [ ( -1, 1 ) ] + factorize( -n )
+    elif n == -1:
+        return [ ( -1, 1 ) ]
+    elif n == 0:
+        return [ ( 0, 1 ) ]
+    elif n == 1:
+        return [ ( 1, 1 ) ]
+    else:
+        def potential_primes( ):
+            base_primes = ( 2, 3, 5 )
+
+            for base_prime in base_primes:
+                yield base_prime
+
+            base_primes = ( 7, 11, 13, 17, 19, 23, 29, 31 )
+
+            prime_group = 0
+
+            while True:
+                for base_prime in base_primes:
+                    yield prime_group + base_prime
+
+                prime_group += 30
+
+        factors = [ ]
+        sqrtn = sqrt( n )
+
+        for divisor in potential_primes( ):
+            if divisor > sqrtn:
+                break
+
+            power = 0
+
+            while ( n % divisor ) == 0:
+                n //= divisor
+                power += 1
+
+            if power > 0:
+                factors.append( ( divisor, power ) )
+                sqrtn = sqrt( n )
+
+        if n > 1:
+             factors.append( ( n, 1 ) )
+
+        return factors
+
+
+#//******************************************************************************
+#//
+#//  GetDivisorsFromFactors
+#//
+#//******************************************************************************
+
+def GetDivisorsFromFactors( factors ):
+    def unsorted_divisors_from_factors( factors ):
+        if not factors:
+            return [ 1 ]
+        else:
+            base, max_power = factors[ 0 ]
+            if base == -1:
+                return unsorted_divisors_from_factors(factors[1:])
+            elif base == 0:
+                return [ ]
+            elif base == 1:
+                return unsorted_divisors_from_factors( factors[ 1: ] )
+            else:
+                divisors = unsorted_divisors_from_factors( factors[ 1: ] )
+                all_divisors = [ ]
+
+                for power in range( 0, max_power + 1 ):
+                    all_divisors += map( lambda x: x * base ** power, divisors )
+
+                return all_divisors
+
+    all_divisors = unsorted_divisors_from_factors( factors )
+    all_divisors.sort( )
+    return all_divisors
+
+
+#//******************************************************************************
+#//
+#//  testFactorize
+#//
+#//******************************************************************************
+
+def testFactorize( ):
+   start = clock( )
+   n = 0
+   while True:
+      f = factorize(n)
+      fa = map(lambda x: x[0] ** x[1], f)
+      fb = reduce(lambda x,y: x * y, fa, 1)
+      if fb != n:
+         print( "FACTORIZE FAILED AT " + str( n ) )
+      d = divisors_from_factors(f)
+      da = map(lambda x: d[x] * d[len(d)-x-1], range(0, len(d)))
+      for db in da:
+         if db != n:
+            print( "DIVISORS FAILED AT " + str( n ) )
+      f = factorize(-n)
+      fa = map(lambda x: x[0] ** x[1], f)
+      fb = reduce(lambda x,y: x * y, fa, 1)
+      if fb != -n:
+         print( "FACTORIZE FAILED AT " + str( -n ) )
+      d = divisors_from_factors(f)
+      da = map(lambda x: d[x] * d[len(d)-x-1], range(0, len(d)))
+      for db in da:
+         if db != n:
+            print( "DIVISORS FAILED AT " + str( -n ) )
+      if (n % 10000) == 0:
+         print( "up to " + str( n ) + " at " + str( clock( ) - start ) + "s" )
+      n += 1
+
+
+#//******************************************************************************
+#//
+#//  factorInteger
+#//
+#//******************************************************************************
+
+def factorInteger( n ):
+    def getStringFromFactorsWithExponents( factors ):
+        def getStringFromFactor( factor ):
+            if factor[ 1 ] == 1:
+                return str( factor[ 0 ] )
+            else:
+                return "^".join( map( str, factor ) )
+
+        return " * ".join( map( getStringFromFactor, factors ) )
+
+    def getStringFromFactorsWithMultiplication( factors ):
+        factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
+        factors = reduce( lambda x, y: x + y, factors, [ ] )
+        return " * ".join( map( str, factors ) )
+
+    f = factorize( n )
+
+    exponents = getStringFromFactorsWithExponents( f )
+    multiplication = getStringFromFactorsWithMultiplication( f )
+
+    print( "    = " + getStringFromFactorsWithExponents( f ) )
+
+    if ( multiplication != exponents ):
+        print( "    = " + getStringFromFactorsWithMultiplication( f ) )
+
+    print
 
 
 #//******************************************************************************
@@ -990,6 +1148,8 @@ Notes:
                          help="add commas to result, e.g., 1,234,567.0" )
     parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
                          help="display decimal places separated into groups (default: 0)" )
+    parser.add_argument( '-f', '--factor', action='store_true',
+                         help="compute prime factors of result (truncated to an integer)" )
     parser.add_argument( '-i', '--integer_grouping', type=int, action='store', default=0,
                          help="display integer separated into groups (default: 0)" )
     parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals,
@@ -1149,6 +1309,11 @@ Notes:
             else:
                 print( formatOutput( result, outputRadix, numerals, integerGrouping, ' ', leadingZero,
                                      args.decimal_grouping, ' ', baseAsDigits ) )
+
+            if args.factor:
+                factorInteger( int( floor( result ) ) )
+
+
 
 
 #//******************************************************************************
