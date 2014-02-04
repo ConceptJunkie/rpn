@@ -34,7 +34,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.23.2'
+RPN_VERSION = '4.24.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -141,7 +141,15 @@ class Polynomial(object):
         return self.__class__( [ -co for co in self.coeffs ] )
 
     def __pow__( self, y, z = None ):
-        raise NotImplemented( )
+        if not isinstance( y, int ):
+            raise ValueError( '__pow__ only supports integer exponents' )
+
+        result = self.__class__( self )
+
+        for i in range( 1, y ):
+            result *= self
+
+        return result
 
     def _radd__( self, val ):
         "Return val+self"
@@ -910,6 +918,21 @@ def getNthPolyPrime( n, poly ):
         result = getNthPrime( result )
 
     return result
+
+
+#//******************************************************************************
+#//
+#//  getMultinomialCoefficient
+#//
+#//  calculates cth coefficient of the bth multinomial of degree a
+#//
+#//******************************************************************************
+
+def getMultinomialCoefficient( a, b, c ):
+    if c > fmul( a, b ) or c < 0:
+        raise ValueError( 'coefficient index c is out of range' )
+
+    return getPolynomialPower( [ 1 ] * int( a + 1 ), int( b ) )[ int( c ) ]
 
 
 #//******************************************************************************
@@ -3528,6 +3551,17 @@ def multiplyPolynomials( a, b ):
 
 #//******************************************************************************
 #//
+#//  getPolynomialPower
+#//
+#//******************************************************************************
+
+def getPolynomialPower( a, b ):
+    result = Polynomial( a ).__pow__( int( b ) )
+    return result.getCoefficients( )
+
+
+#//******************************************************************************
+#//
 #//  evaluatePolynomial
 #//
 #//******************************************************************************
@@ -4452,7 +4486,6 @@ operatorAliases = {
     'hept?'     : 'heptagonal?',
     'hex'       : 'hexagonal',
     'hex?'      : 'hexagonal?',
-    'hyper4'    : 'tetrate',
     'inv'       : 'reciprocal',
     'isdiv'     : 'isdivisible',
     'issqr'     : 'issquare',
@@ -4460,6 +4493,7 @@ operatorAliases = {
     'log'       : 'ln',
     'mod'       : 'modulo',
     'mult'      : 'multiply',
+    'multiex'   : 'multinomialex',
     'neg'       : 'negative',
     'non'       : 'nonagonal',
     'non?'      : 'nonagonal?',
@@ -4472,6 +4506,8 @@ operatorAliases = {
     'pent?'     : 'pentagonal?',
     'poly'      : 'polygonal',
     'poly?'     : 'polygonal?',
+    'polymult'  : 'polymul',
+    'polypow'   : 'polypower',
     'prod'      : 'product',
     'pyr'       : 'pyramid',
     'quad'      : 'quadprime',
@@ -4501,6 +4537,7 @@ operatorAliases = {
     'sqr'       : 'square',
     'sqrt'      : 'root2',
     'syl'       : 'sylvester',
+    'tetrate'   : 'hyper4',
     'tri'       : 'triangular',
     'tri?'      : 'triangular?',
     'triplet'   : 'tripletprime',
@@ -4692,6 +4729,12 @@ list_operators = {
 ''' ],
     'polymul'   : [ multiplyPolynomials, 2,
 'algebra', 'interpret two lists as polynomials and multiply them',
+'''
+''',
+'''
+''' ],
+    'polypower' : [ getPolynomialPower, 2,
+'algebra', 'goobles',
 '''
 ''',
 '''
@@ -5221,6 +5264,12 @@ number.
 ''',
 '''
 ''' ],
+    'ctrinomial'    : [ lambda n: getPolynomialPower( [ 1, 1, 1 ], int( n ) )[ int( n ) ], 1,
+'combinatorics', 'calculates nth central trinomial coefficient',
+'''
+''',
+'''
+''' ],
     'cube'          : [ lambda n: power( n, 3 ), 1,
 'powers_and_roots', 'calculates the cube of n',
 '''
@@ -5435,6 +5484,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'hyper4'       : [ tetrate, 2,
+'powers_and_roots', 'tetrates n by k',
+'''
+''',
+'''
+''' ],
     'hyper4_2'      : [ tetrateLarge, 2,
 'powers_and_roots', 'calculates the right-associative tetration of n by k',
 '''
@@ -5587,6 +5642,18 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'motzkin'       : [ getNthMotzkinNumber, 1,
 'combinatorics', 'calculates the nth Motzkin number',
+'''
+''',
+'''
+''' ],
+    'multinomial'    : [ getMultinomialCoefficient, 3,
+'combinatorics', 'calculates cth coefficient of the bth multinomial of degree a',
+'''
+''',
+'''
+''' ],
+    'multinomialex'  : [ lambda n, k: getPolynomialPower( [ 1 ] * int( n + 1 ), int( k ) ), 2,
+'combinatorics', 'calculats the expansion of the kth multinomial of degree n',
 '''
 ''',
 '''
@@ -6169,12 +6236,6 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
-    'tetrate'       : [ tetrate, 2,
-'powers_and_roots', 'tetrates n by k',
-'''
-''',
-'''
-''' ],
     'tetra'         : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1,
 'polyhedral_numbers', 'calculates the nth tetrahedral number',
 '''
@@ -6207,6 +6268,12 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'tribonacci'    : [ getNthTribonacci, 1,
 'number_theory', 'calculates the nth Tribonacci number',
+'''
+''',
+'''
+''' ],
+    'trinomial'    : [ lambda n, k: getPolynomialPower( [ 1, 1, 1 ], int( n ) )[ int( k ) ], 2,
+'combinatorics', 'calculates kth coefficient of the nth trinomial',
 '''
 ''',
 '''
@@ -6261,6 +6328,12 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'unitroots'     : [ lambda i: unitroots( int( i ) ), 1,
 'number_theory', 'calculates the nth roots of unity',
+'''
+''',
+'''
+''' ],
+    'unixtime'      : [ lambda n: time.strftime( '%Y-%m-%d %H:%M:%S', time.localtime( n ) ), 1,
+'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
 '''
 ''',
 '''
@@ -6702,6 +6775,9 @@ def roundMantissa( mantissa, accuracy ):
 
 def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
                   decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
+    if isinstance( output, str ):
+        return output
+
     imaginary = im( mpmathify( output ) )
 
     if imaginary != 0:
@@ -7306,6 +7382,8 @@ To compute the nth Fibonacci number accurately, rpn sets the precision to
 a level sufficient to guarantee a correct answer.
 
 Bitwise operators force all arguments to integers by truncation if necessary.
+
+I need to make -a work on complex numbers.
 '''
 }
 
@@ -7668,12 +7746,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            #except ValueError as error:
-            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+            except ValueError as error:
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
