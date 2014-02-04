@@ -5,7 +5,8 @@ from argparse import RawTextHelpFormatter
 import math
 import random
 import sys
-from decimal import *
+#from decimal import *
+from mpmath import mp
 
 
 #//******************************************************************************
@@ -15,13 +16,11 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.18.1"
+RPN_VERSION = "3.0.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
 defaultPrecision = 12
-
-degreesPerRadian = Decimal( 180 ) / Decimal( math.pi )
 
 defaultNumerals = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -29,94 +28,6 @@ numerals = ""
 
 phiBase = -1
 fibBase = -2
-
-
-#//******************************************************************************
-#//
-#//  isPrime
-#//
-#//******************************************************************************
-
-def isBruteForcePrime( n ):
-    if n == 2 or n == 3:
-        return True
-
-    if n < 2 or n % 2 == 0:
-        return False
-
-    if n < 9:
-        return True
-
-    if n % 3 == 0:
-        return False
-
-    r = int( math.sqrt( n ) )
-
-    f = 5
-
-    while f <= r:
-        if n % f == 0:
-            return False
-
-        if n % ( f + 2 ) == 0:
-            return False
-
-        f +=6
-
-    return True
-
-
-def isPrimeCandidate( p, iterations = 7 ):
-    if p < 1 or pow( p, 1, 2 ) == 0:
-        return False
-    elif p < 100000000000:
-        return isBruteForcePrime( p )
-
-    odd = p - 1
-    count = 0
-
-    while pow( odd, 1, 2 ) == 0:
-        odd /= 2
-        count += 1
-
-    for i in range( iterations ):
-        r = random.randrange( 2, p - 2 )
-
-        test = pow( r, odd, p )
-
-        if test == 1 or test == p - 1:
-            continue
-
-        for j in range( count - 1 ):
-            test = pow( Decimal( test ), Decimal( 2 ), Decimal( p ) )
-
-            if test == 1:
-                return False
-
-            if test == p - 1:
-                break
-        else:
-            return False
-
-    return True
-
-
-def isPrime( valueList ):
-    valueList.append( Decimal( 1 ) if isPrimeCandidate( Decimal( valueList.pop( ) ) ) else Decimal( 0 ) )
-
-#
-#if __name__ == "__main__":
-#    if sys.argv[1] == "test":
-#        n = long(sys.argv[2])
-#        print (miller_rabin(n) and "PRIME" or "COMPOSITE")
-#    elif sys.argv[1] == "genprime":
-#        nbits = int(sys.argv[2])
-#        while True:
-#            p = random.getrandbits(nbits)
-#            p |= 2**nbits | 1
-#            if miller_rabin(p):
-#                print p
-#                break
 
 
 #//******************************************************************************
@@ -254,8 +165,8 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits ):
 #//******************************************************************************
 
 def convertToBase10( integer, mantissa, inputRadix ):
-    result = Decimal( 0 )
-    base = Decimal( 1 )
+    result = mpf( 0 )
+    base = mpf( 1 )
 
     validNumerals = numerals[ : inputRadix ]
 
@@ -268,7 +179,7 @@ def convertToBase10( integer, mantissa, inputRadix ):
         result += digit * base
         base *= inputRadix
 
-    base = Decimal( 1 ) / inputRadix
+    base = mpf( 1 ) / inputRadix
 
     for i in range( 0, len( mantissa ) ):
         digit = validNumerals.find( mantissa[ i ] )
@@ -284,97 +195,12 @@ def convertToBase10( integer, mantissa, inputRadix ):
 
 #//******************************************************************************
 #//
-#//  decimal_log
-#//
-#//  http://www.programmish.com/?p=25
-#//
-#//******************************************************************************
-
-def decimal_log( self, base = 10 ):
-    cur_prec = getcontext( ).prec
-    getcontext( ).prec += 2
-
-    baseDec = Decimal( 10 )
-    retValue = self
-
-    if isinstance( base, Decimal ):
-        baseDec = base
-    elif isinstance( base, float ):
-        baseDec = Decimal( "%f" % ( base ) )
-    else:
-        baseDec = Decimal( base )
-
-    integer_part = Decimal( 0 )
-
-    while retValue < 1:
-        integer_part = integer_part - 1
-        retValue = retValue * baseDec
-
-    while retValue >= baseDec:
-        integer_part = integer_part + 1
-        retValue = retValue / baseDec
-
-    retValue = retValue ** 10
-    decimal_frac = Decimal( 0 )
-    partial_part = Decimal( 1 )
-
-    while cur_prec > 0:
-        partial_part = partial_part / Decimal( 10 )
-        digit = Decimal( 0 )
-
-        while retValue >= baseDec:
-            digit += 1
-            retValue = retValue / baseDec
-
-        decimal_frac = decimal_frac + digit * partial_part
-        retValue = retValue ** 10
-        cur_prec -= 1
-
-    getcontext( ).prec -= 2
-
-    return integer_part + decimal_frac
-
-
-#//******************************************************************************
-#//
-#//  calculatePi
-#//
-#//******************************************************************************
-
-def calculatePi( ):
-    """Compute Pi to the current precision.
-
-    >>> print pi()
-    3.141592653589793238462643383
-
-    (from http://docs.python.org/lib/decimal-recipes.html)
-
-    """
-
-    getcontext( ).prec += 2   # extra digits for intermediate steps
-    three = Decimal( 3 )      # substitute "three=3.0" for regular floats
-
-    last_s, t, s, n, na, d, da = 0, three, 3, 1, 0, 0, 24
-
-    while s != last_s:
-        last_s = s
-        n, na = n + na, na + 8
-        d, da = d + da, da + 32
-        t = (t * n) / d
-        s += t
-
-    getcontext( ).prec -= 2
-    return +s                  # unary plus applies the new precision
-
-
-#//******************************************************************************
-#//
 #//  getPi
 #//
 #//******************************************************************************
 
 def getPi( valueList ):
-    valueList.append( calculatePi( ) )
+    valueList.append( pi )
 
 
 #//******************************************************************************
@@ -384,18 +210,7 @@ def getPi( valueList ):
 #//******************************************************************************
 
 def getE( valueList ):
-    valueList.append( Decimal( 1 ) )
-    takeExp( valueList )
-
-
-#//******************************************************************************
-#//
-#//  calculatePhi
-#//
-#//******************************************************************************
-
-def calculatePhi( ):
-    return ( Decimal( 1 ) + Decimal( 5 ) ** Decimal( 0.5 ) ) / Decimal( 2 )
+    valueList.append( e )
 
 
 #//******************************************************************************
@@ -405,7 +220,7 @@ def calculatePhi( ):
 #//******************************************************************************
 
 def getPhi( valueList ):
-    valueList.append( calculatePhi( ) )
+    valueList.append( phi )
 
 
 #//******************************************************************************
@@ -415,7 +230,7 @@ def getPhi( valueList ):
 #//******************************************************************************
 
 def getIToTheIPower( valueList ):
-    valueList.append( calculateExp( Decimal( -0.5 ) * calculatePi( ) ) )
+    valueList.append( fexp( mpf( -0.5 ) * pi ) )
 
 
 #//******************************************************************************
@@ -426,7 +241,7 @@ def getIToTheIPower( valueList ):
 
 def add( valueList ):
     value = valueList.pop( )
-    valueList.append( Decimal( valueList.pop( ) ) + value )
+    valueList.append( fadd( valueList.pop( ), value ) )
 
 
 #//******************************************************************************
@@ -439,8 +254,7 @@ def sum( valueList ):
     result = valueList.pop( )
 
     while valueList:
-        value = valueList.pop( )
-        result += value
+        result = fadd( result, valueList.pop( ) )
 
     valueList.append( result )
 
@@ -456,8 +270,7 @@ def takeMean( valueList ):
     result = valueList.pop( )
 
     while valueList:
-        value = valueList.pop( )
-        result += value
+        result = fadd( result, valueList.pop( ) )
         count += 1
 
     valueList.append( result / count )
@@ -471,7 +284,7 @@ def takeMean( valueList ):
 
 def subtract( valueList ):
     value = valueList.pop( )
-    valueList.append( Decimal( valueList.pop( ) ) - value )
+    valueList.append( fsub( valueList.pop( ) ), value )
 
 
 #//******************************************************************************
@@ -520,7 +333,7 @@ def divide( valueList ):
 
 def exponentiate( valueList ):
     value = valueList.pop( )
-    valueList.append( valueList.pop( ) ** value )
+    valueList.append( power( valueList.pop( ), value ) )
 
 
 #//******************************************************************************
@@ -541,7 +354,7 @@ def tetrate( valueList ):
     result = operand
 
     for i in range( 1, int( value ) ):
-        result **= operand
+        result = power( power, operand )
 
     valueList.append( result )
 
@@ -564,7 +377,7 @@ def tetrateLarge( valueList ):
     result = operand
 
     for i in range( 1, int( value ) ):
-        result = operand ** result
+        result = power( operand, result )
 
     valueList.append( result )
 
@@ -577,7 +390,7 @@ def tetrateLarge( valueList ):
 
 def takeSquare( valueList ):
     value = valueList.pop( )
-    valueList.append( value ** Decimal( 2.0 ) )
+    valueList.append( power( value, mpf( 2.0 ) ) )
 
 
 #//******************************************************************************
@@ -587,8 +400,7 @@ def takeSquare( valueList ):
 #//******************************************************************************
 
 def takeSquareRoot( valueList ):
-    value = valueList.pop( )
-    valueList.append( value ** Decimal( 0.5 ) )
+    valueList.append( sqrt( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -599,7 +411,7 @@ def takeSquareRoot( valueList ):
 
 def antiexponentiate( valueList ):
     value = valueList.pop( )
-    valueList.append( valueList.pop( ) ** ( Decimal( 1 ) / value ) )
+    valueList.append( root( valueList.pop( ), value ) )
 
 
 #//******************************************************************************
@@ -610,7 +422,7 @@ def antiexponentiate( valueList ):
 
 def takeLogXY( valueList ):
     value = valueList.pop( )
-    valueList.append( decimal_log( valueList.pop( ), value ) )
+    valueList.append( log( valueList.pop( ), value ) )
 
 
 #//******************************************************************************
@@ -620,7 +432,7 @@ def takeLogXY( valueList ):
 #//******************************************************************************
 
 def takeFactorial( valueList ):
-    valueList.append( math.factorial( valueList.pop( ) ) )
+    valueList.append( fac( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -630,9 +442,7 @@ def takeFactorial( valueList ):
 #//******************************************************************************
 
 def takeLog( valueList ):
-    getE( valueList )
-    value = valueList.pop( )
-    valueList.append( decimal_log( valueList.pop( ), value ) )
+    valueList.append( ln( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -642,7 +452,7 @@ def takeLog( valueList ):
 #//******************************************************************************
 
 def takeLog10( valueList ):
-    valueList.append( decimal_log( valueList.pop( ) ) )
+    valueList.append( log10( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -652,7 +462,7 @@ def takeLog10( valueList ):
 #//******************************************************************************
 
 def takeGamma( valueList ):
-    valueList.append( math.gamma( valueList.pop( ) ) )
+    valueList.append( gamma( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -662,35 +472,7 @@ def takeGamma( valueList ):
 #//******************************************************************************
 
 def takeLGamma( valueList ):
-    valueList.append( math.lgamma( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  calculateExp
-#//
-#//******************************************************************************
-
-def calculateExp( value ):
-    """Return e raised to the power of x.  Result type matches input type.
-
-    (from http://docs.python.org/lib/decimal-recipes.html)
-
-    """
-
-    getcontext( ).prec += 2
-
-    i, last_s, s, fact, num = 0, 0, 1, 1, 1
-
-    while s != last_s:
-        last_s = s
-        i += 1
-        fact *= i
-        num *= value
-        s += num / fact
-
-    getcontext( ).prec -= 2
-    return +s         # unary plus applies the new precision
+    valueList.append( loggamma( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -700,7 +482,7 @@ def calculateExp( value ):
 #//******************************************************************************
 
 def takeExp( valueList ):
-    valueList.append( calculateExp( valueList.pop( ) ) )
+    valueList.append( exp( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -710,7 +492,7 @@ def takeExp( valueList ):
 #//******************************************************************************
 
 def takeExp10( valueList ):
-    valueList.append( Decimal( 10 ) ** Decimal( valueList.pop( ) ) )
+    valueList.append( power( 10, valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -720,91 +502,7 @@ def takeExp10( valueList ):
 #//******************************************************************************
 
 def takeExpPhi( valueList ):
-    valueList.append( calculatePhi( ) ** Decimal( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  Decimal trig functions
-#//
-#//  http://code.activestate.com/recipes/523018-sin-cos-tan-for-decimal/
-#//
-#//******************************************************************************
-
-def gen_den( ):
-    d = 1
-    f = 1
-
-    while ( 1 ):
-        yield f
-        d = d + 1
-        f = f * d
-
-    return
-
-
-def gen_num( x ):
-    n = x
-
-    while ( True ):
-        yield n
-        n *= x
-
-    return
-
-
-def gen_sign( ):
-    while ( True ):
-        yield 1
-        yield -1
-        yield -1
-        yield 1
-
-    return
-
-
-def sincos( x ):
-    x = divmod( x, Decimal( 2.0 ) * Decimal( math.pi ) )[ 1 ]
-    den = gen_den( )
-    num = gen_num( x )
-    sign = gen_sign( )
-
-    s = 0
-    c = 1
-    i = 1
-
-    done_s = False
-    done_c = False
-
-    while not done_s and not done_c:
-        new_s = s + next( sign ) * next( num ) / next( den )
-        new_c = c + next( sign ) * next( num ) / next( den )
-
-        if ( new_c - c == 0 ):
-            done_c = True
-
-        if ( new_s - s == 0 ):
-            done_s = True
-
-        c = new_c
-        s = new_s
-        i = i + 2
-    return ( s, c )
-
-
-def dec_sin( x ):
-    ( s, c ) = sincos( x )
-    return s
-
-
-def dec_cos( x ):
-    ( s, c ) = sincos( x )
-    return c
-
-
-def dec_tan( x ):
-    ( s, c ) = sincos( x )
-    return s / c
+    valueList.append( power( phi, valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -814,7 +512,7 @@ def dec_tan( x ):
 #//******************************************************************************
 
 def takeSin( valueList ):
-    valueList.append( dec_sin( valueList.pop( ) ) )
+    valueList.append( sin( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -824,7 +522,7 @@ def takeSin( valueList ):
 #//******************************************************************************
 
 def takeCos( valueList ):
-    valueList.append( dec_cos( valueList.pop( ) ) )
+    valueList.append( cos( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -834,7 +532,7 @@ def takeCos( valueList ):
 #//******************************************************************************
 
 def takeTan( valueList ):
-    valueList.append( dec_tan( valueList.pop( ) ) )
+    valueList.append( tan( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -844,7 +542,7 @@ def takeTan( valueList ):
 #//******************************************************************************
 
 def convertRadiansToDegrees( valueList ):
-    valueList.append( valueList.pop( ) * degreesPerRadian )
+    valueList.append( degrees( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -854,21 +552,7 @@ def convertRadiansToDegrees( valueList ):
 #//******************************************************************************
 
 def convertDegreesToRadians( valueList ):
-    valueList.append( valueList.pop( ) / degreesPerRadian )
-
-
-#//******************************************************************************
-#//
-#//  takePowMod
-#//
-#//******************************************************************************
-
-def takePowMod( valueList ):
-    modulo = valueList.pop( )
-    exponent = valueList.pop( )
-    base = valueList.pop( )
-
-    valueList.append( pow( base, exponent, modulo ) )
+    valueList.append( radians( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -878,17 +562,7 @@ def takePowMod( valueList ):
 #//******************************************************************************
 
 def getNthFibonacci( valueList ):
-    n = valueList.pop( )
-
-    neededPrecision = int( int( n ) * 0.21 + 12 )   # determined through experimentation
-
-    if getcontext( ).prec < neededPrecision:
-        getcontext( ).prec = neededPrecision
-
-    sqrt5 = Decimal( 5 ) ** Decimal( 0.5 )
-
-    valueList.append( Decimal( ( ( ( Decimal( 1 ) + sqrt5 ) ** n ) - ( ( Decimal( 1 ) - sqrt5 ) ** n ) ) /
-                        ( ( Decimal( 2 ) ** n ) * sqrt5 ) ).quantize( Decimal( '1.' ) ) )
+    n = valueList.addp( fib( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -1074,8 +748,8 @@ expressions = {
     'sqrt'     : [ takeSquareRoot, 1 ],
     'floor'    : [ getFloor, 1 ],
     'ceil'     : [ getCeiling, 1 ],
-    'isprime'  : [ isPrime, 1 ],
-    'powmod'   : [ takePowMod, 3 ],
+#    'isprime'  : [ isPrime, 1 ],
+#    'powmod'   : [ takePowMod, 3 ],
     'fib'      : [ getNthFibonacci, 1 ],
     'tri'      : [ getNthTriangularNumber, 1 ],
     'antitri'  : [ getAntiTriangularNumber, 1 ],
@@ -1263,9 +937,6 @@ Supported integer sequence unary operators
 Supported binary operators:
     +, -, *, /, ** (power), ^ (power), *** (tetration), // (root), logxy
 
-Supported ternary operators:
-    powmod ( x ^ y % z )
-
 Supported multi operators (operate on all preceding operands):
     sum, mult, mean
 
@@ -1274,7 +945,7 @@ Supported constants:
 
 rpn supports arbitrary precision using Decimal( ), however the following
 operators do not always provide arbitrary precision:
-    **, //, exp, exp10, gamma, lgamma, powmod
+    **, //, exp, exp10, gamma, lgamma
 
 For integers, rpn understands hexidecimal input of the form '0x....'.
 Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B' is
@@ -1293,8 +964,6 @@ Note:  When converting fractional output to other bases, rpn adjusts the
        the new base since the precision is applicable to base 10.
 
 Note:  tetration forces the second argument to an integer.
-
-Note:  powmod forces the third argument to an integer.
 
 Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
        a level sufficient to guarantee a correct answer.
