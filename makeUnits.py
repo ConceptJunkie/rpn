@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.8.3'
+PROGRAM_VERSION = '5.8.4'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -54,12 +54,19 @@ basicUnitTypes = {
     'electric_potential'        : 'mass*length^2/current*time^3',
     'energy'                    : 'mass*length^2/time^2',
     'force'                     : 'mass*length/time',
+    'illuminance'               : 'luminous_intensity*angle^2/length^2',
     'length'                    : 'length',
     'luminance'                 : 'luminous_intensity/length^2',
+    'luminous_flux'             : 'luminous_intensity*angle^2',
     'luminous_intensity'        : 'luminous_intensity',
     'mass'                      : 'mass',
     'power'                     : 'mass*length^2/time^3',
     'pressure'                  : 'mass/length*time^2',
+    'radiation_absorbed_dose'   : 'radiation_absorbed_dose',
+    'radioactivity'             : 'radioactivity',
+    'radiation_equivalent_dose' : 'radiation_equivalent_dose',
+    'radiation_exposure'        : 'radiation_exposure',
+    'solid_angle'               : 'angle^2',
     'temperature'               : 'temperature',
     'time'                      : 'time',
     'velocity'                  : 'length/time',
@@ -103,14 +110,29 @@ unitOperators = {
 
     # angle
 
+    'arcminute' :
+        UnitInfo( 'angle', 'arcminute', 'arcminutes', 'arcmin', [ 'arcmins' ] ),
+
+    'arcsecond' :
+        UnitInfo( 'angle', 'arcsecond', 'arcseconds', 'arcsec', [ 'arcsecs' ] ),
+
     'degree' :
         UnitInfo( 'angle', 'degree', 'degrees', 'deg', [ ] ),
 
     'grad' :
         UnitInfo( 'angle', 'grad', 'grads', '', [ 'gon', 'gons' ] ),
 
+    'quadrant' :
+        UnitInfo( 'angle', 'quadrant', 'quadrants', '', [ ] ),
+
+    'octant' :
+        UnitInfo( 'angle', 'octant', 'octants', '', [ ] ),
+
     'radian' :
         UnitInfo( 'angle', 'radian', 'radians', 'rad', [ ] ),
+
+    'sextant' :
+        UnitInfo( 'angle', 'sextant', 'sextants', '', [ ] ),
 
     # area
 
@@ -310,6 +332,22 @@ unitOperators = {
     'sthene' :
         UnitInfo( 'force', 'sthene', 'sthenes', 'sn', [ ] ),
 
+    # illuminance
+    'footcandle' :
+        UnitInfo( 'illuminance', 'footcandle', 'footcandles', 'fc', [ ] ),
+
+    'lux' :
+        UnitInfo( 'illuminance', 'lux', 'lux', 'lx', [ ] ),
+
+    'lumen/meter^2' :
+        UnitInfo( 'illuminance', 'lumen/meter^2', 'lumens/meter^2', 'lm/m^2', [ 'lm/square_meter', 'lumen/square_meter', 'lumens/square_meter', 'lumen/m^2', 'lumens/m^2' ] ),
+
+    'lumen/foot^2' :
+        UnitInfo( 'illuminance', 'lumen/foot^2', 'lumens/foot^2', 'lm/ft^2', [ 'lm/square_foot', 'lumen/square_foot', 'lumens/square_foot', 'lumen/ft^2', 'lumens/ft^2' ] ),
+
+    'phot' :
+        UnitInfo( 'illuminance', 'phot', 'phots', 'ph', [ ] ),   # CGS unit
+
     # length
 
     'aln' :
@@ -470,6 +508,13 @@ unitOperators = {
     'stilb' :
         UnitInfo( 'luminance', 'stilb', 'stilbs', 'sb', [ ] ),
 
+    # luminous_flux
+    'lumen' :
+        UnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm', [ ] ),
+
+    'candela*steradian' :
+        UnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm', [ ] ),
+
     # luminous_intensity
 
     'candela' :
@@ -507,6 +552,12 @@ unitOperators = {
     'pound' :
         UnitInfo( 'mass', 'pound', 'pounds', 'lb', [ ] ),
 
+    'quintal' :
+        UnitInfo( 'mass', 'quintal', 'quintals', 'q', [ ] ),
+
+    'sheet' :
+        UnitInfo( 'mass', 'sheet', 'sheet', '', [ ] ),
+
     'slug' :
         UnitInfo( 'mass', 'slug', 'slug', '', [ ] ),
 
@@ -524,6 +575,9 @@ unitOperators = {
 
     'troy_pound' :
         UnitInfo( 'mass', 'troy_pound', 'troy_pounds', '', [ ] ),
+
+    'wey' :
+        UnitInfo( 'mass', 'wey', 'weys', '', [ ] ),
 
     # power
 
@@ -558,6 +612,55 @@ unitOperators = {
 
     'torr' :
         UnitInfo( 'pressure', 'torr', 'torr', '', [ ] ),
+
+    # radioactivity
+    'becquerel' :
+        UnitInfo( 'radioactivity', 'becquerel', 'becquerels', 'Bq', [ ] ),
+
+    'curie' :
+        UnitInfo( 'radioactivity', 'curie', 'curie', 'Ci', [ ] ),
+
+    'rutherford' :
+        UnitInfo( 'radioactivity', 'rutherford', 'rutherfords', 'rd', [ ] ),
+
+    # radiation_absorbed_dose
+    'gray' :
+        UnitInfo( 'radiation_absorbed_dose', 'gray', 'grays', 'Gy', [ ] ),
+
+    'rad' :
+        UnitInfo( 'radiation_absorbed_dose', 'rad', 'rads', '', [ ] ),
+
+    # radiation_exposure
+    'coulomb/kilogram' :
+        UnitInfo( 'radiation_exposure', 'coulomb/kilogram', 'coulombs/kilogram', 'C/kg', [ ] ),
+
+    'roentgen' :
+        UnitInfo( 'radiation_exposure', 'roentgen', 'roentgens', 'R', [ ] ),
+
+    # solid_angle
+    'square_arcminute' :
+        UnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', 'arcmin^2', [ 'sqarcmin', 'sqarcmins', 'arcmins^2' ] ),
+
+    'square_arcsecond' :
+        UnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', 'arcsec^2', [ 'sqarcsec', 'sqarcsecs', 'arcsecs^2' ] ),
+
+    'square_degree' :
+        UnitInfo( 'solid_angle', 'degree^2', 'degrees^2', 'deg^2', [ 'sqdeg' ] ),
+
+    'square_octant' :
+        UnitInfo( 'solid_angle', 'octant^2', 'octants^2', '', [ 'sqoctant', 'sqoctants' ] ),
+
+    'square_quadrant' :
+        UnitInfo( 'solid_angle', 'quadrant^2', 'quadrants^2', '', [ 'sqquadrant', 'sqquadrants' ] ),
+
+    'square_sextant' :
+        UnitInfo( 'solid_angle', 'sextant^2', 'sextants^2', '', [ 'sqsextant', 'sqsextants' ] ),
+
+    'square_grad' :
+        UnitInfo( 'solid_angle', 'grad^2', 'grads^2', '', [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'grad^2', 'grads^2', 'gon^2', 'gons^2' ] ),
+
+    'steradian' :
+        UnitInfo( 'solid_angle', 'steradian', 'steradian', 'steradian', [ 'square_radian', 'square_radians', 'radian^2', 'radians^2', 'rad^2' ] ),
 
     # temperature
 
@@ -623,11 +726,20 @@ unitOperators = {
     'second' :
         UnitInfo( 'time', 'second', 'seconds', '', [ ] ),   # 'sec' is already an operator
 
+    'shake' :
+        UnitInfo( 'time', 'shake', 'shakes', '', [ ] ),
+
+    'sigma' :
+        UnitInfo( 'time', 'sigma', 'sigmas', '', [ ] ),
+
     'siderial_day' :
         UnitInfo( 'time', 'siderial_day', 'siderial_days', '', [ ] ),
 
     'siderial_year' :
         UnitInfo( 'time', 'siderial_year', 'siderial_years', '', [ ] ),
+
+    'svedberg' :
+        UnitInfo( 'time', 'svedberg', 'svedbergs', '', [ ] ),
 
     'tropical_year' :
         UnitInfo( 'time', 'tropical_year', 'tropical_years', '', [ 'solar_year', 'solar_years' ] ),
@@ -783,6 +895,7 @@ unitOperators = {
 metricUnits = [
     ( 'ampere',         'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
     ( 'are',            'ares',             'a',    [ ], [ ] ),
+    ( 'becquerel',      'becquerels',       'Bq',   [ ], [ ] ),
     ( 'blintz',         'blintzes',         'b',    [ ], [ ] ),
     ( 'coulomb',        'coulombs',         'C',    [ ], [ ] ),
     ( 'calorie',        'calories',         'cal',  [ ], [ ] ),
@@ -793,6 +906,7 @@ metricUnits = [
     ( 'joule',          'joules',           'J',    [ ], [ ] ),
     ( 'liter',          'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
     ( 'light-year',     'light-years',      'ly',   [ ], [ ] ),
+    ( 'lux',            'lux',              'lx',   [ ], [ ] ),
     ( 'meter',          'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
     ( 'newton',         'newtons',          'N',    [ ], [ ] ),
     ( 'ngogn',          'ngogns',           'n',    [ ], [ ] ),
@@ -870,6 +984,7 @@ unitConversionMatrix = {
     ( 'acre-foot',             'cubic_foot' )                           : '43560',
     ( 'aln',                   'inch' )                                 : '23.377077865',
     ( 'ampere',                'coulomb/second' )                       : '1',
+    ( 'arcminute',             'arcsecond' )                            : '60',
     ( 'are',                   'square_meter' )                         : '100',
     ( 'arpent',                'foot' )                                 : '192',
     ( 'astronomical_unit',     'meter' )                                : '149597870700',
@@ -877,6 +992,7 @@ unitConversionMatrix = {
     ( 'bar',                   'pascal' )                               : '100000',
     ( 'barleycorn',            'poppyseed' )                            : '4',
     ( 'barrel',                'gallon' )                               : '31.5',
+    ( 'becquerel',             'curie' )                                : '3.7e10',
     ( 'blintz',                'farshimmelt_blintz' )                   : '100000',
     ( 'blintz',                'gram' )                                 : '36.42538631',
     ( 'BTU',                   'joule' )                                : '1054.5',
@@ -891,6 +1007,7 @@ unitConversionMatrix = {
     ( 'coulomb',               'electron_charge' )                      : '6.24150965e18',
     ( 'coulomb',               'farad-volt' )                           : '1',
     ( 'coulomb/farad',         'volt' )                                 : '1',
+    ( 'coulomb/kilogram',      'roentgen' )                             : '3876',
     ( 'coulomb/volt',          'farad' )                                : '1',
     ( 'cowznofski',            'mingo' )                                : '10',
     ( 'cubic_meter',           'liter' )                                : '1000',
@@ -899,6 +1016,7 @@ unitConversionMatrix = {
     ( 'cup',                   'fluid_ounce' )                          : '8',
     ( 'cup',                   'gill' )                                 : '2',
     ( 'day',                   'hour' )                                 : '24',
+    ( 'degree',                'arcminute' )                            : '60',
     ( 'dessertspoon',          'teaspoon' )                             : '2',
     ( 'dry_barrel',            'cubic_inch' )                           : '7056',
     ( 'dry_gallon',            'dry_quart' )                            : '4',
@@ -916,6 +1034,8 @@ unitConversionMatrix = {
     ( 'fluid_ounce',           'tablespoon' )                           : '2',
     ( 'fluid_scruple',         'minim' )                                : '20',
     ( 'foot',                  'inch' )                                 : '12',
+    ( 'footcandle',            'lumen/foot^2' )                         : '1',
+    ( 'footcandle',            'lux' )                                  : '10.763910417',  # (m/ft)^2
     ( 'footlambert',           'candela/meter^2' )                      : '3.42625909963539052691',  # 1/pi cd/ft^2
     ( 'fortnight',             'day' )                                  : '14',
     ( 'furlong',               'yard' )                                 : '220',
@@ -926,6 +1046,7 @@ unitConversionMatrix = {
     ( 'gallon',                'quart' )                                : '4',
     ( 'grad',                  'degree' )                               : '0.9',
     ( 'gram',                  'planck_mass' )                          : '45940.892447777',
+    ( 'gray',                  'rad' )                                  : '100',
     ( 'greek_cubit',           'inch' )                                 : '18.22',
     ( 'gregorian_year',        'day' )                                  : '365.2425',
     ( 'handbreadth',           'inch' )                                 : '3',
@@ -956,6 +1077,7 @@ unitConversionMatrix = {
     ( 'liter',                 'ngogn' )                                : '86.2477899004',
     ( 'long_cubit',            'inch' )                                 : '21',
     ( 'long_reed',             'foot' )                                 : '10.5',
+    ( 'lux',                   'lumen/meter^2' )                        : '1',
     ( 'mach',                  'meter/second' )                         : '295.0464',
     ( 'martin',                'kovac' )                                : '100',
     ( 'meter',                 'angstrom' )                             : '10000000000',
@@ -973,6 +1095,7 @@ unitConversionMatrix = {
     ( 'newton',                'poundal' )                              : '7.233013851',
     ( 'newton/meter^2',        'pascal' )                               : '1',
     ( 'ngogn',                 'farshimmelt_ngogn' )                    : '100000',
+    ( 'octant',                'degree' )                               : '45',
     ( 'ohm',                   '1/siemens' )                            : '1',
     ( 'ohm',                   'abohm' )                                : '1e9',
     ( 'ohm',                   'german_mile' )                          : '57.44',
@@ -991,6 +1114,7 @@ unitConversionMatrix = {
     ( 'parsec',                'light-year' )                           : '3.261563776971',
     ( 'peck',                  'dry_gallon' )                           : '2',
     ( 'perch',                 'foot' )                                 : '16.5',
+    ( 'phot',                  'lux' )                                  : '10000',
     ( 'planck_charge',         'coulomb' )                              : '1.875545956e-18',
     ( 'planck_energy',         'joule' )                                : '1.956e9',
     ( 'planck_length',         'meter' )                                : '1.616199e-35',
@@ -999,26 +1123,40 @@ unitConversionMatrix = {
     ( 'potrzebie',             'meter' )                                : '0.002263348517438173216473',  # see Mad #33
     ( 'pound',                 'grain' )                                : '7000',
     ( 'pound',                 'ounce' )                                : '16',
+    ( 'pound',                 'sheet' )                                : '700',
     ( 'psi',                   'pascal' )                               : '6894.757',        # approx.
+    ( 'quadrant',              'degree' )                               : '90',
     ( 'quart',                 'cup' )                                  : '4',
     ( 'quart',                 'liter' )                                : '0.946352946',
     ( 'quart',                 'pint' )                                 : '2',
-    ( 'radian',                'degree' )                               : '57.2957795130823208768',
+    ( 'radian',                'degree' )                               : '57.2957795130823208768',   # 180/pi
     ( 'reed',                  'foot' )                                 : '9',
     ( 'rod',                   'foot' )                                 : '16.5',
     ( 'rood',                  'square_yard' )                          : '1210',
     ( 'rope',                  'foot' )                                 : '20',
+    ( 'rutherford',            'becquerel' )                            : '1000000',
+    ( 'second',                'shake' )                                : '1.0e8',
+    ( 'second',                'sigma' )                                : '1.0e6',
+    ( 'second',                'svedberg' )                             : '1.0e13',
+    ( 'sextant',               'degree' )                               : '60',
     ( 'siderial_day',          'second' )                               : '86164.1',
     ( 'siderial_year',         'day' )                                  : '365.256363',
     ( 'siemens',               'ampere/volt' )                          : '1',
     ( 'siemens',               'kilogram*meter^2/second^3*ampere^2' )   : '1',
     ( 'slug',                  'pound' )                                : '32.174048556',
     ( 'span',                  'inch' )                                 : '9',
+    ( 'square_arcminute',      'square_arcsecond' )                     : '3600',
+    ( 'square_degree',         'square_arcminute' )                     : '3600',
     ( 'square_meter',          'barn' )                                 : '1.0e28',
     ( 'square_meter',          'outhouse' )                             : '1.0e34',
     ( 'square_meter',          'shed' )                                 : '1.0e52',
+    ( 'square_octant',         'square_degree' )                        : '2025',
+    ( 'square_quadrant',       'square_degree' )                        : '8100',
+    ( 'square_sextant',        'square_degree' )                        : '3600',
     ( 'standard_gravity',      'galileo' )                              : '980.6650',
     ( 'standard_gravity',      'meter/second^2' )                       : '9.80665',
+    ( 'steradian',             'square_degree' )                        : '0.000304617419786708510', # (pi/180)^2
+    ( 'steradian',             'square_grad' )                          : '0.00024674011002723397',  # (pi/200)^2
     ( 'sthene',                'newton' )                               : '1000',
     ( 'stilb',                 'candela/meter^2' )                      : '10000',
     ( 'stone',                 'pound' )                                : '14',
@@ -1035,6 +1173,7 @@ unitConversionMatrix = {
     ( 'tun',                   'gallon' )                               : '252',
     ( 'watt-second',           'joule' )                                : '1',
     ( 'week',                  'day' )                                  : '7',
+    ( 'wey',                   'pound' )                                : '252',
     ( 'wood',                  'martin' )                               : '100',
     ( 'yard',                  'foot' )                                 : '3',
     ( 'year',                  'day' )                                  : '365.25',
@@ -1353,7 +1492,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     unitTypeTable = makeUnitTypeTable( unitOperators )
 
-    for unitType in basicUnitTypes:
+    for unitType in sorted( basicUnitTypes ):
         print( '    ', unitType, '({} operators)'.format( len( unitTypeTable[ unitType ] ) ) )
 
         while True:
