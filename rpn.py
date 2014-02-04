@@ -16,7 +16,7 @@ from functools import reduce
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.2.0"
+RPN_VERSION = "3.2.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -40,7 +40,7 @@ bitwiseGroupSize = 16
 
 def factorize( n ):
     if n < -1:
-        return [ ( -1, 1 ) ] + factorize( -n )
+        return [ ( -1, 1 ) ] + factorize( fneg( n ) )
     elif n == -1:
         return [ ( -1, 1 ) ]
     elif n == 0:
@@ -73,8 +73,8 @@ def factorize( n ):
 
             power = 0
 
-            while ( n % divisor ) == 0:
-                n //= divisor
+            while ( fmod( n, divisor ) ) == 0:
+                n = floor( fdiv( n, divisor ) )
                 power += 1
 
             if power > 0:
@@ -82,76 +82,9 @@ def factorize( n ):
                 sqrtn = sqrt( n )
 
         if n > 1:
-             factors.append( ( n, 1 ) )
+             factors.append( ( int( n ), 1 ) )
 
         return factors
-
-
-#//******************************************************************************
-#//
-#//  GetDivisorsFromFactors
-#//
-#//******************************************************************************
-
-def GetDivisorsFromFactors( factors ):
-    def unsorted_divisors_from_factors( factors ):
-        if not factors:
-            return [ 1 ]
-        else:
-            base, max_power = factors[ 0 ]
-            if base == -1:
-                return unsorted_divisors_from_factors(factors[1:])
-            elif base == 0:
-                return [ ]
-            elif base == 1:
-                return unsorted_divisors_from_factors( factors[ 1: ] )
-            else:
-                divisors = unsorted_divisors_from_factors( factors[ 1: ] )
-                all_divisors = [ ]
-
-                for power in range( 0, max_power + 1 ):
-                    all_divisors += map( lambda x: x * base ** power, divisors )
-
-                return all_divisors
-
-    all_divisors = unsorted_divisors_from_factors( factors )
-    all_divisors.sort( )
-    return all_divisors
-
-
-#//******************************************************************************
-#//
-#//  testFactorize
-#//
-#//******************************************************************************
-
-def testFactorize( ):
-   start = clock( )
-   n = 0
-   while True:
-      f = factorize(n)
-      fa = map(lambda x: x[0] ** x[1], f)
-      fb = reduce(lambda x,y: x * y, fa, 1)
-      if fb != n:
-         print( "FACTORIZE FAILED AT " + str( n ) )
-      d = divisors_from_factors(f)
-      da = map(lambda x: d[x] * d[len(d)-x-1], range(0, len(d)))
-      for db in da:
-         if db != n:
-            print( "DIVISORS FAILED AT " + str( n ) )
-      f = factorize(-n)
-      fa = map(lambda x: x[0] ** x[1], f)
-      fb = reduce(lambda x,y: x * y, fa, 1)
-      if fb != -n:
-         print( "FACTORIZE FAILED AT " + str( -n ) )
-      d = divisors_from_factors(f)
-      da = map(lambda x: d[x] * d[len(d)-x-1], range(0, len(d)))
-      for db in da:
-         if db != n:
-            print( "DIVISORS FAILED AT " + str( -n ) )
-      if (n % 10000) == 0:
-         print( "up to " + str( n ) + " at " + str( clock( ) - start ) + "s" )
-      n += 1
 
 
 #//******************************************************************************
@@ -175,15 +108,15 @@ def factorInteger( n ):
         factors = reduce( lambda x, y: x + y, factors, [ ] )
         return " * ".join( map( str, factors ) )
 
-    f = factorize( n )
+    factors = factorize( n )
 
-    exponents = getStringFromFactorsWithExponents( f )
-    multiplication = getStringFromFactorsWithMultiplication( f )
+    exponents = getStringFromFactorsWithExponents( factors )
+    multiplication = getStringFromFactorsWithMultiplication( factors )
 
-    print( "    = " + getStringFromFactorsWithExponents( f ) )
+    print( "    = " + getStringFromFactorsWithExponents( factors ) )
 
     if ( multiplication != exponents ):
-        print( "    = " + getStringFromFactorsWithMultiplication( f ) )
+        print( "    = " + getStringFromFactorsWithMultiplication( factors ) )
 
     print
 
@@ -910,8 +843,8 @@ expressions = {
 #//
 #//  parseInputValue
 #//
-#//  parse out regular decimal, hexadecimal, octal or binary input values,
-#//  integers only
+#//  Parse out a numerical expression and attempt to set the precision to an
+#//  appropriate value based on the expression.
 #//
 #//******************************************************************************
 
@@ -927,6 +860,11 @@ def parseInputValue( term, inputRadix ):
 
     if '.' in term:
         if inputRadix == 10:
+            newPrecision = len( term ) + 1
+
+            if mp.dps < newPrecision:
+                mp.dps = newPrecision
+
             return mpf( term )
 
         decimal = term.find( '.' )
@@ -946,12 +884,12 @@ def parseInputValue( term, inputRadix ):
     integer = term[ start : decimal ]
     mantissa = term[ decimal + 1 : ]
 
-    # check for hex, then binary, then octal
+    # check for hex, then binary, then octal, otherwise a plain old decimal integer
     if not ignoreSpecial and mantissa == '':
         if integer[ 0 ] == '0':
             if integer[ 1 ] in 'Xx':
                 # set the precision big enough to handle this value
-                newPrecision = int( ceil( fadd( fmul( log( 16, 10 ), len( integer ) - 2 ), 1 ) ) )
+                newPrecision = math.ceil( ( math.log10( 16 ) * ( len( integer ) - 2 ) ) ) + 1
 
                 if mp.dps < newPrecision:
                     mp.dps = newPrecision
@@ -959,7 +897,8 @@ def parseInputValue( term, inputRadix ):
                 return mpf( int( integer[ 2 : ], 16 ) )
             elif integer[ -1 ] in 'bB':
                 # set the precision big enough to handle this value
-                newPrecision = ceil( fmul( log( 2, 10 ), len( integer ) - 1 ) )
+                newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
+
                 if mp.dps < newPrecision:
                     mp.dps = newPrecision
 
@@ -970,13 +909,16 @@ def parseInputValue( term, inputRadix ):
 
                 return mpf( int( integer, 8 ) )
         elif inputRadix == 10:
-            result = mpf( integer )
-            return mpf( -result if negative else result )
+            newPrecision = len( integer ) + 1
+
+            if mp.dps < newPrecision:
+                mp.dps = newPrecision
+
+            return fneg( integer ) if negative else mpf( integer )
 
     # finally, we have a non-radix 10 number to parse
     result = convertToBase10( integer, mantissa, inputRadix )
-
-    return mpf( -result if negative else result )
+    return fneg( result ) if negative else mpf( result )
 
 
 #//******************************************************************************
