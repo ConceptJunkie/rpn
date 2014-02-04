@@ -28,7 +28,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.14.0"
+RPN_VERSION = "4.15.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -151,33 +151,37 @@ class Polynomial(object):
         res = []
         for po,co in enumerate(self.coeffs):
             if co:
-                if po==0:
+                if po == 0:
                     po = ''
-                elif po==1:
+                elif po == 1:
                     po = 'X'
                 else:
-                    po = 'X^'+str(po)
-                res.append(str(co)+po)
+                    po = 'X^' + str( po )
+                res.append( str( co ) + po )
+
         if res:
-            res.reverse()
-            return ' + '.join(res)
+            res.reverse( )
+            return ' + '.join( res )
         else:
             return "0"
 
-    def __sub__(self, val):
+    def __sub__( self, val ):
         "Return self-val"
-        return self.__add__(-val)
+        return self.__add__( -val )
 
-    def trim(self):
+    def trim( self ):
         "Remove trailing 0-coefficients"
         _co = self.coeffs
+
         if _co:
-            offs = len(_co)-1
-            if _co[offs]==0:
+            offs = len( _co ) - 1
+            if _co[ offs ] == 0:
                 offs -= 1
-                while offs >= 0 and _co[offs]==0:
+
+                while offs >= 0 and _co[ offs ] == 0:
                     offs -= 1
-                del _co[offs+1:]
+
+                del _co[ offs + 1 : ]
 
     def getCoefficients( self ):
         return self.coeffs
@@ -2240,7 +2244,7 @@ def getNthBellNumber( n ):
     a = [ 0 for i in arange( 0, n ) ]
 
     a[ 0 ] = 1
-    R = [ 1, 1 ]
+    result = [ 1, 1 ]
 
     for i in range( 1, int( n ) ):
         a[ i ] = a[ 0 ]
@@ -2248,10 +2252,12 @@ def getNthBellNumber( n ):
         for k in range( i, 0, -1 ):
             a[ k - 1 ] += a[ k ]
 
-        R.append( a[ 0 ] )
+        result.append( a[ 0 ] )
 
-    return R[ int( n - 1 ) ]
+    return result[ int( n - 1 ) ]
 
+
+# a(n)=sum{k=1..n, (1/k!)*sum{i=1..k, (-1)^(k-i)*binomial(k, i)*i^n}}+0^n;
 
 #//******************************************************************************
 #//
@@ -2265,25 +2271,25 @@ def getNthTriangularNumber( n ):
 
 #//******************************************************************************
 #//
-#//  getAntiTriangularNumber
+#//  findTriangularNumber
 #//
 #//  Thanks for wolframalpha.com for solving the reverse of the above formula.
 #//
 #//******************************************************************************
 
-def getAntiTriangularNumber( n ):
+def findTriangularNumber( n ):
     return fmul( 0.5, fsub( sqrt( fadd( fmul( 8, n ), 1 ) ), 1 ) )
 
 
 #//******************************************************************************
 #//
-#//  getAntiHexagonalNumber
+#//  findAntiHexagonalNumber
 #//
 #//  Thanks for wolframalpha.com for solving the reverse of the above formula.
 #//
 #//******************************************************************************
 
-def getAntiHexagonalNumber( n ):
+def findHexagonalNumber( n ):
     return fdiv( fadd( sqrt( fadd( fmul( 8, n ), 1 ) ), 1 ), 4 )
 
 
@@ -2378,23 +2384,13 @@ def getNthOctagonalHexagonalNumber( n ):
 
 #//******************************************************************************
 #//
-#//  getNthTetrahedralNumber
-#//
-#//******************************************************************************
-
-def getNthTetrahedralNumber( n ):
-    return fdiv( fsum( [ power( n, 3 ), fmul( 3, power( n, 2 ) ), fmul( 2, n ) ] ), 6 )
-
-
-#//******************************************************************************
-#//
-#//  getAntiTetrahedralNumber
+#//  findTetrahedralNumber
 #//
 #//  Thanks for wolframalpha.com for solving the reverse of the above formula.
 #//
 #//******************************************************************************
 
-def getAntiTetrahedralNumber( n ):
+def findTetrahedralNumber( n ):
     sqrt3 = sqrt( 3 )
     curt3 = cbrt( 3 )
 
@@ -2624,6 +2620,46 @@ def getNthMotzkinNumber( n ):
 
     return fdiv( result, fadd( n, 1 ) )
 
+
+#//******************************************************************************
+#//
+#//  getNthPadovanNumber
+#//
+#//  Padovan sequence: a(n) = a(n-2) + a(n-3) with a(0)=1, a(1)=a(2)=0.
+#//
+#//  http://oeis.org/A000931
+#//
+#//  a(n) = (r^n)/(2r+3) + (s^n)/(2s+3) + (t^n)/(2t+3) where r, s, t are the
+#//  three roots of x^3-x-1
+#//
+#//  http://www.wolframalpha.com/input/?i=solve+x^3-x-1
+#//
+#//  Unfortunately, the roots are scary-complicated, but it's a non-iterative
+#//  formula, so I'll use it.
+#//
+#//  Wikipedia leaves off the first 4 terms, but Sloane's includes them.
+#//  Wikipedia cites Ian Stewart and Mathworld, and I'll use their definition.
+#//
+#//******************************************************************************
+
+def getNthPadovanNumber( arg ):
+    result = 0
+
+    n = fadd( arg, 4 )
+
+    a = root( fsub( fdiv( 27, 2 ), fdiv( fmul( 3, sqrt( 69 ) ), 2 ) ), 3 )
+    b = root( fdiv( fadd( 9, sqrt( 69 ) ), 2 ), 3 )
+    c = fadd( 1, fmul( mpc( 0, 1 ), sqrt( 3 ) ) )
+    d = fsub( 1, fmul( mpc( 0, 1 ), sqrt( 3 ) ) )
+    e = power( 3, fdiv( 2, 3 ) )
+
+    r = fadd( fdiv( a, 3 ), fdiv( b, e ) )
+    s = fsub( fmul( fdiv( d, -6 ), a ), fdiv( fmul( c, b ), fmul( 2, e ) ) )
+    t = fsub( fmul( fdiv( c, -6 ), a ), fdiv( fmul( d, b ), fmul( 2, e ) ) )
+
+    return round( re( fsum( [ fdiv( power( r, n ), fadd( fmul( 2, r ), 3 ) ),
+                              fdiv( power( s, n ), fadd( fmul( 2, s ), 3 ) ),
+                              fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
 
 #//******************************************************************************
 #//
@@ -3384,6 +3420,73 @@ def interleave( valueList ):
 
 #//******************************************************************************
 #//
+#//  makeUnion
+#//
+#//******************************************************************************
+
+def makeUnion( valueList ):
+    arg2 = valueList.pop( )
+    arg1 = valueList.pop( )
+
+    list1 = isinstance( arg1, list )
+    list2 = isinstance( arg2, list )
+
+    result = list( )
+
+    if list1:
+        result.extend( arg1 )
+
+        if list2:
+            result.extend( arg2 )
+        else:
+            result.append( arg2 )
+    else:
+        result.append( arg1 )
+
+        if list2:
+            result.extend( arg2 )
+        else:
+            result.append( arg2 )
+
+    valueList.append( result )
+
+
+#//******************************************************************************
+#//
+#//  makeIntersection
+#//
+#//******************************************************************************
+
+def makeIntersection( valueList ):
+    arg2 = valueList.pop( )
+    arg1 = valueList.pop( )
+
+    list1 = isinstance( arg1, list )
+    list2 = isinstance( arg2, list )
+
+    result = list( )
+
+    if list1:
+        if list2:
+            for i in arg1:
+                if i in arg2:
+                    result.append( i )
+        else:
+            if arg2 in arg1:
+                result.append( arg2 )
+    else:
+        if list2:
+            if arg1 in arg2:
+                result.append( arg1 )
+        else:
+            if arg1 == arg2:
+                result.append( arg1 )
+
+    valueList.append( result )
+
+
+#//******************************************************************************
+#//
 #//  unlist
 #//
 #//******************************************************************************
@@ -3394,6 +3497,22 @@ def unlist( valueList ):
     if isinstance( arg, list ):
         for i in arg:
             valueList.append( i )
+    else:
+        valueList.append( arg )
+
+
+#//******************************************************************************
+#//
+#//  getListElement
+#//
+#//******************************************************************************
+
+def getListElement( valueList ):
+    index = valueList.pop( )
+    arg = valueList.pop( )
+
+    if isinstance( arg, list ):
+        valueList.append( arg[ int( index ) ] )
     else:
         valueList.append( arg )
 
@@ -3504,6 +3623,16 @@ def sort( args ):
 
 #//******************************************************************************
 #//
+#//  sortDescending
+#//
+#//******************************************************************************
+
+def sortDescending( args ):
+    return reversed( sort( args ) )
+
+
+#//******************************************************************************
+#//
 #//  getCurrentArgList
 #//
 #//******************************************************************************
@@ -3569,82 +3698,294 @@ callers = [
 
 
 modifiers = {
-    'dup'       : duplicateTerm, #2 ],
-    'range'     : expandRange, #2 ],
-    'range2'    : expandSteppedRange, #3 ],
-    'georange'  : expandGeometricRange, #3 ],
-    'interleave': interleave, #2 ],
-    'primes'    : getPrimes, #2 ]
-    'unlist'    : unlist,
-    '['         : incrementNestedListLevel, #0 ],
-    ']'         : decrementNestedListLevel, #0 ],
+    'dup'       : [ duplicateTerm, 2,
+'modifiers', 'duplicates a argument n k times',
+'''
+''',
+'''
+''' ],
+    'element': [ getListElement, 2,
+'modifiers', 'return a single element from a list',
+'''
+''',
+'''
+''' ],
+    'georange'  : [ expandGeometricRange, 3,
+'modifiers', 'generates a list of geometric progression of numbers',
+'''
+''',
+'''
+''' ],
+    'interleave': [ interleave, 2,
+'modifiers', 'interleaves lists n and k into a single list',
+'''
+''',
+'''
+''' ],
+    'intersection': [ makeIntersection, 2,
+'modifiers', 'returns the intersection of two lists',
+'''
+''',
+'''
+''' ],
+    'primes'    : [ getPrimes, 2,
+'modifiers', 'generates a range of primes from index n to index k',
+'''
+''',
+'''
+''' ],
+    'range'     : [ expandRange, 2,
+'modifiers', 'generates a list of successive integers from n to k',
+'''
+''',
+'''
+''' ],
+    'range2'    : [ expandSteppedRange, 3,
+'modifiers', 'generates a list of arithmetic progression of numbers',
+'''
+''',
+'''
+''' ],
+    'union': [ makeUnion, 2,
+'modifiers', 'returns the union of two lists',
+'''
+''',
+'''
+''' ],
+    'unlist'    : [ unlist, 1,
+'modifiers', 'expands list n to individual arguments',
+'''
+''',
+'''
+''' ],
+    '['         : [ incrementNestedListLevel, 0,
+'modifiers', 'begins a list',
+'''
+''',
+'''
+''' ],
+    ']'         : [ decrementNestedListLevel, 0,
+'modifiers', 'ends a list',
+'''
+''',
+'''
+''' ],
 }
 
 
 list_operators = {
-    'altsum'    : getAlternatingSum,
-    'altsum2'   : getAlternatingSum2,
-    'average'   : lambda i: fdiv( fsum( i ), len( i ) ),
-    'avg'       : lambda i: fdiv( fsum( i ), len( i ) ),
-    'cf2'       : convertFromContinuedFraction,
-    'count'     : countElements,
-    'flatten'   : flatten,
-    'gcd'       : getGCD,
-    'mean'      : lambda i: fdiv( fsum( i ), len( i ) ),
-    'nonzero'   : lambda i: [ index for index, e in enumerate( i ) if e != 0 ],
-    'nonzeroes' : lambda i: [ index for index, e in enumerate( i ) if e != 0 ],
-    'polyprod'  : multiplyListOfPolynomials,
-    'polysum'   : addListOfPolynomials,
-    'prod'      : fprod,
-    'product'   : fprod,
-    'solve'     : solvePolynomial,
-    'sort'      : sort,
-    'sum'       : fsum,
-    'tower'     : calculatePowerTower,
-    'tower2'    : calculatePowerTower2,
-    'unique'    : getUniqueElements,
-    'zeroes'    : lambda i: [ index for index, e in enumerate( i ) if e == 0 ],
+    'altsum'    : [ getAlternatingSum, 1,
+'arithmetic', 'calculates the alternating sum of list n (addition first)',
+'''
+''',
+'''
+''' ],
+    'altsum2'   : [ getAlternatingSum2, 1,
+'arithmetic', 'calaculates the alternating sum of list n (subtraction first)',
+'''
+''',
+'''
+''' ],
+    'average'   : [ lambda i: fdiv( fsum( i ), len( i ) ), 1,
+'arithmetic', 'calculates the mean of values in list n',
+'''
+''',
+'''
+''' ],
+    'avg'       : [ lambda i: fdiv( fsum( i ), len( i ) ), 1,
+'arithmetic', 'calculates the mean of values in list n',
+'''
+''',
+'''
+''' ],
+    'cf2'       : [ convertFromContinuedFraction, 1,
+'number_theory', 'interprets list n as a continued fraction',
+'''
+''',
+'''
+''' ],
+    'count'     : [ countElements, 1,
+'special', 'counts the elements of list n',
+'''
+''',
+'''
+''' ],
+    'flatten'   : [ flatten, 1,
+'special', 'flattens a nested lists in list n to a single level',
+'''
+''',
+'''
+''' ],
+    'gcd'       : [ getGCD, 1,
+'arithmetic', 'calculates the greatest common denominator of elements in list n',
+'''
+''',
+'''
+''' ],
+    'mean'      : [ lambda i: fdiv( fsum( i ), len( i ) ), 1,
+'arithmetic', 'calculates the mean of values in list n',
+'''
+''',
+'''
+''' ],
+    'nonzero'   : [ lambda i: [ index for index, e in enumerate( i ) if e != 0 ], 1,
+'special', 'returns the indices of elements of list n that are not zero',
+'''
+''',
+'''
+''' ],
+    'nonzeroes' : [ lambda i: [ index for index, e in enumerate( i ) if e != 0 ], 1,
+'special', 'returns the indices of elements of list n that are not zero',
+'''
+''',
+'''
+''' ],
+    'polyprod'  : [ multiplyListOfPolynomials, 1,
+'algebra', 'interprets elements of list n as polynomials and calculates their product',
+'''
+''',
+'''
+''' ],
+    'polysum'   : [ addListOfPolynomials, 1,
+'algebra', 'interprets elements of list n as polynomials and calculates their sum',
+'''
+''',
+'''
+''' ],
+    'prod'      : [ fprod, 1,
+'arithmetic', 'calculates the product of values in list n',
+'''
+''',
+'''
+''' ],
+    'product'   : [ fprod, 1,
+'arithmetic', 'calculates the product of values in list n',
+'''
+''',
+'''
+''' ],
+    'solve'     : [ solvePolynomial, 1,
+'algebra', 'interprets list n as a polynomial and solves for its roots',
+'''
+''',
+'''
+''' ],
+    'sort'      : [ sort, 1,
+'special', 'sort the elements of list n numerically in ascending order',
+'''
+''',
+'''
+''' ],
+    'sortdesc'      : [ sortDescending, 1,
+'special', 'sorts the elements of list n numerically in descending order',
+'''
+''',
+'''
+''' ],
+    'sum'       : [ fsum, 1,
+'arithmetic', 'calculates the sum of values in list n',
+'''
+''',
+'''
+''' ],
+    'tower'     : [ calculatePowerTower, 1,
+'powers_and_roots', 'calculates list n as a power tower',
+'''
+''',
+'''
+''' ],
+    'tower2'    : [ calculatePowerTower2, 1,
+'powers_and_roots', 'calculates list n as a right-associative power tower',
+'''
+''',
+'''
+''' ],
+    'unique'    : [ getUniqueElements, 1,
+'special', 'replaces list n with a list of its unique elements',
+'''
+''',
+'''
+''' ],
+    'zero'    : [ lambda i: [ index for index, e in enumerate( i ) if e == 0 ], 1,
+'special', 'returns a list of the indices of elements in list n that are zero',
+'''
+''',
+'''
+''' ],
+    'zeroes'    : [ lambda i: [ index for index, e in enumerate( i ) if e == 0 ], 1,
+'special', 'returns a list of the indices of elements in list n that are zero',
+'''
+''',
+'''
+''' ],
 }
 
 list_operators_2 = {
-    'base'      : interpretAsBase,
-    'polyadd'   : addPolynomials,
-    'polymul'   : multiplyPolynomials,
-    'polyval'   : polyval,
+    'base'      : [ interpretAsBase, 2,
+'number_theory', 'interpret list elements as base k digits',
+'''
+''',
+'''
+''' ],
+    'polyadd'   : [ addPolynomials, 2,
+'algebra', 'interpret two lists as polynomials and add them',
+'''
+''',
+'''
+''' ],
+    'polymul'   : [ multiplyPolynomials, 2,
+'algebra', 'interpret two lists as polynomials and multiply them',
+'''
+''',
+'''
+''' ],
+    'polyval'   : [ polyval, 2,
+'algebra', 'interpret the list as a polynomial and evaluate it for value k',
+'''
+''',
+'''
+''' ],
 }
 
 operators = {
-    '!!'            : [ fac2, 1, 'number theory', 'double factorial',
+    '!!'            : [ fac2, 1,
+'number_theory', 'calculates the double factorial of n',
 '''
 ''',
 '''
 ''' ],
-    '!'             : [ fac, 1, 'number theory', 'factorial',
+    '!'             : [ fac, 1,
+'number_theory', 'calculates the factorial of n',
 '''
 ''',
 '''
 ''' ],
-    '%'             : [ fmod, 2, 'arithmetic', 'modulo',
+    '%'             : [ fmod, 2,
+'arithmetic', 'calculates n modulo k',
 '''
 ''',
 '''
 ''' ],
-    '*'             : [ fmul, 2, 'arithmetic', 'multiply',
+    '*'             : [ fmul, 2,
+'arithmetic', 'multiplies n by k',
 '''
 ''',
 '''
 ''' ],
-    '**'            : [ power, 2, 'arithmetic', '',
+    '**'            : [ power, 2,
+'arithmetic', 'calculates n to the kth power',
 '''
 ''',
 '''
 ''' ],
-    '***'           : [ tetrate, 2, 'arithmetic', '',
+    '***'           : [ tetrate, 2,
+'arithmetic', 'tetrates n by k'
 '''
 ''',
 '''
 ''' ],
-    '+'             : [ fadd, 2, 'arithmetic', 'add two values',
+    '+'             : [ fadd, 2,
+'arithmetic', 'adds k to n',
 '''
 This operator adds two terms together.
 
@@ -3665,67 +4006,74 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 10 10 10 ] +
 
 c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] +
 [ 11, 12, 13 ]''' ],
-    '-'             : [ fsub, 2, 'arithmetic', '',
+    '-'             : [ fsub, 2,
+'arithmetic', 'subtracts k from n',
 '''
 ''',
 '''
 ''' ],
-    '/'             : [ fdiv, 2, 'arithmetic', '',
+    '/'             : [ fdiv, 2,
+'arithmetic', 'divides n by k',
 '''
 ''',
 '''
 ''' ],
-    '//'            : [ root, 2, 'arithmetic', '',
+    '//'            : [ root, 2,
+'arithmetic', 'calculates the kth root of n',
 '''
 ''',
 '''
 ''' ],
-    '1/x'           : [ lambda i: fdiv( 1, i ), 1, 'arithmetic', '',
+    '1/x'           : [ lambda i: fdiv( 1, i ), 1,
+'arithmetic', 'calculates the reciprocal of n',
 '''
 ''',
 '''
 ''' ],
-    'abs'           : [ fabs, 1, 'arithmetic', '',
+    'abs'           : [ fabs, 1,
+'arithmetic', 'calculates the absolute value of n',
 '''
 ''',
 '''
 ''' ],
-    'acos'          : [ acos, 1, 'trigonometry', '',
+    'acos'          : [ acos, 1,
+'trigonometry', 'calculates the arccosine of n',
 '''
 ''',
 '''
 ''' ],
-    'acosh'         : [ acosh, 1, 'trigonometry', '',
+    'acosh'         : [ acosh, 1,
+'trigonometry', 'calculates the hyperbolic arccosine of n',
 '''
 ''',
 '''
 ''' ],
-    'acosh'         : [ acosh, 1, 'trigonometry', '',
+    'acot'          : [ acot, 1,
+'trigonometry', 'calcuates the arccotangent of n',
 '''
 ''',
 '''
 ''' ],
-    'acot'          : [ acot, 1, 'trigonometry', '',
+    'acoth'         : [ acoth, 1,
+'trigonometry', 'calculates the hyperbolic arccotangent of n',
 '''
 ''',
 '''
 ''' ],
-    'acoth'         : [ acoth, 1, 'trigonometry', '',
+    'acsc'          : [ acsc, 1,
+'trigonometry', 'calculates the arccosecant of n',
 '''
 ''',
 '''
 ''' ],
-    'acsc'          : [ acsc, 1, 'trigonometry', '',
+    'acsch'         : [ acsch, 1,
+'trigonometry', 'calculates the hyperbolic arccosecant of n',
 '''
 ''',
 '''
 ''' ],
-    'acsch'         : [ acsch, 1, 'trigonometry', '',
-'''
-''',
-'''
-''' ],
-    'add'           : [ fadd, 2, 'arithmetic', 'add two values',
+    'add'           : [ fadd, 2,
+'arithmetic', 'adds n to k',
 '''
 This operator adds two terms together.
 
@@ -3746,1157 +4094,1381 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 10 10 10 ] add
 
 c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 [ 11, 12, 13 ]''' ],
-    'altfac'        : [ getNthAlternatingFactorial, 1, 'number theory', '',
+    'altfac'        : [ getNthAlternatingFactorial, 1,
+'number_theory', 'calculates the alternating factorial of n',
 '''
 ''',
 '''
 ''' ],
-    'and'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x & y ), 2, 'logical', '',
+    'and'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x & y ), 2,
+'logical', 'calculates the bitwise \'and\' of n and k',
 '''
 ''',
 '''
 ''' ],
-    'apery'         : [ apery, 0, 'constants', '',
+    'apery'         : [ apery, 0,
+'constants', 'returns Apery\'s constant',
 '''
 ''',
 '''
 ''' ],
-    'asec'          : [ asec, 1, 'trigonometry', '',
+    'asec'          : [ asec, 1,
+'trigonometry', 'calculates the arcsecant of n',
 '''
 ''',
 '''
 ''' ],
-    'asech'         : [ asech, 1, 'trigonometry', '',
+    'asech'         : [ asech, 1,
+'trigonometry', 'calculates the hyperbolic arcsecant of n',
 '''
 ''',
 '''
 ''' ],
-    'asin'          : [ asin, 1, 'trigonometry', '',
+    'asin'          : [ asin, 1,
+'trigonometry', 'calculates the arcsine of n',
 '''
 ''',
 '''
 ''' ],
-    'asinh'         : [ asinh, 1, 'trigonometry', '',
+    'asinh'         : [ asinh, 1,
+'trigonometry', 'calculates the hyperbolic arcsine of n',
 '''
 ''',
 '''
 ''' ],
-    'atan'          : [ atan, 1, 'trigonometry', '',
+    'atan'          : [ atan, 1,
+'trigonometry', 'calculates the arctangent of n',
 '''
 ''',
 '''
 ''' ],
-    'atanh'         : [ atanh, 1, 'trigonometry', '',
+    'atanh'         : [ atanh, 1,
+'trigonometry', 'calculates the hyperbolic arctangent of n',
 '''
 ''',
 '''
 ''' ],
-    'bal'           : [ getNthBalancedPrimes, 1, 'number theory', '',
+    'bal'           : [ getNthBalancedPrimes, 1,
+'primes', 'returns the nth set of balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'balanced'      : [ getNthBalancedPrimes, 1, 'number theory', '',
+    'balanced'      : [ getNthBalancedPrimes, 1,
+'primes', 'calculate the nth set of balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'bell'          : [ getNthBellNumber, 1, '', '',
+    'bell'          : [ getNthBellNumber, 1,
+'combinatorics', 'calculate the nth Bell number',
 '''
 ''',
 '''
 ''' ],
-    'bernoulli'     : [ bernoulli, 1, '', '',
+    'bernoulli'     : [ bernoulli, 1,
+'combinatorics', 'calculate the nth Bernoulli number',
 '''
 ''',
 '''
 ''' ],
-    'binomial'      : [ binomial, 2, 'combinatorics', '',
+    'binomial'      : [ binomial, 2,
+'combinatorics', 'calculates the binomial coefficient of n and k',
 '''
 ''',
 '''
 ''' ],
-    'catalan'       : [ lambda i: fdiv( binomial( fmul( 2, i ), i ), fadd( i, 1 ) ), 1, '', '',
+    'catalan'       : [ lambda i: fdiv( binomial( fmul( 2, i ), i ), fadd( i, 1 ) ), 1,
+'combinatorics', 'calculates nth Catalan number',
 '''
 ''',
 '''
 ''' ],
-    'catmer'        : [ catalan, 0, 'constants', '',
+    'catalans'      : [ catalan, 0,
+'constants', 'returns Catalan\'s constant',
 '''
 ''',
 '''
 ''' ],
-    'cbrt'          : [ cbrt, 1, 'arithmetic', '',
+    'cbrt'          : [ cbrt, 1,
+'powers_and_roots', 'calculates the cube root of n',
 '''
 ''',
 '''
 ''' ],
-    'ccube'         : [ getNthCenteredCubeNumber, 1, 'number theory', '',
+    'ccube'         : [ getNthCenteredCubeNumber, 1,
+'polyhedral_numbers', 'calculates the nth centered cube number',
 '''
 ''',
 '''
 ''' ],
-    'ceil'          : [ ceil, 1, 'arithmetic', '',
+    'ceil'          : [ ceil, 1,
+'arithmetic', 'returns the next highest integer for n',
 '''
 ''',
 '''
 ''' ],
-    'cf'            : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2, '', '',
+    'cf'            : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2,
+'number_theory', 'calculates k terms of the continued fraction representation of n',
 '''
 ''',
 '''
 ''' ],
-    'champ'         : [ getChampernowne, 0, 'constants', '',
+    'champ'         : [ getChampernowne, 0,
+'constants', 'returns the Champernowne constant',
 '''
 ''',
 '''
 ''' ],
-    'champernowne'  : [ getChampernowne, 0, 'constants', '',
+    'champernowne'  : [ getChampernowne, 0,
+'constants', 'returns the Champernowne constant',
 '''
 ''',
 '''
 ''' ],
-    'copeland'      : [ getCopelandErdos, 0, 'constants', '',
+    'copeland'      : [ getCopelandErdos, 0,
+'constants', 'returns the Copeland Erdos constant',
 '''
 ''',
 '''
 ''' ],
-    'cos'           : [ cos, 1, 'trigonometry', '',
+    'cos'           : [ cos, 1,
+'trigonometry', 'calculates the cosine of n',
 '''
 ''',
 '''
 ''' ],
-    'cosh'          : [ cosh, 1, 'trigonometry', '',
+    'cosh'          : [ cosh, 1,
+'trigonometry', 'calculates the hyperbolic cosine of n',
 '''
 ''',
 '''
 ''' ],
-    'cot'           : [ cot, 1, 'trigonometry', '',
+    'cot'           : [ cot, 1,
+'trigonometry', 'calculates the cotangent of n',
 '''
 ''',
 '''
 ''' ],
-    'coth'          : [ coth, 1, 'trigonometry', '',
+    'coth'          : [ coth, 1,
+'trigonometry', 'calculates the hyperbolic cotangent of n',
 '''
 ''',
 '''
 ''' ],
-    'cousin'        : [ getNthCousinPrime, 1, 'number theory', '',
+    'cousin'        : [ getNthCousinPrime, 1,
+'primes', 'returns the nth cousin prime',
 '''
 ''',
 '''
 ''' ],
-    'cousinprime'   : [ getNthCousinPrime, 1, 'number theory', '',
+    'cousinprime'   : [ getNthCousinPrime, 1,
+'primes', 'returns the nth cousin prime',
 '''
 ''',
 '''
 ''' ],
-    'csc'           : [ csc, 1, 'trigonometry', '',
+    'csc'           : [ csc, 1,
+'trigonometry', 'calculates the cosecant of n',
 '''
 ''',
 '''
 ''' ],
-    'csch'          : [ csch, 1, 'trigonometry', '',
+    'csch'          : [ csch, 1,
+'trigonometry', 'calculates hyperbolic cosecant of n',
 '''
 ''',
 '''
 ''' ],
-    'cube'          : [ lambda i: power( i, 3 ), 1, 'arithmetic', '',
+    'cube'          : [ lambda i: power( i, 3 ), 1,
+'powers_and_roots', 'calculates the cube of n',
 '''
 ''',
 '''
 ''' ],
-    'dec'           : [ lambda i: polyval( [ 4, -3, 0 ],  i ), 1, 'number theory', 'nth decagonal number',
+    'dec'           : [ lambda i: polyval( [ 4, -3, 0 ],  i ), 1,
+'polygonal_numbers', 'calculates the nth decagonal number',
 '''
 ''',
 '''
 ''' ],
-    'deg'           : [ radians, 1, 'trigonometry', '',
+    'deg'           : [ radians, 1,
+'trigonometry', 'interprets n as degrees and converts to radians',
 '''
 ''',
 '''
 ''' ],
-    'degrees'       : [ radians, 1, 'trigonometry', '',
+    'degrees'       : [ radians, 1,
+'trigonometry', 'interprets n as degrees and converts to radians',
 '''
 ''',
 '''
 ''' ],
-    'delannoy'      : [ getNthDelannoyNumber, 1, '', '',
+    'delannoy'      : [ getNthDelannoyNumber, 1,
+'[TBD]', 'calculates the nth Delannoy number',
 '''
 ''',
 '''
 ''' ],
-    'doublebal'     : [ getNthDoubleBalancedPrimes, 1, 'number theory', '',
+    'doublebal'     : [ getNthDoubleBalancedPrimes, 1,
+'primes', 'returns the nth set of double balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'e'             : [ e, 0, 'constants', '',
+    'e'             : [ e, 0,
+'constants', 'returns e (Euler\'s number)',
 '''
 ''',
 '''
 ''' ],
-    'egypt'         : [ getGreedyEgyptianFraction, 2, 'number theory', '',
+    'egypt'         : [ getGreedyEgyptianFraction, 2,
+'number_theory', 'calculates the greedy Egyption fractions for n/k',
 '''
 ''',
 '''
 ''' ],
-    'euler'         : [ euler, 0, 'constants', '',
+    'euler'         : [ euler, 0,
+'constants', 'returns the Euler-Mascheroni constant',
 '''
 ''',
 '''
 ''' ],
-    'exp'           : [ exp, 1, '', '',
+    'exp'           : [ exp, 1,
+'powers_and_roots', 'calculates the nth power of e',
 '''
 ''',
 '''
 ''' ],
-    'exp10'         : [ lambda i: power( 10, i ), 1, '', '',
+    'exp10'         : [ lambda i: power( 10, i ), 1,
+'powers_and_roots', 'calculates nth power of 10',
 '''
 ''',
 '''
 ''' ],
-    'expphi'        : [ phi, 1, '', '',
+    'expphi'        : [ phi, 1,
+'powers_and_roots', 'calculates the nth power of phi',
 '''
 ''',
 '''
 ''' ],
-    'fac'           : [ fac, 1, 'number theory', 'factorial',
+    'fac'           : [ fac, 1,
+'number_theory', 'calculates the factorial of n',
 '''
 ''',
 '''
 ''' ],
-    'fac2'          : [ fac2, 1, 'number theory', 'double factorial',
+    'fac2'          : [ fac2, 1,
+'number_theory', 'calculates the double factorial of n',
 '''
 ''',
 '''
 ''' ],
-    'factor'        : [ lambda i: getExpandedFactorList( factorize( i ) ), 1, 'number theory', 'prime factorization',
+    'factor'        : [ lambda i: getExpandedFactorList( factorize( i ) ), 1,
+'number_theory', 'calculates the prime factorization of n',
 '''
 ''',
 '''
 ''' ],
-    'fib'           : [ fib, 1, 'number theory', 'nth Fibonacci number',
+    'fib'           : [ fib, 1,
+'number_theory', 'calculates the nth Fibonacci number',
 '''
 ''',
 '''
 ''' ],
-    'floor'         : [ floor, 1, 'arithmetic', 'floor function',
+    'floor'         : [ floor, 1,
+'arithmetic', 'calculates the next lowest integer for n',
 '''
 ''',
 '''
 ''' ],
-    'frac'          : [ interpretAsFraction, 2, 'number theory', '',
+    'frac'          : [ interpretAsFraction, 2,
+'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
 '''
 ''',
 '''
 ''' ],
-    'fraction'      : [ interpretAsFraction, 2, 'number theory', '',
+    'fraction'      : [ interpretAsFraction, 2,
+'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
 '''
 ''',
 '''
 ''' ],
-    'gamma'         : [ gamma, 1, 'number theory', '',
+    'gamma'         : [ gamma, 1,
+'number_theory', 'calculates the gamma function for n',
 '''
 ''',
 '''
 ''' ],
-    'glaisher'      : [ glaisher, 0, 'constants', '',
+    'glaisher'      : [ glaisher, 0,
+'constants', 'returns Glaisher\'s constant',
 '''
 ''',
 '''
 ''' ],
-    'harm'          : [ harmonic, 1, 'number theory', '',
+    'harm'          : [ harmonic, 1,
+'number_theory', 'returns the sum of the first n terms of the harmonic series',
 '''
 ''',
 '''
 ''' ],
-    'harmonic'      : [ harmonic, 1, 'number theory', '',
+    'harmonic'      : [ harmonic, 1,
+'number_theory', 'returns the sum of the first n terms of the harmonic series',
 '''
 ''',
 '''
 ''' ],
-    'hept'          : [ getNthHeptagonalNumber, 1, 'number theory', 'nth heptagonal number',
+    'hept'          : [ getNthHeptagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth heptagonal number',
 '''
 ''',
 '''
 ''' ],
-    'heptanacci'    : [ getNthHeptanacci, 1, 'number theory', 'nth Heptanacci number',
+    'heptanacci'    : [ getNthHeptanacci, 1,
+'polygonal_numbers', 'calculates the nth Heptanacci number',
 '''
 ''',
 '''
 ''' ],
-    'hepthex'       : [ getNthHeptagonalHexagonalNumber, 1, 'number theory', 'nth heptagonal hexagonal number',
+    'hepthex'       : [ getNthHeptagonalHexagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth heptagonal hexagonal number',
 '''
 ''',
 '''
 ''' ],
-    'heptpent'      : [ getNthHeptagonalPentagonalNumber, 1, 'number theory', 'nth heptagonal pentagonal number',
+    'heptpent'      : [ getNthHeptagonalPentagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth heptagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'hex'           : [ lambda i: fsub( fprod( 2, i, i ), i ), 1, 'number theory', 'nth hexagonal number',
+    'hex'           : [ lambda i: fsub( fprod( 2, i, i ), i ), 1,
+'polygonal_numbers', 'calculates the nth hexagonal number',
 '''
 ''',
 '''
 ''' ],
-    'hex?'          : [ getAntiHexagonalNumber, 1, 'number theory', 'find hexagonal index',
+    'hex?'          : [ findHexagonalNumber, 1,
+'number_theory', 'finds index of the closest hexagonal number over n',
 '''
 ''',
 '''
 ''' ],
-    'hexanacci'     : [ getNthHexanacci, 1, 'number theory', '',
+    'hexanacci'     : [ getNthHexanacci, 1,
+'number_theory', 'calculates the nth Hexanacci number',
 '''
 ''',
 '''
 ''' ],
-    'hyper4'        : [ tetrate, 2, 'arithmetic', '',
+    'hyper4'        : [ tetrate, 2,
+'powers_and_roots', 'tetrates n by k',
 '''
 ''',
 '''
 ''' ],
-    'hyper4_2'      : [ tetrateLarge, 2, 'arithmetic', '',
+    'hyper4_2'      : [ tetrateLarge, 2,
+'powers_and_roots', 'calculates the right-associative tetration of n by k',
 '''
 ''',
 '''
 ''' ],
-    'hyperfac'      : [ hyperfac, 1, 'number theory', '',
+    'hyperfac'      : [ hyperfac, 1,
+'number_theory', 'calculates the hyperfactorial of n',
 '''
 ''',
 '''
 ''' ],
-    'hypot'         : [ hypot, 2, 'trigonometry', '',
+    'hypot'         : [ hypot, 2,
+'trigonometry', 'calculates the hypotenuse of n and k',
 '''
 ''',
 '''
 ''' ],
-    'i'             : [ makeImaginary, 1, '', '',
+    'i'             : [ makeImaginary, 1,
+'complex_math', 'multiplies n by i',
 '''
 ''',
 '''
 ''' ],
-    'inv'           : [ lambda i: fdiv( 1, i ), 1, 'arithmetic', '',
+    'inv'           : [ lambda i: fdiv( 1, i ), 1,
+'arithmetic', 'calculates the reciprocal of n',
 '''
 ''',
 '''
 ''' ],
-    'isdiv'         : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2, 'arithmetic', '',
+    'isdiv'         : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2,
+'arithmetic', 'is divisible by n?',
 '''
 ''',
 '''
 ''' ],
-    'isolated'      : [ getNthIsolatedPrime, 1, 'number theory', 'nth isolated prime',
+    'isolated'      : [ getNthIsolatedPrime, 1,
+'primes', 'returns the nth isolated prime',
 '''
 ''',
 '''
 ''' ],
-    'isprime'       : [ lambda i: 1 if isPrime( i ) else 0, 1, 'number theory', 'is prime?',
+    'isprime'       : [ lambda i: 1 if isPrime( i ) else 0, 1,
+'number_theory', 'is prime?',
 '''
 ''',
 '''
 ''' ],
-    'issqr'         : [ isSquare, 1, 'arithmetic', 'is perfect square?',
+    'issqr'         : [ isSquare, 1,
+'arithmetic', 'is perfect square?',
 '''
 ''',
 '''
 ''' ],
-    'issquare'      : [ isSquare, 1, 'arithmetic', 'is perfect square?',
+    'issquare'      : [ isSquare, 1,
+'arithmetic', 'is perfect square?',
 '''
 ''',
 '''
 ''' ],
-    'itoi'          : [ lambda: exp( fmul( -0.5, pi ) ), 0, 'complex math', '',
+    'itoi'          : [ lambda: exp( fmul( -0.5, pi ) ), 0,
+'constants', 'returns i to the i power',
 '''
 ''',
 '''
 ''' ],
-    'khinchin'      : [ khinchin, 0, 'constants', '',
+    'khinchin'      : [ khinchin, 0,
+'constants', 'returns Khinchin\'s constant',
 '''
 ''',
 '''
 ''' ],
-    'lah'           : [ lambda n, k: fdiv( fmul( binomial( n, k ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ), 2, 'combinatorics', '',
+    'lah'           : [ lambda n, k: fdiv( fmul( binomial( n, k ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ), 2,
+'combinatorics', '',
 '''
 ''',
 '''
 ''' ],
-    'lambertw'      : [ lambertw, 1, '', '',
+    'lambertw'      : [ lambertw, 1,
+'[TBD]', '',
 '''
 ''',
 '''
 ''' ],
-    'lgamma'        : [ loggamma, 1, '', '',
+    'lgamma'        : [ loggamma, 1,
+'number_theory', 'calculates the loggamma function for n',
 '''
 ''',
 '''
 ''' ],
-    'ln'            : [ ln, 1, '', '',
+    'ln'            : [ ln, 1,
+'logarithms', 'calculates the natural logarithm of n',
 '''
 ''',
 '''
 ''' ],
-    'log'           : [ ln, 1, '', '',
+    'log'           : [ ln, 1,
+'logarithms', 'calculates the natural logarithm of n',
 '''
 ''',
 '''
 ''' ],
-    'log10'         : [ log10, 1, '', '',
+    'log10'         : [ log10, 1,
+'logarithms', 'calculates the base-10 logarithm of n',
 '''
 ''',
 '''
 ''' ],
-    'logxy'         : [ log, 2, '', '',
+    'logxy'         : [ log, 2,
+'logarithms', 'calculates the base-k logarithm of n',
 '''
 ''',
 '''
 ''' ],
-    'luc'           : [ getNthLucas, 1, 'number theory', 'nth Lucas number',
+    'luc'           : [ getNthLucas, 1,
+'number_theory', 'calculates the nth Lucas number',
 '''
 ''',
 '''
 ''' ],
-    'lucas'         : [ getNthLucas, 1, 'number theory', 'nth Lucas number',
+    'lucas'         : [ getNthLucas, 1,
+'number_theory', 'calculates the nth Lucas number',
 '''
 ''',
 '''
 ''' ],
-    'mertens'       : [ mertens, 0, 'constants', '',
+    'mertens'       : [ mertens, 0,
+'constants', 'returns Merten\'s constant',
 '''
 ''',
 '''
 ''' ],
-    'mod'           : [ fmod, 2, 'arithmetic', 'modulo',
+    'mod'           : [ fmod, 2,
+'arithmetic', 'calculates n modulo k',
 '''
 ''',
 '''
 ''' ],
-    'modulo'        : [ fmod, 2, 'arithmetic', 'modulo',
+    'modulo'        : [ fmod, 2,
+'arithmetic', 'calculates n modulo k',
 '''
 ''',
 '''
 ''' ],
-    'motzkin'       : [ getNthMotzkinNumber, 1, '', 'nth Motzkin number',
+    'motzkin'       : [ getNthMotzkinNumber, 1,
+'[TBD]', 'calculates the nth Motzkin number',
 '''
 ''',
 '''
 ''' ],
-    'mulitply'      : [ fmul, 2, 'arithmetic', 'multiply',
+    'mulitply'      : [ fmul, 2,
+'arithmetic', 'multiplies n by k',
 '''
 ''',
 '''
 ''' ],
-    'mult'          : [ fmul, 2, 'arithmetic', 'multiply',
+    'mult'          : [ fmul, 2,
+'arithmetic', 'multiplies n by k',
 '''
 ''',
 '''
 ''' ],
-    'narayana'      : [ lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2, '', '',
+    'narayana'      : [ lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2,
+'combinatorics', '',
 '''
 ''',
 '''
 ''' ],
-    'neg'           : [ fneg, 1, 'arithmetic', 'negate sign',
+    'neg'           : [ fneg, 1,
+'arithmetic', 'calculates the negative of n',
 '''
 ''',
 '''
 ''' ],
-    'non'           : [ lambda n: fdiv( polyval( [ 7, -5, 0 ], n ), 2 ), 1, 'number theory', 'nth nonagonal number',
+    'non'           : [ lambda n: fdiv( polyval( [ 7, -5, 0 ], n ), 2 ), 1,
+'polygonal_numbers', 'calculates the nth nonagonal number',
 '''
 ''',
 '''
 ''' ],
-    'npr'           : [ getPermutations, 2, 'combinatorics', '',
+    'nthprime?'     : [ lambda i: findPrime( i )[ 0 ], 1,
+'primes', 'finds the index of the closest prime over n',
 '''
 ''',
 '''
 ''' ],
-    'nPr'           : [ getPermutations, 2, 'combinatorics', '',
+    'nthquad?'      : [ lambda i: findQuadrupletPrimes( i )[ 0 ], 1,
+'primes', 'finds the index of the first of the closest quadruplet prime set over n',
 '''
 ''',
 '''
 ''' ],
-    'nthprime?'     : [ lambda i: findPrime( i )[ 0 ], 1, 'number theory', 'find prime index',
+    'oct'           : [ lambda n: polyval( [ 3, -2, 0 ], n ), 1,
+'polygonal_numbers', 'calculates the nth octagonal number',
 '''
 ''',
 '''
 ''' ],
-    'nthquad?'      : [ lambda i: findQuadrupletPrimes( i )[ 0 ], 1, 'number theory', 'find quadruplet prime index',
+    'octahedral'    : [ getNthOctahedralNumber, 1,
+'polyhedral_numbers', 'calculates the nth octahedral number',
 '''
 ''',
 '''
 ''' ],
-    'oct'           : [ lambda n: polyval( [ 3, -2, 0 ], n ), 1, 'number theory', 'nth octagonal number',
+    'octhept'       : [ getNthOctagonalHeptagonalNumber, 1,
+'polygonal_numbers', 'nth octagonal heptagonal number',
 '''
 ''',
 '''
 ''' ],
-    'octahedral'    : [ getNthOctahedralNumber, 1, 'number theory', 'nth octahedral number',
+    'octhex'        : [ getNthOctagonalHexagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth octagonal hexagonal number',
 '''
 ''',
 '''
 ''' ],
-    'octhept'       : [ getNthOctagonalHeptagonalNumber, 1, 'number theory', 'nth octagonal heptagonal number',
+    'octpent'       : [ getNthOctagonalPentagonalNumber, 1,
+'polygonal_numbers', 'calculates the nth octagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'octhex'        : [ getNthOctagonalHexagonalNumber, 1, 'number theory', 'nth octagonal hexagonal number',
+    'oeis'          : [ getOEISSequence, 1,
+'special', 'downloads the OEIS integer series n',
 '''
 ''',
 '''
 ''' ],
-    'octpent'       : [ getNthOctagonalPentagonalNumber, 1, 'number theory', 'nth octagonal pentagonal number',
+    'omega'         : [ lambda: lambertw( 1 ), 0,
+'constants', 'return the Omega constant (goobles)',
 '''
 ''',
 '''
 ''' ],
-    'oeis'          : [ getOEISSequence, 1, 'special', 'download OEIS integer series',
+    'or'            : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2,
+'logical', 'calculates the bitwise \'or\' of n and k',
 '''
 ''',
 '''
 ''' ],
-    'omega'         : [ lambda: lambertw( 1 ), 0, 'constants', '',
+    'padovan'  : [ getNthPadovanNumber, 1,
+'number theory', 'calculates their the nth Padovan number',
 '''
 ''',
 '''
 ''' ],
-    'or'            : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2, 'logical', '',
+    'pascal'        : [ getNthPascalLine, 1,
+'number_theory', 'calculates the nth line of Pascal\'s triangle',
 '''
 ''',
 '''
 ''' ],
-    'pascal'        : [ getNthPascalLine, 1, 'number theory', 'nth line of Pascal\'s triangle',
+    'pent'          : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1,
+'polygonal_numbers', 'calculates the nth pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'pent'          : [ lambda i: fdiv( fsub( fprod( [ 3, i, i ] ), i ), 2 ), 1, 'number theory', 'nth pentagonal number',
+    'pent?'         : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1,
+'polygonal_numbers', 'finds the index of the closest pentagonal number over n',
 '''
 ''',
 '''
 ''' ],
-    'pent?'         : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1, 'number theory', 'find pentagonal number index',
+    'pentanacci'    : [ getNthPentanacci, 1,
+'number_theory', 'calculates the nth Pentanacci number',
 '''
 ''',
 '''
 ''' ],
-    'pentanacci'    : [ getNthPentanacci, 1, 'number theory', 'nth Pentanacci number',
+    'pentatope'     : [ getNthPentatopeNumber, 1,
+'polyhedral_numbers', 'calculates the nth pentatope number',
 '''
 ''',
 '''
 ''' ],
-    'pentatope'     : [ getNthPentatopeNumber, 1, 'number theory', 'nth pentatope number',
+    'perm'          : [ getPermutations, 2,
+'combinatorics', 'calculates the number of permutations of k out of n objects',
 '''
 ''',
 '''
 ''' ],
-    'perm'          : [ getPermutations, 2, 'combinatorics', 'permutate n out of k objects',
+    'phi'           : [ phi, 0,
+'constants', 'returns phi (the Golden Ratio)',
 '''
 ''',
 '''
 ''' ],
-    'phi'           : [ phi, 0, 'constants', 'phi, the Golden Ratio',
+    'pi'            : [ pi, 0,
+'constants', 'returns pi (Archimedes\' constant)',
 '''
 ''',
 '''
 ''' ],
-    'pi'            : [ pi, 0, 'constants', 'pi, Archimedes' constant',
+    'plastic'       : [ getPlasticConstant, 0,
+'constants', 'returns the Plastic constant',
 '''
 ''',
 '''
 ''' ],
-    'plastic'       : [ getPlasticConstant, 0, 'constants', 'the Plastic constant',
+    'polygamma'     : [ psi, 2,
+'number_theory', 'calculates the polygamma function for n',
 '''
 ''',
 '''
 ''' ],
-    'polygamma'     : [ psi, 2, 'number theory', 'polygamma function',
+    'polyprime'     : [ getNthPolyPrime, 2,
+'primes', 'returns the nth prime, recursively k times',
 '''
 ''',
 '''
 ''' ],
-    'polyprime'     : [ getNthPolyPrime, 2, 'number theory', 'nth prime, recursively k times',
+    'polytope'      : [ getNthPolytopeNumber, 2,
+'polyhedral_numbers', 'calculates nth polytope number of dimension k',
 '''
 ''',
 '''
 ''' ],
-    'polytope'      : [ getNthPolytopeNumber, 2, 'number theory', 'nth polytope number of dimension k',
+    'power'         : [ power, 2,
+'powers_and_roots', 'calculates the kth power of n',
 '''
 ''',
 '''
 ''' ],
-    'power'         : [ power, 2, 'arithmetic', 'exponetiate',
+    'prime'         : [ getNthPrime, 1,
+'primes', 'returns the nth prime',
 '''
 ''',
 '''
 ''' ],
-    'prime'         : [ getNthPrime, 1, 'number theory', 'nth prime',
+    'prime?'        : [ lambda i: findPrime( i )[ 1 ], 1,
+'primes', 'find the index of the closest prime above n',
 '''
 ''',
 '''
 ''' ],
-    'prime?'        : [ lambda i: findPrime( i )[ 1 ], 1, 'number theory', 'find prime index',
+    'primorial'     : [ getPrimorial, 1,
+'primes', 'calculates the nth primorial',
 '''
 ''',
 '''
 ''' ],
-    'primorial'     : [ getPrimorial, 1, 'number theory', 'nth primorial',
+    'psi'           : [ psi, 2,
+'number_theory', 'calculates the polygamma function for n',
 '''
 ''',
 '''
 ''' ],
-    'psi'           : [ psi, 2, 'number theory', 'the polygamma function',
+    'pyr'           : [ getNthPyramidalNumber, 1,
+'polyhedral_numbers', 'calculates the nth pyramidal number',
 '''
 ''',
 '''
 ''' ],
-    'pyr'           : [ getNthPyramidalNumber, 1, 'number theory', 'nth pyramidal number',
+    'pyramid'       : [ getNthPyramidalNumber, 1,
+'polyhedral_numbers', 'calculates the nth pyramidal number',
 '''
 ''',
 '''
 ''' ],
-    'pyramid'       : [ getNthPyramidalNumber, 1, 'number theory', 'nth pyramidal number',
+    'quad'          : [ getNthQuadrupletPrime, 1,
+'primes', 'returns the nth quadruplet prime',
 '''
 ''',
 '''
 ''' ],
-    'quad'          : [ getNthQuadrupletPrime, 1, 'primes', 'nth quadruplet prime',
+    'quad?'         : [ lambda i: findQuadrupletPrimes( i )[ 1 ], 1,
+'primes', 'find the closest set of quadruplet primes above n',
 '''
 ''',
 '''
 ''' ],
-    'quad?'         : [ lambda i: findQuadrupletPrimes( i )[ 1 ], 1, 'primes', 'find quadruplet prime',
+    'quadprime'     : [ getNthQuadrupletPrime, 1,
+'primes', 'returns the nth set of quadruplet primes',
 '''
 ''',
 '''
 ''' ],
-    'quadprime'     : [ getNthQuadrupletPrime, 1, 'primes', 'nth quadruplet prime',
+    'quint'         : [ getNthQuintupletPrimes, 1,
+'primes', 'returns the nth set of quintruplet primes',
 '''
 ''',
 '''
 ''' ],
-    'quint'         : [ getNthQuintupletPrimes, 1, 'primes', 'nth quintruplet prime',
+    'quintprime'    : [ getNthQuintupletPrimes, 1,
+'primes', 'returns the nth set of quintruplet primes',
 '''
 ''',
 '''
 ''' ],
-    'quintprime'    : [ getNthQuintupletPrimes, 1, 'primes', 'nth quintruplet prime',
+    'rad'           : [ degrees, 1,
+'trigonometry', 'interprets n as radians and converts to degrees',
 '''
 ''',
 '''
 ''' ],
-    'rad'           : [ degrees, 1, 'trigonometry', 'convert radians to degrees',
+    'radians'       : [ degrees, 1,
+'trigonometry', 'interprets n as radians and converts to degrees',
 '''
 ''',
 '''
 ''' ],
-    'radians'       : [ degrees, 1, 'primes', 'nth quadruplet prime',
+    'rand'          : [ rand, 0,
+'special', 'returns a random value from 0 to 1',
 '''
 ''',
 '''
 ''' ],
-    'rand'          : [ rand, 0, 'special', 'random value from 0 to 1',
+    'random'        : [ rand, 0,
+'special', 'returns a random value from 0 to 1',
 '''
 ''',
 '''
 ''' ],
-    'random'        : [ rand, 0, 'special', 'random value from 0 to 1',
+    'rhombdodec'    : [ getNthRhombicDodecahedralNumber, 1,
+'polyhedral_numbers', 'calculates the nth rhombic dodecahedral number',
 '''
 ''',
 '''
 ''' ],
-    'rhombdodec'    : [ getNthRhombicDodecahedralNumber, 1, '', '',
+    'root'          : [ root, 2,
+'powers_and_roots', 'calculates the kth root of n',
 '''
 ''',
 '''
 ''' ],
-    'root'          : [ root, 2, 'algebra', 'nth root',
+    'root2'         : [ sqrt, 1,
+'powers_and_roots', 'calculates the square root of n',
 '''
 ''',
 '''
 ''' ],
-    'root2'         : [ sqrt, 1, 'algebra', 'square root',
+    'root3'         : [ cbrt, 1,
+'powers_and_roots', 'calculates the cube root of n',
 '''
 ''',
 '''
 ''' ],
-    'root3'         : [ cbrt, 1, 'algebra', 'cube root',
+    'round'         : [ lambda i: floor( fadd( i, 0.5 ) ), 1,
+'arithmetic', 'rounds n to the nearest integer',
 '''
 ''',
 '''
 ''' ],
-    'round'         : [ lambda i: floor( fadd( i, 0.5 ) ), 1, 'special', 'round to the nearest integer',
+    'schroeder'     : [ getNthSchroederNumber, 1,
+'[TBD]', 'calculates the nth Schroeder number',
 '''
 ''',
 '''
 ''' ],
-    'schroeder'     : [ getNthSchroederNumber, 1, '', 'nth Schroeder number',
+    'sec'           : [ sec, 1,
+'trigonometry', 'calculates the secant of n',
 '''
 ''',
 '''
 ''' ],
-    'sec'           : [ sec, 1, 'trigonometry', 'secant',
+    'sech'          : [ sech, 1,
+'trigonometry', 'calculates the hyperbolic secant of n',
 '''
 ''',
 '''
 ''' ],
-    'sech'          : [ sech, 1, 'trigonometry', 'hyperbolic secant',
+    'sext'          : [ getNthSextupletPrimes, 1,
+'primes', 'returns the nth set of sextuplet primes',
 '''
 ''',
 '''
 ''' ],
-    'sext'          : [ getNthSextupletPrimes, 1, 'primes', 'nth set of sextuplet primes',
+    'sextprime'     : [ getNthSextupletPrimes, 1,
+'primes', 'returns the nth set of sextuplet primes',
 '''
 ''',
 '''
 ''' ],
-    'sextprime'     : [ getNthSextupletPrimes, 1, 'primes', 'nth set of sextuplet primes',
+    'sexy'          : [ getNthSexyPrime, 1,
+'primes', 'returns the nth sexy prime',
 '''
 ''',
 '''
 ''' ],
-    'sexy'          : [ getNthSexyPrime, 1, 'primes', 'nth sexy prime',
+    'sexyprime'     : [ getNthSexyPrime, 1,
+'primes', 'returns the nth sexy prime',
 '''
 ''',
 '''
 ''' ],
-    'sexyprime'     : [ getNthSexyPrime, 1, 'primes', 'nth sexy prime',
+    'sin'           : [ sin, 1,
+'trigonometry', 'calculates the sine of n',
 '''
 ''',
 '''
 ''' ],
-    'sin'           : [ sin, 1, 'trigonometry', 'sine',
+    'sinh'          : [ sinh, 1,
+'trigonometry', 'calculates the hyperbolic sine of n',
 '''
 ''',
 '''
 ''' ],
-    'sinh'          : [ sinh, 1, 'trigonometry', 'hyperbolic sine',
+    'solve2'        : [ solveQuadraticPolynomial, 3,
+'algebra', 'solves a quadratic equation',
 '''
 ''',
 '''
 ''' ],
-    'solve2'        : [ solveQuadraticPolynomial, 3, 'algebra', 'solve a quadratic equation',
+    'solve3'        : [ solveCubicPolynomial, 4,
+'algebra', 'solves a cubic equation',
 '''
 ''',
 '''
 ''' ],
-    'solve3'        : [ solveCubicPolynomial, 4, 'algebra', 'solve a cubic equation',
+    'solve4'        : [ solveQuarticPolynomial, 5,
+'algebra', 'solves a quartic equation',
 '''
 ''',
 '''
 ''' ],
-    'solve4'        : [ solveQuarticPolynomial, 5, 'algebra', 'solve a quartic equation',
+    'sophie'        : [ getNthSophiePrime, 1,
+'primes', 'returns the nth Sophie Germain prime',
 '''
 ''',
 '''
 ''' ],
-    'sophie'        : [ getNthSophiePrime, 1, 'primes', 'nth Sophie Germain prime',
+    'sqr'           : [ lambda i: power( i, 2 ), 1,
+'powers_and_roots', 'calculates the square of n',
 '''
 ''',
 '''
 ''' ],
-    'sqr'           : [ lambda i: power( i, 2 ), 1, '', 'square',
+    'sqrt'          : [ sqrt, 1,
+'powers_and_roots', 'calculates square root of n',
 '''
 ''',
 '''
 ''' ],
-    'sqrt'          : [ sqrt, 1, '', 'square root',
+    'sqtri'         : [ getNthSquareTriangularNumber, 1,
+'polygonal_numbers', 'calculates the nth square triangular number',
 '''
 ''',
 '''
 ''' ],
-    'sqtri'         : [ getNthSquareTriangularNumber, 1, '', 'nth square triangular number',
+    'steloct'       : [ getNthStellaOctangulaNumber, 1,
+'polyhedral_numbers', 'calculates the nth stella octangula number',
 '''
 ''',
 '''
 ''' ],
-    'steloct'       : [ getNthStellaOctangulaNumber, 1, '', 'nth stella octangula number',
+    'sub'           : [ fsub, 2,
+'arithmetic', 'subtracts k from n',
 '''
 ''',
 '''
 ''' ],
-    'sub'           : [ fsub, 2, 'arithmetic', 'subtract',
+    'subfac'        : [ lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1,
+'number_theory', 'calculates the subfactorial of n',
 '''
 ''',
 '''
 ''' ],
-    'subfac'        : [ lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1, 'number theory', 'subfactorial',
+    'subtract'      : [ fsub, 2,
+'arithmetic', 'subtracts k from n',
 '''
 ''',
 '''
 ''' ],
-    'subtract'      : [ fsub, 2, 'arithmetic', 'subtract',
+    'superfac'      : [ superfac, 1,
+'number_theory', 'calculates the superfactorial of n',
 '''
 ''',
 '''
 ''' ],
-    'superfac'      : [ superfac, 1, 'number theory', 'superfactorial',
+    'superprime'    : [ getNthSuperPrime, 1,
+'primes', 'returns the nth superprime (the nth primeth prime)',
 '''
 ''',
 '''
 ''' ],
-    'superprime'    : [ getNthSuperPrime, 1, 'primes', 'superprime (the nth primeth prime)',
+    'syl'           : [ getNthSylvester, 1,
+'[TBD]', 'calculates the nth Sylvester number',
 '''
 ''',
 '''
 ''' ],
-    'syl'           : [ getNthSylvester, 1, '', 'nth Sylvester number',
+    'sylvester'     : [ getNthSylvester, 1,
+'[TBD]', 'calculates the nth Sylvester number',
 '''
 ''',
 '''
 ''' ],
-    'sylvester'     : [ getNthSylvester, 1, '', '',
+    'tan'           : [ tan, 1,
+'trigonometry', 'calculates the tangent of n',
 '''
 ''',
 '''
 ''' ],
-    'tan'           : [ tan, 1, 'trigonometry', 'tangent',
+    'tanh'          : [ tanh, 1,
+'trigonometry', 'calculates the hyperbolic tangent of n',
 '''
 ''',
 '''
 ''' ],
-    'tanh'          : [ tanh, 1, 'trigonometry', 'hyperbolic tangent',
+    'tet'           : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1,
+'polyhedral_numbers', 'calculates the nth tetrahedral number',
 '''
 ''',
 '''
 ''' ],
-    'tet'           : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1, '', '',
+    'tetra'         : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1,
+'polyhedral_numbers', 'calculates the nth tetrahedral number',
 '''
 ''',
 '''
 ''' ],
-    'tetra'         : [ getNthTetrahedralNumber, 1, '', 'nth tetrahedral number',
+    'tetranacci'    : [ getNthTetranacci, 1,
+'number_theory', 'calculates the nth Tetranacci number',
 '''
 ''',
 '''
 ''' ],
-    'tetranacci'    : [ getNthTetranacci, 1, '', 'nth Tetranacci number',
+    'tri'           : [ getNthTriangularNumber, 1,
+'polygonal_numbers', 'calcuates the nth triangular number',
 '''
 ''',
 '''
 ''' ],
-    'tri'           : [ getNthTriangularNumber, 1, '', 'nth triangular number',
+    'tri?'          : [ findTriangularNumber, 1,
+'polygonal_numbers', 'finds nearest triangular number index for n',
 '''
 ''',
 '''
 ''' ],
-    'tri?'          : [ getAntiTriangularNumber, 1, '', 'find triangular number index',
+    'tribonacci'    : [ getNthTribonacci, 1,
+'number_theory', 'calculates the nth Tribonacci number',
 '''
 ''',
 '''
 ''' ],
-    'tribonacci'    : [ getNthTribonacci, 1, '', 'nth Tribonacci number',
+    'triplebal'     : [ getNthTripleBalancedPrimes, 1,
+'primes', 'returns the nth set of triple balanced primes',
 '''
 ''',
 '''
 ''' ],
-    'triplebal'     : [ getNthTripleBalancedPrimes, 1, 'primes', 'nth set of triple balanced primes',
+    'triplet'       : [ getNthTripletPrimes, 1,
+'primes', 'returns the nth set of triplet primes',
 '''
 ''',
 '''
 ''' ],
-    'triplet'       : [ getNthTripletPrimes, 1, 'primes', 'nth set of triplet primes',
+    'tripletprime'  : [ getNthTripletPrimes, 1,
+'primes', 'returns the nth set of triplet primes',
 '''
 ''',
 '''
 ''' ],
-    'tripletprime'  : [ getNthTripletPrimes, 1, 'primes', 'nth set of triplet primes',
+    'truncoct'      : [ getNthTruncatedOctahedralNumber, 1,
+'polyhedral_numbers', 'calculates the nth truncated octahedral number',
 '''
 ''',
 '''
 ''' ],
-    'truncoct'      : [ getNthTruncatedOctahedralNumber, 1, '', '',
+    'trunctet'      : [ getNthTruncatedTetrahedralNumber, 1,
+'polyhedral_numbers', 'calculates the nth truncated tetrahedral number',
 '''
 ''',
 '''
 ''' ],
-    'trunctet'      : [ getNthTruncatedTetrahedralNumber, 1, '', '',
+    'twin'          : [ getNthTwinPrime, 1,
+'primes', 'returns the nth twin prime',
 '''
 ''',
 '''
 ''' ],
-    'twin'          : [ getNthTwinPrime, 1, 'primes', 'nth twin prime',
+    'twinprime'     : [ getNthTwinPrime, 1,
+'primes', 'returns the nth twin prime',
 '''
 ''',
 '''
 ''' ],
-    'twinprime'     : [ getNthTwinPrime, 1, 'primes', 'nth twin prime',
+    'unitroots'     : [ lambda i: unitroots( int( i ) ), 1,
+'number_theory', 'calculates the nth roots of unity',
 '''
 ''',
 '''
 ''' ],
-    'unitroots'     : [ lambda i: unitroots( int( i ) ), 1, 'number theory', 'n roots of unity',
+    'xor'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2,
+'logical', 'calculates the bitwise \'xor\' of n and k',
 '''
 ''',
 '''
 ''' ],
-    'xor'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2, 'logical', 'bitwise XOR',
+    'zeta'          : [ zeta, 1,
+'number_theory', 'calculates the zeta function for n',
 '''
 ''',
 '''
 ''' ],
-    'zeta'          : [ zeta, 1, 'number theory', 'zeta function',
+    '^'             : [ power, 2,
+'arithmetic', 'calculates n to the kth power',
 '''
 ''',
 '''
 ''' ],
-    '^'             : [ power, 2, 'arithmetic', 'exponentiate',
+    '_dumpbal'      : [ dumpBalancedPrimes, 0,
+'internal', 'dumps the cached list of balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpbal'      : [ dumpBalancedPrimes, 0, 'internal', 'dump balanced primes',
+    '_dumpcousin'   : [ dumpCousinPrimes, 0,
+'internal', 'dumps the cached list of cousin primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpcousin'   : [ dumpCousinPrimes, 0, 'internal', 'dump cousin primes',
+    '_dumpdouble'   : [ dumpDoubleBalancedPrimes, 0,
+'internal', 'dumps the cached list of double balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpdouble'   : [ dumpDoubleBalancedPrimes, 0, 'internal', 'dump double balanced primes',
+    '_dumpiso'      : [ dumpIsolatedPrimes, 0,
+'internal', 'dumps the cached list of isolated primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpiso'      : [ dumpIsolatedPrimes, 0, 'internal', 'dump isolated primes',
+    '_dumpprimes'   : [ dumpLargePrimes, 0,
+'internal', 'dumps the cached list of large primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpprimes'   : [ dumpLargePrimes, 0, 'internal', 'dump large primes',
+    '_dumpquad'     : [ dumpQuadrupletPrimes, 0,
+'internal', 'dumps the cached list of quadruplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpquad'     : [ dumpQuadrupletPrimes, 0, 'internal', 'dump quadruplet primes',
+    '_dumpquint'    : [ dumpQuintupletPrimes, 0,
+'internal', 'dumps the cached list of quintuplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpquint'    : [ dumpQuintupletPrimes, 0, 'internal', 'dump quintuplet primes',
+    '_dumpsext'     : [ dumpSextupletPrimes, 0,
+'internal', 'dumps the cached list of sextuplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpsext'     : [ dumpSextupletPrimes, 0, 'internal', 'dump sextuplet primes',
+    '_dumpsexy'     : [ dumpSexyPrimes, 0,
+'internal', 'dumps the cached list of sexy primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpsexy'     : [ dumpSexyPrimes, 0, 'internal', 'dump sexy primes',
+    '_dumpsmall'    : [ dumpSmallPrimes, 0,
+'internal', 'dumps the cached list of small primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpsmall'    : [ dumpSmallPrimes, 0, 'internal', 'dump small primes',
+    '_dumpsophie'   : [ dumpSophiePrimes, 0,
+'internal', 'dumps the cached list of Sophie Germain primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumpsophie'   : [ dumpSophiePrimes, 0, 'internal', 'dump Sophie Germain primes',
+    '_dumptriple'   : [ dumpTripleBalancedPrimes, 0,
+'internal', 'dumps the cached list of triple balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumptriple'   : [ dumpTripleBalancedPrimes, 0, 'internal', 'dump triple balanced primes',
+    '_dumptriplet'  : [ dumpTripletPrimes, 0,
+'internal', 'dumps the cached list of triplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumptriplet'  : [ dumpTripletPrimes, 0, 'internal', 'dump triplet primes',
+    '_dumptwin'     : [ dumpTwinPrimes, 0,
+'internal', 'dumps the cached list of twin primes',
 '''
 ''',
 '''
 ''' ],
-    '_dumptwin'     : [ dumpTwinPrimes, 0, 'internal', 'dump twin primes',
+    '_importbal'    : [ importBalancedPrimes, 1,
+'internal', 'imports balanced primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importbal'    : [ importBalancedPrimes, 1, 'internal', 'import balanced primes',
+    '_importcousin' : [ importCousinPrimes, 1,
+'internal', 'imports cousin primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importcousin' : [ importCousinPrimes, 1, 'internal', 'import cousin primes',
+    '_importdouble' : [ importDoubleBalancedPrimes, 1,
+'internal', 'imports double balanced primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importdouble' : [ importDoubleBalancedPrimes, 1, 'internal', 'import double balanced primes',
+    '_importiso'    : [ importIsolatedPrimes, 1,
+'internal', 'imports isolated primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importiso'    : [ importIsolatedPrimes, 1, 'internal', 'import isolated primes',
+    '_importprimes' : [ importLargePrimes, 1,
+'internal', 'imports large primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importprimes' : [ importLargePrimes, 1, 'internal', 'import large primes',
+    '_importquad'   : [ importQuadrupletPrimes, 1,
+'internal', 'imports quadruplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importquad'   : [ importQuadrupletPrimes, 1, 'internal', 'import quadruplet primes',
+    '_importquint'  : [ importQuintupletPrimes, 1,
+'internal', 'imports quintuplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importquint'  : [ importQuintupletPrimes, 1, 'internal', 'import quintuplet primes',
+    '_importsext'   : [ importSextupletPrimes, 1,
+'internal', 'imports sextuplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsext'   : [ importSextupletPrimes, 1, 'internal', 'import sextuplet primes',
+    '_importsexy'   : [ importSexyPrimes, 1,
+'internal', 'imports sexy primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsexy'   : [ importSexyPrimes, 1, 'internal', 'import sexy primes',
+    '_importsexy3'  : [ importSexyTriplets, 1,
+'internal', 'imports sexy triplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsexy3'  : [ importSexyTriplets, 1, 'internal', 'import sexy triplet primes',
+    '_importsexy4'  : [ importSexyQuadruplets, 1,
+'internal', 'imports sexy quadruplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsexy4'  : [ importSexyQuadruplets, 1, 'internal', 'import sexy quadruplet primes',
+    '_importsmall'  : [ importSmallPrimes, 1,
+'internal', 'imports small primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsmall'  : [ importSmallPrimes, 1, 'internal', 'import small primes',
+    '_importsophie' : [ importSophiePrimes, 1,
+'internal', 'imports Sophie Germain primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importsophie' : [ importSophiePrimes, 1, 'internal', 'import Sophie Germain primes',
+    '_importtriple' : [ importTripleBalancedPrimes, 1,
+'internal', 'imports triple balanced primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importtriple' : [ importTripleBalancedPrimes, 1, 'internal', 'import triple balanced primes',
+    '_importtriplet': [ importTripletPrimes, 1,
+'internal', 'imports triplet primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importtriplet': [ importTripletPrimes, 1, 'internal', 'import triplet primes',
+    '_importtwin'   : [ importTwinPrimes, 1,
+'internal', 'imports twin primes from file n',
 '''
 ''',
 '''
 ''' ],
-    '_importtwin'   : [ importTwinPrimes, 1, 'internal', 'import twin primes',
+    '_listops'      : [ listOperators, 0,
+'internal', 'lists all rpn operators',
 '''
 ''',
 '''
 ''' ],
-    '_listops'      : [ listOperators, 0, 'internal', 'list rpn operators',
+    '_makebal'      : [ makeBalancedPrimes, 3,
+'internal', 'calculates and caches balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_makebal'      : [ makeBalancedPrimes, 3, 'internal', 'make balanced primes',
+    '_makecousin'   : [ makeCousinPrimes, 3,
+'internal', 'calculates and caches cousin primes',
 '''
 ''',
 '''
 ''' ],
-    '_makecousin'   : [ makeCousinPrimes, 3, 'internal', 'make cousin primes',
+    '_makedouble'   : [ makeDoubleBalancedPrimes, 3,
+'internal', 'calculates and caches double balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_makedouble'   : [ makeDoubleBalancedPrimes, 3, 'internal', 'make double balanced primes',
+    '_makeiso'      : [ makeIsolatedPrimes, 3,
+'internal', 'calculates and caches isolated primes',
 '''
 ''',
 '''
 ''' ],
-    '_makeiso'      : [ makeIsolatedPrimes, 3, 'internal', 'make isolated primes',
+    '_makeprimes'   : [ makeLargePrimes, 3,
+'internal', 'calculates and caches large primes',
 '''
 ''',
 '''
 ''' ],
-    '_makeprimes'   : [ makeLargePrimes, 3, 'internal', 'make large primes',
+    '_makequad'     : [ makeQuadrupletPrimes, 3,
+'internal', 'calculates and caches quaduplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_makequad'     : [ makeQuadrupletPrimes, 3, 'internal', 'make quaduplet primes',
+    '_makequint'    : [ makeQuintupletPrimes, 3,
+'internal', 'calculates and caches quintuplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_makequint'    : [ makeQuintupletPrimes, 3, 'internal', 'make quintuplet primes',
+    '_makesext'     : [ makeSextupletPrimes, 3,
+'internal', 'calculates and caches sextuplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesext'     : [ makeSextupletPrimes, 3, 'internal', 'make sextuplet primes',
+    '_makesexy'     : [ makeSexyPrimes, 3,
+'internal', 'calculates and caches sexy primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesexy'     : [ makeSexyPrimes, 3, 'internal', 'make sexy primes',
+    '_makesexy3'    : [ makeSexyTriplets, 3,
+'internal', 'calculates and caches sexy triplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesexy3'    : [ makeSexyTriplets, 3, 'internal', 'make sexy triplet primes',
+    '_makesexy4'    : [ makeSexyQuadruplets, 3,
+'internal', 'calculates and caches sexy quadruplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesexy4'    : [ makeSexyQuadruplets, 3, 'internal', 'make sexy quadruplet primes',
+    '_makesmall'    : [ makeSmallPrimes, 3,
+'internal', 'calculates and caches small primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesmall'    : [ makeSmallPrimes, 3, 'internal', 'make small primes',
+    '_makesophie'   : [ makeSophiePrimes, 3,
+'internal', 'calculates and caches Sophie Germain primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesophie'   : [ makeSophiePrimes, 3, 'internal', 'make Sophie Germain primes',
+    '_makesuper'    : [ makeSuperPrimes, 2,
+'internal', 'calculates and caches super primes',
 '''
 ''',
 '''
 ''' ],
-    '_makesuper'    : [ makeSuperPrimes, 2, 'internal', 'make super primes',
+    '_maketriple'   : [ makeTripleBalancedPrimes, 3,
+'internal', 'calculates and caches triple balanced primes',
 '''
 ''',
 '''
 ''' ],
-    '_maketriple'   : [ makeTripleBalancedPrimes, 3, 'internal', 'make triple balanced primes',
+    '_maketriplet'  : [ makeTripletPrimes, 3,
+'internal', 'calculates and caches triplet primes',
 '''
 ''',
 '''
 ''' ],
-    '_maketriplet'  : [ makeTripletPrimes, 3, 'internal', 'make triplet primes',
+    '_maketwin'     : [ makeTwinPrimes, 3,
+'internal', 'calculates and caches twin primes',
 '''
 ''',
 '''
 ''' ],
-    '_maketwin'     : [ makeTwinPrimes, 3, 'internal', 'make twin primes',
+    '_stats'        : [ dumpStats, 0,
+'internal', 'dumps rpn statistics',
 '''
 ''',
 '''
 ''' ],
-    '_stats'        : [ dumpStats, 0, 'internal', 'dump rpn statistics',
+    '~'             : [ getInvertedBits, 1,
+'logical', 'calculates the bitwise negation of n',
 '''
 ''',
 '''
 ''' ],
-    '~'             : [ getInvertedBits, 1, 'logical', 'bitwise negation',
-'''
-''',
-'''
-''' ],
-#   'antitet'       : [ getAntiTetrahedralNumber, 1 ],
+#   'antitet'       : [ findTetrahedralNumber, 1 ],
 #   'bernfrac'      : [ bernfrac, 1 ],
 #   'powmod'        : [ getPowMod, 3 ],
 }
@@ -5436,11 +6008,39 @@ def printGeneralHelp( basicCategories, operatorCategories ):
 rpn general help
 ''' )
 
-    print( 'For additional help, please specify a help category from one of the following:' )
-    print( '\t' + ', '.join( sorted( basicCategories ) ) )
+    print( 'For additional help, please specify a help topic from one of the following:' )
+    print( '\t' + ',\n\t'.join( sorted( basicCategories ) ) )
     print( )
-    print( 'For help about the available operators, please specify a help category from one of the following:' )
-    print( '\t' + ', '.join( sorted( operatorCategories ) ) )
+    print( 'For help about the available operators, please specify a help topic from one of the following:' )
+    print( '\t' + ',\n\t'.join( sorted( operatorCategories ) ) )
+
+
+#//******************************************************************************
+#//
+#//  printOperatorHelp
+#//
+#//******************************************************************************
+
+def printOperatorHelp( helpArgs, term, operatorInfo ):
+    print( )
+    print( term + ' - ' + operatorInfo[ 3 ] )
+    print( )
+    print( 'category: ' + operatorInfo[ 2 ] )
+
+    if operatorInfo[ 4 ] == '\n':
+        print( )
+        print( 'No further help is available.' )
+    else:
+        print( operatorInfo[ 4 ] )
+
+    if len( helpArgs ) > 1 and helpArgs[ 1 ] in ( 'ex', 'example' ):
+        print( )
+
+        if operatorInfo[ 5 ] == '\n':
+            print( 'No examples are available.' )
+        else:
+            print( term + ' examples:' )
+            print( operatorInfo[ 5 ] )
 
 
 #//******************************************************************************
@@ -5450,9 +6050,12 @@ rpn general help
 #//******************************************************************************
 
 def printHelp( helpArgs ):
-    basicCategories = set( ( 'command-line options', 'input', 'output', 'about' ) )
+    basicCategories = set( ( 'command-line_options', 'input', 'output', 'about' ) )
 
     operatorCategories = set( operators[ key ][ 2 ] for key in operators )
+    operatorCategories.update( set( modifiers[ key ][ 2 ] for key in modifiers ) )
+    operatorCategories.update( set( list_operators[ key ][ 2 ] for key in list_operators ) )
+    operatorCategories.update( set( list_operators_2[ key ][ 2 ] for key in list_operators_2 ) )
 
     if len( helpArgs ) == 0:
         printGeneralHelp( basicCategories, operatorCategories )
@@ -5461,28 +6064,30 @@ def printHelp( helpArgs ):
     term = helpArgs[ 0 ]
 
     if term in operators:
-        print( )
-        print( term + ' - ' + operators[ term ][ 3 ] )
-        print( )
-        print( 'category: ' + operators[ term ][ 2 ] )
-        print( operators[ term ][ 4 ] )
+        printOperatorHelp( helpArgs, term, operators[ term ] )
 
-        if len( helpArgs ) > 1 and helpArgs[ 1 ] in ( 'ex', 'example' ):
-            print( )
-            print( term + ' examples:' )
-            print( operators[ term ][ 5 ] )
+    if term in list_operators:
+        printOperatorHelp( helpArgs, term, list_operators[ term ] )
+
+    if term in list_operators_2:
+        printOperatorHelp( helpArgs, term, list_operators_2[ term ] )
+
+    if term in modifiers:
+        printOperatorHelp( helpArgs, term, modifiers[ term ] )
 
     if term in basicCategories:
         printBasicHelp( term )
 
     if term in operatorCategories:
         print( )
-        print( 'The ' + term + ' category includes the following operators.  Please specify '
-               'an operator for help on one of the following:' )
+        print( 'The ' + term + ' category includes the following operators:' )
 
         operatorList = [ key for key in operators if operators[ key ][ 2 ] == term ]
+        operatorList.extend( [ key for key in list_operators if list_operators[ key ][ 2 ] == term ] )
+        operatorList.extend( [ key for key in list_operators_2 if list_operators_2[ key ][ 2 ] == term ] )
+        operatorList.extend( [ key for key in modifiers if modifiers[ key ][ 2 ] == term ] )
 
-        print( '\t' + ', '.join( sorted( operatorList ) ) )
+        print( '\t' + ',\n\t'.join( sorted( operatorList ) ) )
 
 
 #//******************************************************************************
@@ -5588,7 +6193,7 @@ def main( ):
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
                          help="each digit is a space-delimited base-10 number" )
     parser.add_argument( '-t', '--time', action='store_true', help="display calculation time" )
-    parser.add_argument( '-u', '--find_poly', type=int, action='store', default=0,
+    parser.add_argument( '-u', '--find_poly', nargs='?', type=int, action='store', default=0, const=1000,
                          help="find a polynomial such that P(x) ~= 0 of degree <= N" )
     parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=defaultBitwiseGroupSize,
                          help="bitwise operations group values by this size (default: " +
@@ -5740,7 +6345,7 @@ def main( ):
 
         if term in modifiers:
             try:
-                modifiers[ term ]( currentValueList )
+                modifiers[ term ][ 0 ]( currentValueList )
             except IndexError as error:
                 print( "rpn:  index error for operator at arg " + format( index ) +
                        ".  Are your arguments in the right order?" )
@@ -5791,7 +6396,7 @@ def main( ):
 
             try:
                 arg = currentValueList.pop( )
-                currentValueList.append( list_operators[ term ]( arg ) )
+                currentValueList.append( list_operators[ term ][ 0 ]( arg ) )
             except KeyboardInterrupt as error:
                 print( "rpn:  keyboard interrupt" )
                 break
@@ -5819,7 +6424,7 @@ def main( ):
                 if not isinstance( secondArg, list ):
                     secondArg = [ secondArg ]
 
-                result = [ list_operators_2[ term ]( listArg, i ) for i in secondArg ]
+                result = [ list_operators_2[ term ][ 0 ]( listArg, i ) for i in secondArg ]
 
                 if len( result ) == 1:
                     result = result[ 0 ]
@@ -5882,11 +6487,11 @@ def main( ):
                         formula = identify( result, base )
 
                     if formula is None:
-                        base.append( 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' )
+                        base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
                         formula = identify( result, base )
 
                     if formula is None:
-                        base.append( 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' )
+                        base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
                         formula = identify( result, base )
 
                     if formula is None:
