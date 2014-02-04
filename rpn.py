@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.2.5'
+RPN_VERSION = '5.3.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -4281,6 +4281,33 @@ def appendLists( valueList ):
 
 #//******************************************************************************
 #//
+#//  loadResult
+#//
+#//******************************************************************************
+
+def loadResult( valueList ):
+    try:
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
+            result = pickle.load( pickleFile )
+    except FileNotFoundError as error:
+        result = mapmathify( 0 )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  saveResult
+#//
+#//******************************************************************************
+
+def saveResult( result ):
+    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'result.pckl.bz2', 'wb' ) ) as pickleFile:
+        pickle.dump( result, pickleFile )
+
+
+#//******************************************************************************
+#//
 #//  alternateSigns
 #//
 #//******************************************************************************
@@ -4966,36 +4993,11 @@ operatorAliases = {
 #//******************************************************************************
 
 modifiers = {
-    'dup'       : [ duplicateTerm, 2,
-'modifiers', 'duplicates a argument n k times',
-'''
-''',
-'''
-''' ],
-    'flatten'   : [ flatten, 1,
-'listOperators', 'flattens a nested lists in list n to a single level',
-'''
-''',
-'''
-''' ],
-    'unlist'    : [ unlist, 1,
-'modifiers', 'expands list n to individual arguments',
-'''
-''',
-'''
-''' ],
-    '['         : [ incrementNestedListLevel, 0,
-'modifiers', 'begins a list',
-'''
-''',
-'''
-''' ],
-    ']'         : [ decrementNestedListLevel, 0,
-'modifiers', 'ends a list',
-'''
-''',
-'''
-''' ],
+    'dup'       : [ duplicateTerm, 2 ],
+    'flatten'   : [ flatten, 1 ],
+    'unlist'    : [ unlist, 1 ],
+    '['         : [ incrementNestedListLevel, 0 ],
+    ']'         : [ decrementNestedListLevel, 0 ],
 }
 
 
@@ -5168,8 +5170,8 @@ numerical value, then rpn will assume a value of 1.
 ''',
 '''
 ''' ],
-    'repunit'   : [ getNthBaseKRepunit, 2,
-'algebra', 'returns the nth repunit in base k',
+    'result'     : [ loadResult, 0,
+'special', 'load previous result',
 '''
 ''',
 '''
@@ -6533,6 +6535,12 @@ given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
+    'repunit'   : [ getNthBaseKRepunit, 2,
+'algebra', 'returns the nth repunit in base k',
+'''
+''',
+'''
+''' ],
     'rhombdodec'    : [ getNthRhombicDodecahedralNumber, 1,
 'polyhedral_numbers', 'calculates the nth rhombic dodecahedral number',
 '''
@@ -6873,330 +6881,60 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'fromunixtime'  : [ lambda n: [ time.localtime( n ).tm_year, time.localtime( n ).tm_mon,
                                     time.localtime( n ).tm_mday, time.localtime( n ).tm_hour,
-                                    time.localtime( n ).tm_min, time.localtime( n ).tm_sec ], 1,
-'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
-'''
-''',
-'''
-''' ],
-    'xor'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2,
-'logical', 'calculates the bitwise \'xor\' of n and k',
-'''
-''',
-'''
-''' ],
-    'zeta'          : [ zeta, 1,
-'number_theory', 'calculates the zeta function for n',
-'''
-''',
-'''
-''' ],
-    '_dumpbal'      : [ dumpBalancedPrimes, 0,
-'internal', 'dumps the cached list of balanced primes',
-'''
-''',
-'''
-''' ],
-    '_dumpcousin'   : [ dumpCousinPrimes, 0,
-'internal', 'dumps the cached list of cousin primes',
-'''
-''',
-'''
-''' ],
-    '_dumpdouble'   : [ dumpDoubleBalancedPrimes, 0,
-'internal', 'dumps the cached list of double balanced primes',
-'''
-''',
-'''
-''' ],
-    '_dumpiso'      : [ dumpIsolatedPrimes, 0,
-'internal', 'dumps the cached list of isolated primes',
-'''
-''',
-'''
-''' ],
-    '_dumpops'      : [ dumpOperators, 0,
-'internal', 'lists all rpn operators',
-'''
-''',
-'''
-''' ],
-    '_dumpprimes'   : [ dumpLargePrimes, 0,
-'internal', 'dumps the cached list of large primes',
-'''
-''',
-'''
-''' ],
-    '_dumpquad'     : [ dumpQuadrupletPrimes, 0,
-'internal', 'dumps the cached list of quadruplet primes',
-'''
-''',
-'''
-''' ],
-    '_dumpquint'    : [ dumpQuintupletPrimes, 0,
-'internal', 'dumps the cached list of quintuplet primes',
-'''
-''',
-'''
-''' ],
-    '_dumpsext'     : [ dumpSextupletPrimes, 0,
-'internal', 'dumps the cached list of sextuplet primes',
-'''
-''',
-'''
-''' ],
-    '_dumpsexy'     : [ dumpSexyPrimes, 0,
-'internal', 'dumps the cached list of sexy primes',
-'''
-''',
-'''
-''' ],
-    '_dumpsmall'    : [ dumpSmallPrimes, 0,
-'internal', 'dumps the cached list of small primes',
-'''
-''',
-'''
-''' ],
-    '_dumpsophie'   : [ dumpSophiePrimes, 0,
-'internal', 'dumps the cached list of Sophie Germain primes',
-'''
-''',
-'''
-''' ],
-    '_dumptriple'   : [ dumpTripleBalancedPrimes, 0,
-'internal', 'dumps the cached list of triple balanced primes',
-'''
-''',
-'''
-''' ],
-    '_dumptriplet'  : [ dumpTripletPrimes, 0,
-'internal', 'dumps the cached list of triplet primes',
-'''
-''',
-'''
-''' ],
-    '_dumptwin'     : [ dumpTwinPrimes, 0,
-'internal', 'dumps the cached list of twin primes',
-'''
-''',
-'''
-''' ],
-    '_importbal'    : [ importBalancedPrimes, 1,
-'internal', 'imports balanced primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importcousin' : [ importCousinPrimes, 1,
-'internal', 'imports cousin primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importdouble' : [ importDoubleBalancedPrimes, 1,
-'internal', 'imports double balanced primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importiso'    : [ importIsolatedPrimes, 1,
-'internal', 'imports isolated primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importprimes' : [ importLargePrimes, 1,
-'internal', 'imports large primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importquad'   : [ importQuadrupletPrimes, 1,
-'internal', 'imports quadruplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importquint'  : [ importQuintupletPrimes, 1,
-'internal', 'imports quintuplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsext'   : [ importSextupletPrimes, 1,
-'internal', 'imports sextuplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsexy'   : [ importSexyPrimes, 1,
-'internal', 'imports sexy primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsexy3'  : [ importSexyTriplets, 1,
-'internal', 'imports sexy triplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsexy4'  : [ importSexyQuadruplets, 1,
-'internal', 'imports sexy quadruplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsmall'  : [ importSmallPrimes, 1,
-'internal', 'imports small primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsophie' : [ importSophiePrimes, 1,
-'internal', 'imports Sophie Germain primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importtriple' : [ importTripleBalancedPrimes, 1,
-'internal', 'imports triple balanced primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importtriplet': [ importTripletPrimes, 1,
-'internal', 'imports triplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importtwin'   : [ importTwinPrimes, 1,
-'internal', 'imports twin primes from file n',
-'''
-''',
-'''
-''' ],
-    '_dumpops'      : [ dumpOperators, 0,
-'internal', 'lists all rpn operators',
-'''
-''',
-'''
-''' ],
-    '_makebal'      : [ makeBalancedPrimes, 3,
-'internal', 'calculates and caches balanced primes',
-'''
-''',
-'''
-''' ],
-    '_makecousin'   : [ makeCousinPrimes, 3,
-'internal', 'calculates and caches cousin primes',
-'''
-''',
-'''
-''' ],
-    '_makedouble'   : [ makeDoubleBalancedPrimes, 3,
-'internal', 'calculates and caches double balanced primes',
-'''
-''',
-'''
-''' ],
-    '_makeiso'      : [ makeIsolatedPrimes, 3,
-'internal', 'calculates and caches isolated primes',
-'''
-''',
-'''
-''' ],
-    '_makeprimes'   : [ makeLargePrimes, 3,
-'internal', 'calculates and caches large primes',
-'''
-''',
-'''
-''' ],
-    '_makequad'     : [ makeQuadrupletPrimes, 3,
-'internal', 'calculates and caches quaduplet primes',
-'''
-''',
-'''
-''' ],
-    '_makequint'    : [ makeQuintupletPrimes, 3,
-'internal', 'calculates and caches quintuplet primes',
-'''
-''',
-'''
-''' ],
-    '_makesext'     : [ makeSextupletPrimes, 3,
-'internal', 'calculates and caches sextuplet primes',
-'''
-''',
-'''
-''' ],
-    '_makesexy'     : [ makeSexyPrimes, 3,
-'internal', 'calculates and caches sexy primes',
-'''
-''',
-'''
-''' ],
-    '_makesexy3'    : [ makeSexyTriplets, 3,
-'internal', 'calculates and caches sexy triplet primes',
-'''
-''',
-'''
-''' ],
-    '_makesexy4'    : [ makeSexyQuadruplets, 3,
-'internal', 'calculates and caches sexy quadruplet primes',
-'''
-''',
-'''
-''' ],
-    '_makesmall'    : [ makeSmallPrimes, 3,
-'internal', 'calculates and caches small primes',
-'''
-''',
-'''
-''' ],
-    '_makesophie'   : [ makeSophiePrimes, 3,
-'internal', 'calculates and caches Sophie Germain primes',
-'''
-''',
-'''
-''' ],
-    '_makesuper'    : [ makeSuperPrimes, 2,
-'internal', 'calculates and caches super primes',
-'''
-''',
-'''
-''' ],
-    '_maketriple'   : [ makeTripleBalancedPrimes, 3,
-'internal', 'calculates and caches triple balanced primes',
-'''
-''',
-'''
-''' ],
-    '_maketriplet'  : [ makeTripletPrimes, 3,
-'internal', 'calculates and caches triplet primes',
-'''
-''',
-'''
-''' ],
-    '_maketwin'     : [ makeTwinPrimes, 3,
-'internal', 'calculates and caches twin primes',
-'''
-''',
-'''
-''' ],
-    '_stats'        : [ dumpStats, 0,
-'internal', 'dumps rpn statistics',
-'''
-''',
-'''
-''' ],
-    '~'             : [ getInvertedBits, 1,
-'logical', 'calculates the bitwise negation of n',
-'''
-''',
-'''
-''' ],
+                                    time.localtime( n ).tm_min, time.localtime( n ).tm_sec ], 1 ],
+    'xor'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
+    'zeta'          : [ zeta, 1 ],
+    '_dumpbal'      : [ dumpBalancedPrimes, 0 ],
+    '_dumpcousin'   : [ dumpCousinPrimes, 0 ],
+    '_dumpdouble'   : [ dumpDoubleBalancedPrimes, 0 ],
+    '_dumpiso'      : [ dumpIsolatedPrimes, 0 ],
+    '_dumpops'      : [ dumpOperators, 0 ],
+    '_dumpprimes'   : [ dumpLargePrimes, 0 ],
+    '_dumpquad'     : [ dumpQuadrupletPrimes, 0 ],
+    '_dumpquint'    : [ dumpQuintupletPrimes, 0 ],
+    '_dumpsext'     : [ dumpSextupletPrimes, 0 ],
+    '_dumpsexy'     : [ dumpSexyPrimes, 0 ],
+    '_dumpsmall'    : [ dumpSmallPrimes, 0 ],
+    '_dumpsophie'   : [ dumpSophiePrimes, 0 ],
+    '_dumptriple'   : [ dumpTripleBalancedPrimes, 0 ],
+    '_dumptriplet'  : [ dumpTripletPrimes, 0 ],
+    '_dumptwin'     : [ dumpTwinPrimes, 0 ],
+    '_importbal'    : [ importBalancedPrimes, 1 ],
+    '_importcousin' : [ importCousinPrimes, 1 ],
+    '_importdouble' : [ importDoubleBalancedPrimes, 1 ],
+    '_importiso'    : [ importIsolatedPrimes, 1 ],
+    '_importprimes' : [ importLargePrimes, 1 ],
+    '_importquad'   : [ importQuadrupletPrimes, 1 ],
+    '_importquint'  : [ importQuintupletPrimes, 1 ],
+    '_importsext'   : [ importSextupletPrimes, 1 ],
+    '_importsexy'   : [ importSexyPrimes, 1 ],
+    '_importsexy3'  : [ importSexyTriplets, 1 ],
+    '_importsexy4'  : [ importSexyQuadruplets, 1 ],
+    '_importsmall'  : [ importSmallPrimes, 1 ],
+    '_importsophie' : [ importSophiePrimes, 1 ],
+    '_importtriple' : [ importTripleBalancedPrimes, 1 ],
+    '_importtriplet': [ importTripletPrimes, 1 ],
+    '_importtwin'   : [ importTwinPrimes, 1 ],
+    '_dumpops'      : [ dumpOperators, 0 ],
+    '_makebal'      : [ makeBalancedPrimes, 3 ],
+    '_makecousin'   : [ makeCousinPrimes, 3 ],
+    '_makedouble'   : [ makeDoubleBalancedPrimes, 3 ],
+    '_makeiso'      : [ makeIsolatedPrimes, 3 ],
+    '_makeprimes'   : [ makeLargePrimes, 3 ],
+    '_makequad'     : [ makeQuadrupletPrimes, 3 ],
+    '_makequint'    : [ makeQuintupletPrimes, 3 ],
+    '_makesext'     : [ makeSextupletPrimes, 3 ],
+    '_makesexy'     : [ makeSexyPrimes, 3 ],
+    '_makesexy3'    : [ makeSexyTriplets, 3 ],
+    '_makesexy4'    : [ makeSexyQuadruplets, 3 ],
+    '_makesmall'    : [ makeSmallPrimes, 3 ],
+    '_makesophie'   : [ makeSophiePrimes, 3 ],
+    '_makesuper'    : [ makeSuperPrimes, 2 ],
+    '_maketriple'   : [ makeTripleBalancedPrimes, 3 ],
+    '_maketriplet'  : [ makeTripletPrimes, 3 ],
+    '_maketwin'     : [ makeTwinPrimes, 3 ],
+    '_stats'        : [ dumpStats, 0 ],
+    '~'             : [ getInvertedBits, 1 ],
 #   'antitet'       : [ findTetrahedralNumber, 1 ],
 #   'bernfrac'      : [ bernfrac, 1 ],
 #   'powmod'        : [ getPowMod, 3 ],
@@ -7530,7 +7268,7 @@ For more information use, 'rpn help'.''' )
 #//
 #//******************************************************************************
 
-def printOperatorHelp( helpArgs, term, operatorInfo ):
+def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp ):
     if operatorInfo[ 1 ] == 1:
         print( 'n ', end='' )
     elif operatorInfo[ 1 ] == 2:
@@ -7544,7 +7282,7 @@ def printOperatorHelp( helpArgs, term, operatorInfo ):
 
     aliasList = [ key for key in operatorAliases if term == operatorAliases[ key ] ]
 
-    print( term + ' - ' + operatorInfo[ 3 ] )
+    print( term + ' - ' + operatorHelp[ 1 ] )
 
     print( )
 
@@ -7553,22 +7291,22 @@ def printOperatorHelp( helpArgs, term, operatorInfo ):
     elif len( aliasList ) == 1:
         print( 'alias:  ' + aliasList[ 0 ] )
 
-    print( 'category: ' + operatorInfo[ 2 ] )
+    print( 'category: ' + operatorHelp[ 0 ] )
 
-    if operatorInfo[ 4 ] == '\n':
+    if operatorHelp[ 2 ] == '\n':
         print( )
         print( 'No further help is available.' )
     else:
-        print( operatorInfo[ 4 ] )
+        print( operatorHelp[ 2 ] )
 
     if len( helpArgs ) > 1 and helpArgs[ 1 ] in ( 'ex', 'example' ):
         print( )
 
-        if operatorInfo[ 5 ] == '\n':
+        if operatorHelp[ 3 ] == '\n':
             print( 'No examples are available.' )
         else:
             print( term + ' examples:' )
-            print( operatorInfo[ 5 ] )
+            print( operatorHelp[ 3 ] )
 
 
 #//******************************************************************************
@@ -7592,363 +7330,15 @@ def addAliases( operatorList ):
 #//******************************************************************************
 
 def printHelp( helpArgs ):
-    basicCategories = {
-'options' :
-PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' +
-'''
-command-line options:
-
-    -a [n], --output_accuracy [n]
-        maximum number of decimal places to display, irrespective of internal
-        precision (default: ''' + str( defaultAccuracy ) + ')' + '''
-
-    -b n : --input_radix n
-        specify the radix for input (default: ''' + str( defaultInputRadix ) + ')' + '''
-
-    -c, --comma -
-        add commas to result, e.g., 1,234,567.0
-
-    -d [n], --decimal_grouping [n] -
-        display decimal places separated into groups (default: ''' + str( defaultDecimalGrouping ) + ')' + '''
-
-    -h, --help -
-        displays basic help information
-
-    -i [n], --integer_grouping [n]
-        display integer separated into groups (default: ''' + str( defaultIntegerGrouping ) + ')' + '''
-
-    -n str, --numerals str
-        characters set to use as numerals for output
-
-    -o, --octal
-        octal mode: equivalent to \'-r8 -w9 -i3 -z\'
-
-    -p n, --precision n
-        precision, i.e., number of significant digits to use
-
-    -r n, --output_radix n
-        output in a different base (2 to 62, or phi)
-
-    -R n, --output_radix_numerals n
-        output each digit is a space-delimited base-10 number
-
-    -t, --time
-        display calculation time
-
-    -u, --find_poly
-        find a polynomial such that P(x) ~= 0 of degree <= N (default: 1000)
-
-    -w [n], --bitwise_group_size [n]
-        bitwise operations group values by this size (default: ''' + str( defaultBitwiseGroupSize ) + ')' + '''
-
-    -x, --hex
-        hex mode: equivalent to '-r16 -w16 -i4 -z'
-
-    -y, --identify
-        identify the result (may repeat input)
-
-    -z, --leading_zero
-        add leading zeros if needed with -i
-
-    -!, --print_options
-        print values for all options
-''',
-'arguments' :
-'''
-Arguments:
-
-    As its name implies, rpn uses Reverse Polish Notation, otherwise referred
-    to as postfix notation.  The operand(s) come first and then the operator.
-    This notation works without the need for parentheses.  rpn supports
-    brackets for creating lists of operands, but this serves a different
-    purpose and is described later.
-
-    Some simple examples:
-
-    2 + 2:
-        rpn 2 2 +
-
-    3 sqrt(2) / 4:
-        rpn 3 2 sqrt * 4 /
-
-    Lists are specified using the bracket operators.
-    Most operators can take lists as operands, which results in the operation
-    being performed on each item in the list.  If the operator takes two
-    operands, then either operand can be a list.  If one operand is a list
-    and the other is a single value, then each value in the list will have
-    the single operand applied to it with the operator, and the result will
-    be displayed as a list.
-
-    It is possible in certain cases to nest lists.  rpn tries to figure out
-    a logical way (and unequivocal) to apply the operators to the operands.
-
-    *** Special note:  I have not exhaustively tested every possible
-    scenario with lists, but in general, if it makes sense, rpn will work
-    correctly.
-
-    For example:
-
-    c:\>rpn [ 2 3 4 5 6 ] 10 +
-    [ 12, 13, 14, 15, 16, 17 ]
-
-    c:\>rpn 7 [ 1 2 3 4 5 6 7 ] *
-    [ 7, 14, 21, 28, 35, 42, 49 ]
-
-    If both operands are lists, then each element from the first list is
-    applied to the corresponding element in the second list.  If one list
-    is shorter than the other, then only that many elements will have the
-    operator applied and the resulting list will only be as long as the
-    shorter list.
-
-    For example:
-
-    rpn [ 1 2 3 4 5 6 7 ] [ 1 2 3 4 5 6 7 ] **
-    [ 1, 4, 27, 256, 3125, 46656, 823543 ]
-
-    rpn [ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *
-    [ 30, 40, 90, 160 ]
-
-    Some operators take lists as operands 'natively'.  This means the
-    operator requires a list, because the operation does not make sense for
-    a single value.  For example, 'mean' averages the values of a list.  If
-    the required list argument is a single value, rpn will promote it to a
-    list.
-
-    For example:
-
-    c:\>rpn [ 1 2 3 ] [ 4 5 6 ] polyval
-    [ 27, 38, 51 ]
-''',
-'input' :
-'''
-    For integers, rpn understands hexidecimal input of the form '0x....'.
-    Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B'
-    is interpreted as binary.  Decimal points are not allowed for binary,
-    octal or hexadecimal modes, but fractional numbers in another base can be
-    input using -b.
-
-    A leading '\\' forces the term to be a number rather than an operator (for
-    use with higher bases with -b).
-''',
-'output' :
-'''
-    [ description of output formats supported by rpn ]
-''',
-'conversion' :
-'''
-    [ describe unit conversions in rpn ]
-''',
-'about' :
-PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
-'''
-
-rpn is a command-line Reverse-Polish Notation calculator that was first written in C in 1988.
-It was rewritten in Python 3 in 2012 and now uses the mpmath library.
-''',
-'bugs' :
-'''
-    rpn doesn't describe the correct argument in error messages if an option
-    flag is used.
-
-    -u doesn't work with complex numbers
-''',
-'license' :
-'''
-rpn is licensed under the GPL, version 3.0 and is ''' + '\n' + COPYRIGHT_MESSAGE + '''
-
-    [ fill in extra boilerplate as needed ]
-''',
-'examples' :
-'''
-Here are some examples of using rpn:
-
-Basic arithmetic operations:
-
-    c:\>rpn 2 3 +
-    5
-
-    c:\>rpn 12 9 -
-    3
-
-    c:\>rpn 23 47 *
-    1081
-
-    c:\>rpn 10 7 /
-    1.42857142857
-
-Basic trigonometry usage:
-
-    c:\>rpn 60 deg sin         # sine of 60 degrees
-    0.866025403784
-
-    c:\>rpn 45 deg tan         # tangent of 45 degrees
-    1
-
-    c:\>rpn 2 pi * rad         # 2 pi radians is how many degrees?
-    360
-
-    c:\>rpn 2 atan rad         # What angle (in degrees) has a slope of 2?
-    63.4349488229
-
-Convert an IP address to a 32-bit value and back:
-
-    c:\>rpn [ 192 168 0 1 ] 256 base -x
-    c0a8 0001
-
-    c:\>rpn 0xc0a80001 -R 256
-    192 168 0 1
-
-Construct the square root of two from a continued fraction:
-
-    c:\>rpn -p20 2 sqrt
-    1.41421356237309504880
-
-    c:\>rpn -p20 2 sqrt 20 cf2
-    [ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
-
-    c:\>rpn -p20 2 sqrt 20 frac
-    [ 22619537, 15994428 ]
-
-    c:\>rpn -p20 [ 1 2 30 dup ] cf
-    1.41421356237309504880
-
-Calculations with lists:
-
-    List of primes in the first 50 fibonacci numbers:
-        rpn 1 50 range fib isprime nonzero 1 + fib
-
-    Which of the first thousand pentagonal numbers are also triangular:
-        c:\>rpn 1000 pent tri?
-        1731.26218055
-
-        c:\>rpn 1 1000 range pent 1 1732 range tri intersection
-
-Please note that several of the following commands are broken up into multiple
-lines for readability, but all of them are single commands to rpn.
-
-In some commands, the precision is explicitly set such to limit the output to
-what is accurately calculated.   If no precision options are used then the
-calculation will be correct regardless of precision.
-
-Calculation (or approximation) of various mathematical constants:
-
-    Polya Random Walk Constant
-        = rpn -p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 /
-                    gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -
-
-    Schwartzchild Constant (Conic Constant)
-        = rpn -p20 2 0 30 range ** 0 30 range ! / sum
-        = rpn e 2 **
-
-    Somos\' Quadratic Recurrence Constant
-        = rpn -p20 1 100 range 0.5 0.5 100 georange ** prod
-
-    Prevost Constant
-        = rpn -p20 1 100 range fib 1/x sum
-
-    Euler's number = rpn -p20 0 100 range fac 1/x sum
-                   = rpn e
-
-    Gelfond Constant
-        = rpn -p20 pi 0 100 range power 0 100 range ! / sum
-        = rpn e pi power
-
-    Bloch-Landau Constant
-        = rpn -p20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /
-
-    Hausdorff Dimension
-        = rpn -p20 2 0 100 range 2 * 1 + power 0 100 range 2 * 1 + *
-            1/x sum 3 0 100 range 2 * 1 + power 0 100 range 2 * 1 +
-            * 1/x sum /
-        = rpn 3 log 2 log /
-
-    Machin-Gregory Series
-        = rpn -p20 1 1000 2 range2 2 1 1000 2 range2 power * 1/x altsum
-        = rpn 1 2 / atan
-
-    Beta(3)
-        = rpn -p17 1 1000000 2 range2 3 power 1/x altsum
-        = rpn pi 3 power 32 /
-
-    Cahen's constant
-        = rpn -p20 1 20 range sylvester 1 - 1/x altsum
-
-    Lemniscate Constant
-        = rpn 4 2 pi / sqrt * 0.25 ! sqr *
-
-    sqrt( e )
-        = rpn -p20 2 0 20 range power [ 0 20 range ] ! * 1/x sum
-        = rpn -p20 0 20 range 2 * !! 1/x sum
-        = rpn -p20 e sqrt
-
-    1/e
-        = rpn -p20 0 25 range fac 1/x altsum
-        = rpn -p20 e 1/x
-
-    Zeta( 6 )
-        = rpn -p25 -a19 1 1 1000 primes -6 power - 1/x prod
-        = rpn -p20 pi 6 power 945 /
-        = rpn -p20 6 zeta
-
-    Pythagoras' constant
-        = rpn -p20 [ 1 2 25 dup ] cf
-        = rpn -p20 2 sqrt
-
-    Digamma
-        = rpn -p25 -a20 1 1 1000 primes -6 power - 1/x prod
-        = rpn -a5 [ 0 100000 range ] 1 + 1/x
-                        [ 0 100000 range ] 1 4 / + 1/x - sum euler -
-
-    Strongly Carefree Constant
-        = rpn -a6 1 1 100000 primes 3 * 2 - 1 100000 primes 3 power / - prod
-        = rpn -a7 6 pi sqr / 1 2
-                1 100000 primes 1 100000 primes 1 + * 1/x * - prod *
-
-    Ramanujan-Forsythe Constant
-        = rpn 0 100000 range 2 * 3 - fac2 0 100000 range 2 * fac2 / sqr sum
-
-    Apery's Constant
-        = rpn -p20 1 5000 range 3 power 1/x sum
-        = rpn -p20 3 zeta
-        = rpn -p20 apery
-
-    Omega Constant
-        = rpn -p20 [ e 1/x 100 dup ] tower
-        = rpn -p20 omega
-
-    Liouville Number
-        = rpn -p120 10 1 10 range ! power 1/x surpnm
-
-    Gieseking Constant
-        = rpn -a10 -p20 3 3 sqrt * 4 / 1
-                0 100000 range 3 * 2 + sqr 1/x sum -
-                1 100000 range 3 * 1 + sqr 1/x sum + *
-
-    Hafner-Sarnak-McCurley Constant (2)
-        = rpn -a7 1 1 100000 primes sqr 1/x - prod
-        = rpn 2 zeta 1/x
-
-    Infinite Tetration of i
-        = rpn -p20 [ 1 i 1000 dup ] tower
-''',
-'notes' :
-'''
-When converting fractional output to other bases, rpn adjusts the precision
-to the approximate equivalent for the new base since the precision is
-applicable to base 10.
-
-Tetration (hyperexponentiation) forces the second argument to an integer.
-
-To compute the nth Fibonacci number accurately, rpn sets the precision to
-a level sufficient to guarantee a correct answer.
-
-Bitwise operators force all arguments to integers by truncation if necessary.
-'''
-}
-
-    operatorCategories = set( operators[ key ][ 2 ] for key in operators )
-    operatorCategories.update( set( listOperators[ key ][ 2 ] for key in listOperators ) )
-    operatorCategories.update( set( modifiers[ key ][ 2 ] for key in modifiers ) )
+    try:
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
+            basicCategories = pickle.load( pickleFile )
+            operatorHelp = pickle.load( pickleFile )
+    except FileNotFoundError as error:
+        print( 'rpn:  Unable to help file.  Help will be unavailable.' )
+        return
+
+    operatorCategories = set( operatorHelp[ key ][ 0 ] for key in operatorHelp )
 
     if len( helpArgs ) == 0:
         printGeneralHelp( basicCategories, operatorCategories )
@@ -7960,13 +7350,13 @@ Bitwise operators force all arguments to integers by truncation if necessary.
         term = operatorAliases[ term ]
 
     if term in operators:
-        printOperatorHelp( helpArgs, term, operators[ term ] )
+        printOperatorHelp( helpArgs, term, operators[ term ], operatorHelp[ term ] )
 
     if term in listOperators:
-        printOperatorHelp( helpArgs, term, listOperators[ term ] )
+        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ] )
 
     if term in modifiers:
-        printOperatorHelp( helpArgs, term, modifiers[ term ] )
+        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ] )
 
     if term in basicCategories:
         print( basicCategories[ term ] )
@@ -8450,6 +7840,8 @@ def main( ):
                         print( '    = polynomial of degree <= %d not found' % args.find_poly )
                     else:
                         print( '    = polynomial ' + poly )
+
+            saveResult( result )
 
         if args.time:
             print( '\n%.3f seconds' % time.clock( ) )
