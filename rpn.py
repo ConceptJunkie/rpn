@@ -14,7 +14,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.1.0"
+RPN_VERSION = "3.1.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -262,6 +262,11 @@ def getInvertedBits( valueList ):
 #//
 #//  performBitwiseOperation
 #//
+#//  The operations are performed on groups of bits as specified by the variable
+#//  bitwiseGroupSize.  Although doing it this way isn't really necessary, it
+#//  does mean that under normal circumstances the regular Python bit operators
+#//  can be used.
+#//
 #//******************************************************************************
 
 def performBitwiseOperation( valueList, operation ):
@@ -296,37 +301,6 @@ def performBitwiseOperation( valueList, operation ):
         multiplier = fmul( multiplier, placeValue )
 
     valueList.append( result )
-
-
-#//******************************************************************************
-#//
-#//  getBitwiseAnd
-#//
-#//******************************************************************************
-
-def getBitwiseAnd( valueList ):
-    performBitwiseOperation( valueList, lambda x, y:  x & y )
-
-
-#//******************************************************************************
-#//
-#//  getBitwiseOr
-#//
-#//******************************************************************************
-
-def getBitwiseOr( valueList ):
-    performBitwiseOperation( valueList, lambda x, y:  x | y )
-
-
-#//******************************************************************************
-#//
-#//  add
-#//
-#//******************************************************************************
-
-def add( valueList ):
-    value = valueList.pop( )
-    valueList.append( fadd( valueList.pop( ), value ) )
 
 
 #//******************************************************************************
@@ -374,17 +348,6 @@ def subtract( valueList ):
 
 #//******************************************************************************
 #//
-#//  multiply
-#//
-#//******************************************************************************
-
-def multiply( valueList ):
-    value = valueList.pop( )
-    valueList.append( fmul( valueList.pop( ), value ) )
-
-
-#//******************************************************************************
-#//
 #//  multiplyAll
 #//
 #//******************************************************************************
@@ -393,8 +356,7 @@ def multiplyAll( valueList ):
     result = valueList.pop( )
 
     while valueList:
-        value = valueList.pop( )
-        result *= value
+        result = fmul( result, valueList.pop( ) )
 
     valueList.append( result )
 
@@ -419,17 +381,6 @@ def divide( valueList ):
 def getModulo( valueList ):
     value = valueList.pop( )
     valueList.append( fmod( valueList.pop( ), value ) )
-
-
-#//******************************************************************************
-#//
-#//  getHypotenuse
-#//
-#//******************************************************************************
-
-def getHypotenuse( valueList ):
-    value = valueList.pop( )
-    valueList.append( hypot( valueList.pop( ), value ) )
 
 
 #//******************************************************************************
@@ -461,14 +412,14 @@ def tetrate( valueList ):
     result = operand
 
     for i in range( 1, int( value ) ):
-        result = power( power, operand )
+        result = power( result, operand )
 
     valueList.append( result )
 
 
 #//******************************************************************************
 #//
-#//  tetrate2
+#//  tetrateLarge
 #//
 #//  This is the larger (right-associative) version of the hyper4 operator.
 #//
@@ -695,10 +646,10 @@ def getPermutations( valueList ):
 expressions = {
     '!'        : [ lambda v: v.append( fac( v.pop( ) ) ), 1 ],
     '%'        : [ getModulo, 2 ],
-    '*'        : [ multiply, 2 ],
+    '*'        : [ lambda v: v.append( fmul( v.pop( ), v.pop( ) ) ), 2 ],
     '**'       : [ exponentiate, 2 ],
     '***'      : [ tetrate, 2 ],
-    '+'        : [ add, 2 ],
+    '+'        : [ lambda v: v.append( fadd( v.pop( ), v.pop( ) ) ), 2 ],
     '-'        : [ subtract, 2 ],
     '/'        : [ divide, 2 ],
     '//'       : [ antiexponentiate, 2 ],
@@ -732,20 +683,20 @@ expressions = {
     'cube'     : [ lambda v: v.append( power( v.pop( ), 3 ) ), 1 ],
     'deg'      : [ lambda v: v.append( radians( v.pop( ) ) ), 1 ],
     'degrees'  : [ lambda v: v.append( radians( v.pop( ) ) ), 1 ],
-    'e'        : [ lambda v: v.append( e ), 1 ],
+    'e'        : [ lambda v: v.append( e ), 0 ],
     'exp'      : [ lambda v: v.append( exp( v.pop( ) ) ), 1 ],
     'exp10'    : [ lambda v: v.append( power( 10, v.pop( ) ) ), 1 ],
     'expphi'   : [ lambda v: v.append( power( phi, v.pop( ) ) ), 1 ],
     'fac'      : [ lambda v: v.append( fac( v.pop( ) ) ), 1 ],
     'fib'      : [ lambda v: v.append( fib( v.pop( ) ) ), 1 ],
     'floor'    : [ lambda v: v.append( floor( v.pop( ) ) ), 1 ],
-    'floor'    : [ lambda v: v.append( floor( vadd( v.pop( ), 0.5 ) ) ), 1 ],
     'gamma'    : [ lambda v: v.append( gamma( v.pop( ) ) ), 1 ],
     'harm'     : [ lambda v: v.append( harmonic( v.pop( ) ) ), 1 ],
     'harmonic' : [ lambda v: v.append( harmonic( v.pop( ) ) ), 1 ],
     'hex'      : [ getNthHexagonalNumber, 1 ],
+    'hyper4_2' : [ tetrateLarge, 2 ],
     'hyperfac' : [ lambda v: v.append( hyperfac( v.pop( ) ) ), 1 ],
-    'hypot'    : [ getHypotenuse, 2 ],
+    'hypot'    : [ lambda v: v.append( hypot( v.pop( ), v.pop( ) ) ), 2 ],
     'inv'      : [ lambda v: v.append( fdiv( 1, v.pop( ) ) ), 1 ],
     'itoi'     : [ lambda v: v.append( exp( fmul( -0.5, pi ) ) ), 0 ],
     'lgamma'   : [ lambda v: v.append( loggamma( v.pop( ) ) ), 1 ],
@@ -754,10 +705,10 @@ expressions = {
     'logxy'    : [ getLogXY, 2 ],
     'luc'      : [ getNthLucas, 1 ],
     'lucas'    : [ getNthLucas, 1 ],
-    'mean'     : [ getMean, 2 ],                                    # this one eats the whole stack
+    'mean'     : [ getMean, 2 ],                                    # this one eats the whole value stack
     'mod'      : [ getModulo, 2 ],
     'modulo'   : [ getModulo, 2 ],
-    'mult'     : [ multiplyAll, 2 ],                                # this one eats the whole stack
+    'mult'     : [ multiplyAll, 2 ],                                # this one eats the whole value stack
     'nCr'      : [ getCombinations, 2 ],
     'ncr'      : [ getCombinations, 2 ],
     'neg'      : [ lambda v: v.append( fneg( v.pop( ) ) ), 1 ],
@@ -765,14 +716,15 @@ expressions = {
     'npr'      : [ getPermutations, 2 ],
     'or'       : [ lambda v: performBitwiseOperation( v, lambda x, y:  x | y ), 2 ],
     'pent'     : [ getNthPentagonalNumber, 1 ],
-    'phi'      : [ lambda v: v.append( phi ), 1 ],
-    'pi'       : [ lambda v: v.append( pi ), 1 ],
+    'phi'      : [ lambda v: v.append( phi ), 0 ],
+    'pi'       : [ lambda v: v.append( pi ), 0 ],
     'rad'      : [ lambda v: v.append( degrees( v.pop( ) ) ), 1 ],
     'radians'  : [ lambda v: v.append( degrees( v.pop( ) ) ), 1 ],
     'rand'     : [ lambda v: v.append( rand( ) ), 0 ],
     'random'   : [ lambda v: v.append( rand( ) ), 0 ],
     'root2'    : [ lambda v: v.append( sqrt( v.pop( ) ) ), 1 ],
     'root3'    : [ lambda v: v.append( cbrt( v.pop( ) ) ), 1 ],
+    'round'    : [ lambda v: v.append( floor( fadd( v.pop( ), 0.5 ) ) ), 1 ],
     'sec'      : [ lambda v: v.append( sec( v.pop( ) ) ), 1 ],
     'sech'     : [ lambda v: v.append( sech( v.pop( ) ) ), 1 ],
     'sin'      : [ lambda v: v.append( sin( v.pop( ) ) ), 1 ],
@@ -780,7 +732,7 @@ expressions = {
     'sqr'      : [ lambda v: v.append( power( v.pop( ), 2 ) ), 1 ],
     'sqrt'     : [ lambda v: v.append( sqrt( v.pop( ) ) ), 1 ],
     'sqtri'    : [ getNthSquareTriangularNumber, 1 ],
-    'sum'      : [ sum, 2 ],                                        # this one eats the whole stack
+    'sum'      : [ sum, 2 ],                                        # this one eats the whole value stack
     'superfac' : [ lambda v: v.append( superfac( v.pop( ) ) ), 1 ],
     'tan'      : [ lambda v: v.append( tan( v.pop( ) ) ), 1 ],
     'tanh'     : [ lambda v: v.append( tanh( v.pop( ) ) ), 1 ],
@@ -969,107 +921,65 @@ def main( ):
 Arguments are interpreted as Reverse Polish Notation.
 
 Supported unary operators:
-    ~ (invert bits)
-    !, fac
-    %, mod, modulo
-    1/x, inv (take reciprocal)
-    abs
-    cbrt, root3 (cube root)
-    ceil
-    cube
-    deg, degrees (treat value as radians converted to degrees)
-    exp
-    exp10
-    expphi
-    floor
-    gamma
-    hypot
-    hyperfac
-    lgamma
-    log
-    log10
-    neg
-    rad, radians (treat value as degrees converted to radians)
-    rand
-    round
-    sqr
-    sqrt, root2
+    !, fac; %, mod, modulo; 1/x, inv (take reciprocal); abs;
+    cbrt, root3 (cube root); ceil; cube; exp; exp10; expphi; floor; gamma;
+    hypot; hyperfac; lgamma; log; log10; neg; rand; round; sqr; sqrt, root2;
     superfac
 
 Supported unary trigonometric operators:
-    sin, asin, sinh, asinh, cos, acos, cosh, acosh, tan, atan, tanh, atanh,
-    sec, asec, sech, asech, csc, acsc, csch, acsch, cot, acot, coth, acoth
+    deg, degrees (convert degrees to radians, e.g., "rpn 45 degrees tan")
+    rad, radians (convert radians to degrees, e.g., "rpn pi radians")
+
+    sin; asin; sinh; asinh; cos; acos; cosh; acosh; tan; atan; tanh; atanh;
+    sec; asec; sech; asech; csc; acsc; csch; acsch; cot; acot; coth; acoth
 
 Supported integer sequence unary operators:
-    fib (nth Fibonacci number)
-    luc (nth Lucas number)
-
-    tri (nth triangular number)
-    antitri (which triangular number is this)
-
-    pent (nth pentagonal number)
-    antipent (which pentagonal number is this)
-
-    hex (nth hexagonal number)
-    antihex (which hexagonal number is this)
-
-    sqtri (nth square triangular number)*
-
-    tet, tetra (nth tetrahedronal number)
+    fib (nth Fibonacci number); luc (nth Lucas number);
+    tri (nth triangular number); antitri (which triangular number is this);
+    pent (nth pentagonal number); antipent (which pentagonal number is this);
+    hex (nth hexagonal number); antihex (which hexagonal number is this);
+    sqtri (nth square triangular number)*; tet, tetra (nth tetrahedral number)
 
     * requires sufficient precision for accuracy (see Notes)
 
 Supported binary operators:
-    +
-    -
-    *
-    /
-    **, ^ (power)
-    *** (tetration),
-    // (root)
-    logxy
-    nCr, ncr (combinations)
-    nRp, nrp (permutations)
+    +; -; *; /; **, ^ (power); *** (tetration); // (root); logxy;
+    nCr, ncr (combinations); nRp, nrp (permutations)
 
 Supported multi operators (operate on all preceding operands):
-    sum
-    mult
-    mean
+    sum; mult; mean
 
 Supported constants:
-    e,
-    pi,
-    phi (the Golden Ratio),
-    itoi (i^i)
+    e; pi; phi (the Golden Ratio); itoi (i^i)
 
 Supported bitwise operators:
-    ~, not
-    and
-    or
-    xor
+    ~, not; and; or; xor
 
-For integers, rpn understands hexidecimal input of the form '0x....'.
-Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B' is
-interpreted as binary.  These rules hold regardless of what is specified by -b.
+Input:
+    For integers, rpn understands hexidecimal input of the form '0x....'.
+    Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B'
+    is interpreted as binary.  Decimal points are not allowed for binary,
+    octal or hexadecimal modes, but fractional numbers in another base can be
+    input using -b.
 
-A leading '\\' forces the term to be a number rather than an operator (for use
-with higher bases with -b).
+    A leading '\\' forces the term to be a number rather than an operator (for
+    use with higher bases with -b).
 
-Note:  rpn now supports converting fractional results to different bases, but
-       input in binary, octal or hex is still restricted to integers.  Use -b
-       for inputting fractional values in other bases.
+Notes:
+    When converting fractional output to other bases, rpn adjusts the precision
+    to the approximate equivalent for the new base since the precision is
+    applicable to base 10.
 
-Note:  When converting fractional output to other bases, rpn adjusts the
-       precision to the approximate equivalent (that gives a correct answer) for
-       the new base since the precision is applicable to base 10.
+    Tetration (hyperexponentiation) forces the second argument to an integer.
 
-Note:  tetration forces the second argument to an integer.
+    To compute the nth Fibonacci number accurately, rpn sets the precision to
+    a level sufficient to guarantee a correct answer.
 
-Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
-       a level sufficient to guarantee a correct answer.
+    Some of the trig functions return complex results as provided by mpmath,
+    but rpn doesn't otherwise support complex numbers.
 
-Note:  Some of the trig functions return complex results as provided by mpmath,
-       but rpn doesn't otherwise support complex numbers.
+    Bitwise operators force all arguments to integers by truncation if
+    necessary.
 ''',
                                       formatter_class=RawTextHelpFormatter )
 
@@ -1084,6 +994,7 @@ Note:  Some of the trig functions return complex results as provided by mpmath,
                          help="display integer separated into groups (default: 0)" )
     parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals,
                          help="characters set to use as numerals for output" )
+    parser.add_argument( '-o', '--octal', action='store_true', help="octal mode: equivalent to '-r8 -w9 -i3 -z'" )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
                          help="precision, i.e., number of significant digits to use" )
     parser.add_argument( '-r', '--output_radix', type=str, action='store', default=10,
@@ -1092,11 +1003,10 @@ Note:  Some of the trig functions return complex results as provided by mpmath,
                          help="each digit is a space-delimited base-10 number" )
     parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=16,
                          help="bitwise operations group values by this size (default: 16)" )
-    parser.add_argument( '-x', '--hex', action='store_true', help="hex mode: equivalent to '-r16 -i4 -z'" )
+    parser.add_argument( '-x', '--hex', action='store_true', help="hex mode: equivalent to '-r16 -w16 -i4 -z'" )
     parser.add_argument( '-z', '--leading_zero', action='store_true', help="add leading zeros if needed with -i" )
 
     # OK, let's parse and validate the arguments
-
     if len( sys.argv ) == 1:
         parser.print_help( )
         return
@@ -1125,13 +1035,29 @@ Note:  Some of the trig functions return complex results as provided by mpmath,
 
     # handle -x
     if args.hex:
-        if outputRadix != 10:
+        if outputRadix != 10 and outputRadix != 16:
             print( "rpn:  -r and -x can't be used together" )
+            return
+
+        if args.octal:
+            print( "rpn:  -x and -o can't be used together" )
             return
 
         outputRadix = 16
         leadingZero = True
         integerGrouping = 4
+        bitwiseGroupSize = 16
+
+    # handle -o
+    if args.octal:
+        if outputRadix != 10 and outputRadix != 8:
+            print( "rpn:  -r and -o can't be used together" )
+            return
+
+        outputRadix = 8
+        leadingZero = True
+        integerGrouping = 3
+        bitwiseGroupSize = 9
 
     # handle -b
     if args.input_radix == 'phi':
@@ -1214,6 +1140,7 @@ Note:  Some of the trig functions return complex results as provided by mpmath,
         if len( valueList ) > 1:
             print( "rpn: unexpected end of input" )
         else:
+            mp.pretty = True
             result = nstr( valueList.pop( ), mp.dps )
 
             if args.comma:
