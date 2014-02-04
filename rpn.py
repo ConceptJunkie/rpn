@@ -15,7 +15,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.18.0"
+RPN_VERSION = "2.18.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -174,7 +174,7 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
         return 0
 
     if value < 0:
-        return '-' + convertToBaseN( ( -1 ) * value, base, baseAsDigits )
+        return '-' + convertToBaseN( ( -1 ) * value, base, baseAsDigits, numerals )
 
     result = ''
     left_digits = value
@@ -879,8 +879,16 @@ def takePowMod( valueList ):
 
 def getNthFibonacci( valueList ):
     n = valueList.pop( )
+
+    neededPrecision = int( int( n ) * 0.21 + 12 )   # determined through experimentation
+
+    if getcontext( ).prec < neededPrecision:
+        getcontext( ).prec = neededPrecision
+
     sqrt5 = Decimal( 5 ) ** Decimal( 0.5 )
-    valueList.append( Decimal( ( pow( 1 + sqrt5, n ) - pow( 1 - sqrt5, n ) ) / ( pow( 2, n ) * sqrt5 ) ).quantize( Decimal( '1.' ) ) )
+
+    valueList.append( Decimal( ( ( ( Decimal( 1 ) + sqrt5 ) ** n ) - ( ( Decimal( 1 ) - sqrt5 ) ** n ) ) /
+                        ( ( Decimal( 2 ) ** n ) * sqrt5 ) ).quantize( Decimal( '1.' ) ) )
 
 
 #//******************************************************************************
@@ -891,7 +899,7 @@ def getNthFibonacci( valueList ):
 
 def getNthTriangularNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( ( n * ( n + 1 ) ) / 2 )
+    valueList.append( ( n * ( n + Decimal( 1 ) ) ) / Decimal( 2 ) )
 
 
 #//******************************************************************************
@@ -904,7 +912,7 @@ def getNthTriangularNumber( valueList ):
 
 def getAntiTriangularNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( Decimal( 0.5 ) * ( pow( ( ( Decimal( 8 ) * n ) + 1 ), Decimal( 0.5 ) ) - 1 ) )
+    valueList.append( Decimal( 0.5 ) * ( pow( ( ( Decimal( 8 ) * n ) + Decimal( 1 ) ), Decimal( 0.5 ) ) - Decimal( 1 ) ) )
 
 
 #//******************************************************************************
@@ -928,7 +936,7 @@ def getNthPentagonalNumber( valueList ):
 
 def getAntiPentagonalNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( Decimal( 1 / 6 ) * ( pow( ( ( Decimal( 24 ) * n ) + 1 ), Decimal( 0.5 ) ) + 1 ) )
+    valueList.append( Decimal( 1 / 6 ) * ( pow( ( ( Decimal( 24 ) * n ) + Decimal( 1 ) ), Decimal( 0.5 ) ) + Decimal( 1 ) ) )
 
 
 #//******************************************************************************
@@ -952,7 +960,7 @@ def getNthHexagonalNumber( valueList ):
 
 def getAntiHexagonalNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( Decimal( 1 / 4 ) * ( pow( ( ( Decimal( 8 ) * n ) + 1 ), Decimal( 0.5 ) ) + 1 ) )
+    valueList.append( Decimal( 1 / 4 ) * ( pow( ( ( Decimal( 8 ) * n ) + Decimal( 1 ) ), Decimal( 0.5 ) ) + Decimal( 1 ) ) )
 
 
 #//******************************************************************************
@@ -963,7 +971,7 @@ def getAntiHexagonalNumber( valueList ):
 
 def getNthTetrahedralNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( Decimal( 1 / 6 ) * ( n * n * n + 3 * n * n + 2 * n ) )
+    valueList.append( Decimal( 1 / 6 ) * ( n * n * n + Decimal( 3 ) * n * n + Decimal( 2 ) * n ) )
 
 # p=(1/6)*(n^3+3*n^2+2*n)
 
@@ -995,9 +1003,16 @@ def getAntiTetrahedralNumber( valueList ):
 
 def getNthSquareTriangularNumber( valueList ):
     n = valueList.pop( )
+
+    neededPrecision = int( n * Decimal( 1.55 ) )  # determined by experimentation
+
+    if getcontext( ).prec < neededPrecision:
+        getcontext( ).prec = neededPrecision
+
     sqrt2 = Decimal( 2 ) ** Decimal( 0.5 )
 
-    valueList.append( math.ceil( ( ( pow( 1 + sqrt2, 2 * n ) - pow( 1 - sqrt2, 2 * n ) ) / ( 4 * sqrt2 ) ) ** 2 ) )
+    valueList.append( math.ceil( ( ( ( Decimal( 1 ) + sqrt2 ) ** ( Decimal( 2 ) * n ) - ( Decimal( 1 ) - sqrt2 ) ** ( Decimal( 2 ) * n ) ) /
+                                    ( Decimal( 4 ) * sqrt2 ) ) ** Decimal( 2 ) ) )
 
 
 #//******************************************************************************
@@ -1167,7 +1182,7 @@ def formatOutput( output, radix, numerals, comma, decimalGrouping, baseAsDigits 
         mantissa = mantissa.rstrip( '0' )
 
     if radix != 10 or numerals != defaultNumerals:
-        integer = str( convertToBaseN( Decimal( integer ), radix, baseAsDigits ) )
+        integer = str( convertToBaseN( Decimal( integer ), radix, baseAsDigits, numerals ) )
 
         if mantissa:
             mantissa = str( convertFractionToBaseN( Decimal( '.' + mantissa ), radix,
@@ -1259,7 +1274,7 @@ Supported constants:
 
 rpn supports arbitrary precision using Decimal( ), however the following
 operators do not always provide arbitrary precision:
-    **, //, exp, exp10, gamma, lgamma
+    **, //, exp, exp10, gamma, lgamma, powmod
 
 For integers, rpn understands hexidecimal input of the form '0x....'.
 Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B' is
@@ -1273,14 +1288,16 @@ Note:  rpn now supports converting fractional results to different bases, but
        input in binary, octal or hex is still restricted to integers.  Use -b
        for inputting fractional values in other bases.
 
+Note:  When converting fractional output to other bases, rpn adjusts the
+       precision to the approximate equivalent (that gives a correct answer) for
+       the new base since the precision is applicable to base 10.
+
 Note:  tetration forces the second argument to an integer.
 
-Note:  To compute the nth Fibonacci number accurately, set the precision to
-       about 12 more than the number of digits in the result.
+Note:  powmod forces the third argument to an integer.
 
-       The sqtri operator needs a similar precision to get the correct answer.
-
-       I'd like to add logic to do this automatically.
+Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
+       a level sufficient to guarantee a correct answer.
 
 ''',
                                       formatter_class=RawTextHelpFormatter )
