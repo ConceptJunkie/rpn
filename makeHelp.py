@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.8.7'
+PROGRAM_VERSION = '5.9.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -607,6 +607,12 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
 ''' ],
+    'billion' : [
+'constants', 'one billion, i.e. 10e9',
+'''
+''',
+'''
+''' ],
     'binomial' : [
 'combinatorics', 'calculates the binomial coefficient of n and k',
 '''
@@ -923,6 +929,12 @@ number.
 ''',
 '''
 ''' ],
+    'decillion' : [
+'constants', 'one decillion, i.e. 10e33',
+'''
+''',
+'''
+''' ],
     'degrees' : [
 'trigonometry', 'interprets n as degrees and converts to radians',
 '''
@@ -1108,6 +1120,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'glaisher' : [
 'constants', 'returns Glaisher\'s constant',
+'''
+''',
+'''
+''' ],
+    'googol' : [
+'constants', '1 googol, i.e., 1.0e100',
 '''
 ''',
 '''
@@ -1604,6 +1622,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'nonillion' : [
+'constants', 'one nonillion, i.e. 10e30',
+'''
+''',
+'''
+''' ],
     'nonzero' : [
 'list_operators', 'returns the indices of elements of list n that are not zero',
 '''
@@ -1672,6 +1696,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'octhex' : [
 'polygonal_numbers', 'calculates the nth octagonal hexagonal number',
+'''
+''',
+'''
+''' ],
+    'octillion' : [
+'constants', 'one octillion, i.e. 10e27',
 '''
 ''',
 '''
@@ -1942,6 +1972,18 @@ given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
+    'quadrillion' : [
+'constants', 'one quadrillion, i.e. 10e15',
+'''
+''',
+'''
+''' ],
+    'quintillion' : [
+'constants', 'one quintillion, i.e. 10e18',
+'''
+''',
+'''
+''' ],
     'quintprime' : [
 'prime_numbers', 'returns the first of the nth set of quintruplet primes',
 '''
@@ -2046,6 +2088,12 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
+    'score' : [
+'constants', 'an archaic term for 20',
+'''
+''',
+'''
+''' ],
     'sec' : [
 'trigonometry', 'calculates the secant of n',
 '''
@@ -2054,6 +2102,18 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'sech' : [
 'trigonometry', 'calculates the hyperbolic secant of n',
+'''
+''',
+'''
+''' ],
+    'septillion' : [
+'constants', 'one septillion, i.e. 10e24',
+'''
+''',
+'''
+''' ],
+    'sextillion' : [
+'constants', 'one sextillion, i.e. 10e21',
 '''
 ''',
 '''
@@ -2349,6 +2409,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     'tribonacci' : [
 'number_theory', 'calculates the nth Tribonacci number',
+'''
+''',
+'''
+''' ],
+    'trillion' : [
+'constants', 'one trillion, i.e. 10e12',
 '''
 ''',
 '''
