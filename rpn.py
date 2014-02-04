@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.9.0'
+PROGRAM_VERSION = '5.9.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -202,7 +202,7 @@ def makeUnitString( units ):
             denominator += unit
 
             if exponent < -1:
-                deonominator += '^' + str( -exponent )
+                denominator += '^' + str( -exponent )
 
     if denominator != '':
         resultString += '/' + denominator
@@ -288,6 +288,8 @@ def getSimpleUnitType( unit ):
 #//******************************************************************************
 
 def combineUnits( units1, units2 ):
+    #print( 'units1:', units1 )
+    #print( 'units2:', units2 )
     newUnits = { }
     newUnits.update( units1 )
 
@@ -353,18 +355,18 @@ def getBasicUnitTypes( unitTypes ):
 
 #//******************************************************************************
 #//
-#//  getCompoundUnitTypes
+#//  getNoncompoundUnitTypes
 #//
 #//******************************************************************************
 
-def getCompoundUnitTypes( unitTypes ):
+def getNoncompoundUnitTypes( unitTypes ):
     result = { }
 
     for unitType in unitTypes:
         if unitType in compoundUnits:
             basicUnits = parseUnitString( compoundUnits[ unitType ] )
         else:
-            basicUnits = unitType
+            basicUnits = { unitType : unitTypes[ unitType ] }
 
         exponent = unitTypes[ unitType ]
 
@@ -540,7 +542,7 @@ class Measurement( mpf ):
                 return True
             elif self.getBasicTypes( ) == other.getBasicTypes( ):
                 return True
-            elif self.getCompoundTypes( ) == other.getCompoundTypes( ):
+            elif self.getNoncompoundTypes( ) == other.getNoncompoundTypes( ):
                 return True
             else:
                 return False
@@ -570,8 +572,8 @@ class Measurement( mpf ):
             else:
                 types[ unitType ] = self.units[ unit ]
 
+        #print( 'types:', types )
         return types
-
 
     def getSimpleTypes( self ):
         return simplifyUnits( self.units )
@@ -580,7 +582,7 @@ class Measurement( mpf ):
         return getBasicUnitTypes( self.getTypes( ) )
 
     def getNoncompoundTypes( self ):
-        return getNoncompoundTypes( self.getTypes( ) )
+        return getNoncompoundUnitTypes( self.getTypes( ) )
 
     def convertValue( self, other ):
         if self.isCompatible( other ):
@@ -5495,7 +5497,7 @@ operatorAliases = {
     'maxuint32'   : 'maxulong',
     'maxuint64'   : 'maxulonglong',
     'maxuint8'    : 'maxuchar',
-    'mcg'         : 'microgram'
+    'mcg'         : 'microgram',
     'megaohm'     : 'megohm',
     'megalerg'    : 'megaerg',
     'minint'      : 'minlong',
