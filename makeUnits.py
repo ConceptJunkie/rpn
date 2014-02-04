@@ -27,6 +27,14 @@ from mpmath import *
 #//
 #//******************************************************************************
 
+unitTypes = [
+    'area',
+    'length',
+    'mass',
+    'time',
+    'volume',
+]
+
 unitOperators = {
     'are'               : 'area',
     'acre'              : 'area',
@@ -65,10 +73,12 @@ unitOperators = {
     'troy_ounce'        : 'mass',
     'troy_pound'        : 'mass',
 
-    'second'            : 'time',
-    'minute'            : 'time',
-    'hour'              : 'time',
     'day'               : 'time',
+    'fortnight'         : 'time',
+    'hour'              : 'time',
+    'minute'            : 'time',
+    'second'            : 'time',
+    'week'              : 'time',
 
     'cubic_foot'        : 'volume',
     'cup'               : 'volume',
@@ -86,16 +96,16 @@ unitOperators = {
 }
 
 
-metric_units = [
-    ( 'meter',  'm' ),
-    ( 'second', 's' ),
-    ( 'liter',  'l' ),
-    ( 'gram',   'g' ),
-    ( 'are',    'a' ),
+metricUnits = [
+    ( 'meter',  'm', [ 'metre' ] ),
+    ( 'second', 's', [ ] ),
+    ( 'liter',  'l', [ 'litre' ] ),
+    ( 'gram',   'g', [ 'gramme' ] ),
+    ( 'are',    'a', [ ] ),
 ]
 
 
-metric_prefixes = [
+metricPrefixes = [
     ( 'yotta',  'Y',  '24' ),
     ( 'zetta',  'Z',  '21' ),
     ( 'exa',    'E',  '18' ),
@@ -165,6 +175,8 @@ unitConversionMatrix = {
     ( 'troy_ounce',        'gram' )             : '31.1034768',
     ( 'troy_pound',        'pound' )            : '12',
     ( 'yard',              'foot' )             : '3',
+    ( 'fortnight',         'day' )              : '14',
+    ( 'week',              'day' )              : '7',
 }
 
 
@@ -179,6 +191,31 @@ def makeMetricUnit( prefix, unit ):
         return prefix[ : -1 ] + unit
     else:
         return prefix + unit
+
+
+#//******************************************************************************
+#//
+#//  makeAliases
+#//
+#//******************************************************************************
+
+def makeAliases( ):
+    newAliases = { }
+
+    for metricUnit in metricUnits:
+        newAliases[ metricUnit[ 1 ] ] = metricUnit[ 0 ]
+
+        for prefix in metricPrefixes:
+            unit = makeMetricUnit( prefix[ 0 ], metricUnit[ 0 ] )
+            newAliases[ prefix[ 1 ] + metricUnit[ 1 ] ] = unit
+
+            for alternateUnit in metricUnit[ 2 ]:
+                newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
+
+    #for i in newAliases:
+    #    print( i, newAliases[ i ] )
+
+    return newAliases
 
 
 #//******************************************************************************
@@ -204,8 +241,15 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     for operator in unitOperators:
         if unitOperators[ operator ] == 'length':
-            newOperators[ 'square_'  + operator ] = 'area'
-            newOperators[ 'cubic_'  + operator ] = 'volume'
+            newOp = 'square_' + operator
+
+            if newOp not in unitOperators:
+                newOperators[ newOp ] = 'area'
+
+            newOp = 'cubic_'+ operator
+
+            if newOp not in unitOperators:
+                newOperators[ newOp ] = 'volume'
 
     unitOperators.update( newOperators )
 
@@ -252,8 +296,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     # expand metric measurements for all prefixes
     newConversions = { }
 
-    for unit in metric_units:
-        for prefix in metric_prefixes:
+    for unit in metricUnits:
+        for prefix in metricPrefixes:
             newName = makeMetricUnit( prefix[ 0 ], unit[ 0 ] )
             unitOperators[ newName ] = unitOperators[ unit[ 0 ] ]
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -270,6 +314,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     unitConversionMatrix.update( newConversions )
 
+    newAliases = makeAliases( )
+
     #for op1, op2 in unitConversionMatrix:
     #    print( op1, op2, unitConversionMatrix[ ( op1, op2 ) ] )
 
@@ -278,8 +324,10 @@ def initializeConversionMatrix( unitConversionMatrix ):
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
 
     with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'units.pckl.bz2', 'wb' ) ) as pickleFile:
+        pickle.dump( unitTypes, pickleFile )
         pickle.dump( unitOperators, pickleFile )
         pickle.dump( unitConversionMatrix, pickleFile )
+        pickle.dump( newAliases, pickleFile )
 
 
 #//******************************************************************************

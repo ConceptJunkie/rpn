@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.2.1'
+RPN_VERSION = '5.2.2'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -64,9 +64,67 @@ inputRadix = 10
 
 updateDicts = False
 
-currentUnitOperator = ''
+unitStack = [ ]
 
-unitConversionMatrix = { }
+
+#//******************************************************************************
+#//
+#//  UnitOfMeasurement
+#//
+#//******************************************************************************
+
+class UnitOfMeasurement( dict ):
+    def __init__( self, value={ } ):
+        if isinstance( value, str ):
+            self.increment( value )
+        elif isinstance( value, ( list, tuple ) ):
+            for unit in value:
+                self.increment( unit )
+        else:
+            raise ValueError( 'UnitOfMeasurement requires a string or a list' )
+
+    def increment( self, value, amount=1 ):
+        if value not in self:
+            self[ value ] = amount
+        else:
+            self[ value ] += amount
+
+    def decrement( self, value, amount=1 ):
+        if value not in self:
+            self[ value ] = -amount
+        else:
+            self[ value ] -= amount
+
+    def isCompatible( self, other ):
+        if isinstance( other, ( str, list, tuple ) ):
+            return isCompatible( self, UnitOfMeasurement( other ) )
+        else:
+            return self.getType( ) == other.getType( )
+
+    def getType( self ):
+        unitTypes = { }
+
+        for unit in self:
+            if unit not in unitOperators:
+                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+
+            unitType = unitOperators[ unit ]
+
+            if unitType not in unitTypes:
+                unitTypes[ unitType ] = self[ unit ]
+            else:
+                unitTypes[ unitType ] += self[ unit ]
+
+        return unitTypes
+
+    def getConversion( self, other ):
+        if self.isCompatible( other ):
+            unit1 = [ k for k, v in self.items( ) ][ 0 ]
+            unit2 = [ k for k, v in other.items( ) ][ 0 ]
+            return mpmathify( unitConversionMatrix[ ( unit1, unit2 ) ] )
+        else:
+            raise ValueError( 'incompatible types cannot be converted' )
+            return 0
 
 
 #//******************************************************************************
@@ -77,7 +135,7 @@ unitConversionMatrix = { }
 #//
 #//******************************************************************************
 
-class Polynomial(object):
+class Polynomial( object ):
     def __init__( self, *args ):
         """
         Create a polynomial in one of three ways:
@@ -171,6 +229,7 @@ class Polynomial(object):
     def __str__( self ):
         "Return string formatted as aX^3 + bX^2 + c^X + d"
         res = [ ]
+
         for po, co in enumerate( self.coeffs ):
             if co:
                 if po == 0:
@@ -198,6 +257,7 @@ class Polynomial(object):
 
         if _co:
             offs = len( _co ) - 1
+
             if _co[ offs ] == 0:
                 offs -= 1
 
@@ -1950,7 +2010,6 @@ class ContinuedFraction( list ):
 
     def __str__( self ):
         return '[%s]' % ', '.join( [ str( int( x ) ) for x in self ] )
-
 
 
 #//******************************************************************************
@@ -4639,30 +4698,26 @@ callers = [
 
 #//******************************************************************************
 #//
-#//  handleUnitOperator
+#//  convertUnits
 #//
 #//******************************************************************************
 
-def handleUnitOperator( operator, valueList ):
-    global currentUnitOperator
-    global conversionMatrixInitialized
+def convertUnits( valueList ):
+    global unitStack
     global unitConversionMatrix
 
-    if currentUnitOperator == '':
-        currentUnitOperator = operator
-    elif ( currentUnitOperator, operator ) in unitConversionMatrix:
-        conversion = mpmathify( unitConversionMatrix[ ( currentUnitOperator, operator ) ] )
+    unit1 = unitStack.pop( )
+    unit2 = unitStack.pop( )
 
-        # this way you can do a conversion without specifying an amount... it will default to 1
-        if len( valueList ) == 0:
-            valueList.append( mpmathify( 1 ) )
+    conversion = unit1.getConversion( unit2 )
 
-        valueList.append( evaluateOneArgFunction( lambda i: fmul( i, conversion ), valueList.pop( ) ) )
-    elif ( operator, currentUnitOperator ) in unitConversionMatrix:
-        conversion = mpmathify( unitConversionMatrix[ ( operator, currentUnitOperator ) ] )
-        valueList.append( evaluateOneArgFunction( lambda i: fdiv( i, conversion ), valueList.pop( ) ) )
+    # this way you can do a conversion without specifying an amount... it will default to 1
+    if len( valueList ) == 0:
+        valueList.append( mpmathify( 1 ) )
+
+        return evaluateOneArgFunction( lambda i: fmul( i, conversion ), valueList.pop( ) )
     else:
-        raise ValueError( 'no conversion is defined between \'{}\' and \'{}\''.format( currentUnitOperator, operator ) )
+        raise ValueError( 'no conversion is defined between \'{}\' and \'{}\''.format( unit1, unit2 ) )
 
 
 #//******************************************************************************
@@ -4734,6 +4789,7 @@ operatorAliases = {
     'inv'         : 'reciprocal',
     'isdiv'       : 'isdivisible',
     'issqr'       : 'issquare',
+    'lb'          : 'pound',
     'left'        : 'shiftleft',
     'linear'      : 'linearrecur',
     'litre'       : 'liter',
@@ -4901,6 +4957,14 @@ listOperators = {
     'count'     : [ countElements, 1,
 'listOperators', 'counts the elements of list n',
 '''
+''',
+'''
+''' ],
+    'convert'     : [ convertUnits, 0,
+'conversion', 'perform unit conversion',
+'''
+This is a special operator that doesn't require an operand.  If there is no
+numerical value, then rpn will assume a value of 1.
 ''',
 '''
 ''' ],
@@ -7130,7 +7194,16 @@ def roundMantissa( mantissa, accuracy ):
 
 def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
                   decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
-    if string.whitespace or string.punctuation in output:
+    # filter out text strings
+    for c in output:
+        if c in '+-.':
+            continue
+
+        if c in string.whitespace or c in string.punctuation:
+            return output
+
+    # filter out scientific notation, rpn doesn't grok that yet
+    if ( output.find( 'e+' ) != -1 ) or ( output.find( 'e-' ) != -1 ):
         return output
 
     imaginary = im( mpmathify( output ) )
@@ -7152,7 +7225,7 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
         #strOutput = nstr( output, outputAccuracy  )[ 1 : -2 ]     # nstr seems to add quotes
         strOutput = str( output )
 
-    if '.' in strOutput and strOutput.find( 'e' ) == -1:
+    if '.' in strOutput:
         decimal = strOutput.find( '.' )
     else:
         decimal = len( strOutput )
@@ -7863,6 +7936,7 @@ def main( ):
     global numerals
     global updateDicts
     global unitOperators
+    global unitTypes
     global unitConversionMatrix
 
     global balancedPrimes
@@ -8068,8 +8142,10 @@ def main( ):
 
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
+            unitTypes = pickle.load( pickleFile )
             unitOperators = pickle.load( pickleFile )
             unitConversionMatrix = pickle.load( pickleFile )
+            operatorAliases.update( pickle.load( pickleFile ) )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
 
@@ -8088,7 +8164,7 @@ def main( ):
                        '.  Are your arguments in the right order?' )
                 break
         elif term in unitOperators:
-            handleUnitOperator( term, currentValueList )
+            unitStack.append( UnitOfMeasurement( term ) )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
 
@@ -8140,7 +8216,9 @@ def main( ):
                 break
 
             try:
-                if argsNeeded == 1:
+                if argsNeeded == 0:
+                    currentValueList.append( listOperators[ term ][ 0 ]( currentValueList ) )
+                elif argsNeeded == 1:
                     currentValueList.append( evaluateOneListFunction( listOperators[ term ][ 0 ], currentValueList.pop( ) ) )
                 else:
                     listArgs = [ ]
@@ -8179,7 +8257,7 @@ def main( ):
 
         index = index + 1
     else:    # i.e., if the for loop completes
-        if len( valueList ) > 1:
+        if len( valueList ) > 1 or len( valueList ) == 0:
             print( 'rpn:  unexpected end of input' )
         else:
             mp.pretty = True
