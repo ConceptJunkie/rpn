@@ -36,7 +36,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.28.0'
+RPN_VERSION = '5.0.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -62,7 +62,76 @@ updateDicts = False
 
 currentUnitOperator = ''
 
-conversionMatrixInitialized = False
+
+#//******************************************************************************
+#//
+#//  measurement units
+#//
+#//******************************************************************************
+
+unitOperators = {
+    'cubic_foot'    : 'volume',
+    'cup'           : 'volume',
+    'fluid_ounce'   : 'volume',
+    'foot'          : 'length',
+    'gallon'        : 'volume',
+    'inch'          : 'length',
+    'litre'         : 'volume',
+    'metre'         : 'length',
+    'micron'        : 'length',
+    'mile'          : 'length',
+    'ounce'         : 'volume',
+    'pint'          : 'volume',
+    'quart'         : 'volume',
+    'second'        : 'time',
+    'yard'          : 'length',
+}
+
+
+metric_units = [
+    ( 'metre',  'm' ),
+    ( 'second', 's' ),
+    ( 'litre',  'l' ),
+]
+
+
+metric_prefixes = [
+    ( 'yotta',  'Y',  '24' ),
+    ( 'zetta',  'Z',  '21' ),
+    ( 'exa',    'E',  '18' ),
+    ( 'peta',   'P',  '15' ),
+    ( 'tera',   'T',  '12' ),
+    ( 'giga',   'G',  '9' ),
+    ( 'mega',   'M',  '6' ),
+    ( 'kilo',   'k',  '3' ),
+    ( 'hecto',  'h',  '2' ),
+    ( 'deca',   'da', '1' ),
+    ( 'deci',   'd',  '-1' ),
+    ( 'centi',  'c',  '-2' ),
+    ( 'milli',  'm',  '-3' ),
+    ( 'micro',  '',   '-6' ),
+    ( 'nano',   'n',  '-9' ),
+    ( 'pico',   'p',  '-12' ),
+    ( 'femto',  'f',  '-15' ),
+    ( 'atto',   'a',  '-18' ),
+    ( 'zepto',  'z',  '-21' ),
+    ( 'yocto',  'y',  '-24' ),
+]
+
+unitConversionMatrix = {
+    ( 'cup',    'fluid_ounce' ) : '8',
+    ( 'foot',   'inch' )        : '12',
+    ( 'gallon', 'quart' )       : '4',
+    ( 'inch',   'metre' )       : '0.0254',
+    ( 'litre',  'cubic_foot' )  : '28.316846592',
+    ( 'metre',  'micron' )      : '1000000',
+    ( 'mile',   'foot' )        : '5280',
+    ( 'quart',  'cup' )         : '4',
+    ( 'quart',  'litre' )       : '0.946352946',
+    ( 'quart',  'pint' )        : '2',
+    ( 'yard',   'foot' )        : '3',
+}
+
 
 #//******************************************************************************
 #//
@@ -3928,7 +3997,11 @@ def printStats( dict, name ):
 #//******************************************************************************
 
 def dumpStats( ):
-    print( '{:10,} unique operators\n'.format( len( list_operators ) + len( operators ) + len( modifiers ) ) )
+    global unitConversionMatrix
+
+    print( '{:10,} unique operators'.format( len( list_operators ) + len( operators ) + len( modifiers ) ) )
+    print( '{:10,} unit conversions'.format( len( unitConversionMatrix ) ) )
+    print( )
 
     printStats( loadSmallPrimes( ), 'small primes' )
     printStats( loadLargePrimes( ), 'large primes' )
@@ -4547,98 +4620,83 @@ callers = [
 
 #//******************************************************************************
 #//
-#//  measurement units
-#//
-#//******************************************************************************
-
-unit_operators = [
-    'meter',
-    'foot',
-    'inch',
-    'mile',
-    'yard',
-]
-
-
-metric_units = [
-    ( 'meter', 'm' ),
-    ( 'second', 's' ),
-]
-
-
-metric_prefixes = [
-    ( 'yotta',  'Y',  '24' ),
-    ( 'zetta',  'Z',  '21' ),
-    ( 'exa',    'E',  '18' ),
-    ( 'peta',   'P',  '15' ),
-    ( 'tera',   'T',  '12' ),
-    ( 'giga',   'G',  '9' ),
-    ( 'mega',   'M',  '6' ),
-    ( 'kilo',   'k',  '3' ),
-    ( 'hecto',  'h',  '2' ),
-    ( 'deca',   'da', '1' ),
-    ( 'deci',   'd',  '-1' ),
-    ( 'centi',  'c',  '-2' ),
-    ( 'milli',  'm',  '-3' ),
-    ( 'micro',  '',   '-6' ),
-    ( 'nano',   'n',  '-9' ),
-    ( 'pico',   'p',  '-12' ),
-    ( 'femto',  'f',  '-15' ),
-    ( 'atto',   'a',  '-18' ),
-    ( 'zepto',  'z',  '-21' ),
-    ( 'yocto',  'y',  '-24' ),
-]
-
-unitConversionMatrix = {
-    ( 'inch',   'meter' )   : '0.0254',
-    ( 'foot',   'inch' )    : '12',
-    ( 'yard',   'foot' )    : '3',
-    ( 'mile',   'foot' )    : '5280',
-}
-
-
-#//******************************************************************************
-#//
 #//  initializeConversionMatrix
 #//
 #//******************************************************************************
 
 def initializeConversionMatrix( unitConversionMatrix ):
-        #print( unitConversionMatrix )
-        #print( )
-        #print( )
+    global unitOperators
 
-        for unit in metric_units:
-            for prefix in metric_prefixes:
-                unitConversionMatrix[ ( prefix[ 0 ] + unit[ 0 ], unit[ 0 ] ) ] = str( power( 10, mpmathify( prefix[ 2 ] ) ) )
+    for unit in metric_units:
+        for prefix in metric_prefixes:
+            newName = prefix[ 0 ] + unit[ 0 ]
+            unitOperators[ newName ] = unitOperators[ unit[ 0 ] ]
+            unitConversionMatrix[ ( newName, unit[ 0 ] ) ] = str( power( 10, mpmathify( prefix[ 2 ] ) ) )
 
-        #print( unitConversionMatrix )
-        #print( )
-        #print( )
+    newConversions = { }
 
-        newItems = { }
+    for op1, op2 in unitConversionMatrix:
+        conversion = fdiv( 1, mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ) )
+        newConversions[ ( op2, op1 ) ] = str( conversion )
 
-        for op1, op2 in unitConversionMatrix:
-            conversion = fdiv( 1, mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ) )
-            newItems[ ( op2, op1 ) ] = str( conversion )
+    unitConversionMatrix.update( newConversions )
 
-        unitConversionMatrix.update( newItems )
+    newOperators = { }
 
-        #print( unitConversionMatrix )
-        #print( )
-        #print( )
+    for operator in unitOperators:
+        if unitOperators[ operator ] == 'length':
+            newOperators[ 'square_'  + operator ] = 'area'
+            newOperators[ 'cubic_'  + operator ] = 'volume'
 
-        newItems = { }
+    unitOperators.update( newOperators )
 
-        for op1, op2 in unitConversionMatrix:
-             for op3 in unit_operators:
-                if ( op1, op3 ) not in unitConversionMatrix and ( op2, op3 ) in unitConversionMatrix:
-                    conversion = fmul( mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ), mpmathify( unitConversionMatrix[ ( op2, op3 ) ] ) )
-                    newItems[ ( op1, op3 ) ] = str( conversion )
+    newConversions = { }
 
-        unitConversionMatrix.update( newItems )
+    for op1, op2 in unitConversionMatrix:
+        if unitOperators[ op1 ] == 'length':
+            conversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
+            newConversions[ ( 'square_' + op1, 'square_' + op2 ) ] = str( power( conversion, 2 ) )
+            newConversions[ ( 'cubic_' + op1, 'cubic_' + op2 ) ] = str( power( conversion, 3 ) )
 
-        #print( unitConversionMatrix )
+    unitConversionMatrix.update( newConversions )
+
+    newConversions = { }
+
+    for op1, op2 in unitConversionMatrix:
+        conversion = fdiv( 1, mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ) )
+        newConversions[ ( op2, op1 ) ] = str( conversion )
+
+    unitConversionMatrix.update( newConversions )
+
+    for op1 in unitOperators:
+        for op2 in unitOperators:
+            if op1 == op2:
+                continue
+
+            if ( op1, op2 ) in unitConversionMatrix:
+                while True:
+                    newConversion = False
+
+                    for op3 in unitOperators:
+                        if ( op3 == op1 ) or ( op3 == op2 ):
+                            continue
+
+                        if ( op1, op3 ) not in unitConversionMatrix and ( op2, op3 ) in unitConversionMatrix:
+                            conversion = fmul( mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ),
+                                               mpmathify( unitConversionMatrix[ ( op2, op3 ) ] ) )
+                            unitConversionMatrix[ ( op1, op3 ) ] = str( conversion )
+                            unitConversionMatrix[ ( op3, op1 ) ] = str( fdiv( 1, conversion ) )
+
+                            newConversion = True
+
+                    if not newConversion:
+                        break
+
+    #for i in unitConversionMatrix:
+    #    print( i, unitConversionMatrix[ i ] )
+
+    #for i in unitOperators:
+    #    print( i, unitOperators[ i ] )
 
 
 #//******************************************************************************
@@ -4651,10 +4709,6 @@ def handleUnitOperator( operator, valueList ):
     global currentUnitOperator
     global conversionMatrixInitialized
     global unitConversionMatrix
-
-    if not conversionMatrixInitialized:
-        initializeConversionMatrix( unitConversionMatrix )
-        conversionMatrixInitialized = True
 
     if currentUnitOperator == '':
         currentUnitOperator = operator
@@ -4701,7 +4755,6 @@ operatorAliases = {
     'chept?'      : 'cheptagonal?',
     'chex'        : 'chexagonal',
     'chex?'       : 'chexagonal?',
-    'cm'          : 'centimeter',
     'cnon'        : 'cnonagonal',
     'cnon?'       : 'cnonagonal?',
     'coct'        : 'coctagonal',
@@ -4731,17 +4784,14 @@ operatorAliases = {
     'hex'         : 'hexagonal',
     'hex?'        : 'hexagonal?',
     'hyper4'      : 'tetrate',
-    'inches'      : 'inch',
     'inv'         : 'reciprocal',
     'isdiv'       : 'isdivisible',
     'issqr'       : 'issquare',
     'linear'      : 'linearrecur',
+    'liter'       : 'litre',
     'log'         : 'ln',
-    'meters'      : 'meter',
-    'metre'       : 'meter',
-    'metres'      : 'meter',
+    'meter'       : 'metre',
     'mi'          : 'mile',
-    'miles'       : 'mile',
     'mod'         : 'modulo',
     'mult'        : 'multiply',
     'neg'         : 'negative',
@@ -4794,7 +4844,6 @@ operatorAliases = {
     'twin'        : 'twinprime',
     'twin?'       : 'twinprime?',
     'twin_'       : 'twinprime_',
-    'yards'       : 'yard',
     'zeroes'      : 'zero',
     '^'           : 'power',
     '~'           : 'not',
@@ -7783,6 +7832,7 @@ def main( ):
     global nestedListLevel
     global numerals
     global updateDicts
+    global unitOperators
 
     global balancedPrimes
     global cousinPrimes
@@ -7985,6 +8035,8 @@ def main( ):
     if not validateArguments( args.terms ):
         return
 
+    initializeConversionMatrix( unitConversionMatrix )
+
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
         if term in operatorAliases:
@@ -7999,7 +8051,7 @@ def main( ):
                 print( 'rpn:  index error for operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
                 break
-        elif term in unit_operators:
+        elif term in unitOperators:
             handleUnitOperator( term, currentValueList )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
