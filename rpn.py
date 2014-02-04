@@ -19,7 +19,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.6.1"
+RPN_VERSION = "3.6.2"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -28,6 +28,7 @@ defaultAccuracy = 10
 defaultCFTerms = 10
 defaultBitwiseGroupSize = 16
 defaultInputRadix = 10
+defaultOutputRadix = 10
 
 defaultNumerals = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -905,7 +906,7 @@ def solveOrder2( valueList ):
 #//
 #//  solveCubicPolynomial
 #//
-#//  http://www.1728.org/cubic2.htm
+#//  Adapted from http://www.1728.org/cubic2.htm
 #//
 #//******************************************************************************
 
@@ -988,27 +989,40 @@ def solveOrder3( valueList ):
 #//
 #//  solveQuarticPolynomial
 #//
-#//  http://www.1728.org/quartic2.htm
+#//  Adapted from http://www.1728.org/quartic2.htm
 #//
 #//******************************************************************************
 
-def solveQuarticPolynomial( a, b, c, d, e ):
-    if a == 0:
-        return solveCubicPolynomial( b, c, d, e )
-    # degenerate case, just return the two real and two imaginary 4th roots
-    elif b == 0 and c == 0 and d == 0:
-        x1 = root( fneg( e ), 4 )
-        x2 = fneg( root( fneg( e ), 4 ) )
-        x3 = mpc( 0, root( fneg( e ), 4 ) )
-        x4 = mpc( 0, fneg( root( fneg( e ), 4 ) ) )
+def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
+    # maybe it's really an order-3 polynomial
+    if _a == 0:
+        return solveCubicPolynomial( _b, _c, _d, _e )
+    # degenerate case, just return the two real and two imaginary 4th roots of the
+    # constant term divided by the 4th root of a
+    elif _b == 0 and _c == 0 and _d == 0:
+        e = fdiv( _e, _a )
+
+        f = root( _a, 4 )
+
+        x1 = fdiv( root( fneg( e ), 4 ), f )
+        x2 = fdiv( fneg( root( fneg( e ), 4 ) ), f )
+        x3 = fdiv( mpc( 0, root( fneg( e ), 4 ) ), f )
+        x4 = fdiv( mpc( 0, fneg( root( fneg( e ), 4 ) ) ), f )
 
         return [ x1, x2, x3, x4 ]
 
+    # otherwise we have a regular quartic to solve
+    a = 1
+    b = fdiv( _b, _a )
+    c = fdiv( _c, _a )
+    d = fdiv( _d, _a )
+    e = fdiv( _e, _a )
+
     # we turn the equation into a cubic that we can solve
     f = fsub( c, fdiv( fmul( 3, power( b, 2 ) ), 8 ) )
-    g = fsub( fadd( d, fdiv( power( b, 3 ), 8 ) ), fdiv( fmul( b, c ), 2 ) )
-    h = fadd( fsub( e, fdiv( fmul( 3, power( b, 4 ) ), 256 ) ),
-              fsub( fmul( power( b, 2 ), fdiv( c, 16 ) ), fdiv( fmul( b, d ), 4 ) ) )
+    g = fsum( [ d, fdiv( power( b, 3 ), 8 ), fneg( fdiv( fmul( b, c ), 2 ) ) ] )
+    h = fsum( [ e, fneg( fdiv( fmul( 3, power( b, 4 ) ), 256 ) ),
+                fmul( power( b, 2 ), fdiv( c, 16 ) ), fneg( fdiv( fmul( b, d ), 4 ) ) ] )
 
     y1, y2, y3 = solveCubicPolynomial( 1, fdiv( f, 2 ), fdiv( fsub( power( f, 2 ), fmul( 4, h ) ), 16 ),
                                        fneg( fdiv( power( g, 2 ), 64 ) ) )
@@ -1032,18 +1046,10 @@ def solveQuarticPolynomial( a, b, c, d, e ):
         root2 = y3
 
     # more variables...
-    if re( root1 ) > 0:
-        p = sqrt( root1 )
-    else:
-        p = fneg( sqrt( fneg( root1 ) ) )
-
-    if re( root2 ) > 0:
-        q = sqrt( root2 )
-    else:
-        q = fneg( sqrt( fneg( root2 ) ) )
-
+    p = sqrt( root1 )
+    q = sqrt( root2 )
     r = fdiv( fneg( g ), fprod( [ 8, p, q ] ) )
-    s = fneg( fdiv( b, fmul( 4, a ) ) )
+    s = fneg( fdiv( b, 4 ) )
 
     # put together the 4 roots
     x1 = fsum( [ p, q, r, s ] )
@@ -1067,8 +1073,7 @@ def solveOrder4( valueList ):
     b = valueList.pop( )
     a = valueList.pop( )
 
-    valueList.append( solveQuarticPolynomial( mpmathify( 1 ), fdiv( b, a ),
-                                              fdiv( c, a ), fdiv( d, a ), fdiv( e, a ) ) )
+    valueList.append( solveQuarticPolynomial( a, b, c, d, e ) )
 
 
 #//******************************************************************************
@@ -1599,8 +1604,8 @@ def main( ):
                          help="add commas to result, e.g., 1,234,567.0" )
     parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
                          help="display decimal places separated into groups (default: 0)" )
-    parser.add_argument( '-e', '--continued_fraction', nargs='?', type=int, action='store', default=0, const=defaultCFTerms,
-                         help="number of terms to represent as a continued fraction" )
+    parser.add_argument( '-e', '--continued_fraction', nargs='?', type=int, action='store', default=0,
+                         const=defaultCFTerms, help="number of terms to represent as a continued fraction" )
     parser.add_argument( '-f', '--factor', action='store_true',
                          help="compute prime factors of result (truncated to an integer)" )
     parser.add_argument( '-hh', '--more_help', action='store_true',
@@ -1614,14 +1619,15 @@ def main( ):
     parser.add_argument( '-o', '--octal', action='store_true', help="octal mode: equivalent to '-r8 -w9 -i3 -z'" )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
                          help="precision, i.e., number of significant digits to use" )
-    parser.add_argument( '-r', '--output_radix', type=str, action='store', default=10,
+    parser.add_argument( '-r', '--output_radix', type=str, action='store', default=defaultOutputRadix,
                          help="output in a different base (2 to 62, or phi)" )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
                          help="each digit is a space-delimited base-10 number" )
     parser.add_argument( '-u', '--find_poly', type=int, action='store', default=0,
                          help="find a polynomial such that P(x) ~= 0 of degree <= N" )
     parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=defaultBitwiseGroupSize,
-                         help="bitwise operations group values by this size (default: 16)" )
+                         help="bitwise operations group values by this size (default: " +
+                              str( defaultBitwiseGroupSize ) + ")" )
     parser.add_argument( '-x', '--hex', action='store_true', help="hex mode: equivalent to '-r16 -w16 -i4 -z'" )
     parser.add_argument( '-y', '--identify', action='store_true', help="identify the result (may repeat input)" )
     parser.add_argument( '-z', '--leading_zero', action='store_true', help="add leading zeros if needed with -i" )
