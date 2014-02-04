@@ -14,7 +14,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.8.0"
+RPN_VERSION = "2.9.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -169,7 +169,7 @@ def getE( valueList ):
 
 def add( valueList ):
     value = valueList.pop( )
-    valueList.append( valueList.pop( ) + value )
+    valueList.append( Decimal( valueList.pop( ) ) + value )
 
 
 #//******************************************************************************
@@ -214,7 +214,7 @@ def takeMean( valueList ):
 
 def subtract( valueList ):
     value = valueList.pop( )
-    valueList.append( valueList.pop( ) - value )
+    valueList.append( Decimal( valueList.pop( ) ) - value )
 
 
 #//******************************************************************************
@@ -225,7 +225,7 @@ def subtract( valueList ):
 
 def multiply( valueList ):
     value = valueList.pop( )
-    valueList.append( valueList.pop( ) * value )
+    valueList.append( Decimal( valueList.pop( ) ) * value )
 
 
 #//******************************************************************************
@@ -252,7 +252,7 @@ def multiplyAll( valueList ):
 
 def divide( valueList ):
     value = valueList.pop( )
-    valueList.append( valueList.pop( ) / value )
+    valueList.append( Decimal( valueList.pop( ) ) / value )
 
 
 #//******************************************************************************
@@ -264,6 +264,27 @@ def divide( valueList ):
 def exponentiate( valueList ):
     value = valueList.pop( )
     valueList.append( valueList.pop( ) ** value )
+
+
+#//******************************************************************************
+#//
+#//  hyperexponentiate
+#//
+#//  This function forces the second argument to an integer and runs at O( n )
+#//  based on the second argument.
+#//
+#//******************************************************************************
+
+def hyperexponentiate( valueList ):
+    value = valueList.pop( )
+
+    operand = valueList.pop( )
+    result = operand
+
+    for i in range( 1, int( value ) ):
+        result **= operand
+
+    valueList.append( result )
 
 
 #//******************************************************************************
@@ -399,7 +420,7 @@ def takeExp( valueList ):
 #//******************************************************************************
 
 def takeExp10( valueList ):
-    valueList.append( Decimal( 10 ) ** valueList.pop( ) )
+    valueList.append( Decimal( 10 ) ** Decimal( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -538,6 +559,32 @@ def convertDegreesToRadians( valueList ):
 
 #//******************************************************************************
 #//
+#//  takePowMod
+#//
+#//******************************************************************************
+
+def takePowMod( valueList ):
+    modulo = valueList.pop( )
+    exponent = valueList.pop( )
+    base = valueList.pop( )
+
+    valueList.append( pow( base, exponent, modulo ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthFibonacci
+#//
+#//******************************************************************************
+
+def getNthFibonacci( valueList ):
+    n = valueList.pop( )
+    sqrt5 = Decimal( 5 ) ** Decimal( 0.5 )
+    valueList.append( int( ( pow( 1 + sqrt5, n ) - pow( 1 - sqrt5, n ) ) / ( pow( 2, n ) * sqrt5 ) ) )
+
+
+#//******************************************************************************
+#//
 #//  expressions
 #//
 #//  Function names and number of args needed
@@ -552,6 +599,7 @@ expressions = {
     '*'      : [ multiply, 2 ],
     '/'      : [ divide, 2 ],
     '**'     : [ exponentiate, 2 ],
+    '***'    : [ hyperexponentiate, 2 ],
     '//'     : [ antiexponentiate, 2 ],
     'logxy'  : [ takeLogXY, 2 ],
     '!'      : [ takeFactorial, 1 ],
@@ -568,6 +616,8 @@ expressions = {
     'rad'    : [ convertDegreesToRadians, 1 ],
     'sqr'    : [ takeSquare, 1 ],
     'sqrt'   : [ takeSquareRoot, 1 ],
+    'powmod' : [ takePowMod, 3 ],
+    'fib'    : [ getNthFibonacci, 1 ],
     'sum'    : [ sum, 2 ],          # this one eats the whole stack
     'mult'   : [ multiplyAll, 2 ],  # this one eats the whole stack
     'mean'   : [ takeMean, 2 ]      # this one eats the whole stack
@@ -630,15 +680,22 @@ def main( ):
 '''
 Arguments are interpreted as Reverse Polish Notation.
 
-Supported binary operators:
-    +, -, *, /, ** (power), // (root), logxy
-
 Supported unary operators:
     !, cos, deg (radians to degrees), exp, exp10, gamma, lgamma, log, log10,
-    rad (degrees to radians), sin, sqr, sqrt, tan
+    rad (degrees to radians), sin, sqr, sqrt, tan, fib (compute nth
+    Fibonacci number)
+
+Supported binary operators:
+    +, -, *, /, ** (power), *** (hyperexponentiation), // (root), logxy
+
+Supported ternary operators:
+    powmod ( x ^ y % z )
 
 Supported multi operators (operate on all preceding operands):
     sum, mult, mean
+
+Supported constants:
+    e, pi
 
 rpn supports arbitrary precision using Decimal( ), however the following
 operators do not always provide arbitrary precision:
@@ -647,6 +704,12 @@ operators do not always provide arbitrary precision:
 For integers, rpn understands hexidecimal input of the form '0x....'.
 Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B' is
 interpreted as binary.
+
+Note:  Hyperexponentiation forces the second argument to an integer.
+
+Note:  To compute the nth Fibonacci number accurately, set the precision to
+       about 10% higher than the number of digits in the result.  I'd like to
+       add logic to do this automatically.
 ''',
                                       formatter_class=RawTextHelpFormatter )
 
@@ -669,7 +732,7 @@ interpreted as binary.
         outputRadix = args.output_radix
 
     if outputRadix < 2 or outputRadix > 36:
-        print( "rpn only supports output radix between 2 and 36" )
+        print( "rpn only supports an output radix from 2 to 36" )
         return
 
     if outputRadix != 10 and args.comma:
