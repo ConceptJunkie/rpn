@@ -28,7 +28,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.7.1'
+PROGRAM_VERSION = '5.7.2'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013, Rick Gutleber (rickg@his.com)'
 
@@ -175,8 +175,8 @@ unitOperators = {
     'rod' :
         UnitInfo( 'length', 'rod', 'rods', '', [ ] ),
 
-    'speed_of_light-second' :
-        UnitInfo( 'length', 'speed_of_light*second', 'light-seconds', '', [ ] ),
+    'light-second' :
+        UnitInfo( 'length', 'light*second', 'light-seconds', '', [ 'light-second' ] ),
 
     'yard' :
         UnitInfo( 'length', 'yard', 'yards', 'yd', [ '' ] ),
@@ -270,13 +270,16 @@ unitOperators = {
     'week' :
         UnitInfo( 'time', 'week', 'weeks', 'wk', [ ] ),
 
+    'year' :
+        UnitInfo( 'time', 'year', 'year', 'y', [ ] ),
+
     # velocity
 
     'meter/second' :
         UnitInfo( 'velocity', 'meter/second', 'meters per second', 'c', [ 'light' ] ),
 
-    'speed_of_light' :
-        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', 'c', [ 'light' ] ),
+    'light' :
+        UnitInfo( 'velocity', 'light', 'x_speed_of_light', 'c', [ 'speed_of_light' ] ),
 
     # volume
 
@@ -361,9 +364,9 @@ metricUnits = [
 
 timeUnits = [
     ( 'minute',     'minutes',      'm',        '60' ),
-    ( 'hour',       'hour',         'h',        '3600' ),
-    ( 'day',        'day',          'd',        '86400' ),
-    ( 'year',       'year',         'y',        '31557600' ),   # 365.25 days
+    ( 'hour',       'hours',        'h',        '3600' ),
+    ( 'day',        'days',         'd',        '86400' ),
+    ( 'year',       'years',        'y',        '31557600' ),   # 365.25 days
 ]
 
 
@@ -422,6 +425,7 @@ unitConversionMatrix = {
     ( 'cup',                   'fluid_ounce' )                     : '8',
     ( 'cup',                   'gill' )                            : '2',
     ( 'day',                   'hour' )                            : '24',
+    ( 'year',                  'day' )                             : '365.25',
     ( 'firkin',                'gallon' )                          : '9',
     ( 'fluid_ounce',           'tablespoon' )                      : '2',
     ( 'foot',                  'inch' )                            : '12',
@@ -438,7 +442,7 @@ unitConversionMatrix = {
     ( 'joule',                 'kilogram*meter^2/second^2' )       : '1',
     ( 'joule/second',          'watt' )                            : '1',
     ( 'league',                'mile' )                            : '3',
-    ( 'speed_of_light-second', 'meter' )                           : '299792458',
+    ( 'light-second',          'meter' )                           : '299792458',
     ( 'meter',                 'angstrom' )                        : '10000000000',
     ( 'meter',                 'micron' )                          : '1000000',
     ( 'mile',                  'foot' )                            : '5280',
@@ -453,7 +457,7 @@ unitConversionMatrix = {
     ( 'quart',                 'liter' )                           : '0.946352946',
     ( 'quart',                 'pint' )                            : '2',
     ( 'rod',                   'foot' )                            : '16.5',
-    ( 'speed_of_light',        'meter/second' )                    : '299792458',
+    ( 'light',                 'meter/second' )                    : '299792458',
     ( 'square_meter',          'barn' )                            : '1.0e28',
     ( 'square_meter',          'shed' )                            : '1.0e52',
     ( 'standard_gravity',      'meter/second^2' )                  : '9.806650',
@@ -693,6 +697,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
             unitRoot = unit[ : -7 ]
 
             unitInfo = unitOperators[ unit ]
+            rootUnitInfo = unitOperators[ unitRoot ]
 
             for timeUnit in timeUnits:
                 newUnit = unitRoot + '-' + timeUnit[ 0 ]
@@ -703,10 +708,11 @@ def initializeConversionMatrix( unitConversionMatrix ):
                 # We assume the abbrev ends with an s for second
                 if unitInfo.abbrev != '':
                     newAbbrev = unitInfo.abbrev[ : -1 ] + timeUnit[ 2 ]
-                    #print( newUnit, newAbbrev )
                     newAliases[ newAbbrev ] = newUnit
 
-                for alias in unitInfo.aliases:
+                for alias in rootUnitInfo.aliases:
+                    newAliases[ alias + '*' + timeUnit[ 0 ] ] = newUnit
+                    newAliases[ alias + '-' + timeUnit[ 0 ] ] = newUnit
                     newAliases[ alias + '*' + timeUnit[ 1 ] ] = newUnit
                     newAliases[ alias + '-' + timeUnit[ 1 ] ] = newUnit
 
