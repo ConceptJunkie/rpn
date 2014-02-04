@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-RPN_VERSION = '5.4.0'
+PROGRAM_VERSION = '5.4.2'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -47,7 +47,7 @@ defaultIntegerGrouping = 3
 
 basicCategories = {
 'options' :
-PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' +
+'rpn ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' +
 '''
 command-line options:
 
@@ -64,11 +64,14 @@ command-line options:
     -d [n], --decimal_grouping [n] -
         display decimal places separated into groups (default: ''' + str( defaultDecimalGrouping ) + ')' + '''
 
+    -g [n], --integer_grouping [n]
+        display integer separated into groups (default: ''' + str( defaultIntegerGrouping ) + ')' + '''
+
     -h, --help -
         displays basic help information
 
-    -i [n], --integer_grouping [n]
-        display integer separated into groups (default: ''' + str( defaultIntegerGrouping ) + ')' + '''
+    -i, --identify
+        identify the result (may repeat input)
 
     -n str, --numerals str
         characters set to use as numerals for output
@@ -96,9 +99,6 @@ command-line options:
 
     -x, --hex
         hex mode: equivalent to '-r16 -w16 -i4 -z'
-
-    -y, --identify
-        identify the result (may repeat input)
 
     -z, --leading_zero
         add leading zeros if needed with -i
@@ -192,7 +192,7 @@ Arguments:
     [ describe unit conversions in rpn ]
 ''',
 'about' :
-PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
+PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
 '''
 
 rpn is a command-line Reverse-Polish Notation calculator that was first written in C in 1988.
@@ -2670,6 +2670,7 @@ def makeHelp( basicCategories ):
     fileName = dataPath + os.sep + 'help.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
+        pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( basicCategories, pickleFile )
         pickle.dump( operatorHelp, pickleFile )
 
@@ -2681,6 +2682,11 @@ def makeHelp( basicCategories ):
 #//******************************************************************************
 
 def main( ):
+    print( PROGRAM_NAME, PROGRAM_VERSION )
+    print( PROGRAM_DESCRIPTION )
+    print( COPYRIGHT_MESSAGE )
+    print( )
+
     makeHelp( basicCategories )
 
 

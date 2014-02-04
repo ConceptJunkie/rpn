@@ -28,7 +28,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-RPN_VERSION = '5.4.1'
+PROGRAM_VERSION = '5.4.2'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -46,78 +46,78 @@ unitTypes = [
 ]
 
 unitOperators = {
-    'acre'              : [ { 'length' : 2 }, 'acres' ],
-    'are'               : [ { 'length' : 2 }, 'ares' ],
-    'area'              : [ { 'length' : 2 }, 'area' ],
-    'barn'              : [ { 'length' : 2 }, 'barns' ],
-    'shed'              : [ { 'length' : 2 }, 'sheds' ],
-    'square_meter'      : [ { 'length' : 2 }, 'square meters' ],
-    'square_yard'       : [ { 'length' : 2 }, 'square yards' ],
+    'acre'              : [ { 'length' : 2 }, 'acres', [ ] ],
+    'are'               : [ { 'length' : 2 }, 'ares', [ ] ],
+    'area'              : [ { 'length' : 2 }, 'area', [ ] ],
+    'barn'              : [ { 'length' : 2 }, 'barns', [ ] ],
+    'shed'              : [ { 'length' : 2 }, 'sheds', [ ] ],
+    'square_meter'      : [ { 'length' : 2 }, 'square meters', [ 'sqm', 'm^2', 'meter^2', 'meters^2' ] ],
+    'square_yard'       : [ { 'length' : 2 }, 'square yards', [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ] ],
 
-    'angstrom'          : [ { 'length' : 1 }, 'angstroms' ],
-    'astronomical_unit' : [ { 'length' : 1 }, 'astronomical units' ],
-    'chain'             : [ { 'length' : 1 }, 'chain' ],
-    'foot'              : [ { 'length' : 1 }, 'feet' ],
-    'furlong'           : [ { 'length' : 1 }, 'furlongs' ],
-    'inch'              : [ { 'length' : 1 }, 'inches' ],
-    'league'            : [ { 'length' : 1 }, 'leagues' ],
-    'length'            : [ { 'length' : 1 }, 'length' ],
-    'light_day'         : [ { 'length' : 1 }, 'light days' ],
-    'light_hour'        : [ { 'length' : 1 }, 'light hours' ],
-    'light_minute'      : [ { 'length' : 1 }, 'light minutes' ],
-    'light_second'      : [ { 'length' : 1 }, 'light seconds' ],
-    'light_year'        : [ { 'length' : 1 }, 'light years' ],
-    'meter'             : [ { 'length' : 1 }, 'meters' ],
-    'micron'            : [ { 'length' : 1 }, 'microns' ],
-    'mile'              : [ { 'length' : 1 }, 'miles' ],
-    'nautical_mile'     : [ { 'length' : 1 }, 'nautical miles' ],
-    'rod'               : [ { 'length' : 1 }, 'rods' ],
-    'yard'              : [ { 'length' : 1 }, 'yards' ],
+    'angstrom'          : [ { 'length' : 1 }, 'angstroms', [ ] ],
+    'astronomical_unit' : [ { 'length' : 1 }, 'astronomical units', [ 'au' ] ],
+    'chain'             : [ { 'length' : 1 }, 'chain', [ ] ],
+    'foot'              : [ { 'length' : 1 }, 'feet', [ 'ft' ] ],
+    'furlong'           : [ { 'length' : 1 }, 'furlongs', [ ] ],
+    'inch'              : [ { 'length' : 1 }, 'inches', [ ] ],
+    'league'            : [ { 'length' : 1 }, 'leagues', [ ] ],
+    'length'            : [ { 'length' : 1 }, 'length', [ ] ],
+    'light_day'         : [ { 'length' : 1 }, 'light days', [ ] ],
+    'light_hour'        : [ { 'length' : 1 }, 'light hours', [ ] ],
+    'light_minute'      : [ { 'length' : 1 }, 'light minutes', [ ] ],
+    'light_second'      : [ { 'length' : 1 }, 'light seconds', [ ] ],
+    'light_year'        : [ { 'length' : 1 }, 'light years', [ ] ],
+    'meter'             : [ { 'length' : 1 }, 'meters', [ 'm' ] ],
+    'micron'            : [ { 'length' : 1 }, 'microns', [ ] ],
+    'mile'              : [ { 'length' : 1 }, 'miles', [ 'mi' ] ],
+    'nautical_mile'     : [ { 'length' : 1 }, 'nautical miles', [ ] ],
+    'rod'               : [ { 'length' : 1 }, 'rods', [ ] ],
+    'yard'              : [ { 'length' : 1 }, 'yards', [ 'yd' ] ],
 
-    'grain'             : [ { 'mass' : 1 },   'grains' ],
-    'gram'              : [ { 'mass' : 1 },   'grams' ],
-    'mass'              : [ { 'mass' : 1 },   'mass' ],
-    'ounce'             : [ { 'mass' : 1 },   'ounces' ],
-    'pennyweight'       : [ { 'mass' : 1 },   'pennyweights' ],
-    'pound'             : [ { 'mass' : 1 },   'pounds' ],
-    'stone'             : [ { 'mass' : 1 },   'stone' ],
-    'ton'               : [ { 'mass' : 1 },   'ton' ],
-    'tonne'             : [ { 'mass' : 1 },   'tonnes' ],
-    'troy_ounce'        : [ { 'mass' : 1 },   'troy ounces' ],
-    'troy_pound'        : [ { 'mass' : 1 },   'troy pounds' ],
+    'grain'             : [ { 'mass' : 1 },   'grains', [ ] ],
+    'gram'              : [ { 'mass' : 1 },   'grams', [ 'g' ] ],
+    'mass'              : [ { 'mass' : 1 },   'mass', [ ] ],
+    'ounce'             : [ { 'mass' : 1 },   'ounces', [ 'oz' ] ],
+    'pennyweight'       : [ { 'mass' : 1 },   'pennyweights', [ ] ],
+    'pound'             : [ { 'mass' : 1 },   'pounds', [ 'lb' ] ],
+    'stone'             : [ { 'mass' : 1 },   'stone', [ ] ],
+    'ton'               : [ { 'mass' : 1 },   'ton', [ ] ],
+    'tonne'             : [ { 'mass' : 1 },   'tonnes', [ ] ],
+    'troy_ounce'        : [ { 'mass' : 1 },   'troy ounces', [ ] ],
+    'troy_pound'        : [ { 'mass' : 1 },   'troy pounds', [ ] ],
 
-    'day'               : [ { 'time' : 1 },   'days' ],
-    'fortnight'         : [ { 'time' : 1 },   'fortnights' ],
-    'hour'              : [ { 'time' : 1 },   'hours' ],
-    'minute'            : [ { 'time' : 1 },   'minutes' ],
-    'second'            : [ { 'time' : 1 },   'seconds' ],
-    'time'              : [ { 'time' : 1 },   'time' ],
-    'week'              : [ { 'time' : 1 },   'weeks' ],
+    'day'               : [ { 'time' : 1 },   'days', [ ] ],
+    'fortnight'         : [ { 'time' : 1 },   'fortnights', [ ] ],
+    'hour'              : [ { 'time' : 1 },   'hours', [ 'hr' ] ],
+    'minute'            : [ { 'time' : 1 },   'minutes', [ ] ],   # 'min' is already an operator
+    'second'            : [ { 'time' : 1 },   'seconds', [ ] ],   # 'sec' is already an operator
+    'time'              : [ { 'time' : 1 },   'time', [ ] ],
+    'week'              : [ { 'time' : 1 },   'weeks', [ 'wk' ] ],
 
-    'cubic_foot'        : [ { 'length' : 3 }, 'cubic feet' ],
-    'cubic_meter'       : [ { 'length' : 3 }, 'cubic meters' ],
-    'cup'               : [ { 'length' : 3 }, 'cups' ],
-    'fifth'             : [ { 'length' : 3 }, 'fifths' ],
-    'firkin'            : [ { 'length' : 3 }, 'firkins' ],
-    'fluid_ounce'       : [ { 'length' : 3 }, 'fluid ounces' ],
-    'gallon'            : [ { 'length' : 3 }, 'gallons' ],
-    'gill'              : [ { 'length' : 3 }, 'gills' ],
-    'liter'             : [ { 'length' : 3 }, 'liters' ],
-    'pinch'             : [ { 'length' : 3 }, 'pinches' ],
-    'pint'              : [ { 'length' : 3 }, 'pints' ],
-    'quart'             : [ { 'length' : 3 }, 'quarts' ],
-    'tablespoon'        : [ { 'length' : 3 }, 'tablespoons' ],
-    'teaspoon'          : [ { 'length' : 3 }, 'teaspoons' ],
-    'volume'            : [ { 'length' : 3 }, 'volumes' ],
+    'cubic_foot'        : [ { 'length' : 3 }, 'cubic feet', [ 'cuft', 'ft^3', 'foot^3', 'feet^3' ] ],
+    'cubic_meter'       : [ { 'length' : 3 }, 'cubic meters', [ 'cum', 'm^3', 'meter^3', 'meters^3' ] ],
+    'cup'               : [ { 'length' : 3 }, 'cups', [ ] ],
+    'fifth'             : [ { 'length' : 3 }, 'fifths', [ ] ],
+    'firkin'            : [ { 'length' : 3 }, 'firkins', [ ] ],
+    'fluid_ounce'       : [ { 'length' : 3 }, 'fluid ounces', [ 'floz' ] ],
+    'gallon'            : [ { 'length' : 3 }, 'gallons', [ 'gal' ] ],
+    'gill'              : [ { 'length' : 3 }, 'gills', [ ] ],
+    'liter'             : [ { 'length' : 3 }, 'liters', [ 'l' ] ],
+    'pinch'             : [ { 'length' : 3 }, 'pinches', [ ] ],
+    'pint'              : [ { 'length' : 3 }, 'pints', [ 'pt' ] ],
+    'quart'             : [ { 'length' : 3 }, 'quarts', [ 'qt' ] ],
+    'tablespoon'        : [ { 'length' : 3 }, 'tablespoons', [ 'tsp' ] ],
+    'teaspoon'          : [ { 'length' : 3 }, 'teaspoons', [ 'tbsp' ] ],
+    'volume'            : [ { 'length' : 3 }, 'volume', [ ] ],
 }
 
 
 metricUnits = [
-    ( 'meter',  'meters',  'm', [ 'metre' ] ),
-    ( 'second', 'seconds', 's', [ ] ),
-    ( 'liter',  'liters',  'l', [ 'litre' ] ),
-    ( 'gram',   'grams',   'g', [ 'gramme' ] ),
-    ( 'are',    'ares',    'a', [ ] ),
+    ( 'meter',  'meters',  'm', [ 'metre' ], [ 'metres' ] ),
+    ( 'second', 'seconds', 's', [ ], [ ] ),
+    ( 'liter',  'liters',  'l', [ 'litre' ], [ 'litres' ] ),
+    ( 'gram',   'grams',   'g', [ 'gramme' ], [ 'grammes' ] ),
+    ( 'are',    'ares',    'a', [ ], [ ] ),
 ]
 
 
@@ -222,14 +222,63 @@ def makeAliases( ):
 
         for prefix in metricPrefixes:
             unit = makeMetricUnit( prefix[ 0 ], metricUnit[ 0 ] )
-            newAliases[ prefix[ 1 ] + metricUnit[ 1 ] ] = unit
+            pluralUnit = makeMetricUnit( prefix[ 0 ], metricUnit[ 1 ] )
+            newAliases[ pluralUnit ] = unit                     # add plural alias
 
-            for alternateUnit in metricUnit[ 3 ]:
+            newAliases[ prefix[ 1 ] + metricUnit[ 2 ] ] = unit   # add SI abbreviation alias
+
+            for alternateUnit in metricUnit[ 3 ]:                # add alternate spelling alias
                 newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
+
+            for alternateUnit in metricUnit[ 4 ]:                # add alternate spelling plural alias
+                newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
+
+    for unit in unitOperators:
+        newAliases[ unitOperators[ unit ][ 1 ] ] = unit
+
+        #print( unit )
+        for abbrev in unitOperators[ unit ][ 2 ]:
+            newAliases[ abbrev ] = unit
 
     #for i in newAliases:
     #    print( i, newAliases[ i ] )
     return newAliases
+
+
+#//******************************************************************************
+#//
+#//  expandMetricUnits
+#//
+#//  Every metric unit needs to be permuted for all SI power types.  We need to
+#//  create conversions for each new type, as well as aliases.
+#..
+#//******************************************************************************
+
+def expandMetricUnits( ):
+    # expand metric measurements for all prefixes
+    newConversions = { }
+
+    for unit in metricUnits:
+        for prefix in metricPrefixes:
+            newName = makeMetricUnit( prefix[ 0 ], unit[ 0 ] )
+            newPlural = makeMetricUnit( prefix[ 0 ], unit[ 1 ] )
+
+            # constuct unit operator info (3 parts: unit type, plural name and alias list)
+            unitOperators[ newName ] = [ unitOperators[ unit[ 0 ] ][ 0 ], newPlural, [ prefix[ 1 ] + unit[ 2 ] ] ]
+
+            newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
+            unitConversionMatrix[ ( newName, unit[ 0 ] ) ] = str( newConversion )
+
+            for op1, op2 in unitConversionMatrix:
+                if ( op1 == unit[ 0 ] ) or ( op2 == unit[ 0 ] ):
+                    oldConversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
+
+                    if op1 == unit[ 0 ] and newName != op2:
+                        newConversions[ ( newName, op2 ) ] = str( fmul( newConversion, oldConversion  ) )
+                    elif op2 == unit[ 0 ] and newName != op1:
+                        newConversions[ ( op1, newName ) ] = str( fdiv( oldConversion, newConversion  ) )
+
+    return newConversions
 
 
 #//******************************************************************************
@@ -252,20 +301,40 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     # create area and volume units from all of the length units
     newOperators = { }
+    newAliases = { }
 
     for operator in unitOperators:
-        if unitOperators[ operator ][ 0 ] == { 'length' : 1 }:
+        unitInfo = unitOperators[ operator ]
+
+        if unitInfo[ 0 ] == { 'length' : 1 }:
             newOp = 'square_' + operator
 
             if newOp not in unitOperators:
-                newOperators[ newOp ] = [ { 'length' : 2 },
-                                            'square_' + unitOperators[ operator ][ 1 ] ]
+                abbrevs = [ ]
+
+                for abbrev in unitInfo[ 2 ]:
+                    abbrevs.append( 'sq' + abbrev )
+                    abbrevs.append( abbrev + '^2' )
+
+                newOperators[ newOp ] = [ { 'length' : 2 }, 'square_' + unitInfo[ 1 ], abbrevs ]
+
+                newAliases[ 'square_' + unitInfo[ 1 ] ] = newOp
+                newAliases[ operator +  '^2' ] = newOp
+                newAliases[ unitInfo[ 1 ] + '^2' ] = newOp
 
             newOp = 'cubic_'+ operator
 
             if newOp not in unitOperators:
-                newOperators[ newOp ] = [ { 'length' : 3 },
-                                            'cubic_' + unitOperators[ operator ][ 1 ] ]
+                newOperators[ newOp ] = [ { 'length' : 3 }, 'cubic_' + unitInfo[ 1 ], [ ] ]
+                newAliases[ 'cubic_' + unitInfo[ 1 ] ] = newOp
+
+                for abbrev in unitInfo[ 2 ]:
+                    abbrevs.append( 'cu' + abbrev )
+                    abbrevs.append( abbrev + '^3' )
+
+                newAliases[ 'square_' + unitInfo[ 1 ] ] = newOp
+                newAliases[ operator +  '^3' ] = newOp
+                newAliases[ unitInfo[ 1 ] + '^3' ] = newOp
 
     unitOperators.update( newOperators )
 
@@ -321,32 +390,15 @@ def initializeConversionMatrix( unitConversionMatrix ):
         if not newConversion:
             break
 
-    # expand metric measurements for all prefixes
-    newConversions = { }
+    unitConversionMatrix.update( expandMetricUnits( ) )
 
-    for unit in metricUnits:
-        for prefix in metricPrefixes:
-            newName = makeMetricUnit( prefix[ 0 ], unit[ 0 ] )
-            newPlural = makeMetricUnit( prefix[ 0 ], unit[ 1 ] )
-            unitOperators[ newName ] = [ unitOperators[ unit[ 0 ] ], newPlural ]
-            newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
-            unitConversionMatrix[ ( newName, unit[ 0 ] ) ] = str( newConversion )
-
-            for op1, op2 in unitConversionMatrix:
-                if ( op1 == unit[ 0 ] ) or ( op2 == unit[ 0 ] ):
-                    oldConversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
-
-                    if op1 == unit[ 0 ] and newName != op2:
-                        newConversions[ ( newName, op2 ) ] = str( fmul( newConversion, oldConversion  ) )
-                    elif op2 == unit[ 0 ] and newName != op1:
-                        newConversions[ ( op1, newName ) ] = str( fdiv( oldConversion, newConversion  ) )
-
-    unitConversionMatrix.update( newConversions )
-
-    newAliases = makeAliases( )
+    newAliases.update( makeAliases( ) )
 
     #for op1, op2 in unitConversionMatrix:
     #    print( op1, op2, unitConversionMatrix[ ( op1, op2 ) ] )
+
+    #for alias in newAliases:
+    #    print( alias, newAliases[ alias ] )
 
     print( '{:,} unit conversions'.format( len( unitConversionMatrix ) ) )
 
@@ -354,6 +406,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     fileName = dataPath + os.sep + 'units.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
+        pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( unitTypes, pickleFile )
         pickle.dump( unitOperators, pickleFile )
         pickle.dump( unitConversionMatrix, pickleFile )
@@ -367,6 +420,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 #//******************************************************************************
 
 def main( ):
+    print( PROGRAM_NAME, PROGRAM_VERSION )
     print( PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )

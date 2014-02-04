@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.4.1'
+PROGRAM_VERSION = '5.4.2'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -121,6 +121,32 @@ class Measurement( mpf ):
             self.units[ value ] -= amount
 
 
+    def multiply( self, value ):
+        self = Measurement( fmul( self, value ), self.units )
+
+        if isinstance( value, Measurement ):
+            for unit in value.units:
+                if unit not in self.units:
+                    self.units[ unit ] = value.units[ unit ]
+                else:
+                    self.units[ unit ] += value.units[ unit ]
+
+        return self
+
+
+    def divide( self, value ):
+        self = Measurement( fdiv( self, value ), self.units )
+
+        if isinstance( value, Measurement ):
+            for unit in value.units:
+                if unit not in self.units:
+                    self.units[ unit ] = -value.units[ unit ]
+                else:
+                    self.units[ unit ] -= value.units[ unit ]
+
+        return self
+
+
     def update( self, units ):
         if not isinstance( units, dict ):
             raise ValueError( 'dict expected' )
@@ -146,21 +172,26 @@ class Measurement( mpf ):
 
 
     def getTypes( self ):
-        unitTypes = { }
+        types = { }
 
         for unit in self.units:
             if unit not in unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
+            #print( 'unit: ', unit )
+
             unitType = unitOperators[ unit ][ 0 ]
 
-            for key in unitType:
-                if key in unitTypes:
-                    unitTypes[ key ] += unitType[ key ]
-                else:
-                    unitTypes[ key ] = unitType[ key ]
+            #print( 'unitType: ', unitType )
 
-        return unitTypes
+            for key in unitType:
+                #print( 'type: ', type( types ) )
+                if key in types:
+                    types[ key ] += unitType[ key ]
+                else:
+                    types[ key ] = unitType[ key ]
+
+        return types
 
 
     def getConversion( self, other ):
@@ -1039,6 +1070,42 @@ def getNthPolyPrime( n, poly ):
 
 #//******************************************************************************
 #//
+#//  divide
+#//
+#//  We used to be able to call fdiv directly, but now we want to also divide
+#//  the units.
+#//
+#//******************************************************************************
+
+def divide( n, k ):
+    if isinstance( n, Measurement ):
+        return n.divide( k )
+    elif isinstance( k, Measurement ):
+        return Measurement( n ).divide( k )
+    else:
+        return fdiv( n, k )
+
+
+#//******************************************************************************
+#//
+#//  multiply
+#//
+#//  We used to be able to call fmul directly, but now we want to also multiply
+#//  the units.
+#//
+#//******************************************************************************
+
+def multiply( n, k ):
+    if isinstance( n, Measurement ):
+        return n.multiply( k )
+    elif isinstance( k, Measurement ):
+        return Measurement( n ).multiply( k )
+    else:
+        return fmul( n, k )
+
+
+#//******************************************************************************
+#//
 #//  getNthAlternatingFactorial
 #//
 #//******************************************************************************
@@ -1811,6 +1878,12 @@ def getNthQuadrupletPrime( arg ):
 
     return p
 
+
+#//******************************************************************************
+#//
+#//  getNextQuintupletPrimeCandidate
+#//
+#//******************************************************************************
 
 def getNextQuintupletPrimeCandidate( p, f ):
     if f == 1:
@@ -4162,7 +4235,7 @@ def dumpOperators( ):
 
     print( )
 
-    return [ int( i ) for i in RPN_VERSION.split( '.' ) ]
+    return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
 
 
 #//******************************************************************************
@@ -4225,7 +4298,7 @@ def dumpStats( ):
 
     print( )
 
-    return [ int( i ) for i in RPN_VERSION.split( '.' ) ]
+    return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
 
 
 #//******************************************************************************
@@ -4887,7 +4960,6 @@ operatorAliases = {
     '/'           : 'divide',
     '//'          : 'root',
     '1/x'         : 'reciprocal',
-    'au'          : 'astronomical_unit',
     'average'     : 'mean',
     'avg'         : 'mean',
     'bal'         : 'balanced',
@@ -4924,9 +4996,7 @@ operatorAliases = {
     'divcount'    : 'countdiv',
     'fac'         : 'factorial',
     'fac2'        : 'doublefac',
-    'feet'        : 'foot',
     'fib'         : 'fibonacci',
-    'floz'        : 'fluid_ounce',
     'frac'        : 'fraction',
     'harm'        : 'harmonic',
     'hept'        : 'heptagonal',
@@ -4938,13 +5008,9 @@ operatorAliases = {
     'inv'         : 'reciprocal',
     'isdiv'       : 'isdivisible',
     'issqr'       : 'issquare',
-    'lb'          : 'pound',
     'left'        : 'shiftleft',
     'linear'      : 'linearrecur',
-    'litre'       : 'liter',
     'log'         : 'ln',
-    'metre'       : 'meter',
-    'mi'          : 'mile',
     'mod'         : 'modulo',
     'mult'        : 'multiply',
     'neg'         : 'negative',
@@ -4954,7 +5020,6 @@ operatorAliases = {
     'nonzeroes'   : 'nonzero',
     'oct'         : 'octagonal',
     'oct?'        : 'octagonal?',
-    'oz'          : 'ounce',
     'p!'          : 'primorial',
     'pent'        : 'pentagonal',
     'pent?'       : 'pentagonal?',
@@ -5155,7 +5220,7 @@ operators = {
     'decagonal?'    : [ lambda n: findNthPolygonalNumber( n, 10 ), 1 ],
     'degrees'       : [ radians, 1 ],
     'delannoy'      : [ getNthDelannoyNumber, 1 ],
-    'divide'        : [ fdiv, 2 ],
+    'divide'        : [ divide, 2 ],
     'divisors'      : [ getDivisors, 1 ],
     'dodecahedral'  : [ lambda n : polyval( [ 9/2, -9/2, 1, 0 ], n ), 1 ],
     'double'        : [ lambda n : sum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) ), 1 ],
@@ -5225,7 +5290,7 @@ operators = {
     'mertens'       : [ mertens, 0 ],
     'modulo'        : [ fmod, 2 ],
     'motzkin'       : [ getNthMotzkinNumber, 1 ],
-    'multiply'      : [ fmul, 2 ],
+    'multiply'      : [ multiply, 2 ],
     'narayana'      : [ lambda n, k: fdiv( fmul( binomial( n, k ),
                                                  binomial( n, fsub( k, 1 ) ) ), n ), 2 ],
     'negative'      : [ fneg, 1 ],
@@ -5683,6 +5748,47 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
 
 #//******************************************************************************
 #//
+#//  formatUnits
+#//
+#//******************************************************************************
+
+def formatUnits( measurement ):
+    unitString = ''
+    units = measurement.getUnits( )
+
+    for unit in units:
+        exponent = units[ unit ]
+
+        if exponent > 0:
+            if unitString != '':
+                unitString += ' '
+
+            unitString += unitOperators[ unit ][ 1 ]
+
+            if exponent > 1:
+                unitString += '^' + str( exponent )
+
+    negative = ''
+
+    for unit in units:
+        exponent = units[ unit ]
+
+        if exponent < 0:
+            if negative == '':
+                negative = ' per '
+            else:
+                negative += ' '
+
+            negative += unit
+
+            if exponent > 1:
+                negative += '^' + str( exponent )
+
+    return unitString + negative
+
+
+#//******************************************************************************
+#//
 #//  printParagraph
 #//
 #//******************************************************************************
@@ -5702,7 +5808,7 @@ def printParagraph( text, length = 79, indent = 0 ):
 
 def printGeneralHelp( basicCategories, operatorCategories ):
     print( )
-    print( PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION )
+    print( PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
     printParagraph(
@@ -5729,7 +5835,7 @@ def printGeneralHelp( basicCategories, operatorCategories ):
 
 def printTitleScreen( ):
     print(
-'\n' + PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
+'\n' + PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
 '''
 
 For more information use, 'rpn help'.''' )
@@ -5805,10 +5911,15 @@ def addAliases( operatorList ):
 def printHelp( helpArgs ):
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
+            helpVersion = pickle.load( pickleFile )
             basicCategories = pickle.load( pickleFile )
             operatorHelp = pickle.load( pickleFile )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to help file.  Help will be unavailable.' )
+        return
+
+    if helpVersion != PROGRAM_VERSION:
+        print( 'rpn:  help file version mismatch' )
         return
 
     operatorCategories = set( operatorHelp[ key ][ 0 ] for key in operatorHelp )
@@ -5986,7 +6097,7 @@ def main( ):
         return
 
     # set up the command-line options parser
-    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
+    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + PROGRAM_VERSION + ': ' +
                                       PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE, add_help=False,
                                       formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
@@ -5997,9 +6108,10 @@ def main( ):
     parser.add_argument( '-c', '--comma', action='store_true' )
     parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
                          const=defaultDecimalGrouping )
-    parser.add_argument( '-h', '--help', action='store_true' )
-    parser.add_argument( '-i', '--integer_grouping', nargs='?', type=int, action='store', default=0,
+    parser.add_argument( '-g', '--integer_grouping', nargs='?', type=int, action='store', default=0,
                          const=defaultIntegerGrouping )
+    parser.add_argument( '-h', '--help', action='store_true' )
+    parser.add_argument( '-i', '--identify', action='store_true' )
     parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals )
     parser.add_argument( '-o', '--octal', action='store_true' )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision )
@@ -6010,7 +6122,6 @@ def main( ):
     parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store',
                          default=defaultBitwiseGroupSize )
     parser.add_argument( '-x', '--hex', action='store_true' )
-    parser.add_argument( '-y', '--identify', action='store_true' )
     parser.add_argument( '-z', '--leading_zero', action='store_true' )
     parser.add_argument( '-!', '--print_options', action='store_true' )
     parser.add_argument( '-?', '--other_help', action='store_true' )
@@ -6133,12 +6244,17 @@ def main( ):
 
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
+            unitsVersion = pickle.load( pickleFile )
             unitTypes = pickle.load( pickleFile )
             unitOperators = pickle.load( pickleFile )
             unitConversionMatrix = pickle.load( pickleFile )
             operatorAliases.update( pickle.load( pickleFile ) )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
+
+    if unitsVersion != PROGRAM_VERSION:
+        print( 'rpn:  units data file version mismatch' )
+        return
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
@@ -6277,13 +6393,9 @@ def main( ):
                                              integerDelimiter, leadingZero, args.decimal_grouping,
                                              ' ', baseAsDigits, args.output_accuracy )
 
+                # handle the units if we are display a measurement
                 if isinstance( result, Measurement ):
-                    for unit in result.getUnits( ):
-                        outputString += ' ' + unitOperators[ unit ][ 1 ]
-                        exponent = result.getUnits( )[ unit ]
-
-                        if exponent > 1:
-                            outputString += '^' + str( exponent )
+                    outputString += ' ' + formatUnits( result )
 
                 print( outputString )
 
