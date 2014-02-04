@@ -29,20 +29,20 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.7.6'
+PROGRAM_VERSION = '5.7.7'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
 
 #//******************************************************************************
 #//
-#//  unitTypes
+#//  basicUnitTypes
 #//
 #//  unit type : conversion from the basic unit types (length, mass, time)
 #//
 #//******************************************************************************
 
-unitTypes = {
+basicUnitTypes = {
     'acceleration'  : 'length/time^2',
     'angle'         : 'angle',
     'area'          : 'length^2',
@@ -87,7 +87,7 @@ unitOperators = {
         UnitInfo( 'acceleration', 'galileo', 'galileos', '', [ ] ),
 
     'meter/second^2' :
-        UnitInfo( 'acceleration', 'meter/second^2', 'meters/second^2', 'm/s', [ ] ),
+        UnitInfo( 'acceleration', 'meter/second^2', 'meters/second^2', 'm/s^2', [ ] ),
 
     'standard_gravity' :
         UnitInfo( 'acceleration', 'standard_gravity', 'standard_gravities', 'G', [ ] ),
@@ -149,6 +149,9 @@ unitOperators = {
     'kilogram*meter^2/second^2' :
         UnitInfo( 'energy', 'kilogram*meter^2/second^2', 'kilogram*meter^2/second^2', 'kg*m^2/s^2', [ ] ),
 
+    'planck_energy' :
+        UnitInfo( 'energy', 'planck_energy', 'planck_energy', 'EP', [ ] ),
+
     'ton_of_TNT' :
         UnitInfo( 'energy', 'ton_of_TNT', 'tons_of_TNT', 'tTNT', [ ] ),
 
@@ -177,6 +180,9 @@ unitOperators = {
 
     'poundal' :
         UnitInfo( 'force', 'poundal', 'poundals', 'pdl', [ ] ),
+
+    'sthene' :
+        UnitInfo( 'force', 'sthene', 'sthenes', 'sn', [ ] ),
 
     # length
 
@@ -285,6 +291,9 @@ unitOperators = {
     'pica' :
         UnitInfo( 'length', 'pica', 'pica', '', [ ] ),
 
+    'planck_length' :
+        UnitInfo( 'length', 'planck_length', 'planck_length', 'lP', [ ] ),
+
     'point' :
         UnitInfo( 'length', 'point', 'points', '', [ ] ),
 
@@ -339,7 +348,7 @@ unitOperators = {
         UnitInfo( 'mass', 'pennyweight', 'pennyweights', 'dwt', [ ] ),
 
     'planck_mass' :
-        UnitInfo( 'mass', 'planck_mass', 'planck_masses', '', [ ] ),
+        UnitInfo( 'mass', 'planck_mass', 'planck_masses', 'mP', [ ] ),
 
     'pound' :
         UnitInfo( 'mass', 'pound', 'pounds', 'lb', [ ] ),
@@ -424,6 +433,9 @@ unitOperators = {
 
     'minute' :
         UnitInfo( 'time', 'minute', 'minutes', '', [ ] ),   # 'min' is already an operator
+
+    'planck_time' :
+        UnitInfo( 'time', 'planck_time', 'x planck_time', 'tP', [ ] ),
 
     'second' :
         UnitInfo( 'time', 'second', 'seconds', '', [ ] ),   # 'sec' is already an operator
@@ -695,6 +707,7 @@ unitConversionMatrix = {
     ( 'ngogn',                 'farshimmelt_ngogn' )               : '100000',
     ( 'oil_barrel',            'gallon' )                          : '42',
     ( 'ounce',                 'gram' )                            : '28.349523125',
+#    ( 'parsec',                'light-year' )                      : '3.261563776971',
     ( 'potrzebie',             'farshimmelt_potrzebie' )           : '100000',
     ( 'potrzebie',             'meter' )                           : '0.002263348517438173216473',  # see Mad #33
     ( 'pound',                 'grain' )                           : '7000',
@@ -710,6 +723,7 @@ unitConversionMatrix = {
     ( 'square_meter',          'shed' )                            : '1.0e52',
     ( 'standard_gravity',      'galileo' )                         : '980.6650',
     ( 'standard_gravity',      'meter/second^2' )                  : '9.806650',
+    ( 'sthene',                'newton' )                          : '1000',
     ( 'stone',                 'pound' )                           : '14',
     ( 'tablespoon',            'teaspoon' )                        : '3',
     ( 'teaspoon',              'pinch' )                           : '8',
@@ -751,6 +765,10 @@ unitConversionMatrix = {
     ( 'handbreadth',           'inch' )                            : '3',
     ( 'fingerbreadth',         'inch' )                            : '0.75',
     ( 'slug',                  'pound' )                           : '32.174048556',
+    ( 'planck_time',           'second' )                          : '5.39106e-44',
+    ( 'planck_energy',         'joule' )                           : '1.956e9',
+    ( 'planck_length',         'meter' )                           : '1.616199e-35',
+#    ( 'planck_charge',         'coulomb' )                         : '1.875545956e-18',
 }
 
 
@@ -778,7 +796,7 @@ def makeMetricUnit( prefix, unit ):
 def makeUnitTypeTable( unitOperators ):
     unitTypeTable = { }
 
-    for unitType in unitTypes:
+    for unitType in basicUnitTypes:
         unitTypeTable[ unitType ] = [ ]
 
     for unit in unitOperators:
@@ -1054,7 +1072,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     unitTypeTable = makeUnitTypeTable( unitOperators )
 
-    for unitType in unitTypes:
+    for unitType in basicUnitTypes:
         print( '    ', unitType, '({} operators)'.format( len( unitTypeTable[ unitType ] ) ) )
 
         while True:
@@ -1198,7 +1216,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
-        pickle.dump( unitTypes, pickleFile )
+        pickle.dump( basicUnitTypes, pickleFile )
         pickle.dump( unitOperators, pickleFile )
         pickle.dump( unitConversionMatrix, pickleFile )
         pickle.dump( newAliases, pickleFile )

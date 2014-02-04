@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.7.6'
+PROGRAM_VERSION = '5.7.7'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -486,13 +486,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'altsign'       : [
-'listOperators', 'alternates signs in the list by making every even element negative',
+'list_operators', 'alternates signs in the list by making every even element negative',
 '''
 ''',
 '''
 ''' ],
     'altsign2'      : [
-'listOperators', 'alternates signs in the list by making every odd element negative',
+'list_operators', 'alternates signs in the list by making every odd element negative',
 '''
 ''',
 '''
@@ -524,13 +524,13 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 '''
 ''' ],
     'aperynum'      : [
-'comnbinatorics', 'calculates the nth Apery number',
+'combinatorics', 'calculates the nth Apery number',
 '''
 ''',
 '''
 ''' ],
     'append'        : [
-'listOperators', 'appends the second list on to the first list',
+'list_operators', 'appends the second list on to the first list',
 '''
 ''',
 '''
@@ -790,7 +790,7 @@ numerical value, then rpn will assume a value of 1.
 '''
 ''' ],
     'count'         : [
-'listOperators', 'counts the elements of list n',
+'list_operators', 'counts the elements of list n',
 '''
 ''',
 '''
@@ -936,7 +936,7 @@ number.
 '''
 ''' ],
     'diffs'         : [
-'listOperators', 'returns a list with the differences between successive elements of list n',
+'list_operators', 'returns a list with the differences between successive elements of list n',
 '''
 ''',
 '''
@@ -1002,7 +1002,7 @@ number.
 '''
 ''' ],
     'element'       : [
-'listOperators', 'return a single element from a list',
+'list_operators', 'return a single element from a list',
 '''
 ''',
 '''
@@ -1059,7 +1059,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'flatten'   : [
-'listOperators', 'flattens a nested lists in list n to a single level',
+'list_operators', 'flattens a nested lists in list n to a single level',
 '''
 ''',
 '''
@@ -1101,7 +1101,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'georange'      : [
-'listOperators', 'generates a list of geometric progression of numbers',
+'list_operators', 'generates a list of geometric progression of numbers',
 '''
 ''',
 '''
@@ -1221,13 +1221,13 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'interleave'    : [
-'listOperators', 'interleaves lists n and k into a single list',
+'list_operators', 'interleaves lists n and k into a single list',
 '''
 ''',
 '''
 ''' ],
     'intersection'  : [
-'listOperators', 'returns the intersection of two lists',
+'list_operators', 'returns the intersection of two lists',
 '''
 ''',
 '''
@@ -1485,7 +1485,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'nonzero'   : [
-'listOperators', 'returns the indices of elements of list n that are not zero',
+'list_operators', 'returns the indices of elements of list n that are not zero',
 '''
 ''',
 '''
@@ -1847,13 +1847,13 @@ given the way calculating prime numbers is currently done.
 '''
 ''' ],
     'range'         : [
-'listOperators', 'generates a list of successive integers from n to k',
+'list_operators', 'generates a list of successive integers from n to k',
 '''
 ''',
 '''
 ''' ],
     'range2'        : [
-'listOperators', 'generates a list of arithmetic progression of numbers',
+'list_operators', 'generates a list of arithmetic progression of numbers',
 '''
 ''',
 '''
@@ -1883,7 +1883,7 @@ given the way calculating prime numbers is currently done.
 '''
 ''' ],
     'riesel'        : [
-'number theory', 'calculates the nth Riesel (or Woodall) number',
+'number_theory', 'calculates the nth Riesel (or Woodall) number',
 '''
 ''',
 '''
@@ -2047,7 +2047,7 @@ This operator is the equivalent of 'n 3 root'.
 '''
 ''' ],
     'sort'      : [
-'listOperators', 'sort the elements of list n numerically in ascending order',
+'list_operators', 'sort the elements of list n numerically in ascending order',
 '''
 The 'sort' operator gets applied recursively, so all sublists will be sorted as
 well.  I might have to reconsider that.
@@ -2063,7 +2063,7 @@ c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] flatten sort
 [ -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
     'sortdesc'  : [
-'listOperators', 'sorts the elements of list n numerically in descending order',
+'list_operators', 'sorts the elements of list n numerically in descending order',
 '''
 The 'sortdesc' operator works exactly like the sort operator, sorting the list
 (and all sublists), except in descending order.
@@ -2306,13 +2306,13 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'union'     : [
-'listOperators', 'returns the union of two lists',
+'list_operators', 'returns the union of two lists',
 '''
 ''',
 '''
 ''' ],
     'unique'    : [
-'listOperators', 'replaces list n with a list of its unique elements',
+'list_operators', 'replaces list n with a list of its unique elements',
 '''
 ''',
 '''
@@ -2348,7 +2348,7 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'zero'          : [
-'listOperators', 'returns a list of the indices of elements in list n that are zero',
+'list_operators', 'returns a list of the indices of elements in list n that are zero',
 '''
 ''',
 '''

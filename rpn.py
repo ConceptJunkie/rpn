@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.7.6'
+PROGRAM_VERSION = '5.7.7'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -247,6 +247,29 @@ def divideUnits( units1, units2 ):
 
 #//******************************************************************************
 #//
+#//  getBasicUnitTypes
+#//
+#//******************************************************************************
+
+def getBasicUnitTypes( unitTypes ):
+    result = { }
+
+    for unitType in unitTypes:
+        basicUnits = parseUnitString( basicUnitTypes[ unitType ] )
+
+        exponent = unitTypes[ unitType ]
+
+        if exponent != 1:   # handle exponent
+            for unitType2 in basicUnits:
+                basicUnits[ unitType2 ] *= exponent
+
+        result = combineUnits( result, basicUnits )
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  simplifyUnits
 #//
 #//******************************************************************************
@@ -377,6 +400,8 @@ class Measurement( mpf ):
                 return True
             elif self.getSimpleTypes( ) == other.getSimpleTypes( ):
                 return True
+            elif self.getBasicTypes( ) == other.getBasicTypes( ):
+                return True
             else:
                 return False
         else:
@@ -401,9 +426,9 @@ class Measurement( mpf ):
             unitType = getUnitType( unit )
 
             if unitType in types:
-                types[ unitType ] += 1
+                types[ unitType ] += self.units[ unit ]
             else:
-                types[ unitType ] = 1
+                types[ unitType ] = self.units[ unit ]
 
         return types
 
@@ -411,6 +436,8 @@ class Measurement( mpf ):
     def getSimpleTypes( self ):
         return simplifyUnits( self.units )
 
+    def getBasicTypes( self ):
+        return getBasicUnitTypes( self.getTypes( ) )
 
     def getConversion( self, other ):
         if self.isCompatible( other ):
@@ -5211,10 +5238,8 @@ def convertUnits( unit1, unit2 ):
     global unitConversionMatrix
 
     #print( )
-    #print( 'unit1: ', unit1 )
-    #print( 'unit1 units: ', makeUnitString( unit1.getUnits( ) ) )
-    #print( 'unit2: ', unit2 )
-    #print( 'unit2 units: ', makeUnitString( unit2.getUnits( ) ) )
+    #print( 'unit1:', unit1.getTypes( ) )
+    #print( 'unit2:', unit2.getTypes( ) )
 
     conversion = unit1.getConversion( unit2 )
 
@@ -5248,6 +5273,7 @@ operatorAliases = {
     'bal_'        : 'balanced_',
     'bits'        : 'countbits',
     'cbrt'        : 'root3',
+    'cc'          : 'cubic_centimeter',
     'ccube'       : 'centeredcube',
     'cdec'        : 'cdecagonal',
     'cdec?'       : 'cdecagonal?',
@@ -5277,6 +5303,7 @@ operatorAliases = {
     'divcount'    : 'countdiv',
     'fac'         : 'factorial',
     'fac2'        : 'doublefac',
+    'fermi'       : 'femtometer',
     'fib'         : 'fibonacci',
     'frac'        : 'fraction',
     'harm'        : 'harmonic',
@@ -6367,7 +6394,7 @@ def main( ):
     global numerals
     global updateDicts
     global unitOperators
-    global unitTypes
+    global basicUnitTypes
     global unitConversionMatrix
     global compoundUnits
 
@@ -6575,7 +6602,7 @@ def main( ):
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
             unitsVersion = pickle.load( pickleFile )
-            unitTypes = pickle.load( pickleFile )
+            basicUnitTypes = pickle.load( pickleFile )
             unitOperators = pickle.load( pickleFile )
             unitConversionMatrix = pickle.load( pickleFile )
             operatorAliases.update( pickle.load( pickleFile ) )
