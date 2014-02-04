@@ -14,6 +14,7 @@
 
 import bz2
 import contextlib
+import itertools
 import os
 import pickle
 import string
@@ -28,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.7.4'
+PROGRAM_VERSION = '5.7.5'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -148,11 +149,17 @@ unitOperators = {
     'chain' :
         UnitInfo( 'length', 'chain', 'chains', '', [ ] ),
 
+    'farshimmelt_potrzebie' :
+        UnitInfo( 'length', 'farshimmelt_potrzebie', 'farshimmelt potrzebies', 'fp', [ 'far-potrzebie' ] ),
+
     'foot' :
         UnitInfo( 'length', 'foot', 'feet', 'ft', [ ] ),
 
     'furlong' :
         UnitInfo( 'length', 'furlong', 'furlongs', '', [ ] ),
+
+    'furshlugginer_potrzebie' :
+        UnitInfo( 'length', 'furshlugginer_potrzebie', 'furshlugginer potrzebies', 'Fp', [ 'Fur-potrzebie' ] ),
 
     'inch' :
         UnitInfo( 'length', 'inch', 'inches', 'in', [ ] ),
@@ -178,13 +185,25 @@ unitOperators = {
     'light-second' :
         UnitInfo( 'length', 'light*second', 'light-seconds', '', [ 'light-second' ] ),
 
+    'potrzebie' :
+        UnitInfo( 'length', 'potrzebie', 'potrzebies', 'p', [ '' ] ),
+
     'yard' :
         UnitInfo( 'length', 'yard', 'yards', 'yd', [ '' ] ),
 
     # mass
 
+    'blintz' :
+        UnitInfo( 'mass', 'blintz', 'blintzes', 'b', [ '' ] ),
+
     'carat' :
         UnitInfo( 'mass', 'carat', 'carats', 'kt', [ ] ),
+
+    'farshimmelt_blintz' :
+        UnitInfo( 'mass', 'farshimmelt_blintz', 'farshimmelt blintzes', 'fb', [ 'far-blintz' ] ),
+
+    'furshlugginer_blintz' :
+        UnitInfo( 'mass', 'furshlugginer_blintz', 'furshlugginer blintzes', 'Fb', [ 'Fur-blintz' ] ),
 
     'grain' :
         UnitInfo( 'mass', 'grain', 'grains', 'gr', [ ] ),
@@ -252,6 +271,12 @@ unitOperators = {
 
     # time
 
+    'clarke' :
+        UnitInfo( 'time', 'clarke', 'clarkes', '', [ ] ),
+
+    'cowznofski' :
+        UnitInfo( 'time', 'cowznofski', 'cowznofskis', '', [ ] ),
+
     'day' :
         UnitInfo( 'time', 'day', 'days', '', [ ] ),
 
@@ -261,6 +286,15 @@ unitOperators = {
     'hour' :
         UnitInfo( 'time', 'hour', 'hours', 'hr', [ ] ),
 
+    'kovac' :
+        UnitInfo( 'time', 'kovac', 'kovacs', '', [ ] ),
+
+    'martin' :
+        UnitInfo( 'time', 'martin', 'martins', '', [ ] ),
+
+    'mingo' :
+        UnitInfo( 'time', 'mingo', 'mingoes', '', [ ] ),
+
     'minute' :
         UnitInfo( 'time', 'minute', 'minutes', '', [ ] ),   # 'min' is already an operator
 
@@ -269,6 +303,12 @@ unitOperators = {
 
     'week' :
         UnitInfo( 'time', 'week', 'weeks', 'wk', [ ] ),
+
+    'wolverton' :
+        UnitInfo( 'time', 'wolverton', 'wolvertons', '', [ ] ),
+
+    'wood' :
+        UnitInfo( 'time', 'wood', 'woods', '', [ ] ),
 
     'year' :
         UnitInfo( 'time', 'year', 'year', 'y', [ ] ),
@@ -304,6 +344,12 @@ unitOperators = {
     'fluid_ounce' :
         UnitInfo( 'volume', 'fluid_ounce', 'fluid_ounces', 'floz', [ ] ),
 
+    'farshimmelt_ngogn' :
+        UnitInfo( 'volume', 'farshimmelt_ngogn', 'farshimmelt ngogns', 'fn', [ 'far-ngogn' ] ),
+
+    'furshlugginer_ngogn' :
+        UnitInfo( 'volume', 'furshlugginer_ngogn', 'furshlugginer ngogns', 'Fn', [ 'Fur-ngogn' ] ),
+
     'gallon' :
         UnitInfo( 'volume', 'gallon', 'gallons', 'gal', [ ] ),
 
@@ -312,6 +358,9 @@ unitOperators = {
 
     'liter' :
         UnitInfo( 'volume', 'liter', 'liters', 'l', [ ] ),
+
+    'ngogn' :
+        UnitInfo( 'volume', 'ngogn', 'ngogns', 'n', [ '' ] ),
 
     'pinch' :
         UnitInfo( 'volume', 'pinch', 'pinches', '', [ ] ),
@@ -352,7 +401,10 @@ metricUnits = [
     ( 'calorie',        'calories',         'cal',  [ ], [ ] ),
     ( 'ton_of_TNT',     'tons_of_TNT',      'tTNT', [ ], [ ] ),
     ( 'watt-second',    'watt-seconds',     'Ws',   [ ], [ ] ),
-    ( 'pascal'      ,   'pascal',           'Pa',   [ ], [ ] ),
+    ( 'pascal',         'pascals',          'Pa',   [ ], [ ] ),
+    ( 'blintz',         'blintzes',         'b',    [ ], [ ] ),
+    ( 'ngogn',          'ngogns',           'n',    [ ], [ ] ),
+    ( 'potrzebie',      'potrzebies',       'p',    [ ], [ ] ),
 ]
 
 
@@ -416,6 +468,8 @@ unitConversionMatrix = {
     ( 'astronomical_unit',     'meter' )                           : '149597870700',
     ( 'atmosphere',            'pascal' )                          : '101325',
     ( 'bar',                   'pascal' )                          : '100000',
+    ( 'blintz',                'farshimmelt_blintz' )              : '100000',
+    ( 'blintz',                'gram' )                            : '36.42538631',
     ( 'BTU',                   'joule' )                           : '1054.5',
     ( 'calorie',               'joule' )                           : '4.184',
     ( 'carat',                 'grain' )                           : '3.1666666666666666666666',
@@ -425,12 +479,14 @@ unitConversionMatrix = {
     ( 'cup',                   'fluid_ounce' )                     : '8',
     ( 'cup',                   'gill' )                            : '2',
     ( 'day',                   'hour' )                            : '24',
-    ( 'year',                  'day' )                             : '365.25',
     ( 'firkin',                'gallon' )                          : '9',
     ( 'fluid_ounce',           'tablespoon' )                      : '2',
     ( 'foot',                  'inch' )                            : '12',
     ( 'fortnight',             'day' )                             : '14',
     ( 'furlong',               'yard' )                            : '220',
+    ( 'furshlugginer_blintz',  'blintz' )                          : '1000000',
+    ( 'furshlugginer_ngogn',   'ngogn' )                           : '1000000',
+    ( 'furshlugginer_potrzebie', 'potrzebie' )                     : '1000000',
     ( 'gallon',                'fifth' )                           : '5',
     ( 'gallon',                'quart' )                           : '4',
     ( 'horsepower',            'watt' )                            : '745.69987158227022',
@@ -442,14 +498,19 @@ unitConversionMatrix = {
     ( 'joule',                 'kilogram*meter^2/second^2' )       : '1',
     ( 'joule/second',          'watt' )                            : '1',
     ( 'league',                'mile' )                            : '3',
+    ( 'light',                 'meter/second' )                    : '299792458',
     ( 'light-second',          'meter' )                           : '299792458',
+    ( 'liter',                 'ngogn' )                           : '86.2477899004',
     ( 'meter',                 'angstrom' )                        : '10000000000',
     ( 'meter',                 'micron' )                          : '1000000',
     ( 'mile',                  'foot' )                            : '5280',
     ( 'minute',                'second' )                          : '60',
     ( 'mmHg',                  'pascal' )                          : '133.3224',        # approx.
     ( 'nautical_mile',         'meter' )                           : '1852',
+    ( 'ngogn',                 'farshimmelt_ngogn' )               : '100000',
     ( 'ounce',                 'gram' )                            : '28.349523125',
+    ( 'potrzebie',             'farshimmelt_potrzebie' )           : '100000',
+    ( 'potrzebie',             'meter' )                           : '0.002263348517438173216473',  # see Mad #33
     ( 'pound',                 'grain' )                           : '7000',
     ( 'pound',                 'ounce' )                           : '16',
     ( 'psi',                   'pascal' )                          : '6894.757',        # approx.
@@ -457,7 +518,6 @@ unitConversionMatrix = {
     ( 'quart',                 'liter' )                           : '0.946352946',
     ( 'quart',                 'pint' )                            : '2',
     ( 'rod',                   'foot' )                            : '16.5',
-    ( 'light',                 'meter/second' )                    : '299792458',
     ( 'square_meter',          'barn' )                            : '1.0e28',
     ( 'square_meter',          'shed' )                            : '1.0e52',
     ( 'standard_gravity',      'meter/second^2' )                  : '9.806650',
@@ -473,6 +533,14 @@ unitConversionMatrix = {
     ( 'watt-second',           'joule' )                           : '1',
     ( 'week',                  'day' )                             : '7',
     ( 'yard',                  'foot' )                            : '3',
+    ( 'year',                  'day' )                             : '365.25',
+    ( 'clarke',                'day' )                             : '1',
+    ( 'kovac',                 'wolverton' )                       : '1000',
+    ( 'clarke',                'wolverton' )                       : '100000',
+    ( 'martin',                'kovac' )                           : '100',
+    ( 'wood',                  'martin' )                          : '100',
+    ( 'mingo',                 'clarke' )                          : '10',
+    ( 'cowznofski',            'mingo' )                           : '10',
 }
 
 
@@ -576,6 +644,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     mp.dps = 50
 
     # reverse each conversion
+    print( 'Reversing each conversion...' )
+
     newConversions = { }
 
     for op1, op2 in unitConversionMatrix:
@@ -585,6 +655,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     unitConversionMatrix.update( newConversions )
 
     # create map for compound units based on the conversion matrix
+    print( 'Mapping compound units...' )
+
     compoundUnits = { }
 
     for unit1, unit2 in unitConversionMatrix:
@@ -592,8 +664,15 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
         if any( ( c in chars ) for c in unit2 ):
             compoundUnits[ unit1 ] = unit2
+            print( 'compound unit: ', unit1, unit2 )
+
+    print( )
+    print( 'Expanding metric units against the list of SI prefixes' )
+    unitConversionMatrix.update( expandMetricUnits( ) )
 
     # create area and volume units from all of the length units
+    print( 'Creating area and volume units for all length units...' )
+
     newOperators = { }
     newAliases = { }
 
@@ -638,6 +717,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     unitOperators.update( newOperators )
 
     # add new conversions for the new area and volume units
+    print( 'Adding new conversions for the new area and volume units...' )
+
     newConversions = { }
 
     for op1, op2 in unitConversionMatrix:
@@ -649,46 +730,63 @@ def initializeConversionMatrix( unitConversionMatrix ):
     unitConversionMatrix.update( newConversions )
 
     # extrapolate transitive conversions
+    print( 'Extrapolating transitive conversions for', len( unitOperators ), 'units...' )
+
+    starting = 0
+
     while True:
         newConversion = False
 
-        for op1 in unitOperators:
-            for op2 in unitOperators:
-                if ( op1, op2 ) in unitConversionMatrix:
-                    #print( )
-                    #print( ( op1, op2 ), ': ', unitConversionMatrix[ ( op1, op2 ) ] )
+        starting += 1
+        print( 'Pass', starting, '...' )
 
-                    for op3 in unitOperators:
-                        if ( op3 == op1 ) or ( op3 == op2 ):
-                            continue
+        for op1, op2 in itertools.combinations( unitOperators, 2 ):
+            if ( op1, op2 ) in unitConversionMatrix:
+                #print( )
+                #print( ( op1, op2 ), ': ', unitConversionMatrix[ ( op1, op2 ) ] )
 
-                        conversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
+                for op3 in unitOperators:
+                    # we can ignore duplicate operators
+                    if ( op3 == op1 ) or ( op3 == op2 ):
+                        continue
 
-                        if ( op1, op3 ) not in unitConversionMatrix and ( op2, op3 ) in unitConversionMatrix:
-                            #print( 'transitive: ', ( op2, op3 ), unitConversionMatrix[ ( op2, op3 ) ] )
-                            newConversion = fmul( conversion, mpmathify( unitConversionMatrix[ ( op2, op3 ) ] ) )
-                            #print( ( op1, op3 ), newConversion )
-                            unitConversionMatrix[ ( op1, op3 ) ] = str( newConversion )
-                            #print( ( op3, op1 ), fdiv( 1, newConversion ) )
-                            unitConversionMatrix[ ( op3, op1 ) ] = str( fdiv( 1, newConversion ) )
-                            newConversion = True
+                    # we can shortcut if the types are not compatible
+                    if unitOperators[ op3 ].unitType != unitOperators[ op1 ].unitType:
+                        continue
 
-                        elif ( op2, op3 ) not in unitConversionMatrix and ( op1, op3 ) in unitConversionMatrix:
-                            #print( 'transitive: ', ( op1, op3 ), unitConversionMatrix[ ( op1, op3 ) ] )
-                            newConversion = fdiv( mpmathify( unitConversionMatrix[ ( op1, op3 ) ] ), conversion )
-                            #print( ( op2, op3 ), newConversion )
-                            unitConversionMatrix[ ( op2, op3 ) ] = str( newConversion )
-                            #print( ( op3, op2 ), fdiv( 1, newConversion ) )
-                            unitConversionMatrix[ ( op3, op2 ) ] = str( fdiv( 1, newConversion ) )
+                    conversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
 
-                            newConversion = True
+                    if ( op1, op3 ) not in unitConversionMatrix and ( op2, op3 ) in unitConversionMatrix:
+                        #print( 'transitive: ', ( op2, op3 ), unitConversionMatrix[ ( op2, op3 ) ] )
+                        newConversion = fmul( conversion, mpmathify( unitConversionMatrix[ ( op2, op3 ) ] ) )
+                        #print( ( op1, op3 ), newConversion )
+                        unitConversionMatrix[ ( op1, op3 ) ] = str( newConversion )
+                        #print( ( op3, op1 ), fdiv( 1, newConversion ) )
+                        unitConversionMatrix[ ( op3, op1 ) ] = str( fdiv( 1, newConversion ) )
+
+                        newConversion = True
+                    elif ( op2, op3 ) not in unitConversionMatrix and ( op1, op3 ) in unitConversionMatrix:
+                        #print( 'transitive: ', ( op1, op3 ), unitConversionMatrix[ ( op1, op3 ) ] )
+                        newConversion = fdiv( mpmathify( unitConversionMatrix[ ( op1, op3 ) ] ), conversion )
+                        #print( ( op2, op3 ), newConversion )
+                        unitConversionMatrix[ ( op2, op3 ) ] = str( newConversion )
+                        #print( ( op3, op2 ), fdiv( 1, newConversion ) )
+                        unitConversionMatrix[ ( op3, op2 ) ] = str( fdiv( 1, newConversion ) )
+
+                        newConversion = True
+
+                print( len( unitConversionMatrix ), starting, end='\r' )
 
         if not newConversion:
             break
 
+    print( )
+
     unitConversionMatrix.update( expandMetricUnits( ) )
 
     # add new operators for compound time units
+    print( 'Expanding compound time units...' )
+
     newUnitOperators = { }
 
     for unit in unitOperators:
@@ -726,6 +824,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     unitOperators.update( newUnitOperators )
 
     # add new conversions for compound time units
+    print( 'Adding new conversions for compound time units...' )
+
     newUnitConversions = { }
 
     for unit in unitOperators:
@@ -754,6 +854,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     unitConversionMatrix.update( newUnitConversions )
 
     # make some more aliases
+    print( 'Making some more aliases...' )
+
     newAliases.update( makeAliases( ) )
 
     #for op1, op2 in unitConversionMatrix:
@@ -765,7 +867,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     #for alias in newAliases:
     #    print( alias, newAliases[ alias ] )
 
-    print( '{:,} unit conversions'.format( len( unitConversionMatrix ) ) )
+    print( 'Saving everything...' )
 
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
     fileName = dataPath + os.sep + 'units.pckl.bz2'
@@ -777,6 +879,12 @@ def initializeConversionMatrix( unitConversionMatrix ):
         pickle.dump( unitConversionMatrix, pickleFile )
         pickle.dump( newAliases, pickleFile )
         pickle.dump( compoundUnits, pickleFile )
+
+    print( )
+    print( '{:,} unit operators'.format( len( unitOperators ) ) )
+    print( '{:,} unit conversions'.format( len( unitConversionMatrix ) ) )
+    print( '{:,} aliases'.format( len( newAliases ) ) )
+    print( '{:,} compound units'.format( len( compoundUnits ) ) )
 
 
 #//******************************************************************************

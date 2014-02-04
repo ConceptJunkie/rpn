@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.7.4'
+PROGRAM_VERSION = '5.7.5'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -175,7 +175,7 @@ def getUnitType( unit ):
     if unit in unitOperators:
         return unitOperators[ unit ].unitType
     else:
-        return unit 
+        return unit
 
 
 #//******************************************************************************
@@ -188,29 +188,7 @@ def getSimpleUnitType( unit ):
     if unit in unitOperators:
         return unitOperators[ unit ].representation
     else:
-        return unit 
-
-
-#//******************************************************************************
-#//
-#//  getSimpleUnitTypes
-#//
-#//  not sure what this should do, or is doing...
-#//
-#//******************************************************************************
-
-def getSimpleUnitTypes( unitTypes ):
-    simpleTypes = { }
-
-    for unit in unitTypes:
-        simple = parseUnitString( getSimpleUnitType( unit ) )
-
-        for type in simple:
-            simple[ type ] *= unitTypes[ unit ]
-
-        combineUnits( simpleTypes, simple )
-
-    return simpleTypes
+        return unit
 
 
 #//******************************************************************************
@@ -275,9 +253,9 @@ def divideUnits( units1, units2 ):
 
 def simplifyUnits( units ):
     result = { }
-    
+
     for unit in units:
-        simpleUnits = parseUnitString( unitOperators[ unit ].representation ) 
+        simpleUnits = parseUnitString( unitOperators[ unit ].representation )
 
         exponent = units[ unit ]
 
@@ -285,7 +263,7 @@ def simplifyUnits( units ):
             for unit2 in simpleUnits:
                 simpleUnits[ unit2 ] *= exponent
 
-        result = combineUnits( result, simpleUnits )        
+        result = combineUnits( result, simpleUnits )
 
     return result
 
@@ -431,7 +409,7 @@ class Measurement( mpf ):
 
 
     def getSimpleTypes( self ):
-        return getSimpleUnitTypes( self.units )
+        return simplifyUnits( self.units )
 
 
     def getConversion( self, other ):
@@ -3088,11 +3066,11 @@ def getNSphereRadius( n, k ):
 
     if measurementType == 'length':
         return 1
-    elif measurementType == 'length^2':
+    elif measurementType == 'area':
         return fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                            fmul( n, power( pi, fdiv( n, 2 ) ) ) ),
                      root( k, fsub( n, 1 ) ) )
-    elif measurementType == 'length^3':
+    elif measurementType == 'volume':
         return root( fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                                  power( pi, fdiv( n, 2 ) ) ), k ), 3 )
     else:
@@ -6092,9 +6070,13 @@ def formatUnits( measurement ):
     units = simplifyUnits( measurement.getUnits( ) )
     value = mpf( measurement )
 
+    #print( units )
+
     # now that we've expanded the compound units, let's format...
     for unit in units:
         exponent = units[ unit ]
+
+        #print( unit, exponent )
 
         if exponent > 0:
             if unitString != '':
@@ -6123,6 +6105,8 @@ def formatUnits( measurement ):
 
             if exponent > 1:
                 negative += '^' + str( exponent )
+            elif exponent < -1:
+                negative += '^' + str( -exponent )
 
     result = ''
 
@@ -6652,12 +6636,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            #except ValueError as error:
-            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+            except ValueError as error:
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -6687,15 +6671,15 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            #except ValueError as error:
-            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except IndexError as error:
-            #    print( 'rpn:  index error for operator at arg ' + format( index ) +
-            #           '.  Are your arguments in the right order?' )
+            except ValueError as error:
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except IndexError as error:
+                print( 'rpn:  index error for operator at arg ' + format( index ) +
+                       '.  Are your arguments in the right order?' )
                 break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
