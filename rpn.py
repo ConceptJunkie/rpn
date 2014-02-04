@@ -34,11 +34,11 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.25.0'
+RPN_VERSION = '4.26.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
-defaultPrecision = 12
+defaultPrecision = 20
 defaultAccuracy = 10
 defaultCFTerms = 10
 defaultBitwiseGroupSize = 16
@@ -2579,6 +2579,44 @@ def findCenteredPolygonalNumber( n, k ):
 
 #//******************************************************************************
 #//
+#//  getNthHexagonalPentagonalNumber
+#//
+#//  http://oeis.org/A046178
+#//
+#//  a(n) = ceiling(1/12*(sqrt(3)-1)*(2+sqrt(3))^(4n-2)).
+#//
+#//******************************************************************************
+
+#//******************************************************************************
+#//
+#//  getNthHeptagonalTriangularNumber
+#//
+#//  http://oeis.org/A046194
+#//
+#//  a(n) = floor(1/80*(3-sqrt(5)*(-1)^n)*(2+sqrt(5))^(4n-2))
+#//
+#//******************************************************************************
+
+
+#//******************************************************************************
+#//
+#//  getNthHeptagonalSquareNumber
+#//
+#//  http://oeis.org/A046195
+#//
+#//  LinearRecurrence[{1 , 0, 1442, -1442, 0, -1, 1}, {1, 6, 49, 961, 8214, 70225, 1385329}
+#//
+#//******************************************************************************
+
+def getNthHeptagonalSquareNumber( n ):
+    index = getNthLinearRecurrence( [ 1, -1, 0, -1442, 1442, 0, 1 ],
+                                    [ 1, 6, 49, 961, 8214, 70225, 1385329 ], n )
+
+    return getNthPolygonalNumber( index, 7 )
+
+
+#//******************************************************************************
+#//
 #//  getNthHeptagonalPentagonalNumber
 #//
 #//  http://oeis.org/A048900
@@ -2609,36 +2647,6 @@ def getNthHeptagonalHexagonalNumber( n ):
 
 #//******************************************************************************
 #//
-#//  getNthOctagonalHeptagonalNumber
-#//
-#//  http://oeis.org/A048906
-#//
-#//  a(n) = floor(1/480*(17+2*sqrt(30))*(sqrt(5)+sqrt(6))^(8n-6))
-#//
-#//******************************************************************************
-
-def getNthOctagonalHeptagonalNumber( n ):
-    return floor( fdiv( fmul( fadd( 17, fmul( sqrt( 30 ), 2 ) ),
-                              power( fadd( sqrt( 5 ), sqrt( 6 ) ), fsub( fmul( 8, n ), 6 ) ) ), 480 ) )
-
-
-#//******************************************************************************
-#//
-#//  getNthOctagonalSquareNumber
-#//
-#//  From http://oeis.org/A036428:
-#//
-#//  a(n) = 1/12 * ((2 + sqrt(3)) ^ (4n-2) + (2 - sqrt(3)) ^ (4n-2) - 2).
-#//  a(n) = floor (1/12 * (2 + sqrt(3)) ^ (4n-2)).
-#//
-#//******************************************************************************
-
-def getNthOctagonalSquareNumber( n ):
-    return floor( fdiv( power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ), 12 ) )
-
-
-#//******************************************************************************
-#//
 #//  getNthOctagonalTriangularNumber
 #//
 #//  From http://oeis.org/A046183
@@ -2659,93 +2667,62 @@ def getNthOctagonalTriangularNumber( n ):
 
 #//******************************************************************************
 #//
-#//  getNthNonagonalHexagonalNumber
+#//  getNthOctagonalSquareNumber
 #//
-#//  From http://oeis.org/A048907:
+#//  From http://oeis.org/A036428:
 #//
-#//  a( n ) = floor( 9/112 * ( 8 - 3 * sqrt( 7 ) * (-1) ^ n ) *
-#//                          ( 8 + 3 * sqrt( 7 ) ) ^ ( 4 * n - 4 ) )
+#//  a(n) = 1/12 * ((2 + sqrt(3)) ^ (4n-2) + (2 - sqrt(3)) ^ (4n-2) - 2).
+#//  a(n) = floor (1/12 * (2 + sqrt(3)) ^ (4n-2)).
 #//
 #//******************************************************************************
 
-def getNthNonagonalHexagonalNumber( n ):
-    #a = fmul( 3, sqrt( 7 ) )
-    #b = fadd( 8, a )
-    #c = fsub( 8, a )
-
-    #sign = 1 #power( -1, n )
-    #exponent = fsub( fmul( 4, n ), 4 )
-
-    #print( str( fmul( c, sign ) ) + '  ' + str( power( b, exponent ) ) )
-
-    #return floor( fprod( [ fdiv( 9, 112 ), fmul( c, sign ), power( b, exponent ) ] ) )
-
-    return getNthLinearRecurrence( [ 1, -1, -4162056194, 4162056194, 1 ],
-                                   [ 1, 325, 5330229625, 1353857339341, 22184715227362706161 ], n )
+def getNthOctagonalSquareNumber( n ):
+    return floor( fdiv( power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ), 12 ) )
 
 
 #//******************************************************************************
 #//
-#//  getNthNonagonalOctagonalNumber
+#//  getNthOctagonalPentagonalNumber
 #//
-#//  From http://oeis.org/A048924:
+#//  http://oeis.org/A046189
 #//
-#//  a(n) = floor(1/672*(11*sqrt(7)-9*sqrt(6))*(sqrt(6)+sqrt(7))^(8n-5)).
-#//
-#//  LinearRecurrence[{454275, -454275, 1}, {1, 631125, 286703855361}, 30] (* Vincenzo Librandi, Dec 24 2011 *)
+#//  a(n) = floor(1/96*(11-6*sqrt(2)*(-1)^n)*(1+sqrt(2))^(8*n-6))
 #//
 #//******************************************************************************
 
-def getNthNonagonalOctagonalNumber( n ):
-    sqrt6 = sqrt( 6 )
-    sqrt7 = sqrt( 7 )
-
-    return floor( fdiv( fmul( fsub( fmul( 11, sqrt7 ), fmul( 9, sqrt6 ) ),
-                              power( fadd( sqrt6, sqrt7 ), fsub( fmul( 8, n ), 5 ) ) ),
-                        672 ) )
+def getNthOctagonalPentagonalNumber( n ):
+    return floor( fdiv( fmul( fsub( 11, fprod( [ 6, sqrt( 2 ), power( -1, n ) ] ) ),
+                              power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 8, n ), 6 ) ) ), 96 ) )
 
 
 #//******************************************************************************
 #//
-#//  getNthNonagonalPentagonalNumber
+#//  getNthOctagonalHexagonalNumber
 #//
-#//  http://oeis.org/A048915
+#//  http://oeis.org/A046192
 #//
-#//  a(n) = floor(1/336*(25+4*sqrt(21))*(5-sqrt(21)*(-1)^n)*(2*sqrt(7)+3*sqrt(3))^(4n-4)).
-#//
-#//  LinearRecurrence[{1, 146361602, -146361602, -1, 1}, {1, 651, 180868051, 95317119801, 26472137730696901}, 9]
+#//  a(n) = floor(1/96*(3*sqrt(3)-sqrt(2))*(sqrt(3)+sqrt(2))^(8n-5))
 #//
 #//******************************************************************************
 
-def getNthNonagonalPentagonalNumber( n ):
-    sqrt21 = sqrt( 21 )
-    sign = power( -1, n )
-
-    return floor( fdiv( fprod( [ fadd( 25, fmul( 4, sqrt21 ) ),
-                                 fsub( 5, fmul( sqrt21, sign ) ),
-                                 power( fadd( fmul( 2, sqrt( 7 ) ), fmul( 3, sqrt( 3 ) ) ),
-                                        fsub( fmul( 4, n ), 4 ) ) ] ),
-                        336 ) )
+def getNthOctagonalHexagonalNumber( n ):
+    return floor( fdiv( fmul( fsub( fmul( 3, sqrt( 3 ) ), sqrt( 2 ) ),
+                              power( fadd( sqrt( 3 ), sqrt( 2 ) ), fsub( fmul( 8, n ), 5 ) ) ), 96 ) )
 
 
 #//******************************************************************************
 #//
-#//  getNthNonagonalHeptagonalNumber
+#//  getNthOctagonalHeptagonalNumber
 #//
-#//  From http://oeis.org/A048921
+#//  http://oeis.org/A048906
 #//
-#//  a(n) = floor(1/560*(39+4*sqrt(35))*(6+sqrt(35))^(4*n-3)).
-#//
-#//  LinearRecurrence[{20163, -20163, 1}, {1, 26884, 542041975}, 9]; (* Ant King, Dec 31 2011 *)
+#//  a(n) = floor(1/480*(17+2*sqrt(30))*(sqrt(5)+sqrt(6))^(8n-6))
 #//
 #//******************************************************************************
 
-def getNthNonagonalHeptagonalNumber( n ):
-    sqrt35 = sqrt( 35 )
-
-    return floor( fdiv( fmul( fadd( 39, fmul( 4, sqrt35 ) ),
-                        power( fadd( 6, sqrt35 ), fsub( fmul( 4, n ), 3 ) ) ),
-                        560 ) )
+def getNthOctagonalHeptagonalNumber( n ):
+    return floor( fdiv( fmul( fadd( 17, fmul( sqrt( 30 ), 2 ) ),
+                              power( fadd( sqrt( 5 ), sqrt( 6 ) ), fsub( fmul( 8, n ), 6 ) ) ), 480 ) )
 
 
 #//******************************************************************************
@@ -2804,33 +2781,121 @@ def getNthNonagonalSquareNumber( n ):
 
 #//******************************************************************************
 #//
-#//  getNthOctagonalPentagonalNumber
+#//  getNthNonagonalPentagonalNumber
 #//
-#//  http://oeis.org/A046189
+#//  http://oeis.org/A048915
 #//
-#//  a(n) = floor(1/96*(11-6*sqrt(2)*(-1)^n)*(1+sqrt(2))^(8*n-6))
+#//  a(n) = floor(1/336*(25+4*sqrt(21))*(5-sqrt(21)*(-1)^n)*(2*sqrt(7)+3*sqrt(3))^(4n-4)).
 #//
-#//******************************************************************************
-
-def getNthOctagonalPentagonalNumber( n ):
-    return floor( fdiv( fmul( fsub( 11, fprod( [ 6, sqrt( 2 ), power( -1, n ) ] ) ),
-                              power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 8, n ), 6 ) ) ), 96 ) )
-
-
-#//******************************************************************************
-#//
-#//  getNthOctagonalHexagonalNumber
-#//
-#//  http://oeis.org/A046192
-#//
-#//  a(n) = floor(1/96*(3*sqrt(3)-sqrt(2))*(sqrt(3)+sqrt(2))^(8n-5))
+#//  LinearRecurrence[{1, 146361602, -146361602, -1, 1}, {1, 651, 180868051, 95317119801, 26472137730696901}, 9]
 #//
 #//******************************************************************************
 
-def getNthOctagonalHexagonalNumber( n ):
-    return floor( fdiv( fmul( fsub( fmul( 3, sqrt( 3 ) ), sqrt( 2 ) ),
-                              power( fadd( sqrt( 3 ), sqrt( 2 ) ), fsub( fmul( 8, n ), 5 ) ) ), 96 ) )
+def getNthNonagonalPentagonalNumber( n ):
+    sqrt21 = sqrt( 21 )
+    sign = power( -1, n )
 
+    return floor( fdiv( fprod( [ fadd( 25, fmul( 4, sqrt21 ) ),
+                                 fsub( 5, fmul( sqrt21, sign ) ),
+                                 power( fadd( fmul( 2, sqrt( 7 ) ), fmul( 3, sqrt( 3 ) ) ),
+                                        fsub( fmul( 4, n ), 4 ) ) ] ),
+                        336 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthNonagonalHexagonalNumber
+#//
+#//  From http://oeis.org/A048907:
+#//
+#//  a( n ) = floor( 9/112 * ( 8 - 3 * sqrt( 7 ) * (-1) ^ n ) *
+#//                          ( 8 + 3 * sqrt( 7 ) ) ^ ( 4 * n - 4 ) )
+#//
+#//******************************************************************************
+
+def getNthNonagonalHexagonalNumber( n ):
+    #a = fmul( 3, sqrt( 7 ) )
+    #b = fadd( 8, a )
+    #c = fsub( 8, a )
+
+    #sign = 1 #power( -1, n )
+    #exponent = fsub( fmul( 4, n ), 4 )
+
+    #print( str( fmul( c, sign ) ) + '  ' + str( power( b, exponent ) ) )
+
+    #return floor( fprod( [ fdiv( 9, 112 ), fmul( c, sign ), power( b, exponent ) ] ) )
+
+    return getNthLinearRecurrence( [ 1, -1, -4162056194, 4162056194, 1 ],
+                                   [ 1, 325, 5330229625, 1353857339341, 22184715227362706161 ], n )
+
+
+#//******************************************************************************
+#//
+#//  getNthNonagonalHeptagonalNumber
+#//
+#//  From http://oeis.org/A048921
+#//
+#//  a(n) = floor(1/560*(39+4*sqrt(35))*(6+sqrt(35))^(4*n-3)).
+#//
+#//  LinearRecurrence[{20163, -20163, 1}, {1, 26884, 542041975}, 9]; (* Ant King, Dec 31 2011 *)
+#//
+#//******************************************************************************
+
+def getNthNonagonalHeptagonalNumber( n ):
+    sqrt35 = sqrt( 35 )
+
+    return floor( fdiv( fmul( fadd( 39, fmul( 4, sqrt35 ) ),
+                        power( fadd( 6, sqrt35 ), fsub( fmul( 4, n ), 3 ) ) ),
+                        560 ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthNonagonalOctagonalNumber
+#//
+#//  From http://oeis.org/A048924:
+#//
+#//  a(n) = floor(1/672*(11*sqrt(7)-9*sqrt(6))*(sqrt(6)+sqrt(7))^(8n-5)).
+#//
+#//  LinearRecurrence[{454275, -454275, 1}, {1, 631125, 286703855361}, 30] (* Vincenzo Librandi, Dec 24 2011 *)
+#//
+#//******************************************************************************
+
+def getNthNonagonalOctagonalNumber( n ):
+    sqrt6 = sqrt( 6 )
+    sqrt7 = sqrt( 7 )
+
+    return floor( fdiv( fmul( fsub( fmul( 11, sqrt7 ), fmul( 9, sqrt6 ) ),
+                              power( fadd( sqrt6, sqrt7 ), fsub( fmul( 8, n ), 5 ) ) ),
+                        672 ) )
+
+# Hex-square
+# http://oeis.org/A046177
+# a(n) = floor(1/32*(tan(3*pi/8))^(8*n-4)).
+
+# Dec-tri
+# http://oeis.org/A133216
+# a(n) = floor ( 1/64 * (9 + 4*sqrt(2)*(-1)^n) * (1+sqrt(2))^(4*n-6) )
+
+# Dec-pent
+# http://oeis.org/A202563
+# a(n) = floor(25/192*(sqrt(3)+sqrt(2))^(8*n-6))
+
+# Dec-hex
+# http://oeis.org/A203134
+# a(n) = floor(1/64 *(5*sqrt(2)-1)*(sqrt(2)+1)^(8*n-5)).
+
+# Dec-hept
+# http://oeis.org/A203408
+# a(n) = floor(1/320*(11-2*sqrt(10)*(-1)^n)*(1+sqrt(10))* (3+sqrt(10))^(4*n-3)).
+
+# Dec-oct
+# http://oeis.org/A203624
+# a(n) = floor(1/192*(13+4*sqrt(3))*(2+sqrt(3))^(8*n-6)).
+
+# Dec-non
+# http://oeis.org/A203627
+# a(n) = floor(1/448*(15+2*sqrt(14))*(2*sqrt(2)+sqrt(7))^(8*n-6)).
 
 #//******************************************************************************
 #//
@@ -5415,6 +5480,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'heptsquare'    : [ getNthHeptagonalSquareNumber, 1,
+'polygonal_numbers', 'calculates the nth heptagonal square number',
+'''
+''',
+'''
+''' ],
     'heptpent'      : [ getNthHeptagonalPentagonalNumber, 1,
 'polygonal_numbers', 'calculates the nth heptagonal pentagonal number',
 '''
@@ -7364,7 +7435,7 @@ def validateOptions( args ):
             return False, '-x and -o can\'t be used together'
 
     if args.octal:
-        if outputRadix != 10 and outputRadix != 8:
+        if args.output_radix != 10 and args.output_radix != 8:
             return False, '-r and -o can\'t be used together'
 
     if args.output_radix_numerals > 0:
@@ -7376,6 +7447,16 @@ def validateOptions( args ):
 
         if args.output_radix != 10:
             return False, '-R and -r can\'t be used together'
+
+        if args.output_radix_numerals < 2:
+            return False, 'output radix must be greater than 1'
+
+    if args.comma and args.integer_grouping > 0 :
+        return False, 'rpn:  -c can\'t be used with -i'
+
+    if args.output_radix_numerals > 0 and \
+       ( args.comma or args.decimal_grouping > 0 or args.integer_grouping > 0 ):
+        return False, '-c, -d and -i can\'t be used with -R'
 
     return True, ''
 
@@ -7398,16 +7479,6 @@ def validateArguments( terms ):
     if bracketCount:
         print( 'rpn:  mismatched brackets (count: {})'.format( bracketCount ) )
         return False
-
-    if args.output_radix_numerals < 2:
-        return False, 'output radix must be greater than 1'
-
-    if args.comma and args.integer_grouping > 0 :
-        return False, 'rpn:  -c can\'t be used with -i'
-
-    if args.output_radix_numerals > 0 and \
-       ( args.comma or args.decimal_grouping > 0 or args.integer_grouping > 0 ):
-        return False, '-c, -d and -i can\'t be used with -R'
 
     return True
 
