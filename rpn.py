@@ -18,7 +18,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.9.0"
+RPN_VERSION = "4.0.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -172,16 +172,6 @@ def factorize( n ):
 def getExpandedFactorList( factors ):
     factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
     return reduce( lambda x, y: x + y, factors, [ ] )
-
-
-#//******************************************************************************
-#//
-#//  getFactors
-#//
-#//******************************************************************************
-
-def getFactors( n ):
-    valueList.append( getExpandedFactorList( factorize( n ) ) )
 
 
 #//******************************************************************************
@@ -474,21 +464,6 @@ def performBitwiseOperation( i, j, operation ):
 
 #//******************************************************************************
 #//
-#//  getMean
-#//
-#//******************************************************************************
-
-def getMean( args ):
-    args = valueList.pop( )
-
-    if not isinstance( args, list ):
-        args = [ args ]
-
-    return fdiv( fsum( args ), len( args ) )
-
-
-#//******************************************************************************
-#//
 #//  tetrate
 #//
 #//  This is the smaller (left-associative) version of the hyper4 operator.
@@ -533,11 +508,31 @@ def tetrateLarge( i, j ):
 #//
 #//******************************************************************************
 
-def getNthLucas( i ):
-    if i == 1:
+def getNthLucas( n ):
+    if n == 1:
         return 1
     else:
-        return round( power( phi, i ) )
+        return round( power( phi, n ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthSylvester
+#//
+#//******************************************************************************
+
+def getNthSylvester( n ):
+    if n == 1:
+        return 2
+    elif n == 2:
+        return 3
+    else:
+        list = [ 2, 3 ]
+
+        for i in range( 2, int( n ) ):
+            list.append( fprod( list ) + 1 )
+
+    return list[ -1 ]
 
 
 #//******************************************************************************
@@ -597,7 +592,7 @@ def getAntiTetrahedralNumber( i ):
     curt3 = cbrt( 3 )
 
     # TODO:  finish me
-    valueList.append( 0 )
+    return 0
 
 # http://www.wolframalpha.com/input/?i=solve+p%3D%281%2F6%29*%28n^3%2B3*n^2%2B2*n%29+for+n
 
@@ -616,9 +611,9 @@ def getNthSquareTriangularNumber( i ):
 
     sqrt2 = sqrt( 2 )
 
-    valueList.append( ceil( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, i ) ),
-                                               power( fsub( 1, sqrt2 ), fmul( 2, i ) ) ),
-                                         fmul( 4, sqrt2 ) ), 2 ) ) )
+    return ceil( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, i ) ),
+                                    power( fsub( 1, sqrt2 ), fmul( 2, i ) ) ),
+                              fmul( 4, sqrt2 ) ), 2 ) )
 
 
 #//******************************************************************************
@@ -627,11 +622,11 @@ def getNthSquareTriangularNumber( i ):
 #//
 #//******************************************************************************
 
-def getCombinations( r, n ):
+def getCombinations( n, r ):
     if ( r > n ):
         raise ValueError( 'Number of elements (%d) cannot exceed the size of the set (%d)' % ( r, n ) )
 
-    valueList.append( fdiv( fac( n ), fmul( fac( r ), fac( fsub( n, r ) ) ) ) )
+    return fdiv( fac( n ), fmul( fac( r ), fac( fsub( n, r ) ) ) )
 
 
 #//******************************************************************************
@@ -640,50 +635,22 @@ def getCombinations( r, n ):
 #//
 #//******************************************************************************
 
-def getPermutations( r, n ):
+def getPermutations( n, r ):
     if ( r > n ):
         raise ValueError( 'Number of elements (%d) cannot exceed the size of the set (%d)' % ( r, n ) )
 
-    valueList.append( fdiv( fac( n ), fac( fsub( n, r ) ) ) )
+    return fdiv( fac( n ), fac( fsub( n, r ) ) )
 
 
 #//******************************************************************************
 #//
-#//  interpretAsContinuedFraction
-#//
-#//  If the first argument is a list, treat is as a CF and turn it into a
-#//  number.  If the first argument is a number, turn it into a CF in a list.
+#//  convertFromContinuedFraction
 #//
 #//******************************************************************************
 
-def interpretAsContinuedFraction( valueList ):
-    value = valueList.pop( )
-
-    if isinstance( value, list ):
-        fraction = ContinuedFraction( value ).getFraction( )
-        valueList.append( fdiv( fraction.numerator, fraction.denominator ) )
-    else:
-        valueList.append( ContinuedFraction( value, maxterms=12, cutoff=power( 10, -( mp.dps - 2 ) ) ) )
-
-
-#//******************************************************************************
-#//
-#//  interpretAsContinuedFractionWithCount
-#//
-#//  If the first argument is a list, treat is as a CF and turn it into a
-#//  number.  If the first argument is a number, turn it into a CF in a list.
-#//
-#//******************************************************************************
-
-def interpretAsContinuedFractionWithCount( valueList ):
-    terms = valueList.pop( )
-    value = valueList.pop( )
-
-    if isinstance( value, list ):
-        cf = ContinuedFraction( value ).getFraction( )
-        valueList.append( fdiv( fraction.numerator, fraction.denominator ) )
-    else:
-        valueList.append( ContinuedFraction( value, maxterms=terms, cutoff=power( 10, -( mp.dps - 2 ) ) ) )
+def convertFromContinuedFraction( i ):
+    fraction = ContinuedFraction( i ).getFraction( )
+    return fdiv( fraction.numerator, fraction.denominator )
 
 
 #//******************************************************************************
@@ -692,25 +659,9 @@ def interpretAsContinuedFractionWithCount( valueList ):
 #//
 #//******************************************************************************
 
-def interpretAsFraction( valueList ):
-    value = valueList.pop( )
-
-    fraction = ContinuedFraction( value, maxterms=12 ).getFraction( )
-    valueList.append( [ fraction.numerator, fraction.denominator ] )
-
-
-#//******************************************************************************
-#//
-#//  interpretAsFractionWithCount
-#//
-#//******************************************************************************
-
-def interpretAsFractionWithCount( valueList ):
-    terms = valueList.pop( )
-    value = valueList.pop( )
-
-    fraction = ContinuedFraction( value, maxterms=terms ).getFraction( )
-    valueList.append( [ fraction.numerator, fraction.denominator ] )
+def interpretAsFraction( i, j ):
+    fraction = ContinuedFraction( i, maxterms=j ).getFraction( )
+    return [ fraction.numerator, fraction.denominator ]
 
 
 #//******************************************************************************
@@ -719,15 +670,8 @@ def interpretAsFractionWithCount( valueList ):
 #//
 #//******************************************************************************
 
-def interpretAsBase( valueList ):
-    base = valueList.pop( )
-
-    args = valueList.pop( )
-
-    if isinstance( args, list ):
-        args.reverse( )
-    else:
-        args = [ args ]
+def interpretAsBase( args, base ):
+    args.reverse( )
 
     value = mpmathify( 0 )
     multiplier = mpmathify( 1 )
@@ -736,65 +680,7 @@ def interpretAsBase( valueList ):
         value = fadd( value, fmul( i, multiplier ) )
         multiplier = fmul( multiplier, base )
 
-    valueList.append( value )
-
-
-#//******************************************************************************
-#//
-#//  duplicateTerm
-#//
-#//******************************************************************************
-
-def duplicateTerm( valueList ):
-    count = int( valueList.pop( ) )
-    value = valueList.pop( )
-
-    for i in range( 0, count ):
-        if isinstance( value, list ):
-            for i in value:
-                valueList.append( i )
-        else:
-            valueList.append( value )
-
-
-#//******************************************************************************
-#//
-#//  expandRange
-#//
-#//******************************************************************************
-
-def expandRange( start, end ):
-    if start > end:
-        step = -1
-    else:
-        step = 1
-
-    result = list( )
-
-    for i in range( int( start ), int( end ) + step, step ):
-        result.append( i )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  expandSteppedRange
-#//
-#//******************************************************************************
-
-def expandSteppedRange( start, end, step ):
-    result = list( )
-
-    if start > end:
-        offset = -1
-    else:
-        offset = 1
-
-    for i in range( int( start ), int( end ) + offset, step ):
-        result.append( i )
-
-    return result
+    return value
 
 
 #//******************************************************************************
@@ -979,11 +865,56 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
 #//
 #//******************************************************************************
 
-def solvePolynomial( i ):
-    if len( i ) < 2:
+def solvePolynomial( args ):
+    if len( args ) < 2:
         raise ValueError( "solve requires at least an order-1 polynomial (i.e., 2 terms)" )
 
-    valueList.append( polyroots( i ) )
+    return polyroots( args )
+
+
+#//******************************************************************************
+#//
+#//  calculatePowerTower
+#//
+#//******************************************************************************
+
+def calculatePowerTower( args ):
+    result = args[ 0 ]
+
+    for i in args[ 1 : ]:
+        result = power( result, i )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  getAlternatingSum
+#//
+#//******************************************************************************
+
+def getAlternatingSum( args ):
+    result = args[ 0 ]
+
+    for i in range( 1, len( args ), 2 ):
+        args[ i ] = fneg( args[ i ] )
+
+    return fsum( args )
+
+
+#//******************************************************************************
+#//
+#//  getAlternatingSum2
+#//
+#//******************************************************************************
+
+def getAlternatingSum2( args ):
+    result = args[ 0 ]
+
+    for i in range( 0, len( args ), 2 ):
+        args[ i ] = fneg( args[ i ] )
+
+    return fsum( args )
 
 
 #//******************************************************************************
@@ -1035,6 +966,111 @@ def decrementNestedListLevel( valueList ):
 
 #//******************************************************************************
 #//
+#//  duplicateTerm
+#//
+#//******************************************************************************
+
+def duplicateTerm( valueList ):
+    count = valueList.pop( )
+    value = valueList.pop( )
+
+    for i in range( 0, int( count ) ):
+        if isinstance( value, list ):
+            for i in value:
+                valueList.append( i )
+        else:
+            valueList.append( value )
+
+
+#//******************************************************************************
+#//
+#//  expandRange
+#//
+#//******************************************************************************
+
+def expandRange( valueList ):
+    end = int( valueList.pop( ) )
+    start = int( valueList.pop( ) )
+
+    if start > end:
+        step = -1
+    else:
+        step = 1
+
+    for i in range( start, end + step, step ):
+        valueList.append( i )
+
+
+#//******************************************************************************
+#//
+#//  expandSteppedRange
+#//
+#//******************************************************************************
+
+def expandSteppedRange( valueList ):
+    step = int( valueList.pop( ) )
+    end = int( valueList.pop( ) )
+    start = int( valueList.pop( ) )
+
+    for i in range( start, end + 1, step ):
+        valueList.append( i )
+
+
+#//******************************************************************************
+#//
+#//  expandGeometricRange
+#//
+#//******************************************************************************
+
+def expandGeometricRange( valueList ):
+    count = int( valueList.pop( ) )
+    step = valueList.pop( )
+    value = valueList.pop( )
+
+    for i in range( 0, count ):
+        valueList.append( value )
+        value = fmul( value, step )
+
+
+#//******************************************************************************
+#//
+#//  interleave
+#//
+#//******************************************************************************
+
+def interleave( valueList ):
+    arg2 = valueList.pop( )
+    arg1 = valueList.pop( )
+
+    list1 = isinstance( arg1, list )
+    list2 = isinstance( arg2, list )
+
+    result = list( )
+
+    if list1:
+        if list2:
+            combined = list( zip( arg1, arg2  ) )
+            combined = [ item for sublist in combined for item in sublist ]
+
+            for i in combined:
+                result.append( i )
+        else:
+            for i in arg1:
+                result.append( i )
+                result.append( arg2 )
+    else:
+        if list2:
+            for i in arg2:
+                result.append( arg1 )
+                result.append( i )
+        else:
+            result.append( arg1 )
+            result.append( arg2 )
+
+    valueList.append( result )
+
+#//******************************************************************************
+#//
 #//  getCurrentArgList
 #//
 #//******************************************************************************
@@ -1062,15 +1098,59 @@ def getCurrentArgList( valueList ):
 #//******************************************************************************
 
 modifiers = {
-    '['         : incrementNestedListLevel,
-    ']'         : decrementNestedListLevel,
+    'dup'       : duplicateTerm, # 2 ],
+    'range'     : expandRange, #2 ],
+    'range2'    : expandSteppedRange, #3 ],
+    'georange'  : expandGeometricRange, #3 ],
+    'interleave': interleave, #2 ],
+    '['         : incrementNestedListLevel, #0 ],
+    ']'         : decrementNestedListLevel, #0 ],
 }
 
+
+#//******************************************************************************
+#//
+#//  twoArgCaller
+#//
+#//******************************************************************************
+
+def twoArgCaller( func, args ):
+    arg1 = args[ 0 ]
+    arg2 = args[ 1 ]
+
+    #print( "arg1: " + str( arg1 ) )
+    #print( "arg2: " + str( arg2 ) )
+
+    list1 = len( arg1 ) > 1
+    list2 = len( arg2 ) > 1
+
+    #print( list1 )
+    #print( list2 )
+
+    if list1:
+        if list2:
+            return [ func( arg2[ index ], arg1[ index ] ) for index in range( 0, len( arg1 ) ) ]
+        else:
+            return [ func( arg2[ 0 ], i ) for i in arg1 ]
+
+    else:
+        if list2:
+            return [ func( j, arg1[ 0 ] ) for j in arg2 ]
+        else:
+            return [ func( arg2[ 0 ], arg1[ 0 ] ) ]
+
+
+
+#//******************************************************************************
+#//
+#//  operators
+#//
+#//******************************************************************************
 
 callers = [
     lambda func, args: [ func( ) ],
     lambda func, args: [ func( i ) for i in args[ 0 ] ],
-    lambda func, args: [ func( j, i ) for i in args[ 0 ] for j in args[ 1 ] ],
+    twoArgCaller,
     lambda func, args: [ func( k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] ],
     lambda func, args: [ func( l, k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] for l in args[ 3 ] ],
     lambda func, args: [ func( m, l, k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] for l in args[ 3 ] for m in args[ 4 ] ],
@@ -1078,11 +1158,21 @@ callers = [
 
 
 list_operators = {
-    'solve'     : [ solvePolynomial, 1 ],
-    'prod'      : [ fprod, 1 ],
-    'sum'       : [ fsum, 1 ],
-    'avg'       : [ getMean, 1 ],
-    'mult'      : [ fprod, 1 ],
+    'altsum'    : getAlternatingSum,
+    'altsum2'   : getAlternatingSum2,
+    'average'   : lambda i: fdiv( fsum( i ), len( i ) ),
+    'avg'       : lambda i: fdiv( fsum( i ), len( i ) ),
+    'cf'        : convertFromContinuedFraction,
+    'mean'      : lambda i: fdiv( fsum( i ), len( i ) ),
+    'mult'      : fprod,
+    'prod'      : fprod,
+    'solve'     : solvePolynomial,
+    'sum'       : fsum,
+    'tower'     : calculatePowerTower,
+}
+
+list_operators_2 = {
+    'base'      : interpretAsBase,
 }
 
 operators = {
@@ -1104,6 +1194,7 @@ operators = {
     'acoth'     : [ acoth, 1 ],
     'acsc'      : [ acsc, 1 ],
     'acsch'     : [ acsch, 1 ],
+    'add'       : [ fadd, 2 ],
     'and'       : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x & y ), 2 ],
     'antihex'   : [ getAntiHexagonalNumber, 1 ],
     'antipent'  : [ lambda i: fdiv( fadd( sqrt( fadd( fmul( 24 , i ), 1 ) ), 1 ), 6 ), 1 ],
@@ -1115,12 +1206,11 @@ operators = {
     'asinh'     : [ asinh, 1 ],
     'atan'      : [ atan, 1 ],
     'atanh'     : [ atanh, 1 ],
-    'base'      : [ interpretAsBase, 2 ],
+    'binomial'  : [ getCombinations, 2 ],
     'catalan'   : [ catalan, 0 ],
     'cbrt'      : [ cbrt, 1 ],
     'ceil'      : [ ceil, 1 ],
-    'cf'        : [ interpretAsContinuedFraction, 1 ],
-    'cf2'       : [ interpretAsContinuedFractionWithCount, 2 ],
+    'cf2'       : [ lambda i, j: ContinuedFraction( i, maxterms=j, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
     'champ'     : [ getChampernowne, 0 ],
     'cos'       : [ cos, 1 ],
     'cosh'      : [ cosh, 1 ],
@@ -1131,7 +1221,6 @@ operators = {
     'cube'      : [ lambda i: power( i, 3 ), 1 ],
     'deg'       : [ radians, 1 ],
     'degrees'   : [ radians, 1 ],
-    'dup'       : [ duplicateTerm, 2 ],
     'e'         : [ e, 0 ],
     'euler'     : [ euler, 0 ],
     'exp'       : [ exp, 1 ],
@@ -1141,10 +1230,8 @@ operators = {
     'factor'    : [ lambda i: getExpandedFactorList( factorize( i ) ), 1 ],
     'fib'       : [ fib, 1 ],
     'floor'     : [ floor, 1 ],
-    'frac'      : [ interpretAsFraction, 1 ],
-    'frac2'     : [ interpretAsFractionWithCount, 2 ],
-    'fraction'  : [ interpretAsFraction, 1 ],
-    'fraction2' : [ interpretAsFractionWithCount, 2 ],
+    'frac'      : [ interpretAsFraction, 2 ],
+    'fraction'  : [ interpretAsFraction, 2 ],
     'gamma'     : [ gamma, 1 ],
     'glaisher'  : [ glaisher, 0 ],
     'harm'      : [ harmonic, 1 ],
@@ -1164,7 +1251,6 @@ operators = {
     'logxy'     : [ log, 2 ],
     'luc'       : [ getNthLucas, 1 ],
     'lucas'     : [ getNthLucas, 1 ],
-    'mean'      : [ getMean, 1 ],
     'mertens'   : [ mertens, 0 ],
     'mod'       : [ fmod, 2 ],
     'modulo'    : [ fmod, 2 ],
@@ -1179,12 +1265,11 @@ operators = {
     'phi'       : [ phi, 0 ],
     'pi'        : [ pi, 0 ],
     'plastic'   : [ getPlasticConstant, 0 ],
+    'power'     : [ power, 2 ],
     'rad'       : [ degrees, 1 ],
     'radians'   : [ degrees, 1 ],
     'rand'      : [ rand, 0 ],
     'random'    : [ rand, 0 ],
-    'range'     : [ expandRange, 2 ],
-    'range2'    : [ expandSteppedRange, 3 ],
     'root'      : [ root, 2 ],
     'root2'     : [ sqrt, 1 ],
     'root3'     : [ cbrt, 1 ],
@@ -1196,10 +1281,11 @@ operators = {
     'solve2'    : [ solveQuadraticPolynomial, 3 ],
     'solve3'    : [ solveCubicPolynomial, 4 ],
     'solve4'    : [ solveQuarticPolynomial, 5 ],
-    'sqr'       : [ power, 1 ],
+    'sqr'       : [ lambda i: power( i, 2 ), 1 ],
     'sqrt'      : [ sqrt, 1 ],
     'sqtri'     : [ getNthSquareTriangularNumber, 1 ],
     'superfac'  : [ superfac, 1 ],
+    'sylvester' : [ getNthSylvester, 1 ],
     'tan'       : [ tan, 1 ],
     'tanh'      : [ tanh, 1 ],
     'tet'       : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1 ],
@@ -1584,6 +1670,38 @@ Construct the square root of two from a continued fraction:
 ''' )
 
 
+#  Polya random walk constant = rpn -p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 / gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -
+
+#  conic constant = rpn -p20 2 [ 0 30 range ] ** [ 0 30 range ] ! / sum
+#                 = rpn -p20 e 2 **
+
+#  Somos' quadratic recurrence constant = rpn -p20 [ 1 100 range ] [ 0.5 0.5 100 georange ] ** prod
+
+#  Prevost constant = rpn -p20 [ 1 100 range ] fib 1/x sum
+
+#  Euler's number = rpn -p20 [ 0 100 range ] fac 1/x sum
+#                 = rpn -p20 e
+
+#  Gelfond constant = rpn -p20 pi [ 0 100 range ] power [ 0 100 range ] ! / sum
+#                   = rpn -p20 e pi power
+
+#  Bloch-Landau constant = rpn -p20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /
+
+#  Hausdorff dimension = rpn -p20 2 [ 0 100 range ] 2 * 1 + power [ 0 100 range ] 2 * 1 + * 1/x sum 3 [ 0 100 range ] 2 * 1 + power [ 0 100 range ] 2 * 1 + * 1/x sum /
+#                      = rpn -p20 3 log 2 log /
+
+#  Machin-Gregory series = rpn -p20 [ 1 1000 2 range2 ] 2 [ 1 1000 2 range2 ] power * 1/x altsum
+#                        = rpn -p20 1 2 / atan
+
+#  Beta(3) = rpn -p17 [ 1 1000000 2 range2 ] 3 power 1/x altsum
+#            rpn -p20 pi 3 power 32 /
+
+# But it's wrong, is the formula wrong?
+# Gieseking constant = rpn 3 3 sqrt * 4 / 1 [ 0 10000 range ] 3 * 2 + sqr 1/x sum [ 1 10000 range ] 3 * 1 + sqr 1/x sum + - *
+
+# Cahen's constant = rpn -p20 [ 1 20 range ] sylvester 1 - 1/x altsum
+
+
 #//******************************************************************************
 #//
 #//  main
@@ -1772,11 +1890,9 @@ def main( ):
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
         currentValueList = getCurrentArgList( valueList )
-        #print( "valueList: " + str( valueList ) )
-        #print( "current: " + str( currentValueList ) )
 
         if term in modifiers:
-            modifiers[ term ]( valueList )
+            modifiers[ term ]( currentValueList )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
             currentValueList = getCurrentArgList( valueList )
@@ -1791,7 +1907,7 @@ def main( ):
                 else:
                     print( "" )
 
-                break   # breaks out of term in args.terms, setting parseError isn't needed
+                break
 
             try:
                 argList = list( )
@@ -1812,11 +1928,59 @@ def main( ):
             except ValueError as error:
                 print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
+            #except TypeError as error:
+            #    print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+            #    break
+        elif term in list_operators:
+            currentValueList = getCurrentArgList( valueList )
+
+            # first we validate, and make sure the operator has enough arguments
+            if len( currentValueList ) < 1:
+                print( "rpn:  error in arg " + format( index ) + ":  operator " + term + " requires a list argument" )
+                break
+
+            try:
+                arg = currentValueList.pop( )
+                currentValueList.append( list_operators[ term ]( arg ) )
+            except KeyboardInterrupt as error:
+                print( "rpn:  keyboard interrupt" )
+                break
+            except ValueError as error:
+                print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                break
+            #except TypeError as error:
+            #    print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+            #    break
+        elif term in list_operators_2:
+            currentValueList = getCurrentArgList( valueList )
+
+            # first we validate, and make sure the operator has enough arguments
+            if len( currentValueList ) < 2:
+                print( "rpn:  error in arg " + format( index ) + ":  operator " + term + " requires two arguments" )
+                break
+
+            try:
+                secondArg = currentValueList.pop( )
+                listArg = currentValueList.pop( )
+
+                if not isinstance( secondArg, list ):
+                    secondArg = [ secondArg ]
+
+                result = [ list_operators_2[ term ]( listArg, i ) for i in secondArg ]
+
+                if len( result ) == 1:
+                    result = result[ 0 ]
+
+                currentValueList.append( result )
+            except KeyboardInterrupt as error:
+                print( "rpn:  keyboard interrupt" )
+                break
+            except ValueError as error:
+                print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                break
             except TypeError as error:
                 print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
-        elif term in list_operators:
-            pass
         else:
             try:
                 currentValueList.append( parseInputValue( term, inputRadix ) )
