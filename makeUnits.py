@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.10.3'
+PROGRAM_VERSION = '5.10.4'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -106,6 +106,7 @@ class UnitInfo( ):
 
 unitOperators = {
     # acceleration
+
     'galileo' :
         UnitInfo( 'acceleration', 'galileo', 'galileos', '', [ ], [ 'CGS' ] ),
 
@@ -147,13 +148,19 @@ unitOperators = {
     # area
 
     'acre' :
-        UnitInfo( 'area', 'acre', 'acres', 'ac', [ ], [ 'traditional', 'US' ] ),
+        UnitInfo( 'area', 'acre', 'acres', 'ac', [ ], [ 'imperial' ] ),
 
     'are' :
         UnitInfo( 'area', 'are', 'ares', 'a', [ ], [ 'SI' ] ),
 
     'barn' :
         UnitInfo( 'area', 'barn', 'barns', '', [ ], [ 'science' ] ),
+
+    'bovate' :
+        UnitInfo( 'area', 'bovate', 'bovates', '', [ ], [ 'imperial' ] ),
+
+    'carucate' :
+        UnitInfo( 'area', 'carucate', 'carucates', '', [ ], [ 'imperial' ] ),
 
     'homestead':
         UnitInfo( 'area', 'homestead', 'homesteads', '', [ ], [ 'US' ] ),
@@ -162,7 +169,7 @@ unitOperators = {
         UnitInfo( 'area', 'outhouse', 'outhouse', '', [ ], [ 'science', 'humorous' ] ),
 
     'rood' :
-        UnitInfo( 'area', 'rood', 'roods', '', [ 'farthingdale' ], [ 'traditional', 'UK' ] ),
+        UnitInfo( 'area', 'rood', 'roods', '', [ 'farthingdale' ], [ 'imperial' ] ),
 
     'section':
         UnitInfo( 'area', 'section', 'sections', '', [ ], [ 'US' ] ),
@@ -174,10 +181,13 @@ unitOperators = {
         UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meter^2', 'meters^2' ], [ 'SI' ] ),
 
     'square_yard' :
-        UnitInfo( 'area', 'yard^2', 'square_yards', 'sqyd', [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ], [ 'traditional', 'US' ] ),
+        UnitInfo( 'area', 'yard^2', 'square_yards', 'sqyd', [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ], [ 'imperial' ] ),
 
     'township':
         UnitInfo( 'area', 'township', 'townships', '', [ ], [ 'US' ] ),
+
+    'virgate':
+        UnitInfo( 'area', 'virgate', 'virgates', '', [ ], [ 'imperial' ] ),
 
     # capacitance
 
@@ -503,19 +513,19 @@ unitOperators = {
         UnitInfo( 'length', 'astronomical_unit', 'astronomical_units', 'au', [ ], [ 'science' ] ),
 
     'barleycorn' :
-        UnitInfo( 'length', 'barleycorn', 'barleycorns', '', [ ], [ 'obsolete', 'UK' ] ),
+        UnitInfo( 'length', 'barleycorn', 'barleycorns', '', [ ], [ 'imperial' ] ),
 
     'caliber' :
         UnitInfo( 'length', 'caliber', 'caliber', '', [ 'calibre' ], [ 'US' ] ),
 
     'chain' :
-        UnitInfo( 'length', 'chain', 'chains', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'chain', 'chains', '', [ ], [ 'imperial' ] ),
 
     'cubit' :
-        UnitInfo( 'length', 'cubit', 'cubits', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'cubit', 'cubits', '', [ ], [ 'imperial' ] ),
 
     'ell' :
-        UnitInfo( 'length', 'ell', 'ell', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'ell', 'ell', '', [ ], [ 'imperial' ] ),
 
     'famn' :
         UnitInfo( 'length', 'famn', 'famn', '', [ ], [ 'obsolete' ] ),
@@ -524,10 +534,10 @@ unitOperators = {
         UnitInfo( 'length', 'farshimmelt_potrzebie', 'farshimmelt potrzebies', 'fpz', [ 'far-potrzebie' ], [ 'Potrzebie', 'humorous' ] ),
 
     'fathom' :
-        UnitInfo( 'length', 'fathom', 'fathom', 'fath', [ ], [ 'traditional' ] ),
+        UnitInfo( 'length', 'fathom', 'fathom', 'fath', [ ], [ 'imperial' ] ),
 
     'finger' :
-        UnitInfo( 'length', 'finger', 'finger', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'length', 'finger', 'finger', '', [ ], [ 'imperial' ] ),
 
     'fingerbreadth' :
         UnitInfo( 'length', 'fingerbreadth', 'fingerbreadths', '', [ 'fingersbreadth' ], [ 'obsolete' ] ),
@@ -536,7 +546,7 @@ unitOperators = {
         UnitInfo( 'length', 'foot', 'feet', 'ft', [ ], [ 'traditional', 'FPS' ] ),
 
     'furlong' :
-        UnitInfo( 'length', 'furlong', 'furlongs', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'length', 'furlong', 'furlongs', '', [ ], [ 'imperial' ] ),
 
     'furshlugginer_potrzebie' :
         UnitInfo( 'length', 'furshlugginer_potrzebie', 'furshlugginer potrzebies', 'Fpz', [ 'Fur-potrzebie' ], [ 'Potrzebie', 'humorous' ] ),
@@ -548,13 +558,13 @@ unitOperators = {
         UnitInfo( 'length', 'gutenberg', 'gutenbergs', '', [ ], [ 'typography' ] ),
 
     'hand' :
-        UnitInfo( 'length', 'hand', 'hands', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'length', 'hand', 'hands', '', [ ], [ 'imperial' ] ),
 
     'handbreadth' :
         UnitInfo( 'length', 'handbreadth', 'handbreadths', '', [ 'handsbreadth' ], [ 'obsolete' ] ),
 
     'inch' :
-        UnitInfo( 'length', 'inch', 'inches', 'in', [ ], [ 'traditional' ] ),
+        UnitInfo( 'length', 'inch', 'inches', 'in', [ ], [ 'imperial' ] ),
 
     'long_reed' :
         UnitInfo( 'length', 'long_reed', 'long_reeds', '', [ ], [ 'obsolete' ] ),
@@ -569,7 +579,7 @@ unitOperators = {
         UnitInfo( 'length', 'kyu', 'kyus', '', [ 'Q' ], [ 'typography', 'computing' ] ),
 
     'league' :
-        UnitInfo( 'length', 'league', 'leagues', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'length', 'league', 'leagues', '', [ ], [ 'imperial' ] ),
 
     'light-second' :
         UnitInfo( 'length', 'light*second', 'light-seconds', '', [ 'light-second' ], [ 'science' ] ),
@@ -578,25 +588,25 @@ unitOperators = {
         UnitInfo( 'length', 'light-year', 'light-years', 'ly', [ ], [ 'science' ] ),
 
     'link' :
-        UnitInfo( 'length', 'link', 'link', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'length', 'link', 'link', '', [ ], [ 'informal' ] ),
 
     'marathon' :
-        UnitInfo( 'length', 'marathon', 'marathons', '', [ ], [ 'obsolete', 'Greece' ] ),
+        UnitInfo( 'length', 'marathon', 'marathons', '', [ ], [ 'informal' ] ),
 
     'meter' :
         UnitInfo( 'length', 'meter', 'meters', 'm', [ ], [ 'SI' ] ),
 
     'micron' :
-        UnitInfo( 'length', 'micron', 'microns', '', [ ], [ 'US', 'science' ] ),
+        UnitInfo( 'length', 'micron', 'microns', '', [ ], [ 'science' ] ),
 
     'mil' :
-        UnitInfo( 'length', 'mil', 'mils', '', [ 'thou' ], [ 'US', 'traditional' ] ),
+        UnitInfo( 'length', 'mil', 'mils', '', [ 'thou' ], [ 'US' ] ),
 
     'mile' :
-        UnitInfo( 'length', 'mile', 'miles', 'mi', [ ], [ 'traditional' ] ),
+        UnitInfo( 'length', 'mile', 'miles', 'mi', [ ], [ 'imperial' ] ),
 
     'nail' :
-        UnitInfo( 'length', 'nail', 'nail', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'nail', 'nail', '', [ ], [ 'imperial' ] ),
 
     'nautical_mile' :
         UnitInfo( 'length', 'nautical_mile', 'nautical_miles', '', [ ], [ 'nautical' ] ),
@@ -605,7 +615,7 @@ unitOperators = {
         UnitInfo( 'length', 'parsec', 'parsec', 'pc', [ ], [ 'science' ] ),
 
     'perch' :
-        UnitInfo( 'length', 'perch', 'perches', '', [ 'pole', 'poles' ], [ 'obsolete', 'England' ] ),
+        UnitInfo( 'length', 'perch', 'perches', '', [ 'pole', 'poles' ], [ 'imperial' ] ),
 
     'pica' :
         UnitInfo( 'length', 'pica', 'pica', '', [ 'cicero' ], [ 'typography' ] ),
@@ -617,13 +627,13 @@ unitOperators = {
         UnitInfo( 'length', 'point', 'points', '', [ ], [ 'typography' ] ),
 
     'poppyseed' :
-        UnitInfo( 'length', 'poppyseed', 'poppyseeds', '', [ ], [ 'traditional', 'obsolete', 'England' ] ),
+        UnitInfo( 'length', 'poppyseed', 'poppyseeds', '', [ ], [ 'imperial' ] ),
 
     'reed' :
         UnitInfo( 'length', 'reed', 'reeds', '', [ ], [ 'obsolete' ] ),
 
     'rod' :
-        UnitInfo( 'length', 'rod', 'rods', 'rd', [ ], [ 'traditional', 'obsolete', 'England' ] ),
+        UnitInfo( 'length', 'rod', 'rods', 'rd', [ ], [ 'imperial' ] ),
 
     'rope' :
         UnitInfo( 'length', 'rope', 'ropes', '', [ ], [ 'obsolete' ] ),
@@ -635,13 +645,13 @@ unitOperators = {
         UnitInfo( 'length', 'smoot', 'smoots', '', [ ], [ 'humorous' ] ),
 
     'span' :
-        UnitInfo( 'length', 'span', 'spans', '', [ 'breadth' ], [ 'traditional', 'obsolete' ] ),
+        UnitInfo( 'length', 'span', 'spans', '', [ 'breadth' ], [ 'imperial' ] ),
 
     'twip' :
         UnitInfo( 'length', 'twip', 'twips', '', [ ], [ 'computing' ] ),
 
     'yard' :
-        UnitInfo( 'length', 'yard', 'yards', 'yd', [ ], [ 'traditional', 'US' ] ),
+        UnitInfo( 'length', 'yard', 'yards', 'yd', [ ], [ 'imperial' ] ),
 
     # luminance
 
@@ -1048,9 +1058,6 @@ unitOperators = {
     'light' :    # I shouldn't need a whole extra unit for what is really an alias, but this makes life easier
         UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', '', [ ], [ 'natural' ] ),
 
-    'speed_of_light' :
-        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', 'c', [ ], [ 'natural' ] ),
-
     'mach' :
         UnitInfo( 'velocity', 'mach', 'mach', '', [ ], [ 'US' ] ),
 
@@ -1062,17 +1069,11 @@ unitOperators = {
     'balthazar' :
         UnitInfo( 'volume', 'balthazar', 'balthazars', '', [ ], [ 'wine' ] ),
 
-    'barrel' :
-        UnitInfo( 'volume', 'barrel', 'barrels', '', [ ], [ 'traditional', 'wine' ] ),
-
     'bucket' :
-        UnitInfo( 'volume', 'bucket', 'buckets', '', [ ], [ 'Imperial' ] ),
+        UnitInfo( 'volume', 'bucket', 'buckets', '', [ ], [ 'imperial' ] ),
 
     'bushel' :
-        UnitInfo( 'volume', 'bushel', 'bushels', 'bu', [ ], [ 'Imperial' ] ),
-
-    'butt' :
-        UnitInfo( 'volume', 'butt', 'butts', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'bushel', 'bushels', 'bu', [ ], [ 'imperial' ] ),
 
     'chopine' :
         UnitInfo( 'volume', 'chopine', 'chopines', '', [ ], [ 'wine' ] ),
@@ -1092,6 +1093,9 @@ unitOperators = {
     'cubic_meter' :
         UnitInfo( 'volume', 'meter^3', 'cubic_meters', 'm^3', [ 'meter^3', 'meters^3' ], [ 'SI' ] ),
 
+    'coomb' :
+        UnitInfo( 'volume', 'coomb', 'coombs', '', [ ], [ 'imperial' ] ),
+
     'cup' :
         UnitInfo( 'volume', 'cup', 'cups', '', [ ], [ 'traditional', 'cooking', 'US' ] ),
 
@@ -1108,40 +1112,43 @@ unitOperators = {
         UnitInfo( 'volume', 'dram', 'drams', '', [ 'fluid_dram', 'fluid_drams', 'fluidram', 'fluidrams', 'fluid_drachm', 'fluid_drachms', 'fldr' ], [ 'traditional' ] ),
 
     'dry_barrel' :
-        UnitInfo( 'volume', 'dry_barrel', 'dry_barrels', '', [ ], [ 'traditional', 'US'] ),
+        UnitInfo( 'volume', 'dry_barrel', 'dry_barrels', '', [ ], [ 'imperial' ] ),
+
+    'dry_hogshead' :
+        UnitInfo( 'volume', 'dry_hogshead', 'dry_hogsheads', '', [ ], [ 'imperial' ] ),
 
     'dry_gallon' :
-        UnitInfo( 'volume', 'dry_gallon', 'dry_gallons', '', [ ], [ 'traditional', 'US'] ),
+        UnitInfo( 'volume', 'dry_gallon', 'dry_gallons', '', [ ], [ 'traditional', 'US' ] ),
 
     'dry_pint' :
-        UnitInfo( 'volume', 'dry_pint', 'dry_pints', '', [ ], [ 'traditional', 'US'] ),
+        UnitInfo( 'volume', 'dry_pint', 'dry_pints', '', [ ], [ 'traditional', 'US' ] ),
 
     'dry_quart' :
         UnitInfo( 'volume', 'dry_quart', 'dry_quarts', '', [ ], [ 'traditional', 'US' ] ),
+
+    'dry_tun' :
+        UnitInfo( 'volume', 'dry_tun', 'dry_tuns', '', [ ], [ 'imperial' ] ),
+
+    'farshimmelt_ngogn' :
+        UnitInfo( 'volume', 'farshimmelt_ngogn', 'farshimmelt_ngogns', 'fn', [ 'far-ngogn' ], [ 'Potrzebie', 'humorous' ] ),
 
     'fifth' :
         UnitInfo( 'volume', 'fifth', 'fifths', '', [ ], [ 'wine' ] ),
 
     'firkin' :
-        UnitInfo( 'volume', 'firkin', 'firkins', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'firkin', 'firkins', '', [ ], [ 'imperial' ] ),
 
     'fluid_ounce' :
         UnitInfo( 'volume', 'fluid_ounce', 'fluid_ounces', '', [ 'floz' ], [ 'traditional' ] ),
-
-    'scruple' :
-        UnitInfo( 'volume', 'scruple', 'scruples', '', [ 'fluid_scruple', 'fluid_scruples' ], [ 'traditional' ] ),
-
-    'farshimmelt_ngogn' :
-        UnitInfo( 'volume', 'farshimmelt_ngogn', 'farshimmelt_ngogns', 'fn', [ 'far-ngogn' ], [ 'Potrzebie', 'humorous' ] ),
 
     'furshlugginer_ngogn' :
         UnitInfo( 'volume', 'furshlugginer_ngogn', 'furshlugginer_ngogns', 'Fn', [ 'Fur-ngogn' ], [ 'Potrzebie', 'humorous' ] ),
 
     'gallon' :
-        UnitInfo( 'volume', 'gallon', 'gallons', 'gal', [ ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'gallon', 'gallons', 'gal', [ ], [ 'imperial' ] ),
 
     'gill' :
-        UnitInfo( 'volume', 'gill', 'gills', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'gill', 'gills', '', [ ], [ 'imperial' ] ),
 
     'goliath' :
         UnitInfo( 'volume', 'goliath', 'goliaths', '', [ 'primat' ], [ 'wine' ] ),
@@ -1152,11 +1159,47 @@ unitOperators = {
     'imperial' :
         UnitInfo( 'volume', 'imperial', 'imperials', '', [ ], [ 'wine' ] ),
 
+    'imperial_bushel' :
+        UnitInfo( 'volume', 'imperial_bushel', 'imperial_bushels', '', [ ], [ 'imperial' ] ),
+
+    'imperial_butt' :
+        UnitInfo( 'volume', 'imperial_butt', 'imperial_butts', '', [ 'imperial_pipe', 'imperial_pipes' ], [ 'imperial' ] ),
+
+    'imperial_cup' :
+        UnitInfo( 'volume', 'imperial_cup', 'imperial_cups', '', [ ], [ 'imperial' ] ),
+
+    'imperial_gallon' :
+        UnitInfo( 'volume', 'imperial_gallon', 'imperial_gallons', '', [ ], [ 'imperial' ] ),
+
+    'imperial_gill' :
+        UnitInfo( 'volume', 'imperial_gill', 'imperial_gills', '', [ ], [ 'imperial' ] ),
+
+    'imperial_hogshead' :
+        UnitInfo( 'volume', 'imperial_hogshead', 'imperial_hogsheads', '', [ ], [ 'imperial' ] ),
+
+    'imperial_peck' :
+        UnitInfo( 'volume', 'imperial_peck', 'imperial_pecks', '', [ ], [ 'imperial' ] ),
+
+    'imperial_pint' :
+        UnitInfo( 'volume', 'imperial_pint', 'imperial_pints', '', [ ], [ 'imperial' ] ),
+
+    'imperial_quart' :
+        UnitInfo( 'volume', 'imperial_quart', 'imperial_quarts', '', [ ], [ 'imperial' ] ),
+
+    'jack' :
+        UnitInfo( 'volume', 'jack', 'jacks', '', [ 'jackpot' ], [ 'imperial' ] ),
+
     'jennie' :
         UnitInfo( 'volume', 'jennie', 'jennies', '', [ ], [ 'wine' ] ),
 
     'jeroboam' :
         UnitInfo( 'volume', 'jeroboam', 'jeroboams', '', [ 'double_magnum' ], [ 'wine' ] ),
+
+    'kenning' :
+        UnitInfo( 'volume', 'kenning', 'kennings', '', [ ], [ 'imperial' ] ),
+
+    'kilderkin' :
+        UnitInfo( 'volume', 'kilderkin', 'kilderkins', '', [ ], [ 'imperial' ] ),
 
     'liter' :
         UnitInfo( 'volume', 'liter', 'liters', 'l', [ ], [ 'SI' ] ),
@@ -1200,26 +1243,35 @@ unitOperators = {
     'pinch' :
         UnitInfo( 'volume', 'pinch', 'pinches', '', [ ], [ 'traditional', 'cooking' ] ),
 
+    'pin' :
+        UnitInfo( 'volume', 'pin', 'pins', '', [ ], [ 'imperial' ] ),
+
     'pint' :
         UnitInfo( 'volume', 'pint', 'pints', 'pt', [ ], [ 'traditional', 'cooking', 'US' ] ),
 
     'pipe' :
-        UnitInfo( 'volume', 'pipe', 'pipes', '', [ 'butt', 'butts' ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'pipe', 'pipes', '', [ 'butt', 'butts' ], [ 'imperial' ] ),
+
+    'pottle' :
+        UnitInfo( 'volume', 'pottle', 'pottles', '', [ ], [ 'imperial' ] ),
 
     'puncheon' :
         UnitInfo( 'volume', 'puncheon', 'puncheons', '', [ 'tertian', 'tertians' ], [ 'wine' ] ),
 
     'quart' :
-        UnitInfo( 'volume', 'quart', 'quarts', 'qt', [ ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'quart', 'quart', '', [ ], [ 'US' ] ),
 
     'rehoboam' :
         UnitInfo( 'volume', 'rehoboam', 'rehoboams', '', [ ], [ 'wine' ] ),
 
     'rundlet' :
-        UnitInfo( 'volume', 'rundlet', 'rundlets', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'rundlet', 'rundlets', '', [ ], [ 'imperial', 'wine' ] ),
 
     'salmanazar' :
         UnitInfo( 'volume', 'salmanazar', 'salmanazars', '', [ ], [ 'wine' ] ),
+
+    'scruple' :
+        UnitInfo( 'volume', 'scruple', 'scruples', '', [ 'fluid_scruple', 'fluid_scruples' ], [ 'traditional' ] ),
 
     'smidgen' :
         UnitInfo( 'volume', 'smidgen', 'smidgens', '', [ ], [ 'traditional', 'cooking' ] ),
@@ -1236,6 +1288,9 @@ unitOperators = {
     'stere' :
         UnitInfo( 'volume', 'stere', 'steres', 'st', [ ], [ 'metric', 'obsolete' ] ),  # ... but not SI
 
+    'strike' :
+        UnitInfo( 'volume', 'strike', 'strikes', '', [ ], [ 'imperial' ] ),
+
     'tablespoon' :
         UnitInfo( 'volume', 'tablespoon', 'tablespoons', 'tbsp', [ ], [ 'traditional', 'cooking', 'US' ] ),
 
@@ -1246,10 +1301,28 @@ unitOperators = {
         UnitInfo( 'volume', 'tenth', 'tenths', '', [ ], [ 'wine' ] ),
 
     'tierce' :
-        UnitInfo( 'volume', 'tierce', 'tierces', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'tierce', 'tierces', '', [ ], [ 'wine', 'imperial' ] ),
 
     'tun' :
-        UnitInfo( 'volume', 'tun', 'tuns', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'tun', 'tuns', '', [ ], [ 'imperial' ] ),
+
+    'wine_barrel' :
+        UnitInfo( 'volume', 'wine_barrel', 'wine_barrels', '', [ ], [ 'imperial', 'wine' ] ),
+
+    'wine_butt' :
+        UnitInfo( 'volume', 'wine_butt', 'wine_butts', '', [ ], [ 'imperial', 'wine' ] ),
+
+    'wine_gallon' :
+        UnitInfo( 'volume', 'wine_gallon', 'wine_gallons', '', [ ], [ 'imperial', 'wine' ] ),
+
+    'wine_hogshead' :
+        UnitInfo( 'volume', 'wine_hogshead', 'wine_hogsheads', '', [ ], [ 'imperial', 'wine' ] ),
+
+    'wine_pipe' :
+        UnitInfo( 'volume', 'wine_pipe', 'wine_pipes', '', [ 'wine_butt', 'wine_butts' ], [ 'imperial' ] ),
+
+    'wine_tun' :
+        UnitInfo( 'volume', 'wine_tun', 'wine_tuns', '', [ ], [ 'imperial', 'wine' ] ),
 }
 
 
@@ -1445,7 +1518,6 @@ unitConversionMatrix = {
     ( 'banana_equivalent_dose', 'sievert' )                             : '9.8e-8',
     ( 'bar',                   'pascal' )                               : '1.0e5',
     ( 'barleycorn',            'poppyseed' )                            : '4',
-    ( 'barrel',                'gallon' )                               : '31.5',
     ( 'becquerel',             'curie' )                                : '3.7e10',
     ( 'bit',                   'nat' )                                  : str( log( 2 ) ),
     ( 'blintz',                'farshimmelt_blintz' )                   : '1.0e5',
@@ -1454,10 +1526,11 @@ unitConversionMatrix = {
     ( 'btu',                   'joule' )                                : '1054.5',
     ( 'bucket',                'gallon' )                               : '4',
     ( 'bushel',                'peck' )                                 : '4',
-    ( 'butt',                  'gallon' )                               : '126',
     ( 'byte',                  'bit' )                                  : '8',
     ( 'calorie',               'joule' )                                : '4.184',
     ( 'carat',                 'grain' )                                : str( fadd( 3, fdiv( 1, 6 ) ) ),
+    ( 'carucate',              'acre' )                                 : '120',
+    ( 'carucate',              'bovate' )                               : '8',
     ( 'century',               'microcentury' )                         : '1.0e6',
     ( 'century',               'nanocentury' )                          : '1.0e9',
     ( 'century',               'year' )                                 : '100',
@@ -1467,6 +1540,7 @@ unitConversionMatrix = {
     ( 'clarke',                'wolverton' )                            : '1.0e6',
     ( 'clausius',              'joule/kelvin' )                         : '4186.8',
     ( 'clavelin',              'liter' )                                : '0.62',
+    ( 'coomb',                 'strike' )                               : '2',
     ( 'cord',                  'cubic_foot' )                           : '128',
     ( 'coulomb',               'ampere-second' )                        : '1',
     ( 'coulomb',               'farad-volt' )                           : '1',
@@ -1485,10 +1559,13 @@ unitConversionMatrix = {
     ( 'demi',                  'liter' )                                : '0.375',
     ( 'dessertspoon',          'teaspoon' )                             : '2',
     ( 'dram',                  'scruple' )                              : '3',
+    ( 'dry_barrel',            'bushel' )                               : '4',
     ( 'dry_barrel',            'cubic_inch' )                           : '7056',
     ( 'dry_gallon',            'dry_quart' )                            : '4',
+    ( 'dry_hogshead',          'dry_barrel' )                           : '2',
     ( 'dry_pint',              'cubic_inch' )                           : '33.6003125',
     ( 'dry_quart',             'dry_pint' )                             : '2',
+    ( 'dry_tun',               'dry_hogshead' )                         : '4',
     ( 'dword',                 'bit' )                                  : '32',
     ( 'electron_charge',       'coulomb' )                              : '1.602176565e-19',
     ( 'electron_rest_mass',    'gram' )                                 : '9.10938291e-28',
@@ -1501,6 +1578,7 @@ unitConversionMatrix = {
     ( 'finger',                'inch' )                                 : '4.5',
     ( 'fingerbreadth',         'inch' )                                 : '0.75',
     ( 'firkin',                'gallon' )                               : '9',
+    ( 'firkin',                'pin' )                                  : '2',
     ( 'fluid_ounce',           'dram' )                                 : '8',
     ( 'fluid_ounce',           'tablespoon' )                           : '2',
     ( 'foot',                  'inch' )                                 : '12',
@@ -1529,11 +1607,19 @@ unitConversionMatrix = {
     ( 'hefnerkerze',           'candela' )                              : '0.920',  # approx.
     ( 'henry',                 'abhenry' )                              : '1.0e9',
     ( 'henry',                 'weber/ampere' )                         : '1',
-    ( 'hogshead',              'gallon' )                               : '63',
     ( 'homestead',             'acre' )                                 : '160',
     ( 'horsepower',            'watt' )                                 : '745.69987158227022',
     ( 'horsepower-second',     'joule' )                                : '745.69987158227022',
     ( 'hour',                  'minute' )                               : '60',
+    ( 'imperial_bushel',       'kenning' )                              : '2',
+    ( 'imperial_butt',         'imperial_hogshead' )                    : '2',
+    ( 'imperial_cup',          'imperial_gill' )                        : '2',
+    ( 'imperial_gallon',       'pottle' )                               : '2',
+    ( 'imperial_gill',         'jack' )                                 : '2',
+    ( 'imperial_hogshead',     'coomb' )                                : '2',
+    ( 'imperial_peck',         'imperial_quart' )                       : '2',
+    ( 'imperial_pint',         'imperial_cup' )                         : '2',
+    ( 'imperial_quart',        'imperial_pint' )                        : '2',
     ( 'inch',                  'barleycorn' )                           : '3',
     ( 'inch',                  'caliber' )                              : '100',
     ( 'inch',                  'gutenberg' )                            : '7200',
@@ -1542,6 +1628,7 @@ unitConversionMatrix = {
     ( 'inch',                  'pica' )                                 : '6',
     ( 'inch',                  'point' )                                : '72',
     ( 'inch',                  'twip' )                                 : '1440',
+    ( 'jack',                  'tablespoon' )                           : '5',
     ( 'jennie',                'liter' )                                : '0.5',
     ( 'jeroboam',              'liter' )                                : '3.0',  # some French regions use 4.5
     ( 'joule',                 'electronvolt' )                         : '6.24150974e18',
@@ -1549,12 +1636,15 @@ unitConversionMatrix = {
     ( 'joule',                 'kilogram-meter^2/second^2' )            : '1',
     ( 'joule/second',          'watt' )                                 : '1',
     ( 'ken',                   'inch' )                                 : '83.4',
+    ( 'kenning',               'imperial_peck' )                        : '2',
+    ( 'kilderkin',             'firkin' )                               : '2',
     ( 'kip',                   'pound' )                                : '1000',
     ( 'kovac',                 'wolverton' )                            : '10',
     ( 'lambert',               'candela/meter^2' )                      : str( fdiv( 10000, pi ) ),
     ( 'league',                'mile' )                                 : '3',
-    ( 'light',                 'speed_of_light' )                       : '1',
+    ( 'light',                 'meter/second' )                         : speedOfLight,
     ( 'light-second',          'meter' )                                : speedOfLight,
+    ( 'light-year',            'light-second' )                         : '31557600',
     ( 'link',                  'inch' )                                 : '7.92',
     ( 'liter',                 'ngogn' )                                : '86.2477899004',
     ( 'long_cubit',            'inch' )                                 : '21',
@@ -1630,6 +1720,7 @@ unitConversionMatrix = {
     ( 'potrzebie',             'farshimmelt_potrzebie' )                : '1.0e5',
     ( 'potrzebie',             'furshlugginer_potrzebie' )              : '1.0e-6',
     ( 'potrzebie',             'meter' )                                : '0.002263348517438173216473',  # see Mad #33
+    ( 'pottle',                'imperial_quart' )                       : '2',
     ( 'pound',                 'grain' )                                : '7000',
     ( 'pound',                 'ounce' )                                : '16',
     ( 'pound',                 'sheet' )                                : '700',
@@ -1667,7 +1758,6 @@ unitConversionMatrix = {
     ( 'solomon',               'liter' )                                : '20.0',
     ( 'sovereign',             'liter' )                                : '25.0',
     ( 'span',                  'inch' )                                 : '9',
-    ( 'speed_of_light',        'meter/second' )                         : speedOfLight,
     ( 'square_arcminute',      'square_arcsecond' )                     : '3600',
     ( 'square_degree',         'square_arcminute' )                     : '3600',
     ( 'square_meter',          'barn' )                                 : '1.0e28',
@@ -1691,6 +1781,7 @@ unitConversionMatrix = {
     ( 'stilb',                 'candela/meter^2' )                      : '10000',
     ( 'stone',                 'pound' )                                : '14',
     ( 'stone_us',              'pound' )                                : '12.5',
+    ( 'strike',                'imperial_bushel' )                      : '2',
     ( 'tablespoon',            'teaspoon' )                             : '3',
     ( 'teaspoon',              'dash' )                                 : '8',
     ( 'teaspoon',              'pinch' )                                : '16',
@@ -1709,11 +1800,7 @@ unitConversionMatrix = {
     ( 'troy_ounce',            'gram' )                                 : '31.1034768',
     ( 'troy_pound',            'pound' )                                : '12',
     ( 'tryte',                 'trit' )                                 : '6',   # as defined by the Setun computer
-    ( 'tun',                   'gallon' )                               : '252',
-    ( 'tun',                   'pipe' )                                 : '2',
-    ( 'tun',                   'puncheon' )                             : '3',
-    ( 'tun',                   'rundlet' )                              : '14',
-    ( 'tun',                   'tierce' )                               : '6',
+    ( 'virgate',               'bovate' )                               : '30',
     ( 'volt',                  'abvolt' )                               : '1.0e8',
     ( 'von_klitzing_constant', 'ohm' )                                  : '25812.807557',
     ( 'watt',                  'erg/second' )                           : '1.0e7',
@@ -1726,6 +1813,15 @@ unitConversionMatrix = {
     ( 'weber',                 'volt-second' )                          : '1',
     ( 'week',                  'day' )                                  : '7',
     ( 'wey',                   'pound' )                                : '252',
+    ( 'wine_barrel',           'wine_gallon' )                          : '31.5',
+    ( 'wine_butt',             'wine_gallon' )                          : '126',
+    ( 'wine_gallon',           'gallon' )                               : '1',
+    ( 'wine_hogshead',         'gallon' )                               : '63',
+    ( 'wine_tun',              'gallon' )                               : '252',
+    ( 'wine_tun',              'puncheon' )                             : '3',
+    ( 'wine_tun',              'rundlet' )                              : '14',
+    ( 'wine_tun',              'tierce' )                               : '6',
+    ( 'wine_tun',              'wine_pipe' )                            : '2',
     ( 'wood',                  'martin' )                               : '100',
     ( 'word',                  'bit' )                                  : '16',
     ( 'yard',                  'foot' )                                 : '3',

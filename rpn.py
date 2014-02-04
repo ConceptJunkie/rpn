@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.10.3'
+PROGRAM_VERSION = '5.10.4'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -416,12 +416,13 @@ def simplifyUnits( units ):
 #//******************************************************************************
 
 class Measurement( mpf ):
-    def __new__( cls, value, units=None ):
+    def __new__( cls, value, units=None, unitName=None ):
         return mpf.__new__( cls, value )
 
 
-    def __init__( self, value, units=None ):
+    def __init__( self, value, units=None, unitName=None ):
         mpf.__init__( value )
+
         self.units = { }
 
         if units is not None:
@@ -434,6 +435,8 @@ class Measurement( mpf ):
                 self.update( units )
             else:
                 raise ValueError( 'invalid units specifier' )
+
+        self.unitName = unitName
 
 
     def __eq__( self, other ):
@@ -450,6 +453,8 @@ class Measurement( mpf ):
 
 
     def increment( self, value, amount=1 ):
+        self.unitName = None
+
         if value not in self.units:
             self.units[ value ] = amount
         else:
@@ -457,6 +462,8 @@ class Measurement( mpf ):
 
 
     def decrement( self, value, amount=1 ):
+        self.unitName = None
+
         if value not in self.units:
             self.units[ value ] = -amount
         else:
@@ -466,23 +473,23 @@ class Measurement( mpf ):
     def add( self, other ):
         if isinstance( other, Measurement ):
             if self.getUnits( ) == other.getUnits( ):
-                return Measurement( fadd( self, other ), self.getUnits( ) )
+                return Measurement( fadd( self, other ), self.getUnits( ), self.getUnitName( ) )
             else:
                 newOther = other.convertValue( self )
                 return add( self, newOther )
         else:
-            return Measurement( fadd( self, other ), self.getUnits( ) )
+            return Measurement( fadd( self, other ), self.getUnits( ), self.getUnitName( ) )
 
 
     def subtract( self, other ):
         if isinstance( other, Measurement ):
             if self.getUnits( ) == other.getUnits( ):
-                return Measurement( fsub( self, other ), self.getUnits( ) )
+                return Measurement( fsub( self, other ), self.getUnits( ), self.getUnitName( ) )
             else:
                 newOther = other.convertValue( self )
                 return subtract( self, newOther )
         else:
-            return Measurement( fsub( self, other ), self.getUnits( ) )
+            return Measurement( fsub( self, other ), self.getUnits( ), self.getUnitName( ) )
 
 
     def multiply( self, other ):
@@ -494,7 +501,7 @@ class Measurement( mpf ):
 
             self = Measurement( fmul( newValue, factor ), newUnits )
         else:
-            self = Measurement( newValue, self.getUnits( ) )
+            self = Measurement( newValue, self.getUnits( ), self.getUnitName( ) )
 
         return self.normalizeUnits( )
 
@@ -508,7 +515,7 @@ class Measurement( mpf ):
 
             self = Measurement( fmul( newValue, factor ), newUnits )
         else:
-            self = Measurement( newValue, self.getUnits( ) )
+            self = Measurement( newValue, self.getUnits( ), self.getUnitName( ) )
 
         return self.normalizeUnits( )
 
@@ -545,13 +552,14 @@ class Measurement( mpf ):
         if negative:
             return Measurement( value, newUnits ).invert( )
         else:
-            return Measurement( value, newUnits )
+            return Measurement( value, newUnits, self.getUnitName( ) )
 
 
     def update( self, units ):
         if not isinstance( units, dict ):
             raise ValueError( 'dict expected' )
 
+        self.unitName = None
         self.units.update( units )
 
 
@@ -581,6 +589,10 @@ class Measurement( mpf ):
         return self.units
 
 
+    def getUnitName( self ):
+        return self.unitName
+
+
     def getTypes( self ):
         types = { }
 
@@ -598,14 +610,18 @@ class Measurement( mpf ):
         #print( 'types:', types )
         return types
 
+
     def getSimpleTypes( self ):
         return simplifyUnits( self.units )
+
 
     def getBasicTypes( self ):
         return getBasicUnitTypes( self.getTypes( ) )
 
+
     def getNoncompoundTypes( self ):
         return getNoncompoundUnitTypes( self.getTypes( ) )
+
 
     def convertValue( self, other ):
         if self.isCompatible( other ):
@@ -701,6 +717,7 @@ class Polynomial( object ):
             self.coeffs = [ i + 0 for i in args ]
         self.trim( )
 
+
     def __add__( self, val ):
         "Return self+val"
         if isinstance( val, Polynomial ):                    # add Polynomial
@@ -714,6 +731,7 @@ class Polynomial( object ):
 
         return self.__class__( res )
 
+
     def __call__( self, val ):
         "Evaluate at X==val"
         res = 0
@@ -725,12 +743,14 @@ class Polynomial( object ):
 
         return res
 
+
     def __eq__( self, val ):
         "Test self==val"
         if isinstance( val, Polynomial ):
             return self.coeffs == val.coeffs
         else:
             return len( self.coeffs ) == 1 and self.coeffs[ 0 ] == val
+
 
     def __mul__( self, val ):
         "Return self*val"
@@ -746,27 +766,34 @@ class Polynomial( object ):
             res = [ co * val for co in self.coeffs ]
         return self.__class__( res )
 
+
     def __neg__( self ):
         "Return -self"
         return self.__class__( [ -co for co in self.coeffs ] )
 
+
     def __pow__( self, y, z = None ):
         raise NotImplemented( )
+
 
     def _radd__( self, val ):
         "Return val+self"
         return self + val
 
+
     def __repr__( self ):
         return "{0}({1})".format( self.__class__.__name__, self.coeffs )
+
 
     def __rmul__( self, val ):
         "Return val*self"
         return self * val
 
+
     def __rsub__( self, val ):
         "Return val-self"
         return -self + val
+
 
     def __str__( self ):
         "Return string formatted as aX^3 + bX^2 + c^X + d"
@@ -789,9 +816,11 @@ class Polynomial( object ):
         else:
             return "0"
 
+
     def __sub__( self, val ):
         "Return self-val"
         return self.__add__( -val )
+
 
     def trim( self ):
         "Remove trailing 0-coefficients"
@@ -807,6 +836,7 @@ class Polynomial( object ):
                     offs -= 1
 
                 del _co[ offs + 1 : ]
+
 
     def getCoefficients( self ):
         return self.coeffs
@@ -5464,7 +5494,7 @@ def convertUnits( unit1, unit2 ):
     #print( 'unit1:', unit1.getTypes( ) )
     #print( 'unit2:', unit2.getTypes( ) )
 
-    return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ) )
+    return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ), unit2.getUnitName( ) )
 
 
 #//******************************************************************************
@@ -6379,6 +6409,17 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
 #//******************************************************************************
 
 def formatUnits( measurement ):
+    if measurement.getUnitName( ) is not None:
+        unitString = ''
+
+        for c in measurement.getUnitName( ):
+            if c == '_':
+                unitString += ' '
+            else:
+                unitString += c
+
+        return unitString
+
     unitString = ''
 
     # first, we simplify the units
@@ -6396,7 +6437,7 @@ def formatUnits( measurement ):
                 unitString += ' '
 
             if value == 1:
-                unitString += unitOperators[ unit ].representation
+                unitString += unit
             else:
                 unitString += unitOperators[ unit ].plural
 
@@ -6929,9 +6970,9 @@ def main( ):
                 break
         elif term in unitOperators:
             if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
-                currentValueList.append( Measurement( 1, term ) )
+                currentValueList.append( Measurement( 1, term, term ) )
             else:
-                value = Measurement( currentValueList.pop( ), term )
+                value = Measurement( currentValueList.pop( ), term, term )
                 currentValueList.append( value )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
