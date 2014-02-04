@@ -5,7 +5,7 @@
 #//  makeHelp
 #//
 #//  RPN command-line calculator help file generator
-#//  copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)
+#//  copyright (c) 2013, Rick Gutleber (rickg@his.com)
 #//
 #//  License: GNU GPL (see <http://www.gnu.org/licenses/gpl.html> for more
 #//  information).
@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.6.1'
+PROGRAM_VERSION = '5.7.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -1794,12 +1794,6 @@ given the way calculating prime numbers is currently done.
 ''' ],
     'primorial'     : [
 'prime_numbers', 'calculates the nth primorial',
-'''
-''',
-'''
-''' ],
-    'psi'           : [
-'number_theory', 'calculates the polygamma function for n',
 '''
 ''',
 '''

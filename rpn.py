@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.6.2'
+PROGRAM_VERSION = '5.7.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -66,6 +66,21 @@ inputRadix = 10
 updateDicts = False
 
 unitStack = [ ]
+
+
+#//******************************************************************************
+#//
+#//  class UnitInfo
+#//
+#//******************************************************************************
+
+class UnitInfo( ):
+    def __init__( self, unitType, representation, plural, abbrev, aliases ):
+        self.unitType = unitType
+        self.representation = representation
+        self.plural = plural
+        self.abbrev = abbrev
+        self.aliases = aliases
 
 
 #//******************************************************************************
@@ -152,139 +167,12 @@ def parseUnitString( expression ):
 
 #//******************************************************************************
 #//
-#//  parseUnitString
-#//
-#//******************************************************************************
-
-def parseUnitString( expression ):
-    units = { }
-
-    if expression == '':
-        return units
-
-    start = 0
-    index = -1
-    denominator = False
-
-    index = 0
-
-    exponent = 1
-
-    length = len( expression )
-    #print( 'expression: ', expression )
-    #print( 'length: ', length )
-
-    unit = ''
-
-    needToAdd = True
-
-    while True:
-        c = expression[ start ]
-
-        # handle multiplying
-        if c == '*':
-            if unit == '':
-                raise ValueError( 'expected a unit name starting at index: ', start )
-
-            if needToAdd:
-                if unit in units:
-                    units[ unit ] += exponent
-                else:
-                    units[ unit ] = exponent
-
-            start += 1
-        # handle dividing
-        elif c == '/':
-            if denominator:
-                raise ValueError( 'only one \'/\' is permitted' )
-
-            if unit == '':
-                raise ValueError( 'expected a unit name starting at index: ', start )
-
-            if needToAdd:
-                if unit in units:
-                    units[ unit ] += exponent
-                else:
-                    units[ unit ] = exponent
-
-            #print( 'denominator!' )
-            denominator = True
-            exponent = -1
-            start += 1
-        # handle an exponent
-        elif c == '^':
-            if not needToAdd:
-                raise ValueError( 'wasn\'t expecting another exponent' )
-
-            if unit == '':
-                raise ValueError( 'expected a unit name starting at index: ', start )
-
-            start += 1
-            index = start
-
-            for c in expression[ start : ]:
-                if c not in string.digits:
-                    break
-
-                index += 1
-
-            newExponent = int( expression[ start : index ] )
-
-            start = index
-
-            if denominator:
-                newExponent = -newExponent
-
-            if unit in units:
-                units[ unit ] += newExponent
-            else:
-                units[ unit ] = newExponent
-
-            needToAdd = False
-
-            if start >= length:
-                break
-            else:
-                continue
-
-        needToAdd = True
-        index = start
-
-        # parse out a unit name
-        for c in expression[ start : ]:
-            if c not in string.ascii_letters and c != '_' and c != '-' and c not in string.digits:
-                break
-
-            index += 1
-
-        unit = expression[ start : index ]
-        #print( 'unit: ', unit )
-
-        # if we've hit the end of the string, wrap up
-        if index >= length:
-            #print( 'wrapping up' )
-
-            if unit in units:
-                units[ unit ] += exponent
-            else:
-                units[ unit ] = exponent
-
-            break
-        else:
-            start = index
-
-    #print( units )
-    return units
-
-
-#//******************************************************************************
-#//
 #//  getUnitType
 #//
 #//******************************************************************************
 
 def getUnitType( unit ):
-    return unitOperators[ unit ][ 0 ]
+    return unitOperators[ unit ].unitType
 
 
 #//******************************************************************************
@@ -294,7 +182,7 @@ def getUnitType( unit ):
 #//******************************************************************************
 
 def getSimpleUnitType( unit ):
-    return unitTypes[ unitOperators[ unit ][ 0 ] ]
+    return unitTypes[ getUnitType( unit ) ]
 
 
 #//******************************************************************************
@@ -391,13 +279,14 @@ def multiplyUnits( units1, units2 ):
 
 #//******************************************************************************
 #//
-#//  Measurement
+#//  class Measurement
 #//
 #//******************************************************************************
 
 class Measurement( mpf ):
     def __new__( cls, value, units=None ):
         return mpf.__new__( cls, value )
+
 
     def __init__( self, value, units=None ):
         mpf.__init__( value )
@@ -6174,6 +6063,8 @@ def formatUnits( measurement ):
 
     newUnits = { }
 
+    value = mpf( measurement )
+
     # some units are really compound units
     for unit in units:
         parsed = parseUnitString( unit )
@@ -6193,7 +6084,10 @@ def formatUnits( measurement ):
             if unitString != '':
                 unitString += ' '
 
-            unitString += unitOperators[ unit ][ 1 ]
+            if value == 1:
+                unitString += unitOperators[ unit ].representation
+            else:
+                unitString += unitOperators[ unit ].plural
 
             if exponent > 1:
                 unitString += '^' + str( exponent )
