@@ -14,7 +14,6 @@
 
 import bz2
 import contextlib
-#import dill as pickle
 import itertools
 import os
 import pickle
@@ -30,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.8.0'
+PROGRAM_VERSION = '5.8.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -499,6 +498,9 @@ unitOperators = {
     'fahrenheit' :
         UnitInfo( 'temperature', 'fahrenheit', 'degrees fahrenheit', '', [ 'fahr', 'degF' ] ),
 
+    'gas_mark' :
+        UnitInfo( 'temperature', 'gas_mark', 'degrees gas_mark', 'GM', [ 'regulo', 'regulo_gas_mark', 'degGM' ] ),
+
     'kelvin' :
         UnitInfo( 'temperature', 'kelvin', 'degrees kelvin', 'K', [ 'degK' ] ),
 
@@ -946,7 +948,6 @@ unitConversionMatrix = {
     ( 'wood',                  'martin' )                          : '100',
     ( 'yard',                  'foot' )                            : '3',
     ( 'year',                  'day' )                             : '365.25',
-    ( 'kelvin',                'rankine' )                         : '1.4',
 }
 
 
@@ -1012,6 +1013,9 @@ def makeAliases( ):
     for unit in unitOperators:
         unitInfo = unitOperators[ unit ]
         newAliases[ unitInfo.plural ] = unit
+
+        for alias in unitInfo.aliases:
+            newAliases[ alias ] = unit
 
         if unitInfo.abbrev != '':
             newAliases[ unitInfo.abbrev ] = unit
