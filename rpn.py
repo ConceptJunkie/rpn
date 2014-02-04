@@ -23,6 +23,7 @@ import os
 import pickle
 import pyprimes
 import random
+import string
 import sys
 import textwrap
 import time
@@ -39,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.1.0'
+RPN_VERSION = '5.2.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -216,33 +217,50 @@ class Polynomial(object):
 #//******************************************************************************
 
 def downloadOEISSequence( id ):
+    keywords = downloadOEISText( id, 'K' ).split( ',' )
+
+    if 'nonn' in keywords:
+        result = downloadOEISText( id, 'S' )
+        result += downloadOEISText( id, 'T' )
+        result += downloadOEISText( id, 'U' )
+    else:
+        result = downloadOEISText( id, 'V' )
+        result += downloadOEISText( id, 'W' )
+        result += downloadOEISText( id, 'X' )
+
+    if 'cons' in keywords:
+        offset = int( downloadOEISText( id, 'O' ).split( ',' )[ 0 ] )
+        result = ''.join( result.split( ',' ) )
+        return mpmathify( result[ : offset ] + '.' + result[ offset : ] )
+    else:
+        return [ int( i ) for i in result.split( ',' ) ]
+
+
+#//******************************************************************************
+#//
+#//  downloadOEISText
+#//
+#//******************************************************************************
+
+def downloadOEISText( id, char, addCR=False ):
     import urllib.request
     import re as regex
 
-    data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3A{:06}'.format( id ) + '&fmt=text' ).read( )
+    data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( id ) + '&fmt=text' ).read( )
 
-    pattern = regex.compile( b'%S A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
-    result = pattern.findall( data )[ 0 ]
+    pattern = regex.compile( b'%' + bytes( char, 'ascii' ) + b' A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
 
-    pattern = regex.compile( b'%T A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
-    result += pattern.findall( data )[ 0 ]
+    lines = pattern.findall( data )
 
-    pattern = regex.compile( b'%U A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
-    result += pattern.findall( data )[ 0 ]
+    result = ''
 
-    sequence = [ int( i ) for i in result.decode( 'ascii' ).split( ',' ) ]
+    for line in lines:
+        if result != '' and addCR:
+            result += '\n'
 
-    return sequence
+        result += line.decode( 'ascii' )
 
-
-#//******************************************************************************
-#//
-#//  getOEISSequence
-#//
-#//******************************************************************************
-
-def getOEISSequence( n ):
-    return downloadOEISSequence( int( n ) )
+    return result
 
 
 #//******************************************************************************
@@ -2324,6 +2342,24 @@ def performBitwiseOperation( i, j, operation ):
 
 #//******************************************************************************
 #//
+#//  getBitCount
+#//
+#//******************************************************************************
+
+def getBitCount( n ):
+    result = 0
+
+    value = int( n )
+
+    while ( value ):
+        value &= value - 1
+        result += 1
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  tetrate
 #//
 #//  This is the smaller (left-associative) version of the hyper4 operator.
@@ -3933,6 +3969,8 @@ def dumpOperators( ):
 #//
 #//  convertToSignedInt
 #//
+#//  two's compliment logic is effect here
+#//
 #//******************************************************************************
 
 def convertToSignedInt( n, k ):
@@ -4635,6 +4673,7 @@ operatorAliases = {
     'bal'         : 'balanced',
     'bal?'        : 'balanced?',
     'bal_'        : 'balanced_',
+    'bits'        : 'countbits',
     'cbrt'        : 'root3',
     'ccube'       : 'centeredcube',
     'cdec'        : 'cdecagonal',
@@ -4679,10 +4718,11 @@ operatorAliases = {
     'inv'         : 'reciprocal',
     'isdiv'       : 'isdivisible',
     'issqr'       : 'issquare',
+    'left'        : 'shiftleft',
     'linear'      : 'linearrecur',
-    'liter'       : 'litre',
+    'litre'       : 'liter',
     'log'         : 'ln',
-    'meter'       : 'metre',
+    'metre'       : 'meter',
     'mi'          : 'mile',
     'mod'         : 'modulo',
     'mult'        : 'multiply',
@@ -4709,6 +4749,7 @@ operatorAliases = {
     'quint_'      : 'quintprime_',
     'rad'         : 'radians',
     'rand'        : 'random',
+    'right'       : 'shiftright',
     'safe'        : 'safeprime',
     'safe?'       : 'safeprime?',
     'sext'        : 'sextprime',
@@ -5375,6 +5416,12 @@ number.
 ''',
 '''
 ''' ],
+    'countbits'     : [ getBitCount, 1,
+'logical', 'returns the number of set bits in the value of n',
+'''
+''',
+'''
+''' ],
     'countdiv'      : [ getDivisorCount, 1,
 'number_theory', 'returns a count of the divisors of n',
 '''
@@ -6030,8 +6077,26 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'oeis'          : [ getOEISSequence, 1,
+    'oeis'          : [ lambda n: downloadOEISSequence( int( n ) ), 1,
 'special', 'downloads the OEIS integer series n',
+'''
+''',
+'''
+''' ],
+    'oeiscomment'   : [ lambda n: downloadOEISText( int( n ), 'C', True ), 1,
+'special', 'downloads the comment field for the OEIS integer series n',
+'''
+''',
+'''
+''' ],
+    'oeisex'        : [ lambda n: downloadOEISText( int( n ), 'E', True ), 1,
+'special', 'downloads the comment field for the OEIS integer series n',
+'''
+''',
+'''
+''' ],
+    'oeisname'      : [ lambda n: downloadOEISText( int( n ), 'N', True ), 1,
+'special', 'downloads the name of the OEIS integer series n',
 '''
 ''',
 '''
@@ -6050,6 +6115,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'padovan'       : [ getNthPadovanNumber, 1,
 'number_theory', 'calculates the the nth Padovan number',
+'''
+''',
+'''
+''' ],
+    'parity'        : [ lambda n : getBitCount( n ) & 1, 1,
+'logical', 'returns the bit parity of n (0 == even, 1 == odd)',
 '''
 ''',
 '''
@@ -6378,6 +6449,18 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'sinh'          : [ sinh, 1,
 'trigonometry', 'calculates the hyperbolic sine of n',
+'''
+''',
+'''
+''' ],
+    'shiftleft'     : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x << y ), 2,
+'logical', 'performs a bitwise left shift of value n by k bits',
+'''
+''',
+'''
+''' ],
+    'shiftright'    : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x >> y ), 2,
+'logical', 'performs a bitwise right shift of value n by k bits',
 '''
 ''',
 '''
@@ -7025,6 +7108,9 @@ def roundMantissa( mantissa, accuracy ):
 
 def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
                   decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
+    if string.whitespace or string.punctuation in output:
+        return output
+
     imaginary = im( mpmathify( output ) )
 
     if imaginary != 0:
