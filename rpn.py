@@ -13,11 +13,14 @@
 #//******************************************************************************
 
 import argparse
+import bz2
 import collections
+import contextlib
 import datetime
 import itertools
 import math
 import os
+import pickle
 import pyprimes
 import random
 import sys
@@ -36,7 +39,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.0.0'
+RPN_VERSION = '5.0.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -62,75 +65,7 @@ updateDicts = False
 
 currentUnitOperator = ''
 
-
-#//******************************************************************************
-#//
-#//  measurement units
-#//
-#//******************************************************************************
-
-unitOperators = {
-    'cubic_foot'    : 'volume',
-    'cup'           : 'volume',
-    'fluid_ounce'   : 'volume',
-    'foot'          : 'length',
-    'gallon'        : 'volume',
-    'inch'          : 'length',
-    'litre'         : 'volume',
-    'metre'         : 'length',
-    'micron'        : 'length',
-    'mile'          : 'length',
-    'ounce'         : 'volume',
-    'pint'          : 'volume',
-    'quart'         : 'volume',
-    'second'        : 'time',
-    'yard'          : 'length',
-}
-
-
-metric_units = [
-    ( 'metre',  'm' ),
-    ( 'second', 's' ),
-    ( 'litre',  'l' ),
-]
-
-
-metric_prefixes = [
-    ( 'yotta',  'Y',  '24' ),
-    ( 'zetta',  'Z',  '21' ),
-    ( 'exa',    'E',  '18' ),
-    ( 'peta',   'P',  '15' ),
-    ( 'tera',   'T',  '12' ),
-    ( 'giga',   'G',  '9' ),
-    ( 'mega',   'M',  '6' ),
-    ( 'kilo',   'k',  '3' ),
-    ( 'hecto',  'h',  '2' ),
-    ( 'deca',   'da', '1' ),
-    ( 'deci',   'd',  '-1' ),
-    ( 'centi',  'c',  '-2' ),
-    ( 'milli',  'm',  '-3' ),
-    ( 'micro',  '',   '-6' ),
-    ( 'nano',   'n',  '-9' ),
-    ( 'pico',   'p',  '-12' ),
-    ( 'femto',  'f',  '-15' ),
-    ( 'atto',   'a',  '-18' ),
-    ( 'zepto',  'z',  '-21' ),
-    ( 'yocto',  'y',  '-24' ),
-]
-
-unitConversionMatrix = {
-    ( 'cup',    'fluid_ounce' ) : '8',
-    ( 'foot',   'inch' )        : '12',
-    ( 'gallon', 'quart' )       : '4',
-    ( 'inch',   'metre' )       : '0.0254',
-    ( 'litre',  'cubic_foot' )  : '28.316846592',
-    ( 'metre',  'micron' )      : '1000000',
-    ( 'mile',   'foot' )        : '5280',
-    ( 'quart',  'cup' )         : '4',
-    ( 'quart',  'litre' )       : '0.946352946',
-    ( 'quart',  'pint' )        : '2',
-    ( 'yard',   'foot' )        : '3',
-}
+unitConversionMatrix = { }
 
 
 #//******************************************************************************
@@ -319,10 +254,6 @@ def getOEISSequence( n ):
 def loadTable( fileName, default ):
     global dataPath
 
-    import bz2
-    import contextlib
-    import pickle
-
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'rb' ) ) as pickleFile:
             primes = pickle.load( pickleFile )
@@ -389,10 +320,6 @@ def loadSextupletPrimes( ):
 
 def saveTable( fileName, var ):
     global dataPath
-
-    import bz2
-    import contextlib
-    import pickle
 
     with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'wb' ) ) as pickleFile:
         pickle.dump( var, pickleFile )
@@ -2059,26 +1986,26 @@ def factor( n ):
     elif n == 1:
         return [ ( 1, 1 ) ]
     else:
-        def potential_primes( ):
-            base_primes = ( 2, 3, 5 )
+        def getPotentialPrimes( ):
+            basePrimes = ( 2, 3, 5 )
 
-            for base_prime in base_primes:
-                yield base_prime
+            for basePrime in basePrimes:
+                yield basePrime
 
-            base_primes = ( 7, 11, 13, 17, 19, 23, 29, 31 )
+            basePrimes = ( 7, 11, 13, 17, 19, 23, 29, 31 )
 
-            prime_group = 0
+            primeGroup = 0
 
             while True:
-                for base_prime in base_primes:
-                    yield prime_group + base_prime
+                for basePrime in basePrimes:
+                    yield primeGroup + basePrime
 
-                prime_group += 30
+                primeGroup += 30
 
         factors = [ ]
         sqrtn = sqrt( n )
 
-        for divisor in potential_primes( ):
+        for divisor in getPotentialPrimes( ):
             if divisor > sqrtn:
                 break
 
@@ -2222,18 +2149,18 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
         return str( value )
 
     result = ''
-    left_digits = value
+    leftDigits = value
 
-    while left_digits > 0:
+    while leftDigits > 0:
         if baseAsDigits:
             if result != '':
                 result = ' ' + result
 
-            result = str( int( left_digits ) % base ) + result
+            result = str( int( leftDigits ) % base ) + result
         else:
-            result = numerals[ int( left_digits ) % base ] + result
+            result = numerals[ int( leftDigits ) % base ] + result
 
-        left_digits = floor( fdiv( left_digits, base ) )
+        leftDigits = floor( fdiv( leftDigits, base ) )
 
     return result
 
@@ -3451,7 +3378,7 @@ def interpretAsFraction( i, j ):
 #//
 #//  interpretAsBase
 #//
-#//  This is a list_operator so if the integer argument (base) is also a list,
+#//  This is a list operator so if the integer argument (base) is also a list,
 #//  we need to handle that explicitly here.
 #//
 #//******************************************************************************
@@ -3710,9 +3637,9 @@ def makeImaginary( n ):
 #//******************************************************************************
 
 def isSquare( n ):
-    sqrt_n = sqrt( n )
+    sqrtN = sqrt( n )
 
-    return 1 if sqrt_n == floor( sqrt_n ) else 0
+    return 1 if sqrtN == floor( sqrtN ) else 0
 
 
 #//******************************************************************************
@@ -3949,11 +3876,11 @@ def getGreedyEgyptianFraction( n, d ):
 
 #//******************************************************************************
 #//
-#//  listOperators
+#//  dumpOperators
 #//
 #//******************************************************************************
 
-def listOperators( ):
+def dumpOperators( ):
     print( 'operators:' )
 
     for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
@@ -3963,7 +3890,7 @@ def listOperators( ):
 
     print( 'list operators:' )
 
-    for i in sorted( [ key for key in list_operators ] ):
+    for i in sorted( [ key for key in listOperators ] ):
         print( '   ' + i )
 
     print( )
@@ -3999,7 +3926,7 @@ def printStats( dict, name ):
 def dumpStats( ):
     global unitConversionMatrix
 
-    print( '{:10,} unique operators'.format( len( list_operators ) + len( operators ) + len( modifiers ) ) )
+    print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) + len( modifiers ) ) )
     print( '{:10,} unit conversions'.format( len( unitConversionMatrix ) ) )
     print( )
 
@@ -4620,87 +4547,6 @@ callers = [
 
 #//******************************************************************************
 #//
-#//  initializeConversionMatrix
-#//
-#//******************************************************************************
-
-def initializeConversionMatrix( unitConversionMatrix ):
-    global unitOperators
-
-    for unit in metric_units:
-        for prefix in metric_prefixes:
-            newName = prefix[ 0 ] + unit[ 0 ]
-            unitOperators[ newName ] = unitOperators[ unit[ 0 ] ]
-            unitConversionMatrix[ ( newName, unit[ 0 ] ) ] = str( power( 10, mpmathify( prefix[ 2 ] ) ) )
-
-    newConversions = { }
-
-    for op1, op2 in unitConversionMatrix:
-        conversion = fdiv( 1, mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ) )
-        newConversions[ ( op2, op1 ) ] = str( conversion )
-
-    unitConversionMatrix.update( newConversions )
-
-    newOperators = { }
-
-    for operator in unitOperators:
-        if unitOperators[ operator ] == 'length':
-            newOperators[ 'square_'  + operator ] = 'area'
-            newOperators[ 'cubic_'  + operator ] = 'volume'
-
-    unitOperators.update( newOperators )
-
-    newConversions = { }
-
-    for op1, op2 in unitConversionMatrix:
-        if unitOperators[ op1 ] == 'length':
-            conversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
-            newConversions[ ( 'square_' + op1, 'square_' + op2 ) ] = str( power( conversion, 2 ) )
-            newConversions[ ( 'cubic_' + op1, 'cubic_' + op2 ) ] = str( power( conversion, 3 ) )
-
-    unitConversionMatrix.update( newConversions )
-
-    newConversions = { }
-
-    for op1, op2 in unitConversionMatrix:
-        conversion = fdiv( 1, mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ) )
-        newConversions[ ( op2, op1 ) ] = str( conversion )
-
-    unitConversionMatrix.update( newConversions )
-
-    for op1 in unitOperators:
-        for op2 in unitOperators:
-            if op1 == op2:
-                continue
-
-            if ( op1, op2 ) in unitConversionMatrix:
-                while True:
-                    newConversion = False
-
-                    for op3 in unitOperators:
-                        if ( op3 == op1 ) or ( op3 == op2 ):
-                            continue
-
-                        if ( op1, op3 ) not in unitConversionMatrix and ( op2, op3 ) in unitConversionMatrix:
-                            conversion = fmul( mpmathify( unitConversionMatrix[ ( op1, op2 ) ] ),
-                                               mpmathify( unitConversionMatrix[ ( op2, op3 ) ] ) )
-                            unitConversionMatrix[ ( op1, op3 ) ] = str( conversion )
-                            unitConversionMatrix[ ( op3, op1 ) ] = str( fdiv( 1, conversion ) )
-
-                            newConversion = True
-
-                    if not newConversion:
-                        break
-
-    #for i in unitConversionMatrix:
-    #    print( i, unitConversionMatrix[ i ] )
-
-    #for i in unitOperators:
-    #    print( i, unitOperators[ i ] )
-
-
-#//******************************************************************************
-#//
 #//  handleUnitOperator
 #//
 #//******************************************************************************
@@ -4714,6 +4560,11 @@ def handleUnitOperator( operator, valueList ):
         currentUnitOperator = operator
     elif ( currentUnitOperator, operator ) in unitConversionMatrix:
         conversion = mpmathify( unitConversionMatrix[ ( currentUnitOperator, operator ) ] )
+
+        # this way you can do a conversion without specifying an amount... it will default to 1
+        if len( valueList ) == 0:
+            valueList.append( mpmathify( 1 ) )
+
         valueList.append( evaluateOneArgFunction( lambda i: fmul( i, conversion ), valueList.pop( ) ) )
     elif ( operator, currentUnitOperator ) in unitConversionMatrix:
         conversion = mpmathify( unitConversionMatrix[ ( operator, currentUnitOperator ) ] )
@@ -4740,6 +4591,7 @@ operatorAliases = {
     '/'           : 'divide',
     '//'          : 'root',
     '1/x'         : 'reciprocal',
+    'au'          : 'astronomical_unit',
     'average'     : 'mean',
     'avg'         : 'mean',
     'bal'         : 'balanced',
@@ -4771,14 +4623,17 @@ operatorAliases = {
     'cuberoot'    : 'root3',
     'dec'         : 'decagonal',
     'dec?'        : 'decagonal?',
+#    'decare'      : 'decaare',
     'deg'         : 'degrees',
     'divcount'    : 'countdiv',
     'fac'         : 'factorial',
     'fac2'        : 'doublefac',
     'feet'        : 'foot',
     'fib'         : 'fibonacci',
+    'floz'        : 'fluid_ounce',
     'frac'        : 'fraction',
     'harm'        : 'harmonic',
+#    'hectare'     : 'hectoare',
     'hept'        : 'heptagonal',
     'hept?'       : 'heptagonal?',
     'hex'         : 'hexagonal',
@@ -4801,6 +4656,7 @@ operatorAliases = {
     'nonzeroes'   : 'nonzero',
     'oct'         : 'octagonal',
     'oct?'        : 'octagonal?',
+    'oz'          : 'ounce',
     'p!'          : 'primorial',
     'pent'        : 'pentagonal',
     'pent?'       : 'pentagonal?',
@@ -4868,7 +4724,7 @@ modifiers = {
 '''
 ''' ],
     'flatten'   : [ flatten, 1,
-'list_operators', 'flattens a nested lists in list n to a single level',
+'listOperators', 'flattens a nested lists in list n to a single level',
 '''
 ''',
 '''
@@ -4896,29 +4752,29 @@ modifiers = {
 
 #//******************************************************************************
 #//
-#//  list_operators are operators that handle whether or not an argument is a
+#//  listOperators are operators that handle whether or not an argument is a
 #//  list themselves (because they require a list argument).  Unlike regular
-#//  operators, we don't want list_operators permutated over each list element,
+#//  operators, we don't want listOperators permutated over each list element,
 #//  and if we do for auxillary arguments, these operator handlers will do that
 #//  themselves.
 #//
 #//******************************************************************************
 
-list_operators = {
+listOperators = {
     'append'        : [ appendLists, 2,
-'list_operators', 'appends the second list on to the first list',
+'listOperators', 'appends the second list on to the first list',
 '''
 ''',
 '''
 ''' ],
     'altsign'       : [ alternateSigns, 1,
-'list_operators', 'alternates signs in the list by making every even element negative',
+'listOperators', 'alternates signs in the list by making every even element negative',
 '''
 ''',
 '''
 ''' ],
     'altsign2'      : [ alternateSigns2, 1,
-'list_operators', 'alternates signs in the list by making every odd element negative',
+'listOperators', 'alternates signs in the list by making every odd element negative',
 '''
 ''',
 '''
@@ -4948,13 +4804,13 @@ list_operators = {
 '''
 ''' ],
     'count'     : [ countElements, 1,
-'list_operators', 'counts the elements of list n',
+'listOperators', 'counts the elements of list n',
 '''
 ''',
 '''
 ''' ],
     'diffs'      : [ getListDiffs, 1,
-'list_operators', 'returns a list with the differences between successive elements of list n',
+'listOperators', 'returns a list with the differences between successive elements of list n',
 '''
 ''',
 '''
@@ -4966,13 +4822,13 @@ list_operators = {
 '''
 ''' ],
     'interleave'    : [ interleave, 2,
-'list_operators', 'interleaves lists n and k into a single list',
+'listOperators', 'interleaves lists n and k into a single list',
 '''
 ''',
 '''
 ''' ],
     'intersection'  : [ makeIntersection, 2,
-'list_operators', 'returns the intersection of two lists',
+'listOperators', 'returns the intersection of two lists',
 '''
 ''',
 '''
@@ -5014,7 +4870,7 @@ list_operators = {
 '''
 ''' ],
     'nonzero'   : [ lambda n: [ index for index, e in enumerate( n ) if e != 0 ], 1,
-'list_operators', 'returns the indices of elements of list n that are not zero',
+'listOperators', 'returns the indices of elements of list n that are not zero',
 '''
 ''',
 '''
@@ -5068,7 +4924,7 @@ list_operators = {
 '''
 ''' ],
     'sort'      : [ sortAscending, 1,
-'list_operators', 'sort the elements of list n numerically in ascending order',
+'listOperators', 'sort the elements of list n numerically in ascending order',
 '''
 The 'sort' operator gets applied recursively, so all sublists will be sorted as
 well.  I might have to reconsider that.
@@ -5084,7 +4940,7 @@ c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] flatten sort
 [ -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
     'sortdesc'  : [ sortDescending, 1,
-'list_operators', 'sorts the elements of list n numerically in descending order',
+'listOperators', 'sorts the elements of list n numerically in descending order',
 '''
 The 'sortdesc' operator works exactly like the sort operator, sorting the list
 (and all sublists), except in descending order.
@@ -5129,19 +4985,19 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'union'         : [ makeUnion, 2,
-'list_operators', 'returns the union of two lists',
+'listOperators', 'returns the union of two lists',
 '''
 ''',
 '''
 ''' ],
     'unique'    : [ getUniqueElements, 1,
-'list_operators', 'replaces list n with a list of its unique elements',
+'listOperators', 'replaces list n with a list of its unique elements',
 '''
 ''',
 '''
 ''' ],
     'zero'    : [ lambda n: [ index for index, e in enumerate( n ) if e == 0 ], 1,
-'list_operators', 'returns a list of the indices of elements in list n that are zero',
+'listOperators', 'returns a list of the indices of elements in list n that are zero',
 '''
 ''',
 '''
@@ -5658,7 +5514,7 @@ number.
 '''
 ''' ],
     'element'       : [ getListElement, 2,
-'list_operators', 'return a single element from a list',
+'listOperators', 'return a single element from a list',
 '''
 ''',
 '''
@@ -5741,7 +5597,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'georange'      : [ expandGeometricRange, 3,
-'list_operators', 'generates a list of geometric progression of numbers',
+'listOperators', 'generates a list of geometric progression of numbers',
 '''
 ''',
 '''
@@ -6343,13 +6199,13 @@ given the way calculating prime numbers is currently done.
 '''
 ''' ],
     'range'         : [ expandRange, 2,
-'list_operators', 'generates a list of successive integers from n to k',
+'listOperators', 'generates a list of successive integers from n to k',
 '''
 ''',
 '''
 ''' ],
     'range2'        : [ expandSteppedRange, 3,
-'list_operators', 'generates a list of arithmetic progression of numbers',
+'listOperators', 'generates a list of arithmetic progression of numbers',
 '''
 ''',
 '''
@@ -6706,6 +6562,12 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
+    '_dumpops'      : [ dumpOperators, 0,
+'internal', 'lists all rpn operators',
+'''
+''',
+'''
+''' ],
     '_dumpprimes'   : [ dumpLargePrimes, 0,
 'internal', 'dumps the cached list of large primes',
 '''
@@ -6862,7 +6724,7 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
-    '_listops'      : [ listOperators, 0,
+    '_dumpops'      : [ dumpOperators, 0,
 'internal', 'lists all rpn operators',
 '''
 ''',
@@ -7083,15 +6945,15 @@ def roundMantissa( mantissa, accuracy ):
     if len( mantissa ) <= accuracy:
         return mantissa
 
-    last_digit = int( mantissa[ accuracy - 1 ] )
-    extra_digit = int( mantissa[ accuracy ] )
+    lastDigit = int( mantissa[ accuracy - 1 ] )
+    extraDigit = int( mantissa[ accuracy ] )
 
     result = mantissa[ : accuracy - 1 ]
 
-    if extra_digit >= 5:
-        result += str( last_digit + 1 )
+    if extraDigit >= 5:
+        result += str( lastDigit + 1 )
     else:
-        result += str( last_digit )
+        result += str( lastDigit )
 
     return result
 
@@ -7507,6 +7369,10 @@ Arguments:
 '''
     [ description of output formats supported by rpn ]
 ''',
+'conversion' :
+'''
+    [ describe unit conversions in rpn ]
+''',
 'about' :
 PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
 '''
@@ -7716,7 +7582,7 @@ Bitwise operators force all arguments to integers by truncation if necessary.
 }
 
     operatorCategories = set( operators[ key ][ 2 ] for key in operators )
-    operatorCategories.update( set( list_operators[ key ][ 2 ] for key in list_operators ) )
+    operatorCategories.update( set( listOperators[ key ][ 2 ] for key in listOperators ) )
     operatorCategories.update( set( modifiers[ key ][ 2 ] for key in modifiers ) )
 
     if len( helpArgs ) == 0:
@@ -7731,8 +7597,8 @@ Bitwise operators force all arguments to integers by truncation if necessary.
     if term in operators:
         printOperatorHelp( helpArgs, term, operators[ term ] )
 
-    if term in list_operators:
-        printOperatorHelp( helpArgs, term, list_operators[ term ] )
+    if term in listOperators:
+        printOperatorHelp( helpArgs, term, listOperators[ term ] )
 
     if term in modifiers:
         printOperatorHelp( helpArgs, term, modifiers[ term ] )
@@ -7747,7 +7613,7 @@ Bitwise operators force all arguments to integers by truncation if necessary.
         print( )
 
         operatorList = [ key for key in operators if operators[ key ][ 2 ] == term ]
-        operatorList.extend( [ key for key in list_operators if list_operators[ key ][ 2 ] == term ] )
+        operatorList.extend( [ key for key in listOperators if listOperators[ key ][ 2 ] == term ] )
         operatorList.extend( [ key for key in modifiers if modifiers[ key ][ 2 ] == term ] )
 
         addAliases( operatorList )
@@ -7833,6 +7699,7 @@ def main( ):
     global numerals
     global updateDicts
     global unitOperators
+    global unitConversionMatrix
 
     global balancedPrimes
     global cousinPrimes
@@ -8035,7 +7902,12 @@ def main( ):
     if not validateArguments( args.terms ):
         return
 
-    initializeConversionMatrix( unitConversionMatrix )
+    try:
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
+            unitOperators = pickle.load( pickleFile )
+            unitConversionMatrix = pickle.load( pickleFile )
+    except FileNotFoundError as error:
+        print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
@@ -8092,8 +7964,8 @@ def main( ):
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
-        elif term in list_operators:
-            argsNeeded = list_operators[ term ][ 1 ]
+        elif term in listOperators:
+            argsNeeded = listOperators[ term ][ 1 ]
 
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
@@ -8105,14 +7977,14 @@ def main( ):
 
             try:
                 if argsNeeded == 1:
-                    currentValueList.append( evaluateOneListFunction( list_operators[ term ][ 0 ], currentValueList.pop( ) ) )
+                    currentValueList.append( evaluateOneListFunction( listOperators[ term ][ 0 ], currentValueList.pop( ) ) )
                 else:
                     listArgs = [ ]
 
                     for i in range( 0, argsNeeded ):
                         listArgs.insert( 0, currentValueList.pop( ) )
 
-                    currentValueList.append( list_operators[ term ][ 0 ]( *listArgs ) )
+                    currentValueList.append( listOperators[ term ][ 0 ]( *listArgs ) )
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
