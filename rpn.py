@@ -17,7 +17,7 @@ from fractions import Fraction
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.4.1"
+RPN_VERSION = "3.4.2"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -811,6 +811,30 @@ def interpretAsContinuedFraction( valueList ):
 
 #//******************************************************************************
 #//
+#//  interpretAsBase
+#//
+#//******************************************************************************
+
+def interpretAsBase( valueList ):
+    base = valueList.pop( )
+
+    list = [ ]
+
+    while valueList:
+        list.append( valueList.pop( ) )
+
+    value = mpf( 0 )
+    multiplier = mpf( 1 )
+
+    for i in list:
+        value = fadd( value, fmul( i, multiplier ) )
+        multiplier = fmul( multiplier, base )
+
+    valueList.append( value )
+
+
+#//******************************************************************************
+#//
 #//  duplicateTerm
 #//
 #//******************************************************************************
@@ -821,6 +845,17 @@ def duplicateTerm( valueList ):
 
     for i in range( 0, count ):
         valueList.append( value )
+
+
+#//******************************************************************************
+#//
+#//  getPlasticConstant
+#//
+#//******************************************************************************
+
+def getPlasticConstant( valueList ):
+    term = fmul( 12, sqrt( 69 ) )
+    valueList.append( fdiv( fadd( cbrt( fadd( 108, term ) ), cbrt( fsub( 108, term ) ) ), 6 ) )
 
 
 #//******************************************************************************
@@ -862,6 +897,7 @@ expressions = {
     'asinh'     : [ lambda v: v.append( asinh( v.pop( ) ) ), 1 ],
     'atan'      : [ lambda v: v.append( atan( v.pop( ) ) ), 1 ],
     'atanh'     : [ lambda v: v.append( atanh( v.pop( ) ) ), 1 ],
+    'base'      : [ interpretAsBase, 2 ],                           # this one eats the whole value stack
     'catalan'   : [ lambda v: v.append( catalan ), 0 ],
     'cbrt'      : [ lambda v: v.append( cbrt( v.pop( ) ) ), 1 ],
     'ceil'      : [ lambda v: v.append( ceil( v.pop( ) ) ), 1 ],
@@ -916,6 +952,7 @@ expressions = {
     'pent'      : [ getNthPentagonalNumber, 1 ],
     'phi'       : [ lambda v: v.append( phi ), 0 ],
     'pi'        : [ lambda v: v.append( pi ), 0 ],
+    'plastic'   : [ getPlasticConstant, 0 ],
     'rad'       : [ lambda v: v.append( degrees( v.pop( ) ) ), 1 ],
     'radians'   : [ lambda v: v.append( degrees( v.pop( ) ) ), 1 ],
     'rand'      : [ lambda v: v.append( rand( ) ), 0 ],
@@ -1135,8 +1172,9 @@ Supported unary operators:
     superfac
 
 Supported unary trigonometric operators:
-    deg, degrees (convert degrees to radians, e.g., "rpn 45 degrees tan")
-    rad, radians (convert radians to degrees, e.g., "rpn pi radians")
+    deg, degrees (treat term as degrees (i.e., convert to radians), e.g.,
+    "rpn 45 degrees tan"); rad, radians (treat term as radians (i.e., convert
+    to degrees), e.g., "rpn pi radians")
 
     sin; asin; sinh; asinh; cos; acos; cosh; acosh; tan; atan; tanh; atanh;
     sec; asec; sech; asech; csc; acsc; csch; acsch; cot; acot; coth; acoth
@@ -1157,7 +1195,8 @@ Supported binary operators:
 
 Supported multi operators (operate on all preceding operands):
     sum; mult; mean, cf (treat all preceding terms as part of a continued
-    fraction, and evalutate)
+    fraction, and evalutate), base (sort of the reverse of -R, with the
+    base being the last argument)
 
 Supported constants:
     e; pi; phi (the Golden Ratio); itoi (i^i); euler (Euler's constant);
