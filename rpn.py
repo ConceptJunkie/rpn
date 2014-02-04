@@ -19,11 +19,15 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.6.0"
+RPN_VERSION = "3.6.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
 defaultPrecision = 12
+defaultAccuracy = 10
+defaultCFTerms = 10
+defaultBitwiseGroupSize = 16
+defaultInputRadix = 10
 
 defaultNumerals = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -31,8 +35,6 @@ numerals = ""
 
 phiBase = -1
 fibBase = -2
-
-bitwiseGroupSize = 16
 
 argumentPrefixLinux = '-'
 argumentPrefixWindows = '/'
@@ -43,17 +45,15 @@ prefixListWindows = argumentPrefixLinux + argumentPrefixWindows
 
 #//******************************************************************************
 #//
-#//  getContinuedFraction
+#//  ContinuedFraction
+#//
+#//  A continued fraction, represented as a list of integer terms.
 #//
 #//  adapted from ActiveState Python, recipe 578647
 #//
 #//******************************************************************************
 
-class CFraction( list ):
-    """
-    A continued fraction, represented as a list of integer terms.
-    """
-
+class ContinuedFraction( list ):
     def __init__( self, value, maxterms=15, cutoff=1e-10 ):
         if isinstance( value, ( int, float, mpf ) ):
             value = mpmathify( value )
@@ -73,27 +73,18 @@ class CFraction( list ):
         elif isinstance( value, ( list, tuple ) ):
             self.extend( value )
         else:
-            raise ValueError( "CFraction requires number or list" )
+            raise ValueError( "ContinuedFraction requires number or list" )
 
     def getFraction( self, terms=None ):
-        "Convert to a Fraction."
-
-        #print( str( self ) )
-
         if terms is None or terms >= len( self ):
             terms = len( self ) - 1
 
         frac = Fraction( 1, int( self[ terms ] ) )
-        #print( "Frac: " + str( frac ) )
 
         for t in reversed( self[ 1 : terms ] ):
-            #print( "Term: %d" % t )
             frac = 1 / ( frac + int( t ) )
-            #print( "Frac: " + str( frac ) )
 
-        #print( "Term: %d" % int( self[ 0 ] ) )
         frac += int( self[ 0 ] )
-        #print( "Frac: " + str( frac ) )
 
         return frac
 
@@ -251,12 +242,13 @@ def convertToPhiBase( num ):
 #//
 #//  convertToFibBase
 #//
+#//  Returns a string with Fibonacci encoding for n (n >= 1).
+#//
 #//  adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
 #//
 #//******************************************************************************
 
 def convertToFibBase( value ):
-    # Return string with Fibonacci encoding for n (n >= 1).
     result = ""
 
     n = value
@@ -293,18 +285,6 @@ def convertToFibBase( value ):
 #//******************************************************************************
 
 def convertToBaseN( value, base, baseAsDigits, numerals ):
-    """
-    Converts any integer to a base 2-62 string.
-
-    For example:
-    >>> convertToBaseN( -13, 4 )
-    '-31'
-    >>> convertToBaseN( 91321, 2 )
-    '10110010010111001'
-    >>> convertToBaseN( 791321, 36 )
-    'gyl5'
-    """
-
     if baseAsDigits:
         if ( base < 2 ):
             raise ValueError( 'Base must be greater than 1' )
@@ -343,22 +323,6 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
 #//******************************************************************************
 
 def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
-    """
-    Convert any fraction to base/radix 2-36 and returns the resulting mantissa as a string.
-
-    0 <= value < 1
-
-    For example:
-    >>> convertFractionToBaseN( 1 / 64, 16, 10, False )
-    '04'
-    >>> convertFractionToBaseN( 1 / 11, 2, 10, False )
-    '0001011101'
-    >>> convertFractionToBaseN( 1 / 13, 36, 12, False )
-    '2rox8b2rox8b'
-    >>> convertFractionToBaseN( 1 / 13, 50, 12, True )
-    ''
-    """
-
     if baseAsDigits:
         if ( base < 2 ):
             raise ValueError( 'Base must be greater than 1' )
@@ -762,7 +726,6 @@ def getNthTetrahedralNumber( valueList ):
     n = valueList.pop( )
     valueList.append( fdiv( fsum( [ power( n, 3 ), fmul( 3, power( n, 2 ) ), fmul( 2, n ) ] ), 6 ) )
 
-# p=(1/6)*(n^3+3*n^2+2*n)
 
 #//******************************************************************************
 #//
@@ -778,8 +741,8 @@ def getAntiTetrahedralNumber( valueList ):
     sqrt3 = sqrt( 3 )
     curt3 = cbrt( 3 )
 
+    # TODO:  finish me
     valueList.append( 0 )
-
 
 # http://www.wolframalpha.com/input/?i=solve+p%3D%281%2F6%29*%28n^3%2B3*n^2%2B2*n%29+for+n
 
@@ -849,7 +812,7 @@ def interpretAsContinuedFraction( valueList ):
     while valueList:
         list.insert( 0, valueList.pop( ) )
 
-    fraction = CFraction( list ).getFraction( )
+    fraction = ContinuedFraction( list ).getFraction( )
 
     valueList.append( fdiv( fraction.numerator, fraction.denominator ) )
 
@@ -957,10 +920,12 @@ def solveCubicPolynomial( a, b, c, d ):
                     fdiv( fmul( 27, d ), a ) ), 27 )
     h = fadd( fdiv( power( g, 2 ), 4 ), fdiv( power( f, 3 ), 27 ) )
 
+    # all three roots are the same
     if h == 0:
         x1 = fneg( root( fdiv( d, a ), 3 ) )
         x2 = x1
         x3 = x2
+    # two imaginary and one real root
     elif h > 0:
         r = fadd( fneg( fdiv( g, 2 ) ), sqrt( h ) )
 
@@ -983,6 +948,7 @@ def solveCubicPolynomial( a, b, c, d ):
 
         x2 = mpc( real, imaginary )
         x3 = mpc( real, fneg( imaginary ) )
+    # all real roots
     else:
         j = sqrt( fsub( fdiv( power( g, 2 ), 4 ), h ) )
         k = acos( fneg( fdiv( g, fmul( 2, j ) ) ) )
@@ -1029,6 +995,7 @@ def solveOrder3( valueList ):
 def solveQuarticPolynomial( a, b, c, d, e ):
     if a == 0:
         return solveCubicPolynomial( b, c, d, e )
+    # degenerate case, just return the two real and two imaginary 4th roots
     elif b == 0 and c == 0 and d == 0:
         x1 = root( fneg( e ), 4 )
         x2 = fneg( root( fneg( e ), 4 ) )
@@ -1037,6 +1004,7 @@ def solveQuarticPolynomial( a, b, c, d, e ):
 
         return [ x1, x2, x3, x4 ]
 
+    # we turn the equation into a cubic that we can solve
     f = fsub( c, fdiv( fmul( 3, power( b, 2 ) ), 8 ) )
     g = fsub( fadd( d, fdiv( power( b, 3 ), 8 ) ), fdiv( fmul( b, c ), 2 ) )
     h = fadd( fsub( e, fdiv( fmul( 3, power( b, 4 ) ), 256 ) ),
@@ -1077,6 +1045,7 @@ def solveQuarticPolynomial( a, b, c, d, e ):
     r = fdiv( fneg( g ), fprod( [ 8, p, q ] ) )
     s = fneg( fdiv( b, fmul( 4, a ) ) )
 
+    # put together the 4 roots
     x1 = fsum( [ p, q, r, s ] )
     x2 = fsum( [ p, fneg( q ), fneg( r ), s ] )
     x3 = fsum( [ fneg( p ), q, fneg( r ), s ] )
@@ -1120,7 +1089,6 @@ expressions = {
     '+'         : [ lambda v: v.append( fadd( v.pop( ), v.pop( ) ) ), 2 ],
     '-'         : [ subtract, 2 ],
     '/'         : [ divide, 2 ],
-    '//'        : [ antiexponentiate, 2 ],
     '1/x'       : [ lambda v: v.append( fdiv( 1, v.pop( ) ) ), 1 ],
     'abs'       : [ lambda v: v.append( fabs( v.pop( ) ) ), 1 ],
     'acos'      : [ lambda v: v.append( acos( v.pop( ) ) ), 1 ],
@@ -1187,11 +1155,11 @@ expressions = {
     'mod'       : [ getModulo, 2 ],
     'modulo'    : [ getModulo, 2 ],
     'mult'      : [ multiplyAll, 2 ],                               # this one eats the whole value stack
-    'nCr'       : [ getCombinations, 2 ],
     'ncr'       : [ getCombinations, 2 ],
+    'nCr'       : [ getCombinations, 2 ],
     'neg'       : [ lambda v: v.append( fneg( v.pop( ) ) ), 1 ],
-    'nPr'       : [ getPermutations, 2 ],
     'npr'       : [ getPermutations, 2 ],
+    'nPr'       : [ getPermutations, 2 ],
     'omega'     : [ lambda v: v.append( lambertw( 1 ) ), 0 ],
     'or'        : [ lambda v: performBitwiseOperation( v, lambda x, y:  x | y ), 2 ],
     'pent'      : [ getNthPentagonalNumber, 1 ],
@@ -1202,6 +1170,7 @@ expressions = {
     'radians'   : [ lambda v: v.append( degrees( v.pop( ) ) ), 1 ],
     'rand'      : [ lambda v: v.append( rand( ) ), 0 ],
     'random'    : [ lambda v: v.append( rand( ) ), 0 ],
+    'root'      : [ antiexponentiate, 2 ],
     'root2'     : [ lambda v: v.append( sqrt( v.pop( ) ) ), 1 ],
     'root3'     : [ lambda v: v.append( cbrt( v.pop( ) ) ), 1 ],
     'round'     : [ lambda v: v.append( floor( fadd( v.pop( ), 0.5 ) ) ), 1 ],
@@ -1341,6 +1310,9 @@ def roundMantissa( mantissa, accuracy ):
 #//
 #//  formatOutput
 #//
+#//  This takes a string representation of the result and formats it according
+#//  to a whole bunch of options.
+#//
 #//******************************************************************************
 
 def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
@@ -1354,16 +1326,16 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
         else:
             negativeImaginary = False
 
-        imaginaryValue = formatOutput( nstr( imaginary, mp.dps ), radix, numerals, integerGrouping, integerDelimiter,
-                                       leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
-                                       outputAccuracy )
+        imaginaryValue = formatOutput( nstr( imaginary, mp.dps ), radix, numerals, integerGrouping,
+                                       integerDelimiter, leadingZero, decimalGrouping, decimalDelimiter,
+                                       baseAsDigits, outputAccuracy )
 
         strOutput = str( re( mpmathify( output ) ) )
     else:
         imaginaryValue = ''
         strOutput = str( output )
 
-    if '.' in strOutput:
+    if '.' in strOutput and strOutput.find( 'e' ) == -1:
         decimal = strOutput.find( '.' )
     else:
         decimal = len( strOutput )
@@ -1373,12 +1345,11 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
     strResult = '';
 
     integer = strOutput[ 1 if negative else 0 : decimal ]
-
     integerLength = len( integer )
 
     mantissa = strOutput[ decimal + 1 : ]
 
-    if mantissa != '' and mantissa.find( 'e' ) == -1:
+    if mantissa != '':
         if outputAccuracy == -1:
             mantissa = mantissa.rstrip( '0' )
 
@@ -1619,15 +1590,16 @@ def main( ):
                                       formatter_class=argparse.RawTextHelpFormatter, prefix_chars=prefixList )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1, const=12,
-                         help="maximum number of decimal places to display, irrespective of internal precision" )
-    parser.add_argument( '-b', '--input_radix', type=str, action='store', default=10,
-                         help="specify the radix for input (default: 10)" )
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1, const=defaultAccuracy,
+                         help="maximum number of decimal places to display, irrespective\nof internal precision (default:  " +
+                              str( defaultAccuracy ) + ")" )
+    parser.add_argument( '-b', '--input_radix', type=str, action='store', default=defaultInputRadix,
+                         help="specify the radix for input (default:  " + str( defaultInputRadix ) + ")" )
     parser.add_argument( '-c', '--comma', action='store_true',
                          help="add commas to result, e.g., 1,234,567.0" )
     parser.add_argument( '-d', '--decimal_grouping', type=int, action='store', default=0,
                          help="display decimal places separated into groups (default: 0)" )
-    parser.add_argument( '-e', '--continued_fraction', nargs='?', type=int, action='store', default=0, const=12,
+    parser.add_argument( '-e', '--continued_fraction', nargs='?', type=int, action='store', default=0, const=defaultCFTerms,
                          help="number of terms to represent as a continued fraction" )
     parser.add_argument( '-f', '--factor', action='store_true',
                          help="compute prime factors of result (truncated to an integer)" )
@@ -1648,7 +1620,7 @@ def main( ):
                          help="each digit is a space-delimited base-10 number" )
     parser.add_argument( '-u', '--find_poly', type=int, action='store', default=0,
                          help="find a polynomial such that P(x) ~= 0 of degree <= N" )
-    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=16,
+    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=defaultBitwiseGroupSize,
                          help="bitwise operations group values by this size (default: 16)" )
     parser.add_argument( '-x', '--hex', action='store_true', help="hex mode: equivalent to '-r16 -w16 -i4 -z'" )
     parser.add_argument( '-y', '--identify', action='store_true', help="identify the result (may repeat input)" )
@@ -1675,6 +1647,14 @@ def main( ):
     bitwiseGroupSize = args.bitwise_group_size
     integerGrouping = args.integer_grouping
     leadingZero = args.leading_zero
+
+    # handle -a - set precision to be at least 2 greater than output accuracy
+    if mp.dps < args.output_accuracy + 2:
+        mp.dps = args.output_accuracy + 2
+
+    # handle -e - set precision equal to the number of continued fraction items to print for accuracy
+    if mp.dps < args.continued_fraction:
+        mp.dps = args.continued_fraction
 
     # handle -r
     if args.output_radix == 'phi':
@@ -1753,6 +1733,7 @@ def main( ):
         print( "rpn:  -c, -d and -i can't be used with -R" )
         return
 
+    # handle -y and -u:  mpmath wants precision of at least 53 for these functions
     if args.identify or args.find_poly > 0:
         if mp.dps < 53:
             mp.dps = 53
@@ -1804,14 +1785,17 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( "rpn:  keyboard interrupt" )
                 break
-            #except Exception as error:
-            #    print( "rpn:  error in arg " + format( index ) + ":  {0}".format( error ) )
-            #    break
+            except ValueError as error:
+                print( "rpn:  error in arg " + format( index ) + ":  {0}".format( error ) )
+                break
         else:
             try:
                 valueList.append( parseInputValue( term, inputRadix ) )
-            except Exception as error:
-                print( "rpn: error in arg " + format( index ) + ":  {0}".format( error ) )
+            except ValueError as error:
+                print( "rpn:  error in arg " + format( index ) + ":  {0}".format( error ) )
+                break
+            except TypeError as error:
+                print( "rpn:  error in arg " + format( index ) + ":  unrecognized argument: '%s'" % sys.argv[ index ] )
                 break
 
         index = index + 1
@@ -1846,12 +1830,14 @@ def main( ):
 
                 print( resultString + ' ]' )
             else:
+                # output the answer with all the extras according to command-line arguments
                 resultString = nstr( result, mp.dps )
 
                 print( formatOutput( resultString, outputRadix, numerals, integerGrouping, integerDelimiter,
                                      leadingZero, args.decimal_grouping, ' ', baseAsDigits,
                                      args.output_accuracy ) )
 
+                # handle --factor
                 if args.factor:
                     try:
                         factorInteger( int( floor( result ) ) )
@@ -1859,9 +1845,10 @@ def main( ):
                         print( 'rpn:  keyboard interrupt' )
                         return
 
+                # handle --continued_fraction
                 if args.continued_fraction:
                     try:
-                        cf = CFraction( mpmathify( result ), maxterms=args.continued_fraction )
+                        cf = ContinuedFraction( mpmathify( result ), maxterms=args.continued_fraction )
                     except KeyboardInterrupt as error:
                         print( 'rpn:  keyboard interrupt' )
                         return
@@ -1882,13 +1869,14 @@ def main( ):
                                               args.output_accuracy )
 
                     if denominator != '':
-                        denominator = formatOutput( denominator, outputRadix, numerals, integerGrouping, integerDelimter,
+                        denominator = formatOutput( denominator, outputRadix, numerals, integerGrouping, integerDelimiter,
                                                     leadingZero, args.decimal_grouping, ' ', baseAsDigits,
                                                     args.output_accuracy )
 
                     print( '    = ' + str( cf ) )
                     print( '    ~= ' + numerator + ' / ' + denominator )
 
+                # handle --identify
                 if args.identify:
                     formula = identify( result )
 
@@ -1897,6 +1885,7 @@ def main( ):
                     else:
                         print( '    = ' + formula )
 
+                # handle --find_poly
                 if args.find_poly > 0:
                     poly = str( findpoly( result, args.find_poly ) )
 
