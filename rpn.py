@@ -24,7 +24,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.1.0"
+RPN_VERSION = "4.2.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -969,6 +969,21 @@ def solvePolynomial( args ):
 #//******************************************************************************
 
 def calculatePowerTower( args ):
+    result = args[ -1 ]
+
+    for i in args[ -1 : : -1 ]:
+        result = power( i, result )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  calculatePowerTower2
+#//
+#//******************************************************************************
+
+def calculatePowerTower2( args ):
     result = args[ 0 ]
 
     for i in args[ 1 : ]:
@@ -1282,6 +1297,7 @@ list_operators = {
     'solve'     : solvePolynomial,
     'sum'       : fsum,
     'tower'     : calculatePowerTower,
+    'tower2'    : calculatePowerTower2,
 }
 
 list_operators_2 = {
@@ -1359,6 +1375,7 @@ operators = {
     'hyperfac'  : [ hyperfac, 1 ],
     'hypot'     : [ hypot, 2 ],
     'inv'       : [ lambda i: fdiv( 1, i ), 1 ],
+    'isprime'   : [ lambda i: 1 if isPrime( i ) else 0, 1 ],
     'itoi'      : [ lambda: exp( fmul( -0.5, pi ) ), 0 ],
     'khinchin'  : [ khinchin, 0 ],
     'lambertw'  : [ lambertw, 1 ],
@@ -1422,7 +1439,6 @@ operators = {
     '^'         : [ power, 2 ],
     '~'         : [ getInvertedBits, 1 ],
 #    'antitet'  : [ getAntiTetrahedralNumber, 1 ],
-#    'isprime'  : [ isPrime, 1 ],
 #    'powmod'   : [ getPowMod, 3 ],
 #    'bernfrac'  : [ bernfrac, 1 ],
 }
@@ -1677,21 +1693,21 @@ Supported integer sequence unary operators:
     triangular number is this); pent (nth pentagonal number); antipent (which
     pentagonal number is this); hex (nth hexagonal number); antihex (which
     hexagonal number is this); sqtri (nth square triangular number)*; tet,
-    tetra (nth tetrahedral number)
+    tetra (nth tetrahedral number); prime (nth prime)
 
     * requires sufficient precision for accuracy (see Notes)
 
 Supported binary operators:
     +, add; -, sub; *, mult; /, div; **, ^, power; ***, hyper4 (tetration);
     hyper4_2 (tetration, right-associative); //, root; logxy; binomial, nCr,
-    ncr (combinations); perm, nRp, nrp (permutations)
+    ncr (binomial coefficient (combinations)); perm, nRp, nrp (permutations)
 
 Supported list operators (requires a list as an operand):
     sum; prod; mean, avg, average; cf (treat as a continued fraction);
     base (sort of the reverse of -R, with the base being the last argument);
     solve (solve polynomial), altsum (sum terms, alternating add and subtract);
-    altsum2 (sum terms, alternating subtract and add); tower(calculate power
-    tower)
+    altsum2 (sum terms, alternating subtract and add); tower (calculate power
+    tower), tower2 (calculate left-associative power tower)
 
 Supported constants:
     e; pi; phi (the Golden Ratio); itoi (i^i); euler (Euler's constant);
@@ -1710,7 +1726,7 @@ Polynomial solvers:
             the number of coefficients )
 
 Argument modifiers:
-    dup; range; range2; georange; interleave; [; ]
+    dup; range; range2; georange; interleave; primes; [; ]
 
 Input:
     For integers, rpn understands hexidecimal input of the form '0x....'.
@@ -1803,37 +1819,37 @@ Construct the square root of two from a continued fraction:
 
 Calculate various constants:
 
-    Polya random walk constant
+    Polya Random Walk Constant
         = rpn -p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 /
-                gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -
+                    gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -
 
-    Schwartzchild constant (Conic constant)
+    Schwartzchild Constant (Conic Constant)
         = rpn -p20 2 [ 0 30 range ] ** [ 0 30 range ] ! / sum
         = rpn -p20 e 2 **
 
-    Somos\' quadratic recurrence constant
+    Somos\' Quadratic Recurrence Constant
         = rpn -p20 [ 1 100 range ] [ 0.5 0.5 100 georange ] ** prod
 
-    Prevost constant
+    Prevost Constant
         = rpn -p20 [ 1 100 range ] fib 1/x sum
 
     Euler's number = rpn -p20 [ 0 100 range ] fac 1/x sum
                    = rpn -p20 e
 
-    Gelfond constant
+    Gelfond Constant
         = rpn -p20 pi [ 0 100 range ] power [ 0 100 range ] ! / sum
         = rpn -p20 e pi power
 
-    Bloch-Landau constant
+    Bloch-Landau Constant
         = rpn -p20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /
 
-    Hausdorff dimension
+    Hausdorff Dimension
         = rpn -p20 2 [ 0 100 range ] 2 * 1 + power [ 0 100 range ] 2 * 1 + *
             1/x sum 3 [ 0 100 range ] 2 * 1 + power [ 0 100 range ] 2 * 1 +
             * 1/x sum /
         = rpn -p20 3 log 2 log /
 
-    Machin-Gregory series
+    Machin-Gregory Series
         = rpn -p20 [ 1 1000 2 range2 ] 2 [ 1 1000 2 range2 ] power * 1/x altsum
         = rpn -p20 1 2 / atan
 
@@ -1844,13 +1860,17 @@ Calculate various constants:
     Cahen's constant
         = rpn -p20 [ 1 20 range ] sylvester 1 - 1/x altsum
 
-    Lemniscate constant
+    Lemniscate Constant
         = rpn -p20 4 2 pi / sqrt * 0.25 ! sqr *
 
     sqrt( e )
         = rpn -p20 2 [ 0 20 range ] power [ 0 20 range ] ! * 1/x sum
         = rpn -p20 [ 0 20 range ] 2 * !! 1/x sum
         = rpn -p20 e sqrt
+
+    1/e
+        = rpn -p20 [ 0 25 range ] fac 1/x altsum
+        = rpn -p20 e 1/x
 
     Zeta( 6 )
         = rpn -p25 -a19 1 1 1000 primes -6 power - 1/x prod
@@ -1863,25 +1883,42 @@ Calculate various constants:
 
     Digamma
         = rpn -p25 -a20 1 1 1000 primes -6 power - 1/x prod
-        = rpn -a5 [ 0 100000 range ] 1 + 1/x [ 0 100000 range ] 1 4 / + 1/x - sum euler -
+        = rpn -a5 [ 0 100000 range ] 1 + 1/x
+                        [ 0 100000 range ] 1 4 / + 1/x - sum euler -
 
     Strongly Carefree Constant
-        = rpn -a6 1 [ 1 100000 primes ] 3 * 2 - [ 1 100000 primes ] 3 power / - prod
+        = rpn -a6 1 [ 1 100000 primes ] 3 * 2 -
+                [ 1 100000 primes ] 3 power / - prod
+        = rpn -a7 6 pi sqr / 1 2
+                [ 1 100000 primes ] [ 1 100000 primes ] 1 + * 1/x * - prod *
 
-    Ramanujan-Forsythe constant
-        = rpn [ 0 100000 range ] 2 * 3 - fac2 [ 0 100000 range ] 2 * fac2 / sqr sum
+    Ramanujan-Forsythe Constant
+        = rpn [ 0 100000 range ] 2 * 3 - fac2
+                [ 0 100000 range ] 2 * fac2 / sqr sum
 
+    Apery's Constant
+        = rpn -p20 [ 1 5000 range ] 3 power 1/x sum
+        = rpn -p20  3 zeta
+        = rpn -p20 apery
 
+    Omega Constant
+        = rpn -p20 [ e 1/x 100 dup ] tower
+        = rpn -p20 omega
+
+    Liouville Number
+        = rpn -p120 10 [ 1 10 range ] ! power 1/x sum
+
+    Gieseking Constant
+        = rpn -a10 -p20 3 3 sqrt * 4 / 1
+                [ 0 100000 range ] 3 * 2 + sqr 1/x sum -
+                [ 1 100000 range ] 3 * 1 + sqr 1/x sum + *
+
+    Hafner-Sarnak-McCurley Constant (2)
+        = rpn -a7 1 [ 1 100000 primes ] sqr 1/x - prod
+        = rpn 2 zeta 1/x
 
 ''' )
 
-
-
-#  But it's wrong, is the formula wrong?
-#  Gieseking constant = rpn 3 3 sqrt * 4 / 1 [ 0 10000 range ] 3 * 2 + sqr 1/x sum [ 1 10000 range ] 3 * 1 + sqr 1/x sum + - *
-
-# Strongly Carefree Constant
-# rpn 6 pi sqr / 1 [ 1 10000 primes ] [ 1 10000 primes ] 1 + * 1/x - prod *
 
 #//******************************************************************************
 #//
@@ -1931,6 +1968,7 @@ def main( ):
                          help="output in a different base (2 to 62, or phi)" )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
                          help="each digit is a space-delimited base-10 number" )
+    parser.add_argument( '-t', '--time', action='store_true', help="display calculation time" )
     parser.add_argument( '-u', '--find_poly', type=int, action='store', default=0,
                          help="find a polynomial such that P(x) ~= 0 of degree <= N" )
     parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=defaultBitwiseGroupSize,
@@ -2062,6 +2100,7 @@ def main( ):
         print( '--precision:  %d' % args.precision )
         print( '--output_radix:  %d' % args.output_radix )
         print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
+        print( '--time:  ' + ( 'true' if args.time else 'false' ) )
         print( '--find_poly:  %d' % args.find_poly )
         print( '--bitwise_group_size:  %d' % bitwiseGroupSize )
         print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
@@ -2078,10 +2117,13 @@ def main( ):
         currentValueList = getCurrentArgList( valueList )
 
         if term in modifiers:
-            modifiers[ term ]( currentValueList )
+            try:
+                modifiers[ term ]( currentValueList )
+            except IndexError as error:
+                print( "rpn:  index error for operator at arg " + format( index ) + ".  Are your arguments in the right order?" )
+                break
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
-            currentValueList = getCurrentArgList( valueList )
 
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
@@ -2114,12 +2156,10 @@ def main( ):
             except ValueError as error:
                 print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
-            #except TypeError as error:
-            #    print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
-            #    break
+            except TypeError as error:
+                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                break
         elif term in list_operators:
-            currentValueList = getCurrentArgList( valueList )
-
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < 1:
                 print( "rpn:  error in arg " + format( index ) + ":  operator " + term + " requires a list argument" )
@@ -2134,12 +2174,13 @@ def main( ):
             except ValueError as error:
                 print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
-            #except TypeError as error:
-            #    print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
-            #    break
+            except TypeError as error:
+                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                break
+            except IndexError as error:
+                print( "rpn:  index error for operator at arg " + format( index ) + ".  Are your arguments in the right order?" )
+                break
         elif term in list_operators_2:
-            currentValueList = getCurrentArgList( valueList )
-
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < 2:
                 print( "rpn:  error in arg " + format( index ) + ":  operator " + term + " requires two arguments" )
