@@ -13,10 +13,10 @@ from decimal import *
 #//
 #//**********************************************************************
 
-RPN_VERSION = "2.1.0"
+RPN_VERSION = "2.2.0"
 COPYRIGHT_MESSAGE = "copyright 2012 (1988), Rick Gutleber (rickg@his.com)"
 
-defaultPrecision = 8
+defaultPrecision = 12
 
 
 #//**********************************************************************
@@ -304,6 +304,7 @@ def main( ):
 
     parser.add_argument( 'terms', nargs='+', metavar='term' )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision )
+    parser.add_argument( '-c', '--comma', action='store_true' )
 
     if len( sys.argv ) == 1:
         parser.print_help( )
@@ -348,7 +349,11 @@ def main( ):
         if len( valueList ) > 1:
             print( "rpn: unexpected end of input" )
         else:
-            print( valueList.pop( ) )
+            if ( args.comma ):
+                formatString = '{:<' + str( args.precision ) + ',}'
+                print( formatString.format( valueList.pop( ) ).strip( ) )
+            else:
+                print( valueList.pop( ) )
 
 
 #//**********************************************************************
