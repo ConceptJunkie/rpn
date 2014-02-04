@@ -28,7 +28,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.5.0'
+PROGRAM_VERSION = '5.6.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -49,6 +49,7 @@ unitTypes = {
     'length'        : 'length',
     'mass'          : 'mass',
     'power'         : 'mass*length^2/time',
+    'pressure'      : 'mass/length*time^2',
     'time'          : 'time',
     'velocity'      : 'length/time',
     'volume'        : 'length^3',
@@ -59,7 +60,7 @@ unitTypes = {
 #//
 #//  unitOperators
 #//
-#//  unit operator : unitType, plural name, aliases
+#//  unit operator : unitType, plural name, abbrev, aliases
 #//
 #//******************************************************************************
 
@@ -102,6 +103,17 @@ unitOperators = {
     'troy_ounce'        : [ 'mass',     'troy_ounces',      [ ] ],
     'troy_pound'        : [ 'mass',     'troy_pounds',      [ ] ],
 
+    'horsepower'        : [ 'power',    'horsepower',       [ 'hp' ] ],
+    'joule/second'      : [ 'power',    'joules/second',    [ 'W' ] ],
+    'watt'              : [ 'power',    'watts',            [ 'W' ] ],
+
+    'atmosphere'        : [ 'pressure', 'atmospheres',      [ 'atm' ] ],
+    'bar'               : [ 'pressure', 'bar',              [ ] ],
+    'mmHg'              : [ 'pressure', 'mmHg',             [ ] ],
+    'pascal'            : [ 'pressure', 'pascal',           [ 'Pa' ] ],
+    'pound/inch^2'      : [ 'pressure', 'pounds/inch^2',    [ 'lb/in^2', 'psi' ] ],
+    'torr'              : [ 'pressure', 'torr',             [ ] ],
+
     'day'               : [ 'time',     'days',             [ ] ],
     'fortnight'         : [ 'time',     'fortnights',       [ ] ],
     'hour'              : [ 'time',     'hours',            [ 'hr' ] ],
@@ -132,10 +144,6 @@ unitOperators = {
     'meter/second^2'    : [ 'acceleration', 'meters/second^2',      [ ] ],
     'standard_gravity'  : [ 'acceleration', 'standard_gravities',   [ 'G' ] ],
 
-    'horsepower'        : [ 'power',        'horsepower',           [ 'hp' ] ],
-    'watt'              : [ 'power',        'watts',                [ 'W' ] ],
-    'joule/second'      : [ 'power',        'joules/second',        [ 'W' ] ],
-
     'BTU'               : [ 'energy',   'BTUs',                 [ 'btu' ] ],
     'calorie'           : [ 'energy',   'calories',             [ 'cal' ] ],
     'electron-volt'     : [ 'energy',   'electron-volts',       [ 'eV' ] ],
@@ -146,8 +154,8 @@ unitOperators = {
     'kilogram*meter^2/second^2'
                         : [ 'energy',   'kg*m^2/s^2',           [ ] ],
     'ton_of_TNT'        : [ 'energy',   'tons of TNT',          [ 'tTNT' ] ],
-    'watt-second'       : [ 'energy',   'Watt-seconds',         [ 'Ws' ] ],
-    'watt*second'       : [ 'energy',   'Watt-seconds',         [ 'Ws' ] ],
+    'watt-second'       : [ 'energy',   'watt-seconds',         [ 'Ws' ] ],
+    'watt*second'       : [ 'energy',   'watt-seconds',         [ 'Ws' ] ],
 }
 
 
@@ -173,6 +181,21 @@ metricUnits = [
     ( 'calorie',        'calories',         'Cal',  [ ], [ ] ),
     ( 'ton_of_TNT',     'tons_of_TNT',      'tTNT', [ ], [ ] ),
     ( 'watt-second',    'watt-seconds',     'Ws',   [ ], [ ] ),
+    ( 'pascal'      ,   'pascal',           'Pa',   [ ], [ ] ),
+]
+
+
+#//******************************************************************************
+#//
+#//  timeUnits
+#//
+#//******************************************************************************
+
+timeUnits = [
+    ( 'minute',     'minutes',      'm',        '60' ),
+    ( 'hour',       'hour',         'h',        '3600' ),
+    ( 'day',        'day',          'd',        '86400' ),
+    ( 'year',       'year',         'y',        '31557600' ),   # 365.25 days
 ]
 
 
@@ -185,26 +208,26 @@ metricUnits = [
 #//******************************************************************************
 
 metricPrefixes = [
-    ( 'yotta',  'Y',  '24' ),
-    ( 'zetta',  'Z',  '21' ),
-    ( 'exa',    'E',  '18' ),
-    ( 'peta',   'P',  '15' ),
-    ( 'tera',   'T',  '12' ),
-    ( 'giga',   'G',  '9' ),
-    ( 'mega',   'M',  '6' ),
-    ( 'kilo',   'k',  '3' ),
-    ( 'hecto',  'h',  '2' ),
-    ( 'deca',   'da', '1' ),
-    ( 'deci',   'd',  '-1' ),
-    ( 'centi',  'c',  '-2' ),
-    ( 'milli',  'm',  '-3' ),
-    ( 'micro',  'mc', '-6' ),
-    ( 'nano',   'n',  '-9' ),
-    ( 'pico',   'p',  '-12' ),
-    ( 'femto',  'f',  '-15' ),
-    ( 'atto',   'a',  '-18' ),
-    ( 'zepto',  'z',  '-21' ),
-    ( 'yocto',  'y',  '-24' ),
+    ( 'yotta',      'Y',      '24' ),
+    ( 'zetta',      'Z',      '21' ),
+    ( 'exa',        'E',      '18' ),
+    ( 'peta',       'P',      '15' ),
+    ( 'tera',       'T',      '12' ),
+    ( 'giga',       'G',      '9' ),
+    ( 'mega',       'M',      '6' ),
+    ( 'kilo',       'k',      '3' ),
+    ( 'hecto',      'h',      '2' ),
+    ( 'deca',       'da',     '1' ),
+    ( 'deci',       'd',      '-1' ),
+    ( 'centi',      'c',      '-2' ),
+    ( 'milli',      'm',      '-3' ),
+    ( 'micro',      'mc',     '-6' ),
+    ( 'nano',       'n',      '-9' ),
+    ( 'pico',       'p',      '-12' ),
+    ( 'femto',      'f',      '-15' ),
+    ( 'atto',       'a',      '-18' ),
+    ( 'zepto',      'z',      '-21' ),
+    ( 'yocto',      'y',      '-24' ),
 ]
 
 
@@ -220,6 +243,8 @@ unitConversionMatrix = {
     ( 'acre',                  'square_yard' )                     : '4840',
     ( 'are',                   'square_meter' )                    : '100',
     ( 'astronomical_unit',     'meter' )                           : '149597870700',
+    ( 'atmosphere',            'pascal' )                          : '101325',
+    ( 'bar',                   'pascal' )                          : '100000',
     ( 'BTU',                   'joule' )                           : '1054.5',
     ( 'calorie',               'joule' )                           : '4.184',
     ( 'carat',                 'grain' )                           : '3.1666666666666666666666',
@@ -235,22 +260,26 @@ unitConversionMatrix = {
     ( 'furlong',               'yard' )                            : '220',
     ( 'gallon',                'fifth' )                           : '5',
     ( 'gallon',                'quart' )                           : '4',
+    ( 'horsepower',            'watt' )                            : '745.69987158227022',
     ( 'horsepower-second',     'joule' )                           : '745.69987158227022',
     ( 'hour',                  'minute' )                          : '60',
     ( 'inch',                  'meter' )                           : '0.0254',
     ( 'joule',                 'electron-volt' )                   : '6.24150974e18',
     ( 'joule',                 'erg' )                             : '10000000',
     ( 'joule',                 'kilogram*meter^2/second^2' )       : '1',
+    ( 'joule/second',          'watt' )                            : '1',
     ( 'league',                'mile' )                            : '3',
     ( 'light-second',          'meter' )                           : '299792458',
     ( 'meter',                 'angstrom' )                        : '10000000000',
     ( 'meter',                 'micron' )                          : '1000000',
     ( 'mile',                  'foot' )                            : '5280',
     ( 'minute',                'second' )                          : '60',
+    ( 'mmHg',                  'pascal' )                          : '133.3224',        # approx.
     ( 'nautical_mile',         'meter' )                           : '1852',
     ( 'ounce',                 'gram' )                            : '28.349523125',
     ( 'pound',                 'grain' )                           : '7000',
     ( 'pound',                 'ounce' )                           : '16',
+    ( 'pound/inch^2',          'pascal' )                          : '6894.757',        # approx.
     ( 'quart',                 'cup' )                             : '4',
     ( 'quart',                 'liter' )                           : '0.946352946',
     ( 'quart',                 'pint' )                            : '2',
@@ -265,14 +294,13 @@ unitConversionMatrix = {
     ( 'ton',                   'pound' )                           : '2000',
     ( 'tonne',                 'gram' )                            : '1000000',
     ( 'ton_of_TNT',            'joule' )                           : '4184000000',
+    ( 'torr',                  'mmHg' )                            : '1',
     ( 'troy_ounce',            'gram' )                            : '31.1034768',
     ( 'troy_pound',            'pound' )                           : '12',
     ( 'watt-second',           'joule' )                           : '1',
+    ( 'watt-second',           'watt*second' )                     : '1',
     ( 'week',                  'day' )                             : '7',
     ( 'yard',                  'foot' )                            : '3',
-    ( 'watt-second',           'watt*second' )                     : '1',
-    ( 'horsepower',            'watt' )                            : '745.69987158227022',
-    ( 'joule/second',          'watt' )                            : '1',
 }
 
 
@@ -481,14 +509,54 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
                             newConversion = True
 
-                        #if newConversion:
-                        #    break
-
         if not newConversion:
             break
 
     unitConversionMatrix.update( expandMetricUnits( ) )
 
+    # add new operators for compound time units
+    newUnitOperators = { }
+
+    for unit in unitOperators:
+        unitInfo = unitOperators[ unit ]
+
+        if unit[ -7 : ] == '-second':
+            for timeUnit in timeUnits:
+                newUnit = unit[ : -6 ] + timeUnit[ 0 ]
+                newAlias = unit[ : -6 ] + timeUnit[ 1 ]
+                newAliases[ newAlias ] = newUnit
+
+                newUnitOperators[ newUnit ] = [ unitInfo[ 0 ], newAlias, [ ] ]
+
+                conversion = mpmathify( timeUnit[ 3 ] )
+                unitConversionMatrix[ ( newUnit, unit ) ] = str( conversion )
+                unitConversionMatrix[ ( unit, newUnit ) ] = str( fdiv( 1, conversion ) )
+
+    unitOperators.update( newUnitOperators )
+
+    # add new conversions for compound time units
+    newUnitConversions = { }
+
+    for unit in unitOperators:
+        unitInfo = unitOperators[ unit ]
+
+        if unit[ -7 : ] == '-second':
+            for timeUnit in timeUnits:
+                newUnit = unit[ : -6 ] + timeUnit[ 0 ]
+
+                factor = mpmathify( timeUnit[ 3 ] )
+
+                for op1, op2 in unitConversionMatrix:
+                    if op1 == unit:
+                        oldConversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
+                        newUnitConversions[ ( newUnit, op2 ) ] = str( fmul( oldConversion, factor ) )
+                    elif op2 == unit:
+                        oldConversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
+                        newUnitConversions[ ( op1, newUnit ) ] = str( fdiv( oldConversion, factor ) )
+
+    unitConversionMatrix.update( newUnitConversions )
+
+    # make some more aliases
     newAliases.update( makeAliases( ) )
 
     #for op1, op2 in unitConversionMatrix:
