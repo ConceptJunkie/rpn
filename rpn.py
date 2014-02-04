@@ -5,6 +5,7 @@ import math
 import os
 import random
 import sys
+import types
 
 from fractions import Fraction
 from functools import reduce
@@ -18,7 +19,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.5.1"
+RPN_VERSION = "3.6.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -1645,9 +1646,12 @@ def main( ):
                          help="output in a different base (2 to 62, or phi)" )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
                          help="each digit is a space-delimited base-10 number" )
+    parser.add_argument( '-u', '--find_poly', type=int, action='store', default=0,
+                         help="find a polynomial such that P(x) ~= 0 of degree <= N" )
     parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=16,
                          help="bitwise operations group values by this size (default: 16)" )
     parser.add_argument( '-x', '--hex', action='store_true', help="hex mode: equivalent to '-r16 -w16 -i4 -z'" )
+    parser.add_argument( '-y', '--identify', action='store_true', help="identify the result (may repeat input)" )
     parser.add_argument( '-z', '--leading_zero', action='store_true', help="add leading zeros if needed with -i" )
     parser.add_argument( '-?', '--print_options', action='store_true', help="print values for all options" )
 
@@ -1749,6 +1753,10 @@ def main( ):
         print( "rpn:  -c, -d and -i can't be used with -R" )
         return
 
+    if args.identify or args.find_poly > 0:
+        if mp.dps < 53:
+            mp.dps = 53
+
     index = 1                 # only used for error messages
     valueList = list( )
 
@@ -1765,8 +1773,10 @@ def main( ):
         print( '--precision:  %d' % args.precision )
         print( '--output_radix:  %d' % args.output_radix )
         print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
+        print( '--find_poly:  %d' % args.find_poly )
         print( '--bitwise_group_size:  %d' % bitwiseGroupSize )
         print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
+        print( '--identify:  ' + ( 'true' if args.identify else 'false' ) )
         print( '--leading_zero:  ' + ( 'true' if leadingZero else 'false' ) )
         print( )
 
@@ -1846,14 +1856,14 @@ def main( ):
                     try:
                         factorInteger( int( floor( result ) ) )
                     except KeyboardInterrupt as error:
-                        print( "rpn:  keyboard interrupt" )
+                        print( 'rpn:  keyboard interrupt' )
                         return
 
                 if args.continued_fraction:
                     try:
                         cf = CFraction( mpmathify( result ), maxterms=args.continued_fraction )
                     except KeyboardInterrupt as error:
-                        print( "rpn:  keyboard interrupt" )
+                        print( 'rpn:  keyboard interrupt' )
                         return
 
                     # format the fraction output
@@ -1876,8 +1886,24 @@ def main( ):
                                                     leadingZero, args.decimal_grouping, ' ', baseAsDigits,
                                                     args.output_accuracy )
 
-                    print( "    = " + str( cf ) )
-                    print( "    ~= " + numerator + ' / ' + denominator )
+                    print( '    = ' + str( cf ) )
+                    print( '    ~= ' + numerator + ' / ' + denominator )
+
+                if args.identify:
+                    formula = identify( result )
+
+                    if formula is None:
+                        print( '    = [formula cannot be found]' )
+                    else:
+                        print( '    = ' + formula )
+
+                if args.find_poly > 0:
+                    poly = str( findpoly( result, args.find_poly ) )
+
+                    if poly == 'None':
+                        print( '    = polynomial of degree <= %d not found' % args.find_poly )
+                    else:
+                        print( '    = polynomial ' + poly )
 
 
 #//******************************************************************************
