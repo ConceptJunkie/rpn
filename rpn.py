@@ -34,11 +34,11 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.24.0'
+RPN_VERSION = '4.25.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
-defaultPrecision = 20
+defaultPrecision = 12
 defaultAccuracy = 10
 defaultCFTerms = 10
 defaultBitwiseGroupSize = 16
@@ -141,15 +141,7 @@ class Polynomial(object):
         return self.__class__( [ -co for co in self.coeffs ] )
 
     def __pow__( self, y, z = None ):
-        if not isinstance( y, int ):
-            raise ValueError( '__pow__ only supports integer exponents' )
-
-        result = self.__class__( self )
-
-        for i in range( 1, y ):
-            result *= self
-
-        return result
+        raise NotImplemented( )
 
     def _radd__( self, val ):
         "Return val+self"
@@ -918,21 +910,6 @@ def getNthPolyPrime( n, poly ):
         result = getNthPrime( result )
 
     return result
-
-
-#//******************************************************************************
-#//
-#//  getMultinomialCoefficient
-#//
-#//  calculates cth coefficient of the bth multinomial of degree a
-#//
-#//******************************************************************************
-
-def getMultinomialCoefficient( a, b, c ):
-    if c > fmul( a, b ) or c < 0:
-        raise ValueError( 'coefficient index c is out of range' )
-
-    return getPolynomialPower( [ 1 ] * int( a + 1 ), int( b ) )[ int( c ) ]
 
 
 #//******************************************************************************
@@ -2413,8 +2390,7 @@ def getNthPellNumber( n ):
 #//******************************************************************************
 
 def getNthBaseKRepunit( n, k ):
-    return fdiv( fsub( power( k, n ), 1 ), fsub( k, 1 ) )
-    # return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], n )
+    return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], n )
 
 
 #//******************************************************************************
@@ -2920,7 +2896,6 @@ def getNthPolygonalPyramidalNumber( n, k ):
                     fdiv( 1, 6 ) ] )
 
 
-
 #// A002415         4-dimensional pyramidal numbers: n^2*(n^2-1)/12.
 #//                                                  n^4 - n^2 / 12
 #// A005585         5-dimensional pyramidal numbers: n(n+1)(n+2)(n+3)(2n+3)/5!.
@@ -2937,14 +2912,15 @@ def getNthPolygonalPyramidalNumber( n, k ):
 #// A050534         Tritriangular numbers: a(n)=binomial(binomial(n,2),2) = n(n + 1)(n - 1)(n - 2)/8.
 #// A002817         Doubly triangular numbers: n*(n+1)*(n^2+n+2)/8.
 #//                 a(n) = 3*binomial(n+2, 4)+binomial(n+1, 2).
+
 #// A007588         Stella octangula numbers: n*(2*n^2 - 1).
+
 #// A005803         Second-order Eulerian numbers: 2^n - 2*n.
 
 #// A060888         n^6-n^5+n^4-n^3+n^2-n+1.      -- general form of this
 
-#// A006566         Dodecahedral numbers: n(3n-1)(3n-2)/2.
-
 #// A048736         Dana Scott's sequence: a(n) = (a(n-2) + a(n-1) * a(n-3)) / a(n-4), a(0) = a(1) = a(2) = a(3) = 1.
+
 #// A022095         Fibonacci sequence beginning 1 5.
 #//                 a(n) = ((2*sqrt(5)-1)*(((1+sqrt(5))/2)^(n+1)) + (2*sqrt(5)+1)*(((1-sqrt(5))/2)^(n+1)))/(sqrt(5)).
 
@@ -2986,19 +2962,7 @@ def getNthPolygonalPyramidalNumber( n, k ):
 #//
 #//
 #//
-
-#//******************************************************************************
-#//
-#//  getNthOctahedralNumber
-#//
-#//  Oct(n) = Pyr(n) + Pyr(n-1)
-#//
-#//  from Conway and Guy's "The Book of Numbers"
-#//
-#//******************************************************************************
-
-def getNthOctahedralNumber( n ):
-    return fmul( fdiv( n, 3 ), fadd( fprod( [ 2, n, n ] ), 1 ) )
+    return polyval( [ 5/2, -5/2, 1, 0 ], n )
 
 
 #//******************************************************************************
@@ -3546,17 +3510,6 @@ def multiplyPolynomials( a, b ):
     result = Polynomial( a )
     result *= Polynomial( b )
 
-    return result.getCoefficients( )
-
-
-#//******************************************************************************
-#//
-#//  getPolynomialPower
-#//
-#//******************************************************************************
-
-def getPolynomialPower( a, b ):
-    result = Polynomial( a ).__pow__( int( b ) )
     return result.getCoefficients( )
 
 
@@ -4451,6 +4404,7 @@ operatorAliases = {
     'bal?'      : 'balanced?',
     'bal_'      : 'balanced_',
     'cbrt'      : 'root3',
+    'ccube'     : 'centeredcube',
     'cdec'      : 'cdecagonal',
     'cdec?'     : 'cdecagonal?',
     'ceil'      : 'ceiling',
@@ -4486,6 +4440,7 @@ operatorAliases = {
     'hept?'     : 'heptagonal?',
     'hex'       : 'hexagonal',
     'hex?'      : 'hexagonal?',
+    'hyper4'    : 'tetrate',
     'inv'       : 'reciprocal',
     'isdiv'     : 'isdivisible',
     'issqr'     : 'issquare',
@@ -4493,7 +4448,6 @@ operatorAliases = {
     'log'       : 'ln',
     'mod'       : 'modulo',
     'mult'      : 'multiply',
-    'multiex'   : 'multinomialex',
     'neg'       : 'negative',
     'non'       : 'nonagonal',
     'non?'      : 'nonagonal?',
@@ -4506,8 +4460,6 @@ operatorAliases = {
     'pent?'     : 'pentagonal?',
     'poly'      : 'polygonal',
     'poly?'     : 'polygonal?',
-    'polymult'  : 'polymul',
-    'polypow'   : 'polypower',
     'prod'      : 'product',
     'pyr'       : 'pyramid',
     'quad'      : 'quadprime',
@@ -4537,7 +4489,6 @@ operatorAliases = {
     'sqr'       : 'square',
     'sqrt'      : 'root2',
     'syl'       : 'sylvester',
-    'tetrate'   : 'hyper4',
     'tri'       : 'triangular',
     'tri?'      : 'triangular?',
     'triplet'   : 'tripletprime',
@@ -4733,12 +4684,6 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'polypower' : [ getPolynomialPower, 2,
-'algebra', 'goobles',
-'''
-''',
-'''
-''' ],
     'polyprod'  : [ multiplyListOfPolynomials, 1,
 'algebra', 'interprets elements of list n as polynomials and calculates their product',
 '''
@@ -4763,6 +4708,12 @@ list_operators = {
 ''',
 '''
 ''' ],
+    'repunit'   : [ getNthBaseKRepunit, 2,
+'algebra', 'returns the nth repunit in base k',
+'''
+''',
+'''
+''' ],
     'solve'     : [ solvePolynomial, 1,
 'algebra', 'interprets list n as a polynomial and solves for its roots',
 '''
@@ -4776,12 +4727,14 @@ The 'sort' operator gets applied recursively, so all sublists will be sorted as
 well.  I might have to reconsider that.
 ''',
 '''
-c:>rpn [ rand rand rand ] sort
+c:\>rpn [ rand rand rand ] sort
 [ 0.782934612763, 0.956555810967, 0.97728726503 ]
 
-c:>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
+c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
 [ [ 10 ], [ 9 ], [ 8 ], [ 5, 6, 7 ], [ 4 ], [ 3 ], [ 1, 2 ], [ 0 ], [ -1 ] ]
 
+c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] flatten sort
+[ -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
     'sortdesc'  : [ sortDescending, 1,
 'list_operators', 'sorts the elements of list n numerically in descending order',
@@ -4801,6 +4754,8 @@ c:\>rpn 1 20 range countdiv sortdesc
 '''
 ''',
 '''
+c:\>rpn 1 50 range countdiv stddev
+2.14485430741
 ''' ],
     'sum'       : [ fsum, 1,
 'arithmetic', 'calculates the sum of values in list n',
@@ -5023,7 +4978,7 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
 ''' ],
-    'ccube'         : [ getNthCenteredCubeNumber, 1,
+    'centeredcube'  : [ getNthCenteredCubeNumber, 1,
 'polyhedral_numbers', 'calculates the nth centered cube number',
 '''
 ''',
@@ -5264,12 +5219,6 @@ number.
 ''',
 '''
 ''' ],
-    'ctrinomial'    : [ lambda n: getPolynomialPower( [ 1, 1, 1 ], int( n ) )[ int( n ) ], 1,
-'combinatorics', 'calculates nth central trinomial coefficient',
-'''
-''',
-'''
-''' ],
     'cube'          : [ lambda n: power( n, 3 ), 1,
 'powers_and_roots', 'calculates the cube of n',
 '''
@@ -5309,6 +5258,12 @@ number.
 ''' ],
     'divisors'      : [ getDivisors, 1,
 'number_theory', 'returns a list of divisors of n',
+'''
+''',
+'''
+''' ],
+    'dodecahedral'  : [ lambda n : polyval( [ 9/2, -9/2, 1, 0 ], n ), 1,
+'polyhedral_numbers', 'returns the nth dodecahedral number',
 '''
 ''',
 '''
@@ -5484,12 +5439,6 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'hyper4'       : [ tetrate, 2,
-'powers_and_roots', 'tetrates n by k',
-'''
-''',
-'''
-''' ],
     'hyper4_2'      : [ tetrateLarge, 2,
 'powers_and_roots', 'calculates the right-associative tetration of n by k',
 '''
@@ -5510,6 +5459,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'i'             : [ makeImaginary, 1,
 'complex_math', 'multiplies n by i',
+'''
+''',
+'''
+''' ],
+    'icosahedral'  : [ lambda n: polyval( [ 5/2, -5/2, 1, 0 ], n ), 1,
+'polyhedral_numbers', 'returns the nth icosahedral number',
 '''
 ''',
 '''
@@ -5646,18 +5601,6 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'multinomial'    : [ getMultinomialCoefficient, 3,
-'combinatorics', 'calculates cth coefficient of the bth multinomial of degree a',
-'''
-''',
-'''
-''' ],
-    'multinomialex'  : [ lambda n, k: getPolynomialPower( [ 1 ] * int( n + 1 ), int( k ) ), 2,
-'combinatorics', 'calculats the expansion of the kth multinomial of degree n',
-'''
-''',
-'''
-''' ],
     'multiply'      : [ fmul, 2,
 'arithmetic', 'multiplies n by k',
 '''
@@ -5760,7 +5703,7 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'octahedral'    : [ getNthOctahedralNumber, 1,
+    'octahedral'    : [ lambda n: polyval( [ 2/3, 0, 1/3, 0 ], n ), 1,
 'polyhedral_numbers', 'calculates the nth octahedral number',
 '''
 ''',
@@ -6026,16 +5969,6 @@ given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
-    'repunit'   : [ getNthBaseKRepunit, 2,
-'algebra', 'returns the nth repunit in base k',
-'''
-'repunit' calculates the nth reupunit in base k.  A repunit is a number whose
-digits consist entirely of 1's.
-
-This operator calculates the equivilent of (k^n-1)/(k-1).
-''',
-'''
-''' ],
     'rhombdodec'    : [ getNthRhombicDodecahedralNumber, 1,
 'polyhedral_numbers', 'calculates the nth rhombic dodecahedral number',
 '''
@@ -6236,7 +6169,13 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
-    'tetra'         : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1,
+    'tetrate'       : [ tetrate, 2,
+'powers_and_roots', 'tetrates n by k',
+'''
+''',
+'''
+''' ],
+    'tetrahedral'   : [ lambda n: polyval( [ 1/6, 1/2, 1/3, 0 ], n ), 1,
 'polyhedral_numbers', 'calculates the nth tetrahedral number',
 '''
 ''',
@@ -6268,12 +6207,6 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'tribonacci'    : [ getNthTribonacci, 1,
 'number_theory', 'calculates the nth Tribonacci number',
-'''
-''',
-'''
-''' ],
-    'trinomial'    : [ lambda n, k: getPolynomialPower( [ 1, 1, 1 ], int( n ) )[ int( k ) ], 2,
-'combinatorics', 'calculates kth coefficient of the nth trinomial',
 '''
 ''',
 '''
@@ -6328,12 +6261,6 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'unitroots'     : [ lambda i: unitroots( int( i ) ), 1,
 'number_theory', 'calculates the nth roots of unity',
-'''
-''',
-'''
-''' ],
-    'unixtime'      : [ lambda n: time.strftime( '%Y-%m-%d %H:%M:%S', time.localtime( n ) ), 1,
-'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
 '''
 ''',
 '''
@@ -6775,9 +6702,6 @@ def roundMantissa( mantissa, accuracy ):
 
 def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
                   decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
-    if isinstance( output, str ):
-        return output
-
     imaginary = im( mpmathify( output ) )
 
     if imaginary != 0:
@@ -6994,7 +6918,7 @@ def printOperatorHelp( helpArgs, term, operatorInfo ):
     if len( aliasList ) > 1:
         print( 'aliases:  ' + ', '.join( aliasList ) )
     elif len( aliasList ) == 1:
-        print( 'alias:  ' + ', '.join( aliasList ) )
+        print( 'alias:  ' + aliasList[ 0 ] )
 
     print( 'category: ' + operatorInfo[ 2 ] )
 
@@ -7025,7 +6949,7 @@ def addAliases( operatorList ):
         aliasList = [ key for key in operatorAliases if operator == operatorAliases[ key ] ]
 
         if len( aliasList ) > 0:
-            operatorList[ index ] += ' ( ' + ', '.join( aliasList ) + ' )'
+            operatorList[ index ] += ' (' + ', '.join( aliasList ) + ')'
 
 
 #//******************************************************************************
@@ -7382,8 +7306,6 @@ To compute the nth Fibonacci number accurately, rpn sets the precision to
 a level sufficient to guarantee a correct answer.
 
 Bitwise operators force all arguments to integers by truncation if necessary.
-
-I need to make -a work on complex numbers.
 '''
 }
 
@@ -7434,7 +7356,28 @@ I need to make -a work on complex numbers.
 #//******************************************************************************
 
 def validateOptions( args ):
-    return True
+    if args.hex:
+        if args.output_radix != 10 and args.output_radix != 16:
+            return False, '-r and -x can\'t be used together'
+
+        if args.octal:
+            return False, '-x and -o can\'t be used together'
+
+    if args.octal:
+        if outputRadix != 10 and outputRadix != 8:
+            return False, '-r and -o can\'t be used together'
+
+    if args.output_radix_numerals > 0:
+        if args.hex:
+            return False, '-R and -x can\'t be used together'
+
+        if args.octal:
+            return False, '-R and -o can\'t be used together'
+
+        if args.output_radix != 10:
+            return False, '-R and -r can\'t be used together'
+
+    return True, ''
 
 
 #//******************************************************************************
@@ -7455,6 +7398,16 @@ def validateArguments( terms ):
     if bracketCount:
         print( 'rpn:  mismatched brackets (count: {})'.format( bracketCount ) )
         return False
+
+    if args.output_radix_numerals < 2:
+        return False, 'output radix must be greater than 1'
+
+    if args.comma and args.integer_grouping > 0 :
+        return False, 'rpn:  -c can\'t be used with -i'
+
+    if args.output_radix_numerals > 0 and \
+       ( args.comma or args.decimal_grouping > 0 or args.integer_grouping > 0 ):
+        return False, '-c, -d and -i can\'t be used with -R'
 
     return True
 
@@ -7570,7 +7523,10 @@ def main( ):
         printHelp( [ ] )
         return
 
-    if not validateOptions( args ):
+    valid, errorString = validateOptions( args )
+
+    if not valid:
+        print( 'rpn:  ' + errorString )
         return
 
     mp.dps = args.precision
@@ -7593,8 +7549,6 @@ def main( ):
     # handle -b
     inputRadix = int( args.input_radix )
 
-
-
     # handle -r
     if args.output_radix == 'phi':
         outputRadix = phiBase
@@ -7609,14 +7563,6 @@ def main( ):
 
     # handle -x
     if args.hex:
-        if outputRadix != 10 and outputRadix != 16:
-            print( 'rpn:  -r and -x can\'t be used together' )
-            return
-
-        if args.octal:
-            print( 'rpn:  -x and -o can\'t be used together' )
-            return
-
         outputRadix = 16
         leadingZero = True
         integerGrouping = 4
@@ -7624,10 +7570,6 @@ def main( ):
 
     # handle -o
     if args.octal:
-        if outputRadix != 10 and outputRadix != 8:
-            print( 'rpn:  -r and -o can\'t be used together' )
-            return
-
         outputRadix = 8
         leadingZero = True
         integerGrouping = 3
@@ -7635,14 +7577,6 @@ def main( ):
 
     # handle -R
     if args.output_radix_numerals > 0:
-        if args.hex:
-            print( 'rpn:  -R and -x can\'t be used together' )
-            return
-
-        if args.output_radix != 10:
-            print( 'rpn:  -R and -r can\'t be used together' )
-            return
-
         baseAsDigits = True
         outputRadix = args.output_radix_numerals
     else:
@@ -7658,14 +7592,6 @@ def main( ):
              ( outputRadix < 2 or outputRadix > 62 ) ):
             print( 'rpn:  output radix must be from 2 to 62, or phi' )
             return
-
-    if args.comma and args.integer_grouping > 0 :
-        print( 'rpn:  -c can\'t be used with -i' )
-        return
-
-    if baseAsDigits and ( args.comma or args.decimal_grouping > 0 or args.integer_grouping > 0 ):
-        print( 'rpn:  -c, -d and -i can\'t be used with -R' )
-        return
 
     # handle -y and -u:  mpmath wants precision of at least 53 for these functions
     if args.identify or args.find_poly > 0:
@@ -7746,12 +7672,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            except ValueError as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except ValueError as error:
+            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -7839,10 +7765,12 @@ def main( ):
                         base = [ 'pi', 'e' ]
                         formula = identify( result, base )
 
+                    # I don't know if this would ever be useful to try.
                     if formula is None:
                         base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
                         formula = identify( result, base )
 
+                    # Nor this.
                     if formula is None:
                         base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
                         formula = identify( result, base )
