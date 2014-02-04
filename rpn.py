@@ -5,8 +5,7 @@ from argparse import RawTextHelpFormatter
 import math
 import random
 import sys
-#from decimal import *
-from mpmath import mp
+from mpmath import *
 
 
 #//******************************************************************************
@@ -99,7 +98,7 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
         else:
             result = numerals[ int( left_digits ) % base ] + result
 
-        left_digits //= base
+        left_digits = floor( fdiv( left_digits, base ) )
 
     return result
 
@@ -261,11 +260,11 @@ def sum( valueList ):
 
 #//******************************************************************************
 #//
-#//  takeMean
+#//  getMean
 #//
 #//******************************************************************************
 
-def takeMean( valueList ):
+def getMean( valueList ):
     count = 1
     result = valueList.pop( )
 
@@ -284,7 +283,7 @@ def takeMean( valueList ):
 
 def subtract( valueList ):
     value = valueList.pop( )
-    valueList.append( fsub( valueList.pop( ) ), value )
+    valueList.append( fsub( valueList.pop( ), value ) )
 
 
 #//******************************************************************************
@@ -295,7 +294,7 @@ def subtract( valueList ):
 
 def multiply( valueList ):
     value = valueList.pop( )
-    valueList.append( Decimal( valueList.pop( ) ) * value )
+    valueList.append( fmul( valueList.pop( ), value ) )
 
 
 #//******************************************************************************
@@ -322,7 +321,59 @@ def multiplyAll( valueList ):
 
 def divide( valueList ):
     value = valueList.pop( )
-    valueList.append( Decimal( valueList.pop( ) ) / value )
+    valueList.append( fdiv( valueList.pop( ), value ) )
+
+
+#//******************************************************************************
+#//
+#//  getModulo
+#//
+#//******************************************************************************
+
+def getModulo( valueList ):
+    value = valueList.pop( )
+    valueList.append( fmod( valueList.pop( ), value ) )
+
+
+#//******************************************************************************
+#//
+#//  getHypotenuse
+#//
+#//******************************************************************************
+
+def getHypotenuse( valueList ):
+    value = valueList.pop( )
+    valueList.append( hypot( valueList.pop( ), value ) )
+
+
+#//******************************************************************************
+#//
+#//  getAbsoluteValue
+#//
+#//******************************************************************************
+
+def getAbsoluteValue( valueList ):
+    valueList.append( fabs( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getNegative
+#//
+#//******************************************************************************
+
+def getNegative( valueList ):
+    valueList.append( fneg( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getRandom
+#//
+#//******************************************************************************
+
+def getRandom( valueList ):
+    valueList.append( rand( ) )
 
 
 #//******************************************************************************
@@ -384,23 +435,44 @@ def tetrateLarge( valueList ):
 
 #//******************************************************************************
 #//
-#//  takeSquare
+#//  getSquare
 #//
 #//******************************************************************************
 
-def takeSquare( valueList ):
+def getSquare( valueList ):
     value = valueList.pop( )
-    valueList.append( power( value, mpf( 2.0 ) ) )
+    valueList.append( power( value, 2 ) )
 
 
 #//******************************************************************************
 #//
-#//  takeSquareRoot
+#//  getCube
 #//
 #//******************************************************************************
 
-def takeSquareRoot( valueList ):
+def getCube( valueList ):
+    value = valueList.pop( )
+    valueList.append( power( value, 3 ) )
+
+
+#//******************************************************************************
+#//
+#//  getSquareRoot
+#//
+#//******************************************************************************
+
+def getSquareRoot( valueList ):
     valueList.append( sqrt( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getCubeRoot
+#//
+#//******************************************************************************
+
+def getCubeRoot( valueList ):
+    valueList.append( cbrt( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -416,123 +488,183 @@ def antiexponentiate( valueList ):
 
 #//******************************************************************************
 #//
-#//  takeLogXY
+#//  getLogXY
 #//
 #//******************************************************************************
 
-def takeLogXY( valueList ):
+def getLogXY( valueList ):
     value = valueList.pop( )
     valueList.append( log( valueList.pop( ), value ) )
 
 
 #//******************************************************************************
 #//
-#//  takeFactorial
+#//  getFactorial
 #//
 #//******************************************************************************
 
-def takeFactorial( valueList ):
+def getFactorial( valueList ):
     valueList.append( fac( valueList.pop( ) ) )
 
 
 #//******************************************************************************
 #//
-#//  takeLog
+#//  getSuperfactorial
 #//
 #//******************************************************************************
 
-def takeLog( valueList ):
+def getSuperfactorial( valueList ):
+    valueList.append( superfac( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getHyperfactorial
+#//
+#//******************************************************************************
+
+def getHyperfactorial( valueList ):
+    valueList.append( hyperfac( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getHarmonic
+#//
+#//******************************************************************************
+
+def getHarmonic( valueList ):
+    valueList.append( harmonic( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getLog
+#//
+#//******************************************************************************
+
+def getLog( valueList ):
     valueList.append( ln( valueList.pop( ) ) )
 
 
 #//******************************************************************************
 #//
-#//  takeLog10
+#//  getLog10
 #//
 #//******************************************************************************
 
-def takeLog10( valueList ):
+def getLog10( valueList ):
     valueList.append( log10( valueList.pop( ) ) )
 
 
 #//******************************************************************************
 #//
-#//  takeGamma
+#//  getGamma
 #//
 #//******************************************************************************
 
-def takeGamma( valueList ):
+def getGamma( valueList ):
     valueList.append( gamma( valueList.pop( ) ) )
 
 
 #//******************************************************************************
 #//
-#//  takeLGamma
+#//  getLGamma
 #//
 #//******************************************************************************
 
-def takeLGamma( valueList ):
+def getLGamma( valueList ):
     valueList.append( loggamma( valueList.pop( ) ) )
 
 
 #//******************************************************************************
 #//
-#//  takeExp
+#//  getExp
 #//
 #//******************************************************************************
 
-def takeExp( valueList ):
+def getExp( valueList ):
     valueList.append( exp( valueList.pop( ) ) )
 
 
 #//******************************************************************************
 #//
-#//  takeExp10
+#//  getExp10
 #//
 #//******************************************************************************
 
-def takeExp10( valueList ):
+def getExp10( valueList ):
     valueList.append( power( 10, valueList.pop( ) ) )
 
 
 #//******************************************************************************
 #//
-#//  takeExpPhi
+#//  getExpPhi
 #//
 #//******************************************************************************
 
-def takeExpPhi( valueList ):
+def getExpPhi( valueList ):
     valueList.append( power( phi, valueList.pop( ) ) )
 
 
 #//******************************************************************************
 #//
-#//  takeSin
+#//  getSine
 #//
 #//******************************************************************************
 
-def takeSin( valueList ):
+def getSine( valueList ):
     valueList.append( sin( valueList.pop( ) ) )
 
 
 #//******************************************************************************
 #//
-#//  takeCos
+#//  getArcsine
 #//
 #//******************************************************************************
 
-def takeCos( valueList ):
+def getArcsine( valueList ):
+    valueList.append( asin( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getCosine
+#//
+#//******************************************************************************
+
+def getCosine( valueList ):
     valueList.append( cos( valueList.pop( ) ) )
 
 
 #//******************************************************************************
 #//
-#//  takeTan
+#//  getArccosine
 #//
 #//******************************************************************************
 
-def takeTan( valueList ):
+def getArccosine( valueList ):
+    valueList.append( acos( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getTangent
+#//
+#//******************************************************************************
+
+def getTangent( valueList ):
     valueList.append( tan( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
+#//  getArctangent
+#//
+#//******************************************************************************
+
+def getArctangent( valueList ):
+    valueList.append( atan( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -573,7 +705,7 @@ def getNthFibonacci( valueList ):
 
 def getNthTriangularNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( ( n * ( n + Decimal( 1 ) ) ) / Decimal( 2 ) )
+    valueList.append( fdiv ( fmul( n, fadd( n, 1 ) ), 2 ) )
 
 
 #//******************************************************************************
@@ -586,7 +718,7 @@ def getNthTriangularNumber( valueList ):
 
 def getAntiTriangularNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( Decimal( 0.5 ) * ( pow( ( ( Decimal( 8 ) * n ) + Decimal( 1 ) ), Decimal( 0.5 ) ) - Decimal( 1 ) ) )
+    valueList.append( fmul( 0.5, fsub( sqrt( fadd( fmul( 8, n ), 1 ) ), 1 ) ) )
 
 
 #//******************************************************************************
@@ -610,7 +742,7 @@ def getNthPentagonalNumber( valueList ):
 
 def getAntiPentagonalNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( Decimal( 1 / 6 ) * ( pow( ( ( Decimal( 24 ) * n ) + Decimal( 1 ) ), Decimal( 0.5 ) ) + Decimal( 1 ) ) )
+    valueList.append( fdiv( fadd( power( ( fadd( fmul( 24 , n ), 1 ) ), 0.5 ), 1 ), 6 ) )
 
 
 #//******************************************************************************
@@ -634,7 +766,7 @@ def getNthHexagonalNumber( valueList ):
 
 def getAntiHexagonalNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( Decimal( 1 / 4 ) * ( pow( ( ( Decimal( 8 ) * n ) + Decimal( 1 ) ), Decimal( 0.5 ) ) + Decimal( 1 ) ) )
+    valueList.append( fdiv( fadd( sqrt( fadd( fmul( 8, n ), 1 ) ), 1 ), 4 ) )
 
 
 #//******************************************************************************
@@ -645,7 +777,8 @@ def getAntiHexagonalNumber( valueList ):
 
 def getNthTetrahedralNumber( valueList ):
     n = valueList.pop( )
-    valueList.append( Decimal( 1 / 6 ) * ( n * n * n + Decimal( 3 ) * n * n + Decimal( 2 ) * n ) )
+
+    valueList.append( fdiv( fsum( [ power( n, 3 ), fmul( 3, power( n, 2 ) ), fmul( 2, n ) ] ), 6 ) )
 
 # p=(1/6)*(n^3+3*n^2+2*n)
 
@@ -660,8 +793,8 @@ def getNthTetrahedralNumber( valueList ):
 def getAntiTetrahedralNumber( valueList ):
     n = valueList.pop( )
 
-    sqrt3 = pow( Decimal( 3 ), Decimal( 0.5 ) )
-    cubert3 = pow( Decimal( 3 ), Decimal( 1 / 3 ) )
+    sqrt3 = sqrt( 3 )
+    curt3 = cbrt( 3 )
 
     valueList.append( 0 )
 
@@ -678,15 +811,16 @@ def getAntiTetrahedralNumber( valueList ):
 def getNthSquareTriangularNumber( valueList ):
     n = valueList.pop( )
 
-    neededPrecision = int( n * Decimal( 1.55 ) )  # determined by experimentation
+    neededPrecision = int( n * 3.5 )  # determined by experimentation
 
-    if getcontext( ).prec < neededPrecision:
-        getcontext( ).prec = neededPrecision
+    if mp.dps < neededPrecision:
+        mp.dps = neededPrecision
 
-    sqrt2 = Decimal( 2 ) ** Decimal( 0.5 )
+    sqrt2 = sqrt( 2 )
 
-    valueList.append( math.ceil( ( ( ( Decimal( 1 ) + sqrt2 ) ** ( Decimal( 2 ) * n ) - ( Decimal( 1 ) - sqrt2 ) ** ( Decimal( 2 ) * n ) ) /
-                                    ( Decimal( 4 ) * sqrt2 ) ) ** Decimal( 2 ) ) )
+    valueList.append( ceil( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, n ) ),
+                                               power( fsub( 1, sqrt2 ), fmul( 2, n ) ) ),
+                                         fmul( 4, sqrt2 ) ), 2 ) ) )
 
 
 #//******************************************************************************
@@ -696,7 +830,7 @@ def getNthSquareTriangularNumber( valueList ):
 #//******************************************************************************
 
 def getFloor( valueList ):
-    valueList.append( Decimal( valueList.pop( ) ).quantize( Decimal( '1.' ), rounding=ROUND_DOWN ) )
+    valueList.append( floor( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -706,7 +840,7 @@ def getFloor( valueList ):
 #//******************************************************************************
 
 def getCeiling( valueList ):
-    valueList.append( Decimal( valueList.pop( ) ).quantize( Decimal( '1.' ), rounding=ROUND_UP ) )
+    valueList.append( ceil( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -718,51 +852,75 @@ def getCeiling( valueList ):
 #//******************************************************************************
 
 expressions = {
-    'pi'       : [ getPi, 0 ],
-    'e'        : [ getE, 0 ],
-    'phi'      : [ getPhi, 0 ],
-    'itoi'     : [ getIToTheIPower, 0 ],
+    '!'        : [ getFactorial, 1 ],
+    '%'        : [ getModulo, 2 ],
+    '*'        : [ multiply, 2 ],
+    '**'       : [ exponentiate, 2 ],
+    '***'      : [ tetrate, 2 ],
     '+'        : [ add, 2 ],
     '-'        : [ subtract, 2 ],
-    '*'        : [ multiply, 2 ],
     '/'        : [ divide, 2 ],
-    '**'       : [ exponentiate, 2 ],
-    '^'        : [ exponentiate, 2 ],
-    '***'      : [ tetrate, 2 ],
     '//'       : [ antiexponentiate, 2 ],
-    'logxy'    : [ takeLogXY, 2 ],
-    '!'        : [ takeFactorial, 1 ],
-    'log'      : [ takeLog, 1 ],
-    'log10'    : [ takeLog10, 1 ],
-    'exp'      : [ takeExp, 1 ],
-    'exp10'    : [ takeExp10, 1 ],
-    'expphi'   : [ takeExpPhi, 1 ],
-    'sin'      : [ takeSin, 1 ],
-    'cos'      : [ takeCos, 1 ],
-    'tan'      : [ takeTan, 1 ],
-    'gamma'    : [ takeGamma, 1 ],
-    'lgamma'   : [ takeLGamma, 1 ],
-    'deg'      : [ convertRadiansToDegrees, 1 ],
-    'rad'      : [ convertDegreesToRadians, 1 ],
-    'sqr'      : [ takeSquare, 1 ],
-    'sqrt'     : [ takeSquareRoot, 1 ],
-    'floor'    : [ getFloor, 1 ],
-    'ceil'     : [ getCeiling, 1 ],
-#    'isprime'  : [ isPrime, 1 ],
-#    'powmod'   : [ takePowMod, 3 ],
-    'fib'      : [ getNthFibonacci, 1 ],
-    'tri'      : [ getNthTriangularNumber, 1 ],
-    'antitri'  : [ getAntiTriangularNumber, 1 ],
-    'pent'     : [ getNthPentagonalNumber, 1 ],
-    'antipent' : [ getAntiPentagonalNumber, 1 ],
-    'hex'      : [ getNthHexagonalNumber, 1 ],
+    'abs'      : [ getAbsoluteValue, 1 ],
+    'acos'     : [ getArccosine, 1 ],
     'antihex'  : [ getAntiHexagonalNumber, 1 ],
-    'tet'      : [ getNthTetrahedralNumber, 1 ],
-#    'antitet'  : [ getAntiTetrahedralNumber, 1 ],
+    'antipent' : [ getAntiPentagonalNumber, 1 ],
+    'antitri'  : [ getAntiTriangularNumber, 1 ],
+    'asin'     : [ getArcsine, 1 ],
+    'atan'     : [ getArctangent, 1 ],
+    'cbrt'     : [ getCubeRoot, 1 ],
+    'ceil'     : [ getCeiling, 1 ],
+    'cos'      : [ getCosine, 1 ],
+    'cosine'   : [ getCosine, 1 ],
+    'cube'     : [ getCube, 1 ],
+    'deg'      : [ convertRadiansToDegrees, 1 ],
+    'degrees'  : [ convertRadiansToDegrees, 1 ],
+    'e'        : [ getE, 0 ],
+    'exp'      : [ getExp, 1 ],
+    'exp10'    : [ getExp10, 1 ],
+    'expphi'   : [ getExpPhi, 1 ],
+    'fac'      : [ getFactorial, 1 ],
+    'fib'      : [ getNthFibonacci, 1 ],
+    'floor'    : [ getFloor, 1 ],
+    'gamma'    : [ getGamma, 1 ],
+    'harm'     : [ getHarmonic, 1 ],
+    'harmonic' : [ getHarmonic, 1 ],
+    'hex'      : [ getNthHexagonalNumber, 1 ],
+    'hyperfac' : [ getHyperfactorial, 1 ],
+    'hypot'    : [ getHypotenuse, 2 ],
+    'itoi'     : [ getIToTheIPower, 0 ],
+    'lgamma'   : [ getLGamma, 1 ],
+    'log'      : [ getLog, 1 ],
+    'log10'    : [ getLog10, 1 ],
+    'logxy'    : [ getLogXY, 2 ],
+    'mean'     : [ getMean, 2 ],      # this one eats the whole stack
+    'mod'      : [ getModulo, 2 ],
+    'modulo'   : [ getModulo, 2 ],
+    'mult'     : [ multiplyAll, 2 ],  # this one eats the whole stack
+    'neg'      : [ getNegative, 1 ],
+    'pent'     : [ getNthPentagonalNumber, 1 ],
+    'phi'      : [ getPhi, 0 ],
+    'pi'       : [ getPi, 0 ],
+    'rad'      : [ convertDegreesToRadians, 1 ],
+    'radians'  : [ convertDegreesToRadians, 1 ],
+    'rand'     : [ getRandom, 0 ],
+    'random'   : [ getRandom, 0 ],
+    'sin'      : [ getSine, 1 ],
+    'sine'     : [ getSine, 1 ],
+    'sqr'      : [ getSquare, 1 ],
+    'sqrt'     : [ getSquareRoot, 1 ],
     'sqtri'    : [ getNthSquareTriangularNumber, 1 ],
     'sum'      : [ sum, 2 ],          # this one eats the whole stack
-    'mult'     : [ multiplyAll, 2 ],  # this one eats the whole stack
-    'mean'     : [ takeMean, 2 ]      # this one eats the whole stack
+    'superfac' : [ getSuperfactorial, 1 ],
+    'tan'      : [ getTangent, 1 ],
+    'tangent'  : [ getTangent, 1 ],
+    'tet'      : [ getNthTetrahedralNumber, 1 ],
+    'tetra'    : [ getNthTetrahedralNumber, 1 ],
+    'tri'      : [ getNthTriangularNumber, 1 ],
+    '^'        : [ exponentiate, 2 ],
+#    'antitet'  : [ getAntiTetrahedralNumber, 1 ],
+#    'isprime'  : [ isPrime, 1 ],
+#    'powmod'   : [ getPowMod, 3 ],
 }
 
 
@@ -777,7 +935,7 @@ expressions = {
 
 def parseInputValue( term, inputRadix ):
     if term == '0':
-        return Decimal( 0 )
+        return mpf( 0 )
 
     if term[ 0 ] == '\\':
         term = term[ 1 : ]
@@ -787,7 +945,7 @@ def parseInputValue( term, inputRadix ):
 
     if '.' in term:
         if inputRadix == 10:
-            return Decimal( term )
+            return mpf( term )
 
         decimal = term.find( '.' )
     else:
@@ -810,22 +968,22 @@ def parseInputValue( term, inputRadix ):
     if not ignoreSpecial and mantissa == '':
         if integer[ 0 ] == '0':
             if integer[ 1 ] in 'Xx':
-                return Decimal( int( integer, 16 ) )
+                return mpf( int( integer, 16 ) )
             elif integer[ -1 ] in 'bB':
                 integer = integer[ : -1 ]
-                return Decimal( int( integer, 2 ) * ( -1 if negative else 1 ) )
+                return mpf( int( integer, 2 ) * ( -1 if negative else 1 ) )
             else:
                 integer = integer[ 1 : ]
 
-                return Decimal( int( integer, 8 ) )
+                return mpf( int( integer, 8 ) )
         elif inputRadix == 10:
-            result = Decimal( integer )
-            return Decimal( -result if negative else result )
+            result = mpf( integer )
+            return mpf( -result if negative else result )
 
     # finally, we have a non-radix 10 number to parse
     result = convertToBase10( integer, mantissa, inputRadix )
 
-    return Decimal( -result if negative else result )
+    return mpf( -result if negative else result )
 
 
 #//******************************************************************************
@@ -856,11 +1014,11 @@ def formatOutput( output, radix, numerals, comma, decimalGrouping, baseAsDigits 
         mantissa = mantissa.rstrip( '0' )
 
     if radix != 10 or numerals != defaultNumerals:
-        integer = str( convertToBaseN( Decimal( integer ), radix, baseAsDigits, numerals ) )
+        integer = str( convertToBaseN( mpf( integer ), radix, baseAsDigits, numerals ) )
 
         if mantissa:
-            mantissa = str( convertFractionToBaseN( Decimal( '.' + mantissa ), radix,
-                            int( ( getcontext( ).prec - integerLength ) / math.log10( radix ) ),
+            mantissa = str( convertFractionToBaseN( mpf( '.' + mantissa ), radix,
+                            int( ( mp.dps - integerLength ) / math.log10( radix ) ),
                             baseAsDigits ) )
 
     if comma:
@@ -915,8 +1073,37 @@ def main( ):
 Arguments are interpreted as Reverse Polish Notation.
 
 Supported unary operators:
-    !, cos, deg (radians to degrees), exp, exp10, expphi, gamma, lgamma, log,
-    log10, rad (degrees to radians), sin, sqr, sqrt, tan, floor, ceil
+    !, fac
+    %, mod, modulo
+    abs
+    cbrt (cube root)
+    ceil
+    cube
+    deg, degrees (radians to degrees),
+    exp
+    exp10
+    expphi
+    floor
+    gamma
+    hypot
+    hyperfac
+    lgamma
+    log
+    log10
+    neg
+    rad, radians (degrees to radians),
+    rand
+    sqr
+    sqrt
+    superfac
+
+Supported unary trigonometric operators:
+    sin, sine
+    cos, cosine
+    tan, tangent
+    asin
+    acos
+    atan
 
 Supported integer sequence unary operators
     fib (nth Fibonacci number)*
@@ -925,12 +1112,14 @@ Supported integer sequence unary operators
     antitri (which triangular number is this)
 
     pent (nth pentagonal number)
-    antipent( which pentagonal number is this)
+    antipent (which pentagonal number is this)
 
     hex (nth hexagonal number)
-    antihex( which hexagonal number is this)
+    antihex (which hexagonal number is this)
 
     sqtri (nth square triangular number)*
+
+    tet, tetra (nth tetrahedronal number)
 
     * requires sufficient precision for accuracy (see Notes)
 
@@ -943,14 +1132,9 @@ Supported multi operators (operate on all preceding operands):
 Supported constants:
     e, pi, phi (the Golden Ratio), itoi (i^i)
 
-rpn supports arbitrary precision using Decimal( ), however the following
-operators do not always provide arbitrary precision:
-    **, //, exp, exp10, gamma, lgamma
-
 For integers, rpn understands hexidecimal input of the form '0x....'.
 Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B' is
-interpreted as binary.  These rules hold regardless of what is specified by
--b.
+interpreted as binary.  These rules hold regardless of what is specified by -b.
 
 A leading '\\' forces the term to be a number rather than an operator (for use
 with higher bases with -b).
@@ -993,7 +1177,7 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
         return
 
     args = parser.parse_args( )
-    getcontext( ).prec = args.precision
+    mp.dps = args.precision
 
     if args.output_radix == 'phi':
         outputRadix = phiBase
@@ -1088,7 +1272,7 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
         if len( valueList ) > 1:
             print( "rpn: unexpected end of input" )
         else:
-            result = format( valueList.pop( ), "f" )
+            result = nstr( valueList.pop( ), mp.dps )
             print( formatOutput( result, outputRadix, numerals, args.comma, args.decimal_grouping, baseAsDigits ) )
 
 
@@ -1102,21 +1286,4 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
 if __name__ == '__main__':
     main( )
 
-
-# http://www.programmish.com/?p=24
-#
-# def nth_root(num, n, digits):
-#     getcontext().prec = digits
-#     a = Decimal(num)
-#     oneOverN = 1 / Decimal(n)
-#     nMinusOne = Decimal(n) - 1
-#     curVal = Decimal(num) / (Decimal(n) ** 2)
-#     if curVal <= Decimal("1.0"):
-#         curVal = Decimal("1.1")
-#     lastVal = 0
-#     while lastVal != curVal:
-#         lastVal = curVal
-#         curVal = oneOverN * ( (nMinusOne * curVal) + (a / (curVal ** nMinusOne)))
-#     return curVal
-#
 
