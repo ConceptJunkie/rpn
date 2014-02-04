@@ -18,7 +18,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.0.0"
+RPN_VERSION = "4.0.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -476,7 +476,7 @@ def performBitwiseOperation( i, j, operation ):
 def tetrate( i, j ):
     result = i
 
-    for x in range( 1, int( j ) ):
+    for x in arange( 1, j ):
         result = power( result, i )
 
     return result
@@ -496,7 +496,7 @@ def tetrate( i, j ):
 def tetrateLarge( i, j ):
     result = i
 
-    for x in range( 1, int( j ) ):
+    for x in arange( 1, j ):
         result = power( i, result )
 
     return result
@@ -529,7 +529,7 @@ def getNthSylvester( n ):
     else:
         list = [ 2, 3 ]
 
-        for i in range( 2, int( n ) ):
+        for i in arange( 2, n ):
             list.append( fprod( list ) + 1 )
 
     return list[ -1 ]
@@ -614,19 +614,6 @@ def getNthSquareTriangularNumber( i ):
     return ceil( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, i ) ),
                                     power( fsub( 1, sqrt2 ), fmul( 2, i ) ) ),
                               fmul( 4, sqrt2 ) ), 2 ) )
-
-
-#//******************************************************************************
-#//
-#//  getCombinations
-#//
-#//******************************************************************************
-
-def getCombinations( n, r ):
-    if ( r > n ):
-        raise ValueError( 'Number of elements (%d) cannot exceed the size of the set (%d)' % ( r, n ) )
-
-    return fdiv( fac( n ), fmul( fac( r ), fac( fsub( n, r ) ) ) )
 
 
 #//******************************************************************************
@@ -989,15 +976,15 @@ def duplicateTerm( valueList ):
 #//******************************************************************************
 
 def expandRange( valueList ):
-    end = int( valueList.pop( ) )
-    start = int( valueList.pop( ) )
+    end = valueList.pop( )
+    start = valueList.pop( )
 
     if start > end:
         step = -1
     else:
         step = 1
 
-    for i in range( start, end + step, step ):
+    for i in arange( start, end + step, step ):
         valueList.append( i )
 
 
@@ -1008,11 +995,11 @@ def expandRange( valueList ):
 #//******************************************************************************
 
 def expandSteppedRange( valueList ):
-    step = int( valueList.pop( ) )
-    end = int( valueList.pop( ) )
-    start = int( valueList.pop( ) )
+    step = valueList.pop( )
+    end = valueList.pop( )
+    start = valueList.pop( )
 
-    for i in range( start, end + 1, step ):
+    for i in arange( start, end + 1, step ):
         valueList.append( i )
 
 
@@ -1176,15 +1163,17 @@ list_operators_2 = {
 }
 
 operators = {
+    '!!'        : [ fac2, 1 ],
     '!'         : [ fac, 1 ],
     '%'         : [ fmod, 2 ],
     '*'         : [ fmul, 2 ],
     '**'        : [ power, 2 ],
     '***'       : [ tetrate, 2 ],
+    #'bernfrac'  : [ bernfrac, 1 ],
     '+'         : [ fadd, 2 ],
     '-'         : [ fsub, 2 ],
     '/'         : [ fdiv, 2 ],
-    '//'         : [ root, 2 ],
+    '//'        : [ root, 2 ],
     '1/x'       : [ lambda i: fdiv( 1, i ), 1 ],
     'abs'       : [ fabs, 1 ],
     'acos'      : [ acos, 1 ],
@@ -1206,7 +1195,8 @@ operators = {
     'asinh'     : [ asinh, 1 ],
     'atan'      : [ atan, 1 ],
     'atanh'     : [ atanh, 1 ],
-    'binomial'  : [ getCombinations, 2 ],
+    'bernoulli' : [ bernoulli, 1 ],
+    'binomial'  : [ binomial, 2 ],
     'catalan'   : [ catalan, 0 ],
     'cbrt'      : [ cbrt, 1 ],
     'ceil'      : [ ceil, 1 ],
@@ -1227,6 +1217,7 @@ operators = {
     'exp10'     : [ lambda i: power( 10, i ), 1 ],
     'expphi'    : [ phi, 1 ],
     'fac'       : [ fac, 1 ],
+    'fac2'      : [ fac2, 1 ],
     'factor'    : [ lambda i: getExpandedFactorList( factorize( i ) ), 1 ],
     'fib'       : [ fib, 1 ],
     'floor'     : [ floor, 1 ],
@@ -1244,6 +1235,7 @@ operators = {
     'inv'       : [ lambda i: fdiv( 1, i ), 1 ],
     'itoi'      : [ lambda: exp( fmul( -0.5, pi ) ), 0 ],
     'khinchin'  : [ khinchin, 0 ],
+    'lambertw'  : [ lambertw, 1 ],
     'lgamma'    : [ loggamma, 1 ],
     'ln'        : [ ln, 1 ],
     'log'       : [ ln, 1 ],
@@ -1254,8 +1246,6 @@ operators = {
     'mertens'   : [ mertens, 0 ],
     'mod'       : [ fmod, 2 ],
     'modulo'    : [ fmod, 2 ],
-    'nCr'       : [ getCombinations, 2 ],
-    'ncr'       : [ getCombinations, 2 ],
     'neg'       : [ fneg, 1 ],
     'nPr'       : [ getPermutations, 2 ],
     'npr'       : [ getPermutations, 2 ],
@@ -1266,6 +1256,7 @@ operators = {
     'pi'        : [ pi, 0 ],
     'plastic'   : [ getPlasticConstant, 0 ],
     'power'     : [ power, 2 ],
+    'primepi'   : [ primepi, 1 ],
     'rad'       : [ degrees, 1 ],
     'radians'   : [ degrees, 1 ],
     'rand'      : [ rand, 0 ],
@@ -1292,6 +1283,7 @@ operators = {
     'tetra'     : [ getNthTetrahedralNumber, 1 ],
     'tri'       : [ getNthTriangularNumber, 1 ],
     'twinprime' : [ twinprime, 0 ],
+    'unitroots' : [ lambda i: unitroots( int( i ) ), 1 ],
     'xor'       : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
     '^'         : [ power, 2 ],
     '~'         : [ getInvertedBits, 1 ],
@@ -1696,10 +1688,13 @@ Construct the square root of two from a continued fraction:
 #  Beta(3) = rpn -p17 [ 1 1000000 2 range2 ] 3 power 1/x altsum
 #            rpn -p20 pi 3 power 32 /
 
-# But it's wrong, is the formula wrong?
-# Gieseking constant = rpn 3 3 sqrt * 4 / 1 [ 0 10000 range ] 3 * 2 + sqr 1/x sum [ 1 10000 range ] 3 * 1 + sqr 1/x sum + - *
+#  But it's wrong, is the formula wrong?
+#  Gieseking constant = rpn 3 3 sqrt * 4 / 1 [ 0 10000 range ] 3 * 2 + sqr 1/x sum [ 1 10000 range ] 3 * 1 + sqr 1/x sum + - *
 
-# Cahen's constant = rpn -p20 [ 1 20 range ] sylvester 1 - 1/x altsum
+#  Cahen's constant = rpn -p20 [ 1 20 range ] sylvester 1 - 1/x altsum
+
+#  Lemniscate constant = rpn -p20 4 2 pi / sqrt * 0.25 ! sqr *
+
 
 
 #//******************************************************************************
