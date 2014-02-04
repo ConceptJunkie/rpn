@@ -14,7 +14,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.13.0"
+RPN_VERSION = "2.13.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -876,10 +876,13 @@ def parseInputValue( term, inputRadix ):
 
                 return Decimal( int( integer, 8 ) )
         elif inputRadix == 10:
-            return Decimal( integer )
+            result = Decimal( integer )
+            return -result if negative else result
 
     # finally, we have a non-radix 10 number to parse
-    return convertToBase10( integer, mantissa, inputRadix )
+    result = convertToBase10( integer, mantissa, inputRadix )
+
+    return -result if negative else result
 
 
 #//******************************************************************************
