@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.4.2'
+PROGRAM_VERSION = '5.4.3'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -131,6 +131,7 @@ class Measurement( mpf ):
                 else:
                     self.units[ unit ] += value.units[ unit ]
 
+        self.reduceAndConvertUnits( )
         return self
 
 
@@ -144,6 +145,7 @@ class Measurement( mpf ):
                 else:
                     self.units[ unit ] -= value.units[ unit ]
 
+        self.reduceAndConvertUnits( )
         return self
 
 
@@ -202,6 +204,66 @@ class Measurement( mpf ):
         else:
             raise ValueError( 'incompatible units cannot be converted' )
             return 0
+
+
+    def reduceAndConvertUnits( self ):
+        positive = [ ]
+        negative = [ ]
+
+        #print( 'units: ' )
+
+        for unit in self.units:
+            #print( '    ', unit, self.units[ unit ] )
+
+            if self.units[ unit ] > 0:
+                for i in range( 0, self.units[ unit ] ):
+                    positive.append( unit )
+            elif self.units[ unit ] < 0:
+                for i in range( 0, -self.units[ unit ] ):
+                    negative.append( unit )
+
+        print( 'positive: ', positive )
+        print( 'negative: ', negative )
+        print( )
+
+        conversion = 1
+
+        while True:
+            deleteFromPos = -1
+            deleteFromNeg = -1
+
+            for i1, unit1 in enumerate( positive ):
+                unitType1 = unitOperators[ unit1 ][ 0 ]
+
+                for i2, unit2 in enumerate( negative ):
+                    unitType2 = unitOperators[ unit2 ][ 0 ]
+
+                    if unitType1 == unitType2:
+                        print( 'unit1: ', unit1 )
+                        print( 'unit2: ', unit2 )
+
+                        print( 'unitType1: ', unitType1 )
+                        print( 'unitType2: ', unitType2 )
+                        print( )
+
+                        deleteFromPos = i1
+                        deleteFromNeg = i2
+
+                        if unit1 != unit2:
+                            conversion = unitConversionMatrix[ ( unit1, unit2 ) ]
+
+            if deleteFromPos == -1 and deleteFromNeg == -1:
+                break
+            else:
+                del positive[ deleteFromPos ]
+                del negative[ deleteFromNeg ]
+
+        print( )
+        print( 'conversion: ', conversion )
+        print( 'positive: ', positive )
+        print( 'negative: ', negative )
+        print( )
+
 
 
 #//******************************************************************************
@@ -2578,11 +2640,11 @@ def tetrateLarge( i, j ):
 
 #//******************************************************************************
 #//
-#//  getNthLucas
+#//  getNthLucasNumber
 #//
 #//******************************************************************************
 
-def getNthLucas( n ):
+def getNthLucasNumber( n ):
     if n == 1:
         return 1
     else:
@@ -5066,6 +5128,7 @@ operatorAliases = {
     'twin_'       : 'twinprime_',
     'uint'        : 'ulong',
     'unsigned'    : 'uinteger',
+    'woodall'     : 'riesel',
     'zeroes'      : 'zero',
     '^'           : 'power',
     '~'           : 'not',
@@ -5284,7 +5347,7 @@ operators = {
     'longlong'      : [ lambda n: convertToSignedInt( n , 64 ), 1 ],
     'log2'          : [ lambda n: log( n, 2 ), 1 ],
     'logxy'         : [ log, 2 ],
-    'lucas'         : [ getNthLucas, 1 ],
+    'lucas'         : [ getNthLucasNumber, 1 ],
     'makecf'        : [ lambda n, k: ContinuedFraction( n, maxterms=k,
                                                         cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
     'mertens'       : [ mertens, 0 ],
@@ -5361,6 +5424,7 @@ operators = {
     'reciprocal'    : [ lambda n : fdiv( 1, n ), 1 ],
     'repunit'       : [ getNthBaseKRepunit, 2 ],
     'rhombdodec'    : [ getNthRhombicDodecahedralNumber, 1 ],
+    'riesel'        : [ lambda n: fsub( fmul( n, power( 2, n ) ), 1 ), 1 ],
     'root'          : [ root, 2 ],
     'root2'         : [ sqrt, 1 ],
     'root3'         : [ cbrt, 1 ],
@@ -5627,7 +5691,7 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
         strOutput = str( re( mpmathify( output ) ) )
     else:
         imaginaryValue = ''
-        #strOutput = nstr( output, outputAccuracy  )[ 1 : -2 ]     # nstr seems to add quotes
+        #strOutput = nstr( output, outputAccuracy  )[ 1 : -2 ]
         strOutput = str( output )
 
     if '.' in strOutput:
@@ -5644,9 +5708,10 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
 
     mantissa = strOutput[ decimal + 1 : ]
 
-    if mantissa != '':
-        if outputAccuracy == -1:
-            mantissa = mantissa.rstrip( '0' )
+    if mantissa == '0':
+        mantissa = ''
+    elif mantissa != '' and outputAccuracy == -1:
+        mantissa = mantissa.rstrip( '0' )
 
     #print( 'mantissa: %s' % mantissa )
     #print( 'output: %s' % output )

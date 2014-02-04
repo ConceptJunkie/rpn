@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.4.2'
+PROGRAM_VERSION = '5.4.3'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -1864,7 +1864,7 @@ given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
-    'result'     : [
+    'result'        : [
 'special', 'load previous result',
 '''
 ''',
@@ -1872,6 +1872,12 @@ given the way calculating prime numbers is currently done.
 ''' ],
     'rhombdodec'    : [
 'polyhedral_numbers', 'calculates the nth rhombic dodecahedral number',
+'''
+''',
+'''
+''' ],
+    'riesel'        : [
+'number theory', 'calculates the nth Riesel (or Woodall) number',
 '''
 ''',
 '''
