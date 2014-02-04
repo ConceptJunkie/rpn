@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.2.4'
+RPN_VERSION = '5.2.5'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -69,11 +69,11 @@ unitStack = [ ]
 
 #//******************************************************************************
 #//
-#//  UnitOfMeasurement
+#//  Measurement
 #//
 #//******************************************************************************
 
-class UnitOfMeasurement( dict ):
+class Measurement( dict ):
     # one arg can initialize the scalar or the types depending on its type
     def __init__( self, scalar, types=None ):
         if types is None:
@@ -116,7 +116,7 @@ class UnitOfMeasurement( dict ):
 
     def isCompatible( self, other ):
         if isinstance( other, ( str, list, tuple ) ):
-            return isCompatible( self, UnitOfMeasurement( other ) )
+            return isCompatible( self, Measurement( other ) )
         else:
             return self.getType( ) == other.getType( )
 
@@ -2682,38 +2682,98 @@ def getRegularPolygonArea( n ):
 
 #//******************************************************************************
 #//
-#//  getHypersphereSurfaceArea
+#//  getNSphereRadius
 #//
-#//  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
-#//
-#//  n dimensions, radius k
+#//  k needs to be a Measurement so getNSphereRadius can tell if it's an area
+#//  or a volume and use the correct formula.
 #//
 #//******************************************************************************
 
-def getHypersphereSurfaceArea( n, k ):
+def getNSphereRadius( n, k ):
     if n < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
-    return fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
-                       gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, fsub( n, 1 ) ) )
+    if not isinstance( k, Measurement ):
+        return Measurement( k, 'length' )  # default is 'length' anyway
+
+    measurementType = k.getType( )
+
+    if measurementType == { 'length' : 1 }:
+        return k
+    elif measurementType == { 'length' : 2 }:
+        return 2  # formula to convert surface area to radius
+    elif measurementType == { 'length' : 3 }:
+        return 3  # formula to convert volume to radius
+    else:
+        raise ValueError( 'incompatible measurement type for computing the radius' )
 
 
 #//******************************************************************************
 #//
-#//  getHypersphereVolume
+#//  getNSphereSurfaceArea
 #//
 #//  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
 #//
-#//  n dimensions, radius k
+#//  n dimensions, k measurement
+#//
+#//  If k is a length, then it is taken to be the radius.  If it is a volume
+#//  then it is taken to be the volume.  If it is an area, then it is returned
+#//  unchanged.  Other measurement types cause an exception.
 #//
 #//******************************************************************************
 
-def getHypersphereVolume( n, k ):
+def getNSphereSurfaceArea( n, k ):
     if n < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
-    return fmul( fdiv( power( pi, fdiv( n, 2 ) ),
-                       gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, n ) )
+    if not isinstance( k, Measurement ):
+        return getNSphereSurfaceArea( n, Measurement( k, 'length' ) )
+
+    measurementType = k.getType( )
+
+    if measurementType == { 'length' : 1 }:
+        return fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
+                           gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k.scalar, fsub( n, 1 ) ) )
+    elif measurementType == { 'length' : 2 }:
+        return k
+    elif measurementType == { 'length' : 3 }:
+        return 3  # formula to convert volume to surface area
+    else:
+        raise ValueError( 'incompatible measurement type for computing the surface area' )
+
+
+#//******************************************************************************
+#//
+#//  getNSphereVolume
+#//
+#//  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
+#//
+#//  n dimensions, k measurement
+#//
+#//  If k is a length, then it is taken to be the radius.  If it is an area
+#//  then it is taken to be the surface area.  If it is a volume, then it is
+#//  returned unchanged.  Other measurement types cause an exception.
+#//
+#//******************************************************************************
+
+def getNSphereVolume( n, k ):
+    if n < 3:
+        raise ValueError( 'the number of dimensions must be at least 3' )
+
+    if not isinstance( k, Measurement ):
+        return getNSphereSurfaceArea( n, Measurement( k, 'length' ) )
+
+    measurementType = k.getType( )
+
+    if measurementType == { 'length' : 1 }:
+        return fmul( fdiv( power( pi, fdiv( n, 2 ) ),
+                           gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k.scalar, n ) )
+    elif measurementType == { 'length' : 2 }:
+        return 2   # formula for converting surface area to volume
+    elif measurementType == { 'length' : 3 }:
+        return k
+    else:
+        raise ValueError( 'incompatible measurement type for computing the volume' )
 
 
 #//******************************************************************************
@@ -4745,7 +4805,11 @@ def convertUnits( valueList ):
     unit2 = unitStack.pop( )
     unit1 = unitStack.pop( )
 
+    #print( unit1 )
+    #print( unit2 )
     conversion = unit1.getConversion( unit2 )
+
+    #print( conversion )
 
     # this way you can do a conversion without specifying an amount... it will default to 1
     if len( valueList ) == 0:
@@ -6131,14 +6195,20 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
-    'nspherearea'   : [ getHypersphereSurfaceArea, 2,
-'trigonometry', 'calculate the surface area of a k-sphere of radius n',
+    'nspherearea'   : [ getNSphereSurfaceArea, 2,
+'trigonometry', 'calculate the surface area of an n-sphere of size k (radius or volume)',
 '''
 ''',
 '''
 ''' ],
-    'nspherevolume' : [ getHypersphereVolume, 2,
-'trigonometry', 'calculate the volume of a k-sphere of radius n',
+    'nsphereradius' : [ getNSphereRadius, 2,
+'trigonometry', 'calculate the radius of an n-sphere of size k (surface area or volume)',
+'''
+''',
+'''
+''' ],
+    'nspherevolume' : [ getNSphereVolume, 2,
+'trigonometry', 'calculate the volume of an n-sphere of size k (radius or surface area)',
 '''
 ''',
 '''
@@ -6563,6 +6633,24 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'sexyquad_'     : [ getNthSexyQuadrupletList, 1,
 'prime_numbers', 'returns the nth set of sexy quadruplet primes',
+'''
+''',
+'''
+''' ],
+    'spherearea'   : [ lambda n: getNSphereSurfaceArea( 3, n ), 1,
+'trigonometry', 'calculate the surface area of an sphere of size n (radius or volume)',
+'''
+''',
+'''
+''' ],
+    'sphereradius' : [ lambda n: getNSphereRadius( 3, n ), 1,
+'trigonometry', 'calculate the radius of an sphere of size n (surface area or volume)',
+'''
+''',
+'''
+''' ],
+    'spherevolume' : [ lambda n: getNSphereVolume( 3, n ), 1,
+'trigonometry', 'calculate the volume of an sphere of size n (radius or surface area)',
 '''
 ''',
 '''
@@ -8204,7 +8292,7 @@ def main( ):
                        '.  Are your arguments in the right order?' )
                 break
         elif term in unitOperators:
-            unitStack.append( UnitOfMeasurement( term ) )
+            unitStack.append( Measurement( term ) )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
 
