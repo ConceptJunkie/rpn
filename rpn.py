@@ -14,7 +14,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.9.0"
+RPN_VERSION = "2.10.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -120,11 +120,11 @@ def decimal_log( self, base = 10 ):
 
 #//******************************************************************************
 #//
-#//  getPI
+#//  getPi
 #//
 #//******************************************************************************
 
-def getPI( valueList ):
+def getPi( valueList ):
     """Compute Pi to the current precision.
 
     >>> print pi()
@@ -159,6 +159,16 @@ def getPI( valueList ):
 def getE( valueList ):
     valueList.append( Decimal( 1 ) )
     takeExp( valueList )
+
+
+#//******************************************************************************
+#//
+#//  getPhi
+#//
+#//******************************************************************************
+
+def getPhi( valueList ):
+    valueList.append( ( Decimal( 1 ) + Decimal( 5 ) ** Decimal( 0.5 ) ) / Decimal( 2 ) )
 
 
 #//******************************************************************************
@@ -268,21 +278,21 @@ def exponentiate( valueList ):
 
 #//******************************************************************************
 #//
-#//  hyperexponentiate
+#//  tetrate
 #//
 #//  This function forces the second argument to an integer and runs at O( n )
 #//  based on the second argument.
 #//
 #//******************************************************************************
 
-def hyperexponentiate( valueList ):
+def tetrate( valueList ):
     value = valueList.pop( )
 
     operand = valueList.pop( )
     result = operand
 
     for i in range( 1, int( value ) ):
-        result **= operand
+        result = operand ** result
 
     valueList.append( result )
 
@@ -592,14 +602,15 @@ def getNthFibonacci( valueList ):
 #//******************************************************************************
 
 expressions = {
-    'pi'     : [ getPI, 0 ],
+    'pi'     : [ getPi, 0 ],
     'e'      : [ getE, 0 ],
+    'phi'    : [ getPhi, 0 ],
     '+'      : [ add, 2 ],
     '-'      : [ subtract, 2 ],
     '*'      : [ multiply, 2 ],
     '/'      : [ divide, 2 ],
     '**'     : [ exponentiate, 2 ],
-    '***'    : [ hyperexponentiate, 2 ],
+    '***'    : [ tetrate, 2 ],
     '//'     : [ antiexponentiate, 2 ],
     'logxy'  : [ takeLogXY, 2 ],
     '!'      : [ takeFactorial, 1 ],
@@ -686,7 +697,7 @@ Supported unary operators:
     Fibonacci number)
 
 Supported binary operators:
-    +, -, *, /, ** (power), *** (hyperexponentiation), // (root), logxy
+    +, -, *, /, ** (power), *** (tetration), // (root), logxy
 
 Supported ternary operators:
     powmod ( x ^ y % z )
@@ -695,7 +706,7 @@ Supported multi operators (operate on all preceding operands):
     sum, mult, mean
 
 Supported constants:
-    e, pi
+    e, pi, phi
 
 rpn supports arbitrary precision using Decimal( ), however the following
 operators do not always provide arbitrary precision:
@@ -705,10 +716,10 @@ For integers, rpn understands hexidecimal input of the form '0x....'.
 Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B' is
 interpreted as binary.
 
-Note:  Hyperexponentiation forces the second argument to an integer.
+Note:  tetration forces the second argument to an integer.
 
 Note:  To compute the nth Fibonacci number accurately, set the precision to
-       about 10% higher than the number of digits in the result.  I'd like to
+       about 12 more than the number of digits in the result.  I'd like to
        add logic to do this automatically.
 ''',
                                       formatter_class=RawTextHelpFormatter )
@@ -761,8 +772,14 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
 
             try:
                 expressions[ term ][ 0 ]( valueList )   # evaluate the expression
+            except KeyboardInterrupt as error:
+                print( "rpn:  keyboard interrupt" )
+                break
             except OverflowError as error:
-                print( "rpn: error in arg " + format( index ) + " ('" + term + "'): {0}".format( error ) )
+                print( "rpn:  error in arg " + format( index ) + " ('" + term + "'): {0}".format( error ) )
+                break
+            except Overflow as error:
+                print( "rpn:  decimal overflow error" )
                 break
         else:
             try:
@@ -817,5 +834,4 @@ if __name__ == '__main__':
 #         curVal = oneOverN * ( (nMinusOne * curVal) + (a / (curVal ** nMinusOne)))
 #     return curVal
 #
-
 
