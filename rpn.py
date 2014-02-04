@@ -40,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '4.20.1'
+RPN_VERSION = '4.21.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -100,7 +100,7 @@ class Polynomial(object):
     def __add__( self, val ):
         "Return self+val"
         if isinstance( val, Polynomial ):                    # add Polynomial
-            res = [ a + b for a, b in itertools.izip_longest( self.coeffs, val.coeffs, fillvalue=0 ) ]
+            res = [ a + b for a, b in itertools.zip_longest( self.coeffs, val.coeffs, fillvalue=0 ) ]
         else:                                                # add scalar
             if self.coeffs:
                 res = self.coeffs[ : ]
@@ -1088,8 +1088,10 @@ def getNthBalancedPrime( arg ):
 
 def getNthBalancedPrimeList( arg ):
     p = getNthBalancedPrime( arg )
-    q = getNextPrime( p )
-    r = getNextPrime( q )
+    f = p % 10
+
+    q, f = getNextPrime( p, f )
+    r, f = getNextPrime( q, f )
 
     return [ p, q, r ]
 
@@ -1121,11 +1123,14 @@ def getNthDoubleBalancedPrime( arg ):
     currentIndex = max( key for key in doubleBalancedPrimes if key <= n )
     primes = [ ]
 
-    for p in doubleBalancedPrimes[ currentIndex ]:
-        primes.append( p )
-
-    p = primes[ -1 ]
+    p = doubleBalancedPrimes[ currentIndex ]
     f = p % 10
+
+    primes = [ p ]
+
+    for i in range( 0, 4 ):
+        p, f = getNextPrime( p, f )
+        primes.append( p )
 
     while n > currentIndex:
         p, f = getNextPrime( p, f )
@@ -1138,12 +1143,9 @@ def getNthDoubleBalancedPrime( arg ):
             currentIndex += 1
 
     if updateDicts:
-        doubleBalancedPrimes[ n ] = [ ]
+        doubleBalancedPrimes[ n ] = p
 
-        for p in primes:
-            doubleBalancedPrimes[ n ].append( p )
-
-    return primes
+    return p
 
 
 #//******************************************************************************
@@ -1153,11 +1155,13 @@ def getNthDoubleBalancedPrime( arg ):
 #//******************************************************************************
 
 def getNthDoubleBalancedPrimeList( arg ):
-    p = [ getNthDoubleBalancedPrime( arg ) ]
+    p = getNthDoubleBalancedPrime( arg )
     result = [ p ]
 
+    f = p % 10
+
     for i in range( 0, 4 ):
-       p = getNextPrime( p )
+       p, f = getNextPrime( p, f )
        result.append( p )
 
     return result
@@ -1212,7 +1216,7 @@ def getNthTripleBalancedPrime( arg ):
     if updateDicts:
         tripleBalancedPrimes[ n ] = p
 
-    return primes
+    return p
 
 
 #//******************************************************************************
@@ -1223,13 +1227,18 @@ def getNthTripleBalancedPrime( arg ):
 
 def getNthTripleBalancedPrimeList( arg ):
     p = [ getNthTripleBalancedPrime( arg ) ]
-    result = [ p ]
 
-    for i in range( 0, 6 ):
-       p = getNextPrime( p )
-       result.append( p )
+    return p[ 0 ]
 
-    return result
+    #result = [ p ]
+    #
+    #f = p % 10
+    #
+    #for i in range( 0, 6 ):
+    #   p, f = getNextPrime( p, f )
+    #   result.append( p )
+    #
+    #return result
 
 
 #//******************************************************************************
@@ -1602,7 +1611,9 @@ def getNthTripletPrime( arg ):
 
 def getNthTripletPrimeList( arg ):
     p = getNthTripletPrime( arg )
-    return [ p, getNextPrime( p ), fadd( p, 6 ) ]
+    f = p % 10
+
+    return [ p, getNextPrime( p, f )[ 0 ], fadd( p, 6 ) ]
 
 
 #//******************************************************************************
@@ -1900,13 +1911,38 @@ class ContinuedFraction( list ):
 
 #//******************************************************************************
 #//
+#//  getDivisorCount
+#//
+#//******************************************************************************
+
+def getDivisorCount( n ):
+    if n == 1:
+        return 1
+
+    result = [ i[ 1 ] + 1 for i in factor( n ) ]
+
+    from operator import mul
+    return reduce( mul, result, 1 )
+
+
+#//******************************************************************************
+#//
 #//  getDivisors
 #//
 #//******************************************************************************
 
-def getDivisiors( n ):
-    # TODO: implement me
-    return [ 0, 1, 2, 3, 4, 5 ]
+def getDivisors( n ):
+    result = getExpandedFactorList( factor( n ) )
+
+    result = [ list( i ) for i in itertools.chain.from_iterable( itertools.combinations( result, r ) for r in range( 0, len( result ) + 1 ) ) ]
+
+    from operator import mul
+    result = set( [ reduce( mul, i, 1 ) for i in result[ 1 : ] ] )
+    result.add( 1 )
+
+    result = sorted( list( result ) )
+
+    return result
 
 
 #//******************************************************************************
@@ -2314,6 +2350,18 @@ def getNthLucas( n ):
         return 1
     else:
         return floor( fadd( power( phi, n ), 0.5 ) )
+
+
+#//******************************************************************************
+#//
+#//  getPrimePi
+#//
+#//******************************************************************************
+
+def getPrimePi( n ):
+    result = primepi2( n )
+
+    return [ mpf( result.a ), mpf( result.b ) ]
 
 
 #//******************************************************************************
@@ -2754,7 +2802,7 @@ def getNthSchroederNumber( n ):
     if n == 1:
         return 1
 
-    # raise exception for n < 0  !!!!!
+    # TODO: raise exception for n < 0 !
 
     n = fsub( n, 1 )
 
@@ -2891,7 +2939,10 @@ def interpretAsFraction( i, j ):
 
 def interpretAsBase( args, base ):
     if isinstance( args, list ):
-        args.reverse( )
+        if isinstance( args[ 0 ], list ):
+            return [ interpretAsBase( i, base ) for i in args ]
+        else:
+            args.reverse( )
     else:
         args = [ args ]
 
@@ -3234,7 +3285,10 @@ def calculatePowerTower2( args ):
 
 def getAlternatingSum( args ):
     if isinstance( args, list ):
-        result = args[ 0 ]
+        if isinstance( args[ 0 ], list ):
+            return [ getAlternatingSum( arg ) for arg in args ]
+        else:
+            result = args[ 0 ]
 
         for i in range( 1, len( args ), 2 ):
             args[ i ] = fneg( args[ i ] )
@@ -3252,7 +3306,10 @@ def getAlternatingSum( args ):
 
 def getAlternatingSum2( args ):
     if isinstance( args, list ):
-        result = args[ 0 ]
+        if isinstance( args[ 0 ], list ):
+            return [ getAlternatingSum( arg ) for arg in args ]
+        else:
+            result = args[ 0 ]
 
         for i in range( 0, len( args ), 2 ):
             args[ i ] = fneg( args[ i ] )
@@ -3284,15 +3341,21 @@ def getGCDForTwo( a, b ):
 #//******************************************************************************
 
 def getGCD( args ):
-    result = max( args )
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getGCD[ arg ] for arg in args ]
+        else:
+            result = max( args )
 
-    for pair in itertools.permutations( args, 2 ):
-        gcd = getGCDForTwo( *pair )
+            for pair in itertools.permutations( args, 2 ):
+                gcd = getGCDForTwo( *pair )
 
-        if gcd < result:
-            result = gcd
+                if gcd < result:
+                    result = gcd
 
-    return result
+                return result
+    else:
+        return args
 
 
 #//******************************************************************************
@@ -3305,7 +3368,10 @@ def multiplyListOfPolynomials( args ):
     result = Polynomial( args[ 0 ] )
 
     for i in range( 1, len( args ) ):
-        result *= Polynomial( args[ i ] )
+        if isinstance( args[ i ], list ) and isinstance( args[ i ][ 0 ], list ):
+            pass  # dunno what to do here
+        else:
+            result *= Polynomial( args[ i ] )
 
     return result.getCoefficients( )
 
@@ -3367,17 +3433,17 @@ def getGreedyEgyptianFraction( n, d ):
 #//******************************************************************************
 
 def listOperators( ):
-    print( 'list operators:' )
-
-    for i in sorted( [ key for key in list_operators ] ):
-        print( '   ' + i )
-
-    print( )
-
     print( 'operators:' )
 
     for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
         print( '   ' + i + ', args: ' + str( operators[ i ][ 1 ] ) )
+
+    print( )
+
+    print( 'list operators:' )
+
+    for i in sorted( [ key for key in list_operators ] ):
+        print( '   ' + i )
 
     print( )
 
@@ -3410,7 +3476,7 @@ def printStats( dict, name ):
 #//******************************************************************************
 
 def dumpStats( ):
-    print( '{:10,} operators\n'.format( len( list_operators ) + len( operators ) + len( modifiers ) ) )
+    print( '{:10,} unique operators\n'.format( len( list_operators ) + len( operators ) + len( modifiers ) ) )
 
     printStats( loadSmallPrimes( ), 'small primes' )
     printStats( loadLargePrimes( ), 'large primes' )
@@ -3442,18 +3508,11 @@ def dumpStats( ):
 #//
 #//******************************************************************************
 
-def incrementNestedListLevel( ):
+def incrementNestedListLevel( valueList ):
     global nestedListLevel
     nestedListLevel += 1
 
-    return [ ]
-
-#def incrementNestedListLevel( valueList ):
-#    global nestedListLevel
-#    nestedListLevel += 1
-#
-#    valueList.append( list( ) )
-
+    valueList.append( list( ) )
 
 
 #//******************************************************************************
@@ -3462,7 +3521,7 @@ def incrementNestedListLevel( ):
 #//
 #//******************************************************************************
 
-def decrementNestedListLevel( ):
+def decrementNestedListLevel( valueList ):
     global nestedListLevel
     nestedListLevel -= 1
 
@@ -3527,13 +3586,12 @@ def appendLists( valueList ):
 #//
 #//******************************************************************************
 
-def alternateSigns( valueList ):
-    arg1 = valueList.pop( )
+def alternateSigns( n ):
+    if isinstance( n, list ):
+        for i in range( 1, len( n ), 2 ):
+            n[ i ] = -n[ i ]
 
-    for i in range( 1, len( arg1 ), 2 ):
-        arg1[ i ] = -arg1[ i ]
-
-    valueList.append( arg1 )
+    return n
 
 
 #//******************************************************************************
@@ -3542,13 +3600,14 @@ def alternateSigns( valueList ):
 #//
 #//******************************************************************************
 
-def alternateSigns2( valueList ):
-    arg1 = valueList.pop( )
+def alternateSigns2( n ):
+    if isinstance( n, list ):
+        for i in range( 0, len( n ), 2 ):
+            n[ i ] = -n[ i ]
+    else:
+        n = -n
 
-    for i in range( 0, len( arg1 ), 2 ):
-        arg1[ i ] = -arg1[ i ]
-
-    valueList.append( arg1 )
+    return n
 
 
 #//******************************************************************************
@@ -3595,7 +3654,7 @@ def expandSteppedRange( start, end, step ):
 def expandGeometricRange( value, step, count ):
     result = list( )
 
-    for i in range( 0, count ):
+    for i in arange( 0, count ):
         result.append( value )
         value = fmul( value, step )
 
@@ -3696,6 +3755,38 @@ def makeIntersection( arg1, arg2 ):
                 result.append( arg1 )
 
     return result
+
+
+#//******************************************************************************
+#//
+#//  getMax
+#//
+#//******************************************************************************
+
+def getMax( arg ):
+    if isinstance( arg, list ):
+        if isinstance( arg[ 0 ], list ):
+            return [ getMax( i ) for i in arg ]
+        else:
+            return max( arg )
+    else:
+        return arg
+
+
+#//******************************************************************************
+#//
+#//  getMin
+#//
+#//******************************************************************************
+
+def getMin( arg ):
+    if isinstance( arg, list ):
+        if isinstance( arg[ 0 ], list ):
+            return [ getMin( i ) for i in arg ]
+        else:
+            return min( arg )
+    else:
+        return arg
 
 
 #//******************************************************************************
@@ -3953,6 +4044,7 @@ operatorAliases = {
     'bal_'      : 'balanced_',
     'cbrt'      : 'root3',
     'ceil'      : 'ceiling',
+    'champ'     : 'champernowne',
     'cousin'    : 'cousinprime',
     'cousin?'   : 'cousinprime?',
     'cousin_'   : 'cousinprime_',
@@ -3963,6 +4055,7 @@ operatorAliases = {
     'fac'       : 'factorial',
     'fac2'      : 'doublefac',
     'fib'       : 'fibonacci',
+    'frac'      : 'fraction',
     'harm'      : 'harmonic',
     'hept'      : 'heptagonal',
     'hept?'     : 'heptagonal?',
@@ -4012,6 +4105,7 @@ operatorAliases = {
     'sophie?'   : 'sophieprime?',
     'sqr'       : 'square',
     'sqrt'      : 'root2',
+    'syl'       : 'sylvester',
     'tri'       : 'triangular',
     'tri?'      : 'triangular?',
     'triplet'   : 'tripletprime',
@@ -4022,6 +4116,7 @@ operatorAliases = {
     'twin_'     : 'twinprime_',
     'zeroes'    : 'zero',
     '^'         : 'power',
+    '~'         : 'not',
 }
 
 
@@ -4074,6 +4169,24 @@ modifiers = {
 #//******************************************************************************
 
 list_operators = {
+    'append'        : [ appendLists, 2,
+'list_operators', 'appends the second list on to the first list',
+'''
+''',
+'''
+''' ],
+    'altsign'       : [ alternateSigns, 1,
+'list_operators', 'alternates signs in the list by making every even element negative',
+'''
+''',
+'''
+''' ],
+    'altsign2'      : [ alternateSigns2, 1,
+'list_operators', 'alternates signs in the list by making every odd element negative',
+'''
+''',
+'''
+''' ],
     'altsum'    : [ getAlternatingSum, 1,
 'arithmetic', 'calculates the alternating sum of list n (addition first)',
 '''
@@ -4099,19 +4212,19 @@ list_operators = {
 '''
 ''' ],
     'count'     : [ countElements, 1,
-'special', 'counts the elements of list n',
+'list_operators', 'counts the elements of list n',
 '''
 ''',
 '''
 ''' ],
     'diffs'      : [ getListDiffs, 1,
-'special', 'returns a list with the differences between successive elements of list n',
+'list_operators', 'returns a list with the differences between successive elements of list n',
 '''
 ''',
 '''
 ''' ],
     'flatten'   : [ flatten, 1,
-'special', 'flattens a nested lists in list n to a single level',
+'list_operators', 'flattens a nested lists in list n to a single level',
 '''
 ''',
 '''
@@ -4122,7 +4235,19 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'max'       : [ max, 1,
+    'interleave'    : [ interleave, 2,
+'list_operators', 'interleaves lists n and k into a single list',
+'''
+''',
+'''
+''' ],
+    'intersection'  : [ makeIntersection, 2,
+'list_operators', 'returns the intersection of two lists',
+'''
+''',
+'''
+''' ],
+    'max'       : [ getMax, 1,
 'arithmetic', 'returns the largest value in list n',
 '''
 ''',
@@ -4134,14 +4259,14 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'min'       : [ min, 1,
+    'min'       : [ getMin, 1,
 'arithmetic', 'returns the smallest value in list n',
 '''
 ''',
 '''
 ''' ],
     'nonzero'   : [ lambda n: [ index for index, e in enumerate( n ) if e != 0 ], 1,
-'special', 'returns the indices of elements of list n that are not zero',
+'list_operators', 'returns the indices of elements of list n that are not zero',
 '''
 ''',
 '''
@@ -4189,13 +4314,13 @@ list_operators = {
 '''
 ''' ],
     'sort'      : [ sort, 1,
-'special', 'sort the elements of list n numerically in ascending order',
+'list_operators', 'sort the elements of list n numerically in ascending order',
 '''
 ''',
 '''
 ''' ],
     'sortdesc'  : [ sortDescending, 1,
-'special', 'sorts the elements of list n numerically in descending order',
+'list_operators', 'sorts the elements of list n numerically in descending order',
 '''
 ''',
 '''
@@ -4224,14 +4349,20 @@ list_operators = {
 ''',
 '''
 ''' ],
+    'union'         : [ makeUnion, 2,
+'list_operators', 'returns the union of two lists',
+'''
+''',
+'''
+''' ],
     'unique'    : [ getUniqueElements, 1,
-'special', 'replaces list n with a list of its unique elements',
+'list_operators', 'replaces list n with a list of its unique elements',
 '''
 ''',
 '''
 ''' ],
     'zero'    : [ lambda n: [ index for index, e in enumerate( n ) if e == 0 ], 1,
-'special', 'returns a list of the indices of elements in list n that are zero',
+'list_operators', 'returns a list of the indices of elements in list n that are zero',
 '''
 ''',
 '''
@@ -4315,18 +4446,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'altsign'       : [ alternateSigns, 1,
-'modifiers', 'alternates signs in the list by making every even element negative',
-'''
-''',
-'''
-''' ],
-    'altsign2'      : [ alternateSigns2, 1,
-'modifiers', 'alternates signs in the list by making every odd element negative',
-'''
-''',
-'''
-''' ],
     'and'           : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x & y ), 2,
 'logical', 'calculates the bitwise \'and\' of n and k',
 '''
@@ -4335,12 +4454,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'apery'         : [ apery, 0,
 'constants', 'returns Apery\'s constant',
-'''
-''',
-'''
-''' ],
-    'append'        : [ appendLists, 2,
-'modifiers', 'appends the second list on to the first list',
 '''
 ''',
 '''
@@ -4447,12 +4560,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'champ'         : [ getChampernowne, 0,
-'constants', 'returns the Champernowne constant',
-'''
-''',
-'''
-''' ],
     'champernowne'  : [ getChampernowne, 0,
 'constants', 'returns the Champernowne constant',
 '''
@@ -4526,10 +4633,25 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'delannoy'      : [ getNthDelannoyNumber, 1,
-'[TBD]', 'calculates the nth Delannoy number',
+'combinatorics', 'calculates the nth Delannoy number',
 '''
 ''',
 '''
+''' ],
+    'divcount'      : [ getDivisorCount, 1,
+'number_theory', 'returns a count of the divisors of n',
+'''
+The divcount operator factors the argument and then calculates number of divisors
+from the list of prime factors.  'divisors count' calculates the same result, but
+the 'divisors' operator can generate prohibitively large lists for numbers with a
+lot of factors.
+''',
+'''
+c:\>rpn 98280 divcount
+128
+
+c:\>rpn 1 20 range divcount
+[ 1, 2, 2, 3, 2, 4, 2, 4, 3, 4, 2, 6, 2, 4, 4, 5, 2, 6, 2, 6 ]
 ''' ],
     'divide'        : [ fdiv, 2,
 'arithmetic', 'divides n by k',
@@ -4537,7 +4659,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'divsiors'      : getDivisors, 1,
+    'divisors'      : [ getDivisors, 1,
 'number_theory', 'returns a list of divisors of n',
 '''
 ''',
@@ -4574,7 +4696,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'element'       : [ getListElement, 2,
-'modifiers', 'return a single element from a list',
+'list_operators', 'return a single element from a list',
 '''
 ''',
 '''
@@ -4591,17 +4713,25 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'exp10'         : [ lambda i: power( 10, i ), 1,
+    'exp10'         : [ lambda n: power( 10, n ), 1,
 'powers_and_roots', 'calculates nth power of 10',
 '''
 ''',
 '''
 ''' ],
-    'expphi'        : [ phi, 1,
+    'expphi'        : [ lambda n: power( phi, n ), 1,
 'powers_and_roots', 'calculates the nth power of phi',
 '''
+expphi simply takes phi (the Golden Ratio) to the power of the argument n.
+
+It was originally added to make testing the base phi output easier.
 ''',
 '''
+c:\>rpn 2 expphi
+2.61803398875
+
+c:\>rpn 3 expphi 2 expphi -
+1.61803398875
 ''' ],
     'factor'        : [ lambda i: getExpandedFactorList( factor( i ) ), 1,
 'number_theory', 'calculates the prime factorization of n',
@@ -4627,12 +4757,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'frac'          : [ interpretAsFraction, 2,
-'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
-'''
-''',
-'''
-''' ],
     'fraction'      : [ interpretAsFraction, 2,
 'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
 '''
@@ -4646,7 +4770,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'georange'      : [ expandGeometricRange, 3,
-'modifiers', 'generates a list of geometric progression of numbers',
+'list_operators', 'generates a list of geometric progression of numbers',
 '''
 ''',
 '''
@@ -4729,18 +4853,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'interleave'    : [ interleave, 2,
-'modifiers', 'interleaves lists n and k into a single list',
-'''
-''',
-'''
-''' ],
-    'intersection'  : [ makeIntersection, 2,
-'modifiers', 'returns the intersection of two lists',
-'''
-''',
-'''
-''' ],
     'isdivisible'   : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2,
 'arithmetic', 'is divisible by n?',
 '''
@@ -4784,7 +4896,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'lambertw'      : [ lambertw, 1,
-'[TBD]', '',
+'logarithms', '',
 '''
 ''',
 '''
@@ -4856,7 +4968,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'motzkin'       : [ getNthMotzkinNumber, 1,
-'[TBD]', 'calculates the nth Motzkin number',
+'combinatorics', 'calculates the nth Motzkin number',
 '''
 ''',
 '''
@@ -4881,6 +4993,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'nonagonal'     : [ lambda n: fdiv( polyval( [ 7, -5, 0 ], n ), 2 ), 1,
 'polygonal_numbers', 'calculates the nth nonagonal number',
+'''
+''',
+'''
+''' ],
+    'not'           : [ getInvertedBits, 1,
+'logical', 'calculates the bitwise negation of n',
 '''
 ''',
 '''
@@ -4934,7 +5052,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'omega'         : [ lambda: lambertw( 1 ), 0,
-'constants', 'return the Omega constant (goobles)',
+'constants', 'return the Omega constant',
 '''
 ''',
 '''
@@ -5041,20 +5159,22 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'primepi'       : [ primepi2, 1,
+    'primepi'       : [ getPrimePi, 1,
 'prime_numbers', 'estimates the count of prime numbers up to and including n',
 '''
 ''',
 '''
 ''' ],
     'primes'        : [ getPrimes, 2,
-'modifiers', 'generates a range of primes from index n to index k',
+'prime_numbers', 'generates a range of primes from index n to index k',
 '''
+This function is identical to 'n k range prime', but is much more efficient
+given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
     'prime?'        : [ lambda n: findPrime( n )[ 1 ], 1,
-'prime_numbers', 'find the index of the closest prime above n',
+'prime_numbers', 'find the index of the closest prime at n or above',
 '''
 ''',
 '''
@@ -5120,19 +5240,19 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'range'         : [ expandRange, 2,
-'modifiers', 'generates a list of successive integers from n to k',
+'list_operators', 'generates a list of successive integers from n to k',
 '''
 ''',
 '''
 ''' ],
     'range2'        : [ expandSteppedRange, 3,
-'modifiers', 'generates a list of arithmetic progression of numbers',
+'list_operators', 'generates a list of arithmetic progression of numbers',
 '''
 ''',
 '''
 ''' ],
     'reciprocal'    : [ lambda n : fdiv( 1, n ), 1,
-'special', 'returns the reciprocal of n',
+'arithmetic', 'returns the reciprocal of n',
 '''
 ''',
 '''
@@ -5152,12 +5272,14 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
     'root2'         : [ sqrt, 1,
 'powers_and_roots', 'calculates the square root of n',
 '''
+This operator is the equivalent of 'n 2 root'.
 ''',
 '''
 ''' ],
     'root3'         : [ cbrt, 1,
 'powers_and_roots', 'calculates the cube root of n',
 '''
+This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
@@ -5174,7 +5296,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'schroeder'     : [ getNthSchroederNumber, 1,
-'[TBD]', 'calculates the nth Schroeder number',
+'combinatorics', 'calculates the nth Schroeder number',
 '''
 ''',
 '''
@@ -5317,14 +5439,8 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'syl'           : [ getNthSylvester, 1,
-'[TBD]', 'calculates the nth Sylvester number',
-'''
-''',
-'''
-''' ],
     'sylvester'     : [ getNthSylvester, 1,
-'[TBD]', 'calculates the nth Sylvester number',
+'combinatorics', 'calculates the nth Sylvester number',
 '''
 ''',
 '''
@@ -5427,12 +5543,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'twinprime_'    : [ getNthTwinPrimeList, 1,
 'prime_numbers', 'returns the nth set of twin primes',
-'''
-''',
-'''
-''' ],
-    'union'         : [ makeUnion, 2,
-'modifiers', 'returns the union of two lists',
 '''
 ''',
 '''
@@ -6242,15 +6352,9 @@ Arguments:
 
     Some operators take lists as operands 'natively'.  This means the
     operator requires a list, because the operation does not make sense for
-    a single value.  For example, 'mean' averages the values of a list.  Of
-    course, a list might have a single element, but regardless, the brackets
-    are required.
-
-    *** Special note:  I'll probably change this, if it's not too hard.
-
-    Finally, a few operators require a list and second operand.  The second
-    operand is a single value, but as usual, it can be a list and rpn will
-    apply to operator to each element and return a list of results.
+    a single value.  For example, 'mean' averages the values of a list.  If
+    the required list argument is a single value, rpn will promote it to a
+    list.
 
     For example:
 
@@ -6277,12 +6381,10 @@ PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGH
 '''
 
 rpn is a command-line Reverse-Polish Notation calculator that was first written in C in 1988.
-It was rewritten in Python 3.3 in 2012 and now uses the mpmath library.
+It was rewritten in Python 3 in 2012 and now uses the mpmath library.
 ''',
 'bugs' :
 '''
-    'base' doesn't seem to work correctly with a list for the second argument.
-
     rpn doesn't describe the correct argument in error messages if an option
     flag is used.
 
@@ -6345,19 +6447,19 @@ Construct the square root of two from a continued fraction:
     c:\>rpn -p20 2 sqrt 20 frac
     [ 22619537, 15994428 ]
 
-    c:\>rpn -p20 [ 1 2 30 ] dup cf
+    c:\>rpn -p20 [ 1 2 30 dup ] cf
     1.41421356237309504880
 
 Calculations with lists:
 
     List of primes in the first 50 fibonacci numbers:
-        rpn [ 1 50 range ] fib isprime nonzero 1 + fib
+        rpn 1 50 range fib isprime nonzero 1 + fib
 
     Which of the first thousand pentagonal numbers are also triangular:
         c:\>rpn 1000 pent tri?
         1731.26218055
 
-        c:\>rpn [ 1 1000 range ] pent [ 1 1732 range ] tri intersection
+        c:\>rpn 1 1000 range pent 1 1732 range tri intersection
 
 Please note that a lot of the following commands are broken up into multiple
 lines for readability, but are all single commands to rpn.
@@ -6369,52 +6471,52 @@ Calculation (or approximation) of various mathematical constants:
                     gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -
 
     Schwartzchild Constant (Conic Constant)
-        = rpn -p20 2 [ 0 30 range ] ** [ 0 30 range ] ! / sum
+        = rpn -p20 2 0 30 range ** 0 30 range ! / sum
         = rpn -p20 e 2 **
 
     Somos\' Quadratic Recurrence Constant
-        = rpn -p20 [ 1 100 range ] [ 0.5 0.5 100 georange ] ** prod
+        = rpn -p20 1 100 range 0.5 0.5 100 georange ** prod
 
     Prevost Constant
-        = rpn -p20 [ 1 100 range ] fib 1/x sum
+        = rpn -p20 1 100 range fib 1/x sum
 
-    Euler's number = rpn -p20 [ 0 100 range ] fac 1/x sum
+    Euler's number = rpn -p20 0 100 range fac 1/x sum
                    = rpn -p20 e
 
     Gelfond Constant
-        = rpn -p20 pi [ 0 100 range ] power [ 0 100 range ] ! / sum
+        = rpn -p20 pi 0 100 range power 0 100 range ! / sum
         = rpn -p20 e pi power
 
     Bloch-Landau Constant
         = rpn -p20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /
 
     Hausdorff Dimension
-        = rpn -p20 2 [ 0 100 range ] 2 * 1 + power [ 0 100 range ] 2 * 1 + *
-            1/x sum 3 [ 0 100 range ] 2 * 1 + power [ 0 100 range ] 2 * 1 +
+        = rpn -p20 2 0 100 range 2 * 1 + power 0 100 range 2 * 1 + *
+            1/x sum 3 0 100 range 2 * 1 + power 0 100 range 2 * 1 +
             * 1/x sum /
         = rpn -p20 3 log 2 log /
 
     Machin-Gregory Series
-        = rpn -p20 [ 1 1000 2 range2 ] 2 [ 1 1000 2 range2 ] power * 1/x altsum
+        = rpn -p20 1 1000 2 range2 2 1 1000 2 range2 power * 1/x altsum
         = rpn -p20 1 2 / atan
 
     Beta(3)
-        = rpn -p17 [ 1 1000000 2 range2 ] 3 power 1/x altsum
+        = rpn -p17 1 1000000 2 range2 3 power 1/x altsum
         = rpn -p20 pi 3 power 32 /
 
     Cahen's constant
-        = rpn -p20 [ 1 20 range ] sylvester 1 - 1/x altsum
+        = rpn -p20 1 20 range sylvester 1 - 1/x altsum
 
     Lemniscate Constant
         = rpn -p20 4 2 pi / sqrt * 0.25 ! sqr *
 
     sqrt( e )
-        = rpn -p20 2 [ 0 20 range ] power [ 0 20 range ] ! * 1/x sum
-        = rpn -p20 [ 0 20 range ] 2 * !! 1/x sum
+        = rpn -p20 2 0 20 range power [ 0 20 range ] ! * 1/x sum
+        = rpn -p20 0 20 range 2 * !! 1/x sum
         = rpn -p20 e sqrt
 
     1/e
-        = rpn -p20 [ 0 25 range ] fac 1/x altsum
+        = rpn -p20 0 25 range fac 1/x altsum
         = rpn -p20 e 1/x
 
     Zeta( 6 )
@@ -6432,17 +6534,15 @@ Calculation (or approximation) of various mathematical constants:
                         [ 0 100000 range ] 1 4 / + 1/x - sum euler -
 
     Strongly Carefree Constant
-        = rpn -a6 1 [ 1 100000 primes ] 3 * 2 -
-                [ 1 100000 primes ] 3 power / - prod
+        = rpn -a6 1 1 100000 primes 3 * 2 - 1 100000 primes 3 power / - prod
         = rpn -a7 6 pi sqr / 1 2
-                [ 1 100000 primes ] [ 1 100000 primes ] 1 + * 1/x * - prod *
+                1 100000 primes 1 100000 primes 1 + * 1/x * - prod *
 
     Ramanujan-Forsythe Constant
-        = rpn [ 0 100000 range ] 2 * 3 - fac2
-                [ 0 100000 range ] 2 * fac2 / sqr sum
+        = rpn 0 100000 range 2 * 3 - fac2 0 100000 range 2 * fac2 / sqr sum
 
     Apery's Constant
-        = rpn -p20 [ 1 5000 range ] 3 power 1/x sum
+        = rpn -p20 1 5000 range 3 power 1/x sum
         = rpn -p20 3 zeta
         = rpn -p20 apery
 
@@ -6451,15 +6551,15 @@ Calculation (or approximation) of various mathematical constants:
         = rpn -p20 omega
 
     Liouville Number
-        = rpn -p120 10 [ 1 10 range ] ! power 1/x surpnm
+        = rpn -p120 10 1 10 range ! power 1/x surpnm
 
     Gieseking Constant
         = rpn -a10 -p20 3 3 sqrt * 4 / 1
-                [ 0 100000 range ] 3 * 2 + sqr 1/x sum -
-                [ 1 100000 range ] 3 * 1 + sqr 1/x sum + *
+                0 100000 range 3 * 2 + sqr 1/x sum -
+                1 100000 range 3 * 1 + sqr 1/x sum + *
 
     Hafner-Sarnak-McCurley Constant (2)
-        = rpn -a7 1 [ 1 100000 primes ] sqr 1/x - prod
+        = rpn -a7 1 1 100000 primes sqr 1/x - prod
         = rpn 2 zeta 1/x
 
     Infinite Tetration of i
@@ -6596,7 +6696,8 @@ def main( ):
                                       formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1, const=defaultAccuracy )
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=-1,
+                         const=defaultAccuracy )
     parser.add_argument( '-b', '--input_radix', type=str, action='store', default=defaultInputRadix )
     parser.add_argument( '-c', '--comma', action='store_true' )
     parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
@@ -6611,7 +6712,8 @@ def main( ):
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0 )
     parser.add_argument( '-t', '--time', action='store_true' )
     parser.add_argument( '-u', '--find_poly', nargs='?', type=int, action='store', default=0, const=1000 )
-    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=defaultBitwiseGroupSize )
+    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store',
+                         default=defaultBitwiseGroupSize )
     parser.add_argument( '-x', '--hex', action='store_true' )
     parser.add_argument( '-y', '--identify', action='store_true' )
     parser.add_argument( '-z', '--leading_zero', action='store_true' )
@@ -6883,11 +6985,11 @@ def main( ):
                         formula = identify( result, base )
 
                     if formula is None:
-                        base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
+                        base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
                         formula = identify( result, base )
 
                     if formula is None:
-                        base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
+                        base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
                         formula = identify( result, base )
 
                     if formula is None:
