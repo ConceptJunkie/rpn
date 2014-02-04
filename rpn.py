@@ -14,7 +14,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.7.2"
+RPN_VERSION = "2.8.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -174,6 +174,40 @@ def add( valueList ):
 
 #//******************************************************************************
 #//
+#//  sum
+#//
+#//******************************************************************************
+
+def sum( valueList ):
+    result = valueList.pop( )
+
+    while valueList:
+        value = valueList.pop( )
+        result += value
+
+    valueList.append( result )
+
+
+#//******************************************************************************
+#//
+#//  takeMean
+#//
+#//******************************************************************************
+
+def takeMean( valueList ):
+    count = 1
+    result = valueList.pop( )
+
+    while valueList:
+        value = valueList.pop( )
+        result += value
+        count += 1
+
+    valueList.append( result / count )
+
+
+#//******************************************************************************
+#//
 #//  subtract
 #//
 #//******************************************************************************
@@ -196,6 +230,22 @@ def multiply( valueList ):
 
 #//******************************************************************************
 #//
+#//  multiplyAll
+#//
+#//******************************************************************************
+
+def multiplyAll( valueList ):
+    result = valueList.pop( )
+
+    while valueList:
+        value = valueList.pop( )
+        result *= value
+
+    valueList.append( result )
+
+
+#//******************************************************************************
+#//
 #//  divide
 #//
 #//******************************************************************************
@@ -213,7 +263,29 @@ def divide( valueList ):
 
 def exponentiate( valueList ):
     value = valueList.pop( )
-    valueList.append( Decimal( valueList.pop( ) ** value ) )
+    valueList.append( valueList.pop( ) ** value )
+
+
+#//******************************************************************************
+#//
+#//  takeSquare
+#//
+#//******************************************************************************
+
+def takeSquare( valueList ):
+    value = valueList.pop( )
+    valueList.append( value ** Decimal( 2.0 ) )
+
+
+#//******************************************************************************
+#//
+#//  takeSquareRoot
+#//
+#//******************************************************************************
+
+def takeSquareRoot( valueList ):
+    value = valueList.pop( )
+    valueList.append( value ** Decimal( 0.5 ) )
 
 
 #//******************************************************************************
@@ -494,6 +566,11 @@ expressions = {
     'lgamma' : [ takeLGamma, 1 ],
     'deg'    : [ convertRadiansToDegrees, 1 ],
     'rad'    : [ convertDegreesToRadians, 1 ],
+    'sqr'    : [ takeSquare, 1 ],
+    'sqrt'   : [ takeSquareRoot, 1 ],
+    'sum'    : [ sum, 2 ],          # this one eats the whole stack
+    'mult'   : [ multiplyAll, 2 ],  # this one eats the whole stack
+    'mean'   : [ takeMean, 2 ]      # this one eats the whole stack
 }
 
 
@@ -557,8 +634,11 @@ Supported binary operators:
     +, -, *, /, ** (power), // (root), logxy
 
 Supported unary operators:
-    !, log, log10, exp, exp10, sin, cos, tan, gamma, lgamma,
-    rad (degrees to radians), deg (radians to degrees)
+    !, cos, deg (radians to degrees), exp, exp10, gamma, lgamma, log, log10,
+    rad (degrees to radians), sin, sqr, sqrt, tan
+
+Supported multi operators (operate on all preceding operands):
+    sum, mult, mean
 
 rpn supports arbitrary precision using Decimal( ), however the following
 operators do not always provide arbitrary precision:
@@ -599,6 +679,7 @@ interpreted as binary.
     index = 1                 # only used for error messages
     valueList = list( )
 
+    # start parsing terms and populating the evaluation stack
     for term in args.terms:
         argType = expressions
 
@@ -616,7 +697,7 @@ interpreted as binary.
                 break
 
             try:
-                expressions[ term ][ 0 ]( valueList )
+                expressions[ term ][ 0 ]( valueList )   # evaluate the expression
             except OverflowError as error:
                 print( "rpn: error in arg " + format( index ) + " ('" + term + "'): {0}".format( error ) )
                 break
@@ -628,7 +709,7 @@ interpreted as binary.
                 break
 
         index = index + 1
-    else:
+    else:    # i.e., if the for loop completes
         if len( valueList ) > 1:
             print( "rpn: unexpected end of input" )
         else:
