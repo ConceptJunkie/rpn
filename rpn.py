@@ -13,10 +13,12 @@ from decimal import *
 #//
 #//******************************************************************************
 
-RPN_VERSION = "2.6.1"
+RPN_VERSION = "2.7.0"
 COPYRIGHT_MESSAGE = "copyright 2013 (1988), Rick Gutleber (rickg@his.com)"
 
 defaultPrecision = 12
+
+degreesPerRadian = Decimal( 180 ) / Decimal( math.pi )
 
 
 #//******************************************************************************
@@ -43,6 +45,7 @@ def convertToBaseN( num, base, numerals="0123456789abcdefghijklmnopqrstuvwxyz" )
     >>> baseN(91321, 2, 'ab')
     'babbaabaababbbaab'
     """
+
     if num == 0:
         return "0"
 
@@ -267,6 +270,26 @@ def takeLog10( valueList ):
 
 #//******************************************************************************
 #//
+#//  takeGamma
+#//
+#//******************************************************************************
+
+def takeGamma( valueList ):
+    valueList.append( math.gamma( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
+#//  takeLGamma
+#//
+#//******************************************************************************
+
+def takeLGamma( valueList ):
+    valueList.append( math.lgamma( valueList.pop( ) ) )
+
+
+#//******************************************************************************
+#//
 #//  takeExp
 #//
 #//******************************************************************************
@@ -307,90 +330,136 @@ def takeExp10( valueList ):
 
 #//******************************************************************************
 #//
-#//  takeCos
+#//  Decimal trig functions
 #//
-#//  from http://docs.python.org/3/library/decimal.html
+#//  http://code.activestate.com/recipes/523018-sin-cos-tan-for-decimal/
 #//
 #//******************************************************************************
 
-def takeCos( valueList ):
-    """Return the cosine of x as measured in radians.
+def gen_den( ):
+    d = 1
+    f = 1
 
-    The Taylor series approximation works best for a small value of x.
-    For larger values, first compute x = x % (2 * pi).
+    while ( 1 ):
+        yield f
+        d = d + 1
+        f = f * d
 
-    >>> print(cos(Decimal('0.5')))
-    0.8775825618903727161162815826
-    >>> print(cos(0.5))
-    0.87758256189
-    >>> print(cos(0.5+0j))
-    (0.87758256189+0j)
+    return
 
-    """
-    getcontext( ).prec += 2
 
-    value = valueList.pop( )
+def gen_num( x ):
+    n = x
 
-    i, last_s, s, fact, num, sign = 0, 0, 1, 1, 1, 1
+    while ( True ):
+        yield n
+        n *= x
 
-    while s != last_s:
-        last_s = s
-        i += 2
-        fact *= i * ( i - 1 )
-        num *= value * value
-        sign *= -1
-        s += num / fact * sign
+    return
 
-    getcontext( ).prec -= 2
 
-    # quantize to precision defined by -p
-    quantize = Decimal( 10 ) ** -getcontext( ).prec
-    valueList.append( Decimal( +s ).quantize( quantize ) )
-    #valueList.append( +s )
+def gen_sign( ):
+    while ( True ):
+        yield 1
+        yield -1
+        yield -1
+        yield 1
+
+    return
+
+
+def sincos( x ):
+    x = divmod( x, Decimal( 2.0 ) * Decimal( math.pi ) )[ 1 ]
+    den = gen_den( )
+    num = gen_num( x )
+    sign = gen_sign( )
+
+    s = 0
+    c = 1
+    i = 1
+
+    done_s = False
+    done_c = False
+
+    while not done_s and not done_c:
+        new_s = s + next( sign ) * next( num ) / next( den )
+        new_c = c + next( sign ) * next( num ) / next( den )
+
+        if ( new_c - c == 0 ):
+            done_c = True
+
+        if ( new_s - s == 0 ):
+            done_s = True
+
+        c = new_c
+        s = new_s
+        i = i + 2
+    return ( s, c )
+
+
+def dec_sin( x ):
+    ( s, c ) = sincos( x )
+    return s
+
+
+def dec_cos( x ):
+    ( s, c ) = sincos( x )
+    return c
+
+
+def dec_tan( x ):
+    ( s, c ) = sincos( x )
+    return s / c
 
 
 #//******************************************************************************
 #//
 #//  takeSin
 #//
-#//  from http://docs.python.org/3/library/decimal.html
-#//
 #//******************************************************************************
 
 def takeSin( valueList ):
-    """Return the sine of x as measured in radians.
+    valueList.append( dec_sin( valueList.pop( ) ) )
 
-    The Taylor series approximation works best for a small value of x.
-    For larger values, first compute x = x % (2 * pi).
 
-    >>> print(sin(Decimal('0.5')))
-    0.4794255386042030002732879352
-    >>> print(sin(0.5))
-    0.479425538604
-    >>> print(sin(0.5+0j))
-    (0.479425538604+0j)
+#//******************************************************************************
+#//
+#//  takeCos
+#//
+#//******************************************************************************
 
-    """
-    getcontext( ).prec += 2
+def takeCos( valueList ):
+    valueList.append( dec_cos( valueList.pop( ) ) )
 
-    value = valueList.pop( )
 
-    i, last_s, s, fact, num, sign = 1, 0, value, 1, value, 1
+#//******************************************************************************
+#//
+#//  takeTan
+#//
+#//******************************************************************************
 
-    while s != last_s:
-        last_s = s
-        i += 2
-        fact *= i * ( i - 1 )
-        num *= value * value
-        sign *= -1
-        s += num / fact * sign
+def takeTan( valueList ):
+    valueList.append( dec_tan( valueList.pop( ) ) )
 
-    getcontext( ).prec -= 2
 
-    # quantize to precision defined by -p
-    quantize = Decimal( 10 ) ** -getcontext( ).prec
-    valueList.append( Decimal( +s ).quantize( quantize ) )
-    #valueList.append( +s )
+#//******************************************************************************
+#//
+#//  convertRadiansToDegrees
+#//
+#//******************************************************************************
+
+def convertRadiansToDegrees( valueList ):
+    valueList.append( valueList.pop( ) * degreesPerRadian )
+
+
+#//******************************************************************************
+#//
+#//  convertDegreesToRadians
+#//
+#//******************************************************************************
+
+def convertDegreesToRadians( valueList ):
+    valueList.append( valueList.pop( ) / degreesPerRadian )
 
 
 #//******************************************************************************
@@ -402,22 +471,27 @@ def takeSin( valueList ):
 #//******************************************************************************
 
 expressions = {
-    'pi' : [ getPI, 0 ],
-    'e'  : [ getE, 0 ],
-    '+'  : [ add, 2 ],
-    '-'  : [ subtract, 2 ],
-    '*'  : [ multiply, 2 ],
-    '/'  : [ divide, 2 ],
-    '**' : [ exponentiate, 2 ],
-    '//' : [ antiexponentiate, 2 ],
-    'logxy' : [ takeLogXY, 2 ],
-    '!'     : [ takeFactorial, 1 ],
-    'log'   : [ takeLog, 1 ],
-    'log10' : [ takeLog10, 1 ],
-    'exp'   : [ takeExp, 1 ],
-    'exp10' : [ takeExp10, 1 ],
-    'sin' : [ takeSin, 1 ],
-    'cos' : [ takeCos, 1 ],
+    'pi'     : [ getPI, 0 ],
+    'e'      : [ getE, 0 ],
+    '+'      : [ add, 2 ],
+    '-'      : [ subtract, 2 ],
+    '*'      : [ multiply, 2 ],
+    '/'      : [ divide, 2 ],
+    '**'     : [ exponentiate, 2 ],
+    '//'     : [ antiexponentiate, 2 ],
+    'logxy'  : [ takeLogXY, 2 ],
+    '!'      : [ takeFactorial, 1 ],
+    'log'    : [ takeLog, 1 ],
+    'log10'  : [ takeLog10, 1 ],
+    'exp'    : [ takeExp, 1 ],
+    'exp10'  : [ takeExp10, 1 ],
+    'sin'    : [ takeSin, 1 ],
+    'cos'    : [ takeCos, 1 ],
+    'tan'    : [ takeTan, 1 ],
+    'gamma'  : [ takeGamma, 1 ],
+    'lgamma' : [ takeLGamma, 1 ],
+    'deg'    : [ convertRadiansToDegrees, 1 ],
+    'rad'    : [ convertDegreesToRadians, 1 ],
 }
 
 
@@ -474,12 +548,12 @@ def main( ):
     parser = argparse.ArgumentParser( prog='rpn', description='rpn - ' + RPN_VERSION +
                                       ' - ' + COPYRIGHT_MESSAGE,
                                        epilog="Arguments are interpreted as Reverse Polish Notation.\n\n" +
-                                       "Supported binary operators: +, -, *, /, ** (power), // (root), logxy\n" +
-                                       "Supported unary operators: !, log, log10, exp, exp10\n\n" +
-                                       "Note:  Unary operators are also postfix.\n\n" +
+                                       "Supported binary operators: +, -, *, /, ** (power), // (root), logxy, lgamma\n" +
+                                       "Supported unary operators: !, log, log10, exp, exp10, sin, cos, tan, gamma\n" +
+                                       "                           rad (degrees to radians), deg (radians to degrees)\n\n" +
                                        "Note:  rpn supports arbitrary precision using Decimal( ), however the\n" +
-                                       "        following operators do not always provide arbitrary precision: **, //,\n" +
-                                       "        exp, exp10.\n" +
+                                       "       following operators do not always provide arbitrary precision: **, //,\n" +
+                                       "       exp, exp10.\n" +
                                        "Note:  for integers, rpn understands hexidecimal input of the form '0x....', a\n" +
                                        "       leading '0' means octal and a trailing 'b' or 'B' means binary (even with\n" +
                                        "       with leading '0', but not with leading '0x')",
@@ -556,9 +630,9 @@ def main( ):
             else:
                 if outputRadix == 10:
                     formatString = '{:<' + str( args.precision ) + 'f}'
-                    print( formatString.format( valueList.pop( ) ) )
+                    print( formatString.format( valueList.pop( ) ).strip( ) )
                 else:
-                    print( convertToBaseN( valueList.pop( ), outputRadix ) )
+                    print( convertToBaseN( valueList.pop( ), outputRadix ).strip( ) )
 
 
 
