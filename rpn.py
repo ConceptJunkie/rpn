@@ -28,7 +28,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.15.0"
+RPN_VERSION = "4.16.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -62,7 +62,7 @@ updateDicts = False
 #//******************************************************************************
 
 class Polynomial(object):
-    def __init__(self, *args):
+    def __init__( self, *args ):
         """
         Create a polynomial in one of three ways:
 
@@ -70,86 +70,92 @@ class Polynomial(object):
         p = Polynomial([1,2,3 ...])    # from sequence
         p = Polynomial(1, 2, 3 ...)    # from scalars
         """
-        super(Polynomial,self).__init__()
-        if len(args)==1:
-            val = args[0]
-            if isinstance(val, Polynomial):                # copy constructor
-                self.coeffs = val.coeffs[:]
-            elif isinstance(val, collections.Iterable):    # from sequence
-                self.coeffs = list(val)
-            else:                                          # from single scalar
-                self.coeffs = [val+0]
-        else:                                              # multiple scalars
-            self.coeffs = [i+0 for i in args]
-        self.trim()
+        super( Polynomial, self ).__init__( )
 
-    def __add__(self, val):
+        if len( args ) == 1:
+            val = args[ 0 ]
+
+            if isinstance( val, Polynomial ):                # copy constructor
+                self.coeffs = val.coeffs[ : ]
+            elif isinstance( val, collections.Iterable ):    # from sequence
+                self.coeffs = list( val )
+            else:                                            # from single scalar
+                self.coeffs = [ val + 0 ]
+        else:                                                # multiple scalars
+            self.coeffs = [ i + 0 for i in args ]
+        self.trim( )
+
+    def __add__( self, val ):
         "Return self+val"
-        if isinstance(val, Polynomial):                    # add Polynomial
-            res = [a+b for a,b in itertools.izip_longest(self.coeffs, val.coeffs, fillvalue=0)]
+        if isinstance( val, Polynomial ):                    # add Polynomial
+            res = [ a + b for a, b in itertools.izip_longest( self.coeffs, val.coeffs, fillvalue=0 ) ]
         else:                                              # add scalar
             if self.coeffs:
-                res = self.coeffs[:]
-                res[0] += val
+                res = self.coeffs[ : ]
+                res[ 0 ] += val
             else:
                 res = val
-        return self.__class__(res)
 
-    def __call__(self, val):
+        return self.__class__( res )
+
+    def __call__( self, val ):
         "Evaluate at X==val"
         res = 0
         pwr = 1
+
         for co in self.coeffs:
-            res += co*pwr
+            res += co * pwr
             pwr *= val
+
         return res
 
-    def __eq__(self, val):
+    def __eq__( self, val ):
         "Test self==val"
-        if isinstance(val, Polynomial):
+        if isinstance( val, Polynomial ):
             return self.coeffs == val.coeffs
         else:
-            return len(self.coeffs)==1 and self.coeffs[0]==val
+            return len( self.coeffs ) == 1 and self.coeffs[ 0 ] == val
 
-    def __mul__(self, val):
+    def __mul__( self, val ):
         "Return self*val"
-        if isinstance(val, Polynomial):
+        if isinstance( val, Polynomial ):
             _s = self.coeffs
             _v = val.coeffs
-            res = [0]*(len(_s)+len(_v)-1)
-            for selfpow,selfco in enumerate(_s):
-                for valpow,valco in enumerate(_v):
-                    res[selfpow+valpow] += selfco*valco
+            res = [ 0 ] * ( len( _s ) + len( _v ) - 1 )
+
+            for selfpow, selfco in enumerate( _s ):
+                for valpow,valco in enumerate( _v ):
+                    res[ selfpow + valpow ] += selfco * valco
         else:
-            res = [co*val for co in self.coeffs]
-        return self.__class__(res)
+            res = [ co * val for co in self.coeffs ]
+        return self.__class__( res )
 
-    def __neg__(self):
+    def __neg__( self ):
         "Return -self"
-        return self.__class__([-co for co in self.coeffs])
+        return self.__class__( [ -co for co in self.coeffs ] )
 
-    def __pow__(self, y, z=None):
-        raise NotImplemented()
+    def __pow__( self, y, z = None ):
+        raise NotImplemented( )
 
-    def _radd__(self, val):
+    def _radd__( self, val ):
         "Return val+self"
-        return self+val
+        return self + val
 
-    def __repr__(self):
-        return "{0}({1})".format(self.__class__.__name__, self.coeffs)
+    def __repr__( self ):
+        return "{0}({1})".format( self.__class__.__name__, self.coeffs )
 
-    def __rmul__(self, val):
+    def __rmul__( self, val ):
         "Return val*self"
-        return self*val
+        return self * val
 
-    def __rsub__(self, val):
+    def __rsub__( self, val ):
         "Return val-self"
         return -self + val
 
-    def __str__(self):
+    def __str__( self ):
         "Return string formatted as aX^3 + bX^2 + c^X + d"
-        res = []
-        for po,co in enumerate(self.coeffs):
+        res = [ ]
+        for po, co in enumerate( self.coeffs ):
             if co:
                 if po == 0:
                     po = ''
@@ -157,6 +163,7 @@ class Polynomial(object):
                     po = 'X'
                 else:
                     po = 'X^' + str( po )
+
                 res.append( str( co ) + po )
 
         if res:
@@ -3680,7 +3687,6 @@ def twoArgCaller( func, args ):
             return [ func( arg2[ 0 ], arg1[ 0 ] ) ]
 
 
-
 #//******************************************************************************
 #//
 #//  operators
@@ -3695,6 +3701,61 @@ callers = [
     lambda func, args: [ func( l, k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] for l in args[ 3 ] ],
     lambda func, args: [ func( m, l, k, j, i ) for i in args[ 0 ] for j in args[ 1 ] for k in args[ 2 ] for l in args[ 3 ] for m in args[ 4 ] ],
 ]
+
+
+operatorAliases = {
+    '!!'        : 'doublefac',
+    '!'         : 'factorial',
+    '%'         : 'modulo',
+    '*'         : 'multiply',
+    '**'        : 'power',
+    '***'       : 'tetrate',
+    '+'         : 'add',
+    '-'         : 'subtract',
+    '/'         : 'divide',
+    '//'        : 'root',
+    '1/x'       : 'reciprocal',
+    'average'   : 'mean',
+    'avg'       : 'mean',
+    'bal'       : 'balanced',
+    'cbrt'      : 'root3',
+    'ceil'      : 'ceiling',
+    'cousin'    : 'cousinprime',
+    'cuberoot'  : 'root3',
+    'deg'       : 'degrees',
+    'fac'       : 'factorial',
+    'fac2'      : 'doublefac',
+    'fib'       : 'fibonacci',
+    'harm'      : 'harmonic',
+    'hyper4'    : 'tetrate',
+    'inv'       : 'reciprocal',
+    'isdiv'     : 'isdivisible',
+    'issqr'     : 'issquare',
+    'log'       : 'ln',
+    'mod'       : 'modulo',
+    'mult'      : 'multiply',
+    'neg'       : 'negative',
+    'nonzeroes' : 'nonzero',
+    'prod'      : 'product',
+    'pyr'       : 'pyramid',
+    'quad'      : 'quadprime',
+    'quad?'     : 'quadprime?',
+    'quint'     : 'quintprime',
+    'quint'     : 'quintprime',
+    'quint?'    : 'quintprime?',
+    'rad'       : 'radians',
+    'rand'      : 'random',
+    'sext'      : 'sextprime',
+    'sext?'     : 'sextprime?',
+    'sexy'      : 'sexyprime',
+    'sophie'    : 'sophieprime',
+    'sqr'       : 'square',
+    'sqrt'      : 'root2',
+    'triplet'   : 'tripletprime',
+    'twin'      : 'twinprime',
+    'zeroes'    : 'zero',
+    '^'         : 'power',
+}
 
 
 modifiers = {
@@ -3728,7 +3789,7 @@ modifiers = {
 ''',
 '''
 ''' ],
-    'primes'    : [ getPrimes, 2,
+    'primes'     : [ getPrimes, 2,
 'modifiers', 'generates a range of primes from index n to index k',
 '''
 ''',
@@ -3786,18 +3847,6 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'average'   : [ lambda i: fdiv( fsum( i ), len( i ) ), 1,
-'arithmetic', 'calculates the mean of values in list n',
-'''
-''',
-'''
-''' ],
-    'avg'       : [ lambda i: fdiv( fsum( i ), len( i ) ), 1,
-'arithmetic', 'calculates the mean of values in list n',
-'''
-''',
-'''
-''' ],
     'cf2'       : [ convertFromContinuedFraction, 1,
 'number_theory', 'interprets list n as a continued fraction',
 '''
@@ -3834,12 +3883,6 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'nonzeroes' : [ lambda i: [ index for index, e in enumerate( i ) if e != 0 ], 1,
-'special', 'returns the indices of elements of list n that are not zero',
-'''
-''',
-'''
-''' ],
     'polyprod'  : [ multiplyListOfPolynomials, 1,
 'algebra', 'interprets elements of list n as polynomials and calculates their product',
 '''
@@ -3848,12 +3891,6 @@ list_operators = {
 ''' ],
     'polysum'   : [ addListOfPolynomials, 1,
 'algebra', 'interprets elements of list n as polynomials and calculates their sum',
-'''
-''',
-'''
-''' ],
-    'prod'      : [ fprod, 1,
-'arithmetic', 'calculates the product of values in list n',
 '''
 ''',
 '''
@@ -3912,12 +3949,6 @@ list_operators = {
 ''',
 '''
 ''' ],
-    'zeroes'    : [ lambda i: [ index for index, e in enumerate( i ) if e == 0 ], 1,
-'special', 'returns a list of the indices of elements in list n that are zero',
-'''
-''',
-'''
-''' ],
 }
 
 list_operators_2 = {
@@ -3948,88 +3979,6 @@ list_operators_2 = {
 }
 
 operators = {
-    '!!'            : [ fac2, 1,
-'number_theory', 'calculates the double factorial of n',
-'''
-''',
-'''
-''' ],
-    '!'             : [ fac, 1,
-'number_theory', 'calculates the factorial of n',
-'''
-''',
-'''
-''' ],
-    '%'             : [ fmod, 2,
-'arithmetic', 'calculates n modulo k',
-'''
-''',
-'''
-''' ],
-    '*'             : [ fmul, 2,
-'arithmetic', 'multiplies n by k',
-'''
-''',
-'''
-''' ],
-    '**'            : [ power, 2,
-'arithmetic', 'calculates n to the kth power',
-'''
-''',
-'''
-''' ],
-    '***'           : [ tetrate, 2,
-'arithmetic', 'tetrates n by k'
-'''
-''',
-'''
-''' ],
-    '+'             : [ fadd, 2,
-'arithmetic', 'adds k to n',
-'''
-This operator adds two terms together.
-
-If either operand is a list, then the result with be a list of the same length
-with the other operand added to each member of the list operand.  If both
-operands are lists, then the result is a list with the respective elements of
-both operands added to each other.  If the lists are of differing lengths,
-then the resulting list will be as long as the shorter of the two.''',
-'''
-c:\>rpn 2 2 +
-4
-
-c:\>rpn [ 1 2 3 4 5 6 ] 5 +
-[ 6, 7, 8, 9, 10, 11 ]
-
-c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 10 10 10 ] +
-[ 11, 12, 13, 14, 15, 16 ]
-
-c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] +
-[ 11, 12, 13 ]''' ],
-    '-'             : [ fsub, 2,
-'arithmetic', 'subtracts k from n',
-'''
-''',
-'''
-''' ],
-    '/'             : [ fdiv, 2,
-'arithmetic', 'divides n by k',
-'''
-''',
-'''
-''' ],
-    '//'            : [ root, 2,
-'arithmetic', 'calculates the kth root of n',
-'''
-''',
-'''
-''' ],
-    '1/x'           : [ lambda i: fdiv( 1, i ), 1,
-'arithmetic', 'calculates the reciprocal of n',
-'''
-''',
-'''
-''' ],
     'abs'           : [ fabs, 1,
 'arithmetic', 'calculates the absolute value of n',
 '''
@@ -4076,12 +4025,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] +
 'arithmetic', 'adds n to k',
 '''
 This operator adds two terms together.
-
-If either operand is a list, then the result with be a list of the same length
-with the other operand added to each member of the list operand.  If both
-operands are lists, then the result is a list with the respective elements of
-both operands added to each other.  If the lists are of differing lengths,
-then the resulting list will be as long as the shorter of the two.''',
+''',
 '''
 c:\>rpn 2 2 add
 4
@@ -4148,14 +4092,8 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'bal'           : [ getNthBalancedPrimes, 1,
-'primes', 'returns the nth set of balanced primes',
-'''
-''',
-'''
-''' ],
     'balanced'      : [ getNthBalancedPrimes, 1,
-'primes', 'calculate the nth set of balanced primes',
+'prime_numbers', 'calculate the nth set of balanced primes',
 '''
 ''',
 '''
@@ -4190,19 +4128,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'cbrt'          : [ cbrt, 1,
-'powers_and_roots', 'calculates the cube root of n',
-'''
-''',
-'''
-''' ],
     'ccube'         : [ getNthCenteredCubeNumber, 1,
 'polyhedral_numbers', 'calculates the nth centered cube number',
 '''
 ''',
 '''
 ''' ],
-    'ceil'          : [ ceil, 1,
+    'ceiling'       : [ ceil, 1,
 'arithmetic', 'returns the next highest integer for n',
 '''
 ''',
@@ -4256,14 +4188,8 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'cousin'        : [ getNthCousinPrime, 1,
-'primes', 'returns the nth cousin prime',
-'''
-''',
-'''
-''' ],
     'cousinprime'   : [ getNthCousinPrime, 1,
-'primes', 'returns the nth cousin prime',
+'prime_numbers', 'returns the nth cousin prime',
 '''
 ''',
 '''
@@ -4292,12 +4218,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'deg'           : [ radians, 1,
-'trigonometry', 'interprets n as degrees and converts to radians',
-'''
-''',
-'''
-''' ],
     'degrees'       : [ radians, 1,
 'trigonometry', 'interprets n as degrees and converts to radians',
 '''
@@ -4310,8 +4230,20 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'divide'        : [ fdiv, 2,
+'arithmetic', 'divides n by k',
+'''
+''',
+'''
+''' ],
     'doublebal'     : [ getNthDoubleBalancedPrimes, 1,
-'primes', 'returns the nth set of double balanced primes',
+'prime_numbers', 'returns the nth set of double balanced primes',
+'''
+''',
+'''
+''' ],
+    'doublefac'     : [ fac2, 1,
+'number_theory', 'calculates the double factorial of n',
 '''
 ''',
 '''
@@ -4352,25 +4284,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'fac'           : [ fac, 1,
-'number_theory', 'calculates the factorial of n',
-'''
-''',
-'''
-''' ],
-    'fac2'          : [ fac2, 1,
-'number_theory', 'calculates the double factorial of n',
-'''
-''',
-'''
-''' ],
     'factor'        : [ lambda i: getExpandedFactorList( factorize( i ) ), 1,
 'number_theory', 'calculates the prime factorization of n',
 '''
 ''',
 '''
 ''' ],
-    'fib'           : [ fib, 1,
+    'fibonacci'     : [ fib, 1,
 'number_theory', 'calculates the nth Fibonacci number',
 '''
 ''',
@@ -4402,12 +4322,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'glaisher'      : [ glaisher, 0,
 'constants', 'returns Glaisher\'s constant',
-'''
-''',
-'''
-''' ],
-    'harm'          : [ harmonic, 1,
-'number_theory', 'returns the sum of the first n terms of the harmonic series',
 '''
 ''',
 '''
@@ -4460,12 +4374,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'hyper4'        : [ tetrate, 2,
-'powers_and_roots', 'tetrates n by k',
-'''
-''',
-'''
-''' ],
     'hyper4_2'      : [ tetrateLarge, 2,
 'powers_and_roots', 'calculates the right-associative tetration of n by k',
 '''
@@ -4490,32 +4398,20 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'inv'           : [ lambda i: fdiv( 1, i ), 1,
-'arithmetic', 'calculates the reciprocal of n',
-'''
-''',
-'''
-''' ],
-    'isdiv'         : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2,
+    'isdivisible'   : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2,
 'arithmetic', 'is divisible by n?',
 '''
 ''',
 '''
 ''' ],
     'isolated'      : [ getNthIsolatedPrime, 1,
-'primes', 'returns the nth isolated prime',
+'prime_numbers', 'returns the nth isolated prime',
 '''
 ''',
 '''
 ''' ],
     'isprime'       : [ lambda i: 1 if isPrime( i ) else 0, 1,
 'number_theory', 'is prime?',
-'''
-''',
-'''
-''' ],
-    'issqr'         : [ isSquare, 1,
-'arithmetic', 'is perfect square?',
 '''
 ''',
 '''
@@ -4562,12 +4458,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'log'           : [ ln, 1,
-'logarithms', 'calculates the natural logarithm of n',
-'''
-''',
-'''
-''' ],
     'log10'         : [ log10, 1,
 'logarithms', 'calculates the base-10 logarithm of n',
 '''
@@ -4576,12 +4466,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'logxy'         : [ log, 2,
 'logarithms', 'calculates the base-k logarithm of n',
-'''
-''',
-'''
-''' ],
-    'luc'           : [ getNthLucas, 1,
-'number_theory', 'calculates the nth Lucas number',
 '''
 ''',
 '''
@@ -4598,12 +4482,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'mod'           : [ fmod, 2,
-'arithmetic', 'calculates n modulo k',
-'''
-''',
-'''
-''' ],
     'modulo'        : [ fmod, 2,
 'arithmetic', 'calculates n modulo k',
 '''
@@ -4616,13 +4494,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'mulitply'      : [ fmul, 2,
-'arithmetic', 'multiplies n by k',
-'''
-''',
-'''
-''' ],
-    'mult'          : [ fmul, 2,
+    'multiply'      : [ fmul, 2,
 'arithmetic', 'multiplies n by k',
 '''
 ''',
@@ -4634,7 +4506,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'neg'           : [ fneg, 1,
+    'negative'      : [ fneg, 1,
 'arithmetic', 'calculates the negative of n',
 '''
 ''',
@@ -4647,13 +4519,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'nthprime?'     : [ lambda i: findPrime( i )[ 0 ], 1,
-'primes', 'finds the index of the closest prime over n',
+'prime_numbers', 'finds the index of the closest prime over n',
 '''
 ''',
 '''
 ''' ],
     'nthquad?'      : [ lambda i: findQuadrupletPrimes( i )[ 0 ], 1,
-'primes', 'finds the index of the first of the closest quadruplet prime set over n',
+'prime_numbers', 'finds the index of the first of the closest quadruplet prime set over n',
 '''
 ''',
 '''
@@ -4707,7 +4579,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'padovan'  : [ getNthPadovanNumber, 1,
-'number theory', 'calculates their the nth Padovan number',
+'number_theory', 'calculates their the nth Padovan number',
 '''
 ''',
 '''
@@ -4773,7 +4645,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'polyprime'     : [ getNthPolyPrime, 2,
-'primes', 'returns the nth prime, recursively k times',
+'prime_numbers', 'returns the nth prime, recursively k times',
 '''
 ''',
 '''
@@ -4791,19 +4663,19 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'prime'         : [ getNthPrime, 1,
-'primes', 'returns the nth prime',
+'prime_numbers', 'returns the nth prime',
 '''
 ''',
 '''
 ''' ],
     'prime?'        : [ lambda i: findPrime( i )[ 1 ], 1,
-'primes', 'find the index of the closest prime above n',
+'prime_numbers', 'find the index of the closest prime above n',
 '''
 ''',
 '''
 ''' ],
     'primorial'     : [ getPrimorial, 1,
-'primes', 'calculates the nth primorial',
+'prime_numbers', 'calculates the nth primorial',
 '''
 ''',
 '''
@@ -4814,62 +4686,32 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'pyr'           : [ getNthPyramidalNumber, 1,
-'polyhedral_numbers', 'calculates the nth pyramidal number',
-'''
-''',
-'''
-''' ],
     'pyramid'       : [ getNthPyramidalNumber, 1,
 'polyhedral_numbers', 'calculates the nth pyramidal number',
 '''
 ''',
 '''
 ''' ],
-    'quad'          : [ getNthQuadrupletPrime, 1,
-'primes', 'returns the nth quadruplet prime',
-'''
-''',
-'''
-''' ],
-    'quad?'         : [ lambda i: findQuadrupletPrimes( i )[ 1 ], 1,
-'primes', 'find the closest set of quadruplet primes above n',
+    'quadprime?'    : [ lambda i: findQuadrupletPrimes( i )[ 1 ], 1,
+'prime_numbers', 'find the closest set of quadruplet primes above n',
 '''
 ''',
 '''
 ''' ],
     'quadprime'     : [ getNthQuadrupletPrime, 1,
-'primes', 'returns the nth set of quadruplet primes',
-'''
-''',
-'''
-''' ],
-    'quint'         : [ getNthQuintupletPrimes, 1,
-'primes', 'returns the nth set of quintruplet primes',
+'prime_numbers', 'returns the nth set of quadruplet primes',
 '''
 ''',
 '''
 ''' ],
     'quintprime'    : [ getNthQuintupletPrimes, 1,
-'primes', 'returns the nth set of quintruplet primes',
-'''
-''',
-'''
-''' ],
-    'rad'           : [ degrees, 1,
-'trigonometry', 'interprets n as radians and converts to degrees',
+'prime_numbers', 'returns the nth set of quintruplet primes',
 '''
 ''',
 '''
 ''' ],
     'radians'       : [ degrees, 1,
 'trigonometry', 'interprets n as radians and converts to degrees',
-'''
-''',
-'''
-''' ],
-    'rand'          : [ rand, 0,
-'special', 'returns a random value from 0 to 1',
 '''
 ''',
 '''
@@ -4928,26 +4770,14 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'sext'          : [ getNthSextupletPrimes, 1,
-'primes', 'returns the nth set of sextuplet primes',
-'''
-''',
-'''
-''' ],
     'sextprime'     : [ getNthSextupletPrimes, 1,
-'primes', 'returns the nth set of sextuplet primes',
-'''
-''',
-'''
-''' ],
-    'sexy'          : [ getNthSexyPrime, 1,
-'primes', 'returns the nth sexy prime',
+'prime_numbers', 'returns the nth set of sextuplet primes',
 '''
 ''',
 '''
 ''' ],
     'sexyprime'     : [ getNthSexyPrime, 1,
-'primes', 'returns the nth sexy prime',
+'prime_numbers', 'returns the nth sexy prime',
 '''
 ''',
 '''
@@ -4982,20 +4812,14 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'sophie'        : [ getNthSophiePrime, 1,
-'primes', 'returns the nth Sophie Germain prime',
+    'sophieprime'   : [ getNthSophiePrime, 1,
+'prime_numbers', 'returns the nth Sophie Germain prime',
 '''
 ''',
 '''
 ''' ],
-    'sqr'           : [ lambda i: power( i, 2 ), 1,
+    'square'        : [ lambda i: power( i, 2 ), 1,
 'powers_and_roots', 'calculates the square of n',
-'''
-''',
-'''
-''' ],
-    'sqrt'          : [ sqrt, 1,
-'powers_and_roots', 'calculates square root of n',
 '''
 ''',
 '''
@@ -5008,12 +4832,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'steloct'       : [ getNthStellaOctangulaNumber, 1,
 'polyhedral_numbers', 'calculates the nth stella octangula number',
-'''
-''',
-'''
-''' ],
-    'sub'           : [ fsub, 2,
-'arithmetic', 'subtracts k from n',
 '''
 ''',
 '''
@@ -5037,7 +4855,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'superprime'    : [ getNthSuperPrime, 1,
-'primes', 'returns the nth superprime (the nth primeth prime)',
+'prime_numbers', 'returns the nth superprime (the nth primeth prime)',
 '''
 ''',
 '''
@@ -5066,7 +4884,7 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'tet'           : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1,
+    'tetrate'       : [ lambda i: fdiv( fsum( [ power( i, 3 ), fmul( 3, power( i, 2 ) ), fmul( 2, i ) ] ), 6 ), 1,
 'polyhedral_numbers', 'calculates the nth tetrahedral number',
 '''
 ''',
@@ -5103,19 +4921,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 '''
 ''' ],
     'triplebal'     : [ getNthTripleBalancedPrimes, 1,
-'primes', 'returns the nth set of triple balanced primes',
-'''
-''',
-'''
-''' ],
-    'triplet'       : [ getNthTripletPrimes, 1,
-'primes', 'returns the nth set of triplet primes',
+'prime_numbers', 'returns the nth set of triple balanced primes',
 '''
 ''',
 '''
 ''' ],
     'tripletprime'  : [ getNthTripletPrimes, 1,
-'primes', 'returns the nth set of triplet primes',
+'prime_numbers', 'returns the nth set of triplet primes',
 '''
 ''',
 '''
@@ -5132,14 +4944,8 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
-    'twin'          : [ getNthTwinPrime, 1,
-'primes', 'returns the nth twin prime',
-'''
-''',
-'''
-''' ],
     'twinprime'     : [ getNthTwinPrime, 1,
-'primes', 'returns the nth twin prime',
+'prime_numbers', 'returns the nth twin prime',
 '''
 ''',
 '''
@@ -5158,12 +4964,6 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'zeta'          : [ zeta, 1,
 'number_theory', 'calculates the zeta function for n',
-'''
-''',
-'''
-''' ],
-    '^'             : [ power, 2,
-'arithmetic', 'calculates n to the kth power',
 '''
 ''',
 '''
@@ -5826,14 +5626,276 @@ Notes:
 
 #//******************************************************************************
 #//
-#//  printEvenMoreHelp
+#//  printGeneralHelp
 #//
 #//******************************************************************************
 
-def printEvenMoreHelp( ):
+def printGeneralHelp( basicCategories, operatorCategories ):
     print(
+'\n' + PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
 '''
-Examples of rpn usage follow.
+
+For help on a specific topic, add a help topic, operator category or a
+specific operator name.  Adding 'example', or 'ex' after an operator name will
+result in examples of using being printed as well.
+
+The following is a list of general topics:
+
+    ''' + ',\n    '.join( sorted( basicCategories ) ) + '''
+
+The following is a list of operator categories:
+
+    ''' + ',\n    '.join( sorted( operatorCategories ) ) )
+
+
+#//******************************************************************************
+#//
+#//  printTitleScreen
+#//
+#//******************************************************************************
+
+def printTitleScreen( ):
+    print(
+'\n' + PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
+'''
+
+For more information use, 'rpn help'.''' )
+
+
+#//******************************************************************************
+#//
+#//  printOperatorHelp
+#//
+#//******************************************************************************
+
+def printOperatorHelp( helpArgs, term, operatorInfo ):
+    if operatorInfo[ 1 ] == 1:
+        print( 'n ', end='' )
+    elif operatorInfo[ 1 ] == 2:
+        print( 'n k ', end='' )
+    elif operatorInfo[ 1 ] == 3:
+        print( 'a b c ', end='' )
+    elif operatorInfo[ 1 ] == 4:
+        print( 'a b c d ', end='' )
+    elif operatorInfo[ 1 ] == 5:
+        print( 'a b c d e ', end='' )
+
+    aliasList = [ key for key in operatorAliases if term == operatorAliases[ key ] ]
+
+    print( term + ' - ' + operatorInfo[ 3 ] )
+
+    print( )
+
+    if len( aliasList ) > 1:
+        print( 'aliases:  ' + ', '.join( aliasList ) )
+    elif len( aliasList ) == 1:
+        print( 'alias:  ' + ', '.join( aliasList ) )
+
+    print( 'category: ' + operatorInfo[ 2 ] )
+
+    if operatorInfo[ 4 ] == '\n':
+        print( )
+        print( 'No further help is available.' )
+    else:
+        print( operatorInfo[ 4 ] )
+
+    if len( helpArgs ) > 1 and helpArgs[ 1 ] in ( 'ex', 'example' ):
+        print( )
+
+        if operatorInfo[ 5 ] == '\n':
+            print( 'No examples are available.' )
+        else:
+            print( term + ' examples:' )
+            print( operatorInfo[ 5 ] )
+
+
+#//******************************************************************************
+#//
+#//  addAliases
+#//
+#//******************************************************************************
+
+def addAliases( operatorList ):
+    for index, operator in enumerate( operatorList ):
+        aliasList = [ key for key in operatorAliases if operator == operatorAliases[ key ] ]
+
+        if len( aliasList ) > 0:
+            operatorList[ index ] += ' ( ' + ', '.join( aliasList ) + ' )'
+
+
+#//******************************************************************************
+#//
+#//  printHelp
+#//
+#//******************************************************************************
+
+def printHelp( helpArgs ):
+    basicCategories = {
+'options' :
+PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' +
+'''
+command-line options:
+
+    -a [n], --output_accuracy [n]
+        maximum number of decimal places to display, irrespective of internal
+        precision (default: ''' + str( defaultAccuracy ) + ')' + '''
+
+    -b n : --input_radix n
+        specify the radix for input (default: ''' + str( defaultInputRadix ) + ')' + '''
+
+    -c, --comma -
+        add commas to result, e.g., 1,234,567.0
+
+    -d [n], --decimal_grouping [n] -
+        display decimal places separated into groups (default: ''' + str( defaultDecimalGrouping ) + ')' + '''
+
+    -h, --help -
+        displays basic help information
+
+    -i [n], --integer_grouping [n]
+        display integer separated into groups (default: ''' + str( defaultIntegerGrouping ) + ')' + '''
+
+    -n str, --numerals str
+        characters set to use as numerals for output
+
+    -o, --octal
+        octal mode: equivalent to \'-r8 -w9 -i3 -z\'
+
+    -p n, --precision n
+        precision, i.e., number of significant digits to use
+
+    -r n, --output_radix n
+        output in a different base (2 to 62, or phi)
+
+    -R n, --output_radix_numerals n
+        output each digit is a space-delimited base-10 number
+
+    -t, --time
+        display calculation time
+
+    -u, --find_poly
+        find a polynomial such that P(x) ~= 0 of degree <= N (default: 1000)
+
+    -w [n], --bitwise_group_size [n]
+        bitwise operations group values by this size (default: ''' + str( defaultBitwiseGroupSize ) + ')' + '''
+
+    -x, --hex
+        hex mode: equivalent to '-r16 -w16 -i4 -z'
+
+    -y, --identify
+        identify the result (may repeat input)
+
+    -z, --leading_zero
+        add leading zeros if needed with -i
+
+    -!, --print_options
+        print values for all options
+''',
+'arguments' :
+'''
+Arguments:
+
+    As its name implies, rpn uses Reverse Polish Notation, otherwise referred
+    to as postfix notation.  The operand(s) come first and then the operator.
+    This notation works without the need for parentheses.  rpn supports
+    brackets for creating lists of operands, but this serves a different
+    purpose and is described later.
+
+    Some simple examples:
+
+    2 + 2:
+        rpn 2 2 +
+
+    3 sqrt(2) / 4:
+        rpn 3 2 sqrt * 4 /
+
+    Lists are specified using the bracket operators.
+    Most operators can take lists as operands, which results in the operation
+    being performed on each item in the list.  If the operator takes two
+    operands, then either operand can be a list.  If one operand is a list
+    and the other is a single value, then each value in the list will have
+    the single operand applied to it with the operator, and the result will
+    be displayed as a list.
+
+    It is possible in certain cases to nest lists.  rpn tries to figure out
+    a logical way (and unequivocal) to apply the operators to the operands.
+
+    *** Special note:  I have not exhaustively tested every possible
+    scenario with lists, but in general, if it makes sense, rpn will work
+    correctly.
+
+    For example:
+
+    c:\>rpn [ 2 3 4 5 6 ] 10 +
+    [ 12, 13, 14, 15, 16, 17 ]
+
+    c:\>rpn 7 [ 1 2 3 4 5 6 7 ] *
+    [ 7, 14, 21, 28, 35, 42, 49 ]
+
+    If both operands are lists, then each element from the first list is
+    applied to the corresponding element in the second list.  If one list
+    is shorter than the other, then only that many elements will have the
+    operator applied and the resulting list will only be as long as the
+    shorter list.
+
+    For example:
+
+    rpn [ 1 2 3 4 5 6 7 ] [ 1 2 3 4 5 6 7 ] **
+    [ 1, 4, 27, 256, 3125, 46656, 823543 ]
+
+    rpn [ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *
+    [ 30, 40, 90, 160 ]
+
+    Some operators take lists as operands 'natively'.  This means the
+    operator requires a list, because the operation does not make sense for
+    a single value.  For example, 'mean' averages the values of a list.  Of
+    course, a list might have a single element, but regardless, the brackets
+    are required.
+
+    *** Special note:  I'll probably change this, if it's not too hard.
+
+    Finally, a few operators require a list and second operand.  The second
+    operand is a single value, but as usual, it can be a list and rpn will
+    apply to operator to each element and return a list of results.
+
+    For example:
+
+    c:\>rpn [ 1 2 3 ] [ 4 5 6 ] polyval
+    [ 27, 38, 51 ]
+''',
+'input' :
+'''
+    [ description of input formats supported by rpn ]
+''',
+'output' :
+'''
+    [ description of output formats supported by rpn ]
+''',
+'about' :
+PROGRAM_NAME + ' ' + RPN_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
+'''
+
+rpn is a command-line Reverse-Polish Notation calculator that was first written in C in 1988.
+It was rewritten in Python 3.3 in 2012 and now uses the mpmath library.
+''',
+'bugs' :
+'''
+    'base' doesn't seem to work correctly with a list for the second argument.
+
+    rpn doesn't describe the correct argument in error messages if an option
+    flag is used.
+
+    -u doesn't work with complex numbers
+''',
+'license' :
+'''
+rpn is licensed under the GPL, version 3.0 and is ''' + '\n' + COPYRIGHT_MESSAGE + '''
+
+    [ fill in extra boilerplate as needed ]
+''',
+'examples' :
+'''
+Here are some examples of using rpn:
 
 Basic arithmetic operations:
 
@@ -5890,7 +5952,16 @@ Calculations with lists:
     List of primes in the first 50 fibonacci numbers:
         rpn [ 1 50 range ] fib isprime nonzero 1 + fib
 
-Calculate various constants:
+    Which of the first thousand pentagonal numbers are also triangular:
+        c:\>rpn 1000 pent tri?
+        1731.26218055
+
+        c:\>rpn [ 1 1000 range ] pent [ 1 1732 range ] tri intersection
+
+Please note that a lot of the following commands are broken up into multiple
+lines for readability, but are all single commands to rpn.
+
+Calculation (or approximation) of various mathematical constants:
 
     Polya Random Walk Constant
         = rpn -p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 /
@@ -5992,65 +6063,8 @@ Calculate various constants:
 
     Infinite Tetration of i
         = rpn -p20 [ 1 i 1000 dup ] tower
-
-''' )
-
-
-#//******************************************************************************
-#//
-#//  printGeneralHelp
-#//
-#//******************************************************************************
-
-def printGeneralHelp( basicCategories, operatorCategories ):
-    print(
 '''
-rpn general help
-''' )
-
-    print( 'For additional help, please specify a help topic from one of the following:' )
-    print( '\t' + ',\n\t'.join( sorted( basicCategories ) ) )
-    print( )
-    print( 'For help about the available operators, please specify a help topic from one of the following:' )
-    print( '\t' + ',\n\t'.join( sorted( operatorCategories ) ) )
-
-
-#//******************************************************************************
-#//
-#//  printOperatorHelp
-#//
-#//******************************************************************************
-
-def printOperatorHelp( helpArgs, term, operatorInfo ):
-    print( )
-    print( term + ' - ' + operatorInfo[ 3 ] )
-    print( )
-    print( 'category: ' + operatorInfo[ 2 ] )
-
-    if operatorInfo[ 4 ] == '\n':
-        print( )
-        print( 'No further help is available.' )
-    else:
-        print( operatorInfo[ 4 ] )
-
-    if len( helpArgs ) > 1 and helpArgs[ 1 ] in ( 'ex', 'example' ):
-        print( )
-
-        if operatorInfo[ 5 ] == '\n':
-            print( 'No examples are available.' )
-        else:
-            print( term + ' examples:' )
-            print( operatorInfo[ 5 ] )
-
-
-#//******************************************************************************
-#//
-#//  printHelp
-#//
-#//******************************************************************************
-
-def printHelp( helpArgs ):
-    basicCategories = set( ( 'command-line_options', 'input', 'output', 'about' ) )
+}
 
     operatorCategories = set( operators[ key ][ 2 ] for key in operators )
     operatorCategories.update( set( modifiers[ key ][ 2 ] for key in modifiers ) )
@@ -6062,6 +6076,9 @@ def printHelp( helpArgs ):
         return
 
     term = helpArgs[ 0 ]
+
+    if term in operatorAliases:
+        term = operatorAliases[ term ]
 
     if term in operators:
         printOperatorHelp( helpArgs, term, operators[ term ] )
@@ -6076,18 +6093,22 @@ def printHelp( helpArgs ):
         printOperatorHelp( helpArgs, term, modifiers[ term ] )
 
     if term in basicCategories:
-        printBasicHelp( term )
+        print( basicCategories[ term ] )
 
     if term in operatorCategories:
         print( )
-        print( 'The ' + term + ' category includes the following operators:' )
+        print( 'The ' + term + ' category includes the following operators (with aliases in' )
+        print( 'parentheses):' )
+        print( )
 
         operatorList = [ key for key in operators if operators[ key ][ 2 ] == term ]
         operatorList.extend( [ key for key in list_operators if list_operators[ key ][ 2 ] == term ] )
         operatorList.extend( [ key for key in list_operators_2 if list_operators_2[ key ][ 2 ] == term ] )
         operatorList.extend( [ key for key in modifiers if modifiers[ key ][ 2 ] == term ] )
 
-        print( '\t' + ',\n\t'.join( sorted( operatorList ) ) )
+        addAliases( operatorList )
+
+        print( '    ' + ',\n    '.join( sorted( operatorList ) ) )
 
 
 #//******************************************************************************
@@ -6162,7 +6183,7 @@ def main( ):
 
     # set up the command-line options parser
     parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
-                                      PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
+                                      PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE, add_help=False,
                                       formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
@@ -6176,10 +6197,7 @@ def main( ):
     parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
                          const=defaultDecimalGrouping, help="display decimal places separated into groups (default: " +
                                                             str( defaultDecimalGrouping ) + ")" )
-    parser.add_argument( '-hh', '--more_help', action='store_true',
-                         help="display additional help information" )
-    parser.add_argument( '-hhh', '--even_more_help', action='store_true',
-                         help="display examples of various rpn functionality in use" )
+    parser.add_argument( '-h', '--help', action='store_true', help="display help information" )
     parser.add_argument( '-i', '--integer_grouping', nargs='?', type=int, action='store', default=0,
                          const=defaultIntegerGrouping,
                          help="display integer separated into groups (default: " + str( defaultIntegerGrouping ) + ")" )
@@ -6201,23 +6219,21 @@ def main( ):
     parser.add_argument( '-x', '--hex', action='store_true', help="hex mode: equivalent to '-r16 -w16 -i4 -z'" )
     parser.add_argument( '-y', '--identify', action='store_true', help="identify the result (may repeat input)" )
     parser.add_argument( '-z', '--leading_zero', action='store_true', help="add leading zeros if needed with -i" )
-    parser.add_argument( '-?', '--print_options', action='store_true', help="print values for all options" )
+    parser.add_argument( '-!', '--print_options', action='store_true', help="print values for all options" )
+    parser.add_argument( '-?', '--other_help', action='store_true', help="display help information" )
 
     # OK, let's parse and validate the arguments
     if len( sys.argv ) == 1:
-        parser.print_help( )
+        printTitleScreen( )
         return
 
     args = parser.parse_args( )
+
+    if args.help or args.other_help:
+        printHelp( [ ] )
+        return
+
     mp.dps = args.precision
-
-    if args.more_help:
-        printMoreHelp( )
-        return
-
-    if args.even_more_help:
-        printEvenMoreHelp( )
-        return
 
     if args.time:
         time.clock( )
@@ -6341,22 +6357,25 @@ def main( ):
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
+        if term in operatorAliases:
+            term = operatorAliases[ term ]
+
         currentValueList = getCurrentArgList( valueList )
 
         if term in modifiers:
             try:
                 modifiers[ term ][ 0 ]( currentValueList )
             except IndexError as error:
-                print( "rpn:  index error for operator at arg " + format( index ) +
-                       ".  Are your arguments in the right order?" )
+                print( 'rpn:  index error for operator at arg ' + format( index ) +
+                       '.  Are your arguments in the right order?' )
                 break
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
 
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
-                print( "rpn:  error in arg " + format( index ) + ":  operator " + term + " requires " +
-                       format( argsNeeded ) + " argument", end='' )
+                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
+                       format( argsNeeded ) + ' argument', end='' )
 
                 if argsNeeded > 1:
                     print( "s" )
@@ -6379,42 +6398,48 @@ def main( ):
 
                 currentValueList.append( result )
             except KeyboardInterrupt as error:
-                print( "rpn:  keyboard interrupt" )
+                print( 'rpn:  keyboard interrupt' )
                 break
             except ValueError as error:
-                print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
             except TypeError as error:
-                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except ZeroDivisionError as error:
+                print( 'rpn:  division by zero' )
                 break
         elif term in list_operators:
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < 1:
-                print( "rpn:  error in arg " + format( index ) + ":  operator " + term +
-                       " requires a list argument" )
+                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term +
+                       ' requires a list argument' )
                 break
 
             try:
                 arg = currentValueList.pop( )
                 currentValueList.append( list_operators[ term ][ 0 ]( arg ) )
             except KeyboardInterrupt as error:
-                print( "rpn:  keyboard interrupt" )
+                print( 'rpn:  keyboard interrupt' )
                 break
             except ValueError as error:
-                print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
             except TypeError as error:
-                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
             except IndexError as error:
-                print( "rpn:  index error for operator at arg " + format( index ) +
-                       ".  Are your arguments in the right order?" )
+                print( 'rpn:  index error for operator at arg ' + format( index ) +
+                       '.  Are your arguments in the right order?' )
+                break
+            except ZeroDivisionError as error:
+                print( 'rpn:  division by zero' )
                 break
         elif term in list_operators_2:
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < 2:
-                print( "rpn:  error in arg " + format( index ) + ":  operator " + term +
-                       " requires two arguments" )
+                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term +
+                       ' requires two arguments' )
                 break
 
             try:
