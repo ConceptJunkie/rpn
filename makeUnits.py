@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.8.4'
+PROGRAM_VERSION = '5.8.5'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -176,6 +176,9 @@ unitOperators = {
 
     # charge
 
+    'abcoulomb' :
+        UnitInfo( 'charge', 'abcoulomb', 'abcoulombs', 'abC', [ ] ),
+
     'ampere-second' :
         UnitInfo( 'charge', 'ampere*second', 'ampere*second', 'A/s', [ 'ampere/sec', 'ampere/s', 'amp/sec', 'amp/s', 'amps/sec', 'amps/s' ] ),
 
@@ -185,6 +188,9 @@ unitOperators = {
     'farad-volt' :
         UnitInfo( 'charge', 'farad*volt', 'farad-volts', 'F*V', [ 'F/volt', 'F/volts', 'farad/volts', 'farads/volts', 'farad/V', 'farads/V' ] ),
 
+    'franklin' :
+        UnitInfo( 'charge', 'franklin', 'franklin', 'Fr', [ ] ),
+
     'electron_charge' :
         UnitInfo( 'charge', 'electron_charge', 'electron_charges', '', [ ] ),
 
@@ -193,6 +199,9 @@ unitOperators = {
 
     'planck_charge' :
         UnitInfo( 'charge', 'planck_charge', 'planck_charges', '', [ ] ),
+
+    'statcoulomb' :
+        UnitInfo( 'charge', 'statcoulomb', 'statcoulombs', 'statC', [ ] ),
 
     # current
 
@@ -299,6 +308,9 @@ unitOperators = {
 
     'planck_energy' :
         UnitInfo( 'energy', 'planck_energy', 'planck_energy', 'EP', [ ] ),
+
+    'rydberg' :
+        UnitInfo( 'energy', 'rydberg', 'rydbergs', 'Ry', [ ] ),
 
     'ton_of_TNT' :
         UnitInfo( 'energy', 'ton_of_TNT', 'tons_of_TNT', 'tTNT', [ ] ),
@@ -509,6 +521,7 @@ unitOperators = {
         UnitInfo( 'luminance', 'stilb', 'stilbs', 'sb', [ ] ),
 
     # luminous_flux
+
     'lumen' :
         UnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm', [ ] ),
 
@@ -581,11 +594,23 @@ unitOperators = {
 
     # power
 
+    'erg/second' :
+        UnitInfo( 'power', 'erg/second', 'ergs/second', 'erg/s', [ 'ergs/s' ] ),
+
     'horsepower' :
         UnitInfo( 'power', 'horsepower', 'horsepower', 'hp', [ ] ),
 
     'joule/second' :
         UnitInfo( 'power', 'joule/second', 'joules/second', 'J/s', [ ] ),
+
+    'kilogram*meter^2/second^3' :
+        UnitInfo( 'power', 'kilogram*meter^2/second^3', 'kilogram*meter^2/second^3', 'kg*m^2/s^3', [ ] ),
+
+    'newton*meter/second' :
+        UnitInfo( 'power', 'newton*meter/second', 'newton*meter/second', 'N*m/s', [ ] ),
+
+    'poncelet' :
+        UnitInfo( 'power', 'poncelet', 'poncelets', 'p', [ ] ),
 
     'watt' :
         UnitInfo( 'power', 'watt', 'watts', 'W', [ ] ),
@@ -598,6 +623,9 @@ unitOperators = {
     'bar' :
         UnitInfo( 'pressure', 'bar', 'bar', '', [ ] ),
 
+    'barye' :
+        UnitInfo( 'pressure', 'barye', 'baryes', '', [ ] ),
+
     'mmHg' :
         UnitInfo( 'pressure', 'mmHg', 'mmHg', '', [ ] ),
 
@@ -606,6 +634,9 @@ unitOperators = {
 
     'pascal' :
         UnitInfo( 'pressure', 'pascal', 'pascal', 'Pa', [ ] ),
+
+    'pieze' :
+        UnitInfo( 'pressure', 'pieze', 'pieze', '', [ ] ),
 
     'psi' :
         UnitInfo( 'pressure', 'pound/inch^2', 'pounds/inch^2', 'psi', [ 'lb/in^2' ] ),
@@ -980,6 +1011,7 @@ metricPrefixes = [
 
 unitConversionMatrix = {
     ( 'abampere',              'ampere' )                               : '10',
+    ( 'abcoulomb',             'coulomb' )                              : '10',
     ( 'acre',                  'square_yard' )                          : '4840',
     ( 'acre-foot',             'cubic_foot' )                           : '43560',
     ( 'aln',                   'inch' )                                 : '23.377077865',
@@ -1112,13 +1144,16 @@ unitConversionMatrix = {
     ( 'oil_barrel',            'gallon' )                               : '42',
     ( 'ounce',                 'gram' )                                 : '28.349523125',
     ( 'parsec',                'light-year' )                           : '3.261563776971',
+    ( 'pascal',                'barye' )                                : '10',
     ( 'peck',                  'dry_gallon' )                           : '2',
     ( 'perch',                 'foot' )                                 : '16.5',
     ( 'phot',                  'lux' )                                  : '10000',
+    ( 'pieze',                 'pascal' )                               : '1000',
     ( 'planck_charge',         'coulomb' )                              : '1.875545956e-18',
     ( 'planck_energy',         'joule' )                                : '1.956e9',
     ( 'planck_length',         'meter' )                                : '1.616199e-35',
     ( 'planck_time',           'second' )                               : '5.39106e-44',
+    ( 'poncelet',              'watt' )                                 : '980.665',
     ( 'potrzebie',             'farshimmelt_potrzebie' )                : '100000',
     ( 'potrzebie',             'meter' )                                : '0.002263348517438173216473',  # see Mad #33
     ( 'pound',                 'grain' )                                : '7000',
@@ -1135,6 +1170,7 @@ unitConversionMatrix = {
     ( 'rood',                  'square_yard' )                          : '1210',
     ( 'rope',                  'foot' )                                 : '20',
     ( 'rutherford',            'becquerel' )                            : '1000000',
+    ( 'rydberg',               'joule' )                                : '2.179872e-18',
     ( 'second',                'shake' )                                : '1.0e8',
     ( 'second',                'sigma' )                                : '1.0e6',
     ( 'second',                'svedberg' )                             : '1.0e13',
@@ -1155,6 +1191,8 @@ unitConversionMatrix = {
     ( 'square_sextant',        'square_degree' )                        : '3600',
     ( 'standard_gravity',      'galileo' )                              : '980.6650',
     ( 'standard_gravity',      'meter/second^2' )                       : '9.80665',
+    ( 'statcoulomb',           'coulomb' )                              : '3.335641e-10',  # 0.1A*m/c, approx.
+    ( 'statcoulomb',           'franklin' )                             : '1',
     ( 'steradian',             'square_degree' )                        : '0.000304617419786708510', # (pi/180)^2
     ( 'steradian',             'square_grad' )                          : '0.00024674011002723397',  # (pi/200)^2
     ( 'sthene',                'newton' )                               : '1000',
@@ -1171,6 +1209,9 @@ unitConversionMatrix = {
     ( 'troy_ounce',            'gram' )                                 : '31.1034768',
     ( 'troy_pound',            'pound' )                                : '12',
     ( 'tun',                   'gallon' )                               : '252',
+    ( 'watt',                  'erg/second' )                           : '1.0e7',
+    ( 'watt',                  'newton*meter/second' )                  : '1',
+    ( 'watt',                  'kilogram*meter^2/second^3' )            : '1',
     ( 'watt-second',           'joule' )                                : '1',
     ( 'week',                  'day' )                                  : '7',
     ( 'wey',                   'pound' )                                : '252',
