@@ -24,6 +24,7 @@ import pickle
 import pyprimes
 import random
 import string
+import struct
 import sys
 import textwrap
 import time
@@ -40,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-RPN_VERSION = '5.3.1'
+RPN_VERSION = '5.4.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -73,25 +74,15 @@ unitStack = [ ]
 #//
 #//******************************************************************************
 
-class Measurement( dict ):
-    # one arg can initialize the scalar or the types depending on its type
-    def __init__( self, scalar, types=None ):
-        if types is None:
-            if isinstance( scalar, str ):
-                self.increment( scalar )
-                self.scalar = nan
-            elif isinstance( scalar, list, tuple ):
-                for unit in scalar:
-                    self.increment( unit )
-                self.scalar = nan
-            elif isinstance( scalar, dict ):
-                self.update( scalar )
-                self.scalar = nan
-            else:
-                self.scalar = mpmathify( scalar )
-        else:
-            self.scalar = mpmathify( scalar )
+class Measurement( mpf ):
+    def __new__( cls, value, types=None ):
+        return mpf.__new__( cls, value )
 
+    def __init__( self, value, types=None ):
+        mpf.__init__( value )
+        self.types = { }
+
+        if types is not None:
             if isinstance( types, str ):
                 self.increment( types )
             elif isinstance( types, ( list, tuple ) ):
@@ -102,28 +93,57 @@ class Measurement( dict ):
             else:
                 raise ValueError( 'invalid types specifier' )
 
+
+    def __eq__( self, other ):
+        result = mpf.__eq__( other )
+
+        if isinstance( other, Measurement ):
+            result &= ( types == other.types )
+
+        return result
+
+
+    def __ne__( self, other ):
+        return not __eq__( self, other )
+
+
     def increment( self, value, amount=1 ):
-        if value not in self:
-            self[ value ] = amount
+        if value not in self.types:
+            self.types[ value ] = amount
         else:
-            self[ value ] += amount
+            self.types[ value ] += amount
+
 
     def decrement( self, value, amount=1 ):
-        if value not in self:
-            self[ value ] = -amount
+        if value not in self.types:
+            self.types[ value ] = -amount
         else:
-            self[ value ] -= amount
+            self.types[ value ] -= amount
+
+
+    def update( self, types ):
+        if not isinstance( types, dict ):
+            raise ValueError( 'dict expected' )
+
+        self.types.update( types )
+
 
     def isCompatible( self, other ):
-        if isinstance( other, ( str, list, tuple ) ):
-            return isCompatible( self, Measurement( other ) )
-        else:
+        if isinstance( other, dict ):
+            return self.getType( ) == other
+        elif isinstance( other, Measurement ):
             return self.getType( ) == other.getType( )
+        else:
+            raise ValueError( 'Measurement or dict expected' )
+
+
+    def getValue( self ):
+        return mpf( self )
 
     def getType( self ):
         unitTypes = { }
 
-        for unit in self:
+        for unit in self.types:
             if unit not in unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
@@ -137,21 +157,15 @@ class Measurement( dict ):
 
         return unitTypes
 
+
     def getConversion( self, other ):
         if self.isCompatible( other ):
-            unit1 = [ k for k, v in self.items( ) ][ 0 ]
-            unit2 = [ k for k, v in other.items( ) ][ 0 ]
+            unit1 = [ k for k, v in self.types.items( ) ][ 0 ]
+            unit2 = [ k for k, v in other.types.items( ) ][ 0 ]
             return mpmathify( unitConversionMatrix[ ( unit1, unit2 ) ] )
         else:
             raise ValueError( 'incompatible types cannot be converted' )
             return 0
-
-    def __str__( self ):
-        return str( self.scalar )
-
-    def __repr__( self ):
-        return "{0}({1},{2})".format( self.__class__.__name__, self.scalar, self )
-
 
 
 #//******************************************************************************
@@ -2706,11 +2720,14 @@ def getNSphereRadius( n, k ):
     measurementType = k.getType( )
 
     if measurementType == { 'length' : 1 }:
-        return k
+        return 1
     elif measurementType == { 'length' : 2 }:
-        return 2   # formula to convert surface area to radius
+        return fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
+                           fmul( n, power( pi, fdiv( n, 2 ) ) ) ),
+                     root( k, fsub( n, 1 ) ) )
     elif measurementType == { 'length' : 3 }:
-        return 3  # formula to convert volume to radius
+        return root( fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
+                                 power( pi, fdiv( n, 2 ) ) ), k ), 3 )
     else:
         raise ValueError( 'incompatible measurement type for computing the radius' )
 
@@ -2730,21 +2747,21 @@ def getNSphereRadius( n, k ):
 #//******************************************************************************
 
 def getNSphereSurfaceArea( n, k ):
-    if n < 3:
-        raise ValueError( 'the number of dimensions must be at least 3' )
-
     if not isinstance( k, Measurement ):
         return getNSphereSurfaceArea( n, Measurement( k, 'length' ) )
+
+    if n < 3:
+        raise ValueError( 'the number of dimensions must be at least 3' )
 
     measurementType = k.getType( )
 
     if measurementType == { 'length' : 1 }:
         return fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
-                           gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k.scalar, fsub( n, 1 ) ) )
+                           gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, fsub( n, 1 ) ) )
     elif measurementType == { 'length' : 2 }:
         return k
     elif measurementType == { 'length' : 3 }:
-        return 3  # formula to convert volume to surface area
+        return 3
     else:
         raise ValueError( 'incompatible measurement type for computing the surface area' )
 
@@ -2768,13 +2785,13 @@ def getNSphereVolume( n, k ):
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     if not isinstance( k, Measurement ):
-        return getNSphereSurfaceArea( n, Measurement( k, 'length' ) )
+        return getNSphereVolume( n, Measurement( k, 'length' ) )
 
     measurementType = k.getType( )
 
     if measurementType == { 'length' : 1 }:
         return fmul( fdiv( power( pi, fdiv( n, 2 ) ),
-                           gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k.scalar, n ) )
+                           gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, n ) )
     elif measurementType == { 'length' : 2 }:
         return 2   # formula for converting surface area to volume
     elif measurementType == { 'length' : 3 }:
@@ -4147,7 +4164,7 @@ def dumpOperators( ):
 #//
 #//  convertToSignedInt
 #//
-#//  two's compliment logic is effect here
+#//  two's compliment logic is in effect here
 #//
 #//******************************************************************************
 
@@ -4832,24 +4849,17 @@ callers = [
 #//
 #//******************************************************************************
 
-def convertUnits( valueList ):
-    global unitStack
+def convertUnits( unit1, unit2 ):
     global unitConversionMatrix
-
-    unit2 = unitStack.pop( )
-    unit1 = unitStack.pop( )
 
     #print( unit1 )
     #print( unit2 )
+
     conversion = unit1.getConversion( unit2 )
 
     #print( conversion )
 
-    # this way you can do a conversion without specifying an amount... it will default to 1
-    if len( valueList ) == 0:
-        valueList.append( mpmathify( 1 ) )
-
-    return evaluateOneArgFunction( lambda i: fmul( i, conversion ), valueList.pop( ) )
+    return Measurement( fmul( unit1, conversion ), unit2.types )
 
 
 #//******************************************************************************
@@ -4917,7 +4927,7 @@ operatorAliases = {
     'hex'         : 'hexagonal',
     'hex?'        : 'hexagonal?',
     'hyper4'      : 'tetrate',
-    'int'         : 'integer',
+    'int'         : 'long',
     'inv'         : 'reciprocal',
     'isdiv'       : 'isdivisible',
     'issqr'       : 'issquare',
@@ -4982,7 +4992,8 @@ operatorAliases = {
     'twin'        : 'twinprime',
     'twin?'       : 'twinprime?',
     'twin_'       : 'twinprime_',
-    'uint'        : 'uinteger',
+    'uint'        : 'ulong',
+    'unsigned'    : 'uinteger',
     'zeroes'      : 'zero',
     '^'           : 'power',
     '~'           : 'not',
@@ -5027,7 +5038,6 @@ listOperators = {
     'base'          : [ interpretAsBase, 2 ],
     'cf'            : [ convertFromContinuedFraction, 1 ],
     'count'         : [ countElements, 1 ],
-    'convert'       : [ convertUnits, 0 ],
     'diffs'         : [ getListDiffs, 1 ],
     'gcd'           : [ getGCD, 1 ],
     'interleave'    : [ interleave, 2 ],
@@ -5106,6 +5116,7 @@ operators = {
     'cdecagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 10 ), 1 ],
     'ceiling'       : [ ceil, 1 ],
     'champernowne'  : [ getChampernowne, 0 ],
+    'char'          : [ lambda n: convertToSignedInt( n , 8 ), 1 ],
     'cheptagonal'   : [ lambda n: getCenteredPolygonalNumber( n, 7 ), 1 ],
     'cheptagonal?'  : [ lambda n: findCenteredPolygonalNumber( n, 7 ), 1 ],
     'chexagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 6 ), 1 ],
@@ -5113,6 +5124,7 @@ operators = {
     'cnonagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 9 ), 1 ],
     'coctagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 8 ), 1 ],
     'coctagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 8 ), 1 ],
+    'convert'       : [ convertUnits, 2 ],
     'copeland'      : [ getCopelandErdos, 0 ],
     'cos'           : [ cos, 1 ],
     'cosh'          : [ cosh, 1 ],
@@ -5139,6 +5151,7 @@ operators = {
     'divide'        : [ fdiv, 2 ],
     'divisors'      : [ getDivisors, 1 ],
     'dodecahedral'  : [ lambda n : polyval( [ 9/2, -9/2, 1, 0 ], n ), 1 ],
+    'double'        : [ lambda n : sum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) ), 1 ],
     'doublebal'     : [ getNthDoubleBalancedPrime, 1 ],
     'doublebal_'    : [ getNthDoubleBalancedPrimeList, 1 ],
     'doublefac'     : [ fac2, 1 ],
@@ -5152,6 +5165,7 @@ operators = {
     'factor'        : [ lambda i: getExpandedFactorList( factor( i ) ), 1 ],
     'factorial'     : [ fac, 1 ],
     'fibonacci'     : [ fib, 1 ],
+    'float'         : [ lambda n : sum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1 ],
     'floor'         : [ floor, 1 ],
     'fraction'      : [ interpretAsFraction, 2 ],
     'fromunixtime'  : [ lambda n: [ time.localtime( n ).tm_year, time.localtime( n ).tm_mon,
@@ -5187,13 +5201,15 @@ operators = {
     'khinchin'      : [ khinchin, 0 ],
     'lah'           : [ lambda n, k: fdiv( fmul( binomial( n, k ), fac( fsub( n, 1 ) ) ),
                                            fac( fsub( k, 1 ) ) ), 2 ],
-    'lambertw'      : [ lambertw, 1 ],
     'kynea'         : [ lambda n : fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ), 1 ],
+    'lambertw'      : [ lambertw, 1 ],
     'leyland'       : [ lambda x, y : fadd( power( x, y ), power( y, x ) ), 2 ],
     'lgamma'        : [ loggamma, 1 ],
     'li'            : [ li, 1 ],
     'ln'            : [ ln, 1 ],
     'log10'         : [ log10, 1 ],
+    'long'          : [ lambda n: convertToSignedInt( n , 32 ), 1 ],
+    'longlong'      : [ lambda n: convertToSignedInt( n , 64 ), 1 ],
     'log2'          : [ lambda n: log( n, 2 ), 1 ],
     'logxy'         : [ log, 2 ],
     'lucas'         : [ getNthLucas, 1 ],
@@ -5296,6 +5312,7 @@ operators = {
     'sinh'          : [ sinh, 1 ],
     'shiftleft'     : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x << y ), 2 ],
     'shiftright'    : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x >> y ), 2 ],
+    'short'         : [ lambda n: convertToSignedInt( n , 16 ), 1 ],
     'solve2'        : [ solveQuadraticPolynomial, 3 ],
     'solve3'        : [ solveCubicPolynomial, 4 ],
     'solve4'        : [ solveQuarticPolynomial, 5 ],
@@ -5327,10 +5344,11 @@ operators = {
     'twinprime'     : [ getNthTwinPrime, 1 ],
     'twinprime_'    : [ getNthTwinPrimeList, 1 ],
     'uinteger'      : [ lambda n, k: int( fmod( n, power( 2, k ) ) ), 2 ],
+    'ulong'         : [ lambda n: int( fmod( n, power( 2, 32 ) ) ), 1 ],
+    'ulonglong'     : [ lambda n: int( fmod( n, power( 2, 64 ) ) ), 1 ],
     'unitroots'     : [ lambda i: unitroots( int( i ) ), 1 ],
-    'fromunixtime'  : [ lambda n: [ time.localtime( n ).tm_year, time.localtime( n ).tm_mon,
-                                    time.localtime( n ).tm_mday, time.localtime( n ).tm_hour,
-                                    time.localtime( n ).tm_min, time.localtime( n ).tm_sec ], 1 ],
+    'ushort'        : [ lambda n: int( fmod( n, power( 2, 16 ) ) ), 1 ],
+    'uchar'         : [ lambda n: int( fmod( n, power( 2, 8 ) ) ), 1 ],
     'xor'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
     'zeta'          : [ zeta, 1 ],
     '_dumpbal'      : [ dumpBalancedPrimes, 0 ],
@@ -6130,7 +6148,11 @@ def main( ):
                        '.  Are your arguments in the right order?' )
                 break
         elif term in unitOperators:
-            unitStack.append( Measurement( term ) )
+            if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
+                currentValueList.append( Measurement( 1, term ) )
+            else:
+                value = Measurement( currentValueList.pop( ), term )
+                currentValueList.append( value )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
 
@@ -6202,9 +6224,9 @@ def main( ):
             #except TypeError as error:
             #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
             #    break
-            except IndexError as error:
-                print( 'rpn:  index error for operator at arg ' + format( index ) +
-                       '.  Are your arguments in the right order?' )
+            #except IndexError as error:
+            #    print( 'rpn:  index error for operator at arg ' + format( index ) +
+            #           '.  Are your arguments in the right order?' )
                 break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )

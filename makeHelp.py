@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-RPN_VERSION = '5.3.0'
+RPN_VERSION = '5.4.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -408,24 +408,6 @@ Bitwise operators force all arguments to integers by truncation if necessary.
 #//******************************************************************************
 
 operatorHelp = {
-    'dup'       : [
-'modifiers', 'duplicates a argument n k times',
-'''
-''',
-'''
-''' ],
-    'flatten'   : [
-'listOperators', 'flattens a nested lists in list n to a single level',
-'''
-''',
-'''
-''' ],
-    'unlist'    : [
-'modifiers', 'expands list n to individual arguments',
-'''
-''',
-'''
-''' ],
     '['         : [
 'modifiers', 'begins a list',
 '''
@@ -434,261 +416,6 @@ operatorHelp = {
 ''' ],
     ']'         : [
 'modifiers', 'ends a list',
-'''
-''',
-'''
-''' ],
-    'append'        : [
-'listOperators', 'appends the second list on to the first list',
-'''
-''',
-'''
-''' ],
-    'altsign'       : [
-'listOperators', 'alternates signs in the list by making every even element negative',
-'''
-''',
-'''
-''' ],
-    'altsign2'      : [
-'listOperators', 'alternates signs in the list by making every odd element negative',
-'''
-''',
-'''
-''' ],
-    'altsum'        : [
-'arithmetic', 'calculates the alternating sum of list n (addition first)',
-'''
-''',
-'''
-''' ],
-    'altsum2'       : [
-'arithmetic', 'calaculates the alternating sum of list n (subtraction first)',
-'''
-''',
-'''
-''' ],
-    'base'          : [
-'number_theory', 'interpret list elements as base k digits',
-'''
-''',
-'''
-''' ],
-    'cf'            : [
-'number_theory', 'interprets list n as a continued fraction',
-'''
-''',
-'''
-''' ],
-    'count'         : [
-'listOperators', 'counts the elements of list n',
-'''
-''',
-'''
-''' ],
-    'convert'       : [
-'conversion', 'perform unit conversion',
-'''
-This is a special operator that doesn't require an operand.  If there is no
-numerical value, then rpn will assume a value of 1.
-''',
-'''
-''' ],
-    'diffs'         : [
-'listOperators', 'returns a list with the differences between successive elements of list n',
-'''
-''',
-'''
-''' ],
-    'gcd'           : [
-'arithmetic', 'calculates the greatest common denominator of elements in list n',
-'''
-''',
-'''
-''' ],
-    'interleave'    : [
-'listOperators', 'interleaves lists n and k into a single list',
-'''
-''',
-'''
-''' ],
-    'intersection'  : [
-'listOperators', 'returns the intersection of two lists',
-'''
-''',
-'''
-''' ],
-    'linearrecur'   : [
-'arithmetic', 'calculates the nth value of a linear recurrence specified by a list of seeds and of factors'
-'''
-''',
-'''
-''' ],
-    'max'       : [
-'arithmetic', 'returns the largest value in list n',
-'''
-''',
-'''
-''' ],
-    'maxindex'  : [
-'arithmetic', 'returns the index of largest value in list n',
-'''
-''',
-'''
-''' ],
-    'mean'      : [
-'arithmetic', 'calculates the mean of values in list n',
-'''
-''',
-'''
-''' ],
-    'min'       : [
-'arithmetic', 'returns the smallest value in list n',
-'''
-''',
-'''
-''' ],
-    'minindex'  : [
-'arithmetic', 'returns the index of smallest value in list n',
-'''
-''',
-'''
-''' ],
-    'nonzero'   : [
-'listOperators', 'returns the indices of elements of list n that are not zero',
-'''
-''',
-'''
-''' ],
-    'polyadd'   : [
-'algebra', 'interpret two lists as polynomials and add them',
-'''
-''',
-'''
-''' ],
-    'polymul'   : [
-'algebra', 'interpret two lists as polynomials and multiply them',
-'''
-''',
-'''
-''' ],
-    'polyprod'  : [
-'algebra', 'interprets elements of list n as polynomials and calculates their product',
-'''
-''',
-'''
-''' ],
-    'polysum'   : [
-'algebra', 'interprets elements of list n as polynomials and calculates their sum',
-'''
-''',
-'''
-''' ],
-    'polyval'   : [
-'algebra', 'interpret the list as a polynomial and evaluate it for value k',
-'''
-''',
-'''
-''' ],
-    'product'   : [
-'arithmetic', 'calculates the product of values in list n',
-'''
-''',
-'''
-''' ],
-    'result'     : [
-'special', 'load previous result',
-'''
-''',
-'''
-''' ],
-    'solve'     : [
-'algebra', 'interprets list n as a polynomial and solves for its roots',
-'''
-''',
-'''
-''' ],
-    'sort'      : [
-'listOperators', 'sort the elements of list n numerically in ascending order',
-'''
-The 'sort' operator gets applied recursively, so all sublists will be sorted as
-well.  I might have to reconsider that.
-''',
-'''
-c:\>rpn [ rand rand rand ] sort
-[ 0.782934612763, 0.956555810967, 0.97728726503 ]
-
-c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
-[ [ 10 ], [ 9 ], [ 8 ], [ 5, 6, 7 ], [ 4 ], [ 3 ], [ 1, 2 ], [ 0 ], [ -1 ] ]
-
-c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] flatten sort
-[ -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-''' ],
-    'sortdesc'  : [
-'listOperators', 'sorts the elements of list n numerically in descending order',
-'''
-The 'sortdesc' operator works exactly like the sort operator, sorting the list
-(and all sublists), except in descending order.
-''',
-'''
-c:\>rpn 1 70 6 range2 sortdesc
-[ 67, 61, 55, 49, 43, 37, 31, 25, 19, 13, 7, 1 ]
-
-c:\>rpn 1 20 range countdiv sortdesc
-[ 6, 6, 6, 5, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1 ]
-''' ],
-    'stddev'    : [
-'arithmetic', 'calculates the standard deviation of values in list n',
-'''
-''',
-'''
-c:\>rpn 1 50 range countdiv stddev
-2.14485430741
-''' ],
-    'sum'       : [
-'arithmetic', 'calculates the sum of values in list n',
-'''
-''',
-'''
-''' ],
-    'tounixtime'    : [
-'conversion', 'converts from date-time list to Unix time (seconds since epoch)'
-'''
-''',
-'''
-''' ],
-    'tower'     : [
-'powers_and_roots', 'calculates list n as a power tower',
-'''
-''',
-'''
-''' ],
-    'tower2'    : [
-'powers_and_roots', 'calculates list n as a right-associative power tower',
-'''
-''',
-'''
-''' ],
-    'union'     : [
-'listOperators', 'returns the union of two lists',
-'''
-''',
-'''
-''' ],
-    'unique'    : [
-'listOperators', 'replaces list n with a list of its unique elements',
-'''
-''',
-'''
-''' ],
-    'unpack'    : [
-'number_theory', 'unpack an integer value into bit fields',
-'''
-''',
-'''
-''' ],
-    'zero'          : [
-'listOperators', 'returns a list of the indices of elements in list n that are zero',
 '''
 ''',
 '''
@@ -758,6 +485,30 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''',
 '''
 ''' ],
+    'altsign'       : [
+'listOperators', 'alternates signs in the list by making every even element negative',
+'''
+''',
+'''
+''' ],
+    'altsign2'      : [
+'listOperators', 'alternates signs in the list by making every odd element negative',
+'''
+''',
+'''
+''' ],
+    'altsum'        : [
+'arithmetic', 'calculates the alternating sum of list n (addition first)',
+'''
+''',
+'''
+''' ],
+    'altsum2'       : [
+'arithmetic', 'calaculates the alternating sum of list n (subtraction first)',
+'''
+''',
+'''
+''' ],
     'and'           : [
 'logical', 'calculates the bitwise \'and\' of n and k',
 '''
@@ -774,6 +525,12 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''' ],
     'aperynum'      : [
 'comnbinatorics', 'calculates the nth Apery number',
+'''
+''',
+'''
+''' ],
+    'append'        : [
+'listOperators', 'appends the second list on to the first list',
 '''
 ''',
 '''
@@ -822,6 +579,12 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''' ],
     'balanced_'     : [
 'prime_numbers', 'calculate the nth set of balanced primes',
+'''
+''',
+'''
+''' ],
+    'base'          : [
+'number_theory', 'interpret list elements as base k digits',
 '''
 ''',
 '''
@@ -898,8 +661,20 @@ number.
 ''',
 '''
 ''' ],
+    'cf'            : [
+'number_theory', 'interprets list n as a continued fraction',
+'''
+''',
+'''
+''' ],
     'champernowne'  : [
 'constants', 'returns the Champernowne constant',
+'''
+''',
+'''
+''' ],
+    'char'          : [
+'conversion', 'converts the value to a signed 8-bit integer',
 '''
 ''',
 '''
@@ -976,6 +751,14 @@ number.
 ''',
 '''
 ''' ],
+    'convert'       : [
+'conversion', 'perform unit conversion',
+'''
+This is a special operator that doesn't require an operand.  If there is no
+numerical value, then rpn will assume a value of 1.
+''',
+'''
+''' ],
     'copeland'      : [
 'constants', 'returns the Copeland Erdos constant',
 '''
@@ -1002,6 +785,12 @@ number.
 ''' ],
     'coth'          : [
 'trigonometry', 'calculates the hyperbolic cotangent of n',
+'''
+''',
+'''
+''' ],
+    'count'         : [
+'listOperators', 'counts the elements of list n',
 '''
 ''',
 '''
@@ -1146,6 +935,12 @@ number.
 ''',
 '''
 ''' ],
+    'diffs'         : [
+'listOperators', 'returns a list with the differences between successive elements of list n',
+'''
+''',
+'''
+''' ],
     'divide'        : [
 'arithmetic', 'divides n by k',
 '''
@@ -1178,6 +973,12 @@ number.
 ''' ],
     'doublefac'     : [
 'number_theory', 'calculates the double factorial of n',
+'''
+''',
+'''
+''' ],
+    'dup'       : [
+'modifiers', 'duplicates a argument n k times',
 '''
 ''',
 '''
@@ -1251,6 +1052,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'flatten'   : [
+'listOperators', 'flattens a nested lists in list n to a single level',
+'''
+''',
+'''
+''' ],
     'floor'         : [
 'arithmetic', 'calculates the next lowest integer for n',
 '''
@@ -1271,6 +1078,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''' ],
     'gamma'         : [
 'number_theory', 'calculates the gamma function for n',
+'''
+''',
+'''
+''' ],
+    'gcd'           : [
+'arithmetic', 'calculates the greatest common denominator of elements in list n',
 '''
 ''',
 '''
@@ -1395,6 +1208,18 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'interleave'    : [
+'listOperators', 'interleaves lists n and k into a single list',
+'''
+''',
+'''
+''' ],
+    'intersection'  : [
+'listOperators', 'returns the intersection of two lists',
+'''
+''',
+'''
+''' ],
     'isdivisible'   : [
 'arithmetic', 'is n divisible by k?',
 '''
@@ -1473,6 +1298,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'linearrecur'   : [
+'arithmetic', 'calculates the nth value of a linear recurrence specified by a list of seeds and of factors'
+'''
+''',
+'''
+''' ],
     'ln'            : [
 'logarithms', 'calculates the natural logarithm of n',
 '''
@@ -1497,6 +1328,18 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'long'          : [
+'conversion', 'converts the value to a signed 32-bit integer',
+'''
+''',
+'''
+''' ],
+    'longlong'      : [
+'conversion', 'converts the value to a signed 64-bit integer',
+'''
+''',
+'''
+''' ],
     'lucas'         : [
 'number_theory', 'calculates the nth Lucas number',
 '''
@@ -1509,8 +1352,38 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'max'       : [
+'arithmetic', 'returns the largest value in list n',
+'''
+''',
+'''
+''' ],
+    'maxindex'  : [
+'arithmetic', 'returns the index of largest value in list n',
+'''
+''',
+'''
+''' ],
+    'mean'      : [
+'arithmetic', 'calculates the mean of values in list n',
+'''
+''',
+'''
+''' ],
     'mertens'       : [
 'constants', 'returns Merten\'s constant',
+'''
+''',
+'''
+''' ],
+    'min'       : [
+'arithmetic', 'returns the smallest value in list n',
+'''
+''',
+'''
+''' ],
+    'minindex'  : [
+'arithmetic', 'returns the index of smallest value in list n',
 '''
 ''',
 '''
@@ -1596,6 +1469,12 @@ c:\>rpn 3 expphi 2 expphi -
 'polygonal_numbers', 'calculates the nth nonagonal triangular number',
 '''
 'nonatri' calculates the nth number that is both nonagonal and triangular.
+''',
+'''
+''' ],
+    'nonzero'   : [
+'listOperators', 'returns the indices of elements of list n that are not zero',
+'''
 ''',
 '''
 ''' ],
@@ -1791,6 +1670,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'polyadd'   : [
+'algebra', 'interpret two lists as polynomials and add them',
+'''
+''',
+'''
+''' ],
     'polyarea'   : [
 'trigonometry', 'calculates the area of an regular n-sided polygon with sides of unit length',
 '''
@@ -1821,8 +1706,26 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'polymul'   : [
+'algebra', 'interpret two lists as polynomials and multiply them',
+'''
+''',
+'''
+''' ],
     'polyprime'     : [
 'prime_numbers', 'returns the nth prime, recursively k times',
+'''
+''',
+'''
+''' ],
+    'polyprod'  : [
+'algebra', 'interprets elements of list n as polynomials and calculates their product',
+'''
+''',
+'''
+''' ],
+    'polysum'   : [
+'algebra', 'interprets elements of list n as polynomials and calculates their sum',
 '''
 ''',
 '''
@@ -1833,8 +1736,20 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'polyval'   : [
+'algebra', 'interpret the list as a polynomial and evaluate it for value k',
+'''
+''',
+'''
+''' ],
     'power'         : [
 'powers_and_roots', 'calculates the kth power of n',
+'''
+''',
+'''
+''' ],
+    'product'   : [
+'arithmetic', 'calculates the product of values in list n',
 '''
 ''',
 '''
@@ -1949,6 +1864,12 @@ given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
+    'result'     : [
+'special', 'load previous result',
+'''
+''',
+'''
+''' ],
     'rhombdodec'    : [
 'polyhedral_numbers', 'calculates the nth rhombic dodecahedral number',
 '''
@@ -2053,20 +1974,8 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
-    'spherearea'   : [
-'trigonometry', 'calculate the surface area of an sphere of size n (radius or volume)',
-'''
-''',
-'''
-''' ],
-    'sphereradius' : [
-'trigonometry', 'calculate the radius of an sphere of size n (surface area or volume)',
-'''
-''',
-'''
-''' ],
-    'spherevolume' : [
-'trigonometry', 'calculate the volume of an sphere of size n (radius or surface area)',
+    'short'         : [
+'conversion', 'converts the value to a signed 16-bit integer',
 '''
 ''',
 '''
@@ -2095,6 +2004,12 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
+    'solve'     : [
+'algebra', 'interprets list n as a polynomial and solves for its roots',
+'''
+''',
+'''
+''' ],
     'solve2'        : [
 'algebra', 'solves a quadratic equation',
 '''
@@ -2119,6 +2034,53 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
+    'sort'      : [
+'listOperators', 'sort the elements of list n numerically in ascending order',
+'''
+The 'sort' operator gets applied recursively, so all sublists will be sorted as
+well.  I might have to reconsider that.
+''',
+'''
+c:\>rpn [ rand rand rand ] sort
+[ 0.782934612763, 0.956555810967, 0.97728726503 ]
+
+c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
+[ [ 10 ], [ 9 ], [ 8 ], [ 5, 6, 7 ], [ 4 ], [ 3 ], [ 1, 2 ], [ 0 ], [ -1 ] ]
+
+c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] flatten sort
+[ -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+''' ],
+    'sortdesc'  : [
+'listOperators', 'sorts the elements of list n numerically in descending order',
+'''
+The 'sortdesc' operator works exactly like the sort operator, sorting the list
+(and all sublists), except in descending order.
+''',
+'''
+c:\>rpn 1 70 6 range2 sortdesc
+[ 67, 61, 55, 49, 43, 37, 31, 25, 19, 13, 7, 1 ]
+
+c:\>rpn 1 20 range countdiv sortdesc
+[ 6, 6, 6, 5, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1 ]
+''' ],
+    'spherearea'   : [
+'trigonometry', 'calculate the surface area of an sphere of size n (radius or volume)',
+'''
+''',
+'''
+''' ],
+    'sphereradius' : [
+'trigonometry', 'calculate the radius of an sphere of size n (surface area or volume)',
+'''
+''',
+'''
+''' ],
+    'spherevolume' : [
+'trigonometry', 'calculate the volume of an sphere of size n (radius or surface area)',
+'''
+''',
+'''
+''' ],
     'square'        : [
 'powers_and_roots', 'calculates the square of n',
 '''
@@ -2130,6 +2092,14 @@ This operator is the equivalent of 'n 3 root'.
 '''
 ''',
 '''
+''' ],
+    'stddev'    : [
+'arithmetic', 'calculates the standard deviation of values in list n',
+'''
+''',
+'''
+c:\>rpn 1 50 range countdiv stddev
+2.14485430741
 ''' ],
     'steloct'       : [
 'polyhedral_numbers', 'calculates the nth stella octangula number',
@@ -2145,6 +2115,12 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'subtract'      : [
 'arithmetic', 'subtracts k from n',
+'''
+''',
+'''
+''' ],
+    'sum'       : [
+'arithmetic', 'calculates the sum of values in list n',
 '''
 ''',
 '''
@@ -2199,6 +2175,24 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'thabit'        : [
 'number_theory', 'gets the nth Thabit number',
+'''
+''',
+'''
+''' ],
+    'tounixtime'    : [
+'conversion', 'converts from date-time list to Unix time (seconds since epoch)'
+'''
+''',
+'''
+''' ],
+    'tower'     : [
+'powers_and_roots', 'calculates list n as a power tower',
+'''
+''',
+'''
+''' ],
+    'tower2'    : [
+'powers_and_roots', 'calculates list n as a right-associative power tower',
 '''
 ''',
 '''
@@ -2275,8 +2269,38 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
+    'uchar'         : [
+'conversion', 'converts the value to an unsigned 8-bit integer',
+'''
+''',
+'''
+''' ],
     'uinteger'      : [
 'conversion', 'convert the value to an unsigned k-bit integer',
+'''
+''',
+'''
+''' ],
+    'ulong'         : [
+'conversion', 'converts the value to an unsigned 32-bit integer',
+'''
+''',
+'''
+''' ],
+    'ulonglong'         : [
+'conversion', 'converts the value to an unsigned 64-bit integer',
+'''
+''',
+'''
+''' ],
+    'union'     : [
+'listOperators', 'returns the union of two lists',
+'''
+''',
+'''
+''' ],
+    'unique'    : [
+'listOperators', 'replaces list n with a list of its unique elements',
 '''
 ''',
 '''
@@ -2287,14 +2311,32 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
-    'fromunixtime'  : [
-'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
+    'unlist'    : [
+'modifiers', 'expands list n to individual arguments',
+'''
+''',
+'''
+''' ],
+    'unpack'    : [
+'number_theory', 'unpack an integer value into bit fields',
+'''
+''',
+'''
+''' ],
+    'ushort'        : [
+'conversion', 'converts the value to an unsigned 16-bit integer',
 '''
 ''',
 '''
 ''' ],
     'xor'           : [
 'logical', 'calculates the bitwise \'xor\' of n and k',
+'''
+''',
+'''
+''' ],
+    'zero'          : [
+'listOperators', 'returns a list of the indices of elements in list n that are zero',
 '''
 ''',
 '''
