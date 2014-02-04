@@ -26,7 +26,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.4.0"
+RPN_VERSION = "4.5.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -70,11 +70,20 @@ def loadTable( fileName, default ):
     return primes
 
 
-def loadPrimes( ):
-    return loadTable( 'primes', { 3: 5 } )
+def loadSmallPrimes( ):
+    return loadTable( 'smallPrimes', { 3: 5 } )
+
+def loadLargePrimes( ):
+    return loadTable( 'largePrimes', { 3: 5 } )
 
 def loadTwinPrimes( ):
     return loadTable( 'twin_primes', { 3: 11 } )
+
+def loadBalancedPrimes( ):
+    return loadTable( 'balanced_primes', { 3: 11 } )
+
+def loadSophiePrimes( ):
+    return loadTable( 'sophie_primes', { 3: 5 } )
 
 def loadCousinPrimes( ):
     return loadTable( 'cousin_primes', { 2: 7 } )
@@ -101,11 +110,20 @@ def saveTable( fileName, var ):
     with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'wb' ) ) as pickleFile:
         pickle.dump( var, pickleFile )
 
-def savePrimes( primes ):
-    saveTable( 'primes', primes )
+def saveSmallPrimes( smallPrimes ):
+    saveTable( 'smallPrimes', smallPrimes )
+
+def saveLargePrimes( largePrimes ):
+    saveTable( 'largePrimes', largePrimes )
 
 def saveTwinPrimes( twinPrimes ):
     saveTable( 'twin_primes', twinPrimes )
+
+def saveBalancedPrimes( balancedPrimes ):
+    saveTable( 'balanced_primes', balancedPrimes )
+
+def saveSophiePrimes( sophiePrimes ):
+    saveTable( 'sophie_primes', sophiePrimes )
 
 def saveCousinPrimes( cousinPrimes ):
     saveTable( 'cousin_primes', cousinPrimes )
@@ -127,27 +145,48 @@ def saveQuadruplePrimes( quadPrimes ):
 #//******************************************************************************
 
 def makeTable( start, end, step, func, name ):
-    for i in range( int( start ), int( end ) + 1, int( step ) ):
-        p = func( i )
+    try:
+        for i in range( int( start ), int( end ) + 1, int( step ) ):
+            p = func( i )
 
-        if isinstance( p, list ):
-            p = p[ 0 ]
+            if isinstance( p, list ):
+                p = p[ 0 ]
 
-        print( name + ':  {:,} : {:,}'.format( i, p ) )
-        sys.stdout.flush( )
+            print( name + ':  {:,} : {:,}'.format( i, p ) )
+            sys.stdout.flush( )
+    except KeyboardInterrupt as error:
+        pass
 
     return end
 
-def makePrimes( start, end, step ):
-    global primes
+def makeSmallPrimes( start, end, step ):
+    global smallPrimes
+    end = makeTable( start, end, step, getNthPrime, 'small' )
+    saveSmallPrimes( smallPrimes )
+    return end
+
+def makeLargePrimes( start, end, step ):
+    global largePrimes
     end = makeTable( start, end, step, getNthPrime, 'prime' )
-    savePrimes( primes )
+    saveLargePrimes( largePrimes )
     return end
 
 def makeTwinPrimes( start, end, step ):
     global twinPrimes
     end = makeTable( start, end, step, getNthTwinPrimes, 'twin' )
     saveTwinPrimes( twinPrimes )
+    return end
+
+def makeBalancedPrimes( start, end, step ):
+    global balancedPrimes
+    end = makeTable( start, end, step, getNthBalancedPrimes, 'balanced' )
+    saveBalancedPrimes( balancedPrimes )
+    return end
+
+def makeSophiePrimes( start, end, step ):
+    global sophiePrimes
+    end = makeTable( start, end, step, getNthSophiePrime, 'sophie' )
+    saveSophiePrimes( sophiePrimes )
     return end
 
 def makeCousinPrimes( start, end, step ):
@@ -172,7 +211,7 @@ def makeQuadruplePrimes( start, end, step ):
     global quadPrimes
     end = makeTable( start, end, step, getNthQuadruplePrimes, 'quad' )
     saveQuadrupletPrimes( quadPrimes )
-    return edn
+    return end
 
 
 #//******************************************************************************
@@ -189,11 +228,20 @@ def dumpTable( loadFunc, name ):
 
     return max( [ key for key in var ] )
 
-def dumpPrimes( ):
-    return dumpTable( loadPrimes, 'prime' )
+def dumpSmallPrimes( ):
+    return dumpTable( loadSmallPrimes, 'smallPrime' )
+
+def dumpLargePrimes( ):
+    return dumpTable( loadLargePrimes, 'largePrime' )
 
 def dumpTwinPrimes( ):
     return dumpTable( loadTwinPrimes, 'twin' )
+
+def dumpBalancedPrimes( ):
+    return dumpTable( loadBalancedPrimes, 'balanced' )
+
+def dumpSophiePrimes( ):
+    return dumpTable( loadSophiePrimes, 'sophie' )
 
 def dumpCousinPrimes( ):
     return dumpTable( loadCousinPrimes, 'cousin' )
@@ -215,7 +263,8 @@ def dumpQuadruplePrimes( ):
 #//******************************************************************************
 
 def getNthPrime( arg ):
-    global primes
+    global smallPrimes
+    global largePrimes
 
     n = int( arg )
 
@@ -225,12 +274,18 @@ def getNthPrime( arg ):
     if n == 2:
         return 3
 
-    if n > 100:
-        if primes == { }:
-            primes = loadPrimes( )
+    if n > 1000000:
+        if largePrimes == { }:
+            largePrimes = loadLargePrimes( )
 
-        startingPlace = max( key for key in primes if key < n )
-        p = primes[ startingPlace ]
+        startingPlace = max( key for key in largePrimes if key < n )
+        p = largePrimes[ startingPlace ]
+    elif n > 100:
+        if smallPrimes == { }:
+            smallPrimes = loadSmalPrimes( )
+
+        startingPlace = max( key for key in smallPrimes if key < n )
+        p = smallPrimes[ startingPlace ]
     else:
         startingPlace = 3
         p = 5
@@ -244,7 +299,10 @@ def getNthPrime( arg ):
         if isPrime( p ):
             n -= 1
 
-    primes.update( { int( arg ) : p } )
+    if n > 1000000:
+        largePrimes.update( { int( arg ) : p } )
+    else:
+        smallPrimes.update( { int( arg ) : p } )
 
     return p
 
@@ -289,6 +347,93 @@ def getNthTwinPrimes( arg ):
     twinPrimes.update( { int( arg ) : p } )
 
     return [ p, p + 2 ]
+
+
+#//******************************************************************************
+#//
+#//  getNthBalancedPrimes
+#//
+#//******************************************************************************
+
+def getNthBalancedPrimes( arg ):
+    global balancedPrimes
+
+    n = int( arg )
+
+    if n == 1:
+        return [ 3, 5, 7 ]
+
+    if n > 100:
+        if balancedPrimes == { }:
+            balancedPrimes = loadBalancedPrimes( )
+
+        startingPlace = max( key for key in balancedPrimes if key < n )
+        p = balancedPrimes[ startingPlace ]
+    else:
+        startingPlace = 1
+        p = 11
+
+    prevPrime = secondPrevPrime = p
+
+    f = p % 6 == 5
+
+    while n > startingPlace:
+        p += 3 - f
+        f = -f
+
+        if isPrime( p ):
+            #print( secondPrevPrime, prevPrime, p )
+
+            if ( prevPrime - secondPrevPrime ) == ( p - prevPrime ):
+                n -= 1
+
+            if n > startingPlace:
+                secondPrevPrime = prevPrime
+                prevPrime = p
+
+    balancedPrimes.update( { int( arg ) : prevPrime } )
+
+    return [ secondPrevPrime, prevPrime, p  ]
+
+
+#//******************************************************************************
+#//
+#//  getNthSophiePrime
+#//
+#//******************************************************************************
+
+def getNthSophiePrime( arg ):
+    global sophiePrimes
+
+    n = int( arg )
+
+    if n == 1:
+        return 2
+    elif n == 2:
+        return 3
+
+    if n > 100:
+        if sophiePrimes == { }:
+            sophiePrimes = loadSophiePrimes( )
+
+        startingPlace = max( key for key in sophiePrimes if key <= n )
+        p = sophiePrimes[ startingPlace ]
+    else:
+        startingPlace = 3
+        p = 5
+
+    f = p % 6 == 5
+
+    while n > startingPlace:
+        p += 3 - f
+        f = -f
+
+        if isPrime( p ) and isPrime( 2 * p + 1 ):
+            n -= 1
+
+    sophiePrimes.update( { int( arg ) : p } )
+
+    return p
 
 
 #//******************************************************************************
@@ -1302,6 +1447,66 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
 
 #//******************************************************************************
 #//
+#//  getChampernowne
+#//
+#//******************************************************************************
+
+def getChampernowne( ):
+    global inputRadix
+
+    result = ''
+
+    count = 1
+
+    while len( result ) < mp.dps:
+        result += convertToBaseN( count, inputRadix, False, defaultNumerals )
+        count += 1
+
+    return convertToBase10( '0', result, inputRadix )
+
+
+#//******************************************************************************
+#//
+#//  getCopelandErdos
+#//
+#//******************************************************************************
+
+def getCopelandErdos( ):
+    result = ''
+
+    count = 1
+
+    while len( result ) < mp.dps:
+        result += str( getNthPrime( count ) )
+        count += 1
+
+    return convertToBase10( '0', result, 10 )
+
+
+#//******************************************************************************
+#//
+#//  makeImaginary
+#//
+#//******************************************************************************
+
+def makeImaginary( n ):
+    return mpc( real='0.0', imag=n )
+
+
+#//******************************************************************************
+#//
+#//  isSquare
+#//
+#//******************************************************************************
+
+def isSquare( n ):
+    sqrt_n = sqrt( n )
+
+    return 1 if sqrt_n == floor( sqrt_n ) else 0
+
+
+#//******************************************************************************
+#//
 #//  solvePolynomial
 #//
 #//******************************************************************************
@@ -1375,74 +1580,48 @@ def getAlternatingSum2( args ):
 
 #//******************************************************************************
 #//
-#//  getChampernowne
-#//
-#//******************************************************************************
-
-def getChampernowne( ):
-    global inputRadix
-
-    result = ''
-
-    count = 1
-
-    while len( result ) < mp.dps:
-        result += convertToBaseN( count, inputRadix, False, defaultNumerals )
-        count += 1
-
-    return convertToBase10( '0', result, inputRadix )
-
-
-#//******************************************************************************
-#//
-#//  getCopelandErdos
-#//
-#//******************************************************************************
-
-def getCopelandErdos( ):
-    result = ''
-
-    count = 1
-
-    while len( result ) < mp.dps:
-        result += str( getNthPrime( count ) )
-        count += 1
-
-    return convertToBase10( '0', result, 10 )
-
-
-#//******************************************************************************
-#//
 #//  dumpStats
 #//
 #//******************************************************************************
 
 def dumpStats( ):
-    print( '%d operators\n' % ( len( modifiers ) + len( list_operators ) +
-                                len( list_operators_2 ) + len( operators ) ) )
+    print( '{:10,} operators\n'.format( len( modifiers ) + len( list_operators ) +
+                                        len( list_operators_2 ) + len( operators ) ) )
 
-    primes = loadPrimes( )
-    print( '{:10,} primes,            max: {:,}'.format( len( primes ),
-                                                         max( [ key for key in primes ] ) ) )
+    primes = loadSmallPrimes( )
+    print( '{:10,} small primes,          max: {:,}'.format( len( smallPrimes ),
+                                                         max( [ key for key in smallPrimes ] ) ) )
+
+    primes = loadLargePrimes( )
+    print( '{:10,} large primes,          max: {:,}'.format( len( largePrimes ),
+                                                         max( [ key for key in largePrimes ] ) ) )
 
     twinPrimes = loadTwinPrimes( )
-    print( '{:10,} twin primes,       max: {:,}'.format( len( twinPrimes ),
+    print( '{:10,} twin primes,           max: {:,}'.format( len( twinPrimes ),
                                                          max( [ key for key in twinPrimes ] ) ) )
 
+    balancedPrimes = loadBalancedPrimes( )
+    print( '{:10,} balanced primes        max: {:,}'.format( len( balancedPrimes ),
+                                                         max( [ key for key in balancedPrimes ] ) ) )
+
+    sophiePrimes = loadSophiePrimes( )
+    print( '{:10,} Sophie Germain primes, max: {:,}'.format( len( sophiePrimes ),
+                                                         max( [ key for key in sophiePrimes ] ) ) )
+
     cousinPrimes = loadCousinPrimes( )
-    print( '{:10,} cousin primes,     max: {:,}'.format( len( cousinPrimes ),
+    print( '{:10,} cousin primes,         max: {:,}'.format( len( cousinPrimes ),
                                                          max( [ key for key in cousinPrimes ] ) ) )
 
     sexyPrimes = loadSexyPrimes( )
-    print( '{:10,} sexy primes,       max: {:,}'.format( len( sexyPrimes ),
+    print( '{:10,} sexy primes,           max: {:,}'.format( len( sexyPrimes ),
                                                          max( [ key for key in sexyPrimes ] ) ) )
 
     tripletPrimes = loadTripletPrimes( )
-    print( '{:10,} triplet primes,    max: {:,}'.format( len( tripletPrimes ),
+    print( '{:10,} triplet primes,        max: {:,}'.format( len( tripletPrimes ),
                                                          max( [ key for key in tripletPrimes ] ) ) )
 
     quadPrimes = loadQuadruplePrimes( )
-    print( '{:10,} quadruplet primes, max: {:,}\n'.format( len( quadPrimes ),
+    print( '{:10,} quadruplet primes,     max: {:,}\n'.format( len( quadPrimes ),
                                                            max( [ key for key in quadPrimes ] ) ) )
 
     return [ int( i ) for i in RPN_VERSION.split( '.' ) ]
@@ -1679,6 +1858,9 @@ list_operators = {
     'average'   : lambda i: fdiv( fsum( i ), len( i ) ),
     'avg'       : lambda i: fdiv( fsum( i ), len( i ) ),
     'cf'        : convertFromContinuedFraction,
+    'zeroes'    : lambda i: [ index for index, e in enumerate( i ) if e == 0 ],
+    'nonzero'   : lambda i: [ index for index, e in enumerate( i ) if e != 0 ],
+    'nonzeroes' : lambda i: [ index for index, e in enumerate( i ) if e != 0 ],
     'mean'      : lambda i: fdiv( fsum( i ), len( i ) ),
     'prod'      : fprod,
     'product'   : fprod,
@@ -1724,6 +1906,8 @@ operators = {
     'asinh'       : [ asinh, 1 ],
     'atan'        : [ atan, 1 ],
     'atanh'       : [ atanh, 1 ],
+    'bal'         : [ getNthBalancedPrimes, 1 ],
+    'balanced'    : [ getNthBalancedPrimes, 1 ],
     'bernoulli'   : [ bernoulli, 1 ],
     'binomial'    : [ binomial, 2 ],
     'catalan'     : [ catalan, 0 ],
@@ -1764,8 +1948,11 @@ operators = {
     'hyper4_2'    : [ tetrateLarge, 2 ],
     'hyperfac'    : [ hyperfac, 1 ],
     'hypot'       : [ hypot, 2 ],
+    'i'           : [ makeImaginary, 1 ],
     'inv'         : [ lambda i: fdiv( 1, i ), 1 ],
     'isprime'     : [ lambda i: 1 if isPrime( i ) else 0, 1 ],
+    'issqr'       : [ isSquare, 1 ],
+    'issquare'    : [ isSquare, 1 ],
     'itoi'        : [ lambda: exp( fmul( -0.5, pi ) ), 0 ],
     'khinchin'    : [ khinchin, 0 ],
     'lambertw'    : [ lambertw, 1 ],
@@ -1813,6 +2000,7 @@ operators = {
     'solve2'      : [ solveQuadraticPolynomial, 3 ],
     'solve3'      : [ solveCubicPolynomial, 4 ],
     'solve4'      : [ solveQuarticPolynomial, 5 ],
+    'sophie'      : [ getNthSophiePrime, 1 ],
     'sqr'         : [ lambda i: power( i, 2 ), 1 ],
     'sqrt'        : [ sqrt, 1 ],
     'sqtri'       : [ getNthSquareTriangularNumber, 1 ],
@@ -1834,16 +2022,22 @@ operators = {
     'xor'         : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
     'zeta'        : [ zeta, 1 ],
     '^'           : [ power, 2 ],
+    '_dumpbal'    : [ dumpBalancedPrimes, 0 ],
     '_dumpcousin' : [ dumpCousinPrimes, 0 ],
-    '_dumpprimes' : [ dumpPrimes, 0 ],
+    '_dumpsmall'  : [ dumpSmallPrimes, 0 ],
+    '_dumpprimes' : [ dumpLargePrimes, 0 ],
     '_dumpquad'   : [ dumpQuadruplePrimes, 0 ],
     '_dumpsexy'   : [ dumpSexyPrimes, 0 ],
+    '_dumpsophie' : [ dumpSophiePrimes, 0 ],
     '_dumptriplet': [ dumpTripletPrimes, 0 ],
     '_dumptwin'   : [ dumpTwinPrimes, 0 ],
+    '_makebal'    : [ makeBalancedPrimes, 3 ],
     '_makecousin' : [ makeCousinPrimes, 3 ],
-    '_makeprimes' : [ makePrimes, 3 ],
+    '_makesmall'  : [ makeSmallPrimes, 3 ],
+    '_makeprimes' : [ makeLargePrimes, 3 ],
     '_makequad'   : [ makeQuadruplePrimes, 3 ],
     '_makesexy'   : [ makeSexyPrimes, 3 ],
+    '_makesophie' : [ makeSophiePrimes, 3 ],
     '_maketriplet': [ makeTripletPrimes, 3 ],
     '_maketwin'   : [ makeTwinPrimes, 3 ],
     '_stats'      : [ dumpStats, 0 ],
@@ -2227,6 +2421,11 @@ Construct the square root of two from a continued fraction:
     c:\>rpn -p20 [ 1 2 30 ] dup cf
     1.41421356237309504880
 
+Calculations with lists:
+
+    List of primes in the first 50 fibonacci numbers:
+        rpn [ 1 50 range ] fib isprime nonzero 1 + fib
+
 Calculate various constants:
 
     Polya Random Walk Constant
@@ -2327,6 +2526,9 @@ Calculate various constants:
         = rpn -a7 1 [ 1 100000 primes ] sqr 1/x - prod
         = rpn 2 zeta 1/x
 
+    Infinite Tetration of i
+        = rpn -p20 [ 1 i 1000 dup ] tower
+
 ''' )
 
 
@@ -2338,27 +2540,33 @@ Calculate various constants:
 
 def main( ):
     global addToListArgument
+    global balancedPrimes
     global bitwiseGroupSize
     global cousinPrimes
     global dataPath
     global inputRadix
+    global largePrimes
     global nestedListLevel
     global numerals
-    global primes
     global quadPrimes
     global sexyPrimes
+    global smallPrimes
+    global sophiePrimes
     global tripletPrimes
     global twinPrimes
 
     # initialize globals
     nestedListLevel = 0
 
-    primes = { }
-    twinPrimes = { }
+    balancedPrimes = { }
     cousinPrimes = { }
-    sexyPrimes = { }
-    tripletPrimes = { }
+    smallPrimes = { }
+    largePrimes = { }
     quadPrimes = { }
+    sexyPrimes = { }
+    sophiePrimes = { }
+    tripletPrimes = { }
+    twinPrimes = { }
 
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' )
 
