@@ -28,7 +28,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.7.0'
+PROGRAM_VERSION = '5.7.1'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2013, Rick Gutleber (rickg@his.com)'
 
@@ -75,7 +75,7 @@ class UnitInfo( ):
 #//
 #//  unitOperators
 #//
-#//  unit name : UnitInfo
+#//  unit name : unitType, representation, plural, abbrev, aliases
 #//
 #//******************************************************************************
 
@@ -122,7 +122,7 @@ unitOperators = {
     'erg' :
         UnitInfo( 'energy', 'erg', 'ergs', '', [ ] ),
 
-    'horsepower*second' :
+    'horsepower-second' :
         UnitInfo( 'energy', 'horsepower*second', 'horsepower-seconds', 'hps', [ ] ),
 
     'joule' :
@@ -134,7 +134,7 @@ unitOperators = {
     'ton_of_TNT' :
         UnitInfo( 'energy', 'ton_of_TNT', 'tons_of_TNT', 'tTNT', [ ] ),
 
-    'watt*second' :
+    'watt-second' :
         UnitInfo( 'energy', 'watt*second', 'watt-seconds', 'Ws', [ ] ),
 
     # length
@@ -160,9 +160,6 @@ unitOperators = {
     'league' :
         UnitInfo( 'length', 'league', 'leagues', '', [ ] ),
 
-    'light-second' :
-        UnitInfo( 'length', 'speed_of_light*second', 'light-seconds', '', [ ] ),
-
     'meter' :
         UnitInfo( 'length', 'meter', 'meters', 'm', [ ] ),
 
@@ -178,7 +175,7 @@ unitOperators = {
     'rod' :
         UnitInfo( 'length', 'rod', 'rods', '', [ ] ),
 
-    'speed_of_light*second' :
+    'speed_of_light-second' :
         UnitInfo( 'length', 'speed_of_light*second', 'light-seconds', '', [ ] ),
 
     'yard' :
@@ -349,9 +346,9 @@ metricUnits = [
     ( 'joule',          'joules',           'J',    [ ], [ ] ),
     ( 'electron-volt',  'electron-volts',   'eV',   [ ], [ ] ),
     ( 'watt',           'watts',            'W',    [ ], [ ] ),
-    ( 'calorie',        'calories',         'Cal',  [ ], [ ] ),
+    ( 'calorie',        'calories',         'cal',  [ ], [ ] ),
     ( 'ton_of_TNT',     'tons_of_TNT',      'tTNT', [ ], [ ] ),
-    ( 'watt*second',    'watt-seconds',     'Ws',   [ ], [ ] ),
+    ( 'watt-second',    'watt-seconds',     'Ws',   [ ], [ ] ),
     ( 'pascal'      ,   'pascal',           'Pa',   [ ], [ ] ),
 ]
 
@@ -433,7 +430,7 @@ unitConversionMatrix = {
     ( 'gallon',                'fifth' )                           : '5',
     ( 'gallon',                'quart' )                           : '4',
     ( 'horsepower',            'watt' )                            : '745.69987158227022',
-    ( 'horsepower*second',     'joule' )                           : '745.69987158227022',
+    ( 'horsepower-second',     'joule' )                           : '745.69987158227022',
     ( 'hour',                  'minute' )                          : '60',
     ( 'inch',                  'meter' )                           : '0.0254',
     ( 'joule',                 'electron-volt' )                   : '6.24150974e18',
@@ -441,7 +438,7 @@ unitConversionMatrix = {
     ( 'joule',                 'kilogram*meter^2/second^2' )       : '1',
     ( 'joule/second',          'watt' )                            : '1',
     ( 'league',                'mile' )                            : '3',
-    ( 'speed_of_light*second', 'meter' )                           : '299792458',
+    ( 'speed_of_light-second', 'meter' )                           : '299792458',
     ( 'meter',                 'angstrom' )                        : '10000000000',
     ( 'meter',                 'micron' )                          : '1000000',
     ( 'mile',                  'foot' )                            : '5280',
@@ -469,8 +466,7 @@ unitConversionMatrix = {
     ( 'torr',                  'mmHg' )                            : '1',
     ( 'troy_ounce',            'gram' )                            : '31.1034768',
     ( 'troy_pound',            'pound' )                           : '12',
-    ( 'watt*second',           'joule' )                           : '1',
-    ( 'watt*second',           'watt*second' )                     : '1',
+    ( 'watt-second',           'joule' )                           : '1',
     ( 'week',                  'day' )                             : '7',
     ( 'yard',                  'foot' )                            : '3',
 }
@@ -544,7 +540,7 @@ def expandMetricUnits( ):
             newName = makeMetricUnit( prefix[ 0 ], unit[ 0 ] )
             newPlural = makeMetricUnit( prefix[ 0 ], unit[ 1 ] )
 
-            # constuct unit operator info (3 parts: unit type, plural name and alias list)
+            # constuct unit operator info
             unitOperators[ newName ] = \
                 UnitInfo( unitOperators[ unit[ 0 ] ].unitType, newName, newPlural,
                                          prefix[ 1 ] + unit[ 2 ], [ ] )
@@ -693,18 +689,22 @@ def initializeConversionMatrix( unitConversionMatrix ):
     newUnitOperators = { }
 
     for unit in unitOperators:
-        if unit[ -7 : ] == '*second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_':
+        if unit[ -7 : ] == '-second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_':
             unitRoot = unit[ : -7 ]
 
-            newAliases[ unitRoot + '-second' ] = unit
-
-            unitInfo = unitOperators[ unitRoot ]
+            unitInfo = unitOperators[ unit ]
 
             for timeUnit in timeUnits:
-                newUnit = unitRoot + '*' + timeUnit[ 0 ]
-                newPlural = unitRoot + '*' + timeUnit[ 1 ]
+                newUnit = unitRoot + '-' + timeUnit[ 0 ]
+                newPlural = unitRoot + '-' + timeUnit[ 1 ]
                 newAliases[ newPlural ] = newUnit
                 newAliases[ unitRoot + '-' + timeUnit[ 1 ] ] = newUnit
+
+                # We assume the abbrev ends with an s for second
+                if unitInfo.abbrev != '':
+                    newAbbrev = unitInfo.abbrev[ : -1 ] + timeUnit[ 2 ]
+                    #print( newUnit, newAbbrev )
+                    newAliases[ newAbbrev ] = newUnit
 
                 for alias in unitInfo.aliases:
                     newAliases[ alias + '*' + timeUnit[ 1 ] ] = newUnit
@@ -754,6 +754,9 @@ def initializeConversionMatrix( unitConversionMatrix ):
     #for op1, op2 in unitConversionMatrix:
     #    print( op1, op2, unitConversionMatrix[ ( op1, op2 ) ] )
 
+    #print( )
+    #print( )
+
     #for alias in newAliases:
     #    print( alias, newAliases[ alias ] )
 
@@ -778,7 +781,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
 #//******************************************************************************
 
 def main( ):
-
     print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
