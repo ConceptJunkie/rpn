@@ -14,7 +14,7 @@ from decimal import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "2.12.0"
+RPN_VERSION = "2.12.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -22,44 +22,57 @@ defaultPrecision = 12
 
 degreesPerRadian = Decimal( 180 ) / Decimal( math.pi )
 
-numerals = "0123456789abcdefghijklmnopqrstuvwxyz"
+numerals = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
 
 #//******************************************************************************
 #//
 #//  convertToBaseN
 #//
-#//  http://code.activestate.com/recipes/65212/
-#//
 #//******************************************************************************
 
-def convertToBaseN( num, base ):
+def convertToBaseN( num, base, baseAsDigits ):
     """
-    Converts any integer to a base 2-36 string.
+    Converts any integer to a base 2-62 string.
 
     For example:
-    >>> baseN( -13, 4 )
+    >>> convertToBaseN( -13, 4 )
     '-31'
-    >>> baseN( 91321, 2 )
+    >>> convertToBaseN( 91321, 2 )
     '10110010010111001'
-    >>> baseN( 791321, 36 )
+    >>> convertToBaseN( 791321, 36 )
     'gyl5'
     """
 
-    if not ( 2 <= base <= len( numerals ) ):
-        raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
+    if baseAsDigits:
+        if ( base < 2 ):
+            raise ValueError( 'Base must be greater than 1' )
+    else:
+        if not ( 2 <= base <= len( numerals ) ):
+            raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
 
     if num == 0:
-        return "0"
+        return 0
 
     if num < 0:
-        return '-' + convertToBaseN( ( -1 ) * num, base )
+        return '-' + convertToBaseN( ( -1 ) * num, base, baseAsDigits )
 
-    left_digits = num // base
+    result = ''
+    left_digits = num
 
-    if left_digits == 0:
-        return numerals[ int( num ) % base ]
-    else:
-        return convertToBaseN( left_digits, base ) + numerals[ int( num ) % base  ]
+    while left_digits > 0:
+        if baseAsDigits:
+            if result != '':
+                result = ' ' + result
+
+            result = str( int( left_digits ) % base ) + result
+        else:
+            result = numerals[ int( left_digits ) % base ] + result
+
+        left_digits //= base
+
+    return result
+
 
 
 #//******************************************************************************
@@ -68,23 +81,29 @@ def convertToBaseN( num, base ):
 #//
 #//******************************************************************************
 
-def convertFractionToBaseN( value, base, precision ):
+def convertFractionToBaseN( value, base, precision, baseAsDigits ):
     """
     Convert any fraction to base/radix 2-36 and returns the resulting mantissa as a string.
 
     0 <= value < 1
 
     For example:
-    >>> convertFractionToBaseN( 1 / 64, 16, 10 )
+    >>> convertFractionToBaseN( 1 / 64, 16, 10, False )
     '04'
-    >>> convertFractionToBaseN( 1 / 11, 2, 10 )
+    >>> convertFractionToBaseN( 1 / 11, 2, 10, False )
     '0001011101'
-    >>> convertFractionToBaseN( 1 / 13, 36, 12 )
+    >>> convertFractionToBaseN( 1 / 13, 36, 12, False )
     '2rox8b2rox8b'
+    >>> convertFractionToBaseN( 1 / 13, 50, 12, True )
+    ''
     """
 
-    if not ( 2 <= base <= len( numerals ) ):
-        raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
+    if baseAsDigits:
+        if ( base < 2 ):
+            raise ValueError( 'Base must be greater than 1' )
+    else:
+        if not ( 2 <= base <= len( numerals ) ):
+            raise ValueError( 'Base must be from 2 to %d' % len( numerals ) )
 
     if value < 0 or value >= 1.0:
         raise ValueError( 'Value must be >= 0 and < 1.0' )
@@ -94,7 +113,14 @@ def convertFractionToBaseN( value, base, precision ):
     while value > 0 and precision > 0:
         value = value * base
         digit = int( value )
-        result = result + numerals[ digit % base ]
+
+        if baseAsDigits:
+            if result != '':
+                result += ' '
+
+            result += str( digit % base )
+        else:
+            result += numerals[ digit % base ]
 
         value -= digit
         precision -= 1
@@ -811,7 +837,7 @@ def parseInputValue( term ):
 #//
 #//******************************************************************************
 
-def formatOutput( output, radix, comma, decimalGrouping ):
+def formatOutput( output, radix, comma, decimalGrouping, baseAsDigits ):
     strOutput = str( output )
 
     if '.' in strOutput:
@@ -824,14 +850,18 @@ def formatOutput( output, radix, comma, decimalGrouping ):
     strResult = '';
 
     integer = strOutput[ 1 if negative else 0 : decimal ]
+
+    integerLength = len( integer )
+
     mantissa = strOutput[ decimal + 1 : ]
 
     if radix != 10:
-        integer = str( convertToBaseN( Decimal( integer ), radix ) )
+        integer = str( convertToBaseN( Decimal( integer ), radix, baseAsDigits ) )
 
         if mantissa:
             mantissa = str( convertFractionToBaseN( Decimal( '.' + mantissa ), radix,
-                            int( ( getcontext( ).prec - len( integer ) ) / math.log10( radix ) ) ) )
+                            int( ( getcontext( ).prec - integerLength ) / math.log10( radix ) ),
+                            baseAsDigits ) )
 
     if comma:
         firstComma = len( integer ) % 3
@@ -877,7 +907,7 @@ def formatOutput( output, radix, comma, decimalGrouping ):
 
 def main( ):
     parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + RPN_VERSION + ': ' +
-                                      PROGRAM_DESCRIPTION + ', ' + COPYRIGHT_MESSAGE,
+                                      PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
                                       epilog=
 '''
 Arguments are interpreted as Reverse Polish Notation.
@@ -893,7 +923,7 @@ Supported integer sequence unary operators
     hex (nth hexagonal number)
     sqtri (nth square triangular number)*
 
-* requires sufficient precision for accuracy (see Notes)
+    * requires sufficient precision for accuracy (see Notes)
 
 Supported binary operators:
     +, -, *, /, ** (power), *** (tetration), // (root), logxy
@@ -933,7 +963,9 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
     parser.add_argument( 'terms', nargs='+', metavar='term' )
     parser.add_argument( '-x', '--hex', action='store_true', help="equivalent to '-r 16'" )
     parser.add_argument( '-r', '--output_radix', type=int, action='store', default=10,
-                         help="output in a different base" )
+                         help="output in a different base (2 to 62)" )
+    parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
+                         help="each digit is a space-delimited base-10 number" )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
                          help="precision, i.e., number of significant digits to use" )
     parser.add_argument( '-c', '--comma', action='store_true',
@@ -953,8 +985,27 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
     else:
         outputRadix = args.output_radix
 
-    if outputRadix < 2 or outputRadix > 36:
-        print( "rpn only supports an output radix from 2 to 36" )
+    if args.output_radix_numerals > 0:
+        if args.output_radix != 10:
+            print( "rpn:  -r and -R can't be used together" )
+            return
+
+        baseAsDigits = True
+        outputRadix = args.output_radix_numerals
+    else:
+        baseAsDigits = False
+
+    if baseAsDigits:
+        if ( outputRadix < 2 ):
+            print( "rpn:  output radix greater than 1" )
+            return
+    else:
+        if ( outputRadix < 2 or outputRadix > 62 ):
+            print( "rpn:  output radix must be from 2 to 62" )
+            return
+
+    if baseAsDigits and ( args.comma or args.decimal_grouping > 0 ):
+        print( "rpn:  -c and -d can't be used with -R" )
         return
 
     index = 1                 # only used for error messages
@@ -1001,7 +1052,7 @@ Note:  To compute the nth Fibonacci number accurately, set the precision to
             print( "rpn: unexpected end of input" )
         else:
             result = removeExponent( Decimal( valueList.pop( ) ) )
-            print( formatOutput( result, outputRadix, args.comma, args.decimal_grouping ) )
+            print( formatOutput( result, outputRadix, args.comma, args.decimal_grouping, baseAsDigits ) )
 
 
 
