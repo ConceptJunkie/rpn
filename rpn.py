@@ -1,5 +1,17 @@
 #!/usr/bin/env python
 
+#//******************************************************************************
+#//
+#//  rpn
+#//
+#//  RPN command-line calculator
+#//  copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)
+#//
+#//  License: GNU GPL (see <http://www.gnu.org/licenses/gpl.html> for more
+#//  information.
+#//
+#//******************************************************************************
+
 import argparse
 import bz2
 import collections
@@ -28,7 +40,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "4.16.0"
+RPN_VERSION = "4.16.1"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -276,7 +288,7 @@ def loadSexyPrimes( ):
     return loadTable( 'sexy_primes', { 2 : 7 } )
 
 def loadSexyTriplets( ):
-    return loadTable( 'sexy_triplets', { 2 : 17 } )
+    return loadTable( 'sexy_triplets', { 2 : 7 } )
 
 def loadSexyQuadruplets( ):
     return loadTable( 'sexy_quadruplets', { 2 : 11 } )
@@ -1004,11 +1016,13 @@ def getNthBalancedPrimes( arg ):
 
         startingPlace = max( key for key in balancedPrimes if key < n )
         p = balancedPrimes[ startingPlace ]
+        prevPrime = 0
+        secondPrevPrime = 0
     else:
         startingPlace = 2
-        p = 53
-
-    prevPrime = secondPrevPrime = p
+        p = 11
+        prevPrime = 7
+        secondPrevPrime = 5
 
     f = p % 10
 
@@ -1318,6 +1332,8 @@ def getNthSexyTriplet( arg ):
     n = int( arg )
 
     if n == 1:
+        return 5
+    elif n == 2:
         return 7
 
     if n >= 100:
@@ -1333,7 +1349,7 @@ def getNthSexyTriplet( arg ):
         startingPlace = max( key for key in sexyTriplets if key <= n )
         p = sexyTriplets[ startingPlace ]
     else:
-        startingPlace = 1
+        startingPlace = 2
         p = 7
 
     f = p % 10
@@ -3748,6 +3764,8 @@ operatorAliases = {
     'sext'      : 'sextprime',
     'sext?'     : 'sextprime?',
     'sexy'      : 'sexyprime',
+    'sexy3'     : 'sexytriplet',
+    'sexy4'     : 'sexyquad',
     'sophie'    : 'sophieprime',
     'sqr'       : 'square',
     'sqrt'      : 'root2',
@@ -4778,6 +4796,18 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 ''' ],
     'sexyprime'     : [ getNthSexyPrime, 1,
 'prime_numbers', 'returns the nth sexy prime',
+'''
+''',
+'''
+''' ],
+    'sexytriplet'     : [ getNthSexyTriplet, 1,
+'prime_numbers', 'returns first of the nth set of sexy triplet primes',
+'''
+''',
+'''
+''' ],
+    'sexyquad'     : [ getNthSexyQuadruplet, 1,
+'prime_numbers', 'returns first of the nth set of sexy quadruplet primes',
 '''
 ''',
 '''
