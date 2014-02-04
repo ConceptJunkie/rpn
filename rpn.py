@@ -9,7 +9,6 @@ from mpmath import *
 
 
 #//******************************************************************************
-#//
 #//  constants
 #//
 #//******************************************************************************
@@ -36,7 +35,50 @@ fibBase = -2
 #//******************************************************************************
 
 def convertToPhiBase( num ):
-    return '***phi-base***'
+    epsilon = power( 10, -( mp.dps - 3 ) )
+
+    output = ''
+    integer = ''
+
+    start = True
+    previousPlace = 0
+    remaining = num
+
+    originalPlace = 0
+
+    while remaining > epsilon:
+        #print( remaining )
+        place = int( floor( log( remaining, phi ) ) )
+        #print( place )
+
+        if start:
+            output = '1'
+            start = False
+            originalPlace = place
+        else:
+            if place < -originalPlace:
+                break
+
+            for i in range( previousPlace, place + 1, -1 ):
+                output += '0'
+
+                if ( i == 1 ):
+                    integer = output
+                    output = ''
+
+            output += '1'
+
+            if place == 0:
+                integer = output
+                output = ''
+
+        previousPlace = place
+        remaining -= power( phi, place )
+
+    if integer == '':
+        return output, ''
+    else:
+        return integer, output
 
 
 #//******************************************************************************
@@ -67,11 +109,6 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
     >>> convertToBaseN( 791321, 36 )
     'gyl5'
     """
-
-    if base == phiBase:
-        return convertToPhiBase( value )
-    elif base == fibBase:
-        return convertToFibBase( value )
 
     if baseAsDigits:
         if ( base < 2 ):
@@ -694,7 +731,7 @@ def convertDegreesToRadians( valueList ):
 #//******************************************************************************
 
 def getNthFibonacci( valueList ):
-    n = valueList.addp( fib( valueList.pop( ) ) )
+    n = valueList.append( fib( valueList.pop( ) ) )
 
 
 #//******************************************************************************
@@ -1010,10 +1047,12 @@ def formatOutput( output, radix, numerals, comma, decimalGrouping, baseAsDigits 
 
     mantissa = strOutput[ decimal + 1 : ]
 
-    if mantissa != '':
+    if mantissa != '' and mantissa.find( 'e' ) == -1:
         mantissa = mantissa.rstrip( '0' )
 
-    if radix != 10 or numerals != defaultNumerals:
+    if radix == phiBase:
+        integer, mantissa = convertToPhiBase( mpf( output ) )
+    elif radix != 10 or numerals != defaultNumerals:
         integer = str( convertToBaseN( mpf( integer ), radix, baseAsDigits, numerals ) )
 
         if mantissa:
@@ -1167,7 +1206,7 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision,
                          help="precision, i.e., number of significant digits to use" )
     parser.add_argument( '-r', '--output_radix', type=str, action='store', default=10,
-                         help="output in a different base (2 to 62)" )
+                         help="output in a different base (2 to 62, or phi)" )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0,
                          help="each digit is a space-delimited base-10 number" )
     parser.add_argument( '-x', '--hex', action='store_true', help="equivalent to '-r 16'" )
@@ -1285,5 +1324,4 @@ Note:  To compute the nth Fibonacci number accurately, rpn sets the precision to
 
 if __name__ == '__main__':
     main( )
-
 
