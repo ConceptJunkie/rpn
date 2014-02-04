@@ -19,7 +19,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = "rpn"
-RPN_VERSION = "3.7.0"
+RPN_VERSION = "3.8.0"
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = "copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)"
 
@@ -170,36 +170,23 @@ def factorize( n ):
 
 #//******************************************************************************
 #//
-#//  factorInteger
+#//  getExpandedFactorList
 #//
 #//******************************************************************************
 
-def factorInteger( n ):
-    def getStringFromFactorsWithExponents( factors ):
-        def getStringFromFactor( factor ):
-            if factor[ 1 ] == 1:
-                return str( factor[ 0 ] )
-            else:
-                return "^".join( map( str, factor ) )
+def getExpandedFactorList( factors ):
+    factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
+    return reduce( lambda x, y: x + y, factors, [ ] )
 
-        return " * ".join( map( getStringFromFactor, factors ) )
 
-    def getStringFromFactorsWithMultiplication( factors ):
-        factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
-        factors = reduce( lambda x, y: x + y, factors, [ ] )
-        return " * ".join( map( str, factors ) )
+#//******************************************************************************
+#//
+#//  getFactors
+#//
+#//******************************************************************************
 
-    factors = factorize( n )
-
-    exponents = getStringFromFactorsWithExponents( factors )
-    multiplication = getStringFromFactorsWithMultiplication( factors )
-
-    print( "    = " + getStringFromFactorsWithExponents( factors ) )
-
-    if ( multiplication != exponents ):
-        print( "    = " + getStringFromFactorsWithMultiplication( factors ) )
-
-    print( )
+def getFactors( valueList ):
+    valueList.append( getExpandedFactorList( factorize( valueList.pop( ) ) ) )
 
 
 #//******************************************************************************
@@ -817,17 +804,66 @@ def getPermutations( valueList ):
 #//
 #//  interpretAsContinuedFraction
 #//
+#//  If the first argument is a list, treat is as a CF and turn it into a
+#//  number.  If the first argument is a number, turn it into a CF in a list.
+#//
 #//******************************************************************************
 
 def interpretAsContinuedFraction( valueList ):
-    args = valueList.pop( )
+    value = valueList.pop( )
 
-    if not isinstance( args, list ):
-        args = [ args ]
+    if isinstance( value, list ):
+        fraction = ContinuedFraction( value ).getFraction( )
+        valueList.append( fdiv( fraction.numerator, fraction.denominator ) )
+    else:
+        valueList.append( ContinuedFraction( value, maxterms=12, cutoff=power( 10, -( mp.dps - 2 ) ) ) )
 
-    fraction = ContinuedFraction( args ).getFraction( )
 
-    valueList.append( fdiv( fraction.numerator, fraction.denominator ) )
+#//******************************************************************************
+#//
+#//  interpretAsContinuedFractionWithCount
+#//
+#//  If the first argument is a list, treat is as a CF and turn it into a
+#//  number.  If the first argument is a number, turn it into a CF in a list.
+#//
+#//******************************************************************************
+
+def interpretAsContinuedFractionWithCount( valueList ):
+    terms = valueList.pop( )
+    value = valueList.pop( )
+
+    if isinstance( value, list ):
+        cf = ContinuedFraction( value ).getFraction( )
+        valueList.append( fdiv( fraction.numerator, fraction.denominator ) )
+    else:
+        valueList.append( ContinuedFraction( value, maxterms=terms, cutoff=power( 10, -( mp.dps - 2 ) ) ) )
+
+
+#//******************************************************************************
+#//
+#//  interpretAsFraction
+#//
+#//******************************************************************************
+
+def interpretAsFraction( valueList ):
+    value = valueList.pop( )
+
+    fraction = ContinuedFraction( value, maxterms=12 ).getFraction( )
+    valueList.append( [ fraction.numerator, fraction.denominator ] )
+
+
+#//******************************************************************************
+#//
+#//  interpretAsFractionWithCount
+#//
+#//******************************************************************************
+
+def interpretAsFractionWithCount( valueList ):
+    terms = valueList.pop( )
+    value = valueList.pop( )
+
+    fraction = ContinuedFraction( value, maxterms=terms ).getFraction( )
+    valueList.append( [ fraction.numerator, fraction.denominator ] )
 
 
 #//******************************************************************************
@@ -1239,6 +1275,7 @@ expressions = {
     'cbrt'      : [ lambda v: v.append( cbrt( v.pop( ) ) ), [ numberArg ] ],
     'ceil'      : [ lambda v: v.append( ceil( v.pop( ) ) ), [ numberArg ] ],
     'cf'        : [ interpretAsContinuedFraction, [ listArg ] ],
+    'cf2'       : [ interpretAsContinuedFractionWithCount, [ listArg, numberArg ] ],
     'cos'       : [ lambda v: v.append( cos( v.pop( ) ) ), [ numberArg ] ],
     'cosh'      : [ lambda v: v.append( cosh( v.pop( ) ) ), [ numberArg ] ],
     'cot'       : [ lambda v: v.append( cot( v.pop( ) ) ), [ numberArg ] ],
@@ -1255,13 +1292,19 @@ expressions = {
     'exp10'     : [ lambda v: v.append( power( 10, v.pop( ) ) ), [ numberArg ] ],
     'expphi'    : [ lambda v: v.append( power( phi, v.pop( ) ) ), [ numberArg ] ],
     'fac'       : [ lambda v: v.append( fac( v.pop( ) ) ), [ numberArg ] ],
+    'factor'    : [ lambda v: v.append( getExpandedFactorList( factorize( v.pop( ) ) ) ), [ numberArg ] ],
     'fib'       : [ lambda v: v.append( fib( v.pop( ) ) ), [ numberArg ] ],
     'floor'     : [ lambda v: v.append( floor( v.pop( ) ) ), [ numberArg ] ],
+    'frac'      : [ interpretAsFraction, [ listArg ] ],
+    'frac2'     : [ interpretAsFractionWithCount, [ listArg, numberArg ] ],
+    'fraction'  : [ interpretAsFraction, [ listArg ] ],
+    'fraction2' : [ interpretAsFractionWithCount, [ listArg, numberArg ] ],
     'gamma'     : [ lambda v: v.append( gamma( v.pop( ) ) ), [ numberArg ] ],
     'glaisher'  : [ lambda v: v.append( glaisher ), [ ] ],
     'harm'      : [ lambda v: v.append( harmonic( v.pop( ) ) ), [ numberArg ] ],
     'harmonic'  : [ lambda v: v.append( harmonic( v.pop( ) ) ), [ numberArg ] ],
     'hex'       : [ getNthHexagonalNumber, [ numberArg ] ],
+    'hyper4'    : [ tetrate, [ numberArg ] * 2 ],
     'hyper4_2'  : [ tetrateLarge, [ numberArg ] * 2 ],
     'hyperfac'  : [ lambda v: v.append( hyperfac( v.pop( ) ) ), [ numberArg ] ],
     'hypot'     : [ lambda v: v.append( hypot( v.pop( ), v.pop( ) ) ), [ numberArg ] * 2 ],
@@ -1283,8 +1326,8 @@ expressions = {
     'nCr'       : [ getCombinations, [ numberArg ] * 2 ],
     'ncr'       : [ getCombinations, [ numberArg ] * 2 ],
     'neg'       : [ lambda v: v.append( fneg( v.pop( ) ) ), [ numberArg ] ],
-    'npr'       : [ getPermutations, [ numberArg ] * 2 ],
     'nPr'       : [ getPermutations, [ numberArg ] * 2 ],
+    'npr'       : [ getPermutations, [ numberArg ] * 2 ],
     'omega'     : [ lambda v: v.append( lambertw( 1 ) ), [ ] ],
     'or'        : [ lambda v: performBitwiseOperation( v, lambda x, y:  x | y ), [ numberArg ] * 2 ],
     'pent'      : [ getNthPentagonalNumber, [ numberArg ] ],
@@ -1734,10 +1777,6 @@ def main( ):
     parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
                          const=defaultDecimalGrouping, help="display decimal places separated into groups (default: " +
                                                             str( defaultDecimalGrouping ) + ")" )
-    parser.add_argument( '-e', '--continued_fraction', nargs='?', type=int, action='store', default=0,
-                         const=defaultCFTerms, help="number of terms to represent as a continued fraction" )
-    parser.add_argument( '-f', '--factor', action='store_true',
-                         help="compute prime factors of result (truncated to an integer)" )
     parser.add_argument( '-hh', '--more_help', action='store_true',
                          help="display additional help information" )
     parser.add_argument( '-hhh', '--even_more_help', action='store_true',
@@ -1785,13 +1824,11 @@ def main( ):
     integerGrouping = args.integer_grouping
     leadingZero = args.leading_zero
 
+    #
+
     # handle -a - set precision to be at least 2 greater than output accuracy
     if mp.dps < args.output_accuracy + 2:
         mp.dps = args.output_accuracy + 2
-
-    # handle -e - set precision equal to the number of continued fraction items to print for accuracy
-    if mp.dps < args.continued_fraction:
-        mp.dps = args.continued_fraction
 
     # handle -r
     if args.output_radix == 'phi':
@@ -1883,8 +1920,6 @@ def main( ):
         print( '--input_radix:  %d'% inputRadix )
         print( '--comma:  ' + ( 'true' if args.comma else 'false' ) )
         print( '--decimal_grouping:  %d' % args.decimal_grouping )
-        print( '--continued_fraction:  %d' % args.continued_fraction )
-        print( '--factor:  ' + ( 'true' if args.factor else 'false' ) )
         print( '--integer_grouping:  %d' % integerGrouping )
         print( '--numerals:  ' + args.numerals )
         print( '--octal:  ' + ( 'true' if args.octal else 'false' ) )
@@ -1947,7 +1982,10 @@ def main( ):
                 print( "rpn:  keyboard interrupt" )
                 break
             except ValueError as error:
-                print( "rpn:  error in arg " + format( index ) + ":  {0}".format( error ) )
+                print( "rpn:  error for operator at arg " + format( index ) + ":  {0}".format( error ) )
+                break
+            except TypeError as error:
+                print( "rpn:  type error for operator at arg " + format( index ) + ":  {0}".format( error ) )
                 break
         else:
             try:
@@ -1997,45 +2035,6 @@ def main( ):
                 print( formatOutput( resultString, outputRadix, numerals, integerGrouping, integerDelimiter,
                                      leadingZero, args.decimal_grouping, ' ', baseAsDigits,
                                      args.output_accuracy ) )
-
-                # handle --factor
-                if args.factor:
-                    try:
-                        factorInteger( int( floor( result ) ) )
-                    except KeyboardInterrupt as error:
-                        print( 'rpn:  keyboard interrupt' )
-                        return
-
-                # handle --continued_fraction
-                if args.continued_fraction:
-                    try:
-                        cf = ContinuedFraction( mpmathify( result ), maxterms=args.continued_fraction )
-                    except KeyboardInterrupt as error:
-                        print( 'rpn:  keyboard interrupt' )
-                        return
-
-                    # format the fraction output
-                    fraction = str( cf.getFraction( ) )
-                    solidus = fraction.find( '/' )
-
-                    if solidus == -1:    # should never happen
-                        numerator = fraction
-                        denominator = ''
-                    else:
-                        numerator = fraction[ : solidus ]
-                        denominator = fraction [ solidus + 1 : ]
-
-                    numerator = formatOutput( numerator, outputRadix, numerals, integerGrouping, integerDelimiter,
-                                              leadingZero, args.decimal_grouping, ' ', baseAsDigits,
-                                              args.output_accuracy )
-
-                    if denominator != '':
-                        denominator = formatOutput( denominator, outputRadix, numerals, integerGrouping, integerDelimiter,
-                                                    leadingZero, args.decimal_grouping, ' ', baseAsDigits,
-                                                    args.output_accuracy )
-
-                    print( '    = ' + str( cf ) )
-                    print( '    ~= ' + numerator + ' / ' + denominator )
 
                 # handle --identify
                 if args.identify:
