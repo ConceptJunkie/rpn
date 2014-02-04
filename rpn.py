@@ -13,7 +13,7 @@ from decimal import *
 #//
 #//******************************************************************************
 
-RPN_VERSION = "2.5.0"
+RPN_VERSION = "2.5.1"
 COPYRIGHT_MESSAGE = "copyright 2013 (1988), Rick Gutleber (rickg@his.com)"
 
 defaultPrecision = 12
@@ -342,8 +342,9 @@ expressions = {
 
 def parseInputValue( term ):
     if '.' in term:
-        return Decimal( int( term, 0 ) )
+        return Decimal( term )
 
+    # parse out the leading negative or positive sign
     if term[ 0 ] == '-':
         actual = term[ 1: ]
         negative = True
@@ -354,17 +355,19 @@ def parseInputValue( term ):
         actual = term
         negative = False
 
-    if actual[ -1 ] in 'bB':
-        actual = actual[ :-1 ]
-        return Decimal( int( actual, 2 ) * ( -1 if negative else 1 ) )
-
+    # check for hex, then binary, then octal
     if actual[ 0 ] == '0':
         if actual[ 1 ] in 'Xx':
             return Decimal( int( term, 16 ) )
+        elif actual[ -1 ] in 'bB':
+            actual = actual[ :-1 ]
+            return Decimal( int( actual, 2 ) * ( -1 if negative else 1 ) )
         else:
             actual = actual[ 1: ]
+
             return Decimal( int( actual, 8 ) )
 
+    # otherwise, assume base 10
     return Decimal( int( term, 0 ) )
 
 
@@ -379,12 +382,14 @@ def main( ):
                                       ' - ' + COPYRIGHT_MESSAGE,
                                        epilog="Arguments are interpreted as Reverse Polish Notation.\n\n" +
                                        "Supported binary operators: +, -, *, /, ** (power), // (root), logxy\n" +
-                                       "Supported unary operators: !, log, log10, exp, exp10\n\n" +
+                                       "Supported unary operators: !, log, log10, exp, exp10, cos, sin\n\n" +
                                        "Note:  Unary operators are also postfix.\n\n" +
-                                       "Note:  rpn supports arbitrary precision using Decimal( ), however the following operators\n" +
-                                       "       do not always provide arbitrary precision: **, //, exp, exp10.\n" +
-                                       "Note:  for integers, rpn understands hexidecimal input of the form '0x....', a leading 0 \n" +
-                                       "       means octal and a trailing 'b' or 'B' means binary",
+                                       "Note:  rpn supports arbitrary precision using Decimal( ), however the\n" +
+                                       "        following operators do not always provide arbitrary precision: **, //,\n" +
+                                       "        exp, exp10.\n" +
+                                       "Note:  for integers, rpn understands hexidecimal input of the form '0x....', a\n" +
+                                       "       leading '0' means octal and a trailing 'b' or 'B' means binary (even with\n" +
+                                       "       with leading '0', but not with leading '0x')",
                                        formatter_class=RawTextHelpFormatter )
 
     parser.add_argument( 'terms', nargs='+', metavar='term' )
@@ -434,14 +439,14 @@ def main( ):
 
             try:
                 expressions[ term ][ 0 ]( valueList )
-            except OverflowError:
-                print( "rpn: error in arg " + format( index ) + " ('" + term + "'): overflow error" )
+            except OverflowError as error:
+                print( "rpn: error in arg " + format( index ) + " ('" + term + "'): {0}".format( error ) )
                 break
         else:
             try:
                 valueList.append( parseInputValue( term ) )
-            except:
-                print( "rpn: error parsing arg " + format( index ) + " ('" + term + "')" )
+            except Exception as error:
+                print( "rpn: error in arg " + format( index ) + ": {0}".format( error ) )
                 break
 
         index = index + 1
