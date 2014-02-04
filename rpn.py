@@ -13,7 +13,7 @@ from decimal import *
 #//
 #//******************************************************************************
 
-RPN_VERSION = "2.7.0"
+RPN_VERSION = "2.7.1"
 COPYRIGHT_MESSAGE = "copyright 2013 (1988), Rick Gutleber (rickg@his.com)"
 
 defaultPrecision = 12
@@ -548,12 +548,13 @@ def main( ):
     parser = argparse.ArgumentParser( prog='rpn', description='rpn - ' + RPN_VERSION +
                                       ' - ' + COPYRIGHT_MESSAGE,
                                        epilog="Arguments are interpreted as Reverse Polish Notation.\n\n" +
-                                       "Supported binary operators: +, -, *, /, ** (power), // (root), logxy, lgamma\n" +
-                                       "Supported unary operators: !, log, log10, exp, exp10, sin, cos, tan, gamma\n" +
-                                       "                           rad (degrees to radians), deg (radians to degrees)\n\n" +
+                                       "Supported binary operators: +, -, *, /, ** (power), // (root), logxy\n" +
+                                       "Supported unary operators: !, log, log10, exp, exp10, sin, cos, tan, gamma,\n" +
+                                       "                           lgamma, rad (degrees to radians),\n" +
+                                       "                           deg (radians to degrees)\n\n"
                                        "Note:  rpn supports arbitrary precision using Decimal( ), however the\n" +
                                        "       following operators do not always provide arbitrary precision: **, //,\n" +
-                                       "       exp, exp10.\n" +
+                                       "       exp, exp10, gamma, lgamma.\n" +
                                        "Note:  for integers, rpn understands hexidecimal input of the form '0x....', a\n" +
                                        "       leading '0' means octal and a trailing 'b' or 'B' means binary (even with\n" +
                                        "       with leading '0', but not with leading '0x')",
@@ -596,7 +597,7 @@ def main( ):
 
             if len( valueList ) < argsNeeded:
                 print( "rpn: error in arg " + format( index ) + ": operator " + term + " requires " +
-                        format( argsNeeded ) + " argument", end='' )
+                       format( argsNeeded ) + " argument", end='' )
 
                 if argsNeeded > 1:
                     print( "s" )
@@ -629,7 +630,7 @@ def main( ):
                     print( formatString.format( convertToBaseN( valueList.pop( ), outputRadix ) ).strip( ) )
             else:
                 if outputRadix == 10:
-                    formatString = '{:<' + str( args.precision ) + 'f}'
+                    formatString = '{:<' + str( args.precision ) + '}'
                     print( formatString.format( valueList.pop( ) ).strip( ) )
                 else:
                     print( convertToBaseN( valueList.pop( ), outputRadix ).strip( ) )
@@ -663,4 +664,5 @@ if __name__ == '__main__':
 #         curVal = oneOverN * ( (nMinusOne * curVal) + (a / (curVal ** nMinusOne)))
 #     return curVal
 #
-#
+
+
