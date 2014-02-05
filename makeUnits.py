@@ -29,7 +29,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.10.6'
+PROGRAM_VERSION = '5.11.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 

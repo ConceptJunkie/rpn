@@ -21,7 +21,6 @@ import pickle
 import itertools
 import math
 import os
-import pyprimes
 import random
 import string
 import struct
@@ -43,7 +42,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'rpn'
-PROGRAM_VERSION = '5.10.6'
+PROGRAM_VERSION = '5.11.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
@@ -64,8 +63,6 @@ phiBase = -1
 fibBase = -2
 
 inputRadix = 10
-
-updateDicts = False
 
 unitStack = [ ]
 
@@ -663,6 +660,11 @@ class Measurement( mpf ):
 
             conversions = [ ]
 
+            if isinstance( other, list ):
+                for item in other:
+                    # Uh oh, now what?
+                    pass
+
             unit1String = makeUnitString( units1 )
             unit2String = makeUnitString( units2 )
 
@@ -933,35 +935,11 @@ def downloadOEISText( id, char, addCR=False ):
 
 #//******************************************************************************
 #//
-#//  getNthSuperPrime
-#//
-#//******************************************************************************
-
-def getNthSuperPrime( arg ):
-    return getNthPrime( getNthPrime( arg ) )
-
-
-#//******************************************************************************
-#//
-#//  getNthPolyPrime
-#//
-#//******************************************************************************
-
-def getNthPolyPrime( n, poly ):
-    result = getNthPrime( n )
-
-    for i in arange( 1, poly ):
-        result = getNthPrime( result )
-
-    return result
-
-
-#//******************************************************************************
-#//
 #//  add
 #//
 #//  We used to be able to call fadd directly, but now we want to be able to add
-#//  units.
+#//  units.  Adding units includes an implicit conversion if the units are not
+#//  the same.
 #//
 #//******************************************************************************
 
@@ -979,7 +957,7 @@ def add( n, k ):
 #//  subtract
 #//
 #//  We used to be able to call fsub directly, but now we want to be able to
-#//  subtract units.
+#//  subtract units and do the appropriate conversions.
 #//
 #//******************************************************************************
 
@@ -997,7 +975,9 @@ def subtract( n, k ):
 #//  divide
 #//
 #//  We used to be able to call fdiv directly, but now we want to also divide
-#//  the units.
+#//  the units.  Doing so lets us do all kinds of great stuff because now we
+#//  can support compound units without having to explicitly declare them in
+#//  makeUnits.py.
 #//
 #//******************************************************************************
 
@@ -1015,7 +995,11 @@ def divide( n, k ):
 #//  multiply
 #//
 #//  We used to be able to call fmul directly, but now we want to also multiply
-#//  the units.
+#//  the units.  This allows compound units and the conversion routines try to
+#//  be smart enough to deal with this.  There are scenarios in which it doesn't
+#//  work, like converting parsec*barn to cubic_inch.  However, that can be done
+#//  by converting parsec to inche and barn to square_inch separately and
+#//  multiplying the result.
 #//
 #//******************************************************************************
 
@@ -1096,925 +1080,6 @@ def getNthAperyNumber( n ):
 
     for k in arange( 0, n + 1 ):
         result = fadd( result, fmul( power( binomial( n, k ), 2 ), power( binomial( fadd( n, k ), k ), 2 ) ) )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  getNextTwinPrimeCandidate
-#//
-#//******************************************************************************
-
-def getNextTwinPrimeCandidate( p, f ):
-    if f == 1:
-        p += 6
-        f = 7
-    elif f == 7:
-        p += 2
-        f = 9
-    else:
-        p += 2
-        f = 1
-
-    return p, f
-
-
-#//******************************************************************************
-#//
-#//  getNthTwinPrime
-#//
-#//******************************************************************************
-
-def getNthTwinPrime( arg ):
-    global twinPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 3
-    elif n == 2:
-        return 5
-    elif n == 3:
-        return 11
-
-    if n >= 100:
-        if twinPrimes == { }:
-            twinPrimes = loadTwinPrimes( )
-
-        maxIndex = max( key for key in twinPrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        currentIndex = max( key for key in twinPrimes if key <= n )
-        p = twinPrimes[ currentIndex ]
-    else:
-        currentIndex = 3
-        p = 11
-
-    f = p % 10
-
-    while n > currentIndex:
-        p, f = getNextPrime( p, f, getNextTwinPrimeCandidate )
-
-        if isPrime( p + 2 ):
-            currentIndex += 1
-
-    if updateDicts:
-        twinPrimes[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthTwinPrimeList
-#//
-#//******************************************************************************
-
-def getNthTwinPrimeList( arg ):
-    p = getNthTwinPrime( arg )
-    return [ p, fadd( p, 2 ) ]
-
-
-#//******************************************************************************
-#//
-#//  getNthBalancedPrime
-#//
-#//  returns the first of a set of 3 balanced primes
-#//
-#//******************************************************************************
-
-def getNthBalancedPrime( arg ):
-    global balancedPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 3
-    elif n == 2:
-        return 5
-
-    if n >= 100:
-        if balancedPrimes == { }:
-            balancedPrimes = loadBalancedPrimes( )
-
-        maxIndex = max( key for key in balancedPrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        currentIndex = max( key for key in balancedPrimes if key < n )
-        p = balancedPrimes[ currentIndex ]
-        prevPrime = 0
-        secondPrevPrime = 0
-    else:
-        currentIndex = 2
-        p = 11
-        prevPrime = 7
-        secondPrevPrime = 5
-
-    f = p % 10
-
-    while n > currentIndex:
-        p, f = getNextPrime( p, f )
-
-        if ( prevPrime - secondPrevPrime ) == ( p - prevPrime ):
-            currentIndex += 1
-
-        if n > currentIndex:
-            secondPrevPrime = prevPrime
-            prevPrime = p
-
-    if updateDicts:
-        balancedPrimes[ int( arg ) ] = secondPrevPrime
-
-    return secondPrevPrime
-
-
-#//******************************************************************************
-#//
-#//  getNthBalancedPrimeList
-#//
-#//******************************************************************************
-
-def getNthBalancedPrimeList( arg ):
-    p = getNthBalancedPrime( arg )
-    f = p % 10
-
-    q, f = getNextPrime( p, f )
-    r, f = getNextPrime( q, f )
-
-    return [ p, q, r ]
-
-
-#//******************************************************************************
-#//
-#//  getNthDoubleBalancedPrime
-#//
-#//******************************************************************************
-
-def getNthDoubleBalancedPrime( arg ):
-    global doubleBalancedPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 18713
-
-    if doubleBalancedPrimes == { }:
-        doubleBalancedPrimes = loadDoubleBalancedPrimes( )
-
-    maxIndex = max( key for key in doubleBalancedPrimes )
-
-    if n > maxIndex and not updateDicts:
-        sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                format( n, maxIndex ) )
-
-    currentIndex = max( key for key in doubleBalancedPrimes if key <= n )
-    primes = [ ]
-
-    p = doubleBalancedPrimes[ currentIndex ]
-    f = p % 10
-
-    primes = [ p ]
-
-    for i in range( 0, 4 ):
-        p, f = getNextPrime( p, f )
-        primes.append( p )
-
-    while n > currentIndex:
-        p, f = getNextPrime( p, f )
-
-        primes.append( p )
-        del primes[ 0 ]
-
-        if ( ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 3 ] - primes[ 2 ] ) and
-             ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 4 ] - primes[ 3 ] ) ):
-            currentIndex += 1
-
-    if updateDicts:
-        doubleBalancedPrimes[ n ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthDoubleBalancedPrimeList
-#//
-#//******************************************************************************
-
-def getNthDoubleBalancedPrimeList( arg ):
-    p = getNthDoubleBalancedPrime( arg )
-    result = [ p ]
-
-    f = p % 10
-
-    for i in range( 0, 4 ):
-       p, f = getNextPrime( p, f )
-       result.append( p )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  getNthTripleBalancedPrime
-#//
-#//******************************************************************************
-
-def getNthTripleBalancedPrime( arg ):
-    global tripleBalancedPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 683747
-
-    if tripleBalancedPrimes == { }:
-        tripleBalancedPrimes = loadTripleBalancedPrimes( )
-
-    maxIndex = max( key for key in tripleBalancedPrimes )
-
-    if n > maxIndex and not updateDicts:
-        sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                format( n, maxIndex ) )
-
-    currentIndex = max( key for key in tripleBalancedPrimes if key <= n )
-
-    p = tripleBalancedPrimes[ currentIndex ]
-    f = p % 10
-
-    primes = [ p ]
-
-    for i in range( 0, 6 ):
-        p, f = getNextPrime( p, f )
-        primes.append( p )
-
-    while n > currentIndex:
-        p, f = getNextPrime( p, f )
-
-        primes.append( p )
-        del primes[ 0 ]
-
-        if ( ( primes[ 3 ] - primes[ 2 ] ) == ( primes[ 4 ] - primes[ 3 ] ) and
-             ( primes[ 2 ] - primes[ 1 ] ) == ( primes[ 5 ] - primes[ 4 ] ) and
-             ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 6 ] - primes[ 5 ] ) ):
-            currentIndex += 1
-
-    if updateDicts:
-        tripleBalancedPrimes[ n ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthTripleBalancedPrimeList
-#//
-#//******************************************************************************
-
-def getNthTripleBalancedPrimeList( arg ):
-    p = [ getNthTripleBalancedPrime( arg ) ]
-
-    return p[ 0 ]
-
-    #result = [ p ]
-    #
-    #f = p % 10
-    #
-    #for i in range( 0, 6 ):
-    #   p, f = getNextPrime( p, f )
-    #   result.append( p )
-    #
-    #return result
-
-
-#//******************************************************************************
-#//
-#//  getNthSophiePrime
-#//
-#//******************************************************************************
-
-def getNthSophiePrime( arg ):
-    global sophiePrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 2
-    elif n == 2:
-        return 3
-    elif n == 3:
-        return 5
-
-    if n >= 100:
-        if sophiePrimes == { }:
-            sophiePrimes = loadSophiePrimes( )
-
-        maxIndex = max( key for key in sophiePrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        currentIndex = max( key for key in sophiePrimes if key <= n )
-        p = sophiePrimes[ currentIndex ]
-    else:
-        currentIndex = 4
-        p = 11
-
-    f = p % 10
-
-    while n > currentIndex:
-        p, f = getNextPrime( p, f )
-
-        if isPrime( 2 * p + 1 ):
-            currentIndex += 1
-
-    if updateDicts:
-        sophiePrimes[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthCousinPrime
-#//
-#//******************************************************************************
-
-def getNthCousinPrime( arg ):
-    global cousinPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 3
-
-    if n >= 100:
-        if cousinPrimes == { }:
-            cousinPrimes = loadCousinPrimes( )
-
-        maxIndex = max( key for key in cousinPrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        currentIndex = max( key for key in cousinPrimes if key <= n )
-        p = cousinPrimes[ currentIndex ]
-    else:
-        currentIndex = 2
-        p = 7
-
-    f = p % 10
-
-    while n > currentIndex:
-        p, f = getNextPrime( p, f )
-
-        if isPrime( p + 4 ):
-            currentIndex += 1
-
-    if updateDicts:
-        cousinPrimes[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthCousinPrimeList
-#//
-#//******************************************************************************
-
-def getNthCousinPrimeList( arg ):
-    p = getNthCousinPrime( arg )
-    return [ p, fadd( p, 4 ) ]
-
-
-#//******************************************************************************
-#//
-#//  getNextSexyPrimeCandidate
-#//
-#//******************************************************************************
-
-def getNextSexyPrimeCandidate( p, f ):
-    if f == 1:
-        p += 2
-        f = 3
-    elif f == 3:
-        p += 4
-        f = 7
-    else:
-        p += 4
-        f = 1
-
-
-#//******************************************************************************
-#//
-#//  getNthSexyPrime
-#//
-#//******************************************************************************
-
-def getNthSexyPrime( arg ):
-    global sexyPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 5
-
-    if n >= 100:
-        if sexyPrimes == { }:
-            sexyPrimes = loadSexyPrimes( )
-
-        maxIndex = max( key for key in sexyPrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        startingPlace = max( key for key in sexyPrimes if key <= n )
-        p = sexyPrimes[ startingPlace ]
-    else:
-        startingPlace = 2
-        p = 7
-
-    f = p % 10
-
-    while n > startingPlace:
-        p, f = getNextPrime( p, f, getNextSexyPrimeCandidate )
-
-        if isPrime( p + 6 ):
-            n -= 1
-
-    if updateDicts:
-        sexyPrimes[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthSexyPrimeList
-#//
-#//******************************************************************************
-
-def getNthSexyPrimeList( arg ):
-    p = getNthSexyPrime( arg )
-    return [ p, fadd( p, 6 ) ]
-
-
-#//******************************************************************************
-#//
-#//  getNthSexyTriplet
-#//
-#//******************************************************************************
-
-def getNthSexyTriplet( arg ):
-    global sexyTriplets
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 5
-    elif n == 2:
-        return 7
-
-    if n >= 100:
-        if sexyTriplets == { }:
-            sexyTriplets = loadSexyTripletPrimes( )
-
-        maxIndex = max( key for key in sexyTriplets )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        startingPlace = max( key for key in sexyTriplets if key <= n )
-        p = sexyTriplets[ startingPlace ]
-    else:
-        startingPlace = 2
-        p = 7
-
-    f = p % 10
-
-    while n > startingPlace:
-        if f == 1:
-            p += 6
-            f = 7
-        else:
-            p += 4
-            f = 1
-
-        if isPrime( p ) and isPrime( p + 6 ) and isPrime( p + 12 ):
-            n -= 1
-
-    if updateDicts:
-        sexyTriplets[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthSexyTripletList
-#//
-#//******************************************************************************
-
-def getNthSexyTripletList( arg ):
-    p = getNthSexyTriplet( arg )
-    return [ p, fadd( p, 6 ), fadd( p, 12 ) ]
-
-
-#//******************************************************************************
-#//
-#//  getNthSexyQuadruplet
-#//
-#//******************************************************************************
-
-def getNthSexyQuadruplet( arg ):
-    global sexyQuadruplets
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 5
-
-    if sexyQuadruplets == { }:
-        sexyQuadruplets = loadSexyQuadrupletPrimes( )
-
-        maxIndex = max( key for key in sexyQuadruplets )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-    startingPlace = max( key for key in sexyQuadruplets if key <= n )
-    p = sexyQuadruplets[ startingPlace ]
-
-    ten = True
-
-    while n > startingPlace:
-        if ten:
-            p += 10
-            ten = False
-        else:
-            p += 20
-            ten = True
-
-        if isPrime( p ) and isPrime( p + 6 ) and isPrime( p + 12 ) and isPrime( p + 18 ):
-            n -= 1
-
-    if updateDicts:
-        sexyQuadruplets[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthSexyQuadrupletList
-#//
-#//******************************************************************************
-
-def getNthSexyQuadrupletList( arg ):
-    p = getNthSexyQuadrupletPrime( arg )
-    return [ p, fadd( p, 6 ), fadd( p, 12 ), fadd( p, 18 ) ]
-
-
-#//******************************************************************************
-#//
-#//  getNthTripletPrime
-#//
-#//******************************************************************************
-
-def getNthTripletPrime( arg ):
-    global tripletPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return [ 5, 7, 11 ]
-    elif n == 2:
-        return [ 7, 11, 13 ]
-
-    if n >= 100:
-        if tripletPrimes == { }:
-            tripletPrimes = loadTripletPrimes( )
-
-        maxIndex = max( key for key in tripletPrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        currentIndex = max( key for key in tripletPrimes if key <= n )
-        p = tripletPrimes[ currentIndex ]
-
-        if isPrime( p + 2 ):
-            middle = 2
-        else:
-            middle = 4
-
-    else:
-        currentIndex = 3
-        p = 11
-        middle = 2
-
-    f = p % 10
-
-    while n > currentIndex:
-        if f == 1:
-            p += 2
-            f = 3
-        elif f == 3:
-            p += 4
-            f = 7
-        else:
-            p += 4
-            f = 1
-
-        if isPrime( p ) and isPrime( p + 6 ):
-            if isPrime( p + 2 ) or isPrime( p + 4 ):
-                currentIndex += 1
-
-    if updateDicts:
-        tripletPrimes[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthTripletPrimeList
-#//
-#//******************************************************************************
-
-def getNthTripletPrimeList( arg ):
-    p = getNthTripletPrime( arg )
-    f = p % 10
-
-    return [ p, getNextPrime( p, f )[ 0 ], fadd( p, 6 ) ]
-
-
-#//******************************************************************************
-#//
-#//  getNthQuadrupletPrime
-#//
-#//******************************************************************************
-
-def getNthQuadrupletPrime( arg ):
-    global quadPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 5
-    elif n == 2:
-        return 11
-
-    if n >= 10:
-        if quadPrimes == { }:
-            quadPrimes = loadQuadrupletPrimes( )
-
-        maxIndex = max( key for key in quadPrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        startingPlace = max( key for key in quadPrimes if key <= n )
-        p = quadPrimes[ startingPlace ]
-    else:
-        startingPlace = 2
-        p = 11
-
-    # after 5, the first of a prime quadruplet must be a number of the form 30n + 11
-    while n > startingPlace:
-        p += 30
-
-        if isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ):
-            n -= 1
-
-    if updateDicts:
-        quadPrimes[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNextQuintupletPrimeCandidate
-#//
-#//******************************************************************************
-
-def getNextQuintupletPrimeCandidate( p, f ):
-    if f == 1:
-        p += 6
-        f = 7
-    else:
-        p += 4
-        f = 1
-
-
-#//******************************************************************************
-#//
-#//  getNthQuadrupletPrimeList
-#//
-#//******************************************************************************
-
-def getNthQuadrupletPrimeList( arg ):
-    p = getNthQuadrupletPrime( arg )
-    return [ p, fadd( p, 2 ), fadd( p, 6 ), fadd( p, 8 ) ]
-
-
-#//******************************************************************************
-#//
-#//  getNthQuintupletPrime
-#//
-#//******************************************************************************
-
-def getNthQuintupletPrime( arg ):
-    global quintPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 5
-    elif n == 2:
-        return 7
-
-    if n >= 10:
-        if quintPrimes == { }:
-            quintPrimes = loadQuintupletPrimes( )
-
-        maxIndex = max( key for key in quintPrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        currentIndex = max( key for key in quintPrimes if key <= n )
-        p = quintPrimes[ currentIndex ]
-    else:
-        currentIndex = 3
-        p = 11
-
-    f = p % 10
-
-    # after 5, the first of a prime quintruplet must be a number of the form 30n + 11
-    while n > currentIndex:
-        p, f = getNextPrime( p, f, getNextQuintupletPrimeCandidate )
-
-        if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
-           ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
-            currentIndex += 1
-
-    if updateDicts:
-        quintPrimes[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthQuintupletPrimeList
-#//
-#//******************************************************************************
-
-def getNthQuintupletPrimeList( arg ):
-    p = getNthQuintupletPrime( arg )
-
-    f = p % 10
-
-    if f == 1:
-        return [ p, fadd( p, 2 ), fadd( p, 6 ), fadd( p, 8 ), fadd( p, 12 ) ]
-    elif f == 7:
-        return [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ) ]
-    else:
-        # not the right exception type
-        raise ValueError( 'internal error:  getNthQuintupletPrimeList is broken' )
-
-
-#//******************************************************************************
-#//
-#//  getNthSextupletPrime
-#//
-#//******************************************************************************
-
-def getNthSextupletPrime( arg ):
-    global sextPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n == 1:
-        return 7
-
-    if n >= 10:
-        if sextPrimes == { }:
-            sextPrimes = loadSextupletPrimes( )
-
-        maxIndex = max( key for key in sextPrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
-
-        startingPlace = max( key for key in sextPrimes if key <= n )
-        p = sextPrimes[ startingPlace ]
-    else:
-        startingPlace = 1
-        p = 7
-
-    # all sets of prime sextuplets must start with 30x+7
-    while n > startingPlace:
-        p += 30
-
-        if isPrime( p ) and isPrime( p + 4 ) and isPrime( p + 6 ) and \
-           isPrime( p + 10 ) and isPrime( p + 12 ) + isPrime( 16 ):
-            n -= 1
-
-    if updateDicts:
-        sextPrimes[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
-#//  getNthSextupletPrimeList
-#//
-#//******************************************************************************
-
-def getNthSextupletPrimeList( arg ):
-    p = getNthSextpletPrime( arg )
-    return [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ), fadd( p, 16 ) ]
-
-
-#//******************************************************************************
-#//
-#//  getNthPrimeRange
-#//
-#//******************************************************************************
-
-def getNthPrimeRange( arg1, arg2 ):
-    n = int( arg1 )
-    count = int( arg2 )
-
-    if count < 1:
-        return [ ]
-
-    if n == 1:
-        if count == 1:
-            return [ 2 ]
-        elif count == 2:
-            return[ 2, 3 ]
-        else:
-            result = [ 2, 3, 5 ]
-            n = 3
-            count -= 3
-            p = 5
-    elif n == 2:
-        if count == 1:
-            return [ 3 ]
-        else:
-            result = [ 3, 5 ]
-            n = 3
-            count -= 2
-            p = 5
-    else:
-        p = getNthPrime( n )
-        result = [ p ]
-
-    f = p % 10
-
-    found = 0
-
-    while found < count:
-        p, f = getNextPrimeCandidate( p, f )
-
-        if isPrime( p ):
-            result.append( p )
-            found += 1
 
     return result
 
@@ -4235,22 +3300,22 @@ def dumpStats( ):
     print( '{:10,} unit conversions'.format( len( unitConversionMatrix ) ) )
     print( )
 
-    printStats( loadSmallPrimes( ), 'small primes' )
-    printStats( loadLargePrimes( ), 'large primes' )
-    printStats( loadIsolatedPrimes( ), 'isolated primes' )
-    printStats( loadTwinPrimes( ), 'twin primes' )
-    printStats( loadBalancedPrimes( ), 'balanced primes' )
-    printStats( loadDoubleBalancedPrimes( ), 'double balanced primes' )
-    printStats( loadTripleBalancedPrimes( ), 'triple balanced primes' )
-    printStats( loadSophiePrimes( ), 'Sophie Germain primes' )
-    printStats( loadCousinPrimes( ), 'cousin primes' )
-    printStats( loadSexyPrimes( ), 'sexy primes' )
-    printStats( loadTripletPrimes( ), 'triplet primes' )
-    printStats( loadSexyTripletPrimes( ), 'sexy triplet primes' )
-    printStats( loadQuadrupletPrimes( ), 'quadruplet primes' )
-    printStats( loadSexyQuadrupletPrimes( ), 'sexy quadruplet primes' )
-    printStats( loadQuintupletPrimes( ), 'quintuplet primes' )
-    printStats( loadSextupletPrimes( ), 'sextuplet primes' )
+    printStats( loadSmallPrimes( dataPath ), 'small primes' )
+    printStats( loadLargePrimes( dataPath ), 'large primes' )
+    printStats( loadIsolatedPrimes( dataPath ), 'isolated primes' )
+    printStats( loadTwinPrimes( dataPath ), 'twin primes' )
+    printStats( loadBalancedPrimes( dataPath ), 'balanced primes' )
+    printStats( loadDoubleBalancedPrimes( dataPath ), 'double balanced primes' )
+    printStats( loadTripleBalancedPrimes( dataPath ), 'triple balanced primes' )
+    printStats( loadSophiePrimes( dataPath ), 'Sophie Germain primes' )
+    printStats( loadCousinPrimes( dataPath ), 'cousin primes' )
+    printStats( loadSexyPrimes( dataPath ), 'sexy primes' )
+    printStats( loadTripletPrimes( dataPath ), 'triplet primes' )
+    printStats( loadSexyTripletPrimes( dataPath ), 'sexy triplet primes' )
+    printStats( loadQuadrupletPrimes( dataPath ), 'quadruplet primes' )
+    printStats( loadSexyQuadrupletPrimes( dataPath ), 'sexy quadruplet primes' )
+    printStats( loadQuintupletPrimes( dataPath ), 'quintuplet primes' )
+    printStats( loadSextupletPrimes( dataPath ), 'sextuplet primes' )
 
     print( )
 
@@ -4437,6 +3502,22 @@ def expandGeometricRange( value, step, count ):
     for i in arange( 0, count ):
         result.append( value )
         value = fmul( value, step )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  expandExponentialRange
+#//
+#//******************************************************************************
+
+def expandExponentialRange( value, step, count ):
+    result = list( )
+
+    for i in arange( 0, count ):
+        result.append( value )
+        value = power( value, step )
 
     return result
 
@@ -4951,6 +4032,7 @@ operatorAliases = {
     'fib'         : 'fibonacci',
     'frac'        : 'fraction',
     'gemmho'      : 'micromho',
+    'geomrange'   : 'georange',
     'gigohm'      : 'gigaohm',
     'harm'        : 'harmonic',
     'hept'        : 'heptagonal',
@@ -5228,6 +4310,7 @@ operators = {
     'exp'           : [ exp, 1 ],
     'exp10'         : [ lambda n: power( 10, n ), 1 ],
     'expphi'        : [ lambda n: power( phi, n ), 1 ],
+    'exprange'      : [ expandExponentialRange, 3 ],
     'factor'        : [ lambda i: getExpandedFactorList( factor( i ) ), 1 ],
     'factorial'     : [ fac, 1 ],
     'fibonacci'     : [ fib, 1 ],
@@ -6125,24 +5208,6 @@ def main( ):
 
     # initialize globals
     nestedListLevel = 0
-
-    balancedPrimes = { }
-    cousinPrimes = { }
-    doubleBalancedPrimes = { }
-    isolatedPrimes = { }
-    largePrimes = { }
-    quadPrimes = { }
-    quintPrimes = { }
-    sextPrimes = { }
-    sexyPrimes = { }
-    sexyQuadruplets = { }
-    sexyTriplets = { }
-    smallPrimes = { }
-    sophiePrimes = { }
-    superPrimes = { }
-    tripleBalancedPrimes = { }
-    tripletPrimes = { }
-    twinPrimes = { }
 
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
 

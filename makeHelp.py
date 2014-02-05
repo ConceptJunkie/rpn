@@ -25,7 +25,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.10.6'
+PROGRAM_VERSION = '5.11.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
@@ -572,25 +572,25 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 '''
 ''' ],
     'balanced' : [
-'prime_numbers', 'calculate the first of the nth set of balanced primes',
+'prime_numbers', 'calculates the first of the nth set of balanced primes',
 '''
 ''',
 '''
 ''' ],
     'balanced_' : [
-'prime_numbers', 'calculate the nth set of balanced primes',
+'prime_numbers', 'calculates the nth set of balanced primes',
 '''
 ''',
 '''
 ''' ],
     'base' : [
-'number_theory', 'interpret list elements as base k digits',
+'number_theory', 'interprets list elements as base k digits',
 '''
 ''',
 '''
 ''' ],
     'bell' : [
-'combinatorics', 'calculate the nth Bell number',
+'combinatorics', 'calculates the nth Bell number',
 '''
 ''',
 '''
@@ -602,13 +602,13 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 '''
 ''' ],
     'bernoulli' : [
-'combinatorics', 'calculate the nth Bernoulli number',
+'combinatorics', 'calculates the nth Bernoulli number',
 '''
 ''',
 '''
 ''' ],
     'billion' : [
-'constants', 'one billion, i.e. 10e9',
+'constants', 'returns the constant one billion, i.e. 1.0e9, or 1,000,000,000',
 '''
 ''',
 '''
@@ -758,10 +758,8 @@ number.
 '''
 ''' ],
     'convert' : [
-'conversion', 'perform unit conversion',
+'conversion', 'performs unit conversion',
 '''
-This is a special operator that doesn't require an operand.  If there is no
-numerical value, then rpn will assume a value of 1.
 ''',
 '''
 ''' ],
@@ -930,7 +928,7 @@ number.
 '''
 ''' ],
     'decillion' : [
-'constants', 'one decillion, i.e. 10e33',
+'constants', 'returns the constant one decillion, i.e. 1.0e33',
 '''
 ''',
 '''
@@ -972,7 +970,7 @@ number.
 '''
 ''' ],
     'double' : [
-'conversion', 'convert n to the representation of a 64-bit IEEE 754 float',
+'conversion', 'converts n to the representation of a 64-bit IEEE 754 float',
 '''
 ''',
 '''
@@ -1014,7 +1012,7 @@ number.
 '''
 ''' ],
     'element' : [
-'list_operators', 'return a single element from a list',
+'list_operators', 'returns a single element from a list',
 '''
 ''',
 '''
@@ -1051,6 +1049,19 @@ c:\>rpn 2 expphi
 c:\>rpn 3 expphi 2 expphi -
 1.61803398875
 ''' ],
+    'exprange' : [
+'list_operators', 'generates a list of exponential progression of numbers',
+'''
+a = starting value, b = step exponent, c = size of list to generate
+
+Each successive item in the list is calculated by raising the previous item to
+the bth power.
+''',
+'''
+c:\>rpn 2 2 10 exprange
+[ 2, 4, 16, 256, 65536, 4294967296, 18446744073709551616, 3.4028236692e38,
+1.1579208924e77, 1.34078079210e154 ]
+''' ],
     'factor' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
@@ -1077,7 +1088,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'float' : [
-'conversion', 'convert n to the representation of a 32-bit IEEE 754 float',
+'conversion', 'converts n to the representation of a 32-bit IEEE 754 float',
 '''
 ''',
 '''
@@ -1125,7 +1136,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'googol' : [
-'constants', '1 googol, i.e., 1.0e100',
+'constants', 'returns the constant one googol, i.e., 1.0e100',
 '''
 ''',
 '''
@@ -1233,7 +1244,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'integer' : [
-'conversion', 'convert the value to an signed ik-bit nteger',
+'conversion', 'converts the value to an signed k-bit nteger',
 '''
 ''',
 '''
@@ -1251,7 +1262,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'isdivisible' : [
-'arithmetic', 'is n divisible by k?',
+'arithmetic', 'returns whether n is n divisible by k',
 '''
 ''',
 '''
@@ -1263,13 +1274,13 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'isprime' : [
-'number_theory', 'is prime?',
+'number_theory', 'returns whether n is prime',
 '''
 ''',
 '''
 ''' ],
     'issquare' : [
-'arithmetic', 'is n a perfect square?',
+'arithmetic', 'returns whether n is a perfect square',
 '''
 ''',
 '''
@@ -1466,6 +1477,12 @@ c:\>rpn 3 expphi 2 expphi -
 ''',
 '''
 ''' ],
+    'million' : [
+'constants', 'returns the constant one million (i.e., 1.0e6, or 1,000,000)',
+'''
+''',
+'''
+''' ],
     'min' : [
 'arithmetic', 'returns the smallest value in list n',
 '''
@@ -1623,7 +1640,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'nonillion' : [
-'constants', 'one nonillion, i.e. 10e30',
+'constants', 'returns the constant one nonillion, i.e. 1.0e30',
 '''
 ''',
 '''
@@ -1641,19 +1658,19 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'nspherearea' : [
-'trigonometry', 'calculate the surface area of an n-sphere of size k (radius or volume)',
+'trigonometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
 '''
 ''',
 '''
 ''' ],
     'nsphereradius' : [
-'trigonometry', 'calculate the radius of an n-sphere of size k (surface area or volume)',
+'trigonometry', 'calculates the radius of an n-sphere of size k (surface area or volume)',
 '''
 ''',
 '''
 ''' ],
     'nspherevolume' : [
-'trigonometry', 'calculate the volume of an n-sphere of size k (radius or surface area)',
+'trigonometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
 '''
 ''',
 '''
@@ -1689,7 +1706,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'octhept' : [
-'polygonal_numbers', 'nth octagonal heptagonal number',
+'polygonal_numbers', 'returns the nth octagonal heptagonal number',
 '''
 ''',
 '''
@@ -1701,7 +1718,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'octillion' : [
-'constants', 'one octillion, i.e. 10e27',
+'constants', 'returns the constant one octillion, i.e. 1.0e27',
 '''
 ''',
 '''
@@ -1749,7 +1766,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'omega' : [
-'constants', 'return the Omega constant',
+'constants', 'returns the Omega constant',
 '''
 ''',
 '''
@@ -1833,7 +1850,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'polyadd' : [
-'algebra', 'interpret two lists as polynomials and add them',
+'algebra', 'interprets two lists as polynomials and adds them',
 '''
 ''',
 '''
@@ -1869,7 +1886,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'polymul' : [
-'algebra', 'interpret two lists as polynomials and multiply them',
+'algebra', 'interprets two lists as polynomials and multiplies them',
 '''
 ''',
 '''
@@ -1899,7 +1916,7 @@ c:\>rpn 3 expphi 2 expphi -
 '''
 ''' ],
     'polyval' : [
-'algebra', 'interpret the list as a polynomial and evaluate it for value k',
+'algebra', 'interprets the list as a polynomial and evaluates it for value k',
 '''
 ''',
 '''
@@ -1937,7 +1954,7 @@ given the way calculating prime numbers is currently done.
 '''
 ''' ],
     'prime?' : [
-'prime_numbers', 'find the index of the closest prime at n or above',
+'prime_numbers', 'finds the index of the closest prime at n or above',
 '''
 ''',
 '''
@@ -1955,7 +1972,7 @@ given the way calculating prime numbers is currently done.
 '''
 ''' ],
     'quadprime?' : [
-'prime_numbers', 'find the closest set of quadruplet primes above n',
+'prime_numbers', 'finds the closest set of quadruplet primes above n',
 '''
 ''',
 '''
@@ -1973,13 +1990,13 @@ given the way calculating prime numbers is currently done.
 '''
 ''' ],
     'quadrillion' : [
-'constants', 'one quadrillion, i.e. 10e15',
+'constants', 'returns the constant one quadrillion, i.e. 1.0e15',
 '''
 ''',
 '''
 ''' ],
     'quintillion' : [
-'constants', 'one quintillion, i.e. 10e18',
+'constants', 'returns the constant one quintillion, i.e. 1.0e18',
 '''
 ''',
 '''
@@ -2033,7 +2050,7 @@ given the way calculating prime numbers is currently done.
 '''
 ''' ],
     'result' : [
-'special', 'load previous result',
+'special', 'loads the result from the previous invokation of rpn',
 '''
 ''',
 '''
@@ -2089,7 +2106,7 @@ This operator is the equivalent of 'n 3 root'.
 '''
 ''' ],
     'score' : [
-'constants', 'an archaic term for 20',
+'constants', 'returns the constant of one score (i.e., an archaic term for 20)',
 '''
 ''',
 '''
@@ -2107,13 +2124,13 @@ This operator is the equivalent of 'n 3 root'.
 '''
 ''' ],
     'septillion' : [
-'constants', 'one septillion, i.e. 10e24',
+'constants', 'returns the constant one septillion, i.e. 1.0e24',
 '''
 ''',
 '''
 ''' ],
     'sextillion' : [
-'constants', 'one sextillion, i.e. 10e21',
+'constants', 'returns the constant one sextillion, i.e. 1.0e21',
 '''
 ''',
 '''
@@ -2227,7 +2244,7 @@ This operator is the equivalent of 'n 3 root'.
 '''
 ''' ],
     'sort' : [
-'list_operators', 'sort the elements of list n numerically in ascending order',
+'list_operators', 'sorts the elements of list n numerically in ascending order',
 '''
 The 'sort' operator gets applied recursively, so all sublists will be sorted as
 well.  I might have to reconsider that.
@@ -2256,19 +2273,19 @@ c:\>rpn 1 20 range countdiv sortdesc
 [ 6, 6, 6, 5, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1 ]
 ''' ],
     'spherearea' : [
-'trigonometry', 'calculate the surface area of an sphere of size n (radius or volume)',
+'trigonometry', 'calculates the surface area of an sphere of size n (radius or volume)',
 '''
 ''',
 '''
 ''' ],
     'sphereradius' : [
-'trigonometry', 'calculate the radius of an sphere of size n (surface area or volume)',
+'trigonometry', 'calculates the radius of an sphere of size n (surface area or volume)',
 '''
 ''',
 '''
 ''' ],
     'spherevolume' : [
-'trigonometry', 'calculate the volume of an sphere of size n (radius or surface area)',
+'trigonometry', 'calculates the volume of an sphere of size n (radius or surface area)',
 '''
 ''',
 '''
@@ -2414,7 +2431,7 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'trillion' : [
-'constants', 'one trillion, i.e. 10e12',
+'constants', 'returns the constant one trillion, i.e. 1.0e12',
 '''
 ''',
 '''
@@ -2474,7 +2491,7 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'uinteger' : [
-'conversion', 'convert the value to an unsigned k-bit integer',
+'conversion', 'converts the value to an unsigned k-bit integer',
 '''
 ''',
 '''
@@ -2516,7 +2533,7 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'unpack' : [
-'number_theory', 'unpack an integer value into bit fields',
+'number_theory', 'unpacks an integer value into bit fields',
 '''
 ''',
 '''
