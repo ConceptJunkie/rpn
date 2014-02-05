@@ -41,7 +41,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeRPNPrimes'
-PROGRAM_VERSION = '5.10.5'
+PROGRAM_VERSION = '5.11.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator prime data generator'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
