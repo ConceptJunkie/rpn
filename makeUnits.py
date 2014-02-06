@@ -21,6 +21,8 @@ import string
 
 from mpmath import *
 
+from rpnDeclarations import *
+
 
 #//******************************************************************************
 #//
@@ -29,9 +31,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
-PROGRAM_VERSION = '5.11.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
-COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
 
 
 #//******************************************************************************
@@ -78,22 +78,6 @@ basicUnitTypes = {
     'velocity'                  : 'length/time',
     'volume'                    : 'length^3',
 }
-
-
-#//******************************************************************************
-#//
-#//  class UnitInfo
-#//
-#//******************************************************************************
-
-class UnitInfo( ):
-    def __init__( self, unitType, representation, plural, abbrev, aliases, categories ):
-        self.unitType = unitType
-        self.representation = representation
-        self.plural = plural
-        self.abbrev = abbrev
-        self.aliases = aliases
-        self.categories = categories
 
 
 #//******************************************************************************
@@ -1839,6 +1823,53 @@ unitConversionMatrix = {
 
 #//******************************************************************************
 #//
+#//  massTable
+#//
+#//  used in estimateMass( )
+#//
+#//  grams : description
+#//
+#//******************************************************************************
+
+massTable = {
+    '0.003'     : 'an average ant',
+    '7.0e4'     : 'an average human',
+    '4.39985e8' : 'the takeoff weight of a Boeing 747-8',
+}
+
+
+#//******************************************************************************
+#//
+#//  lengthTable
+#//
+#//  used in estimateLength( )
+#//
+#//  meters : description
+#//
+#//******************************************************************************
+
+lengthTable = {
+    '1' : 'a long thing'
+}
+
+
+#//******************************************************************************
+#//
+#//  volumeTable
+#//
+#//  used in estimateVolume( )
+#//
+#//  liters : description
+#//
+#//******************************************************************************
+
+volumeTable = {
+    '1' : 'a voluminous thing'
+}
+
+
+#//******************************************************************************
+#//
 #//  makeMetricUnit
 #//
 #//******************************************************************************
@@ -2445,6 +2476,9 @@ def initializeConversionMatrix( unitConversionMatrix ):
         pickle.dump( unitOperators, pickleFile )
         pickle.dump( newAliases, pickleFile )
         pickle.dump( compoundUnits, pickleFile )
+        pickle.dump( massTable, pickleFile )
+        pickle.dump( lengthTable, pickleFile )
+        pickle.dump( volumeTable, pickleFile )
 
     fileName = dataPath + os.sep + 'unit_conversions.pckl.bz2'
 

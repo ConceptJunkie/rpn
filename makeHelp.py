@@ -17,6 +17,8 @@ import contextlib
 import pickle
 import os
 
+from rpnDeclarations import *
+
 
 #//******************************************************************************
 #//
@@ -25,18 +27,7 @@ import os
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeHelp'
-PROGRAM_VERSION = '5.11.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
-COPYRIGHT_MESSAGE = 'copyright (c) 2014, Rick Gutleber (rickg@his.com)'
-
-defaultPrecision = 20
-defaultAccuracy = 10
-defaultCFTerms = 10
-defaultBitwiseGroupSize = 16
-defaultInputRadix = 10
-defaultOutputRadix = 10
-defaultDecimalGrouping = 5
-defaultIntegerGrouping = 3
 
 
 #//******************************************************************************
@@ -2870,6 +2861,24 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     '~' : [
 'logical', 'calculates the bitwise negation of n',
+'''
+''',
+'''
+''' ],
+    '~length' : [
+'', 'estimates the length of the value in common terms'
+'''
+''',
+'''
+''' ],
+    '~mass' : [
+'', 'estimates the mass of the value in common terms'
+'''
+''',
+'''
+''' ],
+    '~volume' : [
+'', 'estimates the volume of the value in common terms'
 '''
 ''',
 '''

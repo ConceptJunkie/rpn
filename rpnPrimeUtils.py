@@ -12,15 +12,49 @@
 #//
 #//******************************************************************************
 
+import bz2
+import contextlib
+import os
+import pickle
+import pyprimes
+
+
+#//******************************************************************************
+#//
+#//  globals
+#//
+#//******************************************************************************
+
+updateDicts = False
+
+balancedPrimes = { }
+cousinPrimes = { }
+doubleBalancedPrimes = { }
+isolatedPrimes = { }
+largePrimes = { }
+quadPrimes = { }
+quintPrimes = { }
+sextPrimes = { }
+sexyPrimes = { }
+sexyQuadruplets = { }
+sexyTriplets = { }
+smallPrimes = { }
+sophiePrimes = { }
+superPrimes = { }
+tripleBalancedPrimes = { }
+tripletPrimes = { }
+twinPrimes = { }
+
+dataPath = ''
+
+
 #//******************************************************************************
 #//
 #//  loadTable
 #//
 #//******************************************************************************
 
-def loadTable( fileName, default ):
-    global dataPath
-
+def loadTable( dataPath, fileName, default ):
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'rb' ) ) as pickleFile:
             primes = pickle.load( pickleFile )
@@ -30,68 +64,68 @@ def loadTable( fileName, default ):
     return primes
 
 
-def loadSmallPrimes( ):
-    return loadTable( 'small_primes', { 4 : 7 } )
+def loadSmallPrimes( dataPath ):
+    return loadTable( dataPath, 'small_primes', { 4 : 7 } )
 
 
-def loadLargePrimes( ):
-    return loadTable( 'large_primes', { 1000000 : 15485863 } )
+def loadLargePrimes( dataPath ):
+    return loadTable( dataPath, 'large_primes', { 1000000 : 15485863 } )
 
 
-def loadIsolatedPrimes( ):
-    return loadTable( 'isolated_primes', { 2 : 23 } )
+def loadIsolatedPrimes( dataPath ):
+    return loadTable( dataPath, 'isolated_primes', { 2 : 23 } )
 
 
-def loadTwinPrimes( ):
-    return loadTable( 'twin_primes', { 3 : 11 } )
+def loadTwinPrimes( dataPath ):
+    return loadTable( dataPath, 'twin_primes', { 3 : 11 } )
 
 
-def loadBalancedPrimes( ):
-    return loadTable( 'balanced_primes', { 2 : 5 } )
+def loadBalancedPrimes( dataPath ):
+    return loadTable( dataPath, 'balanced_primes', { 2 : 5 } )
 
 
-def loadDoubleBalancedPrimes( ):
-    return loadTable( 'double_balanced_primes', { 1 : getNthDoubleBalancedPrime( 1 ) } )
+def loadDoubleBalancedPrimes( dataPath ):
+    return loadTable( dataPath, 'double_balanced_primes', { 1 : getNthDoubleBalancedPrime( 1 ) } )
 
 
-def loadTripleBalancedPrimes( ):
-    return loadTable( 'triple_balanced_primes', { 1 : getNthTripleBalancedPrime( 1 ) } )
+def loadTripleBalancedPrimes( dataPath ):
+    return loadTable( dataPath, 'triple_balanced_primes', { 1 : getNthTripleBalancedPrime( 1 ) } )
 
 
-def loadSophiePrimes( ):
-    return loadTable( 'sophie_primes', { 4 : 11 } )
+def loadSophiePrimes( dataPath ):
+    return loadTable( dataPath, 'sophie_primes', { 4 : 11 } )
 
 
-def loadCousinPrimes( ):
-    return loadTable( 'cousin_primes', { 2 : 7 } )
+def loadCousinPrimes( dataPath ):
+    return loadTable( dataPath, 'cousin_primes', { 2 : 7 } )
 
 
-def loadSexyPrimes( ):
-    return loadTable( 'sexy_primes', { 2 : 7 } )
+def loadSexyPrimes( dataPath ):
+    return loadTable( dataPath, 'sexy_primes', { 2 : 7 } )
 
 
-def loadSexyTripletPrimes( ):
-    return loadTable( 'sexy_triplets', { 2 : 7 } )
+def loadSexyTripletPrimes( dataPath ):
+    return loadTable( dataPath, 'sexy_triplets', { 2 : 7 } )
 
 
-def loadSexyQuadrupletPrimes( ):
-    return loadTable( 'sexy_quadruplets', { 2 : 11 } )
+def loadSexyQuadrupletPrimes( dataPath ):
+    return loadTable( dataPath, 'sexy_quadruplets', { 2 : 11 } )
 
 
-def loadTripletPrimes( ):
-    return loadTable( 'triplet_primes', { 2 : 7 } )
+def loadTripletPrimes( dataPath ):
+    return loadTable( dataPath, 'triplet_primes', { 2 : 7 } )
 
 
-def loadQuadrupletPrimes( ):
-    return loadTable( 'quad_primes', { 2 : 11 } )
+def loadQuadrupletPrimes( dataPath ):
+    return loadTable( dataPath, 'quad_primes', { 2 : 11 } )
 
 
-def loadQuintupletPrimes( ):
-    return loadTable( 'quint_primes', { 3 : 11 } )
+def loadQuintupletPrimes( dataPath ):
+    return loadTable( dataPath, 'quint_primes', { 3 : 11 } )
 
 
-def loadSextupletPrimes( ):
-    return loadTable( 'sext_primes', { 1 : 7 } )
+def loadSextupletPrimes( dataPath ):
+    return loadTable( dataPath, 'sext_primes', { 1 : 7 } )
 
 
 #//******************************************************************************
@@ -166,7 +200,7 @@ def getNthPrime( arg ):
 
     if n >= 1000000:
         if largePrimes == { }:
-            largePrimes = loadLargePrimes( )
+            largePrimes = loadLargePrimes( dataPath )
 
         maxIndex = max( key for key in largePrimes )
 
@@ -178,7 +212,7 @@ def getNthPrime( arg ):
         p = largePrimes[ currentIndex ]
     elif n >= 100:
         if smallPrimes == { }:
-            smallPrimes = loadSmallPrimes( )
+            smallPrimes = loadSmallPrimes( dataPath )
 
         currentIndex = max( key for key in smallPrimes if key <= n )
         p = smallPrimes[ currentIndex ]
@@ -224,13 +258,13 @@ def findPrime( arg ):
         p = 7
     elif target < 15485863:     # 1,000,000th prime
         if smallPrimes == { }:
-            smallPrimes = loadSmallPrimes( )
+            smallPrimes = loadSmallPrimes( dataPath )
 
         currentIndex = max( key for key in smallPrimes if smallPrimes[ key ] <= target )
         p = smallPrimes[ currentIndex ]
     else:
         if largePrimes == { }:
-            largePrimes = loadLargePrimes( )
+            largePrimes = loadLargePrimes( dataPath )
 
         currentIndex = max( key for key in largePrimes if largePrimes[ key ] <= target )
         p = largePrimes[ currentIndex ]
@@ -258,7 +292,7 @@ def findQuadrupletPrimes( arg ):
     target = int( arg )
 
     if quadPrimes == { }:
-        quadPrimes = loadQuadrupletPrimes( )
+        quadPrimes = loadQuadrupletPrimes( dataPath )
 
     currentIndex = max( key for key in quadPrimes if quadPrimes[ key ] <= target )
     p = quadPrimes[ currentIndex ]
@@ -293,7 +327,7 @@ def getNthIsolatedPrime( arg ):
 
     if n >= 100:
         if isolatedPrimes == { }:
-            isolatedPrimes = loadIsolatedPrimes( )
+            isolatedPrimes = loadIsolatedPrimes( dataPath )
 
         currentIndex = max( key for key in isolatedPrimes if key <= n )
         p = isolatedPrimes[ currentIndex ]
@@ -356,7 +390,7 @@ def getNthTwinPrime( arg ):
 
     if n >= 100:
         if twinPrimes == { }:
-            twinPrimes = loadTwinPrimes( )
+            twinPrimes = loadTwinPrimes( dataPath )
 
         maxIndex = max( key for key in twinPrimes )
 
@@ -416,7 +450,7 @@ def getNthBalancedPrime( arg ):
 
     if n >= 100:
         if balancedPrimes == { }:
-            balancedPrimes = loadBalancedPrimes( )
+            balancedPrimes = loadBalancedPrimes( dataPath )
 
         maxIndex = max( key for key in balancedPrimes )
 
@@ -484,7 +518,7 @@ def getNthDoubleBalancedPrime( arg ):
         return 18713
 
     if doubleBalancedPrimes == { }:
-        doubleBalancedPrimes = loadDoubleBalancedPrimes( )
+        doubleBalancedPrimes = loadDoubleBalancedPrimes( dataPath )
 
     maxIndex = max( key for key in doubleBalancedPrimes )
 
@@ -555,7 +589,7 @@ def getNthTripleBalancedPrime( arg ):
         return 683747
 
     if tripleBalancedPrimes == { }:
-        tripleBalancedPrimes = loadTripleBalancedPrimes( )
+        tripleBalancedPrimes = loadTripleBalancedPrimes( dataPath )
 
     maxIndex = max( key for key in tripleBalancedPrimes )
 
@@ -634,7 +668,7 @@ def getNthSophiePrime( arg ):
 
     if n >= 100:
         if sophiePrimes == { }:
-            sophiePrimes = loadSophiePrimes( )
+            sophiePrimes = loadSophiePrimes( dataPath )
 
         maxIndex = max( key for key in sophiePrimes )
 
@@ -679,7 +713,7 @@ def getNthCousinPrime( arg ):
 
     if n >= 100:
         if cousinPrimes == { }:
-            cousinPrimes = loadCousinPrimes( )
+            cousinPrimes = loadCousinPrimes( dataPath )
 
         maxIndex = max( key for key in cousinPrimes )
 
@@ -753,7 +787,7 @@ def getNthSexyPrime( arg ):
 
     if n >= 100:
         if sexyPrimes == { }:
-            sexyPrimes = loadSexyPrimes( )
+            sexyPrimes = loadSexyPrimes( dataPath )
 
         maxIndex = max( key for key in sexyPrimes )
 
@@ -811,7 +845,7 @@ def getNthSexyTriplet( arg ):
 
     if n >= 100:
         if sexyTriplets == { }:
-            sexyTriplets = loadSexyTripletPrimes( )
+            sexyTriplets = loadSexyTripletPrimes( dataPath )
 
         maxIndex = max( key for key in sexyTriplets )
 
@@ -871,7 +905,7 @@ def getNthSexyQuadruplet( arg ):
         return 5
 
     if sexyQuadruplets == { }:
-        sexyQuadruplets = loadSexyQuadrupletPrimes( )
+        sexyQuadruplets = loadSexyQuadrupletPrimes( dataPath )
 
         maxIndex = max( key for key in sexyQuadruplets )
 
@@ -931,7 +965,7 @@ def getNthTripletPrime( arg ):
 
     if n >= 100:
         if tripletPrimes == { }:
-            tripletPrimes = loadTripletPrimes( )
+            tripletPrimes = loadTripletPrimes( dataPath )
 
         maxIndex = max( key for key in tripletPrimes )
 
@@ -1007,7 +1041,7 @@ def getNthQuadrupletPrime( arg ):
 
     if n >= 10:
         if quadPrimes == { }:
-            quadPrimes = loadQuadrupletPrimes( )
+            quadPrimes = loadQuadrupletPrimes( dataPath )
 
         maxIndex = max( key for key in quadPrimes )
 
@@ -1079,7 +1113,7 @@ def getNthQuintupletPrime( arg ):
 
     if n >= 10:
         if quintPrimes == { }:
-            quintPrimes = loadQuintupletPrimes( )
+            quintPrimes = loadQuintupletPrimes( dataPath )
 
         maxIndex = max( key for key in quintPrimes )
 
@@ -1146,7 +1180,7 @@ def getNthSextupletPrime( arg ):
 
     if n >= 10:
         if sextPrimes == { }:
-            sextPrimes = loadSextupletPrimes( )
+            sextPrimes = loadSextupletPrimes( dataPath )
 
         maxIndex = max( key for key in sextPrimes )
 
@@ -1233,4 +1267,28 @@ def getNthPrimeRange( arg1, arg2 ):
 
     return result
 
+
+#//******************************************************************************
+#//
+#//  getNthSuperPrime
+#//
+#//******************************************************************************
+
+def getNthSuperPrime( arg ):
+    return getNthPrime( getNthPrime( arg ) )
+
+
+#//******************************************************************************
+#//
+#//  getNthPolyPrime
+#//
+#//******************************************************************************
+
+def getNthPolyPrime( n, poly ):
+    result = getNthPrime( n )
+
+    for i in arange( 1, poly ):
+        result = getNthPrime( result )
+
+    return result
 

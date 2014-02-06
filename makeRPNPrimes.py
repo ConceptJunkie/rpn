@@ -33,6 +33,8 @@ from fractions import Fraction
 from functools import reduce
 from mpmath import *
 
+from rpnDeclarations import *
+
 
 #//******************************************************************************
 #//
@@ -41,9 +43,7 @@ from mpmath import *
 #//******************************************************************************
 
 PROGRAM_NAME = 'makeRPNPrimes'
-PROGRAM_VERSION = '5.11.0'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator prime data generator'
-COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
 
 #//******************************************************************************
@@ -67,47 +67,62 @@ def loadTable( fileName, default ):
 def loadSmallPrimes( ):
     return loadTable( 'small_primes', { 4 : 7 } )
 
+
 def loadLargePrimes( ):
     return loadTable( 'large_primes', { 1000000 : 15485863 } )
+
 
 def loadIsolatedPrimes( ):
     return loadTable( 'isolated_primes', { 2 : 23 } )
 
+
 def loadTwinPrimes( ):
     return loadTable( 'twin_primes', { 3 : 11 } )
+
 
 def loadBalancedPrimes( ):
     return loadTable( 'balanced_primes', { 2 : 5 } )
 
+
 def loadDoubleBalancedPrimes( ):
     return loadTable( 'double_balanced_primes', { 1 : getNthDoubleBalancedPrime( 1 ) } )
+
 
 def loadTripleBalancedPrimes( ):
     return loadTable( 'triple_balanced_primes', { 1 : getNthTripleBalancedPrime( 1 ) } )
 
+
 def loadSophiePrimes( ):
     return loadTable( 'sophie_primes', { 4 : 11 } )
+
 
 def loadCousinPrimes( ):
     return loadTable( 'cousin_primes', { 2 : 7 } )
 
+
 def loadSexyPrimes( ):
     return loadTable( 'sexy_primes', { 2 : 7 } )
+
 
 def loadSexyTripletPrimes( ):
     return loadTable( 'sexy_triplets', { 2 : 7 } )
 
+
 def loadSexyQuadrupletPrimes( ):
     return loadTable( 'sexy_quadruplets', { 2 : 11 } )
+
 
 def loadTripletPrimes( ):
     return loadTable( 'triplet_primes', { 2 : 7 } )
 
+
 def loadQuadrupletPrimes( ):
     return loadTable( 'quad_primes', { 2 : 11 } )
 
+
 def loadQuintupletPrimes( ):
     return loadTable( 'quint_primes', { 3 : 11 } )
+
 
 def loadSextupletPrimes( ):
     return loadTable( 'sext_primes', { 1 : 7 } )
@@ -129,47 +144,62 @@ def saveTable( fileName, var ):
 def saveSmallPrimes( smallPrimes ):
     saveTable( 'small_primes', smallPrimes )
 
+
 def saveLargePrimes( largePrimes ):
     saveTable( 'large_primes', largePrimes )
+
 
 def saveIsolatedPrimes( isolatedPrimes ):
     saveTable( 'isolated_primes', isolatedPrimes )
 
+
 def saveTwinPrimes( twinPrimes ):
     saveTable( 'twin_primes', twinPrimes )
+
 
 def saveBalancedPrimes( balancedPrimes ):
     saveTable( 'balanced_primes', balancedPrimes )
 
+
 def saveDoubleBalancedPrimes( doubleBalancedPrimes ):
     saveTable( 'double_balanced_primes', doubleBalancedPrimes )
+
 
 def saveTripleBalancedPrimes( tripleBalancedPrimes ):
     saveTable( 'triple_balanced_primes', tripleBalancedPrimes )
 
+
 def saveSophiePrimes( sophiePrimes ):
     saveTable( 'sophie_primes', sophiePrimes )
+
 
 def saveCousinPrimes( cousinPrimes ):
     saveTable( 'cousin_primes', cousinPrimes )
 
+
 def saveSexyPrimes( sexyPrimes ):
     saveTable( 'sexy_primes', sexyPrimes )
+
 
 def saveSexyTriplets( sexyTriplets ):
     saveTable( 'sexy_triplets', sexyTriplets )
 
+
 def saveSexyQuadruplets( sexyQuadruplets ):
     saveTable( 'sexy_quadruplets', sexyQuadruplets )
+
 
 def saveTripletPrimes( tripletPrimes ):
     saveTable( 'triplet_primes', tripletPrimes )
 
+
 def saveQuadrupletPrimes( quadPrimes ):
     saveTable( 'quad_primes', quadPrimes )
 
+
 def saveQuintupletPrimes( quintPrimes ):
     saveTable( 'quint_primes', quintPrimes )
+
 
 def saveSextupletPrimes( sextPrimes ):
     saveTable( 'sext_primes', sextPrimes )
@@ -194,50 +224,66 @@ def importTable( fileName, loadTableFunc, saveTableFunc  ):
 
     return len( var )
 
+
 def importSmallPrimes( fileName ):
     return importTable( fileName, loadSmallPrimes, saveSmallPrimes )
+
 
 def importLargePrimes( fileName ):
     return importTable( fileName, loadLargePrimes, saveLargePrimes )
 
+
 def importIsolatedPrimes( fileName ):
     return importTable( fileName, loadIsolatedPrimes, saveIsolatedPrimes )
+
 
 def importTwinPrimes( fileName ):
     return importTable( fileName, loadTwinPrimes, saveTwinPrimes )
 
+
 def importBalancedPrimes( fileName ):
     return importTable( fileName, loadBalancedPrimes, saveBalancedPrimes )
+
 
 def importDoubleBalancedPrimes( fileName ):
     return importTable( fileName, loadDoubleBalancedPrimes, saveDoubleBalancedPrimes )
 
+
 def importTripleBalancedPrimes( fileName ):
     return importTable( fileName, loadTripleBalancedPrimes, saveTripleBalancedPrimes )
+
 
 def importSophiePrimes( fileName ):
     return importTable( fileName, loadSophiePrimes, saveSophiePrimes )
 
+
 def importCousinPrimes( fileName ):
     return importTable( fileName, loadCousinPrimes, saveCousinPrimes )
+
 
 def importSexyPrimes( fileName ):
     return importTable( fileName, loadSexyPrimes, saveSexyPrimes )
 
+
 def importSexyTriplets( fileName ):
     return importTable( fileName, loadSexyTripletPrimes, saveSexyTriplets )
+
 
 def importSexyQuadruplets( fileName ):
     return importTable( fileName, loadSexyQuadrupletPrimes, saveSexyQuadruplets )
 
+
 def importTripletPrimes( fileName ):
     return importTable( fileName, loadTripletPrimes, saveTripletPrimes )
+
 
 def importQuadrupletPrimes( fileName ):
     return importTable( fileName, loadQuadrupletPrimes, saveQuadrupletPrimes )
 
+
 def importQuintupletPrimes( fileName ):
     return importTable( fileName, loadQuintupletPrimes, saveQuintupletPrimes )
+
 
 def importSextupletPrimes( fileName ):
     return importTable( fileName, loadSextupletPrimes, saveSextupletPrimes )
@@ -292,6 +338,7 @@ def makeIsolatedPrimes( start, end, step ):
     saveIsolatedPrimes( isolatedPrimes )
     return end
 
+
 def makeSuperPrimes( start, end ):
     global smallPrimes
     global largePrimes
@@ -317,6 +364,7 @@ def makeSuperPrimes( start, end ):
     saveLargePrimes( largePrimes )
 
     return end
+
 
 def makeTwinPrimes( start, end, step ):
     global twinPrimes
