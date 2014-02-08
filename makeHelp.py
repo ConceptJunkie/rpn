@@ -115,13 +115,12 @@ Arguments:
     3 sqrt(2) / 4:
         rpn 3 2 sqrt * 4 /
 
-    Lists are specified using the bracket operators.
-    Most operators can take lists as operands, which results in the operation
-    being performed on each item in the list.  If the operator takes two
-    operands, then either operand can be a list.  If one operand is a list
-    and the other is a single value, then each value in the list will have
-    the single operand applied to it with the operator, and the result will
-    be displayed as a list.
+    Lists are specified using the bracket operators.  Most operators can take
+    lists as operands, which results in the operation being performed on each
+    item in the list.  If the operator takes two operands, then either operand
+    can be a list.  If one operand is a list and the other is a single value,
+    then each value in the list will have the single operand applied to it
+    with the operator, and the result will be displayed as a list.
 
     It is possible in certain cases to nest lists.  rpn tries to figure out
     a logical way (and unequivocal) to apply the operators to the operands.
@@ -152,11 +151,10 @@ Arguments:
     rpn [ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *
     [ 30, 40, 90, 160 ]
 
-    Some operators take lists as operands 'natively'.  This means the
-    operator requires a list, because the operation does not make sense for
-    a single value.  For example, 'mean' averages the values of a list.  If
-    the required list argument is a single value, rpn will promote it to a
-    list.
+    Some operators take lists as operands 'natively'.  This means the operator
+    requires a list, because the operation does not make sense for a single
+    value.  For example, 'mean' averages the values of a list.  If the
+    required list argument is a single value, rpn will promote it to a list.
 
     For example:
 
@@ -168,8 +166,8 @@ Arguments:
     For integers, rpn understands hexidecimal input of the form '0x....'.
     Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B'
     is interpreted as binary.  Decimal points are not allowed for binary,
-    octal or hexadecimal modes, but fractional numbers in another base can be
-    input using -b.
+    octal or hexadecimal modes, but fractional numbers in bases other than 10
+    can be input using -b.
 
     A leading '\\' forces the term to be a number rather than an operator (for
     use with higher bases with -b).
@@ -191,16 +189,32 @@ It was rewritten in Python 3 in 2012 and now uses the mpmath library.
 ''',
 'bugs' :
 '''
-    rpn doesn't describe the correct argument in error messages if an option
-    flag is used.
+rpn doesn't describe the correct argument in error messages if an option flag
+is used.
 
-    -u doesn't work with complex numbers
+-u doesn't work with complex numbers
+
+The old "degree" and "radian" operators were supplanted by the new unit
+conversion operators with the same names and the trig functions haven't yet
+been updated to interpret them correctly.
 ''',
 'license' :
 '''
-rpn is licensed under the GPL, version 3.0 and is ''' + '\n' + COPYRIGHT_MESSAGE + '''
+rpn is licensed under the GPL, version 3.0 and is ''' +
 
-    [ fill in extra boilerplate as needed ]
+'\n' + COPYRIGHT_MESSAGE +
+
+'''
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+Please see <http://www.gnu.org/licenses/gpl.html> for more information.
 ''',
 'examples' :
 '''
@@ -218,12 +232,12 @@ Basic arithmetic operations:
     1081
 
     c:\>rpn 10 7 /
-    1.42857142857
+    1.4285714286
 
 Basic trigonometry usage:
 
     c:\>rpn 60 deg sin         # sine of 60 degrees
-    0.866025403784
+    0.8660254038
 
     c:\>rpn 45 deg tan         # tangent of 45 degrees
     1
@@ -236,36 +250,50 @@ Basic trigonometry usage:
 
 Convert an IP address to a 32-bit value and back:
 
-    c:\>rpn [ 192 168 0 1 ] 256 base -x
+    c:\>rpn -x [ 192 168 0 1 ] 256 base
     c0a8 0001
 
-    c:\>rpn 0xc0a80001 -R 256
+    c:\>rpn -R 256 0xc0a80001
     192 168 0 1
 
 Construct the square root of two from a continued fraction:
 
-    c:\>rpn -p20 2 sqrt
+    c:\>rpn -a20 2 sqrt
     1.41421356237309504880
 
-    c:\>rpn -p20 2 sqrt 20 cf2
+    c:\>rpn 2 sqrt 20 makecf
     [ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
 
-    c:\>rpn -p20 2 sqrt 20 frac
+    c:\>rpn 2 sqrt 20 frac
     [ 22619537, 15994428 ]
 
-    c:\>rpn -p20 [ 1 2 30 dup ] cf
+    c:\>rpn -a20 [ 1 2 30 dup ] cf
     1.41421356237309504880
 
 Calculations with lists:
 
     List of primes in the first 50 fibonacci numbers:
-        rpn 1 50 range fib isprime nonzero 1 + fib
+        c:\>rpn 1 50 range fib isprime nonzero 1 + fib
+        [ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
 
     Which of the first thousand pentagonal numbers are also triangular:
         c:\>rpn 1000 pent tri?
         1731.26218055
 
         c:\>rpn 1 1000 range pent 1 1732 range tri intersection
+        [ 1, 210, 40755 ]
+
+    Which triangular numbers are those?
+        c:\>rpn 1 1000 range pent 1 1732 range tri intersection tri?
+        [ 1, 20, 285 ]
+
+    The first, 20th, and 285th.
+
+    Which pentagonal numbers are those?
+        c:\>rpn 1 1000 range pent 1 1732 range tri intersection pent?
+        [ 1, 12, 165 ]
+
+    The first, 12th, and 165th.
 
 Please note that several of the following commands are broken up into multiple
 lines for readability, but all of them are single commands to rpn.
@@ -281,62 +309,62 @@ Calculation (or approximation) of various mathematical constants:
                     gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -
 
     Schwartzchild Constant (Conic Constant)
-        = rpn -p20 2 0 30 range ** 0 30 range ! / sum
+        = rpn -a20 2 0 30 range ** 0 30 range ! / sum
         = rpn e 2 **
 
     Somos\' Quadratic Recurrence Constant
-        = rpn -p20 1 100 range 0.5 0.5 100 georange ** prod
+        = rpn -a20 1 100 range 0.5 0.5 100 georange ** prod
 
     Prevost Constant
-        = rpn -p20 1 100 range fib 1/x sum
+        = rpn -a20 1 100 range fib 1/x sum
 
-    Euler's number = rpn -p20 0 100 range fac 1/x sum
-                   = rpn e
+    Euler's number = rpn -a20 0 100 range fac 1/x sum
+                   = rpn -a20 e
 
     Gelfond Constant
-        = rpn -p20 pi 0 100 range power 0 100 range ! / sum
-        = rpn e pi power
+        = rpn -a20 pi 0 100 range power 0 100 range ! / sum
+        = rpn -a20 e pi power
 
     Bloch-Landau Constant
-        = rpn -p20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /
+        = rpn -a20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /
 
     Hausdorff Dimension
-        = rpn -p20 2 0 100 range 2 * 1 + power 0 100 range 2 * 1 + *
+        = rpn -a20 2 0 100 range 2 * 1 + power 0 100 range 2 * 1 + *
             1/x sum 3 0 100 range 2 * 1 + power 0 100 range 2 * 1 +
             * 1/x sum /
-        = rpn 3 log 2 log /
+        = rpn -a20 3 log 2 log /
 
     Machin-Gregory Series
-        = rpn -p20 1 1000 2 range2 2 1 1000 2 range2 power * 1/x altsum
-        = rpn 1 2 / atan
+        = rpn -a20 1 1000 2 range2 2 1 1000 2 range2 power * 1/x altsum
+        = rpn -a20 1 2 / atan
 
     Beta(3)
-        = rpn -p17 1 1000000 2 range2 3 power 1/x altsum
-        = rpn pi 3 power 32 /
+        = rpn -a17 1 1000000 2 range2 3 power 1/x altsum
+        = rpn -a17 pi 3 power 32 /
 
     Cahen's constant
-        = rpn -p20 1 20 range sylvester 1 - 1/x altsum
+        = rpn -a20 1 20 range sylvester 1 - 1/x altsum
 
     Lemniscate Constant
         = rpn 4 2 pi / sqrt * 0.25 ! sqr *
 
     sqrt( e )
-        = rpn -p20 2 0 20 range power [ 0 20 range ] ! * 1/x sum
-        = rpn -p20 0 20 range 2 * !! 1/x sum
-        = rpn -p20 e sqrt
+        = rpn -a20 2 0 20 range power [ 0 20 range ] ! * 1/x sum
+        = rpn -a20 0 20 range 2 * !! 1/x sum
+        = rpn -a20 e sqrt
 
     1/e
-        = rpn -p20 0 25 range fac 1/x altsum
-        = rpn -p20 e 1/x
+        = rpn -a20 0 25 range fac 1/x altsum
+        = rpn -a20 e 1/x
 
-    Zeta( 6 )
-        = rpn -p25 -a19 1 1 1000 primes -6 power - 1/x prod
-        = rpn -p20 pi 6 power 945 /
-        = rpn -p20 6 zeta
+    Zeta( 6 )           goobles - look into this!
+        = rpn -a20 -p30 1 1 1000 primes -6 power - 1/x prod
+        = rpn -a20 pi 6 power 945 /
+        = rpn -a20 6 zeta
 
     Pythagoras' constant
-        = rpn -p20 [ 1 2 25 dup ] cf
-        = rpn -p20 2 sqrt
+        = rpn -a20 [ 1 2 25 dup ] cf
+        = rpn -a20 2 sqrt
 
     Digamma
         = rpn -p25 -a20 1 1 1000 primes -6 power - 1/x prod
@@ -352,16 +380,16 @@ Calculation (or approximation) of various mathematical constants:
         = rpn 0 100000 range 2 * 3 - fac2 0 100000 range 2 * fac2 / sqr sum
 
     Apery's Constant
-        = rpn -p20 1 5000 range 3 power 1/x sum
-        = rpn -p20 3 zeta
-        = rpn -p20 apery
+        = rpn -a20 1 5000 range 3 power 1/x sum
+        = rpn -a20 3 zeta
+        = rpn -a20 apery
 
     Omega Constant
-        = rpn -p20 [ e 1/x 100 dup ] tower
-        = rpn -p20 omega
+        = rpn -a20 [ e 1/x 100 dup ] tower
+        = rpn -a20 omega
 
     Liouville Number
-        = rpn -p120 10 1 10 range ! power 1/x surpnm
+        = rpn -a120 10 1 10 range ! power 1/x sum
 
     Gieseking Constant
         = rpn -a10 -p20 3 3 sqrt * 4 / 1
@@ -373,7 +401,7 @@ Calculation (or approximation) of various mathematical constants:
         = rpn 2 zeta 1/x
 
     Infinite Tetration of i
-        = rpn -p20 [ 1 i 1000 dup ] tower
+        = rpn -a20 [ 1 i 1000 dup ] tower
 ''',
 'notes' :
 '''
@@ -382,6 +410,8 @@ to the approximate equivalent for the new base since the precision is
 applicable to base 10.
 
 Tetration (hyperexponentiation) forces the second argument to an integer.
+
+Polynomials can only be raised to an integral power.
 
 To compute the nth Fibonacci number accurately, rpn sets the precision to
 a level sufficient to guarantee a correct answer.

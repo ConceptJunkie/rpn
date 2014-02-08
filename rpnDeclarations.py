@@ -19,7 +19,7 @@
 #//
 #//******************************************************************************
 
-PROGRAM_VERSION = '5.12.0'
+PROGRAM_VERSION = '5.12.1'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
 defaultPrecision = 20

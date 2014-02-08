@@ -1832,9 +1832,10 @@ unitConversionMatrix = {
 #//******************************************************************************
 
 massTable = {
-    '0.003'     : 'an average ant',
-    '7.0e4'     : 'an average human',
-    '4.39985e8' : 'the takeoff weight of a Boeing 747-8',
+    mpf( '0.003' )      : 'an average ant',
+    mpf( '7.0e4' )      : 'an average human',
+    mpf( '5.5e6' )      : 'an average male African bush elephant',
+    mpf( '4.39985e8' )  : 'the takeoff weight of a Boeing 747-8',
 }
 
 

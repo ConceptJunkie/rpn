@@ -3685,8 +3685,8 @@ def estimateMass( mass ):
     oneGram = Measurement( 1, { 'gram' : 1 } )
     massInGrams = mpf( Measurement( mass.convertValue( oneGram ), oneGram.getUnits( ) ) )
 
-    massKey = max( key for key in massTable if mpf( key ) < massInGrams )
-    multiple = fdiv( massInGrams, mpf( massKey ) )
+    massKey = max( key for key in massTable if key <= massInGrams )
+    multiple = fdiv( massInGrams, massKey )
 
     return 'Approximately ' + nstr( multiple, 3 ) + ' times the mass of ' + massTable[ massKey ]
 
