@@ -3804,7 +3804,6 @@ operatorAliases = {
     'cuberoot'    : 'root3',
     'dec'         : 'decagonal',
     'dec?'        : 'decagonal?',
-    'deg'         : 'degrees',
     'divcount'    : 'countdiv',
     'fac'         : 'factorial',
     'fac2'        : 'doublefac',
