@@ -194,9 +194,10 @@ is used.
 
 -u doesn't work with complex numbers
 
-The old "degree" and "radian" operators were supplanted by the new unit
-conversion operators with the same names and the trig functions haven't yet
-been updated to interpret them correctly.
+Polynomials should support being taken to positive integral powers, but don't yet.
+
+I also want to support taking units to integral powers, but don't yet.
+
 ''',
 'license' :
 '''

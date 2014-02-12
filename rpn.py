@@ -1242,6 +1242,21 @@ def performBitwiseOperation( i, j, operation ):
 
 #//******************************************************************************
 #//
+#//  performTrigOperation
+#//
+#//******************************************************************************
+
+def performTrigOperation( i, operation ):
+    if isinstance( i, Measurement ):
+        value = mpf( i.convertValue( Measurement( 1, { 'radian' : 1 } ) ) )
+    else:
+        value = i
+
+    return operation( value )
+
+
+#//******************************************************************************
+#//
 #//  getBitCount
 #//
 #//******************************************************************************
@@ -3865,7 +3880,6 @@ operatorAliases = {
     'quint'       : 'quintprime',
     'quint?'      : 'quintprime?',
     'quint_'      : 'quintprime_',
-    'rad'         : 'radians',
     'rand'        : 'random',
     'right'       : 'shiftright',
     'safe'        : 'safeprime',
@@ -3997,23 +4011,23 @@ listOperators = {
 
 operators = {
     'abs'           : [ fabs, 1 ],
-    'acos'          : [ acos, 1 ],
-    'acosh'         : [ acosh, 1 ],
-    'acot'          : [ acot, 1 ],
-    'acoth'         : [ acoth, 1 ],
-    'acsc'          : [ acsc, 1 ],
-    'acsch'         : [ acsch, 1 ],
+    'acos'          : [ lambda n: performTrigOperation( n, acos ), 1 ],
+    'acosh'         : [ lambda n: performTrigOperation( n, acosh ), 1 ],
+    'acot'          : [ lambda n: performTrigOperation( n, acot ), 1 ],
+    'acoth'         : [ lambda n: performTrigOperation( n, acoth ), 1 ],
+    'acsc'          : [ lambda n: performTrigOperation( n, acsc ), 1 ],
+    'acsch'         : [ lambda n: performTrigOperation( n, acsch ), 1 ],
     'add'           : [ add, 2 ],
     'altfac'        : [ getNthAlternatingFactorial, 1 ],
     'and'           : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x & y ), 2 ],
     'apery'         : [ apery, 0 ],
     'aperynum'      : [ getNthAperyNumber, 1 ],
-    'asec'          : [ asec, 1 ],
-    'asech'         : [ asech, 1 ],
-    'asin'          : [ asin, 1 ],
-    'asinh'         : [ asinh, 1 ],
-    'atan'          : [ atan, 1 ],
-    'atanh'         : [ atanh, 1 ],
+    'asec'          : [ lambda n: performTrigOperation( n, asec ), 1 ],
+    'asech'         : [ lambda n: performTrigOperation( n, asech ), 1 ],
+    'asin'          : [ lambda n: performTrigOperation( n, asin ), 1 ],
+    'asinh'         : [ lambda n: performTrigOperation( n, asinh ), 1 ],
+    'atan'          : [ lambda n: performTrigOperation( n, atan ), 1 ],
+    'atanh'         : [ lambda n: performTrigOperation( n, atanh ), 1 ],
     'balanced'      : [ getNthBalancedPrime, 1 ],
     'balanced_'     : [ getNthBalancedPrimeList, 1 ],
     'bell'          : [ bell, 1 ],
@@ -4038,10 +4052,10 @@ operators = {
     'coctagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 8 ), 1 ],
     'coctagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 8 ), 1 ],
     'copeland'      : [ getCopelandErdos, 0 ],
-    'cos'           : [ cos, 1 ],
-    'cosh'          : [ cosh, 1 ],
-    'cot'           : [ cot, 1 ],
-    'coth'          : [ coth, 1 ],
+    'cos'           : [ lambda n: performTrigOperation( n, cos ), 1 ],
+    'cosh'          : [ lambda n: performTrigOperation( n, cosh ), 1 ],
+    'cot'           : [ lambda n: performTrigOperation( n, cot ), 1 ],
+    'coth'          : [ lambda n: performTrigOperation( n, coth ), 1 ],
     'countbits'     : [ getBitCount, 1 ],
     'countdiv'      : [ getDivisorCount, 1 ],
     'cousinprime'   : [ getNthCousinPrime, 1 ],
@@ -4049,8 +4063,8 @@ operators = {
     'cpentagonal?'  : [ lambda n: findCenteredPolygonalNumber( n, 5 ), 1 ],
     'cpolygonal'    : [ lambda n, k: getCenteredPolygonalNumber( n, k ), 2 ],
     'cpolygonal?'   : [ lambda n, k: findCenteredPolygonalNumber( n, k ), 2 ],
-    'csc'           : [ csc, 1 ],
-    'csch'          : [ csch, 1 ],
+    'csc'           : [ lambda n: performTrigOperation( n, csc ), 1 ],
+    'csch'          : [ lambda n: performTrigOperation( n, csch ), 1 ],
     'csquare'       : [ lambda n: getCenteredPolygonalNumber( n, 4 ), 1 ],
     'csquare?'      : [ lambda n: findCenteredPolygonalNumber( n, 4 ), 1 ],
     'ctriangular'   : [ lambda n: getCenteredPolygonalNumber( n, 3 ), 1 ],
@@ -4059,7 +4073,6 @@ operators = {
     'decagonal'     : [ lambda n: getNthPolygonalNumber( n, 10 ), 1 ],
     'decagonal?'    : [ lambda n: findNthPolygonalNumber( n, 10 ), 1 ],
     'decillion'     : [ lambda: mpf( '1.0e33' ), 0 ],
-    'degrees'       : [ radians, 1 ],
     'delannoy'      : [ getNthDelannoyNumber, 1 ],
     'divide'        : [ divide, 2 ],
     'divisors'      : [ getDivisors, 1 ],
@@ -4218,7 +4231,6 @@ operators = {
     'quintillion'   : [ lambda: mpf( '1.0e18' ), 0 ],
     'quintprime'    : [ getNthQuintupletPrime, 1 ],
     'quintprime_'   : [ getNthQuintupletPrimeList, 1 ],
-    'radians'       : [ degrees, 1 ],
     'random'        : [ rand, 0 ],
     'range'         : [ expandRange, 2 ],
     'range2'        : [ expandSteppedRange, 3 ],
@@ -4233,8 +4245,8 @@ operators = {
     'safeprime'     : [ lambda n: fadd( fmul( getNthSophiePrime( n ), 2 ), 1 ), 1 ],
     'schroeder'     : [ getNthSchroederNumber, 1 ],
     'score'         : [ lambda: mpf( '20' ), 0 ],
-    'sec'           : [ sec, 1 ],
-    'sech'          : [ sech, 1 ],
+    'sec'           : [ lambda n: performTrigOperation( n, sec ), 1 ],
+    'sech'          : [ lambda n: performTrigOperation( n, sech ), 1 ],
     'septillion'    : [ lambda: mpf( '1.0e24' ), 0 ],
     'sextillion'    : [ lambda: mpf( '1.0e21' ), 0 ],
     'sextprime'     : [ getNthSextupletPrime, 1 ],
@@ -4248,8 +4260,8 @@ operators = {
     'shiftleft'     : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x << y ), 2 ],
     'shiftright'    : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x >> y ), 2 ],
     'short'         : [ lambda n: convertToSignedInt( n , 16 ), 1 ],
-    'sin'           : [ sin, 1 ],
-    'sinh'          : [ sinh, 1 ],
+    'sin'           : [ lambda n: performTrigOperation( n, sin ), 1 ],
+    'sinh'          : [ lambda n: performTrigOperation( n, sinh ), 1 ],
     'solve2'        : [ solveQuadraticPolynomial, 3 ],
     'solve3'        : [ solveCubicPolynomial, 4 ],
     'solve4'        : [ solveQuarticPolynomial, 5 ],
@@ -4265,8 +4277,8 @@ operators = {
     'superfac'      : [ superfac, 1 ],
     'superprime'    : [ getNthSuperPrime, 1 ],
     'sylvester'     : [ getNthSylvester, 1 ],
-    'tan'           : [ tan, 1 ],
-    'tanh'          : [ tanh, 1 ],
+    'tan'           : [ lambda n: performTrigOperation( n, tan ), 1 ],
+    'tanh'          : [ lambda n: performTrigOperation( n, tanh ), 1 ],
     'tetrahedral'   : [ lambda n: polyval( [ fdiv( 1, 6 ), fdiv( 1, 2 ), fdiv( 1, 3 ), 0 ], n ), 1 ],
     'tetranacci'    : [ getNthTetranacci, 1 ],
     'tetrate'       : [ tetrate, 2 ],
