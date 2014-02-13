@@ -12,6 +12,8 @@
 #//
 #//******************************************************************************
 
+from mpmath import *
+
 
 #//******************************************************************************
 #//
@@ -19,7 +21,7 @@
 #//
 #//******************************************************************************
 
-PROGRAM_VERSION = '5.12.2'
+PROGRAM_VERSION = '5.13.0'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
 defaultPrecision = 20
@@ -127,6 +129,9 @@ specialUnitConversionMatrix = {
     ( 'romer',                 'kelvin' )                          : lambda ro: fadd( fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 40, 21 ) ), mpf( '273.15' ) ),
     ( 'romer',                 'rankine' )                         : lambda ro: fadd( fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 24, 7 ) ), mpf( '491.67' ) ),
     ( 'romer',                 'reaumur' )                         : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 32, 21 ) ),
+
+    ( 'dBm',                   'watt' )                            : lambda dBm: power( 10, fdiv( fsub( dBm, 30 ), 10 ) ),
+    ( 'watt',                  'dBm' )                             : lambda W: fmul( log10( fmul( W, 1000 ) ), 10 ),
 }
 
 

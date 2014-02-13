@@ -529,15 +529,26 @@ class Measurement( mpf ):
         global unitConversionMatrix
 
         if self.isCompatible( other ):
-            units1 = self.getUnits( )
-            units2 = other.getUnits( )
-
             conversions = [ ]
 
             if isinstance( other, list ):
-                for item in other:
-                    # Uh oh, now what?
-                    pass
+                result = [ ]
+                source = self
+
+                for measurement in other:
+                    print( measurement, measurement.getUnits( ) )
+                    conversion = source.convertValue( measurement )
+
+                    newValue = floor( mpf( conversion ) )
+
+                    result.append( Measurement( newValue, measurement.getUnits( ) ) )
+
+                    source = Measurement( fsub( mpf( conversion ), newValue ), measurement.getUnits( ) )
+
+                return result
+
+            units1 = self.getUnits( )
+            units2 = other.getUnits( )
 
             unit1String = makeUnitString( units1 )
             unit2String = makeUnitString( units2 )

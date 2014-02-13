@@ -797,6 +797,9 @@ unitOperators = {
 
     # power
 
+    'dBm' :
+        UnitInfo( 'power', 'dBm', 'dBm', 'dBm', [ 'dBmW', 'decibel-milliwatt' ], [ 'engineering' ] ),
+
     'erg/second' :
         UnitInfo( 'power', 'erg/second', 'ergs/second', 'erg/s', [ 'ergs/s' ], [ 'CGS' ] ),
 
