@@ -8,11 +8,10 @@ rewritten the original C rpn program in C++ a few years later, it was still a
 very simple program that was essentially a 4-function command line calculator
 and that's all.
 
-However, starting with version 2, thanks to the embarrassment of riches to be
-found among the libraries available for Python, and the language itself, rpn
-ended up growing to become something really cool and a lot more useful and fun
-than I would have guess when I started it just as an excuse to do something in
-Python.
+However, starting with version 2, thanks to Python being such a powerful
+language and mpmath being a math nerd's dream library, rpn ended up growing to
+become something really cool and a lot more useful and fun than I would have
+guessed when I started it just as an excuse to do something in Python.
 
 rpn is written for Python 3, and requires the mpmath and pyprimes libraries.
 It's a work in progress, and at any particular time, parts of it might be
@@ -32,7 +31,8 @@ makeRPNPrimes.py consists of a bunch of functions for pre-calculating and
 caching different kinds of prime numbers that was recently pulled out of rpn.py
 (and as of version 5.11.0 isn't finished as a standalone program). The data
 files are stored in the same location as rpn.py in a subdirectory called
-rpndata/.
+rpndata/.  Until I fix this, if you really want to generate prime numbers, go
+back to version 4 and check out the '_make*' commands.
 
 There are plenty of tools out there that are as nice as this one, and
 definitely plenty that are far more powerful and polished (and bug-free), but
