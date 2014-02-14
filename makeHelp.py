@@ -985,6 +985,16 @@ number.
 ''',
 '''
 ''' ],
+    'dms' : [
+'special', 'shortcut for \'[ degree arcminute arcsecond ]\'',
+'''
+This shortcut operator replaces having to type '[ degree arcminute arcsecond ]' in
+order to convert an angle to degrees, arcminutes and arcseconds.
+''',
+'''
+c:\>rpn pi 7 / radians dms convert
+[ 25 degrees, 42 arcminutes, 51.4285714285 arcseconds ]
+''' ],
     'dodecahedral' : [
 'polyhedral_numbers', 'returns the nth dodecahedral number',
 '''
@@ -1234,6 +1244,18 @@ c:\>rpn 2 2 10 exprange
 '''
 ''',
 '''
+''' ],
+    'hms' : [
+'special', 'shortcut for \'[ hour minute second ]\'',
+'''
+This shortcut operator replaces having to type '[ hour minute second ]' in
+order to convert an angle to hours, minutes and seconds.
+''',
+'''
+c:\>rpn 8 microcenturies hms convert
+[ 7 hours, 0 minutes, 46.0799999991 seconds ]
+
+Note:  Not sure why the rounding error is so large.
 ''' ],
     'hyper4_2' : [
 'powers_and_roots', 'calculates the right-associative tetration of n by k',

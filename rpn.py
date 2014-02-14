@@ -219,7 +219,7 @@ def getBasicUnitTypes( unitTypes ):
     result = { }
 
     for unitType in unitTypes:
-        basicUnits = parseUnitString( basicUnitTypes[ unitType ] )
+        basicUnits = parseUnitString( basicUnitTypes[ unitType ][ 0 ] )
 
         exponent = unitTypes[ unitType ]
 
@@ -535,11 +535,13 @@ class Measurement( mpf ):
                 result = [ ]
                 source = self
 
-                for measurement in other:
-                    print( measurement, measurement.getUnits( ) )
+                for count, measurement in enumerate( other ):
                     conversion = source.convertValue( measurement )
 
-                    newValue = floor( mpf( conversion ) )
+                    if count < len( other ) - 1:
+                        newValue = floor( mpf( conversion ) )
+                    else:
+                        newValue = mpf( conversion )
 
                     result.append( Measurement( newValue, measurement.getUnits( ) ) )
 
@@ -3760,8 +3762,11 @@ def convertUnits( unit1, unit2 ):
     #print( 'unit1:', unit1.getTypes( ) )
     #print( 'unit2:', unit2.getTypes( ) )
 
-    return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
-                        unit2.getUnitName( ), unit2.getPluralUnitName( ) )
+    if isinstance( unit2, list ):
+        return unit1.convertValue( unit2 )
+    else:
+        return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
+                            unit2.getUnitName( ), unit2.getPluralUnitName( ) )
 
 
 #//******************************************************************************
@@ -4086,6 +4091,7 @@ operators = {
     'delannoy'      : [ getNthDelannoyNumber, 1 ],
     'divide'        : [ divide, 2 ],
     'divisors'      : [ getDivisors, 1 ],
+    'dms'           : [ lambda: [ Measurement( 1, { 'degree' : 1 } ), Measurement( 1, { 'arcminute' : 1 } ), Measurement( 1, { 'arcsecond' : 1 } ) ], 0 ],
     'dodecahedral'  : [ lambda n : polyval( [ 9/2, -9/2, 1, 0 ], n ), 1 ],
     'double'        : [ lambda n : sum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) ), 1 ],
     'doublebal'     : [ getNthDoubleBalancedPrime, 1 ],
@@ -4124,6 +4130,7 @@ operators = {
     'hexagonal?'    : [ lambda n: findNthPolygonalNumber( n, 6 ), 1 ],
     'hexanacci'     : [ getNthHexanacci, 1 ],
     'hexpent'       : [ getNthHexagonalPentagonalNumber, 1 ],
+    'hms'           : [ lambda: [ Measurement( 1, { 'hour' : 1 } ), Measurement( 1, { 'minute' : 1 } ), Measurement( 1, { 'second' : 1 } ) ], 0 ],
     'hyper4_2'      : [ tetrateLarge, 2 ],
     'hyperfac'      : [ hyperfac, 1 ],
     'hypot'         : [ hypot, 2 ],
@@ -4539,6 +4546,7 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
             mantissa = ''
         elif outputAccuracy > 0:
             mantissa = roundMantissa( mantissa, outputAccuracy )
+            mantissa = mantissa.rstrip( '0' )
 
     if integerGrouping > 0:
         firstDelimiter = len( integer ) % integerGrouping
@@ -4610,11 +4618,14 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
                                               leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
                                               outputAccuracy )
         else:
-            itemString = nstr( item, mp.dps )
+            itemString = str( item )
 
             resultString += formatOutput( itemString, radix, numerals, integerGrouping, integerDelimiter,
                                           leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
                                           outputAccuracy )
+
+            if isinstance( item, Measurement ):
+                resultString += ' ' + formatUnits( item )
 
     resultString += ' ]'
 
