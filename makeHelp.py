@@ -985,6 +985,16 @@ number.
 ''',
 '''
 ''' ],
+    'dhms' : [
+'special', 'shortcut for \'[ day hour minute second ]\'',
+'''
+This shortcut operator replaces having to type '[ day hour minute second ]' in
+order to convert a time interval to days, hours, minutes and seconds.
+''',
+'''
+c:\>rpn -p200 siderial_year dhms convert
+[ 365 days, 6 hours, 9 minutes, 9.7632 seconds ]
+''' ],
     'dms' : [
 'special', 'shortcut for \'[ degree arcminute arcsecond ]\'',
 '''
@@ -1249,7 +1259,7 @@ c:\>rpn 2 2 10 exprange
 'special', 'shortcut for \'[ hour minute second ]\'',
 '''
 This shortcut operator replaces having to type '[ hour minute second ]' in
-order to convert an angle to hours, minutes and seconds.
+order to convert a time interval to hours, minutes and seconds.
 ''',
 '''
 c:\>rpn 8 microcenturies hms convert

@@ -48,6 +48,7 @@ basicUnitTypes = {
     'area'                      : [ 'length^2', 'meter^2' ],
     'capacitance'               : [ 'current^2*time^4/mass*length^2', 'farad' ],
     'charge'                    : [ 'current*time', 'coulomb' ],
+    'constant'                  : [ 'constant', 'unity' ],
     'current'                   : [ 'current', 'ampere' ],
     'data_rate'                 : [ 'information_entropy/time', 'bit/second' ],
     'electrical_conductance'    : [ 'time*current^2/mass*length^2', 'mho' ],
@@ -218,6 +219,61 @@ unitOperators = {
 
     'statcoulomb' :
         UnitInfo( 'charge', 'statcoulomb', 'statcoulombs', 'statC', [ 'esu_charge' ], [ 'CGS' ] ),
+
+    # constant - Constant is a special type that is immediately converted to a numerical value when used.
+    #            It's not intended to be used as a unit, per se.  Also, these units are in order of their
+    #            value instead of alphabetical order like all the others
+
+    'unity' :
+        UnitInfo( 'constant', 'unity', 'x unity', '', [ ], [ 'constant' ] ),
+
+    'dozen' :
+        UnitInfo( 'constant', 'dozen', 'dozen', '', [ ], [ 'constant' ] ),
+
+    'score' :
+        UnitInfo( 'constant', 'score', 'score', '', [ ], [ 'constant' ] ),
+
+    'hundred' :
+        UnitInfo( 'constant', 'hundred', 'hundred', '', [ ], [ 'constant' ] ),
+
+    'thousand' :
+        UnitInfo( 'constant', 'thousand', 'thousand', '', [ ], [ 'constant' ] ),
+
+    'million' :
+        UnitInfo( 'constant', 'million', 'million', '', [ ], [ 'constant' ] ),
+
+    'billion' :
+        UnitInfo( 'constant', 'billion', 'billion', '', [ ], [ 'constant' ] ),
+
+    'trillion' :
+        UnitInfo( 'constant', 'trillion', 'trillion', '', [ ], [ 'constant' ] ),
+
+    'quadrillion' :
+        UnitInfo( 'constant', 'quadrillion', 'quadrillion', '', [ ], [ 'constant' ] ),
+
+    'quintillion' :
+        UnitInfo( 'constant', 'quintillion', 'quintillion', '', [ ], [ 'constant' ] ),
+
+    'sextillion' :
+        UnitInfo( 'constant', 'sextillion', 'sextillion', '', [ ], [ 'constant' ] ),
+
+    'septillion' :
+        UnitInfo( 'constant', 'septillion', 'septillion', '', [ ], [ 'constant' ] ),
+
+    'octillion' :
+        UnitInfo( 'constant', 'octillion', 'octillion', '', [ ], [ 'constant' ] ),
+
+    'nonillion' :
+        UnitInfo( 'constant', 'nonillion', 'nonillion', '', [ ], [ 'constant' ] ),
+
+    'decillion' :
+        UnitInfo( 'constant', 'decillion', 'decillion', '', [ ], [ 'constant' ] ),
+
+    'googol' :
+        UnitInfo( 'constant', 'googol', 'googols', '', [ ], [ 'constant' ] ),
+
+    'centillion' :
+        UnitInfo( 'constant', 'centillion', 'centillion', '', [ ], [ 'constant' ] ),
 
     # current
 
@@ -1512,6 +1568,7 @@ unitConversionMatrix = {
     ( 'bar',                   'pascal' )                               : '1.0e5',
     ( 'barleycorn',            'poppyseed' )                            : '4',
     ( 'becquerel',             'curie' )                                : '3.7e10',
+    ( 'billion',               'unity' )                                : '1.0e9',
     ( 'bit',                   'nat' )                                  : str( log( 2 ) ),
     ( 'blintz',                'farshimmelt_blintz' )                   : '1.0e5',
     ( 'blintz',                'furshlugginer_blintz' )                 : '1.0e-6',
@@ -1524,6 +1581,7 @@ unitConversionMatrix = {
     ( 'carat',                 'grain' )                                : str( fadd( 3, fdiv( 1, 6 ) ) ),
     ( 'carucate',              'acre' )                                 : '120',
     ( 'carucate',              'bovate' )                               : '8',
+    ( 'centillion',            'unity' )                                : '1.0e303',
     ( 'century',               'microcentury' )                         : '1.0e6',
     ( 'century',               'nanocentury' )                          : '1.0e9',
     ( 'century',               'year' )                                 : '100',
@@ -1548,9 +1606,11 @@ unitConversionMatrix = {
     ( 'cup',                   'gill' )                                 : '2',
     ( 'day',                   'hour' )                                 : '24',
     ( 'decade',                'year' )                                 : '10',
+    ( 'decillion',             'unity' )                                : '1.0e33',
     ( 'degree',                'arcminute' )                            : '60',
     ( 'demi',                  'liter' )                                : '0.375',
     ( 'dessertspoon',          'teaspoon' )                             : '2',
+    ( 'dozen',                 'unity' )                                : '12',
     ( 'dram',                  'scruple' )                              : '3',
     ( 'dry_barrel',            'bushel' )                               : '4',
     ( 'dry_barrel',            'cubic_inch' )                           : '7056',
@@ -1587,6 +1647,7 @@ unitConversionMatrix = {
     ( 'gallon_of_gasoline',    'joule' )                                : '1.2e8',  # approx. obviously
     ( 'gauss',                 'maxwell/centimeter^2' )                 : '1',
     ( 'goliath',               'liter' )                                : '27.0',
+    ( 'googol',                'unity' )                                : '1.0e100',
     ( 'grad',                  'degree' )                               : '0.9',
     ( 'gram',                  'dalton' )                               : '1.66053e-27',
     ( 'gram',                  'planck_mass' )                          : '45940.892447777',
@@ -1604,6 +1665,7 @@ unitConversionMatrix = {
     ( 'horsepower',            'watt' )                                 : '745.69987158227022',
     ( 'horsepower-second',     'joule' )                                : '745.69987158227022',
     ( 'hour',                  'minute' )                               : '60',
+    ( 'hundred',               'unity' )                                : '100',
     ( 'imperial_bushel',       'kenning' )                              : '2',
     ( 'imperial_butt',         'imperial_hogshead' )                    : '2',
     ( 'imperial_cup',          'imperial_gill' )                        : '2',
@@ -1660,6 +1722,7 @@ unitConversionMatrix = {
     ( 'meter/second',          'knot' )                                 : '1.943844492',
     ( 'methuselah',            'liter' )                                : '6.0',
     ( 'mile',                  'foot' )                                 : '5280',
+    ( 'million',               'unity' )                                : '1.0e6',
     ( 'mingo',                 'clarke' )                               : '10',
     ( 'minute',                'second' )                               : '60',
     ( 'mmHg',                  'pascal' )                               : '133.3224',        # approx.
@@ -1679,8 +1742,10 @@ unitConversionMatrix = {
     ( 'nit',                   'apostilb' )                             : str( pi ),
     ( 'nit',                   'candela/meter^2' )                      : '1',
     ( 'nit',                   'lambert' )                              : str( fdiv( pi, 10000 ) ),
+    ( 'nonillion',             'unity' )                                : '1.0e30',
     ( 'nyp',                   'bit' )                                  : '2',
     ( 'octant',                'degree' )                               : '45',
+    ( 'octillion',             'unity' )                                : '1.0e27',
     ( 'oersted',               'ampere/meter' )                         : '79.5774715',
     ( 'ohm',                   '1/siemens' )                            : '1',
     ( 'ohm',                   'abohm' )                                : '1e9',
@@ -1721,10 +1786,12 @@ unitConversionMatrix = {
     ( 'pound',                 'sheet' )                                : '700',
     ( 'psi',                   'pascal' )                               : '6894.757',        # approx.
     ( 'quadrant',              'degree' )                               : '90',
+    ( 'quadrillion',           'unity' )                                : '1.0e15',
     ( 'quart',                 'cup' )                                  : '4',
     ( 'quart',                 'liter' )                                : '0.946352946',
     ( 'quart',                 'pint' )                                 : '2',
     ( 'quintant',              'degree' )                               : '72',
+    ( 'quintillion',           'unity' )                                : '1.0e18',
     ( 'qword',                 'bit' )                                  : '64',
     ( 'radian',                'degree' )                               : str( fdiv( 180, pi ) ),
     ( 'reed',                  'foot' )                                 : '9',
@@ -1735,12 +1802,15 @@ unitConversionMatrix = {
     ( 'rutherford',            'becquerel' )                            : '1.0e6',
     ( 'rydberg',               'joule' )                                : '2.179872e-18',
     ( 'salmanazar',            'liter' )                                : '9.0',
+    ( 'score',                 'unity' )                                : '20',
     ( 'scruple',               'minim' )                                : '20',
     ( 'second',                'jiffy' )                                : '100',
     ( 'second',                'shake' )                                : '1.0e8',
     ( 'second',                'svedberg' )                             : '1.0e13',
     ( 'section',               'acre' )                                 : '640',
+    ( 'septillion',            'unity' )                                : '1.0e24',
     ( 'sextant',               'degree' )                               : '60',
+    ( 'sextillion',            'unity' )                                : '1.0e21',
     ( 'siderial_day',          'second' )                               : '86164.1',
     ( 'siderial_year',         'day' )                                  : '365.256363',
     ( 'siemens',               'ampere/volt' )                          : '1',
@@ -1785,11 +1855,13 @@ unitConversionMatrix = {
     ( 'tesla',                 'gauss' )                                : '10000',
     ( 'tesla',                 'kilogram/ampere-second^2' )             : '1',
     ( 'tesla',                 'weber/meter^2' )                        : '1',
+    ( 'thousand',              'unity' )                                : '100',
     ( 'ton',                   'pound' )                                : '2000',
     ( 'tonne',                 'gram' )                                 : '1.0e6',
     ( 'ton_of_TNT',            'joule' )                                : '4.184e9',
     ( 'torr',                  'mmHg' )                                 : '1',
     ( 'township',              'acre' )                                 : '23040',
+    ( 'trillion',              'unity' )                                : '1.0e12',
     ( 'trit',                  'nat' )                                  : str( log( 3 ) ),
     ( 'tropical_year',         'day' )                                  : '365.24219',
     ( 'troy_ounce',            'gram' )                                 : '31.1034768',

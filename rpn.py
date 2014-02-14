@@ -4048,7 +4048,6 @@ operators = {
     'bell'          : [ bell, 1 ],
     'bellpoly'      : [ bell, 2 ],
     'bernoulli'     : [ bernoulli, 1 ],
-    'billion'       : [ lambda: mpf( '1.0e9' ), 0 ],
     'binomial'      : [ binomial, 2 ],
     'carol'         : [ lambda n : fsub( power( fsub( power( 2, n ), 1 ), 2 ), 2 ), 1 ],
     'catalan'       : [ lambda n: fdiv( binomial( fmul( 2, n ), n ), fadd( n, 1 ) ), 1 ],
@@ -4087,11 +4086,13 @@ operators = {
     'cube'          : [ lambda n: power( n, 3 ), 1 ],
     'decagonal'     : [ lambda n: getNthPolygonalNumber( n, 10 ), 1 ],
     'decagonal?'    : [ lambda n: findNthPolygonalNumber( n, 10 ), 1 ],
-    'decillion'     : [ lambda: mpf( '1.0e33' ), 0 ],
     'delannoy'      : [ getNthDelannoyNumber, 1 ],
     'divide'        : [ divide, 2 ],
     'divisors'      : [ getDivisors, 1 ],
-    'dms'           : [ lambda: [ Measurement( 1, { 'degree' : 1 } ), Measurement( 1, { 'arcminute' : 1 } ), Measurement( 1, { 'arcsecond' : 1 } ) ], 0 ],
+    'dhms'          : [ lambda: [ Measurement( 1, { 'day' : 1 } ), Measurement( 1, { 'hour' : 1 } ),
+                                  Measurement( 1, { 'minute' : 1 } ), Measurement( 1, { 'second' : 1 } ) ], 0 ],
+    'dms'           : [ lambda: [ Measurement( 1, { 'degree' : 1 } ), Measurement( 1, { 'arcminute' : 1 } ),
+                                  Measurement( 1, { 'arcsecond' : 1 } ) ], 0 ],
     'dodecahedral'  : [ lambda n : polyval( [ 9/2, -9/2, 1, 0 ], n ), 1 ],
     'double'        : [ lambda n : sum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) ), 1 ],
     'doublebal'     : [ getNthDoubleBalancedPrime, 1 ],
@@ -4117,7 +4118,6 @@ operators = {
     'gamma'         : [ gamma, 1 ],
     'georange'      : [ expandGeometricRange, 3 ],
     'glaisher'      : [ glaisher, 0 ],
-    'googol'        : [ lambda: mpf( '1.0e100' ), 0 ],
     'harmonic'      : [ harmonic, 1 ],
     'heptagonal'    : [ lambda n: getNthPolygonalNumber( n, 7 ), 1 ],
     'heptagonal?'   : [ lambda n: findNthPolygonalNumber( n, 7 ), 1 ],
@@ -4127,10 +4127,11 @@ operators = {
     'heptsquare'    : [ getNthHeptagonalSquareNumber, 1 ],
     'hepttri'       : [ getNthHeptagonalTriangularNumber, 1 ],
     'hexagonal'     : [ lambda n: getNthPolygonalNumber( n, 6 ), 1 ],
-    'hexagonal?'    : [ lambda n: findNthPolygonalNumber( n, 6 ), 1 ],
+    'he?'    : [ lambda n: findNthPolygonalNumber( n, 6 ), 1 ],
     'hexanacci'     : [ getNthHexanacci, 1 ],
     'hexpent'       : [ getNthHexagonalPentagonalNumber, 1 ],
-    'hms'           : [ lambda: [ Measurement( 1, { 'hour' : 1 } ), Measurement( 1, { 'minute' : 1 } ), Measurement( 1, { 'second' : 1 } ) ], 0 ],
+    'hms'           : [ lambda: [ Measurement( 1, { 'hour' : 1 } ), Measurement( 1, { 'minute' : 1 } ),
+                                  Measurement( 1, { 'second' : 1 } ) ], 0 ],
     'hyper4_2'      : [ tetrateLarge, 2 ],
     'hyperfac'      : [ hyperfac, 1 ],
     'hypot'         : [ hypot, 2 ],
@@ -4169,7 +4170,6 @@ operators = {
     'maxuquadlong'  : [ lambda: ( 1 << 128 ) - 1, 0 ],
     'maxushort'     : [ lambda: ( 1 << 16 ) - 1, 0 ],
     'mertens'       : [ mertens, 0 ],
-    'million'       : [ lambda: mpf( '1.0e6' ), 0 ],
     'minchar'       : [ lambda: -( 1 << 7 ), 0 ],
     'minlong'       : [ lambda: -( 1 << 31 ), 0 ],
     'minlonglong'   : [ lambda: -( 1 << 63 ), 0 ],
@@ -4193,7 +4193,6 @@ operators = {
     'nonapent'      : [ getNthNonagonalPentagonalNumber, 1 ],
     'nonasquare'    : [ getNthNonagonalSquareNumber, 1 ],
     'nonatri'       : [ getNthNonagonalTriangularNumber, 1 ],
-    'nonillion'     : [ lambda: mpf( '1.0e30' ), 0 ],
     'not'           : [ getInvertedBits, 1 ],
     'nspherearea'   : [ getNSphereSurfaceArea, 2 ],
     'nsphereradius' : [ getNSphereRadius, 2 ],
@@ -4205,7 +4204,6 @@ operators = {
     'octahedral'    : [ lambda n: polyval( [ 2/3, 0, 1/3, 0 ], n ), 1 ],
     'octhept'       : [ getNthOctagonalHeptagonalNumber, 1 ],
     'octhex'        : [ getNthOctagonalHexagonalNumber, 1 ],
-    'octillion'     : [ lambda: mpf( '1.0e27' ), 0 ],
     'octpent'       : [ getNthOctagonalPentagonalNumber, 1 ],
     'octsquare'     : [ getNthOctagonalSquareNumber, 1 ],
     'octtri'        : [ getNthOctagonalTriangularNumber, 1 ],
@@ -4244,8 +4242,6 @@ operators = {
     'quadprime'     : [ getNthQuadrupletPrime, 1 ],
     'quadprime?'    : [ lambda i: findQuadrupletPrimes( i )[ 1 ], 1 ],
     'quadprime_'    : [ getNthQuadrupletPrimeList, 1 ],
-    'quadrillion'   : [ lambda: mpf( '1.0e15' ), 0 ],
-    'quintillion'   : [ lambda: mpf( '1.0e18' ), 0 ],
     'quintprime'    : [ getNthQuintupletPrime, 1 ],
     'quintprime_'   : [ getNthQuintupletPrimeList, 1 ],
     'random'        : [ rand, 0 ],
@@ -4264,8 +4260,6 @@ operators = {
     'score'         : [ lambda: mpf( '20' ), 0 ],
     'sec'           : [ lambda n: performTrigOperation( n, sec ), 1 ],
     'sech'          : [ lambda n: performTrigOperation( n, sech ), 1 ],
-    'septillion'    : [ lambda: mpf( '1.0e24' ), 0 ],
-    'sextillion'    : [ lambda: mpf( '1.0e21' ), 0 ],
     'sextprime'     : [ getNthSextupletPrime, 1 ],
     'sextprime_'    : [ getNthSextupletPrimeList, 1 ],
     'sexyprime'     : [ getNthSexyPrime, 1 ],
@@ -4304,7 +4298,6 @@ operators = {
     'triangular'    : [ lambda n : getNthPolygonalNumber( n, 3 ), 1 ],
     'triangular?'   : [ lambda n : findNthPolygonalNumber( n, 3 ), 1 ],
     'tribonacci'    : [ getNthTribonacci, 1 ],
-    'trillion'      : [ lambda: mpf( '1.0e12' ), 0 ],
     'triplebal'     : [ getNthTripleBalancedPrime, 1 ],
     'triplebal_'    : [ getNthTripleBalancedPrimeList, 1 ],
     'tripletprime'  : [ getNthTripletPrime, 1 ],
@@ -5209,10 +5202,17 @@ def main( ):
                 break
         elif term in unitOperators:
             if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
-                currentValueList.append( Measurement( 1, term, term, unitOperators[ term ].plural ) )
+                if unitOperators[ term ].unitType == 'constant':
+                    value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+                else:
+                    value = Measurement( 1, term, term, unitOperators[ term ].plural )
             else:
-                value = Measurement( currentValueList.pop( ), term, term, unitOperators[ term ].plural )
-                currentValueList.append( value )
+                if unitOperators[ term ].unitType == 'constant':
+                    value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+                else:
+                    value = Measurement( currentValueList.pop( ), term, term, unitOperators[ term ].plural )
+
+            currentValueList.append( value )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
 
