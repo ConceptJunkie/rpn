@@ -3753,6 +3753,39 @@ def estimateVolume( volume ):
 
 #//******************************************************************************
 #//
+#//  convertToDMS
+#//
+#//******************************************************************************
+
+def convertToDMS( n ):
+    return convertUnits( n, [ Measurement( 1, { 'degree' : 1 } ), Measurement( 1, { 'arcminute' : 1 } ),
+                              Measurement( 1, { 'arcsecond' : 1 } ) ] )
+
+
+#//******************************************************************************
+#//
+#//  convertToHMS
+#//
+#//******************************************************************************
+
+def convertToHMS( n ):
+    return convertUnits( n, [ Measurement( 1, { 'hour' : 1 } ), Measurement( 1, { 'minute' : 1 } ),
+                              Measurement( 1, { 'second' : 1 } ) ] )
+
+
+#//******************************************************************************
+#//
+#//  convertToDHMS
+#//
+#//******************************************************************************
+
+def convertToDHMS( n ):
+    return convertUnits( n, [ Measurement( 1, { 'day' : 1 } ), Measurement( 1, { 'hour' : 1 } ),
+                              Measurement( 1, { 'minute' : 1 } ), Measurement( 1, { 'second' : 1 } ) ] )
+
+
+#//******************************************************************************
+#//
 #//  convertUnits
 #//
 #//******************************************************************************
@@ -4089,10 +4122,8 @@ operators = {
     'delannoy'      : [ getNthDelannoyNumber, 1 ],
     'divide'        : [ divide, 2 ],
     'divisors'      : [ getDivisors, 1 ],
-    'dhms'          : [ lambda: [ Measurement( 1, { 'day' : 1 } ), Measurement( 1, { 'hour' : 1 } ),
-                                  Measurement( 1, { 'minute' : 1 } ), Measurement( 1, { 'second' : 1 } ) ], 0 ],
-    'dms'           : [ lambda: [ Measurement( 1, { 'degree' : 1 } ), Measurement( 1, { 'arcminute' : 1 } ),
-                                  Measurement( 1, { 'arcsecond' : 1 } ) ], 0 ],
+    'dhms'          : [ convertToDHMS, 1 ],
+    'dms'           : [ convertToDMS, 1 ],
     'dodecahedral'  : [ lambda n : polyval( [ 9/2, -9/2, 1, 0 ], n ), 1 ],
     'double'        : [ lambda n : sum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) ), 1 ],
     'doublebal'     : [ getNthDoubleBalancedPrime, 1 ],
@@ -4127,11 +4158,10 @@ operators = {
     'heptsquare'    : [ getNthHeptagonalSquareNumber, 1 ],
     'hepttri'       : [ getNthHeptagonalTriangularNumber, 1 ],
     'hexagonal'     : [ lambda n: getNthPolygonalNumber( n, 6 ), 1 ],
-    'he?'    : [ lambda n: findNthPolygonalNumber( n, 6 ), 1 ],
+    'hexagonal?'    : [ lambda n: findNthPolygonalNumber( n, 6 ), 1 ],
     'hexanacci'     : [ getNthHexanacci, 1 ],
     'hexpent'       : [ getNthHexagonalPentagonalNumber, 1 ],
-    'hms'           : [ lambda: [ Measurement( 1, { 'hour' : 1 } ), Measurement( 1, { 'minute' : 1 } ),
-                                  Measurement( 1, { 'second' : 1 } ) ], 0 ],
+    'hms'           : [ convertToHMS, 1 ],
     'hyper4_2'      : [ tetrateLarge, 2 ],
     'hyperfac'      : [ hyperfac, 1 ],
     'hypot'         : [ hypot, 2 ],

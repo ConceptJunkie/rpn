@@ -986,23 +986,24 @@ number.
 '''
 ''' ],
     'dhms' : [
-'special', 'shortcut for \'[ day hour minute second ]\'',
+'special', 'shortcut for \'[ day hour minute second ] convert\'',
 '''
-This shortcut operator replaces having to type '[ day hour minute second ]' in
-order to convert a time interval to days, hours, minutes and seconds.
+This shortcut operator replaces having to type '[ day hour minute second ]
+convert' in order to convert a time interval to days, hours, minutes and
+seconds.
 ''',
 '''
-c:\>rpn -p200 siderial_year dhms convert
+c:\>rpn siderial_year dhms
 [ 365 days, 6 hours, 9 minutes, 9.7632 seconds ]
 ''' ],
     'dms' : [
-'special', 'shortcut for \'[ degree arcminute arcsecond ]\'',
+'special', 'shortcut for \'[ degree arcminute arcsecond ] convert\'',
 '''
-This shortcut operator replaces having to type '[ degree arcminute arcsecond ]' in
-order to convert an angle to degrees, arcminutes and arcseconds.
+This shortcut operator replaces having to type '[ degree arcminute arcsecond ]
+convert' in order to convert an angle to degrees, arcminutes and arcseconds.
 ''',
 '''
-c:\>rpn pi 7 / radians dms convert
+c:\>rpn pi 7 / radians dms
 [ 25 degrees, 42 arcminutes, 51.4285714285 arcseconds ]
 ''' ],
     'dodecahedral' : [
@@ -1256,10 +1257,10 @@ c:\>rpn 2 2 10 exprange
 '''
 ''' ],
     'hms' : [
-'special', 'shortcut for \'[ hour minute second ]\'',
+'special', 'shortcut for \'[ hour minute second ] convert\'',
 '''
-This shortcut operator replaces having to type '[ hour minute second ]' in
-order to convert a time interval to hours, minutes and seconds.
+This shortcut operator replaces having to type '[ hour minute second ] convert'
+in order to convert a time interval to hours, minutes and seconds.
 ''',
 '''
 c:\>rpn 8 microcenturies hms convert
@@ -2601,6 +2602,15 @@ c:\>rpn 1 50 range countdiv stddev
     'xor' : [
 'logical', 'calculates the bitwise \'xor\' of n and k',
 '''
+''',
+'''
+''' ],
+    'ydhms' : [
+'special', 'shortcut for \'[ year day hour minute second ] convert\'',
+'''
+This shortcut operator replaces having to type '[ year day hour minute
+second ] convert' in order to convert a time interval to days, hours, minutes
+and seconds.
 ''',
 '''
 ''' ],
