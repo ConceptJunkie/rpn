@@ -3786,6 +3786,18 @@ def convertToDHMS( n ):
 
 #//******************************************************************************
 #//
+#//  convertToYDHMS
+#//
+#//******************************************************************************
+
+def convertToYDHMS( n ):
+    return convertUnits( n, [ Measurement( 1, { 'year' : 1 } ), Measurement( 1, { 'day' : 1 } ),
+                              Measurement( 1, { 'hour' : 1 } ), Measurement( 1, { 'minute' : 1 } ),
+                              Measurement( 1, { 'second' : 1 } ) ] )
+
+
+#//******************************************************************************
+#//
 #//  convertUnits
 #//
 #//******************************************************************************
@@ -4343,6 +4355,7 @@ operators = {
     'unitroots'     : [ lambda i: unitroots( int( i ) ), 1 ],
     'ushort'        : [ lambda n: int( fmod( n, power( 2, 16 ) ) ), 1 ],
     'xor'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
+    'ydhms'         : [ convertToYDHMS, 1 ],
     'zeta'          : [ zeta, 1 ],
     '_dumpalias'    : [ dumpAliases, 0 ],
     '_dumpops'      : [ dumpOperators, 0 ],
