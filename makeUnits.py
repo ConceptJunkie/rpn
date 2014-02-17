@@ -224,6 +224,12 @@ unitOperators = {
     #            It's not intended to be used as a unit, per se.  Also, these units are in order of their
     #            value instead of alphabetical order like all the others
 
+    'alpha' :
+        UnitInfo( 'constant', 'alpha', 'alpha', '', [ 'fine_structure_constant' ], [ 'constant' ] ),
+
+    'percent' :
+        UnitInfo( 'constant', 'percent', 'percent', '%', [ ], [ 'constant' ] ),
+
     'unity' :
         UnitInfo( 'constant', 'unity', 'x unity', '', [ ], [ 'constant' ] ),
 
@@ -547,13 +553,16 @@ unitOperators = {
         UnitInfo( 'length', 'arpent', 'arpent', '', [ ], [ 'obsolete', 'France' ] ),
 
     'angstrom' :
-        UnitInfo( 'length', 'angstrom', 'angstroms', 'A', [ ], [ 'science' ] ),
+        UnitInfo( 'length', 'angstrom', 'angstroms', 'A', [ 'angstroem' ], [ 'science' ] ),
 
     'astronomical_unit' :
         UnitInfo( 'length', 'astronomical_unit', 'astronomical_units', 'au', [ ], [ 'science' ] ),
 
     'barleycorn' :
         UnitInfo( 'length', 'barleycorn', 'barleycorns', '', [ ], [ 'imperial' ] ),
+
+    'bohr_radius' :
+        UnitInfo( 'length', 'bohr_radius', 'bohr_radii', 'a0', [ 'bohr' ], [ 'science' ] ),
 
     'caliber' :
         UnitInfo( 'length', 'caliber', 'caliber', '', [ 'calibre' ], [ 'US' ] ),
@@ -563,6 +572,9 @@ unitOperators = {
 
     'cubit' :
         UnitInfo( 'length', 'cubit', 'cubits', '', [ ], [ 'imperial' ] ),
+
+    'earth_radius' :
+        UnitInfo( 'length', 'earth_radius', 'earth_radii', 'Rgeo', [ ], [ 'natural' ] ),
 
     'ell' :
         UnitInfo( 'length', 'ell', 'ell', '', [ ], [ 'imperial' ] ),
@@ -606,11 +618,8 @@ unitOperators = {
     'inch' :
         UnitInfo( 'length', 'inch', 'inches', 'in', [ ], [ 'imperial' ] ),
 
-    'long_reed' :
-        UnitInfo( 'length', 'long_reed', 'long_reeds', '', [ ], [ 'obsolete' ] ),
-
-    'long_cubit' :
-        UnitInfo( 'length', 'long_cubit', 'long_cubits', '', [ ], [ 'obsolete' ] ),
+    'jupiter_radius' :
+        UnitInfo( 'length', 'jupiter_radius', 'jupiter_radii', 'Rjov', [ ], [ 'natural' ] ),
 
     'ken' :
         UnitInfo( 'length', 'ken', 'ken', '', [ ], [ 'obsolete' ] ),
@@ -625,10 +634,16 @@ unitOperators = {
         UnitInfo( 'length', 'light*second', 'light-seconds', '', [ 'light-second' ], [ 'science' ] ),
 
     'light-year' :
-        UnitInfo( 'length', 'light-year', 'light-years', 'ly', [ ], [ 'science' ] ),
+        UnitInfo( 'length', 'light-year', 'light-years', 'ly', [ 'a1' ], [ 'science' ] ),
 
     'link' :
         UnitInfo( 'length', 'link', 'link', '', [ ], [ 'informal' ] ),
+
+    'long_cubit' :
+        UnitInfo( 'length', 'long_cubit', 'long_cubits', '', [ ], [ 'obsolete' ] ),
+
+    'long_reed' :
+        UnitInfo( 'length', 'long_reed', 'long_reeds', '', [ ], [ 'obsolete' ] ),
 
     'marathon' :
         UnitInfo( 'length', 'marathon', 'marathons', '', [ ], [ 'informal' ] ),
@@ -684,6 +699,9 @@ unitOperators = {
     'smoot' :
         UnitInfo( 'length', 'smoot', 'smoots', '', [ ], [ 'humorous' ] ),
 
+    'solar_radius' :
+        UnitInfo( 'length', 'solar_radius', 'solar_radii', 'Rsol', [ 'sun_radius', 'sun_radii' ], [ 'natural' ] ),
+
     'span' :
         UnitInfo( 'length', 'span', 'spans', '', [ 'breadth' ], [ 'imperial' ] ),
 
@@ -725,7 +743,7 @@ unitOperators = {
         UnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm', [ ], [ 'SI' ] ),
 
     'candela-steradian' :
-        UnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm', [ ], [ 'SI' ] ),
+        UnitInfo( 'luminous_flux', 'candela-steradian', 'candela-steradians', 'cd*sr', [ 'cd-sr' ], [ 'SI' ] ),
 
     # luminous_intensity
 
@@ -766,7 +784,7 @@ unitOperators = {
     # magnetic_flux_density
 
     'gauss' :
-        UnitInfo( 'magnetic_flux_density', 'gauss', 'gauss', 'Gs', [ ], [ 'CGS' ] ),
+        UnitInfo( 'magnetic_flux_density', 'gauss', 'gauss', '', [ ], [ 'CGS' ] ),
 
     'kilogram/ampere-second^2' :
         UnitInfo( 'magnetic_flux_density', 'kilogram/ampere*second^2', 'kilogram/ampere*second^2', 'kg/A*s^2', [ ], [ 'SI' ] ),
@@ -791,8 +809,11 @@ unitOperators = {
     'dalton' :
         UnitInfo( 'mass', 'dalton', 'daltons', '', [ 'amu', 'atomic-mass-unit' ], [ 'science' ] ),
 
-    'electron_rest_mass' :
-        UnitInfo( 'mass', 'electron_rest_mass', 'x_electron_rest_mass', '', [ ], [ 'natural' ] ),
+    'earth_mass' :
+        UnitInfo( 'mass', 'earth_mass', 'earth_masses', 'Mgeo', [ ], [ 'natural' ] ),
+
+    'electron_mass' :
+        UnitInfo( 'mass', 'electron_mass', 'electron_masses', '', [ 'electron_rest_mass', 'electron_rest_masses' ], [ 'natural' ] ),
 
     'farshimmelt_blintz' :
         UnitInfo( 'mass', 'farshimmelt_blintz', 'farshimmelt_blintzes', 'fb', [ 'far-blintz' ], [ 'Potrzebie', 'humorous' ] ),
@@ -805,6 +826,9 @@ unitOperators = {
 
     'gram' :
         UnitInfo( 'mass', 'gram', 'grams', 'g', [ 'gramme', 'grammes' ], [ 'SI' ] ),
+
+    'jupiter_mass' :
+        UnitInfo( 'mass', 'jupiter_mass', 'jupiter_masses', 'Mjov', [ ], [ 'natural' ] ),
 
     'kip' :
         UnitInfo( 'mass', 'kip', 'kips', '', [ 'kilopound', 'kilopounds' ], [ 'US' ] ),
@@ -821,6 +845,9 @@ unitOperators = {
     'pound' :
         UnitInfo( 'mass', 'pound', 'pounds', 'lb', [ ], [ 'US', 'traditional', 'FPS' ] ),
 
+    'proton_mass' :
+        UnitInfo( 'mass', 'proton_mass', 'proton_masses', '', [ ], [ 'natural' ] ),
+
     'quintal' :
         UnitInfo( 'mass', 'quintal', 'quintals', 'q', [ ], [ ] ),
 
@@ -829,6 +856,9 @@ unitOperators = {
 
     'slug' :
         UnitInfo( 'mass', 'slug', 'slugs', '', [ 'gee_pound', 'geepound', 'gee-pound', 'gee_pounds', 'geepounds', 'gee-pounds' ], [ 'FPS' ] ),
+
+    'solar_mass' :
+        UnitInfo( 'mass', 'solar_mass', 'solar_masses', 'Msol', [ 'sun_mass', 'sun_masses' ], [ 'natural' ] ),
 
     'stone' :
         UnitInfo( 'mass', 'stone', 'stone', '', [ ], [ 'traditional', 'England' ] ),
@@ -877,6 +907,9 @@ unitOperators = {
     'poncelet' :
         UnitInfo( 'power', 'poncelet', 'poncelets', 'p', [ ], [ 'obsolete' ] ),
 
+    'solar_luminosity' :
+        UnitInfo( 'power', 'solar_luminosity', 'solar_luminosities', '', [ 'solar_output' ], [ 'natural' ] ),
+
     'watt' :
         UnitInfo( 'power', 'watt', 'watts', 'W', [ ], [ 'SI' ] ),
 
@@ -889,7 +922,7 @@ unitOperators = {
         UnitInfo( 'pressure', 'bar', 'bars', '', [ ], [ ] ),
 
     'barye' :
-        UnitInfo( 'pressure', 'barye', 'baryes', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'pressure', 'barye', 'baryes', 'Ba', [ ], [ 'CGS' ] ),
 
     'mmHg' :
         UnitInfo( 'pressure', 'mmHg', 'mmHg', '', [ ], [ 'metric' ] ),
@@ -976,7 +1009,7 @@ unitOperators = {
         UnitInfo( 'solid_angle', 'grad^2', 'grads^2', '', [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'grad^2', 'grads^2', 'gon^2', 'gons^2' ], [ 'mathematics' ] ),
 
     'steradian' :
-        UnitInfo( 'solid_angle', 'steradian', 'steradians', '', [ 'square_radian', 'square_radians', 'radian^2', 'radians^2', 'rad^2' ], [ 'SI', 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'steradian', 'steradians', 'sr', [ 'square_radian', 'square_radians', 'radian^2', 'radians^2', 'rad^2' ], [ 'SI', 'mathematics' ] ),
 
     # temperature
 
@@ -1016,7 +1049,7 @@ unitOperators = {
         UnitInfo( 'time', 'cowznofski', 'cowznofskis', '', [ ], [ 'Potrzebie', 'humorous' ] ),
 
     'day' :
-        UnitInfo( 'time', 'day', 'days', '', [ ], [ 'traditional', 'US' ] ),
+        UnitInfo( 'time', 'day', 'days', 'd', [ ], [ 'traditional', 'US' ] ),
 
     'decade' :
         UnitInfo( 'time', 'decade', 'decades', '', [ ], [ 'traditional' ] ),
@@ -1088,7 +1121,7 @@ unitOperators = {
         UnitInfo( 'time', 'wood', 'woods', '', [ ], [ 'Potrzebie', 'humorous' ] ),
 
     'year' :
-        UnitInfo( 'time', 'year', 'years', '', [ 'julian_year', 'julian_years' ], [ 'traditional' ] ),
+        UnitInfo( 'time', 'year', 'years', 'a', [ 'annum', 'julian_year', 'julian_years' ], [ 'traditional' ] ),
 
     # velocity
 
@@ -1573,6 +1606,7 @@ unitConversionMatrix = {
     ( 'blintz',                'farshimmelt_blintz' )                   : '1.0e5',
     ( 'blintz',                'furshlugginer_blintz' )                 : '1.0e-6',
     ( 'blintz',                'gram' )                                 : '36.42538631',
+    ( 'bohr_radius',           'meter' )                                : '5.2917721e-11',
     ( 'btu',                   'joule' )                                : '1054.5',
     ( 'bucket',                'gallon' )                               : '4',
     ( 'bushel',                'peck' )                                 : '4',
@@ -1620,8 +1654,10 @@ unitConversionMatrix = {
     ( 'dry_quart',             'dry_pint' )                             : '2',
     ( 'dry_tun',               'dry_hogshead' )                         : '4',
     ( 'dword',                 'bit' )                                  : '32',
+    ( 'earth_mass',            'gram' )                                 : '5.9742e27',
+    ( 'earth_radius',          'meter' )                                : '6378136',
     ( 'electron_charge',       'coulomb' )                              : '1.602176565e-19',
-    ( 'electron_rest_mass',    'gram' )                                 : '9.10938291e-28',
+    ( 'electron_mass',         'gram' )                                 : '9.10938291e-28',
     ( 'ell',                   'inch' )                                 : '45',
     ( 'famn',                  'aln' )                                  : '3',
     ( 'farad',                 'jar' )                                  : '9.0e8',
@@ -1649,7 +1685,7 @@ unitConversionMatrix = {
     ( 'goliath',               'liter' )                                : '27.0',
     ( 'googol',                'unity' )                                : '1.0e100',
     ( 'grad',                  'degree' )                               : '0.9',
-    ( 'gram',                  'dalton' )                               : '1.66053e-27',
+    ( 'gram',                  'dalton' )                               : '1.6605387e-24',
     ( 'gram',                  'planck_mass' )                          : '45940.892447777',
     ( 'gram-equivalent',       'joule' )                                : str( fdiv( power( mpf( speedOfLight ), 2 ), 1000 ) ),
     ( 'gray',                  'joule/kilogram' )                       : '1',
@@ -1691,6 +1727,8 @@ unitConversionMatrix = {
     ( 'joule',                 'erg' )                                  : '1.0e7',
     ( 'joule',                 'kilogram-meter^2/second^2' )            : '1',
     ( 'joule/second',          'watt' )                                 : '1',
+    ( 'jupiter_mass',          'gram' )                                 : '1.8987e30',
+    ( 'jupiter_radius',        'meter' )                                : '7.1492e7',
     ( 'ken',                   'inch' )                                 : '83.4',
     ( 'kenning',               'imperial_peck' )                        : '2',
     ( 'kilderkin',             'firkin' )                               : '2',
@@ -1784,6 +1822,7 @@ unitConversionMatrix = {
     ( 'pound',                 'grain' )                                : '7000',
     ( 'pound',                 'ounce' )                                : '16',
     ( 'pound',                 'sheet' )                                : '700',
+    ( 'proton_mass',           'gram' )                                 : '1.6726218e-24',
     ( 'psi',                   'pascal' )                               : '6894.757',        # approx.
     ( 'quadrant',              'degree' )                               : '90',
     ( 'quadrillion',           'unity' )                                : '1.0e15',
@@ -1820,6 +1859,9 @@ unitConversionMatrix = {
     ( 'skot',                  'lambert' )                              : '1.0e7',
     ( 'slug',                  'pound' )                                : '32.174048556',
     ( 'smoot',                 'inch' )                                 : '67',
+    ( 'solar_luminosity',      'watt' )                                 : '3.826e26',
+    ( 'solar_mass',            'gram' )                                 : '1.989e33',
+    ( 'solar_radius',          'meter' )                                : '6.9599e8',
     ( 'solomon',               'liter' )                                : '20.0',
     ( 'sovereign',             'liter' )                                : '25.0',
     ( 'span',                  'inch' )                                 : '9',
@@ -1867,6 +1909,8 @@ unitConversionMatrix = {
     ( 'troy_ounce',            'gram' )                                 : '31.1034768',
     ( 'troy_pound',            'pound' )                                : '12',
     ( 'tryte',                 'trit' )                                 : '6',   # as defined by the Setun computer
+    ( 'unity',                 'alpha' )                                : '0.0072973526',
+    ( 'unity',                 'percent' )                              : '100',
     ( 'virgate',               'bovate' )                               : '30',
     ( 'volt',                  'abvolt' )                               : '1.0e8',
     ( 'von_klitzing_constant', 'ohm' )                                  : '25812.807557',
