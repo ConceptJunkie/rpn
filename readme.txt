@@ -1,33 +1,25 @@
 rpn is a command-line Reverse-Polish Notation calculator.  It supports
-arithmetic with arbitrary precision, powers and roots, logarithms alegbraic
-functions (arithmetic on polynomials, as well as solving them), trigonometric
-functions, computer science related functions (bitwise math, base conversion),
-number theory functions, prime number calculations and lookup, and can operate
-with single operands or lists of operands and supports a wide variety of unit
-conversions.
+arithmetic with arbitrary precision, powers and roots, logarithms, alegbraic
+functions (including polynomials arithmetic and solving),  trigonometric
+functions, complex nunmbers, computer science related functions (bitwise math,
+base conversion), number theory functions, prime number calculations and lookup,
+and can operate with single operands or lists of operands and supports a wide
+variety of flexible unit conversions comparable to the GNU units program.
 
-I first wrote a very simple version of rpn way back in 1988 when I was first
-learning C.  In the summer of 2012 when I was starting to explore Python, I
-figured this was a great project for first Python program to write.  rpn was
-something I still continued to use pretty regularly, and even though I'd
-rewritten the original C rpn program in C++ a few years later, it was still a
-very simple program that was essentially a 4-function command line calculator
-and that's all.  Since I started the Python version, it's become quite a bit
-more.
-
-rpn is written for Python 3, and requires the mpmath and pyprimes libraries.
-It's a work in progress, and at any particular time, parts of it might be
-broken, although I try to not let this go on for too long.
+rpn is written for Python 3, and requires the mpmath and pyprimes libraries for
+most of the really hard math stuff.  It's a work in progress, and at any
+particular time, parts of it might be broken, although I try to not let this go
+on for too long.
 
 Getting Started:
-
-rpn.py is the calculator itself.  It has pretty extensive built-in help (and
-naturally for something written by its only user, a lot of it isn't filled in
-yet).
 
 Before running rpn, you should run makeHelp.py and makeUnits.py to generate the
 data files that rpn uses for displaying help and doing unit conversions
 respectively.
+
+rpn.py is the calculator itself.  It has pretty extensive built-in help (and
+naturally for something written by its only user, a lot of it isn't filled in
+yet).  Try 'rpn help' to start.
 
 makeRPNPrimes.py consists of a bunch of functions for pre-calculating and
 caching different kinds of prime numbers that was recently pulled out of rpn.py
@@ -36,10 +28,9 @@ files are stored in the same location as rpn.py in a subdirectory called
 rpndata/.  Until I fix this, if you really want to generate prime numbers, go
 back to version 4 and check out the '_make*' commands.
 
-There are plenty of tools out there that are as nice as this one, and
-definitely plenty that are far more powerful and polished (and bug-free), but
-if one person finds this code and has fun with it, then it's worth the trouble
-of sharing it.
+rpn doesn't try to replace any existing tools.  It's just something I wrote for
+fun that ended up being a lot more useful and powerful than I originally
+envisioned.
 
 Rick Gutleber
 rickg@his.com
