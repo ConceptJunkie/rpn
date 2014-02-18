@@ -150,6 +150,15 @@ unitOperators = {
     'homestead':
         UnitInfo( 'area', 'homestead', 'homesteads', '', [ ], [ 'US' ] ),
 
+    'imperial_square' :
+        UnitInfo( 'area', 'imperial_sqaure', 'imperial_squares', '', [ ], [ 'imperial' ] ),
+
+    'morgen' :
+        UnitInfo( 'area', 'morgen', 'morgens', '', [ ], [ 'obsolete' ] ),
+
+    'nanoacre' :
+        UnitInfo( 'area', 'nanoacre', 'nanoacres', 'nac', [ ], [ 'computing' ] ),
+
     'outhouse' :
         UnitInfo( 'area', 'outhouse', 'outhouse', '', [ ], [ 'science', 'humorous' ] ),
 
@@ -161,6 +170,9 @@ unitOperators = {
 
     'shed' :
         UnitInfo( 'area', 'shed', 'sheds', '', [ ], [ 'science' ] ),
+
+    'square_foot' :
+        UnitInfo( 'area', 'sqaure_foot', 'square_feet', '', [ ], [ 'imperial' ] ),
 
     'square_meter' :
         UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meter^2', 'meters^2' ], [ 'SI' ] ),
@@ -520,6 +532,9 @@ unitOperators = {
     'joule/kelvin' :
         UnitInfo( 'information_entropy', 'joule/kelvin', 'joules/kelvin', 'J/K', [ 'joule/K', 'joules/K' ], [ 'SI' ] ),
 
+    'library_of_congress' :
+        UnitInfo( 'information_entropy', 'library_of_congress', 'libraries_of_congress', '', [ 'congress', 'congresses' ], [ 'computing' ] ),
+
     'nibble' :
         UnitInfo( 'information_entropy', 'nibble', 'nibbles', '', [ 'nybble', 'nybbles' ], [ 'computing' ] ),
 
@@ -695,6 +710,9 @@ unitOperators = {
 
     'potrzebie' :
         UnitInfo( 'length', 'potrzebie', 'potrzebies', 'pz', [ ], [ 'Potrzebie', 'humorous' ] ),
+
+    'siriometer' :
+        UnitInfo( 'length', 'siriometer', 'siriometers', '', [ ], [ 'science' ] ),  # proposed in 1911 by Cark V. L. Charlier
 
     'smoot' :
         UnitInfo( 'length', 'smoot', 'smoots', '', [ ], [ 'humorous' ] ),
@@ -1585,6 +1603,7 @@ unitConversionMatrix = {
     ( 'abcoulomb',             'coulomb' )                              : '10',
     ( 'abfarad',               'farad' )                                : '1.0e9',
     ( 'abmho',                 'siemens' )                              : '1.0e9',
+    ( 'acre',                  'nanoacre' )                             : '1.0e9',
     ( 'acre',                  'square_yard' )                          : '4840',
     ( 'acre-foot',             'cubic_foot' )                           : '43560',
     ( 'aln',                   'inch' )                                 : '23.377077865',
@@ -1711,6 +1730,7 @@ unitConversionMatrix = {
     ( 'imperial_peck',         'imperial_quart' )                       : '2',
     ( 'imperial_pint',         'imperial_cup' )                         : '2',
     ( 'imperial_quart',        'imperial_pint' )                        : '2',
+    ( 'imperial_square',       'square_foot' )                          : '100',
     ( 'inch',                  'barleycorn' )                           : '3',
     ( 'inch',                  'caliber' )                              : '100',
     ( 'inch',                  'gutenberg' )                            : '7200',
@@ -1736,6 +1756,7 @@ unitConversionMatrix = {
     ( 'kovac',                 'wolverton' )                            : '10',
     ( 'lambert',               'candela/meter^2' )                      : str( fdiv( 10000, pi ) ),
     ( 'league',                'mile' )                                 : '3',
+    ( 'library_of_congress',   'byte' )                                 : '1.0e13',
     ( 'light',                 'meter/second' )                         : speedOfLight,
     ( 'light-second',          'meter' )                                : speedOfLight,
     ( 'light-year',            'light-second' )                         : '31557600',
@@ -1765,6 +1786,7 @@ unitConversionMatrix = {
     ( 'minute',                'second' )                               : '60',
     ( 'mmHg',                  'pascal' )                               : '133.3224',        # approx.
     ( 'mordechai',             'liter' )                                : '9.0',
+    ( 'morgen',                'are' )                                  : '85.6532',
     ( 'nail',                  'inch' )                                 : '2.25',
     ( 'nat',                   'joule/kelvin' )                         : '1.380650e-23',
     ( 'nautical_mile',         'meter' )                                : '1852',
@@ -1855,6 +1877,7 @@ unitConversionMatrix = {
     ( 'siemens',               'ampere/volt' )                          : '1',
     ( 'siemens',               'kilogram-meter^2/second^3-ampere^2' )   : '1',
     ( 'sievert',               'rem' )                                  : '100',
+    ( 'siriometer',            'astronomical_unit' )                    : '1.0e6',
     ( 'skot',                  'bril' )                                 : '1.0e4',
     ( 'skot',                  'lambert' )                              : '1.0e7',
     ( 'slug',                  'pound' )                                : '32.174048556',
@@ -1873,6 +1896,7 @@ unitConversionMatrix = {
     ( 'square_octant',         'square_degree' )                        : '2025',
     ( 'square_quadrant',       'square_degree' )                        : '8100',
     ( 'square_sextant',        'square_degree' )                        : '3600',
+    ( 'square_yard',           'square_foot' )                          : '9',
     ( 'standard',              'liter' )                                : '0.75',
     ( 'standard_gravity',      'galileo' )                              : '980.6650',
     ( 'standard_gravity',      'meter/second^2' )                       : '9.80665',
