@@ -1131,8 +1131,8 @@ unitOperators = {
     'knot' :
         UnitInfo( 'velocity', 'knot', 'knots', '', [ ], [ 'nautical' ] ),
 
-    'light' :    # I shouldn't need a whole extra unit for what is really an alias, but this makes life easier
-        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', '', [ ], [ 'natural' ] ),
+    'light' :
+        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', 'c', [ ], [ 'natural' ] ),
 
     'mach' :
         UnitInfo( 'velocity', 'mach', 'mach', '', [ ], [ 'US' ] ),

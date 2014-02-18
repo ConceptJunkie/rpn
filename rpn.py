@@ -3690,6 +3690,12 @@ def evaluateTwoArgFunction( func, arg1, arg2 ):
             return [ func( arg2[ 0 ], arg1[ 0 ] ) ]
 
 
+#//******************************************************************************
+#//
+#//  callers
+#//
+#//******************************************************************************
+
 callers = [
     lambda func, args: [ func( ) ],
     evaluateOneArgFunction,
@@ -3701,6 +3707,26 @@ callers = [
     lambda func, arg1, arg2, arg3, arg4, arg5:
         [ func( a, b, c, d, e ) for e in arg1 for d in arg2 for c in arg3 for b in arg4 for a in arg5 ],
 ]
+
+
+#//******************************************************************************
+#//
+#//  estimate
+#//
+#//******************************************************************************
+
+def estimate( measurement ):
+    if isinstance( measurement, Measurement ):
+        unitType = getUnitType( measurement.getUnitName( ) )
+
+        if unitType == 'mass':
+            return estimateMass( measurement )
+        elif unitType == 'length':
+            return estimateLength( measurement )
+        elif unitType == 'volume':
+            return estimateVolume( measurement )
+
+    return 0
 
 
 #//******************************************************************************
@@ -4144,6 +4170,7 @@ operators = {
     'e'             : [ e, 0 ],
     'egypt'         : [ getGreedyEgyptianFraction, 2 ],
     'element'       : [ getListElement, 2 ],
+    'estimate'      : [ estimate, 1 ],
     'euler'         : [ euler, 0 ],
     'exp'           : [ exp, 1 ],
     'exp10'         : [ lambda n: power( 10, n ), 1 ],

@@ -564,9 +564,6 @@ operators = {
     '_dumpcousin'   : [ dumpCousinPrimes, 0 ],
     '_dumpdouble'   : [ dumpDoubleBalancedPrimes, 0 ],
     '_dumpiso'      : [ dumpIsolatedPrimes, 0 ],
-    '_dumpops'      : [ dumpOperators, 0 ],
-    '_dumpops'      : [ dumpOperators, 0 ],
-    '_dumpops'      : [ dumpOperators, 0 ],
     '_dumpprimes'   : [ dumpLargePrimes, 0 ],
     '_dumpquad'     : [ dumpQuadrupletPrimes, 0 ],
     '_dumpquint'    : [ dumpQuintupletPrimes, 0 ],
@@ -788,20 +785,6 @@ def printGeneralHelp( basicCategories, operatorCategories ):
     print( PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
-    printParagraph(
-'''For help on a specific topic, add a help topic, operator category or a specific operator name.  Adding
-'example', or 'ex' after an operator name will result in examples of use being printed as well.''' )
-    print( )
-    print( 'The following is a list of general topics:' )
-    print( )
-
-    printParagraph( ', '.join( sorted( basicCategories ) ), 75, 4 )
-
-    print( )
-    print( 'The following is a list of operator categories:' )
-    print( )
-
-    printParagraph( ', '.join( sorted( operatorCategories ) ), 75, 4 )
 
 
 #//******************************************************************************
@@ -814,7 +797,7 @@ def printTitleScreen( ):
     print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
-    print( 'For more information use, \'rpn help\'.' )
+    print( 'For more information use, \'makeRPNprimes help\'.' )
 
 
 #//******************************************************************************
@@ -835,16 +818,9 @@ def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp ):
     elif operatorInfo[ 1 ] == 5:
         print( 'a b c d e ', end='' )
 
-    aliasList = [ key for key in operatorAliases if term == operatorAliases[ key ] ]
-
     print( term + ' - ' + operatorHelp[ 1 ] )
 
     print( )
-
-    if len( aliasList ) > 1:
-        print( 'aliases:  ' + ', '.join( aliasList ) )
-    elif len( aliasList ) == 1:
-        print( 'alias:  ' + aliasList[ 0 ] )
 
     print( 'category: ' + operatorHelp[ 0 ] )
 
@@ -862,20 +838,6 @@ def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp ):
         else:
             print( term + ' examples:' )
             print( operatorHelp[ 3 ] )
-
-
-#//******************************************************************************
-#//
-#//  addAliases
-#//
-#//******************************************************************************
-
-def addAliases( operatorList ):
-    for index, operator in enumerate( operatorList ):
-        aliasList = [ key for key in operatorAliases if operator == operatorAliases[ key ] ]
-
-        if len( aliasList ) > 0:
-            operatorList[ index ] += ' (' + ', '.join( aliasList ) + ')'
 
 
 #//******************************************************************************
@@ -905,34 +867,8 @@ def printHelp( helpArgs ):
 
     term = helpArgs[ 0 ]
 
-    if term in operatorAliases:
-        term = operatorAliases[ term ]
-
     if term in operators:
         printOperatorHelp( helpArgs, term, operators[ term ], operatorHelp[ term ] )
-
-    if term in listOperators:
-        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ] )
-
-    if term in modifiers:
-        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ] )
-
-    if term in basicCategories:
-        print( basicCategories[ term ] )
-
-    if term in operatorCategories:
-        print( )
-        print( 'The ' + term + ' category includes the following operators (with aliases in' )
-        print( 'parentheses):' )
-        print( )
-
-        operatorList = [ key for key in operators if operatorHelp[ key ][ 0 ] == term ]
-        operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == term ] )
-        operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == term ] )
-
-        addAliases( operatorList )
-
-        printParagraph( ', '.join( sorted( operatorList ) ), 75, 4 )
 
 
 #//******************************************************************************
@@ -1022,17 +958,9 @@ def loadUnitConversionMatrix( ):
 
 def main( ):
     global addToListArgument
-    global bitwiseGroupSize
     global dataPath
-    global inputRadix
-    global nestedListLevel
     global numerals
     global updateDicts
-    global unitOperators
-    global basicUnitTypes
-    global unitConversionMatrix
-    global specialUnitConversionMatrix
-    global compoundUnits
 
     global balancedPrimes
     global cousinPrimes
@@ -1235,44 +1163,13 @@ def main( ):
     if not validateArguments( args.terms ):
         return
 
-    try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
-            unitsVersion = pickle.load( pickleFile )
-            basicUnitTypes = pickle.load( pickleFile )
-            unitOperators = pickle.load( pickleFile )
-            operatorAliases.update( pickle.load( pickleFile ) )
-            compoundUnits = pickle.load( pickleFile )
-    except FileNotFoundError as error:
-        print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
-
-    if unitsVersion != PROGRAM_VERSION:
-        print( 'rpn  units data file version mismatch' )
-
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
-        if term in operatorAliases:
-            term = operatorAliases[ term ]
-
-        currentValueList = getCurrentArgList( valueList )
-
-        if term in modifiers:
-            try:
-                modifiers[ term ][ 0 ]( currentValueList )
-            except IndexError as error:
-                print( 'rpn:  index error for operator at arg ' + format( index ) +
-                       '.  Are your arguments in the right order?' )
-                break
-        elif term in unitOperators:
-            if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
-                currentValueList.append( Measurement( 1, term, term ) )
-            else:
-                value = Measurement( currentValueList.pop( ), term, term )
-                currentValueList.append( value )
-        elif term in operators:
+        if term in operators:
             argsNeeded = operators[ term ][ 1 ]
 
             # first we validate, and make sure the operator has enough arguments
-            if len( currentValueList ) < argsNeeded:
+            if len( valueList ) < argsNeeded:
                 print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
                        format( argsNeeded ) + ' argument', end='' )
 
@@ -1286,7 +1183,7 @@ def main( ):
                     argList = list( )
 
                     for i in range( 0, argsNeeded ):
-                        arg = currentValueList.pop( )
+                        arg = valueList.pop( )
                         argList.append( arg if isinstance( arg, list ) else [ arg ] )
 
                     result = callers[ argsNeeded ]( operators[ term ][ 0 ], *argList )
@@ -1294,7 +1191,7 @@ def main( ):
                 if len( result ) == 1:
                     result = result[ 0 ]
 
-                currentValueList.append( result )
+                valueList.append( result )
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
@@ -1303,57 +1200,18 @@ def main( ):
                 break
             except TypeError as error:
                 print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except ZeroDivisionError as error:
-                print( 'rpn:  division by zero' )
-                break
-        elif term in listOperators:
-            argsNeeded = listOperators[ term ][ 1 ]
-
-            # first we validate, and make sure the operator has enough arguments
-            if len( currentValueList ) < argsNeeded:
-                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
-                       format( argsNeeded ) + ' argument', end='' )
-
-                print( 's' if argsNeeded > 1 else '' )
-                break
-
-            try:
-                if argsNeeded == 0:
-                    currentValueList.append( listOperators[ term ][ 0 ]( currentValueList ) )
-                elif argsNeeded == 1:
-                    currentValueList.append( evaluateOneListFunction( listOperators[ term ][ 0 ], currentValueList.pop( ) ) )
-                else:
-                    listArgs = [ ]
-
-                    for i in range( 0, argsNeeded ):
-                        listArgs.insert( 0, currentValueList.pop( ) )
-
-                    currentValueList.append( listOperators[ term ][ 0 ]( *listArgs ) )
-            except KeyboardInterrupt as error:
-                print( 'rpn:  keyboard interrupt' )
-                break
-            except ValueError as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except IndexError as error:
-                print( 'rpn:  index error for operator at arg ' + format( index ) +
-                       '.  Are your arguments in the right order?' )
                 break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
         else:
             try:
-                currentValueList.append( parseInputValue( term, inputRadix ) )
+                valueList.append( parseInputValue( term, inputRadix ) )
             except ValueError as error:
                 print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
             except TypeError as error:
-                currentValueList.append( term )
+                valueList.append( term )
                 print( 'rpn:  error in arg ' + format( index ) +
                        ':  unrecognized argument: \'%s\'' % sys.argv[ index ] )
                 break

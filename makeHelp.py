@@ -1060,6 +1060,12 @@ c:\>rpn pi 7 / radians dms
 ''',
 '''
 ''' ],
+    'estimate' : [
+'special', 'estimates the value of a measurement in common terms',
+'''
+''',
+'''
+''' ],
     'euler' : [
 'constants', 'returns the Euler-Mascheroni constant',
 '''
@@ -2827,102 +2833,119 @@ and seconds.
     '_makebal' : [
 'internal', 'calculates and caches balanced primes',
 '''
+_makebal start end interval
 ''',
 '''
 ''' ],
     '_makecousin' : [
 'internal', 'calculates and caches cousin primes',
 '''
+_makecousin start end interval
 ''',
 '''
 ''' ],
     '_makedouble' : [
 'internal', 'calculates and caches double balanced primes',
 '''
+_makedouble start end interval
 ''',
 '''
 ''' ],
     '_makeiso' : [
 'internal', 'calculates and caches isolated primes',
 '''
+_makeiso start end interval
 ''',
 '''
 ''' ],
     '_makeprimes' : [
 'internal', 'calculates and caches large primes',
 '''
+_makeprimes start end interval
 ''',
 '''
 ''' ],
     '_makequad' : [
 'internal', 'calculates and caches quaduplet primes',
 '''
+_makequad start end interval
 ''',
 '''
 ''' ],
     '_makequint' : [
 'internal', 'calculates and caches quintuplet primes',
 '''
+_makequint start end interval
 ''',
 '''
 ''' ],
     '_makesext' : [
 'internal', 'calculates and caches sextuplet primes',
 '''
+_makesext start end interval
 ''',
 '''
 ''' ],
     '_makesexy' : [
 'internal', 'calculates and caches sexy primes',
 '''
+_makesexy start end interval
 ''',
 '''
 ''' ],
     '_makesexy3' : [
 'internal', 'calculates and caches sexy triplet primes',
 '''
+_makesexy3 start end interval
 ''',
 '''
 ''' ],
     '_makesexy4' : [
 'internal', 'calculates and caches sexy quadruplet primes',
 '''
+_makesexy4 start end interval
 ''',
 '''
 ''' ],
     '_makesmall' : [
 'internal', 'calculates and caches small primes',
 '''
+_makesmall start end interval
 ''',
 '''
 ''' ],
     '_makesophie' : [
 'internal', 'calculates and caches Sophie Germain primes',
 '''
+_makesophie start end interval
 ''',
 '''
 ''' ],
     '_makesuper' : [
 'internal', 'calculates and caches super primes',
 '''
+_makesuper start end interval
 ''',
 '''
 ''' ],
     '_maketriple' : [
 'internal', 'calculates and caches triple balanced primes',
 '''
+_maketriple start end interval
 ''',
 '''
 ''' ],
     '_maketriplet' : [
 'internal', 'calculates and caches triplet primes',
 '''
+_maketriplet start end interval
 ''',
 '''
 ''' ],
     '_maketwin' : [
 'internal', 'calculates and caches twin primes',
 '''
+_maketwin start end interval
 ''',
 '''
 ''' ],
@@ -2934,24 +2957,6 @@ and seconds.
 ''' ],
     '~' : [
 'logical', 'calculates the bitwise negation of n',
-'''
-''',
-'''
-''' ],
-    '~length' : [
-'', 'estimates the length of the value in common terms'
-'''
-''',
-'''
-''' ],
-    '~mass' : [
-'', 'estimates the mass of the value in common terms'
-'''
-''',
-'''
-''' ],
-    '~volume' : [
-'', 'estimates the volume of the value in common terms'
 '''
 ''',
 '''

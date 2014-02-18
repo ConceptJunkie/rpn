@@ -21,7 +21,7 @@ from mpmath import *
 #//
 #//******************************************************************************
 
-PROGRAM_VERSION = '5.15.3'
+PROGRAM_VERSION = '5.15.4'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
 defaultPrecision = 20
