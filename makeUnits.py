@@ -147,11 +147,17 @@ unitOperators = {
     'carucate' :
         UnitInfo( 'area', 'carucate', 'carucates', '', [ ], [ 'imperial' ] ),
 
+    'foot*foot' :
+        UnitInfo( 'area', 'sqaure_foot', 'square_feet', '', [ ], [ 'imperial' ] ),  # for compound conversions
+
     'homestead':
         UnitInfo( 'area', 'homestead', 'homesteads', '', [ ], [ 'US' ] ),
 
     'imperial_square' :
         UnitInfo( 'area', 'imperial_sqaure', 'imperial_squares', '', [ ], [ 'imperial' ] ),
+
+    'meter*meter' :
+        UnitInfo( 'area', 'sqaure_meter', 'square_meters', '', [ ], [ 'SI' ] ),  # for compound conversions
 
     'morgen' :
         UnitInfo( 'area', 'morgen', 'morgens', '', [ ], [ 'obsolete' ] ),
@@ -185,6 +191,9 @@ unitOperators = {
 
     'virgate':
         UnitInfo( 'area', 'virgate', 'virgates', '', [ ], [ 'imperial' ] ),
+
+    'yard*yard' :
+        UnitInfo( 'area', 'sqaure_yard', 'square_yards', '', [ ], [ 'imperial' ] ),  # for compound conversions
 
     # capacitance
 
@@ -1382,6 +1391,15 @@ unitOperators = {
     'sovereign' :
         UnitInfo( 'volume', 'sovereign', 'sovereigns', '', [ ], [ 'wine' ] ),
 
+    'square_foot*foot' :
+        UnitInfo( 'volume', 'foot^3', 'cubic_feet', '', [ ], [ 'imperial', 'FPS' ] ),   # for compound conversions
+
+    'square_inch*inch' :
+        UnitInfo( 'volume', 'inch^3', 'cubic_inches', 'cuin', [ ], [ 'imperial' ] ),
+
+    'square_meter*meter' :
+        UnitInfo( 'volume', 'meter^3', 'cubic_meters', '', [ ], [ 'SI' ] ),
+
     'standard' :
         UnitInfo( 'volume', 'standard', 'standards', '', [ ], [ 'wine' ] ),
 
@@ -1607,6 +1625,7 @@ unitConversionMatrix = {
     ( 'acre',                  'square_yard' )                          : '4840',
     ( 'acre-foot',             'cubic_foot' )                           : '43560',
     ( 'aln',                   'inch' )                                 : '23.377077865',
+    ( 'alpha',                 'unity' )                                : '0.0072973526',
     ( 'ampere',                'coulomb/second' )                       : '1',
     ( 'ampere',                'statampere' )                           : speedOfLight,
     ( 'arcminute',             'arcsecond' )                            : '60',
@@ -1690,6 +1709,7 @@ unitConversionMatrix = {
     ( 'fluid_ounce',           'dram' )                                 : '8',
     ( 'fluid_ounce',           'tablespoon' )                           : '2',
     ( 'foot',                  'inch' )                                 : '12',
+    ( 'foot*foot',             'square_foot' )                          : '1',
     ( 'footcandle',            'lumen/foot^2' )                         : '1',
     ( 'footcandle',            'lux' )                                  : '10.763910417',           # (m/ft)^2
     ( 'footlambert',           'candela/meter^2' )                      : '3.42625909963539052691', # 1/pi cd/ft^2
@@ -1890,9 +1910,13 @@ unitConversionMatrix = {
     ( 'span',                  'inch' )                                 : '9',
     ( 'square_arcminute',      'square_arcsecond' )                     : '3600',
     ( 'square_degree',         'square_arcminute' )                     : '3600',
+    ( 'square_foot*foot',      'cubic_foot' )                           : '1',
+    ( 'square_inch*inch',      'cubic_inch' )                           : '1',
     ( 'square_meter',          'barn' )                                 : '1.0e28',
+    ( 'square_meter',          'meter*meter' )                          : '1',
     ( 'square_meter',          'outhouse' )                             : '1.0e34',
     ( 'square_meter',          'shed' )                                 : '1.0e52',
+    ( 'square_meter*meter',    'cubic_meter' )                          : '1',
     ( 'square_octant',         'square_degree' )                        : '2025',
     ( 'square_quadrant',       'square_degree' )                        : '8100',
     ( 'square_sextant',        'square_degree' )                        : '3600',
@@ -1933,7 +1957,6 @@ unitConversionMatrix = {
     ( 'troy_ounce',            'gram' )                                 : '31.1034768',
     ( 'troy_pound',            'pound' )                                : '12',
     ( 'tryte',                 'trit' )                                 : '6',   # as defined by the Setun computer
-    ( 'unity',                 'alpha' )                                : '0.0072973526',
     ( 'unity',                 'percent' )                              : '100',
     ( 'virgate',               'bovate' )                               : '30',
     ( 'volt',                  'abvolt' )                               : '1.0e8',
@@ -1960,6 +1983,7 @@ unitConversionMatrix = {
     ( 'wood',                  'martin' )                               : '100',
     ( 'word',                  'bit' )                                  : '16',
     ( 'yard',                  'foot' )                                 : '3',
+    ( 'yard*yard',             'square_yard' )                          : '1',
     ( 'year',                  'day' )                                  : '365.25',   # Julian year = 365 and 1/4 days
 }
 
@@ -2171,11 +2195,18 @@ def expandMetricUnits( newAliases ):
 
                 oldUnit = 'square_' + metricUnit[ 0 ]
 
+                compoundUnit = newName + '*' + newName
+
+                newUnitInfo = UnitInfo( 'area', newUnit, 'square_' + newPlural, '', [ ], newUnitInfo.categories )
+                unitOperators[ compoundUnit ] = newUnitInfo
+
                 # add new conversions
                 areaConversion = power( newConversion, 2 )
 
                 newConversions[ ( oldUnit, newUnit ) ] = str( areaConversion )
+                newConversions[ ( oldUnit, compoundUnit ) ] = str( areaConversion )
                 newConversions[ ( newUnit, oldUnit ) ] = str( fdiv( 1, areaConversion ) )
+                newConversions[ ( compoundUnit, oldUnit ) ] = str( fdiv( 1, areaConversion ) )
 
                 for op1, op2 in unitConversionMatrix:
                     if ( op1 == oldUnit ) or ( op2 == oldUnit ):
@@ -2183,8 +2214,10 @@ def expandMetricUnits( newAliases ):
 
                         if op1 == oldUnit and newUnit != op2:
                             newConversions[ ( newUnit, op2 ) ] = str( fdiv( oldConversion, areaConversion ) )
+                            newConversions[ ( compoundUnit, op2 ) ] = str( fdiv( oldConversion, areaConversion ) )
                         elif op2 == oldUnit and newUnit != op1:
                             newConversions[ ( op1, newUnit ) ] = str( fmul( oldConversion, areaConversion ) )
+                            newConversions[ ( op1, compoundUnit ) ] = str( fmul( oldConversion, areaConversion ) )
 
                 newUnitInfo, newUnitAliases = makeVolumeOperator( newName, newPlural )
 
@@ -2194,11 +2227,20 @@ def expandMetricUnits( newAliases ):
 
                 oldUnit = 'cubic_' + metricUnit[ 0 ]
 
+                compoundUnit = 'square_' + newName + '*' + newName
+                compoundUnit2 = newName + '*' + newName + '*' + newName
+
+                newUnitInfo = UnitInfo( 'volume', newUnit, 'square_' + newPlural, '', [ ], newUnitInfo.categories )
+                unitOperators[ compoundUnit ] = newUnitInfo
+                unitOperators[ compoundUnit2 ] = newUnitInfo
+
                 # add new conversions
                 volumeConversion = power( newConversion, 3 )
 
                 newConversions[ ( oldUnit, newUnit ) ] = str( volumeConversion )
+                newConversions[ ( oldUnit, compoundUnit ) ] = str( volumeConversion )
                 newConversions[ ( newUnit, oldUnit ) ] = str( fdiv( 1, volumeConversion ) )
+                newConversions[ ( compoundUnit, oldUnit ) ] = str( fdiv( 1, volumeConversion ) )
 
                 for op1, op2 in unitConversionMatrix:
                     if ( op1 == oldUnit ) or ( op2 == oldUnit ):
@@ -2206,9 +2248,13 @@ def expandMetricUnits( newAliases ):
 
                         if op1 == oldUnit and newUnit != op2:
                             newConversions[ ( newUnit, op2 ) ] = str( fdiv( oldConversion, volumeConversion ) )
+                            newConversions[ ( compoundUnit, op2 ) ] = str( fdiv( oldConversion, volumeConversion ) )
+                            newConversions[ ( compoundUnit2, op2 ) ] = str( fdiv( oldConversion, volumeConversion ) )
                             #print( newUnit, op2, volumeConversion )
                         elif op2 == oldUnit and newUnit!= op1:
-                            newConversions[ ( op1, newUnit) ] = str( fmul( oldConversion, volumeConversion ) )
+                            newConversions[ ( op1, newUnit ) ] = str( fmul( oldConversion, volumeConversion ) )
+                            newConversions[ ( op1, compoundUnit ) ] = str( fmul( oldConversion, volumeConversion ) )
+                            newConversions[ ( op1, compoundUnit2 ) ] = str( fmul( oldConversion, volumeConversion ) )
                             #print( op1, newUnit, volumeConversion )
 
     return newConversions
@@ -2391,7 +2437,12 @@ def initializeConversionMatrix( unitConversionMatrix ):
                 newAliases.update( newUnitAliases )
                 newOperators[ newUnit ] = newUnitInfo
 
-                compoundUnits[ unit + '*' + unit ] = newUnit
+                compoundUnit = unit + '*' + unit
+
+                compoundUnits[ compoundUnit ] = newUnitInfo
+
+                newConversions[ ( newUnit, compoundUnit ) ] = '1'
+                newConversions[ ( compoundUnit, newUnit ) ] = '1'
 
             newUnit = 'cubic_'+ unit
 
@@ -2401,7 +2452,16 @@ def initializeConversionMatrix( unitConversionMatrix ):
                 newAliases.update( newUnitAliases )
                 newOperators[ newUnit ] = newUnitInfo
 
-                compoundUnits[ unit + '*' + unit + '*' + unit ] = newUnit
+                compoundUnit = 'square_' + unit + '*' + unit
+                compoundUnit2 = unit + '*' + unit + '*' + unit
+
+                compoundUnits[ compoundUnit ] = newUnitInfo
+                compoundUnits[ compoundUnit2 ] = newUnitInfo
+
+                newConversions[ ( newUnit, compoundUnit ) ] = '1'
+                newConversions[ ( newUnit, compoundUnit2 ) ] = '1'
+                newConversions[ ( compoundUnit, newUnit ) ] = '1'
+                newConversions[ ( compoundUnit2, newUnit ) ] = '1'
 
     unitOperators.update( newOperators )
 
