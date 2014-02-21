@@ -563,25 +563,24 @@ class Measurement( mpf ):
             # look for a straight-up conversion
             if ( unit1String, unit2String ) in unitConversionMatrix:
                 value = fmul( mpf( self ), mpmathify( unitConversionMatrix[ ( unit1String, unit2String ) ] ) )
+                print( 'simple conversion', unit1String, unit2String )
             elif ( unit1String, unit2String ) in specialUnitConversionMatrix:
                 value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ]( mpf( self ) )
+                print( 'special conversion', unit1String, unit2String )
             else:
                 conversionValue = mpmathify( 1 )
 
                 if unit1String in compoundUnits:
-                    newUnit1String = compoundUnits[ unit1String ]
-                    conversionValue = mpmathify( unitConversionMatrix[ unit1String, newUnit1String ] )
-                    units1 = parseUnitString( newUnit1String )
+                    units1 = parseUnitString( compoundUnits[ unit1String ] )
 
                 if unit2String in compoundUnits:
-                    newUnit2String = compoundUnits[ unit2String ]
-                    conversionValue = fmul( conversionValue,
-                                            mpmathify( unitConversionMatrix[ unit2String, newUnit2String ] ) )
-                    units2 = parseUnitString( newUnit2String )
+                    units2 = parseUnitString( compoundUnits[ unit2String ] )
+
+                print( 'compound conversion', units1, units2 )
 
                 # if that isn't found, then we need to do the hard work and break the units down
-                for unit1 in units1:
-                    for unit2 in units2:
+                for unit1 in sorted( units1 ):
+                    for unit2 in sorted( units2 ):
                         if getUnitType( unit1 ) == getUnitType( unit2 ):
                             conversions.append( [ unit1, unit2 ] )
                             exponents.append( units1[ unit1 ] )
@@ -591,13 +590,14 @@ class Measurement( mpf ):
                 index = 0
 
                 for conversion in conversions:
-                    #print( 'conversion: ', conversion, '^', exponents[ index ] )
+                    print( 'conversion: ', conversion, '^', exponents[ index ] )
                     if conversion[ 0 ] == conversion[ 1 ]:
                         continue  # no conversion needed
 
                     conversionValue = mpmathify( unitConversionMatrix[ ( conversion[ 0 ], conversion[ 1 ] ) ] )
                     conversionValue = power( conversionValue, exponents[ index ] )
-                    #print( 'conversion: ', conversion, conversionValue )
+                    print( 'conversion: ', conversion, conversionValue )
+                    print( )
 
                     index += 1
 

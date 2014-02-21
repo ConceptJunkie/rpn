@@ -21,7 +21,7 @@ from mpmath import *
 #//
 #//******************************************************************************
 
-PROGRAM_VERSION = '5.15.6'
+PROGRAM_VERSION = '5.15.7'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
 defaultPrecision = 20
@@ -52,16 +52,17 @@ unitConversionMatrix = None
 #//  specialUnitConversionMatrix
 #//
 #//  This is for units that can't be converted with a simple multiplication
-#//  factor.  So far, only temperatures require this.
+#//  factor.
 #//
 #//  Plus, I'm not going to do the transitive thing here, so it's necessary
-#//  to explicitly state the conversions for all permutations.
-#//
-#//  ( first unit, second unit, conversion function )
-#//
+#//  to explicitly state the conversions for all permutations.  That bugs me.
 #//
 #//  I would have included this table in makeUnits.py, but pickle doesn't
-#//  work on lambdas, which is, to me, very non-Pythonic.
+#//  work on lambdas, which is, to me, very non-Pythonic.   I could also
+#//  save the expressions as strings and use eval, but that seems very
+#//  non-Pythonic, too.
+#//
+#//  ( first unit, second unit, conversion function )
 #//
 #//******************************************************************************
 

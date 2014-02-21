@@ -181,10 +181,10 @@ unitOperators = {
         UnitInfo( 'area', 'sqaure_foot', 'square_feet', '', [ ], [ 'imperial' ] ),
 
     'square_meter' :
-        UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meter^2', 'meters^2' ], [ 'SI' ] ),
+        UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meters^2' ], [ 'SI' ] ),
 
     'square_yard' :
-        UnitInfo( 'area', 'yard^2', 'square_yards', 'sqyd', [ 'sqyd', 'yd^2', 'yard^2', 'yards^2' ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'yard^2', 'square_yards', 'sqyd', [ 'sqyd', 'yd^2', 'yards^2' ], [ 'imperial' ] ),
 
     'township':
         UnitInfo( 'area', 'township', 'townships', '', [ ], [ 'US' ] ),
@@ -2159,6 +2159,8 @@ def makeAliases( ):
 #//******************************************************************************
 
 def expandMetricUnits( newAliases ):
+    global compoundUnits
+
     # expand metric measurements for all prefixes
     newConversions = { }
 
@@ -2195,18 +2197,16 @@ def expandMetricUnits( newAliases ):
 
                 oldUnit = 'square_' + metricUnit[ 0 ]
 
-                compoundUnit = newName + '*' + newName
+                compoundUnit = newName + '^2'
+                compoundUnits[ newUnit ] = compoundUnit
 
                 newUnitInfo = UnitInfo( 'area', newUnit, 'square_' + newPlural, '', [ ], newUnitInfo.categories )
-                unitOperators[ compoundUnit ] = newUnitInfo
 
                 # add new conversions
                 areaConversion = power( newConversion, 2 )
 
                 newConversions[ ( oldUnit, newUnit ) ] = str( areaConversion )
-                newConversions[ ( oldUnit, compoundUnit ) ] = str( areaConversion )
                 newConversions[ ( newUnit, oldUnit ) ] = str( fdiv( 1, areaConversion ) )
-                newConversions[ ( compoundUnit, oldUnit ) ] = str( fdiv( 1, areaConversion ) )
 
                 for op1, op2 in unitConversionMatrix:
                     if ( op1 == oldUnit ) or ( op2 == oldUnit ):
@@ -2214,10 +2214,8 @@ def expandMetricUnits( newAliases ):
 
                         if op1 == oldUnit and newUnit != op2:
                             newConversions[ ( newUnit, op2 ) ] = str( fdiv( oldConversion, areaConversion ) )
-                            newConversions[ ( compoundUnit, op2 ) ] = str( fdiv( oldConversion, areaConversion ) )
                         elif op2 == oldUnit and newUnit != op1:
                             newConversions[ ( op1, newUnit ) ] = str( fmul( oldConversion, areaConversion ) )
-                            newConversions[ ( op1, compoundUnit ) ] = str( fmul( oldConversion, areaConversion ) )
 
                 newUnitInfo, newUnitAliases = makeVolumeOperator( newName, newPlural )
 
@@ -2227,20 +2225,16 @@ def expandMetricUnits( newAliases ):
 
                 oldUnit = 'cubic_' + metricUnit[ 0 ]
 
-                compoundUnit = 'square_' + newName + '*' + newName
-                compoundUnit2 = newName + '*' + newName + '*' + newName
+                compoundUnit = newName + '^3'
+                compoundUnits[ newUnit ] = compoundUnit
 
-                newUnitInfo = UnitInfo( 'volume', newUnit, 'square_' + newPlural, '', [ ], newUnitInfo.categories )
-                unitOperators[ compoundUnit ] = newUnitInfo
-                unitOperators[ compoundUnit2 ] = newUnitInfo
+                newUnitInfo = UnitInfo( 'volume', compoundUnit, 'cubic_' + newPlural, '', [ ], newUnitInfo.categories )
 
                 # add new conversions
                 volumeConversion = power( newConversion, 3 )
 
                 newConversions[ ( oldUnit, newUnit ) ] = str( volumeConversion )
-                newConversions[ ( oldUnit, compoundUnit ) ] = str( volumeConversion )
                 newConversions[ ( newUnit, oldUnit ) ] = str( fdiv( 1, volumeConversion ) )
-                newConversions[ ( compoundUnit, oldUnit ) ] = str( fdiv( 1, volumeConversion ) )
 
                 for op1, op2 in unitConversionMatrix:
                     if ( op1 == oldUnit ) or ( op2 == oldUnit ):
@@ -2248,14 +2242,8 @@ def expandMetricUnits( newAliases ):
 
                         if op1 == oldUnit and newUnit != op2:
                             newConversions[ ( newUnit, op2 ) ] = str( fdiv( oldConversion, volumeConversion ) )
-                            newConversions[ ( compoundUnit, op2 ) ] = str( fdiv( oldConversion, volumeConversion ) )
-                            newConversions[ ( compoundUnit2, op2 ) ] = str( fdiv( oldConversion, volumeConversion ) )
-                            #print( newUnit, op2, volumeConversion )
                         elif op2 == oldUnit and newUnit!= op1:
                             newConversions[ ( op1, newUnit ) ] = str( fmul( oldConversion, volumeConversion ) )
-                            newConversions[ ( op1, compoundUnit ) ] = str( fmul( oldConversion, volumeConversion ) )
-                            newConversions[ ( op1, compoundUnit2 ) ] = str( fmul( oldConversion, volumeConversion ) )
-                            #print( op1, newUnit, volumeConversion )
 
     return newConversions
 
@@ -2409,6 +2397,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     # create map for compound units based on the conversion matrix
     print( 'Mapping compound units...' )
 
+    global compoundUnits
     compoundUnits = { }
 
     for unit1, unit2 in unitConversionMatrix:
@@ -2419,7 +2408,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
             #print( '    compound unit: ', unit1, '(', unit2, ')' )
 
     # create area and volume units from all of the length units
-    #print( )
     print( 'Creating area and volume units for all length units...' )
 
     newOperators = { }
@@ -2437,14 +2425,10 @@ def initializeConversionMatrix( unitConversionMatrix ):
                 newAliases.update( newUnitAliases )
                 newOperators[ newUnit ] = newUnitInfo
 
-                compoundUnit = unit + '*' + unit
+                compoundUnit = unit + '^2'
+                compoundUnits[ newUnit ] = compoundUnit
 
-                compoundUnits[ compoundUnit ] = newUnitInfo
-
-                newConversions[ ( newUnit, compoundUnit ) ] = '1'
-                newConversions[ ( compoundUnit, newUnit ) ] = '1'
-
-            newUnit = 'cubic_'+ unit
+            newUnit = 'cubic_' + unit
 
             if newUnit not in unitOperators:
                 newUnitInfo, newUnitAliases = makeVolumeOperator( unit, unitOperators[ unit ].plural )
@@ -2452,18 +2436,11 @@ def initializeConversionMatrix( unitConversionMatrix ):
                 newAliases.update( newUnitAliases )
                 newOperators[ newUnit ] = newUnitInfo
 
-                compoundUnit = 'square_' + unit + '*' + unit
-                compoundUnit2 = unit + '*' + unit + '*' + unit
-
-                compoundUnits[ compoundUnit ] = newUnitInfo
-                compoundUnits[ compoundUnit2 ] = newUnitInfo
-
-                newConversions[ ( newUnit, compoundUnit ) ] = '1'
-                newConversions[ ( newUnit, compoundUnit2 ) ] = '1'
-                newConversions[ ( compoundUnit, newUnit ) ] = '1'
-                newConversions[ ( compoundUnit2, newUnit ) ] = '1'
+                compoundUnit = unit + '^3'
+                compoundUnits[ newUnit ] = compoundUnit
 
     unitOperators.update( newOperators )
+    unitConversionMatrix.update( newConversions )
 
     # add new conversions for the new area and volume units
     print( 'Adding new conversions for the new area and volume units...' )
@@ -2556,7 +2533,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     newUnitOperators = { }
 
     for unit in unitOperators:
-        if unit[ -7 : ] == '-second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_':
+        if unit[ -7 : ] == '-second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_' and \
+           '*' not in unit and '^' not in unit and '/' not in unit:
             unitRoot = unit[ : -7 ]
             unitInfo = unitOperators[ unit ]
 
@@ -2659,6 +2637,9 @@ def initializeConversionMatrix( unitConversionMatrix ):
     print( 'Making some more aliases...' )
 
     newAliases.update( makeAliases( ) )
+
+    for unit in compoundUnits:
+        print( unit, compoundUnits[ unit ] )
 
     #for op1, op2 in unitConversionMatrix:
     #    print( op1, op2, unitConversionMatrix[ ( op1, op2 ) ] )
