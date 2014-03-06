@@ -45,7 +45,7 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generato
 basicUnitTypes = {
     'acceleration'              : [ 'length/time^2', 'meter/second^2' ],
     'angle'                     : [ 'angle', 'radian' ],
-    'area'                      : [ 'length^2', 'meter^2' ],
+    'area'                      : [ 'length^2', 'square_meter' ],
     'capacitance'               : [ 'current^2*time^4/mass*length^2', 'farad' ],
     'charge'                    : [ 'current*time', 'coulomb' ],
     'constant'                  : [ 'constant', 'unity' ],
@@ -77,7 +77,7 @@ basicUnitTypes = {
     'temperature'               : [ 'temperature', 'kelvin' ],
     'time'                      : [ 'time', 'second' ],
     'velocity'                  : [ 'length/time', 'meter/second' ],
-    'volume'                    : [ 'length^3', 'meter^3' ],
+    'volume'                    : [ 'length^3', 'cubic_meter' ],
 }
 
 
@@ -147,17 +147,11 @@ unitOperators = {
     'carucate' :
         UnitInfo( 'area', 'carucate', 'carucates', '', [ ], [ 'imperial' ] ),
 
-    'foot*foot' :
-        UnitInfo( 'area', 'sqaure_foot', 'square_feet', '', [ ], [ 'imperial' ] ),  # for compound conversions
-
     'homestead':
         UnitInfo( 'area', 'homestead', 'homesteads', '', [ ], [ 'US' ] ),
 
     'imperial_square' :
         UnitInfo( 'area', 'imperial_sqaure', 'imperial_squares', '', [ ], [ 'imperial' ] ),
-
-    'meter*meter' :
-        UnitInfo( 'area', 'sqaure_meter', 'square_meters', '', [ ], [ 'SI' ] ),  # for compound conversions
 
     'morgen' :
         UnitInfo( 'area', 'morgen', 'morgens', '', [ ], [ 'obsolete' ] ),
@@ -167,6 +161,9 @@ unitOperators = {
 
     'outhouse' :
         UnitInfo( 'area', 'outhouse', 'outhouse', '', [ ], [ 'science', 'humorous' ] ),
+
+    'planck_area' :
+        UnitInfo( 'area', 'planck_area', 'planck_areas', '', [ ], [ 'natural', 'science' ] ),
 
     'rood' :
         UnitInfo( 'area', 'rood', 'roods', '', [ 'farthingdale' ], [ 'imperial' ] ),
@@ -178,22 +175,19 @@ unitOperators = {
         UnitInfo( 'area', 'shed', 'sheds', '', [ ], [ 'science' ] ),
 
     'square_foot' :
-        UnitInfo( 'area', 'sqaure_foot', 'square_feet', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'foot^2', 'square_feet', 'sqft', [ 'ft^2', 'feet^2' ], [ 'imperial' ] ),
 
     'square_meter' :
         UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meters^2' ], [ 'SI' ] ),
 
     'square_yard' :
-        UnitInfo( 'area', 'yard^2', 'square_yards', 'sqyd', [ 'sqyd', 'yd^2', 'yards^2' ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'yard^2', 'square_yards', 'sqyd', [ 'yd^2', 'yards^2' ], [ 'imperial' ] ),
 
     'township':
         UnitInfo( 'area', 'township', 'townships', '', [ ], [ 'US' ] ),
 
     'virgate':
         UnitInfo( 'area', 'virgate', 'virgates', '', [ ], [ 'imperial' ] ),
-
-    'yard*yard' :
-        UnitInfo( 'area', 'sqaure_yard', 'square_yards', '', [ ], [ 'imperial' ] ),  # for compound conversions
 
     # capacitance
 
@@ -236,7 +230,7 @@ unitOperators = {
         UnitInfo( 'charge', 'faraday', 'faradays', 'Fd', [ ], [ 'natural' ] ),   # electron_charge * Avogradro's number!
 
     'planck_charge' :
-        UnitInfo( 'charge', 'planck_charge', 'planck_charges', '', [ ], [ 'natural' ] ),
+        UnitInfo( 'charge', 'planck_charge', 'planck_charges', '', [ ], [ 'natural', 'science' ] ),
 
     'statcoulomb' :
         UnitInfo( 'charge', 'statcoulomb', 'statcoulombs', 'statC', [ 'esu_charge' ], [ 'CGS' ] ),
@@ -323,6 +317,14 @@ unitOperators = {
 
     'byte/second' :
         UnitInfo( 'data_rate', 'byte/second', 'bytes/second', 'B/s', [ 'byte/s', 'bytes/s' 'byte/sec', 'bytes/sec' ], [ 'computing' ] ),
+
+    # density
+
+    # https://en.wikipedia.org/wiki/Planck_units
+    # https://en.wikipedia.org/wiki/Gravitational_constant
+    # https://en.wikipedia.org/wiki/Coulomb_constant
+    # https://en.wikipedia.org/wiki/Boltzmann_constant
+    # https://en.wikipedia.org/wiki/Reduced_Planck_constant
 
     # electric_potential
 
@@ -450,7 +452,7 @@ unitOperators = {
         UnitInfo( 'energy', 'newton*meter', 'newton-meters', 'N*m', [ ], [ 'SI' ] ),
 
     'planck_energy' :
-        UnitInfo( 'energy', 'planck_energy', 'planck_energy', 'EP', [ ], [ 'natural' ] ),
+        UnitInfo( 'energy', 'planck_energy', 'planck_energy', 'EP', [ ], [ 'natural', 'science' ] ),
 
     'rydberg' :
         UnitInfo( 'energy', 'rydberg', 'rydbergs', 'Ry', [ ], [ 'science' ] ),
@@ -474,6 +476,9 @@ unitOperators = {
 
     'newton' :
         UnitInfo( 'force', 'newton', 'newtons', 'N', [ ], [ 'SI' ] ),
+
+    'planck_force' :
+        UnitInfo( 'force', 'planck_force', 'planck_force', '', [ ], [ 'natural', 'science' ] ),
 
     'pond' :
         UnitInfo( 'force', 'pond', 'ponds', 'p', [ ], [ 'metric' ] ),
@@ -700,7 +705,7 @@ unitOperators = {
         UnitInfo( 'length', 'pica', 'pica', '', [ 'cicero' ], [ 'typography' ] ),
 
     'planck_length' :
-        UnitInfo( 'length', 'planck_length', 'planck_length', 'lP', [ ], [ 'science' ] ),
+        UnitInfo( 'length', 'planck_length', 'planck_length', 'lP', [ ], [ 'natural', 'science' ] ),
 
     'point' :
         UnitInfo( 'length', 'point', 'points', '', [ ], [ 'typography' ] ),
@@ -867,7 +872,7 @@ unitOperators = {
         UnitInfo( 'mass', 'pennyweight', 'pennyweights', 'dwt', [ 'pwt' ], [ 'traditional', 'England' ] ),
 
     'planck_mass' :
-        UnitInfo( 'mass', 'planck_mass', 'planck_masses', 'mP', [ ], [ 'natural' ] ),
+        UnitInfo( 'mass', 'planck_mass', 'planck_masses', 'mP', [ ], [ 'natural', 'science' ] ),
 
     'pound' :
         UnitInfo( 'mass', 'pound', 'pounds', 'lb', [ ], [ 'US', 'traditional', 'FPS' ] ),
@@ -930,6 +935,9 @@ unitOperators = {
 
     'pferdestarke' :
         UnitInfo( 'power', 'pferdestarke', 'pferdestarke', 'pf', [ ], [ 'obsolete', 'Germany' ] ),
+
+    'planck_power' :
+        UnitInfo( 'power', 'planck_power', 'planck_power', '', [ ], [ 'natural', 'science' ] ),
 
     'poncelet' :
         UnitInfo( 'power', 'poncelet', 'poncelets', 'p', [ ], [ 'obsolete' ] ),
@@ -1011,6 +1019,7 @@ unitOperators = {
         UnitInfo( 'radiation_exposure', 'roentgen', 'roentgens', 'R', [ 'parker' ], [ 'NIST' ] ),
 
     # solid_angle
+
     'square_arcminute' :
         UnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', 'arcmin^2', [ 'square_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2' ], [ 'mathematics' ] ),
 
@@ -1118,7 +1127,7 @@ unitOperators = {
         UnitInfo( 'time', 'nanocentury', 'nanocenturies', '', [ ], [ 'humorous', 'computing' ] ),
 
     'planck_time' :
-        UnitInfo( 'time', 'planck_time', 'x planck_time', 'tP', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'planck_time', 'x planck_time', 'tP', [ ], [ 'natural', 'science' ] ),
 
     'second' :
         UnitInfo( 'time', 'second', 'seconds', '', [ ], [ 'SI', 'traditional', 'FPS' ] ),   # 'sec' is already an operator
@@ -1164,10 +1173,13 @@ unitOperators = {
     'mach' :
         UnitInfo( 'velocity', 'mach', 'mach', '', [ ], [ 'US' ] ),
 
+    'mile/hour' :
+        UnitInfo( 'velocity', 'mile/hour', 'miles/hour', 'mph', [ ], [ 'FPS', 'imperial' ] ),
+
     # volume
 
     'acre-foot' :
-        UnitInfo( 'volume', 'acre*foot', 'acre-feet', 'ac*ft', [ ], [ 'US', 'traditional' ] ),
+        UnitInfo( 'volume', 'acre*foot', 'acre-feet', 'ac*ft', [ ], [ 'FPS', 'imperial' ] ),
 
     'balthazar' :
         UnitInfo( 'volume', 'balthazar', 'balthazars', '', [ ], [ 'wine' ] ),
@@ -1358,6 +1370,9 @@ unitOperators = {
     'pipe' :
         UnitInfo( 'volume', 'pipe', 'pipes', '', [ 'butt', 'butts' ], [ 'imperial' ] ),
 
+    'planck_volume' :
+        UnitInfo( 'volume', 'planck_volume', 'planck_volumes', '', [ ], [ 'natural', 'science' ] ),
+
     'pony' :
         UnitInfo( 'volume', 'pony', 'ponies', '', [ ], [ 'imperial' ] ),
 
@@ -1390,15 +1405,6 @@ unitOperators = {
 
     'sovereign' :
         UnitInfo( 'volume', 'sovereign', 'sovereigns', '', [ ], [ 'wine' ] ),
-
-    'square_foot*foot' :
-        UnitInfo( 'volume', 'foot^3', 'cubic_feet', '', [ ], [ 'imperial', 'FPS' ] ),   # for compound conversions
-
-    'square_inch*inch' :
-        UnitInfo( 'volume', 'inch^3', 'cubic_inches', 'cuin', [ ], [ 'imperial' ] ),
-
-    'square_meter*meter' :
-        UnitInfo( 'volume', 'meter^3', 'cubic_meters', '', [ ], [ 'SI' ] ),
 
     'standard' :
         UnitInfo( 'volume', 'standard', 'standards', '', [ ], [ 'wine' ] ),
@@ -1457,6 +1463,7 @@ unitOperators = {
 metricUnits = [
     ( 'ampere',             'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
     ( 'are',                'ares',             'a',    [ ], [ ] ),
+    ( 'barn',               'barns',            'bn',     [ ], [ ] ),       # bn is not standard
     ( 'becquerel',          'becquerels',       'Bq',   [ ], [ ] ),
     ( 'blintz',             'blintzes',         'bl',   [ ], [ ] ),
     ( 'coulomb',            'coulombs',         'C',    [ ], [ ] ),
@@ -1709,7 +1716,6 @@ unitConversionMatrix = {
     ( 'fluid_ounce',           'dram' )                                 : '8',
     ( 'fluid_ounce',           'tablespoon' )                           : '2',
     ( 'foot',                  'inch' )                                 : '12',
-    ( 'foot*foot',             'square_foot' )                          : '1',
     ( 'footcandle',            'lumen/foot^2' )                         : '1',
     ( 'footcandle',            'lux' )                                  : '10.763910417',           # (m/ft)^2
     ( 'footlambert',           'candela/meter^2' )                      : '3.42625909963539052691', # 1/pi cd/ft^2
@@ -1851,10 +1857,12 @@ unitConversionMatrix = {
     ( 'phot',                  'lux' )                                  : '10000',
     ( 'piccolo',               'liter' )                                : '0.1875',
     ( 'pieze',                 'pascal' )                               : '1000',
+    ( 'planck_area',           'square_meter' )                         : '2.6121003e-70',
     ( 'planck_charge',         'coulomb' )                              : '1.875545956e-18',
     ( 'planck_energy',         'joule' )                                : '1.956e9',
     ( 'planck_length',         'meter' )                                : '1.616199e-35',
     ( 'planck_time',           'second' )                               : '5.39106e-44',
+    ( 'planck_volume',         'cubic_meter' )                          : '4.22419e-105',
     ( 'poncelet',              'watt' )                                 : '980.665',
     ( 'pony',                  'dram' )                                 : '6',
     ( 'potrzebie',             'farshimmelt_potrzebie' )                : '1.0e5',
@@ -1910,13 +1918,9 @@ unitConversionMatrix = {
     ( 'span',                  'inch' )                                 : '9',
     ( 'square_arcminute',      'square_arcsecond' )                     : '3600',
     ( 'square_degree',         'square_arcminute' )                     : '3600',
-    ( 'square_foot*foot',      'cubic_foot' )                           : '1',
-    ( 'square_inch*inch',      'cubic_inch' )                           : '1',
     ( 'square_meter',          'barn' )                                 : '1.0e28',
-    ( 'square_meter',          'meter*meter' )                          : '1',
     ( 'square_meter',          'outhouse' )                             : '1.0e34',
     ( 'square_meter',          'shed' )                                 : '1.0e52',
-    ( 'square_meter*meter',    'cubic_meter' )                          : '1',
     ( 'square_octant',         'square_degree' )                        : '2025',
     ( 'square_quadrant',       'square_degree' )                        : '8100',
     ( 'square_sextant',        'square_degree' )                        : '3600',
@@ -1983,7 +1987,6 @@ unitConversionMatrix = {
     ( 'wood',                  'martin' )                               : '100',
     ( 'word',                  'bit' )                                  : '16',
     ( 'yard',                  'foot' )                                 : '3',
-    ( 'yard*yard',             'square_yard' )                          : '1',
     ( 'year',                  'day' )                                  : '365.25',   # Julian year = 365 and 1/4 days
 }
 
@@ -2200,7 +2203,7 @@ def expandMetricUnits( newAliases ):
                 compoundUnit = newName + '^2'
                 compoundUnits[ newUnit ] = compoundUnit
 
-                newUnitInfo = UnitInfo( 'area', newUnit, 'square_' + newPlural, '', [ ], newUnitInfo.categories )
+                newUnitInfo = UnitInfo( 'area', compoundUnit, 'square_' + newPlural, '', [ ], newUnitInfo.categories )
 
                 # add new conversions
                 areaConversion = power( newConversion, 2 )
@@ -2400,6 +2403,15 @@ def initializeConversionMatrix( unitConversionMatrix ):
     global compoundUnits
     compoundUnits = { }
 
+    for unit in unitOperators:
+        chars = set( '*/^' )
+
+        compoundUnit = unitOperators[ unit ].representation
+
+        if any( ( c in chars ) for c in compoundUnit ):
+            compoundUnits[ unit ] = compoundUnit
+            #print( '    compound unit: ', unit1, '(', unit2, ')' )
+
     for unit1, unit2 in unitConversionMatrix:
         chars = set( '*/^' )
 
@@ -2416,6 +2428,9 @@ def initializeConversionMatrix( unitConversionMatrix ):
     for unit in unitOperators:
         unitInfo = unitOperators[ unit ]
 
+        if unitInfo.representation != unit:
+            newAliases[ unitInfo.representation ] = unit
+
         if unitInfo.unitType == 'length':
             newUnit = 'square_' + unit
 
@@ -2428,6 +2443,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
                 compoundUnit = unit + '^2'
                 compoundUnits[ newUnit ] = compoundUnit
 
+                newAliases[ compoundUnit ] = newUnit
+
             newUnit = 'cubic_' + unit
 
             if newUnit not in unitOperators:
@@ -2438,6 +2455,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
                 compoundUnit = unit + '^3'
                 compoundUnits[ newUnit ] = compoundUnit
+
+                newAliases[ compoundUnit ] = newUnit
 
     unitOperators.update( newOperators )
     unitConversionMatrix.update( newConversions )
@@ -2534,7 +2553,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     for unit in unitOperators:
         if unit[ -7 : ] == '-second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_' and \
-           '*' not in unit and '^' not in unit and '/' not in unit:
+           not any( ( c in [ '*^/' ] ) for c in unit ):
             unitRoot = unit[ : -7 ]
             unitInfo = unitOperators[ unit ]
 
@@ -2638,8 +2657,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     newAliases.update( makeAliases( ) )
 
-    for unit in compoundUnits:
-        print( unit, compoundUnits[ unit ] )
+    #for unit in compoundUnits:
+    #    print( unit, compoundUnits[ unit ] )
 
     #for op1, op2 in unitConversionMatrix:
     #    print( op1, op2, unitConversionMatrix[ ( op1, op2 ) ] )
