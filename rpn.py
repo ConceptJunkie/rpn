@@ -3886,12 +3886,15 @@ def convertUnits( unit1, unit2 ):
     #print( 'unit1:', unit1.getTypes( ) )
     #print( 'unit2:', unit2.getTypes( ) )
 
-    newUnit1 = unit1.getReduced( )
+    if isinstance( unit1, Measurement ):
+        unit = unit1.getReduced( )
+    else:
+        raise ValueError( 'cannot convert non-measurements' )
 
     if isinstance( unit2, list ):
-        return newUnit1.convertValue( unit2 )
+        return unit1.convertValue( unit2 )
     else:
-        return Measurement( newUnit1.convertValue( unit2 ), unit2.getUnits( ),
+        return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
                             unit2.getUnitName( ), unit2.getPluralUnitName( ) )
 
 
@@ -4443,9 +4446,6 @@ operators = {
     '_dumpops'      : [ dumpOperators, 0 ],
     '_stats'        : [ dumpStats, 0 ],
     '~'             : [ getInvertedBits, 1 ],
-    '~length'       : [ estimateLength, 1 ],
-    '~mass'         : [ estimateMass, 1 ],
-    '~volume'       : [ estimateVolume, 1 ],
 #   'antitet'       : [ findTetrahedralNumber, 1 ],
 #   'bernfrac'      : [ bernfrac, 1 ],
 #   'powmod'        : [ getPowMod, 3 ],
@@ -5368,12 +5368,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            #except ValueError as error:
-            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+            except ValueError as error:
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -5403,12 +5403,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            #except ValueError as error:
-            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+            except ValueError as error:
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
             except IndexError as error:
                 print( 'rpn:  index error for operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
