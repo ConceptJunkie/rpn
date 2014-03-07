@@ -5,7 +5,7 @@
 #//  rpn
 #//
 #//  RPN command-line calculator
-#//  copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)
+#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
 #//
 #//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #//  information).
@@ -104,7 +104,7 @@ def combineUnits( units1, units2 ):
 
     #print( 'combine units1:', units1 )
     #print( 'combine units2:', units2 )
-    newUnits = { }
+    newUnits = Units( )
     newUnits.update( units1 )
 
     factor = mpmathify( 1 )
@@ -155,6 +155,8 @@ class Units( dict ):
             else:
                 self[ value ] = self[ value ] + amount
 
+        return self
+
 
     def decrement( self, value, amount=1 ):
         if isinstance( value, Units ):
@@ -166,10 +168,14 @@ class Units( dict ):
             else:
                 self[ value ] = self[ value ] - amount
 
+        return self
+
 
     def invert( self ):
         for unit in self:
             self[ unit ] = -( self[ unit ] )
+
+        return self
 
 
     def getUnitTypes( self ):
@@ -230,7 +236,7 @@ class Units( dict ):
         return result
 
 
-    def makeUnitString( self ):
+    def getUnitString( self ):
         resultString = ''
 
         for unit in sorted( self ):
@@ -311,6 +317,9 @@ class Units( dict ):
 
 class Measurement( mpf ):
     def __new__( cls, value, units=None, unitName=None, pluralUnitName=None ):
+        if isinstance( value, list ):
+            raise ValueError( 'cannot use a list for the value of a measurement' )
+
         return mpf.__new__( cls, value )
 
 
@@ -502,6 +511,10 @@ class Measurement( mpf ):
         return self.units
 
 
+    def getUnitString( self ):
+        return self.units.getUnitString( )
+
+
     def getUnitName( self ):
         return self.unitName
 
@@ -514,6 +527,7 @@ class Measurement( mpf ):
         types = Units( )
 
         for unit in self.units:
+            #print( 'unit: ', unit )
             if unit not in unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
@@ -550,17 +564,14 @@ class Measurement( mpf ):
 
             unitType = getUnitType( unit )
 
-            if unitType == 'length' or unitType == 'area' or unitType == 'volume':
-                newUnit = basicUnitTypes[ unitType ][ 1 ]
+            newUnit = basicUnitTypes[ unitType ][ 1 ]
 
-                if unit != newUnit:
-                    value = power( mpf( unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] )
-                else:
-                    value = '1.0'
-
-                reduced = reduced.multiply( Measurement( value, Units( newUnit ) ) )
+            if unit != newUnit:
+                value = power( mpf( unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] )
             else:
-                reduced = reduced.multiply( Measurement( 1, unit ) )
+                value = '1.0'
+
+            reduced = reduced.multiply( Measurement( value, Units( newUnit ) ) )
 
         return reduced
 
@@ -592,8 +603,8 @@ class Measurement( mpf ):
             units1 = self.getUnits( )
             units2 = other.getUnits( )
 
-            unit1String = units1.makeUnitString( )
-            unit2String = units2.makeUnitString( )
+            unit1String = units1.getUnitString( )
+            unit2String = units2.getUnitString( )
 
             #print( 'unit1String: ', unit1String )
             #print( 'unit2String: ', unit2String )
@@ -635,6 +646,7 @@ class Measurement( mpf ):
                 # if that isn't found, then we need to do the hard work and break the units down
                 for unit1 in units1:
                     for unit2 in units2:
+                        #print( '1 and 2:', unit1, unit2 )
                         if getUnitType( unit1 ) == getUnitType( unit2 ):
                             conversions.append( [ unit1, unit2 ] )
                             exponents.append( units1[ unit1 ] )
@@ -660,7 +672,8 @@ class Measurement( mpf ):
 
             return value
         else:
-            raise ValueError( 'incompatible units cannot be converted' )
+            raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitString( ) + \
+                              ' and ' + other.getUnitString( ) )
 
 
 #//******************************************************************************
@@ -1598,7 +1611,9 @@ def getNSphereRadius( n, k ):
     if not isinstance( k, Measurement ):
         return Measurement( k, 'length' )  # default is 'length' anyway
 
-    measurementType = getSimpleUnitType( makeUnitString( k.getTypes( ) ) )
+    print( type( k.getBasicTypes( ).getUnitString( ) ) )
+
+    measurementType = k.getBasicTypes( ).getUnitString( )
 
     if measurementType == 'length':
         return 1
@@ -1610,7 +1625,7 @@ def getNSphereRadius( n, k ):
         return root( fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                                  power( pi, fdiv( n, 2 ) ) ), k ), 3 )
     else:
-        raise ValueError( 'incompatible measurement type for computing the radius' )
+        raise ValueError( 'incompatible measurement type for computing the radius: ' + measurementType )
 
 
 #//******************************************************************************
@@ -1782,13 +1797,6 @@ def getNthHexagonalPentagonalNumber( n ):
 #//******************************************************************************
 
 def getNthHeptagonalTriangularNumber( n ):
-    #return floor( fdiv( fsum( [ fmul( fmul( fsub( 3, sqrt( 5 ) ), power( -1, n ) ) ),
-    #                                power( fadd( 2, sqrt( 5 ) ), fsub( fmul( 4, n ), 2 ) ) ),
-    #                            fmul( fmul( fadd( 3, sqrt( 5 ) ), power( -1, n ) ) ),
-    #                                  power( fsub( 2, sqrt( 5 ) ), fsub( fmul( 4, n ), 2 ) ) ),
-    #                            14 ] ),
-    #                    80 ) )
-
     return getNthLinearRecurrence( [ 1, -1, -103682, 103682, 1 ],
                                    [ 1, 55, 121771, 5720653, 12625478965 ], n )
 
@@ -3947,6 +3955,7 @@ operatorAliases = {
     'ctri'        : 'ctriangular',
     'ctri?'       : 'ctriangular?',
     'cuberoot'    : 'root3',
+    'cube_root'   : 'root3',
     'dec'         : 'decagonal',
     'dec?'        : 'decagonal?',
     'divcount'    : 'countdiv',
@@ -4046,6 +4055,8 @@ operatorAliases = {
     'sophie?'     : 'sophieprime?',
     'sqr'         : 'square',
     'sqrt'        : 'root2',
+    'squareroot'  : 'root2',
+    'square_root' : 'root2',
     'syl'         : 'sylvester',
     'tri'         : 'triangular',
     'tri?'        : 'triangular?',
@@ -5330,12 +5341,12 @@ def main( ):
                 if unitOperators[ term ].unitType == 'constant':
                     value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
-                    value = Measurement( 1, term, term, unitOperators[ term ].plural )
+                    value = Measurement( 1, unitOperators[ term ].representation, term, unitOperators[ term ].plural )
             else:
                 if unitOperators[ term ].unitType == 'constant':
                     value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
-                    value = Measurement( currentValueList.pop( ), term, term, unitOperators[ term ].plural )
+                    value = Measurement( currentValueList.pop( ), unitOperators[ term ].representation, term, unitOperators[ term ].plural )
 
             currentValueList.append( value )
         elif term in operators:

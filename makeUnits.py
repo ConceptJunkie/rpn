@@ -5,7 +5,7 @@
 #//  makeUnits
 #//
 #//  RPN command-line calculator unit conversion data generator
-#//  copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)
+#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
 #//
 #//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #//  information).
@@ -38,7 +38,11 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generato
 #//
 #//  basicUnitTypes
 #//
-#//  conversion from the basic unit types (length, mass, time, current, angle)
+#//  0:  conversion from the basic unit types:
+#//          length, mass, time, current, angle, electric_potential,
+#//          temperature, luminous_intensity, constant (not a real unit)
+#//
+#//  1:  'standard' unit of measurement
 #//
 #//******************************************************************************
 
@@ -50,29 +54,32 @@ basicUnitTypes = {
     'charge'                    : [ 'current*time', 'coulomb' ],
     'constant'                  : [ 'constant', 'unity' ],
     'current'                   : [ 'current', 'ampere' ],
-    'data_rate'                 : [ 'information_entropy/time', 'bit/second' ],
+    'data_rate'                 : [ 'mass*length^2/current*time^2*temperature', 'bit/second' ],
     'electrical_conductance'    : [ 'time*current^2/mass*length^2', 'mho' ],
     'electrical_resistance'     : [ 'mass*length^2/time*current^2', 'ohm' ],
     'electric_potential'        : [ 'mass*length^2/current*time^3', 'volt' ],
     'energy'                    : [ 'mass*length^2/time^2', 'joule' ],
     'force'                     : [ 'mass*length/time', 'newton' ],
     'illuminance'               : [ 'luminous_intensity*angle^2/length^2', 'lux' ],
-    'inductance'                : [ 'electric_potential*time/current', 'henry' ],
-    'information_entropy'       : [ 'information_entropy', 'bit' ],
+    #'inductance'                : [ 'electric_potential*time/current', 'henry' ],
+    'inductance'                : [ 'mass*length^2/current^2*time^2', 'henry' ],
+    'information_entropy'       : [ 'mass*length^2/current*time^3*temperature', 'bit' ],
     'length'                    : [ 'length', 'meter' ],
     'luminance'                 : [ 'luminous_intensity/length^2', 'candela/meter^2' ],
     'luminous_flux'             : [ 'luminous_intensity*angle^2', 'lumen' ],
     'luminous_intensity'        : [ 'luminous_intensity', 'candela' ],
     'magnetic_field_strength'   : [ 'charge/length', 'ampere/meter' ],
-    'magnetic_flux'             : [ 'electric_potential*time', 'weber' ],
-    'magnetic_flux_density'     : [ 'electric_potential*time/length^2', 'tesla' ],
+    'magnetic_flux'             : [ 'mass*length^2/time', 'weber' ],
+    #'magnetic_flux_density'     : [ 'electric_potential*time/length^2', 'tesla' ],
+    'magnetic_flux_density'     : [ 'mass/time', 'tesla' ],     # not sure about the cancellations here
     'mass'                      : [ 'mass', 'gram' ],
     'power'                     : [ 'mass*length^2/time^3', 'watt' ],
-    'pressure'                  : [ 'mass/length*time^2', 'pascal' ],
-    'radiation_absorbed_dose'   : [ 'energy/mass', 'gray' ],
-    'radiation_equivalent_dose' : [ 'radiation_equivalent_dose', 'sievert' ],
-    'radiation_exposure'        : [ 'radiation_exposure', 'coulomb/kilogram' ],
-    'radioactivity'             : [ 'radioactivity', 'becquerel' ],
+    'pressure'                  : [ 'mass/length^2', 'pascal' ],
+    #'radiation_absorbed_dose'   : [ 'energy/mass', 'gray' ],
+    'radiation_absorbed_dose'   : [ 'length^2/time^2', 'gray' ],    # not sure about this one because mass seems to cancel out
+    'radiation_equivalent_dose' : [ 'radiation_equivalent_dose', 'sievert' ],   # this needs to expressed in terms of fundamental units
+    'radiation_exposure'        : [ 'current*time/mass', 'coulomb/kilogram' ],
+    'radioactivity'             : [ '1/time', 'becquerel' ],
     'solid_angle'               : [ 'angle^2', 'steradian' ],
     'temperature'               : [ 'temperature', 'kelvin' ],
     'time'                      : [ 'time', 'second' ],
@@ -386,8 +393,8 @@ unitOperators = {
     'matthiessen' :
         UnitInfo( 'electrical_resistance', 'matthiessen', 'matthiessens', '', [ ], [ 'obsolete' ] ),   # based on one mile of 1/16 inch diameter pure annealed copper wire at 15.5 degrees C
 
-    'meter^2-kilogram/second-couloumb^2' :
-        UnitInfo( 'electrical_resistance', 'meter^2*kilogram/second*couloumb^2', 'meter^2*kilogram/second*couloumb^2', 'm^2*kg/s*C^2', [ ], [ 'SI' ] ),
+    'meter^2-kilogram/second-coulomb^2' :
+        UnitInfo( 'electrical_resistance', 'meter^2*kilogram/second*coulomb^2', 'meter^2*kilogram/second*coulomb^2', 'm^2*kg/s*C^2', [ ], [ 'SI' ] ),
 
     'ohm' :
         UnitInfo( 'electrical_resistance', 'ohm', 'ohms', 'O', [ ], [ 'SI' ] ),
@@ -1167,8 +1174,8 @@ unitOperators = {
     'knot' :
         UnitInfo( 'velocity', 'knot', 'knots', '', [ ], [ 'nautical' ] ),
 
-    'light' :
-        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', 'c', [ ], [ 'natural' ] ),
+    'speed_of_light' :
+        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', 'c', [ 'light' ], [ 'natural' ] ),
 
     'mach' :
         UnitInfo( 'velocity', 'mach', 'mach', '', [ ], [ 'US' ] ),
@@ -1783,7 +1790,6 @@ unitConversionMatrix = {
     ( 'lambert',               'candela/meter^2' )                      : str( fdiv( 10000, pi ) ),
     ( 'league',                'mile' )                                 : '3',
     ( 'library_of_congress',   'byte' )                                 : '1.0e13',
-    ( 'light',                 'meter/second' )                         : speedOfLight,
     ( 'light-second',          'meter' )                                : speedOfLight,
     ( 'light-year',            'light-second' )                         : '31557600',
     ( 'link',                  'inch' )                                 : '7.92',
@@ -1841,7 +1847,7 @@ unitConversionMatrix = {
     ( 'ohm',                   'joule/second-ampere^2' )                : '1',
     ( 'ohm',                   'kilogram-meter^2/second^3-ampere^2' )   : '1',
     ( 'ohm',                   'matthiessen' )                          : '13.59',
-    ( 'ohm',                   'meter^2-kilogram/second-couloumb^2' )   : '1',
+    ( 'ohm',                   'meter^2-kilogram/second-coulomb^2' )   : '1',
     ( 'ohm',                   'second/farad' )                         : '1',
     ( 'ohm',                   'varley' )                               : '25.61',
     ( 'ohm',                   'volt/ampere' )                          : '1',
@@ -1916,6 +1922,7 @@ unitConversionMatrix = {
     ( 'solomon',               'liter' )                                : '20.0',
     ( 'sovereign',             'liter' )                                : '25.0',
     ( 'span',                  'inch' )                                 : '9',
+    ( 'speed_of_light',        'meter/second' )                         : speedOfLight,
     ( 'square_arcminute',      'square_arcsecond' )                     : '3600',
     ( 'square_degree',         'square_arcminute' )                     : '3600',
     ( 'square_meter',          'barn' )                                 : '1.0e28',
@@ -2193,10 +2200,10 @@ def expandMetricUnits( newAliases ):
 
             if unitOperators[ metricUnit[ 0 ] ].unitType == 'length':
                 newUnitInfo, newUnitAliases = makeAreaOperator( newName, newPlural )
+                newAliases.update( newUnitAliases )
 
                 newUnit = 'square_' + newName
                 unitOperators[ newUnit ] = newUnitInfo
-                newAliases.update( newUnitAliases )
 
                 oldUnit = 'square_' + metricUnit[ 0 ]
 
@@ -2221,10 +2228,10 @@ def expandMetricUnits( newAliases ):
                             newConversions[ ( op1, newUnit ) ] = str( fmul( oldConversion, areaConversion ) )
 
                 newUnitInfo, newUnitAliases = makeVolumeOperator( newName, newPlural )
+                newAliases.update( newUnitAliases )
 
                 newUnit = 'cubic_' + newName
                 unitOperators[ newUnit ] = newUnitInfo
-                newAliases.update( newUnitAliases )
 
                 oldUnit = 'cubic_' + metricUnit[ 0 ]
 
@@ -2261,7 +2268,7 @@ def expandMetricUnits( newAliases ):
 #//
 #//******************************************************************************
 
-def expandDataUnits( newAliases ):
+def expandDataUnits( ):
     # expand data measurements for all prefixes
     newConversions = { }
 
@@ -2467,6 +2474,12 @@ def initializeConversionMatrix( unitConversionMatrix ):
     newConversions = { }
 
     for op1, op2 in unitConversionMatrix:
+        if op1 == 'light':            # special exception because it's called 'light-second',not 'speed_of_light-second'
+            op1 = 'speed_of_light'
+
+        if op2 == 'light':
+            op2 = 'speed_of_light'
+
         if unitOperators[ op1 ].unitType == 'length':
             conversion = mpmathify( unitConversionMatrix[ ( op1, op2 ) ] )
             newConversions[ ( 'square_' + op1, 'square_' + op2 ) ] = str( power( conversion, 2 ) )
@@ -2530,8 +2543,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
     print( '           ' )
     print( 'Expanding metric units against the list of SI prefixes...' )
 
-    newAliases = { }
-
     unitConversionMatrix.update( expandMetricUnits( newAliases ) )
 
     # the second pass allows the full permuation of conversions between base types of the same unit type
@@ -2541,10 +2552,10 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     print( 'Expanding data units against the list of SI and binary prefixes...' )
 
-    unitConversionMatrix.update( expandDataUnits( newAliases ) )
+    unitConversionMatrix.update( expandDataUnits( ) )
 
     print( 'Expanding data units (second pass)...' )
-    unitConversionMatrix.update( expandDataUnits( newAliases ) )
+    unitConversionMatrix.update( expandDataUnits( ) )
 
     # add new operators for compound time units
     print( 'Expanding compound time units...' )
@@ -2556,6 +2567,9 @@ def initializeConversionMatrix( unitConversionMatrix ):
            not any( ( c in [ '*^/' ] ) for c in unit ):
             unitRoot = unit[ : -7 ]
             unitInfo = unitOperators[ unit ]
+
+            if unitRoot == 'light':           # special exception (see above)
+                unitRoot = 'speed_of_light'
 
             rootUnitInfo = unitOperators[ unitRoot ]
 

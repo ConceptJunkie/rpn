@@ -5,7 +5,7 @@
 #//  rpn
 #//
 #//  RPN command-line calculator, global declarations
-#//  copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)
+#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
 #//
 #//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #//  information).
@@ -21,7 +21,7 @@ from mpmath import *
 #//
 #//******************************************************************************
 
-PROGRAM_VERSION = '5.16.alpha2'
+PROGRAM_VERSION = '5.16.alpha3'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
 defaultPrecision = 20
