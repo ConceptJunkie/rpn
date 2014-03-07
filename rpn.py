@@ -5341,12 +5341,12 @@ def main( ):
                 if unitOperators[ term ].unitType == 'constant':
                     value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
-                    value = Measurement( 1, unitOperators[ term ].representation, term, unitOperators[ term ].plural )
+                    value = Measurement( 1, term, unitOperators[ term ].representation, unitOperators[ term ].plural )
             else:
                 if unitOperators[ term ].unitType == 'constant':
                     value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
-                    value = Measurement( currentValueList.pop( ), unitOperators[ term ].representation, term, unitOperators[ term ].plural )
+                    value = Measurement( currentValueList.pop( ), term, unitOperators[ term ].representation, unitOperators[ term ].plural )
 
             currentValueList.append( value )
         elif term in operators:
