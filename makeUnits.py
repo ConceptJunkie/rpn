@@ -39,18 +39,19 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generato
 #//  basicUnitTypes
 #//
 #//  0:  conversion from the basic unit types:
-#//          length, mass, time, current, angle, electric_potential,
-#//          temperature, luminous_intensity, constant (not a real unit)
+#//          length, mass, time, angle, energy, current, electric_potential,
+#//          temperature, luminous_intensity, informantion_entropy,
+#//          constant (not a real unit)
 #//
 #//  1:  'standard' unit of measurement
 #//
+#//  Note:  I chose not to incorporate mass-energy equivalence here.  I don't
+#//         think it helps.  I just created the 'gram-equivalent' unit instead.
+#//
+#//         I probably want to make a special case for converting mass to
+#//         energy so it will work with all mass units.
+#//
 #//******************************************************************************
-
-# note to self:
-#   I probably want to go through and redo these basic unit types in a way that doesn't
-#   consider mass-energy equivalence.   There's no way a conversion should be invoking
-#   mass-energy equivalence unless the conversion is specifically converting from mass
-#   to equivalent energy, which is why I created the 'gram-equivalent' unit.
 
 # another note to self:
 #   Consider what should happen, if anything (other than an uncaught exception) when
@@ -61,33 +62,30 @@ basicUnitTypes = {
     'acceleration'              : [ 'length/time^2', 'meter/second^2' ],
     'angle'                     : [ 'angle', 'radian' ],
     'area'                      : [ 'length^2', 'square_meter' ],
-    'capacitance'               : [ 'current^2*time^4/mass*length^2', 'farad' ],
+    'capacitance'               : [ 'current^2*time^2/energy', 'farad' ],
     'charge'                    : [ 'current*time', 'coulomb' ],
     'constant'                  : [ 'constant', 'unity' ],
     'current'                   : [ 'current', 'ampere' ],
-    'data_rate'                 : [ 'mass*length^2/current*time^2*temperature', 'bit/second' ],
-    'electrical_conductance'    : [ 'time*current^2/mass*length^2', 'mho' ],
-    'electrical_resistance'     : [ 'mass*length^2/time*current^2', 'ohm' ],
-    'electric_potential'        : [ 'mass*length^2/current*time^3', 'volt' ],
-    'energy'                    : [ 'mass*length^2/time^2', 'joule' ],
+    'data_rate'                 : [ 'information_entropy/time', 'bit/second' ],
+    'electrical_conductance'    : [ 'current^2/energy*time', 'mho' ],
+    'electrical_resistance'     : [ 'energy*time/current^2', 'ohm' ],
+    'electric_potential'        : [ 'energy/current*time', 'volt' ],
+    'energy'                    : [ 'energy', 'joule' ],
     'force'                     : [ 'mass*length/time', 'newton' ],
     'illuminance'               : [ 'luminous_intensity*angle^2/length^2', 'lux' ],
-    #'inductance'                : [ 'electric_potential*time/current', 'henry' ],
-    'inductance'                : [ 'mass*length^2/current^2*time^2', 'henry' ],
-    'information_entropy'       : [ 'mass*length^2/current*time^3*temperature', 'bit' ],
+    'inductance'                : [ 'electric_potential*time/current', 'henry' ],
+    'information_entropy'       : [ 'information_entropy', 'bit' ],
     'length'                    : [ 'length', 'meter' ],
     'luminance'                 : [ 'luminous_intensity/length^2', 'candela/meter^2' ],
     'luminous_flux'             : [ 'luminous_intensity*angle^2', 'lumen' ],
     'luminous_intensity'        : [ 'luminous_intensity', 'candela' ],
     'magnetic_field_strength'   : [ 'charge/length', 'ampere/meter' ],
-    'magnetic_flux'             : [ 'mass*length^2/time', 'weber' ],
-    #'magnetic_flux_density'     : [ 'electric_potential*time/length^2', 'tesla' ],
-    'magnetic_flux_density'     : [ 'mass/time', 'tesla' ],     # not sure about the cancellations here
+    'magnetic_flux'             : [ 'electric_potential*time', 'weber' ],
+    'magnetic_flux_density'     : [ 'electric_potential*time/length^2', 'tesla' ],
     'mass'                      : [ 'mass', 'gram' ],
-    'power'                     : [ 'mass*length^2/time^3', 'watt' ],
+    'power'                     : [ 'energy/time', 'watt' ],
     'pressure'                  : [ 'mass/length^2', 'pascal' ],
-    #'radiation_absorbed_dose'   : [ 'energy/mass', 'gray' ],
-    'radiation_absorbed_dose'   : [ 'length^2/time^2', 'gray' ],    # not sure about this one because mass seems to cancel out
+    'radiation_absorbed_dose'   : [ 'energy/mass', 'gray' ],
     'radiation_equivalent_dose' : [ 'radiation_equivalent_dose', 'sievert' ],   # this needs to expressed in terms of fundamental units
     'radiation_exposure'        : [ 'current*time/mass', 'coulomb/kilogram' ],
     'radioactivity'             : [ '1/time', 'becquerel' ],
@@ -1824,6 +1822,7 @@ unitConversionMatrix = {
     ( 'meter/second',          'knot' )                                 : '1.943844492',
     ( 'methuselah',            'liter' )                                : '6.0',
     ( 'mile',                  'foot' )                                 : '5280',
+    ( 'mile/hour',             'meter/second' )                         : '0.44704',
     ( 'million',               'unity' )                                : '1.0e6',
     ( 'mingo',                 'clarke' )                               : '10',
     ( 'minute',                'second' )                               : '60',
