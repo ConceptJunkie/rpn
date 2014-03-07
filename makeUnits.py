@@ -46,6 +46,17 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generato
 #//
 #//******************************************************************************
 
+# note to self:
+#   I probably want to go through and redo these basic unit types in a way that doesn't
+#   consider mass-energy equivalence.   There's no way a conversion should be invoking
+#   mass-energy equivalence unless the conversion is specifically converting from mass
+#   to equivalent energy, which is why I created the 'gram-equivalent' unit.
+
+# another note to self:
+#   Consider what should happen, if anything (other than an uncaught exception) when
+#   giving a list of values to a unit operator.
+#
+
 basicUnitTypes = {
     'acceleration'              : [ 'length/time^2', 'meter/second^2' ],
     'angle'                     : [ 'angle', 'radian' ],
