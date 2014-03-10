@@ -810,6 +810,34 @@ def multiply( n, k ):
 
 #//******************************************************************************
 #//
+#//  sum
+#//
+#//******************************************************************************
+
+def sum( n ):
+    hasUnits = False
+
+    for item in n:
+        if isinstance( item, Measurement ):
+            hasUnits = True
+            break
+
+    if hasUnits:
+        result = None
+
+        for item in n:
+            if result is None:
+                result = item
+            else:
+                result = result.add( item )
+
+        return result
+    else:
+        return fsum( n )
+
+
+#//******************************************************************************
+#//
 #//  takeReciprocal
 #//
 #//  We used to be able to call fdiv directly, but now we want to handle
@@ -4141,7 +4169,7 @@ listOperators = {
     'sort'          : [ sortAscending, 1 ],
     'sortdesc'      : [ sortDescending, 1 ],
     'stddev'        : [ getStandardDeviation, 1 ],
-    'sum'           : [ fsum, 1 ],
+    'sum'           : [ sum, 1 ],
     'tounixtime'    : [ lambda i: datetime.datetime( *i ).timestamp( ), 1 ],
     'tower'         : [ calculatePowerTower, 1 ],
     'tower2'        : [ calculatePowerTower2, 1 ],
@@ -5342,13 +5370,25 @@ def main( ):
                     value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
                     value = Measurement( 1, term, unitOperators[ term ].representation, unitOperators[ term ].plural )
+
+                currentValueList.append( value )
+            elif isinstance( currentValueList[ -1 ], list ):
+                argList = currentValueList.pop( )
+
+                for listItem in argList:
+                    if unitOperators[ term ].unitType == 'constant':
+                        value = mpf( Measurement( listItem, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+                    else:
+                        value = Measurement( listItem, term, unitOperators[ term ].representation, unitOperators[ term ].plural )
+
+                    currentValueList.append( value )
             else:
                 if unitOperators[ term ].unitType == 'constant':
                     value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
                     value = Measurement( currentValueList.pop( ), term, unitOperators[ term ].representation, unitOperators[ term ].plural )
 
-            currentValueList.append( value )
+                currentValueList.append( value )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
 
