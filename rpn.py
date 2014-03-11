@@ -249,7 +249,7 @@ class Units( dict ):
                 resultString += unit
 
                 if exponent > 1:
-                    resultString += '^' + str( exponent )
+                    resultString += '^' + str( int( exponent ) )
 
         denominator = ''
 
@@ -263,7 +263,7 @@ class Units( dict ):
                 denominator += unit
 
                 if exponent < -1:
-                    denominator += '^' + str( -exponent )
+                    denominator += '^' + str( int( -exponent ) )
 
         if denominator != '':
             resultString += '/' + denominator
@@ -4833,7 +4833,7 @@ def formatUnits( measurement ):
     if measurement.getUnitName( ) is not None:
         unitString = ''
 
-        if value < mpf( -1.0 ) or value >mpf( 1.0 ):
+        if value < mpf( -1.0 ) or value > mpf( 1.0 ):
             tempString = measurement.getPluralUnitName( )
         else:
             tempString = measurement.getUnitName( )
@@ -4867,7 +4867,7 @@ def formatUnits( measurement ):
                 unitString += unitOperators[ unit ].plural
 
             if exponent > 1:
-                unitString += '^' + str( exponent )
+                unitString += '^' + str( int( exponent ) )
 
     negativeUnits = ''
 
@@ -4880,7 +4880,7 @@ def formatUnits( measurement ):
                     negativeUnits += ' '
 
                 negativeUnits += unit
-                negativeUnits += '^' + str( exponent )
+                negativeUnits += '^' + str( int( exponent ) )
     else:
         for unit in units:
             exponent = units[ unit ]
@@ -4894,9 +4894,9 @@ def formatUnits( measurement ):
                 negativeUnits += unit
 
                 if exponent > 1:
-                    negativeUnits += '^' + str( exponent )
+                    negativeUnits += '^' + str( int( exponent ) )
                 elif exponent < -1:
-                    negativeUnits += '^' + str( -exponent )
+                    negativeUnits += '^' + str( int( -exponent ) )
 
     result = ''
 
