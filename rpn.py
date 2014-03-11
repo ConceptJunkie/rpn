@@ -431,6 +431,20 @@ class Measurement( mpf ):
         return self.normalizeUnits( )
 
 
+    def exponentiate( self, exponent ):
+        if ( floor( exponent ) != exponent ):
+            raise ValueError( 'cannot raise a measurement to a non-integral power' )
+
+        newValue = power( self, exponent )
+
+        for unit in self.units:
+            self.units[ unit ] *= exponent
+
+        self = Measurement( newValue, self.units )
+
+        return self
+
+
     def invert( self ):
         value = mpf( self )
         units = self.getUnits( )
@@ -806,6 +820,21 @@ def multiply( n, k ):
         return Measurement( n ).multiply( k )
     else:
         return fmul( n, k )
+
+
+#//******************************************************************************
+#//
+#//  exponentiate
+#//
+#//******************************************************************************
+
+def exponentiate( n, k ):
+    if isinstance( n, Measurement ):
+        return n.exponentiate( k )
+    elif isinstance( k, Measurement ):
+        raise ValueError( 'a measurement cannot be exponentiated' )
+    else:
+        return power( n, k )
 
 
 #//******************************************************************************
@@ -3760,15 +3789,18 @@ def evaluateTwoArgFunction( func, arg1, arg2 ):
     #print( 'arg1: ' + str( arg1 ) )
     #print( 'arg2: ' + str( arg2 ) )
 
-    list1 = len( arg1 ) > 1
-    list2 = len( arg2 ) > 1
+    len1 = len( arg1 )
+    len2 = len( arg2 )
+
+    list1 = len1 > 1
+    list2 = len2 > 1
 
     #print( list1 )
     #print( list2 )
 
     if list1:
         if list2:
-            return [ func( arg2[ index ], arg1[ index ] ) for index in range( 0, len( arg1 ) ) ]
+            return [ func( arg2[ index ], arg1[ index ] ) for index in range( 0, min( len1, len2 ) ) ]
         else:
             return [ func( arg2[ 0 ], i ) for i in arg1 ]
 
@@ -4251,7 +4283,7 @@ operators = {
     'csquare?'      : [ lambda n: findCenteredPolygonalNumber( n, 4 ), 1 ],
     'ctriangular'   : [ lambda n: getCenteredPolygonalNumber( n, 3 ), 1 ],
     'ctriangular?'  : [ lambda n: findCenteredPolygonalNumber( n, 3 ), 1 ],
-    'cube'          : [ lambda n: power( n, 3 ), 1 ],
+    'cube'          : [ lambda n: exponentiate( n, 3 ), 1 ],
     'decagonal'     : [ lambda n: getNthPolygonalNumber( n, 10 ), 1 ],
     'decagonal?'    : [ lambda n: findNthPolygonalNumber( n, 10 ), 1 ],
     'delannoy'      : [ getNthDelannoyNumber, 1 ],
@@ -4398,7 +4430,7 @@ operators = {
     'polylog'       : [ polylog, 2 ],
     'polyprime'     : [ getNthPolyPrime, 2 ],
     'polytope'      : [ getNthPolytopeNumber, 2 ],
-    'power'         : [ power, 2 ],
+    'power'         : [ exponentiate, 2 ],
     'prime'         : [ getNthPrime, 1 ],
     'prime?'        : [ lambda n: findPrime( n )[ 1 ], 1 ],
     'primepi'       : [ getPrimePi, 1 ],
@@ -4446,7 +4478,7 @@ operators = {
     'spherearea'    : [ lambda n: getNSphereSurfaceArea( 3, n ), 1 ],
     'sphereradius'  : [ lambda n: getNSphereRadius( 3, n ), 1 ],
     'spherevolume'  : [ lambda n: getNSphereVolume( 3, n ), 1 ],
-    'square'        : [ lambda i: power( i, 2 ), 1 ],
+    'square'        : [ lambda i: exponentiate( i, 2 ), 1 ],
     'squaretri'     : [ getNthSquareTriangularNumber, 1 ],
     'steloct'       : [ getNthStellaOctangulaNumber, 1 ],
     'subfac'        : [ lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1 ],
