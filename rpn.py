@@ -620,9 +620,6 @@ class Measurement( mpf ):
             unit1String = units1.getUnitString( )
             unit2String = units2.getUnitString( )
 
-            #print( 'unit1String: ', unit1String )
-            #print( 'unit2String: ', unit2String )
-
             global operatorAliases
 
             if unit1String in operatorAliases:
@@ -630,6 +627,9 @@ class Measurement( mpf ):
 
             if unit2String in operatorAliases:
                 unit2String = operatorAliases[ unit2String ]
+
+            #print( 'unit1String: ', unit1String )
+            #print( 'unit2String: ', unit2String )
 
             exponents = [ ]
 
@@ -3955,7 +3955,7 @@ def convertUnits( unit1, unit2 ):
     #print( 'unit2:', unit2.getTypes( ) )
 
     if isinstance( unit1, Measurement ):
-        unit = unit1.getReduced( )
+        unit1 = unit1.getReduced( )
     else:
         raise ValueError( 'cannot convert non-measurements' )
 
