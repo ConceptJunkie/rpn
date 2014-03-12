@@ -2189,81 +2189,87 @@ def expandMetricUnits( newAliases ):
             newName = makeMetricUnit( prefix[ 0 ], metricUnit[ 0 ] )
             newPlural = makeMetricUnit( prefix[ 0 ], metricUnit[ 1 ] )
 
-            # constuct unit operator info
-            unitOperators[ newName ] = \
-                UnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
-                                         prefix[ 1 ] + metricUnit[ 2 ], [ ], [ 'SI' ] )
+            if newName not in unitOperators:
+                # constuct unit operator info
+                unitOperators[ newName ] = \
+                    UnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
+                                             prefix[ 1 ] + metricUnit[ 2 ], [ ], [ 'SI' ] )
 
-            newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
-            unitConversionMatrix[ ( newName, metricUnit[ 0 ] ) ] = newConversion
-            newConversion = fdiv( 1, newConversion )
-            unitConversionMatrix[ ( metricUnit[ 0 ], newName ) ] = newConversion
+                newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
+                unitConversionMatrix[ ( newName, metricUnit[ 0 ] ) ] = newConversion
+                newConversion = fdiv( 1, newConversion )
+                unitConversionMatrix[ ( metricUnit[ 0 ], newName ) ] = newConversion
+            else:
+                newConversion = power( 10, fneg( mpmathify( prefix[ 2 ] ) ) )
 
             for op1, op2 in unitConversionMatrix:
                 if ( op1 == metricUnit[ 0 ] ) or ( op2 == metricUnit[ 0 ] ):
                     oldConversion = unitConversionMatrix[ ( op1, op2 ) ]
 
-                    if op1 == metricUnit[ 0 ] and newName != op2:
+                    if ( newName, op2 ) not in unitConversionMatrix and op1 == metricUnit[ 0 ] and newName != op2:
                         newConversions[ ( newName, op2 ) ] = fdiv( oldConversion, newConversion )
-                    elif op2 == metricUnit[ 0 ] and newName != op1:
+                    elif ( op1, newName ) not in unitConversionMatrix and op2 == metricUnit[ 0 ] and newName != op1:
                         newConversions[ ( op1, newName ) ] = fmul( oldConversion, newConversion )
+
 
             # create area and volume operators for new length units
             if unitOperators[ metricUnit[ 0 ] ].unitType == 'length':
-                newUnitInfo, newUnitAliases = makeAreaOperator( newName, newPlural )
-                newAliases.update( newUnitAliases )
-
                 newUnit = 'square_' + newName
-                unitOperators[ newUnit ] = newUnitInfo
 
+                areaConversion = power( newConversion, 2 )
                 oldUnit = 'square_' + metricUnit[ 0 ]
 
-                compoundUnit = newName + '^2'
-                compoundUnits[ newUnit ] = compoundUnit
+                if newUnit not in unitOperators:
+                    newUnitInfo, newUnitAliases = makeAreaOperator( newName, newPlural )
+                    newAliases.update( newUnitAliases )
 
-                newUnitInfo = UnitInfo( 'area', compoundUnit, 'square_' + newPlural, '', [ ], newUnitInfo.categories )
+                    unitOperators[ newUnit ] = newUnitInfo
 
-                # add new conversions
-                areaConversion = power( newConversion, 2 )
+                    compoundUnit = newName + '^2'
+                    compoundUnits[ newUnit ] = compoundUnit
 
-                newConversions[ ( oldUnit, newUnit ) ] = areaConversion
-                newConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, areaConversion )
+                    newUnitInfo = UnitInfo( 'area', compoundUnit, 'square_' + newPlural, '', [ ], newUnitInfo.categories )
+
+                    # add new conversions
+                    newConversions[ ( oldUnit, newUnit ) ] = areaConversion
+                    newConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, areaConversion )
 
                 for op1, op2 in unitConversionMatrix:
                     if ( op1 == oldUnit ) or ( op2 == oldUnit ):
                         oldConversion = unitConversionMatrix[ ( op1, op2 ) ]
 
-                        if op1 == oldUnit and newUnit != op2:
+                        if ( newUnit, op2 ) not in unitConversionMatrix and op1 == oldUnit and newUnit != op2:
                             newConversions[ ( newUnit, op2 ) ] = fdiv( oldConversion, areaConversion )
-                        elif op2 == oldUnit and newUnit != op1:
+                        elif ( op1, newUnit ) not in unitConversionMatrix and op2 == oldUnit and newUnit != op1:
                             newConversions[ ( op1, newUnit ) ] = fmul( oldConversion, areaConversion )
 
-                newUnitInfo, newUnitAliases = makeVolumeOperator( newName, newPlural )
-                newAliases.update( newUnitAliases )
-
                 newUnit = 'cubic_' + newName
-                unitOperators[ newUnit ] = newUnitInfo
 
+                volumeConversion = power( newConversion, 3 )
                 oldUnit = 'cubic_' + metricUnit[ 0 ]
 
-                compoundUnit = newName + '^3'
-                compoundUnits[ newUnit ] = compoundUnit
+                if newUnit not in unitOperators:
+                    newUnitInfo, newUnitAliases = makeVolumeOperator( newName, newPlural )
+                    newAliases.update( newUnitAliases )
 
-                newUnitInfo = UnitInfo( 'volume', compoundUnit, 'cubic_' + newPlural, '', [ ], newUnitInfo.categories )
+                    unitOperators[ newUnit ] = newUnitInfo
 
-                # add new conversions
-                volumeConversion = power( newConversion, 3 )
+                    compoundUnit = newName + '^3'
+                    compoundUnits[ newUnit ] = compoundUnit
 
-                newConversions[ ( oldUnit, newUnit ) ] = volumeConversion
-                newConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, volumeConversion )
+                    newUnitInfo = UnitInfo( 'volume', compoundUnit, 'cubic_' + newPlural, '', [ ], newUnitInfo.categories )
+
+                    # add new conversions
+                    newConversions[ ( oldUnit, newUnit ) ] = volumeConversion
+                    newConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, volumeConversion )
 
                 for op1, op2 in unitConversionMatrix:
                     if ( op1 == oldUnit ) or ( op2 == oldUnit ):
                         oldConversion = unitConversionMatrix[ ( op1, op2 ) ]
 
-                        if op1 == oldUnit and newUnit != op2:
+                        if ( newUnit, op2 ) not in unitConversionMatrix and op1 == oldUnit and newUnit != op2:
                             newConversions[ ( newUnit, op2 ) ] = fdiv( oldConversion, volumeConversion )
-                        elif op2 == oldUnit and newUnit!= op1:
+                        elif ( op1, newUnit ) not in unitConversionMatrix and op2 == oldUnit and newUnit!= op1:
                             newConversions[ ( op1, newUnit ) ] = fmul( oldConversion, volumeConversion )
 
     return newConversions
