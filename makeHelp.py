@@ -1988,6 +1988,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'previous' : [
+'modifiers', 'duplicates the previous argument (identical to \'n 2 dup\')',
+'''
+''',
+'''
+''' ],
     'product' : [
 'arithmetic', 'calculates the product of values in list n',
 '''

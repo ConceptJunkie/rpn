@@ -2202,18 +2202,9 @@ def expandMetricUnits( newAliases ):
             else:
                 newConversion = power( 10, fneg( mpmathify( prefix[ 2 ] ) ) )
 
-            for op1, op2 in unitConversionMatrix:
-                if ( op1 == metricUnit[ 0 ] ) or ( op2 == metricUnit[ 0 ] ):
-                    oldConversion = unitConversionMatrix[ ( op1, op2 ) ]
-
-                    if ( newName, op2 ) not in unitConversionMatrix and op1 == metricUnit[ 0 ] and newName != op2:
-                        newConversions[ ( newName, op2 ) ] = fdiv( oldConversion, newConversion )
-                    elif ( op1, newName ) not in unitConversionMatrix and op2 == metricUnit[ 0 ] and newName != op1:
-                        newConversions[ ( op1, newName ) ] = fmul( oldConversion, newConversion )
-
-
             # create area and volume operators for new length units
             if unitOperators[ metricUnit[ 0 ] ].unitType == 'length':
+                # create new area operators
                 newUnit = 'square_' + newName
 
                 areaConversion = power( newConversion, 2 )
@@ -2234,15 +2225,7 @@ def expandMetricUnits( newAliases ):
                     newConversions[ ( oldUnit, newUnit ) ] = areaConversion
                     newConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, areaConversion )
 
-                for op1, op2 in unitConversionMatrix:
-                    if ( op1 == oldUnit ) or ( op2 == oldUnit ):
-                        oldConversion = unitConversionMatrix[ ( op1, op2 ) ]
-
-                        if ( newUnit, op2 ) not in unitConversionMatrix and op1 == oldUnit and newUnit != op2:
-                            newConversions[ ( newUnit, op2 ) ] = fdiv( oldConversion, areaConversion )
-                        elif ( op1, newUnit ) not in unitConversionMatrix and op2 == oldUnit and newUnit != op1:
-                            newConversions[ ( op1, newUnit ) ] = fmul( oldConversion, areaConversion )
-
+                # create new volume operators
                 newUnit = 'cubic_' + newName
 
                 volumeConversion = power( newConversion, 3 )
@@ -2262,15 +2245,6 @@ def expandMetricUnits( newAliases ):
                     # add new conversions
                     newConversions[ ( oldUnit, newUnit ) ] = volumeConversion
                     newConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, volumeConversion )
-
-                for op1, op2 in unitConversionMatrix:
-                    if ( op1 == oldUnit ) or ( op2 == oldUnit ):
-                        oldConversion = unitConversionMatrix[ ( op1, op2 ) ]
-
-                        if ( newUnit, op2 ) not in unitConversionMatrix and op1 == oldUnit and newUnit != op2:
-                            newConversions[ ( newUnit, op2 ) ] = fdiv( oldConversion, volumeConversion )
-                        elif ( op1, newUnit ) not in unitConversionMatrix and op2 == oldUnit and newUnit!= op1:
-                            newConversions[ ( op1, newUnit ) ] = fmul( oldConversion, volumeConversion )
 
     return newConversions
 
@@ -2299,21 +2273,11 @@ def expandDataUnits( ):
                 UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural, prefix[ 1 ] + dataUnit[ 2 ],
                                          [ ], unitOperators[ dataUnit[ 0 ] ].categories )
 
+            # create new conversions
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
-            unitConversionMatrix[ ( newName, dataUnit[ 0 ] ) ] = newConversion
+            newConversions[ ( newName, dataUnit[ 0 ] ) ] = newConversion
             newConversion = fdiv( 1, newConversion )
-            unitConversionMatrix[ ( dataUnit[ 0 ], newName ) ] = newConversion
-
-            for op1, op2 in unitConversionMatrix:
-                if ( op1 == dataUnit[ 0 ] ) or ( op2 == dataUnit[ 0 ] ):
-                    oldConversion = unitConversionMatrix[ ( op1, op2 ) ]
-
-                    if op1 == dataUnit[ 0 ] and newName != op2:
-                        newConversions[ ( newName, op2 ) ] = fdiv( oldConversion, newConversion )
-                        #print( '(', newName, op2, ')', fdiv( oldConversion, newConversion ) )
-                    elif op2 == dataUnit[ 0 ] and newName != op1:
-                        newConversions[ ( op1, newName ) ] = fmul( oldConversion, newConversion )
-                        #print( '(', op1, newName, ')', fmul( oldConversion, newConversion ) )
+            newConversions[ ( dataUnit[ 0 ], newName ) ] = newConversion
 
         for prefix in binaryPrefixes:
             newName = prefix[ 0 ] + dataUnit[ 0 ]
@@ -2324,19 +2288,11 @@ def expandDataUnits( ):
                 UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural, prefix[ 1 ] + dataUnit[ 2 ],
                                          [ ], unitOperators[ dataUnit[ 0 ] ].categories )
 
+            # create new conversions
             newConversion = power( 2, mpmathify( prefix[ 2 ] ) )
-            unitConversionMatrix[ ( newName, dataUnit[ 0 ] ) ] = newConversion
+            newConversions[ ( newName, dataUnit[ 0 ] ) ] = newConversion
             newConversion = fdiv( 1, newConversion )
-            unitConversionMatrix[ ( dataUnit[ 0 ], newName ) ] = newConversion
-
-            for op1, op2 in unitConversionMatrix:
-                if ( op1 == dataUnit[ 0 ] ) or ( op2 == dataUnit[ 0 ] ):
-                    oldConversion = unitConversionMatrix[ ( op1, op2 ) ]
-
-                    if op1 == dataUnit[ 0 ] and newName != op2:
-                        newConversions[ ( newName, op2 ) ] = fdiv( oldConversion, newConversion )
-                    elif op2 == dataUnit[ 0 ] and newName != op1:
-                        newConversions[ ( op1, newName ) ] = fmul( oldConversion, newConversion )
+            newConversions[ ( dataUnit[ 0 ], newName ) ] = newConversion
 
     return newConversions
 
@@ -2504,74 +2460,10 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     unitConversionMatrix.update( newConversions )
 
-    # extrapolate transitive conversions
-    print( )
-    print( 'Extrapolating transitive conversions for', len( unitOperators ), 'units...' )
-
-    unitTypeTable = makeUnitTypeTable( unitOperators )
-
-    for unitType in sorted( basicUnitTypes ):
-        print( '    ', unitType, '({} operators)'.format( len( unitTypeTable[ unitType ] ) ) )
-
-        while True:
-            newConversion = False
-
-            for op1, op2 in itertools.combinations( unitTypeTable[ unitType ], 2 ):
-                if ( op1, op2 ) in unitConversionMatrix:
-                    #print( )
-                    #print( ( op1, op2 ), ': ', unitConversionMatrix[ ( op1, op2 ) ] )
-
-                    for op3 in unitTypeTable[ unitType ]:
-                        # we can ignore duplicate operators
-                        if ( op3 == op1 ) or ( op3 == op2 ):
-                            continue
-
-                        # we can shortcut if the types are not compatible
-                        if unitOperators[ op3 ].unitType != unitOperators[ op1 ].unitType:
-                            continue
-
-                        conversion = unitConversionMatrix[ ( op1, op2 ) ]
-
-                        if ( op1, op3 ) not in unitConversionMatrix and ( op2, op3 ) in unitConversionMatrix:
-                            #print( 'transitive: ', ( op2, op3 ), unitConversionMatrix[ ( op2, op3 ) ] )
-                            newConversion = fmul( conversion, unitConversionMatrix[ ( op2, op3 ) ] )
-                            #print( ( op1, op3 ), newConversion )
-                            unitConversionMatrix[ ( op1, op3 ) ] = newConversion
-                            #print( ( op3, op1 ), fdiv( 1, newConversion ) )
-                            unitConversionMatrix[ ( op3, op1 ) ] = fdiv( 1, newConversion )
-
-                            newConversion = True
-                        elif ( op2, op3 ) not in unitConversionMatrix and ( op1, op3 ) in unitConversionMatrix:
-                            #print( 'transitive: ', ( op1, op3 ), unitConversionMatrix[ ( op1, op3 ) ] )
-                            newConversion = fdiv( unitConversionMatrix[ ( op1, op3 ) ], conversion )
-                            #print( ( op2, op3 ), newConversion )
-                            unitConversionMatrix[ ( op2, op3 ) ] = newConversion
-                            #print( ( op3, op2 ), fdiv( 1, newConversion ) )
-                            unitConversionMatrix[ ( op3, op2 ) ] = fdiv( 1, newConversion )
-
-                            newConversion = True
-
-                print( len( unitConversionMatrix ), end='\r' )
-
-            if not newConversion:
-                break
-
-    # expand metric operators and add new conversions, aliases, etc.
-    print( '           ' )
     print( 'Expanding metric units against the list of SI prefixes...' )
-
-    unitConversionMatrix.update( expandMetricUnits( newAliases ) )
-
-    # the second pass allows the full permuation of conversions between base types of the same unit type
-    # (e.g., it's necessary to get a conversion between 'megameter' and 'megapotrzebie' )
-    print( 'Expanding metric units (second pass)...' )
     unitConversionMatrix.update( expandMetricUnits( newAliases ) )
 
     print( 'Expanding data units against the list of SI and binary prefixes...' )
-
-    unitConversionMatrix.update( expandDataUnits( ) )
-
-    print( 'Expanding data units (second pass)...' )
     unitConversionMatrix.update( expandDataUnits( ) )
 
     # add new operators for compound time units
@@ -2653,54 +2545,67 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     unitOperators.update( newUnitOperators )
 
-    # add new conversions for compound time units
-    print( 'Adding new conversions for compound time units...' )
+    # extrapolate transitive conversions
+    print( )
+    print( 'Extrapolating transitive conversions for', len( unitOperators ), 'units...' )
 
-    newUnitConversions = { }
+    unitTypeTable = makeUnitTypeTable( unitOperators )
 
-    for unit in unitOperators:
-        unitInfo = unitOperators[ unit ]
+    for unitType in sorted( basicUnitTypes ):
+        print( '    ', unitType, '({} operators)'.format( len( unitTypeTable[ unitType ] ) ) )
 
-        if unit[ -7 : ] == '-second':
-            for timeUnit in timeUnits:
-                newUnit = unit[ : -6 ] + timeUnit[ 0 ]
+        while True:
+            newConversion = False
 
-                factor = mpmathify( timeUnit[ 3 ] )
+            for op1, op2 in itertools.combinations( unitTypeTable[ unitType ], 2 ):
+                if ( op1, op2 ) in unitConversionMatrix:
+                    #print( )
+                    #print( ( op1, op2 ), ': ', unitConversionMatrix[ ( op1, op2 ) ] )
 
-                for op1, op2 in unitConversionMatrix:
-                    if op1 == unit:
-                        oldConversion = unitConversionMatrix[ ( op1, op2 ) ]
-                        newUnitConversions[ ( newUnit, op2 ) ] = fmul( oldConversion, factor )
+                    for op3 in unitTypeTable[ unitType ]:
+                        # we can ignore duplicate operators
+                        if ( op3 == op1 ) or ( op3 == op2 ):
+                            continue
 
-                        if unitInfo.abbrev != '':
-                            newAliases[ unitInfo.abbrev[ : -1 ] + timeUnit[ 2 ] ] = newUnit
-                    elif op2 == unit:
-                        oldConversion = unitConversionMatrix[ ( op1, op2 ) ]
-                        newUnitConversions[ ( op1, newUnit ) ] = fdiv( oldConversion, factor )
+                        # we can shortcut if the types are not compatible
+                        if unitOperators[ op3 ].unitType != unitOperators[ op1 ].unitType:
+                            continue
 
-                        if unitInfo.abbrev != '':
-                            newAliases[ unitInfo.abbrev[ : -1 ] + timeUnit[ 2 ] ] = newUnit
+                        conversion = unitConversionMatrix[ ( op1, op2 ) ]
 
-    unitConversionMatrix.update( newUnitConversions )
+                        if ( op1, op3 ) not in unitConversionMatrix and ( op2, op3 ) in unitConversionMatrix:
+                            #print( 'transitive: ', ( op2, op3 ), unitConversionMatrix[ ( op2, op3 ) ] )
+                            newConversion = fmul( conversion, unitConversionMatrix[ ( op2, op3 ) ] )
+                            #print( ( op1, op3 ), newConversion )
+                            unitConversionMatrix[ ( op1, op3 ) ] = newConversion
+                            #print( ( op3, op1 ), fdiv( 1, newConversion ) )
+                            unitConversionMatrix[ ( op3, op1 ) ] = fdiv( 1, newConversion )
+
+                            newConversion = True
+                        elif ( op2, op3 ) not in unitConversionMatrix and ( op1, op3 ) in unitConversionMatrix:
+                            #print( 'transitive: ', ( op1, op3 ), unitConversionMatrix[ ( op1, op3 ) ] )
+                            newConversion = fdiv( unitConversionMatrix[ ( op1, op3 ) ], conversion )
+                            #print( ( op2, op3 ), newConversion )
+                            unitConversionMatrix[ ( op2, op3 ) ] = newConversion
+                            #print( ( op3, op2 ), fdiv( 1, newConversion ) )
+                            unitConversionMatrix[ ( op3, op2 ) ] = fdiv( 1, newConversion )
+
+                            newConversion = True
+
+                print( len( unitConversionMatrix ), end='\r' )
+
+            if not newConversion:
+                break
 
     # make some more aliases
+    print( '        ' )
     print( 'Making some more aliases...' )
 
     newAliases.update( makeAliases( ) )
 
-    #for unit in compoundUnits:
-    #    print( unit, compoundUnits[ unit ] )
-
     print( 'Stringifying conversion matrix values...' )
     for op1, op2 in unitConversionMatrix:
         unitConversionMatrix[ ( op1, op2 ) ] = str( unitConversionMatrix[ ( op1, op2 ) ] )
-        #print( op1, op2, unitConversionMatrix[ ( op1, op2 ) ] )
-
-    #print( )
-    #print( )
-
-    #for alias in newAliases:
-    #    print( alias, newAliases[ alias ] )
 
     print( 'Saving everything...' )
 

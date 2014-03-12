@@ -3234,6 +3234,34 @@ def duplicateTerm( valueList ):
 
 #//******************************************************************************
 #//
+#//  getPrevious
+#//
+#//******************************************************************************
+
+def getPrevious( valueList ):
+    valueList.append( valueList[ 0 ] )
+
+
+#//******************************************************************************
+#//
+#//  duplicateTerm
+#//
+#//******************************************************************************
+
+def duplicateTerm( valueList ):
+    count = valueList.pop( )
+    value = valueList.pop( )
+
+    for i in range( 0, int( count ) ):
+        if isinstance( value, list ):
+            for i in value:
+                valueList.append( i )
+        else:
+            valueList.append( value )
+
+
+#//******************************************************************************
+#//
 #//  appendLists
 #//
 #//******************************************************************************
@@ -4085,6 +4113,7 @@ operatorAliases = {
     'pent?'       : 'pentagonal?',
     'poly'        : 'polygonal',
     'poly?'       : 'polygonal?',
+    'prev'        : 'previous',
     'prod'        : 'product',
     'pyr'         : 'pyramid',
     'quad'        : 'quadprime',
@@ -4151,11 +4180,12 @@ operatorAliases = {
 #//******************************************************************************
 
 modifiers = {
-    'dup'       : [ duplicateTerm, 2 ],
-    'flatten'   : [ flatten, 1 ],
-    'unlist'    : [ unlist, 1 ],
-    '['         : [ incrementNestedListLevel, 0 ],
-    ']'         : [ decrementNestedListLevel, 0 ],
+    'dup'           : [ duplicateTerm, 2 ],
+    'flatten'       : [ flatten, 1 ],
+    'previous'      : [ getPrevious, 1 ],
+    'unlist'        : [ unlist, 1 ],
+    '['             : [ incrementNestedListLevel, 0 ],
+    ']'             : [ decrementNestedListLevel, 0 ],
 }
 
 
