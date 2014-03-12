@@ -48,6 +48,21 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
 #//******************************************************************************
 #//
+#//  debugPrint
+#//
+#//******************************************************************************
+
+def debugPrint( *args, **kwargs ):
+    global debugMode
+
+    if not debugMode:
+        return
+    else:
+        __builtins__.print( *args, **kwargs )
+
+
+#//******************************************************************************
+#//
 #//  getUnitType
 #//
 #//******************************************************************************
@@ -102,8 +117,8 @@ def combineUnits( units1, units2 ):
     if unitConversionMatrix is None:
         loadUnitConversionMatrix( )
 
-    #print( 'combine units1:', units1 )
-    #print( 'combine units2:', units2 )
+    debugPrint( 'combine units1:', units1 )
+    debugPrint( 'combine units2:', units2 )
     newUnits = Units( )
     newUnits.update( units1 )
 
@@ -192,18 +207,14 @@ class Units( dict ):
             else:
                 types[ unitType ] = self[ unit ]
 
-        #print( 'types:', types )
         return types
 
 
     def simplify( self ):
-        #print( 'simplify in:', self )
-
         result = Units( )
 
         for unit in self:
             simpleUnits = Units( unitOperators[ unit ].representation )
-            #print( 'simple units:', simpleUnits )
 
             exponent = self.get( unit )
 
@@ -213,7 +224,8 @@ class Units( dict ):
 
             result.increment( simpleUnits )
 
-        #print( 'simplify out:', result )
+        debugPrint( 'simpify: ', result )
+
         return result
 
 
@@ -231,8 +243,6 @@ class Units( dict ):
 
             result = combineUnits( result, basicUnits )[ 1 ]
 
-        #print( 'basic in:', unitTypes )
-        #print( 'basic out:', result )
         return result
 
 
@@ -296,7 +306,7 @@ class Units( dict ):
                     raise ValueError( 'wasn\'t expecting another exponent' )
                 else:
                     if len( operands ) == 2:
-                        exponent = int( operands[ 1 ] )
+                        exponent = int( float( operands[ 1 ] ) )   # find out why this is needed 'rpn foot 4 power square_inch sqr convert'
                     else:
                         exponent = 1
 
@@ -501,9 +511,9 @@ class Measurement( mpf ):
 
             return result
         elif isinstance( other, Measurement ):
-            #print( 'types: ', self.getTypes( ), other.getTypes( ) )
-            #print( 'simple types: ', self.getSimpleTypes( ), other.getSimpleTypes( ) )
-            #print( 'basic types: ', self.getBasicTypes( ), other.getBasicTypes( ) )
+            debugPrint( 'types: ', self.getTypes( ), other.getTypes( ) )
+            debugPrint( 'simple types: ', self.getSimpleTypes( ), other.getSimpleTypes( ) )
+            debugPrint( 'basic types: ', self.getBasicTypes( ), other.getBasicTypes( ) )
 
             if self.getTypes( ) == other.getTypes( ):
                 return True
@@ -573,6 +583,8 @@ class Measurement( mpf ):
         reduced = Measurement( mpf( self ), Units( ) )
 
         for unit in self.units:
+            debugPrint( 'reducing unit: ', unit, self.units[ unit ] )
+
             if unit not in unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
@@ -585,13 +597,17 @@ class Measurement( mpf ):
             else:
                 value = '1.0'
 
-            reduced = reduced.multiply( Measurement( value, Units( newUnit ) ) )
+            reduced = reduced.multiply( Measurement( value, Units( newUnit + '^' + str( self.units[ unit ] ) ) ) )
+
+        debugPrint( 'reduced: ', reduced, reduced.getUnits( ) )
 
         return reduced
 
 
     def convertValue( self, other ):
         global unitConversionMatrix
+
+        debugPrint( 'convertValue' )
 
         if self.isCompatible( other ):
             conversions = [ ]
@@ -654,7 +670,7 @@ class Measurement( mpf ):
                 else:
                     newUnit2String = unit2String
 
-                #print( 'newUnit1String: ', newUnit1String )
+                debugPrint( 'newUnit1String: ', newUnit1String )
                 #print( 'newUnit2String: ', newUnit2String )
 
                 # if that isn't found, then we need to do the hard work and break the units down
@@ -3978,9 +3994,9 @@ def convertToYDHMS( n ):
 #//******************************************************************************
 
 def convertUnits( unit1, unit2 ):
-    #print( )
-    #print( 'unit1:', unit1.getTypes( ) )
-    #print( 'unit2:', unit2.getTypes( ) )
+    debugPrint( )
+    debugPrint( 'unit1:', unit1.getTypes( ) )
+    debugPrint( 'unit2:', unit2.getTypes( ) )
 
     if isinstance( unit1, Measurement ):
         unit1 = unit1.getReduced( )
@@ -5231,7 +5247,11 @@ def main( ):
     global tripletPrimes
     global twinPrimes
 
+    global debugMode
+
     # initialize globals
+    debugMode = False
+
     nestedListLevel = 0
 
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
@@ -5262,6 +5282,7 @@ def main( ):
     parser.add_argument( '-c', '--comma', action='store_true' )
     parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
                          const=defaultDecimalGrouping )
+    parser.add_argument( '-D', '--DEBUG', action='store_true' )
     parser.add_argument( '-g', '--integer_grouping', nargs='?', type=int, action='store', default=0,
                          const=defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action='store_true' )
@@ -5306,6 +5327,10 @@ def main( ):
     bitwiseGroupSize = args.bitwise_group_size
     integerGrouping = args.integer_grouping
     leadingZero = args.leading_zero
+
+    # handle -D
+    if args.DEBUG:
+        debugMode = True
 
     # handle -a - set precision to be at least 2 greater than output accuracy
     if mp.dps < args.output_accuracy + 2:
@@ -5482,7 +5507,7 @@ def main( ):
                 print( 'rpn:  keyboard interrupt' )
                 break
             except ValueError as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
             except TypeError as error:
                 print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
@@ -5516,14 +5541,14 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            except ValueError as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except ValueError as error:
+            #    print( 'rpn:  value error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
             except IndexError as error:
-                print( 'rpn:  index error for operator at arg ' + format( index ) +
+                print( 'rpn:  index error for list operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
                 break
             except ZeroDivisionError as error:
