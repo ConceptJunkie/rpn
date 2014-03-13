@@ -3255,7 +3255,7 @@ def duplicateTerm( valueList ):
 #//******************************************************************************
 
 def getPrevious( valueList ):
-    valueList.append( valueList[ 0 ] )
+    valueList.append( valueList[ -1 ] )
 
 
 #//******************************************************************************
