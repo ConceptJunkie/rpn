@@ -598,7 +598,10 @@ class Measurement( mpf ):
             else:
                 value = '1.0'
 
-            reduced = reduced.multiply( Measurement( value, Units( newUnit + '^' + str( self.units[ unit ] ) ) ) )
+            if self.units[ unit ] != 1:
+                newUnit = newUnit + '^' + str( self.units[ unit ] )
+
+            reduced = reduced.multiply( Measurement( value, Units( newUnit ) ) )
 
         return reduced
 
