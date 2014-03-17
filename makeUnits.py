@@ -59,41 +59,180 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generato
 #
 
 basicUnitTypes = {
-    'acceleration'              : [ 'length/time^2', 'meter/second^2' ],
-    'angle'                     : [ 'angle', 'radian' ],
-    'area'                      : [ 'length^2', 'square_meter' ],
-    'capacitance'               : [ 'current^2*time^2/energy', 'farad' ],
-    'charge'                    : [ 'current*time', 'coulomb' ],
-    'constant'                  : [ 'constant', 'unity' ],
-    'current'                   : [ 'current', 'ampere' ],
-    'data_rate'                 : [ 'information_entropy/time', 'bit/second' ],
-    'electrical_conductance'    : [ 'current^2/energy*time', 'mho' ],
-    'electrical_resistance'     : [ 'energy*time/current^2', 'ohm' ],
-    'electric_potential'        : [ 'energy/current*time', 'volt' ],
-    'energy'                    : [ 'energy', 'joule' ],
-    'force'                     : [ 'mass*length/time', 'newton' ],
-    'illuminance'               : [ 'luminous_intensity*angle^2/length^2', 'lux' ],
-    'inductance'                : [ 'electric_potential*time/current', 'henry' ],
-    'information_entropy'       : [ 'information_entropy', 'bit' ],
-    'length'                    : [ 'length', 'meter' ],
-    'luminance'                 : [ 'luminous_intensity/length^2', 'candela/meter^2' ],
-    'luminous_flux'             : [ 'luminous_intensity*angle^2', 'lumen' ],
-    'luminous_intensity'        : [ 'luminous_intensity', 'candela' ],
-    'magnetic_field_strength'   : [ 'charge/length', 'ampere/meter' ],
-    'magnetic_flux'             : [ 'electric_potential*time', 'weber' ],
-    'magnetic_flux_density'     : [ 'electric_potential*time/length^2', 'tesla' ],
-    'mass'                      : [ 'mass', 'gram' ],
-    'power'                     : [ 'energy/time', 'watt' ],
-    'pressure'                  : [ 'mass/length^2', 'pascal' ],
-    'radiation_absorbed_dose'   : [ 'energy/mass', 'gray' ],
-    'radiation_equivalent_dose' : [ 'radiation_equivalent_dose', 'sievert' ],   # this needs to expressed in terms of fundamental units
-    'radiation_exposure'        : [ 'current*time/mass', 'coulomb/kilogram' ],
-    'radioactivity'             : [ '1/time', 'becquerel' ],
-    'solid_angle'               : [ 'angle^2', 'steradian' ],
-    'temperature'               : [ 'temperature', 'kelvin' ],
-    'time'                      : [ 'time', 'second' ],
-    'velocity'                  : [ 'length/time', 'meter/second' ],
-    'volume'                    : [ 'length^3', 'cubic_meter' ],
+    'acceleration' : [
+        [ 'length/time^2' ],
+        'meter/second^2'
+    ],
+
+    'angle' : [
+        [ 'angle' ],
+        'radian'
+    ],
+
+    'area' : [
+        [ 'length^2' ],
+        'square_meter'
+    ],
+
+    'capacitance' : [
+        [ 'current^2*time^2/energy' ],
+        'farad'
+    ],
+
+    'charge' : [
+        [ 'current*time' ],
+        'coulomb'
+    ],
+
+    'constant' : [
+        [ 'constant' ],
+        'unity'
+    ],
+
+    'current' : [
+        [ 'current' ],
+        'ampere'
+    ],
+
+    'data_rate' : [
+        [ 'information_entropy/time' ],
+        'bit/second'
+    ],
+
+    'electrical_conductance' : [
+        [ 'current^2/energy*time' ],
+        'mho'
+    ],
+
+    'electrical_resistance' : [
+        [ 'energy*time/current^2' ],
+        'ohm'
+    ],
+
+    'electric_potential' : [
+        [ 'energy/current*time' ],
+        'volt'
+    ],
+
+    'energy' : [
+        [ 'electric_potential*current*time' ],
+        'joule'
+    ],
+
+    'force' : [
+        [ 'mass*length/time' ],
+        'newton'
+    ],
+
+    'illuminance' : [
+        [ 'luminous_intensity*angle^2/length^2' ],
+        'lux'
+    ],
+
+    'inductance' : [
+        [ 'electric_potential*time/current' ],
+        'henry'
+    ],
+
+    'information_entropy' : [
+        [ 'information_entropy' ], 'bit'
+    ],
+
+    'length' : [
+        [ 'length' ],
+        'meter'
+    ],
+
+    'luminance' : [
+        [ 'luminous_intensity/length^2' ],
+        'candela/meter^2'
+    ],
+
+    'luminous_flux' : [
+        [ 'luminous_intensity*angle^2' ],
+        'lumen'
+    ],
+
+    'luminous_intensity' : [
+        [ 'luminous_intensity' ],
+        'candela'
+    ],
+
+
+    'magnetic_field_strength' : [
+        [ 'charge/length' ],
+        'ampere/meter'
+    ],
+
+    'magnetic_flux' : [
+        [ 'electric_potential*time' ],
+        'weber'
+    ],
+
+    'magnetic_flux_density' : [
+        [ 'electric_potential*time/length^2' ],
+        'tesla'
+    ],
+
+    'mass' : [
+        [ 'mass' ],
+        'gram'
+    ],
+
+    'power' : [
+        [ 'energy/time' ],
+        'watt'
+    ],
+
+    'pressure' : [
+        [ 'mass/length^2' ],
+        'pascal'
+    ],
+
+    'radiation_absorbed_dose' : [
+        [ 'energy/mass' ],
+        'gray'
+    ],
+
+    'radiation_equivalent_dose' : [
+        [ 'radiation_equivalent_dose' ],    # this needs to expressed in terms of fundamental units
+        'sievert'
+    ],
+
+    'radiation_exposure' : [
+        [ 'current*time/mass' ],
+        'coulomb/kilogram'
+    ],
+
+    'radioactivity' : [
+        [ '1/time' ],
+        'becquerel'
+    ],
+
+    'solid_angle' : [
+        [ 'angle^2' ],
+        'steradian'
+    ],
+
+    'temperature' : [
+        [ 'temperature' ],
+        'kelvin'
+    ],
+
+    'time' : [
+        [ 'time' ],
+        'second'
+    ],
+
+    'velocity' : [
+        [ 'length/time' ],
+        'meter/second'
+    ],
+
+    'volume' : [
+        [ 'length^3' ],
+        'cubic_meter'
+    ],
 }
 
 
@@ -475,6 +614,9 @@ unitOperators = {
 
     'ton_of_TNT' :
         UnitInfo( 'energy', 'ton_of_TNT', 'tons_of_TNT', 'tTNT', [ ], [ 'informal' ] ),
+
+    #'volt-ampere-second' :
+    #    UnitInfo( 'energy', 'ampere*second*volt', 'ampere*second*volt', 'VAs', [ ], [ 'SI' ] ),
 
     'watt-second' :
         UnitInfo( 'energy', 'watt*second', 'watt-seconds', 'Ws', [ ], [ 'SI' ] ),
@@ -960,6 +1102,9 @@ unitOperators = {
 
     'solar_luminosity' :
         UnitInfo( 'power', 'solar_luminosity', 'solar_luminosities', '', [ 'solar_output' ], [ 'natural' ] ),
+
+    'volt-ampere' :
+        UnitInfo( 'power', 'volt*ampere', 'volt*ampere', 'VA', [ ], [ 'SI' ] ),
 
     'watt' :
         UnitInfo( 'power', 'watt', 'watts', 'W', [ ], [ 'SI' ] ),
@@ -1478,6 +1623,7 @@ unitOperators = {
 
 metricUnits = [
     ( 'ampere',             'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
+    ( 'ampere-second',      'ampere-seconds',   'As',   [ 'amp-second' ], [ 'amp-seconds' ] ),
     ( 'are',                'ares',             'a',    [ ], [ ] ),
     ( 'barn',               'barns',            'bn',     [ ], [ ] ),       # bn is not standard
     ( 'becquerel',          'becquerels',       'Bq',   [ ], [ ] ),
@@ -1982,6 +2128,8 @@ unitConversionMatrix = {
     ( 'virgate',               'bovate' )                               : mpmathify( '30' ),
     ( 'volt',                  'abvolt' )                               : mpmathify( '1.0e8' ),
     ( 'von_klitzing_constant', 'ohm' )                                  : mpmathify( '25812.807557' ),
+    ( 'volt-ampere',           'watt' )                                 : mpmathify( '1' ),
+#    ( 'volt-ampere-second',    'joule' )                                : mpmathify( '1' ),
     ( 'watt',                  'erg/second' )                           : mpmathify( '1.0e7' ),
     ( 'watt',                  'kilogram-meter^2/second^3' )            : mpmathify( '1' ),
     ( 'watt',                  'newton-meter/second' )                  : mpmathify( '1' ),

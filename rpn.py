@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+# Things that don't work, but should:
+#
+#   rpn 5 G 5 minutes * mph convert
+#   rpn -D 16800 mA hours * 5 volts * joule convert
+
+
 #//******************************************************************************
 #//
 #//  rpn
@@ -117,8 +123,6 @@ def combineUnits( units1, units2 ):
     if unitConversionMatrix is None:
         loadUnitConversionMatrix( )
 
-    debugPrint( 'combine units1:', units1 )
-    debugPrint( 'combine units2:', units2 )
     newUnits = Units( )
     newUnits.update( units1 )
 
@@ -197,7 +201,7 @@ class Units( dict ):
         types = { }
 
         for unit in self:
-            if unit not in unitOperators:
+            if unit not in basicUnitTypes and unit not in unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
             unitType = getUnitType( unit )
@@ -224,16 +228,14 @@ class Units( dict ):
 
             result.increment( simpleUnits )
 
-        debugPrint( 'simpify: ', result )
-
         return result
 
 
     def getBasicTypes( self ):
         result = Units( )
 
-        for unitType in self:
-            basicUnits = Units( basicUnitTypes[ unitType ][ 0 ] )
+        for unitType in self.getUnitTypes( ):
+            basicUnits = Units( basicUnitTypes[ unitType ][ 0 ][ 0 ] )
 
             exponent = self[ unitType ]
 
@@ -298,12 +300,12 @@ class Units( dict ):
 
             for unit in units:
                 if unit == '':
-                    raise ValueError( 'wasn\'t expecting another \'*\'', start )
+                    raise ValueError( 'wasn\'t expecting another \'*\'' )
 
                 operands = unit.split( '^' )
 
                 if len( operands ) > 2:
-                    raise ValueError( 'wasn\'t expecting another exponent' )
+                    raise ValueError( 'wasn\'t expecting another exponent (parsing expression: \'' + expression + '\')' )
                 else:
                     if len( operands ) == 2:
                         exponent = int( float( operands[ 1 ] ) )   # find out why this is needed 'rpn foot 4 power square_inch sqr convert'
@@ -423,7 +425,7 @@ class Measurement( mpf ):
             self = Measurement( newValue, self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
 
-        return self.normalizeUnits( )
+        return self
 
 
     def divide( self, other ):
@@ -438,7 +440,7 @@ class Measurement( mpf ):
             self = Measurement( newValue, self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
 
-        return self.normalizeUnits( )
+        return self
 
 
     def exponentiate( self, exponent ):
@@ -522,6 +524,7 @@ class Measurement( mpf ):
             elif self.getBasicTypes( ) == other.getBasicTypes( ):
                 return True
             else:
+                debugPrint( 'Measurement.isCompatible exiting with false...' )
                 return False
         else:
             raise ValueError( 'Measurement or dict expected' )
@@ -583,8 +586,6 @@ class Measurement( mpf ):
         reduced = Measurement( mpf( self ), Units( ) )
 
         for unit in self.units:
-            debugPrint( 'reducing unit: ', unit, self.units[ unit ] )
-
             if unit not in unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
@@ -599,15 +600,11 @@ class Measurement( mpf ):
 
             reduced = reduced.multiply( Measurement( value, Units( newUnit + '^' + str( self.units[ unit ] ) ) ) )
 
-        debugPrint( 'reduced: ', reduced, reduced.getUnits( ) )
-
         return reduced
 
 
     def convertValue( self, other ):
         global unitConversionMatrix
-
-        debugPrint( 'convertValue' )
 
         if self.isCompatible( other ):
             conversions = [ ]
@@ -644,8 +641,8 @@ class Measurement( mpf ):
             if unit2String in operatorAliases:
                 unit2String = operatorAliases[ unit2String ]
 
-            #print( 'unit1String: ', unit1String )
-            #print( 'unit2String: ', unit2String )
+            debugPrint( 'unit1String: ', unit1String )
+            debugPrint( 'unit2String: ', unit2String )
 
             exponents = [ ]
 
@@ -671,12 +668,12 @@ class Measurement( mpf ):
                     newUnit2String = unit2String
 
                 debugPrint( 'newUnit1String: ', newUnit1String )
-                #print( 'newUnit2String: ', newUnit2String )
+                debugPrint( 'newUnit2String: ', newUnit2String )
 
                 # if that isn't found, then we need to do the hard work and break the units down
                 for unit1 in units1:
                     for unit2 in units2:
-                        #print( '1 and 2:', unit1, unit2 )
+                        debugPrint( '1 and 2:', unit1, unit2 )
                         if getUnitType( unit1 ) == getUnitType( unit2 ):
                             conversions.append( [ unit1, unit2 ] )
                             exponents.append( units1[ unit1 ] )
@@ -686,13 +683,13 @@ class Measurement( mpf ):
                 index = 0
 
                 for conversion in conversions:
-                    #print( 'conversion: ', conversion, '^', exponents[ index ] )
+                    debugPrint( 'conversion: ', conversion, '^', exponents[ index ] )
                     if conversion[ 0 ] == conversion[ 1 ]:
                         continue  # no conversion needed
 
                     conversionValue = mpmathify( unitConversionMatrix[ ( conversion[ 0 ], conversion[ 1 ] ) ] )
                     conversionValue = power( conversionValue, exponents[ index ] )
-                    #print( 'conversion: ', conversion, conversionValue )
+                    debugPrint( 'conversion: ', conversion, conversionValue )
 
                     index += 1
 
@@ -3994,7 +3991,7 @@ def convertToYDHMS( n ):
 #//******************************************************************************
 
 def convertUnits( unit1, unit2 ):
-    debugPrint( )
+    debugPrint( 'convertUnits' )
     debugPrint( 'unit1:', unit1.getTypes( ) )
     debugPrint( 'unit2:', unit2.getTypes( ) )
 
@@ -5506,12 +5503,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            except ValueError as error:
-                print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except ValueError as error:
+            #    print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -5544,9 +5541,9 @@ def main( ):
             #except ValueError as error:
             #    print( 'rpn:  value error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
             #    break
-            except TypeError as error:
-                print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except IndexError as error:
                 print( 'rpn:  index error for list operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
@@ -5595,7 +5592,7 @@ def main( ):
 
                 # handle the units if we are display a measurement
                 if isinstance( result, Measurement ):
-                    outputString += ' ' + formatUnits( result )
+                    outputString += ' ' + formatUnits( result.normalizeUnits( ) )
 
                 print( outputString )
 
