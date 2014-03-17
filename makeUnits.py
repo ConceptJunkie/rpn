@@ -90,7 +90,7 @@ basicUnitTypes = {
     ],
 
     'current' : [
-        [ 'current' ],
+        [ 'current', 'electric_potential/electrical_resistance' ],
         'ampere'
     ],
 
@@ -100,22 +100,22 @@ basicUnitTypes = {
     ],
 
     'electrical_conductance' : [
-        [ 'current^2/energy*time' ],
+        [ 'current^2/energy*time', 'current/electric_potential' ],
         'mho'
     ],
 
     'electrical_resistance' : [
-        [ 'energy*time/current^2' ],
+        [ 'energy*time/current^2', 'electric_potential/current' ],
         'ohm'
     ],
 
     'electric_potential' : [
-        [ 'energy/current*time' ],
+        [ 'energy/current*time', 'current*electrical_resistance' ],
         'volt'
     ],
 
     'energy' : [
-        [ 'electric_potential*current*time' ],
+        [ 'electric_potential*current*time', 'electric_potential*charge' ],
         'joule'
     ],
 
@@ -158,7 +158,6 @@ basicUnitTypes = {
         'candela'
     ],
 
-
     'magnetic_field_strength' : [
         [ 'charge/length' ],
         'ampere/meter'
@@ -195,7 +194,7 @@ basicUnitTypes = {
     ],
 
     'radiation_equivalent_dose' : [
-        [ 'radiation_equivalent_dose' ],    # this needs to expressed in terms of fundamental units
+        [ 'energy/mass' ],
         'sievert'
     ],
 
