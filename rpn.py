@@ -2,7 +2,6 @@
 
 # Things that don't work, but should:
 #
-#   rpn 5 G 5 minutes * mph convert
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 
 
