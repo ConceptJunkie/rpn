@@ -263,14 +263,23 @@ unitOperators = {
     'arcsecond' :
         UnitInfo( 'angle', 'arcsecond', 'arcseconds', 'arcsec', [ 'arcsecs' ], [ 'mathematics' ] ),
 
+    'centrad' :
+        UnitInfo( 'angle', 'centrad', 'centrads', '', [ ], [ 'mathematics', 'science' ] ),
+
     'degree' :
         UnitInfo( 'angle', 'degree', 'degrees', 'deg', [ ], [ 'mathematics' ] ),
 
     'grad' :
         UnitInfo( 'angle', 'grad', 'grads', '', [ 'gon', 'gons' ], [ 'mathematics' ] ),
 
+    'milliarcsecond' :
+        UnitInfo( 'angle', 'milliarcsecond', 'milliarcseconds', 'mas', [ 'milliarcsecs' ], [ 'astronomy' ] ),
+
     'octant' :
         UnitInfo( 'angle', 'octant', 'octants', '', [ ], [ 'mathematics' ] ),
+
+    'pointangle' :
+        UnitInfo( 'angle', 'pointangle', 'pointangles', '', [ ], [ 'navigation' ] ),
 
     'quadrant' :
         UnitInfo( 'angle', 'quadrant', 'quadrants', '', [ ], [ 'mathematics' ] ),
@@ -398,6 +407,15 @@ unitOperators = {
 
     'percent' :
         UnitInfo( 'constant', 'percent', 'percent', '%', [ ], [ 'constant' ] ),
+
+    'quarter' :
+        UnitInfo( 'constant', 'quarter', 'quarters', '', [ ], [ 'constant' ] ),
+
+    'third' :
+        UnitInfo( 'constant', 'third', 'third', '', [ ], [ 'constant' ] ),
+
+    'half' :
+        UnitInfo( 'constant', 'half', 'half', '', [ ], [ 'constant' ] ),
 
     'unity' :
         UnitInfo( 'constant', 'unity', 'x unity', '', [ ], [ 'constant' ] ),
@@ -1797,6 +1815,7 @@ unitConversionMatrix = {
     ( 'ampere',                'coulomb/second' )                       : mpmathify( '1' ),
     ( 'ampere',                'statampere' )                           : mpmathify( speedOfLight ),
     ( 'arcminute',             'arcsecond' )                            : mpmathify( '60' ),
+    ( 'arcsecond',             'milliarcsecond' )                       : mpmathify( '1000' ),
     ( 'are',                   'square_meter' )                         : mpmathify( '100' ),
     ( 'arpent',                'foot' )                                 : mpmathify( '192' ),
     ( 'astronomical_unit',     'meter' )                                : mpmathify( '149597870700' ),
@@ -2024,6 +2043,7 @@ unitConversionMatrix = {
     ( 'planck_length',         'meter' )                                : mpmathify( '1.616199e-35' ),
     ( 'planck_time',           'second' )                               : mpmathify( '5.39106e-44' ),
     ( 'planck_volume',         'cubic_meter' )                          : mpmathify( '4.22419e-105' ),
+    ( 'pointangle',            'degree' )                               : fdiv( 360, 32 ),
     ( 'poncelet',              'watt' )                                 : mpmathify( '980.665' ),
     ( 'pony',                  'dram' )                                 : mpmathify( '6' ),
     ( 'potrzebie',             'farshimmelt_potrzebie' )                : mpmathify( '1.0e5' ),
@@ -2043,6 +2063,7 @@ unitConversionMatrix = {
     ( 'quintant',              'degree' )                               : mpmathify( '72' ),
     ( 'quintillion',           'unity' )                                : mpmathify( '1.0e18' ),
     ( 'qword',                 'bit' )                                  : mpmathify( '64' ),
+    ( 'radian',                'centrad' )                              : mpmathify( '100' ),
     ( 'radian',                'degree' )                               : fdiv( 180, pi ),
     ( 'reed',                  'foot' )                                 : mpmathify( '9' ),
     ( 'rehoboam',              'liter' )                                : mpmathify( '4.5' ),
@@ -2123,12 +2144,15 @@ unitConversionMatrix = {
     ( 'troy_ounce',            'gram' )                                 : mpmathify( '31.1034768' ),
     ( 'troy_pound',            'pound' )                                : mpmathify( '12' ),
     ( 'tryte',                 'trit' )                                 : mpmathify( '6' ),   # as defined by the Setun computer
+    ( 'unity',                 'half' )                                 : mpmathify( '2' ),
     ( 'unity',                 'percent' )                              : mpmathify( '100' ),
+    ( 'unity',                 'quarter' )                              : mpmathify( '4' ),
+    ( 'unity',                 'third' )                                : mpmathify( '3' ),
     ( 'virgate',               'bovate' )                               : mpmathify( '30' ),
     ( 'volt',                  'abvolt' )                               : mpmathify( '1.0e8' ),
-    ( 'von_klitzing_constant', 'ohm' )                                  : mpmathify( '25812.807557' ),
     ( 'volt-ampere',           'watt' )                                 : mpmathify( '1' ),
 #    ( 'volt-ampere-second',    'joule' )                                : mpmathify( '1' ),
+    ( 'von_klitzing_constant', 'ohm' )                                  : mpmathify( '25812.807557' ),
     ( 'watt',                  'erg/second' )                           : mpmathify( '1.0e7' ),
     ( 'watt',                  'kilogram-meter^2/second^3' )            : mpmathify( '1' ),
     ( 'watt',                  'newton-meter/second' )                  : mpmathify( '1' ),
