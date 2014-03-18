@@ -673,13 +673,21 @@ class Measurement( mpf ):
                 debugPrint( 'newUnit2String: ', newUnit2String )
 
                 # if that isn't found, then we need to do the hard work and break the units down
+
                 for unit1 in units1:
+                    foundConversion = False
+
                     for unit2 in units2:
                         debugPrint( '1 and 2:', unit1, unit2 )
                         if getUnitType( unit1 ) == getUnitType( unit2 ):
                             conversions.append( [ unit1, unit2 ] )
                             exponents.append( units1[ unit1 ] )
+                            foundConversion = True
                             break
+
+                    if not foundConversion:
+                        reduced = self.getReduced( );
+                        return reduced.convertValue( other )
 
                 value = conversionValue
                 index = 0
@@ -3997,9 +4005,7 @@ def convertUnits( unit1, unit2 ):
     debugPrint( 'unit1:', unit1.getTypes( ) )
     debugPrint( 'unit2:', unit2.getTypes( ) )
 
-    if isinstance( unit1, Measurement ):
-        unit1 = unit1.getReduced( )
-    else:
+    if not isinstance( unit1, Measurement ):
         raise ValueError( 'cannot convert non-measurements' )
 
     if isinstance( unit2, list ):
