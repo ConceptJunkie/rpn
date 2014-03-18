@@ -1016,6 +1016,9 @@ unitOperators = {
     'dalton' :
         UnitInfo( 'mass', 'dalton', 'daltons', '', [ 'amu', 'atomic-mass-unit' ], [ 'science' ] ),
 
+    'doppelzentner' :
+        UnitInfo( 'mass', 'doppelzentner', 'doppelzentners', '', [ ], [ 'Germany' ] ),
+
     'earth_mass' :
         UnitInfo( 'mass', 'earth_mass', 'earth_masses', 'Mgeo', [ ], [ 'natural' ] ),
 
@@ -1045,6 +1048,9 @@ unitOperators = {
 
     'pennyweight' :
         UnitInfo( 'mass', 'pennyweight', 'pennyweights', 'dwt', [ 'pwt' ], [ 'traditional', 'England' ] ),
+
+    'pfund' :
+        UnitInfo( 'mass', 'pfund', 'pfunds', '', [ ], [ 'Germany' ] ),
 
     'planck_mass' :
         UnitInfo( 'mass', 'planck_mass', 'planck_masses', 'mP', [ ], [ 'natural', 'science' ] ),
@@ -1087,6 +1093,9 @@ unitOperators = {
 
     'wey' :
         UnitInfo( 'mass', 'wey', 'weys', '', [ ], [ 'obsolete', 'England' ] ),
+
+    'zentner' :
+        UnitInfo( 'mass', 'zentner', 'zentners', '', [ ], [ 'Germany' ] ),
 
     # power
 
@@ -1869,6 +1878,7 @@ unitConversionMatrix = {
     ( 'degree',                'arcminute' )                            : mpmathify( '60' ),
     ( 'demi',                  'liter' )                                : mpmathify( '0.375' ),
     ( 'dessertspoon',          'teaspoon' )                             : mpmathify( '2' ),
+    ( 'doppelzentner',         'zentner' )                              : mpmathify( '2' ),
     ( 'dozen',                 'unity' )                                : mpmathify( '12' ),
     ( 'dram',                  'scruple' )                              : mpmathify( '3' ),
     ( 'dry_barrel',            'bushel' )                               : mpmathify( '4' ),
@@ -2034,6 +2044,7 @@ unitConversionMatrix = {
     ( 'peck',                  'dry_gallon' )                           : mpmathify( '2' ),
     ( 'perch',                 'foot' )                                 : mpmathify( '16.5' ),
     ( 'pferdestarke',          'watt' )                                 : mpmathify( '735.49875' ),
+    ( 'pfund',                 'gram' )                                 : mpmathify( '500' ),
     ( 'phot',                  'lux' )                                  : mpmathify( '10000' ),
     ( 'piccolo',               'liter' )                                : mpmathify( '0.1875' ),
     ( 'pieze',                 'pascal' )                               : mpmathify( '1000' ),
@@ -2176,6 +2187,7 @@ unitConversionMatrix = {
     ( 'word',                  'bit' )                                  : mpmathify( '16' ),
     ( 'yard',                  'foot' )                                 : mpmathify( '3' ),
     ( 'year',                  'day' )                                  : mpmathify( '365.25' ),   # Julian year = 365 and 1/4 days
+    ( 'zentner',               'gram' )                                 : mpmathify( '50000' ),
 }
 
 
