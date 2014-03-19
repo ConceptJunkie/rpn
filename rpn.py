@@ -53,6 +53,24 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
 #//******************************************************************************
 #//
+#//  removeUnderscores
+#//
+#//******************************************************************************
+
+def removeUnderscores( source ):
+    result = ''
+
+    for c in source:
+        if c == '_':
+            result += ' '
+        else:
+            result += c
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  debugPrint
 #//
 #//******************************************************************************
@@ -234,7 +252,7 @@ class Units( dict ):
         result = Units( )
 
         for unitType in self.getUnitTypes( ):
-            basicUnits = Units( basicUnitTypes[ unitType ][ 0 ][ 0 ] )
+            basicUnits = Units( basicUnitTypes[ unitType ].simpleTypes[ 0 ] )
 
             exponent = self[ unitType ]
 
@@ -590,7 +608,7 @@ class Measurement( mpf ):
 
             unitType = getUnitType( unit )
 
-            newUnit = basicUnitTypes[ unitType ][ 1 ]
+            newUnit = basicUnitTypes[ unitType ].baseUnit
 
             if unit != newUnit:
                 value = power( mpf( unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] )
@@ -3890,63 +3908,32 @@ callers = [
 def estimate( measurement ):
     if isinstance( measurement, Measurement ):
         unitType = getUnitType( measurement.getUnitName( ) )
+        unitTypeOutput = removeUnderscores( unitType )
 
-        if unitType == 'mass':
-            return estimateMass( measurement )
-        elif unitType == 'length':
-            return estimateLength( measurement )
-        elif unitType == 'volume':
-            return estimateVolume( measurement )
+        unitTypeInfo = basicUnitTypes[ unitType ]
 
-    return 0
+        unit = Measurement( 1, { unitTypeInfo.baseUnit : 1 } )
+        value = mpf( Measurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
 
+        if len( unitTypeInfo.estimateTable ) == 0:
+            return 'No estimates are available for this unit type (' + unitTypeOutput + ').'
 
-#//******************************************************************************
-#//
-#//  estimateMass
-#//
-#//******************************************************************************
+        matchingKeys = [ key for key in unitTypeInfo.estimateTable if key <= mpf( value ) ]
 
-def estimateMass( mass ):
-    oneGram = Measurement( 1, { 'gram' : 1 } )
-    massInGrams = mpf( Measurement( mass.convertValue( oneGram ), oneGram.getUnits( ) ) )
+        if len( matchingKeys ) == 0:
+            estimateKey = min( key for key in unitTypeInfo.estimateTable )
 
-    massKey = max( key for key in massTable if key <= massInGrams )
-    multiple = fdiv( massInGrams, massKey )
+            multiple = fdiv( estimateKey, value )
 
-    return 'Approximately ' + nstr( multiple, 3 ) + ' times the mass of ' + massTable[ massKey ]
+            return 'Approximately ' + nstr( multiple, 3 ) + ' times smaller than the ' + \
+                   unitTypeOutput + ' of ' + unitTypeInfo.estimateTable[ estimateKey ]
+        else:
+            estimateKey = max( matchingKeys )
 
+            multiple = fdiv( value, estimateKey )
 
-#//******************************************************************************
-#//
-#//  estimateLength
-#//
-#//******************************************************************************
-
-def estimateLength( length ):
-    oneMeter = Measurement( 1, { 'meter' : 1 } )
-    lengthInMeters = mpf( Measurement( length.convertValue( oneMeter ), oneMeter.getUnits( ) ) )
-
-    lengthKey = max( key for key in lengthTable if mpf( key ) < lengthInMeters )
-    multiple = fdiv( lengthInMeters, mpf( lengthKey ) )
-
-    return 'Approximately ' + nstr( multiple, 3 ) + ' times the length of ' + lengthTable[ lengthKey ]
-
-
-#//******************************************************************************
-#//
-#//  estimateVolume
-#//
-#//******************************************************************************
-
-def estimateVolume( volume ):
-    oneLiter = Measurement( 1, { 'liter' : 1 } )
-    volumeInLiters = mpf( Measurement( volume.convertValue( oneLiter ), oneLiter.getUnits( ) ) )
-
-    volumeKey = max( key for key in volumeTable if mpf( key ) < volumeInLiters )
-    multiple = fdiv( volumeInLiters, mpf( volumeKey ) )
-
-    return 'Approximately ' + nstr( multiple, 3 ) + ' times the volume of ' + volumeTable[ volumeKey ]
+            return 'Approximately ' + nstr( multiple, 3 ) + ' times the ' + \
+                   unitTypeOutput + ' of ' + unitTypeInfo.estimateTable[ estimateKey ]
 
 
 #//******************************************************************************
@@ -5230,10 +5217,6 @@ def main( ):
     global specialUnitConversionMatrix
     global compoundUnits
 
-    global massTable
-    global lengthTable
-    global volumeTable
-
     global balancedPrimes
     global cousinPrimes
     global doubleBalancedPrimes
@@ -5433,9 +5416,6 @@ def main( ):
             unitOperators = pickle.load( pickleFile )
             operatorAliases.update( pickle.load( pickleFile ) )
             compoundUnits = pickle.load( pickleFile )
-            massTable = pickle.load( pickleFile )
-            lengthTable = pickle.load( pickleFile )
-            volumeTable = pickle.load( pickleFile )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
 
@@ -5511,12 +5491,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            #except ValueError as error:
-            #    print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+            except ValueError as error:
+                print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -5546,12 +5526,12 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            #except ValueError as error:
-            #    print( 'rpn:  value error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+            except ValueError as error:
+                print( 'rpn:  value error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
+            except TypeError as error:
+                print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+                break
             except IndexError as error:
                 print( 'rpn:  index error for list operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )

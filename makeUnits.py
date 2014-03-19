@@ -53,185 +53,216 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generato
 #//
 #//******************************************************************************
 
-# another note to self:
-#   Consider what should happen, if anything (other than an uncaught exception) when
-#   giving a list of values to a unit operator.
-#
-
 basicUnitTypes = {
-    'acceleration' : [
+    'acceleration' : UnitTypeInfo(
         [ 'length/time^2' ],
-        'meter/second^2'
-    ],
+        'meter/second^2',
+        accelerationTable
+    ),
 
-    'angle' : [
+    'angle' : UnitTypeInfo(
         [ 'angle' ],
-        'radian'
-    ],
+        'radian',
+        angleTable
+    ),
 
-    'area' : [
+    'area' : UnitTypeInfo(
         [ 'length^2' ],
-        'square_meter'
-    ],
+        'square_meter',
+        areaTable,
+    ),
 
-    'capacitance' : [
+    'capacitance' : UnitTypeInfo(
         [ 'current^2*time^2/energy' ],
-        'farad'
-    ],
+        'farad',
+        capacitanceTable,
+    ),
 
-    'charge' : [
+    'charge' : UnitTypeInfo(
         [ 'current*time' ],
-        'coulomb'
-    ],
+        'coulomb',
+        chargeTable,
+    ),
 
-    'constant' : [
+    'constant' : UnitTypeInfo(
         [ 'constant' ],
-        'unity'
-    ],
+        'unity',
+        constantTable,
+    ),
 
-    'current' : [
+    'current' : UnitTypeInfo(
         [ 'current', 'electric_potential/electrical_resistance' ],
-        'ampere'
-    ],
+        'ampere',
+        currentTable,
+    ),
 
-    'data_rate' : [
+    'data_rate' : UnitTypeInfo(
         [ 'information_entropy/time' ],
-        'bit/second'
-    ],
+        'bit/second',
+        dataRateTable,
+    ),
 
-    'electrical_conductance' : [
+    'electrical_conductance' : UnitTypeInfo(
         [ 'current^2/energy*time', 'current/electric_potential' ],
-        'mho'
-    ],
+        'mho',
+        electricalConductanceTable,
+    ),
 
-    'electrical_resistance' : [
+    'electrical_resistance' : UnitTypeInfo(
         [ 'energy*time/current^2', 'electric_potential/current' ],
-        'ohm'
-    ],
+        'ohm',
+        electricalResistanceTable,
+    ),
 
-    'electric_potential' : [
+    'electric_potential' : UnitTypeInfo(
         [ 'energy/current*time', 'current*electrical_resistance' ],
-        'volt'
-    ],
+        'volt',
+        electricPotentialTable,
+    ),
 
-    'energy' : [
+    'energy' : UnitTypeInfo(
         [ 'electric_potential*current*time', 'electric_potential*charge' ],
-        'joule'
-    ],
+        'joule',
+        energyTable,
+    ),
 
-    'force' : [
+    'force' : UnitTypeInfo(
         [ 'mass*length/time' ],
-        'newton'
-    ],
+        'newton',
+        forceTable,
+    ),
 
-    'illuminance' : [
+    'illuminance' : UnitTypeInfo(
         [ 'luminous_intensity*angle^2/length^2' ],
-        'lux'
-    ],
+        'lux',
+        illuminanceTable,
+    ),
 
-    'inductance' : [
+    'inductance' : UnitTypeInfo(
         [ 'electric_potential*time/current' ],
-        'henry'
-    ],
+        'henry',
+        inductanceTable,
+    ),
 
-    'information_entropy' : [
-        [ 'information_entropy' ], 'bit'
-    ],
+    'information_entropy' : UnitTypeInfo(
+        [ 'information_entropy' ],
+        'bit',
+        informationEntropyTable,
+    ),
 
-    'length' : [
+    'length' : UnitTypeInfo(
         [ 'length' ],
-        'meter'
-    ],
+        'meter',
+        lengthTable,
+    ),
 
-    'luminance' : [
+    'luminance' : UnitTypeInfo(
         [ 'luminous_intensity/length^2' ],
-        'candela/meter^2'
-    ],
+        'candela/meter^2',
+        luminanceTable,
+    ),
 
-    'luminous_flux' : [
+    'luminous_flux' : UnitTypeInfo(
         [ 'luminous_intensity*angle^2' ],
-        'lumen'
-    ],
+        'lumen',
+        luminousFluxTable,
+    ),
 
-    'luminous_intensity' : [
+    'luminous_intensity' : UnitTypeInfo(
         [ 'luminous_intensity' ],
-        'candela'
-    ],
+        'candela',
+        luminousIntensityTable,
+    ),
 
-    'magnetic_field_strength' : [
+    'magnetic_field_strength' : UnitTypeInfo(
         [ 'charge/length' ],
-        'ampere/meter'
-    ],
+        'ampere/meter',
+        magneticFieldStrengthTable,
+    ),
 
-    'magnetic_flux' : [
+    'magnetic_flux' : UnitTypeInfo(
         [ 'electric_potential*time' ],
-        'weber'
-    ],
+        'weber',
+        magneticFluxTable,
+    ),
 
-    'magnetic_flux_density' : [
+    'magnetic_flux_density' : UnitTypeInfo(
         [ 'electric_potential*time/length^2' ],
-        'tesla'
-    ],
+        'tesla',
+        magneticFluxDensityTable,
+    ),
 
-    'mass' : [
+    'mass' : UnitTypeInfo(
         [ 'mass' ],
-        'gram'
-    ],
+        'gram',
+        massTable,
+    ),
 
-    'power' : [
+    'power' : UnitTypeInfo(
         [ 'energy/time' ],
-        'watt'
-    ],
+        'watt',
+        powerTable,
+    ),
 
-    'pressure' : [
+    'pressure' : UnitTypeInfo(
         [ 'mass/length^2' ],
-        'pascal'
-    ],
+        'pascal',
+        pressureTable,
+    ),
 
-    'radiation_absorbed_dose' : [
+    'radiation_absorbed_dose' : UnitTypeInfo(
         [ 'energy/mass' ],
-        'gray'
-    ],
+        'gray',
+        radiationAbsorbedDoseTable,
+    ),
 
-    'radiation_equivalent_dose' : [
+    'radiation_equivalent_dose' : UnitTypeInfo(
         [ 'energy/mass' ],
-        'sievert'
-    ],
+        'sievert',
+        radiationEquivalentDoseTable,
+    ),
 
-    'radiation_exposure' : [
+    'radiation_exposure' : UnitTypeInfo(
         [ 'current*time/mass' ],
-        'coulomb/kilogram'
-    ],
+        'coulomb/gram',
+        radiationExposureTable,
+    ),
 
-    'radioactivity' : [
+    'radioactivity' : UnitTypeInfo(
         [ '1/time' ],
-        'becquerel'
-    ],
+        'becquerel',
+        radioactivityTable,
+    ),
 
-    'solid_angle' : [
+    'solid_angle' : UnitTypeInfo(
         [ 'angle^2' ],
-        'steradian'
-    ],
+        'steradian',
+        solidAngleTable,
+    ),
 
-    'temperature' : [
+    'temperature' : UnitTypeInfo(
         [ 'temperature' ],
-        'kelvin'
-    ],
+        'kelvin',
+        temperatureTable,
+    ),
 
-    'time' : [
+    'time' : UnitTypeInfo(
         [ 'time' ],
-        'second'
-    ],
+        'second',
+        timeTable,
+    ),
 
-    'velocity' : [
+    'velocity' : UnitTypeInfo(
         [ 'length/time' ],
-        'meter/second'
-    ],
+        'meter/second',
+        velocityTable,
+    ),
 
-    'volume' : [
+    'volume' : UnitTypeInfo(
         [ 'length^3' ],
-        'cubic_meter'
-    ],
+        'liter',
+        volumeTable,
+    ),
 }
 
 
@@ -2193,54 +2224,6 @@ unitConversionMatrix = {
 
 #//******************************************************************************
 #//
-#//  massTable
-#//
-#//  used in estimateMass( )
-#//
-#//  grams : description
-#//
-#//******************************************************************************
-
-massTable = {
-    mpf( '0.003' )      : 'an average ant',
-    mpf( '7.0e4' )      : 'an average human',
-    mpf( '5.5e6' )      : 'an average male African bush elephant',
-    mpf( '4.39985e8' )  : 'the takeoff weight of a Boeing 747-8',
-}
-
-
-#//******************************************************************************
-#//
-#//  lengthTable
-#//
-#//  used in estimateLength( )
-#//
-#//  meters : description
-#//
-#//******************************************************************************
-
-lengthTable = {
-    '1' : 'a long thing'
-}
-
-
-#//******************************************************************************
-#//
-#//  volumeTable
-#//
-#//  used in estimateVolume( )
-#//
-#//  liters : description
-#//
-#//******************************************************************************
-
-volumeTable = {
-    '1' : 'a voluminous thing'
-}
-
-
-#//******************************************************************************
-#//
 #//  makeMetricUnit
 #//
 #//******************************************************************************
@@ -2801,9 +2784,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
         pickle.dump( unitOperators, pickleFile )
         pickle.dump( newAliases, pickleFile )
         pickle.dump( compoundUnits, pickleFile )
-        pickle.dump( massTable, pickleFile )
-        pickle.dump( lengthTable, pickleFile )
-        pickle.dump( volumeTable, pickleFile )
 
     fileName = dataPath + os.sep + 'unit_conversions.pckl.bz2'
 
