@@ -330,6 +330,8 @@ class Polynomial( object ):
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28acceleration%29
+
 accelerationTable = {
 }
 
@@ -342,17 +344,21 @@ accelerationTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28angular_velocity%29
+
 angleTable = {
 }
 
 
 #//******************************************************************************
 #//
-#//  angleTable
+#//  areaTable
 #//
 #//  meters^2 : description
 #//
 #//******************************************************************************
+
+#  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28area%29
 
 areaTable = {
 }
@@ -366,6 +372,8 @@ areaTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28capacitance%29
+
 capacitanceTable = {
 }
 
@@ -377,6 +385,8 @@ capacitanceTable = {
 #//  coulombs : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28charge%29
 
 chargeTable = {
 }
@@ -402,6 +412,8 @@ constantTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28current%29
+
 currentTable = {
 }
 
@@ -413,6 +425,8 @@ currentTable = {
 #//  bits/second : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28bit_rate%29
 
 dataRateTable = {
 }
@@ -426,6 +440,8 @@ dataRateTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28resistance%29
+
 electricalConductanceTable = {
 }
 
@@ -437,6 +453,8 @@ electricalConductanceTable = {
 #//  ohms : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28resistance%29
 
 electricalResistanceTable = {
 }
@@ -450,6 +468,8 @@ electricalResistanceTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28voltage%29
+
 electricPotentialTable = {
 }
 
@@ -461,6 +481,9 @@ electricPotentialTable = {
 #//  joules : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28energy%29
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28specific_energy%29
 
 energyTable = {
 }
@@ -474,6 +497,8 @@ energyTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28force%29
+
 forceTable = {
 }
 
@@ -485,6 +510,8 @@ forceTable = {
 #//  lux : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28illuminance%29
 
 illuminanceTable = {
 }
@@ -498,6 +525,8 @@ illuminanceTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28inductance%29
+
 inductanceTable = {
 }
 
@@ -510,6 +539,9 @@ inductanceTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28data%29
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28entropy%29
+
 informationEntropyTable = {
 }
 
@@ -521,6 +553,9 @@ informationEntropyTable = {
 #//  meters : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28length%29
+# https://en.wikipedia.org/wiki/List_of_examples_of_lengths
 
 lengthTable = {
     mpf( '1.78' )       : 'the height of a typical adult male human',
@@ -543,6 +578,9 @@ lengthTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Luminance
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminance%29
+
 luminanceTable = {
 }
 
@@ -555,6 +593,8 @@ luminanceTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminous_flux%29
+
 luminousFluxTable = {
 }
 
@@ -566,6 +606,8 @@ luminousFluxTable = {
 #//  candelas : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Candela#Examples
 
 luminousIntensityTable = {
 }
@@ -603,6 +645,8 @@ magneticFluxTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28magnetic_field%29
+
 magneticFluxDensityTable = {
     mpf( '5e-18' )      : 'the precision attained for Gravity Probe B',
     mpf( '3.1869e-5' )  : 'the Earth\'s magnetic field at 0 degrees long., 0 degrees lat.',
@@ -624,6 +668,8 @@ magneticFluxDensityTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28mass%29
+
 massTable = {
     mpf( '0.003' )      : 'an average ant',
     mpf( '17.5' )       : 'a typical mouse',
@@ -642,6 +688,8 @@ massTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28power%29
+
 powerTable = {
 }
 
@@ -653,6 +701,8 @@ powerTable = {
 #//  pascals : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28pressure%29
 
 pressureTable = {
 }
@@ -678,6 +728,9 @@ radiationAbsorbedDoseTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Sievert
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28radiation%29
+
 radiationEquivalentDoseTable = {
 }
 
@@ -702,6 +755,8 @@ radiationExposureTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/List_of_radioactive_isotopes_by_half-life
+
 radioactivityTable = {
 }
 
@@ -713,6 +768,8 @@ radioactivityTable = {
 #//  steradians : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Solid_angle
 
 solidAngleTable = {
 }
@@ -726,6 +783,8 @@ solidAngleTable = {
 #//
 #//******************************************************************************
 
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28temperature%29
+
 temperatureTable = {
 }
 
@@ -737,6 +796,8 @@ temperatureTable = {
 #//  seconds : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28frequency%29
 
 timeTable = {
 }
@@ -751,6 +812,24 @@ timeTable = {
 #//******************************************************************************
 
 velocityTable = {
+    mpf( '2.2e-18' )    : 'the expansion rate between 2 points in free space 1 meter apart under Hubble\'s law',
+    mpf( '3.0e-9' )     : 'the upper range of the typical relative speed of continental drift',
+    mpf( '1.4e-5' )     : 'the growth rate of bamboo, the fastest-growing woody plant, over 24 hours',
+    mpf( '0.00275' )    : 'the world record speed of the fastest snail',
+    mpf( '0.080' )      : 'the top speed of a sloth',
+    mpf( '30' )         : 'the typical speed of a car on the freeway',
+    mpf( '130' )        : 'the wind speed of a powerful tornado',
+    mpf( '250' )        : 'the typical cruising speed of a modern jet airliner',
+    mpf( '343' )        : 'the speed of sound (in dry air at sea level at 20 degrees C)',
+    mpf( '981' )        : 'the top speed of the SR-71 Blackbird',
+    mpf( '3373' )       : 'the speed of the X-43 rocket/scramjet plane',
+    mpf( '11107' )      : 'the speed of Apollo 10, the high speed record for a manned vehicle',
+    mpf( '11200' )      : 'the escape velocity from Earth',
+    mpf( '29800' )      : 'the speed of the Earth in orbit around the Sun',
+    mpf( '2.0e5' )      : 'the orbital speed of the Solar System in the Milky Way galaxy',
+    mpf( '5.52e5' )     : 'the speed of the Milky Way, relative to the cosmic microwave background',
+    mpf( '1.4e7' )      : 'the typical speed of a fast neutron',
+    mpf( '3.0e7' )      : 'the typical speed of an electron in a cathode ray tube',
 }
 
 
@@ -761,6 +840,8 @@ velocityTable = {
 #//  liters : description
 #//
 #//******************************************************************************
+
+# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28volume%29
 
 volumeTable = {
     mpf( '0.0049' ) : 'a teaspoon',
