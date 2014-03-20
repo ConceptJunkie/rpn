@@ -2718,7 +2718,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     unitTypeTable = makeUnitTypeTable( unitOperators )
 
     for unitType in sorted( basicUnitTypes ):
-        print( '    ', unitType, '({} operators)'.format( len( unitTypeTable[ unitType ] ) ) )
+        print( '    ', unitType, '({} units)'.format( len( unitTypeTable[ unitType ] ) ) )
 
         while True:
             newConversion = False

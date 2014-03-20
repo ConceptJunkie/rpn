@@ -328,9 +328,9 @@ class Polynomial( object ):
 #//
 #//  meters/second^2 : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28acceleration%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28acceleration%29
 
 accelerationTable = {
 }
@@ -342,9 +342,9 @@ accelerationTable = {
 #//
 #//  radians : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28angular_velocity%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28angular_velocity%29
 
 angleTable = {
 }
@@ -356,9 +356,9 @@ angleTable = {
 #//
 #//  meters^2 : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28area%29
+#//
 #//******************************************************************************
-
-#  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28area%29
 
 areaTable = {
 }
@@ -370,9 +370,9 @@ areaTable = {
 #//
 #//  farads : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28capacitance%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28capacitance%29
 
 capacitanceTable = {
 }
@@ -384,9 +384,9 @@ capacitanceTable = {
 #//
 #//  coulombs : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28charge%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28charge%29
 
 chargeTable = {
 }
@@ -410,9 +410,9 @@ constantTable = {
 #//
 #//  amperes : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28current%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28current%29
 
 currentTable = {
 }
@@ -424,9 +424,9 @@ currentTable = {
 #//
 #//  bits/second : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28bit_rate%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28bit_rate%29
 
 dataRateTable = {
 }
@@ -438,9 +438,9 @@ dataRateTable = {
 #//
 #//  mhos : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28resistance%29
 #//******************************************************************************
 
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28resistance%29
 
 electricalConductanceTable = {
 }
@@ -452,9 +452,9 @@ electricalConductanceTable = {
 #//
 #//  ohms : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28resistance%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28resistance%29
 
 electricalResistanceTable = {
 }
@@ -465,10 +465,9 @@ electricalResistanceTable = {
 #//  electricalPotentialTable
 #//
 #//  volts : description
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28voltage%29
 #//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28voltage%29
 
 electricPotentialTable = {
 }
@@ -480,10 +479,10 @@ electricPotentialTable = {
 #//
 #//  joules : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28energy%29
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28specific_energy%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28energy%29
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28specific_energy%29
 
 energyTable = {
 }
@@ -495,9 +494,9 @@ energyTable = {
 #//
 #//  newtons : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28force%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28force%29
 
 forceTable = {
 }
@@ -509,9 +508,9 @@ forceTable = {
 #//
 #//  lux : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28illuminance%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28illuminance%29
 
 illuminanceTable = {
 }
@@ -523,9 +522,9 @@ illuminanceTable = {
 #//
 #//  henries : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28inductance%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28inductance%29
 
 inductanceTable = {
 }
@@ -537,10 +536,10 @@ inductanceTable = {
 #//
 #//  bits : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28data%29
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28entropy%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28data%29
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28entropy%29
 
 informationEntropyTable = {
 }
@@ -552,10 +551,10 @@ informationEntropyTable = {
 #//
 #//  meters : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28length%29
+#//  https://en.wikipedia.org/wiki/List_of_examples_of_lengths
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28length%29
-# https://en.wikipedia.org/wiki/List_of_examples_of_lengths
 
 lengthTable = {
     mpf( '1.78' )       : 'the height of a typical adult male human',
@@ -576,10 +575,10 @@ lengthTable = {
 #//
 #//  candelas/meter^2 : description
 #//
+#//  https://en.wikipedia.org/wiki/Luminance
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminance%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Luminance
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminance%29
 
 luminanceTable = {
 }
@@ -591,9 +590,9 @@ luminanceTable = {
 #//
 #//  lumens : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminous_flux%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminous_flux%29
 
 luminousFluxTable = {
 }
@@ -605,9 +604,9 @@ luminousFluxTable = {
 #//
 #//  candelas : description
 #//
+#//  https://en.wikipedia.org/wiki/Candela#Examples
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Candela#Examples
 
 luminousIntensityTable = {
 }
@@ -643,9 +642,9 @@ magneticFluxTable = {
 #//
 #//  teslas : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28magnetic_field%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28magnetic_field%29
 
 magneticFluxDensityTable = {
     mpf( '5e-18' )      : 'the precision attained for Gravity Probe B',
@@ -666,9 +665,9 @@ magneticFluxDensityTable = {
 #//
 #//  grams : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28mass%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28mass%29
 
 massTable = {
     mpf( '0.003' )      : 'an average ant',
@@ -686,9 +685,9 @@ massTable = {
 #//
 #//  watts : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28power%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28power%29
 
 powerTable = {
 }
@@ -700,9 +699,9 @@ powerTable = {
 #//
 #//  pascals : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28pressure%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28pressure%29
 
 pressureTable = {
 }
@@ -726,10 +725,10 @@ radiationAbsorbedDoseTable = {
 #//
 #//  sieverts : description
 #//
+#//  https://en.wikipedia.org/wiki/Sievert
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28radiation%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Sievert
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28radiation%29
 
 radiationEquivalentDoseTable = {
 }
@@ -753,9 +752,9 @@ radiationExposureTable = {
 #//
 #//  becquerels : description
 #//
+#//  https://en.wikipedia.org/wiki/List_of_radioactive_isotopes_by_half-life
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/List_of_radioactive_isotopes_by_half-life
 
 radioactivityTable = {
 }
@@ -767,9 +766,9 @@ radioactivityTable = {
 #//
 #//  steradians : description
 #//
+#//  https://en.wikipedia.org/wiki/Solid_angle
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Solid_angle
 
 solidAngleTable = {
 }
@@ -781,9 +780,9 @@ solidAngleTable = {
 #//
 #//  kelvins : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28temperature%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28temperature%29
 
 temperatureTable = {
 }
@@ -795,12 +794,25 @@ temperatureTable = {
 #//
 #//  seconds : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28frequency%29
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28time%29
+#//
 #//******************************************************************************
 
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28frequency%29
-
 timeTable = {
+    mpf( '5.39106e-44' )    : 'the Planck time',
+    mpf( '1.35135e-6' )     : 'the clock cycle of the Intel 4004 microprocessor (1971)',
+    mpf( '60' )             : 'one minute (60 seconds)',
+    mpf( '3600' )           : 'one hour (60 minutes)',
+    mpf( '86400' )          : 'one day (24 hours)',
+    mpf( '604800' )         : 'one week (7 days)',
+    mpf( '2551442.8016' )   : 'the synodic lunar month',
+    mpf( '3.15576e7' )      : 'one Julian year (365.25 days)',
+    mpf( '3.15576e8' )      : 'one decade (10 years)',
+    mpf( '3.15576e9' )      : 'one century (100 years)',
+    mpf( '3.15576e10' )     : 'one millennium (1000 years)',
 }
+
 
 
 #//******************************************************************************
@@ -808,6 +820,8 @@ timeTable = {
 #//  velocityTable
 #//
 #//  meters/second : description
+#//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28speed%29
 #//
 #//******************************************************************************
 
@@ -839,14 +853,13 @@ velocityTable = {
 #//
 #//  liters : description
 #//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28volume%29
+#//
 #//******************************************************************************
-
-# https://en.wikipedia.org/wiki/Orders_of_magnitude_%28volume%29
 
 volumeTable = {
     mpf( '0.0049' ) : 'a teaspoon',
     mpf( '3.785' )  : 'a gallon',
     mpf( '2.5e6' )  : 'an Olympic-sized swimming pool',
 }
-
 
