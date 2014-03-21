@@ -2,8 +2,14 @@
 
 # Things that don't work, but should:
 #
+#   This requires implicit conversion between unit types
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 
+#   Here, the hms operator fails, complaining the units aren't compatible:
+#   rpn 500 million miles 5 G 5 minutes * m/s convert / hms
+
+#   even though it works fine here:
+#   rpn 400 seconds hms
 
 #//******************************************************************************
 #//
@@ -526,7 +532,10 @@ class Measurement( mpf ):
             result = True
 
             for item in other:
-                result = result and self.isCompatible( item )
+                result = self.isCompatible( item )
+
+                if not result:
+                    break
 
             return result
         elif isinstance( other, Measurement ):
@@ -3988,9 +3997,6 @@ def convertToYDHMS( n ):
 #//******************************************************************************
 
 def convertUnits( unit1, unit2 ):
-    debugPrint( 'convertUnits' )
-    debugPrint( 'unit1:', unit1.getTypes( ) )
-    debugPrint( 'unit2:', unit2.getTypes( ) )
 
     if not isinstance( unit1, Measurement ):
         raise ValueError( 'cannot convert non-measurements' )
@@ -3998,6 +4004,10 @@ def convertUnits( unit1, unit2 ):
     if isinstance( unit2, list ):
         return unit1.convertValue( unit2 )
     else:
+        debugPrint( 'convertUnits' )
+        debugPrint( 'unit1:', unit1.getTypes( ) )
+        debugPrint( 'unit2:', unit2.getTypes( ) )
+
         return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
                             unit2.getUnitName( ), unit2.getPluralUnitName( ) )
 
