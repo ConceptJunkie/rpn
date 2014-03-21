@@ -5,11 +5,6 @@
 #   This requires implicit conversion between unit types
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 
-#   Here, the hms operator fails, complaining the units aren't compatible:
-#   rpn 500 million miles 5 G 5 minutes * m/s convert / hms
-
-#   even though it works fine here:
-#   rpn 400 seconds hms
 
 #//******************************************************************************
 #//
@@ -448,7 +443,7 @@ class Measurement( mpf ):
             self = Measurement( newValue, self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
 
-        return self
+        return self.dezeroUnits( )
 
 
     def divide( self, other ):
@@ -463,7 +458,7 @@ class Measurement( mpf ):
             self = Measurement( newValue, self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
 
-        return self
+        return self.dezeroUnits( )
 
 
     def exponentiate( self, exponent ):
@@ -492,7 +487,7 @@ class Measurement( mpf ):
         return Measurement( fdiv( 1, value ), newUnits )
 
 
-    def normalizeUnits( self ):
+    def dezeroUnits( self ):
         value = mpf( self )
         units = self.getUnits( )
 
@@ -502,10 +497,17 @@ class Measurement( mpf ):
             if units[ unit ] != 0:
                 newUnits[ unit ] = units[ unit ]
 
+        return Measurement( value, newUnits, self.getUnitName( ), self.getPluralUnitName( ) )
+
+
+    def normalizeUnits( self ):
+        value = mpf( self )
+        units = self.getUnits( )
+
         negative = True
 
-        for unit in newUnits:
-            if newUnits[ unit ] > 0:
+        for unit in units:
+            if units[ unit ] > 0:
                 negative = False
                 break
 
