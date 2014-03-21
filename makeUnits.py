@@ -22,6 +22,7 @@ import string
 from mpmath import *
 
 from rpnDeclarations import *
+from rpnEstimates import *
 
 
 #//******************************************************************************

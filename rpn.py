@@ -512,9 +512,9 @@ class Measurement( mpf ):
                 break
 
         if negative:
-            return Measurement( value, newUnits ).invert( )
+            return Measurement( value, units ).invert( )
         else:
-            return Measurement( value, newUnits, self.getUnitName( ), self.getPluralUnitName( ) )
+            return Measurement( value, units, self.getUnitName( ), self.getPluralUnitName( ) )
 
 
     def update( self, units ):
@@ -3936,15 +3936,15 @@ def estimate( measurement ):
 
             multiple = fdiv( estimateKey, value )
 
-            return 'Approximately ' + nstr( multiple, 3 ) + ' times smaller than the ' + \
-                   unitTypeOutput + ' of ' + unitTypeInfo.estimateTable[ estimateKey ]
+            return 'Approximately ' + nstr( multiple, 3 ) + ' times smaller than ' + \
+                   unitTypeInfo.estimateTable[ estimateKey ]
         else:
             estimateKey = max( matchingKeys )
 
             multiple = fdiv( value, estimateKey )
 
-            return 'Approximately ' + nstr( multiple, 3 ) + ' times the ' + \
-                   unitTypeOutput + ' of ' + unitTypeInfo.estimateTable[ estimateKey ]
+            return 'Approximately ' + nstr( multiple, 3 ) + ' times ' + \
+                   unitTypeInfo.estimateTable[ estimateKey ]
 
 
 #//******************************************************************************
@@ -5506,9 +5506,9 @@ def main( ):
             except ValueError as error:
                 print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
                 break
@@ -5541,9 +5541,9 @@ def main( ):
             except ValueError as error:
                 print( 'rpn:  value error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
-            except TypeError as error:
-                print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except IndexError as error:
                 print( 'rpn:  index error for list operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
@@ -5557,11 +5557,11 @@ def main( ):
             except ValueError as error:
                 print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
                 break
-            except TypeError as error:
-                currentValueList.append( term )
-                print( 'rpn:  error in arg ' + format( index ) +
-                       ':  unrecognized argument: \'%s\'' % sys.argv[ index ] )
-                break
+            #except TypeError as error:
+            #    currentValueList.append( term )
+            #    print( 'rpn:  error in arg ' + format( index ) +
+            #           ':  unrecognized argument: \'%s\'' % sys.argv[ index ] )
+            #    break
 
         index = index + 1
     else:    # i.e., if the for loop completes
