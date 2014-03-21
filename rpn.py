@@ -3936,14 +3936,14 @@ def estimate( measurement ):
 
             multiple = fdiv( estimateKey, value )
 
-            return 'Approximately ' + nstr( multiple, 3 ) + ' times smaller than ' + \
+            return 'approximately ' + nstr( multiple, 3 ) + ' times smaller than ' + \
                    unitTypeInfo.estimateTable[ estimateKey ]
         else:
             estimateKey = max( matchingKeys )
 
             multiple = fdiv( value, estimateKey )
 
-            return 'Approximately ' + nstr( multiple, 3 ) + ' times ' + \
+            return 'approximately ' + nstr( multiple, 3 ) + ' times ' + \
                    unitTypeInfo.estimateTable[ estimateKey ]
 
 
@@ -5502,16 +5502,32 @@ def main( ):
                 currentValueList.append( result )
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
-                break
+
+                if debugMode:
+                    raise
+                else:
+                    break
             except ValueError as error:
                 print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+
+                if debugMode:
+                    raise
+                else:
+                    break
+            except TypeError as error:
+                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+
+                if debugMode:
+                    raise
+                else:
+                    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
-                break
+
+                if debugMode:
+                    raise
+                else:
+                    break
         elif term in listOperators:
             argsNeeded = listOperators[ term ][ 1 ]
 
@@ -5537,31 +5553,60 @@ def main( ):
                     currentValueList.append( listOperators[ term ][ 0 ]( *listArgs ) )
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
-                break
+
+                if debugMode:
+                    raise
+                else:
+                    break
             except ValueError as error:
                 print( 'rpn:  value error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
+
+                if debugMode:
+                    raise
+                else:
+                    break
+            except TypeError as error:
+                print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+
+                if debugMode:
+                    raise
+                else:
+                    break
             except IndexError as error:
                 print( 'rpn:  index error for list operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
-                break
+
+                if debugMode:
+                    raise
+                else:
+                    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
-                break
+
+                if debugMode:
+                    raise
+                else:
+                    break
         else:
             try:
                 currentValueList.append( parseInputValue( term, inputRadix ) )
             except ValueError as error:
                 print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            #except TypeError as error:
-            #    currentValueList.append( term )
-            #    print( 'rpn:  error in arg ' + format( index ) +
-            #           ':  unrecognized argument: \'%s\'' % sys.argv[ index ] )
-            #    break
+
+                if debugMode:
+                    raise
+                else:
+                    break
+            except TypeError as error:
+                currentValueList.append( term )
+
+                print( 'rpn:  error in arg ' + format( index ) +
+                       ':  unrecognized argument: \'%s\'' % sys.argv[ index ] )
+
+                if debugMode:
+                    raise
+                else:
+                    break
 
         index = index + 1
     else:    # i.e., if the for loop completes

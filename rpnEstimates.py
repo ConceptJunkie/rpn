@@ -14,6 +14,9 @@
 
 from mpmath import *
 
+#// Can we stick this in somewhere?
+#//
+#// https://en.wikipedia.org/wiki/Orders_of_magnitude_%28density%29
 
 #//******************************************************************************
 #//
@@ -26,6 +29,20 @@ from mpmath import *
 #//******************************************************************************
 
 accelerationTable = {
+    mpf( '0.0058' )     : 'the acceleration of the Earth due to the Sun\'s gravity',
+    mpf( '1.62' )       : 'the Moon\'s gravity at its equator',
+    mpf( '4.3' )        : 'the acceleration going from 0-60 mph in 6.4 seconds (Saab 9-5 Hirsch)',
+    mpf( '9.80665' )    : 'the Earth\'s gravity',
+    mpf( '15.2' )       : 'the acceleration going from 0-100 kph in 2.4 seconds (Bugatti Veyron)',
+    mpf( '29' )         : 'the maximum acceleration during launch and re-entry of the Space Shuttle',
+    mpf( '70.6' )       : 'the maximum acceleration of Apollo 6 during re-entry',
+    mpf( '79' )         : 'the acceleration of an F-16 aircraft pulling out of a dive',
+    mpf( '147' )        : 'the acceleration of an explosive seat ejection from an aircraft',
+    mpf( '2946' )       : 'the acceleration of a soccer ball being kicked',
+    mpf( '29460' )      : 'the acceleration of a baseball struck by a bat',
+    mpf( '3.8e6' )      : 'the surface gravity of white dwarf Sirius B',
+    mpf( '1.9e9' )      : 'the mean acceleration of a proton in the Large Hadron Collider',
+    mpf( '7.0e12' )     : 'the maximum surface gravity of a neutron star',
 }
 
 
@@ -174,6 +191,7 @@ electricPotentialTable = {
 #//
 #//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28energy%29
 #//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28specific_energy%29
+#//  https://en.wikipedia.org/wiki/Energy_density
 #//
 #//******************************************************************************
 
@@ -206,6 +224,18 @@ forceTable = {
 #//******************************************************************************
 
 illuminanceTable = {
+    mpf( '1.0e-4' )     : 'starlight on an overcast, moonless night sky',
+    mpf( '1.4e-4' )     : 'Venus at its brightest',
+    mpf( '2.0e-4' )     : 'starlight on a clear, moonless night sky, excluding airglow',
+    mpf( '2.0e-3' )     : 'starlight on a clear, moonless night sky, including airglow',
+    mpf( '1.0e-2' )     : 'the quarter Moon',
+    mpf( '2.5e-2' )     : 'the full Moon on a clear night',
+    mpf( '1' )          : 'the extreme of darkest storm clouds at sunset/sunrise',
+    mpf( '40' )         : 'a fully overcast sky at sunset/sunrise',
+    mpf( '200' )        : 'the extreme of darkest storm clouds at midday',
+    mpf( '400' )        : 'sunrise or sunset on a clear day',
+    mpf( '25000' )      : 'typical overcast day at midday',
+    mpf( '120000' )     : 'the brightest sunlight',
 }
 
 
@@ -288,6 +318,17 @@ luminanceTable = {
 #//******************************************************************************
 
 luminousFluxTable = {
+    mpf( '0.025' )      : 'the light of a firefly',
+    mpf( '12.57' )      : 'the light of a candle',
+    mpf( '780' )        : 'a 60 W incandescent light bulb',
+    mpf( '930' )        : 'a 75 W incandescent light bulb',
+    mpf( '2990' )       : 'a 200 W incandescent light bulb',
+    mpf( '6.0e5' )      : 'an IMAX projector bulb',
+    mpf( '4.23e10' )    : 'the Luxor Sky Beam spotlight array in Las Vegas',
+    mpf( '4.6e24' )     : 'the dimmest class of red dwarf star',
+    mpf( '3.0768e28' )  : 'the Sun',
+    mpf( '1.382e38' )   : 'a Type 1a supernova',
+    mpf( '1.26e41' )    : 'Quasar 3C 273',
 }
 
 
@@ -393,6 +434,7 @@ powerTable = {
 #//  pascals : description
 #//
 #//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28pressure%29
+#//  https://en.wikipedia.org/wiki/Sound_pressure
 #//
 #//******************************************************************************
 
@@ -478,6 +520,45 @@ solidAngleTable = {
 #//******************************************************************************
 
 temperatureTable = {
+    mpf( '1e-10' )          : 'the lowest temperature ever produced in a laboratory',
+    mpf( '5e-8' )           : 'the Fermi temperature of potassium-40',
+    mpf( '1e-6' )           : 'the temperature produced by nuclear demagnetrization refrigeration',
+    mpf( '1.7e-3' )         : 'the temperature record for helium-3/helium-4 dliution refrigeration',
+    mpf( '9.5e-1' )         : 'the melting point of helium',
+    mpf( '2.725' )          : 'the temperature of the cosmic microwave background',
+    mpf( '14.01' )          : 'the melting point of hydrogen',
+    mpf( '44' )             : 'the mean temperature on Pluto',
+    mpf( '183.9' )          : 'the coldest air recorded on Earth (Vostok Station, Antarctica)',
+    mpf( '210' )            : 'the mean temperature on Mars',
+    mpf( '234.3' )          : 'the melting point of mercury',
+    mpf( '273.15' )         : 'the melting point of water',
+    mpf( '287' )            : 'the mean temperature of Earth',
+    mpf( '330' )            : 'the average body temperature for a human',
+    mpf( '319.3' )          : 'the hottest temperature recorded on Earth (Death Valley)',
+    mpf( '373.15' )         : 'the boiling point of water',
+    mpf( '450' )            : 'the mean temperature on Mercury',
+    mpf( '600.65' )         : 'the melting point of lead',
+    mpf( '740' )            : 'the mean temperature on Venus',
+    mpf( '933.47' )         : 'the melting point of aluminum',
+    mpf( '1170' )           : 'the temperature of a wood fire',
+    mpf( '1811' )           : 'the melting point of iron',
+    mpf( '2022' )           : 'the boiling point of lead',
+    mpf( '3683' )           : 'the melting point of tungsten',
+    mpf( '5780' )           : 'the surface temperature of the Sun',
+    mpf( '1.6e5' )          : 'the surface temperature of the hottest white dwarfs',
+    mpf( '1.56e7' )         : 'the core temperature of the Sun',
+    mpf( '2.3e7' )          : 'the temperature at which beryllium-7 can fuse',
+    mpf( '2.3e8' )          : 'the temperature at which carbon-12 can fuse',
+    mpf( '7.5e8' )          : 'the temperature at which oxygen can fuse',
+    mpf( '1.0e10' )         : 'the temperature of a supernova',
+    mpf( '7.0e11' )         : 'the temperature of a quasar\'s accretion disk',
+    mpf( '6.7e13' )         : 'the temperature of gamma-ray burst from a collapsar',
+    mpf( '2.8e15' )         : 'the temperature of an electroweak star',
+    mpf( '1.0e21' )         : 'the temperature of dark matter in active galactic nuclei',
+    mpf( '1.0e30' )         : 'the Hagedorn temperature, the highest possible temperature according to string theory',
+    mpf( '1.416785e32' )    : 'the Planck temperature, at which the wavelength of black body radiation' + \
+                              'reaches the Planck length',
+    mpf( '1.0e33' )         : 'the Landau pole, the maximum theoretical temperature according to QED',
 }
 
 
@@ -505,7 +586,6 @@ timeTable = {
     mpf( '3.15576e9' )      : 'one century (100 years)',
     mpf( '3.15576e10' )     : 'one millennium (1000 years)',
 }
-
 
 
 #//******************************************************************************
@@ -561,8 +641,14 @@ volumeTable = {
     mpf( '4.0e-6' )         : 'the volume of a large grain of sand',
     mpf( '0.0049' )         : 'a teaspoon',
     mpf( '3.785' )          : 'a gallon',
+    mpf( '1000' )           : 'a cubic meter',
+    mpf( '11000' )          : 'the approximate volume of an elephant',
     mpf( '38500' )          : 'a 20-foot shipping container',
     mpf( '2.5e6' )          : 'an Olympic-sized swimming pool',
+    mpf( '3.0e14' )         : 'the estimated volume of crude oil on Earth',
+    mpf( '1.2232e16' )      : 'the volume of Lake Superior',
+    mpf( '2.6e18' )         : 'the volume of Greenland ice cap',
+    mpf( '1.4e21' )         : 'the volume of water in all of Earth\'s oceans',
     mpf( '1.08e24' )        : 'the volume of the Earth',
     mpf( '1.e27' )          : 'the volume of Jupiter',
     mpf( '1.e30' )          : 'the volume of the Sun',
