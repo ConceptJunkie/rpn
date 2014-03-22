@@ -57,6 +57,17 @@ accelerationTable = {
 #//******************************************************************************
 
 angleTable = {
+    mpf( '8.405e-16' )  : 'the angle the Sun revolves around the galactic core in a second',
+    mpf( '8.03e-10' )   : 'the angle Pluto revolves around the Sun in a second',
+    mpf( '1.68e-8' )    : 'the angle Jupiter revolves around the Sun in a second',
+    mpf( '1.99e-7' )    : 'the angle the Earth revolves around the Sun in a second',
+    mpf( '7.27e-5' )    : 'the angle the Earth rotates in a second',
+    mpf( '0.0001454' )  : 'the angle a clock hour hand moves in a second',
+    mpf( '0.0017453' )  : 'the angle a clock minute hand moves in a second',
+    mpf( '0.10471976' ) : 'the angle a clock second hand moves in a second',
+    mpf( '3.4906585' )  : 'the angle a long-playing record rotates in one second',
+    mpf( '94' )         : 'the angle the spin cycle of washing machine rotates in one second',
+    mpf( '753.982237' ) : 'the angle a 7200-rpm harddrive rotates in a second',
 }
 
 
