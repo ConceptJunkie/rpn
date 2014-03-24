@@ -96,8 +96,18 @@ areaTable = {
     mpf( '7.1684e-9' )  : 'the area of a single pixel at 300 dpi resolution',
     mpf( '6.4516e-8' )  : 'the area of a single pixel at 100 dpi resolution',
     mpf( '1.9635e-7' )  : 'the cross-sectional area of a 0.5mm pencil lead',
-
-
+    mpf( '2.9e-4' )     : 'the area of one side of a U.S. penny',
+    mpf( '4.6e-3' )     : 'the area of the face of a credit card',
+    mpf( '0.009677' )   : 'the area of a 3x5 inch index card',
+    mpf( '0.06032246' ) : 'American letter size paper (8.5x11")',
+    mpf( '1.73' )       : 'the average body surface area of a human',
+    mpf( '261' )        : 'the size of a tennis court',
+    mpf( '1250' )       : 'the surface area of the water in an Olympic-size swimming pool',
+    mpf( '4046.856' )   : 'one acre',
+    mpf( '22074' )      : 'area of a Manhattan city block',
+    mpf( '440000' )     : 'Vatican City',
+    mpf( '2589988.11' ) : 'one square mile',
+    mpf( '5.95e7' )     : 'Mahattan Island',
 }
 
 
@@ -112,6 +122,9 @@ areaTable = {
 #//******************************************************************************
 
 capacitanceTable = {
+    mpf( '2.0e-15' )    : 'gate capacitance of a MOS transistor, per micron of gate width',
+    mpf( '3.0e-14' )    : 'DRAM cell',
+    mpf( '1.0e-13' )    : 'small ceramic capacitor (100 fF)',
 }
 
 
