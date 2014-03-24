@@ -351,6 +351,32 @@ lengthTable = {
 #//******************************************************************************
 
 luminanceTable = {
+    mpf( '1.0e-6' ) : 'the absolute threshold of human vision',
+    mpf( '4.0e-4' ) : 'the darkest sky',
+    mpf( '1.0e-3' ) : 'a typical night sky',
+    mpf( '1.4e-3' ) : 'a typical photographic scene lit by full moon',
+    mpf( '5.0e-3' ) : 'the approximate scotopic/mesopic threshold',
+    mpf( '4.0e-2' ) : 'the phosphorescent markings on a watch dial after 1 h in the dark',
+    mpf( '2' )      : 'floodlit buildings, monuments, and fountains',
+    mpf( '5' )      : 'the approximate mesopic/photopic threshold',
+    mpf( '25' )     : 'a typical photographic scene at sunrise or sunset',
+    mpf( '30' )     : 'green electroluminescent source',
+    mpf( '55' )     : 'tandard SMPTE cinema screen luminance',
+    mpf( '80' )     : 'onitor white in the sRGB reference viewing environment',
+    mpf( '250' )    : 'the peak luminance of a typical LCD monitor',
+    mpf( '700' )    : 'a typical photographic scene on overcast day',
+    mpf( '2000' )   : 'an average cloudy sky',
+    mpf( '2500' )   : 'the Moon\'s surface',
+    mpf( '5000' )   : 'a typical photographic scene in full sunlight',
+    mpf( '7000' )   : 'an average clear sky',
+    mpf( '1.0e4' )  : 'a white illuminated cloud',
+    mpf( '1.2e4' )  : 'a fluorescent lamp',
+    mpf( '7.5e4' )  : 'a low pressure sodium-vapor lamp',
+    mpf( '1.3e5' )  : 'a frosted incandescent light bulb',
+    mpf( '6.0e5' )  : 'the solar disk at the horizon',
+    mpf( '7.0e6' )  : 'the filament of a clear incandescent lamp',
+    mpf( '1.0e8' )  : 'brightness which can cause retinal damage',
+    mpf( '1.6e9' )  : 'the solar disk at noon',
 }
 
 
