@@ -92,10 +92,16 @@ def debugPrint( *args, **kwargs ):
 #//******************************************************************************
 
 def getUnitType( unit ):
+    if unit in basicUnitTypes:
+        return unit
+
+    if unit in operatorAliases:
+        unit = operatorAliases[ unit ]
+
     if unit in unitOperators:
         return unitOperators[ unit ].unitType
     else:
-        return unit
+        raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
 
 #//******************************************************************************
@@ -108,7 +114,7 @@ def getSimpleUnitType( unit ):
     if unit in unitOperators:
         return unitOperators[ unit ].representation
     else:
-        return unit
+        raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
 
 #//******************************************************************************
