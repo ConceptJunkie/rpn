@@ -101,13 +101,13 @@ areaTable = {
     mpf( '0.009677' )   : 'the area of a 3x5 inch index card',
     mpf( '0.06032246' ) : 'American letter size paper (8.5x11")',
     mpf( '1.73' )       : 'the average body surface area of a human',
-    mpf( '261' )        : 'the size of a tennis court',
-    mpf( '1250' )       : 'the surface area of the water in an Olympic-size swimming pool',
+    mpf( '261' )        : 'the size of a standard tennis court',
+    mpf( '1250' )       : 'the surface area of an Olympic-size swimming pool',
     mpf( '4046.856' )   : 'one acre',
     mpf( '22074' )      : 'area of a Manhattan city block',
     mpf( '440000' )     : 'Vatican City',
     mpf( '2589988.11' ) : 'one square mile',
-    mpf( '5.95e7' )     : 'Mahattan Island',
+    mpf( '5.95e7' )     : 'the surface area of Manhattan Island',
 }
 
 
@@ -290,6 +290,13 @@ illuminanceTable = {
 #//******************************************************************************
 
 inductanceTable = {
+    mpf( '1.0e-9' )     : 'a thin film chip inductor, 1.6x0.8 mm with a typical power rating of 0.1 W (range: 1-100 nH)',
+    mpf( '5.25e-7' )    : 'the inductance of one meter of Cat-5 cable pair',
+    mpf( '5.0e-5' )     : 'a coil with 99 turns, 0.635 cm long with a diameter of 0.635 cm',
+    mpf( '1.0e-3' )     : 'a coil 2.2 cm long with a diameter of 1.6 cm with 800 mA capability, used in kW amplifiers',
+    mpf( '1.0' )        : 'an inductor a few cm long and a few cm in diameter with many turns of wire on a ferrite core',
+    mpf( '11' )         : 'a mains electricity transformer primary at 120 V (range: 8-11 H)',
+    mpf( '1.326e3' )    : '500 kV, 3000 MW power line transformer primary winding',
 }
 
 
