@@ -82,6 +82,22 @@ angleTable = {
 #//******************************************************************************
 
 areaTable = {
+    mpf( '2.6121e-70' ) : 'the Planck area',
+    mpf( '1.0e-52' )    : 'one shed',
+    mpf( '1.0e-48' )    : 'one square yoctometer',
+    mpf( '1.0e-42' )    : 'one square zeptometer',
+    mpf( '1.0e-36' )    : 'one square attometer',
+    mpf( '1.0e-28' )    : 'one barn, roughly the cross-sectional area of a uranium nucleus',
+    mpf( '1.0e-24' )    : 'one square picometer',
+    mpf( '1.0e-18' )    : 'one square nanometer',
+    mpf( '1.0e-12' )    : 'one square micron, the surface area of an E. coli bacterium',
+    mpf( '1.0e-10' )    : 'the surface area of a human red blood cell',
+    mpf( '7.0e-9' )     : 'the surface area of a human red blood cell',
+    mpf( '7.1684e-9' )  : 'the area of a single pixel at 300 dpi resolution',
+    mpf( '6.4516e-8' )  : 'the area of a single pixel at 100 dpi resolution',
+    mpf( '1.9635e-7' )  : 'the cross-sectional area of a 0.5mm pencil lead',
+
+
 }
 
 

@@ -5600,8 +5600,11 @@ def main( ):
             except TypeError as error:
                 currentValueList.append( term )
 
-                print( 'rpn:  error in arg ' + format( index ) +
-                       ':  unrecognized argument: \'%s\'' % sys.argv[ index ] )
+                try:
+                    print( 'rpn:  error in arg ' + format( index ) +
+                           ':  unrecognized argument: \'' + sys.argv[ index ] + '\'' )
+                except:
+                    print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
 
                 if debugMode:
                     raise
