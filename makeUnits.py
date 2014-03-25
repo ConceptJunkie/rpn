@@ -1840,6 +1840,8 @@ speedOfLight = '299792458'   # in m/s by definition
 #//
 #//  ( first unit, second unit, conversion factor )
 #//
+#//  http://physics.nist.gov/Pubs/SP811/appenB8.html
+#//
 #//******************************************************************************
 
 unitConversionMatrix = {
