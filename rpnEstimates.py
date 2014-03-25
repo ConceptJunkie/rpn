@@ -295,6 +295,16 @@ dataRateTable = {
 #//******************************************************************************
 
 electricalConductanceTable = {
+    mpf( '5.0e-20' )        : 'the resistance of a 1 meter path though sulphur at standard temperature and pressure',
+    mpf( '5.0e-15' )        : 'the resistenace of a 1 meter path through quartz, upper limit',
+    mpf( '1.01010101e-11' ) : 'the highest resistor code on common circuits (white white white)',
+    mpf( '1.0e-5' )         : 'the approximate resistance of the human body with dry skin',
+    mpf( '1.0e-3' )         : 'the approximate resistance of the human body through wet or broken skin',
+    mpf( '1.515e-3' )       : 'the resistance of a circular mil-foot of Nichrome',
+    mpf( '3.33564095e-2' )  : 'the Planck impedance',
+    mpf( '0.10204')         : 'the resistance of a circular mil-foot of silver',
+    mpf( '5' )              : 'the resistance of a 1 meter path in 35g/kg salinity seawater at 20 degrees C',
+    mpf( '6.139e6' )        : 'the resistance of a one cubic centimeter block of silver',
 }
 
 
@@ -548,6 +558,37 @@ energyTable = {
 #//******************************************************************************
 
 forceTable = {
+    mpf( '3.6e-47' )    : 'the gravitational attraction of the proton and the electron in hydrogen atom',
+    mpf( '8.9e-30' )    : 'the weight of an electron',
+    mpf( '1.6e-26' )    : 'the weight of a hydrogen atom',
+    mpf( '5.0e-24' )    : 'the force necessary to synchronize the motion of a single trapped ion with an external signal measured in a 2010 experiment',
+    mpf( '1.7e-22' )    : 'the force measured in a 2010 experiment by perturbing 60 beryllium-9 ions',
+    mpf( '1.0e-14' )    : 'the appoximate Brownian motion force on an E. coli bacterium averaged over 1 second',
+    mpf( '1.0e-13' )    : 'the force needed to stretch double-stranded DNA to 50% relative extension',
+    mpf( '4.0e-12' )    : 'the force needed to break a hydrogen bond',
+    mpf( '5.0e-12' )    : 'the maximum force of a molecular motor',
+    mpf( '1.6e-10' )    : 'the force needed to break a typical noncovalent bond',
+    mpf( '1.6e-9' )     : 'the force needed to break a typical covalent bond',
+    mpf( '8.2e-8' )     : 'the force on an electron in a hydrogen atom',
+    mpf( '2.0e-7' )     : 'the force between two 1 meter long conductors, 1 meter apart by the definition of one ampere',
+    mpf( '1.5e-4' )     : 'the maximum output of FEEP ion thrusters used in NASA\'s Laser Interferometer Space Antenna (150 uN)',
+    mpf( '9.2e-2' )     : 'the maximum thrust of the NSTAR ion engine tested on NASA\'s space probe Deep Space 1 (92 mN)',
+    mpf( '1' )          : 'the weight of an average apple',
+    mpf( '9.8' )        : 'a one kilogram-force, nominal weight of a 1 kg object at sea level on Earth',
+    mpf( '720' )        : 'the average force of human bite, measured at molars',
+    mpf( '8.0e3' )      : 'the maximum force achieved by weight lifters during a "clean and jerk" lift',
+    mpf( '9.0e3' )      : 'the bite force of one adult American alligator',
+    mpf( '1.8e5' )      : 'the bite force of an adult great white shark',
+    mpf( '4.5e5' )      : 'the force applied by the engine of a small car during peak acceleration[citation needed]',
+    mpf( '1.0e5' )      : 'the average force applied by seatbelt and airbag to a restrained passenger in a car which hits a stationary barrier at 100 km/h',
+    mpf( '8.9e5' )      : 'the maximum pulling force (tractive effort) of a single large diesel-electric locomotive',
+    mpf( '1.8e6' )      : 'the thrust of Space Shuttle Main Engine at lift-off',
+    mpf( '1.9e6' )      : 'the weight of the largest Blue Whale',
+    mpf( '3.5e7' )      : 'the thrust of Saturn V rocket at lift-off',
+    mpf( '5.7e8' )      : 'a simplistic estimate of force of sunlight on Earth',
+    mpf( '2.0e20' )     : 'the gravitational attraction between Earth and Moon',
+    mpf( '3.5e22' )     : 'the gravitational attraction between Earth and Sun',
+    mpf( '1.2e44' )     : 'the Planck force',
 }
 
 
