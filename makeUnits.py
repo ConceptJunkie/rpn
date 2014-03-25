@@ -1816,7 +1816,7 @@ dataPrefixes = [
 binaryPrefixes = [
     ( 'yobi',       'Yi',     '80' ),
     ( 'zebi',       'Zi',     '70' ),
-    ( 'exi',        'Ei',     '60' ),
+    ( 'exbi',       'Ei',     '60' ),
     ( 'pebi',       'Pi',     '50' ),
     ( 'tebi',       'Ti',     '40' ),
     ( 'gibi',       'Gi',     '30' ),
