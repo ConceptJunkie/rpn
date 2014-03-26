@@ -903,7 +903,7 @@ unitOperators = {
         UnitInfo( 'length', 'nautical_mile', 'nautical_miles', '', [ ], [ 'nautical' ] ),
 
     'parsec' :
-        UnitInfo( 'length', 'parsec', 'parsec', 'pc', [ ], [ 'science' ] ),
+        UnitInfo( 'length', 'parsec', 'parsecs', 'pc', [ ], [ 'science' ] ),
 
     'perch' :
         UnitInfo( 'length', 'perch', 'perches', '', [ 'pole', 'poles' ], [ 'imperial' ] ),
