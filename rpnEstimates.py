@@ -1557,6 +1557,8 @@ radioactivityTable = {
 #//******************************************************************************
 
 solidAngleTable = {
+    mpf( '6.67e-5' )    : 'the solid angle of the Moon as seen from Earth',
+    mpf( '6.87e-5' )    : 'the solid angle of the Sun as seen from Earth',
 }
 
 

@@ -34,6 +34,7 @@ from functools import reduce
 from mpmath import *
 
 from rpnDeclarations import *
+from rpnPrimeUtils import *
 
 
 #//******************************************************************************
@@ -936,18 +937,66 @@ def validateArguments( terms ):
 
 #//******************************************************************************
 #//
-#//  loadUnitConversionMatrix
+#//  evaluateOneArgFunction
 #//
 #//******************************************************************************
 
-def loadUnitConversionMatrix( ):
-    global unitConversionMatrix
+def evaluateOneArgFunction( func, args ):
+    if isinstance( args, list ):
+        return [ evaluateOneArgFunction( func, i ) for i in args ]
+    else:
+        return func( args )
 
-    try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
-            unitConversionMatrix = pickle.load( pickleFile )
-    except FileNotFoundError as error:
-        print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
+
+#//******************************************************************************
+#//
+#//  evaluateTwoArgFunction
+#//
+#//******************************************************************************
+
+def evaluateTwoArgFunction( func, arg1, arg2 ):
+    #print( 'arg1: ' + str( arg1 ) )
+    #print( 'arg2: ' + str( arg2 ) )
+
+    len1 = len( arg1 )
+    len2 = len( arg2 )
+
+    list1 = len1 > 1
+    list2 = len2 > 1
+
+    #print( list1 )
+    #print( list2 )
+
+    if list1:
+        if list2:
+            return [ func( arg2[ index ], arg1[ index ] ) for index in range( 0, min( len1, len2 ) ) ]
+        else:
+            return [ func( arg2[ 0 ], i ) for i in arg1 ]
+
+    else:
+        if list2:
+            return [ func( j, arg1[ 0 ] ) for j in arg2 ]
+        else:
+            return [ func( arg2[ 0 ], arg1[ 0 ] ) ]
+
+
+#//******************************************************************************
+#//
+#//  callers
+#//
+#//******************************************************************************
+
+callers = [
+    lambda func, args: [ func( ) ],
+    evaluateOneArgFunction,
+    evaluateTwoArgFunction,
+    lambda func, arg1, arg2, arg3:
+        [ func( a, b, c ) for c in arg1 for b in arg2 for a in arg3 ],
+    lambda func, arg1, arg2, arg3, arg4:
+        [ func( a, b, c, d ) for d in arg1 for c in arg2 for b in arg3 for a in arg4 ],
+    lambda func, arg1, arg2, arg3, arg4, arg5:
+        [ func( a, b, c, d, e ) for e in arg1 for d in arg2 for c in arg3 for b in arg4 for a in arg5 ],
+]
 
 
 #//******************************************************************************
@@ -1195,15 +1244,15 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            except ValueError as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-                break
-            except ZeroDivisionError as error:
-                print( 'rpn:  division by zero' )
-                break
+            #except ValueError as error:
+            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except ZeroDivisionError as error:
+            #    print( 'rpn:  division by zero' )
+            #    break
         else:
             try:
                 valueList.append( parseInputValue( term, inputRadix ) )
@@ -1248,47 +1297,6 @@ def main( ):
                     outputString += ' ' + formatUnits( result )
 
                 print( outputString )
-
-                # handle --identify
-                if args.identify:
-                    formula = identify( result )
-
-                    if formula is None:
-                        base = [ 'pi', 'e' ]
-                        formula = identify( result, base )
-
-                    # I don't know if this would ever be useful to try.
-                    #if formula is None:
-                    #    base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
-                    #    formula = identify( result, base )
-                    #
-                    # Nor this.
-                    #if formula is None:
-                    #    base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
-                    #    formula = identify( result, base )
-
-                    if formula is None:
-                        print( '    = [formula cannot be found]' )
-                    else:
-                        print( '    = ' + formula )
-
-                # handle --find_poly
-                if args.find_poly > 0:
-                    poly = str( findpoly( result, args.find_poly ) )
-
-                    if poly == 'None':
-                        poly = str( findpoly( result, args.find_poly, maxcoeff=1000 ) )
-
-                    if poly == 'None':
-                        poly = str( findpoly( result, args.find_poly, maxcoeff=1000000 ) )
-
-                    if poly == 'None':
-                        poly = str( findpoly( result, args.find_poly, maxcoeff=1000000, tol=1e-10 ) )
-
-                    if poly == 'None':
-                        print( '    = polynomial of degree <= %d not found' % args.find_poly )
-                    else:
-                        print( '    = polynomial ' + poly )
 
             saveResult( result )
 

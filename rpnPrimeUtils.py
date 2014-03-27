@@ -17,6 +17,7 @@ import contextlib
 import os
 import pickle
 import pyprimes
+import sys
 
 
 #//******************************************************************************
@@ -769,6 +770,9 @@ def getNextSexyPrimeCandidate( p, f ):
         p += 4
         f = 1
 
+    return p, f
+
+
 
 #//******************************************************************************
 #//
@@ -1081,6 +1085,8 @@ def getNextQuintupletPrimeCandidate( p, f ):
     else:
         p += 4
         f = 1
+
+    return p, f
 
 
 #//******************************************************************************
