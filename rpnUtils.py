@@ -12,6 +12,12 @@
 #//
 #//******************************************************************************
 
+import bz2
+import contextlib
+import os
+import pickle
+import textwrap
+
 from mpmath import *
 
 from rpnDeclarations import *
@@ -1167,37 +1173,11 @@ def printParagraph( text, length = 79, indent = 0 ):
 
 #//******************************************************************************
 #//
-#//  printGeneralHelp
-#//
-#//******************************************************************************
-
-def printGeneralHelp( basicCategories, operatorCategories ):
-    print( PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION )
-    print( COPYRIGHT_MESSAGE )
-    print( )
-    printParagraph(
-'''For help on a specific topic, add a help topic, operator category or a specific operator name.  Adding
-'example', or 'ex' after an operator name will result in examples of use being printed as well.''' )
-    print( )
-    print( 'The following is a list of general topics:' )
-    print( )
-
-    printParagraph( ', '.join( sorted( basicCategories ) ), 75, 4 )
-
-    print( )
-    print( 'The following is a list of operator categories:' )
-    print( )
-
-    printParagraph( ', '.join( sorted( operatorCategories ) ), 75, 4 )
-
-
-#//******************************************************************************
-#//
 #//  printOperatorHelp
 #//
 #//******************************************************************************
 
-def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp ):
+def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp, operatorAliases ):
     if operatorInfo[ 1 ] == 1:
         print( 'n ', end='' )
     elif operatorInfo[ 1 ] == 2:
@@ -1244,7 +1224,7 @@ def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp ):
 #//
 #//******************************************************************************
 
-def addAliases( operatorList ):
+def addAliases( operatorList, operatorAliases ):
     for index, operator in enumerate( operatorList ):
         aliasList = [ key for key in operatorAliases if operator == operatorAliases[ key ] ]
 
@@ -1258,7 +1238,7 @@ def addAliases( operatorList ):
 #//
 #//******************************************************************************
 
-def printHelp( helpArgs ):
+def printHelp( programName, programDescription, operators, listOperators, modifiers, operatorAliases, dataPath, helpArgs ):
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
             helpVersion = pickle.load( pickleFile )
@@ -1274,7 +1254,7 @@ def printHelp( helpArgs ):
     operatorCategories = set( operatorHelp[ key ][ 0 ] for key in operatorHelp )
 
     if len( helpArgs ) == 0:
-        printGeneralHelp( basicCategories, operatorCategories )
+        printGeneralHelp( programName, programDescription, basicCategories, operatorCategories )
         return
 
     term = helpArgs[ 0 ]
@@ -1283,13 +1263,13 @@ def printHelp( helpArgs ):
         term = operatorAliases[ term ]
 
     if term in operators:
-        printOperatorHelp( helpArgs, term, operators[ term ], operatorHelp[ term ] )
+        printOperatorHelp( helpArgs, term, operators[ term ], operatorHelp[ term ], operatorAliases )
 
     if term in listOperators:
-        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ] )
+        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ], operatorAliases  )
 
     if term in modifiers:
-        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ] )
+        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ], operatorAliases )
 
     if term in basicCategories:
         print( basicCategories[ term ] )
@@ -1304,9 +1284,48 @@ def printHelp( helpArgs ):
         operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == term ] )
         operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == term ] )
 
-        addAliases( operatorList )
+        addAliases( operatorList, operatorAliases )
 
         printParagraph( ', '.join( sorted( operatorList ) ), 75, 4 )
+
+
+#//******************************************************************************
+#//
+#//  printGeneralHelp
+#//
+#//******************************************************************************
+
+def printGeneralHelp( programName, programDescription, basicCategories, operatorCategories ):
+    print( programName + ' ' + PROGRAM_VERSION + ' - ' + programDescription )
+    print( COPYRIGHT_MESSAGE )
+    print( )
+    printParagraph(
+'''For help on a specific topic, add a help topic, operator category or a specific operator name.  Adding
+'example', or 'ex' after an operator name will result in examples of use being printed as well.''' )
+    print( )
+    print( 'The following is a list of general topics:' )
+    print( )
+
+    printParagraph( ', '.join( sorted( basicCategories ) ), 75, 4 )
+
+    print( )
+    print( 'The following is a list of operator categories:' )
+    print( )
+
+    printParagraph( ', '.join( sorted( operatorCategories ) ), 75, 4 )
+
+
+#//******************************************************************************
+#//
+#//  printTitleScreen
+#//
+#//******************************************************************************
+
+def printTitleScreen( programName ):
+    print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
+    print( COPYRIGHT_MESSAGE )
+    print( )
+    print( 'For more information use, \'' + PROGRAM_NAME + ' help\'.' )
 
 
 #//******************************************************************************

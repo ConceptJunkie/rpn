@@ -31,7 +31,6 @@ import random
 import string
 import struct
 import sys
-import textwrap
 import time
 
 from fractions import Fraction
@@ -3768,19 +3767,6 @@ def loadUnitConversionMatrix( ):
 
 #//******************************************************************************
 #//
-#//  printTitleScreen
-#//
-#//******************************************************************************
-
-def printTitleScreen( ):
-    print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
-    print( COPYRIGHT_MESSAGE )
-    print( )
-    print( 'For more information use, \'' + PROGRAM_NAME + ' help\'.' )
-
-
-#//******************************************************************************
-#//
 #//  main
 #//
 #//******************************************************************************
@@ -3788,7 +3774,6 @@ def printTitleScreen( ):
 def main( ):
     global addToListArgument
     global bitwiseGroupSize
-    global dataPath
     global inputRadix
     global nestedListLevel
     global numerals
@@ -3838,7 +3823,7 @@ def main( ):
                 helpArgs.append( sys.argv[ i ] )
 
     if help:
-        printHelp( helpArgs )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, dataPath, helpArgs )
         return
 
     # set up the command-line options parser
@@ -3874,13 +3859,13 @@ def main( ):
 
     # OK, let's parse and validate the arguments
     if len( sys.argv ) == 1:
-        printTitleScreen( )
+        printTitleScreen( PROGRAM_NAME )
         return
 
     args = parser.parse_args( )
 
     if args.help or args.other_help:
-        printHelp( [ ] )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, dataPath, [ ] )
         return
 
     valid, errorString = validateOptions( args )

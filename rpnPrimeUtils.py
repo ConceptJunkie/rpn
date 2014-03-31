@@ -1138,6 +1138,7 @@ def getNthQuintupletPrime( arg ):
     # after 5, the first of a prime quintruplet must be a number of the form 30n + 11
     while n > currentIndex:
         p, f = getNextPrime( p, f, getNextQuintupletPrimeCandidate )
+        print( "quint:", p )
 
         if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
            ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):

@@ -614,19 +614,6 @@ operators = {
 
 #//******************************************************************************
 #//
-#//  printTitleScreen
-#//
-#//******************************************************************************
-
-def printTitleScreen( ):
-    print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
-    print( COPYRIGHT_MESSAGE )
-    print( )
-    print( 'For more information use, \'' + PROGRAM_NAME + ' help\'.' )
-
-
-#//******************************************************************************
-#//
 #//  main
 #//
 #//******************************************************************************
@@ -689,7 +676,7 @@ def main( ):
                 helpArgs.append( sys.argv[ i ] )
 
     if help:
-        printHelp( helpArgs )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, { }, { }, { }, dataPath, helpArgs )
         return
 
     # set up the command-line options parser
@@ -705,13 +692,13 @@ def main( ):
 
     # OK, let's parse and validate the arguments
     if len( sys.argv ) == 1:
-        printTitleScreen( )
+        printTitleScreen( PROGRAM_NAME )
         return
 
     args = parser.parse_args( )
 
     if args.help or args.other_help:
-        printHelp( [ ] )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, { }, { }, { }, dataPath, [ ] )
         return
 
     if args.time:

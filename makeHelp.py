@@ -593,7 +593,7 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
 ''' ],
-    'avogradro' : [
+    'avogadro' : [
 'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
 '''
 ''',
