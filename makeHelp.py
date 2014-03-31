@@ -593,6 +593,12 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
 ''' ],
+    'avogradro' : [
+'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
+'''
+''',
+'''
+''' ],
     'balanced' : [
 'prime_numbers', 'calculates the first of the nth set of balanced primes',
 '''
@@ -2168,12 +2174,6 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'schroeder' : [
 'combinatorics', 'calculates the nth Schroeder number',
-'''
-''',
-'''
-''' ],
-    'score' : [
-'constants', 'returns the constant of one score (i.e., an archaic term for 20)',
 '''
 ''',
 '''
