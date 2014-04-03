@@ -16,6 +16,7 @@ import bz2
 import contextlib
 import os
 import pickle
+import string
 import textwrap
 
 from mpmath import *
@@ -1321,11 +1322,11 @@ def printGeneralHelp( programName, programDescription, basicCategories, operator
 #//
 #//******************************************************************************
 
-def printTitleScreen( programName ):
-    print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
+def printTitleScreen( programName, programDescription ):
+    print( programName, PROGRAM_VERSION, '-', programDescription )
     print( COPYRIGHT_MESSAGE )
     print( )
-    print( 'For more information use, \'' + PROGRAM_NAME + ' help\'.' )
+    print( 'For more information use, \'' + programName + ' help\'.' )
 
 
 #//******************************************************************************

@@ -692,7 +692,7 @@ def main( ):
 
     # OK, let's parse and validate the arguments
     if len( sys.argv ) == 1:
-        printTitleScreen( PROGRAM_NAME )
+        printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
         return
 
     args = parser.parse_args( )
