@@ -12,6 +12,7 @@
 #//
 #//******************************************************************************
 
+import builtins
 import bz2
 import contextlib
 import os
@@ -22,6 +23,22 @@ import textwrap
 from mpmath import *
 
 from rpnDeclarations import *
+
+import rpnGlobals as g
+
+
+#//******************************************************************************
+#//
+#//  loadUnitConversionMatrix
+#//
+#//******************************************************************************
+
+def loadUnitConversionMatrix( ):
+    try:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
+            g.unitConversionMatrix = pickle.load( pickleFile )
+    except FileNotFoundError as error:
+        print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
 
 
 #//******************************************************************************
@@ -49,12 +66,10 @@ def removeUnderscores( source ):
 #//******************************************************************************
 
 def debugPrint( *args, **kwargs ):
-    global debugMode
-
-    if not debugMode:
-        return
+    if g.debugMode:
+        builtins.print( *args, **kwargs )
     else:
-        __builtins__.print( *args, **kwargs )
+        return
 
 
 #//******************************************************************************
@@ -64,14 +79,14 @@ def debugPrint( *args, **kwargs ):
 #//******************************************************************************
 
 def getUnitType( unit ):
-    if unit in basicUnitTypes:
+    if unit in g.basicUnitTypes:
         return unit
 
-    if unit in operatorAliases:
-        unit = operatorAliases[ unit ]
+    if unit in g.operatorAliases:
+        unit = g.operatorAliases[ unit ]
 
-    if unit in unitOperators:
-        return unitOperators[ unit ].unitType
+    if unit in g.unitOperators:
+        return g.unitOperators[ unit ].unitType
     else:
         raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
@@ -83,8 +98,8 @@ def getUnitType( unit ):
 #//******************************************************************************
 
 def getSimpleUnitType( unit ):
-    if unit in unitOperators:
-        return unitOperators[ unit ].representation
+    if unit in g.unitOperators:
+        return g.unitOperators[ unit ].representation
     else:
         raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
@@ -114,9 +129,7 @@ def getUnitList( units ):
 #//******************************************************************************
 
 def combineUnits( units1, units2 ):
-    global unitConversionMatrix
-
-    if unitConversionMatrix is None:
+    if g.unitConversionMatrix is None:
         loadUnitConversionMatrix( )
 
     newUnits = Units( )
@@ -133,7 +146,7 @@ def combineUnits( units1, units2 ):
                     newUnits[ unit2 ] += units2[ unit2 ]
                     break
                 elif getUnitType( unit1 ) == getUnitType( unit2 ):
-                    factor = fdiv( factor, pow( mpmathify( unitConversionMatrix[ ( unit1, unit2 ) ] ), units2[ unit2 ] ) )
+                    factor = fdiv( factor, pow( mpmathify( g.unitConversionMatrix[ ( unit1, unit2 ) ] ), units2[ unit2 ] ) )
                     newUnits[ unit1 ] += units2[ unit2 ]
                     break
             else:
@@ -197,7 +210,7 @@ class Units( dict ):
         types = { }
 
         for unit in self:
-            if unit not in basicUnitTypes and unit not in unitOperators:
+            if unit not in g.basicUnitTypes and unit not in g.unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
             unitType = getUnitType( unit )
@@ -214,7 +227,7 @@ class Units( dict ):
         result = Units( )
 
         for unit in self:
-            simpleUnits = Units( unitOperators[ unit ].representation )
+            simpleUnits = Units( g.unitOperators[ unit ].representation )
 
             exponent = self.get( unit )
 
@@ -231,7 +244,7 @@ class Units( dict ):
         result = Units( )
 
         for unitType in self.getUnitTypes( ):
-            basicUnits = Units( basicUnitTypes[ unitType ].simpleTypes[ 0 ] )
+            basicUnits = Units( g.basicUnitTypes[ unitType ].simpleTypes[ 0 ] )
 
             exponent = self[ unitType ]
 
@@ -561,7 +574,7 @@ class Measurement( mpf ):
 
         for unit in self.units:
             #print( 'unit: ', unit )
-            if unit not in unitOperators:
+            if unit not in g.unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
             unitType = getUnitType( unit )
@@ -584,23 +597,21 @@ class Measurement( mpf ):
 
 
     def getReduced( self ):
-        global unitConversionMatrix
-
-        if unitConversionMatrix is None:
+        if g.unitConversionMatrix is None:
             loadUnitConversionMatrix( )
 
         reduced = Measurement( mpf( self ), Units( ) )
 
         for unit in self.units:
-            if unit not in unitOperators:
+            if unit not in g.unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
             unitType = getUnitType( unit )
 
-            newUnit = basicUnitTypes[ unitType ].baseUnit
+            newUnit = g.basicUnitTypes[ unitType ].baseUnit
 
             if unit != newUnit:
-                value = power( mpf( unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] )
+                value = power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] )
             else:
                 value = '1.0'
 
@@ -613,8 +624,6 @@ class Measurement( mpf ):
 
 
     def convertValue( self, other ):
-        global unitConversionMatrix
-
         if self.isCompatible( other ):
             conversions = [ ]
 
@@ -642,25 +651,23 @@ class Measurement( mpf ):
             unit1String = units1.getUnitString( )
             unit2String = units2.getUnitString( )
 
-            global operatorAliases
+            if unit1String in g.operatorAliases:
+                unit1String = g.operatorAliases[ unit1String ]
 
-            if unit1String in operatorAliases:
-                unit1String = operatorAliases[ unit1String ]
-
-            if unit2String in operatorAliases:
-                unit2String = operatorAliases[ unit2String ]
+            if unit2String in g.operatorAliases:
+                unit2String = g.operatorAliases[ unit2String ]
 
             debugPrint( 'unit1String: ', unit1String )
             debugPrint( 'unit2String: ', unit2String )
 
             exponents = [ ]
 
-            if unitConversionMatrix is None:
+            if g.unitConversionMatrix is None:
                 loadUnitConversionMatrix( )
 
             # look for a straight-up conversion
-            if ( unit1String, unit2String ) in unitConversionMatrix:
-                value = fmul( mpf( self ), mpmathify( unitConversionMatrix[ ( unit1String, unit2String ) ] ) )
+            if ( unit1String, unit2String ) in g.unitConversionMatrix:
+                value = fmul( mpf( self ), mpmathify( g.unitConversionMatrix[ ( unit1String, unit2String ) ] ) )
             elif ( unit1String, unit2String ) in specialUnitConversionMatrix:
                 value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ]( mpf( self ) )
             else:
@@ -704,7 +711,7 @@ class Measurement( mpf ):
                     if conversion[ 0 ] == conversion[ 1 ]:
                         continue  # no conversion needed
 
-                    conversionValue = mpmathify( unitConversionMatrix[ ( conversion[ 0 ], conversion[ 1 ] ) ] )
+                    conversionValue = mpmathify( g.unitConversionMatrix[ ( conversion[ 0 ], conversion[ 1 ] ) ] )
                     conversionValue = power( conversionValue, exponents[ index ] )
                     debugPrint( 'conversion: ', conversion, conversionValue )
 
@@ -1114,7 +1121,7 @@ def formatUnits( measurement ):
             if value == 1:
                 unitString += unit
             else:
-                unitString += unitOperators[ unit ].plural
+                unitString += g.unitOperators[ unit ].plural
 
             if exponent > 1:
                 unitString += '^' + str( int( exponent ) )

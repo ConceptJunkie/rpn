@@ -39,6 +39,9 @@ from mpmath import *
 from rpnDeclarations import *
 from rpnPrimeUtils import *
 from rpnUtils import *
+from rpnVersion import *
+
+import rpnGlobals as g
 
 
 #//******************************************************************************
@@ -2404,10 +2407,10 @@ def dumpOperators( ):
 #//******************************************************************************
 
 def dumpAliases( ):
-    for alias in sorted( [ key for key in operatorAliases ] ):
-        print( alias, operatorAliases[ alias ] )
+    for alias in sorted( [ key for key in g.operatorAliases ] ):
+        print( alias, g.operatorAliases[ alias ] )
 
-    return len( operatorAliases )
+    return len( g.operatorAliases )
 
 
 #//******************************************************************************
@@ -2445,13 +2448,11 @@ def printStats( dict, name ):
 #//******************************************************************************
 
 def dumpStats( ):
-    global unitConversionMatrix
-
-    if unitConversionMatrix is None:
+    if g.unitConversionMatrix is None:
         loadUnitConversionMatrix( )
 
     print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) + len( modifiers ) ) )
-    print( '{:10,} unit conversions'.format( len( unitConversionMatrix ) ) )
+    print( '{:10,} unit conversions'.format( len( g.unitConversionMatrix ) ) )
     print( )
 
     printStats( loadSmallPrimes( dataPath ), 'small primes' )
@@ -2592,7 +2593,7 @@ def appendLists( valueList ):
 
 def loadResult( valueList ):
     try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
             result = pickle.load( pickleFile )
     except FileNotFoundError as error:
         result = mapmathify( 0 )
@@ -2607,7 +2608,7 @@ def loadResult( valueList ):
 #//******************************************************************************
 
 def saveResult( result ):
-    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'result.pckl.bz2', 'wb' ) ) as pickleFile:
+    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'wb' ) ) as pickleFile:
         pickle.dump( result, pickleFile )
 
 
@@ -3096,7 +3097,7 @@ def estimate( measurement ):
         unitType = getUnitType( measurement.getUnitName( ) )
         unitTypeOutput = removeUnderscores( unitType )
 
-        unitTypeInfo = basicUnitTypes[ unitType ]
+        unitTypeInfo = g.basicUnitTypes[ unitType ]
 
         unit = Measurement( 1, { unitTypeInfo.baseUnit : 1 } )
         value = mpf( Measurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
@@ -3187,181 +3188,6 @@ def convertUnits( unit1, unit2 ):
 
         return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
                             unit2.getUnitName( ), unit2.getPluralUnitName( ) )
-
-
-#//******************************************************************************
-#//
-#//  operatorAliases
-#//
-#//******************************************************************************
-
-operatorAliases = {
-    '!!'          : 'doublefac',
-    '!'           : 'factorial',
-    '%'           : 'modulo',
-    '*'           : 'multiply',
-    '**'          : 'power',
-    '***'         : 'tetrate',
-    '+'           : 'add',
-    '-'           : 'subtract',
-    '/'           : 'divide',
-    '//'          : 'root',
-    '1/x'         : 'reciprocal',
-    'average'     : 'mean',
-    'avg'         : 'mean',
-    'bal'         : 'balanced',
-    'bal?'        : 'balanced?',
-    'bal_'        : 'balanced_',
-    'bits'        : 'countbits',
-    'cbrt'        : 'root3',
-    'cc'          : 'cubic_centimeter',
-    'ccube'       : 'centeredcube',
-    'cdec'        : 'cdecagonal',
-    'cdec?'       : 'cdecagonal?',
-    'ceil'        : 'ceiling',
-    'champ'       : 'champernowne',
-    'chept'       : 'cheptagonal',
-    'chept?'      : 'cheptagonal?',
-    'chex'        : 'chexagonal',
-    'chex?'       : 'chexagonal?',
-    'cnon'        : 'cnonagonal',
-    'cnon?'       : 'cnonagonal?',
-    'coct'        : 'coctagonal',
-    'coct?'       : 'coctagonal?',
-    'cousin'      : 'cousinprime',
-    'cousin?'     : 'cousinprime?',
-    'cousin_'     : 'cousinprime_',
-    'cpent'       : 'cpentagonal',
-    'cpent?'      : 'cpentagonal?',
-    'cpoly'       : 'cpolygonal',
-    'cpoly?'      : 'cpolygonal?',
-    'ctri'        : 'ctriangular',
-    'ctri?'       : 'ctriangular?',
-    'cuberoot'    : 'root3',
-    'cube_root'   : 'root3',
-    'dec'         : 'decagonal',
-    'dec?'        : 'decagonal?',
-    'divcount'    : 'countdiv',
-    'fac'         : 'factorial',
-    'fac2'        : 'doublefac',
-    'fermi'       : 'femtometer',
-    'fib'         : 'fibonacci',
-    'frac'        : 'fraction',
-    'gemmho'      : 'micromho',
-    'geomrange'   : 'georange',
-    'gigohm'      : 'gigaohm',
-    'harm'        : 'harmonic',
-    'hept'        : 'heptagonal',
-    'hept?'       : 'heptagonal?',
-    'hex'         : 'hexagonal',
-    'hex?'        : 'hexagonal?',
-    'hyper4'      : 'tetrate',
-    'int'         : 'long',
-    'int16'       : 'short',
-    'int32'       : 'long',
-    'int64'       : 'longlong',
-    'int8'        : 'char',
-    'inv'         : 'reciprocal',
-    'isdiv'       : 'isdivisible',
-    'issqr'       : 'issquare',
-    'left'        : 'shiftleft',
-    'linear'      : 'linearrecur',
-    'log'         : 'ln',
-    'maxint'      : 'maxlong',
-    'maxint128'   : 'maxquadlong',
-    'maxint16'    : 'maxshort',
-    'maxint32'    : 'maxlong',
-    'maxint64'    : 'maxlonglong',
-    'maxint8'     : 'maxchar',
-    'maxuint'     : 'maxulong',
-    'maxuint128'  : 'maxuquadlong',
-    'maxuint16'   : 'maxushort',
-    'maxuint32'   : 'maxulong',
-    'maxuint64'   : 'maxulonglong',
-    'maxuint8'    : 'maxuchar',
-    'mcg'         : 'microgram',
-    'megaohm'     : 'megohm',
-    'megalerg'    : 'megaerg',
-    'minint'      : 'minlong',
-    'minint128'   : 'minquadlong',
-    'minint16'    : 'minshort',
-    'minint32'    : 'minlong',
-    'minint64'    : 'minlonglong',
-    'minint8'     : 'minchar',
-    'minuint'     : 'minulong',
-    'minuint128'  : 'minuquadlong',
-    'minuint16'   : 'minushort',
-    'minuint32'   : 'minulong',
-    'minuint64'   : 'minulonglong',
-    'minuint8'    : 'minuchar',
-    'mod'         : 'modulo',
-    'mult'        : 'multiply',
-    'neg'         : 'negative',
-    'non'         : 'nonagonal',
-    'non?'        : 'nonagonal?',
-    'nonasq'      : 'nonasquare',
-    'nonzeroes'   : 'nonzero',
-    'oct'         : 'octagonal',
-    'oct?'        : 'octagonal?',
-    'p!'          : 'primorial',
-    'pent'        : 'pentagonal',
-    'pent?'       : 'pentagonal?',
-    'poly'        : 'polygonal',
-    'poly?'       : 'polygonal?',
-    'prev'        : 'previous',
-    'prod'        : 'product',
-    'pyr'         : 'pyramid',
-    'quad'        : 'quadprime',
-    'quad?'       : 'quadprime?',
-    'quad_'       : 'quadprime_',
-    'quint'       : 'quintprime',
-    'quint?'      : 'quintprime?',
-    'quint_'      : 'quintprime_',
-    'rand'        : 'random',
-    'right'       : 'shiftright',
-    'safe'        : 'safeprime',
-    'safe?'       : 'safeprime?',
-    'sext'        : 'sextprime',
-    'sext?'       : 'sextprime?',
-    'sext_'       : 'sextprime_',
-    'sexy'        : 'sexyprime',
-    'sexy3'       : 'sexytriplet',
-    'sexy3?'      : 'sexytriplet?',
-    'sexy3_'      : 'sexytriplet_',
-    'sexy4'       : 'sexyquad',
-    'sexy4?'      : 'sexyquad?',
-    'sexy4_'      : 'sexyquad_',
-    'sexy?'       : 'sexyprime?',
-    'sexy_'       : 'sexyprime',
-    'sigma'       : 'microsecond',
-    'sigmas'      : 'microsecond',
-    'sophie'      : 'sophieprime',
-    'sophie?'     : 'sophieprime?',
-    'sqr'         : 'square',
-    'sqrt'        : 'root2',
-    'squareroot'  : 'root2',
-    'square_root' : 'root2',
-    'syl'         : 'sylvester',
-    'tri'         : 'triangular',
-    'tri?'        : 'triangular?',
-    'triarea'     : 'trianglearea',
-    'triplet'     : 'tripletprime',
-    'triplet?'    : 'tripletprime?',
-    'triplet_'    : 'tripletprime_',
-    'twin'        : 'twinprime',
-    'twin?'       : 'twinprime?',
-    'twin_'       : 'twinprime_',
-    'uint'        : 'ulong',
-    'uint16'      : 'ushort',
-    'uint32'      : 'ulong',
-    'uint64'      : 'ulonglong',
-    'uint8'       : 'uchar',
-    'unsigned'    : 'uinteger',
-    'woodall'     : 'riesel',
-    'zeroes'      : 'zero',
-    '^'           : 'power',
-    '~'           : 'not',
-}
 
 
 #//******************************************************************************
@@ -3750,22 +3576,6 @@ operators = {
 
 #//******************************************************************************
 #//
-#//  loadUnitConversionMatrix
-#//
-#//******************************************************************************
-
-def loadUnitConversionMatrix( ):
-    global unitConversionMatrix
-
-    try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
-            unitConversionMatrix = pickle.load( pickleFile )
-    except FileNotFoundError as error:
-        print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
-
-
-#//******************************************************************************
-#//
 #//  main
 #//
 #//******************************************************************************
@@ -3778,9 +3588,6 @@ def main( ):
     global numerals
     global updateDicts
 
-    global unitOperators
-    global basicUnitTypes
-    global unitConversionMatrix
     global specialUnitConversionMatrix
     global compoundUnits
 
@@ -3802,14 +3609,12 @@ def main( ):
     global tripletPrimes
     global twinPrimes
 
-    global debugMode
-
     # initialize globals
-    debugMode = False
+    g.debugMode = False
 
     nestedListLevel = 0
 
-    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
+    g.dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
 
     help = False
     helpArgs = [ ]
@@ -3822,7 +3627,7 @@ def main( ):
                 helpArgs.append( sys.argv[ i ] )
 
     if help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, dataPath, helpArgs )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases, g.dataPath, helpArgs )
         return
 
     # set up the command-line options parser
@@ -3864,7 +3669,7 @@ def main( ):
     args = parser.parse_args( )
 
     if args.help or args.other_help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, dataPath, [ ] )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases, g.dataPath, [ ] )
         return
 
     valid, errorString = validateOptions( args )
@@ -3885,7 +3690,7 @@ def main( ):
 
     # handle -D
     if args.DEBUG:
-        debugMode = True
+        g.debugMode = True
 
     # handle -a - set precision to be at least 2 greater than output accuracy
     if mp.dps < args.output_accuracy + 2:
@@ -3977,11 +3782,11 @@ def main( ):
         return
 
     try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
             unitsVersion = pickle.load( pickleFile )
-            basicUnitTypes = pickle.load( pickleFile )
-            unitOperators = pickle.load( pickleFile )
-            operatorAliases.update( pickle.load( pickleFile ) )
+            g.basicUnitTypes = pickle.load( pickleFile )
+            g.unitOperators = pickle.load( pickleFile )
+            g.operatorAliases.update( pickle.load( pickleFile ) )
             compoundUnits = pickle.load( pickleFile )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
@@ -3991,8 +3796,8 @@ def main( ):
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
-        if term in operatorAliases:
-            term = operatorAliases[ term ]
+        if term in g.operatorAliases:
+            term = g.operatorAliases[ term ]
 
         currentValueList = getCurrentArgList( valueList )
 
@@ -4003,29 +3808,29 @@ def main( ):
                 print( 'rpn:  index error for operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
                 break
-        elif term in unitOperators:
+        elif term in g.unitOperators:
             if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
-                if unitOperators[ term ].unitType == 'constant':
+                if g.unitOperators[ term ].unitType == 'constant':
                     value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
-                    value = Measurement( 1, term, unitOperators[ term ].representation, unitOperators[ term ].plural )
+                    value = Measurement( 1, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
 
                 currentValueList.append( value )
             elif isinstance( currentValueList[ -1 ], list ):
                 argList = currentValueList.pop( )
 
                 for listItem in argList:
-                    if unitOperators[ term ].unitType == 'constant':
+                    if g.unitOperators[ term ].unitType == 'constant':
                         value = mpf( Measurement( listItem, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                     else:
-                        value = Measurement( listItem, term, unitOperators[ term ].representation, unitOperators[ term ].plural )
+                        value = Measurement( listItem, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
 
                     currentValueList.append( value )
             else:
-                if unitOperators[ term ].unitType == 'constant':
+                if g.unitOperators[ term ].unitType == 'constant':
                     value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
-                    value = Measurement( currentValueList.pop( ), term, unitOperators[ term ].representation, unitOperators[ term ].plural )
+                    value = Measurement( currentValueList.pop( ), term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
 
                 currentValueList.append( value )
         elif term in operators:
@@ -4058,28 +3863,28 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break
             except ValueError as error:
                 print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break
             except TypeError as error:
                 print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break
@@ -4109,21 +3914,21 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break
             except ValueError as error:
                 print( 'rpn:  value error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break
             except TypeError as error:
                 print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break
@@ -4131,14 +3936,14 @@ def main( ):
                 print( 'rpn:  index error for list operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break
@@ -4148,7 +3953,7 @@ def main( ):
             except ValueError as error:
                 print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break
@@ -4161,7 +3966,7 @@ def main( ):
                 except:
                     print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
 
-                if debugMode:
+                if g.debugMode:
                     raise
                 else:
                     break

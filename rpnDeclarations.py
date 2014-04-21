@@ -2,7 +2,7 @@
 
 #//******************************************************************************
 #//
-#//  rpn
+#//  rpnDeclarations
 #//
 #//  RPN command-line calculator, global declarations
 #//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
@@ -14,15 +14,14 @@
 
 from mpmath import *
 
+import rpnGlobals as g
+
 
 #//******************************************************************************
 #//
 #//  variable initialization
 #//
 #//******************************************************************************
-
-PROGRAM_VERSION = '5.18.0'
-COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
 defaultPrecision = 20
 defaultAccuracy = 10
@@ -43,8 +42,6 @@ fibBase = -2
 inputRadix = 10
 
 unitStack = [ ]
-
-unitConversionMatrix = None
 
 
 #//******************************************************************************
@@ -320,5 +317,180 @@ class Polynomial( object ):
 
     def getCoefficients( self ):
         return self.coeffs
+
+
+#//******************************************************************************
+#//
+#//  operatorAliases
+#//
+#//******************************************************************************
+
+g.operatorAliases = {
+    '!!'          : 'doublefac',
+    '!'           : 'factorial',
+    '%'           : 'modulo',
+    '*'           : 'multiply',
+    '**'          : 'power',
+    '***'         : 'tetrate',
+    '+'           : 'add',
+    '-'           : 'subtract',
+    '/'           : 'divide',
+    '//'          : 'root',
+    '1/x'         : 'reciprocal',
+    'average'     : 'mean',
+    'avg'         : 'mean',
+    'bal'         : 'balanced',
+    'bal?'        : 'balanced?',
+    'bal_'        : 'balanced_',
+    'bits'        : 'countbits',
+    'cbrt'        : 'root3',
+    'cc'          : 'cubic_centimeter',
+    'ccube'       : 'centeredcube',
+    'cdec'        : 'cdecagonal',
+    'cdec?'       : 'cdecagonal?',
+    'ceil'        : 'ceiling',
+    'champ'       : 'champernowne',
+    'chept'       : 'cheptagonal',
+    'chept?'      : 'cheptagonal?',
+    'chex'        : 'chexagonal',
+    'chex?'       : 'chexagonal?',
+    'cnon'        : 'cnonagonal',
+    'cnon?'       : 'cnonagonal?',
+    'coct'        : 'coctagonal',
+    'coct?'       : 'coctagonal?',
+    'cousin'      : 'cousinprime',
+    'cousin?'     : 'cousinprime?',
+    'cousin_'     : 'cousinprime_',
+    'cpent'       : 'cpentagonal',
+    'cpent?'      : 'cpentagonal?',
+    'cpoly'       : 'cpolygonal',
+    'cpoly?'      : 'cpolygonal?',
+    'ctri'        : 'ctriangular',
+    'ctri?'       : 'ctriangular?',
+    'cuberoot'    : 'root3',
+    'cube_root'   : 'root3',
+    'dec'         : 'decagonal',
+    'dec?'        : 'decagonal?',
+    'divcount'    : 'countdiv',
+    'fac'         : 'factorial',
+    'fac2'        : 'doublefac',
+    'fermi'       : 'femtometer',
+    'fib'         : 'fibonacci',
+    'frac'        : 'fraction',
+    'gemmho'      : 'micromho',
+    'geomrange'   : 'georange',
+    'gigohm'      : 'gigaohm',
+    'harm'        : 'harmonic',
+    'hept'        : 'heptagonal',
+    'hept?'       : 'heptagonal?',
+    'hex'         : 'hexagonal',
+    'hex?'        : 'hexagonal?',
+    'hyper4'      : 'tetrate',
+    'int'         : 'long',
+    'int16'       : 'short',
+    'int32'       : 'long',
+    'int64'       : 'longlong',
+    'int8'        : 'char',
+    'inv'         : 'reciprocal',
+    'isdiv'       : 'isdivisible',
+    'issqr'       : 'issquare',
+    'left'        : 'shiftleft',
+    'linear'      : 'linearrecur',
+    'log'         : 'ln',
+    'maxint'      : 'maxlong',
+    'maxint128'   : 'maxquadlong',
+    'maxint16'    : 'maxshort',
+    'maxint32'    : 'maxlong',
+    'maxint64'    : 'maxlonglong',
+    'maxint8'     : 'maxchar',
+    'maxuint'     : 'maxulong',
+    'maxuint128'  : 'maxuquadlong',
+    'maxuint16'   : 'maxushort',
+    'maxuint32'   : 'maxulong',
+    'maxuint64'   : 'maxulonglong',
+    'maxuint8'    : 'maxuchar',
+    'mcg'         : 'microgram',
+    'megaohm'     : 'megohm',
+    'megalerg'    : 'megaerg',
+    'minint'      : 'minlong',
+    'minint128'   : 'minquadlong',
+    'minint16'    : 'minshort',
+    'minint32'    : 'minlong',
+    'minint64'    : 'minlonglong',
+    'minint8'     : 'minchar',
+    'minuint'     : 'minulong',
+    'minuint128'  : 'minuquadlong',
+    'minuint16'   : 'minushort',
+    'minuint32'   : 'minulong',
+    'minuint64'   : 'minulonglong',
+    'minuint8'    : 'minuchar',
+    'mod'         : 'modulo',
+    'mult'        : 'multiply',
+    'neg'         : 'negative',
+    'non'         : 'nonagonal',
+    'non?'        : 'nonagonal?',
+    'nonasq'      : 'nonasquare',
+    'nonzeroes'   : 'nonzero',
+    'oct'         : 'octagonal',
+    'oct?'        : 'octagonal?',
+    'p!'          : 'primorial',
+    'pent'        : 'pentagonal',
+    'pent?'       : 'pentagonal?',
+    'poly'        : 'polygonal',
+    'poly?'       : 'polygonal?',
+    'prev'        : 'previous',
+    'prod'        : 'product',
+    'pyr'         : 'pyramid',
+    'quad'        : 'quadprime',
+    'quad?'       : 'quadprime?',
+    'quad_'       : 'quadprime_',
+    'quint'       : 'quintprime',
+    'quint?'      : 'quintprime?',
+    'quint_'      : 'quintprime_',
+    'rand'        : 'random',
+    'right'       : 'shiftright',
+    'safe'        : 'safeprime',
+    'safe?'       : 'safeprime?',
+    'sext'        : 'sextprime',
+    'sext?'       : 'sextprime?',
+    'sext_'       : 'sextprime_',
+    'sexy'        : 'sexyprime',
+    'sexy3'       : 'sexytriplet',
+    'sexy3?'      : 'sexytriplet?',
+    'sexy3_'      : 'sexytriplet_',
+    'sexy4'       : 'sexyquad',
+    'sexy4?'      : 'sexyquad?',
+    'sexy4_'      : 'sexyquad_',
+    'sexy?'       : 'sexyprime?',
+    'sexy_'       : 'sexyprime',
+    'sigma'       : 'microsecond',
+    'sigmas'      : 'microsecond',
+    'sophie'      : 'sophieprime',
+    'sophie?'     : 'sophieprime?',
+    'sqr'         : 'square',
+    'sqrt'        : 'root2',
+    'squareroot'  : 'root2',
+    'square_root' : 'root2',
+    'syl'         : 'sylvester',
+    'tri'         : 'triangular',
+    'tri?'        : 'triangular?',
+    'triarea'     : 'trianglearea',
+    'triplet'     : 'tripletprime',
+    'triplet?'    : 'tripletprime?',
+    'triplet_'    : 'tripletprime_',
+    'twin'        : 'twinprime',
+    'twin?'       : 'twinprime?',
+    'twin_'       : 'twinprime_',
+    'uint'        : 'ulong',
+    'uint16'      : 'ushort',
+    'uint32'      : 'ulong',
+    'uint64'      : 'ulonglong',
+    'uint8'       : 'uchar',
+    'unsigned'    : 'uinteger',
+    'woodall'     : 'riesel',
+    'zeroes'      : 'zero',
+    '^'           : 'power',
+    '~'           : 'not',
+}
 
 

@@ -46,8 +46,6 @@ tripleBalancedPrimes = { }
 tripletPrimes = { }
 twinPrimes = { }
 
-dataPath = ''
-
 
 #//******************************************************************************
 #//
