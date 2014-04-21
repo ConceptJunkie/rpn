@@ -18,6 +18,7 @@ import pickle
 import os
 
 from rpnDeclarations import *
+from rpnVersion import *
 
 
 #//******************************************************************************
