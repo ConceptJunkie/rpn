@@ -541,8 +541,8 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
         if ( base < 2 ):
             raise ValueError( 'base must be greater than 1' )
     else:
-        if not ( 2 <= base <= len( numerals ) ):
-            raise ValueError( 'base must be from 2 to %d' % len( numerals ) )
+        if not ( 2 <= base <= len( g.numerals ) ):
+            raise ValueError( 'base must be from 2 to %d' % len( g.numerals ) )
 
     if value < 0 or value >= 1.0:
         raise ValueError( 'value (%s) must be >= 0 and < 1.0' % value )
@@ -569,7 +569,7 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
 
             result += str( digit % base )
         else:
-            result += numerals[ digit % base ]
+            result += g.numerals[ digit % base ]
 
         if len( result ) == accuracy:
             break
@@ -590,7 +590,7 @@ def convertToBase10( integer, mantissa, inputRadix ):
     result = mpmathify( 0 )
     base = mpmathify( 1 )
 
-    validNumerals = numerals[ : inputRadix ]
+    validNumerals = g.numerals[ : inputRadix ]
 
     for i in range( len( integer ) - 1, -1, -1 ):
         digit = validNumerals.find( integer[ i ] )
@@ -622,13 +622,11 @@ def convertToBase10( integer, mantissa, inputRadix ):
 #//******************************************************************************
 
 def getInvertedBits( n ):
-    global bitwiseGroupSize
-
     value = floor( n )
     # determine how many groups of bits we will be looking at
-    groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), bitwiseGroupSize ) ), 1 ) )
+    groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
 
-    placeValue = mpmathify( 1 << bitwiseGroupSize )
+    placeValue = mpmathify( 1 << g.bitwiseGroupSize )
     multiplier = mpmathify( 1 )
     remaining = value
 
@@ -654,19 +652,17 @@ def getInvertedBits( n ):
 #//******************************************************************************
 
 def performBitwiseOperation( i, j, operation ):
-    global bitwiseGroupSize
-
     value1 = floor( i )
     value2 = floor( j )
 
     # determine how many groups of bits we will be looking at
-    groupings = int( fadd( floor( fdiv( ( log( value1, 2 ) ), bitwiseGroupSize ) ), 1 ) )
-    groupings2 = int( fadd( floor( fdiv( ( log( value1, 2 ) ), bitwiseGroupSize ) ), 1 ) )
+    groupings = int( fadd( floor( fdiv( ( log( value1, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
+    groupings2 = int( fadd( floor( fdiv( ( log( value1, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
 
     if groupings2 > groupings:
         groupings = groupings2
 
-    placeValue = mpmathify( 1 << bitwiseGroupSize )
+    placeValue = mpmathify( 1 << g.bitwiseGroupSize )
     multiplier = mpmathify( 1 )
     remaining1 = value1
     remaining2 = value2
@@ -2101,17 +2097,15 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
 #//******************************************************************************
 
 def getChampernowne( ):
-    global inputRadix
-
     result = ''
 
     count = 1
 
     while len( result ) < mp.dps:
-        result += convertToBaseN( count, inputRadix, False, defaultNumerals )
+        result += convertToBaseN( count, g.inputRadix, False, defaultNumerals )
         count += 1
 
-    return convertToBase10( '0', result, inputRadix )
+    return convertToBase10( '0', result, g.inputRadix )
 
 
 #//******************************************************************************
@@ -2486,8 +2480,7 @@ def dumpStats( ):
 #//******************************************************************************
 
 def incrementNestedListLevel( valueList ):
-    global nestedListLevel
-    nestedListLevel += 1
+    g.nestedListLevel += 1
 
     valueList.append( list( ) )
 
@@ -2499,10 +2492,9 @@ def incrementNestedListLevel( valueList ):
 #//******************************************************************************
 
 def decrementNestedListLevel( valueList ):
-    global nestedListLevel
-    nestedListLevel -= 1
+    g.nestedListLevel -= 1
 
-    if nestedListLevel < 0:
+    if g.nestedListLevel < 0:
         raise ValueError( "negative list level (too many ']'s)" )
 
 
@@ -3076,11 +3068,9 @@ def getStandardDeviation( args ):
 #//******************************************************************************
 
 def getCurrentArgList( valueList ):
-    global nestedListLevel
-
     argList = valueList
 
-    for i in range( 0, nestedListLevel ):
+    for i in range( 0, g.nestedListLevel ):
         argList = argList[ -1 ]
 
     return argList
@@ -3581,38 +3571,8 @@ operators = {
 #//******************************************************************************
 
 def main( ):
-    global addToListArgument
-    global bitwiseGroupSize
-    global inputRadix
-    global nestedListLevel
-    global numerals
-    global updateDicts
-
-    global specialUnitConversionMatrix
-    global compoundUnits
-
-    global balancedPrimes
-    global cousinPrimes
-    global doubleBalancedPrimes
-    global isolatedPrimes
-    global largePrimes
-    global quadPrimes
-    global quintPrimes
-    global sextPrimes
-    global sexyPrimes
-    global sexyQuadruplets
-    global sexyTriplets
-    global smallPrimes
-    global sophiePrimes
-    global superPrimes
-    global tripleBalancedPrimes
-    global tripletPrimes
-    global twinPrimes
-
     # initialize globals
     g.debugMode = False
-
-    nestedListLevel = 0
 
     g.dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
 
@@ -3684,7 +3644,7 @@ def main( ):
         time.clock( )
 
     # these are either globals or can be modified by other options (like -x)
-    bitwiseGroupSize = args.bitwise_group_size
+    g.bitwiseGroupSize = args.bitwise_group_size
     integerGrouping = args.integer_grouping
     leadingZero = args.leading_zero
 
@@ -3697,10 +3657,10 @@ def main( ):
         mp.dps = args.output_accuracy + 2
 
     # handle -n
-    numerals = args.numerals
+    g.numerals = args.numerals
 
     # handle -b
-    inputRadix = int( args.input_radix )
+    g.inputRadix = int( args.input_radix )
 
     # handle -r
     if args.output_radix == 'phi':
@@ -3719,14 +3679,14 @@ def main( ):
         outputRadix = 16
         leadingZero = True
         integerGrouping = 4
-        bitwiseGroupSize = 16
+        g.bitwiseGroupSize = 16
 
     # handle -o
     if args.octal:
         outputRadix = 8
         leadingZero = True
         integerGrouping = 3
-        bitwiseGroupSize = 9
+        g.bitwiseGroupSize = 9
 
     # handle -R
     if args.output_radix_numerals > 0:
@@ -3756,7 +3716,7 @@ def main( ):
 
     if args.print_options:
         print( '--output_accuracy:  %d' % args.output_accuracy )
-        print( '--input_radix:  %d'% inputRadix )
+        print( '--input_radix:  %d'% g.inputRadix )
         print( '--comma:  ' + ( 'true' if args.comma else 'false' ) )
         print( '--decimal_grouping:  %d' % args.decimal_grouping )
         print( '--integer_grouping:  %d' % integerGrouping )
@@ -3767,7 +3727,7 @@ def main( ):
         print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
         print( '--time:  ' + ( 'true' if args.time else 'false' ) )
         print( '--find_poly:  %d' % args.find_poly )
-        print( '--bitwise_group_size:  %d' % bitwiseGroupSize )
+        print( '--bitwise_group_size:  %d' % g.bitwiseGroupSize )
         print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
         print( '--identify:  ' + ( 'true' if args.identify else 'false' ) )
         print( '--leading_zero:  ' + ( 'true' if leadingZero else 'false' ) )
@@ -3787,7 +3747,7 @@ def main( ):
             g.basicUnitTypes = pickle.load( pickleFile )
             g.unitOperators = pickle.load( pickleFile )
             g.operatorAliases.update( pickle.load( pickleFile ) )
-            compoundUnits = pickle.load( pickleFile )
+            g.compoundUnits = pickle.load( pickleFile )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
 
@@ -3949,7 +3909,7 @@ def main( ):
                     break
         else:
             try:
-                currentValueList.append( parseInputValue( term, inputRadix ) )
+                currentValueList.append( parseInputValue( term, g.inputRadix ) )
             except ValueError as error:
                 print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
 
@@ -3987,14 +3947,14 @@ def main( ):
                 integerDelimiter = ' '
 
             if isinstance( result, list ):
-                print( formatListOutput( result, outputRadix, numerals, integerGrouping, integerDelimiter,
+                print( formatListOutput( result, outputRadix, g.numerals, integerGrouping, integerDelimiter,
                                          leadingZero, args.decimal_grouping, ' ', baseAsDigits,
                                          args.output_accuracy ) )
             else:
                 # output the answer with all the extras according to command-line arguments
                 resultString = nstr( result, mp.dps )
 
-                outputString = formatOutput( resultString, outputRadix, numerals, integerGrouping,
+                outputString = formatOutput( resultString, outputRadix, g.numerals, integerGrouping,
                                              integerDelimiter, leadingZero, args.decimal_grouping,
                                              ' ', baseAsDigits, args.output_accuracy )
 

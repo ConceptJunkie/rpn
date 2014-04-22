@@ -14,10 +14,17 @@
 
 debugMode = False
 
+bitwiseGroupSize = 0
+inputRadix = 0
+nestedListLevel = 0
+
 dataPath = ''
+numerals = ''
 
 basicUnitTypes = None
 operatorAliases = None
 unitConversionMatrix = None
 unitOperators = None
+compoundUnits = None
+
 
