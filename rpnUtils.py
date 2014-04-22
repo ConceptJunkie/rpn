@@ -23,6 +23,7 @@ import textwrap
 from mpmath import *
 
 from rpnDeclarations import *
+from rpnVersion import *
 
 import rpnGlobals as g
 
