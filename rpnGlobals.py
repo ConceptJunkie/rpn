@@ -22,7 +22,6 @@ dataPath = ''
 numerals = ''
 
 basicUnitTypes = None
-operatorAliases = None
 unitConversionMatrix = None
 unitOperators = None
 compoundUnits = None

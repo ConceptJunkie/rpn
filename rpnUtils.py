@@ -83,8 +83,8 @@ def getUnitType( unit ):
     if unit in g.basicUnitTypes:
         return unit
 
-    if unit in g.operatorAliases:
-        unit = g.operatorAliases[ unit ]
+    if unit in operatorAliases:
+        unit = operatorAliases[ unit ]
 
     if unit in g.unitOperators:
         return g.unitOperators[ unit ].unitType
@@ -652,11 +652,11 @@ class Measurement( mpf ):
             unit1String = units1.getUnitString( )
             unit2String = units2.getUnitString( )
 
-            if unit1String in g.operatorAliases:
-                unit1String = g.operatorAliases[ unit1String ]
+            if unit1String in operatorAliases:
+                unit1String = operatorAliases[ unit1String ]
 
-            if unit2String in g.operatorAliases:
-                unit2String = g.operatorAliases[ unit2String ]
+            if unit2String in operatorAliases:
+                unit2String = operatorAliases[ unit2String ]
 
             debugPrint( 'unit1String: ', unit1String )
             debugPrint( 'unit2String: ', unit2String )

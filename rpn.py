@@ -2401,10 +2401,10 @@ def dumpOperators( ):
 #//******************************************************************************
 
 def dumpAliases( ):
-    for alias in sorted( [ key for key in g.operatorAliases ] ):
-        print( alias, g.operatorAliases[ alias ] )
+    for alias in sorted( [ key for key in operatorAliases ] ):
+        print( alias, operatorAliases[ alias ] )
 
-    return len( g.operatorAliases )
+    return len( operatorAliases )
 
 
 #//******************************************************************************
@@ -3587,7 +3587,7 @@ def main( ):
                 helpArgs.append( sys.argv[ i ] )
 
     if help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases, g.dataPath, helpArgs )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, g.dataPath, helpArgs )
         return
 
     # set up the command-line options parser
@@ -3629,7 +3629,7 @@ def main( ):
     args = parser.parse_args( )
 
     if args.help or args.other_help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases, g.dataPath, [ ] )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, g.dataPath, [ ] )
         return
 
     valid, errorString = validateOptions( args )
@@ -3746,7 +3746,7 @@ def main( ):
             unitsVersion = pickle.load( pickleFile )
             g.basicUnitTypes = pickle.load( pickleFile )
             g.unitOperators = pickle.load( pickleFile )
-            g.operatorAliases.update( pickle.load( pickleFile ) )
+            operatorAliases.update( pickle.load( pickleFile ) )
             g.compoundUnits = pickle.load( pickleFile )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
@@ -3756,8 +3756,8 @@ def main( ):
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
-        if term in g.operatorAliases:
-            term = g.operatorAliases[ term ]
+        if term in operatorAliases:
+            term = operatorAliases[ term ]
 
         currentValueList = getCurrentArgList( valueList )
 
