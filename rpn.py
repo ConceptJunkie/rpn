@@ -492,46 +492,6 @@ def convertToFibBase( value ):
 
 #//******************************************************************************
 #//
-#//  convertToBaseN
-#//
-#//******************************************************************************
-
-def convertToBaseN( value, base, baseAsDigits, numerals ):
-    if baseAsDigits:
-        if ( base < 2 ):
-            raise ValueError( 'base must be greater than 1' )
-    else:
-        if not ( 2 <= base <= len( numerals ) ):
-            raise ValueError( 'base must be from 2 to %d' % len( numerals ) )
-
-    if value == 0:
-        return 0
-
-    if value < 0:
-        return '-' + convertToBaseN( ( -1 ) * value, base, baseAsDigits, numerals )
-
-    if base == 10:
-        return str( value )
-
-    result = ''
-    leftDigits = value
-
-    while leftDigits > 0:
-        if baseAsDigits:
-            if result != '':
-                result = ' ' + result
-
-            result = str( int( leftDigits ) % base ) + result
-        else:
-            result = numerals[ int( leftDigits ) % base ] + result
-
-        leftDigits = floor( fdiv( leftDigits, base ) )
-
-    return result
-
-
-#//******************************************************************************
-#//
 #//  convertFractionToBaseN
 #//
 #//******************************************************************************
