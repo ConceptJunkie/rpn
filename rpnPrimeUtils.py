@@ -1224,7 +1224,7 @@ def getNthSextupletPrime( arg ):
 #//******************************************************************************
 
 def getNthSextupletPrimeList( arg ):
-    p = getNthSextpletPrime( arg )
+    p = getNthSextupletPrime( arg )
     return [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ), fadd( p, 16 ) ]
 
 
