@@ -15,6 +15,7 @@
 import builtins
 import bz2
 import contextlib
+import math
 import os
 import pickle
 import string
@@ -783,6 +784,41 @@ def downloadOEISText( id, char, addCR=False ):
 
 #//******************************************************************************
 #//
+#//  convertToBase10
+#//
+#//******************************************************************************
+
+def convertToBase10( integer, mantissa, inputRadix ):
+    result = mpmathify( 0 )
+    base = mpmathify( 1 )
+
+    validNumerals = g.numerals[ : inputRadix ]
+
+    for i in range( len( integer ) - 1, -1, -1 ):
+        digit = validNumerals.find( integer[ i ] )
+
+        if digit == -1:
+            raise ValueError( 'invalid numeral \'%c\' for base %d' % ( integer[ i ], inputRadix ) )
+
+        result += digit * base
+        base *= inputRadix
+
+    base = fdiv( 1, inputRadix )
+
+    for i in range( 0, len( mantissa ) ):
+        digit = validNumerals.find( mantissa[ i ] )
+
+        if digit == -1:
+            raise ValueError( 'invalid numeral \'%c\' for base %d' % ( mantissa[ i ], inputRadix ) )
+
+        result += digit * base
+        base /= inputRadix
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  parseInputValue
 #//
 #//  Parse out a numerical expression and attempt to set the precision to an
@@ -925,6 +961,145 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
             result = numerals[ int( leftDigits ) % base ] + result
 
         leftDigits = floor( fdiv( leftDigits, base ) )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  convertToPhiBase
+#//
+#//******************************************************************************
+
+def convertToPhiBase( num ):
+    epsilon = power( 10, -( mp.dps - 3 ) )
+
+    output = ''
+    integer = ''
+
+    start = True
+    previousPlace = 0
+    remaining = num
+
+    originalPlace = 0
+
+    while remaining > epsilon:
+        place = int( floor( log( remaining, phi ) ) )
+
+        if start:
+            output = '1'
+            start = False
+            originalPlace = place
+        else:
+            if place < -( originalPlace + 1 ):
+                break
+
+            for i in range( previousPlace, place + 1, -1 ):
+                output += '0'
+
+                if ( i == 1 ):
+                    integer = output
+                    output = ''
+
+            output += '1'
+
+            if place == 0:
+                integer = output
+                output = ''
+
+        previousPlace = place
+        remaining -= power( phi, place )
+
+    if integer == '':
+        return output, ''
+    else:
+        return integer, output
+
+
+#//******************************************************************************
+#//
+#//  convertToFibBase
+#//
+#//  Returns a string with Fibonacci encoding for n (n >= 1).
+#//
+#//  adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
+#//
+#//******************************************************************************
+
+def convertToFibBase( value ):
+    result = ''
+
+    n = value
+
+    if n >= 1:
+        a = 1
+        b = 1
+
+        c = fadd( a, b )    # next Fibonacci number
+        fibs = [ b ]        # list of Fibonacci numbers, starting with F(2), each <= n
+
+        while n >= c:
+            fibs.append( c )  # add next Fibonacci number to end of list
+            a = b
+            b = c
+            c = fadd( a, b )
+
+        for fibnum in reversed( fibs ):
+            if n >= fibnum:
+                n = fsub( n, fibnum )
+                result = result + '1'
+            else:
+                result = result + '0'
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  convertFractionToBaseN
+#//
+#//******************************************************************************
+
+def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
+    if baseAsDigits:
+        if ( base < 2 ):
+            raise ValueError( 'base must be greater than 1' )
+    else:
+        if not ( 2 <= base <= len( g.numerals ) ):
+            raise ValueError( 'base must be from 2 to %d' % len( g.numerals ) )
+
+    if value < 0 or value >= 1.0:
+        raise ValueError( 'value (%s) must be >= 0 and < 1.0' % value )
+
+    if base == 10:
+        return str( value )
+
+    result = ''
+
+    while value > 0 and precision > 0:
+        value = value * base
+        digit = int( value )
+
+        if len( result ) == accuracy:
+            value -= digit
+            newDigit = int( value ) % base
+
+            if newDigit >= base // 2:
+                digit += 1
+
+        if baseAsDigits:
+            if result != '':
+                result += ' '
+
+            result += str( digit % base )
+        else:
+            result += g.numerals[ digit % base ]
+
+        if len( result ) == accuracy:
+            break
+
+        value -= digit
+        precision -= 1
 
     return result
 

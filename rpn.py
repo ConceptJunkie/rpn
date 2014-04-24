@@ -19,14 +19,9 @@
 #//******************************************************************************
 
 import argparse
-import bz2
 import collections
-import contextlib
 import datetime
-import pickle
 import itertools
-import math
-import os
 import random
 import struct
 import sys
@@ -250,58 +245,6 @@ def getNthAperyNumber( n ):
 
 #//******************************************************************************
 #//
-#//  ContinuedFraction
-#//
-#//  A continued fraction, represented as a list of integer terms.
-#//
-#//  adapted from ActiveState Python, recipe 578647
-#//
-#//******************************************************************************
-
-class ContinuedFraction( list ):
-    def __init__( self, value, maxterms=15, cutoff=1e-10 ):
-        if isinstance( value, ( int, float, mpf ) ):
-            value = mpmathify( value )
-            remainder = floor( value )
-            self.append( remainder )
-
-            while len( self ) < maxterms:
-                value -= remainder
-
-                if value > cutoff:
-                    value = fdiv( 1, value )
-                    remainder = floor( value )
-                    self.append( remainder )
-                else:
-                    break
-
-        elif isinstance( value, ( list, tuple ) ):
-            self.extend( value )
-        else:
-            raise ValueError( 'ContinuedFraction requires a number or a list' )
-
-    def getFraction( self, terms=None ):
-        if terms is None or terms >= len( self ):
-            terms = len( self ) - 1
-
-        frac = Fraction( 1, int( self[ terms ] ) )
-
-        for t in reversed( self[ 1 : terms ] ):
-            frac = 1 / ( frac + int( t ) )
-
-        frac += int( self[ 0 ] )
-
-        return frac
-
-    def __float__( self ):
-        return float( self.getFraction( ) )
-
-    def __str__( self ):
-        return '[%s]' % ', '.join( [ str( int( x ) ) for x in self ] )
-
-
-#//******************************************************************************
-#//
 #//  getDivisorCount
 #//
 #//******************************************************************************
@@ -338,6 +281,7 @@ def getDivisors( n ):
 #//  factor
 #//
 #//  This is not my code, and I need to find the source so I can attribute it.
+#//  I think I got it from stackoverflow.com.
 #//
 #//******************************************************************************
 
@@ -403,180 +347,6 @@ def getExpandedFactorList( factors ):
 
 #//******************************************************************************
 #//
-#//  convertToPhiBase
-#//
-#//******************************************************************************
-
-def convertToPhiBase( num ):
-    epsilon = power( 10, -( mp.dps - 3 ) )
-
-    output = ''
-    integer = ''
-
-    start = True
-    previousPlace = 0
-    remaining = num
-
-    originalPlace = 0
-
-    while remaining > epsilon:
-        place = int( floor( log( remaining, phi ) ) )
-
-        if start:
-            output = '1'
-            start = False
-            originalPlace = place
-        else:
-            if place < -( originalPlace + 1 ):
-                break
-
-            for i in range( previousPlace, place + 1, -1 ):
-                output += '0'
-
-                if ( i == 1 ):
-                    integer = output
-                    output = ''
-
-            output += '1'
-
-            if place == 0:
-                integer = output
-                output = ''
-
-        previousPlace = place
-        remaining -= power( phi, place )
-
-    if integer == '':
-        return output, ''
-    else:
-        return integer, output
-
-
-#//******************************************************************************
-#//
-#//  convertToFibBase
-#//
-#//  Returns a string with Fibonacci encoding for n (n >= 1).
-#//
-#//  adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
-#//
-#//******************************************************************************
-
-def convertToFibBase( value ):
-    result = ''
-
-    n = value
-
-    if n >= 1:
-        a = 1
-        b = 1
-
-        c = fadd( a, b )    # next Fibonacci number
-        fibs = [ b ]        # list of Fibonacci numbers, starting with F(2), each <= n
-
-        while n >= c:
-            fibs.append( c )  # add next Fibonacci number to end of list
-            a = b
-            b = c
-            c = fadd( a, b )
-
-        for fibnum in reversed( fibs ):
-            if n >= fibnum:
-                n = fsub( n, fibnum )
-                result = result + '1'
-            else:
-                result = result + '0'
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  convertFractionToBaseN
-#//
-#//******************************************************************************
-
-def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
-    if baseAsDigits:
-        if ( base < 2 ):
-            raise ValueError( 'base must be greater than 1' )
-    else:
-        if not ( 2 <= base <= len( g.numerals ) ):
-            raise ValueError( 'base must be from 2 to %d' % len( g.numerals ) )
-
-    if value < 0 or value >= 1.0:
-        raise ValueError( 'value (%s) must be >= 0 and < 1.0' % value )
-
-    if base == 10:
-        return str( value )
-
-    result = ''
-
-    while value > 0 and precision > 0:
-        value = value * base
-        digit = int( value )
-
-        if len( result ) == accuracy:
-            value -= digit
-            newDigit = int( value ) % base
-
-            if newDigit >= base // 2:
-                digit += 1
-
-        if baseAsDigits:
-            if result != '':
-                result += ' '
-
-            result += str( digit % base )
-        else:
-            result += g.numerals[ digit % base ]
-
-        if len( result ) == accuracy:
-            break
-
-        value -= digit
-        precision -= 1
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  convertToBase10
-#//
-#//******************************************************************************
-
-def convertToBase10( integer, mantissa, inputRadix ):
-    result = mpmathify( 0 )
-    base = mpmathify( 1 )
-
-    validNumerals = g.numerals[ : inputRadix ]
-
-    for i in range( len( integer ) - 1, -1, -1 ):
-        digit = validNumerals.find( integer[ i ] )
-
-        if digit == -1:
-            raise ValueError( 'invalid numeral \'%c\' for base %d' % ( integer[ i ], inputRadix ) )
-
-        result += digit * base
-        base *= inputRadix
-
-    base = fdiv( 1, inputRadix )
-
-    for i in range( 0, len( mantissa ) ):
-        digit = validNumerals.find( mantissa[ i ] )
-
-        if digit == -1:
-            raise ValueError( 'invalid numeral \'%c\' for base %d' % ( mantissa[ i ], inputRadix ) )
-
-        result += digit * base
-        base /= inputRadix
-
-    return result
-
-
-#//******************************************************************************
-#//
 #//  getInvertedBits
 #//
 #//******************************************************************************
@@ -598,6 +368,22 @@ def getInvertedBits( n ):
         multiplier = fmul( multiplier, placeValue )
 
     return result
+
+
+#//******************************************************************************
+#//
+#//  convertToSignedInt
+#//
+#//  two's compliment logic is in effect here
+#//
+#//******************************************************************************
+
+def convertToSignedInt( n, k ):
+    value = fadd( n, ( power( 2, fsub( k, 1 ) ) ) )
+    value = fmod( value, power( 2, k ) )
+    value = fsub( value, ( power( 2, fsub( k, 1 ) ) ) )
+
+    return value
 
 
 #//******************************************************************************
@@ -2365,22 +2151,6 @@ def dumpAliases( ):
         print( alias, operatorAliases[ alias ] )
 
     return len( operatorAliases )
-
-
-#//******************************************************************************
-#//
-#//  convertToSignedInt
-#//
-#//  two's compliment logic is in effect here
-#//
-#//******************************************************************************
-
-def convertToSignedInt( n, k ):
-    value = fadd( n, ( power( 2, fsub( k, 1 ) ) ) )
-    value = fmod( value, power( 2, k ) )
-    value = fsub( value, ( power( 2, fsub( k, 1 ) ) ) )
-
-    return value
 
 
 #//******************************************************************************
