@@ -19,15 +19,12 @@
 #//******************************************************************************
 
 import argparse
-import collections
 import datetime
-import itertools
 import random
 import struct
 import sys
 import time
 
-from fractions import Fraction
 from functools import reduce
 from mpmath import *
 
@@ -2179,22 +2176,22 @@ def dumpStats( ):
     print( '{:10,} unit conversions'.format( len( g.unitConversionMatrix ) ) )
     print( )
 
-    printStats( loadSmallPrimes( dataPath ), 'small primes' )
-    printStats( loadLargePrimes( dataPath ), 'large primes' )
-    printStats( loadIsolatedPrimes( dataPath ), 'isolated primes' )
-    printStats( loadTwinPrimes( dataPath ), 'twin primes' )
-    printStats( loadBalancedPrimes( dataPath ), 'balanced primes' )
-    printStats( loadDoubleBalancedPrimes( dataPath ), 'double balanced primes' )
-    printStats( loadTripleBalancedPrimes( dataPath ), 'triple balanced primes' )
-    printStats( loadSophiePrimes( dataPath ), 'Sophie Germain primes' )
-    printStats( loadCousinPrimes( dataPath ), 'cousin primes' )
-    printStats( loadSexyPrimes( dataPath ), 'sexy primes' )
-    printStats( loadTripletPrimes( dataPath ), 'triplet primes' )
-    printStats( loadSexyTripletPrimes( dataPath ), 'sexy triplet primes' )
-    printStats( loadQuadrupletPrimes( dataPath ), 'quadruplet primes' )
-    printStats( loadSexyQuadrupletPrimes( dataPath ), 'sexy quadruplet primes' )
-    printStats( loadQuintupletPrimes( dataPath ), 'quintuplet primes' )
-    printStats( loadSextupletPrimes( dataPath ), 'sextuplet primes' )
+    printStats( loadSmallPrimes( g.dataPath ), 'small primes' )
+    printStats( loadLargePrimes( g.dataPath ), 'large primes' )
+    printStats( loadIsolatedPrimes( g.dataPath ), 'isolated primes' )
+    printStats( loadTwinPrimes( g.dataPath ), 'twin primes' )
+    printStats( loadBalancedPrimes( g.dataPath ), 'balanced primes' )
+    printStats( loadDoubleBalancedPrimes( g.dataPath ), 'double balanced primes' )
+    printStats( loadTripleBalancedPrimes( g.dataPath ), 'triple balanced primes' )
+    printStats( loadSophiePrimes( g.dataPath ), 'Sophie Germain primes' )
+    printStats( loadCousinPrimes( g.dataPath ), 'cousin primes' )
+    printStats( loadSexyPrimes( g.dataPath ), 'sexy primes' )
+    printStats( loadTripletPrimes( g.dataPath ), 'triplet primes' )
+    printStats( loadSexyTripletPrimes( g.dataPath ), 'sexy triplet primes' )
+    printStats( loadQuadrupletPrimes( g.dataPath ), 'quadruplet primes' )
+    printStats( loadSexyQuadrupletPrimes( g.dataPath ), 'sexy quadruplet primes' )
+    printStats( loadQuintupletPrimes( g.dataPath ), 'quintuplet primes' )
+    printStats( loadSextupletPrimes( g.dataPath ), 'sextuplet primes' )
 
     print( )
 
