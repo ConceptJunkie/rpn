@@ -22,7 +22,6 @@ import string
 import textwrap
 
 from mpmath import *
-
 from rpnDeclarations import *
 from rpnVersion import *
 
@@ -675,13 +674,13 @@ class Measurement( mpf ):
             else:
                 conversionValue = mpmathify( 1 )
 
-                if unit1String in compoundUnits:
-                    newUnit1String = compoundUnits[ unit1String ]
+                if unit1String in g.compoundUnits:
+                    newUnit1String = g.compoundUnits[ unit1String ]
                 else:
                     newUnit1String = unit1String
 
-                if unit2String in compoundUnits:
-                    newUnit2String = compoundUnits[ unit2String ]
+                if unit2String in g.compoundUnits:
+                    newUnit2String = g.compoundUnits[ unit2String ]
                 else:
                     newUnit2String = unit2String
 
