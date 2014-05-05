@@ -19,8 +19,6 @@ from mpmath import *
 
 from fractions import Fraction
 
-import rpnGlobals as g
-
 
 #//******************************************************************************
 #//

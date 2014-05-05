@@ -20,7 +20,6 @@
 
 import argparse
 import datetime
-import random
 import struct
 import sys
 import time
@@ -326,7 +325,7 @@ def factor( n ):
                 sqrtn = sqrt( n )
 
         if n > 1:
-             factors.append( ( int( n ), 1 ) )
+            factors.append( ( int( n ), 1 ) )
 
         return factors
 
@@ -1083,9 +1082,9 @@ def getNthNonagonalSquareNumber( n ):
     sign = power( -1, n )
 
     index = fdiv( fsub( fmul( fadd( p, fmul( q, sign ) ),
-                                    power( fadd( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), n ) ),
-                              fmul( fsub( p, fmul( q, sign ) ),
-                                    power( fsub( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), fsub( n, 1 ) ) ) ), 112 )
+                              power( fadd( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), n ) ),
+                        fmul( fsub( p, fmul( q, sign ) ),
+                              power( fsub( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), fsub( n, 1 ) ) ) ), 112 )
 
     return power( round( index ), 2 )
 
@@ -1208,6 +1207,7 @@ def getNthNonagonalOctagonalNumber( n ):
 # http://oeis.org/A203627
 # a(n) = floor(1/448*(15+2*sqrt(14))*(2*sqrt(2)+sqrt(7))^(8*n-6)).
 
+
 #//******************************************************************************
 #//
 #//  findTetrahedralNumber
@@ -1217,8 +1217,8 @@ def getNthNonagonalOctagonalNumber( n ):
 #//******************************************************************************
 
 def findTetrahedralNumber( n ):
-    sqrt3 = sqrt( 3 )
-    curt3 = cbrt( 3 )
+    #sqrt3 = sqrt( 3 )
+    #curt3 = cbrt( 3 )
 
     # TODO:  finish me
     return 0
@@ -1530,8 +1530,6 @@ def getNthMotzkinNumber( n ):
 #//******************************************************************************
 
 def getNthPadovanNumber( arg ):
-    result = 0
-
     n = fadd( arg, 4 )
 
     a = root( fsub( fdiv( 27, 2 ), fdiv( fmul( 3, sqrt( 69 ) ), 2 ) ), 3 )
@@ -1547,6 +1545,7 @@ def getNthPadovanNumber( arg ):
     return round( re( fsum( [ fdiv( power( r, n ), fadd( fmul( 2, r ), 3 ) ),
                               fdiv( power( s, n ), fadd( fmul( 2, s ), 3 ) ),
                               fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
+
 
 #//******************************************************************************
 #//
@@ -2314,7 +2313,7 @@ def loadResult( valueList ):
     try:
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
             result = pickle.load( pickleFile )
-    except FileNotFoundError as error:
+    except FileNotFoundError:
         result = mapmathify( 0 )
 
     return result
@@ -3323,7 +3322,7 @@ def main( ):
                                       formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=defaultAccuracy, # -1
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=defaultAccuracy,  # -1
                          const=defaultAccuracy )
     parser.add_argument( '-b', '--input_radix', type=str, action='store', default=defaultInputRadix )
     parser.add_argument( '-c', '--comma', action='store_true' )
@@ -3443,7 +3442,7 @@ def main( ):
 
     if args.print_options:
         print( '--output_accuracy:  %d' % args.output_accuracy )
-        print( '--input_radix:  %d'% g.inputRadix )
+        print( '--input_radix:  %d' % g.inputRadix )
         print( '--comma:  ' + ( 'true' if args.comma else 'false' ) )
         print( '--decimal_grouping:  %d' % args.decimal_grouping )
         print( '--integer_grouping:  %d' % integerGrouping )

@@ -14,23 +14,13 @@
 
 import argparse
 import bz2
-import collections
 import contextlib
-import datetime
 import pickle
-import itertools
-import math
 import os
-import pyprimes
-import random
-import string
-import struct
+#import pyprimes
 import sys
-import textwrap
 import time
 
-from fractions import Fraction
-from functools import reduce
 from mpmath import *
 
 from rpnDeclarations import *
@@ -60,7 +50,7 @@ def loadTable( fileName, default ):
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'rb' ) ) as pickleFile:
             primes = pickle.load( pickleFile )
-    except FileNotFoundError as error:
+    except FileNotFoundError:
         primes = default
 
     return primes
@@ -311,7 +301,7 @@ def makeTable( start, end, step, func, name ):
 
             print( name + ':  {:,} : {:,}'.format( i, p ) )
             sys.stdout.flush( )
-    except KeyboardInterrupt as error:
+    except KeyboardInterrupt:
         pass
 
     return end
@@ -359,7 +349,7 @@ def makeSuperPrimes( start, end ):
 
             print( 'super:  {:,} : {:,} : {:,}'.format( i, nth, p ) )
             sys.stdout.flush( )
-    except KeyboardInterrupt as error:
+    except KeyboardInterrupt:
         pass
 
     saveSmallPrimes( smallPrimes )
@@ -643,8 +633,6 @@ def main( ):
     global twinPrimes
 
     # initialize globals
-    nestedListLevel = 0
-
     balancedPrimes = { }
     cousinPrimes = { }
     doubleBalancedPrimes = { }

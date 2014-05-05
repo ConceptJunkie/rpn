@@ -61,7 +61,7 @@ def loadTable( dataPath, fileName, default ):
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'rb' ) ) as pickleFile:
             primes = pickle.load( pickleFile )
-    except FileNotFoundError as error:
+    except FileNotFoundError:
         primes = default
 
     return primes
@@ -273,7 +273,6 @@ def findPrime( arg ):
         p = largePrimes[ currentIndex ]
 
     f = p % 10
-    oldPrime = p
 
     while True:
         p, f = getNextPrime( p, f )
@@ -981,16 +980,9 @@ def getNthTripletPrime( arg ):
 
         currentIndex = max( key for key in tripletPrimes if key <= n )
         p = tripletPrimes[ currentIndex ]
-
-        if isPrime( p + 2 ):
-            middle = 2
-        else:
-            middle = 4
-
     else:
         currentIndex = 3
         p = 11
-        middle = 2
 
     f = p % 10
 

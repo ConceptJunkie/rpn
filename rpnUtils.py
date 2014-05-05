@@ -22,6 +22,7 @@ import string
 import textwrap
 
 from mpmath import *
+
 from rpnDeclarations import *
 from rpnVersion import *
 
@@ -38,7 +39,7 @@ def loadUnitConversionMatrix( ):
     try:
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitConversionMatrix = pickle.load( pickleFile )
-    except FileNotFoundError as error:
+    except FileNotFoundError:
         print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
 
 
@@ -674,13 +675,13 @@ class Measurement( mpf ):
             else:
                 conversionValue = mpmathify( 1 )
 
-                if unit1String in g.compoundUnits:
-                    newUnit1String = g.compoundUnits[ unit1String ]
+                if unit1String in compoundUnits:
+                    newUnit1String = compoundUnits[ unit1String ]
                 else:
                     newUnit1String = unit1String
 
-                if unit2String in g.compoundUnits:
-                    newUnit2String = g.compoundUnits[ unit2String ]
+                if unit2String in compoundUnits:
+                    newUnit2String = compoundUnits[ unit2String ]
                 else:
                     newUnit2String = unit2String
 
@@ -1158,8 +1159,6 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
 
     negative = strOutput[ 0 ] == '-'
 
-    strResult = '';
-
     integer = strOutput[ 1 if negative else 0 : decimal ]
     integerLength = len( integer )
 
@@ -1467,7 +1466,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
             helpVersion = pickle.load( pickleFile )
             basicCategories = pickle.load( pickleFile )
             operatorHelp = pickle.load( pickleFile )
-    except FileNotFoundError as error:
+    except FileNotFoundError:
         print( 'rpn:  Unable to help file.  Help will be unavailable.' )
         return
 
