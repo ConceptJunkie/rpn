@@ -413,7 +413,7 @@ class Polynomial( object ):
             res = [ 0 ] * ( len( _s ) + len( _v ) - 1 )
 
             for selfpow, selfco in enumerate( _s ):
-                for valpow,valco in enumerate( _v ):
+                for valpow, valco in enumerate( _v ):
                     res[ selfpow + valpow ] += selfco * valco
         else:
             res = [ co * val for co in self.coeffs ]
@@ -425,7 +425,7 @@ class Polynomial( object ):
         return self.__class__( [ -co for co in self.coeffs ] )
 
 
-    def __pow__( self, y, z = None ):
+    def __pow__( self, y, z=None ):
         raise NotImplemented( )
 
 

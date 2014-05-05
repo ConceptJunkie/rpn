@@ -1922,8 +1922,8 @@ unitConversionMatrix = {
     ( 'fluid_ounce',           'tablespoon' )                           : mpmathify( '2' ),
     ( 'foot',                  'inch' )                                 : mpmathify( '12' ),
     ( 'footcandle',            'lumen/foot^2' )                         : mpmathify( '1' ),
-    ( 'footcandle',            'lux' )                                  : mpmathify( '10.763910417' ),           # (m/ft)^2
-    ( 'footlambert',           'candela/meter^2' )                      : mpmathify( '3.42625909963539052691' ), # 1/pi cd/ft^2
+    ( 'footcandle',            'lux' )                                  : mpmathify( '10.763910417' ),            # (m/ft)^2
+    ( 'footlambert',           'candela/meter^2' )                      : mpmathify( '3.42625909963539052691' ),  # 1/pi cd/ft^2
     ( 'fortnight',             'day' )                                  : mpmathify( '14' ),
     ( 'fortnight',             'microfortnight' )                       : mpmathify( '1.0e6' ),
     ( 'furlong',               'yard' )                                 : mpmathify( '220' ),
@@ -2177,7 +2177,7 @@ unitConversionMatrix = {
     ( 'virgate',               'bovate' )                               : mpmathify( '30' ),
     ( 'volt',                  'abvolt' )                               : mpmathify( '1.0e8' ),
     ( 'volt-ampere',           'watt' )                                 : mpmathify( '1' ),
-#    ( 'volt-ampere-second',    'joule' )                                : mpmathify( '1' ),
+    #    ( 'volt-ampere-second',    'joule' )                                : mpmathify( '1' ),
     ( 'von_klitzing_constant', 'ohm' )                                  : mpmathify( '25812.807557' ),
     ( 'watt',                  'erg/second' )                           : mpmathify( '1.0e7' ),
     ( 'watt',                  'kilogram-meter^2/second^3' )            : mpmathify( '1' ),

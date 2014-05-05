@@ -170,7 +170,7 @@ def getNextPrimeCandidate( p, f ):
 #//
 #//******************************************************************************
 
-def getNextPrime( p, f, func = getNextPrimeCandidate ):
+def getNextPrime( p, f, func=getNextPrimeCandidate ):
     p, f = getNextPrimeCandidate( p, f )
 
     while not isPrime( p ):
@@ -209,7 +209,7 @@ def getNthPrime( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         currentIndex = max( key for key in largePrimes if key <= n )
         p = largePrimes[ currentIndex ]
@@ -398,7 +398,7 @@ def getNthTwinPrime( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         currentIndex = max( key for key in twinPrimes if key <= n )
         p = twinPrimes[ currentIndex ]
@@ -458,7 +458,7 @@ def getNthBalancedPrime( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         currentIndex = max( key for key in balancedPrimes if key < n )
         p = balancedPrimes[ currentIndex ]
@@ -526,7 +526,7 @@ def getNthDoubleBalancedPrime( arg ):
 
     if n > maxIndex and not updateDicts:
         sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                format( n, maxIndex ) )
+                          format( n, maxIndex ) )
 
     currentIndex = max( key for key in doubleBalancedPrimes if key <= n )
     primes = [ ]
@@ -569,8 +569,8 @@ def getNthDoubleBalancedPrimeList( arg ):
     f = p % 10
 
     for i in range( 0, 4 ):
-       p, f = getNextPrime( p, f )
-       result.append( p )
+        p, f = getNextPrime( p, f )
+        result.append( p )
 
     return result
 
@@ -597,7 +597,7 @@ def getNthTripleBalancedPrime( arg ):
 
     if n > maxIndex and not updateDicts:
         sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                format( n, maxIndex ) )
+                          format( n, maxIndex ) )
 
     currentIndex = max( key for key in tripleBalancedPrimes if key <= n )
 
@@ -676,7 +676,7 @@ def getNthSophiePrime( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         currentIndex = max( key for key in sophiePrimes if key <= n )
         p = sophiePrimes[ currentIndex ]
@@ -721,7 +721,7 @@ def getNthCousinPrime( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         currentIndex = max( key for key in cousinPrimes if key <= n )
         p = cousinPrimes[ currentIndex ]
@@ -774,7 +774,6 @@ def getNextSexyPrimeCandidate( p, f ):
     return p, f
 
 
-
 #//******************************************************************************
 #//
 #//  getNthSexyPrime
@@ -798,7 +797,7 @@ def getNthSexyPrime( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         startingPlace = max( key for key in sexyPrimes if key <= n )
         p = sexyPrimes[ startingPlace ]
@@ -856,7 +855,7 @@ def getNthSexyTriplet( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         startingPlace = max( key for key in sexyTriplets if key <= n )
         p = sexyTriplets[ startingPlace ]
@@ -916,7 +915,7 @@ def getNthSexyQuadruplet( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
     startingPlace = max( key for key in sexyQuadruplets if key <= n )
     p = sexyQuadruplets[ startingPlace ]
@@ -976,7 +975,7 @@ def getNthTripletPrime( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         currentIndex = max( key for key in tripletPrimes if key <= n )
         p = tripletPrimes[ currentIndex ]
@@ -1045,7 +1044,7 @@ def getNthQuadrupletPrime( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         startingPlace = max( key for key in quadPrimes if key <= n )
         p = quadPrimes[ startingPlace ]
@@ -1119,7 +1118,7 @@ def getNthQuintupletPrime( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         currentIndex = max( key for key in quintPrimes if key <= n )
         p = quintPrimes[ currentIndex ]
@@ -1187,7 +1186,7 @@ def getNthSextupletPrime( arg ):
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                    format( n, maxIndex ) )
+                              format( n, maxIndex ) )
 
         startingPlace = max( key for key in sextPrimes if key <= n )
         p = sextPrimes[ startingPlace ]

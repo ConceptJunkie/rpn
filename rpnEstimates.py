@@ -1805,7 +1805,7 @@ temperatureTable = {
     mpf( '2.8e15' )         : 'the temperature of an electroweak star',
     mpf( '1.0e21' )         : 'the temperature of dark matter in active galactic nuclei',
     mpf( '1.0e30' )         : 'the Hagedorn temperature, the highest possible temperature according to string theory',
-    mpf( '1.416785e32' )    : 'the Planck temperature, at which the wavelength of black body radiation' + \
+    mpf( '1.416785e32' )    : 'the Planck temperature, at which the wavelength of black body radiation' +
                               'reaches the Planck length',
     mpf( '1.0e33' )         : 'the Landau pole, the maximum theoretical temperature according to QED',
 }

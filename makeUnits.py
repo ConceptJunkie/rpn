@@ -172,7 +172,7 @@ def expandMetricUnits( ):
                 # constuct unit operator info
                 unitOperators[ newName ] = \
                     UnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
-                                             prefix[ 1 ] + metricUnit[ 2 ], [ ], [ 'SI' ] )
+                              prefix[ 1 ] + metricUnit[ 2 ], [ ], [ 'SI' ] )
 
                 newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
                 unitConversionMatrix[ ( newName, metricUnit[ 0 ] ) ] = newConversion
@@ -246,7 +246,7 @@ def expandDataUnits( ):
             # constuct unit operator info
             unitOperators[ newName ] = \
                 UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural, prefix[ 1 ] + dataUnit[ 2 ],
-                                         [ ], unitOperators[ dataUnit[ 0 ] ].categories )
+                          [ ], unitOperators[ dataUnit[ 0 ] ].categories )
 
             # create new conversions
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -261,7 +261,7 @@ def expandDataUnits( ):
             # constuct unit operator info
             unitOperators[ newName ] = \
                 UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural, prefix[ 1 ] + dataUnit[ 2 ],
-                                         [ ], unitOperators[ dataUnit[ 0 ] ].categories )
+                          [ ], unitOperators[ dataUnit[ 0 ] ].categories )
 
             # create new conversions
             newConversion = power( 2, mpmathify( prefix[ 2 ] ) )
@@ -296,7 +296,7 @@ def makeAreaOperator( unit, unitPlural ):
     newAliases[ 'square_' + unitInfo.plural ] = newUnit
     newAliases[ 'square_' + unitInfo.abbrev ] = newUnit
     newAliases[ 'sq' + unitInfo.plural ] = newUnit
-    newAliases[ unit +  '^2' ] = newUnit
+    newAliases[ unit + '^2' ] = newUnit
     newAliases[ unitInfo.plural + '^2' ] = newUnit
 
     return newUnitInfo, newAliases
@@ -326,7 +326,7 @@ def makeVolumeOperator( unit, unitPlural ):
     newAliases[ 'cubic_' + unitInfo.plural ] = newUnit
     newAliases[ 'cubic_' + unitInfo.abbrev ] = newUnit
     newAliases[ 'cu' + unitInfo.plural ] = newUnit
-    newAliases[ unit +  '^3' ] = newUnit
+    newAliases[ unit + '^3' ] = newUnit
     newAliases[ unitInfo.plural + '^3' ] = newUnit
 
     return newUnitInfo, newAliases

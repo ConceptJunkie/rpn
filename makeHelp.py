@@ -423,7 +423,6 @@ Bitwise operators force all arguments to integers by truncation if necessary.
 }
 
 
-
 #//******************************************************************************
 #//
 #//  operator help

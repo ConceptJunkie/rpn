@@ -702,7 +702,7 @@ class Measurement( mpf ):
                             break
 
                     if not foundConversion:
-                        reduced = self.getReduced( );
+                        reduced = self.getReduced( )
                         return reduced.convertValue( other )
 
                 value = conversionValue
@@ -725,7 +725,7 @@ class Measurement( mpf ):
 
             return value
         else:
-            raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitString( ) + \
+            raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitString( ) +
                               ' and ' + other.getUnitString( ) )
 
 
@@ -1386,7 +1386,7 @@ def formatUnits( measurement ):
 #//
 #//******************************************************************************
 
-def printParagraph( text, length = 79, indent = 0 ):
+def printParagraph( text, length=79, indent=0 ):
     lines = textwrap.wrap( text, length )
 
     for line in lines:
