@@ -1508,7 +1508,8 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 
         addAliases( operatorList, operatorAliases )
 
-        printParagraph( ', '.join( sorted( operatorList ) ), 75, 4 )
+        for operator in sorted( operatorList ):
+            print( operator )
 
 
 #//******************************************************************************

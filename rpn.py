@@ -5,6 +5,10 @@
 #   This requires implicit conversion between unit types
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 
+#   rpn doesn't handle this gracefully (I hit '0' by mistake)
+#   rpn 3375000 23144 -0
+
+
 
 #//******************************************************************************
 #//

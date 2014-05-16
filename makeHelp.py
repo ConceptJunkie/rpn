@@ -2600,7 +2600,7 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'unpack' : [
-'number_theory', 'unpacks an integer value into bit fields',
+'conversion', 'unpacks an integer value into bit fields',
 '''
 ''',
 '''
