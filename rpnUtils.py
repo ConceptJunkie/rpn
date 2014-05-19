@@ -868,6 +868,9 @@ def parseInputValue( term, inputRadix ):
     # check for hex, then binary, then octal, otherwise a plain old decimal integer
     if not ignoreSpecial and mantissa == '':
         if integer[ 0 ] == '0':
+            if len( integer ) == 1:
+                return mpmathify( 0 )
+
             if integer[ 1 ] in 'Xx':
                 # set the precision big enough to handle this value
                 newPrecision = math.ceil( ( math.log10( 16 ) * ( len( integer ) - 2 ) ) ) + 1
