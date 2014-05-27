@@ -406,7 +406,8 @@ class Measurement( mpf ):
                                     self.getUnitName( ), self.getPluralUnitName( ) )
             else:
                 newOther = other.convertValue( self )
-                return add( self, newOther )
+                return Measurement( fadd( self, newOther ), self.getUnits( ),
+                                    self.getUnitName( ), self.getPluralUnitName( ) )
         else:
             return Measurement( fadd( self, other ), self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
@@ -419,7 +420,9 @@ class Measurement( mpf ):
                                     self.getUnitName( ), self.getPluralUnitName( ) )
             else:
                 newOther = other.convertValue( self )
-                return subtract( self, newOther )
+                return Measurement( fsub( self, newOther ), self.getUnits( ),
+                                    self.getUnitName( ), self.getPluralUnitName( ) )
+
         else:
             return Measurement( fsub( self, other ), self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
