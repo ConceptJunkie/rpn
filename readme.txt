@@ -17,7 +17,9 @@ If you have pip installed, you can install the prerequisites with the
 following:
 
 pip install pyprimes
+
 pip install mpmath
+
 pip install gmpy2
 
 Before running rpn, you should run makeHelp.py and makeUnits.py to generate the

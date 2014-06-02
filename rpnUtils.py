@@ -1489,20 +1489,15 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 
     if term in operatorAliases:
         term = operatorAliases[ term ]
-
-    if term in operators:
+    elif term in operators:
         printOperatorHelp( helpArgs, term, operators[ term ], operatorHelp[ term ], operatorAliases )
-
-    if term in listOperators:
+    elif term in listOperators:
         printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ], operatorAliases  )
-
-    if term in modifiers:
+    elif term in modifiers:
         printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ], operatorAliases )
-
-    if term in basicCategories:
+    elif term in basicCategories:
         print( basicCategories[ term ] )
-
-    if term in operatorCategories:
+    elif term in operatorCategories:
         print( )
         print( 'The ' + term + ' category includes the following operators (with aliases in' )
         print( 'parentheses):' )
@@ -1516,6 +1511,8 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 
         for operator in sorted( operatorList ):
             print( operator )
+    else:
+        print( "Help topic not found." )
 
 
 #//******************************************************************************
