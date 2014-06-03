@@ -1724,6 +1724,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'now' : [
+'conversion', 'returns the current time as list ([ year, month, day, hour, minute, second ])',
+'''
+''',
+'''
+''' ],
     'nspherearea' : [
 'trigonometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
 '''

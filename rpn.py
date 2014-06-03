@@ -111,7 +111,7 @@ def divide( n, k ):
 #//  the units.  This allows compound units and the conversion routines try to
 #//  be smart enough to deal with this.  There are scenarios in which it doesn't
 #//  work, like converting parsec*barn to cubic_inch.  However, that can be done
-#//  by converting parsec to inche and barn to square_inch separately and
+#//  by converting parsec to inches and barn to square_inch separately and
 #//  multiplying the result.
 #//
 #//******************************************************************************
@@ -2108,6 +2108,20 @@ def getGreedyEgyptianFraction( n, d ):
 
 #//******************************************************************************
 #//
+#//  getNow
+#//
+#//******************************************************************************
+
+def getNow( ):
+    result = list( )
+
+    now = time.localtime( time.time( ) )
+
+    return [ now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec ]
+
+
+#//******************************************************************************
+#//
 #//  dumpOperators
 #//
 #//******************************************************************************
@@ -3161,6 +3175,7 @@ operators = {
     'nonasquare'    : [ getNthNonagonalSquareNumber, 1 ],
     'nonatri'       : [ getNthNonagonalTriangularNumber, 1 ],
     'not'           : [ getInvertedBits, 1 ],
+    'now'           : [ getNow, 0 ],
     'nspherearea'   : [ getNSphereSurfaceArea, 2 ],
     'nsphereradius' : [ getNSphereRadius, 2 ],
     'nspherevolume' : [ getNSphereVolume, 2 ],
