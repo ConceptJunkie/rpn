@@ -26,6 +26,7 @@ import time
 
 from functools import reduce
 from mpmath import *
+from random import randrange
 
 from rpnDeclarations import *
 from rpnPrimeUtils import *
@@ -3210,6 +3211,7 @@ operators = {
     'quadprime_'    : [ getNthQuadrupletPrimeList, 1 ],
     'quintprime'    : [ getNthQuintupletPrime, 1 ],
     'quintprime_'   : [ getNthQuintupletPrimeList, 1 ],
+    'randint'       : [ randrange, 1 ],
     'random'        : [ rand, 0 ],
     'range'         : [ expandRange, 2 ],
     'range2'        : [ expandSteppedRange, 3 ],

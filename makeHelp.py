@@ -2092,6 +2092,12 @@ given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
+    'randint' : [
+'special', 'returns a random integer from 0 to n - 1',
+'''
+''',
+'''
+''' ],
     'random' : [
 'special', 'returns a random value from 0 to 1',
 '''
