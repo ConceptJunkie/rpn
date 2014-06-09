@@ -1,17 +1,11 @@
 #!/usr/bin/env python
 
-# Things that don't work, but should:
-#
-#   This requires implicit conversion between unit types
-#   rpn -D 16800 mA hours * 5 volts * joule convert
-
-
 #//******************************************************************************
 #//
 #//  rpn
 #//
 #//  RPN command-line calculator
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+#//  copyright (c) 2013 (1988), Rick Gutleber (rickg@his.com)
 #//
 #//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 #//  information).
@@ -19,22 +13,27 @@
 #//******************************************************************************
 
 import argparse
-import calendar
+import bz2
+import collections
+import contextlib
 import datetime
+import pickle
+import itertools
+import math
+import os
+import random
+import string
 import struct
 import sys
+import textwrap
 import time
 
+from fractions import Fraction
 from functools import reduce
 from mpmath import *
-from random import randrange
 
 from rpnDeclarations import *
 from rpnPrimeUtils import *
-from rpnUtils import *
-from rpnVersion import *
-
-import rpnGlobals as g
 
 
 #//******************************************************************************
@@ -45,6 +44,690 @@ import rpnGlobals as g
 
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
+
+
+#//******************************************************************************
+#//
+#//  getUnitType
+#//
+#//******************************************************************************
+
+def getUnitType( unit ):
+    if unit in unitOperators:
+        return unitOperators[ unit ].unitType
+    else:
+        return unit
+
+
+#//******************************************************************************
+#//
+#//  getSimpleUnitType
+#//
+#//******************************************************************************
+
+def getSimpleUnitType( unit ):
+    if unit in unitOperators:
+        return unitOperators[ unit ].representation
+    else:
+        return unit
+
+
+#//******************************************************************************
+#//
+#//  getUnitList
+#//
+#//******************************************************************************
+
+def getUnitList( units ):
+    unitList = [ ]
+
+    for unit in units:
+        for i in range( units[ unit ] ):
+            unitList.append( unit )
+
+    return unitList
+
+
+#//******************************************************************************
+#//
+#//  combineUnits
+#//
+#//  Combine units2 into units1
+#//
+#//******************************************************************************
+
+def combineUnits( units1, units2 ):
+    global unitConversionMatrix
+
+    if unitConversionMatrix is None:
+        loadUnitConversionMatrix( )
+
+    #print( 'combine units1:', units1 )
+    #print( 'combine units2:', units2 )
+    newUnits = { }
+    newUnits.update( units1 )
+
+    factor = mpmathify( 1 )
+
+    for unit2 in units2:
+        if unit2 in newUnits:
+            newUnits[ unit2 ] += units2[ unit2 ]
+        else:
+            for unit1 in units1:
+                if unit1 == unit2:
+                    newUnits[ unit2 ] += units2[ unit2 ]
+                    break
+                elif getUnitType( unit1 ) == getUnitType( unit2 ):
+                    factor = fdiv( factor, pow( mpmathify( unitConversionMatrix[ ( unit1, unit2 ) ] ), units2[ unit2 ] ) )
+                    newUnits[ unit1 ] += units2[ unit2 ]
+                    break
+            else:
+                newUnits[ unit2 ] = units2[ unit2 ]
+
+    return factor, newUnits
+
+
+#//******************************************************************************
+#//
+#//  class Units
+#//
+#//******************************************************************************
+
+class Units( dict ):
+    def __init__( self, *arg, **kw ):
+        if ( len( arg ) == 1 ):
+            if isinstance( arg[ 0 ], str ):
+                self.update( self.parseUnitString( arg[ 0 ] ) )
+            elif isinstance( arg[ 0 ], ( list, tuple ) ):
+                for item in arg[ 0 ]:
+                    self.increment( item )
+        else:
+            super( Units, self ).__init__( *arg, **kw )
+
+
+    def increment( self, value, amount=1 ):
+        if isinstance( value, Units ):
+            for unit in value:
+                self.increment( unit, value[ unit ] * amount )
+        else:
+            if value not in self:
+                self[ value ] = amount
+            else:
+                self[ value ] = self[ value ] + amount
+
+
+    def decrement( self, value, amount=1 ):
+        if isinstance( value, Units ):
+            for unit in value:
+                self.decrement( unit, value[ unit ] * amount )
+        else:
+            if value not in self:
+                self[ value ] = -amount
+            else:
+                self[ value ] = self[ value ] - amount
+
+
+    def invert( self ):
+        for unit in self:
+            self[ unit ] = -( self[ unit ] )
+
+
+    def getUnitTypes( self ):
+        types = { }
+
+        for unit in self:
+            if unit not in unitOperators:
+                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+
+            unitType = getUnitType( unit )
+
+            if unitType in types:
+                types[ unitType ] += self.units[ unit ]
+            else:
+                types[ unitType ] = self[ unit ]
+
+        #print( 'types:', types )
+        return types
+
+
+    def simplify( self ):
+        #print( 'simplify in:', self )
+
+        result = Units( )
+
+        for unit in self:
+            simpleUnits = Units( unitOperators[ unit ].representation )
+            #print( 'simple units:', simpleUnits )
+
+            exponent = self.get( unit )
+
+            if exponent != 1:   # handle exponent
+                for unit2 in simpleUnits:
+                    simpleUnits[ unit2 ] *= exponent
+
+            result.increment( simpleUnits )
+
+        #print( 'simplify out:', result )
+        return result
+
+
+    def getNoncompoundUnitTypes( self ):
+        result = { }
+
+        unitTypes = self.getUnitTypes( )
+
+        for unitType in unitTypes:
+            if unitType in compoundUnits:
+                basicUnits = Units( compoundUnits[ unitType ] )
+            else:
+                basicUnits = { unitType : unitTypes[ unitType ] }
+
+            exponent = unitTypes[ unitType ]
+
+            if exponent != 1:   # handle exponent
+                for unitType2 in basicUnits:
+                    basicUnits[ unitType2 ] *= exponent
+
+            result = combineUnits( result, basicUnits )[ 1 ]
+
+        #print( 'compound in:', unitTypes )
+        #print( 'compound out:', result )
+        return result
+
+
+    def getBasicTypes( self ):
+        result = Units( )
+
+        for unitType in self:
+            basicUnits = Units( basicUnitTypes[ unitType ][ 0 ] )
+
+            exponent = self[ unitType ]
+
+            if exponent != 1:   # handle exponent
+                for unitType2 in basicUnits:
+                    basicUnits[ unitType2 ] *= exponent
+
+            result = combineUnits( result, basicUnits )[ 1 ]
+
+        #print( 'basic in:', unitTypes )
+        #print( 'basic out:', result )
+        return result
+
+
+    def makeUnitString( self ):
+        resultString = ''
+
+        for unit in sorted( self ):
+            exponent = self.get( unit )
+
+            if exponent > 0:
+                if resultString != '':
+                    resultString += '*'
+
+                resultString += unit
+
+                if exponent > 1:
+                    resultString += '^' + str( exponent )
+
+        denominator = ''
+
+        for unit in sorted( self ):
+            exponent = self.get( unit )
+
+            if exponent < 0:
+                if denominator != '':
+                    denominator += '*'
+
+                denominator += unit
+
+                if exponent < -1:
+                    denominator += '^' + str( -exponent )
+
+        if denominator != '':
+            resultString += '/' + denominator
+
+        return resultString
+
+
+    def parseUnitString( self, expression ):
+        pieces = expression.split( '/' )
+
+        if len( pieces ) > 2:
+            raise ValueError( 'only one \'/\' is permitted' )
+        elif len( pieces ) == 2:
+            result = self.parseUnitString( pieces[ 0 ] )
+            result.decrement( self.parseUnitString( pieces[ 1 ] ) )
+
+            return result
+        else:
+            result = Units( )
+
+            units = expression.split( '*' )
+
+            for unit in units:
+                if unit == '':
+                    raise ValueError( 'wasn\'t expecting another \'*\'', start )
+
+                operands = unit.split( '^' )
+
+                if len( operands ) > 2:
+                    raise ValueError( 'wasn\'t expecting another exponent' )
+                else:
+                    if len( operands ) == 2:
+                        exponent = int( operands[ 1 ] )
+                    else:
+                        exponent = 1
+
+                    if operands[ 0 ] in result:
+                        result[ operands[ 0 ] ] += exponent
+                    else:
+                        result[ operands[ 0 ] ] = exponent
+
+            #print( 'parseUnitString result:', result )
+            return result
+
+
+#//******************************************************************************
+#//
+#//  class Measurement
+#//
+#//******************************************************************************
+
+class Measurement( mpf ):
+    def __new__( cls, value, units=None, unitName=None, pluralUnitName=None ):
+        return mpf.__new__( cls, value )
+
+
+    def __init__( self, value, units=None, unitName=None, pluralUnitName=None ):
+        mpf.__init__( value )
+
+        self.units = Units( )
+
+        if units is not None:
+            if isinstance( units, str ):
+                self.units = self.units.parseUnitString( units )
+            elif isinstance( units, ( list, tuple ) ):
+                for unit in units:
+                    self.increment( unit )
+            elif isinstance( units, dict ):
+                self.update( units )
+            else:
+                raise ValueError( 'invalid units specifier' )
+
+        self.unitName = unitName
+        self.pluralUnitName = pluralUnitName
+
+
+    def __eq__( self, other ):
+        result = mpf.__eq__( other )
+
+        if isinstance( other, Measurement ):
+            result &= ( self.units == other.units )
+
+        return result
+
+
+    def __ne__( self, other ):
+        return not __eq__( self, other )
+
+
+    def increment( self, value, amount=1 ):
+        self.unitName = None
+        self.pluralUnitName = None
+
+        if value not in self.units:
+            self.units[ value ] = amount
+        else:
+            self.units[ value ] += amount
+
+
+    def decrement( self, value, amount=1 ):
+        self.unitName = None
+        self.pluralUnitName = None
+
+        if value not in self.units:
+            self.units[ value ] = -amount
+        else:
+            self.units[ value ] -= amount
+
+
+    def add( self, other ):
+        if isinstance( other, Measurement ):
+            if self.getUnits( ) == other.getUnits( ):
+                return Measurement( fadd( self, other ), self.getUnits( ),
+                                    self.getUnitName( ), self.getPluralUnitName( ) )
+            else:
+                newOther = other.convertValue( self )
+                return add( self, newOther )
+        else:
+            return Measurement( fadd( self, other ), self.getUnits( ),
+                                self.getUnitName( ), self.getPluralUnitName( ) )
+
+
+    def subtract( self, other ):
+        if isinstance( other, Measurement ):
+            if self.getUnits( ) == other.getUnits( ):
+                return Measurement( fsub( self, other ), self.getUnits( ),
+                                    self.getUnitName( ), self.getPluralUnitName( ) )
+            else:
+                newOther = other.convertValue( self )
+                return subtract( self, newOther )
+        else:
+            return Measurement( fsub( self, other ), self.getUnits( ),
+                                self.getUnitName( ), self.getPluralUnitName( ) )
+
+
+    def multiply( self, other ):
+        newValue = fmul( self, other )
+
+        if isinstance( other, Measurement ):
+            factor, newUnits = combineUnits( self.getUnits( ).simplify( ), other.getUnits( ).simplify( ) )
+
+            self = Measurement( fmul( newValue, factor ), newUnits )
+        else:
+            self = Measurement( newValue, self.getUnits( ),
+                                self.getUnitName( ), self.getPluralUnitName( ) )
+
+        return self.normalizeUnits( )
+
+
+    def divide( self, other ):
+        newValue = fdiv( self, other )
+
+        if isinstance( other, Measurement ):
+            factor, newUnits = combineUnits( self.getUnits( ).simplify( ),
+                                             other.getUnits( ).invert( ).simplify( ) )
+
+            self = Measurement( fmul( newValue, factor ), newUnits )
+        else:
+            self = Measurement( newValue, self.getUnits( ),
+                                self.getUnitName( ), self.getPluralUnitName( ) )
+
+        return self.normalizeUnits( )
+
+
+    def invert( self ):
+        value = mpf( self )
+        units = self.getUnits( )
+
+        newUnits = { }
+
+        for unit in units:
+            newUnits[ unit ] = -units[ unit ]
+
+        return Measurement( fdiv( 1, value ), newUnits )
+
+
+    def normalizeUnits( self ):
+        value = mpf( self )
+        units = self.getUnits( )
+
+        newUnits = { }
+
+        for unit in units:
+            if units[ unit ] != 0:
+                newUnits[ unit ] = units[ unit ]
+
+        negative = True
+
+        for unit in newUnits:
+            if newUnits[ unit ] > 0:
+                negative = False
+                break
+
+        if negative:
+            return Measurement( value, newUnits ).invert( )
+        else:
+            return Measurement( value, newUnits, self.getUnitName( ), self.getPluralUnitName( ) )
+
+
+    def update( self, units ):
+        if not isinstance( units, dict ):
+            raise ValueError( 'dict expected' )
+
+        self.unitName = None
+        self.pluralUnitName = None
+
+        self.units.update( units )
+
+
+    def isCompatible( self, other ):
+        if isinstance( other, dict ):
+            return self.getTypes( ) == other
+        elif isinstance( other, list ):
+            result = True
+
+            for item in other:
+                result = result and self.isCompatible( item )
+
+            return result
+        elif isinstance( other, Measurement ):
+            #print( 'types: ', self.getTypes( ), other.getTypes( ) )
+            #print( 'simple types: ', self.getSimpleTypes( ), other.getSimpleTypes( ) )
+
+            if self.getTypes( ) == other.getTypes( ):
+                return True
+            elif self.getSimpleTypes( ) == other.getSimpleTypes( ):
+                return True
+            elif self.getBasicTypes( ) == other.getBasicTypes( ):
+                return True
+            elif self.getNoncompoundTypes( ) == other.getNoncompoundTypes( ):
+                return True
+            else:
+                return False
+        else:
+            raise ValueError( 'Measurement or dict expected' )
+
+
+    def getValue( self ):
+        return mpf( self )
+
+
+    def getUnits( self ):
+        return self.units
+
+
+    def getUnitName( self ):
+        return self.unitName
+
+
+    def getPluralUnitName( self ):
+        return self.pluralUnitName
+
+
+    def getTypes( self ):
+        types = Units( )
+
+        for unit in self.units:
+            if unit not in unitOperators:
+                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+
+            unitType = getUnitType( unit )
+
+            if unitType in types:
+                types[ unitType ] += self.units[ unit ]
+            else:
+                types[ unitType ] = self.units[ unit ]
+
+        #print( 'types:', types )
+        return types
+
+
+    def getSimpleTypes( self ):
+        return self.units.simplify( )
+
+
+    def getBasicTypes( self ):
+        return self.getTypes( ).getBasicTypes( )
+
+
+    def getNoncompoundTypes( self ):
+        return self.units.getNoncompoundUnitTypes( )
+
+
+    def convertValue( self, other ):
+        global unitConversionMatrix
+
+        if self.isCompatible( other ):
+            conversions = [ ]
+
+            if isinstance( other, list ):
+                result = [ ]
+                source = self
+
+                for count, measurement in enumerate( other ):
+                    conversion = source.convertValue( measurement )
+
+                    if count < len( other ) - 1:
+                        newValue = floor( mpf( conversion ) )
+                    else:
+                        newValue = mpf( conversion )
+
+                    result.append( Measurement( newValue, measurement.getUnits( ) ) )
+
+                    source = Measurement( fsub( mpf( conversion ), newValue ), measurement.getUnits( ) )
+
+                return result
+
+            units1 = self.getUnits( )
+            units2 = other.getUnits( )
+
+            unit1String = units1.makeUnitString( )
+            unit2String = units2.makeUnitString( )
+
+            exponents = [ ]
+
+            if unitConversionMatrix is None:
+                loadUnitConversionMatrix( )
+
+            # look for a straight-up conversion
+            if ( unit1String, unit2String ) in unitConversionMatrix:
+                value = fprod( [ mpf( self ), mpf( other ), mpmathify( unitConversionMatrix[ ( unit1String, unit2String ) ] ) ] )
+                #print( 'simple conversion', unit1String, unit2String )
+            elif ( unit1String, unit2String ) in specialUnitConversionMatrix:
+                value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ]( mpf( self ) )
+                #print( 'special conversion', unit1String, unit2String )
+            else:
+                conversionValue = mpmathify( 1 )
+
+                unitsToConvert = other.getBasicTypes( )
+                #print( unitsToConvert )
+
+                if unit1String in compoundUnits:
+                    units1 = Units( compoundUnits[ unit1String ] )
+
+                if unit2String in compoundUnits:
+                    units2 = Units( compoundUnits[ unit2String ] )
+
+                #print( 'compound conversion', units1, units2 )
+
+                # if that isn't found, then we need to do the hard work and break the units down
+
+                unitList1 = getUnitList( units1 )
+                unitList2 = getUnitList( units2 )
+
+                #print( 'unitList1: ', unitList1 )
+                #print( 'unitList2: ', unitList2 )
+
+                for unit1 in unitList1:
+                    for i in range( 1, len( unitList2 ) ):
+                        for combo in itertools.combinations( unitList2, i ):
+                            if Measurement( 1, Units( unit1 ) ).isCompatible( Measurement( 1, Units( combo ) ) ):
+                                print( 'yes: ', unit1, combo )
+
+                                unitName1 = Units( unit1 ).makeUnitString( )
+                                unitName2 = Units( combo ).makeUnitString( )
+
+                                if unitName1 in operatorAliases:
+                                    unitName1 = operatorAliases[ unitName1 ]
+
+                                if unitName2 in operatorAliases:
+                                    unitName2 = operatorAliases[ unitName2 ]
+
+                                conversionValue = fmul( conversionValue, mpmathify( unitConversionMatrix[ ( unitName1, unitName2 ) ] ) )
+
+                for unit1 in sorted( units1 ):
+                    for unit2 in sorted( units2 ):
+                        if getUnitType( unit1 ) == getUnitType( unit2 ):
+                            conversions.append( [ unit1, unit2 ] )
+                            exponents.append( units1[ unit1 ] )
+                            break
+
+                value = conversionValue
+                index = 0
+
+                for conversion in conversions:
+                    print( 'conversion: ', conversion, '^', exponents[ index ] )
+                    if conversion[ 0 ] == conversion[ 1 ]:
+                        continue  # no conversion needed
+
+                    conversionValue = mpmathify( unitConversionMatrix[ ( conversion[ 0 ], conversion[ 1 ] ) ] )
+                    conversionValue = power( conversionValue, exponents[ index ] )
+                    print( 'conversion: ', conversion, conversionValue )
+                    print( )
+
+                    index += 1
+
+                    value = fmul( value, conversionValue )
+
+                value = fmul( mpf( self ), value )
+
+            return value
+        else:
+            raise ValueError( 'incompatible units cannot be converted' )
+
+
+#//******************************************************************************
+#//
+#//  downloadOEISSequence
+#//
+#//******************************************************************************
+
+def downloadOEISSequence( id ):
+    keywords = downloadOEISText( id, 'K' ).split( ',' )
+
+    if 'nonn' in keywords:
+        result = downloadOEISText( id, 'S' )
+        result += downloadOEISText( id, 'T' )
+        result += downloadOEISText( id, 'U' )
+    else:
+        result = downloadOEISText( id, 'V' )
+        result += downloadOEISText( id, 'W' )
+        result += downloadOEISText( id, 'X' )
+
+    if 'cons' in keywords:
+        offset = int( downloadOEISText( id, 'O' ).split( ',' )[ 0 ] )
+        result = ''.join( result.split( ',' ) )
+        return mpmathify( result[ : offset ] + '.' + result[ offset : ] )
+    else:
+        return [ int( i ) for i in result.split( ',' ) ]
+
+
+#//******************************************************************************
+#//
+#//  downloadOEISText
+#//
+#//******************************************************************************
+
+def downloadOEISText( id, char, addCR=False ):
+    import urllib.request
+    import re as regex
+
+    data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( id ) + '&fmt=text' ).read( )
+
+    pattern = regex.compile( b'%' + bytes( char, 'ascii' ) + b' A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
+
+    lines = pattern.findall( data )
+
+    result = ''
+
+    for line in lines:
+        if result != '' and addCR:
+            result += '\n'
+
+        result += line.decode( 'ascii' )
+
+    return result
 
 
 #//******************************************************************************
@@ -112,7 +795,7 @@ def divide( n, k ):
 #//  the units.  This allows compound units and the conversion routines try to
 #//  be smart enough to deal with this.  There are scenarios in which it doesn't
 #//  work, like converting parsec*barn to cubic_inch.  However, that can be done
-#//  by converting parsec to inches and barn to square_inch separately and
+#//  by converting parsec to inche and barn to square_inch separately and
 #//  multiplying the result.
 #//
 #//******************************************************************************
@@ -124,49 +807,6 @@ def multiply( n, k ):
         return Measurement( n ).multiply( k )
     else:
         return fmul( n, k )
-
-
-#//******************************************************************************
-#//
-#//  exponentiate
-#//
-#//******************************************************************************
-
-def exponentiate( n, k ):
-    if isinstance( n, Measurement ):
-        return n.exponentiate( k )
-    elif isinstance( k, Measurement ):
-        raise ValueError( 'a measurement cannot be exponentiated' )
-    else:
-        return power( n, k )
-
-
-#//******************************************************************************
-#//
-#//  sum
-#//
-#//******************************************************************************
-
-def sum( n ):
-    hasUnits = False
-
-    for item in n:
-        if isinstance( item, Measurement ):
-            hasUnits = True
-            break
-
-    if hasUnits:
-        result = None
-
-        for item in n:
-            if result is None:
-                result = item
-            else:
-                result = result.add( item )
-
-        return result
-    else:
-        return fsum( n )
 
 
 #//******************************************************************************
@@ -243,6 +883,58 @@ def getNthAperyNumber( n ):
 
 #//******************************************************************************
 #//
+#//  ContinuedFraction
+#//
+#//  A continued fraction, represented as a list of integer terms.
+#//
+#//  adapted from ActiveState Python, recipe 578647
+#//
+#//******************************************************************************
+
+class ContinuedFraction( list ):
+    def __init__( self, value, maxterms=15, cutoff=1e-10 ):
+        if isinstance( value, ( int, float, mpf ) ):
+            value = mpmathify( value )
+            remainder = floor( value )
+            self.append( remainder )
+
+            while len( self ) < maxterms:
+                value -= remainder
+
+                if value > cutoff:
+                    value = fdiv( 1, value )
+                    remainder = floor( value )
+                    self.append( remainder )
+                else:
+                    break
+
+        elif isinstance( value, ( list, tuple ) ):
+            self.extend( value )
+        else:
+            raise ValueError( 'ContinuedFraction requires a number or a list' )
+
+    def getFraction( self, terms=None ):
+        if terms is None or terms >= len( self ):
+            terms = len( self ) - 1
+
+        frac = Fraction( 1, int( self[ terms ] ) )
+
+        for t in reversed( self[ 1 : terms ] ):
+            frac = 1 / ( frac + int( t ) )
+
+        frac += int( self[ 0 ] )
+
+        return frac
+
+    def __float__( self ):
+        return float( self.getFraction( ) )
+
+    def __str__( self ):
+        return '[%s]' % ', '.join( [ str( int( x ) ) for x in self ] )
+
+
+#//******************************************************************************
+#//
 #//  getDivisorCount
 #//
 #//******************************************************************************
@@ -279,7 +971,6 @@ def getDivisors( n ):
 #//  factor
 #//
 #//  This is not my code, and I need to find the source so I can attribute it.
-#//  I think I got it from stackoverflow.com.
 #//
 #//******************************************************************************
 
@@ -327,7 +1018,7 @@ def factor( n ):
                 sqrtn = sqrt( n )
 
         if n > 1:
-            factors.append( ( int( n ), 1 ) )
+             factors.append( ( int( n ), 1 ) )
 
         return factors
 
@@ -345,16 +1036,232 @@ def getExpandedFactorList( factors ):
 
 #//******************************************************************************
 #//
+#//  convertToPhiBase
+#//
+#//******************************************************************************
+
+def convertToPhiBase( num ):
+    epsilon = power( 10, -( mp.dps - 3 ) )
+
+    output = ''
+    integer = ''
+
+    start = True
+    previousPlace = 0
+    remaining = num
+
+    originalPlace = 0
+
+    while remaining > epsilon:
+        place = int( floor( log( remaining, phi ) ) )
+
+        if start:
+            output = '1'
+            start = False
+            originalPlace = place
+        else:
+            if place < -( originalPlace + 1 ):
+                break
+
+            for i in range( previousPlace, place + 1, -1 ):
+                output += '0'
+
+                if ( i == 1 ):
+                    integer = output
+                    output = ''
+
+            output += '1'
+
+            if place == 0:
+                integer = output
+                output = ''
+
+        previousPlace = place
+        remaining -= power( phi, place )
+
+    if integer == '':
+        return output, ''
+    else:
+        return integer, output
+
+
+#//******************************************************************************
+#//
+#//  convertToFibBase
+#//
+#//  Returns a string with Fibonacci encoding for n (n >= 1).
+#//
+#//  adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
+#//
+#//******************************************************************************
+
+def convertToFibBase( value ):
+    result = ''
+
+    n = value
+
+    if n >= 1:
+        a = 1
+        b = 1
+
+        c = fadd( a, b )    # next Fibonacci number
+        fibs = [ b ]        # list of Fibonacci numbers, starting with F(2), each <= n
+
+        while n >= c:
+            fibs.append( c )  # add next Fibonacci number to end of list
+            a = b
+            b = c
+            c = fadd( a, b )
+
+        for fibnum in reversed( fibs ):
+            if n >= fibnum:
+                n = fsub( n, fibnum )
+                result = result + '1'
+            else:
+                result = result + '0'
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  convertToBaseN
+#//
+#//******************************************************************************
+
+def convertToBaseN( value, base, baseAsDigits, numerals ):
+    if baseAsDigits:
+        if ( base < 2 ):
+            raise ValueError( 'base must be greater than 1' )
+    else:
+        if not ( 2 <= base <= len( numerals ) ):
+            raise ValueError( 'base must be from 2 to %d' % len( numerals ) )
+
+    if value == 0:
+        return 0
+
+    if value < 0:
+        return '-' + convertToBaseN( ( -1 ) * value, base, baseAsDigits, numerals )
+
+    if base == 10:
+        return str( value )
+
+    result = ''
+    leftDigits = value
+
+    while leftDigits > 0:
+        if baseAsDigits:
+            if result != '':
+                result = ' ' + result
+
+            result = str( int( leftDigits ) % base ) + result
+        else:
+            result = numerals[ int( leftDigits ) % base ] + result
+
+        leftDigits = floor( fdiv( leftDigits, base ) )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  convertFractionToBaseN
+#//
+#//******************************************************************************
+
+def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
+    if baseAsDigits:
+        if ( base < 2 ):
+            raise ValueError( 'base must be greater than 1' )
+    else:
+        if not ( 2 <= base <= len( numerals ) ):
+            raise ValueError( 'base must be from 2 to %d' % len( numerals ) )
+
+    if value < 0 or value >= 1.0:
+        raise ValueError( 'value (%s) must be >= 0 and < 1.0' % value )
+
+    if base == 10:
+        return str( value )
+
+    result = ''
+
+    while value > 0 and precision > 0:
+        value = value * base
+        digit = int( value )
+
+        if len( result ) == accuracy:
+            value -= digit
+            newDigit = int( value ) % base
+
+            if newDigit >= base // 2:
+                digit += 1
+
+        if baseAsDigits:
+            if result != '':
+                result += ' '
+
+            result += str( digit % base )
+        else:
+            result += numerals[ digit % base ]
+
+        if len( result ) == accuracy:
+            break
+
+        value -= digit
+        precision -= 1
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  convertToBase10
+#//
+#//******************************************************************************
+
+def convertToBase10( integer, mantissa, inputRadix ):
+    result = mpmathify( 0 )
+    base = mpmathify( 1 )
+
+    validNumerals = numerals[ : inputRadix ]
+
+    for i in range( len( integer ) - 1, -1, -1 ):
+        digit = validNumerals.find( integer[ i ] )
+
+        if digit == -1:
+            raise ValueError( 'invalid numeral \'%c\' for base %d' % ( integer[ i ], inputRadix ) )
+
+        result += digit * base
+        base *= inputRadix
+
+    base = fdiv( 1, inputRadix )
+
+    for i in range( 0, len( mantissa ) ):
+        digit = validNumerals.find( mantissa[ i ] )
+
+        if digit == -1:
+            raise ValueError( 'invalid numeral \'%c\' for base %d' % ( mantissa[ i ], inputRadix ) )
+
+        result += digit * base
+        base /= inputRadix
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  getInvertedBits
 #//
 #//******************************************************************************
 
 def getInvertedBits( n ):
+    global bitwiseGroupSize
+
     value = floor( n )
     # determine how many groups of bits we will be looking at
-    groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
+    groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), bitwiseGroupSize ) ), 1 ) )
 
-    placeValue = mpmathify( 1 << g.bitwiseGroupSize )
+    placeValue = mpmathify( 1 << bitwiseGroupSize )
     multiplier = mpmathify( 1 )
     remaining = value
 
@@ -370,22 +1277,6 @@ def getInvertedBits( n ):
 
 #//******************************************************************************
 #//
-#//  convertToSignedInt
-#//
-#//  two's compliment logic is in effect here
-#//
-#//******************************************************************************
-
-def convertToSignedInt( n, k ):
-    value = fadd( n, ( power( 2, fsub( k, 1 ) ) ) )
-    value = fmod( value, power( 2, k ) )
-    value = fsub( value, ( power( 2, fsub( k, 1 ) ) ) )
-
-    return value
-
-
-#//******************************************************************************
-#//
 #//  performBitwiseOperation
 #//
 #//  The operations are performed on groups of bits as specified by the variable
@@ -396,17 +1287,19 @@ def convertToSignedInt( n, k ):
 #//******************************************************************************
 
 def performBitwiseOperation( i, j, operation ):
+    global bitwiseGroupSize
+
     value1 = floor( i )
     value2 = floor( j )
 
     # determine how many groups of bits we will be looking at
-    groupings = int( fadd( floor( fdiv( ( log( value1, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
-    groupings2 = int( fadd( floor( fdiv( ( log( value1, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
+    groupings = int( fadd( floor( fdiv( ( log( value1, 2 ) ), bitwiseGroupSize ) ), 1 ) )
+    groupings2 = int( fadd( floor( fdiv( ( log( value1, 2 ) ), bitwiseGroupSize ) ), 1 ) )
 
     if groupings2 > groupings:
         groupings = groupings2
 
-    placeValue = mpmathify( 1 << g.bitwiseGroupSize )
+    placeValue = mpmathify( 1 << bitwiseGroupSize )
     multiplier = mpmathify( 1 )
     remaining1 = value1
     remaining2 = value2
@@ -719,9 +1612,7 @@ def getNSphereRadius( n, k ):
     if not isinstance( k, Measurement ):
         return Measurement( k, 'length' )  # default is 'length' anyway
 
-    print( type( k.getBasicTypes( ).getUnitString( ) ) )
-
-    measurementType = k.getBasicTypes( ).getUnitString( )
+    measurementType = getSimpleUnitType( makeUnitString( k.getTypes( ) ) )
 
     if measurementType == 'length':
         return 1
@@ -733,7 +1624,7 @@ def getNSphereRadius( n, k ):
         return root( fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                                  power( pi, fdiv( n, 2 ) ) ), k ), 3 )
     else:
-        raise ValueError( 'incompatible measurement type for computing the radius: ' + measurementType )
+        raise ValueError( 'incompatible measurement type for computing the radius' )
 
 
 #//******************************************************************************
@@ -905,6 +1796,13 @@ def getNthHexagonalPentagonalNumber( n ):
 #//******************************************************************************
 
 def getNthHeptagonalTriangularNumber( n ):
+    #return floor( fdiv( fsum( [ fmul( fmul( fsub( 3, sqrt( 5 ) ), power( -1, n ) ) ),
+    #                                power( fadd( 2, sqrt( 5 ) ), fsub( fmul( 4, n ), 2 ) ) ),
+    #                            fmul( fmul( fadd( 3, sqrt( 5 ) ), power( -1, n ) ) ),
+    #                                  power( fsub( 2, sqrt( 5 ) ), fsub( fmul( 4, n ), 2 ) ) ),
+    #                            14 ] ),
+    #                    80 ) )
+
     return getNthLinearRecurrence( [ 1, -1, -103682, 103682, 1 ],
                                    [ 1, 55, 121771, 5720653, 12625478965 ], n )
 
@@ -1084,9 +1982,9 @@ def getNthNonagonalSquareNumber( n ):
     sign = power( -1, n )
 
     index = fdiv( fsub( fmul( fadd( p, fmul( q, sign ) ),
-                              power( fadd( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), n ) ),
-                        fmul( fsub( p, fmul( q, sign ) ),
-                              power( fsub( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), fsub( n, 1 ) ) ) ), 112 )
+                                    power( fadd( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), n ) ),
+                              fmul( fsub( p, fmul( q, sign ) ),
+                                    power( fsub( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), fsub( n, 1 ) ) ) ), 112 )
 
     return power( round( index ), 2 )
 
@@ -1209,7 +2107,6 @@ def getNthNonagonalOctagonalNumber( n ):
 # http://oeis.org/A203627
 # a(n) = floor(1/448*(15+2*sqrt(14))*(2*sqrt(2)+sqrt(7))^(8*n-6)).
 
-
 #//******************************************************************************
 #//
 #//  findTetrahedralNumber
@@ -1219,8 +2116,8 @@ def getNthNonagonalOctagonalNumber( n ):
 #//******************************************************************************
 
 def findTetrahedralNumber( n ):
-    #sqrt3 = sqrt( 3 )
-    #curt3 = cbrt( 3 )
+    sqrt3 = sqrt( 3 )
+    curt3 = cbrt( 3 )
 
     # TODO:  finish me
     return 0
@@ -1532,6 +2429,8 @@ def getNthMotzkinNumber( n ):
 #//******************************************************************************
 
 def getNthPadovanNumber( arg ):
+    result = 0
+
     n = fadd( arg, 4 )
 
     a = root( fsub( fdiv( 27, 2 ), fdiv( fmul( 3, sqrt( 69 ) ), 2 ) ), 3 )
@@ -1547,7 +2446,6 @@ def getNthPadovanNumber( arg ):
     return round( re( fsum( [ fdiv( power( r, n ), fadd( fmul( 2, r ), 3 ) ),
                               fdiv( power( s, n ), fadd( fmul( 2, s ), 3 ) ),
                               fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
-
 
 #//******************************************************************************
 #//
@@ -1841,15 +2739,17 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
 #//******************************************************************************
 
 def getChampernowne( ):
+    global inputRadix
+
     result = ''
 
     count = 1
 
     while len( result ) < mp.dps:
-        result += convertToBaseN( count, g.inputRadix, False, defaultNumerals )
+        result += convertToBaseN( count, inputRadix, False, defaultNumerals )
         count += 1
 
-    return convertToBase10( '0', result, g.inputRadix )
+    return convertToBase10( '0', result, inputRadix )
 
 
 #//******************************************************************************
@@ -1972,6 +2872,23 @@ def calculatePowerTower2( args ):
         result = power( result, i )
 
     return result
+
+
+#//******************************************************************************
+#//
+#//  evaluateOneListFunction
+#//
+#//******************************************************************************
+
+def evaluateOneListFunction( func, args ):
+    if isinstance( args, list ):
+        for arg in args:
+            if isinstance( arg, list ):
+                return [ evaluateOneListFunction( func, arg ) for arg in args ]
+
+        return func( args )
+    else:
+        return func( [ args ] )
 
 
 #//******************************************************************************
@@ -2109,86 +3026,6 @@ def getGreedyEgyptianFraction( n, d ):
 
 #//******************************************************************************
 #//
-#//  getNow
-#//
-#//******************************************************************************
-
-def getNow( ):
-    result = list( )
-
-    now = time.localtime( time.time( ) )
-
-    return [ now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec ]
-
-
-#//******************************************************************************
-#//
-#//  convertToUnixTime
-#//
-#//******************************************************************************
-
-def convertToUnixTime( args ):
-    argList = args
-
-    if len( argList ) == 1:
-        argList.append( 1 )
-
-    if len( argList ) == 2:
-        argList.append( 1 )
-
-    if len( argList ) == 3:
-        argList.append( 0 )
-
-    if len( argList ) == 4:
-        argList.append( 0 )
-
-    if len( argList ) == 5:
-        argList.append( 0 )
-
-    try:
-        result = calendar.timegm( args[ 0 : 6 ] )
-    except OverflowError as error:
-        print( 'rpn:  out of range error for \'tounixtime\'' )
-        return 0
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  convertFromUnixTime
-#//
-#//******************************************************************************
-
-def convertFromUnixTime( n ):
-    try:
-        unixtime = time.gmtime( n )
-    except OverflowError as error:
-        print( 'rpn:  out of range error for \'fromunixtime\'' )
-        return 0
-
-    return [ unixtime.tm_year, unixtime.tm_mon, unixtime.tm_mday,
-             unixtime.tm_hour, unixtime.tm_min, unixtime.tm_sec ]
-
-
-#//******************************************************************************
-#//
-#//  convertFromUnixTime
-#//
-#//******************************************************************************
-
-def ConvertToUnixTime( valueList ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
-            result = pickle.load( pickleFile )
-    except FileNotFoundError:
-        result = mapmathify( 0 )
-
-    return result
-
-
-#//******************************************************************************
-#//
 #//  dumpOperators
 #//
 #//******************************************************************************
@@ -2233,6 +3070,22 @@ def dumpAliases( ):
 
 #//******************************************************************************
 #//
+#//  convertToSignedInt
+#//
+#//  two's compliment logic is in effect here
+#//
+#//******************************************************************************
+
+def convertToSignedInt( n, k ):
+    value = fadd( n, ( power( 2, fsub( k, 1 ) ) ) )
+    value = fmod( value, power( 2, k ) )
+    value = fsub( value, ( power( 2, fsub( k, 1 ) ) ) )
+
+    return value
+
+
+#//******************************************************************************
+#//
 #//  printStats
 #//
 #//******************************************************************************
@@ -2250,29 +3103,31 @@ def printStats( dict, name ):
 #//******************************************************************************
 
 def dumpStats( ):
-    if g.unitConversionMatrix is None:
+    global unitConversionMatrix
+
+    if unitConversionMatrix is None:
         loadUnitConversionMatrix( )
 
     print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) + len( modifiers ) ) )
-    print( '{:10,} unit conversions'.format( len( g.unitConversionMatrix ) ) )
+    print( '{:10,} unit conversions'.format( len( unitConversionMatrix ) ) )
     print( )
 
-    printStats( loadSmallPrimes( g.dataPath ), 'small primes' )
-    printStats( loadLargePrimes( g.dataPath ), 'large primes' )
-    printStats( loadIsolatedPrimes( g.dataPath ), 'isolated primes' )
-    printStats( loadTwinPrimes( g.dataPath ), 'twin primes' )
-    printStats( loadBalancedPrimes( g.dataPath ), 'balanced primes' )
-    printStats( loadDoubleBalancedPrimes( g.dataPath ), 'double balanced primes' )
-    printStats( loadTripleBalancedPrimes( g.dataPath ), 'triple balanced primes' )
-    printStats( loadSophiePrimes( g.dataPath ), 'Sophie Germain primes' )
-    printStats( loadCousinPrimes( g.dataPath ), 'cousin primes' )
-    printStats( loadSexyPrimes( g.dataPath ), 'sexy primes' )
-    printStats( loadTripletPrimes( g.dataPath ), 'triplet primes' )
-    printStats( loadSexyTripletPrimes( g.dataPath ), 'sexy triplet primes' )
-    printStats( loadQuadrupletPrimes( g.dataPath ), 'quadruplet primes' )
-    printStats( loadSexyQuadrupletPrimes( g.dataPath ), 'sexy quadruplet primes' )
-    printStats( loadQuintupletPrimes( g.dataPath ), 'quintuplet primes' )
-    printStats( loadSextupletPrimes( g.dataPath ), 'sextuplet primes' )
+    printStats( loadSmallPrimes( dataPath ), 'small primes' )
+    printStats( loadLargePrimes( dataPath ), 'large primes' )
+    printStats( loadIsolatedPrimes( dataPath ), 'isolated primes' )
+    printStats( loadTwinPrimes( dataPath ), 'twin primes' )
+    printStats( loadBalancedPrimes( dataPath ), 'balanced primes' )
+    printStats( loadDoubleBalancedPrimes( dataPath ), 'double balanced primes' )
+    printStats( loadTripleBalancedPrimes( dataPath ), 'triple balanced primes' )
+    printStats( loadSophiePrimes( dataPath ), 'Sophie Germain primes' )
+    printStats( loadCousinPrimes( dataPath ), 'cousin primes' )
+    printStats( loadSexyPrimes( dataPath ), 'sexy primes' )
+    printStats( loadTripletPrimes( dataPath ), 'triplet primes' )
+    printStats( loadSexyTripletPrimes( dataPath ), 'sexy triplet primes' )
+    printStats( loadQuadrupletPrimes( dataPath ), 'quadruplet primes' )
+    printStats( loadSexyQuadrupletPrimes( dataPath ), 'sexy quadruplet primes' )
+    printStats( loadQuintupletPrimes( dataPath ), 'quintuplet primes' )
+    printStats( loadSextupletPrimes( dataPath ), 'sextuplet primes' )
 
     print( )
 
@@ -2288,7 +3143,8 @@ def dumpStats( ):
 #//******************************************************************************
 
 def incrementNestedListLevel( valueList ):
-    g.nestedListLevel += 1
+    global nestedListLevel
+    nestedListLevel += 1
 
     valueList.append( list( ) )
 
@@ -2300,38 +3156,11 @@ def incrementNestedListLevel( valueList ):
 #//******************************************************************************
 
 def decrementNestedListLevel( valueList ):
-    g.nestedListLevel -= 1
+    global nestedListLevel
+    nestedListLevel -= 1
 
-    if g.nestedListLevel < 0:
+    if nestedListLevel < 0:
         raise ValueError( "negative list level (too many ']'s)" )
-
-
-#//******************************************************************************
-#//
-#//  duplicateTerm
-#//
-#//******************************************************************************
-
-def duplicateTerm( valueList ):
-    count = valueList.pop( )
-    value = valueList.pop( )
-
-    for i in range( 0, int( count ) ):
-        if isinstance( value, list ):
-            for i in value:
-                valueList.append( i )
-        else:
-            valueList.append( value )
-
-
-#//******************************************************************************
-#//
-#//  getPrevious
-#//
-#//******************************************************************************
-
-def getPrevious( valueList ):
-    valueList.append( valueList[ -1 ] )
 
 
 #//******************************************************************************
@@ -2393,9 +3222,9 @@ def appendLists( valueList ):
 
 def loadResult( valueList ):
     try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
             result = pickle.load( pickleFile )
-    except FileNotFoundError:
+    except FileNotFoundError as error:
         result = mapmathify( 0 )
 
     return result
@@ -2408,7 +3237,7 @@ def loadResult( valueList ):
 #//******************************************************************************
 
 def saveResult( result ):
-    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'wb' ) ) as pickleFile:
+    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'result.pckl.bz2', 'wb' ) ) as pickleFile:
         pickle.dump( result, pickleFile )
 
 
@@ -2876,12 +3705,75 @@ def getStandardDeviation( args ):
 #//******************************************************************************
 
 def getCurrentArgList( valueList ):
+    global nestedListLevel
+
     argList = valueList
 
-    for i in range( 0, g.nestedListLevel ):
+    for i in range( 0, nestedListLevel ):
         argList = argList[ -1 ]
 
     return argList
+
+
+#//******************************************************************************
+#//
+#//  evaluateOneArgFunction
+#//
+#//******************************************************************************
+
+def evaluateOneArgFunction( func, args ):
+    if isinstance( args, list ):
+        return [ evaluateOneArgFunction( func, i ) for i in args ]
+    else:
+        return func( args )
+
+
+#//******************************************************************************
+#//
+#//  evaluateTwoArgFunction
+#//
+#//******************************************************************************
+
+def evaluateTwoArgFunction( func, arg1, arg2 ):
+    #print( 'arg1: ' + str( arg1 ) )
+    #print( 'arg2: ' + str( arg2 ) )
+
+    list1 = len( arg1 ) > 1
+    list2 = len( arg2 ) > 1
+
+    #print( list1 )
+    #print( list2 )
+
+    if list1:
+        if list2:
+            return [ func( arg2[ index ], arg1[ index ] ) for index in range( 0, len( arg1 ) ) ]
+        else:
+            return [ func( arg2[ 0 ], i ) for i in arg1 ]
+
+    else:
+        if list2:
+            return [ func( j, arg1[ 0 ] ) for j in arg2 ]
+        else:
+            return [ func( arg2[ 0 ], arg1[ 0 ] ) ]
+
+
+#//******************************************************************************
+#//
+#//  callers
+#//
+#//******************************************************************************
+
+callers = [
+    lambda func, args: [ func( ) ],
+    evaluateOneArgFunction,
+    evaluateTwoArgFunction,
+    lambda func, arg1, arg2, arg3:
+        [ func( a, b, c ) for c in arg1 for b in arg2 for a in arg3 ],
+    lambda func, arg1, arg2, arg3, arg4:
+        [ func( a, b, c, d ) for d in arg1 for c in arg2 for b in arg3 for a in arg4 ],
+    lambda func, arg1, arg2, arg3, arg4, arg5:
+        [ func( a, b, c, d, e ) for e in arg1 for d in arg2 for c in arg3 for b in arg4 for a in arg5 ],
+]
 
 
 #//******************************************************************************
@@ -2893,32 +3785,63 @@ def getCurrentArgList( valueList ):
 def estimate( measurement ):
     if isinstance( measurement, Measurement ):
         unitType = getUnitType( measurement.getUnitName( ) )
-        unitTypeOutput = removeUnderscores( unitType )
 
-        unitTypeInfo = g.basicUnitTypes[ unitType ]
+        if unitType == 'mass':
+            return estimateMass( measurement )
+        elif unitType == 'length':
+            return estimateLength( measurement )
+        elif unitType == 'volume':
+            return estimateVolume( measurement )
 
-        unit = Measurement( 1, { unitTypeInfo.baseUnit : 1 } )
-        value = mpf( Measurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
+    return 0
 
-        if len( unitTypeInfo.estimateTable ) == 0:
-            return 'No estimates are available for this unit type (' + unitTypeOutput + ').'
 
-        matchingKeys = [ key for key in unitTypeInfo.estimateTable if key <= mpf( value ) ]
+#//******************************************************************************
+#//
+#//  estimateMass
+#//
+#//******************************************************************************
 
-        if len( matchingKeys ) == 0:
-            estimateKey = min( key for key in unitTypeInfo.estimateTable )
+def estimateMass( mass ):
+    oneGram = Measurement( 1, { 'gram' : 1 } )
+    massInGrams = mpf( Measurement( mass.convertValue( oneGram ), oneGram.getUnits( ) ) )
 
-            multiple = fdiv( estimateKey, value )
+    massKey = max( key for key in massTable if key <= massInGrams )
+    multiple = fdiv( massInGrams, massKey )
 
-            return 'approximately ' + nstr( multiple, 3 ) + ' times smaller than ' + \
-                   unitTypeInfo.estimateTable[ estimateKey ]
-        else:
-            estimateKey = max( matchingKeys )
+    return 'Approximately ' + nstr( multiple, 3 ) + ' times the mass of ' + massTable[ massKey ]
 
-            multiple = fdiv( value, estimateKey )
 
-            return 'approximately ' + nstr( multiple, 3 ) + ' times ' + \
-                   unitTypeInfo.estimateTable[ estimateKey ]
+#//******************************************************************************
+#//
+#//  estimateLength
+#//
+#//******************************************************************************
+
+def estimateLength( length ):
+    oneMeter = Measurement( 1, { 'meter' : 1 } )
+    lengthInMeters = mpf( Measurement( length.convertValue( oneMeter ), oneMeter.getUnits( ) ) )
+
+    lengthKey = max( key for key in lengthTable if mpf( key ) < lengthInMeters )
+    multiple = fdiv( lengthInMeters, mpf( lengthKey ) )
+
+    return 'Approximately ' + nstr( multiple, 3 ) + ' times the length of ' + lengthTable[ lengthKey ]
+
+
+#//******************************************************************************
+#//
+#//  estimateVolume
+#//
+#//******************************************************************************
+
+def estimateVolume( volume ):
+    oneLiter = Measurement( 1, { 'liter' : 1 } )
+    volumeInLiters = mpf( Measurement( volume.convertValue( oneLiter ), oneLiter.getUnits( ) ) )
+
+    volumeKey = max( key for key in volumeTable if mpf( key ) < volumeInLiters )
+    multiple = fdiv( volumeInLiters, mpf( volumeKey ) )
+
+    return 'Approximately ' + nstr( multiple, 3 ) + ' times the volume of ' + volumeTable[ volumeKey ]
 
 
 #//******************************************************************************
@@ -2973,19 +3896,186 @@ def convertToYDHMS( n ):
 #//******************************************************************************
 
 def convertUnits( unit1, unit2 ):
-
-    if not isinstance( unit1, Measurement ):
-        raise ValueError( 'cannot convert non-measurements' )
+    print( )
+    print( 'unit1:', unit1.getTypes( ) )
+    print( 'unit2:', unit2.getTypes( ) )
 
     if isinstance( unit2, list ):
         return unit1.convertValue( unit2 )
     else:
-        debugPrint( 'convertUnits' )
-        debugPrint( 'unit1:', unit1.getTypes( ) )
-        debugPrint( 'unit2:', unit2.getTypes( ) )
-
         return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
                             unit2.getUnitName( ), unit2.getPluralUnitName( ) )
+
+
+#//******************************************************************************
+#//
+#//  operatorAliases
+#//
+#//******************************************************************************
+
+operatorAliases = {
+    '!!'          : 'doublefac',
+    '!'           : 'factorial',
+    '%'           : 'modulo',
+    '*'           : 'multiply',
+    '**'          : 'power',
+    '***'         : 'tetrate',
+    '+'           : 'add',
+    '-'           : 'subtract',
+    '/'           : 'divide',
+    '//'          : 'root',
+    '1/x'         : 'reciprocal',
+    'average'     : 'mean',
+    'avg'         : 'mean',
+    'bal'         : 'balanced',
+    'bal?'        : 'balanced?',
+    'bal_'        : 'balanced_',
+    'bits'        : 'countbits',
+    'cbrt'        : 'root3',
+    'cc'          : 'cubic_centimeter',
+    'ccube'       : 'centeredcube',
+    'cdec'        : 'cdecagonal',
+    'cdec?'       : 'cdecagonal?',
+    'ceil'        : 'ceiling',
+    'champ'       : 'champernowne',
+    'chept'       : 'cheptagonal',
+    'chept?'      : 'cheptagonal?',
+    'chex'        : 'chexagonal',
+    'chex?'       : 'chexagonal?',
+    'cnon'        : 'cnonagonal',
+    'cnon?'       : 'cnonagonal?',
+    'coct'        : 'coctagonal',
+    'coct?'       : 'coctagonal?',
+    'cousin'      : 'cousinprime',
+    'cousin?'     : 'cousinprime?',
+    'cousin_'     : 'cousinprime_',
+    'cpent'       : 'cpentagonal',
+    'cpent?'      : 'cpentagonal?',
+    'cpoly'       : 'cpolygonal',
+    'cpoly?'      : 'cpolygonal?',
+    'ctri'        : 'ctriangular',
+    'ctri?'       : 'ctriangular?',
+    'cuberoot'    : 'root3',
+    'dec'         : 'decagonal',
+    'dec?'        : 'decagonal?',
+    'divcount'    : 'countdiv',
+    'fac'         : 'factorial',
+    'fac2'        : 'doublefac',
+    'fermi'       : 'femtometer',
+    'fib'         : 'fibonacci',
+    'frac'        : 'fraction',
+    'gemmho'      : 'micromho',
+    'geomrange'   : 'georange',
+    'gigohm'      : 'gigaohm',
+    'harm'        : 'harmonic',
+    'hept'        : 'heptagonal',
+    'hept?'       : 'heptagonal?',
+    'hex'         : 'hexagonal',
+    'hex?'        : 'hexagonal?',
+    'hyper4'      : 'tetrate',
+    'int'         : 'long',
+    'int16'       : 'short',
+    'int32'       : 'long',
+    'int64'       : 'longlong',
+    'int8'        : 'char',
+    'inv'         : 'reciprocal',
+    'isdiv'       : 'isdivisible',
+    'issqr'       : 'issquare',
+    'left'        : 'shiftleft',
+    'linear'      : 'linearrecur',
+    'log'         : 'ln',
+    'maxint'      : 'maxlong',
+    'maxint128'   : 'maxquadlong',
+    'maxint16'    : 'maxshort',
+    'maxint32'    : 'maxlong',
+    'maxint64'    : 'maxlonglong',
+    'maxint8'     : 'maxchar',
+    'maxuint'     : 'maxulong',
+    'maxuint128'  : 'maxuquadlong',
+    'maxuint16'   : 'maxushort',
+    'maxuint32'   : 'maxulong',
+    'maxuint64'   : 'maxulonglong',
+    'maxuint8'    : 'maxuchar',
+    'mcg'         : 'microgram',
+    'megaohm'     : 'megohm',
+    'megalerg'    : 'megaerg',
+    'minint'      : 'minlong',
+    'minint128'   : 'minquadlong',
+    'minint16'    : 'minshort',
+    'minint32'    : 'minlong',
+    'minint64'    : 'minlonglong',
+    'minint8'     : 'minchar',
+    'minuint'     : 'minulong',
+    'minuint128'  : 'minuquadlong',
+    'minuint16'   : 'minushort',
+    'minuint32'   : 'minulong',
+    'minuint64'   : 'minulonglong',
+    'minuint8'    : 'minuchar',
+    'mod'         : 'modulo',
+    'mult'        : 'multiply',
+    'neg'         : 'negative',
+    'non'         : 'nonagonal',
+    'non?'        : 'nonagonal?',
+    'nonasq'      : 'nonasquare',
+    'nonzeroes'   : 'nonzero',
+    'oct'         : 'octagonal',
+    'oct?'        : 'octagonal?',
+    'p!'          : 'primorial',
+    'pent'        : 'pentagonal',
+    'pent?'       : 'pentagonal?',
+    'poly'        : 'polygonal',
+    'poly?'       : 'polygonal?',
+    'prod'        : 'product',
+    'pyr'         : 'pyramid',
+    'quad'        : 'quadprime',
+    'quad?'       : 'quadprime?',
+    'quad_'       : 'quadprime_',
+    'quint'       : 'quintprime',
+    'quint?'      : 'quintprime?',
+    'quint_'      : 'quintprime_',
+    'rand'        : 'random',
+    'right'       : 'shiftright',
+    'safe'        : 'safeprime',
+    'safe?'       : 'safeprime?',
+    'sext'        : 'sextprime',
+    'sext?'       : 'sextprime?',
+    'sext_'       : 'sextprime_',
+    'sexy'        : 'sexyprime',
+    'sexy3'       : 'sexytriplet',
+    'sexy3?'      : 'sexytriplet?',
+    'sexy3_'      : 'sexytriplet_',
+    'sexy4'       : 'sexyquad',
+    'sexy4?'      : 'sexyquad?',
+    'sexy4_'      : 'sexyquad_',
+    'sexy?'       : 'sexyprime?',
+    'sexy_'       : 'sexyprime',
+    'sigma'       : 'microsecond',
+    'sigmas'      : 'microsecond',
+    'sophie'      : 'sophieprime',
+    'sophie?'     : 'sophieprime?',
+    'sqr'         : 'square',
+    'sqrt'        : 'root2',
+    'syl'         : 'sylvester',
+    'tri'         : 'triangular',
+    'tri?'        : 'triangular?',
+    'triarea'     : 'trianglearea',
+    'triplet'     : 'tripletprime',
+    'triplet?'    : 'tripletprime?',
+    'triplet_'    : 'tripletprime_',
+    'twin'        : 'twinprime',
+    'twin?'       : 'twinprime?',
+    'twin_'       : 'twinprime_',
+    'uint'        : 'ulong',
+    'uint16'      : 'ushort',
+    'uint32'      : 'ulong',
+    'uint64'      : 'ulonglong',
+    'uint8'       : 'uchar',
+    'unsigned'    : 'uinteger',
+    'woodall'     : 'riesel',
+    'zeroes'      : 'zero',
+    '^'           : 'power',
+    '~'           : 'not',
+}
 
 
 #//******************************************************************************
@@ -2999,12 +4089,11 @@ def convertUnits( unit1, unit2 ):
 #//******************************************************************************
 
 modifiers = {
-    'dup'           : [ duplicateTerm, 2 ],
-    'flatten'       : [ flatten, 1 ],
-    'previous'      : [ getPrevious, 1 ],
-    'unlist'        : [ unlist, 1 ],
-    '['             : [ incrementNestedListLevel, 0 ],
-    ']'             : [ decrementNestedListLevel, 0 ],
+    'dup'       : [ duplicateTerm, 2 ],
+    'flatten'   : [ flatten, 1 ],
+    'unlist'    : [ unlist, 1 ],
+    '['         : [ incrementNestedListLevel, 0 ],
+    ']'         : [ decrementNestedListLevel, 0 ],
 }
 
 
@@ -3050,8 +4139,8 @@ listOperators = {
     'sort'          : [ sortAscending, 1 ],
     'sortdesc'      : [ sortDescending, 1 ],
     'stddev'        : [ getStandardDeviation, 1 ],
-    'sum'           : [ sum, 1 ],
-    'tounixtime'    : [ convertToUnixTime, 1 ],
+    'sum'           : [ fsum, 1 ],
+    'tounixtime'    : [ lambda i: datetime.datetime( *i ).timestamp( ), 1 ],
     'tower'         : [ calculatePowerTower, 1 ],
     'tower2'        : [ calculatePowerTower2, 1 ],
     'union'         : [ makeUnion, 2 ],
@@ -3092,7 +4181,6 @@ operators = {
     'asinh'         : [ lambda n: performTrigOperation( n, asinh ), 1 ],
     'atan'          : [ lambda n: performTrigOperation( n, atan ), 1 ],
     'atanh'         : [ lambda n: performTrigOperation( n, atanh ), 1 ],
-    'avogadro'      : [ lambda: mpf( '6.02214179e23' ), 0 ],
     'balanced'      : [ getNthBalancedPrime, 1 ],
     'balanced_'     : [ getNthBalancedPrimeList, 1 ],
     'bell'          : [ bell, 1 ],
@@ -3133,7 +4221,7 @@ operators = {
     'csquare?'      : [ lambda n: findCenteredPolygonalNumber( n, 4 ), 1 ],
     'ctriangular'   : [ lambda n: getCenteredPolygonalNumber( n, 3 ), 1 ],
     'ctriangular?'  : [ lambda n: findCenteredPolygonalNumber( n, 3 ), 1 ],
-    'cube'          : [ lambda n: exponentiate( n, 3 ), 1 ],
+    'cube'          : [ lambda n: power( n, 3 ), 1 ],
     'decagonal'     : [ lambda n: getNthPolygonalNumber( n, 10 ), 1 ],
     'decagonal?'    : [ lambda n: findNthPolygonalNumber( n, 10 ), 1 ],
     'delannoy'      : [ getNthDelannoyNumber, 1 ],
@@ -3161,7 +4249,9 @@ operators = {
     'float'         : [ lambda n : sum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1 ],
     'floor'         : [ floor, 1 ],
     'fraction'      : [ interpretAsFraction, 2 ],
-    'fromunixtime'  : [ convertFromUnixTime, 1 ],
+    'fromunixtime'  : [ lambda n: [ time.localtime( n ).tm_year, time.localtime( n ).tm_mon,
+                                    time.localtime( n ).tm_mday, time.localtime( n ).tm_hour,
+                                    time.localtime( n ).tm_min, time.localtime( n ).tm_sec ], 1 ],
     'gamma'         : [ gamma, 1 ],
     'georange'      : [ expandGeometricRange, 3 ],
     'glaisher'      : [ glaisher, 0 ],
@@ -3240,7 +4330,6 @@ operators = {
     'nonasquare'    : [ getNthNonagonalSquareNumber, 1 ],
     'nonatri'       : [ getNthNonagonalTriangularNumber, 1 ],
     'not'           : [ getInvertedBits, 1 ],
-    'now'           : [ getNow, 0 ],
     'nspherearea'   : [ getNSphereSurfaceArea, 2 ],
     'nsphereradius' : [ getNSphereRadius, 2 ],
     'nspherevolume' : [ getNSphereVolume, 2 ],
@@ -3279,7 +4368,7 @@ operators = {
     'polylog'       : [ polylog, 2 ],
     'polyprime'     : [ getNthPolyPrime, 2 ],
     'polytope'      : [ getNthPolytopeNumber, 2 ],
-    'power'         : [ exponentiate, 2 ],
+    'power'         : [ power, 2 ],
     'prime'         : [ getNthPrime, 1 ],
     'prime?'        : [ lambda n: findPrime( n )[ 1 ], 1 ],
     'primepi'       : [ getPrimePi, 1 ],
@@ -3291,7 +4380,6 @@ operators = {
     'quadprime_'    : [ getNthQuadrupletPrimeList, 1 ],
     'quintprime'    : [ getNthQuintupletPrime, 1 ],
     'quintprime_'   : [ getNthQuintupletPrimeList, 1 ],
-    'randint'       : [ randrange, 1 ],
     'random'        : [ rand, 0 ],
     'range'         : [ expandRange, 2 ],
     'range2'        : [ expandSteppedRange, 3 ],
@@ -3305,6 +4393,7 @@ operators = {
     'round'         : [ lambda n: floor( fadd( n, 0.5 ) ), 1 ],
     'safeprime'     : [ lambda n: fadd( fmul( getNthSophiePrime( n ), 2 ), 1 ), 1 ],
     'schroeder'     : [ getNthSchroederNumber, 1 ],
+    'score'         : [ lambda: mpf( '20' ), 0 ],
     'sec'           : [ lambda n: performTrigOperation( n, sec ), 1 ],
     'sech'          : [ lambda n: performTrigOperation( n, sech ), 1 ],
     'sextprime'     : [ getNthSextupletPrime, 1 ],
@@ -3327,7 +4416,7 @@ operators = {
     'spherearea'    : [ lambda n: getNSphereSurfaceArea( 3, n ), 1 ],
     'sphereradius'  : [ lambda n: getNSphereRadius( 3, n ), 1 ],
     'spherevolume'  : [ lambda n: getNSphereVolume( 3, n ), 1 ],
-    'square'        : [ lambda i: exponentiate( i, 2 ), 1 ],
+    'square'        : [ lambda i: power( i, 2 ), 1 ],
     'squaretri'     : [ getNthSquareTriangularNumber, 1 ],
     'steloct'       : [ getNthStellaOctangulaNumber, 1 ],
     'subfac'        : [ lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1 ],
@@ -3366,10 +4455,648 @@ operators = {
     '_dumpops'      : [ dumpOperators, 0 ],
     '_stats'        : [ dumpStats, 0 ],
     '~'             : [ getInvertedBits, 1 ],
+    '~length'       : [ estimateLength, 1 ],
+    '~mass'         : [ estimateMass, 1 ],
+    '~volume'       : [ estimateVolume, 1 ],
 #   'antitet'       : [ findTetrahedralNumber, 1 ],
 #   'bernfrac'      : [ bernfrac, 1 ],
 #   'powmod'        : [ getPowMod, 3 ],
 }
+
+
+#//******************************************************************************
+#//
+#//  parseInputValue
+#//
+#//  Parse out a numerical expression and attempt to set the precision to an
+#//  appropriate value based on the expression.
+#//
+#//******************************************************************************
+
+def parseInputValue( term, inputRadix ):
+    if term == '0':
+        return mpmathify( 0 )
+
+    # ignore commas
+    term = ''.join( [ i for i in term if i not in ',' ] )
+
+    if term[ 0 ] == '\\':
+        term = term[ 1 : ]
+        ignoreSpecial = True
+    else:
+        ignoreSpecial = False
+
+    if '.' in term:
+        if inputRadix == 10:
+            newPrecision = len( term ) + 1
+
+            if mp.dps < newPrecision:
+                mp.dps = newPrecision
+
+            return mpmathify( term )
+
+        decimal = term.find( '.' )
+    else:
+        decimal = len( term )
+
+    negative = term[ 0 ] == '-'
+
+    if negative:
+        start = 1
+    else:
+        if term[ 0 ] == '+':
+            start = 1
+        else:
+            start = 0
+
+    integer = term[ start : decimal ]
+    mantissa = term[ decimal + 1 : ]
+
+    # check for hex, then binary, then octal, otherwise a plain old decimal integer
+    if not ignoreSpecial and mantissa == '':
+        if integer[ 0 ] == '0':
+            if integer[ 1 ] in 'Xx':
+                # set the precision big enough to handle this value
+                newPrecision = math.ceil( ( math.log10( 16 ) * ( len( integer ) - 2 ) ) ) + 1
+
+                if mp.dps < newPrecision:
+                    mp.dps = newPrecision
+
+                return mpmathify( int( integer[ 2 : ], 16 ) )
+            elif integer[ -1 ] in 'bB':
+                # set the precision big enough to handle this value
+                newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
+
+                if mp.dps < newPrecision:
+                    mp.dps = newPrecision
+
+                integer = integer[ : -1 ]
+                return mpmathify( int( integer, 2 ) * ( -1 if negative else 1 ) )
+            else:
+                integer = integer[ 1 : ]
+
+                return mpmathify( int( integer, 8 ) )
+        elif inputRadix == 10:
+            newPrecision = len( integer ) + 1
+
+            if mp.dps < newPrecision:
+                mp.dps = newPrecision
+
+            return fneg( integer ) if negative else mpmathify( integer )
+
+    # finally, we have a non-radix 10 number to parse
+    result = convertToBase10( integer, mantissa, inputRadix )
+    return fneg( result ) if negative else mpmathify( result )
+
+
+#//******************************************************************************
+#//
+#//  roundMantissa
+#//
+#//******************************************************************************
+
+def roundMantissa( mantissa, accuracy ):
+    if len( mantissa ) <= accuracy:
+        return mantissa
+
+    lastDigit = int( mantissa[ accuracy - 1 ] )
+    extraDigit = int( mantissa[ accuracy ] )
+
+    result = mantissa[ : accuracy - 1 ]
+
+    if extraDigit >= 5:
+        result += str( lastDigit + 1 )
+    else:
+        result += str( lastDigit )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  formatOutput
+#//
+#//  This takes a string representation of the result and formats it according
+#//  to a whole bunch of options.
+#//
+#//******************************************************************************
+
+def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
+                  decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
+    # filter out text strings
+    for c in output:
+        if c in '+-.':
+            continue
+
+        if c in string.whitespace or c in string.punctuation:
+            return output
+
+    exponentIndex = output.find( 'e' )
+
+    if exponentIndex > 0:
+        exponent = int( output[ exponentIndex + 1 : ] )
+        output = output[ : exponentIndex ]
+    else:
+        exponent = 0
+
+    imaginary = im( mpmathify( output ) )
+
+    if imaginary != 0:
+        if imaginary < 0:
+            imaginary = fabs( imaginary )
+            negativeImaginary = True
+        else:
+            negativeImaginary = False
+
+        imaginaryValue = formatOutput( nstr( imaginary, mp.dps ), radix, numerals, integerGrouping,
+                                       integerDelimiter, leadingZero, decimalGrouping, decimalDelimiter,
+                                       baseAsDigits, outputAccuracy )
+
+        strOutput = str( re( mpmathify( output ) ) )
+    else:
+        imaginaryValue = ''
+        strOutput = nstr( output, outputAccuracy  )[ 1 : -1 ]
+        #strOutput = str( output )
+
+    #print( strOutput )
+
+    if '.' in strOutput:
+        decimal = strOutput.find( '.' )
+    else:
+        decimal = len( strOutput )
+
+    negative = strOutput[ 0 ] == '-'
+
+    strResult = '';
+
+    integer = strOutput[ 1 if negative else 0 : decimal ]
+    integerLength = len( integer )
+
+    mantissa = strOutput[ decimal + 1 : ]
+
+    if mantissa == '0':
+        mantissa = ''
+    elif mantissa != '' and outputAccuracy == -1:
+        mantissa = mantissa.rstrip( '0' )
+
+    #print( 'integer: ', integer )
+    #print( 'mantissa: ', mantissa )
+    #print( 'exponent: ', exponent )
+    #
+    #if exponent > 0:
+    #    if exponent > len( mantissa ):
+    #        integer += mantissa + '0' * ( exponent - len( mantissa ) )
+    #        mantissa = ''
+    #    else:
+    #        integer += mantissa[ : exponent ]
+    #        mantissa = mantissa[ exponent + 1 : ]
+    #elif exponent < 0:
+    #    exponent = -exponent
+    #
+    #    if exponent > len( integer ):
+    #        mantissa = '0' * ( exponent - len( integer ) ) + integer + mantissa
+    #        integer = '0'
+    #    else:
+    #        mantissa = integer[ exponent : ]
+    #        integer = integer[ : exponent - 1 ]
+
+    if radix == phiBase:
+        integer, mantissa = convertToPhiBase( mpmathify( output ) )
+    elif radix == fibBase:
+        integer = convertToFibBase( floor( mpmathify( output ) ) )
+    elif radix != 10 or numerals != defaultNumerals:
+        integer = str( convertToBaseN( mpmathify( integer ), radix, baseAsDigits, numerals ) )
+
+        if mantissa:
+            mantissa = str( convertFractionToBaseN( mpmathify( '0.' + mantissa ), radix,
+                            int( ( mp.dps - integerLength ) / math.log10( radix ) ),
+                            baseAsDigits, outputAccuracy ) )
+    else:
+        if outputAccuracy == 0:
+            mantissa = ''
+        elif outputAccuracy > 0:
+            mantissa = roundMantissa( mantissa, outputAccuracy )
+            mantissa = mantissa.rstrip( '0' )
+
+    if integerGrouping > 0:
+        firstDelimiter = len( integer ) % integerGrouping
+
+        if leadingZero and firstDelimiter > 0:
+            integerResult = '0' * ( integerGrouping - firstDelimiter )
+        else:
+            integerResult = ''
+
+        integerResult += integer[ : firstDelimiter ]
+
+        for i in range( firstDelimiter, len( integer ), integerGrouping ):
+            if integerResult != '':
+                integerResult += integerDelimiter
+
+            integerResult += integer[ i : i + integerGrouping ]
+
+    else:
+        integerResult = integer
+
+    if decimalGrouping > 0:
+        mantissaResult = ''
+
+        for i in range( 0, len( mantissa ), decimalGrouping ):
+            if mantissaResult != '':
+                mantissaResult += decimalDelimiter
+
+            mantissaResult += mantissa[ i : i + decimalGrouping ]
+    else:
+        mantissaResult = mantissa
+
+    if negative:
+        result = '-'
+    else:
+        result = ''
+
+    result += integerResult
+
+    if mantissaResult != '':
+        result += '.' + mantissaResult
+
+    if imaginaryValue != '':
+        result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + imaginaryValue + 'j )'
+
+    if exponent != 0:
+        result += 'e' + str( exponent )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  formatListOutput
+#//
+#//******************************************************************************
+
+def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
+                      decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
+    resultString = ''
+
+    for item in result:
+        if resultString == '':
+            resultString = '[ '
+        else:
+            resultString += ', '
+
+        if isinstance( item, list ):
+            resultString += formatListOutput( item, radix, numerals, integerGrouping, integerDelimiter,
+                                              leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
+                                              outputAccuracy )
+        else:
+            itemString = str( item )
+
+            resultString += formatOutput( itemString, radix, numerals, integerGrouping, integerDelimiter,
+                                          leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
+                                          outputAccuracy )
+
+            if isinstance( item, Measurement ):
+                resultString += ' ' + formatUnits( item )
+
+    resultString += ' ]'
+
+    return resultString
+
+
+#//******************************************************************************
+#//
+#//  formatUnits
+#//
+#//******************************************************************************
+
+def formatUnits( measurement ):
+    value = mpf( measurement )
+
+    if measurement.getUnitName( ) is not None:
+        unitString = ''
+
+        if value < mpf( -1.0 ) or value >mpf( 1.0 ):
+            tempString = measurement.getPluralUnitName( )
+        else:
+            tempString = measurement.getUnitName( )
+
+        for c in tempString:
+            if c == '_':
+                unitString += ' '
+            else:
+                unitString += c
+
+        return unitString
+
+    unitString = ''
+
+    # first, we simplify the units
+    units = measurement.getUnits( ).simplify( )
+
+    # now that we've expanded the compound units, let's format...
+    for unit in units:
+        exponent = units[ unit ]
+
+        #print( unit, exponent )
+
+        if exponent > 0:
+            if unitString != '':
+                unitString += ' '
+
+            if value == 1:
+                unitString += unit
+            else:
+                unitString += unitOperators[ unit ].plural
+
+            if exponent > 1:
+                unitString += '^' + str( exponent )
+
+    negativeUnits = ''
+
+    if unitString == '':
+        for unit in units:
+            exponent = units[ unit ]
+
+            if exponent < 0:
+                if negativeUnits != '':
+                    negativeUnits += ' '
+
+                negativeUnits += unit
+                negativeUnits += '^' + str( exponent )
+    else:
+        for unit in units:
+            exponent = units[ unit ]
+
+            if exponent < 0:
+                if negativeUnits == '':
+                    negativeUnits = ' per '
+                else:
+                    negativeUnits += ' '
+
+                negativeUnits += unit
+
+                if exponent > 1:
+                    negativeUnits += '^' + str( exponent )
+                elif exponent < -1:
+                    negativeUnits += '^' + str( -exponent )
+
+    result = ''
+
+    for c in unitString + negativeUnits:
+        if c == '_':
+            result += ' '
+        else:
+            result += c
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  printParagraph
+#//
+#//******************************************************************************
+
+def printParagraph( text, length = 79, indent = 0 ):
+    lines = textwrap.wrap( text, length )
+
+    for line in lines:
+        print( ' ' * indent + line )
+
+
+#//******************************************************************************
+#//
+#//  printGeneralHelp
+#//
+#//******************************************************************************
+
+def printGeneralHelp( basicCategories, operatorCategories ):
+    print( PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION )
+    print( COPYRIGHT_MESSAGE )
+    print( )
+    printParagraph(
+'''For help on a specific topic, add a help topic, operator category or a specific operator name.  Adding
+'example', or 'ex' after an operator name will result in examples of use being printed as well.''' )
+    print( )
+    print( 'The following is a list of general topics:' )
+    print( )
+
+    printParagraph( ', '.join( sorted( basicCategories ) ), 75, 4 )
+
+    print( )
+    print( 'The following is a list of operator categories:' )
+    print( )
+
+    printParagraph( ', '.join( sorted( operatorCategories ) ), 75, 4 )
+
+
+#//******************************************************************************
+#//
+#//  printTitleScreen
+#//
+#//******************************************************************************
+
+def printTitleScreen( ):
+    print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
+    print( COPYRIGHT_MESSAGE )
+    print( )
+    print( 'For more information use, \'rpn help\'.' )
+
+
+#//******************************************************************************
+#//
+#//  printOperatorHelp
+#//
+#//******************************************************************************
+
+def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp ):
+    if operatorInfo[ 1 ] == 1:
+        print( 'n ', end='' )
+    elif operatorInfo[ 1 ] == 2:
+        print( 'n k ', end='' )
+    elif operatorInfo[ 1 ] == 3:
+        print( 'a b c ', end='' )
+    elif operatorInfo[ 1 ] == 4:
+        print( 'a b c d ', end='' )
+    elif operatorInfo[ 1 ] == 5:
+        print( 'a b c d e ', end='' )
+
+    aliasList = [ key for key in operatorAliases if term == operatorAliases[ key ] ]
+
+    print( term + ' - ' + operatorHelp[ 1 ] )
+
+    print( )
+
+    if len( aliasList ) > 1:
+        print( 'aliases:  ' + ', '.join( aliasList ) )
+    elif len( aliasList ) == 1:
+        print( 'alias:  ' + aliasList[ 0 ] )
+
+    print( 'category: ' + operatorHelp[ 0 ] )
+
+    if operatorHelp[ 2 ] == '\n':
+        print( )
+        print( 'No further help is available.' )
+    else:
+        print( operatorHelp[ 2 ] )
+
+    if len( helpArgs ) > 1 and helpArgs[ 1 ] in ( 'ex', 'example' ):
+        print( )
+
+        if operatorHelp[ 3 ] == '\n':
+            print( 'No examples are available.' )
+        else:
+            print( term + ' examples:' )
+            print( operatorHelp[ 3 ] )
+
+
+#//******************************************************************************
+#//
+#//  addAliases
+#//
+#//******************************************************************************
+
+def addAliases( operatorList ):
+    for index, operator in enumerate( operatorList ):
+        aliasList = [ key for key in operatorAliases if operator == operatorAliases[ key ] ]
+
+        if len( aliasList ) > 0:
+            operatorList[ index ] += ' (' + ', '.join( aliasList ) + ')'
+
+
+#//******************************************************************************
+#//
+#//  printHelp
+#//
+#//******************************************************************************
+
+def printHelp( helpArgs ):
+    try:
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
+            helpVersion = pickle.load( pickleFile )
+            basicCategories = pickle.load( pickleFile )
+            operatorHelp = pickle.load( pickleFile )
+    except FileNotFoundError as error:
+        print( 'rpn:  Unable to help file.  Help will be unavailable.' )
+        return
+
+    if helpVersion != PROGRAM_VERSION:
+        print( 'rpn:  help file version mismatch' )
+
+    operatorCategories = set( operatorHelp[ key ][ 0 ] for key in operatorHelp )
+
+    if len( helpArgs ) == 0:
+        printGeneralHelp( basicCategories, operatorCategories )
+        return
+
+    term = helpArgs[ 0 ]
+
+    if term in operatorAliases:
+        term = operatorAliases[ term ]
+
+    if term in operators:
+        printOperatorHelp( helpArgs, term, operators[ term ], operatorHelp[ term ] )
+
+    if term in listOperators:
+        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ] )
+
+    if term in modifiers:
+        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ] )
+
+    if term in basicCategories:
+        print( basicCategories[ term ] )
+
+    if term in operatorCategories:
+        print( )
+        print( 'The ' + term + ' category includes the following operators (with aliases in' )
+        print( 'parentheses):' )
+        print( )
+
+        operatorList = [ key for key in operators if operatorHelp[ key ][ 0 ] == term ]
+        operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == term ] )
+        operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == term ] )
+
+        addAliases( operatorList )
+
+        printParagraph( ', '.join( sorted( operatorList ) ), 75, 4 )
+
+
+#//******************************************************************************
+#//
+#//  validateOptions
+#//
+#//******************************************************************************
+
+def validateOptions( args ):
+    if args.hex:
+        if args.output_radix != 10 and args.output_radix != 16:
+            return False, '-r and -x can\'t be used together'
+
+        if args.octal:
+            return False, '-x and -o can\'t be used together'
+
+    if args.octal:
+        if args.output_radix != 10 and args.output_radix != 8:
+            return False, '-r and -o can\'t be used together'
+
+    if args.output_radix_numerals > 0:
+        if args.hex:
+            return False, '-R and -x can\'t be used together'
+
+        if args.octal:
+            return False, '-R and -o can\'t be used together'
+
+        if args.output_radix != 10:
+            return False, '-R and -r can\'t be used together'
+
+        if args.output_radix_numerals < 2:
+            return False, 'output radix must be greater than 1'
+
+    if args.comma and args.integer_grouping > 0 :
+        return False, 'rpn:  -c can\'t be used with -i'
+
+    if args.output_radix_numerals > 0 and \
+       ( args.comma or args.decimal_grouping > 0 or args.integer_grouping > 0 ):
+        return False, '-c, -d and -i can\'t be used with -R'
+
+    return True, ''
+
+
+#//******************************************************************************
+#//
+#//  validateArguments
+#//
+#//******************************************************************************
+
+def validateArguments( terms ):
+    bracketCount = 0
+
+    for term in terms:
+        if term == '[':
+            bracketCount += 1
+        elif term == ']':
+            bracketCount -= 1
+
+    if bracketCount:
+        print( 'rpn:  mismatched brackets (count: {})'.format( bracketCount ) )
+        return False
+
+    return True
+
+
+#//******************************************************************************
+#//
+#//  loadUnitConversionMatrix
+#//
+#//******************************************************************************
+
+def loadUnitConversionMatrix( ):
+    global unitConversionMatrix
+
+    try:
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
+            unitConversionMatrix = pickle.load( pickleFile )
+    except FileNotFoundError as error:
+        print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
 
 
 #//******************************************************************************
@@ -3379,10 +5106,46 @@ operators = {
 #//******************************************************************************
 
 def main( ):
-    # initialize globals
-    g.debugMode = False
+    global addToListArgument
+    global bitwiseGroupSize
+    global dataPath
+    global inputRadix
+    global nestedListLevel
+    global numerals
+    global updateDicts
 
-    g.dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
+    global unitOperators
+    global basicUnitTypes
+    global unitConversionMatrix
+    global specialUnitConversionMatrix
+    global compoundUnits
+
+    global massTable
+    global lengthTable
+    global volumeTable
+
+    global balancedPrimes
+    global cousinPrimes
+    global doubleBalancedPrimes
+    global isolatedPrimes
+    global largePrimes
+    global quadPrimes
+    global quintPrimes
+    global sextPrimes
+    global sexyPrimes
+    global sexyQuadruplets
+    global sexyTriplets
+    global smallPrimes
+    global sophiePrimes
+    global superPrimes
+    global tripleBalancedPrimes
+    global tripletPrimes
+    global twinPrimes
+
+    # initialize globals
+    nestedListLevel = 0
+
+    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
 
     help = False
     helpArgs = [ ]
@@ -3395,7 +5158,7 @@ def main( ):
                 helpArgs.append( sys.argv[ i ] )
 
     if help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, g.dataPath, helpArgs )
+        printHelp( helpArgs )
         return
 
     # set up the command-line options parser
@@ -3404,13 +5167,12 @@ def main( ):
                                       formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=defaultAccuracy,  # -1
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=defaultAccuracy, # -1
                          const=defaultAccuracy )
     parser.add_argument( '-b', '--input_radix', type=str, action='store', default=defaultInputRadix )
     parser.add_argument( '-c', '--comma', action='store_true' )
     parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
                          const=defaultDecimalGrouping )
-    parser.add_argument( '-D', '--DEBUG', action='store_true' )
     parser.add_argument( '-g', '--integer_grouping', nargs='?', type=int, action='store', default=0,
                          const=defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action='store_true' )
@@ -3431,13 +5193,13 @@ def main( ):
 
     # OK, let's parse and validate the arguments
     if len( sys.argv ) == 1:
-        printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
+        printTitleScreen( )
         return
 
     args = parser.parse_args( )
 
     if args.help or args.other_help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, g.dataPath, [ ] )
+        printHelp( [ ] )
         return
 
     valid, errorString = validateOptions( args )
@@ -3452,23 +5214,19 @@ def main( ):
         time.clock( )
 
     # these are either globals or can be modified by other options (like -x)
-    g.bitwiseGroupSize = args.bitwise_group_size
+    bitwiseGroupSize = args.bitwise_group_size
     integerGrouping = args.integer_grouping
     leadingZero = args.leading_zero
-
-    # handle -D
-    if args.DEBUG:
-        g.debugMode = True
 
     # handle -a - set precision to be at least 2 greater than output accuracy
     if mp.dps < args.output_accuracy + 2:
         mp.dps = args.output_accuracy + 2
 
     # handle -n
-    g.numerals = args.numerals
+    numerals = args.numerals
 
     # handle -b
-    g.inputRadix = int( args.input_radix )
+    inputRadix = int( args.input_radix )
 
     # handle -r
     if args.output_radix == 'phi':
@@ -3487,14 +5245,14 @@ def main( ):
         outputRadix = 16
         leadingZero = True
         integerGrouping = 4
-        g.bitwiseGroupSize = 16
+        bitwiseGroupSize = 16
 
     # handle -o
     if args.octal:
         outputRadix = 8
         leadingZero = True
         integerGrouping = 3
-        g.bitwiseGroupSize = 9
+        bitwiseGroupSize = 9
 
     # handle -R
     if args.output_radix_numerals > 0:
@@ -3524,7 +5282,7 @@ def main( ):
 
     if args.print_options:
         print( '--output_accuracy:  %d' % args.output_accuracy )
-        print( '--input_radix:  %d' % g.inputRadix )
+        print( '--input_radix:  %d'% inputRadix )
         print( '--comma:  ' + ( 'true' if args.comma else 'false' ) )
         print( '--decimal_grouping:  %d' % args.decimal_grouping )
         print( '--integer_grouping:  %d' % integerGrouping )
@@ -3535,7 +5293,7 @@ def main( ):
         print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
         print( '--time:  ' + ( 'true' if args.time else 'false' ) )
         print( '--find_poly:  %d' % args.find_poly )
-        print( '--bitwise_group_size:  %d' % g.bitwiseGroupSize )
+        print( '--bitwise_group_size:  %d' % bitwiseGroupSize )
         print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
         print( '--identify:  ' + ( 'true' if args.identify else 'false' ) )
         print( '--leading_zero:  ' + ( 'true' if leadingZero else 'false' ) )
@@ -3550,12 +5308,15 @@ def main( ):
         return
 
     try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
             unitsVersion = pickle.load( pickleFile )
-            g.basicUnitTypes = pickle.load( pickleFile )
-            g.unitOperators = pickle.load( pickleFile )
+            basicUnitTypes = pickle.load( pickleFile )
+            unitOperators = pickle.load( pickleFile )
             operatorAliases.update( pickle.load( pickleFile ) )
-            g.compoundUnits = pickle.load( pickleFile )
+            compoundUnits = pickle.load( pickleFile )
+            massTable = pickle.load( pickleFile )
+            lengthTable = pickle.load( pickleFile )
+            volumeTable = pickle.load( pickleFile )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
 
@@ -3576,31 +5337,19 @@ def main( ):
                 print( 'rpn:  index error for operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
                 break
-        elif term in g.unitOperators:
+        elif term in unitOperators:
             if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
-                if g.unitOperators[ term ].unitType == 'constant':
+                if unitOperators[ term ].unitType == 'constant':
                     value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
-                    value = Measurement( 1, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
-
-                currentValueList.append( value )
-            elif isinstance( currentValueList[ -1 ], list ):
-                argList = currentValueList.pop( )
-
-                for listItem in argList:
-                    if g.unitOperators[ term ].unitType == 'constant':
-                        value = mpf( Measurement( listItem, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
-                    else:
-                        value = Measurement( listItem, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
-
-                    currentValueList.append( value )
+                    value = Measurement( 1, term, term, unitOperators[ term ].plural )
             else:
-                if g.unitOperators[ term ].unitType == 'constant':
+                if unitOperators[ term ].unitType == 'constant':
                     value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
-                    value = Measurement( currentValueList.pop( ), term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+                    value = Measurement( currentValueList.pop( ), term, term, unitOperators[ term ].plural )
 
-                currentValueList.append( value )
+            currentValueList.append( value )
         elif term in operators:
             argsNeeded = operators[ term ][ 1 ]
 
@@ -3630,32 +5379,16 @@ def main( ):
                 currentValueList.append( result )
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-            except ValueError as error:
-                print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
+                break
+            #except ValueError as error:
+            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
+                break
         elif term in listOperators:
             argsNeeded = listOperators[ term ][ 1 ]
 
@@ -3681,63 +5414,31 @@ def main( ):
                     currentValueList.append( listOperators[ term ][ 0 ]( *listArgs ) )
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-            except ValueError as error:
-                print( 'rpn:  value error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-            except TypeError as error:
-                print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
+                break
+            #except ValueError as error:
+            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
+            #except TypeError as error:
+            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            #    break
             except IndexError as error:
-                print( 'rpn:  index error for list operator at arg ' + format( index ) +
+                print( 'rpn:  index error for operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
+                break
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
+                break
         else:
             try:
-                currentValueList.append( parseInputValue( term, g.inputRadix ) )
+                currentValueList.append( parseInputValue( term, inputRadix ) )
             except ValueError as error:
                 print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
+                break
             except TypeError as error:
                 currentValueList.append( term )
-
-                try:
-                    print( 'rpn:  error in arg ' + format( index ) +
-                           ':  unrecognized argument: \'' + sys.argv[ index ] + '\'' )
-                except:
-                    print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
+                print( 'rpn:  error in arg ' + format( index ) +
+                       ':  unrecognized argument: \'%s\'' % sys.argv[ index ] )
+                break
 
         index = index + 1
     else:    # i.e., if the for loop completes
@@ -3755,20 +5456,20 @@ def main( ):
                 integerDelimiter = ' '
 
             if isinstance( result, list ):
-                print( formatListOutput( result, outputRadix, g.numerals, integerGrouping, integerDelimiter,
+                print( formatListOutput( result, outputRadix, numerals, integerGrouping, integerDelimiter,
                                          leadingZero, args.decimal_grouping, ' ', baseAsDigits,
                                          args.output_accuracy ) )
             else:
                 # output the answer with all the extras according to command-line arguments
                 resultString = nstr( result, mp.dps )
 
-                outputString = formatOutput( resultString, outputRadix, g.numerals, integerGrouping,
+                outputString = formatOutput( resultString, outputRadix, numerals, integerGrouping,
                                              integerDelimiter, leadingZero, args.decimal_grouping,
                                              ' ', baseAsDigits, args.output_accuracy )
 
                 # handle the units if we are display a measurement
                 if isinstance( result, Measurement ):
-                    outputString += ' ' + formatUnits( result.normalizeUnits( ) )
+                    outputString += ' ' + formatUnits( result )
 
                 print( outputString )
 
