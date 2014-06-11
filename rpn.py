@@ -4,7 +4,9 @@
 #
 #   This requires implicit conversion between unit types
 #   rpn -D 16800 mA hours * 5 volts * joule convert
-
+#
+#   polysum and polyprod don't work right because the argument parsing is messed up
+#
 
 #//******************************************************************************
 #//
@@ -2066,6 +2068,10 @@ def multiplyListOfPolynomials( args ):
 def addListOfPolynomials( args ):
     result = Polynomial( args[ 0 ] )
 
+    #print( 'addListOfPolynomials' )
+    #print( args[ 0 ] )
+    #print( result.getCoefficients( ) )
+
     for i in range( 1, len( args ) ):
         result += Polynomial( args[ i ] )
 
@@ -2358,10 +2364,7 @@ def duplicateTerm( valueList ):
 #//
 #//******************************************************************************
 
-def appendLists( valueList ):
-    arg2 = valueList.pop( )
-    arg1 = valueList.pop( )
-
+def appendLists( arg1, arg2 ):
     list1 = isinstance( arg1, list )
     list2 = isinstance( arg2, list )
 
@@ -2382,7 +2385,7 @@ def appendLists( valueList ):
         else:
             result.append( arg2 )
 
-    valueList.append( result )
+    return result
 
 
 #//******************************************************************************

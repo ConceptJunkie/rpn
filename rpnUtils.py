@@ -1271,12 +1271,10 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
 
 def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
                       decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
-    resultString = ''
+    resultString = '[ '
 
     for item in result:
-        if resultString == '':
-            resultString = '[ '
-        else:
+        if resultString != '[ ':
             resultString += ', '
 
         if isinstance( item, list ):
