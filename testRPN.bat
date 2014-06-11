@@ -294,7 +294,7 @@ rpn 1 10 range altsum2
 rpn 1 10 range 45 50 range append
 rpn 1 10 range 2 base
 rpn 1 10 range cf
-rpn gaalon cup convert
+rpn gallon cup convert
 rpn 1 10 range count
 rpn 1 10 range diffs
 rpn 1 100 range gcd
