@@ -3377,11 +3377,11 @@ operators = {
 
 #//******************************************************************************
 #//
-#//  main
+#//  rpn
 #//
 #//******************************************************************************
 
-def main( ):
+def rpn( cmd_args ):
     # initialize globals
     g.debugMode = False
 
@@ -3390,12 +3390,12 @@ def main( ):
     help = False
     helpArgs = [ ]
 
-    for i in range( 0, len( sys.argv ) ):
-        if sys.argv[ i ] == 'help':
+    for i in range( 0, len( cmd_args ) ):
+        if cmd_args[ i ] == 'help':
             help = True
         else:
             if help:
-                helpArgs.append( sys.argv[ i ] )
+                helpArgs.append( cmd_args[ i ] )
 
     if help:
         printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, g.dataPath, helpArgs )
@@ -3433,11 +3433,11 @@ def main( ):
     parser.add_argument( '-?', '--other_help', action='store_true' )
 
     # OK, let's parse and validate the arguments
-    if len( sys.argv ) == 1:
+    if len( cmd_args ) == 0:
         printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
         return
 
-    args = parser.parse_args( )
+    args = parser.parse_args( cmd_args )
 
     if args.help or args.other_help:
         printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, g.dataPath, [ ] )
@@ -3733,7 +3733,7 @@ def main( ):
 
                 try:
                     print( 'rpn:  error in arg ' + format( index ) +
-                           ':  unrecognized argument: \'' + sys.argv[ index ] + '\'' )
+                           ':  unrecognized argument: \'' + cmd_args[ index ] + '\'' )
                 except:
                     print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
 
@@ -3824,18 +3824,20 @@ def main( ):
 
 #//******************************************************************************
 #//
+#//  main
+#//
+#//******************************************************************************
+
+def main( ):
+    rpn( sys.argv[ 1 : ] )
+
+
+#//******************************************************************************
+#//
 #//  __main__
 #//
 #//******************************************************************************
 
 if __name__ == '__main__':
-    # print( parseUnitString( 'meter' ) )
-    # print( parseUnitString( 'meter^2' ) )
-    # print( parseUnitString( 'meter/second' ) )
-    # print( parseUnitString( 'meter*second' ) )
-    # print( parseUnitString( 'meter*meter' ) )
-    # print( parseUnitString( 'meter/meter' ) )
-    # print( parseUnitString( 'meter^2*fred/second^3' ) )
-
     main( )
 
