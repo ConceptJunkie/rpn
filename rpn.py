@@ -138,7 +138,7 @@ def exponentiate( n, k ):
     if isinstance( n, Measurement ):
         return n.exponentiate( k )
     elif isinstance( k, Measurement ):
-        raise ValueError( 'a measurement cannot be exponentiated' )
+        raise ValueError( 'a measurement cannot be exponentiated (yet)' )
     else:
         return power( n, k )
 
@@ -176,7 +176,7 @@ def sum( n ):
 #//  takeReciprocal
 #//
 #//  We used to be able to call fdiv directly, but now we want to handle
-#//  Measurements
+#//  Measurements.
 #//
 #//******************************************************************************
 

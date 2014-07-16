@@ -1364,7 +1364,7 @@ unitOperators = {
     # velocity
 
     'meter/second' :
-        UnitInfo( 'velocity', 'meter/second', 'meters/second', 'm/s', [ ], [ 'SI' ] ),
+        UnitInfo( 'velocity', 'meter/second', 'meters/second', 'm/s', [ 'mps' ], [ 'SI' ] ),
 
     'knot' :
         UnitInfo( 'velocity', 'knot', 'knots', '', [ ], [ 'nautical' ] ),
@@ -1376,7 +1376,10 @@ unitOperators = {
         UnitInfo( 'velocity', 'mach', 'mach', '', [ ], [ 'US' ] ),
 
     'mile/hour' :
-        UnitInfo( 'velocity', 'mile/hour', 'miles/hour', 'mph', [ ], [ 'FPS', 'imperial' ] ),
+        UnitInfo( 'velocity', 'mile/hour', 'miles/hour', 'mi/h', [ 'mph' ], [ 'FPS', 'imperial' ] ),
+
+    'kilometer/hour' :
+        UnitInfo( 'velocity', 'kilometer/hour', 'kilometers/hour', 'km/h', [ 'kph' ], [ 'FPS', 'imperial' ] ),
 
     # volume
 
@@ -1585,7 +1588,7 @@ unitOperators = {
         UnitInfo( 'volume', 'puncheon', 'puncheons', '', [ 'tertian', 'tertians' ], [ 'wine' ] ),
 
     'quart' :
-        UnitInfo( 'volume', 'quart', 'quart', '', [ ], [ 'US' ] ),
+        UnitInfo( 'volume', 'quart', 'quarts', '', [ ], [ 'US' ] ),
 
     'rehoboam' :
         UnitInfo( 'volume', 'rehoboam', 'rehoboams', '', [ ], [ 'wine' ] ),
@@ -2012,6 +2015,7 @@ unitConversionMatrix = {
     ( 'methuselah',            'liter' )                                : mpmathify( '6.0' ),
     ( 'mile',                  'foot' )                                 : mpmathify( '5280' ),
     ( 'mile/hour',             'meter/second' )                         : mpmathify( '0.44704' ),
+    ( 'mile/hour',             'kilometer/hour' )                       : mpmathify( '1.609344' ),
     ( 'million',               'unity' )                                : mpmathify( '1.0e6' ),
     ( 'mingo',                 'clarke' )                               : mpmathify( '10' ),
     ( 'minute',                'second' )                               : mpmathify( '60' ),
