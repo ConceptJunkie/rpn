@@ -662,10 +662,11 @@ class Measurement( mpf ):
             if unit2String in operatorAliases:
                 unit2String = operatorAliases[ unit2String ]
 
+
             debugPrint( 'unit1String: ', unit1String )
             debugPrint( 'unit2String: ', unit2String )
 
-            exponents = [ ]
+            exponents = { }
 
             if g.unitConversionMatrix is None:
                 loadUnitConversionMatrix( )
@@ -697,10 +698,11 @@ class Measurement( mpf ):
                     foundConversion = False
 
                     for unit2 in units2:
-                        debugPrint( '1 and 2:', unit1, unit2 )
+                        debugPrint( '1 and 2:', unit1, unit2, units1[ unit1 ], units2[ unit2 ] )
+
                         if getUnitType( unit1 ) == getUnitType( unit2 ):
                             conversions.append( [ unit1, unit2 ] )
-                            exponents.append( units1[ unit1 ] )
+                            exponents[ ( unit1, unit2 ) ] = units1[ unit1 ]
                             foundConversion = True
                             break
 
@@ -709,18 +711,14 @@ class Measurement( mpf ):
                         return reduced.convertValue( other )
 
                 value = conversionValue
-                index = 0
 
                 for conversion in conversions:
-                    debugPrint( 'conversion: ', conversion, '^', exponents[ index ] )
                     if conversion[ 0 ] == conversion[ 1 ]:
                         continue  # no conversion needed
 
-                    conversionValue = mpmathify( g.unitConversionMatrix[ ( conversion[ 0 ], conversion[ 1 ] ) ] )
-                    conversionValue = power( conversionValue, exponents[ index ] )
+                    conversionValue = mpmathify( g.unitConversionMatrix[ tuple( conversion ) ] )
+                    conversionValue = power( conversionValue, exponents[ tuple( conversion ) ] )
                     debugPrint( 'conversion: ', conversion, conversionValue )
-
-                    index += 1
 
                     value = fmul( value, conversionValue )
 
