@@ -3385,7 +3385,10 @@ def rpn( cmd_args ):
     # initialize globals
     g.debugMode = False
 
-    g.dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
+    if getattr( sys, 'frozen', False ):
+        g.dataPath = os.path.dirname( sys.executable )
+    else:
+        g.dataPath = os.path.dirname( os.path.realpath( __file__ ) ) + os.sep + 'rpndata'
 
     help = False
     helpArgs = [ ]
