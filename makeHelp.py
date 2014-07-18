@@ -93,7 +93,7 @@ command-line options:
         hex mode: equivalent to '-r16 -w16 -i4 -z'
 
     -z, --leading_zero
-        add leading zeros if needed with -i
+        add leading zeros if needed with -g
 
     -!, --print_options
         print values for all options
@@ -175,11 +175,11 @@ Arguments:
 ''',
 'output' :
 '''
-    [ description of output formats supported by rpn ]
+    [ TODO: describe output formats supported by rpn ]
 ''',
 'conversion' :
 '''
-    [ describe unit conversions in rpn ]
+    [ TODO: describe unit conversions in rpn ]
 ''',
 'about' :
 PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
@@ -345,7 +345,7 @@ Calculation (or approximation) of various mathematical constants:
         = rpn -a20 1 1000 2 range2 2 1 1000 2 range2 power * 1/x altsum
         = rpn -a20 1 2 / atan
 
-    Beta(3)
+    Beta( 3 )
         = rpn -a17 1 1000000 2 range2 3 power 1/x altsum
         = rpn -a17 pi 3 power 32 /
 
