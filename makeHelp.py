@@ -191,18 +191,20 @@ It was rewritten in Python 3 in 2012 and now uses the mpmath library.
 'bugs' :
 '''
 rpn doesn't describe the correct argument in error messages if an option flag
-is used.
+is used.  In fact, rpn doesn't describe the correct argument for most errors.
 
 -u doesn't work with complex numbers
 
-Polynomials should support being taken to positive integral powers, but don't yet.
+Polynomials should support being taken to positive integral powers, but don't
+yet.
 
 I also want to support taking units to integral powers, but don't yet.
 
 This requires implicit conversion between unit types, but doesn't work yet:
     rpn -D 16800 mA hours * 5 volts * joule convert
 
-'polysum' and 'polyprod' don't work right because the argument parsing is messed up.
+'polysum' and 'polyprod' don't work right now because the argument parsing is
+messed up.
 
 ''',
 'license' :
@@ -265,17 +267,27 @@ Convert an IP address to a 32-bit value and back:
 
 Construct the square root of two from a continued fraction:
 
-    c:\>rpn -a20 2 sqrt
-    1.41421356237309504880
+    First, here's the square root of two to 20 places:
 
-    c:\>rpn 2 sqrt 20 makecf
-    [ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
+        c:\>rpn -a20 2 sqrt
+        1.41421356237309504880
 
-    c:\>rpn 2 sqrt 20 frac
-    [ 22619537, 15994428 ]
+    Now let's make a continued fraction from that, calculated to 20 terms.
 
-    c:\>rpn -a20 [ 1 2 30 dup ] cf
-    1.41421356237309504880
+        c:\>rpn 2 sqrt 20 makecf
+        [ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
+
+    Here's the nearest fractional approximation of the square root of two:
+
+        c:\>rpn 2 sqrt 20 frac
+        [ 22619537, 15994428 ]
+
+    And we can calculate the square root of two from the continued fraction.
+    In reality, the continued fraction representation of the square root of
+    two is infinite, so this is only an approximation.
+
+        c:\>rpn -a20 [ 1 2 30 dup ] cf
+        1.41421356237309504880
 
 Calculations with lists:
 
@@ -287,8 +299,13 @@ Calculations with lists:
         c:\>rpn 1000 pent tri?
         1731.26218055
 
+    So the thousandth pentagonal number is a little bigger than the 1731st
+    triangular number.  That tells us how many triangular numbers to look at.
+
         c:\>rpn 1 1000 range pent 1 1732 range tri intersection
         [ 1, 210, 40755 ]
+
+    So, 1, 210, and 40755 are triangular and pentagonal.
 
     Which triangular numbers are those?
         c:\>rpn 1 1000 range pent 1 1732 range tri intersection tri?
@@ -306,8 +323,8 @@ Please note that several of the following commands are broken up into multiple
 lines for readability, but all of them are single commands to rpn.
 
 In some commands, the precision is explicitly set such to limit the output to
-what is accurately calculated.   If no precision options are used then the
-calculation will be correct regardless of precision.
+what is accurately calculated.   If there are alternate versions to calculate
+the value, the same precision is used.
 
 Calculation (or approximation) of various mathematical constants:
 
