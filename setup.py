@@ -13,7 +13,6 @@ buildOptions = \
                             'rpndata/large_primes.pckl.bz2',
                             'rpndata/quad_primes.pckl.bz2',
                             'rpndata/quint_primes.pckl.bz2',
-                            'rpndata/result.pckl.bz2',
                             'rpndata/sext_primes.pckl.bz2',
                             'rpndata/sexy_primes.pckl.bz2',
                             'rpndata/sexy_quadruplets.pckl.bz2',
