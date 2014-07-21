@@ -11,6 +11,13 @@ most of the really hard math stuff.  It's a work in progress, and at any
 particular time, parts of it might be broken, although I try to not let this go
 on for too long.
 
+Installers for Windows can be found here:
+
+https://www.strongspace.com/conceptjunkie/public/rpn-5.20.0-win32.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.20.0-amd64.msi
+
+rpn is a console app and must be launched from the command-line.
+
 Getting Started:
 
 If you have pip installed, you can install the prerequisites with the
