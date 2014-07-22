@@ -521,7 +521,7 @@ def getNthLucasNumber( n ):
 #//
 #//  From: http://oeis.org/A001045
 #//
-#//  a(n) = ceiling(2^(n+1)/3)-ceiling(2^n/3)
+#//  a( n ) = ceiling( 2 ^ ( n + 1 ) / 3 ) - ceiling( 2 ^ n / 3 )
 #//
 #//******************************************************************************
 
@@ -535,7 +535,7 @@ def getNthJacobsthalNumber( n ):
 #//
 #//  From:  http://oeis.org/A000129
 #//
-#//  a(n) = round((1+sqrt(2))^n)
+#//  a( n ) = round( ( 1 + sqrt( 2 ) ) ^ n )
 #//
 #//******************************************************************************
 
@@ -872,7 +872,7 @@ def findCenteredPolygonalNumber( n, k ):
 #//
 #//  http://oeis.org/A046177
 #//
-#//  a(n) = floor(1/32*(tan(3*pi/8))^(8*n-4))
+#//  a( n ) = floor( 1 / 32 * ( tan( 3 * pi / 8 ) ) ^ ( 8 * n - 4 ) )
 #//
 #//******************************************************************************
 
@@ -882,7 +882,7 @@ def findCenteredPolygonalNumber( n, k ):
 #//
 #//  http://oeis.org/A046178
 #//
-#//  a(n) = ceiling(1/12*(sqrt(3)-1)*(2+sqrt(3))^(4n-2)).
+#//  a( n ) = ceiling( 1 / 12 * ( sqrt( 3 ) - 1 ) * ( 2 + sqrt( 3 ) ) ^ ( 4n - 2 ) )
 #//
 #//******************************************************************************
 
@@ -898,8 +898,8 @@ def getNthHexagonalPentagonalNumber( n ):
 #//
 #//  http://oeis.org/A046194
 #//
-#//  a(n) = 1/80*((3-sqrt(5)*(-1)^n)*(2+sqrt(5))^(4n-2)+
-#//               (3+sqrt(5)*(-1)^n)*(2-sqrt(5))^(4n-2)-14)
+#//  a(n) = 1 / 80 * ( ( 3 - sqrt( 5 ) * ( -1 ) ^ n ) * ( 2 + sqrt( 5 ) ) ^ ( 4n - 2 ) +
+#//                    ( 3 + sqrt( 5 ) * ( -1 ) ^ n ) * ( 2 - sqrt( 5 ) ) ^ ( 4n - 2 ) - 14 )
 #//
 #//  LinearRecurrence[ { 1, 103682, -103682, -1, 1 },
 #//                    { 1, 55, 121771, 5720653, 12625478965 }, n ]
@@ -935,7 +935,7 @@ def getNthHeptagonalSquareNumber( n ):
 #//
 #//  http://oeis.org/A048900
 #//
-#//  a(n) = floor(1/240*((2+sqrt(15))^2*(4+sqrt(15))^(4n-3)))
+#//  a(n) = floor( 1 / 240 * ( ( 2 + sqrt( 15 ) ) ^ 2 * ( 4 + sqrt( 15 ) ) ^ ( 4n - 3 ) ) )
 #//
 #//******************************************************************************
 
@@ -950,7 +950,7 @@ def getNthHeptagonalPentagonalNumber( n ):
 #//
 #//  http://oeis.org/A048903
 #//
-#//  a(n) = floor(1/80*(sqrt(5)-1)*(2+sqrt(5))^(8n-5))
+#//  a(n) = floor( 1 / 80 * ( sqrt( 5 ) - 1 ) * ( 2 + sqrt( 5 ) ) ^ ( 8n - 5 ) )
 #//
 #//******************************************************************************
 
@@ -965,7 +965,7 @@ def getNthHeptagonalHexagonalNumber( n ):
 #//
 #//  From http://oeis.org/A046183
 #//
-#//  a(n) = floor(1/96*(7-2*sqrt(6)*(-1)^n)*(sqrt(3)+sqrt(2))^(4n-2))
+#//  a(n) = floor( 1 / 96 * ( 7 - 2 * sqrt( 6 ) * ( -1 ) ^ n ) * ( sqrt( 3 ) + sqrt( 2 ) ) ^ ( 4n - 2 ) )
 #//
 #//  LinearRecurrence[{1, 9602, -9602, -1, 1}, {1, 21, 11781, 203841, 113123361}, 13]
 #//
@@ -985,8 +985,8 @@ def getNthOctagonalTriangularNumber( n ):
 #//
 #//  From http://oeis.org/A036428:
 #//
-#//  a(n) = 1/12 * ((2 + sqrt(3)) ^ (4n-2) + (2 - sqrt(3)) ^ (4n-2) - 2).
-#//  a(n) = floor (1/12 * (2 + sqrt(3)) ^ (4n-2)).
+#//  a(n) = 1 / 12 * ( ( 2 + sqrt( 3 ) ) ^ ( 4n - 2 ) + ( 2 - sqrt( 3 ) ) ^ ( 4n -2 ) - 2 )
+#//  a(n) = floor ( 1 / 12 * ( 2 + sqrt( 3 ) ) ^ ( 4n - 2 ) )
 #//
 #//******************************************************************************
 
@@ -1000,7 +1000,7 @@ def getNthOctagonalSquareNumber( n ):
 #//
 #//  http://oeis.org/A046189
 #//
-#//  a(n) = floor(1/96*(11-6*sqrt(2)*(-1)^n)*(1+sqrt(2))^(8*n-6))
+#//  a(n) = floor( 1 / 96 * ( 11 - 6 * sqrt( 2 ) *( -1 ) ^ n ) * ( 1 + sqrt( 2 ) ) ^ ( 8 * n - 6 ) )
 #//
 #//******************************************************************************
 
@@ -1015,7 +1015,7 @@ def getNthOctagonalPentagonalNumber( n ):
 #//
 #//  http://oeis.org/A046192
 #//
-#//  a(n) = floor(1/96*(3*sqrt(3)-sqrt(2))*(sqrt(3)+sqrt(2))^(8n-5))
+#//  a(n) = floor( 1 / 96 * ( 3 * sqrt( 3 ) - sqrt( 2 ) ) * ( sqrt( 3 ) + sqrt( 2 ) ) ^ ( 8n - 5 ) )
 #//
 #//******************************************************************************
 
@@ -1030,7 +1030,7 @@ def getNthOctagonalHexagonalNumber( n ):
 #//
 #//  http://oeis.org/A048906
 #//
-#//  a(n) = floor(1/480*(17+2*sqrt(30))*(sqrt(5)+sqrt(6))^(8n-6))
+#//  a(n) = floor( 1 / 480 * ( 17 + 2 * sqrt( 3 0 ) ) * ( sqrt( 5 ) + sqrt( 6 ) ) ^ ( 8n - 6 ) )
 #//
 #//******************************************************************************
 
@@ -1045,9 +1045,9 @@ def getNthOctagonalHeptagonalNumber( n ):
 #//
 #//  From http://oeis.org/A048907:
 #//
-#//  a( n ) = ( 5/14 ) +
-#//           ( 9/28 ) * { [ 8 - 3 * sqrt(7) ] ^ n + [ 8 + 3 * sqrt( 7 ) ] ^ n } +
-#//           ( 3/28 ) * sqrt(7) * { [ 8 + 3 * sqrt(7) ] ^ n - [ 8 - 3 * sqrt(7) ] ^ n }
+#//  a( n ) = ( 5 / 14 ) +
+#//           ( 9 / 28 ) * { [ 8 - 3 * sqrt( 7 ) ] ^ n + [ 8 + 3 * sqrt( 7 ) ] ^ n } +
+#//           ( 3 / 28 ) * sqrt( 7 ) * { [ 8 + 3 * sqrt( 7 ) ] ^ n - [ 8 - 3 * sqrt( 7 ) ] ^ n }
 #//
 #//******************************************************************************
 
@@ -1122,8 +1122,8 @@ def getNthNonagonalPentagonalNumber( n ):
 #//
 #//  From http://oeis.org/A048907:
 #//
-#//  a( n ) = floor( 9/112 * ( 8 - 3 * sqrt( 7 ) * (-1) ^ n ) *
-#//                          ( 8 + 3 * sqrt( 7 ) ) ^ ( 4 * n - 4 ) )
+#//  a( n ) = floor( 9 / 112 * ( 8 - 3 * sqrt( 7 ) * (-1) ^ n ) *
+#//                            ( 8 + 3 * sqrt( 7 ) ) ^ ( 4 * n - 4 ) )
 #//
 #//******************************************************************************
 
@@ -3144,7 +3144,7 @@ operators = {
     'divisors'      : [ getDivisors, 1 ],
     'dhms'          : [ convertToDHMS, 1 ],
     'dms'           : [ convertToDMS, 1 ],
-    'dodecahedral'  : [ lambda n : polyval( [ 9/2, -9/2, 1, 0 ], n ), 1 ],
+    'dodecahedral'  : [ lambda n : polyval( [ fdiv( 9, 2 ), fdiv( -9, 2 ), 1, 0 ], n ), 1 ],
     'double'        : [ lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) ), 1 ],
     'doublebal'     : [ getNthDoubleBalancedPrime, 1 ],
     'doublebal_'    : [ getNthDoubleBalancedPrimeList, 1 ],
@@ -3185,7 +3185,7 @@ operators = {
     'hyperfac'      : [ hyperfac, 1 ],
     'hypot'         : [ hypot, 2 ],
     'i'             : [ makeImaginary, 1 ],
-    'icosahedral'   : [ lambda n: polyval( [ 5/2, -5/2, 1, 0 ], n ), 1 ],
+    'icosahedral'   : [ lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n ), 1 ],
     'integer'       : [ convertToSignedInt, 2 ],
     'isdivisible'   : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2 ],
     'isolated'      : [ getNthIsolatedPrime, 1 ],
@@ -3251,7 +3251,7 @@ operators = {
     'nthquad?'      : [ lambda i: findQuadrupletPrimes( i )[ 0 ], 1 ],
     'octagonal'     : [ lambda n: getNthPolygonalNumber( n, 8 ), 1 ],
     'octagonal?'    : [ lambda n: findNthPolygonalNumber( n, 8 ), 1 ],
-    'octahedral'    : [ lambda n: polyval( [ 2/3, 0, 1/3, 0 ], n ), 1 ],
+    'octahedral'    : [ lambda n: polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], n ), 1 ],
     'octhept'       : [ getNthOctagonalHeptagonalNumber, 1 ],
     'octhex'        : [ getNthOctagonalHexagonalNumber, 1 ],
     'octpent'       : [ getNthOctagonalPentagonalNumber, 1 ],

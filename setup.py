@@ -33,6 +33,6 @@ executables = [
     Executable( 'rpn.py', base = base )
 ]
 
-setup( name='rpn', version = '5.20.0', description = 'command-line RPN calculator',
+setup( name='rpn', version = '5.20.1', description = 'command-line RPN calculator',
        options = dict( build_exe = buildOptions ), executables = executables )
 
