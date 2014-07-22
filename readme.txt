@@ -59,8 +59,11 @@ caching different kinds of prime numbers that was recently pulled out of rpn.py
 (and as of version 5.20.0 isn't finished as a standalone program).
 
 The data files are stored in the same location as rpn.py in a subdirectory
-called rpndata/.  Until I fix this, if you really want to generate prime
-numbers, go back to version 4 and check out the '_make*' commands.
+called rpndata/.  In the Windows installer version, they are stored in the same
+directory as the EXE.
+
+Until I fix makeRPNPrimes.py, if you really want to generate prime numbers, go
+back to version 4 and check out the '_make*' commands.
 
 rpn also provides a simple interface for querying The On-Line Encyclopedia of
 Integer Sequences (http://oeis.org).
