@@ -1,16 +1,7 @@
 from cx_Freeze import setup, Executable
 
-# Dependencies are automatically detected, but it might need
-# fine tuning.
-buildOptions = \
-    dict(
-        packages = [ ],
-        excludes = [ ],
-        include_files = [
-            'rpndata/help.pckl.bz2',
-            'rpndata/unit_conversions.pckl.bz2',
-            'rpndata/units.pckl.bz2'
-        ] )
+# Dependencies are automatically detected, but it might need fine tuning.
+buildOptions = dict( packages = [ ], excludes = [ ], include_files = [ ] )
 
 base = 'Console'
 

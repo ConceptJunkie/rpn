@@ -35,6 +35,6 @@ executables = [
 if 'bdist_msi' in sys.argv:
     sys.argv += [ '--initial-target-dir', 'c:\\Program Files\\rpn' ]
 
-setup( name='rpnprimes', version = '5.20.2', description = 'command-line RPN calculator',
+setup( name='rpnprimes', version = '5.20.2', description = 'command-line RPN calculator prime number data files',
        options = dict( build_exe = buildOptions ), executables = executables )
 
