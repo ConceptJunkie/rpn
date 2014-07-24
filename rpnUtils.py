@@ -1622,7 +1622,7 @@ def validateArguments( terms ):
 def evaluateOneListFunction( func, args ):
     if isinstance( args, list ):
         for arg in args:
-            if isinstance( arg, list ):
+            if isinstance( arg, list ) and isinstance( arg[ 0 ], list ):
                 return [ evaluateOneListFunction( func, arg ) for arg in args ]
 
         return func( args )

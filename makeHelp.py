@@ -203,9 +203,6 @@ I also want to support taking units to integral powers, but don't yet.
 This requires implicit conversion between unit types, but doesn't work yet:
     rpn -D 16800 mA hours * 5 volts * joule convert
 
-'polysum' and 'polyprod' don't work right now because the argument parsing is
-messed up.
-
 ''',
 'license' :
 '''
