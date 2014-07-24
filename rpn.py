@@ -3735,8 +3735,8 @@ def rpn( cmd_args ):
                 currentValueList.append( term )
 
                 try:
-                    print( 'rpn:  error in arg ' + format( index ) +
-                           ':  unrecognized argument: \'' + cmd_args[ index ] + '\'' )
+                    print( 'rpn:  error in arg ' + format( index ) + ':  unrecognized argument: \'' +
+                           cmd_args[ index - 1 ] + '\'' )
                 except:
                     print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
 
