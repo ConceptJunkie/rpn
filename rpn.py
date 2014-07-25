@@ -2177,22 +2177,6 @@ def convertFromUnixTime( n ):
 
 #//******************************************************************************
 #//
-#//  convertFromUnixTime
-#//
-#//******************************************************************************
-
-def ConvertToUnixTime( valueList ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
-            result = pickle.load( pickleFile )
-    except FileNotFoundError:
-        result = mapmathify( 0 )
-
-    return result
-
-
-#//******************************************************************************
-#//
 #//  dumpOperators
 #//
 #//******************************************************************************

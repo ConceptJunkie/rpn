@@ -202,6 +202,54 @@ This requires implicit conversion between unit types, but doesn't work yet:
     rpn -D 16800 mA hours * 5 volts * joule convert
 
 ''',
+'release_notes' :
+'''
+5.20.4
+
+rpn now correctly reports the argument in question on any error.
+
+5.20.3
+
+made a fix to improve rpn's reporting of the argument in question when there
+is an error.  It's probably not 100% correct yet.
+
+5.20.2
+
+Fixed the list operator parsing so polyprod and polysum work correctly.
+
+5.20.1
+
+Several calls to polyval( ) had hard-coded fractions in them instead of calls
+to fdiv( ), resulting in rounding errors.
+
+5.20.0
+
+rpn finally comes with an installer for Windows, in 32-bit and 64-bit flavors.
+
+5.19.3
+
+The test script has been rewritten in Python.  It's still very basic and only
+does a sanity test to show every operator works without crashing.  It doesn't
+test for correct answers yet.
+
+5.19.2
+
+rpn now outputs an empty list correctly.  The 'append' operator (to append
+lists) has been fixed.
+
+The first version of a test script is available as a batch file.
+
+5.19.1
+
+Fixed several problems with 'tounixtime' and 'fromunixtime'.
+
+5.19.0
+
+Added 'randint' operator.
+
+... more release notes to be filled out in the future
+
+''',
 'license' :
 '''
 rpn is licensed under the GPL, version 3.0 and is ''' +
