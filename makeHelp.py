@@ -182,17 +182,15 @@ Arguments:
     [ TODO: describe unit conversions in rpn ]
 ''',
 'about' :
-PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
-'''
+PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' +
+COPYRIGHT_MESSAGE + '''
 
-rpn is a command-line Reverse-Polish Notation calculator that was first written in C in 1988.
-It was rewritten in Python 3 in 2012 and now uses the mpmath library.
+rpn is a command-line Reverse-Polish Notation calculator that was first
+written in C in 1988.  It was rewritten in Python 3 in 2012 and now uses the
+mpmath library.
 ''',
 'bugs' :
 '''
-rpn doesn't describe the correct argument in error messages if an option flag
-is used.  In fact, rpn doesn't describe the correct argument for most errors.
-
 -u doesn't work with complex numbers
 
 Polynomials should support being taken to positive integral powers, but don't

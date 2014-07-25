@@ -3577,7 +3577,7 @@ def rpn( cmd_args ):
             try:
                 modifiers[ term ][ 0 ]( currentValueList )
             except IndexError as error:
-                print( 'rpn:  index error for operator at arg ' + format( index ) +
+                print( 'rpn:  index error for operator at arg ' + format( index ) + ', \'' + term +
                        '.  Are your arguments in the right order?' )
                 break
         elif term in g.unitOperators:
@@ -3736,7 +3736,7 @@ def rpn( cmd_args ):
 
                 try:
                     print( 'rpn:  error in arg ' + format( index ) + ':  unrecognized argument: \'' +
-                           cmd_args[ index - 1 ] + '\'' )
+                           term + '\'' )
                 except:
                     print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
 
