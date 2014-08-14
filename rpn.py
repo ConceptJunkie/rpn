@@ -25,6 +25,12 @@ import struct
 import sys
 import time
 
+try:
+    import nzmath
+    _hasNZMath = True
+except ImportError:
+    _hasNZMath = False
+
 from functools import reduce
 from mpmath import *
 from random import randrange
@@ -284,6 +290,22 @@ def getDivisors( n ):
 #//******************************************************************************
 
 def factor( n ):
+    if _hasNZMath:
+        return nzmath.prime._factor( n )
+    else:
+        return factorSimple( n )
+
+
+#//******************************************************************************
+#//
+#//  factorSimple
+#//
+#//  This is not my code, and I need to find the source so I can attribute it.
+#//  I think I got it from stackoverflow.com.
+#//
+#//******************************************************************************
+
+def factorSimple( n ):
     if n < -1:
         return [ ( -1, 1 ) ] + factor( fneg( n ) )
     elif n == -1:

@@ -204,6 +204,10 @@ This requires implicit conversion between unit types, but doesn't work yet:
 ''',
 'release_notes' :
 '''
+5.20.5
+
+rpn now throws an error when attempting to get the 0th or less prime number
+
 5.20.4
 
 rpn now correctly reports the argument in question on any error.

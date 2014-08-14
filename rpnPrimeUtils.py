@@ -192,16 +192,15 @@ def getNthPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 2
-
-    if n == 2:
+    elif n == 2:
         return 3
-
-    if n == 3:
+    elif n == 3:
         return 5
-
-    if n >= 1000000:
+    elif n >= 1000000:
         if largePrimes == { }:
             largePrimes = loadLargePrimes( g.dataPath )
 
@@ -321,13 +320,13 @@ def getNthIsolatedPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 2
-
-    if n == 2:
+    elif n == 2:
         return 23
-
-    if n >= 100:
+    elif n >= 100:
         if isolatedPrimes == { }:
             isolatedPrimes = loadIsolatedPrimes( g.dataPath )
 
@@ -383,7 +382,9 @@ def getNthTwinPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 3
     elif n == 2:
         return 5
@@ -445,12 +446,13 @@ def getNthBalancedPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 3
     elif n == 2:
         return 5
-
-    if n >= 100:
+    elif n >= 100:
         if balancedPrimes == { }:
             balancedPrimes = loadBalancedPrimes( g.dataPath )
 
@@ -516,7 +518,9 @@ def getNthDoubleBalancedPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 18713
 
     if doubleBalancedPrimes == { }:
@@ -587,7 +591,9 @@ def getNthTripleBalancedPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 683747
 
     if tripleBalancedPrimes == { }:
@@ -661,7 +667,9 @@ def getNthSophiePrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 2
     elif n == 2:
         return 3
@@ -710,10 +718,11 @@ def getNthCousinPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 3
-
-    if n >= 100:
+    elif n >= 100:
         if cousinPrimes == { }:
             cousinPrimes = loadCousinPrimes( g.dataPath )
 
@@ -786,10 +795,11 @@ def getNthSexyPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 5
-
-    if n >= 100:
+    elif n >= 100:
         if sexyPrimes == { }:
             sexyPrimes = loadSexyPrimes( g.dataPath )
 
@@ -842,12 +852,13 @@ def getNthSexyTriplet( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 5
     elif n == 2:
         return 7
-
-    if n >= 100:
+    elif n >= 100:
         if sexyTriplets == { }:
             sexyTriplets = loadSexyTripletPrimes( g.dataPath )
 
@@ -905,7 +916,9 @@ def getNthSexyQuadruplet( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 5
 
     if sexyQuadruplets == { }:
@@ -962,7 +975,9 @@ def getNthTripletPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return [ 5, 7, 11 ]
     elif n == 2:
         return [ 7, 11, 13 ]
@@ -1031,7 +1046,9 @@ def getNthQuadrupletPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 5
     elif n == 2:
         return 11
@@ -1105,7 +1122,9 @@ def getNthQuintupletPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 5
     elif n == 2:
         return 7
@@ -1175,10 +1194,11 @@ def getNthSextupletPrime( arg ):
 
     n = int( arg )
 
-    if n == 1:
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
         return 7
-
-    if n >= 10:
+    elif n >= 10:
         if sextPrimes == { }:
             sextPrimes = loadSextupletPrimes( g.dataPath )
 

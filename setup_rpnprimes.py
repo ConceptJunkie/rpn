@@ -24,7 +24,8 @@ buildOptions = \
             'rpndata/super_primes.pckl.bz2',
             'rpndata/triple_balanced_primes.pckl.bz2',
             'rpndata/triplet_primes.pckl.bz2',
-            'rpndata/twin_primes.pckl.bz2' ] )
+            'rpndata/twin_primes.pckl.bz2'
+            ] )
 
 base = 'Console'
 
