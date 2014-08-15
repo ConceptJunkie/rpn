@@ -275,11 +275,8 @@ def findPrime( arg ):
 
     f = p % 10
 
-    print( "current prime:", p, f )
-
     while True:
         p, f = getNextPrime( p, f )
-        print( "next prime:", p, f )
         currentIndex += 1
 
         if p >= target:
