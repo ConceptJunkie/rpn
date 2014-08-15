@@ -249,12 +249,14 @@ def findPrime( arg ):
 
     target = int( arg )
 
-    if target < 2:
-        return 1
+    if target < 3:
+        return 1, 2
     elif target == 3:
-        return 2
-    elif target < 5:
-        return 3
+        return 2, 3
+    elif target <= 5:
+        return 3, 5
+    elif target <= 7:
+        return 4, 7
     elif target < 541:          # 100th prime
         currentIndex = 4
         p = 7
@@ -273,11 +275,14 @@ def findPrime( arg ):
 
     f = p % 10
 
+    print( "current prime:", p, f )
+
     while True:
         p, f = getNextPrime( p, f )
+        print( "next prime:", p, f )
         currentIndex += 1
 
-        if p > target:
+        if p >= target:
             return currentIndex, p
 
 
