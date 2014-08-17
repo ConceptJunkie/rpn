@@ -2958,7 +2958,6 @@ def convertToYDHMS( n ):
 #//******************************************************************************
 
 def convertUnits( unit1, unit2 ):
-
     if not isinstance( unit1, Measurement ):
         raise ValueError( 'cannot convert non-measurements' )
 

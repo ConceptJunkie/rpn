@@ -1468,6 +1468,10 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
             helpVersion = pickle.load( pickleFile )
             basicCategories = pickle.load( pickleFile )
             operatorHelp = pickle.load( pickleFile )
+
+        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) as pickleFile:
+            unitTypeDict = pickle.load( pickleFile )
+
     except FileNotFoundError:
         print( 'rpn:  Unable to load help file.  Help will be unavailable.' )
         return
@@ -1507,6 +1511,10 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 
         for operator in sorted( operatorList ):
             print( operator )
+    elif term == 'unit_types':
+        printParagraph( ', '.join( sorted( unitTypeDict.keys( ) ) ), 75, 4 )
+    elif term in unitTypeDict:
+        printParagraph( ', '.join( sorted( unitTypeDict[ term ] ) ), 75, 4 )
     else:
         print( "Help topic not found." )
 
@@ -1528,7 +1536,10 @@ def printGeneralHelp( programName, programDescription, basicCategories, operator
     print( 'The following is a list of general topics:' )
     print( )
 
-    printParagraph( ', '.join( sorted( basicCategories ) ), 75, 4 )
+    helpCategories = list( basicCategories.keys( ) )
+    helpCategories.append( 'unit_types' )
+
+    printParagraph( ', '.join( sorted( helpCategories ) ), 75, 4 )
 
     print( )
     print( 'The following is a list of operator categories:' )

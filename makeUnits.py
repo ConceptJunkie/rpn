@@ -603,6 +603,19 @@ def initializeConversionMatrix( unitConversionMatrix ):
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( unitConversionMatrix, pickleFile )
 
+    unitTypeDict = { }
+
+    for unitType in basicUnitTypes.keys( ):
+        unitTypeDict[ unitType ] = list( )
+
+    for unit in unitOperators:
+        unitTypeDict[ unitOperators[ unit ].unitType ].append( unit )
+
+    fileName = dataPath + os.sep + 'unit_help.pckl.bz2'
+
+    with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
+        pickle.dump( unitTypeDict, pickleFile )
+
     print( )
     print( '{:,} unit operators'.format( len( unitOperators ) ) )
     print( '{:,} unit conversions'.format( len( unitConversionMatrix ) ) )

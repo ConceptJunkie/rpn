@@ -204,37 +204,50 @@ This requires implicit conversion between unit types, but doesn't work yet:
 ''',
 'release_notes' :
 '''
-5.20.5
+5.18.1
 
-rpn now throws an error when attempting to get the 0th or less prime number
+It's clear I haven't done any unit conversions in a while because there were
+still issues with declarations of variables.  Now, I've started eliminating
+the use of "global" in favor of a global module.
 
-5.20.4
+5.18.2
 
-rpn now correctly reports the argument in question on any error.
+Made a bunch of bug fixes that showed up as a result of reorganizing the code.
 
-5.20.3
+5.18.3
 
-made a fix to improve rpn's reporting of the argument in question when there
-is an error.  It's probably not 100% correct yet.
+Added 'split' as an alias for 'unpack' because I couldn't remember what it was
+called.
 
-5.20.2
+Made some minor fixes made based on running pyflakes, pylint pep8, and the
+test script.
 
-Fixed the list operator parsing so polyprod and polysum work correctly.
+5.18.4
 
-5.20.1
+rpn now correctly parses "-0" as a value again.
 
-Several calls to polyval( ) had hard-coded fractions in them instead of calls
-to fdiv( ), resulting in rounding errors.
+5.18.5
 
-5.20.0
+Fixed a bug concerning adding dissimilar units.
 
-rpn finally comes with an installer for Windows, in 32-bit and 64-bit flavors.
+5.18.6
 
-5.19.3
+rpn now prints out an error message if you try to get help for an unknown
+topic.
 
-The test script has been rewritten in Python.  It's still very basic and only
-does a sanity test to show every operator works without crashing.  It doesn't
-test for correct answers yet.
+5.18.7
+
+compoundUnits was still being referred to without the "g." global specifier.
+
+5.19.0
+
+Added 'randint' operator.
+
+5.19.1
+
+Fixed several problems with 'tounixtime' and 'fromunixtime'.
+
+... more release notes to be filled out in the future
 
 5.19.2
 
@@ -243,15 +256,41 @@ lists) has been fixed.
 
 The first version of a test script is available as a batch file.
 
-5.19.1
+5.19.3
 
-Fixed several problems with 'tounixtime' and 'fromunixtime'.
+The test script has been rewritten in Python.  It's still very basic and only
+does a sanity test to show every operator works without crashing.  It doesn't
+test for correct answers yet.
 
-5.19.0
+5.20.0
 
-Added 'randint' operator.
+rpn finally comes with an installer for Windows, in 32-bit and 64-bit flavors.
 
-... more release notes to be filled out in the future
+5.20.1
+
+Several calls to polyval( ) had hard-coded fractions in them instead of calls
+to fdiv( ), resulting in rounding errors.
+
+5.20.2
+
+Fixed the list operator parsing so polyprod and polysum work correctly.
+
+5.20.3
+
+Made a fix to improve rpn's reporting of the argument in question when there
+is an error.  It's probably not 100% correct yet.
+
+5.20.4
+
+rpn now correctly reports the argument in question on any error.
+
+5.20.5
+
+rpn now throws an error when attempting to get the 0th or less prime number.
+
+5.20.6
+
+The prime? operator wasn't working correctly for small values.
 
 ''',
 'license' :
