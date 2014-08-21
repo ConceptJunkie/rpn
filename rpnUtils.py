@@ -1402,15 +1402,15 @@ def printParagraph( text, length=79, indent=0 ):
 #//******************************************************************************
 
 def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp, operatorAliases ):
-    if operatorInfo[ 1 ] == 1:
+    if operatorInfo.argCount == 1:
         print( 'n ', end='' )
-    elif operatorInfo[ 1 ] == 2:
+    elif operatorInfo.argCount == 2:
         print( 'n k ', end='' )
-    elif operatorInfo[ 1 ] == 3:
+    elif operatorInfo.argCount == 3:
         print( 'a b c ', end='' )
-    elif operatorInfo[ 1 ] == 4:
+    elif operatorInfo.argCount == 4:
         print( 'a b c d ', end='' )
-    elif operatorInfo[ 1 ] == 5:
+    elif operatorInfo.argCount == 5:
         print( 'a b c d e ', end='' )
 
     aliasList = [ key for key in operatorAliases if term == operatorAliases[ key ] ]

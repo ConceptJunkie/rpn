@@ -341,6 +341,19 @@ class UnitInfo( ):
 
 #//******************************************************************************
 #//
+#//  class OperatorInfo
+#//
+#//******************************************************************************
+
+class OperatorInfo( ):
+    def __init__( self, function, argCount, types ):
+        self.function = function
+        self.argCount = argCount
+        self.types = types
+
+
+#//******************************************************************************
+#//
 #//  class Polynomial
 #//
 #//  http://stackoverflow.com/questions/5413158/multiplying-polynomials-in-python

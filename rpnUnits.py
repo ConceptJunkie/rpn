@@ -1278,7 +1278,7 @@ unitOperators = {
     # time
 
     'century' :
-        UnitInfo( 'time', 'century', 'centuries', '', [ ], [ 'traditional', 'US' ] ),
+        UnitInfo( 'time', 'century', 'centuries', '', [ ], [ 'traditional', 'US', 'years' ] ),
 
     'clarke' :
         UnitInfo( 'time', 'clarke', 'clarkes', '', [ ], [ 'Potrzebie', 'humorous' ] ),
@@ -1290,7 +1290,7 @@ unitOperators = {
         UnitInfo( 'time', 'day', 'days', 'd', [ ], [ 'traditional', 'US' ] ),
 
     'decade' :
-        UnitInfo( 'time', 'decade', 'decades', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'time', 'decade', 'decades', '', [ ], [ 'traditional', 'years' ] ),
 
     'fortnight' :
         UnitInfo( 'time', 'fortnight', 'fortnights', '', [ ], [ 'traditional' ] ),
@@ -1324,6 +1324,9 @@ unitOperators = {
 
     'minute' :
         UnitInfo( 'time', 'minute', 'minutes', '', [ ], [ 'traditional' ] ),  # 'min' is already an operator
+
+    'month' :
+        UnitInfo( 'time', 'month', 'months', 'mo', [ ], [ 'traditional', 'months' ] ),
 
     'nanocentury' :
         UnitInfo( 'time', 'nanocentury', 'nanocenturies', '', [ ], [ 'humorous', 'computing' ] ),
@@ -1359,7 +1362,7 @@ unitOperators = {
         UnitInfo( 'time', 'wood', 'woods', '', [ ], [ 'Potrzebie', 'humorous' ] ),
 
     'year' :
-        UnitInfo( 'time', 'year', 'years', 'a', [ 'annum', 'julian_year', 'julian_years' ], [ 'traditional' ] ),
+        UnitInfo( 'time', 'year', 'years', 'a', [ 'annum', 'julian_year', 'julian_years' ], [ 'traditional', 'years' ] ),
 
     # velocity
 
@@ -2020,6 +2023,7 @@ unitConversionMatrix = {
     ( 'mingo',                 'clarke' )                               : mpmathify( '10' ),
     ( 'minute',                'second' )                               : mpmathify( '60' ),
     ( 'mmHg',                  'pascal' )                               : mpmathify( '133.3224' ),        # approx.
+    ( 'month',                 'day' )                                  : mpmathify( '30' ),
     ( 'mordechai',             'liter' )                                : mpmathify( '9.0' ),
     ( 'morgen',                'are' )                                  : mpmathify( '85.6532' ),
     ( 'nail',                  'inch' )                                 : mpmathify( '2.25' ),

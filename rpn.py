@@ -18,6 +18,7 @@
 #//
 #//******************************************************************************
 
+import arrow
 import argparse
 import calendar
 import datetime
@@ -58,12 +59,78 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 #//******************************************************************************
 
 def add( n, k ):
-    if isinstance( n, Measurement ):
+    if isinstance( n, arrow.Arrow ) and isinstance( k, Measurement ):
+        return addTimes( n, k )
+    elif isinstance( n, Measurement ) and isinstance( k, arrow.Arrow ):
+        return addTimes( k, n )
+    elif isinstance( n, Measurement ):
         return n.add( k )
     elif isinstance( k, Measurement ):
         return Measurement( n ).add( k )
     else:
         return fadd( n, k )
+
+
+#//******************************************************************************
+#//
+#//  incrementMonths
+#//
+#//******************************************************************************
+
+def incrementMonths( n, months ):
+    newDay = n.day
+    newMonth = n.month + int( months )
+    newYear = n.year
+
+    if newMonth < 1 or newMonth > 12:
+        newYear += ( newMonth - 1 ) // 12
+        newMonth = ( ( newMonth - 1 ) % 12 ) + 1
+
+    maxDay = calendar.monthrange( newYear, newMonth )[ 1 ]
+
+    if newDay > maxDay:
+        newDay = maxDay
+
+    return arrow.Arrow( newYear, newMonth, newDay )
+
+
+#//******************************************************************************
+#//
+#//  addTimes
+#//
+#//  arrow + measurement
+#//
+#//******************************************************************************
+
+def addTimes( n, k ):
+    if 'years' in g.unitOperators[ k.getUnitString( ) ].categories:
+        years = convertUnits( k, 'year' ).getValue( )
+        return n.replace( year=n.year + years )
+    elif 'months' in g.unitOperators[ k.getUnitString( ) ].categories:
+        months = convertUnits( k, 'month' ).getValue( )
+        result = incrementMonths( n, months )
+        return result
+    else:
+        delta = datetime.timedelta
+
+        days = int( floor( convertUnits( k, 'day' ).getValue( ) ) )
+        seconds = int( fmod( floor( convertUnits( k, 'second' ).getValue( ) ), 86400 ) )
+        microseconds = int( fmod( floor( convertUnits( k, 'microsecond' ).getValue( ) ), 86400000 ) )
+
+        return n + datetime.timedelta( days=days, seconds=seconds, microseconds=microseconds )
+
+
+#//******************************************************************************
+#//
+#//  subtractTimes
+#//
+#//  arrow - measurement
+#//
+#//******************************************************************************
+
+def subtractTimes( n, k ):
+    kneg = Measurement( fneg( k.getValue( ) ), k.getUnits( ) )
+    return addTimes( n, kneg )
 
 
 #//******************************************************************************
@@ -76,10 +143,22 @@ def add( n, k ):
 #//******************************************************************************
 
 def subtract( n, k ):
-    if isinstance( n, Measurement ):
+    if isinstance( n, arrow.Arrow ) and isinstance( k, Measurement ):
+        return subtractTimes( n, k )
+    elif isinstance( n, Measurement ) and isinstance( k, arrow.Arrow ):
+        return subtractTimes( k, n )
+    elif isinstance( n, Measurement ):
         return n.subtract( k )
     elif isinstance( k, Measurement ):
         return Measurement( n ).subtract( k )
+    elif isinstance( n, arrow.Arrow ) and isinstance( k, arrow.Arrow ):
+        delta = n - k
+
+        answer = Measurement( delta.days, 'day' )
+        answer.add( Measurement( delta.seconds, 'second' ) )
+        answer.add( Measurement( delta.microseconds, 'microsecond' ) )
+
+        return answer
     else:
         return fsub( n, k )
 
@@ -451,7 +530,10 @@ def performTrigOperation( i, operation ):
 def getBitCount( n ):
     result = 0
 
-    value = int( n )
+    if isinstance( n, Measurement ):
+        value = n.getValue( )
+    else:
+        value = int( n )
 
     while ( value ):
         value &= value - 1
@@ -2904,6 +2986,10 @@ def estimate( measurement ):
 
             return 'approximately ' + nstr( multiple, 3 ) + ' times ' + \
                    unitTypeInfo.estimateTable[ estimateKey ]
+    elif isinstance( measurement, arrow.Arrow ):
+        return measurement.humanize( )
+    else:
+        raise TypeError( 'incompatible type for estimating' )
 
 
 #//******************************************************************************
@@ -2963,6 +3049,10 @@ def convertUnits( unit1, unit2 ):
 
     if isinstance( unit2, list ):
         return unit1.convertValue( unit2 )
+    elif isinstance( unit2, str ):
+        measurement = Measurement( 1, { unit2 : 1 } )
+
+        return Measurement( unit1.convertValue( measurement ), unit2 )
     else:
         debugPrint( 'convertUnits' )
         debugPrint( 'unit1:', unit1.getTypes( ) )
@@ -2970,6 +3060,31 @@ def convertUnits( unit1, unit2 ):
 
         return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
                             unit2.getUnitName( ), unit2.getPluralUnitName( ) )
+
+
+#//******************************************************************************
+#//
+#//  makeTime
+#//
+#//******************************************************************************
+
+def makeTime( n ):
+    if len( n ) == 2:
+        n.append( 1 )
+    elif len( n ) > 7:
+        n = n[ : 7 ]
+
+    return arrow.get( *n )
+
+
+#//******************************************************************************
+#//
+#//  getWeekDay
+#//
+#//******************************************************************************
+
+def getWeekday( n ):
+    return [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ][ n.weekday( ) ]
 
 
 #//******************************************************************************
@@ -2983,12 +3098,12 @@ def convertUnits( unit1, unit2 ):
 #//******************************************************************************
 
 modifiers = {
-    'dup'           : [ duplicateTerm, 2 ],
-    'flatten'       : [ flatten, 1 ],
-    'previous'      : [ getPrevious, 1 ],
-    'unlist'        : [ unlist, 1 ],
-    '['             : [ incrementNestedListLevel, 0 ],
-    ']'             : [ decrementNestedListLevel, 0 ],
+    'dup'           : OperatorInfo( duplicateTerm, 2, [ Measurement ] ),
+    'flatten'       : OperatorInfo( flatten, 1, [ ] ),
+    'previous'      : OperatorInfo( getPrevious, 1, [ ] ),
+    'unlist'        : OperatorInfo( unlist, 1, [ ] ),
+    '['             : OperatorInfo( incrementNestedListLevel, 0, [ ] ),
+    ']'             : OperatorInfo( decrementNestedListLevel, 0, [ ] ),
 }
 
 
@@ -3003,45 +3118,46 @@ modifiers = {
 #//******************************************************************************
 
 listOperators = {
-    'append'        : [ appendLists, 2 ],
-    'altsign'       : [ alternateSigns, 1 ],
-    'altsign2'      : [ alternateSigns2, 1 ],
-    'altsum'        : [ getAlternatingSum, 1 ],
-    'altsum2'       : [ getAlternatingSum2, 1 ],
-    'base'          : [ interpretAsBase, 2 ],
-    'cf'            : [ convertFromContinuedFraction, 1 ],
-    'convert'       : [ convertUnits, 2 ],
-    'count'         : [ countElements, 1 ],
-    'diffs'         : [ getListDiffs, 1 ],
-    'gcd'           : [ getGCD, 1 ],
-    'interleave'    : [ interleave, 2 ],
-    'intersection'  : [ makeIntersection, 2 ],
-    'linearrecur'   : [ getNthLinearRecurrence, 3 ],
-    'max'           : [ max, 1 ],
-    'maxindex'      : [ getIndexOfMax, 1 ],
-    'mean'          : [ lambda n: fdiv( fsum( n ), len( n ) ), 1 ],
-    'min'           : [ min, 1 ],
-    'minindex'      : [ getIndexOfMin, 1 ],
-    'nonzero'       : [ lambda n: [ index for index, e in enumerate( n ) if e != 0 ], 1 ],
-    'polyadd'       : [ addPolynomials, 2 ],
-    'polymul'       : [ multiplyPolynomials, 2 ],
-    'polyprod'      : [ multiplyListOfPolynomials, 1 ],
-    'polysum'       : [ addListOfPolynomials, 1 ],
-    'polyval'       : [ evaluatePolynomial, 2 ],
-    'product'       : [ fprod, 1 ],
-    'result'        : [ loadResult, 0 ],
-    'solve'         : [ solvePolynomial, 1 ],
-    'sort'          : [ sortAscending, 1 ],
-    'sortdesc'      : [ sortDescending, 1 ],
-    'stddev'        : [ getStandardDeviation, 1 ],
-    'sum'           : [ sum, 1 ],
-    'tounixtime'    : [ convertToUnixTime, 1 ],
-    'tower'         : [ calculatePowerTower, 1 ],
-    'tower2'        : [ calculatePowerTower2, 1 ],
-    'union'         : [ makeUnion, 2 ],
-    'unique'        : [ getUniqueElements, 1 ],
-    'unpack'        : [ unpackInteger, 2 ],
-    'zero'          : [ lambda n: [ index for index, e in enumerate( n ) if e == 0 ], 1 ],
+    'append'        : OperatorInfo( appendLists, 2, [ ] ),
+    'altsign'       : OperatorInfo( alternateSigns, 1, [ ] ),
+    'altsign2'      : OperatorInfo( alternateSigns2, 1, [ ] ),
+    'altsum'        : OperatorInfo( getAlternatingSum, 1, [ ] ),
+    'altsum2'       : OperatorInfo( getAlternatingSum2, 1, [ ] ),
+    'base'          : OperatorInfo( interpretAsBase, 2, [ ] ),
+    'cf'            : OperatorInfo( convertFromContinuedFraction, 1, [ ] ),
+    'convert'       : OperatorInfo( convertUnits, 2, [ ] ),
+    'count'         : OperatorInfo( countElements, 1, [ ] ),
+    'diffs'         : OperatorInfo( getListDiffs, 1, [ ] ),
+    'gcd'           : OperatorInfo( getGCD, 1, [ ] ),
+    'interleave'    : OperatorInfo( interleave, 2, [ ] ),
+    'intersection'  : OperatorInfo( makeIntersection, 2, [ ] ),
+    'linearrecur'   : OperatorInfo( getNthLinearRecurrence, 3, [ ] ),
+    'max'           : OperatorInfo( max, 1, [ ] ),
+    'maxindex'      : OperatorInfo( getIndexOfMax, 1, [ ] ),
+    'mean'          : OperatorInfo( lambda n: fdiv( fsum( n ), len( n ) ), 1, [ ] ),
+    'min'           : OperatorInfo( min, 1, [ ] ),
+    'minindex'      : OperatorInfo( getIndexOfMin, 1, [ ] ),
+    'nonzero'       : OperatorInfo( lambda n: [ index for index, e in enumerate( n ) if e != 0 ], 1, [ ] ),
+    'polyadd'       : OperatorInfo( addPolynomials, 2, [ ] ),
+    'polymul'       : OperatorInfo( multiplyPolynomials, 2, [ ] ),
+    'polyprod'      : OperatorInfo( multiplyListOfPolynomials, 1, [ ] ),
+    'polysum'       : OperatorInfo( addListOfPolynomials, 1, [ ] ),
+    'polyval'       : OperatorInfo( evaluatePolynomial, 2, [ ] ),
+    'product'       : OperatorInfo( fprod, 1, [ ] ),
+    'result'        : OperatorInfo( loadResult, 0, [ ] ),
+    'solve'         : OperatorInfo( solvePolynomial, 1, [ ] ),
+    'sort'          : OperatorInfo( sortAscending, 1, [ ] ),
+    'sortdesc'      : OperatorInfo( sortDescending, 1, [ ] ),
+    'stddev'        : OperatorInfo( getStandardDeviation, 1, [ ] ),
+    'sum'           : OperatorInfo( sum, 1, [ ] ),
+    'time'          : OperatorInfo( makeTime, 1, [ Measurement ] ),
+    'tounixtime'    : OperatorInfo( convertToUnixTime, 1, [ ] ),
+    'tower'         : OperatorInfo( calculatePowerTower, 1, [ ] ),
+    'tower2'        : OperatorInfo( calculatePowerTower2, 1, [ ] ),
+    'union'         : OperatorInfo( makeUnion, 2, [ ] ),
+    'unique'        : OperatorInfo( getUniqueElements, 1, [ ] ),
+    'unpack'        : OperatorInfo( unpackInteger, 2, [ ] ),
+    'zero'          : OperatorInfo( lambda n: [ index for index, e in enumerate( n ) if e == 0 ], 1, [ ] ),
 }
 
 
@@ -3058,301 +3174,302 @@ listOperators = {
 #//******************************************************************************
 
 operators = {
-    'abs'           : [ fabs, 1 ],
-    'acos'          : [ lambda n: performTrigOperation( n, acos ), 1 ],
-    'acosh'         : [ lambda n: performTrigOperation( n, acosh ), 1 ],
-    'acot'          : [ lambda n: performTrigOperation( n, acot ), 1 ],
-    'acoth'         : [ lambda n: performTrigOperation( n, acoth ), 1 ],
-    'acsc'          : [ lambda n: performTrigOperation( n, acsc ), 1 ],
-    'acsch'         : [ lambda n: performTrigOperation( n, acsch ), 1 ],
-    'add'           : [ add, 2 ],
-    'altfac'        : [ getNthAlternatingFactorial, 1 ],
-    'and'           : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x & y ), 2 ],
-    'apery'         : [ apery, 0 ],
-    'aperynum'      : [ getNthAperyNumber, 1 ],
-    'asec'          : [ lambda n: performTrigOperation( n, asec ), 1 ],
-    'asech'         : [ lambda n: performTrigOperation( n, asech ), 1 ],
-    'asin'          : [ lambda n: performTrigOperation( n, asin ), 1 ],
-    'asinh'         : [ lambda n: performTrigOperation( n, asinh ), 1 ],
-    'atan'          : [ lambda n: performTrigOperation( n, atan ), 1 ],
-    'atanh'         : [ lambda n: performTrigOperation( n, atanh ), 1 ],
-    'avogadro'      : [ lambda: mpf( '6.02214179e23' ), 0 ],
-    'balanced'      : [ getNthBalancedPrime, 1 ],
-    'balanced_'     : [ getNthBalancedPrimeList, 1 ],
-    'bell'          : [ bell, 1 ],
-    'bellpoly'      : [ bell, 2 ],
-    'bernoulli'     : [ bernoulli, 1 ],
-    'binomial'      : [ binomial, 2 ],
-    'carol'         : [ lambda n : fsub( power( fsub( power( 2, n ), 1 ), 2 ), 2 ), 1 ],
-    'catalan'       : [ lambda n: fdiv( binomial( fmul( 2, n ), n ), fadd( n, 1 ) ), 1 ],
-    'catalans'      : [ catalan, 0 ],
-    'cdecagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 10 ), 1 ],
-    'cdecagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 10 ), 1 ],
-    'ceiling'       : [ ceil, 1 ],
-    'centeredcube'  : [ getNthCenteredCubeNumber, 1 ],
-    'champernowne'  : [ getChampernowne, 0 ],
-    'char'          : [ lambda n: convertToSignedInt( n , 8 ), 1 ],
-    'cheptagonal'   : [ lambda n: getCenteredPolygonalNumber( n, 7 ), 1 ],
-    'cheptagonal?'  : [ lambda n: findCenteredPolygonalNumber( n, 7 ), 1 ],
-    'chexagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 6 ), 1 ],
-    'cnonagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 9 ), 1 ],
-    'cnonagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 9 ), 1 ],
-    'coctagonal'    : [ lambda n: getCenteredPolygonalNumber( n, 8 ), 1 ],
-    'coctagonal?'   : [ lambda n: findCenteredPolygonalNumber( n, 8 ), 1 ],
-    'copeland'      : [ getCopelandErdos, 0 ],
-    'cos'           : [ lambda n: performTrigOperation( n, cos ), 1 ],
-    'cosh'          : [ lambda n: performTrigOperation( n, cosh ), 1 ],
-    'cot'           : [ lambda n: performTrigOperation( n, cot ), 1 ],
-    'coth'          : [ lambda n: performTrigOperation( n, coth ), 1 ],
-    'countbits'     : [ getBitCount, 1 ],
-    'countdiv'      : [ getDivisorCount, 1 ],
-    'cousinprime'   : [ getNthCousinPrime, 1 ],
-    'cpentagonal'   : [ lambda n: getCenteredPolygonalNumber( n, 5 ), 1 ],
-    'cpentagonal?'  : [ lambda n: findCenteredPolygonalNumber( n, 5 ), 1 ],
-    'cpolygonal'    : [ lambda n, k: getCenteredPolygonalNumber( n, k ), 2 ],
-    'cpolygonal?'   : [ lambda n, k: findCenteredPolygonalNumber( n, k ), 2 ],
-    'csc'           : [ lambda n: performTrigOperation( n, csc ), 1 ],
-    'csch'          : [ lambda n: performTrigOperation( n, csch ), 1 ],
-    'csquare'       : [ lambda n: getCenteredPolygonalNumber( n, 4 ), 1 ],
-    'csquare?'      : [ lambda n: findCenteredPolygonalNumber( n, 4 ), 1 ],
-    'ctriangular'   : [ lambda n: getCenteredPolygonalNumber( n, 3 ), 1 ],
-    'ctriangular?'  : [ lambda n: findCenteredPolygonalNumber( n, 3 ), 1 ],
-    'cube'          : [ lambda n: exponentiate( n, 3 ), 1 ],
-    'decagonal'     : [ lambda n: getNthPolygonalNumber( n, 10 ), 1 ],
-    'decagonal?'    : [ lambda n: findNthPolygonalNumber( n, 10 ), 1 ],
-    'delannoy'      : [ getNthDelannoyNumber, 1 ],
-    'divide'        : [ divide, 2 ],
-    'divisors'      : [ getDivisors, 1 ],
-    'dhms'          : [ convertToDHMS, 1 ],
-    'dms'           : [ convertToDMS, 1 ],
-    'dodecahedral'  : [ lambda n : polyval( [ fdiv( 9, 2 ), fdiv( -9, 2 ), 1, 0 ], n ), 1 ],
-    'double'        : [ lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) ), 1 ],
-    'doublebal'     : [ getNthDoubleBalancedPrime, 1 ],
-    'doublebal_'    : [ getNthDoubleBalancedPrimeList, 1 ],
-    'doublefac'     : [ fac2, 1 ],
-    'e'             : [ e, 0 ],
-    'egypt'         : [ getGreedyEgyptianFraction, 2 ],
-    'element'       : [ getListElement, 2 ],
-    'estimate'      : [ estimate, 1 ],
-    'euler'         : [ euler, 0 ],
-    'exp'           : [ exp, 1 ],
-    'exp10'         : [ lambda n: power( 10, n ), 1 ],
-    'expphi'        : [ lambda n: power( phi, n ), 1 ],
-    'exprange'      : [ expandExponentialRange, 3 ],
-    'factor'        : [ lambda i: getExpandedFactorList( factor( i ) ), 1 ],
-    'factorial'     : [ fac, 1 ],
-    'fibonacci'     : [ fib, 1 ],
-    'float'         : [ lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1 ],
-    'floor'         : [ floor, 1 ],
-    'fraction'      : [ interpretAsFraction, 2 ],
-    'fromunixtime'  : [ convertFromUnixTime, 1 ],
-    'gamma'         : [ gamma, 1 ],
-    'georange'      : [ expandGeometricRange, 3 ],
-    'glaisher'      : [ glaisher, 0 ],
-    'harmonic'      : [ harmonic, 1 ],
-    'heptagonal'    : [ lambda n: getNthPolygonalNumber( n, 7 ), 1 ],
-    'heptagonal?'   : [ lambda n: findNthPolygonalNumber( n, 7 ), 1 ],
-    'heptanacci'    : [ getNthHeptanacci, 1 ],
-    'hepthex'       : [ getNthHeptagonalHexagonalNumber, 1 ],
-    'heptpent'      : [ getNthHeptagonalPentagonalNumber, 1 ],
-    'heptsquare'    : [ getNthHeptagonalSquareNumber, 1 ],
-    'hepttri'       : [ getNthHeptagonalTriangularNumber, 1 ],
-    'hexagonal'     : [ lambda n: getNthPolygonalNumber( n, 6 ), 1 ],
-    'hexagonal?'    : [ lambda n: findNthPolygonalNumber( n, 6 ), 1 ],
-    'hexanacci'     : [ getNthHexanacci, 1 ],
-    'hexpent'       : [ getNthHexagonalPentagonalNumber, 1 ],
-    'hms'           : [ convertToHMS, 1 ],
-    'hyper4_2'      : [ tetrateLarge, 2 ],
-    'hyperfac'      : [ hyperfac, 1 ],
-    'hypot'         : [ hypot, 2 ],
-    'i'             : [ makeImaginary, 1 ],
-    'icosahedral'   : [ lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n ), 1 ],
-    'integer'       : [ convertToSignedInt, 2 ],
-    'isdivisible'   : [ lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2 ],
-    'isolated'      : [ getNthIsolatedPrime, 1 ],
-    'isprime'       : [ lambda n: 1 if isPrime( n ) else 0, 1 ],
-    'issquare'      : [ isSquare, 1 ],
-    'itoi'          : [ lambda: exp( fmul( -0.5, pi ) ), 0 ],
-    'jacobsthal'    : [ getNthJacobsthalNumber, 1 ],
-    'khinchin'      : [ khinchin, 0 ],
-    'kynea'         : [ lambda n : fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ), 1 ],
-    'lah'           : [ lambda n, k: fdiv( fmul( binomial( n, k ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ), 2 ],
-    'lambertw'      : [ lambertw, 1 ],
-    'leyland'       : [ lambda x, y : fadd( power( x, y ), power( y, x ) ), 2 ],
-    'lgamma'        : [ loggamma, 1 ],
-    'li'            : [ li, 1 ],
-    'ln'            : [ ln, 1 ],
-    'log10'         : [ log10, 1 ],
-    'log2'          : [ lambda n: log( n, 2 ), 1 ],
-    'logxy'         : [ log, 2 ],
-    'long'          : [ lambda n: convertToSignedInt( n , 32 ), 1 ],
-    'longlong'      : [ lambda n: convertToSignedInt( n , 64 ), 1 ],
-    'lucas'         : [ getNthLucasNumber, 1 ],
-    'makecf'        : [ lambda n, k: ContinuedFraction( n, maxterms=k, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ],
-    'maxchar'       : [ lambda: ( 1 << 7 ) - 1, 0 ],
-    'maxlong'       : [ lambda: ( 1 << 31 ) - 1, 0 ],
-    'maxlonglong'   : [ lambda: ( 1 << 63 ) - 1, 0 ],
-    'maxquadlong'   : [ lambda: ( 1 << 127 ) - 1, 0 ],
-    'maxshort'      : [ lambda: ( 1 << 15 ) - 1, 0 ],
-    'maxuchar'      : [ lambda: ( 1 << 8 ) - 1, 0 ],
-    'maxulong'      : [ lambda: ( 1 << 32 ) - 1, 0 ],
-    'maxulonglong'  : [ lambda: ( 1 << 64 ) - 1, 0 ],
-    'maxuquadlong'  : [ lambda: ( 1 << 128 ) - 1, 0 ],
-    'maxushort'     : [ lambda: ( 1 << 16 ) - 1, 0 ],
-    'mertens'       : [ mertens, 0 ],
-    'minchar'       : [ lambda: -( 1 << 7 ), 0 ],
-    'minlong'       : [ lambda: -( 1 << 31 ), 0 ],
-    'minlonglong'   : [ lambda: -( 1 << 63 ), 0 ],
-    'minquadlong'   : [ lambda: -( 1 << 127 ), 0 ],
-    'minshort'      : [ lambda: -( 1 << 15 ), 0 ],
-    'minuchar'      : [ lambda: 0, 0 ],
-    'minulong'      : [ lambda: 0, 0 ],
-    'minulonglong'  : [ lambda: 0, 0 ],
-    'minuquadlong'  : [ lambda: 0, 0 ],
-    'minushort'     : [ lambda: 0, 0 ],
-    'modulo'        : [ fmod, 2 ],
-    'motzkin'       : [ getNthMotzkinNumber, 1 ],
-    'multiply'      : [ multiply, 2 ],
-    'narayana'      : [ lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2 ],
-    'negative'      : [ fneg, 1 ],
-    'nonagonal'     : [ lambda n: getNthPolygonalNumber( n, 9 ), 1 ],
-    'nonagonal?'    : [ lambda n: findNthPolygonalNumber( n, 9 ), 1 ],
-    'nonahept'      : [ getNthNonagonalHeptagonalNumber, 1 ],
-    'nonahex'       : [ getNthNonagonalHexagonalNumber, 1 ],
-    'nonaoct'       : [ getNthNonagonalOctagonalNumber, 1 ],
-    'nonapent'      : [ getNthNonagonalPentagonalNumber, 1 ],
-    'nonasquare'    : [ getNthNonagonalSquareNumber, 1 ],
-    'nonatri'       : [ getNthNonagonalTriangularNumber, 1 ],
-    'not'           : [ getInvertedBits, 1 ],
-    'now'           : [ getNow, 0 ],
-    'nspherearea'   : [ getNSphereSurfaceArea, 2 ],
-    'nsphereradius' : [ getNSphereRadius, 2 ],
-    'nspherevolume' : [ getNSphereVolume, 2 ],
-    'nthprime?'     : [ lambda i: findPrime( i )[ 0 ], 1 ],
-    'nthquad?'      : [ lambda i: findQuadrupletPrimes( i )[ 0 ], 1 ],
-    'octagonal'     : [ lambda n: getNthPolygonalNumber( n, 8 ), 1 ],
-    'octagonal?'    : [ lambda n: findNthPolygonalNumber( n, 8 ), 1 ],
-    'octahedral'    : [ lambda n: polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], n ), 1 ],
-    'octhept'       : [ getNthOctagonalHeptagonalNumber, 1 ],
-    'octhex'        : [ getNthOctagonalHexagonalNumber, 1 ],
-    'octpent'       : [ getNthOctagonalPentagonalNumber, 1 ],
-    'octsquare'     : [ getNthOctagonalSquareNumber, 1 ],
-    'octtri'        : [ getNthOctagonalTriangularNumber, 1 ],
-    'oeis'          : [ lambda n: downloadOEISSequence( int( n ) ), 1 ],
-    'oeiscomment'   : [ lambda n: downloadOEISText( int( n ), 'C', True ), 1 ],
-    'oeisex'        : [ lambda n: downloadOEISText( int( n ), 'E', True ), 1 ],
-    'oeisname'      : [ lambda n: downloadOEISText( int( n ), 'N', True ), 1 ],
-    'omega'         : [ lambda: lambertw( 1 ), 0 ],
-    'or'            : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ],
-    'padovan'       : [ getNthPadovanNumber, 1 ],
-    'parity'        : [ lambda n : getBitCount( n ) & 1, 1 ],
-    'pascal'        : [ getNthPascalLine, 1 ],
-    'pell'          : [ getNthPellNumber, 1 ],
-    'pentagonal'    : [ lambda n: getNthPolygonalNumber( n, 5 ), 1 ],
-    'pentagonal?'   : [ lambda n: findNthPolygonalNumber( n, 5 ), 1 ],
-    'pentanacci'    : [ getNthPentanacci, 1 ],
-    'pentatope'     : [ getNthPentatopeNumber, 1 ],
-    'perm'          : [ getPermutations, 2 ],
-    'phi'           : [ phi, 0 ],
-    'pi'            : [ pi, 0 ],
-    'plastic'       : [ getPlasticConstant, 0 ],
-    'polyarea'      : [ getRegularPolygonArea, 1 ],
-    'polygamma'     : [ psi, 2 ],
-    'polygonal'     : [ getNthPolygonalNumber, 2 ],
-    'polygonal?'    : [ findNthPolygonalNumber, 2 ],
-    'polylog'       : [ polylog, 2 ],
-    'polyprime'     : [ getNthPolyPrime, 2 ],
-    'polytope'      : [ getNthPolytopeNumber, 2 ],
-    'power'         : [ exponentiate, 2 ],
-    'prime'         : [ getNthPrime, 1 ],
-    'prime?'        : [ lambda n: findPrime( n )[ 1 ], 1 ],
-    'primepi'       : [ getPrimePi, 1 ],
-    'primes'        : [ getPrimes, 2 ],
-    'primorial'     : [ getPrimorial, 1 ],
-    'pyramid'       : [ lambda n: getNthPolygonalPyramidalNumber( n, 4 ), 1 ],
-    'quadprime'     : [ getNthQuadrupletPrime, 1 ],
-    'quadprime?'    : [ lambda i: findQuadrupletPrimes( i )[ 1 ], 1 ],
-    'quadprime_'    : [ getNthQuadrupletPrimeList, 1 ],
-    'quintprime'    : [ getNthQuintupletPrime, 1 ],
-    'quintprime_'   : [ getNthQuintupletPrimeList, 1 ],
-    'randint'       : [ randrange, 1 ],
-    'random'        : [ rand, 0 ],
-    'range'         : [ expandRange, 2 ],
-    'range2'        : [ expandSteppedRange, 3 ],
-    'reciprocal'    : [ takeReciprocal, 1 ],
-    'repunit'       : [ getNthBaseKRepunit, 2 ],
-    'rhombdodec'    : [ getNthRhombicDodecahedralNumber, 1 ],
-    'riesel'        : [ lambda n: fsub( fmul( n, power( 2, n ) ), 1 ), 1 ],
-    'root'          : [ root, 2 ],
-    'root2'         : [ sqrt, 1 ],
-    'root3'         : [ cbrt, 1 ],
-    'round'         : [ lambda n: floor( fadd( n, 0.5 ) ), 1 ],
-    'safeprime'     : [ lambda n: fadd( fmul( getNthSophiePrime( n ), 2 ), 1 ), 1 ],
-    'schroeder'     : [ getNthSchroederNumber, 1 ],
-    'sec'           : [ lambda n: performTrigOperation( n, sec ), 1 ],
-    'sech'          : [ lambda n: performTrigOperation( n, sech ), 1 ],
-    'sextprime'     : [ getNthSextupletPrime, 1 ],
-    'sextprime_'    : [ getNthSextupletPrimeList, 1 ],
-    'sexyprime'     : [ getNthSexyPrime, 1 ],
-    'sexyprime_'    : [ getNthSexyPrimeList, 1 ],
-    'sexyquad'      : [ getNthSexyQuadruplet, 1 ],
-    'sexyquad_'     : [ getNthSexyQuadrupletList, 1 ],
-    'sexytriplet'   : [ getNthSexyTriplet, 1 ],
-    'sexytriplet_'  : [ getNthSexyTripletList, 1 ],
-    'shiftleft'     : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x << y ), 2 ],
-    'shiftright'    : [ lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x >> y ), 2 ],
-    'short'         : [ lambda n: convertToSignedInt( n , 16 ), 1 ],
-    'sin'           : [ lambda n: performTrigOperation( n, sin ), 1 ],
-    'sinh'          : [ lambda n: performTrigOperation( n, sinh ), 1 ],
-    'solve2'        : [ solveQuadraticPolynomial, 3 ],
-    'solve3'        : [ solveCubicPolynomial, 4 ],
-    'solve4'        : [ solveQuarticPolynomial, 5 ],
-    'sophieprime'   : [ getNthSophiePrime, 1 ],
-    'spherearea'    : [ lambda n: getNSphereSurfaceArea( 3, n ), 1 ],
-    'sphereradius'  : [ lambda n: getNSphereRadius( 3, n ), 1 ],
-    'spherevolume'  : [ lambda n: getNSphereVolume( 3, n ), 1 ],
-    'square'        : [ lambda i: exponentiate( i, 2 ), 1 ],
-    'squaretri'     : [ getNthSquareTriangularNumber, 1 ],
-    'steloct'       : [ getNthStellaOctangulaNumber, 1 ],
-    'subfac'        : [ lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1 ],
-    'subtract'      : [ subtract, 2 ],
-    'superfac'      : [ superfac, 1 ],
-    'superprime'    : [ getNthSuperPrime, 1 ],
-    'sylvester'     : [ getNthSylvester, 1 ],
-    'tan'           : [ lambda n: performTrigOperation( n, tan ), 1 ],
-    'tanh'          : [ lambda n: performTrigOperation( n, tanh ), 1 ],
-    'tetrahedral'   : [ lambda n: polyval( [ fdiv( 1, 6 ), fdiv( 1, 2 ), fdiv( 1, 3 ), 0 ], n ), 1 ],
-    'tetranacci'    : [ getNthTetranacci, 1 ],
-    'tetrate'       : [ tetrate, 2 ],
-    'thabit'        : [ lambda n : fsub( fmul( 3, power( 2, n ) ), 1 ), 1 ],
-    'trianglearea'  : [ getTriangleArea, 3 ],
-    'triangular'    : [ lambda n : getNthPolygonalNumber( n, 3 ), 1 ],
-    'triangular?'   : [ lambda n : findNthPolygonalNumber( n, 3 ), 1 ],
-    'tribonacci'    : [ getNthTribonacci, 1 ],
-    'triplebal'     : [ getNthTripleBalancedPrime, 1 ],
-    'triplebal_'    : [ getNthTripleBalancedPrimeList, 1 ],
-    'tripletprime'  : [ getNthTripletPrime, 1 ],
-    'tripletprime'  : [ getNthTripletPrimeList, 1 ],
-    'truncoct'      : [ getNthTruncatedOctahedralNumber, 1 ],
-    'trunctet'      : [ getNthTruncatedTetrahedralNumber, 1 ],
-    'twinprime'     : [ getNthTwinPrime, 1 ],
-    'twinprime_'    : [ getNthTwinPrimeList, 1 ],
-    'uchar'         : [ lambda n: int( fmod( n, power( 2, 8 ) ) ), 1 ],
-    'uinteger'      : [ lambda n, k: int( fmod( n, power( 2, k ) ) ), 2 ],
-    'ulong'         : [ lambda n: int( fmod( n, power( 2, 32 ) ) ), 1 ],
-    'ulonglong'     : [ lambda n: int( fmod( n, power( 2, 64 ) ) ), 1 ],
-    'unitroots'     : [ lambda i: unitroots( int( i ) ), 1 ],
-    'ushort'        : [ lambda n: int( fmod( n, power( 2, 16 ) ) ), 1 ],
-    'xor'           : [ lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ],
-    'ydhms'         : [ convertToYDHMS, 1 ],
-    'zeta'          : [ zeta, 1 ],
-    '_dumpalias'    : [ dumpAliases, 0 ],
-    '_dumpops'      : [ dumpOperators, 0 ],
-    '_stats'        : [ dumpStats, 0 ],
-    '~'             : [ getInvertedBits, 1 ],
-#   'antitet'       : [ findTetrahedralNumber, 1 ],
-#   'bernfrac'      : [ bernfrac, 1 ],
-#   'powmod'        : [ getPowMod, 3 ],
+    'abs'           : OperatorInfo( fabs, 1, [ Measurement ] ),
+    'acos'          : OperatorInfo( lambda n: performTrigOperation( n, acos ), 1, [ ] ),
+    'acosh'         : OperatorInfo( lambda n: performTrigOperation( n, acosh ), 1, [ ] ),
+    'acot'          : OperatorInfo( lambda n: performTrigOperation( n, acot ), 1, [ ] ),
+    'acoth'         : OperatorInfo( lambda n: performTrigOperation( n, acoth ), 1, [ ] ),
+    'acsc'          : OperatorInfo( lambda n: performTrigOperation( n, acsc ), 1, [ ] ),
+    'acsch'         : OperatorInfo( lambda n: performTrigOperation( n, acsch ), 1, [ ] ),
+    'add'           : OperatorInfo( add, 2, [ Measurement ] ),
+    'altfac'        : OperatorInfo( getNthAlternatingFactorial, 1, [ ] ),
+    'and'           : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x & y ), 2, [ ] ),
+    'apery'         : OperatorInfo( apery, 0, [ ] ),
+    'aperynum'      : OperatorInfo( getNthAperyNumber, 1, [ ] ),
+    'asec'          : OperatorInfo( lambda n: performTrigOperation( n, asec ), 1, [ ] ),
+    'asech'         : OperatorInfo( lambda n: performTrigOperation( n, asech ), 1, [ ] ),
+    'asin'          : OperatorInfo( lambda n: performTrigOperation( n, asin ), 1, [ ] ),
+    'asinh'         : OperatorInfo( lambda n: performTrigOperation( n, asinh ), 1, [ ] ),
+    'atan'          : OperatorInfo( lambda n: performTrigOperation( n, atan ), 1, [ ] ),
+    'atanh'         : OperatorInfo( lambda n: performTrigOperation( n, atanh ), 1, [ ] ),
+    'avogadro'      : OperatorInfo( lambda: mpf( '6.02214179e23' ), 0, [ ] ),
+    'balanced'      : OperatorInfo( getNthBalancedPrime, 1, [ ] ),
+    'balanced_'     : OperatorInfo( getNthBalancedPrimeList, 1, [ ] ),
+    'bell'          : OperatorInfo( bell, 1, [ ] ),
+    'bellpoly'      : OperatorInfo( bell, 2, [ ] ),
+    'bernoulli'     : OperatorInfo( bernoulli, 1, [ ] ),
+    'binomial'      : OperatorInfo( binomial, 2, [ ] ),
+    'carol'         : OperatorInfo( lambda n : fsub( power( fsub( power( 2, n ), 1 ), 2 ), 2 ), 1, [ ] ),
+    'catalan'       : OperatorInfo( lambda n: fdiv( binomial( fmul( 2, n ), n ), fadd( n, 1 ) ), 1, [ ] ),
+    'catalans'      : OperatorInfo( catalan, 0, [ ] ),
+    'cdecagonal'    : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 10 ), 1, [ ] ),
+    'cdecagonal?'   : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 10 ), 1, [ ] ),
+    'ceiling'       : OperatorInfo( ceil, 1, [ Measurement ] ),
+    'centeredcube'  : OperatorInfo( getNthCenteredCubeNumber, 1, [ ] ),
+    'champernowne'  : OperatorInfo( getChampernowne, 0, [ ] ),
+    'char'          : OperatorInfo( lambda n: convertToSignedInt( n , 8 ), 1, [ ] ),
+    'cheptagonal'   : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 7 ), 1, [ ] ),
+    'cheptagonal?'  : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 7 ), 1, [ ] ),
+    'chexagonal'    : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 6 ), 1, [ ] ),
+    'cnonagonal'    : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 9 ), 1, [ ] ),
+    'cnonagonal?'   : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 9 ), 1, [ ] ),
+    'coctagonal'    : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 8 ), 1, [ ] ),
+    'coctagonal?'   : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 8 ), 1, [ ] ),
+    'copeland'      : OperatorInfo( getCopelandErdos, 0, [ ] ),
+    'cos'           : OperatorInfo( lambda n: performTrigOperation( n, cos ), 1, [ ] ),
+    'cosh'          : OperatorInfo( lambda n: performTrigOperation( n, cosh ), 1, [ ] ),
+    'cot'           : OperatorInfo( lambda n: performTrigOperation( n, cot ), 1, [ ] ),
+    'coth'          : OperatorInfo( lambda n: performTrigOperation( n, coth ), 1, [ ] ),
+    'countbits'     : OperatorInfo( getBitCount, 1, [ ] ),
+    'countdiv'      : OperatorInfo( getDivisorCount, 1, [ ] ),
+    'cousinprime'   : OperatorInfo( getNthCousinPrime, 1, [ ] ),
+    'cpentagonal'   : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 5 ), 1, [ ] ),
+    'cpentagonal?'  : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 5 ), 1, [ ] ),
+    'cpolygonal'    : OperatorInfo( lambda n, k: getCenteredPolygonalNumber( n, k ), 2, [ ] ),
+    'cpolygonal?'   : OperatorInfo( lambda n, k: findCenteredPolygonalNumber( n, k ), 2, [ ] ),
+    'csc'           : OperatorInfo( lambda n: performTrigOperation( n, csc ), 1, [ ] ),
+    'csch'          : OperatorInfo( lambda n: performTrigOperation( n, csch ), 1, [ ] ),
+    'csquare'       : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 4 ), 1, [ ] ),
+    'csquare?'      : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 4 ), 1, [ ] ),
+    'ctriangular'   : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 3 ), 1, [ ] ),
+    'ctriangular?'  : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 3 ), 1, [ ] ),
+    'cube'          : OperatorInfo( lambda n: exponentiate( n, 3 ), 1, [ Measurement ] ),
+    'decagonal'     : OperatorInfo( lambda n: getNthPolygonalNumber( n, 10 ), 1, [ ] ),
+    'decagonal?'    : OperatorInfo( lambda n: findNthPolygonalNumber( n, 10 ), 1, [ ] ),
+    'delannoy'      : OperatorInfo( getNthDelannoyNumber, 1, [ ] ),
+    'divide'        : OperatorInfo( divide, 2, [ Measurement ] ),
+    'divisors'      : OperatorInfo( getDivisors, 1, [ ] ),
+    'dhms'          : OperatorInfo( convertToDHMS, 1, [ Measurement ] ),
+    'dms'           : OperatorInfo( convertToDMS, 1, [ Measurement ] ),
+    'dodecahedral'  : OperatorInfo( lambda n : polyval( [ fdiv( 9, 2 ), fdiv( -9, 2 ), 1, 0 ], n ), 1, [ ] ),
+    'double'        : OperatorInfo( lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) ), 1, [ ] ),
+    'doublebal'     : OperatorInfo( getNthDoubleBalancedPrime, 1, [ ] ),
+    'doublebal_'    : OperatorInfo( getNthDoubleBalancedPrimeList, 1, [ ] ),
+    'doublefac'     : OperatorInfo( fac2, 1, [ ] ),
+    'e'             : OperatorInfo( e, 0, [ ] ),
+    'egypt'         : OperatorInfo( getGreedyEgyptianFraction, 2, [ ] ),
+    'element'       : OperatorInfo( getListElement, 2, [ ] ),
+    'estimate'      : OperatorInfo( estimate, 1, [ ] ),
+    'euler'         : OperatorInfo( euler, 0, [ ] ),
+    'exp'           : OperatorInfo( exp, 1, [ ] ),
+    'exp10'         : OperatorInfo( lambda n: power( 10, n ), 1, [ ] ),
+    'expphi'        : OperatorInfo( lambda n: power( phi, n ), 1, [ ] ),
+    'exprange'      : OperatorInfo( expandExponentialRange, 3, [ ] ),
+    'factor'        : OperatorInfo( lambda i: getExpandedFactorList( factor( i ) ), 1, [ ] ),
+    'factorial'     : OperatorInfo( fac, 1, [ ] ),
+    'fibonacci'     : OperatorInfo( fib, 1, [ ] ),
+    'float'         : OperatorInfo( lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1, [ ] ),
+    'floor'         : OperatorInfo( floor, 1, [ Measurement ] ),
+    'fraction'      : OperatorInfo( interpretAsFraction, 2, [ ] ),
+    'fromunixtime'  : OperatorInfo( convertFromUnixTime, 1, [ ] ),
+    'gamma'         : OperatorInfo( gamma, 1, [ ] ),
+    'georange'      : OperatorInfo( expandGeometricRange, 3, [ ] ),
+    'glaisher'      : OperatorInfo( glaisher, 0, [ ] ),
+    'harmonic'      : OperatorInfo( harmonic, 1, [ ] ),
+    'heptagonal'    : OperatorInfo( lambda n: getNthPolygonalNumber( n, 7 ), 1, [ ] ),
+    'heptagonal?'   : OperatorInfo( lambda n: findNthPolygonalNumber( n, 7 ), 1, [ ] ),
+    'heptanacci'    : OperatorInfo( getNthHeptanacci, 1, [ ] ),
+    'hepthex'       : OperatorInfo( getNthHeptagonalHexagonalNumber, 1, [ ] ),
+    'heptpent'      : OperatorInfo( getNthHeptagonalPentagonalNumber, 1, [ ] ),
+    'heptsquare'    : OperatorInfo( getNthHeptagonalSquareNumber, 1, [ ] ),
+    'hepttri'       : OperatorInfo( getNthHeptagonalTriangularNumber, 1, [ ] ),
+    'hexagonal'     : OperatorInfo( lambda n: getNthPolygonalNumber( n, 6 ), 1, [ ] ),
+    'hexagonal?'    : OperatorInfo( lambda n: findNthPolygonalNumber( n, 6 ), 1, [ ] ),
+    'hexanacci'     : OperatorInfo( getNthHexanacci, 1, [ ] ),
+    'hexpent'       : OperatorInfo( getNthHexagonalPentagonalNumber, 1, [ ] ),
+    'hms'           : OperatorInfo( convertToHMS, 1, [ Measurement ] ),
+    'hyper4_2'      : OperatorInfo( tetrateLarge, 2, [ ] ),
+    'hyperfac'      : OperatorInfo( hyperfac, 1, [ ] ),
+    'hypot'         : OperatorInfo( hypot, 2, [ ] ),
+    'i'             : OperatorInfo( makeImaginary, 1, [ ] ),
+    'icosahedral'   : OperatorInfo( lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n ), 1, [ ] ),
+    'integer'       : OperatorInfo( convertToSignedInt, 2, [ ] ),
+    'isdivisible'   : OperatorInfo( lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2, [ ] ),
+    'isolated'      : OperatorInfo( getNthIsolatedPrime, 1, [ ] ),
+    'isprime'       : OperatorInfo( lambda n: 1 if isPrime( n ) else 0, 1, [ ] ),
+    'issquare'      : OperatorInfo( isSquare, 1, [ ] ),
+    'itoi'          : OperatorInfo( lambda: exp( fmul( -0.5, pi ) ), 0, [ ] ),
+    'jacobsthal'    : OperatorInfo( getNthJacobsthalNumber, 1, [ ] ),
+    'khinchin'      : OperatorInfo( khinchin, 0, [ ] ),
+    'kynea'         : OperatorInfo( lambda n : fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ), 1, [ ] ),
+    'lah'           : OperatorInfo( lambda n, k: fdiv( fmul( binomial( n, k ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ), 2, [ ] ),
+    'lambertw'      : OperatorInfo( lambertw, 1, [ ] ),
+    'leyland'       : OperatorInfo( lambda x, y : fadd( power( x, y ), power( y, x ) ), 2, [ ] ),
+    'lgamma'        : OperatorInfo( loggamma, 1, [ ] ),
+    'li'            : OperatorInfo( li, 1, [ ] ),
+    'ln'            : OperatorInfo( ln, 1, [ ] ),
+    'log10'         : OperatorInfo( log10, 1, [ ] ),
+    'log2'          : OperatorInfo( lambda n: log( n, 2 ), 1, [ ] ),
+    'logxy'         : OperatorInfo( log, 2, [ ] ),
+    'long'          : OperatorInfo( lambda n: convertToSignedInt( n , 32 ), 1, [ ] ),
+    'longlong'      : OperatorInfo( lambda n: convertToSignedInt( n , 64 ), 1, [ ] ),
+    'lucas'         : OperatorInfo( getNthLucasNumber, 1, [ ] ),
+    'makecf'        : OperatorInfo( lambda n, k: ContinuedFraction( n, maxterms=k, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2, [ ] ),
+    'maxchar'       : OperatorInfo( lambda: ( 1 << 7 ) - 1, 0, [ ] ),
+    'maxlong'       : OperatorInfo( lambda: ( 1 << 31 ) - 1, 0, [ ] ),
+    'maxlonglong'   : OperatorInfo( lambda: ( 1 << 63 ) - 1, 0, [ ] ),
+    'maxquadlong'   : OperatorInfo( lambda: ( 1 << 127 ) - 1, 0, [ ] ),
+    'maxshort'      : OperatorInfo( lambda: ( 1 << 15 ) - 1, 0, [ ] ),
+    'maxuchar'      : OperatorInfo( lambda: ( 1 << 8 ) - 1, 0, [ ] ),
+    'maxulong'      : OperatorInfo( lambda: ( 1 << 32 ) - 1, 0, [ ] ),
+    'maxulonglong'  : OperatorInfo( lambda: ( 1 << 64 ) - 1, 0, [ ] ),
+    'maxuquadlong'  : OperatorInfo( lambda: ( 1 << 128 ) - 1, 0, [ ] ),
+    'maxushort'     : OperatorInfo( lambda: ( 1 << 16 ) - 1, 0, [ ] ),
+    'mertens'       : OperatorInfo( mertens, 0, [ ] ),
+    'minchar'       : OperatorInfo( lambda: -( 1 << 7 ), 0, [ ] ),
+    'minlong'       : OperatorInfo( lambda: -( 1 << 31 ), 0, [ ] ),
+    'minlonglong'   : OperatorInfo( lambda: -( 1 << 63 ), 0, [ ] ),
+    'minquadlong'   : OperatorInfo( lambda: -( 1 << 127 ), 0, [ ] ),
+    'minshort'      : OperatorInfo( lambda: -( 1 << 15 ), 0, [ ] ),
+    'minuchar'      : OperatorInfo( lambda: 0, 0, [ ] ),
+    'minulong'      : OperatorInfo( lambda: 0, 0, [ ] ),
+    'minulonglong'  : OperatorInfo( lambda: 0, 0, [ ] ),
+    'minuquadlong'  : OperatorInfo( lambda: 0, 0, [ ] ),
+    'minushort'     : OperatorInfo( lambda: 0, 0, [ ] ),
+    'modulo'        : OperatorInfo( fmod, 2, [ ] ),
+    'motzkin'       : OperatorInfo( getNthMotzkinNumber, 1, [ ] ),
+    'multiply'      : OperatorInfo( multiply, 2, [ Measurement ] ),
+    'narayana'      : OperatorInfo( lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2, [ ] ),
+    'negative'      : OperatorInfo( fneg, 1, [ Measurement ] ),
+    'nonagonal'     : OperatorInfo( lambda n: getNthPolygonalNumber( n, 9 ), 1, [ ] ),
+    'nonagonal?'    : OperatorInfo( lambda n: findNthPolygonalNumber( n, 9 ), 1, [ ] ),
+    'nonahept'      : OperatorInfo( getNthNonagonalHeptagonalNumber, 1, [ ] ),
+    'nonahex'       : OperatorInfo( getNthNonagonalHexagonalNumber, 1, [ ] ),
+    'nonaoct'       : OperatorInfo( getNthNonagonalOctagonalNumber, 1, [ ] ),
+    'nonapent'      : OperatorInfo( getNthNonagonalPentagonalNumber, 1, [ ] ),
+    'nonasquare'    : OperatorInfo( getNthNonagonalSquareNumber, 1, [ ] ),
+    'nonatri'       : OperatorInfo( getNthNonagonalTriangularNumber, 1, [ ] ),
+    'not'           : OperatorInfo( getInvertedBits, 1, [ ] ),
+    'now'           : OperatorInfo( getNow, 0, [ ] ),
+    'nspherearea'   : OperatorInfo( getNSphereSurfaceArea, 2, [ Measurement ] ),
+    'nsphereradius' : OperatorInfo( getNSphereRadius, 2, [ Measurement ] ),
+    'nspherevolume' : OperatorInfo( getNSphereVolume, 2, [ Measurement ] ),
+    'nthprime?'     : OperatorInfo( lambda i: findPrime( i )[ 0 ], 1, [ ] ),
+    'nthquad?'      : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 0 ], 1, [ ] ),
+    'octagonal'     : OperatorInfo( lambda n: getNthPolygonalNumber( n, 8 ), 1, [ ] ),
+    'octagonal?'    : OperatorInfo( lambda n: findNthPolygonalNumber( n, 8 ), 1, [ ] ),
+    'octahedral'    : OperatorInfo( lambda n: polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], n ), 1, [ ] ),
+    'octhept'       : OperatorInfo( getNthOctagonalHeptagonalNumber, 1, [ ] ),
+    'octhex'        : OperatorInfo( getNthOctagonalHexagonalNumber, 1, [ ] ),
+    'octpent'       : OperatorInfo( getNthOctagonalPentagonalNumber, 1, [ ] ),
+    'octsquare'     : OperatorInfo( getNthOctagonalSquareNumber, 1, [ ] ),
+    'octtri'        : OperatorInfo( getNthOctagonalTriangularNumber, 1, [ ] ),
+    'oeis'          : OperatorInfo( lambda n: downloadOEISSequence( int( n ) ), 1, [ ] ),
+    'oeiscomment'   : OperatorInfo( lambda n: downloadOEISText( int( n ), 'C', True ), 1, [ ] ),
+    'oeisex'        : OperatorInfo( lambda n: downloadOEISText( int( n ), 'E', True ), 1, [ ] ),
+    'oeisname'      : OperatorInfo( lambda n: downloadOEISText( int( n ), 'N', True ), 1, [ ] ),
+    'omega'         : OperatorInfo( lambda: lambertw( 1 ), 0, [ ] ),
+    'or'            : OperatorInfo( lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2, [ ] ),
+    'padovan'       : OperatorInfo( getNthPadovanNumber, 1, [ ] ),
+    'parity'        : OperatorInfo( lambda n : getBitCount( n ) & 1, 1, [ ] ),
+    'pascal'        : OperatorInfo( getNthPascalLine, 1, [ ] ),
+    'pell'          : OperatorInfo( getNthPellNumber, 1, [ ] ),
+    'pentagonal'    : OperatorInfo( lambda n: getNthPolygonalNumber( n, 5 ), 1, [ ] ),
+    'pentagonal?'   : OperatorInfo( lambda n: findNthPolygonalNumber( n, 5 ), 1, [ ] ),
+    'pentanacci'    : OperatorInfo( getNthPentanacci, 1, [ ] ),
+    'pentatope'     : OperatorInfo( getNthPentatopeNumber, 1, [ ] ),
+    'perm'          : OperatorInfo( getPermutations, 2, [ ] ),
+    'phi'           : OperatorInfo( phi, 0, [ ] ),
+    'pi'            : OperatorInfo( pi, 0, [ ] ),
+    'plastic'       : OperatorInfo( getPlasticConstant, 0, [ ] ),
+    'polyarea'      : OperatorInfo( getRegularPolygonArea, 1, [ Measurement ] ),
+    'polygamma'     : OperatorInfo( psi, 2, [ ] ),
+    'polygonal'     : OperatorInfo( getNthPolygonalNumber, 2, [ ] ),
+    'polygonal?'    : OperatorInfo( findNthPolygonalNumber, 2, [ ] ),
+    'polylog'       : OperatorInfo( polylog, 2, [ ] ),
+    'polyprime'     : OperatorInfo( getNthPolyPrime, 2, [ ] ),
+    'polytope'      : OperatorInfo( getNthPolytopeNumber, 2, [ ] ),
+    'power'         : OperatorInfo( exponentiate, 2, [ Measurement ] ),
+    'prime'         : OperatorInfo( getNthPrime, 1, [ ] ),
+    'prime?'        : OperatorInfo( lambda n: findPrime( n )[ 1 ], 1, [ ] ),
+    'primepi'       : OperatorInfo( getPrimePi, 1, [ ] ),
+    'primes'        : OperatorInfo( getPrimes, 2, [ ] ),
+    'primorial'     : OperatorInfo( getPrimorial, 1, [ ] ),
+    'pyramid'       : OperatorInfo( lambda n: getNthPolygonalPyramidalNumber( n, 4 ), 1, [ ] ),
+    'quadprime'     : OperatorInfo( getNthQuadrupletPrime, 1, [ ] ),
+    'quadprime?'    : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 1 ], 1, [ ] ),
+    'quadprime_'    : OperatorInfo( getNthQuadrupletPrimeList, 1, [ ] ),
+    'quintprime'    : OperatorInfo( getNthQuintupletPrime, 1, [ ] ),
+    'quintprime_'   : OperatorInfo( getNthQuintupletPrimeList, 1, [ ] ),
+    'randint'       : OperatorInfo( randrange, 1, [ ] ),
+    'random'        : OperatorInfo( rand, 0, [ ] ),
+    'range'         : OperatorInfo( expandRange, 2, [ ] ),
+    'range2'        : OperatorInfo( expandSteppedRange, 3, [ ] ),
+    'reciprocal'    : OperatorInfo( takeReciprocal, 1, [ ] ),
+    'repunit'       : OperatorInfo( getNthBaseKRepunit, 2, [ ] ),
+    'rhombdodec'    : OperatorInfo( getNthRhombicDodecahedralNumber, 1, [ ] ),
+    'riesel'        : OperatorInfo( lambda n: fsub( fmul( n, power( 2, n ) ), 1 ), 1, [ ] ),
+    'root'          : OperatorInfo( root, 2, [ Measurement ] ),
+    'root2'         : OperatorInfo( sqrt, 1, [ Measurement ] ),
+    'root3'         : OperatorInfo( cbrt, 1, [ Measurement ] ),
+    'round'         : OperatorInfo( lambda n: floor( fadd( n, 0.5 ) ), 1, [ Measurement ] ),
+    'safeprime'     : OperatorInfo( lambda n: fadd( fmul( getNthSophiePrime( n ), 2 ), 1 ), 1, [ ] ),
+    'schroeder'     : OperatorInfo( getNthSchroederNumber, 1, [ ] ),
+    'sec'           : OperatorInfo( lambda n: performTrigOperation( n, sec ), 1, [ ] ),
+    'sech'          : OperatorInfo( lambda n: performTrigOperation( n, sech ), 1, [ ] ),
+    'sextprime'     : OperatorInfo( getNthSextupletPrime, 1, [ ] ),
+    'sextprime_'    : OperatorInfo( getNthSextupletPrimeList, 1, [ ] ),
+    'sexyprime'     : OperatorInfo( getNthSexyPrime, 1, [ ] ),
+    'sexyprime_'    : OperatorInfo( getNthSexyPrimeList, 1, [ ] ),
+    'sexyquad'      : OperatorInfo( getNthSexyQuadruplet, 1, [ ] ),
+    'sexyquad_'     : OperatorInfo( getNthSexyQuadrupletList, 1, [ ] ),
+    'sexytriplet'   : OperatorInfo( getNthSexyTriplet, 1, [ ] ),
+    'sexytriplet_'  : OperatorInfo( getNthSexyTripletList, 1, [ ] ),
+    'shiftleft'     : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x << y ), 2, [ ] ),
+    'shiftright'    : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x >> y ), 2, [ ] ),
+    'short'         : OperatorInfo( lambda n: convertToSignedInt( n , 16 ), 1, [ ] ),
+    'sin'           : OperatorInfo( lambda n: performTrigOperation( n, sin ), 1, [ ] ),
+    'sinh'          : OperatorInfo( lambda n: performTrigOperation( n, sinh ), 1, [ ] ),
+    'solve2'        : OperatorInfo( solveQuadraticPolynomial, 3, [ ] ),
+    'solve3'        : OperatorInfo( solveCubicPolynomial, 4, [ ] ),
+    'solve4'        : OperatorInfo( solveQuarticPolynomial, 5, [ ] ),
+    'sophieprime'   : OperatorInfo( getNthSophiePrime, 1, [ ] ),
+    'spherearea'    : OperatorInfo( lambda n: getNSphereSurfaceArea( 3, n ), 1, [ Measurement ] ),
+    'sphereradius'  : OperatorInfo( lambda n: getNSphereRadius( 3, n ), 1, [ Measurement ] ),
+    'spherevolume'  : OperatorInfo( lambda n: getNSphereVolume( 3, n ), 1, [ Measurement ] ),
+    'square'        : OperatorInfo( lambda i: exponentiate( i, 2 ), 1, [ Measurement ] ),
+    'squaretri'     : OperatorInfo( getNthSquareTriangularNumber, 1, [ ] ),
+    'steloct'       : OperatorInfo( getNthStellaOctangulaNumber, 1, [ ] ),
+    'subfac'        : OperatorInfo( lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1, [ ] ),
+    'subtract'      : OperatorInfo( subtract, 2, [ Measurement ] ),
+    'superfac'      : OperatorInfo( superfac, 1, [ ] ),
+    'superprime'    : OperatorInfo( getNthSuperPrime, 1, [ ] ),
+    'sylvester'     : OperatorInfo( getNthSylvester, 1, [ ] ),
+    'tan'           : OperatorInfo( lambda n: performTrigOperation( n, tan ), 1, [ ] ),
+    'tanh'          : OperatorInfo( lambda n: performTrigOperation( n, tanh ), 1, [ ] ),
+    'tetrahedral'   : OperatorInfo( lambda n: polyval( [ fdiv( 1, 6 ), fdiv( 1, 2 ), fdiv( 1, 3 ), 0 ], n ), 1, [ ] ),
+    'tetranacci'    : OperatorInfo( getNthTetranacci, 1, [ ] ),
+    'tetrate'       : OperatorInfo( tetrate, 2, [ ] ),
+    'thabit'        : OperatorInfo( lambda n : fsub( fmul( 3, power( 2, n ) ), 1 ), 1, [ ] ),
+    'trianglearea'  : OperatorInfo( getTriangleArea, 3, [ Measurement ] ),
+    'triangular'    : OperatorInfo( lambda n : getNthPolygonalNumber( n, 3 ), 1, [ ] ),
+    'triangular?'   : OperatorInfo( lambda n : findNthPolygonalNumber( n, 3 ), 1, [ ] ),
+    'tribonacci'    : OperatorInfo( getNthTribonacci, 1, [ ] ),
+    'triplebal'     : OperatorInfo( getNthTripleBalancedPrime, 1, [ ] ),
+    'triplebal_'    : OperatorInfo( getNthTripleBalancedPrimeList, 1, [ ] ),
+    'tripletprime'  : OperatorInfo( getNthTripletPrime, 1, [ ] ),
+    'tripletprime'  : OperatorInfo( getNthTripletPrimeList, 1, [ ] ),
+    'truncoct'      : OperatorInfo( getNthTruncatedOctahedralNumber, 1, [ ] ),
+    'trunctet'      : OperatorInfo( getNthTruncatedTetrahedralNumber, 1, [ ] ),
+    'twinprime'     : OperatorInfo( getNthTwinPrime, 1, [ ] ),
+    'twinprime_'    : OperatorInfo( getNthTwinPrimeList, 1, [ ] ),
+    'uchar'         : OperatorInfo( lambda n: int( fmod( n, power( 2, 8 ) ) ), 1, [ ] ),
+    'uinteger'      : OperatorInfo( lambda n, k: int( fmod( n, power( 2, k ) ) ), 2, [ ] ),
+    'ulong'         : OperatorInfo( lambda n: int( fmod( n, power( 2, 32 ) ) ), 1, [ ] ),
+    'ulonglong'     : OperatorInfo( lambda n: int( fmod( n, power( 2, 64 ) ) ), 1, [ ] ),
+    'unitroots'     : OperatorInfo( lambda i: unitroots( int( i ) ), 1, [ ] ),
+    'ushort'        : OperatorInfo( lambda n: int( fmod( n, power( 2, 16 ) ) ), 1, [ ] ),
+    'weekday'       : OperatorInfo( getWeekday, 1, [ arrow.Arrow ] ),
+    'xor'           : OperatorInfo( lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2, [ ] ),
+    'ydhms'         : OperatorInfo( convertToYDHMS, 1, [ Measurement ] ),
+    'zeta'          : OperatorInfo( zeta, 1, [ ] ),
+    '_dumpalias'    : OperatorInfo( dumpAliases, 0, [ ] ),
+    '_dumpops'      : OperatorInfo( dumpOperators, 0, [ ] ),
+    '_stats'        : OperatorInfo( dumpStats, 0, [ ] ),
+    '~'             : OperatorInfo( getInvertedBits, 1, [ ] ),
+#   'antitet'       : OperatorInfo( findTetrahedralNumber, 1, [ ] ),
+#   'bernfrac'      : OperatorInfo( bernfrac, 1, [ ] ),
+#   'powmod'        : OperatorInfo( getPowMod, 3, [ ] ),
 }
 
 
@@ -3424,7 +3541,8 @@ def rpn( cmd_args ):
     args = parser.parse_args( cmd_args )
 
     if args.help or args.other_help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, g.dataPath, [ ] )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers,
+                   operatorAliases, g.dataPath, [ ] )
         return
 
     valid, errorString = validateOptions( args )
@@ -3558,11 +3676,13 @@ def rpn( cmd_args ):
 
         if term in modifiers:
             try:
-                modifiers[ term ][ 0 ]( currentValueList )
+                operatorInfo = modifiers[ term ]
+                operatorInfo.function( currentValueList )
             except IndexError as error:
                 print( 'rpn:  index error for operator at arg ' + format( index ) + ', \'' + term +
                        '.  Are your arguments in the right order?' )
                 break
+
         elif term in g.unitOperators:
             if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
                 if g.unitOperators[ term ].unitType == 'constant':
@@ -3591,7 +3711,9 @@ def rpn( cmd_args ):
             else:
                 raise ValueError( 'unsupported type for a unit operator' )
         elif term in operators:
-            argsNeeded = operators[ term ][ 1 ]
+            operatorInfo = operators[ term ]
+
+            argsNeeded = operatorInfo.argCount
 
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
@@ -3603,7 +3725,7 @@ def rpn( cmd_args ):
 
             try:
                 if argsNeeded == 0:
-                    result = callers[ 0 ]( operators[ term ][ 0 ], None )
+                    result = callers[ 0 ]( operatorInfo.function, None )
                 else:
                     argList = list( )
 
@@ -3611,12 +3733,13 @@ def rpn( cmd_args ):
                         arg = currentValueList.pop( )
                         argList.append( arg if isinstance( arg, list ) else [ arg ] )
 
-                    result = callers[ argsNeeded ]( operators[ term ][ 0 ], *argList )
+                    result = callers[ argsNeeded ]( operatorInfo.function, *argList )
 
                 if len( result ) == 1:
                     result = result[ 0 ]
 
                 currentValueList.append( result )
+
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
 
@@ -3624,6 +3747,7 @@ def rpn( cmd_args ):
                     raise
                 else:
                     break
+
             except ValueError as error:
                 print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 
@@ -3631,6 +3755,7 @@ def rpn( cmd_args ):
                     raise
                 else:
                     break
+
             except TypeError as error:
                 print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 
@@ -3638,6 +3763,7 @@ def rpn( cmd_args ):
                     raise
                 else:
                     break
+
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
 
@@ -3645,8 +3771,10 @@ def rpn( cmd_args ):
                     raise
                 else:
                     break
+
         elif term in listOperators:
-            argsNeeded = listOperators[ term ][ 1 ]
+            operatorInfo = listOperators[ term ]
+            argsNeeded = operatorInfo.argCount
 
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
@@ -3658,16 +3786,17 @@ def rpn( cmd_args ):
 
             try:
                 if argsNeeded == 0:
-                    currentValueList.append( listOperators[ term ][ 0 ]( currentValueList ) )
+                    currentValueList.append( operatorInfo.function( currentValueList ) )
                 elif argsNeeded == 1:
-                    currentValueList.append( evaluateOneListFunction( listOperators[ term ][ 0 ], currentValueList.pop( ) ) )
+                    currentValueList.append( evaluateOneListFunction( operatorInfo.function, currentValueList.pop( ) ) )
                 else:
                     listArgs = [ ]
 
                     for i in range( 0, argsNeeded ):
                         listArgs.insert( 0, currentValueList.pop( ) )
 
-                    currentValueList.append( listOperators[ term ][ 0 ]( *listArgs ) )
+                    currentValueList.append( operatorInfo.function( *listArgs ) )
+
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
 
@@ -3675,6 +3804,7 @@ def rpn( cmd_args ):
                     raise
                 else:
                     break
+
             except ValueError as error:
                 print( 'rpn:  value error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 
@@ -3682,6 +3812,7 @@ def rpn( cmd_args ):
                     raise
                 else:
                     break
+
             except TypeError as error:
                 print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 
@@ -3689,6 +3820,7 @@ def rpn( cmd_args ):
                     raise
                 else:
                     break
+
             except IndexError as error:
                 print( 'rpn:  index error for list operator at arg ' + format( index ) +
                        '.  Are your arguments in the right order?' )
@@ -3697,6 +3829,7 @@ def rpn( cmd_args ):
                     raise
                 else:
                     break
+
             except ZeroDivisionError as error:
                 print( 'rpn:  division by zero' )
 
@@ -3707,13 +3840,15 @@ def rpn( cmd_args ):
         else:
             try:
                 currentValueList.append( parseInputValue( term, g.inputRadix ) )
+
             except ValueError as error:
                 print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
 
                 if g.debugMode:
                     raise
                 else:
-                    break
+                     break
+
             except TypeError as error:
                 currentValueList.append( term )
 

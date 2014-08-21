@@ -1419,7 +1419,7 @@ Note:  Not sure why the rounding error is so large.
 '''
 ''' ],
     'integer' : [
-'conversion', 'converts the value to an signed k-bit nteger',
+'conversion', 'converts the value to an signed k-bit integer',
 '''
 ''',
 '''
@@ -2575,6 +2575,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''',
 '''
 ''' ],
+    'time' : [
+'conversion', 'interpret argument as absolute time',
+'''
+''',
+'''
+''' ],
     'tounixtime' : [
 'conversion', 'converts from date-time list to Unix time (seconds since epoch)'
 '''
@@ -2727,6 +2733,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     'ushort' : [
 'conversion', 'converts the value to an unsigned 16-bit integer',
+'''
+''',
+'''
+''' ],
+    'weekday' : [
+'conversion', 'calculates the day of the week of an absolute time',
 '''
 ''',
 '''
