@@ -156,11 +156,11 @@ def subtract( n, k ):
 
             if delta.days != 0:
                 result = Measurement( delta.days * factor, 'day' )
-                result.add( Measurement( delta.seconds * factor, 'second' ) )
-                result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
+                result = result.add( Measurement( delta.seconds * factor, 'second' ) )
+                result = result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
             elif delta.seconds != 0:
                 result = Measurement( delta.seconds * factor, 'second' )
-                result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
+                result = result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
             else:
                 result = Measurement( delta.microseconds * factor, 'microsecond' )
 
