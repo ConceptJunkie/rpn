@@ -91,7 +91,7 @@ def incrementMonths( n, months ):
     if newDay > maxDay:
         newDay = maxDay
 
-    return arrow.Arrow( newYear, newMonth, newDay )
+    return arrow.Arrow( newYear, newMonth, newDay, n.hour, n.minute, n.second )
 
 
 #//******************************************************************************
@@ -115,7 +115,7 @@ def addTimes( n, k ):
 
         days = int( floor( convertUnits( k, 'day' ).getValue( ) ) )
         seconds = int( fmod( floor( convertUnits( k, 'second' ).getValue( ) ), 86400 ) )
-        microseconds = int( fmod( floor( convertUnits( k, 'microsecond' ).getValue( ) ), 86400000 ) )
+        microseconds = int( fmod( floor( convertUnits( k, 'microsecond' ).getValue( ) ), 1000000 ) )
 
         return n + datetime.timedelta( days=days, seconds=seconds, microseconds=microseconds )
 
@@ -143,24 +143,54 @@ def subtractTimes( n, k ):
 #//******************************************************************************
 
 def subtract( n, k ):
-    if isinstance( n, arrow.Arrow ) and isinstance( k, Measurement ):
-        return subtractTimes( n, k )
-    elif isinstance( n, Measurement ) and isinstance( k, arrow.Arrow ):
-        return subtractTimes( k, n )
+    if isinstance( n, arrow.Arrow ):
+        if isinstance( k, Measurement ):
+            return subtractTimes( n, k )
+        elif isinstance( k, arrow.Arrow ):
+            if n > k:
+                delta = n - k
+                factor = 1
+            else:
+                delta = k - n
+                factor = -1
+
+            if delta.days != 0:
+                result = Measurement( delta.days * factor, 'day' )
+                result.add( Measurement( delta.seconds * factor, 'second' ) )
+                result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
+            elif delta.seconds != 0:
+                result = Measurement( delta.seconds * factor, 'second' )
+                result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
+            else:
+                result = Measurement( delta.microseconds * factor, 'microsecond' )
+
+            return result
+        else:
+            raise ValueError( 'cannot subtract incompatible types' )
     elif isinstance( n, Measurement ):
-        return n.subtract( k )
+        if isinstance( k, arrow.Arrow ):
+            return subtractTimes( k, n )
+        elif isinstance( k, Measurement ):
+            return Measurement( n ).subtract( k )
+        else:
+            return n.subtract( k )
     elif isinstance( k, Measurement ):
         return Measurement( n ).subtract( k )
-    elif isinstance( n, arrow.Arrow ) and isinstance( k, arrow.Arrow ):
-        delta = n - k
-
-        answer = Measurement( delta.days, 'day' )
-        answer.add( Measurement( delta.seconds, 'second' ) )
-        answer.add( Measurement( delta.microseconds, 'microsecond' ) )
-
-        return answer
     else:
         return fsub( n, k )
+
+
+#//******************************************************************************
+#//
+#//  getNegative
+#//
+#//******************************************************************************
+
+def getNegative( n ):
+    if isinstance( n, Measurement ):
+        return Measurement( fneg( n.getValue( ) ), n.getUnits( ) )
+    else:
+        return fneg( n )
 
 
 #//******************************************************************************
@@ -2200,11 +2230,7 @@ def getGreedyEgyptianFraction( n, d ):
 #//******************************************************************************
 
 def getNow( ):
-    result = list( )
-
-    now = time.localtime( time.time( ) )
-
-    return [ now.tm_year, now.tm_mon, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec ]
+    return arrow.now( )
 
 
 #//******************************************************************************
@@ -3069,6 +3095,9 @@ def convertUnits( unit1, unit2 ):
 #//******************************************************************************
 
 def makeTime( n ):
+    if len( n ) == 1:
+        n.append( 1 )
+
     if len( n ) == 2:
         n.append( 1 )
     elif len( n ) > 7:
@@ -3330,7 +3359,7 @@ operators = {
     'motzkin'       : OperatorInfo( getNthMotzkinNumber, 1, [ ] ),
     'multiply'      : OperatorInfo( multiply, 2, [ Measurement ] ),
     'narayana'      : OperatorInfo( lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2, [ ] ),
-    'negative'      : OperatorInfo( fneg, 1, [ Measurement ] ),
+    'negative'      : OperatorInfo( getNegative, 1, [ Measurement ] ),
     'nonagonal'     : OperatorInfo( lambda n: getNthPolygonalNumber( n, 9 ), 1, [ ] ),
     'nonagonal?'    : OperatorInfo( lambda n: findNthPolygonalNumber( n, 9 ), 1, [ ] ),
     'nonahept'      : OperatorInfo( getNthNonagonalHeptagonalNumber, 1, [ ] ),
@@ -3883,16 +3912,19 @@ def rpn( cmd_args ):
                                          leadingZero, args.decimal_grouping, ' ', baseAsDigits,
                                          args.output_accuracy ) )
             else:
-                # output the answer with all the extras according to command-line arguments
-                resultString = nstr( result, mp.dps )
+                if isinstance( result, arrow.Arrow ):
+                    outputString = formatDateTime( result )
+                else:
+                    # output the answer with all the extras according to command-line arguments
+                    resultString = nstr( result, mp.dps )
 
-                outputString = formatOutput( resultString, outputRadix, g.numerals, integerGrouping,
-                                             integerDelimiter, leadingZero, args.decimal_grouping,
-                                             ' ', baseAsDigits, args.output_accuracy )
+                    outputString = formatOutput( resultString, outputRadix, g.numerals, integerGrouping,
+                                                 integerDelimiter, leadingZero, args.decimal_grouping,
+                                                 ' ', baseAsDigits, args.output_accuracy )
 
-                # handle the units if we are display a measurement
-                if isinstance( result, Measurement ):
-                    outputString += ' ' + formatUnits( result.normalizeUnits( ) )
+                    # handle the units if we are displaying a measurement
+                    if isinstance( result, Measurement ):
+                        outputString += ' ' + formatUnits( result.normalizeUnits( ) )
 
                 print( outputString )
 

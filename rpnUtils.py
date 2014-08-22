@@ -12,6 +12,7 @@
 #//
 #//******************************************************************************
 
+import arrow
 import builtins
 import bz2
 import contextlib
@@ -828,6 +829,19 @@ def convertToBase10( integer, mantissa, inputRadix ):
 #//******************************************************************************
 
 def parseInputValue( term, inputRadix ):
+    innerChars = term[ 1 : -1 ]
+
+    if ( '-' in innerChars ) or ( ':' in innerChars ):
+        try:
+            datetime = arrow.get( term )
+        except:
+            raise ValueError( 'error parsing datetime' )
+            #datetime = arrow.get( term, [ 'HH:mm:ss', 'MM-DD-YYYY', 'MM/DD/YYYY',
+            #                              'YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD',
+            #                              'YYYY/MM/DD HH:mm:ss', 'YYYY/MM/DD' ] )
+
+        return datetime
+
     if term == '0':
         return mpmathify( 0 )
 
@@ -1380,6 +1394,16 @@ def formatUnits( measurement ):
             result += c
 
     return result
+
+
+#//******************************************************************************
+#//
+#//  formatDateTime
+#//
+#//******************************************************************************
+
+def formatDateTime( datetime ):
+    return datetime.format( 'YYYY-MM-DD HH:mm:ss' )
 
 
 #//******************************************************************************
