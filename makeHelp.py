@@ -1568,6 +1568,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'maketime' : [
+'conversion', 'interpret argument as absolute time',
+'''
+''',
+'''
+''' ],
     'max' : [
 'arithmetic', 'returns the largest value in list n',
 '''
@@ -2571,12 +2577,6 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     'thabit' : [
 'number_theory', 'gets the nth Thabit number',
-'''
-''',
-'''
-''' ],
-    'time' : [
-'conversion', 'interpret argument as absolute time',
 '''
 ''',
 '''
