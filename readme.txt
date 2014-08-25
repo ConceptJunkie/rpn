@@ -20,8 +20,8 @@ file or alias will be useful for launching it.
 
 Running RPN using the source:
 
-rpn is written in Python 3, and requires the mpmath and pyprimes libraries for
-most of the really hard math stuff (gmpy2 is optional).
+rpn is written in Python 3, and requires the mpmath, pyprimes and arrow
+libraries for most of the hard math stuff (gmpy2 is optional).
 
 If you have pip installed, you can install the prerequisites with the
 following:
