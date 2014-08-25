@@ -2235,6 +2235,17 @@ def getNow( ):
 
 #//******************************************************************************
 #//
+#//  getToday
+#//
+#//******************************************************************************
+
+def getToday( ):
+    now = datetime.datetime.now( )
+    return arrow.Arrow( now.year, now.month, now.day )
+
+
+#//******************************************************************************
+#//
 #//  convertToUnixTime
 #//
 #//******************************************************************************
@@ -3470,6 +3481,7 @@ operators = {
     'tetranacci'    : OperatorInfo( getNthTetranacci, 1, [ ] ),
     'tetrate'       : OperatorInfo( tetrate, 2, [ ] ),
     'thabit'        : OperatorInfo( lambda n : fsub( fmul( 3, power( 2, n ) ), 1 ), 1, [ ] ),
+    'today'         : OperatorInfo( getToday, 0, [ ] ),
     'trianglearea'  : OperatorInfo( getTriangleArea, 3, [ Measurement ] ),
     'triangular'    : OperatorInfo( lambda n : getNthPolygonalNumber( n, 3 ), 1, [ ] ),
     'triangular?'   : OperatorInfo( lambda n : findNthPolygonalNumber( n, 3 ), 1, [ ] ),

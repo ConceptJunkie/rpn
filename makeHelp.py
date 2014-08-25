@@ -1839,7 +1839,7 @@ Note:  Not sure why the rounding error is so large.
 '''
 ''' ],
     'now' : [
-'conversion', 'returns the current time as list ([ year, month, day, hour, minute, second ])',
+'conversion', 'returns the current date and time',
 '''
 ''',
 '''
@@ -2577,6 +2577,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     'thabit' : [
 'number_theory', 'gets the nth Thabit number',
+'''
+''',
+'''
+''' ],
+    'today' : [
+'conversion', 'returns the current date',
 '''
 ''',
 '''
