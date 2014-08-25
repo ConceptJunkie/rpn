@@ -10,8 +10,8 @@ the GNU units program.
 
 Installers for Windows can be found here:
 
-https://www.strongspace.com/conceptjunkie/public/rpn-5.21.0-win32.msi
-https://www.strongspace.com/conceptjunkie/public/rpn-5.21.0-amd64.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.21.1-win32.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.21.1-amd64.msi
 
 rpn is a console app and must be launched from the command-line.  The installer
 includes the compiled help file, unit conversion tables and prime number lookup
@@ -26,11 +26,10 @@ most of the really hard math stuff (gmpy2 is optional).
 If you have pip installed, you can install the prerequisites with the
 following:
 
-pip install pyprimes
-
-pip install mpmath
-
-pip install gmpy2
+    pip install pyprimes
+    pip install mpmath
+    pip install gmpy2
+    pip install arrow
 
 Before running rpn, you should run makeHelp.py and makeUnits.py to generate
 the data files that rpn uses for displaying help and doing unit conversions

@@ -2012,6 +2012,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'percent' : [
+'arithmetic', 'represents n as a percent (i.e., n / 100)',
+'''
+''',
+'''
+''' ],
     'perm' : [
 'combinatorics', 'calculates the number of permutations of k out of n objects',
 '''

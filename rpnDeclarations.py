@@ -346,10 +346,9 @@ class UnitInfo( ):
 #//******************************************************************************
 
 class OperatorInfo( ):
-    def __init__( self, function, argCount, types ):
+    def __init__( self, function, argCount ):
         self.function = function
         self.argCount = argCount
-        self.types = types
 
 
 #//******************************************************************************
