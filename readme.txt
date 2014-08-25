@@ -42,10 +42,11 @@ then the operators.
 
 For instance:
 
-rpn 2 2 +
+    rpn 2 2 +
 
 will calculate 2 + 2.  "rpn _dumpops" is an internal command that will list
-all the implemented operators for the curious.
+all the implemented operators for the curious.  They are also listed in the
+help text.
 
 rpn has pretty extensive built-in help, although not all the help files are
 complete yet.

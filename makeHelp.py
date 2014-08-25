@@ -292,6 +292,23 @@ rpn now throws an error when attempting to get the 0th or less prime number.
 
 The prime? operator wasn't working correctly for small values.
 
+5.20.7
+
+Added help for unit types.   Help for individual units will come eventually,
+but they are pretty self-explanatory.
+
+5.21.0
+
+The long-awaited absolute time feature:  rpn can now handle absolute time
+values.  For input, just use ISO 8601 format, or a reasonable subset thereof.
+There is also the 'maketime' operator, which takes a list similar to the old
+'tounixtime' operator.
+
+5.21.1
+
+Added percent operator, weekday now throws a proper error is the operand isn't
+a time value.
+
 ''',
 'license' :
 '''
@@ -404,6 +421,16 @@ Calculations with lists:
         [ 1, 12, 165 ]
 
     The first, 12th, and 165th.
+
+Calculations with absolute time:
+
+    [ TODO ]
+
+Unit conversions:
+
+    [ TODO ]
+
+Advanced examples:
 
 Please note that several of the following commands are broken up into multiple
 lines for readability, but all of them are single commands to rpn.

@@ -2250,48 +2250,17 @@ def getToday( ):
 #//
 #//******************************************************************************
 
-def convertToUnixTime( args ):
-    argList = args
-
-    if len( argList ) == 1:
-        argList.append( 1 )
-
-    if len( argList ) == 2:
-        argList.append( 1 )
-
-    if len( argList ) == 3:
-        argList.append( 0 )
-
-    if len( argList ) == 4:
-        argList.append( 0 )
-
-    if len( argList ) == 5:
-        argList.append( 0 )
-
+def convertToUnixTime( n ):
     try:
-        result = calendar.timegm( args[ 0 : 6 ] )
+        result = n.timestamp
     except OverflowError as error:
         print( 'rpn:  out of range error for \'tounixtime\'' )
         return 0
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  convertFromUnixTime
-#//
-#//******************************************************************************
-
-def convertFromUnixTime( n ):
-    try:
-        unixtime = time.gmtime( n )
-    except OverflowError as error:
-        print( 'rpn:  out of range error for \'fromunixtime\'' )
+    except TypeError as error:
+        print( 'rpn:  expected time value for \'tounixtime\'' )
         return 0
 
-    return [ unixtime.tm_year, unixtime.tm_mon, unixtime.tm_mday,
-             unixtime.tm_hour, unixtime.tm_min, unixtime.tm_sec ]
+    return result
 
 
 #//******************************************************************************
@@ -3194,7 +3163,6 @@ listOperators = {
     'sortdesc'      : OperatorInfo( sortDescending, 1 ),
     'stddev'        : OperatorInfo( getStandardDeviation, 1 ),
     'sum'           : OperatorInfo( sum, 1 ),
-    'tounixtime'    : OperatorInfo( convertToUnixTime, 1 ),
     'tower'         : OperatorInfo( calculatePowerTower, 1 ),
     'tower2'        : OperatorInfo( calculatePowerTower2, 1 ),
     'union'         : OperatorInfo( makeUnion, 2 ),
@@ -3304,7 +3272,7 @@ operators = {
     'float'         : OperatorInfo( lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1 ),
     'floor'         : OperatorInfo( floor, 1 ),
     'fraction'      : OperatorInfo( interpretAsFraction, 2 ),
-    'fromunixtime'  : OperatorInfo( convertFromUnixTime, 1 ),
+    'fromunixtime'  : OperatorInfo( lambda n: arrow.get( n ), 1 ),
     'gamma'         : OperatorInfo( gamma, 1 ),
     'georange'      : OperatorInfo( expandGeometricRange, 3 ),
     'glaisher'      : OperatorInfo( glaisher, 0 ),
@@ -3486,6 +3454,7 @@ operators = {
     'tetrate'       : OperatorInfo( tetrate, 2 ),
     'thabit'        : OperatorInfo( lambda n : fsub( fmul( 3, power( 2, n ) ), 1 ), 1 ),
     'today'         : OperatorInfo( getToday, 0 ),
+    'tounixtime'    : OperatorInfo( convertToUnixTime, 1 ),
     'trianglearea'  : OperatorInfo( getTriangleArea, 3 ),
     'triangular'    : OperatorInfo( lambda n : getNthPolygonalNumber( n, 3 ), 1 ),
     'triangular?'   : OperatorInfo( lambda n : findNthPolygonalNumber( n, 3 ), 1 ),
