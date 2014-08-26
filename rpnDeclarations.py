@@ -26,14 +26,15 @@ from fractions import Fraction
 #//
 #//******************************************************************************
 
-defaultPrecision = 20
 defaultAccuracy = 10
-defaultCFTerms = 10
 defaultBitwiseGroupSize = 16
-defaultInputRadix = 10
-defaultOutputRadix = 10
+defaultCFTerms = 10
 defaultDecimalGrouping = 5
+defaultInputRadix = 10
 defaultIntegerGrouping = 3
+defaultLineLength = 80
+defaultOutputRadix = 10
+defaultPrecision = 20
 
 defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 

@@ -65,6 +65,9 @@ command-line options:
     -i, --identify
         identify the result (may repeat input)
 
+    -l n, -- line_length
+        line length to use for formatting help (default: 80)
+
     -n str, --numerals str
         characters set to use as numerals for output
 

@@ -1342,8 +1342,6 @@ def formatUnits( measurement ):
     for unit in units:
         exponent = units[ unit ]
 
-        #print( unit, exponent )
-
         if exponent > 0:
             if unitString != '':
                 unitString += ' '
@@ -1412,8 +1410,8 @@ def formatDateTime( datetime ):
 #//
 #//******************************************************************************
 
-def printParagraph( text, length=79, indent=0 ):
-    lines = textwrap.wrap( text, length )
+def printParagraph( text, lineLength=80, indent=0 ):
+    lines = textwrap.wrap( text, lineLength - 1 )
 
     for line in lines:
         print( ' ' * indent + line )
@@ -1425,7 +1423,7 @@ def printParagraph( text, length=79, indent=0 ):
 #//
 #//******************************************************************************
 
-def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp, operatorAliases ):
+def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp, operatorAliases, lineLength ):
     if operatorInfo.argCount == 1:
         print( 'n ', end='' )
     elif operatorInfo.argCount == 2:
@@ -1444,9 +1442,9 @@ def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp, operatorAlias
     print( )
 
     if len( aliasList ) > 1:
-        print( 'aliases:  ' + ', '.join( aliasList ) )
+        printParagraph( 'aliases:  ' + ', '.join( aliasList ), lineLength )
     elif len( aliasList ) == 1:
-        print( 'alias:  ' + aliasList[ 0 ] )
+        printParagraph( 'alias:  ' + aliasList[ 0 ], lineLength )
 
     print( 'category: ' + operatorHelp[ 0 ] )
 
@@ -1486,7 +1484,8 @@ def addAliases( operatorList, operatorAliases ):
 #//
 #//******************************************************************************
 
-def printHelp( programName, programDescription, operators, listOperators, modifiers, operatorAliases, dataPath, helpArgs ):
+def printHelp( programName, programDescription, operators, listOperators, modifiers, operatorAliases,
+               dataPath, helpArgs, lineLength ):
     try:
         with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
             helpVersion = pickle.load( pickleFile )
@@ -1506,7 +1505,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
     operatorCategories = set( operatorHelp[ key ][ 0 ] for key in operatorHelp )
 
     if len( helpArgs ) == 0:
-        printGeneralHelp( programName, programDescription, basicCategories, operatorCategories )
+        printGeneralHelp( programName, programDescription, basicCategories, operatorCategories, lineLength )
         return
 
     term = helpArgs[ 0 ]
@@ -1514,17 +1513,16 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
     if term in operatorAliases:
         term = operatorAliases[ term ]
     elif term in operators:
-        printOperatorHelp( helpArgs, term, operators[ term ], operatorHelp[ term ], operatorAliases )
+        printOperatorHelp( helpArgs, term, operators[ term ], operatorHelp[ term ], operatorAliases, lineLength )
     elif term in listOperators:
-        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ], operatorAliases  )
+        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ], operatorAliases, lineLength )
     elif term in modifiers:
-        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ], operatorAliases )
+        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ], operatorAliases, lineLength )
     elif term in basicCategories:
         print( basicCategories[ term ] )
     elif term in operatorCategories:
         print( )
-        print( 'The ' + term + ' category includes the following operators (with aliases in' )
-        print( 'parentheses):' )
+        printParagraph( 'The ' + term + ' category includes the following operators (with aliases in parentheses):', lineLength )
         print( )
 
         operatorList = [ key for key in operators if operatorHelp[ key ][ 0 ] == term ]
@@ -1536,9 +1534,9 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         for operator in sorted( operatorList ):
             print( operator )
     elif term == 'unit_types':
-        printParagraph( ', '.join( sorted( unitTypeDict.keys( ) ) ), 75, 4 )
+        printParagraph( ', '.join( sorted( unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
     elif term in unitTypeDict:
-        printParagraph( ', '.join( sorted( unitTypeDict[ term ] ) ), 75, 4 )
+        printParagraph( ', '.join( sorted( unitTypeDict[ term ] ) ), lineLength - 5, 4 )
     else:
         print( "Help topic not found." )
 
@@ -1549,13 +1547,16 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 #//
 #//******************************************************************************
 
-def printGeneralHelp( programName, programDescription, basicCategories, operatorCategories ):
+def printGeneralHelp( programName, programDescription, basicCategories, operatorCategories, lineLength ):
+    print( "lineLength:", lineLength )
     print( programName + ' ' + PROGRAM_VERSION + ' - ' + programDescription )
     print( COPYRIGHT_MESSAGE )
     print( )
+
     printParagraph(
 '''For help on a specific topic, add a help topic, operator category or a specific operator name.  Adding
-'example', or 'ex' after an operator name will result in examples of use being printed as well.''' )
+'example', or 'ex' after an operator name will result in examples of use being printed as well.''', lineLength )
+
     print( )
     print( 'The following is a list of general topics:' )
     print( )
@@ -1563,13 +1564,13 @@ def printGeneralHelp( programName, programDescription, basicCategories, operator
     helpCategories = list( basicCategories.keys( ) )
     helpCategories.append( 'unit_types' )
 
-    printParagraph( ', '.join( sorted( helpCategories ) ), 75, 4 )
+    printParagraph( ', '.join( sorted( helpCategories ) ), lineLength - 5, 4 )
 
     print( )
     print( 'The following is a list of operator categories:' )
     print( )
 
-    printParagraph( ', '.join( sorted( operatorCategories ) ), 75, 4 )
+    printParagraph( ', '.join( sorted( operatorCategories ) ), lineLength - 5, 4 )
 
 
 #//******************************************************************************

@@ -664,13 +664,14 @@ def main( ):
                 helpArgs.append( sys.argv[ i ] )
 
     if help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, { }, { }, { }, dataPath, helpArgs )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, { }, { }, { }, dataPath, helpArgs, 80 )
         return
 
     # set up the command-line options parser
-    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + PROGRAM_VERSION + ': ' +
-                                      PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE, add_help=False,
-                                      formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
+    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + PROGRAM_VERSION +
+                                      ': ' + PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
+                                      add_help=False, formatter_class=argparse.RawTextHelpFormatter,
+                                      prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
     parser.add_argument( '-c', '--comma', action='store_true' )
@@ -686,7 +687,7 @@ def main( ):
     args = parser.parse_args( )
 
     if args.help or args.other_help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, { }, { }, { }, dataPath, [ ] )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, { }, { }, { }, dataPath, [ ], 80 )
         return
 
     if args.time:

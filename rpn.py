@@ -3513,7 +3513,19 @@ def rpn( cmd_args ):
                 helpArgs.append( cmd_args[ i ] )
 
     if help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases, g.dataPath, helpArgs )
+        parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' +
+                                          PROGRAM_VERSION + ': ' + PROGRAM_DESCRIPTION + '\n    ' +
+                                          COPYRIGHT_MESSAGE, add_help=False,
+                                          formatter_class=argparse.RawTextHelpFormatter,
+                                          prefix_chars='-' )
+
+        parser.add_argument( 'terms', nargs='*', metavar='term' )
+        parser.add_argument( '-l', '--line_length', type=int, action='store', default=defaultLineLength )
+
+        args = parser.parse_args( cmd_args )
+
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases,
+                   g.dataPath, helpArgs, args.line_length )
         return
 
     # set up the command-line options parser
@@ -3533,6 +3545,7 @@ def rpn( cmd_args ):
                          const=defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action='store_true' )
     parser.add_argument( '-i', '--identify', action='store_true' )
+    parser.add_argument( '-l', '--line_length', type=int, action='store', default=defaultLineLength )
     parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals )
     parser.add_argument( '-o', '--octal', action='store_true' )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision )
@@ -3556,7 +3569,7 @@ def rpn( cmd_args ):
 
     if args.help or args.other_help:
         printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers,
-                   operatorAliases, g.dataPath, [ ] )
+                   operatorAliases, g.dataPath, [ ], args.line_length )
         return
 
     valid, errorString = validateOptions( args )
