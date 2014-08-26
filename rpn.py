@@ -6,6 +6,9 @@
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 #
 
+#  Large numbers!
+#  http://en.wikipedia.org/wiki/Names_of_large_numbers
+
 #//******************************************************************************
 #//
 #//  rpn
@@ -3379,7 +3382,6 @@ operators = {
     'pentagonal?'   : OperatorInfo( lambda n: findNthPolygonalNumber( n, 5 ), 1 ),
     'pentanacci'    : OperatorInfo( getNthPentanacci, 1 ),
     'pentatope'     : OperatorInfo( getNthPentatopeNumber, 1 ),
-    'percent'       : OperatorInfo( lambda n: fdiv( n, 100 ), 1 ),
     'perm'          : OperatorInfo( getPermutations, 2 ),
     'phi'           : OperatorInfo( phi, 0 ),
     'pi'            : OperatorInfo( pi, 0 ),

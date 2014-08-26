@@ -420,20 +420,62 @@ unitOperators = {
     'alpha' :
         UnitInfo( 'constant', 'alpha', 'alpha', '', [ 'fine_structure_constant' ], [ 'constant' ] ),
 
+    'decillionth' :
+        UnitInfo( 'constant', 'decillionth', 'decillionths', '', [ ], [ 'constant' ] ),
+
+    'nonillionth' :
+        UnitInfo( 'constant', 'nonillionth', 'nonillionths', '', [ ], [ 'constant' ] ),
+
+    'octillionth' :
+        UnitInfo( 'constant', 'octillionth', 'octillionths', '', [ ], [ 'constant' ] ),
+
+    # 'y' can't be used here since it's used for 'year'
+    'septillionth' :
+        UnitInfo( 'constant', 'septillionth', 'septillionths', '', [ 'yocto' ], [ 'constant' ] ),
+
+    'sextillionth' :
+        UnitInfo( 'constant', 'sextillionth', 'sextillionths', 'z', [ 'zepto' ], [ 'constant' ] ),
+
+    # 'a' can't be used here since it's used for 'are'
+    'quintillionth' :
+        UnitInfo( 'constant', 'quintillionth', 'quintillionths', '', [ 'atto' ], [ 'constant' ] ),
+
+    'quadrillionth' :
+        UnitInfo( 'constant', 'quadrillionth', 'quadrillionths', 'f', [ 'femto' ], [ 'constant' ] ),
+
+    'trillionth' :
+        UnitInfo( 'constant', 'trillionth', 'trillionths', 'p', [ 'pico' ], [ 'constant' ] ),
+
+    'billionth' :
+        UnitInfo( 'constant', 'billionth', 'billionths', 'n', [ 'nano' ], [ 'constant' ] ),
+
+    'millionth' :
+        UnitInfo( 'constant', 'millionth', 'millionths', 'u', [ 'micro' ], [ 'constant' ] ),
+
+    # 'm' can't be used here since it's used for 'meter'
+    'thousandth' :
+        UnitInfo( 'constant', 'thousandth', 'thousandths', '', [ 'milli' ], [ 'constant' ] ),
+
     'percent' :
-        UnitInfo( 'constant', 'percent', 'percent', '%', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'percent', 'percent', '%', [ 'hundredth', 'centi' ], [ 'constant' ] ),
+
+    'tenth' :
+        UnitInfo( 'constant', 'tenth', 'tenths', '', [ 'deci' ], [ 'constant' ] ),
 
     'quarter' :
-        UnitInfo( 'constant', 'quarter', 'quarters', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'quarter', 'quarters', '', [ 'fourth' ], [ 'constant' ] ),
 
     'third' :
-        UnitInfo( 'constant', 'third', 'third', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'third', 'thirds', '', [ ], [ 'constant' ] ),
 
     'half' :
-        UnitInfo( 'constant', 'half', 'half', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'half', 'halves', '', [ ], [ 'constant' ] ),
 
     'unity' :
         UnitInfo( 'constant', 'unity', 'x unity', '', [ ], [ 'constant' ] ),
+
+    'ten' :
+        UnitInfo( 'constant', 'ten', 'tens', '', [ 'deca', 'deka' ], [ 'constant' ] ),
 
     'dozen' :
         UnitInfo( 'constant', 'dozen', 'dozen', '', [ ], [ 'constant' ] ),
@@ -442,31 +484,33 @@ unitOperators = {
         UnitInfo( 'constant', 'score', 'score', '', [ ], [ 'constant' ] ),
 
     'hundred' :
-        UnitInfo( 'constant', 'hundred', 'hundred', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'hundred', 'hundred', '', [ 'hecto' ], [ 'constant' ] ),
 
     'thousand' :
-        UnitInfo( 'constant', 'thousand', 'thousand', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'thousand', 'thousand', 'k', [ 'kilo' ], [ 'constant' ] ),
 
     'million' :
-        UnitInfo( 'constant', 'million', 'million', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'million', 'million', 'M', [ 'mega' ], [ 'constant' ] ),
 
+    # 'G' can't be used here since it's used for 'standard gravity'
     'billion' :
-        UnitInfo( 'constant', 'billion', 'billion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'billion', 'billion', '', [ 'giga' ], [ 'constant' ] ),
 
+    # 'T' can't be used here since it's used for 'tesla'
     'trillion' :
-        UnitInfo( 'constant', 'trillion', 'trillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'trillion', 'trillion', '', [ 'tera' ], [ 'constant' ] ),
 
     'quadrillion' :
-        UnitInfo( 'constant', 'quadrillion', 'quadrillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'quadrillion', 'quadrillion', 'P', [ 'peta' ], [ 'constant' ] ),
 
     'quintillion' :
-        UnitInfo( 'constant', 'quintillion', 'quintillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'quintillion', 'quintillion', 'E', [ 'exa' ], [ 'constant' ] ),
 
     'sextillion' :
-        UnitInfo( 'constant', 'sextillion', 'sextillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'sextillion', 'sextillion', 'Z', [ 'zetta' ], [ 'constant' ] ),
 
     'septillion' :
-        UnitInfo( 'constant', 'septillion', 'septillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'septillion', 'septillion', 'Y', [ 'yotta' ], [ 'constant' ] ),
 
     'octillion' :
         UnitInfo( 'constant', 'octillion', 'octillion', '', [ ], [ 'constant' ] ),
@@ -476,6 +520,36 @@ unitOperators = {
 
     'decillion' :
         UnitInfo( 'constant', 'decillion', 'decillion', '', [ ], [ 'constant' ] ),
+
+    'undecillion' :
+        UnitInfo( 'constant', 'undecillion', 'undecillion', '', [ ], [ 'constant' ] ),
+
+    'duodecillion' :
+        UnitInfo( 'constant', 'duodecillion', 'duodecillion', '', [ ], [ 'constant' ] ),
+
+    'tredecillion' :
+        UnitInfo( 'constant', 'tredecillion', 'tredecillion', '', [ ], [ 'constant' ] ),
+
+    'quattuordecillion' :
+        UnitInfo( 'constant', 'quattuordecillion', 'quattuordecillion', '', [ ], [ 'constant' ] ),
+
+    'quindecillion' :
+        UnitInfo( 'constant', 'quindecillion', 'quindecillion', '', [ 'quinquadecillion' ], [ 'constant' ] ),
+
+    'sexdecillion' :
+        UnitInfo( 'constant', 'sexdecillion', 'sexdecillion', '', [ ], [ 'constant' ] ),
+
+    'septendecillion' :
+        UnitInfo( 'constant', 'septemdecillion', 'septemdecillion', '', [ ], [ 'constant' ] ),
+
+    'octodecillion' :
+        UnitInfo( 'constant', 'octodecillion', 'octodecillion', '', [ ], [ 'constant' ] ),
+
+    'novemdecillion' :
+        UnitInfo( 'constant', 'novemdecillion', 'novemdecillion', '', [ 'novendecillion' ], [ 'constant' ] ),
+
+    'vigintillion' :
+        UnitInfo( 'constant', 'vigintillion', 'vigintillion', '', [ ], [ 'constant' ] ),
 
     'googol' :
         UnitInfo( 'constant', 'googol', 'googols', '', [ ], [ 'constant' ] ),
@@ -671,7 +745,7 @@ unitOperators = {
         UnitInfo( 'force', 'planck_force', 'planck_force', '', [ ], [ 'natural', 'science' ] ),
 
     'pond' :
-        UnitInfo( 'force', 'pond', 'ponds', 'p', [ ], [ 'metric' ] ),
+        UnitInfo( 'force', 'pond', 'ponds', '', [ ], [ 'metric' ] ),
 
     'pound-foot/second^2' :
         UnitInfo( 'force', 'pound*foot/second^2', 'pound*foot/second^2', 'lb*ft/sec^2', [ ], [ 'FPS' ] ),
@@ -1139,7 +1213,7 @@ unitOperators = {
         UnitInfo( 'power', 'planck_power', 'planck_power', '', [ ], [ 'natural', 'science' ] ),
 
     'poncelet' :
-        UnitInfo( 'power', 'poncelet', 'poncelets', 'p', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'power', 'poncelet', 'poncelets', '', [ ], [ 'obsolete' ] ),
 
     'solar_luminosity' :
         UnitInfo( 'power', 'solar_luminosity', 'solar_luminosities', '', [ 'solar_output' ], [ 'natural' ] ),
@@ -1278,7 +1352,7 @@ unitOperators = {
     # time
 
     'century' :
-        UnitInfo( 'time', 'century', 'centuries', '', [ ], [ 'traditional', 'US', 'years' ] ),
+        UnitInfo( 'time', 'century', 'centuries', 'y', [ ], [ 'traditional', 'US', 'years' ] ),
 
     'clarke' :
         UnitInfo( 'time', 'clarke', 'clarkes', '', [ ], [ 'Potrzebie', 'humorous' ] ),
@@ -1362,7 +1436,7 @@ unitOperators = {
         UnitInfo( 'time', 'wood', 'woods', '', [ ], [ 'Potrzebie', 'humorous' ] ),
 
     'year' :
-        UnitInfo( 'time', 'year', 'years', 'a', [ 'annum', 'julian_year', 'julian_years' ], [ 'traditional', 'years' ] ),
+        UnitInfo( 'time', 'year', 'years', '', [ 'annum', 'julian_year', 'julian_years' ], [ 'traditional', 'years' ] ),
 
     # velocity
 
@@ -1555,7 +1629,7 @@ unitOperators = {
         UnitInfo( 'volume', 'nebuchadnezzar', 'nebuchadnezzars', '', [ ], [ 'wine' ] ),
 
     'ngogn' :
-        UnitInfo( 'volume', 'ngogn', 'ngogns', 'n', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'volume', 'ngogn', 'ngogns', '', [ ], [ 'Potrzebie', 'humorous' ] ),
 
     'oil_barrel' :
         UnitInfo( 'volume', 'oil_barrel', 'oil_barrels', 'bbl', [ ], [ 'US' ] ),
@@ -1672,7 +1746,7 @@ metricUnits = [
     ( 'ampere',             'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
     ( 'ampere-second',      'ampere-seconds',   'As',   [ 'amp-second' ], [ 'amp-seconds' ] ),
     ( 'are',                'ares',             'a',    [ ], [ ] ),
-    ( 'barn',               'barns',            'bn',     [ ], [ ] ),       # bn is not standard
+    ( 'barn',               'barns',            'bn',   [ ], [ ] ),     # 'bn' is not standard
     ( 'becquerel',          'becquerels',       'Bq',   [ ], [ ] ),
     ( 'blintz',             'blintzes',         'bl',   [ ], [ ] ),
     ( 'coulomb',            'coulombs',         'C',    [ ], [ ] ),
@@ -1690,11 +1764,11 @@ metricUnits = [
     ( 'lux',                'lux',              'lx',   [ ], [ ] ),
     ( 'meter',              'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
     ( 'newton',             'newtons',          'N',    [ ], [ ] ),
-    ( 'ngogn',              'ngogns',           'n',    [ ], [ ] ),
+    ( 'ngogn',              'ngogns',           'ng',   [ ], [ ] ),
     ( 'ohm',                'ohms',             'O',    [ ], [ ] ),
     ( 'parsec',             'parsecs',          'pc',   [ ], [ ] ),
     ( 'pascal',             'pascals',          'Pa',   [ ], [ ] ),
-    ( 'pond',               'ponds',            'p',    [ ], [ ] ),
+    ( 'pond',               'ponds',            'pond', [ ], [ ] ),     # 'p' is used for 'pico'
     ( 'potrzebie',          'potrzebies',       'pz',   [ ], [ ] ),
     ( 'rem',                'rems',             'rem',  [ ], [ ] ),
     ( 'second',             'seconds',          's',    [ ], [ ] ),
@@ -1909,6 +1983,7 @@ unitConversionMatrix = {
     ( 'dry_pint',              'cubic_inch' )                           : mpmathify( '33.6003125' ),
     ( 'dry_quart',             'dry_pint' )                             : mpmathify( '2' ),
     ( 'dry_tun',               'dry_hogshead' )                         : mpmathify( '4' ),
+    ( 'duodecillion',          'unity' )                                : mpmathify( '1.0e39' ),
     ( 'dword',                 'bit' )                                  : mpmathify( '32' ),
     ( 'earth_mass',            'gram' )                                 : mpmathify( '5.9742e27' ),
     ( 'earth_radius',          'meter' )                                : mpmathify( '6378136' ),
@@ -2017,8 +2092,8 @@ unitConversionMatrix = {
     ( 'meter/second',          'knot' )                                 : mpmathify( '1.943844492' ),
     ( 'methuselah',            'liter' )                                : mpmathify( '6.0' ),
     ( 'mile',                  'foot' )                                 : mpmathify( '5280' ),
-    ( 'mile/hour',             'meter/second' )                         : mpmathify( '0.44704' ),
     ( 'mile/hour',             'kilometer/hour' )                       : mpmathify( '1.609344' ),
+    ( 'mile/hour',             'meter/second' )                         : mpmathify( '0.44704' ),
     ( 'million',               'unity' )                                : mpmathify( '1.0e6' ),
     ( 'mingo',                 'clarke' )                               : mpmathify( '10' ),
     ( 'minute',                'second' )                               : mpmathify( '60' ),
@@ -2042,9 +2117,11 @@ unitConversionMatrix = {
     ( 'nit',                   'candela/meter^2' )                      : mpmathify( '1' ),
     ( 'nit',                   'lambert' )                              : fdiv( pi, 10000 ),
     ( 'nonillion',             'unity' )                                : mpmathify( '1.0e30' ),
+    ( 'novemdecillion',        'unity' )                                : mpmathify( '1.0e60' ),
     ( 'nyp',                   'bit' )                                  : mpmathify( '2' ),
     ( 'octant',                'degree' )                               : mpmathify( '45' ),
     ( 'octillion',             'unity' )                                : mpmathify( '1.0e27' ),
+    ( 'octodecillion',         'unity' )                                : mpmathify( '1.0e57' ),
     ( 'oersted',               'ampere/meter' )                         : mpmathify( '79.5774715' ),
     ( 'ohm',                   '1/siemens' )                            : mpmathify( '1' ),
     ( 'ohm',                   'abohm' )                                : mpmathify( '1e9' ),
@@ -2094,6 +2171,8 @@ unitConversionMatrix = {
     ( 'quart',                 'cup' )                                  : mpmathify( '4' ),
     ( 'quart',                 'liter' )                                : mpmathify( '0.946352946' ),
     ( 'quart',                 'pint' )                                 : mpmathify( '2' ),
+    ( 'quattuordecillion',     'unity' )                                : mpmathify( '1.0e45' ),
+    ( 'quindecillion',         'unity' )                                : mpmathify( '1.0e48' ),
     ( 'quintant',              'degree' )                               : mpmathify( '72' ),
     ( 'quintillion',           'unity' )                                : mpmathify( '1.0e18' ),
     ( 'qword',                 'bit' )                                  : mpmathify( '64' ),
@@ -2113,7 +2192,9 @@ unitConversionMatrix = {
     ( 'second',                'shake' )                                : mpmathify( '1.0e8' ),
     ( 'second',                'svedberg' )                             : mpmathify( '1.0e13' ),
     ( 'section',               'acre' )                                 : mpmathify( '640' ),
+    ( 'septendecillion',       'unity' )                                : mpmathify( '1.0e54' ),
     ( 'septillion',            'unity' )                                : mpmathify( '1.0e24' ),
+    ( 'sexdecillion',          'unity' )                                : mpmathify( '1.0e51' ),
     ( 'sextant',               'degree' )                               : mpmathify( '60' ),
     ( 'sextillion',            'unity' )                                : mpmathify( '1.0e21' ),
     ( 'siderial_day',          'second' )                               : mpmathify( '86164.1' ),
@@ -2162,6 +2243,7 @@ unitConversionMatrix = {
     ( 'teaspoon',              'dash' )                                 : mpmathify( '8' ),
     ( 'teaspoon',              'pinch' )                                : mpmathify( '16' ),
     ( 'teaspoon',              'smidgen' )                              : mpmathify( '32' ),
+    ( 'ten',                   'unity' )                                : mpmathify( '10' ),
     ( 'tenth',                 'liter' )                                : mpmathify( '0.378' ),
     ( 'tesla',                 'gauss' )                                : mpmathify( '10000' ),
     ( 'tesla',                 'kilogram/ampere-second^2' )             : mpmathify( '1' ),
@@ -2172,16 +2254,30 @@ unitConversionMatrix = {
     ( 'ton_of_TNT',            'joule' )                                : mpmathify( '4.184e9' ),
     ( 'torr',                  'mmHg' )                                 : mpmathify( '1' ),
     ( 'township',              'acre' )                                 : mpmathify( '23040' ),
+    ( 'tredecillion',          'unity' )                                : mpmathify( '1.0e42' ),
     ( 'trillion',              'unity' )                                : mpmathify( '1.0e12' ),
     ( 'trit',                  'nat' )                                  : log( 3 ),
     ( 'tropical_year',         'day' )                                  : mpmathify( '365.24219' ),
     ( 'troy_ounce',            'gram' )                                 : mpmathify( '31.1034768' ),
     ( 'troy_pound',            'pound' )                                : mpmathify( '12' ),
     ( 'tryte',                 'trit' )                                 : mpmathify( '6' ),   # as defined by the Setun computer
+    ( 'undecillion',           'unity' )                                : mpmathify( '1.0e36' ),
+    ( 'unity',                 'billionth' )                            : mpmathify( '1.0e9' ),
+    ( 'unity',                 'decillionth' )                          : mpmathify( '1.0e33' ),
     ( 'unity',                 'half' )                                 : mpmathify( '2' ),
+    ( 'unity',                 'millionth' )                            : mpmathify( '1.0e6' ),
+    ( 'unity',                 'nonillionth' )                          : mpmathify( '1.0e30' ),
+    ( 'unity',                 'octillionth' )                          : mpmathify( '1.0e27' ),
     ( 'unity',                 'percent' )                              : mpmathify( '100' ),
+    ( 'unity',                 'quadrillionth' )                        : mpmathify( '1.0e15' ),
     ( 'unity',                 'quarter' )                              : mpmathify( '4' ),
+    ( 'unity',                 'quintillionth' )                        : mpmathify( '1.0e18' ),
+    ( 'unity',                 'septillionth' )                         : mpmathify( '1.0e24' ),
+    ( 'unity',                 'sextillionth' )                         : mpmathify( '1.0e21' ),
+    ( 'unity',                 'tenth' )                                : mpmathify( '10' ),
     ( 'unity',                 'third' )                                : mpmathify( '3' ),
+    ( 'unity',                 'trillionth' )                           : mpmathify( '1.0e12' ),
+    ( 'vigintillion',          'unity' )                                : mpmathify( '1.0e63' ),
     ( 'virgate',               'bovate' )                               : mpmathify( '30' ),
     ( 'volt',                  'abvolt' )                               : mpmathify( '1.0e8' ),
     ( 'volt-ampere',           'watt' )                                 : mpmathify( '1' ),

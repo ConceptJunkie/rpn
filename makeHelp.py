@@ -312,6 +312,15 @@ There is also the 'maketime' operator, which takes a list similar to the old
 Added percent operator, weekday now throws a proper error is the operand isn't
 a time value.
 
+5.21.2
+
+Added -l to format help output for different line lengths.  However, it still
+doesn't format the blockquoted help text.
+
+5.22.0
+
+Added a bunch of new constants for powers of 10.
+
 ''',
 'license' :
 '''
