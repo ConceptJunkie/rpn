@@ -823,22 +823,23 @@ def convertToBase10( integer, mantissa, inputRadix ):
 #//
 #//  parseInputValue
 #//
-#//  Parse out a numerical expression and attempt to set the precision to an
-#//  appropriate value based on the expression.
+#//  Parse out a time value or a numerical expression and attempt to set the
+#//  precision to an appropriate value based on the expression.
 #//
 #//******************************************************************************
 
 def parseInputValue( term, inputRadix ):
     innerChars = term[ 1 : -1 ]
 
+    if '/' in innerChars:
+        term = term.replace( '/', '-' )
+        innerChars = term[ 1 : -1 ]
+
     if ( '-' in innerChars ) or ( ':' in innerChars ):
         try:
             datetime = arrow.get( term )
         except:
             raise ValueError( 'error parsing datetime' )
-            #datetime = arrow.get( term, [ 'HH:mm:ss', 'MM-DD-YYYY', 'MM/DD/YYYY',
-            #                              'YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD',
-            #                              'YYYY/MM/DD HH:mm:ss', 'YYYY/MM/DD' ] )
 
         return datetime
 
