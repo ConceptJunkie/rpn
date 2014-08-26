@@ -1548,7 +1548,6 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 #//******************************************************************************
 
 def printGeneralHelp( programName, programDescription, basicCategories, operatorCategories, lineLength ):
-    print( "lineLength:", lineLength )
     print( programName + ' ' + PROGRAM_VERSION + ' - ' + programDescription )
     print( COPYRIGHT_MESSAGE )
     print( )

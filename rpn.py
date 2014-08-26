@@ -3676,7 +3676,8 @@ def rpn( cmd_args ):
         print( )
 
     if len( args.terms ) == 0:
-        print( 'rpn:  no terms found' )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases,
+                   g.dataPath, helpArgs, args.line_length )
         return
 
     # let's check out the arguments before we start to do any calculations
@@ -3926,7 +3927,7 @@ def rpn( cmd_args ):
                     if isinstance( result, Measurement ):
                         outputString += ' ' + formatUnits( result.normalizeUnits( ) )
 
-                print( outputString )
+                printParagraph( outputString, args.line_length )
 
                 # handle --identify
                 if args.identify:
