@@ -8,6 +8,29 @@
 
 #  Large numbers!
 #  http://en.wikipedia.org/wiki/Names_of_large_numbers
+#
+#      Units       Tens                Hundreds
+#      -----       ----                --------
+#  1   Un          Deci (N)            Centi (NX)
+#  2   Duo         Viginti (MS)        Ducenti (N)
+#  3   Tre (*)     Triginta (NS)       Trecenti (NS)
+#  4   Quattuor    Quadraginta (NS)    Quadringenti (NS)
+#  5   Quinqua     Quinquaginta (NS)   Quingenti (NS)
+#  6   Se (*)      Sexaginta (N)       Sescenti (N)
+#  7   Septe (*)   Septuaginta (N)     Septingenti (N)
+#  8   Octo        Octoginta (MX)      Octingenti (MX)
+#  9   Nove (*)    Nonaginta           Nongenti
+#
+#  (*) ^ When preceding a component marked S or X, "tre" increases to "tres" and
+#  "se" to "ses" or "sex"; similarly, when preceding a component marked M or N,
+#  "septe" and "nove" increase to "septem" and "novem" or "septen" and "noven".
+
+# The present overall density of the Universe is roughly 9.9 x 10-30 grams per cubic centimetre.
+
+# http://en.wikipedia.org/wiki/Planck%27s_constant
+
+# http://en.wikipedia.org/wiki/Gravitational_constant
+
 
 #//******************************************************************************
 #//
@@ -3507,6 +3530,10 @@ def rpn( cmd_args ):
     help = False
     helpArgs = [ ]
 
+    if len( cmd_args ) == 0:
+        printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
+        return
+
     for i in range( 0, len( cmd_args ) ):
         if cmd_args[ i ] == 'help':
             help = True
@@ -3563,11 +3590,11 @@ def rpn( cmd_args ):
     parser.add_argument( '-?', '--other_help', action='store_true' )
 
     # OK, let's parse and validate the arguments
-    if len( cmd_args ) == 0:
+    args = parser.parse_args( cmd_args )
+
+    if len( args.terms ) == 0:
         printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
         return
-
-    args = parser.parse_args( cmd_args )
 
     if args.help or args.other_help:
         printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers,
@@ -3674,11 +3701,6 @@ def rpn( cmd_args ):
         print( '--identify:  ' + ( 'true' if args.identify else 'false' ) )
         print( '--leading_zero:  ' + ( 'true' if leadingZero else 'false' ) )
         print( )
-
-    if len( args.terms ) == 0:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases,
-                   g.dataPath, helpArgs, args.line_length )
-        return
 
     # let's check out the arguments before we start to do any calculations
     if not validateArguments( args.terms ):

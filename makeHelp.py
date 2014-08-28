@@ -27,8 +27,8 @@ from rpnVersion import *
 #//
 #//******************************************************************************
 
-PROGRAM_NAME = 'makeHelp'
-PROGRAM_DESCRIPTION = 'RPN command-line calculator help file generator'
+PROGRAM_NAME = 'rpn'
+PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
 
 #//******************************************************************************
@@ -3179,7 +3179,7 @@ def makeHelp( basicCategories ):
 #//******************************************************************************
 
 def main( ):
-    print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
+    print( 'makeHelp', PROGRAM_VERSION, '-', 'RPN command-line calculator help file generator' )
     print( COPYRIGHT_MESSAGE )
     print( )
 
