@@ -325,6 +325,11 @@ Added a bunch of new constants for powers of 10.
 
 Help will now search topics for partial matches if a complete match isn't found.
 
+5.23.1
+
+The help improvements actually work now.  So much for testing.
+
+There are now some examples of absolute time handling.
 
 ''',
 'license' :
@@ -441,7 +446,88 @@ Calculations with lists:
 
 Calculations with absolute time:
 
-    [ TODO ]
+    operators:
+
+        c:\>rpn now
+        2014-09-02 13:36:28
+
+        c:\>rpn today
+        2014-09-02 00:00:00
+
+    ISO-8601 format ("YYYY-MM-DD[T| ][HH:mm:SS]", no timezones):
+
+        c:\>rpn 2014-09-02T13:36:28
+        2014-09-02 13:36:28
+
+        c:\>rpn "2014-09-02 13:36:28"
+        2014-09-02 13:36:28
+
+        c:\>rpn 2014-09-02
+        2014-09-02 00:00:00
+
+    'maketime' operator:
+
+        c:\>rpn [ 2014 ] maketime
+        2014-01-01 00:00:00
+
+        c:\>rpn [ 2014 2 ] maketime
+        2014-02-01 00:00:00
+
+        c:\>rpn [ 2014 2 9 ] maketime
+        2014-02-09 00:00:00
+
+        c:\>rpn [ 2014 2 9 13 ] maketime
+        2014-02-09 13:00:00
+
+        c:\>rpn [ 2014 2 9 13 36 ] maketime
+        2014-02-09 13:36:00
+
+        c:\>rpn [ 2014 2 9 13 36 28 ] maketime
+        2014-02-09 13:36:28
+
+    How many days old am I?
+
+        c:\>rpn today 1965-03-31 -
+        18052 days
+
+    How many seconds old am I (to within an hour or so)?
+
+        c:\>rpn -c now "1965-03-31 05:00:00" - seconds convert
+        1,559,739,194.098935 seconds
+
+    What day of the week was I born on?
+
+        c:\>rpn 1965-03-31 weekday
+        'Wednesday'
+
+    How many days until Christmas?
+
+        c:\>rpn 2014-12-25 today -
+        114 days
+
+    How many days older am I than my first child?
+
+        c:\>rpn 1994-03-06 1965-03-31 -
+        10567 days
+
+    What date is 4 weeks from now?
+
+        c:\>rpn today 4 weeks +
+        2014-09-30 00:00:00
+
+    What date is 4 months from now?
+
+        c:\>rpn today 4 months +
+        2015-01-02 00:00:00
+
+    What about 6 months from 2 days ago?
+
+        c:\>rpn today 2 days - 6 months +
+        2015-02-28 00:00:00
+
+    There is no February 30, so we use the real last day of the month.  Months
+    are handled specially from the other time units because they can differ in
+    length.
 
 Unit conversions:
 
