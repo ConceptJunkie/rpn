@@ -1539,6 +1539,77 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
     elif term in unitTypeDict:
         printParagraph( ', '.join( sorted( unitTypeDict[ term ] ) ), lineLength - 5, 4 )
     else:
+        if 'unit_types'.startswith( term ):
+            print( 'Interpreting topic as \'unit_types\'.' )
+            printParagraph( ', '.join( sorted( unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
+            return
+
+        try:
+            helpTerm = next( i for i in unitTypeDict if i != term and i.startswith( term ) )
+            print( )
+            print( 'Interpreting topic as \'' + helpTerm + '\'.' )
+            printParagraph( ', '.join( sorted( unitTypeDict[ term ] ) ), lineLength - 5, 4 )
+            return
+        except:
+            pass
+
+        try:
+            helpTerm = next( i for i in operators if i != term and i.startswith( term ) )
+            print( 'Interpreting topic as \'' + helpTerm + '\'.' )
+            print( )
+            printOperatorHelp( helpArgs, helpTerm, operators[ helpTerm ], operatorHelp[ helpTerm ], operatorAliases, lineLength )
+            return
+        except:
+            pass
+
+        try:
+            helpTerm = next( i for i in listOperators if i != term and i.startswith( term ) )
+            print( 'Interpreting topic as \'' + helpTerm + '\'.' )
+            print( )
+            printOperatorHelp( helpArgs, helpTerm, listOperators[ helpTerm ], operatorHelp[ helpTerm ], operatorAliases, lineLength )
+            return
+        except:
+            pass
+
+        try:
+            helpTerm = next( i for i in modifiers if i != term and i.startswith( term ) )
+            print( 'Interpreting topic as \'' + helpTerm + '\'.' )
+            print( )
+            printOperatorHelp( helpArgs, helpTerm, modifiers[ helpTerm ], operatorHelp[ helpTerm ], operatorAliases, lineLength )
+            return
+        except:
+            pass
+
+        try:
+            helpTerm = next( i for i in basicCategories if i != term and i.startswith( term ) )
+            print( 'Interpreting topic as \'' + helpTerm + '\'.' )
+            print( )
+            print( basicCategories[ term ] )
+            return
+        except:
+            pass
+
+        try:
+            helpTerm = next( i for i in operatorCategories if i != term and i.startswith( term ) )
+
+            print( 'Interpreting topic as \'' + helpTerm + '\'.' )
+            print( )
+            printParagraph( 'The ' + helpTerm + ' category includes the following operators (with aliases in parentheses):', lineLength )
+            print( )
+
+            operatorList = [ key for key in operators if operatorHelp[ key ][ 0 ] == helpTerm ]
+            operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == helpTerm ] )
+            operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == helpTerm ] )
+
+            addAliases( operatorList, operatorAliases )
+
+            for operator in sorted( operatorList ):
+                print( operator )
+
+            return
+        except:
+            pass
+
         print( "Help topic not found." )
 
 
