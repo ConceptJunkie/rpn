@@ -10,8 +10,8 @@ the GNU units program.
 
 Installers for Windows can be found here:
 
-https://www.strongspace.com/conceptjunkie/public/rpn-5.22.0-win32.msi
-https://www.strongspace.com/conceptjunkie/public/rpn-5.22.0-amd64.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.23.0-win32.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.23.0-amd64.msi
 
 rpn is a console app and must be launched from the command-line.  The installer
 includes the compiled help file, unit conversion tables and prime number lookup

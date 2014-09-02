@@ -1481,6 +1481,27 @@ def addAliases( operatorList, operatorAliases ):
 
 #//******************************************************************************
 #//
+#//  printOperatorsInCategory
+#//
+#//******************************************************************************
+
+def printOperatorsInCategory( category ):
+    print( )
+    printParagraph( 'The ' + category + ' category includes the following operators (with aliases in parentheses):', lineLength )
+    print( )
+
+    operatorList = [ key for key in operators if operatorHelp[ key ][ 0 ] == category ]
+    operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == category ] )
+    operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == category ] )
+
+    addAliases( operatorList, operatorAliases )
+
+    for operator in sorted( operatorList ):
+        print( operator )
+
+
+#//******************************************************************************
+#//
 #//  printHelp
 #//
 #//******************************************************************************
@@ -1511,9 +1532,12 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 
     term = helpArgs[ 0 ]
 
+    # first check if the term is an alias and translate
     if term in operatorAliases:
         term = operatorAliases[ term ]
-    elif term in operators:
+
+    # then look for exact matches in all the lists of terms for which we have help support
+    if term in operators:
         printOperatorHelp( helpArgs, term, operators[ term ], operatorHelp[ term ], operatorAliases, lineLength )
     elif term in listOperators:
         printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ], operatorAliases, lineLength )
@@ -1522,23 +1546,13 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
     elif term in basicCategories:
         print( basicCategories[ term ] )
     elif term in operatorCategories:
-        print( )
-        printParagraph( 'The ' + term + ' category includes the following operators (with aliases in parentheses):', lineLength )
-        print( )
-
-        operatorList = [ key for key in operators if operatorHelp[ key ][ 0 ] == term ]
-        operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == term ] )
-        operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == term ] )
-
-        addAliases( operatorList, operatorAliases )
-
-        for operator in sorted( operatorList ):
-            print( operator )
+        printCategoryHelp( term )
     elif term == 'unit_types':
         printParagraph( ', '.join( sorted( unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
     elif term in unitTypeDict:
         printParagraph( ', '.join( sorted( unitTypeDict[ term ] ) ), lineLength - 5, 4 )
     else:
+        # if no exact matches for any topic, let's look for partial matches
         if 'unit_types'.startswith( term ):
             print( 'Interpreting topic as \'unit_types\'.' )
             printParagraph( ', '.join( sorted( unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
@@ -1591,21 +1605,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 
         try:
             helpTerm = next( i for i in operatorCategories if i != term and i.startswith( term ) )
-
-            print( 'Interpreting topic as \'' + helpTerm + '\'.' )
-            print( )
-            printParagraph( 'The ' + helpTerm + ' category includes the following operators (with aliases in parentheses):', lineLength )
-            print( )
-
-            operatorList = [ key for key in operators if operatorHelp[ key ][ 0 ] == helpTerm ]
-            operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == helpTerm ] )
-            operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == helpTerm ] )
-
-            addAliases( operatorList, operatorAliases )
-
-            for operator in sorted( operatorList ):
-                print( operator )
-
+            printCategoryHelp( helpTerm )
             return
         except:
             pass

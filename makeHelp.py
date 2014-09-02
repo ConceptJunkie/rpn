@@ -321,6 +321,11 @@ doesn't format the blockquoted help text.
 
 Added a bunch of new constants for powers of 10.
 
+5.23.0
+
+Help will now search topics for partial matches if a complete match isn't found.
+
+
 ''',
 'license' :
 '''
