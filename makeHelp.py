@@ -331,6 +331,11 @@ The help improvements actually work now.  So much for testing.
 
 There are now some examples of absolute time handling.
 
+5.24.0
+
+A few more bug fixes, plus new calendar-related operators:  easter.
+election_day, labor_day, memorial_day, nthday, presidents_day, thanksgiving
+
 ''',
 'license' :
 '''
@@ -447,7 +452,6 @@ Calculations with lists:
 Calculations with absolute time:
 
     operators:
-
         c:\>rpn now
         2014-09-02 13:36:28
 
@@ -455,7 +459,6 @@ Calculations with absolute time:
         2014-09-02 00:00:00
 
     ISO-8601 format ("YYYY-MM-DD[T| ][HH:mm:SS]", no timezones):
-
         c:\>rpn 2014-09-02T13:36:28
         2014-09-02 13:36:28
 
@@ -466,62 +469,57 @@ Calculations with absolute time:
         2014-09-02 00:00:00
 
     'maketime' operator:
-
         c:\>rpn [ 2014 ] maketime
         2014-01-01 00:00:00
 
-        c:\>rpn [ 2014 2 ] maketime
-        2014-02-01 00:00:00
+        c:\>rpn [ 2014 9 ] maketime
+        2014-09-01 00:00:00
 
-        c:\>rpn [ 2014 2 9 ] maketime
-        2014-02-09 00:00:00
+        c:\>rpn [ 2014 9 2 ] maketime
+        2014-09-02 00:00:00
 
-        c:\>rpn [ 2014 2 9 13 ] maketime
-        2014-02-09 13:00:00
+        c:\>rpn [ 2014 9 2 13 ] maketime
+        2014-09-02 13:00:00
 
-        c:\>rpn [ 2014 2 9 13 36 ] maketime
-        2014-02-09 13:36:00
+        c:\>rpn [ 2014 9 2 13 36 ] maketime
+        2014-09 02 13:36:00
 
-        c:\>rpn [ 2014 2 9 13 36 28 ] maketime
-        2014-02-09 13:36:28
+        c:\>rpn [ 2014 9 2 13 36 28 ] maketime
+        2014-09-02 13:36:28
 
     How many days old am I?
-
         c:\>rpn today 1965-03-31 -
         18052 days
 
-    How many seconds old am I (to within an hour or so)?
+    When will I be 20,000 days old?
+        c:\>rpn 1965-03-31 20000 days +
+        2020-01-02 00:00:00
 
+    How many seconds old am I (to within an hour or so)?
         c:\>rpn -c now "1965-03-31 05:00:00" - seconds convert
         1,559,739,194.098935 seconds
 
     What day of the week was I born on?
-
         c:\>rpn 1965-03-31 weekday
         'Wednesday'
 
     How many days until Christmas?
-
         c:\>rpn 2014-12-25 today -
         114 days
 
     How many days older am I than my first child?
-
         c:\>rpn 1994-03-06 1965-03-31 -
         10567 days
 
     What date is 4 weeks from now?
-
         c:\>rpn today 4 weeks +
         2014-09-30 00:00:00
 
     What date is 4 months from now?
-
         c:\>rpn today 4 months +
         2015-01-02 00:00:00
 
     What about 6 months from 2 days ago?
-
         c:\>rpn today 2 days - 6 months +
         2015-02-28 00:00:00
 
@@ -1292,8 +1290,20 @@ c:\>rpn pi 7 / radians dms
 ''',
 '''
 ''' ],
+    'easter' : [
+'time', 'calculates the date of Easter for the year specified',
+'''
+''',
+'''
+''' ],
     'egypt' : [
 'number_theory', 'calculates the greedy Egyption fractions for n/k',
+'''
+''',
+'''
+''' ],
+    'election_day' : [
+'time', 'calculates the date of Election Day (US) for the year specified',
 '''
 ''',
 '''
@@ -1608,6 +1618,18 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'kynea' : [
+'number_theory', 'gets the nth Kynea number',
+'''
+''',
+'''
+''' ],
+    'labor_day' : [
+'time', 'calculates the date of Labor Day (US) for the year specified',
+'''
+''',
+'''
+''' ],
     'lah' : [
 'combinatorics', '',
 '''
@@ -1616,12 +1638,6 @@ Note:  Not sure why the rounding error is so large.
 ''' ],
     'lambertw' : [
 'logarithms', '',
-'''
-''',
-'''
-''' ],
-    'kynea' : [
-'number_theory', 'gets the nth Kynea number',
 '''
 ''',
 '''
@@ -1802,6 +1818,12 @@ Note:  Not sure why the rounding error is so large.
 ''' ],
     'minchar' : [
 'conversion', 'returns the minimum 8-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'memorial_day' : [
+'time', 'calculates the date of Memorial Day (US) for the year specified',
 '''
 ''',
 '''
@@ -1989,6 +2011,14 @@ Note:  Not sure why the rounding error is so large.
     'nspherevolume' : [
 'trigonometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
 '''
+''',
+'''
+''' ],
+    'nthday' : [
+'time', 'finds the nth day (0 = Monday) of the month',
+'''
+a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
+d = day (0 = Monday, 1 = Tuesday, etc. through 6 = Sunday)
 ''',
 '''
 ''' ],
@@ -2246,6 +2276,12 @@ Note:  Not sure why the rounding error is so large.
 ''' ],
     'power' : [
 'powers_and_roots', 'calculates the kth power of n',
+'''
+''',
+'''
+''' ],
+    'presidents_day' : [
+'time', 'calculates the date of Presidents Day (US) for the year specified',
 '''
 ''',
 '''
@@ -2713,6 +2749,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     'thabit' : [
 'number_theory', 'gets the nth Thabit number',
+'''
+''',
+'''
+''' ],
+    'thanksgiving' : [
+'time', 'calculates the date of Thanksgiving (US) for the year specified',
 '''
 ''',
 '''

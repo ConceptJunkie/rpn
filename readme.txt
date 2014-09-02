@@ -1,6 +1,6 @@
 rpn is a command-line Reverse-Polish Notation calculator.
 
-It supports arithmetic with arbitrary precision, powers and roots, logarithms,
+rpn supports arithmetic with arbitrary precision, powers and roots, logarithms,
 alegbraic functions (including polynomials arithmetic and solving),
 trigonometric functions, complex nunmbers, computer science related functions
 (bitwise math, base conversion), number theory functions, prime number
@@ -8,10 +8,12 @@ calculations and lookup, and can operate with single operands or lists of
 operands and supports a wide variety of flexible unit conversions comparable to
 the GNU units program.
 
+The current version is 5.24.0.
+
 Installers for Windows can be found here:
 
-https://www.strongspace.com/conceptjunkie/public/rpn-5.23.1-win32.msi
-https://www.strongspace.com/conceptjunkie/public/rpn-5.23.1-amd64.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.24.0-win32.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.24.0-amd64.msi
 
 rpn is a console app and must be launched from the command-line.  The installer
 includes the compiled help file, unit conversion tables and prime number lookup

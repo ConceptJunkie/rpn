@@ -1295,11 +1295,14 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
                                               leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
                                               outputAccuracy )
         else:
-            itemString = str( item )
+            if isinstance( item, arrow.Arrow ):
+                resultString += formatDateTime( item )
+            else:
+                itemString = str( item )
 
-            resultString += formatOutput( itemString, radix, numerals, integerGrouping, integerDelimiter,
-                                          leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
-                                          outputAccuracy )
+                resultString += formatOutput( itemString, radix, numerals, integerGrouping, integerDelimiter,
+                                              leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
+                                              outputAccuracy )
 
             if isinstance( item, Measurement ):
                 resultString += ' ' + formatUnits( item )
@@ -1594,7 +1597,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            print( basicCategories[ term ] )
+            print( basicCategories[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in operatorCategories if i != term and i.startswith( term ) ), '' )

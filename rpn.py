@@ -34,19 +34,7 @@
 # Add code to compute holidays, especially stuff like Easter, seasons, DST, and what else?
 # Sunrise/sunset?  Tides?  Astronomical events?  Go crazy!
 
-#def calc_easter(self, year):
-#    "Returns Easter as a date object."
-#    a = year % 19
-#    b = year // 100
-#    c = year % 100
-#    d = (19 * a + b - b // 4 - ((b - (b + 8) // 25 + 1) // 3) + 15) % 30
-#    e = (32 + 2 * (b % 4) + 2 * (c // 4) - d - (c % 4)) % 7
-#    f = d + e - 7 * ((a + 11 * d + 22 * e) // 451) + 114
-#    month = f // 31
-#    day = f % 31 + 1
-#    return date(year, month, day)
-
-#  http://pythonhosted.org//astral/#
+# http://pythonhosted.org//astral/#
 
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 
@@ -2291,6 +2279,149 @@ def getToday( ):
 
 #//******************************************************************************
 #//
+#//  calculateEaster
+#//
+#//  This algorithm comes from Gauss.
+#//
+#//******************************************************************************
+
+def calculateEaster( year ):
+    if isinstance( year, arrow.Arrow ):
+        year = year.year
+    else:
+        year = int( year )
+
+    a = year % 19
+    b = year // 100
+    c = year % 100
+    d = ( 19 * a + b - b // 4 - ( ( b - ( b + 8 ) // 25 + 1 ) // 3 ) + 15 ) % 30
+    e = ( 32 + 2 * ( b % 4 ) + 2 * ( c // 4 ) - d - ( c % 4 ) ) % 7
+    f = d + e - 7 * ( ( a + 11 * d + 22 * e ) // 451 ) + 114
+    month = f // 31
+    day = f % 31 + 1
+
+    return arrow.Arrow( year, month, day )
+
+
+#//******************************************************************************
+#//
+#//  calculateNthDayOfMonth
+#//
+#//  Monday = 0, etc., as per arrow
+#//
+#//******************************************************************************
+
+def calculateNthDayOfMonth( year, month, nth, weekday ):
+    if isinstance( year, arrow.Arrow ):
+        year = year.year
+    else:
+        year = int( year )
+
+    firstDay = arrow.Arrow( year, month, 1 ).weekday( )
+
+    day = ( weekday - firstDay ) + 1 + nth * 7
+
+    if weekday >= firstDay:
+        day -= 7
+
+    return arrow.Arrow( year, month, day )
+
+
+#//******************************************************************************
+#//
+#//  calculateThanksgiving
+#//
+#//  the fourth Thursday in November
+#//
+#//******************************************************************************
+
+def calculateThanksgiving( year ):
+    if isinstance( year, arrow.Arrow ):
+        year = year.year
+    else:
+        year = int( year )
+
+    return calculateNthDayOfMonth( year, 11, 4, 3 )
+
+
+#//******************************************************************************
+#//
+#//  calculateLaborDay
+#//
+#//  the first Monday in September
+#//
+#//******************************************************************************
+
+def calculateLaborDay( year ):
+    if isinstance( year, arrow.Arrow ):
+        year = year.year
+    else:
+        year = int( year )
+
+    return calculateNthDayOfMonth( year, 9, 1, 0 )
+
+
+#//******************************************************************************
+#//
+#//  calculateElectionDay
+#//
+#//  the first Tuesday after the first Monday (so it's never on the 1st day)
+#//
+#//******************************************************************************
+
+def calculateElectionDay( year ):
+    if isinstance( year, arrow.Arrow ):
+        year = year.year
+    else:
+        year = int( year )
+
+    result = calculateNthDayOfMonth( year, 11, 1, 0 )
+    return result.replace( day = result.day + 1 )
+
+
+#//******************************************************************************
+#//
+#//  calculateMemorialDay
+#//
+#//  the last Monday in May (4th or 5th Monday)
+#//
+#//******************************************************************************
+
+def calculateMemorialDay( year ):
+    if isinstance( year, arrow.Arrow ):
+        year = year.year
+    else:
+        year = int( year )
+
+    result = calculateNthDayOfMonth( year, 5, 4, 0 )
+
+    day = result.day
+
+    if day <= 24:
+        day += 7
+
+    return result.replace( day = day )
+
+
+#//******************************************************************************
+#//
+#//  calculatePresidentsDay
+#//
+#//  the third Monday in February
+#//
+#//******************************************************************************
+
+def calculatePresidentsDay( year ):
+    if isinstance( year, arrow.Arrow ):
+        year = year.year
+    else:
+        year = int( year )
+
+    return calculateNthDayOfMonth( year, 2, 3, 0 )
+
+
+#//******************************************************************************
+#//
 #//  convertToUnixTime
 #//
 #//******************************************************************************
@@ -3303,7 +3434,9 @@ operators = {
     'doublebal_'    : OperatorInfo( getNthDoubleBalancedPrimeList, 1 ),
     'doublefac'     : OperatorInfo( fac2, 1 ),
     'e'             : OperatorInfo( e, 0 ),
+    'easter'        : OperatorInfo( calculateEaster, 1 ),
     'egypt'         : OperatorInfo( getGreedyEgyptianFraction, 2 ),
+    'election_day'  : OperatorInfo( calculateElectionDay, 1 ),
     'element'       : OperatorInfo( getListElement, 2 ),
     'estimate'      : OperatorInfo( estimate, 1 ),
     'euler'         : OperatorInfo( euler, 0 ),
@@ -3348,6 +3481,7 @@ operators = {
     'jacobsthal'    : OperatorInfo( getNthJacobsthalNumber, 1 ),
     'khinchin'      : OperatorInfo( khinchin, 0 ),
     'kynea'         : OperatorInfo( lambda n : fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ), 1 ),
+    'labor_day'     : OperatorInfo( calculateLaborDay, 1 ),
     'lah'           : OperatorInfo( lambda n, k: fdiv( fmul( binomial( n, k ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ), 2 ),
     'lambertw'      : OperatorInfo( lambertw, 1 ),
     'leyland'       : OperatorInfo( lambda x, y : fadd( power( x, y ), power( y, x ) ), 2 ),
@@ -3371,6 +3505,7 @@ operators = {
     'maxulonglong'  : OperatorInfo( lambda: ( 1 << 64 ) - 1, 0 ),
     'maxuquadlong'  : OperatorInfo( lambda: ( 1 << 128 ) - 1, 0 ),
     'maxushort'     : OperatorInfo( lambda: ( 1 << 16 ) - 1, 0 ),
+    'memorial_day'  : OperatorInfo( calculateMemorialDay, 1 ),
     'mertens'       : OperatorInfo( mertens, 0 ),
     'minchar'       : OperatorInfo( lambda: -( 1 << 7 ), 0 ),
     'minlong'       : OperatorInfo( lambda: -( 1 << 31 ), 0 ),
@@ -3400,6 +3535,7 @@ operators = {
     'nspherearea'   : OperatorInfo( getNSphereSurfaceArea, 2 ),
     'nsphereradius' : OperatorInfo( getNSphereRadius, 2 ),
     'nspherevolume' : OperatorInfo( getNSphereVolume, 2 ),
+    'nthday'        : OperatorInfo( calculateNthDayOfMonth, 4 ),
     'nthprime?'     : OperatorInfo( lambda i: findPrime( i )[ 0 ], 1 ),
     'nthquad?'      : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 0 ], 1 ),
     'octagonal'     : OperatorInfo( lambda n: getNthPolygonalNumber( n, 8 ), 1 ),
@@ -3436,6 +3572,7 @@ operators = {
     'polyprime'     : OperatorInfo( getNthPolyPrime, 2 ),
     'polytope'      : OperatorInfo( getNthPolytopeNumber, 2 ),
     'power'         : OperatorInfo( exponentiate, 2 ),
+    'presidents_day': OperatorInfo( calculatePresidentsDay, 1 ),
     'prime'         : OperatorInfo( getNthPrime, 1 ),
     'prime?'        : OperatorInfo( lambda n: findPrime( n )[ 1 ], 1 ),
     'primepi'       : OperatorInfo( getPrimePi, 1 ),
@@ -3497,6 +3634,7 @@ operators = {
     'tetranacci'    : OperatorInfo( getNthTetranacci, 1 ),
     'tetrate'       : OperatorInfo( tetrate, 2 ),
     'thabit'        : OperatorInfo( lambda n : fsub( fmul( 3, power( 2, n ) ), 1 ), 1 ),
+    'thanksgiving'  : OperatorInfo( calculateThanksgiving, 1 ),
     'today'         : OperatorInfo( getToday, 0 ),
     'tounixtime'    : OperatorInfo( convertToUnixTime, 1 ),
     'trianglearea'  : OperatorInfo( getTriangleArea, 3 ),
