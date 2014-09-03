@@ -212,6 +212,7 @@ operatorAliases = {
     'isdiv'       : 'isdivisible',
     'isoday'      : 'iso_day',
     'issqr'       : 'issquare',
+    'julianday'   : 'julian_day',
     'left'        : 'shiftleft',
     'linear'      : 'linearrecur',
     'log'         : 'ln',

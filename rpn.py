@@ -2321,8 +2321,11 @@ def getLastDayOfMonth( year, month ):
 #//
 #//******************************************************************************
 
-def getJulianDay( date ):
-    pass
+def getJulianDay( n ):
+    if not isinstance( n, arrow.Arrow ):
+        raise ValueError( 'a time type required for this operator' )
+
+    return n.timetuple( ).tm_yday
 
 
 #//******************************************************************************
@@ -3409,9 +3412,9 @@ def makeTime( n ):
 
 def getISODay( n ):
     if not isinstance( n, arrow.Arrow ):
-        raise ValueError( 'time type required for this operator' )
+        raise ValueError( 'a time type required for this operator' )
 
-    return 0
+    return list( n.isocalendar( ) )
 
 
 #//******************************************************************************
@@ -4216,7 +4219,7 @@ def rpn( cmd_args ):
                 else:
                      break
 
-            except TypeError as error:
+            except ( AttributeError, TypeError ):
                 currentValueList.append( term )
 
                 try:
