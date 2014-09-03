@@ -216,6 +216,8 @@ operatorAliases = {
     'left'        : 'shiftleft',
     'linear'      : 'linearrecur',
     'log'         : 'ln',
+    'makeiso'     : 'makeisotime',
+    'makejulian'  : 'makejuliantime',
     'maxint'      : 'maxlong',
     'maxint128'   : 'maxquadlong',
     'maxint16'    : 'maxshort',

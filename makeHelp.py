@@ -1740,6 +1740,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'makejuliantime' : [
+'conversion', 'interpret argument as absolute time specified by year, Julian day and optional time of day',
+'''
+''',
+'''
+''' ],
     'makeisotime' : [
 'conversion', 'interpret argument as absolute time specified in the ISO format',
 '''
