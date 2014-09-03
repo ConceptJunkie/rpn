@@ -2305,9 +2305,19 @@ def calculateEaster( year ):
 
 #//******************************************************************************
 #//
+#//  getLastDayOfMonth
+#//
+#//******************************************************************************
+
+def getLastDayOfMonth( year, month ):
+    return calendar.monthrange( year, month )[ 1 ]
+
+
+#//******************************************************************************
+#//
 #//  calculateNthDayOfMonth
 #//
-#//  Monday = 0, etc., as per arrow
+#//  Monday = 0, etc., as per arrow, nth == -1 for last
 #//
 #//******************************************************************************
 
@@ -2319,10 +2329,16 @@ def calculateNthDayOfMonth( year, month, nth, weekday ):
 
     firstDay = arrow.Arrow( year, month, 1 ).weekday( )
 
-    day = ( weekday - firstDay ) + 1 + nth * 7
+    if nth == -1:
+        day = ( weekday - firstDay ) + 1 + 28
 
-    if weekday >= firstDay:
-        day -= 7
+        if day <= getLastDayOfMonth( year, month ) - 7:
+            day += 7
+    else:
+        day = ( weekday - firstDay ) + 1 + nth * 7
+
+        if weekday >= firstDay:
+            day -= 7
 
     return arrow.Arrow( year, month, day )
 
@@ -2393,14 +2409,7 @@ def calculateMemorialDay( year ):
     else:
         year = int( year )
 
-    result = calculateNthDayOfMonth( year, 5, 4, 0 )
-
-    day = result.day
-
-    if day <= 24:
-        day += 7
-
-    return result.replace( day = day )
+    return calculateNthDayOfMonth( year, 5, -1, 0 )
 
 
 #//******************************************************************************
@@ -2418,6 +2427,46 @@ def calculatePresidentsDay( year ):
         year = int( year )
 
     return calculateNthDayOfMonth( year, 2, 3, 0 )
+
+
+#//******************************************************************************
+#//
+#//  calculateDSTStart
+#//
+#//  the second Sunday in March
+#//
+#//******************************************************************************
+
+def calculateDSTStart( year ):
+    if isinstance( year, arrow.Arrow ):
+        year = year.year
+    else:
+        year = int( year )
+
+    if year >= 2007:
+        return calculateNthDayOfMonth( year, 3, 2, 6 )
+    elif year >= 1987:
+        return calculateNthDayOfMonth( year, 4, 1, 6 )
+
+
+#//******************************************************************************
+#//
+#//  calculateDSTEnd
+#//
+#//  the first Sunday in November
+#//
+#//******************************************************************************
+
+def calculateDSTEnd( year ):
+    if isinstance( year, arrow.Arrow ):
+        year = year.year
+    else:
+        year = int( year )
+
+    if year >= 2007:
+        return calculateNthDayOfMonth( year, 11, 1, 6 )
+    elif year >= 1987:
+        return calculateNthDayOfMonth( year, 10, -1, 6 )
 
 
 #//******************************************************************************
@@ -3272,7 +3321,7 @@ def getWeekday( n ):
     if not isinstance( n, arrow.Arrow ):
         raise ValueError( 'time type required for this operator' )
 
-    return [ 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday' ][ n.weekday( ) ]
+    return calendar.day_name[ n.weekday( ) ]
 
 
 #//******************************************************************************
@@ -3433,6 +3482,8 @@ operators = {
     'doublebal'     : OperatorInfo( getNthDoubleBalancedPrime, 1 ),
     'doublebal_'    : OperatorInfo( getNthDoubleBalancedPrimeList, 1 ),
     'doublefac'     : OperatorInfo( fac2, 1 ),
+    'dst_end'       : OperatorInfo( calculateDSTEnd, 1 ),
+    'dst_start'     : OperatorInfo( calculateDSTStart, 1 ),
     'e'             : OperatorInfo( e, 0 ),
     'easter'        : OperatorInfo( calculateEaster, 1 ),
     'egypt'         : OperatorInfo( getGreedyEgyptianFraction, 2 ),
