@@ -888,7 +888,7 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
     'calendar' : [
 'time', 'prints a month calendar for the date value',
 '''
-The calendar operator is special in that what it prints out is a side-effect.
+The 'calendar' operator is special in that what it prints out is a side-effect.
 It actually returns the date value passed in as a result, so as far as rpn is
 concerned, it's an operator that does nothing.
 ''',
@@ -2994,6 +2994,15 @@ c:\>rpn 1 50 range countdiv stddev
 This shortcut operator replaces having to type '[ year day hour minute
 second ] convert' in order to convert a time interval to days, hours, minutes
 and seconds.
+''',
+'''
+''' ],
+    'year_calendar' : [
+'time', 'prints a month calendar for the date value',
+'''
+The 'year_calendar' operator is special in that what it prints out is a
+side-effect.  It actually returns the date value passed in as a result, so as
+far as rpn is concerned, it's an operator that does nothing.
 ''',
 '''
 ''' ],

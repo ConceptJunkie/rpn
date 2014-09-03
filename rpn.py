@@ -2555,6 +2555,25 @@ def generateMonthCalendar( n ):
 
 #//******************************************************************************
 #//
+#//  generateYearCalendar
+#//
+#//******************************************************************************
+
+def generateYearCalendar( n ):
+    cal = calendar.TextCalendar( firstweekday=6 )
+
+    if isinstance( n, arrow.Arrow ):
+        cal.pryear( n.year )
+    else:
+        cal.pryear( n )
+
+    print( )
+
+    return n
+
+
+#//******************************************************************************
+#//
 #//  convertToUnixTime
 #//
 #//******************************************************************************
@@ -3848,6 +3867,7 @@ operators = {
     'ushort'            : OperatorInfo( lambda n: int( fmod( n, power( 2, 16 ) ) ), 1 ),
     'weekday'           : OperatorInfo( getWeekday, 1, ),
     'xor'               : OperatorInfo( lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ),
+    'year_calendar'     : OperatorInfo( generateYearCalendar, 1 ),
     'ydhms'             : OperatorInfo( convertToYDHMS, 1 ),
     'zeta'              : OperatorInfo( zeta, 1 ),
     '_dumpalias'        : OperatorInfo( dumpAliases, 0 ),
@@ -4353,5 +4373,8 @@ def rpn( cmd_args ):
 #//******************************************************************************
 
 if __name__ == '__main__':
-    rpn( sys.argv[ 1 : ] )
+    try:
+        rpn( sys.argv[ 1 : ] )
+    except ValueError as error:
+        print( 'rpn:  value error:  {0}'.format( error ) )
 
