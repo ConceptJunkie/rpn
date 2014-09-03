@@ -2330,26 +2330,6 @@ def getJulianDay( n ):
 
 #//******************************************************************************
 #//
-#//  getDateFromJulianDay
-#//
-#//******************************************************************************
-
-def getDateFromJulianDay( year, day ):
-    pass
-
-
-#//******************************************************************************
-#//
-#//  getJulianDayFromDate
-#//
-#//******************************************************************************
-
-def getJulianDayFromDate( year, day ):
-    pass
-
-
-#//******************************************************************************
-#//
 #//  getJulianWeekFromDate
 #//
 #//******************************************************************************
@@ -2550,6 +2530,27 @@ def calculateDSTEnd( year ):
         return calculateNthWeekdayOfMonth ( year, 10, -1, 6 )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
+
+
+#//******************************************************************************
+#//
+#//  generateMonthCalendar
+#//
+#//******************************************************************************
+
+def generateMonthCalendar( n ):
+    cal = calendar.TextCalendar( firstweekday=6 )
+
+    if isinstance( n[ 0 ], arrow.Arrow ):
+        cal.prmonth( n[ 0 ].year, n[ 0 ].month )
+    elif len( n ) >= 2:
+        cal.prmonth( int( n[ 0 ] ), int( n[ 1 ] ) )
+    else:
+        raise ValueError( 'this operator requires at least 2 items in the list' )
+
+    print( )
+
+    return n
 
 
 #//******************************************************************************
@@ -3495,6 +3496,7 @@ listOperators = {
     'altsum2'           : OperatorInfo( getAlternatingSum2, 1 ),
     'base'              : OperatorInfo( interpretAsBase, 2 ),
     'cf'                : OperatorInfo( convertFromContinuedFraction, 1 ),
+    'calendar'          : OperatorInfo( generateMonthCalendar, 1 ),
     'convert'           : OperatorInfo( convertUnits, 2 ),
     'count'             : OperatorInfo( countElements, 1 ),
     'diffs'             : OperatorInfo( getListDiffs, 1 ),

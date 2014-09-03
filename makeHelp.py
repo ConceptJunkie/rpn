@@ -885,6 +885,15 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
 ''' ],
+    'calendar' : [
+'time', 'prints a month calendar for the date value',
+'''
+The calendar operator is special in that what it prints out is a side-effect.
+It actually returns the date value passed in as a result, so as far as rpn is
+concerned, it's an operator that does nothing.
+''',
+'''
+''' ],
     'catalan' : [
 'combinatorics', 'calculates nth Catalan number',
 '''
