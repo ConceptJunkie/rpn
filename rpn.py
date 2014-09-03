@@ -2445,8 +2445,12 @@ def calculateDSTStart( year ):
 
     if year >= 2007:
         return calculateNthDayOfMonth( year, 3, 2, 6 )
-    elif year >= 1987:
+    elif year == 1974:
+        return arrow.Arrow( 1974, 1, 6 )
+    elif year >= 1967:
         return calculateNthDayOfMonth( year, 4, 1, 6 )
+    else:
+        raise ValueError( 'DST was not standardized before 1967' )
 
 
 #//******************************************************************************
@@ -2465,8 +2469,12 @@ def calculateDSTEnd( year ):
 
     if year >= 2007:
         return calculateNthDayOfMonth( year, 11, 1, 6 )
-    elif year >= 1987:
+    elif year == 1974:
+        return arrow.Arrow( 1974, 12, 31 )   # technically DST never ended in 1974
+    elif year >= 1967:
         return calculateNthDayOfMonth( year, 10, -1, 6 )
+    else:
+        raise ValueError( 'DST was not standardized before 1967' )
 
 
 #//******************************************************************************

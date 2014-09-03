@@ -1278,6 +1278,18 @@ c:\>rpn pi 7 / radians dms
 ''',
 '''
 ''' ],
+    'dst_end' : [
+'time', 'calculates the ending date for Daylight Saving Time for the year specified',
+'''
+''',
+'''
+''' ],
+    'dst_start' : [
+'time', 'calculates the starting date for Daylight Saving Time for the year specified',
+'''
+''',
+'''
+''' ],
     'dup' : [
 'modifiers', 'duplicates a argument n k times',
 '''
