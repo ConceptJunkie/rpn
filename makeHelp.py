@@ -336,6 +336,8 @@ There are now some examples of absolute time handling.
 A few more bug fixes, plus new calendar-related operators:  easter.
 election_day, labor_day, memorial_day, nthday, presidents_day, thanksgiving
 
+5.25.0
+
 ''',
 'license' :
 '''
@@ -1594,6 +1596,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'iso_day' : [
+'time', 'returns the ISO day and week for a time value',
+'''
+''',
+'''
+''' ],
     'isolated' : [
 'prime_numbers', 'returns the nth isolated prime',
 '''
@@ -1620,6 +1628,12 @@ Note:  Not sure why the rounding error is so large.
 ''' ],
     'jacobsthal' : [
 'number_theory', 'returns nth number of the Jacobsthal sequence',
+'''
+''',
+'''
+''' ],
+    'julian_day' : [
+'time', 'returns the Julian day for a time value',
 '''
 ''',
 '''
@@ -1722,6 +1736,12 @@ Note:  Not sure why the rounding error is so large.
 ''' ],
     'makecf' : [
 'number_theory', 'calculates k terms of the continued fraction representation of n',
+'''
+''',
+'''
+''' ],
+    'makeisotime' : [
+'conversion', 'interpret argument as absolute time specified in the ISO format',
 '''
 ''',
 '''
@@ -2026,11 +2046,19 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
-    'nthday' : [
+    'nthweekday' : [
 'time', 'finds the nth day (0 = Monday) of the month',
 '''
 a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
 d = day (0 = Monday, 1 = Tuesday, etc. through 6 = Sunday)
+''',
+'''
+''' ],
+    'nthweekdayofyear' : [
+'time', 'finds the nth day (0 = Monday) of the year',
+'''
+a = four-digit year, b = week (negative values count from the end), c = day
+(0 = Monday, 1 = Tuesday, etc. through 6 = Sunday)
 ''',
 '''
 ''' ],

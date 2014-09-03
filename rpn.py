@@ -38,6 +38,8 @@
 
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 
+# Ash Wednesday is 6 weeks and 4 days before Easter
+
 
 #//******************************************************************************
 #//
@@ -2315,13 +2317,83 @@ def getLastDayOfMonth( year, month ):
 
 #//******************************************************************************
 #//
-#//  calculateNthDayOfMonth
+#//  getJulianDay
+#//
+#//******************************************************************************
+
+def getJulianDay( date ):
+    pass
+
+
+#//******************************************************************************
+#//
+#//  getDateFromJulianDay
+#//
+#//******************************************************************************
+
+def getDateFromJulianDay( year, day ):
+    pass
+
+
+#//******************************************************************************
+#//
+#//  getJulianDayFromDate
+#//
+#//******************************************************************************
+
+def getJulianDayFromDate( year, day ):
+    pass
+
+
+#//******************************************************************************
+#//
+#//  getJulianWeekFromDate
+#//
+#//******************************************************************************
+
+def getJulianWeekFromDate( date ):
+    pass
+
+
+#//******************************************************************************
+#//
+#//  calculateNthWeekdayOfYear
 #//
 #//  Monday = 0, etc., as per arrow, nth == -1 for last
 #//
 #//******************************************************************************
 
-def calculateNthDayOfMonth( year, month, nth, weekday ):
+def calculateNthWeekdayOfYear( year, nth, weekday ):
+    if isinstance( year, arrow.Arrow ):
+        year = year.year
+    else:
+        year = int( year )
+
+    firstDay = arrow.Arrow( year, 1, 1 ).weekday( )
+
+#    if nth == -1:
+#        day = ( weekday - firstDay ) + 1 + 28
+#
+#        if day <= getLastDayOfMonth( year, month ) - 7:
+#            day += 7
+#    else:
+#        day = ( weekday - firstDay ) + 1 + nth * 7
+#
+#        if weekday >= firstDay:
+#            day -= 7
+#
+#    return arrow.Arrow( year, month, day )
+
+
+#//******************************************************************************
+#//
+#//  calculateNthWeekdayOfMonth
+#//
+#//  Monday = 0, etc., as per arrow, nth == -1 for last
+#//
+#//******************************************************************************
+
+def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
     if isinstance( year, arrow.Arrow ):
         year = year.year
     else:
@@ -2357,7 +2429,7 @@ def calculateThanksgiving( year ):
     else:
         year = int( year )
 
-    return calculateNthDayOfMonth( year, 11, 4, 3 )
+    return calculateNthWeekdayOfMonth ( year, 11, 4, 3 )
 
 
 #//******************************************************************************
@@ -2374,7 +2446,7 @@ def calculateLaborDay( year ):
     else:
         year = int( year )
 
-    return calculateNthDayOfMonth( year, 9, 1, 0 )
+    return calculateNthWeekdayOfMonth ( year, 9, 1, 0 )
 
 
 #//******************************************************************************
@@ -2391,7 +2463,7 @@ def calculateElectionDay( year ):
     else:
         year = int( year )
 
-    result = calculateNthDayOfMonth( year, 11, 1, 0 )
+    result = calculateNthWeekdayOfMonth ( year, 11, 1, 0 )
     return result.replace( day = result.day + 1 )
 
 
@@ -2409,7 +2481,7 @@ def calculateMemorialDay( year ):
     else:
         year = int( year )
 
-    return calculateNthDayOfMonth( year, 5, -1, 0 )
+    return calculateNthWeekdayOfMonth ( year, 5, -1, 0 )
 
 
 #//******************************************************************************
@@ -2426,7 +2498,7 @@ def calculatePresidentsDay( year ):
     else:
         year = int( year )
 
-    return calculateNthDayOfMonth( year, 2, 3, 0 )
+    return calculateNthWeekdayOfMonth ( year, 2, 3, 0 )
 
 
 #//******************************************************************************
@@ -2444,11 +2516,11 @@ def calculateDSTStart( year ):
         year = int( year )
 
     if year >= 2007:
-        return calculateNthDayOfMonth( year, 3, 2, 6 )
+        return calculateNthWeekdayOfMonth ( year, 3, 2, 6 )
     elif year == 1974:
         return arrow.Arrow( 1974, 1, 6 )
     elif year >= 1967:
-        return calculateNthDayOfMonth( year, 4, 1, 6 )
+        return calculateNthWeekdayOfMonth ( year, 4, 1, 6 )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
 
@@ -2468,11 +2540,11 @@ def calculateDSTEnd( year ):
         year = int( year )
 
     if year >= 2007:
-        return calculateNthDayOfMonth( year, 11, 1, 6 )
+        return calculateNthWeekdayOfMonth ( year, 11, 1, 6 )
     elif year == 1974:
         return arrow.Arrow( 1974, 12, 31 )   # technically DST never ended in 1974
     elif year >= 1967:
-        return calculateNthDayOfMonth( year, 10, -1, 6 )
+        return calculateNthWeekdayOfMonth ( year, 10, -1, 6 )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
 
@@ -3303,6 +3375,16 @@ def convertUnits( unit1, unit2 ):
 
 #//******************************************************************************
 #//
+#//  makeISOTime
+#//
+#//******************************************************************************
+
+def makeISOTime( n ):
+    return arrow.Arrow( 1970, 1, 1 )
+
+
+#//******************************************************************************
+#//
 #//  makeTime
 #//
 #//******************************************************************************
@@ -3317,6 +3399,19 @@ def makeTime( n ):
         n = n[ : 7 ]
 
     return arrow.get( *n )
+
+
+#//******************************************************************************
+#//
+#//  getISODay
+#//
+#//******************************************************************************
+
+def getISODay( n ):
+    if not isinstance( n, arrow.Arrow ):
+        raise ValueError( 'time type required for this operator' )
+
+    return 0
 
 
 #//******************************************************************************
@@ -3377,6 +3472,7 @@ listOperators = {
     'interleave'    : OperatorInfo( interleave, 2 ),
     'intersection'  : OperatorInfo( makeIntersection, 2 ),
     'linearrecur'   : OperatorInfo( getNthLinearRecurrence, 3 ),
+    'makeisotime'   : OperatorInfo( makeISOTime, 1 ),
     'maketime'      : OperatorInfo( makeTime, 1 ),
     'max'           : OperatorInfo( max, 1 ),
     'maxindex'      : OperatorInfo( getIndexOfMax, 1 ),
@@ -3533,11 +3629,13 @@ operators = {
     'icosahedral'   : OperatorInfo( lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n ), 1 ),
     'integer'       : OperatorInfo( convertToSignedInt, 2 ),
     'isdivisible'   : OperatorInfo( lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2 ),
+    'iso_day'       : OperatorInfo( getISODay, 1 ),
     'isolated'      : OperatorInfo( getNthIsolatedPrime, 1 ),
     'isprime'       : OperatorInfo( lambda n: 1 if isPrime( n ) else 0, 1 ),
     'issquare'      : OperatorInfo( isSquare, 1 ),
     'itoi'          : OperatorInfo( lambda: exp( fmul( -0.5, pi ) ), 0 ),
     'jacobsthal'    : OperatorInfo( getNthJacobsthalNumber, 1 ),
+    'julian_day'    : OperatorInfo( getJulianDay, 1 ),
     'khinchin'      : OperatorInfo( khinchin, 0 ),
     'kynea'         : OperatorInfo( lambda n : fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ), 1 ),
     'labor_day'     : OperatorInfo( calculateLaborDay, 1 ),
@@ -3594,7 +3692,8 @@ operators = {
     'nspherearea'   : OperatorInfo( getNSphereSurfaceArea, 2 ),
     'nsphereradius' : OperatorInfo( getNSphereRadius, 2 ),
     'nspherevolume' : OperatorInfo( getNSphereVolume, 2 ),
-    'nthday'        : OperatorInfo( calculateNthDayOfMonth, 4 ),
+    'nthweekday'    : OperatorInfo( calculateNthWeekdayOfMonth , 4 ),
+    'nthweekdayofyear'  : OperatorInfo( calculateNthWeekdayOfYear, 3 ),
     'nthprime?'     : OperatorInfo( lambda i: findPrime( i )[ 0 ], 1 ),
     'nthquad?'      : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 0 ], 1 ),
     'octagonal'     : OperatorInfo( lambda n: getNthPolygonalNumber( n, 8 ), 1 ),
