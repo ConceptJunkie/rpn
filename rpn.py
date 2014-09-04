@@ -27,18 +27,21 @@
 
 # The present overall density of the Universe is roughly 9.9 x 10-30 grams per cubic centimetre.
 
+# Density as a new unit type!
+
 # http://en.wikipedia.org/wiki/Planck%27s_constant
 
 # http://en.wikipedia.org/wiki/Gravitational_constant
 
-# Add code to compute holidays, especially stuff like Easter, seasons, DST, and what else?
 # Sunrise/sunset?  Tides?  Astronomical events?  Go crazy!
 
 # http://pythonhosted.org//astral/#
 
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 
-# http://rhodesmill.org/pyephem/quick.html#dates
+# http://rhodesmill.org/pyephem/quick.html
+
+# https://github.com/geopy/geopy
 
 #//******************************************************************************
 #//
@@ -63,6 +66,7 @@ import time
 from mpmath import *
 from random import randrange
 
+from rpnCombinatorics import *
 from rpnComputer import *
 from rpnDeclarations import *
 from rpnList import *
@@ -356,7 +360,7 @@ def getNSphereRadius( n, k ):
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     if not isinstance( k, Measurement ):
-        return Measurement( k, 'length' )
+        return Measurement( k, 'inch' )
 
     print( type( k.getBasicTypes( ).getUnitString( ) ) )
 
@@ -457,64 +461,6 @@ def getTriangleArea( a, b, c ):
 
 #//******************************************************************************
 #//
-#//  getNthDelannoyNumber
-#//
-#//******************************************************************************
-
-def getNthDelannoyNumber( n ):
-    result = 0
-
-    for k in arange( 0, fadd( n, 1 ) ):
-        result = fadd( result, fmul( binomial( n, k ), binomial( fadd( n, k ), k ) ) )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  getNthSchroederNumber
-#//
-#//******************************************************************************
-
-def getNthSchroederNumber( n ):
-    if n == 1:
-        return 1
-
-    # TODO: raise exception for n < 0 !
-
-    n = fsub( n, 1 )
-
-    result = 0
-
-    for k in arange( 0, fadd( n, 1 ) ):
-        result = fadd( result, fdiv( fprod( [ power( 2, k ), binomial( n, k ),
-                                              binomial( n, fsub( k, 1 ) ) ] ), n ) )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  getNthMotzkinNumber
-#//
-#//  http://oeis.org/A001006
-#//
-#//  a(n) = sum((-1)^j*binomial(n+1, j)*binomial(2n-3j, n), j=0..floor(n/3))/(n+1)
-#//
-#//******************************************************************************
-
-def getNthMotzkinNumber( n ):
-    result = 0
-
-    for j in arange( 0, floor( fdiv( n, 3 ) ) + 1 ):
-        result = fadd( result, fprod( [ power( -1, j ), binomial( fadd( n, 1 ), j ),
-                                      binomial( fsub( fmul( 2, n ), fmul( 3, j ) ), n ) ] ) )
-
-    return fdiv( result, fadd( n, 1 ) )
-
-
-#//******************************************************************************
-#//
 #//  getPrimorial
 #//
 #//******************************************************************************
@@ -526,19 +472,6 @@ def getPrimorial( n ):
         result = fmul( result, getNthPrime( i + 1 ) )
 
     return result
-
-
-#//******************************************************************************
-#//
-#//  getPermutations
-#//
-#//******************************************************************************
-
-def getPermutations( n, r ):
-    if ( r > n ):
-        raise ValueError( 'number of elements (%d) cannot exceed the size of the set (%d)' % ( r, n ) )
-
-    return fdiv( fac( n ), fac( fsub( n, r ) ) )
 
 
 #//******************************************************************************
