@@ -1244,7 +1244,7 @@ number.
 '''
 ''' ],
     'dhms' : [
-'special', 'shortcut for \'[ day hour minute second ] convert\'',
+'time', 'shortcut for \'[ day hour minute second ] convert\'',
 '''
 This shortcut operator replaces having to type '[ day hour minute second ]
 convert' in order to convert a time interval to days, hours, minutes and
@@ -1545,7 +1545,7 @@ c:\>rpn 2 2 10 exprange
 '''
 ''' ],
     'hms' : [
-'special', 'shortcut for \'[ hour minute second ] convert\'',
+'time', 'shortcut for \'[ hour minute second ] convert\'',
 '''
 This shortcut operator replaces having to type '[ hour minute second ] convert'
 in order to convert a time interval to hours, minutes and seconds.
@@ -2994,7 +2994,7 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'ydhms' : [
-'special', 'shortcut for \'[ year day hour minute second ] convert\'',
+'time', 'shortcut for \'[ year day hour minute second ] convert\'',
 '''
 This shortcut operator replaces having to type '[ year day hour minute
 second ] convert' in order to convert a time interval to days, hours, minutes

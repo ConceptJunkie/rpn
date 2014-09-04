@@ -67,6 +67,7 @@ from random import randrange
 
 from rpnComputer import *
 from rpnDeclarations import *
+from rpnList import *
 from rpnNumberTheory import *
 from rpnPolytope import *
 from rpnPrimeUtils import *
@@ -1100,316 +1101,6 @@ def duplicateTerm( valueList ):
 
 #//******************************************************************************
 #//
-#//  getPrevious
-#//
-#//******************************************************************************
-
-def getPrevious( valueList ):
-    valueList.append( valueList[ -1 ] )
-
-
-#//******************************************************************************
-#//
-#//  duplicateTerm
-#//
-#//******************************************************************************
-
-def duplicateTerm( valueList ):
-    count = valueList.pop( )
-    value = valueList.pop( )
-
-    for i in range( 0, int( count ) ):
-        if isinstance( value, list ):
-            for i in value:
-                valueList.append( i )
-        else:
-            valueList.append( value )
-
-
-#//******************************************************************************
-#//
-#//  appendLists
-#//
-#//******************************************************************************
-
-def appendLists( arg1, arg2 ):
-    list1 = isinstance( arg1, list )
-    list2 = isinstance( arg2, list )
-
-    result = [ ]
-
-    if list1:
-        result.extend( arg1 )
-
-        if list2:
-            result.extend( arg2 )
-        else:
-            result.append( arg2 )
-    else:
-        result.append( arg1 )
-
-        if list2:
-            result.extend( arg2 )
-        else:
-            result.append( arg2 )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  loadResult
-#//
-#//******************************************************************************
-
-def loadResult( valueList ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
-            result = pickle.load( pickleFile )
-    except FileNotFoundError:
-        result = mapmathify( 0 )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  saveResult
-#//
-#//******************************************************************************
-
-def saveResult( result ):
-    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'wb' ) ) as pickleFile:
-        pickle.dump( result, pickleFile )
-
-
-#//******************************************************************************
-#//
-#//  alternateSigns
-#//
-#//******************************************************************************
-
-def alternateSigns( n ):
-    for i in range( 1, len( n ), 2 ):
-        n[ i ] = -n[ i ]
-
-    return n
-
-
-#//******************************************************************************
-#//
-#//  alternateSigns2
-#//
-#//******************************************************************************
-
-def alternateSigns2( n ):
-    for i in range( 0, len( n ), 2 ):
-        n[ i ] = -n[ i ]
-
-    return n
-
-
-#//******************************************************************************
-#//
-#//  expandRange
-#//
-#//******************************************************************************
-
-def expandRange( start, end ):
-    if start > end:
-        step = -1
-    else:
-        step = 1
-
-    result = list( )
-
-    for i in arange( start, end + step, step ):
-        result.append( i )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  expandSteppedRange
-#//
-#//******************************************************************************
-
-def expandSteppedRange( start, end, step ):
-    result = list( )
-
-    for i in arange( start, end + 1, step ):
-        result.append( i )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  expandGeometricRange
-#//
-#//******************************************************************************
-
-def expandGeometricRange( value, step, count ):
-    result = list( )
-
-    for i in arange( 0, count ):
-        result.append( value )
-        value = fmul( value, step )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  expandExponentialRange
-#//
-#//******************************************************************************
-
-def expandExponentialRange( value, step, count ):
-    result = list( )
-
-    for i in arange( 0, count ):
-        result.append( value )
-        value = power( value, step )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  interleave
-#//
-#//******************************************************************************
-
-def interleave( arg1, arg2 ):
-    list1 = isinstance( arg1, list )
-    list2 = isinstance( arg2, list )
-
-    result = list( )
-
-    if list1:
-        if list2:
-            combined = list( zip( arg1, arg2  ) )
-            combined = [ item for sublist in combined for item in sublist ]
-
-            for i in combined:
-                result.append( i )
-        else:
-            for i in arg1:
-                result.append( i )
-                result.append( arg2 )
-    else:
-        if list2:
-            for i in arg2:
-                result.append( arg1 )
-                result.append( i )
-        else:
-            result.append( arg1 )
-            result.append( arg2 )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  makeUnion
-#//
-#//******************************************************************************
-
-def makeUnion( arg1, arg2 ):
-    list1 = isinstance( arg1, list )
-    list2 = isinstance( arg2, list )
-
-    result = list( )
-
-    if list1:
-        result.extend( arg1 )
-
-        if list2:
-            result.extend( arg2 )
-        else:
-            result.append( arg2 )
-    else:
-        result.append( arg1 )
-
-        if list2:
-            result.extend( arg2 )
-        else:
-            result.append( arg2 )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  makeIntersection
-#//
-#//******************************************************************************
-
-def makeIntersection( arg1, arg2 ):
-    list1 = isinstance( arg1, list )
-    list2 = isinstance( arg2, list )
-
-    result = list( )
-
-    if list1:
-        if list2:
-            for i in arg1:
-                if i in arg2:
-                    result.append( i )
-        else:
-            if arg2 in arg1:
-                result.append( arg2 )
-    else:
-        if list2:
-            if arg1 in arg2:
-                result.append( arg1 )
-        else:
-            if arg1 == arg2:
-                result.append( arg1 )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  getIndexOfMax
-#//
-#//******************************************************************************
-
-def getIndexOfMax( arg ):
-    maximum = -inf
-    index = -1
-
-    for i in range( 0, len( arg ) ):
-        if arg[ i ] > maximum:
-            maximum = arg[ i ]
-            index = i
-
-    return index
-
-
-#//******************************************************************************
-#//
-#//  getIndexOfMin
-#//
-#//******************************************************************************
-
-def getIndexOfMin( arg ):
-    minimum = inf
-    index = -1
-
-    for i in range( 0, len( arg ) ):
-        if arg[ i ] < minimum:
-            minimum = arg[ i ]
-            index = i
-
-    return index
-
-
-#//******************************************************************************
-#//
 #//  unlist
 #//
 #//******************************************************************************
@@ -1453,16 +1144,57 @@ def flatten( valueList ):
 
 #//******************************************************************************
 #//
-#//  getListElement
+#//  getPrevious
 #//
 #//******************************************************************************
 
-def getListElement( arg, index ):
-    if isinstance( arg, list ):
-        return arg[ int( index ) ]
-    else:
-        return arg
-        # TODO: throw exception if index > 0
+def getPrevious( valueList ):
+    valueList.append( valueList[ -1 ] )
+
+
+#//******************************************************************************
+#//
+#//  duplicateTerm
+#//
+#//******************************************************************************
+
+def duplicateTerm( valueList ):
+    count = valueList.pop( )
+    value = valueList.pop( )
+
+    for i in range( 0, int( count ) ):
+        if isinstance( value, list ):
+            for i in value:
+                valueList.append( i )
+        else:
+            valueList.append( value )
+
+
+#//******************************************************************************
+#//
+#//  loadResult
+#//
+#//******************************************************************************
+
+def loadResult( valueList ):
+    try:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
+            result = pickle.load( pickleFile )
+    except FileNotFoundError:
+        result = mapmathify( 0 )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  saveResult
+#//
+#//******************************************************************************
+
+def saveResult( result ):
+    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'wb' ) ) as pickleFile:
+        pickle.dump( result, pickleFile )
 
 
 #//******************************************************************************
@@ -1478,106 +1210,6 @@ def getPrimes( value, count ):
         result.append( i )
 
     return result
-
-
-#//******************************************************************************
-#//
-#//  countElements
-#//
-#//******************************************************************************
-
-def countElements( args ):
-    result = [ ]
-
-    if isinstance( args[ 0 ], list ):
-        for i in range( 0, len( args ) ):
-            result.append( countElements( args[ i ] ) )
-
-        return result
-    else:
-        return len( args )
-
-
-#//******************************************************************************
-#//
-#//  getListDiffs
-#//
-#//******************************************************************************
-
-def getListDiffs( args ):
-    result = [ ]
-
-    for i in range( 0, len( args ) ):
-        if isinstance( args[ i ], list ):
-            result.append( getListDiffs( args[ i ] ) )
-        else:
-            if i < len( args ) - 1:
-                result.append( fsub( args[ i + 1 ], args[ i ] ) )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  getUniqueElements
-#//
-#//******************************************************************************
-
-def getUniqueElements( args ):
-    result = [ ]
-
-    if isinstance( args[ 0 ], list ):
-        for i in range( 0, len( args ) ):
-            result.append( getUniqueElements( args[ i ] ) )
-
-    else:
-        seen = set( )
-
-        for i in range( 0, len( args ) ):
-            seen.add( args[ i ] )
-
-        result = [ ]
-
-        for i in seen:
-            result.append( i )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  sortAscending
-#//
-#//******************************************************************************
-
-def sortAscending( args ):
-    result = [ ]
-
-    if isinstance( args[ 0 ], list ):
-        for i in range( 0, len( args ) ):
-            result.append( sorted( args[ i ] ) )
-
-        return result
-    else:
-        return sorted( args )
-
-
-#//******************************************************************************
-#//
-#//  sortDescending
-#//
-#//******************************************************************************
-
-def sortDescending( args ):
-    result = [ ]
-
-    if isinstance( args[ 0 ], list ):
-        for i in range( 0, len( args ) ):
-            result.append( sorted( args[ i ], reverse=True ) )
-
-        return result
-    else:
-        return sorted( args, reverse=True )
 
 
 #//******************************************************************************
