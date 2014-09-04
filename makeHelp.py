@@ -164,6 +164,7 @@ Arguments:
 
     c:\>rpn [ 1 2 3 ] [ 4 5 6 ] polyval
     [ 27, 38, 51 ]
+
 ''',
 'input' :
 '''
@@ -449,7 +450,11 @@ Calculations with lists:
         c:\>rpn 1 1000 range pent 1 1732 range tri intersection pent?
         [ 1, 12, 165 ]
 
-    The first, 12th, and 165th.
+    The first, 12th, and 165th pentagonal numbers are also triangular.
+
+    Calculate the first 10 Fibonacci numbers without using the 'fib' operator:
+        c:\>rpn [ 1 1 ] 1 1 10 range linearrecur
+        [ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 ]
 
 Calculations with absolute time:
 
@@ -1696,7 +1701,7 @@ Note:  Not sure why the rounding error is so large.
 '''
 ''' ],
     'linearrecur' : [
-'arithmetic', 'calculates the nth value of a linear recurrence specified by a list of seeds and of factors'
+'number_theory', 'calculates the nth value of a linear recurrence specified by a list of seeds and of factors'
 '''
 ''',
 '''
