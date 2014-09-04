@@ -165,7 +165,7 @@ def getJulianWeekFromDate( date ):
 #//
 #//  calculateNthWeekdayOfYear
 #//
-#//  Monday = 0, etc., as per arrow, nth == -1 for last
+#//  Monday = 1, etc., as per arrow, nth == -1 for last
 #//
 #//******************************************************************************
 
@@ -175,7 +175,7 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
     else:
         year = int( year )
 
-    firstDay = arrow.Arrow( year, 1, 1 ).weekday( )
+    firstDay = arrow.Arrow( year, 1, 1 ).isoweekday( )
 
 #    if nth == -1:
 #        day = ( weekday - firstDay ) + 1 + 28
@@ -183,7 +183,7 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
 #        if day <= getLastDayOfMonth( year, month ) - 7:
 #            day += 7
 #    else:
-#        day = ( weekday - firstDay ) + 1 + nth * 7
+#        day = ( weekday - firstDay ) + nth * 7
 #
 #        if weekday >= firstDay:
 #            day -= 7
@@ -205,15 +205,15 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
     else:
         year = int( year )
 
-    firstDay = arrow.Arrow( year, month, 1 ).weekday( )
+    firstDay = arrow.Arrow( year, month, 1 ).isoweekday( )
 
     if nth == -1:
-        day = ( weekday - firstDay ) + 1 + 28
+        day = ( weekday - firstDay ) + 28
 
         if day <= getLastDayOfMonth( year, month ) - 7:
             day += 7
     else:
-        day = ( weekday - firstDay ) + 1 + nth * 7
+        day = ( weekday - firstDay ) + nth * 7
 
         if weekday >= firstDay:
             day -= 7
