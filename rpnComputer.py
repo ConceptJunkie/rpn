@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+from mpmath import *
+
+from rpnUtils import *
+
+import rpnGlobals as g
+
+
 #//******************************************************************************
 #//
 #//  getInvertedBits

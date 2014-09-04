@@ -961,7 +961,7 @@ def getNthSexyQuadruplet( arg ):
 #//******************************************************************************
 
 def getNthSexyQuadrupletList( arg ):
-    p = getNthSexyQuadrupletPrime( arg )
+    p = getNthSexyQuadruplet( arg )
     return [ p, fadd( p, 6 ), fadd( p, 12 ), fadd( p, 18 ) ]
 
 

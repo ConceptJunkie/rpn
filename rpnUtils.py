@@ -1798,3 +1798,28 @@ callers = [
 ]
 
 
+#//******************************************************************************
+#//
+#//  convertUnits
+#//
+#//******************************************************************************
+
+def convertUnits( unit1, unit2 ):
+    if not isinstance( unit1, Measurement ):
+        raise ValueError( 'cannot convert non-measurements' )
+
+    if isinstance( unit2, list ):
+        return unit1.convertValue( unit2 )
+    elif isinstance( unit2, str ):
+        measurement = Measurement( 1, { unit2 : 1 } )
+
+        return Measurement( unit1.convertValue( measurement ), unit2 )
+    else:
+        debugPrint( 'convertUnits' )
+        debugPrint( 'unit1:', unit1.getTypes( ) )
+        debugPrint( 'unit2:', unit2.getTypes( ) )
+
+        return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
+                            unit2.getUnitName( ), unit2.getPluralUnitName( ) )
+
+

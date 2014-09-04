@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 
+import itertools
+
+from fractions import Fraction
+from functools import reduce
+from mpmath import *
+
+from rpnDeclarations import *
+
+
 #//******************************************************************************
 #//
 #//  getNthAlternatingFactorial

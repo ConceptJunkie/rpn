@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+from mpmath import *
+
+from rpnNumberTheory import *
+
+
 #//******************************************************************************
 #//
 #//  getNthPolygonalNumber

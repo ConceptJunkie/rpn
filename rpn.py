@@ -38,8 +38,7 @@
 
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 
-# Ash Wednesday is 6 weeks and 4 days before Easter
-
+# http://rhodesmill.org/pyephem/quick.html#dates
 
 #//******************************************************************************
 #//
@@ -61,7 +60,6 @@ import struct
 import sys
 import time
 
-from functools import reduce
 from mpmath import *
 from random import randrange
 
@@ -1294,31 +1292,6 @@ def convertToDMS( n ):
 
 #//******************************************************************************
 #//
-#//  convertUnits
-#//
-#//******************************************************************************
-
-def convertUnits( unit1, unit2 ):
-    if not isinstance( unit1, Measurement ):
-        raise ValueError( 'cannot convert non-measurements' )
-
-    if isinstance( unit2, list ):
-        return unit1.convertValue( unit2 )
-    elif isinstance( unit2, str ):
-        measurement = Measurement( 1, { unit2 : 1 } )
-
-        return Measurement( unit1.convertValue( measurement ), unit2 )
-    else:
-        debugPrint( 'convertUnits' )
-        debugPrint( 'unit1:', unit1.getTypes( ) )
-        debugPrint( 'unit2:', unit2.getTypes( ) )
-
-        return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
-                            unit2.getUnitName( ), unit2.getPluralUnitName( ) )
-
-
-#//******************************************************************************
-#//
 #//  modifiers are operators that directly modify the argument stack instead of
 #//  just returning a value.
 #//
@@ -1420,6 +1393,7 @@ operators = {
     'aperynum'          : OperatorInfo( getNthAperyNumber, 1 ),
     'asec'              : OperatorInfo( lambda n: performTrigOperation( n, asec ), 1 ),
     'asech'             : OperatorInfo( lambda n: performTrigOperation( n, asech ), 1 ),
+    'ash_wednesday'     : OperatorInfo( calculateAshWednesday, 1 ),
     'asin'              : OperatorInfo( lambda n: performTrigOperation( n, asin ), 1 ),
     'asinh'             : OperatorInfo( lambda n: performTrigOperation( n, asinh ), 1 ),
     'atan'              : OperatorInfo( lambda n: performTrigOperation( n, atan ), 1 ),
@@ -1469,9 +1443,9 @@ operators = {
     'decagonal'         : OperatorInfo( lambda n: getNthPolygonalNumber( n, 10 ), 1 ),
     'decagonal?'        : OperatorInfo( lambda n: findNthPolygonalNumber( n, 10 ), 1 ),
     'delannoy'          : OperatorInfo( getNthDelannoyNumber, 1 ),
+    'dhms'              : OperatorInfo( convertToDHMS, 1 ),
     'divide'            : OperatorInfo( divide, 2 ),
     'divisors'          : OperatorInfo( getDivisors, 1 ),
-    'dhms'              : OperatorInfo( convertToDHMS, 1 ),
     'dms'               : OperatorInfo( convertToDMS, 1 ),
     'dodecahedral'      : OperatorInfo( lambda n : polyval( [ fdiv( 9, 2 ), fdiv( -9, 2 ), 1, 0 ], n ), 1 ),
     'double'            : OperatorInfo( lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( n ) ) ) ), 1 ),
@@ -1521,8 +1495,8 @@ operators = {
     'icosahedral'       : OperatorInfo( lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n ), 1 ),
     'integer'           : OperatorInfo( convertToSignedInt, 2 ),
     'isdivisible'       : OperatorInfo( lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2 ),
-    'iso_day'           : OperatorInfo( getISODay, 1 ),
     'isolated'          : OperatorInfo( getNthIsolatedPrime, 1 ),
+    'iso_day'           : OperatorInfo( getISODay, 1 ),
     'isprime'           : OperatorInfo( lambda n: 1 if isPrime( n ) else 0, 1 ),
     'issquare'          : OperatorInfo( isSquare, 1 ),
     'itoi'              : OperatorInfo( lambda: exp( fmul( -0.5, pi ) ), 0 ),
@@ -1584,10 +1558,10 @@ operators = {
     'nspherearea'       : OperatorInfo( getNSphereSurfaceArea, 2 ),
     'nsphereradius'     : OperatorInfo( getNSphereRadius, 2 ),
     'nspherevolume'     : OperatorInfo( getNSphereVolume, 2 ),
-    'nthweekday'        : OperatorInfo( calculateNthWeekdayOfMonth , 4 ),
-    'nthweekdayofyear'  : OperatorInfo( calculateNthWeekdayOfYear, 3 ),
     'nthprime?'         : OperatorInfo( lambda i: findPrime( i )[ 0 ], 1 ),
     'nthquad?'          : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 0 ], 1 ),
+    'nthweekday'        : OperatorInfo( calculateNthWeekdayOfMonth , 4 ),
+    'nthweekdayofyear'  : OperatorInfo( calculateNthWeekdayOfYear, 3 ),
     'octagonal'         : OperatorInfo( lambda n: getNthPolygonalNumber( n, 8 ), 1 ),
     'octagonal?'        : OperatorInfo( lambda n: findNthPolygonalNumber( n, 8 ), 1 ),
     'octahedral'        : OperatorInfo( lambda n: polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], n ), 1 ),
@@ -1707,8 +1681,8 @@ operators = {
     'ushort'            : OperatorInfo( lambda n: int( fmod( n, power( 2, 16 ) ) ), 1 ),
     'weekday'           : OperatorInfo( getWeekday, 1, ),
     'xor'               : OperatorInfo( lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ),
-    'year_calendar'     : OperatorInfo( generateYearCalendar, 1 ),
     'ydhms'             : OperatorInfo( convertToYDHMS, 1 ),
+    'year_calendar'     : OperatorInfo( generateYearCalendar, 1 ),
     'zeta'              : OperatorInfo( zeta, 1 ),
     '_dumpalias'        : OperatorInfo( dumpAliases, 0 ),
     '_dumpops'          : OperatorInfo( dumpOperators, 0 ),
@@ -2008,16 +1982,8 @@ def rpn( cmd_args ):
                 else:
                     break
 
-            except ValueError as error:
-                print( 'rpn:  value error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-
-            except TypeError as error:
-                print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            except ( ValueError, AttributeError, TypeError ) as error:
+                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 
                 if g.debugMode:
                     raise
@@ -2065,16 +2031,8 @@ def rpn( cmd_args ):
                 else:
                     break
 
-            except ValueError as error:
-                print( 'rpn:  value error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-
-            except TypeError as error:
-                print( 'rpn:  type error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+            except ( ValueError, TypeError, AttributeError ) as error:
+                print( 'rpn:  error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 
                 if g.debugMode:
                     raise

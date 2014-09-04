@@ -824,6 +824,12 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
 ''' ],
+    'ash_wednesday' : [
+'time', 'calculates the date of Ash Wednesday for the year specified',
+'''
+''',
+'''
+''' ],
     'atan' : [
 'trigonometry', 'calculates the arctangent of n',
 '''
@@ -2970,7 +2976,7 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'unpack' : [
-'conversion', 'unpacks an integer value into bit fields',
+'conversion', 'unpacks an integer value n into bit fields k',
 '''
 ''',
 '''
