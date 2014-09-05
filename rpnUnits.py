@@ -472,25 +472,7 @@ unitOperators = {
         UnitInfo( 'constant', 'half', 'halves', '', [ ], [ 'constant' ] ),
 
     'unity' :
-        UnitInfo( 'constant', 'unity', 'x unity', '', [ 'one', 'monday', 'mon' ], [ 'constant' ] ),
-
-    'two' :
-        UnitInfo( 'constant', 'two', 'twos', '', [ 'pair', 'tuesday', 'tues', 'tue' ], [ 'constant' ] ),
-
-    'three' :
-        UnitInfo( 'constant', 'three', 'threes', '', [ 'wednesday', 'wed' ], [ 'constant' ] ),
-
-    'four' :
-        UnitInfo( 'constant', 'four', 'fours', '', [ 'thursday', 'thurs', 'thur' ], [ 'constant' ] ),
-
-    'five' :
-        UnitInfo( 'constant', 'five', 'fives', '', [ 'friday', 'fri' ], [ 'constant' ] ),
-
-    'six' :
-        UnitInfo( 'constant', 'six', 'sixes', '', [ 'saturday', 'sat' ], [ 'constant' ] ),
-
-    'seven' :
-        UnitInfo( 'constant', 'seven', 'sevens', '', [ 'sunday', 'sun' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'unity', 'x unity', '', [ ], [ 'constant' ] ),
 
     'ten' :
         UnitInfo( 'constant', 'ten', 'tens', '', [ 'deca', 'deka' ], [ 'constant' ] ),
@@ -2017,7 +1999,6 @@ unitConversionMatrix = {
     ( 'fingerbreadth',         'inch' )                                 : mpmathify( '0.75' ),
     ( 'firkin',                'gallon' )                               : mpmathify( '9' ),
     ( 'firkin',                'pin' )                                  : mpmathify( '2' ),
-    ( 'five',                  'unity' )                                : mpmathify( '5' ),
     ( 'fluid_ounce',           'dram' )                                 : mpmathify( '8' ),
     ( 'fluid_ounce',           'tablespoon' )                           : mpmathify( '2' ),
     ( 'foot',                  'inch' )                                 : mpmathify( '12' ),
@@ -2026,7 +2007,6 @@ unitConversionMatrix = {
     ( 'footlambert',           'candela/meter^2' )                      : mpmathify( '3.42625909963539052691' ),  # 1/pi cd/ft^2
     ( 'fortnight',             'day' )                                  : mpmathify( '14' ),
     ( 'fortnight',             'microfortnight' )                       : mpmathify( '1.0e6' ),
-    ( 'four',                  'unity' )                                : mpmathify( '4' ),
     ( 'furlong',               'yard' )                                 : mpmathify( '220' ),
     ( 'gallon',                'fifth' )                                : mpmathify( '5' ),
     ( 'gallon',                'quart' )                                : mpmathify( '4' ),
@@ -2223,7 +2203,6 @@ unitConversionMatrix = {
     ( 'siemens',               'kilogram-meter^2/second^3-ampere^2' )   : mpmathify( '1' ),
     ( 'sievert',               'rem' )                                  : mpmathify( '100' ),
     ( 'siriometer',            'astronomical_unit' )                    : mpmathify( '1.0e6' ),
-    ( 'six',                   'unity' )                                : mpmathify( '6' ),
     ( 'skot',                  'bril' )                                 : mpmathify( '1.0e4' ),
     ( 'skot',                  'lambert' )                              : mpmathify( '1.0e7' ),
     ( 'slug',                  'pound' )                                : mpmathify( '32.174048556' ),
@@ -2270,7 +2249,6 @@ unitConversionMatrix = {
     ( 'tesla',                 'kilogram/ampere-second^2' )             : mpmathify( '1' ),
     ( 'tesla',                 'weber/meter^2' )                        : mpmathify( '1' ),
     ( 'thousand',              'unity' )                                : mpmathify( '100' ),
-    ( 'three',                 'unity' )                                : mpmathify( '3' ),
     ( 'ton',                   'pound' )                                : mpmathify( '2000' ),
     ( 'tonne',                 'gram' )                                 : mpmathify( '1.0e6' ),
     ( 'ton_of_TNT',            'joule' )                                : mpmathify( '4.184e9' ),
@@ -2283,7 +2261,6 @@ unitConversionMatrix = {
     ( 'troy_ounce',            'gram' )                                 : mpmathify( '31.1034768' ),
     ( 'troy_pound',            'pound' )                                : mpmathify( '12' ),
     ( 'tryte',                 'trit' )                                 : mpmathify( '6' ),   # as defined by the Setun computer
-    ( 'two',                   'unity' )                                : mpmathify( '2' ),
     ( 'undecillion',           'unity' )                                : mpmathify( '1.0e36' ),
     ( 'unity',                 'billionth' )                            : mpmathify( '1.0e9' ),
     ( 'unity',                 'decillionth' )                          : mpmathify( '1.0e33' ),

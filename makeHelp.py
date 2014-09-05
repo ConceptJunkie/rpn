@@ -1955,6 +1955,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'monday' : [
+'constants', 'returns 1, which is the code for Monday',
+'''
+''',
+'''
+''' ],
     'motzkin' : [
 'combinatorics', 'calculates the nth Motzkin number',
 '''
@@ -2918,6 +2924,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''',
 '''
 ''' ],
+    'tuesday' : [
+'constants', 'returns 2, which is the code for Tuesday',
+'''
+''',
+'''
+''' ],
     'twinprime' : [
 'prime_numbers', 'returns the first of the nth set of twin primes',
 '''
@@ -3364,6 +3376,110 @@ _maketwin start end interval
 #   'antitet' : [ findTetrahedralNumber, 1 ],
 #   'bernfrac' : [ bernfrac, 1 ],
 #   'powmod' : [ getPowMod, 3 ],
+    'wednesday' : [
+'constants', 'returns 3, which is the code for Wednesday',
+'''
+''',
+'''
+''' ],
+    'thursday' : [
+'constants', 'returns 4, which is the code for Thursday',
+'''
+''',
+'''
+''' ],
+    'friday' : [
+'constants', 'returns 5, which is the code for Friday',
+'''
+''',
+'''
+''' ],
+    'saturday' : [
+'constants', 'returns 6, which is the code for Saturday',
+'''
+''',
+'''
+''' ],
+    'sunday' : [
+'constants', 'returns 7, which is the code for Sunday',
+'''
+''',
+'''
+''' ],
+    'january' : [
+'constants', 'returns 1, which is the code for January',
+'''
+''',
+'''
+''' ],
+    'february' : [
+'constants', 'returns 2, which is the code for February',
+'''
+''',
+'''
+''' ],
+    'march' : [
+'constants', 'returns 3, which is the code for March',
+'''
+''',
+'''
+''' ],
+    'april' : [
+'constants', 'returns 4, which is the code for April',
+'''
+''',
+'''
+''' ],
+    'may' : [
+'constants', 'returns 5, which is the code for May',
+'''
+''',
+'''
+''' ],
+    'june' : [
+'constants', 'returns 6, which is the code for June',
+'''
+''',
+'''
+''' ],
+    'july' : [
+'constants', 'returns 7, which is the code for July',
+'''
+''',
+'''
+''' ],
+    'august' : [
+'constants', 'returns 8, which is the code for August',
+'''
+''',
+'''
+''' ],
+    'september' : [
+'constants', 'returns 9, which is the code for September',
+'''
+''',
+'''
+''' ],
+    'october' : [
+'constants', 'returns 10, which is the code for October',
+'''
+''',
+'''
+''' ],
+    'november' : [
+'constants', 'returns 11, which is the code for November',
+'''
+''',
+'''
+''' ],
+    'december' : [
+'constants', 'returns 12, which is the code for December',
+'''
+''',
+'''
+''' ],
+
+
 }
 
 
