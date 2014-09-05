@@ -1746,6 +1746,7 @@ metricUnits = [
     ( 'ampere',             'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
     ( 'ampere-second',      'ampere-seconds',   'As',   [ 'amp-second' ], [ 'amp-seconds' ] ),
     ( 'are',                'ares',             'a',    [ ], [ ] ),
+    ( 'bar',                'bars',             'bar',  [ ], [ ] ),
     ( 'barn',               'barns',            'bn',   [ ], [ ] ),     # 'bn' is not standard
     ( 'becquerel',          'becquerels',       'Bq',   [ ], [ ] ),
     ( 'blintz',             'blintzes',         'bl',   [ ], [ ] ),
