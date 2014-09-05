@@ -72,6 +72,7 @@ from random import randrange
 
 from rpnCombinatorics import *
 from rpnComputer import *
+from rpnConstants import *
 from rpnDeclarations import *
 from rpnList import *
 from rpnNumberTheory import *
@@ -477,77 +478,6 @@ def getPrimorial( n ):
         result = fmul( result, getNthPrime( i + 1 ) )
 
     return result
-
-
-#//******************************************************************************
-#//
-#//  getPlasticConstant
-#//
-#//******************************************************************************
-
-def getPlasticConstant( ):
-    term = fmul( 12, sqrt( 69 ) )
-    return fdiv( fadd( cbrt( fadd( 108, term ) ), cbrt( fsub( 108, term ) ) ), 6 )
-
-
-#//******************************************************************************
-#//
-#//  getMillsConstant
-#//
-#//  http://primes.utm.edu/glossary/page.php?sort=MillsConstant
-#//
-#//******************************************************************************
-
-def getMillsConstant( ):
-    mills = "1.3063778838 6308069046 8614492602 6057129167 8458515671 3644368053 " \
-            "7599664340 5376682659 8821501403 7011973957 0729696093 8103086882 " \
-            "2388614478 1635348688 7133922146 1943534578 7110033188 1405093575 " \
-            "3558319326 4801721383 2361522359 0622186016 1085667905 7215197976 " \
-            "0951619929 5279707992 5631721527 8412371307 6584911245 6317518426 " \
-            "3310565215 3513186684 1550790793 7238592335 2208421842 0405320517 " \
-            "6890260257 9344300869 5290636205 6989687262 1227499787 6664385157 " \
-            "6619143877 2844982077 5905648255 6091500412 3788524793 6260880466 " \
-            "8815406437 4425340131 0736114409 4137650364 3793012676 7211713103 " \
-            "0265228386 6154666880 4874760951 4410790754 0698417260 3473107746 " \
-            "7757406400 7810935083 4214374426 5420408531"
-
-    return mpf( ''.join( [ i for i in mills if i != ' ' ] ) )
-
-
-#//******************************************************************************
-#//
-#//  getChampernowne
-#//
-#//******************************************************************************
-
-def getChampernowne( ):
-    result = ''
-
-    count = 1
-
-    while len( result ) < mp.dps:
-        result += convertToBaseN( count, g.inputRadix, False, defaultNumerals )
-        count += 1
-
-    return convertToBase10( '0', result, g.inputRadix )
-
-
-#//******************************************************************************
-#//
-#//  getCopelandErdos
-#//
-#//******************************************************************************
-
-def getCopelandErdos( ):
-    result = ''
-
-    count = 1
-
-    while len( result ) < mp.dps:
-        result += str( getNthPrime( count ) )
-        count += 1
-
-    return convertToBase10( '0', result, 10 )
 
 
 #//******************************************************************************
@@ -1121,7 +1051,7 @@ operators = {
     'cdecagonal?'       : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 10 ), 1 ),
     'ceiling'           : OperatorInfo( ceil, 1 ),
     'centeredcube'      : OperatorInfo( getNthCenteredCubeNumber, 1 ),
-    'champernowne'      : OperatorInfo( getChampernowne, 0 ),
+    'champernowne'      : OperatorInfo( getChampernowneConstant, 0 ),
     'char'              : OperatorInfo( lambda n: convertToSignedInt( n , 8 ), 1 ),
     'cheptagonal'       : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 7 ), 1 ),
     'cheptagonal?'      : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 7 ), 1 ),
@@ -1130,7 +1060,7 @@ operators = {
     'cnonagonal?'       : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 9 ), 1 ),
     'coctagonal'        : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 8 ), 1 ),
     'coctagonal?'       : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 8 ), 1 ),
-    'copeland'          : OperatorInfo( getCopelandErdos, 0 ),
+    'copeland'          : OperatorInfo( getCopelandErdosConstant, 0 ),
     'cos'               : OperatorInfo( lambda n: performTrigOperation( n, cos ), 1 ),
     'cosh'              : OperatorInfo( lambda n: performTrigOperation( n, cosh ), 1 ),
     'cot'               : OperatorInfo( lambda n: performTrigOperation( n, cot ), 1 ),
