@@ -1,5 +1,13 @@
 #!/usr/bin/env python
 
+# Conway's constant:  OEIS A014715
+# 1.30357726903429639125709911215255189073070250465940487575486139062855088785246155712681576686442522555
+
+# http://en.wikipedia.org/wiki/Universal_parabolic_constant
+
+# http://primes.utm.edu/glossary/xpage/BrunsConstant.html
+
+
 from mpmath import *
 
 

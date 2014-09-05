@@ -175,20 +175,26 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
     else:
         year = int( year )
 
-    firstDay = arrow.Arrow( year, 1, 1 ).isoweekday( )
+    if nth > 0:
+        firstDay = arrow.Arrow( year, 1, 1 )
 
-#    if nth == -1:
-#        day = ( weekday - firstDay ) + 1 + 28
-#
-#        if day <= getLastDayOfMonth( year, month ) - 7:
-#            day += 7
-#    else:
-#        day = ( weekday - firstDay ) + nth * 7
-#
-#        if weekday >= firstDay:
-#            day -= 7
-#
-#    return arrow.Arrow( year, month, day )
+        firstWeekDay = weekday - firstDay.isoweekday( ) + 1
+
+        if firstWeekDay < 1:
+            firstWeekDay += 7
+
+        return addTimes( arrow.Arrow( year, 1, firstWeekDay ), Measurement( nth - 1, 'week' ) )
+    elif nth < 0:
+        lastDay = arrow.Arrow( year, 12, 31 )
+
+        lastWeekDay = weekday - lastDay.isoweekday( )
+
+        if lastWeekDay > 0:
+            lastWeekDay -= 7
+
+        lastWeekDay += 31
+
+        return addTimes( arrow.Arrow( year, 12, lastWeekDay ), Measurement( ( nth + 1 ), 'week' ) )
 
 
 #//******************************************************************************

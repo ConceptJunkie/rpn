@@ -270,6 +270,7 @@ operatorAliases = {
     'nonzeroes'     : 'nonzero',
     'nov'           : 'november',
     'nthday'        : 'nthweekday',
+    'nthdayofyear'  : 'nthweekdayofyear',
     'oct'           : 'october',
     'octa'          : 'octagonal',
     'octa?'         : 'octagonal?',
