@@ -205,6 +205,7 @@ I also want to support taking units to integral powers, but don't yet.
 This requires implicit conversion between unit types, but doesn't work yet:
     rpn -D 16800 mA hours * 5 volts * joule convert
 
+'isolated' seems to be broken right now (as of 5.24.0).
 ''',
 'release_notes' :
 '''
@@ -341,7 +342,6 @@ election_day, labor_day, memorial_day, nthday, presidents_day, thanksgiving
 
 Added Julian date operators, ISO date operators, calendar operators and the
 'ash_wednesday' operator.
-
 ''',
 'license' :
 '''
@@ -1868,6 +1868,21 @@ Note:  Not sure why the rounding error is so large.
     'million' : [
 'constants', 'returns the constant one million (i.e., 1.0e6, or 1,000,000)',
 '''
+''',
+'''
+''' ],
+    'mills' : [
+'constants', 'returns the Mills constant',
+'''
+from http://primes.utm.edu/glossary/page.php?sort=MillsConstant:
+
+In the late forties Mills proved that there was a real number A > 1 for which
+A ^ 3 ^ n is always a prime (n = 1,2,3,...).  He proved existence only, and did
+not attempt to find such an A.  Later others proved that there are uncountably
+many choices for A, but again gave no value for A. It is still not yet possible
+to calculate a proven value for A, but if you are willing to accept the Riemann
+Hypothesis, then the least possible value for Mills' constant (usually called
+"the Mills Constant") [is this].
 ''',
 '''
 ''' ],
