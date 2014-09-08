@@ -181,7 +181,7 @@ Arguments:
 '''
     [ TODO: describe output formats supported by rpn ]
 ''',
-'conversion' :
+'unit_conversion' :
 '''
     [ TODO: describe unit conversions in rpn ]
 ''',
