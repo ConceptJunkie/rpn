@@ -46,6 +46,14 @@
 
 # https://github.com/cmcginty/PyWeather/tree/master/weather/units
 
+# https://en.wikipedia.org/wiki/Boltzmann_constant
+
+# https://en.wikipedia.org/wiki/Gas_constant
+
+# Schwarzschild Radius - Hmmm... operators that turn one kind of unit into another (e.g., mass -> length)
+
+# The Hubble Constant
+
 
 #//******************************************************************************
 #//
