@@ -201,7 +201,8 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
 #//
 #//  calculateNthWeekdayOfMonth
 #//
-#//  Monday = 0, etc., as per arrow, nth == -1 for last
+#//  Monday = 0, etc., as per arrow, negative nth counts backwards from last
+#// ( -1 == last. -2 == next to last, etc.)
 #//
 #//******************************************************************************
 
@@ -213,13 +214,15 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
 
     firstDay = arrow.Arrow( year, month, 1 ).isoweekday( )
 
-    if nth == -1:
+    if nth < 0:
         day = ( weekday - firstDay ) + 28
 
         if day <= getLastDayOfMonth( year, month ) - 7:
             day += 7
+
+        day += ( nth + 1 ) * 7
     else:
-        day = ( weekday - firstDay ) + nth * 7
+        day = ( weekday - firstDay + 1 ) + nth * 7
 
         if weekday >= firstDay:
             day -= 7
@@ -241,7 +244,7 @@ def calculateThanksgiving( year ):
     else:
         year = int( year )
 
-    return calculateNthWeekdayOfMonth ( year, 11, 4, 3 )
+    return calculateNthWeekdayOfMonth( year, 11, 4, 4 )
 
 
 #//******************************************************************************
@@ -258,7 +261,7 @@ def calculateLaborDay( year ):
     else:
         year = int( year )
 
-    return calculateNthWeekdayOfMonth ( year, 9, 1, 0 )
+    return calculateNthWeekdayOfMonth( year, 9, 1, 1 )
 
 
 #//******************************************************************************
@@ -275,7 +278,7 @@ def calculateElectionDay( year ):
     else:
         year = int( year )
 
-    result = calculateNthWeekdayOfMonth ( year, 11, 1, 0 )
+    result = calculateNthWeekdayOfMonth( year, 11, 1, 1 )
     return result.replace( day = result.day + 1 )
 
 
@@ -293,7 +296,7 @@ def calculateMemorialDay( year ):
     else:
         year = int( year )
 
-    return calculateNthWeekdayOfMonth ( year, 5, -1, 0 )
+    return calculateNthWeekdayOfMonth( year, 5, -1, 1 )
 
 
 #//******************************************************************************
@@ -310,7 +313,7 @@ def calculatePresidentsDay( year ):
     else:
         year = int( year )
 
-    return calculateNthWeekdayOfMonth ( year, 2, 3, 0 )
+    return calculateNthWeekdayOfMonth( year, 2, 3, 1 )
 
 
 #//******************************************************************************
@@ -328,11 +331,11 @@ def calculateDSTStart( year ):
         year = int( year )
 
     if year >= 2007:
-        return calculateNthWeekdayOfMonth ( year, 3, 2, 6 )
+        return calculateNthWeekdayOfMonth( year, 3, 2, 7 )
     elif year == 1974:
-        return arrow.Arrow( 1974, 1, 6 )
+        return arrow.Arrow( 1974, 1, 7 )
     elif year >= 1967:
-        return calculateNthWeekdayOfMonth ( year, 4, 1, 6 )
+        return calculateNthWeekdayOfMonth( year, 4, 1, 7 )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
 
@@ -352,11 +355,11 @@ def calculateDSTEnd( year ):
         year = int( year )
 
     if year >= 2007:
-        return calculateNthWeekdayOfMonth ( year, 11, 1, 6 )
+        return calculateNthWeekdayOfMonth( year, 11, 1, 7 )
     elif year == 1974:
         return arrow.Arrow( 1974, 12, 31 )   # technically DST never ended in 1974
     elif year >= 1967:
-        return calculateNthWeekdayOfMonth ( year, 10, -1, 6 )
+        return calculateNthWeekdayOfMonth( year, 10, -1, 7 )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
 
