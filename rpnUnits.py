@@ -1207,7 +1207,7 @@ unitOperators = {
         UnitInfo( 'power', 'newton*meter/second', 'newton*meter/second', 'N*m/s', [ ], [ 'SI' ] ),
 
     'pferdestarke' :
-        UnitInfo( 'power', 'pferdestarke', 'pferdestarke', 'pf', [ ], [ 'obsolete', 'Germany' ] ),
+        UnitInfo( 'power', 'pferdestarke', 'pferdestarke', '', [ ], [ 'obsolete', 'Germany' ] ),
 
     'planck_power' :
         UnitInfo( 'power', 'planck_power', 'planck_power', '', [ ], [ 'natural', 'science' ] ),
