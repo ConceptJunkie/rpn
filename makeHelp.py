@@ -666,6 +666,36 @@ a level sufficient to guarantee a correct answer.
 
 Bitwise operators force all arguments to integers by truncation if necessary.
 '''
+'metric' :
+'''
+SI Prefixes:
+
+    Prefix      Abbreviation    Factor
+
+    yotta            Y          10^24
+    zetta',          Z          10^21
+    exa',            E          10^18
+    peta',           P          10^15
+    tera',           T          10^12
+    giga',           G          10^9
+    mega',           M          10^6
+    kilo',           k          10^3
+    hecto',          h          10^2
+    deca',           da         10^1
+    deci',           d          10^-1
+    centi',          c          10^-2
+    milli',          m          10^-3
+    micro',          u *        10^-6
+    nano',           n          10^-9
+    pico',           p          10^-12
+    femto',          f          10^-15
+    atto',           a          10^-18
+    zepto',          z          10^-21
+    yocto',          y          10^-24
+
+    * Greek mu
+
+''',
 }
 
 
