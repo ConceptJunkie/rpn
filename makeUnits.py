@@ -289,13 +289,16 @@ def makeAreaOperator( unit, unitPlural ):
         abbrev = 'sq' + unit
     else:
         abbrev = 'sq' + unitInfo.abbrev
+        newAliases[ 'sq_' + unit ] = newUnit
         newAliases[ 'sq' + unitInfo.abbrev ] = newUnit
+        newAliases[ 'sq_' + unitInfo.abbrev ] = newUnit
 
     newUnitInfo = UnitInfo( 'area', unit + '^2', 'square_' + unitPlural, abbrev, [ ], unitInfo.categories )
 
     newAliases[ 'square_' + unitInfo.plural ] = newUnit
     newAliases[ 'square_' + unitInfo.abbrev ] = newUnit
     newAliases[ 'sq' + unitInfo.plural ] = newUnit
+    newAliases[ 'sq_' + unitInfo.plural ] = newUnit
     newAliases[ unit + '^2' ] = newUnit
     newAliases[ unitInfo.plural + '^2' ] = newUnit
 
@@ -319,13 +322,16 @@ def makeVolumeOperator( unit, unitPlural ):
         abbrev = 'cu' + unit
     else:
         abbrev = 'cu' + unitInfo.abbrev
+        newAliases[ 'cu_' + unit ] = newUnit
         newAliases[ 'cu' + unitInfo.abbrev ] = newUnit
+        newAliases[ 'cu_' + unitInfo.abbrev ] = newUnit
 
     newUnitInfo = UnitInfo( 'volume', unit + '^3', 'cubic_' + unitPlural, abbrev, [ ], unitInfo.categories )
 
     newAliases[ 'cubic_' + unitInfo.plural ] = newUnit
     newAliases[ 'cubic_' + unitInfo.abbrev ] = newUnit
     newAliases[ 'cu' + unitInfo.plural ] = newUnit
+    newAliases[ 'cu_' + unitInfo.plural ] = newUnit
     newAliases[ unit + '^3' ] = newUnit
     newAliases[ unitInfo.plural + '^3' ] = newUnit
 
