@@ -437,10 +437,15 @@ densityTable = {
 #//
 #//  pascal-second: description
 #//
+#//  http://en.wikipedia.org/wiki/Viscosity
+#//
 #//******************************************************************************
 
 dynamicViscosityTable = {
-    mpf( '0.001002' )   : 'the dynamic viscosity of water at 20 degrees C',
+    mpf( '1.827e-5' )   : 'the dynamic viscosity of air at 18 degrees C',
+    mpf( '2.822e-4' )   : 'the dynamic viscosity of water at 100 degrees C',
+    mpf( '1.002e-3' )   : 'the dynamic viscosity of water at 20 degrees C',
+    mpf( '2.3e6' )      : 'the approximate viscosity of pitch',
 }
 
 
