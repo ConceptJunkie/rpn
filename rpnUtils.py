@@ -663,7 +663,6 @@ class Measurement( mpf ):
             if unit2String in operatorAliases:
                 unit2String = operatorAliases[ unit2String ]
 
-
             debugPrint( 'unit1String: ', unit1String )
             debugPrint( 'unit2String: ', unit2String )
 

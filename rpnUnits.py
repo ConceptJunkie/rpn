@@ -704,7 +704,7 @@ unitOperators = {
         UnitInfo( 'energy', 'gram-equivalent', 'grams-equivalent', 'gE', [ 'gram-energy', 'grams-energy', 'gramme-equivalent', 'grammes-equivalent',  'gramme-energy', 'grammes-energy' ], [ 'natural' ] ),
 
     'hartree' :
-        UnitInfo( 'energy', 'hartree', 'hartrees', 'Ha', [ ], [ 'science' ] ),
+        UnitInfo( 'energy', 'hartree', 'hartrees', 'Eh', [ ], [ 'science' ] ),
 
     'horsepower-second' :
         UnitInfo( 'energy', 'horsepower*second', 'horsepower-seconds', 'hps', [ ], [ 'US' ] ),

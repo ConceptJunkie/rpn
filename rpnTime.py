@@ -491,7 +491,25 @@ def makeJulianTime( n ):
 #//******************************************************************************
 
 def makeISOTime( n ):
-    return arrow.Arrow( 1970, 1, 1 )
+    if len( n ) == 1:
+        year = n[ 0 ]
+        week = 1
+        day = 1
+    elif len( n ) == 2:
+        year = n[ 0 ]
+        week = n[ 1 ]
+        day = 1
+    else:
+        year = n[ 0 ]
+        week = n[ 1 ]
+        day = n[ 2 ]
+
+    result = datetime.datetime.strptime( '%04d-%02d-%1d' % ( year, week, day ), '%Y-%W-%w' )
+
+    if arrow.Arrow( year, 1, 4 ).isoweekday( ) > 4:
+        result -= datetime.timedelta( days=7 )
+
+    return result
 
 
 #//******************************************************************************
