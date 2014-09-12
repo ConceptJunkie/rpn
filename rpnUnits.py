@@ -93,6 +93,12 @@ basicUnitTypes = {
         densityTable,
     ),
 
+    'dynamic_viscosity' : UnitTypeInfo(
+        [ 'pressure*time' ],
+        'pascal*second',
+        dynamicViscosityTable,
+    ),
+
     'electrical_conductance' : UnitTypeInfo(
         [ 'current^2/energy*time', 'current/electric_potential' ],
         'mho',
@@ -593,6 +599,17 @@ unitOperators = {
 
     'density_of_water' :
         UnitInfo( 'density', 'x density_of_water', 'x density_of_water', '', [ 'water' ], [ 'natural' ] ),
+
+    # dynamic_viscosity
+
+    'newton-second/meter^2' :
+        UnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', 'Ns/m^2', [ ], [ 'CGS' ] ),
+
+    'pascal-second' :
+        UnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal*second', 'Pas', [ ], [ 'SI' ] ),
+
+    'poise' :
+        UnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal*second', '', [ ], [ 'CGS' ] ),
 
     # electric_potential
 
@@ -1803,6 +1820,7 @@ metricUnits = [
     ( 'ohm',                'ohms',             'O',    [ ], [ ] ),
     ( 'parsec',             'parsecs',          'pc',   [ ], [ ] ),
     ( 'pascal',             'pascals',          'Pa',   [ ], [ ] ),
+    ( 'pascal-second',      'pascal-seconds',   'Pas',  [ ], [ ] ),
     ( 'pond',               'ponds',            'pond', [ ], [ ] ),     # 'p' is used for 'pico'
     ( 'potrzebie',          'potrzebies',       'pz',   [ ], [ ] ),
     ( 'rem',                'rems',             'rem',  [ ], [ ] ),
@@ -2147,6 +2165,7 @@ unitConversionMatrix = {
     ( 'nautical_mile',         'meter' )                                : mpmathify( '1852' ),
     ( 'nebuchadnezzar',        'liter' )                                : mpmathify( '15.0' ),
     ( 'newton',                'dyne' )                                 : mpmathify( '1.0e5' ),
+    ( 'newton-second/meter^2', 'pascal' )                               : mpmathify( '1' ),
     ( 'newton',                'joule/meter' )                          : mpmathify( '1' ),
     ( 'newton',                'pond' )                                 : mpmathify( '101.97161298' ),
     ( 'newton',                'poundal' )                              : mpmathify( '7.233013851' ),
@@ -2182,6 +2201,7 @@ unitConversionMatrix = {
     ( 'oword',                 'bit' )                                  : mpmathify( '128' ),
     ( 'parsec',                'light-year' )                           : mpmathify( '3.261563776971' ),
     ( 'pascal',                'barye' )                                : mpmathify( '10' ),
+    ( 'pascal-second',         'poise' )                                : mpmathify( '10' ),
     ( 'peck',                  'dry_gallon' )                           : mpmathify( '2' ),
     ( 'perch',                 'foot' )                                 : mpmathify( '16.5' ),
     ( 'pferdestarke',          'watt' )                                 : mpmathify( '735.49875' ),

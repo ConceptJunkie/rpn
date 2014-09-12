@@ -433,6 +433,19 @@ densityTable = {
 
 #//******************************************************************************
 #//
+#//  dynamicViscosityTable
+#//
+#//  pascal-second: description
+#//
+#//******************************************************************************
+
+dynamicViscosityTable = {
+    mpf( '0.001002' )   : 'the dynamic viscosity of water at 20 degrees C',
+}
+
+
+#//******************************************************************************
+#//
 #//  electricalConductanceTable
 #//
 #//  mhos : description
