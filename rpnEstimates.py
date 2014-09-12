@@ -346,7 +346,7 @@ dataRateTable = {
 #//
 #//******************************************************************************
 
-dataRateTable = {
+densityTable = {
     mpf( '1.0e-24' )    : 'the density (very approximate) of the universe',
     mpf( '1.0e-19' )    : 'the probable lowest observed density of space in galactic spiral arm (1 hydrogen atom every 16 cubic centimeters)',
     mpf( '1.0e-15' )    : 'the observed density of space in core of galaxy (600 hydrogen atoms in every cubic centimetre); best vacuum from a laboratory (1 pPa)',
@@ -355,7 +355,7 @@ dataRateTable = {
     mpf( '1.0e-8' )     : 'the density at the bottom of the Solar transition region',
     mpf( '1.34e-2' )    : 'the density of Earth\'s atmosphere at 82 km altitude; star Mu Cephei\'s approximate mean density',
     mpf( '0.1' )        : 'the density of Earth\'s atmosphere at 68 km altitude',
-    mpf( '2.0e-1' )     : 'the density of the Solar photosphere–chromosphere boundary',
+    mpf( '2.0e-1' )     : 'the density of the Solar photosphere-chromosphere boundary',
     mpf( '4.0e-1' )     : 'the density of the Solar photosphere\'s lower boundary',
     mpf( '1.0' )        : 'the density achieved in a mechanical vacuum pump; the density of the Sun just below its photosphere',
     mpf( '18' )         : 'the density of Earth\'s atmosphere at 30 km altitude',
@@ -368,7 +368,7 @@ dataRateTable = {
     mpf( '1.0e4' )      : 'the lowest density of a typical aerogel',
     mpf( '1.24e4' )     : 'the density of tungsten hexafluoride, one of the heaviest known gases at standard conditions',
     mpf( '6.5e4' )      : 'the surface density of Venus\' atmosphere',
-    mpf( '7.0e4' )      : 'the density of liquid hydrogen at approximately –255 degrees C',
+    mpf( '7.0e4' )      : 'the density of liquid hydrogen at approximately -255 degrees C',
     mpf( '7.5e4' )      : 'the approximate density of styrofoam',
     mpf( '2.40e5' )     : 'the approximate density of cork',
     mpf( '5.0e5' )      : 'the highest density of a typical aerogel',

@@ -47,8 +47,11 @@
 # https://github.com/cmcginty/PyWeather/tree/master/weather/units
 
 # https://en.wikipedia.org/wiki/Boltzmann_constant
-
 # https://en.wikipedia.org/wiki/Gas_constant
+# https://en.wikipedia.org/wiki/Planck_units
+# https://en.wikipedia.org/wiki/Gravitational_constant
+# https://en.wikipedia.org/wiki/Coulomb_constant
+# https://en.wikipedia.org/wiki/Reduced_Planck_constant
 
 # Schwarzschild Radius - Hmmm... operators that turn one kind of unit into another (e.g., mass -> length)
 
@@ -1045,7 +1048,7 @@ operators = {
     'atan'              : OperatorInfo( lambda n: performTrigOperation( n, atan ), 1 ),
     'atanh'             : OperatorInfo( lambda n: performTrigOperation( n, atanh ), 1 ),
     'august'            : OperatorInfo( lambda: 8, 0 ),
-    'avogadro'          : OperatorInfo( lambda: mpf( '6.02214179e23' ), 0 ),
+    'avogadro'          : OperatorInfo( getAvogadrosNumber, 0 ),
     'balanced'          : OperatorInfo( getNthBalancedPrime, 1 ),
     'balanced_'         : OperatorInfo( getNthBalancedPrimeList, 1 ),
     'bell'              : OperatorInfo( bell, 1 ),

@@ -86,6 +86,12 @@ basicUnitTypes = {
         dataRateTable,
     ),
 
+    'density' : UnitTypeInfo(
+        [ 'mass/length^3' ],
+        'gram/cubic_meter',
+        densityTable,
+    ),
+
     'electrical_conductance' : UnitTypeInfo(
         [ 'current^2/energy*time', 'current/electric_potential' ],
         'mho',
@@ -581,11 +587,11 @@ unitOperators = {
 
     # density
 
-    # https://en.wikipedia.org/wiki/Planck_units
-    # https://en.wikipedia.org/wiki/Gravitational_constant
-    # https://en.wikipedia.org/wiki/Coulomb_constant
-    # https://en.wikipedia.org/wiki/Boltzmann_constant
-    # https://en.wikipedia.org/wiki/Reduced_Planck_constant
+    'gram/cubic_meter' :
+        UnitInfo( 'density', 'gram/cubic_meter', 'grams/cubic_meter', 'g/m^3', [ '' ], [ 'SI' ] ),
+
+    'density_of_water' :
+        UnitInfo( 'density', 'density_of_water', 'x density_of_water', '', [ 'water' ], [ 'natural' ] ),
 
     # electric_potential
 
@@ -1973,6 +1979,7 @@ unitConversionMatrix = {
     ( 'decillion',             'unity' )                                : mpmathify( '1.0e33' ),
     ( 'degree',                'arcminute' )                            : mpmathify( '60' ),
     ( 'demi',                  'liter' )                                : mpmathify( '0.375' ),
+    ( 'density_of_water',      'gram/cubic_meter' )                     : mpmathify( '1.0e6' ),
     ( 'dessertspoon',          'teaspoon' )                             : mpmathify( '2' ),
     ( 'doppelzentner',         'zentner' )                              : mpmathify( '2' ),
     ( 'dozen',                 'unity' )                                : mpmathify( '12' ),
