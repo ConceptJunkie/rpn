@@ -1322,10 +1322,10 @@ unitOperators = {
         UnitInfo( 'solid_angle', 'sphere', 'spheres', '', [ ], [ 'mathematics' ] ),
 
     'square_arcminute' :
-        UnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', 'arcmin^2', [ 'square_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', 'arcmin^2', [ 'square_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2' ], [ 'mathematics' ] ),
 
     'square_arcsecond' :
-        UnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', 'arcsec^2', [ 'square_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', 'arcsec^2', [ 'square_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2' ], [ 'mathematics' ] ),
 
     'square_degree' :
         UnitInfo( 'solid_angle', 'degree^2', 'degrees^2', 'deg^2', [ 'square_degrees', 'sqdeg' ], [ 'mathematics' ] ),
@@ -1343,10 +1343,10 @@ unitOperators = {
         UnitInfo( 'solid_angle', 'sextant^2', 'sextants^2', '', [ 'square_sextants', 'sqsextant', 'sqsextants' ], [ 'mathematics' ] ),
 
     'square_grad' :
-        UnitInfo( 'solid_angle', 'grad^2', 'grads^2', '', [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'grad^2', 'grads^2', 'gon^2', 'gons^2' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'grad^2', 'grads^2', '', [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons','sqgon', 'sqgons', 'grad^2', 'grads^2', 'gon^2', 'gons^2' ], [ 'mathematics' ] ),
 
     'steradian' :
-        UnitInfo( 'solid_angle', 'steradian', 'steradians', 'sr', [ 'square_radian', 'square_radians', 'radian^2', 'radians^2', 'rad^2' ], [ 'SI', 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'steradian', 'steradians', 'sr', [ 'square_radian', 'square_radians', 'sq_radian', 'sq_radians', 'sq_rad', 'sqrad', 'radian^2', 'radians^2', 'rad^2' ], [ 'SI', 'mathematics' ] ),
 
     # temperature
 
@@ -2276,8 +2276,8 @@ unitConversionMatrix = {
     ( 'statmho',               'siemens' )                              : mpmathify( '8.99e11' ),
     ( 'statohm',               'ohm' )                                  : mpmathify( '898755178740' ),
     ( 'statvolt',              'volt' )                                 : fdiv( mpf( speedOfLight ), mpf( '1.0e6' ) ),
-    ( 'steradian',             'square_degree' )                        : power( fdiv( pi, 180 ), 2 ),
-    ( 'steradian',             'square_grad' )                          : power( fdiv( pi, 200 ), 2 ),
+    ( 'steradian',             'square_degree' )                        : power( fdiv( 180, pi ), 2 ),
+    ( 'steradian',             'square_grad' )                          : power( fdiv( 200, pi ), 2 ),
     ( 'sthene',                'newton' )                               : mpmathify( '1000' ),
     ( 'stilb',                 'candela/meter^2' )                      : mpmathify( '10000' ),
     ( 'stone',                 'pound' )                                : mpmathify( '14' ),

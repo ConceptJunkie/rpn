@@ -1567,7 +1567,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( )
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
-            printParagraph( ', '.join( sorted( unitTypeDict[ term ] ) ), lineLength - 5, 4 )
+            printParagraph( ', '.join( sorted( unitTypeDict[ helpTerm ] ) ), lineLength - 5, 4 )
             return
 
         helpTerm = next( ( i for i in operators if i != term and i.startswith( term ) ), '' )
