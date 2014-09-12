@@ -17,6 +17,7 @@ from mpmath import *
 from rpnDeclarations import *
 from rpnEstimates import *
 
+# http://orefa.net/viscosity.html
 
 #//******************************************************************************
 #//
@@ -613,7 +614,7 @@ unitOperators = {
     # electrical_conductance
 
     'abmho' :
-        UnitInfo( 'electrical_conductance', 'abmho', 'abmhos', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'electrical_conductance', 'abmho', 'abmhos', '', [ 'absiemens' ], [ 'CGS' ] ),
 
     'ampere/volt' :
         UnitInfo( 'electrical_conductance', 'ampere/volt', 'amperes/volt', 'A/V', [ 'amp/V', 'amps/V', 'ampere/V', 'amperes/V', 'A/volt', 'amp/volt', 'amps/volt', 'A/volts', 'amp/volts', 'amps/volts', 'amperes/volts', ], [ 'SI' ] ),
@@ -626,6 +627,9 @@ unitOperators = {
 
     'statmho' :
         UnitInfo( 'electrical_conductance', 'statmho', 'statmhos', '', [ ], [ 'CGS' ] ),
+
+    'statsiemens' :
+        UnitInfo( 'electrical_conductance', 'statsiemens', 'statsiemens', 'statS', [ '' ], [ 'SI' ] ),
 
     # electrical_resistance
 
@@ -807,6 +811,9 @@ unitOperators = {
     'byte' :
         UnitInfo( 'information_entropy', 'byte', 'bytes', 'B', [ 'octet', 'octets' ], [ 'computing' ] ),
 
+    'btupf' :
+        UnitInfo( 'information_entropy', 'btupf', 'btupf', '', [ ], [ 'England' ] ),
+
     'clausius' :
         UnitInfo( 'information_entropy', 'clausius', 'clausius', '', [ ], [ 'CGS' ] ),
 
@@ -862,6 +869,9 @@ unitOperators = {
 
     'bohr_radius' :
         UnitInfo( 'length', 'bohr_radius', 'bohr_radii', 'a0', [ 'bohr' ], [ 'science' ] ),
+
+    'bolt' :
+        UnitInfo( 'length', 'bolt', 'bolts', '', [ ], [ 'obsolete' ] ),
 
     'caliber' :
         UnitInfo( 'length', 'caliber', 'caliber', '', [ 'calibre' ], [ 'US' ] ),
@@ -998,6 +1008,9 @@ unitOperators = {
     'siriometer' :
         UnitInfo( 'length', 'siriometer', 'siriometers', '', [ ], [ 'science' ] ),  # proposed in 1911 by Cark V. L. Charlier
 
+    'skein' :
+        UnitInfo( 'length', 'skein', 'skeins', '', [ ], [ 'obsolete' ] ),
+
     'smoot' :
         UnitInfo( 'length', 'smoot', 'smoots', '', [ ], [ 'humorous' ] ),
 
@@ -1075,7 +1088,7 @@ unitOperators = {
         UnitInfo( 'magnetic_flux', 'volt*second', 'volts*seconds', 'V*s', [ ], [ 'SI' ] ),
 
     'unit_pole' :
-        UnitInfo( 'magnetic_flux', 'unit_pole', 'unit_pole', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'magnetic_flux', 'unit_pole', 'unit_poles', '', [ 'unitpole', 'unitpoles' ], [ 'CGS' ] ),
 
     'tesla*meter^2' :
         UnitInfo( 'magnetic_flux', 'tesla*meter^2', 'tesla*meter^2', 'T/m^2', [ 'tesla*square_meter', 'teslas*square_meter', 'T*square_meter', 'tesla*m^2', 'teslas*m^2', 'teslas*meter^2' ], [ 'SI' ] ),
@@ -1206,6 +1219,9 @@ unitOperators = {
     'joule/second' :
         UnitInfo( 'power', 'joule/second', 'joules/second', 'J/s', [ 'joule/s', 'joules/s', 'J/sec', 'joule/sec', 'joules/sec', 'J/seconds', 'joule/seconds', 'joules/seconds' ], [ 'SI' ] ),
 
+    'lusec' :
+        UnitInfo( 'power', 'lusec', 'lusecs', '', [ ], [ 'obsolete' ] ),
+
     'kilogram-meter^2/second^3' :
         UnitInfo( 'power', 'kilogram*meter^2/second^3', 'kilogram*meter^2/second^3', 'kg*m^2/s^3', [ ], [ 'SI' ] ),
 
@@ -1302,6 +1318,9 @@ unitOperators = {
 
     # solid_angle
 
+    'sphere' :
+        UnitInfo( 'solid_angle', 'sphere', 'spheres', '', [ ], [ 'mathematics' ] ),
+
     'square_arcminute' :
         UnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', 'arcmin^2', [ 'square_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2' ], [ 'mathematics' ] ),
 
@@ -1356,6 +1375,12 @@ unitOperators = {
         UnitInfo( 'temperature', 'romer', 'degrees_romer', 'Ro', [ 'defRo' ], [ 'obsolete' ] ),
 
     # time
+
+    'beat' :
+        UnitInfo( 'time', 'beat', 'beat', '', [ ], [ ] ),
+
+    'blink' :
+        UnitInfo( 'time', 'blink', 'blink', '', [ ], [ ] ),
 
     'century' :
         UnitInfo( 'time', 'century', 'centuries', 'y', [ ], [ 'traditional', 'US', 'years' ] ),
@@ -1445,6 +1470,9 @@ unitOperators = {
         UnitInfo( 'time', 'year', 'years', '', [ 'annum', 'julian_year', 'julian_years' ], [ 'traditional', 'years' ] ),
 
     # velocity
+
+    'kine' :
+        UnitInfo( 'velocity', 'kine', 'kine', '', [ '' ], [ 'CGS' ] ),
 
     'meter/second' :
         UnitInfo( 'velocity', 'meter/second', 'meters/second', 'm/s', [ 'mps' ], [ 'SI' ] ),
@@ -1686,7 +1714,7 @@ unitOperators = {
         UnitInfo( 'volume', 'scruple', 'scruples', '', [ 'fluid_scruple', 'fluid_scruples' ], [ 'traditional' ] ),
 
     'smidgen' :
-        UnitInfo( 'volume', 'smidgen', 'smidgens', '', [ ], [ 'traditional', 'cooking' ] ),
+        UnitInfo( 'volume', 'smidgen', 'smidgens', '', [ 'smidgeon', 'smidgeons' ], [ 'traditional', 'cooking' ] ),
 
     'solomon' :
         UnitInfo( 'volume', 'solomon', 'solomons', '', [ ], [ 'wine' ] ),
@@ -1936,6 +1964,7 @@ unitConversionMatrix = {
     ( 'banana_equivalent_dose', 'sievert' )                             : mpmathify( '9.8e-8' ),
     ( 'bar',                   'pascal' )                               : mpmathify( '1.0e5' ),
     ( 'barleycorn',            'poppyseed' )                            : mpmathify( '4' ),
+    ( 'beat',                  'blink' )                                : mpmathify( '100' ),
     ( 'becquerel',             'curie' )                                : mpmathify( '3.7e10' ),
     ( 'billion',               'unity' )                                : mpmathify( '1.0e9' ),
     ( 'bit',                   'nat' )                                  : log( 2 ),
@@ -1943,7 +1972,9 @@ unitConversionMatrix = {
     ( 'blintz',                'furshlugginer_blintz' )                 : mpmathify( '1.0e-6' ),
     ( 'blintz',                'gram' )                                 : mpmathify( '36.42538631' ),
     ( 'bohr_radius',           'meter' )                                : mpmathify( '5.2917721e-11' ),
+    ( 'bolt',                  'foot' )                                 : mpmathify( '120' ),
     ( 'btu',                   'joule' )                                : mpmathify( '1054.5' ),
+    ( 'btupf',                 'joule/kelvin' )                         : mpmathify( '1899.100534716' ),
     ( 'bucket',                'gallon' )                               : mpmathify( '4' ),
     ( 'bushel',                'peck' )                                 : mpmathify( '4' ),
     ( 'byte',                  'bit' )                                  : mpmathify( '8' ),
@@ -1974,6 +2005,7 @@ unitConversionMatrix = {
     ( 'cup',                   'dram' )                                 : mpmathify( '64' ),
     ( 'cup',                   'fluid_ounce' )                          : mpmathify( '8' ),
     ( 'cup',                   'gill' )                                 : mpmathify( '2' ),
+    ( 'day',                   'beat' )                                 : mpmathify( '1000' ),
     ( 'day',                   'hour' )                                 : mpmathify( '24' ),
     ( 'decade',                'year' )                                 : mpmathify( '10' ),
     ( 'decillion',             'unity' )                                : mpmathify( '1.0e33' ),
@@ -2097,6 +2129,7 @@ unitConversionMatrix = {
     ( 'meter',                 'angstrom' )                             : mpmathify( '1.0e10' ),
     ( 'meter',                 'kyu' )                                  : mpmathify( '4000' ),
     ( 'meter',                 'micron' )                               : mpmathify( '1.0e6' ),
+    ( 'meter/second',          'kine' )                                 : mpmathify( '100' ),
     ( 'meter/second',          'knot' )                                 : mpmathify( '1.943844492' ),
     ( 'methuselah',            'liter' )                                : mpmathify( '6.0' ),
     ( 'mile',                  'foot' )                                 : mpmathify( '5280' ),
@@ -2209,8 +2242,10 @@ unitConversionMatrix = {
     ( 'siderial_year',         'day' )                                  : mpmathify( '365.256363' ),
     ( 'siemens',               'ampere/volt' )                          : mpmathify( '1' ),
     ( 'siemens',               'kilogram-meter^2/second^3-ampere^2' )   : mpmathify( '1' ),
+    ( 'siemens',               'statsiemens' )                          : mpmathify( '898755178736.5' ),
     ( 'sievert',               'rem' )                                  : mpmathify( '100' ),
     ( 'siriometer',            'astronomical_unit' )                    : mpmathify( '1.0e6' ),
+    ( 'skein',                 'foot' )                                 : mpmathify( '360' ),
     ( 'skot',                  'bril' )                                 : mpmathify( '1.0e4' ),
     ( 'skot',                  'lambert' )                              : mpmathify( '1.0e7' ),
     ( 'slug',                  'pound' )                                : mpmathify( '32.174048556' ),
@@ -2222,6 +2257,7 @@ unitConversionMatrix = {
     ( 'sovereign',             'liter' )                                : mpmathify( '25.0' ),
     ( 'span',                  'inch' )                                 : mpmathify( '9' ),
     ( 'speed_of_light',        'meter/second' )                         : mpmathify( speedOfLight ),
+    ( 'sphere',                'steradian' )                            : fmul( 4, pi ),
     ( 'square_arcminute',      'square_arcsecond' )                     : mpmathify( '3600' ),
     ( 'square_degree',         'square_arcminute' )                     : mpmathify( '3600' ),
     ( 'square_meter',          'barn' )                                 : mpmathify( '1.0e28' ),
@@ -2293,6 +2329,7 @@ unitConversionMatrix = {
     ( 'von_klitzing_constant', 'ohm' )                                  : mpmathify( '25812.807557' ),
     ( 'watt',                  'erg/second' )                           : mpmathify( '1.0e7' ),
     ( 'watt',                  'kilogram-meter^2/second^3' )            : mpmathify( '1' ),
+    ( 'watt',                  'lusec' )                                : mpmathify( '7500' ),
     ( 'watt',                  'newton-meter/second' )                  : mpmathify( '1' ),
     ( 'watt-second',           'joule' )                                : mpmathify( '1' ),
     ( 'weber',                 'maxwell' )                              : mpmathify( '1.0e8' ),
