@@ -478,7 +478,7 @@ unitOperators = {
         UnitInfo( 'constant', 'half', 'halves', '', [ ], [ 'constant' ] ),
 
     'unity' :
-        UnitInfo( 'constant', 'unity', 'x unity', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'x unity', 'x unity', '', [ ], [ 'constant' ] ),
 
     'ten' :
         UnitInfo( 'constant', 'ten', 'tens', '', [ 'deca', 'deka' ], [ 'constant' ] ),
@@ -587,11 +587,11 @@ unitOperators = {
 
     # density
 
-    'gram/cubic_meter' :
-        UnitInfo( 'density', 'gram/cubic_meter', 'grams/cubic_meter', 'g/m^3', [ '' ], [ 'SI' ] ),
+    'gram/meter^3' :
+        UnitInfo( 'density', 'gram/meter^3', 'grams/meter^3', 'g/m^3', [ '' ], [ 'SI' ] ),
 
     'density_of_water' :
-        UnitInfo( 'density', 'density_of_water', 'x density_of_water', '', [ 'water' ], [ 'natural' ] ),
+        UnitInfo( 'density', 'x density_of_water', 'x density_of_water', '', [ 'water' ], [ 'natural' ] ),
 
     # electric_potential
 
@@ -1412,7 +1412,7 @@ unitOperators = {
         UnitInfo( 'time', 'nanocentury', 'nanocenturies', '', [ ], [ 'humorous', 'computing' ] ),
 
     'planck_time' :
-        UnitInfo( 'time', 'planck_time', 'x planck_time', 'tP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'time', 'x planck_time', 'x planck_time', 'tP', [ ], [ 'natural', 'science' ] ),
 
     'second' :
         UnitInfo( 'time', 'second', 'seconds', '', [ ], [ 'SI', 'traditional', 'FPS' ] ),   # 'sec' is already an operator
@@ -1979,7 +1979,7 @@ unitConversionMatrix = {
     ( 'decillion',             'unity' )                                : mpmathify( '1.0e33' ),
     ( 'degree',                'arcminute' )                            : mpmathify( '60' ),
     ( 'demi',                  'liter' )                                : mpmathify( '0.375' ),
-    ( 'density_of_water',      'gram/cubic_meter' )                     : mpmathify( '1.0e6' ),
+    ( 'density_of_water',      'gram/meter^3' )                         : mpmathify( '1.0e6' ),
     ( 'dessertspoon',          'teaspoon' )                             : mpmathify( '2' ),
     ( 'doppelzentner',         'zentner' )                              : mpmathify( '2' ),
     ( 'dozen',                 'unity' )                                : mpmathify( '12' ),

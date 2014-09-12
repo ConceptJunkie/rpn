@@ -341,7 +341,8 @@ election_day, labor_day, memorial_day, nthday, presidents_day, thanksgiving
 5.25.0
 
 Added Julian date operators, ISO date operators, calendar operators and the
-'ash_wednesday' operator.
+'ash_wednesday' operator.  Added support for the density unit type and
+several small bug fixes.
 ''',
 'license' :
 '''

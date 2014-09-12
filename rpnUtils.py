@@ -692,6 +692,9 @@ class Measurement( mpf ):
                 debugPrint( 'newUnit1String: ', newUnit1String )
                 debugPrint( 'newUnit2String: ', newUnit2String )
 
+                if newUnit1String == newUnit2String:
+                    return conversionValue
+
                 # if that isn't found, then we need to do the hard work and break the units down
 
                 for unit1 in units1:
