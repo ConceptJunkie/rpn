@@ -14,9 +14,6 @@
 
 from mpmath import *
 
-#// Can we stick this in somewhere?
-#//
-#// https://en.wikipedia.org/wiki/Orders_of_magnitude_%28density%29
 
 #//******************************************************************************
 #//
@@ -339,7 +336,7 @@ dataRateTable = {
 #//
 #//  densityTable
 #//
-#//  gram/meter^3: description
+#//  gram/meter^3 : description
 #//
 #//  http://en.wikipedia.org/wiki/Density
 #//  http://en.wikipedia.org/wiki/Orders_of_magnitude_%28density%29
@@ -435,17 +432,35 @@ densityTable = {
 #//
 #//  dynamicViscosityTable
 #//
-#//  pascal-second: description
+#//  pascal-second : description
 #//
 #//  http://en.wikipedia.org/wiki/Viscosity
 #//
 #//******************************************************************************
 
 dynamicViscosityTable = {
+    mpf( '8.8e-6' )     : 'the dynamic viscosity of hydrogen',
+    mpf( '1.3e-5' )     : 'the dynamic viscosity of steam (at 100 degrees C)',
     mpf( '1.827e-5' )   : 'the dynamic viscosity of air at 18 degrees C',
     mpf( '2.822e-4' )   : 'the dynamic viscosity of water at 100 degrees C',
+    mpf( '3.2e-4' )     : 'the dynamic viscosity of acetone',
+    mpf( '6.0e-4' )     : 'the dynamic viscosity of gasoline',
     mpf( '1.002e-3' )   : 'the dynamic viscosity of water at 20 degrees C',
-    mpf( '2.3e6' )      : 'the approximate viscosity of pitch',
+    mpf( '1.6e-3' )     : 'the dynamic viscosity of mercury',
+    mpf( '3.0e-3' )     : 'the dynamic viscosity of milk',
+    mpf( '4.0e-3' )     : 'the dynamic viscosity of human blood',
+    mpf( '8.1e-3' )     : 'the dynamic viscosity of olive oil',
+    mpf( '1.0e-1' )     : 'the dynamic viscosity of castor oil',
+    mpf( '1.5' )        : 'the dynamic viscosity of glycerine',
+    mpf( '5.0' )        : 'the dynamic viscosity of Karo syrup',
+    mpf( '10' )         : 'the dynamic viscosity of honey',
+    mpf( '50' )         : 'the dynamic viscosity of ketchup',
+    mpf( '70' )         : 'the dynamic viscosity of mustard',
+    mpf( '100' )        : 'the dynamic viscosity of sour Cream',
+    mpf( '250' )        : 'the dynamic viscosity of peanut butter',
+    mpf( '1.0e3' )      : 'the dynamic viscosity of lard',
+    mpf( '1.0e4' )      : 'the dynamic viscosity of plate glass (at 900 degrees C)',
+    mpf( '2.3e8' )      : 'the approximate viscosity of pitch',
 }
 
 
@@ -753,6 +768,72 @@ forceTable = {
     mpf( '2.0e20' )     : 'the gravitational attraction between Earth and Moon',
     mpf( '3.5e22' )     : 'the gravitational attraction between Earth and Sun',
     mpf( '1.2e44' )     : 'the Planck force',
+}
+
+
+#//******************************************************************************
+#//
+#//  frequencyTable
+#//
+#//  hertz : description
+#//
+#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28force%29
+#//
+#//******************************************************************************
+
+frequencyTable = {
+    mpf( '2.296e-18' )          : 'the frequency of the Hubble Constant (once in 13.8 billion years)',
+    mpf( '1.0e-15' )            : '1 femtohertz (fHz)',
+    mpf( '1.0e-12' )            : '1 picohertz (pHz)',
+    mpf( '3.1687535787e-11' )   : 'the frequency of once a millennium',
+    mpf( '3.1687535787e-10' )   : 'the frequency of once a century',
+    mpf( '3.1687535787e-9' )    : 'the frequency of once a decade',
+    mpf( '3.1687535787e-8' )    : 'the Earth\'s orbital frequency (once a year)',
+    mpf( '3.6603221e-5' )       : 'the Moon\'s orbital frequency (once a siderial month)',
+    mpf( '1.653e-6' )           : 'the frequency of once a week',
+    mpf( '1.15741e-5' )         : 'the Earth\'s rotation frequency (once a day)',
+    mpf( '2.777778e-4' )        : 'the frequency of once an hour',
+    mpf( '1.0e-3' )             : '1 millihertz (mHz)',
+    mpf( '1.66666667e-2' )      : 'the frequency of one RPM',
+    mpf( '1.4285714e-2' )       : 'the average frequency of an adult human\'s resting heart beat',
+    mpf( '10' )                 : 'the cyclic rate of a typical automobile engine at idle (equivalent to 600 rpm)',
+    mpf( '12' )                 : 'the frequency of lowest possible frequency that a human can hear',
+    mpf( '27.5' )               : 'the frequency of the lowest musical note (A) playable on a normally-tuned standard piano',
+    mpf( '50' )                 : 'the frequency of standard AC mains power (European AC, Tokyo AC)',
+    mpf( '60' )                 : 'the frequency of standard AC mains power (American AC, Osaka AC)',
+    mpf( '100' )                : 'the cyclic rate of a typical automobile engine at redline (equivalent to 6000 rpm)',
+    mpf( '261.626' )            : 'the frequency of the musical note middle C',
+    mpf( '440' )                : 'the frequency of the concert pitch (A above middle C), used for tuning musical instruments',
+    mpf( '4.186e3' )            : 'the frequency of the highest musical note (C8) playable on a normally-tuned standard piano',
+    mpf( '8.0e3' )              : 'the frequency of the ISDN sampling rate',
+    mpf( '1.4e4' )              : 'the frequency of the typical upper limit of adult human hearing',
+    mpf( '1.74e4' )             : 'a frequency known as \'The Mosquito\', which is generally only audible to those under the age of 24',
+    mpf( '5.30e5' )             : 'the lower end of the AM radio broadcast spectrum',
+    mpf( '7.40e5' )             : 'the clock speed of the world\'s first commercial microprocessor, the Intel 4004 (1971)',
+    mpf( '1.710e6' )            : 'the higher end of the AM radio broadcast spectrum',
+    mpf( '4.77e6' )             : 'the clock frequency of the 8086 processor in the IBM PC',
+    mpf( '1.356e7' )            : 'the frequency of Near Field Communication',
+    mpf( '8.8e7' )              : 'the lower end of the FM radio broadcast spectrum',
+    mpf( '1.08e8' )             : 'the upper end of the FM radio broadcast spectrum',
+    mpf( '1.42e9' )             : 'the frequency of the hyperfine transition of hydrogen, also known as the hydrogen line or 21 cm line',
+    mpf( '2.4e9' )              : 'the frequency of microwave ovens, Wireless LANs and cordless phones (starting in 1998)',
+    mpf( '3.8e9' )              : 'the fastest common desktop processor speed as of 2014',
+    mpf( '4.7e9' )              : 'the AMD FX-9790 clock speed, fastest commercial processor in 2014',
+    mpf( '5.8e9' )              : 'the cordless phone frequency introduced in 2003',
+    mpf( '1.602e11' )           : 'the peak of cosmic microwave background radiation',
+    mpf( '8.45e11' )            : 'the frequency of the fastest transistor (Dec. 2006)',
+    mpf( '2.1e13' )             : 'the lower end of the frequency of infrared light used in thermal imaging',
+    mpf( '3.3e13' )             : 'the upper end of the frequency of infrared light used in thermal imaging',
+    mpf( '4.28e14' )            : 'the lower end of the visible light spectrum (red)',
+    mpf( '7.50e14' )            : 'the upper end of the visible light spectrum (violet)',
+    mpf( '2.47e15' )            : 'the frequency of the Lyman-alpha line',
+    mpf( '3.0e16' )             : 'the frequency of X-Rays',
+    mpf( '3.00e17' )            : 'the frequency of gamma rays',
+    mpf( '1.0e18' )             : '1 exahertz (EHz)',
+    mpf( '1.0e21' )             : '1 zettahertz (ZHz)',
+    mpf( '1.0e21' )             : '1 yottahertz (YHz)',
+    mpf( '3.9e27' )             : 'the frequency of the highest energy (16 TeV) gamma ray detected, from Markarian 501',
+    mpf( '1.85e43' )            : 'the Planck frequency, the inverse of the Planck time',
 }
 
 
