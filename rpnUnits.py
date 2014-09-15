@@ -88,34 +88,43 @@ from rpnEstimates import *
 # catalytic activity            katal           kat                                             s^-1 mol
 #
 #
-# dynamic viscosity             pascal second   Pa s            m^-1 kg s^-1
-# moment of force               newton metre    N m             m2 kg s.2
-# surface tension newton per metre N/m kg s.2
-# angular velocity radian per second rad/s m m.1 s.1 = s.1
-# angular acceleration radian per second squared rad/s2 m m.1 s.2 = s.2
-# heat flux density, watt per square metre W/m2 kg s.3
+# dynamic viscosity             pascal second                   Pa s            m^-1 kg s^-1
+# moment of force               newton metre                    N m             m2 kg s^-2
+# surface tension               newton per metre                N/m             kg s^-2
+# angular velocity              radian per second               rad/s           m m^-1 s^-1 = s^-1
+# angular acceleration          radian per second squared       rad/s2          m m^-1 s^-2 = s^-2
+#
+# heat flux density,            watt per square metre           W/m2            kg s^-3
 # irradiance
-# heat capacity, entropy joule per kelvin J/K m2 kg s.2 K.1
-# specific heat capacity, joule per kilogram kelvin J/(kg K) m2 s.2 K.1
+#
+# heat capacity, entropy        joule per kelvin                J/K             m2 kg s^-2 K^-1
+#
+# specific heat capacity,       joule per kilogram kelvin       J/(kg K)        m2 s^-2 K^-1
 # specific entropy
-# specific energy joule per kilogram J/kg m2 s.2
-# thermal conductivity watt per metre kelvin W/(m K) m kg s.3 K.1
-# energy density joule per cubic metre J/m3 m.1 kg s.2
-# electric field strength volt per metre V/m m kg s.3 A.1
-# electric charge density coulomb per cubic metre C/m3 m.3 s A
-# surface charge density coulomb per square metre C/m2 m.2 s A
-# electric flux density, coulomb per square metre C/m2 m.2 s A
+#
+# specific energy               joule per kilogram              J/kg            m2 s^-2
+# thermal conductivity          watt per metre kelvin           W/(m K)         m kg s^-3 K^-1
+# energy density                joule per cubic metre           J/m3            m^-1 kg s^-2
+# electric field strength       volt per metre                  V/m             m kg s^-3 A^-1
+# electric charge density       coulomb per cubic metre         C/m3            m^-3 s A
+# surface charge density        coulomb per square metre        C/m2            m^-2 s A
+#
+# electric flux density,        coulomb per square metre        C/m2            m^2 s A
 # electric displacement
-# permittivity farad per metre F/m m.3 kg.1 s4 A2
-# permeability henry per metre H/m m kg s.2 A.2
-# molar energy joule per mole J/mol m2 kg s.2 mol.1
-# molar entropy, joule per mole kelvin J/(mol K) m2 kg s.2 K.1mol.1
+#
+# permittivity                  farad per metre                 F/m             m^3 kg^1 s4 A2
+# permeability                  henry per metre                 H/m             m kg s^-2 A^-2
+# molar energy                  joule per mole                  J/mol           m2 kg s^-2 mol^-1
+#
+# molar entropy,                joule per mole kelvin           J/(mol K)       m2 kg s^-2 K^-1 mol^-1
 # molar heat capacity
-# exposure (x- and ã-rays) coulomb per kilogram C/kg kg.1 s A
-# absorbed dose rate gray per second Gy/s m2 s.3
-# radiant intensity watt per steradian W/sr m4 m.2 kg s.3 = m2 kg s.3
-# radiance watt per square metre steradian W/(m2 sr) m2 m.2 kg s.3 = kg s.3
-# catalytic activity katal per cubic metre kat/m3 m.3 s.1 mol
+#
+# exposure (x- and gamma-rays)  coulomb per kilogram            C/kg            kg^-1 s A
+# absorbed dose rate            gray per second                 Gy/s            m2 s^3
+# radiant intensity             watt per steradian              W/sr            m4 m^-2 kg s^-3 = m2 kg s^-3
+# radiance                      watt per square metre steradian W/(m2 sr)       m2 m^-2 kg s^-3 = kg s^-3
+#
+# catalytic activity            katal per cubic metre           kat/m3          m^-3 s^-1 mol
 # concentration
 #
 # Quantity              Name of unit                Symbol          Value in SI units (a)
@@ -127,15 +136,16 @@ from rpnEstimates import *
 #                       unified atomic mass unit    u               1 u = 1 Da
 # length                astronomical unit           ua              1 ua = 1.495 978 706 91 (6) * 10^11 m
 #
+#
 # Natural units (n.u.)
 #
-# speed                 n.u. of speed               c sub 0         299 792 458 m/s (exact)
+# speed                 n.u. of speed               c sub 0                 299 792 458 m/s (exact)
 #                       (speed of light in vacuum)
 #
-# action                n.u. of action              h               1.054 571 68 (18) * 10-34 J s
+# action                n.u. of action              h                       1.054 571 68 (18) * 10-34 J s
 #                       (reduced Planck constant)
 #
-# mass                  n.u. of mass                m sub e         9.109 3826 (16) * 10-31 kg
+# mass                  n.u. of mass                m sub e                 9.109 3826 (16) * 10-31 kg
 #                       (electron mass)
 #
 # time                  n.u. of time                h/(m sub e c sub 0^2)   1.288 088 6677 (86) * 10-21 s
@@ -176,6 +186,7 @@ from rpnEstimates import *
 #
 #
 # Quantity              Name of unit    Symbol          Value in SI units
+#
 # energy                erg             erg             1 erg = 10-7 J
 # force                 dyne            dyn             1 dyn = 10-5 N
 # dynamic viscosity     poise           P               1 P = 1 dyn s cm-2 = 0.1 Pa s
@@ -186,6 +197,541 @@ from rpnEstimates import *
 # magnetic flux         maxwell         Mx              1 Mx = 1 G cm2 = 10-8 Wb
 # magnetic flux density gauss           G               1 G = 1 Mx cm-2 = 10-4 T
 # magnetic field        oersted         Oe              1 Oe ^= (1000/4 pi ) A m^-1
+#
+
+
+# electronmass            5.4857990946e-4 u
+# m_e                     electronmass
+# protonmass              1.007276466812 u
+# m_p                     protonmass
+# neutronmass             1.00866491600 u
+# m_n                     neutronmass
+# muonmass                0.1134289267 u
+# m_mu                    muonmass
+# deuteronmass            2.013553212712 u
+# m_d                     deuteronmass
+# alphaparticlemass       4.001506179125 u
+# m_alpha                 alphaparticlemass
+# taumass                 1.90749 u
+# m_tau                   taumass
+# tritonmass              3.0155007134 u
+# m_t                     tritonmass
+# helionmass              3.0149322468 u
+# m_h                     helionmass
+
+#
+# # particle wavelengths: the compton wavelength of a particle is
+# # defined as h / m c where m is the mass of the particle.
+#
+# electronwavelength      h / m_e c
+# lambda_C                electronwavelength
+# protonwavelength        h / m_p c
+# lambda_C,p              protonwavelength
+# neutronwavelength       h / m_n c
+# lambda_C,n              neutronwavelength
+#
+# # Magnetic moments
+#
+# bohrmagneton            e hbar / 2 electronmass
+# mu_B                    bohrmagneton
+# nuclearmagneton         e hbar /  2 protonmass
+# mu_N                    nuclearmagneton
+# mu_mu                  -4.49044807e-26 J/T  # Muon magnetic moment
+# mu_p                    1.410606743e-26 J/T # Proton magnetic moment
+# mu_e                   -928.476430e-26 J/T  # Electron magnetic moment
+# mu_n                   -0.96623647e-26      # Neutron magnetic moment
+# mu_d                    0.433073489e-26 J/T # Deuteron magnetic moment
+# mu_t                    1.504609447e-26 J/T # Triton magnetic moment
+# mu_h                   -1.074617486e-26 J/T # Helion magnetic moment
+#
+# crith                   0.089885 gram       # The crith is the mass of one
+#                                             #   liter of hydrogen at standard
+#                                             #   temperature and pressure.
+#
+# barad                   barye           # old name
+# kayser                  1/cm            # Proposed as a unit for wavenumber
+# balmer                  kayser          # Even less common name than "kayser"
+#
+# darcy           centipoise cm^2 / s atm # Measures permeability to fluid flow.
+#
+#                                         #   One darcy is the permeability of a
+#                                         #   medium that allows a flow of cc/s
+#                                         #   of a liquid of centipoise viscosity
+#                                         #   under a pressure gradient of
+#                                         #   atm/cm.  Named for H. Darcy.
+#
+# mobileohm               cm / dyn s      # mobile ohm, measure of mechanical
+#                                         #   mobility
+# mechanicalohm           dyn s / cm      # mechanical resistance
+# acousticalohm           dyn s / cm^5    # ratio of the sound pressure of
+#                                         #   1 dyn/cm^2 to a source of strength
+#                                         #   1 cm^3/s
+# ray                     acousticalohm
+# rayl                    dyn s / cm^3    # Specific acoustical resistance
+# eotvos                  1e-9 Gal/cm     # Change in gravitational acceleration
+#                                         #   over horizontal distance
+#
+#
+# intampere               0.999835 A    # Defined as the current which in one
+# intamp                  intampere     #   second deposits .001118 gram of
+#                                       #   silver from an aqueous solution of
+#                                       #   silver nitrate.
+# intfarad                0.999505 F
+# intvolt                 1.00033 V
+# intohm                  1.000495 ohm  # Defined as the resistance of a
+#                                       #   uniform column of mercury containing
+#                                       #   14.4521 gram in a column 1.063 m
+#                                       #   long and maintained at 0 degC.
+# daniell                 1.042 V       # Meant to be electromotive force of a
+#                                       #   Daniell cell, but in error by .04 V
+# faraday                 N_A e mol     # Charge that must flow to deposit or
+# faraday_phys            96521.9 C     #   liberate one gram equivalent of any
+# faraday_chem            96495.7 C     #   element.  (The chemical and physical
+#                                       #   values are off slightly from what is
+#                                       #   obtained by multiplying by amu_chem
+#                                       #   or amu_phys.  These values are from
+#                                       #   a 1991 NIST publication.)  Note that
+#                                       #   there is a Faraday constant which is
+#                                       #   equal to N_A e and hence has units of
+#                                       #   C/mol.
+# kappline                6000 maxwell  # Named by and for Gisbert Kapp
+# siemensunit             0.9534 ohm    # Resistance of a meter long column of
+#                                       #   mercury with a 1 mm cross section.
+#
+# blondel                 apostilb      # Named after a French scientist.
+#
+# # Some luminance data from the IES Lighting Handbook, 8th ed, 1993
+#
+# sunlum                  1.6e9 cd/m^2  # at zenith
+# sunillum                100e3 lux     # clear sky
+# sunillum_o              10e3 lux      # overcast sky
+# sunlum_h                6e6 cd/m^2    # value at horizon
+# skylum                  8000 cd/m^2   # average, clear sky
+# skylum_o                2000 cd/m^2   # average, overcast sky
+# moonlum                 2500 cd/m^2
+#
+#
+# anomalisticyear         365.2596 days       # The time between successive
+#                                             #   perihelion passages of the
+#                                             #   earth.
+# siderealyear            365.256360417 day   # The time for the earth to make
+#                                             #   one revolution around the sun
+#                                             #   relative to the stars.
+# tropicalyear            365.242198781 day   # The time needed for the mean sun
+#                                             #   as defined above to increase
+#                                             #   its longitude by 360 degrees.
+#                                             #   Most references defined the
+#                                             #   tropical year as the interval
+#                                             #   between vernal equinoxes, but
+#                                             #   this is misleading.  The length
+#                                             #   of the season changes over time
+#                                             #   because of the eccentricity of
+#                                             #   the earth's orbit.  The time
+#                                             #   between vernal equinoxes is
+#                                             #   approximately 365.24237 days
+#                                             #   around the year 2000.  See
+#                                             #   "Mathematical Astronomy
+#                                             #   Morsels" for more details.
+# eclipseyear             346.62 days         # The line of nodes is the
+#                                             #   intersection of the plane of
+#                                             #   Earth's orbit around the sun
+#                                             #   with the plane of the moon's
+#                                             #   orbit around earth.  Eclipses
+#                                             #   can only occur when the moon
+#                                             #   and sun are close to this
+#                                             #   line.  The line rotates and
+#                                             #   appearances of the sun on the
+#                                             #   line of nodes occur every
+#                                             #   eclipse year.
+# saros                   223 synodicmonth    # The earth, moon and sun appear in
+#                                             #   the same arrangement every
+#                                             #   saros, so if an eclipse occurs,
+#                                             #   then one saros later, a similar
+#                                             #   eclipse will occur.  (The saros
+#                                             #   is close to 19 eclipse years.)
+#                                             #   The eclipse will occur about
+#                                             #   120 degrees west of the
+#                                             #   preceeding one because the
+#                                             #   saros is not an even number of
+#                                             #   days.  After 3 saros, an
+#                                             #   eclipse will occur at
+#                                             #   approximately the same place.
+# siderealday             86164.09054 s       # The sidereal day is the interval
+# siderealhour            1|24 siderealday    #   between two successive transits
+# siderealminute          1|60 siderealhour   #   of a star over the meridian,
+# siderealsecond          1|60 siderealminute #   or the time required  for the
+#                                             #   earth to make one rotation
+#                                             #   relative to the stars.  The
+#                                             #   more usual solar day is the
+#                                             #   time required to make a
+#                                             #   rotation relative to the sun.
+#                                             #   Because the earth moves in its
+#                                             #   orbit, it has to turn a bit
+#                                             #   extra to face the sun again,
+#                                             #   hence the solar day is slightly
+#                                             #   longer.
+# anomalisticmonth        27.55454977 day     # Time for the moon to travel from
+#                                             #   perigee to perigee
+# nodicalmonth            27.2122199 day      # The nodes are the points where
+# draconicmonth           nodicalmonth        #   an orbit crosses the ecliptic.
+# draconiticmonth         nodicalmonth        #   This is the time required to
+#                                             #   travel from the ascending node
+#                                             #   to the next ascending node.
+# siderealmonth           27.321661 day       # Time required for the moon to
+#                                             #   orbit the earth
+# lunarmonth              29 days + 12 hours + 44 minutes + 2.8 seconds
+#                                             # Mean time between full moons.
+# synodicmonth            lunarmonth          #   Full moons occur when the sun
+# lunation                synodicmonth        #   and moon are on opposite sides
+# lune                    1|30 lunation       #   of the earth.  Since the earth
+# lunour                  1|24 lune           #   moves around the sun, the moon
+#                                             #   has to revolve a bit extra to
+#                                             #   get into the full moon
+#                                             #   configuration.
+# year                    tropicalyear
+# yr                      year
+# month                   1|12 year
+# mo                      month
+# lustrum                 5 years             # The Lustrum was a Roman
+#                                             #   purification ceremony that took
+#                                             #   place every five years.
+#                                             #   Classically educated Englishmen
+#                                             #   used this term.
+# decade                  10 years
+# century                 100 years
+# millennium              1000 years
+# millennia               millennium
+# solaryear               year
+# lunaryear               12 lunarmonth
+# calendaryear            365 day
+# commonyear              365 day
+# leapyear                366 day
+# julianyear              365.25 day
+# gregorianyear           365.2425 day
+# islamicyear             354 day          # A year of 12 lunar months. They
+# islamicleapyear         355 day          # began counting on July 16, AD 622
+#                                          # when Muhammad emigrated to Medina
+#                                          # (the year of the Hegira).  They need
+#                                          # 11 leap days in 30 years to stay in
+#                                          # sync with the lunar year which is a
+#                                          # bit longer than the 29.5 days of the
+#                                          # average month.  The months do not
+#                                          # keep to the same seasons, but
+#                                          # regress through the seasons every
+#                                          # 32.5 years.
+# islamicmonth            1|12 islamicyear # They have 29 day and 30 day months.
+#
+# # The Hewbrew year is also based on lunar months, but synchronized to the solar
+# # calendar.  The months vary irregularly between 29 and 30 days in length, and
+# # the years likewise vary.  The regular year is 353, 354, or 355 days long.  To
+# # keep up with the solar calendar, a leap month of 30 days is inserted every
+# # 3rd, 6th, 8th, 11th, 14th, 17th, and 19th years of a 19 year cycle.  This
+# # gives leap years that last 383, 384, or 385 days.
+#
+#
+# # Sidereal days
+#
+# mercuryday              58.6462 day
+# venusday                243.01 day        # retrograde
+# earthday                siderealday
+# marsday                 1.02595675 day
+# jupiterday              0.41354 day
+# saturnday               0.4375 day
+# uranusday               0.65 day          # retrograde
+# neptuneday              0.768 day
+# plutoday                6.3867 day
+#
+#
+#
+# # Sidereal years from http://ssd.jpl.nasa.gov/phys_props_planets.html.  Data
+# # was updated in May 2001 based on the 1992 Explanatory Supplement to the
+# # Astronomical Almanac and the mean longitude rates.  Apparently the table of
+# # years in that reference is incorrect.
+#
+# mercuryyear             0.2408467 julianyear
+# venusyear               0.61519726 julianyear
+# earthyear               siderealyear
+# marsyear                1.8808476 julianyear
+# jupiteryear             11.862615 julianyear
+# saturnyear              29.447498 julianyear
+# uranusyear              84.016846 julianyear
+# neptuneyear             164.79132 julianyear
+# plutoyear               247.92065 julianyear
+#
+# # Objects on the earth are charted relative to a perfect ellipsoid whose
+# # dimensions are specified by different organizations.  The ellipsoid is
+# # specified by an equatorial radius and a flattening value which defines the
+# # polar radius.  These values are the 1996 values given by the International
+# # Earth Rotation Service (IERS) whose reference documents can be found at
+# # http://maia.usno.navy.mil/
+#
+# earthflattening         1|298.25642
+# earthradius_equatorial  6378136.49 m
+# earthradius_polar       (-earthflattening+1) earthradius_equatorial
+#
+# landarea                148.847e6 km^2
+# oceanarea               361.254e6 km^2
+#
+# moonradius              1738 km         # mean value
+# sunradius               6.96e8 m
+#
+#
+# # Many astronomical values can be measured most accurately in a system of units
+# # using the astronomical unit and the mass of the sun as base units.  The
+# # uncertainty in the gravitational constant makes conversion to SI units
+# # significantly less accurate.
+#
+# # The astronomical unit was defined to be the length of the of the semimajor
+# # axis of a massless object with the same year as the earth.  With such a
+# # definition in force, and with the mass of the sun set equal to one, Kepler's
+# # third law can be used to solve for the value of the gravitational constant.
+#
+# # Kepler's third law says that (2 pi / T)^2 a^3 = G M where T is the orbital
+# # period, a is the size of the semimajor axis, G is the gravitational constant
+# # and M is the mass.  With M = 1 and T and a chosen for the earth's orbit, we
+# # find sqrt(G) = (2 pi / T) sqrt(AU^3).  This constant is called the Gaussian
+# # gravitational constant, apparently because Gauss originally did the
+# # calculations.  However, when the original calculation was done, the value
+# # for the length of the earth's year was inaccurate.  The value used is called
+# # the Gaussian year.  Changing the astronomical unit to bring it into
+# # agreement with more accurate values for the year would have invalidated a
+# # lot of previous work, so instead the astronomical unit has been kept equal
+# # to this original value.  This is accomplished by using a standard value for
+# # the Gaussian gravitational constant.  This constant is called k.
+# # Many values below are from http://ssd.jpl.nasa.gov/?constants
+#
+# gauss_k                 0.01720209895   # This beast has dimensions of
+#                                         # au^(3|2) / day and is exact.
+# gaussianyear      (2 pi / gauss_k) days # Year that corresponds to the Gaussian
+#                                         # gravitational constant. This is a
+#                                         # fictional year, and doesn't
+#                                         # correspond to any celestial event.
+# astronomicalunit         149597870700 m # IAU definition from 2012, exact
+# au                     astronomicalunit # ephemeris for the above described
+#                                         # astronomical unit.  (See the NASA
+#                                         # site listed above.)
+# solarmass                  1.9891e30 kg
+# sunmass                       solarmass
+#
+#
+# sundist                 1.0000010178 au # mean earth-sun distance
+# moondist                3.844e8 m       # mean earth-moon distance
+# sundist_near            1.471e11 m      # earth-sun distance at perihelion
+# sundist_far             1.521e11 m      # earth-sun distance at aphelion
+#
+# # The following are masses for planetary systems, not just the planet itself.
+# # The comments give the uncertainty in the denominators.  As noted above,
+# # masses are given relative to the solarmass because this is more accurate.
+# # The conversion to SI is uncertain because of uncertainty in G, the
+# # gravitational constant.
+# #
+# # Values are from http://ssd.jpl.nasa.gov/astro_constants.html
+#
+# mercurymass             solarmass / 6023600   # 250
+# venusmass               solarmass / 408523.71 # 0.06
+# earthmoonmass           solarmass / 328900.56 # 0.02
+# marsmass                solarmass / 3098708   # 9
+# jupitermass             solarmass / 1047.3486 # 0.0008
+# saturnmass              solarmass / 3497.898  # 0.018
+# uranusmass              solarmass / 22902.98  # 0.03
+# neptunemass             solarmass / 19412.24  # 0.04
+# plutomass               solarmass / 1.35e8    # 0.07e8
+#
+# moonearthmassratio      0.012300034 # uncertainty 3 x 10-9
+# earthmass               earthmoonmass / ( 1 + moonearthmassratio)
+# moonmass                moonearthmassratio earthmass
+#
+#
+# # These are the old values for the planetary masses.  They may give
+# # the masses of the planets alone.
+#
+# oldmercurymass             0.33022e24 kg
+# oldvenusmass               4.8690e24 kg
+# oldmarsmass                0.64191e24 kg
+# oldjupitermass             1898.8e24 kg
+# oldsaturnmass              568.5e24 kg
+# olduranusmass              86.625e24 kg
+# oldneptunemass             102.78e24 kg
+# oldplutomass               0.015e24 kg
+#
+# # Mean radius from http://ssd.jpl.nsaa.gov/phys_props_planets.html which in
+# # turn cites Global Earth Physics by CF Yoder, 1995.
+#
+# mercuryradius           2440 km
+# venusradius             6051.84 km
+# earthradius             6371.01 km
+# marsradius              3389.92 km
+# jupiterradius           69911 km
+# saturnradius            58232 km
+# uranusradius            25362 km
+# neptuneradius           24624 km
+# plutoradius             1151 km
+#
+# moongravity             1.62 m/s^2
+#
+#
+# surveyorschain          66 surveyft
+# surveychain             surveyorschain
+# surveyorspole           1|4 surveyorschain
+# surveyorslink           1|100 surveyorschain
+# chain                   66 ft
+# link                    1|100 chain
+# ch                      chain
+# USacre                  10 surveychain^2
+# intacre                 10 chain^2       # Acre based on international ft
+# intacrefoot             acre foot
+# USacrefoot              USacre surveyfoot
+# acrefoot                intacrefoot
+# acre                    intacre
+# section                 mile^2
+# township                36 section
+# homestead               160 acre # Area of land granted by the 1862 Homestead
+#                                  # Act of the United States Congress
+# gunterschain            surveyorschain
+#
+# engineerschain          100 ft
+# engineerslink           1|100 engineerschain
+# ramsdenschain           engineerschain
+# ramsdenslink            engineerslink
+#
+# gurleychain             33 feet           # Andrew Ellicott chain is the
+# gurleylink              1|50 gurleychain  # same length
+#
+# wingchain               66 feet           # Chain from 1664, introduced by
+# winglink                1|80 wingchain    # Vincent Wing, also found in a
+#                                           # 33 foot length with 40 links.
+#
+# # History.
+#
+# troughtonyard           914.42190 mm
+# bronzeyard11            914.39980 mm
+# mendenhallyard          surveyyard
+# internationalyard       yard
+#
+#
+# cable                   1|10 nauticalmile
+# intcable                cable              # international cable
+# cablelength             cable
+# UScable                 100 USfathom
+# navycablelength         720 USft           # used for depth in water
+# marineleague            3 nauticalmile
+# geographicalmile        brnauticalmile
+# knot                    nauticalmile / hr
+# click                   km       # US military slang
+# klick                   click
+#
+#
+#
+# # USA shoe sizes.  These express the length of the shoe or the length
+# # of the "last", the form that the shoe is made on.  But note that
+# # this only captures the length.  It appears that widths change 1/4
+# # inch for each letter within the same size, and if you change the
+# # length by half a size then the width changes between 1/8 inch and
+# # 1/4 inch.  But this may not be standard.  If you know better, please
+# # contact me.
+#
+# shoesize_delta          1|3 inch     # USA shoe sizes differ by this amount
+# shoe_men0               8.25 inch
+# shoe_women0             (7+11|12) inch
+# shoe_boys0              (3+11|12) inch
+# shoe_girls0             (3+7|12) inch
+#
+# shoesize_men(n) units=[1;inch]   shoe_men0 + n shoesize_delta ; \
+#                                 (shoesize_men+(-shoe_men0))/shoesize_delta
+# shoesize_women(n) units=[1;inch] shoe_women0 + n shoesize_delta ; \
+#                                 (shoesize_women+(-shoe_women0))/shoesize_delta
+# shoesize_boys(n) units=[1;inch]  shoe_boys0 + n shoesize_delta ; \
+#                                 (shoesize_boys+(-shoe_boys0))/shoesize_delta
+# shoesize_girls(n) units=[1;inch] shoe_girls0 + n shoesize_delta ; \
+#                                 (shoesize_girls+(-shoe_girls0))/shoesize_delta
+#
+#
+# buck                    US$
+# fin                     5 US$
+# sawbuck                 10 US$
+# usgrand                 1000 US$
+# greenback               US$
+# key                     kg           # usually of marijuana, 60's
+# lid                     1 oz         # Another 60's weed unit
+# footballfield           usfootballfield
+# usfootballfield         100 yards
+# canadafootballfield     110 yards    # And 65 yards wide
+# marathon                26 miles + 385 yards
+#
+# British
+#
+# goad                    4.5 UKft     # used for cloth, possibly named after the
+#                                      #   stick used for prodding animals.
+#
+# virgate                 1|4 hide
+# nook                    1|2 virgate
+# rood                    furlong rod  # Area of a strip a rod by a furlong
+# englishcarat            troyounce/151.5 # Originally intended to be 4 grain
+#                                         #   but this value ended up being
+#                                         #   used in the London diamond market
+# mancus                  2 oz
+# mast                    2.5 lb
+# nailkeg                 100 lbs
+# basebox                 31360 in^2      # Used in metal plating
+#
+#
+# cdaudiospeed      44.1 kHz 2*16 bits # CD audio data rate at 44.1 kHz with 2
+#                                      # samples of sixteen bits each.
+# cdromspeed       75 2048 bytes / sec # For data CDs (mode1) 75 sectors are read
+#                                      # each second with 2048 bytes per sector.
+#                                      # Audio CDs do not have sectors, but
+#                                      # people sometimes divide the bit rate by
+#                                      # 75 and claim a sector length of 2352.
+#                                      # Data CDs have a lower rate due to
+#                                      # increased error correction overhead.
+#                                      # There is a rarely used mode (mode2) with
+#                                      # 2336 bytes per sector that has fewer
+#                                      # error correction bits than mode1.
+# dvdspeed                 1385 kB/s   # This is the "1x" speed of a DVD using
+#                                      # constant linear velocity (CLV) mode.
+#                                      # Modern DVDs may vary the linear velocity
+#                                      # as they go from the inside to the
+#                                      # outside of the disc.
+#
+# #
+# # Counting measures
+# #
+#
+# pair                    2
+# brace                   2
+# nest                    3     # often used for items like bowls that
+#                               #   nest together
+# hattrick                3     # Used in sports, especially cricket and ice
+#                               #   hockey to report the number of goals.
+# dicker                  10
+# dozen                   12
+# bakersdozen             13
+# score                   20
+# flock                   40
+# timer                   40
+# shock                   60
+# toncount                100   # Used in sports in the UK
+# longhundred             120   # From a germanic counting system
+# gross                   144
+# greatgross              12 gross
+# tithe                   1|10  # From Anglo-Saxon word for tenth
+#
+# # Paper counting measure
+#
+# shortquire              24
+# quire                   25
+# shortream               480
+# ream                    500
+# perfectream             516
+# bundle                  2 reams
+# bale                    5 bundles
+#
+#
+# rep                     8.38 mGy     # Roentgen Equivalent Physical, the amount
+#                                      #   of radiation which , absorbed in the
+#                                      #   body, would liberate the same amount
+#                                      #   of energy as 1 roentgen of X rays
+#                                      #   would, or 97 ergs.
 #
 
 
@@ -963,6 +1509,25 @@ unitOperators = {
 
     'hertz' :
         UnitInfo( 'frequency', 'hertz', 'hertz', 'Hz', [ ], [ 'SI' ] ),
+
+    'every_minute' :
+        UnitInfo( 'frequency', 'every_minute', 'x every minute', '', [ ], [ ] ),
+
+    'hourly' :
+        UnitInfo( 'frequency', 'hourly', 'x hourly', '', [ ], [ ] ),
+
+    'daily' :
+        UnitInfo( 'frequency', 'daily', 'x daily', '', [ ], [ ] ),
+
+    'weekly' :
+        UnitInfo( 'frequency', 'weekly', 'x weekly', '', [ ], [ ] ),
+
+    'monthly' :
+        UnitInfo( 'frequency', 'monthly', 'x monthly', '', [ ], [ ] ),
+
+    'yearly' :
+        UnitInfo( 'frequency', 'yearly', 'x yearly', '', [ ], [ ] ),
+
     # illuminance
 
     'footcandle' :
@@ -2255,7 +2820,7 @@ unitConversionMatrix = {
     ( 'googol',                'unity' )                                : mpmathify( '1.0e100' ),
     ( 'grad',                  'degree' )                               : mpmathify( '0.9' ),
     ( 'gram',                  'dalton' )                               : mpmathify( '1.6605387e-24' ),
-    ( 'gram',                  'planck_mass' )                          : mpmathify( '45940.892447777' ),
+    ( 'gram',                  'planck_mass' )                          : mpmathify( '45945.113967' ),
     ( 'gram-equivalent',       'joule' )                                : fdiv( power( mpf( speedOfLight ), 2 ), 1000 ),
     ( 'gray',                  'joule/kilogram' )                       : mpmathify( '1' ),
     ( 'gray',                  'rad' )                                  : mpmathify( '100' ),
@@ -2266,6 +2831,12 @@ unitConversionMatrix = {
     ( 'hefnerkerze',           'candela' )                              : mpmathify( '0.920' ),  # approx.
     ( 'henry',                 'abhenry' )                              : mpmathify( '1.0e9' ),
     ( 'henry',                 'weber/ampere' )                         : mpmathify( '1' ),
+    ( 'hertz',                 'every_minute' )                         : mpmathify( '60' ),
+    ( 'every_minute',          'hourly' )                               : mpmathify( '60' ),
+    ( 'hourly',                'daily' )                                : mpmathify( '24' ),
+    ( 'daily',                 'weekly' )                               : mpmathify( '7' ),
+    ( 'daily',                 'monthly' )                              : mpmathify( '30' ),
+    ( 'daily',                 'yearly' )                               : mpmathify( '365.25' ),
     ( 'homestead',             'acre' )                                 : mpmathify( '160' ),
     ( 'horsepower',            'watt' )                                 : mpmathify( '745.69987158227022' ),
     ( 'horsepower-second',     'joule' )                                : mpmathify( '745.69987158227022' ),

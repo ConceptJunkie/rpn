@@ -170,10 +170,10 @@ Arguments:
 '''
     For integers, rpn understands hexidecimal input of the form '0x....'.
 
-    Otherwise, a leading '0' is interpreted as octal.
-
     A number consisting solely of 0s and 1s with a trailing 'b' or 'B' is
     interpreted as binary.
+
+    Otherwise, a leading '0' is interpreted as octal.
 
     Decimal points are not allowed for binary, octal or hexadecimal modes,
     but fractional numbers in bases other than 10 can be input using -b.
@@ -204,9 +204,9 @@ mpmath library.
 Polynomials should support being taken to positive integral powers, but don't
 yet.
 
-I also want to support taking units to integral powers, but don't yet.
+I also want to support taking units to integral powers, but it doesn't yet.
 
-This requires implicit conversion between unit types, but doesn't work yet:
+This requires implicit conversion between unit types, and doesn't work yet:
     rpn -D 16800 mA hours * 5 volts * joule convert
 
 'isolated' seems to be broken right now (as of 5.24.0).
@@ -347,6 +347,8 @@ election_day, labor_day, memorial_day, nthday, presidents_day, thanksgiving
 Added Julian date operators, ISO date operators, calendar operators and the
 'ash_wednesday' operator.  Added support for the density unit type and
 several small bug fixes.
+
+5.25.1
 ''',
 'license' :
 '''
