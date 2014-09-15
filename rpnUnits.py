@@ -17,7 +17,177 @@ from mpmath import *
 from rpnDeclarations import *
 from rpnEstimates import *
 
-# http://orefa.net/viscosity.html
+# The candela is the luminous intensity, in a given direction, of a source
+# that emits monochromatic radiation of frequency 540 × 1012 hertz and that
+# has a radiant intensity in that direction of 1/683 watt per steradian.
+
+# It follows that the spectral luminous efficacy for monochromatic radiation of
+# frequency of 5.40e14 hertz is exactly 683 lumens per watt, K = 683 lm/W
+# = 683 cd sr/W.
+
+# Derived quantity                                    SI coherent derived unit
+#
+# area                        A                       square metre                    m^2
+# volume                      V                       cubic metre                     m^3
+# speed, velocity             v                       metre per second                m/s
+# acceleration                a                       metre per second squared        m/s^2
+# wavenumber                  small sigma, nu tilde   reciprocal metre                m^-1
+# density, mass density       small rho               kilogram per cubic metre        kg/m3
+# surface density             small rho sub A         kilogram per square metre       kg/m2
+# specific volume             v                       cubic metre per kilogram        m3/kg
+# current density             j                       ampere per square metre         A/m2
+# magnetic field strength     H                       ampere per metre                A/m
+# amount concentration,       c                       mole per cubic metre            mol/m3
+# mass concentration          small rho, small gamma  kilogram per cubic metre        kg/m3
+# luminance                   L sub v                 candela per square metre        cd/m2
+# refractive index            n                       one                             1
+# relative permeability       mu sub r                one                             1
+#
+#
+# SI coherent derived unit
+#
+# Derived Quantity              Name            Symbol          Expressed as other SI units     SI Base Units
+#
+# plane angle                   radian          rad             1                               m/m
+# solid angle                   steradian       sr              1                               m2/m2
+# frequency                     hertz           Hz                                              s^-1
+# force                         newton          N                                               m kg s^-2
+# pressure, stress              pascal          Pa              N/m2                            m^-1 kg s^-2
+# energy, work, amount of heat  joule           J               N m                             m2 kg s^-2
+#
+# power, radiant flux           watt            W J/s m2 kg s^-3
+#
+# electric charge,              coulomb         C                                               s A
+# amount of electricity
+#
+# electric potential difference, volt           V               W/A                             m2 kg s^-3 A^-1
+# electromotive force
+#
+# capacitance                   farad           F               C/V                             m^-2 kg^-1 s4 A2
+# electric resistance           ohm             omega           V/A                             m2 kg s^-3 A^-2
+# electric conductance          siemens         S               A/V                             m^-2 kg^-1 s3 A2
+# magnetic flux                 weber           Wb              V s                             m2 kg s^-2 A^-1
+# magnetic flux density         tesla           T               Wb/m2                           kg s^-2 A^-1
+# inductance                    henry           H               Wb/A                            m2 kg s^-2 A^-2
+# Celsius temperature           degree Celsius  degree C                                        K
+# luminous flux                 lumen           lm              cd sr                           cd
+# illuminance                   lux             lx              lm/m2                           m^-2 cd
+#
+# activity referred to          becquerel       Bq                                              s^-1
+# a radionuclide
+#
+# absorbed dose,                gray            Gy              J/kg                            m2 s^-2
+# specific energy (imparted),
+# kerma
+#
+# dose equivalent,              sievert         Sv              J/kg                            m2 s^-2
+# ambient dose equivalent,
+# directional dose equivalent,
+# personal dose equivalent
+#
+# catalytic activity            katal           kat                                             s^-1 mol
+#
+#
+# dynamic viscosity             pascal second   Pa s            m^-1 kg s^-1
+# moment of force               newton metre    N m             m2 kg s.2
+# surface tension newton per metre N/m kg s.2
+# angular velocity radian per second rad/s m m.1 s.1 = s.1
+# angular acceleration radian per second squared rad/s2 m m.1 s.2 = s.2
+# heat flux density, watt per square metre W/m2 kg s.3
+# irradiance
+# heat capacity, entropy joule per kelvin J/K m2 kg s.2 K.1
+# specific heat capacity, joule per kilogram kelvin J/(kg K) m2 s.2 K.1
+# specific entropy
+# specific energy joule per kilogram J/kg m2 s.2
+# thermal conductivity watt per metre kelvin W/(m K) m kg s.3 K.1
+# energy density joule per cubic metre J/m3 m.1 kg s.2
+# electric field strength volt per metre V/m m kg s.3 A.1
+# electric charge density coulomb per cubic metre C/m3 m.3 s A
+# surface charge density coulomb per square metre C/m2 m.2 s A
+# electric flux density, coulomb per square metre C/m2 m.2 s A
+# electric displacement
+# permittivity farad per metre F/m m.3 kg.1 s4 A2
+# permeability henry per metre H/m m kg s.2 A.2
+# molar energy joule per mole J/mol m2 kg s.2 mol.1
+# molar entropy, joule per mole kelvin J/(mol K) m2 kg s.2 K.1mol.1
+# molar heat capacity
+# exposure (x- and ã-rays) coulomb per kilogram C/kg kg.1 s A
+# absorbed dose rate gray per second Gy/s m2 s.3
+# radiant intensity watt per steradian W/sr m4 m.2 kg s.3 = m2 kg s.3
+# radiance watt per square metre steradian W/(m2 sr) m2 m.2 kg s.3 = kg s.3
+# catalytic activity katal per cubic metre kat/m3 m.3 s.1 mol
+# concentration
+#
+# Quantity              Name of unit                Symbol          Value in SI units (a)
+#
+# Units accepted for use with the SI
+#
+# energy                electronvolt                eV              1 eV = 1.602 176 53 (14) * 10^-19 J
+# mass                  dalton,                     Da              1 Da = 1.660 538 86 (28) * 10^-27 kg
+#                       unified atomic mass unit    u               1 u = 1 Da
+# length                astronomical unit           ua              1 ua = 1.495 978 706 91 (6) * 10^11 m
+#
+# Natural units (n.u.)
+#
+# speed                 n.u. of speed               c sub 0         299 792 458 m/s (exact)
+#                       (speed of light in vacuum)
+#
+# action                n.u. of action              h               1.054 571 68 (18) * 10-34 J s
+#                       (reduced Planck constant)
+#
+# mass                  n.u. of mass                m sub e         9.109 3826 (16) * 10-31 kg
+#                       (electron mass)
+#
+# time                  n.u. of time                h/(m sub e c sub 0^2)   1.288 088 6677 (86) * 10-21 s
+#
+# Atomic units (a.u.)
+#
+# charge                a.u. of charge,             e                       1.602 176 53 (14) * 10-19 C
+#                       (elementary charge)
+#
+# mass                  a.u. of mass,               m sub e                 9.109 3826 (16) * 10-31 kg
+#                       (electron mass)
+#
+# action                a.u. of action,             h                       1.054 571 68 (18) * 10-34 J s
+#                       (reduced Planck constant)
+#
+# length                a.u. of length, bohr        a sub 0                 0.529 177 2108 (18) * 10-10 m
+#                       (Bohr radius)
+#
+# energy                a.u. of energy, hartree     Eh                      4.359 744 17 (75) * 10-18 J
+#                       (Hartree energy)
+#
+# time                  a.u. of time                h/Eh                    # 2.418 884 326 505 (16) * 10-17 s
+#
+#
+# Other non-SI units
+#
+# Quantity                  Name of unit            Symbol  Value in SI units
+#
+#   pressure                bar                     bar     1 bar = 0.1 MPa = 100 kPa = 105 Pa
+#                           millimetre of mercury   mmHg    1 mmHg ~= 133.322 Pa
+#   length                  angstrom                A       1 A = 0.1 nm = 100 pm = 10-10 m
+#   distance                nautical mile           M       1 M = 1852 m
+#   area                    barn                    b       1 b = 100 fm^2 = (10^-12 cm)^2 = 10^-28 m^2
+#   speed                   knot                    kn      1 kn = (1852/3600) m/s
+#   logarithmic             neper                   Np
+#   ratio quantities        bel                     B       numerical value of the neper, the
+#                           decibel (h, i)          dB      bel and the decibel]
+#
+#
+# Quantity              Name of unit    Symbol          Value in SI units
+# energy                erg             erg             1 erg = 10-7 J
+# force                 dyne            dyn             1 dyn = 10-5 N
+# dynamic viscosity     poise           P               1 P = 1 dyn s cm-2 = 0.1 Pa s
+# kinematic viscosity   stokes          St              1 St = 1 cm2 s^-1 = 10^-4 m2 s^-1
+# luminance             stilb           sb              1 sb = 1 cd cm-2 = 10^4 cd m-2
+# illuminance           phot            ph              1 ph = 1 cd sr cm-2 = 104 lx
+# acceleration          gal             Gal             1 Gal = 1 cm s-2 = 10-2 m s-2
+# magnetic flux         maxwell         Mx              1 Mx = 1 G cm2 = 10-8 Wb
+# magnetic flux density gauss           G               1 G = 1 Mx cm-2 = 10-4 T
+# magnetic field        oersted         Oe              1 Oe ^= (1000/4 pi ) A m^-1
+#
+
 
 #//******************************************************************************
 #//
@@ -127,6 +297,12 @@ basicUnitTypes = {
         [ 'mass*length/time' ],
         'newton',
         forceTable,
+    ),
+
+    'frequency' : UnitTypeInfo(
+        [ '1/time' ],
+        'hertz',
+        frequencyTable,
     ),
 
     'illuminance' : UnitTypeInfo(
@@ -783,6 +959,10 @@ unitOperators = {
     'sthene' :
         UnitInfo( 'force', 'sthene', 'sthenes', 'sn', [ 'funal' ], [ 'MTS' ] ),
 
+    # frequency
+
+    'hertz' :
+        UnitInfo( 'frequency', 'hertz', 'hertz', 'Hz', [ ], [ 'SI' ] ),
     # illuminance
 
     'footcandle' :
@@ -841,7 +1021,7 @@ unitOperators = {
         UnitInfo( 'information_entropy', 'joule/kelvin', 'joules/kelvin', 'J/K', [ 'joule/K', 'joules/K' ], [ 'SI' ] ),
 
     'library_of_congress' :
-        UnitInfo( 'information_entropy', 'library_of_congress', 'libraries_of_congress', '', [ 'congress', 'congresses' ], [ 'computing' ] ),
+        UnitInfo( 'information_entropy', 'library_of_congress', 'libraries_of_congress', 'LoC', [ 'congress', 'congresses' ], [ 'computing' ] ),
 
     'nibble' :
         UnitInfo( 'information_entropy', 'nibble', 'nibbles', '', [ 'nybble', 'nybbles' ], [ 'computing' ] ),

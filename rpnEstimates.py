@@ -173,7 +173,7 @@ capacitanceTable = {
     mpf( '2.0e-15' )    : 'the gate capacitance of a MOS transistor, per micron of gate width',
     mpf( '3.0e-14' )    : 'the capacitance of a DRAM cell',
     mpf( '1.0e-13' )    : 'the capacitance of a small ceramic capacitor (100 fF)',
-    mpf( '1.0e-12' )    : 'the capacitance of a small mica and PTFE capacitor (1 pF)',
+    mpf( '1.0e-12' )    : 'the capacitance of a small mica or PTFE capacitor (1 pF)',
     mpf( '4.0e-12' )    : 'the capacitive sensing of air-water-snow-ice (4 pF)',
     mpf( '5.0e-12' )    : 'the capacitance of a low condenser microphone (5 pF)',
     mpf( '4.5e-11' )    : 'a variable capacitor (45 pF)',
@@ -780,6 +780,9 @@ forceTable = {
 #//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28force%29
 #//
 #//******************************************************************************
+
+# The second is the duration of 9 192 631 770 periods of the radiation corresponding to the transition between the
+# two hyperfine levels of the ground state of the caesium 133 atom.
 
 frequencyTable = {
     mpf( '2.296e-18' )          : 'the frequency of the Hubble Constant (once in 13.8 billion years)',

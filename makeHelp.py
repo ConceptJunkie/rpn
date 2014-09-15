@@ -169,10 +169,14 @@ Arguments:
 'input' :
 '''
     For integers, rpn understands hexidecimal input of the form '0x....'.
-    Otherwise, a leading '0' is interpreted as octal and a trailing 'b' or 'B'
-    is interpreted as binary.  Decimal points are not allowed for binary,
-    octal or hexadecimal modes, but fractional numbers in bases other than 10
-    can be input using -b.
+
+    Otherwise, a leading '0' is interpreted as octal.
+
+    A number consisting solely of 0s and 1s with a trailing 'b' or 'B' is
+    interpreted as binary.
+
+    Decimal points are not allowed for binary, octal or hexadecimal modes,
+    but fractional numbers in bases other than 10 can be input using -b.
 
     A leading '\\' forces the term to be a number rather than an operator (for
     use with higher bases with -b).
@@ -669,7 +673,7 @@ Bitwise operators force all arguments to integers by truncation if necessary.
 ''',
 'metric' :
 '''
-SI Units:
+SI Base Units:
 
     Quantity                    Dimension           SI unit and symbol
 
@@ -679,34 +683,37 @@ SI Units:
     Electric current            I                   ampere (A)
     Temperature                 K                   kelvin (K)
     Luminous intensity          J                   candela (cd)
-    Amount of substance *       N                   mole (mol)
-    Area                        L^2                 are (are)
-    Volume                      L^3                 liter (l)
+    Amount of substance **      N                   mole (mol)
+
+SI Derived Units:
+
+    Absorbed [radiation] dose   L^2 T^-2            gray (Gy)
     Acceleration                L T^-2              meter/second^2 (m*s^-2)
-    Frequency *                 T^-1                hertz (Hz)
-    Energy                      L^2 M T^-2          joule (J)
-    Power                       L^2 M T^-3          watt (W)
-    Force                       L M T^-2            newton (N)
-    Pressure                    L^-1 M T^-2         pascal (Pa)
-    Electric charge             I T                 coulomb (C)
-    Potential difference        L^2 M T^-3 I^-1     volt (V)
+    Area                        L^2                 are (are)
     Capacitance                 L^-2 M^-1 T^4 I^2   farad (F)
-    Inductance                  L^2 M T^-2 I^-2     henry (H)
-    Electric resistance         L^2 M T^-3 I^-2     ohm ([omega])
-    Electric conductance        L^-2 M^-1 T^3 I^2   siemens (S)
-    Magnetic flux               L^2 M T^-2 I^-1     weber (Wb)
-    Magnetic flux density       M T^-2 I^-1         tesla (T)
-    Magnetic field strength     I L^-1              ampere/meter (A/m)
+    Catalytic activity **       N T^-1              katal (kat)
     Dynamic viscosity           M L^-1 T^-1         pascal-second (Pa*s)
+    Electric charge             I T                 coulomb (C)
+    Electric conductance        L^-2 M^-1 T^3 I^2   siemens (S)
+    Electric resistance         L^2 M T^-3 I^-2     ohm ([omega])
+    Energy                      L^2 M T^-2          joule (J)
+    Force                       L M T^-2            newton (N)
+    Frequency                   T^-1                hertz (Hz)
+    Illuminance                 J L^-2              lux (lx)
+    Inductance                  L^2 M T^-2 I^-2     henry (H)
     Kinematic viscosity         L^2 T^-1            meter^2/second (m2*s^-1)
     Luminous flux               J                   lumen (lm)
-    Illuminance                 J L^-2              lux (lx)
-    [Radioactive] activity      T^-1                becquerel (Bq)
-    Absorbed [radiation] dose   L^2 T^-2            gray (Gy)
+    Magnetic field strength     I L^-1              ampere/meter (A/m)
+    Magnetic flux               L^2 M T^-2 I^-1     weber (Wb)
+    Magnetic flux density       M T^-2 I^-1         tesla (T)
+    Potential difference        L^2 M T^-3 I^-1     volt (V)
+    Power                       L^2 M T^-3          watt (W)
+    Pressure                    L^-1 M T^-2         pascal (Pa)
     Radiation dose equivalent   L^2 T^-2            sievert (Sv)
-    Catalytic activity *        N T^-1              katal (kat)
+    Volume                      L^3                 liter (l)
+    [Radioactive] activity      T^-1                becquerel (Bq)
 
-    * not supported in rpn
+    ** not supported in rpn
 
 SI Prefixes:
 

@@ -910,6 +910,15 @@ def parseInputValue( term, inputRadix ):
                 integer = integer[ 1 : ]
 
                 return mpmathify( int( integer, 8 ) )
+        if integer[ 0 ] == '1' and integer[ -1 ] in 'bB':
+            # set the precision big enough to handle this value
+            newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
+
+            if mp.dps < newPrecision:
+                mp.dps = newPrecision
+
+            integer = integer[ : -1 ]
+            return mpmathify( int( integer, 2 ) * ( -1 if negative else 1 ) )
         elif inputRadix == 10:
             newPrecision = len( integer ) + 1
 
