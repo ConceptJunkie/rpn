@@ -349,6 +349,10 @@ Added Julian date operators, ISO date operators, calendar operators and the
 several small bug fixes.
 
 5.25.1
+
+Added dynamic_visocity and frequency unit types and a few bug fixes.  Added
+units for the days and years of the other 8 planets in the Solar System.
+
 ''',
 'license' :
 '''
