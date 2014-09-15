@@ -377,8 +377,6 @@ from rpnEstimates import *
 # draconiticmonth         nodicalmonth        #   This is the time required to
 #                                             #   travel from the ascending node
 #                                             #   to the next ascending node.
-# siderealmonth           27.321661 day       # Time required for the moon to
-#                                             #   orbit the earth
 # lunarmonth              29 days + 12 hours + 44 minutes + 2.8 seconds
 #                                             # Mean time between full moons.
 # synodicmonth            lunarmonth          #   Full moons occur when the sun
@@ -2169,6 +2167,9 @@ unitOperators = {
     'sidereal_day' :
         UnitInfo( 'time', 'sidereal_day', 'sidereal_days', '', [ 'earth_day' ], [ 'science' ] ),
 
+    'sidereal_month' :
+        UnitInfo( 'time', 'sidereal_month', 'sidereal_months', '', [ ], [ 'science' ] ),
+
     'sidereal_year' :
         UnitInfo( 'time', 'sidereal_year', 'sidereal_years', '', [ 'earth_year' ], [ 'science' ] ),
 
@@ -2190,7 +2191,7 @@ unitOperators = {
     'year' :
         UnitInfo( 'time', 'year', 'years', '', [ 'annum', 'julian_year', 'julian_years' ], [ 'traditional', 'years' ] ),
 
-    # sidereal days
+    # planet days
 
     'mercury_day' :
         UnitInfo( 'time', 'mercury_day', 'mercury_days', '', [ ], [ 'science' ] ),
@@ -2216,7 +2217,7 @@ unitOperators = {
     'pluto_day' :
         UnitInfo( 'time', 'pluto_day', 'pluto_days', '', [ ], [ 'science' ] ),
 
-    # sidereal years
+    # planet years
 
     'mercury_year' :
         UnitInfo( 'time', 'mercury_year', 'mercury_years', '', [ ], [ 'science' ] ),
@@ -3033,6 +3034,7 @@ unitConversionMatrix = {
     ( 'sextant',                'degree' )                              : mpmathify( '60' ),
     ( 'sextillion',             'unity' )                               : mpmathify( '1.0e21' ),
     ( 'sidereal_day',           'second' )                              : mpmathify( '86164.09054' ),
+    ( 'sidereal_month',         'day' )                                 : mpmathify( '27.321661' ),
     ( 'sidereal_year',          'day' )                                 : mpmathify( '365.256360417' ),
     ( 'siemens',                'ampere/volt' )                         : mpmathify( '1' ),
     ( 'siemens',                'kilogram-meter^2/second^3-ampere^2' )  : mpmathify( '1' ),
