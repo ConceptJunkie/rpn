@@ -131,10 +131,12 @@ from rpnEstimates import *
 #
 # Units accepted for use with the SI
 #
-# energy                electronvolt                eV              1 eV = 1.602 176 53 (14) * 10^-19 J
-# mass                  dalton,                     Da              1 Da = 1.660 538 86 (28) * 10^-27 kg
+# energy                electronvolt                eV              1 eV = 1.602 176 53 (14) * 10e-19 J
+#
+# mass                  dalton,                     Da              1 Da = 1.660 538 86 (28) * 10e-27 kg
 #                       unified atomic mass unit    u               1 u = 1 Da
-# length                astronomical unit           ua              1 ua = 1.495 978 706 91 (6) * 10^11 m
+#
+# length                astronomical unit           ua              1 ua = 1.495 978 706 91 (6) * 10e11 m
 #
 #
 # Natural units (n.u.)
@@ -142,32 +144,32 @@ from rpnEstimates import *
 # speed                 n.u. of speed               c sub 0                 299 792 458 m/s (exact)
 #                       (speed of light in vacuum)
 #
-# action                n.u. of action              h                       1.054 571 68 (18) * 10-34 J s
+# action                n.u. of action              h                       1.054 571 68 (18) * 10e-34 J s
 #                       (reduced Planck constant)
 #
-# mass                  n.u. of mass                m sub e                 9.109 3826 (16) * 10-31 kg
+# mass                  n.u. of mass                m sub e                 9.109 3826 (16) * 10e-31 kg
 #                       (electron mass)
 #
-# time                  n.u. of time                h/(m sub e c sub 0^2)   1.288 088 6677 (86) * 10-21 s
+# time                  n.u. of time                h/(m sub e c sub 0^2)   1.288 088 6677 (86) * 10e-21 s
 #
 # Atomic units (a.u.)
 #
-# charge                a.u. of charge,             e                       1.602 176 53 (14) * 10-19 C
+# charge                a.u. of charge,             e                       1.602 176 53 (14) * 10e-19 C
 #                       (elementary charge)
 #
-# mass                  a.u. of mass,               m sub e                 9.109 3826 (16) * 10-31 kg
+# mass                  a.u. of mass,               m sub e                 9.109 3826 (16) * 10e-31 kg
 #                       (electron mass)
 #
-# action                a.u. of action,             h                       1.054 571 68 (18) * 10-34 J s
+# action                a.u. of action,             h                       1.054 571 68 (18) * 10e-34 J s
 #                       (reduced Planck constant)
 #
-# length                a.u. of length, bohr        a sub 0                 0.529 177 2108 (18) * 10-10 m
+# length                a.u. of length, bohr        a sub 0                 0.529 177 2108 (18) * 10e-10 m
 #                       (Bohr radius)
 #
-# energy                a.u. of energy, hartree     Eh                      4.359 744 17 (75) * 10-18 J
+# energy                a.u. of energy, hartree     Eh                      4.359 744 17 (75) * 10e-18 J
 #                       (Hartree energy)
 #
-# time                  a.u. of time                h/Eh                    # 2.418 884 326 505 (16) * 10-17 s
+# time                  a.u. of time                h/Eh                    # 2.418 884 326 505 (16) * 10e-17 s
 #
 #
 # Other non-SI units
@@ -248,7 +250,6 @@ from rpnEstimates import *
 #                                             #   liter of hydrogen at standard
 #                                             #   temperature and pressure.
 #
-# barad                   barye           # old name
 # kayser                  1/cm            # Proposed as a unit for wavenumber
 # balmer                  kayser          # Even less common name than "kayser"
 #
@@ -1841,16 +1842,13 @@ unitOperators = {
         UnitInfo( 'mass', 'carat', 'carats', 'kt', [ 'karat', 'karats' ], [ 'US' ] ),
 
     'dalton' :
-        UnitInfo( 'mass', 'dalton', 'daltons', '', [ 'amu', 'atomic-mass-unit' ], [ 'science' ] ),
+        UnitInfo( 'mass', 'dalton', 'daltons', '', [ 'amu', 'atomic_mass_unit' ], [ 'science' ] ),
 
     'doppelzentner' :
         UnitInfo( 'mass', 'doppelzentner', 'doppelzentners', '', [ ], [ 'Germany' ] ),
 
     'earth_mass' :
         UnitInfo( 'mass', 'earth_mass', 'earth_masses', 'Mgeo', [ ], [ 'natural' ] ),
-
-    'electron_mass' :
-        UnitInfo( 'mass', 'electron_mass', 'electron_masses', '', [ 'electron_rest_mass', 'electron_rest_masses' ], [ 'natural' ] ),
 
     'farshimmelt_blintz' :
         UnitInfo( 'mass', 'farshimmelt_blintz', 'farshimmelt_blintzes', 'fb', [ 'far-blintz' ], [ 'Potrzebie', 'humorous' ] ),
@@ -1924,6 +1922,35 @@ unitOperators = {
     'zentner' :
         UnitInfo( 'mass', 'zentner', 'zentners', '', [ ], [ 'Germany' ] ),
 
+    # particle masses
+
+    'electron_mass' :
+        UnitInfo( 'mass', 'electron_mass', 'electron_masses', '', [ 'electron_rest_mass', 'electron_rest_masses' ], [ 'natural', 'science' ] ),
+
+    'proton_mass' :
+        UnitInfo( 'mass', 'proton_mass', 'proton_masses', '', [ ], [ 'natural', 'science' ] ),
+
+    'neutron_mass' :
+        UnitInfo( 'mass', 'neutron_mass', 'neutron_masses', '', [ ], [ 'natural', 'science' ] ),
+
+    'muon_mass' :
+        UnitInfo( 'mass', 'muon_mass', 'muon_masses', '', [ ], [ 'natural', 'science' ] ),
+
+    'deuteron_mass' :
+        UnitInfo( 'mass', 'deuteron_mass', 'deuteron_masses', '', [ ], [ 'natural', 'science' ] ),
+
+    'alpha_particle_mass' :
+        UnitInfo( 'mass', 'alpha_particle_mass', 'alpha_particle_masses', '', [ 'alpha_mass', 'alpha_masses' ], [ 'natural', 'science' ] ),
+
+    'tau_mass' :
+        UnitInfo( 'mass', 'tau_mass', 'tau_masses', '', [ ], [ 'natural', 'science' ] ),
+
+    'triton_mass' :
+        UnitInfo( 'mass', 'triton_mass', 'triton_masses', '', [ ], [ 'natural', 'science' ] ),
+
+    'helion_mass' :
+        UnitInfo( 'mass', 'helion_mass', 'helion_masses', '', [ ], [ 'natural', 'science' ] ),
+
     # power
 
     'dBm' :
@@ -1974,7 +2001,7 @@ unitOperators = {
         UnitInfo( 'pressure', 'bar', 'bars', '', [ ], [ ] ),
 
     'barye' :
-        UnitInfo( 'pressure', 'barye', 'baryes', 'Ba', [ ], [ 'CGS' ] ),
+        UnitInfo( 'pressure', 'barye', 'baryes', 'Ba', [ 'barad' ], [ 'CGS' ] ),
 
     'mmHg' :
         UnitInfo( 'pressure', 'mmHg', 'mmHg', '', [ ], [ 'metric' ] ),
@@ -2726,13 +2753,14 @@ unitConversionMatrix = {
     ( 'acre-foot',              'cubic_foot' )                          : mpmathify( '43560' ),
     ( 'aln',                    'inch' )                                : mpmathify( '23.377077865' ),
     ( 'alpha',                  'unity' )                               : mpmathify( '0.0072973526' ),
+    ( 'alpha_particle_mass',    'dalton' )                              : mpmathify( '4.001506179125' ),
     ( 'ampere',                 'coulomb/second' )                      : mpmathify( '1' ),
     ( 'ampere',                 'statampere' )                          : mpmathify( speedOfLight ),
     ( 'arcminute',              'arcsecond' )                           : mpmathify( '60' ),
     ( 'arcsecond',              'milliarcsecond' )                      : mpmathify( '1000' ),
     ( 'are',                    'square_meter' )                        : mpmathify( '100' ),
     ( 'arpent',                 'foot' )                                : mpmathify( '192' ),
-    ( 'astronomical_unit',      'meter' )                               : mpmathify( '149597870700' ),
+    ( 'astronomical_unit',      'meter' )                               : mpmathify( '149597870691' ),
     ( 'atmosphere',             'pascal' )                              : mpmathify( '101325' ),
     ( 'balthazar',              'liter' )                               : mpmathify( '12.0' ),
     ( 'ban',                    'nat' )                                 : log( 10 ),
@@ -2791,6 +2819,7 @@ unitConversionMatrix = {
     ( 'demi',                   'liter' )                               : mpmathify( '0.375' ),
     ( 'density_of_water',       'gram/meter^3' )                        : mpmathify( '1.0e6' ),
     ( 'dessertspoon',           'teaspoon' )                            : mpmathify( '2' ),
+    ( 'deuteron_mass',          'dalton' )                              : mpmathify( '2.013553212712' ),
     ( 'doppelzentner',          'zentner' )                             : mpmathify( '2' ),
     ( 'dozen',                  'unity' )                               : mpmathify( '12' ),
     ( 'dram',                   'scruple' )                             : mpmathify( '3' ),
@@ -2835,7 +2864,7 @@ unitConversionMatrix = {
     ( 'goliath',                'liter' )                               : mpmathify( '27.0' ),
     ( 'googol',                 'unity' )                               : mpmathify( '1.0e100' ),
     ( 'grad',                   'degree' )                              : mpmathify( '0.9' ),
-    ( 'gram',                   'dalton' )                              : mpmathify( '1.6605387e-24' ),
+    ( 'gram',                   'dalton' )                              : mpmathify( '1.66053886e-24' ),
     ( 'gram',                   'planck_mass' )                         : mpmathify( '45945.113967' ),
     ( 'gram-equivalent',        'joule' )                               : fdiv( power( mpf( speedOfLight ), 2 ), 1000 ),
     ( 'gray',                   'joule/kilogram' )                      : mpmathify( '1' ),
@@ -2845,6 +2874,7 @@ unitConversionMatrix = {
     ( 'handbreadth',            'inch' )                                : mpmathify( '3' ),
     ( 'hartree',                'rydberg' )                             : mpmathify( '2' ),
     ( 'hefnerkerze',            'candela' )                             : mpmathify( '0.920' ),  # approx.
+    ( 'helion_mass',            'dalton' )                              : mpmathify( '3.0149322468' ),
     ( 'henry',                  'abhenry' )                             : mpmathify( '1.0e9' ),
     ( 'henry',                  'weber/ampere' )                        : mpmathify( '1' ),
     ( 'hertz',                  'every_minute' )                        : mpmathify( '60' ),
@@ -2929,12 +2959,14 @@ unitConversionMatrix = {
     ( 'month',                  'day' )                                 : mpmathify( '30' ),
     ( 'mordechai',              'liter' )                               : mpmathify( '9.0' ),
     ( 'morgen',                 'are' )                                 : mpmathify( '85.6532' ),
+    ( 'muon_mass',              'dalton' )                              : mpmathify( '0.1134289267' ),
     ( 'nail',                   'inch' )                                : mpmathify( '2.25' ),
     ( 'nat',                    'joule/kelvin' )                        : mpmathify( '1.380650e-23' ),
     ( 'nautical_mile',          'meter' )                               : mpmathify( '1852' ),
     ( 'nebuchadnezzar',         'liter' )                               : mpmathify( '15.0' ),
     ( 'neptune_day',            'day' )                                 : mpmathify( '0.768' ),
     ( 'neptune_year',           'year' )                                : mpmathify( '164.79132' ),
+    ( 'neutron_mass',           'dalton' )                              : mpmathify( '1.00866491600' ),
     ( 'newton',                 'dyne' )                                : mpmathify( '1.0e5' ),
     ( 'newton',                 'joule/meter' )                         : mpmathify( '1' ),
     ( 'newton',                 'pond' )                                : mpmathify( '101.97161298' ),
@@ -2998,6 +3030,7 @@ unitConversionMatrix = {
     ( 'pound',                  'grain' )                               : mpmathify( '7000' ),
     ( 'pound',                  'ounce' )                               : mpmathify( '16' ),
     ( 'pound',                  'sheet' )                               : mpmathify( '700' ),
+    ( 'proton_mass',            'dalton' )                              : mpmathify( '1.007276466812' ),
     ( 'proton_mass',            'gram' )                                : mpmathify( '1.6726218e-24' ),
     ( 'psi',                    'pascal' )                              : mpmathify( '6894.757' ),        # approx.
     ( 'quadrant',               'degree' )                              : mpmathify( '90' ),
@@ -3080,6 +3113,7 @@ unitConversionMatrix = {
     ( 'stone_us',               'pound' )                               : mpmathify( '12.5' ),
     ( 'strike',                 'imperial_bushel' )                     : mpmathify( '2' ),
     ( 'tablespoon',             'teaspoon' )                            : mpmathify( '3' ),
+    ( 'tau_mass',               'dalton' )                              : mpmathify( '1.90749' ),
     ( 'teaspoon',               'dash' )                                : mpmathify( '8' ),
     ( 'teaspoon',               'pinch' )                               : mpmathify( '16' ),
     ( 'teaspoon',               'smidgen' )                             : mpmathify( '32' ),
@@ -3097,6 +3131,7 @@ unitConversionMatrix = {
     ( 'tredecillion',           'unity' )                               : mpmathify( '1.0e42' ),
     ( 'trillion',               'unity' )                               : mpmathify( '1.0e12' ),
     ( 'trit',                   'nat' )                                 : log( 3 ),
+    ( 'triton_mass',            'dalton' )                              : mpmathify( '3.0155007134' ),
     ( 'tropical_year',          'day' )                                 : mpmathify( '365.24219' ),
     ( 'troy_ounce',             'gram' )                                : mpmathify( '31.1034768' ),
     ( 'troy_pound',             'pound' )                               : mpmathify( '12' ),
