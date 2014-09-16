@@ -187,6 +187,43 @@ Arguments:
 ''',
 'unit_conversion' :
 '''
+c:\>rpn 10 miles km convert
+16.0934399991 kilometers
+
+c:\>rpn rpn 2 gallons cups convert
+rpn:  error in arg 1:  unrecognized argument: 'rpn
+
+c:\>rp 2 gallons cups convert
+TCC: Unknown command "rp"
+
+c:\>rpn 2 gallons cups convert
+32 cups
+
+c:\>rpn 153 pounds stone convert
+10.9285714286 stone
+
+c:\>
+
+
+c:\>rpn 10 miles km convert
+16.0934399991 kilometers
+
+c:\>rpn rpn 2 gallons cups convert
+rpn:  error in arg 1:  unrecognized argument: 'rpn
+
+c:\>rp 2 gallons cups convert
+TCC: Unknown command "rp"
+
+c:\>rpn 2 gallons cups convert
+32 cups
+
+c:\>rpn 153 pounds stone convert
+10.9285714286 stone
+
+c:\>
+
+
+
     [ TODO: describe unit conversions in rpn ]
 ''',
 'about' :
@@ -206,10 +243,16 @@ yet.
 
 I also want to support taking units to integral powers, but it doesn't yet.
 
+Similarly for units, '1/x' will convert the numerical value, but leave the
+unit untouched.
+
 This requires implicit conversion between unit types, and doesn't work yet:
     rpn -D 16800 mA hours * 5 volts * joule convert
 
 'isolated' seems to be broken right now (as of 5.24.0).
+
+Unit conversion suffers from small rounding errors in some situations.  This
+is unavoidable to a certain extent, but it's worse than I think it should be.
 ''',
 'release_notes' :
 '''
@@ -350,8 +393,18 @@ several small bug fixes.
 
 5.25.1
 
-Added dynamic_visocity and frequency unit types and a few bug fixes.  Added
-units for the days and years of the other 8 planets in the Solar System.
+Added dynamic_visocity and frequency unit types and a few bug fixes.
+
+Added units for the days and years of the other 8 planets in the Solar System.
+
+Added several constant units for quaint or archaic number terms like 'score'
+and 'gross'.
+
+Added constant for common particle masses.
+
+Updated some constants based on natural values (electron mass, etc.).
+
+Fixed some problems with generating and interpreting compound units.
 
 ''',
 'license' :
@@ -545,12 +598,48 @@ Calculations with absolute time:
         2015-02-28 00:00:00
 
     There is no February 30, so we use the real last day of the month.  Months
-    are handled specially from the other time units because they can differ in
-    length.
+    are handled differently from the other time units with respect to time math
+    because they can differ in length.
+
+    However, the month as an absolute unit of time is simply equated to 30
+    days:
+        c:\>rpn month days convert
+        30 days
 
 Unit conversions:
 
-    [ TODO ]
+    Unit conversions should be very intuitive.
+
+        c:\>rpn 10 miles km convert
+        16.0934399991 kilometers
+
+        c:\>rpn 2 gallons cups convert
+        32 cups
+
+        c:\>rpn 153 pounds stone convert
+        10.9285714286 stone
+
+    rpn supports compound units:
+
+        c:\>rpn 65 miles hour / meters second / convert
+        29.0575999991 meters per second
+
+        c:\>rpn 65 miles hour / furlongs fortnight / convert
+        174720 furlongs per fortnight
+
+    rpn can handle combinations of different types of units, but sometimes
+    it needs help to get them into meaningful terms.
+
+        c:\>rpn G
+        1 standard gravity
+
+        c:\>rpn G 10 seconds *
+        10 standard gravities seconds
+
+        c:\>rpn G 10 seconds * ft s / convert
+        321.7404855643 feet per second
+
+    [ TODO:  finish unit conversion examples ]
 
 Advanced examples:
 

@@ -363,21 +363,13 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     compoundUnits = { }
 
-    for unit in unitOperators:
-        chars = set( '*/^' )
-
-        compoundUnit = unitOperators[ unit ].representation
-
-        if any( ( c in chars ) for c in compoundUnit ):
-            compoundUnits[ unit ] = compoundUnit
-            #print( '    compound unit: ', unit1, '(', unit2, ')' )
-
     for unit1, unit2 in unitConversionMatrix:
         chars = set( '*/^' )
 
-        if any( ( c in chars ) for c in unit2 ):
-            compoundUnits[ unit1 ] = unit2
-            #print( '    compound unit: ', unit1, '(', unit2, ')' )
+        #if any( ( c in chars ) for c in unit2 ):
+        #    if not any( ( c in chars ) for c in unit1 ):
+        #        compoundUnits[ unit1 ] = unit2
+        #        #print( '    compound unit: ', unit1, '(', unit2, ')' )
 
     # create area and volume units from all of the length units
     print( 'Creating area and volume units for all length units...' )

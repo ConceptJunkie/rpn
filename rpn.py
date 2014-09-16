@@ -1,5 +1,56 @@
 #!/usr/bin/env python
 
+# What's going on here?!
+#
+# c:\>rpn -D G 10 seconds * meter s / convert
+# convertUnits
+# unit1: {'acceleration': 1, 'time': 1}
+# unit2: {'length': 1, 'time': -1}
+# types:  {'acceleration': 1, 'time': 1} {'length': 1, 'time': -1}
+# simple types:  {'standard_gravity': 1, 'second': 1} {'second': -1, 'meter': 1}
+# basic types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
+# unit1String:  second*standard_gravity
+# unit2String:  meter/second
+# newUnit1String:  second*standard_gravity
+# newUnit2String:  mile/hour
+# 1 and 2: standard_gravity second 1 -1
+# 1 and 2: standard_gravity meter 1 1
+# types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
+# simple types:  {'second': -1, 'meter': 1} {'second': -1, 'meter': 1}
+# basic types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
+# unit1String:  meter/second
+# unit2String:  meter/second
+# newUnit1String:  mile/hour
+# newUnit2String:  mile/hour
+# 1 meter per second
+#
+# c:\>rpn -D G 10 seconds * ft s / convert
+# convertUnits
+# unit1: {'acceleration': 1, 'time': 1}
+# unit2: {'length': 1, 'time': -1}
+# types:  {'acceleration': 1, 'time': 1} {'length': 1, 'time': -1}
+# simple types:  {'standard_gravity': 1, 'second': 1} {'second': -1, 'foot': 1}
+# basic types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
+# unit1String:  second*standard_gravity
+# unit2String:  foot/second
+# newUnit1String:  second*standard_gravity
+# newUnit2String:  foot/second
+# 1 and 2: standard_gravity second 1 -1
+# 1 and 2: standard_gravity foot 1 1
+# types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
+# simple types:  {'meter': 1, 'second': -1} {'second': -1, 'foot': 1}
+# basic types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
+# unit1String:  meter/second
+# unit2String:  foot/second
+# newUnit1String:  mile/hour
+# newUnit2String:  foot/second
+# 1 and 2: meter second 1 -1
+# 1 and 2: meter foot 1 1
+# 1 and 2: second second -1 -1
+# conversion:  ['meter', 'foot'] 3.2808398950131234929
+# 321.7404855643 feet per second
+
+
 # Things that don't work, but should:
 #
 #   This requires implicit conversion between unit types
