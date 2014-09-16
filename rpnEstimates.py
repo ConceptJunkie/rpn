@@ -287,6 +287,26 @@ currentTable = {
 #//
 #//******************************************************************************
 
+# cdromspeed       75 2048 bytes / sec # For data CDs (mode1) 75 sectors are read
+#                                      # each second with 2048 bytes per sector.
+#                                      # Audio CDs do not have sectors, but
+#                                      # people sometimes divide the bit rate by
+#                                      # 75 and claim a sector length of 2352.
+#                                      # Data CDs have a lower rate due to
+#                                      # increased error correction overhead.
+#                                      # There is a rarely used mode (mode2) with
+#                                      # 2336 bytes per sector that has fewer
+#                                      # error correction bits than mode1.
+# cdaudiospeed      44.1 kHz 2*16 bits # CD audio data rate at 44.1 kHz with 2
+#                                      # samples of sixteen bits each.
+# dvdspeed                 1385 kB/s   # This is the "1x" speed of a DVD using
+#                                      # constant linear velocity (CLV) mode.
+#                                      # Modern DVDs may vary the linear velocity
+#                                      # as they go from the inside to the
+#                                      # outside of the disc.
+#
+
+
 dataRateTable = {
     mpf( '5.0e-2' )     : 'the bit rate for Project ELF which transmits 3-letter codes to U.S. nuclear submarines',
     mpf( '5.0e1' )      : 'the data rate for transmissions from GPS satellites',

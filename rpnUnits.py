@@ -46,46 +46,46 @@ from rpnEstimates import *
 #
 # SI coherent derived unit
 #
-# Derived Quantity              Name            Symbol          Expressed as other SI units     SI Base Units
+# Derived Quantity              Name            Symbol              Expressed as other SI units     SI Base Units
 #
-# plane angle                   radian          rad             1                               m/m
-# solid angle                   steradian       sr              1                               m2/m2
-# frequency                     hertz           Hz                                              s^-1
-# force                         newton          N                                               m kg s^-2
-# pressure, stress              pascal          Pa              N/m2                            m^-1 kg s^-2
-# energy, work, amount of heat  joule           J               N m                             m2 kg s^-2
+# plane angle                   radian          rad                 1                               m/m
+# solid angle                   steradian       sr                  1                               m2/m2
+# frequency                     hertz           Hz                                                  s^-1
+# force                         newton          N                                                   m kg s^-2
+# pressure, stress              pascal          Pa                  N/m2                            m^-1 kg s^-2
+# energy, work, amount of heat  joule           J                   N m                             m2 kg s^-2
 #
 # power, radiant flux           watt            W J/s m2 kg s^-3
 #
 # electric charge,              coulomb         C                                               s A
 # amount of electricity
 #
-# electric potential difference, volt           V               W/A                             m2 kg s^-3 A^-1
+# electric potential difference, volt           V                   W/A                             m2 kg s^-3 A^-1
 # electromotive force
 #
-# capacitance                   farad           F               C/V                             m^-2 kg^-1 s4 A2
-# electric resistance           ohm             omega           V/A                             m2 kg s^-3 A^-2
-# electric conductance          siemens         S               A/V                             m^-2 kg^-1 s3 A2
-# magnetic flux                 weber           Wb              V s                             m2 kg s^-2 A^-1
-# magnetic flux density         tesla           T               Wb/m2                           kg s^-2 A^-1
-# inductance                    henry           H               Wb/A                            m2 kg s^-2 A^-2
-# Celsius temperature           degree Celsius  degree C                                        K
-# luminous flux                 lumen           lm              cd sr                           cd
-# illuminance                   lux             lx              lm/m2                           m^-2 cd
+# capacitance                   farad           F                   C/V                             m^-2 kg^-1 s4 A2
+# electric resistance           ohm             omega               V/A                             m2 kg s^-3 A^-2
+# electric conductance          siemens         S                   A/V                             m^-2 kg^-1 s3 A2
+# magnetic flux                 weber           Wb                  V s                             m2 kg s^-2 A^-1
+# magnetic flux density         tesla           T                   Wb/m2                           kg s^-2 A^-1
+# inductance                    henry           H                   Wb/A                            m2 kg s^-2 A^-2
+# Celsius temperature           degree Celsius  degree C                                            K
+# luminous flux                 lumen           lm                  cd sr                           cd
+# illuminance                   lux             lx                  lm/m2                           m^-2 cd
 #
-# activity referred to          becquerel       Bq                                              s^-1
+# activity referred to          becquerel       Bq                                                  s^-1
 # a radionuclide
 #
-# absorbed dose,                gray            Gy              J/kg                            m2 s^-2
+# absorbed dose,                gray            Gy                  J/kg                            m2 s^-2
 # specific energy (imparted),
 # kerma
 #
-# dose equivalent,              sievert         Sv              J/kg                            m2 s^-2
+# dose equivalent,              sievert         Sv                  J/kg                            m2 s^-2
 # ambient dose equivalent,
 # directional dose equivalent,
 # personal dose equivalent
 #
-# catalytic activity            katal           kat                                             s^-1 mol
+# catalytic activity            katal           kat                                                 s^-1 mol
 #
 #
 # dynamic viscosity             pascal second                   Pa s            m^-1 kg s^-1
@@ -127,16 +127,16 @@ from rpnEstimates import *
 # catalytic activity            katal per cubic metre           kat/m3          m^-3 s^-1 mol
 # concentration
 #
-# Quantity              Name of unit                Symbol          Value in SI units (a)
+# Quantity              Name of unit                Symbol                  Value in SI units (a)
 #
 # Units accepted for use with the SI
 #
-# energy                electronvolt                eV              1 eV = 1.602 176 53 (14) * 10e-19 J
+# energy                electronvolt                eV                      1 eV = 1.602 176 53 (14) * 10e-19 J
 #
-# mass                  dalton,                     Da              1 Da = 1.660 538 86 (28) * 10e-27 kg
-#                       unified atomic mass unit    u               1 u = 1 Da
+# mass                  dalton,                     Da                      1 Da = 1.660 538 86 (28) * 10e-27 kg
+#                       unified atomic mass unit    u                       1 u = 1 Da
 #
-# length                astronomical unit           ua              1 ua = 1.495 978 706 91 (6) * 10e11 m
+# length                astronomical unit           ua                      1 ua = 1.495 978 706 91 (6) * 10e11 m
 #
 #
 # Natural units (n.u.)
@@ -174,52 +174,33 @@ from rpnEstimates import *
 #
 # Other non-SI units
 #
-# Quantity                  Name of unit            Symbol  Value in SI units
+# Quantity              Name of unit                Symbol                  Value in SI units
 #
-#   pressure                bar                     bar     1 bar = 0.1 MPa = 100 kPa = 105 Pa
-#                           millimetre of mercury   mmHg    1 mmHg ~= 133.322 Pa
-#   length                  angstrom                A       1 A = 0.1 nm = 100 pm = 10-10 m
-#   distance                nautical mile           M       1 M = 1852 m
-#   area                    barn                    b       1 b = 100 fm^2 = (10^-12 cm)^2 = 10^-28 m^2
-#   speed                   knot                    kn      1 kn = (1852/3600) m/s
-#   logarithmic             neper                   Np
-#   ratio quantities        bel                     B       numerical value of the neper, the
-#                           decibel (h, i)          dB      bel and the decibel]
+# pressure              bar                         bar                     1 bar = 0.1 MPa = 100 kPa = 105 Pa
+#                       millimetre of mercury       mmHg                    1 mmHg ~= 133.322 Pa
+# length                angstrom                    A                       1 A = 0.1 nm = 100 pm = 10-10 m
+# distance              nautical mile               M                       1 M = 1852 m
+# area                  barn                        b                       1 b = 100 fm^2 = (10^-12 cm)^2 = 10^-28 m^2
+# speed                 knot                        kn                      1 kn = (1852/3600) m/s
+# logarithmic           neper                       Np
+# ratio quantities      bel                         B                       numerical value of the neper, the
+#                       decibel (h, i)              dB                      bel and the decibel]
 #
 #
-# Quantity              Name of unit    Symbol          Value in SI units
+# Quantity              Name of unit                Symbol                  Value in SI units
 #
-# energy                erg             erg             1 erg = 10-7 J
-# force                 dyne            dyn             1 dyn = 10-5 N
-# dynamic viscosity     poise           P               1 P = 1 dyn s cm-2 = 0.1 Pa s
-# kinematic viscosity   stokes          St              1 St = 1 cm2 s^-1 = 10^-4 m2 s^-1
-# luminance             stilb           sb              1 sb = 1 cd cm-2 = 10^4 cd m-2
-# illuminance           phot            ph              1 ph = 1 cd sr cm-2 = 104 lx
-# acceleration          gal             Gal             1 Gal = 1 cm s-2 = 10-2 m s-2
-# magnetic flux         maxwell         Mx              1 Mx = 1 G cm2 = 10-8 Wb
-# magnetic flux density gauss           G               1 G = 1 Mx cm-2 = 10-4 T
-# magnetic field        oersted         Oe              1 Oe ^= (1000/4 pi ) A m^-1
+# energy                erg                         erg                     1 erg = 10-7 J
+# force                 dyne                        dyn                     1 dyn = 10-5 N
+# dynamic viscosity     poise                       P                       1 P = 1 dyn s cm-2 = 0.1 Pa s
+# kinematic viscosity   stokes                      St                      1 St = 1 cm2 s^-1 = 10^-4 m2 s^-1
+# luminance             stilb                       sb                      1 sb = 1 cd cm-2 = 10^4 cd m-2
+# illuminance           phot                        ph                      1 ph = 1 cd sr cm-2 = 104 lx
+# acceleration          gal                         Gal                     1 Gal = 1 cm s-2 = 10-2 m s-2
+# magnetic flux         maxwell                     Mx                      1 Mx = 1 G cm2 = 10-8 Wb
+# magnetic flux density gauss                       G                       1 G = 1 Mx cm-2 = 10-4 T
+# magnetic field        oersted                     Oe                      1 Oe ^= (1000/4 pi ) A m^-1
 #
 
-
-# electronmass            5.4857990946e-4 u
-# m_e                     electronmass
-# protonmass              1.007276466812 u
-# m_p                     protonmass
-# neutronmass             1.00866491600 u
-# m_n                     neutronmass
-# muonmass                0.1134289267 u
-# m_mu                    muonmass
-# deuteronmass            2.013553212712 u
-# m_d                     deuteronmass
-# alphaparticlemass       4.001506179125 u
-# m_alpha                 alphaparticlemass
-# taumass                 1.90749 u
-# m_tau                   taumass
-# tritonmass              3.0155007134 u
-# m_t                     tritonmass
-# helionmass              3.0149322468 u
-# m_h                     helionmass
 
 #
 # # particle wavelengths: the compton wavelength of a particle is
@@ -357,20 +338,7 @@ from rpnEstimates import *
 #                                             #   days.  After 3 saros, an
 #                                             #   eclipse will occur at
 #                                             #   approximately the same place.
-# siderealday             86164.09054 s       # The sidereal day is the interval
-# siderealhour            1|24 siderealday    #   between two successive transits
-# siderealminute          1|60 siderealhour   #   of a star over the meridian,
-# siderealsecond          1|60 siderealminute #   or the time required  for the
-#                                             #   earth to make one rotation
-#                                             #   relative to the stars.  The
-#                                             #   more usual solar day is the
-#                                             #   time required to make a
-#                                             #   rotation relative to the sun.
-#                                             #   Because the earth moves in its
-#                                             #   orbit, it has to turn a bit
-#                                             #   extra to face the sun again,
-#                                             #   hence the solar day is slightly
-#                                             #   longer.
+
 # anomalisticmonth        27.55454977 day     # Time for the moon to travel from
 #                                             #   perigee to perigee
 # nodicalmonth            27.2122199 day      # The nodes are the points where
@@ -387,26 +355,8 @@ from rpnEstimates import *
 #                                             #   has to revolve a bit extra to
 #                                             #   get into the full moon
 #                                             #   configuration.
-# year                    tropicalyear
-# yr                      year
-# month                   1|12 year
-# mo                      month
-# lustrum                 5 years             # The Lustrum was a Roman
-#                                             #   purification ceremony that took
-#                                             #   place every five years.
-#                                             #   Classically educated Englishmen
-#                                             #   used this term.
-# decade                  10 years
-# century                 100 years
-# millennium              1000 years
-# millennia               millennium
-# solaryear               year
+
 # lunaryear               12 lunarmonth
-# calendaryear            365 day
-# commonyear              365 day
-# leapyear                366 day
-# julianyear              365.25 day
-# gregorianyear           365.2425 day
 #
 # # The Hewbrew year is also based on lunar months, but synchronized to the solar
 # # calendar.  The months vary irregularly between 29 and 30 days in length, and
@@ -575,8 +525,6 @@ from rpnEstimates import *
 # marineleague            3 nauticalmile
 # geographicalmile        brnauticalmile
 # knot                    nauticalmile / hr
-# click                   km       # US military slang
-# klick                   click
 #
 #
 #
@@ -633,56 +581,9 @@ from rpnEstimates import *
 # basebox                 31360 in^2      # Used in metal plating
 #
 #
-# cdaudiospeed      44.1 kHz 2*16 bits # CD audio data rate at 44.1 kHz with 2
-#                                      # samples of sixteen bits each.
-# cdromspeed       75 2048 bytes / sec # For data CDs (mode1) 75 sectors are read
-#                                      # each second with 2048 bytes per sector.
-#                                      # Audio CDs do not have sectors, but
-#                                      # people sometimes divide the bit rate by
-#                                      # 75 and claim a sector length of 2352.
-#                                      # Data CDs have a lower rate due to
-#                                      # increased error correction overhead.
-#                                      # There is a rarely used mode (mode2) with
-#                                      # 2336 bytes per sector that has fewer
-#                                      # error correction bits than mode1.
-# dvdspeed                 1385 kB/s   # This is the "1x" speed of a DVD using
-#                                      # constant linear velocity (CLV) mode.
-#                                      # Modern DVDs may vary the linear velocity
-#                                      # as they go from the inside to the
-#                                      # outside of the disc.
-#
 # #
 # # Counting measures
 # #
-#
-# pair                    2
-# brace                   2
-# nest                    3     # often used for items like bowls that
-#                               #   nest together
-# hattrick                3     # Used in sports, especially cricket and ice
-#                               #   hockey to report the number of goals.
-# dicker                  10
-# dozen                   12
-# bakersdozen             13
-# score                   20
-# flock                   40
-# timer                   40
-# shock                   60
-# toncount                100   # Used in sports in the UK
-# longhundred             120   # From a germanic counting system
-# gross                   144
-# greatgross              12 gross
-# tithe                   1|10  # From Anglo-Saxon word for tenth
-#
-# # Paper counting measure
-#
-# shortquire              24
-# quire                   25
-# shortream               480
-# ream                    500
-# perfectream             516
-# bundle                  2 reams
-# bale                    5 bundles
 #
 #
 # rep                     8.38 mGy     # Roentgen Equivalent Physical, the amount
@@ -1149,11 +1050,14 @@ unitOperators = {
     'thousandth' :
         UnitInfo( 'constant', 'thousandth', 'thousandths', '', [ 'milli' ], [ 'constant' ] ),
 
+    'alpha' :
+        UnitInfo( 'constant', 'alpha', 'alpha', '', [ 'fine_structure_constant' ], [ 'constant' ] ),
+
     'percent' :
         UnitInfo( 'constant', 'percent', 'percent', '%', [ 'hundredth', 'centi' ], [ 'constant' ] ),
 
     'tenth' :
-        UnitInfo( 'constant', 'tenth', 'tenths', '', [ 'deci' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'tenth', 'tenths', '', [ 'deci', 'tithe' ], [ 'constant' ] ),
 
     'quarter' :
         UnitInfo( 'constant', 'quarter', 'quarters', '', [ 'fourth' ], [ 'constant' ] ),
@@ -1168,7 +1072,7 @@ unitOperators = {
         UnitInfo( 'constant', 'x unity', 'x unity', '', [ ], [ 'constant' ] ),
 
     'ten' :
-        UnitInfo( 'constant', 'ten', 'tens', '', [ 'deca', 'deka' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'ten', 'tens', '', [ 'deca', 'deka', 'dicker' ], [ 'constant' ] ),
 
     'dozen' :
         UnitInfo( 'constant', 'dozen', 'dozen', '', [ ], [ 'constant' ] ),
@@ -1176,11 +1080,26 @@ unitOperators = {
     'score' :
         UnitInfo( 'constant', 'score', 'score', '', [ ], [ 'constant' ] ),
 
+    'flock' :
+        UnitInfo( 'constant', 'flock', 'flocks', '', [ 'timer' ], [ 'constant' ] ),
+
+    'shock' :
+        UnitInfo( 'constant', 'shock', 'shocks', '', [ ], [ 'constant' ] ),
+
     'hundred' :
-        UnitInfo( 'constant', 'hundred', 'hundred', '', [ 'hecto' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'hundred', 'hundred', '', [ 'hecto', 'toncount' ], [ 'constant' ] ),
+
+    'long_hundred' :
+        UnitInfo( 'constant', 'long_hundred', 'long_hundreds', '', [ ], [ 'constant' ] ),
+
+    'gross' :
+        UnitInfo( 'constant', 'gross', 'gross', '', [ ], [ 'constant' ] ),
 
     'thousand' :
         UnitInfo( 'constant', 'thousand', 'thousand', 'k', [ 'kilo' ], [ 'constant' ] ),
+
+    'great_gross' :
+        UnitInfo( 'constant', 'great_gross', 'great_gross', '', [ ], [ 'constant' ] ),
 
     'million' :
         UnitInfo( 'constant', 'million', 'million', 'M', [ 'mega' ], [ 'constant' ] ),
@@ -2161,6 +2080,9 @@ unitOperators = {
     'lunar_day' :
         UnitInfo( 'time', 'lunar_day', 'lunar_days', '', [ 'tidal_day', 'tidal_days' ], [ 'science' ] ),
 
+    'lustrum' :
+        UnitInfo( 'time', 'lustrum', 'lustra', '', [ ], [ 'obsolete', 'years' ] ),
+
     'martin' :
         UnitInfo( 'time', 'martin', 'martins', '', [ ], [ 'Potrzebie', 'humorous' ] ),
 
@@ -2194,8 +2116,17 @@ unitOperators = {
     'sidereal_day' :
         UnitInfo( 'time', 'sidereal_day', 'sidereal_days', '', [ 'earth_day' ], [ 'science' ] ),
 
+    'sidereal_hour' :
+        UnitInfo( 'time', 'sidereal_hour', 'sidereal_hours', '', [ ], [ 'science' ] ),
+
+    'sidereal_minute' :
+        UnitInfo( 'time', 'sidereal_minute', 'sidereal_minutes', '', [ ], [ 'science' ] ),
+
     'sidereal_month' :
         UnitInfo( 'time', 'sidereal_month', 'sidereal_months', '', [ ], [ 'science' ] ),
+
+    'sidereal_second' :
+        UnitInfo( 'time', 'sidereal_second', 'sidereal_seconds', '', [ ], [ 'science' ] ),
 
     'sidereal_year' :
         UnitInfo( 'time', 'sidereal_year', 'sidereal_years', '', [ 'earth_year' ], [ 'science' ] ),
@@ -2847,6 +2778,7 @@ unitConversionMatrix = {
     ( 'fingerbreadth',          'inch' )                                : mpmathify( '0.75' ),
     ( 'firkin',                 'gallon' )                              : mpmathify( '9' ),
     ( 'firkin',                 'pin' )                                 : mpmathify( '2' ),
+    ( 'flock',                  'unity' )                               : mpmathify( '40' ),
     ( 'fluid_ounce',            'dram' )                                : mpmathify( '8' ),
     ( 'fluid_ounce',            'tablespoon' )                          : mpmathify( '2' ),
     ( 'foot',                   'inch' )                                : mpmathify( '12' ),
@@ -2869,8 +2801,10 @@ unitConversionMatrix = {
     ( 'gram-equivalent',        'joule' )                               : fdiv( power( mpf( speedOfLight ), 2 ), 1000 ),
     ( 'gray',                   'joule/kilogram' )                      : mpmathify( '1' ),
     ( 'gray',                   'rad' )                                 : mpmathify( '100' ),
+    ( 'great_gross',            'gross' )                               : mpmathify( '12' ),
     ( 'greek_cubit',            'inch' )                                : mpmathify( '18.22' ),
     ( 'gregorian_year',         'day' )                                 : mpmathify( '365.2425' ),
+    ( 'gross',                  'unity' )                               : mpmathify( '144' ),
     ( 'handbreadth',            'inch' )                                : mpmathify( '3' ),
     ( 'hartree',                'rydberg' )                             : mpmathify( '2' ),
     ( 'hefnerkerze',            'candela' )                             : mpmathify( '0.920' ),  # approx.
@@ -2927,8 +2861,10 @@ unitConversionMatrix = {
     ( 'link',                   'inch' )                                : mpmathify( '7.92' ),
     ( 'liter',                  'ngogn' )                               : mpmathify( '86.2477899004' ),
     ( 'long_cubit',             'inch' )                                : mpmathify( '21' ),
+    ( 'long_hundred',           'unity' )                               : mpmathify( '120' ),
     ( 'long_reed',              'foot' )                                : mpmathify( '10.5' ),
     ( 'lunar_day',              'minute' )                              : mpmathify( '1490' ),
+    ( 'lustrum',                'year' )                                : mpmathify( '5' ),
     ( 'lux',                    'lumen/meter^2' )                       : mpmathify( '1' ),
     ( 'lux',                    'nox' )                                 : mpmathify( '1000' ),
     ( 'mach',                   'meter/second' )                        : mpmathify( '295.0464' ),
@@ -3066,7 +3002,11 @@ unitConversionMatrix = {
     ( 'sexdecillion',           'unity' )                               : mpmathify( '1.0e51' ),
     ( 'sextant',                'degree' )                              : mpmathify( '60' ),
     ( 'sextillion',             'unity' )                               : mpmathify( '1.0e21' ),
+    ( 'shock',                  'unity' )                               : mpmathify( '60' ),
     ( 'sidereal_day',           'second' )                              : mpmathify( '86164.09054' ),
+    ( 'sidereal_day',           'sidereal_hour' )                       : mpmathify( '24' ),
+    ( 'sidereal_hour',          'sidereal_minute' )                     : mpmathify( '60' ),
+    ( 'sidereal_minute',        'sidereal_second' )                     : mpmathify( '60' ),
     ( 'sidereal_month',         'day' )                                 : mpmathify( '27.321661' ),
     ( 'sidereal_year',          'day' )                                 : mpmathify( '365.256360417' ),
     ( 'siemens',                'ampere/volt' )                         : mpmathify( '1' ),
