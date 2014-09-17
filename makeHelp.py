@@ -391,7 +391,7 @@ Added Julian date operators, ISO date operators, calendar operators and the
 'ash_wednesday' operator.  Added support for the density unit type and
 several small bug fixes.
 
-5.25.1
+5.26.0
 
 Added dynamic_visocity and frequency unit types and a few bug fixes.
 
@@ -400,11 +400,13 @@ Added units for the days and years of the other 8 planets in the Solar System.
 Added several constant units for quaint or archaic number terms like 'score'
 and 'gross'.
 
-Added constant for common particle masses.
+Added mass units for common particle masses.
 
-Updated some constants based on natural values (electron mass, etc.).
+Updated some natural values (electron mass, etc.).
 
 Fixed some problems with generating and interpreting compound units.
+
+Added the 'prevost' operator.
 
 ''',
 'license' :
@@ -2550,6 +2552,13 @@ a = four-digit year, b = week (negative values count from the end), c = day
     'previous' : [
 'modifiers', 'duplicates the previous argument (identical to \'n 2 dup\')',
 '''
+''',
+'''
+''' ],
+    'prevost' : [
+'constants', 'returns Prevost\'s constant',
+'''
+Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 ''',
 '''
 ''' ],
