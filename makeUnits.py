@@ -196,7 +196,7 @@ def expandMetricUnits( ):
                     unitOperators[ newUnit ] = newUnitInfo
 
                     compoundUnit = newName + '^2'
-                    metricCompoundUnits[ newUnit ] = compoundUnit
+                    metricCompoundUnits[ newUnit ] = CompoundUnitInfo( compoundUnit )
 
                     # add new conversions
                     metricConversions[ ( oldUnit, newUnit ) ] = areaConversion
@@ -215,7 +215,7 @@ def expandMetricUnits( ):
                     unitOperators[ newUnit ] = newUnitInfo
 
                     compoundUnit = newName + '^3'
-                    metricCompoundUnits[ newUnit ] = compoundUnit
+                    metricCompoundUnits[ newUnit ] = CompoundUnitInfo( compoundUnit )
 
                     # add new conversions
                     metricConversions[ ( oldUnit, newUnit ) ] = volumeConversion
@@ -366,10 +366,9 @@ def initializeConversionMatrix( unitConversionMatrix ):
     for unit1, unit2 in unitConversionMatrix:
         chars = set( '*/^' )
 
-        #if any( ( c in chars ) for c in unit2 ):
-        #    if not any( ( c in chars ) for c in unit1 ):
-        #        compoundUnits[ unit1 ] = unit2
-        #        #print( '    compound unit: ', unit1, '(', unit2, ')' )
+        if any( ( c in chars ) for c in unit2 ):
+            if not any( ( c in chars ) for c in unit1 ):
+                compoundUnits[ unit1 ] = CompoundUnitInfo( unit2, unitConversionMatrix[ ( unit1, unit2 ) ] )
 
     # create area and volume units from all of the length units
     print( 'Creating area and volume units for all length units...' )

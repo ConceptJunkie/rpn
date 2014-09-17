@@ -657,6 +657,9 @@ class Measurement( mpf ):
             unit1String = units1.getUnitString( )
             unit2String = units2.getUnitString( )
 
+            if unit1String == unit2String:
+                return fmul( mpf( self ), mpf( other ) )
+
             if unit1String in operatorAliases:
                 unit1String = operatorAliases[ unit1String ]
 
@@ -680,12 +683,18 @@ class Measurement( mpf ):
                 conversionValue = mpmathify( 1 )
 
                 if unit1String in g.compoundUnits:
-                    newUnit1String = g.compoundUnits[ unit1String ]
+                    # we need support for multiple compoundUnitInfo records for each compound type
+                    # and a way to select the right one to use
+                    compoundInfo = g.compoundUnits[ unit2String ]
+                    newUnit1String = compoundInfo.type
+                    conversionValue = fmul( conversionValue, compoundInfo.conversion )
                 else:
                     newUnit1String = unit1String
 
                 if unit2String in g.compoundUnits:
-                    newUnit2String = g.compoundUnits[ unit2String ]
+                    compoundInfo = g.compoundUnits[ unit2String ]
+                    newUnit2String = compoundInfo.type
+                    conversionValue = fmul( conversionValue, compoundInfo.conversion )
                 else:
                     newUnit2String = unit2String
 
@@ -696,7 +705,6 @@ class Measurement( mpf ):
                     return conversionValue
 
                 # if that isn't found, then we need to do the hard work and break the units down
-
                 for unit1 in units1:
                     foundConversion = False
 
@@ -711,7 +719,8 @@ class Measurement( mpf ):
 
                     if not foundConversion:
                         reduced = self.getReduced( )
-                        return reduced.convertValue( other )
+                        reduced = reduced.convertValue( other )
+                        return reduced
 
                 value = conversionValue
 
