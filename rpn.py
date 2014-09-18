@@ -31,27 +31,7 @@
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 #
 
-#  Large numbers!
-#  http://en.wikipedia.org/wiki/Names_of_large_numbers
-#
-#      Units       Tens                Hundreds
-#      -----       ----                --------
-#  1   Un          Deci (N)            Centi (NX)
-#  2   Duo         Viginti (MS)        Ducenti (N)
-#  3   Tre (*)     Triginta (NS)       Trecenti (NS)
-#  4   Quattuor    Quadraginta (NS)    Quadringenti (NS)
-#  5   Quinqua     Quinquaginta (NS)   Quingenti (NS)
-#  6   Se (*)      Sexaginta (N)       Sescenti (N)
-#  7   Septe (*)   Septuaginta (N)     Septingenti (N)
-#  8   Octo        Octoginta (MX)      Octingenti (MX)
-#  9   Nove (*)    Nonaginta           Nongenti
-#
-#  (*) ^ When preceding a component marked S or X, "tre" increases to "tres" and
-#  "se" to "ses" or "sex"; similarly, when preceding a component marked M or N,
-#  "septe" and "nove" increase to "septem" and "novem" or "septen" and "noven".
-
 # The present overall density of the Universe is roughly 9.9 x 10-30 grams per cubic centimetre.
-# Density as a new unit type.  It's about time!
 
 # http://en.wikipedia.org/wiki/Planck%27s_constant
 
@@ -662,6 +642,58 @@ def getModifiedOnesName( name, code ):
 
 #//******************************************************************************
 #//
+#//  getSmallNumberName
+#//
+#//  Returns an english number name for anything from 0 to 999.
+#//
+#//******************************************************************************
+
+def getSmallNumberName( n ):
+    unitNumberNames = [ '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven',
+                        'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen',
+                        'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen',
+                        'nineteen' ]
+
+    tensNumberNames = [ '', '', 'twenty', 'thirty', 'forty',
+                        'fifty', 'sixty', 'seventy', 'eighty', 'ninety' ]
+
+    hundreds = int( floor( fdiv( n, 100 ) ) )
+    tens = int( floor( fmod( fdiv( n, 10 ), 10 ) ) )
+    ones = int( fmod( n, 10 ) )
+
+    name = ''
+
+    if hundreds > 0:
+        name = unitNumberNames[ hundreds ] + ' hundred'
+
+    if tens > 1:
+        if name != '':
+            name += ' '
+
+        name += tensNumberNames[ tens ]
+
+    if ones > 0:
+        if tens > 1:
+            name += '-'
+            name += unitNumberNames[ ones ]
+        elif tens == 1:
+            if name != '':
+                name += ' '
+
+            name += unitNumberNames[ ones + 10 ]
+        else:
+            name += unitNumberNames[ ones ]
+    elif tens == 1:
+        if name != '':
+            name += ' '
+
+        name += unitNumberNames[ 10 ]
+
+    return name
+
+
+#//******************************************************************************
+#//
 #//  getNumberGroupName
 #//
 #//  returns the name of the "group", i.e., the three-digit group of an integer
@@ -729,9 +761,7 @@ def getNumberGroupName( n ):
 #//******************************************************************************
 
 def getNumberName( n ):
-    n = floor( n )
-
-    return getNumberGroupName( n )
+    return getSmallNumberName( floor( n ) )
 
 
 #//******************************************************************************
