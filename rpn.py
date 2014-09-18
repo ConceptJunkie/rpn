@@ -657,9 +657,9 @@ def getSmallNumberName( n ):
     tensNumberNames = [ '', '', 'twenty', 'thirty', 'forty',
                         'fifty', 'sixty', 'seventy', 'eighty', 'ninety' ]
 
-    hundreds = int( floor( fdiv( n, 100 ) ) )
-    tens = int( floor( fmod( fdiv( n, 10 ), 10 ) ) )
-    ones = int( fmod( n, 10 ) )
+    hundreds = n // 100
+    tens = ( n // 10 ) % 10
+    ones = n % 10
 
     name = ''
 
@@ -718,13 +718,13 @@ def getNumberGroupName( n ):
                       ( 'septingenti', 'n' ), ( 'octingenti', 'mx' ), ( 'nongenti', '' ) ]
 
     if n < len( groupNames ):
-        return groupNames[ int( n ) ]
+        return groupNames[ n ]
     else:
-        n = fsub( n, 1 )
+        n -= 1
 
-        hundreds = int( floor( fdiv( n, 100 ) ) )
-        tens = int( floor( fmod( fdiv( n, 10 ), 10 ) ) )
-        ones = int( fmod( n, 10 ) )
+        hundreds = n // 100
+        tens = ( n // 10 ) % 10
+        ones = n % 10
 
         name = ''
         hasTens = False
@@ -761,7 +761,31 @@ def getNumberGroupName( n ):
 #//******************************************************************************
 
 def getNumberName( n ):
-    return getSmallNumberName( floor( n ) )
+    mp.dps = floor( log( n, 10 ) + 2 )
+    print( mp.dps )
+
+    current = n
+    group = 0
+    name = ''
+
+    while current > 0:
+        section = getSmallNumberName( int( fmod( current, 1000 ) ) )
+
+        if section != '':
+            groupName = getNumberGroupName( group )
+
+            if groupName != '':
+                section += ' ' + groupName
+
+            if name == '':
+                name = section
+            else:
+                name = section + ' ' + name
+
+        current = floor( fdiv( current, 1000 ) )
+        group += 1
+
+    return name
 
 
 #//******************************************************************************
