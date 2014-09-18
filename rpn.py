@@ -1,55 +1,29 @@
 #!/usr/bin/env python
 
-# What's going on here?!
+# Tetrahedron volume
 #
-# c:\>rpn -D G 10 seconds * meter s / convert
-# convertUnits
-# unit1: {'acceleration': 1, 'time': 1}
-# unit2: {'length': 1, 'time': -1}
-# types:  {'acceleration': 1, 'time': 1} {'length': 1, 'time': -1}
-# simple types:  {'standard_gravity': 1, 'second': 1} {'second': -1, 'meter': 1}
-# basic types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
-# unit1String:  second*standard_gravity
-# unit2String:  meter/second
-# newUnit1String:  second*standard_gravity
-# newUnit2String:  mile/hour
-# 1 and 2: standard_gravity second 1 -1
-# 1 and 2: standard_gravity meter 1 1
-# types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
-# simple types:  {'second': -1, 'meter': 1} {'second': -1, 'meter': 1}
-# basic types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
-# unit1String:  meter/second
-# unit2String:  meter/second
-# newUnit1String:  mile/hour
-# newUnit2String:  mile/hour
-# 1 meter per second
+# def determinant_3x3(m):
+#     return (m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) -
+#             m[1][0] * (m[0][1] * m[2][2] - m[0][2] * m[2][1]) +
+#             m[2][0] * (m[0][1] * m[1][2] - m[0][2] * m[1][1]))
 #
-# c:\>rpn -D G 10 seconds * ft s / convert
-# convertUnits
-# unit1: {'acceleration': 1, 'time': 1}
-# unit2: {'length': 1, 'time': -1}
-# types:  {'acceleration': 1, 'time': 1} {'length': 1, 'time': -1}
-# simple types:  {'standard_gravity': 1, 'second': 1} {'second': -1, 'foot': 1}
-# basic types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
-# unit1String:  second*standard_gravity
-# unit2String:  foot/second
-# newUnit1String:  second*standard_gravity
-# newUnit2String:  foot/second
-# 1 and 2: standard_gravity second 1 -1
-# 1 and 2: standard_gravity foot 1 1
-# types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
-# simple types:  {'meter': 1, 'second': -1} {'second': -1, 'foot': 1}
-# basic types:  {'length': 1, 'time': -1} {'length': 1, 'time': -1}
-# unit1String:  meter/second
-# unit2String:  foot/second
-# newUnit1String:  mile/hour
-# newUnit2String:  foot/second
-# 1 and 2: meter second 1 -1
-# 1 and 2: meter foot 1 1
-# 1 and 2: second second -1 -1
-# conversion:  ['meter', 'foot'] 3.2808398950131234929
-# 321.7404855643 feet per second
-
+#
+# def subtract(a, b):
+#     return (a[0] - b[0],
+#             a[1] - b[1],
+#             a[2] - b[2])
+#
+#
+# a = [0.0, 0.0, 0.0]
+# d = [2.0, 0.0, 0.0]
+# c = [0.0, 2.0, 0.0]
+# b = [0.0, 0.0, 2.0]
+#
+# print(
+#     abs(determinant_3x3((subtract(a, b),
+#                          subtract(b, c),
+#                          subtract(c, d),
+#                          ))) / 6.0)
 
 # Things that don't work, but should:
 #
@@ -663,6 +637,103 @@ def getGCD( args ):
         return args
 
 
+
+#//******************************************************************************
+#//
+#//  getModifiedOnesName
+#//
+#//******************************************************************************
+
+def getModifiedOnesName( name, code ):
+    if ( 'n' in code ) and ( ( name == 'septe' ) or ( name == 'nove' ) ):
+        return name + 'n'
+    elif ( 'm' in code ) and ( ( name == 'septe' ) or ( name == 'nove' ) ):
+        return name + 'm'
+    elif ( 's' in code ) and ( ( name == 'tre' ) or ( name == 'se' ) ):
+        return name + 's'
+    elif ( 'x' in code ):
+        if ( name == 'tre' ):
+            return name + 's'
+        elif ( name == 'se' ):
+            return name + 'x'
+    else:
+        return name
+
+
+#//******************************************************************************
+#//
+#//  getNumberGroupName
+#//
+#//  returns the name of the "group", i.e., the three-digit group of an integer
+#//  separated by commas in the usual notation.  Group 0 has no name because it
+#//  represents the "ones".  Group 1 is "thousand", group 2 is "million", etc.
+#//
+#//******************************************************************************
+
+def getNumberGroupName( n ):
+    groupNames = [ '', 'thousand', 'million', 'billion', 'trillion',
+                  'quadrillion', 'quintillion', 'sextillion', 'septillion',
+                  'octillion', 'nonillion', 'decillion' ]
+
+    onesNames = [ '', 'un', 'duo', 'tre', 'quattuor', 'quinqua', 'se', 'septe', 'octo', 'nove' ]
+
+    tensNames = [ ( '', '' ), ( 'deci', 'n' ), ( 'viginti', 'ms' ), ( 'triginta', 'ns' ),
+                  ( 'quadraginta', 'ns' ), ( 'quinquaginta', 'ns' ), ( 'sexaginta', 'n' ),
+                  ( 'septuaginta', 'n' ), ( 'octoginta', 'mx' ), ( 'nonaginta', '' ) ]
+
+    hundredsNames = [ ( '', '' ), ( 'centi', 'nx' ), ( 'ducenti', 'n' ), ( 'trecenti', 'ns' ),
+                      ( 'quadringenti', 'ns' ), ( 'quingenti', 'ns' ), ( 'sescenti', 'n' ),
+                      ( 'septingenti', 'n' ), ( 'octingenti', 'mx' ), ( 'nongenti', '' ) ]
+
+    if n < len( groupNames ):
+        return groupNames[ int( n ) ]
+    else:
+        n = fsub( n, 1 )
+
+        hundreds = int( floor( fdiv( n, 100 ) ) )
+        tens = int( floor( fmod( fdiv( n, 10 ), 10 ) ) )
+        ones = int( fmod( n, 10 ) )
+
+        name = ''
+        hasTens = False
+        special = False
+
+        if ones > 0:
+            name += onesNames[ ones ]
+
+        if tens > 0:
+            hasTens = True
+
+            name = getModifiedOnesName( name, tensNames[ tens ][ 1 ] )
+
+            name += tensNames[ tens ][ 0 ]
+
+        if hundreds > 0:
+            if not hasTens:
+                name = getModifiedOnesName( name, hundredsNames[ hundreds ][ 1 ] )
+
+            name += hundredsNames[ hundreds ][ 0 ]
+
+        if name[ -1 ] in 'ai':
+            name = name[ : -1 ]
+
+        name += 'illion'
+
+        return name
+
+
+#//******************************************************************************
+#//
+#//  getNumberName
+#//
+#//******************************************************************************
+
+def getNumberName( n ):
+    n = floor( n )
+
+    return getNumberGroupName( n )
+
+
 #//******************************************************************************
 #//
 #//  dumpOperators
@@ -851,24 +922,6 @@ def flatten( valueList ):
 
 def getPrevious( valueList ):
     valueList.append( valueList[ -1 ] )
-
-
-#//******************************************************************************
-#//
-#//  duplicateTerm
-#//
-#//******************************************************************************
-
-def duplicateTerm( valueList ):
-    count = valueList.pop( )
-    value = valueList.pop( )
-
-    for i in range( 0, int( count ) ):
-        if isinstance( value, list ):
-            for i in value:
-                valueList.append( i )
-        else:
-            valueList.append( value )
 
 
 #//******************************************************************************
@@ -1258,6 +1311,7 @@ operators = {
     'monday'            : OperatorInfo( lambda: 1, 0 ),
     'motzkin'           : OperatorInfo( getNthMotzkinNumber, 1 ),
     'multiply'          : OperatorInfo( multiply, 2 ),
+    'name'              : OperatorInfo( getNumberName, 1 ),
     'narayana'          : OperatorInfo( lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2 ),
     'negative'          : OperatorInfo( getNegative, 1 ),
     'nonagonal'         : OperatorInfo( lambda n: getNthPolygonalNumber( n, 9 ), 1 ),

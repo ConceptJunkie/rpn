@@ -25,106 +25,106 @@ from rpnEstimates import *
 # frequency of 5.40e14 hertz is exactly 683 lumens per watt, K = 683 lm/W
 # = 683 cd sr/W.
 
-# Derived quantity                                    SI coherent derived unit
+# Derived quantity                                            SI coherent derived unit
 #
-# area                        A                       square metre                    m^2
-# volume                      V                       cubic metre                     m^3
-# speed, velocity             v                       metre per second                m/s
-# acceleration                a                       metre per second squared        m/s^2
-# wavenumber                  small sigma, nu tilde   reciprocal metre                m^-1
-# density, mass density       small rho               kilogram per cubic metre        kg/m3
-# surface density             small rho sub A         kilogram per square metre       kg/m2
-# specific volume             v                       cubic metre per kilogram        m3/kg
-# current density             j                       ampere per square metre         A/m2
-# magnetic field strength     H                       ampere per metre                A/m
-# amount concentration,       c                       mole per cubic metre            mol/m3
-# mass concentration          small rho, small gamma  kilogram per cubic metre        kg/m3
-# luminance                   L sub v                 candela per square metre        cd/m2
-# refractive index            n                       one                             1
-# relative permeability       mu sub r                one                             1
+# area                          A                             square metre                    m^2
+# volume                        V                             cubic metre                     m^3
+# speed, velocity               v                             metre per second                m/s
+# acceleration                  a                             metre per second squared        m/s^2
+# wavenumber                    small sigma, nu tilde         reciprocal metre                m^-1
+# density, mass density         small rho                     kilogram per cubic metre        kg/m3
+# surface density               small rho sub A               kilogram per square metre       kg/m2
+# specific volume               v                             cubic metre per kilogram        m3/kg
+# current density               j                             ampere per square metre         A/m2
+# magnetic field strength       H                             ampere per metre                A/m
+# amount concentration,         c                             mole per cubic metre            mol/m3
+# mass concentration            small rho, small gamma        kilogram per cubic metre        kg/m3
+# luminance                     L sub v                       candela per square metre        cd/m2
+# refractive index              n                             one                             1
+# relative permeability         mu sub r                      one                             1
 #
 #
 # SI coherent derived unit
 #
-# Derived Quantity              Name            Symbol              Expressed as other SI units     SI Base Units
+# Derived Quantity              Name            Symbol              other SI units     SI Base Units
 #
-# plane angle                   radian          rad                 1                               m/m
-# solid angle                   steradian       sr                  1                               m2/m2
-# frequency                     hertz           Hz                                                  s^-1
-# force                         newton          N                                                   m kg s^-2
-# pressure, stress              pascal          Pa                  N/m2                            m^-1 kg s^-2
-# energy, work, amount of heat  joule           J                   N m                             m2 kg s^-2
+# plane angle                   radian          rad                 1                  m/m
+# solid angle                   steradian       sr                  1                  m2/m2
+# frequency                     hertz           Hz                                     s^-1
+# force                         newton          N                                      m kg s^-2
+# pressure, stress              pascal          Pa                  N/m2               m^-1 kg s^-2
+# energy, work, amount of heat  joule           J                   N m                m2 kg s^-2
 #
 # power, radiant flux           watt            W J/s m2 kg s^-3
 #
-# electric charge,              coulomb         C                                               s A
+# electric charge,              coulomb         C                                      s A
 # amount of electricity
 #
-# electric potential difference, volt           V                   W/A                             m2 kg s^-3 A^-1
+# electric potential difference, volt           V                   W/A                m2 kg s^-3 A^-1
 # electromotive force
 #
-# capacitance                   farad           F                   C/V                             m^-2 kg^-1 s4 A2
-# electric resistance           ohm             omega               V/A                             m2 kg s^-3 A^-2
-# electric conductance          siemens         S                   A/V                             m^-2 kg^-1 s3 A2
-# magnetic flux                 weber           Wb                  V s                             m2 kg s^-2 A^-1
-# magnetic flux density         tesla           T                   Wb/m2                           kg s^-2 A^-1
-# inductance                    henry           H                   Wb/A                            m2 kg s^-2 A^-2
-# Celsius temperature           degree Celsius  degree C                                            K
-# luminous flux                 lumen           lm                  cd sr                           cd
-# illuminance                   lux             lx                  lm/m2                           m^-2 cd
+# capacitance                   farad           F                   C/V                m^-2 kg^-1 s4 A2
+# electric resistance           ohm             omega               V/A                m2 kg s^-3 A^-2
+# electric conductance          siemens         S                   A/V                m^-2 kg^-1 s3 A2
+# magnetic flux                 weber           Wb                  V s                m2 kg s^-2 A^-1
+# magnetic flux density         tesla           T                   Wb/m2              kg s^-2 A^-1
+# inductance                    henry           H                   Wb/A               m2 kg s^-2 A^-2
+# Celsius temperature           degree Celsius  degree C                               K
+# luminous flux                 lumen           lm                  cd sr              cd
+# illuminance                   lux             lx                  lm/m2              m^-2 cd
 #
-# activity referred to          becquerel       Bq                                                  s^-1
+# activity referred to          becquerel       Bq                                     s^-1
 # a radionuclide
 #
-# absorbed dose,                gray            Gy                  J/kg                            m2 s^-2
+# absorbed dose,                gray            Gy                  J/kg               m2 s^-2
 # specific energy (imparted),
 # kerma
 #
-# dose equivalent,              sievert         Sv                  J/kg                            m2 s^-2
+# dose equivalent,              sievert         Sv                  J/kg               m2 s^-2
 # ambient dose equivalent,
 # directional dose equivalent,
 # personal dose equivalent
 #
-# catalytic activity            katal           kat                                                 s^-1 mol
+# catalytic activity            katal           kat                                    s^-1 mol
 #
 #
-# dynamic viscosity             pascal second                   Pa s            m^-1 kg s^-1
-# moment of force               newton metre                    N m             m2 kg s^-2
-# surface tension               newton per metre                N/m             kg s^-2
-# angular velocity              radian per second               rad/s           m m^-1 s^-1 = s^-1
-# angular acceleration          radian per second squared       rad/s2          m m^-1 s^-2 = s^-2
+# dynamic viscosity             pascal second                       Pa s               m^-1 kg s^-1
+# moment of force               newton metre                        N m                m2 kg s^-2
+# surface tension               newton per metre                    N/m                kg s^-2
+# angular velocity              radian per second                   rad/s              m m^-1 s^-1 = s^-1
+# angular acceleration          radian per second squared           rad/s2             m m^-1 s^-2 = s^-2
 #
-# heat flux density,            watt per square metre           W/m2            kg s^-3
+# heat flux density,            watt per square metre               W/m2               kg s^-3
 # irradiance
 #
-# heat capacity, entropy        joule per kelvin                J/K             m2 kg s^-2 K^-1
+# heat capacity, entropy        joule per kelvin                    J/K                m2 kg s^-2 K^-1
 #
-# specific heat capacity,       joule per kilogram kelvin       J/(kg K)        m2 s^-2 K^-1
+# specific heat capacity,       joule per kilogram kelvin           J/(kg K)           m2 s^-2 K^-1
 # specific entropy
 #
-# specific energy               joule per kilogram              J/kg            m2 s^-2
-# thermal conductivity          watt per metre kelvin           W/(m K)         m kg s^-3 K^-1
-# energy density                joule per cubic metre           J/m3            m^-1 kg s^-2
-# electric field strength       volt per metre                  V/m             m kg s^-3 A^-1
-# electric charge density       coulomb per cubic metre         C/m3            m^-3 s A
-# surface charge density        coulomb per square metre        C/m2            m^-2 s A
+# specific energy               joule per kilogram                  J/kg               m2 s^-2
+# thermal conductivity          watt per metre kelvin               W/(m K)            m kg s^-3 K^-1
+# energy density                joule per cubic metre               J/m3               m^-1 kg s^-2
+# electric field strength       volt per metre                      V/m                m kg s^-3 A^-1
+# electric charge density       coulomb per cubic metre             C/m3               m^-3 s A
+# surface charge density        coulomb per square metre            C/m2               m^-2 s A
 #
-# electric flux density,        coulomb per square metre        C/m2            m^2 s A
+# electric flux density,        coulomb per square metre            C/m2               m^2 s A
 # electric displacement
 #
-# permittivity                  farad per metre                 F/m             m^3 kg^1 s4 A2
-# permeability                  henry per metre                 H/m             m kg s^-2 A^-2
-# molar energy                  joule per mole                  J/mol           m2 kg s^-2 mol^-1
+# permittivity                  farad per metre                     F/m                m^3 kg^1 s4 A2
+# permeability                  henry per metre                     H/m                m kg s^-2 A^-2
+# molar energy                  joule per mole                      J/mol              m2 kg s^-2 mol^-1
 #
-# molar entropy,                joule per mole kelvin           J/(mol K)       m2 kg s^-2 K^-1 mol^-1
+# molar entropy,                joule per mole kelvin               J/(mol K)          m2 kg s^-2 K^-1 mol^-1
 # molar heat capacity
 #
-# exposure (x- and gamma-rays)  coulomb per kilogram            C/kg            kg^-1 s A
-# absorbed dose rate            gray per second                 Gy/s            m2 s^3
-# radiant intensity             watt per steradian              W/sr            m4 m^-2 kg s^-3 = m2 kg s^-3
-# radiance                      watt per square metre steradian W/(m2 sr)       m2 m^-2 kg s^-3 = kg s^-3
+# exposure (x- and gamma-rays)  coulomb per kilogram                C/kg               kg^-1 s A
+# absorbed dose rate            gray per second                     Gy/s               m2 s^3
+# radiant intensity             watt per steradian                  W/sr               m4 m^-2 kg s^-3 = m2 kg s^-3
+# radiance                      watt per square metre steradian     W/(m2 sr)          m2 m^-2 kg s^-3 = kg s^-3
 #
-# catalytic activity            katal per cubic metre           kat/m3          m^-3 s^-1 mol
+# catalytic activity            katal per cubic metre               kat/m3             m^-3 s^-1 mol
 # concentration
 #
 # Quantity              Name of unit                Symbol                  Value in SI units (a)

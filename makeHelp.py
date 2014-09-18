@@ -2161,6 +2161,12 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 ''',
 '''
 ''' ],
+    'name' : [
+'special', 'returns the English name for the integer value n',
+'''
+''',
+'''
+''' ],
     'narayana' : [
 'combinatorics', '',
 '''
