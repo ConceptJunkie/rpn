@@ -636,6 +636,8 @@ def getModifiedOnesName( name, code ):
             return name + 's'
         elif ( name == 'se' ):
             return name + 'x'
+        else:
+            return name
     else:
         return name
 
@@ -682,6 +684,9 @@ def getSmallNumberName( n ):
 
             name += unitNumberNames[ ones + 10 ]
         else:
+            if name != '':
+                name += ' '
+
             name += unitNumberNames[ ones ]
     elif tens == 1:
         if name != '':
@@ -736,7 +741,8 @@ def getNumberGroupName( n ):
         if tens > 0:
             hasTens = True
 
-            name = getModifiedOnesName( name, tensNames[ tens ][ 1 ] )
+            if name != '':
+                name = getModifiedOnesName( name, tensNames[ tens ][ 1 ] )
 
             name += tensNames[ tens ][ 0 ]
 
@@ -761,9 +767,6 @@ def getNumberGroupName( n ):
 #//******************************************************************************
 
 def getNumberName( n ):
-    mp.dps = floor( log( n, 10 ) + 2 )
-    print( mp.dps )
-
     current = n
     group = 0
     name = ''

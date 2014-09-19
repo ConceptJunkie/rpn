@@ -408,6 +408,9 @@ Fixed some problems with generating and interpreting compound units.
 
 Added the 'prevost' operator.
 
+5.27.0
+
+Added the 'name' operator.
 ''',
 'license' :
 '''
