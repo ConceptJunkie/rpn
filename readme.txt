@@ -1,8 +1,8 @@
 rpn is a command-line Reverse-Polish Notation calculator.
 
 rpn supports arithmetic with arbitrary precision, powers and roots, logarithms,
-alegbraic functions (including polynomials arithmetic and solving),
-trigonometric functions, complex nunmbers, computer science related functions
+algebraic functions (including polynomials arithmetic and solving),
+trigonometric functions, complex numbers, computer science related functions
 (bitwise math, base conversion), number theory functions, prime number
 calculations and lookup, and can operate with single operands or lists of
 operands and supports a wide variety of flexible unit conversions comparable to
@@ -81,6 +81,6 @@ the hard stuff is actually done.
 Rick Gutleber
 rickg@his.com
 
-p.s. rpn is licensed under the GNU GPL verison 3.0.  See (see
+p.s. rpn is licensed under the GNU GPL version 3.0.  See (see
 <http://www.gnu.org/licenses/gpl.html> for more information).
 
