@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# http://en.wikipedia.org/wiki/Physical_constant
+
 # Tetrahedron volume
 #
 # def determinant_3x3(m):

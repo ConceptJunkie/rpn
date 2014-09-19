@@ -2368,7 +2368,7 @@ unitOperators = {
         UnitInfo( 'volume', 'kilderkin', 'kilderkins', '', [ ], [ 'imperial' ] ),
 
     'liter' :
-        UnitInfo( 'volume', 'liter', 'liters', 'l', [ ], [ 'SI' ] ),
+        UnitInfo( 'volume', 'liter', 'liters', 'L', [ ], [ 'SI' ] ),
 
     'magnum' :
         UnitInfo( 'volume', 'magnum', 'magnums', '', [ ], [ 'wine' ] ),
