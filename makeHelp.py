@@ -411,6 +411,11 @@ Added the 'prevost' operator.
 5.27.0
 
 Added the 'name' operator.
+
+5.27.1
+
+Added an error message if the 'name' operand is out of range, and added
+support for negative numbers.
 ''',
 'license' :
 '''

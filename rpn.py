@@ -767,7 +767,11 @@ def getNumberGroupName( n ):
 #//******************************************************************************
 
 def getNumberName( n ):
-    current = n
+    current = fabs( n )
+
+    if current >= power( 10, 3003 ):
+        raise ValueError( 'value out of range for converting to an English name' )
+
     group = 0
     name = ''
 
@@ -787,6 +791,9 @@ def getNumberName( n ):
 
         current = floor( fdiv( current, 1000 ) )
         group += 1
+
+    if n < 0:
+        name = 'negative ' + name
 
     return name
 
