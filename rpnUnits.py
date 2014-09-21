@@ -1492,10 +1492,10 @@ unitOperators = {
     # length
 
     'aln' :
-        UnitInfo( 'length', 'aln', 'aln', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'aln', 'alns', '', [ ], [ 'obsolete' ] ),
 
     'arpent' :
-        UnitInfo( 'length', 'arpent', 'arpent', '', [ ], [ 'obsolete', 'France' ] ),
+        UnitInfo( 'length', 'arpent', 'arpents', '', [ ], [ 'obsolete', 'France' ] ),
 
     'angstrom' :
         UnitInfo( 'length', 'angstrom', 'angstroms', 'A', [ 'angstroem' ], [ 'science' ] ),
@@ -1525,19 +1525,19 @@ unitOperators = {
         UnitInfo( 'length', 'earth_radius', 'earth_radii', 'Rgeo', [ ], [ 'natural' ] ),
 
     'ell' :
-        UnitInfo( 'length', 'ell', 'ell', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'ell', 'ells', '', [ ], [ 'imperial' ] ),
 
     'famn' :
-        UnitInfo( 'length', 'famn', 'famn', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'famn', 'famns', '', [ ], [ 'obsolete' ] ),
 
     'farshimmelt_potrzebie' :
         UnitInfo( 'length', 'farshimmelt_potrzebie', 'farshimmelt potrzebies', 'fpz', [ 'far-potrzebie' ], [ 'Potrzebie', 'humorous' ] ),
 
     'fathom' :
-        UnitInfo( 'length', 'fathom', 'fathom', 'fath', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'fathom', 'fathoms', 'fath', [ ], [ 'imperial' ] ),
 
     'finger' :
-        UnitInfo( 'length', 'finger', 'finger', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'finger', 'fingers', '', [ ], [ 'imperial' ] ),
 
     'fingerbreadth' :
         UnitInfo( 'length', 'fingerbreadth', 'fingerbreadths', '', [ 'fingersbreadth' ], [ 'obsolete' ] ),
@@ -1570,7 +1570,7 @@ unitOperators = {
         UnitInfo( 'length', 'jupiter_radius', 'jupiter_radii', 'Rjov', [ ], [ 'natural' ] ),
 
     'ken' :
-        UnitInfo( 'length', 'ken', 'ken', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'ken', 'kens', '', [ ], [ 'obsolete' ] ),
 
     'kyu' :
         UnitInfo( 'length', 'kyu', 'kyus', '', [ 'Q' ], [ 'typography', 'computing' ] ),
@@ -1585,7 +1585,7 @@ unitOperators = {
         UnitInfo( 'length', 'light-year', 'light-years', 'ly', [ 'a1' ], [ 'science' ] ),
 
     'link' :
-        UnitInfo( 'length', 'link', 'link', '', [ ], [ 'informal' ] ),
+        UnitInfo( 'length', 'link', 'links', '', [ ], [ 'informal' ] ),
 
     'long_cubit' :
         UnitInfo( 'length', 'long_cubit', 'long_cubits', '', [ ], [ 'obsolete' ] ),
@@ -1609,22 +1609,22 @@ unitOperators = {
         UnitInfo( 'length', 'mile', 'miles', 'mi', [ ], [ 'imperial' ] ),
 
     'nail' :
-        UnitInfo( 'length', 'nail', 'nail', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'nail', 'nails', '', [ ], [ 'imperial' ] ),
 
     'nautical_mile' :
         UnitInfo( 'length', 'nautical_mile', 'nautical_miles', '', [ ], [ 'nautical' ] ),
 
     'parsec' :
-        UnitInfo( 'length', 'parsec', 'parsec', 'pc', [ ], [ 'science' ] ),
+        UnitInfo( 'length', 'parsec', 'parsecs', 'pc', [ ], [ 'science' ] ),
 
     'perch' :
         UnitInfo( 'length', 'perch', 'perches', '', [ 'pole', 'poles' ], [ 'imperial' ] ),
 
     'pica' :
-        UnitInfo( 'length', 'pica', 'pica', '', [ 'cicero' ], [ 'typography' ] ),
+        UnitInfo( 'length', 'pica', 'picas', '', [ 'cicero' ], [ 'typography' ] ),
 
     'planck_length' :
-        UnitInfo( 'length', 'planck_length', 'planck_length', 'lP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'length', 'planck_length', 'planck_lengths', 'lP', [ ], [ 'natural', 'science' ] ),
 
     'point' :
         UnitInfo( 'length', 'point', 'points', '', [ ], [ 'typography' ] ),
@@ -2368,7 +2368,7 @@ unitOperators = {
         UnitInfo( 'volume', 'kilderkin', 'kilderkins', '', [ ], [ 'imperial' ] ),
 
     'liter' :
-        UnitInfo( 'volume', 'liter', 'liters', 'L', [ ], [ 'SI' ] ),
+        UnitInfo( 'volume', 'liter', 'liters', 'l', [ ], [ 'SI' ] ),
 
     'magnum' :
         UnitInfo( 'volume', 'magnum', 'magnums', '', [ ], [ 'wine' ] ),

@@ -33,7 +33,6 @@
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 #
 
-# The present overall density of the Universe is roughly 9.9 x 10-30 grams per cubic centimetre.
 
 # http://en.wikipedia.org/wiki/Planck%27s_constant
 
@@ -1578,6 +1577,16 @@ def rpn( cmd_args ):
         parser.add_argument( '-l', '--line_length', type=int, action='store', default=defaultLineLength )
 
         args = parser.parse_args( cmd_args )
+
+        try:
+            with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
+                unitsVersion = pickle.load( pickleFile )
+                g.basicUnitTypes = pickle.load( pickleFile )
+                g.unitOperators = pickle.load( pickleFile )
+                operatorAliases.update( pickle.load( pickleFile ) )
+                g.compoundUnits = pickle.load( pickleFile )
+        except FileNotFoundError as error:
+            print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
 
         printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases,
                    g.dataPath, helpArgs, args.line_length )

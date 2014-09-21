@@ -1498,8 +1498,19 @@ def addAliases( operatorList, operatorAliases ):
     for index, operator in enumerate( operatorList ):
         aliasList = [ key for key in operatorAliases if operator == operatorAliases[ key ] ]
 
+        if operator in g.unitOperators:
+            unitInfo = g.unitOperators[ operator ]
+
+            if unitInfo.abbrev != '':
+                aliasList.append( unitInfo.abbrev )
+
+            aliasList.extend( unitInfo.aliases )
+
+            aliasList = list( set( aliasList ) )
+
         if len( aliasList ) > 0:
-            operatorList[ index ] += ' (' + ', '.join( aliasList ) + ')'
+            operatorList[ index ] += ' (' + ', '.join( sorted( aliasList ) ) + ')'
+
 
 
 #//******************************************************************************
@@ -1572,7 +1583,10 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
     elif term == 'unit_types':
         printParagraph( ', '.join( sorted( unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
     elif term in unitTypeDict:
-        printParagraph( ', '.join( sorted( unitTypeDict[ term ] ) ), lineLength - 5, 4 )
+        unitList = sorted( unitTypeDict[ term ] )
+        addAliases( unitList, operatorAliases )
+        for unit in unitList:
+            printParagraph( unit, lineLength - 5, 4 )
     else:
         # if no exact matches for any topic, let's look for partial matches
         if 'unit_types'.startswith( term ):
