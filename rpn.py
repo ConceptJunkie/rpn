@@ -96,6 +96,7 @@ from rpnComputer import *
 from rpnConstants import *
 from rpnDeclarations import *
 from rpnList import *
+from rpnModifiers import *
 from rpnNumberTheory import *
 from rpnPolynomials import *
 from rpnPolytope import *
@@ -893,104 +894,6 @@ def dumpStats( ):
 
 #//******************************************************************************
 #//
-#//  incrementNestedListLevel
-#//
-#//  Unlike all other operators, '[' and ']' change global state.
-#//
-#//******************************************************************************
-
-def incrementNestedListLevel( valueList ):
-    g.nestedListLevel += 1
-
-    valueList.append( list( ) )
-
-
-#//******************************************************************************
-#//
-#//  decrementNestedListLevel
-#//
-#//******************************************************************************
-
-def decrementNestedListLevel( valueList ):
-    g.nestedListLevel -= 1
-
-    if g.nestedListLevel < 0:
-        raise ValueError( "negative list level (too many ']'s)" )
-
-
-#//******************************************************************************
-#//
-#//  duplicateTerm
-#//
-#//******************************************************************************
-
-def duplicateTerm( valueList ):
-    count = valueList.pop( )
-    value = valueList.pop( )
-
-    for i in range( 0, int( count ) ):
-        if isinstance( value, list ):
-            for i in value:
-                valueList.append( i )
-        else:
-            valueList.append( value )
-
-
-#//******************************************************************************
-#//
-#//  unlist
-#//
-#//******************************************************************************
-
-def unlist( valueList ):
-    arg = valueList.pop( )
-
-    if isinstance( arg, list ):
-        for i in arg:
-            valueList.append( i )
-    else:
-        valueList.append( arg )
-
-
-#//******************************************************************************
-#//
-#//  flatten
-#//
-#//  http://rightfootin.blogspot.com/2006/09/more-on-python-flatten.html
-#//
-#//******************************************************************************
-
-def _flatten( L, containers=( list, tuple ) ):
-    i = 0
-
-    while i < len( L ):
-        while isinstance( L[ i ], containers ):
-            if not L[ i ]:
-                L.pop( i )
-                i -= 1
-                break
-            else:
-                L[ i : i + 1 ] = ( L[ i ] )
-        i += 1
-    return L
-
-
-def flatten( valueList ):
-    valueList.append( _flatten( valueList.pop( ) ) )
-
-
-#//******************************************************************************
-#//
-#//  getPrevious
-#//
-#//******************************************************************************
-
-def getPrevious( valueList ):
-    valueList.append( valueList[ -1 ] )
-
-
-#//******************************************************************************
-#//
 #//  loadResult
 #//
 #//******************************************************************************
@@ -1113,6 +1016,23 @@ def convertToDMS( n ):
 
 #//******************************************************************************
 #//
+#//  evaluateFunction
+#//
+#//******************************************************************************
+
+def evaluateFunction( n, k ):
+    if not isinstance( k, FunctionInfo ):
+        raise ValueError( '\'eval\' expects a function argument' )
+
+    if isinstance( n, list ):
+        for item in n:
+            k.evaluate( item )
+    else:
+        return k.evaluate( n )
+
+
+#//******************************************************************************
+#//
 #//  modifiers are operators that directly modify the argument stack instead of
 #//  just returning a value.
 #//
@@ -1122,12 +1042,13 @@ def convertToDMS( n ):
 #//******************************************************************************
 
 modifiers = {
-    'dup'           : OperatorInfo( duplicateTerm, 2 ),
-    'flatten'       : OperatorInfo( flatten, 1 ),
-    'previous'      : OperatorInfo( getPrevious, 1 ),
-    'unlist'        : OperatorInfo( unlist, 1 ),
-    '['             : OperatorInfo( incrementNestedListLevel, 0 ),
-    ']'             : OperatorInfo( decrementNestedListLevel, 0 ),
+    'dup'               : OperatorInfo( duplicateTerm, 2 ),
+    'flatten'           : OperatorInfo( flatten, 1 ),
+    'previous'          : OperatorInfo( getPrevious, 1 ),
+    'unlist'            : OperatorInfo( unlist, 1 ),
+    'x'                 : OperatorInfo( createFunction, 0 ),
+    '['                 : OperatorInfo( incrementNestedListLevel, 0 ),
+    ']'                 : OperatorInfo( decrementNestedListLevel, 0 ),
 }
 
 
@@ -1285,6 +1206,7 @@ operators = {
     'element'           : OperatorInfo( getListElement, 2 ),
     'estimate'          : OperatorInfo( estimate, 1 ),
     'euler'             : OperatorInfo( euler, 0 ),
+    'eval'              : OperatorInfo( evaluateFunction, 2 ),
     'exp'               : OperatorInfo( exp, 1 ),
     'exp10'             : OperatorInfo( lambda n: power( 10, n ), 1 ),
     'expphi'            : OperatorInfo( lambda n: power( phi, n ), 1 ),

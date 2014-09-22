@@ -416,6 +416,10 @@ Added the 'name' operator.
 
 Added an error message if the 'name' operand is out of range, and added
 support for negative numbers.
+
+5.27.2
+
+Help for unit types now prints out all aliases for the unit operators.
 ''',
 'license' :
 '''
@@ -1542,6 +1546,20 @@ c:\>rpn pi 7 / radians dms
 'constants', 'returns the Euler-Mascheroni constant',
 '''
 ''',
+'''
+''' ],
+    'eval' : [
+'special', 'evaluates the function n for the given argument[s] k',
+'''
+'eval' is the boring trivial operator for user-defined functions.
+
+Once this works, some really interesting new operators can be made.
+''',
+c:\>rpn 3 x 2 * eval
+6
+
+c:\>rpn 5 x 2 ** 1 - eval
+24
 '''
 ''' ],
     'exp' : [
@@ -3217,6 +3235,20 @@ c:\>rpn 1 50 range countdiv stddev
 ''',
 '''
 ''' ],
+    'x' : [
+'special', '\'x\' is used to create functions',
+'''
+Better help will be written when this operator is fully designed.
+''',
+'''
+c:\>rpn 3 x 2 * eval
+6
+
+c:\>rpn 5 x 2 ** 1 - eval
+24
+
+Once this works, some really interesting new operators can be made.
+''' ],
     'xor' : [
 'logical', 'calculates the bitwise \'xor\' of n and k',
 '''
@@ -3585,6 +3617,9 @@ _maketwin start end interval
 #   'antitet' : [ findTetrahedralNumber, 1 ],
 #   'bernfrac' : [ bernfrac, 1 ],
 #   'powmod' : [ getPowMod, 3 ],
+
+# operators to be sorted:
+
     'wednesday' : [
 'constants', 'returns 3, which is the code for Wednesday',
 '''
@@ -3687,8 +3722,6 @@ _maketwin start end interval
 ''',
 '''
 ''' ],
-
-
 }
 
 

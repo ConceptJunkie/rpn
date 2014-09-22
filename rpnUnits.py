@@ -1447,6 +1447,9 @@ unitOperators = {
     'bit' :
         UnitInfo( 'information_entropy', 'bit', 'bits', 'b', [ 'shannon', 'shannons' ], [ 'computing' ] ),
 
+    'boltzmann_constant' :
+        UnitInfo( 'information_entropy', 'boltzmann_constant', 'x boltzmann_constant', '', [ 'boltzmann' ], [ 'natural' ] ),
+
     'byte' :
         UnitInfo( 'information_entropy', 'byte', 'bytes', 'B', [ 'octet', 'octets' ], [ 'computing' ] ),
 
@@ -2707,6 +2710,7 @@ unitConversionMatrix = {
     ( 'blintz',                 'gram' )                                : mpmathify( '36.42538631' ),
     ( 'bohr_radius',            'meter' )                               : mpmathify( '5.2917721e-11' ),
     ( 'bolt',                   'foot' )                                : mpmathify( '120' ),
+    ( 'boltzmann_constant',     'joule/kelvin' )                        : mpmathify( '1.3806488e-23' ),
     ( 'btu',                    'joule' )                               : mpmathify( '1054.5' ),
     ( 'btupf',                  'joule/kelvin' )                        : mpmathify( '1899.100534716' ),
     ( 'bucket',                 'gallon' )                              : mpmathify( '4' ),

@@ -409,6 +409,21 @@ class OperatorInfo( ):
 
 #//******************************************************************************
 #//
+#//  class FunctionInfo
+#//
+#//******************************************************************************
+
+class FunctionInfo( ):
+    def __init__( self, valueList = [ ] ):
+        self.valueList = valueList
+
+    def evaluate( self, arg ):
+        print( 'evaluate', arg )
+        return arg
+
+
+#//******************************************************************************
+#//
 #//  class Polynomial
 #//
 #//  http://stackoverflow.com/questions/5413158/multiplying-polynomials-in-python
