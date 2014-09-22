@@ -1555,12 +1555,12 @@ c:\>rpn pi 7 / radians dms
 
 Once this works, some really interesting new operators can be made.
 ''',
+'''
 c:\>rpn 3 x 2 * eval
 6
 
 c:\>rpn 5 x 2 ** 1 - eval
 24
-'''
 ''' ],
     'exp' : [
 'powers_and_roots', 'calculates the nth power of e',
