@@ -1842,6 +1842,13 @@ callers = [
 #//******************************************************************************
 
 def convertUnits( unit1, unit2 ):
+    if isinstance( unit1, list ):
+        result = [ ]
+
+        for unit in unit1:
+            result.append( convertUnits( unit, unit2 ) )
+
+        return result
     if not isinstance( unit1, Measurement ):
         raise ValueError( 'cannot convert non-measurements' )
 
