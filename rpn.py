@@ -1022,6 +1022,43 @@ def evaluateFunction( n, k ):
 
 #//******************************************************************************
 #//
+#//  evaluateSum
+#//
+#//  Calculate the sum of a user-defined function across a range.
+#//
+#//******************************************************************************
+
+def evaluateSum( start, end, func ):
+    return nsum( lambda n: evaluateFunction( n, func ), [ start, end ] )
+
+
+#//******************************************************************************
+#//
+#//  evaluateProduct
+#//
+#//  Calculate the product of a user-defined function across a range.
+#//
+#//******************************************************************************
+
+def evaluateProduct( start, end, func ):
+    return nprod( lambda n: evaluateFunction( n, func ), [ start, end ] )
+
+
+#//******************************************************************************
+#//
+#//  evaluateLimit
+#//
+#//  Calculate the limit of a user-defined function as the argument approaches
+#//  x.
+#//
+#//******************************************************************************
+
+def evaluateLimit( x, func ):
+    return limit( lambda n: evaluateFunction( n, func ), x )
+
+
+#//******************************************************************************
+#//
 #//  functionOperators
 #//
 #//  This is just a list of operators that terminate the function creation
@@ -1029,7 +1066,7 @@ def evaluateFunction( n, k ):
 #//
 #//******************************************************************************
 
-functionOperators = [ 'eval' ]
+functionOperators = [ 'eval', 'nsum', 'nprod', 'limit' ]
 
 
 #//******************************************************************************
@@ -1244,6 +1281,7 @@ operators = {
     'hypot'             : OperatorInfo( hypot, 2 ),
     'i'                 : OperatorInfo( makeImaginary, 1 ),
     'icosahedral'       : OperatorInfo( lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n ), 1 ),
+    'infinity'          : OperatorInfo( lambda: inf, 0 ),
     'integer'           : OperatorInfo( convertToSignedInt, 2 ),
     'isdivisible'       : OperatorInfo( lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2 ),
     'isolated'          : OperatorInfo( getNthIsolatedPrime, 1 ),
@@ -1264,6 +1302,7 @@ operators = {
     'leyland'           : OperatorInfo( lambda x, y : fadd( power( x, y ), power( y, x ) ), 2 ),
     'lgamma'            : OperatorInfo( loggamma, 1 ),
     'li'                : OperatorInfo( li, 1 ),
+    'limit'             : OperatorInfo( evaluateLimit, 2 ),
     'ln'                : OperatorInfo( ln, 1 ),
     'log10'             : OperatorInfo( log10, 1 ),
     'log2'              : OperatorInfo( lambda n: log( n, 2 ), 1 ),
@@ -1304,6 +1343,7 @@ operators = {
     'name'              : OperatorInfo( getNumberName, 1 ),
     'narayana'          : OperatorInfo( lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2 ),
     'negative'          : OperatorInfo( getNegative, 1 ),
+    'negative_infinity' : OperatorInfo( lambda: -inf, 0 ),
     'nonagonal'         : OperatorInfo( lambda n: getNthPolygonalNumber( n, 9 ), 1 ),
     'nonagonal?'        : OperatorInfo( lambda n: findNthPolygonalNumber( n, 9 ), 1 ),
     'nonahept'          : OperatorInfo( getNthNonagonalHeptagonalNumber, 1 ),
@@ -1315,9 +1355,11 @@ operators = {
     'not'               : OperatorInfo( getInvertedBits, 1 ),
     'november'          : OperatorInfo( lambda: 11, 0 ),
     'now'               : OperatorInfo( getNow, 0 ),
+    'nprod'             : OperatorInfo( evaluateProduct, 3 ),
     'nspherearea'       : OperatorInfo( getNSphereSurfaceArea, 2 ),
     'nsphereradius'     : OperatorInfo( getNSphereRadius, 2 ),
     'nspherevolume'     : OperatorInfo( getNSphereVolume, 2 ),
+    'nsum'              : OperatorInfo( evaluateSum, 3 ),
     'nthprime?'         : OperatorInfo( lambda i: findPrime( i )[ 0 ], 1 ),
     'nthquad?'          : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 0 ], 1 ),
     'nthweekday'        : OperatorInfo( calculateNthWeekdayOfMonth , 4 ),

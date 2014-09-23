@@ -185,6 +185,10 @@ Arguments:
 '''
     [ TODO: describe output formats supported by rpn ]
 ''',
+'user_functions' :
+'''
+    [ TODO: describe user-defined formulas ]
+''',
 'unit_conversion' :
 '''
 c:\>rpn 10 miles km convert
@@ -420,6 +424,11 @@ support for negative numbers.
 5.27.2
 
 Help for unit types now prints out all aliases for the unit operators.
+
+5.28.0
+
+Added 'x', 'eval', 'nsum', 'nprod', 'limit', 'infinity', and
+'negative_infinity' operators.
 ''',
 'license' :
 '''
@@ -1794,6 +1803,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'infinity' : [
+'special', 'evaluates to infinity, used to describe ranges for nsum, nprod, and limit',
+'''
+''',
+'''
+''' ],
     'integer' : [
 'conversion', 'converts the value to an signed k-bit integer',
 '''
@@ -1904,6 +1919,12 @@ Note:  Not sure why the rounding error is so large.
 ''' ],
     'li' : [
 'logarithms', 'calculates the logarithmic interval of n',
+'''
+''',
+'''
+''' ],
+    'limit' : [
+'special', 'calculates the limit of function k( x ) as x approaches n',
 '''
 ''',
 '''
@@ -2205,6 +2226,12 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 ''',
 '''
 ''' ],
+    'negative_infinity' : [
+'special', 'evaluates to negative infinity, used to describe ranges for nsum, nprod, and limit',
+'''
+''',
+'''
+''' ],
     'nonagonal' : [
 'polygonal_numbers', 'calculates the nth nonagonal number',
 '''
@@ -2271,6 +2298,12 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 ''',
 '''
 ''' ],
+    'nprod' : [
+'special', 'calculates the product of function c over the range of a through b',
+'''
+''',
+'''
+''' ],
     'not' : [
 'logical', 'calculates the bitwise negation of n',
 '''
@@ -2297,6 +2330,12 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 ''' ],
     'nspherevolume' : [
 'trigonometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
+'''
+''',
+'''
+''' ],
+    'nsum' : [
+'special', 'calculates the sum of function c over the range of a through b',
 '''
 ''',
 '''
