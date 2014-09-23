@@ -2710,6 +2710,12 @@ given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
+    'ratios' : [
+'list_operators', 'returns a list with the ratios between successive elements of list n',
+'''
+''',
+'''
+''' ],
     'reciprocal' : [
 'arithmetic', 'returns the reciprocal of n',
 '''
@@ -2724,6 +2730,12 @@ given the way calculating prime numbers is currently done.
 ''' ],
     'result' : [
 'special', 'loads the result from the previous invokation of rpn',
+'''
+''',
+'''
+''' ],
+    'reverse' : [
+'list_operators', 'returns list n with its elements reversed',
 '''
 ''',
 '''
