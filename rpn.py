@@ -15,6 +15,8 @@
 
 # Here's another idea... when listing units, include the aliases
 
+# New SI prefixes: https://sites.google.com/site/largenumbers/home/2-2/4
+
 # https://en.wikipedia.org/wiki/Gas_constant
 # https://en.wikipedia.org/wiki/Coulomb_constant
 
@@ -977,11 +979,6 @@ def convertToDMS( n ):
 #//
 #//  evaluateFunction
 #//
-#//  Evaluate a user-defined function.  This is the simplest operator to use
-#//  user-defined functions.   Eventually I want to compile the user-defined
-#//  function into Python code, so when I start passing them to mpmath they'll
-#//  run faster.
-#//
 #//******************************************************************************
 
 def evaluateFunction( n, k ):
@@ -1012,7 +1009,7 @@ def evaluateFunction( n, k ):
             if term in operatorAliases:
                 term = operatorAliases[ term ]
 
-            if not evaluateTerm( term, index, valueList ):
+            if not evaluate( term, index, valueList ):
                 break
 
             index = index + 1
@@ -1464,11 +1461,11 @@ operators = {
 
 #//******************************************************************************
 #//
-#//  evaluateTerm
+#//  evaluate
 #//
 #//******************************************************************************
 
-def evaluateTerm( term, index, currentValueList ):
+def evaluate( term, index, currentValueList ):
     if term in modifiers:
         try:
             operatorInfo = modifiers[ term ]
@@ -1478,8 +1475,7 @@ def evaluateTerm( term, index, currentValueList ):
                    '.  Are your arguments in the right order?' )
             return False
     elif term in g.unitOperators:
-        if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ) or \
-           ( isinstance( currentValueList[ -1 ], list ) and isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
+        if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
             if g.unitOperators[ term ].unitType == 'constant':
                 value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
             else:
@@ -1489,17 +1485,13 @@ def evaluateTerm( term, index, currentValueList ):
         elif isinstance( currentValueList[ -1 ], list ):
             argList = currentValueList.pop( )
 
-            newArg = [ ]
-
             for listItem in argList:
                 if g.unitOperators[ term ].unitType == 'constant':
                     value = mpf( Measurement( listItem, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
                     value = Measurement( listItem, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
 
-                newArg.append( value )
-
-            currentValueList.append( newArg )
+                currentValueList.append( value )
         elif isinstance( currentValueList[ -1 ], mpf ):
             if g.unitOperators[ term ].unitType == 'constant':
                 value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
@@ -1883,93 +1875,92 @@ def rpn( cmd_args ):
             else:
                 raise ValueError( 'function operators require a function definition' )
 
-        if not evaluateTerm( term, index, currentValueList ):
+        if not evaluate( term, index, currentValueList ):
             break
 
         index = index + 1
-
-    # handle output
-    if isinstance( valueList[ 0 ], FunctionInfo ):
-        print( 'rpn:  unexpected end of input in function definition' )
-    elif len( valueList ) > 1 or len( valueList ) == 0:
-        print( 'rpn:  unexpected end of input' )
-    else:
-        mp.pretty = True
-        result = valueList.pop( )
-
-        if args.comma:
-            integerGrouping = 3     # override whatever was set on the command-line
-            leadingZero = False     # this one, too
-            integerDelimiter = ','
+    else:    # i.e., if the for loop completes
+        if isinstance( valueList[ 0 ], FunctionInfo ):
+            print( 'rpn:  unexpected end of input in function definition' )
+        elif len( valueList ) > 1 or len( valueList ) == 0:
+            print( 'rpn:  unexpected end of input' )
         else:
-            integerDelimiter = ' '
+            mp.pretty = True
+            result = valueList.pop( )
 
-        if isinstance( result, list ):
-            print( formatListOutput( result, outputRadix, g.numerals, integerGrouping, integerDelimiter,
-                                     leadingZero, args.decimal_grouping, ' ', baseAsDigits,
-                                     args.output_accuracy ) )
-        else:
-            if isinstance( result, arrow.Arrow ):
-                outputString = formatDateTime( result )
+            if args.comma:
+                integerGrouping = 3     # override whatever was set on the command-line
+                leadingZero = False     # this one, too
+                integerDelimiter = ','
             else:
-                # output the answer with all the extras according to command-line arguments
-                resultString = nstr( result, mp.dps )
+                integerDelimiter = ' '
 
-                outputString = formatOutput( resultString, outputRadix, g.numerals, integerGrouping,
-                                             integerDelimiter, leadingZero, args.decimal_grouping,
-                                             ' ', baseAsDigits, args.output_accuracy )
-
-                # handle the units if we are displaying a measurement
-                if isinstance( result, Measurement ):
-                    outputString += ' ' + formatUnits( result.normalizeUnits( ) )
-
-            printParagraph( outputString, args.line_length )
-
-            # handle --identify
-            if args.identify:
-                formula = identify( result )
-
-                if formula is None:
-                    base = [ 'pi', 'e' ]
-                    formula = identify( result, base )
-
-                # I don't know if this would ever be useful to try.
-                #if formula is None:
-                #    base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
-                #    formula = identify( result, base )
-                #
-                # Nor this.
-                #if formula is None:
-                #    base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
-                #    formula = identify( result, base )
-
-                if formula is None:
-                    print( '    = [formula cannot be found]' )
+            if isinstance( result, list ):
+                print( formatListOutput( result, outputRadix, g.numerals, integerGrouping, integerDelimiter,
+                                         leadingZero, args.decimal_grouping, ' ', baseAsDigits,
+                                         args.output_accuracy ) )
+            else:
+                if isinstance( result, arrow.Arrow ):
+                    outputString = formatDateTime( result )
                 else:
-                    print( '    = ' + formula )
+                    # output the answer with all the extras according to command-line arguments
+                    resultString = nstr( result, mp.dps )
 
-            # handle --find_poly
-            if args.find_poly > 0:
-                poly = str( findpoly( result, args.find_poly ) )
+                    outputString = formatOutput( resultString, outputRadix, g.numerals, integerGrouping,
+                                                 integerDelimiter, leadingZero, args.decimal_grouping,
+                                                 ' ', baseAsDigits, args.output_accuracy )
 
-                if poly == 'None':
-                    poly = str( findpoly( result, args.find_poly, maxcoeff=1000 ) )
+                    # handle the units if we are displaying a measurement
+                    if isinstance( result, Measurement ):
+                        outputString += ' ' + formatUnits( result.normalizeUnits( ) )
 
-                if poly == 'None':
-                    poly = str( findpoly( result, args.find_poly, maxcoeff=1000000 ) )
+                printParagraph( outputString, args.line_length )
 
-                if poly == 'None':
-                    poly = str( findpoly( result, args.find_poly, maxcoeff=1000000, tol=1e-10 ) )
+                # handle --identify
+                if args.identify:
+                    formula = identify( result )
 
-                if poly == 'None':
-                    print( '    = polynomial of degree <= %d not found' % args.find_poly )
-                else:
-                    print( '    = polynomial ' + poly )
+                    if formula is None:
+                        base = [ 'pi', 'e' ]
+                        formula = identify( result, base )
 
-        saveResult( result )
+                    # I don't know if this would ever be useful to try.
+                    #if formula is None:
+                    #    base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
+                    #    formula = identify( result, base )
+                    #
+                    # Nor this.
+                    #if formula is None:
+                    #    base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
+                    #    formula = identify( result, base )
 
-    if args.time:
-        print( '\n%.3f seconds' % time.clock( ) )
+                    if formula is None:
+                        print( '    = [formula cannot be found]' )
+                    else:
+                        print( '    = ' + formula )
+
+                # handle --find_poly
+                if args.find_poly > 0:
+                    poly = str( findpoly( result, args.find_poly ) )
+
+                    if poly == 'None':
+                        poly = str( findpoly( result, args.find_poly, maxcoeff=1000 ) )
+
+                    if poly == 'None':
+                        poly = str( findpoly( result, args.find_poly, maxcoeff=1000000 ) )
+
+                    if poly == 'None':
+                        poly = str( findpoly( result, args.find_poly, maxcoeff=1000000, tol=1e-10 ) )
+
+                    if poly == 'None':
+                        print( '    = polynomial of degree <= %d not found' % args.find_poly )
+                    else:
+                        print( '    = polynomial ' + poly )
+
+            saveResult( result )
+
+        if args.time:
+            print( '\n%.3f seconds' % time.clock( ) )
 
 
 #//******************************************************************************
