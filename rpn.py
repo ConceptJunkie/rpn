@@ -2,62 +2,23 @@
 
 # http://en.wikipedia.org/wiki/Physical_constant
 
-# Tetrahedron volume
-#
-# def determinant_3x3(m):
-#     return (m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) -
-#             m[1][0] * (m[0][1] * m[2][2] - m[0][2] * m[2][1]) +
-#             m[2][0] * (m[0][1] * m[1][2] - m[0][2] * m[1][1]))
-#
-#
-# def subtract(a, b):
-#     return (a[0] - b[0],
-#             a[1] - b[1],
-#             a[2] - b[2])
-#
-#
-# a = [0.0, 0.0, 0.0]
-# d = [2.0, 0.0, 0.0]
-# c = [0.0, 2.0, 0.0]
-# b = [0.0, 0.0, 2.0]
-#
-# print(
-#     abs(determinant_3x3((subtract(a, b),
-#                          subtract(b, c),
-#                          subtract(c, d),
-#                          ))) / 6.0)
-
 # Things that don't work, but should:
 #
 #   This requires implicit conversion between unit types
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 #
 
-
-# http://en.wikipedia.org/wiki/Planck%27s_constant
-
-# http://en.wikipedia.org/wiki/Gravitational_constant
-
 # http://pythonhosted.org//astral/#
-
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
-
 # http://rhodesmill.org/pyephem/quick.html
-
 # https://github.com/geopy/geopy
 
 # Here's another idea... when listing units, include the aliases
 
 # New SI prefixes: https://sites.google.com/site/largenumbers/home/2-2/4
 
-# https://github.com/cmcginty/PyWeather/tree/master/weather/units
-
-# https://en.wikipedia.org/wiki/Boltzmann_constant
 # https://en.wikipedia.org/wiki/Gas_constant
-# https://en.wikipedia.org/wiki/Planck_units
-# https://en.wikipedia.org/wiki/Gravitational_constant
 # https://en.wikipedia.org/wiki/Coulomb_constant
-# https://en.wikipedia.org/wiki/Reduced_Planck_constant
 
 # Schwarzschild Radius - Hmmm... operators that turn one kind of unit into another (e.g., mass -> length)
 
@@ -1025,10 +986,47 @@ def evaluateFunction( n, k ):
         raise ValueError( '\'eval\' expects a function argument' )
 
     if isinstance( n, list ):
+        result = [ ]
+
         for item in n:
-            k.evaluate( item )
+            result.append( k.evaluate( item ) )
+
+        return result
     else:
-        return k.evaluate( n )
+        valueList = [ ]
+
+        for item in k.valueList:
+            if item == 'x':
+                valueList.append( n )
+            else:
+                valueList.append( item )
+
+        index = 1
+
+        while len( valueList ) > 1:
+            term = valueList.pop( 0 )
+
+            if term in operatorAliases:
+                term = operatorAliases[ term ]
+
+            if not evaluate( term, index, valueList ):
+                break
+
+            index = index + 1
+
+        return valueList[ 0 ]
+
+
+#//******************************************************************************
+#//
+#//  functionOperators
+#//
+#//  This is just a list of operators that terminate the function creation
+#//  state.
+#//
+#//******************************************************************************
+
+functionOperators = [ 'eval' ]
 
 
 #//******************************************************************************
@@ -1063,14 +1061,14 @@ modifiers = {
 #//******************************************************************************
 
 listOperators = {
-    'append'            : OperatorInfo( appendLists, 2 ),
     'altsign'           : OperatorInfo( alternateSigns, 1 ),
     'altsign2'          : OperatorInfo( alternateSigns2, 1 ),
     'altsum'            : OperatorInfo( getAlternatingSum, 1 ),
     'altsum2'           : OperatorInfo( getAlternatingSum2, 1 ),
+    'append'            : OperatorInfo( appendLists, 2 ),
     'base'              : OperatorInfo( interpretAsBase, 2 ),
-    'cf'                : OperatorInfo( convertFromContinuedFraction, 1 ),
     'calendar'          : OperatorInfo( generateMonthCalendar, 1 ),
+    'cf'                : OperatorInfo( convertFromContinuedFraction, 1 ),
     'convert'           : OperatorInfo( convertUnits, 2 ),
     'count'             : OperatorInfo( countElements, 1 ),
     'diffs'             : OperatorInfo( getListDiffs, 1 ),
@@ -1461,6 +1459,188 @@ operators = {
 
 #//******************************************************************************
 #//
+#//  evaluate
+#//
+#//******************************************************************************
+
+def evaluate( term, index, currentValueList ):
+    if term in modifiers:
+        try:
+            operatorInfo = modifiers[ term ]
+            operatorInfo.function( currentValueList )
+        except IndexError as error:
+            print( 'rpn:  index error for operator at arg ' + format( index ) + ', \'' + term +
+                   '.  Are your arguments in the right order?' )
+            return False
+    elif term in g.unitOperators:
+        if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
+            if g.unitOperators[ term ].unitType == 'constant':
+                value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+            else:
+                value = Measurement( 1, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+
+            currentValueList.append( value )
+        elif isinstance( currentValueList[ -1 ], list ):
+            argList = currentValueList.pop( )
+
+            for listItem in argList:
+                if g.unitOperators[ term ].unitType == 'constant':
+                    value = mpf( Measurement( listItem, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+                else:
+                    value = Measurement( listItem, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+
+                currentValueList.append( value )
+        elif isinstance( currentValueList[ -1 ], mpf ):
+            if g.unitOperators[ term ].unitType == 'constant':
+                value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+            else:
+                value = Measurement( currentValueList.pop( ), term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+
+            currentValueList.append( value )
+        else:
+            raise ValueError( 'unsupported type for a unit operator' )
+    elif term in operators:
+        operatorInfo = operators[ term ]
+
+        argsNeeded = operatorInfo.argCount
+
+        # first we validate, and make sure the operator has enough arguments
+        if len( currentValueList ) < argsNeeded:
+            print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
+                   format( argsNeeded ) + ' argument', end='' )
+
+            print( 's' if argsNeeded > 1 else '' )
+            return False
+
+        try:
+            if argsNeeded == 0:
+                result = callers[ 0 ]( operatorInfo.function, None )
+            else:
+                argList = list( )
+
+                for i in range( 0, argsNeeded ):
+                    arg = currentValueList.pop( )
+                    argList.append( arg if isinstance( arg, list ) else [ arg ] )
+
+                result = callers[ argsNeeded ]( operatorInfo.function, *argList )
+
+            if len( result ) == 1:
+                result = result[ 0 ]
+
+            currentValueList.append( result )
+
+        except KeyboardInterrupt as error:
+            print( 'rpn:  keyboard interrupt' )
+
+            if g.debugMode:
+                raise
+            else:
+                return False
+
+        except ( ValueError, AttributeError, TypeError ) as error:
+            print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+
+            if g.debugMode:
+                raise
+            else:
+                return False
+
+        except ZeroDivisionError as error:
+            print( 'rpn:  division by zero' )
+
+            if g.debugMode:
+                raise
+            else:
+                return False
+
+    elif term in listOperators:
+        operatorInfo = listOperators[ term ]
+        argsNeeded = operatorInfo.argCount
+
+        # first we validate, and make sure the operator has enough arguments
+        if len( currentValueList ) < argsNeeded:
+            print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
+                   format( argsNeeded ) + ' argument', end='' )
+
+            print( 's' if argsNeeded > 1 else '' )
+            return False
+
+        try:
+            if argsNeeded == 0:
+                currentValueList.append( operatorInfo.function( currentValueList ) )
+            elif argsNeeded == 1:
+                currentValueList.append( evaluateOneListFunction( operatorInfo.function, currentValueList.pop( ) ) )
+            else:
+                listArgs = [ ]
+
+                for i in range( 0, argsNeeded ):
+                    listArgs.insert( 0, currentValueList.pop( ) )
+
+                currentValueList.append( operatorInfo.function( *listArgs ) )
+
+        except KeyboardInterrupt as error:
+            print( 'rpn:  keyboard interrupt' )
+
+            if g.debugMode:
+                raise
+            else:
+                return False
+
+        except ( ValueError, TypeError, AttributeError ) as error:
+            print( 'rpn:  error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+
+            if g.debugMode:
+                raise
+            else:
+                return False
+
+        except IndexError as error:
+            print( 'rpn:  index error for list operator at arg ' + format( index ) +
+                   '.  Are your arguments in the right order?' )
+
+            if g.debugMode:
+                raise
+            else:
+                return False
+
+        except ZeroDivisionError as error:
+            print( 'rpn:  division by zero' )
+
+            if g.debugMode:
+                raise
+            else:
+                return False
+    else:
+        try:
+            currentValueList.append( parseInputValue( term, g.inputRadix ) )
+
+        except ValueError as error:
+            print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
+
+            if g.debugMode:
+                raise
+            else:
+                return False
+
+        except ( AttributeError, TypeError ):
+            currentValueList.append( term )
+
+            try:
+                print( 'rpn:  error in arg ' + format( index ) + ':  unrecognized argument: \'' +
+                       term + '\'' )
+            except:
+                print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
+
+            if g.debugMode:
+                raise
+            else:
+                return False
+
+    return True
+
+
+#//******************************************************************************
+#//
 #//  rpn
 #//
 #//******************************************************************************
@@ -1678,187 +1858,29 @@ def rpn( cmd_args ):
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
+        if g.creatingFunction and term not in functionOperators:
+            currentValueList[ -1 ].add( term )
+            continue
+
         if term in operatorAliases:
             term = operatorAliases[ term ]
 
         currentValueList = getCurrentArgList( valueList )
 
-        if term in modifiers:
-            try:
-                operatorInfo = modifiers[ term ]
-                operatorInfo.function( currentValueList )
-            except IndexError as error:
-                print( 'rpn:  index error for operator at arg ' + format( index ) + ', \'' + term +
-                       '.  Are your arguments in the right order?' )
-                break
-
-        elif term in g.unitOperators:
-            if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ):
-                if g.unitOperators[ term ].unitType == 'constant':
-                    value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
-                else:
-                    value = Measurement( 1, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
-
-                currentValueList.append( value )
-            elif isinstance( currentValueList[ -1 ], list ):
-                argList = currentValueList.pop( )
-
-                for listItem in argList:
-                    if g.unitOperators[ term ].unitType == 'constant':
-                        value = mpf( Measurement( listItem, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
-                    else:
-                        value = Measurement( listItem, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
-
-                    currentValueList.append( value )
-            elif isinstance( currentValueList[ -1 ], mpf ):
-                if g.unitOperators[ term ].unitType == 'constant':
-                    value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
-                else:
-                    value = Measurement( currentValueList.pop( ), term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
-
-                currentValueList.append( value )
+        if term in functionOperators:
+            if g.creatingFunction:
+                g.creatingFunction = False
             else:
-                raise ValueError( 'unsupported type for a unit operator' )
-        elif term in operators:
-            operatorInfo = operators[ term ]
+                raise ValueError( 'function operators require a function definition' )
 
-            argsNeeded = operatorInfo.argCount
-
-            # first we validate, and make sure the operator has enough arguments
-            if len( currentValueList ) < argsNeeded:
-                print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
-                       format( argsNeeded ) + ' argument', end='' )
-
-                print( 's' if argsNeeded > 1 else '' )
-                break
-
-            try:
-                if argsNeeded == 0:
-                    result = callers[ 0 ]( operatorInfo.function, None )
-                else:
-                    argList = list( )
-
-                    for i in range( 0, argsNeeded ):
-                        arg = currentValueList.pop( )
-                        argList.append( arg if isinstance( arg, list ) else [ arg ] )
-
-                    result = callers[ argsNeeded ]( operatorInfo.function, *argList )
-
-                if len( result ) == 1:
-                    result = result[ 0 ]
-
-                currentValueList.append( result )
-
-            except KeyboardInterrupt as error:
-                print( 'rpn:  keyboard interrupt' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-
-            except ( ValueError, AttributeError, TypeError ) as error:
-                print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-
-            except ZeroDivisionError as error:
-                print( 'rpn:  division by zero' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-
-        elif term in listOperators:
-            operatorInfo = listOperators[ term ]
-            argsNeeded = operatorInfo.argCount
-
-            # first we validate, and make sure the operator has enough arguments
-            if len( currentValueList ) < argsNeeded:
-                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
-                       format( argsNeeded ) + ' argument', end='' )
-
-                print( 's' if argsNeeded > 1 else '' )
-                break
-
-            try:
-                if argsNeeded == 0:
-                    currentValueList.append( operatorInfo.function( currentValueList ) )
-                elif argsNeeded == 1:
-                    currentValueList.append( evaluateOneListFunction( operatorInfo.function, currentValueList.pop( ) ) )
-                else:
-                    listArgs = [ ]
-
-                    for i in range( 0, argsNeeded ):
-                        listArgs.insert( 0, currentValueList.pop( ) )
-
-                    currentValueList.append( operatorInfo.function( *listArgs ) )
-
-            except KeyboardInterrupt as error:
-                print( 'rpn:  keyboard interrupt' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-
-            except ( ValueError, TypeError, AttributeError ) as error:
-                print( 'rpn:  error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-
-            except IndexError as error:
-                print( 'rpn:  index error for list operator at arg ' + format( index ) +
-                       '.  Are your arguments in the right order?' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-
-            except ZeroDivisionError as error:
-                print( 'rpn:  division by zero' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
-        else:
-            try:
-                currentValueList.append( parseInputValue( term, g.inputRadix ) )
-
-            except ValueError as error:
-                print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
-
-                if g.debugMode:
-                    raise
-                else:
-                     break
-
-            except ( AttributeError, TypeError ):
-                currentValueList.append( term )
-
-                try:
-                    print( 'rpn:  error in arg ' + format( index ) + ':  unrecognized argument: \'' +
-                           term + '\'' )
-                except:
-                    print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    break
+        if not evaluate( term, index, currentValueList ):
+            break
 
         index = index + 1
     else:    # i.e., if the for loop completes
-        if len( valueList ) > 1 or len( valueList ) == 0:
+        if isinstance( valueList[ 0 ], FunctionInfo ):
+            print( 'rpn:  unexpected end of input in function definition' )
+        elif len( valueList ) > 1 or len( valueList ) == 0:
             print( 'rpn:  unexpected end of input' )
         else:
             mp.pretty = True

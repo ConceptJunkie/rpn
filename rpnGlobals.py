@@ -13,6 +13,7 @@
 #//******************************************************************************
 
 debugMode = False
+creatingFunction = False
 
 bitwiseGroupSize = 0
 inputRadix = 0

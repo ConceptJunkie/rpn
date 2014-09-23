@@ -840,6 +840,9 @@ def convertToBase10( integer, mantissa, inputRadix ):
 #//******************************************************************************
 
 def parseInputValue( term, inputRadix ):
+    if isinstance( term, mpf ):
+        return term
+
     innerChars = term[ 1 : -1 ]
 
     if '/' in innerChars:

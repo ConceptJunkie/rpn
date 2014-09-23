@@ -418,8 +418,10 @@ class FunctionInfo( ):
         self.valueList = valueList
 
     def evaluate( self, arg ):
-        print( 'evaluate', arg )
         return arg
+
+    def add( self, arg ):
+        self.valueList.append( arg )
 
 
 #//******************************************************************************

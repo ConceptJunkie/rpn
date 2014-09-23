@@ -110,5 +110,6 @@ def getPrevious( valueList ):
 #//******************************************************************************
 
 def createFunction( valueList ):
-    valueList.append( FunctionInfo( ) )
+    g.creatingFunction = True
+    valueList.append( FunctionInfo( [ 'x' ] ) )
 
