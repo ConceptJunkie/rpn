@@ -1012,9 +1012,6 @@ unitOperators = {
     #            It's not intended to be used as a unit, per se.  Also, these units are in order of their
     #            value instead of alphabetical order like all the others
 
-    'alpha' :
-        UnitInfo( 'constant', 'alpha', 'alpha', '', [ 'fine_structure_constant' ], [ 'constant' ] ),
-
     'decillionth' :
         UnitInfo( 'constant', 'decillionth', 'decillionths', '', [ ], [ 'constant' ] ),
 

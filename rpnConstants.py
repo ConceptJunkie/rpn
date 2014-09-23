@@ -10,6 +10,9 @@
 
 from mpmath import *
 
+from rpnPrimeUtils import *
+from rpnUtils import *
+
 
 #//******************************************************************************
 #//
@@ -203,5 +206,4 @@ def getPrevostConstant( precision ):
         prevost = fadd( prevost, fdiv( 1, fib( i ) ) )
 
     return prevost
-
 
