@@ -207,3 +207,20 @@ def getPrevostConstant( precision ):
 
     return prevost
 
+
+#//******************************************************************************
+#//
+#//  getRobbinsConstant
+#//
+#//  https://en.wikipedia.org/wiki/Robbins_constant
+#//
+#//******************************************************************************
+
+def getRobbinsConstant( ):
+    robbins = fsub( fsub( fadd( 4, fmul( 17, sqrt( 2 ) ) ), fmul( 6, sqrt( 3 ) ) ), fmul( 7, pi ) )
+    robbins = fdiv( result, 105 )
+    robbins = fadd( result, fdiv( log( fadd( 1, sqrt( 2 ) ) ), 5 ) )
+    robbins = fadd( result, fdiv( fmul( 2, log( fadd( 2, sqrt( 3 ) ) ) ), 5 ) )
+
+    return robbins
+

@@ -2791,6 +2791,14 @@ given the way calculating prime numbers is currently done.
 ''',
 '''
 ''' ],
+    'robbins' : [
+'constants', 'returns Robbins\' constant',
+'''
+Robbins' constant represents the average distance between two points selected
+at random within a unit cube.
+''',
+'''
+''' ],
     'root' : [
 'powers_and_roots', 'calculates the kth root of n',
 '''

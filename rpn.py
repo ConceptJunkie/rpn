@@ -1420,6 +1420,7 @@ operators = {
     'repunit'           : OperatorInfo( getNthBaseKRepunit, 2 ),
     'rhombdodec'        : OperatorInfo( getNthRhombicDodecahedralNumber, 1 ),
     'riesel'            : OperatorInfo( lambda n: fsub( fmul( n, power( 2, n ) ), 1 ), 1 ),
+    'robbins'           : OperatorInfo( getRobbinsConstant, 0 ),
     'root'              : OperatorInfo( root, 2 ),
     'root2'             : OperatorInfo( sqrt, 1 ),
     'root3'             : OperatorInfo( cbrt, 1 ),
