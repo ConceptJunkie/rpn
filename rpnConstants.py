@@ -190,22 +190,12 @@ def getCopelandErdosConstant( ):
 #//
 #//  getPrevostConstant
 #//
-#//  limit ( ln( n ) / n ) as n -> infinity == acsch( 2 )
-#//
-#//  This tells us how many Fibonacci numbers we need to sum to calculate the
-#//  Prevost constant to the desired precision.
+#//  https://en.wikipedia.org/wiki/Mathematical_constants_and_functions
 #//
 #//******************************************************************************
 
-def getPrevostConstant( precision ):
-    count = fadd( floor( fmul( fdiv( precision, acsch( 2 ) ), fdiv( log( mpmathify( 10 ) ), log( e ) ) ) ), 1 )
-
-    prevost = mpmathify( 0 )
-
-    for i in range( 1, int( count ) ):
-        prevost = fadd( prevost, fdiv( 1, fib( i ) ) )
-
-    return prevost
+def getPrevostConstant( ):
+    return nsum( lambda n: fdiv( 1, fib( n ) ), [ 1, inf ] )
 
 
 #//******************************************************************************

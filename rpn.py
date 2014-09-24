@@ -1414,7 +1414,7 @@ operators = {
     'polytope'          : OperatorInfo( getNthPolytopeNumber, 2 ),
     'power'             : OperatorInfo( exponentiate, 2 ),
     'presidents_day'    : OperatorInfo( calculatePresidentsDay, 1 ),
-    'prevost'           : OperatorInfo( lambda: getPrevostConstant( mp.dps ), 0 ),
+    'prevost'           : OperatorInfo( getPrevostConstant, 0 ),
     'prime'             : OperatorInfo( getNthPrime, 1 ),
     'prime?'            : OperatorInfo( lambda n: findPrime( n )[ 1 ], 1 ),
     'primepi'           : OperatorInfo( getPrimePi, 1 ),
