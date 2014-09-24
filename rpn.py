@@ -1084,6 +1084,19 @@ functionOperators = [ 'eval', 'nsum', 'nprod', 'limit', 'limitn' ]
 
 #//******************************************************************************
 #//
+#//  getValue
+#//
+#//  This function is used to turn a measurement into a regular number because
+#//  most functions don't work on measurements.
+#//
+#//******************************************************************************
+
+def getValue( n ):
+    return mpf( n )
+
+
+#//******************************************************************************
+#//
 #//  modifiers are operators that directly modify the argument stack instead of
 #//  just returning a value.
 #//
@@ -1503,6 +1516,7 @@ operators = {
     'ulonglong'         : OperatorInfo( lambda n: int( fmod( n, power( 2, 64 ) ) ), 1 ),
     'unitroots'         : OperatorInfo( lambda i: unitroots( int( i ) ), 1 ),
     'ushort'            : OperatorInfo( lambda n: int( fmod( n, power( 2, 16 ) ) ), 1 ),
+    'value'             : OperatorInfo( getValue, 1 ),
     'wednesday'         : OperatorInfo( lambda: 3, 0 ),
     'weekday'           : OperatorInfo( getWeekday, 1, ),
     'xor'               : OperatorInfo( lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ),

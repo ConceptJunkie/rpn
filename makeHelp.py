@@ -428,7 +428,7 @@ Help for unit types now prints out all aliases for the unit operators.
 5.28.0
 
 Added 'x', 'eval', 'nsum', 'nprod', 'limit', 'limitn', 'infinity', and
-'negative_infinity' operators.
+'negative_infinity', and 'value' operators.
 ''',
 'license' :
 '''
@@ -1458,7 +1458,7 @@ c:\>rpn siderial_year dhms
 [ 365 days, 6 hours, 9 minutes, 9.7632 seconds ]
 ''' ],
     'dms' : [
-'special', 'shortcut for \'[ degree arcminute arcsecond ] convert\'',
+'conversion', 'shortcut for \'[ degree arcminute arcsecond ] convert\'',
 '''
 This shortcut operator replaces having to type '[ degree arcminute arcsecond ]
 convert' in order to convert an angle to degrees, arcminutes and arcseconds.
@@ -3290,6 +3290,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     'ushort' : [
 'conversion', 'converts the value to an unsigned 16-bit integer',
+'''
+''',
+'''
+''' ],
+    'value' : [
+'special', 'converts a measurement to a numerical value',
 '''
 ''',
 '''
