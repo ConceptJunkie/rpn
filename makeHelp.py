@@ -427,7 +427,7 @@ Help for unit types now prints out all aliases for the unit operators.
 
 5.28.0
 
-Added 'x', 'eval', 'nsum', 'nprod', 'limit', 'infinity', and
+Added 'x', 'eval', 'nsum', 'nprod', 'limit', 'limitn', 'infinity', and
 'negative_infinity' operators.
 ''',
 'license' :
@@ -1925,6 +1925,12 @@ Note:  Not sure why the rounding error is so large.
 ''' ],
     'limit' : [
 'special', 'calculates the limit of function k( x ) as x approaches n',
+'''
+''',
+'''
+''' ],
+    'limitn' : [
+'special', 'calculates the limit of function k( x ) as x approaches n from above',
 '''
 ''',
 '''

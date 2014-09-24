@@ -1059,6 +1059,19 @@ def evaluateLimit( x, func ):
 
 #//******************************************************************************
 #//
+#//  evaluateLimitNegative
+#//
+#//  Calculate the limit of a user-defined function as the argument approaches
+#//  x.  This differs from evaluateLimit by approaching the limit from above.
+#//
+#//******************************************************************************
+
+def evaluateLimitNegative( x, func ):
+    return limit( lambda n: evaluateFunction( n, func ), x, direction=-1 )
+
+
+#//******************************************************************************
+#//
 #//  functionOperators
 #//
 #//  This is just a list of operators that terminate the function creation
@@ -1066,7 +1079,7 @@ def evaluateLimit( x, func ):
 #//
 #//******************************************************************************
 
-functionOperators = [ 'eval', 'nsum', 'nprod', 'limit' ]
+functionOperators = [ 'eval', 'nsum', 'nprod', 'limit', 'limitn' ]
 
 
 #//******************************************************************************
@@ -1303,6 +1316,7 @@ operators = {
     'lgamma'            : OperatorInfo( loggamma, 1 ),
     'li'                : OperatorInfo( li, 1 ),
     'limit'             : OperatorInfo( evaluateLimit, 2 ),
+    'limitn'            : OperatorInfo( evaluateLimitNegative, 2 ),
     'ln'                : OperatorInfo( ln, 1 ),
     'log10'             : OperatorInfo( log10, 1 ),
     'log2'              : OperatorInfo( lambda n: log( n, 2 ), 1 ),
@@ -1519,7 +1533,8 @@ def evaluateTerm( term, index, currentValueList ):
         except IndexError as error:
             print( 'rpn:  index error for operator at arg ' + format( index ) + ', \'' + term +
                    '.  Are your arguments in the right order?' )
-            return False
+            sys.exit( 0 )
+
     elif term in g.unitOperators:
         if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ) or \
            ( isinstance( currentValueList[ -1 ], list ) and isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
@@ -1563,7 +1578,7 @@ def evaluateTerm( term, index, currentValueList ):
                    format( argsNeeded ) + ' argument', end='' )
 
             print( 's' if argsNeeded > 1 else '' )
-            return False
+            sys.exit( 0 )
 
         try:
             if argsNeeded == 0:
@@ -1588,7 +1603,7 @@ def evaluateTerm( term, index, currentValueList ):
             if g.debugMode:
                 raise
             else:
-                return False
+                sys.exit( 0 )
 
         except ( ValueError, AttributeError, TypeError ) as error:
             print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
@@ -1596,7 +1611,7 @@ def evaluateTerm( term, index, currentValueList ):
             if g.debugMode:
                 raise
             else:
-                return False
+                sys.exit( 0 )
 
         except ZeroDivisionError as error:
             print( 'rpn:  division by zero' )
@@ -1604,7 +1619,7 @@ def evaluateTerm( term, index, currentValueList ):
             if g.debugMode:
                 raise
             else:
-                return False
+                sys.exit( 0 )
 
     elif term in listOperators:
         operatorInfo = listOperators[ term ]
@@ -1616,7 +1631,7 @@ def evaluateTerm( term, index, currentValueList ):
                    format( argsNeeded ) + ' argument', end='' )
 
             print( 's' if argsNeeded > 1 else '' )
-            return False
+            sys.exit( 0 )
 
         try:
             if argsNeeded == 0:
@@ -1637,7 +1652,7 @@ def evaluateTerm( term, index, currentValueList ):
             if g.debugMode:
                 raise
             else:
-                return False
+                sys.exit( 0 )
 
         except ( ValueError, TypeError, AttributeError ) as error:
             print( 'rpn:  error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
@@ -1645,7 +1660,7 @@ def evaluateTerm( term, index, currentValueList ):
             if g.debugMode:
                 raise
             else:
-                return False
+                sys.exit( 0 )
 
         except IndexError as error:
             print( 'rpn:  index error for list operator at arg ' + format( index ) +
@@ -1654,7 +1669,7 @@ def evaluateTerm( term, index, currentValueList ):
             if g.debugMode:
                 raise
             else:
-                return False
+                sys.exit( 0 )
 
         except ZeroDivisionError as error:
             print( 'rpn:  division by zero' )
@@ -1662,7 +1677,7 @@ def evaluateTerm( term, index, currentValueList ):
             if g.debugMode:
                 raise
             else:
-                return False
+                sys.exit( 0 )
     else:
         try:
             currentValueList.append( parseInputValue( term, g.inputRadix ) )
@@ -1673,7 +1688,7 @@ def evaluateTerm( term, index, currentValueList ):
             if g.debugMode:
                 raise
             else:
-                return False
+                sys.exit( 0 )
 
         except ( AttributeError, TypeError ):
             currentValueList.append( term )
@@ -1687,7 +1702,7 @@ def evaluateTerm( term, index, currentValueList ):
             if g.debugMode:
                 raise
             else:
-                return False
+                sys.exit( 0 )
 
     return True
 
@@ -1973,7 +1988,7 @@ def rpn( cmd_args ):
                 formula = identify( result )
 
                 if formula is None:
-                    base = [ 'pi', 'e' ]
+                    base = [ 'pi', 'e', 'euler' ]
                     formula = identify( result, base )
 
                 # I don't know if this would ever be useful to try.
