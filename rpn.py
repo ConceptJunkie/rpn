@@ -1408,48 +1408,76 @@ operators = {
 
 #//******************************************************************************
 #//
+#//  applyNumberValueToUnit
+#//
+#//  We have to treat constant units differently because they become plain
+#//  numbers.
+#//
+#//******************************************************************************
+
+def applyNumberValueToUnit( number, term ):
+    if g.unitOperators[ term ].unitType == 'constant':
+        value = mpf( Measurement( number, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+    else:
+        value = Measurement( number, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+
+    return value
+
+
+#//******************************************************************************
+#//
+#//  abortArgsNeeded
+#//
+#//******************************************************************************
+
+def abortArgsNeeded( term, index, argsNeeded ):
+    print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
+           format( argsNeeded ) + ' argument', end='' )
+
+    print( 's' if argsNeeded > 1 else '' )
+    sys.exit( 0 )
+
+
+#//******************************************************************************
+#//
 #//  evaluateTerm
+#//
+#//  This looks worse than it is.  It just has to do slightly different things
+#//  depending on what kind of term or operator is involved.  Plus, there's a
+#//  lot of exception handling.
 #//
 #//******************************************************************************
 
 def evaluateTerm( term, index, currentValueList ):
     try:
+        # handle a modifier operator
         if term in modifiers:
             operatorInfo = modifiers[ term ]
             operatorInfo.function( currentValueList )
 
+        # handle a unit operator
         elif term in g.unitOperators:
+            # look for unit without a value (in which case we give it a value of 1)
             if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ) or \
                ( isinstance( currentValueList[ -1 ], list ) and isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
-                if g.unitOperators[ term ].unitType == 'constant':
-                    value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
-                else:
-                    value = Measurement( 1, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
-
-                currentValueList.append( value )
+                currentValueList.append( applyNumberValueToUnit( 1, term ) )
+            # if the unit comes after a list, then apply it to every item in the list
             elif isinstance( currentValueList[ -1 ], list ):
                 argList = currentValueList.pop( )
 
                 newArg = [ ]
 
                 for listItem in argList:
-                    if g.unitOperators[ term ].unitType == 'constant':
-                        value = mpf( Measurement( listItem, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
-                    else:
-                        value = Measurement( listItem, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
-
-                    newArg.append( value )
+                    newArg.append( applyNumberValueToUnit( listItem, term ) )
 
                 currentValueList.append( newArg )
+            # and if it's a plain old number, then apply it to the unit
             elif isinstance( currentValueList[ -1 ], mpf ):
-                if g.unitOperators[ term ].unitType == 'constant':
-                    value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
-                else:
-                    value = Measurement( currentValueList.pop( ), term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
-
-                currentValueList.append( value )
+                currentValueList.append( applyNumberValueToUnit( currentValueList.pop( ), term ) )
             else:
                 raise ValueError( 'unsupported type for a unit operator' )
+
+        # handle a regular operator
         elif term in operators:
             operatorInfo = operators[ term ]
 
@@ -1457,11 +1485,7 @@ def evaluateTerm( term, index, currentValueList ):
 
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
-                print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
-                       format( argsNeeded ) + ' argument', end='' )
-
-                print( 's' if argsNeeded > 1 else '' )
-                sys.exit( 0 )
+                abortArgsNeeded( term, index, argsNeeded )
 
             if argsNeeded == 0:
                 result = callers[ 0 ]( operatorInfo.function, None )
@@ -1479,18 +1503,16 @@ def evaluateTerm( term, index, currentValueList ):
 
             currentValueList.append( result )
 
+        # handle a list operator
         elif term in listOperators:
             operatorInfo = listOperators[ term ]
             argsNeeded = operatorInfo.argCount
 
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
-                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
-                       format( argsNeeded ) + ' argument', end='' )
+                abortArgsNeeded( term, index, argsNeeded )
 
-                print( 's' if argsNeeded > 1 else '' )
-                sys.exit( 0 )
-
+            # handle the call depending on the number of arguments needed
             if argsNeeded == 0:
                 currentValueList.append( operatorInfo.function( currentValueList ) )
             elif argsNeeded == 1:
@@ -1502,21 +1524,19 @@ def evaluateTerm( term, index, currentValueList ):
                     listArgs.insert( 0, currentValueList.pop( ) )
 
                 currentValueList.append( operatorInfo.function( *listArgs ) )
+        # handle a plain old value (i.e., a number, not an operator)
         else:
             try:
                 currentValueList.append( parseInputValue( term, g.inputRadix ) )
 
             except ValueError as error:
                 print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
-
                 if g.debugMode:
                     raise
                 else:
                     sys.exit( 0 )
 
             except ( AttributeError, TypeError ):
-                currentValueList.append( term )
-
                 try:
                     print( 'rpn:  error in arg ' + format( index ) + ':  unrecognized argument: \'' +
                            term + '\'' )
@@ -1576,16 +1596,6 @@ def handleIdentify( result ):
     if formula is None:
         base = [ 'pi', 'e', 'euler' ]
         formula = identify( result, base )
-
-    # I don't know if this would ever be useful to try.
-    #if formula is None:
-    #    base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
-    #    formula = identify( result, base )
-    #
-    # Nor this.
-    #if formula is None:
-    #    base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
-    #    formula = identify( result, base )
 
     if formula is None:
         print( '    = [formula cannot be found]' )
