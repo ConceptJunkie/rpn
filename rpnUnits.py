@@ -863,7 +863,7 @@ unitOperators = {
         UnitInfo( 'acceleration', 'meter/second^2', 'meters/second^2', 'm/s^2', [ ], [ 'SI' ] ),
 
     'standard_gravity' :
-        UnitInfo( 'acceleration', 'standard_gravity', 'standard_gravities', 'G', [ ], [ 'natural' ] ),
+        UnitInfo( 'acceleration', 'standard_gravity', 'standard_gravities', 'G', [ 'grav', 'gee' ], [ 'natural' ] ),
 
     # angle
 
@@ -936,7 +936,7 @@ unitOperators = {
         UnitInfo( 'area', 'outhouse', 'outhouse', '', [ ], [ 'science', 'humorous' ] ),
 
     'planck_area' :
-        UnitInfo( 'area', 'planck_area', 'planck_areas', '', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'area', 'planck_area', 'planck_areas', 'aP', [ ], [ 'natural', 'science' ] ),
 
     'rood' :
         UnitInfo( 'area', 'rood', 'roods', '', [ 'farthingdale' ], [ 'imperial' ] ),
@@ -948,13 +948,13 @@ unitOperators = {
         UnitInfo( 'area', 'shed', 'sheds', '', [ ], [ 'science' ] ),
 
     'square_foot' :
-        UnitInfo( 'area', 'foot^2', 'square_feet', 'sqft', [ 'ft^2', 'feet^2' ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'foot^2', 'square_feet', 'ft^2', [ 'feet^2', 'sqft', 'sq_ft', 'sq_foot', 'sq_feet' ], [ 'imperial' ] ),
 
     'square_meter' :
-        UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meters^2' ], [ 'SI' ] ),
+        UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meters^2', 'sqm', 'sq_m', 'sq_meter', 'sq_meters' ], [ 'SI' ] ),
 
     'square_yard' :
-        UnitInfo( 'area', 'yard^2', 'square_yards', 'sqyd', [ 'yd^2', 'yards^2' ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'yard^2', 'square_yards', 'yd^2', [ 'yards^2', 'sqyd', 'sq_yd', 'sq_yard', 'sq_yards' ], [ 'imperial' ] ),
 
     'township':
         UnitInfo( 'area', 'township', 'townships', '', [ ], [ 'US' ] ),
@@ -985,13 +985,13 @@ unitOperators = {
         UnitInfo( 'charge', 'abcoulomb', 'abcoulombs', 'abC', [ ], [ 'CGS' ] ),
 
     'ampere-second' :
-        UnitInfo( 'charge', 'ampere*second', 'ampere*second', 'A/s', [ 'ampere/sec', 'ampere/s', 'amp/sec', 'amp/s', 'amps/sec', 'amps/s' ], [ 'SI' ] ),
+        UnitInfo( 'charge', 'ampere*second', 'ampere-seconds', 'A/s', [ ], [ 'SI' ] ),
 
     'coulomb' :
         UnitInfo( 'charge', 'coulomb', 'coulombs', 'C', [ ], [ 'SI' ] ),
 
     'farad-volt' :
-        UnitInfo( 'charge', 'farad*volt', 'farad-volts', 'F*V', [ 'F/volt', 'F/volts', 'farad/volts', 'farads/volts', 'farad/V', 'farads/V' ], [ 'SI' ] ),
+        UnitInfo( 'charge', 'farad*volt', 'farad-volts', 'F*V', [ ], [ 'SI' ] ),
 
     'franklin' :
         UnitInfo( 'charge', 'franklin', 'franklins', 'Fr', [ ], [ 'CGS' ] ),
@@ -1003,7 +1003,7 @@ unitOperators = {
         UnitInfo( 'charge', 'faraday', 'faradays', 'Fd', [ ], [ 'natural' ] ),   # electron_charge * Avogradro's number!
 
     'planck_charge' :
-        UnitInfo( 'charge', 'planck_charge', 'planck_charges', '', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'charge', 'planck_charge', 'planck_charges', 'cP', [ ], [ 'natural', 'science' ] ),
 
     'statcoulomb' :
         UnitInfo( 'charge', 'statcoulomb', 'statcoulombs', 'statC', [ 'esu_charge' ], [ 'CGS' ] ),
@@ -1184,10 +1184,10 @@ unitOperators = {
     # data_rate
 
     'bit/second' :
-        UnitInfo( 'data_rate', 'bit/second', 'bits/second', 'b/s', [ 'bit/s', 'bits/s', 'bit/sec', 'bits/sec' ], [ 'computing' ] ),
+        UnitInfo( 'data_rate', 'bit/second', 'bits/second', 'b/s', [ 'bit/s', 'bits/s', 'bit/sec', 'bits/sec', 'b/sec', 'b/second' ], [ 'computing' ] ),
 
     'byte/second' :
-        UnitInfo( 'data_rate', 'byte/second', 'bytes/second', 'B/s', [ 'byte/s', 'bytes/s' 'byte/sec', 'bytes/sec' ], [ 'computing' ] ),
+        UnitInfo( 'data_rate', 'byte/second', 'bytes/second', 'B/s', [ 'byte/s', 'bytes/s' 'byte/sec', 'bytes/sec', 'B/sec', 'B/second' ], [ 'computing' ] ),
 
     # density
 
@@ -1203,10 +1203,10 @@ unitOperators = {
         UnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', 'Ns/m^2', [ ], [ 'CGS' ] ),
 
     'pascal-second' :
-        UnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal*second', 'Pas', [ ], [ 'SI' ] ),
+        UnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal-seconds', 'Pas', [ ], [ 'SI' ] ),
 
     'poise' :
-        UnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal*second', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'dynamic_viscosity', 'poise', 'poise', '', [ ], [ 'CGS' ] ),
 
     # electric_potential
 
@@ -1340,7 +1340,7 @@ unitOperators = {
         UnitInfo( 'energy', 'newton*meter', 'newton-meters', 'N*m', [ ], [ 'SI' ] ),
 
     'planck_energy' :
-        UnitInfo( 'energy', 'planck_energy', 'planck_energy', 'EP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'energy', 'planck_energy', 'planck_energy', 'eP', [ ], [ 'natural', 'science' ] ),
 
     'rydberg' :
         UnitInfo( 'energy', 'rydberg', 'rydbergs', 'Ry', [ ], [ 'science' ] ),
@@ -1369,7 +1369,7 @@ unitOperators = {
         UnitInfo( 'force', 'newton', 'newtons', 'N', [ ], [ 'SI' ] ),
 
     'planck_force' :
-        UnitInfo( 'force', 'planck_force', 'planck_force', '', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'force', 'planck_force', 'planck_force', 'fP', [ ], [ 'natural', 'science' ] ),
 
     'pond' :
         UnitInfo( 'force', 'pond', 'ponds', '', [ ], [ 'metric' ] ),
@@ -1583,7 +1583,7 @@ unitOperators = {
         UnitInfo( 'length', 'league', 'leagues', '', [ ], [ 'imperial' ] ),
 
     'light-second' :
-        UnitInfo( 'length', 'light*second', 'light-seconds', '', [ 'light-second' ], [ 'science' ] ),
+        UnitInfo( 'length', 'light*second', 'light-seconds', '', [ ], [ 'science' ] ),
 
     'light-year' :
         UnitInfo( 'length', 'light-year', 'light-years', 'ly', [ 'a1' ], [ 'science' ] ),
@@ -1681,7 +1681,7 @@ unitOperators = {
         UnitInfo( 'luminance', 'candela/meter^2', 'candelas/meter^2', 'cd/m^2', [ 'candela/m^2', 'candelas/m^2', 'candela/square_meter', 'candelas/square_meter', 'cd/square_meter' ], [ 'SI' ] ),
 
     'footlambert' :
-        UnitInfo( 'luminance', 'footlambert', 'footlamberts', 'fL', [ 'foot-lambert' ], [ 'US', 'obsolete' ] ),
+        UnitInfo( 'luminance', 'footlambert', 'footlamberts', 'fL', [ 'foot-lambert', 'foot-lamberts' ], [ 'US', 'obsolete' ] ),
 
     'lambert' :
         UnitInfo( 'luminance', 'lambert', 'lamberts', 'L', [ ], [ 'CGS' ] ),
@@ -1901,7 +1901,7 @@ unitOperators = {
         UnitInfo( 'power', 'pferdestarke', 'pferdestarke', '', [ ], [ 'obsolete', 'Germany' ] ),
 
     'planck_power' :
-        UnitInfo( 'power', 'planck_power', 'planck_power', '', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'power', 'planck_power', 'planck_power', 'pP', [ ], [ 'natural', 'science' ] ),
 
     'poncelet' :
         UnitInfo( 'power', 'poncelet', 'poncelets', '', [ ], [ 'obsolete' ] ),
@@ -1910,7 +1910,7 @@ unitOperators = {
         UnitInfo( 'power', 'solar_luminosity', 'solar_luminosities', '', [ 'solar_output' ], [ 'natural' ] ),
 
     'volt-ampere' :
-        UnitInfo( 'power', 'volt*ampere', 'volt*ampere', 'VA', [ ], [ 'SI' ] ),
+        UnitInfo( 'power', 'volt*ampere', 'volt-amperes', 'VA', [ ], [ 'SI' ] ),
 
     'watt' :
         UnitInfo( 'power', 'watt', 'watts', 'W', [ ], [ 'SI' ] ),
@@ -2223,7 +2223,7 @@ unitOperators = {
         UnitInfo( 'velocity', 'mach', 'mach', '', [ ], [ 'US' ] ),
 
     'mile/hour' :
-        UnitInfo( 'velocity', 'mile/hour', 'miles/hour', 'mi/h', [ 'mph' ], [ 'FPS', 'imperial' ] ),
+        UnitInfo( 'velocity', 'mile/hour', 'miles/hour', 'mph', [ 'mi/hr' ], [ 'FPS', 'imperial' ] ),
 
     'kilometer/hour' :
         UnitInfo( 'velocity', 'kilometer/hour', 'kilometers/hour', 'km/h', [ 'kph' ], [ 'FPS', 'imperial' ] ),
@@ -2252,13 +2252,13 @@ unitOperators = {
         UnitInfo( 'volume', 'cord', 'cords', '', [ ], [ 'traditional' ] ),
 
     'cubic_inch' :
-        UnitInfo( 'volume', 'inch^3', 'cubic_inches', 'cuin', [ 'in^3', 'inch^3', 'inches^3' ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'inch^3', 'cubic_inches', 'in^3', [ 'inches^3', 'cuin', 'cu_in', 'cu_inch', 'cu_inches' ], [ 'traditional' ] ),
 
     'cubic_foot' :
-        UnitInfo( 'volume', 'foot^3', 'cubic_feet', 'cuft', [ 'ft^3', 'foot^3', 'feet^3' ], [ 'traditional', 'FPS' ] ),
+        UnitInfo( 'volume', 'foot^3', 'cubic_feet', 'ft^3', [ 'feet^3', 'cuft', 'cu_ft', 'cu_foot', 'cu_feet' ], [ 'traditional', 'FPS' ] ),
 
     'cubic_meter' :
-        UnitInfo( 'volume', 'meter^3', 'cubic_meters', 'm^3', [ 'meter^3', 'meters^3' ], [ 'SI' ] ),
+        UnitInfo( 'volume', 'meter^3', 'cubic_meters', 'm^3', [ 'meters^3', 'cum', 'cu_m', 'cu_meter', 'cu_meters' ], [ 'SI' ] ),
 
     'coomb' :
         UnitInfo( 'volume', 'coomb', 'coombs', '', [ ], [ 'imperial' ] ),
@@ -2423,7 +2423,7 @@ unitOperators = {
         UnitInfo( 'volume', 'pipe', 'pipes', '', [ 'butt', 'butts' ], [ 'imperial' ] ),
 
     'planck_volume' :
-        UnitInfo( 'volume', 'planck_volume', 'planck_volumes', '', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'volume', 'planck_volume', 'planck_volumes', 'vP', [ ], [ 'natural', 'science' ] ),
 
     'pony' :
         UnitInfo( 'volume', 'pony', 'ponies', '', [ ], [ 'imperial' ] ),
