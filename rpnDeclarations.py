@@ -253,6 +253,8 @@ operatorAliases = {
     'mcg'           : 'microgram',
     'megalerg'      : 'megaerg',
     'megaohm'       : 'megohm',
+    'metre'         : 'meter',
+    'metres'        : 'meter',
     'minint'        : 'minlong',
     'minint128'     : 'minquadlong',
     'minint16'      : 'minshort',

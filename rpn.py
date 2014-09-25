@@ -219,34 +219,6 @@ def exponentiate( n, k ):
 
 #//******************************************************************************
 #//
-#//  sum
-#//
-#//******************************************************************************
-
-def sum( n ):
-    hasUnits = False
-
-    for item in n:
-        if isinstance( item, Measurement ):
-            hasUnits = True
-            break
-
-    if hasUnits:
-        result = None
-
-        for item in n:
-            if result is None:
-                result = item
-            else:
-                result = result.add( item )
-
-        return result
-    else:
-        return fsum( n )
-
-
-#//******************************************************************************
-#//
 #//  takeReciprocal
 #//
 #//  We used to be able to call fdiv directly, but now we want to handle
@@ -485,62 +457,6 @@ def isSquare( n ):
 
 #//******************************************************************************
 #//
-#//  calculatePowerTower
-#//
-#//******************************************************************************
-
-def calculatePowerTower( args ):
-    result = args[ -1 ]
-
-    for i in args[ -1 : : -1 ]:
-        result = power( i, result )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  calculatePowerTower2
-#//
-#//******************************************************************************
-
-def calculatePowerTower2( args ):
-    result = args[ 0 ]
-
-    for i in args[ 1 : ]:
-        result = power( result, i )
-
-    return result
-
-
-#//******************************************************************************
-#//
-#//  getAlternatingSum
-#//
-#//******************************************************************************
-
-def getAlternatingSum( args ):
-    for i in range( 1, len( args ), 2 ):
-        args[ i ] = fneg( args[ i ] )
-
-    return fsum( args )
-
-
-#//******************************************************************************
-#//
-#//  getAlternatingSum2
-#//
-#//******************************************************************************
-
-def getAlternatingSum2( args ):
-    for i in range( 0, len( args ), 2 ):
-        args[ i ] = fneg( args[ i ] )
-
-    return fsum( args )
-
-
-#//******************************************************************************
-#//
 #//  getGCDForTwo
 #//
 #//******************************************************************************
@@ -552,31 +468,6 @@ def getGCDForTwo( a, b ):
         b, a = a, fmod( b, a )
 
     return b
-
-
-#//******************************************************************************
-#//
-#//  getGCD
-#//
-#//******************************************************************************
-
-def getGCD( args ):
-    if isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ getGCD[ arg ] for arg in args ]
-        else:
-            result = max( args )
-
-            for pair in itertools.permutations( args, 2 ):
-                gcd = getGCDForTwo( *pair )
-
-                if gcd < result:
-                    result = gcd
-
-                return result
-    else:
-        return args
-
 
 
 #//******************************************************************************
@@ -728,6 +619,9 @@ def getNumberGroupName( n ):
 #//******************************************************************************
 
 def getNumberName( n ):
+    if n == 0:
+        return 'zero'
+
     current = fabs( n )
 
     if current >= power( 10, 3003 ):
@@ -780,12 +674,19 @@ def dumpOperators( ):
 
     print( )
 
-    print( 'special operators:' )
+    print( 'modifer operators:' )
+
+    for i in sorted( [ key for key in modifiers ] ):
+        print( '   ' + i )
+
+    print( )
+    print( 'internal operators:' )
 
     for i in sorted( [ key for key in operators if key[ 0 ] == '_' ] ):
         print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
 
     print( )
+
 
     return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
 
@@ -891,19 +792,6 @@ def getPrimes( value, count ):
         result.append( i )
 
     return result
-
-
-#//******************************************************************************
-#//
-#//  getStandardDeviation
-#//
-#//******************************************************************************
-
-def getStandardDeviation( args ):
-    mean = fsum( args ) / len( args )
-
-    dev = [ power( fsub( i, mean ), 2 ) for i in args ]
-    return sqrt( fsum( dev ) / len( dev ) )
 
 
 #//******************************************************************************
@@ -1993,7 +1881,7 @@ def rpn( cmd_args ):
 
                 # handle the units if we are displaying a measurement
                 if isinstance( result, Measurement ):
-                    outputString += ' ' + formatUnits( result.normalizeUnits( ) )
+                    outputString += ' ' + formatUnits( result )
 
             printParagraph( outputString, args.line_length )
 

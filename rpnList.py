@@ -401,3 +401,124 @@ def sortDescending( args ):
         return sorted( args, reverse=True )
 
 
+#//******************************************************************************
+#//
+#//  calculatePowerTower
+#//
+#//******************************************************************************
+
+def calculatePowerTower( args ):
+    result = args[ -1 ]
+
+    for i in args[ -1 : : -1 ]:
+        result = power( i, result )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  calculatePowerTower2
+#//
+#//******************************************************************************
+
+def calculatePowerTower2( args ):
+    result = args[ 0 ]
+
+    for i in args[ 1 : ]:
+        result = power( result, i )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  getAlternatingSum
+#//
+#//******************************************************************************
+
+def getAlternatingSum( args ):
+    for i in range( 1, len( args ), 2 ):
+        args[ i ] = fneg( args[ i ] )
+
+    return fsum( args )
+
+
+#//******************************************************************************
+#//
+#//  getAlternatingSum2
+#//
+#//******************************************************************************
+
+def getAlternatingSum2( args ):
+    for i in range( 0, len( args ), 2 ):
+        args[ i ] = fneg( args[ i ] )
+
+    return fsum( args )
+
+
+#//******************************************************************************
+#//
+#//  sum
+#//
+#//******************************************************************************
+
+def sum( n ):
+    hasUnits = False
+
+    for item in n:
+        if isinstance( item, Measurement ):
+            hasUnits = True
+            break
+
+    if hasUnits:
+        result = None
+
+        for item in n:
+            if result is None:
+                result = item
+            else:
+                result = result.add( item )
+
+        return result
+    else:
+        return fsum( n )
+
+
+#//******************************************************************************
+#//
+#//  getGCD
+#//
+#//******************************************************************************
+
+def getGCD( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getGCD[ arg ] for arg in args ]
+        else:
+            result = max( args )
+
+            for pair in itertools.permutations( args, 2 ):
+                gcd = getGCDForTwo( *pair )
+
+                if gcd < result:
+                    result = gcd
+
+                return result
+    else:
+        return args
+
+
+#//******************************************************************************
+#//
+#//  getStandardDeviation
+#//
+#//******************************************************************************
+
+def getStandardDeviation( args ):
+    mean = fsum( args ) / len( args )
+
+    dev = [ power( fsub( i, mean ), 2 ) for i in args ]
+    return sqrt( fsum( dev ) / len( dev ) )
+
+
