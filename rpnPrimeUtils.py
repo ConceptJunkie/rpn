@@ -292,12 +292,17 @@ def findPrime( arg ):
 def findQuadrupletPrimes( arg ):
     global quadPrimes
 
-    target = int( arg )
+    n = int( arg )
+
+    if n < 5:
+        return [ 5, 7, 11, 13 ]
+    elif n < 11:
+        return [ 11, 13, 17, 19 ]
 
     if quadPrimes == { }:
         quadPrimes = loadQuadrupletPrimes( g.dataPath )
 
-    currentIndex = max( key for key in quadPrimes if quadPrimes[ key ] <= target )
+    currentIndex = max( key for key in quadPrimes if quadPrimes[ key ] <= n )
     p = quadPrimes[ currentIndex ]
 
     while True:
@@ -306,7 +311,7 @@ def findQuadrupletPrimes( arg ):
         if isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ):
             currentIndex += 1
 
-            if p > target:
+            if p > n:
                 return currentIndex, [ p, p + 2, p + 6, p + 8 ]
 
 
@@ -328,7 +333,7 @@ def getNthIsolatedPrime( arg ):
         return 2
     elif n == 2:
         return 23
-    elif n >= 100:
+    elif n >= 1000:
         if isolatedPrimes == { }:
             isolatedPrimes = loadIsolatedPrimes( g.dataPath )
 
@@ -922,18 +927,21 @@ def getNthSexyQuadruplet( arg ):
         raise ValueError( 'index must be > 0' )
     elif n == 1:
         return 5
+    elif n < 100:
+        startingPlace = 2
+        p = 11
+    elif n >= 100:
+        if sexyQuadruplets == { }:
+            sexyQuadruplets = loadSexyQuadrupletPrimes( g.dataPath )
 
-    if sexyQuadruplets == { }:
-        sexyQuadruplets = loadSexyQuadrupletPrimes( g.dataPath )
+            maxIndex = max( key for key in sexyQuadruplets )
 
-        maxIndex = max( key for key in sexyQuadruplets )
+            if n > maxIndex and not updateDicts:
+                sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                                  format( n, maxIndex ) )
 
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
-
-    startingPlace = max( key for key in sexyQuadruplets if key <= n )
-    p = sexyQuadruplets[ startingPlace ]
+        startingPlace = max( key for key in sexyQuadruplets if key <= n )
+        p = sexyQuadruplets[ startingPlace ]
 
     ten = True
 

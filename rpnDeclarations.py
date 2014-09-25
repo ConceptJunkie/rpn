@@ -19,6 +19,8 @@ from mpmath import *
 
 from fractions import Fraction
 
+import rpnGlobals as g
+
 
 #//******************************************************************************
 #//
@@ -635,4 +637,5 @@ class ContinuedFraction( list ):
 
     def __str__( self ):
         return '[%s]' % ', '.join( [ str( int( x ) ) for x in self ] )
+
 

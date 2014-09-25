@@ -55,8 +55,10 @@ from rpnComputer import *
 from rpnConstants import *
 from rpnDeclarations import *
 from rpnList import *
+from rpnMeasurement import *
 from rpnModifiers import *
 from rpnNumberTheory import *
+from rpnOutput import *
 from rpnPolynomials import *
 from rpnPolytope import *
 from rpnPrimeUtils import *
@@ -321,17 +323,15 @@ def getNSphereRadius( n, k ):
     if not isinstance( k, Measurement ):
         return Measurement( k, 'inch' )
 
-    print( type( k.getBasicTypes( ).getUnitString( ) ) )
+    measurementType = k.getTypes( )
 
-    measurementType = k.getBasicTypes( ).getUnitString( )
-
-    if measurementType == 'length':
-        return 1
-    elif measurementType == 'area':
+    if measurementType == { 'length' : 1 }:
+        return k
+    elif measurementType == { 'area' : 1 }:
         return fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                            fmul( n, power( pi, fdiv( n, 2 ) ) ) ),
                      root( k, fsub( n, 1 ) ) )
-    elif measurementType == 'volume':
+    elif measurementType == { 'volume' : 1 }:
         return root( fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                                  power( pi, fdiv( n, 2 ) ) ), k ), 3 )
     else:
@@ -364,9 +364,9 @@ def getNSphereSurfaceArea( n, k ):
     if measurementType == { 'length' : 1 }:
         return fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
                            gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, fsub( n, 1 ) ) )
-    elif measurementType == { 'length' : 2 }:
+    elif measurementType == { 'area' : 1 }:
         return k
-    elif measurementType == { 'length' : 3 }:
+    elif measurementType == { 'volume' : 1 }:
         return 3
     else:
         raise ValueError( 'incompatible measurement type for computing the surface area' )
@@ -453,21 +453,6 @@ def isSquare( n ):
     sqrtN = sqrt( n )
 
     return 1 if sqrtN == floor( sqrtN ) else 0
-
-
-#//******************************************************************************
-#//
-#//  getGCDForTwo
-#//
-#//******************************************************************************
-
-def getGCDForTwo( a, b ):
-    a, b = fabs( a ), fabs( b )
-
-    while a:
-        b, a = a, fmod( b, a )
-
-    return b
 
 
 #//******************************************************************************
@@ -1323,7 +1308,7 @@ operators = {
     'primorial'         : OperatorInfo( getPrimorial, 1 ),
     'pyramid'           : OperatorInfo( lambda n: getNthPolygonalPyramidalNumber( n, 4 ), 1 ),
     'quadprime'         : OperatorInfo( getNthQuadrupletPrime, 1 ),
-    'quadprime?'        : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 1 ], 1 ),
+    'quadprime?'        : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 0 ], 1 ),
     'quadprime_'        : OperatorInfo( getNthQuadrupletPrimeList, 1 ),
     'quintprime'        : OperatorInfo( getNthQuintupletPrime, 1 ),
     'quintprime_'       : OperatorInfo( getNthQuintupletPrimeList, 1 ),
@@ -1428,61 +1413,56 @@ operators = {
 #//******************************************************************************
 
 def evaluateTerm( term, index, currentValueList ):
-    if term in modifiers:
-        try:
+    try:
+        if term in modifiers:
             operatorInfo = modifiers[ term ]
             operatorInfo.function( currentValueList )
-        except IndexError as error:
-            print( 'rpn:  index error for operator at arg ' + format( index ) + ', \'' + term +
-                   '.  Are your arguments in the right order?' )
-            sys.exit( 0 )
 
-    elif term in g.unitOperators:
-        if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ) or \
-           ( isinstance( currentValueList[ -1 ], list ) and isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
-            if g.unitOperators[ term ].unitType == 'constant':
-                value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
-            else:
-                value = Measurement( 1, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
-
-            currentValueList.append( value )
-        elif isinstance( currentValueList[ -1 ], list ):
-            argList = currentValueList.pop( )
-
-            newArg = [ ]
-
-            for listItem in argList:
+        elif term in g.unitOperators:
+            if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ) or \
+               ( isinstance( currentValueList[ -1 ], list ) and isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
                 if g.unitOperators[ term ].unitType == 'constant':
-                    value = mpf( Measurement( listItem, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+                    value = mpf( Measurement( 1, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
                 else:
-                    value = Measurement( listItem, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+                    value = Measurement( 1, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
 
-                newArg.append( value )
+                currentValueList.append( value )
+            elif isinstance( currentValueList[ -1 ], list ):
+                argList = currentValueList.pop( )
 
-            currentValueList.append( newArg )
-        elif isinstance( currentValueList[ -1 ], mpf ):
-            if g.unitOperators[ term ].unitType == 'constant':
-                value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+                newArg = [ ]
+
+                for listItem in argList:
+                    if g.unitOperators[ term ].unitType == 'constant':
+                        value = mpf( Measurement( listItem, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+                    else:
+                        value = Measurement( listItem, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+
+                    newArg.append( value )
+
+                currentValueList.append( newArg )
+            elif isinstance( currentValueList[ -1 ], mpf ):
+                if g.unitOperators[ term ].unitType == 'constant':
+                    value = mpf( Measurement( currentValueList.pop( ), term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+                else:
+                    value = Measurement( currentValueList.pop( ), term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+
+                currentValueList.append( value )
             else:
-                value = Measurement( currentValueList.pop( ), term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+                raise ValueError( 'unsupported type for a unit operator' )
+        elif term in operators:
+            operatorInfo = operators[ term ]
 
-            currentValueList.append( value )
-        else:
-            raise ValueError( 'unsupported type for a unit operator' )
-    elif term in operators:
-        operatorInfo = operators[ term ]
+            argsNeeded = operatorInfo.argCount
 
-        argsNeeded = operatorInfo.argCount
+            # first we validate, and make sure the operator has enough arguments
+            if len( currentValueList ) < argsNeeded:
+                print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
+                       format( argsNeeded ) + ' argument', end='' )
 
-        # first we validate, and make sure the operator has enough arguments
-        if len( currentValueList ) < argsNeeded:
-            print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
-                   format( argsNeeded ) + ' argument', end='' )
+                print( 's' if argsNeeded > 1 else '' )
+                sys.exit( 0 )
 
-            print( 's' if argsNeeded > 1 else '' )
-            sys.exit( 0 )
-
-        try:
             if argsNeeded == 0:
                 result = callers[ 0 ]( operatorInfo.function, None )
             else:
@@ -1499,43 +1479,18 @@ def evaluateTerm( term, index, currentValueList ):
 
             currentValueList.append( result )
 
-        except KeyboardInterrupt as error:
-            print( 'rpn:  keyboard interrupt' )
+        elif term in listOperators:
+            operatorInfo = listOperators[ term ]
+            argsNeeded = operatorInfo.argCount
 
-            if g.debugMode:
-                raise
-            else:
+            # first we validate, and make sure the operator has enough arguments
+            if len( currentValueList ) < argsNeeded:
+                print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
+                       format( argsNeeded ) + ' argument', end='' )
+
+                print( 's' if argsNeeded > 1 else '' )
                 sys.exit( 0 )
 
-        except ( ValueError, AttributeError, TypeError ) as error:
-            print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-            if g.debugMode:
-                raise
-            else:
-                sys.exit( 0 )
-
-        except ZeroDivisionError as error:
-            print( 'rpn:  division by zero' )
-
-            if g.debugMode:
-                raise
-            else:
-                sys.exit( 0 )
-
-    elif term in listOperators:
-        operatorInfo = listOperators[ term ]
-        argsNeeded = operatorInfo.argCount
-
-        # first we validate, and make sure the operator has enough arguments
-        if len( currentValueList ) < argsNeeded:
-            print( 'rpn:  error in arg ' + format( index ) + ':  operator ' + term + ' requires ' +
-                   format( argsNeeded ) + ' argument', end='' )
-
-            print( 's' if argsNeeded > 1 else '' )
-            sys.exit( 0 )
-
-        try:
             if argsNeeded == 0:
                 currentValueList.append( operatorInfo.function( currentValueList ) )
             elif argsNeeded == 1:
@@ -1547,66 +1502,120 @@ def evaluateTerm( term, index, currentValueList ):
                     listArgs.insert( 0, currentValueList.pop( ) )
 
                 currentValueList.append( operatorInfo.function( *listArgs ) )
-
-        except KeyboardInterrupt as error:
-            print( 'rpn:  keyboard interrupt' )
-
-            if g.debugMode:
-                raise
-            else:
-                sys.exit( 0 )
-
-        except ( ValueError, TypeError, AttributeError ) as error:
-            print( 'rpn:  error for list operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-            if g.debugMode:
-                raise
-            else:
-                sys.exit( 0 )
-
-        except IndexError as error:
-            print( 'rpn:  index error for list operator at arg ' + format( index ) +
-                   '.  Are your arguments in the right order?' )
-
-            if g.debugMode:
-                raise
-            else:
-                sys.exit( 0 )
-
-        except ZeroDivisionError as error:
-            print( 'rpn:  division by zero' )
-
-            if g.debugMode:
-                raise
-            else:
-                sys.exit( 0 )
-    else:
-        try:
-            currentValueList.append( parseInputValue( term, g.inputRadix ) )
-
-        except ValueError as error:
-            print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
-
-            if g.debugMode:
-                raise
-            else:
-                sys.exit( 0 )
-
-        except ( AttributeError, TypeError ):
-            currentValueList.append( term )
-
+        else:
             try:
-                print( 'rpn:  error in arg ' + format( index ) + ':  unrecognized argument: \'' +
-                       term + '\'' )
-            except:
-                print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
+                currentValueList.append( parseInputValue( term, g.inputRadix ) )
 
-            if g.debugMode:
-                raise
-            else:
-                sys.exit( 0 )
+            except ValueError as error:
+                print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
+
+                if g.debugMode:
+                    raise
+                else:
+                    sys.exit( 0 )
+
+            except ( AttributeError, TypeError ):
+                currentValueList.append( term )
+
+                try:
+                    print( 'rpn:  error in arg ' + format( index ) + ':  unrecognized argument: \'' +
+                           term + '\'' )
+                except:
+                    print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
+
+                if g.debugMode:
+                    raise
+                else:
+                    sys.exit( 0 )
+
+    except KeyboardInterrupt as error:
+        print( 'rpn:  keyboard interrupt' )
+
+        if g.debugMode:
+            raise
+        else:
+            sys.exit( 0 )
+
+    except ( ValueError, AttributeError, TypeError ) as error:
+        print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+
+        if g.debugMode:
+            raise
+        else:
+            sys.exit( 0 )
+
+    except ZeroDivisionError as error:
+        print( 'rpn:  division by zero' )
+
+        if g.debugMode:
+            raise
+        else:
+            sys.exit( 0 )
+
+    except IndexError as error:
+        print( 'rpn:  index error for list operator at arg ' + format( index ) +
+               '.  Are your arguments in the right order?' )
+
+        if g.debugMode:
+            raise
+        else:
+            sys.exit( 0 )
 
     return True
+
+
+#//******************************************************************************
+#//
+#//  handleIdentify
+#//
+#//******************************************************************************
+
+def handleIdentify( result ):
+    formula = identify( result )
+
+    if formula is None:
+        base = [ 'pi', 'e', 'euler' ]
+        formula = identify( result, base )
+
+    # I don't know if this would ever be useful to try.
+    #if formula is None:
+    #    base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
+    #    formula = identify( result, base )
+    #
+    # Nor this.
+    #if formula is None:
+    #    base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
+    #    formula = identify( result, base )
+
+    if formula is None:
+        print( '    = [formula cannot be found]' )
+    else:
+        print( '    = ' + formula )
+
+
+
+#//******************************************************************************
+#//
+#//  findPolynomial
+#//
+#//******************************************************************************
+
+def findPolynomial( result, findPoly ):
+    poly = str( findpoly( result, findPoly ) )
+
+    if poly == 'None':
+        poly = str( findpoly( result, findPoly, maxcoeff=1000 ) )
+
+    if poly == 'None':
+        poly = str( findpoly( result, findPoly, maxcoeff=100000 ) )
+
+    if poly == 'None':
+        poly = str( findpoly( result, findPoly, maxcoeff=1000000, tol=1e-10 ) )
+
+    if poly == 'None':
+        print( '    = polynomial of degree <= %d not found' % findPoly )
+    else:
+        print( '    = polynomial ' + poly )
 
 
 #//******************************************************************************
@@ -1828,20 +1837,19 @@ def rpn( cmd_args ):
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
-        if g.creatingFunction and term not in functionOperators:
-            currentValueList[ -1 ].add( term )
-            continue
-
         if term in operatorAliases:
             term = operatorAliases[ term ]
-
-        currentValueList = getCurrentArgList( valueList )
 
         if term in functionOperators:
             if g.creatingFunction:
                 g.creatingFunction = False
             else:
                 raise ValueError( 'function operators require a function definition' )
+        elif g.creatingFunction:
+            currentValueList[ -1 ].add( term )
+            continue
+
+        currentValueList = getCurrentArgList( valueList )
 
         if not evaluateTerm( term, index, currentValueList ):
             break
@@ -1887,44 +1895,11 @@ def rpn( cmd_args ):
 
             # handle --identify
             if args.identify:
-                formula = identify( result )
-
-                if formula is None:
-                    base = [ 'pi', 'e', 'euler' ]
-                    formula = identify( result, base )
-
-                # I don't know if this would ever be useful to try.
-                #if formula is None:
-                #    base.extend( [ 'log(2)', 'log(3)', 'log(4)', 'log(5)', 'log(6)', 'log(7)', 'log(8)', 'log(9)' ] )
-                #    formula = identify( result, base )
-                #
-                # Nor this.
-                #if formula is None:
-                #    base.extend( [ 'phi', 'euler', 'catalan', 'apery', 'khinchin', 'glaisher', 'mertens', 'twinprime' ] )
-                #    formula = identify( result, base )
-
-                if formula is None:
-                    print( '    = [formula cannot be found]' )
-                else:
-                    print( '    = ' + formula )
+                handleIdentify( result )
 
             # handle --find_poly
             if args.find_poly > 0:
-                poly = str( findpoly( result, args.find_poly ) )
-
-                if poly == 'None':
-                    poly = str( findpoly( result, args.find_poly, maxcoeff=1000 ) )
-
-                if poly == 'None':
-                    poly = str( findpoly( result, args.find_poly, maxcoeff=1000000 ) )
-
-                if poly == 'None':
-                    poly = str( findpoly( result, args.find_poly, maxcoeff=1000000, tol=1e-10 ) )
-
-                if poly == 'None':
-                    print( '    = polynomial of degree <= %d not found' % args.find_poly )
-                else:
-                    print( '    = polynomial ' + poly )
+                findPolynomial( result, args.find_poly )
 
         saveResult( result )
 

@@ -2,6 +2,7 @@
 
 from mpmath import *
 
+from rpnMeasurement import *
 from rpnUtils import *
 
 import rpnGlobals as g
