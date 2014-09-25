@@ -203,6 +203,7 @@ class Units( dict ):
 
 
     def invert( self ):
+        print( '!' )
         for unit in self:
             self[ unit ] = -( self[ unit ] )
 
@@ -481,7 +482,7 @@ class Measurement( mpf ):
         for unit in units:
             newUnits[ unit ] = -units[ unit ]
 
-        return Measurement( fdiv( 1, value ), newUnits )
+        return Measurement( value, newUnits )
 
 
     def dezeroUnits( self ):
