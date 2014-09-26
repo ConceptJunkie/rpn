@@ -367,7 +367,7 @@ def getNSphereSurfaceArea( n, k ):
     elif measurementType == { 'area' : 1 }:
         return k
     elif measurementType == { 'volume' : 1 }:
-        return 3
+        return 3    # TODO: formula for converting volume to surface area
     else:
         raise ValueError( 'incompatible measurement type for computing the surface area' )
 
@@ -398,9 +398,9 @@ def getNSphereVolume( n, k ):
     if measurementType == { 'length' : 1 }:
         return fmul( fdiv( power( pi, fdiv( n, 2 ) ),
                            gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, n ) )
-    elif measurementType == { 'length' : 2 }:
-        return 2   # formula for converting surface area to volume
-    elif measurementType == { 'length' : 3 }:
+    elif measurementType == { 'area' : 1 }:
+        return 2   # TODO: formula for converting surface area to volume
+    elif measurementType == { 'volume' : 1 }:
         return k
     else:
         raise ValueError( 'incompatible measurement type for computing the volume' )
