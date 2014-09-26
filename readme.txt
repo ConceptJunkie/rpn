@@ -8,17 +8,20 @@ calculations and lookup, and can operate with single operands or lists of
 operands and supports a wide variety of flexible unit conversions comparable to
 the GNU units program.
 
-The current version is 5.27.2.
+The current version is 5.28.0.
 
 Installers for Windows can be found here:
 
-https://www.strongspace.com/conceptjunkie/public/rpn-5.27.2-win32.msi
-https://www.strongspace.com/conceptjunkie/public/rpn-5.27.2-amd64.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.28.0-win32.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.28.0-amd64.msi
 
 rpn is a console app and must be launched from the command-line.  The installer
 includes the compiled help file, unit conversion tables and prime number lookup
 tables.  The installer does not add rpn.exe to the Windows path, so a batch
 file or alias will be useful for launching it.
+
+Note:  As of 5.28.0, rpn is no longer distributed with the prime number data
+files.  These will eventually be available in a separate installer.
 
 Running RPN using the source:
 

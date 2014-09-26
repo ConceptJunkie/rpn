@@ -185,50 +185,158 @@ Arguments:
 '''
     [ TODO: describe output formats supported by rpn ]
 ''',
+'time_features' :
+'''
+    [ TODO: describe time features supported by rpn ]
+
+For now, here are some examples:
+
+    operators:
+        c:\>rpn now
+        2014-09-02 13:36:28
+
+        c:\>rpn today
+        2014-09-02 00:00:00
+
+    ISO-8601 format ("YYYY-MM-DD[T| ][HH:mm:SS]", no timezones):
+        c:\>rpn 2014-09-02T13:36:28
+        2014-09-02 13:36:28
+
+        c:\>rpn "2014-09-02 13:36:28"
+        2014-09-02 13:36:28
+
+        c:\>rpn 2014-09-02
+        2014-09-02 00:00:00
+
+    'maketime' operator:
+        c:\>rpn [ 2014 ] maketime
+        2014-01-01 00:00:00
+
+        c:\>rpn [ 2014 9 ] maketime
+        2014-09-01 00:00:00
+
+        c:\>rpn [ 2014 9 2 ] maketime
+        2014-09-02 00:00:00
+
+        c:\>rpn [ 2014 9 2 13 ] maketime
+        2014-09-02 13:00:00
+
+        c:\>rpn [ 2014 9 2 13 36 ] maketime
+        2014-09 02 13:36:00
+
+        c:\>rpn [ 2014 9 2 13 36 28 ] maketime
+        2014-09-02 13:36:28
+
+    How many days old am I?
+        c:\>rpn today 1965-03-31 -
+        18052 days
+
+    When will I be 20,000 days old?
+        c:\>rpn 1965-03-31 20000 days +
+        2020-01-02 00:00:00
+
+    How many seconds old am I (to within an hour or so)?
+        c:\>rpn -c now "1965-03-31 05:00:00" - seconds convert
+        1,559,739,194.098935 seconds
+
+    What day of the week was I born on?
+        c:\>rpn 1965-03-31 weekday
+        'Wednesday'
+
+    How many days until Christmas?
+        c:\>rpn 2014-12-25 today -
+        114 days
+
+    How many days older am I than my first child?
+        c:\>rpn 1994-03-06 1965-03-31 -
+        10567 days
+
+    What date is 4 weeks from now?
+        c:\>rpn today 4 weeks +
+        2014-09-30 00:00:00
+
+    What date is 4 months from now?
+        c:\>rpn today 4 months +
+        2015-01-02 00:00:00
+
+    What about 6 months from 2 days ago?
+        c:\>rpn today 2 days - 6 months +
+        2015-02-28 00:00:00
+
+    There is no February 30, so we use the real last day of the month.  Months
+    are handled differently from the other time units with respect to time math
+    because they can differ in length.
+
+    However, the month as an absolute unit of time is simply equated to 30
+    days:
+        c:\>rpn month days convert
+        30 days
+
+
+
+''',
 'user_functions' :
 '''
-    [ TODO: describe user-defined formulas ]
+    [ TODO: finish explaining user-defined formulas ]
+
+Allows the user to define a function for use with the eval, nsum, nprod,
+limit and limitn operators, etc.  Basically 'x' starts an expression that
+becomes a function.  Right now (5.28.0), a user-defined function must start
+with 'x', but I hope to remove that limitation soon.
+
+Some examples:
+
+c:\>rpn 3 x 2 * eval
+6
+
+c:\>rpn 5 x 2 ** 1 - eval
+24
+
+c:\>rpn inf x 1 + fib x fib / limit
+1.6180339887
+
+Here is the kludge to work around having to have 'x' be first:
+
+c:\>rpn 1 inf x 0 * 2 x ** + 1/x nsum
+1
+
+Basically, all you have to do is add x * 0 to the expression.  It's cheesy,
+but it works for now.
 ''',
 'unit_conversion' :
 '''
-c:\>rpn 10 miles km convert
-16.0934399991 kilometers
-
-c:\>rpn rpn 2 gallons cups convert
-rpn:  error in arg 1:  unrecognized argument: 'rpn
-
-c:\>rp 2 gallons cups convert
-TCC: Unknown command "rp"
-
-c:\>rpn 2 gallons cups convert
-32 cups
-
-c:\>rpn 153 pounds stone convert
-10.9285714286 stone
-
-c:\>
-
-
-c:\>rpn 10 miles km convert
-16.0934399991 kilometers
-
-c:\>rpn rpn 2 gallons cups convert
-rpn:  error in arg 1:  unrecognized argument: 'rpn
-
-c:\>rp 2 gallons cups convert
-TCC: Unknown command "rp"
-
-c:\>rpn 2 gallons cups convert
-32 cups
-
-c:\>rpn 153 pounds stone convert
-10.9285714286 stone
-
-c:\>
-
-
-
     [ TODO: describe unit conversions in rpn ]
+
+For now, here are some examples:
+
+c:\>rpn 10 miles km convert
+16.0934399991 kilometers
+
+c:\>rpn 2 gallons cups convert
+32 cups
+
+c:\>rpn 153 pounds stone convert
+10.9285714286 stone
+
+c:\>rpn 10 miles km convert
+16.0934399991 kilometers
+
+c:\>rpn 65 mph kph convert
+104.60736 kilometers/hour
+
+c:\>rpn 60 miles hour / furlongs fortnight / convert
+161280 furlongs per fortnight
+
+c:\>rpn barn gigaparsec * cubic_inch convert
+188.2995990804 cubic inches
+
+c:\>rpn mars_day hms
+[ 24 hours, 37 minutes, 22.6631999991 seconds ]
+
+c:\>rpn 10 tons estimate
+'approximately 1.65 times the mass of an average male African bush elephant'
+
+Help topics for individual units is coming someday, but not today.
 ''',
 'about' :
 PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' +
@@ -247,16 +355,17 @@ yet.
 
 I also want to support taking units to integral powers, but it doesn't yet.
 
-Similarly for units, '1/x' will convert the numerical value, but leave the
-unit untouched.
-
 This requires implicit conversion between unit types, and doesn't work yet:
     rpn -D 16800 mA hours * 5 volts * joule convert
 
-'isolated' seems to be broken right now (as of 5.24.0).
-
 Unit conversion suffers from small rounding errors in some situations.  This
 is unavoidable to a certain extent, but it's worse than I think it should be.
+
+As of 5.28.0, some of the prime functions have bugs, particularly 'doublebal'
+and 'triplebal'.
+
+In general, I've been doing better testing for 5.28.0, and it's not done yet,
+but I wanted to push a release anyway.
 ''',
 'release_notes' :
 '''
@@ -3309,7 +3418,12 @@ c:\>rpn 1 50 range countdiv stddev
     'x' : [
 'special', '\'x\' is used to create functions',
 '''
-Better help will be written when this operator is fully designed.
+Allows the user to define a function for use with the eval, nsum, nprod,
+and limit operators, etc.  Basically 'x' starts an expression that
+becomes a function.  Right now (5.28.0), a user-defined function must start
+with 'x', but I hope to remove that limitation soon.
+
+See the 'user_functions' help topic for more details.
 ''',
 '''
 c:\>rpn 3 x 2 * eval
@@ -3317,6 +3431,9 @@ c:\>rpn 3 x 2 * eval
 
 c:\>rpn 5 x 2 ** 1 - eval
 24
+
+c:\>rpn inf x 1 + fib x fib / limit
+1.6180339887
 
 Once this works, some really interesting new operators can be made.
 ''' ],

@@ -152,7 +152,6 @@ class Units( dict ):
 
 
     def invert( self ):
-        print( '!' )
         for unit in self:
             self[ unit ] = -( self[ unit ] )
 
