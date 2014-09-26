@@ -1,16 +1,18 @@
-import sys
 from cx_Freeze import setup, Executable
+from rpnVersion import PROGRAM_VERSION
 
-# Dependencies are automatically detected, but it might need
-# fine tuning.
+# Dependencies are automatically detected, but it might need fine tuning.
 buildOptions = \
     dict(
         packages = [ ],
-        excludes = [ ],
+
+        excludes = [ "matplotlib" ],
+
         include_files = [
             'rpndata/balanced_primes.pckl.bz2',
             'rpndata/cousin_primes.pckl.bz2',
             'rpndata/double_balanced_primes.pckl.bz2',
+            'rpndata/help.pckl.bz2',
             'rpndata/isolated_primes.pckl.bz2',
             'rpndata/large_primes.pckl.bz2',
             'rpndata/quad_primes.pckl.bz2',
@@ -22,20 +24,23 @@ buildOptions = \
             'rpndata/small_primes.pckl.bz2',
             'rpndata/sophie_primes.pckl.bz2',
             'rpndata/super_primes.pckl.bz2',
-            'rpndata/triple_balanced_primes.pckl.bz2',
             'rpndata/triplet_primes.pckl.bz2',
-            'rpndata/twin_primes.pckl.bz2'
-            ] )
+            'rpndata/triple_balanced_primes.pckl.bz2',
+            'rpndata/twin_primes.pckl.bz2',
+            'rpndata/units.pckl.bz2',
+            'rpndata/unit_conversions.pckl.bz2'
+        ],
+
+        bin_excludes = [
+        ]
+    )
 
 base = 'Console'
 
 executables = [
-    Executable( 'makeRPNPrimes.py', base = base )
+    Executable( 'rpn.py', base = base )
 ]
 
-if 'bdist_msi' in sys.argv:
-    sys.argv += [ '--initial-target-dir', 'c:\\Program Files\\rpn' ]
-
-setup( name='rpnprimes', version = '5.20.2', description = 'command-line RPN calculator prime number data files',
+setup( name='rpn_with_prime_data', version = PROGRAM_VERSION, description = 'command-line RPN calculator',
        options = dict( build_exe = buildOptions ), executables = executables )
 
