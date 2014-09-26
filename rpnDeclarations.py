@@ -420,9 +420,8 @@ class OperatorInfo( ):
 #//******************************************************************************
 
 class FunctionInfo( ):
-    def __init__( self, valueList = [ ], oldValueList = [ ] ):
+    def __init__( self, valueList = [ ] ):
         self.valueList = valueList
-        self.oldValueList = oldValueList
 
     def evaluate( self, arg ):
         return arg
