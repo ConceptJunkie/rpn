@@ -948,13 +948,13 @@ unitOperators = {
         UnitInfo( 'area', 'shed', 'sheds', '', [ ], [ 'science' ] ),
 
     'square_foot' :
-        UnitInfo( 'area', 'foot^2', 'square_feet', 'ft^2', [ 'feet^2', 'sqft', 'sq_ft', 'sq_foot', 'sq_feet' ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'foot^2', 'square_feet', 'ft^2', [ 'feet^2', 'sqft', 'sq_ft', 'sq_foot', 'sq_feet', 'square_ft' ], [ 'imperial' ] ),
 
     'square_meter' :
-        UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meters^2', 'sqm', 'sq_m', 'sq_meter', 'sq_meters' ], [ 'SI' ] ),
+        UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meters^2', 'sqm', 'sq_m', 'sq_meter', 'sq_meters', 'square_m' ], [ 'SI' ] ),
 
     'square_yard' :
-        UnitInfo( 'area', 'yard^2', 'square_yards', 'yd^2', [ 'yards^2', 'sqyd', 'sq_yd', 'sq_yard', 'sq_yards' ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'yard^2', 'square_yards', 'yd^2', [ 'yards^2', 'sqyd', 'sq_yd', 'sq_yard', 'sq_yards', 'square_yd' ], [ 'imperial' ] ),
 
     'township':
         UnitInfo( 'area', 'township', 'townships', '', [ ], [ 'US' ] ),
@@ -2252,13 +2252,13 @@ unitOperators = {
         UnitInfo( 'volume', 'cord', 'cords', '', [ ], [ 'traditional' ] ),
 
     'cubic_inch' :
-        UnitInfo( 'volume', 'inch^3', 'cubic_inches', 'in^3', [ 'inches^3', 'cuin', 'cu_in', 'cu_inch', 'cu_inches' ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'inch^3', 'cubic_inches', 'in^3', [ 'inches^3', 'cuin', 'cu_in', 'cu_inch', 'cu_inches', 'cubic_in' ], [ 'traditional' ] ),
 
     'cubic_foot' :
-        UnitInfo( 'volume', 'foot^3', 'cubic_feet', 'ft^3', [ 'feet^3', 'cuft', 'cu_ft', 'cu_foot', 'cu_feet' ], [ 'traditional', 'FPS' ] ),
+        UnitInfo( 'volume', 'foot^3', 'cubic_feet', 'ft^3', [ 'feet^3', 'cuft', 'cu_ft', 'cu_foot', 'cu_feet', 'cubic_ft' ], [ 'traditional', 'FPS' ] ),
 
     'cubic_meter' :
-        UnitInfo( 'volume', 'meter^3', 'cubic_meters', 'm^3', [ 'meters^3', 'cum', 'cu_m', 'cu_meter', 'cu_meters' ], [ 'SI' ] ),
+        UnitInfo( 'volume', 'meter^3', 'cubic_meters', 'm^3', [ 'meters^3', 'cum', 'cu_m', 'cu_meter', 'cu_meters', 'cubic_m' ], [ 'SI' ] ),
 
     'coomb' :
         UnitInfo( 'volume', 'coomb', 'coombs', '', [ ], [ 'imperial' ] ),
