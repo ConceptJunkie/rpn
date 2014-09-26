@@ -1058,6 +1058,8 @@ def getNthTripletPrime( arg ):
 
     f = p % 10
 
+    pPlus2 = False
+
     while n > currentIndex:
         if f == 1:
             p += 2
@@ -1070,13 +1072,17 @@ def getNthTripletPrime( arg ):
             f = 1
 
         if isPrime( p ) and isPrime( p + 6 ):
-            if isPrime( p + 2 ) or isPrime( p + 4 ):
+            if isPrime( p + 2 ):
+                pPlus2 = True
+                currentIndex += 1
+            elif isPrime( p + 4 ):
+                pPlus2 = False
                 currentIndex += 1
 
     if updateDicts:
         tripletPrimes[ int( arg ) ] = p
 
-    return p
+    return [ p, p + 2 if pPlus2 else 4, p + 6 ]
 
 
 #//******************************************************************************
@@ -1086,7 +1092,7 @@ def getNthTripletPrime( arg ):
 #//******************************************************************************
 
 def getNthTripletPrimeList( arg ):
-    p = getNthTripletPrime( arg )
+    p = int( getNthTripletPrime( arg )[ 0 ] )
     f = p % 10
 
     return [ p, getNextPrime( p, f )[ 0 ], fadd( p, 6 ) ]
@@ -1322,4 +1328,35 @@ def getNthPolyPrime( n, poly ):
         result = getNthPrime( result )
 
     return result
+
+
+#//******************************************************************************
+#//
+#//  getPrimes
+#//
+#//******************************************************************************
+
+def getPrimes( value, count ):
+    result = list( )
+
+    for i in getNthPrimeRange( value, count ):
+        result.append( i )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  getPrimorial
+#//
+#//******************************************************************************
+
+def getPrimorial( n ):
+    result = 2
+
+    for i in arange( 1, n ):
+        result = fmul( result, getNthPrime( i + 1 ) )
+
+    return result
+
 
