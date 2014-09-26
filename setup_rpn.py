@@ -5,7 +5,7 @@ from rpnVersion import PROGRAM_VERSION
 buildOptions = \
     dict(
         packages = [ ],
-        excludes = [ ],
+        excludes = [ "matplotlib" ],
         include_files = [
             'rpndata/help.pckl.bz2',
             'rpndata/units.pckl.bz2',
