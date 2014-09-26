@@ -721,3 +721,55 @@ def convertUnits( unit1, unit2 ):
                             unit2.getUnitName( ), unit2.getPluralUnitName( ) )
 
 
+#//******************************************************************************
+#//
+#//  convertToDMS
+#//
+#//******************************************************************************
+
+def convertToDMS( n ):
+    return convertUnits( n, [ Measurement( 1, { 'degree' : 1 } ), Measurement( 1, { 'arcminute' : 1 } ),
+                              Measurement( 1, { 'arcsecond' : 1 } ) ] )
+
+
+#//******************************************************************************
+#//
+#//  estimate
+#//
+#//******************************************************************************
+
+def estimate( measurement ):
+    if isinstance( measurement, Measurement ):
+        unitType = getUnitType( measurement.getUnitName( ) )
+        unitTypeOutput = removeUnderscores( unitType )
+
+        unitTypeInfo = g.basicUnitTypes[ unitType ]
+
+        unit = Measurement( 1, { unitTypeInfo.baseUnit : 1 } )
+        value = mpf( Measurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
+
+        if len( unitTypeInfo.estimateTable ) == 0:
+            return 'No estimates are available for this unit type (' + unitTypeOutput + ').'
+
+        matchingKeys = [ key for key in unitTypeInfo.estimateTable if key <= mpf( value ) ]
+
+        if len( matchingKeys ) == 0:
+            estimateKey = min( key for key in unitTypeInfo.estimateTable )
+
+            multiple = fdiv( estimateKey, value )
+
+            return 'approximately ' + nstr( multiple, 3 ) + ' times smaller than ' + \
+                   unitTypeInfo.estimateTable[ estimateKey ]
+        else:
+            estimateKey = max( matchingKeys )
+
+            multiple = fdiv( value, estimateKey )
+
+            return 'approximately ' + nstr( multiple, 3 ) + ' times ' + \
+                   unitTypeInfo.estimateTable[ estimateKey ]
+    elif isinstance( measurement, arrow.Arrow ):
+        return measurement.humanize( )
+    else:
+        raise TypeError( 'incompatible type for estimating' )
+
+

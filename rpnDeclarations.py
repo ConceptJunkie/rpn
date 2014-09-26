@@ -334,6 +334,7 @@ operatorAliases = {
     'tri'           : 'triangular',
     'tri?'          : 'triangular?',
     'triarea'       : 'trianglearea',
+    'trib'          : 'tribonacci',
     'triplet'       : 'tripletprime',
     'triplet?'      : 'tripletprime?',
     'triplet_'      : 'tripletprime_',
