@@ -7,10 +7,14 @@ buildOptions = \
         packages = [ ],
         excludes = [ ],
         include_files = [
+            'rpndata/help.pckl.bz2',
+            'rpndata/units.pckl.bz2',
+            'rpndata/unit_conversions.pckl.bz2'
+        ],
+        bin_excludes = [
             'rpndata/balanced_primes.pckl.bz2',
             'rpndata/cousin_primes.pckl.bz2',
             'rpndata/double_balanced_primes.pckl.bz2',
-            'rpndata/help.pckl.bz2',
             'rpndata/isolated_primes.pckl.bz2',
             'rpndata/large_primes.pckl.bz2',
             'rpndata/quad_primes.pckl.bz2',
@@ -25,8 +29,6 @@ buildOptions = \
             'rpndata/triplet_primes.pckl.bz2',
             'rpndata/triple_balanced_primes.pckl.bz2',
             'rpndata/twin_primes.pckl.bz2',
-            'rpndata/units.pckl.bz2',
-            'rpndata/unit_conversions.pckl.bz2'
         ]
     )
 
