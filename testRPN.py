@@ -151,7 +151,7 @@ testRPN( 'rpn 1 radian dms' )
 
 testRPN( 'rpn 44 dodecahedral' )
 
-testRPN( 'rpn 10 20 ** double' )
+testRPN( 'rpn -x 10 20 ** double' )
 
 testRPN( 'rpn 1 10 range doublebal' )
 testRPN( 'rpn 54 doublebal' )
@@ -186,9 +186,10 @@ testRPN( 'rpn 883847311 factor' )
 
 testRPN( 'rpn 23 factorial' )
 
+testRPN( 'rpn -p 100 1 100 fibonacci' )
 testRPN( 'rpn 39399 fibonacci' )
 
-testRPN( 'rpn 0x62ffffff float' )
+testRPN( 'rpn -x 1029.3 float' )
 
 testRPN( 'rpn 3.4 floor' )
 
@@ -371,7 +372,7 @@ testRPN( 'rpn 67 nthprime?' )
 testRPN( 'rpn 16467 nthprime?' )
 testRPN( 'rpn 13,000,000,000 nthprime?' )
 
-testRPN( 'rpn 1 100 10 range nthquad?' )
+testRPN( 'rpn 1 100 10 range2 nthquad?' )
 testRPN( 'rpn 453456 nthquad?' )
 testRPN( 'rpn 74,000,000,000 nthquad?' )
 
@@ -392,12 +393,16 @@ testRPN( 'rpn 11 octsquare' )
 testRPN( 'rpn 10 octtri' )
 
 testRPN( 'rpn 1000 oeis' )
+testRPN( 'rpn 100000 randint oeis' )
 
 testRPN( 'rpn 1000 oeiscomment' )
+testRPN( 'rpn 100000 randint oeiscomment' )
 
 testRPN( 'rpn 1000 oeisex' )
+testRPN( 'rpn 100000 randint oeisex' )
 
 testRPN( 'rpn 1000 oeisname' )
+testRPN( 'rpn 100000 randint oeisname' )
 
 testRPN( 'rpn omega' )
 
@@ -629,7 +634,8 @@ testRPN( 'rpn 203 triangular' )
 
 testRPN( 'rpn 20706 triangular?' )
 
-testRPN( 'rpn 10239 tribonacci' )
+testRPN( 'rpn 1 20 range tribonacci' )
+testRPN( 'rpn -2800 10239 tribonacci' )
 
 testRPN( 'rpn 1 10 range triplebal' )
 testRPN( 'rpn 5588 triplebal' )
