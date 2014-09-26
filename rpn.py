@@ -1308,7 +1308,7 @@ operators = {
     'primorial'         : OperatorInfo( getPrimorial, 1 ),
     'pyramid'           : OperatorInfo( lambda n: getNthPolygonalPyramidalNumber( n, 4 ), 1 ),
     'quadprime'         : OperatorInfo( getNthQuadrupletPrime, 1 ),
-    'quadprime?'        : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 0 ], 1 ),
+    'quadprime?'        : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 1 ], 1 ),
     'quadprime_'        : OperatorInfo( getNthQuadrupletPrimeList, 1 ),
     'quintprime'        : OperatorInfo( getNthQuintupletPrime, 1 ),
     'quintprime_'       : OperatorInfo( getNthQuintupletPrimeList, 1 ),

@@ -295,9 +295,9 @@ def findQuadrupletPrimes( arg ):
     n = int( arg )
 
     if n < 5:
-        return [ 5, 7, 11, 13 ]
+        return 1, [ 5, 7, 11, 13 ]
     elif n < 11:
-        return [ 11, 13, 17, 19 ]
+        return 2, [ 11, 13, 17, 19 ]
 
     if quadPrimes == { }:
         quadPrimes = loadQuadrupletPrimes( g.dataPath )
@@ -313,6 +313,54 @@ def findQuadrupletPrimes( arg ):
 
             if p > n:
                 return currentIndex, [ p, p + 2, p + 6, p + 8 ]
+
+
+#//******************************************************************************
+#//
+#//  getNthQuadrupletPrime
+#//
+#//******************************************************************************
+
+def getNthQuadrupletPrime( arg ):
+    global quadPrimes
+    global updateDicts
+
+    n = int( arg )
+
+    if n < 1:
+        raise ValueError( 'index must be > 0' )
+    elif n == 1:
+        return 5
+    elif n == 2:
+        return 11
+
+    if n >= 10:
+        if quadPrimes == { }:
+            quadPrimes = loadQuadrupletPrimes( g.dataPath )
+
+        maxIndex = max( key for key in quadPrimes )
+
+        if n > maxIndex and not updateDicts:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                              format( n, maxIndex ) )
+
+        startingPlace = max( key for key in quadPrimes if key <= n )
+        p = quadPrimes[ startingPlace ]
+    else:
+        startingPlace = 2
+        p = 11
+
+    # after 5, the first of a prime quadruplet must be a number of the form 30n + 11
+    while n > startingPlace:
+        p += 30
+
+        if isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ):
+            n -= 1
+
+    if updateDicts:
+        quadPrimes[ int( arg ) ] = p
+
+    return p
 
 
 #//******************************************************************************
@@ -1046,54 +1094,6 @@ def getNthTripletPrimeList( arg ):
 
 #//******************************************************************************
 #//
-#//  getNthQuadrupletPrime
-#//
-#//******************************************************************************
-
-def getNthQuadrupletPrime( arg ):
-    global quadPrimes
-    global updateDicts
-
-    n = int( arg )
-
-    if n < 1:
-        raise ValueError( 'index must be > 0' )
-    elif n == 1:
-        return 5
-    elif n == 2:
-        return 11
-
-    if n >= 10:
-        if quadPrimes == { }:
-            quadPrimes = loadQuadrupletPrimes( g.dataPath )
-
-        maxIndex = max( key for key in quadPrimes )
-
-        if n > maxIndex and not updateDicts:
-            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                              format( n, maxIndex ) )
-
-        startingPlace = max( key for key in quadPrimes if key <= n )
-        p = quadPrimes[ startingPlace ]
-    else:
-        startingPlace = 2
-        p = 11
-
-    # after 5, the first of a prime quadruplet must be a number of the form 30n + 11
-    while n > startingPlace:
-        p += 30
-
-        if isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ):
-            n -= 1
-
-    if updateDicts:
-        quadPrimes[ int( arg ) ] = p
-
-    return p
-
-
-#//******************************************************************************
-#//
 #//  getNextQuintupletPrimeCandidate
 #//
 #//******************************************************************************
@@ -1160,7 +1160,6 @@ def getNthQuintupletPrime( arg ):
     # after 5, the first of a prime quintruplet must be a number of the form 30n + 11
     while n > currentIndex:
         p, f = getNextPrime( p, f, getNextQuintupletPrimeCandidate )
-        print( "quint:", p )
 
         if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
            ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
@@ -1179,6 +1178,9 @@ def getNthQuintupletPrime( arg ):
 #//******************************************************************************
 
 def getNthQuintupletPrimeList( arg ):
+    if arg == 1:
+        return [ 5, 7, 11, 13, 17 ]
+
     p = getNthQuintupletPrime( arg )
 
     f = p % 10
@@ -1188,7 +1190,6 @@ def getNthQuintupletPrimeList( arg ):
     elif f == 7:
         return [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ) ]
     else:
-        # not the right exception type
         raise ValueError( 'internal error:  getNthQuintupletPrimeList is broken' )
 
 
