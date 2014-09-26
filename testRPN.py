@@ -186,8 +186,8 @@ testRPN( 'rpn 883847311 factor' )
 
 testRPN( 'rpn 23 factorial' )
 
-testRPN( 'rpn -p 100 1 100 fibonacci' )
-testRPN( 'rpn 39399 fibonacci' )
+testRPN( 'rpn -p 100 1 50 range fibonacci' )
+testRPN( 'rpn -p 8300 39399 fibonacci' )
 
 testRPN( 'rpn -x 1029.3 float' )
 
@@ -635,7 +635,7 @@ testRPN( 'rpn 203 triangular' )
 testRPN( 'rpn 20706 triangular?' )
 
 testRPN( 'rpn 1 20 range tribonacci' )
-testRPN( 'rpn -2800 10239 tribonacci' )
+testRPN( 'rpn -p 2800 10239 tribonacci' )
 
 testRPN( 'rpn 1 10 range triplebal' )
 testRPN( 'rpn 5588 triplebal' )
