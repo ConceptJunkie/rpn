@@ -4,14 +4,17 @@ from rpnVersion import PROGRAM_VERSION
 # Dependencies are automatically detected, but it might need fine tuning.
 buildOptions = \
     dict(
-        packages = [ ],
-        excludes = [ "matplotlib" ],
+        packages = [ 'gmpy2' ],
+
+        excludes = [ 'matplotlib' ],
+
         include_files = [
             'rpndata/help.pckl.bz2',
             'rpndata/small_primes.pckl.bz2',
             'rpndata/units.pckl.bz2',
             'rpndata/unit_conversions.pckl.bz2'
         ],
+
         bin_excludes = [
             'rpndata/balanced_primes.pckl.bz2',
             'rpndata/cousin_primes.pckl.bz2',

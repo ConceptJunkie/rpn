@@ -4,9 +4,9 @@ from rpnVersion import PROGRAM_VERSION
 # Dependencies are automatically detected, but it might need fine tuning.
 buildOptions = \
     dict(
-        packages = [ ],
+        packages = [ 'gmpy2' ],
 
-        excludes = [ "matplotlib" ],
+        excludes = [ 'matplotlib' ],
 
         include_files = [
             'rpndata/balanced_primes.pckl.bz2',
