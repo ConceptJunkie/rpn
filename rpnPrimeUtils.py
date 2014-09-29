@@ -1269,24 +1269,34 @@ def getNthPrimeRange( arg1, arg2 ):
     if count < 1:
         return [ ]
 
+    # for primes below 7, we have to do it manually
     if n == 1:
         if count == 1:
             return [ 2 ]
         elif count == 2:
             return[ 2, 3 ]
+        elif count == 3:
+            return [ 2, 3, 5 ]
         else:
-            result = [ 2, 3, 5 ]
-            n = 3
-            count -= 3
-            p = 5
+            result = [ 2, 3, 5, 7 ]
+            count -= 4
+            p = 7
     elif n == 2:
         if count == 1:
             return [ 3 ]
+        elif count == 2:
+            return [ 3, 5 ]
         else:
-            result = [ 3, 5 ]
-            n = 3
+            result = [ 3, 5, 7 ]
+            count -= 3
+            p = 7
+    elif n == 3:
+        if count == 1:
+            return [ 5 ]
+        else:
+            result = [ 5, 7 ]
             count -= 2
-            p = 5
+            p = 7
     else:
         p = getNthPrime( n )
         result = [ p ]
