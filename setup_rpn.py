@@ -8,6 +8,7 @@ buildOptions = \
         excludes = [ "matplotlib" ],
         include_files = [
             'rpndata/help.pckl.bz2',
+            'rpndata/small_primes.pckl.bz2',
             'rpndata/units.pckl.bz2',
             'rpndata/unit_conversions.pckl.bz2'
         ],
@@ -23,7 +24,6 @@ buildOptions = \
             'rpndata/sexy_primes.pckl.bz2',
             'rpndata/sexy_quadruplets.pckl.bz2',
             'rpndata/sexy_triplets.pckl.bz2',
-            'rpndata/small_primes.pckl.bz2',
             'rpndata/sophie_primes.pckl.bz2',
             'rpndata/super_primes.pckl.bz2',
             'rpndata/triplet_primes.pckl.bz2',
