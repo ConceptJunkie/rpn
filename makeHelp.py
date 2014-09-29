@@ -412,8 +412,6 @@ Added 'randint' operator.
 
 Fixed several problems with 'tounixtime' and 'fromunixtime'.
 
-... more release notes to be filled out in the future
-
 5.19.2
 
 rpn now outputs an empty list correctly.  The 'append' operator (to append
@@ -538,6 +536,18 @@ Help for unit types now prints out all aliases for the unit operators.
 
 Added 'x', 'eval', 'nsum', 'nprod', 'limit', 'limitn', 'infinity', and
 'negative_infinity', and 'value' operators.
+
+5.28.1
+
+Added separate installers for the plain-vanilla rpn (with only the "small
+primes" data file, i.e., the first million primes), and the installer with all
+of the prime data files.
+
+The 'primes' operator has been fixed so it works correctly for small values.
+
+I'm currently testing the prime functions, which I haven't touched in a long
+time, so more fixes will definitely be coming.  The balanced prime functions
+are currently broken and will be fixed shortly, including updated data files.
 ''',
 'license' :
 '''
