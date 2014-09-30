@@ -412,6 +412,8 @@ Added 'randint' operator.
 
 Fixed several problems with 'tounixtime' and 'fromunixtime'.
 
+... more release notes to be filled out in the future
+
 5.19.2
 
 rpn now outputs an empty list correctly.  The 'append' operator (to append
@@ -536,18 +538,6 @@ Help for unit types now prints out all aliases for the unit operators.
 
 Added 'x', 'eval', 'nsum', 'nprod', 'limit', 'limitn', 'infinity', and
 'negative_infinity', and 'value' operators.
-
-5.28.1
-
-Added separate installers for the plain-vanilla rpn (with only the "small
-primes" data file, i.e., the first million primes), and the installer with all
-of the prime data files.
-
-The 'primes' operator has been fixed so it works correctly for small values.
-
-I'm currently testing the prime functions, which I haven't touched in a long
-time, so more fixes will definitely be coming.  The balanced prime functions
-are currently broken and will be fixed shortly, including updated data files.
 ''',
 'license' :
 '''
@@ -2777,12 +2767,14 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 '''
 ''' ],
     'primes' : [
-'prime_numbers', 'generates a range of primes from index n to index k',
+'prime_numbers', 'generates a range of k primes starting from index n',
 '''
-This function is identical to 'n k range prime', but is much more efficient
-given the way calculating prime numbers is currently done.
+This operator is much faster than using 'range' with 'prime'.
 ''',
 '''
+c:\>rpn 320620307 10 primes
+[ 6927837559, 6927837563, 6927837571, 6927837583, 6927837599, 6927837617,
+6927837641, 6927837673, 6927837713, 6927837757, 6927837827 ]
 ''' ],
     'prime?' : [
 'prime_numbers', 'finds the index of the closest prime at n or above',
