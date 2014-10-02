@@ -20,6 +20,7 @@ from mpmath import *
 from fractions import Fraction
 
 from rpnUtils import *
+from rpnOperators import *
 
 import rpnGlobals as g
 
@@ -279,6 +280,7 @@ class Units( dict ):
                         result[ operands[ 0 ] ] = exponent
 
             return result
+
 
 #//******************************************************************************
 #//
@@ -740,12 +742,19 @@ def convertToDMS( n ):
 
 def estimate( measurement ):
     if isinstance( measurement, Measurement ):
-        unitType = getUnitType( measurement.getUnitName( ) )
-        unitTypeOutput = removeUnderscores( unitType )
+        unitType = None
+
+        for basicUnitType in g.basicUnitTypes:
+            if measurement.isCompatible( Measurement( 1, g.basicUnitTypes[ basicUnitType ].baseUnit ) ):
+                unitType = basicUnitType
+                break
+
+        if unitType is None:
+            return 'No estimates are available for this unit type'
 
         unitTypeInfo = g.basicUnitTypes[ unitType ]
 
-        unit = Measurement( 1, { unitTypeInfo.baseUnit : 1 } )
+        unit = Measurement( 1, unitTypeInfo.baseUnit )
         value = mpf( Measurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
 
         if len( unitTypeInfo.estimateTable ) == 0:

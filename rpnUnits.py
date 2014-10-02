@@ -677,7 +677,7 @@ basicUnitTypes = {
 
     'electrical_conductance' : UnitTypeInfo(
         [ 'current^2/energy*time', 'current/electric_potential' ],
-        'mho',
+        'siemens',
         electricalConductanceTable,
     ),
 
