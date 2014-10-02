@@ -548,6 +548,9 @@ The 'primes' operator has been fixed so it works correctly for small values.
 I'm currently testing the prime functions, which I haven't touched in a long
 time, so more fixes will definitely be coming.  The balanced prime functions
 are currently broken and will be fixed shortly, including updated data files.
+
+5.28.2
+Several bug fixes relating to 'estimate' and unit conversion.
 ''',
 'license' :
 '''
