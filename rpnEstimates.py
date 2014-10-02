@@ -1662,19 +1662,7 @@ pressureTable = {
 
 #//******************************************************************************
 #//
-#//  radiationAbsorbedDoseTable
-#//
-#//  grays : description
-#//
-#//******************************************************************************
-
-radiationAbsorbedDoseTable = {
-}
-
-
-#//******************************************************************************
-#//
-#//  radiationEquivalentDoseTable
+#//  radiationDoseTable
 #//
 #//  sieverts : description
 #//
@@ -1683,7 +1671,7 @@ radiationAbsorbedDoseTable = {
 #//
 #//******************************************************************************
 
-radiationEquivalentDoseTable = {
+radiationDoseTable = {
     mpf( '1.0e-6' )     : 'the cosmic ray dose rate on commercial flights, which varies from 1 to 10 uSv/hour, depending on altitude, position and solar sunspot phase',
     mpf( '1.0e-5' )     : 'the daily exposure due to natural background radiation, including radon',
     mpf( '6.0e-5' )     : 'the radiation dose from a chest X-ray (AP+Lat)',
@@ -1760,7 +1748,7 @@ radiationExposureTable = {
 #//
 #//******************************************************************************
 
-radioactivityTable = {
+#radioactivityTable = {
 #    mpf( '1' )  : 'hydrogen-7 (half-life: 23e-24 s)',
 #    mpf( '1' )  : 'hydrogen-5 (half-life: 80e-24 s)',
 #    mpf( '1' )  : 'hydrogen-4 (half-life: 100e-24 s)',
@@ -1957,7 +1945,7 @@ radioactivityTable = {
 #    mpf( '1' )  : 'germanium-76 (half-life:  s)',
 #    mpf( '1' )  : 'xenon-136 (half-life:  s)',
 #    mpf( '1' )  : 'tellurium-128 (half-life:  s)',
-}
+#}
 
 
 #//******************************************************************************

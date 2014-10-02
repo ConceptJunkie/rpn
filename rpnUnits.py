@@ -789,28 +789,16 @@ basicUnitTypes = {
         pressureTable,
     ),
 
-    'radiation_absorbed_dose' : UnitTypeInfo(
-        [ 'energy/mass' ],
-        'gray',
-        radiationAbsorbedDoseTable,
-    ),
-
-    'radiation_equivalent_dose' : UnitTypeInfo(
+    'radiation_dose' : UnitTypeInfo(
         [ 'energy/mass' ],
         'sievert',
-        radiationEquivalentDoseTable,
+        radiationDoseTable,
     ),
 
     'radiation_exposure' : UnitTypeInfo(
         [ 'current*time/mass' ],
         'coulomb/gram',
         radiationExposureTable,
-    ),
-
-    'radioactivity' : UnitTypeInfo(
-        [ '1/time' ],
-        'becquerel',
-        radioactivityTable,
     ),
 
     'solid_angle' : UnitTypeInfo(
@@ -1237,7 +1225,7 @@ unitOperators = {
         UnitInfo( 'electrical_conductance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ], [ 'SI' ] ),
 
     'siemens' :
-        UnitInfo( 'electrical_conductance', 'siemens', 'siemens', 'S', [ 'mho' ], [ 'SI' ] ),
+        UnitInfo( 'electrical_conductance', 'siemens', 'siemens', 'S', [ 'mho', 'mhos' ], [ 'SI' ] ),
 
     'statmho' :
         UnitInfo( 'electrical_conductance', 'statmho', 'statmhos', '', [ ], [ 'CGS' ] ),
@@ -1254,7 +1242,7 @@ unitOperators = {
         UnitInfo( 'electrical_resistance', 'abohm', 'abohms', 'o', [ ], [ 'CGS' ] ),
 
     'german_mile' :
-        UnitInfo( 'electrical_resistance', 'german_mile', 'german_mile', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'electrical_resistance', 'german_mile', 'german_miles', '', [ ], [ 'obsolete' ] ),
 
     'impedance_of_free_space' :
         UnitInfo( 'electrical_resistance', 'impedance_of_free_space', 'x impedance_of_free_space', 'Z0', [ ], [ 'natural' ] ),
@@ -1405,6 +1393,15 @@ unitOperators = {
 
     'yearly' :
         UnitInfo( 'frequency', 'x yearly', 'x yearly', '', [ ], [ ] ),
+
+    'becquerel' :
+        UnitInfo( 'frequency', 'becquerel', 'becquerels', 'Bq', [ ], [ 'SI' ] ),
+
+    'curie' :
+        UnitInfo( 'frequency', 'curie', 'curies', 'Ci', [ ], [ 'obsolete' ] ),
+
+    'rutherford' :
+        UnitInfo( 'frequency', 'rutherford', 'rutherfords', 'rd', [ ], [ 'obsolete' ] ),
 
     # illuminance
 
@@ -1944,38 +1941,25 @@ unitOperators = {
     'torr' :
         UnitInfo( 'pressure', 'torr', 'torr', '', [ ], [ ] ),
 
-    # radioactivity
-
-    'becquerel' :
-        UnitInfo( 'radioactivity', 'becquerel', 'becquerels', 'Bq', [ ], [ 'SI' ] ),
-
-    'curie' :
-        UnitInfo( 'radioactivity', 'curie', 'curies', 'Ci', [ ], [ 'obsolete' ] ),
-
-    'rutherford' :
-        UnitInfo( 'radioactivity', 'rutherford', 'rutherfords', 'rd', [ ], [ 'obsolete' ] ),
-
-    # radiation_absorbed_dose
-
-    'gray' :
-        UnitInfo( 'radiation_absorbed_dose', 'gray', 'grays', 'Gy', [ ], [ 'SI' ] ),
-
-    'joule/kilogram' :
-        UnitInfo( 'radiation_absorbed_dose', 'joule/kilogram', 'joules/kilogram', 'J/kg', [ 'joule/kg', 'joules/kg', 'J/kilogram', 'J/kilograms', 'joule/kilograms', 'joules/kilograms' ], [ 'SI' ] ),
-
-    'rad' :
-        UnitInfo( 'radiation_absorbed_dose', 'rad', 'rads', '', [ ], [ 'CGS' ] ),
-
-    # radiation_equivalent_dose
+    # radiation_dose
 
     'banana_equivalent_dose' :
-        UnitInfo( 'radiation_equivalent_dose', 'banana_equivalent_dose', 'banana_equivalent_doses', '', [ 'banana' ], [ 'natural' ] ),
+        UnitInfo( 'radiation_dose', 'banana_equivalent_dose', 'banana_equivalent_doses', '', [ 'banana' ], [ 'natural' ] ),
+
+    'gray' :
+        UnitInfo( 'radiation_dose', 'gray', 'grays', 'Gy', [ ], [ 'SI' ] ),
+
+    'joule/kilogram' :
+        UnitInfo( 'radiation_dose', 'joule/kilogram', 'joules/kilogram', 'J/kg', [ 'joule/kg', 'joules/kg', 'J/kilogram', 'J/kilograms', 'joule/kilograms', 'joules/kilograms' ], [ 'SI' ] ),
+
+    'rad' :
+        UnitInfo( 'radiation_dose', 'rad', 'rads', '', [ ], [ 'CGS' ] ),
 
     'rem' :
-        UnitInfo( 'radiation_equivalent_dose', 'rem', 'rems', '', [ 'roentgen_equivalent_man' ], [ 'CGS' ] ),
+        UnitInfo( 'radiation_dose', 'rem', 'rems', '', [ 'roentgen_equivalent_man' ], [ 'CGS' ] ),
 
     'sievert' :
-        UnitInfo( 'radiation_equivalent_dose', 'sievert', 'sieverts', 'Sv', [ ], [ 'SI' ] ),
+        UnitInfo( 'radiation_dose', 'sievert', 'sieverts', 'Sv', [ ], [ 'SI' ] ),
 
     # radiation_exposure
 
@@ -1991,25 +1975,25 @@ unitOperators = {
         UnitInfo( 'solid_angle', 'sphere', 'spheres', '', [ ], [ 'mathematics' ] ),
 
     'square_arcminute' :
-        UnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', 'arcmin^2', [ 'square_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', 'arcmin^2', [ 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2' ], [ 'mathematics' ] ),
 
     'square_arcsecond' :
-        UnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', 'arcsec^2', [ 'square_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', 'arcsec^2', [ 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2' ], [ 'mathematics' ] ),
 
     'square_degree' :
-        UnitInfo( 'solid_angle', 'degree^2', 'degrees^2', 'deg^2', [ 'square_degrees', 'sqdeg' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'degree^2', 'degrees^2', 'deg^2', [ 'square_degrees', 'sqdeg', 'solid_degree', 'solid_degrees', 'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs' ], [ 'mathematics' ] ),
 
     'square_octant' :
-        UnitInfo( 'solid_angle', 'octant^2', 'octants^2', '', [ 'square_octants', 'sqoctant', 'sqoctants' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'octant^2', 'octants^2', '', [ 'square_octants', 'sqoctant', 'sqoctants', 'solid_octant', 'solid_octants', 'sq_octant', 'sq_octants' ], [ 'mathematics' ] ),
 
     'square_quadrant' :
-        UnitInfo( 'solid_angle', 'quadrant^2', 'quadrants^2', '', [ 'square_quadrants', 'sqquadrant', 'sqquadrants' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'quadrant^2', 'quadrants^2', '', [ 'square_quadrants', 'sqquadrant', 'sqquadrants', 'solid_quadant', 'solid_quadants', 'sq_quadant', 'sq_quadants' ], [ 'mathematics' ] ),
 
     'square_quintant' :
-        UnitInfo( 'solid_angle', 'quintant^2', 'quintants^2', '', [ 'square_quintants', 'sqquintant', 'sqquintants' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'quintant^2', 'quintants^2', '', [ 'square_quintants', 'sqquintant', 'sqquintants', 'solid_quintant', 'solid_quintants', 'sq_quintant', 'sq_quintants' ], [ 'mathematics' ] ),
 
     'square_sextant' :
-        UnitInfo( 'solid_angle', 'sextant^2', 'sextants^2', '', [ 'square_sextants', 'sqsextant', 'sqsextants' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'sextant^2', 'sextants^2', '', [ 'square_sextants', 'sqsextant', 'sqsextants', 'solid_sextant', 'solid_sextants', 'sq_sextant', 'sq_sextants' ], [ 'mathematics' ] ),
 
     'square_grad' :
         UnitInfo( 'solid_angle', 'grad^2', 'grads^2', '', [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons','sqgon', 'sqgons', 'grad^2', 'grads^2', 'gon^2', 'gons^2' ], [ 'mathematics' ] ),
@@ -2523,7 +2507,7 @@ metricUnits = [
     ( 'coulomb',            'coulombs',         'C',    [ ], [ ] ),
     ( 'calorie',            'calories',         'cal',  [ 'cal' ], [ 'cals' ] ),
     ( 'electronvolt',       'electronvolts',    'eV',   [ ], [ ] ),
-    ( 'farad',              'farad',            'F',    [ ], [ ] ),
+    ( 'farad',              'farads',           'F',    [ ], [ ] ),
     ( 'gram-equivalent',    'grams-equivalent', 'gE',   [ 'gram-energy', 'gramme-energy' ], [ 'grams-energy', 'grammes-energy' ] ),
     ( 'gram',               'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
     ( 'gram-force',         'grams-force',      'gf',   [ 'gramme-force' ], [ 'grammes-force' ] ),
