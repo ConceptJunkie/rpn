@@ -1279,7 +1279,7 @@ def getNthPrimeRange( arg1, arg2 ):
             return [ 2, 3, 5 ]
         else:
             result = [ 2, 3, 5, 7 ]
-            count -= 4
+            count -= 3
             p = 7
     elif n == 2:
         if count == 1:
@@ -1288,14 +1288,14 @@ def getNthPrimeRange( arg1, arg2 ):
             return [ 3, 5 ]
         else:
             result = [ 3, 5, 7 ]
-            count -= 3
+            count -= 2
             p = 7
     elif n == 3:
         if count == 1:
             return [ 5 ]
         else:
             result = [ 5, 7 ]
-            count -= 2
+            count -= 1
             p = 7
     else:
         p = getNthPrime( n )
@@ -1303,7 +1303,7 @@ def getNthPrimeRange( arg1, arg2 ):
 
     f = p % 10
 
-    found = 0
+    found = 1
 
     while found < count:
         p, f = getNextPrimeCandidate( p, f )
