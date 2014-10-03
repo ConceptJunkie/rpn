@@ -687,8 +687,13 @@ class Measurement( mpf ):
 
             return value
         else:
+            if isinstance( other, list ):
+                otherUnit = '[ ' + ', '.join( [ unit.getUnitString( ) for unit in other ] ) + ' ]'
+            else:
+                otherUnit = other.getUnitString( )
+
             raise ValueError( 'incompatible units cannot be converted: ' + self.getUnitString( ) +
-                              ' and ' + other.getUnitString( ) )
+                              ' and ' + otherUnit )
 
 
 #//******************************************************************************
