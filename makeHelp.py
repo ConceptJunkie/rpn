@@ -561,7 +561,10 @@ time, so more fixes will definitely be coming.  The balanced prime functions
 are currently broken and will be fixed shortly, including updated data files.
 
 5.28.2
-Several bug fixes relating to 'estimate' and unit conversion.
+Several bug fixes relating to 'estimate' and unit conversion.   Some unit
+types were folded together because they had the same basic units (e.g.,
+frequency and radioactivity were both time ^ -1, which confused the conversion
+logic).
 ''',
 'license' :
 '''
