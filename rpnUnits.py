@@ -1190,6 +1190,11 @@ unitOperators = {
 
     # dynamic_viscosity
 
+#pound per foot hour                 lb/(ft*h)    1 lb/(ft*h)   = 4.133 789e-4 Pa*s
+#pound per foot second               lb/(ft*s)    1 lb/(ft*s)   = 1.488164 Pa*s
+#pound-force second per square foot  lbf*s/ft2    1 lbf*s/ft2   = 47.88026 Pa*s
+#pound-force second per square inch  lbf*s/in2    1 lbf*s/in2   = 6,894.757 Pa*s
+
     'newton-second/meter^2' :
         UnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', 'Ns/m^2', [ ], [ 'CGS' ] ),
 

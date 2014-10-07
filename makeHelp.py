@@ -372,9 +372,6 @@ This requires implicit conversion between unit types, and doesn't work yet:
 Unit conversion suffers from small rounding errors in some situations.  This
 is unavoidable to a certain extent, but it's worse than I think it should be.
 
-As of 5.28.0, some of the prime functions have bugs, particularly 'doublebal'
-and 'triplebal'.
-
 In general, I've been doing better testing for 5.28.0, and it's not done yet,
 but I wanted to push a release anyway.
 ''',
@@ -561,10 +558,16 @@ time, so more fixes will definitely be coming.  The balanced prime functions
 are currently broken and will be fixed shortly, including updated data files.
 
 5.28.2
+
 Several bug fixes relating to 'estimate' and unit conversion.   Some unit
 types were folded together because they had the same basic units (e.g.,
 frequency and radioactivity were both time ^ -1, which confused the conversion
 logic).
+
+5.28.3
+
+The operators 'doublebal', doublebal_', 'triplebal', and 'triplebal_' now work
+correctly.  The data files have been significantly expanded as well.
 ''',
 'license' :
 '''
@@ -1616,16 +1619,31 @@ c:\>rpn pi 7 / radians dms
 '''
 ''' ],
     'doublebal' : [
-'prime_numbers', 'returns the nth set of double balanced primes',
+'prime_numbers', 'returns the nth double balanced prime',
 '''
+A double balanced prime is a primes which is the average of its immediate
+neighbors, its second neighbors and its third neighbors.
 ''',
 '''
+c:\>rpn 50 doublebal
+931181
+
+c:\>rpn 1 10 range doublebal
+[ 18713, 25621, 28069, 30059, 31051, 44741, 76913, 97441, 103669, 106681 ]
 ''' ],
     'doublebal_' : [
-'prime_numbers', 'returns the nth set of double balanced primes',
+'prime_numbers', 'returns the nth double balanced prime and its neighbors',
 '''
+A double balanced prime is a primes which is the average of its immediate
+neighbors, its second neighbors.  This operator also returns the neighbors
+and second neighbors.
 ''',
 '''
+c:\>rpn 50 doublebal_
+[ 931163, 931169, 931181, 931193, 931199 ]
+
+c:\>rpn 50 doublebal_ diffs
+[ 6, 12, 12, 6 ]
 ''' ],
     'doublefac' : [
 'number_theory', 'calculates the double factorial of n',
@@ -3320,16 +3338,28 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'triplebal' : [
-'prime_numbers', 'returns the first of the nth set of triple balanced primes',
+'prime_numbers', 'returns the nth triple balanced prime',
 '''
+A triple balanced prime is a primes which is the average of its immediate
+neighbors, its second neighbors and its third neighbors.
 ''',
 '''
+c:\>rpn 10 triplebal
+14907649
 ''' ],
     'triplebal_' : [
-'prime_numbers', 'returns the nth set of triple balanced primes',
+'prime_numbers', 'returns the nth triple balanced prime and its neighbors',
 '''
+A triple balanced prime is a primes which is the average of its immediate
+neighbors, its second neighbors and its third neighbors.  This operator also
+returns the neighbors, second neighbors, and third neighbors.
 ''',
 '''
+c:\>rpn 10 triplebal_
+[ 14907619, 14907631, 14907637, 14907649, 14907661, 14907667, 14907679 ]
+
+c:\>rpn 10 triplebal_ diffs
+[ 12, 6, 12, 12, 6, 12 ]
 ''' ],
     'tripletprime' : [
 'prime_numbers', 'returns the first of the nth set of triplet primes',

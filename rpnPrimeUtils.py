@@ -567,7 +567,7 @@ def getNthBalancedPrimeList( arg ):
 #//
 #//******************************************************************************
 
-def getNthDoubleBalancedPrime( arg ):
+def getNthDoubleBalancedPrime( arg, first = False ):
     global doubleBalancedPrimes
     global updateDicts
 
@@ -609,10 +609,12 @@ def getNthDoubleBalancedPrime( arg ):
              ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 4 ] - primes[ 3 ] ) ):
             currentIndex += 1
 
-    if updateDicts:
-        doubleBalancedPrimes[ n ] = p
+    result = primes[ 0 ] if first else primes[ 2 ]
 
-    return p
+    if updateDicts:
+        doubleBalancedPrimes[ n ] = result
+
+    return result
 
 
 #//******************************************************************************
@@ -622,7 +624,7 @@ def getNthDoubleBalancedPrime( arg ):
 #//******************************************************************************
 
 def getNthDoubleBalancedPrimeList( arg ):
-    p = getNthDoubleBalancedPrime( arg )
+    p = getNthDoubleBalancedPrime( arg, first=True )
     result = [ p ]
 
     f = p % 10
@@ -640,7 +642,7 @@ def getNthDoubleBalancedPrimeList( arg ):
 #//
 #//******************************************************************************
 
-def getNthTripleBalancedPrime( arg ):
+def getNthTripleBalancedPrime( arg, first = False ):
     global tripleBalancedPrimes
     global updateDicts
 
@@ -682,10 +684,12 @@ def getNthTripleBalancedPrime( arg ):
              ( primes[ 1 ] - primes[ 0 ] ) == ( primes[ 6 ] - primes[ 5 ] ) ):
             currentIndex += 1
 
-    if updateDicts:
-        tripleBalancedPrimes[ n ] = p
+    result = primes[ 0 ] if first else primes[ 3 ]
 
-    return p
+    if updateDicts:
+        tripleBalancedPrimes[ n ] = result
+
+    return result
 
 
 #//******************************************************************************
@@ -695,19 +699,16 @@ def getNthTripleBalancedPrime( arg ):
 #//******************************************************************************
 
 def getNthTripleBalancedPrimeList( arg ):
-    p = [ getNthTripleBalancedPrime( arg ) ]
+    p = getNthTripleBalancedPrime( arg, first=True )
+    result = [ p ]
 
-    return p[ 0 ]
+    f = p % 10
 
-    #result = [ p ]
-    #
-    #f = p % 10
-    #
-    #for i in range( 0, 6 ):
-    #   p, f = getNextPrime( p, f )
-    #   result.append( p )
-    #
-    #return result
+    for i in range( 0, 6 ):
+        p, f = getNextPrime( p, f )
+        result.append( p )
+
+    return result
 
 
 #//******************************************************************************
