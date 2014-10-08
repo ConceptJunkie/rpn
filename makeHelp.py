@@ -1682,16 +1682,16 @@ This function duplicates terms, but requires the bracket operators to make the
 resulting expression a list, rather than a set of k expressions.
 ''',
 '''
-c:\sys\ut>rpn [ 10 10 dup ]
+c:\>rpn [ 10 10 dup ]
 [ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 ]
 
-c:\sys\ut>rpn [ 1 10 range 10 dup ]
+c:\>rpn [ 1 10 range 10 dup ]
 [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5,
 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
-c:\sys\ut>rpn [ 1 10 range 10 dup ] unique
+c:\>rpn [ 1 10 range 10 dup ] unique
 [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
     'e' : [
