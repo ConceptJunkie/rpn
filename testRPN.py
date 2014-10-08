@@ -840,6 +840,8 @@ testRPN( 'rpn [ 4 4 4 ] tower2' )
 testRPN( 'rpn 1 10 range 11 20 range union' )
 
 testRPN( 'rpn 1 10 range unique' )
+testRPN( 'rpn 1 10 range 1 10 range append unique' )
+testRPN( 'rpn [ 1 10 range 10 dup ] unique' )
 
 testRPN( 'rpn -x 503942034 [ 3 4 5 11 4 4 ] unpack' )
 

@@ -44,8 +44,8 @@ def duplicateTerm( valueList ):
 
     for i in range( 0, int( count ) ):
         if isinstance( value, list ):
-            for i in value:
-                valueList.append( i )
+            for j in value:
+                valueList.append( j )
         else:
             valueList.append( value )
 

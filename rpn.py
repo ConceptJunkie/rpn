@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# New idea:  cache OEIS results!
+
 # unfloat, undouble
 
 # http://en.wikipedia.org/wiki/Physical_constant

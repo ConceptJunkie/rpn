@@ -568,6 +568,12 @@ logic).
 
 The operators 'doublebal', doublebal_', 'triplebal', and 'triplebal_' now work
 correctly.  The data files have been significantly expanded as well.
+
+5.28.4
+
+Added the 'diffs2' operator.
+
+More bug fixes thanks to the test script!
 ''',
 'license' :
 '''
@@ -1670,10 +1676,23 @@ c:\>rpn 50 doublebal_ diffs
 '''
 ''' ],
     'dup' : [
-'modifiers', 'duplicates a argument n k times',
+'modifiers', 'duplicates an argument n k times',
 '''
+This function duplicates terms, but requires the bracket operators to make the
+resulting expression a list, rather than a set of k expressions.
 ''',
 '''
+c:\sys\ut>rpn [ 10 10 dup ]
+[ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 ]
+
+c:\sys\ut>rpn [ 1 10 range 10 dup ]
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5,
+6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
+7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+
+c:\sys\ut>rpn [ 1 10 range 10 dup ] unique
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
     'e' : [
 'constants', 'returns e (Euler\'s number)',

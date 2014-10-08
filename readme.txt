@@ -8,17 +8,17 @@ calculations and lookup, and can operate with single operands or lists of
 operands and supports a wide variety of flexible unit conversions comparable to
 the GNU units program.
 
-The current version is 5.28.3.
+The current version is 5.28.4.
 
 Installers for Windows can be found here:
 
-https://www.strongspace.com/conceptjunkie/public/rpn-5.28.3-win32.msi
-https://www.strongspace.com/conceptjunkie/public/rpn-5.28.3-amd64.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.28.4-win32.msi
+https://www.strongspace.com/conceptjunkie/public/rpn-5.28.4-amd64.msi
 
 The additional prime number data adds approximately 50MB to the installer size.
 
-https://www.strongspace.com/conceptjunkie/public/rpn_with_prime_data-5.28.3-win32.msi
-https://www.strongspace.com/conceptjunkie/public/rpn_with_prime_data-5.28.3-amd64.msi
+https://www.strongspace.com/conceptjunkie/public/rpn_with_prime_data-5.28.4-win32.msi
+https://www.strongspace.com/conceptjunkie/public/rpn_with_prime_data-5.28.4-amd64.msi
 
 rpn is a console app and must be launched from the command-line.  The installer
 includes the compiled help file, unit conversion tables and prime number lookup
