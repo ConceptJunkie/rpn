@@ -10,12 +10,12 @@
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 #
 
+#   rpn 4 cups 27 teaspoons + works, but rpn 4 cups 27 teaspoons - doesn't!
+
 # http://pythonhosted.org//astral/#
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 # http://rhodesmill.org/pyephem/quick.html
 # https://github.com/geopy/geopy
-
-# Here's another idea... when listing units, include the aliases
 
 # https://en.wikipedia.org/wiki/Gas_constant
 # https://en.wikipedia.org/wiki/Coulomb_constant

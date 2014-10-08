@@ -20,6 +20,13 @@ testRPN( 'rpn 0.2 acsc' )
 testRPN( 'rpn 0.67 acsch' )
 
 testRPN( 'rpn 4 3 add' )
+testRPN( 'rpn 4 cups 13 teaspoons +' )
+testRPN( 'rpn 55 mph 10 miles hour / +' )
+testRPN( 'rpn 55 mph 10 meters second / +' )
+testRPN( 'rpn 55 mph 10 furlongs fortnight / +' )
+testRPN( 'rpn today 3 days add' )
+testRPN( 'rpn today 3 weeks add' )
+testRPN( 'rpn now 150 miles 10 furlongs fortnight / / add' )
 
 testRPN( 'rpn 13 altfac' )
 
@@ -143,6 +150,10 @@ testRPN( 'rpn 100 delannoy' )
 testRPN( 'rpn 8 million seconds dhms' )
 
 testRPN( 'rpn 12 13 divide' )
+testRPN( 'rpn 10 days 7 / dhms' )
+testRPN( 'rpn marathon 100 miles hour / / minutes convert' )
+testRPN( 'rpn 2 zeta sqrt 24 sqrt / 12 *' )
+testRPN( 'rpn now 2014-01-01 - minutes /' )
 
 testRPN( 'rpn 2 3 ** 3 4 ** * divisors' )
 testRPN( 'rpn 12 ! divisors' )
@@ -396,6 +407,9 @@ testRPN( 'rpn 11001 100 modulo' )
 testRPN( 'rpn 56 motzkin' )
 
 testRPN( 'rpn 5 7 multiply' )
+testRPN( 'rpn 15 mph 10 hours *' )
+testRPN( 'rpn c m/s convert 1 nanosecond * inches convert' )
+testRPN( 'rpn barn gigaparsec * cubic_inch convert' )
 
 testRPN( 'rpn -c -p100 45 primorial name' )
 
@@ -679,6 +693,13 @@ testRPN( 'rpn 3945 steloct' )
 testRPN( 'rpn 19 subfac' )
 
 testRPN( 'rpn 3948 474 subtract' )
+testRPN( 'rpn 4 cups 27 teaspoons -' )
+testRPN( 'rpn 57 hectares 23 acres -' )
+testRPN( 'rpn 10 Mb/sec 700 MB hour / -' )
+testRPN( 'rpn today 3 days -' )
+testRPN( 'rpn today 3 weeks -' )
+testRPN( 'rpn today 3 months -' )
+testRPN( 'rpn now earth_radius 2 pi * * miles convert 4 mph / -' )
 
 testRPN( 'rpn 12 superfac' )
 
