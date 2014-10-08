@@ -129,11 +129,39 @@ def unpackInteger( n, fields ):
     value = int( n )
     result = [ ]
 
-    for i in reversed( fields ):
-        size = int( i )
+    for field in reversed( fields ):
+        size = int( field )
         result.insert( 0, value & ( 2 ** size - 1 ) )
         value >>= size
 
     return result
 
+
+#//******************************************************************************
+#//
+#//  packInteger
+#//
+#//******************************************************************************
+
+def packInteger( values, fields ):
+    if not isinstance( values, list ):
+        return unpackInteger( [ values ], fields )
+
+    if not isinstance( fields, list ):
+        return unpackInteger( values, [ fields ] )
+
+    if isinstance( values[ 0 ], list ):
+        return [ unpackInteger( value, fields ) for value in values ]
+
+    result = 0
+
+    count = min( len( values ), len( fields ) )
+
+    size = 0
+
+    for i in range( count, 0, -1 ):
+        result = fadd( result, fmul( values[ i - 1 ], power( 2, size ) ) )
+        size += fields[ i - 1 ]
+
+    return result
 

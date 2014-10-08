@@ -2649,6 +2649,12 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''' ],
+    'pack' : [
+'conversion', 'packs an integer using a values list n and a list of bit fields k',
+'''
+''',
+'''
+''' ],
     'parity' : [
 'logical', 'returns the bit parity of n (0 == even, 1 == odd)',
 '''

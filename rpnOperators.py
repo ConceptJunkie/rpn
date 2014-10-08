@@ -514,6 +514,7 @@ listOperators = {
     'min'               : OperatorInfo( min, 1 ),
     'minindex'          : OperatorInfo( getIndexOfMin, 1 ),
     'nonzero'           : OperatorInfo( lambda n: [ index for index, e in enumerate( n ) if e != 0 ], 1 ),
+    'pack'              : OperatorInfo( packInteger, 2 ),
     'polyadd'           : OperatorInfo( addPolynomials, 2 ),
     'polymul'           : OperatorInfo( multiplyPolynomials, 2 ),
     'polyprod'          : OperatorInfo( multiplyListOfPolynomials, 1 ),
