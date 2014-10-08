@@ -499,6 +499,7 @@ listOperators = {
     'convert'           : OperatorInfo( convertUnits, 2 ),
     'count'             : OperatorInfo( countElements, 1 ),
     'diffs'             : OperatorInfo( getListDiffs, 1 ),
+    'diffs2'            : OperatorInfo( getListDiffsFromFirst, 1 ),
     'gcd'               : OperatorInfo( getGCD, 1 ),
     'interleave'        : OperatorInfo( interleave, 2 ),
     'intersection'      : OperatorInfo( makeIntersection, 2 ),

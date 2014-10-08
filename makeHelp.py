@@ -1573,6 +1573,12 @@ number.
 ''',
 '''
 ''' ],
+    'diffs2' : [
+'list_operators', 'returns a list with the differences between each element of list n with the first element',
+'''
+''',
+'''
+''' ],
     'divide' : [
 'arithmetic', 'divides n by k',
 '''

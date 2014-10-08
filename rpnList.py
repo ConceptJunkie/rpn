@@ -314,6 +314,25 @@ def getListDiffs( args ):
 
 #//******************************************************************************
 #//
+#//  getListDiffsFromFirst
+#//
+#//******************************************************************************
+
+def getListDiffsFromFirst( args ):
+    result = [ ]
+
+    for i in range( 0, len( args ) ):
+        if isinstance( args[ i ], list ):
+            result.append( getListDiffsFromFirst( args[ i ] ) )
+        else:
+            if i < len( args ) - 1:
+                result.append( fsub( args[ i + 1 ], args[ 0 ] ) )
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  getListRatios
 #//
 #//******************************************************************************
