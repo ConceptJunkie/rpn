@@ -10,8 +10,6 @@
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 #
 
-#   rpn 4 cups 27 teaspoons + works, but rpn 4 cups 27 teaspoons - doesn't!
-
 # http://pythonhosted.org//astral/#
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 # http://rhodesmill.org/pyephem/quick.html

@@ -66,8 +66,30 @@ def addTimes( n, k ):
 #//******************************************************************************
 
 def subtractTimes( n, k ):
-    kneg = Measurement( fneg( k.getValue( ) ), k.getUnits( ) )
-    return addTimes( n, kneg )
+    if isinstance( k, Measurement ):
+        kneg = Measurement( fneg( k.getValue( ) ), k.getUnits( ) )
+        return addTimes( n, kneg )
+    elif isinstance( k, arrow.Arrow ):
+        if n > k:
+            delta = n - k
+            factor = 1
+        else:
+            delta = k - n
+            factor = -1
+
+        if delta.days != 0:
+            result = Measurement( delta.days * factor, 'day' )
+            result = result.add( Measurement( delta.seconds * factor, 'second' ) )
+            result = result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
+        elif delta.seconds != 0:
+            result = Measurement( delta.seconds * factor, 'second' )
+            result = result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
+        else:
+            result = Measurement( delta.microseconds * factor, 'microsecond' )
+
+        return result
+    else:
+        raise ValueError( 'incompatible type for subtracting from an absolute time' )
 
 
 #//******************************************************************************

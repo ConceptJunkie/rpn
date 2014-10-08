@@ -52,34 +52,10 @@ def add( n, k ):
 
 def subtract( n, k ):
     if isinstance( n, arrow.Arrow ):
-        if isinstance( k, Measurement ):
-            return subtractTimes( n, k )
-        elif isinstance( k, arrow.Arrow ):
-            if n > k:
-                delta = n - k
-                factor = 1
-            else:
-                delta = k - n
-                factor = -1
-
-            if delta.days != 0:
-                result = Measurement( delta.days * factor, 'day' )
-                result = result.add( Measurement( delta.seconds * factor, 'second' ) )
-                result = result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
-            elif delta.seconds != 0:
-                result = Measurement( delta.seconds * factor, 'second' )
-                result = result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
-            else:
-                result = Measurement( delta.microseconds * factor, 'microsecond' )
-
-            return result
-        else:
-            raise ValueError( 'cannot subtract incompatible types' )
+        return subtractTimes( n, k )
     elif isinstance( n, Measurement ):
         if isinstance( k, arrow.Arrow ):
             return subtractTimes( k, n )
-        elif isinstance( k, Measurement ):
-            return Measurement( n ).subtract( k )
         else:
             return n.subtract( k )
     elif isinstance( k, Measurement ):
