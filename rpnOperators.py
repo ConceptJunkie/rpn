@@ -101,8 +101,9 @@ def evaluateTerm( term, index, currentValueList ):
         # handle a unit operator
         elif term in g.unitOperators:
             # look for unit without a value (in which case we give it a value of 1)
-            if len( currentValueList ) == 0 or isinstance( currentValueList[ -1 ], Measurement ) or \
-               ( isinstance( currentValueList[ -1 ], list ) and isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
+            if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], Measurement ) or \
+               isinstance( currentValueList[ -1 ], arrow.Arrow ) or ( isinstance( currentValueList[ -1 ], list ) and
+                                                                      isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
                 currentValueList.append( applyNumberValueToUnit( 1, term ) )
             # if the unit comes after a list, then apply it to every item in the list
             elif isinstance( currentValueList[ -1 ], list ):
