@@ -114,42 +114,16 @@ def combineUnits( units1, units2 ):
 #//
 #//******************************************************************************
 
-class Units( dict ):
+class Units( collections.Counter ):
     def __init__( self, *arg, **kw ):
         if ( len( arg ) == 1 ):
             if isinstance( arg[ 0 ], str ):
                 self.update( self.parseUnitString( arg[ 0 ] ) )
             elif isinstance( arg[ 0 ], ( list, tuple ) ):
                 for item in arg[ 0 ]:
-                    self.increment( item )
+                    self.update( item )  # for Counter, update( ) adds, not replaces
         else:
             super( Units, self ).__init__( *arg, **kw )
-
-
-    def increment( self, value, amount=1 ):
-        if isinstance( value, Units ):
-            for unit in value:
-                self.increment( unit, value[ unit ] * amount )
-        else:
-            if value not in self:
-                self[ value ] = amount
-            else:
-                self[ value ] = self[ value ] + amount
-
-        return self
-
-
-    def decrement( self, value, amount=1 ):
-        if isinstance( value, Units ):
-            for unit in value:
-                self.decrement( unit, value[ unit ] * amount )
-        else:
-            if value not in self:
-                self[ value ] = -amount
-            else:
-                self[ value ] = self[ value ] - amount
-
-        return self
 
 
     def invert( self ):
@@ -188,7 +162,7 @@ class Units( dict ):
                 for unit2 in simpleUnits:
                     simpleUnits[ unit2 ] *= exponent
 
-            result.increment( simpleUnits )
+            result.update( simpleUnits )
 
         return result
 
@@ -261,7 +235,7 @@ class Units( dict ):
             raise ValueError( 'only one \'/\' is permitted' )
         elif len( pieces ) == 2:
             result = self.parseUnitString( pieces[ 0 ] )
-            result.decrement( self.parseUnitString( pieces[ 1 ] ) )
+            result.subtract( self.parseUnitString( pieces[ 1 ] ) )
 
             return result
         else:
@@ -283,10 +257,7 @@ class Units( dict ):
                     else:
                         exponent = 1
 
-                    if operands[ 0 ] in result:
-                        result[ operands[ 0 ] ] += exponent
-                    else:
-                        result[ operands[ 0 ] ] = exponent
+                    result[ operands[ 0 ] ] += exponent
 
             return result
 
@@ -315,7 +286,7 @@ class Measurement( mpf ):
                 self.units = self.units.parseUnitString( units )
             elif isinstance( units, ( list, tuple ) ):
                 for unit in units:
-                    self.increment( unit )
+                    self.update( unit )
             elif isinstance( units, dict ):
                 self.update( units )
             else:
@@ -341,21 +312,13 @@ class Measurement( mpf ):
     def increment( self, value, amount=1 ):
         self.unitName = None
         self.pluralUnitName = None
-
-        if value not in self.units:
-            self.units[ value ] = amount
-        else:
-            self.units[ value ] += amount
+        self.units[ value ] += amount
 
 
     def decrement( self, value, amount=1 ):
         self.unitName = None
         self.pluralUnitName = None
-
-        if value not in self.units:
-            self.units[ value ] = -amount
-        else:
-            self.units[ value ] -= amount
+        self.units[ value ] = -amount
 
 
     def add( self, other ):
@@ -434,7 +397,7 @@ class Measurement( mpf ):
         value = mpf( self )
         units = self.getUnits( )
 
-        newUnits = { }
+        newUnits = Units( )
 
         for unit in units:
             newUnits[ unit ] = -units[ unit ]
@@ -446,7 +409,7 @@ class Measurement( mpf ):
         value = mpf( self )
         units = self.getUnits( )
 
-        newUnits = { }
+        newUnits = Units( )
 
         for unit in units:
             if units[ unit ] != 0:
@@ -473,6 +436,9 @@ class Measurement( mpf ):
 
 
     def update( self, units ):
+        for i in self.units:
+            del self.units[ i ]
+
         if not isinstance( units, dict ):
             raise ValueError( 'dict expected' )
 
