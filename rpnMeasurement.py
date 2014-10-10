@@ -483,8 +483,8 @@ class Measurement( mpf ):
 
 
     def isCompatible( self, other ):
-        if isinstance( other, dict ):
-            return self.getTypes( ) == other
+        if isinstance( other, dict ):            # rick:  should this be here?
+            return self.getTypes( ) == other     # and if so, then this doesn't seem right
         elif isinstance( other, list ):
             result = True
 
@@ -508,6 +508,31 @@ class Measurement( mpf ):
                 return True
             else:
                 debugPrint( 'Measurement.isCompatible exiting with false...' )
+                return False
+        else:
+            raise ValueError( 'Measurement or dict expected' )
+
+
+    def isEquivalent( self, other ):
+        if isinstance( other, list ):
+            result = True
+
+            for item in other:
+                result = self.isEquivalent( item )
+
+                if not result:
+                    break
+
+            return result
+        elif isinstance( other, Measurement ):
+            if self.getTypes( ) != other.getTypes( ):
+                debugPrint( 'types are the same!' )
+                return False
+
+            if self.getSimpleTypes( ) == other.getSimpleTypes( ):
+                debugPrint( 'simple types are the same!' )
+                return True
+            else:
                 return False
         else:
             raise ValueError( 'Measurement or dict expected' )
@@ -590,6 +615,9 @@ class Measurement( mpf ):
 
     def convertValue( self, other ):
         if self.isCompatible( other ):
+            if self.isEquivalent( other ):
+                return mpf( 1.0 )
+
             conversions = [ ]
 
             if isinstance( other, list ):
@@ -668,7 +696,7 @@ class Measurement( mpf ):
                     foundConversion = False
 
                     for unit2 in units2:
-                        debugPrint( '1 and 2:', unit1, unit2, units1[ unit1 ], units2[ unit2 ] )
+                        debugPrint( '1 and 2:', unit1, units1[ unit1 ], unit2, units2[ unit2 ] )
 
                         if getUnitType( unit1 ) == getUnitType( unit2 ):
                             conversions.append( [ unit1, unit2 ] )
