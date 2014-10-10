@@ -599,47 +599,75 @@ from rpnEstimates import *
 #//
 #//  basicUnitTypes
 #//
-#//  0:  conversion from the basic unit types:
-#//          length, mass, time, angle, energy, current, electric_potential,
-#//          temperature, luminous_intensity, informantion_entropy,
-#//          constant (not a real unit)
+#//  There are 'primitive' unit types and 'compound' unit types.
+#//  The compound unit types can always be broken down in terms of the
+#//  primitive unit types.  The 'primitive' unit types cannot be expressed
+#//  in terms of other primitive unit types.
 #//
-#//  1:  'standard' unit of measurement
+#//  The primitive unit types include:
 #//
-#//  Note:  I chose not to incorporate mass-energy equivalence here.  I don't
-#//         think it helps.  I just created the 'gram-equivalent' unit instead.
+#//  length, mass, time, charge, temperature, angle, electric_potential
+#//  information_entropy, luminous_intensity
 #//
-#//         I probably want to make a special case for converting mass to
-#//         energy so it will work with all mass units.
+#//  simpleUnitType:  conversion from the primitive unit types
+#//
+#//  compoundUnitType:  a list of conversions from other unit types where
+#//     the conversion does not consist solely of primitive unit types
+#//
+#//  baseUnit:  The standard or customary unit of measurement for this unit
+#//     type
+#//
+#//  estimateTable : The table of estimates, expressed in terms of the base
+#//     unit, used for the 'estimate' operator.
+#//
+#//******************************************************************************
+
+#//******************************************************************************
+#//
+#//  Notes:
+#//
+#//  I chose not to incorporate mass-energy equivalence here.  I don't think it
+#//  helps.  I just created the 'gram-equivalent' unit instead.
+#//
+#//  I probably want to make a special case for converting mass to energy so it
+#//  will work with all mass units.
+#//
+#//  Constant is not a 'real' unit type, but it is useful for it to act like
+#//  one because it makes for useful operators.
 #//
 #//******************************************************************************
 
 basicUnitTypes = {
     'acceleration' : UnitTypeInfo(
         [ 'length/time^2' ],
+        [ ],
         'meter/second^2',
         accelerationTable
     ),
 
     'angle' : UnitTypeInfo(
         [ 'angle' ],
+        [ ],
         'radian',
         angleTable
     ),
 
     'area' : UnitTypeInfo(
         [ 'length^2' ],
+        [ ],
         'square_meter',
         areaTable,
     ),
 
     'capacitance' : UnitTypeInfo(
         [ 'current^2*time^2/energy' ],
+        [ ],
         'farad',
         capacitanceTable,
     ),
 
     'charge' : UnitTypeInfo(
+        [ 'charge' ],
         [ 'current*time' ],
         'coulomb',
         chargeTable,
@@ -647,137 +675,160 @@ basicUnitTypes = {
 
     'constant' : UnitTypeInfo(
         [ 'constant' ],
+        [ ],
         'unity',
         constantTable,
     ),
 
     'current' : UnitTypeInfo(
-        [ 'current', 'electric_potential/electrical_resistance' ],
+        [ 'charge/time' ],
+        [ 'electric_potential/electrical_resistance' ],
         'ampere',
         currentTable,
     ),
 
     'data_rate' : UnitTypeInfo(
         [ 'information_entropy/time' ],
+        [ ],
         'bit/second',
         dataRateTable,
     ),
 
     'density' : UnitTypeInfo(
         [ 'mass/length^3' ],
+        [ ],
         'gram/cubic_meter',
         densityTable,
     ),
 
     'dynamic_viscosity' : UnitTypeInfo(
+        [ 'mass*time/length^2' ],
         [ 'pressure*time' ],
         'pascal*second',
         dynamicViscosityTable,
     ),
 
     'electrical_conductance' : UnitTypeInfo(
+        [ 'charge/time*electric_potential' ],
         [ 'current^2/energy*time', 'current/electric_potential' ],
         'siemens',
         electricalConductanceTable,
     ),
 
     'electrical_resistance' : UnitTypeInfo(
+        [ 'electrical_resistance' ],
         [ 'energy*time/current^2', 'electric_potential/current' ],
         'ohm',
         electricalResistanceTable,
     ),
 
     'electric_potential' : UnitTypeInfo(
+        [ 'electric_potential' ],
         [ 'energy/current*time', 'current*electrical_resistance' ],
         'volt',
         electricPotentialTable,
     ),
 
     'energy' : UnitTypeInfo(
-        [ 'electric_potential*current*time', 'electric_potential*charge' ],
+        [ 'electric_potential*charge' ],
+        [ 'power*time', 'electric_potential*current*time' ],
         'joule',
         energyTable,
     ),
 
     'force' : UnitTypeInfo(
-        [ 'mass*length/time' ],
+        [ 'mass*length/time^2' ],
+        [ 'mass*acceleration' ],
         'newton',
         forceTable,
     ),
 
     'frequency' : UnitTypeInfo(
         [ '1/time' ],
+        [ ],
         'hertz',
         frequencyTable,
     ),
 
     'illuminance' : UnitTypeInfo(
         [ 'luminous_intensity*angle^2/length^2' ],
+        [ ],
         'lux',
         illuminanceTable,
     ),
 
     'inductance' : UnitTypeInfo(
         [ 'electric_potential*time/current' ],
+        [ ],
         'henry',
         inductanceTable,
     ),
 
     'information_entropy' : UnitTypeInfo(
         [ 'information_entropy' ],
+        [ ],
         'bit',
         informationEntropyTable,
     ),
 
     'length' : UnitTypeInfo(
         [ 'length' ],
+        [ ],
         'meter',
         lengthTable,
     ),
 
     'luminance' : UnitTypeInfo(
         [ 'luminous_intensity/length^2' ],
+        [ ],
         'candela/meter^2',
         luminanceTable,
     ),
 
     'luminous_flux' : UnitTypeInfo(
         [ 'luminous_intensity*angle^2' ],
+        [ ],
         'lumen',
         luminousFluxTable,
     ),
 
     'luminous_intensity' : UnitTypeInfo(
         [ 'luminous_intensity' ],
+        [ ],
         'candela',
         luminousIntensityTable,
     ),
 
     'magnetic_field_strength' : UnitTypeInfo(
         [ 'charge/length' ],
+        [ ],
         'ampere/meter',
         magneticFieldStrengthTable,
     ),
 
     'magnetic_flux' : UnitTypeInfo(
         [ 'electric_potential*time' ],
+        [ ],
         'weber',
         magneticFluxTable,
     ),
 
     'magnetic_flux_density' : UnitTypeInfo(
         [ 'electric_potential*time/length^2' ],
+        [ ],
         'tesla',
         magneticFluxDensityTable,
     ),
 
     'mass' : UnitTypeInfo(
         [ 'mass' ],
+        [ ],
         'gram',
         massTable,
     ),
 
     'power' : UnitTypeInfo(
+        [ 'electric_potential*charge/time' ],
         [ 'energy/time' ],
         'watt',
         powerTable,
@@ -785,17 +836,20 @@ basicUnitTypes = {
 
     'pressure' : UnitTypeInfo(
         [ 'mass/length^2' ],
+        [ ],
         'pascal',
         pressureTable,
     ),
 
     'radiation_dose' : UnitTypeInfo(
+        [ 'electric_potential*charge/mass' ],
         [ 'energy/mass' ],
         'sievert',
         radiationDoseTable,
     ),
 
     'radiation_exposure' : UnitTypeInfo(
+        [ 'charge/mass' ],
         [ 'current*time/mass' ],
         'coulomb/gram',
         radiationExposureTable,
@@ -803,30 +857,35 @@ basicUnitTypes = {
 
     'solid_angle' : UnitTypeInfo(
         [ 'angle^2' ],
+        [ ],
         'steradian',
         solidAngleTable,
     ),
 
     'temperature' : UnitTypeInfo(
         [ 'temperature' ],
+        [ ],
         'kelvin',
         temperatureTable,
     ),
 
     'time' : UnitTypeInfo(
         [ 'time' ],
+        [ ],
         'second',
         timeTable,
     ),
 
     'velocity' : UnitTypeInfo(
         [ 'length/time' ],
+        [ ],
         'meter/second',
         velocityTable,
     ),
 
     'volume' : UnitTypeInfo(
         [ 'length^3' ],
+        [ ],
         'liter',
         volumeTable,
     ),

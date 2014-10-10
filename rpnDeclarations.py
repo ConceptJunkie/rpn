@@ -379,8 +379,9 @@ class CompoundUnitInfo( ):
 #//******************************************************************************
 
 class UnitTypeInfo( ):
-    def __init__( self, simpleTypes, baseUnit, estimateTable ):
+    def __init__( self, simpleTypes, compoundTypes, baseUnit, estimateTable ):
         self.simpleTypes = simpleTypes
+        self.compoundTypes = compoundTypes
         self.baseUnit = baseUnit
         self.estimateTable = estimateTable
 

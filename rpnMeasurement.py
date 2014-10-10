@@ -170,7 +170,7 @@ class Units( dict ):
 
             if unitType in types:
                 types[ unitType ] += self.units[ unit ]
-            else:
+            elif self[ unit ] != 0:
                 types[ unitType ] = self[ unit ]
 
         return types
@@ -206,6 +206,15 @@ class Units( dict ):
                     basicUnits[ unitType2 ] *= exponent
 
             result = combineUnits( result, basicUnits )[ 1 ]
+
+        zeroKeys = [ ]
+
+        for unitType in result:
+            if result[ unitType ] == 0:
+                zeroKeys.append( unitType )
+
+        for zeroKey in zeroKeys:
+            del result[ zeroKey ]
 
         return result
 
@@ -536,7 +545,7 @@ class Measurement( mpf ):
 
             if unitType in types:
                 types[ unitType ] += self.units[ unit ]
-            else:
+            elif self.units[ unit ] != 0:
                 types[ unitType ] = self.units[ unit ]
 
         #print( 'types:', types )
@@ -570,10 +579,11 @@ class Measurement( mpf ):
             else:
                 value = '1.0'
 
-            if self.units[ unit ] != 1:
-                newUnit = newUnit + '^' + str( self.units[ unit ] )
+            if self.units[ unit ] != 0:
+                if self.units[ unit ] != 1:
+                    newUnit = newUnit + '^' + str( self.units[ unit ] )
 
-            reduced = reduced.multiply( Measurement( value, Units( newUnit ) ) )
+                reduced = reduced.multiply( Measurement( value, Units( newUnit ) ) )
 
         return reduced
 
