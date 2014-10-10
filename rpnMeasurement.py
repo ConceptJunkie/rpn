@@ -526,11 +526,9 @@ class Measurement( mpf ):
             return result
         elif isinstance( other, Measurement ):
             if self.getTypes( ) != other.getTypes( ):
-                debugPrint( 'types are the same!' )
                 return False
 
             if self.getSimpleTypes( ) == other.getSimpleTypes( ):
-                debugPrint( 'simple types are the same!' )
                 return True
             else:
                 return False
@@ -705,6 +703,7 @@ class Measurement( mpf ):
                             break
 
                     if not foundConversion:
+                        debugPrint( 'didn\'t find a conversion, try reducing' )
                         reduced = self.getReduced( )
                         reduced = reduced.convertValue( other )
                         return reduced
