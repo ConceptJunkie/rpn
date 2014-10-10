@@ -4,11 +4,15 @@ rpn supports arithmetic with arbitrary precision, powers and roots, logarithms,
 algebraic functions (including polynomials arithmetic and solving),
 trigonometric functions, complex numbers, computer science related functions
 (bitwise math, base conversion), number theory functions, prime number
-calculations and lookup, and can operate with single operands or lists of
-operands and supports a wide variety of flexible unit conversions comparable to
-the GNU units program.
+calculations and lookup, can operate with single operands or lists of operands
+and supports a wide variety of flexible unit conversions comparable to the GNU
+units program.
 
 The current version is 5.28.4.
+
+Version 5.28 has been dedicated primarily to bug-fixes, because there are lots
+of dumb little bugs.  I particularly need to clean up the unit conversion
+stuff.  It's a work in progress.
 
 Installers for Windows can be found here:
 
@@ -25,13 +29,10 @@ includes the compiled help file, unit conversion tables and prime number lookup
 tables.  The installer does not add rpn.exe to the Windows path, so a batch
 file or alias will be useful for launching it.
 
-Note:  As of 5.28.0, rpn is no longer distributed with the prime number data
-files.  These will eventually be available in a separate installer.
-
 Running RPN using the source:
 
 rpn is written in Python 3, and requires the mpmath, pyprimes and arrow
-libraries for most of the hard math stuff (gmpy2 is optional).
+libraries for most of the hard math stuff (gmpy2 is optional, but recommended).
 
 If you have pip installed, you can install the prerequisites with the
 following:
@@ -94,6 +95,26 @@ p.s. rpn is licensed under the GNU GPL version 3.0.  See (see
 
 Release Notes:
 
+5.28.4
+
+Added the 'diffs2' operator.
+
+More bug fixes thanks to the test script!
+
+5.28.3
+
+The operators 'doublebal', doublebal_', 'triplebal', and 'triplebal_' now work
+correctly.  The data files have been significantly expanded as well.
+
+More prime number updates will come in the next few weeks.  My target is to
+expand every table up to the first 10 billion primes.
+
+5.28.2
+
+Several bug fixes relating to 'estimate' and unit conversion.   Some unit types
+were folded together because they had the same basic units (e.g., frequency and
+radioactivity were both time ^ -1, which confused the conversion logic).
+
 5.28.1
 
 Added separate installers for the plain-vanilla rpn (with only the "small
@@ -117,8 +138,8 @@ Help for unit types now prints out all aliases for the unit operators.
 
 5.27.1
 
-Added an error message if the 'name' operand is out of range, and added
-support for negative numbers.
+Added an error message if the 'name' operand is out of range, and added support
+for negative numbers.
 
 5.27.0
 
@@ -144,8 +165,8 @@ Added the 'prevost' operator.
 5.25.0
 
 Added Julian date operators, ISO date operators, calendar operators and the
-'ash_wednesday' operator.  Added support for the density unit type and
-several small bug fixes.
+'ash_wednesday' operator.  Added support for the density unit type and several
+small bug fixes.
 
 5.24.0
 
@@ -202,8 +223,8 @@ rpn now correctly reports the argument in question on any error.
 
 5.20.3
 
-Made a fix to improve rpn's reporting of the argument in question when there
-is an error.  It's probably not 100% correct yet.
+Made a fix to improve rpn's reporting of the argument in question when there is
+an error.  It's probably not 100% correct yet.
 
 5.20.2
 
@@ -271,6 +292,6 @@ Made a bunch of bug fixes that showed up as a result of reorganizing the code.
 5.18.1
 
 It's clear I haven't done any unit conversions in a while because there were
-still issues with declarations of variables.  Now, I've started eliminating
-the use of "global" in favor of a global module.
+still issues with declarations of variables.  Now, I've started eliminating the
+use of "global" in favor of a global module.
 
