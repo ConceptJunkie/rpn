@@ -28,3 +28,10 @@ def runConvertTests( ):
     testRPN( 'rpn marathon miles convert' )
     testRPN( 'rpn mph miles hour / convert' )
 
+    # compound units
+    testRPN( 'rpn watt second * watt-second convert' )
+    testRPN( 'rpn second watt * watt-second convert' )
+    testRPN( 'rpn watt-second watt second * convert' )
+    testRPN( 'rpn watt-second second watt * convert' )
+
+
