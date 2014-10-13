@@ -1,853 +1,933 @@
+#//******************************************************************************
+#//
+#//  testRPN
+#//
+#//  main test script for RPN
+#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+#//
+#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#//  information).
+#//
+#//******************************************************************************
+
 from rpn import rpn
+
+from testConvert import *
+
+
+#//******************************************************************************
+#//
+#//  testRPN
+#//
+#//******************************************************************************
 
 def testRPN( command ):
     print( command )
     rpn( command.split( ' ' )[ 1 : ] )
     print( )
 
-testRPN( 'rpn -394 abs' )
 
-testRPN( 'rpn 0.8 acos' )
+#//******************************************************************************
+#//
+#//  runTests
+#//
+#//******************************************************************************
 
-testRPN( 'rpn 0.6 acosh' )
+def runTests( ):
+    # command-line options
+    testRPN( 'rpn -a20 7 sqrt' )
 
-testRPN( 'rpn 0.4 acot' )
+    testRPN( 'rpn 100101011010011 -b 2' )
+    testRPN( 'rpn 120012022211222012 -b 3' )
+    testRPN( 'rpn rick -b 36' )
 
-testRPN( 'rpn 0.3 acoth' )
+    testRPN( 'rpn 6 8 ** -c' )
 
-testRPN( 'rpn 0.2 acsc' )
+    testRPN( 'rpn -a3 7 sqrt -d' )
+    testRPN( 'rpn -a12 8 sqrt -d' )
+    testRPN( 'rpn -a50 19 sqrt -d' )
 
-testRPN( 'rpn 0.67 acsch' )
+    testRPN( 'rpn -p50 1 30 range fib -g 3' )
+    testRPN( 'rpn -p50 1 30 range fib -g 4' )
 
-testRPN( 'rpn 4 3 add' )
-testRPN( 'rpn 4 cups 13 teaspoons +' )
-testRPN( 'rpn 55 mph 10 miles hour / +' )
-testRPN( 'rpn 55 mph 10 meters second / +' )
-testRPN( 'rpn 55 mph 10 furlongs fortnight / +' )
-testRPN( 'rpn today 3 days add' )
-testRPN( 'rpn today 3 weeks add' )
-testRPN( 'rpn now 150 miles 10 furlongs fortnight / / add' )
+    testRPN( 'rpn 10 100 10 range2 -r phi' )
 
-testRPN( 'rpn 13 altfac' )
+    # operators
+    testRPN( 'rpn -394 abs' )
 
-testRPN( 'rpn 0x7777 0xdcba and' )
+    testRPN( 'rpn 0.8 acos' )
 
-testRPN( 'rpn apery' )
+    testRPN( 'rpn 0.6 acosh' )
 
-testRPN( 'rpn 12 aperynum' )
+    testRPN( 'rpn 0.4 acot' )
 
-testRPN( 'rpn 0.4 asec' )
+    testRPN( 'rpn 0.3 acoth' )
 
-testRPN( 'rpn 0.1 asech' )
+    testRPN( 'rpn 0.2 acsc' )
 
-testRPN( 'rpn 0.8 asin' )
+    testRPN( 'rpn 0.67 acsch' )
 
-testRPN( 'rpn 0.3 asinh' )
+    testRPN( 'rpn 4 3 add' )
+    testRPN( 'rpn 4 cups 13 teaspoons +' )
+    testRPN( 'rpn 55 mph 10 miles hour / +' )
+    testRPN( 'rpn 55 mph 10 meters second / +' )
+    testRPN( 'rpn 55 mph 10 furlongs fortnight / +' )
+    testRPN( 'rpn today 3 days add' )
+    testRPN( 'rpn today 3 weeks add' )
+    testRPN( 'rpn now 150 miles 10 furlongs fortnight / / add' )
 
-testRPN( 'rpn 0.2 atan' )
+    testRPN( 'rpn 13 altfac' )
 
-testRPN( 'rpn 0.45 atanh' )
+    testRPN( 'rpn 0x7777 0xdcba and' )
 
-testRPN( 'rpn avogadro' )
+    testRPN( 'rpn apery' )
 
-testRPN( 'rpn 1 10 range balanced' )
-testRPN( 'rpn 53 balanced' )
-testRPN( 'rpn 153 balanced' )
-testRPN( 'rpn 2153 balanced' )
+    testRPN( 'rpn 12 aperynum' )
 
-testRPN( 'rpn 1 10 range balanced_' )
-testRPN( 'rpn 53 balanced_' )
-testRPN( 'rpn 153 balanced_' )
-testRPN( 'rpn 2153 balanced_' )
+    testRPN( 'rpn 0.4 asec' )
 
-testRPN( 'rpn 45 bell' )
+    testRPN( 'rpn 0.1 asech' )
 
-testRPN( 'rpn 4 5 bellpoly' )
+    testRPN( 'rpn 0.8 asin' )
 
-testRPN( 'rpn 16 bernoulli' )
+    testRPN( 'rpn 0.3 asinh' )
 
-testRPN( 'rpn 9 12 binomial' )
+    testRPN( 'rpn 0.2 atan' )
 
-testRPN( 'rpn 773 carol' )
+    testRPN( 'rpn 0.45 atanh' )
 
-testRPN( 'rpn 85 catalan' )
+    testRPN( 'rpn avogadro' )
 
-testRPN( 'rpn catalans' )
+    testRPN( 'rpn 1 10 range balanced' )
+    testRPN( 'rpn 53 balanced' )
+    testRPN( 'rpn 153 balanced' )
+    testRPN( 'rpn 2153 balanced' )
 
-testRPN( 'rpn 17 cdecagonal' )
+    testRPN( 'rpn 1 10 range balanced_' )
+    testRPN( 'rpn 53 balanced_' )
+    testRPN( 'rpn 153 balanced_' )
+    testRPN( 'rpn 2153 balanced_' )
 
-testRPN( 'rpn 1000 cdecagonal?' )
+    testRPN( 'rpn 45 bell' )
 
-testRPN( 'rpn 9.99999 ceiling' )
+    testRPN( 'rpn 4 5 bellpoly' )
 
-testRPN( 'rpn 100 centeredcube' )
+    testRPN( 'rpn 16 bernoulli' )
 
-testRPN( 'rpn champernowne' )
+    testRPN( 'rpn 9 12 binomial' )
 
-testRPN( 'rpn 0x101 char' )
+    testRPN( 'rpn 773 carol' )
 
-testRPN( 'rpn 102 cheptagonal' )
+    testRPN( 'rpn 85 catalan' )
 
-testRPN( 'rpn 100000 cheptagonal?' )
+    testRPN( 'rpn catalans' )
 
-testRPN( 'rpn 103 chexagonal' )
+    testRPN( 'rpn 17 cdecagonal' )
 
-testRPN( 'rpn 104 cnonagonal' )
+    testRPN( 'rpn 1000 cdecagonal?' )
 
-testRPN( 'rpn 5,000,000 cnonagonal?' )
+    testRPN( 'rpn 9.99999 ceiling' )
 
-testRPN( 'rpn 10 coctagonal' )
+    testRPN( 'rpn 100 centeredcube' )
 
-testRPN( 'rpn 361 coctagonal?' )
+    testRPN( 'rpn champernowne' )
 
-testRPN( 'rpn -a 80 copeland' )
+    testRPN( 'rpn 0x101 char' )
 
-testRPN( 'rpn 45 degrees cos' )
-testRPN( 'rpn pi radians cos' )
+    testRPN( 'rpn 102 cheptagonal' )
 
-testRPN( 'rpn pi 3 / cosh' )
+    testRPN( 'rpn 100000 cheptagonal?' )
 
-testRPN( 'rpn pi 7 / cot' )
+    testRPN( 'rpn 103 chexagonal' )
 
-testRPN( 'rpn pi 9 / coth' )
+    testRPN( 'rpn 104 cnonagonal' )
 
-testRPN( 'rpn 0xffff countbits' )
+    testRPN( 'rpn 5,000,000 cnonagonal?' )
 
-testRPN( 'rpn 1024 countdiv' )
+    testRPN( 'rpn 10 coctagonal' )
 
-testRPN( 'rpn 1 10 range cousinprime' )
-testRPN( 'rpn 77 cousinprime' )
-testRPN( 'rpn 5176 cousinprime' )
+    testRPN( 'rpn 361 coctagonal?' )
 
-testRPN( 'rpn 108 cpentagonal' )
+    testRPN( 'rpn -a 80 copeland' )
 
-testRPN( 'rpn 9999 cpentagonal?' )
+    testRPN( 'rpn 45 degrees cos' )
+    testRPN( 'rpn pi radians cos' )
 
-testRPN( 'rpn 108 5 cpolygonal' )
+    testRPN( 'rpn pi 3 / cosh' )
 
-testRPN( 'rpn 9999 5 cpolygonal?' )
+    testRPN( 'rpn pi 7 / cot' )
 
-testRPN( 'rpn pi 12 / csc' )
+    testRPN( 'rpn pi 9 / coth' )
 
-testRPN( 'rpn pi 13 / csch' )
+    testRPN( 'rpn 0xffff countbits' )
 
-testRPN( 'rpn 5 csquare' )
+    testRPN( 'rpn 1024 countdiv' )
 
-testRPN( 'rpn 49 csquare?' )
-
-testRPN( 'rpn 100 ctriangular' )
-
-testRPN( 'rpn 10000 ctriangular?' )
-
-testRPN( 'rpn 3 cube' )
-
-testRPN( 'rpn 151 decagonal' )
-
-testRPN( 'rpn 123454321 decagonal?' )
-
-testRPN( 'rpn 100 delannoy' )
-
-testRPN( 'rpn 8 million seconds dhms' )
-
-testRPN( 'rpn 12 13 divide' )
-testRPN( 'rpn 10 days 7 / dhms' )
-testRPN( 'rpn marathon 100 miles hour / / minutes convert' )
-testRPN( 'rpn 2 zeta sqrt 24 sqrt / 12 *' )
-testRPN( 'rpn now 2014-01-01 - minutes /' )
-
-testRPN( 'rpn 2 3 ** 3 4 ** * divisors' )
-testRPN( 'rpn 12 ! divisors' )
-
-testRPN( 'rpn 1 radian dms' )
-
-testRPN( 'rpn 44 dodecahedral' )
+    testRPN( 'rpn 1 10 range cousinprime' )
+    testRPN( 'rpn 77 cousinprime' )
+    testRPN( 'rpn 5176 cousinprime' )
 
-testRPN( 'rpn -x 10 20 ** double' )
+    testRPN( 'rpn 108 cpentagonal' )
 
-testRPN( 'rpn 1 5 range doublebal' )
-testRPN( 'rpn 54 doublebal' )
-testRPN( 'rpn 82154 doublebal' )
+    testRPN( 'rpn 9999 cpentagonal?' )
 
-testRPN( 'rpn 1 5 range doublebal_' )
-testRPN( 'rpn 54 doublebal_' )
-testRPN( 'rpn 100000 doublebal_' )
+    testRPN( 'rpn 108 5 cpolygonal' )
 
-testRPN( 'rpn 9 doublefac' )
+    testRPN( 'rpn 9999 5 cpolygonal?' )
 
-testRPN( 'rpn e' )
+    testRPN( 'rpn pi 12 / csc' )
 
-testRPN( 'rpn 45 67 egypt' )
+    testRPN( 'rpn pi 13 / csch' )
 
-testRPN( 'rpn 1 10 range 5 element' )
-testRPN( 'rpn -p200 1 100 range fib 55 element' )
+    testRPN( 'rpn 5 csquare' )
 
-testRPN( 'rpn 150 amps estimate' )
-testRPN( 'rpn 150 barns estimate' )
-testRPN( 'rpn 150 bytes second / estimate' )
-testRPN( 'rpn 150 candelas estimate' )
-testRPN( 'rpn 150 cd meter meter * / estimate' )
-testRPN( 'rpn 150 coulombs estimate' )
-testRPN( 'rpn 150 cubic_feet estimate' )
-testRPN( 'rpn 150 cubic_inches estimate' )
-testRPN( 'rpn 150 cubic_miles estimate' )
-testRPN( 'rpn 150 cubic_mm estimate' )
-testRPN( 'rpn 150 cubic_nm estimate' )
-testRPN( 'rpn 150 cubic_parsecs estimate' )
-testRPN( 'rpn 150 days estimate' )
-testRPN( 'rpn 150 degC estimate' )
-testRPN( 'rpn 150 degrees estimate' )
-testRPN( 'rpn 150 farads estimate' )
-testRPN( 'rpn 150 feet estimate' )
-testRPN( 'rpn 150 G estimate' )
-testRPN( 'rpn 150 gallons estimate' )
-testRPN( 'rpn 150 grams estimate' )
-testRPN( 'rpn 150 GW estimate' )
-testRPN( 'rpn 150 Hz estimate' )
-testRPN( 'rpn 150 joules estimate' )
-testRPN( 'rpn 150 K estimate' )
-testRPN( 'rpn 150 kg liter / estimate' )
-testRPN( 'rpn 150 light-years estimate' )
-testRPN( 'rpn 150 liters estimate' )
-testRPN( 'rpn 150 lumens estimate' )
-testRPN( 'rpn 150 lux estimate' )
-testRPN( 'rpn 150 mach estimate' )
-testRPN( 'rpn 150 MB estimate' )
-testRPN( 'rpn 150 megapascals estimate' )
-testRPN( 'rpn 150 meter second second * / estimate' )
-testRPN( 'rpn 150 mhos estimate' )
-testRPN( 'rpn 150 microfarads estimate' )
-testRPN( 'rpn 150 miles estimate' )
-testRPN( 'rpn 150 minutes estimate' )
-testRPN( 'rpn 150 months estimate' )
-testRPN( 'rpn 150 mph estimate' )
-testRPN( 'rpn 150 mps estimate' )
-testRPN( 'rpn 150 newtons estimate' )
-testRPN( 'rpn 150 ohms estimate' )
-testRPN( 'rpn 150 pascal-seconds estimate' )
-testRPN( 'rpn 150 pascals estimate' )
-testRPN( 'rpn 150 Pg estimate' )
-testRPN( 'rpn 150 picofarads estimate' )
-testRPN( 'rpn 150 pounds estimate' )
-testRPN( 'rpn 150 radians estimate' )
-testRPN( 'rpn 150 seconds estimate' )
-testRPN( 'rpn 150 sieverts estimate' )
-testRPN( 'rpn 150 square_degrees estimate' )
-testRPN( 'rpn 150 square_feet estimate' )
-testRPN( 'rpn 150 square_inches estimate' )
-testRPN( 'rpn 150 square_light-years estimate' )
-testRPN( 'rpn 150 square_miles estimate' )
-testRPN( 'rpn 150 square_mm estimate' )
-testRPN( 'rpn 150 square_nm estimate' )
-testRPN( 'rpn 150 stilbs estimate' )
-testRPN( 'rpn 150 teaspoons estimate' )
-testRPN( 'rpn 150 tesla estimate' )
-testRPN( 'rpn 150 tons estimate' )
-testRPN( 'rpn 150 tTNT estimate' )
-testRPN( 'rpn 150 volts estimate' )
-testRPN( 'rpn 150 watts estimate' )
-testRPN( 'rpn 150 weeks estimate' )
-testRPN( 'rpn 150 years estimate' )
-testRPN( 'rpn c 150 / estimate' )
+    testRPN( 'rpn 49 csquare?' )
 
-testRPN( 'rpn euler' )
+    testRPN( 'rpn 100 ctriangular' )
 
-testRPN( 'rpn 13 exp' )
+    testRPN( 'rpn 10000 ctriangular?' )
 
-testRPN( 'rpn 12 exp10' )
+    testRPN( 'rpn 3 cube' )
 
-testRPN( 'rpn 100 expphi' )
+    testRPN( 'rpn 151 decagonal' )
 
-testRPN( 'rpn 1.1 1.1 10 exprange' )
+    testRPN( 'rpn 123454321 decagonal?' )
 
-testRPN( 'rpn 883847311 factor' )
+    testRPN( 'rpn 100 delannoy' )
 
-testRPN( 'rpn 23 factorial' )
+    testRPN( 'rpn 8 million seconds dhms' )
 
-testRPN( 'rpn -p 100 1 50 range fibonacci' )
-testRPN( 'rpn -p 8300 39399 fibonacci' )
+    testRPN( 'rpn 12 13 divide' )
+    testRPN( 'rpn 10 days 7 / dhms' )
+    testRPN( 'rpn marathon 100 miles hour / / minutes convert' )
+    testRPN( 'rpn 2 zeta sqrt 24 sqrt / 12 *' )
+    testRPN( 'rpn now 2014-01-01 - minutes /' )
 
-testRPN( 'rpn -x 1029.3 float' )
+    testRPN( 'rpn 2 3 ** 3 4 ** * divisors' )
+    testRPN( 'rpn 12 ! divisors' )
 
-testRPN( 'rpn 3.4 floor' )
+    testRPN( 'rpn 1 radian dms' )
 
-testRPN( 'rpn 12 23 fraction' )
+    testRPN( 'rpn 44 dodecahedral' )
 
-testRPN( 'rpn 1234567890 fromunixtime' )
+    testRPN( 'rpn -x 10 20 ** double' )
 
-testRPN( 'rpn 3 gamma' )
+    testRPN( 'rpn 1 5 range doublebal' )
+    testRPN( 'rpn 54 doublebal' )
+    testRPN( 'rpn 82154 doublebal' )
 
-testRPN( 'rpn 2 8 8 georange' )
+    testRPN( 'rpn 1 5 range doublebal_' )
+    testRPN( 'rpn 54 doublebal_' )
+    testRPN( 'rpn 100000 doublebal_' )
 
-testRPN( 'rpn glaisher' )
+    testRPN( 'rpn 9 doublefac' )
 
-testRPN( 'rpn 34 harmonic' )
+    testRPN( 'rpn e' )
 
-testRPN( 'rpn 203 heptagonal' )
+    testRPN( 'rpn 45 67 egypt' )
 
-testRPN( 'rpn 99999 heptagonal?' )
+    testRPN( 'rpn 1 10 range 5 element' )
+    testRPN( 'rpn -p200 1 100 range fib 55 element' )
 
-testRPN( 'rpn 224623 heptanacci' )
+    testRPN( 'rpn 150 amps estimate' )
+    testRPN( 'rpn 150 barns estimate' )
+    testRPN( 'rpn 150 bytes second / estimate' )
+    testRPN( 'rpn 150 candelas estimate' )
+    testRPN( 'rpn 150 cd meter meter * / estimate' )
+    testRPN( 'rpn 150 coulombs estimate' )
+    testRPN( 'rpn 150 cubic_feet estimate' )
+    testRPN( 'rpn 150 cubic_inches estimate' )
+    testRPN( 'rpn 150 cubic_miles estimate' )
+    testRPN( 'rpn 150 cubic_mm estimate' )
+    testRPN( 'rpn 150 cubic_nm estimate' )
+    testRPN( 'rpn 150 cubic_parsecs estimate' )
+    testRPN( 'rpn 150 days estimate' )
+    testRPN( 'rpn 150 degC estimate' )
+    testRPN( 'rpn 150 degrees estimate' )
+    testRPN( 'rpn 150 farads estimate' )
+    testRPN( 'rpn 150 feet estimate' )
+    testRPN( 'rpn 150 G estimate' )
+    testRPN( 'rpn 150 gallons estimate' )
+    testRPN( 'rpn 150 grams estimate' )
+    testRPN( 'rpn 150 GW estimate' )
+    testRPN( 'rpn 150 Hz estimate' )
+    testRPN( 'rpn 150 joules estimate' )
+    testRPN( 'rpn 150 K estimate' )
+    testRPN( 'rpn 150 kg liter / estimate' )
+    testRPN( 'rpn 150 light-years estimate' )
+    testRPN( 'rpn 150 liters estimate' )
+    testRPN( 'rpn 150 lumens estimate' )
+    testRPN( 'rpn 150 lux estimate' )
+    testRPN( 'rpn 150 mach estimate' )
+    testRPN( 'rpn 150 MB estimate' )
+    testRPN( 'rpn 150 megapascals estimate' )
+    testRPN( 'rpn 150 meter second second * / estimate' )
+    testRPN( 'rpn 150 mhos estimate' )
+    testRPN( 'rpn 150 microfarads estimate' )
+    testRPN( 'rpn 150 miles estimate' )
+    testRPN( 'rpn 150 minutes estimate' )
+    testRPN( 'rpn 150 months estimate' )
+    testRPN( 'rpn 150 mph estimate' )
+    testRPN( 'rpn 150 mps estimate' )
+    testRPN( 'rpn 150 newtons estimate' )
+    testRPN( 'rpn 150 ohms estimate' )
+    testRPN( 'rpn 150 pascal-seconds estimate' )
+    testRPN( 'rpn 150 pascals estimate' )
+    testRPN( 'rpn 150 Pg estimate' )
+    testRPN( 'rpn 150 picofarads estimate' )
+    testRPN( 'rpn 150 pounds estimate' )
+    testRPN( 'rpn 150 radians estimate' )
+    testRPN( 'rpn 150 seconds estimate' )
+    testRPN( 'rpn 150 sieverts estimate' )
+    testRPN( 'rpn 150 square_degrees estimate' )
+    testRPN( 'rpn 150 square_feet estimate' )
+    testRPN( 'rpn 150 square_inches estimate' )
+    testRPN( 'rpn 150 square_light-years estimate' )
+    testRPN( 'rpn 150 square_miles estimate' )
+    testRPN( 'rpn 150 square_mm estimate' )
+    testRPN( 'rpn 150 square_nm estimate' )
+    testRPN( 'rpn 150 stilbs estimate' )
+    testRPN( 'rpn 150 teaspoons estimate' )
+    testRPN( 'rpn 150 tesla estimate' )
+    testRPN( 'rpn 150 tons estimate' )
+    testRPN( 'rpn 150 tTNT estimate' )
+    testRPN( 'rpn 150 volts estimate' )
+    testRPN( 'rpn 150 watts estimate' )
+    testRPN( 'rpn 150 weeks estimate' )
+    testRPN( 'rpn 150 years estimate' )
+    testRPN( 'rpn c 150 / estimate' )
 
-testRPN( 'rpn 2039 hepthex' )
+    testRPN( 'rpn euler' )
 
-testRPN( 'rpn 8684 heptpent' )
+    testRPN( 'rpn 13 exp' )
 
-testRPN( 'rpn 222 heptsquare' )
+    testRPN( 'rpn 12 exp10' )
 
-testRPN( 'rpn 399 hepttri' )
+    testRPN( 'rpn 100 expphi' )
 
-testRPN( 'rpn 340 hexagonal' )
+    testRPN( 'rpn 1.1 1.1 10 exprange' )
 
-testRPN( 'rpn 230860 hexagonal?' )
+    testRPN( 'rpn 883847311 factor' )
 
-testRPN( 'rpn 949 hexanacci' )
+    testRPN( 'rpn 23 factorial' )
 
-testRPN( 'rpn 107 hexpent' )
+    testRPN( 'rpn -p 100 1 50 range fibonacci' )
+    testRPN( 'rpn -p 8300 39399 fibonacci' )
 
-testRPN( 'rpn 54658 seconds hms' )
+    testRPN( 'rpn -x 1029.3 float' )
 
-testRPN( 'rpn 4 3 hyper4_2' )
+    testRPN( 'rpn 3.4 floor' )
 
-testRPN( 'rpn 17 hyperfac' )
+    testRPN( 'rpn 12 23 fraction' )
 
-testRPN( 'rpn 3 4 hypot' )
+    testRPN( 'rpn 1234567890 fromunixtime' )
 
-testRPN( 'rpn 3 i' )
+    testRPN( 'rpn 3 gamma' )
 
-testRPN( 'rpn 100 icosahedral' )
+    testRPN( 'rpn 2 8 8 georange' )
 
-testRPN( 'rpn 456 8 integer' )
+    testRPN( 'rpn glaisher' )
 
-testRPN( 'rpn 1000 10000 isdivisible' )
+    testRPN( 'rpn 34 harmonic' )
 
-testRPN( 'rpn 102 isolated' )
-testRPN( 'rpn 1902 isolated' )
+    testRPN( 'rpn 203 heptagonal' )
 
-testRPN( 'rpn 1000 1030 range isprime' )
-testRPN( 'rpn 2049 isprime' )
-testRPN( 'rpn 92348759911 isprime' )
+    testRPN( 'rpn 99999 heptagonal?' )
 
-testRPN( 'rpn 1024 issquare' )
+    testRPN( 'rpn 224623 heptanacci' )
 
-testRPN( 'rpn itoi' )
+    testRPN( 'rpn 2039 hepthex' )
 
-testRPN( 'rpn 10 jacobsthal' )
+    testRPN( 'rpn 8684 heptpent' )
 
-testRPN( 'rpn khinchin' )
+    testRPN( 'rpn 222 heptsquare' )
 
-testRPN( 'rpn 8 kynea' )
+    testRPN( 'rpn 399 hepttri' )
 
-testRPN( 'rpn 5 6 lah' )
+    testRPN( 'rpn 340 hexagonal' )
 
-testRPN( 'rpn 5 lambertw' )
+    testRPN( 'rpn 230860 hexagonal?' )
 
-testRPN( 'rpn 7 8 leyland' )
+    testRPN( 'rpn 949 hexanacci' )
 
-testRPN( 'rpn 10 lgamma' )
+    testRPN( 'rpn 107 hexpent' )
 
-testRPN( 'rpn 12 li' )
+    testRPN( 'rpn 54658 seconds hms' )
 
-testRPN( 'rpn 1000 ln' )
-testRPN( 'rpn 1000 log10' )
+    testRPN( 'rpn 4 3 hyper4_2' )
 
-testRPN( 'rpn 1000 log2' )
+    testRPN( 'rpn 17 hyperfac' )
 
-testRPN( 'rpn 6561 3 logxy' )
+    testRPN( 'rpn 3 4 hypot' )
 
-testRPN( 'rpn 3456789012 long' )
+    testRPN( 'rpn 3 i' )
 
-testRPN( 'rpn 1234567890123456789012 longlong' )
+    testRPN( 'rpn 100 icosahedral' )
 
-testRPN( 'rpn 99 lucas' )
-testRPN( 'rpn e 20 makecf' )
+    testRPN( 'rpn 456 8 integer' )
 
-testRPN( 'rpn maxchar' )
-testRPN( 'rpn maxlong' )
+    testRPN( 'rpn 1000 10000 isdivisible' )
 
-testRPN( 'rpn maxlonglong' )
+    testRPN( 'rpn 102 isolated' )
+    testRPN( 'rpn 1902 isolated' )
 
-testRPN( 'rpn maxquadlong' )
+    testRPN( 'rpn 1000 1030 range isprime' )
+    testRPN( 'rpn 2049 isprime' )
+    testRPN( 'rpn 92348759911 isprime' )
 
-testRPN( 'rpn maxshort' )
+    testRPN( 'rpn 1024 issquare' )
 
-testRPN( 'rpn maxuchar' )
+    testRPN( 'rpn itoi' )
 
-testRPN( 'rpn maxulong' )
+    testRPN( 'rpn 10 jacobsthal' )
 
-testRPN( 'rpn maxulonglong' )
+    testRPN( 'rpn khinchin' )
 
-testRPN( 'rpn maxuquadlong' )
+    testRPN( 'rpn 8 kynea' )
 
-testRPN( 'rpn maxushort' )
+    testRPN( 'rpn 5 6 lah' )
 
-testRPN( 'rpn mertens' )
+    testRPN( 'rpn 5 lambertw' )
 
-testRPN( 'rpn minchar' )
+    testRPN( 'rpn 7 8 leyland' )
 
-testRPN( 'rpn minlong' )
+    testRPN( 'rpn 10 lgamma' )
 
-testRPN( 'rpn minlonglong' )
+    testRPN( 'rpn 12 li' )
 
-testRPN( 'rpn minquadlong' )
+    testRPN( 'rpn 1000 ln' )
+    testRPN( 'rpn 1000 log10' )
 
-testRPN( 'rpn minshort' )
+    testRPN( 'rpn 1000 log2' )
 
-testRPN( 'rpn minuchar' )
+    testRPN( 'rpn 6561 3 logxy' )
 
-testRPN( 'rpn minulong' )
+    testRPN( 'rpn 3456789012 long' )
 
-testRPN( 'rpn minulonglong' )
+    testRPN( 'rpn 1234567890123456789012 longlong' )
 
-testRPN( 'rpn minuquadlong' )
+    testRPN( 'rpn 99 lucas' )
+    testRPN( 'rpn e 20 makecf' )
 
-testRPN( 'rpn minushort' )
+    testRPN( 'rpn maxchar' )
+    testRPN( 'rpn maxlong' )
 
-testRPN( 'rpn 11001 100 modulo' )
+    testRPN( 'rpn maxlonglong' )
 
-testRPN( 'rpn 56 motzkin' )
+    testRPN( 'rpn maxquadlong' )
 
-testRPN( 'rpn 5 7 multiply' )
-testRPN( 'rpn 15 mph 10 hours *' )
-testRPN( 'rpn c m/s convert 1 nanosecond * inches convert' )
-testRPN( 'rpn barn gigaparsec * cubic_inch convert' )
+    testRPN( 'rpn maxshort' )
 
-testRPN( 'rpn -c -p100 45 primorial name' )
+    testRPN( 'rpn maxuchar' )
 
-testRPN( 'rpn 6 8 narayana' )
+    testRPN( 'rpn maxulong' )
 
-testRPN( 'rpn 4 negative' )
+    testRPN( 'rpn maxulonglong' )
 
-testRPN( 'rpn 554 nonagonal' )
+    testRPN( 'rpn maxuquadlong' )
 
-testRPN( 'rpn 9 6 ** nonagonal?' )
+    testRPN( 'rpn maxushort' )
 
-testRPN( 'rpn 12 nonahept' )
+    testRPN( 'rpn mertens' )
 
-testRPN( 'rpn 13 nonahex' )
+    testRPN( 'rpn minchar' )
 
-testRPN( 'rpn 14 nonaoct' )
+    testRPN( 'rpn minlong' )
 
-testRPN( 'rpn 15 nonapent' )
+    testRPN( 'rpn minlonglong' )
 
-testRPN( 'rpn 16 nonasquare' )
+    testRPN( 'rpn minquadlong' )
 
-testRPN( 'rpn 17 nonatri' )
+    testRPN( 'rpn minshort' )
 
-testRPN( 'rpn -x 0xefefefefefefef not' )
+    testRPN( 'rpn minuchar' )
 
-testRPN( 'rpn now' )
+    testRPN( 'rpn minulong' )
 
-testRPN( 'rpn 34 inches 3 nspherearea' )
-testRPN( 'rpn 34 square_inches 3 nspherearea' )
-testRPN( 'rpn 34 cubic_inches 3 nspherearea' )
+    testRPN( 'rpn minulonglong' )
 
-testRPN( 'rpn 3 meters 4 nsphereradius' )
-testRPN( 'rpn 3 square_meters 4 nsphereradius' )
-testRPN( 'rpn 3 cubic_meters 4 nsphereradius' )
+    testRPN( 'rpn minuquadlong' )
 
-testRPN( 'rpn 3 square_feet 6 nspherevolume' )
+    testRPN( 'rpn minushort' )
 
-testRPN( 'rpn 1 10 range nthprime?' )
-testRPN( 'rpn 67 nthprime?' )
-testRPN( 'rpn 16467 nthprime?' )
-testRPN( 'rpn 13,000,000,000 nthprime?' )
+    testRPN( 'rpn 11001 100 modulo' )
 
-testRPN( 'rpn 1 100 10 range2 nthquad?' )
-testRPN( 'rpn 453456 nthquad?' )
-testRPN( 'rpn 74,000,000,000 nthquad?' )
+    testRPN( 'rpn 56 motzkin' )
 
-testRPN( 'rpn 102 octagonal' )
+    testRPN( 'rpn 5 7 multiply' )
+    testRPN( 'rpn 15 mph 10 hours *' )
+    testRPN( 'rpn c m/s convert 1 nanosecond * inches convert' )
+    testRPN( 'rpn barn gigaparsec * cubic_inch convert' )
 
-testRPN( 'rpn 8 4 ** 1 + octagonal?' )
+    testRPN( 'rpn -c -p100 45 primorial name' )
 
-testRPN( 'rpn 23 octahedral' )
+    testRPN( 'rpn 6 8 narayana' )
 
-testRPN( 'rpn 8 octhept' )
+    testRPN( 'rpn 4 negative' )
 
-testRPN( 'rpn 7 octhex' )
+    testRPN( 'rpn 554 nonagonal' )
 
-testRPN( 'rpn 6 octpent' )
+    testRPN( 'rpn 9 6 ** nonagonal?' )
 
-testRPN( 'rpn 11 octsquare' )
+    testRPN( 'rpn 12 nonahept' )
 
-testRPN( 'rpn 10 octtri' )
+    testRPN( 'rpn 13 nonahex' )
 
-testRPN( 'rpn 1000 oeis' )
-testRPN( 'rpn 100000 randint oeis' )
+    testRPN( 'rpn 14 nonaoct' )
 
-testRPN( 'rpn 1000 oeiscomment' )
-testRPN( 'rpn 100000 randint oeiscomment' )
+    testRPN( 'rpn 15 nonapent' )
 
-testRPN( 'rpn 1000 oeisex' )
-testRPN( 'rpn 100000 randint oeisex' )
+    testRPN( 'rpn 16 nonasquare' )
 
-testRPN( 'rpn 1000 oeisname' )
-testRPN( 'rpn 100000 randint oeisname' )
+    testRPN( 'rpn 17 nonatri' )
 
-testRPN( 'rpn omega' )
+    testRPN( 'rpn -x 0xefefefefefefef not' )
 
-testRPN( 'rpn -x 0x5543 0x7789 or' )
+    testRPN( 'rpn now' )
 
-testRPN( 'rpn 76 padovan' )
+    testRPN( 'rpn 34 inches 3 nspherearea' )
+    testRPN( 'rpn 34 square_inches 3 nspherearea' )
+    testRPN( 'rpn 34 cubic_inches 3 nspherearea' )
 
-testRPN( 'rpn 0xff889d8f parity' )
+    testRPN( 'rpn 3 meters 4 nsphereradius' )
+    testRPN( 'rpn 3 square_meters 4 nsphereradius' )
+    testRPN( 'rpn 3 cubic_meters 4 nsphereradius' )
 
-testRPN( 'rpn 12 pascal' )
+    testRPN( 'rpn 3 square_feet 6 nspherevolume' )
 
-testRPN( 'rpn 13 pell' )
+    testRPN( 'rpn 1 10 range nthprime?' )
+    testRPN( 'rpn 67 nthprime?' )
+    testRPN( 'rpn 16467 nthprime?' )
+    testRPN( 'rpn 13,000,000,000 nthprime?' )
 
-testRPN( 'rpn 16 pentagonal' )
+    testRPN( 'rpn 1 100 10 range2 nthquad?' )
+    testRPN( 'rpn 453456 nthquad?' )
+    testRPN( 'rpn 74,000,000,000 nthquad?' )
 
-testRPN( 'rpn 5 5 ** 5 + pentagonal?' )
+    testRPN( 'rpn 102 octagonal' )
 
-testRPN( 'rpn 16 pentanacci' )
+    testRPN( 'rpn 8 4 ** 1 + octagonal?' )
 
-testRPN( 'rpn 12 pentatope' )
+    testRPN( 'rpn 23 octahedral' )
 
-testRPN( 'rpn 8 3 perm' )
+    testRPN( 'rpn 8 octhept' )
 
-testRPN( 'rpn phi' )
+    testRPN( 'rpn 7 octhex' )
 
-testRPN( 'rpn pi' )
+    testRPN( 'rpn 6 octpent' )
 
-testRPN( 'rpn plastic' )
+    testRPN( 'rpn 11 octsquare' )
 
-testRPN( 'rpn 13 polyarea' )
+    testRPN( 'rpn 10 octtri' )
 
-testRPN( 'rpn 4 5 polygamma' )
+    testRPN( 'rpn 1000 oeis' )
+    testRPN( 'rpn 100000 randint oeis' )
 
-testRPN( 'rpn 9 12 polygonal' )
+    testRPN( 'rpn 1000 oeiscomment' )
+    testRPN( 'rpn 100000 randint oeiscomment' )
 
-testRPN( 'rpn 12 12 ** 12 polygonal?' )
+    testRPN( 'rpn 1000 oeisex' )
+    testRPN( 'rpn 100000 randint oeisex' )
 
-testRPN( 'rpn 9 3 polylog' )
+    testRPN( 'rpn 1000 oeisname' )
+    testRPN( 'rpn 100000 randint oeisname' )
 
-testRPN( 'rpn 1 5 range 1 5 range polyprime' )
-testRPN( 'rpn 4 3 polyprime' )
-testRPN( 'rpn 5 8 polyprime' )
+    testRPN( 'rpn omega' )
 
-testRPN( 'rpn 1 10 range 7 polytope' )
-testRPN( 'rpn 10 2 8 range polytope' )
-testRPN( 'rpn 1 10 range 2 8 range polytope' )
-testRPN( 'rpn -c 18 47 polytope' )
+    testRPN( 'rpn -x 0x5543 0x7789 or' )
 
-testRPN( 'rpn 4 5 power' )
-testRPN( 'rpn 4 1 i power' )
-testRPN( 'rpn 1 10 range 2 10 range power' )
+    testRPN( 'rpn 76 padovan' )
 
-testRPN( 'rpn 1 101 range prime' )
-testRPN( 'rpn 8783 prime' )
-testRPN( 'rpn 142857 prime' )
-testRPN( 'rpn 367981443 prime' )
+    testRPN( 'rpn 0xff889d8f parity' )
 
-testRPN( 'rpn 1 100 range prime?' )
-testRPN( 'rpn 35 prime?' )
-testRPN( 'rpn 8783 prime?' )
-testRPN( 'rpn 142857 prime?' )
-testRPN( 'rpn -c 6 13 ** 1 + prime?' )
+    testRPN( 'rpn 12 pascal' )
 
-testRPN( 'rpn 87 primepi' )
+    testRPN( 'rpn 13 pell' )
 
-testRPN( 'rpn 1 5 range 5 primes' )
-testRPN( 'rpn 1 1 5 range primes' )
-testRPN( 'rpn 2 1 5 range primes' )
-testRPN( 'rpn 3 1 5 range primes' )
-testRPN( 'rpn 4 1 5 range primes' )
-testRPN( 'rpn 150 10 primes' )
-testRPN( 'rpn 98765 20 primes' )
-testRPN( 'rpn 176176176 25 primes' )
+    testRPN( 'rpn 16 pentagonal' )
 
-testRPN( 'rpn 304 pyramid' )
+    testRPN( 'rpn 5 5 ** 5 + pentagonal?' )
 
-testRPN( 'rpn 17 quadprime' )
-testRPN( 'rpn 99831 quadprime' )
+    testRPN( 'rpn 16 pentanacci' )
 
-testRPN( 'rpn 8 quadprime?' )
-testRPN( 'rpn 8871 quadprime?' )
+    testRPN( 'rpn 12 pentatope' )
 
-testRPN( 'rpn 17 quadprime_' )
-testRPN( 'rpn 55731 quadprime_' )
+    testRPN( 'rpn 8 3 perm' )
 
-testRPN( 'rpn 18 quintprime' )
-testRPN( 'rpn 9387 quintprime' )
+    testRPN( 'rpn phi' )
 
-testRPN( 'rpn 62 quintprime_' )
-testRPN( 'rpn 74238 quintprime_' )
+    testRPN( 'rpn pi' )
 
-testRPN( 'rpn random' )
+    testRPN( 'rpn plastic' )
 
-testRPN( 'rpn 100 randint' )
-testRPN( 'rpn 10 12 ^ randint' )
+    testRPN( 'rpn 13 polyarea' )
 
-testRPN( 'rpn 1 23 range' )
+    testRPN( 'rpn 4 5 polygamma' )
 
-testRPN( 'rpn 1 23 2 range2' )
+    testRPN( 'rpn 9 12 polygonal' )
 
-testRPN( 'rpn 6 7 / reciprocal' )
+    testRPN( 'rpn 12 12 ** 12 polygonal?' )
 
-testRPN( 'rpn 23 5 repunit' )
+    testRPN( 'rpn 9 3 polylog' )
 
-testRPN( 'rpn 89 rhombdodec' )
+    testRPN( 'rpn 1 5 range 1 5 range polyprime' )
+    testRPN( 'rpn 4 3 polyprime' )
+    testRPN( 'rpn 5 8 polyprime' )
 
-testRPN( 'rpn 23 riesel' )
+    testRPN( 'rpn 1 10 range 7 polytope' )
+    testRPN( 'rpn 10 2 8 range polytope' )
+    testRPN( 'rpn 1 10 range 2 8 range polytope' )
+    testRPN( 'rpn -c 18 47 polytope' )
 
-testRPN( 'rpn 8 3 root' )
+    testRPN( 'rpn 4 5 power' )
+    testRPN( 'rpn 4 1 i power' )
+    testRPN( 'rpn 1 10 range 2 10 range power' )
 
-testRPN( 'rpn 2 root2' )
+    testRPN( 'rpn 1 101 range prime' )
+    testRPN( 'rpn 8783 prime' )
+    testRPN( 'rpn 142857 prime' )
+    testRPN( 'rpn 367981443 prime' )
 
-testRPN( 'rpn pi root3' )
+    testRPN( 'rpn 1 100 range prime?' )
+    testRPN( 'rpn 35 prime?' )
+    testRPN( 'rpn 8783 prime?' )
+    testRPN( 'rpn 142857 prime?' )
+    testRPN( 'rpn -c 6 13 ** 1 + prime?' )
 
-testRPN( 'rpn 4.5 round' )
+    testRPN( 'rpn 87 primepi' )
 
-testRPN( 'rpn 45 safeprime' )
-testRPN( 'rpn 5199846 safeprime' )
+    testRPN( 'rpn 1 5 range 5 primes' )
+    testRPN( 'rpn 1 1 5 range primes' )
+    testRPN( 'rpn 2 1 5 range primes' )
+    testRPN( 'rpn 3 1 5 range primes' )
+    testRPN( 'rpn 4 1 5 range primes' )
+    testRPN( 'rpn 150 10 primes' )
+    testRPN( 'rpn 98765 20 primes' )
+    testRPN( 'rpn 176176176 25 primes' )
 
-testRPN( 'rpn 67 schroeder' )
+    testRPN( 'rpn 304 pyramid' )
 
-testRPN( 'rpn pi 7 / sec' )
+    testRPN( 'rpn 17 quadprime' )
+    testRPN( 'rpn 99831 quadprime' )
 
-testRPN( 'rpn pi 7 / sech' )
+    testRPN( 'rpn 8 quadprime?' )
+    testRPN( 'rpn 8871 quadprime?' )
 
-testRPN( 'rpn 29 sextprime' )
-testRPN( 'rpn 1176 sextprime' )
+    testRPN( 'rpn 17 quadprime_' )
+    testRPN( 'rpn 55731 quadprime_' )
 
-testRPN( 'rpn 29 sextprime_' )
-testRPN( 'rpn 556 sextprime' )
+    testRPN( 'rpn 18 quintprime' )
+    testRPN( 'rpn 9387 quintprime' )
 
-testRPN( 'rpn 1 sextprime_' )
-testRPN( 'rpn 587 sextprime_' )
-testRPN( 'rpn 835 sextprime_' )
+    testRPN( 'rpn 62 quintprime_' )
+    testRPN( 'rpn 74238 quintprime_' )
 
-testRPN( 'rpn 29 sexyprime' )
-testRPN( 'rpn 23235 sexyprime' )
+    testRPN( 'rpn random' )
 
-testRPN( 'rpn 1 sexyprime' )
-testRPN( 'rpn 2 sexyprime' )
-testRPN( 'rpn 1487 sexyprime' )
-testRPN( 'rpn 89,999,999 sexyprime' )
+    testRPN( 'rpn 100 randint' )
+    testRPN( 'rpn 10 12 ^ randint' )
 
-testRPN( 'rpn 1 10 range sexyprime_' )
-testRPN( 'rpn 29 sexyprime_' )
-testRPN( 'rpn 21985 sexyprime_' )
-testRPN( 'rpn 100,000,000 sexyprime_' )
+    testRPN( 'rpn 1 23 range' )
 
-testRPN( 'rpn 1 10 range sexyquad' )
-testRPN( 'rpn 29 sexyquad' )
-testRPN( 'rpn 289747 sexyquad' )
+    testRPN( 'rpn 1 23 2 range2' )
 
-testRPN( 'rpn 1 10 range sexyquad_' )
-testRPN( 'rpn 29 sexyquad_' )
-testRPN( 'rpn 2459 sexyquad_' )
+    testRPN( 'rpn 6 7 / reciprocal' )
 
-testRPN( 'rpn 1 10 range sexytriplet' )
-testRPN( 'rpn 29 sexytriplet' )
-testRPN( 'rpn 593847 sexytriplet' )
+    testRPN( 'rpn 23 5 repunit' )
 
-testRPN( 'rpn 1 10 range sexytriplet_' )
-testRPN( 'rpn 29 sexytriplet' )
-testRPN( 'rpn 8574239 sexytriplet' )
+    testRPN( 'rpn 89 rhombdodec' )
 
-testRPN( 'rpn 1 10 range sexytriplet_' )
-testRPN( 'rpn 52 sexytriplet_' )
-testRPN( 'rpn 5298 sexytriplet_' )
-testRPN( 'rpn 10984635 sexytriplet_' )
+    testRPN( 'rpn 23 riesel' )
 
-testRPN( 'rpn -x 0x10 3 shiftleft' )
+    testRPN( 'rpn 8 3 root' )
 
-testRPN( 'rpn -x 0x1000 4 shiftright' )
+    testRPN( 'rpn 2 root2' )
 
-testRPN( 'rpn 32800 short' )
+    testRPN( 'rpn pi root3' )
 
-testRPN( 'rpn pi 2 / sin' )
+    testRPN( 'rpn 4.5 round' )
 
-testRPN( 'rpn pi 2 / sinh' )
+    testRPN( 'rpn 45 safeprime' )
+    testRPN( 'rpn 5199846 safeprime' )
 
-testRPN( 'rpn 8 9 10 solve2' )
+    testRPN( 'rpn 67 schroeder' )
 
-testRPN( 'rpn 10 -10 10 -10 solve3' )
+    testRPN( 'rpn pi 7 / sec' )
 
-testRPN( 'rpn 2 -3 2 -3 2 solve4' )
+    testRPN( 'rpn pi 7 / sech' )
 
-testRPN( 'rpn 1 10 range sophieprime' )
-testRPN( 'rpn 87 sophieprime' )
-testRPN( 'rpn 6,500,000 sophieprime' )
+    testRPN( 'rpn 29 sextprime' )
+    testRPN( 'rpn 1176 sextprime' )
 
-testRPN( 'rpn 8 inches spherearea' )
-testRPN( 'rpn 8 sq_inches spherearea' )
-testRPN( 'rpn 8 cu_inches spherearea' )
+    testRPN( 'rpn 29 sextprime_' )
+    testRPN( 'rpn 556 sextprime' )
 
-testRPN( 'rpn 4 inches sphereradius' )
-testRPN( 'rpn 4 square_inches sphereradius' )
-testRPN( 'rpn 4 cubic_inches sphereradius' )
+    testRPN( 'rpn 1 sextprime_' )
+    testRPN( 'rpn 587 sextprime_' )
+    testRPN( 'rpn 835 sextprime_' )
 
-testRPN( 'rpn 5 inches spherevolume' )
-testRPN( 'rpn 5 sq_inches spherevolume' )
-testRPN( 'rpn 5 cubic_in spherevolume' )
+    testRPN( 'rpn 29 sexyprime' )
+    testRPN( 'rpn 23235 sexyprime' )
 
-testRPN( 'rpn 45 square' )
+    testRPN( 'rpn 1 sexyprime' )
+    testRPN( 'rpn 2 sexyprime' )
+    testRPN( 'rpn 1487 sexyprime' )
+    testRPN( 'rpn 89,999,999 sexyprime' )
 
-testRPN( 'rpn 34 squaretri' )
+    testRPN( 'rpn 1 10 range sexyprime_' )
+    testRPN( 'rpn 29 sexyprime_' )
+    testRPN( 'rpn 21985 sexyprime_' )
+    testRPN( 'rpn 100,000,000 sexyprime_' )
 
-testRPN( 'rpn 3945 steloct' )
+    testRPN( 'rpn 1 10 range sexyquad' )
+    testRPN( 'rpn 29 sexyquad' )
+    testRPN( 'rpn 289747 sexyquad' )
 
-testRPN( 'rpn 19 subfac' )
+    testRPN( 'rpn 1 10 range sexyquad_' )
+    testRPN( 'rpn 29 sexyquad_' )
+    testRPN( 'rpn 2459 sexyquad_' )
 
-testRPN( 'rpn 3948 474 subtract' )
-testRPN( 'rpn 4 cups 27 teaspoons -' )
-testRPN( 'rpn 57 hectares 23 acres -' )
-testRPN( 'rpn 10 Mb second / 700 MB hour / -' )
-testRPN( 'rpn today 3 days -' )
-testRPN( 'rpn today 3 weeks -' )
-testRPN( 'rpn today 3 months -' )
-testRPN( 'rpn now earth_radius 2 pi * * miles convert 4 mph / -' )
+    testRPN( 'rpn 1 10 range sexytriplet' )
+    testRPN( 'rpn 29 sexytriplet' )
+    testRPN( 'rpn 593847 sexytriplet' )
 
-testRPN( 'rpn 12 superfac' )
+    testRPN( 'rpn 1 10 range sexytriplet_' )
+    testRPN( 'rpn 29 sexytriplet' )
+    testRPN( 'rpn 8574239 sexytriplet' )
 
-testRPN( 'rpn 89 superprime' )
+    testRPN( 'rpn 1 10 range sexytriplet_' )
+    testRPN( 'rpn 52 sexytriplet_' )
+    testRPN( 'rpn 5298 sexytriplet_' )
+    testRPN( 'rpn 10984635 sexytriplet_' )
 
-testRPN( 'rpn 45 sylvester' )
+    testRPN( 'rpn -x 0x10 3 shiftleft' )
 
-testRPN( 'rpn pi 3 / tan' )
+    testRPN( 'rpn -x 0x1000 4 shiftright' )
 
-testRPN( 'rpn pi 4 / tanh' )
+    testRPN( 'rpn 32800 short' )
 
-testRPN( 'rpn 19978 tetrahedral' )
+    testRPN( 'rpn pi 2 / sin' )
 
-testRPN( 'rpn 87 tetranacci' )
+    testRPN( 'rpn pi 2 / sinh' )
 
-testRPN( 'rpn 3 2 tetrate' )
+    testRPN( 'rpn 8 9 10 solve2' )
 
-testRPN( 'rpn 45 thabit' )
+    testRPN( 'rpn 10 -10 10 -10 solve3' )
 
-testRPN( 'rpn 123 456 789 trianglearea' )
+    testRPN( 'rpn 2 -3 2 -3 2 solve4' )
 
-testRPN( 'rpn 203 triangular' )
+    testRPN( 'rpn 1 10 range sophieprime' )
+    testRPN( 'rpn 87 sophieprime' )
+    testRPN( 'rpn 6,500,000 sophieprime' )
 
-testRPN( 'rpn 20706 triangular?' )
+    testRPN( 'rpn 8 inches spherearea' )
+    testRPN( 'rpn 8 sq_inches spherearea' )
+    testRPN( 'rpn 8 cu_inches spherearea' )
 
-testRPN( 'rpn 1 20 range tribonacci' )
-testRPN( 'rpn -p 2800 10239 tribonacci' )
+    testRPN( 'rpn 4 inches sphereradius' )
+    testRPN( 'rpn 4 square_inches sphereradius' )
+    testRPN( 'rpn 4 cubic_inches sphereradius' )
 
-testRPN( 'rpn 1 10 range triplebal' )
-testRPN( 'rpn 5588 triplebal' )
+    testRPN( 'rpn 5 inches spherevolume' )
+    testRPN( 'rpn 5 sq_inches spherevolume' )
+    testRPN( 'rpn 5 cubic_in spherevolume' )
 
-testRPN( 'rpn 1 10 range triplebal_' )
-testRPN( 'rpn 6329 triplebal_' )
+    testRPN( 'rpn 45 square' )
 
-testRPN( 'rpn 1 10 range tripletprime' )
-testRPN( 'rpn 192834 tripletprime' )
+    testRPN( 'rpn 34 squaretri' )
 
-testRPN( 'rpn 394 truncoct' )
+    testRPN( 'rpn 3945 steloct' )
 
-testRPN( 'rpn 683 trunctet' )
+    testRPN( 'rpn 19 subfac' )
 
-testRPN( 'rpn 1 20 range twinprime' )
-testRPN( 'rpn 39485 twinprime' )
+    testRPN( 'rpn 3948 474 subtract' )
+    testRPN( 'rpn 4 cups 27 teaspoons -' )
+    testRPN( 'rpn 57 hectares 23 acres -' )
+    testRPN( 'rpn 10 Mb second / 700 MB hour / -' )
+    testRPN( 'rpn today 3 days -' )
+    testRPN( 'rpn today 3 weeks -' )
+    testRPN( 'rpn today 3 months -' )
+    testRPN( 'rpn now earth_radius 2 pi * * miles convert 4 mph / -' )
 
-testRPN( 'rpn 1 10 range twinprime_' )
-testRPN( 'rpn 57454632 twinprime_' )
+    testRPN( 'rpn 12 superfac' )
 
-testRPN( 'rpn 290 uchar' )
+    testRPN( 'rpn 89 superprime' )
 
-testRPN( 'rpn 200 8 uinteger' )
+    testRPN( 'rpn 45 sylvester' )
 
-testRPN( 'rpn 234567890 ulong' )
+    testRPN( 'rpn pi 3 / tan' )
 
-testRPN( 'rpn 12345678901234567890 ulonglong' )
+    testRPN( 'rpn pi 4 / tanh' )
 
-testRPN( 'rpn 7 unitroots' )
+    testRPN( 'rpn 19978 tetrahedral' )
 
-testRPN( 'rpn 23456 ushort' )
+    testRPN( 'rpn 87 tetranacci' )
 
-testRPN( 'rpn 0x1939 0x3948 xor' )
+    testRPN( 'rpn 3 2 tetrate' )
 
-testRPN( 'rpn 14578 seconds ydhms' )
+    testRPN( 'rpn 45 thabit' )
 
-testRPN( 'rpn 4 zeta' )
+    testRPN( 'rpn 123 456 789 trianglearea' )
 
-testRPN( 'rpn 142857 ~' )
+    testRPN( 'rpn 203 triangular' )
 
-testRPN( 'rpn 1 10 range altsign' )
+    testRPN( 'rpn 20706 triangular?' )
 
-testRPN( 'rpn 1 10 range altsign2' )
+    testRPN( 'rpn 1 20 range tribonacci' )
+    testRPN( 'rpn -p 2800 10239 tribonacci' )
 
-testRPN( 'rpn 1 10 range altsum' )
+    testRPN( 'rpn 1 10 range triplebal' )
+    testRPN( 'rpn 5588 triplebal' )
 
-testRPN( 'rpn 1 10 range altsum2' )
+    testRPN( 'rpn 1 10 range triplebal_' )
+    testRPN( 'rpn 6329 triplebal_' )
 
-testRPN( 'rpn 1 10 range 45 50 range append' )
+    testRPN( 'rpn 1 10 range tripletprime' )
+    testRPN( 'rpn 192834 tripletprime' )
 
-testRPN( 'rpn 1 10 range 2 base' )
+    testRPN( 'rpn 394 truncoct' )
 
-testRPN( 'rpn 1 10 range cf' )
+    testRPN( 'rpn 683 trunctet' )
 
-testRPN( 'rpn gallon cup convert' )
+    testRPN( 'rpn 1 20 range twinprime' )
+    testRPN( 'rpn 39485 twinprime' )
 
-testRPN( 'rpn 1 10 range count' )
+    testRPN( 'rpn 1 10 range twinprime_' )
+    testRPN( 'rpn 57454632 twinprime_' )
 
-testRPN( 'rpn 1 10 range diffs' )
+    testRPN( 'rpn 290 uchar' )
 
-testRPN( 'rpn 1 100 range gcd' )
+    testRPN( 'rpn 200 8 uinteger' )
 
-testRPN( 'rpn 1 10 range 1 10 range interleave' )
+    testRPN( 'rpn 234567890 ulong' )
 
-testRPN( 'rpn 1 10 range 1 8 range intersection' )
+    testRPN( 'rpn 12345678901234567890 ulonglong' )
 
-testRPN( 'rpn 1 10 range 2 5 range 17 linearrecur' )
+    testRPN( 'rpn 7 unitroots' )
 
-testRPN( 'rpn 1 10 range max' )
+    testRPN( 'rpn 23456 ushort' )
 
-testRPN( 'rpn 1 10 range maxindex' )
+    testRPN( 'rpn 0x1939 0x3948 xor' )
 
-testRPN( 'rpn 1 10 range mean' )
+    testRPN( 'rpn 14578 seconds ydhms' )
 
-testRPN( 'rpn 1 10 range min' )
+    testRPN( 'rpn 4 zeta' )
 
-testRPN( 'rpn 1 10 range minindex' )
+    testRPN( 'rpn 142857 ~' )
 
-testRPN( 'rpn 1 10 range nonzero' )
+    testRPN( 'rpn 1 10 range altsign' )
 
-testRPN( 'rpn 1 10 range 1 10 range polyadd' )
+    testRPN( 'rpn 1 10 range altsign2' )
 
-testRPN( 'rpn 1 10 range 1 10 range polymul' )
+    testRPN( 'rpn 1 10 range altsum' )
 
-testRPN( 'rpn [ [ 1 10 range ] [ 1 10 range ] [ 2 11 range ] ] polyprod' )
+    testRPN( 'rpn 1 10 range altsum2' )
 
-testRPN( 'rpn [ [ 1 10 range ] [ 2 11 range ] ] polysum' )
+    testRPN( 'rpn 1 10 range 45 50 range append' )
+    testRPN( 'rpn 1 10 range 11 20 range append 21 30 range append' )
 
-testRPN( 'rpn 1 10 range 6 polyval' )
+    testRPN( 'rpn 1 10 range 2 base' )
+    testRPN( 'rpn 1 10 range 3 base' )
+    testRPN( 'rpn 1 10 range 4 base' )
+    testRPN( 'rpn 1 10 range 5 base' )
+    testRPN( 'rpn 1 10 range 6 base' )
+    testRPN( 'rpn 1 10 range 7 base' )
+    testRPN( 'rpn 1 10 range 8 base' )
+    testRPN( 'rpn 1 10 range 9 base' )
+    testRPN( 'rpn 1 20 range 11 base' )
+    testRPN( 'rpn 1 20 range 12 base' )
+    testRPN( 'rpn 1 20 range 13 base' )
+    testRPN( 'rpn 1 20 range 14 base' )
+    testRPN( 'rpn 1 20 range 15 base' )
+    testRPN( 'rpn 1 20 range 16 base' )
+    testRPN( 'rpn 1 20 range 17 base' )
+    testRPN( 'rpn 1 20 range 18 base' )
+    testRPN( 'rpn 1 20 range 19 base' )
+    testRPN( 'rpn 1 20 range 20 base' )
 
-testRPN( 'rpn 1 10 range product' )
+    testRPN( 'rpn 1 10 range cf' )
 
-testRPN( 'rpn result' )
+    testRPN( 'rpn 1 10 range count' )
 
-testRPN( 'rpn 1 8 range solve' )
+    testRPN( 'rpn 1 10 range diffs' )
+    testRPN( 'rpn 1 10 range fib diffs' )
 
-testRPN( 'rpn 10 1 -1 range2 sort' )
+    testRPN( 'rpn 1 10 range diffs2' )
+    testRPN( 'rpn 1 10 range fib diffs2' )
 
-testRPN( 'rpn 1 10 range sortdesc' )
+    testRPN( 'rpn 1 100 range gcd' )
 
-testRPN( 'rpn 1 10 range stddev' )
+    testRPN( 'rpn 1 10 range 1 10 range interleave' )
 
-testRPN( 'rpn 1 10 range sum' )
+    testRPN( 'rpn 1 10 range 1 8 range intersection' )
 
-testRPN( 'rpn [ 2014 4 30 0 0 0 ] maketime tounixtime' )
+    testRPN( 'rpn 1 10 range 2 5 range 17 linearrecur' )
 
-testRPN( 'rpn -c -a30 [ 2 3 2 ] tower' )
+    testRPN( 'rpn 1 10 range max' )
 
-testRPN( 'rpn [ 4 4 4 ] tower2' )
+    testRPN( 'rpn 1 10 range maxindex' )
 
-testRPN( 'rpn 1 10 range 11 20 range union' )
+    testRPN( 'rpn 1 10 range mean' )
 
-testRPN( 'rpn 1 10 range unique' )
-testRPN( 'rpn 1 10 range 1 10 range append unique' )
-testRPN( 'rpn [ 1 10 range 10 dup ] unique' )
+    testRPN( 'rpn 1 10 range min' )
 
-testRPN( 'rpn -x 503942034 [ 3 4 5 11 4 4 ] unpack' )
+    testRPN( 'rpn 1 10 range minindex' )
 
-testRPN( 'rpn -10 10 range zero' )
-testRPN( 'rpn 1 10 range zero' )
+    testRPN( 'rpn 1 10 range nonzero' )
 
-#rem rpn _dumpalias
-#rem rpn _dumpops
-#rem rpn _stats
+    testRPN( 'rpn 1 10 range 1 10 range polyadd' )
+
+    testRPN( 'rpn 1 10 range 1 10 range polymul' )
+
+    testRPN( 'rpn [ [ 1 10 range ] [ 1 10 range ] [ 2 11 range ] ] polyprod' )
+
+    testRPN( 'rpn [ [ 1 10 range ] [ 2 11 range ] ] polysum' )
+
+    testRPN( 'rpn 1 10 range 6 polyval' )
+
+    testRPN( 'rpn 1 10 range product' )
+
+    testRPN( 'rpn result' )
+
+    testRPN( 'rpn 1 8 range solve' )
+
+    testRPN( 'rpn 10 1 -1 range2 sort' )
+
+    testRPN( 'rpn 1 10 range sortdesc' )
+
+    testRPN( 'rpn 1 10 range stddev' )
+
+    testRPN( 'rpn 1 10 range sum' )
+
+    testRPN( 'rpn [ 2014 4 30 0 0 0 ] maketime tounixtime' )
+
+    testRPN( 'rpn -c -a30 [ 2 3 2 ] tower' )
+
+    testRPN( 'rpn [ 4 4 4 ] tower2' )
+
+    testRPN( 'rpn 1 10 range 11 20 range union' )
+
+    testRPN( 'rpn 1 10 range unique' )
+    testRPN( 'rpn 1 10 range 1 10 range append unique' )
+    testRPN( 'rpn [ 1 10 range 10 dup ] unique' )
+
+    testRPN( 'rpn -x 503942034 [ 3 4 5 11 4 4 ] unpack' )
+
+    testRPN( 'rpn -10 10 range zero' )
+    testRPN( 'rpn 1 10 range zero' )
+
+    testRPN( 'rpn _dumpalias' )
+    testRPN( 'rpn _dumpops' )
+    testRPN( 'rpn _stats' )
+
+
+#//******************************************************************************
+#//
+#//  __main__
+#//
+#//******************************************************************************
+
+if __name__ == '__main__':
+    runTests( )
+    runConvertTests( )
+
