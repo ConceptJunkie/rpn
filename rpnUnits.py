@@ -593,7 +593,127 @@ from rpnEstimates import *
 #                                      #   of energy as 1 roentgen of X rays
 #                                      #   would, or 97 ergs.
 #
-
+# Water latent heat (from Wikipedia)
+#
+# water_fusion_heat       79.8 calorie/g
+# water_vaporization_heat 1160 J/g
+#
+# Specific heat capacities of various substances
+#
+# specificheat_water      calorie / g K
+# water_specificheat      specificheat_water
+#      # Values from www.engineeringtoolbox.com/specific-heat-metals-d_152.html
+# specificheat_aluminum   0.91 J/g K
+# specificheat_antimony   0.21 J/g K
+# specificheat_barium     0.20 J/g K
+# specificheat_beryllium  1.83 J/g K
+# specificheat_bismuth    0.13 J/g K
+# specificheat_cadmium    0.23 J/g K
+# specificheat_cesium     0.24 J/g K
+# specificheat_chromium   0.46 J/g K
+# specificheat_cobalt     0.42 J/g K
+# specificheat_copper     0.39 J/g K
+# specificheat_gallium    0.37 J/g K
+# specificheat_germanium  0.32 J/g K
+# specificheat_gold       0.13 J/g K
+# specificheat_hafnium    0.14 J/g K
+# specificheat_indium     0.24 J/g K
+# specificheat_iridium    0.13 J/g K
+# specificheat_iron       0.45 J/g K
+# specificheat_lanthanum  0.195 J/g K
+# specificheat_lead       0.13 J/g K
+# specificheat_lithium    3.57 J/g K
+# specificheat_lutetium   0.15 J/g K
+# specificheat_magnesium  1.05 J/g K
+# specificheat_manganese  0.48 J/g K
+# specificheat_mercury    0.14 J/g K
+# specificheat_molybdenum 0.25 J/g K
+# specificheat_nickel     0.44 J/g K
+# specificheat_osmium     0.13 J/g K
+# specificheat_palladium  0.24 J/g K
+# specificheat_platinum   0.13 J/g K
+# specificheat_plutonum   0.13 J/g K
+# specificheat_potassium  0.75 J/g K
+# specificheat_rhenium    0.14 J/g K
+# specificheat_rhodium    0.24 J/g K
+# specificheat_rubidium   0.36 J/g K
+# specificheat_ruthenium  0.24 J/g K
+# specificheat_scandium   0.57  J/g K
+# specificheat_selenium   0.32 J/g K
+# specificheat_silicon    0.71 J/g K
+# specificheat_silver     0.23 J/g K
+# specificheat_sodium     1.21 J/g K
+# specificheat_strontium  0.30 J/g K
+# specificheat_tantalum   0.14 J/g K
+# specificheat_thallium   0.13 J/g K
+# specificheat_thorium    0.13 J/g K
+# specificheat_tin        0.21 J/g K
+# specificheat_titanium   0.54 J/g K
+# specificheat_tungsten   0.13 J/g K
+# specificheat_uranium    0.12 J/g K
+# specificheat_vanadium   0.39 J/g K
+# specificheat_yttrium    0.30 J/g K
+# specificheat_zinc       0.39 J/g K
+# specificheat_zirconium  0.27 J/g K
+# specificheat_ethanol    2.3  J/g K
+# specificheat_ammonia    4.6 J/g K
+# specificheat_freon      0.91 J/g K   # R-12 at 0 degrees Fahrenheit
+# specificheat_gasoline   2.22 J/g K
+# specificheat_iodine     2.15 J/g K
+# specificheat_oliveoil   1.97 J/g K
+#
+#  en.wikipedia.org/wiki/Heat_capacity#Table_of_specific_heat_capacities
+# specificheat_hydrogen   14.3 J/g K
+# specificheat_helium     5.1932 J/g K
+# specificheat_argon      0.5203 J/g K
+# specificheat_tissue     3.5 J/g K
+# specificheat_diamond    0.5091 J/g K
+# specificheat_granite    0.79 J/g K
+# specificheat_graphite   0.71 J/g K
+# specificheat_ice        2.11 J/g K
+# specificheat_asphalt    0.92 J/g K
+# specificheat_brick      0.84 J/g K
+# specificheat_concrete   0.88 J/g K
+# specificheat_glass_silica 0.84 J/g K
+# specificheat_glass_flint  0.503 J/g K
+# specificheat_glass_pyrex  0.753 J/g K
+# specificheat_gypsum     1.09 J/g K
+# specificheat_marble     0.88 J/g K
+# specificheat_sand       0.835 J/g K
+# specificheat_soil       0.835 J/g K
+# specificheat_wood       1.7 J/g K
+#
+# specificheat_sucrose    1.244 J/g K #www.sugartech.co.za/heatcapacity/index.php
+#
+# American Wire Gauge (AWG) or Brown & Sharpe Gauge appears to be the most
+# important gauge. ASTM B-258 specifies that this gauge is based on geometric
+# interpolation between gauge 0000, which is 0.46 inches exactly, and gauge 36
+# which is 0.005 inches exactly.  Therefore, the diameter in inches of a wire
+# is given by the formula 1|200 92^((36-g)/39).  Note that 92^(1/39) is close
+# to 2^(1/6), so diameter is approximately halved for every 6 gauges.  For the
+# repeated zero values, use negative numbers in the formula.  The same document
+# also specifies rounding rules which seem to be ignored by makers of tables.
+# Gauges up to 44 are to be specified with up to 4 significant figures, but no
+# closer than 0.0001 inch.  Gauges from 44 to 56 are to be rounded to the
+# nearest 0.00001 inch.
+#
+# In addition to being used to measure wire thickness, this gauge is used to
+# measure the thickness of sheets of aluminum, copper, and most metals other
+# than steel, iron and zinc.
+#
+# wiregauge(g) units=[1;m] range=(0,) \
+#              1|200 92^((36+(-g))/39) in; 36+(-39)ln(200 wiregauge/in)/ln(92)
+# awg()        wiregauge
+#
+#
+# Screw sizes
+#
+# In the USA, screw diameters are reported using a gauge number.
+# Metric screws are reported as Mxx where xx is the diameter in mm.
+#
+#
+# screwgauge(g) units=[1;m] range=[0,) \
+#               (.06 + .013 g) in ; (screwgauge/in + (-.06)) / .013
 
 #//******************************************************************************
 #//
@@ -2854,7 +2974,6 @@ unitConversionMatrix = {
     ( 'googol',                     'unity' )                               : mpmathify( '1.0e100' ),
     ( 'grad',                       'degree' )                              : mpmathify( '0.9' ),
     ( 'gram',                       'dalton' )                              : mpmathify( '1.66053886e-24' ),
-    ( 'gram',                       'planck_mass' )                         : mpmathify( '45945.113967' ),
     ( 'gram-equivalent',            'joule' )                               : fdiv( power( mpf( speedOfLight ), 2 ), 1000 ),
     ( 'gray',                       'joule/kilogram' )                      : mpmathify( '1' ),
     ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
@@ -3010,6 +3129,7 @@ unitConversionMatrix = {
     ( 'planck_charge',              'coulomb' )                             : mpmathify( '1.875545956e-18' ),
     ( 'planck_energy',              'joule' )                               : mpmathify( '1.956e9' ),
     ( 'planck_length',              'meter' )                               : mpmathify( '1.616199e-35' ),
+    ( 'planck_mass',                'gram' )                                : mpmathify( '2.17651e-8' ),
     ( 'planck_time',                'second' )                              : mpmathify( '5.39106e-44' ),
     ( 'planck_volume',              'cubic_meter' )                         : mpmathify( '4.22419e-105' ),
     ( 'pluto_day',                  'day' )                                 : mpmathify( '6.3867' ),
@@ -3122,8 +3242,8 @@ unitConversionMatrix = {
     ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '100' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
-    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
     ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
+    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
     ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),
     ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),
