@@ -1919,8 +1919,7 @@ unitOperators = {
 
     'bit' :
         UnitInfo( 'information_entropy', 'bit', 'bits', 'b', [ 'shannon', 'shannons' ], [ 'computing' ],
-                  '''
-                  ''' ),
+                  '''A 'binary digit', which can store two values.''' ),
 
     'boltzmann_constant' :
         UnitInfo( 'information_entropy', 'boltzmann_constant', 'x boltzmann_constant', '', [ 'boltzmann' ], [ 'natural' ],
@@ -1929,8 +1928,8 @@ unitOperators = {
 
     'byte' :
         UnitInfo( 'information_entropy', 'byte', 'bytes', 'B', [ 'octet', 'octets' ], [ 'computing' ],
-                  '''
-                  ''' ),
+                  '''The traditional unit of computer storage, whose value has varied over the years and on different platforms,'''
+                  '''but is now commonly defined to be 8 bits in size.''' ),
 
     'btupf' :
         UnitInfo( 'information_entropy', 'btupf', 'btupf', '', [ ], [ 'England' ],
@@ -1944,8 +1943,7 @@ unitOperators = {
 
     'dword' :
         UnitInfo( 'information_entropy', 'dword', 'dwords', '', [ 'double_word', 'double_words', 'long_integer', 'long_integers' ], [ 'computing' ],
-                  '''
-                  ''' ),
+                  '''A 'double-word' consisting of 2 16-bits words, or 32 bits total.''' ),
 
     'joule/kelvin' :
         UnitInfo( 'information_entropy', 'joule/kelvin', 'joules/kelvin', 'J/K', [ 'joule/K', 'joules/K' ], [ 'SI' ],
@@ -1954,13 +1952,12 @@ unitOperators = {
 
     'library_of_congress' :
         UnitInfo( 'information_entropy', 'library_of_congress', 'libraries_of_congress', 'LoC', [ 'congress', 'congresses', 'loc' ], [ 'computing' ],
-                  '''
-                  ''' ),
+                  '''An informal unit of information measurement based on the contents of the U.S. Library of Congress, estimated to be'''
+                  '''the equivalent of 10 terabytes in size.''' ),
 
     'nibble' :
         UnitInfo( 'information_entropy', 'nibble', 'nibbles', '', [ 'nybble', 'nybbles' ], [ 'computing' ],
-                  '''
-                  ''' ),
+                  '''A nybble is a half-byte, or 4 bits.  A nybble can be represented by a single hexadecimal digit.''' ),
 
     'nat' :
         UnitInfo( 'information_entropy', 'nat', 'nats', '', [ 'nip', 'nips', 'nepit', 'nepits' ], [ 'IEC' ],
@@ -1969,33 +1966,29 @@ unitOperators = {
 
     'nyp' :
         UnitInfo( 'information_entropy', 'nyp', 'nyps', '', [ ], [ 'computing' ],   # suggested by Donald Knuth
-                  '''
-                  ''' ),
+                  '''A nyp is a term suggested by Knuth to represent two bits.  It is not a commonly used term.''' ),
 
     'oword' :
         UnitInfo( 'information_entropy', 'oword', 'owords', '', [ 'octaword', 'octawords' ], [ 'computing' ],
-                  '''
-                  ''' ),
+                  '''An 'octo-word' consisting of 8 16-bit words or 128 bits total.''' ),
 
     'qword' :
         UnitInfo( 'information_entropy', 'qword', 'qwords', '', [ 'quad_word', 'quad_words', 'longlong_integer', 'longlong_integers' ], [ 'computing' ],
-                  '''
-                  ''' ),
+                  '''A 'quad-word' consisting of 4 16-bit words, or 64 bits total.''' ),
 
     'trit' :
         UnitInfo( 'information_entropy', 'trit', 'trits', '', [ ], [ 'computing' ],
-                  '''
-                  ''' ),
+                  '''A trit is a 'ternary digit', by extension from the term 'bit' for 'binary digit'.  In 1958 the Setun '''
+                  '''balanced ternary computer was developed at Moscow State University, which used trits and 6-trit trytes.''' ),
 
     'tryte' :
         UnitInfo( 'information_entropy', 'tryte', 'trytes', '', [ ], [ 'computing' ],
-                  '''
-                  ''' ),
+                  '''A tryte consists of 6 trits (i.e., 'ternary digits'), and is named by extension from the term 'byte'.  In 1958 the Setun '''
+                  '''balanced ternary computer was developed at Moscow State University, which used trits and 6-trit trytes.''' ),
 
     'word' :
-        UnitInfo( 'information_entropy', 'word', 'words', '', [ 'short_integer', 'short_integers', 'wyde' ], [ 'computing' ],  # 'wyde' suggested by Knuth
-                  '''
-                  ''' ),
+        UnitInfo( 'information_entropy', 'word', 'words', '', [ 'short_integer', 'short_integers', 'wyde' ], [ 'computing' ],
+                  '''A word is traditionally two bytes, or 16 bits.  The term 'wyde' was suggested by Knuth.''' ),
 
     # length
 
