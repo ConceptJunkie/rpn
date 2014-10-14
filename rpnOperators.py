@@ -26,6 +26,7 @@ from rpnGeometry import *
 from rpnList import *
 from rpnMath import *
 from rpnModifiers import *
+from rpnName import *
 from rpnNumberTheory import *
 from rpnPolynomials import *
 from rpnPolytope import *
