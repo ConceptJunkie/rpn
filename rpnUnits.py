@@ -18,259 +18,6 @@ from rpnDeclarations import *
 from rpnEstimates import *
 
 
-#
-# # Some luminance data from the IES Lighting Handbook, 8th ed, 1993
-#
-# sunlum                  1.6e9 cd/m^2  # at zenith
-# sunillum                100e3 lux     # clear sky
-# sunillum_o              10e3 lux      # overcast sky
-# sunlum_h                6e6 cd/m^2    # value at horizon
-# skylum                  8000 cd/m^2   # average, clear sky
-# skylum_o                2000 cd/m^2   # average, overcast sky
-# moonlum                 2500 cd/m^2
-#
-#
-# anomalisticyear         365.2596 days       # The time between successive
-#                                             #   perihelion passages of the
-#                                             #   earth.
-# siderealyear            365.256360417 day   # The time for the earth to make
-#                                             #   one revolution around the sun
-#                                             #   relative to the stars.
-# tropicalyear            365.242198781 day   # The time needed for the mean sun
-#                                             #   as defined above to increase
-#                                             #   its longitude by 360 degrees.
-#                                             #   Most references defined the
-#                                             #   tropical year as the interval
-#                                             #   between vernal equinoxes, but
-#                                             #   this is misleading.  The length
-#                                             #   of the season changes over time
-#                                             #   because of the eccentricity of
-#                                             #   the earth's orbit.  The time
-#                                             #   between vernal equinoxes is
-#                                             #   approximately 365.24237 days
-#                                             #   around the year 2000.  See
-#                                             #   "Mathematical Astronomy
-#                                             #   Morsels" for more details.
-# eclipseyear             346.62 days         # The line of nodes is the
-#                                             #   intersection of the plane of
-#                                             #   Earth's orbit around the sun
-#                                             #   with the plane of the moon's
-#                                             #   orbit around earth.  Eclipses
-#                                             #   can only occur when the moon
-#                                             #   and sun are close to this
-#                                             #   line.  The line rotates and
-#                                             #   appearances of the sun on the
-#                                             #   line of nodes occur every
-#                                             #   eclipse year.
-# saros                   223 synodicmonth    # The earth, moon and sun appear in
-#                                             #   the same arrangement every
-#                                             #   saros, so if an eclipse occurs,
-#                                             #   then one saros later, a similar
-#                                             #   eclipse will occur.  (The saros
-#                                             #   is close to 19 eclipse years.)
-#                                             #   The eclipse will occur about
-#                                             #   120 degrees west of the
-#                                             #   preceeding one because the
-#                                             #   saros is not an even number of
-#                                             #   days.  After 3 saros, an
-#                                             #   eclipse will occur at
-#                                             #   approximately the same place.
-
-# anomalisticmonth        27.55454977 day     # Time for the moon to travel from
-#                                             #   perigee to perigee
-# nodicalmonth            27.2122199 day      # The nodes are the points where
-# draconicmonth           nodicalmonth        #   an orbit crosses the ecliptic.
-# draconiticmonth         nodicalmonth        #   This is the time required to
-#                                             #   travel from the ascending node
-#                                             #   to the next ascending node.
-# lunarmonth              29 days + 12 hours + 44 minutes + 2.8 seconds
-#                                             # Mean time between full moons.
-# synodicmonth            lunarmonth          #   Full moons occur when the sun
-# lunation                synodicmonth        #   and moon are on opposite sides
-# lune                    1|30 lunation       #   of the earth.  Since the earth
-# lunour                  1|24 lune           #   moves around the sun, the moon
-#                                             #   has to revolve a bit extra to
-#                                             #   get into the full moon
-#                                             #   configuration.
-
-# lunaryear               12 lunarmonth
-#
-# # The Hewbrew year is also based on lunar months, but synchronized to the solar
-# # calendar.  The months vary irregularly between 29 and 30 days in length, and
-# # the years likewise vary.  The regular year is 353, 354, or 355 days long.  To
-# # keep up with the solar calendar, a leap month of 30 days is inserted every
-# # 3rd, 6th, 8th, 11th, 14th, 17th, and 19th years of a 19 year cycle.  This
-# # gives leap years that last 383, 384, or 385 days.
-#
-#
-# # Objects on the earth are charted relative to a perfect ellipsoid whose
-# # dimensions are specified by different organizations.  The ellipsoid is
-# # specified by an equatorial radius and a flattening value which defines the
-# # polar radius.  These values are the 1996 values given by the International
-# # Earth Rotation Service (IERS) whose reference documents can be found at
-# # http://maia.usno.navy.mil/
-#
-# earthflattening         1|298.25642
-# earthradius_equatorial  6378136.49 m
-# earthradius_polar       (-earthflattening+1) earthradius_equatorial
-#
-# landarea                148.847e6 km^2
-# oceanarea               361.254e6 km^2
-#
-# moonradius              1738 km         # mean value
-# sunradius               6.96e8 m
-#
-#
-# # Many astronomical values can be measured most accurately in a system of units
-# # using the astronomical unit and the mass of the sun as base units.  The
-# # uncertainty in the gravitational constant makes conversion to SI units
-# # significantly less accurate.
-#
-# # The astronomical unit was defined to be the length of the of the semimajor
-# # axis of a massless object with the same year as the earth.  With such a
-# # definition in force, and with the mass of the sun set equal to one, Kepler's
-# # third law can be used to solve for the value of the gravitational constant.
-#
-# # Kepler's third law says that (2 pi / T)^2 a^3 = G M where T is the orbital
-# # period, a is the size of the semimajor axis, G is the gravitational constant
-# # and M is the mass.  With M = 1 and T and a chosen for the earth's orbit, we
-# # find sqrt(G) = (2 pi / T) sqrt(AU^3).  This constant is called the Gaussian
-# # gravitational constant, apparently because Gauss originally did the
-# # calculations.  However, when the original calculation was done, the value
-# # for the length of the earth's year was inaccurate.  The value used is called
-# # the Gaussian year.  Changing the astronomical unit to bring it into
-# # agreement with more accurate values for the year would have invalidated a
-# # lot of previous work, so instead the astronomical unit has been kept equal
-# # to this original value.  This is accomplished by using a standard value for
-# # the Gaussian gravitational constant.  This constant is called k.
-# # Many values below are from http://ssd.jpl.nasa.gov/?constants
-#
-# gauss_k                 0.01720209895   # This beast has dimensions of
-#                                         # au^(3|2) / day and is exact.
-# gaussianyear      (2 pi / gauss_k) days # Year that corresponds to the Gaussian
-#                                         # gravitational constant. This is a
-#                                         # fictional year, and doesn't
-#                                         # correspond to any celestial event.
-#
-# sundist                 1.0000010178 au # mean earth-sun distance
-# moondist                3.844e8 m       # mean earth-moon distance
-# sundist_near            1.471e11 m      # earth-sun distance at perihelion
-# sundist_far             1.521e11 m      # earth-sun distance at aphelion
-#
-# # The following are masses for planetary systems, not just the planet itself.
-# # The comments give the uncertainty in the denominators.  As noted above,
-# # masses are given relative to the solarmass because this is more accurate.
-# # The conversion to SI is uncertain because of uncertainty in G, the
-# # gravitational constant.
-# #
-# # Values are from http://ssd.jpl.nasa.gov/astro_constants.html
-#
-# mercurymass             solarmass / 6023600   # 250
-# venusmass               solarmass / 408523.71 # 0.06
-# earthmoonmass           solarmass / 328900.56 # 0.02
-# marsmass                solarmass / 3098708   # 9
-# jupitermass             solarmass / 1047.3486 # 0.0008
-# saturnmass              solarmass / 3497.898  # 0.018
-# uranusmass              solarmass / 22902.98  # 0.03
-# neptunemass             solarmass / 19412.24  # 0.04
-# plutomass               solarmass / 1.35e8    # 0.07e8
-#
-# moonearthmassratio      0.012300034 # uncertainty 3 x 10-9
-# earthmass               earthmoonmass / ( 1 + moonearthmassratio)
-# moonmass                moonearthmassratio earthmass
-#
-#
-# # These are the old values for the planetary masses.  They may give
-# # the masses of the planets alone.
-#
-# oldmercurymass             0.33022e24 kg
-# oldvenusmass               4.8690e24 kg
-# oldmarsmass                0.64191e24 kg
-# oldjupitermass             1898.8e24 kg
-# oldsaturnmass              568.5e24 kg
-# olduranusmass              86.625e24 kg
-# oldneptunemass             102.78e24 kg
-# oldplutomass               0.015e24 kg
-#
-# # Mean radius from http://ssd.jpl.nsaa.gov/phys_props_planets.html which in
-# # turn cites Global Earth Physics by CF Yoder, 1995.
-#
-# mercuryradius           2440 km
-# venusradius             6051.84 km
-# earthradius             6371.01 km
-# marsradius              3389.92 km
-# jupiterradius           69911 km
-# saturnradius            58232 km
-# uranusradius            25362 km
-# neptuneradius           24624 km
-# plutoradius             1151 km
-#
-#
-# # USA shoe sizes.  These express the length of the shoe or the length
-# # of the "last", the form that the shoe is made on.  But note that
-# # this only captures the length.  It appears that widths change 1/4
-# # inch for each letter within the same size, and if you change the
-# # length by half a size then the width changes between 1/8 inch and
-# # 1/4 inch.  But this may not be standard.  If you know better, please
-# # contact me.
-#
-# shoesize_delta          1|3 inch     # USA shoe sizes differ by this amount
-# shoe_men0               8.25 inch
-# shoe_women0             (7+11|12) inch
-# shoe_boys0              (3+11|12) inch
-# shoe_girls0             (3+7|12) inch
-#
-# shoesize_men(n) units=[1;inch]   shoe_men0 + n shoesize_delta ; \
-#                                 (shoesize_men+(-shoe_men0))/shoesize_delta
-# shoesize_women(n) units=[1;inch] shoe_women0 + n shoesize_delta ; \
-#                                 (shoesize_women+(-shoe_women0))/shoesize_delta
-# shoesize_boys(n) units=[1;inch]  shoe_boys0 + n shoesize_delta ; \
-#                                 (shoesize_boys+(-shoe_boys0))/shoesize_delta
-# shoesize_girls(n) units=[1;inch] shoe_girls0 + n shoesize_delta ; \
-#                                 (shoesize_girls+(-shoe_girls0))/shoesize_delta
-#
-# #
-# # Counting measures
-# #
-#
-#
-# rep                     8.38 mGy     # Roentgen Equivalent Physical, the amount
-#                                      #   of radiation which , absorbed in the
-#                                      #   body, would liberate the same amount
-#                                      #   of energy as 1 roentgen of X rays
-#                                      #   would, or 97 ergs.
-#
-#
-# American Wire Gauge (AWG) or Brown & Sharpe Gauge appears to be the most
-# important gauge. ASTM B-258 specifies that this gauge is based on geometric
-# interpolation between gauge 0000, which is 0.46 inches exactly, and gauge 36
-# which is 0.005 inches exactly.  Therefore, the diameter in inches of a wire
-# is given by the formula 1|200 92^((36-g)/39).  Note that 92^(1/39) is close
-# to 2^(1/6), so diameter is approximately halved for every 6 gauges.  For the
-# repeated zero values, use negative numbers in the formula.  The same document
-# also specifies rounding rules which seem to be ignored by makers of tables.
-# Gauges up to 44 are to be specified with up to 4 significant figures, but no
-# closer than 0.0001 inch.  Gauges from 44 to 56 are to be rounded to the
-# nearest 0.00001 inch.
-#
-# In addition to being used to measure wire thickness, this gauge is used to
-# measure the thickness of sheets of aluminum, copper, and most metals other
-# than steel, iron and zinc.
-#
-# wiregauge(g) units=[1;m] range=(0,) \
-#              1|200 92^((36+(-g))/39) in; 36+(-39)ln(200 wiregauge/in)/ln(92)
-# awg()        wiregauge
-#
-#
-# Screw sizes
-#
-# In the USA, screw diameters are reported using a gauge number.
-# Metric screws are reported as Mxx where xx is the diameter in mm.
-#
-#
-# screwgauge(g) units=[1;m] range=[0,) \
-#               (.06 + .013 g) in ; (screwgauge/in + (-.06)) / .013
-
 #//******************************************************************************
 #//
 #//  basicUnitTypes
@@ -842,61 +589,50 @@ unitOperators = {
 
     'decillionth' :
         UnitInfo( 'constant', 'decillionth', 'decillionths', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One decillionth:  10e-33 or 1/1,000,000,000,000,000,000,000,000,000,000,000''' ),
 
     'nonillionth' :
         UnitInfo( 'constant', 'nonillionth', 'nonillionths', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One nonillionth:  10e-30 or 1/1,000,000,000,000,000,000,000,000,000,000''' ),
 
     'octillionth' :
         UnitInfo( 'constant', 'octillionth', 'octillionths', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One octillionth:  10e-27 or 1/1,000,000,000,000,000,000,000,000,000''' ),
 
     # 'y' can't be used here since it's used for 'year'
     'septillionth' :
         UnitInfo( 'constant', 'septillionth', 'septillionths', '', [ 'yocto' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One septillionth:  10e-24 or 1/1,000,000,000,000,000,000,000,000''' ),
 
     'sextillionth' :
         UnitInfo( 'constant', 'sextillionth', 'sextillionths', 'z', [ 'zepto' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One sextillionth:  10e-21 or 1/1,000,000,000,000,000,000,000''' ),
 
     # 'a' can't be used here since it's used for 'are'
     'quintillionth' :
         UnitInfo( 'constant', 'quintillionth', 'quintillionths', '', [ 'atto' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One quintillionth:  10e-18 or 1/1,000,000,000,000,000,000''' ),
 
     'quadrillionth' :
         UnitInfo( 'constant', 'quadrillionth', 'quadrillionths', 'f', [ 'femto' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One quadrillionth:  10e-15 or 1/1,000,000,000,000,000''' ),
 
     'trillionth' :
         UnitInfo( 'constant', 'trillionth', 'trillionths', 'p', [ 'pico' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One trillionth:  10e-12 or 1/1,000,000,000,000''' ),
 
     'billionth' :
         UnitInfo( 'constant', 'billionth', 'billionths', 'n', [ 'nano' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One billionth:  10e-9 or 1/1,000,000,000''' ),
 
     'millionth' :
         UnitInfo( 'constant', 'millionth', 'millionths', 'u', [ 'micro' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One millionth:  10e-6 or 1/1,000,000''' ),
 
     # 'm' can't be used here since it's used for 'meter'
     'thousandth' :
         UnitInfo( 'constant', 'thousandth', 'thousandths', '', [ 'milli' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One thousandth:  10e-3 or 1/1,000''' ),
 
     'alpha' :
         UnitInfo( 'constant', 'alpha', 'alpha', '', [ 'fine_structure_constant' ], [ 'constant' ],
@@ -905,135 +641,109 @@ unitOperators = {
 
     'percent' :
         UnitInfo( 'constant', 'percent', 'percent', '%', [ 'hundredth', 'centi' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One hundredth:  10e-2 or 1/100''' ),
 
     'tenth' :
         UnitInfo( 'constant', 'tenth', 'tenths', '', [ 'deci', 'tithe' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One tenth:  10e-1 or 1/10''' ),
 
     'quarter' :
         UnitInfo( 'constant', 'quarter', 'quarters', '', [ 'fourth' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One quarter:  1/4 or 0.25''' ),
 
     'third' :
         UnitInfo( 'constant', 'third', 'thirds', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One third:  1/3 or 0.333333...''' ),
 
     'half' :
         UnitInfo( 'constant', 'half', 'halves', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One half:  1/2 or 0.5''' ),
 
     'unity' :
         UnitInfo( 'constant', 'x unity', 'x unity', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''Unity, one, 1''' ),
 
     'ten' :
         UnitInfo( 'constant', 'ten', 'tens', '', [ 'deca', 'deka', 'dicker' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''Ten:  10e1, or 10''' ),
 
     'dozen' :
         UnitInfo( 'constant', 'dozen', 'dozen', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''A dozen is 12.''' ),
 
     'score' :
         UnitInfo( 'constant', 'score', 'score', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''A score is 20.''' ),
 
     'flock' :
         UnitInfo( 'constant', 'flock', 'flocks', '', [ 'timer' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''A flock is an archaic name for 40.''' ),
 
     'shock' :
         UnitInfo( 'constant', 'shock', 'shocks', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''A shock is an archaic name for 60.''' ),
 
     'hundred' :
         UnitInfo( 'constant', 'hundred', 'hundred', '', [ 'hecto', 'toncount' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One hundred:  10e2, or 100''' ),
 
     'long_hundred' :
         UnitInfo( 'constant', 'long_hundred', 'long_hundreds', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''\'long\' hundred is an archaic term for 120.''' ),
 
     'gross' :
         UnitInfo( 'constant', 'gross', 'gross', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''A gross is a dozen dozen, or 144''' ),
 
     'thousand' :
         UnitInfo( 'constant', 'thousand', 'thousand', 'k', [ 'kilo' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One thousand:  10e3, or 1,000''' ),
 
     'great_gross' :
         UnitInfo( 'constant', 'great_gross', 'great_gross', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''A great gross is a dozen gross, or 1728.''' ),
 
     'million' :
         UnitInfo( 'constant', 'million', 'million', 'M', [ 'mega' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One million:  10e6 or 1,000,000''' ),
 
     # 'G' can't be used here since it's used for 'standard gravity'
     'billion' :
         UnitInfo( 'constant', 'billion', 'billion', '', [ 'giga' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One billion:  10e9 or 1,000,000,000''' ),
 
     # 'T' can't be used here since it's used for 'tesla'
     'trillion' :
         UnitInfo( 'constant', 'trillion', 'trillion', '', [ 'tera' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One trillion:  10e12 or 1,000,000,000,000''' ),
 
     'quadrillion' :
         UnitInfo( 'constant', 'quadrillion', 'quadrillion', 'P', [ 'peta' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One quadrillion:  10e15 or 1,000,000,000,000,000''' ),
 
     'quintillion' :
         UnitInfo( 'constant', 'quintillion', 'quintillion', 'E', [ 'exa' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One quintillion:  10e18 or 1,000,000,000,000,000,000''' ),
 
     'sextillion' :
         UnitInfo( 'constant', 'sextillion', 'sextillion', 'Z', [ 'zetta' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One sextillion:  10e21 or 1,000,000,000,000,000,000,000''' ),
 
     'septillion' :
         UnitInfo( 'constant', 'septillion', 'septillion', 'Y', [ 'yotta' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One septillion:  10e24 or 1,000,000,000,000,000,000,000,000''' ),
 
     'octillion' :
         UnitInfo( 'constant', 'octillion', 'octillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One octillion:  10e27 or 1,000,000,000,000,000,000,000,000,000''' ),
 
     'nonillion' :
         UnitInfo( 'constant', 'nonillion', 'nonillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One nonillion:  10e30 or 1,000,000,000,000,000,000,000,000,000,000''' ),
 
     'decillion' :
         UnitInfo( 'constant', 'decillion', 'decillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One decillion:  10e33 or 1,000,000,000,000,000,000,000,000,000,000,000''' ),
 
     'undecillion' :
         UnitInfo( 'constant', 'undecillion', 'undecillion', '', [ ], [ 'constant' ],
@@ -3948,6 +3658,5 @@ unitConversionMatrix = {
     ( 'zentner',                    'gram' )                                : mpmathify( '50000' ),
 
     #( 'volt-ampere-second',        'joule' )                                : mpmathify( '1' ),
-
 }
 
