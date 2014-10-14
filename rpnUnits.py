@@ -26,25 +26,6 @@ from rpnEstimates import *
 # frequency of 5.40e14 hertz is exactly 683 lumens per watt, K = 683 lm/W
 # = 683 cd sr/W.
 
-# Derived quantity                                            SI coherent derived unit
-#
-# area                          A                             square metre                    m^2
-# volume                        V                             cubic metre                     m^3
-# speed, velocity               v                             metre per second                m/s
-# acceleration                  a                             metre per second squared        m/s^2
-# wavenumber                    small sigma, nu tilde         reciprocal metre                m^-1
-# density, mass density         small rho                     kilogram per cubic metre        kg/m3
-# surface density               small rho sub A               kilogram per square metre       kg/m2
-# specific volume               v                             cubic metre per kilogram        m3/kg
-# current density               j                             ampere per square metre         A/m2
-# magnetic field strength       H                             ampere per metre                A/m
-# amount concentration,         c                             mole per cubic metre            mol/m3
-# mass concentration            small rho, small gamma        kilogram per cubic metre        kg/m3
-# luminance                     L sub v                       candela per square metre        cd/m2
-# refractive index              n                             one                             1
-# relative permeability         mu sub r                      one                             1
-#
-#
 # SI coherent derived unit
 #
 # Derived Quantity              Name            Symbol              other SI units     SI Base Units
@@ -130,53 +111,6 @@ from rpnEstimates import *
 #
 # Quantity              Name of unit                Symbol                  Value in SI units (a)
 #
-# Units accepted for use with the SI
-#
-# energy                electronvolt                eV                      1 eV = 1.602 176 53 (14) * 10e-19 J
-#
-# mass                  dalton,                     Da                      1 Da = 1.660 538 86 (28) * 10e-27 kg
-#                       unified atomic mass unit    u                       1 u = 1 Da
-#
-# length                astronomical unit           ua                      1 ua = 1.495 978 706 91 (6) * 10e11 m
-#
-#
-# Natural units (n.u.)
-#
-# speed                 n.u. of speed               c sub 0                 299 792 458 m/s (exact)
-#                       (speed of light in vacuum)
-#
-# action                n.u. of action              h                       1.054 571 68 (18) * 10e-34 J s
-#                       (reduced Planck constant)
-#
-# mass                  n.u. of mass                m sub e                 9.109 3826 (16) * 10e-31 kg
-#                       (electron mass)
-#
-# time                  n.u. of time                h/(m sub e c sub 0^2)   1.288 088 6677 (86) * 10e-21 s
-#
-# Atomic units (a.u.)
-#
-# charge                a.u. of charge,             e                       1.602 176 53 (14) * 10e-19 C
-#                       (elementary charge)
-#
-# mass                  a.u. of mass,               m sub e                 9.109 3826 (16) * 10e-31 kg
-#                       (electron mass)
-#
-# action                a.u. of action,             h                       1.054 571 68 (18) * 10e-34 J s
-#                       (reduced Planck constant)
-#
-# length                a.u. of length, bohr        a sub 0                 0.529 177 2108 (18) * 10e-10 m
-#                       (Bohr radius)
-#
-# energy                a.u. of energy, hartree     Eh                      4.359 744 17 (75) * 10e-18 J
-#                       (Hartree energy)
-#
-# time                  a.u. of time                h/Eh                    # 2.418 884 326 505 (16) * 10e-17 s
-#
-#
-# Other non-SI units
-#
-# Quantity              Name of unit                Symbol                  Value in SI units
-#
 # pressure              bar                         bar                     1 bar = 0.1 MPa = 100 kPa = 105 Pa
 #                       millimetre of mercury       mmHg                    1 mmHg ~= 133.322 Pa
 # length                angstrom                    A                       1 A = 0.1 nm = 100 pm = 10-10 m
@@ -187,22 +121,6 @@ from rpnEstimates import *
 # ratio quantities      bel                         B                       numerical value of the neper, the
 #                       decibel (h, i)              dB                      bel and the decibel]
 #
-#
-# Quantity              Name of unit                Symbol                  Value in SI units
-#
-# energy                erg                         erg                     1 erg = 10-7 J
-# force                 dyne                        dyn                     1 dyn = 10-5 N
-# dynamic viscosity     poise                       P                       1 P = 1 dyn s cm-2 = 0.1 Pa s
-# kinematic viscosity   stokes                      St                      1 St = 1 cm2 s^-1 = 10^-4 m2 s^-1
-# luminance             stilb                       sb                      1 sb = 1 cd cm-2 = 10^4 cd m-2
-# illuminance           phot                        ph                      1 ph = 1 cd sr cm-2 = 104 lx
-# acceleration          gal                         Gal                     1 Gal = 1 cm s-2 = 10-2 m s-2
-# magnetic flux         maxwell                     Mx                      1 Mx = 1 G cm2 = 10-8 Wb
-# magnetic flux density gauss                       G                       1 G = 1 Mx cm-2 = 10-4 T
-# magnetic field        oersted                     Oe                      1 Oe ^= (1000/4 pi ) A m^-1
-#
-
-
 #
 # # particle wavelengths: the compton wavelength of a particle is
 # # defined as h / m c where m is the mass of the particle.
@@ -1024,348 +942,562 @@ unitOperators = {
     # acceleration
 
     'galileo' :
-        UnitInfo( 'acceleration', 'galileo', 'galileos', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'acceleration', 'galileo', 'galileos', '', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'meter/second^2' :
-        UnitInfo( 'acceleration', 'meter/second^2', 'meters/second^2', 'm/s^2', [ ], [ 'SI' ] ),
+        UnitInfo( 'acceleration', 'meter/second^2', 'meters/second^2', 'm/s^2', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'standard_gravity' :
-        UnitInfo( 'acceleration', 'standard_gravity', 'standard_gravities', 'G', [ 'grav', 'gee' ], [ 'natural' ] ),
+        UnitInfo( 'acceleration', 'standard_gravity', 'standard_gravities', 'G', [ 'grav', 'gee' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     # angle
 
     'arcminute' :
-        UnitInfo( 'angle', 'arcminute', 'arcminutes', 'arcmin', [ 'arcmins' ], [ 'mathematics' ] ),
+        UnitInfo( 'angle', 'arcminute', 'arcminutes', 'arcmin', [ 'arcmins' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'arcsecond' :
-        UnitInfo( 'angle', 'arcsecond', 'arcseconds', 'arcsec', [ 'arcsecs' ], [ 'mathematics' ] ),
+        UnitInfo( 'angle', 'arcsecond', 'arcseconds', 'arcsec', [ 'arcsecs' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'centrad' :
-        UnitInfo( 'angle', 'centrad', 'centrads', '', [ ], [ 'mathematics', 'science' ] ),
+        UnitInfo( 'angle', 'centrad', 'centrads', '', [ ], [ 'mathematics', 'science' ],
+                  '''
+                  ''' ),
 
     'degree' :
-        UnitInfo( 'angle', 'degree', 'degrees', 'deg', [ ], [ 'mathematics' ] ),
+        UnitInfo( 'angle', 'degree', 'degrees', 'deg', [ ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'grad' :
-        UnitInfo( 'angle', 'grad', 'grads', '', [ 'gon', 'gons' ], [ 'mathematics' ] ),
+        UnitInfo( 'angle', 'grad', 'grads', '', [ 'gon', 'gons' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'milliarcsecond' :
-        UnitInfo( 'angle', 'milliarcsecond', 'milliarcseconds', 'mas', [ 'milliarcsecs' ], [ 'astronomy' ] ),
+        UnitInfo( 'angle', 'milliarcsecond', 'milliarcseconds', 'mas', [ 'milliarcsecs' ], [ 'astronomy' ],
+                  '''
+                  ''' ),
 
     'octant' :
-        UnitInfo( 'angle', 'octant', 'octants', '', [ ], [ 'mathematics' ] ),
+        UnitInfo( 'angle', 'octant', 'octants', '', [ ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'pointangle' :
-        UnitInfo( 'angle', 'pointangle', 'pointangles', '', [ ], [ 'navigation' ] ),
+        UnitInfo( 'angle', 'pointangle', 'pointangles', '', [ ], [ 'navigation' ],
+                  '''
+                  ''' ),
 
     'quadrant' :
-        UnitInfo( 'angle', 'quadrant', 'quadrants', '', [ ], [ 'mathematics' ] ),
+        UnitInfo( 'angle', 'quadrant', 'quadrants', '', [ ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'quintant' :
-        UnitInfo( 'angle', 'quintant', 'quintants', '', [ ], [ 'mathematics' ] ),
+        UnitInfo( 'angle', 'quintant', 'quintants', '', [ ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'radian' :
-        UnitInfo( 'angle', 'radian', 'radians', 'rad', [ ], [ 'mathematics', 'SI' ] ),
+        UnitInfo( 'angle', 'radian', 'radians', 'rad', [ ], [ 'mathematics', 'SI' ],
+                  '''
+                  ''' ),
 
     'sextant' :
-        UnitInfo( 'angle', 'sextant', 'sextants', '', [ 'flat', 'flats' ], [ 'mathematics' ] ),
+        UnitInfo( 'angle', 'sextant', 'sextants', '', [ 'flat', 'flats' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'streck' :
-        UnitInfo( 'angle', 'streck', 'strecks', '', [ ], [ 'Sweden' ] ),
+        UnitInfo( 'angle', 'streck', 'strecks', '', [ ], [ 'Sweden' ],
+                  '''
+                  ''' ),
 
     # area
 
     'acre' :
-        UnitInfo( 'area', 'acre', 'acres', 'ac', [ ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'acre', 'acres', 'ac', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'are' :
-        UnitInfo( 'area', 'are', 'ares', 'a', [ ], [ 'SI' ] ),
+        UnitInfo( 'area', 'are', 'ares', 'a', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'barn' :
-        UnitInfo( 'area', 'barn', 'barns', '', [ ], [ 'science' ] ),
+        UnitInfo( 'area', 'barn', 'barns', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'bovate' :
-        UnitInfo( 'area', 'bovate', 'bovates', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'bovate', 'bovates', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'carucate' :
-        UnitInfo( 'area', 'carucate', 'carucates', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'carucate', 'carucates', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'homestead':
-        UnitInfo( 'area', 'homestead', 'homesteads', '', [ ], [ 'US' ] ),
+        UnitInfo( 'area', 'homestead', 'homesteads', '', [ ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'imperial_square' :
-        UnitInfo( 'area', 'imperial_sqaure', 'imperial_squares', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'imperial_sqaure', 'imperial_squares', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'morgen' :
-        UnitInfo( 'area', 'morgen', 'morgens', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'area', 'morgen', 'morgens', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'nanoacre' :
-        UnitInfo( 'area', 'nanoacre', 'nanoacres', 'nac', [ ], [ 'computing' ] ),
+        UnitInfo( 'area', 'nanoacre', 'nanoacres', 'nac', [ ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'outhouse' :
-        UnitInfo( 'area', 'outhouse', 'outhouse', '', [ ], [ 'science', 'humorous' ] ),
+        UnitInfo( 'area', 'outhouse', 'outhouse', '', [ ], [ 'science', 'humorous' ],
+                  '''
+                  ''' ),
 
     'planck_area' :
-        UnitInfo( 'area', 'planck_area', 'planck_areas', 'aP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'area', 'planck_area', 'planck_areas', 'aP', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'rood' :
-        UnitInfo( 'area', 'rood', 'roods', '', [ 'farthingdale' ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'rood', 'roods', '', [ 'farthingdale' ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'section':
-        UnitInfo( 'area', 'section', 'sections', '', [ ], [ 'US' ] ),
+        UnitInfo( 'area', 'section', 'sections', '', [ ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'shed' :
-        UnitInfo( 'area', 'shed', 'sheds', '', [ ], [ 'science' ] ),
+        UnitInfo( 'area', 'shed', 'sheds', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'square_foot' :
-        UnitInfo( 'area', 'foot^2', 'square_feet', 'ft^2', [ 'feet^2', 'sqft', 'sq_ft', 'sq_foot', 'sq_feet', 'square_ft' ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'foot^2', 'square_feet', 'ft^2', [ 'feet^2', 'sqft', 'sq_ft', 'sq_foot', 'sq_feet', 'square_ft' ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'square_meter' :
-        UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meters^2', 'sqm', 'sq_m', 'sq_meter', 'sq_meters', 'square_m' ], [ 'SI' ] ),
+        UnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meters^2', 'sqm', 'sq_m', 'sq_meter', 'sq_meters', 'square_m' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'square_yard' :
-        UnitInfo( 'area', 'yard^2', 'square_yards', 'yd^2', [ 'yards^2', 'sqyd', 'sq_yd', 'sq_yard', 'sq_yards', 'square_yd' ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'yard^2', 'square_yards', 'yd^2', [ 'yards^2', 'sqyd', 'sq_yd', 'sq_yard', 'sq_yards', 'square_yd' ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'township':
-        UnitInfo( 'area', 'township', 'townships', '', [ ], [ 'US' ] ),
+        UnitInfo( 'area', 'township', 'townships', '', [ ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'virgate':
-        UnitInfo( 'area', 'virgate', 'virgates', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'area', 'virgate', 'virgates', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     # capacitance
 
     'abfarad' :
-        UnitInfo( 'capacitance', 'abfarad', 'abfarads', 'abF', [ ], [ 'CGS' ] ),
+        UnitInfo( 'capacitance', 'abfarad', 'abfarads', 'abF', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'coulomb/volt' :
-        UnitInfo( 'capacitance', 'coulomb/volt', 'coulombs/volt', 'C/V', [ 'coulomb/volts', 'coulombs/volts', 'C/volts', 'C/volt', 'coulomb/V', 'coulombs/V' ], [ 'SI' ] ),
+        UnitInfo( 'capacitance', 'coulomb/volt', 'coulombs/volt', 'C/V', [ 'coulomb/volts', 'coulombs/volts', 'C/volts', 'C/volt', 'coulomb/V', 'coulombs/V' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'farad' :
-        UnitInfo( 'capacitance', 'farad', 'farads', 'F', [ ], [ 'SI' ] ),
+        UnitInfo( 'capacitance', 'farad', 'farads', 'F', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'jar' :
-        UnitInfo( 'capacitance', 'jar', 'jars', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'capacitance', 'jar', 'jars', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'statfarad' :
-        UnitInfo( 'capacitance', 'statfarad', 'statfarads', 'statF', [ ], [ 'CGS' ] ),
+        UnitInfo( 'capacitance', 'statfarad', 'statfarads', 'statF', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     # charge
 
     'abcoulomb' :
-        UnitInfo( 'charge', 'abcoulomb', 'abcoulombs', 'abC', [ ], [ 'CGS' ] ),
+        UnitInfo( 'charge', 'abcoulomb', 'abcoulombs', 'abC', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'ampere-second' :
-        UnitInfo( 'charge', 'ampere*second', 'ampere-seconds', 'A/s', [ ], [ 'SI' ] ),
+        UnitInfo( 'charge', 'ampere*second', 'ampere-seconds', 'A/s', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'coulomb' :
-        UnitInfo( 'charge', 'coulomb', 'coulombs', 'C', [ ], [ 'SI' ] ),
+        UnitInfo( 'charge', 'coulomb', 'coulombs', 'C', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'farad-volt' :
-        UnitInfo( 'charge', 'farad*volt', 'farad-volts', 'F*V', [ ], [ 'SI' ] ),
+        UnitInfo( 'charge', 'farad*volt', 'farad-volts', 'F*V', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'franklin' :
-        UnitInfo( 'charge', 'franklin', 'franklins', 'Fr', [ ], [ 'CGS' ] ),
+        UnitInfo( 'charge', 'franklin', 'franklins', 'Fr', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'electron_charge' :
-        UnitInfo( 'charge', 'electron_charge', 'electron_charges', '', [ 'elementary_charge', 'proton_charge' ], [ 'natural' ] ),
+        UnitInfo( 'charge', 'electron_charge', 'electron_charges', '', [ 'elementary_charge', 'proton_charge' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'faraday' :
-        UnitInfo( 'charge', 'faraday', 'faradays', 'Fd', [ ], [ 'natural' ] ),   # electron_charge * Avogradro's number!
+        UnitInfo( 'charge', 'faraday', 'faradays', 'Fd', [ ], [ 'natural' ],   # electron_charge * Avogradro's number!
+                  '''
+                  ''' ),
 
     'planck_charge' :
-        UnitInfo( 'charge', 'planck_charge', 'planck_charges', 'cP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'charge', 'planck_charge', 'planck_charges', 'cP', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'statcoulomb' :
-        UnitInfo( 'charge', 'statcoulomb', 'statcoulombs', 'statC', [ 'esu_charge' ], [ 'CGS' ] ),
+        UnitInfo( 'charge', 'statcoulomb', 'statcoulombs', 'statC', [ 'esu_charge' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     # constant - Constant is a special type that is immediately converted to a numerical value when used.
     #            It's not intended to be used as a unit, per se.  Also, these units are in order of their
     #            value instead of alphabetical order like all the others
 
     'decillionth' :
-        UnitInfo( 'constant', 'decillionth', 'decillionths', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'decillionth', 'decillionths', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'nonillionth' :
-        UnitInfo( 'constant', 'nonillionth', 'nonillionths', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'nonillionth', 'nonillionths', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'octillionth' :
-        UnitInfo( 'constant', 'octillionth', 'octillionths', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'octillionth', 'octillionths', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     # 'y' can't be used here since it's used for 'year'
     'septillionth' :
-        UnitInfo( 'constant', 'septillionth', 'septillionths', '', [ 'yocto' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'septillionth', 'septillionths', '', [ 'yocto' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'sextillionth' :
-        UnitInfo( 'constant', 'sextillionth', 'sextillionths', 'z', [ 'zepto' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'sextillionth', 'sextillionths', 'z', [ 'zepto' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     # 'a' can't be used here since it's used for 'are'
     'quintillionth' :
-        UnitInfo( 'constant', 'quintillionth', 'quintillionths', '', [ 'atto' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'quintillionth', 'quintillionths', '', [ 'atto' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'quadrillionth' :
-        UnitInfo( 'constant', 'quadrillionth', 'quadrillionths', 'f', [ 'femto' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'quadrillionth', 'quadrillionths', 'f', [ 'femto' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'trillionth' :
-        UnitInfo( 'constant', 'trillionth', 'trillionths', 'p', [ 'pico' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'trillionth', 'trillionths', 'p', [ 'pico' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'billionth' :
-        UnitInfo( 'constant', 'billionth', 'billionths', 'n', [ 'nano' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'billionth', 'billionths', 'n', [ 'nano' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'millionth' :
-        UnitInfo( 'constant', 'millionth', 'millionths', 'u', [ 'micro' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'millionth', 'millionths', 'u', [ 'micro' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     # 'm' can't be used here since it's used for 'meter'
     'thousandth' :
-        UnitInfo( 'constant', 'thousandth', 'thousandths', '', [ 'milli' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'thousandth', 'thousandths', '', [ 'milli' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'alpha' :
-        UnitInfo( 'constant', 'alpha', 'alpha', '', [ 'fine_structure_constant' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'alpha', 'alpha', '', [ 'fine_structure_constant' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'percent' :
-        UnitInfo( 'constant', 'percent', 'percent', '%', [ 'hundredth', 'centi' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'percent', 'percent', '%', [ 'hundredth', 'centi' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'tenth' :
-        UnitInfo( 'constant', 'tenth', 'tenths', '', [ 'deci', 'tithe' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'tenth', 'tenths', '', [ 'deci', 'tithe' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'quarter' :
-        UnitInfo( 'constant', 'quarter', 'quarters', '', [ 'fourth' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'quarter', 'quarters', '', [ 'fourth' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'third' :
-        UnitInfo( 'constant', 'third', 'thirds', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'third', 'thirds', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'half' :
-        UnitInfo( 'constant', 'half', 'halves', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'half', 'halves', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'unity' :
-        UnitInfo( 'constant', 'x unity', 'x unity', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'x unity', 'x unity', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'ten' :
-        UnitInfo( 'constant', 'ten', 'tens', '', [ 'deca', 'deka', 'dicker' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'ten', 'tens', '', [ 'deca', 'deka', 'dicker' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'dozen' :
-        UnitInfo( 'constant', 'dozen', 'dozen', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'dozen', 'dozen', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'score' :
-        UnitInfo( 'constant', 'score', 'score', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'score', 'score', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'flock' :
-        UnitInfo( 'constant', 'flock', 'flocks', '', [ 'timer' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'flock', 'flocks', '', [ 'timer' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'shock' :
-        UnitInfo( 'constant', 'shock', 'shocks', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'shock', 'shocks', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'hundred' :
-        UnitInfo( 'constant', 'hundred', 'hundred', '', [ 'hecto', 'toncount' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'hundred', 'hundred', '', [ 'hecto', 'toncount' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'long_hundred' :
-        UnitInfo( 'constant', 'long_hundred', 'long_hundreds', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'long_hundred', 'long_hundreds', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'gross' :
-        UnitInfo( 'constant', 'gross', 'gross', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'gross', 'gross', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'thousand' :
-        UnitInfo( 'constant', 'thousand', 'thousand', 'k', [ 'kilo' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'thousand', 'thousand', 'k', [ 'kilo' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'great_gross' :
-        UnitInfo( 'constant', 'great_gross', 'great_gross', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'great_gross', 'great_gross', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'million' :
-        UnitInfo( 'constant', 'million', 'million', 'M', [ 'mega' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'million', 'million', 'M', [ 'mega' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     # 'G' can't be used here since it's used for 'standard gravity'
     'billion' :
-        UnitInfo( 'constant', 'billion', 'billion', '', [ 'giga' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'billion', 'billion', '', [ 'giga' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     # 'T' can't be used here since it's used for 'tesla'
     'trillion' :
-        UnitInfo( 'constant', 'trillion', 'trillion', '', [ 'tera' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'trillion', 'trillion', '', [ 'tera' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'quadrillion' :
-        UnitInfo( 'constant', 'quadrillion', 'quadrillion', 'P', [ 'peta' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'quadrillion', 'quadrillion', 'P', [ 'peta' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'quintillion' :
-        UnitInfo( 'constant', 'quintillion', 'quintillion', 'E', [ 'exa' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'quintillion', 'quintillion', 'E', [ 'exa' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'sextillion' :
-        UnitInfo( 'constant', 'sextillion', 'sextillion', 'Z', [ 'zetta' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'sextillion', 'sextillion', 'Z', [ 'zetta' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'septillion' :
-        UnitInfo( 'constant', 'septillion', 'septillion', 'Y', [ 'yotta' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'septillion', 'septillion', 'Y', [ 'yotta' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'octillion' :
-        UnitInfo( 'constant', 'octillion', 'octillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'octillion', 'octillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'nonillion' :
-        UnitInfo( 'constant', 'nonillion', 'nonillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'nonillion', 'nonillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'decillion' :
-        UnitInfo( 'constant', 'decillion', 'decillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'decillion', 'decillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'undecillion' :
-        UnitInfo( 'constant', 'undecillion', 'undecillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'undecillion', 'undecillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'duodecillion' :
-        UnitInfo( 'constant', 'duodecillion', 'duodecillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'duodecillion', 'duodecillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'tredecillion' :
-        UnitInfo( 'constant', 'tredecillion', 'tredecillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'tredecillion', 'tredecillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'quattuordecillion' :
-        UnitInfo( 'constant', 'quattuordecillion', 'quattuordecillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'quattuordecillion', 'quattuordecillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'quindecillion' :
-        UnitInfo( 'constant', 'quindecillion', 'quindecillion', '', [ 'quinquadecillion' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'quindecillion', 'quindecillion', '', [ 'quinquadecillion' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'sexdecillion' :
-        UnitInfo( 'constant', 'sexdecillion', 'sexdecillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'sexdecillion', 'sexdecillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'septendecillion' :
-        UnitInfo( 'constant', 'septemdecillion', 'septemdecillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'septemdecillion', 'septemdecillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'octodecillion' :
-        UnitInfo( 'constant', 'octodecillion', 'octodecillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'octodecillion', 'octodecillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'novemdecillion' :
-        UnitInfo( 'constant', 'novemdecillion', 'novemdecillion', '', [ 'novendecillion' ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'novemdecillion', 'novemdecillion', '', [ 'novendecillion' ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'vigintillion' :
-        UnitInfo( 'constant', 'vigintillion', 'vigintillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'vigintillion', 'vigintillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'googol' :
-        UnitInfo( 'constant', 'googol', 'googols', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'googol', 'googols', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     'centillion' :
-        UnitInfo( 'constant', 'centillion', 'centillion', '', [ ], [ 'constant' ] ),
+        UnitInfo( 'constant', 'centillion', 'centillion', '', [ ], [ 'constant' ],
+                  '''
+                  ''' ),
 
     # current
 
     'abampere' :
-        UnitInfo( 'current', 'abampere', 'abamperes', 'abA', [ 'abamp', 'abamps', 'biot', 'biots' ], [ 'CGS' ] ),
+        UnitInfo( 'current', 'abampere', 'abamperes', 'abA', [ 'abamp', 'abamps', 'biot', 'biots' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'ampere' :
-        UnitInfo( 'current', 'ampere', 'amperes', 'A', [ 'amp', 'amps', 'galvat', 'galvats' ], [ 'SI' ] ),
+        UnitInfo( 'current', 'ampere', 'amperes', 'A', [ 'amp', 'amps', 'galvat', 'galvats' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'coulomb/second' :
-        UnitInfo( 'current', 'coulomb/second', 'coulombs/second', 'C/s', [ 'C/sec', 'coulomb/sec', 'coulombs/sec', 'coulomb/s', 'coulombs/s' ], [ 'SI' ] ),
+        UnitInfo( 'current', 'coulomb/second', 'coulombs/second', 'C/s', [ 'C/sec', 'coulomb/sec', 'coulombs/sec', 'coulomb/s', 'coulombs/s' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'statampere' :
-        UnitInfo( 'current', 'statampere', 'statamperes', 'statA', [ 'statamp', 'statamps', 'esu_current' ], [ 'CGS' ] ),
+        UnitInfo( 'current', 'statampere', 'statamperes', 'statA', [ 'statamp', 'statamps', 'esu_current' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     # data_rate
 
     'bit/second' :
-        UnitInfo( 'data_rate', 'bit/second', 'bits/second', 'b/s', [ 'bit/s', 'bits/s', 'bit/sec', 'bits/sec', 'b/sec', 'b/second' ], [ 'computing' ] ),
+        UnitInfo( 'data_rate', 'bit/second', 'bits/second', 'b/s', [ 'bit/s', 'bits/s', 'bit/sec', 'bits/sec', 'b/sec', 'b/second' ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'byte/second' :
-        UnitInfo( 'data_rate', 'byte/second', 'bytes/second', 'B/s', [ 'byte/s', 'bytes/s' 'byte/sec', 'bytes/sec', 'B/sec', 'B/second' ], [ 'computing' ] ),
+        UnitInfo( 'data_rate', 'byte/second', 'bytes/second', 'B/s', [ 'byte/s', 'bytes/s' 'byte/sec', 'bytes/sec', 'B/sec', 'B/second' ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     # density
 
     'gram/meter^3' :
-        UnitInfo( 'density', 'gram/meter^3', 'grams/meter^3', 'g/m^3', [ '' ], [ 'SI' ] ),
+        UnitInfo( 'density', 'gram/meter^3', 'grams/meter^3', 'g/m^3', [ '' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'density_of_water' :
-        UnitInfo( 'density', 'x density_of_water', 'x density_of_water', '', [ 'water' ], [ 'natural' ] ),
+        UnitInfo( 'density', 'x density_of_water', 'x density_of_water', '', [ 'water' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     # dynamic_viscosity
 
@@ -1375,1301 +1507,2125 @@ unitOperators = {
 #pound-force second per square inch  lbf*s/in2    1 lbf*s/in2   = 6,894.757 Pa*s
 
     'newton-second/meter^2' :
-        UnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', 'Ns/m^2', [ ], [ 'CGS' ] ),
+        UnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', 'Ns/m^2', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'pascal-second' :
-        UnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal-seconds', 'Pas', [ ], [ 'SI' ] ),
+        UnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal-seconds', 'Pas', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'poise' :
-        UnitInfo( 'dynamic_viscosity', 'poise', 'poise', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'dynamic_viscosity', 'poise', 'poise', '', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     # electric_potential
 
     'abvolt' :
-        UnitInfo( 'electric_potential', 'abvolt', 'abvolts', 'abV', [ ], [ 'CGS' ] ),
+        UnitInfo( 'electric_potential', 'abvolt', 'abvolts', 'abV', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'coulomb/farad' :
-        UnitInfo( 'electric_potential', 'coulomb/farad', 'coulombs/farad', 'C/F', [ 'coulomb/F', 'coulombs/F', 'C/farad', 'C/farads', 'coulombs/farads' ], [ 'SI' ] ),
+        UnitInfo( 'electric_potential', 'coulomb/farad', 'coulombs/farad', 'C/F', [ 'coulomb/F', 'coulombs/F', 'C/farad', 'C/farads', 'coulombs/farads' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'volt' :
-        UnitInfo( 'electric_potential', 'volt', 'volts', 'V', [ ], [ 'SI' ] ),
+        UnitInfo( 'electric_potential', 'volt', 'volts', 'V', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'watt/ampere' :
-        UnitInfo( 'electric_potential', 'watt/ampere', 'watts/ampere', 'W/A', [ 'watt/amp', 'watt/amps', 'watt/A', 'watts/amp', 'watts/amps', 'watts/A', 'W/amp', 'W/amps', 'W/ampere', 'W/amperes' ], [ 'SI' ] ),
+        UnitInfo( 'electric_potential', 'watt/ampere', 'watts/ampere', 'W/A', [ 'watt/amp', 'watt/amps', 'watt/A', 'watts/amp', 'watts/amps', 'watts/A', 'W/amp', 'W/amps', 'W/ampere', 'W/amperes' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'statvolt' :
-        UnitInfo( 'electric_potential', 'statvolt', 'statvolts', 'statV', [ 'esu_potential' ], [ 'CGS' ] ),
+        UnitInfo( 'electric_potential', 'statvolt', 'statvolts', 'statV', [ 'esu_potential' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     # electrical_conductance
 
     'abmho' :
-        UnitInfo( 'electrical_conductance', 'abmho', 'abmhos', '', [ 'absiemens' ], [ 'CGS' ] ),
+        UnitInfo( 'electrical_conductance', 'abmho', 'abmhos', '', [ 'absiemens' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'ampere/volt' :
-        UnitInfo( 'electrical_conductance', 'ampere/volt', 'amperes/volt', 'A/V', [ 'amp/V', 'amps/V', 'ampere/V', 'amperes/V', 'A/volt', 'amp/volt', 'amps/volt', 'A/volts', 'amp/volts', 'amps/volts', 'amperes/volts', ], [ 'SI' ] ),
+        UnitInfo( 'electrical_conductance', 'ampere/volt', 'amperes/volt', 'A/V', [ 'amp/V', 'amps/V', 'ampere/V', 'amperes/V', 'A/volt', 'amp/volt', 'amps/volt', 'A/volts', 'amp/volts', 'amps/volts', 'amperes/volts', ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'second^3-ampere^2/kilogram-meter^2':
-        UnitInfo( 'electrical_conductance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ], [ 'SI' ] ),
+        UnitInfo( 'electrical_conductance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'siemens' :
-        UnitInfo( 'electrical_conductance', 'siemens', 'siemens', 'S', [ 'mho', 'mhos' ], [ 'SI' ] ),
+        UnitInfo( 'electrical_conductance', 'siemens', 'siemens', 'S', [ 'mho', 'mhos' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'statmho' :
-        UnitInfo( 'electrical_conductance', 'statmho', 'statmhos', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'electrical_conductance', 'statmho', 'statmhos', '', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'statsiemens' :
-        UnitInfo( 'electrical_conductance', 'statsiemens', 'statsiemens', 'statS', [ '' ], [ 'SI' ] ),
+        UnitInfo( 'electrical_conductance', 'statsiemens', 'statsiemens', 'statS', [ '' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     # electrical_resistance
 
     '1/siemens' :
-        UnitInfo( 'electrical_resistance', '1/siemens', '1/siemens', '1/S', [ '1/mho' ], [ 'SI' ] ),
+        UnitInfo( 'electrical_resistance', '1/siemens', '1/siemens', '1/S', [ '1/mho' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'abohm' :
-        UnitInfo( 'electrical_resistance', 'abohm', 'abohms', 'o', [ ], [ 'CGS' ] ),
+        UnitInfo( 'electrical_resistance', 'abohm', 'abohms', 'o', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'german_mile' :
-        UnitInfo( 'electrical_resistance', 'german_mile', 'german_miles', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'electrical_resistance', 'german_mile', 'german_miles', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'impedance_of_free_space' :
-        UnitInfo( 'electrical_resistance', 'impedance_of_free_space', 'x impedance_of_free_space', 'Z0', [ ], [ 'natural' ] ),
+        UnitInfo( 'electrical_resistance', 'impedance_of_free_space', 'x impedance_of_free_space', 'Z0', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'jacobi' :
-        UnitInfo( 'electrical_resistance', 'jacobi', 'jacobis', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'electrical_resistance', 'jacobi', 'jacobis', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'joule-second/coulomb^2' :
-        UnitInfo( 'electrical_resistance', 'joule*second/coulomb^2', 'joule*second/coulomb^2', 'J*s/C^2', [ ], [ 'SI' ] ),
+        UnitInfo( 'electrical_resistance', 'joule*second/coulomb^2', 'joule*second/coulomb^2', 'J*s/C^2', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'joule/second-ampere^2' :
-        UnitInfo( 'electrical_resistance', 'joule/second*ampere^2', 'joule/second*ampere^2', 'J/s*A^2', [ ], [ 'SI' ] ),
+        UnitInfo( 'electrical_resistance', 'joule/second*ampere^2', 'joule/second*ampere^2', 'J/s*A^2', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'kilogram-meter^2/second^3-ampere^2' :
-        UnitInfo( 'electrical_resistance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ], [ 'SI' ] ),
+        UnitInfo( 'electrical_resistance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'matthiessen' :
-        UnitInfo( 'electrical_resistance', 'matthiessen', 'matthiessens', '', [ ], [ 'obsolete' ] ),   # based on one mile of 1/16 inch diameter pure annealed copper wire at 15.5 degrees C
+        UnitInfo( 'electrical_resistance', 'matthiessen', 'matthiessens', '', [ ], [ 'obsolete' ],   # based on one mile of 1/16 inch diameter pure annealed copper wire at 15.5 degrees C
+                  '''
+                  ''' ),
 
     'meter^2-kilogram/second-coulomb^2' :
-        UnitInfo( 'electrical_resistance', 'meter^2*kilogram/second*coulomb^2', 'meter^2*kilogram/second*coulomb^2', 'm^2*kg/s*C^2', [ ], [ 'SI' ] ),
+        UnitInfo( 'electrical_resistance', 'meter^2*kilogram/second*coulomb^2', 'meter^2*kilogram/second*coulomb^2', 'm^2*kg/s*C^2', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'ohm' :
-        UnitInfo( 'electrical_resistance', 'ohm', 'ohms', 'O', [ ], [ 'SI' ] ),
+        UnitInfo( 'electrical_resistance', 'ohm', 'ohms', 'O', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'second/farad' :
-        UnitInfo( 'electrical_resistance', 'second/farad', 'second/farad', 's/F', [ 's/farad', 's/farads', 'sec/farad', 'sec/farads', 'sec/F', 'second/F', 'seconds/F' ], [ 'SI' ] ),
+        UnitInfo( 'electrical_resistance', 'second/farad', 'second/farad', 's/F', [ 's/farad', 's/farads', 'sec/farad', 'sec/farads', 'sec/F', 'second/F', 'seconds/F' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'statohm' :
-        UnitInfo( 'electrical_resistance', 'statohm', 'statohms', 'statO', [ ], [ 'SI' ] ),
+        UnitInfo( 'electrical_resistance', 'statohm', 'statohms', 'statO', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'varley' :
-        UnitInfo( 'electrical_resistance', 'varley', 'varleys', '', [ ], [ 'obsolete' ] ),  # based on one mile of 1/16 inch diameter pure annealed copper wire at 15.5 degrees C
+        UnitInfo( 'electrical_resistance', 'varley', 'varleys', '', [ ], [ 'obsolete' ],  # based on one mile of 1/16 inch diameter pure annealed copper wire at 15.5 degrees C
+                  '''
+                  ''' ),
 
     'von_klitzing_constant' :
-        UnitInfo( 'electrical_resistance', 'von_klitzing_constant', 'x_von_klitzing_constant', '', [ 'von_klitzing' ], [ 'natural' ] ),
+        UnitInfo( 'electrical_resistance', 'von_klitzing_constant', 'x_von_klitzing_constant', '', [ 'von_klitzing' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'volt/ampere' :
-        UnitInfo( 'electrical_resistance', 'volt/ampere', 'volts/ampere', 'V/A', [ 'volt/amp', 'volt/amps', 'volt/A', 'volts/amp', 'volts/amps', 'volts/A', 'V/amp', 'V/amps', 'V/ampere', 'V/amperes' ], [ 'SI' ] ),
+        UnitInfo( 'electrical_resistance', 'volt/ampere', 'volts/ampere', 'V/A', [ 'volt/amp', 'volt/amps', 'volt/A', 'volts/amp', 'volts/amps', 'volts/A', 'V/amp', 'V/amps', 'V/ampere', 'V/amperes' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'watt/ampere^2' :
-        UnitInfo( 'electrical_resistance', 'watt/ampere^2', 'watts/ampere^2', 'W/A^2', [ 'watt/amperes^2', 'watts/amperes^2', 'W/ampere^2', 'W/amperes^2' ], [ 'SI' ] ),
+        UnitInfo( 'electrical_resistance', 'watt/ampere^2', 'watts/ampere^2', 'W/A^2', [ 'watt/amperes^2', 'watts/amperes^2', 'W/ampere^2', 'W/amperes^2' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     # energy
 
     'aa_battery' :
-        UnitInfo( 'energy', 'AA_battery', 'AA_batteries', '', [ 'aa-battery', 'aa-batteries', 'AA-battery', 'AA-batteries' ], [ 'informal' ] ),
+        UnitInfo( 'energy', 'AA_battery', 'AA_batteries', '', [ 'aa-battery', 'aa-batteries', 'AA-battery', 'AA-batteries' ], [ 'informal' ],
+                  '''
+                  ''' ),
 
     'btu' :
-        UnitInfo( 'energy', 'BTU', 'BTUs', '', [ 'btu', 'btus' ], [ 'England', 'US' ] ),
+        UnitInfo( 'energy', 'BTU', 'BTUs', '', [ 'btu', 'btus' ], [ 'England', 'US' ],
+                  '''
+                  ''' ),
 
     'calorie' :
-        UnitInfo( 'energy', 'calorie', 'calories', 'cal', [ ], [ 'CGS' ] ),
+        UnitInfo( 'energy', 'calorie', 'calories', 'cal', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'electronvolt' :
-        UnitInfo( 'energy', 'electronvolt', 'electronvolts', 'eV', [ 'electron-volt', 'electron-volts' ], [ 'science' ] ),
+        UnitInfo( 'energy', 'electronvolt', 'electronvolts', 'eV', [ 'electron-volt', 'electron-volts' ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'erg' :
-        UnitInfo( 'energy', 'erg', 'ergs', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'energy', 'erg', 'ergs', '', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'gallon_of_ethanol' :
-        UnitInfo( 'energy', 'gallon_of_ethanol', 'gallons_of_ethanol', '', [ ], [ 'informal' ] ),
+        UnitInfo( 'energy', 'gallon_of_ethanol', 'gallons_of_ethanol', '', [ ], [ 'informal' ],
+                  '''
+                  ''' ),
 
     'gallon_of_gasoline' :
-        UnitInfo( 'energy', 'gallon_of_gasoline', 'gallons_of_gasoline', '', [ 'gallon_of_gas', 'gallons_of_gas' ], [ 'informal' ] ),
+        UnitInfo( 'energy', 'gallon_of_gasoline', 'gallons_of_gasoline', '', [ 'gallon_of_gas', 'gallons_of_gas' ], [ 'informal' ],
+                  '''
+                  ''' ),
 
     'gram-equivalent' :
-        UnitInfo( 'energy', 'gram-equivalent', 'grams-equivalent', 'gE', [ 'gram-energy', 'grams-energy', 'gramme-equivalent', 'grammes-equivalent',  'gramme-energy', 'grammes-energy' ], [ 'natural' ] ),
+        UnitInfo( 'energy', 'gram-equivalent', 'grams-equivalent', 'gE', [ 'gram-energy', 'grams-energy', 'gramme-equivalent', 'grammes-equivalent',  'gramme-energy', 'grammes-energy' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'hartree' :
-        UnitInfo( 'energy', 'hartree', 'hartrees', 'Eh', [ ], [ 'science' ] ),
+        UnitInfo( 'energy', 'hartree', 'hartrees', 'Eh', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'horsepower-second' :
-        UnitInfo( 'energy', 'horsepower*second', 'horsepower-seconds', 'hps', [ ], [ 'US' ] ),
+        UnitInfo( 'energy', 'horsepower*second', 'horsepower-seconds', 'hps', [ ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'joule' :
-        UnitInfo( 'energy', 'joule', 'joules', 'J', [ ], [ 'SI' ] ),
+        UnitInfo( 'energy', 'joule', 'joules', 'J', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'kilogram-meter^2/second^2' :
-        UnitInfo( 'energy', 'kilogram*meter^2/second^2', 'kilogram*meter^2/second^2', 'kg*m^2/s^2', [ ], [ 'SI' ] ),
+        UnitInfo( 'energy', 'kilogram*meter^2/second^2', 'kilogram*meter^2/second^2', 'kg*m^2/s^2', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'newton-meter' :
-        UnitInfo( 'energy', 'newton*meter', 'newton-meters', 'N*m', [ ], [ 'SI' ] ),
+        UnitInfo( 'energy', 'newton*meter', 'newton-meters', 'N*m', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'planck_energy' :
-        UnitInfo( 'energy', 'planck_energy', 'planck_energy', 'eP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'energy', 'planck_energy', 'planck_energy', 'eP', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'rydberg' :
-        UnitInfo( 'energy', 'rydberg', 'rydbergs', 'Ry', [ ], [ 'science' ] ),
+        UnitInfo( 'energy', 'rydberg', 'rydbergs', 'Ry', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'ton_of_TNT' :
-        UnitInfo( 'energy', 'ton_of_TNT', 'tons_of_TNT', 'tTNT', [ ], [ 'informal' ] ),
+        UnitInfo( 'energy', 'ton_of_TNT', 'tons_of_TNT', 'tTNT', [ ], [ 'informal' ],
+                  '''
+                  ''' ),
 
     #'volt-ampere-second' :
-    #    UnitInfo( 'energy', 'ampere*second*volt', 'ampere*second*volt', 'VAs', [ ], [ 'SI' ] ),
+    #    UnitInfo( 'energy', 'ampere*second*volt', 'ampere*second*volt', 'VAs', [ ], [ 'SI' ],
 
     'watt-second' :
-        UnitInfo( 'energy', 'watt*second', 'watt-seconds', 'Ws', [ ], [ 'SI' ] ),
+        UnitInfo( 'energy', 'watt*second', 'watt-seconds', 'Ws', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     # force
 
     'dyne' :
-        UnitInfo( 'force', 'dyne', 'dynes', 'dyn', [ ], [ 'CGS' ] ),
+        UnitInfo( 'force', 'dyne', 'dynes', 'dyn', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'gram-force' :
-        UnitInfo( 'force', 'gram-force', 'grams-force', 'g-m', [ ], [ 'CGS' ] ),
+        UnitInfo( 'force', 'gram-force', 'grams-force', 'g-m', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'joule/meter' :
-        UnitInfo( 'force', 'joule/meter', 'joule/meter', 'J/m', [ ], [ 'SI' ] ),
+        UnitInfo( 'force', 'joule/meter', 'joule/meter', 'J/m', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'newton' :
-        UnitInfo( 'force', 'newton', 'newtons', 'N', [ ], [ 'SI' ] ),
+        UnitInfo( 'force', 'newton', 'newtons', 'N', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'planck_force' :
-        UnitInfo( 'force', 'planck_force', 'planck_force', 'fP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'force', 'planck_force', 'planck_force', 'fP', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'pond' :
-        UnitInfo( 'force', 'pond', 'ponds', '', [ ], [ 'metric' ] ),
+        UnitInfo( 'force', 'pond', 'ponds', '', [ ], [ 'metric' ],
+                  '''
+                  ''' ),
 
     'pound-foot/second^2' :
-        UnitInfo( 'force', 'pound*foot/second^2', 'pound*foot/second^2', 'lb*ft/sec^2', [ ], [ 'FPS' ] ),
+        UnitInfo( 'force', 'pound*foot/second^2', 'pound*foot/second^2', 'lb*ft/sec^2', [ ], [ 'FPS' ],
+                  '''
+                  ''' ),
 
     'poundal' :
-        UnitInfo( 'force', 'poundal', 'poundals', 'pdl', [ ], [ 'England' ] ),
+        UnitInfo( 'force', 'poundal', 'poundals', 'pdl', [ ], [ 'England' ],
+                  '''
+                  ''' ),
 
     'sthene' :
-        UnitInfo( 'force', 'sthene', 'sthenes', 'sn', [ 'funal' ], [ 'MTS' ] ),
+        UnitInfo( 'force', 'sthene', 'sthenes', 'sn', [ 'funal' ], [ 'MTS' ],
+                  '''
+                  ''' ),
 
     # frequency
 
     'hertz' :
-        UnitInfo( 'frequency', 'hertz', 'hertz', 'Hz', [ ], [ 'SI' ] ),
+        UnitInfo( 'frequency', 'hertz', 'hertz', 'Hz', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'every_minute' :
-        UnitInfo( 'frequency', 'x every_minute', 'x every minute', '', [ ], [ ] ),
+        UnitInfo( 'frequency', 'x every_minute', 'x every minute', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'hourly' :
-        UnitInfo( 'frequency', 'x hourly', 'x hourly', '', [ ], [ ] ),
+        UnitInfo( 'frequency', 'x hourly', 'x hourly', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'daily' :
-        UnitInfo( 'frequency', 'x daily', 'x daily', '', [ ], [ ] ),
+        UnitInfo( 'frequency', 'x daily', 'x daily', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'weekly' :
-        UnitInfo( 'frequency', 'x weekly', 'x weekly', '', [ ], [ ] ),
+        UnitInfo( 'frequency', 'x weekly', 'x weekly', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'monthly' :
-        UnitInfo( 'frequency', 'x monthly', 'x monthly', '', [ ], [ ] ),
+        UnitInfo( 'frequency', 'x monthly', 'x monthly', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'yearly' :
-        UnitInfo( 'frequency', 'x yearly', 'x yearly', '', [ ], [ ] ),
+        UnitInfo( 'frequency', 'x yearly', 'x yearly', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'becquerel' :
-        UnitInfo( 'frequency', 'becquerel', 'becquerels', 'Bq', [ ], [ 'SI' ] ),
+        UnitInfo( 'frequency', 'becquerel', 'becquerels', 'Bq', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'curie' :
-        UnitInfo( 'frequency', 'curie', 'curies', 'Ci', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'frequency', 'curie', 'curies', 'Ci', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'rutherford' :
-        UnitInfo( 'frequency', 'rutherford', 'rutherfords', 'rd', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'frequency', 'rutherford', 'rutherfords', 'rd', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     # illuminance
 
     'footcandle' :
-        UnitInfo( 'illuminance', 'footcandle', 'footcandles', 'fc', [ ], [ 'FPS' ] ),
+        UnitInfo( 'illuminance', 'footcandle', 'footcandles', 'fc', [ ], [ 'FPS' ],
+                  '''
+                  ''' ),
 
     'lux' :
-        UnitInfo( 'illuminance', 'lux', 'lux', 'lx', [ ], [ 'SI' ] ),
+        UnitInfo( 'illuminance', 'lux', 'lux', 'lx', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'lumen/meter^2' :
-        UnitInfo( 'illuminance', 'lumen/meter^2', 'lumens/meter^2', 'lm/m^2', [ 'lm/square_meter', 'lumen/square_meter', 'lumens/square_meter', 'lumen/m^2', 'lumens/m^2' ], [ 'SI' ] ),
+        UnitInfo( 'illuminance', 'lumen/meter^2', 'lumens/meter^2', 'lm/m^2', [ 'lm/square_meter', 'lumen/square_meter', 'lumens/square_meter', 'lumen/m^2', 'lumens/m^2' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'lumen/foot^2' :
-        UnitInfo( 'illuminance', 'lumen/foot^2', 'lumens/foot^2', 'lm/ft^2', [ 'lm/square_foot', 'lumen/square_foot', 'lumens/square_foot', 'lumen/ft^2', 'lumens/ft^2' ], [ 'FPS' ] ),
+        UnitInfo( 'illuminance', 'lumen/foot^2', 'lumens/foot^2', 'lm/ft^2', [ 'lm/square_foot', 'lumen/square_foot', 'lumens/square_foot', 'lumen/ft^2', 'lumens/ft^2' ], [ 'FPS' ],
+                  '''
+                  ''' ),
 
     'nox' :
-        UnitInfo( 'illuminance', 'nox', 'nox', 'nx', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'illuminance', 'nox', 'nox', 'nx', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'phot' :
-        UnitInfo( 'illuminance', 'phot', 'phots', 'ph', [ ], [ 'CGS' ] ),
+        UnitInfo( 'illuminance', 'phot', 'phots', 'ph', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     # inductance
 
     'abhenry' :
-        UnitInfo( 'inductance', 'abhenry', 'abhenries', 'abH', [ ], [ 'CGS' ] ),
+        UnitInfo( 'inductance', 'abhenry', 'abhenries', 'abH', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'henry' :
-        UnitInfo( 'inductance', 'henry', 'henries', 'H', [ ], [ 'SI' ] ),
+        UnitInfo( 'inductance', 'henry', 'henries', 'H', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'weber/ampere' :
-        UnitInfo( 'inductance', 'weber/ampere', 'webers/ampere', 'Wb/A', [ 'Wb/ampere', 'Wb/ampere', 'weber/A', 'webers/A', 'Wb/amp', 'weber/amp', 'webers/amp' ], [ 'SI' ] ),
+        UnitInfo( 'inductance', 'weber/ampere', 'webers/ampere', 'Wb/A', [ 'Wb/ampere', 'Wb/ampere', 'weber/A', 'webers/A', 'Wb/amp', 'weber/amp', 'webers/amp' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'stathenry' :
-        UnitInfo( 'inductance', 'stathenry', 'stathenries', 'statH', [ ], [ 'CGS' ] ),
+        UnitInfo( 'inductance', 'stathenry', 'stathenries', 'statH', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     # information_entropy
 
     'ban' :
-        UnitInfo( 'information_entropy', 'ban', 'bans', '', [ 'hartley', 'hartleys', 'dit', 'dits' ], [ 'IEC' ] ),
+        UnitInfo( 'information_entropy', 'ban', 'bans', '', [ 'hartley', 'hartleys', 'dit', 'dits' ], [ 'IEC' ],
+                  '''
+                  ''' ),
 
     'bit' :
-        UnitInfo( 'information_entropy', 'bit', 'bits', 'b', [ 'shannon', 'shannons' ], [ 'computing' ] ),
+        UnitInfo( 'information_entropy', 'bit', 'bits', 'b', [ 'shannon', 'shannons' ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'boltzmann_constant' :
-        UnitInfo( 'information_entropy', 'boltzmann_constant', 'x boltzmann_constant', '', [ 'boltzmann' ], [ 'natural' ] ),
+        UnitInfo( 'information_entropy', 'boltzmann_constant', 'x boltzmann_constant', '', [ 'boltzmann' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'byte' :
-        UnitInfo( 'information_entropy', 'byte', 'bytes', 'B', [ 'octet', 'octets' ], [ 'computing' ] ),
+        UnitInfo( 'information_entropy', 'byte', 'bytes', 'B', [ 'octet', 'octets' ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'btupf' :
-        UnitInfo( 'information_entropy', 'btupf', 'btupf', '', [ ], [ 'England' ] ),
+        UnitInfo( 'information_entropy', 'btupf', 'btupf', '', [ ], [ 'England' ],
+                  '''
+                  ''' ),
 
     'clausius' :
-        UnitInfo( 'information_entropy', 'clausius', 'clausius', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'information_entropy', 'clausius', 'clausius', '', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'dword' :
-        UnitInfo( 'information_entropy', 'dword', 'dwords', '', [ 'double_word', 'double_words', 'long_integer', 'long_integers' ], [ 'computing' ] ),
+        UnitInfo( 'information_entropy', 'dword', 'dwords', '', [ 'double_word', 'double_words', 'long_integer', 'long_integers' ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'joule/kelvin' :
-        UnitInfo( 'information_entropy', 'joule/kelvin', 'joules/kelvin', 'J/K', [ 'joule/K', 'joules/K' ], [ 'SI' ] ),
+        UnitInfo( 'information_entropy', 'joule/kelvin', 'joules/kelvin', 'J/K', [ 'joule/K', 'joules/K' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'library_of_congress' :
-        UnitInfo( 'information_entropy', 'library_of_congress', 'libraries_of_congress', 'LoC', [ 'congress', 'congresses', 'loc' ], [ 'computing' ] ),
+        UnitInfo( 'information_entropy', 'library_of_congress', 'libraries_of_congress', 'LoC', [ 'congress', 'congresses', 'loc' ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'nibble' :
-        UnitInfo( 'information_entropy', 'nibble', 'nibbles', '', [ 'nybble', 'nybbles' ], [ 'computing' ] ),
+        UnitInfo( 'information_entropy', 'nibble', 'nibbles', '', [ 'nybble', 'nybbles' ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'nat' :
-        UnitInfo( 'information_entropy', 'nat', 'nats', '', [ 'nip', 'nips', 'nepit', 'nepits' ], [ 'IEC' ] ),
+        UnitInfo( 'information_entropy', 'nat', 'nats', '', [ 'nip', 'nips', 'nepit', 'nepits' ], [ 'IEC' ],
+                  '''
+                  ''' ),
 
     'nyp' :
-        UnitInfo( 'information_entropy', 'nyp', 'nyps', '', [ ], [ 'computing' ] ),   # suggested by Donald Knuth
+        UnitInfo( 'information_entropy', 'nyp', 'nyps', '', [ ], [ 'computing' ],   # suggested by Donald Knuth
+                  '''
+                  ''' ),
 
     'oword' :
-        UnitInfo( 'information_entropy', 'oword', 'owords', '', [ 'octaword', 'octawords' ], [ 'computing' ] ),
+        UnitInfo( 'information_entropy', 'oword', 'owords', '', [ 'octaword', 'octawords' ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'qword' :
-        UnitInfo( 'information_entropy', 'qword', 'qwords', '', [ 'quad_word', 'quad_words', 'longlong_integer', 'longlong_integers' ], [ 'computing' ] ),
+        UnitInfo( 'information_entropy', 'qword', 'qwords', '', [ 'quad_word', 'quad_words', 'longlong_integer', 'longlong_integers' ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'trit' :
-        UnitInfo( 'information_entropy', 'trit', 'trits', '', [ ], [ 'computing' ] ),
+        UnitInfo( 'information_entropy', 'trit', 'trits', '', [ ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'tryte' :
-        UnitInfo( 'information_entropy', 'tryte', 'trytes', '', [ ], [ 'computing' ] ),
+        UnitInfo( 'information_entropy', 'tryte', 'trytes', '', [ ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'word' :
-        UnitInfo( 'information_entropy', 'word', 'words', '', [ 'short_integer', 'short_integers', 'wyde' ], [ 'computing' ] ),  # 'wyde' suggested by Knuth
+        UnitInfo( 'information_entropy', 'word', 'words', '', [ 'short_integer', 'short_integers', 'wyde' ], [ 'computing' ],  # 'wyde' suggested by Knuth
+                  '''
+                  ''' ),
 
     # length
 
     'aln' :
-        UnitInfo( 'length', 'aln', 'alns', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'aln', 'alns', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'arpent' :
-        UnitInfo( 'length', 'arpent', 'arpents', '', [ ], [ 'obsolete', 'France' ] ),
+        UnitInfo( 'length', 'arpent', 'arpents', '', [ ], [ 'obsolete', 'France' ],
+                  '''
+                  ''' ),
 
     'angstrom' :
-        UnitInfo( 'length', 'angstrom', 'angstroms', 'A', [ 'angstroem' ], [ 'science' ] ),
+        UnitInfo( 'length', 'angstrom', 'angstroms', 'A', [ 'angstroem' ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'astronomical_unit' :
-        UnitInfo( 'length', 'astronomical_unit', 'astronomical_units', 'au', [ ], [ 'science' ] ),
+        UnitInfo( 'length', 'astronomical_unit', 'astronomical_units', 'au', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'barleycorn' :
-        UnitInfo( 'length', 'barleycorn', 'barleycorns', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'barleycorn', 'barleycorns', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'bohr_radius' :
-        UnitInfo( 'length', 'bohr_radius', 'bohr_radii', 'a0', [ 'bohr' ], [ 'science' ] ),
+        UnitInfo( 'length', 'bohr_radius', 'bohr_radii', 'a0', [ 'bohr' ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'bolt' :
-        UnitInfo( 'length', 'bolt', 'bolts', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'bolt', 'bolts', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'caliber' :
-        UnitInfo( 'length', 'caliber', 'caliber', '', [ 'calibre' ], [ 'US' ] ),
+        UnitInfo( 'length', 'caliber', 'caliber', '', [ 'calibre' ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'chain' :
-        UnitInfo( 'length', 'chain', 'chains', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'chain', 'chains', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'cubit' :
-        UnitInfo( 'length', 'cubit', 'cubits', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'cubit', 'cubits', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'earth_radius' :
-        UnitInfo( 'length', 'earth_radius', 'earth_radii', 'Rgeo', [ ], [ 'natural' ] ),
+        UnitInfo( 'length', 'earth_radius', 'earth_radii', 'Rgeo', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'ell' :
-        UnitInfo( 'length', 'ell', 'ells', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'ell', 'ells', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'famn' :
-        UnitInfo( 'length', 'famn', 'famns', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'famn', 'famns', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'farshimmelt_potrzebie' :
-        UnitInfo( 'length', 'farshimmelt_potrzebie', 'farshimmelt potrzebies', 'fpz', [ 'far-potrzebie' ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'length', 'farshimmelt_potrzebie', 'farshimmelt potrzebies', 'fpz', [ 'far-potrzebie' ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'fathom' :
-        UnitInfo( 'length', 'fathom', 'fathoms', 'fath', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'fathom', 'fathoms', 'fath', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'finger' :
-        UnitInfo( 'length', 'finger', 'fingers', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'finger', 'fingers', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'fingerbreadth' :
-        UnitInfo( 'length', 'fingerbreadth', 'fingerbreadths', '', [ 'fingersbreadth' ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'fingerbreadth', 'fingerbreadths', '', [ 'fingersbreadth' ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'foot' :
-        UnitInfo( 'length', 'foot', 'feet', 'ft', [ ], [ 'traditional', 'FPS' ] ),
+        UnitInfo( 'length', 'foot', 'feet', 'ft', [ ], [ 'traditional', 'FPS' ],
+                  '''
+                  ''' ),
 
     'furlong' :
-        UnitInfo( 'length', 'furlong', 'furlongs', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'furlong', 'furlongs', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'furshlugginer_potrzebie' :
-        UnitInfo( 'length', 'furshlugginer_potrzebie', 'furshlugginer potrzebies', 'Fpz', [ 'Fur-potrzebie' ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'length', 'furshlugginer_potrzebie', 'furshlugginer potrzebies', 'Fpz', [ 'Fur-potrzebie' ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'greek_cubit' :
-        UnitInfo( 'length', 'greek_cubit', 'greek_cubits', '', [ ], [ 'obsolete', 'Greece' ] ),
+        UnitInfo( 'length', 'greek_cubit', 'greek_cubits', '', [ ], [ 'obsolete', 'Greece' ],
+                  '''
+                  ''' ),
 
     'gutenberg' :
-        UnitInfo( 'length', 'gutenberg', 'gutenbergs', '', [ ], [ 'typography' ] ),
+        UnitInfo( 'length', 'gutenberg', 'gutenbergs', '', [ ], [ 'typography' ],
+                  '''
+                  ''' ),
 
     'hand' :
-        UnitInfo( 'length', 'hand', 'hands', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'hand', 'hands', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'handbreadth' :
-        UnitInfo( 'length', 'handbreadth', 'handbreadths', '', [ 'handsbreadth' ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'handbreadth', 'handbreadths', '', [ 'handsbreadth' ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'inch' :
-        UnitInfo( 'length', 'inch', 'inches', 'in', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'inch', 'inches', 'in', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'jupiter_radius' :
-        UnitInfo( 'length', 'jupiter_radius', 'jupiter_radii', 'Rjov', [ ], [ 'natural' ] ),
+        UnitInfo( 'length', 'jupiter_radius', 'jupiter_radii', 'Rjov', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'ken' :
-        UnitInfo( 'length', 'ken', 'kens', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'ken', 'kens', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'kyu' :
-        UnitInfo( 'length', 'kyu', 'kyus', '', [ 'Q' ], [ 'typography', 'computing' ] ),
+        UnitInfo( 'length', 'kyu', 'kyus', '', [ 'Q' ], [ 'typography', 'computing' ],
+                  '''
+                  ''' ),
 
     'league' :
-        UnitInfo( 'length', 'league', 'leagues', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'league', 'leagues', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'light-second' :
-        UnitInfo( 'length', 'light*second', 'light-seconds', '', [ ], [ 'science' ] ),
+        UnitInfo( 'length', 'light*second', 'light-seconds', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'light-year' :
-        UnitInfo( 'length', 'light-year', 'light-years', 'ly', [ 'a1' ], [ 'science' ] ),
+        UnitInfo( 'length', 'light-year', 'light-years', 'ly', [ 'a1' ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'link' :
-        UnitInfo( 'length', 'link', 'links', '', [ ], [ 'informal' ] ),
+        UnitInfo( 'length', 'link', 'links', '', [ ], [ 'informal' ],
+                  '''
+                  ''' ),
 
     'long_cubit' :
-        UnitInfo( 'length', 'long_cubit', 'long_cubits', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'long_cubit', 'long_cubits', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'long_reed' :
-        UnitInfo( 'length', 'long_reed', 'long_reeds', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'long_reed', 'long_reeds', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'marathon' :
-        UnitInfo( 'length', 'marathon', 'marathons', '', [ ], [ 'informal' ] ),
+        UnitInfo( 'length', 'marathon', 'marathons', '', [ ], [ 'informal' ],
+                  '''
+                  ''' ),
 
     'meter' :
-        UnitInfo( 'length', 'meter', 'meters', 'm', [ ], [ 'SI' ] ),
+        UnitInfo( 'length', 'meter', 'meters', 'm', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'micron' :
-        UnitInfo( 'length', 'micron', 'microns', '', [ ], [ 'science' ] ),
+        UnitInfo( 'length', 'micron', 'microns', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'mil' :
-        UnitInfo( 'length', 'mil', 'mils', '', [ 'thou' ], [ 'US' ] ),
+        UnitInfo( 'length', 'mil', 'mils', '', [ 'thou' ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'mile' :
-        UnitInfo( 'length', 'mile', 'miles', 'mi', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'mile', 'miles', 'mi', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'nail' :
-        UnitInfo( 'length', 'nail', 'nails', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'nail', 'nails', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'nautical_mile' :
-        UnitInfo( 'length', 'nautical_mile', 'nautical_miles', '', [ ], [ 'nautical' ] ),
+        UnitInfo( 'length', 'nautical_mile', 'nautical_miles', '', [ ], [ 'nautical' ],
+                  '''
+                  ''' ),
 
     'parsec' :
-        UnitInfo( 'length', 'parsec', 'parsecs', 'pc', [ ], [ 'science' ] ),
+        UnitInfo( 'length', 'parsec', 'parsecs', 'pc', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'perch' :
-        UnitInfo( 'length', 'perch', 'perches', '', [ 'pole', 'poles' ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'perch', 'perches', '', [ 'pole', 'poles' ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'pica' :
-        UnitInfo( 'length', 'pica', 'picas', '', [ 'cicero' ], [ 'typography' ] ),
+        UnitInfo( 'length', 'pica', 'picas', '', [ 'cicero' ], [ 'typography' ],
+                  '''
+                  ''' ),
 
     'planck_length' :
-        UnitInfo( 'length', 'planck_length', 'planck_lengths', 'lP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'length', 'planck_length', 'planck_lengths', 'lP', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'point' :
-        UnitInfo( 'length', 'point', 'points', '', [ ], [ 'typography' ] ),
+        UnitInfo( 'length', 'point', 'points', '', [ ], [ 'typography' ],
+                  '''
+                  ''' ),
 
     'poppyseed' :
-        UnitInfo( 'length', 'poppyseed', 'poppyseeds', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'poppyseed', 'poppyseeds', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'reed' :
-        UnitInfo( 'length', 'reed', 'reeds', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'reed', 'reeds', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'rod' :
-        UnitInfo( 'length', 'rod', 'rods', 'rd', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'rod', 'rods', 'rd', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'rope' :
-        UnitInfo( 'length', 'rope', 'ropes', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'rope', 'ropes', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'potrzebie' :
-        UnitInfo( 'length', 'potrzebie', 'potrzebies', 'pz', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'length', 'potrzebie', 'potrzebies', 'pz', [ ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'siriometer' :
-        UnitInfo( 'length', 'siriometer', 'siriometers', '', [ ], [ 'science' ] ),  # proposed in 1911 by Cark V. L. Charlier
+        UnitInfo( 'length', 'siriometer', 'siriometers', '', [ ], [ 'science' ],  # proposed in 1911 by Cark V. L. Charlier
+                  '''
+                  ''' ),
 
     'skein' :
-        UnitInfo( 'length', 'skein', 'skeins', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'length', 'skein', 'skeins', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'smoot' :
-        UnitInfo( 'length', 'smoot', 'smoots', '', [ ], [ 'humorous' ] ),
+        UnitInfo( 'length', 'smoot', 'smoots', '', [ ], [ 'humorous' ],
+                  '''
+                  ''' ),
 
     'solar_radius' :
-        UnitInfo( 'length', 'solar_radius', 'solar_radii', 'Rsol', [ 'sun_radius', 'sun_radii' ], [ 'natural' ] ),
+        UnitInfo( 'length', 'solar_radius', 'solar_radii', 'Rsol', [ 'sun_radius', 'sun_radii' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'span' :
-        UnitInfo( 'length', 'span', 'spans', '', [ 'breadth' ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'span', 'spans', '', [ 'breadth' ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'twip' :
-        UnitInfo( 'length', 'twip', 'twips', '', [ ], [ 'computing' ] ),
+        UnitInfo( 'length', 'twip', 'twips', '', [ ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'yard' :
-        UnitInfo( 'length', 'yard', 'yards', 'yd', [ ], [ 'imperial' ] ),
+        UnitInfo( 'length', 'yard', 'yards', 'yd', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     # luminance
 
     'apostilb' :
-        UnitInfo( 'luminance', 'apostilb', 'apostilbs', 'asb', [ 'blondel' ], [ 'CGS' ] ),
+        UnitInfo( 'luminance', 'apostilb', 'apostilbs', 'asb', [ 'blondel' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'bril' :
-        UnitInfo( 'luminance', 'bril', 'brils', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'luminance', 'bril', 'brils', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'candela/meter^2' :
-        UnitInfo( 'luminance', 'candela/meter^2', 'candelas/meter^2', 'cd/m^2', [ 'candela/m^2', 'candelas/m^2', 'candela/square_meter', 'candelas/square_meter', 'cd/square_meter' ], [ 'SI' ] ),
+        UnitInfo( 'luminance', 'candela/meter^2', 'candelas/meter^2', 'cd/m^2', [ 'candela/m^2', 'candelas/m^2', 'candela/square_meter', 'candelas/square_meter', 'cd/square_meter' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'footlambert' :
-        UnitInfo( 'luminance', 'footlambert', 'footlamberts', 'fL', [ 'foot-lambert', 'foot-lamberts' ], [ 'US', 'obsolete' ] ),
+        UnitInfo( 'luminance', 'footlambert', 'footlamberts', 'fL', [ 'foot-lambert', 'foot-lamberts' ], [ 'US', 'obsolete' ],
+                  '''
+                  ''' ),
 
     'lambert' :
-        UnitInfo( 'luminance', 'lambert', 'lamberts', 'L', [ ], [ 'CGS' ] ),
+        UnitInfo( 'luminance', 'lambert', 'lamberts', 'L', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'nit' :
-        UnitInfo( 'luminance', 'nit', 'nits', 'nt', [ 'meterlambert', 'meter-lambert', 'meterlamberts', 'meter-lamberts' ], [ 'obsolete' ] ),
+        UnitInfo( 'luminance', 'nit', 'nits', 'nt', [ 'meterlambert', 'meter-lambert', 'meterlamberts', 'meter-lamberts' ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'skot' :
-        UnitInfo( 'luminance', 'skot', 'skots', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'luminance', 'skot', 'skots', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'stilb' :
-        UnitInfo( 'luminance', 'stilb', 'stilbs', 'sb', [ ], [ 'CGS' ] ),
+        UnitInfo( 'luminance', 'stilb', 'stilbs', 'sb', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     # luminous_flux
 
     'lumen' :
-        UnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm', [ ], [ 'SI' ] ),
+        UnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'candela-steradian' :
-        UnitInfo( 'luminous_flux', 'candela-steradian', 'candela-steradians', 'cd*sr', [ 'cd-sr' ], [ 'SI' ] ),
+        UnitInfo( 'luminous_flux', 'candela-steradian', 'candela-steradians', 'cd*sr', [ 'cd-sr' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     # luminous_intensity
 
     'candela' :
-        UnitInfo( 'luminous_intensity', 'candela', 'candelas', 'cd', [ ], [ 'SI' ] ),
+        UnitInfo( 'luminous_intensity', 'candela', 'candelas', 'cd', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'hefnerkerze' :
-        UnitInfo( 'luminous_intensity', 'hefnerkerze', 'hefnerkerze', 'HK', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'luminous_intensity', 'hefnerkerze', 'hefnerkerze', 'HK', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     # magnetic_field_strength
 
     'ampere/meter' :
-        UnitInfo( 'magnetic_field_strength', 'ampere/meter', 'amperes/meter', 'A/m', [ 'amp/m', 'amps/m', 'ampere/m', 'amperes/m', 'A/meter', 'amp/meter', 'amps/meter', 'A/meters', 'amp/meters', 'amps/meters', 'ampere/meters', 'amperes/meters' ], [ 'SI' ] ),
+        UnitInfo( 'magnetic_field_strength', 'ampere/meter', 'amperes/meter', 'A/m', [ 'amp/m', 'amps/m', 'ampere/m', 'amperes/m', 'A/meter', 'amp/meter', 'amps/meter', 'A/meters', 'amp/meters', 'amps/meters', 'ampere/meters', 'amperes/meters' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'oersted' :
-        UnitInfo( 'magnetic_field_strength', 'oersted', 'oersted', 'Oe', [ ], [ 'CGS' ] ),
+        UnitInfo( 'magnetic_field_strength', 'oersted', 'oersted', 'Oe', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     # magnetic_flux
 
     'gauss*centimeter^2' :
-        UnitInfo( 'magnetic_flux', 'gauss*centimeter^2', 'gauss*centimeter^2', 'gauss*cm^2', [ 'gauss*square_cm' ], [ 'CGS' ] ),
+        UnitInfo( 'magnetic_flux', 'gauss*centimeter^2', 'gauss*centimeter^2', 'gauss*cm^2', [ 'gauss*square_cm' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'maxwell' :
-        UnitInfo( 'magnetic_flux', 'maxwell', 'maxwells', 'Mx', [ 'line' ], [ 'CGS' ] ),
+        UnitInfo( 'magnetic_flux', 'maxwell', 'maxwells', 'Mx', [ 'line' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'volt-second' :
-        UnitInfo( 'magnetic_flux', 'volt*second', 'volts*seconds', 'V*s', [ ], [ 'SI' ] ),
+        UnitInfo( 'magnetic_flux', 'volt*second', 'volts*seconds', 'V*s', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'unit_pole' :
-        UnitInfo( 'magnetic_flux', 'unit_pole', 'unit_poles', '', [ 'unitpole', 'unitpoles' ], [ 'CGS' ] ),
+        UnitInfo( 'magnetic_flux', 'unit_pole', 'unit_poles', '', [ 'unitpole', 'unitpoles' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'tesla*meter^2' :
-        UnitInfo( 'magnetic_flux', 'tesla*meter^2', 'tesla*meter^2', 'T/m^2', [ 'tesla*square_meter', 'teslas*square_meter', 'T*square_meter', 'tesla*m^2', 'teslas*m^2', 'teslas*meter^2' ], [ 'SI' ] ),
+        UnitInfo( 'magnetic_flux', 'tesla*meter^2', 'tesla*meter^2', 'T/m^2', [ 'tesla*square_meter', 'teslas*square_meter', 'T*square_meter', 'tesla*m^2', 'teslas*m^2', 'teslas*meter^2' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'weber' :
-        UnitInfo( 'magnetic_flux', 'weber', 'webers', 'Wb', [ ], [ 'SI' ] ),
+        UnitInfo( 'magnetic_flux', 'weber', 'webers', 'Wb', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     # magnetic_flux_density
 
     'gauss' :
-        UnitInfo( 'magnetic_flux_density', 'gauss', 'gauss', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'magnetic_flux_density', 'gauss', 'gauss', '', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'kilogram/ampere-second^2' :
-        UnitInfo( 'magnetic_flux_density', 'kilogram/ampere*second^2', 'kilogram/ampere*second^2', 'kg/A*s^2', [ ], [ 'SI' ] ),
+        UnitInfo( 'magnetic_flux_density', 'kilogram/ampere*second^2', 'kilogram/ampere*second^2', 'kg/A*s^2', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'maxwell/centimeter^2' :
-        UnitInfo( 'magnetic_flux_density', 'maxwell/centimeter^2', 'maxwells/centimeter^2', 'Mx/cm^2', [ 'maxwell/cm^2', 'maxwells/cm^2', 'Mx/centimeter^2', 'Mx/square_centimeter', 'Mx/square_cm', 'maxwell/square_centimeter', 'maxwells/square_centimeter', 'maxwell/square_cm', 'maxwells/square_cm' ], [ 'CGS' ] ),
+        UnitInfo( 'magnetic_flux_density', 'maxwell/centimeter^2', 'maxwells/centimeter^2', 'Mx/cm^2', [ 'maxwell/cm^2', 'maxwells/cm^2', 'Mx/centimeter^2', 'Mx/square_centimeter', 'Mx/square_cm', 'maxwell/square_centimeter', 'maxwells/square_centimeter', 'maxwell/square_cm', 'maxwells/square_cm' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'tesla' :
-        UnitInfo( 'magnetic_flux_density', 'tesla', 'teslas', 'T', [ ], [ 'SI' ] ),
+        UnitInfo( 'magnetic_flux_density', 'tesla', 'teslas', 'T', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'weber/meter^2' :
-        UnitInfo( 'magnetic_flux_density', 'weber/meter^2', 'webers/meter^2', 'Wb/m^2', [ ], [ 'SI' ] ),
+        UnitInfo( 'magnetic_flux_density', 'weber/meter^2', 'webers/meter^2', 'Wb/m^2', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     # mass
 
     'blintz' :
-        UnitInfo( 'mass', 'blintz', 'blintzes', 'b', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'mass', 'blintz', 'blintzes', 'b', [ ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'carat' :
-        UnitInfo( 'mass', 'carat', 'carats', 'kt', [ 'karat', 'karats' ], [ 'US' ] ),
+        UnitInfo( 'mass', 'carat', 'carats', 'kt', [ 'karat', 'karats' ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'dalton' :
-        UnitInfo( 'mass', 'dalton', 'daltons', '', [ 'amu', 'atomic_mass_unit' ], [ 'science' ] ),
+        UnitInfo( 'mass', 'dalton', 'daltons', '', [ 'amu', 'atomic_mass_unit' ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'doppelzentner' :
-        UnitInfo( 'mass', 'doppelzentner', 'doppelzentners', '', [ ], [ 'Germany' ] ),
+        UnitInfo( 'mass', 'doppelzentner', 'doppelzentners', '', [ ], [ 'Germany' ],
+                  '''
+                  ''' ),
 
     'earth_mass' :
-        UnitInfo( 'mass', 'earth_mass', 'earth_masses', 'Mgeo', [ ], [ 'natural' ] ),
+        UnitInfo( 'mass', 'earth_mass', 'earth_masses', 'Mgeo', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'farshimmelt_blintz' :
-        UnitInfo( 'mass', 'farshimmelt_blintz', 'farshimmelt_blintzes', 'fb', [ 'far-blintz' ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'mass', 'farshimmelt_blintz', 'farshimmelt_blintzes', 'fb', [ 'far-blintz' ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'furshlugginer_blintz' :
-        UnitInfo( 'mass', 'furshlugginer_blintz', 'furshlugginer_blintzes', 'Fb', [ 'Fur-blintz' ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'mass', 'furshlugginer_blintz', 'furshlugginer_blintzes', 'Fb', [ 'Fur-blintz' ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'grain' :
-        UnitInfo( 'mass', 'grain', 'grains', 'gr', [ ], [ 'traditional' ] ),
+        UnitInfo( 'mass', 'grain', 'grains', 'gr', [ ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'gram' :
-        UnitInfo( 'mass', 'gram', 'grams', 'g', [ 'gramme', 'grammes' ], [ 'SI' ] ),
+        UnitInfo( 'mass', 'gram', 'grams', 'g', [ 'gramme', 'grammes' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'jupiter_mass' :
-        UnitInfo( 'mass', 'jupiter_mass', 'jupiter_masses', 'Mjov', [ ], [ 'natural' ] ),
+        UnitInfo( 'mass', 'jupiter_mass', 'jupiter_masses', 'Mjov', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'kip' :
-        UnitInfo( 'mass', 'kip', 'kips', '', [ 'kilopound', 'kilopounds' ], [ 'US' ] ),
+        UnitInfo( 'mass', 'kip', 'kips', '', [ 'kilopound', 'kilopounds' ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'ounce' :
-        UnitInfo( 'mass', 'ounce', 'ounces', 'oz', [ ], [ 'traditional' ] ),
+        UnitInfo( 'mass', 'ounce', 'ounces', 'oz', [ ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'pennyweight' :
-        UnitInfo( 'mass', 'pennyweight', 'pennyweights', 'dwt', [ 'pwt' ], [ 'traditional', 'England' ] ),
+        UnitInfo( 'mass', 'pennyweight', 'pennyweights', 'dwt', [ 'pwt' ], [ 'traditional', 'England' ],
+                  '''
+                  ''' ),
 
     'pfund' :
-        UnitInfo( 'mass', 'pfund', 'pfunds', '', [ ], [ 'Germany' ] ),
+        UnitInfo( 'mass', 'pfund', 'pfunds', '', [ ], [ 'Germany' ],
+                  '''
+                  ''' ),
 
     'planck_mass' :
-        UnitInfo( 'mass', 'planck_mass', 'planck_masses', 'mP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'mass', 'planck_mass', 'planck_masses', 'mP', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'pound' :
-        UnitInfo( 'mass', 'pound', 'pounds', 'lb', [ ], [ 'US', 'traditional', 'FPS' ] ),
-
-    'proton_mass' :
-        UnitInfo( 'mass', 'proton_mass', 'proton_masses', '', [ ], [ 'natural' ] ),
+        UnitInfo( 'mass', 'pound', 'pounds', 'lb', [ ], [ 'US', 'traditional', 'FPS' ],
+                  '''
+                  ''' ),
 
     'quintal' :
-        UnitInfo( 'mass', 'quintal', 'quintals', 'q', [ ], [ ] ),
+        UnitInfo( 'mass', 'quintal', 'quintals', 'q', [ ], [ ],
+                  '''
+                  ''' ),
 
     'sheet' :
-        UnitInfo( 'mass', 'sheet', 'sheets', '', [ ], [ ] ),
+        UnitInfo( 'mass', 'sheet', 'sheets', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'slug' :
-        UnitInfo( 'mass', 'slug', 'slugs', '', [ 'gee_pound', 'geepound', 'gee-pound', 'gee_pounds', 'geepounds', 'gee-pounds' ], [ 'FPS' ] ),
+        UnitInfo( 'mass', 'slug', 'slugs', '', [ 'gee_pound', 'geepound', 'gee-pound', 'gee_pounds', 'geepounds', 'gee-pounds' ], [ 'FPS' ],
+                  '''
+                  ''' ),
 
     'solar_mass' :
-        UnitInfo( 'mass', 'solar_mass', 'solar_masses', 'Msol', [ 'sun_mass', 'sun_masses' ], [ 'natural' ] ),
+        UnitInfo( 'mass', 'solar_mass', 'solar_masses', 'Msol', [ 'sun_mass', 'sun_masses' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'stone' :
-        UnitInfo( 'mass', 'stone', 'stone', '', [ ], [ 'traditional', 'England' ] ),
+        UnitInfo( 'mass', 'stone', 'stone', '', [ ], [ 'traditional', 'England' ],
+                  '''
+                  ''' ),
 
     'stone_us' :
-        UnitInfo( 'mass', 'stone_us', 'stones_us', '', [ 'us_stone', 'us_stones' ], [ 'US' ] ),
+        UnitInfo( 'mass', 'stone_us', 'stones_us', '', [ 'us_stone', 'us_stones' ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'ton' :
-        UnitInfo( 'mass', 'ton', 'tons', '', [ ], [ 'traditional', 'US' ] ),
+        UnitInfo( 'mass', 'ton', 'tons', '', [ ], [ 'traditional', 'US' ],
+                  '''
+                  ''' ),
 
     'tonne' :
-        UnitInfo( 'mass', 'tonne', 'tonnes', '', [ ], [ 'MTS' ] ),
+        UnitInfo( 'mass', 'tonne', 'tonnes', '', [ ], [ 'MTS' ],
+                  '''
+                  ''' ),
 
     'troy_ounce' :
-        UnitInfo( 'mass', 'troy_ounce', 'troy_ounces', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'mass', 'troy_ounce', 'troy_ounces', '', [ ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'troy_pound' :
-        UnitInfo( 'mass', 'troy_pound', 'troy_pounds', '', [ ], [ 'traditional'  ] ),
+        UnitInfo( 'mass', 'troy_pound', 'troy_pounds', '', [ ], [ 'traditional'  ],
+                  '''
+                  ''' ),
 
     'wey' :
-        UnitInfo( 'mass', 'wey', 'weys', '', [ ], [ 'obsolete', 'England' ] ),
+        UnitInfo( 'mass', 'wey', 'weys', '', [ ], [ 'obsolete', 'England' ],
+                  '''
+                  ''' ),
 
     'zentner' :
-        UnitInfo( 'mass', 'zentner', 'zentners', '', [ ], [ 'Germany' ] ),
+        UnitInfo( 'mass', 'zentner', 'zentners', '', [ ], [ 'Germany' ],
+                  '''
+                  ''' ),
 
     # particle masses
 
-    'electron_mass' :
-        UnitInfo( 'mass', 'electron_mass', 'electron_masses', '', [ 'electron_rest_mass', 'electron_rest_masses' ], [ 'natural', 'science' ] ),
-
-    'proton_mass' :
-        UnitInfo( 'mass', 'proton_mass', 'proton_masses', '', [ ], [ 'natural', 'science' ] ),
-
-    'neutron_mass' :
-        UnitInfo( 'mass', 'neutron_mass', 'neutron_masses', '', [ ], [ 'natural', 'science' ] ),
-
-    'muon_mass' :
-        UnitInfo( 'mass', 'muon_mass', 'muon_masses', '', [ ], [ 'natural', 'science' ] ),
+    'alpha_particle_mass' :
+        UnitInfo( 'mass', 'alpha_particle_mass', 'alpha_particle_masses', '', [ 'alpha_mass', 'alpha_masses' ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'deuteron_mass' :
-        UnitInfo( 'mass', 'deuteron_mass', 'deuteron_masses', '', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'mass', 'deuteron_mass', 'deuteron_masses', '', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
-    'alpha_particle_mass' :
-        UnitInfo( 'mass', 'alpha_particle_mass', 'alpha_particle_masses', '', [ 'alpha_mass', 'alpha_masses' ], [ 'natural', 'science' ] ),
-
-    'tau_mass' :
-        UnitInfo( 'mass', 'tau_mass', 'tau_masses', '', [ ], [ 'natural', 'science' ] ),
-
-    'triton_mass' :
-        UnitInfo( 'mass', 'triton_mass', 'triton_masses', '', [ ], [ 'natural', 'science' ] ),
+    'electron_mass' :
+        UnitInfo( 'mass', 'electron_mass', 'electron_masses', '', [ 'electron_rest_mass', 'electron_rest_masses' ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'helion_mass' :
-        UnitInfo( 'mass', 'helion_mass', 'helion_masses', '', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'mass', 'helion_mass', 'helion_masses', '', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
+
+    'proton_mass' :
+        UnitInfo( 'mass', 'proton_mass', 'proton_masses', '', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
+
+    'muon_mass' :
+        UnitInfo( 'mass', 'muon_mass', 'muon_masses', '', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
+
+    'neutron_mass' :
+        UnitInfo( 'mass', 'neutron_mass', 'neutron_masses', '', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
+
+    'proton_mass' :
+        UnitInfo( 'mass', 'proton_mass', 'proton_masses', '', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    'tau_mass' :
+        UnitInfo( 'mass', 'tau_mass', 'tau_masses', '', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
+
+    'triton_mass' :
+        UnitInfo( 'mass', 'triton_mass', 'triton_masses', '', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     # power
 
     'dBm' :
-        UnitInfo( 'power', 'dBm', 'dBm', 'dBm', [ 'dBmW', 'decibel-milliwatt' ], [ 'engineering' ] ),
+        UnitInfo( 'power', 'dBm', 'dBm', 'dBm', [ 'dBmW', 'decibel-milliwatt' ], [ 'engineering' ],
+                  '''
+                  ''' ),
 
     'erg/second' :
-        UnitInfo( 'power', 'erg/second', 'ergs/second', 'erg/s', [ 'ergs/s' ], [ 'CGS' ] ),
+        UnitInfo( 'power', 'erg/second', 'ergs/second', 'erg/s', [ 'ergs/s' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'horsepower' :
-        UnitInfo( 'power', 'horsepower', 'horsepower', 'hp', [ ], [ 'US' ] ),
+        UnitInfo( 'power', 'horsepower', 'horsepower', 'hp', [ ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'joule/second' :
-        UnitInfo( 'power', 'joule/second', 'joules/second', 'J/s', [ 'joule/s', 'joules/s', 'J/sec', 'joule/sec', 'joules/sec', 'J/seconds', 'joule/seconds', 'joules/seconds' ], [ 'SI' ] ),
+        UnitInfo( 'power', 'joule/second', 'joules/second', 'J/s', [ 'joule/s', 'joules/s', 'J/sec', 'joule/sec', 'joules/sec', 'J/seconds', 'joule/seconds', 'joules/seconds' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'lusec' :
-        UnitInfo( 'power', 'lusec', 'lusecs', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'power', 'lusec', 'lusecs', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'kilogram-meter^2/second^3' :
-        UnitInfo( 'power', 'kilogram*meter^2/second^3', 'kilogram*meter^2/second^3', 'kg*m^2/s^3', [ ], [ 'SI' ] ),
+        UnitInfo( 'power', 'kilogram*meter^2/second^3', 'kilogram*meter^2/second^3', 'kg*m^2/s^3', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'newton-meter/second' :
-        UnitInfo( 'power', 'newton*meter/second', 'newton*meter/second', 'N*m/s', [ ], [ 'SI' ] ),
+        UnitInfo( 'power', 'newton*meter/second', 'newton*meter/second', 'N*m/s', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'pferdestarke' :
-        UnitInfo( 'power', 'pferdestarke', 'pferdestarke', '', [ ], [ 'obsolete', 'Germany' ] ),
+        UnitInfo( 'power', 'pferdestarke', 'pferdestarke', '', [ ], [ 'obsolete', 'Germany' ],
+                  '''
+                  ''' ),
 
     'planck_power' :
-        UnitInfo( 'power', 'planck_power', 'planck_power', 'pP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'power', 'planck_power', 'planck_power', 'pP', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'poncelet' :
-        UnitInfo( 'power', 'poncelet', 'poncelets', '', [ ], [ 'obsolete' ] ),
+        UnitInfo( 'power', 'poncelet', 'poncelets', '', [ ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'solar_luminosity' :
-        UnitInfo( 'power', 'solar_luminosity', 'solar_luminosities', '', [ 'solar_output' ], [ 'natural' ] ),
+        UnitInfo( 'power', 'solar_luminosity', 'solar_luminosities', '', [ 'solar_output' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'volt-ampere' :
-        UnitInfo( 'power', 'volt*ampere', 'volt-amperes', 'VA', [ ], [ 'SI' ] ),
+        UnitInfo( 'power', 'volt*ampere', 'volt-amperes', 'VA', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'watt' :
-        UnitInfo( 'power', 'watt', 'watts', 'W', [ ], [ 'SI' ] ),
+        UnitInfo( 'power', 'watt', 'watts', 'W', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     # pressure
 
     'atmosphere' :
-        UnitInfo( 'pressure', 'atmosphere', 'atmospheres', 'atm', [ ], [ 'natural' ] ),
+        UnitInfo( 'pressure', 'atmosphere', 'atmospheres', 'atm', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'bar' :
-        UnitInfo( 'pressure', 'bar', 'bars', '', [ ], [ ] ),
+        UnitInfo( 'pressure', 'bar', 'bars', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'barye' :
-        UnitInfo( 'pressure', 'barye', 'baryes', 'Ba', [ 'barad' ], [ 'CGS' ] ),
+        UnitInfo( 'pressure', 'barye', 'baryes', 'Ba', [ 'barad' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'mmHg' :
-        UnitInfo( 'pressure', 'mmHg', 'mmHg', '', [ ], [ 'metric' ] ),
+        UnitInfo( 'pressure', 'mmHg', 'mmHg', '', [ ], [ 'metric' ],
+                  '''
+                  ''' ),
 
     'newton/meter^2' :
-        UnitInfo( 'pressure', 'newton/meter^2', 'newtons/meter^2', 'N/m^2', [ ], [ 'SI' ] ),
+        UnitInfo( 'pressure', 'newton/meter^2', 'newtons/meter^2', 'N/m^2', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'pascal' :
-        UnitInfo( 'pressure', 'pascal', 'pascals', 'Pa', [ ], [ 'SI' ] ),
+        UnitInfo( 'pressure', 'pascal', 'pascals', 'Pa', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'pieze' :
-        UnitInfo( 'pressure', 'pieze', 'piezes', '', [ ], [ 'MTS' ] ),
+        UnitInfo( 'pressure', 'pieze', 'piezes', '', [ ], [ 'MTS' ],
+                  '''
+                  ''' ),
 
     'psi' :
-        UnitInfo( 'pressure', 'pound/inch^2', 'pounds/inch^2', 'psi', [ 'lb/in^2' ], [ 'FPS' ] ),
+        UnitInfo( 'pressure', 'pound/inch^2', 'pounds/inch^2', 'psi', [ 'lb/in^2' ], [ 'FPS' ],
+                  '''
+                  ''' ),
 
     'torr' :
-        UnitInfo( 'pressure', 'torr', 'torr', '', [ ], [ ] ),
+        UnitInfo( 'pressure', 'torr', 'torr', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     # radiation_dose
 
     'banana_equivalent_dose' :
-        UnitInfo( 'radiation_dose', 'banana_equivalent_dose', 'banana_equivalent_doses', '', [ 'banana' ], [ 'natural' ] ),
+        UnitInfo( 'radiation_dose', 'banana_equivalent_dose', 'banana_equivalent_doses', '', [ 'banana' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'gray' :
-        UnitInfo( 'radiation_dose', 'gray', 'grays', 'Gy', [ ], [ 'SI' ] ),
+        UnitInfo( 'radiation_dose', 'gray', 'grays', 'Gy', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'joule/kilogram' :
-        UnitInfo( 'radiation_dose', 'joule/kilogram', 'joules/kilogram', 'J/kg', [ 'joule/kg', 'joules/kg', 'J/kilogram', 'J/kilograms', 'joule/kilograms', 'joules/kilograms' ], [ 'SI' ] ),
+        UnitInfo( 'radiation_dose', 'joule/kilogram', 'joules/kilogram', 'J/kg', [ 'joule/kg', 'joules/kg', 'J/kilogram', 'J/kilograms', 'joule/kilograms', 'joules/kilograms' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'rad' :
-        UnitInfo( 'radiation_dose', 'rad', 'rads', '', [ ], [ 'CGS' ] ),
+        UnitInfo( 'radiation_dose', 'rad', 'rads', '', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'rem' :
-        UnitInfo( 'radiation_dose', 'rem', 'rems', '', [ 'roentgen_equivalent_man' ], [ 'CGS' ] ),
+        UnitInfo( 'radiation_dose', 'rem', 'rems', '', [ 'roentgen_equivalent_man' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'sievert' :
-        UnitInfo( 'radiation_dose', 'sievert', 'sieverts', 'Sv', [ ], [ 'SI' ] ),
+        UnitInfo( 'radiation_dose', 'sievert', 'sieverts', 'Sv', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     # radiation_exposure
 
     'coulomb/kilogram' :
-        UnitInfo( 'radiation_exposure', 'coulomb/kilogram', 'coulombs/kilogram', 'C/kg', [ ], [ 'SI' ] ),
+        UnitInfo( 'radiation_exposure', 'coulomb/kilogram', 'coulombs/kilogram', 'C/kg', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'roentgen' :
-        UnitInfo( 'radiation_exposure', 'roentgen', 'roentgens', 'R', [ 'parker' ], [ 'NIST' ] ),
+        UnitInfo( 'radiation_exposure', 'roentgen', 'roentgens', 'R', [ 'parker' ], [ 'NIST' ],
+                  '''
+                  ''' ),
 
     # solid_angle
 
     'sphere' :
-        UnitInfo( 'solid_angle', 'sphere', 'spheres', '', [ ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'sphere', 'spheres', '', [ ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'square_arcminute' :
-        UnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', 'arcmin^2', [ 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2', 'spherical_minute', 'spherical_minutes' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', 'arcmin^2', [ 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2', 'spherical_minute', 'spherical_minutes' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'square_arcsecond' :
-        UnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', 'arcsec^2', [ 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2', 'spherical_second', 'spherical_seconds' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', 'arcsec^2', [ 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2', 'spherical_second', 'spherical_seconds' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'square_degree' :
-        UnitInfo( 'solid_angle', 'degree^2', 'degrees^2', 'deg^2', [ 'square_degrees', 'sqdeg', 'solid_degree', 'solid_degrees', 'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs', 'spherical_degree', 'spherical_degrees' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'degree^2', 'degrees^2', 'deg^2', [ 'square_degrees', 'sqdeg', 'solid_degree', 'solid_degrees', 'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs', 'spherical_degree', 'spherical_degrees' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'square_octant' :
-        UnitInfo( 'solid_angle', 'octant^2', 'octants^2', '', [ 'square_octants', 'sqoctant', 'sqoctants', 'solid_octant', 'solid_octants', 'sq_octant', 'sq_octants', 'spherical_octant', 'spherical_octants' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'octant^2', 'octants^2', '', [ 'square_octants', 'sqoctant', 'sqoctants', 'solid_octant', 'solid_octants', 'sq_octant', 'sq_octants', 'spherical_octant', 'spherical_octants' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'square_quadrant' :
-        UnitInfo( 'solid_angle', 'quadrant^2', 'quadrants^2', '', [ 'square_quadrants', 'sqquadrant', 'sqquadrants', 'solid_quadrant', 'solid_quadrants', 'sq_quadrant', 'sq_quadrants', 'spherical_quadrant', 'spherical_quadrants' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'quadrant^2', 'quadrants^2', '', [ 'square_quadrants', 'sqquadrant', 'sqquadrants', 'solid_quadrant', 'solid_quadrants', 'sq_quadrant', 'sq_quadrants', 'spherical_quadrant', 'spherical_quadrants' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'square_quintant' :
-        UnitInfo( 'solid_angle', 'quintant^2', 'quintants^2', '', [ 'square_quintants', 'sqquintant', 'sqquintants', 'solid_quintant', 'solid_quintants', 'sq_quintant', 'sq_quintants', 'spherical_quintant', 'spherical_quintants' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'quintant^2', 'quintants^2', '', [ 'square_quintants', 'sqquintant', 'sqquintants', 'solid_quintant', 'solid_quintants', 'sq_quintant', 'sq_quintants', 'spherical_quintant', 'spherical_quintants' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'square_sextant' :
-        UnitInfo( 'solid_angle', 'sextant^2', 'sextants^2', '', [ 'square_sextants', 'sqsextant', 'sqsextants', 'solid_sextant', 'solid_sextants', 'sq_sextant', 'sq_sextants', 'spherical_sextant', 'spherical_sextants' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'sextant^2', 'sextants^2', '', [ 'square_sextants', 'sqsextant', 'sqsextants', 'solid_sextant', 'solid_sextants', 'sq_sextant', 'sq_sextants', 'spherical_sextant', 'spherical_sextants' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'square_grad' :
-        UnitInfo( 'solid_angle', 'grad^2', 'grads^2', '', [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons','sqgon', 'sqgons', 'grad^2', 'grads^2', 'gon^2', 'gons^2', 'spherical_gon', 'spherical_gons', 'spherical_grad', 'spherical_grads' ], [ 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'grad^2', 'grads^2', '', [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons','sqgon', 'sqgons', 'grad^2', 'grads^2', 'gon^2', 'gons^2', 'spherical_gon', 'spherical_gons', 'spherical_grad', 'spherical_grads' ], [ 'mathematics' ],
+                  '''
+                  ''' ),
 
     'steradian' :
-        UnitInfo( 'solid_angle', 'steradian', 'steradians', 'sr', [ 'square_radian', 'square_radians', 'sq_radian', 'sq_radians', 'sq_rad', 'sqrad', 'radian^2', 'radians^2', 'rad^2', 'spherical_radian', 'spherical_radians' ], [ 'SI', 'mathematics' ] ),
+        UnitInfo( 'solid_angle', 'steradian', 'steradians', 'sr', [ 'square_radian', 'square_radians', 'sq_radian', 'sq_radians', 'sq_rad', 'sqrad', 'radian^2', 'radians^2', 'rad^2', 'spherical_radian', 'spherical_radians' ], [ 'SI', 'mathematics' ],
+                  '''
+                  ''' ),
 
     # temperature
 
     'celsius' :
-        UnitInfo( 'temperature', 'celsius', 'degrees_celsius', '', [ 'centigrade', 'degC' ], [ 'SI' ] ),
+        UnitInfo( 'temperature', 'celsius', 'degrees_celsius', '', [ 'centigrade', 'degC' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'degree_newton' :
-        UnitInfo( 'temperature', 'degree_newton', 'degrees_newton', '', [ 'newton_degree', 'newton_degrees', 'degN' ], [ 'obsolete' ] ),
+        UnitInfo( 'temperature', 'degree_newton', 'degrees_newton', '', [ 'newton_degree', 'newton_degrees', 'degN' ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'delisle' :
-        UnitInfo( 'temperature', 'delisle', 'degrees_delisle', 'De', [ 'degDe' ], [ 'obsolete' ] ),
+        UnitInfo( 'temperature', 'delisle', 'degrees_delisle', 'De', [ 'degDe' ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'fahrenheit' :
-        UnitInfo( 'temperature', 'fahrenheit', 'degrees_fahrenheit', '', [ 'fahr', 'degF' ], [ 'US', 'traditional' ] ),
+        UnitInfo( 'temperature', 'fahrenheit', 'degrees_fahrenheit', '', [ 'fahr', 'degF' ], [ 'US', 'traditional' ],
+                  '''
+                  ''' ),
 
     'kelvin' :
-        UnitInfo( 'temperature', 'kelvin', 'degrees_kelvin', 'K', [ 'degK' ], [ 'SI' ] ),
+        UnitInfo( 'temperature', 'kelvin', 'degrees_kelvin', 'K', [ 'degK' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'rankine' :
-        UnitInfo( 'temperature', 'rankine', 'degrees_rankine', 'R', [ 'degR' ], [ 'obsolete' ] ),
+        UnitInfo( 'temperature', 'rankine', 'degrees_rankine', 'R', [ 'degR' ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'reaumur' :
-        UnitInfo( 'temperature', 'reaumur', 'degrees_reaumur', 'Re', [ 'degRe' ], [ 'obsolete' ] ),
+        UnitInfo( 'temperature', 'reaumur', 'degrees_reaumur', 'Re', [ 'degRe' ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     'romer' :
-        UnitInfo( 'temperature', 'romer', 'degrees_romer', 'Ro', [ 'defRo' ], [ 'obsolete' ] ),
+        UnitInfo( 'temperature', 'romer', 'degrees_romer', 'Ro', [ 'defRo' ], [ 'obsolete' ],
+                  '''
+                  ''' ),
 
     # time
 
     'beat' :
-        UnitInfo( 'time', 'beat', 'beat', '', [ ], [ ] ),
+        UnitInfo( 'time', 'beat', 'beat', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'blink' :
-        UnitInfo( 'time', 'blink', 'blink', '', [ ], [ ] ),
+        UnitInfo( 'time', 'blink', 'blink', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'century' :
-        UnitInfo( 'time', 'century', 'centuries', 'y', [ ], [ 'traditional', 'US', 'years' ] ),
+        UnitInfo( 'time', 'century', 'centuries', 'y', [ ], [ 'traditional', 'US', 'years' ],
+                  '''
+                  ''' ),
 
     'clarke' :
-        UnitInfo( 'time', 'clarke', 'clarkes', '', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'time', 'clarke', 'clarkes', '', [ ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'cowznofski' :
-        UnitInfo( 'time', 'cowznofski', 'cowznofskis', '', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'time', 'cowznofski', 'cowznofskis', '', [ ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'day' :
-        UnitInfo( 'time', 'day', 'days', 'd', [ ], [ 'traditional', 'US' ] ),
+        UnitInfo( 'time', 'day', 'days', 'd', [ ], [ 'traditional', 'US' ],
+                  '''
+                  ''' ),
 
     'decade' :
-        UnitInfo( 'time', 'decade', 'decades', '', [ ], [ 'traditional', 'years' ] ),
+        UnitInfo( 'time', 'decade', 'decades', '', [ ], [ 'traditional', 'years' ],
+                  '''
+                  ''' ),
 
     'fortnight' :
-        UnitInfo( 'time', 'fortnight', 'fortnights', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'time', 'fortnight', 'fortnights', '', [ ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'gregorian_year' :
-        UnitInfo( 'time', 'gregorian_year', 'gregorian_years', '', [ '' ], [ 'traditional' ] ),
+        UnitInfo( 'time', 'gregorian_year', 'gregorian_years', '', [ '' ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'hour' :
-        UnitInfo( 'time', 'hour', 'hours', 'hr', [ ], [ 'traditional' ] ),
+        UnitInfo( 'time', 'hour', 'hours', 'hr', [ ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'kovac' :
-        UnitInfo( 'time', 'kovac', 'kovacs', '', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'time', 'kovac', 'kovacs', '', [ ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'jiffy' :
-        UnitInfo( 'time', 'jiffy', 'jiffies', '', [ ], [ 'computing' ] ),
+        UnitInfo( 'time', 'jiffy', 'jiffies', '', [ ], [ 'computing' ],
+                  '''
+                  ''' ),
 
     'lunar_day' :
-        UnitInfo( 'time', 'lunar_day', 'lunar_days', '', [ 'tidal_day', 'tidal_days' ], [ 'science' ] ),
+        UnitInfo( 'time', 'lunar_day', 'lunar_days', '', [ 'tidal_day', 'tidal_days' ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'lustrum' :
-        UnitInfo( 'time', 'lustrum', 'lustra', '', [ ], [ 'obsolete', 'years' ] ),
+        UnitInfo( 'time', 'lustrum', 'lustra', '', [ ], [ 'obsolete', 'years' ],
+                  '''
+                  ''' ),
 
     'martin' :
-        UnitInfo( 'time', 'martin', 'martins', '', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'time', 'martin', 'martins', '', [ ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'microcentury' :
-        UnitInfo( 'time', 'microcentury', 'microcenturies', '', [ ], [ 'humorous', 'computing' ] ),
+        UnitInfo( 'time', 'microcentury', 'microcenturies', '', [ ], [ 'humorous', 'computing' ],
+                  '''
+                  ''' ),
 
     'microfortnight' :
-        UnitInfo( 'time', 'microfortnight', 'microfortnights', '', [ ], [ 'humorous', 'computing' ] ),
+        UnitInfo( 'time', 'microfortnight', 'microfortnights', '', [ ], [ 'humorous', 'computing' ],
+                  '''
+                  ''' ),
 
     'mingo' :
-        UnitInfo( 'time', 'mingo', 'mingoes', '', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'time', 'mingo', 'mingoes', '', [ ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'minute' :
-        UnitInfo( 'time', 'minute', 'minutes', '', [ ], [ 'traditional' ] ),  # 'min' is already an operator
+        UnitInfo( 'time', 'minute', 'minutes', '', [ ], [ 'traditional' ],  # 'min' is already an operator
+                  '''
+                  ''' ),
 
     'month' :
-        UnitInfo( 'time', 'month', 'months', 'mo', [ ], [ 'traditional', 'months' ] ),
+        UnitInfo( 'time', 'month', 'months', 'mo', [ ], [ 'traditional', 'months' ],
+                  '''
+                  ''' ),
 
     'nanocentury' :
-        UnitInfo( 'time', 'nanocentury', 'nanocenturies', '', [ ], [ 'humorous', 'computing' ] ),
+        UnitInfo( 'time', 'nanocentury', 'nanocenturies', '', [ ], [ 'humorous', 'computing' ],
+                  '''
+                  ''' ),
 
     'planck_time' :
-        UnitInfo( 'time', 'x planck_time', 'x planck_time', 'tP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'time', 'x planck_time', 'x planck_time', 'tP', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'second' :
-        UnitInfo( 'time', 'second', 'seconds', '', [ ], [ 'SI', 'traditional', 'FPS' ] ),   # 'sec' is already an operator
+        UnitInfo( 'time', 'second', 'seconds', '', [ ], [ 'SI', 'traditional', 'FPS' ],   # 'sec' is already an operator
+                  '''
+                  ''' ),
 
     'shake' :
-        UnitInfo( 'time', 'shake', 'shakes', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'shake', 'shakes', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'sidereal_day' :
-        UnitInfo( 'time', 'sidereal_day', 'sidereal_days', '', [ 'earth_day' ], [ 'science' ] ),
+        UnitInfo( 'time', 'sidereal_day', 'sidereal_days', '', [ 'earth_day' ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'sidereal_hour' :
-        UnitInfo( 'time', 'sidereal_hour', 'sidereal_hours', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'sidereal_hour', 'sidereal_hours', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'sidereal_minute' :
-        UnitInfo( 'time', 'sidereal_minute', 'sidereal_minutes', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'sidereal_minute', 'sidereal_minutes', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'sidereal_month' :
-        UnitInfo( 'time', 'sidereal_month', 'sidereal_months', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'sidereal_month', 'sidereal_months', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'sidereal_second' :
-        UnitInfo( 'time', 'sidereal_second', 'sidereal_seconds', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'sidereal_second', 'sidereal_seconds', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'sidereal_year' :
-        UnitInfo( 'time', 'sidereal_year', 'sidereal_years', '', [ 'earth_year' ], [ 'science' ] ),
+        UnitInfo( 'time', 'sidereal_year', 'sidereal_years', '', [ 'earth_year' ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'svedberg' :
-        UnitInfo( 'time', 'svedberg', 'svedbergs', '', [ ], [ ] ),
+        UnitInfo( 'time', 'svedberg', 'svedbergs', '', [ ], [ ],
+                  '''
+                  ''' ),
 
     'tropical_year' :
-        UnitInfo( 'time', 'tropical_year', 'tropical_years', '', [ 'solar_year', 'solar_years' ], [ 'science' ] ),
+        UnitInfo( 'time', 'tropical_year', 'tropical_years', '', [ 'solar_year', 'solar_years' ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'week' :
-        UnitInfo( 'time', 'week', 'weeks', 'wk', [ 'sennight' ], [ 'traditional', 'obsolete' ] ),
+        UnitInfo( 'time', 'week', 'weeks', 'wk', [ 'sennight' ], [ 'traditional', 'obsolete' ],
+                  '''
+                  ''' ),
 
     'wolverton' :
-        UnitInfo( 'time', 'wolverton', 'wolvertons', '', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'time', 'wolverton', 'wolvertons', '', [ ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'wood' :
-        UnitInfo( 'time', 'wood', 'woods', '', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'time', 'wood', 'woods', '', [ ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'year' :
-        UnitInfo( 'time', 'year', 'years', '', [ 'annum', 'julian_year', 'julian_years' ], [ 'traditional', 'years' ] ),
+        UnitInfo( 'time', 'year', 'years', '', [ 'annum', 'julian_year', 'julian_years' ], [ 'traditional', 'years' ],
+                  '''
+                  ''' ),
 
     # planet days
 
     'mercury_day' :
-        UnitInfo( 'time', 'mercury_day', 'mercury_days', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'mercury_day', 'mercury_days', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'venus_day' :
-        UnitInfo( 'time', 'venus_day', 'venus_days', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'venus_day', 'venus_days', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'mars_day' :
-        UnitInfo( 'time', 'mars_day', 'mars_days', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'mars_day', 'mars_days', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'jupiter_day' :
-        UnitInfo( 'time', 'jupiter_day', 'jupiter_days', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'jupiter_day', 'jupiter_days', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'saturn_day' :
-        UnitInfo( 'time', 'saturn_day', 'saturn_days', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'saturn_day', 'saturn_days', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'uranus_day' :
-        UnitInfo( 'time', 'uranus_day', 'uranus_days', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'uranus_day', 'uranus_days', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'neptune_day' :
-        UnitInfo( 'time', 'neptune_day', 'neptune_days', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'neptune_day', 'neptune_days', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'pluto_day' :
-        UnitInfo( 'time', 'pluto_day', 'pluto_days', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'pluto_day', 'pluto_days', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     # planet years
 
     'mercury_year' :
-        UnitInfo( 'time', 'mercury_year', 'mercury_years', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'mercury_year', 'mercury_years', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'venus_year' :
-        UnitInfo( 'time', 'venus_year', 'venus_years', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'venus_year', 'venus_years', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'mars_year' :
-        UnitInfo( 'time', 'mars_year', 'mars_years', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'mars_year', 'mars_years', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'jupiter_year' :
-        UnitInfo( 'time', 'jupiter_year', 'jupiter_years', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'jupiter_year', 'jupiter_years', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'saturn_year' :
-        UnitInfo( 'time', 'saturn_year', 'saturn_years', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'saturn_year', 'saturn_years', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'uranus_year' :
-        UnitInfo( 'time', 'uranus_year', 'uranus_years', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'uranus_year', 'uranus_years', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'neptune_year' :
-        UnitInfo( 'time', 'neptune_year', 'neptune_years', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'neptune_year', 'neptune_years', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     'pluto_year' :
-        UnitInfo( 'time', 'pluto_year', 'pluto_years', '', [ ], [ 'science' ] ),
+        UnitInfo( 'time', 'pluto_year', 'pluto_years', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
 
     # velocity
 
     'kine' :
-        UnitInfo( 'velocity', 'kine', 'kine', '', [ '' ], [ 'CGS' ] ),
+        UnitInfo( 'velocity', 'kine', 'kine', '', [ '' ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'meter/second' :
-        UnitInfo( 'velocity', 'meter/second', 'meters/second', 'm/s', [ 'mps' ], [ 'SI' ] ),
+        UnitInfo( 'velocity', 'meter/second', 'meters/second', 'm/s', [ 'mps' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'knot' :
-        UnitInfo( 'velocity', 'knot', 'knots', '', [ ], [ 'nautical' ] ),
+        UnitInfo( 'velocity', 'knot', 'knots', '', [ ], [ 'nautical' ],
+                  '''
+                  ''' ),
 
     'speed_of_light' :
-        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', 'c', [ 'light' ], [ 'natural' ] ),
+        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', 'c', [ 'light' ], [ 'natural' ],
+                  '''
+                  ''' ),
 
     'mach' :
-        UnitInfo( 'velocity', 'mach', 'mach', '', [ ], [ 'US' ] ),
+        UnitInfo( 'velocity', 'mach', 'mach', '', [ ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'mile/hour' :
-        UnitInfo( 'velocity', 'mile/hour', 'miles/hour', 'mph', [ 'mi/hr' ], [ 'FPS', 'imperial' ] ),
+        UnitInfo( 'velocity', 'mile/hour', 'miles/hour', 'mph', [ 'mi/hr' ], [ 'FPS', 'imperial' ],
+                  '''
+                  ''' ),
 
     'kilometer/hour' :
-        UnitInfo( 'velocity', 'kilometer/hour', 'kilometers/hour', 'km/h', [ 'kph' ], [ 'FPS', 'imperial' ] ),
+        UnitInfo( 'velocity', 'kilometer/hour', 'kilometers/hour', 'km/h', [ 'kph' ], [ 'FPS', 'imperial' ],
+                  '''
+                  ''' ),
 
     # volume
 
     'acre-foot' :
-        UnitInfo( 'volume', 'acre*foot', 'acre-feet', 'ac*ft', [ ], [ 'FPS', 'imperial' ] ),
+        UnitInfo( 'volume', 'acre*foot', 'acre-feet', 'ac*ft', [ ], [ 'FPS', 'imperial' ],
+                  '''
+                  ''' ),
 
     'balthazar' :
-        UnitInfo( 'volume', 'balthazar', 'balthazars', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'balthazar', 'balthazars', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'bucket' :
-        UnitInfo( 'volume', 'bucket', 'buckets', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'bucket', 'buckets', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'bushel' :
-        UnitInfo( 'volume', 'bushel', 'bushels', 'bu', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'bushel', 'bushels', 'bu', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'chopine' :
-        UnitInfo( 'volume', 'chopine', 'chopines', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'chopine', 'chopines', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'clavelin' :
-        UnitInfo( 'volume', 'clavelin', 'clavelins', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'clavelin', 'clavelins', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'cord' :
-        UnitInfo( 'volume', 'cord', 'cords', '', [ ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'cord', 'cords', '', [ ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'cubic_inch' :
-        UnitInfo( 'volume', 'inch^3', 'cubic_inches', 'in^3', [ 'inches^3', 'cuin', 'cu_in', 'cu_inch', 'cu_inches', 'cubic_in' ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'inch^3', 'cubic_inches', 'in^3', [ 'inches^3', 'cuin', 'cu_in', 'cu_inch', 'cu_inches', 'cubic_in' ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'cubic_foot' :
-        UnitInfo( 'volume', 'foot^3', 'cubic_feet', 'ft^3', [ 'feet^3', 'cuft', 'cu_ft', 'cu_foot', 'cu_feet', 'cubic_ft' ], [ 'traditional', 'FPS' ] ),
+        UnitInfo( 'volume', 'foot^3', 'cubic_feet', 'ft^3', [ 'feet^3', 'cuft', 'cu_ft', 'cu_foot', 'cu_feet', 'cubic_ft' ], [ 'traditional', 'FPS' ],
+                  '''
+                  ''' ),
 
     'cubic_meter' :
-        UnitInfo( 'volume', 'meter^3', 'cubic_meters', 'm^3', [ 'meters^3', 'cum', 'cu_m', 'cu_meter', 'cu_meters', 'cubic_m' ], [ 'SI' ] ),
+        UnitInfo( 'volume', 'meter^3', 'cubic_meters', 'm^3', [ 'meters^3', 'cum', 'cu_m', 'cu_meter', 'cu_meters', 'cubic_m' ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'coomb' :
-        UnitInfo( 'volume', 'coomb', 'coombs', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'coomb', 'coombs', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'cup' :
-        UnitInfo( 'volume', 'cup', 'cups', '', [ ], [ 'traditional', 'cooking', 'US' ] ),
+        UnitInfo( 'volume', 'cup', 'cups', '', [ ], [ 'traditional', 'cooking', 'US' ],
+                  '''
+                  ''' ),
 
     'dash' :
-        UnitInfo( 'volume', 'dash', 'dashes', '', [ ], [ 'cooking' ] ),
+        UnitInfo( 'volume', 'dash', 'dashes', '', [ ], [ 'cooking' ],
+                  '''
+                  ''' ),
 
     'demi' :
-        UnitInfo( 'volume', 'demi', 'demis', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'demi', 'demis', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'dessertspoon' :
-        UnitInfo( 'volume', 'dessertspoon', 'dessertspoons', '', [ ], [ 'traditional', 'cooking' ] ),
+        UnitInfo( 'volume', 'dessertspoon', 'dessertspoons', '', [ ], [ 'traditional', 'cooking' ],
+                  '''
+                  ''' ),
 
     'dram' :
-        UnitInfo( 'volume', 'dram', 'drams', '', [ 'fluid_dram', 'fluid_drams', 'fluidram', 'fluidrams', 'fluid_drachm', 'fluid_drachms', 'fldr' ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'dram', 'drams', '', [ 'fluid_dram', 'fluid_drams', 'fluidram', 'fluidrams', 'fluid_drachm', 'fluid_drachms', 'fldr' ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'dry_barrel' :
-        UnitInfo( 'volume', 'dry_barrel', 'dry_barrels', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'dry_barrel', 'dry_barrels', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'dry_hogshead' :
-        UnitInfo( 'volume', 'dry_hogshead', 'dry_hogsheads', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'dry_hogshead', 'dry_hogsheads', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'dry_gallon' :
-        UnitInfo( 'volume', 'dry_gallon', 'dry_gallons', '', [ ], [ 'traditional', 'US' ] ),
+        UnitInfo( 'volume', 'dry_gallon', 'dry_gallons', '', [ ], [ 'traditional', 'US' ],
+                  '''
+                  ''' ),
 
     'dry_pint' :
-        UnitInfo( 'volume', 'dry_pint', 'dry_pints', '', [ ], [ 'traditional', 'US' ] ),
+        UnitInfo( 'volume', 'dry_pint', 'dry_pints', '', [ ], [ 'traditional', 'US' ],
+                  '''
+                  ''' ),
 
     'dry_quart' :
-        UnitInfo( 'volume', 'dry_quart', 'dry_quarts', '', [ ], [ 'traditional', 'US' ] ),
+        UnitInfo( 'volume', 'dry_quart', 'dry_quarts', '', [ ], [ 'traditional', 'US' ],
+                  '''
+                  ''' ),
 
     'dry_tun' :
-        UnitInfo( 'volume', 'dry_tun', 'dry_tuns', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'dry_tun', 'dry_tuns', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'farshimmelt_ngogn' :
-        UnitInfo( 'volume', 'farshimmelt_ngogn', 'farshimmelt_ngogns', 'fn', [ 'far-ngogn' ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'volume', 'farshimmelt_ngogn', 'farshimmelt_ngogns', 'fn', [ 'far-ngogn' ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'fifth' :
-        UnitInfo( 'volume', 'fifth', 'fifths', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'fifth', 'fifths', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'firkin' :
-        UnitInfo( 'volume', 'firkin', 'firkins', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'firkin', 'firkins', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'fluid_ounce' :
-        UnitInfo( 'volume', 'fluid_ounce', 'fluid_ounces', '', [ 'floz' ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'fluid_ounce', 'fluid_ounces', '', [ 'floz' ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'furshlugginer_ngogn' :
-        UnitInfo( 'volume', 'furshlugginer_ngogn', 'furshlugginer_ngogns', 'Fn', [ 'Fur-ngogn' ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'volume', 'furshlugginer_ngogn', 'furshlugginer_ngogns', 'Fn', [ 'Fur-ngogn' ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'gallon' :
-        UnitInfo( 'volume', 'gallon', 'gallons', 'gal', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'gallon', 'gallons', 'gal', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'gill' :
-        UnitInfo( 'volume', 'gill', 'gills', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'gill', 'gills', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'goliath' :
-        UnitInfo( 'volume', 'goliath', 'goliaths', '', [ 'primat' ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'goliath', 'goliaths', '', [ 'primat' ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'hogshead' :
-        UnitInfo( 'volume', 'hogshead', 'hogsheads', '', [ ], [ 'traditional', 'wine' ] ),
+        UnitInfo( 'volume', 'hogshead', 'hogsheads', '', [ ], [ 'traditional', 'wine' ],
+                  '''
+                  ''' ),
 
     'imperial' :
-        UnitInfo( 'volume', 'imperial', 'imperials', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'imperial', 'imperials', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'imperial_bushel' :
-        UnitInfo( 'volume', 'imperial_bushel', 'imperial_bushels', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'imperial_bushel', 'imperial_bushels', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'imperial_butt' :
-        UnitInfo( 'volume', 'imperial_butt', 'imperial_butts', '', [ 'imperial_pipe', 'imperial_pipes' ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'imperial_butt', 'imperial_butts', '', [ 'imperial_pipe', 'imperial_pipes' ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'imperial_cup' :
-        UnitInfo( 'volume', 'imperial_cup', 'imperial_cups', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'imperial_cup', 'imperial_cups', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'imperial_gallon' :
-        UnitInfo( 'volume', 'imperial_gallon', 'imperial_gallons', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'imperial_gallon', 'imperial_gallons', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'imperial_gill' :
-        UnitInfo( 'volume', 'imperial_gill', 'imperial_gills', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'imperial_gill', 'imperial_gills', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'imperial_hogshead' :
-        UnitInfo( 'volume', 'imperial_hogshead', 'imperial_hogsheads', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'imperial_hogshead', 'imperial_hogsheads', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'imperial_peck' :
-        UnitInfo( 'volume', 'imperial_peck', 'imperial_pecks', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'imperial_peck', 'imperial_pecks', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'imperial_pint' :
-        UnitInfo( 'volume', 'imperial_pint', 'imperial_pints', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'imperial_pint', 'imperial_pints', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'imperial_quart' :
-        UnitInfo( 'volume', 'imperial_quart', 'imperial_quarts', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'imperial_quart', 'imperial_quarts', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'jack' :
-        UnitInfo( 'volume', 'jack', 'jacks', '', [ 'jackpot' ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'jack', 'jacks', '', [ 'jackpot' ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'jennie' :
-        UnitInfo( 'volume', 'jennie', 'jennies', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'jennie', 'jennies', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'jeroboam' :
-        UnitInfo( 'volume', 'jeroboam', 'jeroboams', '', [ 'double_magnum' ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'jeroboam', 'jeroboams', '', [ 'double_magnum' ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'jigger' :
-        UnitInfo( 'volume', 'jigger', 'jiggers', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'jigger', 'jiggers', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'kenning' :
-        UnitInfo( 'volume', 'kenning', 'kennings', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'kenning', 'kennings', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'kilderkin' :
-        UnitInfo( 'volume', 'kilderkin', 'kilderkins', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'kilderkin', 'kilderkins', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'liter' :
-        UnitInfo( 'volume', 'liter', 'liters', 'l', [ ], [ 'SI' ] ),
+        UnitInfo( 'volume', 'liter', 'liters', 'l', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'magnum' :
-        UnitInfo( 'volume', 'magnum', 'magnums', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'magnum', 'magnums', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'marie_jeanne' :
-        UnitInfo( 'volume', 'marie_jeanne', 'marie_jeannes', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'marie_jeanne', 'marie_jeannes', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'melchior' :
-        UnitInfo( 'volume', 'melchior', 'melchiors', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'melchior', 'melchiors', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'melchizedek' :
-        UnitInfo( 'volume', 'melchizedek', 'melchizedeks', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'melchizedek', 'melchizedeks', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'methuselah' :
-        UnitInfo( 'volume', 'methuselah', 'methuselahs', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'methuselah', 'methuselahs', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'minim':
-        UnitInfo( 'volume', 'minim', 'minims', 'gtt', [ 'drop' ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'minim', 'minims', 'gtt', [ 'drop' ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'mordechai' :
-        UnitInfo( 'volume', 'mordechai', 'mordechais', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'mordechai', 'mordechais', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'nebuchadnezzar' :
-        UnitInfo( 'volume', 'nebuchadnezzar', 'nebuchadnezzars', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'nebuchadnezzar', 'nebuchadnezzars', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'ngogn' :
-        UnitInfo( 'volume', 'ngogn', 'ngogns', '', [ ], [ 'Potrzebie', 'humorous' ] ),
+        UnitInfo( 'volume', 'ngogn', 'ngogns', '', [ ], [ 'Potrzebie', 'humorous' ],
+                  '''
+                  ''' ),
 
     'oil_barrel' :
-        UnitInfo( 'volume', 'oil_barrel', 'oil_barrels', 'bbl', [ ], [ 'US' ] ),
+        UnitInfo( 'volume', 'oil_barrel', 'oil_barrels', 'bbl', [ ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'peck' :
-        UnitInfo( 'volume', 'peck', 'pecks', 'pk', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'peck', 'pecks', 'pk', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'piccolo' :
-        UnitInfo( 'volume', 'piccolo', 'piccolos', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'piccolo', 'piccolos', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'pinch' :
-        UnitInfo( 'volume', 'pinch', 'pinches', '', [ ], [ 'traditional', 'cooking' ] ),
+        UnitInfo( 'volume', 'pinch', 'pinches', '', [ ], [ 'traditional', 'cooking' ],
+                  '''
+                  ''' ),
 
     'pin' :
-        UnitInfo( 'volume', 'pin', 'pins', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'pin', 'pins', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'pint' :
-        UnitInfo( 'volume', 'pint', 'pints', 'pt', [ ], [ 'traditional', 'cooking', 'US' ] ),
+        UnitInfo( 'volume', 'pint', 'pints', 'pt', [ ], [ 'traditional', 'cooking', 'US' ],
+                  '''
+                  ''' ),
 
     'pipe' :
-        UnitInfo( 'volume', 'pipe', 'pipes', '', [ 'butt', 'butts' ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'pipe', 'pipes', '', [ 'butt', 'butts' ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'planck_volume' :
-        UnitInfo( 'volume', 'planck_volume', 'planck_volumes', 'vP', [ ], [ 'natural', 'science' ] ),
+        UnitInfo( 'volume', 'planck_volume', 'planck_volumes', 'vP', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
 
     'pony' :
-        UnitInfo( 'volume', 'pony', 'ponies', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'pony', 'ponies', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'pottle' :
-        UnitInfo( 'volume', 'pottle', 'pottles', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'pottle', 'pottles', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'puncheon' :
-        UnitInfo( 'volume', 'puncheon', 'puncheons', '', [ 'tertian', 'tertians' ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'puncheon', 'puncheons', '', [ 'tertian', 'tertians' ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'quart' :
-        UnitInfo( 'volume', 'quart', 'quarts', '', [ ], [ 'US' ] ),
+        UnitInfo( 'volume', 'quart', 'quarts', '', [ ], [ 'US' ],
+                  '''
+                  ''' ),
 
     'rehoboam' :
-        UnitInfo( 'volume', 'rehoboam', 'rehoboams', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'rehoboam', 'rehoboams', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'rundlet' :
-        UnitInfo( 'volume', 'rundlet', 'rundlets', '', [ ], [ 'imperial', 'wine' ] ),
+        UnitInfo( 'volume', 'rundlet', 'rundlets', '', [ ], [ 'imperial', 'wine' ],
+                  '''
+                  ''' ),
 
     'salmanazar' :
-        UnitInfo( 'volume', 'salmanazar', 'salmanazars', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'salmanazar', 'salmanazars', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'scruple' :
-        UnitInfo( 'volume', 'scruple', 'scruples', '', [ 'fluid_scruple', 'fluid_scruples' ], [ 'traditional' ] ),
+        UnitInfo( 'volume', 'scruple', 'scruples', '', [ 'fluid_scruple', 'fluid_scruples' ], [ 'traditional' ],
+                  '''
+                  ''' ),
 
     'smidgen' :
-        UnitInfo( 'volume', 'smidgen', 'smidgens', '', [ 'smidgeon', 'smidgeons' ], [ 'traditional', 'cooking' ] ),
+        UnitInfo( 'volume', 'smidgen', 'smidgens', '', [ 'smidgeon', 'smidgeons' ], [ 'traditional', 'cooking' ],
+                  '''
+                  ''' ),
 
     'solomon' :
-        UnitInfo( 'volume', 'solomon', 'solomons', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'solomon', 'solomons', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'sovereign' :
-        UnitInfo( 'volume', 'sovereign', 'sovereigns', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'sovereign', 'sovereigns', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'standard' :
-        UnitInfo( 'volume', 'standard', 'standards', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'standard', 'standards', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'stere' :
-        UnitInfo( 'volume', 'stere', 'steres', 'st', [ ], [ 'metric', 'obsolete' ] ),  # ... but not SI
+        UnitInfo( 'volume', 'stere', 'steres', 'st', [ ], [ 'metric', 'obsolete' ],  # ... but not SI
+                  '''
+                  ''' ),
 
     'strike' :
-        UnitInfo( 'volume', 'strike', 'strikes', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'strike', 'strikes', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'tablespoon' :
-        UnitInfo( 'volume', 'tablespoon', 'tablespoons', 'tbsp', [ ], [ 'traditional', 'cooking', 'US' ] ),
+        UnitInfo( 'volume', 'tablespoon', 'tablespoons', 'tbsp', [ ], [ 'traditional', 'cooking', 'US' ],
+                  '''
+                  ''' ),
 
     'teaspoon' :
-        UnitInfo( 'volume', 'teaspoon', 'teaspoons', 'tsp', [ ], [ 'traditional', 'cooking', 'US' ] ),
+        UnitInfo( 'volume', 'teaspoon', 'teaspoons', 'tsp', [ ], [ 'traditional', 'cooking', 'US' ],
+                  '''
+                  ''' ),
 
     'tenth' :
-        UnitInfo( 'volume', 'tenth', 'tenths', '', [ ], [ 'wine' ] ),
+        UnitInfo( 'volume', 'tenth', 'tenths', '', [ ], [ 'wine' ],
+                  '''
+                  ''' ),
 
     'tierce' :
-        UnitInfo( 'volume', 'tierce', 'tierces', '', [ ], [ 'wine', 'imperial' ] ),
+        UnitInfo( 'volume', 'tierce', 'tierces', '', [ ], [ 'wine', 'imperial' ],
+                  '''
+                  ''' ),
 
     'tun' :
-        UnitInfo( 'volume', 'tun', 'tuns', '', [ ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'tun', 'tuns', '', [ ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'wine_barrel' :
-        UnitInfo( 'volume', 'wine_barrel', 'wine_barrels', '', [ ], [ 'imperial', 'wine' ] ),
+        UnitInfo( 'volume', 'wine_barrel', 'wine_barrels', '', [ ], [ 'imperial', 'wine' ],
+                  '''
+                  ''' ),
 
     'wine_butt' :
-        UnitInfo( 'volume', 'wine_butt', 'wine_butts', '', [ ], [ 'imperial', 'wine' ] ),
+        UnitInfo( 'volume', 'wine_butt', 'wine_butts', '', [ ], [ 'imperial', 'wine' ],
+                  '''
+                  ''' ),
 
     'wine_gallon' :
-        UnitInfo( 'volume', 'wine_gallon', 'wine_gallons', '', [ ], [ 'imperial', 'wine' ] ),
+        UnitInfo( 'volume', 'wine_gallon', 'wine_gallons', '', [ ], [ 'imperial', 'wine' ],
+                  '''
+                  ''' ),
 
     'wine_hogshead' :
-        UnitInfo( 'volume', 'wine_hogshead', 'wine_hogsheads', '', [ ], [ 'imperial', 'wine' ] ),
+        UnitInfo( 'volume', 'wine_hogshead', 'wine_hogsheads', '', [ ], [ 'imperial', 'wine' ],
+                  '''
+                  ''' ),
 
     'wine_pipe' :
-        UnitInfo( 'volume', 'wine_pipe', 'wine_pipes', '', [ 'wine_butt', 'wine_butts' ], [ 'imperial' ] ),
+        UnitInfo( 'volume', 'wine_pipe', 'wine_pipes', '', [ 'wine_butt', 'wine_butts' ], [ 'imperial' ],
+                  '''
+                  ''' ),
 
     'wine_tun' :
-        UnitInfo( 'volume', 'wine_tun', 'wine_tuns', '', [ ], [ 'imperial', 'wine' ] ),
+        UnitInfo( 'volume', 'wine_tun', 'wine_tuns', '', [ ], [ 'imperial', 'wine' ],
+                  '''
+                  ''' ),
 }
 
 
