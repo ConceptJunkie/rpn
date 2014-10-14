@@ -18,188 +18,6 @@ from rpnDeclarations import *
 from rpnEstimates import *
 
 
-# The candela is the luminous intensity, in a given direction, of a source
-# that emits monochromatic radiation of frequency 540 × 1012 hertz and that
-# has a radiant intensity in that direction of 1/683 watt per steradian.
-
-# It follows that the spectral luminous efficacy for monochromatic radiation of
-# frequency of 5.40e14 hertz is exactly 683 lumens per watt, K = 683 lm/W
-# = 683 cd sr/W.
-
-# SI coherent derived unit
-#
-# Derived Quantity              Name            Symbol              other SI units     SI Base Units
-#
-# plane angle                   radian          rad                 1                  m/m
-# solid angle                   steradian       sr                  1                  m2/m2
-# frequency                     hertz           Hz                                     s^-1
-# force                         newton          N                                      m kg s^-2
-# pressure, stress              pascal          Pa                  N/m2               m^-1 kg s^-2
-# energy, work, amount of heat  joule           J                   N m                m2 kg s^-2
-#
-# power, radiant flux           watt            W J/s m2 kg s^-3
-#
-# electric charge,              coulomb         C                                      s A
-# amount of electricity
-#
-# electric potential difference, volt           V                   W/A                m2 kg s^-3 A^-1
-# electromotive force
-#
-# capacitance                   farad           F                   C/V                m^-2 kg^-1 s4 A2
-# electric resistance           ohm             omega               V/A                m2 kg s^-3 A^-2
-# electric conductance          siemens         S                   A/V                m^-2 kg^-1 s3 A2
-# magnetic flux                 weber           Wb                  V s                m2 kg s^-2 A^-1
-# magnetic flux density         tesla           T                   Wb/m2              kg s^-2 A^-1
-# inductance                    henry           H                   Wb/A               m2 kg s^-2 A^-2
-# Celsius temperature           degree Celsius  degree C                               K
-# luminous flux                 lumen           lm                  cd sr              cd
-# illuminance                   lux             lx                  lm/m2              m^-2 cd
-#
-# activity referred to          becquerel       Bq                                     s^-1
-# a radionuclide
-#
-# absorbed dose,                gray            Gy                  J/kg               m2 s^-2
-# specific energy (imparted),
-# kerma
-#
-# dose equivalent,              sievert         Sv                  J/kg               m2 s^-2
-# ambient dose equivalent,
-# directional dose equivalent,
-# personal dose equivalent
-#
-# catalytic activity            katal           kat                                    s^-1 mol
-#
-#
-# dynamic viscosity             pascal second                       Pa s               m^-1 kg s^-1
-# moment of force               newton metre                        N m                m2 kg s^-2
-# surface tension               newton per metre                    N/m                kg s^-2
-# angular velocity              radian per second                   rad/s              m m^-1 s^-1 = s^-1
-# angular acceleration          radian per second squared           rad/s2             m m^-1 s^-2 = s^-2
-#
-# heat flux density,            watt per square metre               W/m2               kg s^-3
-# irradiance
-#
-# heat capacity, entropy        joule per kelvin                    J/K                m2 kg s^-2 K^-1
-#
-# specific heat capacity,       joule per kilogram kelvin           J/(kg K)           m2 s^-2 K^-1
-# specific entropy
-#
-# specific energy               joule per kilogram                  J/kg               m2 s^-2
-# thermal conductivity          watt per metre kelvin               W/(m K)            m kg s^-3 K^-1
-# energy density                joule per cubic metre               J/m3               m^-1 kg s^-2
-# electric field strength       volt per metre                      V/m                m kg s^-3 A^-1
-# electric charge density       coulomb per cubic metre             C/m3               m^-3 s A
-# surface charge density        coulomb per square metre            C/m2               m^-2 s A
-#
-# electric flux density,        coulomb per square metre            C/m2               m^2 s A
-# electric displacement
-#
-# permittivity                  farad per metre                     F/m                m^3 kg^1 s4 A2
-# permeability                  henry per metre                     H/m                m kg s^-2 A^-2
-# molar energy                  joule per mole                      J/mol              m2 kg s^-2 mol^-1
-#
-# molar entropy,                joule per mole kelvin               J/(mol K)          m2 kg s^-2 K^-1 mol^-1
-# molar heat capacity
-#
-# exposure (x- and gamma-rays)  coulomb per kilogram                C/kg               kg^-1 s A
-# absorbed dose rate            gray per second                     Gy/s               m2 s^3
-# radiant intensity             watt per steradian                  W/sr               m4 m^-2 kg s^-3 = m2 kg s^-3
-# radiance                      watt per square metre steradian     W/(m2 sr)          m2 m^-2 kg s^-3 = kg s^-3
-#
-# catalytic activity            katal per cubic metre               kat/m3             m^-3 s^-1 mol
-# concentration
-#
-# Quantity              Name of unit                Symbol                  Value in SI units (a)
-#
-# pressure              bar                         bar                     1 bar = 0.1 MPa = 100 kPa = 105 Pa
-#                       millimetre of mercury       mmHg                    1 mmHg ~= 133.322 Pa
-# length                angstrom                    A                       1 A = 0.1 nm = 100 pm = 10-10 m
-# distance              nautical mile               M                       1 M = 1852 m
-# area                  barn                        b                       1 b = 100 fm^2 = (10^-12 cm)^2 = 10^-28 m^2
-# speed                 knot                        kn                      1 kn = (1852/3600) m/s
-# logarithmic           neper                       Np
-# ratio quantities      bel                         B                       numerical value of the neper, the
-#                       decibel (h, i)              dB                      bel and the decibel]
-#
-#
-# # particle wavelengths: the compton wavelength of a particle is
-# # defined as h / m c where m is the mass of the particle.
-#
-# electronwavelength      h / m_e c
-# lambda_C                electronwavelength
-# protonwavelength        h / m_p c
-# lambda_C,p              protonwavelength
-# neutronwavelength       h / m_n c
-# lambda_C,n              neutronwavelength
-#
-# # Magnetic moments
-#
-# bohrmagneton            e hbar / 2 electronmass
-# mu_B                    bohrmagneton
-# nuclearmagneton         e hbar /  2 protonmass
-# mu_N                    nuclearmagneton
-# mu_mu                  -4.49044807e-26 J/T  # Muon magnetic moment
-# mu_p                    1.410606743e-26 J/T # Proton magnetic moment
-# mu_e                   -928.476430e-26 J/T  # Electron magnetic moment
-# mu_n                   -0.96623647e-26      # Neutron magnetic moment
-# mu_d                    0.433073489e-26 J/T # Deuteron magnetic moment
-# mu_t                    1.504609447e-26 J/T # Triton magnetic moment
-# mu_h                   -1.074617486e-26 J/T # Helion magnetic moment
-#
-# crith                   0.089885 gram       # The crith is the mass of one
-#                                             #   liter of hydrogen at standard
-#                                             #   temperature and pressure.
-#
-# kayser                  1/cm            # Proposed as a unit for wavenumber
-# balmer                  kayser          # Even less common name than "kayser"
-#
-# darcy           centipoise cm^2 / s atm # Measures permeability to fluid flow.
-#
-#                                         #   One darcy is the permeability of a
-#                                         #   medium that allows a flow of cc/s
-#                                         #   of a liquid of centipoise viscosity
-#                                         #   under a pressure gradient of
-#                                         #   atm/cm.  Named for H. Darcy.
-#
-# mobileohm               cm / dyn s      # mobile ohm, measure of mechanical
-#                                         #   mobility
-# mechanicalohm           dyn s / cm      # mechanical resistance
-# acousticalohm           dyn s / cm^5    # ratio of the sound pressure of
-#                                         #   1 dyn/cm^2 to a source of strength
-#                                         #   1 cm^3/s
-# ray                     acousticalohm
-# rayl                    dyn s / cm^3    # Specific acoustical resistance
-# eotvos                  1e-9 Gal/cm     # Change in gravitational acceleration
-#                                         #   over horizontal distance
-#
-#
-# intampere               0.999835 A    # Defined as the current which in one
-# intamp                  intampere     #   second deposits .001118 gram of
-#                                       #   silver from an aqueous solution of
-#                                       #   silver nitrate.
-# intfarad                0.999505 F
-# intvolt                 1.00033 V
-# intohm                  1.000495 ohm  # Defined as the resistance of a
-#                                       #   uniform column of mercury containing
-#                                       #   14.4521 gram in a column 1.063 m
-#                                       #   long and maintained at 0 degC.
-# daniell                 1.042 V       # Meant to be electromotive force of a
-#                                       #   Daniell cell, but in error by .04 V
-# faraday                 N_A e mol     # Charge that must flow to deposit or
-# faraday_phys            96521.9 C     #   liberate one gram equivalent of any
-# faraday_chem            96495.7 C     #   element.  (The chemical and physical
-#                                       #   values are off slightly from what is
-#                                       #   obtained by multiplying by amu_chem
-#                                       #   or amu_phys.  These values are from
-#                                       #   a 1991 NIST publication.)  Note that
-#                                       #   there is a Faraday constant which is
-#                                       #   equal to N_A e and hence has units of
-#                                       #   C/mol.
-# kappline                6000 maxwell  # Named by and for Gisbert Kapp
-# siemensunit             0.9534 ohm    # Resistance of a meter long column of
-#                                       #   mercury with a 1 mm cross section.
-#
-# blondel                 apostilb      # Named after a French scientist.
 #
 # # Some luminance data from the IES Lighting Handbook, 8th ed, 1993
 #
@@ -333,13 +151,6 @@ from rpnEstimates import *
 #                                         # gravitational constant. This is a
 #                                         # fictional year, and doesn't
 #                                         # correspond to any celestial event.
-# astronomicalunit         149597870700 m # IAU definition from 2012, exact
-# au                     astronomicalunit # ephemeris for the above described
-#                                         # astronomical unit.  (See the NASA
-#                                         # site listed above.)
-# solarmass                  1.9891e30 kg
-# sunmass                       solarmass
-#
 #
 # sundist                 1.0000010178 au # mean earth-sun distance
 # moondist                3.844e8 m       # mean earth-moon distance
@@ -394,58 +205,6 @@ from rpnEstimates import *
 # neptuneradius           24624 km
 # plutoradius             1151 km
 #
-# moongravity             1.62 m/s^2
-#
-#
-# surveyorschain          66 surveyft
-# surveychain             surveyorschain
-# surveyorspole           1|4 surveyorschain
-# surveyorslink           1|100 surveyorschain
-# chain                   66 ft
-# link                    1|100 chain
-# ch                      chain
-# USacre                  10 surveychain^2
-# intacre                 10 chain^2       # Acre based on international ft
-# intacrefoot             acre foot
-# USacrefoot              USacre surveyfoot
-# acrefoot                intacrefoot
-# acre                    intacre
-# section                 mile^2
-# township                36 section
-# homestead               160 acre # Area of land granted by the 1862 Homestead
-#                                  # Act of the United States Congress
-# gunterschain            surveyorschain
-#
-# engineerschain          100 ft
-# engineerslink           1|100 engineerschain
-# ramsdenschain           engineerschain
-# ramsdenslink            engineerslink
-#
-# gurleychain             33 feet           # Andrew Ellicott chain is the
-# gurleylink              1|50 gurleychain  # same length
-#
-# wingchain               66 feet           # Chain from 1664, introduced by
-# winglink                1|80 wingchain    # Vincent Wing, also found in a
-#                                           # 33 foot length with 40 links.
-#
-# # History.
-#
-# troughtonyard           914.42190 mm
-# bronzeyard11            914.39980 mm
-# mendenhallyard          surveyyard
-# internationalyard       yard
-#
-#
-# cable                   1|10 nauticalmile
-# intcable                cable              # international cable
-# cablelength             cable
-# UScable                 100 USfathom
-# navycablelength         720 USft           # used for depth in water
-# marineleague            3 nauticalmile
-# geographicalmile        brnauticalmile
-# knot                    nauticalmile / hr
-#
-#
 #
 # # USA shoe sizes.  These express the length of the shoe or the length
 # # of the "last", the form that the shoe is made on.  But note that
@@ -470,36 +229,6 @@ from rpnEstimates import *
 # shoesize_girls(n) units=[1;inch] shoe_girls0 + n shoesize_delta ; \
 #                                 (shoesize_girls+(-shoe_girls0))/shoesize_delta
 #
-#
-# buck                    US$
-# fin                     5 US$
-# sawbuck                 10 US$
-# usgrand                 1000 US$
-# greenback               US$
-# key                     kg           # usually of marijuana, 60's
-# lid                     1 oz         # Another 60's weed unit
-# footballfield           usfootballfield
-# usfootballfield         100 yards
-# canadafootballfield     110 yards    # And 65 yards wide
-# marathon                26 miles + 385 yards
-#
-# British
-#
-# goad                    4.5 UKft     # used for cloth, possibly named after the
-#                                      #   stick used for prodding animals.
-#
-# virgate                 1|4 hide
-# nook                    1|2 virgate
-# rood                    furlong rod  # Area of a strip a rod by a furlong
-# englishcarat            troyounce/151.5 # Originally intended to be 4 grain
-#                                         #   but this value ended up being
-#                                         #   used in the London diamond market
-# mancus                  2 oz
-# mast                    2.5 lb
-# nailkeg                 100 lbs
-# basebox                 31360 in^2      # Used in metal plating
-#
-#
 # #
 # # Counting measures
 # #
@@ -511,97 +240,6 @@ from rpnEstimates import *
 #                                      #   of energy as 1 roentgen of X rays
 #                                      #   would, or 97 ergs.
 #
-# Water latent heat (from Wikipedia)
-#
-# water_fusion_heat       79.8 calorie/g
-# water_vaporization_heat 1160 J/g
-#
-# Specific heat capacities of various substances
-#
-# specificheat_water      calorie / g K
-# water_specificheat      specificheat_water
-#      # Values from www.engineeringtoolbox.com/specific-heat-metals-d_152.html
-# specificheat_aluminum   0.91 J/g K
-# specificheat_antimony   0.21 J/g K
-# specificheat_barium     0.20 J/g K
-# specificheat_beryllium  1.83 J/g K
-# specificheat_bismuth    0.13 J/g K
-# specificheat_cadmium    0.23 J/g K
-# specificheat_cesium     0.24 J/g K
-# specificheat_chromium   0.46 J/g K
-# specificheat_cobalt     0.42 J/g K
-# specificheat_copper     0.39 J/g K
-# specificheat_gallium    0.37 J/g K
-# specificheat_germanium  0.32 J/g K
-# specificheat_gold       0.13 J/g K
-# specificheat_hafnium    0.14 J/g K
-# specificheat_indium     0.24 J/g K
-# specificheat_iridium    0.13 J/g K
-# specificheat_iron       0.45 J/g K
-# specificheat_lanthanum  0.195 J/g K
-# specificheat_lead       0.13 J/g K
-# specificheat_lithium    3.57 J/g K
-# specificheat_lutetium   0.15 J/g K
-# specificheat_magnesium  1.05 J/g K
-# specificheat_manganese  0.48 J/g K
-# specificheat_mercury    0.14 J/g K
-# specificheat_molybdenum 0.25 J/g K
-# specificheat_nickel     0.44 J/g K
-# specificheat_osmium     0.13 J/g K
-# specificheat_palladium  0.24 J/g K
-# specificheat_platinum   0.13 J/g K
-# specificheat_plutonum   0.13 J/g K
-# specificheat_potassium  0.75 J/g K
-# specificheat_rhenium    0.14 J/g K
-# specificheat_rhodium    0.24 J/g K
-# specificheat_rubidium   0.36 J/g K
-# specificheat_ruthenium  0.24 J/g K
-# specificheat_scandium   0.57  J/g K
-# specificheat_selenium   0.32 J/g K
-# specificheat_silicon    0.71 J/g K
-# specificheat_silver     0.23 J/g K
-# specificheat_sodium     1.21 J/g K
-# specificheat_strontium  0.30 J/g K
-# specificheat_tantalum   0.14 J/g K
-# specificheat_thallium   0.13 J/g K
-# specificheat_thorium    0.13 J/g K
-# specificheat_tin        0.21 J/g K
-# specificheat_titanium   0.54 J/g K
-# specificheat_tungsten   0.13 J/g K
-# specificheat_uranium    0.12 J/g K
-# specificheat_vanadium   0.39 J/g K
-# specificheat_yttrium    0.30 J/g K
-# specificheat_zinc       0.39 J/g K
-# specificheat_zirconium  0.27 J/g K
-# specificheat_ethanol    2.3  J/g K
-# specificheat_ammonia    4.6 J/g K
-# specificheat_freon      0.91 J/g K   # R-12 at 0 degrees Fahrenheit
-# specificheat_gasoline   2.22 J/g K
-# specificheat_iodine     2.15 J/g K
-# specificheat_oliveoil   1.97 J/g K
-#
-#  en.wikipedia.org/wiki/Heat_capacity#Table_of_specific_heat_capacities
-# specificheat_hydrogen   14.3 J/g K
-# specificheat_helium     5.1932 J/g K
-# specificheat_argon      0.5203 J/g K
-# specificheat_tissue     3.5 J/g K
-# specificheat_diamond    0.5091 J/g K
-# specificheat_granite    0.79 J/g K
-# specificheat_graphite   0.71 J/g K
-# specificheat_ice        2.11 J/g K
-# specificheat_asphalt    0.92 J/g K
-# specificheat_brick      0.84 J/g K
-# specificheat_concrete   0.88 J/g K
-# specificheat_glass_silica 0.84 J/g K
-# specificheat_glass_flint  0.503 J/g K
-# specificheat_glass_pyrex  0.753 J/g K
-# specificheat_gypsum     1.09 J/g K
-# specificheat_marble     0.88 J/g K
-# specificheat_sand       0.835 J/g K
-# specificheat_soil       0.835 J/g K
-# specificheat_wood       1.7 J/g K
-#
-# specificheat_sucrose    1.244 J/g K #www.sugartech.co.za/heatcapacity/index.php
 #
 # American Wire Gauge (AWG) or Brown & Sharpe Gauge appears to be the most
 # important gauge. ASTM B-258 specifies that this gauge is based on geometric
@@ -950,6 +588,10 @@ unitOperators = {
         UnitInfo( 'acceleration', 'meter/second^2', 'meters/second^2', 'm/s^2', [ ], [ 'SI' ],
                   '''
                   ''' ),
+
+    'moon_gravity' :
+        UnitInfo( 'acceleration', 'moon_gravity', 'moon_gravities', '', [ 'moon_g' ], [ 'natural' ],
+                  '''The equivalent surface gravity on the moon.''' ),
 
     'standard_gravity' :
         UnitInfo( 'acceleration', 'standard_gravity', 'standard_gravities', 'G', [ 'grav', 'gee' ], [ 'natural' ],
@@ -2441,11 +2083,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'earth_mass' :
-        UnitInfo( 'mass', 'earth_mass', 'earth_masses', 'Mgeo', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
     'farshimmelt_blintz' :
         UnitInfo( 'mass', 'farshimmelt_blintz', 'farshimmelt_blintzes', 'fb', [ 'far-blintz' ], [ 'Potrzebie', 'humorous' ],
                   '''
@@ -2463,11 +2100,6 @@ unitOperators = {
 
     'gram' :
         UnitInfo( 'mass', 'gram', 'grams', 'g', [ 'gramme', 'grammes' ], [ 'SI' ],
-                  '''
-                  ''' ),
-
-    'jupiter_mass' :
-        UnitInfo( 'mass', 'jupiter_mass', 'jupiter_masses', 'Mjov', [ ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -2610,6 +2242,58 @@ unitOperators = {
 
     'triton_mass' :
         UnitInfo( 'mass', 'triton_mass', 'triton_masses', '', [ ], [ 'natural', 'science' ],
+                  '''
+                  ''' ),
+
+    # planet masses
+
+    'mercury_mass' :
+        UnitInfo( 'mass', 'mercury_mass', 'mercury_masses', '', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    'venus_mass' :
+        UnitInfo( 'mass', 'venus_mass', 'venus_masses', '', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    'earth_mass' :
+        UnitInfo( 'mass', 'earth_mass', 'earth_masses', '', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    'earth_moon_mass' :
+        UnitInfo( 'mass', 'earth_moon_mass', 'earth_moon_masses', '', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    'mars_mass' :
+        UnitInfo( 'mass', 'mars_mass', 'mars_masses', '', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    'jupiter_mass' :
+        UnitInfo( 'mass', 'jupiter_mass', 'jupiter_masses', 'Mjov', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    'saturn_mass' :
+        UnitInfo( 'mass', 'saturn_mass', 'saturn_masses', '', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    'uranus_mass' :
+        UnitInfo( 'mass', 'uranus_mass', 'uranus_masses', '', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    'neptune_mass' :
+        UnitInfo( 'mass', 'neptune_mass', 'neptune_masses', '', [ ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    'pluto_mass' :
+        UnitInfo( 'mass', 'pluto_mass', 'pluto_masses', '', [ ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -3847,6 +3531,15 @@ unitConversionMatrix = {
     ( 'century',                    'year' )                                : mpmathify( '100' ),
     ( 'chain',                      'yard' )                                : mpmathify( '22' ),
     ( 'chopine',                    'liter' )                               : mpmathify( '0.25' ),
+    ( 'solar_mass',                 'mercury_mass' )                        : mpmathify( '6023600' ),   # 250
+    ( 'solar_mass',                 'venus_mass' )                          : mpmathify( '408523.71' ), # 0.06
+    ( 'solar_mass',                 'earth_moon_mass' )                     : mpmathify( '328900.56' ), # 0.02
+    ( 'solar_mass',                 'mars_mass' )                           : mpmathify( '3098708' ),   # 9
+    ( 'solar_mass',                 'jupiter_mass' )                        : mpmathify( '1047.3486' ), # 0.0008
+    ( 'solar_mass',                 'saturn_mass' )                         : mpmathify( '3497.898' ),  # 0.018
+    ( 'solar_mass',                 'uranus_mass' )                         : mpmathify( '22902.98' ),  # 0.03
+    ( 'solar_mass',                 'neptune_mass' )                        : mpmathify( '19412.24' ),  # 0.04
+    ( 'solar_mass',                 'pluto_mass' )                          : mpmathify( '1.35e8' ),    # 0.07e8
     ( 'clarke',                     'day' )                                 : mpmathify( '1' ),
     ( 'clarke',                     'wolverton' )                           : mpmathify( '1.0e6' ),
     ( 'clausius',                   'joule/kelvin' )                        : mpmathify( '4186.8' ),
@@ -3971,7 +3664,6 @@ unitConversionMatrix = {
     ( 'joule',                      'kilogram-meter^2/second^2' )           : mpmathify( '1' ),
     ( 'joule/second',               'watt' )                                : mpmathify( '1' ),
     ( 'jupiter_day',                'day' )                                 : mpmathify( '0.41354' ),
-    ( 'jupiter_mass',               'gram' )                                : mpmathify( '1.8987e30' ),
     ( 'jupiter_radius',             'meter' )                               : mpmathify( '7.1492e7' ),
     ( 'jupiter_year',               'year' )                                : mpmathify( '11.862615' ),
     ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
@@ -4019,6 +3711,7 @@ unitConversionMatrix = {
     ( 'minute',                     'second' )                              : mpmathify( '60' ),
     ( 'mmHg',                       'pascal' )                              : mpmathify( '133.3224' ),        # approx.
     ( 'month',                      'day' )                                 : mpmathify( '30' ),
+    ( 'moon_gravity',               'meter/second^2' )                      : mpmathify( '1.62' ),
     ( 'mordechai',                  'liter' )                               : mpmathify( '9.0' ),
     ( 'morgen',                     'are' )                                 : mpmathify( '85.6532' ),
     ( 'muon_mass',                  'dalton' )                              : mpmathify( '0.1134289267' ),
@@ -4147,7 +3840,7 @@ unitConversionMatrix = {
     ( 'slug',                       'pound' )                               : mpmathify( '32.174048556' ),
     ( 'smoot',                      'inch' )                                : mpmathify( '67' ),
     ( 'solar_luminosity',           'watt' )                                : mpmathify( '3.826e26' ),
-    ( 'solar_mass',                 'gram' )                                : mpmathify( '1.989e33' ),
+    ( 'solar_mass',                 'gram' )                                : mpmathify( '1.9891e33' ),
     ( 'solar_radius',               'meter' )                               : mpmathify( '6.9599e8' ),
     ( 'solomon',                    'liter' )                               : mpmathify( '20.0' ),
     ( 'sovereign',                  'liter' )                               : mpmathify( '25.0' ),
