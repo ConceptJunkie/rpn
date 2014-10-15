@@ -283,7 +283,6 @@ class Measurement( mpf ):
 
     def isEquivalent( self, other ):
         if isinstance( other, list ):
-            print( 'isEquivalent: True' )
             result = True
 
             for item in other:
@@ -292,20 +291,12 @@ class Measurement( mpf ):
                 if not result:
                     break
 
-            print( 'isEquivalent:', result )
             return result
         elif isinstance( other, Measurement ):
-            print( 'unit string:', self.getUnitString( ) )
-            if self.getUnits( ) == other.getUnits( ):
+            if self.units == other.units:
                 return True
-
-            if self.getUnitTypes( ) != other.getUnitTypes( ):
-                print( self.getUnitTypes( ), other.getUnitTypes( ) )
-                print( 'isEquivalent: False' )
-                return False
-
-            print( 'isEquivalent:', self.getSimpleTypes( ) == other.getSimpleTypes( ) )
-            return self.getSimpleTypes( ) == other.getSimpleTypes( )
+            else:
+                return self.getSimpleTypes( ) == other.getSimpleTypes( )
         else:
             raise ValueError( 'Measurement or dict expected' )
 
@@ -377,10 +368,10 @@ class Measurement( mpf ):
 
 
     def convertValue( self, other ):
-        if self.isCompatible( other ):
-            if self.isEquivalent( other ):
-                return mpf( 1.0 )
+        if self.isEquivalent( other ):
+            return mpf( 1.0 )
 
+        if self.isCompatible( other ):
             conversions = [ ]
 
             if isinstance( other, list ):
@@ -430,6 +421,7 @@ class Measurement( mpf ):
             elif ( unit1String, unit2String ) in specialUnitConversionMatrix:
                 value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ]( mpf( self ) )
             else:
+                # otherwise, we need to figure out how to do the conversion
                 conversionValue = mpmathify( 1 )
 
                 if unit1String in g.compoundUnits:
