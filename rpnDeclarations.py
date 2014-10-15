@@ -19,6 +19,8 @@ from mpmath import *
 
 from fractions import Fraction
 
+from rpnUtils import loadUnitConversionMatrix
+
 import rpnGlobals as g
 
 
@@ -374,6 +376,40 @@ class CompoundUnitInfo( ):
 
 #//******************************************************************************
 #//
+#//  combineUnits
+#//
+#//  Combine units2 into units1
+#//
+#//******************************************************************************
+
+def combineUnits( units1, units2 ):
+    if g.unitConversionMatrix is None:
+        loadUnitConversionMatrix( )
+
+    newUnits = Units( units1 )
+
+    factor = mpmathify( 1 )
+
+    for unit2 in units2:
+        if unit2 in newUnits:
+            newUnits[ unit2 ] += units2[ unit2 ]
+        else:
+            for unit1 in units1:
+                if unit1 == unit2:
+                    newUnits[ unit2 ] += units2[ unit2 ]
+                    break
+                elif getUnitType( unit1 ) == getUnitType( unit2 ):
+                    factor = fdiv( factor, pow( mpmathify( g.unitConversionMatrix[ ( unit1, unit2 ) ] ), units2[ unit2 ] ) )
+                    newUnits[ unit1 ] += units2[ unit2 ]
+                    break
+            else:
+                newUnits[ unit2 ] = units2[ unit2 ]
+
+    return factor, newUnits
+
+
+#//******************************************************************************
+#//
 #//  class Units
 #//
 #//******************************************************************************
@@ -386,6 +422,8 @@ class Units( collections.Counter ):
             elif isinstance( arg[ 0 ], ( list, tuple ) ):
                 for item in arg[ 0 ]:
                     self.update( item )  # for Counter, update( ) adds, not replaces
+            elif isinstance( arg[ 0 ], Units ):
+                self = arg[ 0 ]
         else:
             super( Units, self ).__init__( *arg, **kw )
 
@@ -401,10 +439,13 @@ class Units( collections.Counter ):
         types = { }
 
         for unit in self:
-            if unit not in g.basicUnitTypes and unit not in g.unitOperators:
-                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+            if unit in g.basicUnitTypes:
+                unitType = unit
+            else:
+                if unit not in g.unitOperators:
+                    raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
-            unitType = getUnitType( unit )
+                unitType = g.unitOperators[ unit ].unitType
 
             if unitType in types:
                 types[ unitType ] += self.units[ unit ]
@@ -435,7 +476,7 @@ class Units( collections.Counter ):
         result = Units( )
 
         for unitType in self.getUnitTypes( ):
-            basicUnits = Units( g.basicUnitTypes[ unitType ].simpleTypes[ 0 ] )
+            basicUnits = g.basicUnitTypes[ unitType ].simpleTypes
 
             exponent = self[ unitType ]
 
@@ -534,9 +575,13 @@ class Units( collections.Counter ):
 
 class UnitTypeInfo( ):
     def __init__( self, simpleTypes, compoundTypes, baseUnit, estimateTable ):
-        self.simpleTypes = [ Units( simpleType ) for simpleType in simpleTypes ]
+        self.simpleTypes = Units( simpleTypes )
+        print( 'uti simple type', simpleTypes, self.simpleTypes )
         self.compoundTypes = [ Units( compoundType ) for compoundType in compoundTypes ]
+        for compoundType in self.compoundTypes:
+            print( 'uti compound type', compoundType )
         self.baseUnit = Units( baseUnit )
+        print( 'uti baseUnit:', baseUnit, self.baseUnit )
         self.estimateTable = estimateTable
 
 

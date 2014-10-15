@@ -62,252 +62,252 @@ from rpnEstimates import *
 
 basicUnitTypes = {
     'acceleration' : UnitTypeInfo(
-        [ 'length/time^2' ],
+        'length/time^2',
         [ ],
         'meter/second^2',
         accelerationTable
     ),
 
     'angle' : UnitTypeInfo(
-        [ 'angle' ],
+        'angle',
         [ ],
         'radian',
         angleTable
     ),
 
     'area' : UnitTypeInfo(
-        [ 'length^2' ],
+        'length^2',
         [ ],
         'square_meter',
         areaTable,
     ),
 
     'capacitance' : UnitTypeInfo(
-        [ 'current^2*time^2/energy' ],
+        'current^2*time^2/energy',
         [ ],
         'farad',
         capacitanceTable,
     ),
 
     'charge' : UnitTypeInfo(
-        [ 'charge' ],
+        'charge',
         [ 'current*time' ],
         'coulomb',
         chargeTable,
     ),
 
     'constant' : UnitTypeInfo(
-        [ 'constant' ],
+        'constant',
         [ ],
         'unity',
         constantTable,
     ),
 
     'current' : UnitTypeInfo(
-        [ 'charge/time' ],
+        'charge/time',
         [ 'electric_potential/electrical_resistance' ],
         'ampere',
         currentTable,
     ),
 
     'data_rate' : UnitTypeInfo(
-        [ 'information_entropy/time' ],
+        'information_entropy/time',
         [ ],
         'bit/second',
         dataRateTable,
     ),
 
     'density' : UnitTypeInfo(
-        [ 'mass/length^3' ],
+        'mass/length^3',
         [ ],
         'gram/cubic_meter',
         densityTable,
     ),
 
     'dynamic_viscosity' : UnitTypeInfo(
-        [ 'mass*time/length^2' ],
+        'mass*time/length^2',
         [ 'pressure*time' ],
         'pascal*second',
         dynamicViscosityTable,
     ),
 
     'electrical_conductance' : UnitTypeInfo(
-        [ 'charge/time*electric_potential' ],
+        'charge/time*electric_potential',
         [ 'current^2/energy*time', 'current/electric_potential' ],
         'siemens',
         electricalConductanceTable,
     ),
 
     'electrical_resistance' : UnitTypeInfo(
-        [ 'electrical_resistance' ],
+        'electrical_resistance',
         [ 'energy*time/current^2', 'electric_potential/current' ],
         'ohm',
         electricalResistanceTable,
     ),
 
     'electric_potential' : UnitTypeInfo(
-        [ 'electric_potential' ],
+        'electric_potential',
         [ 'energy/current*time', 'current*electrical_resistance' ],
         'volt',
         electricPotentialTable,
     ),
 
     'energy' : UnitTypeInfo(
-        [ 'electric_potential*charge' ],
+        'electric_potential*charge',
         [ 'power*time', 'electric_potential*current*time' ],
         'joule',
         energyTable,
     ),
 
     'force' : UnitTypeInfo(
-        [ 'mass*length/time^2' ],
+        'mass*length/time^2',
         [ 'mass*acceleration' ],
         'newton',
         forceTable,
     ),
 
     'frequency' : UnitTypeInfo(
-        [ '1/time' ],
+        '1/time',
         [ ],
         'hertz',
         frequencyTable,
     ),
 
     'illuminance' : UnitTypeInfo(
-        [ 'luminous_intensity*angle^2/length^2' ],
+        'luminous_intensity*angle^2/length^2',
         [ ],
         'lux',
         illuminanceTable,
     ),
 
     'inductance' : UnitTypeInfo(
-        [ 'electric_potential*time/current' ],
+        'electric_potential*time/current',
         [ ],
         'henry',
         inductanceTable,
     ),
 
     'information_entropy' : UnitTypeInfo(
-        [ 'information_entropy' ],
+        'information_entropy',
         [ ],
         'bit',
         informationEntropyTable,
     ),
 
     'length' : UnitTypeInfo(
-        [ 'length' ],
+        'length',
         [ ],
         'meter',
         lengthTable,
     ),
 
     'luminance' : UnitTypeInfo(
-        [ 'luminous_intensity/length^2' ],
+        'luminous_intensity/length^2',
         [ ],
         'candela/meter^2',
         luminanceTable,
     ),
 
     'luminous_flux' : UnitTypeInfo(
-        [ 'luminous_intensity*angle^2' ],
+        'luminous_intensity*angle^2',
         [ ],
         'lumen',
         luminousFluxTable,
     ),
 
     'luminous_intensity' : UnitTypeInfo(
-        [ 'luminous_intensity' ],
+        'luminous_intensity',
         [ ],
         'candela',
         luminousIntensityTable,
     ),
 
     'magnetic_field_strength' : UnitTypeInfo(
-        [ 'charge/length' ],
+        'charge/length',
         [ ],
         'ampere/meter',
         magneticFieldStrengthTable,
     ),
 
     'magnetic_flux' : UnitTypeInfo(
-        [ 'electric_potential*time' ],
+        'electric_potential*time',
         [ ],
         'weber',
         magneticFluxTable,
     ),
 
     'magnetic_flux_density' : UnitTypeInfo(
-        [ 'electric_potential*time/length^2' ],
+        'electric_potential*time/length^2',
         [ ],
         'tesla',
         magneticFluxDensityTable,
     ),
 
     'mass' : UnitTypeInfo(
-        [ 'mass' ],
+        'mass',
         [ ],
         'gram',
         massTable,
     ),
 
     'power' : UnitTypeInfo(
-        [ 'electric_potential*charge/time' ],
+        'electric_potential*charge/time',
         [ 'energy/time' ],
         'watt',
         powerTable,
     ),
 
     'pressure' : UnitTypeInfo(
-        [ 'mass/length^2' ],
+        'mass/length^2',
         [ ],
         'pascal',
         pressureTable,
     ),
 
     'radiation_dose' : UnitTypeInfo(
-        [ 'electric_potential*charge/mass' ],
+        'electric_potential*charge/mass',
         [ 'energy/mass' ],
         'sievert',
         radiationDoseTable,
     ),
 
     'radiation_exposure' : UnitTypeInfo(
-        [ 'charge/mass' ],
+        'charge/mass',
         [ 'current*time/mass' ],
         'coulomb/gram',
         radiationExposureTable,
     ),
 
     'solid_angle' : UnitTypeInfo(
-        [ 'angle^2' ],
+        'angle^2',
         [ ],
         'steradian',
         solidAngleTable,
     ),
 
     'temperature' : UnitTypeInfo(
-        [ 'temperature' ],
+        'temperature',
         [ ],
         'kelvin',
         temperatureTable,
     ),
 
     'time' : UnitTypeInfo(
-        [ 'time' ],
+        'time',
         [ ],
         'second',
         timeTable,
     ),
 
     'velocity' : UnitTypeInfo(
-        [ 'length/time' ],
+        'length/time',
         [ ],
         'meter/second',
         velocityTable,
     ),
 
     'volume' : UnitTypeInfo(
-        [ 'length^3' ],
+        'length^3',
         [ ],
         'liter',
         volumeTable,

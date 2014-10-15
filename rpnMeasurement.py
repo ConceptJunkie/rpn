@@ -142,6 +142,11 @@ class Measurement( mpf ):
         return not __eq__( self, other )
 
 
+    def __str__( self ):
+        return 'Measurement(' + str( mpf( self ) ) + ', { ' + \
+               ', '.join( [ '(\'' + name + '\', ' + str( self.units[ name ] ) + ')' for name in self.units ] ) + ' })'
+
+
     def increment( self, value, amount=1 ):
         self.unitName = None
         self.pluralUnitName = None
@@ -348,7 +353,6 @@ class Measurement( mpf ):
         types = Units( )
 
         for unit in self.units:
-            #print( 'unit: ', unit )
             if unit not in g.unitOperators:
                 raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
@@ -359,7 +363,6 @@ class Measurement( mpf ):
             elif self.units[ unit ] != 0:
                 types[ unitType ] = self.units[ unit ]
 
-        #print( 'types:', types )
         return types
 
 
@@ -379,12 +382,21 @@ class Measurement( mpf ):
         reduced = Measurement( mpf( self ), Units( ) )
 
         for unit in self.units:
+            print( '----> unit:', unit )
+            print( '----> unitType:', getUnitType( unit ) )
             newUnit = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
+
+            print( '1----> :', g.basicUnitTypes[ getUnitType( unit ) ].simpleTypes )
+            print( '1----> :', g.basicUnitTypes[ 'power' ].simpleTypes )
+            print( '2----> :', g.basicUnitTypes[ getUnitType( unit ) ].compoundTypes )
+            print( '----> :', g.basicUnitTypes[ getUnitType( unit ) ].baseUnit )
+            print( '-!!---> :', Units( 'meter/second' ) )
+
+            print( '----> newUnit:', newUnit )
 
             if unit == newUnit:
                 value = mpf( 1.0 )
             else:
-                print( 'newUnit', newUnit )
                 value = power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] )
                 reduced = reduced.multiply( Measurement( value, Units( { newUnit : self.units[ unit ] } ) ) )
 
