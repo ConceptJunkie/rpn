@@ -110,7 +110,6 @@ def rpn( cmd_args ):
         try:
             with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
                 unitsVersion = pickle.load( pickleFile )
-                g.basicUnitTypes = pickle.load( pickleFile )
                 g.unitOperators = pickle.load( pickleFile )
                 operatorAliases.update( pickle.load( pickleFile ) )
                 g.compoundUnits = pickle.load( pickleFile )
@@ -273,7 +272,6 @@ def rpn( cmd_args ):
     try:
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
             unitsVersion = pickle.load( pickleFile )
-            g.basicUnitTypes = pickle.load( pickleFile )
             g.unitOperators = pickle.load( pickleFile )
             operatorAliases.update( pickle.load( pickleFile ) )
             g.compoundUnits = pickle.load( pickleFile )

@@ -27,25 +27,6 @@ import rpnGlobals as g
 
 #//******************************************************************************
 #//
-#//  getUnitType
-#//
-#//******************************************************************************
-
-def getUnitType( unit ):
-    if unit in g.basicUnitTypes:
-        return unit
-
-    if unit in operatorAliases:
-        unit = operatorAliases[ unit ]
-
-    if unit in g.unitOperators:
-        return g.unitOperators[ unit ].unitType
-    else:
-        raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
-
-#//******************************************************************************
-#//
 #//  getSimpleUnitType
 #//
 #//******************************************************************************
@@ -379,28 +360,19 @@ class Measurement( mpf ):
         if g.unitConversionMatrix is None:
             loadUnitConversionMatrix( )
 
-        reduced = Measurement( mpf( self ), Units( ) )
+        value = mpf( self )
+        units = Units( )
 
         for unit in self.units:
-            print( '----> unit:', unit )
-            print( '----> unitType:', getUnitType( unit ) )
-            newUnit = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
+            newUnit = basicUnitTypes[ getUnitType( unit ) ].baseUnitName
 
-            print( '1----> :', g.basicUnitTypes[ getUnitType( unit ) ].simpleTypes )
-            print( '1----> :', g.basicUnitTypes[ 'power' ].simpleTypes )
-            print( '2----> :', g.basicUnitTypes[ getUnitType( unit ) ].compoundTypes )
-            print( '----> :', g.basicUnitTypes[ getUnitType( unit ) ].baseUnit )
-            print( '-!!---> :', Units( 'meter/second' ) )
+            if unit != newUnit:
+                value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] ) )
 
-            print( '----> newUnit:', newUnit )
+            units[ newUnit ] += self.units[ unit ]
 
-            if unit == newUnit:
-                value = mpf( 1.0 )
-            else:
-                value = power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] )
-                reduced = reduced.multiply( Measurement( value, Units( { newUnit : self.units[ unit ] } ) ) )
-
-        print( 'getReduced 2:', reduced, [ ( i, reduced.units[ i ] ) for i in reduced.units ] )
+        reduced = Measurement( value, units )
+        print( 'getReduced 2:', reduced )
         return reduced
 
 
@@ -579,15 +551,15 @@ def estimate( measurement ):
     if isinstance( measurement, Measurement ):
         unitType = None
 
-        for basicUnitType in g.basicUnitTypes:
-            if measurement.isCompatible( Measurement( 1, g.basicUnitTypes[ basicUnitType ].baseUnit ) ):
+        for basicUnitType in basicUnitTypes:
+            if measurement.isCompatible( Measurement( 1, basicUnitTypes[ basicUnitType ].baseUnit ) ):
                 unitType = basicUnitType
                 break
 
         if unitType is None:
             return 'No estimates are available for this unit type'
 
-        unitTypeInfo = g.basicUnitTypes[ unitType ]
+        unitTypeInfo = basicUnitTypes[ unitType ]
 
         unit = Measurement( 1, unitTypeInfo.baseUnit )
         value = mpf( Measurement( measurement.convertValue( unit ), unit.getUnits( ) ) )

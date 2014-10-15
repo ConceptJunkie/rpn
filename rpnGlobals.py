@@ -22,7 +22,6 @@ nestedListLevel = 0
 dataPath = ''
 numerals = ''
 
-basicUnitTypes = None
 unitConversionMatrix = None
 unitOperators = None
 compoundUnits = None

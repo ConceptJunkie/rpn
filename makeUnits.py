@@ -594,7 +594,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
-        pickle.dump( basicUnitTypes, pickleFile )
         pickle.dump( unitOperators, pickleFile )
         pickle.dump( newAliases, pickleFile )
         pickle.dump( compoundUnits, pickleFile )
