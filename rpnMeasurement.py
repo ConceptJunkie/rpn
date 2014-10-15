@@ -51,26 +51,13 @@ def getUnitType( unit ):
 #//******************************************************************************
 
 def getSimpleUnitType( unit ):
+    if unit in operatorAliases:
+        unit = operatorAliases[ unit ]
+
     if unit in g.unitOperators:
         return g.unitOperators[ unit ].representation
     else:
         raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
-
-#//******************************************************************************
-#//
-#//  getUnitList
-#//
-#//******************************************************************************
-
-def getUnitList( units ):
-    unitList = [ ]
-
-    for unit in units:
-        for i in range( units[ unit ] ):
-            unitList.append( unit )
-
-    return unitList
 
 
 #//******************************************************************************
@@ -106,160 +93,6 @@ def combineUnits( units1, units2 ):
                 newUnits[ unit2 ] = units2[ unit2 ]
 
     return factor, newUnits
-
-
-#//******************************************************************************
-#//
-#//  class Units
-#//
-#//******************************************************************************
-
-class Units( collections.Counter ):
-    def __init__( self, *arg, **kw ):
-        if ( len( arg ) == 1 ):
-            if isinstance( arg[ 0 ], str ):
-                self.update( self.parseUnitString( arg[ 0 ] ) )
-            elif isinstance( arg[ 0 ], ( list, tuple ) ):
-                for item in arg[ 0 ]:
-                    self.update( item )  # for Counter, update( ) adds, not replaces
-        else:
-            super( Units, self ).__init__( *arg, **kw )
-
-
-    def invert( self ):
-        for unit in self:
-            self[ unit ] = -( self[ unit ] )
-
-        return self
-
-
-    def getUnitTypes( self ):
-        types = { }
-
-        for unit in self:
-            if unit not in g.basicUnitTypes and unit not in g.unitOperators:
-                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
-            unitType = getUnitType( unit )
-
-            if unitType in types:
-                types[ unitType ] += self.units[ unit ]
-            elif self[ unit ] != 0:
-                types[ unitType ] = self[ unit ]
-
-        return types
-
-
-    def simplify( self ):
-        result = Units( )
-
-        for unit in self:
-            simpleUnits = Units( g.unitOperators[ unit ].representation )
-
-            exponent = self.get( unit )
-
-            if exponent != 1:   # handle exponent
-                for unit2 in simpleUnits:
-                    simpleUnits[ unit2 ] *= exponent
-
-            result.update( simpleUnits )
-
-        return result
-
-
-    def getBasicTypes( self ):
-        result = Units( )
-
-        for unitType in self.getUnitTypes( ):
-            basicUnits = Units( g.basicUnitTypes[ unitType ].simpleTypes[ 0 ] )
-
-            exponent = self[ unitType ]
-
-            if exponent != 1:   # handle exponent
-                for unitType2 in basicUnits:
-                    basicUnits[ unitType2 ] *= exponent
-
-            result = combineUnits( result, basicUnits )[ 1 ]
-
-        zeroKeys = [ ]
-
-        for unitType in result:
-            if result[ unitType ] == 0:
-                zeroKeys.append( unitType )
-
-        for zeroKey in zeroKeys:
-            del result[ zeroKey ]
-
-        return result
-
-
-    def getUnitString( self ):
-        resultString = ''
-
-        for unit in sorted( self ):
-            exponent = self.get( unit )
-
-            if exponent > 0:
-                if resultString != '':
-                    resultString += '*'
-
-                resultString += unit
-
-                if exponent > 1:
-                    resultString += '^' + str( int( exponent ) )
-
-        denominator = ''
-
-        for unit in sorted( self ):
-            exponent = self.get( unit )
-
-            if exponent < 0:
-                if denominator != '':
-                    denominator += '*'
-
-                denominator += unit
-
-                if exponent < -1:
-                    denominator += '^' + str( int( -exponent ) )
-
-        if denominator != '':
-            resultString += '/' + denominator
-
-        return resultString
-
-
-    def parseUnitString( self, expression ):
-        pieces = expression.split( '/' )
-
-        if len( pieces ) > 2:
-            raise ValueError( 'only one \'/\' is permitted' )
-        elif len( pieces ) == 2:
-            result = self.parseUnitString( pieces[ 0 ] )
-            result.subtract( self.parseUnitString( pieces[ 1 ] ) )
-
-            return result
-        else:
-            result = Units( )
-
-            units = expression.split( '*' )
-
-            for unit in units:
-                if unit == '':
-                    raise ValueError( 'wasn\'t expecting another \'*\'' )
-
-                operands = unit.split( '^' )
-
-                if len( operands ) > 2:
-                    raise ValueError( 'wasn\'t expecting another exponent (parsing expression: \'' + expression + '\')' )
-                else:
-                    if len( operands ) == 2:
-                        exponent = int( float( operands[ 1 ] ) )   # find out why this is needed 'rpn foot 4 power square_inch sqr convert'
-                    else:
-                        exponent = 1
-
-                    result[ operands[ 0 ] ] += exponent
-
-            return result
 
 
 #//******************************************************************************
@@ -418,23 +251,6 @@ class Measurement( mpf ):
         return Measurement( value, newUnits, self.getUnitName( ), self.getPluralUnitName( ) )
 
 
-    def normalizeUnits( self ):
-        value = mpf( self )
-        units = self.getUnits( )
-
-        negative = True
-
-        for unit in units:
-            if units[ unit ] > 0:
-                negative = False
-                break
-
-        if negative:
-            return Measurement( value, units ).invert( )
-        else:
-            return Measurement( value, units, self.getUnitName( ), self.getPluralUnitName( ) )
-
-
     def update( self, units ):
         for i in self.units:
             del self.units[ i ]
@@ -449,8 +265,8 @@ class Measurement( mpf ):
 
 
     def isCompatible( self, other ):
-        if isinstance( other, dict ):            # rick:  should this be here?
-            return self.getTypes( ) == other     # and if so, then this doesn't seem right
+        if isinstance( other, dict ):
+            return self.getUnitTypes( ) == other
         elif isinstance( other, list ):
             result = True
 
@@ -462,11 +278,11 @@ class Measurement( mpf ):
 
             return result
         elif isinstance( other, Measurement ):
-            debugPrint( 'types: ', self.getTypes( ), other.getTypes( ) )
+            debugPrint( 'types: ', self.getUnitTypes( ), other.getUnitTypes( ) )
             debugPrint( 'simple types: ', self.getSimpleTypes( ), other.getSimpleTypes( ) )
             debugPrint( 'basic types: ', self.getBasicTypes( ), other.getBasicTypes( ) )
 
-            if self.getTypes( ) == other.getTypes( ):
+            if self.getUnitTypes( ) == other.getUnitTypes( ):
                 return True
             elif self.getSimpleTypes( ) == other.getSimpleTypes( ):
                 return True
@@ -481,6 +297,7 @@ class Measurement( mpf ):
 
     def isEquivalent( self, other ):
         if isinstance( other, list ):
+            print( 'isEquivalent: True' )
             result = True
 
             for item in other:
@@ -489,15 +306,20 @@ class Measurement( mpf ):
                 if not result:
                     break
 
+            print( 'isEquivalent:', result )
             return result
         elif isinstance( other, Measurement ):
-            if self.getTypes( ) != other.getTypes( ):
+            print( 'unit string:', self.getUnitString( ) )
+            if self.getUnits( ) == other.getUnits( ):
+                return True
+
+            if self.getUnitTypes( ) != other.getUnitTypes( ):
+                print( self.getUnitTypes( ), other.getUnitTypes( ) )
+                print( 'isEquivalent: False' )
                 return False
 
-            if self.getSimpleTypes( ) == other.getSimpleTypes( ):
-                return True
-            else:
-                return False
+            print( 'isEquivalent:', self.getSimpleTypes( ) == other.getSimpleTypes( ) )
+            return self.getSimpleTypes( ) == other.getSimpleTypes( )
         else:
             raise ValueError( 'Measurement or dict expected' )
 
@@ -522,7 +344,7 @@ class Measurement( mpf ):
         return self.pluralUnitName
 
 
-    def getTypes( self ):
+    def getUnitTypes( self ):
         types = Units( )
 
         for unit in self.units:
@@ -546,34 +368,27 @@ class Measurement( mpf ):
 
 
     def getBasicTypes( self ):
-        return self.getTypes( ).getBasicTypes( )
+        return self.getUnitTypes( ).getBasicTypes( )
 
 
     def getReduced( self ):
+        print( 'getReduced 1:', self, [ ( i, self.units[ i ] ) for i in self.units ] )
         if g.unitConversionMatrix is None:
             loadUnitConversionMatrix( )
 
         reduced = Measurement( mpf( self ), Units( ) )
 
         for unit in self.units:
-            if unit not in g.unitOperators:
-                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+            newUnit = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
 
-            unitType = getUnitType( unit )
-
-            newUnit = g.basicUnitTypes[ unitType ].baseUnit
-
-            if unit != newUnit:
-                value = power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] )
+            if unit == newUnit:
+                value = mpf( 1.0 )
             else:
-                value = '1.0'
+                print( 'newUnit', newUnit )
+                value = power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] )
+                reduced = reduced.multiply( Measurement( value, Units( { newUnit : self.units[ unit ] } ) ) )
 
-            if self.units[ unit ] != 0:
-                if self.units[ unit ] != 1:
-                    newUnit = newUnit + '^' + str( self.units[ unit ] )
-
-                reduced = reduced.multiply( Measurement( value, Units( newUnit ) ) )
-
+        print( 'getReduced 2:', reduced, [ ( i, reduced.units[ i ] ) for i in reduced.units ] )
         return reduced
 
 
@@ -724,8 +539,8 @@ def convertUnits( unit1, unit2 ):
         return Measurement( unit1.convertValue( measurement ), unit2 )
     else:
         debugPrint( 'convertUnits' )
-        debugPrint( 'unit1:', unit1.getTypes( ) )
-        debugPrint( 'unit2:', unit2.getTypes( ) )
+        debugPrint( 'unit1:', unit1.getUnitTypes( ) )
+        debugPrint( 'unit2:', unit2.getUnitTypes( ) )
 
         return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
                             unit2.getUnitName( ), unit2.getPluralUnitName( ) )

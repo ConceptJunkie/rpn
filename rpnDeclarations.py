@@ -374,15 +374,169 @@ class CompoundUnitInfo( ):
 
 #//******************************************************************************
 #//
+#//  class Units
+#//
+#//******************************************************************************
+
+class Units( collections.Counter ):
+    def __init__( self, *arg, **kw ):
+        if ( len( arg ) == 1 ):
+            if isinstance( arg[ 0 ], str ):
+                self.update( self.parseUnitString( arg[ 0 ] ) )
+            elif isinstance( arg[ 0 ], ( list, tuple ) ):
+                for item in arg[ 0 ]:
+                    self.update( item )  # for Counter, update( ) adds, not replaces
+        else:
+            super( Units, self ).__init__( *arg, **kw )
+
+
+    def invert( self ):
+        for unit in self:
+            self[ unit ] = -( self[ unit ] )
+
+        return self
+
+
+    def getUnitTypes( self ):
+        types = { }
+
+        for unit in self:
+            if unit not in g.basicUnitTypes and unit not in g.unitOperators:
+                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+
+            unitType = getUnitType( unit )
+
+            if unitType in types:
+                types[ unitType ] += self.units[ unit ]
+            elif self[ unit ] != 0:
+                types[ unitType ] = self[ unit ]
+
+        return types
+
+
+    def simplify( self ):
+        result = Units( )
+
+        for unit in self:
+            simpleUnits = Units( g.unitOperators[ unit ].representation )
+
+            exponent = self.get( unit )
+
+            if exponent != 1:   # handle exponent
+                for unit2 in simpleUnits:
+                    simpleUnits[ unit2 ] *= exponent
+
+            result.update( simpleUnits )
+
+        return result
+
+
+    def getBasicTypes( self ):
+        result = Units( )
+
+        for unitType in self.getUnitTypes( ):
+            basicUnits = Units( g.basicUnitTypes[ unitType ].simpleTypes[ 0 ] )
+
+            exponent = self[ unitType ]
+
+            if exponent != 1:   # handle exponent
+                for unitType2 in basicUnits:
+                    basicUnits[ unitType2 ] *= exponent
+
+            result = combineUnits( result, basicUnits )[ 1 ]
+
+        zeroKeys = [ ]
+
+        for unitType in result:
+            if result[ unitType ] == 0:
+                zeroKeys.append( unitType )
+
+        for zeroKey in zeroKeys:
+            del result[ zeroKey ]
+
+        return result
+
+
+    def getUnitString( self ):
+        resultString = ''
+
+        for unit in sorted( self ):
+            exponent = self.get( unit )
+
+            if exponent > 0:
+                if resultString != '':
+                    resultString += '*'
+
+                resultString += unit
+
+                if exponent > 1:
+                    resultString += '^' + str( int( exponent ) )
+
+        denominator = ''
+
+        for unit in sorted( self ):
+            exponent = self.get( unit )
+
+            if exponent < 0:
+                if denominator != '':
+                    denominator += '*'
+
+                denominator += unit
+
+                if exponent < -1:
+                    denominator += '^' + str( int( -exponent ) )
+
+        if denominator != '':
+            resultString += '/' + denominator
+
+        return resultString
+
+
+    def parseUnitString( self, expression ):
+        pieces = expression.split( '/' )
+
+        if len( pieces ) > 2:
+            raise ValueError( 'only one \'/\' is permitted' )
+        elif len( pieces ) == 2:
+            result = self.parseUnitString( pieces[ 0 ] )
+            result.subtract( self.parseUnitString( pieces[ 1 ] ) )
+
+            return result
+        else:
+            result = Units( )
+
+            units = expression.split( '*' )
+
+            for unit in units:
+                if unit == '':
+                    raise ValueError( 'wasn\'t expecting another \'*\'' )
+
+                operands = unit.split( '^' )
+
+                if len( operands ) > 2:
+                    raise ValueError( 'wasn\'t expecting another exponent (parsing expression: \'' + expression + '\')' )
+                else:
+                    if len( operands ) == 2:
+                        exponent = int( float( operands[ 1 ] ) )   # find out why this is needed 'rpn foot 4 power square_inch sqr convert'
+                    else:
+                        exponent = 1
+
+                    result[ operands[ 0 ] ] += exponent
+
+            return result
+
+
+#//******************************************************************************
+#//
 #//  class UnitTypeInfo
 #//
 #//******************************************************************************
 
 class UnitTypeInfo( ):
     def __init__( self, simpleTypes, compoundTypes, baseUnit, estimateTable ):
-        self.simpleTypes = simpleTypes
-        self.compoundTypes = compoundTypes
-        self.baseUnit = baseUnit
+        self.simpleTypes = [ Units( simpleType ) for simpleType in simpleTypes ]
+        self.compoundTypes = [ Units( compoundType ) for compoundType in compoundTypes ]
+        self.baseUnit = Units( baseUnit )
         self.estimateTable = estimateTable
 
 
