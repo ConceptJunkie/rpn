@@ -437,7 +437,7 @@ class Units( collections.Counter ):
 
 
     def getUnitTypes( self ):
-        types = { }
+        types = Units( )
 
         for unit in self:
             if unit in basicUnitTypes:
@@ -448,10 +448,7 @@ class Units( collections.Counter ):
 
                 unitType = g.unitOperators[ unit ].unitType
 
-            if unitType in types:
-                types[ unitType ] += self.units[ unit ]
-            elif self[ unit ] != 0:
-                types[ unitType ] = self[ unit ]
+            types[ unitType ] += self[ unit ]
 
         return types
 
@@ -476,16 +473,24 @@ class Units( collections.Counter ):
     def getBasicTypes( self ):
         result = Units( )
 
-        for unitType in self.getUnitTypes( ):
+        for unit in self:
+            if unit in basicUnitTypes:
+                unitType = unit
+            else:
+                if unit not in g.unitOperators:
+                    raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+
+                unitType = g.unitOperators[ unit ].unitType
+
             basicUnits = basicUnitTypes[ unitType ].simpleTypes
 
-            exponent = self[ unitType ]
+            exponent = self[ unit ]
 
             if exponent != 1:   # handle exponent
                 for unitType2 in basicUnits:
                     basicUnits[ unitType2 ] *= exponent
 
-            result = combineUnits( result, basicUnits )[ 1 ]
+            result.update( basicUnits )
 
         zeroKeys = [ ]
 

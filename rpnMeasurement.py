@@ -264,6 +264,7 @@ class Measurement( mpf ):
 
             return result
         elif isinstance( other, Measurement ):
+            debugPrint( 'units: ', self.units, other.units )
             debugPrint( 'types: ', self.getUnitTypes( ), other.getUnitTypes( ) )
             debugPrint( 'simple types: ', self.getSimpleTypes( ), other.getSimpleTypes( ) )
             debugPrint( 'basic types: ', self.getBasicTypes( ), other.getBasicTypes( ) )
@@ -447,10 +448,20 @@ class Measurement( mpf ):
                     return conversionValue
 
                 # if that isn't found, then we need to do the hard work and break the units down
-                for unit1 in units1:
+                newUnits1 = Units( )
+
+                for unit in units1:
+                    newUnits1.update( Units( g.unitOperators[ unit ].representation ) )
+
+                newUnits2 = Units( )
+
+                for unit in units2:
+                    newUnits2.update( Units( g.unitOperators[ unit ].representation ) )
+
+                for unit1 in newUnits1:
                     foundConversion = False
 
-                    for unit2 in units2:
+                    for unit2 in newUnits2:
                         debugPrint( '1 and 2:', unit1, units1[ unit1 ], unit2, units2[ unit2 ] )
 
                         if getUnitType( unit1 ) == getUnitType( unit2 ):
