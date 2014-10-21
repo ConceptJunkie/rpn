@@ -11,7 +11,6 @@
 #   This requires implicit conversion between unit types
 #   rpn -D 16800 mA hours * 5 volts * joule convert
 #
-
 # http://pythonhosted.org//astral/#
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 # http://rhodesmill.org/pyephem/quick.html
@@ -115,7 +114,6 @@ def rpn( cmd_args ):
                 g.basicUnitTypes.update( pickle.load( pickleFile ) )
                 g.unitOperators.update( pickle.load( pickleFile ) )
                 g.operatorAliases.update( pickle.load( pickleFile ) )
-                g.compoundUnits.update( pickle.load( pickleFile ) )
         except FileNotFoundError as error:
             print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
 
@@ -280,10 +278,6 @@ def rpn( cmd_args ):
             g.basicUnitTypes.update( pickle.load( pickleFile ) )
             g.unitOperators.update( pickle.load( pickleFile ) )
             g.operatorAliases.update( pickle.load( pickleFile ) )
-            g.compoundUnits.update( pickle.load( pickleFile ) )
-
-        for unit in g.compoundUnits:
-            print( unit, g.compoundUnits[ unit ] )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
 

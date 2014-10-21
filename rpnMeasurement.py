@@ -503,8 +503,10 @@ def convertUnits( unit1, unit2 ):
             result.append( convertUnits( unit, unit2 ) )
 
         return result
+
     if not isinstance( unit1, Measurement ):
         raise ValueError( 'cannot convert non-measurements' )
+
 
     if isinstance( unit2, list ):
         return unit1.convertValue( unit2 )
@@ -512,6 +514,8 @@ def convertUnits( unit1, unit2 ):
         measurement = Measurement( 1, { unit2 : 1 } )
 
         return Measurement( unit1.convertValue( measurement ), unit2 )
+    elif not isinstance( unit2, Measurement ):
+        raise ValueError( 'cannot convert non-measurements' )
     else:
         debugPrint( 'convertUnits' )
         debugPrint( 'unit1:', unit1.getUnitTypes( ) )
