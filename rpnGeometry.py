@@ -50,15 +50,15 @@ def getNSphereRadius( n, k ):
     if not isinstance( k, Measurement ):
         return Measurement( k, 'inch' )
 
-    measurementType = k.getTypes( )
+    measurementType = k.getBasicTypes( )
 
     if measurementType == { 'length' : 1 }:
         return k
-    elif measurementType == { 'area' : 1 }:
+    elif measurementType == { 'length' : 2 }:
         return fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                            fmul( n, power( pi, fdiv( n, 2 ) ) ) ),
                      root( k, fsub( n, 1 ) ) )
-    elif measurementType == { 'volume' : 1 }:
+    elif measurementType == { 'length' : 3 }:
         return root( fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                                  power( pi, fdiv( n, 2 ) ) ), k ), 3 )
     else:
@@ -86,14 +86,21 @@ def getNSphereSurfaceArea( n, k ):
     if n < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
-    measurementType = k.getTypes( )
+    measurementType = k.getBasicTypes( )
 
     if measurementType == { 'length' : 1 }:
-        return fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
-                           gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, fsub( n, 1 ) ) )
-    elif measurementType == { 'area' : 1 }:
+        newUnits = Units( k.units )
+
+        for unit in newUnits:
+            newUnits[ unit ] *= 2
+
+        return Measurement( fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
+                                  gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, fsub( n, 1 ) ) ),
+                            newUnits )
+    elif measurementType == { 'length' : 2 }:
         return k
-    elif measurementType == { 'volume' : 1 }:
+    elif measurementType == { 'length' : 3 }:
+        raise ValueError( 'convertion volume to area is not implemented yet' )
         return 3    # TODO: formula for converting volume to surface area
     else:
         raise ValueError( 'incompatible measurement type for computing the surface area' )
@@ -120,14 +127,15 @@ def getNSphereVolume( n, k ):
     if not isinstance( k, Measurement ):
         return getNSphereVolume( n, Measurement( k, 'inch' ) )
 
-    measurementType = k.getTypes( )
+    measurementType = k.getBasicTypes( )
 
     if measurementType == { 'length' : 1 }:
         return fmul( fdiv( power( pi, fdiv( n, 2 ) ),
                            gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, n ) )
-    elif measurementType == { 'area' : 1 }:
+    elif measurementType == { 'length' : 2 }:
+        raise ValueError( 'convertion area to volume is not implemented yet' )
         return 2   # TODO: formula for converting surface area to volume
-    elif measurementType == { 'volume' : 1 }:
+    elif measurementType == { 'length' : 3 }:
         return k
     else:
         raise ValueError( 'incompatible measurement type for computing the volume' )

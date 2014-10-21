@@ -161,7 +161,6 @@ def expandMetricUnits( ):
     # expand metric measurements for all prefixes
     metricConversions = { }
     metricAliases = { }
-    metricCompoundUnits = { }
 
     for metricUnit in metricUnits:
         for prefix in metricPrefixes:
@@ -195,9 +194,6 @@ def expandMetricUnits( ):
 
                     unitOperators[ newUnit ] = newUnitInfo
 
-                    compoundUnit = newName + '^2'
-                    metricCompoundUnits[ newUnit ] = CompoundUnitInfo( compoundUnit )
-
                     # add new conversions
                     metricConversions[ ( oldUnit, newUnit ) ] = areaConversion
                     metricConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, areaConversion )
@@ -214,14 +210,11 @@ def expandMetricUnits( ):
 
                     unitOperators[ newUnit ] = newUnitInfo
 
-                    compoundUnit = newName + '^3'
-                    metricCompoundUnits[ newUnit ] = CompoundUnitInfo( compoundUnit )
-
                     # add new conversions
                     metricConversions[ ( oldUnit, newUnit ) ] = volumeConversion
                     metricConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, volumeConversion )
 
-    return metricConversions, metricAliases, metricCompoundUnits
+    return metricConversions, metricAliases
 
 
 #//******************************************************************************
@@ -360,18 +353,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     unitConversionMatrix.update( newConversions )
 
-    # create map for compound units based on the conversion matrix
-    print( 'Mapping compound units...' )
-
-    compoundUnits = { }
-
-    for unit1, unit2 in unitConversionMatrix:
-        chars = set( '*/^' )
-
-        if any( ( c in chars ) for c in unit2 ):
-            if not any( ( c in chars ) for c in unit1 ):
-                compoundUnits[ unit1 ] = CompoundUnitInfo( unit2, unitConversionMatrix[ ( unit1, unit2 ) ] )
-
     # create area and volume units from all of the length units
     print( 'Creating area and volume units for all length units...' )
 
@@ -394,8 +375,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
                 newOperators[ newUnit ] = newUnitInfo
 
                 compoundUnit = unit + '^2'
-                compoundUnits[ newUnit ] = compoundUnit
-
                 newAliases[ compoundUnit ] = newUnit
 
             newUnit = 'cubic_' + unit
@@ -407,8 +386,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
                 newOperators[ newUnit ] = newUnitInfo
 
                 compoundUnit = unit + '^3'
-                compoundUnits[ newUnit ] = compoundUnit
-
                 newAliases[ compoundUnit ] = newUnit
 
     unitOperators.update( newOperators )
@@ -435,11 +412,10 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     print( 'Expanding metric units against the list of SI prefixes...' )
 
-    metricConversions, metricAliases, metricCompoundUnits = expandMetricUnits( )
+    metricConversions, metricAliases = expandMetricUnits( )
 
     unitConversionMatrix.update( metricConversions )
     newAliases.update( metricAliases )
-    compoundUnits.update( metricCompoundUnits )
 
     print( 'Expanding data units against the list of SI and binary prefixes...' )
     unitConversionMatrix.update( expandDataUnits( ) )
@@ -594,9 +570,9 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
+        pickle.dump( basicUnitTypes, pickleFile )
         pickle.dump( unitOperators, pickleFile )
         pickle.dump( newAliases, pickleFile )
-        pickle.dump( compoundUnits, pickleFile )
 
     fileName = dataPath + os.sep + 'unit_conversions.pckl.bz2'
 
@@ -620,7 +596,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
     print( '{:,} unit operators'.format( len( unitOperators ) ) )
     print( '{:,} unit conversions'.format( len( unitConversionMatrix ) ) )
     print( '{:,} aliases'.format( len( newAliases ) ) )
-    print( '{:,} compound units'.format( len( compoundUnits ) ) )
 
 
 #//******************************************************************************

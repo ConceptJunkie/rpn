@@ -108,15 +108,18 @@ def rpn( cmd_args ):
         args = parser.parse_args( cmd_args )
 
         try:
+            g.operatorAliases.update( operatorAliases )
+
             with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
                 unitsVersion = pickle.load( pickleFile )
-                g.unitOperators = pickle.load( pickleFile )
-                operatorAliases.update( pickle.load( pickleFile ) )
-                g.compoundUnits = pickle.load( pickleFile )
+                g.basicUnitTypes.update( pickle.load( pickleFile ) )
+                g.unitOperators.update( pickle.load( pickleFile ) )
+                g.operatorAliases.update( pickle.load( pickleFile ) )
+                g.compoundUnits.update( pickle.load( pickleFile ) )
         except FileNotFoundError as error:
             print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
 
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, operatorAliases,
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases,
                    g.dataPath, helpArgs, args.line_length )
         return
 
@@ -161,7 +164,7 @@ def rpn( cmd_args ):
 
     if args.help or args.other_help:
         printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers,
-                   operatorAliases, g.dataPath, [ ], args.line_length )
+                   g.operatorAliases, g.dataPath, [ ], args.line_length )
         return
 
     valid, errorString = validateOptions( args )
@@ -270,11 +273,17 @@ def rpn( cmd_args ):
         return
 
     try:
+        g.operatorAliases.update( operatorAliases )
+
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
             unitsVersion = pickle.load( pickleFile )
-            g.unitOperators = pickle.load( pickleFile )
-            operatorAliases.update( pickle.load( pickleFile ) )
-            g.compoundUnits = pickle.load( pickleFile )
+            g.basicUnitTypes.update( pickle.load( pickleFile ) )
+            g.unitOperators.update( pickle.load( pickleFile ) )
+            g.operatorAliases.update( pickle.load( pickleFile ) )
+            g.compoundUnits.update( pickle.load( pickleFile ) )
+
+        for unit in g.compoundUnits:
+            print( unit, g.compoundUnits[ unit ] )
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
 
@@ -283,8 +292,8 @@ def rpn( cmd_args ):
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term in args.terms:
-        if term in operatorAliases:
-            term = operatorAliases[ term ]
+        if term in g.operatorAliases:
+            term = g.operatorAliases[ term ]
 
         if term in functionOperators:
             if g.creatingFunction:

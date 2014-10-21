@@ -22,8 +22,8 @@ nestedListLevel = 0
 dataPath = ''
 numerals = ''
 
-unitConversionMatrix = None
-unitOperators = None
-compoundUnits = None
-
+basicUnitTypes = { }
+operatorAliases = { }
+unitConversionMatrix = { }
+unitOperators = { }
 

@@ -309,8 +309,8 @@ def evaluateFunction( n, k ):
         while len( valueList ) > 1:
             term = valueList.pop( 0 )
 
-            if term in operatorAliases:
-                term = operatorAliases[ term ]
+            if term in g.operatorAliases:
+                term = g.operatorAliases[ term ]
 
             if not evaluateTerm( term, index, valueList ):
                 break
@@ -392,10 +392,10 @@ def dumpOperators( ):
 #//******************************************************************************
 
 def dumpAliases( ):
-    for alias in sorted( [ key for key in operatorAliases ] ):
-        print( alias, operatorAliases[ alias ] )
+    for alias in sorted( [ key for key in g.operatorAliases ] ):
+        print( alias, g.operatorAliases[ alias ] )
 
-    return len( operatorAliases )
+    return len( g.operatorAliases )
 
 
 #//******************************************************************************
@@ -417,7 +417,7 @@ def printStats( dict, name ):
 #//******************************************************************************
 
 def dumpStats( ):
-    if g.unitConversionMatrix is None:
+    if not g.unitConversionMatrix:
         loadUnitConversionMatrix( )
 
     print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) + len( modifiers ) ) )

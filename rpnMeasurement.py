@@ -32,8 +32,8 @@ import rpnGlobals as g
 #//******************************************************************************
 
 def getSimpleUnitType( unit ):
-    if unit in operatorAliases:
-        unit = operatorAliases[ unit ]
+    if unit in g.operatorAliases:
+        unit = g.operatorAliases[ unit ]
 
     if unit in g.unitOperators:
         return g.unitOperators[ unit ].representation
@@ -50,7 +50,7 @@ def getSimpleUnitType( unit ):
 #//******************************************************************************
 
 def combineUnits( units1, units2 ):
-    if g.unitConversionMatrix is None:
+    if not g.unitConversionMatrix:
         loadUnitConversionMatrix( )
 
     newUnits = Units( )
@@ -344,23 +344,24 @@ class Measurement( mpf ):
 
 
     def getReduced( self ):
-        print( 'getReduced 1:', self, [ ( i, self.units[ i ] ) for i in self.units ] )
-        if g.unitConversionMatrix is None:
+        debugPrint( 'getReduced 1:', self, [ ( i, self.units[ i ] ) for i in self.units ] )
+        if not g.unitConversionMatrix:
             loadUnitConversionMatrix( )
 
         value = mpf( self )
         units = Units( )
 
         for unit in self.units:
-            newUnit = basicUnitTypes[ getUnitType( unit ) ].baseUnitName
+            newUnit = g.basicUnitTypes[ getUnitType( unit ) ].baseUnitName
+            debugPrint( 'newUnit', newUnit )
 
             if unit != newUnit:
                 value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] ) )
 
-            units[ newUnit ] += self.units[ unit ]
+            units.update( Units( g.unitOperators[ newUnit ].representation + "^" + str( self.units[ unit ] ) ) )
 
         reduced = Measurement( value, units )
-        print( 'getReduced 2:', reduced )
+        debugPrint( 'getReduced 2:', reduced )
         return reduced
 
 
@@ -398,18 +399,18 @@ class Measurement( mpf ):
             if unit1String == unit2String:
                 return fmul( mpf( self ), mpf( other ) )
 
-            if unit1String in operatorAliases:
-                unit1String = operatorAliases[ unit1String ]
+            if unit1String in g.operatorAliases:
+                unit1String = g.operatorAliases[ unit1String ]
 
-            if unit2String in operatorAliases:
-                unit2String = operatorAliases[ unit2String ]
+            if unit2String in g.operatorAliases:
+                unit2String = g.operatorAliases[ unit2String ]
 
             debugPrint( 'unit1String: ', unit1String )
             debugPrint( 'unit2String: ', unit2String )
 
             exponents = { }
 
-            if g.unitConversionMatrix is None:
+            if not g.unitConversionMatrix:
                 loadUnitConversionMatrix( )
 
             # look for a straight-up conversion
@@ -421,41 +422,19 @@ class Measurement( mpf ):
                 # otherwise, we need to figure out how to do the conversion
                 conversionValue = mpmathify( 1 )
 
-                if unit1String in g.compoundUnits:
-                    # we need support for multiple compoundUnitInfo records for each compound type
-                    # and a way to select the right one to use
-                    compoundInfo = g.compoundUnits[ unit2String ]
-                    newUnit1String = compoundInfo.type
-                    conversionValue = fmul( conversionValue, compoundInfo.conversion )
-                else:
-                    newUnit1String = unit1String
-
-                if unit2String in g.compoundUnits:
-                    compoundInfo = g.compoundUnits[ unit2String ]
-                    newUnit2String = compoundInfo.type
-                    conversionValue = fmul( conversionValue, compoundInfo.conversion )
-                else:
-                    newUnit2String = unit2String
-
-                debugPrint( 'newUnit1String: ', newUnit1String )
-                debugPrint( 'newUnit2String: ', newUnit2String )
-
-                if newUnit1String == newUnit2String:
-                    return conversionValue
-
                 # if that isn't found, then we need to do the hard work and break the units down
                 newUnits1 = Units( )
 
                 for unit in units1:
-                    newUnits1.update( Units( g.unitOperators[ unit ].representation ) )
+                    newUnits1.update( Units( g.unitOperators[ unit ].representation + "^" + str( units1[ unit ] ) ) )
 
                 newUnits2 = Units( )
 
                 for unit in units2:
-                    newUnits2.update( Units( g.unitOperators[ unit ].representation ) )
+                    newUnits2.update( Units( g.unitOperators[ unit ].representation + "^" + str( units2[ unit ] ) ) )
 
-                print( 'newUnits1:', newUnits1 )
-                print( 'newUnits2:', newUnits2 )
+                debugPrint( 'newUnits1:', newUnits1 )
+                debugPrint( 'newUnits2:', newUnits2 )
 
                 for unit1 in newUnits1:
                     foundConversion = False
@@ -476,11 +455,13 @@ class Measurement( mpf ):
 
                         debugPrint( 'reduced:', self.units, reduced.units )
 
-                        if reduced.units == self.units:
+                        reducedOther = other.getReduced( )
+
+                        if ( reduced.units == self.units ) and ( reducedOther.units == other.units ):
                             raise ValueError( 'unable to convert ' + self.getUnitString( ) +
                                               ' to ' + other.getUnitString( ) )
 
-                        reduced = reduced.convertValue( other )
+                        reduced = reduced.convertValue( reducedOther )
                         return reduced
 
                 value = conversionValue
@@ -561,15 +542,15 @@ def estimate( measurement ):
     if isinstance( measurement, Measurement ):
         unitType = None
 
-        for basicUnitType in basicUnitTypes:
-            if measurement.isCompatible( Measurement( 1, basicUnitTypes[ basicUnitType ].baseUnit ) ):
+        for basicUnitType in g.basicUnitTypes:
+            if measurement.isCompatible( Measurement( 1, g.basicUnitTypes[ basicUnitType ].baseUnit ) ):
                 unitType = basicUnitType
                 break
 
         if unitType is None:
             return 'No estimates are available for this unit type'
 
-        unitTypeInfo = basicUnitTypes[ unitType ]
+        unitTypeInfo = g.basicUnitTypes[ unitType ]
 
         unit = Measurement( 1, unitTypeInfo.baseUnit )
         value = mpf( Measurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
