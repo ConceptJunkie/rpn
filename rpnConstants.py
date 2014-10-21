@@ -10,6 +10,7 @@
 
 from mpmath import *
 
+from rpnDeclarations import *
 from rpnPrimeUtils import *
 from rpnUtils import *
 

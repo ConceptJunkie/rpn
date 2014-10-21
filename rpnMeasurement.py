@@ -83,6 +83,15 @@ def combineUnits( units1, units2 ):
 #//******************************************************************************
 
 class Measurement( mpf ):
+    #@property
+    #def units( self ):
+    #    return self.units
+    #
+    #@units.setter
+    #def units( self, value ):
+    #    self.units.clear( )
+    #    self.units.update( value )
+
     def __new__( cls, value, units=None, unitName=None, pluralUnitName=None ):
         if isinstance( value, list ):
             raise ValueError( 'cannot use a list for the value of a measurement' )
@@ -92,20 +101,7 @@ class Measurement( mpf ):
 
     def __init__( self, value, units=None, unitName=None, pluralUnitName=None ):
         mpf.__init__( value )
-
-        self.units = Units( )
-
-        if units is not None:
-            if isinstance( units, str ):
-                self.units = self.units.parseUnitString( units )
-            elif isinstance( units, ( list, tuple ) ):
-                for unit in units:
-                    self.update( unit )
-            elif isinstance( units, dict ):
-                self.update( units )
-            else:
-                raise ValueError( 'invalid units specifier' )
-
+        self.units = Units( units )
         self.unitName = unitName
         self.pluralUnitName = pluralUnitName
 
@@ -458,11 +454,15 @@ class Measurement( mpf ):
                 for unit in units2:
                     newUnits2.update( Units( g.unitOperators[ unit ].representation ) )
 
+                print( 'newUnits1:', newUnits1 )
+                print( 'newUnits2:', newUnits2 )
+
                 for unit1 in newUnits1:
                     foundConversion = False
 
                     for unit2 in newUnits2:
-                        debugPrint( '1 and 2:', unit1, units1[ unit1 ], unit2, units2[ unit2 ] )
+                        debugPrint( '1 and 2:', unit1, units1[ unit1 ], getUnitType( unit1 ),
+                                    unit2, units2[ unit2 ], getUnitType( unit2 ) )
 
                         if getUnitType( unit1 ) == getUnitType( unit2 ):
                             conversions.append( [ unit1, unit2 ] )
@@ -473,6 +473,13 @@ class Measurement( mpf ):
                     if not foundConversion:
                         debugPrint( 'didn\'t find a conversion, try reducing' )
                         reduced = self.getReduced( )
+
+                        debugPrint( 'reduced:', self.units, reduced.units )
+
+                        if reduced.units == self.units:
+                            raise ValueError( 'unable to convert ' + self.getUnitString( ) +
+                                              ' to ' + other.getUnitString( ) )
+
                         reduced = reduced.convertValue( other )
                         return reduced
 

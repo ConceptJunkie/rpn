@@ -423,8 +423,8 @@ class Units( collections.Counter ):
             elif isinstance( arg[ 0 ], ( list, tuple ) ):
                 for item in arg[ 0 ]:
                     self.update( item )  # for Counter, update( ) adds, not replaces
-            elif isinstance( arg[ 0 ], Units ):
-                self = arg[ 0 ]
+            elif isinstance( arg[ 0 ], ( Units, dict ) ):
+                self.update( arg[ 0 ] )
         else:
             super( Units, self ).__init__( *arg, **kw )
 
@@ -471,6 +471,8 @@ class Units( collections.Counter ):
 
 
     def getBasicTypes( self ):
+        #print( )
+        #print( 'getbasicTypes:', self )
         result = Units( )
 
         for unit in self:
@@ -482,7 +484,10 @@ class Units( collections.Counter ):
 
                 unitType = g.unitOperators[ unit ].unitType
 
-            basicUnits = basicUnitTypes[ unitType ].simpleTypes
+            #print( 'unit type:', unitType )
+            #print( 'simple types:', basicUnitTypes[ unitType ].simpleTypes )
+            basicUnits = Units( basicUnitTypes[ unitType ].simpleTypes )
+            #print( 'basicUnits 1:', basicUnits )
 
             exponent = self[ unit ]
 
@@ -490,7 +495,9 @@ class Units( collections.Counter ):
                 for unitType2 in basicUnits:
                     basicUnits[ unitType2 ] *= exponent
 
+            #print( 'basicUnits 2:', basicUnits )
             result.update( basicUnits )
+            #print( 'result:', result )
 
         zeroKeys = [ ]
 
@@ -501,6 +508,8 @@ class Units( collections.Counter ):
         for zeroKey in zeroKeys:
             del result[ zeroKey ]
 
+        #print( 'getBasicTypes returning:', result )
+        #print( )
         return result
 
 
