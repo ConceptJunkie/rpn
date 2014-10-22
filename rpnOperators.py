@@ -879,6 +879,8 @@ operators = {
     'uinteger'          : OperatorInfo( lambda n, k: int( fmod( n, power( 2, k ) ) ), 2 ),
     'ulong'             : OperatorInfo( lambda n: int( fmod( n, power( 2, 32 ) ) ), 1 ),
     'ulonglong'         : OperatorInfo( lambda n: int( fmod( n, power( 2, 64 ) ) ), 1 ),
+    'undouble'          : OperatorInfo( interpretAsDouble, 1 ),
+    'unfloat'           : OperatorInfo( interpretAsFloat, 1 ),
     'unitroots'         : OperatorInfo( lambda i: unitroots( int( i ) ), 1 ),
     'ushort'            : OperatorInfo( lambda n: int( fmod( n, power( 2, 16 ) ) ), 1 ),
     'value'             : OperatorInfo( lambda n: mpf( n ), 1 ),

@@ -165,3 +165,26 @@ def packInteger( values, fields ):
 
     return result
 
+
+#//******************************************************************************
+#//
+#//  interpretAsFloat
+#//
+#//******************************************************************************
+
+def interpretAsFloat( n ):
+    intValue = struct.pack( 'i', int( n ) )
+    return mpf( struct.unpack( 'f', intValue )[ 0 ] )
+
+
+#//******************************************************************************
+#//
+#//  interpretAsDouble
+#//
+#//******************************************************************************
+
+def interpretAsDouble( n ):
+    intValue = struct.pack( 'q', int( n ) )
+    return mpf( struct.unpack( 'd', intValue )[ 0 ] )
+
+

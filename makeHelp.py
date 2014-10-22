@@ -574,6 +574,10 @@ correctly.  The data files have been significantly expanded as well.
 Added the 'diffs2' operator.
 
 More bug fixes thanks to the test script!
+
+5.28.5
+
+More bug fixes and code cleanup.  Added the 'unfloat' and 'undouble' operators.
 ''',
 'license' :
 '''
@@ -3454,6 +3458,18 @@ c:\>rpn 10 triplebal_ diffs
 ''' ],
     'ulonglong' : [
 'conversion', 'converts the value to an unsigned 64-bit integer',
+'''
+''',
+'''
+''' ],
+    'undouble' : [
+'computer', 'interprets a 64-bit integer as a 64-bit IEEE 754 float',
+'''
+''',
+'''
+''' ],
+    'unfloat' : [
+'computer', 'interprets a 32-bit integer as a 32-bit IEEE 754 float',
 '''
 ''',
 '''
