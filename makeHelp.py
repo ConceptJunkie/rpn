@@ -306,46 +306,49 @@ but it works for now.
 
 For now, here are some examples:
 
-c:\>rpn 10 miles km convert
-16.0934399991 kilometers
+    c:\>rpn 10 miles km convert
+    16.0934399991 kilometers
 
-c:\>rpn 2 gallons cups convert
-32 cups
+    c:\>rpn 2 gallons cups convert
+    32 cups
 
-c:\>rpn 153 pounds stone convert
-10.9285714286 stone
+    c:\>rpn 153 pounds stone convert
+    10.9285714286 stone
 
-c:\>rpn 10 miles km convert
-16.0934399991 kilometers
+    c:\>rpn 10 miles km convert
+    16.0934399991 kilometers
 
-c:\>rpn 65 mph kph convert
-104.60736 kilometers/hour
+    c:\>rpn 65 mph kph convert
+    104.60736 kilometers/hour
 
-c:\>rpn 60 miles hour / furlongs fortnight / convert
-161280 furlongs per fortnight
+    c:\>rpn 60 miles hour / furlongs fortnight / convert
+    161280 furlongs per fortnight
 
-c:\>rpn barn gigaparsec * cubic_inch convert
-188.2995990804 cubic inches
+    c:\>rpn barn gigaparsec * cubic_inch convert
+    188.2995990804 cubic inches
 
-c:\>rpn mars_day hms
-[ 24 hours, 37 minutes, 22.6631999991 seconds ]
+    c:\>rpn mars_day hms
+    [ 24 hours, 37 minutes, 22.6631999991 seconds ]
 
-c:\>rpn 10 tons estimate
-'approximately 1.65 times the mass of an average male African bush elephant'
+    c:\>rpn 10 tons estimate
+    'approximately 1.65 times the mass of an average male African bush elephant'
 
-c:\>rpn 78 kg [ pound ounce ] convert
-[ 171 pounds, 15.3690320673 ounces ]
+    c:\>rpn 78 kg [ pound ounce ] convert
+    [ 171 pounds, 15.3690320673 ounces ]
 
-c:\>rpn 150,000 seconds [ day hour minute second ] convert
-[ 1 day, 17 hours, 39 minutes, 59.9999999991 seconds ]
+    c:\>rpn 150,000 seconds [ day hour minute second ] convert
+    [ 1 day, 17 hours, 39 minutes, 59.9999999991 seconds ]
 
 Here's a shortcut for "[ day hour minute second ] convert":
 
-c:\>rpn 150,000 seconds dhms
-[ 1 day, 17 hours, 39 minutes, 59.9999999991 seconds ]
+    c:\>rpn 150,000 seconds dhms
+    [ 1 day, 17 hours, 39 minutes, 59.9999999991 seconds ]
 
 Yes, I'd really like to do something about that rounding error.
 
+
+
+rpn 16800 mA hours * 5 volts * joule convert
 
 Help topics for individual units is coming someday, but not today.
 ''',

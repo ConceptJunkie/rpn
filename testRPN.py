@@ -44,11 +44,19 @@ def runTests( ):
     testRPN( 'rpn 6 8 ** -c' )
 
     testRPN( 'rpn -a3 7 sqrt -d' )
-    testRPN( 'rpn -a12 8 sqrt -d' )
-    testRPN( 'rpn -a50 19 sqrt -d' )
+    testRPN( 'rpn -a12 8 sqrt -d5' )
+    testRPN( 'rpn -a50 19 sqrt -d10' )
 
     testRPN( 'rpn -p50 1 30 range fib -g 3' )
     testRPN( 'rpn -p50 1 30 range fib -g 4' )
+
+    testRPN( 'rpn -h' )
+
+    testRPN( 'rpn 2 sqrt pi * -i' )
+
+    testRPN( 'rpn 1 10 range 3 ** -o' )
+
+    testRPN( 'rpn pi -p 1000' )
 
     testRPN( 'rpn 10 100 10 range2 -r phi' )
 
@@ -117,7 +125,13 @@ def runTests( ):
 
     testRPN( 'rpn -a1000 -d5 7 sqrt -r62' )
     testRPN( 'rpn -a1000 -d5 pi -r8' )
-    testRPN( 'rpn 2 1 32 range -r16' )
+    testRPN( 'rpn 2 1 32 range ** -r16' )
+
+    testRPN( 'rpn -t 12 16 ** 1 + factor' )
+
+    testRPN( 'rpn 3 1 20 range ** -x' )
+
+    testRPN( 'rpn -p60 65537 4 ** -r 16 -g8 -z' )
 
     # operators
     testRPN( 'rpn -394 abs' )
@@ -567,7 +581,7 @@ def runTests( ):
     testRPN( 'rpn 16467 nthprime?' )
     testRPN( 'rpn 13,000,000,000 nthprime?' )
 
-    testRPN( 'rpn 1 100 10 range2 nthquad?' )
+    testRPN( 'rpn 1 100000 10000 range2 nthquad?' )
     testRPN( 'rpn 453456 nthquad?' )
     testRPN( 'rpn 74,000,000,000 nthquad?' )
 

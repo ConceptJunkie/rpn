@@ -34,6 +34,9 @@ def runConvertTests( ):
     testRPN( 'rpn watt-second watt second * convert' )
     testRPN( 'rpn watt-second second watt * convert' )
 
+    # complicated conversions
+    testRPN( 'rpn 16800 mA hours * 5 volts * joule convert' )
+
     # exponentiation
     testRPN( 'rpn foot 4 power square_inch sqr convert' )
 
