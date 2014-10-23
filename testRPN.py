@@ -587,18 +587,17 @@ def runTests( ):
 
     testRPN( 'rpn 10 octtri' )
 
-    # I don't want to pound on the OEIS servers all the time
-    #testRPN( 'rpn 1000 oeis' )
-    #testRPN( 'rpn 100000 randint oeis' )
+    testRPN( 'rpn 1000 oeis' )
+    testRPN( 'rpn 200000 randint oeis' )
 
-    #testRPN( 'rpn 1000 oeiscomment' )
-    #testRPN( 'rpn 100000 randint oeiscomment' )
+    testRPN( 'rpn 1000 oeiscomment' )
+    testRPN( 'rpn 200000 randint oeiscomment' )
 
-    #testRPN( 'rpn 1000 oeisex' )
-    #testRPN( 'rpn 100000 randint oeisex' )
+    testRPN( 'rpn 1000 oeisex' )
+    testRPN( 'rpn 200000 randint oeisex' )
 
-    #testRPN( 'rpn 1000 oeisname' )
-    #testRPN( 'rpn 100000 randint oeisname' )
+    testRPN( 'rpn 1000 oeisname' )
+    testRPN( 'rpn 200000 randint oeisname' )
 
     testRPN( 'rpn omega' )
 

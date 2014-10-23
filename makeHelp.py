@@ -578,6 +578,11 @@ More bug fixes thanks to the test script!
 5.28.5
 
 More bug fixes and code cleanup.  Added the 'unfloat' and 'undouble' operators.
+
+5.29.0
+
+Added caching for OEIS operators.  However, it turns out some OEIS text is non-
+ASCII, so I'll have to deal with that.
 ''',
 'license' :
 '''

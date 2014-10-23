@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-# New idea:  cache OEIS results!
-
 # http://en.wikipedia.org/wiki/Physical_constant
 
 # Things that don't work, but should:

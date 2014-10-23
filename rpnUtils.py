@@ -111,6 +111,20 @@ def downloadOEISText( id, char, addCR=False ):
     import urllib.request
     import re as regex
 
+    try:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis.pckl.bz2', 'rb' ) ) as pickleFile:
+            oeisCache = pickle.load( pickleFile )
+    except FileNotFoundError:
+        oeisCache = { }
+
+    if id in oeisCache:
+        oeisItem = oeisCache[ id ]
+    else:
+        oeisItem = { }
+
+    if char in oeisItem:
+        return oeisItem[ char ]
+
     data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( id ) + '&fmt=text' ).read( )
 
     pattern = regex.compile( b'%' + bytes( char, 'ascii' ) + b' A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
@@ -124,6 +138,13 @@ def downloadOEISText( id, char, addCR=False ):
             result += '\n'
 
         result += line.decode( 'ascii' )
+
+    oeisItem[ char ] = result
+
+    oeisCache[ id ] = oeisItem
+
+    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis.pckl.bz2', 'wb' ) ) as pickleFile:
+        pickle.dump( oeisCache, pickleFile )
 
     return result
 
