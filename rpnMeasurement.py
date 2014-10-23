@@ -352,7 +352,7 @@ class Measurement( mpf ):
         units = Units( )
 
         for unit in self.units:
-            newUnit = g.basicUnitTypes[ getUnitType( unit ) ].baseUnitName
+            newUnit = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
             debugPrint( 'newUnit', newUnit )
 
             if unit != newUnit:

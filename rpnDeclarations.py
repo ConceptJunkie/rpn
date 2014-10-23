@@ -568,11 +568,11 @@ class Units( collections.Counter ):
 #//******************************************************************************
 
 class UnitTypeInfo( ):
-    def __init__( self, simpleTypes, compoundTypes, baseUnitName, estimateTable ):
+    def __init__( self, simpleTypes, baseUnit, primitiveUnit, estimateTable ):
         self.simpleTypes = Units( simpleTypes )
-        self.compoundTypes = [ Units( compoundType ) for compoundType in compoundTypes ]
-        self.baseUnit = Units( baseUnitName )
-        self.baseUnitName = baseUnitName
+        self.baseUnitType = Units( baseUnit )
+        self.baseUnit = baseUnit
+        self.primitiveUnit = primitiveUnit
         self.estimateTable = estimateTable
 
 

@@ -63,252 +63,252 @@ from rpnEstimates import *
 basicUnitTypes = {
     'acceleration' : UnitTypeInfo(
         'length/time^2',
-        [ ],
+        'meter/second^2',
         'meter/second^2',
         accelerationTable
     ),
 
     'angle' : UnitTypeInfo(
         'angle',
-        [ ],
+        'radian',
         'radian',
         angleTable
     ),
 
     'area' : UnitTypeInfo(
         'length^2',
-        [ ],
+        'square_meter',
         'square_meter',
         areaTable,
     ),
 
     'capacitance' : UnitTypeInfo(
         'current^2*time^2/energy',
-        [ ],
         'farad',
+        'ampere^2*second/',
         capacitanceTable,
     ),
 
     'charge' : UnitTypeInfo(
         'charge',
-        [ 'current*time' ],
+        'coulomb',
         'coulomb',
         chargeTable,
     ),
 
     'constant' : UnitTypeInfo(
         'constant',
-        [ ],
+        'unity',
         'unity',
         constantTable,
     ),
 
     'current' : UnitTypeInfo(
         'charge/time',
-        [ 'electric_potential/electrical_resistance' ],
         'ampere',
+        'coulomb/second',
         currentTable,
     ),
 
     'data_rate' : UnitTypeInfo(
         'information_entropy/time',
-        [ ],
+        'bit/second',
         'bit/second',
         dataRateTable,
     ),
 
     'density' : UnitTypeInfo(
         'mass/length^3',
-        [ ],
+        'gram/liter',
         'gram/liter',
         densityTable,
     ),
 
     'dynamic_viscosity' : UnitTypeInfo(
         'mass*time/length^2',
-        [ 'pressure*time' ],
         'pascal*second',
+        'gram*second/meter^2',
         dynamicViscosityTable,
     ),
 
     'electrical_conductance' : UnitTypeInfo(
-        'charge/time*electric_potential',
-        [ 'current^2/energy*time', 'current/electric_potential' ],
+        'charge/electric_potential*time',
         'siemens',
+        'coulomb/volt*time',
         electricalConductanceTable,
     ),
 
     'electrical_resistance' : UnitTypeInfo(
         'electrical_resistance',
-        [ 'energy*time/current^2', 'electric_potential/current' ],
+        'ohm',
         'ohm',
         electricalResistanceTable,
     ),
 
     'electric_potential' : UnitTypeInfo(
         'electric_potential',
-        [ 'energy/current*time', 'current*electrical_resistance' ],
+        'volt',
         'volt',
         electricPotentialTable,
     ),
 
     'energy' : UnitTypeInfo(
         'electric_potential*charge',
-        [ 'power*time', 'electric_potential*current*time' ],
         'joule',
+        'volt-coulomb',
         energyTable,
     ),
 
     'force' : UnitTypeInfo(
         'mass*length/time^2',
-        [ 'mass*acceleration' ],
         'newton',
+        'gram*meter/second^2',
         forceTable,
     ),
 
     'frequency' : UnitTypeInfo(
         '1/time',
-        [ ],
+        'hertz',
         'hertz',
         frequencyTable,
     ),
 
     'illuminance' : UnitTypeInfo(
         'luminous_intensity*angle^2/length^2',
-        [ ],
         'lux',
+        'candela*steradian/meter^2',
         illuminanceTable,
     ),
 
     'inductance' : UnitTypeInfo(
-        'electric_potential*time/current',
-        [ ],
+        'electric_potential/charge',
         'henry',
+        'volt/coulomb',
         inductanceTable,
     ),
 
     'information_entropy' : UnitTypeInfo(
         'information_entropy',
-        [ ],
+        'bit',
         'bit',
         informationEntropyTable,
     ),
 
     'length' : UnitTypeInfo(
         'length',
-        [ ],
+        'meter',
         'meter',
         lengthTable,
     ),
 
     'luminance' : UnitTypeInfo(
         'luminous_intensity/length^2',
-        [ ],
+        'candela/meter^2',
         'candela/meter^2',
         luminanceTable,
     ),
 
     'luminous_flux' : UnitTypeInfo(
         'luminous_intensity*angle^2',
-        [ ],
         'lumen',
+        'candela*steradian',
         luminousFluxTable,
     ),
 
     'luminous_intensity' : UnitTypeInfo(
         'luminous_intensity',
-        [ ],
+        'candela',
         'candela',
         luminousIntensityTable,
     ),
 
     'magnetic_field_strength' : UnitTypeInfo(
         'charge/length',
-        [ ],
+        'ampere/meter',
         'ampere/meter',
         magneticFieldStrengthTable,
     ),
 
     'magnetic_flux' : UnitTypeInfo(
         'electric_potential*time',
-        [ ],
         'weber',
+        'volt*second',
         magneticFluxTable,
     ),
 
     'magnetic_flux_density' : UnitTypeInfo(
         'electric_potential*time/length^2',
-        [ ],
         'tesla',
+        'volt*second/meter^2',
         magneticFluxDensityTable,
     ),
 
     'mass' : UnitTypeInfo(
         'mass',
-        [ ],
+        'gram',
         'gram',
         massTable,
     ),
 
     'power' : UnitTypeInfo(
         'electric_potential*charge/time',
-        [ 'energy/time' ],
         'watt',
+        'volt*coulomb/second',
         powerTable,
     ),
 
     'pressure' : UnitTypeInfo(
         'mass/length^2',
-        [ ],
         'pascal',
+        'gram/meter^2',
         pressureTable,
     ),
 
     'radiation_dose' : UnitTypeInfo(
         'electric_potential*charge/mass',
-        [ 'energy/mass' ],
         'sievert',
+        'volt*coulomb/gram',
         radiationDoseTable,
     ),
 
     'radiation_exposure' : UnitTypeInfo(
         'charge/mass',
-        [ 'current*time/mass' ],
+        'coulomb/gram',
         'coulomb/gram',
         radiationExposureTable,
     ),
 
     'solid_angle' : UnitTypeInfo(
         'angle^2',
-        [ ],
+        'steradian',
         'steradian',
         solidAngleTable,
     ),
 
     'temperature' : UnitTypeInfo(
         'temperature',
-        [ ],
+        'kelvin',
         'kelvin',
         temperatureTable,
     ),
 
     'time' : UnitTypeInfo(
         'time',
-        [ ],
+        'second',
         'second',
         timeTable,
     ),
 
     'velocity' : UnitTypeInfo(
         'length/time',
-        [ ],
+        'meter/second',
         'meter/second',
         velocityTable,
     ),
 
     'volume' : UnitTypeInfo(
         'length^3',
-        [ ],
+        'liter',
         'liter',
         volumeTable,
     ),
@@ -1106,8 +1106,10 @@ unitOperators = {
                   '''
                   ''' ),
 
-    #'volt-ampere-second' :
-    #    UnitInfo( 'energy', 'ampere*second*volt', 'ampere*second*volt', 'VAs', [ ], [ 'SI' ],
+    'volt-coulomb' :
+        UnitInfo( 'energy', 'volt*coulomb', 'volt*coulomb', 'VC', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
 
     'watt-second' :
         UnitInfo( 'energy', 'watt*second', 'watt-seconds', 'Ws', [ ], [ 'SI' ],
@@ -3246,15 +3248,6 @@ unitConversionMatrix = {
     ( 'century',                    'year' )                                : mpmathify( '100' ),
     ( 'chain',                      'yard' )                                : mpmathify( '22' ),
     ( 'chopine',                    'liter' )                               : mpmathify( '0.25' ),
-    ( 'solar_mass',                 'mercury_mass' )                        : mpmathify( '6023600' ),   # 250
-    ( 'solar_mass',                 'venus_mass' )                          : mpmathify( '408523.71' ), # 0.06
-    ( 'solar_mass',                 'earth_moon_mass' )                     : mpmathify( '328900.56' ), # 0.02
-    ( 'solar_mass',                 'mars_mass' )                           : mpmathify( '3098708' ),   # 9
-    ( 'solar_mass',                 'jupiter_mass' )                        : mpmathify( '1047.3486' ), # 0.0008
-    ( 'solar_mass',                 'saturn_mass' )                         : mpmathify( '3497.898' ),  # 0.018
-    ( 'solar_mass',                 'uranus_mass' )                         : mpmathify( '22902.98' ),  # 0.03
-    ( 'solar_mass',                 'neptune_mass' )                        : mpmathify( '19412.24' ),  # 0.04
-    ( 'solar_mass',                 'pluto_mass' )                          : mpmathify( '1.35e8' ),    # 0.07e8
     ( 'clarke',                     'day' )                                 : mpmathify( '1' ),
     ( 'clarke',                     'wolverton' )                           : mpmathify( '1.0e6' ),
     ( 'clausius',                   'joule/kelvin' )                        : mpmathify( '4186.8' ),
@@ -3556,7 +3549,16 @@ unitConversionMatrix = {
     ( 'slug',                       'pound' )                               : mpmathify( '32.174048556' ),
     ( 'smoot',                      'inch' )                                : mpmathify( '67' ),
     ( 'solar_luminosity',           'watt' )                                : mpmathify( '3.826e26' ),
+    ( 'solar_mass',                 'earth_moon_mass' )                     : mpmathify( '328900.56' ), # 0.02
     ( 'solar_mass',                 'gram' )                                : mpmathify( '1.9891e33' ),
+    ( 'solar_mass',                 'jupiter_mass' )                        : mpmathify( '1047.3486' ), # 0.0008
+    ( 'solar_mass',                 'mars_mass' )                           : mpmathify( '3098708' ),   # 9
+    ( 'solar_mass',                 'mercury_mass' )                        : mpmathify( '6023600' ),   # 250
+    ( 'solar_mass',                 'neptune_mass' )                        : mpmathify( '19412.24' ),  # 0.04
+    ( 'solar_mass',                 'pluto_mass' )                          : mpmathify( '1.35e8' ),    # 0.07e8
+    ( 'solar_mass',                 'saturn_mass' )                         : mpmathify( '3497.898' ),  # 0.018
+    ( 'solar_mass',                 'uranus_mass' )                         : mpmathify( '22902.98' ),  # 0.03
+    ( 'solar_mass',                 'venus_mass' )                          : mpmathify( '408523.71' ), # 0.06
     ( 'solar_radius',               'meter' )                               : mpmathify( '6.9599e8' ),
     ( 'solomon',                    'liter' )                               : mpmathify( '20.0' ),
     ( 'sovereign',                  'liter' )                               : mpmathify( '25.0' ),
@@ -3600,8 +3602,8 @@ unitConversionMatrix = {
     ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '100' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
-    ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
     ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
+    ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
     ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),
     ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),
@@ -3636,6 +3638,7 @@ unitConversionMatrix = {
     ( 'virgate',                    'bovate' )                              : mpmathify( '30' ),
     ( 'volt',                       'abvolt' )                              : mpmathify( '1.0e8' ),
     ( 'volt-ampere',                'watt' )                                : mpmathify( '1' ),
+    ( 'volt-coulomb',               'joule' )                               : mpmathify( '1' ),
     ( 'von_klitzing_constant',      'ohm' )                                 : mpmathify( '25812.807557' ),
     ( 'watt',                       'erg/second' )                          : mpmathify( '1.0e7' ),
     ( 'watt',                       'kilogram-meter^2/second^3' )           : mpmathify( '1' ),
@@ -3662,7 +3665,5 @@ unitConversionMatrix = {
     ( 'yard',                       'foot' )                                : mpmathify( '3' ),
     ( 'year',                       'day' )                                 : mpmathify( '365.25' ),   # Julian year = 365 and 1/4 days
     ( 'zentner',                    'gram' )                                : mpmathify( '50000' ),
-
-    #( 'volt-ampere-second',        'joule' )                                : mpmathify( '1' ),
 }
 
