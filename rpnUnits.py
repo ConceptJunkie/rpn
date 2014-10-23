@@ -83,9 +83,9 @@ basicUnitTypes = {
     ),
 
     'capacitance' : UnitTypeInfo(
-        'current^2*time^2/energy',
+        'charge/electric_potential',
         'farad',
-        'ampere^2*second/',
+        'coulomb/volt',
         capacitanceTable,
     ),
 
@@ -132,9 +132,9 @@ basicUnitTypes = {
     ),
 
     'electrical_conductance' : UnitTypeInfo(
-        'charge/electric_potential*time',
+        '1/electrical_resistance',
         'siemens',
-        'coulomb/volt*time',
+        '1/ohm',
         electricalConductanceTable,
     ),
 
