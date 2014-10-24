@@ -339,15 +339,23 @@ For now, here are some examples:
     c:\>rpn 150,000 seconds [ day hour minute second ] convert
     [ 1 day, 17 hours, 39 minutes, 59.9999999991 seconds ]
 
+Yes, I'd really like to do something about that rounding error.
+
 Here's a shortcut for "[ day hour minute second ] convert":
 
     c:\>rpn 150,000 seconds dhms
     [ 1 day, 17 hours, 39 minutes, 59.9999999991 seconds ]
 
-Yes, I'd really like to do something about that rounding error.
-
     c:>rpn 16800 mA hours * 5 volts * joule convert
     ...
+
+What is the radius of a sphere needed to hold 8 fluid ounces?
+
+    c:\>rpn 8 floz inch 3 ** convert sphereradius
+    1.510547765
+
+It should say '1.510547765 inches', but I haven't worked out all the unit
+stuff with the sphere functions yet.
 
 Help topics for individual units is coming someday, but not today.
 ''',
@@ -2626,24 +2634,40 @@ a = four-digit year, b = week (negative values count from the end), c = day
     'oeis' : [
 'special', 'downloads the OEIS integer series n',
 '''
+All data downloaded from OEIS is cached.  OEIS data is probably seldom
+updated, but if it is, the only way to get rpn to download new data is
+to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
+flushing the cache for a particular entry.
 ''',
 '''
 ''' ],
     'oeiscomment' : [
 'special', 'downloads the comment field for the OEIS integer series n',
 '''
+All data downloaded from OEIS is cached.  OEIS data is probably seldom
+updated, but if it is, the only way to get rpn to download new data is
+to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
+flushing the cache for a particular entry.
 ''',
 '''
 ''' ],
     'oeisex' : [
 'special', 'downloads the comment field for the OEIS integer series n',
 '''
+All data downloaded from OEIS is cached.  OEIS data is probably seldom
+updated, but if it is, the only way to get rpn to download new data is
+to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
+flushing the cache for a particular entry.
 ''',
 '''
 ''' ],
     'oeisname' : [
 'special', 'downloads the name of the OEIS integer series n',
 '''
+All data downloaded from OEIS is cached.  OEIS data is probably seldom
+updated, but if it is, the only way to get rpn to download new data is
+to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
+flushing the cache for a particular entry.
 ''',
 '''
 ''' ],

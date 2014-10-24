@@ -28,6 +28,7 @@ def runConvertTests( ):
     testRPN( 'rpn marathon miles convert' )
     testRPN( 'rpn marathon [ miles feet ] convert' )
     testRPN( 'rpn mph miles hour / convert' )
+    testRPN( 'rpn 65 miles hour / furlongs fortnight / convert' )
 
     # compound units
     testRPN( 'rpn watt second * watt-second convert' )
@@ -38,6 +39,7 @@ def runConvertTests( ):
     # complicated conversions
     testRPN( 'rpn 16800 mA hours * 5 volts * joule convert' )
 
-    # exponentiation
+    # unit exponentiation
+    testRPN( 'rpn 8 floz inch 3 ** convert' )
     testRPN( 'rpn foot 4 power square_inch sqr convert' )
 

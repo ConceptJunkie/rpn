@@ -50,13 +50,12 @@ from rpnEstimates import *
 #//  Notes:
 #//
 #//  I chose not to incorporate mass-energy equivalence here.  I don't think it
-#//  helps.  I just created the 'gram-equivalent' unit instead.
-#//
-#//  I probably want to make a special case for converting mass to energy so it
-#//  will work with all mass units.
+#//  helps.  I just created the 'gram-equivalent' unit instead.  I have some
+#//  ideas about how to better implement the fact that a number of energy
+#//  units are really mass units in disguise.
 #//
 #//  Constant is not a 'real' unit type, but it is useful for it to act like
-#//  one because it makes for useful operators.
+#//  one because it makes for useful operators, e.g. "20 M" for "20,000,000'.
 #//
 #//******************************************************************************
 

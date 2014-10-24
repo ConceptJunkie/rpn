@@ -135,7 +135,9 @@ def makeAliases( ):
 
     for unit in unitOperators:
         unitInfo = unitOperators[ unit ]
-        newAliases[ unitInfo.plural ] = unit
+
+        if unitInfo.plural != unit:
+            newAliases[ unitInfo.plural ] = unit
 
         for alias in unitInfo.aliases:
             newAliases[ alias ] = unit

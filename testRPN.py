@@ -192,13 +192,14 @@ def runTests( ):
     testRPN( 'rpn 153 balanced_' )
     testRPN( 'rpn 2153 balanced_' )
 
-    testRPN( 'rpn 45 bell' )
+    testRPN( 'rpn -p43 45 bell' )
 
     testRPN( 'rpn 4 5 bellpoly' )
 
     testRPN( 'rpn 16 bernoulli' )
 
-    testRPN( 'rpn 9 12 binomial' )
+    testRPN( 'rpn 12 9 binomial' )
+    testRPN( 'rpn -c 120 108 binomial' )
 
     testRPN( 'rpn 773 carol' )
 
@@ -217,7 +218,7 @@ def runTests( ):
 
     testRPN( 'rpn 100 centeredcube' )
 
-    testRPN( 'rpn champernowne' )
+    testRPN( 'rpn -p100 champernowne' )
 
     testRPN( 'rpn 0x101 char' )
 
