@@ -585,7 +585,7 @@ def runTests( ):
     testRPN( 'rpn 1 10 range nthprime?' )
     testRPN( 'rpn 67 nthprime?' )
     testRPN( 'rpn 16467 nthprime?' )
-    testRPN( 'rpn 13,000,000,000 nthprime?' )
+    testRPN( 'rpn -c 13,000,000,000 nthprime?' )
 
     testRPN( 'rpn 1 100000 10000 range2 nthquad?' )
     testRPN( 'rpn 453456 nthquad?' )
@@ -597,13 +597,13 @@ def runTests( ):
 
     testRPN( 'rpn 23 octahedral' )
 
-    testRPN( 'rpn 8 octhept' )
+    testRPN( 'rpn -p40 8 octhept' )
 
-    testRPN( 'rpn 7 octhex' )
+    testRPN( 'rpn -p30 7 octhex' )
 
     testRPN( 'rpn 6 octpent' )
 
-    testRPN( 'rpn 11 octsquare' )
+    testRPN( 'rpn -p25 11 octsquare' )
 
     testRPN( 'rpn 10 octtri' )
 
@@ -737,7 +737,7 @@ def runTests( ):
     testRPN( 'rpn 45 safeprime' )
     testRPN( 'rpn 5199846 safeprime' )
 
-    testRPN( 'rpn 67 schroeder' )
+    testRPN( 'rpn -p50 67 schroeder' )
 
     testRPN( 'rpn pi 7 / sec' )
 
@@ -759,16 +759,16 @@ def runTests( ):
     testRPN( 'rpn 1 sexyprime' )
     testRPN( 'rpn 2 sexyprime' )
     testRPN( 'rpn 1487 sexyprime' )
-    testRPN( 'rpn 89,999,999 sexyprime' )
+    testRPN( 'rpn -c 89,999,999 sexyprime' )
 
     testRPN( 'rpn 1 10 range sexyprime_' )
     testRPN( 'rpn 29 sexyprime_' )
     testRPN( 'rpn 21985 sexyprime_' )
-    testRPN( 'rpn 100,000,000 sexyprime_' )
+    testRPN( 'rpn -c 100,000,000 sexyprime_' )
 
     testRPN( 'rpn 1 10 range sexyquad' )
     testRPN( 'rpn 29 sexyquad' )
-    testRPN( 'rpn 289747 sexyquad' )
+    testRPN( 'rpn -c 289747 sexyquad' )
 
     testRPN( 'rpn 1 10 range sexyquad_' )
     testRPN( 'rpn 29 sexyquad_' )
@@ -776,16 +776,13 @@ def runTests( ):
 
     testRPN( 'rpn 1 10 range sexytriplet' )
     testRPN( 'rpn 29 sexytriplet' )
-    testRPN( 'rpn 593847 sexytriplet' )
-
-    testRPN( 'rpn 1 10 range sexytriplet_' )
-    testRPN( 'rpn 29 sexytriplet' )
-    testRPN( 'rpn 8574239 sexytriplet' )
+    testRPN( 'rpn -c 593847 sexytriplet' )
+    testRPN( 'rpn -c 8574239 sexytriplet' )
 
     testRPN( 'rpn 1 10 range sexytriplet_' )
     testRPN( 'rpn 52 sexytriplet_' )
     testRPN( 'rpn 5298 sexytriplet_' )
-    testRPN( 'rpn 10984635 sexytriplet_' )
+    testRPN( 'rpn -c 10984635 sexytriplet_' )
 
     testRPN( 'rpn -x 0x10 3 shiftleft' )
 

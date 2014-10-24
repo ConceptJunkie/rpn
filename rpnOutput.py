@@ -240,15 +240,20 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
         else:
             if isinstance( item, arrow.Arrow ):
                 resultString += formatDateTime( item )
-            else:
+            elif isinstance( item, Measurement ):
                 itemString = str( mpf( item ) )
 
                 resultString += formatOutput( itemString, radix, numerals, integerGrouping, integerDelimiter,
                                               leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
                                               outputAccuracy )
 
-            if isinstance( item, Measurement ):
                 resultString += ' ' + formatUnits( item )
+            else:
+                itemString = str( item )
+
+                resultString += formatOutput( itemString, radix, numerals, integerGrouping, integerDelimiter,
+                                              leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
+                                              outputAccuracy )
 
     resultString += ' ]'
 
