@@ -2,7 +2,7 @@
 
 #//******************************************************************************
 #//
-#//  rpnUnits
+#//  rpnUnits.py
 #//
 #//  RPN command-line calculator unit conversion declarations
 #//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)

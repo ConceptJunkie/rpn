@@ -1,5 +1,17 @@
 #!/usr/bin/env python
 
+#//******************************************************************************
+#//
+#//  rpnModifiers.py
+#//
+#//  RPN command-line calculator term modifier operators
+#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+#//
+#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#//  information).
+#//
+#//******************************************************************************
+
 from rpnDeclarations import *
 
 import rpnGlobals as g

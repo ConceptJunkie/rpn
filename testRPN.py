@@ -201,6 +201,9 @@ def runTests( ):
 
     testRPN( 'rpn 85 catalan' )
 
+    testRPN( 'rpn 1965-03 calendar' )
+    testRPN( 'rpn 2014-10 calendar' )
+
     testRPN( 'rpn catalans' )
 
     testRPN( 'rpn 17 cdecagonal' )
@@ -993,6 +996,8 @@ def runTests( ):
     testRPN( 'rpn [ 1 10 range 10 dup ] unique' )
 
     testRPN( 'rpn -x 503942034 [ 3 4 5 11 4 4 ] unpack' )
+
+    testRPN( 'rpn 2014 year_calendar' )
 
     testRPN( 'rpn -10 10 range zero' )
     testRPN( 'rpn 1 10 range zero' )

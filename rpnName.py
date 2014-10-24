@@ -2,7 +2,7 @@
 
 #//******************************************************************************
 #//
-#//  rpnName
+#//  rpnName.py
 #//
 #//  RPN command-line calculator functions for converting integers to English names
 #//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)

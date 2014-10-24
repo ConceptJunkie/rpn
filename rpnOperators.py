@@ -4,7 +4,7 @@
 #//
 #//  rpnOperators.py
 #//
-#//  RPN command-line calculator, operator definitions
+#//  RPN command-line calculator operator definitions
 #//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
 #//
 #//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -21,6 +21,7 @@ from random import randrange
 from rpnCombinatorics import *
 from rpnComputer import *
 from rpnConstants import *
+from rpnDate import *
 from rpnDeclarations import *
 from rpnGeometry import *
 from rpnList import *
@@ -31,7 +32,6 @@ from rpnNumberTheory import *
 from rpnPolynomials import *
 from rpnPolytope import *
 from rpnPrimeUtils import *
-from rpnTime import *
 from rpnUtils import *
 
 

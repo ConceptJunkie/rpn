@@ -1,5 +1,17 @@
 #!/usr/bin/env python
 
+#//******************************************************************************
+#//
+#//  rpn.py
+#//
+#//  RPN command-line calculator
+#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+#//
+#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#//  information).
+#//
+#//******************************************************************************
+
 # http://en.wikipedia.org/wiki/Physical_constant
 
 # Things that don't work, but should:
@@ -23,18 +35,6 @@
 # c:\>rpn 1 0.9999 sqr - sqrt 1/x
 # 70.7124459519
 
-
-#//******************************************************************************
-#//
-#//  rpn
-#//
-#//  RPN command-line calculator
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
 
 import argparse
 import sys

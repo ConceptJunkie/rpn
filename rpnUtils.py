@@ -2,7 +2,7 @@
 
 #//******************************************************************************
 #//
-#//  rpnUtils
+#//  rpnUtils.py
 #//
 #//  RPN command-line calculator utility functions
 #//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)

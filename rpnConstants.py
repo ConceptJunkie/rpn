@@ -1,5 +1,17 @@
 #!/usr/bin/env python
 
+#//******************************************************************************
+#//
+#//  rpnConstants.py
+#//
+#//  RPN command-line calculator constant operators
+#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+#//
+#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+#//  information).
+#//
+#//******************************************************************************
+
 # Conway's constant:  OEIS A014715
 # 1.30357726903429639125709911215255189073070250465940487575486139062855088785246155712681576686442522555
 
