@@ -241,7 +241,7 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
             if isinstance( item, arrow.Arrow ):
                 resultString += formatDateTime( item )
             else:
-                itemString = str( item )
+                itemString = str( mpf( item ) )
 
                 resultString += formatOutput( itemString, radix, numerals, integerGrouping, integerDelimiter,
                                               leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
