@@ -26,6 +26,7 @@ def runConvertTests( ):
     testRPN( 'rpn earth_radius 2 pi * * miles convert' )
     testRPN( 'rpn gallon cup convert' )
     testRPN( 'rpn marathon miles convert' )
+    testRPN( 'rpn marathon [ miles feet ] convert' )
     testRPN( 'rpn mph miles hour / convert' )
 
     # compound units

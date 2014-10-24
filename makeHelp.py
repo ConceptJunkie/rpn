@@ -346,9 +346,8 @@ Here's a shortcut for "[ day hour minute second ] convert":
 
 Yes, I'd really like to do something about that rounding error.
 
-
-
-rpn 16800 mA hours * 5 volts * joule convert
+    c:>rpn 16800 mA hours * 5 volts * joule convert
+    ...
 
 Help topics for individual units is coming someday, but not today.
 ''',
@@ -586,6 +585,11 @@ More bug fixes and code cleanup.  Added the 'unfloat' and 'undouble' operators.
 
 Added caching for OEIS operators.  However, it turns out some OEIS text is non-
 ASCII, so I'll have to deal with that.
+
+Operator help now includes examples by default.
+
+The 'time' operator type conflicted with the 'time' unit type, so I changed
+the operator type to 'date'... because they were all about dates!
 ''',
 'license' :
 '''
@@ -1179,7 +1183,7 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 '''
 ''' ],
     'ash_wednesday' : [
-'time', 'calculates the date of Ash Wednesday for the year specified',
+'date', 'calculates the date of Ash Wednesday for the year specified',
 '''
 ''',
 '''
@@ -1251,7 +1255,7 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 '''
 ''' ],
     'calendar' : [
-'time', 'prints a month calendar for the date value',
+'date', 'prints a month calendar for the date value',
 '''
 The 'calendar' operator is special in that what it prints out is a side-effect.
 It actually returns the date value passed in as a result, so as far as rpn is
@@ -1585,6 +1589,17 @@ number.
 ''',
 '''
 ''' ],
+    'dhms' : [
+'conversion', 'shortcut for \'[ day hour minute second ] convert\'',
+'''
+This shortcut operator replaces having to type '[ day hour minute second ]
+convert' in order to convert a time interval to days, hours, minutes and
+seconds.
+''',
+'''
+c:\>rpn sidereal_year dhms
+[ 365 days, 6 hours, 9 minutes, 9.7632 seconds ]
+''' ],
     'diffs' : [
 'list_operators', 'returns a list with the differences between successive elements of list n',
 '''
@@ -1608,17 +1623,6 @@ number.
 '''
 ''',
 '''
-''' ],
-    'dhms' : [
-'time', 'shortcut for \'[ day hour minute second ] convert\'',
-'''
-This shortcut operator replaces having to type '[ day hour minute second ]
-convert' in order to convert a time interval to days, hours, minutes and
-seconds.
-''',
-'''
-c:\>rpn siderial_year dhms
-[ 365 days, 6 hours, 9 minutes, 9.7632 seconds ]
 ''' ],
     'dms' : [
 'conversion', 'shortcut for \'[ degree arcminute arcsecond ] convert\'',
@@ -1676,13 +1680,13 @@ c:\>rpn 50 doublebal_ diffs
 '''
 ''' ],
     'dst_end' : [
-'time', 'calculates the ending date for Daylight Saving Time for the year specified',
+'date', 'calculates the ending date for Daylight Saving Time for the year specified',
 '''
 ''',
 '''
 ''' ],
     'dst_start' : [
-'time', 'calculates the starting date for Daylight Saving Time for the year specified',
+'date', 'calculates the starting date for Daylight Saving Time for the year specified',
 '''
 ''',
 '''
@@ -1713,7 +1717,7 @@ c:\>rpn [ 1 10 range 10 dup ] unique
 '''
 ''' ],
     'easter' : [
-'time', 'calculates the date of Easter for the year specified',
+'date', 'calculates the date of Easter for the year specified',
 '''
 ''',
 '''
@@ -1725,7 +1729,7 @@ c:\>rpn [ 1 10 range 10 dup ] unique
 '''
 ''' ],
     'election_day' : [
-'time', 'calculates the date of Election Day (US) for the year specified',
+'date', 'calculates the date of Election Day (US) for the year specified',
 '''
 ''',
 '''
@@ -1953,7 +1957,7 @@ c:\>rpn 2 2 10 exprange
 '''
 ''' ],
     'hms' : [
-'time', 'shortcut for \'[ hour minute second ] convert\'',
+'conversion', 'shortcut for \'[ hour minute second ] convert\'',
 '''
 This shortcut operator replaces having to type '[ hour minute second ] convert'
 in order to convert a time interval to hours, minutes and seconds.
@@ -2025,7 +2029,7 @@ Note:  Not sure why the rounding error is so large.
 '''
 ''' ],
     'iso_day' : [
-'time', 'returns the ISO day and week for a time value',
+'date', 'returns the ISO day and week for a time value',
 '''
 ''',
 '''
@@ -2061,7 +2065,7 @@ Note:  Not sure why the rounding error is so large.
 '''
 ''' ],
     'julian_day' : [
-'time', 'returns the Julian day for a time value',
+'date', 'returns the Julian day for a time value',
 '''
 ''',
 '''
@@ -2079,7 +2083,7 @@ Note:  Not sure why the rounding error is so large.
 '''
 ''' ],
     'labor_day' : [
-'time', 'calculates the date of Labor Day (US) for the year specified',
+'date', 'calculates the date of Labor Day (US) for the year specified',
 '''
 ''',
 '''
@@ -2316,7 +2320,7 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 '''
 ''' ],
     'memorial_day' : [
-'time', 'calculates the date of Memorial Day (US) for the year specified',
+'date', 'calculates the date of Memorial Day (US) for the year specified',
 '''
 ''',
 '''
@@ -2538,7 +2542,7 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 '''
 ''' ],
     'nthweekday' : [
-'time', 'finds the nth day (0 = Monday) of the month',
+'date', 'finds the nth day (0 = Monday) of the month',
 '''
 a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
 d = day (0 = Monday, 1 = Tuesday, etc. through 6 = Sunday)
@@ -2546,7 +2550,7 @@ d = day (0 = Monday, 1 = Tuesday, etc. through 6 = Sunday)
 '''
 ''' ],
     'nthweekdayofyear' : [
-'time', 'finds the nth day (0 = Monday) of the year',
+'date', 'finds the nth day (0 = Monday) of the year',
 '''
 a = four-digit year, b = week (negative values count from the end), c = day
 (0 = Monday, 1 = Tuesday, etc. through 6 = Sunday)
@@ -2818,7 +2822,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 '''
 ''' ],
     'presidents_day' : [
-'time', 'calculates the date of Presidents Day (US) for the year specified',
+'date', 'calculates the date of Presidents Day (US) for the year specified',
 '''
 ''',
 '''
@@ -3321,7 +3325,7 @@ c:\>rpn 1 50 range countdiv stddev
 '''
 ''' ],
     'thanksgiving' : [
-'time', 'calculates the date of Thanksgiving (US) for the year specified',
+'date', 'calculates the date of Thanksgiving (US) for the year specified',
 '''
 ''',
 '''
@@ -3559,7 +3563,7 @@ Once this works, some really interesting new operators can be made.
 '''
 ''' ],
     'ydhms' : [
-'time', 'shortcut for \'[ year day hour minute second ] convert\'',
+'conversion', 'shortcut for \'[ year day hour minute second ] convert\'',
 '''
 This shortcut operator replaces having to type '[ year day hour minute
 second ] convert' in order to convert a time interval to days, hours, minutes
@@ -3568,7 +3572,7 @@ and seconds.
 '''
 ''' ],
     'year_calendar' : [
-'time', 'prints a month calendar for the date value',
+'date', 'prints a month calendar for the date value',
 '''
 The 'year_calendar' operator is special in that what it prints out is a
 side-effect.  It actually returns the date value passed in as a result, so as

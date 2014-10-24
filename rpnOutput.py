@@ -401,14 +401,13 @@ def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp, operatorAlias
     else:
         print( operatorHelp[ 2 ] )
 
-    if len( helpArgs ) > 1 and helpArgs[ 1 ] in ( 'ex', 'example' ):
-        print( )
+    print( )
 
-        if operatorHelp[ 3 ] == '\n':
-            print( 'No examples are available.' )
-        else:
-            print( term + ' examples:' )
-            print( operatorHelp[ 3 ] )
+    if operatorHelp[ 3 ] == '\n':
+        print( 'No examples are available.' )
+    else:
+        print( term + ' examples:' )
+        print( operatorHelp[ 3 ] )
 
 
 #//******************************************************************************
@@ -554,8 +553,7 @@ def printGeneralHelp( programName, programDescription, basicCategories, operator
     print( )
 
     printParagraph(
-'''For help on a specific topic, add a help topic, operator category or a specific operator name.  Adding
-'example', or 'ex' after an operator name will result in examples of use being printed as well.''', lineLength )
+'''For help on a specific topic, add a help topic, operator category or a specific operator name.''', lineLength )
 
     print( )
     print( 'The following is a list of general topics:' )

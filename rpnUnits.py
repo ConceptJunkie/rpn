@@ -2309,7 +2309,7 @@ unitOperators = {
                   ''' ),
 
     'gregorian_year' :
-        UnitInfo( 'time', 'gregorian_year', 'gregorian_years', '', [ '' ], [ 'traditional' ],
+        UnitInfo( 'time', 'gregorian_year', 'gregorian_years', '', [ ], [ 'traditional' ],
                   '''
                   ''' ),
 
