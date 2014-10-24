@@ -31,6 +31,9 @@ def testRPN( command ):
 #//
 #//  runTests
 #//
+#//  At this point, there is no validation of the answers.  Mostly this tests
+#//  that every operator works without throwing unhandled exceptions.
+#//
 #//******************************************************************************
 
 def runTests( ):
@@ -939,6 +942,12 @@ def runTests( ):
     testRPN( 'rpn 1 10 range diffs2' )
     testRPN( 'rpn 1 10 range fib diffs2' )
 
+    testRPN( 'rpn pi double' )
+    testRPN( 'rpn 0x400921fb54442d18 undouble' )
+
+    testRPN( 'rpn pi float' )
+    testRPN( 'rpn 0x40490fdb unfloat' )
+
     testRPN( 'rpn 1 100 range gcd' )
 
     testRPN( 'rpn 1 10 range 1 10 range interleave' )
@@ -958,6 +967,8 @@ def runTests( ):
     testRPN( 'rpn 1 10 range minindex' )
 
     testRPN( 'rpn 1 10 range nonzero' )
+
+    testRPN( 'rpn -x [ 192 168 0 1 ] [ 8 8 8 8 ] pack' )
 
     testRPN( 'rpn 1 10 range 1 10 range polyadd' )
 
@@ -995,9 +1006,10 @@ def runTests( ):
     testRPN( 'rpn 1 10 range 1 10 range append unique' )
     testRPN( 'rpn [ 1 10 range 10 dup ] unique' )
 
-    testRPN( 'rpn -x 503942034 [ 3 4 5 11 4 4 ] unpack' )
+    testRPN( 'rpn 503942034 [ 3 4 5 11 4 4 ] unpack' )
 
-    testRPN( 'rpn 2014 year_calendar' )
+    testRPN( 'rpn 1965 year_calendar' )
+    testRPN( 'rpn today year_calendar' )
 
     testRPN( 'rpn -10 10 range zero' )
     testRPN( 'rpn 1 10 range zero' )
