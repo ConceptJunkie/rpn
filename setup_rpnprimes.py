@@ -31,8 +31,9 @@ buildOptions = \
             'rpndata/unit_conversions.pckl.bz2'
         ],
 
-        bin_excludes = [
-        ]
+        bin_excludes = [ ],
+        include_msvcr = [ ],
+        optimize = 2,
     )
 
 base = 'Console'
@@ -41,6 +42,9 @@ executables = [
     Executable( 'rpn.py', base = base )
 ]
 
-setup( name='rpn_with_prime_data', version = PROGRAM_VERSION, description = 'command-line RPN calculator',
-       options = dict( build_exe = buildOptions ), executables = executables )
+setup( name = 'rpn_with_prime_data',
+       version = PROGRAM_VERSION,
+       description = 'command-line RPN calculator',
+       options = dict( build_exe = buildOptions ),
+       executables = executables )
 

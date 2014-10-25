@@ -32,7 +32,10 @@ buildOptions = \
             'rpndata/triplet_primes.pckl.bz2',
             'rpndata/triple_balanced_primes.pckl.bz2',
             'rpndata/twin_primes.pckl.bz2',
-        ]
+        ],
+
+        include_msvcr = [ ],
+        optimize = 2,
     )
 
 base = 'Console'
