@@ -124,9 +124,9 @@ basicUnitTypes = {
     ),
 
     'dynamic_viscosity' : UnitTypeInfo(
-        'mass*time/length^2',
+        'mass/length*time',     # force*time/length^2
         'pascal*second',
-        'gram*second/meter^2',
+        'gram/meter*second',
         dynamicViscosityTable,
     ),
 
@@ -861,6 +861,11 @@ unitOperators = {
 #pound per foot second               lb/(ft*s)    1 lb/(ft*s)   = 1.488164 Pa*s
 #pound-force second per square foot  lbf*s/ft2    1 lbf*s/ft2   = 47.88026 Pa*s
 #pound-force second per square inch  lbf*s/in2    1 lbf*s/in2   = 6,894.757 Pa*s
+
+    'gram/meter*second' :
+        UnitInfo( 'dynamic_viscosity', 'gram/meter*second', 'gram/meter*second', '', [ ], [ 'CGS' ],
+                  '''
+                  ''' ),
 
     'newton-second/meter^2' :
         UnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', 'Ns/m^2', [ ], [ 'CGS' ],
@@ -1769,6 +1774,11 @@ unitOperators = {
 
     'tesla' :
         UnitInfo( 'magnetic_flux_density', 'tesla', 'teslas', 'T', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
+
+    'volt*second/meter^2' :
+        UnitInfo( 'magnetic_flux_density', 'volt*second/meter^2', 'volt*second/meter^2', '', [ ], [ 'SI' ],
                   '''
                   ''' ),
 
@@ -3434,7 +3444,7 @@ unitConversionMatrix = {
     ( 'newton',                     'joule/meter' )                         : mpmathify( '1' ),
     ( 'newton',                     'pond' )                                : mpmathify( '101.97161298' ),
     ( 'newton',                     'poundal' )                             : mpmathify( '7.233013851' ),
-    ( 'newton-second/meter^2',      'pascal' )                              : mpmathify( '1' ),
+    ( 'newton-second/meter^2',      'pascal-second' )                       : mpmathify( '1' ),
     ( 'newton/meter^2',             'pascal' )                              : mpmathify( '1' ),
     ( 'ngogn',                      'farshimmelt_ngogn' )                   : mpmathify( '1.0e5' ),
     ( 'ngogn',                      'furshlugginer_ngogn' )                 : mpmathify( '1.0e-6' ),
@@ -3468,6 +3478,7 @@ unitConversionMatrix = {
     ( 'parsec',                     'light-year' )                          : mpmathify( '3.261563776971' ),
     ( 'pascal',                     'barye' )                               : mpmathify( '10' ),
     ( 'pascal-second',              'poise' )                               : mpmathify( '10' ),
+    ( 'pascal-second',              'gram/meter*second' )                   : mpmathify( '1000' ),
     ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
     ( 'perch',                      'foot' )                                : mpmathify( '16.5' ),
     ( 'pferdestarke',               'watt' )                                : mpmathify( '735.49875' ),
@@ -3576,42 +3587,43 @@ unitConversionMatrix = {
     ( 'standard',                   'liter' )                               : mpmathify( '0.75' ),
     ( 'standard_gravity',           'galileo' )                             : mpmathify( '980.6650' ),
     ( 'standard_gravity',           'meter/second^2' )                      : mpmathify( '9.80665' ),
-    ( 'statcoulomb',                'coulomb' )                             : mpmathify( '3.335641e-10' ),  # 0.1A*m/c ), approx.
+    ( 'statcoulomb',                'coulomb' )                             : mpmathify( '3.335641e-10' ),  # 0.1A*m/c, approx.
     ( 'statcoulomb',                'franklin' )                            : mpmathify( '1' ),
     ( 'stathenry',                  'henry' )                               : mpmathify( '898755178740' ),
     ( 'statmho',                    'siemens' )                             : mpmathify( '8.99e11' ),
     ( 'statohm',                    'ohm' )                                 : mpmathify( '898755178740' ),
     ( 'statvolt',                   'volt' )                                : fdiv( mpf( speedOfLight ), mpf( '1.0e6' ) ),
-    ( 'steradian',                  'square_degree' )                       : power( fdiv( 180, pi ), 2 ),
-    ( 'steradian',                  'square_grad' )                         : power( fdiv( 200, pi ), 2 ),
-    ( 'sthene',                     'newton' )                              : mpmathify( '1000' ),
-    ( 'stilb',                      'candela/meter^2' )                     : mpmathify( '10000' ),
-    ( 'stone',                      'pound' )                               : mpmathify( '14' ),
-    ( 'stone_us',                   'pound' )                               : mpmathify( '12.5' ),
-    ( 'strike',                     'imperial_bushel' )                     : mpmathify( '2' ),
-    ( 'tablespoon',                 'teaspoon' )                            : mpmathify( '3' ),
-    ( 'tau_mass',                   'dalton' )                              : mpmathify( '1.90749' ),
-    ( 'teaspoon',                   'dash' )                                : mpmathify( '8' ),
-    ( 'teaspoon',                   'pinch' )                               : mpmathify( '16' ),
-    ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
-    ( 'ten',                        'unity' )                               : mpmathify( '10' ),
-    ( 'tenth',                      'liter' )                               : mpmathify( '0.378' ),
-    ( 'tesla',                      'gauss' )                               : mpmathify( '10000' ),
-    ( 'tesla',                      'kilogram/ampere-second^2' )            : mpmathify( '1' ),
-    ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
-    ( 'thousand',                   'unity' )                               : mpmathify( '100' ),
-    ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
-    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
-    ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
-    ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
-    ( 'township',                   'acre' )                                : mpmathify( '23040' ),
-    ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),
-    ( 'trillion',                   'unity' )                               : mpmathify( '1.0e12' ),
-    ( 'trit',                       'nat' )                                 : log( 3 ),
-    ( 'triton_mass',                'dalton' )                              : mpmathify( '3.0155007134' ),
-    ( 'tropical_year',              'day' )                                 : mpmathify( '365.24219' ),
-    ( 'troy_ounce',                 'gram' )                                : mpmathify( '31.1034768' ),
-    ( 'troy_pound',                 'pound' )                               : mpmathify( '12' ),
+#    ( 'steradian',                  'square_degree' )                       : power( fdiv( 180, pi ), 2 ),
+#    ( 'steradian',                  'square_grad' )                         : power( fdiv( 200, pi ), 2 ),
+#    ( 'sthene',                     'newton' )                              : mpmathify( '1000' ),
+#    ( 'stilb',                      'candela/meter^2' )                     : mpmathify( '10000' ),
+#    ( 'stone',                      'pound' )                               : mpmathify( '14' ),
+#    ( 'stone_us',                   'pound' )                               : mpmathify( '12.5' ),
+#    ( 'strike',                     'imperial_bushel' )                     : mpmathify( '2' ),
+#    ( 'tablespoon',                 'teaspoon' )                            : mpmathify( '3' ),
+#    ( 'tau_mass',                   'dalton' )                              : mpmathify( '1.90749' ),
+#    ( 'teaspoon',                   'dash' )                                : mpmathify( '8' ),
+#    ( 'teaspoon',                   'pinch' )                               : mpmathify( '16' ),
+#    ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
+#    ( 'ten',                        'unity' )                               : mpmathify( '10' ),
+#    ( 'tenth',                      'liter' )                               : mpmathify( '0.378' ),
+#    ( 'tesla',                      'gauss' )                               : mpmathify( '10000' ),
+#    ( 'tesla',                      'kilogram/ampere-second^2' )            : mpmathify( '1' ),
+#    ( 'tesla',                      'volt*second/meter^2' )                 : mpmathify( '1' ),
+#    ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
+#    ( 'thousand',                   'unity' )                               : mpmathify( '100' ),
+#    ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
+#    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
+#    ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
+#    ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
+#    ( 'township',                   'acre' )                                : mpmathify( '23040' ),
+#    ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),
+#    ( 'trillion',                   'unity' )                               : mpmathify( '1.0e12' ),
+#    ( 'trit',                       'nat' )                                 : log( 3 ),
+#    ( 'triton_mass',                'dalton' )                              : mpmathify( '3.0155007134' ),
+#    ( 'tropical_year',              'day' )                                 : mpmathify( '365.24219' ),
+#    ( 'troy_ounce',                 'gram' )                                : mpmathify( '31.1034768' ),
+#    ( 'troy_pound',                 'pound' )                               : mpmathify( '12' ),
     ( 'tryte',                      'trit' )                                : mpmathify( '6' ),   # as defined by the Setun computer
     ( 'undecillion',                'unity' )                               : mpmathify( '1.0e36' ),
     ( 'unity',                      'billionth' )                           : mpmathify( '1.0e9' ),
@@ -3651,18 +3663,18 @@ unitConversionMatrix = {
     ( 'week',                       'day' )                                 : mpmathify( '7' ),
     ( 'wey',                        'pound' )                               : mpmathify( '252' ),
     ( 'wine_barrel',                'wine_gallon' )                         : mpmathify( '31.5' ),
-    ( 'wine_butt',                  'wine_gallon' )                         : mpmathify( '126' ),
-    ( 'wine_gallon',                'gallon' )                              : mpmathify( '1' ),
-    ( 'wine_hogshead',              'gallon' )                              : mpmathify( '63' ),
-    ( 'wine_tun',                   'gallon' )                              : mpmathify( '252' ),
-    ( 'wine_tun',                   'puncheon' )                            : mpmathify( '3' ),
-    ( 'wine_tun',                   'rundlet' )                             : mpmathify( '14' ),
-    ( 'wine_tun',                   'tierce' )                              : mpmathify( '6' ),
-    ( 'wine_tun',                   'wine_pipe' )                           : mpmathify( '2' ),
-    ( 'wood',                       'martin' )                              : mpmathify( '100' ),
-    ( 'word',                       'bit' )                                 : mpmathify( '16' ),
-    ( 'yard',                       'foot' )                                : mpmathify( '3' ),
-    ( 'year',                       'day' )                                 : mpmathify( '365.25' ),   # Julian year = 365 and 1/4 days
-    ( 'zentner',                    'gram' )                                : mpmathify( '50000' ),
+#    ( 'wine_butt',                  'wine_gallon' )                         : mpmathify( '126' ),
+#    ( 'wine_gallon',                'gallon' )                              : mpmathify( '1' ),
+#    ( 'wine_hogshead',              'gallon' )                              : mpmathify( '63' ),
+#    ( 'wine_tun',                   'gallon' )                              : mpmathify( '252' ),
+#    ( 'wine_tun',                   'puncheon' )                            : mpmathify( '3' ),
+#    ( 'wine_tun',                   'rundlet' )                             : mpmathify( '14' ),
+#    ( 'wine_tun',                   'tierce' )                              : mpmathify( '6' ),
+#    ( 'wine_tun',                   'wine_pipe' )                           : mpmathify( '2' ),
+#    ( 'wood',                       'martin' )                              : mpmathify( '100' ),
+#    ( 'word',                       'bit' )                                 : mpmathify( '16' ),
+#    ( 'yard',                       'foot' )                                : mpmathify( '3' ),
+#    ( 'year',                       'day' )                                 : mpmathify( '365.25' ),   # Julian year = 365 and 1/4 days
+#    ( 'zentner',                    'gram' )                                : mpmathify( '50000' ),
 }
 

@@ -1273,6 +1273,7 @@ magneticFluxDensityTable = {
     mpf( '5.0e-3' )     : 'the magnetic flux density of a typical refrigerator magnet',
     mpf( '0.3' )        : 'the magnetic flux density of solar sunspots',
     mpf( '3.0' )        : 'the magnetic flux density of a common magnetic resonance imaging system',
+    mpf( '8.0' )        : 'the magnetic flux density of the Large Hadron Collider magnets',
     mpf( '16' )         : 'the magnetic flux density strong enough to levitate a frog',
     mpf( '2800' )       : 'the magnetic flux density of the largest magnetic field produced in a laboratory',
     mpf( '1.0e8' )      : 'the lower range of magnetic flux density in a magnetar',
