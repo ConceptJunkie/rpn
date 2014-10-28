@@ -154,7 +154,7 @@ basicUnitTypes = {
     'energy' : UnitTypeInfo(
         'electric_potential*charge',
         'joule',
-        'volt-coulomb',
+        'volt*coulomb',
         energyTable,
     ),
 

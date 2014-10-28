@@ -458,7 +458,11 @@ class Units( collections.Counter ):
         return result
 
 
-    def getBasicTypes( self ):
+    def getPrimitiveTypes( self ):
+        return self.getBasicTypes( True )
+
+
+    def getBasicTypes( self, primitive = False ):
         result = Units( )
 
         for unit in self:
@@ -470,7 +474,10 @@ class Units( collections.Counter ):
 
                 unitType = g.unitOperators[ unit ].unitType
 
-            basicUnits = Units( g.basicUnitTypes[ unitType ].simpleTypes )
+            if primitive:
+                basicUnits = Units( g.basicUnitTypes[ unitType ].primitiveUnit )
+            else:
+                basicUnits = Units( g.basicUnitTypes[ unitType ].simpleTypes )
 
             exponent = self[ unit ]
 

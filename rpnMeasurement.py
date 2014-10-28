@@ -264,6 +264,7 @@ class Measurement( mpf ):
             debugPrint( 'types: ', self.getUnitTypes( ), other.getUnitTypes( ) )
             debugPrint( 'simple types: ', self.getSimpleTypes( ), other.getSimpleTypes( ) )
             debugPrint( 'basic types: ', self.getBasicTypes( ), other.getBasicTypes( ) )
+            debugPrint( 'primitive types: ', self.getPrimitiveTypes( ), other.getPrimitiveTypes( ) )
 
             if self.getUnitTypes( ) == other.getUnitTypes( ):
                 return True
@@ -341,6 +342,10 @@ class Measurement( mpf ):
 
     def getBasicTypes( self ):
         return self.getUnitTypes( ).getBasicTypes( )
+
+
+    def getPrimitiveTypes( self ):
+        return self.getUnitTypes( ).getPrimitiveTypes( )
 
 
     def getReduced( self ):
