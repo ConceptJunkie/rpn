@@ -143,6 +143,9 @@ def downloadOEISText( id, char, addCR=False ):
 
     oeisCache[ id ] = oeisItem
 
+    if not os.path.isdir( dataPath ):
+        os.makedirs( dataPath )
+
     with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis.pckl.bz2', 'wb' ) ) as pickleFile:
         pickle.dump( oeisCache, pickleFile )
 
