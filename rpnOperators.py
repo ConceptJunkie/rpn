@@ -343,8 +343,8 @@ def loadResult( valueList ):
 #//******************************************************************************
 
 def saveResult( result ):
-    if not os.path.isdir( dataPath ):
-        os.makedirs( dataPath )
+    if not os.path.isdir( g.dataPath ):
+        os.makedirs( g,dataPath )
 
     with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'wb' ) ) as pickleFile:
         pickle.dump( result, pickleFile )
