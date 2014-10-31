@@ -41,7 +41,7 @@ def loadUnitConversionMatrix( ):
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitConversionMatrix.update( pickle.load( pickleFile ) )
     except FileNotFoundError:
-        print( 'rpn:  Unable to load unit conversion matrix data.  Unit conversion will be unavailable.' )
+        print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
 
 
 #//******************************************************************************

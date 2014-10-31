@@ -453,7 +453,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
             unitTypeDict = pickle.load( pickleFile )
 
     except FileNotFoundError:
-        print( 'rpn:  Unable to load help file.  Help will be unavailable.' )
+        print( 'rpn:  Unable to load help file.  Help will be unavailable.  Run makehelp.py to create the help file.' )
         return
 
     if helpVersion != PROGRAM_VERSION:

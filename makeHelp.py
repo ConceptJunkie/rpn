@@ -4066,6 +4066,9 @@ def makeHelp( basicCategories ):
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
     fileName = dataPath + os.sep + 'help.pckl.bz2'
 
+    if not os.path.isdir( dataPath ):
+        os.makedirs( dataPath )
+
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( basicCategories, pickleFile )

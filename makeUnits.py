@@ -567,6 +567,9 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     print( 'Saving everything...' )
 
+    if not os.path.isdir( dataPath ):
+        os.makedirs( dataPath )
+
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
     fileName = dataPath + os.sep + 'units.pckl.bz2'
 

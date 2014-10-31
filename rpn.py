@@ -111,7 +111,7 @@ def rpn( cmd_args ):
                 g.unitOperators.update( pickle.load( pickleFile ) )
                 g.operatorAliases.update( pickle.load( pickleFile ) )
         except FileNotFoundError as error:
-            print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
+            print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
 
         printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases,
                    g.dataPath, helpArgs, args.line_length )
@@ -275,7 +275,7 @@ def rpn( cmd_args ):
             g.unitOperators.update( pickle.load( pickleFile ) )
             g.operatorAliases.update( pickle.load( pickleFile ) )
     except FileNotFoundError as error:
-        print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.' )
+        print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
 
     if unitsVersion != PROGRAM_VERSION:
         print( 'rpn  units data file version mismatch' )
