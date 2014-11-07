@@ -24,7 +24,6 @@ import textwrap
 
 from mpmath import *
 
-#from rpnDeclarations import *
 from rpnMeasurement import *
 
 import rpnGlobals as g
@@ -443,23 +442,12 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorAl
 
 def printHelp( programName, programDescription, operators, listOperators, modifiers, operatorAliases,
                dataPath, helpArgs, lineLength ):
-    try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
-            helpVersion = pickle.load( pickleFile )
-            basicCategories = pickle.load( pickleFile )
-            operatorHelp = pickle.load( pickleFile )
+    loadHelpData( )
 
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) as pickleFile:
-            unitTypeDict = pickle.load( pickleFile )
-
-    except FileNotFoundError:
-        print( 'rpn:  Unable to load help file.  Help will be unavailable.  Run makehelp.py to create the help file.' )
-        return
-
-    if helpVersion != PROGRAM_VERSION:
+    if g.helpVersion != PROGRAM_VERSION:
         print( 'rpn:  help file version mismatch' )
 
-    operatorCategories = set( operatorHelp[ key ][ 0 ] for key in operatorHelp )
+    operatorCategories = set( g.operatorHelp[ key ][ 0 ] for key in g.operatorHelp )
 
     if len( helpArgs ) == 0:
         printGeneralHelp( programName, programDescription, basicCategories, operatorCategories, lineLength )
@@ -467,41 +455,45 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 
     term = helpArgs[ 0 ]
 
+    print( 'help term 1', term )
+
     # first check if the term is an alias and translate
-    if term in operatorAliases:
-        term = operatorAliases[ term ]
+    if term in g.operatorAliases:
+        term = g.operatorAliases[ term ]
+
+    print( 'help term 2', term )
 
     # then look for exact matches in all the lists of terms for which we have help support
     if term in operators:
-        printOperatorHelp( helpArgs, term, operators[ term ], operatorHelp[ term ], operatorAliases, lineLength )
+        printOperatorHelp( helpArgs, term, operators[ term ], g.operatorHelp[ term ], g.operatorAliases, lineLength )
     elif term in listOperators:
-        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ], operatorAliases, lineLength )
+        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ], g.operatorAliases, lineLength )
     elif term in modifiers:
-        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ], operatorAliases, lineLength )
-    elif term in basicCategories:
-        print( basicCategories[ term ] )
+        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ], g.operatorAliases, lineLength )
+    elif term in g.basicCategories:
+        print( g.basicCategories[ term ] )
     elif term in operatorCategories:
-        printCategoryHelp( term, operators, listOperators, modifiers, operatorAliases, operatorHelp, lineLength )
+        printCategoryHelp( term, operators, listOperators, modifiers, g.operatorAliases, g.operatorHelp, lineLength )
     elif term == 'unit_types':
-        printParagraph( ', '.join( sorted( unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
-    elif term in unitTypeDict:
-        unitList = sorted( unitTypeDict[ term ] )
-        addAliases( unitList, operatorAliases )
+        printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
+    elif term in g.unitTypeDict:
+        unitList = sorted( g.unitTypeDict[ term ] )
+        addAliases( unitList, g.operatorAliases )
         for unit in unitList:
             printParagraph( unit, lineLength - 5, 4 )
     else:
         # if no exact matches for any topic, let's look for partial matches
         if 'unit_types'.startswith( term ):
             print( 'Interpreting topic as \'unit_types\'.' )
-            printParagraph( ', '.join( sorted( unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
+            printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
             return
 
-        helpTerm = next( ( i for i in unitTypeDict if i != term and i.startswith( term ) ), '' )
+        helpTerm = next( ( i for i in g.unitTypeDict if i != term and i.startswith( term ) ), '' )
 
         if helpTerm != '':
             print( )
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
-            printParagraph( ', '.join( sorted( unitTypeDict[ helpTerm ] ) ), lineLength - 5, 4 )
+            printParagraph( ', '.join( sorted( g.unitTypeDict[ helpTerm ] ) ), lineLength - 5, 4 )
             return
 
         helpTerm = next( ( i for i in operators if i != term and i.startswith( term ) ), '' )
@@ -509,7 +501,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpArgs, helpTerm, operators[ helpTerm ], operatorHelp[ helpTerm ], operatorAliases, lineLength )
+            printOperatorHelp( helpArgs, helpTerm, operators[ helpTerm ], g.operatorHelp[ helpTerm ], g.operatorAliases, lineLength )
             return
 
         helpTerm = next( ( i for i in listOperators if i != term and i.startswith( term ) ), '' )
@@ -517,7 +509,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpArgs, helpTerm, listOperators[ helpTerm ], operatorHelp[ helpTerm ], operatorAliases, lineLength )
+            printOperatorHelp( helpArgs, helpTerm, listOperators[ helpTerm ], g.operatorHelp[ helpTerm ], g.operatorAliases, lineLength )
             return
 
         helpTerm = next( ( i for i in modifiers if i != term and i.startswith( term ) ), '' )
@@ -525,10 +517,10 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpArgs, helpTerm, modifiers[ helpTerm ], operatorHelp[ helpTerm ], operatorAliases, lineLength )
+            printOperatorHelp( helpArgs, helpTerm, modifiers[ helpTerm ], g.operatorHelp[ helpTerm ], g.operatorAliases, lineLength )
             return
 
-        helpTerm = next( ( i for i in basicCategories if i != term and i.startswith( term ) ), '' )
+        helpTerm = next( ( i for i in g.basicCategories if i != term and i.startswith( term ) ), '' )
 
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
@@ -541,7 +533,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printCategoryHelp( helpTerm, operators, listOperators, modifiers, operatorAliases, operatorHelp, lineLength )
+            printCategoryHelp( helpTerm, operators, listOperators, modifiers, g.operatorAliases, g.operatorHelp, lineLength )
         else:
             print( "Help topic not found." )
 

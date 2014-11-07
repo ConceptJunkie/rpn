@@ -26,4 +26,10 @@ basicUnitTypes = { }
 operatorAliases = { }
 unitConversionMatrix = { }
 unitOperators = { }
+unitsVersion = "0.0.0"
+
+helpVersion = "0.0.0"
+basicCategories = { }
+operatorHelp = { }
+unitTypeDict = { }
 

@@ -63,6 +63,100 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
 #//******************************************************************************
 #//
+#//  evaluate
+#//
+#//******************************************************************************
+
+def evaluate( terms ):
+    valueList = list( )
+    index = 1                 # only used for error messages
+
+    # start parsing terms and populating the evaluation stack... this is the heart of rpn
+    for term in terms:
+        if term in g.operatorAliases:
+            term = g.operatorAliases[ term ]
+
+        if term in functionOperators:
+            if g.creatingFunction:
+                g.creatingFunction = False
+            else:
+                raise ValueError( 'function operators require a function definition' )
+        elif g.creatingFunction:
+            currentValueList[ -1 ].add( term )
+            continue
+
+        currentValueList = getCurrentArgList( valueList )
+
+        if not evaluateTerm( term, index, currentValueList ):
+            break
+
+        index = index + 1
+
+    return valueList
+
+
+#//******************************************************************************
+#//
+#//  handleOutput
+#//
+#//******************************************************************************
+
+def handleOutput( valueList, comma, decimalGrouping, integerGrouping, outputAccuracy, lineLength, identify, findPoly,
+                  showTime, outputRadix, leadingZero, baseAsDigits ):
+    if len( valueList ) == 0:
+        return
+
+    if isinstance( valueList[ 0 ], FunctionInfo ):
+        print( 'rpn:  unexpected end of input in function definition' )
+    elif len( valueList ) > 1 or len( valueList ) == 0:
+        print( 'rpn:  unexpected end of input' )
+    else:
+        mp.pretty = True
+        result = valueList.pop( )
+
+        if comma:
+            integerGrouping = 3     # override whatever was set on the command-line
+            leadingZero = False     # this one, too
+            integerDelimiter = ','
+        else:
+            integerDelimiter = ' '
+
+        if isinstance( result, list ):
+            print( formatListOutput( result, outputRadix, g.numerals, integerGrouping, integerDelimiter,
+                                     leadingZero, decimalGrouping, ' ', baseAsDigits, outputAccuracy ) )
+        else:
+            if isinstance( result, arrow.Arrow ):
+                outputString = formatDateTime( result )
+            else:
+                # output the answer with all the extras according to command-line arguments
+                resultString = nstr( result, mp.dps )
+
+                outputString = formatOutput( resultString, outputRadix, g.numerals, integerGrouping,
+                                             integerDelimiter, leadingZero, decimalGrouping,
+                                             ' ', baseAsDigits, outputAccuracy )
+
+                # handle the units if we are displaying a measurement
+                if isinstance( result, Measurement ):
+                    outputString += ' ' + formatUnits( result )
+
+            printParagraph( outputString, lineLength )
+
+            # handle --identify
+            if identify:
+                handleIdentify( result )
+
+            # handle --find_poly
+            if findPoly > 0:
+                findPolynomial( result, findPoly )
+
+        saveResult( result )
+
+    if showTime:
+        print( '\n%.3f seconds' % time.clock( ) )
+
+
+#//******************************************************************************
+#//
 #//  rpn
 #//
 #//******************************************************************************
@@ -94,27 +188,19 @@ def rpn( cmd_args ):
         parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' +
                                           PROGRAM_VERSION + ': ' + PROGRAM_DESCRIPTION + '\n    ' +
                                           COPYRIGHT_MESSAGE, add_help=False,
-                                          formatter_class=argparse.RawTextHelpFormatter,
-                                          prefix_chars='-' )
+                                          formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
         parser.add_argument( 'terms', nargs='*', metavar='term' )
         parser.add_argument( '-l', '--line_length', type=int, action='store', default=defaultLineLength )
 
         args = parser.parse_args( cmd_args )
 
-        try:
-            g.operatorAliases.update( operatorAliases )
+        loadOperatorData( )
 
-            with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
-                unitsVersion = pickle.load( pickleFile )
-                g.basicUnitTypes.update( pickle.load( pickleFile ) )
-                g.unitOperators.update( pickle.load( pickleFile ) )
-                g.operatorAliases.update( pickle.load( pickleFile ) )
-        except FileNotFoundError as error:
-            print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
+        g.operatorAliases.update( operatorAliases )
 
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases,
-                   g.dataPath, helpArgs, args.line_length )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases, g.dataPath,
+                   helpArgs, args.line_length )
         return
 
     # set up the command-line options parser
@@ -152,13 +238,13 @@ def rpn( cmd_args ):
     # OK, let's parse and validate the arguments
     args = parser.parse_args( cmd_args )
 
-    if len( args.terms ) == 0:
-        printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
-        return
+    g.operatorAliases.update( operatorAliases )
 
     if args.help or args.other_help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers,
-                   g.operatorAliases, g.dataPath, [ ], args.line_length )
+        loadOperatorData( )
+
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases,
+                   g.dataPath, [ ], args.line_length )
         return
 
     valid, errorString = validateOptions( args )
@@ -229,19 +315,13 @@ def rpn( cmd_args ):
         if ( outputRadix < 2 ):
             print( 'rpn:  output radix must be greater than 1' )
             return
-    else:
-        if ( outputRadix != phiBase and outputRadix != fibBase and
-             ( outputRadix < 2 or outputRadix > 62 ) ):
-            print( 'rpn:  output radix must be from 2 to 62, or phi' )
-            return
+    elif ( outputRadix != phiBase and outputRadix != fibBase and ( outputRadix < 2 or outputRadix > 62 ) ):
+        print( 'rpn:  output radix must be from 2 to 62, or phi' )
+        return
 
     # handle -y and -u:  mpmath wants precision of at least 53 for these functions
-    if args.identify or args.find_poly > 0:
-        if mp.dps < 53:
-            mp.dps = 53
-
-    index = 1                 # only used for error messages
-    valueList = list( )
+    if ( args.identify or args.find_poly > 0 ) and mp.dps < 53:
+        mp.dps = 53
 
     if args.print_options:
         print( '--output_accuracy:  %d' % args.output_accuracy )
@@ -262,91 +342,46 @@ def rpn( cmd_args ):
         print( '--leading_zero:  ' + ( 'true' if leadingZero else 'false' ) )
         print( )
 
+    # enter interactive mode if there are no arguments
+    if len( args.terms ) == 0:
+        import readline
+
+        readline.parse_and_bind( 'tab: complete' )
+        readline.parse_and_bind( 'set editing-mode vi' )
+
+        while True:
+            line = input( 'rpn: ')
+
+            if line == 'exit':
+                break
+
+            terms = line.split( ' ' )
+
+            if not validateArguments( terms ):
+                return
+
+            valueList = evaluate( terms )
+
+            handleOutput( valueList, args.comma, args.decimal_grouping, args.integer_grouping, args.output_accuracy,
+                          args.line_length, args.identify, args.find_poly, args.time, outputRadix, leadingZero,
+                          baseAsDigits )
+
+        return
+
     # let's check out the arguments before we start to do any calculations
     if not validateArguments( args.terms ):
         return
 
-    try:
-        g.operatorAliases.update( operatorAliases )
+    if not loadOperatorData( ):
+        return
 
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
-            unitsVersion = pickle.load( pickleFile )
-            g.basicUnitTypes.update( pickle.load( pickleFile ) )
-            g.unitOperators.update( pickle.load( pickleFile ) )
-            g.operatorAliases.update( pickle.load( pickleFile ) )
-    except FileNotFoundError as error:
-        print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
-
-    if unitsVersion != PROGRAM_VERSION:
+    if g.unitsVersion != PROGRAM_VERSION:
         print( 'rpn  units data file version mismatch' )
 
-    # start parsing terms and populating the evaluation stack... this is the heart of rpn
-    for term in args.terms:
-        if term in g.operatorAliases:
-            term = g.operatorAliases[ term ]
+    valueList = evaluate( args.terms )
 
-        if term in functionOperators:
-            if g.creatingFunction:
-                g.creatingFunction = False
-            else:
-                raise ValueError( 'function operators require a function definition' )
-        elif g.creatingFunction:
-            currentValueList[ -1 ].add( term )
-            continue
-
-        currentValueList = getCurrentArgList( valueList )
-
-        if not evaluateTerm( term, index, currentValueList ):
-            break
-
-        index = index + 1
-
-    # handle output
-    if isinstance( valueList[ 0 ], FunctionInfo ):
-        print( 'rpn:  unexpected end of input in function definition' )
-    elif len( valueList ) > 1 or len( valueList ) == 0:
-        print( 'rpn:  unexpected end of input' )
-    else:
-        mp.pretty = True
-        result = valueList.pop( )
-
-        if args.comma:
-            integerGrouping = 3     # override whatever was set on the command-line
-            leadingZero = False     # this one, too
-            integerDelimiter = ','
-        else:
-            integerDelimiter = ' '
-
-        if isinstance( result, list ):
-            print( formatListOutput( result, outputRadix, g.numerals, integerGrouping, integerDelimiter,
-                                     leadingZero, args.decimal_grouping, ' ', baseAsDigits,
-                                     args.output_accuracy ) )
-        else:
-            if isinstance( result, arrow.Arrow ):
-                outputString = formatDateTime( result )
-            else:
-                # output the answer with all the extras according to command-line arguments
-                resultString = nstr( result, mp.dps )
-
-                outputString = formatOutput( resultString, outputRadix, g.numerals, integerGrouping,
-                                             integerDelimiter, leadingZero, args.decimal_grouping,
-                                             ' ', baseAsDigits, args.output_accuracy )
-
-                # handle the units if we are displaying a measurement
-                if isinstance( result, Measurement ):
-                    outputString += ' ' + formatUnits( result )
-
-            printParagraph( outputString, args.line_length )
-
-            # handle --identify
-            if args.identify:
-                handleIdentify( result )
-
-            # handle --find_poly
-            if args.find_poly > 0:
-                findPolynomial( result, args.find_poly )
-
-        saveResult( result )
+    handleOutput( valueList, args.comma, args.decimal_grouping, args.integer_grouping, args.output_accuracy, args.line_length,
+                  args.identify, args.find_poly, args.time, outputRadix, leadingZero, baseAsDigits )
 
     if args.time:
         print( '\n%.3f seconds' % time.clock( ) )
