@@ -450,18 +450,14 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
     operatorCategories = set( g.operatorHelp[ key ][ 0 ] for key in g.operatorHelp )
 
     if len( helpArgs ) == 0:
-        printGeneralHelp( programName, programDescription, basicCategories, operatorCategories, lineLength )
+        printGeneralHelp( programName, programDescription, g.basicCategories, operatorCategories, lineLength )
         return
 
     term = helpArgs[ 0 ]
 
-    print( 'help term 1', term )
-
     # first check if the term is an alias and translate
     if term in g.operatorAliases:
         term = g.operatorAliases[ term ]
-
-    print( 'help term 2', term )
 
     # then look for exact matches in all the lists of terms for which we have help support
     if term in operators:
