@@ -353,8 +353,8 @@ def parseInputValue( term, inputRadix ):
 #//
 #//******************************************************************************
 
-def convertToBaseN( value, base, baseAsDigits, numerals ):
-    if baseAsDigits:
+def convertToBaseN( value, base, outputBaseDigits, numerals ):
+    if outputBaseDigits:
         if ( base < 2 ):
             raise ValueError( 'base must be greater than 1' )
     else:
@@ -365,7 +365,7 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
         return 0
 
     if value < 0:
-        return '-' + convertToBaseN( ( -1 ) * value, base, baseAsDigits, numerals )
+        return '-' + convertToBaseN( ( -1 ) * value, base, )
 
     if base == 10:
         return str( value )
@@ -374,7 +374,7 @@ def convertToBaseN( value, base, baseAsDigits, numerals ):
     leftDigits = value
 
     while leftDigits > 0:
-        if baseAsDigits:
+        if outputBaseDigits:
             if result != '':
                 result = ' ' + result
 
@@ -482,8 +482,8 @@ def convertToFibBase( value ):
 #//
 #//******************************************************************************
 
-def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
-    if baseAsDigits:
+def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
+    if outputBaseDigits:
         if ( base < 2 ):
             raise ValueError( 'base must be greater than 1' )
     else:
@@ -502,14 +502,14 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
         value = value * base
         digit = int( value )
 
-        if len( result ) == accuracy:
+        if len( result ) == g.accuracy:
             value -= digit
             newDigit = int( value ) % base
 
             if newDigit >= base // 2:
                 digit += 1
 
-        if baseAsDigits:
+        if outputBaseDigits:
             if result != '':
                 result += ' '
 
@@ -517,7 +517,7 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
         else:
             result += g.numerals[ digit % base ]
 
-        if len( result ) == accuracy:
+        if len( result ) == g.accuracy:
             break
 
         value -= digit
@@ -534,7 +534,7 @@ def convertFractionToBaseN( value, base, precision, baseAsDigits, accuracy ):
 
 def addAliases( operatorList, operatorAliases ):
     for index, operator in enumerate( operatorList ):
-        aliasList = [ key for key in operatorAliases if operator == operatorAliases[ key ] ]
+        aliasList = [ key for key in operatorAliases if operator == roperatorAliases[ key ] ]
 
         if operator in g.unitOperators:
             unitInfo = g.unitOperators[ operator ]

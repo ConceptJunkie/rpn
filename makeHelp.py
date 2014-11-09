@@ -45,19 +45,19 @@ command-line options:
 
     -a [n], --output_accuracy [n]
         maximum number of decimal places to display, irrespective of internal
-        precision (default: ''' + str( defaultAccuracy ) + ')' + '''
+        precision (default: ''' + str( g.defaultAccuracy ) + ')' + '''
 
     -b n : --input_radix n
-        specify the radix for input (default: ''' + str( defaultInputRadix ) + ')' + '''
+        specify the radix for input (default: ''' + str( g.defaultInputRadix ) + ')' + '''
 
     -c, --comma -
         add commas to result, e.g., 1,234,567.0
 
     -d [n], --decimal_grouping [n] -
-        display decimal places separated into groups (default: ''' + str( defaultDecimalGrouping ) + ')' + '''
+        display decimal places separated into groups (default: ''' + str( g.defaultDecimalGrouping ) + ')' + '''
 
     -g [n], --integer_grouping [n]
-        display integer separated into groups (default: ''' + str( defaultIntegerGrouping ) + ')' + '''
+        display integer separated into groups (default: ''' + str( g.defaultIntegerGrouping ) + ')' + '''
 
     -h, --help -
         displays basic help information
@@ -90,7 +90,7 @@ command-line options:
         find a polynomial such that P(x) ~= 0 of degree <= N (default: 1000)
 
     -w [n], --bitwise_group_size [n]
-        bitwise operations group values by this size (default: ''' + str( defaultBitwiseGroupSize ) + ')' + '''
+        bitwise operations group values by this size (default: ''' + str( g.defaultBitwiseGroupSize ) + ')' + '''
 
     -x, --hex
         hex mode: equivalent to '-r16 -w16 -i4 -z'
@@ -1057,6 +1057,12 @@ operatorHelp = {
 ''',
 '''
 ''' ],
+    'accuracy' : [
+'settings', 'TODO: describe me',
+'''
+''',
+'''
+''' ],
     'acos' : [
 'trigonometry', 'calculates the arccosine of n',
 '''
@@ -1585,6 +1591,18 @@ number.
 ''',
 '''
 ''' ],
+    'decimal_grouping' : [
+'settings', 'TODO: describe me',
+'''
+''',
+'''
+''' ],
+    'default' : [
+'settings', 'used with other setting operators',
+'''
+''',
+'''
+''' ],
     'degrees' : [
 'trigonometry', 'interprets n as degrees and converts to radians',
 '''
@@ -1826,6 +1844,12 @@ c:\>rpn 2 2 10 exprange
 ''',
 '''
 ''' ],
+    'false' : [
+'settings', 'used with other setting operators',
+'''
+''',
+'''
+''' ],
     'fibonacci' : [
 'number_theory', 'calculates the nth Fibonacci number',
 '''
@@ -2012,8 +2036,20 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'input_radix' : [
+'settings', 'TODO: describe me',
+'''
+''',
+'''
+''' ],
     'integer' : [
 'conversion', 'converts the value to an signed k-bit integer',
+'''
+''',
+'''
+''' ],
+    'integer_grouping' : [
+'settings', 'TODO: describe me',
 '''
 ''',
 '''
@@ -2683,6 +2719,12 @@ flushing the cache for a particular entry.
 ''',
 '''
 ''' ],
+    'output_radix' : [
+'settings', 'TODO: describe me',
+'''
+''',
+'''
+''' ],
     'padovan' : [
 'number_theory', 'calculates the the nth Padovan number',
 '''
@@ -2845,6 +2887,12 @@ flushing the cache for a particular entry.
 ''',
 '''
 ''' ],
+    'precision' : [
+'settings', 'TODO: describe me',
+'''
+''',
+'''
+''' ],
     'presidents_day' : [
 'date', 'calculates the date of Presidents Day (US) for the year specified',
 '''
@@ -2864,12 +2912,6 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 ''',
 '''
 ''' ],
-    'product' : [
-'arithmetic', 'calculates the product of values in list n',
-'''
-''',
-'''
-''' ],
     'prime' : [
 'prime_numbers', 'returns the nth prime',
 '''
@@ -2885,8 +2927,7 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
     'primes' : [
 'prime_numbers', 'generates a range of k primes starting from index n',
 '''
-This operator
- is much faster than using 'range' with 'prime'.
+This operator is much faster than using 'range' with 'prime'.
 ''',
 '''
 c:\>rpn 320620307 10 primes
@@ -2901,6 +2942,12 @@ c:\>rpn 320620307 10 primes
 ''' ],
     'primorial' : [
 'prime_numbers', 'calculates the nth primorial',
+'''
+''',
+'''
+''' ],
+    'product' : [
+'arithmetic', 'calculates the product of values in list n',
 '''
 ''',
 '''
@@ -3440,6 +3487,12 @@ c:\>rpn 10 triplebal_ diffs
 ''' ],
     'tripletprime' : [
 'prime_numbers', 'returns the nth set of triplet primes',
+'''
+''',
+'''
+''' ],
+    'true' : [
+'settings', 'used with other setting operators',
 '''
 ''',
 '''

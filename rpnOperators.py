@@ -451,6 +451,102 @@ def dumpStats( ):
 
 #//******************************************************************************
 #//
+#//  setAccuracy
+#//
+#//******************************************************************************
+
+def setAccuracy( n ):
+    if n == -1:
+        g.accuracy = defaultAccuracy
+    else:
+        g.accuracy = int( n )
+
+    if mp.dps < g.accuracy + 2:
+        mp.dps = g.accuracy + 2
+
+    return n
+
+
+#//******************************************************************************
+#//
+#//  setPrecision
+#//
+#//******************************************************************************
+
+def setPrecision( n ):
+    if n == -1:
+        mp.dps = defaultPrecision
+    else:
+        mp.dps = int( n )
+
+    if mp.dps < g.accuracy + 2:
+        mp.dps = g.accuracy + 2
+
+    return n
+
+
+#//******************************************************************************
+#//
+#//  setIntegerGrouping
+#//
+#//******************************************************************************
+
+def setIntegerGrouping( n ):
+    if n == -1:
+        g.integerGrouping = defaultIntegerGrouping
+    else:
+        g.integerGrouping = int( n )
+
+    return n
+
+
+#//******************************************************************************
+#//
+#//  setDecimalGrouping
+#//
+#//******************************************************************************
+
+def setDecimalGrouping( n ):
+    if n == -1:
+        g.decimalGrouping = defaultDecimalGrouping
+    else:
+        g.decimalGrouping = int( n )
+
+    return n
+
+
+#//******************************************************************************
+#//
+#//  setInputRadix
+#//
+#//******************************************************************************
+
+def setInputRadix( n ):
+    if ( n == 0 ) or ( n == -1 ):
+        g.inputRadix = defaultInputRadix
+    else:
+        g.inputRadix = int( n )
+
+    return n
+
+
+#//******************************************************************************
+#//
+#//  setOutputRadix
+#//
+#//******************************************************************************
+
+def setOutputRadix( n ):
+    if ( n == 0 ) or ( n == -1 ):
+        g.outputRadix = defaultOutputRadix
+    else:
+        g.outputRadix = int( n )
+
+    return n
+
+
+#//******************************************************************************
+#//
 #//  functionOperators
 #//
 #//  This is just a list of operators that terminate the function creation
@@ -556,6 +652,7 @@ listOperators = {
 
 operators = {
     'abs'               : OperatorInfo( fabs, 1 ),
+    'accuracy'          : OperatorInfo( setAccuracy, 1 ),
     'acos'              : OperatorInfo( lambda n: performTrigOperation( n, acos ), 1 ),
     'acosh'             : OperatorInfo( lambda n: performTrigOperation( n, acosh ), 1 ),
     'acot'              : OperatorInfo( lambda n: performTrigOperation( n, acot ), 1 ),
@@ -621,6 +718,8 @@ operators = {
     'decagonal'         : OperatorInfo( lambda n: getNthPolygonalNumber( n, 10 ), 1 ),
     'decagonal?'        : OperatorInfo( lambda n: findNthPolygonalNumber( n, 10 ), 1 ),
     'december'          : OperatorInfo( lambda: 12, 0 ),
+    'decimal_grouping'  : OperatorInfo( setDecimalGrouping, 1 ),
+    'default'           : OperatorInfo( lambda: -1, 0 ),
     'delannoy'          : OperatorInfo( getNthDelannoyNumber, 1 ),
     'dhms'              : OperatorInfo( convertToDHMS, 1 ),
     'divide'            : OperatorInfo( divide, 2 ),
@@ -647,6 +746,7 @@ operators = {
     'exprange'          : OperatorInfo( expandExponentialRange, 3 ),
     'factor'            : OperatorInfo( lambda i: getExpandedFactorList( factor( i ) ), 1 ),
     'factorial'         : OperatorInfo( fac, 1 ),
+    'false'             : OperatorInfo( lambda n: 0, 0 ),
     'february'          : OperatorInfo( lambda: 2, 0 ),
     'fibonacci'         : OperatorInfo( fib, 1 ),
     'float'             : OperatorInfo( lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1 ),
@@ -676,7 +776,9 @@ operators = {
     'i'                 : OperatorInfo( lambda n: mpc( real='0.0', imag=n ), 1 ),
     'icosahedral'       : OperatorInfo( lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n ), 1 ),
     'infinity'          : OperatorInfo( lambda: inf, 0 ),
+    'input_radix'       : OperatorInfo( setInputRadix, 1 ),
     'integer'           : OperatorInfo( convertToSignedInt, 2 ),
+    'integer_grouping'  : OperatorInfo( setIntegerGrouping, 1 ),
     'isdivisible'       : OperatorInfo( lambda i, n: 1 if fmod( i, n ) == 0 else 0, 2 ),
     'isolated'          : OperatorInfo( getNthIsolatedPrime, 1 ),
     'iso_day'           : OperatorInfo( getISODay, 1 ),
@@ -774,6 +876,7 @@ operators = {
     'oeisname'          : OperatorInfo( lambda n: downloadOEISText( int( n ), 'N', True ), 1 ),
     'omega'             : OperatorInfo( lambda: lambertw( 1 ), 0 ),
     'or'                : OperatorInfo( lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x | y ), 2 ),
+    'output_radix'      : OperatorInfo( setOutputRadix, 1 ),
     'padovan'           : OperatorInfo( getNthPadovanNumber, 1 ),
     'parity'            : OperatorInfo( lambda n : getBitCount( n ) & 1, 1 ),
     'pascal'            : OperatorInfo( getNthPascalLine, 1 ),
@@ -794,6 +897,7 @@ operators = {
     'polyprime'         : OperatorInfo( getNthPolyPrime, 2 ),
     'polytope'          : OperatorInfo( getNthPolytopeNumber, 2 ),
     'power'             : OperatorInfo( exponentiate, 2 ),
+    'precision'         : OperatorInfo( setPrecision, 1 ),
     'presidents_day'    : OperatorInfo( calculatePresidentsDay, 1 ),
     'prevost'           : OperatorInfo( getPrevostConstant, 0 ),
     'prime'             : OperatorInfo( getNthPrime, 1 ),
@@ -873,6 +977,7 @@ operators = {
     'triplebal_'        : OperatorInfo( getNthTripleBalancedPrimeList, 1 ),
     'tripletprime'      : OperatorInfo( getNthTripletPrime, 1 ),
     'tripletprime'      : OperatorInfo( getNthTripletPrimeList, 1 ),
+    'true'              : OperatorInfo( lambda n: 1, 0 ),
     'truncoct'          : OperatorInfo( getNthTruncatedOctahedralNumber, 1 ),
     'trunctet'          : OperatorInfo( getNthTruncatedTetrahedralNumber, 1 ),
     'tuesday'           : OperatorInfo( lambda: 2, 0 ),

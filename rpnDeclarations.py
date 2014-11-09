@@ -27,32 +27,6 @@ import rpnGlobals as g
 
 #//******************************************************************************
 #//
-#//  constant initialization
-#//
-#//******************************************************************************
-
-defaultAccuracy = 10
-defaultBitwiseGroupSize = 16
-defaultCFTerms = 10
-defaultDecimalGrouping = 5
-defaultInputRadix = 10
-defaultIntegerGrouping = 3
-defaultLineLength = 80
-defaultOutputRadix = 10
-defaultPrecision = 20
-
-defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-
-numerals = ''
-
-phiBase = -1
-fibBase = -2
-
-inputRadix = 10
-
-
-#//******************************************************************************
-#//
 #//  specialUnitConversionMatrix
 #//
 #//  This is for units that can't be converted with a simple multiplication

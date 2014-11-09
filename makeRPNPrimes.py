@@ -664,7 +664,7 @@ def main( ):
                 helpArgs.append( sys.argv[ i ] )
 
     if help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, { }, { }, { }, dataPath, helpArgs, 80 )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, { }, { }, { }, helpArgs )
         return
 
     # set up the command-line options parser
@@ -687,7 +687,7 @@ def main( ):
     args = parser.parse_args( )
 
     if args.help or args.other_help:
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, { }, { }, { }, dataPath, [ ], 80 )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, { }, { }, { }, [ ] )
         return
 
     if args.time:

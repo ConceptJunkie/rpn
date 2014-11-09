@@ -101,8 +101,7 @@ def evaluate( terms ):
 #//
 #//******************************************************************************
 
-def handleOutput( valueList, comma, decimalGrouping, integerGrouping, outputAccuracy, lineLength, identify, findPoly,
-                  showTime, outputRadix, leadingZero, baseAsDigits ):
+def handleOutput( valueList, identify, findPoly, showTime ):
     if len( valueList ) == 0:
         return
 
@@ -114,16 +113,15 @@ def handleOutput( valueList, comma, decimalGrouping, integerGrouping, outputAccu
         mp.pretty = True
         result = valueList.pop( )
 
-        if comma:
-            integerGrouping = 3     # override whatever was set on the command-line
-            leadingZero = False     # this one, too
-            integerDelimiter = ','
+        if g.comma:
+            g.integerGrouping = 3     # override whatever was set on the command-line
+            g.leadingZero = False     # this one, too
+            g.integerDelimiter = ','
         else:
-            integerDelimiter = ' '
+            g.integerDelimiter = ' '
 
         if isinstance( result, list ):
-            print( formatListOutput( result, outputRadix, g.numerals, integerGrouping, integerDelimiter,
-                                     leadingZero, decimalGrouping, ' ', baseAsDigits, outputAccuracy ) )
+            print( formatListOutput( result ) )
         else:
             if isinstance( result, arrow.Arrow ):
                 outputString = formatDateTime( result )
@@ -131,15 +129,13 @@ def handleOutput( valueList, comma, decimalGrouping, integerGrouping, outputAccu
                 # output the answer with all the extras according to command-line arguments
                 resultString = nstr( result, mp.dps )
 
-                outputString = formatOutput( resultString, outputRadix, g.numerals, integerGrouping,
-                                             integerDelimiter, leadingZero, decimalGrouping,
-                                             ' ', baseAsDigits, outputAccuracy )
+                outputString = formatOutput( resultString )
 
                 # handle the units if we are displaying a measurement
                 if isinstance( result, Measurement ):
                     outputString += ' ' + formatUnits( result )
 
-            printParagraph( outputString, lineLength )
+            printParagraph( outputString )
 
             # handle --identify
             if identify:
@@ -173,10 +169,6 @@ def rpn( cmd_args ):
     help = False
     helpArgs = [ ]
 
-    if len( cmd_args ) == 0:
-        printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
-        return
-
     for i in range( 0, len( cmd_args ) ):
         if cmd_args[ i ] == 'help':
             help = True
@@ -191,7 +183,7 @@ def rpn( cmd_args ):
                                           formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
         parser.add_argument( 'terms', nargs='*', metavar='term' )
-        parser.add_argument( '-l', '--line_length', type=int, action='store', default=defaultLineLength )
+        parser.add_argument( '-l', '--line_length', type=int, action='store', default=g.defaultLineLength )
 
         args = parser.parse_args( cmd_args )
 
@@ -199,8 +191,7 @@ def rpn( cmd_args ):
 
         g.operatorAliases.update( operatorAliases )
 
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases, g.dataPath,
-                   helpArgs, args.line_length )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, helpArgs )
         return
 
     # set up the command-line options parser
@@ -209,27 +200,26 @@ def rpn( cmd_args ):
                                       formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=defaultAccuracy,  # -1
-                         const=defaultAccuracy )
-    parser.add_argument( '-b', '--input_radix', type=str, action='store', default=defaultInputRadix )
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=g.defaultAccuracy,  # -1
+                         const=g.defaultAccuracy )
+    parser.add_argument( '-b', '--input_radix', type=str, action='store', default=g.defaultInputRadix )
     parser.add_argument( '-c', '--comma', action='store_true' )
     parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
-                         const=defaultDecimalGrouping )
+                         const=g.defaultDecimalGrouping )
     parser.add_argument( '-D', '--DEBUG', action='store_true' )
     parser.add_argument( '-g', '--integer_grouping', nargs='?', type=int, action='store', default=0,
-                         const=defaultIntegerGrouping )
+                         const=g.defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action='store_true' )
     parser.add_argument( '-i', '--identify', action='store_true' )
-    parser.add_argument( '-l', '--line_length', type=int, action='store', default=defaultLineLength )
-    parser.add_argument( '-n', '--numerals', type=str, action='store', default=defaultNumerals )
+    parser.add_argument( '-l', '--line_length', type=int, action='store', default=g.defaultLineLength )
+    parser.add_argument( '-n', '--numerals', type=str, action='store', default=g.defaultNumerals )
     parser.add_argument( '-o', '--octal', action='store_true' )
-    parser.add_argument( '-p', '--precision', type=int, action='store', default=defaultPrecision )
-    parser.add_argument( '-r', '--output_radix', type=str, action='store', default=defaultOutputRadix )
+    parser.add_argument( '-p', '--precision', type=int, action='store', default=g.defaultPrecision )
+    parser.add_argument( '-r', '--output_radix', type=str, action='store', default=g.defaultOutputRadix )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0 )
     parser.add_argument( '-t', '--time', action='store_true' )
     parser.add_argument( '-u', '--find_poly', nargs='?', type=int, action='store', default=0, const=1000 )
-    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store',
-                         default=defaultBitwiseGroupSize )
+    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=g.defaultBitwiseGroupSize )
     parser.add_argument( '-x', '--hex', action='store_true' )
     parser.add_argument( '-z', '--leading_zero', action='store_true' )
     parser.add_argument( '-!', '--print_options', action='store_true' )
@@ -243,8 +233,7 @@ def rpn( cmd_args ):
     if args.help or args.other_help:
         loadOperatorData( )
 
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, g.operatorAliases,
-                   g.dataPath, [ ], args.line_length )
+        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, [ ] )
         return
 
     valid, errorString = validateOptions( args )
@@ -253,93 +242,101 @@ def rpn( cmd_args ):
         print( 'rpn:  ' + errorString )
         return
 
-    mp.dps = args.precision
-
     if args.time:
         time.clock( )
 
     # these are either globals or can be modified by other options (like -x)
     g.bitwiseGroupSize = args.bitwise_group_size
-    integerGrouping = args.integer_grouping
-    leadingZero = args.leading_zero
+    g.integerGrouping = args.integer_grouping
+    g.leadingZero = args.leading_zero
+
+    # handle -a - set precision to be at least 2 greater than output accuracy
+    setAccuracy( args.output_accuracy )
+
+    # handle -b
+    g.inputRadix = int( args.input_radix )
+
+    # handle -c
+    g.comma = args.comma
+
+    # handle -d
+    g.decimalGrouping = args.decimal_grouping
 
     # handle -D
     if args.DEBUG:
         g.debugMode = True
 
-    # handle -a - set precision to be at least 2 greater than output accuracy
-    if mp.dps < args.output_accuracy + 2:
-        mp.dps = args.output_accuracy + 2
+    # handle -l
+    g.lineLength = args.line_length
 
     # handle -n
     g.numerals = args.numerals
 
-    # handle -b
-    g.inputRadix = int( args.input_radix )
+    # handle -o
+    if args.octal:
+        g.outputRadix = 8
+        g.leadingZero = True
+        g.integerGrouping = 3
+        g.bitwiseGroupSize = 9
+
+    # handle -p
+    setPrecision( args.precision )
 
     # handle -r
     if args.output_radix == 'phi':
-        outputRadix = phiBase
+        g.outputRadix = g.phiBase
     elif args.output_radix == 'fib':
-        outputRadix = fibBase
+        g.outputRadix = g.fibBase
     else:
         try:
-            outputRadix = int( args.output_radix )
+            g.outputRadix = int( args.output_radix )
         except ValueError as error:
             print( 'rpn:  can\'t interpret output radix \'%s\' as a number' % args.output_radix )
             return
 
-    # handle -x
-    if args.hex:
-        outputRadix = 16
-        leadingZero = True
-        integerGrouping = 4
-        g.bitwiseGroupSize = 16
-
-    # handle -o
-    if args.octal:
-        outputRadix = 8
-        leadingZero = True
-        integerGrouping = 3
-        g.bitwiseGroupSize = 9
-
     # handle -R
     if args.output_radix_numerals > 0:
-        baseAsDigits = True
-        outputRadix = args.output_radix_numerals
-    else:
-        baseAsDigits = False
+        g.outputBaseDigits = True
+        g.outputRadix = args.output_radix_numerals
 
     # -r/-R validation
-    if baseAsDigits:
-        if ( outputRadix < 2 ):
+    if g.outputBaseDigits:
+        if ( g.outputRadix < 2 ):
             print( 'rpn:  output radix must be greater than 1' )
             return
-    elif ( outputRadix != phiBase and outputRadix != fibBase and ( outputRadix < 2 or outputRadix > 62 ) ):
+    elif ( ( g.outputRadix != g.phiBase ) and ( g.outputRadix != g.fibBase ) and \
+           ( g.outputRadix < 2 or g.outputRadix > 62 ) ):
         print( 'rpn:  output radix must be from 2 to 62, or phi' )
         return
 
-    # handle -y and -u:  mpmath wants precision of at least 53 for these functions
+    # handle -x
+    if args.hex:
+        g.outputRadix = 16
+        g.leadingZero = True
+        g.integerGrouping = 4
+        g.bitwiseGroupSize = 16
+
+    # handle -u and -y:  mpmath wants precision of at least 53 for these functions
     if ( args.identify or args.find_poly > 0 ) and mp.dps < 53:
         mp.dps = 53
 
     if args.print_options:
-        print( '--output_accuracy:  %d' % args.output_accuracy )
+        print( '--output_accuracy:  %d' % g.accuracy )
         print( '--input_radix:  %d' % g.inputRadix )
-        print( '--comma:  ' + ( 'true' if args.comma else 'false' ) )
-        print( '--decimal_grouping:  %d' % args.decimal_grouping )
-        print( '--integer_grouping:  %d' % integerGrouping )
-        print( '--numerals:  ' + args.numerals )
+        print( '--comma:  ' + ( 'true' if g.comma else 'false' ) )
+        print( '--decimal_grouping:  %d' % g.decimalGrouping )
+        print( '--integer_grouping:  %d' % g.integerGrouping )
+        print( '--numerals:  ' + g.numerals )
         print( '--octal:  ' + ( 'true' if args.octal else 'false' ) )
-        print( '--precision:  %d' % args.precision )
-        print( '--output_radix:  %d' % args.output_radix )
+        print( '--precision:  %d' % args.precision .dps )
+        print( '--output_radix:  %d' % g.outputRadix )
         print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
         print( '--time:  ' + ( 'true' if args.time else 'false' ) )
         print( '--find_poly:  %d' % args.find_poly )
         print( '--bitwise_group_size:  %d' % g.bitwiseGroupSize )
         print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
         print( '--identify:  ' + ( 'true' if args.identify else 'false' ) )
-        print( '--leading_zero:  ' + ( 'true' if leadingZero else 'false' ) )
+        print( '--leading_zero:  ' + ( 'true' if g.leadingZero else 'false' ) )
         print( )
 
     # enter interactive mode if there are no arguments
@@ -349,22 +346,28 @@ def rpn( cmd_args ):
         readline.parse_and_bind( 'tab: complete' )
         readline.parse_and_bind( 'set editing-mode vi' )
 
+        printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
+
+        g.results.append( None )   # g.results[ 0 ]
+
         while True:
-            line = input( 'rpn: ')
+            g.promptCount += 1
+
+            line = input( 'rpn (' + str( g.promptCount ) + ')>' )
 
             if line == 'exit':
                 break
 
             terms = line.split( ' ' )
 
-            if not validateArguments( terms ):
-                return
+            if validateArguments( terms ):
+                valueList = evaluate( terms )
 
-            valueList = evaluate( terms )
+                handleOutput( valueList, args.identify, args.find_poly, args.time, )
 
-            handleOutput( valueList, args.comma, args.decimal_grouping, args.integer_grouping, args.output_accuracy,
-                          args.line_length, args.identify, args.find_poly, args.time, outputRadix, leadingZero,
-                          baseAsDigits )
+                g.results.append( valueList )
+            else:
+                g.results.append( 0 )
 
         return
 
@@ -380,8 +383,7 @@ def rpn( cmd_args ):
 
     valueList = evaluate( args.terms )
 
-    handleOutput( valueList, args.comma, args.decimal_grouping, args.integer_grouping, args.output_accuracy, args.line_length,
-                  args.identify, args.find_poly, args.time, outputRadix, leadingZero, baseAsDigits )
+    handleOutput( valueList, args.identify, args.find_poly, args.time )
 
     if args.time:
         print( '\n%.3f seconds' % time.clock( ) )
@@ -398,4 +400,10 @@ if __name__ == '__main__':
         rpn( sys.argv[ 1 : ] )
     except ValueError as error:
         print( 'rpn:  value error:  {0}'.format( error ) )
+
+        if g.debugMode:
+            raise
+        else:
+            sys.exit( 0 )
+
 

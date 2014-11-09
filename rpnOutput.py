@@ -74,8 +74,7 @@ def roundMantissa( mantissa, accuracy ):
 #//
 #//******************************************************************************
 
-def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
-                  decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
+def formatOutput( output ):
     # filter out text strings
     for c in output:
         if c in '+-.':
@@ -101,17 +100,12 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
         else:
             negativeImaginary = False
 
-        imaginaryValue = formatOutput( nstr( imaginary, mp.dps ), radix, numerals, integerGrouping,
-                                       integerDelimiter, leadingZero, decimalGrouping, decimalDelimiter,
-                                       baseAsDigits, outputAccuracy )
+        imaginaryValue = formatOutput( nstr( imaginary, mp.dps ) )
 
         strOutput = str( re( mpmathify( output ) ) )
     else:
         imaginaryValue = ''
-        strOutput = nstr( output, outputAccuracy  )[ 1 : -1 ]
-        #strOutput = str( output )
-
-    #print( strOutput )
+        strOutput = nstr( output, g.accuracy  )[ 1 : -1 ]
 
     if '.' in strOutput:
         decimal = strOutput.find( '.' )
@@ -127,7 +121,7 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
 
     if mantissa == '0':
         mantissa = ''
-    elif mantissa != '' and outputAccuracy == -1:
+    elif ( mantissa != '' ) and ( g.accuracy == -1 ):
         mantissa = mantissa.rstrip( '0' )
 
     #print( 'integer: ', integer )
@@ -151,51 +145,51 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
     #        mantissa = integer[ exponent : ]
     #        integer = integer[ : exponent - 1 ]
 
-    if radix == phiBase:
+    if g.outputRadix == g.phiBase:
         integer, mantissa = convertToPhiBase( mpmathify( output ) )
-    elif radix == fibBase:
+    elif g.outputRadix == g.fibBase:
         integer = convertToFibBase( floor( mpmathify( output ) ) )
-    elif radix != 10 or numerals != defaultNumerals:
-        integer = str( convertToBaseN( mpmathify( integer ), radix, baseAsDigits, numerals ) )
+    elif ( g.outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
+        integer = str( convertToBaseN( mpmathify( integer ), g.outputRadix, g.outputBaseDigits, g.numerals ) )
 
         if mantissa:
-            mantissa = str( convertFractionToBaseN( mpmathify( '0.' + mantissa ), radix,
-                            int( ( mp.dps - integerLength ) / math.log10( radix ) ),
-                            baseAsDigits, outputAccuracy ) )
+            mantissa = str( convertFractionToBaseN( mpmathify( '0.' + mantissa ), g.outputRadix,
+                            int( ( mp.dps - integerLength ) / math.log10( g.outputRadix ) ),
+                            g.outputBaseDigits ) )
     else:
-        if outputAccuracy == 0:
+        if g.accuracy == 0:
             mantissa = ''
-        elif outputAccuracy > 0:
-            mantissa = roundMantissa( mantissa, outputAccuracy )
+        elif g.accuracy > 0:
+            mantissa = roundMantissa( mantissa, g.accuracy )
             mantissa = mantissa.rstrip( '0' )
 
-    if integerGrouping > 0:
-        firstDelimiter = len( integer ) % integerGrouping
+    if g.integerGrouping > 0:
+        firstDelimiter = len( integer ) % g.integerGrouping
 
-        if leadingZero and firstDelimiter > 0:
-            integerResult = '0' * ( integerGrouping - firstDelimiter )
+        if g.leadingZero and firstDelimiter > 0:
+            integerResult = '0' * ( g.integerGrouping - firstDelimiter )
         else:
             integerResult = ''
 
         integerResult += integer[ : firstDelimiter ]
 
-        for i in range( firstDelimiter, len( integer ), integerGrouping ):
+        for i in range( firstDelimiter, len( integer ), g.integerGrouping ):
             if integerResult != '':
-                integerResult += integerDelimiter
+                integerResult += g.integerDelimiter
 
-            integerResult += integer[ i : i + integerGrouping ]
+            integerResult += integer[ i : i + g.integerGrouping ]
 
     else:
         integerResult = integer
 
-    if decimalGrouping > 0:
+    if g.decimalGrouping > 0:
         mantissaResult = ''
 
-        for i in range( 0, len( mantissa ), decimalGrouping ):
+        for i in range( 0, len( mantissa ), g.decimalGrouping ):
             if mantissaResult != '':
-                mantissaResult += decimalDelimiter
+                mantissaResult += g.decimalDelimiter
 
-            mantissaResult += mantissa[ i : i + decimalGrouping ]
+            mantissaResult += mantissa[ i : i + g.decimalGrouping ]
     else:
         mantissaResult = mantissa
 
@@ -224,8 +218,7 @@ def formatOutput( output, radix, numerals, integerGrouping, integerDelimiter, le
 #//
 #//******************************************************************************
 
-def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter, leadingZero,
-                      decimalGrouping, decimalDelimiter, baseAsDigits, outputAccuracy ):
+def formatListOutput( result ):
     resultString = '[ '
 
     for item in result:
@@ -233,26 +226,20 @@ def formatListOutput( result, radix, numerals, integerGrouping, integerDelimiter
             resultString += ', '
 
         if isinstance( item, list ):
-            resultString += formatListOutput( item, radix, numerals, integerGrouping, integerDelimiter,
-                                              leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
-                                              outputAccuracy )
+            resultString += formatListOutput( item )
         else:
             if isinstance( item, arrow.Arrow ):
                 resultString += formatDateTime( item )
             elif isinstance( item, Measurement ):
                 itemString = str( mpf( item ) )
 
-                resultString += formatOutput( itemString, radix, numerals, integerGrouping, integerDelimiter,
-                                              leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
-                                              outputAccuracy )
+                resultString += formatOutput( itemString )
 
                 resultString += ' ' + formatUnits( item )
             else:
                 itemString = str( item )
 
-                resultString += formatOutput( itemString, radix, numerals, integerGrouping, integerDelimiter,
-                                              leadingZero, decimalGrouping, decimalDelimiter, baseAsDigits,
-                                              outputAccuracy )
+                resultString += formatOutput( itemString )
 
     resultString += ' ]'
 
@@ -361,8 +348,8 @@ def formatDateTime( datetime ):
 #//
 #//******************************************************************************
 
-def printParagraph( text, lineLength=80, indent=0 ):
-    lines = textwrap.wrap( text, lineLength - 1 )
+def printParagraph( text, indent=0 ):
+    lines = textwrap.wrap( text, g.lineLength - ( indent + 1 ) )
 
     for line in lines:
         print( ' ' * indent + line )
@@ -374,7 +361,7 @@ def printParagraph( text, lineLength=80, indent=0 ):
 #//
 #//******************************************************************************
 
-def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp, operatorAliases, lineLength ):
+def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp ):
     if operatorInfo.argCount == 1:
         print( 'n ', end='' )
     elif operatorInfo.argCount == 2:
@@ -386,16 +373,16 @@ def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp, operatorAlias
     elif operatorInfo.argCount == 5:
         print( 'a b c d e ', end='' )
 
-    aliasList = [ key for key in operatorAliases if term == operatorAliases[ key ] ]
+    aliasList = [ key for key in g.operatorAliases if term == g.operatorAliases[ key ] ]
 
     print( term + ' - ' + operatorHelp[ 1 ] )
 
     print( )
 
     if len( aliasList ) > 1:
-        printParagraph( 'aliases:  ' + ', '.join( aliasList ), lineLength )
+        printParagraph( 'aliases:  ' + ', '.join( aliasList ) )
     elif len( aliasList ) == 1:
-        printParagraph( 'alias:  ' + aliasList[ 0 ], lineLength )
+        printParagraph( 'alias:  ' + aliasList[ 0 ] )
 
     print( 'category: ' + operatorHelp[ 0 ] )
 
@@ -420,15 +407,15 @@ def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp, operatorAlias
 #//
 #//******************************************************************************
 
-def printCategoryHelp( category, operators, listOperators, modifiers, operatorAliases, operatorHelp, lineLength ):
-    printParagraph( 'The ' + category + ' category includes the following operators (with aliases in parentheses):', lineLength )
+def printCategoryHelp( category, operators, listOperators, modifiers, operatorHelp ):
+    printParagraph( 'The ' + category + ' category includes the following operators (with aliases in parentheses):' )
     print( )
 
     operatorList = [ key for key in operators if operatorHelp[ key ][ 0 ] == category ]
     operatorList.extend( [ key for key in listOperators if operatorHelp[ key ][ 0 ] == category ] )
     operatorList.extend( [ key for key in modifiers if operatorHelp[ key ][ 0 ] == category ] )
 
-    addAliases( operatorList, operatorAliases )
+    addAliases( operatorList, g.operatorAliases )
 
     for operator in sorted( operatorList ):
         print( operator )
@@ -440,8 +427,7 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorAl
 #//
 #//******************************************************************************
 
-def printHelp( programName, programDescription, operators, listOperators, modifiers, operatorAliases,
-               dataPath, helpArgs, lineLength ):
+def printHelp( programName, programDescription, operators, listOperators, modifiers, helpArgs ):
     loadHelpData( )
 
     if g.helpVersion != PROGRAM_VERSION:
@@ -450,7 +436,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
     operatorCategories = set( g.operatorHelp[ key ][ 0 ] for key in g.operatorHelp )
 
     if len( helpArgs ) == 0:
-        printGeneralHelp( programName, programDescription, g.basicCategories, operatorCategories, lineLength )
+        printGeneralHelp( programName, programDescription, g.basicCategories, operatorCategories )
         return
 
     term = helpArgs[ 0 ]
@@ -461,27 +447,27 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 
     # then look for exact matches in all the lists of terms for which we have help support
     if term in operators:
-        printOperatorHelp( helpArgs, term, operators[ term ], g.operatorHelp[ term ], g.operatorAliases, lineLength )
+        printOperatorHelp( helpArgs, term, operators[ term ], g.operatorHelp[ term ] )
     elif term in listOperators:
-        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ], g.operatorAliases, lineLength )
+        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ] )
     elif term in modifiers:
-        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ], g.operatorAliases, lineLength )
+        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ] )
     elif term in g.basicCategories:
         print( g.basicCategories[ term ] )
     elif term in operatorCategories:
-        printCategoryHelp( term, operators, listOperators, modifiers, g.operatorAliases, g.operatorHelp, lineLength )
+        printCategoryHelp( term, operators, listOperators, modifiers, g.operatorAliases, g.operatorHelp )
     elif term == 'unit_types':
-        printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
+        printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), 4 )
     elif term in g.unitTypeDict:
         unitList = sorted( g.unitTypeDict[ term ] )
         addAliases( unitList, g.operatorAliases )
         for unit in unitList:
-            printParagraph( unit, lineLength - 5, 4 )
+            printParagraph( unit, 4 )
     else:
         # if no exact matches for any topic, let's look for partial matches
         if 'unit_types'.startswith( term ):
             print( 'Interpreting topic as \'unit_types\'.' )
-            printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), lineLength - 5, 4 )
+            printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), 4 )
             return
 
         helpTerm = next( ( i for i in g.unitTypeDict if i != term and i.startswith( term ) ), '' )
@@ -489,7 +475,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( )
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
-            printParagraph( ', '.join( sorted( g.unitTypeDict[ helpTerm ] ) ), lineLength - 5, 4 )
+            printParagraph( ', '.join( sorted( g.unitTypeDict[ helpTerm ] ) ), 4 )
             return
 
         helpTerm = next( ( i for i in operators if i != term and i.startswith( term ) ), '' )
@@ -497,7 +483,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpArgs, helpTerm, operators[ helpTerm ], g.operatorHelp[ helpTerm ], g.operatorAliases, lineLength )
+            printOperatorHelp( helpArgs, helpTerm, operators[ helpTerm ], g.operatorHelp[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in listOperators if i != term and i.startswith( term ) ), '' )
@@ -505,7 +491,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpArgs, helpTerm, listOperators[ helpTerm ], g.operatorHelp[ helpTerm ], g.operatorAliases, lineLength )
+            printOperatorHelp( helpArgs, helpTerm, listOperators[ helpTerm ], g.operatorHelp[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in modifiers if i != term and i.startswith( term ) ), '' )
@@ -513,7 +499,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpArgs, helpTerm, modifiers[ helpTerm ], g.operatorHelp[ helpTerm ], g.operatorAliases, lineLength )
+            printOperatorHelp( helpArgs, helpTerm, modifiers[ helpTerm ], g.operatorHelp[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in g.basicCategories if i != term and i.startswith( term ) ), '' )
@@ -529,7 +515,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printCategoryHelp( helpTerm, operators, listOperators, modifiers, g.operatorAliases, g.operatorHelp, lineLength )
+            printCategoryHelp( helpTerm, operators, listOperators, modifiers, g.operatorHelp )
         else:
             print( "Help topic not found." )
 
@@ -540,13 +526,13 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 #//
 #//******************************************************************************
 
-def printGeneralHelp( programName, programDescription, basicCategories, operatorCategories, lineLength ):
+def printGeneralHelp( programName, programDescription, basicCategories, operatorCategories ):
     print( programName + ' ' + PROGRAM_VERSION + ' - ' + programDescription )
     print( COPYRIGHT_MESSAGE )
     print( )
 
     printParagraph(
-'''For help on a specific topic, add a help topic, operator category or a specific operator name.''', lineLength )
+'''For help on a specific topic, add a help topic, operator category or a specific operator name.''' )
 
     print( )
     print( 'The following is a list of general topics:' )
@@ -555,13 +541,13 @@ def printGeneralHelp( programName, programDescription, basicCategories, operator
     helpCategories = list( basicCategories.keys( ) )
     helpCategories.append( 'unit_types' )
 
-    printParagraph( ', '.join( sorted( helpCategories ) ), lineLength - 5, 4 )
+    printParagraph( ', '.join( sorted( helpCategories ) ), 4 )
 
     print( )
     print( 'The following is a list of operator categories:' )
     print( )
 
-    printParagraph( ', '.join( sorted( operatorCategories ) ), lineLength - 5, 4 )
+    printParagraph( ', '.join( sorted( operatorCategories ) ), 4 )
 
 
 #//******************************************************************************
@@ -574,5 +560,5 @@ def printTitleScreen( programName, programDescription ):
     print( programName, PROGRAM_VERSION, '-', programDescription )
     print( COPYRIGHT_MESSAGE )
     print( )
-    print( 'For more information use, \'' + programName + ' help\'.' )
+    print( 'Type "help" for more information, and "exit" to exit.' )
 
