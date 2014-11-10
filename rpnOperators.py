@@ -93,6 +93,20 @@ def abortArgsNeeded( term, index, argsNeeded ):
 #//******************************************************************************
 
 def evaluateTerm( term, index, currentValueList ):
+    # first check for a variable name or history expression
+    if term[ 0 ] == '$':
+        if term[ 1 : ] in g.variables:
+            currentValueList.append( g.variables[ term[ 1 : ] ] )
+            return True
+        else:
+            prompt = int( term[ 1 : ] )
+
+            if ( prompt > 0 ) and ( prompt < g.promptCount ):
+                currentValueList.append( g.results[ prompt ] )
+                return True
+            else:
+                raise ValueError( 'unrecognized variable or result index out of range' )
+
     try:
         # handle a modifier operator
         if term in modifiers:
@@ -547,6 +561,33 @@ def setOutputRadix( n ):
 
 #//******************************************************************************
 #//
+#//  setLeadingZero
+#//
+#//******************************************************************************
+
+def setLeadingZero( n ):
+    result = 1 if g.leadingZero else 0
+
+    if ( n == 0 ) or ( n == -1 ):
+        g.leadingZero = False
+    else:
+        g.leadingZero = True
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  setVariable
+#//
+#//******************************************************************************
+
+def setVariable( n, k ):
+    goobles
+
+
+#//******************************************************************************
+#//
 #//  functionOperators
 #//
 #//  This is just a list of operators that terminate the function creation
@@ -746,7 +787,7 @@ operators = {
     'exprange'          : OperatorInfo( expandExponentialRange, 3 ),
     'factor'            : OperatorInfo( lambda i: getExpandedFactorList( factor( i ) ), 1 ),
     'factorial'         : OperatorInfo( fac, 1 ),
-    'false'             : OperatorInfo( lambda n: 0, 0 ),
+    'false'             : OperatorInfo( lambda: 0, 0 ),
     'february'          : OperatorInfo( lambda: 2, 0 ),
     'fibonacci'         : OperatorInfo( fib, 1 ),
     'float'             : OperatorInfo( lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1 ),
@@ -795,6 +836,7 @@ operators = {
     'labor_day'         : OperatorInfo( calculateLaborDay, 1 ),
     'lah'               : OperatorInfo( lambda n, k: fdiv( fmul( binomial( n, k ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ), 2 ),
     'lambertw'          : OperatorInfo( lambertw, 1 ),
+    'leading_zero'      : OperatorInfo( setLeadingZero, 1 ),
     'leyland'           : OperatorInfo( lambda x, y : fadd( power( x, y ), power( y, x ) ), 2 ),
     'lgamma'            : OperatorInfo( loggamma, 1 ),
     'li'                : OperatorInfo( li, 1 ),
@@ -930,6 +972,7 @@ operators = {
     'sec'               : OperatorInfo( lambda n: performTrigOperation( n, sec ), 1 ),
     'sech'              : OperatorInfo( lambda n: performTrigOperation( n, sech ), 1 ),
     'september'         : OperatorInfo( lambda: 9, 0 ),
+    'set'               : OperatorInfo( setVariable, 2 ),
     'sextprime'         : OperatorInfo( getNthSextupletPrime, 1 ),
     'sextprime_'        : OperatorInfo( getNthSextupletPrimeList, 1 ),
     'sexyprime'         : OperatorInfo( getNthSexyPrime, 1 ),
@@ -977,7 +1020,7 @@ operators = {
     'triplebal_'        : OperatorInfo( getNthTripleBalancedPrimeList, 1 ),
     'tripletprime'      : OperatorInfo( getNthTripletPrime, 1 ),
     'tripletprime'      : OperatorInfo( getNthTripletPrimeList, 1 ),
-    'true'              : OperatorInfo( lambda n: 1, 0 ),
+    'true'              : OperatorInfo( lambda: 1, 0 ),
     'truncoct'          : OperatorInfo( getNthTruncatedOctahedralNumber, 1 ),
     'trunctet'          : OperatorInfo( getNthTruncatedTetrahedralNumber, 1 ),
     'tuesday'           : OperatorInfo( lambda: 2, 0 ),

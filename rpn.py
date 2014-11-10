@@ -363,9 +363,9 @@ def rpn( cmd_args ):
             if validateArguments( terms ):
                 valueList = evaluate( terms )
 
-                handleOutput( valueList, args.identify, args.find_poly, args.time, )
+                g.results.append( valueList[ -1 ] )
 
-                g.results.append( valueList )
+                handleOutput( valueList, args.identify, args.find_poly, args.time, )
             else:
                 g.results.append( 0 )
 
