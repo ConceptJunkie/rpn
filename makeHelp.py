@@ -359,6 +359,12 @@ stuff with the sphere functions yet.
 
 Help topics for individual units is coming someday, but not today.
 ''',
+'interactive_mode' :
+'''
+TODO:  describe interactive mode
+
+features to implement:  variable declaration, function declaration(?)
+''',
 'about' :
 PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' +
 COPYRIGHT_MESSAGE + '''

@@ -95,9 +95,14 @@ def abortArgsNeeded( term, index, argsNeeded ):
 def evaluateTerm( term, index, currentValueList ):
     # first check for a variable name or history expression
     if term[ 0 ] == '$':
-        if term[ 1 : ] in g.variables:
-            currentValueList.append( g.variables[ term[ 1 : ] ] )
-            return True
+        if term[ 1 ].isalpha( ):
+            if term[ 1 : ] in g.variables:
+                currentValueList.append( g.variables[ term[ 1 : ] ] )
+                return True
+            else:
+                g.variables[ term[ 1 : ] ] = None
+                currentValueList.append( term[ 1 : ] )
+                return True
         else:
             prompt = int( term[ 1 : ] )
 
@@ -580,10 +585,17 @@ def setLeadingZero( n ):
 #//
 #//  setVariable
 #//
+#//  set variable n with value k
+#//
 #//******************************************************************************
 
 def setVariable( n, k ):
-    goobles
+    if isinstance( n, str ):
+        g.variables[ n ] = k
+    else:
+        raise ValueError( 'variable name expected' )
+
+    return k
 
 
 #//******************************************************************************
