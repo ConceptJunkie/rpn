@@ -32,11 +32,11 @@ import rpnGlobals as g
 
 #//******************************************************************************
 #//
-#//  loadOperatorData
+#//  loadUnitData
 #//
 #//******************************************************************************
 
-def loadOperatorData( ):
+def loadUnitData( ):
     try:
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitsVersion = pickle.load( pickleFile )

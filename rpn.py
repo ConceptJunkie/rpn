@@ -14,18 +14,10 @@
 
 # http://en.wikipedia.org/wiki/Physical_constant
 
-# Things that don't work, but should:
-#
-#   This requires implicit conversion between unit types
-#   rpn -D 16800 mA hours * 5 volts * joule convert
-#
 # http://pythonhosted.org//astral/#
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 # http://rhodesmill.org/pyephem/quick.html
 # https://github.com/geopy/geopy
-
-# https://en.wikipedia.org/wiki/Gas_constant
-# https://en.wikipedia.org/wiki/Coulomb_constant
 
 # Schwarzschild Radius - Hmmm... operators that turn one kind of unit into another (e.g., mass -> length)
 
@@ -87,7 +79,13 @@ def evaluate( terms ):
 
         currentValueList = getCurrentArgList( valueList )
 
-        if not evaluateTerm( term, index, currentValueList ):
+        try:
+            if not evaluateTerm( term, index, currentValueList ):
+                valueList = [ 0 ]
+                break
+        except ValueError as error:
+            print( 'rpn:  error:  {0}'.format( error ) )
+            valueList = [ 0 ]
             break
 
         index = index + 1
@@ -187,7 +185,7 @@ def rpn( cmd_args ):
 
         args = parser.parse_args( cmd_args )
 
-        loadOperatorData( )
+        loadUnitData( )
 
         g.operatorAliases.update( operatorAliases )
 
@@ -231,7 +229,7 @@ def rpn( cmd_args ):
     g.operatorAliases.update( operatorAliases )
 
     if args.help or args.other_help:
-        loadOperatorData( )
+        loadUnitData( )
 
         printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, [ ] )
         return
@@ -341,6 +339,9 @@ def rpn( cmd_args ):
 
     # enter interactive mode if there are no arguments
     if len( args.terms ) == 0:
+        if not loadUnitData( ):
+            return
+
         import readline
 
         readline.parse_and_bind( 'tab: complete' )
@@ -353,7 +354,10 @@ def rpn( cmd_args ):
         while True:
             g.promptCount += 1
 
-            line = input( 'rpn (' + str( g.promptCount ) + ')>' )
+            try:
+                line = input( 'rpn (' + str( g.promptCount ) + ')>' )
+            except EOFError:
+                break
 
             if line == 'exit':
                 break
@@ -375,7 +379,7 @@ def rpn( cmd_args ):
     if not validateArguments( args.terms ):
         return
 
-    if not loadOperatorData( ):
+    if not loadUnitData( ):
         return
 
     if g.unitsVersion != PROGRAM_VERSION:

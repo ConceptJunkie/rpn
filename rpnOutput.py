@@ -163,7 +163,7 @@ def formatOutput( output ):
             mantissa = roundMantissa( mantissa, g.accuracy )
             mantissa = mantissa.rstrip( '0' )
 
-    if g.integerGrouping > 0:
+    if g.comma and g.integerGrouping > 0:
         firstDelimiter = len( integer ) % g.integerGrouping
 
         if g.leadingZero and firstDelimiter > 0:

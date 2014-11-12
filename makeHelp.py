@@ -1421,6 +1421,13 @@ number.
 ''',
 '''
 ''' ],
+    'comma' : [
+'settings', 'TODO: fill me out',
+'''
+TODO: fill me out
+''',
+'''
+''' ],
     'convert' : [
 'conversion', 'performs unit conversion',
 '''

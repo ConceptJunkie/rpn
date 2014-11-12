@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+    #!/usr/bin/env python
 
 #//******************************************************************************
 #//
@@ -79,7 +79,6 @@ def abortArgsNeeded( term, index, argsNeeded ):
            format( argsNeeded ) + ' argument', end='' )
 
     print( 's' if argsNeeded > 1 else '' )
-    sys.exit( 0 )
 
 
 #//******************************************************************************
@@ -110,7 +109,7 @@ def evaluateTerm( term, index, currentValueList ):
                 currentValueList.append( g.results[ prompt ] )
                 return True
             else:
-                raise ValueError( 'unrecognized variable or result index out of range' )
+                raise ValueError( 'result index out of range' )
 
     try:
         # handle a modifier operator
@@ -150,6 +149,7 @@ def evaluateTerm( term, index, currentValueList ):
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
                 abortArgsNeeded( term, index, argsNeeded )
+                return False
 
             if argsNeeded == 0:
                 result = callers[ 0 ]( operatorInfo.function, None )
@@ -175,6 +175,7 @@ def evaluateTerm( term, index, currentValueList ):
             # first we validate, and make sure the operator has enough arguments
             if len( currentValueList ) < argsNeeded:
                 abortArgsNeeded( term, index, argsNeeded )
+                return False
 
             # handle the call depending on the number of arguments needed
             if argsNeeded == 0:
@@ -198,7 +199,7 @@ def evaluateTerm( term, index, currentValueList ):
                 if g.debugMode:
                     raise
                 else:
-                    sys.exit( 0 )
+                    return False
 
             except ( AttributeError, TypeError ):
                 try:
@@ -210,7 +211,7 @@ def evaluateTerm( term, index, currentValueList ):
                 if g.debugMode:
                     raise
                 else:
-                    sys.exit( 0 )
+                    return False
 
     except KeyboardInterrupt as error:
         print( 'rpn:  keyboard interrupt' )
@@ -218,7 +219,7 @@ def evaluateTerm( term, index, currentValueList ):
         if g.debugMode:
             raise
         else:
-            sys.exit( 0 )
+            return False
 
     except ( ValueError, AttributeError, TypeError ) as error:
         print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
@@ -226,7 +227,7 @@ def evaluateTerm( term, index, currentValueList ):
         if g.debugMode:
             raise
         else:
-            sys.exit( 0 )
+            return False
 
     except ZeroDivisionError as error:
         print( 'rpn:  division by zero' )
@@ -234,7 +235,7 @@ def evaluateTerm( term, index, currentValueList ):
         if g.debugMode:
             raise
         else:
-            sys.exit( 0 )
+            return False
 
     except IndexError as error:
         print( 'rpn:  index error for list operator at arg ' + format( index ) +
@@ -243,7 +244,7 @@ def evaluateTerm( term, index, currentValueList ):
         if g.debugMode:
             raise
         else:
-            sys.exit( 0 )
+            return False
 
     return True
 
@@ -331,8 +332,11 @@ def evaluateFunction( n, k ):
             if term in g.operatorAliases:
                 term = g.operatorAliases[ term ]
 
-            if not evaluateTerm( term, index, valueList ):
-                break
+            try:
+                if not evaluateTerm( term, index, valueList ):
+                    break
+            except:
+                return 0
 
             index = index + 1
 
@@ -476,14 +480,14 @@ def dumpStats( ):
 
 def setAccuracy( n ):
     if n == -1:
-        g.accuracy = defaultAccuracy
+        g.accuracy = g.defaultAccuracy
     else:
         g.accuracy = int( n )
 
     if mp.dps < g.accuracy + 2:
         mp.dps = g.accuracy + 2
 
-    return n
+    return g.accuracy
 
 
 #//******************************************************************************
@@ -494,14 +498,29 @@ def setAccuracy( n ):
 
 def setPrecision( n ):
     if n == -1:
-        mp.dps = defaultPrecision
+        mp.dps = g.defaultPrecision
     else:
         mp.dps = int( n )
 
     if mp.dps < g.accuracy + 2:
         mp.dps = g.accuracy + 2
 
-    return n
+    return mp.dps
+
+
+#//******************************************************************************
+#//
+#//  setComma
+#//
+#//******************************************************************************
+
+def setComma( n ):
+    if n == 1:
+        g.comma = True
+    else:
+        g.comma = False
+
+    return 1 if g.comma else 0
 
 
 #//******************************************************************************
@@ -512,11 +531,11 @@ def setPrecision( n ):
 
 def setIntegerGrouping( n ):
     if n == -1:
-        g.integerGrouping = defaultIntegerGrouping
+        g.integerGrouping = g.defaultIntegerGrouping
     else:
         g.integerGrouping = int( n )
 
-    return n
+    return g.integerGrouping
 
 
 #//******************************************************************************
@@ -527,11 +546,11 @@ def setIntegerGrouping( n ):
 
 def setDecimalGrouping( n ):
     if n == -1:
-        g.decimalGrouping = defaultDecimalGrouping
+        g.decimalGrouping = g.defaultDecimalGrouping
     else:
         g.decimalGrouping = int( n )
 
-    return n
+    return g.decimalGrouping
 
 
 #//******************************************************************************
@@ -542,11 +561,11 @@ def setDecimalGrouping( n ):
 
 def setInputRadix( n ):
     if ( n == 0 ) or ( n == -1 ):
-        g.inputRadix = defaultInputRadix
+        g.inputRadix = g.defaultInputRadix
     else:
         g.inputRadix = int( n )
 
-    return n
+    return g.inputRadix
 
 
 #//******************************************************************************
@@ -557,11 +576,11 @@ def setInputRadix( n ):
 
 def setOutputRadix( n ):
     if ( n == 0 ) or ( n == -1 ):
-        g.outputRadix = defaultOutputRadix
+        g.outputRadix = g.defaultOutputRadix
     else:
         g.outputRadix = int( n )
 
-    return n
+    return g.outputRadix
 
 
 #//******************************************************************************
@@ -749,6 +768,7 @@ operators = {
     'cnonagonal?'       : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 9 ), 1 ),
     'coctagonal'        : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 8 ), 1 ),
     'coctagonal?'       : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 8 ), 1 ),
+    'comma'             : OperatorInfo( setComma, 1 ),
     'copeland'          : OperatorInfo( getCopelandErdosConstant, 0 ),
     'cos'               : OperatorInfo( lambda n: performTrigOperation( n, cos ), 1 ),
     'cosh'              : OperatorInfo( lambda n: performTrigOperation( n, cosh ), 1 ),

@@ -44,6 +44,7 @@ nestedListLevel = 0
 # options
 
 accuracy = -1
+comma = False
 outputBaseDigits = False
 bitwiseGroupSize = 0
 debugMode = False
