@@ -93,7 +93,7 @@ def abortArgsNeeded( term, index, argsNeeded ):
 
 def evaluateTerm( term, index, currentValueList ):
     # first check for a variable name or history expression
-    if term[ 0 ] == '$':
+    if isinstance( term, str ) and term[ 0 ] == '$':
         if term[ 1 ].isalpha( ):
             if term[ 1 : ] in g.variables:
                 currentValueList.append( g.variables[ term[ 1 : ] ] )
@@ -331,6 +331,8 @@ def evaluateFunction( n, k ):
 
             if term in g.operatorAliases:
                 term = g.operatorAliases[ term ]
+
+            g.creatingFunction = False
 
             try:
                 if not evaluateTerm( term, index, valueList ):
