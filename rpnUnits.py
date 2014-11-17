@@ -1035,6 +1035,11 @@ unitOperators = {
                   '''
                   ''' ),
 
+    'ampere-second-volt' :
+        UnitInfo( 'energy', 'ampere*second*volt', 'ampere*second*volt', 'AVs', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
+
     'btu' :
         UnitInfo( 'energy', 'BTU', 'BTUs', '', [ 'btu', 'btus' ], [ 'England', 'US' ],
                   '''
@@ -3221,6 +3226,7 @@ unitConversionMatrix = {
     ( 'alpha_particle_mass',        'dalton' )                              : mpmathify( '4.001506179125' ),
     ( 'ampere',                     'coulomb/second' )                      : mpmathify( '1' ),
     ( 'ampere',                     'statampere' )                          : mpmathify( speedOfLight ),
+    ( 'ampere-second-volt',         'joule' )                               : mpmathify( '1' ),
     ( 'arcminute',                  'arcsecond' )                           : mpmathify( '60' ),
     ( 'arcsecond',                  'milliarcsecond' )                      : mpmathify( '1000' ),
     ( 'are',                        'square_meter' )                        : mpmathify( '100' ),
