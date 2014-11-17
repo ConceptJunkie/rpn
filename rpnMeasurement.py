@@ -272,6 +272,8 @@ class Measurement( mpf ):
                 return True
             elif self.getBasicTypes( ) == other.getBasicTypes( ):
                 return True
+            elif self.getPrimitiveTypes( ) == other.getPrimitiveTypes( ):
+                return True
             else:
                 debugPrint( 'Measurement.isCompatible exiting with false...' )
                 return False

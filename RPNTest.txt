@@ -734,3 +734,7 @@ today year_calendar
 [ 4 4 4 ] tower2
 [ [ 1 10 range ] [ 1 10 range ] [ 2 11 range ] ] polyprod
 [ [ 1 10 range ] [ 2 11 range ] ] polysum
+inf x fib x 1 - fib / limit
+inf x 1/x 1 + x ** limit
+10 x 5 * eval
+57 x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval

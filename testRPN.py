@@ -387,6 +387,9 @@ def runTests( ):
 
     testRPN( 'rpn euler' )
 
+    testRPN( 'rpn 10 x 5 * eval' )
+    testRPN( 'rpn 57 x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval' )
+
     testRPN( 'rpn 13 exp' )
 
     testRPN( 'rpn 12 exp10' )
@@ -482,6 +485,9 @@ def runTests( ):
     testRPN( 'rpn 10 lgamma' )
 
     testRPN( 'rpn 12 li' )
+
+    testRPN( 'rpn inf x fib x 1 - fib / limit' )
+    testRPN( 'rpn inf x 1/x 1 + x ** limit' )
 
     testRPN( 'rpn 1000 ln' )
     testRPN( 'rpn 1000 log10' )

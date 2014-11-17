@@ -12,6 +12,8 @@
 #//
 #//******************************************************************************
 
+# ***  Negative numbers with scientific notation don't parse!
+
 # http://en.wikipedia.org/wiki/Physical_constant
 
 # http://pythonhosted.org//astral/#

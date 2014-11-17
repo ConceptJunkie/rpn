@@ -455,7 +455,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
     elif term in g.basicCategories:
         print( g.basicCategories[ term ] )
     elif term in operatorCategories:
-        printCategoryHelp( term, operators, listOperators, modifiers, g.operatorAliases, g.operatorHelp )
+        printCategoryHelp( term, operators, listOperators, modifiers, g.operatorHelp )
     elif term == 'unit_types':
         printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), 4 )
     elif term in g.unitTypeDict:

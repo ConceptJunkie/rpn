@@ -2157,6 +2157,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'leading_zero' : [
+'settings', 'when set to true and integer grouping is being used, output will include leading zeroes',
+'''
+''',
+'''
+''' ],
     'leyland' : [
 'number_theory', 'gets the Leyland number for n and k',
 '''
@@ -3145,6 +3151,12 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'septillion' : [
 'constants', 'returns the constant one septillion, i.e. 1.0e24',
+'''
+''',
+'''
+''' ],
+    'set' : [
+'special', 'sets variable n (which must start with \'$\') to value k in interactive mode',
 '''
 ''',
 '''

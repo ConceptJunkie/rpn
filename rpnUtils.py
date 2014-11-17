@@ -534,7 +534,7 @@ def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
 
 def addAliases( operatorList, operatorAliases ):
     for index, operator in enumerate( operatorList ):
-        aliasList = [ key for key in operatorAliases if operator == roperatorAliases[ key ] ]
+        aliasList = [ key for key in operatorAliases if operator == operatorAliases[ key ] ]
 
         if operator in g.unitOperators:
             unitInfo = g.unitOperators[ operator ]
