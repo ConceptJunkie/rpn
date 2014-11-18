@@ -66,8 +66,9 @@ unitsVersion = "0.0.0"
 
 # help data
 
-basicCategories = { }
+helpTopics = { }
 helpVersion = "0.0.0"
+operatorCategories = [ ]
 operatorHelp = { }
 unitTypeDict = { }
 

@@ -60,7 +60,7 @@ def loadHelpData( ):
     try:
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
             g.helpVersion = pickle.load( pickleFile )
-            g.basicCategories = pickle.load( pickleFile )
+            g.helpTopics = pickle.load( pickleFile )
             g.operatorHelp = pickle.load( pickleFile )
     except FileNotFoundError:
         print( 'rpn:  Unable to load help file.  Help will be unavailable.  Run makeHelp.py to create the help files.' )
@@ -72,6 +72,8 @@ def loadHelpData( ):
     except FileNotFoundError as error:
         print( 'rpn:  Unable to load unit help data.  Run makeUnits.py to make the unit data files.' )
         return False
+
+    g.operatorCategories = set( g.operatorHelp[ key ][ 0 ] for key in g.operatorHelp )
 
     return True
 

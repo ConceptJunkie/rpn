@@ -34,6 +34,8 @@ from rpnPolytope import *
 from rpnPrimeUtils import *
 from rpnUtils import *
 
+from rpnOutput import printHelp
+
 
 #//******************************************************************************
 #//
@@ -202,16 +204,8 @@ def evaluateTerm( term, index, currentValueList ):
                     return False
 
             except ( AttributeError, TypeError ):
-                try:
-                    print( 'rpn:  error in arg ' + format( index ) + ':  unrecognized argument: \'' +
-                           term + '\'' )
-                except:
-                    print( 'rpn:  error in arg ' + format( index ) + ':  non-ASCII characters' )
-
-                if g.debugMode:
-                    raise
-                else:
-                    return False
+                currentValueList.append( term )
+                return True
 
     except KeyboardInterrupt as error:
         print( 'rpn:  keyboard interrupt' )
@@ -621,6 +615,36 @@ def setVariable( n, k ):
 
 #//******************************************************************************
 #//
+#//  printHelpMessage
+#//
+#//******************************************************************************
+
+def printHelpMessage( ):
+    printHelp( operators, listOperators, modifiers, '', True )
+    return 0
+
+
+#//******************************************************************************
+#//
+#//  printHelpTopic
+#//
+#//******************************************************************************
+
+def printHelpTopic( n ):
+    if isinstance( n, str ):
+        printHelp( operators, listOperators, modifiers, n, True )
+    elif isinstance( n, Measurement ):
+        units = n.getUnits( )
+        # help for units isn't implemented yet, but now it will work
+        printHelp( operators, listOperators, modifiers, list( units.keys( ) )[ 0 ], True )
+    else:
+        print( 'The \'topic\' operator requires a string argument.' )
+
+    return 0
+
+
+#//******************************************************************************
+#//
 #//  functionOperators
 #//
 #//  This is just a list of operators that terminate the function creation
@@ -833,6 +857,7 @@ operators = {
     'georange'          : OperatorInfo( expandGeometricRange, 3 ),
     'glaisher'          : OperatorInfo( glaisher, 0 ),
     'harmonic'          : OperatorInfo( harmonic, 1 ),
+    'help'              : OperatorInfo( printHelpMessage, 0 ),
     'heptagonal'        : OperatorInfo( lambda n: getNthPolygonalNumber( n, 7 ), 1 ),
     'heptagonal?'       : OperatorInfo( lambda n: findNthPolygonalNumber( n, 7 ), 1 ),
     'heptanacci'        : OperatorInfo( getNthHeptanacci, 1 ),
@@ -1045,6 +1070,7 @@ operators = {
     'thanksgiving'      : OperatorInfo( calculateThanksgiving, 1 ),
     'thursday'          : OperatorInfo( lambda: 4, 0 ),
     'today'             : OperatorInfo( getToday, 0 ),
+    'topic'             : OperatorInfo( printHelpTopic, 1 ),
     'tounixtime'        : OperatorInfo( convertToUnixTime, 1 ),
     'trianglearea'      : OperatorInfo( getTriangleArea, 3 ),
     'triangular'        : OperatorInfo( lambda n : getNthPolygonalNumber( n, 3 ), 1 ),

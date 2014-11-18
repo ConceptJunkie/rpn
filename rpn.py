@@ -166,15 +166,15 @@ def rpn( cmd_args ):
     else:
         g.dataPath = os.path.dirname( os.path.realpath( __file__ ) ) + os.sep + 'rpndata'
 
+    # look for help argument before we start setting everything up (because it's faster this way)
     help = False
-    helpArgs = [ ]
 
     for i in range( 0, len( cmd_args ) ):
         if cmd_args[ i ] == 'help':
             help = True
         else:
             if help:
-                helpArgs.append( cmd_args[ i ] )
+                helpArg = cmd_args[ i ]
 
     if help:
         parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' +
@@ -191,7 +191,7 @@ def rpn( cmd_args ):
 
         g.operatorAliases.update( operatorAliases )
 
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, helpArgs )
+        printHelp( operators, listOperators, modifiers, helpArg )
         return
 
     # set up the command-line options parser
@@ -233,7 +233,7 @@ def rpn( cmd_args ):
     if args.help or args.other_help:
         loadUnitData( )
 
-        printHelp( PROGRAM_NAME, PROGRAM_DESCRIPTION, operators, listOperators, modifiers, [ ] )
+        printHelp( operators, listOperators, modifiers, '' )
         return
 
     valid, errorString = validateOptions( args )

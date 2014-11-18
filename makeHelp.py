@@ -37,7 +37,7 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 #//
 #//******************************************************************************
 
-basicCategories = {
+helpTopics = {
 'options' :
 'rpn ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' +
 '''
@@ -1935,6 +1935,12 @@ c:\>rpn 2 2 10 exprange
 ''',
 '''
 ''' ],
+    'help' : [
+'special', 'displays help text',
+'''
+''',
+'''
+''' ],
     'heptagonal' : [
 'polygonal_numbers', 'calculates the nth heptagonal number',
 '''
@@ -3432,6 +3438,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''',
 '''
 ''' ],
+    'topic' : [
+'special', 'prints a help topic in interactive mode',
+'''
+''',
+'''
+''' ],
     'tounixtime' : [
 'conversion', 'converts from date-time list to Unix time (seconds since epoch)'
 '''
@@ -4140,7 +4152,7 @@ _maketwin start end interval
 #//
 #//******************************************************************************
 
-def makeHelp( basicCategories ):
+def makeHelp( helpTopics ):
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
     fileName = dataPath + os.sep + 'help.pckl.bz2'
 
@@ -4149,7 +4161,7 @@ def makeHelp( basicCategories ):
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
-        pickle.dump( basicCategories, pickleFile )
+        pickle.dump( helpTopics, pickleFile )
         pickle.dump( operatorHelp, pickleFile )
 
 
@@ -4164,7 +4176,7 @@ def main( ):
     print( COPYRIGHT_MESSAGE )
     print( )
 
-    makeHelp( basicCategories )
+    makeHelp( helpTopics )
 
 
 #//******************************************************************************

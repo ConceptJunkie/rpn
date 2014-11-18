@@ -24,6 +24,7 @@ import textwrap
 
 from mpmath import *
 
+from rpn import PROGRAM_NAME, PROGRAM_DESCRIPTION
 from rpnMeasurement import *
 
 import rpnGlobals as g
@@ -361,7 +362,7 @@ def printParagraph( text, indent=0 ):
 #//
 #//******************************************************************************
 
-def printOperatorHelp( helpArgs, term, operatorInfo, operatorHelp ):
+def printOperatorHelp( term, operatorInfo, operatorHelp ):
     if operatorInfo.argCount == 1:
         print( 'n ', end='' )
     elif operatorInfo.argCount == 2:
@@ -427,19 +428,18 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorHe
 #//
 #//******************************************************************************
 
-def printHelp( programName, programDescription, operators, listOperators, modifiers, helpArgs ):
+def printHelp( operators, listOperators, modifiers, term, interactive = False ):
     loadHelpData( )
 
     if g.helpVersion != PROGRAM_VERSION:
         print( 'rpn:  help file version mismatch' )
 
-    operatorCategories = set( g.operatorHelp[ key ][ 0 ] for key in g.operatorHelp )
-
-    if len( helpArgs ) == 0:
-        printGeneralHelp( programName, programDescription, g.basicCategories, operatorCategories )
+    if term == '':
+        if interactive:
+            printInteractiveHelp( )
+        else:
+            printGeneralHelp( )
         return
-
-    term = helpArgs[ 0 ]
 
     # first check if the term is an alias and translate
     if term in g.operatorAliases:
@@ -447,14 +447,14 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 
     # then look for exact matches in all the lists of terms for which we have help support
     if term in operators:
-        printOperatorHelp( helpArgs, term, operators[ term ], g.operatorHelp[ term ] )
+        printOperatorHelp( term, operators[ term ], g.operatorHelp[ term ] )
     elif term in listOperators:
-        printOperatorHelp( helpArgs, term, listOperators[ term ], operatorHelp[ term ] )
+        printOperatorHelp( term, listOperators[ term ], operatorHelp[ term ] )
     elif term in modifiers:
-        printOperatorHelp( helpArgs, term, modifiers[ term ], operatorHelp[ term ] )
-    elif term in g.basicCategories:
-        print( g.basicCategories[ term ] )
-    elif term in operatorCategories:
+        printOperatorHelp( term, modifiers[ term ], operatorHelp[ term ] )
+    elif term in g.helpTopics:
+        print( g.helpTopics[ term ] )
+    elif term in g.operatorCategories:
         printCategoryHelp( term, operators, listOperators, modifiers, g.operatorHelp )
     elif term == 'unit_types':
         printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), 4 )
@@ -483,7 +483,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpArgs, helpTerm, operators[ helpTerm ], g.operatorHelp[ helpTerm ] )
+            printOperatorHelp( helpTerm, operators[ helpTerm ], g.operatorHelp[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in listOperators if i != term and i.startswith( term ) ), '' )
@@ -491,7 +491,7 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpArgs, helpTerm, listOperators[ helpTerm ], g.operatorHelp[ helpTerm ] )
+            printOperatorHelp( helpTerm, listOperators[ helpTerm ], g.operatorHelp[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in modifiers if i != term and i.startswith( term ) ), '' )
@@ -499,18 +499,18 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            printOperatorHelp( helpArgs, helpTerm, modifiers[ helpTerm ], g.operatorHelp[ helpTerm ] )
+            printOperatorHelp( helpTerm, modifiers[ helpTerm ], g.operatorHelp[ helpTerm ] )
             return
 
-        helpTerm = next( ( i for i in g.basicCategories if i != term and i.startswith( term ) ), '' )
+        helpTerm = next( ( i for i in g.helpTopics if i != term and i.startswith( term ) ), '' )
 
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            print( basicCategories[ helpTerm ] )
+            print( helpTopics[ helpTerm ] )
             return
 
-        helpTerm = next( ( i for i in operatorCategories if i != term and i.startswith( term ) ), '' )
+        helpTerm = next( ( i for i in g.operatorCategories if i != term and i.startswith( term ) ), '' )
 
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
@@ -526,8 +526,8 @@ def printHelp( programName, programDescription, operators, listOperators, modifi
 #//
 #//******************************************************************************
 
-def printGeneralHelp( programName, programDescription, basicCategories, operatorCategories ):
-    print( programName + ' ' + PROGRAM_VERSION + ' - ' + programDescription )
+def printGeneralHelp( ):
+    print( PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
 
@@ -538,16 +538,46 @@ def printGeneralHelp( programName, programDescription, basicCategories, operator
     print( 'The following is a list of general topics:' )
     print( )
 
-    helpCategories = list( basicCategories.keys( ) )
-    helpCategories.append( 'unit_types' )
+    helpTopics = list( g.helpTopics.keys( ) )
+    helpTopics.append( 'unit_types' )
 
-    printParagraph( ', '.join( sorted( helpCategories ) ), 4 )
+    printParagraph( ', '.join( sorted( helpTopics ) ), 4 )
 
     print( )
     print( 'The following is a list of operator categories:' )
     print( )
 
-    printParagraph( ', '.join( sorted( operatorCategories ) ), 4 )
+    printParagraph( ', '.join( sorted( g.operatorCategories ) ), 4 )
+
+
+#//******************************************************************************
+#//
+#//  printInteractiveHelp
+#//
+#//******************************************************************************
+
+def printInteractiveHelp( ):
+    print( PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION )
+    print( COPYRIGHT_MESSAGE )
+    print( )
+
+    printParagraph(
+'''For help on a specific topic, use the topic operator with a general topic, operator category or a specific operator name.''' )
+
+    print( )
+    print( 'The following is a list of general topics:' )
+    print( )
+
+    helpTopics = list( g.helpTopics.keys( ) )
+    helpTopics.append( 'unit_types' )
+
+    printParagraph( ', '.join( sorted( helpTopics ) ), 4 )
+
+    print( )
+    print( 'The following is a list of operator categories:' )
+    print( )
+
+    printParagraph( ', '.join( sorted( g.operatorCategories ) ), 4 )
 
 
 #//******************************************************************************
