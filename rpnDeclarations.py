@@ -27,6 +27,16 @@ import rpnGlobals as g
 
 #//******************************************************************************
 #//
+#//  constants
+#//
+#//******************************************************************************
+
+PROGRAM_NAME = 'rpn'
+PROGRAM_DESCRIPTION = 'RPN command-line calculator'
+
+
+#//******************************************************************************
+#//
 #//  specialUnitConversionMatrix
 #//
 #//  This is for units that can't be converted with a simple multiplication

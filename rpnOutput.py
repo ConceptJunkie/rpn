@@ -24,7 +24,7 @@ import textwrap
 
 from mpmath import *
 
-from rpn import PROGRAM_NAME, PROGRAM_DESCRIPTION
+from rpnDeclarations import PROGRAM_NAME, PROGRAM_DESCRIPTION
 from rpnMeasurement import *
 
 import rpnGlobals as g

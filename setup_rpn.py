@@ -12,7 +12,8 @@ buildOptions = \
             'rpndata/help.pckl.bz2',
             'rpndata/small_primes.pckl.bz2',
             'rpndata/units.pckl.bz2',
-            'rpndata/unit_conversions.pckl.bz2'
+            'rpndata/unit_conversions.pckl.bz2',
+            'rpndata/unit_help.pckl.bz2'
         ],
 
         bin_excludes = [
@@ -34,16 +35,26 @@ buildOptions = \
             'rpndata/twin_primes.pckl.bz2',
         ],
 
-        include_msvcr = [ ],
+        include_msvcr = 1,
         optimize = 2,
     )
 
-base = 'Console'
-
 executables = [
-    Executable( 'rpn.py', base = base )
+    Executable( script = 'rpn.py',
+                base = None,
+                icon = 'rpn.ico',
+                initScript = None,
+                shortcutName = 'rpn ' + PROGRAM_VERSION,
+                targetName = 'rpn.exe',
+    )
 ]
 
-setup( name='rpn', version = PROGRAM_VERSION, description = 'command-line RPN calculator',
-       options = dict( build_exe = buildOptions ), executables = executables )
+setup( name='rpn',
+       version = PROGRAM_VERSION,
+       author = 'Rick Gutleber',
+       author_email = 'rickg@his.com',
+       description = 'command-line RPN calculator',
+       options = dict( build_exe = buildOptions ),
+       executables = executables
+)
 

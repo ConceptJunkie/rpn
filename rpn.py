@@ -45,16 +45,6 @@ import rpnGlobals as g
 
 #//******************************************************************************
 #//
-#//  constants
-#//
-#//******************************************************************************
-
-PROGRAM_NAME = 'rpn'
-PROGRAM_DESCRIPTION = 'RPN command-line calculator'
-
-
-#//******************************************************************************
-#//
 #//  evaluate
 #//
 #//******************************************************************************
@@ -176,7 +166,7 @@ def rpn( cmd_args ):
 
     # this hack keeps argparse from interpreting negative numbers with scientific notation as flags
     for i, arg in enumerate( cmd_args ):
-        if ( arg[ 0 ]  == '-' ) and arg[ 1 ].isdigit( ):
+        if ( len( arg ) > 1 ) and ( arg[ 0 ]  == '-' ) and arg[ 1 ].isdigit( ):
             cmd_args[ i ] = ' ' + arg
 
 

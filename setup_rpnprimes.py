@@ -32,17 +32,21 @@ buildOptions = \
         ],
 
         bin_excludes = [ ],
-        include_msvcr = [ ],
+
+        include_msvcr = 1,
         optimize = 2,
     )
 
-base = 'Console'
-
 executables = [
-    Executable( 'rpn.py', base = base )
+    Executable( 'rpn.py',
+                base = 'Console',
+                #shortcutDir = 'rpn',
+                #shortcutName = 'rpn ' + PROGRAM_VERSION,
+                targetName = 'rpn.exe',
+    )
 ]
 
-setup( name = 'rpn_with_prime_data',
+setup( name = 'rpn',
        version = PROGRAM_VERSION,
        description = 'command-line RPN calculator',
        options = dict( build_exe = buildOptions ),
