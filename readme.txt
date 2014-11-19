@@ -8,6 +8,25 @@ calculations and lookup, can operate with single operands or lists of operands
 and supports a wide variety of flexible unit conversions comparable to the GNU
 units program.
 
+****
+
+NEWS FLASH - 11/19/2014
+
+rpn 6.0 is coming soon.  I have introduced "interactive mode", which means you
+can start rpn with no terms (flags don't matter) and it will give you an "rpn"
+prompt where you can do calculations, declare variables and refer to previous
+results, etc.  This means you can actually use rpn in Windows by clicking on an
+icon rather than having to run it from the command-line.
+
+Of course, rpn will still also work it always has if you include actual terms
+and operators on the command line.
+
+Also, there will be a new installer that will be more user-friendly.
+
+6.0 will also include more bug fixes from the effort I made for 5.28.
+
+****
+
 The current version is 5.28.5.
 
 Version 5.28 has been dedicated primarily to bug-fixes, because there are lots
