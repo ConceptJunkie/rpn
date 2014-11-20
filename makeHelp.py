@@ -3589,13 +3589,13 @@ c:\>rpn 10 triplebal_ diffs
 '''
 ''' ],
     'undouble' : [
-'computer', 'interprets a 64-bit integer as a 64-bit IEEE 754 float',
+'conversion', 'interprets a 64-bit integer as a 64-bit IEEE 754 float',
 '''
 ''',
 '''
 ''' ],
     'unfloat' : [
-'computer', 'interprets a 32-bit integer as a 32-bit IEEE 754 float',
+'conversion', 'interprets a 32-bit integer as a 32-bit IEEE 754 float',
 '''
 ''',
 '''

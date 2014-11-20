@@ -738,3 +738,5 @@ inf x fib x 1 - fib / limit
 inf x 1/x 1 + x ** limit
 10 x 5 * eval
 57 x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval
+0xcdcdcdcd unfloat
+0xcdcdcdcdcdcdcdcd undouble

@@ -185,7 +185,10 @@ def packInteger( values, fields ):
 #//******************************************************************************
 
 def interpretAsFloat( n ):
-    intValue = struct.pack( 'i', int( n ) )
+    if ( n < 0 ) or ( n >= 2 ** 32 - 1 ):
+        raise ValueError( 'value out of range for a 32-bit float' )
+
+    intValue = struct.pack( 'I', int( n ) )
     return mpf( struct.unpack( 'f', intValue )[ 0 ] )
 
 
@@ -196,7 +199,9 @@ def interpretAsFloat( n ):
 #//******************************************************************************
 
 def interpretAsDouble( n ):
-    intValue = struct.pack( 'q', int( n ) )
-    return mpf( struct.unpack( 'd', intValue )[ 0 ] )
+    if ( n < 0 ) or ( n >= 2 ** 64 - 1 ):
+        raise ValueError( 'value out of range for a 64-bit float' )
 
+    intValue = struct.pack( 'Q', int( n ) )
+    return mpf( struct.unpack( 'd', intValue )[ 0 ] )
 

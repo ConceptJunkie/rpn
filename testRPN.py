@@ -948,9 +948,11 @@ def runTests( ):
 
     testRPN( 'rpn pi double' )
     testRPN( 'rpn 0x400921fb54442d18 undouble' )
+    testRPN( 'rpn 0xcdcdcdcdcdcdcdcd undouble' )
 
     testRPN( 'rpn pi float' )
     testRPN( 'rpn 0x40490fdb unfloat' )
+    testRPN( 'rpn 0xcdcdcdcd unfloat' )
 
     testRPN( 'rpn 1 100 range gcd' )
 
