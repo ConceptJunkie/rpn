@@ -643,6 +643,77 @@ def printHelpTopic( n ):
     return 0
 
 
+
+#//******************************************************************************
+#//
+#//  setHexMode
+#//
+#//******************************************************************************
+
+def setHexMode( ):
+    g.tempHexMode = True
+
+
+#//******************************************************************************
+#//
+#//  setOctalMode
+#//
+#//******************************************************************************
+
+def setOctalMode( ):
+    g.tempOctalMode = True
+
+
+#//******************************************************************************
+#//
+#//  setCommaMode
+#//
+#//******************************************************************************
+
+def setCommaMode( ):
+    g.tempCommaMode = True
+
+
+#//******************************************************************************
+#//
+#//  setTimeMode
+#//
+#//******************************************************************************
+
+def setTimeMode( ):
+    g.tempTimeMode = True
+
+
+#//******************************************************************************
+#//
+#//  setLeadingZeroMode
+#//
+#//******************************************************************************
+
+def setLeadingZeroMode( ):
+    g.tempLeadingZeroMode = True
+
+
+#//******************************************************************************
+#//
+#//  setFindPolyMode
+#//
+#//******************************************************************************
+
+def setFindPolyMode( ):
+    g.tempFindPolyMode = True
+
+
+#//******************************************************************************
+#//
+#//  setIdentifyMode
+#//
+#//******************************************************************************
+
+def setIdentifyMode( ):
+    g.tempIdentifyMode = True
+
+
 #//******************************************************************************
 #//
 #//  functionOperators
@@ -795,6 +866,7 @@ operators = {
     'coctagonal'        : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 8 ), 1 ),
     'coctagonal?'       : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 8 ), 1 ),
     'comma'             : OperatorInfo( setComma, 1 ),
+    'comma_mode'        : OperatorInfo( setCommaMode, 0 ),
     'copeland'          : OperatorInfo( getCopelandErdosConstant, 0 ),
     'cos'               : OperatorInfo( lambda n: performTrigOperation( n, cos ), 1 ),
     'cosh'              : OperatorInfo( lambda n: performTrigOperation( n, cosh ), 1 ),
@@ -848,6 +920,7 @@ operators = {
     'false'             : OperatorInfo( lambda: 0, 0 ),
     'february'          : OperatorInfo( lambda: 2, 0 ),
     'fibonacci'         : OperatorInfo( fib, 1 ),
+    'find_poly_mode'    : OperatorInfo( setFindPolyMode, 0 ),
     'float'             : OperatorInfo( lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1 ),
     'floor'             : OperatorInfo( floor, 1 ),
     'fraction'          : OperatorInfo( interpretAsFraction, 2 ),
@@ -869,12 +942,14 @@ operators = {
     'hexagonal?'        : OperatorInfo( lambda n: findNthPolygonalNumber( n, 6 ), 1 ),
     'hexanacci'         : OperatorInfo( getNthHexanacci, 1 ),
     'hexpent'           : OperatorInfo( getNthHexagonalPentagonalNumber, 1 ),
+    'hex_mode'          : OperatorInfo( setHexMode, 0 ),
     'hms'               : OperatorInfo( convertToHMS, 1 ),
     'hyper4_2'          : OperatorInfo( tetrateLarge, 2 ),
     'hyperfac'          : OperatorInfo( hyperfac, 1 ),
     'hypot'             : OperatorInfo( hypot, 2 ),
     'i'                 : OperatorInfo( lambda n: mpc( real='0.0', imag=n ), 1 ),
     'icosahedral'       : OperatorInfo( lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n ), 1 ),
+    'identify_mode'     : OperatorInfo( setIdentifyMode, 0 ),
     'infinity'          : OperatorInfo( lambda: inf, 0 ),
     'input_radix'       : OperatorInfo( setInputRadix, 1 ),
     'integer'           : OperatorInfo( convertToSignedInt, 2 ),
@@ -962,6 +1037,7 @@ operators = {
     'nthquad?'          : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 0 ], 1 ),
     'nthweekday'        : OperatorInfo( calculateNthWeekdayOfMonth , 4 ),
     'nthweekdayofyear'  : OperatorInfo( calculateNthWeekdayOfYear, 3 ),
+    'octal_mode'        : OperatorInfo( setOctalMode, 0 ),
     'octagonal'         : OperatorInfo( lambda n: getNthPolygonalNumber( n, 8 ), 1 ),
     'octagonal?'        : OperatorInfo( lambda n: findNthPolygonalNumber( n, 8 ), 1 ),
     'octahedral'        : OperatorInfo( lambda n: polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], n ), 1 ),
@@ -1069,6 +1145,7 @@ operators = {
     'thabit'            : OperatorInfo( lambda n : fsub( fmul( 3, power( 2, n ) ), 1 ), 1 ),
     'thanksgiving'      : OperatorInfo( calculateThanksgiving, 1 ),
     'thursday'          : OperatorInfo( lambda: 4, 0 ),
+    'time_mode'         : OperatorInfo( setTimeMode, 0 ),
     'today'             : OperatorInfo( getToday, 0 ),
     'topic'             : OperatorInfo( printHelpTopic, 1 ),
     'tounixtime'        : OperatorInfo( convertToUnixTime, 1 ),
@@ -1100,6 +1177,7 @@ operators = {
     'xor'               : OperatorInfo( lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ),
     'ydhms'             : OperatorInfo( convertToYDHMS, 1 ),
     'year_calendar'     : OperatorInfo( generateYearCalendar, 1 ),
+    'leading_zero_mode' : OperatorInfo( setLeadingZeroMode, 0 ),
     'zeta'              : OperatorInfo( zeta, 1 ),
     '_dumpalias'        : OperatorInfo( dumpAliases, 0 ),
     '_dumpops'          : OperatorInfo( dumpOperators, 0 ),

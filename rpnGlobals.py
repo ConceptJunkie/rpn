@@ -55,6 +55,13 @@ leadingZero = False
 lineLength = defaultLineLength
 numerals = ''
 outputRadix = defaultOutputRadix
+tempCommaMode = False
+tempFindPolyMode = False
+tempHexMode = False
+tempIdentifyMode = False
+tempLeadingZeroMode = False
+tempOctalMode = False
+tempTimeMode = False
 
 # unit data
 

@@ -1178,6 +1178,12 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
 ''' ],
+    'april' : [
+'constants', 'returns 4, which is the code for April',
+'''
+''',
+'''
+''' ],
     'asec' : [
 'trigonometry', 'calculates the arcsecant of n',
 '''
@@ -1216,6 +1222,12 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''' ],
     'atanh' : [
 'trigonometry', 'calculates the hyperbolic arctangent of n',
+'''
+''',
+'''
+''' ],
+    'august' : [
+'constants', 'returns 8, which is the code for August',
 '''
 ''',
 '''
@@ -1428,6 +1440,12 @@ TODO: fill me out
 ''',
 '''
 ''' ],
+    'comma_mode' : [
+'settings', 'set temporary comma mode in interactive mode',
+'''
+''',
+'''
+''' ],
     'convert' : [
 'conversion', 'performs unit conversion',
 '''
@@ -1594,6 +1612,12 @@ number.
 ''' ],
     'decagonal?' : [
 'polygonal_numbers', 'finds the index of the decagonal number of value n',
+'''
+''',
+'''
+''' ],
+    'december' : [
+'constants', 'returns 12, which is the code for December',
 '''
 ''',
 '''
@@ -1863,8 +1887,20 @@ c:\>rpn 2 2 10 exprange
 ''',
 '''
 ''' ],
+    'february' : [
+'constants', 'returns 2, which is the code for February',
+'''
+''',
+'''
+''' ],
     'fibonacci' : [
 'number_theory', 'calculates the nth Fibonacci number',
+'''
+''',
+'''
+''' ],
+    'find_poly_mode' : [
+'settings', 'set temporary find polynomial mode in interactive mode',
 '''
 ''',
 '''
@@ -1889,6 +1925,12 @@ c:\>rpn 2 2 10 exprange
 ''' ],
     'fraction' : [
 'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
+'''
+''',
+'''
+''' ],
+    'friday' : [
+'constants', 'returns 5, which is the code for Friday',
 '''
 ''',
 '''
@@ -2007,6 +2049,12 @@ c:\>rpn 2 2 10 exprange
 ''',
 '''
 ''' ],
+    'hex_mode' : [
+'settings', 'set temporary hex mode in interactive mode',
+'''
+''',
+'''
+''' ],
     'hms' : [
 'conversion', 'shortcut for \'[ hour minute second ] convert\'',
 '''
@@ -2045,6 +2093,12 @@ Note:  Not sure why the rounding error is so large.
 ''' ],
     'icosahedral' : [
 'polyhedral_numbers', 'returns the nth icosahedral number',
+'''
+''',
+'''
+''' ],
+    'identify_mode' : [
+'settings', 'set temporary identify mode in interactive mode',
 '''
 ''',
 '''
@@ -2127,8 +2181,26 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'january' : [
+'constants', 'returns 1, which is the code for January',
+'''
+''',
+'''
+''' ],
     'julian_day' : [
 'date', 'returns the Julian day for a time value',
+'''
+''',
+'''
+''' ],
+    'july' : [
+'constants', 'returns 7, which is the code for July',
+'''
+''',
+'''
+''' ],
+    'june' : [
+'constants', 'returns 6, which is the code for June',
 '''
 ''',
 '''
@@ -2271,6 +2343,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'march' : [
+'constants', 'returns 3, which is the code for March',
+'''
+''',
+'''
+''' ],
     'max' : [
 'arithmetic', 'returns the largest value in list n',
 '''
@@ -2339,6 +2417,12 @@ Note:  Not sure why the rounding error is so large.
 ''' ],
     'maxushort' : [
 'conversion', 'returns the maximum 16-bit unsigned integer',
+'''
+''',
+'''
+''' ],
+    'may' : [
+'constants', 'returns 5, which is the code for May',
 '''
 ''',
 '''
@@ -2580,6 +2664,12 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 ''',
 '''
 ''' ],
+    'november' : [
+'constants', 'returns 11, which is the code for November',
+'''
+''',
+'''
+''' ],
     'now' : [
 'conversion', 'returns the current date and time',
 '''
@@ -2656,6 +2746,12 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''' ],
+    'octal_mode' : [
+'settings', 'set temporary octal mode in interactive mode',
+'''
+''',
+'''
+''' ],
     'octhept' : [
 'polygonal_numbers', 'returns the nth octagonal heptagonal number',
 '''
@@ -2670,6 +2766,12 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''' ],
     'octillion' : [
 'constants', 'returns the constant one octillion, i.e. 1.0e27',
+'''
+''',
+'''
+''' ],
+    'october' : [
+'constants', 'returns 10, which is the code for October',
 '''
 ''',
 '''
@@ -3137,6 +3239,12 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
+    'saturday' : [
+'constants', 'returns 6, which is the code for Saturday',
+'''
+''',
+'''
+''' ],
     'schroeder' : [
 'combinatorics', 'calculates the nth Schroeder number',
 '''
@@ -3151,6 +3259,12 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'sech' : [
 'trigonometry', 'calculates the hyperbolic secant of n',
+'''
+''',
+'''
+''' ],
+    'september' : [
+'constants', 'returns 9, which is the code for September',
 '''
 ''',
 '''
@@ -3372,6 +3486,12 @@ c:\>rpn 1 50 range countdiv stddev
 ''',
 '''
 ''' ],
+    'sunday' : [
+'constants', 'returns 7, which is the code for Sunday',
+'''
+''',
+'''
+''' ],
     'superfac' : [
 'number_theory', 'calculates the superfactorial of n',
 '''
@@ -3428,6 +3548,18 @@ c:\>rpn 1 50 range countdiv stddev
 ''' ],
     'thanksgiving' : [
 'date', 'calculates the date of Thanksgiving (US) for the year specified',
+'''
+''',
+'''
+''' ],
+    'thursday' : [
+'constants', 'returns 4, which is the code for Thursday',
+'''
+''',
+'''
+''' ],
+    'time_mode' : [
+'settings', 'set temporary time mode in interactive mode',
 '''
 ''',
 '''
@@ -3638,6 +3770,12 @@ c:\>rpn 10 triplebal_ diffs
 ''' ],
     'value' : [
 'special', 'converts a measurement to a numerical value',
+'''
+''',
+'''
+''' ],
+    'wednesday' : [
+'constants', 'returns 3, which is the code for Wednesday',
 '''
 ''',
 '''
@@ -4041,108 +4179,6 @@ _maketwin start end interval
 
 # operators to be sorted:
 
-    'wednesday' : [
-'constants', 'returns 3, which is the code for Wednesday',
-'''
-''',
-'''
-''' ],
-    'thursday' : [
-'constants', 'returns 4, which is the code for Thursday',
-'''
-''',
-'''
-''' ],
-    'friday' : [
-'constants', 'returns 5, which is the code for Friday',
-'''
-''',
-'''
-''' ],
-    'saturday' : [
-'constants', 'returns 6, which is the code for Saturday',
-'''
-''',
-'''
-''' ],
-    'sunday' : [
-'constants', 'returns 7, which is the code for Sunday',
-'''
-''',
-'''
-''' ],
-    'january' : [
-'constants', 'returns 1, which is the code for January',
-'''
-''',
-'''
-''' ],
-    'february' : [
-'constants', 'returns 2, which is the code for February',
-'''
-''',
-'''
-''' ],
-    'march' : [
-'constants', 'returns 3, which is the code for March',
-'''
-''',
-'''
-''' ],
-    'april' : [
-'constants', 'returns 4, which is the code for April',
-'''
-''',
-'''
-''' ],
-    'may' : [
-'constants', 'returns 5, which is the code for May',
-'''
-''',
-'''
-''' ],
-    'june' : [
-'constants', 'returns 6, which is the code for June',
-'''
-''',
-'''
-''' ],
-    'july' : [
-'constants', 'returns 7, which is the code for July',
-'''
-''',
-'''
-''' ],
-    'august' : [
-'constants', 'returns 8, which is the code for August',
-'''
-''',
-'''
-''' ],
-    'september' : [
-'constants', 'returns 9, which is the code for September',
-'''
-''',
-'''
-''' ],
-    'october' : [
-'constants', 'returns 10, which is the code for October',
-'''
-''',
-'''
-''' ],
-    'november' : [
-'constants', 'returns 11, which is the code for November',
-'''
-''',
-'''
-''' ],
-    'december' : [
-'constants', 'returns 12, which is the code for December',
-'''
-''',
-'''
-''' ],
 }
 
 

@@ -84,6 +84,48 @@ def formatOutput( output ):
         if c in string.whitespace or c in string.punctuation:
             return output
 
+    # override settings with temporary settings if needed
+    if g.tempCommaMode:
+        comma = True
+    else:
+        comma = g.comma
+
+    if g.tempFindPolyMode:
+        pass
+
+    if g.tempHexMode:
+        bitwiseGroupSize = 16
+        integerGrouping = 4
+        leadingZero = True
+        outputRadix = 16
+    else:
+        bitwiseGroupSize = g.bitwiseGroupSize
+        integerGrouping = g.integerGrouping
+        leadingZero = g.leadingZero
+        outputRadix = g.outputRadix
+
+    if g.tempIdentifyMode:
+        pass
+
+    if g.tempLeadingZeroMode:
+        leadingZero = True
+    else:
+        leadingZero = g.leadingZero
+
+    if g.tempOctalMode:
+        bitwiseGroupSize = 9
+        integerGrouping = 3
+        leadingZero = True
+        outputRadix = 8
+    else:
+        bitwiseGroupSize = g.bitwiseGroupSize
+        integerGrouping = g.integerGrouping
+        leadingZero = g.leadingZero
+        outputRadix = g.outputRadix
+
+    if g.tempTimeMode:
+        pass
+
     exponentIndex = output.find( 'e' )
 
     if exponentIndex > 0:
@@ -146,16 +188,16 @@ def formatOutput( output ):
     #        mantissa = integer[ exponent : ]
     #        integer = integer[ : exponent - 1 ]
 
-    if g.outputRadix == g.phiBase:
+    if outputRadix == g.phiBase:
         integer, mantissa = convertToPhiBase( mpmathify( output ) )
-    elif g.outputRadix == g.fibBase:
+    elif outputRadix == g.fibBase:
         integer = convertToFibBase( floor( mpmathify( output ) ) )
-    elif ( g.outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
-        integer = str( convertToBaseN( mpmathify( integer ), g.outputRadix, g.outputBaseDigits, g.numerals ) )
+    elif ( outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
+        integer = str( convertToBaseN( mpmathify( integer ), outputRadix, g.outputBaseDigits, g.numerals ) )
 
         if mantissa:
-            mantissa = str( convertFractionToBaseN( mpmathify( '0.' + mantissa ), g.outputRadix,
-                            int( ( mp.dps - integerLength ) / math.log10( g.outputRadix ) ),
+            mantissa = str( convertFractionToBaseN( mpmathify( '0.' + mantissa ), outputRadix,
+                            int( ( mp.dps - integerLength ) / math.log10( outputRadix ) ),
                             g.outputBaseDigits ) )
     else:
         if g.accuracy == 0:
@@ -164,21 +206,21 @@ def formatOutput( output ):
             mantissa = roundMantissa( mantissa, g.accuracy )
             mantissa = mantissa.rstrip( '0' )
 
-    if g.comma and g.integerGrouping > 0:
-        firstDelimiter = len( integer ) % g.integerGrouping
+    if comma and integerGrouping > 0:
+        firstDelimiter = len( integer ) % integerGrouping
 
-        if g.leadingZero and firstDelimiter > 0:
-            integerResult = '0' * ( g.integerGrouping - firstDelimiter )
+        if leadingZero and firstDelimiter > 0:
+            integerResult = '0' * ( integerGrouping - firstDelimiter )
         else:
             integerResult = ''
 
         integerResult += integer[ : firstDelimiter ]
 
-        for i in range( firstDelimiter, len( integer ), g.integerGrouping ):
+        for i in range( firstDelimiter, len( integer ), integerGrouping ):
             if integerResult != '':
                 integerResult += g.integerDelimiter
 
-            integerResult += integer[ i : i + g.integerGrouping ]
+            integerResult += integer[ i : i + integerGrouping ]
 
     else:
         integerResult = integer

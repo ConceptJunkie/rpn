@@ -12,6 +12,12 @@
 #//
 #//******************************************************************************
 
+# Critical bug!
+#
+# d:\dev\trunk\idirect\nms\lib\nms_object_mgr>rpn -p50 septillion
+# 999999999999999983222784
+#
+
 # http://en.wikipedia.org/wiki/Physical_constant
 
 # http://pythonhosted.org//astral/#
@@ -355,6 +361,15 @@ def rpn( cmd_args ):
         while True:
             g.promptCount += 1
 
+            # clear single operation flags
+            g.tempCommaMode = False
+            g.tempFindPolyMode = False
+            g.tempHexMode = False
+            g.tempIdentifyMode = False
+            g.tempLeadingZeroMode = False
+            g.tempOctalMode = False
+            g.tempTimeMode = False
+
             try:
                 line = input( 'rpn (' + str( g.promptCount ) + ')>' )
             except EOFError:
@@ -370,7 +385,7 @@ def rpn( cmd_args ):
 
                 g.results.append( valueList[ -1 ] )
 
-                handleOutput( valueList, args.identify, args.find_poly, args.time, )
+                handleOutput( valueList, args.identify, args.find_poly, args.time )
             else:
                 g.results.append( 0 )
 

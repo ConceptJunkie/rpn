@@ -78,7 +78,7 @@ def performBitwiseOperation( i, j, operation ):
 
     # determine how many groups of bits we will be looking at
     groupings = int( fadd( floor( fdiv( ( log( value1, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
-    groupings2 = int( fadd( floor( fdiv( ( log( value1, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
+    groupings2 = int( fadd( floor( fdiv( ( log( value2, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
 
     if groupings2 > groupings:
         groupings = groupings2
