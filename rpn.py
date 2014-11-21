@@ -375,6 +375,8 @@ def rpn( cmd_args ):
             except EOFError:
                 break
 
+            line = line.strip( )
+
             if line == 'exit':
                 break
 

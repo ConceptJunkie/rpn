@@ -652,6 +652,7 @@ def printHelpTopic( n ):
 
 def setHexMode( ):
     g.tempHexMode = True
+    return 0
 
 
 #//******************************************************************************
@@ -662,6 +663,7 @@ def setHexMode( ):
 
 def setOctalMode( ):
     g.tempOctalMode = True
+    return 0
 
 
 #//******************************************************************************
@@ -672,6 +674,7 @@ def setOctalMode( ):
 
 def setCommaMode( ):
     g.tempCommaMode = True
+    return 0
 
 
 #//******************************************************************************
@@ -682,6 +685,7 @@ def setCommaMode( ):
 
 def setTimeMode( ):
     g.tempTimeMode = True
+    return 0
 
 
 #//******************************************************************************
@@ -692,6 +696,7 @@ def setTimeMode( ):
 
 def setLeadingZeroMode( ):
     g.tempLeadingZeroMode = True
+    return 0
 
 
 #//******************************************************************************
@@ -702,6 +707,7 @@ def setLeadingZeroMode( ):
 
 def setFindPolyMode( ):
     g.tempFindPolyMode = True
+    return 0
 
 
 #//******************************************************************************
@@ -712,6 +718,7 @@ def setFindPolyMode( ):
 
 def setIdentifyMode( ):
     g.tempIdentifyMode = True
+    return 0
 
 
 #//******************************************************************************
