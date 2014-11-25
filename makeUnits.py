@@ -20,6 +20,9 @@ import pickle
 
 from mpmath import *
 
+#  This has to go here so the mpf's in the import get created with 50 places of precision
+mp.dps = 50
+
 from rpnDeclarations import *
 from rpnUnits import *
 from rpnVersion import *
@@ -342,7 +345,6 @@ def makeVolumeOperator( unit, unitPlural ):
 #//******************************************************************************
 
 def initializeConversionMatrix( unitConversionMatrix ):
-    mp.dps = 50
 
     # reverse each conversion
     print( 'Reversing each conversion...' )
