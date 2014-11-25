@@ -23,7 +23,7 @@ fibBase = -2
 
 # default options
 
-defaultAccuracy = 12
+defaultOutputAccuracy = 12
 defaultBitwiseGroupSize = 16
 defaultCFTerms = 10
 defaultDecimalDelimiter = ' '
@@ -43,7 +43,7 @@ nestedListLevel = 0
 
 # options
 
-accuracy = -1
+outputAccuracy = -1
 comma = False
 outputBaseDigits = False
 bitwiseGroupSize = 0

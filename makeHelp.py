@@ -45,7 +45,7 @@ command-line options:
 
     -a [n], --output_accuracy [n]
         maximum number of decimal places to display, irrespective of internal
-        precision (default: ''' + str( g.defaultAccuracy ) + ')' + '''
+        precision (default: ''' + str( g.defaultOutputAccuracy ) + ')' + '''
 
     -b n : --input_radix n
         specify the radix for input (default: ''' + str( g.defaultInputRadix ) + ')' + '''

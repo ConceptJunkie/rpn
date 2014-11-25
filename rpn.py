@@ -200,8 +200,8 @@ def rpn( cmd_args ):
                                       formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=g.defaultAccuracy,  # -1
-                         const=g.defaultAccuracy )
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=g.defaultOutputAccuracy,  # -1
+                         const=g.defaultOutputAccuracy )
     parser.add_argument( '-b', '--input_radix', type=str, action='store', default=g.defaultInputRadix )
     parser.add_argument( '-c', '--comma', action='store_true' )
     parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
@@ -326,7 +326,7 @@ def rpn( cmd_args ):
         mp.dps = 53
 
     if args.print_options:
-        print( '--output_accuracy:  %d' % g.accuracy )
+        print( '--output_accuracy:  %d' % g.outputAccuracy )
         print( '--input_radix:  %d' % g.inputRadix )
         print( '--comma:  ' + ( 'true' if g.comma else 'false' ) )
         print( '--decimal_grouping:  %d' % g.decimalGrouping )

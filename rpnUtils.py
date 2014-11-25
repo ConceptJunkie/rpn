@@ -32,6 +32,17 @@ import rpnGlobals as g
 
 #//******************************************************************************
 #//
+#//  round
+#//
+#//******************************************************************************
+
+def round( n, decimals ):
+    factor = power( 10, decimals )
+    return fdiv( nint( fmul( n, factor ) ), factor )
+
+
+#//******************************************************************************
+#//
 #//  loadUnitData
 #//
 #//******************************************************************************
@@ -504,7 +515,7 @@ def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
         value = value * base
         digit = int( value )
 
-        if len( result ) == g.accuracy:
+        if len( result ) == g.outputAccuracy:
             value -= digit
             newDigit = int( value ) % base
 
@@ -519,7 +530,7 @@ def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
         else:
             result += g.numerals[ digit % base ]
 
-        if len( result ) == g.accuracy:
+        if len( result ) == g.outputAccuracy:
             break
 
         value -= digit

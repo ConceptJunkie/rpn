@@ -476,14 +476,14 @@ def dumpStats( ):
 
 def setAccuracy( n ):
     if n == -1:
-        g.accuracy = g.defaultAccuracy
+        g.outputAccuracy = g.defaultOutputAccuracy
     else:
-        g.accuracy = int( n )
+        g.outputAccuracy = int( n )
 
-    if mp.dps < g.accuracy + 2:
-        mp.dps = g.accuracy + 2
+    if mp.dps < g.outputAccuracy + 2:
+        mp.dps = g.outputAccuracy + 2
 
-    return g.accuracy
+    return g.outputAccuracy
 
 
 #//******************************************************************************
@@ -498,8 +498,8 @@ def setPrecision( n ):
     else:
         mp.dps = int( n )
 
-    if mp.dps < g.accuracy + 2:
-        mp.dps = g.accuracy + 2
+    if mp.dps < g.outputAccuracy + 2:
+        mp.dps = g.outputAccuracy + 2
 
     return mp.dps
 

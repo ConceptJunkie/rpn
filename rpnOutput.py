@@ -148,7 +148,7 @@ def formatOutput( output ):
         strOutput = nstr( re( mpmathify( output ) ) )
     else:
         imaginaryValue = ''
-        strOutput = nstr( output, g.accuracy )[ 1 : -1 ]
+        strOutput = nstr( output, g.outputAccuracy )[ 1 : -1 ]
 
     if '.' in strOutput:
         decimal = strOutput.find( '.' )
@@ -164,7 +164,7 @@ def formatOutput( output ):
 
     if mantissa == '0':
         mantissa = ''
-    elif ( mantissa != '' ) and ( g.accuracy == -1 ):
+    elif ( mantissa != '' ) and ( g.outputAccuracy == -1 ):
         mantissa = mantissa.rstrip( '0' )
 
     #print( 'integer: ', integer )
@@ -200,10 +200,10 @@ def formatOutput( output ):
                             int( ( mp.dps - integerLength ) / math.log10( outputRadix ) ),
                             g.outputBaseDigits ) )
     else:
-        if g.accuracy == 0:
+        if g.outputAccuracy <= 0:
             mantissa = ''
-        elif g.accuracy > 0:
-            mantissa = roundMantissa( mantissa, g.accuracy )
+        else:
+            mantissa = roundMantissa( mantissa, g.outputAccuracy )
             mantissa = mantissa.rstrip( '0' )
 
     if comma and integerGrouping > 0:
