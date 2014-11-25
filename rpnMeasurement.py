@@ -384,7 +384,8 @@ class Measurement( mpf ):
                 source = self
 
                 for count, measurement in enumerate( other ):
-                    conversion = source.convertValue( measurement )
+                    with extradps( 1 ):
+                        conversion = source.convertValue( measurement )
 
                     if count < len( other ) - 1:
                         result.append( Measurement( floor( conversion ), measurement.getUnits( ) ) )
