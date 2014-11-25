@@ -334,14 +334,14 @@ For now, here are some examples:
     [ 171 pounds, 15.369032067272 ounces ]
 
     c:\>rpn 150,000 seconds [ day hour minute second ] convert
-    [ 1 day, 17 hours, 39 minutes, 59.9999999991 seconds ]
+    [ 1 day, 17 hours, 39 minutes, 60 seconds ]
 
-Yes, I'd really like to do something about that rounding error.
+I fixed the rounding error... sort of!
 
 Here's a shortcut for "[ day hour minute second ] convert":
 
     c:\>rpn 150,000 seconds dhms
-    [ 1 day, 17 hours, 39 minutes, 59.9999999991 seconds ]
+    [ 1 day, 17 hours, 39 minutes, 60 seconds ]
 
     c:>rpn 16800 mA hours * 5 volts * joule convert
     ...

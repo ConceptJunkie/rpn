@@ -143,12 +143,12 @@ def formatOutput( output ):
         else:
             negativeImaginary = False
 
-        imaginaryValue = formatOutput( nstr( imaginary, mp.dps ) )
+        imaginaryValue = formatOutput( nstr( imaginary ) )
 
-        strOutput = str( re( mpmathify( output ) ) )
+        strOutput = nstr( re( mpmathify( output ) ) )
     else:
         imaginaryValue = ''
-        strOutput = nstr( output, g.accuracy  )[ 1 : -1 ]
+        strOutput = nstr( output, g.accuracy )[ 1 : -1 ]
 
     if '.' in strOutput:
         decimal = strOutput.find( '.' )
@@ -274,7 +274,7 @@ def formatListOutput( result ):
             if isinstance( item, arrow.Arrow ):
                 resultString += formatDateTime( item )
             elif isinstance( item, Measurement ):
-                itemString = str( mpf( item ) )
+                itemString = nstr( item.getValue( ) )
 
                 resultString += formatOutput( itemString )
 

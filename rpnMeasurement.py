@@ -387,13 +387,10 @@ class Measurement( mpf ):
                     conversion = source.convertValue( measurement )
 
                     if count < len( other ) - 1:
-                        newValue = floor( mpf( conversion ) )
+                        result.append( Measurement( floor( conversion ), measurement.getUnits( ) ) )
+                        source = Measurement( frac( conversion ), measurement.getUnits( ) )
                     else:
-                        newValue = mpf( conversion )
-
-                    result.append( Measurement( newValue, measurement.getUnits( ) ) )
-
-                    source = Measurement( fsub( mpf( conversion ), newValue ), measurement.getUnits( ) )
+                        result.append( Measurement( conversion, measurement.getUnits( ) ) )
 
                 return result
 
