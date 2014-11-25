@@ -307,16 +307,13 @@ but it works for now.
 For now, here are some examples:
 
     c:\>rpn 10 miles km convert
-    16.0934399991 kilometers
+    16.09344 kilometers
 
     c:\>rpn 2 gallons cups convert
     32 cups
 
     c:\>rpn 153 pounds stone convert
-    10.9285714286 stone
-
-    c:\>rpn 10 miles km convert
-    16.0934399991 kilometers
+    10.928571428571 stone
 
     c:\>rpn 65 mph kph convert
     104.60736 kilometers/hour
@@ -325,16 +322,16 @@ For now, here are some examples:
     161280 furlongs per fortnight
 
     c:\>rpn barn gigaparsec * cubic_inch convert
-    188.2995990804 cubic inches
+    188.299599080441 cubic inches
 
     c:\>rpn mars_day hms
-    [ 24 hours, 37 minutes, 22.6631999991 seconds ]
+    [ 24 hours, 37 minutes, 22.6632 seconds ]
 
     c:\>rpn 10 tons estimate
     'approximately 1.65 times the mass of an average male African bush elephant'
 
     c:\>rpn 78 kg [ pound ounce ] convert
-    [ 171 pounds, 15.3690320673 ounces ]
+    [ 171 pounds, 15.369032067272 ounces ]
 
     c:\>rpn 150,000 seconds [ day hour minute second ] convert
     [ 1 day, 17 hours, 39 minutes, 59.9999999991 seconds ]
@@ -352,9 +349,9 @@ Here's a shortcut for "[ day hour minute second ] convert":
 What is the radius of a sphere needed to hold 8 fluid ounces?
 
     c:\>rpn 8 floz inch 3 ** convert sphereradius
-    1.510547765
+    1.510547765004
 
-It should say '1.510547765 inches', but I haven't worked out all the unit
+It should say '1.510547765004 inches', but I haven't worked out all the unit
 stuff with the sphere functions yet.
 
 Help topics for individual units is coming someday, but not today.
@@ -595,15 +592,22 @@ More bug fixes thanks to the test script!
 
 More bug fixes and code cleanup.  Added the 'unfloat' and 'undouble' operators.
 
-5.29.0
+6.0.0
 
-Added caching for OEIS operators.  However, it turns out some OEIS text is non-
-ASCII, so I'll have to deal with that.
+Introduced interactive mode, including variable declaration and referencing
+previous results by number.  (see 'rpn help interactive_mode')
+
+Added caching for OEIS operators.  However, it turns out some OEIS text is
+non-ASCII, so I'll have to deal with that.
 
 Operator help now includes examples by default.
 
 The 'time' operator type conflicted with the 'time' unit type, so I changed
 the operator type to 'date'... because they were all about dates!
+
+Fixed a long-standing precision problem with unit conversion.
+
+More bug fixes.
 ''',
 'license' :
 '''

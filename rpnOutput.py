@@ -549,7 +549,7 @@ def printHelp( operators, listOperators, modifiers, term, interactive = False ):
         if helpTerm != '':
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
-            print( helpTopics[ helpTerm ] )
+            print( g.helpTopics[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in g.operatorCategories if i != term and i.startswith( term ) ), '' )
