@@ -83,15 +83,6 @@ def combineUnits( units1, units2 ):
 #//******************************************************************************
 
 class Measurement( mpf ):
-    #@property
-    #def units( self ):
-    #    return self.units
-    #
-    #@units.setter
-    #def units( self, value ):
-    #    self.units.clear( )
-    #    self.units.update( value )
-
     def __new__( cls, value, units=None, unitName=None, pluralUnitName=None ):
         if isinstance( value, list ):
             raise ValueError( 'cannot use a list for the value of a measurement' )
@@ -358,14 +349,17 @@ class Measurement( mpf ):
         value = mpf( self )
         units = Units( )
 
+        debugPrint( 'value', value )
+
         for unit in self.units:
             newUnit = g.basicUnitTypes[ getUnitType( unit ) ].baseUnit
-            debugPrint( 'newUnit', newUnit )
+            debugPrint( 'unit', unit, 'newUnit', newUnit )
 
             if unit != newUnit:
                 value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] ) )
 
             units.update( Units( g.unitOperators[ newUnit ].representation + "^" + str( self.units[ unit ] ) ) )
+            debugPrint( 'value', value )
 
         reduced = Measurement( value, units )
         debugPrint( 'getReduced 2:', reduced )
@@ -389,7 +383,7 @@ class Measurement( mpf ):
 
                     if count < len( other ) - 1:
                         result.append( Measurement( floor( conversion ), measurement.getUnits( ) ) )
-                        source = Measurement( frac( conversion ), measurement.getUnits( ) )
+                        source = Measurement( chop( frac( conversion ) ), measurement.getUnits( ) )
                     else:
                         result.append( Measurement( conversion, measurement.getUnits( ) ) )
 
@@ -438,6 +432,8 @@ class Measurement( mpf ):
                 for unit in units2:
                     newUnits2.update( Units( g.unitOperators[ unit ].representation + "^" + str( units2[ unit ] ) ) )
 
+                debugPrint( 'units1:', units1 )
+                debugPrint( 'units2:', units2 )
                 debugPrint( 'newUnits1:', newUnits1 )
                 debugPrint( 'newUnits2:', newUnits2 )
 
@@ -445,8 +441,8 @@ class Measurement( mpf ):
                     foundConversion = False
 
                     for unit2 in newUnits2:
-                        debugPrint( '1 and 2:', unit1, units1[ unit1 ], getUnitType( unit1 ),
-                                    unit2, units2[ unit2 ], getUnitType( unit2 ) )
+                        debugPrint( '1 and 2:', unit1, newUnits1[ unit1 ], getUnitType( unit1 ),
+                                    unit2, newUnits2[ unit2 ], getUnitType( unit2 ) )
 
                         if getUnitType( unit1 ) == getUnitType( unit2 ):
                             conversions.append( [ unit1, unit2 ] )
@@ -458,22 +454,28 @@ class Measurement( mpf ):
                         debugPrint( 'didn\'t find a conversion, try reducing' )
                         reduced = self.getReduced( )
 
-                        debugPrint( 'reduced:', self.units, reduced.units )
+                        debugPrint( 'reduced:', self.units, " becomes ", reduced.units )
 
                         reducedOther = other.getReduced( )
+
+                        debugPrint( 'reduced other:', other.units, " becomes ", reducedOther.units )
 
                         if ( reduced.units == self.units ) and ( reducedOther.units == other.units ):
                             raise ValueError( 'unable to convert ' + self.getUnitString( ) +
                                               ' to ' + other.getUnitString( ) )
 
                         reduced = reduced.convertValue( reducedOther )
-                        return reduced
+
+                        return Measurement( fdiv( reduced, reducedOther ), reducedOther.getUnits( ) )
 
                 value = conversionValue
 
                 for conversion in conversions:
                     if conversion[ 0 ] == conversion[ 1 ]:
                         continue  # no conversion needed
+
+                    debugPrint( 'unit conversion:', g.unitConversionMatrix[ tuple( conversion ) ] )
+                    debugPrint( exponents )
 
                     conversionValue = mpmathify( g.unitConversionMatrix[ tuple( conversion ) ] )
                     conversionValue = power( conversionValue, exponents[ tuple( conversion ) ] )
