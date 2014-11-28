@@ -68,6 +68,9 @@ def loadUnitData( ):
 #//******************************************************************************
 
 def loadHelpData( ):
+    if g.helpLoaded:
+        return
+
     try:
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
             g.helpVersion = pickle.load( pickleFile )
@@ -85,6 +88,8 @@ def loadHelpData( ):
         return False
 
     g.operatorCategories = set( g.operatorHelp[ key ][ 0 ] for key in g.operatorHelp )
+
+    g.helpLoaded = True
 
     return True
 

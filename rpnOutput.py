@@ -491,9 +491,9 @@ def printHelp( operators, listOperators, modifiers, term, interactive = False ):
     if term in operators:
         printOperatorHelp( term, operators[ term ], g.operatorHelp[ term ] )
     elif term in listOperators:
-        printOperatorHelp( term, listOperators[ term ], operatorHelp[ term ] )
+        printOperatorHelp( term, listOperators[ term ], g.operatorHelp[ term ] )
     elif term in modifiers:
-        printOperatorHelp( term, modifiers[ term ], operatorHelp[ term ] )
+        printOperatorHelp( term, modifiers[ term ], g.operatorHelp[ term ] )
     elif term in g.helpTopics:
         print( g.helpTopics[ term ] )
     elif term in g.operatorCategories:
@@ -599,9 +599,7 @@ def printGeneralHelp( ):
 #//******************************************************************************
 
 def printInteractiveHelp( ):
-    print( PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION )
-    print( COPYRIGHT_MESSAGE )
-    print( )
+    loadHelpData( )
 
     printParagraph(
 '''For help on a specific topic, use the topic operator with a general topic, operator category or a specific operator name.''' )
@@ -620,6 +618,16 @@ def printInteractiveHelp( ):
     print( )
 
     printParagraph( ', '.join( sorted( g.operatorCategories ) ), 4 )
+
+
+#//******************************************************************************
+#//
+#//  printHelpModeHelp
+#//
+#//******************************************************************************
+
+def printHelpModeHelp( ):
+    printParagraph( 'rpn help mode - \'topics\' for a list of topics, \'exit\' to return' )
 
 
 #//******************************************************************************

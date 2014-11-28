@@ -39,6 +39,7 @@ defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 # state variables
 
 creatingFunction = False
+helpLoaded = False
 nestedListLevel = 0
 
 # options

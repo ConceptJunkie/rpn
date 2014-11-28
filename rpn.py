@@ -145,6 +145,91 @@ def handleOutput( valueList, identify, findPoly, showTime ):
         print( '\n%.3f seconds' % time.clock( ) )
 
 
+
+#//******************************************************************************
+#//
+#//  enterInteractiveMode
+#//
+#//******************************************************************************
+
+def enterInteractiveMode( args ):
+    import readline
+
+    readline.parse_and_bind( 'tab: complete' )
+    readline.parse_and_bind( 'set editing-mode vi' )
+
+    printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
+
+    g.results.append( None )   # g.results[ 0 ]
+
+    while True:
+        g.promptCount += 1
+
+        # clear single operation flags
+        g.tempCommaMode = False
+        g.tempFindPolyMode = False
+        g.tempHexMode = False
+        g.tempIdentifyMode = False
+        g.tempLeadingZeroMode = False
+        g.tempOctalMode = False
+        g.tempTimeMode = False
+
+        try:
+            line = input( 'rpn (' + str( g.promptCount ) + ')>' )
+        except EOFError:
+            break
+
+        line = line.strip( )
+
+        if line == 'exit':
+            break
+
+        terms = line.split( ' ' )
+
+        if terms[ 0 ] == 'help':
+            enterHelpMode( terms[ 1 : ] );
+        else:
+            if validateArguments( terms ):
+                valueList = evaluate( terms )
+
+                g.results.append( valueList[ -1 ] )
+
+                handleOutput( valueList, args.identify, args.find_poly, args.time )
+            else:
+                g.results.append( 0 )
+
+
+#//******************************************************************************
+#//
+#//  enterHelpMode
+#//
+#//******************************************************************************
+
+def enterHelpMode( terms ):
+    printHelpModeHelp( )
+
+    while True:
+        try:
+            line = input( 'rpn help>' )
+        except EOFError:
+            break
+
+        line = line.strip( )
+
+        if line == 'exit':
+            break
+
+        terms = line.split( ' ' )
+
+        if terms[ 0 ] == 'help':
+            printHelpModeHelp( )
+        elif terms[ 0 ] == 'topics':
+            printInteractiveHelp( )
+        else:
+            for term in terms:
+                printHelp( operators, listOperators, modifiers, term, True )
+
+
 #//******************************************************************************
 #//
 #//  rpn
@@ -349,48 +434,7 @@ def rpn( cmd_args ):
         if not loadUnitData( ):
             return
 
-        import readline
-
-        readline.parse_and_bind( 'tab: complete' )
-        readline.parse_and_bind( 'set editing-mode vi' )
-
-        printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
-
-        g.results.append( None )   # g.results[ 0 ]
-
-        while True:
-            g.promptCount += 1
-
-            # clear single operation flags
-            g.tempCommaMode = False
-            g.tempFindPolyMode = False
-            g.tempHexMode = False
-            g.tempIdentifyMode = False
-            g.tempLeadingZeroMode = False
-            g.tempOctalMode = False
-            g.tempTimeMode = False
-
-            try:
-                line = input( 'rpn (' + str( g.promptCount ) + ')>' )
-            except EOFError:
-                break
-
-            line = line.strip( )
-
-            if line == 'exit':
-                break
-
-            terms = line.split( ' ' )
-
-            if validateArguments( terms ):
-                valueList = evaluate( terms )
-
-                g.results.append( valueList[ -1 ] )
-
-                handleOutput( valueList, args.identify, args.find_poly, args.time )
-            else:
-                g.results.append( 0 )
-
+        enterInteractiveMode( args )
         return
 
     # let's check out the arguments before we start to do any calculations

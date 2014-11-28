@@ -2245,6 +2245,12 @@ Note:  Not sure why the rounding error is so large.
 ''',
 '''
 ''' ],
+    'leading_zero_mode' : [
+'settings', 'TODO:',
+'''
+''',
+'''
+''' ],
     'leyland' : [
 'number_theory', 'gets the Leyland number for n and k',
 '''
