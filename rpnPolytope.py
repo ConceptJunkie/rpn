@@ -569,14 +569,12 @@ def getNthPolygonalPyramidalNumber( n, k ):
 #//
 #//  getNthStellaOctangulaNumber
 #//
-#//  Stel(n) = Oct(n) + 8 Tet(n-1)
-#//
-#//  from Conway and Guy's "The Book of Numbers"
+#//  http://oeis.org/A007588
 #//
 #//******************************************************************************
 
 def getNthStellaOctangulaNumber( n ):
-    return polyval( [ 4, 0, -2 ], n )
+    return polyval( [ 2, 0, -1, 0 ], n )
 
 
 #//******************************************************************************

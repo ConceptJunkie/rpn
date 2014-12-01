@@ -1112,7 +1112,16 @@ operatorHelp = {
     'add' : [
 'arithmetic', 'adds n to k',
 '''
-This operator adds two terms together.
+This operator adds two terms together.  If one of the operands is a list, then
+the other operand is added to each member of the list and the result is a
+list.
+
+If both operands are lists, then each member of the list is added to its
+corresponding member in the other list and the result is a list.  If the lists
+are not of equal length, then the resulting list is the length of the shorter
+of the two.
+
+Addition is supported for measurements..
 ''',
 '''
 c:\>rpn 2 2 add
@@ -1125,7 +1134,11 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 10 10 10 ] add
 [ 11, 12, 13, 14, 15, 16 ]
 
 c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
-[ 11, 12, 13 ]''' ],
+[ 11, 12, 13 ]
+
+c:\>rpn 1 mile 1 km +
+1.621371192237 miles
+''' ],
     'altfac' : [
 'number_theory', 'calculates the alternating factorial of n',
 '''
@@ -1682,8 +1695,28 @@ c:\>rpn sidereal_year dhms
     'divide' : [
 'arithmetic', 'divides n by k',
 '''
+This operator divides the first operand by the second.  If the first
+operand is a list, then the second operand is divided by each member of
+the list and the result is a list.  If the second operand is a list, then
+the first operand is divided by each member of the list and the result is a
+list.
+
+If both operands are lists, then each member of the first list is divided by
+its corresponding member in the second list and the result is a list.  If
+the lists are not of equal length, then the resulting list is the length of
+the shorter of the two.
+
+Division is supported for measurements.
 ''',
 '''
+c:\>rpn 1440 24 /
+60
+
+c:\>rpn 2520 1 10 range /
+[ 2520, 1260, 840, 630, 504, 420, 360, 315, 280, 252 ]
+
+c:\>rpn miles hour / furlongs fortnight / convert
+2688 furlongs per fortnight
 ''' ],
     'divisors' : [
 'number_theory', 'returns a list of divisors of n',
@@ -2569,8 +2602,26 @@ Hypothesis, then the least possible value for Mills' constant (usually called
     'multiply' : [
 'arithmetic', 'multiplies n by k',
 '''
+This operator multiplies two terms together.  If one of the operands is a list,
+then the other operand is multiplied to each member of the list and the result
+is a list.
+
+If both operands are lists, then each member of the list is multiplied by its
+corresponding member in the other list and the result is a list.  If the lists
+are not of equal length, then the resulting list is the length of the shorter
+of the two.
+
+Multiplication is supported for measurements.
 ''',
 '''
+c:\>rpn 32 56 *
+1792
+
+c:\>rpn 7 1 10 range *
+[ 7, 14, 21, 28, 35, 42, 49, 56, 63, 70 ]
+
+c:\>rpn 16800 mA hours * 5 volts * joule convert
+302400 joules
 ''' ],
     'name' : [
 'special', 'returns the English name for the integer value n',
@@ -3021,8 +3072,25 @@ flushing the cache for a particular entry.
     'power' : [
 'powers_and_roots', 'calculates the kth power of n',
 '''
+This operator raises the first term to the power of the second.  If the first
+operand is a list, then each item is raised to the power of the other operand
+and the result is a list.  If the second operand is a list, then the first
+operand is raised to the power of each member in the list and the result is a list.
+
+If both operands are lists, then each member of the list is raised to the power
+of its corresponding member in the other list and the result is a list.  If the
+lists are not of equal length, then the resulting list is the length of the
+shorter of the two.
 ''',
 '''
+c:\>rpn 4 5 **
+1024
+
+c:\>rpn 1 10 range 3 **
+[ 1, 8, 27, 64, 125, 216, 343, 512, 729, 1000 ]
+
+c:\>rpn 1 foot 3 ** gallon convert
+7.480519480519 gallons
 ''' ],
     'precision' : [
 'settings', 'TODO: describe me',
@@ -3067,6 +3135,9 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 This operator is much faster than using 'range' with 'prime'.
 ''',
 '''
+c:\>rpn 1 20 primes
+[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71 ]
+
 c:\>rpn 320620307 10 primes
 [ 6927837559, 6927837563, 6927837571, 6927837583, 6927837599, 6927837617,
 6927837641, 6927837673, 6927837713, 6927837757 ]
@@ -3475,8 +3546,17 @@ c:\>rpn 1 50 range countdiv stddev
     'steloct' : [
 'polyhedral_numbers', 'calculates the nth stella octangula number',
 '''
+A stella octangula number is a figurate number based on the stella octangula,
+of the form n(2n^2 - 1).
+
+The "stella octangula" is otherwise known as a "stellated octahedron".
+
+https://en.wikipedia.org/wiki/Stella_octangula_number
+http://oeis.org/A007588
 ''',
 '''
+c:\>rpn 1 8 range steloct
+[ 2, 14, 34, 62, 98, 142, 194, 254 ]
 ''' ],
     'subfac' : [
 'number_theory', 'calculates the subfactorial of n',
@@ -3487,8 +3567,28 @@ c:\>rpn 1 50 range countdiv stddev
     'subtract' : [
 'arithmetic', 'subtracts k from n',
 '''
+This operator subtracts the first operand from the second.  If the first
+operand is a list, then the second operand is subtracted from each member of
+the list and the result is a list.  If the second operand is a list, then each
+member of the second list is subtracted from the first operand and the result
+is a list.
+
+If both operands are lists, then each member of the second list is subtracted
+from its corresponding member in the first list and the result is a list.  If
+the lists are not of equal length, then the resulting list is the length of
+the shorter of the two.
+
+Subtraction is supported for measurements.
 ''',
 '''
+c:\>rpn 17 8 -
+9
+
+c:\>rpn 10 [ 1 2 3 4 ] -
+[ 9, 8, 7, 6 ]
+
+c:\>rpn 1 gallon 4 cups -
+0.75 gallon
 ''' ],
     'sum' : [
 'arithmetic', 'calculates the sum of values in list n',

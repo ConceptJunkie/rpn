@@ -435,8 +435,6 @@ def printOperatorHelp( term, operatorInfo, operatorHelp ):
     else:
         print( operatorHelp[ 2 ] )
 
-    print( )
-
     if operatorHelp[ 3 ] == '\n':
         print( 'No examples are available.' )
     else:
