@@ -1020,6 +1020,11 @@ def runTests( ):
     testRPN( 'rpn -10 10 range zero' )
     testRPN( 'rpn 1 10 range zero' )
 
+    testRPN( 'rpn help' )
+    testRPN( 'rpn help about' )
+    testRPN( 'rpn help arithmetic' )
+    testRPN( 'rpn help add' )
+
     testRPN( 'rpn _dumpalias' )
     testRPN( 'rpn _dumpops' )
     testRPN( 'rpn _stats' )
