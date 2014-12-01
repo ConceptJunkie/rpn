@@ -247,6 +247,7 @@ def rpn( cmd_args ):
 
     # look for help argument before we start setting everything up (because it's faster this way)
     help = False
+    helpArg = ''
 
     for i in range( 0, len( cmd_args ) ):
         if cmd_args[ i ] == 'help':
