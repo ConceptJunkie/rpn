@@ -429,13 +429,14 @@ def printOperatorHelp( term, operatorInfo, operatorHelp ):
 
     print( 'category: ' + operatorHelp[ 0 ] )
 
-    if operatorHelp[ 2 ] == '\n':
+    if operatorHelp[ 2 ] == '' or operatorHelp[ 2 ] == '\n':
         print( )
         print( 'No further help is available.' )
+        print( )
     else:
         print( operatorHelp[ 2 ] )
 
-    if operatorHelp[ 3 ] == '\n':
+    if operatorHelp[ 3 ] == '' or operatorHelp[ 3 ] == '\n':
         print( 'No examples are available.' )
     else:
         print( term + ' examples:' )
@@ -625,7 +626,7 @@ def printInteractiveHelp( ):
 #//******************************************************************************
 
 def printHelpModeHelp( ):
-    printParagraph( 'rpn help mode - \'topics\' for a list of topics, \'exit\' to return' )
+    printParagraph( 'rpn help mode - \'topics\' for a list of topics, \'exit\' to return to rpn' )
 
 
 #//******************************************************************************

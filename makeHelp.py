@@ -672,7 +672,7 @@ Construct the square root of two from a continued fraction:
     First, here's the square root of two to 20 places:
 
         c:\>rpn -a20 2 sqrt
-        1.41421356237309504880
+        1.4142135623730950488
 
     Now let's make a continued fraction from that, calculated to 20 terms.
 
@@ -689,7 +689,7 @@ Construct the square root of two from a continued fraction:
     two is infinite, so this is only an approximation.
 
         c:\>rpn -a20 [ 1 2 30 dup ] cf
-        1.41421356237309504880
+        1.4142135623730950488
 
 Calculations with lists:
 
@@ -699,7 +699,7 @@ Calculations with lists:
 
     Which of the first thousand pentagonal numbers are also triangular:
         c:\>rpn 1000 pent tri?
-        1731.26218055
+        1731.262180554824
 
     So the thousandth pentagonal number is a little bigger than the 1731st
     triangular number.  That tells us how many triangular numbers to look at.
@@ -840,6 +840,9 @@ Unit conversions:
 
         c:\>rpn G 10 seconds * ft s / convert
         321.7404855643 feet per second
+
+        So a falling object will be travelling at 321.7 ft/sec after 10
+        seconds.
 
     [ TODO:  finish unit conversion examples ]
 
@@ -1451,11 +1454,17 @@ number.
 '''
 ''' ],
     'comma' : [
-'settings', 'TODO: fill me out',
+'settings', 'allows changing the comma option in interactive mode',
 '''
 TODO: fill me out
 ''',
 '''
+rpn (1)>5 12 **
+244140625
+rpn (2)>true comma
+1
+rpn (3)>5 12 **
+244,140,625
 ''' ],
     'comma_mode' : [
 'settings', 'set temporary comma mode in interactive mode',
@@ -1921,6 +1930,7 @@ c:\>rpn 2 2 10 exprange
     'false' : [
 'settings', 'used with other setting operators',
 '''
+'false' simply evaluates to 0
 ''',
 '''
 ''' ],
@@ -2099,10 +2109,11 @@ This shortcut operator replaces having to type '[ hour minute second ] convert'
 in order to convert a time interval to hours, minutes and seconds.
 ''',
 '''
-c:\>rpn 8 microcenturies hms convert
-[ 7 hours, 0 minutes, 46.0799999991 seconds ]
+c:\>rpn 8 microcenturies hms
+[ 7 hours, 0 minutes, 46.08 seconds ]
 
-Note:  Not sure why the rounding error is so large.
+c:\>rpn 15,625 seconds hms
+[ 4 hours, 20 minutes, 25 seconds ]
 ''' ],
     'hyper4_2' : [
 'powers_and_roots', 'calculates the right-associative tetration of n by k',
@@ -2121,12 +2132,26 @@ Note:  Not sure why the rounding error is so large.
 '''
 ''',
 '''
+c:\>rpn 3 4 hypot
+5
+
+c:\>rpn 7 24 hypot
+25
+
+c:\>rpn 1 1 hypot
+1.414213562373
 ''' ],
     'i' : [
 'complex_math', 'multiplies n by i',
 '''
 ''',
 '''
+c:\>rpn -a10 e pi i **
+(-1.0 + 5.2405181056621568055e-22j)
+
+There's a rounding error here, but this demonstrates Euler's famous equation:
+
+e ^ ( pi * i ) = -1
 ''' ],
     'icosahedral' : [
 'polyhedral_numbers', 'returns the nth icosahedral number',
@@ -2145,6 +2170,11 @@ Note:  Not sure why the rounding error is so large.
 '''
 ''',
 '''
+d:\dev\trunk\idirect>rpn phi
+1.618033988741
+
+d:\dev\trunk\idirect>rpn inf x 1 + fib x fib / limit
+1.618033988741
 ''' ],
     'input_radix' : [
 'settings', 'TODO: describe me',
@@ -2211,6 +2241,11 @@ Note:  Not sure why the rounding error is so large.
 '''
 ''',
 '''
+c:\>rpn 1 i 1 i **
+(0.20787957635076190855 + 0.0j)
+
+c:\>rpn itoi
+0.207879576351
 ''' ],
     'jacobsthal' : [
 'number_theory', 'returns nth number of the Jacobsthal sequence',
@@ -3773,8 +3808,15 @@ c:\>rpn 10 triplebal_ diffs
     'true' : [
 'settings', 'used with other setting operators',
 '''
+'true' simply evaluates to 1
 ''',
 '''
+rpn (1)>5 12 **
+244140625
+rpn (2)>true comma
+1
+rpn (3)>5 12 **
+244,140,625
 ''' ],
     'truncoct' : [
 'polyhedral_numbers', 'calculates the nth truncated octahedral number',
