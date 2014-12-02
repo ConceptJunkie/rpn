@@ -12,10 +12,10 @@
 #//
 #//******************************************************************************
 
-# Critical bug!
+# Bug!
 #
-# d:\dev\trunk\idirect\nms\lib\nms_object_mgr>rpn -p50 septillion
-# 999999999999999983222784
+# c:\sys\ut\rpn>rpn -p100 -a100 20 squaretri
+# 1.3088951205880807e29
 #
 
 # http://en.wikipedia.org/wiki/Physical_constant

@@ -473,9 +473,9 @@ def getNthSquareTriangularNumber( n ):
 
     sqrt2 = sqrt( 2 )
 
-    return ceil( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, n ) ),
-                                    power( fsub( 1, sqrt2 ), fmul( 2, n ) ) ),
-                              fmul( 4, sqrt2 ) ), 2 ) )
+    return round( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, n ) ),
+                                     power( fsub( 1, sqrt2 ), fmul( 2, n ) ) ),
+                               fmul( 4, sqrt2 ) ), 2 ), 1 )
 
 
 #//******************************************************************************

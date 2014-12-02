@@ -2130,6 +2130,8 @@ c:\>rpn 15,625 seconds hms
     'hypot' : [
 'trigonometry', 'calculates the hypotenuse of n and k',
 '''
+Given a right triangle with sides of n and k, the 'hypot' operator calculates
+what the length of the hypoteneuse would be.
 ''',
 '''
 c:\>rpn 3 4 hypot
@@ -2197,14 +2199,29 @@ d:\dev\trunk\idirect>rpn inf x 1 + fib x fib / limit
     'interleave' : [
 'list_operators', 'interleaves lists n and k into a single list',
 '''
+Given an input of two lists, n and k 'interleave' returns a single list in which the
+members of n and k are interleaved alternately.  If one list is longer than the other
+then the extra list elements from the longer list are ignored.
 ''',
 '''
+c:\>rpn [ 1 3 5 ] [ 2 4 6 ] interleave
+[ 1, 2, 3, 4, 5, 6 ]
+
+c:\>rpn [ 1 3 5 ] [ 2 4 6 8 10 ] interleave
+[ 1, 2, 3, 4, 5, 6 ]
+
+c:\>rpn 1 20 2 range2 2 20 2 range2 interleave
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
 ''' ],
     'intersection' : [
 'list_operators', 'returns the intersection of two lists',
 '''
 ''',
 '''
+Find numbers that are triangular and square at the same time:
+
+c:\>rpn 1 100 range tri 1 100 range sqr intersect
+[ 1, 36, 1225 ]
 ''' ],
     'isdivisible' : [
 'arithmetic', 'returns whether n is n divisible by k',
