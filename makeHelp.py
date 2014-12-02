@@ -103,83 +103,80 @@ command-line options:
 ''',
 'arguments' :
 '''
-Arguments:
+As its name implies, rpn uses Reverse Polish Notation, otherwise referred
+to as postfix notation.  The operand(s) come first and then the operator.
+This notation works without the need for parentheses.  rpn supports
+brackets for creating lists of operands, but this serves a different
+purpose and is described later.
 
-    As its name implies, rpn uses Reverse Polish Notation, otherwise referred
-    to as postfix notation.  The operand(s) come first and then the operator.
-    This notation works without the need for parentheses.  rpn supports
-    brackets for creating lists of operands, but this serves a different
-    purpose and is described later.
+Some simple examples:
 
-    Some simple examples:
+2 + 2:
+    rpn 2 2 +
 
-    2 + 2:
-        rpn 2 2 +
+3 sqrt(2) / 4:
+    rpn 3 2 sqrt * 4 /
 
-    3 sqrt(2) / 4:
-        rpn 3 2 sqrt * 4 /
+Lists are specified using the bracket operators.  Most operators can take
+lists as operands, which results in the operation being performed on each
+item in the list.  If the operator takes two operands, then either operand
+can be a list.  If one operand is a list and the other is a single value,
+then each value in the list will have the single operand applied to it
+with the operator, and the result will be displayed as a list.
 
-    Lists are specified using the bracket operators.  Most operators can take
-    lists as operands, which results in the operation being performed on each
-    item in the list.  If the operator takes two operands, then either operand
-    can be a list.  If one operand is a list and the other is a single value,
-    then each value in the list will have the single operand applied to it
-    with the operator, and the result will be displayed as a list.
+It is possible in certain cases to nest lists.  rpn tries to figure out
+a logical way (and unequivocal) to apply the operators to the operands.
 
-    It is possible in certain cases to nest lists.  rpn tries to figure out
-    a logical way (and unequivocal) to apply the operators to the operands.
+*** Special note:  I have not exhaustively tested every possible
+scenario with lists, but in general, if it makes sense, rpn will work
+correctly.
 
-    *** Special note:  I have not exhaustively tested every possible
-    scenario with lists, but in general, if it makes sense, rpn will work
-    correctly.
+For example:
 
-    For example:
+c:\>rpn [ 2 3 4 5 6 ] 10 +
+[ 12, 13, 14, 15, 16, 17 ]
 
-    c:\>rpn [ 2 3 4 5 6 ] 10 +
-    [ 12, 13, 14, 15, 16, 17 ]
+c:\>rpn 7 [ 1 2 3 4 5 6 7 ] *
+[ 7, 14, 21, 28, 35, 42, 49 ]
 
-    c:\>rpn 7 [ 1 2 3 4 5 6 7 ] *
-    [ 7, 14, 21, 28, 35, 42, 49 ]
+If both operands are lists, then each element from the first list is
+applied to the corresponding element in the second list.  If one list
+is shorter than the other, then only that many elements will have the
+operator applied and the resulting list will only be as long as the
+shorter list.
 
-    If both operands are lists, then each element from the first list is
-    applied to the corresponding element in the second list.  If one list
-    is shorter than the other, then only that many elements will have the
-    operator applied and the resulting list will only be as long as the
-    shorter list.
+For example:
 
-    For example:
+rpn [ 1 2 3 4 5 6 7 ] [ 1 2 3 4 5 6 7 ] **
+[ 1, 4, 27, 256, 3125, 46656, 823543 ]
 
-    rpn [ 1 2 3 4 5 6 7 ] [ 1 2 3 4 5 6 7 ] **
-    [ 1, 4, 27, 256, 3125, 46656, 823543 ]
+rpn [ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *
+[ 30, 40, 90, 160 ]
 
-    rpn [ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *
-    [ 30, 40, 90, 160 ]
+Some operators take lists as operands 'natively'.  This means the operator
+requires a list, because the operation does not make sense for a single
+value.  For example, 'mean' averages the values of a list.  If the
+required list argument is a single value, rpn will promote it to a list.
 
-    Some operators take lists as operands 'natively'.  This means the operator
-    requires a list, because the operation does not make sense for a single
-    value.  For example, 'mean' averages the values of a list.  If the
-    required list argument is a single value, rpn will promote it to a list.
+For example:
 
-    For example:
-
-    c:\>rpn [ 1 2 3 ] [ 4 5 6 ] polyval
-    [ 27, 38, 51 ]
-
+c:\>rpn [ 1 2 3 ] [ 4 5 6 ] polyval
+[ 27, 38, 51 ]
 ''',
 'input' :
 '''
-    For integers, rpn understands hexidecimal input of the form '0x....'.
+For integers, rpn understands hexidecimal input of the form '0x....'.
 
-    A number consisting solely of 0s and 1s with a trailing 'b' or 'B' is
-    interpreted as binary.
+A number consisting solely of 0s and 1s with a trailing 'b' or 'B' is
+interpreted as binary.
 
-    Otherwise, a leading '0' is interpreted as octal.
+Otherwise, a leading '0' is interpreted as octal.
 
-    Decimal points are not allowed for binary, octal or hexadecimal modes,
-    but fractional numbers in bases other than 10 can be input using -b.
+Decimal points are not allowed for binary, octal or hexadecimal modes,
+but fractional numbers in bases other than 10 can be input using -b.
 
-    A leading '\\' forces the term to be a number rather than an operator (for
-    use with higher bases with -b).
+A leading '\\' forces the term to be a number rather than an operator (for
+use with higher bases with -b).
 ''',
 'output' :
 '''
@@ -1040,7 +1037,7 @@ SI Prefixes:
     zepto            z          10^-21
     yocto            y          10^-24
 
-    * Greek mu
+    * Greek mu, but since rpn only uses ASCII symbols, it's a lower-case 'u'
 ''',
 }
 
@@ -1079,8 +1076,20 @@ operatorHelp = {
     'acos' : [
 'trigonometry', 'calculates the arccosine of n',
 '''
+The arcosine is the inverse of cosine.  In other words, if cos( x ) = y, then
+acos( y ) = x.
+
+All trigonometric functions work on radians unless specified.
 ''',
 '''
+c:\>rpn 0 acos
+1.570796326795
+
+c:\>rpn 0.5 acos rad deg convert
+60 degrees
+
+c:\>rpn 45 degrees cos acos rad deg convert
+45 degrees
 ''' ],
     'acosh' : [
 'trigonometry', 'calculates the hyperbolic arccosine of n',
@@ -1201,6 +1210,7 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
     'april' : [
 'constants', 'returns 4, which is the code for April',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -1219,6 +1229,20 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
     'asin' : [
 'trigonometry', 'calculates the arcsine of n',
 '''
+The arcsine is the inverse of sine.  In other words, if sin( x ) = y, then
+asin( y ) = x.
+
+All trigonometric functions work on radians unless specified.
+''',
+'''
+c:\>rpn 0.5 asin
+0.523598775598
+
+c:\>rpn 0.75 sqrt asin rad deg convert
+60 degrees
+
+c:\>rpn 2 sqrt 1/x asin rad deg convert
+45 degrees
 ''',
 '''
 ''' ],
@@ -1237,8 +1261,20 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
     'atan' : [
 'trigonometry', 'calculates the arctangent of n',
 '''
+The arctangent is the inverse of tangent.  In other words, if tan( x ) = y, then
+atan( y ) = x.
+
+All trigonometric functions work on radians unless specified.
 ''',
 '''
+c:\>rpn 3 atan
+1.249045772398
+
+c:\>rpn 10 atan rad deg convert
+84.2894068625 degrees
+
+c:\>rpn 89 degrees tan atan rad deg convert
+89 degrees
 ''' ],
     'atanh' : [
 'trigonometry', 'calculates the hyperbolic arctangent of n',
@@ -1249,8 +1285,11 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
     'august' : [
 'constants', 'returns 8, which is the code for August',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
+c:\>rpn 2015 august 4 tuesday nthweekday
+2015-08-25 00:00:00
 ''' ],
     'avogadro' : [
 'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
@@ -1645,6 +1684,7 @@ number.
     'december' : [
 'constants', 'returns 12, which is the code for December',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -1937,6 +1977,7 @@ c:\>rpn 2 2 10 exprange
     'february' : [
 'constants', 'returns 2, which is the code for February',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -1979,6 +2020,7 @@ c:\>rpn 2 2 10 exprange
     'friday' : [
 'constants', 'returns 5, which is the code for Friday',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2273,6 +2315,7 @@ c:\>rpn itoi
     'january' : [
 'constants', 'returns 1, which is the code for January',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2285,12 +2328,14 @@ c:\>rpn itoi
     'july' : [
 'constants', 'returns 7, which is the code for July',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
     'june' : [
 'constants', 'returns 6, which is the code for June',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2381,18 +2426,50 @@ c:\>rpn itoi
     'log10' : [
 'logarithms', 'calculates the base-10 logarithm of n',
 '''
+The base-10 logarithm of n is the power to which 10 is raised to get the number
+n.
 ''',
 '''
+c:\>rpn 10 log10
+1
+
+c:\>rpn 3221 log10
+3.507990724811
+
+c:\>rpn 10 3221 log10 1481 log10 + power
+4770301
 ''' ],
     'log2' : [
 'logarithms', 'calculates the base-2 logarithm of n',
 '''
+The base-2 logarithm of n is the power to which 2 is raised to get the number
+n.
+
+The base-2 logarithm also calculates the number of bits necessary to store n
+different values.
 ''',
 '''
+c:\>rpn 8 log2
+3
+
+c:\>rpn 65536 log2
+16
 ''' ],
     'logxy' : [
 'logarithms', 'calculates the base-k logarithm of n',
 '''
+The base-k logarithm of n is the power to which k is raised to get the number
+n.
+''',
+'''
+c:\>rpn 1000 10 logxy
+3
+
+c:\>rpn 78125 5 logxy
+7
+
+c:\>rpn e sqr e logxy
+2
 ''',
 '''
 ''' ],
@@ -2441,6 +2518,7 @@ c:\>rpn itoi
     'march' : [
 'constants', 'returns 3, which is the code for March',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2519,6 +2597,7 @@ c:\>rpn itoi
     'may' : [
 'constants', 'returns 5, which is the code for May',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2642,6 +2721,7 @@ Hypothesis, then the least possible value for Mills' constant (usually called
     'monday' : [
 'constants', 'returns 1, which is the code for Monday',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2780,6 +2860,7 @@ c:\>rpn 16800 mA hours * 5 volts * joule convert
     'november' : [
 'constants', 'returns 11, which is the code for November',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2886,6 +2967,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
     'october' : [
 'constants', 'returns 10, which is the code for October',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3375,6 +3457,7 @@ This operator is the equivalent of 'n 3 root'.
     'saturday' : [
 'constants', 'returns 6, which is the code for Saturday',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3399,6 +3482,7 @@ This operator is the equivalent of 'n 3 root'.
     'september' : [
 'constants', 'returns 9, which is the code for September',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3651,6 +3735,7 @@ c:\>rpn 1 gallon 4 cups -
     'sunday' : [
 'constants', 'returns 7, which is the code for Sunday',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3717,6 +3802,7 @@ c:\>rpn 1 gallon 4 cups -
     'thursday' : [
 'constants', 'returns 4, which is the code for Thursday',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3850,6 +3936,7 @@ rpn (3)>5 12 **
     'tuesday' : [
 'constants', 'returns 2, which is the code for Tuesday',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3940,14 +4027,22 @@ rpn (3)>5 12 **
     'value' : [
 'special', 'converts a measurement to a numerical value',
 '''
+If a value as the result of evaluation is a measurement, i.e., contains a unit
+of measurement, then this operator will evaluate that value as a number, the
+numerical part of the measurement value.
 ''',
 '''
+c:\>rpn 1000 light-years value
+1000
 ''' ],
     'wednesday' : [
 'constants', 'returns 3, which is the code for Wednesday',
 '''
+This is defined for convenience for use with date operators.
 ''',
 '''
+c:\>rpn 2015 august 4 wednesday nthweekday
+2015-08-26 00:00:00
 ''' ],
     'weekday' : [
 'conversion', 'calculates the day of the week of an absolute time',
