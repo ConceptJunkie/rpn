@@ -49,7 +49,6 @@ comma = False
 debugMode = False
 decimalDelimiter = defaultDecimalDelimiter
 decimalGrouping = 0
-findPoly = 0
 identify = False
 inputRadix = defaultInputRadix
 leadingZero = False

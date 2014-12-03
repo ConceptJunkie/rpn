@@ -86,9 +86,6 @@ command-line options:
     -t, --timer
         display calculation time
 
-    -u, --find_poly
-        find a polynomial such that P(x) ~= 0 of degree <= N (default: 1000)
-
     -w [n], --bitwise_group_size [n]
         bitwise operations group values by this size (default: ''' + str( g.defaultBitwiseGroupSize ) + ')' + '''
 
@@ -1991,7 +1988,7 @@ This is defined for convenience for use with date operators.
 '''
 ''' ],
     'find_poly' : [
-'settings', 'set find polynomial mode in interactive mode',
+'algebra', 'find a polynomial for which n is a zero',
 '''
 ''',
 '''

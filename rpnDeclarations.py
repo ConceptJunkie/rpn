@@ -143,7 +143,6 @@ operatorAliases = {
     '-i'            : 'identify_mode',
     '-o'            : 'octal_mode',
     '-t'            : 'timer_mode',
-    '-u'            : 'find_poly_mode',
     '-x'            : 'hex_mode',
     '-z'            : 'leading_zero_mode',
     '/'             : 'divide',

@@ -135,10 +135,6 @@ def handleOutput( valueList ):
             if g.identify:
                 handleIdentify( result )
 
-            # handle --find_poly
-            if g.findPoly > 0:
-                findPolynomial( result, g.findPoly )
-
         saveResult( result )
 
     if g.timer or g.tempTimerMode:
@@ -306,7 +302,6 @@ def rpn( cmd_args ):
     parser.add_argument( '-r', '--output_radix', type=str, action='store', default=g.defaultOutputRadix )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0 )
     parser.add_argument( '-t', '--timer', action='store_true' )
-    parser.add_argument( '-u', '--find_poly', nargs='?', type=int, action='store', default=0, const=1000 )
     parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=g.defaultBitwiseGroupSize )
     parser.add_argument( '-x', '--hex', action='store_true' )
     parser.add_argument( '-z', '--leading_zero', action='store_true' )
@@ -405,9 +400,6 @@ def rpn( cmd_args ):
     # handle -t
     g.timer = args.timer
 
-    # handle -u
-    g.findPoly = args.find_poly
-
     # handle -x
     if args.hex:
         g.outputRadix = 16
@@ -416,7 +408,7 @@ def rpn( cmd_args ):
         g.bitwiseGroupSize = 16
 
     # handle -u and -y:  mpmath wants precision of at least 53 for these functions
-    if ( args.identify or args.find_poly > 0 ) and mp.dps < 53:
+    if args.identify and mp.dps < 53:
         mp.dps = 53
 
     if args.print_options:
@@ -431,7 +423,6 @@ def rpn( cmd_args ):
         print( '--output_radix:  %d' % g.outputRadix )
         print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
         print( '--timer:  ' + ( 'true' if args.timer else 'false' ) )
-        print( '--find_poly:  %d' % args.find_poly )
         print( '--bitwise_group_size:  %d' % g.bitwiseGroupSize )
         print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
         print( '--identify:  ' + ( 'true' if args.identify else 'false' ) )

@@ -263,29 +263,25 @@ def handleIdentify( result ):
         print( '    = ' + formula )
 
 
-
 #//******************************************************************************
 #//
 #//  findPolynomial
 #//
 #//******************************************************************************
 
-def findPolynomial( result, findPoly ):
-    poly = str( findpoly( result, findPoly ) )
+def findPolynomial( n, k ):
+    poly = findpoly( n, int( k ) )
 
-    if poly == 'None':
-        poly = str( findpoly( result, findPoly, maxcoeff=1000 ) )
+    if poly is None:
+        poly = findpoly( n, int( k ), tol=1e-10 )
 
-    if poly == 'None':
-        poly = str( findpoly( result, findPoly, maxcoeff=100000 ) )
+    if poly is None:
+        poly = findpoly( n, int( k ), tol=1e-7 )
 
-    if poly == 'None':
-        poly = str( findpoly( result, findPoly, maxcoeff=1000000, tol=1e-10 ) )
-
-    if poly == 'None':
-        print( '    = polynomial of degree <= %d not found' % findPoly )
+    if poly is None:
+        return [ 0 ]
     else:
-        print( '    = polynomial ' + poly )
+        return poly
 
 
 #//******************************************************************************
@@ -522,17 +518,6 @@ def setComma( n ):
 
 #//******************************************************************************
 #//
-#//  setFindPoly
-#//
-#//******************************************************************************
-
-def setFindPoly( n ):
-    g.findPoly = n
-    return g.findPoly
-
-
-#//******************************************************************************
-#//
 #//  setTimer
 #//
 #//******************************************************************************
@@ -765,7 +750,6 @@ functionOperators = [
 
 sideEffectOperators = [
     'comma_mode',
-    'find_poly_mode',
     'hex_mode',
     'identify_mode',
     'leading_zero_mode',
@@ -968,7 +952,7 @@ operators = {
     'false'             : OperatorInfo( lambda: 0, 0 ),
     'february'          : OperatorInfo( lambda: 2, 0 ),
     'fibonacci'         : OperatorInfo( fib, 1 ),
-    'find_poly'         : OperatorInfo( setFindPoly, 1 ),
+    'find_poly'         : OperatorInfo( findPolynomial, 2 ),
     'float'             : OperatorInfo( lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1 ),
     'floor'             : OperatorInfo( floor, 1 ),
     'fraction'          : OperatorInfo( interpretAsFraction, 2 ),
