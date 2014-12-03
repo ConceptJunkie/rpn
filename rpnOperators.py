@@ -600,10 +600,27 @@ def setOutputRadix( n ):
 def setLeadingZero( n ):
     result = 1 if g.leadingZero else 0
 
-    if ( n == 0 ) or ( n == -1 ):
+    if ( n == 0 ):
         g.leadingZero = False
     else:
         g.leadingZero = True
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  setIdentify
+#//
+#//******************************************************************************
+
+def setIdentify( n ):
+    result = 1 if g.identify else 0
+
+    if ( n == 0 ):
+        g.identify = False
+    else:
+        g.identify = True
 
     return result
 
@@ -981,6 +998,7 @@ operators = {
     'hypot'             : OperatorInfo( hypot, 2 ),
     'i'                 : OperatorInfo( lambda n: mpc( real='0.0', imag=n ), 1 ),
     'icosahedral'       : OperatorInfo( lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n ), 1 ),
+    'identify'          : OperatorInfo( setIdentify, 1 ),
     'identify_mode'     : OperatorInfo( setIdentifyMode, 0 ),
     'infinity'          : OperatorInfo( lambda: inf, 0 ),
     'input_radix'       : OperatorInfo( setInputRadix, 1 ),

@@ -2173,7 +2173,7 @@ c:\>rpn 15,625 seconds hms
 'trigonometry', 'calculates the hypotenuse of n and k',
 '''
 Given a right triangle with sides of n and k, the 'hypot' operator calculates
-what the length of the hypoteneuse would be.
+what the length of the hypotenuse would be.
 ''',
 '''
 c:\>rpn 3 4 hypot
@@ -2199,6 +2199,12 @@ e ^ ( pi * i ) = -1
 ''' ],
     'icosahedral' : [
 'polyhedral_numbers', 'returns the nth icosahedral number',
+'''
+''',
+'''
+''' ],
+    'identify' : [
+'settings', 'set identify mode in interactive mode',
 '''
 ''',
 '''
