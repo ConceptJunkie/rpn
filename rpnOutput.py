@@ -90,41 +90,26 @@ def formatOutput( output ):
     else:
         comma = g.comma
 
-    if g.tempFindPolyMode:
-        pass
+    # output settings, which may be overrided by temp settings
+    bitwiseGroupSize = g.bitwiseGroupSize
+    integerGrouping = g.integerGrouping
+    leadingZero = g.leadingZero
+    outputRadix = g.outputRadix
 
     if g.tempHexMode:
         bitwiseGroupSize = 16
         integerGrouping = 4
         leadingZero = True
         outputRadix = 16
-    else:
-        bitwiseGroupSize = g.bitwiseGroupSize
-        integerGrouping = g.integerGrouping
-        leadingZero = g.leadingZero
-        outputRadix = g.outputRadix
-
-    if g.tempIdentifyMode:
-        pass
 
     if g.tempLeadingZeroMode:
         leadingZero = True
-    else:
-        leadingZero = g.leadingZero
 
     if g.tempOctalMode:
         bitwiseGroupSize = 9
         integerGrouping = 3
         leadingZero = True
         outputRadix = 8
-    else:
-        bitwiseGroupSize = g.bitwiseGroupSize
-        integerGrouping = g.integerGrouping
-        leadingZero = g.leadingZero
-        outputRadix = g.outputRadix
-
-    if g.tempTimeMode:
-        pass
 
     exponentIndex = output.find( 'e' )
 
@@ -167,27 +152,6 @@ def formatOutput( output ):
     elif ( mantissa != '' ) and ( g.outputAccuracy == -1 ):
         mantissa = mantissa.rstrip( '0' )
 
-    #print( 'integer: ', integer )
-    #print( 'mantissa: ', mantissa )
-    #print( 'exponent: ', exponent )
-    #
-    #if exponent > 0:
-    #    if exponent > len( mantissa ):
-    #        integer += mantissa + '0' * ( exponent - len( mantissa ) )
-    #        mantissa = ''
-    #    else:
-    #        integer += mantissa[ : exponent ]
-    #        mantissa = mantissa[ exponent + 1 : ]
-    #elif exponent < 0:
-    #    exponent = -exponent
-    #
-    #    if exponent > len( integer ):
-    #        mantissa = '0' * ( exponent - len( integer ) ) + integer + mantissa
-    #        integer = '0'
-    #    else:
-    #        mantissa = integer[ exponent : ]
-    #        integer = integer[ : exponent - 1 ]
-
     if outputRadix == g.phiBase:
         integer, mantissa = convertToPhiBase( mpmathify( output ) )
     elif outputRadix == g.fibBase:
@@ -206,7 +170,7 @@ def formatOutput( output ):
             mantissa = roundMantissa( mantissa, g.outputAccuracy )
             mantissa = mantissa.rstrip( '0' )
 
-    if comma and integerGrouping > 0:
+    if integerGrouping > 0:
         firstDelimiter = len( integer ) % integerGrouping
 
         if leadingZero and firstDelimiter > 0:

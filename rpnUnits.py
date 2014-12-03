@@ -675,7 +675,7 @@ unitOperators = {
                   '''A score is 20.''' ),
 
     'flock' :
-        UnitInfo( 'constant', 'flock', 'flocks', '', [ 'timer' ], [ 'constant' ],
+        UnitInfo( 'constant', 'flock', 'flocks', '', [ ], [ 'constant' ],
                   '''A flock is an archaic name for 40.''' ),
 
     'shock' :

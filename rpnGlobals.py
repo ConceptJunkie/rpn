@@ -44,25 +44,27 @@ nestedListLevel = 0
 
 # options
 
-outputAccuracy = -1
-comma = False
-outputBaseDigits = False
 bitwiseGroupSize = 0
+comma = False
 debugMode = False
 decimalDelimiter = defaultDecimalDelimiter
 decimalGrouping = 0
+findPoly = 0
+identify = False
 inputRadix = defaultInputRadix
 leadingZero = False
 lineLength = defaultLineLength
 numerals = ''
+outputAccuracy = -1
+outputBaseDigits = False
 outputRadix = defaultOutputRadix
 tempCommaMode = False
-tempFindPolyMode = False
 tempHexMode = False
 tempIdentifyMode = False
 tempLeadingZeroMode = False
 tempOctalMode = False
-tempTimeMode = False
+tempTimerMode = False
+timer = False
 
 # unit data
 

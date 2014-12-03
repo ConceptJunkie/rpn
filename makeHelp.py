@@ -83,7 +83,7 @@ command-line options:
     -R n, --output_radix_numerals n
         output each digit is a space-delimited base-10 number
 
-    -t, --time
+    -t, --timer
         display calculation time
 
     -u, --find_poly
@@ -1288,6 +1288,9 @@ c:\>rpn 89 degrees tan atan rad deg convert
 This is defined for convenience for use with date operators.
 ''',
 '''
+c:\>rpn august
+8
+
 c:\>rpn 2015 august 4 tuesday nthweekday
 2015-08-25 00:00:00
 ''' ],
@@ -1987,8 +1990,8 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'find_poly_mode' : [
-'settings', 'set temporary find polynomial mode in interactive mode',
+    'find_poly' : [
+'settings', 'set find polynomial mode in interactive mode',
 '''
 ''',
 '''
@@ -3806,8 +3809,14 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'time_mode' : [
-'settings', 'set temporary time mode in interactive mode',
+    'timer' : [
+'settings', 'set timer mode in interactive mode',
+'''
+''',
+'''
+''' ],
+    'timer_mode' : [
+'settings', 'set temporary timer mode in interactive mode',
 '''
 ''',
 '''

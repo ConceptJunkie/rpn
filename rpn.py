@@ -95,7 +95,7 @@ def evaluate( terms ):
 #//
 #//******************************************************************************
 
-def handleOutput( valueList, identify, findPoly, showTime ):
+def handleOutput( valueList ):
     if len( valueList ) == 0:
         return
 
@@ -132,16 +132,16 @@ def handleOutput( valueList, identify, findPoly, showTime ):
             printParagraph( outputString )
 
             # handle --identify
-            if identify:
+            if g.identify:
                 handleIdentify( result )
 
             # handle --find_poly
-            if findPoly > 0:
-                findPolynomial( result, findPoly )
+            if g.findPoly > 0:
+                findPolynomial( result, g.findPoly )
 
         saveResult( result )
 
-    if showTime:
+    if g.timer or g.tempTimerMode:
         print( '\n%.3f seconds' % time.clock( ) )
 
 
@@ -167,12 +167,11 @@ def enterInteractiveMode( args ):
 
         # clear single operation flags
         g.tempCommaMode = False
-        g.tempFindPolyMode = False
         g.tempHexMode = False
         g.tempIdentifyMode = False
         g.tempLeadingZeroMode = False
         g.tempOctalMode = False
-        g.tempTimeMode = False
+        g.tempTimerMode = False
 
         try:
             line = input( 'rpn (' + str( g.promptCount ) + ')>' )
@@ -189,12 +188,15 @@ def enterInteractiveMode( args ):
         if terms[ 0 ] == 'help':
             enterHelpMode( terms[ 1 : ] );
         else:
+            if args.timer or g.tempTimerMode:
+                time.clock( )
+
             if validateArguments( terms ):
                 valueList = evaluate( terms )
 
                 g.results.append( valueList[ -1 ] )
 
-                handleOutput( valueList, args.identify, args.find_poly, args.time )
+                handleOutput( valueList )
             else:
                 g.results.append( 0 )
 
@@ -303,7 +305,7 @@ def rpn( cmd_args ):
     parser.add_argument( '-p', '--precision', type=int, action='store', default=g.defaultPrecision )
     parser.add_argument( '-r', '--output_radix', type=str, action='store', default=g.defaultOutputRadix )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0 )
-    parser.add_argument( '-t', '--time', action='store_true' )
+    parser.add_argument( '-t', '--timer', action='store_true' )
     parser.add_argument( '-u', '--find_poly', nargs='?', type=int, action='store', default=0, const=1000 )
     parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=g.defaultBitwiseGroupSize )
     parser.add_argument( '-x', '--hex', action='store_true' )
@@ -333,9 +335,6 @@ def rpn( cmd_args ):
         print( 'rpn:  ' + errorString )
         return
 
-    if args.time:
-        time.clock( )
-
     # these are either globals or can be modified by other options (like -x)
     g.bitwiseGroupSize = args.bitwise_group_size
     g.integerGrouping = args.integer_grouping
@@ -356,6 +355,9 @@ def rpn( cmd_args ):
     # handle -D
     if args.DEBUG:
         g.debugMode = True
+
+    # handle -i
+    g.identify = args.identify
 
     # handle -l
     g.lineLength = args.line_length
@@ -400,6 +402,12 @@ def rpn( cmd_args ):
         print( 'rpn:  output radix must be from 2 to 62, or phi' )
         return
 
+    # handle -t
+    g.timer = args.timer
+
+    # handle -u
+    g.findPoly = args.find_poly
+
     # handle -x
     if args.hex:
         g.outputRadix = 16
@@ -422,7 +430,7 @@ def rpn( cmd_args ):
         print( '--precision:  %d' % args.precision .dps )
         print( '--output_radix:  %d' % g.outputRadix )
         print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
-        print( '--time:  ' + ( 'true' if args.time else 'false' ) )
+        print( '--timer:  ' + ( 'true' if args.timer else 'false' ) )
         print( '--find_poly:  %d' % args.find_poly )
         print( '--bitwise_group_size:  %d' % g.bitwiseGroupSize )
         print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
@@ -439,6 +447,9 @@ def rpn( cmd_args ):
         return
 
     # let's check out the arguments before we start to do any calculations
+    if args.timer:
+        time.clock( )
+
     if not validateArguments( args.terms ):
         return
 
@@ -451,10 +462,7 @@ def rpn( cmd_args ):
 
     valueList = evaluate( args.terms )
 
-    handleOutput( valueList, args.identify, args.find_poly, args.time )
-
-    if args.time:
-        print( '\n%.3f seconds' % time.clock( ) )
+    handleOutput( valueList )
 
 
 #//******************************************************************************

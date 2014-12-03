@@ -167,7 +167,8 @@ def evaluateTerm( term, index, currentValueList ):
             if len( result ) == 1:
                 result = result[ 0 ]
 
-            currentValueList.append( result )
+            if term not in sideEffectOperators:
+                currentValueList.append( result )
 
         # handle a list operator
         elif term in listOperators:
@@ -521,6 +522,32 @@ def setComma( n ):
 
 #//******************************************************************************
 #//
+#//  setFindPoly
+#//
+#//******************************************************************************
+
+def setFindPoly( n ):
+    g.findPoly = n
+    return g.findPoly
+
+
+#//******************************************************************************
+#//
+#//  setTimer
+#//
+#//******************************************************************************
+
+def setTimer( n ):
+    if n == 1:
+        g.timer = True
+    else:
+        g.timer = False
+
+    return 1 if g.timer else 0
+
+
+#//******************************************************************************
+#//
 #//  setIntegerGrouping
 #//
 #//******************************************************************************
@@ -679,12 +706,12 @@ def setCommaMode( ):
 
 #//******************************************************************************
 #//
-#//  setTimeMode
+#//  setTimerMode
 #//
 #//******************************************************************************
 
-def setTimeMode( ):
-    g.tempTimeMode = True
+def setTimerMode( ):
+    g.tempTimerMode = True
     return 0
 
 
@@ -696,17 +723,6 @@ def setTimeMode( ):
 
 def setLeadingZeroMode( ):
     g.tempLeadingZeroMode = True
-    return 0
-
-
-#//******************************************************************************
-#//
-#//  setFindPolyMode
-#//
-#//******************************************************************************
-
-def setFindPolyMode( ):
-    g.tempFindPolyMode = True
     return 0
 
 
@@ -725,12 +741,37 @@ def setIdentifyMode( ):
 #//
 #//  functionOperators
 #//
-#//  This is just a list of operators that terminate the function creation
-#//  state.
+#//  This is a list of operators that terminate the function creation state.
 #//
 #//******************************************************************************
 
-functionOperators = [ 'eval', 'nsum', 'nprod', 'limit', 'limitn' ]
+functionOperators = [
+    'eval',
+    'nsum',
+    'nprod',
+    'limit',
+    'limitn'
+]
+
+
+#//******************************************************************************
+#//
+#//  sideEffectOperators
+#//
+#//  This is a list of operators that execute without modifying the result
+#//  stack.
+#//
+#//******************************************************************************
+
+sideEffectOperators = [
+    'comma_mode',
+    'find_poly_mode',
+    'hex_mode',
+    'identify_mode',
+    'leading_zero_mode',
+    'octal_mode',
+    'timer_mode'
+]
 
 
 #//******************************************************************************
@@ -927,7 +968,7 @@ operators = {
     'false'             : OperatorInfo( lambda: 0, 0 ),
     'february'          : OperatorInfo( lambda: 2, 0 ),
     'fibonacci'         : OperatorInfo( fib, 1 ),
-    'find_poly_mode'    : OperatorInfo( setFindPolyMode, 0 ),
+    'find_poly'         : OperatorInfo( setFindPoly, 1 ),
     'float'             : OperatorInfo( lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1 ),
     'floor'             : OperatorInfo( floor, 1 ),
     'fraction'          : OperatorInfo( interpretAsFraction, 2 ),
@@ -1153,7 +1194,8 @@ operators = {
     'thabit'            : OperatorInfo( lambda n : fsub( fmul( 3, power( 2, n ) ), 1 ), 1 ),
     'thanksgiving'      : OperatorInfo( calculateThanksgiving, 1 ),
     'thursday'          : OperatorInfo( lambda: 4, 0 ),
-    'time_mode'         : OperatorInfo( setTimeMode, 0 ),
+    'timer'             : OperatorInfo( setTimer, 1 ),
+    'timer_mode'        : OperatorInfo( setTimerMode, 0 ),
     'today'             : OperatorInfo( getToday, 0 ),
     'topic'             : OperatorInfo( printHelpTopic, 1 ),
     'tounixtime'        : OperatorInfo( convertToUnixTime, 1 ),
