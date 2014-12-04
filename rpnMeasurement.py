@@ -368,7 +368,7 @@ class Measurement( mpf ):
 
     def convertValue( self, other ):
         if self.isEquivalent( other ):
-            return mpf( 1.0 )
+            return mpf( self.getValue( ) )
 
         if self.isCompatible( other ):
             conversions = [ ]
@@ -395,6 +395,9 @@ class Measurement( mpf ):
             unit1String = units1.getUnitString( )
             unit2String = units2.getUnitString( )
 
+            debugPrint( 'unit1String: ', unit1String )
+            debugPrint( 'unit2String: ', unit2String )
+
             if unit1String == unit2String:
                 return fmul( mpf( self ), mpf( other ) )
 
@@ -403,9 +406,6 @@ class Measurement( mpf ):
 
             if unit2String in g.operatorAliases:
                 unit2String = g.operatorAliases[ unit2String ]
-
-            debugPrint( 'unit1String: ', unit1String )
-            debugPrint( 'unit2String: ', unit2String )
 
             exponents = { }
 
@@ -436,6 +436,7 @@ class Measurement( mpf ):
                 debugPrint( 'units2:', units2 )
                 debugPrint( 'newUnits1:', newUnits1 )
                 debugPrint( 'newUnits2:', newUnits2 )
+
 
                 for unit1 in newUnits1:
                     foundConversion = False
