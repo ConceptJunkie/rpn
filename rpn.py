@@ -17,6 +17,9 @@
 # c:\sys\ut\rpn>rpn -p100 -a100 20 squaretri
 # 1.3088951205880807e29
 #
+# 2015 march -1 thursday nthweekday
+# It's one day off!
+
 
 # http://en.wikipedia.org/wiki/Physical_constant
 
