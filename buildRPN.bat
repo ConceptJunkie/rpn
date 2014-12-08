@@ -19,8 +19,8 @@ else
     move Output\setup_rpn.exe "%RPN_TARGET%\setup_rpn-%VERSION%-win32.exe"
 endiff
 
-rem del /sxyz /nt build
-rem del /sxyz /nt Output
+del /sxyz /nt build
+del /sxyz /nt Output
 
 del version.txt
 

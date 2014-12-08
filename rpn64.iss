@@ -44,19 +44,18 @@ Source: "{#BuildDir}\_lzma.pyd"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\_socket.pyd"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\_ssl.pyd"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\gmpy2.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\rpndata\help.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\help.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\library.zip"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\msvcp100.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\MSVCR100.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\pyexpat.pyd"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\python34.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\pywintypes34.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\select.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\rpndata\small_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\small_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\unicodedata.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\rpndata\unit_conversions.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\rpndata\unit_help.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\rpndata\units.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\unit_conversions.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\unit_help.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\units.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\win32api.pyd"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\win32evtlog.pyd"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files

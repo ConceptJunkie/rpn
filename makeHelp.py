@@ -353,8 +353,6 @@ Help topics for individual units is coming someday, but not today.
 'interactive_mode' :
 '''
 TODO:  describe interactive mode
-
-features to implement:  variable declaration, function declaration(?)
 ''',
 'about' :
 PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' +
@@ -371,16 +369,11 @@ mpmath library.
 Polynomials should support being taken to positive integral powers, but don't
 yet.
 
-I also want to support taking units to integral powers, but it doesn't yet.
-
-This requires implicit conversion between unit types, and doesn't work yet:
-    rpn -D 16800 mA hours * 5 volts * joule convert
-
 Unit conversion suffers from small rounding errors in some situations.  This
 is unavoidable to a certain extent, but it's worse than I think it should be.
 
-In general, I've been doing better testing for 5.28.0, and it's not done yet,
-but I wanted to push a release anyway.
+I've been making a concerted efforts to identify and fix bugs, but I'm certain
+there are still more.
 ''',
 'release_notes' :
 '''
