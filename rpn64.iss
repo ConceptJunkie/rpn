@@ -58,6 +58,22 @@ Source: "{#BuildDir}\unit_help.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\units.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\win32api.pyd"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\win32evtlog.pyd"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\balanced_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\cousin_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\double_balanced_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\isolated_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\large_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\quad_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\quint_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sext_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sexy_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sexy_quadruplets.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sexy_triplets.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\sophie_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\super_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\triplet_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\triple_balanced_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\twin_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

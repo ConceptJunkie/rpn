@@ -14,9 +14,6 @@ buildOptions = \
             'rpndata/units.pckl.bz2',
             'rpndata/unit_conversions.pckl.bz2',
             'rpndata/unit_help.pckl.bz2'
-        ],
-
-        bin_excludes = [
             'rpndata/balanced_primes.pckl.bz2',
             'rpndata/cousin_primes.pckl.bz2',
             'rpndata/double_balanced_primes.pckl.bz2',
