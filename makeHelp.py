@@ -686,7 +686,7 @@ the operator type to 'date'... because they were all about dates!
 
 Fixed a long-standing precision problem with unit conversion.
 
-More bug fixes.
+Lots more bug fixes.
 ''',
 'license' :
 '''

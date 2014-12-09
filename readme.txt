@@ -106,6 +106,27 @@ p.s. rpn is licensed under the GNU GPL version 3.0.  See (see
 
 Release Notes:
 
+6.0.0
+
+Introduced interactive mode, including variable declaration and referencing
+previous results by number.  (see 'rpn help interactive_mode')
+
+Added caching for OEIS operators.  However, it turns out some OEIS text is
+non-ASCII, so I'll have to deal with that.
+
+Operator help now includes examples by default.
+
+The 'time' operator type conflicted with the 'time' unit type, so I changed
+the operator type to 'date'... because they were all about dates!
+
+Fixed a long-standing precision problem with unit conversion.
+
+Lots more bug fixes.
+
+5.28.5
+
+More bug fixes and code cleanup.  Added the 'unfloat' and 'undouble' operators.
+
 5.28.4
 
 Added the 'diffs2' operator.
