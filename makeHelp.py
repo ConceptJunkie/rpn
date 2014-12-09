@@ -268,12 +268,10 @@ For now, here are some examples:
 ''',
 'user_functions' :
 '''
-    [ TODO: finish explaining user-defined formulas ]
-
-Allows the user to define a function for use with the eval, nsum, nprod,
-limit and limitn operators, etc.  Basically 'x' starts an expression that
-becomes a function.  Right now (5.28.0), a user-defined function must start
-with 'x', but I hope to remove that limitation soon.
+This feature allows the user to define a function for use with the eval, nsum,
+nprod, limit and limitn operators, etc.  Basically 'x' starts an expression
+that becomes a function.  Right now (5.28.0), a user-defined function must
+start with 'x', but I hope to remove that limitation soon.
 
 Some examples:
 
@@ -315,9 +313,6 @@ For now, here are some examples:
     c:\>rpn 60 miles hour / furlongs fortnight / convert
     161280 furlongs per fortnight
 
-    c:\>rpn barn gigaparsec * cubic_inch convert
-    188.299599080441 cubic inches
-
     c:\>rpn mars_day hms
     [ 24 hours, 37 minutes, 22.6632 seconds ]
 
@@ -330,15 +325,14 @@ For now, here are some examples:
     c:\>rpn 150,000 seconds [ day hour minute second ] convert
     [ 1 day, 17 hours, 39 minutes, 60 seconds ]
 
-I fixed the rounding error... sort of!
+I fixed the rounding error... sort of!  In this case, the result works out to
+be epsilon shy of the even amount it should be, and it ends up getting rounded
+up to 60 seconds.
 
 Here's a shortcut for "[ day hour minute second ] convert":
 
     c:\>rpn 150,000 seconds dhms
     [ 1 day, 17 hours, 39 minutes, 60 seconds ]
-
-    c:>rpn 16800 mA hours * 5 volts * joule convert
-    ...
 
 What is the radius of a sphere needed to hold 8 fluid ounces?
 
@@ -348,11 +342,105 @@ What is the radius of a sphere needed to hold 8 fluid ounces?
 It should say '1.510547765004 inches', but I haven't worked out all the unit
 stuff with the sphere functions yet.
 
+I tried to make the unit conversion flexible and smart.  It is... sometimes.
+
+    c:>rpn 16800 mA hours * 5 volts * joule convert
+    302400 joules
+
+    c:\sys\ut\rpn>rpn gigaparsec barn * cubic_inches convert
+    188.299599080441 cubic inches
+
+And sometimes it isn't:
+
+    c:\>rpn cubic_inches gigaparsec barn * convert
+    1 gigaparsec barn
+
 Help topics for individual units is coming someday, but not today.
 ''',
 'interactive_mode' :
 '''
-TODO:  describe interactive mode
+Interactive mode is a new feature introduced with version 6.  If rpn is
+launched with no expressions, then it will start an interactive prompt that
+allows the user to enter successive expressions for evaluation.
+
+Interactive mode also introduces some new operators.  Each expression that is
+evaluated is given a successive number:
+
+c:\>rpn
+rpn 6.0.0 - RPN command-line calculator
+copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+
+Type "help" for more information, and "exit" to exit.
+rpn (1)>2 3 +
+5
+rpn (2)>10 sqrt
+3.162277660168
+
+These numbers can be used to refer to previous results by prepending the
+result number with '$':
+
+rpn (3)>$1 5 +
+10
+rpn (4)>$2 sqr
+10
+
+rpn now allows for assigning variables using the 'set' operator:
+
+rpn (5)>side1 3 set
+3
+rpn (6)>side2 4 set
+4
+rpn (7)>$side1 $side2 hypot
+5
+
+The variable can be reference in any subsequent expression using the '$',
+which denotes a variable.  Variable names must start with an alphabetic
+character, and can contain alphanumeric characters.
+
+rpn interactive mode respects the command-line options that are passed to it.
+These settings can be changed with the new settings operators.
+
+There are two kinds of settings operators, operators that change a setting
+tempoarily only for the next operation, and operators that change the settings
+permanently, until they are changed by a subsequent settings operator, or the
+user exits interactive mode.
+
+See the 'settings' operators for more details.
+
+accuracy:  Changes the accuracy displayed on output.  Equivalent to the '-a'
+command-line option.
+
+comma:  Turns commas displayed in output on or off.  Equivalent to the '-c'
+command-line option.
+
+comma_mode:  Turns on commas only for the next operation.  Aliased to '-c'.
+
+decimal_grouping:  Sets the decimal grouping number.  Equivalent to the '-d'
+command-line option.
+
+hex_mode:  Aliased to '-x'.
+
+identify:
+
+identify_mode:  Aliased to '-i'.
+
+input_radix:
+
+integer_grouping:
+
+leading_zero:
+
+leading_zero_mode:  Aliased to '-z'.
+
+octal_mode:  Aliased to '-o'.
+
+output_radix:
+
+precision:
+
+timer:
+
+timer_mode:  Turns on the timer for the next operation.  Aliased to '-t'.
 ''',
 'about' :
 PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' +
@@ -1058,10 +1146,25 @@ operatorHelp = {
 '''
 ''' ],
     'accuracy' : [
-'settings', 'TODO: describe me',
+'settings', 'sets output accuracy to n'
 '''
+This operator changes the accuracy displayed on output in interactive mode.  It
+is equivalent to the '-a' command-line option.
+
+The 'default' constant can be used to set the default accuracy.
 ''',
 '''
+rpn (1)>pi
+3.141592653581
+rpn (2)>30 accuracy
+30
+rpn (3)>pi
+3.141592653589793238462643383271
+rpn (4)>default accuracy
+12
+rpn (5)>pi
+3.141592653581
+rpn (6)>
 ''' ],
     'acos' : [
 'trigonometry', 'calculates the arccosine of n',
@@ -1694,7 +1797,7 @@ This is defined for convenience for use with date operators.
 '''
 ''' ],
     'default' : [
-'settings', 'used with other setting operators',
+'constants', 'used with settings operators',
 '''
 ''',
 '''
@@ -1961,7 +2064,7 @@ c:\>rpn 2 2 10 exprange
 '''
 ''' ],
     'false' : [
-'settings', 'used with other setting operators',
+'constants', 'used with boolean settings operators',
 '''
 'false' simply evaluates to 0
 ''',
@@ -3914,7 +4017,7 @@ c:\>rpn 10 triplebal_ diffs
 '''
 ''' ],
     'true' : [
-'settings', 'used with other setting operators',
+'constant', 'used with boolean settings operators',
 '''
 'true' simply evaluates to 1
 ''',
