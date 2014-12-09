@@ -669,7 +669,8 @@ More bug fixes thanks to the test script!
 
 5.28.5
 
-More bug fixes and code cleanup.  Added the 'unfloat' and 'undouble' operators.
+More bug fixes and code cleanup.  Added the 'unfloat' and 'undouble'
+operators.
 
 6.0.0
 
@@ -722,21 +723,21 @@ Basic arithmetic operations:
     1081
 
     c:\>rpn 10 7 /
-    1.4285714286
+    1.4285714285714285714
 
 Basic trigonometry usage:
 
     c:\>rpn 60 deg sin         # sine of 60 degrees
-    0.8660254038
+    0.86602540378443864676
 
     c:\>rpn 45 deg tan         # tangent of 45 degrees
     1
 
-    c:\>rpn 2 pi * rad         # 2 pi radians is how many degrees?
-    360
+    c:\>rpn 2 pi * rad degrees convert      # 2 pi radians is how many degrees?
+    360 degrees
 
-    c:\>rpn 2 atan rad         # What angle (in degrees) has a slope of 2?
-    63.4349488229
+    c:\>rpn 2 atan rad degrees convert      # What angle (in degrees) has a slope of 2?
+    63.434948822922010648 degrees
 
 Convert an IP address to a 32-bit value and back:
 
