@@ -45,29 +45,6 @@ def debugPrint( *args, **kwargs ):
 
 #//******************************************************************************
 #//
-#//  roundMantissa
-#//
-#//******************************************************************************
-
-def roundMantissa( mantissa, accuracy ):
-    if len( mantissa ) <= accuracy:
-        return mantissa
-
-    lastDigit = int( mantissa[ accuracy - 1 ] )
-    extraDigit = int( mantissa[ accuracy ] )
-
-    result = mantissa[ : accuracy - 1 ]
-
-    if extraDigit >= 5:
-        result += str( lastDigit + 1 )
-    else:
-        result += str( lastDigit )
-
-    return result
-
-
-#//******************************************************************************
-#//
 #//  formatOutput
 #//
 #//  This takes a string representation of the result and formats it according
@@ -128,12 +105,12 @@ def formatOutput( output ):
         else:
             negativeImaginary = False
 
-        imaginaryValue = formatOutput( nstr( imaginary ) )
+        imaginaryValue = formatOutput( nstr( imaginary ), n=g.outputAccuracy )
 
-        strOutput = nstr( re( mpmathify( output ) ) )
+        strOutput = nstr( re( mpmathify( output ) ), n=g.outputAccuracy )
     else:
         imaginaryValue = ''
-        strOutput = nstr( output, g.outputAccuracy )[ 1 : -1 ]
+        strOutput = nstr( mpmathify( output ), n=g.outputAccuracy )
 
     if '.' in strOutput:
         decimal = strOutput.find( '.' )
@@ -167,7 +144,6 @@ def formatOutput( output ):
         if g.outputAccuracy <= 0:
             mantissa = ''
         else:
-            mantissa = roundMantissa( mantissa, g.outputAccuracy )
             mantissa = mantissa.rstrip( '0' )
 
     if integerGrouping > 0:
