@@ -10,104 +10,38 @@ units program.
 
 ****
 
-NEWS FLASH - 12/02/2014
+NEWS FLASH - 12/09/2014
 
-rpn 6.0.0 is almost ready.
+rpn 6.0.0 is released!
 
-There are several things that I still need to do:
+I'm sure there are still bugs to find and there is definitely a lot of help
+text to fill in, but I decided it was good enough to release.  Besides, does
+anyone but me actually use this program?  Who knows, but I doubt it.
 
-1.  Test, test, test.  I still often find little bugs when using rpn, which
-means it isn't tested as well as it should be.  My test suite is still pretty
-minimal, although it's been a big help.
-
-2.  I need to implement a new class of operators that don't evaluate to
-anything.
-
-Here's why:  I keep finding myself trying to use '-x' in interactive mode, so
-I have created a new operator called 'hex_mode' (aliased to '-x') which will
-cause rpn to use hex mode for the current operation only, just like using rpn
-from the command-line.
-
-However, this kind of operator should not evaulate to anything, otherwise it
-changes the expression to be evaluated.
-
-3.  I've created a new installer using InnoSetup.  cx_freeze does a great job
-creating an executable for rpn, but the installer it creates lacks some
-functionality I thought it should have.  I just need to test the installer more
-and make the prime number data files optional.
-
-4.  I've figured out some of the reason why unit conversion had an unreasonable
-level of rounding error.  First off, makeUnits.py was not, as I had intended,
-doing all calculations to 50 decimal places.  I also figured out that using
-mpmath's extradps( ) in a key place in rpnMeasurement.py helped immensely.
-
-It's much better now, but for multiple conversions (like the 'dhms' operator),
-there is still more rounding error than there should be.  I'll probably have to
-do the multiple conversions differently to avoid this.   That will probably
-happen post-6.0.0.
-
-5.  There's a lot of good help documentation and a ton of examples in rpn's
-help file, but most of the (currently 415) operators don't have anything but
-the short description.  I'm slowly working on filling those out.
-
-That definitely won't be complete for the 6.0.0 release, but I'll continue
-working on it.
-
-6.  I now have the first 10 billion prime numbers sitting in text files (50
-million each), ready to flesh out the prime number tables up to the 10
-billionth prime.
-The prime number functionality isn't high on my list of features - it's just
-something I did because I could - but it works well and maybe someone,
-somewhere will someday need to know what the first prime quadruplet over
-100,000,000,000 is.
-
-This update will probably come after 6.0.0 is released.
-
-If there's anyone in the world besides me using this program, or interested
-in it, I'd love to hear from you at rickg@his.com!
-
-NEWS FLASH - 11/19/2014
-
-rpn 6.0 is coming soon.  I have introduced "interactive mode", which means you
-can start rpn with no terms (flags don't matter) and it will give you an "rpn"
-prompt where you can do calculations, declare variables and refer to previous
-results, etc.  This means you can actually use rpn in Windows by clicking on an
-icon rather than having to run it from the command-line.
-
-Of course, rpn will still also work it always has if you include actual terms
-and operators on the command line.
-
-Also, there will be a new installer that will be more user-friendly.
-
-6.0 will also include more bug fixes from the effort I made for 5.28.
+There's a new installer now, and the prime number data files are back in by
+default.  Yeah, it's a 60MB download, but almost everyone has broadband these
+days.
 
 ****
 
-The current version is 5.28.5.
-
-Version 5.28 has been dedicated primarily to bug-fixes, because there are lots
-of dumb little bugs.  I particularly need to clean up the unit conversion
-stuff.  It's a work in progress.
+The current version is 6.0.0
 
 Installers for Windows can be found here:
 
-https://www.strongspace.com/conceptjunkie/public/rpn-5.28.5-win32.msi
-https://www.strongspace.com/conceptjunkie/public/rpn-5.28.5-amd64.msi
+https://www.strongspace.com/conceptjunkie/public/setup_rpn-6.0.0-win32.exe
+https://www.strongspace.com/conceptjunkie/public/setup-rpn-6.0.0-win64.exe
 
-The additional prime number data adds approximately 50MB to the installer size.
+rpn is a console app and can be launched from the command-line.  However,
+there is now an "interactive mode" and an icon to launch rpn for Windows users.
 
-https://www.strongspace.com/conceptjunkie/public/rpn_with_prime_data-5.28.5-win32.msi
-https://www.strongspace.com/conceptjunkie/public/rpn_with_prime_data-5.28.5-amd64.msi
-
-rpn is a console app and must be launched from the command-line.  The installer
-includes the compiled help file, unit conversion tables and prime number lookup
-tables.  The installer does not add rpn.exe to the Windows path, so a batch
-file or alias will be useful for launching it.
+The installer includes the compiled help file, unit conversion tables and
+prime number lookup tables.
 
 Running RPN using the source:
 
-rpn is written in Python 3, and requires the mpmath, pyprimes and arrow
-libraries for most of the hard math stuff (gmpy2 is optional, but recommended).
+rpn is written in Python 3, and requires the mpmath, pyprimes, readline and
+arrow libraries for most of the hard math stuff (gmpy2 is optional, but
+recommended).
 
 If you have pip installed, you can install the prerequisites with the
 following:
@@ -116,6 +50,8 @@ following:
     pip install mpmath
     pip install gmpy2
     pip install arrow
+    pip install readline  (or download an installer from here:
+            http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyreadline)
 
 Before running rpn, you should run makeHelp.py and makeUnits.py to generate
 the data files that rpn uses for displaying help and doing unit conversions
