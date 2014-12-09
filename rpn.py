@@ -17,6 +17,9 @@
 # 2015 march -1 thursday nthweekday
 # It's one day off!
 
+#  rpn -p60 65537 4 ** -r 16 -g8 -z
+#
+#  crashes because mpmath.nstr( ) uses scientific notation!
 
 # http://en.wikipedia.org/wiki/Physical_constant
 

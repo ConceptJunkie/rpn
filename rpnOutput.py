@@ -138,8 +138,8 @@ def formatOutput( output ):
 
         if mantissa:
             mantissa = str( convertFractionToBaseN( mpmathify( '0.' + mantissa ), outputRadix,
-                            int( ( mp.dps - integerLength ) / math.log10( outputRadix ) ),
-                            g.outputBaseDigits ) )
+                                                    int( ( mp.dps - integerLength ) / math.log10( outputRadix ) ),
+                                                    g.outputBaseDigits ) )
     else:
         if g.outputAccuracy <= 0:
             mantissa = ''

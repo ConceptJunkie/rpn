@@ -347,7 +347,7 @@ I tried to make the unit conversion flexible and smart.  It is... sometimes.
     c:>rpn 16800 mA hours * 5 volts * joule convert
     302400 joules
 
-    c:\sys\ut\rpn>rpn gigaparsec barn * cubic_inches convert
+    c:\>rpn gigaparsec barn * cubic_inches convert
     188.299599080441 cubic inches
 
 And sometimes it isn't:
@@ -459,6 +459,10 @@ yet.
 
 Unit conversion suffers from small rounding errors in some situations.  This
 is unavoidable to a certain extent, but it's worse than I think it should be.
+
+If rpn crashes converting a number to another base, increase the accuracy
+using -a.  I really want to prevent this from happening, but don't know how
+yet.
 
 I've been making a concerted efforts to identify and fix bugs, but I'm certain
 there are still more.
