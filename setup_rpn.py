@@ -13,7 +13,7 @@ buildOptions = \
             'rpndata/small_primes.pckl.bz2',
             'rpndata/units.pckl.bz2',
             'rpndata/unit_conversions.pckl.bz2',
-            'rpndata/unit_help.pckl.bz2'
+            'rpndata/unit_help.pckl.bz2',
             'rpndata/balanced_primes.pckl.bz2',
             'rpndata/cousin_primes.pckl.bz2',
             'rpndata/double_balanced_primes.pckl.bz2',
@@ -29,7 +29,7 @@ buildOptions = \
             'rpndata/super_primes.pckl.bz2',
             'rpndata/triplet_primes.pckl.bz2',
             'rpndata/triple_balanced_primes.pckl.bz2',
-            'rpndata/twin_primes.pckl.bz2',
+            'rpndata/twin_primes.pckl.bz2'
         ],
 
         include_msvcr = 1,
