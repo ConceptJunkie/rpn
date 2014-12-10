@@ -20,10 +20,11 @@ default decimal_grouping
 19 sqrt
 default decimal_grouping
 default accuracy
+default precision
 true comma
 30 accuracy
 [ 2 3 2 ] tower
-100 precision
+100 accuracy
 45 primorial name
 100,000,000 sexyprime_
 10984635 sexytriplet_
@@ -36,14 +37,17 @@ true comma
 8574239 sexytriplet
 89,999,999 sexyprime
 1 50 range fibonacci
-2800 precision
+2800 accuracy
 10239 tribonacci
-8300 precision
+8300 accuracy
 39399 fibonacci
+100 accuracy
 100 precision
 champernowne
+200 accuracy
 200 precision
 1 100 range fib 55 element
+30 accuracy
 30 precision
 11 octsquare
 1 20 range 11 base
@@ -57,22 +61,24 @@ champernowne
 1 20 range 19 base
 1 20 range 20 base
 7 octhex
-40 precision
+40 accuracy
 8 octhept
-43 precision
+43 accuracy
 45 bell
-50 precision
+50 accuracy
 4 integer_grouping
 1 30 range fib
 default integer_grouping
 67 schroeder
-60 precision
+60 accuracy
 true leading_zero
 8 integer_grouping
 16 output_radix
 65537 4 **
 false leading_zero
 default output_radix
+default accuracy
+default precision
 12 16 ** 1 + factor
 16 output_radix
 4 integer_grouping

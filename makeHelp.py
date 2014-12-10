@@ -408,7 +408,8 @@ user exits interactive mode.
 See the 'settings' operators for more details.
 
 accuracy:  Changes the accuracy displayed on output.  Equivalent to the '-a'
-command-line option.
+command-line option.  If the precision is less than accuracy + 2, then it is
+set to accuracy + 2.
 
 comma:  Turns commas displayed in output on or off.  Equivalent to the '-c'
 command-line option.
@@ -437,6 +438,8 @@ octal_mode:  Aliased to '-o'.
 output_radix:
 
 precision:
+
+The precision will not be set lower than the accuracy + 2.
 
 timer:
 
