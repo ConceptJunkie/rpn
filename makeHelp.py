@@ -2649,6 +2649,18 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
+    'maxdouble' : [
+'conversion', 'TODO',
+'''
+''',
+'''
+''' ],
+    'maxfloat' : [
+'conversion', 'TODO',
+'''
+''',
+'''
+''' ],
     'maxindex' : [
 'arithmetic', 'returns the index of largest value in list n',
 '''
@@ -2722,6 +2734,12 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
+    'memorial_day' : [
+'date', 'calculates the date of Memorial Day (US) for the year specified',
+'''
+''',
+'''
+''' ],
     'mertens' : [
 'constants', 'returns Merten\'s constant',
 '''
@@ -2761,8 +2779,14 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 ''',
 '''
 ''' ],
-    'memorial_day' : [
-'date', 'calculates the date of Memorial Day (US) for the year specified',
+    'mindouble' : [
+'conversion', 'TODO',
+'''
+''',
+'''
+''' ],
+    'minfloat' : [
+'conversion', 'TODO',
 '''
 ''',
 '''

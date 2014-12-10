@@ -18,6 +18,6 @@
 #//
 #//******************************************************************************
 
-PROGRAM_VERSION = '6.0.1'
+PROGRAM_VERSION = '6.0.2'
 COPYRIGHT_MESSAGE = 'copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)'
 
