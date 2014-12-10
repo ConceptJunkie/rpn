@@ -383,7 +383,7 @@ def convertToBaseN( value, base, outputBaseDigits, numerals ):
         return 0
 
     if value < 0:
-        return '-' + convertToBaseN( ( -1 ) * value, base, )
+        return '-' + convertToBaseN( ( -1 ) * value, base, outputBaseDigits, numerals )
 
     if base == 10:
         return str( value )

@@ -96,21 +96,38 @@ def formatOutput( output ):
     else:
         exponent = 0
 
-    imaginary = im( mpmathify( output ) )
+    done = False
 
-    if imaginary != 0:
-        if imaginary < 0:
-            imaginary = fabs( imaginary )
-            negativeImaginary = True
+    accuracy = g.outputAccuracy
+
+    while not done:
+        imaginary = im( mpmathify( output ) )
+
+        if imaginary != 0:
+            if imaginary < 0:
+                imaginary = fabs( imaginary )
+                negativeImaginary = True
+            else:
+                negativeImaginary = False
+
+            imaginaryValue = formatOutput( nstr( imaginary ), n=accuracy )
+
+            strOutput = nstr( re( mpmathify( output ) ), n=accuracy )
         else:
-            negativeImaginary = False
+            imaginaryValue = ''
+            strOutput = nstr( mpmathify( output ), n=accuracy )
 
-        imaginaryValue = formatOutput( nstr( imaginary ), n=g.outputAccuracy )
+        exponentIndex = strOutput.find( 'e' )
 
-        strOutput = nstr( re( mpmathify( output ) ), n=g.outputAccuracy )
-    else:
-        imaginaryValue = ''
-        strOutput = nstr( mpmathify( output ), n=g.outputAccuracy )
+        if exponentIndex > 0:
+            tempExponent = int( strOutput[ exponentIndex + 1 : ] )
+
+            if tempExponent < 1000:
+                accuracy = tempExponent + 1
+            else:
+                done = True
+        else:
+            done = True
 
     if '.' in strOutput:
         decimal = strOutput.find( '.' )
@@ -130,9 +147,9 @@ def formatOutput( output ):
         mantissa = mantissa.rstrip( '0' )
 
     if outputRadix == g.phiBase:
-        integer, mantissa = convertToPhiBase( mpmathify( output ) )
+        integer, mantissa = convertToPhiBase( mpmathify( strOutput ) )
     elif outputRadix == g.fibBase:
-        integer = convertToFibBase( floor( mpmathify( output ) ) )
+        integer = convertToFibBase( floor( mpmathify( strOutput ) ) )
     elif ( outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
         integer = str( convertToBaseN( mpmathify( integer ), outputRadix, g.outputBaseDigits, g.numerals ) )
 

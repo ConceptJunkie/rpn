@@ -134,7 +134,7 @@ def runTests( ):
 
     testRPN( 'rpn 3 1 20 range ** -x' )
 
-    testRPN( 'rpn -p60 65537 4 ** -r 16 -g8 -z' )
+    testRPN( 'rpn 65537 4 ** -r 16 -g8 -z' )
 
     # operators
     testRPN( 'rpn -394 abs' )
@@ -402,8 +402,8 @@ def runTests( ):
 
     testRPN( 'rpn 23 factorial' )
 
-    testRPN( 'rpn -p 100 1 50 range fibonacci' )
-    testRPN( 'rpn -p 8300 39399 fibonacci' )
+    testRPN( 'rpn 1 50 range fibonacci' )
+    testRPN( 'rpn -c -a 8300 39399 fibonacci' )
 
     testRPN( 'rpn -x 1029.3 float' )
 
@@ -865,7 +865,7 @@ def runTests( ):
     testRPN( 'rpn 20706 triangular?' )
 
     testRPN( 'rpn 1 20 range tribonacci' )
-    testRPN( 'rpn -p 2800 10239 tribonacci' )
+    testRPN( 'rpn -c -a 2800 10239 tribonacci' )
 
     testRPN( 'rpn 1 10 range triplebal' )
     testRPN( 'rpn 5588 triplebal' )

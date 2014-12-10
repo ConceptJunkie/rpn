@@ -24,12 +24,12 @@ days.
 
 ****
 
-The current version is 6.0.0
+The current version is 6.0.1
 
 Installers for Windows can be found here:
 
-https://www.strongspace.com/conceptjunkie/public/setup_rpn-6.0.0-win32.exe
-https://www.strongspace.com/conceptjunkie/public/setup-rpn-6.0.0-win64.exe
+https://www.strongspace.com/conceptjunkie/public/setup_rpn-6.0.1-win32.exe
+https://www.strongspace.com/conceptjunkie/public/setup-rpn-6.0.1-win64.exe
 
 rpn is a console app and can be launched from the command-line.  However,
 there is now an "interactive mode" and an icon to launch rpn for Windows users.
@@ -70,22 +70,23 @@ will calculate 2 + 2.  "rpn _dumpops" is an internal command that will list
 all the implemented operators for the curious.  They are also listed in the
 help text.
 
-rpn has pretty extensive built-in help, although not all the help files are
+rpn has pretty extensive built-in help, although the help files are not
 complete yet.
 
 Start with "rpn help" for an overview.  To dive right in, see "rpn help
-examples".
+examples".  In interactive mode, typing "help" will launch help mode.   Then,
+"topics" will print out a list of help topics and "exit" will return to rpn.
 
 makeRPNPrimes.py consists of a bunch of functions for pre-calculating and
 caching different kinds of prime numbers that was recently pulled out of rpn.py
-(and as of version 5.20.0 isn't finished as a standalone program).
+(and as of version 6.0.0 isn't finished as a standalone program).
 
 The data files are stored in the same location as rpn.py in a subdirectory
 called rpndata/.  In the Windows installer version, they are stored in the same
 directory as the EXE.
 
-Until I fix makeRPNPrimes.py, if you really want to generate prime numbers, go
-back to version 4 and check out the '_make*' commands.
+If you really want to generate prime numbers, see my "primes" project:
+https://github.com/ConceptJunkie/primes
 
 rpn also provides a simple interface for querying The On-Line Encyclopedia of
 Integer Sequences (http://oeis.org).
@@ -105,6 +106,11 @@ p.s. rpn is licensed under the GNU GPL version 3.0.  See (see
 <http://www.gnu.org/licenses/gpl.html> for more information).
 
 Release Notes:
+
+6.0.1
+
+Added code to prevent scientific notation from messing up base conversions for
+the integral part of the number (up to 1000 digits).
 
 6.0.0
 

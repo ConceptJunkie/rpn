@@ -691,6 +691,11 @@ the operator type to 'date'... because they were all about dates!
 Fixed a long-standing precision problem with unit conversion.
 
 Lots more bug fixes.
+
+6.0.1
+
+Added code to prevent scientific notation from messing up base conversions
+for the integral part of the number (up to 1000 digits).
 ''',
 'license' :
 '''

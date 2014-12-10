@@ -23,7 +23,7 @@ fibBase = -2
 
 # default options
 
-defaultOutputAccuracy = 20
+defaultOutputAccuracy = 12
 defaultBitwiseGroupSize = 16
 defaultCFTerms = 10
 defaultDecimalDelimiter = ' '
