@@ -10,12 +10,12 @@ units program.
 
 ****
 
-The current version is 6.1.0
+The current version is 6.1.0.
 
 Installers for Windows can be found here:
 
-https://www.strongspace.com/conceptjunkie/public/setup_rpn-6.0.1-win32.exe
-https://www.strongspace.com/conceptjunkie/public/setup-rpn-6.0.1-win64.exe
+https://www.strongspace.com/conceptjunkie/public/setup_rpn-6.1.0-win32.exe
+https://www.strongspace.com/conceptjunkie/public/setup-rpn-6.1.0-win64.exe
 
 rpn is a console app and can be launched from the command-line.  However,
 there is now an "interactive mode" and an icon to launch rpn for Windows users.

@@ -696,6 +696,15 @@ Lots more bug fixes.
 
 Added code to prevent scientific notation from messing up base conversions
 for the integral part of the number (up to 1000 digits).
+
+6.1.0
+
+New operators:  'maxdouble', 'maxfloat', 'mindouble', 'minfloat'
+
+Base conversion for output is no longer limited to 1000 digits.  There's no
+reason to do that.
+
+'rpn 0 cf' now throws an error rather than dividing by 0.
 ''',
 'license' :
 '''
