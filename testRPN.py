@@ -964,11 +964,19 @@ def runTests( ):
 
     testRPN( 'rpn 1 10 range max' )
 
+    testRPN( 'rpn maxdouble' )
+
+    testRPN( 'rpn maxfloat' )
+
     testRPN( 'rpn 1 10 range maxindex' )
 
     testRPN( 'rpn 1 10 range mean' )
 
     testRPN( 'rpn 1 10 range min' )
+
+    testRPN( 'rpn mindouble' )
+
+    testRPN( 'rpn minfloat' )
 
     testRPN( 'rpn 1 10 range minindex' )
 
