@@ -2650,13 +2650,13 @@ This is defined for convenience for use with date operators.
 '''
 ''' ],
     'maxdouble' : [
-'conversion', 'TODO',
+'conversion', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
 '''
 ''',
 '''
 ''' ],
     'maxfloat' : [
-'conversion', 'TODO',
+'conversion', 'returns the largest value that can be represented by a 32-bit IEEE 754 float',
 '''
 ''',
 '''
@@ -2780,13 +2780,13 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 '''
 ''' ],
     'mindouble' : [
-'conversion', 'TODO',
+'conversion', 'returns the smallest value that can be represented by a 64-bit IEEE 754 float',
 '''
 ''',
 '''
 ''' ],
     'minfloat' : [
-'conversion', 'TODO',
+'conversion', 'returns the smallest value that can be represented by a 32-bit IEEE 754 float',
 '''
 ''',
 '''
