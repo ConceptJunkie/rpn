@@ -350,7 +350,7 @@ def convertFromContinuedFraction( n ):
     if ( len( n ) == 1 ) and ( n[ 0 ] == 0 ):
         raise ValueError( "invalid input for evaluating a continued fraction" )
 
-    fraction = ContinuedFraction( i ).getFraction( )
+    fraction = ContinuedFraction( n ).getFraction( )
     return fdiv( fraction.numerator, fraction.denominator )
 
 
