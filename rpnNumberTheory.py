@@ -343,9 +343,12 @@ def getNthPadovanNumber( arg ):
 #//
 #//******************************************************************************
 
-def convertFromContinuedFraction( i ):
-    if not isinstance( i, list ):
-        i = [ i ]
+def convertFromContinuedFraction( n ):
+    if not isinstance( n, list ):
+        n = [ n ]
+
+    if ( len( n ) == 1 ) and ( n[ 0 ] == 0 ):
+        raise ValueError( "invalid input for evaluating a continued fraction" )
 
     fraction = ContinuedFraction( i ).getFraction( )
     return fdiv( fraction.numerator, fraction.denominator )

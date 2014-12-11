@@ -130,7 +130,7 @@ def runTests( ):
     testRPN( 'rpn -a1000 -d5 pi -r8' )
     testRPN( 'rpn 2 1 32 range ** -r16' )
 
-    testRPN( 'rpn -t 12 16 ** 1 + factor' )
+    testRPN( 'rpn -t 12 14 ** 1 + factor' )
 
     testRPN( 'rpn 3 1 20 range ** -x' )
 
@@ -236,7 +236,7 @@ def runTests( ):
 
     testRPN( 'rpn 361 coctagonal?' )
 
-    testRPN( 'rpn -a 80 copeland' )
+    testRPN( 'rpn -a 1000 copeland' )
 
     testRPN( 'rpn 45 degrees cos' )
     testRPN( 'rpn pi radians cos' )
