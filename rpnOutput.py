@@ -120,7 +120,7 @@ def formatOutput( output ):
         exponentIndex = strOutput.find( 'e' )
 
         if exponentIndex > 0:
-            accuracy = int( strOutput[ exponentIndex + 1 : ] )
+            accuracy = int( strOutput[ exponentIndex + 1 : ] ) + 1
         else:
             done = True
 
