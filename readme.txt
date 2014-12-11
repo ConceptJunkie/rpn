@@ -10,21 +10,7 @@ units program.
 
 ****
 
-NEWS FLASH - 12/09/2014
-
-rpn 6.0.0 is released!
-
-I'm sure there are still bugs to find and there is definitely a lot of help
-text to fill in, but I decided it was good enough to release.  Besides, does
-anyone but me actually use this program?  Who knows, but I doubt it.
-
-There's a new installer now, and the prime number data files are back in by
-default.  Yeah, it's a 60MB download, but almost everyone has broadband these
-days.
-
-****
-
-The current version is 6.0.1
+The current version is 6.1.0
 
 Installers for Windows can be found here:
 
@@ -106,6 +92,15 @@ p.s. rpn is licensed under the GNU GPL version 3.0.  See (see
 <http://www.gnu.org/licenses/gpl.html> for more information).
 
 Release Notes:
+
+6.1.0
+
+New operators:  'maxdouble', 'maxfloat', 'mindouble', 'minfloat'
+
+Base conversion for output is no longer limited to 1000 digits.  There's no
+reason to do that.
+
+'rpn 0 cf' now throws an error rather than dividing by 0.
 
 6.0.1
 
