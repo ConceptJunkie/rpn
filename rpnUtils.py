@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpnUtils.py
-#//
-#//  RPN command-line calculator utility functions
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpnUtils.py
+# //
+# //  RPN command-line calculator utility functions
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 import arrow
 import builtins
@@ -19,8 +19,6 @@ import contextlib
 import math
 import os
 import pickle
-import string
-import textwrap
 
 from mpmath import *
 
@@ -30,22 +28,22 @@ from rpnVersion import *
 import rpnGlobals as g
 
 
-#//******************************************************************************
-#//
-#//  round
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  round
+# //
+# //******************************************************************************
 
 def round( n, decimals ):
     factor = power( 10, decimals )
     return fdiv( nint( fmul( n, factor ) ), factor )
 
 
-#//******************************************************************************
-#//
-#//  loadUnitData
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  loadUnitData
+# //
+# //******************************************************************************
 
 def loadUnitData( ):
     try:
@@ -54,18 +52,18 @@ def loadUnitData( ):
             g.basicUnitTypes.update( pickle.load( pickleFile ) )
             g.unitOperators.update( pickle.load( pickleFile ) )
             g.operatorAliases.update( pickle.load( pickleFile ) )
-    except FileNotFoundError as error:
+    except FileNotFoundError:
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
         return False
 
     return True
 
 
-#//******************************************************************************
-#//
-#//  loadHelpData
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  loadHelpData
+# //
+# //******************************************************************************
 
 def loadHelpData( ):
     if g.helpLoaded:
@@ -83,7 +81,7 @@ def loadHelpData( ):
     try:
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitTypeDict = pickle.load( pickleFile )
-    except FileNotFoundError as error:
+    except FileNotFoundError:
         print( 'rpn:  Unable to load unit help data.  Run makeUnits.py to make the unit data files.' )
         return False
 
@@ -94,11 +92,11 @@ def loadHelpData( ):
     return True
 
 
-#//******************************************************************************
-#//
-#//  loadUnitConversionMatrix
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  loadUnitConversionMatrix
+# //
+# //******************************************************************************
 
 def loadUnitConversionMatrix( ):
     try:
@@ -108,11 +106,11 @@ def loadUnitConversionMatrix( ):
         print( 'rpn:  Unable to load unit conversion data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
 
 
-#//******************************************************************************
-#//
-#//  removeUnderscores
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  removeUnderscores
+# //
+# //******************************************************************************
 
 def removeUnderscores( source ):
     result = ''
@@ -126,11 +124,11 @@ def removeUnderscores( source ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  debugPrint
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  debugPrint
+# //
+# //******************************************************************************
 
 def debugPrint( *args, **kwargs ):
     if g.debugMode:
@@ -139,11 +137,11 @@ def debugPrint( *args, **kwargs ):
         return
 
 
-#//******************************************************************************
-#//
-#//  downloadOEISSequence
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  downloadOEISSequence
+# //
+# //******************************************************************************
 
 def downloadOEISSequence( id ):
     keywords = downloadOEISText( id, 'K' ).split( ',' )
@@ -165,11 +163,11 @@ def downloadOEISSequence( id ):
         return [ int( i ) for i in result.split( ',' ) ]
 
 
-#//******************************************************************************
-#//
-#//  downloadOEISText
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  downloadOEISText
+# //
+# //******************************************************************************
 
 def downloadOEISText( id, char, addCR=False ):
     import urllib.request
@@ -216,11 +214,11 @@ def downloadOEISText( id, char, addCR=False ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  convertToBase10
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertToBase10
+# //
+# //******************************************************************************
 
 def convertToBase10( integer, mantissa, inputRadix ):
     result = mpmathify( 0 )
@@ -251,14 +249,14 @@ def convertToBase10( integer, mantissa, inputRadix ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  parseInputValue
-#//
-#//  Parse out a time value or a numerical expression and attempt to set the
-#//  precision to an appropriate value based on the expression.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  parseInputValue
+# //
+# //  Parse out a time value or a numerical expression and attempt to set the
+# //  precision to an appropriate value based on the expression.
+# //
+# //******************************************************************************
 
 def parseInputValue( term, inputRadix ):
     if isinstance( term, mpf ):
@@ -365,11 +363,11 @@ def parseInputValue( term, inputRadix ):
     return fneg( result ) if negative else mpmathify( result )
 
 
-#//******************************************************************************
-#//
-#//  convertToBaseN
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertToBaseN
+# //
+# //******************************************************************************
 
 def convertToBaseN( value, base, outputBaseDigits, numerals ):
     if outputBaseDigits:
@@ -405,11 +403,11 @@ def convertToBaseN( value, base, outputBaseDigits, numerals ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  convertToPhiBase
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertToPhiBase
+# //
+# //******************************************************************************
 
 def convertToPhiBase( num ):
     epsilon = power( 10, -( mp.dps - 3 ) )
@@ -456,15 +454,15 @@ def convertToPhiBase( num ):
         return integer, output
 
 
-#//******************************************************************************
-#//
-#//  convertToFibBase
-#//
-#//  Returns a string with Fibonacci encoding for n (n >= 1).
-#//
-#//  adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertToFibBase
+# //
+# //  Returns a string with Fibonacci encoding for n (n >= 1).
+# //
+# //  adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
+# //
+# //******************************************************************************
 
 def convertToFibBase( value ):
     result = ''
@@ -494,11 +492,11 @@ def convertToFibBase( value ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  convertFractionToBaseN
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertFractionToBaseN
+# //
+# //******************************************************************************
 
 def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
     if outputBaseDigits:
@@ -544,11 +542,11 @@ def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  addAliases
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  addAliases
+# //
+# //******************************************************************************
 
 def addAliases( operatorList, operatorAliases ):
     for index, operator in enumerate( operatorList ):
@@ -568,12 +566,11 @@ def addAliases( operatorList, operatorAliases ):
             operatorList[ index ] += ' (' + ', '.join( sorted( aliasList ) ) + ')'
 
 
-
-#//******************************************************************************
-#//
-#//  validateOptions
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  validateOptions
+# //
+# //******************************************************************************
 
 def validateOptions( args ):
     if args.hex:
@@ -610,11 +607,11 @@ def validateOptions( args ):
     return True, ''
 
 
-#//******************************************************************************
-#//
-#//  validateArguments
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  validateArguments
+# //
+# //******************************************************************************
 
 def validateArguments( terms ):
     bracketCount = 0
@@ -632,11 +629,11 @@ def validateArguments( terms ):
     return True
 
 
-#//******************************************************************************
-#//
-#//  evaluateOneListFunction
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  evaluateOneListFunction
+# //
+# //******************************************************************************
 
 def evaluateOneListFunction( func, args ):
     if isinstance( args, list ):
@@ -649,11 +646,11 @@ def evaluateOneListFunction( func, args ):
         return func( [ args ] )
 
 
-#//******************************************************************************
-#//
-#//  evaluateOneArgFunction
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  evaluateOneArgFunction
+# //
+# //******************************************************************************
 
 def evaluateOneArgFunction( func, args ):
     if isinstance( args, list ):
@@ -662,15 +659,15 @@ def evaluateOneArgFunction( func, args ):
         return func( args )
 
 
-#//******************************************************************************
-#//
-#//  evaluateTwoArgFunction
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  evaluateTwoArgFunction
+# //
+# //******************************************************************************
 
 def evaluateTwoArgFunction( func, arg1, arg2 ):
-    #print( 'arg1: ' + str( arg1 ) )
-    #print( 'arg2: ' + str( arg2 ) )
+    # print( 'arg1: ' + str( arg1 ) )
+    # print( 'arg2: ' + str( arg2 ) )
 
     len1 = len( arg1 )
     len2 = len( arg2 )
@@ -678,8 +675,8 @@ def evaluateTwoArgFunction( func, arg1, arg2 ):
     list1 = len1 > 1
     list2 = len2 > 1
 
-    #print( list1 )
-    #print( list2 )
+    # print( list1 )
+    # print( list2 )
 
     if list1:
         if list2:
@@ -694,11 +691,11 @@ def evaluateTwoArgFunction( func, arg1, arg2 ):
             return [ func( arg2[ 0 ], arg1[ 0 ] ) ]
 
 
-#//******************************************************************************
-#//
-#//  callers
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  callers
+# //
+# //******************************************************************************
 
 callers = [
     lambda func, args: [ func( ) ],

@@ -1,31 +1,31 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpnGeometry.py
-#//
-#//  RPN command-line calculator geometry operators
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpnGeometry.py
+# //
+# //  RPN command-line calculator geometry operators
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 from mpmath import *
 
 from rpnMeasurement import *
 
 
-#//******************************************************************************
-#//
-#//  getRegularPolygonArea
-#//
-#//  based on having sides of unit length
-#//
-#//  http://www.mathopenref.com/polygonregulararea.html
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getRegularPolygonArea
+# //
+# //  based on having sides of unit length
+# //
+# //  http://www.mathopenref.com/polygonregulararea.html
+# //
+# //******************************************************************************
 
 def getRegularPolygonArea( n ):
     if n < 3:
@@ -34,14 +34,14 @@ def getRegularPolygonArea( n ):
     return fdiv( n, fmul( 4, tan( fdiv( pi, n ) ) ) )
 
 
-#//******************************************************************************
-#//
-#//  getNSphereRadius
-#//
-#//  k needs to be a Measurement so getNSphereRadius can tell if it's an area
-#//  or a volume and use the correct formula.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNSphereRadius
+# //
+# //  k needs to be a Measurement so getNSphereRadius can tell if it's an area
+# //  or a volume and use the correct formula.
+# //
+# //******************************************************************************
 
 def getNSphereRadius( n, k ):
     if n < 3:
@@ -65,19 +65,19 @@ def getNSphereRadius( n, k ):
         raise ValueError( 'incompatible measurement type for computing the radius: ' + measurementType )
 
 
-#//******************************************************************************
-#//
-#//  getNSphereSurfaceArea
-#//
-#//  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
-#//
-#//  n dimensions, k measurement
-#//
-#//  If k is a length, then it is taken to be the radius.  If it is a volume
-#//  then it is taken to be the volume.  If it is an area, then it is returned
-#//  unchanged.  Other measurement types cause an exception.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNSphereSurfaceArea
+# //
+# //  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
+# //
+# //  n dimensions, k measurement
+# //
+# //  If k is a length, then it is taken to be the radius.  If it is a volume
+# //  then it is taken to be the volume.  If it is an area, then it is returned
+# //  unchanged.  Other measurement types cause an exception.
+# //
+# //******************************************************************************
 
 def getNSphereSurfaceArea( n, k ):
     if not isinstance( k, Measurement ):
@@ -106,19 +106,19 @@ def getNSphereSurfaceArea( n, k ):
         raise ValueError( 'incompatible measurement type for computing the surface area' )
 
 
-#//******************************************************************************
-#//
-#//  getNSphereVolume
-#//
-#//  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
-#//
-#//  n dimensions, k measurement
-#//
-#//  If k is a length, then it is taken to be the radius.  If it is an area
-#//  then it is taken to be the surface area.  If it is a volume, then it is
-#//  returned unchanged.  Other measurement types cause an exception.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNSphereVolume
+# //
+# //  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
+# //
+# //  n dimensions, k measurement
+# //
+# //  If k is a length, then it is taken to be the radius.  If it is an area
+# //  then it is taken to be the surface area.  If it is a volume, then it is
+# //  returned unchanged.  Other measurement types cause an exception.
+# //
+# //******************************************************************************
 
 def getNSphereVolume( n, k ):
     if n < 3:
@@ -141,13 +141,13 @@ def getNSphereVolume( n, k ):
         raise ValueError( 'incompatible measurement type for computing the volume' )
 
 
-#//******************************************************************************
-#//
-#//  getTriangleArea
-#//
-#//  https://en.wikipedia.org/wiki/Equilateral_triangle#Area
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getTriangleArea
+# //
+# //  https://en.wikipedia.org/wiki/Equilateral_triangle#Area
+# //
+# //******************************************************************************
 
 def getTriangleArea( a, b, c ):
     return fdiv( fsum( [ power( a, 2 ), power( b, 2 ), power( c, 2 ) ] ), fmul( 4, sqrt( 3 ) ) )

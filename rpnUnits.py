@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpnUnits.py
-#//
-#//  RPN command-line calculator unit conversion declarations
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpnUnits.py
+# //
+# //  RPN command-line calculator unit conversion declarations
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 from mpmath import *
 
@@ -18,46 +18,46 @@ from rpnDeclarations import *
 from rpnEstimates import *
 
 
-#//******************************************************************************
-#//
-#//  basicUnitTypes
-#//
-#//  There are 'primitive' unit types and 'compound' unit types.
-#//  The compound unit types can always be broken down in terms of the
-#//  primitive unit types.  The 'primitive' unit types cannot be expressed
-#//  in terms of other primitive unit types.
-#//
-#//  The primitive unit types include:
-#//
-#//  length, mass, time, charge, temperature, angle, electric_potential
-#//  information_entropy, luminous_intensity
-#//
-#//  simpleUnitType:  conversion from the primitive unit types
-#//
-#//  compoundUnitType:  a list of conversions from other unit types where
-#//     the conversion does not consist solely of primitive unit types
-#//
-#//  baseUnit:  The standard or customary unit of measurement for this unit
-#//     type
-#//
-#//  estimateTable : The table of estimates, expressed in terms of the base
-#//     unit, used for the 'estimate' operator.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  basicUnitTypes
+# //
+# //  There are 'primitive' unit types and 'compound' unit types.
+# //  The compound unit types can always be broken down in terms of the
+# //  primitive unit types.  The 'primitive' unit types cannot be expressed
+# //  in terms of other primitive unit types.
+# //
+# //  The primitive unit types include:
+# //
+# //  length, mass, time, charge, temperature, angle, electric_potential
+# //  information_entropy, luminous_intensity
+# //
+# //  simpleUnitType:  conversion from the primitive unit types
+# //
+# //  compoundUnitType:  a list of conversions from other unit types where
+# //     the conversion does not consist solely of primitive unit types
+# //
+# //  baseUnit:  The standard or customary unit of measurement for this unit
+# //     type
+# //
+# //  estimateTable : The table of estimates, expressed in terms of the base
+# //     unit, used for the 'estimate' operator.
+# //
+# //******************************************************************************
 
-#//******************************************************************************
-#//
-#//  Notes:
-#//
-#//  I chose not to incorporate mass-energy equivalence here.  I don't think it
-#//  helps.  I just created the 'gram-equivalent' unit instead.  I have some
-#//  ideas about how to better implement the fact that a number of energy
-#//  units are really mass units in disguise.
-#//
-#//  Constant is not a 'real' unit type, but it is useful for it to act like
-#//  one because it makes for useful operators, e.g. "20 M" for "20,000,000'.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  Notes:
+# //
+# //  I chose not to incorporate mass-energy equivalence here.  I don't think it
+# //  helps.  I just created the 'gram-equivalent' unit instead.  I have some
+# //  ideas about how to better implement the fact that a number of energy
+# //  units are really mass units in disguise.
+# //
+# //  Constant is not a 'real' unit type, but it is useful for it to act like
+# //  one because it makes for useful operators, e.g. "20 M" for "20,000,000'.
+# //
+# //******************************************************************************
 
 basicUnitTypes = {
     'acceleration' : UnitTypeInfo(
@@ -314,13 +314,13 @@ basicUnitTypes = {
 }
 
 
-#//******************************************************************************
-#//
-#//  unitOperators
-#//
-#//  unit name : unitType, representation, plural, abbrev, aliases, categories
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  unitOperators
+# //
+# //  unit name : unitType, representation, plural, abbrev, aliases, categories
+# //
+# //******************************************************************************
 
 unitOperators = {
     # acceleration
@@ -3037,15 +3037,15 @@ unitOperators = {
 }
 
 
-#//******************************************************************************
-#//
-#//  metricUnits
-#//
-#//  ... or any units that should get the SI prefixes
-#//
-#//  ( name, plural name, abbreviation, aliases, plural aliases )
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  metricUnits
+# //
+# //  ... or any units that should get the SI prefixes
+# //
+# //  ( name, plural name, abbreviation, aliases, plural aliases )
+# //
+# //******************************************************************************
 
 metricUnits = [
     ( 'ampere',             'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
@@ -3090,16 +3090,16 @@ metricUnits = [
 ]
 
 
-#//******************************************************************************
-#//
-#//  dataUnits
-#//
-#//  ... or any units that should get the SI prefixes (positive powers of 10)
-#//  and the binary prefixes
-#//
-#//  ( name, plural name, abbreviation, aliases, plural aliases )
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  dataUnits
+# //
+# //  ... or any units that should get the SI prefixes (positive powers of 10)
+# //  and the binary prefixes
+# //
+# //  ( name, plural name, abbreviation, aliases, plural aliases )
+# //
+# //******************************************************************************
 
 dataUnits = [
     ( 'bit',            'bits',             'b',    [ ], [ ] ),
@@ -3109,11 +3109,11 @@ dataUnits = [
 ]
 
 
-#//******************************************************************************
-#//
-#//  timeUnits
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  timeUnits
+# //
+# //******************************************************************************
 
 timeUnits = [
     ( 'minute',     'minutes',      'm',        '60' ),
@@ -3123,13 +3123,13 @@ timeUnits = [
 ]
 
 
-#//******************************************************************************
-#//
-#//  metricPrefixes
-#//
-#//  ( name, abbreviation, power of 10 )
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  metricPrefixes
+# //
+# //  ( name, abbreviation, power of 10 )
+# //
+# //******************************************************************************
 
 metricPrefixes = [
     ( 'yotta',      'Y',      '24' ),
@@ -3155,13 +3155,13 @@ metricPrefixes = [
 ]
 
 
-#//******************************************************************************
-#//
-#//  dataPrefixes
-#//
-#//  ( name, abbreviation, power of 10 )
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  dataPrefixes
+# //
+# //  ( name, abbreviation, power of 10 )
+# //
+# //******************************************************************************
 
 dataPrefixes = [
     ( 'yotta',      'Y',      '24' ),
@@ -3175,13 +3175,13 @@ dataPrefixes = [
 ]
 
 
-#//******************************************************************************
-#//
-#//  binaryPrefixes
-#//
-#//  ( name, abbreviation, power of 2 )
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  binaryPrefixes
+# //
+# //  ( name, abbreviation, power of 2 )
+# //
+# //******************************************************************************
 
 binaryPrefixes = [
     ( 'yobi',       'Yi',     '80' ),
@@ -3195,22 +3195,22 @@ binaryPrefixes = [
 ]
 
 
-#//******************************************************************************
-#//
-#//  conversion constants
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  conversion constants
+# //
+# //******************************************************************************
 
 speedOfLight = '299792458'   # in m/s by definition
 
 
-#//******************************************************************************
-#//
-#//  unitConversionMatrix
-#//
-#//  ( first unit, second unit, conversion factor )
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  unitConversionMatrix
+# //
+# //  ( first unit, second unit, conversion factor )
+# //
+# //******************************************************************************
 
 unitConversionMatrix = {
     ( 'aa_battery',                 'joule' )                               : mpmathify( '15400' ),

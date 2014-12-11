@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpnMath.py
-#//
-#//  RPN command-line calculator, mathematical operators
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpnMath.py
+# //
+# //  RPN command-line calculator, mathematical operators
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 from mpmath import *
 
@@ -18,15 +18,15 @@ from rpnDate import *
 from rpnMeasurement import *
 
 
-#//******************************************************************************
-#//
-#//  add
-#//
-#//  We used to be able to call fadd directly, but now we want to be able to add
-#//  units.  Adding units includes an implicit conversion if the units are not
-#//  the same.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  add
+# //
+# //  We used to be able to call fadd directly, but now we want to be able to add
+# //  units.  Adding units includes an implicit conversion if the units are not
+# //  the same.
+# //
+# //******************************************************************************
 
 def add( n, k ):
     if isinstance( n, arrow.Arrow ) and isinstance( k, Measurement ):
@@ -41,14 +41,14 @@ def add( n, k ):
         return fadd( n, k )
 
 
-#//******************************************************************************
-#//
-#//  subtract
-#//
-#//  We used to be able to call fsub directly, but now we want to be able to
-#//  subtract units and do the appropriate conversions.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  subtract
+# //
+# //  We used to be able to call fsub directly, but now we want to be able to
+# //  subtract units and do the appropriate conversions.
+# //
+# //******************************************************************************
 
 def subtract( n, k ):
     if isinstance( n, arrow.Arrow ):
@@ -64,11 +64,11 @@ def subtract( n, k ):
         return fsub( n, k )
 
 
-#//******************************************************************************
-#//
-#//  getNegative
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNegative
+# //
+# //******************************************************************************
 
 def getNegative( n ):
     if isinstance( n, Measurement ):
@@ -77,16 +77,16 @@ def getNegative( n ):
         return fneg( n )
 
 
-#//******************************************************************************
-#//
-#//  divide
-#//
-#//  We used to be able to call fdiv directly, but now we want to also divide
-#//  the units.  Doing so lets us do all kinds of great stuff because now we
-#//  can support compound units without having to explicitly declare them in
-#//  makeUnits.py.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  divide
+# //
+# //  We used to be able to call fdiv directly, but now we want to also divide
+# //  the units.  Doing so lets us do all kinds of great stuff because now we
+# //  can support compound units without having to explicitly declare them in
+# //  makeUnits.py.
+# //
+# //******************************************************************************
 
 def divide( n, k ):
     if isinstance( n, Measurement ):
@@ -97,15 +97,15 @@ def divide( n, k ):
         return fdiv( n, k )
 
 
-#//******************************************************************************
-#//
-#//  multiply
-#//
-#//  We used to be able to call fmul directly, but now we want to also multiply
-#//  the units.  This allows compound units and the conversion routines try to
-#//  be smart enough to deal with this.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  multiply
+# //
+# //  We used to be able to call fmul directly, but now we want to also multiply
+# //  the units.  This allows compound units and the conversion routines try to
+# //  be smart enough to deal with this.
+# //
+# //******************************************************************************
 
 def multiply( n, k ):
     if isinstance( n, Measurement ):
@@ -116,11 +116,11 @@ def multiply( n, k ):
         return fmul( n, k )
 
 
-#//******************************************************************************
-#//
-#//  exponentiate
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  exponentiate
+# //
+# //******************************************************************************
 
 def exponentiate( n, k ):
     if isinstance( n, Measurement ):
@@ -131,14 +131,14 @@ def exponentiate( n, k ):
         return power( n, k )
 
 
-#//******************************************************************************
-#//
-#//  takeReciprocal
-#//
-#//  We used to be able to call fdiv directly, but now we want to handle
-#//  Measurements.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  takeReciprocal
+# //
+# //  We used to be able to call fdiv directly, but now we want to handle
+# //  Measurements.
+# //
+# //******************************************************************************
 
 def takeReciprocal( n ):
     if isinstance( n, Measurement ):
@@ -147,16 +147,16 @@ def takeReciprocal( n ):
         return fdiv( 1, n )
 
 
-#//******************************************************************************
-#//
-#//  tetrate
-#//
-#//  This is the smaller (left-associative) version of the hyper4 operator.
-#//
-#//  This function forces the second argument to an integer and runs at O( n )
-#//  based on the second argument.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  tetrate
+# //
+# //  This is the smaller (left-associative) version of the hyper4 operator.
+# //
+# //  This function forces the second argument to an integer and runs at O( n )
+# //  based on the second argument.
+# //
+# //******************************************************************************
 
 def tetrate( i, j ):
     result = i
@@ -167,16 +167,16 @@ def tetrate( i, j ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  tetrateLarge
-#//
-#//  This is the larger (right-associative) version of the hyper4 operator.
-#//
-#//  This function forces the second argument to an integer and runs at O( n )
-#//  based on the second argument.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  tetrateLarge
+# //
+# //  This is the larger (right-associative) version of the hyper4 operator.
+# //
+# //  This function forces the second argument to an integer and runs at O( n )
+# //  based on the second argument.
+# //
+# //******************************************************************************
 
 def tetrateLarge( i, j ):
     result = i
@@ -187,11 +187,11 @@ def tetrateLarge( i, j ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  isSquare
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  isSquare
+# //
+# //******************************************************************************
 
 def isSquare( n ):
     sqrtN = sqrt( n )
@@ -199,11 +199,11 @@ def isSquare( n ):
     return 1 if sqrtN == floor( sqrtN ) else 0
 
 
-#//******************************************************************************
-#//
-#//  performTrigOperation
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  performTrigOperation
+# //
+# //******************************************************************************
 
 def performTrigOperation( i, operation ):
     if isinstance( i, Measurement ):

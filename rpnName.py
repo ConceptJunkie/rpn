@@ -1,27 +1,27 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpnName.py
-#//
-#//  RPN command-line calculator functions for converting integers to English names
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpnName.py
+# //
+# //  RPN command-line calculator functions for converting integers to English names
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 from mpmath import *
 
 from rpnMeasurement import Measurement
 
 
-#//******************************************************************************
-#//
-#//  getModifiedOnesName
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getModifiedOnesName
+# //
+# //******************************************************************************
 
 def getModifiedOnesName( name, code ):
     if ( 'n' in code ) and ( ( name == 'septe' ) or ( name == 'nove' ) ):
@@ -41,13 +41,13 @@ def getModifiedOnesName( name, code ):
         return name
 
 
-#//******************************************************************************
-#//
-#//  getSmallNumberName
-#//
-#//  Returns an english number name for anything from 0 to 999.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getSmallNumberName
+# //
+# //  Returns an english number name for anything from 0 to 999.
+# //
+# //******************************************************************************
 
 def getSmallNumberName( n ):
     unitNumberNames = [ '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven',
@@ -96,15 +96,15 @@ def getSmallNumberName( n ):
     return name
 
 
-#//******************************************************************************
-#//
-#//  getNumberGroupName
-#//
-#//  returns the name of the "group", i.e., the three-digit group of an integer
-#//  separated by commas in the usual notation.  Group 0 has no name because it
-#//  represents the "ones".  Group 1 is "thousand", group 2 is "million", etc.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNumberGroupName
+# //
+# //  returns the name of the "group", i.e., the three-digit group of an integer
+# //  separated by commas in the usual notation.  Group 0 has no name because it
+# //  represents the "ones".  Group 1 is "thousand", group 2 is "million", etc.
+# //
+# //******************************************************************************
 
 def getNumberGroupName( n ):
     groupNames = [ '', 'thousand', 'million', 'billion', 'trillion',
@@ -159,11 +159,11 @@ def getNumberGroupName( n ):
         return name
 
 
-#//******************************************************************************
-#//
-#//  getNumberName
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNumberName
+# //
+# //******************************************************************************
 
 def getNumberName( n ):
     if isinstance( n, Measurement ):

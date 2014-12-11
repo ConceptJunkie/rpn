@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpnDate.py
-#//
-#//  RPN command-line calculator date operators
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpnDate.py
+# //
+# //  RPN command-line calculator date operators
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 import arrow
 import calendar
@@ -20,11 +20,11 @@ from rpnMeasurement import *
 from rpnUtils import *
 
 
-#//******************************************************************************
-#//
-#//  incrementMonths
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  incrementMonths
+# //
+# //******************************************************************************
 
 def incrementMonths( n, months ):
     newDay = n.day
@@ -43,13 +43,13 @@ def incrementMonths( n, months ):
     return arrow.Arrow( newYear, newMonth, newDay, n.hour, n.minute, n.second )
 
 
-#//******************************************************************************
-#//
-#//  addTimes
-#//
-#//  arrow + measurement
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  addTimes
+# //
+# //  arrow + measurement
+# //
+# //******************************************************************************
 
 def addTimes( n, k ):
     if 'years' in g.unitOperators[ k.getUnitString( ) ].categories:
@@ -60,8 +60,6 @@ def addTimes( n, k ):
         result = incrementMonths( n, months )
         return result
     else:
-        delta = datetime.timedelta
-
         days = int( floor( convertUnits( k, 'day' ).getValue( ) ) )
         seconds = int( fmod( floor( convertUnits( k, 'second' ).getValue( ) ), 86400 ) )
         microseconds = int( fmod( floor( convertUnits( k, 'microsecond' ).getValue( ) ), 1000000 ) )
@@ -69,13 +67,13 @@ def addTimes( n, k ):
         return n + datetime.timedelta( days=days, seconds=seconds, microseconds=microseconds )
 
 
-#//******************************************************************************
-#//
-#//  subtractTimes
-#//
-#//  arrow - measurement
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  subtractTimes
+# //
+# //  arrow - measurement
+# //
+# //******************************************************************************
 
 def subtractTimes( n, k ):
     if isinstance( k, Measurement ):
@@ -104,34 +102,34 @@ def subtractTimes( n, k ):
         raise ValueError( 'incompatible type for subtracting from an absolute time' )
 
 
-#//******************************************************************************
-#//
-#//  getNow
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNow
+# //
+# //******************************************************************************
 
 def getNow( ):
     return arrow.now( )
 
 
-#//******************************************************************************
-#//
-#//  getToday
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getToday
+# //
+# //******************************************************************************
 
 def getToday( ):
     now = datetime.datetime.now( )
     return arrow.Arrow( now.year, now.month, now.day )
 
 
-#//******************************************************************************
-#//
-#//  calculateEaster
-#//
-#//  This algorithm comes from Gauss.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculateEaster
+# //
+# //  This algorithm comes from Gauss.
+# //
+# //******************************************************************************
 
 def calculateEaster( year ):
     if isinstance( year, arrow.Arrow ):
@@ -151,33 +149,33 @@ def calculateEaster( year ):
     return arrow.Arrow( year, month, day )
 
 
-#//******************************************************************************
-#//
-#//  calculateAshWednesday
-#//
-#//  46 days before Easter (40 days, not counting Sundays)
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculateAshWednesday
+# //
+# //  46 days before Easter (40 days, not counting Sundays)
+# //
+# //******************************************************************************
 
 def calculateAshWednesday( year ):
     return addTimes( calculateEaster( year ), Measurement( -46, 'day' ) )
 
 
-#//******************************************************************************
-#//
-#//  getLastDayOfMonth
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getLastDayOfMonth
+# //
+# //******************************************************************************
 
 def getLastDayOfMonth( year, month ):
     return calendar.monthrange( year, month )[ 1 ]
 
 
-#//******************************************************************************
-#//
-#//  getJulianDay
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getJulianDay
+# //
+# //******************************************************************************
 
 def getJulianDay( n ):
     if not isinstance( n, arrow.Arrow ):
@@ -186,23 +184,23 @@ def getJulianDay( n ):
     return n.timetuple( ).tm_yday
 
 
-#//******************************************************************************
-#//
-#//  getJulianWeekFromDate
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getJulianWeekFromDate
+# //
+# //******************************************************************************
 
 def getJulianWeekFromDate( date ):
     pass
 
 
-#//******************************************************************************
-#//
-#//  calculateNthWeekdayOfYear
-#//
-#//  Monday = 1, etc., as per arrow, nth == -1 for last
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculateNthWeekdayOfYear
+# //
+# //  Monday = 1, etc., as per arrow, nth == -1 for last
+# //
+# //******************************************************************************
 
 def calculateNthWeekdayOfYear( year, nth, weekday ):
     if isinstance( year, arrow.Arrow ):
@@ -232,14 +230,14 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
         return addTimes( arrow.Arrow( year, 12, lastWeekDay ), Measurement( ( nth + 1 ), 'week' ) )
 
 
-#//******************************************************************************
-#//
-#//  calculateNthWeekdayOfMonth
-#//
-#//  Monday = 0, etc., as per arrow, negative nth counts backwards from last
-#// ( -1 == last. -2 == next to last, etc.)
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculateNthWeekdayOfMonth
+# //
+# //  Monday = 0, etc., as per arrow, negative nth counts backwards from last
+# // ( -1 == last. -2 == next to last, etc.)
+# //
+# //******************************************************************************
 
 def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
     if isinstance( year, arrow.Arrow ):
@@ -265,13 +263,13 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
     return arrow.Arrow( year, month, day )
 
 
-#//******************************************************************************
-#//
-#//  calculateThanksgiving
-#//
-#//  the fourth Thursday in November
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculateThanksgiving
+# //
+# //  the fourth Thursday in November
+# //
+# //******************************************************************************
 
 def calculateThanksgiving( year ):
     if isinstance( year, arrow.Arrow ):
@@ -282,13 +280,13 @@ def calculateThanksgiving( year ):
     return calculateNthWeekdayOfMonth( year, 11, 4, 4 )
 
 
-#//******************************************************************************
-#//
-#//  calculateLaborDay
-#//
-#//  the first Monday in September
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculateLaborDay
+# //
+# //  the first Monday in September
+# //
+# //******************************************************************************
 
 def calculateLaborDay( year ):
     if isinstance( year, arrow.Arrow ):
@@ -299,13 +297,13 @@ def calculateLaborDay( year ):
     return calculateNthWeekdayOfMonth( year, 9, 1, 1 )
 
 
-#//******************************************************************************
-#//
-#//  calculateElectionDay
-#//
-#//  the first Tuesday after the first Monday (so it's never on the 1st day)
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculateElectionDay
+# //
+# //  the first Tuesday after the first Monday (so it's never on the 1st day)
+# //
+# //******************************************************************************
 
 def calculateElectionDay( year ):
     if isinstance( year, arrow.Arrow ):
@@ -314,16 +312,16 @@ def calculateElectionDay( year ):
         year = int( year )
 
     result = calculateNthWeekdayOfMonth( year, 11, 1, 1 )
-    return result.replace( day = result.day + 1 )
+    return result.replace( day=result.day + 1 )
 
 
-#//******************************************************************************
-#//
-#//  calculateMemorialDay
-#//
-#//  the last Monday in May (4th or 5th Monday)
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculateMemorialDay
+# //
+# //  the last Monday in May (4th or 5th Monday)
+# //
+# //******************************************************************************
 
 def calculateMemorialDay( year ):
     if isinstance( year, arrow.Arrow ):
@@ -334,13 +332,13 @@ def calculateMemorialDay( year ):
     return calculateNthWeekdayOfMonth( year, 5, -1, 1 )
 
 
-#//******************************************************************************
-#//
-#//  calculatePresidentsDay
-#//
-#//  the third Monday in February
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculatePresidentsDay
+# //
+# //  the third Monday in February
+# //
+# //******************************************************************************
 
 def calculatePresidentsDay( year ):
     if isinstance( year, arrow.Arrow ):
@@ -351,13 +349,13 @@ def calculatePresidentsDay( year ):
     return calculateNthWeekdayOfMonth( year, 2, 3, 1 )
 
 
-#//******************************************************************************
-#//
-#//  calculateDSTStart
-#//
-#//  the second Sunday in March
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculateDSTStart
+# //
+# //  the second Sunday in March
+# //
+# //******************************************************************************
 
 def calculateDSTStart( year ):
     if isinstance( year, arrow.Arrow ):
@@ -375,13 +373,13 @@ def calculateDSTStart( year ):
         raise ValueError( 'DST was not standardized before 1967' )
 
 
-#//******************************************************************************
-#//
-#//  calculateDSTEnd
-#//
-#//  the first Sunday in November
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  calculateDSTEnd
+# //
+# //  the first Sunday in November
+# //
+# //******************************************************************************
 
 def calculateDSTEnd( year ):
     if isinstance( year, arrow.Arrow ):
@@ -399,11 +397,11 @@ def calculateDSTEnd( year ):
         raise ValueError( 'DST was not standardized before 1967' )
 
 
-#//******************************************************************************
-#//
-#//  generateMonthCalendar
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  generateMonthCalendar
+# //
+# //******************************************************************************
 
 def generateMonthCalendar( n ):
     cal = calendar.TextCalendar( firstweekday=6 )
@@ -420,11 +418,11 @@ def generateMonthCalendar( n ):
     return n
 
 
-#//******************************************************************************
-#//
-#//  generateYearCalendar
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  generateYearCalendar
+# //
+# //******************************************************************************
 
 def generateYearCalendar( n ):
     cal = calendar.TextCalendar( firstweekday=6 )
@@ -439,52 +437,53 @@ def generateYearCalendar( n ):
     return n
 
 
-#//******************************************************************************
-#//
-#//  convertToUnixTime
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertToUnixTime
+# //
+# //******************************************************************************
 
 def convertToUnixTime( n ):
     try:
         result = n.timestamp
-    except OverflowError as error:
+    except OverflowError:
         print( 'rpn:  out of range error for \'tounixtime\'' )
         return 0
-    except TypeError as error:
+    except TypeError:
         print( 'rpn:  expected time value for \'tounixtime\'' )
         return 0
 
     return result
 
 
-#//******************************************************************************
-#//
-#//  convertToHMS
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertToHMS
+# //
+# //******************************************************************************
 
 def convertToHMS( n ):
     return convertUnits( n, [ Measurement( 1, { 'hour' : 1 } ), Measurement( 1, { 'minute' : 1 } ),
                               Measurement( 1, { 'second' : 1 } ) ] )
 
 
-#//******************************************************************************
-#//
-#//  convertToDHMS
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertToDHMS
+# //
+# //******************************************************************************
 
 def convertToDHMS( n ):
     return convertUnits( n, [ Measurement( 1, { 'day' : 1 } ), Measurement( 1, { 'hour' : 1 } ),
-                              Measurement( 1, { 'minute' : 1 } ), Measurement( 1, { 'second' : 1 } ) ] )
+                              Measurement( 1, { 'minute' : 1 } ),
+                              Measurement( 1, { 'second' : 1 } ) ] )
 
 
-#//******************************************************************************
-#//
-#//  convertToYDHMS
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertToYDHMS
+# //
+# //******************************************************************************
 
 def convertToYDHMS( n ):
     return convertUnits( n, [ Measurement( 1, { 'year' : 1 } ), Measurement( 1, { 'day' : 1 } ),
@@ -492,11 +491,11 @@ def convertToYDHMS( n ):
                               Measurement( 1, { 'second' : 1 } ) ] )
 
 
-#//******************************************************************************
-#//
-#//  makeJulianTime
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeJulianTime
+# //
+# //******************************************************************************
 
 def makeJulianTime( n ):
     if len( n ) == 1:
@@ -505,25 +504,25 @@ def makeJulianTime( n ):
     result = addTimes( arrow.Arrow( n[ 0 ], 1, 1 ), Measurement( n[ 1 ] - 1, 'day' ) )
 
     if len( n ) >= 3:
-        result = result.replace( hour = n[ 2 ] )
+        result = result.replace( hour=n[ 2 ] )
 
     if len( n ) >= 4:
-        result = result.replace( minute = n[ 3 ] )
+        result = result.replace( minute=n[ 3 ] )
 
     if len( n ) >= 5:
-        result = result.replace( second = n[ 4 ] )
+        result = result.replace( second=n[ 4 ] )
 
     if len( n ) >= 6:
-        result = result.replace( microsecond = n[ 5 ] )
+        result = result.replace( microsecond=n[ 5 ] )
 
     return result
 
 
-#//******************************************************************************
-#//
-#//  makeISOTime
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeISOTime
+# //
+# //******************************************************************************
 
 def makeISOTime( n ):
     if len( n ) == 1:
@@ -547,11 +546,11 @@ def makeISOTime( n ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  makeTime
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeTime
+# //
+# //******************************************************************************
 
 def makeTime( n ):
     if len( n ) == 1:
@@ -565,11 +564,11 @@ def makeTime( n ):
     return arrow.get( *n )
 
 
-#//******************************************************************************
-#//
-#//  getISODay
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getISODay
+# //
+# //******************************************************************************
 
 def getISODay( n ):
     if not isinstance( n, arrow.Arrow ):
@@ -578,11 +577,11 @@ def getISODay( n ):
     return list( n.isocalendar( ) )
 
 
-#//******************************************************************************
-#//
-#//  getWeekDay
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getWeekDay
+# //
+# //******************************************************************************
 
 def getWeekday( n ):
     if not isinstance( n, arrow.Arrow ):

@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpnDeclarations.py
-#//
-#//  RPN command-line calculator constant and class declarations
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpnDeclarations.py
+# //
+# //  RPN command-line calculator constant and class declarations
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 import collections
 import itertools
@@ -25,34 +25,34 @@ from rpnEstimates import *
 import rpnGlobals as g
 
 
-#//******************************************************************************
-#//
-#//  constants
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  constants
+# //
+# //******************************************************************************
 
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
 
-#//******************************************************************************
-#//
-#//  specialUnitConversionMatrix
-#//
-#//  This is for units that can't be converted with a simple multiplication
-#//  factor.
-#//
-#//  Plus, I'm not going to do the transitive thing here, so it's necessary
-#//  to explicitly state the conversions for all permutations.  That bugs me.
-#//
-#//  I would have included this table in makeUnits.py, but pickle doesn't
-#//  work on lambdas, which is, to me, very non-Pythonic.   I could also
-#//  save the expressions as strings and use eval, but that seems very
-#//  non-Pythonic, too.
-#//
-#//  ( first unit, second unit, conversion function )
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  specialUnitConversionMatrix
+# //
+# //  This is for units that can't be converted with a simple multiplication
+# //  factor.
+# //
+# //  Plus, I'm not going to do the transitive thing here, so it's necessary
+# //  to explicitly state the conversions for all permutations.  That bugs me.
+# //
+# //  I would have included this table in makeUnits.py, but pickle doesn't
+# //  work on lambdas, which is, to me, very non-Pythonic.   I could also
+# //  save the expressions as strings and use eval, but that seems very
+# //  non-Pythonic, too.
+# //
+# //  ( first unit, second unit, conversion function )
+# //
+# //******************************************************************************
 
 specialUnitConversionMatrix = {
     ( 'celsius',               'delisle' )                         : lambda c: fmul( fsub( 100, c ), fdiv( 3, 2 ) ),
@@ -124,11 +124,11 @@ specialUnitConversionMatrix = {
 }
 
 
-#//******************************************************************************
-#//
-#//  operatorAliases
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  operatorAliases
+# //
+# //******************************************************************************
 
 operatorAliases = {
     '!!'            : 'doublefac',
@@ -364,13 +364,13 @@ operatorAliases = {
 }
 
 
-#//******************************************************************************
-#//
-#//  combineUnits
-#//
-#//  Combine units2 into units1
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  combineUnits
+# //
+# //  Combine units2 into units1
+# //
+# //******************************************************************************
 
 def combineUnits( units1, units2 ):
     if not g.unitConversionMatrix:
@@ -398,11 +398,11 @@ def combineUnits( units1, units2 ):
     return factor, newUnits
 
 
-#//******************************************************************************
-#//
-#//  class Units
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  class Units
+# //
+# //******************************************************************************
 
 class Units( collections.Counter ):
     def __init__( self, *arg, **kw ):
@@ -417,13 +417,11 @@ class Units( collections.Counter ):
         else:
             super( Units, self ).__init__( *arg, **kw )
 
-
     def invert( self ):
         for unit in self:
             self[ unit ] = -( self[ unit ] )
 
         return self
-
 
     def getUnitTypes( self ):
         types = Units( )
@@ -441,7 +439,6 @@ class Units( collections.Counter ):
 
         return types
 
-
     def simplify( self ):
         result = Units( )
 
@@ -458,12 +455,10 @@ class Units( collections.Counter ):
 
         return result
 
-
     def getPrimitiveTypes( self ):
         return self.getBasicTypes( True )
 
-
-    def getBasicTypes( self, primitive = False ):
+    def getBasicTypes( self, primitive=False ):
         result = Units( )
 
         for unit in self:
@@ -499,7 +494,6 @@ class Units( collections.Counter ):
 
         return result
 
-
     def getUnitString( self ):
         resultString = ''
 
@@ -533,7 +527,6 @@ class Units( collections.Counter ):
             resultString += '/' + denominator
 
         return resultString
-
 
     def parseUnitString( self, expression ):
         pieces = expression.split( '/' )
@@ -569,11 +562,11 @@ class Units( collections.Counter ):
             return result
 
 
-#//******************************************************************************
-#//
-#//  class UnitTypeInfo
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  class UnitTypeInfo
+# //
+# //******************************************************************************
 
 class UnitTypeInfo( ):
     def __init__( self, simpleTypes, baseUnit, primitiveUnit, estimateTable ):
@@ -584,11 +577,11 @@ class UnitTypeInfo( ):
         self.estimateTable = estimateTable
 
 
-#//******************************************************************************
-#//
-#//  getUnitType
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getUnitType
+# //
+# //******************************************************************************
 
 def getUnitType( unit ):
     if unit in g.basicUnitTypes:
@@ -603,14 +596,15 @@ def getUnitType( unit ):
         raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
 
-#//******************************************************************************
-#//
-#//  class UnitInfo
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  class UnitInfo
+# //
+# //******************************************************************************
 
 class UnitInfo( ):
-    def __init__( self, unitType, representation, plural, abbrev, aliases, categories, description = '', autoGenerated = False ):
+    def __init__( self, unitType, representation, plural, abbrev, aliases, categories, description='',
+                  autoGenerated=False ):
         self.unitType = unitType
         self.representation = representation
         self.plural = plural
@@ -621,11 +615,11 @@ class UnitInfo( ):
         self.autoGenerated = autoGenerated
 
 
-#//******************************************************************************
-#//
-#//  class OperatorInfo
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  class OperatorInfo
+# //
+# //******************************************************************************
 
 class OperatorInfo( ):
     def __init__( self, function, argCount ):
@@ -633,14 +627,14 @@ class OperatorInfo( ):
         self.argCount = argCount
 
 
-#//******************************************************************************
-#//
-#//  class FunctionInfo
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  class FunctionInfo
+# //
+# //******************************************************************************
 
 class FunctionInfo( ):
-    def __init__( self, valueList = [ ] ):
+    def __init__( self, valueList=[ ] ):
         self.valueList = valueList
 
     def evaluate( self, arg ):
@@ -650,13 +644,13 @@ class FunctionInfo( ):
         self.valueList.append( arg )
 
 
-#//******************************************************************************
-#//
-#//  class Polynomial
-#//
-#//  http://stackoverflow.com/questions/5413158/multiplying-polynomials-in-python
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  class Polynomial
+# //
+# //  http://stackoverflow.com/questions/5413158/multiplying-polynomials-in-python
+# //
+# //******************************************************************************
 
 class Polynomial( object ):
     def __init__( self, *args ):
@@ -682,11 +676,11 @@ class Polynomial( object ):
             self.coeffs = [ i + 0 for i in args ]
         self.trim( )
 
-
     def __add__( self, val ):
         "Return self+val"
         if isinstance( val, Polynomial ):                    # add Polynomial
-            res = [ a + b for a, b in itertools.zip_longest( self.coeffs, val.coeffs, fillvalue=0 ) ]
+            res = [ a + b for a, b in itertools.zip_longest( self.coeffs,
+                                                             val.coeffs, fillvalue=0 ) ]
         else:                                                # add scalar
             if self.coeffs:
                 res = self.coeffs[ : ]
@@ -695,7 +689,6 @@ class Polynomial( object ):
                 res = val
 
         return self.__class__( res )
-
 
     def __call__( self, val ):
         "Evaluate at X==val"
@@ -708,14 +701,12 @@ class Polynomial( object ):
 
         return res
 
-
     def __eq__( self, val ):
         "Test self==val"
         if isinstance( val, Polynomial ):
             return self.coeffs == val.coeffs
         else:
             return len( self.coeffs ) == 1 and self.coeffs[ 0 ] == val
-
 
     def __mul__( self, val ):
         "Return self*val"
@@ -731,34 +722,27 @@ class Polynomial( object ):
             res = [ co * val for co in self.coeffs ]
         return self.__class__( res )
 
-
     def __neg__( self ):
         "Return -self"
         return self.__class__( [ -co for co in self.coeffs ] )
 
-
     def __pow__( self, y, z=None ):
         raise NotImplemented( )
-
 
     def _radd__( self, val ):
         "Return val+self"
         return self + val
 
-
     def __repr__( self ):
         return "{0}({1})".format( self.__class__.__name__, self.coeffs )
-
 
     def __rmul__( self, val ):
         "Return val*self"
         return self * val
 
-
     def __rsub__( self, val ):
         "Return val-self"
         return -self + val
-
 
     def __str__( self ):
         "Return string formatted as aX^3 + bX^2 + c^X + d"
@@ -781,11 +765,9 @@ class Polynomial( object ):
         else:
             return "0"
 
-
     def __sub__( self, val ):
         "Return self-val"
         return self.__add__( -val )
-
 
     def trim( self ):
         "Remove trailing 0-coefficients"
@@ -802,20 +784,19 @@ class Polynomial( object ):
 
                 del _co[ offs + 1 : ]
 
-
     def getCoefficients( self ):
         return self.coeffs
 
 
-#//******************************************************************************
-#//
-#//  ContinuedFraction
-#//
-#//  A continued fraction, represented as a list of integer terms.
-#//
-#//  adapted from ActiveState Python, recipe 578647
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  ContinuedFraction
+# //
+# //  A continued fraction, represented as a list of integer terms.
+# //
+# //  adapted from ActiveState Python, recipe 578647
+# //
+# //******************************************************************************
 
 class ContinuedFraction( list ):
     def __init__( self, value, maxterms=15, cutoff=1e-10 ):

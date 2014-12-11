@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  makeHelp
-#//
-#//  RPN command-line calculator help file generator
-#//  copyright (c) 2014, Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeHelp
+# //
+# //  RPN command-line calculator help file generator
+# //  copyright (c) 2014, Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 import bz2
 import contextlib
@@ -21,26 +21,26 @@ from rpnDeclarations import *
 from rpnVersion import *
 
 
-#//******************************************************************************
-#//
-#//  constants
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  constants
+# //
+# //******************************************************************************
 
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
 
-#//******************************************************************************
-#//
-#//  basic help categories
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  basic help categories
+# //
+# //******************************************************************************
 
 helpTopics = {
-'options' :
-'rpn ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' +
-'''
+    'options' :
+    'rpn ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' +
+    '''
 command-line options:
 
     -a [n], --output_accuracy [n]
@@ -97,9 +97,9 @@ command-line options:
 
     -!, --print_options
         print values for all options
-''',
-'arguments' :
-'''
+    ''',
+    'arguments' :
+    '''
 As its name implies, rpn uses Reverse Polish Notation, otherwise referred
 to as postfix notation.  The operand(s) come first and then the operator.
 This notation works without the need for parentheses.  rpn supports
@@ -159,9 +159,9 @@ For example:
 
 c:\>rpn [ 1 2 3 ] [ 4 5 6 ] polyval
 [ 27, 38, 51 ]
-''',
-'input' :
-'''
+    ''',
+    'input' :
+    '''
 For integers, rpn understands hexidecimal input of the form '0x....'.
 
 A number consisting solely of 0s and 1s with a trailing 'b' or 'B' is
@@ -174,13 +174,13 @@ but fractional numbers in bases other than 10 can be input using -b.
 
 A leading '\\' forces the term to be a number rather than an operator (for
 use with higher bases with -b).
-''',
-'output' :
-'''
+    ''',
+    'output' :
+    '''
     [ TODO: describe output formats supported by rpn ]
-''',
-'time_features' :
-'''
+    ''',
+    'time_features' :
+    '''
     [ TODO: describe time features supported by rpn ]
 
 For now, here are some examples:
@@ -265,9 +265,9 @@ For now, here are some examples:
     days:
         c:\>rpn month days convert
         30 days
-''',
-'user_functions' :
-'''
+    ''',
+    'user_functions' :
+    '''
 This feature allows the user to define a function for use with the eval, nsum,
 nprod, limit and limitn operators, etc.  Basically 'x' starts an expression
 that becomes a function.  Right now (5.28.0), a user-defined function must
@@ -291,9 +291,9 @@ c:\>rpn 1 inf x 0 * 2 x ** + 1/x nsum
 
 Basically, all you have to do is add x * 0 to the expression.  It's cheesy,
 but it works for now.
-''',
-'unit_conversion' :
-'''
+    ''',
+    'unit_conversion' :
+    '''
     [ TODO: describe unit conversions in rpn ]
 
 For now, here are some examples:
@@ -356,9 +356,9 @@ And sometimes it isn't:
     1 gigaparsec barn
 
 Help topics for individual units is coming someday, but not today.
-''',
-'interactive_mode' :
-'''
+    ''',
+    'interactive_mode' :
+    '''
 Interactive mode is a new feature introduced with version 6.  If rpn is
 launched with no expressions, then it will start an interactive prompt that
 allows the user to enter successive expressions for evaluation.
@@ -444,17 +444,18 @@ The precision will not be set lower than the accuracy + 2.
 timer:
 
 timer_mode:  Turns on the timer for the next operation.  Aliased to '-t'.
-''',
-'about' :
-PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' +
-COPYRIGHT_MESSAGE + '''
+    ''',
+    'about' :
+    PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' +
+    COPYRIGHT_MESSAGE +
+    '''
 
 rpn is a command-line Reverse-Polish Notation calculator that was first
 written in C in 1988.  It was rewritten in Python 3 in 2012 and now uses the
 mpmath library.
-''',
-'bugs' :
-'''
+    ''',
+    'bugs' :
+    '''
 -u doesn't work with complex numbers
 
 Polynomials should support being taken to positive integral powers, but don't
@@ -469,9 +470,9 @@ yet.
 
 I've been making a concerted efforts to identify and fix bugs, but I'm certain
 there are still more.
-''',
-'release_notes' :
-'''
+    ''',
+    'release_notes' :
+    '''
 5.18.1
 
 It's clear I haven't done any unit conversions in a while because there were
@@ -705,14 +706,12 @@ Base conversion for output is no longer limited to 1000 digits.  There's no
 reason to do that.
 
 'rpn 0 cf' now throws an error rather than dividing by 0.
-''',
-'license' :
-'''
+    ''',
+    'license' :
+    '''
 rpn is licensed under the GPL, version 3.0 and is ''' +
-
-'\n' + COPYRIGHT_MESSAGE +
-
-'''
+    '\n' + COPYRIGHT_MESSAGE +
+    '''
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -723,9 +722,9 @@ WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 Please see <http://www.gnu.org/licenses/gpl.html> for more information.
-''',
-'examples' :
-'''
+    ''',
+    'examples' :
+    '''
 Here are some examples of using rpn:
 
 Basic arithmetic operations:
@@ -1052,9 +1051,9 @@ Calculation (or approximation) of various mathematical constants:
 
     Infinite Tetration of i
         = rpn -a20 [ 1 i 1000 dup ] tower
-''',
-'notes' :
-'''
+    ''',
+    'notes' :
+    '''
 When converting fractional output to other bases, rpn adjusts the precision
 to the approximate equivalent for the new base since the precision is
 applicable to base 10.
@@ -1067,9 +1066,9 @@ To compute the nth Fibonacci number accurately, rpn sets the precision to
 a level sufficient to guarantee a correct answer.
 
 Bitwise operators force all arguments to integers by truncation if necessary.
-''',
-'metric' :
-'''
+    ''',
+    'metric' :
+    '''
 SI Base Units:
 
     Quantity                    Dimension           SI unit and symbol
@@ -1142,11 +1141,11 @@ SI Prefixes:
 }
 
 
-#//******************************************************************************
-#//
-#//  operator help
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  operator help
+# //
+# //******************************************************************************
 
 operatorHelp = {
     '[' : [
@@ -4600,11 +4599,11 @@ _maketwin start end interval
 }
 
 
-#//******************************************************************************
-#//
-#//  makeHelp
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeHelp
+# //
+# //******************************************************************************
 
 def makeHelp( helpTopics ):
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
@@ -4619,11 +4618,11 @@ def makeHelp( helpTopics ):
         pickle.dump( operatorHelp, pickleFile )
 
 
-#//******************************************************************************
-#//
-#//  main
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  main
+# //
+# //******************************************************************************
 
 def main( ):
     print( 'makeHelp', PROGRAM_VERSION, '-', 'RPN command-line calculator help file generator' )
@@ -4633,11 +4632,11 @@ def main( ):
     makeHelp( helpTopics )
 
 
-#//******************************************************************************
-#//
-#//  __main__
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  __main__
+# //
+# //******************************************************************************
 
 if __name__ == '__main__':
     main( )

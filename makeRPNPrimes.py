@@ -1,23 +1,23 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  makeRPNPrimes.py
-#//
-#//  RPN command-line calculator prime data generator
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeRPNPrimes.py
+# //
+# //  RPN command-line calculator prime data generator
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 import argparse
 import bz2
 import contextlib
 import pickle
 import os
-#import pyprimes
+# import pyprimes
 import sys
 import time
 
@@ -28,27 +28,28 @@ from rpnPrimeUtils import *
 from rpnUtils import *
 
 
-#//******************************************************************************
-#//
-#//  constants
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  constants
+# //
+# //******************************************************************************
 
 PROGRAM_NAME = 'makeRPNPrimes'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator prime data generator'
 
 
-#//******************************************************************************
-#//
-#//  loadTable
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  loadTable
+# //
+# //******************************************************************************
 
 def loadTable( fileName, default ):
     global dataPath
 
     try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'rb' ) ) as pickleFile:
+        pickleFileName = dataPath + os.sep + fileName + '.pckl.bz2'
+        with contextlib.closing( bz2.BZ2File( pickleFileName, 'rb' ) ) as pickleFile:
             primes = pickle.load( pickleFile )
     except FileNotFoundError:
         primes = default
@@ -120,16 +121,18 @@ def loadSextupletPrimes( ):
     return loadTable( 'sext_primes', { 1 : 7 } )
 
 
-#//******************************************************************************
-#//
-#//  saveTable
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  saveTable
+# //
+# //******************************************************************************
 
 def saveTable( fileName, var ):
     global dataPath
 
-    with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'wb' ) ) as pickleFile:
+    pickleFileName = dataPath + os.sep + fileName + '.pckl.bz2'
+
+    with contextlib.closing( bz2.BZ2File( pickleFileName, 'wb' ) ) as pickleFile:
         pickle.dump( var, pickleFile )
 
 
@@ -197,11 +200,11 @@ def saveSextupletPrimes( sextPrimes ):
     saveTable( 'sext_primes', sextPrimes )
 
 
-#//******************************************************************************
-#//
-#//  importTable
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  importTable
+# //
+# //******************************************************************************
 
 def importTable( fileName, loadTableFunc, saveTableFunc  ):
     print( fileName )
@@ -281,11 +284,11 @@ def importSextupletPrimes( fileName ):
     return importTable( fileName, loadSextupletPrimes, saveSextupletPrimes )
 
 
-#//******************************************************************************
-#//
-#//  makeTable
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeTable
+# //
+# //******************************************************************************
 
 def makeTable( start, end, step, func, name ):
     global updateDicts
@@ -460,11 +463,11 @@ def makeSextupletPrimes( start, end, step ):
     return end
 
 
-#//******************************************************************************
-#//
-#//  dumpTable
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  dumpTable
+# //
+# //******************************************************************************
 
 def dumpTable( loadFunc, name ):
     var = loadFunc( )
@@ -539,17 +542,17 @@ def dumpSextupletPrimes( ):
     return dumpTable( loadQSextupletPrimes, 'sext' )
 
 
-#//******************************************************************************
-#//
-#//  operators
-#//
-#//  Regular operators expect zero or more single values and if those arguments
-#//  are lists, rpn will iterate calls to the operator handler for each element
-#//  in the list.   Multiple lists for arguments are not permutated.  Instead,
-#//  the operator handler is called for each element in the first list, along
-#//  with the nth element of each other argument that is also a list.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  operators
+# //
+# //  Regular operators expect zero or more single values and if those arguments
+# //  are lists, rpn will iterate calls to the operator handler for each element
+# //  in the list.   Multiple lists for arguments are not permutated.  Instead,
+# //  the operator handler is called for each element in the first list, along
+# //  with the nth element of each other argument that is also a list.
+# //
+# //******************************************************************************
 
 operators = {
     '_dumpbal'      : [ dumpBalancedPrimes, 0 ],
@@ -602,11 +605,11 @@ operators = {
 }
 
 
-#//******************************************************************************
-#//
-#//  main
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  main
+# //
+# //******************************************************************************
 
 def main( ):
     global addToListArgument
@@ -668,9 +671,10 @@ def main( ):
         return
 
     # set up the command-line options parser
-    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + PROGRAM_VERSION +
-                                      ': ' + PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE,
-                                      add_help=False, formatter_class=argparse.RawTextHelpFormatter,
+    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' +
+                                      PROGRAM_VERSION + ': ' + PROGRAM_DESCRIPTION + '\n    ' +
+                                      COPYRIGHT_MESSAGE, add_help=False,
+                                      formatter_class=argparse.RawTextHelpFormatter,
                                       prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
@@ -711,8 +715,8 @@ def main( ):
 
             # first we validate, and make sure the operator has enough arguments
             if len( valueList ) < argsNeeded:
-                print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
-                       format( argsNeeded ) + ' argument', end='' )
+                print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term +
+                       '\' requires ' + format( argsNeeded ) + ' argument', end='' )
 
                 print( 's' if argsNeeded > 1 else '' )
                 break
@@ -736,15 +740,17 @@ def main( ):
             except KeyboardInterrupt as error:
                 print( 'rpn:  keyboard interrupt' )
                 break
-            #except ValueError as error:
-            #    print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except TypeError as error:
-            #    print( 'rpn:  type error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-            #    break
-            #except ZeroDivisionError as error:
-            #    print( 'rpn:  division by zero' )
-            #    break
+            # except ValueError as error:
+            #     print( 'rpn:  error for operator at arg ' + format( index ) +
+            #            ':  {0}'.format( error ) )
+            #     break
+            # except TypeError as error:
+            #     print( 'rpn:  type error for operator at arg ' + format( index ) +
+            #            ':  {0}'.format( error ) )
+            #     break
+            # except ZeroDivisionError as error:
+            #     print( 'rpn:  division by zero' )
+            #     break
         else:
             try:
                 valueList.append( parseInputValue( term, inputRadix ) )
@@ -763,11 +769,11 @@ def main( ):
             print( '\n%.3f seconds' % time.clock( ) )
 
 
-#//******************************************************************************
-#//
-#//  __main__
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  __main__
+# //
+# //******************************************************************************
 
 if __name__ == '__main__':
     main( )

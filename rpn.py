@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpn.py
-#//
-#//  RPN command-line calculator
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpn.py
+# //
+# //  RPN command-line calculator
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 # Bug!
 #
@@ -28,7 +28,8 @@
 # http://rhodesmill.org/pyephem/quick.html
 # https://github.com/geopy/geopy
 
-# Schwarzschild Radius - Hmmm... operators that turn one kind of unit into another (e.g., mass -> length)
+# Schwarzschild Radius - Hmmm... operators that turn one kind of unit into another
+# (e.g., mass -> length)
 
 # The Hubble Constant
 
@@ -52,11 +53,11 @@ from rpnVersion import *
 import rpnGlobals as g
 
 
-#//******************************************************************************
-#//
-#//  evaluate
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  evaluate
+# //
+# //******************************************************************************
 
 def evaluate( terms ):
     valueList = list( )
@@ -92,11 +93,11 @@ def evaluate( terms ):
     return valueList
 
 
-#//******************************************************************************
-#//
-#//  handleOutput
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  handleOutput
+# //
+# //******************************************************************************
 
 def handleOutput( valueList ):
     if len( valueList ) == 0:
@@ -144,12 +145,11 @@ def handleOutput( valueList ):
         print( '\n%.3f seconds' % time.clock( ) )
 
 
-
-#//******************************************************************************
-#//
-#//  enterInteractiveMode
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  enterInteractiveMode
+# //
+# //******************************************************************************
 
 def enterInteractiveMode( args ):
     import readline
@@ -185,7 +185,7 @@ def enterInteractiveMode( args ):
         terms = line.split( ' ' )
 
         if terms[ 0 ] == 'help':
-            enterHelpMode( terms[ 1 : ] );
+            enterHelpMode( terms[ 1 : ] )
         else:
             if args.timer or g.tempTimerMode:
                 time.clock( )
@@ -200,11 +200,11 @@ def enterInteractiveMode( args ):
                 g.results.append( 0 )
 
 
-#//******************************************************************************
-#//
-#//  enterHelpMode
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  enterHelpMode
+# //
+# //******************************************************************************
 
 def enterHelpMode( terms ):
     printHelpModeHelp( )
@@ -231,11 +231,11 @@ def enterHelpMode( terms ):
                 printHelp( operators, listOperators, modifiers, term, True )
 
 
-#//******************************************************************************
-#//
-#//  rpn
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpn
+# //
+# //******************************************************************************
 
 def rpn( cmd_args ):
     # initialize globals
@@ -259,18 +259,19 @@ def rpn( cmd_args ):
 
     # this hack keeps argparse from interpreting negative numbers with scientific notation as flags
     for i, arg in enumerate( cmd_args ):
-        if ( len( arg ) > 1 ) and ( arg[ 0 ]  == '-' ) and arg[ 1 ].isdigit( ):
+        if ( len( arg ) > 1 ) and ( arg[ 0 ] == '-' ) and arg[ 1 ].isdigit( ):
             cmd_args[ i ] = ' ' + arg
-
 
     if help:
         parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' +
                                           PROGRAM_VERSION + ': ' + PROGRAM_DESCRIPTION + '\n    ' +
                                           COPYRIGHT_MESSAGE, add_help=False,
-                                          formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
+                                          formatter_class=argparse.RawTextHelpFormatter,
+                                          prefix_chars='-' )
 
         parser.add_argument( 'terms', nargs='*', metavar='term' )
-        parser.add_argument( '-l', '--line_length', type=int, action='store', default=g.defaultLineLength )
+        parser.add_argument( '-l', '--line_length', type=int, action='store',
+                             default=g.defaultLineLength )
 
         args = parser.parse_args( cmd_args )
 
@@ -282,14 +283,17 @@ def rpn( cmd_args ):
         return
 
     # set up the command-line options parser
-    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' + PROGRAM_VERSION + ': ' +
-                                      PROGRAM_DESCRIPTION + '\n    ' + COPYRIGHT_MESSAGE, add_help=False,
-                                      formatter_class=argparse.RawTextHelpFormatter, prefix_chars='-' )
+    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' +
+                                      PROGRAM_VERSION + ': ' + PROGRAM_DESCRIPTION + '\n    ' +
+                                      COPYRIGHT_MESSAGE, add_help=False,
+                                      formatter_class=argparse.RawTextHelpFormatter,
+                                      prefix_chars='-' )
 
     parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store', default=g.defaultOutputAccuracy,  # -1
-                         const=g.defaultOutputAccuracy )
-    parser.add_argument( '-b', '--input_radix', type=str, action='store', default=g.defaultInputRadix )
+    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store',
+                         default=g.defaultOutputAccuracy, const=g.defaultOutputAccuracy )
+    parser.add_argument( '-b', '--input_radix', type=str, action='store',
+                         default=g.defaultInputRadix )
     parser.add_argument( '-c', '--comma', action='store_true' )
     parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
                          const=g.defaultDecimalGrouping )
@@ -298,14 +302,17 @@ def rpn( cmd_args ):
                          const=g.defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action='store_true' )
     parser.add_argument( '-i', '--identify', action='store_true' )
-    parser.add_argument( '-l', '--line_length', type=int, action='store', default=g.defaultLineLength )
+    parser.add_argument( '-l', '--line_length', type=int, action='store',
+                         default=g.defaultLineLength )
     parser.add_argument( '-n', '--numerals', type=str, action='store', default=g.defaultNumerals )
     parser.add_argument( '-o', '--octal', action='store_true' )
     parser.add_argument( '-p', '--precision', type=int, action='store', default=g.defaultPrecision )
-    parser.add_argument( '-r', '--output_radix', type=str, action='store', default=g.defaultOutputRadix )
+    parser.add_argument( '-r', '--output_radix', type=str, action='store',
+                         default=g.defaultOutputRadix )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0 )
     parser.add_argument( '-t', '--timer', action='store_true' )
-    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store', default=g.defaultBitwiseGroupSize )
+    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store',
+                         default=g.defaultBitwiseGroupSize )
     parser.add_argument( '-x', '--hex', action='store_true' )
     parser.add_argument( '-z', '--leading_zero', action='store_true' )
     parser.add_argument( '-!', '--print_options', action='store_true' )
@@ -316,7 +323,7 @@ def rpn( cmd_args ):
 
     # now that argparse is done, let's get rid of the spaces we added above
     for i, arg in enumerate( args.terms ):
-        if arg[ 0 ]  == ' ':
+        if arg[ 0 ] == ' ':
             args.terms[ i ] = arg[ 1 : ]
 
     g.operatorAliases.update( operatorAliases )
@@ -381,7 +388,7 @@ def rpn( cmd_args ):
     else:
         try:
             g.outputRadix = int( args.output_radix )
-        except ValueError as error:
+        except ValueError:
             print( 'rpn:  can\'t interpret output radix \'%s\' as a number' % args.output_radix )
             return
 
@@ -395,7 +402,7 @@ def rpn( cmd_args ):
         if ( g.outputRadix < 2 ):
             print( 'rpn:  output radix must be greater than 1' )
             return
-    elif ( ( g.outputRadix != g.phiBase ) and ( g.outputRadix != g.fibBase ) and \
+    elif ( ( g.outputRadix != g.phiBase ) and ( g.outputRadix != g.fibBase ) and
            ( g.outputRadix < 2 or g.outputRadix > 62 ) ):
         print( 'rpn:  output radix must be from 2 to 62, or phi' )
         return
@@ -459,11 +466,11 @@ def rpn( cmd_args ):
     handleOutput( valueList )
 
 
-#//******************************************************************************
-#//
-#//  __main__
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  __main__
+# //
+# //******************************************************************************
 
 if __name__ == '__main__':
     try:
@@ -475,5 +482,4 @@ if __name__ == '__main__':
             raise
         else:
             sys.exit( 0 )
-
 

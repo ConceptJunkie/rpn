@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpnComputer.py
-#//
-#//  RPN command-line calculator computing operators
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpnComputer.py
+# //
+# //  RPN command-line calculator computing operators
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 from mpmath import *
 
@@ -20,11 +20,11 @@ from rpnUtils import *
 import rpnGlobals as g
 
 
-#//******************************************************************************
-#//
-#//  getInvertedBits
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getInvertedBits
+# //
+# //******************************************************************************
 
 def getInvertedBits( n ):
     value = floor( n )
@@ -38,20 +38,22 @@ def getInvertedBits( n ):
     result = mpmathify( 0 )
 
     for i in range( 0, groupings ):
-        result = fadd( fmul( fsum( [ placeValue, fneg( fmod( remaining, placeValue ) ), -1 ] ), multiplier ), result )
+        result = fadd( fmul( fsum( [ placeValue,
+                                     fneg( fmod( remaining, placeValue ) ), -1 ] ),
+                             multiplier ), result )
         remaining = floor( fdiv( remaining, placeValue ) )
         multiplier = fmul( multiplier, placeValue )
 
     return result
 
 
-#//******************************************************************************
-#//
-#//  convertToSignedInt
-#//
-#//  two's compliment logic is in effect here
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertToSignedInt
+# //
+# //  two's compliment logic is in effect here
+# //
+# //******************************************************************************
 
 def convertToSignedInt( n, k ):
     value = fadd( n, ( power( 2, fsub( k, 1 ) ) ) )
@@ -61,16 +63,16 @@ def convertToSignedInt( n, k ):
     return value
 
 
-#//******************************************************************************
-#//
-#//  performBitwiseOperation
-#//
-#//  The operations are performed on groups of bits as specified by the variable
-#//  bitwiseGroupSize.  Although doing it this way isn't really necessary, it
-#//  does mean that under normal circumstances the regular Python bit operators
-#//  can be used.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  performBitwiseOperation
+# //
+# //  The operations are performed on groups of bits as specified by the variable
+# //  bitwiseGroupSize.  Although doing it this way isn't really necessary, it
+# //  does mean that under normal circumstances the regular Python bit operators
+# //  can be used.
+# //
+# //******************************************************************************
 
 def performBitwiseOperation( i, j, operation ):
     value1 = floor( i )
@@ -104,11 +106,11 @@ def performBitwiseOperation( i, j, operation ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  getBitCount
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getBitCount
+# //
+# //******************************************************************************
 
 def getBitCount( n ):
     result = 0
@@ -125,11 +127,11 @@ def getBitCount( n ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  unpackInteger
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  unpackInteger
+# //
+# //******************************************************************************
 
 def unpackInteger( n, fields ):
     if isinstance( n, list ):
@@ -149,11 +151,11 @@ def unpackInteger( n, fields ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  packInteger
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  packInteger
+# //
+# //******************************************************************************
 
 def packInteger( values, fields ):
     if not isinstance( values, list ):
@@ -178,11 +180,11 @@ def packInteger( values, fields ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  interpretAsFloat
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  interpretAsFloat
+# //
+# //******************************************************************************
 
 def interpretAsFloat( n ):
     if ( n < 0 ) or ( n >= 2 ** 32 - 1 ):
@@ -192,11 +194,11 @@ def interpretAsFloat( n ):
     return mpf( struct.unpack( 'f', intValue )[ 0 ] )
 
 
-#//******************************************************************************
-#//
-#//  interpretAsDouble
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  interpretAsDouble
+# //
+# //******************************************************************************
 
 def interpretAsDouble( n ):
     if ( n < 0 ) or ( n >= 2 ** 64 - 1 ):

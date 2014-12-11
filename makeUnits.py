@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  makeUnits
-#//
-#//  RPN command-line calculator unit conversion data generator
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeUnits
+# //
+# //  RPN command-line calculator unit conversion data generator
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 import bz2
 import contextlib
@@ -28,21 +28,21 @@ from rpnUnits import *
 from rpnVersion import *
 
 
-#//******************************************************************************
-#//
-#//  constants
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  constants
+# //
+# //******************************************************************************
 
 PROGRAM_NAME = 'makeUnits'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generator'
 
 
-#//******************************************************************************
-#//
-#//  makeMetricUnit
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeMetricUnit
+# //
+# //******************************************************************************
 
 def makeMetricUnit( prefix, unit ):
     # special case because the standard is inconsistent
@@ -56,13 +56,13 @@ def makeMetricUnit( prefix, unit ):
         return prefix + unit
 
 
-#//******************************************************************************
-#//
-#//  makeUnitTypeTable
-#//
-#//  maps each unit type to a list of units with that type
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeUnitTypeTable
+# //
+# //  maps each unit type to a list of units with that type
+# //
+# //******************************************************************************
 
 def makeUnitTypeTable( unitOperators ):
     unitTypeTable = { }
@@ -76,11 +76,11 @@ def makeUnitTypeTable( unitOperators ):
     return unitTypeTable
 
 
-#//******************************************************************************
-#//
-#//  makeAliases
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeAliases
+# //
+# //******************************************************************************
 
 def makeAliases( ):
     newAliases = { }
@@ -93,14 +93,14 @@ def makeAliases( ):
             pluralUnit = makeMetricUnit( prefix[ 0 ], metricUnit[ 1 ] )
 
             if pluralUnit != unit:
-                newAliases[ pluralUnit ] = unit                  # add plural alias
+                newAliases[ pluralUnit ] = unit             # add plural alias
 
             newAliases[ prefix[ 1 ] + metricUnit[ 2 ] ] = unit   # add SI abbreviation alias
 
-            for alternateUnit in metricUnit[ 3 ]:                # add alternate spelling alias
+            for alternateUnit in metricUnit[ 3 ]:           # add alternate spelling alias
                 newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
 
-            for alternateUnit in metricUnit[ 4 ]:                # add alternate spelling plural alias
+            for alternateUnit in metricUnit[ 4 ]:           # add alternate spelling plural alias
                 newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
 
     for dataUnit in dataUnits:
@@ -111,14 +111,14 @@ def makeAliases( ):
             pluralUnit = prefix[ 0 ] + dataUnit[ 1 ]
 
             if pluralUnit != unit:
-                newAliases[ pluralUnit ] = unit                # add plural alias
+                newAliases[ pluralUnit ] = unit             # add plural alias
 
             newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit   # add SI abbreviation alias
 
-            for alternateUnit in dataUnit[ 3 ]:                # add alternate spelling alias
+            for alternateUnit in dataUnit[ 3 ]:             # add alternate spelling alias
                 newAliases[ prefix[ 0 ] + alternateUnit ] = unit
 
-            for alternateUnit in dataUnit[ 4 ]:                # add alternate spelling plural alias
+            for alternateUnit in dataUnit[ 4 ]:             # add alternate spelling plural alias
                 newAliases[ prefix[ 0 ] + alternateUnit ] = unit
 
         for prefix in binaryPrefixes:
@@ -148,19 +148,19 @@ def makeAliases( ):
         if unitInfo.abbrev != '':
             newAliases[ unitInfo.abbrev ] = unit
 
-    #for i in newAliases:
-    #    print( i, newAliases[ i ] )
+    # for i in newAliases:
+    #     print( i, newAliases[ i ] )
     return newAliases
 
 
-#//******************************************************************************
-#//
-#//  expandMetricUnits
-#//
-#//  Every metric unit needs to be permuted for all SI power types.  We need to
-#//  create conversions for each new type, as well as aliases.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  expandMetricUnits
+# //
+# //  Every metric unit needs to be permuted for all SI power types.  We need to
+# //  create conversions for each new type, as well as aliases.
+# //
+# //******************************************************************************
 
 def expandMetricUnits( ):
     # expand metric measurements for all prefixes
@@ -222,15 +222,15 @@ def expandMetricUnits( ):
     return metricConversions, metricAliases
 
 
-#//******************************************************************************
-#//
-#//  expandDataUnits
-#//
-#//  Every data unit needs to be permuted for all positive SI power types and
-#//  the binary power types.  We need to create conversions for each new type,
-#//  as well as aliases.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  expandDataUnits
+# //
+# //  Every data unit needs to be permuted for all positive SI power types and
+# //  the binary power types.  We need to create conversions for each new type,
+# //  as well as aliases.
+# //
+# //******************************************************************************
 
 def expandDataUnits( ):
     # expand data measurements for all prefixes
@@ -243,8 +243,9 @@ def expandDataUnits( ):
 
             # constuct unit operator info
             unitOperators[ newName ] = \
-                UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural, prefix[ 1 ] + dataUnit[ 2 ],
-                          [ ], unitOperators[ dataUnit[ 0 ] ].categories, True )
+                UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
+                          prefix[ 1 ] + dataUnit[ 2 ], [ ],
+                          unitOperators[ dataUnit[ 0 ] ].categories, True )
 
             # create new conversions
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -258,7 +259,8 @@ def expandDataUnits( ):
 
             # constuct unit operator info
             unitOperators[ newName ] = \
-                UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural, prefix[ 1 ] + dataUnit[ 2 ],
+                UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
+                          prefix[ 1 ] + dataUnit[ 2 ],
                           [ ], unitOperators[ dataUnit[ 0 ] ].categories, True )
 
             # create new conversions
@@ -270,11 +272,11 @@ def expandDataUnits( ):
     return newConversions
 
 
-#//******************************************************************************
-#//
-#//  makeAreaOperator
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeAreaOperator
+# //
+# //******************************************************************************
 
 def makeAreaOperator( unit, unitPlural ):
     unitInfo = unitOperators[ unit ]
@@ -304,11 +306,11 @@ def makeAreaOperator( unit, unitPlural ):
     return newUnitInfo, newAliases
 
 
-#//******************************************************************************
-#//
-#//  makeVolumeOperator
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  makeVolumeOperator
+# //
+# //******************************************************************************
 
 def makeVolumeOperator( unit, unitPlural ):
     unitInfo = unitOperators[ unit ]
@@ -338,11 +340,11 @@ def makeVolumeOperator( unit, unitPlural ):
     return newUnitInfo, newAliases
 
 
-#//******************************************************************************
-#//
-#//  initializeConversionMatrix
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  initializeConversionMatrix
+# //
+# //******************************************************************************
 
 def initializeConversionMatrix( unitConversionMatrix ):
 
@@ -373,7 +375,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
             newUnit = 'square_' + unit
 
             if newUnit not in unitOperators:
-                newUnitInfo, newUnitAliases = makeAreaOperator( unit, unitOperators[ unit ].plural )
+                newUnitInfo, newUnitAliases = \
+                    makeAreaOperator( unit, unitOperators[ unit ].plural )
 
                 newAliases.update( newUnitAliases )
                 newOperators[ newUnit ] = newUnitInfo
@@ -384,7 +387,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
             newUnit = 'cubic_' + unit
 
             if newUnit not in unitOperators:
-                newUnitInfo, newUnitAliases = makeVolumeOperator( unit, unitOperators[ unit ].plural )
+                newUnitInfo, newUnitAliases = \
+                    makeVolumeOperator( unit, unitOperators[ unit ].plural )
 
                 newAliases.update( newUnitAliases )
                 newOperators[ newUnit ] = newUnitInfo
@@ -401,8 +405,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     newConversions = { }
 
     for op1, op2 in unitConversionMatrix:
-        if op1 == 'light':            # special exception because it's called 'light-second',not 'speed_of_light-second'
-            op1 = 'speed_of_light'
+        if op1 == 'light':            # special exception because it's called 'light-second',
+            op1 = 'speed_of_light'    # not 'speed_of_light-second'
 
         if op2 == 'light':
             op2 = 'speed_of_light'
@@ -496,8 +500,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
                         newAliases[ alias + '/' + timeUnit[ 1 ] ] = newUnit
 
                 newUnitOperators[ newUnit ] = \
-                    UnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural, '', [ ],
-                              unitInfo.categories, True )
+                    UnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural, '',
+                              [ ], unitInfo.categories, True )
 
                 conversion = mpmathify( timeUnit[ 3 ] )
                 unitConversionMatrix[ ( newUnit, unit ) ] = fdiv( 1, conversion )
@@ -519,8 +523,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
             for op1, op2 in itertools.combinations( unitTypeTable[ unitType ], 2 ):
                 if ( op1, op2 ) in unitConversionMatrix:
-                    #print( )
-                    #print( ( op1, op2 ), ': ', unitConversionMatrix[ ( op1, op2 ) ] )
+                    # print( )
+                    # print( ( op1, op2 ), ': ', unitConversionMatrix[ ( op1, op2 ) ] )
 
                     for op3 in unitTypeTable[ unitType ]:
                         # we can ignore duplicate operators
@@ -533,21 +537,25 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
                         conversion = unitConversionMatrix[ ( op1, op2 ) ]
 
-                        if ( op1, op3 ) not in unitConversionMatrix and ( op2, op3 ) in unitConversionMatrix:
-                            #print( 'transitive: ', ( op2, op3 ), unitConversionMatrix[ ( op2, op3 ) ] )
+                        if ( op1, op3 ) not in unitConversionMatrix and \
+                           ( op2, op3 ) in unitConversionMatrix:
+                            # print( 'transitive: ', ( op2, op3 ),
+                            #        unitConversionMatrix[ ( op2, op3 ) ] )
                             newConversion = fmul( conversion, unitConversionMatrix[ ( op2, op3 ) ] )
-                            #print( ( op1, op3 ), newConversion )
+                            # print( ( op1, op3 ), newConversion )
                             unitConversionMatrix[ ( op1, op3 ) ] = newConversion
-                            #print( ( op3, op1 ), fdiv( 1, newConversion ) )
+                            # print( ( op3, op1 ), fdiv( 1, newConversion ) )
                             unitConversionMatrix[ ( op3, op1 ) ] = fdiv( 1, newConversion )
 
                             newConversion = True
-                        elif ( op2, op3 ) not in unitConversionMatrix and ( op1, op3 ) in unitConversionMatrix:
-                            #print( 'transitive: ', ( op1, op3 ), unitConversionMatrix[ ( op1, op3 ) ] )
+                        elif ( op2, op3 ) not in unitConversionMatrix and \
+                             ( op1, op3 ) in unitConversionMatrix:
+                            # print( 'transitive: ', ( op1, op3 ),
+                            #        unitConversionMatrix[ ( op1, op3 ) ] )
                             newConversion = fdiv( unitConversionMatrix[ ( op1, op3 ) ], conversion )
-                            #print( ( op2, op3 ), newConversion )
+                            # print( ( op2, op3 ), newConversion )
                             unitConversionMatrix[ ( op2, op3 ) ] = newConversion
-                            #print( ( op3, op2 ), fdiv( 1, newConversion ) )
+                            # print( ( op3, op2 ), fdiv( 1, newConversion ) )
                             unitConversionMatrix[ ( op3, op2 ) ] = fdiv( 1, newConversion )
 
                             newConversion = True
@@ -605,11 +613,11 @@ def initializeConversionMatrix( unitConversionMatrix ):
     print( '{:,} aliases'.format( len( newAliases ) ) )
 
 
-#//******************************************************************************
-#//
-#//  main
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  main
+# //
+# //******************************************************************************
 
 def main( ):
     print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
@@ -619,11 +627,11 @@ def main( ):
     initializeConversionMatrix( unitConversionMatrix )
 
 
-#//******************************************************************************
-#//
-#//  __main__
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  __main__
+# //
+# //******************************************************************************
 
 if __name__ == '__main__':
     main( )

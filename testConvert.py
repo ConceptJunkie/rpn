@@ -1,24 +1,24 @@
-#//******************************************************************************
-#//
-#//  testConvert
-#//
-#//  test script for RPN unit conversion
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  testConvert
+# //
+# //  test script for RPN unit conversion
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 from rpn import rpn
 from testRPN import testRPN
 
 
-#//******************************************************************************
-#//
-#//  runConvertTests
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  runConvertTests
+# //
+# //******************************************************************************
 
 def runConvertTests( ):
     testRPN( 'rpn barn gigaparsec * cubic_inch convert' )

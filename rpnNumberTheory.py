@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpnNumberTheory.py
-#//
-#//  RPN command-line calculator number theory operators
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpnNumberTheory.py
+# //
+# //  RPN command-line calculator number theory operators
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 import itertools
 
@@ -21,11 +21,11 @@ from mpmath import *
 from rpnDeclarations import *
 
 
-#//******************************************************************************
-#//
-#//  getNthAlternatingFactorial
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthAlternatingFactorial
+# //
+# //******************************************************************************
 
 def getNthAlternatingFactorial( n ):
     result = 0
@@ -43,11 +43,11 @@ def getNthAlternatingFactorial( n ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  getNthPascalLine
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthPascalLine
+# //
+# //******************************************************************************
 
 def getNthPascalLine( n ):
     result = [ ]
@@ -58,11 +58,11 @@ def getNthPascalLine( n ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  getDivisorCount
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getDivisorCount
+# //
+# //******************************************************************************
 
 def getDivisorCount( n ):
     if n == 1:
@@ -71,11 +71,11 @@ def getDivisorCount( n ):
     return fprod( [ i[ 1 ] + 1 for i in factor( n ) ] )
 
 
-#//******************************************************************************
-#//
-#//  getDivisors
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getDivisors
+# //
+# //******************************************************************************
 
 def getDivisors( n ):
     result = getExpandedFactorList( factor( n ) )
@@ -91,14 +91,14 @@ def getDivisors( n ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  factor
-#//
-#//  This is not my code, and I need to find the source so I can attribute it.
-#//  I think I got it from stackoverflow.com.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  factor
+# //
+# //  This is not my code, and I need to find the source so I can attribute it.
+# //  I think I got it from stackoverflow.com.
+# //
+# //******************************************************************************
 
 def factor( n ):
     if n < -1:
@@ -149,22 +149,22 @@ def factor( n ):
         return factors
 
 
-#//******************************************************************************
-#//
-#//  getExpandedFactorList
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getExpandedFactorList
+# //
+# //******************************************************************************
 
 def getExpandedFactorList( factors ):
     factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
     return reduce( lambda x, y: x + y, factors, [ ] )
 
 
-#//******************************************************************************
-#//
-#//  getNthLucasNumber
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthLucasNumber
+# //
+# //******************************************************************************
 
 def getNthLucasNumber( n ):
     if n == 1:
@@ -173,35 +173,35 @@ def getNthLucasNumber( n ):
         return floor( fadd( power( phi, n ), 0.5 ) )
 
 
-#//******************************************************************************
-#//
-#//  getNthJacobsthalNumber
-#//
-#//  From: http://oeis.org/A001045
-#//
-#//  a( n ) = ceiling( 2 ^ ( n + 1 ) / 3 ) - ceiling( 2 ^ n / 3 )
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthJacobsthalNumber
+# //
+# //  From: http://oeis.org/A001045
+# //
+# //  a( n ) = ceiling( 2 ^ ( n + 1 ) / 3 ) - ceiling( 2 ^ n / 3 )
+# //
+# //******************************************************************************
 
 def getNthJacobsthalNumber( n ):
     return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], n )
 
 
-#//******************************************************************************
-#//
-#//  getNthBaseKRepunit
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthBaseKRepunit
+# //
+# //******************************************************************************
 
 def getNthBaseKRepunit( n, k ):
     return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], n )
 
 
-#//******************************************************************************
-#//
-#//  getPrimePi
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getPrimePi
+# //
+# //******************************************************************************
 
 def getPrimePi( n ):
     result = primepi2( n )
@@ -209,11 +209,11 @@ def getPrimePi( n ):
     return [ mpf( result.a ), mpf( result.b ) ]
 
 
-#//******************************************************************************
-#//
-#//  getNthTribonacci
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthTribonacci
+# //
+# //******************************************************************************
 
 def getNthTribonacci( n ):
     roots = polyroots( [ 1, -1, -1, -1  ] )
@@ -227,13 +227,13 @@ def getNthTribonacci( n ):
     return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
 
 
-#//******************************************************************************
-#//
-#//  getNthTetranacci
-#//
-#//  http://mathworld.wolfram.com/TetranacciNumber.html
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthTetranacci
+# //
+# //  http://mathworld.wolfram.com/TetranacciNumber.html
+# //
+# //******************************************************************************
 
 def getNthTetranacci( n ):
     roots = polyroots( [ 1, -1, -1, -1, -1 ] )
@@ -247,11 +247,11 @@ def getNthTetranacci( n ):
     return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
 
 
-#//******************************************************************************
-#//
-#//  getNthPentanacci
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthPentanacci
+# //
+# //******************************************************************************
 
 def getNthPentanacci( n ):
     roots = polyroots( [ 1, -1, -1, -1, -1, -1 ] )
@@ -264,11 +264,11 @@ def getNthPentanacci( n ):
     return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
 
 
-#//******************************************************************************
-#//
-#//  getNthHexanacci
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthHexanacci
+# //
+# //******************************************************************************
 
 def getNthHexanacci( n ):
     roots = polyroots( [ 1, -1, -1, -1, -1, -1, -1 ] )
@@ -281,11 +281,11 @@ def getNthHexanacci( n ):
     return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
 
 
-#//******************************************************************************
-#//
-#//  getNthHeptanacci
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthHeptanacci
+# //
+# //******************************************************************************
 
 def getNthHeptanacci( n ):
     roots = polyroots( [ 1, -1, -1, -1, -1, -1, -1, -1 ] )
@@ -298,26 +298,26 @@ def getNthHeptanacci( n ):
     return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
 
 
-#//******************************************************************************
-#//
-#//  getNthPadovanNumber
-#//
-#//  Padovan sequence: a(n) = a(n-2) + a(n-3) with a(0)=1, a(1)=a(2)=0.
-#//
-#//  http://oeis.org/A000931
-#//
-#//  a(n) = (r^n)/(2r+3) + (s^n)/(2s+3) + (t^n)/(2t+3) where r, s, t are the
-#//  three roots of x^3-x-1
-#//
-#//  http://www.wolframalpha.com/input/?i=solve+x^3-x-1
-#//
-#//  Unfortunately, the roots are scary-complicated, but it's a non-iterative
-#//  formula, so I'll use it.
-#//
-#//  Wikipedia leaves off the first 4 terms, but Sloane's includes them.
-#//  Wikipedia cites Ian Stewart and Mathworld, and I'll use their definition.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthPadovanNumber
+# //
+# //  Padovan sequence: a(n) = a(n-2) + a(n-3) with a(0)=1, a(1)=a(2)=0.
+# //
+# //  http://oeis.org/A000931
+# //
+# //  a(n) = (r^n)/(2r+3) + (s^n)/(2s+3) + (t^n)/(2t+3) where r, s, t are the
+# //  three roots of x^3-x-1
+# //
+# //  http://www.wolframalpha.com/input/?i=solve+x^3-x-1
+# //
+# //  Unfortunately, the roots are scary-complicated, but it's a non-iterative
+# //  formula, so I'll use it.
+# //
+# //  Wikipedia leaves off the first 4 terms, but Sloane's includes them.
+# //  Wikipedia cites Ian Stewart and Mathworld, and I'll use their definition.
+# //
+# //******************************************************************************
 
 def getNthPadovanNumber( arg ):
     n = fadd( arg, 4 )
@@ -337,11 +337,11 @@ def getNthPadovanNumber( arg ):
                               fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
 
 
-#//******************************************************************************
-#//
-#//  convertFromContinuedFraction
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  convertFromContinuedFraction
+# //
+# //******************************************************************************
 
 def convertFromContinuedFraction( n ):
     if not isinstance( n, list ):
@@ -354,25 +354,25 @@ def convertFromContinuedFraction( n ):
     return fdiv( fraction.numerator, fraction.denominator )
 
 
-#//******************************************************************************
-#//
-#//  interpretAsFraction
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  interpretAsFraction
+# //
+# //******************************************************************************
 
 def interpretAsFraction( i, j ):
     fraction = ContinuedFraction( i, maxterms=j ).getFraction( )
     return [ fraction.numerator, fraction.denominator ]
 
 
-#//******************************************************************************
-#//
-#//  interpretAsBase
-#//
-#//  This is a list operator so if the integer argument (base) is also a list,
-#//  we need to handle that explicitly here.
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  interpretAsBase
+# //
+# //  This is a list operator so if the integer argument (base) is also a list,
+# //  we need to handle that explicitly here.
+# //
+# //******************************************************************************
 
 def interpretAsBase( args, base ):
     if isinstance( args, list ):
@@ -396,11 +396,11 @@ def interpretAsBase( args, base ):
     return value
 
 
-#//******************************************************************************
-#//
-#//  getGreedyEgyptianFraction
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getGreedyEgyptianFraction
+# //
+# //******************************************************************************
 
 def getGreedyEgyptianFraction( n, d ):
     if n > d:
@@ -431,14 +431,14 @@ def getGreedyEgyptianFraction( n, d ):
     return result
 
 
-#//******************************************************************************
-#//
-#//  getNthLinearRecurrence
-#//
-#//  nth element of Fibonacci sequence = rpn [ 1 1 ] 1 n linear
-#//  nth element of Lucas sequence = rpn [ 1 1 ] [ 1 3 ] n linear
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  getNthLinearRecurrence
+# //
+# //  nth element of Fibonacci sequence = rpn [ 1 1 ] 1 n linear
+# //  nth element of Lucas sequence = rpn [ 1 1 ] [ 1 3 ] n linear
+# //
+# //******************************************************************************
 
 def getNthLinearRecurrence( recurrence, seeds, n ):
     if not isinstance( recurrence, list ):

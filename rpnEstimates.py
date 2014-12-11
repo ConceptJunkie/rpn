@@ -1,29 +1,29 @@
 #!/usr/bin/env python
 
-#//******************************************************************************
-#//
-#//  rpnEstimates.py
-#//
-#//  RPN command-line calculator estimate table declarations
-#//  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
-#//
-#//  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
-#//  information).
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  rpnEstimates.py
+# //
+# //  RPN command-line calculator estimate table declarations
+# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //
+# //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
+# //  information).
+# //
+# //******************************************************************************
 
 from mpmath import *
 
 
-#//******************************************************************************
-#//
-#//  accelerationTable
-#//
-#//  meters/second^2 : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28acceleration%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  accelerationTable
+# //
+# //  meters/second^2 : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28acceleration%29
+# //
+# //******************************************************************************
 
 accelerationTable = {
     mpf( '0.0058' )     : 'the acceleration of the Earth due to the Sun\'s gravity',
@@ -43,15 +43,15 @@ accelerationTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  angleTable
-#//
-#//  radians : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28angular_velocity%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  angleTable
+# //
+# //  radians : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28angular_velocity%29
+# //
+# //******************************************************************************
 
 angleTable = {
     mpf( '8.405e-16' )  : 'the angle the Sun revolves around the galactic core in a second',
@@ -68,15 +68,15 @@ angleTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  areaTable
-#//
-#//  meters^2 : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28area%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  areaTable
+# //
+# //  meters^2 : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28area%29
+# //
+# //******************************************************************************
 
 areaTable = {
     mpf( '2.6121e-70' ) : 'the Planck area',
@@ -159,15 +159,15 @@ areaTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  capacitanceTable
-#//
-#//  farads : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28capacitance%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  capacitanceTable
+# //
+# //  farads : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28capacitance%29
+# //
+# //******************************************************************************
 
 capacitanceTable = {
     mpf( '2.0e-15' )    : 'the gate capacitance of a MOS transistor, per micron of gate width',
@@ -194,15 +194,15 @@ capacitanceTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  chargeTable
-#//
-#//  coulombs : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28charge%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  chargeTable
+# //
+# //  coulombs : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28charge%29
+# //
+# //******************************************************************************
 
 chargeTable = {
     mpf( '-5.34e-20' )  : 'the charge of down, strange and bottom quarks (-1/3 e)',
@@ -225,27 +225,27 @@ chargeTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  constantTable
-#//
-#//  unities : description
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  constantTable
+# //
+# //  unities : description
+# //
+# //******************************************************************************
 
 constantTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  currentTable
-#//
-#//  amperes : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28current%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  currentTable
+# //
+# //  amperes : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28current%29
+# //
+# //******************************************************************************
 
 currentTable = {
     mpf( '1.0e-5' )     : 'the minimum current necessary to cause death (by ventricular fibrillation when applied directly across the human heart)',
@@ -277,15 +277,15 @@ currentTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  dataRateTable
-#//
-#//  bits/second : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28bit_rate%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  dataRateTable
+# //
+# //  bits/second : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28bit_rate%29
+# //
+# //******************************************************************************
 
 # cdromspeed       75 2048 bytes / sec # For data CDs (mode1) 75 sectors are read
 #                                      # each second with 2048 bytes per sector.
@@ -352,16 +352,16 @@ dataRateTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  densityTable
-#//
-#//  gram/liter : description
-#//
-#//  http://en.wikipedia.org/wiki/Density
-#//  http://en.wikipedia.org/wiki/Orders_of_magnitude_%28density%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  densityTable
+# //
+# //  gram/liter : description
+# //
+# //  http://en.wikipedia.org/wiki/Density
+# //  http://en.wikipedia.org/wiki/Orders_of_magnitude_%28density%29
+# //
+# //******************************************************************************
 
 densityTable = {
     mpf( '1.0e-27' )    : 'the density (very approximate) of the universe',
@@ -448,15 +448,15 @@ densityTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  dynamicViscosityTable
-#//
-#//  pascal-second : description
-#//
-#//  http://en.wikipedia.org/wiki/Viscosity
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  dynamicViscosityTable
+# //
+# //  pascal-second : description
+# //
+# //  http://en.wikipedia.org/wiki/Viscosity
+# //
+# //******************************************************************************
 
 dynamicViscosityTable = {
     mpf( '8.8e-6' )     : 'the dynamic viscosity of hydrogen',
@@ -484,15 +484,15 @@ dynamicViscosityTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  electricalConductanceTable
-#//
-#//  mhos : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28resistance%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  electricalConductanceTable
+# //
+# //  mhos : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28resistance%29
+# //
+# //******************************************************************************
 
 electricalConductanceTable = {
     mpf( '5.0e-20' )        : 'the resistance of a 1 meter path though sulphur at standard temperature and pressure',
@@ -508,15 +508,15 @@ electricalConductanceTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  electricalPotentialTable
-#//
-#//  volts : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28voltage%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  electricalPotentialTable
+# //
+# //  volts : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28voltage%29
+# //
+# //******************************************************************************
 
 electricPotentialTable = {
     mpf( '5.0e-7' )     : 'the change in nerve cell potential caused by opening a single acetylcholine receptor channel (500 nV)',
@@ -551,15 +551,15 @@ electricPotentialTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  electricalResistanceTable
-#//
-#//  ohms : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28resistance%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  electricalResistanceTable
+# //
+# //  ohms : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28resistance%29
+# //
+# //******************************************************************************
 
 electricalResistanceTable = {
     mpf( '1.629e-7' )   : 'the resistance of a one cubic centimeter block of silver',
@@ -575,17 +575,17 @@ electricalResistanceTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  energyTable
-#//
-#//  joules : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28energy%29
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28specific_energy%29
-#//  https://en.wikipedia.org/wiki/Energy_density
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  energyTable
+# //
+# //  joules : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28energy%29
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28specific_energy%29
+# //  https://en.wikipedia.org/wiki/Energy_density
+# //
+# //******************************************************************************
 
 energyTable = {
     mpf( '2.0e-33' )    : 'the average kinetic energy of translational motion of a molecule at the lowest temperature reached, 100 picokelvins, as of 2003',
@@ -746,15 +746,15 @@ energyTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  forceTable
-#//
-#//  newtons : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28force%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  forceTable
+# //
+# //  newtons : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28force%29
+# //
+# //******************************************************************************
 
 forceTable = {
     mpf( '3.6e-47' )    : 'the gravitational attraction of the proton and the electron in hydrogen atom',
@@ -791,15 +791,15 @@ forceTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  frequencyTable
-#//
-#//  hertz : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28force%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  frequencyTable
+# //
+# //  hertz : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28force%29
+# //
+# //******************************************************************************
 
 # The second is the duration of 9 192 631 770 periods of the radiation corresponding to the transition between the
 # two hyperfine levels of the ground state of the caesium 133 atom.
@@ -860,15 +860,15 @@ frequencyTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  illuminanceTable
-#//
-#//  lux : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28illuminance%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  illuminanceTable
+# //
+# //  lux : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28illuminance%29
+# //
+# //******************************************************************************
 
 illuminanceTable = {
     mpf( '1.0e-4' )     : 'the illuminance of starlight on an overcast, moonless night sky',
@@ -886,15 +886,15 @@ illuminanceTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  inductanceTable
-#//
-#//  henries : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28inductance%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  inductanceTable
+# //
+# //  henries : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28inductance%29
+# //
+# //******************************************************************************
 
 inductanceTable = {
     mpf( '1.0e-9' )     : 'the inductance of a thin film chip inductor, 1.6x0.8 mm with a typical power rating of 0.1 W (range: 1-100 nH)',
@@ -907,15 +907,15 @@ inductanceTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  informationEntropyTable
-#//
-#//  bits : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28data%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  informationEntropyTable
+# //
+# //  bits : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28data%29
+# //
+# //******************************************************************************
 
 informationEntropyTable = {
     mpf( '1' )              : '1 bit - 0 or 1, false or true',
@@ -1005,16 +1005,16 @@ informationEntropyTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  lengthTable
-#//
-#//  meters : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28length%29
-#//  https://en.wikipedia.org/wiki/List_of_examples_of_lengths
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  lengthTable
+# //
+# //  meters : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28length%29
+# //  https://en.wikipedia.org/wiki/List_of_examples_of_lengths
+# //
+# //******************************************************************************
 
 lengthTable = {
     mpf( '1.616199e-35' )   : 'the Planck length; typical scale of hypothetical loop quantum gravity or size of a hypothetical string and of branes; according to string theory lengths smaller than this do not make any physical sense',
@@ -1149,16 +1149,16 @@ lengthTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  luminanceTable
-#//
-#//  candelas/meter^2 : description
-#//
-#//  https://en.wikipedia.org/wiki/Luminance
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminance%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  luminanceTable
+# //
+# //  candelas/meter^2 : description
+# //
+# //  https://en.wikipedia.org/wiki/Luminance
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminance%29
+# //
+# //******************************************************************************
 
 luminanceTable = {
     mpf( '1.0e-6' ) : 'the luminance of the absolute threshold of human vision',
@@ -1190,15 +1190,15 @@ luminanceTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  luminousFluxTable
-#//
-#//  lumens : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminous_flux%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  luminousFluxTable
+# //
+# //  lumens : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminous_flux%29
+# //
+# //******************************************************************************
 
 luminousFluxTable = {
     mpf( '0.025' )      : 'the luminous flux of the light of a firefly',
@@ -1215,15 +1215,15 @@ luminousFluxTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  luminousIntensityTable
-#//
-#//  candelas : description
-#//
-#//  https://en.wikipedia.org/wiki/Candela#Examples
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  luminousIntensityTable
+# //
+# //  candelas : description
+# //
+# //  https://en.wikipedia.org/wiki/Candela#Examples
+# //
+# //******************************************************************************
 
 luminousIntensityTable = {
     mpf( '5.0e-2' ) : 'the luminous intensity of a typical indicator LED',
@@ -1233,39 +1233,39 @@ luminousIntensityTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  magneticFieldStrengthTable
-#//
-#//  amperes/meter : description
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  magneticFieldStrengthTable
+# //
+# //  amperes/meter : description
+# //
+# //******************************************************************************
 
 magneticFieldStrengthTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  magneticFluxTable
-#//
-#//  webers : description
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  magneticFluxTable
+# //
+# //  webers : description
+# //
+# //******************************************************************************
 
 magneticFluxTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  magneticFluxDensityTable
-#//
-#//  teslas : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28magnetic_field%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  magneticFluxDensityTable
+# //
+# //  teslas : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28magnetic_field%29
+# //
+# //******************************************************************************
 
 magneticFluxDensityTable = {
     mpf( '5e-18' )      : 'the magnetic flux density precision attained for Gravity Probe B',
@@ -1281,15 +1281,15 @@ magneticFluxDensityTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  massTable
-#//
-#//  grams : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28mass%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  massTable
+# //
+# //  grams : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28mass%29
+# //
+# //******************************************************************************
 
 massTable = {
     mpf( '4.2e-37' )    : 'the mass equivalent of the energy of a photon at the peak of the spectrum of the cosmic microwave background radiation (0.235 meV/c2)',
@@ -1444,15 +1444,15 @@ massTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  powerTable
-#//
-#//  watts : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28power%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  powerTable
+# //
+# //  watts : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28power%29
+# //
+# //******************************************************************************
 
 powerTable = {
 
@@ -1561,16 +1561,16 @@ powerTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  pressureTable
-#//
-#//  pascals : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28pressure%29
-#//  https://en.wikipedia.org/wiki/Sound_pressure
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  pressureTable
+# //
+# //  pascals : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28pressure%29
+# //  https://en.wikipedia.org/wiki/Sound_pressure
+# //
+# //******************************************************************************
 
 pressureTable = {
 
@@ -1661,16 +1661,16 @@ pressureTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  radiationDoseTable
-#//
-#//  sieverts : description
-#//
-#//  https://en.wikipedia.org/wiki/Sievert
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28radiation%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  radiationDoseTable
+# //
+# //  sieverts : description
+# //
+# //  https://en.wikipedia.org/wiki/Sievert
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28radiation%29
+# //
+# //******************************************************************************
 
 radiationDoseTable = {
     mpf( '1.0e-6' )     : 'the cosmic ray dose rate on commercial flights, which varies from 1 to 10 uSv/hour, depending on altitude, position and solar sunspot phase',
@@ -1727,27 +1727,27 @@ radiationDoseTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  radiationExposureTable
-#//
-#//  coulombs/gram : description
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  radiationExposureTable
+# //
+# //  coulombs/gram : description
+# //
+# //******************************************************************************
 
 radiationExposureTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  radioactivityTable
-#//
-#//  becquerels : description
-#//
-#//  https://en.wikipedia.org/wiki/List_of_radioactive_isotopes_by_half-life
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  radioactivityTable
+# //
+# //  becquerels : description
+# //
+# //  https://en.wikipedia.org/wiki/List_of_radioactive_isotopes_by_half-life
+# //
+# //******************************************************************************
 
 #radioactivityTable = {
 #    mpf( '1' )  : 'hydrogen-7 (half-life: 23e-24 s)',
@@ -1949,15 +1949,15 @@ radiationExposureTable = {
 #}
 
 
-#//******************************************************************************
-#//
-#//  solidAngleTable
-#//
-#//  steradians : description
-#//
-#//  https://en.wikipedia.org/wiki/Solid_angle
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  solidAngleTable
+# //
+# //  steradians : description
+# //
+# //  https://en.wikipedia.org/wiki/Solid_angle
+# //
+# //******************************************************************************
 
 solidAngleTable = {
     mpf( '6.67e-5' )    : 'the solid angle of the Moon as seen from Earth',
@@ -1965,15 +1965,15 @@ solidAngleTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  temperatureTable
-#//
-#//  kelvins : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28temperature%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  temperatureTable
+# //
+# //  kelvins : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28temperature%29
+# //
+# //******************************************************************************
 
 temperatureTable = {
     mpf( '1.0e-10' )        : 'the lowest temperature ever produced in a laboratory',
@@ -2018,16 +2018,16 @@ temperatureTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  timeTable
-#//
-#//  seconds : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28frequency%29
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28time%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  timeTable
+# //
+# //  seconds : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28frequency%29
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28time%29
+# //
+# //******************************************************************************
 
 timeTable = {
     mpf( '5.39106e-44' )    : 'the Planck time',
@@ -2044,15 +2044,15 @@ timeTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  velocityTable
-#//
-#//  meters/second : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28speed%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  velocityTable
+# //
+# //  meters/second : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28speed%29
+# //
+# //******************************************************************************
 
 velocityTable = {
     mpf( '2.2e-18' )    : 'the expansion rate between 2 points in free space 1 meter apart under Hubble\'s law',
@@ -2076,15 +2076,15 @@ velocityTable = {
 }
 
 
-#//******************************************************************************
-#//
-#//  volumeTable
-#//
-#//  liters : description
-#//
-#//  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28volume%29
-#//
-#//******************************************************************************
+# //******************************************************************************
+# //
+# //  volumeTable
+# //
+# //  liters : description
+# //
+# //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28volume%29
+# //
+# //******************************************************************************
 
 volumeTable = {
     mpf( '4.22419e-102' )   : 'the Planck volume',
