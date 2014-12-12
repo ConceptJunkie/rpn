@@ -1909,8 +1909,14 @@ c:\>rpn pi 7 / radians dms
     'double' : [
 'conversion', 'converts n to the representation of a 64-bit IEEE 754 float',
 '''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
+c:\>rpn pi double -x
+4009 21fb 5444 2d18
+
+c:\>rpn -a20 0x400921fb54442d18 undouble
+3.141592653589793116
 ''' ],
     'doublebal' : [
 'prime_numbers', 'returns the nth double balanced prime',
@@ -2119,8 +2125,14 @@ This is defined for convenience for use with date operators.
     'float' : [
 'conversion', 'converts n to the representation of a 32-bit IEEE 754 float',
 '''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
+c:\>rpn pi float -x
+4049 0fdb
+
+c:\>rpn 0x40490fdb unfloat
+3.14159274101
 ''' ],
     'floor' : [
 'arithmetic', 'calculates the next lowest integer for n',
@@ -2660,14 +2672,26 @@ This is defined for convenience for use with date operators.
     'maxdouble' : [
 'conversion', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
 '''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
+c:\>rpn maxdouble
+1.79769313486e308
+
+c:\>rpn maxdouble double -x
+7fef ffff ffff ffff
 ''' ],
     'maxfloat' : [
 'conversion', 'returns the largest value that can be represented by a 32-bit IEEE 754 float',
 '''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
+c:\>rpn maxfloat
+3.40282346639e38
+
+c:\>rpn maxfloat float -x
+7f7f ffff
 ''' ],
     'maxindex' : [
 'arithmetic', 'returns the index of largest value in list n',
@@ -2678,54 +2702,93 @@ This is defined for convenience for use with date operators.
     'maxlong' : [
 'conversion', 'returns the maximum 32-bit signed integer',
 '''
+This is the largest number that can be represented by a 32-bit signed
+integer assuming two's complement representation.
+
 ''',
 '''
+c:\>rpn maxlong
+2147483647
+
+When does a 32-bit time_t wrap?
+
+c:\>rpn 1970-01-01 maxlong seconds +
+2038-01-19 03:14:07
 ''' ],
     'maxlonglong' : [
 'conversion', 'returns the maximum 64-bit signed integer',
 '''
+This is the largest number that can be represented by a 64-bit signed
+integer assuming two's complement representation.
 ''',
 '''
+c:\sys\ut\rpn>rpn maxlonglong
+9223372036854775807
+
+When does a 64-bit time_t wrap?
+
+c:\>rpn 1970-01-01 maxlonglong seconds +
+rpn:  value is out of range to be converted into a time
+0
+
+c:\sys\ut\rpn>rpn -c maxlonglong seconds years convert
+292,271,023,045 years
+
+Not for a long while...
 ''' ],
     'maxquadlong' : [
 'conversion', 'returns the maximum 128-bit signed integer',
 '''
+This is the largest number that can be represented by a 128-bit signed
+integer assuming two's complement representation.
 ''',
 '''
 ''' ],
     'maxshort' : [
 'conversion', 'returns the maximum 16-bit signed integer',
 '''
+This is the largest number that can be represented by a 16-bit signed
+integer assuming two's complement representation.
 ''',
 '''
 ''' ],
     'maxuchar' : [
 'conversion', 'returns the maximum 8-bit unsigned integer',
 '''
+This is the largest number that can be represented by a 16-bit unsigned
+integer.
 ''',
 '''
 ''' ],
     'maxulong' : [
 'conversion', 'returns the maximum 32-bit unsigned integer',
 '''
+This is the largest number that can be represented by a 32-bit unsigned
+integer.
 ''',
 '''
 ''' ],
     'maxulonglong' : [
 'conversion', 'returns the maximum 64-bit unsigned integer',
 '''
+This is the largest number that can be represented by a 64-bit unsigned
+integer.
 ''',
 '''
 ''' ],
     'maxuquadlong' : [
 'conversion', 'returns the maximum 128-bit unsigned integer',
 '''
+This is the largest number that can be represented by a 128-bit unsigned
+integer.
 ''',
 '''
 ''' ],
     'maxushort' : [
 'conversion', 'returns the maximum 16-bit unsigned integer',
 '''
+This is the largest number that can be represented by a 16-bit unsigned
+integer.
 ''',
 '''
 ''' ],
@@ -2784,20 +2847,42 @@ Hypothesis, then the least possible value for Mills' constant (usually called
     'minchar' : [
 'conversion', 'returns the minimum 8-bit signed integer',
 '''
+This is the smallest number that can be represented by an 8-bit signed
+integer assuming two's complement representation.
 ''',
 '''
+c:\>rpn minchar
+-128
+
+c:\>rpn minchar -x
+-0080
+
+c:\>rpn maxchar minchar -
+255
 ''' ],
     'mindouble' : [
 'conversion', 'returns the smallest value that can be represented by a 64-bit IEEE 754 float',
 '''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
+c:\>rpn mindouble
+2.22507385851e-308
+
+c:\>rpn mindouble double -x
+0010 0000 0000 0000
 ''' ],
     'minfloat' : [
 'conversion', 'returns the smallest value that can be represented by a 32-bit IEEE 754 float',
 '''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
+c:\>rpn minfloat
+1.17549435082e-38
+
+c:\>rpn minfloat float -x
+0080 0000
 ''' ],
     'minindex' : [
 'arithmetic', 'returns the index of smallest value in list n',
@@ -2808,56 +2893,114 @@ Hypothesis, then the least possible value for Mills' constant (usually called
     'minlong' : [
 'conversion', 'returns the minimum 32-bit signed integer',
 '''
+This is the smallest number that can be represented by a 32-bit signed
+integer assuming two's complement representation.
 ''',
 '''
+c:\>rpn minlong
+-2147483648
+
+c:\>rpn maxlong minlong -
+4294967295
 ''' ],
     'minlonglong' : [
 'conversion', 'returns the minimum 64-bit signed integer',
 '''
+This is the smallest number that can be represented by a 64-bit signed
+integer assuming two's complement representation.
 ''',
 '''
+c:\>rpn minlonglong
+-9223372036854775808
+
+c:\>rpn maxlonglong minlonglong - 1 + log2
+64
 ''' ],
     'minquadlong' : [
 'conversion', 'returns the minimum 128-bit signed integer',
 '''
+This is the smallest number that can be represented by a 128-bit signed
+integer assuming two's complement representation.
 ''',
 '''
+c:\>rpn minquadlong
+-170141183460469231731687303715884105728
+
+c:\>rpn maxquadlong minquadlong - 1 + log2
+128
 ''' ],
     'minshort' : [
 'conversion', 'returns the minimum 16-bit signed integer',
 '''
+This is the smallest number that can be represented by a 16-bit signed
+integer assuming two's complement representation.
 ''',
 '''
+c:\>rpn minshort
+-32768
+
+c:\>rpn maxshort minshort -
+65535
 ''' ],
     'minuchar' : [
 'conversion', 'returns the minimum 8-bit unsigned integer',
 '''
+By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
+c:\>rpn minuchar
+0
+
+c:\>rpn maxuchar minuchar -
+255
 ''' ],
     'minulong' : [
 'conversion', 'returns the minimum 32-bit unsigned integer',
 '''
+By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
+c:\>rpn minulong
+0
+
+c:\>rpn maxulong minulong - 1 + log2
+32
 ''' ],
     'minulonglong' : [
 'conversion', 'returns the minimum 64-bit unsigned integer',
 '''
+By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
+c:\>rpn minulonglong
+0
+
+c:\>rpn maxulonglong minulonglong - 1 + log2
+64
 ''' ],
     'minuquadlong' : [
 'conversion', 'returns the minimum 128-bit unsigned integer',
 '''
+By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
+c:\>rpn minuquadlong
+0
+
+c:\>rpn maxuquadlong minuquadlong - 1 + log2
+128
 ''' ],
     'minushort' : [
 'conversion', 'returns the minimum 16-bit unsigned integer',
 '''
+By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
+c:\>rpn minushort
+0
+
+c:\>rpn maxushort minushort -
+65535
 ''' ],
     'modulo' : [
 'arithmetic', 'calculates n modulo k',
@@ -4132,14 +4275,26 @@ This is defined for convenience for use with date operators.
     'undouble' : [
 'conversion', 'interprets a 64-bit integer as a 64-bit IEEE 754 float',
 '''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
+c:\>rpn pi double -x
+4009 21fb 5444 2d18
+
+c:\>rpn -a20 0x400921fb54442d18 undouble
+3.141592653589793116
 ''' ],
     'unfloat' : [
 'conversion', 'interprets a 32-bit integer as a 32-bit IEEE 754 float',
 '''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
+c:\>rpn pi float -x
+4049 0fdb
+
+c:\>rpn 0x40490fdb unfloat
+3.14159274101
 ''' ],
     'union' : [
 'list_operators', 'returns the union of two lists',
