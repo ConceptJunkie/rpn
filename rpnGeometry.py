@@ -62,7 +62,8 @@ def getNSphereRadius( n, k ):
         return root( fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
                                  power( pi, fdiv( n, 2 ) ) ), k ), 3 )
     else:
-        raise ValueError( 'incompatible measurement type for computing the radius: ' + measurementType )
+        raise ValueError( 'incompatible measurement type for computing the radius: ' +
+                          measurementType )
 
 
 # //******************************************************************************

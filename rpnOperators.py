@@ -137,7 +137,7 @@ def evaluateTerm( term, index, currentValueList ):
 
                 currentValueList.append( newArg )
             # and if it's a plain old number, then apply it to the unit
-            elif isinstance( currentValueList[ -1 ], mpf ):
+            elif isinstance( currentValueList[ -1 ], ( mpf, int ) ):
                 currentValueList.append( applyNumberValueToUnit( currentValueList.pop( ), term ) )
             else:
                 raise ValueError( 'unsupported type for a unit operator' )

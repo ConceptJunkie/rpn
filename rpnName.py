@@ -108,8 +108,8 @@ def getSmallNumberName( n ):
 
 def getNumberGroupName( n ):
     groupNames = [ '', 'thousand', 'million', 'billion', 'trillion',
-                  'quadrillion', 'quintillion', 'sextillion', 'septillion',
-                  'octillion', 'nonillion', 'decillion' ]
+                   'quadrillion', 'quintillion', 'sextillion', 'septillion',
+                   'octillion', 'nonillion', 'decillion' ]
 
     onesNames = [ '', 'un', 'duo', 'tre', 'quattuor', 'quinqua', 'se', 'septe', 'octo', 'nove' ]
 
@@ -132,7 +132,6 @@ def getNumberGroupName( n ):
 
         name = ''
         hasTens = False
-        special = False
 
         if ones > 0:
             name += onesNames[ ones ]

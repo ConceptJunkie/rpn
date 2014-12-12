@@ -80,7 +80,9 @@ def getDivisorCount( n ):
 def getDivisors( n ):
     result = getExpandedFactorList( factor( n ) )
 
-    result = [ list( i ) for i in itertools.chain.from_iterable( itertools.combinations( result, r ) for r in range( 0, len( result ) + 1 ) ) ]
+    result = [ list( i ) for i in
+               itertools.chain.from_iterable( itertools.combinations( result, r )
+               for r in range( 0, len( result ) + 1 ) ) ]
 
     from operator import mul
     result = set( [ reduce( mul, i, 1 ) for i in result[ 1 : ] ] )
@@ -448,7 +450,8 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
         seeds = [ seeds ]
 
     if len( seeds ) == 0:
-        raise ValueError( 'internal error:  for operator \'linearrecur\', seeds list cannot be empty ' )
+        raise ValueError( 'internal error:  for operator \'linearrecur\', '
+                          'seeds list cannot be empty ' )
 
     # calculate missing seeds
     for i in range( len( seeds ), len( recurrence ) ):
@@ -461,7 +464,8 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
         return seeds[ int( n ) - 1 ]
     else:
         if len( recurrence ) == 0:
-            raise ValueError( 'internal error:  for operator \'linearrecur\', recurrence list cannot be empty ' )
+            raise ValueError( 'internal error:  for operator \'linearrecur\', '
+                              'recurrence list cannot be empty ' )
 
         result = [ ]
         result.extend( seeds )

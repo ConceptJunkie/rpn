@@ -12,12 +12,7 @@
 # //
 # //******************************************************************************
 
-import collections
-import itertools
-
 from mpmath import *
-
-from fractions import Fraction
 
 from rpnUtils import *
 from rpnOperators import *
@@ -89,13 +84,11 @@ class Measurement( mpf ):
 
         return mpf.__new__( cls, value )
 
-
     def __init__( self, value, units=None, unitName=None, pluralUnitName=None ):
         mpf.__init__( value )
         self.units = Units( units )
         self.unitName = unitName
         self.pluralUnitName = pluralUnitName
-
 
     def __eq__( self, other ):
         result = mpf.__eq__( other )
@@ -105,27 +98,22 @@ class Measurement( mpf ):
 
         return result
 
-
     def __ne__( self, other ):
         return not __eq__( self, other )
-
 
     def __str__( self ):
         return 'Measurement(' + str( mpf( self ) ) + ', { ' + \
                ', '.join( [ '(\'' + name + '\', ' + str( self.units[ name ] ) + ')' for name in self.units ] ) + ' })'
-
 
     def increment( self, value, amount=1 ):
         self.unitName = None
         self.pluralUnitName = None
         self.units[ value ] += amount
 
-
     def decrement( self, value, amount=1 ):
         self.unitName = None
         self.pluralUnitName = None
         self.units[ value ] = -amount
-
 
     def add( self, other ):
         if isinstance( other, Measurement ):
@@ -139,7 +127,6 @@ class Measurement( mpf ):
         else:
             return Measurement( fadd( self, other ), self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
-
 
     def subtract( self, other ):
         if isinstance( other, Measurement ):
@@ -155,7 +142,6 @@ class Measurement( mpf ):
             return Measurement( fsub( self, other ), self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
 
-
     def multiply( self, other ):
         newValue = fmul( self, other )
 
@@ -168,7 +154,6 @@ class Measurement( mpf ):
                                 self.getUnitName( ), self.getPluralUnitName( ) )
 
         return self.dezeroUnits( )
-
 
     def divide( self, other ):
         newValue = fdiv( self, other )
@@ -184,7 +169,6 @@ class Measurement( mpf ):
 
         return self.dezeroUnits( )
 
-
     def exponentiate( self, exponent ):
         if ( floor( exponent ) != exponent ):
             raise ValueError( 'cannot raise a measurement to a non-integral power' )
@@ -198,7 +182,6 @@ class Measurement( mpf ):
 
         return self
 
-
     def invert( self ):
         value = mpf( self )
         units = self.getUnits( )
@@ -209,7 +192,6 @@ class Measurement( mpf ):
             newUnits[ unit ] = -units[ unit ]
 
         return Measurement( value, newUnits )
-
 
     def dezeroUnits( self ):
         value = mpf( self )
@@ -223,7 +205,6 @@ class Measurement( mpf ):
 
         return Measurement( value, newUnits, self.getUnitName( ), self.getPluralUnitName( ) )
 
-
     def update( self, units ):
         for i in self.units:
             del self.units[ i ]
@@ -235,7 +216,6 @@ class Measurement( mpf ):
         self.pluralUnitName = None
 
         self.units.update( units )
-
 
     def isCompatible( self, other ):
         if isinstance( other, dict ):
@@ -271,7 +251,6 @@ class Measurement( mpf ):
         else:
             raise ValueError( 'Measurement or dict expected' )
 
-
     def isEquivalent( self, other ):
         if isinstance( other, list ):
             result = True
@@ -291,26 +270,20 @@ class Measurement( mpf ):
         else:
             raise ValueError( 'Measurement or dict expected' )
 
-
     def getValue( self ):
         return mpf( self )
-
 
     def getUnits( self ):
         return self.units
 
-
     def getUnitString( self ):
         return self.units.getUnitString( )
-
 
     def getUnitName( self ):
         return self.unitName
 
-
     def getPluralUnitName( self ):
         return self.pluralUnitName
-
 
     def getUnitTypes( self ):
         types = Units( )
@@ -328,18 +301,14 @@ class Measurement( mpf ):
 
         return types
 
-
     def getSimpleTypes( self ):
         return self.units.simplify( )
-
 
     def getBasicTypes( self ):
         return self.getUnitTypes( ).getBasicTypes( )
 
-
     def getPrimitiveTypes( self ):
         return self.getUnitTypes( ).getPrimitiveTypes( )
-
 
     def getReduced( self ):
         debugPrint( 'getReduced 1:', self, [ ( i, self.units[ i ] ) for i in self.units ] )
@@ -364,7 +333,6 @@ class Measurement( mpf ):
         reduced = Measurement( value, units )
         debugPrint( 'getReduced 2:', reduced )
         return reduced
-
 
     def convertValue( self, other ):
         if self.isEquivalent( other ):
@@ -414,7 +382,8 @@ class Measurement( mpf ):
 
             # look for a straight-up conversion
             if ( unit1String, unit2String ) in g.unitConversionMatrix:
-                value = fmul( mpf( self ), mpmathify( g.unitConversionMatrix[ ( unit1String, unit2String ) ] ) )
+                value = fmul( mpf( self ),
+                              mpmathify( g.unitConversionMatrix[ ( unit1String, unit2String ) ] ) )
             elif ( unit1String, unit2String ) in specialUnitConversionMatrix:
                 value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ]( mpf( self ) )
             else:
@@ -425,18 +394,19 @@ class Measurement( mpf ):
                 newUnits1 = Units( )
 
                 for unit in units1:
-                    newUnits1.update( Units( g.unitOperators[ unit ].representation + "^" + str( units1[ unit ] ) ) )
+                    newUnits1.update( Units( g.unitOperators[ unit ].representation + "^" +
+                                             str( units1[ unit ] ) ) )
 
                 newUnits2 = Units( )
 
                 for unit in units2:
-                    newUnits2.update( Units( g.unitOperators[ unit ].representation + "^" + str( units2[ unit ] ) ) )
+                    newUnits2.update( Units( g.unitOperators[ unit ].representation + "^" +
+                                             str( units2[ unit ] ) ) )
 
                 debugPrint( 'units1:', units1 )
                 debugPrint( 'units2:', units2 )
                 debugPrint( 'newUnits1:', newUnits1 )
                 debugPrint( 'newUnits2:', newUnits2 )
-
 
                 for unit1 in newUnits1:
                     foundConversion = False
@@ -467,7 +437,8 @@ class Measurement( mpf ):
 
                         reduced = reduced.convertValue( reducedOther )
 
-                        return Measurement( fdiv( reduced, reducedOther ), reducedOther.getUnits( ) )
+                        return Measurement( fdiv( reduced, reducedOther ),
+                                            reducedOther.getUnits( ) )
 
                 value = conversionValue
 
@@ -515,12 +486,10 @@ def convertUnits( unit1, unit2 ):
     if not isinstance( unit1, Measurement ):
         raise ValueError( 'cannot convert non-measurements' )
 
-
     if isinstance( unit2, list ):
         return unit1.convertValue( unit2 )
     elif isinstance( unit2, str ):
         measurement = Measurement( 1, { unit2 : 1 } )
-
         return Measurement( unit1.convertValue( measurement ), unit2 )
     elif not isinstance( unit2, Measurement ):
         raise ValueError( 'cannot convert non-measurements' )
@@ -540,7 +509,8 @@ def convertUnits( unit1, unit2 ):
 # //******************************************************************************
 
 def convertToDMS( n ):
-    return convertUnits( n, [ Measurement( 1, { 'degree' : 1 } ), Measurement( 1, { 'arcminute' : 1 } ),
+    return convertUnits( n, [ Measurement( 1, { 'degree' : 1 } ),
+                              Measurement( 1, { 'arcminute' : 1 } ),
                               Measurement( 1, { 'arcsecond' : 1 } ) ] )
 
 
