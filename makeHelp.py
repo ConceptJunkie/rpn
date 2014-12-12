@@ -3437,7 +3437,7 @@ c:\>rpn -5 5 x 4 ** 3 x 3 ** * + 25 x * - plot
 
 c:\>rpn 1 50 x fib plot
 
-c:\>rpn 1 10 x 1 + fib x fib / plot
+c:\sys\ut\rpn>rpn 1 10 x 1 + fib x fib / plot
 ''' ],
     'polyadd' : [
 'algebra', 'interprets two lists as polynomials and adds them',
