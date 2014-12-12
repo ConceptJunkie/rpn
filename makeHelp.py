@@ -3421,6 +3421,24 @@ flushing the cache for a particular entry.
 ''',
 '''
 ''' ],
+    'plot' : [
+'special', 'plot function a for values of x between b and c',
+'''
+'plot' is very much considered experimental.  It's easy to construct an
+incompletely-defined function and cause mpmath to go into an infinite loop.
+
+I suppose I need to make my function evaluation logic smarter.   That would
+also allow me to plot more than one function at a time.
+''',
+'''
+c:\>rpn 0 pi x sin plot
+
+c:\>rpn -5 5 x 4 ** 3 x 3 ** * + 25 x * - plot
+
+c:\>rpn 1 50 x fib plot
+
+c:\sys\ut\rpn>rpn 1 10 x 1 + fib x fib / plot
+''' ],
     'polyadd' : [
 'algebra', 'interprets two lists as polynomials and adds them',
 '''

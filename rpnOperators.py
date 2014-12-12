@@ -338,6 +338,17 @@ def evaluateFunction( n, k ):
 
 # //******************************************************************************
 # //
+# //  plotFunction
+# //
+# //******************************************************************************
+
+def plotFunction( start, end, func ):
+    plot( lambda x: evaluateFunction( x, func ), [ start , end ] )
+    return 0
+
+
+# //******************************************************************************
+# //
 # //  loadResult
 # //
 # //******************************************************************************
@@ -752,7 +763,8 @@ functionOperators = [
     'nsum',
     'nprod',
     'limit',
-    'limitn'
+    'limitn',
+    'plot'
 ]
 
 
@@ -1121,6 +1133,7 @@ operators = {
     'phi'               : OperatorInfo( phi, 0 ),
     'pi'                : OperatorInfo( pi, 0 ),
     'plastic'           : OperatorInfo( getPlasticConstant, 0 ),
+    'plot'              : OperatorInfo( plotFunction, 3 ),
     'polyarea'          : OperatorInfo( getRegularPolygonArea, 1 ),
     'polygamma'         : OperatorInfo( psi, 2 ),
     'polygonal'         : OperatorInfo( getNthPolygonalNumber, 2 ),
