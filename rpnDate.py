@@ -64,7 +64,11 @@ def addTimes( n, k ):
         seconds = int( fmod( floor( convertUnits( k, 'second' ).getValue( ) ), 86400 ) )
         microseconds = int( fmod( floor( convertUnits( k, 'microsecond' ).getValue( ) ), 1000000 ) )
 
-        return n + datetime.timedelta( days=days, seconds=seconds, microseconds=microseconds )
+        try:
+            return n + datetime.timedelta( days=days, seconds=seconds, microseconds=microseconds )
+        except OverflowError:
+            print( 'rpn:  value is out of range to be converted into a time' )
+            return 0
 
 
 # //******************************************************************************
