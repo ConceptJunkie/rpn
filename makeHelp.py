@@ -2722,7 +2722,7 @@ This is the largest number that can be represented by a 64-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\sys\ut\rpn>rpn maxlonglong
+c:\>rpn maxlonglong
 9223372036854775807
 
 When does a 64-bit time_t wrap?
@@ -2731,7 +2731,7 @@ c:\>rpn 1970-01-01 maxlonglong seconds +
 rpn:  value is out of range to be converted into a time
 0
 
-c:\sys\ut\rpn>rpn -c maxlonglong seconds years convert
+c:\>rpn -c maxlonglong seconds years convert
 292,271,023,045 years
 
 Not for a long while...
@@ -3437,7 +3437,7 @@ c:\>rpn -5 5 x 4 ** 3 x 3 ** * + 25 x * - plot
 
 c:\>rpn 1 50 x fib plot
 
-c:\sys\ut\rpn>rpn 1 10 x 1 + fib x fib / plot
+c:\>rpn 1 10 x 1 + fib x fib / plot
 ''' ],
     'polyadd' : [
 'algebra', 'interprets two lists as polynomials and adds them',
