@@ -40,7 +40,7 @@ executables = [
                 icon = 'rpn.ico',
                 initScript = None,
                 shortcutName = 'rpn ' + PROGRAM_VERSION,
-                targetName = 'rpn.exe',
+                targetName = 'rpn.exe'
     )
 ]
 
