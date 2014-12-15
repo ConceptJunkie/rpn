@@ -123,5 +123,5 @@ def getPrevious( valueList ):
 
 def createFunction( valueList ):
     g.creatingFunction = True
-    valueList.append( FunctionInfo( [ 'x' ] ) )
+    valueList.append( FunctionInfo( valueList, len( valueList ) - 1 ) )
 

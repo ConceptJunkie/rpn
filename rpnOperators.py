@@ -184,7 +184,8 @@ def evaluateTerm( term, index, currentValueList ):
             if argsNeeded == 0:
                 currentValueList.append( operatorInfo.function( currentValueList ) )
             elif argsNeeded == 1:
-                currentValueList.append( evaluateOneListFunction( operatorInfo.function, currentValueList.pop( ) ) )
+                currentValueList.append( evaluateOneListFunction( operatorInfo.function,
+                                                                  currentValueList.pop( ) ) )
             else:
                 listArgs = [ ]
 
@@ -309,7 +310,10 @@ def evaluateFunction( n, k ):
     else:
         valueList = [ ]
 
-        for item in k.valueList:
+        for index, item in enumerate( k.valueList ):
+            if index < k.startingIndex:
+                continue
+
             if item == 'x':
                 valueList.append( n )
             else:
@@ -355,7 +359,9 @@ def plotFunction( start, end, func ):
 
 def loadResult( valueList ):
     try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'rb' ) ) as pickleFile:
+        fileNmae = g.dataPath + os.sep + 'result.pckl.bz2'
+
+        with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
             result = pickle.load( pickleFile )
     except FileNotFoundError:
         result = mapmathify( 0 )
@@ -373,7 +379,9 @@ def saveResult( result ):
     if not os.path.isdir( g.dataPath ):
         os.makedirs( g,dataPath )
 
-    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'result.pckl.bz2', 'wb' ) ) as pickleFile:
+    fileName = g.dataPath + os.sep + 'result.pckl.bz2'
+
+    with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( result, pickleFile )
 
 
@@ -450,7 +458,8 @@ def dumpStats( ):
     if not g.unitConversionMatrix:
         loadUnitConversionMatrix( )
 
-    print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) + len( modifiers ) ) )
+    print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) +
+                                             len( modifiers ) ) )
     print( '{:10,} unit conversions'.format( len( g.unitConversionMatrix ) ) )
     print( )
 
