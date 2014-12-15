@@ -4,9 +4,7 @@ from rpnVersion import PROGRAM_VERSION
 # Dependencies are automatically detected, but it might need fine tuning.
 buildOptions = \
     dict(
-        packages = [ 'gmpy2' ],
-
-        excludes = [ 'matplotlib' ],
+        packages = [ 'gmpy2', 'matplotlib', 'numpy', 'pylab' ],
 
         include_files = [
             'rpndata/help.pckl.bz2',
