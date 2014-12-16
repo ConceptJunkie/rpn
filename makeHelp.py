@@ -3431,6 +3431,17 @@ I suppose I need to make my function evaluation logic smarter.   That would
 also allow me to plot more than one function at a time.
 ''',
 '''
+''' ],
+    'plot2' : [
+'special', '3D plotting, w00t!'
+'''
+'plot2' is very much considered experimental.
+
+Here's an example to try:
+
+c:\>rpn -2 2 -2 2 x 2 ** y 2 ** - plot2
+''',
+'''
 c:\>rpn 0 pi x sin plot
 
 c:\>rpn -5 5 x 4 ** 3 x 3 ** * + 25 x * - plot
@@ -4404,6 +4415,12 @@ Once this works, some really interesting new operators can be made.
 ''',
 '''
 ''' ],
+    'y' : [
+'special', '\'y\' is used to create functions',
+'''
+''',
+'''
+''' ],
     'ydhms' : [
 'conversion', 'shortcut for \'[ year day hour minute second ] convert\'',
 '''
@@ -4419,6 +4436,12 @@ and seconds.
 The 'year_calendar' operator is special in that what it prints out is a
 side-effect.  It actually returns the date value passed in as a result, so as
 far as rpn is concerned, it's an operator that does nothing.
+''',
+'''
+''' ],
+    'z' : [
+'special', '\'z\' is used to create functions',
+'''
 ''',
 '''
 ''' ],

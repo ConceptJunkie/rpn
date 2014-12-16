@@ -598,13 +598,14 @@ unitOperators = {
         UnitInfo( 'constant', 'octillionth', 'octillionths', '', [ ], [ 'constant' ],
                   '''One octillionth:  10e-27 or 1/1,000,000,000,000,000,000,000,000,000''' ),
 
-    # 'y' can't be used here since it's used for 'year'
+    # 'y' can't be used here since it's an operator
     'septillionth' :
         UnitInfo( 'constant', 'septillionth', 'septillionths', '', [ 'yocto' ], [ 'constant' ],
                   '''One septillionth:  10e-24 or 1/1,000,000,000,000,000,000,000,000''' ),
 
+    # 'z' can't be used here since it's an operator
     'sextillionth' :
-        UnitInfo( 'constant', 'sextillionth', 'sextillionths', 'z', [ 'zepto' ], [ 'constant' ],
+        UnitInfo( 'constant', 'sextillionth', 'sextillionths', '', [ 'zepto' ], [ 'constant' ],
                   '''One sextillionth:  10e-21 or 1/1,000,000,000,000,000,000,000''' ),
 
     # 'a' can't be used here since it's used for 'are'
@@ -2293,7 +2294,7 @@ unitOperators = {
                   ''' ),
 
     'century' :
-        UnitInfo( 'time', 'century', 'centuries', 'y', [ ], [ 'traditional', 'US', 'years' ],
+        UnitInfo( 'time', 'century', 'centuries', '', [ ], [ 'traditional', 'US', 'years' ],
                   '''
                   ''' ),
 

@@ -119,8 +119,8 @@ def evaluateTerm( term, index, currentValueList ):
             operatorInfo = modifiers[ term ]
             operatorInfo.function( currentValueList )
 
-        # handle a unit operator
         elif term in g.unitOperators:
+            # handle a unit operator
             # look for unit without a value (in which case we give it a value of 1)
             if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], Measurement ) or \
                isinstance( currentValueList[ -1 ], arrow.Arrow ) or ( isinstance( currentValueList[ -1 ], list ) and
@@ -142,8 +142,8 @@ def evaluateTerm( term, index, currentValueList ):
             else:
                 raise ValueError( 'unsupported type for a unit operator' )
 
-        # handle a regular operator
         elif term in operators:
+            # handle a regular operator
             operatorInfo = operators[ term ]
 
             argsNeeded = operatorInfo.argCount
@@ -170,8 +170,8 @@ def evaluateTerm( term, index, currentValueList ):
             if term not in sideEffectOperators:
                 currentValueList.append( result )
 
-        # handle a list operator
         elif term in listOperators:
+            # handle a list operator
             operatorInfo = listOperators[ term ]
             argsNeeded = operatorInfo.argCount
 
@@ -193,8 +193,8 @@ def evaluateTerm( term, index, currentValueList ):
                     listArgs.insert( 0, currentValueList.pop( ) )
 
                 currentValueList.append( operatorInfo.function( *listArgs ) )
-        # handle a plain old value (i.e., a number, not an operator)
         else:
+            # handle a plain old value (i.e., a number, not an operator)
             try:
                 currentValueList.append( parseInputValue( term, g.inputRadix ) )
 
@@ -296,30 +296,39 @@ def findPolynomial( n, k ):
 # //
 # //******************************************************************************
 
-def evaluateFunction( n, k ):
-    if not isinstance( k, FunctionInfo ):
+def evaluateFunction( a, b, c, d ):
+    #print( 'a, b, c, d', a, b, c, d.valueList )
+    if not isinstance( d, FunctionInfo ):
         raise ValueError( '\'eval\' expects a function argument' )
 
-    if isinstance( n, list ):
+    if isinstance( a, list ) or isinstance( b, list ) or isinstance( c, list ):
         result = [ ]
 
-        for item in n:
+        for item in a:
             result.append( k.evaluate( item ) )
 
         return result
     else:
         valueList = [ ]
 
-        for index, item in enumerate( k.valueList ):
-            if index < k.startingIndex:
+        for index, item in enumerate( d.valueList ):
+            if index < d.startingIndex:
                 continue
 
+            #print( 'item', item )
+
             if item == 'x':
-                valueList.append( n )
+                valueList.append( a )
+            elif item == 'y':
+                valueList.append( b )
+            elif item == 'z':
+                valueList.append( c )
             else:
                 valueList.append( item )
 
         index = 1
+
+        #print( 'valueList', valueList )
 
         while len( valueList ) > 1:
             term = valueList.pop( 0 )
@@ -342,12 +351,34 @@ def evaluateFunction( n, k ):
 
 # //******************************************************************************
 # //
+# //  evaluateFunction1
+# //
+# //******************************************************************************
+
+def evaluateFunction1( n, k ):
+    return evaluateFunction( n, 0, 0, k )
+
+
+# //******************************************************************************
+# //
 # //  plotFunction
 # //
 # //******************************************************************************
 
 def plotFunction( start, end, func ):
-    plot( lambda x: evaluateFunction( x, func ), [ start , end ] )
+    plot( lambda x: evaluateFunction1( x, func ), [ start , end ] )
+    return 0
+
+
+# //******************************************************************************
+# //
+# //  plotFunction2
+# //
+# //******************************************************************************
+
+def plotFunction2( start1, end1, start2, end2, func ):
+    splot( lambda x, y: evaluateFunction( x, y, 0, func ),
+           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
     return 0
 
 
@@ -773,7 +804,8 @@ functionOperators = [
     'nprod',
     'limit',
     'limitn',
-    'plot'
+    'plot',
+    'plot2'
 ]
 
 
@@ -812,6 +844,8 @@ modifiers = {
     'previous'          : OperatorInfo( getPrevious, 1 ),
     'unlist'            : OperatorInfo( unlist, 1 ),
     'x'                 : OperatorInfo( createFunction, 0 ),
+    'y'                 : OperatorInfo( createFunction, 0 ),
+    'z'                 : OperatorInfo( createFunction, 0 ),
     '['                 : OperatorInfo( incrementNestedListLevel, 0 ),
     ']'                 : OperatorInfo( decrementNestedListLevel, 0 ),
 }
@@ -980,7 +1014,7 @@ operators = {
     'element'           : OperatorInfo( getListElement, 2 ),
     'estimate'          : OperatorInfo( estimate, 1 ),
     'euler'             : OperatorInfo( euler, 0 ),
-    'eval'              : OperatorInfo( evaluateFunction, 2 ),
+    'eval'              : OperatorInfo( evaluateFunction1, 2 ),
     'exp'               : OperatorInfo( exp, 1 ),
     'exp10'             : OperatorInfo( lambda n: power( 10, n ), 1 ),
     'expphi'            : OperatorInfo( lambda n: power( phi, n ), 1 ),
@@ -1046,8 +1080,8 @@ operators = {
     'leyland'           : OperatorInfo( lambda x, y : fadd( power( x, y ), power( y, x ) ), 2 ),
     'lgamma'            : OperatorInfo( loggamma, 1 ),
     'li'                : OperatorInfo( li, 1 ),
-    'limit'             : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction( x, func ), n ), 2 ),
-    'limitn'            : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction( x, func ), n, direction=-1 ), 2 ),
+    'limit'             : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction1( x, func ), n ), 2 ),
+    'limitn'            : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction1( x, func ), n, direction=-1 ), 2 ),
     'ln'                : OperatorInfo( ln, 1 ),
     'log10'             : OperatorInfo( log10, 1 ),
     'log2'              : OperatorInfo( lambda n: log( n, 2 ), 1 ),
@@ -1104,11 +1138,11 @@ operators = {
     'not'               : OperatorInfo( getInvertedBits, 1 ),
     'november'          : OperatorInfo( lambda: 11, 0 ),
     'now'               : OperatorInfo( getNow, 0 ),
-    'nprod'             : OperatorInfo( lambda start, end, func: nprod( lambda x: evaluateFunction( x, func ), [ start, end ] ), 3 ),
+    'nprod'             : OperatorInfo( lambda start, end, func: nprod( lambda x: evaluateFunction1( x, func ), [ start, end ] ), 3 ),
     'nspherearea'       : OperatorInfo( getNSphereSurfaceArea, 2 ),
     'nsphereradius'     : OperatorInfo( getNSphereRadius, 2 ),
     'nspherevolume'     : OperatorInfo( getNSphereVolume, 2 ),
-    'nsum'              : OperatorInfo( lambda start, end, func: nsum( lambda x: evaluateFunction( x, func ), [ start, end ] ), 3 ),
+    'nsum'              : OperatorInfo( lambda start, end, func: nsum( lambda x: evaluateFunction1( x, func ), [ start, end ] ), 3 ),
     'nthprime?'         : OperatorInfo( lambda i: findPrime( i )[ 0 ], 1 ),
     'nthquad?'          : OperatorInfo( lambda i: findQuadrupletPrimes( i )[ 0 ], 1 ),
     'nthweekday'        : OperatorInfo( calculateNthWeekdayOfMonth , 4 ),
@@ -1143,6 +1177,7 @@ operators = {
     'pi'                : OperatorInfo( pi, 0 ),
     'plastic'           : OperatorInfo( getPlasticConstant, 0 ),
     'plot'              : OperatorInfo( plotFunction, 3 ),
+    'plot2'             : OperatorInfo( plotFunction2, 5 ),
     'polyarea'          : OperatorInfo( getRegularPolygonArea, 1 ),
     'polygamma'         : OperatorInfo( psi, 2 ),
     'polygonal'         : OperatorInfo( getNthPolygonalNumber, 2 ),
