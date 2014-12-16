@@ -3450,6 +3450,13 @@ c:\>rpn 1 50 x fib plot
 
 c:\>rpn 1 10 x 1 + fib x fib / plot
 ''' ],
+    'plotc' : [
+'special', 'plot a complex function a for values of x between a and b real, c and d imaginary',
+'''
+h'plotc' is very much considered experimental.
+''',
+'''
+''' ],
     'polyadd' : [
 'algebra', 'interprets two lists as polynomials and adds them',
 '''

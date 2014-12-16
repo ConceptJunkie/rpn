@@ -372,13 +372,26 @@ def plotFunction( start, end, func ):
 
 # //******************************************************************************
 # //
-# //  plotFunction2
+# //  plot2DFunction
 # //
 # //******************************************************************************
 
-def plotFunction2( start1, end1, start2, end2, func ):
+def plot2DFunction( start1, end1, start2, end2, func ):
     splot( lambda x, y: evaluateFunction( x, y, 0, func ),
            [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
+    return 0
+
+
+# //******************************************************************************
+# //
+# //  plotComplexFunction
+# //
+# //******************************************************************************
+
+def plotComplexFunction( start1, end1, start2, end2, func ):
+    cplot( lambda x: evaluateFunction( x, 0, 0, func ),
+           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ],
+           points=10000 )
     return 0
 
 
@@ -805,7 +818,8 @@ functionOperators = [
     'limit',
     'limitn',
     'plot',
-    'plot2'
+    'plot2',
+    'plotc'
 ]
 
 
@@ -1177,7 +1191,8 @@ operators = {
     'pi'                : OperatorInfo( pi, 0 ),
     'plastic'           : OperatorInfo( getPlasticConstant, 0 ),
     'plot'              : OperatorInfo( plotFunction, 3 ),
-    'plot2'             : OperatorInfo( plotFunction2, 5 ),
+    'plot2'             : OperatorInfo( plot2DFunction, 5 ),
+    'plotc'             : OperatorInfo( plotComplexFunction, 5 ),
     'polyarea'          : OperatorInfo( getRegularPolygonArea, 1 ),
     'polygamma'         : OperatorInfo( psi, 2 ),
     'polygonal'         : OperatorInfo( getNthPolygonalNumber, 2 ),
