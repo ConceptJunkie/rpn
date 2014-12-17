@@ -2039,9 +2039,8 @@ c:\>rpn [ 1 10 range 10 dup ] unique
     'eval' : [
 'special', 'evaluates the function n for the given argument[s] k',
 '''
-'eval' is the boring trivial operator for user-defined functions.
-
-Once this works, some really interesting new operators can be made.
+'eval' is the simplest operator for user-defined functions.  It just plugs
+in the value n into the function k and returns the result.
 ''',
 '''
 c:\>rpn 3 x 2 * eval
@@ -2056,14 +2055,35 @@ c:\>rpn 1 10 range x 2 ** 1 - eval
     'eval2' : [
 'special', 'evaluates the function c for the given arguments a and b',
 '''
+'eval2' is the simplest operator for user-defined functions with 2 variables.
+It just plugs in the values a and b into the function c and returns the
+result.
 ''',
 '''
 ''' ],
     'eval3' : [
 'special', 'evaluates the function d for the given arguments a, b, and c',
 '''
+'eval3' is the simplest operator for user-defined functions with 3 variables.
+It just plugs in the values a, b, and c into the function d and returns the
+result.
 ''',
 '''
+Solving a quadratic equation the hard way, using the quadratic formula:
+
+c:\>rpn 1 -4 -21 y neg y sqr 4 x * z * - sqrt + 2 x * / eval3
+7
+
+c:\>rpn 1 -4 -21 y neg y sqr 4 x * z * - sqrt - 2 x * / eval3
+-3
+
+Of course, rpn has better ways to do this:
+
+c:\>rpn 1 -4 -21 solve2
+[ 7, -3 ]
+
+c:\>rpn [ 1 -4 -21 ] solve
+[ -3, 7 ]
 ''' ],
     'exp' : [
 'powers_and_roots', 'calculates the nth power of e',

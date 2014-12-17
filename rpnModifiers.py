@@ -121,8 +121,39 @@ def getPrevious( valueList ):
 # //
 # //******************************************************************************
 
-def createFunction( valueList ):
+def createFunction( var, valueList ):
     g.creatingFunction = True
     valueList.append( FunctionInfo( valueList, len( valueList ) ) )
-    valueList[ -1 ].add( 'x' )
+    valueList[ -1 ].add( var )
+
+
+# //******************************************************************************
+# //
+# //  createXFunction
+# //
+# //******************************************************************************
+
+def createXFunction( valueList ):
+    createFunction( 'x', valueList )
+
+
+# //******************************************************************************
+# //
+# //  createYFunction
+# //
+# //******************************************************************************
+
+def createYFunction( valueList ):
+    createFunction( 'y', valueList )
+
+
+# //******************************************************************************
+# //
+# //  createZFunction
+# //
+# //******************************************************************************
+
+def createZFunction( valueList ):
+    createFunction( 'z', valueList )
+
 

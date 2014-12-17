@@ -349,6 +349,7 @@ def evaluateFunction( a, b, c, d ):
         return valueList[ 0 ]
 
 
+
 # //******************************************************************************
 # //
 # //  evaluateFunction1
@@ -423,7 +424,7 @@ def plotComplexFunction( start1, end1, start2, end2, func ):
 
 def loadResult( valueList ):
     try:
-        fileNmae = g.dataPath + os.sep + 'result.pckl.bz2'
+        fileName = g.dataPath + os.sep + 'result.pckl.bz2'
 
         with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
             result = pickle.load( pickleFile )
@@ -879,9 +880,9 @@ modifiers = {
     'flatten'           : OperatorInfo( flatten, 1 ),
     'previous'          : OperatorInfo( getPrevious, 1 ),
     'unlist'            : OperatorInfo( unlist, 1 ),
-    'x'                 : OperatorInfo( createFunction, 0 ),
-    'y'                 : OperatorInfo( createFunction, 0 ),
-    'z'                 : OperatorInfo( createFunction, 0 ),
+    'x'                 : OperatorInfo( createXFunction, 0 ),
+    'y'                 : OperatorInfo( createYFunction, 0 ),
+    'z'                 : OperatorInfo( createZFunction, 0 ),
     '['                 : OperatorInfo( incrementNestedListLevel, 0 ),
     ']'                 : OperatorInfo( decrementNestedListLevel, 0 ),
 }
