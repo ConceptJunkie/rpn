@@ -148,6 +148,7 @@ operatorAliases = {
     '/'             : 'divide',
     '//'            : 'root',
     '1/x'           : 'reciprocal',
+    '?'             : 'help',
     'apr'           : 'april',
     'arcosine'      : 'acos',
     'arcsine'       : 'asin',
