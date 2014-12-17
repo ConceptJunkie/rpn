@@ -706,6 +706,18 @@ Base conversion for output is no longer limited to 1000 digits.  There's no
 reason to do that.
 
 'rpn 0 cf' now throws an error rather than dividing by 0.
+
+6.2.0
+
+Experimental support for mpath plotting functionality using the new
+operators, 'plot', 'plot2', 'cplot'
+
+'quit' is now an alias for 'exit' in interactive mode and help mode.
+
+Improvements in function definition.  'y' and 'z' are now operators, allowing
+for defining functions on 2 or 3 variables.
+
+'eval2' and 'eval3' allow for evaluation of 2 and 3 variable operators.
     ''',
     'license' :
     '''
@@ -2037,6 +2049,21 @@ c:\>rpn 3 x 2 * eval
 
 c:\>rpn 5 x 2 ** 1 - eval
 24
+
+c:\>rpn 1 10 range x 2 ** 1 - eval
+[ 0, 3, 8, 15, 24, 35, 48, 63, 80, 99 ]
+''' ],
+    'eval2' : [
+'special', 'evaluates the function c for the given arguments a and b',
+'''
+''',
+'''
+''' ],
+    'eval3' : [
+'special', 'evaluates the function d for the given arguments a, b, and c',
+'''
+''',
+'''
 ''' ],
     'exp' : [
 'powers_and_roots', 'calculates the nth power of e',

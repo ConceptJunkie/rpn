@@ -113,13 +113,15 @@ def evaluateTerm( term, index, currentValueList ):
             else:
                 raise ValueError( 'result index out of range' )
 
+    isList = isinstance( term, list )
+
     try:
         # handle a modifier operator
-        if term in modifiers:
+        if not isList and term in modifiers:
             operatorInfo = modifiers[ term ]
             operatorInfo.function( currentValueList )
 
-        elif term in g.unitOperators:
+        elif not isList and term in g.unitOperators:
             # handle a unit operator
             # look for unit without a value (in which case we give it a value of 1)
             if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], Measurement ) or \
@@ -142,7 +144,7 @@ def evaluateTerm( term, index, currentValueList ):
             else:
                 raise ValueError( 'unsupported type for a unit operator' )
 
-        elif term in operators:
+        elif not isList and term in operators:
             # handle a regular operator
             operatorInfo = operators[ term ]
 
@@ -170,7 +172,7 @@ def evaluateTerm( term, index, currentValueList ):
             if term not in sideEffectOperators:
                 currentValueList.append( result )
 
-        elif term in listOperators:
+        elif not isList and term in listOperators:
             # handle a list operator
             operatorInfo = listOperators[ term ]
             argsNeeded = operatorInfo.argCount
@@ -194,7 +196,7 @@ def evaluateTerm( term, index, currentValueList ):
 
                 currentValueList.append( operatorInfo.function( *listArgs ) )
         else:
-            # handle a plain old value (i.e., a number, not an operator)
+            # handle a plain old value (i.e., a number or list, not an operator)
             try:
                 currentValueList.append( parseInputValue( term, g.inputRadix ) )
 
@@ -328,12 +330,10 @@ def evaluateFunction( a, b, c, d ):
 
         index = 1
 
-        #print( 'valueList', valueList )
-
         while len( valueList ) > 1:
             term = valueList.pop( 0 )
 
-            if term in g.operatorAliases:
+            if not isinstance( term, list ) and term in g.operatorAliases:
                 term = g.operatorAliases[ term ]
 
             g.creatingFunction = False
@@ -357,6 +357,26 @@ def evaluateFunction( a, b, c, d ):
 
 def evaluateFunction1( n, k ):
     return evaluateFunction( n, 0, 0, k )
+
+
+# //******************************************************************************
+# //
+# //  evaluateFunction2
+# //
+# //******************************************************************************
+
+def evaluateFunction2( a, b, c ):
+    return evaluateFunction( a, b, 0, c )
+
+
+# //******************************************************************************
+# //
+# //  evaluateFunction3
+# //
+# //******************************************************************************
+
+def evaluateFunction3( a, b, c, d ):
+    return evaluateFunction( a, b, c, d )
 
 
 # //******************************************************************************
@@ -813,6 +833,8 @@ def setIdentifyMode( ):
 
 functionOperators = [
     'eval',
+    'eval2',
+    'eval3',
     'nsum',
     'nprod',
     'limit',
@@ -1029,6 +1051,8 @@ operators = {
     'estimate'          : OperatorInfo( estimate, 1 ),
     'euler'             : OperatorInfo( euler, 0 ),
     'eval'              : OperatorInfo( evaluateFunction1, 2 ),
+    'eval2'             : OperatorInfo( evaluateFunction2, 3 ),
+    'eval3'             : OperatorInfo( evaluateFunction3, 4 ),
     'exp'               : OperatorInfo( exp, 1 ),
     'exp10'             : OperatorInfo( lambda n: power( 10, n ), 1 ),
     'expphi'            : OperatorInfo( lambda n: power( phi, n ), 1 ),
