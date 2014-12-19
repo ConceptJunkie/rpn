@@ -119,6 +119,8 @@ def getPrevious( valueList ):
 # //
 # //  createFunction
 # //
+# //  This only gets called if we are not already creating a function.
+# //
 # //******************************************************************************
 
 def createFunction( var, valueList ):

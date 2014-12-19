@@ -331,6 +331,11 @@ def evaluateFunction( a, b, c, d ):
         index = 1
 
         while len( valueList ) > 1:
+            oldValueList = list( valueList )
+            #print( valueList )
+            #print( len( valueList ) )
+            listLength = len( valueList )
+
             term = valueList.pop( 0 )
 
             if not isinstance( term, list ) and term in g.operatorAliases:
@@ -345,6 +350,19 @@ def evaluateFunction( a, b, c, d ):
                 return 0
 
             index = index + 1
+
+            validFormula = True
+
+            if len( valueList ) > 1:
+                validFormula = False
+
+                for value in valueList:
+                    if not isinstance( value, mpf ):
+                        validFormula = True
+                        break
+
+            if not validFormula:
+                raise ValueError( 'evaluateFunction:  incompletely specified function' )
 
         return valueList[ 0 ]
 

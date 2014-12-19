@@ -717,7 +717,11 @@ operators, 'plot', 'plot2', 'cplot'
 Improvements in function definition.  'y' and 'z' are now operators, allowing
 for defining functions on 2 or 3 variables.
 
-'eval2' and 'eval3' allow for evaluation of 2 and 3 variable operators.
+Operators 'eval2' and 'eval3' allow for evaluation of 2 and 3 variable
+operators.
+
+rpn now throws an error if a user-defined function is invalidly specified,
+instead of going into an infinite loop.
     ''',
     'license' :
     '''
