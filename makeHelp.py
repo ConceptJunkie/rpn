@@ -722,6 +722,8 @@ operators.
 
 rpn now throws an error if a user-defined function is invalidly specified,
 instead of going into an infinite loop.
+
+'filter' allows filtering a list based on a user-defined function.
     ''',
     'license' :
     '''
@@ -2160,6 +2162,19 @@ This is defined for convenience for use with date operators.
 '''
 ''',
 '''
+''' ],
+    'filter' : [
+'special', 'filters a list n using function k',
+'''
+The function is applied to each element of the list and a new list is returned
+which consists only of those elements for which the function returned a
+non-zero value.
+''',
+'''
+Which of the first 80 fibonacci numbers is prime?
+
+c:\>rpn -p80 1 80 range fib x isprime filter
+[ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
 ''' ],
     'find_poly' : [
 'algebra', 'find a polynomial for which n is a zero',

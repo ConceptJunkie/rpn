@@ -423,6 +423,42 @@ def plot2DFunction( start1, end1, start2, end2, func ):
 
 # //******************************************************************************
 # //
+# //  filterList
+# //
+# //******************************************************************************
+
+def filterList( n, k ) :
+    if not isinstance( n, list ):
+        n = [ n ]
+
+    if not isinstance( k, FunctionInfo ):
+        raise ValueError( '\'filter\' expects a function argument' )
+
+    result = [ ]
+
+    for item in n:
+        value = evaluateFunction( item, 0, 0, k )
+
+        if value != 0:
+            result.append( item )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  plot2DFunction
+# //
+# //******************************************************************************
+
+def plot2DFunction( start1, end1, start2, end2, func ):
+    splot( lambda x, y: evaluateFunction( x, y, 0, func ),
+           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
+    return 0
+
+
+# //******************************************************************************
+# //
 # //  plotComplexFunction
 # //
 # //******************************************************************************
@@ -854,13 +890,14 @@ functionOperators = [
     'eval',
     'eval2',
     'eval3',
-    'nsum',
-    'nprod',
+    'filter',
     'limit',
     'limitn',
+    'nprod',
+    'nsum',
     'plot',
     'plot2',
-    'plotc'
+    'plotc',
 ]
 
 
@@ -879,7 +916,7 @@ sideEffectOperators = [
     'identify_mode',
     'leading_zero_mode',
     'octal_mode',
-    'timer_mode'
+    'timer_mode',
 ]
 
 
@@ -929,6 +966,7 @@ listOperators = {
     'count'             : OperatorInfo( countElements, 1 ),
     'diffs'             : OperatorInfo( getListDiffs, 1 ),
     'diffs2'            : OperatorInfo( getListDiffsFromFirst, 1 ),
+    'filter'            : OperatorInfo( filterList, 2 ),
     'gcd'               : OperatorInfo( getGCD, 1 ),
     'interleave'        : OperatorInfo( interleave, 2 ),
     'intersection'      : OperatorInfo( makeIntersection, 2 ),
