@@ -724,6 +724,9 @@ rpn now throws an error if a user-defined function is invalidly specified,
 instead of going into an infinite loop.
 
 'filter' allows filtering a list based on a user-defined function.
+
+If the units in a measurement cancel out, then the measurement is converted
+back to a numerical value.
     ''',
     'license' :
     '''

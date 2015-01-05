@@ -17,18 +17,6 @@
 # 2015 march -1 thursday nthweekday
 # It's one day off!
 #
-# Another bug!
-#
-# c:\sys\ut\rpn>rpn 22 2 3 / + years 8 months /
-# 34.4958333333
-#
-# c:\sys\ut\rpn>rpn 22 2 3 / + years 8 months / 1/x
-# 34.4958333333
-
-# new operator for lists:  filter
-
-# rpn 1 100 range x isprime filter
-
 
 # http://en.wikipedia.org/wiki/Physical_constant
 

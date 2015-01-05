@@ -166,12 +166,19 @@ def evaluateTerm( term, index, currentValueList ):
 
                 result = callers[ argsNeeded ]( operatorInfo.function, *argList )
 
-            if len( result ) == 1:
-                result = result[ 0 ]
+            newResult = list( )
+
+            for item in result:
+                if isinstance( item, Measurement ) and item.getUnits( ) == { }:
+                    newResult.append( mpf( item ) )
+                else:
+                    newResult.append( item )
+
+            if len( newResult ) == 1:
+                newResult = newResult[ 0 ]
 
             if term not in sideEffectOperators:
-                currentValueList.append( result )
-
+                currentValueList.append( newResult )
         elif not isList and term in listOperators:
             # handle a list operator
             operatorInfo = listOperators[ term ]
