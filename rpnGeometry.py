@@ -154,4 +154,62 @@ def getTriangleArea( a, b, c ):
     return fdiv( fsum( [ power( a, 2 ), power( b, 2 ), power( c, 2 ) ] ), fmul( 4, sqrt( 3 ) ) )
 
 
+# //******************************************************************************
+# //
+# //  getTorusVolume
+# //
+# //  http://preccalc.sourceforge.net/geometry.shtml
+# //
+# //  R = major radius
+# //  s = minor radius
+# //
+# //******************************************************************************
+
+def getTorusVolume( R, s ):
+    return fprod( [ 2, power( pi, 2 ), R, pow( s, 2 ) ] )
+
+
+# //******************************************************************************
+# //
+# //  getTorusSurfaceArea
+# //
+# //  http://preccalc.sourceforge.net/geometry.shtml
+# //
+# //  R = major radius
+# //  s = minor radius
+# //
+# //******************************************************************************
+
+def getTorusSurfaceArea( R, s ):
+    return fprod( [ 4, power( pi, 2 ), R, s ] )
+
+
+# //******************************************************************************
+# //
+# //  getConeVolume
+# //
+# //  http://preccalc.sourceforge.net/geometry.shtml
+# //
+# //  r = radius
+# //  h = height
+# //
+# //******************************************************************************
+
+def getConeVolume( r, h ):
+    return fprod( [ pi, power( r, 2 ), fdiv( h, 3 ) ] )
+
+
+# //******************************************************************************
+# //
+# //  getConeSurfaceArea
+# //
+# //  http://preccalc.sourceforge.net/geometry.shtml
+# //
+# //  r = radius
+# //  h = height
+# //
+# //******************************************************************************
+
+def getConeSurfaceArea( r, h ):
+    return fprod( [ pi, r, fadd( r, hypot( r, h ) ) ] )
 
