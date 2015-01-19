@@ -239,6 +239,9 @@ def formatListOutput( result, level = 0 ):
 
                 resultString += formatOutput( itemString )
 
+        if level < g.listFormatLevel:
+            resultString += ','
+
     if level < g.listFormatLevel:
         resultString += '\n]'
     else:
