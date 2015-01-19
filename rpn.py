@@ -307,6 +307,8 @@ def rpn( cmd_args ):
     parser.add_argument( '-r', '--output_radix', type=str, action='store',
                          default=g.defaultOutputRadix )
     parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0 )
+    parser.add_argument( '-s', '--list_format_level', nargs='?', type=int, action='store', default=0,
+                         const=g.defaultListFormatLevel )
     parser.add_argument( '-t', '--timer', action='store_true' )
     parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store',
                          default=g.defaultBitwiseGroupSize )
@@ -404,6 +406,9 @@ def rpn( cmd_args ):
         print( 'rpn:  output radix must be from 2 to 62, or phi' )
         return
 
+    # handle -s
+    g.listFormatLevel = args.list_format_level
+
     # handle -t
     g.timer = args.timer
 
@@ -424,11 +429,13 @@ def rpn( cmd_args ):
         print( '--comma:  ' + ( 'true' if g.comma else 'false' ) )
         print( '--decimal_grouping:  %d' % g.decimalGrouping )
         print( '--integer_grouping:  %d' % g.integerGrouping )
+        print( '--line_length:  %d' % g.lineLength )
         print( '--numerals:  ' + g.numerals )
         print( '--octal:  ' + ( 'true' if args.octal else 'false' ) )
-        print( '--precision:  %d' % args.precision .dps )
+        print( '--precision:  %d' % args.precision )
         print( '--output_radix:  %d' % g.outputRadix )
         print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
+        print( '--list_format_level:  %d' % g.listFormatLevel )
         print( '--timer:  ' + ( 'true' if args.timer else 'false' ) )
         print( '--bitwise_group_size:  %d' % g.bitwiseGroupSize )
         print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )

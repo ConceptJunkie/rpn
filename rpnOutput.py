@@ -213,15 +213,18 @@ def formatOutput( output ):
 # //
 # //******************************************************************************
 
-def formatListOutput( result ):
+def formatListOutput( result, level = 0 ):
     resultString = '[ '
 
     for item in result:
-        if resultString != '[ ':
-            resultString += ', '
+        if level < g.listFormatLevel:
+            resultString += '\n' + ' ' * level * 4
+        else:
+            if resultString != '[ ':
+                resultString += ', '
 
         if isinstance( item, list ):
-            resultString += formatListOutput( item )
+            resultString += formatListOutput( item, level + 1 )
         else:
             if isinstance( item, arrow.Arrow ):
                 resultString += formatDateTime( item )
@@ -236,7 +239,10 @@ def formatListOutput( result ):
 
                 resultString += formatOutput( itemString )
 
-    resultString += ' ]'
+    if level < g.listFormatLevel:
+        resultString += '\n]'
+    else:
+        resultString += ' ]'
 
     return resultString
 
