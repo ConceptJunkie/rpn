@@ -534,7 +534,7 @@ def printGeneralHelp( ):
     print( )
 
     printParagraph(
-'''For help on a specific topic, add a help topic, operator category or a specific operator name.''' )
+'''For help on a specific topic, use 'rpn help' and add a help topic, operator category or a specific operator name.''' )
 
     print( )
     print( 'The following is a list of general topics:' )
