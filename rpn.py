@@ -17,6 +17,10 @@
 # 2015 march -1 thursday nthweekday
 # It's one day off!
 #
+# Another bug!
+#
+# It seems you can't use aliases from rpnUnits.py as help topics.
+#
 
 # http://en.wikipedia.org/wiki/Physical_constant
 
