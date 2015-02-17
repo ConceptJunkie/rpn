@@ -10,6 +10,22 @@ units program.
 
 ****
 
+update 2015-02-17:
+
+I haven't updated the Windows installer in a while because I introduced the
+ability to access mpmath's plotting component in 6.2.0.  However, this means I
+need to bring a metric ton of more libraries for the Windows installer.
+
+I haven't decided how to address that because the plotting functionality is
+very elementary at this point.  I hate the idea of bloating up the install with
+tons of stuff for a feature that is of peripheral utility (outside of high
+school algebra homework).
+
+On the other hand, there have been some important bug fixes recently, and more
+needed.
+
+****
+
 The current version is 6.1.0.
 
 Installers for Windows can be found here:
