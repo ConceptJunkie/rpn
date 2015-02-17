@@ -2136,6 +2136,13 @@ c:\>rpn 2 2 10 exprange
     'factor' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
+This code is not very efficient and is only good for numbers up to about 20
+digits.  If you need to do serious factoring, consider using msieve.
+
+http://sourceforge.net/projects/msieve
+
+I definitely want to look into hooking into this library from rpn in the
+future.
 ''',
 '''
 ''' ],
