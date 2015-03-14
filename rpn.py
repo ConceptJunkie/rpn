@@ -13,6 +13,17 @@
 # //******************************************************************************
 
 # Bug!
+
+# http://www.cadaeic.net/picode.htm
+
+# d.drsqlolyrtrodnlhnqtgkudqgtuirxneqbckbszivqqvgdmelmuexroiqiyalvuzvebmijpqqxlkplrncfwjpbymggohjmmqisms...
+# d.drsqlolyrtrodnlhnqtgkudqgtuirxneqbckbszivqqvgdmelmuexroiqiyalvuzvebmijqedlnigcfbplpgscrlbwkcmyalodzq
+
+# The rpn version is on the bottom.
+#
+# rpn -p300 -a100 -r26 pi -n abcdefghijklmnopqrstuvwxyz
+
+# Bug!
 #
 # 2015 march -1 thursday nthweekday
 # It's one day off!
