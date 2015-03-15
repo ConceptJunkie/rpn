@@ -387,16 +387,18 @@ def convertToBaseN( value, base, outputBaseDigits, numerals ):
         return str( value )
 
     result = ''
-    leftDigits = value
+    leftDigits = mpmathify( value )
 
     while leftDigits > 0:
+        modulo = fmod( leftDigits, base )
+
         if outputBaseDigits:
             if result != '':
                 result = ' ' + result
 
-            result = str( int( leftDigits ) % base ) + result
+            result = str( modulo ) + result
         else:
-            result = numerals[ int( leftDigits ) % base ] + result
+            result = numerals[ int( modulo ) ] + result
 
         leftDigits = floor( fdiv( leftDigits, base ) )
 
@@ -515,28 +517,25 @@ def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
     result = ''
 
     while value > 0 and precision > 0:
-        value = value * base
+        value = fmul( value, base )
+
         digit = int( value )
 
         if len( result ) == g.outputAccuracy:
-            value -= digit
-            newDigit = int( value ) % base
-
-            if newDigit >= base // 2:
+            if digit >= base // 2:
                 digit += 1
+
+            break
 
         if outputBaseDigits:
             if result != '':
                 result += ' '
 
-            result += str( digit % base )
+            result += str( digit )
         else:
-            result += g.numerals[ digit % base ]
+            result += g.numerals[ digit ]
 
-        if len( result ) == g.outputAccuracy:
-            break
-
-        value -= digit
+        value = fsub( value, digit )
         precision -= 1
 
     return result

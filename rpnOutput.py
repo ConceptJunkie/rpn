@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 
 # //******************************************************************************
 # //
@@ -45,6 +45,82 @@ def debugPrint( *args, **kwargs ):
 
 # //******************************************************************************
 # //
+# //  formatNumber
+# //
+# //  This takes a mpf value and turns it into a string.
+# //
+# //******************************************************************************
+
+def formatNumber( number, outputRadix, leadingZero, integerGrouping,  ):
+    negative = ( number < 0 )
+
+    if outputRadix == g.phiBase:
+        strInteger, strMantissa = convertToPhiBase( number )
+    elif outputRadix == g.fibBase:
+        strInteger = convertToFibBase( floor( number ) )
+    elif ( outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
+        strInteger = str( convertToBaseN( floor( number ), outputRadix, g.outputBaseDigits, g.numerals ) )
+        strMantissa = str( convertFractionToBaseN( frac( number ), outputRadix,
+                                                   int( mp.dps / math.log10( outputRadix ) ),
+                                                   g.outputBaseDigits ) )
+    else:
+        strNumber = nstr( number, n=g.outputAccuracy )
+
+        if '.' in strNumber:
+            decimal = strNumber.find( '.' )
+        else:
+            decimal = len( strNumber )
+
+        strInteger = strNumber[ 1 if negative else 0 : decimal ]
+        integerLength = len( strNumber )
+
+        strMantissa = strNumber[ decimal + 1 : ]
+
+        if strMantissa == '0':
+            strMantissa = ''
+        elif ( strMantissa != '' ) and ( g.outputAccuracy == -1 ):
+            strMantissa = strMantissa.rstrip( '0' )
+
+    if integerGrouping > 0:
+        firstDelimiter = len( strInteger ) % integerGrouping
+
+        if leadingZero and firstDelimiter > 0:
+            integerResult = '0' * ( integerGrouping - firstDelimiter )
+        else:
+            integerResult = ''
+
+        integerResult += strInteger[ : firstDelimiter ]
+
+        for i in range( firstDelimiter, len( strInteger ), integerGrouping ):
+            if integerResult != '':
+                integerResult += g.integerDelimiter
+
+            integerResult += strInteger[ i : i + integerGrouping ]
+
+    else:
+        integerResult = strInteger
+
+    if g.decimalGrouping > 0:
+        mantissaResult = ''
+
+        for i in range( 0, len( strMantissa ), g.decimalGrouping ):
+            if mantissaResult != '':
+                mantissaResult += g.decimalDelimiter
+
+            mantissaResult += strMantissa[ i : i + g.decimalGrouping ]
+    else:
+        mantissaResult = strMantissa
+
+    result = integerResult
+
+    if mantissaResult != '':
+        result += '.' + mantissaResult
+
+    return result, negative
+
+
+# //******************************************************************************
+# //
 # //  formatOutput
 # //
 # //  This takes a string representation of the result and formats it according
@@ -68,10 +144,10 @@ def formatOutput( output ):
         comma = g.comma
 
     # output settings, which may be overrided by temp settings
+    outputRadix = g.outputRadix
     bitwiseGroupSize = g.bitwiseGroupSize
     integerGrouping = g.integerGrouping
     leadingZero = g.leadingZero
-    outputRadix = g.outputRadix
 
     if g.tempHexMode:
         bitwiseGroupSize = 16
@@ -88,121 +164,19 @@ def formatOutput( output ):
         leadingZero = True
         outputRadix = 8
 
-    exponentIndex = output.find( 'e' )
+    mpOutput = mpmathify( output )
 
-    if exponentIndex > 0:
-        exponent = int( output[ exponentIndex + 1 : ] )
-        output = output[ : exponentIndex ]
-    else:
-        exponent = 0
+    imaginary = im( mpOutput )
+    real = re( mpOutput )
 
-    done = False
-
-    accuracy = g.outputAccuracy
-
-    while not done:
-        imaginary = im( mpmathify( output ) )
-
-        if imaginary != 0:
-            if imaginary < 0:
-                imaginary = fabs( imaginary )
-                negativeImaginary = True
-            else:
-                negativeImaginary = False
-
-            imaginaryValue = formatOutput( nstr( imaginary ), n=accuracy )
-
-            strOutput = nstr( re( mpmathify( output ) ), n=accuracy )
-        else:
-            imaginaryValue = ''
-            strOutput = nstr( mpmathify( output ), n=accuracy )
-
-        exponentIndex = strOutput.find( 'e' )
-
-        if exponentIndex > 0:
-            accuracy = int( strOutput[ exponentIndex + 1 : ] ) + 1
-        else:
-            done = True
-
-    if '.' in strOutput:
-        decimal = strOutput.find( '.' )
-    else:
-        decimal = len( strOutput )
-
-    negative = strOutput[ 0 ] == '-'
-
-    integer = strOutput[ 1 if negative else 0 : decimal ]
-    integerLength = len( integer )
-
-    mantissa = strOutput[ decimal + 1 : ]
-
-    if mantissa == '0':
-        mantissa = ''
-    elif ( mantissa != '' ) and ( g.outputAccuracy == -1 ):
-        mantissa = mantissa.rstrip( '0' )
-
-    if outputRadix == g.phiBase:
-        integer, mantissa = convertToPhiBase( mpmathify( strOutput ) )
-    elif outputRadix == g.fibBase:
-        integer = convertToFibBase( floor( mpmathify( strOutput ) ) )
-    elif ( outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
-        integer = str( convertToBaseN( mpmathify( integer ), outputRadix, g.outputBaseDigits, g.numerals ) )
-
-        if mantissa:
-            mantissa = str( convertFractionToBaseN( mpmathify( '0.' + mantissa ), outputRadix,
-                                                    int( ( mp.dps - integerLength ) / math.log10( outputRadix ) ),
-                                                    g.outputBaseDigits ) )
-    else:
-        if g.outputAccuracy <= 0:
-            mantissa = ''
-        else:
-            mantissa = mantissa.rstrip( '0' )
-
-    if integerGrouping > 0:
-        firstDelimiter = len( integer ) % integerGrouping
-
-        if leadingZero and firstDelimiter > 0:
-            integerResult = '0' * ( integerGrouping - firstDelimiter )
-        else:
-            integerResult = ''
-
-        integerResult += integer[ : firstDelimiter ]
-
-        for i in range( firstDelimiter, len( integer ), integerGrouping ):
-            if integerResult != '':
-                integerResult += g.integerDelimiter
-
-            integerResult += integer[ i : i + integerGrouping ]
-
-    else:
-        integerResult = integer
-
-    if g.decimalGrouping > 0:
-        mantissaResult = ''
-
-        for i in range( 0, len( mantissa ), g.decimalGrouping ):
-            if mantissaResult != '':
-                mantissaResult += g.decimalDelimiter
-
-            mantissaResult += mantissa[ i : i + g.decimalGrouping ]
-    else:
-        mantissaResult = mantissa
+    result, negative = formatNumber( real, outputRadix, leadingZero, integerGrouping )
 
     if negative:
-        result = '-'
-    else:
-        result = ''
+        result = '-' + result
 
-    result += integerResult
-
-    if mantissaResult != '':
-        result += '.' + mantissaResult
-
-    if imaginaryValue != '':
-        result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + imaginaryValue + 'j )'
-
-    if exponent != 0:
-        result += 'e' + str( exponent )
+    if imaginary != 0:
+        strImaginary, negativeImaginary = formatNumber( imaginary, outputRadix, leadingZero )
+        result = '( ' + result + ( ' - ' if negativeImaginary else ' + ' ) + strImaginary + 'j )'
 
     return result
 
