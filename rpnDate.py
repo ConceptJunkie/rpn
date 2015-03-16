@@ -172,7 +172,7 @@ def calculateAshWednesday( year ):
 # //******************************************************************************
 
 def getLastDayOfMonth( year, month ):
-    return calendar.monthrange( year, month )[ 1 ]
+    return calendar.monthrange( int( year ), int( month ) )[ 1 ]
 
 
 # //******************************************************************************
@@ -238,30 +238,33 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
 # //
 # //  calculateNthWeekdayOfMonth
 # //
-# //  Monday = 0, etc., as per arrow, negative nth counts backwards from last
+# //  Monday = 1, etc.
 # // ( -1 == last. -2 == next to last, etc.)
 # //
 # //******************************************************************************
 
 def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
+    if weekday > 7 or weekday < 1:
+        raise ValueError( 'day of week must be 1 - 7 (Monday to Sunday)' )
+
     if isinstance( year, arrow.Arrow ):
         year = year.year
     else:
         year = int( year )
 
-    firstDay = arrow.Arrow( year, month, 1 ).isoweekday( )
+    firstDayOfWeek = arrow.Arrow( year, month, 1 ).isoweekday( )
 
     if nth < 0:
-        day = ( weekday - firstDay ) + 28
+        day = ( ( weekday + 1 ) - firstDayOfWeek ) % 7
 
-        if day <= getLastDayOfMonth( year, month ) - 7:
+        while day <= getLastDayOfMonth( year, month ):
             day += 7
 
-        day += ( nth + 1 ) * 7
+        day += nth * 7
     else:
-        day = ( weekday - firstDay + 1 ) + nth * 7
+        day = ( weekday - firstDayOfWeek + 1 ) + nth * 7
 
-        if weekday >= firstDay:
+        if weekday >= firstDayOfWeek:
             day -= 7
 
     return arrow.Arrow( year, month, day )

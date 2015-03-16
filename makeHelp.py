@@ -3261,18 +3261,18 @@ This is defined for convenience for use with date operators.
 '''
 ''' ],
     'nthweekday' : [
-'date', 'finds the nth day (0 = Monday) of the month',
+'date', 'finds the nth day (1 = Monday, etc.) of the month',
 '''
 a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
-d = day (0 = Monday, 1 = Tuesday, etc. through 6 = Sunday)
+d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''',
 '''
 ''' ],
     'nthweekdayofyear' : [
-'date', 'finds the nth day (0 = Monday) of the year',
+'date', 'finds the nth day (1 = Monday) of the year',
 '''
 a = four-digit year, b = week (negative values count from the end), c = day
-(0 = Monday, 1 = Tuesday, etc. through 6 = Sunday)
+(1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''',
 '''
 ''' ],
