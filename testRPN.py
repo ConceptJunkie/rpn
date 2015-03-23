@@ -718,8 +718,12 @@ def runTests( ):
 
     testRPN( 'rpn random' )
 
+    testRPN( 'rpn 50 random_' )
+
     testRPN( 'rpn 100 randint' )
     testRPN( 'rpn 10 12 ^ randint' )
+
+    testRPN( 'rpn 23 265 randint_' )
 
     testRPN( 'rpn 1 23 range' )
 

@@ -710,7 +710,7 @@ reason to do that.
 6.2.0
 
 Experimental support for mpath plotting functionality using the new
-operators, 'plot', 'plot2', 'cplot'.  These operators are not supported
+operators, 'plot', 'plot2', 'plotc'.  These operators are not supported
 in the Windows installer.
 
 'quit' is now an alias for 'exit' in interactive mode and help mode.
@@ -3510,6 +3510,9 @@ incompletely-defined function and cause mpmath to go into an infinite loop.
 
 I suppose I need to make my function evaluation logic smarter.   That would
 also allow me to plot more than one function at a time.
+
+'plot' is not currently supported by the Windows installer since it requires
+a number of extra libraries.
 ''',
 '''
 ''' ],
@@ -3521,6 +3524,9 @@ also allow me to plot more than one function at a time.
 Here's an example to try:
 
 c:\>rpn -2 2 -2 2 x 2 ** y 2 ** - plot2
+
+'plot2' is not currently supported by the Windows installer since it requires
+a number of extra libraries.
 ''',
 '''
 c:\>rpn 0 pi x sin plot
@@ -3534,7 +3540,10 @@ c:\>rpn 1 10 x 1 + fib x fib / plot
     'plotc' : [
 'special', 'plot a complex function a for values of x between a and b real, c and d imaginary',
 '''
-h'plotc' is very much considered experimental.
+'plotc' is very much considered experimental.
+
+'plotc' is not currently supported by the Windows installer since it requires
+a number of extra libraries.
 ''',
 '''
 ''' ],
