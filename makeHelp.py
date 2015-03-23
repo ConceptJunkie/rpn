@@ -710,7 +710,8 @@ reason to do that.
 6.2.0
 
 Experimental support for mpath plotting functionality using the new
-operators, 'plot', 'plot2', 'cplot'
+operators, 'plot', 'plot2', 'cplot'.  These operators are not supported
+in the Windows installer.
 
 'quit' is now an alias for 'exit' in interactive mode and help mode.
 
@@ -727,6 +728,10 @@ instead of going into an infinite loop.
 
 If the units in a measurement cancel out, then the measurement is converted
 back to a numerical value.
+
+Added 'rand_' and 'randint_' operators.
+
+Fixed several minor bugs.
     ''',
     'license' :
     '''
@@ -3687,6 +3692,7 @@ c:\>rpn 320620307 10 primes
     'primorial' : [
 'prime_numbers', 'calculates the nth primorial',
 '''
+This function calculates the product of the first n prime numbers.
 ''',
 '''
 ''' ],
@@ -3756,8 +3762,26 @@ c:\>rpn 320620307 10 primes
 ''',
 '''
 ''' ],
+    'randint_' : [
+'special', 'returns a list of k random integers from 0 to n - 1',
+'''
+
+''',
+'''
+Test the birthday paradox:
+
+rpn -D 365 23 randint_ sort
+
+You will see a duplicate approximately 50% of the time.
+''' ],
     'random' : [
 'special', 'returns a random value from 0 to 1',
+'''
+''',
+'''
+''' ],
+    'random_' : [
+'special', 'returns a list of k random values from 0 to 1',
 '''
 ''',
 '''

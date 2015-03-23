@@ -21,11 +21,42 @@ import os
 import pickle
 
 from mpmath import *
+from random import randrange
 
 from rpnDeclarations import *
 from rpnVersion import *
 
 import rpnGlobals as g
+
+
+# //******************************************************************************
+# //
+# //  rand_
+# //
+# //******************************************************************************
+
+def rand_( n ):
+    result = [ ]
+
+    for i in arange( 0, n ):
+        result.append( rand( ) )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  randrange_
+# //
+# //******************************************************************************
+
+def randrange_( n, k ):
+    result = [ ]
+
+    for i in arange( 0, k ):
+        result.append( randrange( n ) )
+
+    return result
 
 
 # //******************************************************************************
