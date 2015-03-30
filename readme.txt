@@ -10,28 +10,12 @@ units program.
 
 ****
 
-update 2015-02-17:
-
-I haven't updated the Windows installer in a while because I introduced the
-ability to access mpmath's plotting component in 6.2.0.  However, this means I
-need to bring a metric ton of more libraries for the Windows installer.
-
-I haven't decided how to address that because the plotting functionality is
-very elementary at this point.  I hate the idea of bloating up the install with
-tons of stuff for a feature that is of peripheral utility (outside of high
-school algebra homework).
-
-On the other hand, there have been some important bug fixes recently, and more
-needed.
-
-****
-
-The current version is 6.1.0.
+The current version is 6.2.0.
 
 Installers for Windows can be found here:
 
-https://www.strongspace.com/conceptjunkie/public/setup_rpn-6.1.0-win32.exe
-https://www.strongspace.com/conceptjunkie/public/setup-rpn-6.1.0-win64.exe
+https://www.strongspace.com/conceptjunkie/public/setup_rpn-6.2.0-win32.exe
+https://www.strongspace.com/conceptjunkie/public/setup-rpn-6.2.0-win64.exe
 
 rpn is a console app and can be launched from the command-line.  However,
 there is now an "interactive mode" and an icon to launch rpn for Windows users.
@@ -108,6 +92,34 @@ p.s. rpn is licensed under the GNU GPL version 3.0.  See (see
 <http://www.gnu.org/licenses/gpl.html> for more information).
 
 Release Notes:
+
+6.2.0
+
+Experimental support for mpath plotting functionality using the new
+operators, 'plot', 'plot2', 'plotc'.  These operators are not supported
+in the Windows installer.
+
+'quit' is now an alias for 'exit' in interactive mode and help mode.
+
+Improvements in function definition.  'y' and 'z' are now operators, allowing
+for defining functions on 2 or 3 variables.
+
+Operators 'eval2' and 'eval3' allow for evaluation of 2 and 3 variable
+operators.
+
+rpn now throws an error if a user-defined function is invalidly specified,
+instead of going into an infinite loop.
+
+'filter' allows filtering a list based on a user-defined function.
+
+If the units in a measurement cancel out, then the measurement is converted
+back to a numerical value.
+
+Added 'rand_' and 'randint_' operators.
+
+Added the 'debruijn' operator.
+
+Fixed several minor bugs.
 
 6.1.0
 

@@ -1090,6 +1090,7 @@ operators = {
     'ctriangular'       : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 3 ), 1 ),
     'ctriangular?'      : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 3 ), 1 ),
     'cube'              : OperatorInfo( lambda n: exponentiate( n, 3 ), 1 ),
+    'debruijn'          : OperatorInfo( createDeBruijnSequence, 2 ),
     'decagonal'         : OperatorInfo( lambda n: getNthPolygonalNumber( n, 10 ), 1 ),
     'decagonal?'        : OperatorInfo( lambda n: findNthPolygonalNumber( n, 10 ), 1 ),
     'december'          : OperatorInfo( lambda: 12, 0 ),

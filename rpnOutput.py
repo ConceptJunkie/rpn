@@ -371,11 +371,14 @@ def printOperatorHelp( term, operatorInfo, operatorHelp ):
     else:
         print( operatorHelp[ 2 ] )
 
-    if operatorHelp[ 3 ] == '' or operatorHelp[ 3 ] == '\n':
-        print( 'No examples are available.' )
+    if len( operatorHelp ) > 3:
+        if operatorHelp[ 3 ] == '' or operatorHelp[ 3 ] == '\n':
+            print( 'No examples are available.' )
+        else:
+            print( term + ' examples:' )
+            print( operatorHelp[ 3 ] )
     else:
-        print( term + ' examples:' )
-        print( operatorHelp[ 3 ] )
+        print( 'No examples are available.' )
 
 
 # //******************************************************************************

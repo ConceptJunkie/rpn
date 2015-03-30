@@ -1054,6 +1054,8 @@ def runTests( ):
     testRPN( 'rpn 2015 20 thursday nthweekdayofyear' )
     testRPN( 'rpn 2015 -1 thursday nthweekdayofyear' )
 
+    testRPN( 'rpn 4 3 debruijn' )
+
     testRPN( 'rpn help' )
     testRPN( 'rpn help about' )
     testRPN( 'rpn help arithmetic' )

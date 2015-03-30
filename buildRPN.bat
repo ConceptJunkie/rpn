@@ -15,6 +15,7 @@ iff %_X64 eq 1 then
     "%PROG32_DIR%\Inno Setup 5\ISCC.exe" rpn64.iss
     move Output\setup_rpn.exe "%RPN_TARGET%\setup_rpn-%VERSION%-win64.exe"
 else
+    copy msvcp100-win32.dll build\exe.win32-3.4\msvcp100.dll
     "%PROG32_DIR%\Inno Setup 5\ISCC.exe" rpn32.iss
     move Output\setup_rpn.exe "%RPN_TARGET%\setup_rpn-%VERSION%-win32.exe"
 endiff

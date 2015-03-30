@@ -143,3 +143,36 @@ def getNthSylvester( n ):
     return list[ -1 ]
 
 
+# //******************************************************************************
+# //
+# //  createDeBruijnSequence
+# //
+# //******************************************************************************
+
+def createDeBruijnSequence( n, k ):
+    wordSize = int( k )
+    symbolCount = int( n )
+
+    v = [ 0 for _ in range( wordSize ) ]
+    l = 1
+    result = [ ]
+
+    while True:
+        if wordSize % l == 0:
+            result.extend( v[ 0 : l ] )
+
+        for i in range( l, wordSize ):
+            v[ i ] = v[ i - l ]
+
+        l = wordSize
+
+        while l > 0 and v[ l - 1 ] >= symbolCount - 1:
+            l-=1
+
+        if l == 0:
+            break
+
+        v[ l - 1 ] += 1
+
+    return result
+

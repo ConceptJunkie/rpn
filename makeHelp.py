@@ -1812,6 +1812,12 @@ number.
 ''',
 '''
 ''' ],
+    'debruijn' : [
+'combinatorics', 'generates a deBruijn sequence of n symbols and word-size k',
+'''
+''',
+'''
+''' ],
     'decagonal' : [
 'polygonal_numbers', 'calculates the nth decagonal number',
 '''
@@ -3503,7 +3509,7 @@ flushing the cache for a particular entry.
 '''
 ''' ],
     'plot' : [
-'special', 'plot function a for values of x between b and c',
+'special', 'plot function c for values of x between a and b',
 '''
 'plot' is very much considered experimental.  It's easy to construct an
 incompletely-defined function and cause mpmath to go into an infinite loop.
@@ -3515,9 +3521,17 @@ also allow me to plot more than one function at a time.
 a number of extra libraries.
 ''',
 '''
+c:\>rpn 0 pi x sin plot
+
+c:\>rpn -5 5 x 4 ** 3 x 3 ** * + 25 x * - plot
+
+c:\>rpn 1 50 x fib plot
+
+c:\>rpn 1 10 x 1 + fib x fib / plot
+
 ''' ],
     'plot2' : [
-'special', '3D plotting, w00t!'
+'special', 'plot a 3D function '
 '''
 'plot2' is very much considered experimental.
 
@@ -3529,16 +3543,9 @@ c:\>rpn -2 2 -2 2 x 2 ** y 2 ** - plot2
 a number of extra libraries.
 ''',
 '''
-c:\>rpn 0 pi x sin plot
-
-c:\>rpn -5 5 x 4 ** 3 x 3 ** * + 25 x * - plot
-
-c:\>rpn 1 50 x fib plot
-
-c:\>rpn 1 10 x 1 + fib x fib / plot
 ''' ],
     'plotc' : [
-'special', 'plot a complex function a for values of x between a and b real, c and d imaginary',
+'special', 'plot a complex function e for values of x between a and b real, c and d imaginary',
 '''
 'plotc' is very much considered experimental.
 
