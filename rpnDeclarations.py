@@ -233,6 +233,8 @@ operatorAliases = {
     'jun'           : 'june',
     'klick'         : 'kilometer',
     'left'          : 'shiftleft',
+    'len'           : 'count',
+    'length'        : 'count',
     'linear'        : 'linearrecur',
     'log'           : 'ln',
     'makeiso'       : 'makeisotime',
