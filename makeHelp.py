@@ -2646,15 +2646,17 @@ This is defined for convenience for use with date operators.
 '''
 ''' ],
     'linearrecur' : [
-'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b)'
+'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b)',
 '''
-The factors indicate the multiple of each preceding value to add to create the
-next value in the recurrence list, listed from right to left (meaning the last
-factor corresponds to the n - 1'th value in the sequence.  For the Fibonacci
-or Lucas lists, this would be [ 1 1 ], meaning the previous value, plus the
-one before that.  The tribonacci sequence would have a factor list of
-[ 1 1 1 ].  The seeds (b), simply specify a list of initial values.  The number
-of seeds cannot exceed the number of factors, but there may be fewer seeds.
+The factors (a) indicate the multiple of each preceding value to add to create
+the next value in the recurrence list, listed from right to left (meaning the
+last factor corresponds to the n - 1'th value in the sequence.  For the
+Fibonacci or Lucas lists, this would be [ 1 1 ], meaning the previous value,
+plus the one before that.  The tribonacci sequence would have a factor list of
+[ 1 1 1 ].
+
+The seeds (b), simply specify a list of initial values.  The number of seeds
+cannot exceed the number of factors, but there may be fewer seeds.
 
 The is some disagreement about whether the zeroes count as part of these linear
 recurrence sequences.  In rpn, for the 'fib' and 'lucas', 'tribonacci' operators,
@@ -2665,15 +2667,25 @@ Internally, rpn uses this same linear recurrence functionality in the
 'jacobsthal', 'repunit', 'hepttri', 'heptsquare', and 'nonahex' operators.
 ''',
 '''
+The 250th Fibonacci number:
+
+c:\>rpn -c -a55 [ 1 1 ] [ 0 1 ] 250 linearrecur
+4,880,197,746,793,002,076,754,294,951,020,699,004,973,287,771,475,874
+
 The Fibonacci sequence:
 
-c:\>rpn [ 1 1 ] [ 0 1 ] 1 15 range linearrecur
-[ 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377 ]
+c:\>rpn [ 1 1 ] [ 0 1 ] 1 18 range linearrecur
+[ 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597 ]
 
 The Tribonacci sequence:
 
-c:\>rpn [ 1 1 1 ] [ 0 0 1 ] 1 15 range linearrecur
-[ 0, 0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504, 927 ]
+c:\>rpn [ 1 1 1 ] [ 0 0 1 ] 1 18 range linearrecur
+[ 0, 0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504, 927, 1705, 3136, 5768 ]
+
+The Octanacci sequence:
+
+c:\>rpn [ 1 8 dup ] [ 0 7 dup 1 ] 1 20 range linear
+[ 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 4, 8, 16, 32, 64, 128, 255, 509, 1016, 2028 ]
 
 The Pell numbers:
 
@@ -2681,6 +2693,7 @@ c:\>rpn [ 1 2 ] [ 0 1 ] 1 15 range linearrecur
 [ 0, 1, 2, 5, 12, 29, 70, 169, 408, 985, 2378, 5741, 13860, 33461, 80782 ]
 
 The Perrin sequence:
+
 c:\>rpn [ 1 1 0 ] [ 3 0 2 ] 1 20 range linearrecur
 [ 3, 0, 2, 3, 2, 5, 5, 7, 10, 12, 17, 22, 29, 39, 51, 68, 90, 119, 158, 209 ]
 ''' ],
