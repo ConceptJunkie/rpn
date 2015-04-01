@@ -2669,8 +2669,8 @@ Internally, rpn uses this same linear recurrence functionality in the
 '''
 The 250th Fibonacci number:
 
-c:\>rpn -c -a55 [ 1 1 ] [ 0 1 ] 250 linearrecur
-4,880,197,746,793,002,076,754,294,951,020,699,004,973,287,771,475,874
+c:\>rpn -c -a55 [ 1 1 ] [ 1 1 ] 250 linearrecur
+7,896,325,826,131,730,509,282,738,943,634,332,893,686,268,675,876,375
 
 The Fibonacci sequence:
 
