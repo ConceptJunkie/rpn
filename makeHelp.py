@@ -734,6 +734,17 @@ Added 'rand_' and 'randint_' operators.
 Added the 'debruijn' operator.
 
 Fixed several minor bugs.
+
+6.3.0
+
+Added the 'makepythagorean' operator.
+
+Added the 'equal', 'greater', 'less', 'not_equal', 'not_greater', and
+'not_less' operators.
+
+Added the 'reduce' operator.
+
+Fixed several minor bugs.
     ''',
     'license' :
     '''
@@ -2056,6 +2067,12 @@ c:\>rpn [ 1 10 range 10 dup ] unique
 ''',
 '''
 ''' ],
+    'equal' : [
+'arithmetic', 'returns 1 if n equals k, otherwise returns 0',
+'''
+''',
+'''
+''' ],
     'estimate' : [
 'special', 'estimates the value of a measurement in common terms',
 '''
@@ -2284,6 +2301,12 @@ This is defined for convenience for use with date operators.
 ''' ],
     'googol' : [
 'constants', 'returns the constant one googol, i.e., 1.0e100',
+'''
+''',
+'''
+''' ],
+    'greater' : [
+'arithmetic', 'returns 1 if n is greater than k, otherwise returns 0',
 '''
 ''',
 '''
@@ -2615,6 +2638,12 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
+    'less' : [
+'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
+'''
+''',
+'''
+''' ],
     'leyland' : [
 'number_theory', 'gets the Leyland number for n and k',
 '''
@@ -2785,6 +2814,12 @@ c:\>rpn e sqr e logxy
 ''' ],
     'makeisotime' : [
 'conversion', 'interpret argument as absolute time specified in the ISO format',
+'''
+''',
+'''
+''' ],
+    'makepythagorean' : [
+'conversion', 'makes a pythagorean triple given two integers, n and k, as seeds',
 '''
 ''',
 '''
@@ -3288,6 +3323,24 @@ c:\>rpn 16800 mA hours * 5 volts * joule convert
 ''' ],
     'not' : [
 'logical', 'calculates the bitwise negation of n',
+'''
+''',
+'''
+''' ],
+    'not_equal' : [
+'arithmetic', 'returns 1 if n does not equal k, otherwise returns 0',
+'''
+''',
+'''
+''' ],
+    'not_greater' : [
+'arithmetic', 'returns 1 if n is not greater than k, otherwise returns 0',
+'''
+''',
+'''
+''' ],
+    'not_less' : [
+'arithmetic', 'returns 1 if n is not less than k, otherwise returns 0',
 '''
 ''',
 '''
@@ -3881,6 +3934,14 @@ You will see a duplicate approximately 50% of the time.
     'reciprocal' : [
 'arithmetic', 'returns the reciprocal of n',
 '''
+''',
+'''
+''' ],
+    'reduce' : [
+'list_operators', 'reduces out the common factors from each element of a list',
+'''
+In other words, each element of the list is divided by the greatest common
+denominator of the whole list.
 ''',
 '''
 ''' ],

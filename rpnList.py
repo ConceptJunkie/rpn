@@ -543,7 +543,7 @@ def getGCDForTwo( a, b ):
 def getGCD( args ):
     if isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
-            return [ getGCD[ arg ] for arg in args ]
+            return [ getGCD( arg ) for arg in args ]
         else:
             result = max( args )
 
@@ -569,5 +569,29 @@ def getStandardDeviation( args ):
 
     dev = [ power( fsub( i, mean ), 2 ) for i in args ]
     return sqrt( fsum( dev ) / len( dev ) )
+
+
+
+# //******************************************************************************
+# //
+# //  reduceList
+# //
+# //******************************************************************************
+
+def reduceList( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getGCD( arg ) for arg in args ]
+        else:
+            gcd = getGCD( args )
+
+            result = [ ]
+
+            for i in args:
+                result.append( fdiv( i, gcd ) )
+
+            return result
+    else:
+        return args
 
 

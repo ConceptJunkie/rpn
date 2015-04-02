@@ -995,6 +995,7 @@ listOperators = {
     'polyval'           : OperatorInfo( evaluatePolynomial, 2 ),
     'product'           : OperatorInfo( fprod, 1 ),
     'ratios'            : OperatorInfo( getListRatios, 1 ),
+    'reduce'            : OperatorInfo( reduceList, 1 ),
     'result'            : OperatorInfo( loadResult, 0 ),
     'reverse'           : OperatorInfo( getReverse, 1 ),
     'solve'             : OperatorInfo( solvePolynomial, 1 ),
