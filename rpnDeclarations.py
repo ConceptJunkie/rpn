@@ -131,10 +131,18 @@ specialUnitConversionMatrix = {
 # //******************************************************************************
 
 operatorAliases = {
+    'divides'       : 'isdivisible',
+    '|'             : 'isdivisible',
     '!!'            : 'doublefac',
     '!'             : 'factorial',
+    '!='            : 'not_equal',
     '%'             : 'modulo',
     '*'             : 'multiply',
+    '<'             : 'less',
+    '<='            : 'not_greater',
+    '=='            : 'equal',
+    '>'             : 'greater',
+    '>='            : 'not_less',
     '**'            : 'power',
     '***'           : 'tetrate',
     '+'             : 'add',
@@ -239,6 +247,7 @@ operatorAliases = {
     'log'           : 'ln',
     'makeiso'       : 'makeisotime',
     'makejulian'    : 'makejuliantime',
+    'makepyth'      : 'makepythagorean',
     'mar'           : 'march',
     'math'          : 'arithmetic',
     'maxint'        : 'maxlong',

@@ -482,3 +482,26 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
         return result[ -1 ]
 
 
+# //******************************************************************************
+# //
+# //  makePythagoreanTriple
+# //
+# //  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Pythag/pythag.html#mnformula
+# //
+# //******************************************************************************
+
+def makePythagoreanTriple( n, k ):
+    if n < 0 or k < 0:
+        raise ValueError( "'makepyth' requires positive arguments" )
+
+    if n == k:
+        raise ValueError( "'makepyth' requires unequal arguments" )
+
+    result = [ ]
+
+    result.append( fprod( [ 2, n, k ] ) )
+    result.append( fabs( fsub( fmul( n, n ), fmul( k, k ) ) ) )
+    result.append( fadd( fmul( n, n ), fmul( k, k ) ) )
+
+    return sorted( result )
+
