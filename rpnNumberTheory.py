@@ -13,6 +13,7 @@
 # //******************************************************************************
 
 import itertools
+import random
 
 from fractions import Fraction
 from functools import reduce
@@ -486,22 +487,82 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
 # //
 # //  makePythagoreanTriple
 # //
+# //  Euclid's formula
+# //
 # //  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Pythag/pythag.html#mnformula
 # //
 # //******************************************************************************
 
 def makePythagoreanTriple( n, k ):
     if n < 0 or k < 0:
-        raise ValueError( "'makepyth' requires positive arguments" )
+        raise ValueError( "'makepyth3' requires positive arguments" )
 
     if n == k:
-        raise ValueError( "'makepyth' requires unequal arguments" )
+        raise ValueError( "'makepyth3' requires unequal arguments" )
 
     result = [ ]
 
     result.append( fprod( [ 2, n, k ] ) )
     result.append( fabs( fsub( fmul( n, n ), fmul( k, k ) ) ) )
     result.append( fadd( fmul( n, n ), fmul( k, k ) ) )
+
+    return sorted( result )
+
+
+# //******************************************************************************
+# //
+# //  makePythagoreanQuadruple
+# //
+# //  From https://en.wikipedia.org/wiki/Pythagorean_quadruple:
+# //
+# //  All Pythagorean quadruples (including non-primitives, and with repetition,
+# //  though a, b and c do not appear in all possible orders) can be generated
+# //  from two positive integers a and b as follows:
+# //
+# //  If a and b have different parity, let p be any factor of a^2 + b^2 such that
+# //  p^2 < a^2 + b^2.  Then c = (a^2 + b^2 - p^2)/(2p) and d =
+# //  (a^2 + b^2 + p^2)/(2p).  Note that p = {d - c}.
+# //
+# //  A similar method exists for a, b both even, with the further restriction
+# //  that 2p must be an even factor of a^2 + b^2. No such method exists if both
+# //  a and b are odd.
+# //
+# //******************************************************************************
+
+def makePythagoreanQuadruple( a, b ):
+    if a < 0 or b < 0:
+        raise ValueError( "'makepyth4' requires positive arguments" )
+
+    #if a == b:
+    #    raise ValueError( "'makepyth4' requires unequal arguments" )
+
+    odd1 = ( fmod( a, 2 ) == 1 )
+    odd2 = ( fmod( b, 2 ) == 1 )
+
+    if odd1 and odd2:
+        raise ValueError( "'makepyth4' arguments cannot both be odd" )
+
+    result = [ a, b ]
+
+    sumsqr = fadd( fmul( a, a ), fmul( b, b ) )
+
+
+    div = getDivisors( sumsqr )
+
+    if odd1 != odd2:
+        if len( div ) <= 3:
+            p = 1
+        else:
+            p = random.choice( div[ : ( len( div ) - 1 ) // 2 ] )
+    else:
+        if ( fmod( sumsqr, 2 ) == 1 ):
+            raise ValueError( "'makepyth4' oops, can't make one!" )
+        else:
+            raise ValueError( "'makepyth4' not implemented yet!" )
+
+    psqr = fmul( p, p )
+    result.append( fdiv( fsub( sumsqr, psqr ), fmul( p, 2 ) ) )
+    result.append( fdiv( fadd( sumsqr, psqr ), fmul( p, 2 ) ) )
 
     return sorted( result )
 

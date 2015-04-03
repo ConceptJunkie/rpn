@@ -247,7 +247,7 @@ operatorAliases = {
     'log'           : 'ln',
     'makeiso'       : 'makeisotime',
     'makejulian'    : 'makejuliantime',
-    'makepyth'      : 'makepythagorean',
+    'makepyth'      : 'makepyth3',
     'mar'           : 'march',
     'math'          : 'arithmetic',
     'maxint'        : 'maxlong',

@@ -737,7 +737,7 @@ Fixed several minor bugs.
 
 6.3.0
 
-Added the 'makepythagorean' operator.
+Added the 'makepyth3' operator.
 
 Added the 'equal', 'greater', 'less', 'not_equal', 'not_greater', and
 'not_less' operators.
@@ -2818,9 +2818,16 @@ c:\>rpn e sqr e logxy
 ''',
 '''
 ''' ],
-    'makepythagorean' : [
+    'makepyth3' : [
 'conversion', 'makes a pythagorean triple given two integers, n and k, as seeds',
 '''
+''',
+'''
+''' ],
+    'makepyth4' : [
+'conversion', 'makes a pythagorean quadruple given two integers, n and k, as seeds',
+'''
+n and k cannot both be odd.
 ''',
 '''
 ''' ],
