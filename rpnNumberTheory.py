@@ -558,7 +558,8 @@ def makePythagoreanQuadruple( a, b ):
         if ( fmod( sumsqr, 2 ) == 1 ):
             raise ValueError( "'makepyth4' oops, can't make one!" )
         else:
-            raise ValueError( "'makepyth4' not implemented yet!" )
+            div = [ i for i in div[ : ( len( div ) - 1 ) // 2 ] if fmod( i, 2 ) == 0 ]
+            p = random.choice( div )
 
     psqr = fmul( p, p )
     result.append( fdiv( fsub( sumsqr, psqr ), fmul( p, 2 ) ) )
