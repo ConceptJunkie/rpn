@@ -546,7 +546,6 @@ def makePythagoreanQuadruple( a, b ):
 
     sumsqr = fadd( fmul( a, a ), fmul( b, b ) )
 
-
     div = getDivisors( sumsqr )
 
     if odd1 != odd2:
@@ -558,7 +557,7 @@ def makePythagoreanQuadruple( a, b ):
         if ( fmod( sumsqr, 2 ) == 1 ):
             raise ValueError( "'makepyth4' oops, can't make one!" )
         else:
-            div = [ i for i in div[ : ( len( div ) - 1 ) // 2 ] if fmod( i, 2 ) == 0 ]
+            div = [ i for i in div[ : ( len( div ) - 1 ) // 2 ] if fmod( sumsqr, fmul( i, 2 ) ) == 0 and fmod( i, 2 ) == 0 ]
             p = random.choice( div )
 
     psqr = fmul( p, p )
