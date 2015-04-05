@@ -595,3 +595,16 @@ def reduceList( args ):
         return args
 
 
+# //******************************************************************************
+# //
+# //  unlist
+# //
+# //******************************************************************************
+
+def unlist( arg ):
+    if isinstance( arg, list ):
+        for i in arg:
+            result.append( i )
+    else:
+        result.append( i )
+

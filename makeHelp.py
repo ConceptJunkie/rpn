@@ -737,7 +737,11 @@ Fixed several minor bugs.
 
 6.3.0
 
-Added the 'makepyth3' operator.
+Added the 'eulerbrick' operator.
+
+Added the 'unlist' operator.
+
+Added the 'makepyth3' and 'makepyth4' operators.
 
 Added the 'equal', 'greater', 'less', 'not_equal', 'not_greater', and
 'not_less' operators.
@@ -2084,6 +2088,25 @@ c:\>rpn [ 1 10 range 10 dup ] unique
 '''
 ''',
 '''
+''' ],
+    'eulerbrick' : [
+'number_theory', 'creates the dimensions of an Euler brick, given a Pythagorean triple',
+'''
+An Euler brick is a brick with three dimensions such that any two pairs form
+a Pythogorean triples, therefore the face diagonals are also integers.
+''',
+'''
+c:\>rpn 2 3 makepyth3 unlist eulerbrick
+[ 828, 2035, 3120 ]
+
+c:\sys\ut\rpn>rpn 828 2035 hypot
+2197
+
+c:\sys\ut\rpn>rpn 828 3120 hypot
+3228
+
+c:\sys\ut\rpn>rpn 2035 3120 hypot
+3725
 ''' ],
     'eval' : [
 'special', 'evaluates the function n for the given argument[s] k',
@@ -4574,11 +4597,21 @@ c:\>rpn pi float -x
 c:\>rpn 0x40490fdb unfloat
 3.14159274101
 ''' ],
+    'unlist' : [
+'list_operators', 'expands a list into separate arguments',
+'''
+''',
+'''
+''' ],
     'union' : [
 'list_operators', 'returns the union of two lists',
 '''
 ''',
 '''
+c:\sys\ut\rpn>rpn 2 3 makepyth3 unlist trianglearea
+48.7860977465
+
+Uh oh, I think the triangle area function is broken.  Shouldn't this be 30?
 ''' ],
     'unique' : [
 'list_operators', 'replaces list n with a list of its unique elements',

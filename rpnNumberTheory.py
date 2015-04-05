@@ -493,18 +493,18 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
 # //
 # //******************************************************************************
 
-def makePythagoreanTriple( n, k ):
-    if n < 0 or k < 0:
+def makePythagoreanTriple( a, b ):
+    if a < 0 or b < 0:
         raise ValueError( "'makepyth3' requires positive arguments" )
 
-    if n == k:
+    if a == b:
         raise ValueError( "'makepyth3' requires unequal arguments" )
 
     result = [ ]
 
-    result.append( fprod( [ 2, n, k ] ) )
-    result.append( fabs( fsub( fmul( n, n ), fmul( k, k ) ) ) )
-    result.append( fadd( fmul( n, n ), fmul( k, k ) ) )
+    result.append( fprod( [ 2, a, b ] ) )
+    result.append( fabs( fsub( fmul( a, a ), fmul( b, b ) ) ) )
+    result.append( fadd( fmul( a, a ), fmul( b, b ) ) )
 
     return sorted( result )
 
@@ -565,4 +565,33 @@ def makePythagoreanQuadruple( a, b ):
     result.append( fdiv( fadd( sumsqr, psqr ), fmul( p, 2 ) ) )
 
     return sorted( result )
+
+
+# //******************************************************************************
+# //
+# //  makeEulerBrick
+# //
+# //  http://mathworld.wolfram.com/EulerBrick.html
+# //
+# //  Saunderson's solution lets (a^',b^',c^') be a Pythagorean triple, then
+# //  ( a, b, c ) = ( a'( 4b'^2 - c'^2 ) ), b'( 4a'^2 ) - c'^2 ), 4a'b'c' )
+# //
+# //******************************************************************************
+
+def makeEulerBrick( a, b, c ):
+    if 1 == 0:
+        raise ValueError( "'eulerbrick' requires a pythogorean triple" )
+
+    result = [ ]
+
+    a2 = fmul( a, a )
+    b2 = fmul( b, b )
+    c2 = fmul( c, c )
+
+    result.append( fabs( fmul( a, fsub( fmul( 4, b2 ), c2 ) ) ) )
+    result.append( fabs( fmul( b, fsub( fmul( 4, a2 ), c2 ) ) ) )
+    result.append( fprod( [ 4, a, b, c ] ) )
+
+    return sorted( result )
+
 
