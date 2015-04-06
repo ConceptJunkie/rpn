@@ -2099,13 +2099,13 @@ a Pythogorean triples, therefore the face diagonals are also integers.
 c:\>rpn 2 3 makepyth3 unlist eulerbrick
 [ 828, 2035, 3120 ]
 
-c:\sys\ut\rpn>rpn 828 2035 hypot
+c:\>rpn 828 2035 hypot
 2197
 
-c:\sys\ut\rpn>rpn 828 3120 hypot
+c:\>rpn 828 3120 hypot
 3228
 
-c:\sys\ut\rpn>rpn 2035 3120 hypot
+c:\>rpn 2035 3120 hypot
 3725
 ''' ],
     'eval' : [
@@ -4608,7 +4608,7 @@ c:\>rpn 0x40490fdb unfloat
 '''
 ''',
 '''
-c:\sys\ut\rpn>rpn 2 3 makepyth3 unlist trianglearea
+c:\>rpn 2 3 makepyth3 unlist trianglearea
 48.7860977465
 
 Uh oh, I think the triangle area function is broken.  Shouldn't this be 30?
