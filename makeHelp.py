@@ -3714,13 +3714,13 @@ a number of extra libraries.
 '''
 ''' ],
     'polygonal' : [
-'number_theory', 'calculates the nth polygonal number with k sides',
+'polygonal_numbers', 'calculates the nth polygonal number with k sides',
 '''
 ''',
 '''
 ''' ],
     'polygonal?' : [
-'number_theory', 'finds the index of the polygonal number with k sides of value n',
+'polygonal_numbers', 'finds the index of the polygonal number with k sides of value n',
 '''
 ''',
 '''
