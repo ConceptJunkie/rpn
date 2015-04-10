@@ -47,7 +47,6 @@ Using rpn:
 
 rpn is very easy to use.  It's just like any RPN calculator:  Operands go first,
 then the operators.
-
 For instance:
 
     rpn 2 2 +
@@ -55,6 +54,9 @@ For instance:
 will calculate 2 + 2.  "rpn _dumpops" is an internal command that will list
 all the implemented operators for the curious.  They are also listed in the
 help text.
+
+rpn supports more than 400 operators.  The entire list is included at the
+bottom of this document.
 
 rpn has pretty extensive built-in help, although the help files are not
 complete yet.
@@ -355,4 +357,56 @@ Made a bunch of bug fixes that showed up as a result of reorganizing the code.
 It's clear I haven't done any unit conversions in a while because there were
 still issues with declarations of variables.  Now, I've started eliminating the
 use of "global" in favor of a global module.
+
+Operators supported by rpn:
+
+[ ] abs accuracy acos acosh acot acoth acsc acsch add altfac altsign altsign2
+altsum altsum2 and apery aperynum append april asec asech ash_wednesday asin
+asinh atan atanh august avogadro balanced balanced_ base bell bellpoly
+bernoulli binomial calendar carol catalan catalans cdecagonal cdecagonal?
+ceiling centeredcube cf champernowne char cheptagonal cheptagonal? chexagonal
+cnonagonal cnonagonal? coctagonal coctagonal? comma comma_mode convert copeland
+cos cosh cot coth count countbits countdiv cousinprime cpentagonal cpentagonal?
+cpolygonal cpolygonal? csc csch csquare csquare? ctriangular ctriangular? cube
+debruijn decagonal decagonal? december decimal_grouping default delannoy dhms
+diffs diffs2 divide divisors dms dodecahedral double doublebal doublebal_
+doublefac dst_end dst_start dup e easter egypt election_day element equal
+estimate euler eulerbrick eval eval2 eval3 exp exp10 expphi exprange factor
+factorial false february fibonacci filter find_poly flatten float floor
+fraction friday fromunixtime gamma gcd georange glaisher greater harmonic help
+heptagonal heptagonal? heptanacci hepthex heptpent heptsquare hepttri hex_mode
+hexagonal hexagonal? hexanacci hexpent hms hyper4_2 hyperfac hypot i
+icosahedral identify identify_mode infinity input_radix integer
+integer_grouping interleave intersection isdivisible iso_day isolated isprime
+issquare itoi jacobsthal january julian_day july june khinchin kynea labor_day
+lah lambertw leading_zero leading_zero_mode less leyland lgamma li limit limitn
+linearrecur ln log10 log2 logxy long longlong lucas makecf makeisotime
+makejuliantime makepyth3 makepyth4 maketime march max maxchar maxdouble
+maxfloat maxindex maxlong maxlonglong maxquadlong maxshort maxuchar maxulong
+maxulonglong maxuquadlong maxushort may mean memorial_day mertens mills min
+minchar mindouble minfloat minindex minlong minlonglong minquadlong minshort
+minuchar minulong minulonglong minuquadlong minushort modulo monday motzkin
+multiply name narayana negative negative_infinity nonagonal nonagonal? nonahept
+nonahex nonaoct nonapent nonasquare nonatri nonzero not not_equal not_greater
+not_less november now nprod nspherearea nsphereradius nspherevolume nsum
+nthprime? nthquad? nthweekday nthweekdayofyear octagonal octagonal? octahedral
+octal_mode octhept octhex october octpent octsquare octtri oeis oeiscomment
+oeisex oeisname omega or output_radix pack padovan parity pascal pell
+pentagonal pentagonal? pentanacci pentatope perm phi pi plastic plot plot2
+plotc polyadd polyarea polygamma polygonal polygonal? polylog polymul polyprime
+polyprod polysum polytope polyval power precision presidents_day previous
+prevost prime prime? primepi primes primorial product pyramid quadprime
+quadprime? quadprime_ quintprime quintprime_ randint randint_ random random_
+range range2 ratios reciprocal reduce repunit result reverse rhombdodec riesel
+robbins root root2 root3 round safeprime saturday schroeder sec sech september
+set sextprime sextprime_ sexyprime sexyprime_ sexyquad sexyquad_ sexytriplet
+sexytriplet_ shiftleft shiftright short sin sinh solve solve2 solve3 solve4
+sophieprime sort sortdesc spherearea sphereradius spherevolume square squaretri
+stddev steloct subfac subtract sum sunday superfac superprime sylvester tan
+tanh tetrahedral tetranacci tetrate thabit thanksgiving thursday timer
+timer_mode today topic tounixtime tower tower2 trianglearea triangular
+triangular? tribonacci triplebal triplebal_ tripletprime true truncoct trunctet
+tuesday twinprime twinprime_ uchar uinteger ulong ulonglong undouble unfloat
+union unique unitroots unlist unlist unpack ushort value wednesday weekday x
+xor y ydhms year_calendar z zero zeta ~
 
