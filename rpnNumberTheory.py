@@ -578,8 +578,10 @@ def makePythagoreanQuadruple( a, b ):
 # //
 # //******************************************************************************
 
-def makeEulerBrick( a, b, c ):
-    if 1 == 0:
+def makeEulerBrick( _a, _b, _c ):
+    a, b, c = sorted( [ _a, _b, _c ] )
+
+    if fadd( power( a, 2 ), power( b, 2 ) ) != power( c, 2 ):
         raise ValueError( "'eulerbrick' requires a pythogorean triple" )
 
     result = [ ]
