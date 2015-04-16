@@ -452,7 +452,9 @@ timer_mode:  Turns on the timer for the next operation.  Aliased to '-t'.
 
 rpn is a command-line Reverse-Polish Notation calculator that was first
 written in C in 1988.  It was rewritten in Python 3 in 2012 and now uses the
-mpmath library.
+mpmath library.  It was a Python-learning exercise for me, and a fun little
+toy, but when I found mpmath, it became really cool, so props to Fredrik
+Johansson, who did all the heavy lifting (http://mpmath.org).
     ''',
     'bugs' :
     '''
@@ -740,6 +742,8 @@ Added the 'debruijn' operator.
 Fixed several minor bugs.
 
 6.3.0
+
+Added the 'argument' and 'conjugate' operators.
 
 Fixed 'trianglearea'.  It's been wrong for a long time.  Sorry.
 
@@ -1389,6 +1393,19 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
+    'argument' : [
+'complex_math', 'calculates complex argument (phase) of n',
+'''
+The complex argument, or phase, of a complex number is defined as the the
+signed angle between the positive real axis and n in the complex plane.
+''',
+'''
+c:\>rpn 3 3 i + arg
+0.785398163397
+
+c:\>rpn 3 3 i + arg radians degrees convert
+45 degrees
+''' ],
     'asec' : [
 'trigonometry', 'calculates the arcsecant of n',
 '''
@@ -1689,11 +1706,49 @@ rpn (3)>5 12 **
 ''',
 '''
 ''' ],
+    'conjugate' : [
+'complex_math', 'calculates complex conjugate of n',
+'''
+The complex conjugate is simply the nunmber with the same real part and an
+imaginary part with the same magnitude but opposite sign.
+''',
+'''
+c:\>rpn 3 3 i + conj
+(3.0 - 3.0j)
+''' ],
     'convert' : [
 'conversion', 'performs unit conversion',
 '''
+Unit conversion is a pretty extensive feature and needs some serious help
+text.  Some day, I'll write it.  In the meantime, see 'help unit_conversion'.
 ''',
 '''
+c:\>rpn 10 miles km convert
+16.09344 kilometers
+
+c:\>rpn 2 gallons cups convert
+32 cups
+
+c:\>rpn 3 cups 4 tablespoons + fluid_ounce convert
+26 fluid ounces
+
+c:\>rpn 153 pounds stone convert
+10.928571428571 stone
+
+c:\>rpn 65 mph kph convert
+104.60736 kilometers/hour
+
+c:\>rpn 60 miles hour / furlongs fortnight / convert
+161280 furlongs per fortnight
+
+c:\>rpn mars_day [ hour minute second ] convert
+[ 24 hours, 37 minutes, 22.6632 seconds ]
+
+c:\>rpn 78 kg [ pound ounce ] convert
+[ 171 pounds, 15.369032067272 ounces ]
+
+c:\>rpn 150,000 seconds [ day hour minute second ] convert
+[ 1 day, 17 hours, 39 minutes, 60 seconds ]
 ''' ],
     'copeland' : [
 'constants', 'returns the Copeland Erdos constant',
