@@ -471,7 +471,7 @@ yet.
 I've been making a concerted efforts to identify and fix bugs, but I'm certain
 there are still more.
     ''',
-    'release_notes' :
+    'release_notes_5' :
     '''
 5.18.1
 
@@ -675,6 +675,10 @@ More bug fixes thanks to the test script!
 
 More bug fixes and code cleanup.  Added the 'unfloat' and 'undouble'
 operators.
+    ''',
+    'release_notes' :
+    '''
+For notes about earlier versions, use 'help release_notes_5'.
 
 6.0.0
 
@@ -736,6 +740,8 @@ Added the 'debruijn' operator.
 Fixed several minor bugs.
 
 6.3.0
+
+Fixed 'trianglearea'.  It's been wrong for a long time.  Sorry.
 
 Added the 'fibonorial' operator.
 
@@ -4451,8 +4457,18 @@ This is defined for convenience for use with date operators.
     'trianglearea' : [
 'trigonometry', 'calculates the area of a triangle with sides of length a, b, and c'
 '''
+This operator uses Heron's formula, which takes the square root of the product
+of the semiperimeter and the respective differences of the semiperimeter and
+the lengths of each side.
+
+area = sqrt( s( s - a )( s - b )( s - c ) )
 ''',
 '''
+c:\>rpn 3 4 5 trianglearea
+6
+
+c:\>rpn 2 3 makepyth3 unlist trianglearea
+30
 ''' ],
     'triangular' : [
 'polygonal_numbers', 'calcuates the nth triangular number',
@@ -4618,9 +4634,7 @@ c:\>rpn 0x40490fdb unfloat
 ''',
 '''
 c:\>rpn 2 3 makepyth3 unlist trianglearea
-48.7860977465
-
-Uh oh, I think the triangle area function is broken.  Shouldn't this be 30?
+30
 ''' ],
     'unique' : [
 'list_operators', 'replaces list n with a list of its unique elements',
