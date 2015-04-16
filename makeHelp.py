@@ -737,6 +737,8 @@ Fixed several minor bugs.
 
 6.3.0
 
+Added the 'fibonorial' operator.
+
 Added the 'eulerbrick' operator.
 
 Added the 'unlist' operator.
@@ -2233,6 +2235,13 @@ This is defined for convenience for use with date operators.
     'fibonacci' : [
 'number_theory', 'calculates the nth Fibonacci number',
 '''
+''',
+'''
+''' ],
+    'fibonorial' : [
+'number_theory', 'calculates the product of the first n Fibonacci numbers',
+'''
+The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''',
 '''
 ''' ],

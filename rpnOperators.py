@@ -1130,6 +1130,7 @@ operators = {
     'false'             : OperatorInfo( lambda: 0, 0 ),
     'february'          : OperatorInfo( lambda: 2, 0 ),
     'fibonacci'         : OperatorInfo( fib, 1 ),
+    'fibonorial'        : OperatorInfo( getNthFibonorial, 1 ),
     'find_poly'         : OperatorInfo( findPolynomial, 2 ),
     'float'             : OperatorInfo( lambda n : fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( n ) ) ) ), 1 ),
     'floor'             : OperatorInfo( floor, 1 ),

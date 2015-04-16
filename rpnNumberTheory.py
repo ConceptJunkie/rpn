@@ -597,3 +597,18 @@ def makeEulerBrick( _a, _b, _c ):
     return sorted( result )
 
 
+# //******************************************************************************
+# //
+# //  getNthFibonorial
+# //
+# //******************************************************************************
+
+def getNthFibonorial( n ):
+    result = 1
+
+    for i in arange( 2, n ):
+        result = fmul( result, fib( i ) )
+
+    return result
+
+

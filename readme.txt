@@ -372,10 +372,10 @@ debruijn decagonal decagonal? december decimal_grouping default delannoy dhms
 diffs diffs2 divide divisors dms dodecahedral double doublebal doublebal_
 doublefac dst_end dst_start dup e easter egypt election_day element equal
 estimate euler eulerbrick eval eval2 eval3 exp exp10 expphi exprange factor
-factorial false february fibonacci filter find_poly flatten float floor
-fraction friday fromunixtime gamma gcd georange glaisher greater harmonic help
-heptagonal heptagonal? heptanacci hepthex heptpent heptsquare hepttri hex_mode
-hexagonal hexagonal? hexanacci hexpent hms hyper4_2 hyperfac hypot i
+factorial false february fibonacci fibonorial filter find_poly flatten float
+floor fraction friday fromunixtime gamma gcd georange glaisher greater harmonic
+help heptagonal heptagonal? heptanacci hepthex heptpent heptsquare hepttri
+hex_mode hexagonal hexagonal? hexanacci hexpent hms hyper4_2 hyperfac hypot i
 icosahedral identify identify_mode infinity input_radix integer
 integer_grouping interleave intersection isdivisible iso_day isolated isprime
 issquare itoi jacobsthal january julian_day july june khinchin kynea labor_day

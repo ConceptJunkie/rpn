@@ -205,6 +205,7 @@ operatorAliases = {
     'deca'          : 'decagonal',
     'deca?'         : 'decagonal?',
     'divcount'      : 'countdiv',
+    'f!'            : 'fibonorial',
     'fac'           : 'factorial',
     'fac2'          : 'doublefac',
     'feb'           : 'february',

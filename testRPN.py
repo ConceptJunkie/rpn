@@ -1063,6 +1063,9 @@ def runTests( ):
     testRPN( 'rpn 4 3 not_less' )
     testRPN( 'rpn 4 3 not_greater' )
 
+    testRPN( 'rpn 5 fibonorial' )
+    testRPN( 'rpn -a50 24 fibonorial' )
+
     testRPN( 'rpn help' )
     testRPN( 'rpn help about' )
     testRPN( 'rpn help arithmetic' )
