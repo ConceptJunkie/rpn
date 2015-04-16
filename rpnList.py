@@ -608,3 +608,20 @@ def unlist( arg ):
     else:
         result.append( i )
 
+
+# //******************************************************************************
+# //
+# //  calculateGeometricMean
+# //
+# //******************************************************************************
+
+def calculateGeometricMean( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ calculateGeometricMean( arg ) for arg in args ]
+        else:
+            return root( fprod( args ), len( args ) )
+    else:
+        return args
+
+

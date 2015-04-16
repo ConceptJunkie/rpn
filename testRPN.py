@@ -1066,6 +1066,12 @@ def runTests( ):
     testRPN( 'rpn 5 fibonorial' )
     testRPN( 'rpn -a50 24 fibonorial' )
 
+    testRPN( 'rpn 3 3 i + arg' )
+    testRPN( 'rpn 3 3 i + conj' )
+
+    testRPN( 'rpn 1 100 range geomean' )
+    testRPN( 'rpn [ 1 10 range 1 20 range 1 30 range ] geomean' )
+
     testRPN( 'rpn help' )
     testRPN( 'rpn help about' )
     testRPN( 'rpn help arithmetic' )

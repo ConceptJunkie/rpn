@@ -975,6 +975,7 @@ listOperators = {
     'diffs2'            : OperatorInfo( getListDiffsFromFirst, 1 ),
     'filter'            : OperatorInfo( filterList, 2 ),
     'gcd'               : OperatorInfo( getGCD, 1 ),
+    'geomean'           : OperatorInfo( calculateGeometricMean, 1 ),
     'interleave'        : OperatorInfo( interleave, 2 ),
     'intersection'      : OperatorInfo( makeIntersection, 2 ),
     'linearrecur'       : OperatorInfo( getNthLinearRecurrence, 3 ),

@@ -163,6 +163,7 @@ operatorAliases = {
     'arctangent'    : 'atan',
     'arg'           : 'argument',
     'args'          : 'arguments',
+    'arithmean'     : 'mean',
     'ashwed'        : 'ash_wednesday',
     'ashwednesday'  : 'ash_wednesday',
     'ash_wed'       : 'ash_wednesday',

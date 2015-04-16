@@ -743,6 +743,8 @@ Fixed several minor bugs.
 
 6.3.0
 
+Added the 'geomean' operator.
+
 Added the 'argument' and 'conjugate' operators.
 
 Fixed 'trianglearea'.  It's been wrong for a long time.  Sorry.
@@ -2379,6 +2381,24 @@ This is defined for convenience for use with date operators.
 '''
 ''',
 '''
+''' ],
+    'geomean' : [
+'list_operators', 'calculates the geometric mean of a a list of numbers n',
+'''
+The geometric mean is calculated by taking the kth root of the product of k
+values.
+''',
+'''
+c:\>rpn [ 1 2 ] geomean
+1.41421356237
+
+c:\>rpn [ 1 10 range ] geomean
+[ 4.52872868812 ]
+
+Calculate the geometric mean of the first n numbers from 1 to 5:
+
+c:\>rpn [ 1 1 5 range range ] geomean
+[ [ 1, 1.41421356237, 1.81712059283, 2.2133638394, 2.6051710847 ] ]
 ''' ],
     'georange' : [
 'list_operators', 'generates a list of geometric progression of numbers',
