@@ -2579,6 +2579,21 @@ e ^ ( pi * i ) = -1
 ''',
 '''
 ''' ],
+    'imaginary' : [
+'complex_math', 'returns the imaginary part of n',
+'''
+''',
+'''
+c:\>rpn 3 4 i + imaginary
+4
+
+c:\>rpn 7 imaginary
+0
+
+c:\>rpn 7 i imaginary
+7
+
+''' ],
     'infinity' : [
 'special', 'evaluates to infinity, used to describe ranges for nsum, nprod, and limit',
 '''
@@ -3369,6 +3384,24 @@ c:\>rpn 16800 mA hours * 5 volts * joule convert
 ''',
 '''
 ''' ],
+    'nint' : [
+'arithmetic', 'returns the nearest integer to n',
+'''
+On a tie, 'nint' returns the nearest even number.
+''',
+'''
+c:\>rpn 2 sqrt nint
+1
+
+c:\>rpn 3 sqrt neg nint
+-2
+
+c:\>rpn 0.5 nint
+0
+
+c:\>rpn 1.5 nint
+2
+''' ],
     'nonagonal' : [
 'polygonal_numbers', 'calculates the nth nonagonal number',
 '''
@@ -4051,6 +4084,20 @@ You will see a duplicate approximately 50% of the time.
 ''',
 '''
 ''' ],
+    'real' : [
+'complex_math', 'returns the real part of n',
+'''
+''',
+'''
+c:\>rpn 3 4 i + real
+3
+
+c:\>rpn 7 i real
+0
+
+c:\>rpn 7 real
+7
+''' ],
     'reciprocal' : [
 'arithmetic', 'returns the reciprocal of n',
 '''
@@ -4238,6 +4285,28 @@ This is defined for convenience for use with date operators.
 '''
 ''',
 '''
+''' ],
+    'sign' : [
+'arithmetic', 'returns the sign of a value',
+'''
+For real numbers, 'sign' returns 1 for positive, -1 for negative and 0 for
+zero.
+
+For complex numbers, it gives the projection onto the unit circle.
+''',
+'''
+c:\>rpn 37 sign
+1
+
+c:\>rpn -8 sign
+-1
+
+c:\>rpn 0 sign
+0
+
+c:\>rpn 3 4 i + sign
+(0.6 + 0.8j)
+
 ''' ],
     'sin' : [
 'trigonometry', 'calculates the sine of n',
