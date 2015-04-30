@@ -693,32 +693,46 @@ def evaluateOneArgFunction( func, args ):
 # //
 # //  evaluateTwoArgFunction
 # //
+# //  This seems somewhat non-pythonic...
+# //
 # //******************************************************************************
 
-def evaluateTwoArgFunction( func, arg1, arg2 ):
-    # print( 'arg1: ' + str( arg1 ) )
-    # print( 'arg2: ' + str( arg2 ) )
+def evaluateTwoArgFunction( func, _arg1, _arg2 ):
+    if isinstance( _arg1, list ):
+        len1 = len( _arg1 )
+        if len1 == 1:
+            arg1 = _arg1[ 0 ]
+            list1 = False
+        else:
+            arg1 = _arg1
+            list1 = True
+    else:
+        arg1 = _arg1
+        list1 = False
 
-    len1 = len( arg1 )
-    len2 = len( arg2 )
-
-    list1 = len1 > 1
-    list2 = len2 > 1
-
-    # print( list1 )
-    # print( list2 )
+    if isinstance( _arg2, list ):
+        len2 = len( _arg2 )
+        if len2 == 1:
+            arg2 = _arg2[ 0 ]
+            list2 = False
+        else:
+            arg2 = _arg2
+            list2 = True
+    else:
+        arg2 = _arg2
+        list2 = False
 
     if list1:
         if list2:
-            return [ func( arg2[ index ], arg1[ index ] ) for index in range( 0, min( len1, len2 ) ) ]
+            return [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ] ) for index in range( 0, min( len1, len2 ) ) ]
         else:
-            return [ func( arg2[ 0 ], i ) for i in arg1 ]
+            return [ evaluateTwoArgFunction( func, i, arg2 ) for i in arg1 ]
 
     else:
         if list2:
-            return [ func( j, arg1[ 0 ] ) for j in arg2 ]
+            return [ evaluateTwoArgFunction( func, arg1, j ) for j in arg2 ]
         else:
-            return [ func( arg2[ 0 ], arg1[ 0 ] ) ]
+            return func( arg2, arg1 )
 
 
 # //******************************************************************************
@@ -731,6 +745,9 @@ callers = [
     lambda func, args: [ func( ) ],
     evaluateOneArgFunction,
     evaluateTwoArgFunction,
+
+    # 3, 4, and 5 argument functions don't recurse with lists more than one level
+
     lambda func, arg1, arg2, arg3:
         [ func( a, b, c ) for c in arg1 for b in arg2 for a in arg3 ],
     lambda func, arg1, arg2, arg3, arg4:
