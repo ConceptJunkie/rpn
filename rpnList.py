@@ -695,3 +695,18 @@ def calculateGeometricMean( args ):
         return args
 
 
+# //******************************************************************************
+# //
+# //  calculateMean
+# //
+# //******************************************************************************
+
+def calculateMean( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ calculateMean( arg ) for arg in args ]
+        else:
+            return fdiv( fsum( args ), len( args ) )
+    else:
+        return args
+

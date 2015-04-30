@@ -984,7 +984,7 @@ listOperators = {
     'maketime'          : OperatorInfo( makeTime, 1 ),
     'max'               : OperatorInfo( max, 1 ),
     'maxindex'          : OperatorInfo( getIndexOfMax, 1 ),
-    'mean'              : OperatorInfo( lambda n: fdiv( fsum( n ), len( n ) ), 1 ),
+    'mean'              : OperatorInfo( calculateMean, 1 ),
     'min'               : OperatorInfo( min, 1 ),
     'minindex'          : OperatorInfo( getIndexOfMin, 1 ),
     'nonzero'           : OperatorInfo( lambda n: [ index for index, e in enumerate( n ) if e != 0 ], 1 ),

@@ -100,11 +100,11 @@ command-line options:
     ''',
     'arguments' :
     '''
-As its name implies, rpn uses Reverse Polish Notation, otherwise referred
-to as postfix notation.  The operand(s) come first and then the operator.
-This notation works without the need for parentheses.  rpn supports
-brackets for creating lists of operands, but this serves a different
-purpose and is described later.
+As its name implies, rpn uses Reverse Polish Notation, otherwise referred to
+as postfix notation.  The operand(s) come first and then the operator.  This
+notation works without the need for parentheses.  rpn supports brackets for
+creating lists of operands, but this serves a different purpose and is
+described later.
 
 Some simple examples:
 
@@ -114,21 +114,15 @@ Some simple examples:
 3 sqrt(2) / 4:
     rpn 3 2 sqrt * 4 /
 
+( 5 + 6 ) * ( 7 + 8 )
+    rpn 5 6 + 7 8 +
+
 Lists are specified using the bracket operators.  Most operators can take
 lists as operands, which results in the operation being performed on each
-item in the list.  If the operator takes two operands, then either operand
-can be a list.  If one operand is a list and the other is a single value,
-then each value in the list will have the single operand applied to it
-with the operator, and the result will be displayed as a list.
-
-It is possible in certain cases to nest lists.  rpn tries to figure out
-a logical way (and unequivocal) to apply the operators to the operands.
-
-*** Special note:  I have not exhaustively tested every possible
-scenario with lists, but in general, if it makes sense, rpn will work
-correctly.
-
-For example:
+item in the list.  If the operator takes two or more operands, then any
+operand can be a list.  If one operand is a list and the other is a single
+value, then each value in the list will have the single operand applied to
+it with the operator, and the result will be displayed as a list.
 
 c:\>rpn [ 2 3 4 5 6 ] 10 +
 [ 12, 13, 14, 15, 16, 17 ]
@@ -136,13 +130,11 @@ c:\>rpn [ 2 3 4 5 6 ] 10 +
 c:\>rpn 7 [ 1 2 3 4 5 6 7 ] *
 [ 7, 14, 21, 28, 35, 42, 49 ]
 
-If both operands are lists, then each element from the first list is
-applied to the corresponding element in the second list.  If one list
-is shorter than the other, then only that many elements will have the
-operator applied and the resulting list will only be as long as the
-shorter list.
-
-For example:
+If both operands are lists, then each element from the first list is applied
+to the corresponding element in the second list.  If one list is shorter than
+the other, then only that many elements will have the operator applied and the
+resulting list will only be as long as the shorter list.  The rest of the
+items in the longer list are ignored.
 
 rpn [ 1 2 3 4 5 6 7 ] [ 1 2 3 4 5 6 7 ] **
 [ 1, 4, 27, 256, 3125, 46656, 823543 ]
@@ -155,10 +147,28 @@ requires a list, because the operation does not make sense for a single
 value.  For example, 'mean' averages the values of a list.  If the
 required list argument is a single value, rpn will promote it to a list.
 
-For example:
+c:\>rpn 1 mean
+1
+
+If the list operator takes a list and a non-list argument, then the non-list
+argument can be a list, and rpn will evaluate the operator for all values in
+the list.
 
 c:\>rpn [ 1 2 3 ] [ 4 5 6 ] polyval
 [ 27, 38, 51 ]
+
+List operands can also themselves be composed of lists and rpn will recurse.
+
+c:\>rpn [ [ 1 2 3 ] [ 4 5 6 ] [ 2 3 5 ] ] mean
+[ 2, 5, 3.33333333333 ]
+
+This becomes more powerful when used with operators that return lists, such as
+the 'range' operator.  Here is an rpn expression that calculates the first 10
+harmonic numbers:
+
+c:\>rpn 1 1 10 range range 1/x sum
+[ 1, 1.5, 1.83333333333, 2.08333333333, 2.28333333333, 2.45, 2.59285714286,
+2.71785714286, 2.82896825397, 2.92896825397 ]
     ''',
     'input' :
     '''
