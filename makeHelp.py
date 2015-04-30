@@ -3009,7 +3009,7 @@ c:\>rpn maxfloat float -x
 7f7f ffff
 ''' ],
     'maxindex' : [
-'arithmetic', 'returns the index of largest value in list n',
+'list_operators', 'returns the index of largest value in list n',
 '''
 ''',
 '''
@@ -3200,7 +3200,7 @@ c:\>rpn minfloat float -x
 0080 0000
 ''' ],
     'minindex' : [
-'arithmetic', 'returns the index of smallest value in list n',
+'list_operators', 'returns the index of smallest value in list n',
 '''
 ''',
 '''

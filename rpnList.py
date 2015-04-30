@@ -244,6 +244,9 @@ def makeIntersection( arg1, arg2 ):
 # //******************************************************************************
 
 def getIndexOfMax( arg ):
+    if isinstance( arg[ 0 ], list ):
+        return [ getIndexOfMax( item ) for item in arg ]
+
     maximum = -inf
     index = -1
 
@@ -262,6 +265,9 @@ def getIndexOfMax( arg ):
 # //******************************************************************************
 
 def getIndexOfMin( arg ):
+    if isinstance( arg[ 0 ], list ):
+        return [ getIndexOfMin( item ) for item in arg ]
+
     minimum = inf
     index = -1
 
@@ -442,6 +448,9 @@ def sortDescending( args ):
 # //******************************************************************************
 
 def calculatePowerTower( args ):
+    if isinstance( args[ 0 ], list ):
+        return [ calculatePowerTower( arg ) for arg in args ]
+
     result = args[ -1 ]
 
     for i in args[ -1 : : -1 ]:
@@ -457,6 +466,9 @@ def calculatePowerTower( args ):
 # //******************************************************************************
 
 def calculatePowerTower2( args ):
+    if isinstance( args[ 0 ], list ):
+        return [ calculatePowerTower2( arg ) for arg in args ]
+
     result = args[ 0 ]
 
     for i in args[ 1 : ]:
@@ -472,6 +484,9 @@ def calculatePowerTower2( args ):
 # //******************************************************************************
 
 def getAlternatingSum( args ):
+    if isinstance( args[ 0 ], list ):
+        return [ getAlternatingSum( arg ) for arg in args ]
+
     for i in range( 1, len( args ), 2 ):
         args[ i ] = fneg( args[ i ] )
 
@@ -485,6 +500,9 @@ def getAlternatingSum( args ):
 # //******************************************************************************
 
 def getAlternatingSum2( args ):
+    if isinstance( args[ 0 ], list ):
+        return [ getAlternatingSum2( arg ) for arg in args ]
+
     for i in range( 0, len( args ), 2 ):
         args[ i ] = fneg( args[ i ] )
 
@@ -493,11 +511,11 @@ def getAlternatingSum2( args ):
 
 # //******************************************************************************
 # //
-# //  sum
+# //  getSum
 # //
 # //******************************************************************************
 
-def sum( n ):
+def getSum( n ):
     hasUnits = False
 
     for item in n:
@@ -509,6 +527,9 @@ def sum( n ):
         result = None
 
         for item in n:
+            if isinstance( item, list ):
+                return [ getSum( arg ) for arg in item ]
+
             if result is None:
                 result = item
             else:
@@ -516,7 +537,50 @@ def sum( n ):
 
         return result
     else:
-        return fsum( n )
+        if len( n ) == 0:
+            return 0
+
+        if isinstance( n[ 0 ], list ):
+            return [ getSum( item ) for item in n ]
+        else:
+            return fsum( n )
+
+
+# //******************************************************************************
+# //
+# //  getProduct
+# //
+# //******************************************************************************
+
+def getProduct( n ):
+    hasUnits = False
+
+    for item in n:
+        if isinstance( item, Measurement ):
+            hasUnits = True
+            break
+
+    if hasUnits:
+        result = None
+
+        for item in n:
+            if isinstance( item, list ):
+                return [ getProduct( arg ) for arg in item ]
+
+            if result is None:
+                result = item
+            else:
+                result = result.multiply( item )
+
+        return result
+    else:
+        if len( n ) == 0:
+            return 0
+
+        if isinstance( n[ 0 ], list ):
+            return [ getProduct( item ) for item in n ]
+        else:
+            return fprod( n )
 
 
 # //******************************************************************************
@@ -565,6 +629,9 @@ def getGCD( args ):
 # //******************************************************************************
 
 def getStandardDeviation( args ):
+    if isinstance( args[ 0 ], list ):
+        return [ getStandardDeviation( arg ) for arg in args ]
+
     mean = fsum( args ) / len( args )
 
     dev = [ power( fsub( i, mean ), 2 ) for i in args ]
@@ -576,12 +643,15 @@ def getStandardDeviation( args ):
 # //
 # //  reduceList
 # //
+# //  This function reduces out the greatest common denominator from a list of
+# //  values.
+# //
 # //******************************************************************************
 
 def reduceList( args ):
     if isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
-            return [ getGCD( arg ) for arg in args ]
+            return [ reduceList( arg ) for arg in args ]
         else:
             gcd = getGCD( args )
 
