@@ -14,7 +14,7 @@
 
 # Another bug!
 #
-# It seems you can't use aliases from rpnUnits.py as help topics.
+#  'result' doesn't work with units
 #
 
 # http://en.wikipedia.org/wiki/Physical_constant

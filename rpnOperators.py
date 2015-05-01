@@ -168,6 +168,9 @@ def evaluateTerm( term, index, currentValueList ):
 
             newResult = list( )
 
+            if not isinstance( result, list ):
+                result = [ result ]
+
             for item in result:
                 if isinstance( item, Measurement ) and item.getUnits( ) == { }:
                     newResult.append( mpf( item ) )
@@ -982,12 +985,12 @@ listOperators = {
     'makeisotime'       : OperatorInfo( makeISOTime, 1 ),
     'makejuliantime'    : OperatorInfo( makeJulianTime, 1 ),
     'maketime'          : OperatorInfo( makeTime, 1 ),
-    'max'               : OperatorInfo( max, 1 ),
+    'max'               : OperatorInfo( getMax, 1 ),
     'maxindex'          : OperatorInfo( getIndexOfMax, 1 ),
     'mean'              : OperatorInfo( calculateMean, 1 ),
-    'min'               : OperatorInfo( min, 1 ),
+    'min'               : OperatorInfo( getMin, 1 ),
     'minindex'          : OperatorInfo( getIndexOfMin, 1 ),
-    'nonzero'           : OperatorInfo( lambda n: [ index for index, e in enumerate( n ) if e != 0 ], 1 ),
+    'nonzero'           : OperatorInfo( getNonzeroes, 1 ),
     'pack'              : OperatorInfo( packInteger, 2 ),
     'polyadd'           : OperatorInfo( addPolynomials, 2 ),
     'polymul'           : OperatorInfo( multiplyPolynomials, 2 ),
@@ -1009,7 +1012,7 @@ listOperators = {
     'union'             : OperatorInfo( makeUnion, 2 ),
     'unique'            : OperatorInfo( getUniqueElements, 1 ),
     'unpack'            : OperatorInfo( unpackInteger, 2 ),
-    'zero'              : OperatorInfo( lambda n: [ index for index, e in enumerate( n ) if e == 0 ], 1 ),
+    'zero'              : OperatorInfo( getZeroes, 1 ),
 }
 
 

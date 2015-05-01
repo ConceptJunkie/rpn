@@ -1017,6 +1017,29 @@ Unit conversions:
         So a falling object will be travelling at 321.7 ft/sec after 10
         seconds.
 
+    Here's a little more advanced version of the problem.  Let's say we have
+    launched a rocket that is accelerated at 5 Gs for 5 minutes.  How long
+    would it take for it to reach Jupiter (assume Jupiter is 500,000,000 miles
+    away)?
+
+        c:\>rpn 500 million miles 5 G 5 minutes * /
+            20000000 miles per minute standard gravity
+
+    That's not too helpful.  It's necessary to convert to miles/second partway
+    through the conversion because rpn isn't smart enough (yet) to deduce that
+    you can go from minute-Gs to miles per minute.
+
+    Here's the final velocity:
+
+        c:\>rpn 5 G 5 minutes * miles second / convert
+            9.14035470353 miles per second
+
+    This is something we can use...
+
+        c:\>rpn 500 million miles 5 G 5 minutes * miles second / convert /
+                days convert
+            633.130466458 days
+
     [ TODO:  finish unit conversion examples ]
 
 Advanced examples:

@@ -624,6 +624,22 @@ def getGCD( args ):
 
 # //******************************************************************************
 # //
+# //  getLCM
+# //
+# //******************************************************************************
+
+def getLCM( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getLCM( arg ) for arg in args ]
+        else:
+            return fdiv( fprod( args ), getGCD( args ) )
+    else:
+        return args
+
+
+# //******************************************************************************
+# //
 # //  getStandardDeviation
 # //
 # //******************************************************************************
@@ -709,4 +725,70 @@ def calculateMean( args ):
             return fdiv( fsum( args ), len( args ) )
     else:
         return args
+
+
+# //******************************************************************************
+# //
+# //  getMax
+# //
+# //******************************************************************************
+
+def getMax( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getMax( arg ) for arg in args ]
+        else:
+            return max( args )
+    else:
+        return args
+
+
+# //******************************************************************************
+# //
+# //  getMin
+# //
+# //******************************************************************************
+
+def getMin( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getMin( arg ) for arg in args ]
+        else:
+            return max( args )
+    else:
+        return args
+
+
+
+# //******************************************************************************
+# //
+# //  getZeroes
+# //
+# //******************************************************************************
+
+def getZeroes( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getZeroes( arg ) for arg in args ]
+        else:
+            return [ index for index, e in enumerate( args ) if e != 0 ]
+    else:
+        return args
+
+
+# //******************************************************************************
+# //
+# //  getNonzeroes
+# //
+# //******************************************************************************
+
+def getNonzeroes( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getNonzeroes( arg ) for arg in args ]
+        else:
+            return [ index for index, e in enumerate( args ) if e != 0 ]
+    else:
+        return args
+
 
