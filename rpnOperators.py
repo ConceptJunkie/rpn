@@ -981,6 +981,7 @@ listOperators = {
     'geomean'           : OperatorInfo( calculateGeometricMean, 1 ),
     'interleave'        : OperatorInfo( interleave, 2 ),
     'intersection'      : OperatorInfo( makeIntersection, 2 ),
+    'lcm'               : OperatorInfo( getLCM, 1 ),
     'linearrecur'       : OperatorInfo( getNthLinearRecurrence, 3 ),
     'makeisotime'       : OperatorInfo( makeISOTime, 1 ),
     'makejuliantime'    : OperatorInfo( makeJulianTime, 1 ),
