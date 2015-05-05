@@ -3748,7 +3748,7 @@ to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
 flushing the cache for a particular entry.
 ''',
 '''
-c:\sys\ut\rpn>rpn 98593 oeiscomment
+c:\>rpn 98593 oeiscomment
 'Row sums are A009545(n+1), with e.g.f. exp(x)(cos(x)+sin(x)). Diagonal sums
 are A077948.\nThe rows are the diagonals of the Krawtchouk matrices. Coincides
 with the Riordan array (1/(1-x),(1-2x)/(1-x)). - _Paul Barry_, Sep 24
