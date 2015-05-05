@@ -1374,26 +1374,58 @@ c:\>rpn 1 mile 1 km +
     'altsign' : [
 'list_operators', 'alternates signs in the list by making every even element negative',
 '''
+The return value is a list of the same size as the original with the sign of
+every second element reversed, starting with the second.
 ''',
 '''
+c:\>rpn 1 10 range altsign
+[ 1, -2, 3, -4, 5, -6, 7, -8, 9, -10 ]
 ''' ],
     'altsign2' : [
 'list_operators', 'alternates signs in the list by making every odd element negative',
 '''
+The return value is a list of the same size as the original with the sign of
+every other element reversed, starting with the first element.
 ''',
 '''
+c:\>rpn 1 10 range altsign2
+[ -1, 2, -3, 4, -5, 6, -7, 8, -9, 10 ]
+
 ''' ],
     'altsum' : [
 'arithmetic', 'calculates the alternating sum of list n (addition first)',
 '''
+This operator calculates the sum of the list, alternating the signs of every
+second element starting with the second.
+
+This operator is the same as using 'altsign sum'.
 ''',
 '''
+c:\>rpn 1 10 range altsign sum
+-5
+
+c:\>rpn 1 10 range altsum
+-5
+
+Calculating e:
+
+c:\>rpn -a20 0 25 range fac 1/x altsum 1/x
+2.7182818284590452354
 ''' ],
     'altsum2' : [
 'arithmetic', 'calaculates the alternating sum of list n (subtraction first)',
 '''
+This operator calculates the sum of the list, alternating the signs of every
+other element starting with the first.
+
+This operator is the same as using 'altsign2 sum'.
 ''',
 '''
+c:\>rpn 1 10 range altsign2 sum
+5
+
+c:\>rpn 1 10 range altsum2
+5
 ''' ],
     'and' : [
 'logical', 'calculates the bitwise \'and\' of n and k',
@@ -1408,6 +1440,11 @@ Apery's constant is the sum of the infinite series of the reciprocals of cubes
 from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
+c:\>rpn -a50 -d5 apery
+1.20205 69031 59594 28539 97381 61511 44999 07649 86292 3405
+
+c:\>rpn -a50 -d5 3 zeta
+1.20205 69031 59594 28539 97381 61511 44999 07649 86292 3405
 ''' ],
     'aperynum' : [
 'combinatorics', 'calculates the nth Apery number',
@@ -1418,8 +1455,13 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
     'append' : [
 'list_operators', 'appends the second list on to the first list',
 '''
+This operator appends the second list of items to the first list resulting
+in a single list containing all items in order from the first operand list and
+then the second operand list.
 ''',
 '''
+c:\>rpn 1 5 range 6 10 range append
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
     'april' : [
 'constants', 'returns 4, which is the code for April',
@@ -1427,6 +1469,11 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 This is defined for convenience for use with date operators.
 ''',
 '''
+c:\>rpn april
+4
+
+c:\>rpn 2015 april 3 tuesday nthweekday
+2015-04-21 00:00:00
 ''' ],
     'argument' : [
 'complex_math', 'calculates complex argument (phase) of n',
@@ -1820,6 +1867,8 @@ c:\>rpn 150,000 seconds [ day hour minute second ] convert
 '''
 ''',
 '''
+c:\>rpn 1 100 range count
+100
 ''' ],
     'countbits' : [
 'logical', 'returns the number of set bits in the value of n',
