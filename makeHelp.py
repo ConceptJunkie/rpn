@@ -2849,6 +2849,12 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
+    'lcm' : [
+'arithmetic', 'calculates the least common multiple of elements in list n',
+'''
+''',
+'''
+''' ],
     'leading_zero' : [
 'settings', 'when set to true and integer grouping is being used, output will include leading zeroes',
 '''
