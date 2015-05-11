@@ -461,6 +461,9 @@ class Units( collections.Counter ):
         result = Units( )
 
         for unit in self:
+            if unit not in g.unitOperators:
+                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+
             simpleUnits = Units( g.unitOperators[ unit ].representation )
 
             exponent = self.get( unit )
