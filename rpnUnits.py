@@ -2242,42 +2242,42 @@ unitOperators = {
     # temperature
 
     'celsius' :
-        UnitInfo( 'temperature', 'celsius', 'degrees_celsius', '', [ 'centigrade', 'degC' ], [ 'SI' ],
+        UnitInfo( 'temperature', 'celsius', 'degrees_celsius', '', [ 'centigrade', 'degC', 'degreesC' ], [ 'SI' ],
                   '''
                   ''' ),
 
     'degree_newton' :
-        UnitInfo( 'temperature', 'degree_newton', 'degrees_newton', '', [ 'newton_degree', 'newton_degrees', 'degN' ], [ 'obsolete' ],
+        UnitInfo( 'temperature', 'degree_newton', 'degrees_newton', '', [ 'newton_degree', 'newton_degrees', 'degN', 'degreesN' ], [ 'obsolete' ],
                   '''
                   ''' ),
 
     'delisle' :
-        UnitInfo( 'temperature', 'delisle', 'degrees_delisle', 'De', [ 'degDe' ], [ 'obsolete' ],
+        UnitInfo( 'temperature', 'delisle', 'degrees_delisle', 'De', [ 'degD', 'degreesD' ], [ 'obsolete' ],
                   '''
                   ''' ),
 
     'fahrenheit' :
-        UnitInfo( 'temperature', 'fahrenheit', 'degrees_fahrenheit', '', [ 'fahr', 'degF' ], [ 'US', 'traditional' ],
+        UnitInfo( 'temperature', 'fahrenheit', 'degrees_fahrenheit', '', [ 'fahr', 'degF', 'degreesF' ], [ 'US', 'traditional' ],
                   '''
                   ''' ),
 
     'kelvin' :
-        UnitInfo( 'temperature', 'kelvin', 'degrees_kelvin', 'K', [ 'degK' ], [ 'SI' ],
+        UnitInfo( 'temperature', 'kelvin', 'degrees_kelvin', 'K', [ 'degK', 'degreesK' ], [ 'SI' ],
                   '''
                   ''' ),
 
     'rankine' :
-        UnitInfo( 'temperature', 'rankine', 'degrees_rankine', 'R', [ 'degR' ], [ 'obsolete' ],
+        UnitInfo( 'temperature', 'rankine', 'degrees_rankine', 'R', [ 'degR', 'degreesR' ], [ 'obsolete' ],
                   '''
                   ''' ),
 
     'reaumur' :
-        UnitInfo( 'temperature', 'reaumur', 'degrees_reaumur', 'Re', [ 'degRe' ], [ 'obsolete' ],
+        UnitInfo( 'temperature', 'reaumur', 'degrees_reaumur', 'Re', [ 'degRe', 'degreesRe' ], [ 'obsolete' ],
                   '''
                   ''' ),
 
     'romer' :
-        UnitInfo( 'temperature', 'romer', 'degrees_romer', 'Ro', [ 'defRo' ], [ 'obsolete' ],
+        UnitInfo( 'temperature', 'romer', 'degrees_romer', 'Ro', [ 'degRo', 'degreesRo' ], [ 'obsolete' ],
                   '''
                   ''' ),
 
