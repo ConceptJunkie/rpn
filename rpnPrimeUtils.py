@@ -145,23 +145,36 @@ def isPrime( arg ):
 # //
 # //  getNextPrimeCandidate
 # //
+# //  p is the next prime candidate.  Starting with ( p - 10 ) mod 30, we only
+# //  need to check 8 values out of the next 30, which eliminates all multiples
+# //  of 2, 3 and 5, and saves us a lot of unnecessary checking.
+# //
+# //  We only need to check for a prime if ( p - 10 ) mod 30 is 1, 3, 7, 9, 13, 19,
+# //  21 or 27.
+# //
 # //******************************************************************************
 
-def getNextPrimeCandidate( p, f ):
+def getNextPrimeCandidate( p ):
+    f = ( p - 10 ) % 30
+
     if f == 1:
         p += 2
-        f = 3
     elif f == 3:
         p += 4
-        f = 7
     elif f == 7:
         p += 2
-        f = 9
-    else:
+    elif f == 9:
+        p += 4
+    elif f == 13:
+        p += 6
+    elif f == 19:
         p += 2
-        f = 1
+    elif f == 21:
+        p += 6
+    else:  # f == 27
+        p += 4
 
-    return p, f
+    return p
 
 
 # //******************************************************************************
@@ -170,13 +183,13 @@ def getNextPrimeCandidate( p, f ):
 # //
 # //******************************************************************************
 
-def getNextPrime( p, f, func=getNextPrimeCandidate ):
-    p, f = getNextPrimeCandidate( p, f )
+def getNextPrime( p, func=getNextPrimeCandidate ):
+    p = func( p )
 
     while not isPrime( p ):
-        p, f = func( p, f )
+        p = func( p )
 
-    return p, f
+    return p
 
 
 # //******************************************************************************
@@ -222,10 +235,8 @@ def getNthPrime( arg ):
         currentIndex = 4
         p = 7
 
-    f = p % 10
-
     while n > currentIndex:
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
         currentIndex += 1
 
     if updateDicts:
@@ -273,10 +284,8 @@ def findPrime( arg ):
         currentIndex = max( key for key in largePrimes if largePrimes[ key ] <= target )
         p = largePrimes[ currentIndex ]
 
-    f = p % 10
-
     while True:
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
         currentIndex += 1
 
         if p >= target:
@@ -391,10 +400,8 @@ def getNthIsolatedPrime( arg ):
         currentIndex = 2
         p = 23
 
-    f = p % 10
-
     while n > currentIndex:
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
 
         if not isPrime( p - 2 ) and not isPrime( p + 2 ):
             currentIndex += 1
@@ -409,20 +416,22 @@ def getNthIsolatedPrime( arg ):
 # //
 # //  getNextTwinPrimeCandidate
 # //
+# //  Looking at ( p - 10 ) mod 30, the only twin prime candidates are 1, 7,
+# //  and 19.
+# //
 # //******************************************************************************
 
-def getNextTwinPrimeCandidate( p, f ):
+def getNextTwinPrimeCandidate( p ):
+    f = ( p - 10 ) % 30
+
     if f == 1:
         p += 6
-        f = 7
     elif f == 7:
-        p += 2
-        f = 9
-    else:
-        p += 2
-        f = 1
+        p += 12
+    else:  # f == 19
+        p += 12
 
-    return p, f
+    return p
 
 
 # //******************************************************************************
@@ -462,10 +471,8 @@ def getNthTwinPrime( arg ):
         currentIndex = 3
         p = 11
 
-    f = p % 10
-
     while n > currentIndex:
-        p, f = getNextPrime( p, f, getNextTwinPrimeCandidate )
+        p = getNextPrime( p, getNextTwinPrimeCandidate )
 
         if isPrime( p + 2 ):
             currentIndex += 1
@@ -527,10 +534,8 @@ def getNthBalancedPrime( arg ):
         prevPrime = 7
         secondPrevPrime = 5
 
-    f = p % 10
-
     while n > currentIndex:
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
 
         if ( prevPrime - secondPrevPrime ) == ( p - prevPrime ):
             currentIndex += 1
@@ -553,10 +558,9 @@ def getNthBalancedPrime( arg ):
 
 def getNthBalancedPrimeList( arg ):
     p = getNthBalancedPrime( arg )
-    f = p % 10
 
-    q, f = getNextPrime( p, f )
-    r, f = getNextPrime( q, f )
+    q = getNextPrime( p )
+    r = getNextPrime( q )
 
     return [ p, q, r ]
 
@@ -591,16 +595,15 @@ def getNthDoubleBalancedPrime( arg, first = False ):
     primes = [ ]
 
     p = doubleBalancedPrimes[ currentIndex ]
-    f = p % 10
 
     primes = [ p ]
 
     for i in range( 0, 4 ):
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
         primes.append( p )
 
     while n > currentIndex:
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
 
         primes.append( p )
         del primes[ 0 ]
@@ -627,10 +630,8 @@ def getNthDoubleBalancedPrimeList( arg ):
     p = getNthDoubleBalancedPrime( arg, first=True )
     result = [ p ]
 
-    f = p % 10
-
     for i in range( 0, 4 ):
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
         result.append( p )
 
     return result
@@ -665,16 +666,15 @@ def getNthTripleBalancedPrime( arg, first = False ):
     currentIndex = max( key for key in tripleBalancedPrimes if key <= n )
 
     p = tripleBalancedPrimes[ currentIndex ]
-    f = p % 10
 
     primes = [ p ]
 
     for i in range( 0, 6 ):
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
         primes.append( p )
 
     while n > currentIndex:
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
 
         primes.append( p )
         del primes[ 0 ]
@@ -702,10 +702,8 @@ def getNthTripleBalancedPrimeList( arg ):
     p = getNthTripleBalancedPrime( arg, first=True )
     result = [ p ]
 
-    f = p % 10
-
     for i in range( 0, 6 ):
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
         result.append( p )
 
     return result
@@ -748,10 +746,8 @@ def getNthSophiePrime( arg ):
         currentIndex = 4
         p = 11
 
-    f = p % 10
-
     while n > currentIndex:
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
 
         if isPrime( 2 * p + 1 ):
             currentIndex += 1
@@ -794,10 +790,8 @@ def getNthCousinPrime( arg ):
         currentIndex = 2
         p = 7
 
-    f = p % 10
-
     while n > currentIndex:
-        p, f = getNextPrime( p, f )
+        p = getNextPrime( p )
 
         if isPrime( p + 4 ):
             currentIndex += 1
@@ -823,20 +817,28 @@ def getNthCousinPrimeList( arg ):
 # //
 # //  getNextSexyPrimeCandidate
 # //
+# //  For a number ( p - 10 ) mod 30, the only sexy candidates are 1, 3, 7, 13,
+# //  21 and 27.
+# //
 # //******************************************************************************
 
-def getNextSexyPrimeCandidate( p, f ):
+def getNextSexyPrimeCandidate( p ):
+    f = ( p - 10 ) % 30
+
     if f == 1:
         p += 2
-        f = 3
     elif f == 3:
         p += 4
-        f = 7
-    else:
+    elif f == 7:
+        p += 6
+    elif f == 13:
+        p += 8
+    elif f == 21:
+        p += 6
+    else:   # f == 27
         p += 4
-        f = 1
 
-    return p, f
+    return p
 
 
 # //******************************************************************************
@@ -871,10 +873,8 @@ def getNthSexyPrime( arg ):
         startingPlace = 2
         p = 7
 
-    f = p % 10
-
     while n > startingPlace:
-        p, f = getNextPrime( p, f, getNextSexyPrimeCandidate )
+        p = getNextPrime( p, getNextSexyPrimeCandidate )
 
         if isPrime( p + 6 ):
             n -= 1
@@ -1094,26 +1094,32 @@ def getNthTripletPrime( arg ):
 
 def getNthTripletPrimeList( arg ):
     p = int( getNthTripletPrime( arg )[ 0 ] )
-    f = p % 10
 
-    return [ p, getNextPrime( p, f )[ 0 ], fadd( p, 6 ) ]
+    return [ p, getNextPrime( p )[ 0 ], fadd( p, 6 ) ]
 
 
 # //******************************************************************************
 # //
 # //  getNextQuintupletPrimeCandidate
 # //
+# //  For ( p - 10 ) mod 30 , the only quintuplet prime candidates are:
+# //  1, 7, 21, or 27
+# //
 # //******************************************************************************
 
-def getNextQuintupletPrimeCandidate( p, f ):
+def getNextQuintupletPrimeCandidate( p ):
+    f = ( p - 10 ) % 30
+
     if f == 1:
         p += 6
-        f = 7
-    else:
+    elif f == 7:
+        p += 14
+    elif f == 21:
+        p += 6
+    else:  # f == 27
         p += 4
-        f = 1
 
-    return p, f
+    return p
 
 
 # //******************************************************************************
@@ -1162,11 +1168,11 @@ def getNthQuintupletPrime( arg ):
         currentIndex = 3
         p = 11
 
-    f = p % 10
-
     # after 5, the first of a prime quintruplet must be a number of the form 30n + 11
     while n > currentIndex:
-        p, f = getNextPrime( p, f, getNextQuintupletPrimeCandidate )
+        p = getNextPrime( p, getNextQuintupletPrimeCandidate )
+
+        f = ( p - 10 ) % 30
 
         if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
            ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
@@ -1302,12 +1308,10 @@ def getNthPrimeRange( arg1, arg2 ):
         p = getNthPrime( n )
         result = [ p ]
 
-    f = p % 10
-
     found = 1
 
     while found < count:
-        p, f = getNextPrimeCandidate( p, f )
+        p = getNextPrimeCandidate( p )
 
         if isPrime( p ):
             result.append( p )
