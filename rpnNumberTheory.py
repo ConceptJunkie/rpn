@@ -74,24 +74,44 @@ def getDivisorCount( n ):
 
 # //******************************************************************************
 # //
+# //  createDivisorList
+# //
+# //******************************************************************************
+
+def createDivisorList( seed, factors ):
+    result = [ ]
+
+    factor, count = factors[ 0 ]
+
+    for i in range( count + 1 ):
+        divisor = [ ]
+        divisor.extend( seed )
+        divisor.extend( [ factor ] * i )
+
+        if len( factors ) > 1:
+            result.extend( createDivisorList( divisor, factors[ 1 : ] ) )
+        else:
+            result.extend( [ divisor ] )
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  getDivisors
 # //
 # //******************************************************************************
 
 def getDivisors( n ):
-    result = getExpandedFactorList( factor( n ) )
+    result = [ ]
 
-    result = [ list( i ) for i in
-               itertools.chain.from_iterable( itertools.combinations( result, r )
-               for r in range( 0, len( result ) + 1 ) ) ]
+    for i in createDivisorList( [ ], factor( n ) ):
+        if len( i ) == 0:
+            result.append( mpmathify( 1 ) )
+        else:
+            result.append( fprod( i ) )
 
-    from operator import mul
-    result = set( [ reduce( mul, i, 1 ) for i in result[ 1 : ] ] )
-    result.add( 1 )
-
-    result = sorted( list( result ) )
-
-    return result
+    return sorted( result )
 
 
 # //******************************************************************************
