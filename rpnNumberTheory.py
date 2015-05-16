@@ -91,7 +91,7 @@ def createDivisorList( seed, factors ):
         if len( factors ) > 1:
             result.extend( createDivisorList( divisor, factors[ 1 : ] ) )
         else:
-            result.extend( [ divisor ] )
+            result.extend( [ fprod( divisor ) ] )
 
     return result
 
@@ -103,15 +103,7 @@ def createDivisorList( seed, factors ):
 # //******************************************************************************
 
 def getDivisors( n ):
-    result = [ ]
-
-    for i in createDivisorList( [ ], factor( n ) ):
-        if len( i ) == 0:
-            result.append( mpmathify( 1 ) )
-        else:
-            result.append( fprod( i ) )
-
-    return sorted( result )
+    return sorted( createDivisorList( [ ], factor( n ) ) )
 
 
 # //******************************************************************************
