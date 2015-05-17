@@ -1289,7 +1289,7 @@ operators = {
     'output_radix'      : OperatorInfo( setOutputRadix, 1 ),
     'padovan'           : OperatorInfo( getNthPadovanNumber, 1 ),
     'parity'            : OperatorInfo( lambda n : getBitCount( n ) & 1, 1 ),
-    'pascal'            : OperatorInfo( getNthPascalLine, 1 ),
+    'pascaltri'         : OperatorInfo( getNthPascalLine, 1 ),
     'pell'              : OperatorInfo( getNthPellNumber, 1 ),
     'pentagonal'        : OperatorInfo( lambda n: getNthPolygonalNumber( n, 5 ), 1 ),
     'pentagonal?'       : OperatorInfo( lambda n: findNthPolygonalNumber( n, 5 ), 1 ),

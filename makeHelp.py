@@ -3826,7 +3826,7 @@ c:\>rpn omega
 ''',
 '''
 ''' ],
-    'pascal' : [
+    'pascaltri' : [
 'number_theory', 'calculates the nth line of Pascal\'s triangle',
 '''
 ''',
