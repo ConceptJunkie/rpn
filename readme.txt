@@ -42,6 +42,7 @@ Using rpn:
 
 rpn is very easy to use.  It's just like any RPN calculator:  Operands go first,
 then the operators.
+
 For instance:
 
     rpn 2 2 +
@@ -402,20 +403,20 @@ hexanacci hexpent hms hyper4_2 hyperfac hypot i icosahedral identify
 identify_mode imaginary infinity input_radix integer integer_grouping
 interleave intersection isdivisible iso_day isolated isprime issquare itoi
 jacobsthal january julian_day july june khinchin kynea labor_day lah lambertw
-leading_zero leading_zero_mode less leyland lgamma li limit limitn linearrecur
-ln log10 log2 logxy long longlong lucas makecf makeisotime makejuliantime
-makepyth3 makepyth4 maketime march max maxchar maxdouble maxfloat maxindex
-maxlong maxlonglong maxquadlong maxshort maxuchar maxulong maxulonglong
-maxuquadlong maxushort may mean memorial_day mertens mills min minchar
-mindouble minfloat minindex minlong minlonglong minquadlong minshort minuchar
-minulong minulonglong minuquadlong minushort modulo monday motzkin multiply
-name narayana negative negative_infinity nint nonagonal nonagonal? nonahept
-nonahex nonaoct nonapent nonasquare nonatri nonzero not not_equal not_greater
-not_less november now nprod nspherearea nsphereradius nspherevolume nsum
-nthprime? nthquad? nthweekday nthweekdayofyear octagonal octagonal? octahedral
-octal_mode octhept octhex october octpent octsquare octtri oeis oeiscomment
-oeisex oeisname omega or output_radix pack padovan parity pascal pell
-pentagonal pentagonal? pentanacci pentatope perm phi pi plastic plot plot2
+leading_zero leading_zero_mode lcm less leyland lgamma li limit limitn
+linearrecur ln log10 log2 logxy long longlong lucas makecf makeisotime
+makejuliantime makepyth3 makepyth4 maketime march max maxchar maxdouble
+maxfloat maxindex maxlong maxlonglong maxquadlong maxshort maxuchar maxulong
+maxulonglong maxuquadlong maxushort may mean memorial_day mertens mills min
+minchar mindouble minfloat minindex minlong minlonglong minquadlong minshort
+minuchar minulong minulonglong minuquadlong minushort modulo monday motzkin
+multiply name narayana negative negative_infinity nint nonagonal nonagonal?
+nonahept nonahex nonaoct nonapent nonasquare nonatri nonzero not not_equal
+not_greater not_less november now nprod nspherearea nsphereradius nspherevolume
+nsum nthprime? nthquad? nthweekday nthweekdayofyear octagonal octagonal?
+octahedral octal_mode octhept octhex october octpent octsquare octtri oeis
+oeiscomment oeisex oeisname omega or output_radix pack padovan parity pascal
+pell pentagonal pentagonal? pentanacci pentatope perm phi pi plastic plot plot2
 plotc polyadd polyarea polygamma polygonal polygonal? polylog polymul polyprime
 polyprod polysum polytope polyval power precision presidents_day previous
 prevost prime prime? primepi primes primorial product pyramid quadprime
