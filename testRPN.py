@@ -315,7 +315,7 @@ def runTests( ):
     testRPN( 'rpn 45 67 egypt' )
 
     testRPN( 'rpn 1 10 range 5 element' )
-    testRPN( 'rpn -p200 1 100 range fib 55 element' )
+    testRPN( 'rpn -a25 1 100 range fib 55 element' )
 
     testRPN( 'rpn 150 amps estimate' )
     testRPN( 'rpn 150 barns estimate' )
