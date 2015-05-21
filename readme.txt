@@ -10,12 +10,12 @@ units program.
 
 ****
 
-The current version is 6.2.0.
+The current version is 6.3.0.
 
 Installers for Windows can be found here:
 
-https://www.strongspace.com/conceptjunkie/public/setup_rpn-6.2.0-win32.exe
-https://www.strongspace.com/conceptjunkie/public/setup-rpn-6.2.0-win64.exe
+https://www.strongspace.com/conceptjunkie/public/setup_rpn-6.3.0-win32.exe
+https://www.strongspace.com/conceptjunkie/public/setup-rpn-6.3.0-win64.exe
 
 rpn is a console app and can be launched from the command-line.  However,
 there is now an "interactive mode" and an icon to launch rpn for Windows users.
@@ -51,15 +51,14 @@ For instance:
 
     rpn 2 2 +
 
-will calculate 2 + 2.  "rpn _dumpops" is an internal command that will list
-all the implemented operators for the curious.  They are also listed in the
-help text.
+will calculate 2 + 2.
 
-rpn supports more than 400 operators.  The entire list is included at the
-bottom of this document.
+rpn supports more than 430 operators.  ('rpn _dumpops' will list them all.)
+The entire list is also included at the bottom of this document.
 
 rpn has pretty extensive built-in help, although the help files are not
-complete yet.
+complete.  However, all operators are described, and most are obvious enough to
+use easily.
 
 Start with "rpn help" for an overview.  To dive right in, see "rpn help
 examples".  In interactive mode, typing "help" will launch help mode.   Then,
@@ -67,7 +66,7 @@ examples".  In interactive mode, typing "help" will launch help mode.   Then,
 
 makeRPNPrimes.py consists of a bunch of functions for pre-calculating and
 caching different kinds of prime numbers that was recently pulled out of rpn.py
-(and as of version 6.0.0 isn't finished as a standalone program).
+(and as of version 6.3.0 isn't finished as a standalone program).
 
 The data files are stored in the same location as rpn.py in a subdirectory
 called rpndata/.  In the Windows installer version, they are stored in the same
@@ -76,7 +75,7 @@ directory as the EXE.
 If you really want to generate prime numbers, see my "primes" project:
 https://github.com/ConceptJunkie/primes
 
-rpn also provides a simple interface for querying The On-Line Encyclopedia of
+rpn also provides a simple interface for accessing The On-Line Encyclopedia of
 Integer Sequences (http://oeis.org).
 
 Feedback, Comments, Bug Reports:
@@ -94,6 +93,34 @@ p.s. rpn is licensed under the GNU GPL version 3.0.  See (see
 <http://www.gnu.org/licenses/gpl.html> for more information).
 
 Release Notes:
+
+6.3.0
+
+Added the 'geomean' operator.
+
+Added the 'argument' and 'conjugate' operators.
+
+Fixed 'trianglearea'.  It's been wrong for a long time.  Sorry.
+
+Added the 'fibonorial' operator.
+
+Added the 'eulerbrick' operator.
+
+Added the 'unlist' operator.
+
+Added the 'makepyth3' and 'makepyth4' operators.
+
+Added the 'equal', 'greater', 'less', 'not_equal', 'not_greater', and
+'not_less' operators.
+
+Added the 'reduce' operator.
+
+Added the 'geomean', 'argument', 'conjugate', 'lcm' operators.
+
+The 'pascal' operator was renamed to 'pascaltri' to avoid a collision with
+the 'pascal' unit.
+
+Fixed several minor bugs.
 
 6.2.0
 
