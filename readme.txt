@@ -115,7 +115,7 @@ Added the 'equal', 'greater', 'less', 'not_equal', 'not_greater', and
 
 Added the 'reduce' operator.
 
-Added the 'geomean', 'argument', 'conjugate', 'lcm' operators.
+Added the 'lcm' operator.
 
 The 'pascal' operator was renamed to 'pascaltri' to avoid a collision with
 the 'pascal' unit.
