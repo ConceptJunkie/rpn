@@ -778,6 +778,10 @@ The 'pascal' operator was renamed to 'pascaltri' to avoid a collision with
 the 'pascal' unit.
 
 Fixed several minor bugs.
+
+6.4.0
+
+Added the 'frobenius', 'slice', 'sublist', 'left' and 'right' operators.
     ''',
     'license' :
     '''
@@ -2872,6 +2876,20 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
+    'left' : [
+'list_operators', 'returns the left k items from list n',
+'''
+''',
+'''
+c:\>rpn 1 10 range 6 left
+[ 1, 2, 3, 4, 5, 6 ]
+
+c:\>rpn 1 10 range 4 left
+[ 1, 2, 3, 4 ]
+
+c:\>rpn 1 10 range 1 4 range left
+[ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
+''' ],
     'less' : [
 'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
 '''
@@ -4267,6 +4285,20 @@ denominator of the whole list.
 ''',
 '''
 ''' ],
+    'right' : [
+'list_operators', 'returns the right k items from list n',
+'''
+''',
+'''
+c:\>rpn 1 10 range 6 right
+[ 5, 6, 7, 8, 9, 10 ]
+
+c:\>rpn 1 10 range 4 right
+[ 7, 8, 9, 10 ]
+
+c:\>rpn 1 10 range 1 4 range right
+[ [ 10 ], [ 9, 10 ], [ 8, 9, 10 ], [ 7, 8, 9, 10 ] ]
+''' ],
     'robbins' : [
 'constants', 'returns Robbins\' constant',
 '''
@@ -4457,6 +4489,49 @@ c:\>rpn 3 4 i + sign
 ''',
 '''
 ''' ],
+    'slice' : [
+'list_operators', 'returns a slice of list a from starting index b to ending index c',
+'''
+Indices are zero-based, and the ending index is not included in the slice.
+This functionality echoes the Python slicing semantics.  As in Python, a
+negative ending index represents counting backwards from the end of the list.
+
+The starting and ending indices can, of course, be lists, and if they
+are multiple lists will be returned iterating through one or both of the
+operands as needed.
+''',
+'''
+c:\>rpn 1 10 range 0 5 slice
+[ 1, 2, 3, 4, 5 ]
+
+c:\>rpn 1 10 range 5 10 slice
+[ 6, 7, 8, 9, 10 ]
+
+c:\>rpn 1 10 range 2 -1 slice
+[ 3, 4, 5, 6, 7, 8, 9 ]
+
+c:\>rpn 1 10 range 2 -2 slice
+[ 3, 4, 5, 6, 7, 8 ]
+
+c:\>rpn 1 10 range 0 4 range 6 8 range slice -s1
+[
+[ 1, 2, 3, 4, 5, 6 ],
+[ 1, 2, 3, 4, 5, 6, 7 ],
+[ 1, 2, 3, 4, 5, 6, 7, 8 ],
+[ 2, 3, 4, 5, 6 ],
+[ 2, 3, 4, 5, 6, 7 ],
+[ 2, 3, 4, 5, 6, 7, 8 ],
+[ 3, 4, 5, 6 ],
+[ 3, 4, 5, 6, 7 ],
+[ 3, 4, 5, 6, 7, 8 ],
+[ 4, 5, 6 ],
+[ 4, 5, 6, 7 ],
+[ 4, 5, 6, 7, 8 ],
+[ 5, 6 ],
+[ 5, 6, 7 ],
+[ 5, 6, 7, 8 ],
+]
+''' ],
     'solve' : [
 'algebra', 'interprets list n as a polynomial and solves for its roots',
 '''
@@ -4574,6 +4649,51 @@ c:\>rpn 1 8 range steloct
 '''
 ''',
 '''
+''' ],
+    'sublist' : [
+'list_operators', 'returns a sublist of list a from starting index b consisting of c items',
+'''
+The index is zero-based.  If c items cannot be returned, then however many
+existing items will be returned instead.
+
+The starting index and count operands can, of course, be lists, and if they
+are multiple lists will be returned iterating through one or both of the
+operands as needed.
+''',
+'''
+c:\>rpn 1 10 range 0 5 sublist
+[ 1, 2, 3, 4, 5 ]
+
+c:\>rpn 1 10 range 1 5 sublist
+[ 2, 3, 4, 5, 6 ]
+
+c:\>rpn 1 10 range 1 3 sublist
+[ 2, 3, 4 ]
+
+Print multiple sublists of 3 items each starting with the first 5 items in
+the list:
+
+c:\>rpn 1 10 range 0 4 range 3 sublist
+[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], [ 4, 5, 6 ], [ 5, 6, 7 ] ]
+
+Print multiple sublists of 1 to 3 items, inclusive, starting with the first
+4 items in the list:
+
+c:\>rpn 1 10 range 0 3 range 1 3 range sublist -s1
+[
+[ 1 ],
+[ 1, 2 ],
+[ 1, 2, 3 ],
+[ 2 ],
+[ 2, 3 ],
+[ 2, 3, 4 ],
+[ 3 ],
+[ 3, 4 ],
+[ 3, 4, 5 ],
+[ 4 ],
+[ 4, 5 ],
+[ 4, 5, 6 ],
+]
 ''' ],
     'subtract' : [
 'arithmetic', 'subtracts k from n',

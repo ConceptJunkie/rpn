@@ -295,6 +295,92 @@ def getListElement( arg, index ):
 
 # //******************************************************************************
 # //
+# //  getSlice
+# //
+# //******************************************************************************
+
+def getSlice( arg, start, end ):
+    if isinstance( arg, list ):
+        slist = isinstance( start, list )
+        elist = isinstance( end, list )
+
+        if slist:
+            if elist:
+                return [ getSlice( arg, i, j ) for i in start for j in end ]
+            else:
+                return [ getSlice( arg, i, end ) for i in start ]
+        else:
+            if elist:
+                return [ getSlice( arg, start, i ) for i in end ]
+            else:
+                return arg[ int( start ) : int( end ) ]
+    else:
+        return arg
+        # TODO: raise an exception for slicing a non-list
+
+
+# //******************************************************************************
+# //
+# //  getSublist
+# //
+# //******************************************************************************
+
+def getSublist( arg, start, count ):
+    if isinstance( arg, list ):
+        slist = isinstance( start, list )
+        clist = isinstance( count, list )
+
+        if slist:
+            if clist:
+                return [ getSublist( arg, i, j ) for i in start for j in count ]
+            else:
+                return [ getSublist( arg, i, count ) for i in start ]
+        else:
+            if clist:
+                return [ getSublist( arg, start, i ) for i in count ]
+            else:
+                return arg[ int( start ) : int( start + count ) ]
+    else:
+        return arg
+        # TODO: raise an exception for sublisting a non-list
+
+
+# //******************************************************************************
+# //
+# //  getLeft
+# //
+# //******************************************************************************
+
+def getLeft( arg, count ):
+    if isinstance( arg, list ):
+        if isinstance( count, list ):
+            return [ getLeft( arg, i ) for i in count ]
+        else:
+            return arg[ : int( count ) ]
+    else:
+        return arg
+        # TODO: raise an exception for slicing a non-list
+
+
+# //******************************************************************************
+# //
+# //  getRight
+# //
+# //******************************************************************************
+
+def getRight( arg, count ):
+    if isinstance( arg, list ):
+        if isinstance( count, list ):
+            return [ getRight( arg, i ) for i in count ]
+        else:
+            return arg[ len( arg ) - int( count ) : ]
+    else:
+        return arg
+        # TODO: raise an exception for slicing a non-list
+
+
+# //******************************************************************************
+# //
 # //  countElements
 # //
 # //******************************************************************************
@@ -581,45 +667,6 @@ def getProduct( n ):
             return [ getProduct( item ) for item in n ]
         else:
             return fprod( n )
-
-
-# //******************************************************************************
-# //
-# //  getGCDForTwo
-# //
-# //******************************************************************************
-
-def getGCDForTwo( a, b ):
-    a, b = fabs( a ), fabs( b )
-
-    while a:
-        b, a = a, fmod( b, a )
-
-    return b
-
-
-# //******************************************************************************
-# //
-# //  getGCD
-# //
-# //******************************************************************************
-
-def getGCD( args ):
-    if isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ getGCD( arg ) for arg in args ]
-        else:
-            result = max( args )
-
-            for pair in itertools.permutations( args, 2 ):
-                gcd = getGCDForTwo( *pair )
-
-                if gcd < result:
-                    result = gcd
-
-                return result
-    else:
-        return args
 
 
 # //******************************************************************************

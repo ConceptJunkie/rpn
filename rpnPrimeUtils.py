@@ -762,6 +762,10 @@ def getNthSophiePrime( arg ):
 # //
 # //  getNthCousinPrime
 # //
+# //  http://oeis.org/A023200
+# //
+# //  Validate: rpn 1 52 range cousin 23200 oeis  -
+# //
 # //******************************************************************************
 
 def getNthCousinPrime( arg ):

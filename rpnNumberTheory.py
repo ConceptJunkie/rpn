@@ -624,3 +624,111 @@ def getNthFibonorial( n ):
     return result
 
 
+# //******************************************************************************
+# //
+# //  getGCDForTwo
+# //
+# //******************************************************************************
+
+def getGCDForTwo( a, b ):
+    a, b = fabs( a ), fabs( b )
+
+    while a:
+        b, a = a, fmod( b, a )
+
+    return b
+
+
+# //******************************************************************************
+# //
+# //  getGCD
+# //
+# //  'gcd' is a list operator
+# //
+# //******************************************************************************
+
+def getGCD( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getGCD( arg ) for arg in args ]
+        else:
+            result = max( args )
+
+            for pair in itertools.combinations( args, 2 ):
+                gcd = getGCDForTwo( *pair )
+
+                if gcd < result:
+                    result = gcd
+
+            return result
+    else:
+        return args
+
+
+# //******************************************************************************
+# //
+# //  getFrobeniusNumber
+# //
+# //  adapted from http://ccgi.gladman.plus.com/wp/?page_id=1500
+# //
+# //  Since this is classified as a list operator, it has to behave like the
+# //  other operators in rpnList.py.
+# //
+# //******************************************************************************
+
+def getFrobeniusNumber( args ):
+    '''
+    http://ccgi.gladman.plus.com/wp/?page_id=1500
+
+    For the integer sequence (a[0], a[1], ...) with a[0] < a[1] < ... < a[n],
+    return the largest number, N, that cannot be expressed in the form:
+    N = sum(m[i] * x[i]) where all m[i] are non-negative integers.
+
+    >>> frobenius_number((9949, 9967, 9973))
+    24812836
+
+    >>> frobenius_number((6, 9, 20))
+    43
+
+    >>> frobenius_number((5, 8, 15))
+    27
+
+    frobenius_number((5, 8, 9, 12))
+    11
+    '''
+
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getFrobeniusNumber( arg ) for arg in args ]
+        else:
+            a = [ ]
+
+            if getGCD( args ) > 1:
+                raise ValueError( "the 'frobenius' operator is only valid for lists of values that contain at least one pair of coprime values" )
+
+            for i in sorted( args ):
+                a.append( int( i ) )
+
+            def __residue_table( a ):
+                n = [ 0 ] + [ None ] * ( a[ 0 ] - 1 )
+
+                for i in range( 1, len( a ) ):
+                    d = int( getGCDForTwo( a[ 0 ], a[ i ] ) )
+                    for r in range( d ):
+                        try:
+                            nn = min( n[ q ] for q in range( r, a[ 0 ], d ) if n[ q ] is not None )
+                        except ValueError:
+                            continue
+
+                        if nn is not None:
+                            for c in range( a[ 0 ] // d ):
+                                nn += a[ i ]
+                                p = nn % a[ 0 ]
+                                nn = min( nn, n[ p ] ) if n[ p ] is not None else nn
+                                n[ p ] = nn
+                return [ i for i in n if not i is None ]
+
+            return max( __residue_table( sorted( a ) ) ) - min( a )
+    else:
+        return 1 if args > 1 else -1
+
