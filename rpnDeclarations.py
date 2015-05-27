@@ -290,6 +290,7 @@ operatorAliases = {
     'mod'           : 'modulo',
     'mon'           : 'monday',
     'mult'          : 'multiply',
+    'n'             : 'x',
     'neg'           : 'negative',
     'ninf'          : 'negative_infinity',
     'non'           : 'nonagonal',
