@@ -2468,6 +2468,12 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
+    'frobenius' : [
+'number_theory', 'calculates the frobenius number of a list of values with gcd > 1'
+'''
+''',
+'''
+''' ],
     'fromunixtime' : [
 'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
 '''
@@ -3881,6 +3887,12 @@ c:\>rpn omega
 ''' ],
     'pentatope' : [
 'polyhedral_numbers', 'calculates the nth pentatope number',
+'''
+''',
+'''
+''' ],
+    'pentsquare' : [
+'polygonal_numbers', 'calculates the nth pentagonal square number',
 '''
 ''',
 '''

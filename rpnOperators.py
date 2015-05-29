@@ -1300,6 +1300,8 @@ operators = {
     'pentagonal?'       : OperatorInfo( lambda n: findNthPolygonalNumber( n, 5 ), 1 ),
     'pentanacci'        : OperatorInfo( getNthPentanacci, 1 ),
     'pentatope'         : OperatorInfo( getNthPentatopeNumber, 1 ),
+    'pentsquare'        : OperatorInfo( getNthPentagonalSquareNumber, 1 ),
+    'penttri'           : OperatorInfo( getNthPentagonalTriangularNumber, 1 ),
     'perm'              : OperatorInfo( getPermutations, 2 ),
     'phi'               : OperatorInfo( phi, 0 ),
     'pi'                : OperatorInfo( pi, 0 ),

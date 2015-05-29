@@ -305,6 +305,7 @@ operatorAliases = {
     'octa?'         : 'octagonal?',
     'p!'            : 'primorial',
     'pent'          : 'pentagonal',
+    'pentsqr'       : 'pentsquare',
     'pent?'         : 'pentagonal?',
     'poly'          : 'polygonal',
     'poly?'         : 'polygonal?',

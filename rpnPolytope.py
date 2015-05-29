@@ -82,6 +82,30 @@ def findCenteredPolygonalNumber( n, k ):
 
 # //******************************************************************************
 # //
+# //  getNthPentagonalTriangularNumber
+# //
+# //  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/LRGF.html
+# //
+# //******************************************************************************
+
+def getNthPentagonalTriangularNumber( n ):
+    return getNthLinearRecurrence( [ 1, -195, 195 ], [ 1, 210, 40755 ], n )
+
+
+# //******************************************************************************
+# //
+# //  getNthPentagonalSquareNumber
+# //
+# //  http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/LRGF.html
+# //
+# //******************************************************************************
+
+def getNthPentagonalSquareNumber( n ):
+    return getNthLinearRecurrence( [ 1, -9603, 9603 ], [ 1, 9801, 94109401 ], n )
+
+
+# //******************************************************************************
+# //
 # //  getNthHexagonalSquareNumber
 # //
 # //  http://oeis.org/A046177
