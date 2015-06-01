@@ -3897,6 +3897,12 @@ c:\>rpn omega
 ''',
 '''
 ''' ],
+    'penttri' : [
+'polygonal_numbers', 'calculates the nth pentagonal triangular number',
+'''
+''',
+'''
+''' ],
     'percent' : [
 'arithmetic', 'represents n as a percent (i.e., n / 100)',
 '''
@@ -4838,7 +4844,7 @@ This is defined for convenience for use with date operators.
 '''
 ''' ],
     'tounixtime' : [
-'conversion', 'converts from date-time list to Unix time (seconds since epoch)'
+'conversion', 'converts from date-time list to Unix time (seconds since epoch)',
 '''
 ''',
 '''
@@ -4856,7 +4862,7 @@ This is defined for convenience for use with date operators.
 '''
 ''' ],
     'trianglearea' : [
-'trigonometry', 'calculates the area of a triangle with sides of length a, b, and c'
+'trigonometry', 'calculates the area of a triangle with sides of length a, b, and c',
 '''
 This operator uses Heron's formula, which takes the square root of the product
 of the semiperimeter and the respective differences of the semiperimeter and
