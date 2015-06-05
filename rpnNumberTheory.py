@@ -457,14 +457,13 @@ def getGreedyEgyptianFraction( n, d ):
 
 def getNthLinearRecurrence( recurrence, seeds, n ):
     if not isinstance( recurrence, list ):
-        recurrence = [ recurrence ]
+        return getNthLinearRecurrence( [ recurrence ], seeds, n )
 
     if not isinstance( seeds, list ):
-        seeds = [ seeds ]
+        return getNthLinearRecurrence( recurrence, [ seeds ], n )
 
     if len( seeds ) == 0:
-        raise ValueError( 'internal error:  for operator \'linearrecur\', '
-                          'seeds list cannot be empty ' )
+        raise ValueError( 'for operator \'linearrecur\', seeds list cannot be empty ' )
 
     # calculate missing seeds
     for i in range( len( seeds ), len( recurrence ) ):
@@ -626,39 +625,84 @@ def getNthFibonorial( n ):
 
 # //******************************************************************************
 # //
-# //  getGCDForTwo
-# //
-# //******************************************************************************
-
-def getGCDForTwo( a, b ):
-    a, b = fabs( a ), fabs( b )
-
-    while a:
-        b, a = a, fmod( b, a )
-
-    return b
-
-
-# //******************************************************************************
-# //
 # //  getGCD
 # //
-# //  'gcd' is a list operator
+# //  This function is intended to be used with two numerical values or a
+# //  single list of values.   The list can be recursive (to support the
+# //  'gcd' list operator), but if b is non-zero, then a and b must be single
+# //  values.
 # //
 # //******************************************************************************
 
-def getGCD( args ):
+def getGCD( a, b = 0 ):
+    if b != 0:
+        a, b = fabs( a ), fabs( b )
+
+        while a:
+            b, a = a, fmod( b, a )
+
+        return b
+
+    if not isinstance( a, list ):
+        return a
+
+    if isinstance( a[ 0 ], list ):
+        return [ getGCD( arg ) for arg in a ]
+    else:
+        result = max( a )
+
+        for pair in itertools.combinations( a, 2 ):
+            gcd = getGCD( *pair )
+
+            if gcd < result:
+                result = gcd
+
+        return result
+
+
+# //******************************************************************************
+# //
+# //  getExtendedGCD
+# //
+# //  adapted from http://ccgi.gladman.plus.com/wp/?page_id=1500
+# //
+# //******************************************************************************
+
+def getExtendedGCD( a, b ):
+    '''
+    Euclid's Extended GCD Algorithm
+
+    >>> xgcd(314159265, 271828186)
+    (-18013273, 20818432, 7)
+    '''
+    u, u1 = 1, 0
+    v, v1 = 0, 1
+
+    while b != 0:
+        q = floor( fdiv( a, b ) )
+        r = fmod( a, b )
+        a, b = b, r
+        u, u1 = u1, fsub( u, fmul( q, u1 ) )
+        v, v1 = v1, fsub( v, fmul( q, v1 ) )
+
+    return ( u, v, a ) if a > 0 else ( -u, -v, -a )
+
+
+# //******************************************************************************
+# //
+# //  getLCM
+# //
+# //******************************************************************************
+
+def getLCM( args ):
     if isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
-            return [ getGCD( arg ) for arg in args ]
+            return [ getLCM( arg ) for arg in args ]
         else:
-            result = max( args )
+            result = 1
 
-            for pair in itertools.combinations( args, 2 ):
-                gcd = getGCDForTwo( *pair )
-
-                if gcd < result:
-                    result = gcd
+            for arg in args:
+                result = result * arg / getGCD( result, arg )
 
             return result
     else:
@@ -713,7 +757,7 @@ def getFrobeniusNumber( args ):
                 n = [ 0 ] + [ None ] * ( a[ 0 ] - 1 )
 
                 for i in range( 1, len( a ) ):
-                    d = int( getGCDForTwo( a[ 0 ], a[ i ] ) )
+                    d = int( getGCD( a[ 0 ], a[ i ] ) )
                     for r in range( d ):
                         try:
                             nn = min( n[ q ] for q in range( r, a[ 0 ], d ) if n[ q ] is not None )
@@ -731,4 +775,81 @@ def getFrobeniusNumber( args ):
             return max( __residue_table( sorted( a ) ) ) - min( a )
     else:
         return 1 if args > 1 else -1
+
+
+
+
+# //******************************************************************************
+# //
+# //  def _crt(a, b, m, n):
+# //
+# //  Helper function for calculateChineseRemainderTheorem
+# //
+# //******************************************************************************
+
+def _crt( a, b, m, n ):
+    d = getGCD( m, n )
+
+    if fmod( fsub( a, b ), d ) != 0:
+        return None
+
+    x = floor( fdiv( m, d ) )
+    y = floor( fdiv( n, d ) )
+    z = floor( fdiv( fmul( m, n ), d ) )
+    p, q, r = getExtendedGCD( x, y )
+
+    return fmod( fadd( fprod( [ b, p, x ] ), fprod( [ a, q, y ] ) ), z )
+
+
+# //******************************************************************************
+# //
+# //  calculateChineseRemainderTheorem
+# //
+# //  adapted from http://ccgi.gladman.plus.com/wp/?page_id=1500
+# //
+# //  Since this is classified as a list operator, it has to behave like the
+# //  other operators in rpnList.py.
+# //
+# //******************************************************************************
+
+def calculateChineseRemainderTheorem( values, mods ):
+    '''
+    The Chinese Remainder Theorem (CRT)
+
+    Solve the equations x = a[i] mod m[i] for x
+
+    >>> crt((2, 3, 5, 7), (97, 101, 103, 107))
+    96747802
+    '''
+
+    if isinstance( values, list ) != isinstance( mods, list ):
+        raise ValueError( "the 'crt' operator requires arguments that are both lists" )
+
+    if not isinstance( values, list ):
+        return calculateChineseRemainderTheorem( [ values ], [ mods ] )
+
+    if isinstance( values[ 0 ], list ):
+        if isinstance( mods[ 0 ], list ):
+            return [ calculateChineseRemainderTheorem( i, j ) for i in values for j in mods ]
+        else:
+            return [ calculateChineseRemainderTheorem( values, j ) for j in mods ]
+    else:
+        if isinstance( mods[ 0 ], list ):
+            return [ calculateChineseRemainderTheorem( i , mods ) for i in values ]
+
+    if len( values ) != len( mods ):
+        raise ValueError( "the 'crt' operator requires arguments that are both lists of the same length" )
+
+    x = values[ 0 ]
+    mm = mods[ 0 ]
+
+    for i in range( 1, len( values ) ):
+        x = _crt( values[ i ], x, mods[ i ], mm )
+
+        if not x:
+            break
+
+        mm = getLCM( [ mods[ i ], mm ] )
+
+    return x
 

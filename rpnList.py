@@ -671,27 +671,6 @@ def getProduct( n ):
 
 # //******************************************************************************
 # //
-# //  getLCM
-# //
-# //******************************************************************************
-
-def getLCM( args ):
-    if isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ getLCM( arg ) for arg in args ]
-        else:
-            result = 1
-
-            for arg in args:
-                result = result * arg / getGCDForTwo( result, arg )
-
-            return result
-    else:
-        return args
-
-
-# //******************************************************************************
-# //
 # //  getStandardDeviation
 # //
 # //******************************************************************************

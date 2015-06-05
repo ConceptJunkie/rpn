@@ -782,6 +782,8 @@ Fixed several minor bugs.
 6.4.0
 
 Added the 'frobenius', 'slice', 'sublist', 'left' and 'right' operators.
+
+Added 'crt' operator.
     ''',
     'license' :
     '''
@@ -1955,11 +1957,29 @@ number.
 ''',
 '''
 ''' ],
+    'crt' : [
+'number_theory', 'calculates Chinese Remainder Theorem result of a list n of values and a list k of modulos',
+'''
+So using the Chinese Remainder Theorem, this function calculates a number that
+is equal to n[ x ] modulo k[ x ], where x iterating through the indices of each
+list (which must be the same size).
+''',
+'''
+''' ],
     'csc' : [
 'trigonometry', 'calculates the cosecant of n',
 '''
+The cosecant function is defined to be the reciprocal of the sine function.
 ''',
 '''
+c:\>rpn 36 degrees csc
+1.7013016167
+
+c:\>rpn 36 degrees csc 1/x
+0.587785252292
+
+c:\>rpn 36 degrees sin
+0.587785252292
 ''' ],
     'csch' : [
 'trigonometry', 'calculates hyperbolic cosecant of n',

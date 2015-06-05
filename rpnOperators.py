@@ -974,6 +974,7 @@ listOperators = {
     'cf'                : OperatorInfo( convertFromContinuedFraction, 1 ),
     'convert'           : OperatorInfo( convertUnits, 2 ),
     'count'             : OperatorInfo( countElements, 1 ),
+    'crt'               : OperatorInfo( calculateChineseRemainderTheorem, 2 ),
     'diffs'             : OperatorInfo( getListDiffs, 1 ),
     'diffs2'            : OperatorInfo( getListDiffsFromFirst, 1 ),
     'element'           : OperatorInfo( getListElement, 2 ),
