@@ -1405,7 +1405,7 @@ operators = {
     'triplebal'         : OperatorInfo( getNthTripleBalancedPrime, 1 ),
     'triplebal_'        : OperatorInfo( getNthTripleBalancedPrimeList, 1 ),
     'tripletprime'      : OperatorInfo( getNthTripletPrime, 1 ),
-    'tripletprime'      : OperatorInfo( getNthTripletPrimeList, 1 ),
+    'tripletprime_'     : OperatorInfo( getNthTripletPrimeList, 1 ),
     'true'              : OperatorInfo( lambda: 1, 0 ),
     'truncoct'          : OperatorInfo( getNthTruncatedOctahedralNumber, 1 ),
     'trunctet'          : OperatorInfo( getNthTruncatedTetrahedralNumber, 1 ),

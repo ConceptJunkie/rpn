@@ -1028,11 +1028,11 @@ def getNthSexyQuadrupletList( arg ):
 
 # //******************************************************************************
 # //
-# //  getNthTripletPrime
+# //  getNthTripletPrimeList
 # //
 # //******************************************************************************
 
-def getNthTripletPrime( arg ):
+def getNthTripletPrimeList( arg ):
     global tripletPrimes
     global updateDicts
 
@@ -1087,19 +1087,17 @@ def getNthTripletPrime( arg ):
     if updateDicts:
         tripletPrimes[ int( arg ) ] = p
 
-    return [ p, p + 2 if pPlus2 else 4, p + 6 ]
+    return [ p, p + 2 if pPlus2 else p + 4, p + 6 ]
 
 
 # //******************************************************************************
 # //
-# //  getNthTripletPrimeList
+# //  getNthTripletPrime
 # //
 # //******************************************************************************
 
-def getNthTripletPrimeList( arg ):
-    p = int( getNthTripletPrime( arg )[ 0 ] )
-
-    return [ p, getNextPrime( p )[ 0 ], fadd( p, 6 ) ]
+def getNthTripletPrime( arg ):
+    return getNthTripletPrimeList( arg )[ 0 ]
 
 
 # //******************************************************************************

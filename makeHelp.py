@@ -4948,17 +4948,35 @@ c:\>rpn 10 triplebal_ diffs
     'tripletprime' : [
 'prime_numbers', 'returns the first of the nth set of triplet primes',
 '''
+A set of triplet primes are three prime numbers that are as close as they
+can be, either n, n + 2, n + 6, or n, n + 4, n + 6.  This operator returns
+only the first prime of the triplet.
 ''',
 '''
+c:\>rpn 10 tripletprime
+101
+
+c:\>rpn 1 10 range tripletprime
+[ 5, 7, 11, 13, 17, 37, 41, 67, 97, 101 ]
 ''' ],
-    'tripletprime' : [
+    'tripletprime_' : [
 'prime_numbers', 'returns the nth set of triplet primes',
 '''
+A set of triplet primes are three prime numbers that are as close as they
+can be, either n, n + 2, n + 6, or n, n + 4, n + 6.  This operator returns
+a list of the three primes in the triplet.
 ''',
 '''
+c:\>rpn 10 tripletprime_
+[ 101, 103, 107 ]
+
+c:\>rpn 1 10 range tripletprime_
+[ [ 5, 7, 11 ], [ 7, 11, 13 ], [ 11, 15, 17 ], [ 13, 17, 19 ], [ 17, 19, 23 ],
+[ 37, 41, 43 ], [ 41, 43, 47 ], [ 67, 71, 73 ], [ 97, 101, 103 ],
+[ 101, 103, 107 ] ]
 ''' ],
     'true' : [
-'constant', 'used with boolean settings operators',
+'constants', 'used with boolean settings operators',
 '''
 'true' simply evaluates to 1
 ''',
