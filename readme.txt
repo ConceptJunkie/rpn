@@ -90,6 +90,15 @@ p.s. rpn is licensed under the GNU GPL version 3.0.  See (see
 
 Release Notes:
 
+6.4.0
+
+Added the 'sigma, 'aliquot', 'polypower', 'mobius' and 'mertens' operators.
+The old 'mertens' operator was renamed to 'mertens_constant'.
+
+Added the 'frobenius', 'slice', 'sublist', 'left' and 'right' operators.
+
+Added 'crt' operator.
+
 6.3.0
 
 Added the 'geomean' operator.
@@ -383,54 +392,56 @@ use of "global" in favor of a global module.
 
 Operators supported by rpn:
 
-[ ] abs accuracy acos acosh acot acoth acsc acsch add altfac altsign altsign2
-altsum altsum2 and apery aperynum append april argument asec asech ash_wednesday
-asin asinh atan atanh august avogadro balanced balanced_ base bell bellpoly
-bernoulli binomial calendar carol catalan catalans cdecagonal cdecagonal?
-ceiling centeredcube cf champernowne char cheptagonal cheptagonal? chexagonal
-cnonagonal cnonagonal? coctagonal coctagonal? comma comma_mode conjugate convert
-copeland cos cosh cot coth count countbits countdiv cousinprime cpentagonal
-cpentagonal? cpolygonal cpolygonal? csc csch csquare csquare? ctriangular
-ctriangular? cube debruijn decagonal decagonal? december decimal_grouping
-default delannoy dhms diffs diffs2 divide divisors dms dodecahedral double
-doublebal doublebal_ doublefac dst_end dst_start dup e easter egypt
-election_day element equal estimate euler eulerbrick eval eval2 eval3 exp exp10
-expphi exprange factor factorial false february fibonacci fibonorial filter
-find_poly flatten float floor fraction friday fromunixtime gamma gcd
-geomean georange glaisher greater harmonic help heptagonal heptagonal?
-heptanacci hepthex heptpent heptsquare hepttri hex_mode hexagonal hexagonal?
-hexanacci hexpent hms hyper4_2 hyperfac hypot i icosahedral identify
+[ ] abs accuracy acos acosh acot acoth acsc acsch add aliquot altfac altsign
+altsign2 altsum altsum2 and apery aperynum append april argument asec asech
+ash_wednesday asin asinh atan atanh august avogadro balanced balanced_ base
+bell bellpoly bernoulli binomial calendar carol catalan catalans cdecagonal
+cdecagonal? ceiling centeredcube cf champernowne char cheptagonal cheptagonal?
+chexagonal cnonagonal cnonagonal? coctagonal coctagonal? comma comma_mode
+conjugate convert copeland cos cosh cot coth count countbits countdiv
+cousinprime cpentagonal cpentagonal? cpolygonal cpolygonal? csc csch csquare
+csquare? ctriangular ctriangular? cube debruijn decagonal decagonal? december
+decimal_grouping default delannoy dhms diffs diffs2 divide divisors dms
+dodecahedral double doublebal doublebal_ doublefac dst_end dst_start dup e
+easter egypt election_day element equal estimate euler eulerbrick eval eval2
+eval3 exp exp10 expphi exprange factor factorial false february fibonacci
+fibonorial filter find_poly flatten float floor fraction friday fromunixtime
+gamma gcd geomean georange glaisher greater harmonic help heptagonal
+heptagonal? heptanacci hepthex heptpent heptsquare hepttri hex_mode hexagonal
+hexagonal? hexanacci hexpent hms hyper4_2 hyperfac hypot i icosahedral identify
 identify_mode imaginary infinity input_radix integer integer_grouping
 interleave intersection isdivisible iso_day isolated isprime issquare itoi
 jacobsthal january julian_day july june khinchin kynea labor_day lah lambertw
-leading_zero leading_zero_mode lcm less leyland lgamma li limit limitn
+leading_zero leading_zero_mode lcm left less leyland lgamma li limit limitn
 linearrecur ln log10 log2 logxy long longlong lucas makecf makeisotime
 makejuliantime makepyth3 makepyth4 maketime march max maxchar maxdouble
 maxfloat maxindex maxlong maxlonglong maxquadlong maxshort maxuchar maxulong
-maxulonglong maxuquadlong maxushort may mean memorial_day mertens mills min
-minchar mindouble minfloat minindex minlong minlonglong minquadlong minshort
-minuchar minulong minulonglong minuquadlong minushort modulo monday motzkin
-multiply name narayana negative negative_infinity nint nonagonal nonagonal?
-nonahept nonahex nonaoct nonapent nonasquare nonatri nonzero not not_equal
-not_greater not_less november now nprod nspherearea nsphereradius nspherevolume
-nsum nthprime? nthquad? nthweekday nthweekdayofyear octagonal octagonal?
-octahedral octal_mode octhept octhex october octpent octsquare octtri oeis
-oeiscomment oeisex oeisname omega or output_radix pack padovan parity pascal
-pell pentagonal pentagonal? pentanacci pentatope perm phi pi plastic plot plot2
-plotc polyadd polyarea polygamma polygonal polygonal? polylog polymul polyprime
-polyprod polysum polytope polyval power precision presidents_day previous
-prevost prime prime? primepi primes primorial product pyramid quadprime
-quadprime? quadprime_ quintprime quintprime_ randint randint_ random random_
-range range2 ratios real reciprocal reduce repunit result reverse rhombdodec
-riesel robbins root root2 root3 round safeprime saturday schroeder sec sech
-september set sextprime sextprime_ sexyprime sexyprime_ sexyquad sexyquad_
-sexytriplet sexytriplet_ shiftleft shiftright short sin sinh solve solve2
-solve3 solve4 sophieprime sort sortdesc spherearea sphereradius spherevolume
-square squaretri stddev steloct subfac subtract sum sunday superfac superprime
-sylvester tan tanh tetrahedral tetranacci tetrate thabit thanksgiving thursday
-timer timer_mode today topic tounixtime tower tower2 trianglearea triangular
-triangular? tribonacci triplebal triplebal_ tripletprime true truncoct trunctet
-tuesday twinprime twinprime_ uchar uinteger ulong ulonglong undouble unfloat
-union unique unitroots unlist unlist unpack ushort value wednesday weekday x
-xor y ydhms year_calendar z zero zeta ~
+maxulonglong maxuquadlong maxushort may mean memorial_day mertens
+mertens_constant mills min minchar mindouble minfloat minindex minlong
+minlonglong minquadlong minshort minuchar minulong minulonglong minuquadlong
+minushort mobius modulo monday motzkin multiply name narayana negative
+negative_infinity nint nonagonal nonagonal? nonahept nonahex nonaoct nonapent
+nonasquare nonatri nonzero not not_equal not_greater not_less november now
+nprod nspherearea nsphereradius nspherevolume nsum nthprime? nthquad?
+nthweekday nthweekdayofyear octagonal octagonal? octahedral octal_mode octhept
+octhex october octpent octsquare octtri oeis oeiscomment oeisex oeisname omega
+or output_radix pack padovan parity pascal pell pentagonal pentagonal?
+pentanacci pentatope pentsquare penttri perm phi pi plastic plot plot2 plotc
+polyadd polyarea polygamma polygonal polygonal? polylog polymul polypower
+polyprime polyprod polysum polytope polyval power precision presidents_day
+previous prevost prime prime? primepi primes primorial product pyramid
+quadprime quadprime? quadprime_ quintprime quintprime_ randint randint_ random
+random_ range range2 ratios real reciprocal reduce repunit result reverse
+rhombdodec riesel right robbins root root2 root3 round safeprime saturday
+schroeder sec sech september set sextprime sextprime_ sexyprime sexyprime_
+sexyquad sexyquad_ sexytriplet sexytriplet_ shiftleft shiftright short sigma
+sin sinh slice solve solve2 solve3 solve4 sophieprime sort sortdesc spherearea
+sphereradius spherevolume square squaretri stddev steloct subfac sublist
+subtract sum sunday superfac superprime sylvester tan tanh tetrahedral
+tetranacci tetrate thabit thanksgiving thursday timer timer_mode today topic
+tounixtime tower tower2 trianglearea triangular triangular? tribonacci
+triplebal triplebal_ tripletprime true truncoct trunctet tuesday twinprime
+twinprime_ uchar uinteger ulong ulonglong undouble unfloat union unique
+unitroots unlist unlist unpack ushort value wednesday weekday x xor y ydhms
+year_calendar z zero zeta ~
 
