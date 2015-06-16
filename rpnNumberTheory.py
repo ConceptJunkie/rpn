@@ -853,3 +853,83 @@ def calculateChineseRemainderTheorem( values, mods ):
 
     return x
 
+
+# //******************************************************************************
+# //
+# //  getSigma
+# //
+# //  This is the naive implementation.  I believe there's a formula that's
+# //  much faster.
+# //
+# //******************************************************************************
+
+def getSigma( n ):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+
+    return fsum( getDivisors( n ) )
+
+
+# //******************************************************************************
+# //
+# //  getAliquotSequence
+# //
+# //******************************************************************************
+
+def getAliquotSequence( n, k ):
+    result = [ n ]
+
+    a = n
+
+    for i in arange( 0, k - 1 ):
+        b = fsub( getSigma( a ), a )
+        result.append( b )
+        a = b
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  getMobius
+# //
+# //******************************************************************************
+
+def getMobius( n ):
+    if n == 1:
+        return 1
+
+    factors = factor( n )
+
+    for i in factors:
+        if i[ 1 ] > 1:
+            return 0
+
+    if len( factors ) % 2:
+        return -1
+    else:
+        return 1
+
+
+# //******************************************************************************
+# //
+# //  getMertens
+# //
+# //  This function could be cached like the prime numbers.
+# //
+# //******************************************************************************
+
+def getMertens( n ):
+    if n == 1:
+        return 1
+
+    result = 0
+
+    for i in arange( 1, n + 1 ):
+        result = fadd( result, getMobius( i ) )
+
+    return result
+
+

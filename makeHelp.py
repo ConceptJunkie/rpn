@@ -781,6 +781,9 @@ Fixed several minor bugs.
 
 6.4.0
 
+Added the 'sigma, 'aliquot', 'polypower', 'mobius' and 'mertens' operators.
+The old 'mertens' operator was renamed to 'mertens_constant'.
+
 Added the 'frobenius', 'slice', 'sublist', 'left' and 'right' operators.
 
 Added 'crt' operator.
@@ -1376,6 +1379,12 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 c:\>rpn 1 mile 1 km +
 1.621371192237 miles
 ''' ],
+    'aliquot' : [
+'number_theory', 'returns the first k members of the aliquot sequence of n',
+'''
+''',
+'''
+''' ],
     'altfac' : [
 'number_theory', 'calculates the alternating factorial of n',
 '''
@@ -1593,12 +1602,20 @@ c:\>rpn -a24 avogadro
     'balanced' : [
 'prime_numbers', 'calculates the first of the nth set of balanced primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'balanced_' : [
 'prime_numbers', 'calculates the nth set of balanced primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -1918,6 +1935,10 @@ c:\>rpn 1 20 range divcount
     'cousinprime' : [
 'prime_numbers', 'returns the nth cousin prime',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -2171,6 +2192,10 @@ c:\>rpn -a20 0x400921fb54442d18 undouble
 '''
 A double balanced prime is a primes which is the average of its immediate
 neighbors, its second neighbors and its third neighbors.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 c:\>rpn 50 doublebal
@@ -2185,6 +2210,10 @@ c:\>rpn 1 10 range doublebal
 A double balanced prime is a primes which is the average of its immediate
 neighbors, its second neighbors.  This operator also returns the neighbors
 and second neighbors.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 c:\>rpn 50 doublebal_
@@ -2795,6 +2824,10 @@ c:\>rpn 1 100 range tri 1 100 range sqr intersect
     'isolated' : [
 'prime_numbers', 'returns the nth isolated prime',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -3277,6 +3310,12 @@ This is defined for convenience for use with date operators.
 '''
 ''' ],
     'mertens' : [
+'number_theory', 'returns Merten\'s function for n',
+'''
+''',
+'''
+''' ],
+    'mertens_constant' : [
 'constants', 'returns Merten\'s constant',
 '''
 ''',
@@ -3466,6 +3505,12 @@ c:\>rpn minushort
 
 c:\>rpn maxushort minushort -
 65535
+''' ],
+    'mobius' : [
+'number_theory', 'calculates the Mobius function for n',
+'''
+''',
+'''
 ''' ],
     'modulo' : [
 'arithmetic', 'calculates n modulo k',
@@ -3704,12 +3749,20 @@ a = four-digit year, b = week (negative values count from the end), c = day
     'nthprime?' : [
 'prime_numbers', 'finds the index of the closest prime over n',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'nthquad?' : [
 'prime_numbers', 'finds the index of the first of the closest quadruplet prime set over n',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -4041,9 +4094,19 @@ a number of extra libraries.
 ''',
 '''
 ''' ],
+    'polypower' : [
+'algebra', 'exponentiates polynomial n by the integer power k',
+'''
+''',
+'''
+''' ],
     'polyprime' : [
 'prime_numbers', 'returns the nth prime, recursively k times',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -4122,12 +4185,20 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
     'prime' : [
 'prime_numbers', 'returns the nth prime',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'primepi' : [
 'prime_numbers', 'estimates the count of prime numbers up to and including n',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -4135,6 +4206,10 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 'prime_numbers', 'generates a range of k primes starting from index n',
 '''
 This operator is much faster than using 'range' with 'prime'.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 c:\>rpn 1 20 primes
@@ -4147,6 +4222,10 @@ c:\>rpn 320620307 10 primes
     'prime?' : [
 'prime_numbers', 'finds the index of the closest prime at n or above',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -4154,6 +4233,10 @@ c:\>rpn 320620307 10 primes
 'prime_numbers', 'calculates the nth primorial',
 '''
 This function calculates the product of the first n prime numbers.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -4172,18 +4255,30 @@ This function calculates the product of the first n prime numbers.
     'quadprime?' : [
 'prime_numbers', 'finds the closest set of quadruplet primes above n',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'quadprime' : [
 'prime_numbers', 'returns the first of the nth set of quadruplet primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'quadprime_' : [
 'prime_numbers', 'returns the nth set of quadruplet primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -4202,12 +4297,20 @@ This function calculates the product of the first n prime numbers.
     'quintprime' : [
 'prime_numbers', 'returns the first of the nth set of quintruplet primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'quintprime_' : [
 'prime_numbers', 'returns the nth set of quintruplet primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -4374,6 +4477,10 @@ This operator is the equivalent of 'n 3 root'.
     'safeprime' : [
 'prime_numbers', 'returns the nth safe prime',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -4430,53 +4537,105 @@ This is defined for convenience for use with date operators.
     'sextprime' : [
 'prime_numbers', 'returns the first of the nth set of sextuplet primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'sextprime_' : [
 'prime_numbers', 'returns the nth set of sextuplet primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'sexyprime' : [
 'prime_numbers', 'returns the first of the nth set of sexy primes',
 '''
+Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
+prime.  n + 2 or n + 4 may also be prime.  This operator returns the smaller of
+nth set of sexy primes, so the value of the result + 6 will also be prime.
 ''',
 '''
+c:\>rpn 16387 sexyprime
+1000033
+
+c:\>rpn 1 10 range sexyprime
+[ 5, 7, 11, 13, 17, 23, 31, 37, 41, 47 ]
 ''' ],
     'sexyprime_' : [
 'prime_numbers', 'returns the nth set of sexy primes',
 '''
+Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
+prime.  n + 2 or n + 4 may also be prime.  This operator returns both members
+of the nth set of sexy primes, which will differ by 6.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
+c:\>rpn 213819 sexyprime_
+[ 20000063, 20000069 ]
+
+c:\>rpn 1001 1010 range sexyprime_
+[ [ 31957, 31963 ], [ 32003, 32009 ], [ 32051, 32057 ], [ 32057, 32063 ],
+[ 32063, 32069 ], [ 32077, 32083 ], [ 32083, 32089 ], [ 32183, 32189 ],
+[ 32251, 32257 ], [ 32297, 32303 ] ]
 ''' ],
     'sexytriplet' : [
 'prime_numbers', 'returns the first of the nth set of sexy triplet primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'sexytriplet_' : [
 'prime_numbers', 'returns the nth set of sexy triplet primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'sexyquad' : [
 'prime_numbers', 'returns the first of the nth set of sexy quadruplet primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'sexyquad_' : [
 'prime_numbers', 'returns the nth set of sexy quadruplet primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'short' : [
 'conversion', 'converts the value to a signed 16-bit integer',
+'''
+''',
+'''
+''' ],
+    'sigma' : [
+'number_theory', 'returns the sum of the proper divisors of n'
 '''
 ''',
 '''
@@ -4597,6 +4756,10 @@ c:\>rpn 1 10 range 0 4 range 6 8 range slice -s1
     'sophieprime' : [
 'prime_numbers', 'returns the nth Sophie Germain prime',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -4781,6 +4944,10 @@ This is defined for convenience for use with date operators.
     'superprime' : [
 'prime_numbers', 'returns the nth superprime (the nth primeth prime)',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -4926,6 +5093,10 @@ c:\>rpn 2 3 makepyth3 unlist trianglearea
 '''
 A triple balanced prime is a primes which is the average of its immediate
 neighbors, its second neighbors and its third neighbors.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 c:\>rpn 10 triplebal
@@ -4937,6 +5108,10 @@ c:\>rpn 10 triplebal
 A triple balanced prime is a primes which is the average of its immediate
 neighbors, its second neighbors and its third neighbors.  This operator also
 returns the neighbors, second neighbors, and third neighbors.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 c:\>rpn 10 triplebal_
@@ -4951,6 +5126,10 @@ c:\>rpn 10 triplebal_ diffs
 A set of triplet primes are three prime numbers that are as close as they
 can be, either n, n + 2, n + 6, or n, n + 4, n + 6.  This operator returns
 only the first prime of the triplet.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 c:\>rpn 10 tripletprime
@@ -4965,6 +5144,10 @@ c:\>rpn 1 10 range tripletprime
 A set of triplet primes are three prime numbers that are as close as they
 can be, either n, n + 2, n + 6, or n, n + 4, n + 6.  This operator returns
 a list of the three primes in the triplet.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 c:\>rpn 10 tripletprime_
@@ -5010,12 +5193,20 @@ This is defined for convenience for use with date operators.
     'twinprime' : [
 'prime_numbers', 'returns the first of the nth set of twin primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
     'twinprime_' : [
 'prime_numbers', 'returns the nth set of twin primes',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in rpndata/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],

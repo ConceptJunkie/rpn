@@ -338,8 +338,6 @@ operatorAliases = {
     'sexy4_'        : 'sexyquad_',
     'sexy?'         : 'sexyprime?',
     'sexy_'         : 'sexyprime',
-    'sigma'         : 'microsecond',
-    'sigmas'        : 'microsecond',
     'sine'          : 'sin',
     'sleft'         : 'shiftleft',
     'sophie'        : 'sophieprime',
