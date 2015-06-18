@@ -12,7 +12,11 @@
 # //
 # //******************************************************************************
 
+import bz2
+import contextlib
 import itertools
+import os
+import pickle
 import random
 
 from fractions import Fraction
@@ -103,7 +107,39 @@ def createDivisorList( seed, factors ):
 # //******************************************************************************
 
 def getDivisors( n ):
+    if n == 0:
+        return [ 0 ]
+    elif n == 1:
+        return [ 1 ]
+
     return sorted( createDivisorList( [ ], factor( n ) ) )
+
+
+# //******************************************************************************
+# //
+# //  loadFactorCache
+# //
+# //******************************************************************************
+
+def loadFactorCache( ):
+    try:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'rb' ) ) as pickleFile:
+            factorCache = pickle.load( pickleFile )
+    except FileNotFoundError:
+        factorCache = { }
+
+    return factorCache
+
+
+# //******************************************************************************
+# //
+# //  saveFactorCache
+# //
+# //******************************************************************************
+
+def saveFactorCache( factorCache ):
+    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
+        pickle.dump( factorCache, pickleFile )
 
 
 # //******************************************************************************
@@ -113,9 +149,22 @@ def getDivisors( n ):
 # //  This is not my code, and I need to find the source so I can attribute it.
 # //  I think I got it from stackoverflow.com.
 # //
+# //  It factors by pure brute force and is pretty fast considering, but
+# //  compared to the advanced algorithms, it's unusably slow.
+# //
+# //  factor( ) now caches all factorizations for values over a billion.  Really,
+# //  it should cache based on the largest factor, and I can add that selection
+# //  criterion to the block where it saves the cache.
+# //
+# //  I don't know how useful this is, but here's a use case:  Running
+# //  'aliquot' over and over with successively larger iteration values
+# //  (argument k).
+# //
 # //******************************************************************************
 
-def factor( n ):
+def factor( target ):
+    n = target
+
     if n < -1:
         return [ ( -1, 1 ) ] + factor( fneg( n ) )
     elif n == -1:
@@ -125,6 +174,14 @@ def factor( n ):
     elif n == 1:
         return [ ( 1, 1 ) ]
     else:
+        factorCache = None
+
+        if ( target > 1000000000 ):
+            factorCache = loadFactorCache( )
+
+            if target in factorCache:
+                return factorCache[ target ]
+
         def getPotentialPrimes( ):
             basePrimes = ( 2, 3, 5 )
 
@@ -160,6 +217,10 @@ def factor( n ):
 
         if n > 1:
             factors.append( ( int( n ), 1 ) )
+
+        if not factorCache is None:
+            factorCache[ target ] = factors
+            saveFactorCache( factorCache )
 
         return factors
 
@@ -585,7 +646,7 @@ def makePythagoreanQuadruple( a, b ):
 # //  http://mathworld.wolfram.com/EulerBrick.html
 # //
 # //  Saunderson's solution lets (a^',b^',c^') be a Pythagorean triple, then
-# //  ( a, b, c ) = ( a'( 4b'^2 - c'^2 ) ), b'( 4a'^2 ) - c'^2 ), 4a'b'c' )
+# //  ( a, b, c ) = ( a'( 4b'^2 - c'^2 ), ( b'( 4a'^2 ) - c'^2 ), 4a'b'c' )
 # //
 # //******************************************************************************
 
