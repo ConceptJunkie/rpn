@@ -170,13 +170,15 @@ def factor( target ):
     elif n == 1:
         return [ ( 1, 1 ) ]
     else:
-        factorCache = None
+        if target > 10000:
+            if g.factorCache is None:
+                g.factorCache = loadFactorCache( )
 
-        if ( target > 10000 ):
-            factorCache = loadFactorCache( )
+                #for i in g.factorCache:
+                #    print( i, g.factorCache[ i ] )
 
-            if target in factorCache:
-                return factorCache[ target ]
+            if target in g.factorCache:
+                return g.factorCache[ target ]
 
         def getPotentialPrimes( ):
             basePrimes = ( 2, 3, 5 )
@@ -208,8 +210,8 @@ def factor( target ):
             while ( fmod( n, divisor ) ) == 0:
                 n = floor( fdiv( n, divisor ) )
 
-                if factorCache and n in factorCache:
-                    factors.extend( factorCache[ n ] )
+                if g.factorCache and n in g.factorCache:
+                    factors.extend( g.factorCache[ n ] )
                     cacheHit = True
                     n = 1
 
@@ -226,11 +228,13 @@ def factor( target ):
         if n > 1:
             factors.append( ( int( n ), 1 ) )
 
-        if not factorCache is None:
+        if g.factorCache:
             largeFactors = [ ( i[ 0 ], i[ 1 ] ) for i in factors if i[ 0 ] > 10000 ]
             product = fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] )
-            factorCache[ product ] = largeFactors
-            saveFactorCache( factorCache )
+
+            if product not in g.factorCache:
+                g.factorCache[ product ] = largeFactors
+                saveFactorCache( g.factorCache )
 
         return factors
 

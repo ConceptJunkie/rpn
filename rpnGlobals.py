@@ -89,3 +89,6 @@ results = [ ]
 variables = { }
 promptCount = 0
 
+# factor cache
+factorCache = None
+
