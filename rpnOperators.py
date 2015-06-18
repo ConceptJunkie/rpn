@@ -1133,6 +1133,7 @@ operators = {
     'estimate'          : OperatorInfo( estimate, 1 ),
     'euler'             : OperatorInfo( euler, 0 ),
     'eulerbrick'        : OperatorInfo( makeEulerBrick, 3 ),
+    'eulerphi'          : OperatorInfo( getEulerPhi, 1 ),
     'eval'              : OperatorInfo( evaluateFunction1, 2 ),
     'eval2'             : OperatorInfo( evaluateFunction2, 3 ),
     'eval3'             : OperatorInfo( evaluateFunction3, 4 ),

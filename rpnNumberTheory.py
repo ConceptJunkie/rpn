@@ -1008,3 +1008,15 @@ def getMertens( n ):
     return result
 
 
+# //******************************************************************************
+# //
+# //  getEulerPhi
+# //
+# //******************************************************************************
+
+def getEulerPhi( n ):
+    if n < 2:
+        return n
+
+    return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in factor( n ) ) )
+    #return reduce(mul, ((p - 1) * p ** (e - 1) for p, e in factor(n)))

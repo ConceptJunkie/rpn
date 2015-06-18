@@ -781,6 +781,8 @@ Fixed several minor bugs.
 
 6.4.0
 
+Added 'eulerphi' operator.
+
 Added caching for factorizations.
 
 Added the 'sigma, 'aliquot', 'polypower', 'mobius' and 'mertens' operators.
@@ -2327,6 +2329,12 @@ c:\>rpn 828 3120 hypot
 
 c:\>rpn 2035 3120 hypot
 3725
+''' ],
+    'eulerphi' : [
+'number_theory', 'calculates Euler\'s totient function for n',
+'''
+''',
+'''
 ''' ],
     'eval' : [
 'special', 'evaluates the function n for the given argument[s] k',

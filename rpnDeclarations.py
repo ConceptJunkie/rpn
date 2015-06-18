@@ -354,6 +354,7 @@ operatorAliases = {
     'tangent'       : 'tan',
     'thur'          : 'thursday',
     'thurs'         : 'thursday',
+    'totient'       : 'eulerphi',
     'tounix'        : 'tounixtime',
     'tri'           : 'triangular',
     'tri?'          : 'triangular?',
