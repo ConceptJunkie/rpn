@@ -152,11 +152,7 @@ def saveFactorCache( factorCache ):
 # //  It factors by pure brute force and is pretty fast considering, but
 # //  compared to the advanced algorithms, it's unusably slow.
 # //
-# //  factor( ) now caches all factorizations for values over a billion.  Really,
-# //  it should cache based on the largest factor, and I can add that selection
-# //  criterion to the block where it saves the cache.
-# //
-# //  I don't know how useful this is, but here's a use case:  Running
+# //  I don't know how useful the caching is, but here's a use case:  Running
 # //  'aliquot' over and over with successively larger iteration values
 # //  (argument k).
 # //
@@ -176,7 +172,7 @@ def factor( target ):
     else:
         factorCache = None
 
-        if ( target > 1000000000 ):
+        if ( target > 10000 ):
             factorCache = loadFactorCache( )
 
             if target in factorCache:
@@ -201,25 +197,39 @@ def factor( target ):
         factors = [ ]
         sqrtn = sqrt( n )
 
+        cacheHit = False
+
         for divisor in getPotentialPrimes( ):
             if divisor > sqrtn:
                 break
 
-            power = 0
+            exponent = 0
 
             while ( fmod( n, divisor ) ) == 0:
                 n = floor( fdiv( n, divisor ) )
-                power += 1
 
-            if power > 0:
-                factors.append( ( divisor, power ) )
+                if factorCache and n in factorCache:
+                    factors.extend( factorCache[ n ] )
+                    cacheHit = True
+                    n = 1
+
+                exponent += 1
+
+            if exponent > 0:
+                factors.append( ( divisor, exponent ) )
                 sqrtn = sqrt( n )
+
+            if cacheHit:
+                break
+
 
         if n > 1:
             factors.append( ( int( n ), 1 ) )
 
         if not factorCache is None:
-            factorCache[ target ] = factors
+            largeFactors = [ ( i[ 0 ], i[ 1 ] ) for i in factors if i[ 0 ] > 10000 ]
+            product = fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] )
+            factorCache[ product ] = largeFactors
             saveFactorCache( factorCache )
 
         return factors
@@ -233,7 +243,7 @@ def factor( target ):
 
 def getExpandedFactorList( factors ):
     factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
-    return reduce( lambda x, y: x + y, factors, [ ] )
+    return sorted( reduce( lambda x, y: x + y, factors, [ ] ) )
 
 
 # //******************************************************************************

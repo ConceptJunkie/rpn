@@ -781,6 +781,8 @@ Fixed several minor bugs.
 
 6.4.0
 
+Added caching for factorizations.
+
 Added the 'sigma, 'aliquot', 'polypower', 'mobius' and 'mertens' operators.
 The old 'mertens' operator was renamed to 'mertens_constant'.
 
