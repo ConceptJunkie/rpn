@@ -154,7 +154,7 @@ def saveFactorCache( factorCache ):
 # //
 # //  I don't know how useful the caching is, but here's a use case:  Running
 # //  'aliquot' over and over with successively larger iteration values
-# //  (argument k).
+# //  (i.e., argument k).
 # //
 # //******************************************************************************
 
@@ -228,7 +228,8 @@ def factor( target ):
         if n > 1:
             factors.append( ( int( n ), 1 ) )
 
-        if g.factorCache:
+
+        if not g.factorCache is None:
             largeFactors = [ ( i[ 0 ], i[ 1 ] ) for i in factors if i[ 0 ] > 10000 ]
             product = fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] )
 
