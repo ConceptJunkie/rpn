@@ -5,7 +5,7 @@
 # //  makeHelp
 # //
 # //  RPN command-line calculator help file generator
-# //  copyright (c) 2014, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2015, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -377,8 +377,8 @@ Interactive mode also introduces some new operators.  Each expression that is
 evaluated is given a successive number:
 
 c:\>rpn
-rpn 6.0.0 - RPN command-line calculator
-copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+rpn 6.4.0 - RPN command-line calculator
+copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
 
 Type "help" for more information, and "exit" to exit.
 rpn (1)>2 3 +
