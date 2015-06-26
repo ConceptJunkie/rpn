@@ -5,7 +5,7 @@
 # //  rpnOperators.py
 # //
 # //  RPN command-line calculator operator definitions
-# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -23,6 +23,7 @@ from rpnComputer import *
 from rpnConstants import *
 from rpnDate import *
 from rpnDeclarations import *
+from rpnFactor import *
 from rpnGeometry import *
 from rpnList import *
 from rpnMath import *
@@ -1142,6 +1143,7 @@ operators = {
     'expphi'            : OperatorInfo( lambda n: power( phi, n ), 1 ),
     'exprange'          : OperatorInfo( expandExponentialRange, 3 ),
     'factor'            : OperatorInfo( lambda i: getExpandedFactorList( factor( i ) ), 1 ),
+    'factor2'           : OperatorInfo( factor2, 1 ),
     'factorial'         : OperatorInfo( fac, 1 ),
     'false'             : OperatorInfo( lambda: 0, 0 ),
     'february'          : OperatorInfo( lambda: 2, 0 ),
@@ -1323,6 +1325,7 @@ operators = {
     'polyprime'         : OperatorInfo( getNthPolyPrime, 2 ),
     'polytope'          : OperatorInfo( getNthPolytopeNumber, 2 ),
     'power'             : OperatorInfo( exponentiate, 2 ),
+    'powmod'            : OperatorInfo( getPowMod, 3 ),
     'precision'         : OperatorInfo( setPrecision, 1 ),
     'presidents_day'    : OperatorInfo( calculatePresidentsDay, 1 ),
     'prevost'           : OperatorInfo( getPrevostConstant, 0 ),

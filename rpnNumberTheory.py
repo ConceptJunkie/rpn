@@ -5,7 +5,7 @@
 # //  rpnNumberTheory.py
 # //
 # //  RPN command-line calculator number theory operators
-# //  copyright (c) 2014 (1988), Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -1021,3 +1021,14 @@ def getEulerPhi( n ):
 
     return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in factor( n ) ) )
     #return reduce(mul, ((p - 1) * p ** (e - 1) for p, e in factor(n)))
+
+
+# //******************************************************************************
+# //
+# //  getPowMod
+# //
+# //******************************************************************************
+
+def getPowMod( a, b, c ):
+    return pow( int( a ), int( b ), int ( c ) )
+
