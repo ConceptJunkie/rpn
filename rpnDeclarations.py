@@ -209,6 +209,7 @@ operatorAliases = {
     'deca?'         : 'decagonal?',
     'diff'          : 'diffs',
     'divcount'      : 'countdiv',
+    'election'      : 'election_day',
     'f!'            : 'fibonorial',
     'fac'           : 'factorial',
     'fac2'          : 'doublefac',

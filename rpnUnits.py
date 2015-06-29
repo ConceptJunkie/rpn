@@ -922,6 +922,15 @@ unitOperators = {
                   '''
                   ''' ),
 
+    'conductance_quantum' :
+        UnitInfo( 'electrical_conductance', 'conductance_quantum', 'conductance_quanta', 'G0', [ ], [ 'SI' ],
+                  '''
+                  The conductance quantum appears when measuring the conductance of a quantum point contact,
+                  and, more generally, is a key component of Landauer formula which relates the electrical
+                  conductance of a quantum conductor to its quantum properties. It is twice the reciprocal
+                  of the von Klitzing constant (2/RK). (https://en.wikipedia.org/wiki/Conductance_quantum)
+                  ''' ),
+
     'second^3-ampere^2/kilogram-meter^2':
         UnitInfo( 'electrical_conductance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ], [ 'SI' ],
                   '''
@@ -960,7 +969,7 @@ unitOperators = {
                   ''' ),
 
     'impedance_of_free_space' :
-        UnitInfo( 'electrical_resistance', 'impedance_of_free_space', 'x impedance_of_free_space', 'Z0', [ ], [ 'natural' ],
+        UnitInfo( 'electrical_resistance', 'impedance_of_free_space', 'x impedance_of_free_space', 'Z0', [ 'vacuum_impedence' ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -1047,7 +1056,7 @@ unitOperators = {
                   ''' ),
 
     'calorie' :
-        UnitInfo( 'energy', 'calorie', 'calories', 'cal', [ ], [ 'CGS' ],
+        UnitInfo( 'energy', 'calorie', 'calories', '', [ ], [ 'CGS' ],
                   '''
                   ''' ),
 
@@ -3268,6 +3277,7 @@ unitConversionMatrix = {
     ( 'clarke',                     'wolverton' )                           : mpmathify( '1.0e6' ),
     ( 'clausius',                   'joule/kelvin' )                        : mpmathify( '4186.8' ),
     ( 'clavelin',                   'liter' )                               : mpmathify( '0.62' ),
+    ( 'conductance_quantum',        'siemens' )                             : mpmathify( '7.7480917310e-5' ),
     ( 'coomb',                      'strike' )                              : mpmathify( '2' ),
     ( 'cord',                       'cubic_foot' )                          : mpmathify( '128' ),
     ( 'coulomb',                    'ampere-second' )                       : mpmathify( '1' ),

@@ -2293,6 +2293,12 @@ c:\>rpn [ 1 10 range 10 dup ] unique
 ''',
 '''
 ''' ],
+    'electric_constant' : [
+'constants', 'returns a electic constant',
+'''
+''',
+'''
+''' ],
     'equal' : [
 'arithmetic', 'returns 1 if n equals k, otherwise returns 0',
 '''
@@ -4480,6 +4486,12 @@ This operator is the equivalent of 'n 3 root'.
 ''' ],
     'round' : [
 'arithmetic', 'rounds n to the nearest integer',
+'''
+''',
+'''
+''' ],
+    'rydberg_constant' : [
+'constants', 'returns a Rydberg constant',
 '''
 ''',
 '''
