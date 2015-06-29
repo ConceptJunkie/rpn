@@ -1143,7 +1143,7 @@ operators = {
     'exp10'             : OperatorInfo( lambda n: power( 10, n ), 1 ),
     'expphi'            : OperatorInfo( lambda n: power( phi, n ), 1 ),
     'exprange'          : OperatorInfo( expandExponentialRange, 3 ),
-    'factor'           : OperatorInfo( factor, 1 ),
+    'factor'            : OperatorInfo( lambda i: getExpandedFactorList( factor( i ) ), 1 ),
     'factorial'         : OperatorInfo( fac, 1 ),
     'false'             : OperatorInfo( lambda: 0, 0 ),
     'february'          : OperatorInfo( lambda: 2, 0 ),
