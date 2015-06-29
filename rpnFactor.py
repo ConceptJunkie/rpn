@@ -12,13 +12,154 @@
 # //
 # //******************************************************************************
 
+import bz2
+import contextlib
 import fractions
+import os
+import pickle
 import random
 
 from rpnDeclarations import *
 from rpnPrimes import primes
+from functools import reduce
 
 import rpnGlobals as g
+
+
+# //******************************************************************************
+# //
+# //  loadFactorCache
+# //
+# //******************************************************************************
+
+def loadFactorCache( ):
+    try:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'rb' ) ) as pickleFile:
+            factorCache = pickle.load( pickleFile )
+    except FileNotFoundError:
+        factorCache = { }
+
+    return factorCache
+
+
+# //******************************************************************************
+# //
+# //  saveFactorCache
+# //
+# //******************************************************************************
+
+def saveFactorCache( factorCache ):
+    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
+        pickle.dump( factorCache, pickleFile )
+
+
+# //******************************************************************************
+# //
+# //  factor
+# //
+# //  This is not my code, and I need to find the source so I can attribute it.
+# //  I think I got it from stackoverflow.com.
+# //
+# //  It factors by pure brute force and is pretty fast considering, but
+# //  compared to the advanced algorithms, it's unusably slow.
+# //
+# //  I don't know how useful the caching is, but here's a use case:  Running
+# //  'aliquot' over and over with successively larger iteration values
+# //  (i.e., argument k).
+# //
+# //******************************************************************************
+
+def old_factor( target ):
+    n = target
+
+    if n < -1:
+        return [ ( -1, 1 ) ] + factor( fneg( n ) )
+    elif n == -1:
+        return [ ( -1, 1 ) ]
+    elif n == 0:
+        return [ ( 0, 1 ) ]
+    elif n == 1:
+        return [ ( 1, 1 ) ]
+    else:
+        if target > 10000:
+            if g.factorCache is None:
+                g.factorCache = loadFactorCache( )
+
+                #for i in g.factorCache:
+                #    print( i, g.factorCache[ i ] )
+
+            if target in g.factorCache:
+                return g.factorCache[ target ]
+
+        def getPotentialPrimes( ):
+            basePrimes = ( 2, 3, 5 )
+
+            for basePrime in basePrimes:
+                yield basePrime
+
+            basePrimes = ( 7, 11, 13, 17, 19, 23, 29, 31 )
+
+            primeGroup = 0
+
+            while True:
+                for basePrime in basePrimes:
+                    yield primeGroup + basePrime
+
+                primeGroup += 30
+
+        factors = [ ]
+        sqrtn = sqrt( n )
+
+        cacheHit = False
+
+        for divisor in getPotentialPrimes( ):
+            if divisor > sqrtn:
+                break
+
+            exponent = 0
+
+            while ( fmod( n, divisor ) ) == 0:
+                n = floor( fdiv( n, divisor ) )
+
+                if g.factorCache and n in g.factorCache:
+                    factors.extend( g.factorCache[ n ] )
+                    cacheHit = True
+                    n = 1
+
+                exponent += 1
+
+            if exponent > 0:
+                factors.append( ( divisor, exponent ) )
+                sqrtn = sqrt( n )
+
+            if cacheHit:
+                break
+
+
+        if n > 1:
+            factors.append( ( int( n ), 1 ) )
+
+
+        if not g.factorCache is None:
+            largeFactors = [ ( i[ 0 ], i[ 1 ] ) for i in factors if i[ 0 ] > 10000 ]
+            product = fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] )
+
+            if product not in g.factorCache:
+                g.factorCache[ product ] = largeFactors
+                saveFactorCache( g.factorCache )
+
+        return factors
+
+
+# //******************************************************************************
+# //
+# //  getExpandedFactorList
+# //
+# //******************************************************************************
+
+def getExpandedFactorList( factors ):
+    factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
+    return sorted( reduce( lambda x, y: x + y, factors, [ ] ) )
 
 
 # //******************************************************************************
@@ -140,7 +281,7 @@ def isPerfectPower( n, verbose = False ):
 
     t = int.bit_length( n ) - 1
 
-    i = 0;
+    i = 0
 
     while primes[ i ] <= t:
         X = n // primes[ i ]
@@ -177,9 +318,9 @@ def getPollard( n, verbose = False ):
         b += 1
 
         if verbose:
-            print( 'b =', b );
+            print( 'b =', b )
 
-        i = 2;
+        i = 2
 
         while i <= 10000:
             if verbose and ( i % 100 ) == 0:
@@ -197,13 +338,13 @@ def getPollard( n, verbose = False ):
                 return P
 
             if P == n:
-                b += 1;
+                b += 1
 
                 if verbose:
                     print( 'GCD = n; b increased to', b )
 
                 T = b
-                continue;
+                continue
 
             i += 1
 
@@ -270,6 +411,9 @@ def getBrentPollard( n ):
 # //******************************************************************************
 
 def getLargeFactors( n, verbose = False ):
+    if verbose:
+        print( 'getLargeFactors', n )
+
     cutoff = primes[ -1 ] * primes[ -1 ]
 
     if ( n < cutoff ) or Q_PRIME_TEST( n ):
@@ -279,21 +423,21 @@ def getLargeFactors( n, verbose = False ):
     X = n
 
     while f:
-        Y = getBrentPollard( X );
+        Y = getBrentPollard( X )
 
         if Y == 0:
-            Y = isPerfectPower( X, verbose );
+            Y = isPerfectPower( X, verbose )
 
         if Y == 0:
-            Y = MPQS1( X );
+            Y = MPQS1( X )
 
         if Y == 0:
             print( 'Switching to ECF:', ECMAX, 'elliptic curves' )
-            Y = EFACTOR( X, 1279, 1 );
+            Y = EFACTOR( X, 1279, 1 )
 
         if Y == 0:
             print( 'Switching to Pollard p-1' )
-            Y = getPollard( X, verbose );
+            Y = getPollard( X, verbose )
 
         if Y == 0:
             raise ValueError( 'getLargeFactors: no factor found' )
@@ -307,7 +451,7 @@ def getLargeFactors( n, verbose = False ):
             return X
 
         if Q_PRIME_TEST( X, verbose ):
-            f = 0;
+            f = 0
 
     return X
 
@@ -329,8 +473,7 @@ def getLargeFactors( n, verbose = False ):
 # //  the arrays Q_[ ] and K_[ ].
 # //
 # //  Return values:
-# //
-# //
+# //    smallFactors, largeFactors, qPrimes
 # //
 # //******************************************************************************
 
@@ -344,11 +487,18 @@ def getPrimeFactors( n, verbose = False ):
     if verbose:
         print( "Factoring", n, '...' )
 
-    remaining, smallFactors = getSmallFactors( n, verbose );
+    remaining, smallFactors = getSmallFactors( n, verbose )
+
+    if remaining > 1 and not g.factorCache is None:
+        if remaining in g.factorCache:
+            if verbose:
+                print( 'cache hit', remaining )
+            largeFactors.extend( g.factorCache[ remaining ] )
+            remaining = 1
 
     while remaining > 1:
-        exponent = 0;
-        P = getLargeFactors( remaining, verbose );
+        exponent = 0
+        P = getLargeFactors( remaining, verbose )
 
         while True:
             Z = remaining % P
@@ -361,11 +511,11 @@ def getPrimeFactors( n, verbose = False ):
 
         if verbose:
             if P < cutoff:
-                print( P, 'is a prime factor of', n );
+                print( P, 'is a prime factor of', n )
 
         if  fabs( P ) > fabs( cutoff ):
             if verbose:
-                print( P, 'is a q-prime factor of', n );
+                print( P, 'is a q-prime factor of', n )
 
             qPrimes.append( ( P, 1 ) )
 
@@ -411,7 +561,7 @@ def getSelfridge( candidate, verbose = False ):
 
     for i in range( 0, len( factors ) ):
         for x in range( 2, 65536 ):
-            modulus = pow( x, n_minus_1, candidate );
+            modulus = pow( x, n_minus_1, candidate )
 
             if modulus != 1:
                 if verbose:
@@ -420,7 +570,7 @@ def getSelfridge( candidate, verbose = False ):
                 return False
 
             dividend = n_minus_1 // factors[ i ][ 0 ]
-            T = pow( x, dividend, candidate );
+            T = pow( x, dividend, candidate )
 
             if T != 1:
                 break
@@ -443,7 +593,7 @@ def getSelfridge( candidate, verbose = False ):
 
 # //******************************************************************************
 # //
-# //  factor2
+# //  factor
 # //
 # //  A factorization of *Nptr into prime and q-prime factors is first obtained.
 # //  Selfridge's primality test is then applied to any q-prime factors; the test
@@ -454,11 +604,32 @@ def getSelfridge( candidate, verbose = False ):
 # //
 # //******************************************************************************
 
-def factor2( n ):
-    if n == 1:
-        return [ 1 ]
-
+def factor( n ):
     verbose = False
+
+    if n < -1:
+        return [ -1 ] + factor( fneg( n ) )
+    elif n == -1:
+        return [ -1 ]
+    elif n == 0:
+        return [ 0 ]
+    elif n == 1:
+        return [ 1 ]
+    else:
+        target = int( n )
+
+        if target > 1000000000:
+            if g.factorCache is None:
+                g.factorCache = loadFactorCache( )
+
+                #for i in g.factorCache:
+                #    print( i, g.factorCache[ i ] )
+
+            if target in g.factorCache:
+                if verbose:
+                    print( 'cache hit', target )
+                return getExpandedFactorList( g.factorCache[ target ] )
+
     smallFactors, largeFactors, qPrimes = getPrimeFactors( int( n ), verbose )
     u = 0
 
@@ -499,13 +670,15 @@ def factor2( n ):
 
     result = [ ]
 
-    for i in smallFactors:
-        result.extend( [ i[ 0 ] ] * i[ 1 ] )
+    result.extend( smallFactors )
+    result.extend( largeFactors )
 
-    for i in largeFactors:
-        result.extend( [ i[ 0 ] ] * i[ 1 ] )
+    if not g.factorCache is None:
+        product = int( fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] ) )
 
-    result.sort( )
+        if product not in g.factorCache:
+            g.factorCache[ product ] = largeFactors
+            saveFactorCache( g.factorCache )
 
     return result
 

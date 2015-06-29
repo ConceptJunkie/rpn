@@ -12,11 +12,7 @@
 # //
 # //******************************************************************************
 
-import bz2
-import contextlib
 import itertools
-import os
-import pickle
 import random
 
 from fractions import Fraction
@@ -24,6 +20,7 @@ from functools import reduce
 from mpmath import *
 
 from rpnDeclarations import *
+from rpnFactor import *
 
 
 # //******************************************************************************
@@ -113,142 +110,6 @@ def getDivisors( n ):
         return [ 1 ]
 
     return sorted( createDivisorList( [ ], factor( n ) ) )
-
-
-# //******************************************************************************
-# //
-# //  loadFactorCache
-# //
-# //******************************************************************************
-
-def loadFactorCache( ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'rb' ) ) as pickleFile:
-            factorCache = pickle.load( pickleFile )
-    except FileNotFoundError:
-        factorCache = { }
-
-    return factorCache
-
-
-# //******************************************************************************
-# //
-# //  saveFactorCache
-# //
-# //******************************************************************************
-
-def saveFactorCache( factorCache ):
-    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
-        pickle.dump( factorCache, pickleFile )
-
-
-# //******************************************************************************
-# //
-# //  factor
-# //
-# //  This is not my code, and I need to find the source so I can attribute it.
-# //  I think I got it from stackoverflow.com.
-# //
-# //  It factors by pure brute force and is pretty fast considering, but
-# //  compared to the advanced algorithms, it's unusably slow.
-# //
-# //  I don't know how useful the caching is, but here's a use case:  Running
-# //  'aliquot' over and over with successively larger iteration values
-# //  (i.e., argument k).
-# //
-# //******************************************************************************
-
-def factor( target ):
-    n = target
-
-    if n < -1:
-        return [ ( -1, 1 ) ] + factor( fneg( n ) )
-    elif n == -1:
-        return [ ( -1, 1 ) ]
-    elif n == 0:
-        return [ ( 0, 1 ) ]
-    elif n == 1:
-        return [ ( 1, 1 ) ]
-    else:
-        if target > 10000:
-            if g.factorCache is None:
-                g.factorCache = loadFactorCache( )
-
-                #for i in g.factorCache:
-                #    print( i, g.factorCache[ i ] )
-
-            if target in g.factorCache:
-                return g.factorCache[ target ]
-
-        def getPotentialPrimes( ):
-            basePrimes = ( 2, 3, 5 )
-
-            for basePrime in basePrimes:
-                yield basePrime
-
-            basePrimes = ( 7, 11, 13, 17, 19, 23, 29, 31 )
-
-            primeGroup = 0
-
-            while True:
-                for basePrime in basePrimes:
-                    yield primeGroup + basePrime
-
-                primeGroup += 30
-
-        factors = [ ]
-        sqrtn = sqrt( n )
-
-        cacheHit = False
-
-        for divisor in getPotentialPrimes( ):
-            if divisor > sqrtn:
-                break
-
-            exponent = 0
-
-            while ( fmod( n, divisor ) ) == 0:
-                n = floor( fdiv( n, divisor ) )
-
-                if g.factorCache and n in g.factorCache:
-                    factors.extend( g.factorCache[ n ] )
-                    cacheHit = True
-                    n = 1
-
-                exponent += 1
-
-            if exponent > 0:
-                factors.append( ( divisor, exponent ) )
-                sqrtn = sqrt( n )
-
-            if cacheHit:
-                break
-
-
-        if n > 1:
-            factors.append( ( int( n ), 1 ) )
-
-
-        if not g.factorCache is None:
-            largeFactors = [ ( i[ 0 ], i[ 1 ] ) for i in factors if i[ 0 ] > 10000 ]
-            product = fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] )
-
-            if product not in g.factorCache:
-                g.factorCache[ product ] = largeFactors
-                saveFactorCache( g.factorCache )
-
-        return factors
-
-
-# //******************************************************************************
-# //
-# //  getExpandedFactorList
-# //
-# //******************************************************************************
-
-def getExpandedFactorList( factors ):
-    factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
-    return sorted( reduce( lambda x, y: x + y, factors, [ ] ) )
 
 
 # //******************************************************************************
@@ -851,8 +712,6 @@ def getFrobeniusNumber( args ):
             return max( __residue_table( sorted( a ) ) ) - min( a )
     else:
         return 1 if args > 1 else -1
-
-
 
 
 # //******************************************************************************
