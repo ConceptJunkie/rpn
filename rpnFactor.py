@@ -608,15 +608,20 @@ def factor( n ):
     verbose = False
 
     if n < -1:
-        return [ -1 ] + factor( fneg( n ) )
+        return [ ( -1, 1 ) ] + factor( fneg( n ) )
     elif n == -1:
-        return [ -1 ]
+        return [ ( -1, 1 ) ]
     elif n == 0:
-        return [ 0 ]
+        return [ ( 0, 1 ) ]
     elif n == 1:
-        return [ 1 ]
+        return [ ( 1, 1 ) ]
     else:
         target = int( n )
+
+        dps = ceil( log( n ) )
+
+        if dps > mp.dps:
+            mp.dps = dps
 
         if target > 1000000000:
             if g.factorCache is None:
@@ -628,7 +633,8 @@ def factor( n ):
             if target in g.factorCache:
                 if verbose:
                     print( 'cache hit', target )
-                return getExpandedFactorList( g.factorCache[ target ] )
+
+                return g.factorCache[ target ]
 
     smallFactors, largeFactors, qPrimes = getPrimeFactors( int( n ), verbose )
     u = 0

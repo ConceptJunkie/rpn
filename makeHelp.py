@@ -483,7 +483,7 @@ yet.
 I've been making a concerted efforts to identify and fix bugs, but I'm certain
 there are still more.
     ''',
-    'release_notes_5' :
+    'old_release_notes' :
     '''
 5.18.1
 
@@ -1179,9 +1179,6 @@ applicable to base 10.
 Tetration (hyperexponentiation) forces the second argument to an integer.
 
 Polynomials can only be raised to an integral power.
-
-To compute the nth Fibonacci number accurately, rpn sets the precision to
-a level sufficient to guarantee a correct answer.
 
 Bitwise operators force all arguments to integers by truncation if necessary.
     ''',
@@ -2433,13 +2430,6 @@ c:\>rpn 2 2 10 exprange
     'factor' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
-This code is not very efficient and is only good for numbers up to about 20
-digits.  If you need to do serious factoring, consider using msieve.
-
-http://sourceforge.net/projects/msieve
-
-I definitely want to look into hooking into this library from rpn in the
-future.
 ''',
 '''
 ''' ],
@@ -3906,6 +3896,12 @@ flushing the cache for a particular entry.
 c:\>rpn 10349 oeisname
 'Base 7 Armstrong or narcissistic numbers.'
 ''' ],
+    'old_factor' : [
+'number_theory', 'the old version of \'factor\', this is going away',
+'''
+''',
+'''
+''' ],
     'omega' : [
 'constants', 'returns the Omega constant',
 '''
@@ -4173,6 +4169,21 @@ c:\>rpn 1 10 range 3 **
 c:\>rpn 1 foot 3 ** gallon convert
 7.480519480519 gallons
 ''' ],
+    'powmod' : [
+'powers_and_roots', 'calculates a to the bth power modulo c',
+'''
+a, b and c are assumed to be integers.  TODO:  rpn should truncate them.
+''',
+'''
+c:\>rpn 4 5 **
+1024
+
+c:\>rpn 1 10 range 3 **
+[ 1, 8, 27, 64, 125, 216, 343, 512, 729, 1000 ]
+
+c:\>rpn 1 foot 3 ** gallon convert
+7.480519480519 gallons
+''' ],
     'precision' : [
 'settings', 'TODO: describe me',
 '''
@@ -4361,7 +4372,7 @@ You will see a duplicate approximately 50% of the time.
 '''
 ''' ],
     'random_' : [
-'special', 'returns a list of k random values from 0 to 1',
+'special', 'returns a list of n random values from 0 to 1',
 '''
 ''',
 '''

@@ -767,10 +767,10 @@ def calculateChineseRemainderTheorem( values, mods ):
         if isinstance( mods[ 0 ], list ):
             return [ calculateChineseRemainderTheorem( i, j ) for i in values for j in mods ]
         else:
-            return [ calculateChineseRemainderTheorem( values, j ) for j in mods ]
+            return [ calculateChineseRemainderTheorem( i, mods ) for i in values ]
     else:
         if isinstance( mods[ 0 ], list ):
-            return [ calculateChineseRemainderTheorem( i , mods ) for i in values ]
+            return [ calculateChineseRemainderTheorem( values, j ) for j in mods ]
 
     if len( values ) != len( mods ):
         raise ValueError( "the 'crt' operator requires arguments that are both lists of the same length" )

@@ -1344,7 +1344,7 @@ operators = {
     'randint'           : OperatorInfo( randrange, 1 ),
     'randint_'          : OperatorInfo( randrange_, 2 ),
     'random'            : OperatorInfo( rand, 0 ),
-    'random_'           : OperatorInfo( rand_, 0 ),
+    'random_'           : OperatorInfo( rand_, 1 ),
     'range'             : OperatorInfo( expandRange, 2 ),
     'range2'            : OperatorInfo( expandSteppedRange, 3 ),
     'real'              : OperatorInfo( re, 1 ),

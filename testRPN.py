@@ -50,8 +50,8 @@ def runTests( ):
     testRPN( 'rpn -a12 8 sqrt -d5' )
     testRPN( 'rpn -a50 19 sqrt -d10' )
 
-    testRPN( 'rpn -p50 1 30 range fib -g 3' )
-    testRPN( 'rpn -p50 1 30 range fib -g 4' )
+    testRPN( 'rpn -a50 1 30 range fib -g 3' )
+    testRPN( 'rpn -a50 1 30 range fib -g 4' )
 
     testRPN( 'rpn -h' )
 
@@ -131,6 +131,7 @@ def runTests( ):
     testRPN( 'rpn 2 1 32 range ** -r16' )
 
     testRPN( 'rpn -t 12 14 ** 1 + factor' )
+    testRPN( 'rpn 1 40 range fib factor -s1' )
 
     testRPN( 'rpn 3 1 20 range ** -x' )
 
@@ -180,7 +181,7 @@ def runTests( ):
 
     testRPN( 'rpn 0.45 atanh' )
 
-    testRPN( 'rpn avogadro' )
+    testRPN( 'rpn -a25 avogadro' )
 
     testRPN( 'rpn 1 10 range balanced' )
     testRPN( 'rpn 53 balanced' )
@@ -192,7 +193,7 @@ def runTests( ):
     testRPN( 'rpn 153 balanced_' )
     testRPN( 'rpn 2153 balanced_' )
 
-    testRPN( 'rpn -p43 45 bell' )
+    testRPN( 'rpn -a43 45 bell' )
 
     testRPN( 'rpn 4 5 bellpoly' )
 
@@ -218,7 +219,7 @@ def runTests( ):
 
     testRPN( 'rpn 100 centeredcube' )
 
-    testRPN( 'rpn -p100 champernowne' )
+    testRPN( 'rpn -a100 champernowne' )
 
     testRPN( 'rpn 0x101 char' )
 
@@ -445,9 +446,9 @@ def runTests( ):
 
     testRPN( 'rpn 54658 seconds hms' )
 
-    testRPN( 'rpn 4 3 hyper4_2' )
+    testRPN( 'rpn -a160 4 3 hyper4_2' )
 
-    testRPN( 'rpn 17 hyperfac' )
+    testRPN( 'rpn -a160 17 hyperfac' )
 
     testRPN( 'rpn 3 4 hypot' )
 
@@ -500,15 +501,16 @@ def runTests( ):
 
     testRPN( 'rpn 1234567890123456789012 longlong' )
 
-    testRPN( 'rpn 99 lucas' )
+    testRPN( 'rpn -a21 99 lucas' )
+
     testRPN( 'rpn e 20 makecf' )
 
     testRPN( 'rpn maxchar' )
     testRPN( 'rpn maxlong' )
 
-    testRPN( 'rpn maxlonglong' )
+    testRPN( 'rpn -a20 maxlonglong' )
 
-    testRPN( 'rpn maxquadlong' )
+    testRPN( 'rpn -a40 maxquadlong' )
 
     testRPN( 'rpn maxshort' )
 
@@ -516,9 +518,9 @@ def runTests( ):
 
     testRPN( 'rpn maxulong' )
 
-    testRPN( 'rpn maxulonglong' )
+    testRPN( 'rpn -a20 maxulonglong' )
 
-    testRPN( 'rpn maxuquadlong' )
+    testRPN( 'rpn -a40 maxuquadlong' )
 
     testRPN( 'rpn maxushort' )
 
@@ -546,14 +548,14 @@ def runTests( ):
 
     testRPN( 'rpn 11001 100 modulo' )
 
-    testRPN( 'rpn 56 motzkin' )
+    testRPN( 'rpn -a25 56 motzkin' )
 
     testRPN( 'rpn 5 7 multiply' )
     testRPN( 'rpn 15 mph 10 hours *' )
     testRPN( 'rpn c m/s convert 1 nanosecond * inches convert' )
     testRPN( 'rpn barn gigaparsec * cubic_inch convert' )
 
-    testRPN( 'rpn -c -p100 45 primorial name' )
+    testRPN( 'rpn -c -a100 45 primorial name' )
 
     testRPN( 'rpn 6 8 narayana' )
 
@@ -563,17 +565,17 @@ def runTests( ):
 
     testRPN( 'rpn 9 6 ** nonagonal?' )
 
-    testRPN( 'rpn 12 nonahept' )
+    testRPN( 'rpn -a50 12 nonahept' )
 
-    testRPN( 'rpn 13 nonahex' )
+    testRPN( 'rpn -a60 13 nonahex' )
 
-    testRPN( 'rpn 14 nonaoct' )
+    testRPN( 'rpn -a 75 14 nonaoct' )
 
-    testRPN( 'rpn 15 nonapent' )
+    testRPN( 'rpn -a60 15 nonapent' )
 
-    testRPN( 'rpn 16 nonasquare' )
+    testRPN( 'rpn -a22 16 nonasquare' )
 
-    testRPN( 'rpn 17 nonatri' )
+    testRPN( 'rpn -a21 17 nonatri' )
 
     testRPN( 'rpn -x 0xefefefefefefef not' )
 
@@ -604,15 +606,15 @@ def runTests( ):
 
     testRPN( 'rpn 23 octahedral' )
 
-    testRPN( 'rpn -p40 8 octhept' )
+    testRPN( 'rpn -a40 8 octhept' )
 
-    testRPN( 'rpn -p30 7 octhex' )
+    testRPN( 'rpn -a30 7 octhex' )
 
     testRPN( 'rpn 6 octpent' )
 
-    testRPN( 'rpn -p25 11 octsquare' )
+    testRPN( 'rpn -a25 11 octsquare' )
 
-    testRPN( 'rpn 10 octtri' )
+    testRPN( 'rpn -a20 10 octtri' )
 
     testRPN( 'rpn 1000 oeis' )
     testRPN( 'rpn 200000 randint oeis' )
@@ -748,7 +750,7 @@ def runTests( ):
     testRPN( 'rpn 45 safeprime' )
     testRPN( 'rpn 5199846 safeprime' )
 
-    testRPN( 'rpn -p50 67 schroeder' )
+    testRPN( 'rpn -a50 67 schroeder' )
 
     testRPN( 'rpn pi 7 / sec' )
 
@@ -829,11 +831,11 @@ def runTests( ):
 
     testRPN( 'rpn 45 square' )
 
-    testRPN( 'rpn 34 squaretri' )
+    testRPN( 'rpn -a60 34 squaretri' )
 
     testRPN( 'rpn 3945 steloct' )
 
-    testRPN( 'rpn 19 subfac' )
+    testRPN( 'rpn -a20 19 subfac' )
 
     testRPN( 'rpn 3948 474 subtract' )
     testRPN( 'rpn 4 cups 27 teaspoons -' )
@@ -844,7 +846,7 @@ def runTests( ):
     testRPN( 'rpn today 3 months -' )
     testRPN( 'rpn now earth_radius 2 pi * * miles convert 4 mph / -' )
 
-    testRPN( 'rpn 12 superfac' )
+    testRPN( 'rpn -a50 12 superfac' )
 
     testRPN( 'rpn 89 superprime' )
 
@@ -854,13 +856,13 @@ def runTests( ):
 
     testRPN( 'rpn pi 4 / tanh' )
 
-    testRPN( 'rpn 19978 tetrahedral' )
+    testRPN( 'rpn -a20 19978 tetrahedral' )
 
-    testRPN( 'rpn 87 tetranacci' )
+    testRPN( 'rpn -a30 87 tetranacci' )
 
     testRPN( 'rpn 3 2 tetrate' )
 
-    testRPN( 'rpn 45 thabit' )
+    testRPN( 'rpn -a20 45 thabit' )
 
     testRPN( 'rpn 123 456 789 trianglearea' )
 
@@ -896,7 +898,7 @@ def runTests( ):
 
     testRPN( 'rpn 234567890 ulong' )
 
-    testRPN( 'rpn 12345678901234567890 ulonglong' )
+    testRPN( 'rpn -a20 12345678901234567890 ulonglong' )
 
     testRPN( 'rpn 7 unitroots' )
 
@@ -929,16 +931,16 @@ def runTests( ):
     testRPN( 'rpn 1 10 range 7 base' )
     testRPN( 'rpn 1 10 range 8 base' )
     testRPN( 'rpn 1 10 range 9 base' )
-    testRPN( 'rpn -p30 1 20 range 11 base' )
-    testRPN( 'rpn -p30 1 20 range 12 base' )
-    testRPN( 'rpn -p30 1 20 range 13 base' )
-    testRPN( 'rpn -p30 1 20 range 14 base' )
-    testRPN( 'rpn -p30 1 20 range 15 base' )
-    testRPN( 'rpn -p30 1 20 range 16 base' )
-    testRPN( 'rpn -p30 1 20 range 17 base' )
-    testRPN( 'rpn -p30 1 20 range 18 base' )
-    testRPN( 'rpn -p30 1 20 range 19 base' )
-    testRPN( 'rpn -p30 1 20 range 20 base' )
+    testRPN( 'rpn -a30 1 20 range 11 base' )
+    testRPN( 'rpn -a30 1 20 range 12 base' )
+    testRPN( 'rpn -a30 1 20 range 13 base' )
+    testRPN( 'rpn -a30 1 20 range 14 base' )
+    testRPN( 'rpn -a30 1 20 range 15 base' )
+    testRPN( 'rpn -a30 1 20 range 16 base' )
+    testRPN( 'rpn -a30 1 20 range 17 base' )
+    testRPN( 'rpn -a30 1 20 range 18 base' )
+    testRPN( 'rpn -a30 1 20 range 19 base' )
+    testRPN( 'rpn -a30 1 20 range 20 base' )
 
     testRPN( 'rpn 1 10 range cf' )
 
@@ -1071,6 +1073,24 @@ def runTests( ):
 
     testRPN( 'rpn 1 100 range geomean' )
     testRPN( 'rpn [ 1 10 range 1 20 range 1 30 range ] geomean' )
+
+    testRPN( 'rpn 10 20 range 3 primes frobenius' )
+
+    testRPN( 'rpn 1 10 range 3 5 slice' )
+    testRPN( 'rpn 1 10 range 2 -5 slice' )
+
+    testRPN( 'rpn 1 10 range 1 5 sublist' )
+
+    testRPN( 'rpn 1 10 range 5 left' )
+    testRPN( 'rpn 1 10 range 5 right' )
+
+    testRPN( 'rpn 1 3 range 10 20 range 3 primes crt' )
+
+    testRPN( 'rpn 1 20 range sigma' )
+
+    testRPN( 'rpn 276 10 aliquot' )
+
+    testRPN( 'rpn [ 1 2 3 4 ] 5 polypower' )
 
     testRPN( 'rpn help' )
     testRPN( 'rpn help about' )
