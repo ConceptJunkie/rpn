@@ -493,7 +493,7 @@ def getNthSquareTriangularNumber( n ):
     neededPrecision = int( n * 3.5 )  # determined by experimentation
 
     if mp.dps < neededPrecision:
-        mp.dps = neededPrecision
+        setAccuracy( neededPrecision )
 
     sqrt2 = sqrt( 2 )
 

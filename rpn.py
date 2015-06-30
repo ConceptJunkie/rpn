@@ -420,7 +420,7 @@ def rpn( cmd_args ):
 
     # handle -u and -y:  mpmath wants precision of at least 53 for these functions
     if args.identify and mp.dps < 53:
-        mp.dps = 53
+        setAccuracy( 53 )
 
     if args.print_options:
         print( '--output_accuracy:  %d' % g.outputAccuracy )

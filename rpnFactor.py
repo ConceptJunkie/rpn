@@ -621,7 +621,7 @@ def factor( n ):
         dps = ceil( log( n ) )
 
         if dps > mp.dps:
-            mp.dps = dps
+            setAccuracy( dps )
 
         if target > 1000000000:
             if g.factorCache is None:

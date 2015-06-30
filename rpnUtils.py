@@ -324,7 +324,7 @@ def parseInputValue( term, inputRadix ):
             newPrecision = len( term ) + 1
 
             if mp.dps < newPrecision:
-                mp.dps = newPrecision
+                setAccuracy( newPrecision )
 
             return mpmathify( term )
 
@@ -356,7 +356,7 @@ def parseInputValue( term, inputRadix ):
                 newPrecision = math.ceil( ( math.log10( 16 ) * ( len( integer ) - 2 ) ) ) + 1
 
                 if mp.dps < newPrecision:
-                    mp.dps = newPrecision
+                    setAccuracy( newPrecision )
 
                 return mpmathify( int( integer[ 2 : ], 16 ) )
             elif integer[ -1 ] in 'bB':
@@ -364,7 +364,7 @@ def parseInputValue( term, inputRadix ):
                 newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
 
                 if mp.dps < newPrecision:
-                    mp.dps = newPrecision
+                    setAccuracy( newPrecision )
 
                 integer = integer[ : -1 ]
                 return mpmathify( int( integer, 2 ) * ( -1 if negative else 1 ) )
@@ -377,7 +377,7 @@ def parseInputValue( term, inputRadix ):
             newPrecision = math.ceil( math.log10( 2 ) * ( len( integer ) - 1 ) ) + 1
 
             if mp.dps < newPrecision:
-                mp.dps = newPrecision
+                setAccuracy( newPrecision )
 
             integer = integer[ : -1 ]
             return mpmathify( int( integer, 2 ) * ( -1 if negative else 1 ) )
@@ -385,7 +385,7 @@ def parseInputValue( term, inputRadix ):
             newPrecision = len( integer ) + 1
 
             if mp.dps < newPrecision:
-                mp.dps = newPrecision
+                setAccuracy( newPrecision )
 
             return fneg( integer ) if negative else mpmathify( integer )
 
