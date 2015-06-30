@@ -23,6 +23,7 @@
 from mpmath import *
 
 from rpnDeclarations import *
+from rpnMeasurement import *
 from rpnPrimeUtils import *
 from rpnUtils import *
 
@@ -226,4 +227,28 @@ def getRobbinsConstant( ):
     robbins = fadd( robbins, fdiv( fmul( 2, log( fadd( 2, sqrt( 3 ) ) ) ), 5 ) )
 
     return robbins
+
+
+# //******************************************************************************
+# //
+# //  getMagneticConstant
+# //
+# //  https://en.wikipedia.org/wiki/Vacuum_permeability
+# //
+# //******************************************************************************
+
+def getMagneticConstant( ):
+    return Measurement( fprod( [ 4, pi, power( 10, -7 ) ] ), [ { 'newton' : 1 }, { 'ampere' : -2 } ] )
+
+
+# //******************************************************************************
+# //
+# //  getNewtonsConstant
+# //
+# //  https://en.wikipedia.org/wiki/Gravitational_constant
+# //
+# //******************************************************************************
+
+def getNewtonsConstant( ):
+    return Measurement( mpmathify( '6.67384e-11' ), [ { 'meter' : 3 }, { 'kilogram' : -1 }, { 'second' : -2 } ] )
 

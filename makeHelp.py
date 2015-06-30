@@ -781,6 +781,11 @@ Fixed several minor bugs.
 
 6.4.0
 
+Added the 'magnetic_constant', 'electric_constant', 'rydberg_constant',
+'newtons_constant' and 'fine_structure' operators.
+
+Revamped factorization to be much, much faster.
+
 Added 'eulerphi' operator.
 
 Added caching for factorizations.
@@ -2284,6 +2289,13 @@ c:\>rpn [ 1 10 range 10 dup ] unique
 ''',
 '''
 ''' ],
+    'electric_constant' : [
+'constants', 'returns the electric constant',
+'''
+TODO:  explain all the other names this has
+''',
+'''
+''' ],
     'element' : [
 'list_operators', 'returns a single element from a list',
 '''
@@ -2481,7 +2493,13 @@ c:\>rpn -p80 1 80 range fib x isprime filter
 [ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
 ''' ],
     'find_poly' : [
-'algebra', 'find a polynomial for which n is a zero',
+'algebra', 'finds a polynomial for which n is a zero',
+'''
+''',
+'''
+''' ],
+    'fine_structure' : [
+'constants', 'returns the fine-structure constant',
 '''
 ''',
 '''
@@ -3117,6 +3135,13 @@ c:\>rpn e sqr e logxy
 ''',
 '''
 ''' ],
+    'magnetic_constant' : [
+'constants', 'returns the magnetic constant',
+'''
+TODO:  explain all the other names this has
+''',
+'''
+''' ],
     'makecf' : [
 'number_theory', 'calculates k terms of the continued fraction representation of n',
 '''
@@ -3581,6 +3606,12 @@ c:\>rpn 16800 mA hours * 5 volts * joule convert
 ''' ],
     'negative_infinity' : [
 'special', 'evaluates to negative infinity, used to describe ranges for nsum, nprod, and limit',
+'''
+''',
+'''
+''' ],
+    'newtons_constant' : [
+'constants', 'returns Newton\'s gravitational constant',
 '''
 ''',
 '''
