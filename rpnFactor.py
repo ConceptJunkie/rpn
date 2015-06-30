@@ -19,9 +19,12 @@ import os
 import pickle
 import random
 
-from rpnDeclarations import *
-from rpnPrimes import primes
 from functools import reduce
+
+from rpnDeclarations import *
+from rpnUtils import setAccuracy
+from rpnPrimes import primes
+
 
 import rpnGlobals as g
 

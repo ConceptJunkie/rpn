@@ -617,24 +617,6 @@ def dumpStats( ):
 
 # //******************************************************************************
 # //
-# //  setAccuracy
-# //
-# //******************************************************************************
-
-def setAccuracy( n ):
-    if n == -1:
-        g.outputAccuracy = g.defaultOutputAccuracy
-    else:
-        g.outputAccuracy = int( n )
-
-    if mp.dps < g.outputAccuracy + 2:
-        mp.dps = g.outputAccuracy + 2
-
-    return g.outputAccuracy
-
-
-# //******************************************************************************
-# //
 # //  setPrecision
 # //
 # //******************************************************************************
@@ -645,8 +627,8 @@ def setPrecision( n ):
     else:
         mp.dps = int( n )
 
-    if mp.dps < g.outputAccuracy + 2:
-        mp.dps = g.outputAccuracy + 2
+    if mp.dps < g.outputAccuracy:
+        mp.dps = g.outputAccuracy
 
     return mp.dps
 
@@ -1040,7 +1022,7 @@ listOperators = {
 
 operators = {
     'abs'               : OperatorInfo( fabs, 1 ),
-    'accuracy'          : OperatorInfo( setAccuracy, 1 ),
+    'accuracy'          : OperatorInfo( lambda n: setAccuracy( fadd( n, 2 ) ), 1 ),
     'acos'              : OperatorInfo( lambda n: performTrigOperation( n, acos ), 1 ),
     'acosh'             : OperatorInfo( lambda n: performTrigOperation( n, acosh ), 1 ),
     'acot'              : OperatorInfo( lambda n: performTrigOperation( n, acot ), 1 ),
