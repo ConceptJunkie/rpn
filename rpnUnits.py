@@ -67,6 +67,13 @@ basicUnitTypes = {
         accelerationTable
     ),
 
+    'amount_of_substance' : UnitTypeInfo(
+        'amount_of_substance',
+        'mole',
+        'mole',
+        amountOfSubstanceTable
+    ),
+
     'angle' : UnitTypeInfo(
         'angle',
         'radian',
@@ -341,6 +348,13 @@ unitOperators = {
 
     'standard_gravity' :
         UnitInfo( 'acceleration', 'standard_gravity', 'standard_gravities', 'G', [ 'grav', 'gee' ], [ 'natural' ],
+                  '''
+                  ''' ),
+
+    # amount of substance
+
+    'mole' :
+        UnitInfo( 'amount_of_substance', 'mole', 'mole', 'mol', [ '' ], [ 'SI' ],
                   '''
                   ''' ),
 
@@ -3079,6 +3093,7 @@ metricUnits = [
     ( 'light-year',         'light-years',      'ly',   [ ], [ ] ),
     ( 'lux',                'lux',              'lx',   [ ], [ ] ),
     ( 'meter',              'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
+    ( 'mole',               'moles',            'mol',  [ ], [ ] ),
     ( 'newton',             'newtons',          'N',    [ ], [ ] ),
     ( 'ngogn',              'ngogns',           'ng',   [ ], [ ] ),
     ( 'ohm',                'ohms',             'O',    [ ], [ ] ),

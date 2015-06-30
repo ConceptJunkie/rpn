@@ -2513,7 +2513,7 @@ c:\>rpn -p80 1 80 range fib x isprime filter
     'float' : [
 'conversion', 'converts n to the representation of a 32-bit IEEE 754 float',
 '''
-For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
+For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''',
 '''
 c:\>rpn pi float -x
