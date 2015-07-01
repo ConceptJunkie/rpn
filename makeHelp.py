@@ -2459,6 +2459,14 @@ c:\>rpn 2 2 10 exprange
 ''',
 '''
 ''' ],
+    'faradays_constant' : [
+'constants', 'returns Faraday\'s Constant',
+'''
+''',
+'''
+c:\>rpn faradays_constant
+96485.33289 coulombs per mole
+''' ],
     'february' : [
 'constants', 'returns 2, which is the code for February',
 '''
@@ -4378,6 +4386,14 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
+    'radiation_constant' : [
+'constants', 'returns the Radiation Constant',
+'''
+''',
+'''
+c:\>rpn radiation_constant
+7.5657e-16 joules per meter^3 kelvin^4
+''' ],
     'randint' : [
 'special', 'returns a random integer from 0 to n - 1',
 '''
@@ -4893,6 +4909,14 @@ c:\>rpn 1 20 range countdiv sortdesc
 '''
 c:\>rpn 1 50 range countdiv stddev
 2.14485430741
+''' ],
+    'stefan_boltzmann' : [
+'constants', 'returns the Stefan-Boltzmann constant',
+'''
+''',
+'''
+c:\>rpn stefan_boltzmann
+5.670373e-8 watts per meter^2 kelvin^4
 ''' ],
     'steloct' : [
 'polyhedral_numbers', 'calculates the nth stella octangula number',

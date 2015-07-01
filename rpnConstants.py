@@ -252,3 +252,28 @@ def getMagneticConstant( ):
 def getNewtonsConstant( ):
     return Measurement( mpmathify( '6.67384e-11' ), [ { 'meter' : 3 }, { 'kilogram' : -1 }, { 'second' : -2 } ] )
 
+
+# //******************************************************************************
+# //
+# //  getStefanBoltzmannConstant
+# //
+# //  https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant
+# //
+# //******************************************************************************
+
+def getStefanBoltzmannConstant( ):
+    return Measurement( mpmathify( '5.670373e-8' ), [ { 'watt' : 1 }, { 'meter' : -2 }, { 'kelvin' : -4 } ] )
+
+
+# //******************************************************************************
+# //
+# //  getRadiationConstant
+# //
+# //  https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant
+# //
+# //******************************************************************************
+
+def getRadiationConstant( ):
+    return Measurement( mpmathify( '7.5657e-16' ), [ { 'joule' : 1 }, { 'meter' : -3 }, { 'kelvin' : -4 } ] )
+
+
