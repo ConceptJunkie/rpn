@@ -10,17 +10,27 @@ units program.
 
 ****
 
-The current version is 6.3.0.
+The current release is 6.4.0.
 
 rpn is a console app and can be launched from the command-line.  However,
 there is now an "interactive mode" and an icon to launch rpn for Windows users.
 
+
+Running RPN using the Windows installer:
+
 The installer includes the compiled help file, unit conversion tables and
-prime number lookup tables.
+prime number lookup tables.  Clicking on the icon will launch an rpn "shell",
+which works just like running rpn from the command-line, except you don't need
+to say "python rpn.py".
+
+There are operators to perform the same thing normally done with command-line
+switches.
+
+See "rpn help settings" for more information.
 
 Running RPN using the source:
 
-rpn is written in Python 3, and requires the mpmath, pyprimes, readline and
+rpn is written in Python 3.4, and requires the mpmath, pyprimes, readline and
 arrow libraries for most of the hard math stuff (gmpy2 is optional, but
 recommended).
 
@@ -38,10 +48,14 @@ Before running rpn, you should run makeHelp.py and makeUnits.py to generate
 the data files that rpn uses for displaying help and doing unit conversions
 respectively.
 
+    python makeUnits.py
+    python makeHelp.py
+
 Using rpn:
 
 rpn is very easy to use.  It's just like any RPN calculator:  Operands go first,
-then the operators.
+then the operators.  All examples assume "rpn" is an alias for "python
+/<path-to-rpn>/rpn.py".  In interactive mode, you leave off the "rpn".
 
 For instance:
 
@@ -49,12 +63,13 @@ For instance:
 
 will calculate 2 + 2.
 
-rpn supports more than 430 operators.  ('rpn _dumpops' will list them all.)
-The entire list is also included at the bottom of this document.
+rpn supports more than 470 operators.  ('rpn _dumpops' will list them all.)
+
+The entire operator list is also included at the bottom of this document.
 
 rpn has pretty extensive built-in help, although the help files are not
-complete.  However, all operators are described, and most are obvious enough to
-use easily.
+complete.  However, all operators have at least a brief description, and most
+are obvious enough to use easily.
 
 Start with "rpn help" for an overview.  To dive right in, see "rpn help
 examples".  In interactive mode, typing "help" will launch help mode.   Then,
@@ -62,25 +77,27 @@ examples".  In interactive mode, typing "help" will launch help mode.   Then,
 
 makeRPNPrimes.py consists of a bunch of functions for pre-calculating and
 caching different kinds of prime numbers that was recently pulled out of rpn.py
-(and as of version 6.3.0 isn't finished as a standalone program).
+(and as of version 6.4.0 isn't finished as a standalone program).
 
 The data files are stored in the same location as rpn.py in a subdirectory
 called rpndata/.  In the Windows installer version, they are stored in the same
 directory as the EXE.
 
 If you really want to generate prime numbers, see my "primes" project:
-https://github.com/ConceptJunkie/primes
+https://github.com/ConceptJunkie/primes   I've calculated the first 10 billion
+prime numbers and will someday update the rpn lookup tables.
 
 rpn also provides a simple interface for accessing The On-Line Encyclopedia of
-Integer Sequences (http://oeis.org).
+Integer Sequences (http://oeis.org), see "rpn help special" and "rpn help
+oeis".
 
 Feedback, Comments, Bug Reports:
 
 Any feedback is welcome at rickg@his.com.  This was originally an exercise to
 learn Python, but slowly blossomed into something really useful and fun, so I
 wanted to share it.  rpn also exposes just a few of the features of the amazing
-mpmath library (by Fredrik Johansson, http://mpmath.org/) which is where all
-the hard stuff is actually done.
+mpmath library (by Fredrik Johansson, http://mpmath.org/) which is where
+almost all the hard math stuff is actually done.
 
 Rick Gutleber
 rickg@his.com
@@ -90,14 +107,30 @@ p.s. rpn is licensed under the GNU GPL version 3.0.  See (see
 
 Release Notes:
 
-6.4.0
+6.4.0 - "Factoring Fun"
+
+Revamped factorization to be much, much faster, using the Brent-Pollard
+algorithm instead of just brute-force dividing.   More to come...
+
+Added the 'magnetic_constant', 'electric_constant', 'rydberg_constant',
+'newtons_constant' and 'fine_structure' operators.
+
+Added 'eulerphi' operator.
+
+Added caching for factorizations.  I often factor the same numbers over and
+over (like when I'm playing with the Fibonaccis) so it made sense to cache the
+results for non-trivial factoring.
 
 Added the 'sigma, 'aliquot', 'polypower', 'mobius' and 'mertens' operators.
-The old 'mertens' operator was renamed to 'mertens_constant'.
+The old 'mertens' operator was renamed to 'mertens_constant'.  The 'aliquot'
+operator is another use-case for caching factorizations... try it with 276.
+rpn can can now factor the first 450 or so in a reasonably short time.
 
 Added the 'frobenius', 'slice', 'sublist', 'left' and 'right' operators.
 
 Added 'crt' operator.
+
+...and the usual slew of bug fixes.
 
 6.3.0
 
@@ -392,56 +425,58 @@ use of "global" in favor of a global module.
 
 Operators supported by rpn:
 
-[ ] abs accuracy acos acosh acot acoth acsc acsch add aliquot altfac altsign
-altsign2 altsum altsum2 and apery aperynum append april argument asec asech
-ash_wednesday asin asinh atan atanh august avogadro balanced balanced_ base
-bell bellpoly bernoulli binomial calendar carol catalan catalans cdecagonal
-cdecagonal? ceiling centeredcube cf champernowne char cheptagonal cheptagonal?
-chexagonal cnonagonal cnonagonal? coctagonal coctagonal? comma comma_mode
-conjugate convert copeland cos cosh cot coth count countbits countdiv
-cousinprime cpentagonal cpentagonal? cpolygonal cpolygonal? csc csch csquare
-csquare? ctriangular ctriangular? cube debruijn decagonal decagonal? december
-decimal_grouping default delannoy dhms diffs diffs2 divide divisors dms
-dodecahedral double doublebal doublebal_ doublefac dst_end dst_start dup e
-easter egypt election_day element equal estimate euler eulerbrick eval eval2
-eval3 exp exp10 expphi exprange factor factorial false february fibonacci
-fibonorial filter find_poly flatten float floor fraction friday fromunixtime
-gamma gcd geomean georange glaisher greater harmonic help heptagonal
-heptagonal? heptanacci hepthex heptpent heptsquare hepttri hex_mode hexagonal
-hexagonal? hexanacci hexpent hms hyper4_2 hyperfac hypot i icosahedral identify
-identify_mode imaginary infinity input_radix integer integer_grouping
-interleave intersection isdivisible iso_day isolated isprime issquare itoi
-jacobsthal january julian_day july june khinchin kynea labor_day lah lambertw
-leading_zero leading_zero_mode lcm left less leyland lgamma li limit limitn
-linearrecur ln log10 log2 logxy long longlong lucas makecf makeisotime
-makejuliantime makepyth3 makepyth4 maketime march max maxchar maxdouble
-maxfloat maxindex maxlong maxlonglong maxquadlong maxshort maxuchar maxulong
-maxulonglong maxuquadlong maxushort may mean memorial_day mertens
-mertens_constant mills min minchar mindouble minfloat minindex minlong
-minlonglong minquadlong minshort minuchar minulong minulonglong minuquadlong
-minushort mobius modulo monday motzkin multiply name narayana negative
-negative_infinity nint nonagonal nonagonal? nonahept nonahex nonaoct nonapent
-nonasquare nonatri nonzero not not_equal not_greater not_less november now
-nprod nspherearea nsphereradius nspherevolume nsum nthprime? nthquad?
-nthweekday nthweekdayofyear octagonal octagonal? octahedral octal_mode octhept
-octhex october octpent octsquare octtri oeis oeiscomment oeisex oeisname omega
-or output_radix pack padovan parity pascal pell pentagonal pentagonal?
-pentanacci pentatope pentsquare penttri perm phi pi plastic plot plot2 plotc
-polyadd polyarea polygamma polygonal polygonal? polylog polymul polypower
-polyprime polyprod polysum polytope polyval power precision presidents_day
-previous prevost prime prime? primepi primes primorial product pyramid
-quadprime quadprime? quadprime_ quintprime quintprime_ randint randint_ random
-random_ range range2 ratios real reciprocal reduce repunit result reverse
-rhombdodec riesel right robbins root root2 root3 round safeprime saturday
+[ ] _dumpalias _dumpops _stats abs accuracy acos acosh acot acoth acsc acsch
+add aliquot altfac altsign altsign2 altsum altsum2 and apery aperynum append
+april argument asec asech ash_wednesday asin asinh atan atanh august avogadro
+balanced balanced_ base bell bellpoly bernoulli binomial calendar carol catalan
+catalans cdecagonal cdecagonal? ceiling centeredcube cf champernowne char
+cheptagonal cheptagonal? chexagonal cnonagonal cnonagonal? coctagonal
+coctagonal? comma comma_mode conjugate convert copeland cos cosh cot coth count
+countbits countdiv cousinprime cpentagonal cpentagonal? cpolygonal cpolygonal?
+crt csc csch csquare csquare? ctriangular ctriangular? cube debruijn decagonal
+decagonal? december decimal_grouping default delannoy dhms diffs diffs2 divide
+divisors dms dodecahedral double doublebal doublebal_ doublefac dst_end
+dst_start dup e easter egypt election_day electric_constant element equal
+estimate euler eulerbrick eulerphi eval eval2 eval3 exp exp10 expphi exprange
+factor factorial false faradays_constant february fibonacci fibonorial filter
+find_poly fine_structure flatten float floor fraction friday frobenius
+fromunixtime gamma gcd geomean georange glaisher greater harmonic help
+heptagonal heptagonal? heptanacci hepthex heptpent heptsquare hepttri hex_mode
+hexagonal hexagonal? hexanacci hexpent hms hyper4_2 hyperfac hypot i
+icosahedral identify identify_mode imaginary infinity input_radix integer
+integer_grouping interleave intersection isdivisible iso_day isolated isprime
+issquare itoi jacobsthal january julian_day july june khinchin kynea labor_day
+lah lambertw lcm leading_zero leading_zero_mode left less leyland lgamma li
+limit limitn linearrecur ln log10 log2 logxy long longlong lucas
+magnetic_constant makecf makeisotime makejuliantime makepyth3 makepyth4
+maketime march max maxchar maxdouble maxfloat maxindex maxlong maxlonglong
+maxquadlong maxshort maxuchar maxulong maxulonglong maxuquadlong maxushort may
+mean memorial_day mertens mertens_constant mills min minchar mindouble minfloat
+minindex minlong minlonglong minquadlong minshort minuchar minulong
+minulonglong minuquadlong minushort mobius modulo monday motzkin multiply name
+narayana negative negative_infinity newtons_constant nint nonagonal nonagonal?
+nonahept nonahex nonaoct nonapent nonasquare nonatri nonzero not not_equal
+not_greater not_less november now nprod nspherearea nsphereradius nspherevolume
+nsum nthprime? nthquad? nthweekday nthweekdayofyear octagonal octagonal?
+octahedral octal_mode octhept octhex october octpent octsquare octtri oeis
+oeiscomment oeisex oeisname old_factor omega or output_radix pack padovan
+parity pascaltri pell pentagonal pentagonal? pentanacci pentatope pentsquare
+penttri perm phi pi plastic plot plot2 plotc polyadd polyarea polygamma
+polygonal polygonal? polylog polymul polypower polyprime polyprod polysum
+polytope polyval power powmod precision presidents_day previous prevost prime
+prime? primepi primes primorial product pyramid quadprime quadprime? quadprime_
+quintprime quintprime_ radiation_constant randint randint_ random random_ range
+range2 ratios real reciprocal reduce repunit result reverse rhombdodec riesel
+right robbins root root2 root3 round rydberg_constant safeprime saturday
 schroeder sec sech september set sextprime sextprime_ sexyprime sexyprime_
 sexyquad sexyquad_ sexytriplet sexytriplet_ shiftleft shiftright short sigma
-sin sinh slice solve solve2 solve3 solve4 sophieprime sort sortdesc spherearea
-sphereradius spherevolume square squaretri stddev steloct subfac sublist
-subtract sum sunday superfac superprime sylvester tan tanh tetrahedral
-tetranacci tetrate thabit thanksgiving thursday timer timer_mode today topic
-tounixtime tower tower2 trianglearea triangular triangular? tribonacci
-triplebal triplebal_ tripletprime true truncoct trunctet tuesday twinprime
-twinprime_ uchar uinteger ulong ulonglong undouble unfloat union unique
-unitroots unlist unlist unpack ushort value wednesday weekday x xor y ydhms
-year_calendar z zero zeta ~
+sign sin sinh slice solve solve2 solve3 solve4 sophieprime sort sortdesc
+spherearea sphereradius spherevolume square squaretri stddev stefan_boltzmann
+steloct subfac sublist subtract sum sunday superfac superprime sylvester tan
+tanh tetrahedral tetranacci tetrate thabit thanksgiving thursday timer
+timer_mode today topic tounixtime tower tower2 trianglearea triangular
+triangular? tribonacci triplebal triplebal_ tripletprime tripletprime_ true
+truncoct trunctet tuesday twinprime twinprime_ uchar uinteger ulong ulonglong
+undouble unfloat union unique unitroots unlist unlist unpack ushort value
+wednesday weekday x xor y ydhms year_calendar z zero zeta ~
 

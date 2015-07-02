@@ -796,6 +796,8 @@ The old 'mertens' operator was renamed to 'mertens_constant'.
 Added the 'frobenius', 'slice', 'sublist', 'left' and 'right' operators.
 
 Added 'crt' operator.
+
+...and the usual bug fixes.
     ''',
     'license' :
     '''
