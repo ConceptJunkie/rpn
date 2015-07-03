@@ -798,6 +798,14 @@ Added the 'frobenius', 'slice', 'sublist', 'left' and 'right' operators.
 Added 'crt' operator.
 
 ...and the usual bug fixes.
+
+6.5.0
+
+Added the 'nand' and 'nor' operators.
+
+Filled in a bunch of help text.
+
+...and the usual bug fixes.
     ''',
     'license' :
     '''
