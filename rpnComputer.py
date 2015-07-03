@@ -28,8 +28,12 @@ import rpnGlobals as g
 
 def getInvertedBits( n ):
     value = floor( n )
+
     # determine how many groups of bits we will be looking at
-    groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
+    if value == 0:
+        groupings = 1
+    else:
+        groupings = int( fadd( floor( fdiv( ( log( value, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
 
     placeValue = mpmathify( 1 << g.bitwiseGroupSize )
     multiplier = mpmathify( 1 )
@@ -79,8 +83,15 @@ def performBitwiseOperation( i, j, operation ):
     value2 = floor( j )
 
     # determine how many groups of bits we will be looking at
-    groupings = int( fadd( floor( fdiv( ( log( value1, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
-    groupings2 = int( fadd( floor( fdiv( ( log( value2, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
+    if value1 == 0:
+        groupings = 1
+    else:
+        groupings = int( fadd( floor( fdiv( ( log( value1, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
+
+    if value2 == 0:
+        groupings2 = 1
+    else:
+        groupings2 = int( fadd( floor( fdiv( ( log( value2, 2 ) ), g.bitwiseGroupSize ) ), 1 ) )
 
     if groupings2 > groupings:
         groupings = groupings2

@@ -1273,20 +1273,99 @@ operatorHelp = {
     '[' : [
 'modifiers', 'begins a list',
 '''
+Any operand in rpn can be replaced with a list of operands.  The '[' and ']'
+operators are used to delimit lists, with 1 or more operands included inside.
+
+Lists can also be members of lists.
+
+rpn will execute the operator once for each item in the list, and the results
+will be returned in a list.  Lists can be recursive.
+
+Some operators in rpn require list operands, and these can also accept
+recursive lists as well.
+
+If multiple operands are replaced with lists, rpn will execute the operator
+once for each item in the first list and each respective item in each
+subsequent list operand.  If the lists are not the same size, rpn performs
+the operator for each item of the shortest list and ignores the extra list
+items.
+
+*** Note:  As of 6.4.0, there are a few operators that don't correctly support
+replacing single operands with lists.  I'm working through these to make
+sure they all work.
+*** Specifically, operators that are not of the type 'list_operators' that
+take three or more operands do not work with lists.
 ''',
 '''
+c:\>rpn [ 10 20 30 40 ] prime
+[ 29, 71, 113, 173 ]
+
+c:\>rpn [ 2 3 4 6 7 ] 3 +
+[ 5, 6, 7, 9, 10 ]
+
+c:\>rpn [ 1 2 3 4 ] [ 4 3 2 1 ] +
+[ 5, 5, 5, 5 ]
+
+c:\>rpn [ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +
+[ [ 9, 10, 11, 12 ], [ 11, 12, 13, 14 ], [ 13, 14, 15, 16 ] ]
 ''' ],
     ']' : [
 'modifiers', 'ends a list',
 '''
+Any operand in rpn can be replaced with a list of operands.  The '[' and ']'
+operators are used to delimit lists, with 1 or more operands included inside.
+
+Lists can also be members of lists.
+
+rpn will execute the operator once for each item in the list, and the results
+will be returned in a list.  Lists can be recursive.
+
+Some operators in rpn require list operands, and these can also accept
+recursive lists as well.
+
+If multiple operands are replaced with lists, rpn will execute the operator
+once for each item in the first list and each respective item in each
+subsequent list operand.  If the lists are not the same size, rpn performs
+the operator for each item of the shortest list and ignores the extra list
+items.
+
+*** Note:  As of 6.4.0, there are a few operators that don't correctly support
+replacing single operands with lists.  I'm working through these to make
+sure they all work.
+
+*** Specifically, operators that are not of the type 'list_operators' that
+take three or more operands do not work with lists.
 ''',
 '''
+c:\>rpn [ 10 20 30 40 ] prime
+[ 29, 71, 113, 173 ]
+
+c:\>rpn [ 2 3 4 6 7 ] 3 +
+[ 5, 6, 7, 9, 10 ]
+
+c:\>rpn [ 1 2 3 4 ] [ 4 3 2 1 ] +
+[ 5, 5, 5, 5 ]
+
+c:\>rpn [ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +
+[ [ 9, 10, 11, 12 ], [ 11, 12, 13, 14 ], [ 13, 14, 15, 16 ] ]
 ''' ],
     'abs' : [
 'arithmetic', 'calculates the absolute value of n',
 '''
+The absolute value of a number represents its magnitude, regardless of sign.
+
+The absolute value of 0 or a postive number is the number itself.  The
+absolute value of a negative number is the number without the negative sign.
 ''',
 '''
+c:\>rpn 1 abs
+1
+
+c:\>rpn -1 abs
+1
+
+c:\>rpn [ -10 20 -30 40 -50 ] abs
+[ 10, 20, 30, 40, 50 ]
 ''' ],
     'accuracy' : [
 'settings', 'sets output accuracy to n'
@@ -1330,6 +1409,10 @@ c:\>rpn 45 degrees cos acos rad deg convert
     'acosh' : [
 'trigonometry', 'calculates the hyperbolic arccosine of n',
 '''
+The hyperbolic arccosine is the inverse of the hyperbolic cosine.  The
+hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -1342,6 +1425,10 @@ c:\>rpn 45 degrees cos acos rad deg convert
     'acoth' : [
 'trigonometry', 'calculates the hyperbolic arccotangent of n',
 '''
+The hyperbolic arccotangent is the inverse of the hyperbolic cotangent.  The
+hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -1354,6 +1441,10 @@ c:\>rpn 45 degrees cos acos rad deg convert
     'acsch' : [
 'trigonometry', 'calculates the hyperbolic arccosecant of n',
 '''
+The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.  The
+hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -1458,8 +1549,23 @@ c:\>rpn 1 10 range altsum2
     'and' : [
 'logical', 'calculates the bitwise \'and\' of n and k',
 '''
+'and' is the logical operation which returns true if and only if the two
+operands are true.
+
+The operands are converted to strings of bits large enough to represent the
+larger of the values, rounded up to the next highest multiple of the bitwise
+group size, which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+
+As a bitwise operator, this operation is applied succesively to each
+corresponding bit in the binary representation of both operands.  The result
+is the numerical representation of the string of 'and'ed bits.
 ''',
 '''
+c:\>rpn -x 0xF0F0F0F0 0x12345678 and
+1030 5070
+
+c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] and
+[ 0, 0, 0, 1 ]
 ''' ],
     'apery' : [
 'constants', 'returns Apery\'s constant',
@@ -1494,7 +1600,7 @@ c:\>rpn 1 5 range 6 10 range append
     'april' : [
 'constants', 'returns 4, which is the code for April',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 c:\>rpn april
@@ -1551,6 +1657,10 @@ c:\>rpn 2 sqrt 1/x asin rad deg convert
     'asinh' : [
 'trigonometry', 'calculates the hyperbolic arcsine of n',
 '''
+The hyperbolic arcsine is the inverse of the hyperbolic sine.  The
+hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -1581,13 +1691,17 @@ c:\>rpn 89 degrees tan atan rad deg convert
     'atanh' : [
 'trigonometry', 'calculates the hyperbolic arctangent of n',
 '''
+The hyperbolic arctangent is the inverse of the hyperbolic tangent.  The
+hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
     'august' : [
 'constants', 'returns 8, which is the code for August',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 c:\>rpn august
@@ -2078,7 +2192,7 @@ number.
     'december' : [
 'constants', 'returns 12, which is the code for December',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2472,7 +2586,7 @@ c:\>rpn faradays_constant
     'february' : [
 'constants', 'returns 2, which is the code for February',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2547,7 +2661,7 @@ c:\>rpn 0x40490fdb unfloat
     'friday' : [
 'constants', 'returns 5, which is the code for Friday',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2897,7 +3011,7 @@ c:\>rpn itoi
     'january' : [
 'constants', 'returns 1, which is the code for January',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2910,14 +3024,14 @@ This is defined for convenience for use with date operators.
     'july' : [
 'constants', 'returns 7, which is the code for July',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
     'june' : [
 'constants', 'returns 6, which is the code for June',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3192,7 +3306,7 @@ n and k cannot both be odd.
     'march' : [
 'constants', 'returns 3, which is the code for March',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3334,7 +3448,7 @@ integer.
     'may' : [
 'constants', 'returns 5, which is the code for May',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3562,7 +3676,7 @@ c:\>rpn maxushort minushort -
     'monday' : [
 'constants', 'returns 1, which is the code for Monday',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3601,6 +3715,27 @@ c:\>rpn 16800 mA hours * 5 volts * joule convert
 '''
 ''',
 '''
+''' ],
+    'nand' : [
+'logical', 'calculates the bitwise \'nand\' of n and k',
+'''
+'nand' is the logical operation, 'not and' which returns true if zero or one
+of the operands is true.
+
+The operands are converted to strings of bits large enough to represent the
+larger of the values, rounded up to the next highest multiple of the bitwise
+group size, which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+
+As a bitwise operator, this operation is applied succesively to each
+corresponding bit in the binary representation of both operands.  The result
+is the numerical representation of the string of 'and'ed bits.
+''',
+'''
+c:\>rpn -x 0x01234567 0xffff0000 nand
+fedc ffff
+
+c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand
+[ ffff, ffff, ffff, 0000 ]
 ''' ],
     'narayana' : [
 'combinatorics', '',
@@ -3710,17 +3845,46 @@ c:\>rpn 1.5 nint
 ''',
 '''
 ''' ],
-    'nprod' : [
-'special', 'calculates the product of function c over the range of a through b',
+    'nor' : [
+'logical', 'calculates the bitwise \'nor\' of n and k',
 '''
+'nor' is the logical operation 'not or', which returns true if and only if
+neither of the two operands is true.
+
+The operands are converted to strings of bits large enough to represent the
+larger of the values, rounded up to the next highest multiple of the bitwise
+group size, which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+
+As a bitwise operator, this operation is applied succesively to each
+corresponding bit in the binary representation of both operands.  The result
+is the numerical representation of the string of 'nor'ed bits.
 ''',
 '''
+c:\>rpn -x 0x01234567 0x0000ffff nor
+fedc 0000
+
+c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nor
+[ ffff, 0000, 0000, 0000 ]
 ''' ],
     'not' : [
 'logical', 'calculates the bitwise negation of n',
 '''
+'not' is the logical operation, which returns the opposite of the operand.
+
+The operand is converted to a string of bits large enough to represent the
+value, rounded up to the next highest multiple of the bitwise group size,
+which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+
+As a bitwise operator, this operation is applied succesively to each bit in
+the binary representation of the operand.  The result is the numerical
+representation of the string of 'not'ed bits.
 ''',
 '''
+c:\>rpn -x 0xF0F0F0F0 not
+0f0f 0f0f
+
+c:\>rpn -x [ 0 1 ] not
+[ ffff, fffe ]
 ''' ],
     'not_equal' : [
 'arithmetic', 'returns 1 if n does not equal k, otherwise returns 0',
@@ -3743,12 +3907,18 @@ c:\>rpn 1.5 nint
     'november' : [
 'constants', 'returns 11, which is the code for November',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
     'now' : [
 'conversion', 'returns the current date and time',
+'''
+''',
+'''
+''' ],
+    'nprod' : [
+'special', 'calculates the product of function c over the range of a through b',
 '''
 ''',
 '''
@@ -3858,7 +4028,7 @@ distributed with data files calculated through the first billion primes.
     'october' : [
 'constants', 'returns 10, which is the code for October',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -3954,8 +4124,23 @@ c:\>rpn omega
     'or' : [
 'logical', 'calculates the bitwise \'or\' of n and k',
 '''
+'or' is the logical operation which returns true if at least one of the two
+operands is true.
+
+The operands are converted to strings of bits large enough to represent the
+larger of the values, rounded up to the next highest multiple of the bitwise
+group size, which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+
+As a bitwise operator, this operation is applied succesively to each
+corresponding bit in the binary representation of both operands.  The result
+is the numerical representation of the string of 'or'ed bits.
 ''',
 '''
+c:\>rpn -x 0xf0f0f0f0 0x0f0f0f0f or
+ffff ffff
+
+c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
+[ 0, 1, 1, 1 ]
 ''' ],
     'output_radix' : [
 'settings', 'TODO: describe me',
@@ -4569,7 +4754,7 @@ distributed with data files calculated through the first billion primes.
     'saturday' : [
 'constants', 'returns 6, which is the code for Saturday',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -4594,7 +4779,7 @@ This is defined for convenience for use with date operators.
     'september' : [
 'constants', 'returns 9, which is the code for September',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -5021,7 +5206,7 @@ c:\>rpn 1 gallon 4 cups -
     'sunday' : [
 'constants', 'returns 7, which is the code for Sunday',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -5092,7 +5277,7 @@ distributed with data files calculated through the first billion primes.
     'thursday' : [
 'constants', 'returns 4, which is the code for Thursday',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -5276,7 +5461,7 @@ rpn (3)>5 12 **
     'tuesday' : [
 'constants', 'returns 2, which is the code for Tuesday',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -5406,7 +5591,7 @@ c:\>rpn 1000 light-years value
     'wednesday' : [
 'constants', 'returns 3, which is the code for Wednesday',
 '''
-This is defined for convenience for use with date operators.
+This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 c:\>rpn 2015 august 4 wednesday nthweekday
@@ -5415,16 +5600,34 @@ c:\>rpn 2015 august 4 wednesday nthweekday
     'weekday' : [
 'conversion', 'calculates the day of the week of an absolute time',
 '''
+Given any date, the 'weekday' operator will determine what day of the week
+that date occurred on.
+
+This operator is special in that it returns a string.  rpn cannot use a string
+as an operand, so this function cannot be combined with other operators.
+
+*** 'weekday' does not currently work with list operands.
 ''',
 '''
+c:\>rpn today weekday
+'Friday'
+
+c:\>rpn 1776-07-04 weekday
+'Thursday'
+
+c:\>rpn 1965-03-31 weekday
+'Wednesday'
+
+c:\>rpn 2043-04-17 weekday
+'Friday'
 ''' ],
     'x' : [
 'special', '\'x\' is used to create functions',
 '''
 Allows the user to define a function for use with the eval, nsum, nprod,
 and limit operators, etc.  Basically 'x' starts an expression that
-becomes a function.  Right now (5.28.0), a user-defined function must start
-with 'x', but I hope to remove that limitation soon.
+becomes a function.  As of version 6.4.0 a user-defined function must start
+with 'x', but I hope to remove that limitation.
 
 See the 'user_functions' help topic for more details.
 ''',
@@ -5437,14 +5640,27 @@ c:\>rpn 5 x 2 ** 1 - eval
 
 c:\>rpn inf x 1 + fib x fib / limit
 1.6180339887
-
-Once this works, some really interesting new operators can be made.
 ''' ],
     'xor' : [
 'logical', 'calculates the bitwise \'xor\' of n and k',
 '''
+'xor' is the 'exclusive or' logical operation, which returns true if and only
+if the two operands are different.
+
+The operands are converted to strings of bits large enough to represent the
+larger of the values, rounded up to the next highest multiple of the bitwise
+group size, which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+
+As a bitwise operator, this operation is applied succesively to each
+corresponding bit in the binary representation of both operands.  The result
+is the numerical representation of the string of 'xor'ed bits.
 ''',
 '''
+c:\>rpn -x 0xffff0000 0x12345678 xor
+edcb 5678
+
+c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] xor
+[ 0, 1, 1, 0 ]
 ''' ],
     'y' : [
 'special', '\'y\' is used to create functions',
@@ -5807,12 +6023,6 @@ _maketwin start end interval
 ''' ],
     '_stats' : [
 'internal', 'dumps rpn statistics',
-'''
-''',
-'''
-''' ],
-    '~' : [
-'logical', 'calculates the bitwise negation of n',
 '''
 ''',
 '''

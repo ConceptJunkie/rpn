@@ -131,18 +131,11 @@ specialUnitConversionMatrix = {
 # //******************************************************************************
 
 operatorAliases = {
-    'divides'       : 'isdivisible',
-    '|'             : 'isdivisible',
     '!!'            : 'doublefac',
     '!'             : 'factorial',
     '!='            : 'not_equal',
     '%'             : 'modulo',
     '*'             : 'multiply',
-    '<'             : 'less',
-    '<='            : 'not_greater',
-    '=='            : 'equal',
-    '>'             : 'greater',
-    '>='            : 'not_less',
     '**'            : 'power',
     '***'           : 'tetrate',
     '+'             : 'add',
@@ -156,6 +149,11 @@ operatorAliases = {
     '/'             : 'divide',
     '//'            : 'root',
     '1/x'           : 'reciprocal',
+    '<'             : 'less',
+    '<='            : 'not_greater',
+    '=='            : 'equal',
+    '>'             : 'greater',
+    '>='            : 'not_less',
     '?'             : 'help',
     'apr'           : 'april',
     'arcosine'      : 'acos',
@@ -209,6 +207,7 @@ operatorAliases = {
     'deca?'         : 'decagonal?',
     'diff'          : 'diffs',
     'divcount'      : 'countdiv',
+    'divides'       : 'isdivisible',
     'election'      : 'election_day',
     'f!'            : 'fibonorial',
     'fac'           : 'factorial',
@@ -386,6 +385,7 @@ operatorAliases = {
     'zeroes'        : 'zero',
     'zero_mode'     : 'leading_zero_mode',
     '^'             : 'power',
+    '|'             : 'isdivisible',
     '~'             : 'not',
 }
 
