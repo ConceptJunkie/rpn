@@ -802,7 +802,7 @@ def getZeroes( args ):
         if isinstance( args[ 0 ], list ):
             return [ getZeroes( arg ) for arg in args ]
         else:
-            return [ index for index, e in enumerate( args ) if e != 0 ]
+            return [ index for index, e in enumerate( args ) if e == 0 ]
     else:
         return args
 
