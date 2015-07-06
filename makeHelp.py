@@ -377,7 +377,7 @@ Interactive mode also introduces some new operators.  Each expression that is
 evaluated is given a successive number:
 
 c:\>rpn
-rpn 6.4.0 - RPN command-line calculator
+rpn 6.5.0 - RPN command-line calculator
 copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
 
 Type "help" for more information, and "exit" to exit.
@@ -1298,7 +1298,7 @@ subsequent list operand.  If the lists are not the same size, rpn performs
 the operator for each item of the shortest list and ignores the extra list
 items.
 
-*** Note:  As of 6.4.0, there are a few operators that don't correctly support
+*** Note:  As of 6.5.0, there are a few operators that don't correctly support
 replacing single operands with lists.  I'm working through these to make
 sure they all work.
 *** Specifically, operators that are not of the type 'list_operators' that
@@ -1337,7 +1337,7 @@ subsequent list operand.  If the lists are not the same size, rpn performs
 the operator for each item of the shortest list and ignores the extra list
 items.
 
-*** Note:  As of 6.4.0, there are a few operators that don't correctly support
+*** Note:  As of 6.5.0, there are a few operators that don't correctly support
 replacing single operands with lists.  I'm working through these to make
 sure they all work.
 
@@ -1417,8 +1417,9 @@ c:\>rpn 45 degrees cos acos rad deg convert
     'acosh' : [
 'trigonometry', 'calculates the hyperbolic arccosine of n',
 '''
-The hyperbolic arccosine is the inverse of the hyperbolic cosine.  The
-hyperbolic trigonometric functions are analogous to the regular circular
+The hyperbolic arccosine is the inverse of the hyperbolic cosine.
+
+The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 ''',
@@ -1433,8 +1434,9 @@ instead of a unit circle.
     'acoth' : [
 'trigonometry', 'calculates the hyperbolic arccotangent of n',
 '''
-The hyperbolic arccotangent is the inverse of the hyperbolic cotangent.  The
-hyperbolic trigonometric functions are analogous to the regular circular
+The hyperbolic arccotangent is the inverse of the hyperbolic cotangent.
+
+The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 ''',
@@ -1449,8 +1451,9 @@ instead of a unit circle.
     'acsch' : [
 'trigonometry', 'calculates the hyperbolic arccosecant of n',
 '''
-The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.  The
-hyperbolic trigonometric functions are analogous to the regular circular
+The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.
+
+The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 ''',
@@ -1639,6 +1642,10 @@ c:\>rpn 3 3 i + arg radians degrees convert
     'asech' : [
 'trigonometry', 'calculates the hyperbolic arcsecant of n',
 '''
+
+The hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -1665,8 +1672,9 @@ c:\>rpn 2 sqrt 1/x asin rad deg convert
     'asinh' : [
 'trigonometry', 'calculates the hyperbolic arcsine of n',
 '''
-The hyperbolic arcsine is the inverse of the hyperbolic sine.  The
-hyperbolic trigonometric functions are analogous to the regular circular
+The hyperbolic arcsine is the inverse of the hyperbolic sine.
+
+The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 ''',
@@ -1699,8 +1707,9 @@ c:\>rpn 89 degrees tan atan rad deg convert
     'atanh' : [
 'trigonometry', 'calculates the hyperbolic arctangent of n',
 '''
-The hyperbolic arctangent is the inverse of the hyperbolic tangent.  The
-hyperbolic trigonometric functions are analogous to the regular circular
+The hyperbolic arctangent is the inverse of the hyperbolic tangent.
+
+The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 ''',
@@ -2018,6 +2027,10 @@ c:\>rpn -a60 copeland
     'cosh' : [
 'trigonometry', 'calculates the hyperbolic cosine of n',
 '''
+
+The hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -2030,6 +2043,10 @@ c:\>rpn -a60 copeland
     'coth' : [
 'trigonometry', 'calculates the hyperbolic cotangent of n',
 '''
+
+The hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -2135,6 +2152,10 @@ c:\>rpn 36 degrees sin
     'csch' : [
 'trigonometry', 'calculates hyperbolic cosecant of n',
 '''
+
+The hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -3850,8 +3871,21 @@ c:\>rpn 1.5 nint
     'nonzero' : [
 'list_operators', 'returns the indices of elements of list n that are not zero',
 '''
+This operator is useful for applying an operator that returns a binary value
+on a list, and getting a summary of the results.
+
+Indices are zero-based.
+
+(see 'nonzero')
 ''',
 '''
+c:\>rpn [ 1 0 2 0 3 0 4 ] nonzero
+[ 0, 2, 4, 6 ]
+
+List the prime Fibonacci numbers:
+
+c:\>rpn 0 20 range fib isprime nonzero fib
+[ 2, 3, 5, 13, 89, 233, 1597 ]
 ''' ],
     'nor' : [
 'logical', 'calculates the bitwise \'nor\' of n and k',
@@ -4781,6 +4815,10 @@ This constant operator is defined for convenience for use with date operators.
     'sech' : [
 'trigonometry', 'calculates the hyperbolic secant of n',
 '''
+
+The hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -4946,6 +4984,10 @@ c:\>rpn 3 4 i + sign
     'sinh' : [
 'trigonometry', 'calculates the hyperbolic sine of n',
 '''
+
+The hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -5249,14 +5291,28 @@ distributed with data files calculated through the first billion primes.
     'tanh' : [
 'trigonometry', 'calculates the hyperbolic tangent of n',
 '''
+
+The hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
 ''',
 '''
 ''' ],
     'tetrate' : [
 'powers_and_roots', 'tetrates n by k',
 '''
+Tetration is the process of repeated exponentiation.  n is exponentiated by
+itself k times.
 ''',
 '''
+c:\>rpn 3 3 tetrate
+19683
+
+c:\>rpn 10 10 tetrate
+1.0e+1000000000
+
+c:\>rpn 2 1 6 range tetrate
+[ 2, 4, 16, 256, 65536, 4294967296 ]
 ''' ],
     'tetrahedral' : [
 'polyhedral_numbers', 'calculates the nth tetrahedral number',
@@ -5634,7 +5690,7 @@ c:\>rpn 2043-04-17 weekday
 '''
 Allows the user to define a function for use with the eval, nsum, nprod,
 and limit operators, etc.  Basically 'x' starts an expression that
-becomes a function.  As of version 6.4.0 a user-defined function must start
+becomes a function.  As of version 6.5.0 a user-defined function must start
 with 'x', but I hope to remove that limitation.
 
 See the 'user_functions' help topic for more details.
@@ -5703,8 +5759,21 @@ far as rpn is concerned, it's an operator that does nothing.
     'zero' : [
 'list_operators', 'returns a list of the indices of elements in list n that are zero',
 '''
+This operator is useful for applying an operator that returns a binary value
+on a list, and getting a summary of the results.
+
+Indices are zero-based.
+
+(see 'nonzero')
 ''',
 '''
+c:\>rpn [ 1 0 2 0 3 0 4 ] zero
+[ 1, 3, 5 ]
+
+List the non-prime Fibonacci numbers:
+
+c:\>rpn 0 20 range fib isprime zero fib
+[ 0, 1, 1, 8, 21, 34, 55, 144, 377, 610, 987, 2584, 4181, 6765 ]
 ''' ],
     'zeta' : [
 'number_theory', 'calculates the zeta function for n',
@@ -5718,314 +5787,9 @@ far as rpn is concerned, it's an operator that does nothing.
 ''',
 '''
 ''' ],
-    '_dumpbal' : [
-'internal', 'dumps the cached list of balanced primes',
-'''
-''',
-'''
-''' ],
-    '_dumpcousin' : [
-'internal', 'dumps the cached list of cousin primes',
-'''
-''',
-'''
-''' ],
-    '_dumpdouble' : [
-'internal', 'dumps the cached list of double balanced primes',
-'''
-''',
-'''
-''' ],
-    '_dumpiso' : [
-'internal', 'dumps the cached list of isolated primes',
-'''
-''',
-'''
-''' ],
     '_dumpops' : [
 'internal', 'lists all rpn operators',
 '''
-''',
-'''
-''' ],
-    '_dumpprimes' : [
-'internal', 'dumps the cached list of large primes',
-'''
-''',
-'''
-''' ],
-    '_dumpquad' : [
-'internal', 'dumps the cached list of quadruplet primes',
-'''
-''',
-'''
-''' ],
-    '_dumpquint' : [
-'internal', 'dumps the cached list of quintuplet primes',
-'''
-''',
-'''
-''' ],
-    '_dumpsext' : [
-'internal', 'dumps the cached list of sextuplet primes',
-'''
-''',
-'''
-''' ],
-    '_dumpsexy' : [
-'internal', 'dumps the cached list of sexy primes',
-'''
-''',
-'''
-''' ],
-    '_dumpsmall' : [
-'internal', 'dumps the cached list of small primes',
-'''
-''',
-'''
-''' ],
-    '_dumpsophie' : [
-'internal', 'dumps the cached list of Sophie Germain primes',
-'''
-''',
-'''
-''' ],
-    '_dumptriple' : [
-'internal', 'dumps the cached list of triple balanced primes',
-'''
-''',
-'''
-''' ],
-    '_dumptriplet' : [
-'internal', 'dumps the cached list of triplet primes',
-'''
-''',
-'''
-''' ],
-    '_dumptwin' : [
-'internal', 'dumps the cached list of twin primes',
-'''
-''',
-'''
-''' ],
-    '_importbal' : [
-'internal', 'imports balanced primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importcousin' : [
-'internal', 'imports cousin primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importdouble' : [
-'internal', 'imports double balanced primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importiso' : [
-'internal', 'imports isolated primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importprimes' : [
-'internal', 'imports large primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importquad' : [
-'internal', 'imports quadruplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importquint' : [
-'internal', 'imports quintuplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsext' : [
-'internal', 'imports sextuplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsexy' : [
-'internal', 'imports sexy primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsexy3' : [
-'internal', 'imports sexy triplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsexy4' : [
-'internal', 'imports sexy quadruplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsmall' : [
-'internal', 'imports small primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importsophie' : [
-'internal', 'imports Sophie Germain primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importtriple' : [
-'internal', 'imports triple balanced primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importtriplet': [
-'internal', 'imports triplet primes from file n',
-'''
-''',
-'''
-''' ],
-    '_importtwin' : [
-'internal', 'imports twin primes from file n',
-'''
-''',
-'''
-''' ],
-    '_dumpops' : [
-'internal', 'lists all rpn operators',
-'''
-''',
-'''
-''' ],
-    '_makebal' : [
-'internal', 'calculates and caches balanced primes',
-'''
-_makebal start end interval
-''',
-'''
-''' ],
-    '_makecousin' : [
-'internal', 'calculates and caches cousin primes',
-'''
-_makecousin start end interval
-''',
-'''
-''' ],
-    '_makedouble' : [
-'internal', 'calculates and caches double balanced primes',
-'''
-_makedouble start end interval
-''',
-'''
-''' ],
-    '_makeiso' : [
-'internal', 'calculates and caches isolated primes',
-'''
-_makeiso start end interval
-''',
-'''
-''' ],
-    '_makeprimes' : [
-'internal', 'calculates and caches large primes',
-'''
-_makeprimes start end interval
-''',
-'''
-''' ],
-    '_makequad' : [
-'internal', 'calculates and caches quaduplet primes',
-'''
-_makequad start end interval
-''',
-'''
-''' ],
-    '_makequint' : [
-'internal', 'calculates and caches quintuplet primes',
-'''
-_makequint start end interval
-''',
-'''
-''' ],
-    '_makesext' : [
-'internal', 'calculates and caches sextuplet primes',
-'''
-_makesext start end interval
-''',
-'''
-''' ],
-    '_makesexy' : [
-'internal', 'calculates and caches sexy primes',
-'''
-_makesexy start end interval
-''',
-'''
-''' ],
-    '_makesexy3' : [
-'internal', 'calculates and caches sexy triplet primes',
-'''
-_makesexy3 start end interval
-''',
-'''
-''' ],
-    '_makesexy4' : [
-'internal', 'calculates and caches sexy quadruplet primes',
-'''
-_makesexy4 start end interval
-''',
-'''
-''' ],
-    '_makesmall' : [
-'internal', 'calculates and caches small primes',
-'''
-_makesmall start end interval
-''',
-'''
-''' ],
-    '_makesophie' : [
-'internal', 'calculates and caches Sophie Germain primes',
-'''
-_makesophie start end interval
-''',
-'''
-''' ],
-    '_makesuper' : [
-'internal', 'calculates and caches super primes',
-'''
-_makesuper start end interval
-''',
-'''
-''' ],
-    '_maketriple' : [
-'internal', 'calculates and caches triple balanced primes',
-'''
-_maketriple start end interval
-''',
-'''
-''' ],
-    '_maketriplet' : [
-'internal', 'calculates and caches triplet primes',
-'''
-_maketriplet start end interval
-''',
-'''
-''' ],
-    '_maketwin' : [
-'internal', 'calculates and caches twin primes',
-'''
-_maketwin start end interval
 ''',
 '''
 ''' ],
