@@ -25,8 +25,9 @@ from rpnDeclarations import *
 from rpnUtils import setAccuracy
 from rpnPrimes import primes
 
-
 import rpnGlobals as g
+
+from pyecm import factors
 
 
 # //******************************************************************************
@@ -54,104 +55,6 @@ def loadFactorCache( ):
 def saveFactorCache( factorCache ):
     with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
         pickle.dump( factorCache, pickleFile )
-
-
-# //******************************************************************************
-# //
-# //  factor
-# //
-# //  This is not my code, and I need to find the source so I can attribute it.
-# //  I think I got it from stackoverflow.com.
-# //
-# //  It factors by pure brute force and is pretty fast considering, but
-# //  compared to the advanced algorithms, it's unusably slow.
-# //
-# //  I don't know how useful the caching is, but here's a use case:  Running
-# //  'aliquot' over and over with successively larger iteration values
-# //  (i.e., argument k).
-# //
-# //******************************************************************************
-
-def old_factor( target ):
-    n = target
-
-    if n < -1:
-        return [ ( -1, 1 ) ] + factor( fneg( n ) )
-    elif n == -1:
-        return [ ( -1, 1 ) ]
-    elif n == 0:
-        return [ ( 0, 1 ) ]
-    elif n == 1:
-        return [ ( 1, 1 ) ]
-    else:
-        if target > 10000:
-            if g.factorCache is None:
-                g.factorCache = loadFactorCache( )
-
-                #for i in g.factorCache:
-                #    print( i, g.factorCache[ i ] )
-
-            if target in g.factorCache:
-                return g.factorCache[ target ]
-
-        def getPotentialPrimes( ):
-            basePrimes = ( 2, 3, 5 )
-
-            for basePrime in basePrimes:
-                yield basePrime
-
-            basePrimes = ( 7, 11, 13, 17, 19, 23, 29, 31 )
-
-            primeGroup = 0
-
-            while True:
-                for basePrime in basePrimes:
-                    yield primeGroup + basePrime
-
-                primeGroup += 30
-
-        factors = [ ]
-        sqrtn = sqrt( n )
-
-        cacheHit = False
-
-        for divisor in getPotentialPrimes( ):
-            if divisor > sqrtn:
-                break
-
-            exponent = 0
-
-            while ( fmod( n, divisor ) ) == 0:
-                n = floor( fdiv( n, divisor ) )
-
-                if g.factorCache and n in g.factorCache:
-                    factors.extend( g.factorCache[ n ] )
-                    cacheHit = True
-                    n = 1
-
-                exponent += 1
-
-            if exponent > 0:
-                factors.append( ( divisor, exponent ) )
-                sqrtn = sqrt( n )
-
-            if cacheHit:
-                break
-
-
-        if n > 1:
-            factors.append( ( int( n ), 1 ) )
-
-
-        if not g.factorCache is None:
-            largeFactors = [ ( i[ 0 ], i[ 1 ] ) for i in factors if i[ 0 ] > 10000 ]
-            product = fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] )
-
-            if product not in g.factorCache:
-                g.factorCache[ product ] = largeFactors
-                saveFactorCache( g.factorCache )
-
-        return factors
 
 
 # //******************************************************************************
@@ -205,7 +108,7 @@ def getSmallFactors( candidate, verbose = False ):
 
 # //******************************************************************************
 # //
-# //  miller
+# //  doMillerTest
 # //
 # //  n is odd, > 1, and does not divide b, 0 < b < R0.
 # //  if 1 is returned, then *Nptr passes Miller's test for base b.
@@ -213,7 +116,7 @@ def getSmallFactors( candidate, verbose = False ):
 # //
 # //******************************************************************************
 
-def miller( n, b ):
+def doMillerTest( n, b ):
     i = 0
     j = 0
 
@@ -244,7 +147,7 @@ def miller( n, b ):
 
 # //******************************************************************************
 # //
-# //  Q_PRIME_TEST
+# //  doQPrimeTest
 # //
 # //  n > 1 and not equal to PRIME[0],...,PRIME[4].
 # //  if 1 is returned, then *Nptr passes Miller's test for bases PRIME[0],
@@ -253,9 +156,9 @@ def miller( n, b ):
 # //
 # //******************************************************************************
 
-def Q_PRIME_TEST( n, verbose = False ):
+def doQPrimeTest( n, verbose = False ):
     for i in range( 0, 17 ):
-        if miller( n, primes[ i ] ) == 0:
+        if doMillerTest( n, primes[ i ] ) == 0:
             if verbose:
                 print( 'Miller\'s Test finished:', n, 'is composite' )
 
@@ -361,9 +264,6 @@ def getPollard( n, verbose = False ):
 # //
 # //  getBrentPollard
 # //
-# //  the Brent-Pollard method for returning a proper factor of
-# //  a composite n (see R. Brent, BIT 20, 176 - 184).
-# //
 # //  https://comeoncodeon.wordpress.com/2010/09/18/pollard-rho-brent-integer-factorization/
 # //
 # //******************************************************************************
@@ -419,7 +319,7 @@ def getLargeFactors( n, verbose = False ):
 
     cutoff = primes[ -1 ] * primes[ -1 ]
 
-    if ( n < cutoff ) or Q_PRIME_TEST( n ):
+    if ( n < cutoff ) or doQPrimeTest( n ):
         return n
 
     f = 1
@@ -453,7 +353,7 @@ def getLargeFactors( n, verbose = False ):
         if X < cutoff:
             return X
 
-        if Q_PRIME_TEST( X, verbose ):
+        if doQPrimeTest( X, verbose ):
             f = 0
 
     return X
@@ -536,7 +436,7 @@ def getPrimeFactors( n, verbose = False ):
 
 # //******************************************************************************
 # //
-# //  getSelfridge
+# //  doSelfridgeTest
 # //
 # //  Selfridges's test for primality - see "Prime Numbers and Computer
 # //  Methods for Factorization" by H. Riesel, Theorem 4.4, p.106.
@@ -550,7 +450,7 @@ def getPrimeFactors( n, verbose = False ):
 # //
 # //******************************************************************************
 
-def getSelfridge( candidate, verbose = False ):
+def doSelfridgeTest( candidate, verbose = False ):
     n_minus_1 = candidate - 1
 
     if verbose:
@@ -608,7 +508,7 @@ def getSelfridge( candidate, verbose = False ):
 # //******************************************************************************
 
 def factor( n ):
-    verbose = False
+    verbose = g.verbose
 
     if n < -1:
         return [ ( -1, 1 ) ] + factor( fneg( n ) )
@@ -661,7 +561,7 @@ def factor( n ):
         i = 0
 
         for qPrime in qPrimes:
-            t = getSelfridge( qPrime[ 0 ], verbose )
+            t = doSelfridgeTest( qPrime[ 0 ], verbose )
 
             if not t:
                 print( 'do FACTOR() again with an extra base' )
@@ -690,4 +590,24 @@ def factor( n ):
             saveFactorCache( g.factorCache )
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  getECMFactors
+# //
+# //******************************************************************************
+
+def getECMFactors( n ):
+    verbose = g.verbose
+    randomSigma = True
+    asymptoticSpeed = 10
+    processingPower = 1.0
+
+    result = [ ]
+
+    for factor in factors( n, verbose, randomSigma, asymptoticSpeed, processingPower ):
+        result.append( factor )
+
+    return sorted( result )
 

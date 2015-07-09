@@ -66,6 +66,7 @@ tempLeadingZeroMode = False
 tempOctalMode = False
 tempTimerMode = False
 timer = False
+verbose = False
 
 # unit data
 

@@ -1110,6 +1110,7 @@ operators = {
     'dst_start'             : OperatorInfo( calculateDSTStart, 1 ),
     'e'                     : OperatorInfo( e, 0 ),
     'easter'                : OperatorInfo( calculateEaster, 1 ),
+    'ecm'                   : OperatorInfo( lambda n : getECMFactors( int( n ) ), 1 ),
     'egypt'                 : OperatorInfo( getGreedyEgyptianFraction, 2 ),
     'election_day'          : OperatorInfo( calculateElectionDay, 1 ),
     'electric_constant'     : OperatorInfo( lambda: Measurement( mpmathify( '8.854187817e-12' ), [ { 'farad' : 1 }, { 'meter' : -1 } ] ), 0 ),

@@ -309,6 +309,7 @@ def rpn( cmd_args ):
     parser.add_argument( '-s', '--list_format_level', nargs='?', type=int, action='store', default=0,
                          const=g.defaultListFormatLevel )
     parser.add_argument( '-t', '--timer', action='store_true' )
+    parser.add_argument( '-v', '--verbose', action='store_true' )
     parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store',
                          default=g.defaultBitwiseGroupSize )
     parser.add_argument( '-x', '--hex', action='store_true' )
@@ -411,6 +412,9 @@ def rpn( cmd_args ):
     # handle -t
     g.timer = args.timer
 
+    # handle -v
+    g.verbose = args.verbose
+
     # handle -x
     if args.hex:
         g.outputRadix = 16
@@ -436,6 +440,7 @@ def rpn( cmd_args ):
         print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
         print( '--list_format_level:  %d' % g.listFormatLevel )
         print( '--timer:  ' + ( 'true' if args.timer else 'false' ) )
+        print( '--verbose:  ' + ( 'true' if g.verbose else 'false' ) )
         print( '--bitwise_group_size:  %d' % g.bitwiseGroupSize )
         print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
         print( '--identify:  ' + ( 'true' if args.identify else 'false' ) )
