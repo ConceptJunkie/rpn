@@ -1,0 +1,7 @@
+include rpn*.py
+include pyecm.py
+include setup*.py
+include buildRPN.bat
+include gpl-3.0.txt
+include requirements.txt
+recursive-include *.pckl.bz2
