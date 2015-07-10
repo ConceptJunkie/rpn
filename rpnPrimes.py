@@ -2,7 +2,7 @@
 
 # //******************************************************************************
 # //
-# //  rpnPrime.py
+# //  rpnPrimes.py
 # //
 # //  RPN command-line calculator prime number table
 # //  copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)

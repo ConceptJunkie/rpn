@@ -13,17 +13,18 @@
 # //******************************************************************************
 
 import bz2
+import collections
 import contextlib
 import fractions
 import os
 import pickle
 import random
 
-from functools import reduce
-
 from rpnDeclarations import *
+
 from rpnUtils import setAccuracy
 from rpnPrimes import primes
+from rpnUtils import getExpandedFactorList
 
 import rpnGlobals as g
 
@@ -55,17 +56,6 @@ def loadFactorCache( ):
 def saveFactorCache( factorCache ):
     with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
         pickle.dump( factorCache, pickleFile )
-
-
-# //******************************************************************************
-# //
-# //  getExpandedFactorList
-# //
-# //******************************************************************************
-
-def getExpandedFactorList( factors ):
-    factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
-    return sorted( reduce( lambda x, y: x + y, factors, [ ] ) )
 
 
 # //******************************************************************************
@@ -395,7 +385,7 @@ def getPrimeFactors( n, verbose = False ):
     if remaining > 1 and not g.factorCache is None:
         if remaining in g.factorCache:
             if verbose:
-                print( 'cache hit', remaining )
+                print( 'cache hit:', remaining )
             largeFactors.extend( g.factorCache[ remaining ] )
             remaining = 1
 
@@ -499,11 +489,15 @@ def doSelfridgeTest( candidate, verbose = False ):
 # //  factor
 # //
 # //  A factorization of *Nptr into prime and q-prime factors is first obtained.
+# //
 # //  Selfridge's primality test is then applied to any q-prime factors; the test
 # //  is applied repeatedly until either a q-prime is found to be composite or
 # //  likely to be composite (in which case the initial factorization is doubtful
 # //  and an extra base should be used in Miller's test) or we run out of q-primes,
 # //  in which case every q-prime factor of *Nptr is certified as prime.
+# //
+# //  Returns a list of tuples where each tuple is a prime factor and an exponent.
+# //
 # //
 # //******************************************************************************
 
@@ -518,26 +512,26 @@ def factor( n ):
         return [ ( 0, 1 ) ]
     elif n == 1:
         return [ ( 1, 1 ) ]
-    else:
-        target = int( n )
 
-        dps = ceil( log( n ) )
+    target = int( n )
 
-        if dps > mp.dps:
-            setAccuracy( dps )
+    dps = ceil( log( n ) )
 
-        if target > 1000000000:
-            if g.factorCache is None:
-                g.factorCache = loadFactorCache( )
+    if dps > mp.dps:
+        setAccuracy( dps )
 
-                #for i in g.factorCache:
-                #    print( i, g.factorCache[ i ] )
+    if target > g.minValueToCache:
+        if g.factorCache is None:
+            g.factorCache = loadFactorCache( )
 
-            if target in g.factorCache:
-                if verbose:
-                    print( 'cache hit', target )
+            #for i in g.factorCache:
+            #    print( i, g.factorCache[ i ] )
 
-                return g.factorCache[ target ]
+        if target in g.factorCache:
+            if verbose:
+                print( 'cache hit:', target )
+
+            return g.factorCache[ target ]
 
     smallFactors, largeFactors, qPrimes = getPrimeFactors( int( n ), verbose )
     u = 0
@@ -585,8 +579,17 @@ def factor( n ):
     if not g.factorCache is None:
         product = int( fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] ) )
 
+        save = False
+
         if product not in g.factorCache:
             g.factorCache[ product ] = largeFactors
+            save = True
+
+        if n > g.minValueToCache and n not in g.factorCache:
+            g.factorCache[ n ] = result
+            save = True
+
+        if save:
             saveFactorCache( g.factorCache )
 
     return result
@@ -595,6 +598,8 @@ def factor( n ):
 # //******************************************************************************
 # //
 # //  getECMFactors
+# //
+# //  Returns a sorted list of factors
 # //
 # //******************************************************************************
 
@@ -606,8 +611,53 @@ def getECMFactors( n ):
 
     result = [ ]
 
+    if n < -1:
+        return [ -1 ] + factor( fneg( n ) )
+    elif n == -1:
+        return [ -1 ]
+    elif n == 0:
+        return [ 0 ]
+    elif n == 1:
+        return [ 1 ]
+
+    if verbose:
+        print( 'factoring', n, '(', int( log10( n ) ), ')' )
+
+    if g.factorCache is None:
+        g.factorCache = loadFactorCache( )
+
+        #for i in g.factorCache:
+        #    print( i, g.factorCache[ i ] )
+
+    if n in g.factorCache:
+        if verbose:
+            print( 'cache hit', n )
+            print( )
+
+        return getExpandedFactorList( g.factorCache[ n ] )
+
     for factor in factors( n, verbose, randomSigma, asymptoticSpeed, processingPower ):
         result.append( factor )
+
+    largeFactors = list( collections.Counter( [ int( i ) for i in result if i > 65535 ] ).items( ) )
+    product = int( fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] ) )
+
+    save = False
+
+    if product not in g.factorCache:
+        g.factorCache[ product ] = largeFactors
+        save = True
+
+    if n > g.minValueToCache and n not in g.factorCache:
+        allFactors = list( collections.Counter( [ int( i ) for i in result ] ).items( ) )
+        g.factorCache[ n ] = allFactors
+        save = True
+
+    if save:
+        saveFactorCache( g.factorCache )
+
+    if verbose:
+        print( )
 
     return sorted( result )
 

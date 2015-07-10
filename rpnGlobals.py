@@ -91,5 +91,6 @@ variables = { }
 promptCount = 0
 
 # factor cache
+minValueToCache = 1000000
 factorCache = None
 

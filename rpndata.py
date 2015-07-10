@@ -20,7 +20,6 @@ import itertools
 import math
 import os
 import pickle
-import pyprimes
 import random
 import re as regex
 import sys

@@ -17,7 +17,6 @@ import bz2
 import contextlib
 import pickle
 import os
-# import pyprimes
 import sys
 import time
 

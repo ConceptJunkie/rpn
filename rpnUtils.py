@@ -22,6 +22,7 @@ import pickle
 
 from mpmath import *
 from random import randrange
+from functools import reduce
 
 from rpnDeclarations import *
 from rpnVersion import *
@@ -772,4 +773,14 @@ callers = [
         [ func( a, b, c, d, e ) for e in arg1 for d in arg2 for c in arg3 for b in arg4 for a in arg5 ],
 ]
 
+
+# //******************************************************************************
+# //
+# //  getExpandedFactorList
+# //
+# //******************************************************************************
+
+def getExpandedFactorList( factors ):
+    factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
+    return sorted( reduce( lambda x, y: x + y, factors, [ ] ) )
 
