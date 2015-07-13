@@ -2422,6 +2422,12 @@ c:\>rpn [ 1 10 range 10 dup ] unique
 ''',
 '''
 ''' ],
+    'ecm' : [
+'number_theory', 'factors n using the elliptical curve method',
+'''
+''',
+'''
+''' ],
     'egypt' : [
 'number_theory', 'calculates the greedy Egyption fractions for n/k',
 '''
