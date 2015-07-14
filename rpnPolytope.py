@@ -43,9 +43,9 @@ def findNthPolygonalNumber( n, k ):
     if k < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
-    return fdiv( fsum( [ sqrt( fsum( [ power( k, 2 ), fprod( [ 8, k, n ] ),
-                                       fneg( fmul( 8, k ) ), fneg( fmul( 16, n ) ), 16 ] ) ),
-                         k, -4 ] ), fmul( 2, fsub( k, 2 ) ) )
+    return nint( fdiv( fsum( [ sqrt( fsum( [ power( k, 2 ), fprod( [ 8, k, n ] ),
+                                             fneg( fmul( 8, k ) ), fneg( fmul( 16, n ) ), 16 ] ) ),
+                               k, -4 ] ), fmul( 2, fsub( k, 2 ) ) ) )
 
 
 # //******************************************************************************
@@ -76,7 +76,8 @@ def findCenteredPolygonalNumber( n, k ):
 
     s = fdiv( k, 2 )
 
-    return fdiv( fadd( sqrt( s ), sqrt( fsum( [ fmul( 4, n ), s, -4 ] ) ) ), fmul( 2, sqrt( s ) ) )
+    return nint( fdiv( fadd( sqrt( s ),
+                       sqrt( fsum( [ fmul( 4, n ), s, -4 ] ) ) ), fmul( 2, sqrt( s ) ) ) )
 
 
 # //******************************************************************************
@@ -113,6 +114,11 @@ def getNthPentagonalSquareNumber( n ):
 # //
 # //******************************************************************************
 
+def getNthHexagonalSquareNumber( n ):
+    return nint( floor( fdiv( power( tan( fdiv( fmul( 3, pi ), 8 ) ),
+                                     fsub( fmul( 8, n ), 4 ) ), 32 ) ) )
+
+
 # //******************************************************************************
 # //
 # //  getNthHexagonalPentagonalNumber
@@ -124,9 +130,9 @@ def getNthPentagonalSquareNumber( n ):
 # //******************************************************************************
 
 def getNthHexagonalPentagonalNumber( n ):
-    return ceil( fdiv( fmul( fsub( sqrt( 3 ), 1 ),
-                             power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ) ),
-                       12 ) )
+    return nint( ceil( fdiv( fmul( fsub( sqrt( 3 ), 1 ),
+                                   power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ) ),
+                             12 ) ) )
 
 
 # //******************************************************************************
@@ -177,8 +183,8 @@ def getNthHeptagonalSquareNumber( n ):
 # //******************************************************************************
 
 def getNthHeptagonalPentagonalNumber( n ):
-    return floor( fdiv( fmul( power( fadd( 2, sqrt( 15 ) ), 2 ),
-                              power( fadd( 4, sqrt( 15 ) ), fsub( fmul( 4, n ), 3 ) ) ), 240 ) )
+    return nint( floor( fdiv( fmul( power( fadd( 2, sqrt( 15 ) ), 2 ),
+                                    power( fadd( 4, sqrt( 15 ) ), fsub( fmul( 4, n ), 3 ) ) ), 240 ) ) )
 
 
 # //******************************************************************************
@@ -192,8 +198,8 @@ def getNthHeptagonalPentagonalNumber( n ):
 # //******************************************************************************
 
 def getNthHeptagonalHexagonalNumber( n ):
-    return floor( fdiv( fmul( fsub( sqrt( 5 ), 1 ),
-                              power( fadd( 2, sqrt( 5 ) ), fsub( fmul( 8, n ), 5 ) ) ), 80 ) )
+    return nint( floor( fdiv( fmul( fsub( sqrt( 5 ), 1 ),
+                                    power( fadd( 2, sqrt( 5 ) ), fsub( fmul( 8, n ), 5 ) ) ), 80 ) ) )
 
 
 # //******************************************************************************
@@ -211,9 +217,9 @@ def getNthHeptagonalHexagonalNumber( n ):
 def getNthOctagonalTriangularNumber( n ):
     sign = power( -1, n )
 
-    return floor( fdiv( fmul( fsub( 7, fprod( [ 2, sqrt( 6 ), sign ] ) ),
-                              power( fadd( sqrt( 3 ), sqrt( 2 ) ), fsub( fmul( 4, n ), 2 ) ) ),
-                        96 ) )
+    return nint( floor( fdiv( fmul( fsub( 7, fprod( [ 2, sqrt( 6 ), sign ] ) ),
+                                    power( fadd( sqrt( 3 ), sqrt( 2 ) ), fsub( fmul( 4, n ), 2 ) ) ),
+                              96 ) ) )
 
 
 # //******************************************************************************
@@ -228,7 +234,7 @@ def getNthOctagonalTriangularNumber( n ):
 # //******************************************************************************
 
 def getNthOctagonalSquareNumber( n ):
-    return floor( fdiv( power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ), 12 ) )
+    return nint( floor( fdiv( power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ), 12 ) ) )
 
 
 # //******************************************************************************
@@ -242,8 +248,8 @@ def getNthOctagonalSquareNumber( n ):
 # //******************************************************************************
 
 def getNthOctagonalPentagonalNumber( n ):
-    return floor( fdiv( fmul( fsub( 11, fprod( [ 6, sqrt( 2 ), power( -1, n ) ] ) ),
-                              power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 8, n ), 6 ) ) ), 96 ) )
+    return nint( floor( fdiv( fmul( fsub( 11, fprod( [ 6, sqrt( 2 ), power( -1, n ) ] ) ),
+                              power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 8, n ), 6 ) ) ), 96 ) ) )
 
 
 # //******************************************************************************
@@ -272,8 +278,8 @@ def getNthOctagonalHexagonalNumber( n ):
 # //******************************************************************************
 
 def getNthOctagonalHeptagonalNumber( n ):
-    return floor( fdiv( fmul( fadd( 17, fmul( sqrt( 30 ), 2 ) ),
-                              power( fadd( sqrt( 5 ), sqrt( 6 ) ), fsub( fmul( 8, n ), 6 ) ) ), 480 ) )
+    return nint( floor( fdiv( fmul( fadd( 17, fmul( sqrt( 30 ), 2 ) ),
+                                    power( fadd( sqrt( 5 ), sqrt( 6 ) ), fsub( fmul( 8, n ), 6 ) ) ), 480 ) ) )
 
 
 # //******************************************************************************
@@ -293,11 +299,11 @@ def getNthNonagonalTriangularNumber( n ):
     b = fadd( 8, a )
     c = fsub( 8, a )
 
-    return fsum( [ fdiv( 5, 14 ),
-                   fmul( fdiv( 9, 28 ), fadd( power( b, n ), power( c, n ) ) ),
-                   fprod( [ fdiv( 3, 28 ),
-                            sqrt( 7 ),
-                            fsub( power( b, n ), power( c, n ) ) ] ) ] )
+    return nint( fsum( [ fdiv( 5, 14 ),
+                         fmul( fdiv( 9, 28 ), fadd( power( b, n ), power( c, n ) ) ),
+                         fprod( [ fdiv( 3, 28 ),
+                                  sqrt( 7 ),
+                                  fsub( power( b, n ), power( c, n ) ) ] ) ] ) )
 
 
 # //******************************************************************************
@@ -327,7 +333,7 @@ def getNthNonagonalSquareNumber( n ):
                         fmul( fsub( p, fmul( q, sign ) ),
                               power( fsub( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), fsub( n, 1 ) ) ) ), 112 )
 
-    return power( round( index ), 2 )
+    return nint( power( round( index ), 2 ) )
 
 
 # //******************************************************************************
@@ -346,11 +352,11 @@ def getNthNonagonalPentagonalNumber( n ):
     sqrt21 = sqrt( 21 )
     sign = power( -1, n )
 
-    return floor( fdiv( fprod( [ fadd( 25, fmul( 4, sqrt21 ) ),
-                                 fsub( 5, fmul( sqrt21, sign ) ),
-                                 power( fadd( fmul( 2, sqrt( 7 ) ), fmul( 3, sqrt( 3 ) ) ),
-                                        fsub( fmul( 4, n ), 4 ) ) ] ),
-                        336 ) )
+    return nint( floor( fdiv( fprod( [ fadd( 25, fmul( 4, sqrt21 ) ),
+                                       fsub( 5, fmul( sqrt21, sign ) ),
+                                       power( fadd( fmul( 2, sqrt( 7 ) ), fmul( 3, sqrt( 3 ) ) ),
+                                              fsub( fmul( 4, n ), 4 ) ) ] ),
+                              336 ) ) )
 
 
 # //******************************************************************************
@@ -388,16 +394,16 @@ def getNthNonagonalHexagonalNumber( n ):
 # //
 # //  a(n) = floor(1/560*(39+4*sqrt(35))*(6+sqrt(35))^(4*n-3)).
 # //
-# //  LinearRecurrence[{20163, -20163, 1}, {1, 26884, 542041975}, 9]; (* Ant King, Dec 31 2011 *)
+# //  LinearRecurrence[{20163, -20163, 1}, {1, 26884, 542041975}, 9];
 # //
 # //******************************************************************************
 
 def getNthNonagonalHeptagonalNumber( n ):
     sqrt35 = sqrt( 35 )
 
-    return floor( fdiv( fmul( fadd( 39, fmul( 4, sqrt35 ) ),
-                        power( fadd( 6, sqrt35 ), fsub( fmul( 4, n ), 3 ) ) ),
-                        560 ) )
+    return nint( floor( fdiv( fmul( fadd( 39, fmul( 4, sqrt35 ) ),
+                              power( fadd( 6, sqrt35 ), fsub( fmul( 4, n ), 3 ) ) ),
+                              560 ) ) )
 
 
 # //******************************************************************************
@@ -408,7 +414,7 @@ def getNthNonagonalHeptagonalNumber( n ):
 # //
 # //  a(n) = floor(1/672*(11*sqrt(7)-9*sqrt(6))*(sqrt(6)+sqrt(7))^(8n-5)).
 # //
-# //  LinearRecurrence[{454275, -454275, 1}, {1, 631125, 286703855361}, 30] (* Vincenzo Librandi, Dec 24 2011 *)
+# //  LinearRecurrence[{454275, -454275, 1}, {1, 631125, 286703855361}, 30]
 # //
 # //******************************************************************************
 
@@ -416,9 +422,9 @@ def getNthNonagonalOctagonalNumber( n ):
     sqrt6 = sqrt( 6 )
     sqrt7 = sqrt( 7 )
 
-    return floor( fdiv( fmul( fsub( fmul( 11, sqrt7 ), fmul( 9, sqrt6 ) ),
-                              power( fadd( sqrt6, sqrt7 ), fsub( fmul( 8, n ), 5 ) ) ),
-                        672 ) )
+    return nint( floor( fdiv( fmul( fsub( fmul( 11, sqrt7 ), fmul( 9, sqrt6 ) ),
+                                    power( fadd( sqrt6, sqrt7 ), fsub( fmul( 8, n ), 5 ) ) ),
+                              672 ) ) )
 
 # Dec-tri
 # http://oeis.org/A133216
@@ -496,9 +502,9 @@ def getNthSquareTriangularNumber( n ):
 
     sqrt2 = sqrt( 2 )
 
-    return power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, n ) ),
-                                     power( fsub( 1, sqrt2 ), fmul( 2, n ) ) ),
-                               fmul( 4, sqrt2 ) ), 2 )
+    return nint( power( fdiv( fsub( power( fadd( 1, sqrt2 ), fmul( 2, n ) ),
+                                           power( fsub( 1, sqrt2 ), fmul( 2, n ) ) ),
+                                    fmul( 4, sqrt2 ) ), 2 ) )
 
 
 # //******************************************************************************

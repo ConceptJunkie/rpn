@@ -2844,6 +2844,12 @@ c:\>rpn [ 1 1 5 range range ] geomean
 ''',
 '''
 ''' ],
+    'hexsquare' : [
+'polygonal_numbers', 'calculates the nth hexagonal square number',
+'''
+''',
+'''
+''' ],
     'hex_mode' : [
 'settings', 'set temporary hex mode in interactive mode',
 '''

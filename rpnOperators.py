@@ -1157,6 +1157,7 @@ operators = {
     'hexagonal?'            : OperatorInfo( lambda n: findNthPolygonalNumber( n, 6 ), 1 ),
     'hexanacci'             : OperatorInfo( getNthHexanacci, 1 ),
     'hexpent'               : OperatorInfo( getNthHexagonalPentagonalNumber, 1 ),
+    'hexsquare'             : OperatorInfo( getNthHexagonalSquareNumber, 1 ),
     'hex_mode'              : OperatorInfo( setHexMode, 0 ),
     'hms'                   : OperatorInfo( convertToHMS, 1 ),
     'hyper4_2'              : OperatorInfo( tetrateLarge, 2 ),
