@@ -54,8 +54,9 @@ def loadFactorCache( ):
 # //******************************************************************************
 
 def saveFactorCache( factorCache ):
-    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
-        pickle.dump( factorCache, pickleFile )
+    with DelayedKeyboardInterrupt( ):
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
+            pickle.dump( factorCache, pickleFile )
 
 
 # //******************************************************************************

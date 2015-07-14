@@ -19,6 +19,7 @@ import contextlib
 import math
 import os
 import pickle
+import signal
 
 from mpmath import *
 from random import randrange
@@ -28,6 +29,30 @@ from rpnDeclarations import *
 from rpnVersion import *
 
 import rpnGlobals as g
+
+
+# //******************************************************************************
+# //
+# //  class DelayedKeyboardInterrupt
+# //
+# //  http://stackoverflow.com/questions/842557/how-to-prevent-a-block-of-code-from-being-interrupted-by-keyboardinterrupt-in-py
+# //
+# //******************************************************************************
+
+class DelayedKeyboardInterrupt( object ):
+    def __enter__( self ):
+        self.signal_received = False
+        self.old_handler = signal.getsignal( signal.SIGINT )
+        signal.signal( signal.SIGINT, self.handler )
+
+    def handler( self, signal, frame ):
+        self.signal_received = ( signal, frame )
+
+    def __exit__(self, type, value, traceback):
+        signal.signal( signal.SIGINT, self.old_handler )
+
+        if self.signal_received:
+            self.old_handler( *self.signal_received )
 
 
 # //******************************************************************************
@@ -256,8 +281,9 @@ def downloadOEISText( id, char, addCR=False ):
     if not os.path.isdir( g.dataPath ):
         os.makedirs( g.dataPath )
 
-    with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis.pckl.bz2', 'wb' ) ) as pickleFile:
-        pickle.dump( oeisCache, pickleFile )
+    with DelayedKeyboardInterrupt( ):
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis.pckl.bz2', 'wb' ) ) as pickleFile:
+            pickle.dump( oeisCache, pickleFile )
 
     return result
 
@@ -783,4 +809,5 @@ callers = [
 def getExpandedFactorList( factors ):
     factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
     return sorted( reduce( lambda x, y: x + y, factors, [ ] ) )
+
 

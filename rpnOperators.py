@@ -511,8 +511,9 @@ def saveResult( result ):
 
     fileName = g.dataPath + os.sep + 'result.pckl.bz2'
 
-    with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
-        pickle.dump( result, pickleFile )
+    with DelayedKeyboardInterrupt( ):
+        with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
+            pickle.dump( result, pickleFile )
 
 
 # //******************************************************************************
