@@ -33,7 +33,6 @@
 # c:\>rpn 1 0.9999 sqr - sqrt 1/x
 # 70.7124459519
 
-
 import argparse
 import sys
 import time

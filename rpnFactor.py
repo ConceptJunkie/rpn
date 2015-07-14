@@ -24,7 +24,7 @@ from rpnDeclarations import *
 
 from rpnUtils import setAccuracy
 from rpnPrimes import primes
-from rpnUtils import getExpandedFactorList
+from rpnUtils import getExpandedFactorList, DelayedKeyboardInterrupt
 
 import rpnGlobals as g
 

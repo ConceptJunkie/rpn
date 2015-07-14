@@ -313,6 +313,10 @@ def runTests( ):
 
     testRPN( 'rpn e' )
 
+    testRPN( 'rpn -a40 10 30 ** randint ecm' )
+
+    testRPN( 'rpn 1 40 range fib factor -s1' )
+
     testRPN( 'rpn 45 67 egypt' )
 
     testRPN( 'rpn 1 10 range 5 element' )

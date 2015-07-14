@@ -1,5 +1,6 @@
 arrow
 gmpy2
+matplotlib
 mpmath
 numpy
-readline
+pyreadline
