@@ -2420,7 +2420,14 @@ c:\>rpn [ 1 10 range 10 dup ]
 c:\>rpn [ 1 10 range 10 dup ] unique
 [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
-    'dupop' : [
+    'dup_digits' : [
+'lexicographic', 'append n with a copy of its last k digits',
+'''
+TODO: explain me
+''',
+'''
+''' ],
+    'dup_operator' : [
 'modifiers', 'duplicates an operation n times',
 '''
 TODO:  explain me

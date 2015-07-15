@@ -974,7 +974,7 @@ sideEffectOperators = [
 
 modifiers = {
     'dup'               : OperatorInfo( duplicateTerm, 2 ),
-    'dupop'             : OperatorInfo( duplicateOperation, 1 ),
+    'dup_operator'      : OperatorInfo( duplicateOperation, 1 ),
     'flatten'           : OperatorInfo( flatten, 1 ),
     'previous'          : OperatorInfo( getPrevious, 1 ),
     'unlist'            : OperatorInfo( unlist, 1 ),
@@ -1159,6 +1159,7 @@ operators = {
     'doublefac'             : OperatorInfo( fac2, 1 ),
     'dst_end'               : OperatorInfo( calculateDSTEnd, 1 ),
     'dst_start'             : OperatorInfo( calculateDSTStart, 1 ),
+    'dup_digits'            : OperatorInfo( duplicateDigits, 2 ),
     'e'                     : OperatorInfo( e, 0 ),
     'easter'                : OperatorInfo( calculateEaster, 1 ),
     'ecm'                   : OperatorInfo( lambda n : getECMFactors( int( n ) ), 1 ),

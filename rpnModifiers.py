@@ -72,6 +72,9 @@ def duplicateOperation( valueList ):
     if g.duplicateOperations > 0:
         raise ValueError( "'dupop' must be followed by another operation" )
 
+    if isinstance( valueList[ -1 ], list ):
+        raise ValueError( "'dupop' cannot accept a list argument" )
+
     g.duplicateOperations = nint( floor( valueList.pop( ) ) )
 
 

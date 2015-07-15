@@ -813,6 +813,19 @@ def getExpandedFactorList( factors ):
 
 # //******************************************************************************
 # //
+# //  appendDigits
+# //
+# //******************************************************************************
+
+def appendDigits( n, digits, digitCount ):
+    if n < 0:
+        return nint( fsub( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
+    else:
+        return nint( fadd( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
+
+
+# //******************************************************************************
+# //
 # //  addDigits
 # //
 # //******************************************************************************
@@ -828,9 +841,18 @@ def addDigits( n, k ):
     else:
         digitCount = int( fadd( floor( log10( k ) ), 1 ) )
 
-    if n < 0:
-        return nint( fsub( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
-    else:
-        return nint( fadd( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
+    return appendDigits( n, digits, digitCount )
 
+
+# //******************************************************************************
+# //
+# //  duplicateDigits
+# //
+# //******************************************************************************
+
+def duplicateDigits( n, k ):
+    if k < 0:
+        raise ValueError( "'add_digits' requires a non-negative integer for the second argument" )
+
+    return appendDigits( n, fmod( n, power( 10, nint( floor( k ) ) ) ), k )
 
