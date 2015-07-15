@@ -94,7 +94,6 @@ def abortArgsNeeded( term, index, argsNeeded ):
 def evaluateOperator( term, index, currentValueList ):
     # handle a regular operator
     operatorInfo = operators[ term ]
-
     argsNeeded = operatorInfo.argCount
 
     # first we validate, and make sure the operator has enough arguments
@@ -225,7 +224,16 @@ def evaluateTerm( term, index, currentValueList ):
 
         elif not isList and term in operators:
             if g.duplicateOperations > 0:
+                operatorInfo = operators[ term ]
+                argsNeeded = operatorInfo.argCount
+
+                if argsNeeded > 1:
+                    savedArgs = currentValueList[ -argsNeeded + 1 : ]
+
                 for i in range( 0, int( g.duplicateOperations ) ):
+                    if argsNeeded > 1 and i > 0:
+                        currentValueList.extend( savedArgs )
+
                     evaluateOperator( term, index, currentValueList )
 
                 g.duplicateOperations = 0
@@ -234,7 +242,16 @@ def evaluateTerm( term, index, currentValueList ):
 
         elif not isList and term in listOperators:
             if g.duplicateOperations > 0:
+                operatorInfo = operators[ term ]
+                argsNeeded = operatorInfo.argCount
+
+                if argsNeeded > 1:
+                    savedArgs = currentValueList[ -argsNeeded + 1 : ]
+
                 for i in range( 0, int( g.duplicateOperations ) ):
+                    if argsNeeded > 1 and i > 0:
+                        currentValueList.extend( savedArgs )
+
                     evaluateListOperator( term, index, currentValueList )
 
                 g.duplicateOperations = 0
