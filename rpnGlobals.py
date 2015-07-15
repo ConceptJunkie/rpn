@@ -42,6 +42,7 @@ defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 creatingFunction = False
 helpLoaded = False
 nestedListLevel = 0
+duplicateOperations = 0
 
 # options
 

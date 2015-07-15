@@ -64,6 +64,19 @@ def duplicateTerm( valueList ):
 
 # //******************************************************************************
 # //
+# //  duplicateOperation
+# //
+# //******************************************************************************
+
+def duplicateOperation( valueList ):
+    if g.duplicateOperations > 0:
+        raise ValueError( "'dupop' must be followed by another operation" )
+
+    g.duplicateOperations = nint( floor( valueList.pop( ) ) )
+
+
+# //******************************************************************************
+# //
 # //  unlist
 # //
 # //******************************************************************************

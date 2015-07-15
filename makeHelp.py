@@ -2398,6 +2398,9 @@ This function duplicates terms, but requires the bracket operators to make the
 resulting expression a list, rather than a set of k expressions.
 ''',
 '''
+c:\>rpn 10 2 dup +
+20
+
 c:\>rpn [ 10 10 dup ]
 [ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 ]
 
@@ -2409,6 +2412,13 @@ c:\>rpn [ 1 10 range 10 dup ]
 
 c:\>rpn [ 1 10 range 10 dup ] unique
 [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+''' ],
+    'dupop' : [
+'modifiers', 'duplicates an operation n times',
+'''
+TODO:  explain me
+''',
+'''
 ''' ],
     'e' : [
 'constants', 'returns e (Euler\'s number)',

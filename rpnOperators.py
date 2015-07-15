@@ -84,6 +84,84 @@ def abortArgsNeeded( term, index, argsNeeded ):
     print( 's' if argsNeeded > 1 else '' )
 
 
+
+# //******************************************************************************
+# //
+# //  evaluateOperator
+# //
+# //******************************************************************************
+
+def evaluateOperator( term, index, currentValueList ):
+    # handle a regular operator
+    operatorInfo = operators[ term ]
+
+    argsNeeded = operatorInfo.argCount
+
+    # first we validate, and make sure the operator has enough arguments
+    if len( currentValueList ) < argsNeeded:
+        abortArgsNeeded( term, index, argsNeeded )
+        return False
+
+    if argsNeeded == 0:
+        result = callers[ 0 ]( operatorInfo.function, None )
+    else:
+        argList = list( )
+
+        for i in range( 0, argsNeeded ):
+            arg = currentValueList.pop( )
+            argList.append( arg if isinstance( arg, list ) else [ arg ] )
+
+        result = callers[ argsNeeded ]( operatorInfo.function, *argList )
+
+        newResult = list( )
+
+        if not isinstance( result, list ):
+            result = [ result ]
+
+        for item in result:
+            if isinstance( item, Measurement ) and item.getUnits( ) == { }:
+                newResult.append( mpf( item ) )
+            else:
+                newResult.append( item )
+
+        if len( newResult ) == 1:
+            newResult = newResult[ 0 ]
+
+        if term not in sideEffectOperators:
+            currentValueList.append( newResult )
+
+
+# //******************************************************************************
+# //
+# //  evaluateListOperator
+# //
+# //******************************************************************************
+
+def evaluateListOperator( term, index, currentValueList ):
+    # handle a list operator
+    operatorInfo = listOperators[ term ]
+    argsNeeded = operatorInfo.argCount
+
+    # first we validate, and make sure the operator has enough arguments
+    if len( currentValueList ) < argsNeeded:
+        abortArgsNeeded( term, index, argsNeeded )
+        return False
+
+    # handle the call depending on the number of arguments needed
+    if argsNeeded == 0:
+        currentValueList.append( operatorInfo.function( currentValueList ) )
+    elif argsNeeded == 1:
+        currentValueList.append( evaluateOneListFunction( operatorInfo.function,
+                                                          currentValueList.pop( ) ) )
+    else:
+        listArgs = [ ]
+
+        for i in range( 0, argsNeeded ):
+            listArgs.insert( 0, currentValueList.pop( ) )
+
+        currentValueList.append( operatorInfo.function( *listArgs ) )
+
+
 # //******************************************************************************
 # //
 # //  evaluateTerm
@@ -146,66 +224,22 @@ def evaluateTerm( term, index, currentValueList ):
                 raise ValueError( 'unsupported type for a unit operator' )
 
         elif not isList and term in operators:
-            # handle a regular operator
-            operatorInfo = operators[ term ]
+            if g.duplicateOperations > 0:
+                for i in range( 0, int( g.duplicateOperations ) ):
+                    evaluateOperator( term, index, currentValueList )
 
-            argsNeeded = operatorInfo.argCount
-
-            # first we validate, and make sure the operator has enough arguments
-            if len( currentValueList ) < argsNeeded:
-                abortArgsNeeded( term, index, argsNeeded )
-                return False
-
-            if argsNeeded == 0:
-                result = callers[ 0 ]( operatorInfo.function, None )
+                g.duplicateOperations = 0
             else:
-                argList = list( )
+                evaluateOperator( term, index, currentValueList )
 
-                for i in range( 0, argsNeeded ):
-                    arg = currentValueList.pop( )
-                    argList.append( arg if isinstance( arg, list ) else [ arg ] )
-
-                result = callers[ argsNeeded ]( operatorInfo.function, *argList )
-
-            newResult = list( )
-
-            if not isinstance( result, list ):
-                result = [ result ]
-
-            for item in result:
-                if isinstance( item, Measurement ) and item.getUnits( ) == { }:
-                    newResult.append( mpf( item ) )
-                else:
-                    newResult.append( item )
-
-            if len( newResult ) == 1:
-                newResult = newResult[ 0 ]
-
-            if term not in sideEffectOperators:
-                currentValueList.append( newResult )
         elif not isList and term in listOperators:
-            # handle a list operator
-            operatorInfo = listOperators[ term ]
-            argsNeeded = operatorInfo.argCount
+            if g.duplicateOperations > 0:
+                for i in range( 0, int( g.duplicateOperations ) ):
+                    evaluateListOperator( term, index, currentValueList )
 
-            # first we validate, and make sure the operator has enough arguments
-            if len( currentValueList ) < argsNeeded:
-                abortArgsNeeded( term, index, argsNeeded )
-                return False
-
-            # handle the call depending on the number of arguments needed
-            if argsNeeded == 0:
-                currentValueList.append( operatorInfo.function( currentValueList ) )
-            elif argsNeeded == 1:
-                currentValueList.append( evaluateOneListFunction( operatorInfo.function,
-                                                                  currentValueList.pop( ) ) )
+                g.duplicateOperations = 0
             else:
-                listArgs = [ ]
-
-                for i in range( 0, argsNeeded ):
-                    listArgs.insert( 0, currentValueList.pop( ) )
-
-                currentValueList.append( operatorInfo.function( *listArgs ) )
+                evaluateListOperator( term, index, currentValueList )
         else:
             # handle a plain old value (i.e., a number or list, not an operator)
             try:
@@ -916,16 +950,14 @@ sideEffectOperators = [
 
 # //******************************************************************************
 # //
-# //  modifiers are operators that directly modify the argument stack instead of
-# //  just returning a value.
-# //
-# //  '[' and ']' are special arguments that change global state in order to
-# //  create list operands.
+# //  modifiers are operators that directly modify the argument stack or global
+# //  state in addition to or instead of just returning a value.
 # //
 # //******************************************************************************
 
 modifiers = {
     'dup'               : OperatorInfo( duplicateTerm, 2 ),
+    'dupop'             : OperatorInfo( duplicateOperation, 1 ),
     'flatten'           : OperatorInfo( flatten, 1 ),
     'previous'          : OperatorInfo( getPrevious, 1 ),
     'unlist'            : OperatorInfo( unlist, 1 ),
