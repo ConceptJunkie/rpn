@@ -1063,6 +1063,7 @@ operators = {
     'acsc'                  : OperatorInfo( lambda n: performTrigOperation( n, acsc ), 1 ),
     'acsch'                 : OperatorInfo( lambda n: performTrigOperation( n, acsch ), 1 ),
     'add'                   : OperatorInfo( add, 2, ),
+    'add_digits'            : OperatorInfo( addDigits, 2 ),
     'aliquot'               : OperatorInfo( getAliquotSequence, 2 ),
     'altfac'                : OperatorInfo( getNthAlternatingFactorial, 1 ),
     'and'                   : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x & y ), 2 ),

@@ -811,3 +811,26 @@ def getExpandedFactorList( factors ):
     return sorted( reduce( lambda x, y: x + y, factors, [ ] ) )
 
 
+# //******************************************************************************
+# //
+# //  addDigits
+# //
+# //******************************************************************************
+
+def addDigits( n, k ):
+    if k < 0:
+        raise ValueError( "'add_digits' requires a non-negative integer for the second argument" )
+
+    digits = int( k )
+
+    if digits == 0:
+        digitCount = 1
+    else:
+        digitCount = int( fadd( floor( log10( k ) ), 1 ) )
+
+    if n < 0:
+        return nint( fsub( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
+    else:
+        return nint( fadd( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
+
+

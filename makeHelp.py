@@ -1489,6 +1489,13 @@ c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
 c:\>rpn 1 mile 1 km +
 1.621371192237 miles
 ''' ],
+    'add_digits' : [
+'lexicographic', 'adds the digits of k to n',
+'''
+TODO: explain me
+''',
+'''
+''' ],
     'aliquot' : [
 'number_theory', 'returns the first k members of the aliquot sequence of n',
 '''
