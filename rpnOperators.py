@@ -112,22 +112,24 @@ def evaluateOperator( term, index, currentValueList ):
 
         result = callers[ argsNeeded ]( operatorInfo.function, *argList )
 
-        newResult = list( )
+    newResult = list( )
 
-        if not isinstance( result, list ):
-            result = [ result ]
+    if not isinstance( result, list ):
+        result = [ result ]
 
-        for item in result:
-            if isinstance( item, Measurement ) and item.getUnits( ) == { }:
-                newResult.append( mpf( item ) )
-            else:
-                newResult.append( item )
+    for item in result:
+        if isinstance( item, Measurement ) and item.getUnits( ) == { }:
+            newResult.append( mpf( item ) )
+        else:
+            newResult.append( item )
 
-        if len( newResult ) == 1:
-            newResult = newResult[ 0 ]
+    if len( newResult ) == 1:
+        newResult = newResult[ 0 ]
 
-        if term not in sideEffectOperators:
-            currentValueList.append( newResult )
+    if term not in sideEffectOperators:
+        currentValueList.append( newResult )
+
+    return True
 
 
 # //******************************************************************************
@@ -159,6 +161,8 @@ def evaluateListOperator( term, index, currentValueList ):
             listArgs.insert( 0, currentValueList.pop( ) )
 
         currentValueList.append( operatorInfo.function( *listArgs ) )
+
+    return True
 
 
 # //******************************************************************************
@@ -203,9 +207,9 @@ def evaluateTerm( term, index, currentValueList ):
             # handle a unit operator
             # look for unit without a value (in which case we give it a value of 1)
             if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], Measurement ) or \
-               isinstance( currentValueList[ -1 ], arrow.Arrow ) or ( isinstance( currentValueList[ -1 ], list ) and
-                                                                      isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
-                currentValueList.append( applyNumberValueToUnit( 1, term ) )
+                isinstance( currentValueList[ -1 ], arrow.Arrow ) or ( isinstance( currentValueList[ -1 ], list ) and
+                                                                       isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
+                    currentValueList.append( applyNumberValueToUnit( 1, term ) )
             # if the unit comes after a list, then apply it to every item in the list
             elif isinstance( currentValueList[ -1 ], list ):
                 argList = currentValueList.pop( )
@@ -234,11 +238,13 @@ def evaluateTerm( term, index, currentValueList ):
                     if argsNeeded > 1 and i > 0:
                         currentValueList.extend( savedArgs )
 
-                    evaluateOperator( term, index, currentValueList )
+                    if not evaluateOperator( term, index, currentValueList ):
+                        return False
 
                 g.duplicateOperations = 0
             else:
-                evaluateOperator( term, index, currentValueList )
+                if not evaluateOperator( term, index, currentValueList ):
+                    return False
 
         elif not isList and term in listOperators:
             if g.duplicateOperations > 0:
@@ -252,11 +258,13 @@ def evaluateTerm( term, index, currentValueList ):
                     if argsNeeded > 1 and i > 0:
                         currentValueList.extend( savedArgs )
 
-                    evaluateListOperator( term, index, currentValueList )
+                    if not evaluateListOperator( term, index, currentValueList ):
+                        return False
 
                 g.duplicateOperations = 0
             else:
-                evaluateListOperator( term, index, currentValueList )
+                if not evaluateListOperator( term, index, currentValueList ):
+                    return False
         else:
             # handle a plain old value (i.e., a number or list, not an operator)
             try:
