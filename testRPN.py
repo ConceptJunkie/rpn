@@ -161,6 +161,10 @@ def runTests( ):
     testRPN( 'rpn today 3 weeks add' )
     testRPN( 'rpn now 150 miles 10 furlongs fortnight / / add' )
 
+    testRPN( 'rpn 3 4 add_digits' )
+    testRPN( 'rpn 3 45 add_digits' )
+    testRPN( 'rpn 34 567 add_digits' )
+
     testRPN( 'rpn 13 altfac' )
 
     testRPN( 'rpn 0x7777 0xdcba and' )
@@ -310,6 +314,11 @@ def runTests( ):
     testRPN( 'rpn 100000 doublebal_' )
 
     testRPN( 'rpn 9 doublefac' )
+
+    testRPN( 'rpn 2 5 dup_operator sqr' )
+    testRPN( 'rpn 4 6 5 dup_operator *' )
+
+    testRPN( 'rpn 543 2 dup_digits' )
 
     testRPN( 'rpn e' )
 
@@ -970,7 +979,7 @@ def runTests( ):
 
     testRPN( 'rpn 1 10 range 1 8 range intersection' )
 
-    testRPN( 'rpn 1 10 range 2 5 range 17 linearrecur' )
+    testRPN( 'rpn 1 10 range 2 5 range 17 linear_recur' )
 
     testRPN( 'rpn 1 10 range max' )
 
