@@ -926,7 +926,7 @@ Calculations with lists:
     The first, 12th, and 165th pentagonal numbers are also triangular.
 
     Calculate the first 10 Fibonacci numbers without using the 'fib' operator:
-        c:\>rpn [ 1 1 ] 1 1 10 range linearrecur
+        c:\>rpn [ 1 1 ] 1 1 10 range linear_recur
         [ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 ]
 
 
@@ -3198,7 +3198,7 @@ c:\>rpn 1 10 range 1 4 range left
 ''',
 '''
 ''' ],
-    'linearrecur' : [
+    'linear_recur' : [
 'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b)',
 '''
 The factors (a) indicate the multiple of each preceding value to add to create
@@ -3222,17 +3222,17 @@ Internally, rpn uses this same linear recurrence functionality in the
 '''
 The 250th Fibonacci number:
 
-c:\>rpn -c -a55 [ 1 1 ] [ 1 1 ] 250 linearrecur
+c:\>rpn -c -a55 [ 1 1 ] [ 1 1 ] 250 linear_recur
 7,896,325,826,131,730,509,282,738,943,634,332,893,686,268,675,876,375
 
 The Fibonacci sequence:
 
-c:\>rpn [ 1 1 ] [ 0 1 ] 1 18 range linearrecur
+c:\>rpn [ 1 1 ] [ 0 1 ] 1 18 range linear_recur
 [ 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597 ]
 
 The Tribonacci sequence:
 
-c:\>rpn [ 1 1 1 ] [ 0 0 1 ] 1 18 range linearrecur
+c:\>rpn [ 1 1 1 ] [ 0 0 1 ] 1 18 range linear_recur
 [ 0, 0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504, 927, 1705, 3136, 5768 ]
 
 The Octanacci sequence:
@@ -3242,12 +3242,12 @@ c:\>rpn [ 1 8 dup ] [ 0 7 dup 1 ] 1 20 range linear
 
 The Pell numbers:
 
-c:\>rpn [ 1 2 ] [ 0 1 ] 1 15 range linearrecur
+c:\>rpn [ 1 2 ] [ 0 1 ] 1 15 range linear_recur
 [ 0, 1, 2, 5, 12, 29, 70, 169, 408, 985, 2378, 5741, 13860, 33461, 80782 ]
 
 The Perrin sequence:
 
-c:\>rpn [ 1 1 0 ] [ 3 0 2 ] 1 20 range linearrecur
+c:\>rpn [ 1 1 0 ] [ 3 0 2 ] 1 20 range linear_recur
 [ 3, 0, 2, 3, 2, 5, 5, 7, 10, 12, 17, 22, 29, 39, 51, 68, 90, 119, 158, 209 ]
 ''' ],
     'ln' : [

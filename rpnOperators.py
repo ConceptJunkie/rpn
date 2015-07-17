@@ -84,7 +84,6 @@ def abortArgsNeeded( term, index, argsNeeded ):
     print( 's' if argsNeeded > 1 else '' )
 
 
-
 # //******************************************************************************
 # //
 # //  evaluateOperator
@@ -1027,7 +1026,7 @@ listOperators = {
     'intersection'      : OperatorInfo( makeIntersection, 2 ),
     'lcm'               : OperatorInfo( getLCM, 1 ),
     'left'              : OperatorInfo( getLeft, 2 ),
-    'linearrecur'       : OperatorInfo( getNthLinearRecurrence, 3 ),
+    'linear_recur'       : OperatorInfo( getNthLinearRecurrence, 3 ),
     'makeisotime'       : OperatorInfo( makeISOTime, 1 ),
     'makejuliantime'    : OperatorInfo( makeJulianTime, 1 ),
     'maketime'          : OperatorInfo( makeTime, 1 ),

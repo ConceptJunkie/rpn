@@ -400,7 +400,7 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
         return getNthLinearRecurrence( recurrence, [ seeds ], n )
 
     if len( seeds ) == 0:
-        raise ValueError( 'for operator \'linearrecur\', seeds list cannot be empty ' )
+        raise ValueError( 'for operator \'linear_recur\', seeds list cannot be empty ' )
 
     # calculate missing seeds
     for i in range( len( seeds ), len( recurrence ) ):
@@ -413,7 +413,7 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
         return seeds[ int( n ) - 1 ]
     else:
         if len( recurrence ) == 0:
-            raise ValueError( 'internal error:  for operator \'linearrecur\', '
+            raise ValueError( 'internal error:  for operator \'linear_recur\', '
                               'recurrence list cannot be empty ' )
 
         result = [ ]
