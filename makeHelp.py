@@ -781,6 +781,9 @@ Fixed several minor bugs.
 
 6.4.0
 
+Added the 'faradays_constant', 'radiation_constant' and 'stefan_boltzmann'
+operators.
+
 Added the 'magnetic_constant', 'electric_constant', 'rydberg_constant',
 'newtons_constant' and 'fine_structure' operators.
 
@@ -801,9 +804,21 @@ Added 'crt' operator.
 
 6.5.0
 
+Added the 'reverse_digits', 'group_elements', and 'is_palindrome' operators.
+
+Ctrl-c can no longer interrupt saving the cache files, causing corruption.
+
+Added the 'dup_operator', 'add_digits', and 'dup_digits' operators.
+
+Added the 'hexsquare' operator.
+
+Added 'ecm' operator.
+
 Added the 'nand' and 'nor' operators.
 
 Filled in a bunch of help text.
+
+Renamed some operators, but the old names are aliases.
 
 ...and the usual bug fixes.
     ''',
