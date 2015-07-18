@@ -823,3 +823,29 @@ def getNonzeroes( args ):
         return args
 
 
+# //******************************************************************************
+# //
+# //  groupElements
+# //
+# //******************************************************************************
+
+def groupElements( args, count ):
+    if isinstance( count, list ):
+        return [ groupElements( args, i ) for i in count ]
+
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ groupElements( args, count ) for arg in args ]
+        else:
+            result = [ ]
+
+            n = int( count )
+
+            for i in range( 0, len( args ), n ):
+                result.append( args[ i : i + n ] )
+
+            return result
+    else:
+        return [ args ]
+
+

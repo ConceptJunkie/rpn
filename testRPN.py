@@ -471,14 +471,19 @@ def runTests( ):
 
     testRPN( 'rpn 456 8 integer' )
 
-    testRPN( 'rpn 1000 10000 isdivisible' )
+    testRPN( 'rpn 1000 10000 is_divisible' )
+    testRPN( 'rpn 12 1 12 range is_divisible' )
+    testRPN( 'rpn 1 20 range 6 is_divisible' )
 
     testRPN( 'rpn 102 isolated' )
     testRPN( 'rpn 1902 isolated' )
 
-    testRPN( 'rpn 1000 1030 range isprime' )
-    testRPN( 'rpn 2049 isprime' )
-    testRPN( 'rpn 92348759911 isprime' )
+    testRPN( 'rpn 101 is_palindrome' )
+    testRPN( 'rpn 1 22 range is_palindrome' )
+
+    testRPN( 'rpn 1000 1030 range is_prime' )
+    testRPN( 'rpn 2049 is_prime' )
+    testRPN( 'rpn 92348759911 is_prime' )
 
     testRPN( 'rpn 1024 issquare' )
 
@@ -747,6 +752,14 @@ def runTests( ):
     testRPN( 'rpn 6 7 / reciprocal' )
 
     testRPN( 'rpn 23 5 repunit' )
+
+    testRPN( 'rpn 1 10 range reverse' )
+    testRPN( 'rpn 1 2 10 range range reverse' )
+    testRPN( 'rpn 1 2 10 range reverse range reverse' )
+    testRPN( 'rpn 1 2 10 range reverse range' )
+
+    testRPN( 'rpn 37 1 8 range * reverse_digits' )
+    testRPN( 'rpn 37 1 2 9 range range * reverse_digits' )
 
     testRPN( 'rpn 89 rhombdodec' )
 
@@ -1142,6 +1155,7 @@ def runTests( ):
     testRPN( 'rpn help internal' )
     testRPN( 'rpn help list_operators' )
     testRPN( 'rpn help logarithms' )
+    testRPN( 'rpn help lexicographic' )
     testRPN( 'rpn help logical' )
     testRPN( 'rpn help modifiers' )
     testRPN( 'rpn help number_theory' )

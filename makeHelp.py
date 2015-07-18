@@ -2790,6 +2790,35 @@ c:\>rpn [ 1 1 5 range range ] geomean
 ''',
 '''
 ''' ],
+    'group_elements' : [
+'list_operators', 'groups the elements of list n into sublsts of k elements',
+'''
+If there are elements left over (i.e., not enough to create the final group
+of k elements, then the remaining list elements are included in the final
+group.
+''',
+'''
+c:\>rpn 1 10 range 5 group_elements
+[ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
+
+c:\>rpn 1 11 range 5 group_elements
+[ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ], [ 11 ] ]
+
+c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
+[
+[ 1, 0 ],
+[ 2, 1 ],
+[ 3, 1 ],
+[ 4, 0 ],
+[ 5, 1 ],
+[ 6, 0 ],
+[ 7, 1 ],
+[ 8, 0 ],
+[ 9, 0 ],
+[ 10, 0 ],
+[ 11, 1 ],
+]
+''' ],
     'harmonic' : [
 'number_theory', 'returns the sum of the first n terms of the harmonic series',
 '''
@@ -3022,7 +3051,7 @@ Find numbers that are triangular and square at the same time:
 c:\>rpn 1 100 range tri 1 100 range sqr intersect
 [ 1, 36, 1225 ]
 ''' ],
-    'isdivisible' : [
+    'is_divisible' : [
 'arithmetic', 'returns whether n is n divisible by k',
 '''
 ''',
@@ -3044,13 +3073,26 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'isprime' : [
+    'is_palindrome' : [
+'lexicographic', 'returns whether interger n is palindromic',
+'''
+n is treated as an integer.  If its digits are palindromic, i.e., they
+read the same forwards as backwards, then the operator returns 1.
+''',
+'''
+c:\>rpn 101 is_palindrome
+1
+
+c:\>rpn 1201 is_palindrome
+0
+''' ],
+    'is_prime' : [
 'number_theory', 'returns whether n is prime',
 '''
 ''',
 '''
 ''' ],
-    'issquare' : [
+    'is_square' : [
 'arithmetic', 'returns whether n is a perfect square',
 '''
 ''',
@@ -4752,6 +4794,16 @@ denominator of the whole list.
 '''
 ''',
 '''
+''' ],
+    'reverse_digits' : [
+'lexicographic', 'returns n with its digits reversed',
+'''
+'reverse_digits' converts the argument to an integer.
+''',
+'''
+c:\>rpn 123456789 reverse_digits
+987654321
+
 ''' ],
     'rhombdodec' : [
 'polyhedral_numbers', 'calculates the nth rhombic dodecahedral number',

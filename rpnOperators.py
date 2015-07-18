@@ -25,6 +25,7 @@ from rpnDate import *
 from rpnDeclarations import *
 from rpnFactor import *
 from rpnGeometry import *
+from rpnLexicographic import *
 from rpnList import *
 from rpnMath import *
 from rpnModifiers import *
@@ -1022,11 +1023,12 @@ listOperators = {
     'frobenius'         : OperatorInfo( getFrobeniusNumber, 1 ),
     'gcd'               : OperatorInfo( getGCD, 1 ),
     'geomean'           : OperatorInfo( calculateGeometricMean, 1 ),
+    'group_elements'    : OperatorInfo( groupElements, 2 ),
     'interleave'        : OperatorInfo( interleave, 2 ),
     'intersection'      : OperatorInfo( makeIntersection, 2 ),
     'lcm'               : OperatorInfo( getLCM, 1 ),
     'left'              : OperatorInfo( getLeft, 2 ),
-    'linear_recur'       : OperatorInfo( getNthLinearRecurrence, 3 ),
+    'linear_recur'      : OperatorInfo( getNthLinearRecurrence, 3 ),
     'makeisotime'       : OperatorInfo( makeISOTime, 1 ),
     'makejuliantime'    : OperatorInfo( makeJulianTime, 1 ),
     'maketime'          : OperatorInfo( makeTime, 1 ),
@@ -1231,11 +1233,12 @@ operators = {
     'input_radix'           : OperatorInfo( setInputRadix, 1 ),
     'integer'               : OperatorInfo( convertToSignedInt, 2 ),
     'integer_grouping'      : OperatorInfo( setIntegerGrouping, 1 ),
-    'isdivisible'           : OperatorInfo( lambda n, k: 1 if fmod( n, k ) == 0 else 0, 2 ),
+    'is_divisible'          : OperatorInfo( lambda n, k: 1 if fmod( n, k ) == 0 else 0, 2 ),
+    'is_palindrome'         : OperatorInfo( isPalindrome, 1 ),
     'isolated'              : OperatorInfo( getNthIsolatedPrime, 1 ),
     'iso_day'               : OperatorInfo( getISODay, 1 ),
-    'isprime'               : OperatorInfo( lambda n: 1 if isPrime( n ) else 0, 1 ),
-    'issquare'              : OperatorInfo( isSquare, 1 ),
+    'is_prime'              : OperatorInfo( lambda n: 1 if isPrime( n ) else 0, 1 ),
+    'is_square'             : OperatorInfo( isSquare, 1 ),
     'itoi'                  : OperatorInfo( lambda: exp( fmul( -0.5, pi ) ), 0 ),
     'jacobsthal'            : OperatorInfo( getNthJacobsthalNumber, 1 ),
     'january'               : OperatorInfo( lambda: 1, 0 ),
@@ -1400,6 +1403,7 @@ operators = {
     'real'                  : OperatorInfo( re, 1 ),
     'reciprocal'            : OperatorInfo( takeReciprocal, 1 ),
     'repunit'               : OperatorInfo( getNthBaseKRepunit, 2 ),
+    'reverse_digits'        : OperatorInfo( reverseDigits, 1 ),
     'rhombdodec'            : OperatorInfo( getNthRhombicDodecahedralNumber, 1 ),
     'riesel'                : OperatorInfo( lambda n: fsub( fmul( n, power( 2, n ) ), 1 ), 1 ),
     'robbins'               : OperatorInfo( getRobbinsConstant, 0 ),
