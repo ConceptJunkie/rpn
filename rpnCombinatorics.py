@@ -12,6 +12,8 @@
 # //
 # //******************************************************************************
 
+import itertools
+
 from mpmath import *
 
 from rpnNumberTheory import *
@@ -175,4 +177,28 @@ def createDeBruijnSequence( n, k ):
         v[ l - 1 ] += 1
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  getCompositions
+# //
+# //******************************************************************************
+
+def getCompositions( n, k ):
+    value = int( floor( n ) )
+    count = int( floor( k ) )
+
+    if count < 1:
+        raise ValueError( "'compositions' expects a size greater than 0'" )
+
+    if count == 1:
+        return [ [ floor( n ) ] ]
+    else:
+        result = [ ]
+
+        for i in range( 1, int( ( n - count ) + 2 ) ):
+            result.extend( [ [ nint( i ) ] + comp for comp in getCompositions( n - i, count - 1 ) ] )
+
+        return result
 

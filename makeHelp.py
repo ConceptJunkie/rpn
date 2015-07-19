@@ -804,6 +804,8 @@ Added 'crt' operator.
 
 6.5.0
 
+Added the 'combine_digits', 'is_pandigital', 'compositions' operators.
+
 Added the 'reverse_digits', 'group_elements', and 'is_palindrome' operators.
 
 Ctrl-c can no longer interrupt saving the cache files, causing corruption.
@@ -1988,6 +1990,33 @@ rpn (3)>5 12 **
 ''',
 '''
 ''' ],
+    'combine_digits' : [
+'lexicographic', 'combines the digits of all elements of list n into a single number',
+'''
+''',
+'''
+c:\>rpn 9 0 range combine_digits
+9876543210
+
+c:\>rpn 1 1 7 range primes combine_digits
+[ 2, 23, 235, 2357, 235711, 23571113, 2357111317 ]
+''' ],
+    'compositions' : [
+'combinatorics', 'returns a list containing all distinct ordered k-tuples of positive integers whose elements sum to n',
+'''
+This is referred to as the compositions of n.  Non-integer arguments are
+truncated to integers.
+''',
+'''
+c:\>rpn 5 2 compositions
+[ [ 1, 4 ], [ 2, 3 ], [ 3, 2 ], [ 4, 1 ] ]
+
+c:\>rpn 5 3 compositions
+[ [ 1, 1, 3 ], [ 1, 2, 2 ], [ 1, 3, 1 ], [ 2, 1, 2 ], [ 2, 2, 1 ], [ 3, 1, 1 ] ]
+
+c:\>rpn 5 4 compositions
+[ [ 1, 1, 1, 2 ], [ 1, 1, 2, 1 ], [ 1, 2, 1, 1 ], [ 2, 1, 1, 1 ] ]
+''' ],
     'conjugate' : [
 'complex_math', 'calculates complex conjugate of n',
 '''
@@ -2028,6 +2057,9 @@ c:\>rpn mars_day [ hour minute second ] convert
 
 c:\>rpn 78 kg [ pound ounce ] convert
 [ 171 pounds, 15.369032067272 ounces ]
+
+This conversions suffers from a minor rounding error I haven't been able to
+fix yet:
 
 c:\>rpn 150,000 seconds [ day hour minute second ] convert
 [ 1 day, 17 hours, 39 minutes, 60 seconds ]
@@ -3089,7 +3121,7 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
     'is_palindrome' : [
-'lexicographic', 'returns whether interger n is palindromic',
+'lexicographic', 'returns whether an integer n is palindromic',
 '''
 n is treated as an integer.  If its digits are palindromic, i.e., they
 read the same forwards as backwards, then the operator returns 1.
@@ -3100,6 +3132,22 @@ c:\>rpn 101 is_palindrome
 
 c:\>rpn 1201 is_palindrome
 0
+''' ],
+    'is_pandigital' : [
+'lexicographic', 'returns whether an integer n is pandigital',
+'''
+A pandigital number contains at least one of all the of the digits 0 through
+9.
+''',
+'''
+c:\>rpn 123456789 is_pandigital
+0
+
+c:\>rpn 1234567890 is_pandigital
+1
+
+c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
+1
 ''' ],
     'is_prime' : [
 'number_theory', 'returns whether n is prime',

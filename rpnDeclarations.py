@@ -191,6 +191,7 @@ operatorAliases = {
     'cnon?'         : 'cnonagonal?',
     'coct'          : 'coctagonal',
     'coct?'         : 'coctagonal?',
+    'composition'   : 'compositions',
     'conj'          : 'conjugate',
     'cosine'        : 'cos',
     'cousin'        : 'cousinprime',

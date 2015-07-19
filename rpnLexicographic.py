@@ -15,6 +15,7 @@
 from mpmath import *
 
 import rpnGlobals as g
+import string
 
 
 # //******************************************************************************
@@ -48,6 +49,30 @@ def addDigits( n, k ):
         digitCount = int( fadd( floor( log10( k ) ), 1 ) )
 
     return appendDigits( n, digits, digitCount )
+
+
+# //******************************************************************************
+# //
+# //  combineDigits
+# //
+# //******************************************************************************
+
+def combineDigits( n ):
+    if isinstance( n, list ):
+        if isinstance( n[ 0 ], list ):
+            return [ combineDigits( i ) for i in n ]
+        else:
+            result = 0
+
+            for i in n:
+                if i < 0:
+                    raise ValueError( "'combine_digits' requires a list of non-negative integers" )
+                else:
+                    result = addDigits( result, i )
+
+            return result
+    else:
+        return n
 
 
 # //******************************************************************************
@@ -90,4 +115,21 @@ def isPalindrome( n ):
             return 0
 
     return 1
+
+
+# //******************************************************************************
+# //
+# //  isPandigital
+# //
+# //******************************************************************************
+
+def isPandigital( n ):
+    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )[ 0 : -2 ]
+
+    for c in string.digits:
+        if not c in str:
+            return 0
+
+    return 1
+
 

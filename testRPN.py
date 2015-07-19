@@ -481,6 +481,8 @@ def runTests( ):
     testRPN( 'rpn 101 is_palindrome' )
     testRPN( 'rpn 1 22 range is_palindrome' )
 
+    testRPN( 'rpn 1234567890 is_palindrome' )
+
     testRPN( 'rpn 1000 1030 range is_prime' )
     testRPN( 'rpn 2049 is_prime' )
     testRPN( 'rpn 92348759911 is_prime' )
