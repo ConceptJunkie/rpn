@@ -202,3 +202,26 @@ def getCompositions( n, k ):
 
         return result
 
+
+# //******************************************************************************
+# //
+# //  getPartitionNumber
+# //
+# //******************************************************************************
+
+def getPartitionNumber( n, k ):
+    #if k < 1:
+    #    raise ValueError
+
+    #if n < 0:
+    #    raise ValueError
+
+    if k > n:
+         return 0
+
+    if k == n:
+        return 1
+
+    return getPartitionNumber( n, k + 1 ) + getPartitionNumber( n - k, k )
+
+

@@ -317,6 +317,7 @@ operatorAliases = {
     'octa'          : 'octagonal',
     'octa?'         : 'octagonal?',
     'p!'            : 'primorial',
+    'partition'     : 'partitions',
     'pent'          : 'pentagonal',
     'pent?'         : 'pentagonal?',
     'pentsqr'       : 'pentsquare',
