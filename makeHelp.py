@@ -20,6 +20,8 @@ import os
 from rpnDeclarations import *
 from rpnVersion import *
 
+import rpnGlobals as g
+
 
 # //******************************************************************************
 # //
@@ -1767,7 +1769,7 @@ c:\>rpn -a24 avogadro
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -1777,7 +1779,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -2138,7 +2140,7 @@ c:\>rpn 1 20 range divcount
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -2399,7 +2401,7 @@ A double balanced prime is a primes which is the average of its immediate
 neighbors, its second neighbors and its third neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -2417,7 +2419,7 @@ neighbors, its second neighbors.  This operator also returns the neighbors
 and second neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -3115,7 +3117,7 @@ c:\>rpn 1 100 range tri 1 100 range sqr intersect
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4151,7 +4153,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4161,7 +4163,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4526,7 +4528,7 @@ a number of extra libraries.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4623,7 +4625,7 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4633,7 +4635,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4644,7 +4646,7 @@ distributed with data files calculated through the first billion primes.
 This operator is much faster than using 'range' with 'prime'.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4660,7 +4662,7 @@ c:\>rpn 320620307 10 primes
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4671,7 +4673,7 @@ distributed with data files calculated through the first billion primes.
 This function calculates the product of the first n prime numbers.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4693,7 +4695,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4703,7 +4705,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4713,7 +4715,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4735,7 +4737,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4745,7 +4747,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -4939,7 +4941,7 @@ This operator is the equivalent of 'n 3 root'.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5003,7 +5005,7 @@ This constant operator is defined for convenience for use with date operators.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5013,7 +5015,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5040,7 +5042,7 @@ prime.  n + 2 or n + 4 may also be prime.  This operator returns both members
 of the nth set of sexy primes, which will differ by 6.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5057,7 +5059,7 @@ c:\>rpn 1001 1010 range sexyprime_
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5067,7 +5069,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5077,7 +5079,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5087,7 +5089,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5226,7 +5228,7 @@ c:\>rpn 1 10 range 0 4 range 6 8 range slice -s1
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5422,7 +5424,7 @@ This constant operator is defined for convenience for use with date operators.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5585,7 +5587,7 @@ A triple balanced prime is a primes which is the average of its immediate
 neighbors, its second neighbors and its third neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5600,7 +5602,7 @@ neighbors, its second neighbors and its third neighbors.  This operator also
 returns the neighbors, second neighbors, and third neighbors.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5618,7 +5620,7 @@ can be, either n, n + 2, n + 6, or n, n + 4, n + 6.  This operator returns
 only the first prime of the triplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5636,7 +5638,7 @@ can be, either n, n + 2, n + 6, or n, n + 4, n + 6.  This operator returns
 a list of the three primes in the triplet.
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5685,7 +5687,7 @@ This constant operator is defined for convenience for use with date operators.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5695,7 +5697,7 @@ distributed with data files calculated through the first billion primes.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in rpndata/ and is
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
 ''',
 '''
@@ -5966,7 +5968,7 @@ c:\>rpn 0 20 range fib isprime zero fib
 # //******************************************************************************
 
 def makeHelp( helpTopics ):
-    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
+    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + g.dataDir )
     fileName = dataPath + os.sep + 'help.pckl.bz2'
 
     if not os.path.isdir( dataPath ):

@@ -26,6 +26,8 @@ from rpnDeclarations import *
 from rpnPrimeUtils import *
 from rpnUtils import *
 
+import rpnGlobals as g
+
 
 # //******************************************************************************
 # //
@@ -653,7 +655,7 @@ def main( ):
     tripletPrimes = { }
     twinPrimes = { }
 
-    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
+    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + g.dataDir )
 
     help = False
     helpArgs = [ ]

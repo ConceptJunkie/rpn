@@ -12,8 +12,15 @@
 # //
 # //******************************************************************************
 
+from __future__ import print_function
+
+import six
+
 import arrow
-import builtins
+
+if six.PY3:
+    import builtins
+
 import bz2
 import contextlib
 import math
@@ -125,7 +132,7 @@ def loadUnitData( ):
             g.basicUnitTypes.update( pickle.load( pickleFile ) )
             g.unitOperators.update( pickle.load( pickleFile ) )
             g.operatorAliases.update( pickle.load( pickleFile ) )
-    except FileNotFoundError:
+    except IOError:
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
         return False
 

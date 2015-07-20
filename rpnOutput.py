@@ -12,8 +12,15 @@
 # //
 # //******************************************************************************
 
+from __future__ import print_function
+
+import six
+
 import arrow
-import builtins
+
+if six.PY3:
+    import builtins
+
 import bz2
 import contextlib
 import math

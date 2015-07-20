@@ -12,9 +12,13 @@
 # //
 # //******************************************************************************
 
+import six
+
+
 # general globals
 
 dataPath = ''
+dataDir = 'rpndata' if six.PY3 else 'rpndata2'
 
 # constants
 

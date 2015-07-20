@@ -12,6 +12,10 @@
 # //
 # //******************************************************************************
 
+from __future__ import print_function
+
+import six
+
 import bz2
 import contextlib
 import itertools
@@ -577,7 +581,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     print( 'Saving everything...' )
 
-    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + 'rpndata' )
+    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + g.dataDir )
     fileName = dataPath + os.sep + 'units.pckl.bz2'
 
     if not os.path.isdir( dataPath ):
