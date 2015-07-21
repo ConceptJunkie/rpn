@@ -659,8 +659,8 @@ def getECMFactors( target ):
         g.factorCache = loadFactorCache( )
 
     if n in g.factorCache:
-        if verbose:
-            print( 'cache hit', n )
+        if verbose and n != 1:
+            print( 'cache hit:', n )
             print( )
 
         return g.factorCache[ n ]

@@ -805,8 +805,8 @@ Yields factors of n.'''
       return
 
    if f in g.factorCache:
-       if veb:
-           print( 'cache hit', f )
+       if veb and f != 1:
+           print( 'cache hit:', f )
 
        for i in getExpandedFactorList( g.factorCache[ f ] ):
            yield i
@@ -823,8 +823,8 @@ Yields factors of n.'''
       n = n // f
 
       if n in g.factorCache:
-          if veb:
-              print( 'cache hit', n )
+          if veb and f != 1:
+              print( 'cache hit:', n )
 
           for i in getExpandedFactorList( g.factorCache[ n ] ):
               yield i
@@ -840,8 +840,8 @@ Yields factors of n.'''
 
    for factor in sub_sure_factors(f, u, curve_params):
       if factor in g.factorCache:
-          if veb:
-              print( 'cache hit', factor )
+          if veb and factor != 1:
+              print( 'cache hit:', factor )
 
           for i in getExpandedFactorList( g.factorCache[ factor ] ):
               yield i
@@ -861,8 +861,8 @@ Yields factors of n.'''
       n = n // factor
 
       if n in g.factorCache:
-          if veb:
-              print( 'cache hit', n )
+          if veb and n != 1:
+              print( 'cache hit:', n )
 
           for i in getExpandedFactorList( g.factorCache[ n ] ):
               yield i
@@ -1218,8 +1218,8 @@ Notes:
       n = n // factor
 
       if n in g.factorCache:
-          if veb:
-              print( 'cache hit', n )
+          if veb and n != 1:
+              print( 'cache hit:', n )
 
           for i in getExpandedFactorList( g.factorCache[ n ] ):
               yield i
@@ -1275,8 +1275,8 @@ Notes:
          n = n // factor
 
          if n in g.factorCache:
-             if veb:
-                 print( 'cache hit', n )
+             if veb and n != 1:
+                 print( 'cache hit:', n )
 
              for i in getExpandedFactorList( g.factorCache[ n ] ):
                  yield i
@@ -1345,8 +1345,8 @@ Notes:
          yield prime
 
    if n in g.factorCache:
-       if veb:
-           print( 'cache hit', n )
+       if veb and n != 1:
+           print( 'cache hit:', n )
 
        for i in getExpandedFactorList( g.factorCache[ n ] ):
            yield i
