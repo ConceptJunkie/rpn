@@ -22,6 +22,7 @@ import rpnGlobals as g
 
 from rpnUtils import getExpandedFactorList
 
+
 try:
    import psyco
    psyco.full()

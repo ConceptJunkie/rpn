@@ -30,10 +30,11 @@ import signal
 
 from mpmath import *
 from random import randrange
-from functools import reduce
 
 from rpnDeclarations import *
 from rpnVersion import *
+
+from functools import reduce
 
 import rpnGlobals as g
 
@@ -811,9 +812,13 @@ callers = [
 # //
 # //  getExpandedFactorList
 # //
+# //  Takes a list of tuples where each tuple is a prime factor and an exponent
+# //  and returns a simple list of prime factors.
+# //
 # //******************************************************************************
 
 def getExpandedFactorList( factors ):
     factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
     return sorted( reduce( lambda x, y: x + y, factors, [ ] ) )
+
 

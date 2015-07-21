@@ -70,7 +70,8 @@ def getDivisorCount( n ):
     if n == 1:
         return 1
 
-    return fprod( [ i[ 1 ] + 1 for i in factor( n ) ] )
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    return fprod( [ i[ 1 ] + 1 for i in factors ] )
 
 
 # //******************************************************************************
@@ -109,7 +110,9 @@ def getDivisors( n ):
     elif n == 1:
         return [ 1 ]
 
-    return sorted( createDivisorList( [ ], factor( n ) ) )
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    return sorted( createDivisorList( [ ], factors ) )
 
 
 # //******************************************************************************
@@ -836,7 +839,7 @@ def getMobius( n ):
     if n == 1:
         return 1
 
-    factors = factor( n )
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
 
     for i in factors:
         if i[ 1 ] > 1:
@@ -878,8 +881,10 @@ def getEulerPhi( n ):
     if n < 2:
         return n
 
-    return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in factor( n ) ) )
-    #return reduce(mul, ((p - 1) * p ** (e - 1) for p, e in factor(n)))
+    if g.ecm:
+        return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getECMFactors( n ) ) )
+    else:
+        return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getFactors( n ) ) )
 
 
 # //******************************************************************************

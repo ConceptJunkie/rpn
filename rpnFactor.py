@@ -24,11 +24,35 @@ from rpnDeclarations import *
 
 from rpnUtils import setAccuracy
 from rpnPrimes import primes
-from rpnUtils import getExpandedFactorList, DelayedKeyboardInterrupt
+from rpnUtils import DelayedKeyboardInterrupt
 
 import rpnGlobals as g
 
 from pyecm import factors
+from rpnUtils import getExpandedFactorList
+
+
+# //******************************************************************************
+# //
+# //  getCompactFactors
+# //
+# //  Takes a list of factors and returns a list of tuples where each tuple
+# //  is a prime factor and an exponent.
+# //
+# //******************************************************************************
+
+def getCompactFactors( factors ):
+    counter = collections.Counter( )
+
+    for i in sorted( factors ):
+        counter[ i ] += 1
+
+    result = [ ]
+
+    for i in counter:
+        result.append( tuple( [ i, counter[ i ] ] ) )
+
+    return result
 
 
 # //******************************************************************************
@@ -487,7 +511,7 @@ def doSelfridgeTest( candidate, verbose = False ):
 
 # //******************************************************************************
 # //
-# //  factor
+# //  getFactors
 # //
 # //  A factorization of *Nptr into prime and q-prime factors is first obtained.
 # //
@@ -499,10 +523,9 @@ def doSelfridgeTest( candidate, verbose = False ):
 # //
 # //  Returns a list of tuples where each tuple is a prime factor and an exponent.
 # //
-# //
 # //******************************************************************************
 
-def factor( n ):
+def getFactors( n ):
     verbose = g.verbose
 
     if n < -1:
@@ -598,28 +621,36 @@ def factor( n ):
 
 # //******************************************************************************
 # //
-# //  getECMFactors
-# //
-# //  Returns a sorted list of factors
+# //  getFactorList
 # //
 # //******************************************************************************
 
-def getECMFactors( n ):
+def getFactorList( n ):
+    return getExpandedFactorList( getFactors( n ) )
+
+
+# //******************************************************************************
+# //
+# //  getECMFactors
+# //
+# //******************************************************************************
+
+def getECMFactors( target ):
+    n = int( target )
+
     verbose = g.verbose
     randomSigma = True
     asymptoticSpeed = 10
     processingPower = 1.0
 
-    result = [ ]
-
     if n < -1:
-        return [ -1 ] + factor( fneg( n ) )
+        return [ ( -1, 1 ) ] + getECMFactors( fneg( n ) )
     elif n == -1:
-        return [ -1 ]
+        return [ ( -1, 1 ) ]
     elif n == 0:
-        return [ 0 ]
+        return [ ( 0, 1 ) ]
     elif n == 1:
-        return [ 1 ]
+        return [ ( 1, 1 ) ]
 
     if verbose:
         print( 'factoring', n, '(', int( log10( n ) ), ')' )
@@ -627,20 +658,21 @@ def getECMFactors( n ):
     if g.factorCache is None:
         g.factorCache = loadFactorCache( )
 
-        #for i in g.factorCache:
-        #    print( i, g.factorCache[ i ] )
-
     if n in g.factorCache:
         if verbose:
             print( 'cache hit', n )
             print( )
 
-        return getExpandedFactorList( g.factorCache[ n ] )
+        return g.factorCache[ n ]
+
+    result = [ ]
 
     for factor in factors( n, verbose, randomSigma, asymptoticSpeed, processingPower ):
         result.append( factor )
 
-    largeFactors = list( collections.Counter( [ int( i ) for i in result if i > 65535 ] ).items( ) )
+    result = [ int( i ) for i in result ]
+
+    largeFactors = list( collections.Counter( [ i for i in result if i > 65535 ] ).items( ) )
     product = int( fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] ) )
 
     save = False
@@ -649,9 +681,10 @@ def getECMFactors( n ):
         g.factorCache[ product ] = largeFactors
         save = True
 
+    result = list( collections.Counter( result ).items( ) )
+
     if n > g.minValueToCache and n not in g.factorCache:
-        allFactors = list( collections.Counter( [ int( i ) for i in result ] ).items( ) )
-        g.factorCache[ n ] = allFactors
+        g.factorCache[ n ] = result
         save = True
 
     if save:
@@ -660,5 +693,15 @@ def getECMFactors( n ):
     if verbose:
         print( )
 
-    return sorted( result )
+    return result
+
+
+# //******************************************************************************
+# //
+# //  getECMFactorList
+# //
+# //******************************************************************************
+
+def getECMFactorList( n ):
+    return getExpandedFactorList( getECMFactors( n ) )
 

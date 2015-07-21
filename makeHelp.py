@@ -4351,6 +4351,12 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 ''',
 '''
 ''' ],
+    'partitions' : [
+'combinatorics', 'returns the partition number for n',
+'''
+''',
+'''
+''' ],
     'pascaltri' : [
 'number_theory', 'calculates the nth line of Pascal\'s triangle',
 '''
