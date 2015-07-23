@@ -806,6 +806,8 @@ Added 'crt' operator.
 
 6.5.0
 
+Added the 'reversal_addition' and 'find_palindrome' operators.
+
 Added the 'combine_digits', 'is_pandigital', 'compositions' operators.
 
 Added the 'reverse_digits', 'group_elements', and 'is_palindrome' operators.
@@ -2723,6 +2725,12 @@ Which of the first 80 fibonacci numbers is prime?
 
 c:\>rpn -p80 1 80 range fib x isprime filter
 [ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
+''' ],
+    'find_palindrome' : [
+'lexicographic', 'adds the reverse of n to itself up to k successive times to find a palindrome',
+'''
+''',
+'''
 ''' ],
     'find_poly' : [
 'algebra', 'finds a polynomial for which n is a zero',
@@ -4865,6 +4873,14 @@ denominator of the whole list.
 '''
 ''',
 '''
+''' ],
+    'reversal_addition' : [
+'lexicographic', 'TODO: describe me',
+'''
+''',
+'''
+c:\>rpn -a20 89 24 rev_add
+8813200023188
 ''' ],
     'reverse_digits' : [
 'lexicographic', 'returns n with its digits reversed',

@@ -336,6 +336,7 @@ operatorAliases = {
     'quint_'        : 'quintprime_',
     'rand'          : 'random',
     're'            : 'real',
+    'rev_add'       : 'reversal_addition',
     'rev_dig'       : 'reverse_digits',
     'rev_digits'    : 'reverse_digits',
     'safe'          : 'safeprime',

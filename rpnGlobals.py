@@ -19,7 +19,7 @@ import six
 
 dataPath = ''
 dataDir = 'rpndata' if six.PY3 else 'rpndata2'
-ecm = False
+ecm = True
 
 # constants
 

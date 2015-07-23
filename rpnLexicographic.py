@@ -133,3 +133,43 @@ def isPandigital( n ):
     return 1
 
 
+# //******************************************************************************
+# //
+# //  getNthReversalAddition
+# //
+# //  https://en.wikipedia.org/wiki/Lychrel_number
+# //
+# //******************************************************************************
+
+def getNthReversalAddition( n, k ):
+    next = n
+
+    for i in range( int( nint( k ) ) ):
+        if isPalindrome( next ):
+            break
+
+        next = reverseDigits( next ) + next
+
+    return next
+
+
+# //******************************************************************************
+# //
+# //  findPalindrome
+# //
+# //  https://en.wikipedia.org/wiki/Lychrel_number
+# //
+# //******************************************************************************
+
+def findPalindrome( n, k ):
+    next = n
+
+    for i in range( int( nint( k ) ) + 1 ):
+        if isPalindrome( next ):
+            return [ i, next ]
+        else:
+            next = reverseDigits( next ) + next
+
+    return [ k, 0 ]
+
+

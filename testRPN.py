@@ -416,6 +416,8 @@ def runTests( ):
 
     testRPN( 'rpn 23 factorial' )
 
+    testRPN( 'rpn -a30 10911 55 find_palindrome' )
+
     testRPN( 'rpn 1 50 range fibonacci' )
     testRPN( 'rpn -c -a 8300 39399 fibonacci' )
 
@@ -759,6 +761,9 @@ def runTests( ):
     testRPN( 'rpn 1 2 10 range range reverse' )
     testRPN( 'rpn 1 2 10 range reverse range reverse' )
     testRPN( 'rpn 1 2 10 range reverse range' )
+
+    testRPN( 'rpn -a90 14,104,229,999,995 185 reversal_addition' )
+    testRPN( 'rpn -a90 14,104,229,999,995 185 reversal_addition is_palindrome' )
 
     testRPN( 'rpn 37 1 8 range * reverse_digits' )
     testRPN( 'rpn 37 1 2 9 range range * reverse_digits' )
