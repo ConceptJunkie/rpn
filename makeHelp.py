@@ -1228,9 +1228,12 @@ SI Base Units:
     Length                      L                   meter (m)
     Mass                        M                   kilogram (kg)
     Electric current            I                   ampere (A)
-    Temperature                 K                   kelvin (K)
+    Temperature                 K (theta)           kelvin (K)
     Luminous intensity          J                   candela (cd)
-    Amount of substance **      N                   mole (mol)
+    Amount of substance         N                   mole (mol)
+
+    Note:  The dimension symbol for Amount of Substance is traditionally the
+           Greek letter theta, but K is used to maintain ASCII-compatibility.
 
 SI Derived Units:
 

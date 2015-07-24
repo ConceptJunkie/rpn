@@ -33,6 +33,9 @@
 # c:\>rpn 1 0.9999 sqr - sqrt 1/x
 # 70.7124459519
 
+# How can I invert a unit?  e.g., turn miles per gallon into gallons per mile
+
+
 import argparse
 import sys
 import time
@@ -137,7 +140,7 @@ def handleOutput( valueList ):
         saveResult( result )
 
     if g.timer or g.tempTimerMode:
-        print( '\n%.3f seconds' % time.clock( ) )
+        print( '\n%.3f seconds' % ( time.process_time( ) - g.startTime ) )
 
 
 # //******************************************************************************
@@ -146,7 +149,7 @@ def handleOutput( valueList ):
 # //
 # //******************************************************************************
 
-def enterInteractiveMode( args ):
+def enterInteractiveMode( ):
     import readline
 
     readline.parse_and_bind( 'tab: complete' )
@@ -182,8 +185,8 @@ def enterInteractiveMode( args ):
         if terms[ 0 ] == 'help':
             enterHelpMode( terms[ 1 : ] )
         else:
-            if args.timer or g.tempTimerMode:
-                time.clock( )
+            if g.timer or g.tempTimerMode:
+                g.startTime = time.process_time( )
 
             if validateArguments( terms ):
                 valueList = evaluate( terms )
@@ -451,13 +454,10 @@ def rpn( cmd_args ):
         if not loadUnitData( ):
             return
 
-        enterInteractiveMode( args )
+        enterInteractiveMode( )
         return
 
     # let's check out the arguments before we start to do any calculations
-    if args.timer:
-        time.clock( )
-
     if not validateArguments( args.terms ):
         return
 
@@ -467,6 +467,9 @@ def rpn( cmd_args ):
 
     if g.unitsVersion != PROGRAM_VERSION:
         print( 'rpn  units data file version mismatch' )
+
+    if g.timer:
+        g.startTime = time.process_time( )
 
     valueList = evaluate( args.terms )
 
