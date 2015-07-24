@@ -78,6 +78,8 @@ def setAccuracy( n ):
     if mp.dps < g.outputAccuracy:
         mp.dps = g.outputAccuracy
 
+    return g.outputAccuracy
+
 
 # //******************************************************************************
 # //
