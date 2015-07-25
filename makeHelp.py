@@ -4108,7 +4108,7 @@ This constant operator is defined for convenience for use with date operators.
 '''
 ''' ],
     'now' : [
-'conversion', 'returns the current date and time',
+'date', 'returns the current date and time',
 '''
 ''',
 '''
