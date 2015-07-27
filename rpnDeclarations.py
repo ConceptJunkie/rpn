@@ -574,7 +574,7 @@ operatorAliases = {
     '^'                 : 'power',
     '_dumpalias'        : '_dump_aliases',
     '_dumpops'          : '_dump_operators',
-    '|'                 : 'isdivisible',
+    '|'                 : 'is_divisible',
     '~'                 : 'not',
 }
 
