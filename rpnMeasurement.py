@@ -73,6 +73,22 @@ def combineUnits( units1, units2 ):
 
 # //******************************************************************************
 # //
+# //  invertUnits
+# //
+# //  invert the units and take the reciprocal of the value to create an
+# //  equivalent measurement
+# //
+# //******************************************************************************
+
+def invertUnits( measurement ):
+    if not isinstance( measurement, Measurement ):
+        raise ValueError( 'cannot invert non-measurements' )
+
+    return Measurement( fdiv( 1, measurement.getValue( ) ), measurement.invert( ).getUnits( ) )
+
+
+# //******************************************************************************
+# //
 # //  class Measurement
 # //
 # //******************************************************************************

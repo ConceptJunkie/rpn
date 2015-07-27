@@ -1239,6 +1239,7 @@ operators = {
     'input_radix'           : OperatorInfo( setInputRadix, 1 ),
     'integer'               : OperatorInfo( convertToSignedInt, 2 ),
     'integer_grouping'      : OperatorInfo( setIntegerGrouping, 1 ),
+    'invert_units'          : OperatorInfo( invertUnits, 1 ),
     'is_divisible'          : OperatorInfo( lambda n, k: 1 if fmod( n, k ) == 0 else 0, 2 ),
     'is_palindrome'         : OperatorInfo( isPalindrome, 1 ),
     'is_pandigital'         : OperatorInfo( isPandigital, 1 ),

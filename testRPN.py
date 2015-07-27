@@ -417,6 +417,7 @@ def runTests( ):
     testRPN( 'rpn 23 factorial' )
 
     testRPN( 'rpn -a30 10911 55 find_palindrome' )
+    testRPN( 'rpn 180 200 range 10 find_palindrome -s1' )
 
     testRPN( 'rpn 1 50 range fibonacci' )
     testRPN( 'rpn -c -a 8300 39399 fibonacci' )
@@ -472,6 +473,8 @@ def runTests( ):
     testRPN( 'rpn 100 icosahedral' )
 
     testRPN( 'rpn 456 8 integer' )
+
+    testRPN( 'rpn 30 miles gallon / invert_units' )
 
     testRPN( 'rpn 1000 10000 is_divisible' )
     testRPN( 'rpn 12 1 12 range is_divisible' )
@@ -756,6 +759,10 @@ def runTests( ):
     testRPN( 'rpn 6 7 / reciprocal' )
 
     testRPN( 'rpn 23 5 repunit' )
+
+    testRPN( 'rpn -a20 89 24 rev_add' )
+    testRPN( 'rpn -a20 80 89 range 24 rev_add' )
+    testRPN( 'rpn -a20 89 16 24 range rev_add' )
 
     testRPN( 'rpn 1 10 range reverse' )
     testRPN( 'rpn 1 2 10 range range reverse' )

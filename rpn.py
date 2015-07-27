@@ -33,8 +33,6 @@
 # c:\>rpn 1 0.9999 sqr - sqrt 1/x
 # 70.7124459519
 
-# How can I invert a unit?  e.g., turn miles per gallon into gallons per mile
-
 
 import argparse
 import sys

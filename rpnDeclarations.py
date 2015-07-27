@@ -247,7 +247,7 @@ operatorAliases = {
     'int64'         : 'longlong',
     'int8'          : 'char',
     'intersect'     : 'intersection',
-    'inv'           : 'reciprocal',
+    'invert'        : 'invert_units',
     'isdiv'         : 'is_divisible',
     'isoday'        : 'iso_day',
     'isprime'       : 'is_prime',

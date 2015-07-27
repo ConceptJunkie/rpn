@@ -3111,6 +3111,14 @@ Find numbers that are triangular and square at the same time:
 c:\>rpn 1 100 range tri 1 100 range sqr intersect
 [ 1, 36, 1225 ]
 ''' ],
+    'invert_units' : [
+'conversion', 'inverts the units and takes the reciprocal of the value'
+'''
+This operation returns an equivalent measurement with the units inverted from
+the original operand.
+''',
+'''
+''' ],
     'is_divisible' : [
 'arithmetic', 'returns whether n is n divisible by k',
 '''
