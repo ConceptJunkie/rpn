@@ -402,7 +402,7 @@ rpn (5)>side1 3 set
 3
 rpn (6)>side2 4 set
 4
-rpn (7)>$side1 $side2 hypot
+rpn (7)>$side1 $side2 hypotenuse
 5
 
 The variable can be reference in any subsequent expression using the '$',
@@ -524,11 +524,11 @@ compoundUnits was still being referred to without the "g." global specifier.
 
 5.19.0
 
-Added 'randint' operator.
+Added 'random_integer' operator.
 
 5.19.1
 
-Fixed several problems with 'tounixtime' and 'fromunixtime'.
+Fixed several problems with 'to_unix_time' and 'from_unix_time'.
 
 5.19.2
 
@@ -676,8 +676,9 @@ logic).
 
 5.28.3
 
-The operators 'doublebal', doublebal_', 'triplebal', and 'triplebal_' now work
-correctly.  The data files have been significantly expanded as well.
+The operators 'double_balanced', double_balanced_', 'triple_balanced', and
+'triple_balanced_' now work correctly.  The data files have been significantly
+expanded as well.
 
 5.28.4
 
@@ -747,7 +748,7 @@ instead of going into an infinite loop.
 If the units in a measurement cancel out, then the measurement is converted
 back to a numerical value.
 
-Added 'rand_' and 'randint_' operators.
+Added 'random_' and 'random_integer_' operators.
 
 Added the 'debruijn' operator.
 
@@ -755,26 +756,22 @@ Fixed several minor bugs.
 
 6.3.0
 
-Added the 'geomean' operator.
-
-Added the 'argument' and 'conjugate' operators.
-
-Fixed 'trianglearea'.  It's been wrong for a long time.  Sorry.
+Fixed 'triangle_area'.  It's been wrong for a long time.  Sorry.
 
 Added the 'fibonorial' operator.
 
-Added the 'eulerbrick' operator.
+Added the 'euler_brick' operator.
 
 Added the 'unlist' operator.
 
-Added the 'makepyth3' and 'makepyth4' operators.
+Added the 'make_pyth_3' and 'make_pyth_4' operators.
 
 Added the 'equal', 'greater', 'less', 'not_equal', 'not_greater', and
 'not_less' operators.
 
 Added the 'reduce' operator.
 
-Added the 'geomean', 'argument', 'conjugate', 'lcm' operators.
+Added the 'geometric_mean', 'argument', 'conjugate', 'lcm' operators.
 
 The 'pascal' operator was renamed to 'pascaltri' to avoid a collision with
 the 'pascal' unit.
@@ -805,6 +802,16 @@ Added 'crt' operator.
 ...and the usual bug fixes.
 
 6.5.0
+
+The Great Renaming!   Renamed a bunch of operators so that multi-word operator
+names always contain underscores between words.  The change makes sense now
+that there are hundreds of operators.  The old names remain as aliases.
+
+Added the 'get_digits' and 'sum_digits' operators.
+
+Renamed a bunch of operators so that multi-word operator names always contain
+underscores between words.  The change makes sense now that there are hundreds
+of operators.  The old names remain as aliases.
 
 Added the 'reversal_addition' and 'find_palindrome' operators.
 
@@ -893,7 +900,7 @@ Construct the square root of two from a continued fraction:
 
     Now let's make a continued fraction from that, calculated to 20 terms.
 
-        c:\>rpn 2 sqrt 20 makecf
+        c:\>rpn 2 sqrt 20 make_cf
         [ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
 
     Here's the nearest fractional approximation of the square root of two:
@@ -1116,7 +1123,7 @@ Calculation (or approximation) of various mathematical constants:
         = rpn e 2 **
 
     Somos\' Quadratic Recurrence Constant
-        = rpn -a20 1 100 range 0.5 0.5 100 georange ** prod
+        = rpn -a20 1 100 range 0.5 0.5 100 geometric_range ** prod
 
     Prevost Constant
         = rpn -a20 1 100 range fib 1/x sum
@@ -1526,66 +1533,66 @@ TODO: explain me
 ''',
 '''
 ''' ],
-    'altfac' : [
+    'alternating_factorial' : [
 'number_theory', 'calculates the alternating factorial of n',
 '''
 ''',
 '''
 ''' ],
-    'altsign' : [
+    'alternate_signs' : [
 'list_operators', 'alternates signs in the list by making every even element negative',
 '''
 The return value is a list of the same size as the original with the sign of
 every second element reversed, starting with the second.
 ''',
 '''
-c:\>rpn 1 10 range altsign
+c:\>rpn 1 10 range alternate_signs
 [ 1, -2, 3, -4, 5, -6, 7, -8, 9, -10 ]
 ''' ],
-    'altsign2' : [
+    'alternate_signs_2' : [
 'list_operators', 'alternates signs in the list by making every odd element negative',
 '''
 The return value is a list of the same size as the original with the sign of
 every other element reversed, starting with the first element.
 ''',
 '''
-c:\>rpn 1 10 range altsign2
+c:\>rpn 1 10 range alterate_signs_2
 [ -1, 2, -3, 4, -5, 6, -7, 8, -9, 10 ]
 
 ''' ],
-    'altsum' : [
+    'alternating_sum' : [
 'arithmetic', 'calculates the alternating sum of list n (addition first)',
 '''
 This operator calculates the sum of the list, alternating the signs of every
 second element starting with the second.
 
-This operator is the same as using 'altsign sum'.
+This operator is the same as using 'alternate_signs sum'.
 ''',
 '''
-c:\>rpn 1 10 range altsign sum
+c:\>rpn 1 10 range alternate_signs sum
 -5
 
-c:\>rpn 1 10 range altsum
+c:\>rpn 1 10 range alternating_sum
 -5
 
 Calculating e:
 
-c:\>rpn -a20 0 25 range fac 1/x altsum 1/x
+c:\>rpn -a20 0 25 range factorial 1/x alternating_sum 1/x
 2.7182818284590452354
 ''' ],
-    'altsum2' : [
+    'alternating_sum_2' : [
 'arithmetic', 'calaculates the alternating sum of list n (subtraction first)',
 '''
 This operator calculates the sum of the list, alternating the signs of every
 other element starting with the first.
 
-This operator is the same as using 'altsign2 sum'.
+This operator is the same as using 'alternating_signs_2 sum'.
 ''',
 '''
-c:\>rpn 1 10 range altsign2 sum
+c:\>rpn 1 10 range alternating_signs_2 sum
 5
 
-c:\>rpn 1 10 range altsum2
+c:\>rpn 1 10 range alternating_signs_2
 5
 ''' ],
     'and' : [
@@ -1621,12 +1628,6 @@ c:\>rpn -a50 -d5 apery
 
 c:\>rpn -a50 -d5 3 zeta
 1.20205 69031 59594 28539 97381 61511 44999 07649 86292 3405
-''' ],
-    'aperynum' : [
-'combinatorics', 'calculates the nth Apery number',
-'''
-''',
-'''
 ''' ],
     'append' : [
 'list_operators', 'appends the second list on to the first list',
@@ -1801,7 +1802,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'bellpoly' : [
+    'bell_polynomial' : [
 'algebra', 'evaluates the nth Bell polynomial with k',
 '''
 ''',
@@ -1836,44 +1837,38 @@ concerned, it's an operator that does nothing.
 ''',
 '''
 ''' ],
-    'catalan' : [
-'combinatorics', 'calculates nth Catalan number',
-'''
-''',
-'''
-''' ],
     'carol' : [
 'number_theory', 'gets the nth Carol number',
 '''
 ''',
 '''
 ''' ],
-    'catalans' : [
+    'catalan' : [
 'constants', 'returns Catalan\'s constant',
 '''
 ''',
 '''
-c:\>rpn catalans
+c:\>rpn catalan
 0.915965594177
 ''' ],
-    'centeredcube' : [
+    'centered_cube' : [
 'polyhedral_numbers', 'calculates the nth centered cube number',
 '''
 ''',
 '''
 ''' ],
-    'cdecagonal' : [
+    'centered_decagonal' : [
 'polygonal_numbers', 'calculates the nth centered decagonal number',
 '''
 ''',
 '''
 ''' ],
-    'cdecagonal?' : [
+    'centered_decagonal?' : [
 'polygonal_numbers', 'finds the index of the centered decagonal number of value n',
 '''
-'cdecagonal?' solves for the index of the equation used by 'cdecagonal' to
-get the index i of the ith centered decagonal number that corresponds to the
-value n.
+'centered_decagonal?' solves for the index of the equation used by
+'centered_decagonal' to get the index i of the ith centered decagonal number
+that corresponds to the value n.
 
 If n is not a centered decagonal number, the result will not be a whole
 number.
@@ -1906,49 +1901,49 @@ c:\>rpn -a60 champernowne
 ''',
 '''
 ''' ],
-    'cheptagonal' : [
+    'centered_heptagonal' : [
 'polygonal_numbers', 'calculates the nth centered heptagonal number',
 '''
 ''',
 '''
 ''' ],
-    'cheptagonal?' : [
+    'centered_heptagonal?' : [
 'polygonal_numbers', 'finds the index of the centered heptagonal number of value n',
 '''
-'cheptagonal?' solves for the index of the equation used by 'cheptagonal' to
-get the index i of the ith centered heptagonal number that corresponds to the
-value n.
+'centered_heptagonal?' solves for the index of the equation used by
+'centered_heptagonal' to get the index i of the ith centered heptagonal number
+that corresponds to the value n.
 
 If n is not a centered heptagonal number, the result will not be a whole
 number.
 ''',
 '''
 ''' ],
-    'chexagonal' : [
+    'centered_hexagonal' : [
 'polygonal_numbers', 'calculates the nth centered hexagonal number',
 '''
 ''',
 '''
 ''' ],
-    'chexagonal?' : [
+    'centered_hexagonal?' : [
 'polygonal_numbers', 'finds the index of the centered hexagonal number of value n',
 '''
-'chexagonal?' solves for the index of the equation used by 'chexagonal' to
-get the index i of the ith centered hexagonal number that corresponds to the
-value n.
+'centered_hexagonal?' solves for the index of the equation used by
+'centered_hexagonal' to get the index i of the ith centered hexagonal number
+that corresponds to the value n.
 
 If n is not a centered hexagonal number, the result will not be a whole
 number.
 ''',
 '''
 ''' ],
-    'cnonagonal' : [
+    'centered_nonagonal' : [
 'polygonal_numbers', 'calculates the nth centered nonagonal number',
 '''
 ''',
 '''
 ''' ],
-    'cnonagonal?' : [
+    'centered_nonagonal?' : [
 'polygonal_numbers', 'finds the index of the centered nonagonal number of value n',
 '''
 'cnonagonal?' solves for the index of the equation used by 'cnonagonal' to
@@ -1960,21 +1955,20 @@ number.
 ''',
 '''
 ''' ],
-    'coctagonal' : [
+    'centered_octagonal' : [
 'polygonal_numbers', 'calculates the nth centered octagonal number',
 '''
 ''',
 '''
 ''' ],
-    'coctagonal?' : [
+    'centered_octagonal?' : [
 'polygonal_numbers', 'finds the index of the centered octgonal number of value n',
 '''
-'coctagonal?' solves for the index of the equation used by 'coctagonal' to
-get the index i of the ith centered octagonal number that corresponds to the
-value n.
+'centered_octagonal?' solves for the index of the equation used by
+'centered_octagonal' to get the index i of the ith centered octagonal number
+that corresponds to the value n.
 
-If n is not a centered octagonal number, the result will not be a whole
-number.
+If n is not a centered octagonal number, the result will not be a whole number.
 ''',
 '''
 ''' ],
@@ -2119,28 +2113,28 @@ instead of a unit circle.
 c:\>rpn 1 100 range count
 100
 ''' ],
-    'countbits' : [
+    'count_bits' : [
 'logical', 'returns the number of set bits in the value of n',
 '''
 ''',
 '''
 ''' ],
-    'countdiv' : [
+    'count_divisors' : [
 'number_theory', 'returns a count of the divisors of n',
 '''
-The divcount operator factors the argument and then calculates number of divisors
-from the list of prime factors.  'divisors count' calculates the same result, but
-the 'divisors' operator can generate prohibitively large lists for numbers with a
-lot of factors.
+The count_divisors operator factors the argument and then calculates number of
+divisors from the list of prime factors.  'divisors count' calculates the same
+result, but the 'divisors' operator can generate prohibitively large lists for
+numbers with a lot of factors.
 ''',
 '''
-c:\>rpn 98280 divcount
+c:\>rpn 98280 count_divisors
 128
 
-c:\>rpn 1 20 range divcount
+c:\>rpn 1 20 range count_divisors
 [ 1, 2, 2, 3, 2, 4, 2, 4, 3, 4, 2, 6, 2, 4, 4, 5, 2, 6, 2, 6 ]
 ''' ],
-    'cousinprime' : [
+    'cousin_prime' : [
 'prime_numbers', 'returns the nth cousin prime',
 '''
 
@@ -2150,13 +2144,13 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'cpentagonal' : [
+    'centered_pentagonal' : [
 'polygonal_numbers', 'calculates the nth centered pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'cpentagonal?' : [
+    'centered_pentagonal?' : [
 'polygonal_numbers', 'finds the index of the centered pentagonal number of value n',
 '''
 'cpentagonal?' solves for the index of the equation used by 'cpentagonal' to
@@ -2168,18 +2162,18 @@ number.
 ''',
 '''
 ''' ],
-    'cpolygonal' : [
+    'centered_polygonal' : [
 'polygonal_numbers', 'calculates the nth centered k-gonal number',
 '''
 ''',
 '''
 ''' ],
-    'cpolygonal?' : [
+    'centered_polygonal?' : [
 'polygonal_numbers', 'finds the index of the centered polygonal number of value n',
 '''
-'cpolygonal?' solves for the index of the equation used by 'cpolygonal' to
-get the index i of the ith centered k-sided polygonal number that corresponds
-to the value n.
+'centered_polygonal?' solves for the index of the equation used by
+'centered_polygonal' to get the index i of the ith centered k-sided polygonal
+number that corresponds to the value n.
 
 If n is not a centered k-sided polygonal number, the result will not be a whole
 number.
@@ -2220,29 +2214,30 @@ instead of a unit circle.
 ''',
 '''
 ''' ],
-    'csquare' : [
+    'centered_square' : [
 'polygonal_numbers', 'calculates the nth centered square number',
 '''
 ''',
 '''
 ''' ],
-    'csquare?' : [
+    'centered_square?' : [
 'polygonal_numbers', 'finds the index of the centered square number of value n',
 '''
-'csquare?' solves for the index of the equation used by 'csquare' to get the
-index i of the ith centered square number that corresponds to the value n.
+'centered_square?' solves for the index of the equation used by 'csquare' to
+get the index i of the ith centered square number that corresponds to the
+value n.
 
 If n is not a centered square number, the result will not be a whole number.
 ''',
 '''
 ''' ],
-    'ctriangular' : [
+    'centered_triangular' : [
 'polygonal_numbers', 'calculates the nth centered triangular number',
 '''
 ''',
 '''
 ''' ],
-    'ctriangular?' : [
+    'centered_triangular?' : [
 'polygonal_numbers', 'finds the index of the centered triangular number of value n',
 '''
 'ctriangular?' solves for the index of the equation used by 'ctriangular' to
@@ -2399,7 +2394,7 @@ c:\>rpn pi double -x
 c:\>rpn -a20 0x400921fb54442d18 undouble
 3.141592653589793116
 ''' ],
-    'doublebal' : [
+    'double_balanced' : [
 'prime_numbers', 'returns the nth double balanced prime',
 '''
 A double balanced prime is a primes which is the average of its immediate
@@ -2410,13 +2405,13 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through the first billion primes.
 ''',
 '''
-c:\>rpn 50 doublebal
+c:\>rpn 50 double_balanced
 931181
 
-c:\>rpn 1 10 range doublebal
+c:\>rpn 1 10 range double_balanced
 [ 18713, 25621, 28069, 30059, 31051, 44741, 76913, 97441, 103669, 106681 ]
 ''' ],
-    'doublebal_' : [
+    'double_balanced_' : [
 'prime_numbers', 'returns the nth double balanced prime and its neighbors',
 '''
 A double balanced prime is a primes which is the average of its immediate
@@ -2428,13 +2423,13 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through the first billion primes.
 ''',
 '''
-c:\>rpn 50 doublebal_
+c:\>rpn 50 double_balanced_
 [ 931163, 931169, 931181, 931193, 931199 ]
 
-c:\>rpn 50 doublebal_ diffs
+c:\>rpn 50 double_balanced_ diffs
 [ 6, 12, 12, 6 ]
 ''' ],
-    'doublefac' : [
+    'double_factorial' : [
 'number_theory', 'calculates the double factorial of n',
 '''
 ''',
@@ -2555,26 +2550,26 @@ TODO:  explain all the other names this has
 ''',
 '''
 ''' ],
-    'eulerbrick' : [
+    'euler_brick' : [
 'number_theory', 'creates the dimensions of an Euler brick, given a Pythagorean triple',
 '''
 An Euler brick is a brick with three dimensions such that any two pairs form
 a Pythogorean triples, therefore the face diagonals are also integers.
 ''',
 '''
-c:\>rpn 2 3 makepyth3 unlist eulerbrick
+c:\>rpn 2 3 make_pyth_3 unlist euler_brick
 [ 828, 2035, 3120 ]
 
-c:\>rpn 828 2035 hypot
+c:\>rpn 828 2035 hypotenuse
 2197
 
-c:\>rpn 828 3120 hypot
+c:\>rpn 828 3120 hypotenuse
 3228
 
-c:\>rpn 2035 3120 hypot
+c:\>rpn 2035 3120 hypotenuse
 3725
 ''' ],
-    'eulerphi' : [
+    'euler_phi' : [
 'number_theory', 'calculates Euler\'s totient function for n',
 '''
 ''',
@@ -2655,7 +2650,7 @@ c:\>rpn 2 expphi
 c:\>rpn 3 expphi 2 expphi -
 1.61803398875
 ''' ],
-    'exprange' : [
+    'exponential_range' : [
 'list_operators', 'generates a list of exponential progression of numbers',
 '''
 a = starting value, b = step exponent, c = size of list to generate
@@ -2664,7 +2659,7 @@ Each successive item in the list is calculated by raising the previous item to
 the bth power.
 ''',
 '''
-c:\>rpn 2 2 10 exprange
+c:\>rpn 2 2 10 exponential_range
 [ 2, 4, 16, 256, 65536, 4294967296, 18446744073709551616, 3.4028236692e38,
 1.1579208924e77, 1.34078079210e154 ]
 ''' ],
@@ -2790,7 +2785,7 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'fromunixtime' : [
+    'from_unix_time' : [
 'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
 '''
 ''',
@@ -2808,27 +2803,35 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'geomean' : [
+    'geometric_mean' : [
 'list_operators', 'calculates the geometric mean of a a list of numbers n',
 '''
 The geometric mean is calculated by taking the kth root of the product of k
 values.
 ''',
 '''
-c:\>rpn [ 1 2 ] geomean
+c:\>rpn [ 1 2 ] geometric_mean
 1.41421356237
 
-c:\>rpn [ 1 10 range ] geomean
+c:\>rpn [ 1 10 range ] geometric_mean
 [ 4.52872868812 ]
 
 Calculate the geometric mean of the first n numbers from 1 to 5:
 
-c:\>rpn [ 1 1 5 range range ] geomean
+c:\>rpn [ 1 1 5 range range ] geometric_mean
 [ [ 1, 1.41421356237, 1.81712059283, 2.2133638394, 2.6051710847 ] ]
 ''' ],
-    'georange' : [
+    'geometric_range' : [
 'list_operators', 'generates a list of geometric progression of numbers',
 '''
+''',
+'''
+''' ],
+    'get_digits' : [
+'lexicographic', 'returns the list of digits comprising integer n',
+'''
+This operation is useful for working with any lexicographic feature based
+on the digits that comprise an integer.
 ''',
 '''
 ''' ],
@@ -2988,26 +2991,26 @@ c:\>rpn 15,625 seconds hms
 ''',
 '''
 ''' ],
-    'hyperfac' : [
+    'hyperfactorial' : [
 'number_theory', 'calculates the hyperfactorial of n',
 '''
 ''',
 '''
 ''' ],
-    'hypot' : [
+    'hypotenuse' : [
 'trigonometry', 'calculates the hypotenuse of n and k',
 '''
-Given a right triangle with sides of n and k, the 'hypot' operator calculates
-what the length of the hypotenuse would be.
+Given a right triangle with sides of n and k, the 'hypotenuse' operator
+calculates what the length of the hypotenuse would be.
 ''',
 '''
-c:\>rpn 3 4 hypot
+c:\>rpn 3 4 hypotenuse
 5
 
-c:\>rpn 7 24 hypot
+c:\>rpn 7 24 hypotenuse
 25
 
-c:\>rpn 1 1 hypot
+c:\>rpn 1 1 hypotenuse
 1.414213562373
 ''' ],
     'i' : [
@@ -3131,7 +3134,7 @@ the original operand.
 ''',
 '''
 ''' ],
-    'isolated' : [
+    'isolated_prime' : [
 'prime_numbers', 'returns the nth isolated prime',
 '''
 
@@ -3457,38 +3460,38 @@ TODO:  explain all the other names this has
 ''',
 '''
 ''' ],
-    'makecf' : [
+    'make_cf' : [
 'number_theory', 'calculates k terms of the continued fraction representation of n',
 '''
 ''',
 '''
 ''' ],
-    'makejuliantime' : [
+    'make_julian_time' : [
 'conversion', 'interpret argument as absolute time specified by year, Julian day and optional time of day',
 '''
 ''',
 '''
 ''' ],
-    'makeisotime' : [
+    'make_iso_time' : [
 'conversion', 'interpret argument as absolute time specified in the ISO format',
 '''
 ''',
 '''
 ''' ],
-    'makepyth3' : [
+    'make_pyth_3' : [
 'conversion', 'makes a pythagorean triple given two integers, n and k, as seeds',
 '''
 ''',
 '''
 ''' ],
-    'makepyth4' : [
+    'make_pyth_4' : [
 'conversion', 'makes a pythagorean quadruple given two integers, n and k, as seeds',
 '''
 n and k cannot both be odd.
 ''',
 '''
 ''' ],
-    'maketime' : [
+    'make_time' : [
 'conversion', 'interpret argument as absolute time',
 '''
 ''',
@@ -3507,43 +3510,43 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'maxchar' : [
+    'max_char' : [
 'conversion', 'returns the maximum 8-bit signed integer',
 '''
 ''',
 '''
 ''' ],
-    'maxdouble' : [
+    'max_double' : [
 'conversion', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
 '''
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn maxdouble
+c:\>rpn max_double
 1.79769313486e308
 
-c:\>rpn maxdouble double -x
+c:\>rpn max_double double -x
 7fef ffff ffff ffff
 ''' ],
-    'maxfloat' : [
+    'max_float' : [
 'conversion', 'returns the largest value that can be represented by a 32-bit IEEE 754 float',
 '''
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn maxfloat
+c:\>rpn max_float
 3.40282346639e38
 
-c:\>rpn maxfloat float -x
+c:\>rpn max_float float -x
 7f7f ffff
 ''' ],
-    'maxindex' : [
+    'max_index' : [
 'list_operators', 'returns the index of largest value in list n',
 '''
 ''',
 '''
 ''' ],
-    'maxlong' : [
+    'max_long' : [
 'conversion', 'returns the maximum 32-bit signed integer',
 '''
 This is the largest number that can be represented by a 32-bit signed
@@ -3551,36 +3554,36 @@ integer assuming two's complement representation.
 
 ''',
 '''
-c:\>rpn maxlong
+c:\>rpn max_long
 2147483647
 
 When does a 32-bit time_t wrap?
 
-c:\>rpn 1970-01-01 maxlong seconds +
+c:\>rpn 1970-01-01 max_long seconds +
 2038-01-19 03:14:07
 ''' ],
-    'maxlonglong' : [
+    'max_longlong' : [
 'conversion', 'returns the maximum 64-bit signed integer',
 '''
 This is the largest number that can be represented by a 64-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn maxlonglong
+c:\>rpn max_longlong
 9223372036854775807
 
 When does a 64-bit time_t wrap?
 
-c:\>rpn 1970-01-01 maxlonglong seconds +
+c:\>rpn 1970-01-01 max_longlong seconds +
 rpn:  value is out of range to be converted into a time
 0
 
-c:\>rpn -c maxlonglong seconds years convert
+c:\>rpn -c max_longlong seconds years convert
 292,271,023,045 years
 
 Not for a long while...
 ''' ],
-    'maxquadlong' : [
+    'max_quadlong' : [
 'conversion', 'returns the maximum 128-bit signed integer',
 '''
 This is the largest number that can be represented by a 128-bit signed
@@ -3588,7 +3591,7 @@ integer assuming two's complement representation.
 ''',
 '''
 ''' ],
-    'maxshort' : [
+    'max_short' : [
 'conversion', 'returns the maximum 16-bit signed integer',
 '''
 This is the largest number that can be represented by a 16-bit signed
@@ -3596,7 +3599,7 @@ integer assuming two's complement representation.
 ''',
 '''
 ''' ],
-    'maxuchar' : [
+    'max_uchar' : [
 'conversion', 'returns the maximum 8-bit unsigned integer',
 '''
 This is the largest number that can be represented by a 16-bit unsigned
@@ -3604,7 +3607,7 @@ integer.
 ''',
 '''
 ''' ],
-    'maxulong' : [
+    'max_ulong' : [
 'conversion', 'returns the maximum 32-bit unsigned integer',
 '''
 This is the largest number that can be represented by a 32-bit unsigned
@@ -3612,7 +3615,7 @@ integer.
 ''',
 '''
 ''' ],
-    'maxulonglong' : [
+    'max_ulonglong' : [
 'conversion', 'returns the maximum 64-bit unsigned integer',
 '''
 This is the largest number that can be represented by a 64-bit unsigned
@@ -3620,7 +3623,7 @@ integer.
 ''',
 '''
 ''' ],
-    'maxuquadlong' : [
+    'max_uquadlong' : [
 'conversion', 'returns the maximum 128-bit unsigned integer',
 '''
 This is the largest number that can be represented by a 128-bit unsigned
@@ -3628,7 +3631,7 @@ integer.
 ''',
 '''
 ''' ],
-    'maxushort' : [
+    'max_ushort' : [
 'conversion', 'returns the maximum 16-bit unsigned integer',
 '''
 This is the largest number that can be represented by a 16-bit unsigned
@@ -3694,162 +3697,162 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 ''',
 '''
 ''' ],
-    'minchar' : [
+    'min_char' : [
 'conversion', 'returns the minimum 8-bit signed integer',
 '''
 This is the smallest number that can be represented by an 8-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn minchar
+c:\>rpn min_char
 -128
 
-c:\>rpn minchar -x
+c:\>rpn min_char -x
 -0080
 
-c:\>rpn maxchar minchar -
+c:\>rpn max_char min_char -
 255
 ''' ],
-    'mindouble' : [
+    'min_double' : [
 'conversion', 'returns the smallest value that can be represented by a 64-bit IEEE 754 float',
 '''
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn mindouble
+c:\>rpn min_double
 2.22507385851e-308
 
-c:\>rpn mindouble double -x
+c:\>rpn min_double double -x
 0010 0000 0000 0000
 ''' ],
-    'minfloat' : [
+    'min_float' : [
 'conversion', 'returns the smallest value that can be represented by a 32-bit IEEE 754 float',
 '''
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn minfloat
+c:\>rpn min_float
 1.17549435082e-38
 
-c:\>rpn minfloat float -x
+c:\>rpn min_float float -x
 0080 0000
 ''' ],
-    'minindex' : [
+    'min_index' : [
 'list_operators', 'returns the index of smallest value in list n',
 '''
 ''',
 '''
 ''' ],
-    'minlong' : [
+    'min_long' : [
 'conversion', 'returns the minimum 32-bit signed integer',
 '''
 This is the smallest number that can be represented by a 32-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn minlong
+c:\>rpn min_long
 -2147483648
 
-c:\>rpn maxlong minlong -
+c:\>rpn max_long min_long -
 4294967295
 ''' ],
-    'minlonglong' : [
+    'min_longlong' : [
 'conversion', 'returns the minimum 64-bit signed integer',
 '''
 This is the smallest number that can be represented by a 64-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn minlonglong
+c:\>rpn min_longlong
 -9223372036854775808
 
-c:\>rpn maxlonglong minlonglong - 1 + log2
+c:\>rpn max_longlong min_longlong - 1 + log2
 64
 ''' ],
-    'minquadlong' : [
+    'min_quadlong' : [
 'conversion', 'returns the minimum 128-bit signed integer',
 '''
 This is the smallest number that can be represented by a 128-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn minquadlong
+c:\>rpn min_quadlong
 -170141183460469231731687303715884105728
 
-c:\>rpn maxquadlong minquadlong - 1 + log2
+c:\>rpn max_quadlong min_quadlong - 1 + log2
 128
 ''' ],
-    'minshort' : [
+    'min_short' : [
 'conversion', 'returns the minimum 16-bit signed integer',
 '''
 This is the smallest number that can be represented by a 16-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn minshort
+c:\>rpn min_short
 -32768
 
-c:\>rpn maxshort minshort -
+c:\>rpn max_short min_short -
 65535
 ''' ],
-    'minuchar' : [
+    'min_uchar' : [
 'conversion', 'returns the minimum 8-bit unsigned integer',
 '''
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn minuchar
+c:\>rpn min_uchar
 0
 
-c:\>rpn maxuchar minuchar -
+c:\>rpn max_uchar min_uchar -
 255
 ''' ],
-    'minulong' : [
+    'min_ulong' : [
 'conversion', 'returns the minimum 32-bit unsigned integer',
 '''
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn minulong
+c:\>rpn min_ulong
 0
 
-c:\>rpn maxulong minulong - 1 + log2
+c:\>rpn max_ulong min_ulong - 1 + log2
 32
 ''' ],
-    'minulonglong' : [
+    'min_ulonglong' : [
 'conversion', 'returns the minimum 64-bit unsigned integer',
 '''
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn minulonglong
+c:\>rpn min_ulonglong
 0
 
-c:\>rpn maxulonglong minulonglong - 1 + log2
+c:\>rpn max_ulonglong min_ulonglong - 1 + log2
 64
 ''' ],
-    'minuquadlong' : [
+    'min_uquadlong' : [
 'conversion', 'returns the minimum 128-bit unsigned integer',
 '''
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn minuquadlong
+c:\>rpn min_uquadlong
 0
 
-c:\>rpn maxuquadlong minuquadlong - 1 + log2
+c:\>rpn max_uquadlong min_uquadlong - 1 + log2
 128
 ''' ],
-    'minushort' : [
+    'min_ushort' : [
 'conversion', 'returns the minimum 16-bit unsigned integer',
 '''
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn minushort
+c:\>rpn min_ushort
 0
 
-c:\>rpn maxushort minushort -
+c:\>rpn max_ushort min_ushort -
 65535
 ''' ],
     'mobius' : [
@@ -4127,19 +4130,19 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'nspherearea' : [
+    'nsphere_area' : [
 'trigonometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
 '''
 ''',
 '''
 ''' ],
-    'nsphereradius' : [
+    'nsphere_radius' : [
 'trigonometry', 'calculates the radius of an n-sphere of size k (surface area or volume)',
 '''
 ''',
 '''
 ''' ],
-    'nspherevolume' : [
+    'nsphere_volume' : [
 'trigonometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
 '''
 ''',
@@ -4151,23 +4154,19 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'nthweekday' : [
-'date', 'finds the nth day (1 = Monday, etc.) of the month',
+    'nth_apery' : [
+'combinatorics', 'calculates the nth Apery number',
 '''
-a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
-d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''',
 '''
 ''' ],
-    'nthweekdayofyear' : [
-'date', 'finds the nth day (1 = Monday) of the year',
+    'nth_catalan' : [
+'combinatorics', 'calculates nth Catalan number',
 '''
-a = four-digit year, b = week (negative values count from the end), c = day
-(1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''',
 '''
 ''' ],
-    'nthprime?' : [
+    'nth_prime?' : [
 'prime_numbers', 'finds the index of the closest prime over n',
 '''
 
@@ -4177,13 +4176,29 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'nthquad?' : [
+    'nth_quad?' : [
 'prime_numbers', 'finds the index of the first of the closest quadruplet prime set over n',
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+    'nth_weekday' : [
+'date', 'finds the nth day (1 = Monday, etc.) of the month',
+'''
+a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
+d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
+''',
+'''
+''' ],
+    'nth_weekday_of_year' : [
+'date', 'finds the nth day (1 = Monday) of the year',
+'''
+a = four-digit year, b = week (negative values count from the end), c = day
+(1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''',
 '''
 ''' ],
@@ -4268,7 +4283,7 @@ c:\>rpn 10349 oeis
 13351, 15124, 36034, 205145, 1424553, 1433554, 3126542, 4355653, 6515652,
 125543055, 161340144, 254603255, 336133614, 542662326 ]
 ''' ],
-    'oeiscomment' : [
+    'oeis_comment' : [
 'special', 'downloads the comment field for the OEIS integer series n',
 '''
 All data downloaded from OEIS is cached.  OEIS data is probably seldom
@@ -4287,8 +4302,8 @@ Barry_, Sep 24 2004\nA modified version (different signs) of this triangle is
 given by T(n,k)=sum{j=0..n, C(n-k,j)C(k,j)cos(Pi*(k-j))}. - _Paul Barry_, Jun
 14 2007'
 ''' ],
-    'oeisex' : [
-'special', 'downloads the comment field for the OEIS integer series n',
+    'oeis_ex' : [
+'special', 'downloads the extra information field for the OEIS integer series n',
 '''
 All data downloaded from OEIS is cached.  OEIS data is probably seldom
 updated, but if it is, the only way to get rpn to download new data is
@@ -4299,7 +4314,7 @@ flushing the cache for a particular entry.
 c:\>rpn 178 oeisex
 'One more term from _Stefan Steinerberger_, Mar 10 2006'
 ''' ],
-    'oeisname' : [
+    'oeis_name' : [
 'special', 'downloads the name of the OEIS integer series n',
 '''
 All data downloaded from OEIS is cached.  OEIS data is probably seldom
@@ -4376,7 +4391,7 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 ''',
 '''
 ''' ],
-    'pascaltri' : [
+    'pascal_triangle' : [
 'number_theory', 'calculates the nth line of Pascal\'s triangle',
 '''
 ''',
@@ -4506,7 +4521,7 @@ a number of extra libraries.
 ''',
 '''
 ''' ],
-    'polyarea' : [
+    'polygon_area' : [
 'trigonometry', 'calculates the area of an regular n-sided polygon with sides of unit length',
 '''
 ''',
@@ -4715,7 +4730,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'quadprime?' : [
+    'quadruplet_prime?' : [
 'prime_numbers', 'finds the closest set of quadruplet primes above n',
 '''
 
@@ -4725,7 +4740,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'quadprime' : [
+    'quadruplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of quadruplet primes',
 '''
 
@@ -4735,7 +4750,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'quadprime_' : [
+    'quadruplet_prime_' : [
 'prime_numbers', 'returns the nth set of quadruplet primes',
 '''
 
@@ -4757,7 +4772,17 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'quintprime' : [
+    'quintuplet_prime?' : [
+'prime_numbers', 'finds the closest set of quintuplet primes above n',
+'''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+    'quintuplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of quintruplet primes',
 '''
 
@@ -4767,7 +4792,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'quintprime_' : [
+    'quintuplet_prime_' : [
 'prime_numbers', 'returns the nth set of quintruplet primes',
 '''
 
@@ -4791,13 +4816,13 @@ distributed with data files calculated through the first billion primes.
 c:\>rpn radiation_constant
 7.5657e-16 joules per meter^3 kelvin^4
 ''' ],
-    'randint' : [
+    'random_integer' : [
 'special', 'returns a random integer from 0 to n - 1',
 '''
 ''',
 '''
 ''' ],
-    'randint_' : [
+    'random_integer_' : [
 'special', 'returns a list of k random integers from 0 to n - 1',
 '''
 
@@ -4805,7 +4830,7 @@ c:\>rpn radiation_constant
 '''
 Test the birthday paradox:
 
-rpn -D 365 23 randint_ sort
+rpn -D 365 23 random_integer_ sort
 
 You will see a duplicate approximately 50% of the time.
 ''' ],
@@ -4969,13 +4994,19 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
-    'safeprime' : [
+    'safe_prime' : [
 'prime_numbers', 'returns the nth safe prime',
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
 distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+    'safe_prime?' : [
+'prime_numbers', '',
+'''
 ''',
 '''
 ''' ],
@@ -5033,7 +5064,7 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'sextprime' : [
+    'sextuplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of sextuplet primes',
 '''
 
@@ -5043,7 +5074,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'sextprime_' : [
+    'sextuplet_prime_' : [
 'prime_numbers', 'returns the nth set of sextuplet primes',
 '''
 
@@ -5053,7 +5084,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'sexyprime' : [
+    'sexy_prime' : [
 'prime_numbers', 'returns the first of the nth set of sexy primes',
 '''
 Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
@@ -5061,13 +5092,13 @@ prime.  n + 2 or n + 4 may also be prime.  This operator returns the smaller of
 nth set of sexy primes, so the value of the result + 6 will also be prime.
 ''',
 '''
-c:\>rpn 16387 sexyprime
+c:\>rpn 16387 sexy_prime
 1000033
 
-c:\>rpn 1 10 range sexyprime
+c:\>rpn 1 10 range sexy_prime
 [ 5, 7, 11, 13, 17, 23, 31, 37, 41, 47 ]
 ''' ],
-    'sexyprime_' : [
+    'sexy_prime_' : [
 'prime_numbers', 'returns the nth set of sexy primes',
 '''
 Sexy primes are defined to be a pair of numbers, n and n + 6, which are both
@@ -5079,15 +5110,15 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through the first billion primes.
 ''',
 '''
-c:\>rpn 213819 sexyprime_
+c:\>rpn 213819 sexy_prime_
 [ 20000063, 20000069 ]
 
-c:\>rpn 1001 1010 range sexyprime_
+c:\>rpn 1001 1010 range sexy_prime_
 [ [ 31957, 31963 ], [ 32003, 32009 ], [ 32051, 32057 ], [ 32057, 32063 ],
 [ 32063, 32069 ], [ 32077, 32083 ], [ 32083, 32089 ], [ 32183, 32189 ],
 [ 32251, 32257 ], [ 32297, 32303 ] ]
 ''' ],
-    'sexytriplet' : [
+    'sexy_triplet' : [
 'prime_numbers', 'returns the first of the nth set of sexy triplet primes',
 '''
 
@@ -5097,7 +5128,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'sexytriplet_' : [
+    'sexy_triplet_' : [
 'prime_numbers', 'returns the nth set of sexy triplet primes',
 '''
 
@@ -5107,7 +5138,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'sexyquad' : [
+    'sexy_quadruplet' : [
 'prime_numbers', 'returns the first of the nth set of sexy quadruplet primes',
 '''
 
@@ -5117,7 +5148,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'sexyquad_' : [
+    'sexy_quadruplet_' : [
 'prime_numbers', 'returns the nth set of sexy quadruplet primes',
 '''
 
@@ -5177,13 +5208,13 @@ instead of a unit circle.
 ''',
 '''
 ''' ],
-    'shiftleft' : [
+    'shift_left' : [
 'logical', 'performs a bitwise left shift of value n by k bits',
 '''
 ''',
 '''
 ''' ],
-    'shiftright' : [
+    'shift_right' : [
 'logical', 'performs a bitwise right shift of value n by k bits',
 '''
 ''',
@@ -5256,7 +5287,7 @@ c:\>rpn 1 10 range 0 4 range 6 8 range slice -s1
 ''',
 '''
 ''' ],
-    'sophieprime' : [
+    'sophie_prime' : [
 'prime_numbers', 'returns the nth Sophie Germain prime',
 '''
 
@@ -5282,32 +5313,32 @@ c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
 c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] flatten sort
 [ -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
-    'sortdesc' : [
+    'sort_descending' : [
 'list_operators', 'sorts the elements of list n numerically in descending order',
 '''
-The 'sortdesc' operator works exactly like the sort operator, sorting the list
-(and all sublists), except in descending order.
+The 'sort_descending' operator works exactly like the sort operator, sorting
+the list (and all sublists), except in descending order.
 ''',
 '''
-c:\>rpn 1 70 6 range2 sortdesc
+c:\>rpn 1 70 6 range2 sort_descending
 [ 67, 61, 55, 49, 43, 37, 31, 25, 19, 13, 7, 1 ]
 
-c:\>rpn 1 20 range countdiv sortdesc
+c:\>rpn 1 20 range countdiv sort_descending
 [ 6, 6, 6, 5, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1 ]
 ''' ],
-    'spherearea' : [
+    'sphere_area' : [
 'trigonometry', 'calculates the surface area of an sphere of size n (radius or volume)',
 '''
 ''',
 '''
 ''' ],
-    'sphereradius' : [
+    'sphere_radius' : [
 'trigonometry', 'calculates the radius of an sphere of size n (surface area or volume)',
 '''
 ''',
 '''
 ''' ],
-    'spherevolume' : [
+    'sphere_volume' : [
 'trigonometry', 'calculates the volume of an sphere of size n (radius or surface area)',
 '''
 ''',
@@ -5341,7 +5372,7 @@ c:\>rpn 1 50 range countdiv stddev
 c:\>rpn stefan_boltzmann
 5.670373e-8 watts per meter^2 kelvin^4
 ''' ],
-    'steloct' : [
+    'stella_octangula' : [
 'polyhedral_numbers', 'calculates the nth stella octangula number',
 '''
 A stella octangula number is a figurate number based on the stella octangula,
@@ -5356,7 +5387,7 @@ http://oeis.org/A007588
 c:\>rpn 1 8 range steloct
 [ 2, 14, 34, 62, 98, 142, 194, 254 ]
 ''' ],
-    'subfac' : [
+    'subfactorial' : [
 'number_theory', 'calculates the subfactorial of n',
 '''
 ''',
@@ -5439,6 +5470,12 @@ c:\>rpn 1 gallon 4 cups -
 ''',
 '''
 ''' ],
+    'sum_digits' : [
+'lexicographic', 'calculates the sum of the digits of integer n',
+'''
+''',
+'''
+''' ],
     'sunday' : [
 'constants', 'returns 7, which is the code for Sunday',
 '''
@@ -5446,7 +5483,7 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'superfac' : [
+    'superfactorial' : [
 'number_theory', 'calculates the superfactorial of n',
 '''
 ''',
@@ -5555,7 +5592,7 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'tounixtime' : [
+    'to_unix_time' : [
 'conversion', 'converts from date-time list to Unix time (seconds since epoch)',
 '''
 ''',
@@ -5573,7 +5610,7 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'trianglearea' : [
+    'triangle_area' : [
 'trigonometry', 'calculates the area of a triangle with sides of length a, b, and c',
 '''
 This operator uses Heron's formula, which takes the square root of the product
@@ -5583,10 +5620,10 @@ the lengths of each side.
 area = sqrt( s( s - a )( s - b )( s - c ) )
 ''',
 '''
-c:\>rpn 3 4 5 trianglearea
+c:\>rpn 3 4 5 triangle_area
 6
 
-c:\>rpn 2 3 makepyth3 unlist trianglearea
+c:\>rpn 2 3 make_pyth_3 unlist triangle_area
 30
 ''' ],
     'triangular' : [
@@ -5613,7 +5650,7 @@ c:\>rpn 2 3 makepyth3 unlist trianglearea
 ''',
 '''
 ''' ],
-    'triplebal' : [
+    'triple_balanced' : [
 'prime_numbers', 'returns the nth triple balanced prime',
 '''
 A triple balanced prime is a primes which is the average of its immediate
@@ -5624,10 +5661,10 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through the first billion primes.
 ''',
 '''
-c:\>rpn 10 triplebal
+c:\>rpn 10 triple_balanced
 14907649
 ''' ],
-    'triplebal_' : [
+    'triple_balanced_' : [
 'prime_numbers', 'returns the nth triple balanced prime and its neighbors',
 '''
 A triple balanced prime is a primes which is the average of its immediate
@@ -5639,13 +5676,13 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through the first billion primes.
 ''',
 '''
-c:\>rpn 10 triplebal_
+c:\>rpn 10 triple_balanced_
 [ 14907619, 14907631, 14907637, 14907649, 14907661, 14907667, 14907679 ]
 
-c:\>rpn 10 triplebal_ diffs
+c:\>rpn 10 triple_balanced_ diffs
 [ 12, 6, 12, 12, 6, 12 ]
 ''' ],
-    'tripletprime' : [
+    'triplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of triplet primes',
 '''
 A set of triplet primes are three prime numbers that are as close as they
@@ -5657,13 +5694,13 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through the first billion primes.
 ''',
 '''
-c:\>rpn 10 tripletprime
+c:\>rpn 10 triplet_prime
 101
 
-c:\>rpn 1 10 range tripletprime
+c:\>rpn 1 10 range triplet_prime
 [ 5, 7, 11, 13, 17, 37, 41, 67, 97, 101 ]
 ''' ],
-    'tripletprime_' : [
+    'triplet_prime_' : [
 'prime_numbers', 'returns the nth set of triplet primes',
 '''
 A set of triplet primes are three prime numbers that are as close as they
@@ -5675,10 +5712,10 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through the first billion primes.
 ''',
 '''
-c:\>rpn 10 tripletprime_
+c:\>rpn 10 triplet_prime_
 [ 101, 103, 107 ]
 
-c:\>rpn 1 10 range tripletprime_
+c:\>rpn 1 10 range triplet_prime_
 [ [ 5, 7, 11 ], [ 7, 11, 13 ], [ 11, 15, 17 ], [ 13, 17, 19 ], [ 17, 19, 23 ],
 [ 37, 41, 43 ], [ 41, 43, 47 ], [ 67, 71, 73 ], [ 97, 101, 103 ],
 [ 101, 103, 107 ] ]
@@ -5696,13 +5733,13 @@ rpn (2)>true comma
 rpn (3)>5 12 **
 244,140,625
 ''' ],
-    'truncoct' : [
+    'truncated_octahedral' : [
 'polyhedral_numbers', 'calculates the nth truncated octahedral number',
 '''
 ''',
 '''
 ''' ],
-    'trunctet' : [
+    'truncated_tetrahedral' : [
 'polyhedral_numbers', 'calculates the nth truncated tetrahedral number',
 '''
 ''',
@@ -5715,7 +5752,7 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'twinprime' : [
+    'twin_prime' : [
 'prime_numbers', 'returns the first of the nth set of twin primes',
 '''
 
@@ -5725,7 +5762,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'twinprime_' : [
+    'twin_prime_' : [
 'prime_numbers', 'returns the nth set of twin primes',
 '''
 
@@ -5794,7 +5831,7 @@ c:\>rpn 0x40490fdb unfloat
 '''
 ''',
 '''
-c:\>rpn 2 3 makepyth3 unlist trianglearea
+c:\>rpn 2 3 make_pyth_3 unlist triangle_area
 30
 ''' ],
     'unique' : [
@@ -5803,7 +5840,7 @@ c:\>rpn 2 3 makepyth3 unlist trianglearea
 ''',
 '''
 ''' ],
-    'unitroots' : [
+    'unit_roots' : [
 'number_theory', 'calculates the nth roots of unity',
 '''
 ''',
@@ -5967,13 +6004,13 @@ c:\>rpn 0 20 range fib isprime zero fib
 ''',
 '''
 ''' ],
-    '_dumpalias' : [
+    '_dump_aliases' : [
 'internal', 'dumps the list of aliases for operators',
 '''
 ''',
 '''
 ''' ],
-    '_dumpops' : [
+    '_dump_operators' : [
 'internal', 'lists all rpn operators',
 '''
 ''',

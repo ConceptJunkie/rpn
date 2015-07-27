@@ -446,10 +446,10 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
 
 def makePythagoreanTriple( a, b ):
     if a < 0 or b < 0:
-        raise ValueError( "'makepyth3' requires positive arguments" )
+        raise ValueError( "'make_pyth_3' requires positive arguments" )
 
     if a == b:
-        raise ValueError( "'makepyth3' requires unequal arguments" )
+        raise ValueError( "'make_pyth_3' requires unequal arguments" )
 
     result = [ ]
 
@@ -482,16 +482,16 @@ def makePythagoreanTriple( a, b ):
 
 def makePythagoreanQuadruple( a, b ):
     if a < 0 or b < 0:
-        raise ValueError( "'makepyth4' requires positive arguments" )
+        raise ValueError( "'make_pyth_4' requires positive arguments" )
 
     #if a == b:
-    #    raise ValueError( "'makepyth4' requires unequal arguments" )
+    #    raise ValueError( "'make_pyth_4' requires unequal arguments" )
 
     odd1 = ( fmod( a, 2 ) == 1 )
     odd2 = ( fmod( b, 2 ) == 1 )
 
     if odd1 and odd2:
-        raise ValueError( "'makepyth4' arguments cannot both be odd" )
+        raise ValueError( "'make_pyth_4' arguments cannot both be odd" )
 
     result = [ a, b ]
 
@@ -506,7 +506,7 @@ def makePythagoreanQuadruple( a, b ):
             p = random.choice( div[ : ( len( div ) - 1 ) // 2 ] )
     else:
         if ( fmod( sumsqr, 2 ) == 1 ):
-            raise ValueError( "'makepyth4' oops, can't make one!" )
+            raise ValueError( "'make_pyth_4' oops, can't make one!" )
         else:
             div = [ i for i in div[ : ( len( div ) - 1 ) // 2 ] if fmod( sumsqr, fmul( i, 2 ) ) == 0 and fmod( i, 2 ) == 0 ]
             p = random.choice( div )
@@ -533,7 +533,7 @@ def makeEulerBrick( _a, _b, _c ):
     a, b, c = sorted( [ _a, _b, _c ] )
 
     if fadd( power( a, 2 ), power( b, 2 ) ) != power( c, 2 ):
-        raise ValueError( "'eulerbrick' requires a pythogorean triple" )
+        raise ValueError( "'euler_brick' requires a pythogorean triple" )
 
     result = [ ]
 

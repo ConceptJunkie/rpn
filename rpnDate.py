@@ -454,10 +454,10 @@ def convertToUnixTime( n ):
     try:
         result = n.timestamp
     except OverflowError:
-        print( 'rpn:  out of range error for \'tounixtime\'' )
+        print( 'rpn:  out of range error for \'to_unix_time\'' )
         return 0
     except TypeError:
-        print( 'rpn:  expected time value for \'tounixtime\'' )
+        print( 'rpn:  expected time value for \'to_unix_time\'' )
         return 0
 
     return result
