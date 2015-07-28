@@ -823,7 +823,7 @@ Ctrl-c can no longer interrupt saving the cache files, causing corruption.
 
 Added the 'dup_operator', 'add_digits', and 'dup_digits' operators.
 
-Added the 'hexsquare' operator.
+Added the 'hexagonal_square' operator.
 
 Added 'ecm' operator.
 
@@ -2907,30 +2907,30 @@ c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
 '''
 ''' ],
     'heptanacci' : [
-'polygonal_numbers', 'calculates the nth Heptanacci number',
+'number_theory', 'calculates the nth Heptanacci number',
 '''
 ''',
 '''
 ''' ],
-    'hepthex' : [
+    'heptagonal_hexagonal' : [
 'polygonal_numbers', 'calculates the nth heptagonal hexagonal number',
 '''
 ''',
 '''
 ''' ],
-    'heptpent' : [
+    'heptagonal_pentagonal' : [
 'polygonal_numbers', 'calculates the nth heptagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'heptsquare' : [
+    'heptagonal_square' : [
 'polygonal_numbers', 'calculates the nth heptagonal square number',
 '''
 ''',
 '''
 ''' ],
-    'hepttri' : [
+    'heptagonal_triangular' : [
 'polygonal_numbers', 'calculates the nth heptagonal triangular number',
 '''
 ''',
@@ -2954,13 +2954,13 @@ c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
 ''',
 '''
 ''' ],
-    'hexpent' : [
+    'hexagonal_pentagonal' : [
 'polygonal_numbers', 'calculates the nth hexagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'hexsquare' : [
+    'hexagonal_square' : [
 'polygonal_numbers', 'calculates the nth hexagonal square number',
 '''
 ''',
@@ -3346,7 +3346,8 @@ etc., in accordance with mpmath, they do not.  However, Sloane (oeis.org) does
 count the zeroes.
 
 Internally, rpn uses this same linear recurrence functionality in the
-'jacobsthal', 'repunit', 'hepttri', 'heptsquare', and 'nonahex' operators.
+'jacobsthal', 'repunit', 'heptagonal_triangular', 'heptagonal_square', and
+'nonagonal_hexagonal' operators.
 ''',
 '''
 The 250th Fibonacci number:
@@ -3985,45 +3986,52 @@ c:\>rpn 1.5 nint
 ''',
 '''
 ''' ],
-    'nonahept' : [
+    'nonagonal_heptagonal' : [
 'polygonal_numbers', 'calculates the nth nonagonal heptagonal number',
 '''
-'nonahex' calculates the nth number that is both nonagonal and heptagonal.
+'nonagonal_heptagonal' calculates the nth number that is both nonagonal and
+heptagonal.
 ''',
 '''
 ''' ],
-    'nonahex' : [
+    'nonagonal_hexagonal' : [
 'polygonal_numbers', 'calculates the nth nonagonal hexagonal number',
 '''
-'nonahex' calculates the nth number that is both nonagonal and hexagonal.
+'nonagonal_hexagonal' calculates the nth number that is both nonagonal and
+hexagonal.
 ''',
 '''
 ''' ],
-    'nonaoct' : [
+    'nonagonal_octagonal' : [
 'polygonal_numbers', 'calculates the nth nonagonal octagonal number',
 '''
-'nonahex' calculates the nth number that is both nonagonal and octagonal.
+'nonagonal_octagonal' calculates the nth number that is both nonagonal and
+octagonal.
 ''',
 '''
 ''' ],
-    'nonapent' : [
+    'nonagonal_pentagonal' : [
 'polygonal_numbers', 'calculates the nth nonagonal pentagonal number',
 '''
-'nonahex' calculates the nth number that is both nonagonal and pentgonal.
+'nonagonal_pentagonal' calculates the nth number that is both nonagonal and
+pentgonal.
 ''',
 '''
 ''' ],
-    'nonasquare' : [
+    'nonagonal_square' : [
 'polygonal_numbers', 'calculates the nth nonagonal square number',
 '''
-'nonasquare' calculates the nth number that is both nonagonal and square.
+'nonagonal_square' calculates the nth number that is both nonagonal and square.
 ''',
 '''
 ''' ],
-    'nonatri' : [
+    'nonagonal_triangular' : [
 'polygonal_numbers', 'calculates the nth nonagonal triangular number',
 '''
-'nonatri' calculates the nth number that is both nonagonal and triangular.
+'nonagonal_triangular' calculates the nth number that is both nonagonal and
+triangular.
+
+TODO: fix me
 ''',
 '''
 ''' ],
@@ -4226,13 +4234,13 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''' ],
-    'octhept' : [
+    'octagonal_heptagonal' : [
 'polygonal_numbers', 'returns the nth octagonal heptagonal number',
 '''
 ''',
 '''
 ''' ],
-    'octhex' : [
+    'octagonal_hexagonal' : [
 'polygonal_numbers', 'calculates the nth octagonal hexagonal number',
 '''
 ''',
@@ -4251,19 +4259,19 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'octpent' : [
+    'octagonal_pentagonal' : [
 'polygonal_numbers', 'calculates the nth octagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
-    'octsquare' : [
+    'octagonal_square' : [
 'polygonal_numbers', 'calculates the nth octagonal square number',
 '''
 ''',
 '''
 ''' ],
-    'octtri' : [
+    'octangular_triangular' : [
 'polygonal_numbers', 'calculates the nth octagonal triangular number',
 '''
 ''',
@@ -4427,13 +4435,13 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 ''',
 '''
 ''' ],
-    'pentsquare' : [
+    'pentagonal_square' : [
 'polygonal_numbers', 'calculates the nth pentagonal square number',
 '''
 ''',
 '''
 ''' ],
-    'penttri' : [
+    'pentagonal_triangular' : [
 'polygonal_numbers', 'calculates the nth pentagonal triangular number',
 '''
 ''',

@@ -642,7 +642,7 @@ def runTests( ):
 
     testRPN( 'rpn -a25 11 octsquare' )
 
-    testRPN( 'rpn -a20 10 octtri' )
+    testRPN( 'rpn -a20 10 octangular_triangular' )
 
     testRPN( 'rpn 1000 oeis' )
     testRPN( 'rpn 200000 randint oeis' )
