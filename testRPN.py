@@ -444,13 +444,13 @@ def runTests( ):
 
     testRPN( 'rpn 224623 heptanacci' )
 
-    testRPN( 'rpn 2039 hepthex' )
+    testRPN( 'rpn 2039 heptagonal_hexagonal' )
 
-    testRPN( 'rpn 8684 heptpent' )
+    testRPN( 'rpn 8684 heptagonal_pentagonal' )
 
-    testRPN( 'rpn 222 heptsquare' )
+    testRPN( 'rpn 222 heptagonal_square' )
 
-    testRPN( 'rpn 399 hepttri' )
+    testRPN( 'rpn 399 heptagonal_triangular' )
 
     testRPN( 'rpn 340 hexagonal' )
 
@@ -458,7 +458,7 @@ def runTests( ):
 
     testRPN( 'rpn 949 hexanacci' )
 
-    testRPN( 'rpn 107 hexpent' )
+    testRPN( 'rpn 107 hexagonal_pentagonal' )
 
     testRPN( 'rpn 54658 seconds hms' )
 
@@ -591,17 +591,17 @@ def runTests( ):
 
     testRPN( 'rpn 9 6 ** nonagonal?' )
 
-    testRPN( 'rpn -a50 12 nonahept' )
+    testRPN( 'rpn -a50 12 nonagonal_heptagonal' )
 
-    testRPN( 'rpn -a60 13 nonahex' )
+    testRPN( 'rpn -a60 13 nonagonal_hexagonal' )
 
-    testRPN( 'rpn -a 75 14 nonaoct' )
+    testRPN( 'rpn -a 75 14 nonagonal_octagonal' )
 
-    testRPN( 'rpn -a60 15 nonapent' )
+    testRPN( 'rpn -a60 15 nonagonal_pentagonal' )
 
-    testRPN( 'rpn -a22 16 nonasquare' )
+    testRPN( 'rpn -a22 16 nonagonal_square' )
 
-    testRPN( 'rpn -a21 17 nonatri' )
+    testRPN( 'rpn -a21 17 nonagonal_triangular' )
 
     testRPN( 'rpn -x 0xefefefefefefef not' )
 
@@ -617,7 +617,7 @@ def runTests( ):
 
     testRPN( 'rpn 3 square_feet 6 nsphere_volume' )
 
-    testRPN( 'rpn 12 nth_apery' )
+    testRPN( 'rpn -a20 12 nth_apery' )
 
     testRPN( 'rpn 1 10 range nth_prime?' )
     testRPN( 'rpn 67 nth_prime?' )
@@ -634,27 +634,27 @@ def runTests( ):
 
     testRPN( 'rpn 23 octahedral' )
 
-    testRPN( 'rpn -a40 8 octhept' )
+    testRPN( 'rpn -a40 8 octagonal_heptagonal' )
 
-    testRPN( 'rpn -a30 7 octhex' )
+    testRPN( 'rpn -a30 7 octagonal_hexagonal' )
 
-    testRPN( 'rpn -a15 6 octpent' )
+    testRPN( 'rpn -a15 6 octagonal_pentagonal' )
 
-    testRPN( 'rpn -a25 11 octsquare' )
+    testRPN( 'rpn -a25 11 octagonal_square' )
 
-    testRPN( 'rpn -a20 10 octangular_triangular' )
+    testRPN( 'rpn -a20 10 octagonal_triangular' )
 
     testRPN( 'rpn 1000 oeis' )
     testRPN( 'rpn 200000 randint oeis' )
 
-    testRPN( 'rpn 1000 oeiscomment' )
-    testRPN( 'rpn 200000 randint oeiscomment' )
+    testRPN( 'rpn 1000 oeis_comment' )
+    testRPN( 'rpn 200000 randint oeis_comment' )
 
-    testRPN( 'rpn 1000 oeisex' )
-    testRPN( 'rpn 200000 randint oeisex' )
+    testRPN( 'rpn 1000 oeis_ex' )
+    testRPN( 'rpn 200000 randint oeis_ex' )
 
-    testRPN( 'rpn 1000 oeisname' )
-    testRPN( 'rpn 200000 randint oeisname' )
+    testRPN( 'rpn 1000 oeis_name' )
+    testRPN( 'rpn 200000 randint oeis_name' )
 
     testRPN( 'rpn omega' )
 
@@ -1099,10 +1099,10 @@ def runTests( ):
     testRPN( 'rpn 2015 memorial_day' )
     testRPN( 'rpn 2015 presidents_day' )
     testRPN( 'rpn 2015 thanksgiving' )
-    testRPN( 'rpn 2015 march 4 thursday nthweekday' )
-    testRPN( 'rpn 2015 march -1 thursday nthweekday' )
-    testRPN( 'rpn 2015 20 thursday nthweekdayofyear' )
-    testRPN( 'rpn 2015 -1 thursday nthweekdayofyear' )
+    testRPN( 'rpn 2015 march 4 thursday nth_weekday' )
+    testRPN( 'rpn 2015 march -1 thursday nth_weekday' )
+    testRPN( 'rpn 2015 20 thursday nth_weekday_of_year' )
+    testRPN( 'rpn 2015 -1 thursday nth_weekday_of_year' )
 
     testRPN( 'rpn 4 3 debruijn' )
 
