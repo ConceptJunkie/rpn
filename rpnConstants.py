@@ -277,3 +277,13 @@ def getRadiationConstant( ):
     return Measurement( mpmathify( '7.5657e-16' ), [ { 'joule' : 1 }, { 'meter' : -3 }, { 'kelvin' : -4 } ] )
 
 
+# //******************************************************************************
+# //
+# //  getSilverRatio
+# //
+# //******************************************************************************
+
+def getSilverRatio( ):
+    return fadd( 1, sqrt( 2 ) )
+
+

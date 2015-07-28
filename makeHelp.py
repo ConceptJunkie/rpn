@@ -803,6 +803,8 @@ Added 'crt' operator.
 
 6.5.0
 
+Added 'silver_ratio', 'is_deficient', 'is_abundant' and 'is_perfect' operators.
+
 The Great Renaming!   Renamed a bunch of operators so that multi-word operator
 names always contain underscores between words.  The change makes sense now
 that there are hundreds of operators.  The old names remain as aliases.
@@ -1770,7 +1772,7 @@ c:\>rpn avogadro
 c:\>rpn -a24 avogadro
 602214129000000000000000
 ''' ],
-    'balanced' : [
+    'balanced_prime' : [
 'prime_numbers', 'calculates the first of the nth set of balanced primes',
 '''
 
@@ -1780,7 +1782,7 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'balanced_' : [
+    'balanced_prime_' : [
 'prime_numbers', 'calculates the nth set of balanced primes',
 '''
 
@@ -3122,9 +3124,13 @@ the original operand.
 ''',
 '''
 ''' ],
-    'is_divisible' : [
-'arithmetic', 'returns whether n is n divisible by k',
+    'isolated_prime' : [
+'prime_numbers', 'returns the nth isolated prime',
 '''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
@@ -3134,13 +3140,21 @@ the original operand.
 ''',
 '''
 ''' ],
-    'isolated_prime' : [
-'prime_numbers', 'returns the nth isolated prime',
+    'is_abundant' : [
+'number_theory', 'TODO: fill me in',
 '''
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+    'is_deficient' : [
+'number_theory', 'TODO: fill me in',
+'''
+''',
+'''
+''' ],
+    'is_divisible' : [
+'arithmetic', 'returns whether n is n divisible by k',
+'''
 ''',
 '''
 ''' ],
@@ -3172,6 +3186,12 @@ c:\>rpn 1234567890 is_pandigital
 
 c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 1
+''' ],
+    'is_perfect' : [
+'number_theory', 'TODO: fill me in',
+'''
+''',
+'''
 ''' ],
     'is_prime' : [
 'number_theory', 'returns whether n is prime',
@@ -5178,6 +5198,12 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
+    'silver_ratio' : [
+'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )'
+'''
+''',
+'''
+''' ],
     'sign' : [
 'arithmetic', 'returns the sign of a value',
 '''
@@ -5358,7 +5384,7 @@ c:\>rpn 1 20 range countdiv sort_descending
 ''',
 '''
 ''' ],
-    'squaretri' : [
+    'square_triangular' : [
 'polygonal_numbers', 'calculates the nth square triangular number',
 '''
 ''',
