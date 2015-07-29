@@ -83,7 +83,7 @@ command-line options:
         output in a different base (2 to 62, or phi)
 
     -R n, --output_radix_numerals n
-        output each digit is a space-delimited base-10 number
+        output a list of digits, where each digit is a base-10 number
 
     -t, --timer
         display calculation time
@@ -156,7 +156,7 @@ If the list operator takes a list and a non-list argument, then the non-list
 argument can be a list, and rpn will evaluate the operator for all values in
 the list.
 
-c:\>rpn [ 1 2 3 ] [ 4 5 6 ] polyval
+c:\>rpn [ 1 2 3 ] [ 4 5 6 ] eval_poly
 [ 27, 38, 51 ]
 
 List operands can also themselves be composed of lists and rpn will recurse.
@@ -891,7 +891,7 @@ Convert an IP address to a 32-bit value and back:
     c0a8 0001
 
     c:\>rpn -R 256 0xc0a80001
-    192 168 0 1
+    [192, 168, 0, 1]
 
 Construct the square root of two from a continued fraction:
 
@@ -920,7 +920,7 @@ Construct the square root of two from a continued fraction:
 Calculations with lists:
 
     List of primes in the first 50 fibonacci numbers:
-        c:\>rpn 1 50 range fib isprime nonzero 1 + fib
+        c:\>rpn 1 50 range fib is_prime nonzero 1 + fib
         [ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
 
     List the indices of the primes in the first 50 fibonacci numbers:
@@ -2626,6 +2626,12 @@ c:\>rpn 1 -4 -21 solve2
 c:\>rpn [ 1 -4 -21 ] solve
 [ -3, 7 ]
 ''' ],
+    'eval_poly' : [
+'algebra', 'interprets the list as a polynomial and evaluates it for value k',
+'''
+''',
+'''
+''' ],
     'exp' : [
 'powers_and_roots', 'calculates the nth power of e',
 '''
@@ -2723,7 +2729,7 @@ non-zero value.
 '''
 Which of the first 80 fibonacci numbers is prime?
 
-c:\>rpn -p80 1 80 range fib x isprime filter
+c:\>rpn -p80 1 80 range fib x is_prime filter
 [ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
 ''' ],
     'find_palindrome' : [
@@ -4077,7 +4083,7 @@ c:\>rpn [ 1 0 2 0 3 0 4 ] nonzero
 
 List the prime Fibonacci numbers:
 
-c:\>rpn 0 20 range fib isprime nonzero fib
+c:\>rpn 0 20 range fib is_prime nonzero fib
 [ 2, 3, 5, 13, 89, 233, 1597 ]
 ''' ],
     'nor' : [
@@ -4615,12 +4621,6 @@ distributed with data files calculated through the first billion primes.
 ''' ],
     'polytope' : [
 'polyhedral_numbers', 'calculates nth polytope number of dimension k',
-'''
-''',
-'''
-''' ],
-    'polyval' : [
-'algebra', 'interprets the list as a polynomial and evaluates it for value k',
 '''
 ''',
 '''
@@ -6029,7 +6029,7 @@ c:\>rpn [ 1 0 2 0 3 0 4 ] zero
 
 List the non-prime Fibonacci numbers:
 
-c:\>rpn 0 20 range fib isprime zero fib
+c:\>rpn 0 20 range fib is_prime zero fib
 [ 0, 1, 1, 8, 21, 34, 55, 144, 377, 610, 987, 2584, 4181, 6765 ]
 ''' ],
     'zeta' : [

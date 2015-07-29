@@ -470,23 +470,44 @@ def convertToBaseN( value, base, outputBaseDigits, numerals ):
     if base == 10:
         return str( value )
 
-    result = ''
+    if outputBaseDigits:
+        result = [ ]
+    else:
+        result = ''
+
     leftDigits = mpmathify( value )
 
     while leftDigits > 0:
         modulo = fmod( leftDigits, base )
 
         if outputBaseDigits:
-            if result != '':
-                result = ' ' + result
-
-            result = str( modulo ) + result
+            result.insert( 0, int( modulo ) )
         else:
             result = numerals[ int( modulo ) ] + result
 
         leftDigits = floor( fdiv( leftDigits, base ) )
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  convertToSpecialBase
+# //
+# //******************************************************************************
+
+def convertToSpecialBase( value, baseFunction, outputBaseDigits, numerals ):
+    return 'fred'
+
+
+# //******************************************************************************
+# //
+# //  convertToIterativeBase
+# //
+# //******************************************************************************
+
+def convertToIterativeBase( value, baseFunction, outputBaseDigits, numerals ):
+    return 'fred'
 
 
 # //******************************************************************************

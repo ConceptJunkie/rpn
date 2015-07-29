@@ -645,16 +645,16 @@ def runTests( ):
     testRPN( 'rpn -a20 10 octagonal_triangular' )
 
     testRPN( 'rpn 1000 oeis' )
-    testRPN( 'rpn 200000 randint oeis' )
+    testRPN( 'rpn 250000 randint oeis' )
 
     testRPN( 'rpn 1000 oeis_comment' )
-    testRPN( 'rpn 200000 randint oeis_comment' )
+    testRPN( 'rpn 250000 randint oeis_comment' )
 
     testRPN( 'rpn 1000 oeis_ex' )
-    testRPN( 'rpn 200000 randint oeis_ex' )
+    testRPN( 'rpn 250000 randint oeis_ex' )
 
     testRPN( 'rpn 1000 oeis_name' )
-    testRPN( 'rpn 200000 randint oeis_name' )
+    testRPN( 'rpn 250000 randint oeis_name' )
 
     testRPN( 'rpn omega' )
 
@@ -1046,7 +1046,8 @@ def runTests( ):
 
     testRPN( 'rpn [ [ 1 10 range ] [ 2 11 range ] ] polysum' )
 
-    testRPN( 'rpn 1 10 range 6 polyval' )
+    testRPN( 'rpn 1 10 range 6 eval_poly' )
+    testRPN( 'rpn [ 4 -2 3 5 -6 20 ] 1 10 range eval_poly' )
 
     testRPN( 'rpn 1 10 range product' )
 

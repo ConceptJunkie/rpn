@@ -535,12 +535,12 @@ def sortDescending( args ):
 
 def calculatePowerTower( args ):
     if isinstance( args[ 0 ], list ):
-        return [ calculatePowerTower( arg ) for arg in args ]
+        return [ calculatePowerTower2( arg ) for arg in args ]
 
-    result = args[ -1 ]
+    result = args[ 0 ]
 
-    for i in args[ -1 : : -1 ]:
-        result = power( i, result )
+    for i in args[ 1 : ]:
+        result = power( result, i )
 
     return result
 
@@ -553,12 +553,14 @@ def calculatePowerTower( args ):
 
 def calculatePowerTower2( args ):
     if isinstance( args[ 0 ], list ):
-        return [ calculatePowerTower2( arg ) for arg in args ]
+        return [ calculatePowerTower( arg ) for arg in args ]
 
-    result = args[ 0 ]
+    result = args[ -1 ]
 
-    for i in args[ 1 : ]:
-        result = power( result, i )
+    print( args[ -2 : : -1 ] )
+
+    for i in args[ -2 : : -1 ]:
+        result = power( i, result )
 
     return result
 
