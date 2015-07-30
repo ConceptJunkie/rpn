@@ -33,6 +33,8 @@ from mpmath import *
 
 from rpnDeclarations import PROGRAM_NAME, PROGRAM_DESCRIPTION
 from rpnMeasurement import *
+from rpnPolytope import getNthPolygonalNumber
+from rpnPrimeUtils import getNthPrimorial
 
 import rpnGlobals as g
 
@@ -58,25 +60,31 @@ def debugPrint( *args, **kwargs ):
 # //
 # //******************************************************************************
 
+specialBaseFunctions = {
+    g.facBase         : fac,
+    g.doublefacBase   : fac2,
+    g.squareBase      : lambda n: power( n, 2 ),
+    g.lucasBase       : getNthLucasNumber,
+    g.triangularBase  : lambda n: getNthPolygonalNumber( n, 3 ),
+    g.primorialBase   : lambda n: getNthPrimorial( n - 1 ),
+}
+
 def formatNumber( number, outputRadix, leadingZero, integerGrouping,  ):
     negative = ( number < 0 )
 
-    if outputRadix == g.phiBase:
-        strInteger, strMantissa = convertToPhiBase( number )
-    elif outputRadix == g.fibBase:
+    if outputRadix == g.fibBase:
         strInteger = convertToFibBase( floor( number ) )
         strMantissa = ''
-    elif outputRadix == g.facBase:
-        strInteger = convertToSpecialBase( floor( number ), fac )
-        strMantissa = ''
-    elif outputRadix == g.doublefacBase:
-        strInteger = convertToSpecialBase( floor( number ), fac2 )
-        strMantissa = ''
-    elif outputRadix == g.squareBase:
-        strInteger = convertToSpecialBase( floor( number ), lambda n: power( n, 2 ) )
-        strMantissa = ''
-    elif outputRadix == g.lucasBase:
-        strInteger = convertToSpecialBase( floor( number ), getNthLucasNumber )
+    elif outputRadix == g.phiBase:
+        strInteger, strMantissa = convertToNonintegerBase( number, phi )
+    elif outputRadix == g.eBase:
+        strInteger, strMantissa = convertToNonintegerBase( number, e )
+    elif outputRadix == g.piBase:
+        strInteger, strMantissa = convertToNonintegerBase( number, pi )
+    elif outputRadix == g.sqrt2Base:
+        strInteger, strMantissa = convertToNonintegerBase( number, sqrt( 2 ) )
+    elif outputRadix < 0:
+        strInteger = convertToSpecialBase( floor( number ), specialBaseFunctions[ outputRadix ] )
         strMantissa = ''
     elif ( outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
         strInteger = str( convertToBaseN( floor( number ), outputRadix, g.outputBaseDigits, g.numerals ) )

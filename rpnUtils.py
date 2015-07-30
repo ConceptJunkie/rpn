@@ -552,6 +552,57 @@ def convertToIterativeBase( value, baseFunction, outputBaseDigits, numerals ):
 
 # //******************************************************************************
 # //
+# //  convertToNonintegerBase
+# //
+# //******************************************************************************
+
+def convertToNonintegerBase( num, base ):
+    epsilon = power( 10, -( mp.dps - 3 ) )
+
+    output = ''
+    integer = ''
+
+    start = True
+    previousPlace = 0
+    remaining = num
+
+    originalPlace = 0
+
+    while remaining > epsilon:
+        place = int( floor( log( remaining, base ) ) )
+
+        if start:
+            output = '1'
+            start = False
+            originalPlace = place
+        else:
+            if place < -( originalPlace + 1 ):
+                break
+
+            for i in range( previousPlace, place + 1, -1 ):
+                output += '0'
+
+                if ( i == 1 ):
+                    integer = output
+                    output = ''
+
+            output += '1'
+
+            if place == 0:
+                integer = output
+                output = ''
+
+        previousPlace = place
+        remaining -= power( base, place )
+
+    if integer == '':
+        return output, ''
+    else:
+        return integer, output
+
+
+# //******************************************************************************
+# //
 # //  convertToPhiBase
 # //
 # //******************************************************************************

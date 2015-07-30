@@ -14,7 +14,6 @@
 
 import six
 
-
 # general globals
 
 dataPath = ''
@@ -29,8 +28,13 @@ facBase = -3
 doublefacBase = -4
 squareBase = -5
 lucasBase = -6
+triangularBase = -7
+primorialBase = -8
+eBase = -9
+piBase = -10
+sqrt2Base = -11
 
-maxSpecialBase = -6
+maxSpecialBase = -11
 
 # default options
 

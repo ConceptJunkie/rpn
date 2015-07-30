@@ -1084,7 +1084,6 @@ listOperators = {
 # //******************************************************************************
 
 operators = {
-    'aaa'                   : OperatorInfo( lambda n: convertToSpecialBase( n, lambda i: fib( i + 1 ) ), 1 ),
     'abs'                   : OperatorInfo( fabs, 1 ),
     'accuracy'              : OperatorInfo( lambda n: setAccuracy( fadd( n, 2 ) ), 1 ),
     'acos'                  : OperatorInfo( lambda n: performTrigOperation( n, acos ), 1 ),
@@ -1399,7 +1398,7 @@ operators = {
     'prime?'                : OperatorInfo( lambda n: findPrime( n )[ 1 ], 1 ),
     'primepi'               : OperatorInfo( getPrimePi, 1 ),
     'primes'                : OperatorInfo( getPrimes, 2 ),
-    'primorial'             : OperatorInfo( getPrimorial, 1 ),
+    'primorial'             : OperatorInfo( getNthPrimorial, 1 ),
     'pyramid'               : OperatorInfo( lambda n: getNthPolygonalPyramidalNumber( n, 4 ), 1 ),
     'quadruplet_prime'      : OperatorInfo( getNthQuadrupletPrime, 1 ),
     'quadruplet_prime?'     : OperatorInfo( lambda n: findQuadrupletPrimes( n )[ 1 ], 1 ),

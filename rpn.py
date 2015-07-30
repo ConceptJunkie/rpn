@@ -394,6 +394,16 @@ def rpn( cmd_args ):
         g.outputRadix = g.squareBase
     elif args.output_radix == 'lucas':
         g.outputRadix = g.lucasBase
+    elif args.output_radix == 'triangular' or args.output_radix == 'tri':
+        g.outputRadix = g.triangularBase
+    elif args.output_radix == 'primorial':
+        g.outputRadix = g.primorialBase
+    elif args.output_radix == 'e':
+        g.outputRadix = g.eBase
+    elif args.output_radix == 'pi':
+        g.outputRadix = g.piBase
+    elif args.output_radix == 'sqrt2':
+        g.outputRadix = g.sqrt2Base
     else:
         try:
             g.outputRadix = int( args.output_radix )

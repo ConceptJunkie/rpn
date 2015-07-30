@@ -1364,11 +1364,14 @@ def getPrimes( value, count ):
 
 # //******************************************************************************
 # //
-# //  getPrimorial
+# //  getNthPrimorial
 # //
 # //******************************************************************************
 
-def getPrimorial( n ):
+def getNthPrimorial( n ):
+    if n == 0:
+        return 1
+
     result = 2
 
     for i in arange( 1, n ):
