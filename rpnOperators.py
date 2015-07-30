@@ -1313,6 +1313,7 @@ operators = {
     'modulo'                : OperatorInfo( fmod, 2 ),
     'monday'                : OperatorInfo( lambda: 1, 0 ),
     'motzkin'               : OperatorInfo( getNthMotzkinNumber, 1 ),
+    'multifactorial'        : OperatorInfo( getNthMultifactorial, 2 ),
     'multiply'              : OperatorInfo( multiply, 2 ),
     'name'                  : OperatorInfo( getNumberName, 1 ),
     'nand'                  : OperatorInfo( lambda i, j: getInvertedBits( performBitwiseOperation( i, j, lambda x, y: x & y ) ), 2 ),

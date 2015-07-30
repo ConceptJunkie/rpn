@@ -225,3 +225,12 @@ def getPartitionNumber( n, k ):
     return getPartitionNumber( n, k + 1 ) + getPartitionNumber( n - k, k )
 
 
+# //******************************************************************************
+# //
+# //  getNthMultifactorial
+# //
+# //******************************************************************************
+
+def getNthMultifactorial( n, k ):
+    return fprod( range( int( n ), 0, -( int( k ) ) ) )
+

@@ -424,6 +424,7 @@ operatorAliases = {
     'mon'               : 'monday',
     'mu0'               : 'magnetic_constant',
     'mult'              : 'multiply',
+    'multifac'          : 'multifactorial',
     'n'                 : 'x',
     'neg'               : 'negative',
     'ninf'              : 'negative_infinity',

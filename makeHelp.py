@@ -804,7 +804,15 @@ Added 'crt' operator.
 
 6.5.0
 
-Added 'silver_ratio', 'is_deficient', 'is_abundant' and 'is_perfect' operators.
+Added the 'multifactorial' operator.
+
+Added support for a lot of new bases for output, including factorial,
+double factorial, Fibonacci (which was there but had been left out of the
+documentation somehow), Lucas, triangular, square, e, pi, and the square root
+of 2.  These all now include support for fractions.
+
+Added the 'silver_ratio', 'is_deficient', 'is_abundant' and 'is_perfect'
+operators.
 
 The Great Renaming!   Renamed a bunch of operators so that multi-word operator
 names always contain underscores between words.  The change makes sense now
@@ -3905,6 +3913,16 @@ This constant operator is defined for convenience for use with date operators.
     'motzkin' : [
 'combinatorics', 'calculates the nth Motzkin number',
 '''
+''',
+'''
+''' ],
+    'multifactorial' : [
+'combinatorics', 'calculates the nth k-factorial',
+'''
+The multifactorial operation is defined to be the product of every k-th
+integer from n down to 1.  Therefore, the 1-multifactorial function is the
+same as the 'factorial' operator and the 2-multifactorial function is the
+same as the 'doublefac' operator.
 ''',
 '''
 ''' ],
