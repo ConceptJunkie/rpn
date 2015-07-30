@@ -16,11 +16,10 @@ from __future__ import print_function
 
 import six
 
-import arrow
-
 if six.PY3:
     import builtins
 
+import arrow
 import bz2
 import contextlib
 import math
@@ -465,7 +464,7 @@ def convertToBaseN( value, base, outputBaseDigits, numerals ):
         return 0
 
     if value < 0:
-        return '-' + convertToBaseN( ( -1 ) * value, base, outputBaseDigits, numerals )
+        return '-' + convertToBaseN( fneg( value ), base, outputBaseDigits, numerals )
 
     if base == 10:
         return str( value )
@@ -496,8 +495,49 @@ def convertToBaseN( value, base, outputBaseDigits, numerals ):
 # //
 # //******************************************************************************
 
-def convertToSpecialBase( value, baseFunction, outputBaseDigits, numerals ):
-    return 'fred'
+def convertToSpecialBase( value, baseFunction, outputBaseDigits = False, numerals = g.defaultNumerals ):
+    if value == 0:
+        return 0
+
+    if value < 0:
+        return '-' + convertToBaseN( fneg( value ), base, outputBaseDigits, numerals )
+
+    if outputBaseDigits:
+        result = [ ]
+    else:
+        result = ''
+
+    positionValues = [ ]
+
+    position = 1
+    positionValue = baseFunction( position )
+
+    while positionValue < value:
+        positionValues.append( positionValue )
+
+        position += 1
+        positionValue = baseFunction( position )
+
+    if outputBaseDigits:
+        result = [ ]
+    else:
+        result = ''
+
+    remaining = value
+
+    while len( positionValues ):
+        base = positionValues.pop( )
+
+        digit = floor( fdiv( remaining, base ) )
+
+        if outputBaseDigits:
+            result.append( digit )
+        else:
+            result += numerals[ int( digit ) ]
+
+        remaining = fsub( remaining, fmul( digit, base ) )
+
+    return result
 
 
 # //******************************************************************************
