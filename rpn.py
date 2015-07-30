@@ -119,6 +119,8 @@ def handleOutput( valueList ):
         else:
             if isinstance( result, arrow.Arrow ):
                 outputString = formatDateTime( result )
+            elif isinstance( result, str ):
+                outputString = result
             else:
                 # output the answer with all the extras according to command-line arguments
                 resultString = nstr( result, mp.dps )
@@ -384,6 +386,14 @@ def rpn( cmd_args ):
         g.outputRadix = g.phiBase
     elif args.output_radix == 'fib':
         g.outputRadix = g.fibBase
+    elif args.output_radix == 'fac' or args.output_radix == '!':
+        g.outputRadix = g.facBase
+    elif args.output_radix == 'doublefac' or args.output_radix == '!!':
+        g.outputRadix = g.doublefacBase
+    elif args.output_radix == 'square' or args.output_radix == 'sqr':
+        g.outputRadix = g.squareBase
+    elif args.output_radix == 'lucas':
+        g.outputRadix = g.lucasBase
     else:
         try:
             g.outputRadix = int( args.output_radix )
@@ -401,9 +411,9 @@ def rpn( cmd_args ):
         if ( g.outputRadix < 2 ):
             print( 'rpn:  output radix must be greater than 1' )
             return
-    elif ( ( g.outputRadix != g.phiBase ) and ( g.outputRadix != g.fibBase ) and
-           ( g.outputRadix < 2 or g.outputRadix > 62 ) ):
-        print( 'rpn:  output radix must be from 2 to 62, or phi' )
+    elif ( ( g.outputRadix < g.maxSpecialBase ) or ( g.outputRadix == 0 ) or
+           ( g.outputRadix == 1 ) or ( g.outputRadix > 62 ) ):
+        print( 'rpn:  output radix must be from 2 to 62, fib, phi, fac, doublefac, square, lucas' )
         return
 
     # handle -s

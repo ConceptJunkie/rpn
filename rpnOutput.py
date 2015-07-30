@@ -65,6 +65,19 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping,  ):
         strInteger, strMantissa = convertToPhiBase( number )
     elif outputRadix == g.fibBase:
         strInteger = convertToFibBase( floor( number ) )
+        strMantissa = ''
+    elif outputRadix == g.facBase:
+        strInteger = convertToSpecialBase( floor( number ), fac )
+        strMantissa = ''
+    elif outputRadix == g.doublefacBase:
+        strInteger = convertToSpecialBase( floor( number ), fac2 )
+        strMantissa = ''
+    elif outputRadix == g.squareBase:
+        strInteger = convertToSpecialBase( floor( number ), lambda n: power( n, 2 ) )
+        strMantissa = ''
+    elif outputRadix == g.lucasBase:
+        strInteger = convertToSpecialBase( floor( number ), getNthLucasNumber )
+        strMantissa = ''
     elif ( outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
         strInteger = str( convertToBaseN( floor( number ), outputRadix, g.outputBaseDigits, g.numerals ) )
         strMantissa = str( convertFractionToBaseN( frac( number ), outputRadix,

@@ -1084,7 +1084,7 @@ listOperators = {
 # //******************************************************************************
 
 operators = {
-    'aaa'                   : OperatorInfo( lambda n: convertToSpecialBase( n, fib ), 1 ),
+    'aaa'                   : OperatorInfo( lambda n: convertToSpecialBase( n, lambda i: fib( i + 1 ) ), 1 ),
     'abs'                   : OperatorInfo( fabs, 1 ),
     'accuracy'              : OperatorInfo( lambda n: setAccuracy( fadd( n, 2 ) ), 1 ),
     'acos'                  : OperatorInfo( lambda n: performTrigOperation( n, acos ), 1 ),

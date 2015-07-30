@@ -80,7 +80,7 @@ command-line options:
         precision, i.e., number of significant digits to use
 
     -r n, --output_radix n
-        output in a different base (2 to 62, or phi)
+        output in a different base (2 to 62, fib, phi, !2 )
 
     -R n, --output_radix_numerals n
         output a list of digits, where each digit is a base-10 number

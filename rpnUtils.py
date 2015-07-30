@@ -512,7 +512,7 @@ def convertToSpecialBase( value, baseFunction, outputBaseDigits = False, numeral
     position = 1
     positionValue = baseFunction( position )
 
-    while positionValue < value:
+    while positionValue <= value:
         positionValues.append( positionValue )
 
         position += 1

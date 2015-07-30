@@ -25,6 +25,12 @@ ecm = True
 
 phiBase = -1
 fibBase = -2
+facBase = -3
+doublefacBase = -4
+squareBase = -5
+lucasBase = -6
+
+maxSpecialBase = -6
 
 # default options
 
