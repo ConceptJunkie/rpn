@@ -80,7 +80,8 @@ command-line options:
         precision, i.e., number of significant digits to use
 
     -r n, --output_radix n
-        output in a different base (2 to 62, fib, phi, !2 )
+        output in a different base (2 to 62, fib, fac, fac2, tri, sqr, lucas, primorial,
+        e, pi, phi, sqrt2 )
 
     -R n, --output_radix_numerals n
         output a list of digits, where each digit is a base-10 number
@@ -788,7 +789,7 @@ Added the 'magnetic_constant', 'electric_constant', 'rydberg_constant',
 
 Revamped factorization to be much, much faster.
 
-Added 'eulerphi' operator.
+Added 'euler_phi' operator.
 
 Added caching for factorizations.
 
