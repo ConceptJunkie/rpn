@@ -1909,6 +1909,8 @@ c:\>rpn -a60 champernowne
     'char' : [
 'conversion', 'converts the value to a signed 8-bit integer',
 '''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -2119,6 +2121,7 @@ instead of a unit circle.
     'count' : [
 'list_operators', 'counts the elements of list n',
 '''
+This simply counts the number of elements in the list.
 ''',
 '''
 c:\>rpn 1 100 range count
@@ -2270,8 +2273,21 @@ number.
     'debruijn' : [
 'combinatorics', 'generates a deBruijn sequence of n symbols and word-size k',
 '''
+A deBruijn sequence is a sequence of minimal length that contains all
+permutations of the n symbols (represented by the integers 1 to n) with a
+word size of k.
+
+In all k-sized words that contain any possible permutation of n symbols can
+be found in the sequence of symbols represented by the deBruijn sequence.
+
+In the example below, you can find every combination of the symbols 0, 1, and
+2 taken 3 at a time.  This is a smaller list than just appending all
+permutations of the 3 symbols in groups of 3 because the groups can overlap.
 ''',
 '''
+c:\>rpn 3 3 debruijn
+[ 0, 0, 0, 1, 0, 0, 2, 0, 1, 1, 0, 1, 2, 0, 2, 1, 0, 2, 2, 1, 1, 1, 2, 1, 2,
+2, 2 ]
 ''' ],
     'decagonal' : [
 'polygonal_numbers', 'calculates the nth decagonal number',
@@ -2291,6 +2307,8 @@ number.
 This constant operator is defined for convenience for use with date operators.
 ''',
 '''
+c:\>rpn [ 2016 dec 25 ] make_time
+2016-12-25 00:00:00
 ''' ],
     'decillion' : [
 'constants', 'returns the constant one decillion, i.e. 1.0e33',
@@ -2306,12 +2324,6 @@ This constant operator is defined for convenience for use with date operators.
 ''' ],
     'default' : [
 'constants', 'used with settings operators',
-'''
-''',
-'''
-''' ],
-    'degrees' : [
-'trigonometry', 'interprets n as degrees and converts to radians',
 '''
 ''',
 '''
@@ -2374,8 +2386,17 @@ c:\>rpn miles hour / furlongs fortnight / convert
     'divisors' : [
 'number_theory', 'returns a list of divisors of n',
 '''
+This operator lists all proper divisors of an integer including 1 and the
+integer itself, sorted in order of increasing size.
 ''',
 '''
+c:\>rpn 3600 divisors
+[ 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 16, 18, 20, 24, 25, 30, 36, 40, 45, 48,
+50, 60, 72, 75, 80, 90, 100, 120, 144, 150, 180, 200, 225, 240, 300, 360, 400,
+450, 600, 720, 900, 1200, 1800, 3600 ]
+
+c:\>rpn [ 2 3 5 ] prod divisors
+[ 1, 2, 3, 5, 6, 10, 15, 30 ]
 ''' ],
     'dms' : [
 'conversion', 'shortcut for \'[ degree arcminute arcsecond ] convert\'',
@@ -2443,8 +2464,14 @@ c:\>rpn 50 double_balanced_ diffs
     'double_factorial' : [
 'number_theory', 'calculates the double factorial of n',
 '''
+The name 'double factorial' is a little misleading as the definition of this
+function is that n is multiplied by every second number between it and 1.
+
+So it could sort of be thought of as a "half factorial".
 ''',
 '''
+c:\>rpn 1 10 range double_factorial
+[ 1, 2, 3, 8, 15, 48, 105, 384, 945, 3840 ]
 ''' ],
     'dst_end' : [
 'date', 'calculates the ending date for Daylight Saving Time for the year specified',
@@ -2521,8 +2548,16 @@ TODO:  explain me
     'election_day' : [
 'date', 'calculates the date of Election Day (US) for the year specified',
 '''
+In the U.S., Election Day is defined to be the first Tuesday after the first
+Monday in November.  This definition was established by the U.S. Congress in
+1845.
 ''',
 '''
+c:\>rpn 2016 election_day
+2016-11-08 00:00:00
+
+c:\>rpn 1964 election_day
+1964-11-03 00:00:00
 ''' ],
     'electric_constant' : [
 'constants', 'returns the electric constant',
@@ -2534,8 +2569,14 @@ TODO:  explain all the other names this has
     'element' : [
 'list_operators', 'returns a single element from a list',
 '''
+The index is zero-based.
 ''',
 '''
+c:\>rpn 1 10 range 5 element
+6
+
+c:\>rpn 0 1000 range 34 element
+34
 ''' ],
     'electric_constant' : [
 'constants', 'returns a electic constant',
@@ -2548,6 +2589,17 @@ TODO:  explain all the other names this has
 '''
 ''',
 '''
+c:\>rpn 0 1 equal
+0
+
+c:\>rpn 1 0 equal
+0
+
+c:\>rpn 1 1 equal
+1
+
+c:\>rpn pi 2 / 1 asin equal
+1
 ''' ],
     'estimate' : [
 'special', 'estimates the value of a measurement in common terms',
@@ -2673,7 +2725,7 @@ c:\>rpn 3 expphi 2 expphi -
 a = starting value, b = step exponent, c = size of list to generate
 
 Each successive item in the list is calculated by raising the previous item to
-the bth power.
+the bth power.  The list is expanded to contain c items.
 ''',
 '''
 c:\>rpn 2 2 10 exponential_range
@@ -2692,6 +2744,8 @@ c:\>rpn 2 2 10 exponential_range
 'factorial' calculates the product of all whole numbers from 1 to n.
 ''',
 '''
+c:\>rpn 1 10 range factorial
+[ 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800 ]
 ''' ],
     'false' : [
 'constants', 'used with boolean settings operators',
@@ -2718,8 +2772,31 @@ This constant operator is defined for convenience for use with date operators.
     'fibonacci' : [
 'number_theory', 'calculates the nth Fibonacci number',
 '''
+This sequence of numbers is created by a recurrence relation where the first
+two items defined to be 1 and 1 (or in some cases 0 and 1 which just offsets
+the indices by 1), and each successive element is the sum of the previous two.
+
+This sequence was first written about by Leonardo of Pisa (known as Fibonacci)
+in the 13th century.  The sequence has many amazing properties.
 ''',
 '''
+c:\>rpn 1 20 range fibonacci
+[ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584,
+4181, 6765 ]
+
+This shows the relationship between the Fibonacci numbers and the Lucas numbers
+
+c:\>rpn 1 30 2 range2 fib x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib x sqr 5 *
+4 + eval sqrt interleave
+[ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571,
+5778, 9349, 15127, 24476, 39603, 64079, 103682, 167761, 271443, 439204, 710647,
+1149851, 1860498 ]
+
+c:\>rpn 1 30 range lucas
+[ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571,
+5778, 9349, 15127, 24476, 39603, 64079, 103682, 167761, 271443, 439204, 710647,
+1149851, 1860498 ]
+
 ''' ],
     'fibonorial' : [
 'number_theory', 'calculates the product of the first n Fibonacci numbers',
@@ -2727,6 +2804,8 @@ This constant operator is defined for convenience for use with date operators.
 The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''',
 '''
+c:\>rpn 1 10 range fibonorial
+[ 1, 1, 1, 2, 6, 30, 240, 3120, 65520, 2227680 ]
 ''' ],
     'filter' : [
 'special', 'filters a list n using function k',
@@ -2841,8 +2920,19 @@ c:\>rpn [ 1 1 5 range range ] geometric_mean
     'geometric_range' : [
 'list_operators', 'generates a list of geometric progression of numbers',
 '''
+The list starts at a, and each successive value is multiplied by b, until the
+list contains c items.
 ''',
 '''
+c:\>rpn 1 2 10 geometric_range
+[ 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 ]
+
+The intervals of the chromatic scale:
+
+c:\>rpn 1 2 12 // 13 geometric_range
+[ 1, 1.05946309436, 1.12246204831, 1.189207115, 1.25992104989, 1.33483985417,
+1.41421356237, 1.49830707688, 1.58740105197, 1.68179283051, 1.78179743628,
+1.88774862536, 2 ]
 ''' ],
     'get_digits' : [
 'lexicographic', 'returns the list of digits comprising integer n',
@@ -2869,6 +2959,17 @@ on the digits that comprise an integer.
 '''
 ''',
 '''
+c:\>rpn 0 1 greater
+0
+
+c:\>rpn 1 0 greater
+1
+
+c:\>rpn 1 1 greater
+0
+
+c:\>rpn 3 5 ** 5 3 ** greater
+1
 ''' ],
     'group_elements' : [
 'list_operators', 'groups the elements of list n into sublsts of k elements',
@@ -3279,8 +3380,11 @@ This constant operator is defined for convenience for use with date operators.
     'labor_day' : [
 'date', 'calculates the date of Labor Day (US) for the year specified',
 '''
+In the U.S., Labor Day falls on the first Monday of September.
 ''',
 '''
+c:\>rpn 2016 labor_day
+2016-09-05 00:00:00
 ''' ],
     'lah' : [
 'combinatorics', '',
@@ -3331,6 +3435,17 @@ c:\>rpn 1 10 range 1 4 range left
 '''
 ''',
 '''
+c:\>rpn 1 0 less
+0
+
+c:\>rpn 0 1 less
+1
+
+c:\>rpn 1 1 less
+0
+
+c:\>rpn 3 5 ** 5 3 ** less
+0
 ''' ],
     'leyland' : [
 'number_theory', 'gets the Leyland number for n and k',
@@ -3394,6 +3509,11 @@ The Fibonacci sequence:
 
 c:\>rpn [ 1 1 ] [ 0 1 ] 1 18 range linear_recur
 [ 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597 ]
+
+The Lucas Sequence:
+
+c:\>rpn [ 1 1 ] [ 1 3 ] 1 17 range linear_recur
+[ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571 ]
 
 The Tribonacci sequence:
 
@@ -3468,26 +3588,33 @@ c:\>rpn 78125 5 logxy
 
 c:\>rpn e sqr e logxy
 2
-''',
-'''
 ''' ],
     'long' : [
 'conversion', 'converts the value to a signed 32-bit integer',
 '''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
     'longlong' : [
 'conversion', 'converts the value to a signed 64-bit integer',
 '''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
     'lucas' : [
 'number_theory', 'calculates the nth Lucas number',
 '''
+The Lucas sequence works just like the Fibonacci sequence, but starts with
+1 and 3, instead of 0 and 1.  It shares many properties with the Fibonacci
+sequence.
 ''',
 '''
+c:\>rpn 1 17 range lucas
+[ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571 ]
 ''' ],
     'magnetic_constant' : [
 'constants', 'returns the magnetic constant',
@@ -3539,6 +3666,8 @@ n and k cannot both be odd.
 This constant operator is defined for convenience for use with date operators.
 ''',
 '''
+c:\>rpn [ 2016 march 31 ] make_time
+2016-03-31 00:00:00
 ''' ],
     'max' : [
 'arithmetic', 'returns the largest value in list n',
@@ -3547,13 +3676,13 @@ This constant operator is defined for convenience for use with date operators.
 '''
 ''' ],
     'max_char' : [
-'conversion', 'returns the maximum 8-bit signed integer',
+'constants', 'returns the maximum 8-bit signed integer',
 '''
 ''',
 '''
 ''' ],
     'max_double' : [
-'conversion', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
+'constants', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
 '''
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
@@ -3565,7 +3694,7 @@ c:\>rpn max_double double -x
 7fef ffff ffff ffff
 ''' ],
     'max_float' : [
-'conversion', 'returns the largest value that can be represented by a 32-bit IEEE 754 float',
+'constants', 'returns the largest value that can be represented by a 32-bit IEEE 754 float',
 '''
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
@@ -3583,7 +3712,7 @@ c:\>rpn max_float float -x
 '''
 ''' ],
     'max_long' : [
-'conversion', 'returns the maximum 32-bit signed integer',
+'constants', 'returns the maximum 32-bit signed integer',
 '''
 This is the largest number that can be represented by a 32-bit signed
 integer assuming two's complement representation.
@@ -3599,7 +3728,7 @@ c:\>rpn 1970-01-01 max_long seconds +
 2038-01-19 03:14:07
 ''' ],
     'max_longlong' : [
-'conversion', 'returns the maximum 64-bit signed integer',
+'constants', 'returns the maximum 64-bit signed integer',
 '''
 This is the largest number that can be represented by a 64-bit signed
 integer assuming two's complement representation.
@@ -3620,7 +3749,7 @@ c:\>rpn -c max_longlong seconds years convert
 Not for a long while...
 ''' ],
     'max_quadlong' : [
-'conversion', 'returns the maximum 128-bit signed integer',
+'constants', 'returns the maximum 128-bit signed integer',
 '''
 This is the largest number that can be represented by a 128-bit signed
 integer assuming two's complement representation.
@@ -3628,7 +3757,7 @@ integer assuming two's complement representation.
 '''
 ''' ],
     'max_short' : [
-'conversion', 'returns the maximum 16-bit signed integer',
+'constants', 'returns the maximum 16-bit signed integer',
 '''
 This is the largest number that can be represented by a 16-bit signed
 integer assuming two's complement representation.
@@ -3636,7 +3765,7 @@ integer assuming two's complement representation.
 '''
 ''' ],
     'max_uchar' : [
-'conversion', 'returns the maximum 8-bit unsigned integer',
+'constants', 'returns the maximum 8-bit unsigned integer',
 '''
 This is the largest number that can be represented by a 16-bit unsigned
 integer.
@@ -3644,7 +3773,7 @@ integer.
 '''
 ''' ],
     'max_ulong' : [
-'conversion', 'returns the maximum 32-bit unsigned integer',
+'constants', 'returns the maximum 32-bit unsigned integer',
 '''
 This is the largest number that can be represented by a 32-bit unsigned
 integer.
@@ -3652,7 +3781,7 @@ integer.
 '''
 ''' ],
     'max_ulonglong' : [
-'conversion', 'returns the maximum 64-bit unsigned integer',
+'constants', 'returns the maximum 64-bit unsigned integer',
 '''
 This is the largest number that can be represented by a 64-bit unsigned
 integer.
@@ -3660,7 +3789,7 @@ integer.
 '''
 ''' ],
     'max_uquadlong' : [
-'conversion', 'returns the maximum 128-bit unsigned integer',
+'constants', 'returns the maximum 128-bit unsigned integer',
 '''
 This is the largest number that can be represented by a 128-bit unsigned
 integer.
@@ -3668,12 +3797,14 @@ integer.
 '''
 ''' ],
     'max_ushort' : [
-'conversion', 'returns the maximum 16-bit unsigned integer',
+'constants', 'returns the maximum 16-bit unsigned integer',
 '''
 This is the largest number that can be represented by a 16-bit unsigned
 integer.
 ''',
 '''
+c:\>rpn max_ushort
+65535
 ''' ],
     'may' : [
 'constants', 'returns 5, which is the code for May',
@@ -3681,16 +3812,28 @@ integer.
 This constant operator is defined for convenience for use with date operators.
 ''',
 '''
+c:\>rpn [ 2016 may 31 ] make_time
+2016-05-31 00:00:00
 ''' ],
     'mean' : [
 'arithmetic', 'calculates the mean of values in list n',
 '''
+This is the classic definition of 'mean', often called 'average':  the sum of
+all items divided by the number of items.
 ''',
 '''
+c:\>rpn 1 10 range mean
+5.5
+
+c:\>rpn 1 1000 range sum_digits mean
+13.501
 ''' ],
     'memorial_day' : [
 'date', 'calculates the date of Memorial Day (US) for the year specified',
 '''
+In the U.S., Memorial Day occurs on the last Monday in May.  This holiday
+is dedicated to the memorial of the men and women who gave their lives in the
+armed services.
 ''',
 '''
 ''' ],
@@ -3734,7 +3877,7 @@ Hypothesis, then the least possible value for Mills' constant (usually called
 '''
 ''' ],
     'min_char' : [
-'conversion', 'returns the minimum 8-bit signed integer',
+'constants', 'returns the minimum 8-bit signed integer',
 '''
 This is the smallest number that can be represented by an 8-bit signed
 integer assuming two's complement representation.
@@ -3750,7 +3893,7 @@ c:\>rpn max_char min_char -
 255
 ''' ],
     'min_double' : [
-'conversion', 'returns the smallest value that can be represented by a 64-bit IEEE 754 float',
+'constants', 'returns the smallest value that can be represented by a 64-bit IEEE 754 float',
 '''
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
@@ -3780,7 +3923,7 @@ c:\>rpn min_float float -x
 '''
 ''' ],
     'min_long' : [
-'conversion', 'returns the minimum 32-bit signed integer',
+'constants', 'returns the minimum 32-bit signed integer',
 '''
 This is the smallest number that can be represented by a 32-bit signed
 integer assuming two's complement representation.
@@ -3793,7 +3936,7 @@ c:\>rpn max_long min_long -
 4294967295
 ''' ],
     'min_longlong' : [
-'conversion', 'returns the minimum 64-bit signed integer',
+'constants', 'returns the minimum 64-bit signed integer',
 '''
 This is the smallest number that can be represented by a 64-bit signed
 integer assuming two's complement representation.
@@ -3806,7 +3949,7 @@ c:\>rpn max_longlong min_longlong - 1 + log2
 64
 ''' ],
     'min_quadlong' : [
-'conversion', 'returns the minimum 128-bit signed integer',
+'constants', 'returns the minimum 128-bit signed integer',
 '''
 This is the smallest number that can be represented by a 128-bit signed
 integer assuming two's complement representation.
@@ -3819,7 +3962,7 @@ c:\>rpn max_quadlong min_quadlong - 1 + log2
 128
 ''' ],
     'min_short' : [
-'conversion', 'returns the minimum 16-bit signed integer',
+'constants', 'returns the minimum 16-bit signed integer',
 '''
 This is the smallest number that can be represented by a 16-bit signed
 integer assuming two's complement representation.
@@ -3832,7 +3975,7 @@ c:\>rpn max_short min_short -
 65535
 ''' ],
     'min_uchar' : [
-'conversion', 'returns the minimum 8-bit unsigned integer',
+'constants', 'returns the minimum 8-bit unsigned integer',
 '''
 By definition, the smallest unsigned integer of any size is 0.
 ''',
@@ -3844,7 +3987,7 @@ c:\>rpn max_uchar min_uchar -
 255
 ''' ],
     'min_ulong' : [
-'conversion', 'returns the minimum 32-bit unsigned integer',
+'constants', 'returns the minimum 32-bit unsigned integer',
 '''
 By definition, the smallest unsigned integer of any size is 0.
 ''',
@@ -3856,7 +3999,7 @@ c:\>rpn max_ulong min_ulong - 1 + log2
 32
 ''' ],
     'min_ulonglong' : [
-'conversion', 'returns the minimum 64-bit unsigned integer',
+'constants', 'returns the minimum 64-bit unsigned integer',
 '''
 By definition, the smallest unsigned integer of any size is 0.
 ''',
@@ -3868,7 +4011,7 @@ c:\>rpn max_ulonglong min_ulonglong - 1 + log2
 64
 ''' ],
     'min_uquadlong' : [
-'conversion', 'returns the minimum 128-bit unsigned integer',
+'constants', 'returns the minimum 128-bit unsigned integer',
 '''
 By definition, the smallest unsigned integer of any size is 0.
 ''',
@@ -3880,7 +4023,7 @@ c:\>rpn max_uquadlong min_uquadlong - 1 + log2
 128
 ''' ],
     'min_ushort' : [
-'conversion', 'returns the minimum 16-bit unsigned integer',
+'constants', 'returns the minimum 16-bit unsigned integer',
 '''
 By definition, the smallest unsigned integer of any size is 0.
 ''',
@@ -3925,6 +4068,17 @@ same as the 'factorial' operator and the 2-multifactorial function is the
 same as the 'doublefac' operator.
 ''',
 '''
+c:\>rpn 1 20 range 3 multifactorial
+[ 1, 2, 3, 4, 10, 18, 28, 80, 162, 280, 880, 1944, 3640, 12320, 29160, 58240,
+209440, 524880, 1106560, 4188800 ]
+
+c:\>rpn 1 20 range 4 multifactorial
+[ 1, 2, 3, 4, 5, 12, 21, 32, 45, 120, 231, 384, 585, 1680, 3465, 6144, 9945,
+30240, 65835, 122880 ]
+
+c:\>rpn 1 20 range 5 multifactorial
+[ 1, 2, 3, 4, 5, 6, 14, 24, 36, 50, 66, 168, 312, 504, 750, 1056, 2856, 5616,
+9576, 15000 ]
 ''' ],
     'multiply' : [
 'arithmetic', 'multiplies n by k',
@@ -4151,18 +4305,50 @@ c:\>rpn -x [ 0 1 ] not
 '''
 ''',
 '''
+c:\>rpn 0 1 not_equal
+1
+
+c:\>rpn 1 0 not_equal
+1
+
+c:\>rpn 1 1 not_equal
+0
 ''' ],
     'not_greater' : [
 'arithmetic', 'returns 1 if n is not greater than k, otherwise returns 0',
 '''
+'not_greater' is the equivalent of "less than or equal".
 ''',
 '''
+c:\>rpn 0 1 not_greater
+1
+
+c:\>rpn 1 0 not_greater
+0
+
+c:\>rpn 1 1 not_greater
+1
+
+c:\>rpn 3 5 ** 5 3 ** not_greater
+0
 ''' ],
     'not_less' : [
 'arithmetic', 'returns 1 if n is not less than k, otherwise returns 0',
 '''
+'not_less' is the equivalent of "greater than or equal".
 ''',
 '''
+c:\>rpn 0 1 not_less
+0
+
+c:\>rpn 1 0 not_less
+1
+
+c:\>rpn 1 1 not_less
+1
+
+c:\>rpn 3 5 ** 5 3 ** not_less
+1
 ''' ],
     'november' : [
 'constants', 'returns 11, which is the code for November',
@@ -4849,12 +5035,6 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'radians' : [
-'trigonometry', 'interprets n as radians and converts to degrees',
-'''
-''',
-'''
-''' ],
     'radiation_constant' : [
 'constants', 'returns the Radiation Constant',
 '''
@@ -4908,6 +5088,7 @@ You will see a duplicate approximately 50% of the time.
     'ratios' : [
 'list_operators', 'returns a list with the ratios between successive elements of list n',
 '''
+This operator is analogous to the 'diffs' operator.
 ''',
 '''
 ''' ],
@@ -5208,6 +5389,8 @@ distributed with data files calculated through the first billion primes.
     'short' : [
 'conversion', 'converts the value to a signed 16-bit integer',
 '''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -5828,6 +6011,8 @@ distributed with data files calculated through the first billion primes.
     'uchar' : [
 'conversion', 'converts the value to an unsigned 8-bit integer',
 '''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -5840,12 +6025,16 @@ distributed with data files calculated through the first billion primes.
     'ulong' : [
 'conversion', 'converts the value to an unsigned 32-bit integer',
 '''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
     'ulonglong' : [
 'conversion', 'converts the value to an unsigned 64-bit integer',
 '''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -5914,6 +6103,8 @@ c:\>rpn 2 3 make_pyth_3 unlist triangle_area
     'ushort' : [
 'conversion', 'converts the value to an unsigned 16-bit integer',
 '''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -6060,6 +6251,10 @@ c:\>rpn 0 20 range fib is_prime zero fib
     '_dump_aliases' : [
 'internal', 'dumps the list of aliases for operators',
 '''
+rpn maintains a list of aliases for operators and units.  As of 6.5.0, there
+are almost 7000 aliases.  A lot of these are automatically generated for
+metric unit types and certain compound units.  The rest are defined as manually
+defined aliases for units and operator names.
 ''',
 '''
 ''' ],
