@@ -165,6 +165,8 @@ operatorAliases = {
     'alt_fac'           : 'alternating_factorial',
     'alt_sign'          : 'alternate_signs',
     'alt_sign2'         : 'alternate_signs_2',
+    'altsum'            : 'alternating_sum',
+    'altsum2'           : 'alternating_sum_2',
     'aperynum'          : 'nth_apery',
     'apr'               : 'april',
     'arccosecant'       : 'acsc',
