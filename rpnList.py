@@ -466,6 +466,23 @@ def getReverse( args ):
 
 # //******************************************************************************
 # //
+# //  shuffleList
+# //
+# //******************************************************************************
+
+def shuffleList( args ):
+    if isinstance( args[ 0 ], list ):
+        for i in range( 0, len( args ) ):
+            result.append( shuffleList( args[ i ] ) )
+    else:
+        result = args[ : ]
+        random.shuffle( result )
+
+        return result
+
+
+# //******************************************************************************
+# //
 # //  getUniqueElements
 # //
 # //******************************************************************************
@@ -476,7 +493,6 @@ def getUniqueElements( args ):
     if isinstance( args[ 0 ], list ):
         for i in range( 0, len( args ) ):
             result.append( getUniqueElements( args[ i ] ) )
-
     else:
         seen = set( )
 
@@ -850,4 +866,30 @@ def groupElements( args, count ):
     else:
         return [ args ]
 
+
+# //******************************************************************************
+# //
+# //  getOccurrences
+# //
+# //******************************************************************************
+
+def getOccurrences( args ):
+    if isinstance( args, list ):
+        if isinstance( args[ 0 ], list ):
+            return [ getOccurrences( arg ) for arg in args ]
+        else:
+            counter = collections.Counter( )
+
+            for i in args:
+                counter[ i ] += 1
+
+            result = [ ]
+
+            for i in counter:
+                result.append( [ i, counter[ i ] ] )
+
+            return sorted( result )
+
+    else:
+        return [ [ args, 1 ] ]
 

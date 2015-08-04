@@ -809,6 +809,8 @@ Added 'crt' operator.
 
 6.5.0
 
+Added the 'shuffle' operator.
+
 Added the 'multifactorial' operator.
 
 Added support for a lot of new bases for output, including factorial,
@@ -2824,6 +2826,8 @@ c:\>rpn -p80 1 80 range fib x is_prime filter
 '''
 ''',
 '''
+c:\>rpn -a30 10911 55 find_palindrome
+[ 55, 4668731596684224866951378664 ]
 ''' ],
     'find_poly' : [
 'algebra', 'finds a polynomial for which n is a zero',
@@ -4438,6 +4442,24 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''' ],
+    'occurrences' : [
+'list_operators', 'returns the number of occurrences of each value in a list',
+'''
+The result is a list of lists, where each sublist contains a value and a
+count.  The result will be sorted by values.
+''',
+'''
+c:\>rpn 1 10 range occurrences
+[ [ 1, 1 ], [ 2, 1 ], [ 3, 1 ], [ 4, 1 ], [ 5, 1 ], [ 6, 1 ], [ 7, 1 ],
+[ 8, 1 ], [ 9, 1 ], [ 10, 1 ] ]
+
+c:\>rpn 10 100 random_integer_ occurrences
+[ [ 0, 9 ], [ 1, 8 ], [ 2, 6 ], [ 3, 10 ], [ 4, 12 ], [ 5, 11 ], [ 6, 7 ],
+[ 7, 13 ], [ 8, 12 ], [ 9, 12 ] ]
+
+c:\>rpn 5 6 debruijn occurrences
+[ [ 0, 3125 ], [ 1, 3125 ], [ 2, 3125 ], [ 3, 3125 ], [ 4, 3125 ] ]
+''' ],
     'octagonal' : [
 'polygonal_numbers', 'calculates the nth octagonal number',
 '''
@@ -5387,6 +5409,12 @@ distributed with data files calculated through the first billion primes.
 'conversion', 'converts the value to a signed 16-bit integer',
 '''
 This operator is useful for determining the behavior for C and C++.
+''',
+'''
+''' ],
+    'shuffle' : [
+'list_operators', 'randomly shuffles the elements in a list',
+'''
 ''',
 '''
 ''' ],
