@@ -978,15 +978,22 @@ sideEffectOperators = [
 
 # //******************************************************************************
 # //
-# //  modifiers are operators that directly modify the argument stack or global
+# //  Modifiers are operators that directly modify the argument stack or global
 # //  state in addition to or instead of just returning a value.
+# //
+# //  Modifiers also don't adhere to the 'language' of rpn, which is strictly
+# //  postfix and context-free.  Unlike other operators consume one or more
+# //  values and return either a single list (possibly with sublists) or a single
+# //  value.  Also by changing global state, they can modify what comes _after_
+# //  them, which is not how the rpn language is defined.  However, this gives me
+# //  the flexibility to do some useful things that I am not otherwise able to
+# //  do.
 # //
 # //******************************************************************************
 
 modifiers = {
-    'dup'               : OperatorInfo( duplicateTerm, 2 ),
+    'dup_term'          : OperatorInfo( duplicateTerm, 2 ),
     'dup_operator'      : OperatorInfo( duplicateOperation, 1 ),
-    'flatten'           : OperatorInfo( flatten, 1 ),
     'previous'          : OperatorInfo( getPrevious, 1 ),
     'unlist'            : OperatorInfo( unlist, 1 ),
     'x'                 : OperatorInfo( createXFunction, 0 ),
@@ -1025,6 +1032,7 @@ listOperators = {
     'element'           : OperatorInfo( getListElement, 2 ),
     'eval_poly'         : OperatorInfo( evaluatePolynomial, 2 ),
     'filter'            : OperatorInfo( filterList, 2 ),
+    'flatten'           : OperatorInfo( flatten, 1 ),
     'frobenius'         : OperatorInfo( getFrobeniusNumber, 1 ),
     'gcd'               : OperatorInfo( getGCD, 1 ),
     'geometric_mean'    : OperatorInfo( calculateGeometricMean, 1 ),
@@ -1503,7 +1511,6 @@ operators = {
     'undouble'              : OperatorInfo( interpretAsDouble, 1 ),
     'unfloat'               : OperatorInfo( interpretAsFloat, 1 ),
     'unit_roots'            : OperatorInfo( lambda n: unitroots( int( n ) ), 1 ),
-    'unlist'                : OperatorInfo( unlist, 1 ),
     'ushort'                : OperatorInfo( lambda n: int( fmod( n, power( 2, 16 ) ) ), 1 ),
     'value'                 : OperatorInfo( lambda n: mpf( n ), 1 ),
     'wednesday'             : OperatorInfo( lambda: 3, 0 ),

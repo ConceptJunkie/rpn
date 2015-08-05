@@ -41,8 +41,7 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
 helpTopics = {
     'options' :
-    'rpn ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE +
-    '\n\n' +
+    'rpn ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' +
     '''
 command-line options:
 
@@ -57,12 +56,10 @@ command-line options:
         add commas to result, e.g., 1,234,567.0
 
     -d [n], --decimal_grouping [n] -
-        display decimal places separated into groups (default: ''' +
-        str( g.defaultDecimalGrouping ) + ')' + '''
+        display decimal places separated into groups (default: ''' + str( g.defaultDecimalGrouping ) + ')' + '''
 
     -g [n], --integer_grouping [n]
-        display integer separated into groups (default: ''' +
-        str( g.defaultIntegerGrouping ) + ')' + '''
+        display integer separated into groups (default: ''' + str( g.defaultIntegerGrouping ) + ')' + '''
 
     -h, --help -
         displays basic help information
@@ -83,8 +80,8 @@ command-line options:
         precision, i.e., number of significant digits to use
 
     -r n, --output_radix n
-        output in a different base (2 to 62, fib, fac, fac2, tri, sqr, lucas,
-        primorial, e, pi, phi, sqrt2 )
+        output in a different base (2 to 62, fib, fac, fac2, tri, sqr, lucas, primorial,
+        e, pi, phi, sqrt2 )
 
     -R n, --output_radix_numerals n
         output a list of digits, where each digit is a base-10 number
@@ -93,8 +90,7 @@ command-line options:
         display calculation time
 
     -w [n], --bitwise_group_size [n]
-        bitwise operations group values by this size (default: ''' +
-        str( g.defaultBitwiseGroupSize ) + ')' + '''
+        bitwise operations group values by this size (default: ''' + str( g.defaultBitwiseGroupSize ) + ')' + '''
 
     -x, --hex
         hex mode: equivalent to '-r16 -w16 -i4 -z'
@@ -219,23 +215,23 @@ For now, here are some examples:
         c:\>rpn 2014-09-02
         2014-09-02 00:00:00
 
-    'make_time' operator:
-        c:\>rpn [ 2014 ] make_time
+    'maketime' operator:
+        c:\>rpn [ 2014 ] maketime
         2014-01-01 00:00:00
 
-        c:\>rpn [ 2014 9 ] make_time
+        c:\>rpn [ 2014 9 ] maketime
         2014-09-01 00:00:00
 
-        c:\>rpn [ 2014 9 2 ] make_time
+        c:\>rpn [ 2014 9 2 ] maketime
         2014-09-02 00:00:00
 
-        c:\>rpn [ 2014 9 2 13 ] make_time
+        c:\>rpn [ 2014 9 2 13 ] maketime
         2014-09-02 13:00:00
 
-        c:\>rpn [ 2014 9 2 13 36 ] make_time
+        c:\>rpn [ 2014 9 2 13 36 ] maketime
         2014-09 02 13:36:00
 
-        c:\>rpn [ 2014 9 2 13 36 28 ] make_time
+        c:\>rpn [ 2014 9 2 13 36 28 ] maketime
         2014-09-02 13:36:28
 
     How many days old am I?
@@ -287,7 +283,7 @@ For now, here are some examples:
     '''
 This feature allows the user to define a function for use with the eval, nsum,
 nprod, limit and limitn operators, etc.  Basically 'x' starts an expression
-that becomes a function.  Right now (6.5.0), a user-defined function must
+that becomes a function.  Right now (5.28.0), a user-defined function must
 start with 'x', but I hope to remove that limitation soon.
 
 Some examples:
@@ -587,13 +583,13 @@ but they are pretty self-explanatory.
 
 The long-awaited absolute time feature:  rpn can now handle absolute time
 values.  For input, just use ISO 8601 format, or a reasonable subset thereof.
-There is also the 'make_time' operator, which takes a list similar to the old
+There is also the 'maketime' operator, which takes a list similar to the old
 'tounixtime' operator.
 
 5.21.1
 
-Added percent operator, 'weekday' now throws a proper error is the operand
-isn't a time value.
+Added percent operator, weekday now throws a proper error is the operand isn't
+a time value.
 
 5.21.2
 
@@ -616,9 +612,8 @@ There are now some examples of absolute time handling.
 
 5.24.0
 
-A few more bug fixes, plus new calendar-related operators:  easter,
-election_day, labor_day, memorial_day, nth_weekday, presidents_day,
-thanksgiving
+A few more bug fixes, plus new calendar-related operators:  easter.
+election_day, labor_day, memorial_day, nthday, presidents_day, thanksgiving
 
 5.25.0
 
@@ -725,7 +720,7 @@ for the integral part of the number (up to 1000 digits).
 
 6.1.0
 
-New operators:  'max_double', 'max_float', 'min_double', 'min_float'
+New operators:  'maxdouble', 'maxfloat', 'mindouble', 'minfloat'
 
 Base conversion for output is no longer limited to 1000 digits.  There's no
 reason to do that.
@@ -975,6 +970,8 @@ Calculations with lists:
         c:\>rpn [ 1 1 ] 1 1 10 range linear_recur
         [ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 ]
 
+
+
 Calculations with absolute time:
 
     operators:
@@ -994,23 +991,23 @@ Calculations with absolute time:
         c:\>rpn 2014-09-02
         2014-09-02 00:00:00
 
-    'make_time' operator:
-        c:\>rpn [ 2014 ] make_time
+    'maketime' operator:
+        c:\>rpn [ 2014 ] maketime
         2014-01-01 00:00:00
 
-        c:\>rpn [ 2014 9 ] make_time
+        c:\>rpn [ 2014 9 ] maketime
         2014-09-01 00:00:00
 
-        c:\>rpn [ 2014 9 2 ] make_time
+        c:\>rpn [ 2014 9 2 ] maketime
         2014-09-02 00:00:00
 
-        c:\>rpn [ 2014 9 2 13 ] make_time
+        c:\>rpn [ 2014 9 2 13 ] maketime
         2014-09-02 13:00:00
 
-        c:\>rpn [ 2014 9 2 13 36 ] make_time
+        c:\>rpn [ 2014 9 2 13 36 ] maketime
         2014-09 02 13:36:00
 
-        c:\>rpn [ 2014 9 2 13 36 28 ] make_time
+        c:\>rpn [ 2014 9 2 13 36 28 ] maketime
         2014-09-02 13:36:28
 
     How many days old am I?
@@ -1165,11 +1162,11 @@ Calculation (or approximation) of various mathematical constants:
         = rpn -a20 1 2 / atan
 
     Beta( 3 )
-        = rpn -a17 1 1000000 2 range2 3 power 1/x alternating_sum
+        = rpn -a17 1 1000000 2 range2 3 power 1/x altsum
         = rpn -a17 pi 3 power 32 /
 
     Cahen's constant
-        = rpn -a20 1 20 range sylvester 1 - 1/x alternating_sum
+        = rpn -a20 1 20 range sylvester 1 - 1/x altsum
 
     Lemniscate Constant
         = rpn 4 2 pi / sqrt * 0.25 ! sqr *
@@ -1180,10 +1177,10 @@ Calculation (or approximation) of various mathematical constants:
         = rpn -a20 e sqrt
 
     1/e
-        = rpn -a20 0 25 range fac 1/x alternating_sum
+        = rpn -a20 0 25 range fac 1/x altsum
         = rpn -a20 e 1/x
 
-    Zeta( 6 )
+    Zeta( 6 )           goobles - look into this!
         = rpn -a20 -p30 1 1 1000 primes -6 power - 1/x prod
         = rpn -a20 pi 6 power 945 /
         = rpn -a20 6 zeta
@@ -1530,6 +1527,9 @@ c:\>rpn [ 1 2 3 4 5 6 ] 5 add
 c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 10 10 10 ] add
 [ 11, 12, 13, 14, 15, 16 ]
 
+c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
+[ 11, 12, 13 ]
+
 c:\>rpn 1 mile 1 km +
 1.621371192237 miles
 ''' ],
@@ -1662,7 +1662,7 @@ This constant operator is defined for convenience for use with date operators.
 c:\>rpn april
 4
 
-c:\>rpn 2015 april 3 tuesday nth_weekday
+c:\>rpn 2015 april 3 tuesday nthweekday
 2015-04-21 00:00:00
 ''' ],
     'argument' : [
@@ -1769,7 +1769,7 @@ This constant operator is defined for convenience for use with date operators.
 c:\>rpn august
 8
 
-c:\>rpn 2015 august 4 tuesday nth_weekday
+c:\>rpn 2015 august 4 tuesday nthweekday
 2015-08-25 00:00:00
 ''' ],
     'avogadro' : [
@@ -1911,7 +1911,8 @@ c:\>rpn -a60 champernowne
     'char' : [
 'conversion', 'converts the value to a signed 8-bit integer',
 '''
-This operator is useful for determining the behavior for C and C++.
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -2486,7 +2487,7 @@ c:\>rpn 1 10 range double_factorial
 ''',
 '''
 ''' ],
-    'dup' : [
+    'dup_term' : [
 'modifiers', 'duplicates an argument n k times',
 '''
 This function duplicates terms, but requires the bracket operators to make the
@@ -3595,14 +3596,16 @@ c:\>rpn e sqr e logxy
     'long' : [
 'conversion', 'converts the value to a signed 32-bit integer',
 '''
-This operator is useful for determining the behavior for C and C++.
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
     'longlong' : [
 'conversion', 'converts the value to a signed 64-bit integer',
 '''
-This operator is useful for determining the behavior for C and C++.
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -5408,7 +5411,8 @@ distributed with data files calculated through the first billion primes.
     'short' : [
 'conversion', 'converts the value to a signed 16-bit integer',
 '''
-This operator is useful for determining the behavior for C and C++.
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -6035,7 +6039,8 @@ distributed with data files calculated through the first billion primes.
     'uchar' : [
 'conversion', 'converts the value to an unsigned 8-bit integer',
 '''
-This operator is useful for determining the behavior for C and C++.
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -6048,14 +6053,16 @@ This operator is useful for determining the behavior for C and C++.
     'ulong' : [
 'conversion', 'converts the value to an unsigned 32-bit integer',
 '''
-This operator is useful for determining the behavior for C and C++.
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
     'ulonglong' : [
 'conversion', 'converts the value to an unsigned 64-bit integer',
 '''
-This operator is useful for determining the behavior for C and C++.
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -6084,7 +6091,7 @@ c:\>rpn 0x40490fdb unfloat
 3.14159274101
 ''' ],
     'unlist' : [
-'list_operators', 'expands a list into separate arguments',
+'modifiers', 'expands a list into separate arguments',
 '''
 ''',
 '''
@@ -6124,7 +6131,8 @@ c:\>rpn 2 3 make_pyth_3 unlist triangle_area
     'ushort' : [
 'conversion', 'converts the value to an unsigned 16-bit integer',
 '''
-This operator is useful for determining the behavior for C and C++.
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -6145,7 +6153,7 @@ c:\>rpn 1000 light-years value
 This constant operator is defined for convenience for use with date operators.
 ''',
 '''
-c:\>rpn 2015 august 4 wednesday nth_weekday
+c:\>rpn 2015 august 4 wednesday nthweekday
 2015-08-26 00:00:00
 ''' ],
     'weekday' : [

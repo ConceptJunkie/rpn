@@ -12,6 +12,35 @@
 # //
 # //******************************************************************************
 
+
+# http://oeis.org/A000001
+#
+# From Mitch Harris, Oct 25 2006: (Start)
+# For p, q, r primes:
+# a(p) = 1, a(p^2) = 2, a(p^3) = 5, a(p^4) = 14, if p = 2, otherwise 15.
+# a(p^5) = 61 + 2p + 2gcd(p-1,3) + gcd(p-1,4), p>=5, a(2^5)=51, a(3^5)=67.
+# a(p^e) ~ p^((2/27)e^3 + O(e^(8/3)))
+# a(pq) = 1 if gcd(p,q-1) = 1, 2 if gcd(p,q-1) = p. (p < q)
+# a(pq^2) = one of the following:
+# * 5, p=2, q odd,
+# * (p+9)/2, q=1 mod p, p odd,
+# * 5, p=3, q=2,
+# * 3, q = -1 mod p, p and q odd.
+# * 4, p=1 mod q, p > 3, p != 1 mod q^2
+# * 5, p=1 mod q^2
+# * 2, q != +/-1 mod p and p != 1 mod q,
+# a(pqr) (p < q < r) = one of the following:
+# * q==1 mod p r==1 mod p r==1 mod q a(pqr)
+# * No..........No..........No..........1
+# * No..........No..........Yes.........2
+# * No..........Yes.........No..........2
+# * No..........Yes.........Yes.........4
+# * Yes.........No..........No..........2
+# * Yes.........No..........Yes.........3
+# * Yes.........Yes.........No..........p+2
+# * Yes.........Yes.........Yes.........p+4 (table from Derek Holt) (End)
+
+
 import itertools
 
 from mpmath import *

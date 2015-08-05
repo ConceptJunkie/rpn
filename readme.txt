@@ -10,11 +10,23 @@ units program.
 
 ****
 
+UPDATE - August 5, 2015
+
+I am working on creating a wheel for rpn, and I'm hoping I can also make it
+Python 2 compatible before cutting another release.  The biggest roadblock is
+just getting some round tuits instead of adding in new operators, which is much
+more fun.
+
+Another cool update:  rpn can now be run on Android with the Termux app
+(http://termux.com/)!  Right now, it fails a unit test having to do with date
+formatting, which I haven't gotten around to investigating, but otherwise it
+works great.  Where else can you factor a 50-digit number on your Android
+device?
+
 The current release is 6.4.0.
 
 rpn is a console app and can be launched from the command-line.  However,
 there is now an "interactive mode" and an icon to launch rpn for Windows users.
-
 
 Running RPN using the Windows installer:
 
