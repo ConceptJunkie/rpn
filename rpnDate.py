@@ -566,6 +566,9 @@ def makeISOTime( n ):
 # //******************************************************************************
 
 def makeTime( n ):
+    if isinstance( n, str ):
+        return RPNDateTime.get( n )
+
     if len( n ) == 1:
         n.append( 1 )
 
