@@ -94,13 +94,13 @@ def invertUnits( measurement ):
 # //******************************************************************************
 
 class Measurement( mpf ):
-    def __new__( cls, value, units=None, unitName=None, pluralUnitName=None ):
+    def __new__( cls, value, units = None, unitName = None, pluralUnitName = None ):
         if isinstance( value, list ):
             raise ValueError( 'cannot use a list for the value of a measurement' )
 
         return mpf.__new__( cls, value )
 
-    def __init__( self, value, units=None, unitName=None, pluralUnitName=None ):
+    def __init__( self, value, units = None, unitName = None, pluralUnitName = None ):
         mpf.__init__( value )
         self.units = Units( units )
         self.unitName = unitName
@@ -121,12 +121,12 @@ class Measurement( mpf ):
         return 'Measurement(' + str( mpf( self ) ) + ', { ' + \
                ', '.join( [ '(\'' + name + '\', ' + str( self.units[ name ] ) + ')' for name in self.units ] ) + ' })'
 
-    def increment( self, value, amount=1 ):
+    def increment( self, value, amount = 1 ):
         self.unitName = None
         self.pluralUnitName = None
         self.units[ value ] += amount
 
-    def decrement( self, value, amount=1 ):
+    def decrement( self, value, amount = 1 ):
         self.unitName = None
         self.pluralUnitName = None
         self.units[ value ] = -amount
@@ -572,7 +572,7 @@ def estimate( measurement ):
 
             return 'approximately ' + nstr( multiple, 3 ) + ' times ' + \
                    unitTypeInfo.estimateTable[ estimateKey ]
-    elif isinstance( measurement, arrow.Arrow ):
+    elif isinstance( measurement, RPNDateTime ):
         return measurement.humanize( )
     else:
         raise TypeError( 'incompatible type for estimating' )

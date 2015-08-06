@@ -31,6 +31,7 @@ import textwrap
 
 from mpmath import *
 
+from rpnDate import RPNDateTime
 from rpnDeclarations import PROGRAM_NAME, PROGRAM_DESCRIPTION
 from rpnMeasurement import *
 from rpnPolytope import getNthPolygonalNumber
@@ -92,7 +93,7 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping,  ):
                                                    int( mp.dps / math.log10( outputRadix ) ),
                                                    g.outputBaseDigits ) )
     else:
-        strNumber = nstr( number, n=g.outputAccuracy )
+        strNumber = nstr( number, n = g.outputAccuracy )
 
         if '.' in strNumber:
             decimal = strNumber.find( '.' )
@@ -228,7 +229,7 @@ def formatListOutput( result, level = 0 ):
         if isinstance( item, list ):
             resultString += formatListOutput( item, level + 1 )
         else:
-            if isinstance( item, arrow.Arrow ):
+            if isinstance( item, RPNDateTime ):
                 resultString += formatDateTime( item )
             elif isinstance( item, Measurement ):
                 itemString = nstr( item.getValue( ) )
@@ -345,7 +346,13 @@ def formatUnits( measurement ):
 # //******************************************************************************
 
 def formatDateTime( datetime ):
-    return datetime.format( 'YYYY-MM-DD HH:mm:ss' )
+    if not isinstance( datetime, RPNDateTime ):
+        raise ValueError( 'expected RPNDateTime' )
+
+    if datetime.getDateOnly( ):
+        return datetime.format( 'YYYY-MM-DD' )
+    else:
+        return datetime.format( 'YYYY-MM-DD HH:mm:ss' )
 
 
 # //******************************************************************************
@@ -354,7 +361,7 @@ def formatDateTime( datetime ):
 # //
 # //******************************************************************************
 
-def printParagraph( text, indent=0 ):
+def printParagraph( text, indent = 0 ):
     lines = textwrap.wrap( text, g.lineLength - ( indent + 1 ) )
 
     for line in lines:
@@ -369,15 +376,15 @@ def printParagraph( text, indent=0 ):
 
 def printOperatorHelp( term, operatorInfo, operatorHelp ):
     if operatorInfo.argCount == 1:
-        print( 'n ', end='' )
+        print( 'n ', end = '' )
     elif operatorInfo.argCount == 2:
-        print( 'n k ', end='' )
+        print( 'n k ', end = '' )
     elif operatorInfo.argCount == 3:
-        print( 'a b c ', end='' )
+        print( 'a b c ', end = '' )
     elif operatorInfo.argCount == 4:
-        print( 'a b c d ', end='' )
+        print( 'a b c d ', end = '' )
     elif operatorInfo.argCount == 5:
-        print( 'a b c d e ', end='' )
+        print( 'a b c d e ', end = '' )
 
     aliasList = [ key for key in g.operatorAliases if term == g.operatorAliases[ key ] ]
 

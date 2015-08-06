@@ -29,9 +29,9 @@ from rpnMeasurement import *
 # //******************************************************************************
 
 def add( n, k ):
-    if isinstance( n, arrow.Arrow ) and isinstance( k, Measurement ):
+    if isinstance( n, RPNDateTime ) and isinstance( k, Measurement ):
         return addTimes( n, k )
-    elif isinstance( n, Measurement ) and isinstance( k, arrow.Arrow ):
+    elif isinstance( n, Measurement ) and isinstance( k, RPNDateTime ):
         return addTimes( k, n )
     elif isinstance( n, Measurement ):
         return n.add( k )
@@ -51,10 +51,10 @@ def add( n, k ):
 # //******************************************************************************
 
 def subtract( n, k ):
-    if isinstance( n, arrow.Arrow ):
+    if isinstance( n, RPNDateTime ):
         return subtractTimes( n, k )
     elif isinstance( n, Measurement ):
-        if isinstance( k, arrow.Arrow ):
+        if isinstance( k, RPNDateTime ):
             return subtractTimes( k, n )
         else:
             return n.subtract( k )

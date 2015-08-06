@@ -22,6 +22,26 @@ from rpnUtils import *
 
 # //******************************************************************************
 # //
+# //  class RPNDateTime
+# //
+# //******************************************************************************
+
+class RPNDateTime( arrow.Arrow ):
+    def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
+                  microsecond = 0, tzinfo = None, dateOnly = False ):
+        self.dateOnly = dateOnly
+        super( RPNDateTime, self ).__init__( year, month, day, hour, minute, second,
+                                             microsecond, tzinfo )
+
+    def setDateOnly( self, dateOnly = True ):
+        self.dateOnly = dateOnly
+
+    def getDateOnly( self ):
+        return self.dateOnly
+
+
+# //******************************************************************************
+# //
 # //  incrementMonths
 # //
 # //******************************************************************************
@@ -40,7 +60,7 @@ def incrementMonths( n, months ):
     if newDay > maxDay:
         newDay = maxDay
 
-    return arrow.Arrow( newYear, newMonth, newDay, n.hour, n.minute, n.second )
+    return RPNDateTime( newYear, newMonth, newDay, n.hour, n.minute, n.second )
 
 
 # //******************************************************************************
@@ -54,7 +74,7 @@ def incrementMonths( n, months ):
 def addTimes( n, k ):
     if 'years' in g.unitOperators[ k.getUnitString( ) ].categories:
         years = convertUnits( k, 'year' ).getValue( )
-        return n.replace( year=n.year + years )
+        return n.replace( year = n.year + years )
     elif 'months' in g.unitOperators[ k.getUnitString( ) ].categories:
         months = convertUnits( k, 'month' ).getValue( )
         result = incrementMonths( n, months )
@@ -65,7 +85,7 @@ def addTimes( n, k ):
         microseconds = int( fmod( floor( convertUnits( k, 'microsecond' ).getValue( ) ), 1000000 ) )
 
         try:
-            return n + datetime.timedelta( days=days, seconds=seconds, microseconds=microseconds )
+            return n + datetime.timedelta( days = days, seconds = seconds, microseconds = microseconds )
         except OverflowError:
             print( 'rpn:  value is out of range to be converted into a time' )
             return 0
@@ -83,7 +103,7 @@ def subtractTimes( n, k ):
     if isinstance( k, Measurement ):
         kneg = Measurement( fneg( k.getValue( ) ), k.getUnits( ) )
         return addTimes( n, kneg )
-    elif isinstance( k, arrow.Arrow ):
+    elif isinstance( k, RPNDateTime ):
         if n > k:
             delta = n - k
             factor = 1
@@ -113,7 +133,7 @@ def subtractTimes( n, k ):
 # //******************************************************************************
 
 def getNow( ):
-    return arrow.now( )
+    return RPNDateTime.now( )
 
 
 # //******************************************************************************
@@ -124,7 +144,7 @@ def getNow( ):
 
 def getToday( ):
     now = datetime.datetime.now( )
-    return arrow.Arrow( now.year, now.month, now.day )
+    return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
 
 
 # //******************************************************************************
@@ -136,7 +156,7 @@ def getToday( ):
 # //******************************************************************************
 
 def calculateEaster( year ):
-    if isinstance( year, arrow.Arrow ):
+    if isinstance( year, RPNDateTime ):
         year = year.year
     else:
         year = int( year )
@@ -150,7 +170,7 @@ def calculateEaster( year ):
     month = f // 31
     day = f % 31 + 1
 
-    return arrow.Arrow( year, month, day )
+    return RPNDateTime( year, month, day, dateOnly = True )
 
 
 # //******************************************************************************
@@ -182,7 +202,7 @@ def getLastDayOfMonth( year, month ):
 # //******************************************************************************
 
 def getJulianDay( n ):
-    if not isinstance( n, arrow.Arrow ):
+    if not isinstance( n, RPNDateTime ):
         raise ValueError( 'a time type required for this operator' )
 
     return n.timetuple( ).tm_yday
@@ -207,22 +227,22 @@ def getJulianWeekFromDate( date ):
 # //******************************************************************************
 
 def calculateNthWeekdayOfYear( year, nth, weekday ):
-    if isinstance( year, arrow.Arrow ):
+    if isinstance( year, RPNDateTime ):
         year = year.year
     else:
         year = int( year )
 
     if nth > 0:
-        firstDay = arrow.Arrow( year, 1, 1 )
+        firstDay = RPNDateTime( year, 1, 1 )
 
         firstWeekDay = weekday - firstDay.isoweekday( ) + 1
 
         if firstWeekDay < 1:
             firstWeekDay += 7
 
-        return addTimes( arrow.Arrow( year, 1, firstWeekDay ), Measurement( nth - 1, 'week' ) )
+        return addTimes( RPNDateTime( arrow.Arrow( year, 1, firstWeekDay ), Measurement( nth - 1, 'week' ) ) )
     elif nth < 0:
-        lastDay = arrow.Arrow( year, 12, 31 )
+        lastDay = RPNDateTime( year, 12, 31 )
 
         lastWeekDay = weekday - lastDay.isoweekday( )
 
@@ -231,7 +251,8 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
 
         lastWeekDay += 31
 
-        return addTimes( arrow.Arrow( year, 12, lastWeekDay ), Measurement( ( nth + 1 ), 'week' ) )
+        return addTimes( RPNDateTime( year, 12, lastWeekDay, dateOnly = True ),
+                         Measurement( ( nth + 1 ), 'week' ) )
 
 
 # //******************************************************************************
@@ -247,7 +268,7 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
     if weekday > 7 or weekday < 1:
         raise ValueError( 'day of week must be 1 - 7 (Monday to Sunday)' )
 
-    if isinstance( year, arrow.Arrow ):
+    if isinstance( year, RPNDateTime ):
         year = year.year
     else:
         year = int( year )
@@ -267,7 +288,7 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
         if weekday >= firstDayOfWeek:
             day -= 7
 
-    return arrow.Arrow( year, month, day )
+    return RPNDateTime( year, month, day, dateOnly = True )
 
 
 # //******************************************************************************
@@ -279,7 +300,7 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
 # //******************************************************************************
 
 def calculateThanksgiving( year ):
-    if isinstance( year, arrow.Arrow ):
+    if isinstance( year, RPNDateTime ):
         year = year.year
     else:
         year = int( year )
@@ -296,7 +317,7 @@ def calculateThanksgiving( year ):
 # //******************************************************************************
 
 def calculateLaborDay( year ):
-    if isinstance( year, arrow.Arrow ):
+    if isinstance( year, RPNDateTime ):
         year = year.year
     else:
         year = int( year )
@@ -313,13 +334,13 @@ def calculateLaborDay( year ):
 # //******************************************************************************
 
 def calculateElectionDay( year ):
-    if isinstance( year, arrow.Arrow ):
+    if isinstance( year, RPNDateTime ):
         year = year.year
     else:
         year = int( year )
 
     result = calculateNthWeekdayOfMonth( year, 11, 1, 1 )
-    return result.replace( day=result.day + 1 )
+    return result.replace( day = result.day + 1 )
 
 
 # //******************************************************************************
@@ -331,7 +352,7 @@ def calculateElectionDay( year ):
 # //******************************************************************************
 
 def calculateMemorialDay( year ):
-    if isinstance( year, arrow.Arrow ):
+    if isinstance( year, RPNDateTime ):
         year = year.year
     else:
         year = int( year )
@@ -348,7 +369,7 @@ def calculateMemorialDay( year ):
 # //******************************************************************************
 
 def calculatePresidentsDay( year ):
-    if isinstance( year, arrow.Arrow ):
+    if isinstance( year, RPNDateTime ):
         year = year.year
     else:
         year = int( year )
@@ -365,17 +386,17 @@ def calculatePresidentsDay( year ):
 # //******************************************************************************
 
 def calculateDSTStart( year ):
-    if isinstance( year, arrow.Arrow ):
+    if isinstance( year, RPNDateTime ):
         year = year.year
     else:
         year = int( year )
 
     if year >= 2007:
-        return calculateNthWeekdayOfMonth( year, 3, 2, 7 )
+        return calculateNthWeekdayOfMonth( year, 3, 2, 7, dateOnly = True  )
     elif year == 1974:
-        return arrow.Arrow( 1974, 1, 7 )
+        return RPNDateTime( 1974, 1, 7, dateOnly = True )
     elif year >= 1967:
-        return calculateNthWeekdayOfMonth( year, 4, 1, 7 )
+        return calculateNthWeekdayOfMonth( year, 4, 1, 7, dateOnly = True  )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
 
@@ -389,7 +410,7 @@ def calculateDSTStart( year ):
 # //******************************************************************************
 
 def calculateDSTEnd( year ):
-    if isinstance( year, arrow.Arrow ):
+    if isinstance( year, RPNDateTime ):
         year = year.year
     else:
         year = int( year )
@@ -397,7 +418,7 @@ def calculateDSTEnd( year ):
     if year >= 2007:
         return calculateNthWeekdayOfMonth( year, 11, 1, 7 )
     elif year == 1974:
-        return arrow.Arrow( 1974, 12, 31 )   # technically DST never ended in 1974
+        return RPNDateTime( 1974, 12, 31, dateOnly = True )  # technically DST never ended in 1974
     elif year >= 1967:
         return calculateNthWeekdayOfMonth( year, 10, -1, 7 )
     else:
@@ -411,9 +432,9 @@ def calculateDSTEnd( year ):
 # //******************************************************************************
 
 def generateMonthCalendar( n ):
-    cal = calendar.TextCalendar( firstweekday=6 )
+    cal = calendar.TextCalendar( firstweekday = 6 )
 
-    if isinstance( n[ 0 ], arrow.Arrow ):
+    if isinstance( n[ 0 ], RPNDateTime ):
         cal.prmonth( n[ 0 ].year, n[ 0 ].month )
     elif len( n ) >= 2:
         cal.prmonth( int( n[ 0 ] ), int( n[ 1 ] ) )
@@ -432,9 +453,9 @@ def generateMonthCalendar( n ):
 # //******************************************************************************
 
 def generateYearCalendar( n ):
-    cal = calendar.TextCalendar( firstweekday=6 )
+    cal = calendar.TextCalendar( firstweekday = 6 )
 
-    if isinstance( n, arrow.Arrow ):
+    if isinstance( n, RPNDateTime ):
         cal.pryear( n.year )
     else:
         cal.pryear( n )
@@ -506,21 +527,21 @@ def convertToYDHMS( n ):
 
 def makeJulianTime( n ):
     if len( n ) == 1:
-        return arrow.Arrow( n[ 0 ], 1, 1 )
+        return RPNDateTime( n[ 0 ], 1, 1, dateOnly = True  )
 
-    result = addTimes( arrow.Arrow( n[ 0 ], 1, 1 ), Measurement( n[ 1 ] - 1, 'day' ) )
+    result = addTimes( RPNDateTime( n[ 0 ], 1, 1 ), Measurement( n[ 1 ] - 1, 'day' ) )
 
     if len( n ) >= 3:
-        result = result.replace( hour=n[ 2 ] )
+        result = result.replace( hour = n[ 2 ] )
 
     if len( n ) >= 4:
-        result = result.replace( minute=n[ 3 ] )
+        result = result.replace( minute = n[ 3 ] )
 
     if len( n ) >= 5:
-        result = result.replace( second=n[ 4 ] )
+        result = result.replace( second = n[ 4 ] )
 
     if len( n ) >= 6:
-        result = result.replace( microsecond=n[ 5 ] )
+        result = result.replace( microsecond = n[ 5 ] )
 
     return result
 
@@ -547,8 +568,8 @@ def makeISOTime( n ):
 
     result = datetime.datetime.strptime( '%04d-%02d-%1d' % ( year, week, day ), '%Y-%W-%w' )
 
-    if arrow.Arrow( year, 1, 4 ).isoweekday( ) > 4:
-        result -= datetime.timedelta( days=7 )
+    if RPNDateTime( year, 1, 4 ).isoweekday( ) > 4:
+        result -= datetime.timedelta( days = 7 )
 
     return result
 
@@ -568,7 +589,7 @@ def makeTime( n ):
     elif len( n ) > 7:
         n = n[ : 7 ]
 
-    return arrow.get( *n )
+    return RPNDateTime.get( *n )
 
 
 # //******************************************************************************
@@ -578,7 +599,7 @@ def makeTime( n ):
 # //******************************************************************************
 
 def getISODay( n ):
-    if not isinstance( n, arrow.Arrow ):
+    if not isinstance( n, RPNDateTime ):
         raise ValueError( 'a time type required for this operator' )
 
     return list( n.isocalendar( ) )
@@ -591,7 +612,7 @@ def getISODay( n ):
 # //******************************************************************************
 
 def getWeekday( n ):
-    if not isinstance( n, arrow.Arrow ):
+    if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
 
     return calendar.day_name[ n.weekday( ) ]

@@ -251,7 +251,7 @@ def downloadOEISSequence( id ):
 # //
 # //******************************************************************************
 
-def downloadOEISText( id, char, addCR=False ):
+def downloadOEISText( id, char, addCR = False ):
     import urllib.request
     import re as regex
 
@@ -353,7 +353,7 @@ def parseInputValue( term, inputRadix ):
 
     if ( '-' in innerChars ) or ( ':' in innerChars ):
         try:
-            datetime = arrow.get( term )
+            datetime = RPNDateTime( arrow.get( term ) )
         except:
             raise ValueError( 'error parsing datetime' )
 
