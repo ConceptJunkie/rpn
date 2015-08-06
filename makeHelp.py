@@ -3840,6 +3840,18 @@ is dedicated to the memorial of the men and women who gave their lives in the
 armed services.
 ''',
 '''
+c:\>rpn 2016 memorial_day
+2016-05-30 00:00:00
+
+c:\>rpn 2020 2025 range memorial_day -s1
+[
+2020-05-25 00:00:00,
+2021-05-31 00:00:00,
+2022-05-30 00:00:00,
+2023-05-29 00:00:00,
+2024-05-27 00:00:00,
+2025-05-26 00:00:00,
+]
 ''' ],
     'mertens' : [
 'number_theory', 'returns Merten\'s function for n',
@@ -6090,40 +6102,56 @@ c:\>rpn pi float -x
 c:\>rpn 0x40490fdb unfloat
 3.14159274101
 ''' ],
-    'unlist' : [
-'modifiers', 'expands a list into separate arguments',
-'''
-''',
-'''
-''' ],
     'union' : [
 'list_operators', 'returns the union of two lists',
 '''
 ''',
 '''
-c:\>rpn 2 3 make_pyth_3 unlist triangle_area
-30
+TODO:  appends instead of makes a union, please fix
 ''' ],
     'unique' : [
 'list_operators', 'replaces list n with a list of its unique elements',
 '''
 ''',
 '''
+c:\>rpn 1 8 range 2 9 range append 3 10 range append unique
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
     'unit_roots' : [
 'number_theory', 'calculates the nth roots of unity',
 '''
 ''',
 '''
+c:\>rpn 2 unit_roots
+[ 1, -1 ]
+
+c:\>rpn 3 unit_roots
+[ 1, (-0.5 + 0.86602540378443864676j), (-0.5 - 0.86602540378443864676j) ]
+
+c:\>rpn 4 unit_roots
+[ 1, (0.0 + 1.0j), -1, (0.0 - 1.0j) ]
 ''' ],
     'unlist' : [
-'modifiers', 'expands list n to individual arguments',
+'modifiers', 'expands a list into separate arguments',
+'''
+''',
+'''
+Here, we use 'unlist' to make arguments for 'euler_brick':
+
+c:\>rpn 4 5 make_pyth_3
+[ 9, 40, 41 ]
+
+c:\>rpn 4 5 make_pyth_3 unlist euler_brick
+[ 42471, 54280, 59040 ]
+''' ],
+    'unpack' : [
+'conversion', 'unpacks an integer value n into bit fields k',
 '''
 ''',
 '''
 ''' ],
-    'unpack' : [
-'conversion', 'unpacks an integer value n into bit fields k',
+    'use_members' : [
+'modifiers', 'instructs the next non-recursive list operation to act on list members'
 '''
 ''',
 '''
@@ -6135,6 +6163,16 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
+c:\>rpn 10 ushort
+10
+
+c:\>rpn 100000 ushort
+34464
+
+rjg:  Um, this is unexpected.  TODO: investigate
+
+c:\>rpn -2000 ushort
+63536
 ''' ],
     'value' : [
 'special', 'converts a measurement to a numerical value',

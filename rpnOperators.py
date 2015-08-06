@@ -83,7 +83,7 @@ def applyNumberValueToUnit( number, term ):
 
 def abortArgsNeeded( term, index, argsNeeded ):
     print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
-           format( argsNeeded ) + ' argument', end='' )
+           format( argsNeeded ) + ' argument', end = '' )
 
     print( 's' if argsNeeded > 1 else '' )
 
@@ -210,7 +210,7 @@ def evaluateTerm( term, index, currentValueList ):
             # handle a unit operator
             # look for unit without a value (in which case we give it a value of 1)
             if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], Measurement ) or \
-                isinstance( currentValueList[ -1 ], arrow.Arrow ) or ( isinstance( currentValueList[ -1 ], list ) and
+                isinstance( currentValueList[ -1 ], RPNDateTime ) or ( isinstance( currentValueList[ -1 ], list ) and
                                                                        isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
                     currentValueList.append( applyNumberValueToUnit( 1, term ) )
             # if the unit comes after a list, then apply it to every item in the list
@@ -349,10 +349,10 @@ def findPolynomial( n, k ):
     poly = findpoly( n, int( k ) )
 
     if poly is None:
-        poly = findpoly( n, int( k ), tol=1e-10 )
+        poly = findpoly( n, int( k ), tol = 1e-10 )
 
     if poly is None:
-        poly = findpoly( n, int( k ), tol=1e-7 )
+        poly = findpoly( n, int( k ), tol = 1e-7 )
 
     if poly is None:
         return [ 0 ]
@@ -539,7 +539,7 @@ def plot2DFunction( start1, end1, start2, end2, func ):
 def plotComplexFunction( start1, end1, start2, end2, func ):
     cplot( lambda x: evaluateFunction( x, 0, 0, func ),
            [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ],
-           points=10000 )
+           points = 10000 )
     return 0
 
 
@@ -992,15 +992,16 @@ sideEffectOperators = [
 # //******************************************************************************
 
 modifiers = {
-    'dup_term'          : OperatorInfo( duplicateTerm, 2 ),
-    'dup_operator'      : OperatorInfo( duplicateOperation, 1 ),
-    'previous'          : OperatorInfo( getPrevious, 1 ),
-    'unlist'            : OperatorInfo( unlist, 1 ),
-    'x'                 : OperatorInfo( createXFunction, 0 ),
-    'y'                 : OperatorInfo( createYFunction, 0 ),
-    'z'                 : OperatorInfo( createZFunction, 0 ),
-    '['                 : OperatorInfo( incrementNestedListLevel, 0 ),
-    ']'                 : OperatorInfo( decrementNestedListLevel, 0 ),
+    'dup_term'          : OperatorInfo( duplicateTerm ),
+    'dup_operator'      : OperatorInfo( duplicateOperation ),
+    'previous'          : OperatorInfo( getPrevious ),
+    'unlist'            : OperatorInfo( unlist ),
+    'use_members'       : OperatorInfo( handleUseMembersOperator ),
+    'x'                 : OperatorInfo( createXFunction ),
+    'y'                 : OperatorInfo( createYFunction ),
+    'z'                 : OperatorInfo( createZFunction ),
+    '['                 : OperatorInfo( incrementNestedListLevel ),
+    ']'                 : OperatorInfo( decrementNestedListLevel ),
 }
 
 
@@ -1214,7 +1215,7 @@ operators = {
     'floor'                 : OperatorInfo( floor, 1 ),
     'fraction'              : OperatorInfo( interpretAsFraction, 2 ),
     'friday'                : OperatorInfo( lambda: 5, 0 ),
-    'from_unix_time'        : OperatorInfo( lambda n: arrow.get( n ), 1 ),
+    'from_unix_time'        : OperatorInfo( lambda n: RPNDateTime( arrow.get( n ) ), 1 ),
     'gamma'                 : OperatorInfo( gamma, 1 ),
     'geometric_range'       : OperatorInfo( expandGeometricRange, 3 ),
     'get_digits'            : OperatorInfo( getDigits, 1 ),
@@ -1239,7 +1240,7 @@ operators = {
     'hyper4_2'              : OperatorInfo( tetrateLarge, 2 ),
     'hyperfactorial'        : OperatorInfo( hyperfac, 1 ),
     'hypotenuse'            : OperatorInfo( hypot, 2 ),
-    'i'                     : OperatorInfo( lambda n: mpc( real='0.0', imag=n ), 1 ),
+    'i'                     : OperatorInfo( lambda n: mpc( real = '0.0', imag = n ), 1 ),
     'icosahedral'           : OperatorInfo( lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], n ), 1 ),
     'identify'              : OperatorInfo( setIdentify, 1 ),
     'identify_mode'         : OperatorInfo( setIdentifyMode, 0 ),
@@ -1277,7 +1278,7 @@ operators = {
     'lgamma'                : OperatorInfo( loggamma, 1 ),
     'li'                    : OperatorInfo( li, 1 ),
     'limit'                 : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction1( x, func ), n ), 2 ),
-    'limitn'                : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction1( x, func ), n, direction=-1 ), 2 ),
+    'limitn'                : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction1( x, func ), n, direction = -1 ), 2 ),
     'ln'                    : OperatorInfo( ln, 1 ),
     'log10'                 : OperatorInfo( log10, 1 ),
     'log2'                  : OperatorInfo( lambda n: log( n, 2 ), 1 ),
@@ -1286,7 +1287,7 @@ operators = {
     'longlong'              : OperatorInfo( lambda n: convertToSignedInt( n , 64 ), 1 ),
     'lucas'                 : OperatorInfo( getNthLucasNumber, 1 ),
     'magnetic_constant'     : OperatorInfo( getMagneticConstant, 0 ),
-    'make_cf'               : OperatorInfo( lambda n, k: ContinuedFraction( n, maxterms=k, cutoff=power( 10, -( mp.dps - 2 ) ) ), 2 ),
+    'make_cf'               : OperatorInfo( lambda n, k: ContinuedFraction( n, maxterms = k, cutoff = power( 10, -( mp.dps - 2 ) ) ), 2 ),
     'make_pyth_3'           : OperatorInfo( makePythagoreanTriple, 2 ),
     'make_pyth_4'           : OperatorInfo( makePythagoreanQuadruple, 2 ),
     'march'                 : OperatorInfo( lambda: 3, 0 ),

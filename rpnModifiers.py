@@ -96,13 +96,23 @@ def unlist( valueList ):
 
 # //******************************************************************************
 # //
+# //  handleUseMembersOperator
+# //
+# //******************************************************************************
+
+def handleUseMembersOperator( valueList ):
+    g.useMembers += 1
+
+
+# //******************************************************************************
+# //
 # //  flatten
 # //
 # //  http://rightfootin.blogspot.com/2006/09/more-on-python-flatten.html
 # //
 # //******************************************************************************
 
-def _flatten( L, containers=( list, tuple ) ):
+def _flatten( L, containers = ( list, tuple ) ):
     i = 0
 
     while i < len( L ):

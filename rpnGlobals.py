@@ -59,6 +59,7 @@ helpLoaded = False
 nestedListLevel = 0
 duplicateOperations = 0
 startTime = 0
+useMembers = 0
 
 # options
 
