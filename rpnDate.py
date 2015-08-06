@@ -589,7 +589,7 @@ def makeTime( n ):
     elif len( n ) > 7:
         n = n[ : 7 ]
 
-    return RPNDateTime.get( *n )
+    return RPNDateTime( *n )
 
 
 # //******************************************************************************

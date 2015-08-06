@@ -1095,6 +1095,7 @@ def runTests( ):
     testRPN( 'rpn 2015 easter' )
     testRPN( 'rpn 2015 election_day' )
     testRPN( 'rpn today iso_day' )
+    testRPN( 'rpn [ 2015 7 5 4 3 ] make_julian  _time' )
     testRPN( 'rpn today julian_day' )
     testRPN( 'rpn 2015 labor_day' )
     testRPN( 'rpn 2015 memorial_day' )

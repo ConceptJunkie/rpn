@@ -203,7 +203,7 @@ For now, here are some examples:
         2014-09-02 13:36:28
 
         c:\>rpn today
-        2014-09-02 00:00:00
+        2014-09-02
 
     ISO-8601 format ("YYYY-MM-DD[T| ][HH:mm:SS]", no timezones):
         c:\>rpn 2014-09-02T13:36:28
@@ -979,7 +979,7 @@ Calculations with absolute time:
         2014-09-02 13:36:28
 
         c:\>rpn today
-        2014-09-02 00:00:00
+        2014-09-02
 
     ISO-8601 format ("YYYY-MM-DD[T| ][HH:mm:SS]", no timezones):
         c:\>rpn 2014-09-02T13:36:28
@@ -1663,7 +1663,7 @@ c:\>rpn april
 4
 
 c:\>rpn 2015 april 3 tuesday nthweekday
-2015-04-21 00:00:00
+2015-04-21
 ''' ],
     'argument' : [
 'complex_math', 'calculates complex argument (phase) of n',
@@ -1770,7 +1770,7 @@ c:\>rpn august
 8
 
 c:\>rpn 2015 august 4 tuesday nthweekday
-2015-08-25 00:00:00
+2015-08-25
 ''' ],
     'avogadro' : [
 'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
@@ -2556,10 +2556,10 @@ Monday in November.  This definition was established by the U.S. Congress in
 ''',
 '''
 c:\>rpn 2016 election_day
-2016-11-08 00:00:00
+2016-11-08
 
 c:\>rpn 1964 election_day
-1964-11-03 00:00:00
+1964-11-03
 ''' ],
     'electric_constant' : [
 'constants', 'returns the electric constant',
@@ -3388,7 +3388,7 @@ In the U.S., Labor Day falls on the first Monday of September.
 ''',
 '''
 c:\>rpn 2016 labor_day
-2016-09-05 00:00:00
+2016-09-05
 ''' ],
     'lah' : [
 'combinatorics', '',
@@ -3841,16 +3841,16 @@ armed services.
 ''',
 '''
 c:\>rpn 2016 memorial_day
-2016-05-30 00:00:00
+2016-05-30
 
 c:\>rpn 2020 2025 range memorial_day -s1
 [
-2020-05-25 00:00:00,
-2021-05-31 00:00:00,
-2022-05-30 00:00:00,
-2023-05-29 00:00:00,
-2024-05-27 00:00:00,
-2025-05-26 00:00:00,
+2020-05-25,
+2021-05-31,
+2022-05-30,
+2023-05-29,
+2024-05-27,
+2025-05-26,
 ]
 ''' ],
     'mertens' : [
@@ -6192,7 +6192,7 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 c:\>rpn 2015 august 4 wednesday nthweekday
-2015-08-26 00:00:00
+2015-08-26
 ''' ],
     'weekday' : [
 'conversion', 'calculates the day of the week of an absolute time',
