@@ -219,6 +219,9 @@ def evaluatePolynomial( a, b ):
     if not isinstance( a, list ):
         a = [ a ]
 
+    if isinstance( b, list ):
+        return [ evaluatePolynomial( a, item ) for item in b ]
+
     return polyval( a, b )
 
 
@@ -276,10 +279,6 @@ def multiplyListOfPolynomials( args ):
 
 def addListOfPolynomials( args ):
     result = Polynomial( args[ 0 ] )
-
-    #print( 'addListOfPolynomials' )
-    #print( args[ 0 ] )
-    #print( result.getCoefficients( ) )
 
     for i in range( 1, len( args ) ):
         result += Polynomial( args[ i ] )

@@ -4536,7 +4536,7 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'octangular_triangular' : [
+    'octagonal_triangular' : [
 'polygonal_numbers', 'calculates the nth octagonal triangular number',
 '''
 ''',

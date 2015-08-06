@@ -58,7 +58,7 @@ class RPNDateTime( arrow.Arrow ):
         result = arrow.api.get( *args, **kwargs )
 
         return RPNDateTime( result.year, result.month, result.day, result.hour,
-                            result.minute, result.second, result.microsecond, result.tzInfo )
+                            result.minute, result.second, result.microsecond, result.tzinfo )
 
 
 # //******************************************************************************

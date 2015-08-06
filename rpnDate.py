@@ -219,7 +219,10 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
         if firstWeekDay < 1:
             firstWeekDay += 7
 
-        return addTimes( RPNDateTime( arrow.Arrow( year, 1, firstWeekDay ), Measurement( nth - 1, 'week' ) ) )
+        result = addTimes( RPNDateTime( year, 1, firstWeekDay ), Measurement( nth - 1, 'week' ) )
+        result.setDateOnly( )
+
+        return result
     elif nth < 0:
         lastDay = RPNDateTime( year, 12, 31 )
 
@@ -230,8 +233,11 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
 
         lastWeekDay += 31
 
-        return addTimes( RPNDateTime( year, 12, lastWeekDay, dateOnly = True ),
-                         Measurement( ( nth + 1 ), 'week' ) )
+        result = addTimes( RPNDateTime( year, 12, lastWeekDay, dateOnly = True ),
+                           Measurement( ( nth + 1 ), 'week' ) )
+        result.setDateOnly( )
+
+        return result
 
 
 # //******************************************************************************
@@ -371,11 +377,11 @@ def calculateDSTStart( year ):
         year = int( year )
 
     if year >= 2007:
-        return calculateNthWeekdayOfMonth( year, 3, 2, 7, dateOnly = True  )
+        return calculateNthWeekdayOfMonth( year, 3, 2, 7 )
     elif year == 1974:
         return RPNDateTime( 1974, 1, 7, dateOnly = True )
     elif year >= 1967:
-        return calculateNthWeekdayOfMonth( year, 4, 1, 7, dateOnly = True  )
+        return calculateNthWeekdayOfMonth( year, 4, 1, 7 )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
 
