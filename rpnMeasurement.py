@@ -14,10 +14,64 @@
 
 from mpmath import *
 
-from rpnUtils import *
 from rpnOperators import *
+from rpnUnitClasses import *
+from rpnUtils import *
 
 import rpnGlobals as g
+
+
+# //******************************************************************************
+# //
+# //  combineUnits
+# //
+# //  Combine units2 into units1
+# //
+# //******************************************************************************
+
+def combineUnits( units1, units2 ):
+    if not g.unitConversionMatrix:
+        loadUnitConversionMatrix( )
+
+    newUnits = Units( units1 )
+
+    factor = mpmathify( 1 )
+
+    for unit2 in units2:
+        if unit2 in newUnits:
+            newUnits[ unit2 ] += units2[ unit2 ]
+        else:
+            for unit1 in units1:
+                if unit1 == unit2:
+                    newUnits[ unit2 ] += units2[ unit2 ]
+                    break
+                elif getUnitType( unit1 ) == getUnitType( unit2 ):
+                    factor = fdiv( factor, pow( mpmathify( g.unitConversionMatrix[ ( unit1, unit2 ) ] ), units2[ unit2 ] ) )
+                    newUnits[ unit1 ] += units2[ unit2 ]
+                    break
+            else:
+                newUnits[ unit2 ] = units2[ unit2 ]
+
+    return factor, newUnits
+
+
+# //******************************************************************************
+# //
+# //  getUnitType
+# //
+# //******************************************************************************
+
+def getUnitType( unit ):
+    if unit in g.basicUnitTypes:
+        return unit
+
+    if unit in g.operatorAliases:
+        unit = g.operatorAliases[ unit ]
+
+    if unit in g.unitOperators:
+        return g.unitOperators[ unit ].unitType
+    else:
+        raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
 
 # //******************************************************************************

@@ -17,27 +17,6 @@ import calendar
 import datetime
 
 from rpnMeasurement import *
-from rpnUtils import *
-
-
-# //******************************************************************************
-# //
-# //  class RPNDateTime
-# //
-# //******************************************************************************
-
-class RPNDateTime( arrow.Arrow ):
-    def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
-                  microsecond = 0, tzinfo = None, dateOnly = False ):
-        self.dateOnly = dateOnly
-        super( RPNDateTime, self ).__init__( year, month, day, hour, minute, second,
-                                             microsecond, tzinfo )
-
-    def setDateOnly( self, dateOnly = True ):
-        self.dateOnly = dateOnly
-
-    def getDateOnly( self ):
-        return self.dateOnly
 
 
 # //******************************************************************************

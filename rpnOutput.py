@@ -34,6 +34,7 @@ from mpmath import *
 from rpnDate import RPNDateTime
 from rpnDeclarations import PROGRAM_NAME, PROGRAM_DESCRIPTION
 from rpnMeasurement import *
+from rpnNumberTheory import getNthLucasNumber
 from rpnPolytope import getNthPolygonalNumber
 from rpnPrimeUtils import getNthPrimorial
 

@@ -16,6 +16,7 @@ from mpmath import *
 
 from rpnDeclarations import *
 from rpnEstimates import *
+from rpnUnitClasses import *
 
 
 # //******************************************************************************

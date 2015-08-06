@@ -12,6 +12,7 @@
 # //
 # //******************************************************************************
 
+import arrow
 import collections
 import itertools
 
@@ -19,7 +20,6 @@ from mpmath import *
 
 from fractions import Fraction
 
-from rpnUtils import loadUnitConversionMatrix
 from rpnEstimates import *
 
 import rpnGlobals as g
@@ -33,6 +33,32 @@ import rpnGlobals as g
 
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
+
+
+# //******************************************************************************
+# //
+# //  class RPNDateTime
+# //
+# //******************************************************************************
+
+class RPNDateTime( arrow.Arrow ):
+    def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
+                  microsecond = 0, tzinfo = None, dateOnly = False ):
+        self.dateOnly = dateOnly
+        super( RPNDateTime, self ).__init__( year, month, day, hour, minute, second,
+                                             microsecond, tzinfo )
+
+    def setDateOnly( self, dateOnly = True ):
+        self.dateOnly = dateOnly
+
+    def getDateOnly( self ):
+        return self.dateOnly
+
+    def get( self, *args, **kwargs ):
+        result = arrow.api.get( *args, **kwargs )
+
+        return RPNDateTime( result.year, result.month, result.day, result.hour,
+                            result.minute, result.second, result.microsecond, result.tzInfo )
 
 
 # //******************************************************************************
@@ -621,260 +647,6 @@ operatorAliases = {
     '|'                 : 'is_divisible',
     '~'                 : 'not',
 }
-
-
-# //******************************************************************************
-# //
-# //  combineUnits
-# //
-# //  Combine units2 into units1
-# //
-# //******************************************************************************
-
-def combineUnits( units1, units2 ):
-    if not g.unitConversionMatrix:
-        loadUnitConversionMatrix( )
-
-    newUnits = Units( units1 )
-
-    factor = mpmathify( 1 )
-
-    for unit2 in units2:
-        if unit2 in newUnits:
-            newUnits[ unit2 ] += units2[ unit2 ]
-        else:
-            for unit1 in units1:
-                if unit1 == unit2:
-                    newUnits[ unit2 ] += units2[ unit2 ]
-                    break
-                elif getUnitType( unit1 ) == getUnitType( unit2 ):
-                    factor = fdiv( factor, pow( mpmathify( g.unitConversionMatrix[ ( unit1, unit2 ) ] ), units2[ unit2 ] ) )
-                    newUnits[ unit1 ] += units2[ unit2 ]
-                    break
-            else:
-                newUnits[ unit2 ] = units2[ unit2 ]
-
-    return factor, newUnits
-
-
-# //******************************************************************************
-# //
-# //  class Units
-# //
-# //******************************************************************************
-
-class Units( collections.Counter ):
-    def __init__( self, *arg, **kw ):
-        if ( len( arg ) == 1 ):
-            if isinstance( arg[ 0 ], str ):
-                self.update( self.parseUnitString( arg[ 0 ] ) )
-            elif isinstance( arg[ 0 ], ( list, tuple ) ):
-                for item in arg[ 0 ]:
-                    self.update( item )  # for Counter, update( ) adds, not replaces
-            elif isinstance( arg[ 0 ], ( Units, dict ) ):
-                self.update( arg[ 0 ] )
-        else:
-            super( Units, self ).__init__( *arg, **kw )
-
-    def invert( self ):
-        for unit in self:
-            self[ unit ] = -( self[ unit ] )
-
-        return self
-
-    def getUnitTypes( self ):
-        types = Units( )
-
-        for unit in self:
-            if unit in g.basicUnitTypes:
-                unitType = unit
-            else:
-                if unit not in g.unitOperators:
-                    raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
-                unitType = g.unitOperators[ unit ].unitType
-
-            types[ unitType ] += self[ unit ]
-
-        return types
-
-    def simplify( self ):
-        result = Units( )
-
-        for unit in self:
-            if unit not in g.unitOperators:
-                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
-            simpleUnits = Units( g.unitOperators[ unit ].representation )
-
-            exponent = self.get( unit )
-
-            if exponent != 1:   # handle exponent
-                for unit2 in simpleUnits:
-                    simpleUnits[ unit2 ] *= exponent
-
-            result.update( simpleUnits )
-
-        return result
-
-    def getPrimitiveTypes( self ):
-        return self.getBasicTypes( True )
-
-    def getBasicTypes( self, primitive = False ):
-        result = Units( )
-
-        for unit in self:
-            if unit in g.basicUnitTypes:
-                unitType = unit
-            else:
-                if unit not in g.unitOperators:
-                    raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
-                unitType = g.unitOperators[ unit ].unitType
-
-            if primitive:
-                basicUnits = Units( g.basicUnitTypes[ unitType ].primitiveUnit )
-            else:
-                basicUnits = Units( g.basicUnitTypes[ unitType ].simpleTypes )
-
-            exponent = self[ unit ]
-
-            if exponent != 1:   # handle exponent
-                for unitType2 in basicUnits:
-                    basicUnits[ unitType2 ] *= exponent
-
-            result.update( basicUnits )
-
-        zeroKeys = [ ]
-
-        for unitType in result:
-            if result[ unitType ] == 0:
-                zeroKeys.append( unitType )
-
-        for zeroKey in zeroKeys:
-            del result[ zeroKey ]
-
-        return result
-
-    def getUnitString( self ):
-        resultString = ''
-
-        for unit in sorted( self ):
-            exponent = self.get( unit )
-
-            if exponent > 0:
-                if resultString != '':
-                    resultString += '*'
-
-                resultString += unit
-
-                if exponent > 1:
-                    resultString += '^' + str( int( exponent ) )
-
-        denominator = ''
-
-        for unit in sorted( self ):
-            exponent = self.get( unit )
-
-            if exponent < 0:
-                if denominator != '':
-                    denominator += '*'
-
-                denominator += unit
-
-                if exponent < -1:
-                    denominator += '^' + str( int( -exponent ) )
-
-        if denominator != '':
-            resultString += '/' + denominator
-
-        return resultString
-
-    def parseUnitString( self, expression ):
-        pieces = expression.split( '/' )
-
-        if len( pieces ) > 2:
-            raise ValueError( 'only one \'/\' is permitted' )
-        elif len( pieces ) == 2:
-            result = self.parseUnitString( pieces[ 0 ] )
-            result.subtract( self.parseUnitString( pieces[ 1 ] ) )
-
-            return result
-        else:
-            result = Units( )
-
-            units = expression.split( '*' )
-
-            for unit in units:
-                if unit == '':
-                    raise ValueError( 'wasn\'t expecting another \'*\'' )
-
-                operands = unit.split( '^' )
-
-                operandCount = len( operands )
-
-                exponent = 1
-
-                if operandCount > 1:
-                    for i in range( 1, operandCount ):
-                        exponent *= int( floor( operands[ i ] ) )
-
-                result[ operands[ 0 ] ] += exponent
-
-            return result
-
-
-# //******************************************************************************
-# //
-# //  class UnitTypeInfo
-# //
-# //******************************************************************************
-
-class UnitTypeInfo( ):
-    def __init__( self, simpleTypes, baseUnit, primitiveUnit, estimateTable ):
-        self.simpleTypes = Units( simpleTypes )
-        self.baseUnitType = Units( baseUnit )
-        self.baseUnit = baseUnit
-        self.primitiveUnit = primitiveUnit
-        self.estimateTable = estimateTable
-
-
-# //******************************************************************************
-# //
-# //  getUnitType
-# //
-# //******************************************************************************
-
-def getUnitType( unit ):
-    if unit in g.basicUnitTypes:
-        return unit
-
-    if unit in g.operatorAliases:
-        unit = g.operatorAliases[ unit ]
-
-    if unit in g.unitOperators:
-        return g.unitOperators[ unit ].unitType
-    else:
-        raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
-
-# //******************************************************************************
-# //
-# //  class UnitInfo
-# //
-# //******************************************************************************
-
-class UnitInfo( ):
-    def __init__( self, unitType, representation, plural, abbrev, aliases, categories,
-                  description = '', autoGenerated = False ):
-        self.unitType = unitType
-        self.representation = representation
-        self.plural = plural
-        self.abbrev = abbrev
-        self.aliases = aliases
-        self.categories = categories
-        self.description = description
-        self.autoGenerated = autoGenerated
 
 
 # //******************************************************************************

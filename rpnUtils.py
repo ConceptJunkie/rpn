@@ -31,6 +31,7 @@ from mpmath import *
 from random import randrange
 
 from rpnDeclarations import *
+from rpnUnitClasses import UnitTypeInfo
 from rpnVersion import *
 
 from functools import reduce
@@ -352,10 +353,10 @@ def parseInputValue( term, inputRadix ):
         innerChars = term[ 1 : -1 ]
 
     if ( '-' in innerChars ) or ( ':' in innerChars ):
-        try:
-            datetime = RPNDateTime( arrow.get( term ) )
-        except:
-            raise ValueError( 'error parsing datetime' )
+        #try:
+        datetime = RPNDateTime.get( term )
+        #except:
+            #raise ValueError( 'error parsing datetime' )
 
         return datetime
 
