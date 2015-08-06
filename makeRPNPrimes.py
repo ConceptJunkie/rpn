@@ -672,17 +672,17 @@ def main( ):
         return
 
     # set up the command-line options parser
-    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' +
+    parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = PROGRAM_NAME + ' ' +
                                       PROGRAM_VERSION + ': ' + PROGRAM_DESCRIPTION + '\n    ' +
-                                      COPYRIGHT_MESSAGE, add_help=False,
-                                      formatter_class=argparse.RawTextHelpFormatter,
-                                      prefix_chars='-' )
+                                      COPYRIGHT_MESSAGE, add_help = False,
+                                      formatter_class = argparse.RawTextHelpFormatter,
+                                      prefix_chars = '-' )
 
-    parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-c', '--comma', action='store_true' )
-    parser.add_argument( '-h', '--help', action='store_true' )
-    parser.add_argument( '-t', '--time', action='store_true' )
-    parser.add_argument( '-?', '--other_help', action='store_true' )
+    parser.add_argument( 'terms', nargs = '*', metavar = 'term' )
+    parser.add_argument( '-c', '--comma', action = 'store_true' )
+    parser.add_argument( '-h', '--help', action = 'store_true' )
+    parser.add_argument( '-t', '--time', action = 'store_true' )
+    parser.add_argument( '-?', '--other_help', action = 'store_true' )
 
     # OK, let's parse and validate the arguments
     if len( sys.argv ) == 1:
@@ -717,7 +717,7 @@ def main( ):
             # first we validate, and make sure the operator has enough arguments
             if len( valueList ) < argsNeeded:
                 print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term +
-                       '\' requires ' + format( argsNeeded ) + ' argument', end='' )
+                       '\' requires ' + format( argsNeeded ) + ' argument', end = '' )
 
                 print( 's' if argsNeeded > 1 else '' )
                 break

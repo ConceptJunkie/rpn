@@ -564,7 +564,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
                             newConversion = True
 
-                print( len( unitConversionMatrix ), end='\r' )
+                print( len( unitConversionMatrix ), end = '\r' )
 
             if not newConversion:
                 break

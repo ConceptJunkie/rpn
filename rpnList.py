@@ -536,11 +536,11 @@ def sortDescending( args ):
 
     if isinstance( args[ 0 ], list ):
         for i in range( 0, len( args ) ):
-            result.append( sorted( args[ i ], reverse=True ) )
+            result.append( sorted( args[ i ], reverse = True ) )
 
         return result
     else:
-        return sorted( args, reverse=True )
+        return sorted( args, reverse = True )
 
 
 # //******************************************************************************
@@ -728,20 +728,6 @@ def reduceList( args ):
             return result
     else:
         return args
-
-
-# //******************************************************************************
-# //
-# //  unlist
-# //
-# //******************************************************************************
-
-def unlist( arg ):
-    if isinstance( arg, list ):
-        for i in arg:
-            result.append( i )
-    else:
-        result.append( i )
 
 
 # //******************************************************************************

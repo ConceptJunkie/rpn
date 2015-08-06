@@ -316,7 +316,7 @@ def convertFromContinuedFraction( n ):
 # //******************************************************************************
 
 def interpretAsFraction( i, j ):
-    fraction = ContinuedFraction( i, maxterms=j ).getFraction( )
+    fraction = ContinuedFraction( i, maxterms = j ).getFraction( )
     return [ fraction.numerator, fraction.denominator ]
 
 

@@ -198,7 +198,7 @@ def createDeBruijnSequence( n, k ):
         l = wordSize
 
         while l > 0 and v[ l - 1 ] >= symbolCount - 1:
-            l-=1
+            l -= 1
 
         if l == 0:
             break

@@ -28,9 +28,9 @@ setup(
     version = '6.5.0',
     description = 'command-line RPN calculator with arbitrary precision',
     long_description = 'TODO: write long description!',
-    #long_description=( read( 'README.rst' ) + '\n\n' +
-    #                   read( 'HISTORY.rst' ) + '\n\n' +
-    #                   read( 'AUTHORS.rst' ) ),
+    #long_description = ( read( 'README.rst' ) + '\n\n' +
+    #                     read( 'HISTORY.rst' ) + '\n\n' +
+    #                     read( 'AUTHORS.rst' ) ),
     url = 'http://github.com/ConceptJunkie/rpn/',
     license = 'GPL3',
     author = 'Rick Gutleber',

@@ -261,15 +261,15 @@ def rpn( cmd_args ):
             cmd_args[ i ] = ' ' + arg
 
     if help:
-        parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' +
+        parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = PROGRAM_NAME + ' ' +
                                           PROGRAM_VERSION + ': ' + PROGRAM_DESCRIPTION + '\n    ' +
-                                          COPYRIGHT_MESSAGE, add_help=False,
-                                          formatter_class=argparse.RawTextHelpFormatter,
-                                          prefix_chars='-' )
+                                          COPYRIGHT_MESSAGE, add_help = False,
+                                          formatter_class = argparse.RawTextHelpFormatter,
+                                          prefix_chars = '-' )
 
-        parser.add_argument( 'terms', nargs='*', metavar='term' )
-        parser.add_argument( '-l', '--line_length', type=int, action='store',
-                             default=g.defaultLineLength )
+        parser.add_argument( 'terms', nargs = '*', metavar = 'term' )
+        parser.add_argument( '-l', '--line_length', type = int, action = 'store',
+                             default = g.defaultLineLength )
 
         args = parser.parse_args( cmd_args )
 
@@ -281,43 +281,43 @@ def rpn( cmd_args ):
         return
 
     # set up the command-line options parser
-    parser = argparse.ArgumentParser( prog=PROGRAM_NAME, description=PROGRAM_NAME + ' ' +
+    parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = PROGRAM_NAME + ' ' +
                                       PROGRAM_VERSION + ': ' + PROGRAM_DESCRIPTION + '\n    ' +
-                                      COPYRIGHT_MESSAGE, add_help=False,
-                                      formatter_class=argparse.RawTextHelpFormatter,
-                                      prefix_chars='-' )
+                                      COPYRIGHT_MESSAGE, add_help = False,
+                                      formatter_class = argparse.RawTextHelpFormatter,
+                                      prefix_chars = '-' )
 
-    parser.add_argument( 'terms', nargs='*', metavar='term' )
-    parser.add_argument( '-a', '--output_accuracy', nargs='?', type=int, action='store',
-                         default=g.defaultOutputAccuracy, const=g.defaultOutputAccuracy )
-    parser.add_argument( '-b', '--input_radix', type=str, action='store',
-                         default=g.defaultInputRadix )
-    parser.add_argument( '-c', '--comma', action='store_true' )
-    parser.add_argument( '-d', '--decimal_grouping', nargs='?', type=int, action='store', default=0,
-                         const=g.defaultDecimalGrouping )
-    parser.add_argument( '-D', '--DEBUG', action='store_true' )
-    parser.add_argument( '-g', '--integer_grouping', nargs='?', type=int, action='store', default=0,
-                         const=g.defaultIntegerGrouping )
-    parser.add_argument( '-h', '--help', action='store_true' )
-    parser.add_argument( '-i', '--identify', action='store_true' )
-    parser.add_argument( '-l', '--line_length', type=int, action='store',
-                         default=g.defaultLineLength )
-    parser.add_argument( '-n', '--numerals', type=str, action='store', default=g.defaultNumerals )
-    parser.add_argument( '-o', '--octal', action='store_true' )
-    parser.add_argument( '-p', '--precision', type=int, action='store', default=g.defaultPrecision )
-    parser.add_argument( '-r', '--output_radix', type=str, action='store',
-                         default=g.defaultOutputRadix )
-    parser.add_argument( '-R', '--output_radix_numerals', type=int, action='store', default=0 )
-    parser.add_argument( '-s', '--list_format_level', nargs='?', type=int, action='store', default=0,
-                         const=g.defaultListFormatLevel )
-    parser.add_argument( '-t', '--timer', action='store_true' )
-    parser.add_argument( '-v', '--verbose', action='store_true' )
-    parser.add_argument( '-w', '--bitwise_group_size', type=int, action='store',
-                         default=g.defaultBitwiseGroupSize )
-    parser.add_argument( '-x', '--hex', action='store_true' )
-    parser.add_argument( '-z', '--leading_zero', action='store_true' )
-    parser.add_argument( '-!', '--print_options', action='store_true' )
-    parser.add_argument( '-?', '--other_help', action='store_true' )
+    parser.add_argument( 'terms', nargs = '*', metavar = 'term' )
+    parser.add_argument( '-a', '--output_accuracy', nargs = '?', type = int, action = 'store',
+                         default = g.defaultOutputAccuracy, const = g.defaultOutputAccuracy )
+    parser.add_argument( '-b', '--input_radix', type = str, action = 'store',
+                         default = g.defaultInputRadix )
+    parser.add_argument( '-c', '--comma', action = 'store_true' )
+    parser.add_argument( '-d', '--decimal_grouping', nargs = '?', type = int, action = 'store',
+                         default = 0, const = g.defaultDecimalGrouping )
+    parser.add_argument( '-D', '--DEBUG', action = 'store_true' )
+    parser.add_argument( '-g', '--integer_grouping', nargs = '?', type = int, action = 'store',
+                         default = 0, const = g.defaultIntegerGrouping )
+    parser.add_argument( '-h', '--help', action = 'store_true' )
+    parser.add_argument( '-i', '--identify', action = 'store_true' )
+    parser.add_argument( '-l', '--line_length', type = int, action = 'store',
+                         default = g.defaultLineLength )
+    parser.add_argument( '-n', '--numerals', type = str, action = 'store', default = g.defaultNumerals )
+    parser.add_argument( '-o', '--octal', action = 'store_true' )
+    parser.add_argument( '-p', '--precision', type = int, action = 'store', default = g.defaultPrecision )
+    parser.add_argument( '-r', '--output_radix', type = str, action = 'store',
+                         default = g.defaultOutputRadix )
+    parser.add_argument( '-R', '--output_radix_numerals', type = int, action = 'store', default = 0 )
+    parser.add_argument( '-s', '--list_format_level', nargs = '?', type = int, action = 'store', default = 0,
+                         const = g.defaultListFormatLevel )
+    parser.add_argument( '-t', '--timer', action = 'store_true' )
+    parser.add_argument( '-v', '--verbose', action = 'store_true' )
+    parser.add_argument( '-w', '--bitwise_group_size', type = int, action = 'store',
+                         default = g.defaultBitwiseGroupSize )
+    parser.add_argument( '-x', '--hex', action = 'store_true' )
+    parser.add_argument( '-z', '--leading_zero', action = 'store_true' )
+    parser.add_argument( '-!', '--print_options', action = 'store_true' )
+    parser.add_argument( '-?', '--other_help', action = 'store_true' )
 
     # OK, let's parse and validate the arguments
     args = parser.parse_args( cmd_args )

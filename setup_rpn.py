@@ -48,7 +48,7 @@ executables = [
     )
 ]
 
-setup( name='rpn',
+setup( name = 'rpn',
        version = PROGRAM_VERSION,
        author = 'Rick Gutleber',
        author_email = 'rickg@his.com',

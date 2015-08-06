@@ -183,7 +183,7 @@ def getNextPrimeCandidate( p ):
 # //
 # //******************************************************************************
 
-def getNextPrime( p, func=getNextPrimeCandidate ):
+def getNextPrime( p, func = getNextPrimeCandidate ):
     p = func( p )
 
     while not isPrime( p ):
@@ -627,7 +627,7 @@ def getNthDoubleBalancedPrime( arg, first = False ):
 # //******************************************************************************
 
 def getNthDoubleBalancedPrimeList( arg ):
-    p = getNthDoubleBalancedPrime( arg, first=True )
+    p = getNthDoubleBalancedPrime( arg, first = True )
     result = [ p ]
 
     for i in range( 0, 4 ):
@@ -699,7 +699,7 @@ def getNthTripleBalancedPrime( arg, first = False ):
 # //******************************************************************************
 
 def getNthTripleBalancedPrimeList( arg ):
-    p = getNthTripleBalancedPrime( arg, first=True )
+    p = getNthTripleBalancedPrime( arg, first = True )
     result = [ p ]
 
     for i in range( 0, 6 ):
