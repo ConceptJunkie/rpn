@@ -302,7 +302,7 @@ def convertFromContinuedFraction( n ):
     if not isinstance( n, list ):
         n = [ n ]
 
-    if ( len( n ) == 1 ) and ( n[ 0 ] == 0 ):
+    if ( len( n ) == 1 ) and ( n[ 0 ] <= 0 ):
         raise ValueError( "invalid input for evaluating a continued fraction" )
 
     fraction = ContinuedFraction( n ).getFraction( )
