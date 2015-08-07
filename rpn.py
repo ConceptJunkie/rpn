@@ -40,6 +40,7 @@ import time
 
 from mpmath import *
 
+from rpnAliases import *
 from rpnDeclarations import *
 from rpnOperators import *
 from rpnOutput import *
