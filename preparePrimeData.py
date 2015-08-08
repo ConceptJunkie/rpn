@@ -48,18 +48,19 @@ def preparePrimeData( baseName ):
 # //******************************************************************************
 
 if __name__ == '__main__':
-    preparePrimeData( "small_primes" )
     preparePrimeData( "double_balanced_primes" )
     preparePrimeData( "isolated_primes" )
+    preparePrimeData( "large_primes" )
     preparePrimeData( "quad_primes" )
     preparePrimeData( "quint_primes" )
     preparePrimeData( "sext_primes" )
     preparePrimeData( "sexy_primes" )
     preparePrimeData( "sexy_quadruplets" )
     preparePrimeData( "sexy_triplets" )
+    preparePrimeData( "small_primes" )
     preparePrimeData( "sophie_primes" )
     preparePrimeData( "super_primes" )
-    preparePrimeData( "triple_balanced_primes" )
     preparePrimeData( "triplet_primes" )
+    preparePrimeData( "triple_balanced_primes" )
     preparePrimeData( "twin_primes" )
 
