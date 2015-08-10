@@ -32,10 +32,12 @@ from rpnUtils import *
 # //
 # //  getAvogadrosNumber
 # //
+# //  Based on CODATA 2014
+# //
 # //******************************************************************************
 
 def getAvogadrosNumber( ):
-    return mpf( '6.02214129e23' )
+    return mpf( '6.022140857e23' )
 
 
 # //******************************************************************************
@@ -168,6 +170,8 @@ def getMillsConstant( ):
 # //
 # //  getChampernowneConstant
 # //
+# //  This function creates the Champernowne constant for the input base.
+# //
 # //******************************************************************************
 
 def getChampernowneConstant( ):
@@ -175,7 +179,7 @@ def getChampernowneConstant( ):
 
     count = 1
 
-    while len( result ) < mp.dps:
+    while len( result ) <= mp.dps:
         result += convertToBaseN( count, g.inputRadix, False, g.defaultNumerals )
         count += 1
 
@@ -247,10 +251,12 @@ def getMagneticConstant( ):
 # //
 # //  https://en.wikipedia.org/wiki/Gravitational_constant
 # //
+# //  updated value based on CODATA 2014
+# //
 # //******************************************************************************
 
 def getNewtonsConstant( ):
-    return Measurement( mpmathify( '6.67384e-11' ), [ { 'meter' : 3 }, { 'kilogram' : -1 }, { 'second' : -2 } ] )
+    return Measurement( mpmathify( '6.67408e-11' ), [ { 'meter' : 3 }, { 'kilogram' : -1 }, { 'second' : -2 } ] )
 
 
 # //******************************************************************************
@@ -259,10 +265,12 @@ def getNewtonsConstant( ):
 # //
 # //  https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant
 # //
+# //  value updated based on CODATA 2014
+# //
 # //******************************************************************************
 
 def getStefanBoltzmannConstant( ):
-    return Measurement( mpmathify( '5.670373e-8' ), [ { 'watt' : 1 }, { 'meter' : -2 }, { 'kelvin' : -4 } ] )
+    return Measurement( mpmathify( '5.670367e-8' ), [ { 'watt' : 1 }, { 'meter' : -2 }, { 'kelvin' : -4 } ] )
 
 
 # //******************************************************************************

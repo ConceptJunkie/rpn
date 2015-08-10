@@ -804,9 +804,14 @@ Added 'crt' operator.
 
 6.5.0
 
-Added the 'shuffle' operator.
+Added 'latlong_to_nac' operator.
 
-Added the 'multifactorial' operator.
+Converted the prime number data files in git to the input text files.  Added
+preparePrimeData.py to pickle the files for use.  This will make setting up
+rpn for use with Python 2 possible.
+
+Added the 'multifactorial', 'invert_units', 'shuffle', and 'occurrences'
+operators.
 
 Added support for a lot of new bases for output, including factorial,
 double factorial, Fibonacci (which was there but had been left out of the
@@ -1901,12 +1906,27 @@ number.
 '''
 ''' ],
     'champernowne' : [
-'constants', 'returns the Champernowne constant',
+'constants', 'returns the Champernowne constant for the input base',
 '''
+The Champernowne constant is a transcendental number created by successive
+appending every natural number as a decimal value.
+
+The Champernowne constant is normally defined for base 10, but this operator
+can also apply the same concept for any input base.
 ''',
 '''
 c:\>rpn -a60 champernowne
 0.123456789101112131415161718192021222324252627282930313233344
+
+The base 7 Champernowne constant
+
+c:\>rpn -a60 -b7 champernowne -r7
+0.123456101112131415162021222324252630313233343536404142434445
+
+The base 7 Champernowne constant converted to base 10
+
+c:\>rpn -a60 -b7 champernowne
+0.1944355350862405214758400930829085764529329710504220831702
 ''' ],
     'char' : [
 'conversion', 'converts the value to a signed 8-bit integer',
@@ -3398,6 +3418,12 @@ c:\>rpn 2016 labor_day
 ''' ],
     'lambertw' : [
 'logarithms', '',
+'''
+''',
+'''
+''' ],
+    'latlong_to_nac' : [
+'conversion', '',
 '''
 ''',
 '''

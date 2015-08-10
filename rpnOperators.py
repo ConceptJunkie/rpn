@@ -1040,6 +1040,7 @@ listOperators = {
     'group_elements'    : OperatorInfo( groupElements, 2 ),
     'interleave'        : OperatorInfo( interleave, 2 ),
     'intersection'      : OperatorInfo( makeIntersection, 2 ),
+    'latlong_to_nac'    : OperatorInfo( convertLatLongToNAC, 1 ),
     'lcm'               : OperatorInfo( getLCM, 1 ),
     'left'              : OperatorInfo( getLeft, 2 ),
     'linear_recur'      : OperatorInfo( getNthLinearRecurrence, 3 ),
