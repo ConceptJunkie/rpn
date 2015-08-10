@@ -454,6 +454,10 @@ def parseInputValue( term, inputRadix ):
 # //
 # //  convertToBaseN
 # //
+# //  This handles any integer base as long as there is a big-enough list of
+# //  numerals to use.  In practice this ends up being 0-9, a-z, and A-Z, which
+# //  allows us to support up to base 62.
+# //
 # //******************************************************************************
 
 def convertToBaseN( value, base, outputBaseDigits, numerals ):
@@ -496,6 +500,9 @@ def convertToBaseN( value, base, outputBaseDigits, numerals ):
 # //******************************************************************************
 # //
 # //  convertToSpecialBase
+# //
+# //  This version supports arbitrary bases.  The place value is determined
+# //  with the function passed in.
 # //
 # //******************************************************************************
 
@@ -562,6 +569,7 @@ def convertToIterativeBase( value, baseFunction, outputBaseDigits, numerals ):
 
 def convertToNonintegerBase( num, base ):
     epsilon = power( 10, -( mp.dps - 3 ) )
+    minPlace = -( floor( mp.dps / log( base ) ) )
 
     output = ''
     integer = ''
@@ -572,32 +580,34 @@ def convertToNonintegerBase( num, base ):
 
     originalPlace = 0
 
+    # find starting place
+    place = int( floor( log( remaining, base ) ) )
+
     while remaining > epsilon:
-        place = int( floor( log( remaining, base ) ) )
+        if place < minPlace:
+            break
 
-        if start:
-            output = '1'
-            start = False
-            originalPlace = place
-        else:
-            if place < -( originalPlace + 1 ):
-                break
+        if place == -1:
+            integer = output
+            output = ''
 
-            for i in range( previousPlace, place + 1, -1 ):
-                output += '0'
+        placeValue = power( base, place )
+        value = fdiv( remaining, placeValue )
 
-                if ( i == 1 ):
-                    integer = output
-                    output = ''
+        value = fmul( value, power( 10, mp.dps - 3 ) )
+        value = nint( value )
+        value = fdiv( value, power( 10, mp.dps - 3 ) )
 
-            output += '1'
+        value = floor( value )
+        remaining = chop( fsub( remaining, fmul( placeValue, value ) ) )
 
-            if place == 0:
-                integer = output
-                output = ''
+        output += str( value )[ : -2 ]
 
-        previousPlace = place
-        remaining -= power( base, place )
+        place -= 1
+
+    if place >= 0:
+        integer = output + '0' * place
+        output = ''
 
     if integer == '':
         return output, ''
