@@ -583,7 +583,10 @@ def convertToNonintegerBase( num, base ):
     # find starting place
     place = int( floor( log( remaining, base ) ) )
 
+    #print( 'remaining', remaining )
+
     while remaining > epsilon:
+        #print( 'place', place )
         if place < minPlace:
             break
 
@@ -592,6 +595,8 @@ def convertToNonintegerBase( num, base ):
             output = ''
 
         placeValue = power( base, place )
+        #print( 'placeValue', placeValue )
+
         value = fdiv( remaining, placeValue )
 
         value = fmul( value, power( 10, mp.dps - 3 ) )
@@ -600,13 +605,16 @@ def convertToNonintegerBase( num, base ):
 
         value = floor( value )
         remaining = chop( fsub( remaining, fmul( placeValue, value ) ) )
+        #print( 'remaining', remaining )
 
         output += str( value )[ : -2 ]
 
         place -= 1
 
+    #print( 'escaped from loop, place:', place )
+
     if place >= 0:
-        integer = output + '0' * place
+        integer = output + '0' * ( place + 1 )
         output = ''
 
     if integer == '':
