@@ -389,7 +389,7 @@ def rpn( cmd_args ):
         g.outputRadix = g.fibBase
     elif args.output_radix == 'fac' or args.output_radix == '!':
         g.outputRadix = g.facBase
-    elif args.output_radix == 'doublefac' or args.output_radix == '!!':
+    elif args.output_radix == 'fac2' or args.output_radix == 'double_fac' or args.output_radix == '!!':
         g.outputRadix = g.doublefacBase
     elif args.output_radix == 'square' or args.output_radix == 'sqr':
         g.outputRadix = g.squareBase
