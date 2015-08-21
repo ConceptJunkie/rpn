@@ -767,8 +767,8 @@ Added the 'unlist' operator.
 
 Added the 'make_pyth_3' and 'make_pyth_4' operators.
 
-Added the 'equal', 'greater', 'less', 'not_equal', 'not_greater', and
-'not_less' operators.
+Added the 'is_equal', 'is_greater', 'is_less', 'is_not_equal',
+'is_not_greater', and 'is_not_less' operators.
 
 Added the 'reduce' operator.
 
@@ -803,6 +803,12 @@ Added 'crt' operator.
 ...and the usual bug fixes.
 
 6.5.0
+
+Added 'filter_by_index'.
+
+Added 'is_even', 'is_odd', 'is_zero', 'is_not_zero' and renamed the other
+similar binary-value operators to be consistent with the 'is-' and 'is_not-'
+naming.
 
 Added 'latlong_to_nac' operator.
 
@@ -2606,23 +2612,6 @@ c:\>rpn 0 1000 range 34 element
 ''',
 '''
 ''' ],
-    'equal' : [
-'arithmetic', 'returns 1 if n equals k, otherwise returns 0',
-'''
-''',
-'''
-c:\>rpn 0 1 equal
-0
-
-c:\>rpn 1 0 equal
-0
-
-c:\>rpn 1 1 equal
-1
-
-c:\>rpn pi 2 / 1 asin equal
-1
-''' ],
     'estimate' : [
 'special', 'estimates the value of a measurement in common terms',
 '''
@@ -2842,6 +2831,12 @@ Which of the first 80 fibonacci numbers is prime?
 c:\>rpn -p80 1 80 range fib x is_prime filter
 [ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
 ''' ],
+    'filter_by_index' : [
+'special', 'filters a list n using function k applied to the list indexes',
+'''
+''',
+'''
+''' ],
     'find_palindrome' : [
 'lexicographic', 'adds the reverse of n to itself up to k successive times to find a palindrome',
 '''
@@ -2977,23 +2972,6 @@ on the digits that comprise an integer.
 '''
 ''',
 '''
-''' ],
-    'greater' : [
-'arithmetic', 'returns 1 if n is greater than k, otherwise returns 0',
-'''
-''',
-'''
-c:\>rpn 0 1 greater
-0
-
-c:\>rpn 1 0 greater
-1
-
-c:\>rpn 1 1 greater
-0
-
-c:\>rpn 3 5 ** 5 3 ** greater
-1
 ''' ],
     'group_elements' : [
 'list_operators', 'groups the elements of list n into sublsts of k elements',
@@ -3298,6 +3276,125 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
+    'is_equal' : [
+'arithmetic', 'returns 1 if n equals k, otherwise returns 0',
+'''
+''',
+'''
+c:\>rpn 0 1 is_equal
+0
+
+c:\>rpn 1 0 is_equal
+0
+
+c:\>rpn 1 1 is_equal
+1
+
+c:\>rpn pi 2 / 1 asin is_equal
+1
+''' ],
+    'is_even' : [
+'arithmetic', 'returns whether n is an even number',
+'''
+''',
+'''
+''' ],
+    'is_greater' : [
+'arithmetic', 'returns 1 if n is greater than k, otherwise returns 0',
+'''
+''',
+'''
+c:\>rpn 0 1 is_greater
+0
+
+c:\>rpn 1 0 is_greater
+1
+
+c:\>rpn 1 1 is_greater
+0
+
+c:\>rpn 3 5 ** 5 3 ** is_greater
+1
+''' ],
+    'is_less' : [
+'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
+'''
+''',
+'''
+c:\>rpn 1 0 is_less
+0
+
+c:\>rpn 0 1 is_less
+1
+
+c:\>rpn 1 1 is_less
+0
+
+c:\>rpn 3 5 ** 5 3 ** is_less
+0
+''' ],
+    'is_not_equal' : [
+'arithmetic', 'returns 1 if n does not equal k, otherwise returns 0',
+'''
+''',
+'''
+c:\>rpn 0 1 is_not_equal
+1
+
+c:\>rpn 1 0 is_not_equal
+1
+
+c:\>rpn 1 1 is_not_equal
+0
+''' ],
+    'is_not_greater' : [
+'arithmetic', 'returns 1 if n is not greater than k, otherwise returns 0',
+'''
+'is_not_greater' is the equivalent of "less than or equal".
+''',
+'''
+c:\>rpn 0 1 is_not_greater
+1
+
+c:\>rpn 1 0 is_not_greater
+0
+
+c:\>rpn 1 1 is_not_greater
+1
+
+c:\>rpn 3 5 ** 5 3 ** is_not_greater
+0
+''' ],
+    'is_not_less' : [
+'arithmetic', 'returns 1 if n is not less than k, otherwise returns 0',
+'''
+'is_not_less' is the equivalent of "greater than or equal".
+''',
+'''
+c:\>rpn 0 1 is_not_less
+0
+
+c:\>rpn 1 0 is_not_less
+1
+
+c:\>rpn 1 1 is_not_less
+1
+
+c:\>rpn 3 5 ** 5 3 ** is_not_less
+1
+''' ],
+    'is_not_zero' : [
+'arithmetic', 'returns whether n is not zero',
+'''
+''',
+'''
+''' ],
+    'is_odd' : [
+'arithmetic', 'returns whether n is an odd number',
+'''
+''',
+'''
+''' ],
     'is_palindrome' : [
 'lexicographic', 'returns whether an integer n is palindromic',
 '''
@@ -3341,6 +3438,12 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 ''' ],
     'is_square' : [
 'arithmetic', 'returns whether n is a perfect square',
+'''
+''',
+'''
+''' ],
+    'is_zero' : [
+'arithmetic', 'returns whether n is zero',
 '''
 ''',
 '''
@@ -3460,21 +3563,21 @@ c:\>rpn 1 10 range 4 left
 c:\>rpn 1 10 range 1 4 range left
 [ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
 ''' ],
-    'less' : [
+    'is_less' : [
 'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
 '''
 ''',
 '''
-c:\>rpn 1 0 less
+c:\>rpn 1 0 is_less
 0
 
-c:\>rpn 0 1 less
+c:\>rpn 0 1 is_less
 1
 
-c:\>rpn 1 1 less
+c:\>rpn 1 1 is_less
 0
 
-c:\>rpn 3 5 ** 5 3 ** less
+c:\>rpn 3 5 ** 5 3 ** is_less
 0
 ''' ],
     'leyland' : [
@@ -4341,56 +4444,6 @@ c:\>rpn -x 0xF0F0F0F0 not
 
 c:\>rpn -x [ 0 1 ] not
 [ ffff, fffe ]
-''' ],
-    'not_equal' : [
-'arithmetic', 'returns 1 if n does not equal k, otherwise returns 0',
-'''
-''',
-'''
-c:\>rpn 0 1 not_equal
-1
-
-c:\>rpn 1 0 not_equal
-1
-
-c:\>rpn 1 1 not_equal
-0
-''' ],
-    'not_greater' : [
-'arithmetic', 'returns 1 if n is not greater than k, otherwise returns 0',
-'''
-'not_greater' is the equivalent of "less than or equal".
-''',
-'''
-c:\>rpn 0 1 not_greater
-1
-
-c:\>rpn 1 0 not_greater
-0
-
-c:\>rpn 1 1 not_greater
-1
-
-c:\>rpn 3 5 ** 5 3 ** not_greater
-0
-''' ],
-    'not_less' : [
-'arithmetic', 'returns 1 if n is not less than k, otherwise returns 0',
-'''
-'not_less' is the equivalent of "greater than or equal".
-''',
-'''
-c:\>rpn 0 1 not_less
-0
-
-c:\>rpn 1 0 not_less
-1
-
-c:\>rpn 1 1 not_less
-1
-
-c:\>rpn 3 5 ** 5 3 ** not_less
-1
 ''' ],
     'november' : [
 'constants', 'returns 11, which is the code for November',

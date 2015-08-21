@@ -362,6 +362,54 @@ def findPolynomial( n, k ):
 
 # //******************************************************************************
 # //
+# //  filterList
+# //
+# //******************************************************************************
+
+def filterList( n, k ) :
+    if not isinstance( n, list ):
+        n = [ n ]
+
+    if not isinstance( k, FunctionInfo ):
+        raise ValueError( '\'filter\' expects a function argument' )
+
+    result = [ ]
+
+    for item in n:
+        value = evaluateFunction( item, 0, 0, k )
+
+        if value != 0:
+            result.append( item )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  filterListByIndex
+# //
+# //******************************************************************************
+
+def filterListByIndex( n, k ) :
+    if not isinstance( n, list ):
+        n = [ n ]
+
+    if not isinstance( k, FunctionInfo ):
+        raise ValueError( '\'filter_by_index\' expects a function argument' )
+
+    result = [ ]
+
+    for index, item in enumerate( n ):
+        value = evaluateFunction( index, 0, 0, k )
+
+        if value != 0:
+            result.append( item )
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  evaluateFunction
 # //
 # //  Evaluate a user-defined function.  This is the simplest operator to use
@@ -492,30 +540,6 @@ def plot2DFunction( start1, end1, start2, end2, func ):
     splot( lambda x, y: evaluateFunction( x, y, 0, func ),
            [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
     return 0
-
-
-# //******************************************************************************
-# //
-# //  filterList
-# //
-# //******************************************************************************
-
-def filterList( n, k ) :
-    if not isinstance( n, list ):
-        n = [ n ]
-
-    if not isinstance( k, FunctionInfo ):
-        raise ValueError( '\'filter\' expects a function argument' )
-
-    result = [ ]
-
-    for item in n:
-        value = evaluateFunction( item, 0, 0, k )
-
-        if value != 0:
-            result.append( item )
-
-    return result
 
 
 # //******************************************************************************
@@ -947,6 +971,7 @@ functionOperators = [
     'eval2',
     'eval3',
     'filter',
+    'filter_by_index',
     'limit',
     'limitn',
     'nprod',
@@ -1033,6 +1058,7 @@ listOperators = {
     'element'           : OperatorInfo( getListElement, 2 ),
     'eval_poly'         : OperatorInfo( evaluatePolynomial, 2 ),
     'filter'            : OperatorInfo( filterList, 2 ),
+    'filter_by_index'   : OperatorInfo( filterListByIndex, 2 ),
     'flatten'           : OperatorInfo( flatten, 1 ),
     'frobenius'         : OperatorInfo( getFrobeniusNumber, 1 ),
     'gcd'               : OperatorInfo( getGCD, 1 ),
@@ -1190,7 +1216,7 @@ operators = {
     'egypt'                 : OperatorInfo( getGreedyEgyptianFraction, 2 ),
     'election_day'          : OperatorInfo( calculateElectionDay, 1 ),
     'electric_constant'     : OperatorInfo( lambda: Measurement( mpmathify( '8.854187817e-12' ), [ { 'farad' : 1 }, { 'meter' : -1 } ] ), 0 ),
-    'equal'                 : OperatorInfo( isEqual, 2 ),
+    'is_equal'              : OperatorInfo( isEqual, 2 ),
     'estimate'              : OperatorInfo( estimate, 1 ),
     'euler'                 : OperatorInfo( euler, 0 ),
     'euler_brick'           : OperatorInfo( makeEulerBrick, 3 ),
@@ -1221,21 +1247,21 @@ operators = {
     'geometric_range'       : OperatorInfo( expandGeometricRange, 3 ),
     'get_digits'            : OperatorInfo( getDigits, 1 ),
     'glaisher'              : OperatorInfo( glaisher, 0 ),
-    'greater'               : OperatorInfo( isGreater, 2 ),
+    'is_greater'            : OperatorInfo( isGreater, 2 ),
     'harmonic'              : OperatorInfo( harmonic, 1 ),
     'help'                  : OperatorInfo( printHelpMessage, 0 ),
     'heptagonal'            : OperatorInfo( lambda n: getNthPolygonalNumber( n, 7 ), 1 ),
     'heptagonal?'           : OperatorInfo( lambda n: findNthPolygonalNumber( n, 7 ), 1 ),
-    'heptanacci'            : OperatorInfo( getNthHeptanacci, 1 ),
     'heptagonal_hexagonal'  : OperatorInfo( getNthHeptagonalHexagonalNumber, 1 ),
     'heptagonal_pentagonal' : OperatorInfo( getNthHeptagonalPentagonalNumber, 1 ),
     'heptagonal_square'     : OperatorInfo( getNthHeptagonalSquareNumber, 1 ),
     'heptagonal_triangular' : OperatorInfo( getNthHeptagonalTriangularNumber, 1 ),
+    'heptanacci'            : OperatorInfo( getNthHeptanacci, 1 ),
     'hexagonal'             : OperatorInfo( lambda n: getNthPolygonalNumber( n, 6 ), 1 ),
     'hexagonal?'            : OperatorInfo( lambda n: findNthPolygonalNumber( n, 6 ), 1 ),
-    'hexanacci'             : OperatorInfo( getNthHexanacci, 1 ),
     'hexagonal_pentagonal'  : OperatorInfo( getNthHexagonalPentagonalNumber, 1 ),
     'hexagonal_square'      : OperatorInfo( getNthHexagonalSquareNumber, 1 ),
+    'hexanacci'             : OperatorInfo( getNthHexanacci, 1 ),
     'hex_mode'              : OperatorInfo( setHexMode, 0 ),
     'hms'                   : OperatorInfo( convertToHMS, 1 ),
     'hyper4_2'              : OperatorInfo( tetrateLarge, 2 ),
@@ -1256,11 +1282,15 @@ operators = {
     'is_abundant'           : OperatorInfo( isAbundant, 1 ),
     'is_deficient'          : OperatorInfo( isDeficient, 1 ),
     'is_divisible'          : OperatorInfo( lambda n, k: 1 if fmod( n, k ) == 0 else 0, 2 ),
+    'is_even'               : OperatorInfo( lambda n: 1 if fmod( n, 2 ) == 0 else 0, 1 ),
+    'is_not_zero'           : OperatorInfo( lambda n: 0 if n == 0 else 1, 1 ),
+    'is_odd'                : OperatorInfo( lambda n: 1 if fmod( n, 2 ) == 1 else 0, 1 ),
     'is_palindrome'         : OperatorInfo( isPalindrome, 1 ),
     'is_pandigital'         : OperatorInfo( isPandigital, 1 ),
     'is_perfect'            : OperatorInfo( isPerfect, 1 ),
     'is_prime'              : OperatorInfo( lambda n: 1 if isPrime( n ) else 0, 1 ),
     'is_square'             : OperatorInfo( isSquare, 1 ),
+    'is_zero'               : OperatorInfo( lambda n: 1 if n == 0 else 0, 1 ),
     'itoi'                  : OperatorInfo( lambda: exp( fmul( -0.5, pi ) ), 0 ),
     'jacobsthal'            : OperatorInfo( getNthJacobsthalNumber, 1 ),
     'january'               : OperatorInfo( lambda: 1, 0 ),
@@ -1274,7 +1304,7 @@ operators = {
     'lambertw'              : OperatorInfo( lambertw, 1 ),
     'leading_zero'          : OperatorInfo( setLeadingZero, 1 ),
     'leading_zero_mode'     : OperatorInfo( setLeadingZeroMode, 0 ),
-    'less'                  : OperatorInfo( isLess, 2 ),
+    'is_less'               : OperatorInfo( isLess, 2 ),
     'leyland'               : OperatorInfo( lambda x, y : fadd( power( x, y ), power( y, x ) ), 2 ),
     'lgamma'                : OperatorInfo( loggamma, 1 ),
     'li'                    : OperatorInfo( li, 1 ),
@@ -1344,9 +1374,9 @@ operators = {
     'nonagonal_triangular'  : OperatorInfo( getNthNonagonalTriangularNumber, 1 ),
     'nor'                   : OperatorInfo( lambda i, j: getInvertedBits( performBitwiseOperation( i, j, lambda x, y: x | y ) ), 2 ),
     'not'                   : OperatorInfo( getInvertedBits, 1 ),
-    'not_equal'             : OperatorInfo( isNotEqual, 2 ),
-    'not_greater'           : OperatorInfo( isNotGreater, 2 ),
-    'not_less'              : OperatorInfo( isNotLess, 2 ),
+    'is_not_equal'          : OperatorInfo( isNotEqual, 2 ),
+    'is_not_greater'        : OperatorInfo( isNotGreater, 2 ),
+    'is_not_less'           : OperatorInfo( isNotLess, 2 ),
     'november'              : OperatorInfo( lambda: 11, 0 ),
     'now'                   : OperatorInfo( getNow, 0 ),
     'nprod'                 : OperatorInfo( lambda start, end, func: nprod( lambda x: evaluateFunction1( x, func ), [ start, end ] ), 3 ),

@@ -1108,12 +1108,12 @@ def runTests( ):
 
     testRPN( 'rpn 4 3 debruijn' )
 
-    testRPN( 'rpn 4 3 less' )
-    testRPN( 'rpn 4 3 greater' )
-    testRPN( 'rpn 4 3 equal' )
-    testRPN( 'rpn 4 3 not_equal' )
-    testRPN( 'rpn 4 3 not_less' )
-    testRPN( 'rpn 4 3 not_greater' )
+    testRPN( 'rpn 4 3 is_less' )
+    testRPN( 'rpn 4 3 is_greater' )
+    testRPN( 'rpn 4 3 is_equal' )
+    testRPN( 'rpn 4 3 is_not_equal' )
+    testRPN( 'rpn 4 3 is_not_less' )
+    testRPN( 'rpn 4 3 is_not_greater' )
 
     testRPN( 'rpn 5 fibonorial' )
     testRPN( 'rpn -a50 24 fibonorial' )

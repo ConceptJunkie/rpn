@@ -529,7 +529,7 @@ def getFactors( n ):
     verbose = g.verbose
 
     if n < -1:
-        return [ ( -1, 1 ) ] + factor( fneg( n ) )
+        return [ ( -1, 1 ) ] + getFactors( fneg( n ) )
     elif n == -1:
         return [ ( -1, 1 ) ]
     elif n == 0:
