@@ -804,13 +804,13 @@ Added 'crt' operator.
 
 6.5.0
 
-Added 'filter_by_index'.
+Added the 'filter_by_index' operator.
 
-Added 'is_even', 'is_odd', 'is_zero', 'is_not_zero' and renamed the other
-similar binary-value operators to be consistent with the 'is-' and 'is_not-'
-naming.
+Added the 'is_even', 'is_odd', 'is_zero', 'is_not_zero' operators and renamed
+the other similar binary-value operators to be consistent with the 'is-' and
+'is_not-' naming.
 
-Added 'latlong_to_nac' operator.
+Added the 'latlong_to_nac' operator.
 
 Converted the prime number data files in git to the input text files.  Added
 preparePrimeData.py to pickle the files for use.  This will make setting up
