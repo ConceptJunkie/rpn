@@ -804,7 +804,7 @@ Added 'crt' operator.
 
 6.5.0
 
-Added the 'filter_by_index' operator.
+Added the 'filter_by_index' and 'multiply_digits' operators.
 
 Added the 'is_even', 'is_odd', 'is_zero', 'is_not_zero' operators and renamed
 the other similar binary-value operators to be consistent with the 'is-' and
@@ -4248,6 +4248,12 @@ c:\>rpn 7 1 10 range *
 
 c:\>rpn 16800 mA hours * 5 volts * joule convert
 302400 joules
+''' ],
+    'multiply_digits' : [
+'lexicographic', 'calculates the product of the digits of integer n',
+'''
+''',
+'''
 ''' ],
     'name' : [
 'special', 'returns the English name for the integer value n',
