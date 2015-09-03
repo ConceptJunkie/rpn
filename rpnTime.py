@@ -460,6 +460,26 @@ def convertToUnixTime( n ):
 
 #//******************************************************************************
 #//
+#//  convertFromUnixTime
+#//
+#//******************************************************************************
+
+def convertFromUnixTime( n ):
+    try:
+        result = RPNTimeData
+        result.setTime( n )
+    except OverflowError as error:
+        print( 'rpn:  out of range error for \'from_unix_time\'' )
+        return 0
+    except TypeError as error:
+        print( 'rpn:  expected time value for \'from_unix_time\'' )
+        return 0
+
+    return result
+
+
+#//******************************************************************************
+#//
 #//  convertToHMS
 #//
 #//******************************************************************************

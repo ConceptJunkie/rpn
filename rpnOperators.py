@@ -37,6 +37,7 @@ from rpnNumberTheory import *
 from rpnPolynomials import *
 from rpnPolytope import *
 from rpnPrimeUtils import *
+from rpnTime import *
 from rpnUtils import *
 
 from rpnOutput import printHelp
@@ -1241,7 +1242,7 @@ operators = {
     'floor'                 : OperatorInfo( floor, 1 ),
     'fraction'              : OperatorInfo( interpretAsFraction, 2 ),
     'friday'                : OperatorInfo( lambda: 5, 0 ),
-    'from_unix_time'        : OperatorInfo( lambda n: RPNDateTime.get( n ), 1 ),
+    'from_unix_time'        : OperatorInfo( convertFromUnixTime, 1 ),
     'gamma'                 : OperatorInfo( gamma, 1 ),
     'geometric_range'       : OperatorInfo( expandGeometricRange, 3 ),
     'get_digits'            : OperatorInfo( getDigits, 1 ),
