@@ -1376,6 +1376,7 @@ operators = {
     'name'                  : OperatorInfo( getNumberName, 1 ),
     'nand'                  : OperatorInfo( lambda i, j: getInvertedBits( performBitwiseOperation( i, j, lambda x, y: x & y ) ), 2 ),
     'narayana'              : OperatorInfo( lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ), 2 ),
+    'negate'                : OperatorInfo( lambda n: 1 if n == 0 else 0, 1 ),
     'negative'              : OperatorInfo( getNegative, 1 ),
     'negative_infinity'     : OperatorInfo( lambda: -inf, 0 ),
     'newtons_constant'      : OperatorInfo( getNewtonsConstant, 0 ),

@@ -1630,7 +1630,7 @@ c:\>rpn 1 10 range alternating_signs_2
 5
 ''' ],
     'and' : [
-'logical', 'calculates the bitwise \'and\' of n and k',
+'bitwise', 'calculates the bitwise \'and\' of n and k',
 '''
 'and' is the logical operation which returns true if and only if the two
 operands are true.
@@ -2166,7 +2166,7 @@ c:\>rpn 1 100 range count
 100
 ''' ],
     'count_bits' : [
-'logical', 'returns the number of set bits in the value of n',
+'bitwise', 'returns the number of set bits in the value of n',
 '''
 ''',
 '''
@@ -4278,7 +4278,7 @@ c:\>rpn 16800 mA hours * 5 volts * joule convert
 '''
 ''' ],
     'nand' : [
-'logical', 'calculates the bitwise \'nand\' of n and k',
+'bitwise', 'calculates the bitwise \'nand\' of n and k',
 '''
 'nand' is the logical operation, 'not and' which returns true if zero or one
 of the operands is true.
@@ -4300,6 +4300,12 @@ c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand
 ''' ],
     'narayana' : [
 'combinatorics', '',
+'''
+''',
+'''
+''' ],
+    'negate' : [
+'special', 'returns 0 if n is not 0 and 1 if n is 0',
 '''
 ''',
 '''
@@ -4427,7 +4433,7 @@ c:\>rpn 0 20 range fib is_prime nonzero fib
 [ 2, 3, 5, 13, 89, 233, 1597 ]
 ''' ],
     'nor' : [
-'logical', 'calculates the bitwise \'nor\' of n and k',
+'bitwise', 'calculates the bitwise \'nor\' of n and k',
 '''
 'nor' is the logical operation 'not or', which returns true if and only if
 neither of the two operands is true.
@@ -4448,7 +4454,7 @@ c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nor
 [ ffff, 0000, 0000, 0000 ]
 ''' ],
     'not' : [
-'logical', 'calculates the bitwise negation of n',
+'bitwise', 'calculates the bitwise negation of n',
 '''
 'not' is the logical operation, which returns the opposite of the operand.
 
@@ -4715,7 +4721,7 @@ c:\>rpn omega
 0.56714329041
 ''' ],
     'or' : [
-'logical', 'calculates the bitwise \'or\' of n and k',
+'bitwise', 'calculates the bitwise \'or\' of n and k',
 '''
 'or' is the logical operation which returns true if at least one of the two
 operands is true.
@@ -4754,7 +4760,7 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 '''
 ''' ],
     'parity' : [
-'logical', 'returns the bit parity of n (0 == even, 1 == odd)',
+'bitwise', 'returns the bit parity of n (0 == even, 1 == odd)',
 '''
 ''',
 '''
@@ -5586,13 +5592,13 @@ instead of a unit circle.
 '''
 ''' ],
     'shift_left' : [
-'logical', 'performs a bitwise left shift of value n by k bits',
+'bitwise', 'performs a bitwise left shift of value n by k bits',
 '''
 ''',
 '''
 ''' ],
     'shift_right' : [
-'logical', 'performs a bitwise right shift of value n by k bits',
+'bitwise', 'performs a bitwise right shift of value n by k bits',
 '''
 ''',
 '''
@@ -6355,7 +6361,7 @@ c:\>rpn inf x 1 + fib x fib / limit
 1.6180339887
 ''' ],
     'xor' : [
-'logical', 'calculates the bitwise \'xor\' of n and k',
+'bitwise', 'calculates the bitwise \'xor\' of n and k',
 '''
 'xor' is the 'exclusive or' logical operation, which returns true if and only
 if the two operands are different.
