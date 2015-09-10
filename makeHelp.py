@@ -804,6 +804,16 @@ Added 'crt' operator.
 
 6.5.0
 
+Added 'is_smooth', 'unfilter', and 'unfilter_by_index' operators.
+
+Added support for "huge" primes, currently defined to be the one billionth
+through the twelve billionth prime numbers.  Using my current scheme of only
+recording every nth prime number (10000th for the huge primes) I am trying to
+strike a balance between data size and speed.  Using this scheme, access of an
+arbitrary prime number between the one billionth and twelve billionth ranges
+from approximately 4 to 12 seconds (or 2 to 8 seconds on a machine equipped
+with a solid-state drive).
+
 Added the 'filter_by_index' and 'multiply_digits' operators.
 
 Added the 'is_even', 'is_odd', 'is_zero', 'is_not_zero' operators and renamed
@@ -3432,6 +3442,12 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 ''' ],
     'is_prime' : [
 'number_theory', 'returns whether n is prime',
+'''
+''',
+'''
+''' ],
+    'is_smooth' : [
+'number_theory', 'returns whether n is a k-smooth number',
 '''
 ''',
 '''
@@ -6174,6 +6190,21 @@ c:\>rpn pi double -x
 
 c:\>rpn -a20 0x400921fb54442d18 undouble
 3.141592653589793116
+''' ],
+    'unfilter' : [
+'special', 'filters a list n using the inverse of function k',
+'''
+The function is applied to each element of the list and a new list is returned
+which consists only of those elements for which the function returns a zero
+value.
+''',
+'''
+''' ],
+    'unfilter_by_index' : [
+'special', 'filters a list n using the inverse of function k applied to the list indexes',
+'''
+''',
+'''
 ''' ],
     'unfloat' : [
 'conversion', 'interprets a 32-bit integer as a 32-bit IEEE 754 float',

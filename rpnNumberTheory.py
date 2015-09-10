@@ -21,6 +21,7 @@ from mpmath import *
 
 from rpnDeclarations import *
 from rpnFactor import *
+from rpnPrimeUtils import *
 
 
 # //******************************************************************************
@@ -935,4 +936,21 @@ def isPerfect( n ):
 
     return 1 if fsum( getDivisors( n )[ : -1 ] ) == n else 0
 
+
+# //******************************************************************************
+# //
+# //  isSmooth
+# //
+# //******************************************************************************
+
+def isSmooth( n, k ):
+    if n < k:
+        return 0
+
+    if not isPrime( k ):
+        raise ValueError( 'is_smooth expects the second operator to be prime' )
+
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    return 1 if max( [ i[ 0 ] for i in factors ] ) <= k else 0
 

@@ -367,19 +367,22 @@ def findPolynomial( n, k ):
 # //
 # //******************************************************************************
 
-def filterList( n, k ) :
+def filterList( n, k, invert = False ) :
     if not isinstance( n, list ):
         n = [ n ]
 
     if not isinstance( k, FunctionInfo ):
-        raise ValueError( '\'filter\' expects a function argument' )
+        if invert:
+            raise ValueError( '\'unfilter\' expects a function argument' )
+        else:
+            raise ValueError( '\'filter\' expects a function argument' )
 
     result = [ ]
 
     for item in n:
         value = evaluateFunction( item, 0, 0, k )
 
-        if value != 0:
+        if ( value != 0 ) != invert:
             result.append( item )
 
     return result
@@ -391,19 +394,22 @@ def filterList( n, k ) :
 # //
 # //******************************************************************************
 
-def filterListByIndex( n, k ) :
+def filterListByIndex( n, k, invert = False ) :
     if not isinstance( n, list ):
         n = [ n ]
 
     if not isinstance( k, FunctionInfo ):
-        raise ValueError( '\'filter_by_index\' expects a function argument' )
+        if invert:
+            raise ValueError( '\'unfilter_by_index\' expects a function argument' )
+        else:
+            raise ValueError( '\'filter_by_index\' expects a function argument' )
 
     result = [ ]
 
     for index, item in enumerate( n ):
         value = evaluateFunction( index, 0, 0, k )
 
-        if value != 0:
+        if ( value != 0 ) != invert:
             result.append( item )
 
     return result
@@ -980,6 +986,8 @@ functionOperators = [
     'plot',
     'plot2',
     'plotc',
+    'unfilter',
+    'unfilter_by_index',
 ]
 
 
@@ -1103,6 +1111,8 @@ listOperators = {
     'sum'               : OperatorInfo( getSum, 1 ),
     'tower'             : OperatorInfo( calculatePowerTower, 1 ),
     'tower2'            : OperatorInfo( calculatePowerTower2, 1 ),
+    'unfilter'          : OperatorInfo( lambda n, k: filterList( n, k, True ), 2 ),
+    'unfilter_by_index' : OperatorInfo( lambda n, k: filterListByIndex( n, k, True ), 2 ),
     'union'             : OperatorInfo( makeUnion, 2 ),
     'unique'            : OperatorInfo( getUniqueElements, 1 ),
     'unpack'            : OperatorInfo( unpackInteger, 2 ),
@@ -1294,6 +1304,7 @@ operators = {
     'is_pandigital'         : OperatorInfo( isPandigital, 1 ),
     'is_perfect'            : OperatorInfo( isPerfect, 1 ),
     'is_prime'              : OperatorInfo( lambda n: 1 if isPrime( n ) else 0, 1 ),
+    'is_smooth'             : OperatorInfo( isSmooth, 2 ),
     'is_square'             : OperatorInfo( isSquare, 1 ),
     'is_zero'               : OperatorInfo( lambda n: 1 if n == 0 else 0, 1 ),
     'itoi'                  : OperatorInfo( lambda: exp( fmul( -0.5, pi ) ), 0 ),
@@ -1309,7 +1320,7 @@ operators = {
     'lambertw'              : OperatorInfo( lambertw, 1 ),
     'leading_zero'          : OperatorInfo( setLeadingZero, 1 ),
     'leading_zero_mode'     : OperatorInfo( setLeadingZeroMode, 0 ),
-    'leyland'               : OperatorInfo( lambda x, y : fadd( power( x, y ), power( y, x ) ), 2 ),
+    'leyland'               : OperatorInfo( lambda x, y: fadd( power( x, y ), power( y, x ) ), 2 ),
     'lgamma'                : OperatorInfo( loggamma, 1 ),
     'li'                    : OperatorInfo( li, 1 ),
     'limit'                 : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction1( x, func ), n ), 2 ),
