@@ -35,6 +35,7 @@ updateDicts = False
 balancedPrimes = { }
 cousinPrimes = { }
 doubleBalancedPrimes = { }
+hugePrimes = { }
 isolatedPrimes = { }
 largePrimes = { }
 quadPrimes = { }
@@ -67,56 +68,28 @@ def loadTable( dataPath, fileName, default ):
     return primes
 
 
-def loadSmallPrimes( dataPath ):
-    return loadTable( dataPath, 'small_primes', { 4 : 7 } )
-
-
-def loadLargePrimes( dataPath ):
-    return loadTable( dataPath, 'large_primes', { 1000000 : 15485863 } )
-
-
-def loadIsolatedPrimes( dataPath ):
-    return loadTable( dataPath, 'isolated_primes', { 2 : 23 } )
-
-
-def loadTwinPrimes( dataPath ):
-    return loadTable( dataPath, 'twin_primes', { 3 : 11 } )
-
-
 def loadBalancedPrimes( dataPath ):
     return loadTable( dataPath, 'balanced_primes', { 2 : 5 } )
-
-
-def loadDoubleBalancedPrimes( dataPath ):
-    return loadTable( dataPath, 'double_balanced_primes', { 1 : getNthDoubleBalancedPrime( 1 ) } )
-
-
-def loadTripleBalancedPrimes( dataPath ):
-    return loadTable( dataPath, 'triple_balanced_primes', { 1 : getNthTripleBalancedPrime( 1 ) } )
-
-
-def loadSophiePrimes( dataPath ):
-    return loadTable( dataPath, 'sophie_primes', { 4 : 11 } )
 
 
 def loadCousinPrimes( dataPath ):
     return loadTable( dataPath, 'cousin_primes', { 2 : 7 } )
 
 
-def loadSexyPrimes( dataPath ):
-    return loadTable( dataPath, 'sexy_primes', { 2 : 7 } )
+def loadDoubleBalancedPrimes( dataPath ):
+    return loadTable( dataPath, 'double_balanced_primes', { 1 : getNthDoubleBalancedPrime( 1 ) } )
 
 
-def loadSexyTripletPrimes( dataPath ):
-    return loadTable( dataPath, 'sexy_triplets', { 2 : 7 } )
+def loadHugePrimes( dataPath ):
+    return loadTable( dataPath, 'huge_primes', { 1000000000: 22801763489 } )
 
 
-def loadSexyQuadrupletPrimes( dataPath ):
-    return loadTable( dataPath, 'sexy_quadruplets', { 2 : 11 } )
+def loadIsolatedPrimes( dataPath ):
+    return loadTable( dataPath, 'isolated_primes', { 2 : 23 } )
 
 
-def loadTripletPrimes( dataPath ):
-    return loadTable( dataPath, 'triplet_primes', { 2 : 7 } )
+def loadLargePrimes( dataPath ):
+    return loadTable( dataPath, 'large_primes', { 1000000 : 15485863 } )
 
 
 def loadQuadrupletPrimes( dataPath ):
@@ -129,6 +102,38 @@ def loadQuintupletPrimes( dataPath ):
 
 def loadSextupletPrimes( dataPath ):
     return loadTable( dataPath, 'sext_primes', { 1 : 7 } )
+
+
+def loadSexyPrimes( dataPath ):
+    return loadTable( dataPath, 'sexy_primes', { 2 : 7 } )
+
+
+def loadSexyQuadrupletPrimes( dataPath ):
+    return loadTable( dataPath, 'sexy_quadruplets', { 2 : 11 } )
+
+
+def loadSexyTripletPrimes( dataPath ):
+    return loadTable( dataPath, 'sexy_triplets', { 2 : 7 } )
+
+
+def loadSmallPrimes( dataPath ):
+    return loadTable( dataPath, 'small_primes', { 4 : 7 } )
+
+
+def loadSophiePrimes( dataPath ):
+    return loadTable( dataPath, 'sophie_primes', { 4 : 11 } )
+
+
+def loadTripleBalancedPrimes( dataPath ):
+    return loadTable( dataPath, 'triple_balanced_primes', { 1 : getNthTripleBalancedPrime( 1 ) } )
+
+
+def loadTripletPrimes( dataPath ):
+    return loadTable( dataPath, 'triplet_primes', { 2 : 7 } )
+
+
+def loadTwinPrimes( dataPath ):
+    return loadTable( dataPath, 'twin_primes', { 3 : 11 } )
 
 
 # //******************************************************************************
@@ -201,6 +206,7 @@ def getNextPrime( p, func = getNextPrimeCandidate ):
 def getNthPrime( arg ):
     global smallPrimes
     global largePrimes
+    global hugePrimes
     global updateDicts
 
     n = int( arg )
@@ -213,15 +219,21 @@ def getNthPrime( arg ):
         return 3
     elif n == 3:
         return 5
-    elif n >= 1000000:
-        if largePrimes == { }:
-            largePrimes = loadLargePrimes( g.dataPath )
+    elif n >= 1000000000:
+        if hugePrimes == { }:
+            hugePrimes = loadHugePrimes( g.dataPath )
 
-        maxIndex = max( key for key in largePrimes )
+        maxIndex = max( key for key in hugePrimes )
 
         if n > maxIndex and not updateDicts:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
+
+        currentIndex = max( key for key in hugePrimes if key <= n )
+        p = hugePrimes[ currentIndex ]
+    elif n >= 1000000:
+        if largePrimes == { }:
+            largePrimes = loadLargePrimes( g.dataPath )
 
         currentIndex = max( key for key in largePrimes if key <= n )
         p = largePrimes[ currentIndex ]
@@ -274,15 +286,18 @@ def findPrime( arg ):
     elif target < 15485863:     # 1,000,000th prime
         if smallPrimes == { }:
             smallPrimes = loadSmallPrimes( g.dataPath )
-
-        currentIndex = max( key for key in smallPrimes if smallPrimes[ key ] <= target )
-        p = smallPrimes[ currentIndex ]
-    else:
+    elif target < 22801763489:  # 1,000,000,000th prime
         if largePrimes == { }:
             largePrimes = loadLargePrimes( g.dataPath )
 
         currentIndex = max( key for key in largePrimes if largePrimes[ key ] <= target )
-        p = largePrimes[ currentIndex ]
+        p = smallPrimes[ currentIndex ]
+    else:
+        if hugePrimes == { }:
+            hugePrimes = loadHugePrimes( g.dataPath )
+
+        currentIndex = max( key for key in hugePrimes if hugePrimes[ key ] <= target )
+        p = hugePrimes[ currentIndex ]
 
     while True:
         p = getNextPrime( p )
