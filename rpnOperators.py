@@ -689,6 +689,7 @@ def dumpStats( ):
 
     printStats( loadSmallPrimes( g.dataPath ), 'small primes' )
     printStats( loadLargePrimes( g.dataPath ), 'large primes' )
+    printStats( loadHugePrimes( g.dataPath ), 'huge primes' )
     printStats( loadIsolatedPrimes( g.dataPath ), 'isolated primes' )
     printStats( loadTwinPrimes( g.dataPath ), 'twin primes' )
     printStats( loadBalancedPrimes( g.dataPath ), 'balanced primes' )
@@ -1304,6 +1305,7 @@ operators = {
     'is_pandigital'         : OperatorInfo( isPandigital, 1 ),
     'is_perfect'            : OperatorInfo( isPerfect, 1 ),
     'is_prime'              : OperatorInfo( lambda n: 1 if isPrime( n ) else 0, 1 ),
+    'is_rough'              : OperatorInfo( isRough, 2 ),
     'is_smooth'             : OperatorInfo( isSmooth, 2 ),
     'is_square'             : OperatorInfo( isSquare, 1 ),
     'is_zero'               : OperatorInfo( lambda n: 1 if n == 0 else 0, 1 ),

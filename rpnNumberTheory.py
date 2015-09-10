@@ -954,3 +954,23 @@ def isSmooth( n, k ):
 
     return 1 if max( [ i[ 0 ] for i in factors ] ) <= k else 0
 
+
+# //******************************************************************************
+# //
+# //  isRough
+# //
+# //  https://en.wikipedia.org/wiki/Rough_number
+# //
+# //******************************************************************************
+
+def isRough( n, k ):
+    if n < k:
+        return 0
+
+    if not isPrime( k ):
+        raise ValueError( 'is_rough expects the second operator to be prime' )
+
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    return 1 if min( [ i[ 0 ] for i in factors ] ) >= k else 0
+

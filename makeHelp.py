@@ -804,7 +804,8 @@ Added 'crt' operator.
 
 6.5.0
 
-Added 'is_smooth', 'unfilter', and 'unfilter_by_index' operators.
+Added 'is_smooth', 'is_rough', 'unfilter', 'unfilter_by_index' and 'negate'
+operators.
 
 Added support for "huge" primes, currently defined to be the one billionth
 through the twelve billionth prime numbers.  Using my current scheme of only
@@ -3442,6 +3443,12 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 ''' ],
     'is_prime' : [
 'number_theory', 'returns whether n is prime',
+'''
+''',
+'''
+''' ],
+    'is_rough' : [
+'number_theory', 'returns whether n is a k-rough number',
 '''
 ''',
 '''
