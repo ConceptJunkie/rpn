@@ -804,8 +804,9 @@ Added 'crt' operator.
 
 6.5.0
 
-Added 'is_smooth', 'is_rough', 'unfilter', 'unfilter_by_index' and 'negate'
-operators.
+Added 'is_smooth', 'is_rough', 'unfilter', 'unfilter_by_index', 'negate',
+'is_semiprime', 'is_sphenic', 'is_k_semiprime', 'is_squarefree', 'is_unusual',
+'is_powerful', 'is_achilles', 'is_pronic', and 'leonardo' operators.
 
 Added support for "huge" primes, currently defined to be the one billionth
 through the twelve billionth prime numbers.  Using my current scheme of only
@@ -1558,7 +1559,6 @@ c:\>rpn 1 mile 1 km +
     'add_digits' : [
 'lexicographic', 'adds the digits of k to n',
 '''
-TODO: explain me
 ''',
 '''
 ''' ],
@@ -2027,7 +2027,6 @@ If n is not a centered octagonal number, the result will not be a whole number.
     'comma' : [
 'settings', 'allows changing the comma option in interactive mode',
 '''
-TODO: fill me out
 ''',
 '''
 rpn (1)>5 12 **
@@ -2356,7 +2355,7 @@ c:\>rpn [ 2016 dec 25 ] make_time
 '''
 ''' ],
     'decimal_grouping' : [
-'settings', 'TODO: describe me',
+'settings', 'used in interactive mode to set the decimal grouping level',
 '''
 ''',
 '''
@@ -2549,14 +2548,12 @@ c:\>rpn [ 1 10 range 10 dup ] unique
     'dup_digits' : [
 'lexicographic', 'append n with a copy of its last k digits',
 '''
-TODO: explain me
 ''',
 '''
 ''' ],
     'dup_operator' : [
 'modifiers', 'duplicates an operation n times',
 '''
-TODO:  explain me
 ''',
 '''
 ''' ],
@@ -2601,7 +2598,6 @@ c:\>rpn 1964 election_day
     'electric_constant' : [
 'constants', 'returns the electric constant',
 '''
-TODO:  explain all the other names this has
 ''',
 '''
 ''' ],
@@ -3201,7 +3197,7 @@ d:\dev\trunk\idirect>rpn inf x 1 + fib x fib / limit
 1.618033988741
 ''' ],
     'input_radix' : [
-'settings', 'TODO: describe me',
+'settings', 'used in interactive mode to set the input radix',
 '''
 ''',
 '''
@@ -3213,7 +3209,7 @@ d:\dev\trunk\idirect>rpn inf x 1 + fib x fib / limit
 '''
 ''' ],
     'integer_grouping' : [
-'settings', 'TODO: describe me',
+'settings', 'used in interactive mode to set the integer grouping',
 '''
 ''',
 '''
@@ -3270,13 +3266,19 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
     'is_abundant' : [
-'number_theory', 'TODO: fill me in',
+'number_theory', 'returns whether or not n is an abundant number',
+'''
+''',
+'''
+''' ],
+    'is_achilles' : [
+'number_theory', 'returns whether or not n is an Achilles number',
 '''
 ''',
 '''
 ''' ],
     'is_deficient' : [
-'number_theory', 'TODO: fill me in',
+'number_theory', 'returns whether or not n is a deficient number',
 '''
 ''',
 '''
@@ -3326,6 +3328,12 @@ c:\>rpn 1 1 is_greater
 
 c:\>rpn 3 5 ** 5 3 ** is_greater
 1
+''' ],
+    'is_k_semiprime' : [
+'number_theory', 'returns whether n is a k-factor square-free number',
+'''
+''',
+'''
 ''' ],
     'is_less' : [
 'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
@@ -3436,7 +3444,7 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 1
 ''' ],
     'is_perfect' : [
-'number_theory', 'TODO: fill me in',
+'number_theory', 'returns whether or not n is a perfect number',
 '''
 ''',
 '''
@@ -3447,8 +3455,26 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 ''',
 '''
 ''' ],
+    'is_pronic' : [
+'number_theory', 'returns whether n is pronic',
+'''
+''',
+'''
+''' ],
+    'is_powerful' : [
+'number_theory', 'returns whether n is a powerful number',
+'''
+''',
+'''
+''' ],
     'is_rough' : [
 'number_theory', 'returns whether n is a k-rough number',
+'''
+''',
+'''
+''' ],
+    'is_semiprime' : [
+'number_theory', 'returns whether n is a semiprime number',
 '''
 ''',
 '''
@@ -3459,8 +3485,26 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 ''',
 '''
 ''' ],
+    'is_sphenic' : [
+'number_theory', 'returns whether n is a sphenic number',
+'''
+''',
+'''
+''' ],
     'is_square' : [
 'arithmetic', 'returns whether n is a perfect square',
+'''
+''',
+'''
+''' ],
+    'is_squarefree' : [
+'number_theory', 'returns whether n is a square-free number',
+'''
+''',
+'''
+''' ],
+    'is_unusual' : [
+'number_theory', 'returns whether n is an unusual number',
 '''
 ''',
 '''
@@ -3567,7 +3611,7 @@ c:\>rpn 2016 labor_day
 '''
 ''' ],
     'leading_zero_mode' : [
-'settings', 'TODO:',
+'settings', 'used in the interactive mode to set the leading zero mode for output',
 '''
 ''',
 '''
@@ -3603,8 +3647,14 @@ c:\>rpn 1 1 is_less
 c:\>rpn 3 5 ** 5 3 ** is_less
 0
 ''' ],
+    'leonardo' : [
+'number_theory', 'returns the nth Leonardo number',
+'''
+''',
+'''
+''' ],
     'leyland' : [
-'number_theory', 'gets the Leyland number for n and k',
+'number_theory', 'returns the Leyland number for n and k',
 '''
 ''',
 '''
@@ -4749,7 +4799,7 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 [ 0, 1, 1, 1 ]
 ''' ],
     'output_radix' : [
-'settings', 'TODO: describe me',
+'settings', 'used in the interactive mode to set the output radix',
 '''
 ''',
 '''
@@ -5017,7 +5067,7 @@ c:\>rpn 1 foot 3 ** gallon convert
 7.480519480519 gallons
 ''' ],
     'precision' : [
-'settings', 'TODO: describe me',
+'settings', 'used in the interactive mode to set the output precision',
 '''
 ''',
 '''

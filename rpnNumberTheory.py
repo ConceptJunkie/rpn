@@ -947,9 +947,6 @@ def isSmooth( n, k ):
     if n < k:
         return 0
 
-    if not isPrime( k ):
-        raise ValueError( 'is_smooth expects the second operator to be prime' )
-
     factors = getECMFactors( n ) if g.ecm else getFactors( n )
 
     return 1 if max( [ i[ 0 ] for i in factors ] ) <= k else 0
@@ -967,10 +964,104 @@ def isRough( n, k ):
     if n < k:
         return 0
 
-    if not isPrime( k ):
-        raise ValueError( 'is_rough expects the second operator to be prime' )
-
     factors = getECMFactors( n ) if g.ecm else getFactors( n )
 
     return 1 if min( [ i[ 0 ] for i in factors ] ) >= k else 0
+
+
+# //******************************************************************************
+# //
+# //  isKSemiPrime
+# //
+# //******************************************************************************
+
+def isKSemiPrime( n, k ):
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    return 1 if sum( [ i[ 1 ] for i in factors ] ) == k else 0
+
+
+# //******************************************************************************
+# //
+# //  isSphenic
+# //
+# //******************************************************************************
+
+def isSphenic( n, k ):
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    if len( factors ) != 3:
+        return 0
+
+    return 1 if max( [ i[ 1 ] for i in factors ] ) == 1 else 0
+
+
+# //******************************************************************************
+# //
+# //  isSquareFree
+# //
+# //******************************************************************************
+
+def isSquareFree( n ):
+    if n == 0:
+        return 0
+
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    return 1 if max( [ i[ 1 ] for i in factors ] ) == 1 else 0
+
+
+# //******************************************************************************
+# //
+# //  isPowerful
+# //
+# //******************************************************************************
+
+def isPowerful( n ):
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    return 1 if min( [ i[ 1 ] for i in factors ] ) >= 2 else 0
+
+
+# //******************************************************************************
+# //
+# //  isAchillesNumber
+# //
+# //******************************************************************************
+
+def isAchillesNumber( n ):
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    if min( [ i[ 1 ] for i in factors ] ) < 2:
+        return 0
+
+    return 1 if getGCD( [ i[ 1 ] for i in factors ] ) == 1 else 0
+
+
+# //******************************************************************************
+# //
+# //  isUnusual
+# //
+# //  https://en.wikipedia.org/wiki/Unusual_number
+# //
+# //******************************************************************************
+
+def isUnusual( n ):
+    if n < 2:
+        return 0
+
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    return 1 if max( [ i[ 0 ] for i in factors ] ) > sqrt( n ) else 0
+
+
+# //******************************************************************************
+# //
+# //  isPronic
+# //
+# //******************************************************************************
+
+def isPronic( n ):
+    a = floor( sqrt( n ) )
+    return 1 if n == fmul( a, fadd( a, 1 ) ) else 0
 
