@@ -266,6 +266,8 @@ def getNthPrime( arg ):
         currentIndex += 1
 
     if updateDicts:
+        if n >= 1000000000:
+            hugePrimes[ n ] = p
         if n >= 1000000:
             largePrimes[ n ] = p
         else:
