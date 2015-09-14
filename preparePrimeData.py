@@ -48,6 +48,8 @@ def preparePrimeData( baseName ):
 # //******************************************************************************
 
 if __name__ == '__main__':
+    preparePrimeData( "balanced_primes" )
+    preparePrimeData( "cousin_primes" )
     preparePrimeData( "double_balanced_primes" )
     preparePrimeData( "huge_primes" )
     preparePrimeData( "isolated_primes" )

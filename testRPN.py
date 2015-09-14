@@ -623,6 +623,7 @@ def runTests( ):
     testRPN( 'rpn 67 nth_prime?' )
     testRPN( 'rpn 16467 nth_prime?' )
     testRPN( 'rpn -c 13,000,000,000 nth_prime?' )
+    testRPN( 'rpn -c 256,000,000,000 nth_prime?' )
 
     testRPN( 'rpn 1 100000 10000 range2 nth_quad?' )
     testRPN( 'rpn 453456 nth_quad?' )
@@ -711,12 +712,14 @@ def runTests( ):
     testRPN( 'rpn 8783 prime' )
     testRPN( 'rpn 142857 prime' )
     testRPN( 'rpn 367981443 prime' )
+    testRPN( 'rpn 9113486725 prime' )
 
     testRPN( 'rpn 1 100 range prime?' )
     testRPN( 'rpn 35 prime?' )
     testRPN( 'rpn 8783 prime?' )
     testRPN( 'rpn 142857 prime?' )
     testRPN( 'rpn -c 6 13 ** 1 + prime?' )
+    testRPN( 'rpn -c 7 13 ** 1 + prime?' )
 
     testRPN( 'rpn 87 primepi' )
 
@@ -728,6 +731,7 @@ def runTests( ):
     testRPN( 'rpn 150 10 primes' )
     testRPN( 'rpn 98765 20 primes' )
     testRPN( 'rpn 176176176 25 primes' )
+    testRPN( 'rpn 11,000,000,000 25 primes' )
 
     testRPN( 'rpn 304 pyramid' )
 

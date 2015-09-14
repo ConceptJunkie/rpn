@@ -421,6 +421,7 @@ operatorAliases = {
     'nthdayofyear'      : 'nth_weekday_of_year',
     'nthprime'          : 'prime',
     'nthprime?'         : 'nth_prime?',
+    'nth_prime'         : 'nth_prime?',
     'nthquad?'          : 'nth_quad?',
     'nthweekday'        : 'nth_weekday',
     'nthweekdayofyear'  : 'nth_weekday_of_year',

@@ -266,8 +266,6 @@ def getNthPrime( arg ):
         currentIndex += 1
 
     if updateDicts:
-        if n >= 1000000000:
-            hugePrimes[ n ] = p
         if n >= 1000000:
             largePrimes[ n ] = p
         else:
@@ -285,6 +283,7 @@ def getNthPrime( arg ):
 def findPrime( arg ):
     global smallPrimes
     global largePrimes
+    global hugePrimes
 
     target = int( arg )
 
@@ -302,12 +301,15 @@ def findPrime( arg ):
     elif target < 15485863:     # 1,000,000th prime
         if smallPrimes == { }:
             smallPrimes = loadSmallPrimes( g.dataPath )
+
+        currentIndex = max( key for key in smallPrimes if smallPrimes[ key ] <= target )
+        p = smallPrimes[ currentIndex ]
     elif target < 22801763489:  # 1,000,000,000th prime
         if largePrimes == { }:
             largePrimes = loadLargePrimes( g.dataPath )
 
         currentIndex = max( key for key in largePrimes if largePrimes[ key ] <= target )
-        p = smallPrimes[ currentIndex ]
+        p = largePrimes[ currentIndex ]
     else:
         if hugePrimes == { }:
             hugePrimes = loadHugePrimes( g.dataPath )
