@@ -151,7 +151,10 @@ def handleOutput( valueList ):
 # //******************************************************************************
 
 def enterInteractiveMode( ):
-    import readline
+    try:
+        import readline
+    except ImportError:
+        import pyreadline as readline
 
     readline.parse_and_bind( 'tab: complete' )
     readline.parse_and_bind( 'set editing-mode vi' )
