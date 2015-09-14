@@ -60,8 +60,16 @@ class RPNDateTime( arrow.Arrow ):
         return RPNDateTime( result.year, result.month, result.day, result.hour,
                             result.minute, result.second, result.microsecond, result.tzinfo )
 
-    def setTime( self, n ):
+    @staticmethod
+    def parseDateTime( n ):
         result = arrow.api.get( n )
+
+        return RPNDateTime( result.year, result.month, result.day, result.hour,
+                            result.minute, result.second, result.microsecond, result.tzinfo )
+
+    @staticmethod
+    def getNow( ):
+        result = arrow.now( )
 
         return RPNDateTime( result.year, result.month, result.day, result.hour,
                             result.minute, result.second, result.microsecond, result.tzinfo )

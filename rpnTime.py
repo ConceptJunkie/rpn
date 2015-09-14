@@ -106,16 +106,6 @@ def subtractTimes( n, k ):
 
 #//******************************************************************************
 #//
-#//  getNow
-#//
-#//******************************************************************************
-
-def getNow( ):
-    return RPNDateTime( arrow.now( ) )
-
-
-#//******************************************************************************
-#//
 #//  getToday
 #//
 #//******************************************************************************
@@ -447,7 +437,7 @@ def generateYearCalendar( n ):
 
 def convertToUnixTime( n ):
     try:
-        result = n.timestamp
+        result = RPNDateTime.parseDateTime( n ).timestamp
     except OverflowError as error:
         print( 'rpn:  out of range error for \'to_unix_time\'' )
         return 0
@@ -466,8 +456,7 @@ def convertToUnixTime( n ):
 
 def convertFromUnixTime( n ):
     try:
-        result = RPNTimeData
-        result.setTime( n )
+        result = RPNDateTime.parseDateTime( n )
     except OverflowError as error:
         print( 'rpn:  out of range error for \'from_unix_time\'' )
         return 0

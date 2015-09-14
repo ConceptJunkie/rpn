@@ -1403,7 +1403,7 @@ operators = {
     'nor'                   : OperatorInfo( lambda i, j: getInvertedBits( performBitwiseOperation( i, j, lambda x, y: x | y ) ), 2 ),
     'not'                   : OperatorInfo( getInvertedBits, 1 ),
     'november'              : OperatorInfo( lambda: 11, 0 ),
-    'now'                   : OperatorInfo( getNow, 0 ),
+    'now'                   : OperatorInfo( RPNDateTime.getNow, 0 ),
     'nprod'                 : OperatorInfo( lambda start, end, func: nprod( lambda x: evaluateFunction1( x, func ), [ start, end ] ), 3 ),
     'nsphere_area'          : OperatorInfo( getNSphereSurfaceArea, 2 ),
     'nsphere_radius'        : OperatorInfo( getNSphereRadius, 2 ),
