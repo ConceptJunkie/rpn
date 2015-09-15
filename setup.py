@@ -27,10 +27,15 @@ setup(
     name = 'rpn',
     version = '6.5.0',
     description = 'command-line RPN calculator with arbitrary precision',
-    long_description = 'TODO: write long description!',
-    #long_description = ( read( 'README.rst' ) + '\n\n' +
-    #                     read( 'HISTORY.rst' ) + '\n\n' +
-    #                     read( 'AUTHORS.rst' ) ),
+    long_description =
+'''
+rpn is a command-line Reverse-Polish Notation calculator that was first
+written in C in 1988.  It was rewritten in Python 3 in 2012 and now uses the
+mpmath library.  It was a Python-learning exercise for me, and a fun little
+toy, but when I found mpmath, it became really cool, so props to Fredrik
+Johansson, who did all the heavy lifting (http://mpmath.org).
+''',
+
     url = 'http://github.com/ConceptJunkie/rpn/',
     license = 'GPL3',
     author = 'Rick Gutleber',
@@ -74,7 +79,7 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Scientific/Engineering :: Mathematics',
         'Environment :: Console',
     ],
@@ -96,6 +101,6 @@ setup(
                                      g.dataDir + os.sep + 'triple_balanced_primes.txt',
                                      g.dataDir + os.sep + 'triplet_primes.txt',
                                      g.dataDir + os.sep + 'twin_primes.txt' ] ) ],
-    packages = find_packages( exclude = [ 'test*', 'setup_*', 'makeRPNPrimes*' ] ),
+    packages = find_packages( exclude = [ 'setup_*', 'makeRPNPrimes*' ] ),
 )
 

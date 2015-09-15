@@ -1,7 +1,12 @@
 include rpn*.py
 include pyecm.py
-include setup*.py
+include setup.py
+include makeHelp.py
+include makeRPN.py
+include preparePrimeData.py
+include test*.py
 include buildRPN.bat
 include gpl-3.0.txt
 include requirements.txt
-recursive-include rpndata *.pckl.bz2
+recursive-include rpndata *.txt
+
