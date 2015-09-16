@@ -410,7 +410,9 @@ def rpn( cmd_args ):
         g.outputRadix = g.sqrt2Base
     else:
         try:
-            g.outputRadix = int( args.output_radix )
+            # if g.outputRadix was already set (e.g., by -o) then we don't want to override it
+            if g.outputRadix == 10:
+                g.outputRadix = int( args.output_radix )
         except ValueError:
             print( 'rpn:  can\'t interpret output radix \'%s\' as a number' % args.output_radix )
             return
