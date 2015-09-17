@@ -804,9 +804,48 @@ Added 'crt' operator.
 
 6.5.0
 
-Added 'is_smooth', 'is_rough', 'unfilter', 'unfilter_by_index', 'negate',
-'is_semiprime', 'is_sphenic', 'is_k_semiprime', 'is_squarefree', 'is_unusual',
-'is_powerful', 'is_achilles', 'is_pronic', and 'leonardo' operators.
+Added 'ecm' operator.
+
+Added the 'hexagonal_square' operator.
+
+Added the 'dup_operator', 'add_digits', and 'dup_digits' operators.
+
+Ctrl-c can no longer interrupt saving the cache files, causing corruption.
+
+Added the 'reverse_digits', 'group_elements', and 'is_palindrome' operators.
+
+Added the 'combine_digits', 'is_pandigital', 'compositions' operators.
+
+Added the 'reversal_addition' and 'find_palindrome' operators.
+
+Added the 'get_digits' and 'sum_digits' operators.
+
+The Great Renaming!   Renamed a bunch of operators so that multi-word operator
+names always contain underscores between words.  The change makes sense now
+that there are hundreds of operators.  The old names remain as aliases.
+
+Added the 'silver_ratio', 'is_deficient', 'is_abundant' and 'is_perfect'
+operators.
+
+Added support for a lot of new bases for output, including factorial,
+double factorial, Fibonacci (which was there but had been left out of the
+documentation somehow), Lucas, triangular, square, e, pi, and the square root
+of 2.  These all now include support for fractions.
+
+Added the 'multifactorial', 'invert_units', 'shuffle', and 'occurrences'
+operators.
+
+Converted the prime number data files in git to the input text files.  Added
+preparePrimeData.py to pickle the files for use.  This will make setting up
+rpn for use with Python 2 possible.
+
+Added the 'latlong_to_nac' operator.
+
+Added the 'is_even', 'is_odd', 'is_zero', 'is_not_zero' operators and renamed
+the other similar binary-value operators to be consistent with the 'is-' and
+'is_not-' naming.
+
+Added the 'filter_by_index' and 'multiply_digits' operators.
 
 Added support for "huge" primes, currently defined to be the one billionth
 through the twelve billionth prime numbers.  Using my current scheme of only
@@ -816,58 +855,13 @@ arbitrary prime number between the one billionth and twelve billionth ranges
 from approximately 4 to 12 seconds (or 2 to 8 seconds on a machine equipped
 with a solid-state drive).
 
-Added the 'filter_by_index' and 'multiply_digits' operators.
-
-Added the 'is_even', 'is_odd', 'is_zero', 'is_not_zero' operators and renamed
-the other similar binary-value operators to be consistent with the 'is-' and
-'is_not-' naming.
-
-Added the 'latlong_to_nac' operator.
-
-Converted the prime number data files in git to the input text files.  Added
-preparePrimeData.py to pickle the files for use.  This will make setting up
-rpn for use with Python 2 possible.
-
-Added the 'multifactorial', 'invert_units', 'shuffle', and 'occurrences'
-operators.
-
-Added support for a lot of new bases for output, including factorial,
-double factorial, Fibonacci (which was there but had been left out of the
-documentation somehow), Lucas, triangular, square, e, pi, and the square root
-of 2.  These all now include support for fractions.
-
-Added the 'silver_ratio', 'is_deficient', 'is_abundant' and 'is_perfect'
-operators.
-
-The Great Renaming!   Renamed a bunch of operators so that multi-word operator
-names always contain underscores between words.  The change makes sense now
-that there are hundreds of operators.  The old names remain as aliases.
-
-Added the 'get_digits' and 'sum_digits' operators.
-
-Renamed a bunch of operators so that multi-word operator names always contain
-underscores between words.  The change makes sense now that there are hundreds
-of operators.  The old names remain as aliases.
-
-Added the 'reversal_addition' and 'find_palindrome' operators.
-
-Added the 'combine_digits', 'is_pandigital', 'compositions' operators.
-
-Added the 'reverse_digits', 'group_elements', and 'is_palindrome' operators.
-
-Ctrl-c can no longer interrupt saving the cache files, causing corruption.
-
-Added the 'dup_operator', 'add_digits', and 'dup_digits' operators.
-
-Added the 'hexagonal_square' operator.
-
-Added 'ecm' operator.
-
 Added the 'nand' and 'nor' operators.
 
-Filled in a bunch of help text.
+Added 'is_smooth', 'is_rough', 'unfilter', 'unfilter_by_index', 'negate',
+'is_semiprime', 'is_sphenic', 'is_k_semiprime', 'is_squarefree', 'is_unusual',
+'is_powerful', 'is_achilles', 'is_pronic', and 'leonardo' operators.
 
-Renamed some operators, but the old names are aliases.
+Filled in a bunch of help text.
 
 ...and the usual bug fixes.
     ''',
