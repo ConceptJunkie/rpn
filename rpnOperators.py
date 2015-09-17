@@ -669,7 +669,7 @@ def dumpAliases( ):
 def printStats( dict, name ):
     index = max( [ key for key in dict ] )
 
-    print( '{:10,} {:23} max: {:13,} ({:,})'.format( len( dict ), name, index, dict[ index ] ) )
+    print( '{:10,} {:23} max: {:14,} ({:,})'.format( len( dict ), name, index, dict[ index ] ) )
 
 
 # //******************************************************************************
