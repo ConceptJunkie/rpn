@@ -242,6 +242,7 @@ def enterHelpMode( terms ):
 def rpn( cmd_args ):
     # initialize globals
     g.debugMode = False
+    g.outputRadix = 10
 
     if getattr( sys, 'frozen', False ):
         g.dataPath = os.path.dirname( sys.executable )
