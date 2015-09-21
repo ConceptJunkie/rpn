@@ -69,7 +69,11 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
                    'rpnUnitClasses',
                    'rpnUnits',
                    'rpnUtils',
-                   'rpnVersion' ],
+                   'rpnVersion',
+                   'pyecm',
+                   'makeHelp',
+                   'makeUnits',
+                   'preparePrimeData' ],
     install_requires = open( 'requirements.txt' ).read( ).splitlines( ),
     include_package_data = True,
     classifiers = [
@@ -106,6 +110,6 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
                                      g.dataDir + os.sep + 'triple_balanced_primes.txt',
                                      g.dataDir + os.sep + 'triplet_primes.txt',
                                      g.dataDir + os.sep + 'twin_primes.txt' ] ) ],
-    packages = find_packages( exclude = [ 'setup_*', 'makeRPNPrimes*' ] ),
+    packages = find_packages( exclude = [ 'setup_*' ] ),
 )
 

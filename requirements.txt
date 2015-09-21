@@ -1,6 +1,5 @@
 arrow
 gmpy2
-matplotlib
-mpmath
-pyreadline
+mpmath>=0.19
+pyreadline>=2.1
 pyprimes
