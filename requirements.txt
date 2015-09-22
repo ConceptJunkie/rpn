@@ -1,5 +1,4 @@
 arrow
-gmpy2
 mpmath>=0.19
 pyreadline>=2.1
 pyprimes

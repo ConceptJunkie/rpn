@@ -1225,6 +1225,7 @@ operators = {
     'e'                     : OperatorInfo( e, 0 ),
     'easter'                : OperatorInfo( calculateEaster, 1 ),
     'ecm'                   : OperatorInfo( getECMFactorList, 1 ),
+    'eddington_number'      : OperatorInfo( getEddingtonNumber, 0 ),
     'egypt'                 : OperatorInfo( getGreedyEgyptianFraction, 2 ),
     'election_day'          : OperatorInfo( calculateElectionDay, 1 ),
     'electric_constant'     : OperatorInfo( lambda: Measurement( mpmathify( '8.854187817e-12' ), [ { 'farad' : 1 }, { 'meter' : -1 } ] ), 0 ),

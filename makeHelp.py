@@ -2569,6 +2569,13 @@ c:\>rpn [ 1 10 range 10 dup ] unique
 ''',
 '''
 ''' ],
+    'eddington_number' : [
+'constants', 'returns Arthur Eddington\'s famous estimate of the number of subatomic particles in the Universe',
+'''In 1938, Arthur Eddington famously claimed that, "I believe there are
+15,747,724,136,275,002,577,605,653,961,181,555,468,044,717,914,527,116,709,366,231,425,076,185,631,031,296
+protons in the universe and the same number of electrons."  This number is equal to 136 * 2^256.''',
+'''
+''' ],
     'egypt' : [
 'number_theory', 'calculates the greedy Egyption fractions for n/k',
 '''

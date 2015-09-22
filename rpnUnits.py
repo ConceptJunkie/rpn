@@ -355,7 +355,7 @@ unitOperators = {
     # amount of substance
 
     'mole' :
-        UnitInfo( 'amount_of_substance', 'mole', 'mole', 'mol', [ '' ], [ 'SI' ],
+        UnitInfo( 'amount_of_substance', 'mole', 'mole', 'mol', [ 'einstein' ], [ 'SI' ],
                   '''
                   ''' ),
 
@@ -762,63 +762,51 @@ unitOperators = {
 
     'undecillion' :
         UnitInfo( 'constant', 'undecillion', 'undecillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One undecillion:  10e36''' ),
 
     'duodecillion' :
         UnitInfo( 'constant', 'duodecillion', 'duodecillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One duodecillion:  10e39''' ),
 
     'tredecillion' :
         UnitInfo( 'constant', 'tredecillion', 'tredecillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One decillion:  10e42''' ),
 
     'quattuordecillion' :
         UnitInfo( 'constant', 'quattuordecillion', 'quattuordecillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One decillion:  10e45''' ),
 
     'quindecillion' :
         UnitInfo( 'constant', 'quindecillion', 'quindecillion', '', [ 'quinquadecillion' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One decillion:  10e48''' ),
 
     'sexdecillion' :
         UnitInfo( 'constant', 'sexdecillion', 'sexdecillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One decillion:  10e51''' ),
 
     'septendecillion' :
         UnitInfo( 'constant', 'septemdecillion', 'septemdecillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One decillion:  10e54''' ),
 
     'octodecillion' :
         UnitInfo( 'constant', 'octodecillion', 'octodecillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One decillion:  10e57''' ),
 
     'novemdecillion' :
         UnitInfo( 'constant', 'novemdecillion', 'novemdecillion', '', [ 'novendecillion' ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One decillion:  10e60''' ),
 
     'vigintillion' :
         UnitInfo( 'constant', 'vigintillion', 'vigintillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One decillion:  10e63''' ),
 
     'googol' :
         UnitInfo( 'constant', 'googol', 'googols', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One googol:  10e100 or ten duotrigintillion, famously named in 1920 by 9-year-old Milton Sirotta''' ),
 
     'centillion' :
         UnitInfo( 'constant', 'centillion', 'centillion', '', [ ], [ 'constant' ],
-                  '''
-                  ''' ),
+                  '''One centillion:  10e303''' ),
 
     # current
 
@@ -1826,6 +1814,11 @@ unitOperators = {
 
     'carat' :
         UnitInfo( 'mass', 'carat', 'carats', 'kt', [ 'karat', 'karats' ], [ 'US' ],
+                  '''
+                  ''' ),
+
+    'chandrasekhar_limit' :
+        UnitInfo( 'mass', 'chandrasekhar_limit', 'x chandrasekhar_limit', '', [ 'chandrasekhar' ], [ 'science' ],
                   '''
                   ''' ),
 
@@ -3288,6 +3281,7 @@ unitConversionMatrix = {
     ( 'century',                    'nanocentury' )                         : mpmathify( '1.0e9' ),
     ( 'century',                    'year' )                                : mpmathify( '100' ),
     ( 'chain',                      'yard' )                                : mpmathify( '22' ),
+    ( 'chandrasekhar_limit',        'gram' )                                : mpmathify( '2.765e33' ),
     ( 'chopine',                    'liter' )                               : mpmathify( '0.25' ),
     ( 'clarke',                     'day' )                                 : mpmathify( '1' ),
     ( 'clarke',                     'wolverton' )                           : mpmathify( '1.0e6' ),
