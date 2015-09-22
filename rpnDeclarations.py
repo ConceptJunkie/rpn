@@ -45,7 +45,8 @@ class RPNDateTime( arrow.Arrow ):
     def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
                   microsecond = 0, tzinfo = None, dateOnly = False ):
         self.dateOnly = dateOnly
-        super( RPNDateTime, self ).__init__( year, month, day, hour, minute, second,
+        super( RPNDateTime, self ).__init__( int( year ), int( month ), int( day ),
+                                             int( hour ), int( minute ), int( second ),
                                              microsecond, tzinfo )
 
     def setDateOnly( self, dateOnly = True ):
@@ -71,6 +72,15 @@ class RPNDateTime( arrow.Arrow ):
     def convertFromArrow( arrow ):
         return RPNDateTime( arrow.year, arrow.month, arrow.day, arrow.hour,
                             arrow.minute, arrow.second, arrow.microsecond, arrow.tzinfo )
+
+    @staticmethod
+    def convertFromEphemDate( ephem_date ):
+        dateValues = list( ephem_date.tuple( ) )
+
+        dateValues.append( int( fmul( fsub( dateValues[ 5 ], floor( dateValues[ 5 ] ) ), 1000000 ) ) )
+        dateValues[ 5 ] = int( floor( dateValues[ 5 ] ) )
+
+        return RPNDateTime( *dateValues )
 
     @staticmethod
     def getNow( ):

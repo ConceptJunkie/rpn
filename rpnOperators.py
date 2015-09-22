@@ -21,6 +21,7 @@ from mpmath import *
 
 from random import randrange
 
+from rpnAstronomy import *
 from rpnCombinatorics import *
 from rpnComputer import *
 from rpnConstants import *
@@ -1158,6 +1159,7 @@ operators = {
     'atan'                  : OperatorInfo( lambda n: performTrigOperation( n, atan ), 1 ),
     'atanh'                 : OperatorInfo( lambda n: performTrigOperation( n, atanh ), 1 ),
     'august'                : OperatorInfo( lambda: 8, 0 ),
+    'autumnal_equinox'      : OperatorInfo( getAutumnalEquinox, 1 ),
     'avogadro'              : OperatorInfo( getAvogadrosNumber, 0 ),
     'balanced_prime'        : OperatorInfo( getNthBalancedPrime, 1 ),
     'balanced_prime_'       : OperatorInfo( getNthBalancedPrimeList, 1 ),
@@ -1531,6 +1533,7 @@ operators = {
     'subfactorial'          : OperatorInfo( lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1 ),
     'subtract'              : OperatorInfo( subtract, 2, ),
     'sum_digits'            : OperatorInfo( sumDigits, 1 ),
+    'summer_solstice'       : OperatorInfo( getSummerSolstice, 1 ),
     'sunday'                : OperatorInfo( lambda: 7, 0 ),
     'superfactorial'        : OperatorInfo( superfac, 1 ),
     'superprime'            : OperatorInfo( getNthSuperPrime, 1 ),
@@ -1571,8 +1574,10 @@ operators = {
     'unit_roots'            : OperatorInfo( lambda n: unitroots( int( n ) ), 1 ),
     'ushort'                : OperatorInfo( lambda n: int( fmod( n, power( 2, 16 ) ) ), 1 ),
     'value'                 : OperatorInfo( lambda n: mpf( n ), 1 ),
+    'vernal_equinox'        : OperatorInfo( getVernalEquinox, 1 ),
     'wednesday'             : OperatorInfo( lambda: 3, 0 ),
     'weekday'               : OperatorInfo( getWeekday, 1, ),
+    'winter_solstice'       : OperatorInfo( getWinterSolstice, 1 ),
     'xor'                   : OperatorInfo( lambda i, j: performBitwiseOperation( i, j, lambda x, y:  x ^ y ), 2 ),
     'ydhms'                 : OperatorInfo( convertToYDHMS, 1 ),
     'year_calendar'         : OperatorInfo( generateYearCalendar, 1 ),

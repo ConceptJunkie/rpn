@@ -278,6 +278,11 @@ For now, here are some examples:
     days:
         c:\>rpn month days convert
         30 days
+
+    How long was the summer in 2015?
+
+        c:\>rpn 2015 autumnal_equinox 2015 summer_solstice - dhms
+        [ 93 days, 15 hours, 42 minutes, 22.6755 seconds ]
     ''',
     'user_functions' :
     '''
@@ -860,6 +865,12 @@ Added the 'nand' and 'nor' operators.
 Added 'is_smooth', 'is_rough', 'unfilter', 'unfilter_by_index', 'negate',
 'is_semiprime', 'is_sphenic', 'is_k_semiprime', 'is_squarefree', 'is_unusual',
 'is_powerful', 'is_achilles', 'is_pronic', and 'leonardo' operators.
+
+Added the 'eddington_number' operator.
+
+Added a new operator category:  Astronomy (thanks to pyephem).  Added the
+'vernal_equinox', 'summer_solstice', 'autumnal_equinox', and 'winter_solstice'
+operators.
 
 Filled in a bunch of help text.
 
@@ -1787,6 +1798,12 @@ c:\>rpn august
 
 c:\>rpn 2015 august 4 tuesday nthweekday
 2015-08-25
+''' ],
+    'autumnal_equinox' : [
+'astronomy', 'calculates the time of the autumnal equinox for year n',
+'''
+''',
+'''
 ''' ],
     'avogadro' : [
 'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
@@ -5917,6 +5934,12 @@ c:\>rpn 1 gallon 4 cups -
 ''',
 '''
 ''' ],
+    'summer_solstice' : [
+'astronomy', 'calculates the time of the summer solstice for year n',
+'''
+''',
+'''
+''' ],
     'sunday' : [
 'constants', 'returns 7, which is the code for Sunday',
 '''
@@ -6365,6 +6388,12 @@ numerical part of the measurement value.
 c:\>rpn 1000 light-years value
 1000
 ''' ],
+    'vernal_equinox' : [
+'astronomy', 'calculates the time of the vernal equinox for year n',
+'''
+''',
+'''
+''' ],
     'wednesday' : [
 'constants', 'returns 3, which is the code for Wednesday',
 '''
@@ -6397,6 +6426,12 @@ c:\>rpn 1965-03-31 weekday
 
 c:\>rpn 2043-04-17 weekday
 'Friday'
+''' ],
+    'winter_solstice' : [
+'astronomy', 'calculates the time of the winter solstice for year n',
+'''
+''',
+'''
 ''' ],
     'x' : [
 'special', '\'x\' is used to create functions',
