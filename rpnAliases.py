@@ -215,6 +215,7 @@ operatorAliases = {
     'frob'              : 'frobenius',
     'fromunix'          : 'from_unix_time',
     'fromunixtime'      : 'from_unix_time',
+    'from_unix'         : 'from_unix_time',
     'gammaflux'         : 'nanotesla',
     'gamma_flux'        : 'nanotesla',
     'gemmho'            : 'micromho',

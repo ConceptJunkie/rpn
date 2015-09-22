@@ -16,6 +16,7 @@ from mpmath import *
 
 from rpnDate import *
 from rpnMeasurement import *
+from rpnTime import *
 
 
 # //******************************************************************************

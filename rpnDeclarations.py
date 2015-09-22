@@ -68,11 +68,14 @@ class RPNDateTime( arrow.Arrow ):
                             result.minute, result.second, result.microsecond, result.tzinfo )
 
     @staticmethod
-    def getNow( ):
-        result = arrow.now( )
+    def convertFromArrow( arrow ):
+        return RPNDateTime( arrow.year, arrow.month, arrow.day, arrow.hour,
+                            arrow.minute, arrow.second, arrow.microsecond, arrow.tzinfo )
 
-        return RPNDateTime( result.year, result.month, result.day, result.hour,
-                            result.minute, result.second, result.microsecond, result.tzinfo )
+    @staticmethod
+    def getNow( ):
+        return RPNDateTime.convertFromArrow( arrow.now( ) )
+
 
 
 # //******************************************************************************
