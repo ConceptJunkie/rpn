@@ -4403,6 +4403,30 @@ c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand
 ''',
 '''
 ''' ],
+    'next_first_quarter_moon' : [
+'astronomy', 'returns the date of the next First Quarter Moon after n',
+'''
+''',
+'''
+''' ],
+    'next_full_moon' : [
+'astronomy', 'returns the date of the next Full Moon after n',
+'''
+''',
+'''
+''' ],
+    'next_last_quarter_moon' : [
+'astronomy', 'returns the date of the next Last Quarter Moon after n',
+'''
+''',
+'''
+''' ],
+    'next_new_moon' : [
+'astronomy', 'returns the date of the next New Moon after n',
+'''
+''',
+'''
+''' ],
     'nint' : [
 'arithmetic', 'returns the nearest integer to n',
 '''
@@ -5098,6 +5122,30 @@ c:\>rpn 1 foot 3 ** gallon convert
 ''' ],
     'previous' : [
 'modifiers', 'duplicates the previous argument (identical to \'n 2 dup\')',
+'''
+''',
+'''
+''' ],
+    'previous_first_quarter_moon' : [
+'astronomy', 'returns the date of the previous First Quarter Moon before n',
+'''
+''',
+'''
+''' ],
+    'previous_full_moon' : [
+'astronomy', 'returns the date of the previous Full Moon before n',
+'''
+''',
+'''
+''' ],
+    'previous_last_quarter_moon' : [
+'astronomy', 'returns the date of the previous Last Quarter Moon before n',
+'''
+''',
+'''
+''' ],
+    'previous_new_moon' : [
+'astronomy', 'returns the date of the previous New Moon before n',
 '''
 ''',
 '''
