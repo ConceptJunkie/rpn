@@ -499,10 +499,60 @@ def convertToBaseN( value, base, outputBaseDigits, numerals ):
 
 # //******************************************************************************
 # //
+# //  convertFractionToBaseN
+# //
+# //******************************************************************************
+
+def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
+    if outputBaseDigits:
+        if ( base < 2 ):
+            raise ValueError( 'base must be greater than 1' )
+    else:
+        if not ( 2 <= base <= len( g.numerals ) ):
+            raise ValueError( 'base must be from 2 to %d' % len( g.numerals ) )
+
+    if value < 0 or value >= 1.0:
+        raise ValueError( 'value (%s) must be >= 0 and < 1.0' % value )
+
+    if base == 10:
+        return str( value )
+
+    if outputBaseDigits:
+        result = [ ]
+    else:
+        result = ''
+
+    while value > 0 and precision > 0:
+        value = fmul( value, base )
+
+        digit = int( value )
+
+        if len( result ) == g.outputAccuracy:
+            if digit >= base // 2:
+                digit += 1
+
+            break
+
+        if outputBaseDigits:
+            result.append( digit )
+        else:
+            result += g.numerals[ digit ]
+
+        value = fsub( value, digit )
+        precision -= 1
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  convertToSpecialBase
 # //
-# //  This version supports arbitrary bases.  The place value is determined
-# //  with the function passed in.
+# //  This version supports arbitrary non-constant bases.  The place value is
+# //  determined by the function passed in.  The function takes a single argument
+# //  which represents the place, and it returns the value that that place
+# //  represents.   As an example for base 10, the function would return 10^n for
+# //  argument n.
 # //
 # //******************************************************************************
 
@@ -708,53 +758,6 @@ def convertToFibBase( value ):
                 result = result + '1'
             else:
                 result = result + '0'
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  convertFractionToBaseN
-# //
-# //******************************************************************************
-
-def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
-    if outputBaseDigits:
-        if ( base < 2 ):
-            raise ValueError( 'base must be greater than 1' )
-    else:
-        if not ( 2 <= base <= len( g.numerals ) ):
-            raise ValueError( 'base must be from 2 to %d' % len( g.numerals ) )
-
-    if value < 0 or value >= 1.0:
-        raise ValueError( 'value (%s) must be >= 0 and < 1.0' % value )
-
-    if base == 10:
-        return str( value )
-
-    result = ''
-
-    while value > 0 and precision > 0:
-        value = fmul( value, base )
-
-        digit = int( value )
-
-        if len( result ) == g.outputAccuracy:
-            if digit >= base // 2:
-                digit += 1
-
-            break
-
-        if outputBaseDigits:
-            if result != '':
-                result += ' '
-
-            result += str( digit )
-        else:
-            result += g.numerals[ digit ]
-
-        value = fsub( value, digit )
-        precision -= 1
 
     return result
 

@@ -1351,6 +1351,7 @@ operators = {
     'make_pyth_3'                   : OperatorInfo( makePythagoreanTriple, 2 ),
     'make_pyth_4'                   : OperatorInfo( makePythagoreanQuadruple, 2 ),
     'march'                         : OperatorInfo( lambda: 3, 0 ),
+    'mars'                          : OperatorInfo( getMarsLocation, 1 ),
     'max_char'                      : OperatorInfo( lambda: ( 1 << 7 ) - 1, 0 ),
     'max_double'                    : OperatorInfo( lambda: interpretAsDouble( mpmathify( 0x7fefffffffffffff ) ), 0 ),
     'max_float'                     : OperatorInfo( lambda: interpretAsFloat( mpmathify( 0x7f7fffff ) ), 0 ),

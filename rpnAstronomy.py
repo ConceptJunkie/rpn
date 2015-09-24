@@ -13,6 +13,7 @@
 # //******************************************************************************
 
 import ephem
+from mpmath import *
 
 from rpnDeclarations import *
 
@@ -180,4 +181,18 @@ def getMoonPhase( n ):
     current = n - previous
 
     return current / cycle
+
+
+# //******************************************************************************
+# //
+# //  getMarsLocation
+# //
+# //******************************************************************************
+
+def getMarsLocation( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( '\'mars\' expects a date-time argument' )
+
+    mars = ephem.Mars( n.format( ) )
+    return [ mpmathify( mars.ra ), mpmathify( mars.dec ) ]
 

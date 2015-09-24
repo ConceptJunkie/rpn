@@ -3898,6 +3898,12 @@ This constant operator is defined for convenience for use with date operators.
 c:\>rpn [ 2016 march 31 ] make_time
 2016-03-31 00:00:00
 ''' ],
+    'mars' : [
+'astronomy', 'returns the location of Mars for the datetime n',
+'''
+''',
+'''
+''' ],
     'max' : [
 'arithmetic', 'returns the largest value in list n',
 '''

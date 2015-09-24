@@ -85,7 +85,7 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping,  ):
         strInteger, strMantissa = convertToNonintegerBase( number, pi )
     elif outputRadix == g.sqrt2Base:
         strInteger, strMantissa = convertToNonintegerBase( number, sqrt( 2 ) )
-    elif outputRadix < 0:
+    elif outputRadix < 0:   # these mean special bases, not negative numbers
         strInteger = convertToSpecialBase( floor( number ), specialBaseFunctions[ outputRadix ] )
         strMantissa = ''
     elif ( outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
