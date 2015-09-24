@@ -20,6 +20,33 @@
 # http://primes.utm.edu/glossary/xpage/BrunsConstant.html
 
 
+# Name        Value           Unit            Description
+# G           6.67384e-11     m3 / (kg s2)    Gravitational constant
+# L_sun       3.846e+26       W               Solar luminosity
+# M_earth     5.9742e+24      kg              Earth mass
+# M_jup       1.8987e+27      kg              Jupiter mass
+# M_sun       1.9891e+30      kg              Solar mass
+# R           8.3144621       J / (K mol)     Gas constant
+# R_earth     6378136         m               Earth equatorial radius
+# R_jup       71492000        m               Jupiter equatorial radius
+# R_sun       695508000       m               Solar radius
+# Ryd         10973731.6      1 / (m)         Rydberg constant
+# a0          5.29177211e-11  m               Bohr radius
+# b_wien      0.0028977721    m K             Wien wavelength displacement law constant
+# e           1.60217657e-19  C               Electron charge
+# eps0        8.85418782e-12  F/m             Electric constant
+# h           6.62606957e-34  J s             Planck constant
+# hbar        1.05457173e-34  J s             Reduced Planck constant
+# k_B         1.3806488e-23   J / (K)         Boltzmann constant
+# m_e         9.10938291e-31  kg              Electron mass
+# m_n         1.67492735e-27  kg              Neutron mass
+# m_p         1.67262178e-27  kg              Proton mass
+# mu0         1.25663706e-06  N/A2            Magnetic constant
+# muB         9.27400968e-24  J/T             Bohr magneton
+# pc          3.08567758e+16  m               Parsec
+# sigma_sb    5.670373e-08    W / (K4 m2)     Stefan-Boltzmann constant
+# u           1.66053892e-27  kg              Atomic mass
+
 from mpmath import *
 
 from rpnDeclarations import *

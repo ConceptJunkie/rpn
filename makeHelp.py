@@ -872,7 +872,12 @@ Added a new operator category:  Astronomy (thanks to pyephem).  Added the
 'vernal_equinox', 'summer_solstice', 'autumnal_equinox', and 'winter_solstice'
 operators.
 
-Filled in a bunch of help text.
+Added 'next_new_moon', 'next_first_quarter_moon', 'next_full_moon',
+'next_last_quarter_moon', 'previous_new_moon', 'previous_first_quarter_moon',
+'previous_full_moon', 'previous_last_quarter_moon' and 'moon_phase' operators.
+
+Filled in a bunch of help text.  There's still a long way to go, but I'm making
+progress.
 
 ...and the usual bug fixes.
     ''',
@@ -4103,6 +4108,9 @@ many choices for A, but again gave no value for A. It is still not yet possible
 to calculate a proven value for A, but if you are willing to accept the Riemann
 Hypothesis, then the least possible value for Mills' constant (usually called
 "the Mills Constant") [is this].
+
+rpn does not calculate Mills' constant.  The value is hard-coded to 3500
+decimal places.
 ''',
 '''
 ''' ],
@@ -4288,6 +4296,22 @@ c:\>rpn max_ushort min_ushort -
 This constant operator is defined for convenience for use with date operators.
 ''',
 '''
+''' ],
+    'moon_phase' : [
+'astronomy', 'determines the phase of the moon as a percentage for datetime n',
+'''
+The moon phase cycle starts at the new moon and completes with the next new
+moon.   Therefore, 0% is the new moon, 25% is the first quarter, 50% is a full
+moon, 75% is the last quarter and 100% is the new moon again.
+''',
+'''
+What was the phase of the moon when I was born:
+
+c:\>rpn 1965-03-31 moon_phase
+0.931952504017
+
+... a waning crescent.
+
 ''' ],
     'motzkin' : [
 'combinatorics', 'calculates the nth Motzkin number',
@@ -6334,6 +6358,13 @@ which consists only of those elements for which the function returns a zero
 value.
 ''',
 '''
+'unfilter' is the same as adding 'negate' to 'filter':
+
+c:\>rpn 1 20 range x is_prime unfilter
+[ 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20 ]
+
+c:\>rpn 1 20 range x is_prime negate filter
+[ 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20 ]
 ''' ],
     'unfilter_by_index' : [
 'special', 'filters a list n using the inverse of function k applied to the list indexes',

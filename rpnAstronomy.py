@@ -66,7 +66,10 @@ def getWinterSolstice( n ):
 # //******************************************************************************
 
 def getNextFirstQuarterMoon( n ):
-    return n
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( '\'next_first_quarter_moon\' expects a date-time argument' )
+
+    return RPNDateTime.convertFromEphemDate( ephem.next_first_quarter_moon( n.format( ) ) )
 
 
 # //******************************************************************************
@@ -76,7 +79,10 @@ def getNextFirstQuarterMoon( n ):
 # //******************************************************************************
 
 def getNextFullMoon( n ):
-    return n
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( '\'next_full_moon\' expects a date-time argument' )
+
+    return RPNDateTime.convertFromEphemDate( ephem.next_full_moon( n.format( ) ) )
 
 
 # //******************************************************************************
@@ -86,7 +92,10 @@ def getNextFullMoon( n ):
 # //******************************************************************************
 
 def getNextLastQuarterMoon( n ):
-    return n
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( '\'next_last_quarter_moon\' expects a date-time argument' )
+
+    return RPNDateTime.convertFromEphemDate( ephem.next_last_quarter_moon( n.format( ) ) )
 
 
 # //******************************************************************************
@@ -96,7 +105,10 @@ def getNextLastQuarterMoon( n ):
 # //******************************************************************************
 
 def getNextNewMoon( n ):
-    return n
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( '\'next_new_moon\' expects a date-time argument' )
+
+    return RPNDateTime.convertFromEphemDate( ephem.next_new_moon( n.format( ) ) )
 
 
 # //******************************************************************************
@@ -106,7 +118,10 @@ def getNextNewMoon( n ):
 # //******************************************************************************
 
 def getPreviousFirstQuarterMoon( n ):
-    return n
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( '\'previous_first_quarter_moon\' expects a date-time argument' )
+
+    return RPNDateTime.convertFromEphemDate( ephem.previous_first_quarter_moon( n.format( ) ) )
 
 
 # //******************************************************************************
@@ -116,7 +131,10 @@ def getPreviousFirstQuarterMoon( n ):
 # //******************************************************************************
 
 def getPreviousFullMoon( n ):
-    return n
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( '\'previous_full_moon\' expects a date-time argument' )
+
+    return RPNDateTime.convertFromEphemDate( ephem.previous_full_moon( n.format( ) ) )
 
 
 # //******************************************************************************
@@ -126,7 +144,10 @@ def getPreviousFullMoon( n ):
 # //******************************************************************************
 
 def getPreviousLastQuarterMoon( n ):
-    return n
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( '\'previous_last_quarter_moon\' expects a date-time argument' )
+
+    return RPNDateTime.convertFromEphemDate( ephem.previous_last_quarter_moon( n.format( ) ) )
 
 
 # //******************************************************************************
@@ -136,6 +157,27 @@ def getPreviousLastQuarterMoon( n ):
 # //******************************************************************************
 
 def getPreviousNewMoon( n ):
-    return n
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( '\'previous_new_moon\' expects a date-time argument' )
 
+    return RPNDateTime.convertFromEphemDate( ephem.previous_new_moon( n.format( ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getMoonPhase
+# //
+# //******************************************************************************
+
+def getMoonPhase( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( '\'moon_phase\' expects a date-time argument' )
+
+    previous = RPNDateTime.convertFromEphemDate( ephem.previous_new_moon( n.format( ) ) )
+    next = RPNDateTime.convertFromEphemDate( ephem.next_new_moon( n.format( ) ) )
+
+    cycle = next - previous
+    current = n - previous
+
+    return current / cycle
 
