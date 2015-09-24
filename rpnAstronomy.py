@@ -185,14 +185,14 @@ def getMoonPhase( n ):
 
 # //******************************************************************************
 # //
-# //  getMarsLocation
+# //  getSkyLocation
 # //
 # //******************************************************************************
 
-def getMarsLocation( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( '\'mars\' expects a date-time argument' )
+def getSkyLocation( n, k ):
+    if not isinstance( n, ephem.Body ) or not isinstance( k, RPNDateTime ):
+        raise ValueError( '\'sky_location\' expects an astronomical object argument and a date-time argument' )
 
-    mars = ephem.Mars( n.format( ) )
-    return [ mpmathify( mars.ra ), mpmathify( mars.dec ) ]
+    n.compute( k.format( ) )
+    return [ mpmathify( n.ra ), mpmathify( n.dec ) ]
 

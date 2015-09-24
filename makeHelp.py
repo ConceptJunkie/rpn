@@ -3898,12 +3898,6 @@ This constant operator is defined for convenience for use with date operators.
 c:\>rpn [ 2016 march 31 ] make_time
 2016-03-31 00:00:00
 ''' ],
-    'mars' : [
-'astronomy', 'returns the location of Mars for the datetime n',
-'''
-''',
-'''
-''' ],
     'max' : [
 'arithmetic', 'returns the largest value in list n',
 '''
@@ -5756,6 +5750,12 @@ instead of a unit circle.
 ''',
 '''
 ''' ],
+    'sky_location' : [
+'astronomy', 'returns the sky location of astronomical object n for date-time k',
+'''
+''',
+'''
+''' ],
     'slice' : [
 'list_operators', 'returns a slice of list a from starting index b to ending index c',
 '''
@@ -6640,7 +6640,182 @@ defined aliases for units and operator names.
 #   'bernfrac' : [ bernfrac, 1 ],
 #   'powmod' : [ getPowMod, 3 ],
 
-# operators to be sorted:
+# Astronomical object operators
+
+    'mercury' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'venus' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'mars' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'jupiter' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'saturn' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'uranus' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'neptune' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'pluto' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'moon' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'sun' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'phobos' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'deimos' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'io' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'europa' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'ganymede' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'callisto' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'mimas' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'enceladus' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'tethys' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'dione' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'rhea' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'titan' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'hyperion' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'iapetus' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'ariel' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'umbriel' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'titania' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'oberon' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'miranda' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
 
 }
 
