@@ -27,7 +27,7 @@ from rpnDeclarations import *
 # //******************************************************************************
 
 def getVernalEquinox( n ):
-    return RPNDateTime.convertFromEphemDate( ephem.next_equinox( str( n ) ) )
+    return RPNDateTime.parseDateTime( ephem.next_equinox( str( n ) ) )
 
 
 # //******************************************************************************
@@ -37,7 +37,7 @@ def getVernalEquinox( n ):
 # //******************************************************************************
 
 def getAutumnalEquinox( n ):
-    return RPNDateTime.convertFromEphemDate( ephem.next_equinox( str( n ) + '-07-01' ) )
+    return RPNDateTime.parseDateTime( ephem.next_equinox( str( n ) + '-07-01' ) )
 
 
 # //******************************************************************************
@@ -47,7 +47,7 @@ def getAutumnalEquinox( n ):
 # //******************************************************************************
 
 def getSummerSolstice( n ):
-    return RPNDateTime.convertFromEphemDate( ephem.next_solstice( str( n ) ) )
+    return RPNDateTime.parseDateTime( ephem.next_solstice( str( n ) ) )
 
 
 # //******************************************************************************
@@ -57,111 +57,20 @@ def getSummerSolstice( n ):
 # //******************************************************************************
 
 def getWinterSolstice( n ):
-    return RPNDateTime.convertFromEphemDate( ephem.next_solstice( str( n ) + '-07-01' ) )
+    return RPNDateTime.parseDateTime( ephem.next_solstice( str( n ) + '-07-01' ) )
 
 
 # //******************************************************************************
 # //
-# //  getNextFirstQuarterMoon
+# //  getEphemTime
 # //
 # //******************************************************************************
 
-def getNextFirstQuarterMoon( n ):
+def getEphemTime( n, func ):
     if not isinstance( n, RPNDateTime ):
-        raise ValueError( '\'next_first_quarter_moon\' expects a date-time argument' )
+        raise ValueError( 'expected a date-time argument' )
 
-    return RPNDateTime.convertFromEphemDate( ephem.next_first_quarter_moon( n.format( ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getNextFullMoon
-# //
-# //******************************************************************************
-
-def getNextFullMoon( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( '\'next_full_moon\' expects a date-time argument' )
-
-    return RPNDateTime.convertFromEphemDate( ephem.next_full_moon( n.format( ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getNextLastQuarterMoon
-# //
-# //******************************************************************************
-
-def getNextLastQuarterMoon( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( '\'next_last_quarter_moon\' expects a date-time argument' )
-
-    return RPNDateTime.convertFromEphemDate( ephem.next_last_quarter_moon( n.format( ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getNextNewMoon
-# //
-# //******************************************************************************
-
-def getNextNewMoon( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( '\'next_new_moon\' expects a date-time argument' )
-
-    return RPNDateTime.convertFromEphemDate( ephem.next_new_moon( n.format( ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getPreviousFirstQuarterMoon
-# //
-# //******************************************************************************
-
-def getPreviousFirstQuarterMoon( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( '\'previous_first_quarter_moon\' expects a date-time argument' )
-
-    return RPNDateTime.convertFromEphemDate( ephem.previous_first_quarter_moon( n.format( ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getPreviousFullMoon
-# //
-# //******************************************************************************
-
-def getPreviousFullMoon( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( '\'previous_full_moon\' expects a date-time argument' )
-
-    return RPNDateTime.convertFromEphemDate( ephem.previous_full_moon( n.format( ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getPreviousLastQuarterMoon
-# //
-# //******************************************************************************
-
-def getPreviousLastQuarterMoon( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( '\'previous_last_quarter_moon\' expects a date-time argument' )
-
-    return RPNDateTime.convertFromEphemDate( ephem.previous_last_quarter_moon( n.format( ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getPreviousNewMoon
-# //
-# //******************************************************************************
-
-def getPreviousNewMoon( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( '\'previous_new_moon\' expects a date-time argument' )
-
-    return RPNDateTime.convertFromEphemDate( ephem.previous_new_moon( n.format( ) ) )
+    return RPNDateTime.parseDateTime( ephem.localtime( func( n.format( ) ) ) )
 
 
 # //******************************************************************************
@@ -174,8 +83,8 @@ def getMoonPhase( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( '\'moon_phase\' expects a date-time argument' )
 
-    previous = RPNDateTime.convertFromEphemDate( ephem.previous_new_moon( n.format( ) ) )
-    next = RPNDateTime.convertFromEphemDate( ephem.next_new_moon( n.format( ) ) )
+    previous = RPNDateTime.parseDateTime( ephem.localtime( ephem.previous_new_moon( n.format( ) ) ) )
+    next = RPNDateTime.parseDateTime( ephem.localtime( ephem.next_new_moon( n.format( ) ) ) )
 
     cycle = next - previous
     current = n - previous

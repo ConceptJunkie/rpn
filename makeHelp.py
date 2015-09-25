@@ -3615,6 +3615,12 @@ c:\>rpn 2016 labor_day
 ''',
 '''
 ''' ],
+    'latlong' : [
+'astronomy', 'sets the current location on the Earth\'s surface',
+'''
+''',
+'''
+''' ],
     'latlong_to_nac' : [
 'conversion', '',
 '''
