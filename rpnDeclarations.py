@@ -90,6 +90,20 @@ class RPNDateTime( arrow.Arrow ):
 
 # //******************************************************************************
 # //
+# //  class RPNLocation
+# //
+# //  This class represents a location on the surface of the Earth.
+# //
+# //******************************************************************************
+
+class RPNLocation( ):
+    def __init__( self, lat, long ):
+        self.lat = lat
+        self.long = long
+
+
+# //******************************************************************************
+# //
 # //  specialUnitConversionMatrix
 # //
 # //  This is for units that can't be converted with a simple multiplication

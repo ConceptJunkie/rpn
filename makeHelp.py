@@ -4313,6 +4313,18 @@ c:\>rpn 1965-03-31 moon_phase
 ... a waning crescent.
 
 ''' ],
+    'moonrise' : [
+'astronomy', 'calculates the moonrise time at location n for date k',
+'''
+''',
+'''
+''' ],
+    'moonset' : [
+'astronomy', 'calculates the moonset time at location n for date k',
+'''
+''',
+'''
+''' ],
     'motzkin' : [
 'combinatorics', 'calculates the nth Motzkin number',
 '''
@@ -6022,6 +6034,18 @@ c:\>rpn 1 gallon 4 cups -
 'constants', 'returns 7, which is the code for Sunday',
 '''
 This constant operator is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+    'sunrise' : [
+'astronomy', 'calculates the sunrise time at location n for date k',
+'''
+''',
+'''
+''' ],
+    'sunset' : [
+'astronomy', 'calculates the sunset time at location n for date k',
+'''
 ''',
 '''
 ''' ],

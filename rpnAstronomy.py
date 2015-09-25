@@ -191,8 +191,41 @@ def getMoonPhase( n ):
 
 def getSkyLocation( n, k ):
     if not isinstance( n, ephem.Body ) or not isinstance( k, RPNDateTime ):
-        raise ValueError( '\'sky_location\' expects an astronomical object argument and a date-time argument' )
+        raise ValueError( '\'sky_location\' expects an astronomical object and a date-time' )
 
     n.compute( k.format( ) )
     return [ mpmathify( n.ra ), mpmathify( n.dec ) ]
+
+
+# //******************************************************************************
+# //
+# //  getNextRise
+# //
+# //******************************************************************************
+
+def getNextRise( body, location, date ):
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( '\'sunrise\' expects an astronomical object, a locaton and a date-time' )
+
+    observer = ephem.Observer( )
+    observer.lat = location.lat
+    observer.date = date.format( )
+    return RPNDateTime.convertFromEphemDate( observer.next_rising( body ) )
+
+
+# //******************************************************************************
+# //
+# //  getNextSet
+# //
+# //******************************************************************************
+
+def getNextSet( body, location, date ):
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( '\'sunrise\' expects an astronomical object, a locaton and a date-time' )
+
+    observer = ephem.Observer( )
+    observer.lat = location.lat
+    observer.date = date.format( )
+    return RPNDateTime.convertFromEphemDate( observer.next_setting( body ) )
+
 

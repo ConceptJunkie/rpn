@@ -1321,6 +1321,7 @@ operators = {
     'khinchin'                      : OperatorInfo( khinchin, 0 ),
     'kynea'                         : OperatorInfo( lambda n: fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ), 1 ),
     'labor_day'                     : OperatorInfo( calculateLaborDay, 1 ),
+    'latlong'                       : OperatorInfo( lambda n, k: RPNLocation( n, k ), 2 ),
     'lah'                           : OperatorInfo( lambda n, k: fdiv( fmul( binomial( n, k ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ), 2 ),
     'lambertw'                      : OperatorInfo( lambertw, 1 ),
     'leading_zero'                  : OperatorInfo( setLeadingZero, 1 ),
@@ -1372,6 +1373,8 @@ operators = {
     'min_ushort'                    : OperatorInfo( lambda: 0, 0 ),
     'mobius'                        : OperatorInfo( getMobius, 1 ),
     'modulo'                        : OperatorInfo( fmod, 2 ),
+    'moonrise'                      : OperatorInfo( lambda n, k: getNextRise( ephem.Moon( ), n, k ), 2 ),
+    'moonset'                       : OperatorInfo( lambda n, k: getNextSet( ephem.Moon( ), n, k ), 2 ),
     'moon_phase'                    : OperatorInfo( getMoonPhase, 1 ),
     'motzkin'                       : OperatorInfo( getNthMotzkinNumber, 1 ),
     'multifactorial'                : OperatorInfo( getNthMultifactorial, 2 ),
@@ -1528,6 +1531,8 @@ operators = {
     'subfactorial'                  : OperatorInfo( lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1 ),
     'subtract'                      : OperatorInfo( subtract, 2, ),
     'sum_digits'                    : OperatorInfo( sumDigits, 1 ),
+    'sunrise'                       : OperatorInfo( lambda n, k: getNextRise( ephem.Sun( ), n, k ), 2 ),
+    'sunset'                        : OperatorInfo( lambda n, k: getNextSet( ephem.Sun( ), n, k ), 2 ),
     'summer_solstice'               : OperatorInfo( getSummerSolstice, 1 ),
     'superfactorial'                : OperatorInfo( superfac, 1 ),
     'superprime'                    : OperatorInfo( getNthSuperPrime, 1 ),
@@ -1614,6 +1619,7 @@ operators = {
     'moon'                          : OperatorInfo( ephem.Moon, 0 ),
     'sun'                           : OperatorInfo( ephem.Sun, 0 ),
 
+    # Planetary moon operators
     'phobos'                        : OperatorInfo( ephem.Phobos, 0 ),
     'deimos'                        : OperatorInfo( ephem.Deimos, 0 ),
     'io'                            : OperatorInfo( ephem.Io, 0 ),
