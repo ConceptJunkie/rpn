@@ -108,33 +108,66 @@ def getSkyLocation( n, k ):
 
 # //******************************************************************************
 # //
-# //  getNextRise
+# //  getNextRising
 # //
 # //******************************************************************************
 
-def getNextRise( body, location, date ):
+def getNextRising( body, location, date, func ):
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( '\'sunrise\' expects an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
     observer = ephem.Observer( )
     observer.lat = location.lat
+    observer.long = location.long
     observer.date = date.format( )
     return RPNDateTime.convertFromEphemDate( observer.next_rising( body ) )
 
 
 # //******************************************************************************
 # //
-# //  getNextSet
+# //  getNextSetting
 # //
 # //******************************************************************************
 
-def getNextSet( body, location, date ):
+def getNextSetting( body, location, date ):
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( '\'sunrise\' expects an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
     observer = ephem.Observer( )
     observer.lat = location.lat
     observer.date = date.format( )
     return RPNDateTime.convertFromEphemDate( observer.next_setting( body ) )
+
+
+# //******************************************************************************
+# //
+# //  getNextTransit
+# //
+# //******************************************************************************
+
+def getNextTransit( body, location, date ):
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+
+    observer = ephem.Observer( )
+    observer.lat = location.lat
+    observer.date = date.format( )
+    return RPNDateTime.convertFromEphemDate( observer.next_transit( body ) )
+
+
+# //******************************************************************************
+# //
+# //  getNextAntitransit
+# //
+# //******************************************************************************
+
+def getNextAntitransit( body, location, date ):
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+
+    observer = ephem.Observer( )
+    observer.lat = location.lat
+    observer.date = date.format( )
+    return RPNDateTime.convertFromEphemDate( observer.next_antitransit( body ) )
 
 

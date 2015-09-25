@@ -4303,11 +4303,29 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
+    'moonrise' : [
+'astronomy', 'calculates the next moonrise time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'moonset' : [
+'astronomy', 'calculates the nenxt moonset time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'moon_antitransit' : [
+'astronomy', 'calculates the next moon antitransit time at location n for date-time k',
+'''
+''',
+'''
+''' ],
     'moon_phase' : [
-'astronomy', 'determines the phase of the moon as a percentage for datetime n',
+'astronomy', 'determines the phase of the moon as a percentage for date-time n',
 '''
 The moon phase cycle starts at the new moon and completes with the next new
-moon.   Therefore, 0% is the new moon, 25% is the first quarter, 50% is a full
+moon.  Therefore, 0% is the new moon, 25% is the first quarter, 50% is a full
 moon, 75% is the last quarter and 100% is the new moon again.
 ''',
 '''
@@ -4319,14 +4337,8 @@ c:\>rpn 1965-03-31 moon_phase
 ... a waning crescent.
 
 ''' ],
-    'moonrise' : [
-'astronomy', 'calculates the moonrise time at location n for date k',
-'''
-''',
-'''
-''' ],
-    'moonset' : [
-'astronomy', 'calculates the moonset time at location n for date k',
+    'moon_transit' : [
+'astronomy', 'calculates the next moon transit time at location n for date k',
 '''
 ''',
 '''
@@ -6044,13 +6056,25 @@ This constant operator is defined for convenience for use with date operators.
 '''
 ''' ],
     'sunrise' : [
-'astronomy', 'calculates the sunrise time at location n for date k',
+'astronomy', 'calculates the next sunrise time at location n for date-time k',
 '''
 ''',
 '''
 ''' ],
     'sunset' : [
-'astronomy', 'calculates the sunset time at location n for date k',
+'astronomy', 'calculates the next sunset time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'sun_antitransit' : [
+'astronomy', 'calculates the next sun antitransit time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'sun_transit' : [
+'astronomy', 'calculates the next sun transit time at location n for date-time k',
 '''
 ''',
 '''
