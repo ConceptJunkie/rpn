@@ -1448,6 +1448,11 @@ unitOperators = {
                   '''
                   ''' ),
 
+    'fermi' :
+        UnitInfo( 'length', 'fermi', 'fermis', '', [ ], [ '' ],
+                  '''
+                  ''' ),
+
     'finger' :
         UnitInfo( 'length', 'finger', 'fingers', '', [ ], [ 'imperial' ],
                   '''
@@ -1720,7 +1725,7 @@ unitOperators = {
     # luminous_intensity
 
     'candela' :
-        UnitInfo( 'luminous_intensity', 'candela', 'candelas', 'cd', [ ], [ 'SI' ],
+        UnitInfo( 'luminous_intensity', 'candela', 'candelas', 'cd', [ 'candle' ], [ 'SI' ],
                   '''
                   ''' ),
 
@@ -2577,7 +2582,7 @@ unitOperators = {
                   ''' ),
 
     'knot' :
-        UnitInfo( 'velocity', 'knot', 'knots', '', [ ], [ 'nautical' ],
+        UnitInfo( 'velocity', 'knot', 'knots', 'kt', [ ], [ 'nautical' ],
                   '''
                   ''' ),
 
@@ -3443,6 +3448,7 @@ unitConversionMatrix = {
     ( 'mercury_day',                'day' )                                 : mpmathify( '58.6462' ),
     ( 'mercury_year',               'year' )                                : mpmathify( '0.2408467' ),
     ( 'meter',                      'angstrom' )                            : mpmathify( '1.0e10' ),
+    ( 'meter',                      'fermi' )                               : mpmathify( '1.0e15' ),
     ( 'meter',                      'kyu' )                                 : mpmathify( '4000' ),
     ( 'meter',                      'micron' )                              : mpmathify( '1.0e6' ),
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
