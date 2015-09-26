@@ -144,8 +144,9 @@ def getNextSetting( body, location, date ):
 
     observer = ephem.Observer( )
     observer.lat = location.lat
+    observer.long = location.long
     observer.date = date.format( )
-    return RPNDateTime.convertFromEphemDate( observer.next_setting( body ) )
+    return RPNDateTime.parseDateTime( ephem.localtime( observer.next_setting( body ) ) )
 
 
 # //******************************************************************************
