@@ -93,7 +93,8 @@ def getNthSchroederNumber( n ):
     if n == 1:
         return 1
 
-    # TODO: raise exception for n < 0 !
+    if n < 0:
+        raise ValueError( '\'schroeder\' expects a non-negative argument' )
 
     n = fsub( n, 1 )
 
@@ -219,7 +220,7 @@ def getCompositions( n, k ):
     count = int( floor( k ) )
 
     if count < 1:
-        raise ValueError( "'compositions' expects a size greater than 0'" )
+        raise ValueError( "'compositions' expects a size argument greater than 0'" )
 
     if count == 1:
         return [ [ floor( n ) ] ]
