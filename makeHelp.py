@@ -3776,6 +3776,12 @@ c:\>rpn [ 1 1 0 ] [ 3 0 2 ] 1 20 range linear_recur
 ''',
 '''
 ''' ],
+    'location' : [
+'astronomy', 'returns the lat-long for a location string',
+'''
+''',
+'''
+''' ],
     'log10' : [
 'logarithms', 'calculates the base-10 logarithm of n',
 '''

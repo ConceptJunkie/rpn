@@ -12,10 +12,19 @@
 # //
 # //******************************************************************************
 
+import bz2
+import contextlib
 import ephem
+import os
+import pickle
+
 from mpmath import *
 
+from ephem import cities
 from rpnDeclarations import *
+from rpnUtils import DelayedKeyboardInterrupt
+
+import rpnGlobals as g
 
 
 # //******************************************************************************
@@ -112,7 +121,7 @@ def getSkyLocation( n, k ):
 # //
 # //******************************************************************************
 
-def getNextRising( body, location, date, func ):
+def getNextRising( body, location, date ):
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
@@ -120,7 +129,7 @@ def getNextRising( body, location, date, func ):
     observer.lat = location.lat
     observer.long = location.long
     observer.date = date.format( )
-    return RPNDateTime.convertFromEphemDate( observer.next_rising( body ) )
+    return RPNDateTime.parseDateTime( ephem.localtime( observer.next_rising( body ) ) )
 
 
 # //******************************************************************************
@@ -170,4 +179,58 @@ def getNextAntitransit( body, location, date ):
     observer.date = date.format( )
     return RPNDateTime.convertFromEphemDate( observer.next_antitransit( body ) )
 
+
+# //******************************************************************************
+# //
+# //  loadLocationCache
+# //
+# //******************************************************************************
+
+def loadLocationCache( ):
+    try:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'locations.pckl.bz2', 'rb' ) ) as pickleFile:
+            locationCache = pickle.load( pickleFile )
+    except FileNotFoundError:
+        locationCache = { }
+
+    return locationCache
+
+
+# //******************************************************************************
+# //
+# //  saveLocationCache
+# //
+# //******************************************************************************
+
+def saveLocationCache( locationCache ):
+    with DelayedKeyboardInterrupt( ):
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'locations.pckl.bz2', 'wb' ) ) as pickleFile:
+            pickle.dump( locationCache, pickleFile )
+
+
+# //******************************************************************************
+# //
+# //  getLocation
+# //
+# //******************************************************************************
+
+def getLocation( name ):
+    if not isinstance( name, str ):
+        raise ValueError( '\'location\' expects a string argument' )
+
+    if g.locationCache == None:
+        g.locationCache = loadLocationCache( )
+
+    if name in g.locationCache:
+        return g.locationCache[ name ]
+
+    try:
+        observer = cities.lookup( name )
+    except ValueError:
+        raise ValueError( 'location cannot be found' )
+
+    g.locationCache[ name ] = RPNLocation( mpmathify( observer.lat ), mpmathify( observer.long ) )
+    saveLocationCache( g.locationCache )
+
+    return g.locationCache[ name ]
 

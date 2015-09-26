@@ -1333,6 +1333,7 @@ operators = {
     'limit'                         : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction1( x, func ), n ), 2 ),
     'limitn'                        : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction1( x, func ), n, direction = -1 ), 2 ),
     'ln'                            : OperatorInfo( ln, 1 ),
+    'location'                      : OperatorInfo( getLocation, 1 ),
     'log10'                         : OperatorInfo( log10, 1 ),
     'log2'                          : OperatorInfo( lambda n: log( n, 2 ), 1 ),
     'logxy'                         : OperatorInfo( log, 2 ),
