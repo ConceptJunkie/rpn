@@ -21,8 +21,6 @@ import rpnGlobals as g
 # //
 # //  incrementNestedListLevel
 # //
-# //  Unlike all other operators, '[' and ']' change global state.
-# //
 # //******************************************************************************
 
 def incrementNestedListLevel( valueList ):
@@ -41,7 +39,47 @@ def decrementNestedListLevel( valueList ):
     g.nestedListLevel -= 1
 
     if g.nestedListLevel < 0:
-        raise ValueError( "negative list level (too many ']'s)" )
+        raise ValueError( 'negative list level (too many \']\'s)' )
+
+
+# //******************************************************************************
+# //
+# //  startOperatorList
+# //
+# //******************************************************************************
+
+def startOperatorList( valueList ):
+    if g.operatorList:
+        raise ValueError( 'nested operator lists are not supported' )
+
+    g.operatorList = True
+    g.lastOperand = len( valueList ) - 1
+    g.operandsToRemove = 0
+    g.operatorsInList = 0
+
+    valueList.append( list( ) )
+
+
+# //******************************************************************************
+# //
+# //  endOperatorList
+# //
+# //******************************************************************************
+
+def endOperatorList( valueList ):
+    if not g.operatorList:
+        raise ValueError( 'mismatched operator list ending' )
+
+    g.operatorList = False
+
+    del valueList[ g.lastOperand - ( g.operandsToRemove - 1 ) : g.lastOperand + 2 ]
+
+    result = [ ]
+
+    for i in range( 0, g.operatorsInList ):
+        result.insert( 0, valueList.pop( ) )
+
+    valueList.append( result )
 
 
 # //******************************************************************************

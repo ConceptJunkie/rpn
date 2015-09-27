@@ -60,6 +60,10 @@ nestedListLevel = 0
 duplicateOperations = 0
 startTime = 0
 useMembers = 0
+operatorList = False
+lastOperand = 0
+operandsToRemove = 0
+operatorsInList = 0
 
 # options
 

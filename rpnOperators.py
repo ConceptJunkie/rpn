@@ -111,8 +111,18 @@ def evaluateOperator( term, index, currentValueList ):
     else:
         argList = list( )
 
+        if g.operatorList:
+            g.operatorsInList += 1
+
         for i in range( 0, argsNeeded ):
-            arg = currentValueList.pop( )
+            if g.operatorList:
+                arg = currentValueList[ g.lastOperand - i ]
+
+                if argsNeeded > g.operandsToRemove:
+                    g.operandsToRemove = argsNeeded
+            else:
+                arg = currentValueList.pop( )
+
             argList.append( arg if isinstance( arg, list ) else [ arg ] )
 
         result = callers[ argsNeeded ]( operatorInfo.function, *argList )
@@ -207,7 +217,6 @@ def evaluateTerm( term, index, currentValueList ):
         if not isList and term in modifiers:
             operatorInfo = modifiers[ term ]
             operatorInfo.function( currentValueList )
-
         elif not isList and term in g.unitOperators:
             # handle a unit operator
             # look for unit without a value (in which case we give it a value of 1)
@@ -230,7 +239,6 @@ def evaluateTerm( term, index, currentValueList ):
                 currentValueList.append( applyNumberValueToUnit( currentValueList.pop( ), term ) )
             else:
                 raise ValueError( 'unsupported type for a unit operator' )
-
         elif not isList and term in operators:
             if g.duplicateOperations > 0:
                 operatorInfo = operators[ term ]
@@ -250,7 +258,6 @@ def evaluateTerm( term, index, currentValueList ):
             else:
                 if not evaluateOperator( term, index, currentValueList ):
                     return False
-
         elif not isList and term in listOperators:
             if g.duplicateOperations > 0:
                 operatorInfo = operators[ term ]
@@ -428,7 +435,6 @@ def filterListByIndex( n, k, invert = False ) :
 # //******************************************************************************
 
 def evaluateFunction( a, b, c, d ):
-    #print( 'a, b, c, d', a, b, c, d.valueList )
     if not isinstance( d, FunctionInfo ):
         raise ValueError( '\'eval\' expects a function argument' )
 
@@ -446,8 +452,6 @@ def evaluateFunction( a, b, c, d ):
             if index < d.startingIndex:
                 continue
 
-            #print( 'item', item )
-
             if item == 'x':
                 valueList.append( a )
             elif item == 'y':
@@ -461,8 +465,6 @@ def evaluateFunction( a, b, c, d ):
 
         while len( valueList ) > 1:
             oldValueList = list( valueList )
-            #print( valueList )
-            #print( len( valueList ) )
             listLength = len( valueList )
 
             term = valueList.pop( 0 )
@@ -494,7 +496,6 @@ def evaluateFunction( a, b, c, d ):
                 raise ValueError( 'evaluateFunction:  incompletely specified function' )
 
         return valueList[ 0 ]
-
 
 
 # //******************************************************************************
@@ -1038,6 +1039,8 @@ modifiers = {
     'z'                 : OperatorInfo( createZFunction ),
     '['                 : OperatorInfo( incrementNestedListLevel ),
     ']'                 : OperatorInfo( decrementNestedListLevel ),
+    '{'                 : OperatorInfo( startOperatorList ),
+    '}'                 : OperatorInfo( endOperatorList ),
 }
 
 
