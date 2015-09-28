@@ -112,7 +112,8 @@ def getSkyLocation( n, k ):
         raise ValueError( '\'sky_location\' expects an astronomical object and a date-time' )
 
     n.compute( k.format( ) )
-    return [ mpmathify( n.ra ), mpmathify( n.dec ) ]
+
+    return [ fdiv( fmul( mpmathify( n.ra ), 180 ), pi ), fdiv( fmul( mpmathify( n.dec ), 180 ), pi ) ]
 
 
 # //******************************************************************************
@@ -125,11 +126,16 @@ def getNextRising( body, location, date ):
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
-    observer = ephem.Observer( )
-    observer.lat = location.lat
-    observer.long = location.long
-    observer.date = date.format( )
-    return RPNDateTime.parseDateTime( ephem.localtime( observer.next_rising( body ) ) )
+    #old_horizon = location.observer.horizon
+
+    location.observer.date = date.format( )
+    #location.observer.horizon = '-0.34'     # per U.S. Naval Astronomical Almanac
+
+    result = RPNDateTime.parseDateTime( ephem.localtime( location.observer.next_rising( body ) ) )
+
+    #location.observer.horizon = old_horizon
+
+    return result
 
 
 # //******************************************************************************
@@ -142,11 +148,16 @@ def getNextSetting( body, location, date ):
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
-    observer = ephem.Observer( )
-    observer.lat = location.lat
-    observer.long = location.long
-    observer.date = date.format( )
-    return RPNDateTime.parseDateTime( ephem.localtime( observer.next_setting( body ) ) )
+    #old_horizon = location.observer.horizon
+
+    location.observer.date = date.format( )
+    #location.observer.horizon = '-0.34'     # per U.S. Naval Astronomical Almanac
+
+    result = RPNDateTime.parseDateTime( ephem.localtime( location.observer.next_setting( body ) ) )
+
+    #location.observer.horizon = old_horizon
+
+    return result
 
 
 # //******************************************************************************
@@ -156,13 +167,20 @@ def getNextSetting( body, location, date ):
 # //******************************************************************************
 
 def getNextTransit( body, location, date ):
-    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
+       not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
-    observer = ephem.Observer( )
-    observer.lat = location.lat
-    observer.date = date.format( )
-    return RPNDateTime.convertFromEphemDate( observer.next_transit( body ) )
+    #old_horizon = location.observer.horizon
+
+    location.observer.date = date.format( )
+    #location.observer.horizon = '-0.34'     # per U.S. Naval Astronomical Almanac
+
+    result = RPNDateTime.parseDateTime( ephem.localtime( location.observer.next_transit( body ) ) )
+
+    #location.observer.horizon = old_horizon
+
+    return result
 
 
 # //******************************************************************************
@@ -172,13 +190,66 @@ def getNextTransit( body, location, date ):
 # //******************************************************************************
 
 def getNextAntitransit( body, location, date ):
-    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
+       not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
-    observer = ephem.Observer( )
-    observer.lat = location.lat
-    observer.date = date.format( )
-    return RPNDateTime.convertFromEphemDate( observer.next_antitransit( body ) )
+    old_horizon = location.observer.horizon
+
+    location.observer.date = date.format( )
+    location.observer.horizon = '-0.34'     # per U.S. Naval Astronomical Almanac
+
+    result = RPNDateTime.parseDateTime( ephem.localtime( location.observer.next_antitransit( body ) ) )
+
+    location.observer.horizon = old_horizon
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  getNextDawn
+# //
+# //******************************************************************************
+
+def getNextDawn( location, date, horizon = -6 ):
+    if not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected locaton and date-time arguments' )
+
+    old_horizon = location.observer.horizon
+
+    location.observer.date = date.format( )
+    location.observer.horizon = str( horizon )
+
+    result = RPNDateTime.parseDateTime(
+                ephem.localtime( location.observer.next_rising( ephem.Sun( ) ) ) )
+
+    location.observer.horizon = old_horizon
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  getNextDusk
+# //
+# //******************************************************************************
+
+def getNextDusk( location, date, horizon = -6 ):
+    if not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected locaton and date-time arguments' )
+
+    old_horizon = location.observer.horizon
+
+    location.observer.date = date.format( )
+    location.observer.horizon = str( horizon )
+
+    result = RPNDateTime.parseDateTime(
+                ephem.localtime( location.observer.next_setting( ephem.Sun( ) ) ) )
+
+    location.observer.horizon = old_horizon
+
+    return result
 
 
 # //******************************************************************************
@@ -222,16 +293,38 @@ def getLocation( name ):
     if g.locationCache == None:
         g.locationCache = loadLocationCache( )
 
-    if name in g.locationCache:
-        return g.locationCache[ name ]
+    #if name in g.locationCache:
+    #    print( 'looked up', g.locationCache[ name ].name )
+    #    print( 'lat/long', fdiv( fmul( mpmathify( g.locationCache[ name ].observer.lat ), 180 ), pi ),
+    #         fdiv( fmul( mpmathify( g.locationCache[ name ].observer.long ), 180 ), pi ) )
+    #    return g.locationCache[ name ]
 
     try:
         observer = cities.lookup( name )
     except ValueError:
-        raise ValueError( 'location cannot be found' )
+        raise ValueError( 'location cannot be found, please try different terms' )
 
-    g.locationCache[ name ] = RPNLocation( mpmathify( observer.lat ), mpmathify( observer.long ) )
+    g.locationCache[ name ] = RPNLocation( name, observer )
     saveLocationCache( g.locationCache )
 
+    #print( 'lat/long', fdiv( fmul( mpmathify( g.locationCache[ name ].observer.lat ), 180 ), pi ),
+    #    fdiv( fmul( mpmathify( g.locationCache[ name ].observer.long ), 180 ), pi ) )
+
     return g.locationCache[ name ]
+
+
+# //******************************************************************************
+# //
+# //  getLocationInfo
+# //
+# //******************************************************************************
+
+def getLocationInfo( location ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+    elif not isinstance( location. RPNLocation ):
+        raise ValueError( 'location name or location object expected' )
+
+    return [ fdiv( fmul( mpmathify( location.observer.lat ), 180 ), pi ),
+             fdiv( fmul( mpmathify( location.observer.long ), 180 ), pi ) ]
 

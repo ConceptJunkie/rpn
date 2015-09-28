@@ -14,6 +14,7 @@
 
 import arrow
 import collections
+import ephem
 import itertools
 
 from mpmath import *
@@ -97,9 +98,9 @@ class RPNDateTime( arrow.Arrow ):
 # //******************************************************************************
 
 class RPNLocation( ):
-    def __init__( self, lat, long ):
-        self.lat = lat
-        self.long = long
+    def __init__( self, name, observer ):
+        self.name = name
+        self.observer = observer
 
 
 # //******************************************************************************

@@ -2336,6 +2336,14 @@ number.
 ''',
 '''
 ''' ],
+    'dawn' : [
+'astronomy', 'calculates the next dawn time at location n for date-time k',
+'''
+The definition of dusk being used the is "civil" definition of dawn, i.e., the
+center of the sun is 6 degrees below the horizon.
+''',
+'''
+''' ],
     'debruijn' : [
 'combinatorics', 'generates a deBruijn sequence of n symbols and word-size k',
 '''
@@ -2582,6 +2590,14 @@ c:\>rpn [ 1 10 range 10 dup ] unique
     'dup_operator' : [
 'modifiers', 'duplicates an operation n times',
 '''
+''',
+'''
+''' ],
+    'dusk' : [
+'astronomy', 'calculates the next dusk time at location n for date-time k',
+'''
+The definition of dusk being used the is "civil" definition of dusk, i.e., the
+center of the sun is 6 degrees below the horizon.
 ''',
 '''
 ''' ],
@@ -3790,6 +3806,12 @@ c:\>rpn [ 1 1 0 ] [ 3 0 2 ] 1 20 range linear_recur
 ''' ],
     'location' : [
 'astronomy', 'returns the lat-long for a location string',
+'''
+''',
+'''
+''' ],
+    'location_info' : [
+'astronomy', 'returns the lat-long for a location',
 '''
 ''',
 '''
@@ -5847,6 +5869,12 @@ c:\>rpn 1 10 range 0 4 range 6 8 range slice -s1
 [ 5, 6, 7, 8 ],
 ]
 ''' ],
+    'solar_noon' : [
+'astronomy', 'calculates the next solar noon time at location n for date-time k',
+'''
+''',
+'''
+''' ],
     'solve' : [
 'algebra', 'interprets list n as a polynomial and solves for its roots',
 '''
@@ -6087,12 +6115,6 @@ This constant operator is defined for convenience for use with date operators.
 ''' ],
     'sun_antitransit' : [
 'astronomy', 'calculates the next sun antitransit time at location n for date-time k',
-'''
-''',
-'''
-''' ],
-    'sun_transit' : [
-'astronomy', 'calculates the next sun transit time at location n for date-time k',
 '''
 ''',
 '''
