@@ -17,9 +17,9 @@ import collections
 import ephem
 import itertools
 
-from mpmath import *
-
+from dateutil import tz
 from fractions import Fraction
+from mpmath import *
 
 from rpnEstimates import *
 
@@ -61,6 +61,12 @@ class RPNDateTime( arrow.Arrow ):
 
         return RPNDateTime( result.year, result.month, result.day, result.hour,
                             result.minute, result.second, result.microsecond, result.tzinfo )
+
+    # returned object won't have the right timezone, TODO: fix that and fix DST calculation
+    # The real problem here is that arrow timezone conversion doesn't work for times before the Unix epoch.  Duh.
+    def getLocalTime( rpnDateTime ):
+        offset = tz.tzlocal( ).utcoffset( arrow.now( ) )
+        return rpnDateTime + offset
 
     @staticmethod
     def parseDateTime( n ):

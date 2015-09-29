@@ -16,6 +16,8 @@ import arrow
 import calendar
 import datetime
 
+from dateutil import tz
+
 from rpnMeasurement import *
 from rpnTime import *
 
@@ -27,7 +29,7 @@ from rpnTime import *
 # //******************************************************************************
 
 def getNow( ):
-    return RPNDateTime.now( )
+    return RPNDateTime.now( tzinfo = tz.tzlocal( ) )
 
 
 # //******************************************************************************
@@ -38,7 +40,7 @@ def getNow( ):
 
 def getToday( ):
     now = datetime.datetime.now( )
-    return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
+    return RPNDateTime( now.year, now.month, now.day, dateOnly = True, tzinfo = tz.tzlocal( ) )
 
 
 # //******************************************************************************

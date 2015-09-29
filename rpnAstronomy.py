@@ -14,6 +14,7 @@
 
 import bz2
 import contextlib
+from dateutil import tz
 import ephem
 import os
 import pickle
@@ -36,17 +37,8 @@ import rpnGlobals as g
 # //******************************************************************************
 
 def getVernalEquinox( n ):
-    return RPNDateTime.parseDateTime( ephem.next_equinox( str( n ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getAutumnalEquinox
-# //
-# //******************************************************************************
-
-def getAutumnalEquinox( n ):
-    return RPNDateTime.parseDateTime( ephem.next_equinox( str( n ) + '-07-01' ) )
+    result = RPNDateTime.convertFromEphemDate( ephem.next_equinox( str( n ) ) )
+    return result.getLocalTime( )
 
 
 # //******************************************************************************
@@ -56,7 +48,19 @@ def getAutumnalEquinox( n ):
 # //******************************************************************************
 
 def getSummerSolstice( n ):
-    return RPNDateTime.parseDateTime( ephem.next_solstice( str( n ) ) )
+    result = RPNDateTime.convertFromEphemDate( ephem.next_solstice( str( n ) ) )
+    return result.getLocalTime( )
+
+
+# //******************************************************************************
+# //
+# //  getAutumnalEquinox
+# //
+# //******************************************************************************
+
+def getAutumnalEquinox( n ):
+    result = RPNDateTime.convertFromEphemDate( ephem.next_equinox( str( n ) + '-07-01' ) )
+    return result.getLocalTime( )
 
 
 # //******************************************************************************
@@ -66,7 +70,8 @@ def getSummerSolstice( n ):
 # //******************************************************************************
 
 def getWinterSolstice( n ):
-    return RPNDateTime.parseDateTime( ephem.next_solstice( str( n ) + '-07-01' ) )
+    result = RPNDateTime.convertFromEphemDate( ephem.next_solstice( str( n ) + '-07-01' ) )
+    return result.getLocalTime( )
 
 
 # //******************************************************************************
@@ -79,7 +84,8 @@ def getEphemTime( n, func ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'expected a date-time argument' )
 
-    return RPNDateTime.parseDateTime( ephem.localtime( func( n.format( ) ) ) )
+    result = RPNDateTime.convertFromEphemDate( func( n.format( ) ) )
+    return result.getLocalTime( )
 
 
 # //******************************************************************************
@@ -92,8 +98,10 @@ def getMoonPhase( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( '\'moon_phase\' expects a date-time argument' )
 
-    previous = RPNDateTime.parseDateTime( ephem.localtime( ephem.previous_new_moon( n.format( ) ) ) )
-    next = RPNDateTime.parseDateTime( ephem.localtime( ephem.next_new_moon( n.format( ) ) ) )
+    datetime = n.to( 'utc' ).format( )
+
+    previous = RPNDateTime.convertFromEphemDate( ephem.previous_new_moon( datetime ) ).getLocalTime( )
+    next = RPNDateTime.convertFromEphemDate( ephem.next_new_moon( datetime ) ).getLocalTime( )
 
     cycle = next - previous
     current = n - previous
@@ -111,7 +119,7 @@ def getSkyLocation( n, k ):
     if not isinstance( n, ephem.Body ) or not isinstance( k, RPNDateTime ):
         raise ValueError( '\'sky_location\' expects an astronomical object and a date-time' )
 
-    n.compute( k.format( ) )
+    n.compute( k.to( 'utc' ).format( ) )
 
     return [ fdiv( fmul( mpmathify( n.ra ), 180 ), pi ), fdiv( fmul( mpmathify( n.dec ), 180 ), pi ) ]
 
@@ -126,14 +134,14 @@ def getNextRising( body, location, date ):
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
-    #old_horizon = location.observer.horizon
+    old_horizon = location.observer.horizon
 
-    location.observer.date = date.format( )
-    #location.observer.horizon = '-0.34'     # per U.S. Naval Astronomical Almanac
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = 0
 
-    result = RPNDateTime.parseDateTime( ephem.localtime( location.observer.next_rising( body ) ) )
+    result = RPNDateTime.convertFromEphemDate( location.observer.next_rising( body ) ).getLocalTime( )
 
-    #location.observer.horizon = old_horizon
+    location.observer.horizon = old_horizon
 
     return result
 
@@ -148,14 +156,14 @@ def getNextSetting( body, location, date ):
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
-    #old_horizon = location.observer.horizon
+    old_horizon = location.observer.horizon
 
-    location.observer.date = date.format( )
-    #location.observer.horizon = '-0.34'     # per U.S. Naval Astronomical Almanac
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = 0
 
-    result = RPNDateTime.parseDateTime( ephem.localtime( location.observer.next_setting( body ) ) )
+    result = RPNDateTime.convertFromEphemDate( location.observer.next_setting( body ) ).getLocalTime( )
 
-    #location.observer.horizon = old_horizon
+    location.observer.horizon = old_horizon
 
     return result
 
@@ -171,14 +179,14 @@ def getNextTransit( body, location, date ):
        not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
-    #old_horizon = location.observer.horizon
+    old_horizon = location.observer.horizon
 
-    location.observer.date = date.format( )
-    #location.observer.horizon = '-0.34'     # per U.S. Naval Astronomical Almanac
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = 0
 
-    result = RPNDateTime.parseDateTime( ephem.localtime( location.observer.next_transit( body ) ) )
+    result = RPNDateTime.convertFromEphemDate( location.observer.next_transit( body ) ).getLocalTime( )
 
-    #location.observer.horizon = old_horizon
+    location.observer.horizon = old_horizon
 
     return result
 
@@ -196,10 +204,10 @@ def getNextAntitransit( body, location, date ):
 
     old_horizon = location.observer.horizon
 
-    location.observer.date = date.format( )
-    location.observer.horizon = '-0.34'     # per U.S. Naval Astronomical Almanac
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = 0
 
-    result = RPNDateTime.parseDateTime( ephem.localtime( location.observer.next_antitransit( body ) ) )
+    result = RPNDateTime.convertFromEphemDate( location.observer.next_antitransit( body ) ).getLocalTime( )
 
     location.observer.horizon = old_horizon
 
@@ -218,11 +226,11 @@ def getNextDawn( location, date, horizon = -6 ):
 
     old_horizon = location.observer.horizon
 
-    location.observer.date = date.format( )
-    location.observer.horizon = str( horizon )
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = 0
 
-    result = RPNDateTime.parseDateTime(
-                ephem.localtime( location.observer.next_rising( ephem.Sun( ) ) ) )
+    result = RPNDateTime.convertFromEphemDate(
+                location.observer.next_rising( ephem.Sun( ) ) ).getLocalTime( )
 
     location.observer.horizon = old_horizon
 
@@ -241,11 +249,11 @@ def getNextDusk( location, date, horizon = -6 ):
 
     old_horizon = location.observer.horizon
 
-    location.observer.date = date.format( )
-    location.observer.horizon = str( horizon )
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = 0
 
-    result = RPNDateTime.parseDateTime(
-                ephem.localtime( location.observer.next_setting( ephem.Sun( ) ) ) )
+    result = RPNDateTime.convertFromEphemDate(
+                location.observer.next_setting( ephem.Sun( ) ) ).getLocalTime( )
 
     location.observer.horizon = old_horizon
 

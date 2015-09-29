@@ -353,10 +353,10 @@ def formatDateTime( datetime ):
     if datetime.getDateOnly( ):
         return datetime.format( 'YYYY-MM-DD' )
     else:
-        if datetime.microsecond:
-            return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
-        else:
-            return datetime.format( 'YYYY-MM-DD HH:mm:ss' )
+        #if datetime.microsecond:
+        #    return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
+        #else:
+        return datetime.format( 'YYYY-MM-DD HH:mm:ss' )
 
 
 # //******************************************************************************

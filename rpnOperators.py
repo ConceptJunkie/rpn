@@ -1652,4 +1652,3 @@ operators = {
     'miranda'                       : OperatorInfo( ephem.Miranda, 0 ),
 }
 
-
