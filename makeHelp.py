@@ -3066,6 +3066,12 @@ c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
 ''',
 '''
 ''' ],
+    'hebrew' : [
+'date', 'converts a date to the equivalent date in the Hebrew calendar',
+'''
+''',
+'''
+''' ],
     'help' : [
 'special', 'displays help text',
 '''
@@ -3905,13 +3911,13 @@ TODO:  explain all the other names this has
 '''
 ''' ],
     'make_julian_time' : [
-'conversion', 'interpret argument as absolute time specified by year, Julian day and optional time of day',
+'date', 'interpret argument as absolute time specified by year, Julian day and optional time of day',
 '''
 ''',
 '''
 ''' ],
     'make_iso_time' : [
-'conversion', 'interpret argument as absolute time specified in the ISO format',
+'date', 'interpret argument as absolute time specified in the ISO format',
 '''
 ''',
 '''
@@ -6217,7 +6223,7 @@ This constant operator is defined for convenience for use with date operators.
 '''
 ''' ],
     'today' : [
-'conversion', 'returns the current date',
+'date', 'returns the current date',
 '''
 ''',
 '''
@@ -6583,7 +6589,7 @@ c:\>rpn 2015 august 4 wednesday nthweekday
 2015-08-26
 ''' ],
     'weekday' : [
-'conversion', 'calculates the day of the week of an absolute time',
+'date', 'calculates the day of the week of an absolute time',
 '''
 Given any date, the 'weekday' operator will determine what day of the week
 that date occurred on.

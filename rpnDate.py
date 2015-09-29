@@ -16,6 +16,7 @@ import arrow
 import calendar
 import datetime
 
+from convertdate import hebrew
 from dateutil import tz
 
 from rpnMeasurement import *
@@ -392,5 +393,18 @@ def getWeekday( n ):
         raise ValueError( 'time type required for this operator' )
 
     return calendar.day_name[ n.weekday( ) ]
+
+
+# //******************************************************************************
+# //
+# //  getHebrewCalendarDate
+# //
+# //******************************************************************************
+
+def getHebrewCalendarDate( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    return hebrew.from_gregorian( n.year, n.month, n.day )
 
 

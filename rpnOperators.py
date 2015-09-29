@@ -1262,6 +1262,7 @@ operators = {
     'get_digits'                    : OperatorInfo( getDigits, 1 ),
     'glaisher'                      : OperatorInfo( glaisher, 0 ),
     'harmonic'                      : OperatorInfo( harmonic, 1 ),
+    'hebrew'                        : OperatorInfo( getHebrewCalendarDate, 1 ),
     'help'                          : OperatorInfo( printHelpMessage, 0 ),
     'heptagonal'                    : OperatorInfo( lambda n: getNthPolygonalNumber( n, 7 ), 1 ),
     'heptagonal?'                   : OperatorInfo( lambda n: findNthPolygonalNumber( n, 7 ), 1 ),
