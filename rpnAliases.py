@@ -107,6 +107,8 @@ operatorAliases = {
     'chex?'             : 'centered_hexagonal?',
     'chexagonal'        : 'centered_hexagonal',
     'chexagonal?'       : 'centered_hexagonal?',
+    'civil_dawn'        : 'dawn',
+    'civil_dusk'        : 'dusk',
     'click'             : 'kilometer',
     'cnon'              : 'centered_nonagonal',
     'cnon?'             : 'centered_nonagonal?',

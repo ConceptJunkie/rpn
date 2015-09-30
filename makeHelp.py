@@ -878,8 +878,10 @@ Added 'next_new_moon', 'next_first_quarter_moon', 'next_full_moon',
 
 Added 'sunrise', 'sunset', 'moonrise', 'moonset', 'sun_transit',
 'sun_antitransit', 'moon_transit', 'moon_antitransit', 'dawn', 'dusk',
-'nautical_dawn', 'nautical_dusk', 'astronomical_dawn', 'astronomical_dusk'
-operators.
+'nautical_dawn', 'nautical_dusk', 'astronomical_dawn', 'astronomical_dusk',
+'next_rising', 'next_setting', 'next_transit', 'next_antitransit',
+'previous_rising', 'previous_setting', 'previous_transit',
+'previous_antitransit', operators.
 
 Added support for calendar conversions with the following operators: 'hebrew',
 'islamic', 'julian', 'persian'.
@@ -4547,6 +4549,12 @@ c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand
 ''',
 '''
 ''' ],
+    'next_antitransit' : [
+'astronomy', 'returns the date of the next antitransit of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
     'next_first_quarter_moon' : [
 'astronomy', 'returns the date of the next First Quarter Moon after n',
 '''
@@ -4567,6 +4575,24 @@ c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand
 ''' ],
     'next_new_moon' : [
 'astronomy', 'returns the date of the next New Moon after n',
+'''
+''',
+'''
+''' ],
+    'next_rising' : [
+'astronomy', 'returns the date of the next rising of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'next_setting' : [
+'astronomy', 'returns the date of the next setting of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'next_transit' : [
+'astronomy', 'returns the date of the next transit of body a, when viewed from location b, at date c',
 '''
 ''',
 '''
@@ -5276,6 +5302,12 @@ c:\>rpn 1 foot 3 ** gallon convert
 ''',
 '''
 ''' ],
+    'previous_antitransit' : [
+'astronomy', 'returns the date of the previous antitransit of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
     'previous_first_quarter_moon' : [
 'astronomy', 'returns the date of the previous First Quarter Moon before n',
 '''
@@ -5296,6 +5328,24 @@ c:\>rpn 1 foot 3 ** gallon convert
 ''' ],
     'previous_new_moon' : [
 'astronomy', 'returns the date of the previous New Moon before n',
+'''
+''',
+'''
+''' ],
+    'previous_rising' : [
+'astronomy', 'returns the date of the previous rising of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'previous_setting' : [
+'astronomy', 'returns the date of the previous setting of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'previous_transit' : [
+'astronomy', 'returns the date of the previous transit of body a, when viewed from location b, at date c',
 '''
 ''',
 '''

@@ -216,6 +216,96 @@ def getNextAntitransit( body, location, date ):
 
 # //******************************************************************************
 # //
+# //  getPreviousRising
+# //
+# //******************************************************************************
+
+def getPreviousRising( body, location, date ):
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+
+    old_horizon = location.observer.horizon
+
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = '0'
+
+    result = RPNDateTime.convertFromEphemDate( location.observer.previous_rising( body ) ).getLocalTime( )
+
+    location.observer.horizon = old_horizon
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  getPreviousSetting
+# //
+# //******************************************************************************
+
+def getPreviousSetting( body, location, date ):
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+
+    old_horizon = location.observer.horizon
+
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = '0'
+
+    result = RPNDateTime.convertFromEphemDate( location.observer.previous_setting( body ) ).getLocalTime( )
+
+    location.observer.horizon = old_horizon
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  getPreviousTransit
+# //
+# //******************************************************************************
+
+def getPreviousTransit( body, location, date ):
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
+       not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+
+    old_horizon = location.observer.horizon
+
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = '0'
+
+    result = RPNDateTime.convertFromEphemDate( location.observer.previous_transit( body ) ).getLocalTime( )
+
+    location.observer.horizon = old_horizon
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  getPreviousAntitransit
+# //
+# //******************************************************************************
+
+def getPreviousAntitransit( body, location, date ):
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
+       not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+
+    old_horizon = location.observer.horizon
+
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = '0'
+
+    result = RPNDateTime.convertFromEphemDate( location.observer.previous_antitransit( body ) ).getLocalTime( )
+
+    location.observer.horizon = old_horizon
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  getNextDawn
 # //
 # //  -6 is "civil" twilight
