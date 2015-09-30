@@ -3,10 +3,10 @@ rpn is a command-line Reverse-Polish Notation calculator.
 rpn supports arithmetic with arbitrary precision, powers and roots, logarithms,
 algebraic functions (including polynomials arithmetic and solving),
 trigonometric functions, complex numbers, computer science related functions
-(bitwise math, base conversion), number theory functions, prime number
-calculations and lookup, can operate with single operands or lists of operands
-and supports a wide variety of flexible unit conversions comparable to the GNU
-units program.
+(bitwise math, base conversion), number theory functions, astronomical
+functions, prime number calculations and lookup, can operate with single
+operands or lists of operands and supports a wide variety of flexible unit
+conversions comparable to the GNU units program.
 
 ****
 
@@ -42,9 +42,8 @@ See "rpn help settings" for more information.
 
 Running RPN using the source:
 
-rpn is written in Python 3.4, and requires the mpmath, pyprimes, readline and
-arrow libraries for most of the hard math stuff (gmpy2 is optional, but
-recommended).
+rpn is written in Python 3, and requires several libraries for the hard math
+stuff (gmpy2 is optional, but recommended for improved performance).
 
 If you have pip installed, you can install the prerequisites with the
 following:
@@ -53,8 +52,9 @@ following:
     pip install mpmath
     pip install gmpy2
     pip install arrow
-    pip install readline  (or download an installer from here:
-            http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyreadline)
+    pip install pyreadline
+    pip install ephem
+    pip install convertdate
 
 Before running rpn, you should run the scripts to generate the data files that
 rpn uses for displaying help, doing unit conversions, and looking up various
@@ -76,7 +76,7 @@ For instance:
 
 will calculate 2 + 2.
 
-rpn supports more than 500 operators.  ('rpn _dumpops' will list them all.)
+rpn supports more than 580 operators.  ('rpn _dumpops' will list them all.)
 
 The entire operator list is also included at the bottom of this document.
 
@@ -440,70 +440,83 @@ Operators supported by rpn:
 
 abs accuracy acos acosh acot acoth acsc acsch add add_digits aliquot
 alternate_signs alternate_signs_2 alternating_factorial alternating_sum
-alternating_sum_2 and apery append april argument asec asech ash_wednesday asin
-asinh atan atanh august avogadro balanced_prime balanced_prime_ base bell
-bell_polynomial bernoulli binomial calendar carol catalan ceiling centered_cube
-centered_decagonal centered_decagonal? centered_heptagonal centered_heptagonal?
-centered_hexagonal centered_nonagonal centered_nonagonal? centered_octagonal
-centered_octagonal? centered_pentagonal centered_pentagonal? centered_polygonal
-centered_polygonal? centered_square centered_square? centered_triangular
-centered_triangular? cf champernowne char combine_digits comma comma_mode
-compositions conjugate convert copeland cos cosh cot coth count count_bits
-count_divisors cousin_prime crt csc csch cube debruijn decagonal decagonal?
-december decimal_grouping default delannoy dhms diffs diffs2 divide divisors
-dms dodecahedral double double_balanced double_balanced_ double_factorial
-dst_end dst_start dup_digits dup_operator dup_term e easter ecm egypt
-election_day electric_constant element equal estimate euler euler_brick
-euler_phi eval eval2 eval3 eval_poly exp exp10 exponential_range expphi factor
-factorial false faradays_constant february fibonacci fibonorial filter
+alternating_sum_2 and apery append april argument ariel asec asech
+ash_wednesday asin asinh astronomical_dawn astronomical_dusk atan atanh august
+autumnal_equinox avogadro balanced_prime balanced_prime_ base bell
+bell_polynomial bernoulli binomial calendar callisto carol catalan ceiling
+centered_cube centered_decagonal centered_decagonal? centered_heptagonal
+centered_heptagonal? centered_hexagonal centered_nonagonal centered_nonagonal?
+centered_octagonal centered_octagonal? centered_pentagonal centered_pentagonal?
+centered_polygonal centered_polygonal? centered_square centered_square?
+centered_triangular centered_triangular? cf champernowne char combine_digits
+comma comma_mode compositions conjugate convert copeland cos cosh cot coth
+count count_bits count_divisors cousin_prime crt csc csch cube dawn debruijn
+decagonal decagonal? december decimal_grouping default deimos delannoy dhms
+diffs diffs2 dione divide divisors dms dodecahedral double double_balanced
+double_balanced_ double_factorial dst_end dst_start dup_digits dup_operator
+dup_term dusk e easter ecm eddington_number egypt election_day
+electric_constant element enceladus estimate euler euler_brick euler_phi europa
+eval eval2 eval3 eval_poly exp exp10 exponential_range expphi factor factorial
+false faradays_constant february fibonacci fibonorial filter filter_by_index
 find_palindrome find_poly fine_structure flatten float floor fraction friday
-frobenius from_unix_time gamma gcd geometric_mean geometric_range get_digits
-glaisher greater group_elements harmonic help heptagonal heptagonal?
+frobenius from_unix_time gamma ganymede gcd geometric_mean geometric_range
+get_digits glaisher group_elements harmonic hebrew help heptagonal heptagonal?
 heptagonal_hexagonal heptagonal_pentagonal heptagonal_square
 heptagonal_triangular heptanacci hexagonal hexagonal? hexagonal_pentagonal
-hexagonal_square hexanacci hex_mode hms hyper4_2 hyperfactorial hypotenuse i
-icosahedral identify identify_mode imaginary infinity input_radix integer
-integer_grouping interleave intersection invert_units isolated_prime iso_day
-is_abundant is_deficient is_divisible is_palindrome is_pandigital is_perfect
-is_prime is_square itoi jacobsthal january julian_day july june khinchin kynea
-labor_day lah lambertw lcm leading_zero leading_zero_mode left less leyland
-lgamma li limit limitn linear_recur ln log10 log2 logxy long longlong lucas
-magnetic_constant make_cf make_iso_time make_julian_time make_pyth_3
-make_pyth_4 make_time march max max_char max_double max_float max_index
-max_long max_longlong max_quadlong max_short max_uchar max_ulong max_ulonglong
-max_uquadlong max_ushort may mean memorial_day mertens mertens_constant mills
-min min_char min_double min_float min_index min_long min_longlong min_quadlong
-min_short min_uchar min_ulong min_ulonglong min_uquadlong min_ushort mobius
-modulo monday motzkin multifactorial multiply name nand narayana negative
-negative_infinity newtons_constant nint nonagonal nonagonal?
+hexagonal_square hexanacci hex_mode hms hyper4_2 hyperfactorial hyperion
+hypotenuse i iapetus icosahedral identify identify_mode imaginary infinity
+input_radix integer integer_grouping interleave intersection invert_units io
+islamic isolated_prime iso_day is_abundant is_achilles is_deficient
+is_divisible is_equal is_even is_greater is_k_semiprime is_less is_not_equal
+is_not_greater is_not_less is_not_zero is_odd is_palindrome is_pandigital
+is_perfect is_powerful is_prime is_pronic is_rough is_semiprime is_smooth
+is_sphenic is_square is_squarefree is_unusual is_zero itoi jacobsthal january
+julian julian_day july june jupiter khinchin kynea labor_day lah lambertw
+latlong latlong_to_nac lcm leading_zero leading_zero_mode left leonardo leyland
+lgamma li limit limitn linear_recur ln location location_info log10 log2 logxy
+long longlong lucas magnetic_constant make_cf make_iso_time make_julian_time
+make_pyth_3 make_pyth_4 make_time march mars max max_char max_double max_float
+max_index max_long max_longlong max_quadlong max_short max_uchar max_ulong
+max_ulonglong max_uquadlong max_ushort may mean memorial_day mercury mertens
+mertens_constant mills mimas min min_char min_double min_float min_index
+min_long min_longlong min_quadlong min_short min_uchar min_ulong min_ulonglong
+min_uquadlong min_ushort miranda mobius modulo monday moon moonrise moonset
+moon_antitransit moon_phase moon_transit motzkin multifactorial multiply
+multiply_digits name nand narayana nautical_dawn nautical_dusk negate negative
+negative_infinity neptune newtons_constant next_first_quarter_moon
+next_full_moon next_last_quarter_moon next_new_moon nint nonagonal nonagonal?
 nonagonal_heptagonal nonagonal_hexagonal nonagonal_octagonal
 nonagonal_pentagonal nonagonal_square nonagonal_triangular nonzero nor not
-not_equal not_greater not_less november now nprod nsphere_area nsphere_radius
-nsphere_volume nsum nth_apery nth_catalan nth_prime? nth_quad? nth_weekday
-nth_weekday_of_year occurrences octagonal octagonal? octagonal_heptagonal
-octagonal_hexagonal octagonal_pentagonal octagonal_square octagonal_triangular
-octahedral octal_mode october oeis oeis_comment oeis_ex oeis_name omega or
-output_radix pack padovan parity partitions pascal_triangle pell pentagonal
-pentagonal? pentagonal_square pentagonal_triangular pentanacci pentatope perm
-phi pi plastic plot plot2 plotc polyadd polygamma polygonal polygonal?
+november now nprod nsum nth_apery nth_catalan nth_prime? nth_quad? nth_weekday
+nth_weekday_of_year n_sphere_area n_sphere_radius n_sphere_volume oberon
+occurrences octagonal octagonal? octagonal_heptagonal octagonal_hexagonal
+octagonal_pentagonal octagonal_square octagonal_triangular octahedral
+octal_mode october oeis oeis_comment oeis_ex oeis_name omega or output_radix
+pack padovan parity partitions pascal_triangle pell pentagonal pentagonal?
+pentagonal_square pentagonal_triangular pentanacci pentatope perm persian phi
+phobos pi plastic plot plot2 plotc pluto polyadd polygamma polygonal polygonal?
 polygon_area polylog polymul polypower polyprime polyprod polysum polytope
-power powmod precision presidents_day previous prevost prime prime? primepi
-primes primorial product pyramid quadruplet_prime quadruplet_prime?
-quadruplet_prime_ quintuplet_prime quintuplet_prime_ radiation_constant random
-random_ random_integer random_integer_ range range2 ratios real reciprocal
-reduce repunit result reversal_addition reverse reverse_digits rhombdodec
-riesel right robbins root root2 root3 round rydberg_constant safe_prime
-saturday schroeder sec sech september set sextuplet_prime sextuplet_prime_
-sexy_prime sexy_prime_ sexy_quadruplet sexy_quadruplet_ sexy_triplet
-sexy_triplet_ shift_left shift_right short shuffle sigma sign silver_ratio sin
-sinh slice solve solve2 solve3 solve4 sophie_prime sort sort_descending
-sphere_area sphere_radius sphere_volume square square_triangular stddev
-stefan_boltzmann stella_octangula subfactorial sublist subtract sum sum_digits
-sunday superfactorial superprime sylvester tan tanh tetrahedral tetranacci
-tetrate thabit thanksgiving thursday timer timer_mode today topic tower tower2
-to_unix_time triangle_area triangular triangular? tribonacci triplet_prime
-triplet_prime_ triple_balanced triple_balanced_ true truncated_octahedral
+power powmod precision presidents_day previous previous_first_quarter_moon
+previous_full_moon previous_last_quarter_moon previous_new_moon prevost prime
+prime? primepi primes primorial product pyramid quadruplet_prime
+quadruplet_prime? quadruplet_prime_ quintuplet_prime quintuplet_prime_
+radiation_constant random random_ random_integer random_integer_ range range2
+ratios real reciprocal reduce repunit result reversal_addition reverse
+reverse_digits rhea rhombdodec riesel right robbins root root2 root3 round
+rydberg_constant safe_prime saturday saturn schroeder sec sech september set
+sextuplet_prime sextuplet_prime_ sexy_prime sexy_prime_ sexy_quadruplet
+sexy_quadruplet_ sexy_triplet sexy_triplet_ shift_left shift_right short
+shuffle sigma sign silver_ratio sin sinh sky_location slice solar_noon solve
+solve2 solve3 solve4 sophie_prime sort sort_descending sphere_area
+sphere_radius sphere_volume square square_triangular stddev stefan_boltzmann
+stella_octangula subfactorial sublist subtract sum summer_solstice sum_digits
+sun sunday sunrise sunset sun_antitransit superfactorial superprime sylvester
+tan tanh tethys tetrahedral tetranacci tetrate thabit thanksgiving thursday
+timer timer_mode titan titania today topic tower tower2 to_unix_time
+triangle_area triangular triangular? tribonacci triplet_prime triplet_prime_
+triple_balanced triple_balanced_ true truncated_octahedral
 truncated_tetrahedral tuesday twin_prime twin_prime_ uchar uinteger ulong
-ulonglong undouble unfloat union unique unit_roots unlist unpack use_members
-ushort value wednesday weekday x xor y ydhms year_calendar z zero zeta [ ]
-_dump_aliases _dump_operators _stats
+ulonglong umbriel undouble unfilter unfilter_by_index unfloat union unique
+unit_roots unlist unpack uranus use_members ushort value venus vernal_equinox
+wednesday weekday winter_solstice x xor y ydhms year_calendar z zero zeta [ ]
+_dump_aliases _dump_operators _stats { }
