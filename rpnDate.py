@@ -410,6 +410,21 @@ def getHebrewCalendarDate( n ):
 
 # //******************************************************************************
 # //
+# //  getHebrewCalendarDateName
+# //
+# //******************************************************************************
+
+def getHebrewCalendarDateName( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    date = list( hebrew.from_gregorian( n.year, n.month, n.day ) )
+
+    return g.hebrewMonths[ date[ 1 ] - 1 ] + ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
+
+
+# //******************************************************************************
+# //
 # //  getIslamicCalendarDate
 # //
 # //******************************************************************************

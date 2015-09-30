@@ -3094,6 +3094,12 @@ c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
 ''',
 '''
 ''' ],
+    'hebrew_name' : [
+'date', 'converts a date to the equivalent date in the Hebrew calendar with the month name',
+'''
+''',
+'''
+''' ],
     'help' : [
 'special', 'displays help text',
 '''
