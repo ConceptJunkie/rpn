@@ -137,7 +137,7 @@ def getNextRising( body, location, date ):
     old_horizon = location.observer.horizon
 
     location.observer.date = date.to( 'utc' ).format( )
-    location.observer.horizon = 0
+    location.observer.horizon = '0'
 
     result = RPNDateTime.convertFromEphemDate( location.observer.next_rising( body ) ).getLocalTime( )
 
@@ -159,7 +159,7 @@ def getNextSetting( body, location, date ):
     old_horizon = location.observer.horizon
 
     location.observer.date = date.to( 'utc' ).format( )
-    location.observer.horizon = 0
+    location.observer.horizon = '0'
 
     result = RPNDateTime.convertFromEphemDate( location.observer.next_setting( body ) ).getLocalTime( )
 
@@ -182,7 +182,7 @@ def getNextTransit( body, location, date ):
     old_horizon = location.observer.horizon
 
     location.observer.date = date.to( 'utc' ).format( )
-    location.observer.horizon = 0
+    location.observer.horizon = '0'
 
     result = RPNDateTime.convertFromEphemDate( location.observer.next_transit( body ) ).getLocalTime( )
 
@@ -205,7 +205,7 @@ def getNextAntitransit( body, location, date ):
     old_horizon = location.observer.horizon
 
     location.observer.date = date.to( 'utc' ).format( )
-    location.observer.horizon = 0
+    location.observer.horizon = '0'
 
     result = RPNDateTime.convertFromEphemDate( location.observer.next_antitransit( body ) ).getLocalTime( )
 
@@ -218,6 +218,10 @@ def getNextAntitransit( body, location, date ):
 # //
 # //  getNextDawn
 # //
+# //  -6 is "civil" twilight
+# //  -12 is nautical twilight
+# //  -18 is astronomical twilight
+# //
 # //******************************************************************************
 
 def getNextDawn( location, date, horizon = -6 ):
@@ -227,10 +231,10 @@ def getNextDawn( location, date, horizon = -6 ):
     old_horizon = location.observer.horizon
 
     location.observer.date = date.to( 'utc' ).format( )
-    location.observer.horizon = 0
+    location.observer.horizon = str( horizon )
 
     result = RPNDateTime.convertFromEphemDate(
-                location.observer.next_rising( ephem.Sun( ) ) ).getLocalTime( )
+                location.observer.next_rising( ephem.Sun( ), use_center=True ) ).getLocalTime( )
 
     location.observer.horizon = old_horizon
 
@@ -241,6 +245,10 @@ def getNextDawn( location, date, horizon = -6 ):
 # //
 # //  getNextDusk
 # //
+# //  -6 is "civil" twilight
+# //  -12 is nautical twilight
+# //  -18 is astronomical twilight
+# //
 # //******************************************************************************
 
 def getNextDusk( location, date, horizon = -6 ):
@@ -250,10 +258,10 @@ def getNextDusk( location, date, horizon = -6 ):
     old_horizon = location.observer.horizon
 
     location.observer.date = date.to( 'utc' ).format( )
-    location.observer.horizon = 0
+    location.observer.horizon = str( horizon )
 
     result = RPNDateTime.convertFromEphemDate(
-                location.observer.next_setting( ephem.Sun( ) ) ).getLocalTime( )
+                location.observer.next_setting( ephem.Sun( ), use_center=True ) ).getLocalTime( )
 
     location.observer.horizon = old_horizon
 

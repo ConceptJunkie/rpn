@@ -16,7 +16,7 @@ import arrow
 import calendar
 import datetime
 
-from convertdate import hebrew
+from convertdate import *
 from dateutil import tz
 
 from rpnMeasurement import *
@@ -405,6 +405,45 @@ def getHebrewCalendarDate( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
 
-    return hebrew.from_gregorian( n.year, n.month, n.day )
+    return list( hebrew.from_gregorian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  getIslamicCalendarDate
+# //
+# //******************************************************************************
+
+def getIslamicCalendarDate( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    return list( islamic.from_gregorian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  getJulianCalendarDate
+# //
+# //******************************************************************************
+
+def getJulianCalendarDate( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    return list( julian.from_gregorian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  getPersianCalendarDate
+# //
+# //******************************************************************************
+
+def getPersianCalendarDate( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    return list( persian.from_gregorian( n.year, n.month, n.day ) )
 
 

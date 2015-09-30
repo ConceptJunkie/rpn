@@ -119,3 +119,21 @@ factorCache = None
 # location cache
 locationCache = None
 
+# calendar names
+
+hebrewMonths = [
+    'Nisan',
+    'Iyyar',
+    'Sivan',
+    'Tammuz',
+    'Av',
+    'Elul',
+    'Tishri',
+    'Heshvan',
+    'Kislev',
+    'Teveth',
+    'Shevat',
+    'Adar',
+    'Veadar',
+]
+

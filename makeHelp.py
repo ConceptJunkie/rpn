@@ -876,6 +876,14 @@ Added 'next_new_moon', 'next_first_quarter_moon', 'next_full_moon',
 'next_last_quarter_moon', 'previous_new_moon', 'previous_first_quarter_moon',
 'previous_full_moon', 'previous_last_quarter_moon' and 'moon_phase' operators.
 
+Added 'sunrise', 'sunset', 'moonrise', 'moonset', 'sun_transit',
+'sun_antitransit', 'moon_transit', 'moon_antitransit', 'dawn', 'dusk',
+'nautical_dawn', 'nautical_dusk', 'astronomical_dawn', 'astronomical_dusk'
+operators.
+
+Added support for calendar conversions with the following operators: 'hebrew',
+'islamic', 'julian', 'persian'.
+
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
 
@@ -1771,6 +1779,18 @@ instead of a unit circle.
 ''' ],
     'ash_wednesday' : [
 'date', 'calculates the date of Ash Wednesday for the year specified',
+'''
+''',
+'''
+''' ],
+    'astronomical_dawn' : [
+'astronomy', 'calculates the time of the astronomical dawn for location n and date k',
+'''
+''',
+'''
+''' ],
+    'astronomical_dusk' : [
+'astronomy', 'calculates the time of the astronomical dusk for location n and date k',
 '''
 ''',
 '''
@@ -3306,6 +3326,12 @@ the original operand.
 ''',
 '''
 ''' ],
+    'islamic' : [
+'date', 'converts a date to the equivalent date in the Islamic calendar',
+'''
+''',
+'''
+''' ],
     'isolated_prime' : [
 'prime_numbers', 'returns the nth isolated prime',
 '''
@@ -3593,6 +3619,12 @@ c:\>rpn itoi
 'constants', 'returns 1, which is the code for January',
 '''
 This constant operator is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+    'julian' : [
+'date', 'converts a date to the equivalent date in the Julian calendar',
+'''
 ''',
 '''
 ''' ],
@@ -4479,6 +4511,18 @@ c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand
 ''',
 '''
 ''' ],
+    'nautical_dawn' : [
+'astronomy', 'calculates the time of the nautical dawn for location n and date k',
+'''
+''',
+'''
+''' ],
+    'nautical_dusk' : [
+'astronomy', 'calculates the time of the nautical dusk for location n and date k',
+'''
+''',
+'''
+''' ],
     'negate' : [
 'special', 'returns 0 if n is not 0 and 1 if n is 0',
 '''
@@ -4691,24 +4735,6 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'nsphere_area' : [
-'trigonometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
-'''
-''',
-'''
-''' ],
-    'nsphere_radius' : [
-'trigonometry', 'calculates the radius of an n-sphere of size k (surface area or volume)',
-'''
-''',
-'''
-''' ],
-    'nsphere_volume' : [
-'trigonometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
-'''
-''',
-'''
-''' ],
     'nsum' : [
 'special', 'calculates the sum of function c over the range of a through b',
 '''
@@ -4760,6 +4786,24 @@ d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 '''
 a = four-digit year, b = week (negative values count from the end), c = day
 (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
+''',
+'''
+''' ],
+    'n_sphere_area' : [
+'trigonometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
+'''
+''',
+'''
+''' ],
+    'n_sphere_radius' : [
+'trigonometry', 'calculates the radius of an n-sphere of size k (surface area or volume)',
+'''
+''',
+'''
+''' ],
+    'n_sphere_volume' : [
+'trigonometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
+'''
 ''',
 '''
 ''' ],
@@ -5026,6 +5070,12 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 ''' ],
     'perm' : [
 'combinatorics', 'calculates the number of permutations of k out of n objects',
+'''
+''',
+'''
+''' ],
+    'persian' : [
+'date', 'converts a date to the equivalent date in the Persian calendar',
 '''
 ''',
 '''
