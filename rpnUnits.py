@@ -808,6 +808,86 @@ unitOperators = {
         UnitInfo( 'constant', 'centillion', 'centillion', '', [ ], [ 'constant' ],
                   '''One centillion:  10e303''' ),
 
+    # day of the week constants
+
+    'monday' :
+        UnitInfo( 'constant', 'monday', 'monday', '', [ 'mon' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'tuesday' :
+        UnitInfo( 'constant', 'tuesday', 'tuesday', '', [ 'tue', 'tues' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'wednesday' :
+        UnitInfo( 'constant', 'wednesday', 'wednesday', '', [ 'wed' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'thursday' :
+        UnitInfo( 'constant', 'thursday', 'thursday', '', [ 'thur' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'friday' :
+        UnitInfo( 'constant', 'friday', 'friday', '', [ 'fri' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'saturday' :
+        UnitInfo( 'constant', 'saturday', 'saturday', '', [ 'sat' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'sunday' :
+        UnitInfo( 'constant', 'sunday', 'sunday', '', [ ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    # month name constants
+
+    'january' :
+        UnitInfo( 'constant', 'january', 'january', '', [ 'jan' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'february' :
+        UnitInfo( 'constant', 'february', 'february', '', [ 'feb' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'march' :
+        UnitInfo( 'constant', 'march', 'march', '', [ 'mar' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'april' :
+        UnitInfo( 'constant', 'april', 'april', '', [ 'apr' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'may' :
+        UnitInfo( 'constant', 'may', 'may', '', [ ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'june' :
+        UnitInfo( 'constant', 'june', 'june', '', [ 'jun' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'july' :
+        UnitInfo( 'constant', 'july', 'july', '', [ 'jul' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'august' :
+        UnitInfo( 'constant', 'august', 'august', '', [ 'aug' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'september' :
+        UnitInfo( 'constant', 'september', 'september', '', [ 'sep' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'october' :
+        UnitInfo( 'constant', 'october', 'october', '', [ 'oct' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'november' :
+        UnitInfo( 'constant', 'november', 'november', '', [ 'nov' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
+    'december' :
+        UnitInfo( 'constant', 'december', 'december', '', [ 'dec' ], [ 'constant' ],
+                  '''constant created for convenience for date functions''' ),
+
     # current
 
     'abampere' :
@@ -3251,12 +3331,14 @@ unitConversionMatrix = {
     ( 'ampere',                     'coulomb/second' )                      : mpmathify( '1' ),
     ( 'ampere',                     'statampere' )                          : mpmathify( speedOfLight ),
     ( 'ampere-second-volt',         'joule' )                               : mpmathify( '1' ),
+    ( 'april',                      'unity' )                               : mpmathify( '4' ),
     ( 'arcminute',                  'arcsecond' )                           : mpmathify( '60' ),
     ( 'arcsecond',                  'milliarcsecond' )                      : mpmathify( '1000' ),
     ( 'are',                        'square_meter' )                        : mpmathify( '100' ),
     ( 'arpent',                     'foot' )                                : mpmathify( '192' ),
     ( 'astronomical_unit',          'meter' )                               : mpmathify( '149597870691' ),
     ( 'atmosphere',                 'pascal' )                              : mpmathify( '101325' ),
+    ( 'august',                     'unity' )                               : mpmathify( '8' ),
     ( 'balthazar',                  'liter' )                               : mpmathify( '12.0' ),
     ( 'ban',                        'nat' )                                 : log( 10 ),
     ( 'banana_equivalent_dose',     'sievert' )                             : mpmathify( '9.8e-8' ),
@@ -3312,6 +3394,7 @@ unitConversionMatrix = {
     ( 'day',                        'beat' )                                : mpmathify( '1000' ),
     ( 'day',                        'hour' )                                : mpmathify( '24' ),
     ( 'decade',                     'year' )                                : mpmathify( '10' ),
+    ( 'december',                   'unity' )                               : mpmathify( '12' ),
     ( 'decillion',                  'unity' )                               : mpmathify( '1.0e33' ),
     ( 'degree',                     'arcminute' )                           : mpmathify( '60' ),
     ( 'degree',                     'streck' )                              : mpmathify( '17.5' ),
@@ -3343,6 +3426,7 @@ unitConversionMatrix = {
     ( 'farad',                      'statfarad' )                           : mpmathify( '898755178736.5' ),
     ( 'faraday',                    'coulomb' )                             : mpmathify( '96485.3383' ),
     ( 'fathom',                     'foot' )                                : mpmathify( '6' ),
+    ( 'february',                   'unity' )                               : mpmathify( '2' ),
     ( 'finger',                     'inch' )                                : mpmathify( '4.5' ),
     ( 'fingerbreadth',              'inch' )                                : mpmathify( '0.75' ),
     ( 'firkin',                     'gallon' )                              : mpmathify( '9' ),
@@ -3356,6 +3440,7 @@ unitConversionMatrix = {
     ( 'footlambert',                'candela/meter^2' )                     : mpmathify( '3.42625909963539052691' ),  # 1/pi cd/ft^2
     ( 'fortnight',                  'day' )                                 : mpmathify( '14' ),
     ( 'fortnight',                  'microfortnight' )                      : mpmathify( '1.0e6' ),
+    ( 'friday',                     'unity' )                               : mpmathify( '5' ),
     ( 'furlong',                    'yard' )                                : mpmathify( '220' ),
     ( 'gallon',                     'fifth' )                               : mpmathify( '5' ),
     ( 'gallon',                     'quart' )                               : mpmathify( '4' ),
@@ -3406,6 +3491,7 @@ unitConversionMatrix = {
     ( 'inch',                       'point' )                               : mpmathify( '72' ),
     ( 'inch',                       'twip' )                                : mpmathify( '1440' ),
     ( 'jack',                       'tablespoon' )                          : mpmathify( '5' ),
+    ( 'january',                    'unity' )                               : mpmathify( '1' ),
     ( 'jennie',                     'liter' )                               : mpmathify( '0.5' ),
     ( 'jeroboam',                   'liter' )                               : mpmathify( '3.0' ),  # some French regions use 4.5
     ( 'jigger',                     'pony' )                                : mpmathify( '2' ),
@@ -3413,6 +3499,8 @@ unitConversionMatrix = {
     ( 'joule',                      'erg' )                                 : mpmathify( '1.0e7' ),
     ( 'joule',                      'kilogram-meter^2/second^2' )           : mpmathify( '1' ),
     ( 'joule/second',               'watt' )                                : mpmathify( '1' ),
+    ( 'july',                       'unity' )                               : mpmathify( '7' ),
+    ( 'june',                       'unity' )                               : mpmathify( '6' ),
     ( 'jupiter_day',                'day' )                                 : mpmathify( '0.41354' ),
     ( 'jupiter_radius',             'meter' )                               : mpmathify( '7.1492e7' ),
     ( 'jupiter_year',               'year' )                                : mpmathify( '11.862615' ),
@@ -3438,11 +3526,13 @@ unitConversionMatrix = {
     ( 'mach',                       'meter/second' )                        : mpmathify( '295.0464' ),
     ( 'magnum',                     'liter' )                               : mpmathify( '1.5' ),
     ( 'marathon',                   'yard' )                                : mpmathify( '46145' ),
+    ( 'march',                      'unity' )                               : mpmathify( '3' ),
     ( 'marie_jeanne',               'liter' )                               : mpmathify( '2.25' ),
     ( 'mars_day',                   'day' )                                 : mpmathify( '1.02595675' ),
     ( 'mars_year',                  'year' )                                : mpmathify( '1.8808476' ),
     ( 'martin',                     'kovac' )                               : mpmathify( '100' ),
     ( 'maxwell',                    'gauss*centimeter^2' )                  : mpmathify( '1' ),
+    ( 'may',                        'unity' )                               : mpmathify( '5' ),
     ( 'melchior',                   'liter' )                               : mpmathify( '18.0' ),
     ( 'melchizedek',                'liter' )                               : mpmathify( '30.0' ),
     ( 'mercury_day',                'day' )                                 : mpmathify( '58.6462' ),
@@ -3461,6 +3551,7 @@ unitConversionMatrix = {
     ( 'mingo',                      'clarke' )                              : mpmathify( '10' ),
     ( 'minute',                     'second' )                              : mpmathify( '60' ),
     ( 'mmHg',                       'pascal' )                              : mpmathify( '133.3224' ),        # approx.
+    ( 'monday',                     'unity' )                               : mpmathify( '1' ),
     ( 'month',                      'day' )                                 : mpmathify( '30' ),
     ( 'moon_gravity',               'meter/second^2' )                      : mpmathify( '1.62' ),
     ( 'mordechai',                  'liter' )                               : mpmathify( '9.0' ),
@@ -3486,10 +3577,12 @@ unitConversionMatrix = {
     ( 'nit',                        'candela/meter^2' )                     : mpmathify( '1' ),
     ( 'nit',                        'lambert' )                             : fdiv( pi, 10000 ),
     ( 'nonillion',                  'unity' )                               : mpmathify( '1.0e30' ),
+    ( 'november',                   'unity' )                               : mpmathify( '11' ),
     ( 'novemdecillion',             'unity' )                               : mpmathify( '1.0e60' ),
     ( 'nyp',                        'bit' )                                 : mpmathify( '2' ),
     ( 'octant',                     'degree' )                              : mpmathify( '45' ),
     ( 'octillion',                  'unity' )                               : mpmathify( '1.0e27' ),
+    ( 'october',                    'unity' )                               : mpmathify( '10' ),
     ( 'octodecillion',              'unity' )                               : mpmathify( '1.0e57' ),
     ( 'oersted',                    'ampere/meter' )                        : mpmathify( '79.5774715' ),
     ( 'ohm',                        '1/siemens' )                           : mpmathify( '1' ),
@@ -3510,8 +3603,8 @@ unitConversionMatrix = {
     ( 'oword',                      'bit' )                                 : mpmathify( '128' ),
     ( 'parsec',                     'light-year' )                          : mpmathify( '3.261563776971' ),
     ( 'pascal',                     'barye' )                               : mpmathify( '10' ),
-    ( 'pascal-second',              'poise' )                               : mpmathify( '10' ),
     ( 'pascal-second',              'gram/meter*second' )                   : mpmathify( '1000' ),
+    ( 'pascal-second',              'poise' )                               : mpmathify( '10' ),
     ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
     ( 'perch',                      'foot' )                                : mpmathify( '16.5' ),
     ( 'pferdestarke',               'watt' )                                : mpmathify( '735.49875' ),
@@ -3561,6 +3654,7 @@ unitConversionMatrix = {
     ( 'rutherford',                 'becquerel' )                           : mpmathify( '1.0e6' ),
     ( 'rydberg',                    'joule' )                               : mpmathify( '2.179872e-18' ),
     ( 'salmanazar',                 'liter' )                               : mpmathify( '9.0' ),
+    ( 'saturday',                   'unity' )                               : mpmathify( '6' ),
     ( 'saturn_day',                 'day' )                                 : mpmathify( '0.4375' ),
     ( 'saturn_year',                'year' )                                : mpmathify( '29.447498' ),
     ( 'score',                      'unity' )                               : mpmathify( '20' ),
@@ -3569,6 +3663,7 @@ unitConversionMatrix = {
     ( 'second',                     'shake' )                               : mpmathify( '1.0e8' ),
     ( 'second',                     'svedberg' )                            : mpmathify( '1.0e13' ),
     ( 'section',                    'acre' )                                : mpmathify( '640' ),
+    ( 'september',                  'unity' )                               : mpmathify( '9' ),
     ( 'septendecillion',            'unity' )                               : mpmathify( '1.0e54' ),
     ( 'septillion',                 'unity' )                               : mpmathify( '1.0e24' ),
     ( 'sexdecillion',               'unity' )                               : mpmathify( '1.0e51' ),
@@ -3633,6 +3728,7 @@ unitConversionMatrix = {
     ( 'stone',                      'pound' )                               : mpmathify( '14' ),
     ( 'stone_us',                   'pound' )                               : mpmathify( '12.5' ),
     ( 'strike',                     'imperial_bushel' )                     : mpmathify( '2' ),
+    ( 'sunday',                     'unity' )                               : mpmathify( '7' ),
     ( 'tablespoon',                 'teaspoon' )                            : mpmathify( '3' ),
     ( 'tau_mass',                   'dalton' )                              : mpmathify( '1.90749' ),
     ( 'teaspoon',                   'dash' )                                : mpmathify( '8' ),
@@ -3645,9 +3741,10 @@ unitConversionMatrix = {
     ( 'tesla',                      'volt*second/meter^2' )                 : mpmathify( '1' ),
     ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '100' ),
+    ( 'thursday',                   'unity' )                               : mpmathify( '4' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
-    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
     ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
+    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
     ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),
     ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),
@@ -3658,6 +3755,7 @@ unitConversionMatrix = {
     ( 'troy_ounce',                 'gram' )                                : mpmathify( '31.1034768' ),
     ( 'troy_pound',                 'pound' )                               : mpmathify( '12' ),
     ( 'tryte',                      'trit' )                                : mpmathify( '6' ),   # as defined by the Setun computer
+    ( 'tuesday',                    'unity' )                               : mpmathify( '2' ),
     ( 'undecillion',                'unity' )                               : mpmathify( '1.0e36' ),
     ( 'unity',                      'billionth' )                           : mpmathify( '1.0e9' ),
     ( 'unity',                      'decillionth' )                         : mpmathify( '1.0e33' ),
@@ -3693,6 +3791,7 @@ unitConversionMatrix = {
     ( 'weber',                      'tesla*meter^2' )                       : mpmathify( '1' ),
     ( 'weber',                      'unit_pole' )                           : mpmathify( '7957747.154594' ),
     ( 'weber',                      'volt-second' )                         : mpmathify( '1' ),
+    ( 'wednesday',                  'unity' )                               : mpmathify( '3' ),
     ( 'week',                       'day' )                                 : mpmathify( '7' ),
     ( 'wey',                        'pound' )                               : mpmathify( '252' ),
     ( 'wine_barrel',                'wine_gallon' )                         : mpmathify( '31.5' ),

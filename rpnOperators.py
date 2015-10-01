@@ -1612,28 +1612,6 @@ operators = {
 #   'antitet'                       : OperatorInfo( findTetrahedralNumber, 1 ),
 #   'bernfrac'                      : OperatorInfo( bernfrac, 1 ),
 
-    # Calendar constant operators
-    'january'                       : OperatorInfo( lambda: 1, 0 ),
-    'february'                      : OperatorInfo( lambda: 2, 0 ),
-    'march'                         : OperatorInfo( lambda: 3, 0 ),
-    'april'                         : OperatorInfo( lambda: 4, 0 ),
-    'may'                           : OperatorInfo( lambda: 5, 0 ),
-    'june'                          : OperatorInfo( lambda: 6, 0 ),
-    'july'                          : OperatorInfo( lambda: 7, 0 ),
-    'august'                        : OperatorInfo( lambda: 8, 0 ),
-    'september'                     : OperatorInfo( lambda: 9, 0 ),
-    'october'                       : OperatorInfo( lambda: 10, 0 ),
-    'november'                      : OperatorInfo( lambda: 11, 0 ),
-    'december'                      : OperatorInfo( lambda: 12, 0 ),
-
-    'sunday'                        : OperatorInfo( lambda: 7, 0 ),
-    'monday'                        : OperatorInfo( lambda: 1, 0 ),
-    'tuesday'                       : OperatorInfo( lambda: 2, 0 ),
-    'wednesday'                     : OperatorInfo( lambda: 3, 0 ),
-    'thursday'                      : OperatorInfo( lambda: 4, 0 ),
-    'friday'                        : OperatorInfo( lambda: 5, 0 ),
-    'saturday'                      : OperatorInfo( lambda: 6, 0 ),
-
     # Astronomical object operators
     'mercury'                       : OperatorInfo( ephem.Mercury, 0 ),
     'venus'                         : OperatorInfo( ephem.Venus, 0 ),
