@@ -1464,6 +1464,7 @@ operators = {
     'pentatope'                     : OperatorInfo( getNthPentatopeNumber, 1 ),
     'perm'                          : OperatorInfo( getPermutations, 2 ),
     'persian'                       : OperatorInfo( getPersianCalendarDate, 1 ),
+    'persian_name'                  : OperatorInfo( getPersianCalendarDateName, 1 ),
     'phi'                           : OperatorInfo( phi, 0 ),
     'pi'                            : OperatorInfo( pi, 0 ),
     'plastic'                       : OperatorInfo( getPlasticConstant, 0 ),

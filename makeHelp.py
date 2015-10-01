@@ -884,7 +884,7 @@ Added 'sunrise', 'sunset', 'moonrise', 'moonset', 'sun_transit',
 'previous_antitransit', operators.
 
 Added support for calendar conversions with the following operators: 'hebrew',
-'islamic', 'julian', 'persian'.
+'hebrew_name', 'islamic', 'julian', 'persian', 'persian_name'.
 
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
@@ -3095,7 +3095,7 @@ c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
 '''
 ''' ],
     'hebrew_name' : [
-'date', 'converts a date to the equivalent date in the Hebrew calendar with the month name',
+'date', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
 '''
 ''',
 '''
@@ -5108,6 +5108,12 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 ''' ],
     'persian' : [
 'date', 'converts a date to the equivalent date in the Persian calendar',
+'''
+''',
+'''
+''' ],
+    'persian_name' : [
+'date', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
 '''
 ''',
 '''

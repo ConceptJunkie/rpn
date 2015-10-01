@@ -420,7 +420,8 @@ def getHebrewCalendarDateName( n ):
 
     date = list( hebrew.from_gregorian( n.year, n.month, n.day ) )
 
-    return g.hebrewMonths[ date[ 1 ] - 1 ] + ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
+    return g.hebrewDays[ n.weekday( ) ] + ', ' + g.hebrewMonths[ date[ 1 ] - 1 ] + \
+           ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
 
 
 # //******************************************************************************
@@ -460,5 +461,21 @@ def getPersianCalendarDate( n ):
         raise ValueError( 'time type required for this operator' )
 
     return list( persian.from_gregorian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  getPersianCalendarDateName
+# //
+# //******************************************************************************
+
+def getPersianCalendarDateName( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    date = list( persian.from_gregorian( n.year, n.month, n.day ) )
+
+    return g.persianDays[ n.weekday( ) ] + ', ' + g.persianMonths[ date[ 1 ] - 1 ] + \
+           ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
 
 

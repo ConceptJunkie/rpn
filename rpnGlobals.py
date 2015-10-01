@@ -123,17 +123,52 @@ locationCache = None
 
 hebrewMonths = [
     'Nisan',
-    'Iyyar',
+    'Iyar',
     'Sivan',
     'Tammuz',
     'Av',
     'Elul',
-    'Tishri',
-    'Heshvan',
+    'Tishrei',
+    'Marcheshvan',
     'Kislev',
-    'Teveth',
+    'Tevet',
     'Shevat',
-    'Adar',
-    'Veadar',
+    'Adar I',
+    'Adar II'
+]
+
+hebrewDays = [
+    'Yom Rishon',
+    'Yom Sheni',
+    'Yom Shlishi',
+    'Yom Revi\'i',
+    'Yom Chamishi',
+    'Yom Shishi',
+    'Yom Shabbat'
+]
+
+persianMonths = [
+    'Farvardin',
+    'Ordibehesht',
+    'Khordad',
+    'Tir',
+    'Mordad',
+    'Shahrivar',
+    'Mehr',
+    'Aban',
+    'Azar',
+    'Dey',
+    'Bahman',
+    'Esfand'
+]
+
+persianDays = [
+    'Yekshanbeh',
+    'Doshanbeh',
+    'Seshhanbeh',
+    'Chaharshanbeh',
+    'Panjshanbeh',
+    'Jomeh',
+    'Shanbeh'
 ]
 
