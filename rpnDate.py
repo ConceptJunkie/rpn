@@ -25,6 +25,64 @@ from rpnTime import *
 
 # //******************************************************************************
 # //
+# //  calendar names
+# //
+# //******************************************************************************
+
+hebrewMonths = [
+    'Nisan',
+    'Iyar',
+    'Sivan',
+    'Tammuz',
+    'Av',
+    'Elul',
+    'Tishrei',
+    'Marcheshvan',
+    'Kislev',
+    'Tevet',
+    'Shevat',
+    'Adar I',
+    'Adar II'
+]
+
+hebrewDays = [
+    'Yom Rishon',
+    'Yom Sheni',
+    'Yom Shlishi',
+    'Yom Revi\'i',
+    'Yom Chamishi',
+    'Yom Shishi',
+    'Yom Shabbat'
+]
+
+persianMonths = [
+    'Farvardin',
+    'Ordibehesht',
+    'Khordad',
+    'Tir',
+    'Mordad',
+    'Shahrivar',
+    'Mehr',
+    'Aban',
+    'Azar',
+    'Dey',
+    'Bahman',
+    'Esfand'
+]
+
+persianDays = [
+    'Yekshanbeh',
+    'Doshanbeh',
+    'Seshhanbeh',
+    'Chaharshanbeh',
+    'Panjshanbeh',
+    'Jomeh',
+    'Shanbeh'
+]
+
+
+# //******************************************************************************
+# //
 # //  getNow
 # //
 # //******************************************************************************
@@ -420,7 +478,7 @@ def getHebrewCalendarDateName( n ):
 
     date = list( hebrew.from_gregorian( n.year, n.month, n.day ) )
 
-    return g.hebrewDays[ n.weekday( ) ] + ', ' + g.hebrewMonths[ date[ 1 ] - 1 ] + \
+    return hebrewDays[ n.weekday( ) ] + ', ' + hebrewMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
 
 
@@ -475,7 +533,6 @@ def getPersianCalendarDateName( n ):
 
     date = list( persian.from_gregorian( n.year, n.month, n.day ) )
 
-    return g.persianDays[ n.weekday( ) ] + ', ' + g.persianMonths[ date[ 1 ] - 1 ] + \
+    return persianDays[ n.weekday( ) ] + ', ' + persianMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
-
 
