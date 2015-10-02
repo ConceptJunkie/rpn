@@ -189,19 +189,19 @@ def makeUnion( arg1, arg2 ):
     result = list( )
 
     if list1:
-        result.extend( arg1 )
-
-        if list2:
-            result.extend( arg2 )
-        else:
-            result.append( arg2 )
+        for arg in arg1:
+            if arg not in result:
+                result.append( arg )
     else:
         result.append( arg1 )
 
-        if list2:
-            result.extend( arg2 )
-        else:
-            result.append( arg2 )
+    if list2:
+        for arg in arg2:
+            if arg not in result:
+                result.append( arg )
+    else:
+        if arg2 not in result:
+            result.append( arg )
 
     return result
 
@@ -221,7 +221,7 @@ def makeIntersection( arg1, arg2 ):
     if list1:
         if list2:
             for i in arg1:
-                if i in arg2:
+                if i in arg2 and i not in result:
                     result.append( i )
         else:
             if arg2 in arg1:

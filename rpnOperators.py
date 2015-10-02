@@ -660,6 +660,8 @@ def dumpAliases( ):
     for alias in sorted( [ key for key in g.operatorAliases ] ):
         print( alias, g.operatorAliases[ alias ] )
 
+    print( )
+
     return len( g.operatorAliases )
 
 

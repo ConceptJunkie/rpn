@@ -3317,10 +3317,22 @@ c:\>rpn 1 20 2 range2 2 20 2 range2 interleave
 [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
 ''' ],
     'intersection' : [
-'list_operators', 'returns the intersection of two lists',
 '''
+'list_operators', 'returns a list of unique elements that exist in both lists',
 ''',
 '''
+c:\>rpn [ 1 2 4 ] [ 3 4 5 ] intersection
+[ 4 ]
+
+c:\>rpn [ 1 2 3 ] [ 4 5 6 ] intersection
+[  ]
+
+c:\>rpn [ 1 1 2 3 3 3 ] [ 1 2 3 4 5 5 ] intersection
+[ 1, 2, 3 ]
+
+c:\>rpn 1 10 range 1 10 range prime intersection
+[ 2, 3, 5, 7 ]
+
 Find numbers that are triangular and square at the same time:
 
 c:\>rpn 1 100 range tri 1 100 range sqr intersect
@@ -6621,14 +6633,13 @@ c:\>rpn 0x40490fdb unfloat
 3.14159274101
 ''' ],
     'union' : [
-'list_operators', 'returns the union of two lists',
+'list_operators', 'returns the union of unique elements from two lists',
 '''
 ''',
 '''
-TODO:  appends instead of makes a union, please fix
 ''' ],
     'unique' : [
-'list_operators', 'replaces list n with a list of its unique elements',
+'list_operators', 'returns a list of its unique elements',
 '''
 ''',
 '''
@@ -6669,8 +6680,9 @@ c:\>rpn 4 5 make_pyth_3 unlist euler_brick
 '''
 ''' ],
     'use_members' : [
-'modifiers', 'instructs the next non-recursive list operation to act on list members'
+'modifiers', 'instructs the next operater to act on list members rather than the list itself as an argument'
 '''
+TODO:  This operator is not implemented yet!
 ''',
 '''
 ''' ],
@@ -6839,7 +6851,7 @@ c:\>rpn 0 20 range fib is_prime zero fib
 [ 0, 1, 1, 8, 21, 34, 55, 144, 377, 610, 987, 2584, 4181, 6765 ]
 ''' ],
     'zeta' : [
-'number_theory', 'calculates the zeta function for n',
+'number_theory', 'calculates Riemann\'s zeta function for n',
 '''
 ''',
 '''
@@ -6848,21 +6860,33 @@ c:\>rpn 0 20 range fib is_prime zero fib
 'internal', 'dumps the list of aliases for operators',
 '''
 rpn maintains a list of aliases for operators and units.  As of 6.5.0, there
-are almost 7000 aliases.  A lot of these are automatically generated for
-metric unit types and certain compound units.  The rest are defined as manually
-defined aliases for units and operator names.
+are over 7000 aliases.  A lot of these are automatically generated for
+metric unit types and certain compound units.  The rest are manually defined
+aliases for units and operator names.
+
+The operator returns number of aliases.
 ''',
 '''
 ''' ],
     '_dump_operators' : [
 'internal', 'lists all rpn operators',
 '''
+The list of operators is divided into normal operators, list operators (which
+require at least one list argument), modifier operators (which work outside of
+the RPN syntax), and internal operators, which describe RPN itself.
+
+The operator returns the RPN version number in list format.
 ''',
 '''
 ''' ],
     '_stats' : [
 'internal', 'dumps rpn statistics',
 '''
+This operator returns the count of unique operators, the count of unit
+convesions, the count of indexed prime numbers of each type, the index of the
+highest prime number and the value of the highest prime number.
+
+The operator returns the RPN version number in list format.
 ''',
 '''
 ''' ],
