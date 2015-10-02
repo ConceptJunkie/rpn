@@ -866,7 +866,8 @@ Added 'is_smooth', 'is_rough', 'unfilter', 'unfilter_by_index', 'negate',
 'is_semiprime', 'is_sphenic', 'is_k_semiprime', 'is_squarefree', 'is_unusual',
 'is_powerful', 'is_achilles', 'is_pronic', and 'leonardo' operators.
 
-Added the 'eddington_number' operator.
+Added the 'eddington_number' operator.  I would have made it a constant, but
+constants are limited to 50 decimal places.
 
 Added a new operator category:  Astronomy (thanks to pyephem).  Added the
 'vernal_equinox', 'summer_solstice', 'autumnal_equinox', and 'winter_solstice'
@@ -883,8 +884,9 @@ Added 'sunrise', 'sunset', 'moonrise', 'moonset', 'sun_transit',
 'previous_rising', 'previous_setting', 'previous_transit',
 'previous_antitransit', operators.
 
-Added support for calendar conversions with the following operators: 'hebrew',
-'hebrew_name', 'islamic', 'julian', 'persian', 'persian_name'.
+Added support for calendar conversions (and the Calendar operator type) with
+the following operators: 'hebrew', 'hebrew_name', 'julian_date', 'islamic',
+'islamic_name', 'ordinal_date', 'persian', 'persian_name'.
 
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
@@ -1012,8 +1014,6 @@ Calculations with lists:
     Calculate the first 10 Fibonacci numbers without using the 'fib' operator:
         c:\>rpn [ 1 1 ] 1 1 10 range linear_recur
         [ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 ]
-
-
 
 Calculations with absolute time:
 
@@ -1914,7 +1914,7 @@ c:\>rpn -c 7 billion
 '''
 ''' ],
     'calendar' : [
-'date', 'prints a month calendar for the date value',
+'calendar', 'prints a month calendar for the date value',
 '''
 The 'calendar' operator is special in that what it prints out is a side-effect.
 It actually returns the date value passed in as a result, so as far as rpn is
@@ -3089,13 +3089,13 @@ c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
 '''
 ''' ],
     'hebrew' : [
-'date', 'converts a date to the equivalent date in the Hebrew calendar',
+'calendar', 'converts a date to the equivalent date in the Hebrew calendar',
 '''
 ''',
 '''
 ''' ],
     'hebrew_name' : [
-'date', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
+'calendar', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
 '''
 ''',
 '''
@@ -3335,7 +3335,13 @@ the original operand.
 '''
 ''' ],
     'islamic' : [
-'date', 'converts a date to the equivalent date in the Islamic calendar',
+'calendar', 'converts a date to the equivalent date in the Islamic calendar',
+'''
+''',
+'''
+''' ],
+    'islamic_name' : [
+'calendar', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
 '''
 ''',
 '''
@@ -3345,8 +3351,14 @@ the original operand.
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through the first billion primes.
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
+and is distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+    'iso_date' : [
+'date', 'returns the date in the ISO format',
+'''
 ''',
 '''
 ''' ],
@@ -3631,7 +3643,7 @@ This constant operator is defined for convenience for use with date operators.
 '''
 ''' ],
     'julian' : [
-'date', 'converts a date to the equivalent date in the Julian calendar',
+'calendar', 'converts a date to the equivalent date in the Julian calendar',
 '''
 ''',
 '''
@@ -5016,6 +5028,12 @@ ffff ffff
 c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 [ 0, 1, 1, 1 ]
 ''' ],
+    'ordinal_date' : [
+'calendar', 'returns the date in the Ordinal Date format',
+'''
+''',
+'''
+''' ],
     'output_radix' : [
 'settings', 'used in the interactive mode to set the output radix',
 '''
@@ -5107,13 +5125,13 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 '''
 ''' ],
     'persian' : [
-'date', 'converts a date to the equivalent date in the Persian calendar',
+'calendar', 'converts a date to the equivalent date in the Persian calendar',
 '''
 ''',
 '''
 ''' ],
     'persian_name' : [
-'date', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
+'calendar', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
 '''
 ''',
 '''
@@ -6787,7 +6805,7 @@ and seconds.
 '''
 ''' ],
     'year_calendar' : [
-'date', 'prints a month calendar for the date value',
+'calendar', 'prints a month calendar for the date value',
 '''
 The 'year_calendar' operator is special in that what it prints out is a
 side-effect.  It actually returns the date value passed in as a result, so as
@@ -6914,121 +6932,6 @@ defined aliases for units and operator names.
 ''',
 '''
 ''' ],
-    'phobos' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'deimos' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'io' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'europa' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'ganymede' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'callisto' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'mimas' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'enceladus' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'tethys' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'dione' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'rhea' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'titan' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'hyperion' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'iapetus' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'ariel' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'umbriel' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'titania' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'oberon' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'miranda' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-
 }
 
 

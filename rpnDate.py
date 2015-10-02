@@ -16,69 +16,36 @@ import arrow
 import calendar
 import datetime
 
-from convertdate import *
-from dateutil import tz
-
 from rpnMeasurement import *
 from rpnTime import *
 
 
 # //******************************************************************************
 # //
-# //  calendar names
+# //  month and day constants
 # //
 # //******************************************************************************
 
-hebrewMonths = [
-    'Nisan',
-    'Iyar',
-    'Sivan',
-    'Tammuz',
-    'Av',
-    'Elul',
-    'Tishrei',
-    'Marcheshvan',
-    'Kislev',
-    'Tevet',
-    'Shevat',
-    'Adar I',
-    'Adar II'
-]
+Monday = 1
+Tuesday = 2
+Wednesday = 3
+Thursday = 4
+Friday = 5
+Saturday = 6
+Sunday = 7
 
-hebrewDays = [
-    'Yom Rishon',
-    'Yom Sheni',
-    'Yom Shlishi',
-    'Yom Revi\'i',
-    'Yom Chamishi',
-    'Yom Shishi',
-    'Yom Shabbat'
-]
-
-persianMonths = [
-    'Farvardin',
-    'Ordibehesht',
-    'Khordad',
-    'Tir',
-    'Mordad',
-    'Shahrivar',
-    'Mehr',
-    'Aban',
-    'Azar',
-    'Dey',
-    'Bahman',
-    'Esfand'
-]
-
-persianDays = [
-    'Yekshanbeh',
-    'Doshanbeh',
-    'Seshhanbeh',
-    'Chaharshanbeh',
-    'Panjshanbeh',
-    'Jomeh',
-    'Shanbeh'
-]
+January = 1
+February = 2
+March = 3
+April = 4
+May = 5
+June = 6
+July = 7
+August = 8
+September = 9
+October = 10
+November = 11
+December = 12
 
 
 # //******************************************************************************
@@ -158,19 +125,9 @@ def getLastDayOfMonth( year, month ):
 
 def getJulianDay( n ):
     if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'a time type required for this operator' )
+        raise ValueError( 'a date-time type required for this operator' )
 
     return n.timetuple( ).tm_yday
-
-
-# //******************************************************************************
-# //
-# //  getJulianWeekFromDate
-# //
-# //******************************************************************************
-
-def getJulianWeekFromDate( date ):
-    pass
 
 
 # //******************************************************************************
@@ -226,7 +183,7 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
 # //******************************************************************************
 
 def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
-    if weekday > 7 or weekday < 1:
+    if weekday > Sunday or weekday < Monday:
         raise ValueError( 'day of week must be 1 - 7 (Monday to Sunday)' )
 
     if isinstance( year, RPNDateTime ):
@@ -266,7 +223,7 @@ def calculateThanksgiving( year ):
     else:
         year = int( year )
 
-    return calculateNthWeekdayOfMonth( year, 11, 4, 4 )
+    return calculateNthWeekdayOfMonth( year, November, 4, Thursday )
 
 
 # //******************************************************************************
@@ -300,7 +257,7 @@ def calculateElectionDay( year ):
     else:
         year = int( year )
 
-    result = calculateNthWeekdayOfMonth( year, 11, 1, 1 )
+    result = calculateNthWeekdayOfMonth( year, November, 1, Monday)
     return result.replace( day = result.day + 1 )
 
 
@@ -318,7 +275,7 @@ def calculateMemorialDay( year ):
     else:
         year = int( year )
 
-    return calculateNthWeekdayOfMonth( year, 5, -1, 1 )
+    return calculateNthWeekdayOfMonth( year, May, -1, Monday )
 
 
 # //******************************************************************************
@@ -335,7 +292,7 @@ def calculatePresidentsDay( year ):
     else:
         year = int( year )
 
-    return calculateNthWeekdayOfMonth( year, 2, 3, 1 )
+    return calculateNthWeekdayOfMonth( year, February, 3, Monday )
 
 
 # //******************************************************************************
@@ -353,11 +310,11 @@ def calculateDSTStart( year ):
         year = int( year )
 
     if year >= 2007:
-        return calculateNthWeekdayOfMonth( year, 3, 2, 7 )
+        return calculateNthWeekdayOfMonth( year, March, 2, Sunday )
     elif year == 1974:
-        return RPNDateTime( 1974, 1, 7, dateOnly = True )
+        return RPNDateTime( 1974, January, 7, dateOnly = True )
     elif year >= 1967:
-        return calculateNthWeekdayOfMonth( year, 4, 1, 7 )
+        return calculateNthWeekdayOfMonth( year, April, 1, Sunday )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
 
@@ -377,54 +334,13 @@ def calculateDSTEnd( year ):
         year = int( year )
 
     if year >= 2007:
-        return calculateNthWeekdayOfMonth( year, 11, 1, 7 )
+        return calculateNthWeekdayOfMonth( year, November, 1, Sunday )
     elif year == 1974:
-        return RPNDateTime( 1974, 12, 31, dateOnly = True )  # technically DST never ended in 1974
+        return RPNDateTime( 1974, December, 31, dateOnly = True )  # technically DST never ended in 1974
     elif year >= 1967:
-        return calculateNthWeekdayOfMonth( year, 10, -1, 7 )
+        return calculateNthWeekdayOfMonth( year, October, -1, Sunday )
     else:
         raise ValueError( 'DST was not standardized before 1967' )
-
-
-# //******************************************************************************
-# //
-# //  generateMonthCalendar
-# //
-# //******************************************************************************
-
-def generateMonthCalendar( n ):
-    cal = calendar.TextCalendar( firstweekday = 6 )
-
-    if isinstance( n[ 0 ], RPNDateTime ):
-        cal.prmonth( n[ 0 ].year, n[ 0 ].month )
-    elif len( n ) >= 2:
-        cal.prmonth( int( n[ 0 ] ), int( n[ 1 ] ) )
-    else:
-        raise ValueError( 'this operator requires at least 2 items in the list' )
-
-    print( )
-
-    return n
-
-
-# //******************************************************************************
-# //
-# //  generateYearCalendar
-# //
-# //******************************************************************************
-
-def generateYearCalendar( n ):
-    cal = calendar.TextCalendar( firstweekday = 6 )
-
-    if isinstance( n, RPNDateTime ):
-        cal.pryear( n.year )
-    else:
-        cal.pryear( n )
-
-    print( )
-
-    return n
-
 
 
 # //******************************************************************************
@@ -442,7 +358,7 @@ def getISODay( n ):
 
 # //******************************************************************************
 # //
-# //  getWeekDay
+# //  getWeekday
 # //
 # //******************************************************************************
 
@@ -452,87 +368,4 @@ def getWeekday( n ):
 
     return calendar.day_name[ n.weekday( ) ]
 
-
-# //******************************************************************************
-# //
-# //  getHebrewCalendarDate
-# //
-# //******************************************************************************
-
-def getHebrewCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
-    return list( hebrew.from_gregorian( n.year, n.month, n.day ) )
-
-
-# //******************************************************************************
-# //
-# //  getHebrewCalendarDateName
-# //
-# //******************************************************************************
-
-def getHebrewCalendarDateName( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
-    date = list( hebrew.from_gregorian( n.year, n.month, n.day ) )
-
-    return hebrewDays[ n.weekday( ) ] + ', ' + hebrewMonths[ date[ 1 ] - 1 ] + \
-           ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
-
-
-# //******************************************************************************
-# //
-# //  getIslamicCalendarDate
-# //
-# //******************************************************************************
-
-def getIslamicCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
-    return list( islamic.from_gregorian( n.year, n.month, n.day ) )
-
-
-# //******************************************************************************
-# //
-# //  getJulianCalendarDate
-# //
-# //******************************************************************************
-
-def getJulianCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
-    return list( julian.from_gregorian( n.year, n.month, n.day ) )
-
-
-# //******************************************************************************
-# //
-# //  getPersianCalendarDate
-# //
-# //******************************************************************************
-
-def getPersianCalendarDate( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
-    return list( persian.from_gregorian( n.year, n.month, n.day ) )
-
-
-# //******************************************************************************
-# //
-# //  getPersianCalendarDateName
-# //
-# //******************************************************************************
-
-def getPersianCalendarDateName( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
-
-    date = list( persian.from_gregorian( n.year, n.month, n.day ) )
-
-    return persianDays[ n.weekday( ) ] + ', ' + persianMonths[ date[ 1 ] - 1 ] + \
-           ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
 

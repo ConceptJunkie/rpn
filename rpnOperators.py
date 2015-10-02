@@ -22,6 +22,7 @@ from mpmath import *
 from random import randrange
 
 from rpnAstronomy import *
+from rpnCalendar import *
 from rpnCombinatorics import *
 from rpnComputer import *
 from rpnConstants import *
@@ -1295,7 +1296,9 @@ operators = {
     'integer_grouping'              : OperatorInfo( setIntegerGrouping, 1 ),
     'invert_units'                  : OperatorInfo( invertUnits, 1 ),
     'islamic'                       : OperatorInfo( getIslamicCalendarDate, 1 ),
+    'islamic_name'                  : OperatorInfo( getIslamicCalendarDateName, 1 ),
     'isolated_prime'                : OperatorInfo( getNthIsolatedPrime, 1 ),
+    'iso_date'                      : OperatorInfo( getISODate, 1 ),
     'iso_day'                       : OperatorInfo( getISODay, 1 ),
     'is_abundant'                   : OperatorInfo( isAbundant, 1 ),
     'is_achilles'                   : OperatorInfo( isAchillesNumber, 1 ),
@@ -1450,6 +1453,7 @@ operators = {
     'oeis_name'                     : OperatorInfo( lambda n: downloadOEISText( int( n ), 'N', True ), 1 ),
     'omega'                         : OperatorInfo( lambda: lambertw( 1 ), 0 ),
     'or'                            : OperatorInfo( lambda i, j: performBitwiseOperation( i, j, lambda x, y: x | y ), 2 ),
+    'ordinal_date'                  : OperatorInfo( getOrdinalDate, 1 ),
     'output_radix'                  : OperatorInfo( setOutputRadix, 1 ),
     'padovan'                       : OperatorInfo( getNthPadovanNumber, 1 ),
     'parity'                        : OperatorInfo( lambda n: getBitCount( n ) & 1, 1 ),
