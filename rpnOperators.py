@@ -1167,6 +1167,8 @@ operators = {
     'atanh'                         : OperatorInfo( lambda n: performTrigOperation( n, atanh ), 1 ),
     'autumnal_equinox'              : OperatorInfo( getAutumnalEquinox, 1 ),
     'avogadro'                      : OperatorInfo( getAvogadrosNumber, 0 ),
+    'bahai'                         : OperatorInfo( getBahaiCalendarDate, 1 ),
+    'bahai_name'                    : OperatorInfo( getBahaiCalendarDateName, 1 ),
     'balanced_prime'                : OperatorInfo( getNthBalancedPrime, 1 ),
     'balanced_prime_'               : OperatorInfo( getNthBalancedPrimeList, 1 ),
     'bell'                          : OperatorInfo( bell, 1 ),

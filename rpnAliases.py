@@ -394,6 +394,7 @@ operatorAliases = {
     'napiers_constant'  : 'e',
     'neg'               : 'negative',
     'ninf'              : 'negative_infinity',
+    'nlimit'            : 'limit',
     'non'               : 'nonagonal',
     'non?'              : 'nonagonal?',
     'nonahept'          : 'nonagonal_heptagonal',

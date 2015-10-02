@@ -29,6 +29,39 @@ from rpnTime import *
 # //
 # //******************************************************************************
 
+bahaiMonths = [
+    'Baha',
+    'Jalal',
+    'Jamal',
+    '`Azamat',
+    'Nur',
+    'Rahmat',
+    'Kalimat',
+    'Kamal',
+    'Asma\'',
+    '`Izzat',
+    'Mashiyyat',
+    '`Ilm',
+    'Qudrat',
+    'Qawl',
+    'Masa\'il',
+    'Sharaf',
+    'Sultan',
+    'Mulk',
+    'Ayyam-i-Ha',
+    '`Ala\''
+]
+
+bahaiDays = [
+    'Kamal',     # Monday
+    'Fidal',
+    '`Idal',
+    'Istijlal',
+    'Istiqlal',
+    'Jalal',
+    'Jamal'
+]
+
 hebrewMonths = [
     'Nisan',
     'Iyar',
@@ -51,7 +84,7 @@ hebrewDays = [
     'Yom Revi\'i',
     'Yom Chamishi',
     'Yom Shishi',
-    'Yom Shabbat'
+    'Yom Shabbat',
     'Yom Rishon'
 ]
 
@@ -271,5 +304,34 @@ def getPersianCalendarDateName( n ):
     date = persian.from_gregorian( n.year, n.month, n.day )
 
     return persianDays[ n.weekday( ) ] + ', ' + persianMonths[ date[ 1 ] - 1 ] + \
+           ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
+
+
+# //******************************************************************************
+# //
+# //  getBahaiCalendarDate
+# //
+# //******************************************************************************
+
+def getBahaiCalendarDate( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    return list( bahai.from_gregorian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  getBahaiCalendarDateName
+# //
+# //******************************************************************************
+
+def getBahaiCalendarDateName( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    date = bahai.from_gregorian( n.year, n.month, n.day )
+
+    return bahaiDays[ n.weekday( ) ] + ', ' + bahaiMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
 

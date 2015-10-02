@@ -373,6 +373,9 @@ And sometimes it isn't:
     c:\>rpn cubic_inches gigaparsec barn * convert
     1 gigaparsec barn
 
+This is a long-standing bug.   In general you'll have better luck putting
+the more complex unit first.  I have a plan that should correct this.
+
 Help topics for individual units is coming someday, but not today.
     ''',
     'interactive_mode' :
@@ -886,7 +889,7 @@ Added 'sunrise', 'sunset', 'moonrise', 'moonset', 'sun_transit',
 
 Added support for calendar conversions (and the Calendar operator type) with
 the following operators: 'hebrew', 'hebrew_name', 'julian_date', 'islamic',
-'islamic_name', 'ordinal_date', 'persian', 'persian_name'.
+'islamic_name', 'ordinal_date', 'persian', 'persian_name', 'bahai', 'bahai_name'.
 
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
@@ -1785,18 +1788,6 @@ instead of a unit circle.
 ''',
 '''
 ''' ],
-    'astronomical_dawn' : [
-'astronomy', 'calculates the time of the astronomical dawn for location n and date k',
-'''
-''',
-'''
-''' ],
-    'astronomical_dusk' : [
-'astronomy', 'calculates the time of the astronomical dusk for location n and date k',
-'''
-''',
-'''
-''' ],
     'atan' : [
 'trigonometry', 'calculates the arctangent of n',
 '''
@@ -1837,12 +1828,6 @@ c:\>rpn august
 
 c:\>rpn 2015 august 4 tuesday nthweekday
 2015-08-25
-''' ],
-    'autumnal_equinox' : [
-'astronomy', 'calculates the time of the autumnal equinox for year n',
-'''
-''',
-'''
 ''' ],
     'avogadro' : [
 'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
@@ -1910,15 +1895,6 @@ c:\>rpn -c 7 billion
     'binomial' : [
 'combinatorics', 'calculates the binomial coefficient of n and k',
 '''
-''',
-'''
-''' ],
-    'calendar' : [
-'calendar', 'prints a month calendar for the date value',
-'''
-The 'calendar' operator is special in that what it prints out is a side-effect.
-It actually returns the date value passed in as a result, so as far as rpn is
-concerned, it's an operator that does nothing.
 ''',
 '''
 ''' ],
@@ -2358,14 +2334,6 @@ number.
 ''',
 '''
 ''' ],
-    'dawn' : [
-'astronomy', 'calculates the next dawn time at location n for date-time k',
-'''
-The definition of dusk being used the is "civil" definition of dawn, i.e., the
-center of the sun is 6 degrees below the horizon.
-''',
-'''
-''' ],
     'debruijn' : [
 'combinatorics', 'generates a deBruijn sequence of n symbols and word-size k',
 '''
@@ -2612,14 +2580,6 @@ c:\>rpn [ 1 10 range 10 dup ] unique
     'dup_operator' : [
 'modifiers', 'duplicates an operation n times',
 '''
-''',
-'''
-''' ],
-    'dusk' : [
-'astronomy', 'calculates the next dusk time at location n for date-time k',
-'''
-The definition of dusk being used the is "civil" definition of dusk, i.e., the
-center of the sun is 6 degrees below the horizon.
 ''',
 '''
 ''' ],
@@ -3088,18 +3048,6 @@ c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
 ''',
 '''
 ''' ],
-    'hebrew' : [
-'calendar', 'converts a date to the equivalent date in the Hebrew calendar',
-'''
-''',
-'''
-''' ],
-    'hebrew_name' : [
-'calendar', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
-'''
-''',
-'''
-''' ],
     'help' : [
 'special', 'displays help text',
 '''
@@ -3275,10 +3223,16 @@ c:\>rpn 7 i imaginary
 '''
 ''',
 '''
-d:\dev\trunk\idirect>rpn phi
+c:\>rpn 1 inf x fib 1/x nsum
+3.35988566624
+
+c:\>rpn 1 inf x lucas 1/x nsum
+1.96285817321
+
+c:\>rpn phi
 1.618033988741
 
-d:\dev\trunk\idirect>rpn inf x 1 + fib x fib / limit
+c:\>rpn infinity x 1 + fib x fib / limit
 1.618033988741
 ''' ],
     'input_radix' : [
@@ -3343,18 +3297,6 @@ c:\>rpn 1 100 range tri 1 100 range sqr intersect
 '''
 This operation returns an equivalent measurement with the units inverted from
 the original operand.
-''',
-'''
-''' ],
-    'islamic' : [
-'calendar', 'converts a date to the equivalent date in the Islamic calendar',
-'''
-''',
-'''
-''' ],
-    'islamic_name' : [
-'calendar', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
-'''
 ''',
 '''
 ''' ],
@@ -3654,18 +3596,6 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'julian' : [
-'calendar', 'converts a date to the equivalent date in the Julian calendar',
-'''
-''',
-'''
-''' ],
-    'julian_day' : [
-'date', 'returns the Julian day for a time value',
-'''
-''',
-'''
-''' ],
     'july' : [
 'constants', 'returns 7, which is the code for July',
 '''
@@ -3709,12 +3639,6 @@ c:\>rpn 2016 labor_day
 ''' ],
     'lambertw' : [
 'logarithms', '',
-'''
-''',
-'''
-''' ],
-    'latlong' : [
-'astronomy', 'sets the current location on the Earth\'s surface',
 '''
 ''',
 '''
@@ -3870,18 +3794,6 @@ c:\>rpn [ 1 1 0 ] [ 3 0 2 ] 1 20 range linear_recur
 ''' ],
     'ln' : [
 'logarithms', 'calculates the natural logarithm of n',
-'''
-''',
-'''
-''' ],
-    'location' : [
-'astronomy', 'returns the lat-long for a location string',
-'''
-''',
-'''
-''' ],
-    'location_info' : [
-'astronomy', 'returns the lat-long for a location',
 '''
 ''',
 '''
@@ -4413,46 +4325,6 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'moonrise' : [
-'astronomy', 'calculates the next moonrise time at location n for date-time k',
-'''
-''',
-'''
-''' ],
-    'moonset' : [
-'astronomy', 'calculates the nenxt moonset time at location n for date-time k',
-'''
-''',
-'''
-''' ],
-    'moon_antitransit' : [
-'astronomy', 'calculates the next moon antitransit time at location n for date-time k',
-'''
-''',
-'''
-''' ],
-    'moon_phase' : [
-'astronomy', 'determines the phase of the moon as a percentage for date-time n',
-'''
-The moon phase cycle starts at the new moon and completes with the next new
-moon.  Therefore, 0% is the new moon, 25% is the first quarter, 50% is a full
-moon, 75% is the last quarter and 100% is the new moon again.
-''',
-'''
-What was the phase of the moon when I was born:
-
-c:\>rpn 1965-03-31 moon_phase
-0.931952504017
-
-... a waning crescent.
-
-''' ],
-    'moon_transit' : [
-'astronomy', 'calculates the next moon transit time at location n for date k',
-'''
-''',
-'''
-''' ],
     'motzkin' : [
 'combinatorics', 'calculates the nth Motzkin number',
 '''
@@ -4543,18 +4415,6 @@ c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand
 ''',
 '''
 ''' ],
-    'nautical_dawn' : [
-'astronomy', 'calculates the time of the nautical dawn for location n and date k',
-'''
-''',
-'''
-''' ],
-    'nautical_dusk' : [
-'astronomy', 'calculates the time of the nautical dusk for location n and date k',
-'''
-''',
-'''
-''' ],
     'negate' : [
 'special', 'returns 0 if n is not 0 and 1 if n is 0',
 '''
@@ -4575,54 +4435,6 @@ c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand
 ''' ],
     'newtons_constant' : [
 'constants', 'returns Newton\'s gravitational constant',
-'''
-''',
-'''
-''' ],
-    'next_antitransit' : [
-'astronomy', 'returns the date of the next antitransit of body a, when viewed from location b, at date c',
-'''
-''',
-'''
-''' ],
-    'next_first_quarter_moon' : [
-'astronomy', 'returns the date of the next First Quarter Moon after n',
-'''
-''',
-'''
-''' ],
-    'next_full_moon' : [
-'astronomy', 'returns the date of the next Full Moon after n',
-'''
-''',
-'''
-''' ],
-    'next_last_quarter_moon' : [
-'astronomy', 'returns the date of the next Last Quarter Moon after n',
-'''
-''',
-'''
-''' ],
-    'next_new_moon' : [
-'astronomy', 'returns the date of the next New Moon after n',
-'''
-''',
-'''
-''' ],
-    'next_rising' : [
-'astronomy', 'returns the date of the next rising of body a, when viewed from location b, at date c',
-'''
-''',
-'''
-''' ],
-    'next_setting' : [
-'astronomy', 'returns the date of the next setting of body a, when viewed from location b, at date c',
-'''
-''',
-'''
-''' ],
-    'next_transit' : [
-'astronomy', 'returns the date of the next transit of body a, when viewed from location b, at date c',
 '''
 ''',
 '''
@@ -5040,12 +4852,6 @@ ffff ffff
 c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 [ 0, 1, 1, 1 ]
 ''' ],
-    'ordinal_date' : [
-'calendar', 'returns the date in the Ordinal Date format',
-'''
-''',
-'''
-''' ],
     'output_radix' : [
 'settings', 'used in the interactive mode to set the output radix',
 '''
@@ -5132,18 +4938,6 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 ''' ],
     'perm' : [
 'combinatorics', 'calculates the number of permutations of k out of n objects',
-'''
-''',
-'''
-''' ],
-    'persian' : [
-'calendar', 'converts a date to the equivalent date in the Persian calendar',
-'''
-''',
-'''
-''' ],
-    'persian_name' : [
-'calendar', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
 '''
 ''',
 '''
@@ -5340,54 +5134,6 @@ c:\>rpn 1 foot 3 ** gallon convert
 ''' ],
     'previous' : [
 'modifiers', 'duplicates the previous argument (identical to \'n 2 dup\')',
-'''
-''',
-'''
-''' ],
-    'previous_antitransit' : [
-'astronomy', 'returns the date of the previous antitransit of body a, when viewed from location b, at date c',
-'''
-''',
-'''
-''' ],
-    'previous_first_quarter_moon' : [
-'astronomy', 'returns the date of the previous First Quarter Moon before n',
-'''
-''',
-'''
-''' ],
-    'previous_full_moon' : [
-'astronomy', 'returns the date of the previous Full Moon before n',
-'''
-''',
-'''
-''' ],
-    'previous_last_quarter_moon' : [
-'astronomy', 'returns the date of the previous Last Quarter Moon before n',
-'''
-''',
-'''
-''' ],
-    'previous_new_moon' : [
-'astronomy', 'returns the date of the previous New Moon before n',
-'''
-''',
-'''
-''' ],
-    'previous_rising' : [
-'astronomy', 'returns the date of the previous rising of body a, when viewed from location b, at date c',
-'''
-''',
-'''
-''' ],
-    'previous_setting' : [
-'astronomy', 'returns the date of the previous setting of body a, when viewed from location b, at date c',
-'''
-''',
-'''
-''' ],
-    'previous_transit' : [
-'astronomy', 'returns the date of the previous transit of body a, when viewed from location b, at date c',
 '''
 ''',
 '''
@@ -5968,12 +5714,6 @@ instead of a unit circle.
 ''',
 '''
 ''' ],
-    'sky_location' : [
-'astronomy', 'returns the sky location of astronomical object n for date-time k',
-'''
-''',
-'''
-''' ],
     'slice' : [
 'list_operators', 'returns a slice of list a from starting index b to ending index c',
 '''
@@ -6016,12 +5756,6 @@ c:\>rpn 1 10 range 0 4 range 6 8 range slice -s1
 [ 5, 6, 7 ],
 [ 5, 6, 7, 8 ],
 ]
-''' ],
-    'solar_noon' : [
-'astronomy', 'calculates the next solar noon time at location n for date-time k',
-'''
-''',
-'''
 ''' ],
     'solve' : [
 'algebra', 'interprets list n as a polynomial and solves for its roots',
@@ -6232,37 +5966,6 @@ c:\>rpn 1 gallon 4 cups -
 ''' ],
     'sum_digits' : [
 'lexicographic', 'calculates the sum of the digits of integer n',
-'''
-''',
-'''
-''' ],
-    'summer_solstice' : [
-'astronomy', 'calculates the time of the summer solstice for year n',
-'''
-''',
-'''
-''' ],
-    'sunday' : [
-'constants', 'returns 7, which is the code for Sunday',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-    'sunrise' : [
-'astronomy', 'calculates the next sunrise time at location n for date-time k',
-'''
-''',
-'''
-''' ],
-    'sunset' : [
-'astronomy', 'calculates the next sunset time at location n for date-time k',
-'''
-''',
-'''
-''' ],
-    'sun_antitransit' : [
-'astronomy', 'calculates the next sun antitransit time at location n for date-time k',
 '''
 ''',
 '''
@@ -6715,21 +6418,6 @@ numerical part of the measurement value.
 c:\>rpn 1000 light-years value
 1000
 ''' ],
-    'vernal_equinox' : [
-'astronomy', 'calculates the time of the vernal equinox for year n',
-'''
-''',
-'''
-''' ],
-    'wednesday' : [
-'constants', 'returns 3, which is the code for Wednesday',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-c:\>rpn 2015 august 4 wednesday nthweekday
-2015-08-26
-''' ],
     'weekday' : [
 'date', 'calculates the day of the week of an absolute time',
 '''
@@ -6753,12 +6441,6 @@ c:\>rpn 1965-03-31 weekday
 
 c:\>rpn 2043-04-17 weekday
 'Friday'
-''' ],
-    'winter_solstice' : [
-'astronomy', 'calculates the time of the winter solstice for year n',
-'''
-''',
-'''
 ''' ],
     'x' : [
 'special', '\'x\' is used to create functions',
@@ -6813,15 +6495,6 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] xor
 This shortcut operator replaces having to type '[ year day hour minute
 second ] convert' in order to convert a time interval to days, hours, minutes
 and seconds.
-''',
-'''
-''' ],
-    'year_calendar' : [
-'calendar', 'prints a month calendar for the date value',
-'''
-The 'year_calendar' operator is special in that what it prints out is a
-side-effect.  It actually returns the date value passed in as a result, so as
-far as rpn is concerned, it's an operator that does nothing.
 ''',
 '''
 ''' ],
@@ -6890,20 +6563,68 @@ The operator returns the RPN version number in list format.
 ''',
 '''
 ''' ],
-#   'antitet' : [ findTetrahedralNumber, 1 ],
-#   'bernfrac' : [ bernfrac, 1 ],
-#   'powmod' : [ getPowMod, 3 ],
 
-# Astronomical object operators
 
-    'mercury' : [
+# //******************************************************************************
+# //
+# //  astronomy operators
+# //
+# //******************************************************************************
+
+    'astronomical_dawn' : [
+'astronomy', 'calculates the time of the astronomical dawn for location n and date k',
+'''
+''',
+'''
+''' ],
+    'astronomical_dusk' : [
+'astronomy', 'calculates the time of the astronomical dusk for location n and date k',
+'''
+''',
+'''
+''' ],
+    'autumnal_equinox' : [
+'astronomy', 'calculates the time of the autumnal equinox for year n',
+'''
+''',
+'''
+''' ],
+    'dawn' : [
+'astronomy', 'calculates the next dawn time at location n for date-time k',
+'''
+The definition of dusk being used the is "civil" definition of dawn, i.e., the
+center of the sun is 6 degrees below the horizon.
+''',
+'''
+''' ],
+    'dusk' : [
+'astronomy', 'calculates the next dusk time at location n for date-time k',
+'''
+The definition of dusk being used the is "civil" definition of dusk, i.e., the
+center of the sun is 6 degrees below the horizon.
+''',
+'''
+''' ],
+    'jupiter' : [
 'astronomy', '',
 '''
 ''',
 '''
 ''' ],
-    'venus' : [
-'astronomy', '',
+    'latlong' : [
+'astronomy', 'sets the current location on the Earth\'s surface',
+'''
+''',
+'''
+''' ],
+    'location' : [
+'astronomy', 'returns the lat-long for a location string',
+'''
+''',
+'''
+''' ],
+    'location_info' : [
+'astronomy', 'returns the lat-long for a location',
 '''
 ''',
 '''
@@ -6914,31 +6635,7 @@ The operator returns the RPN version number in list format.
 ''',
 '''
 ''' ],
-    'jupiter' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'saturn' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'uranus' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'neptune' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-    'pluto' : [
+    'mercury' : [
 'astronomy', '',
 '''
 ''',
@@ -6950,12 +6647,335 @@ The operator returns the RPN version number in list format.
 ''',
 '''
 ''' ],
+    'moonrise' : [
+'astronomy', 'calculates the next moonrise time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'moonset' : [
+'astronomy', 'calculates the nenxt moonset time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'moon_antitransit' : [
+'astronomy', 'calculates the next moon antitransit time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'moon_phase' : [
+'astronomy', 'determines the phase of the moon as a percentage for date-time n',
+'''
+The moon phase cycle starts at the new moon and completes with the next new
+moon.  Therefore, 0% is the new moon, 25% is the first quarter, 50% is a full
+moon, 75% is the last quarter and 100% is the new moon again.
+''',
+'''
+What was the phase of the moon when I was born:
+
+c:\>rpn 1965-03-31 moon_phase
+0.931952504017
+
+... a waning crescent.
+
+''' ],
+    'moon_transit' : [
+'astronomy', 'calculates the next moon transit time at location n for date k',
+'''
+''',
+'''
+''' ],
+    'nautical_dawn' : [
+'astronomy', 'calculates the time of the nautical dawn for location n and date k',
+'''
+''',
+'''
+''' ],
+    'nautical_dusk' : [
+'astronomy', 'calculates the time of the nautical dusk for location n and date k',
+'''
+''',
+'''
+''' ],
+    'neptune' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'next_antitransit' : [
+'astronomy', 'returns the date of the next antitransit of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'next_first_quarter_moon' : [
+'astronomy', 'returns the date of the next First Quarter Moon after n',
+'''
+''',
+'''
+''' ],
+    'next_full_moon' : [
+'astronomy', 'returns the date of the next Full Moon after n',
+'''
+''',
+'''
+''' ],
+    'next_last_quarter_moon' : [
+'astronomy', 'returns the date of the next Last Quarter Moon after n',
+'''
+''',
+'''
+''' ],
+    'next_new_moon' : [
+'astronomy', 'returns the date of the next New Moon after n',
+'''
+''',
+'''
+''' ],
+    'next_rising' : [
+'astronomy', 'returns the date of the next rising of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'next_setting' : [
+'astronomy', 'returns the date of the next setting of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'next_transit' : [
+'astronomy', 'returns the date of the next transit of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'pluto' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'previous_antitransit' : [
+'astronomy', 'returns the date of the previous antitransit of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'previous_first_quarter_moon' : [
+'astronomy', 'returns the date of the previous First Quarter Moon before n',
+'''
+''',
+'''
+''' ],
+    'previous_full_moon' : [
+'astronomy', 'returns the date of the previous Full Moon before n',
+'''
+''',
+'''
+''' ],
+    'previous_last_quarter_moon' : [
+'astronomy', 'returns the date of the previous Last Quarter Moon before n',
+'''
+''',
+'''
+''' ],
+    'previous_new_moon' : [
+'astronomy', 'returns the date of the previous New Moon before n',
+'''
+''',
+'''
+''' ],
+    'previous_rising' : [
+'astronomy', 'returns the date of the previous rising of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'previous_setting' : [
+'astronomy', 'returns the date of the previous setting of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'previous_transit' : [
+'astronomy', 'returns the date of the previous transit of body a, when viewed from location b, at date c',
+'''
+''',
+'''
+''' ],
+    'saturn' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'sky_location' : [
+'astronomy', 'returns the sky location of astronomical object n for date-time k',
+'''
+''',
+'''
+''' ],
+    'solar_noon' : [
+'astronomy', 'calculates the next solar noon time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'summer_solstice' : [
+'astronomy', 'calculates the time of the summer solstice for year n',
+'''
+''',
+'''
+''' ],
     'sun' : [
 'astronomy', '',
 '''
 ''',
 '''
 ''' ],
+    'sunrise' : [
+'astronomy', 'calculates the next sunrise time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'sunset' : [
+'astronomy', 'calculates the next sunset time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'sun_antitransit' : [
+'astronomy', 'calculates the next sun antitransit time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+    'vernal_equinox' : [
+'astronomy', 'calculates the time of the vernal equinox for year n',
+'''
+''',
+'''
+''' ],
+    'uranus' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'venus' : [
+'astronomy', '',
+'''
+''',
+'''
+''' ],
+    'winter_solstice' : [
+'astronomy', 'calculates the time of the winter solstice for year n',
+'''
+''',
+'''
+''' ],
+
+
+# //******************************************************************************
+# //
+# // calendar operators
+# //
+# //******************************************************************************
+
+    'bahai' : [
+'calendar', 'converts a date to the equivalent date in the Baha\'i',
+'''
+''',
+'''
+''' ],
+    'bahai_name' : [
+'calendar', 'converts a date to the equivalent date in the Baha\'i calendar with the weekday and month names',
+'''
+''',
+'''
+''' ],
+
+    'calendar' : [
+'calendar', 'prints a month calendar for the date value',
+'''
+The 'calendar' operator is special in that what it prints out is a side-effect.
+It actually returns the date value passed in as a result, so as far as rpn is
+concerned, it's an operator that does nothing.
+''',
+'''
+''' ],
+    'hebrew' : [
+'calendar', 'converts a date to the equivalent date in the Hebrew calendar',
+'''
+''',
+'''
+''' ],
+    'hebrew_name' : [
+'calendar', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
+'''
+''',
+'''
+''' ],
+    'islamic' : [
+'calendar', 'converts a date to the equivalent date in the Islamic calendar',
+'''
+''',
+'''
+''' ],
+    'islamic_name' : [
+'calendar', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
+'''
+''',
+'''
+''' ],
+    'julian' : [
+'calendar', 'converts a date to the equivalent date in the Julian calendar',
+'''
+''',
+'''
+''' ],
+    'julian_day' : [
+'date', 'returns the Julian day for a time value',
+'''
+''',
+'''
+''' ],
+    'ordinal_date' : [
+'calendar', 'returns the date in the Ordinal Date format',
+'''
+''',
+'''
+''' ],
+    'persian' : [
+'calendar', 'converts a date to the equivalent date in the Persian calendar',
+'''
+''',
+'''
+''' ],
+    'persian_name' : [
+'calendar', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
+'''
+''',
+'''
+''' ],
+    'year_calendar' : [
+'calendar', 'prints a month calendar for the date value',
+'''
+The 'year_calendar' operator is special in that what it prints out is a
+side-effect.  It actually returns the date value passed in as a result, so as
+far as rpn is concerned, it's an operator that does nothing.
+''',
+'''
+''' ],
+
+
+#   'antitet' : [ findTetrahedralNumber, 1 ],
+#   'bernfrac' : [ bernfrac, 1 ],
 }
 
 
