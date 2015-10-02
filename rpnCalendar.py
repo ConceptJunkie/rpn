@@ -20,6 +20,7 @@ from convertdate import *
 from dateutil import tz
 
 from rpnMeasurement import *
+from rpnName import getOrdinalName
 from rpnTime import *
 
 
@@ -28,6 +29,28 @@ from rpnTime import *
 # //  calendar names
 # //
 # //******************************************************************************
+
+bahaiYears = [
+    'Alif',
+    'Ba\'',
+    'Ab',
+    'Dal',
+    'Bab',
+    'Vav',
+    'Abad',
+    'Jad',
+    'Baha\'',
+    'Hubb',
+    'Bahhaj',
+    'Javab',
+    'Ahad',
+    'Vahhab',
+    'Vidad',
+    'Badi`',
+    'Bahi',
+    'Abha',
+    'Vahid',
+]
 
 bahaiMonths = [
     'Baha',
@@ -332,6 +355,16 @@ def getBahaiCalendarDateName( n ):
 
     date = bahai.from_gregorian( n.year, n.month, n.day )
 
-    return bahaiDays[ n.weekday( ) ] + ', ' + bahaiMonths[ date[ 1 ] - 1 ] + \
-           ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
+    result = bahaiDays[ n.weekday( ) ] + ', ' + bahaiMonths[ date[ 1 ] - 1 ] + \
+           ' ' + str( date[ 2 ] ) + ', '
+
+    if date[ 0 ] >= 1:
+        result += 'Year ' + bahaiYears[ date[ 0 ] % 19 ] + ' of the ' + \
+                  getOrdinalName( ( date[ 0 ] / 19 ) + 1 ) + ' Vahid of the ' + \
+                  getOrdinalName( ( date[ 0 ] / 361 ) + 1 ) + ' Kull-i-Shay\'' + \
+                  ' (Year ' + str( date[ 0 ] ) + ')'
+    else:
+        result += str( date[ 0 ] )
+
+    return result
 

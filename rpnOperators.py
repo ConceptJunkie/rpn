@@ -1458,6 +1458,7 @@ operators = {
     'omega'                         : OperatorInfo( lambda: lambertw( 1 ), 0 ),
     'or'                            : OperatorInfo( lambda i, j: performBitwiseOperation( i, j, lambda x, y: x | y ), 2 ),
     'ordinal_date'                  : OperatorInfo( getOrdinalDate, 1 ),
+    'ordinal_name'                  : OperatorInfo( getOrdinalName, 1 ),
     'output_radix'                  : OperatorInfo( setOutputRadix, 1 ),
     'padovan'                       : OperatorInfo( getNthPadovanNumber, 1 ),
     'parity'                        : OperatorInfo( lambda n: getBitCount( n ) & 1, 1 ),

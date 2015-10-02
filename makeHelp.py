@@ -891,6 +891,8 @@ Added support for calendar conversions (and the Calendar operator type) with
 the following operators: 'hebrew', 'hebrew_name', 'julian_date', 'islamic',
 'islamic_name', 'ordinal_date', 'persian', 'persian_name', 'bahai', 'bahai_name'.
 
+Added the 'ordinal_name' operator.
+
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
 
@@ -1609,27 +1611,6 @@ c:\>rpn 1 mile 1 km +
 ''',
 '''
 ''' ],
-    'alternate_signs' : [
-'list_operators', 'alternates signs in the list by making every even element negative',
-'''
-The return value is a list of the same size as the original with the sign of
-every second element reversed, starting with the second.
-''',
-'''
-c:\>rpn 1 10 range alternate_signs
-[ 1, -2, 3, -4, 5, -6, 7, -8, 9, -10 ]
-''' ],
-    'alternate_signs_2' : [
-'list_operators', 'alternates signs in the list by making every odd element negative',
-'''
-The return value is a list of the same size as the original with the sign of
-every other element reversed, starting with the first element.
-''',
-'''
-c:\>rpn 1 10 range alterate_signs_2
-[ -1, 2, -3, 4, -5, 6, -7, 8, -9, 10 ]
-
-''' ],
     'alternating_sum' : [
 'arithmetic', 'calculates the alternating sum of list n (addition first)',
 '''
@@ -1685,42 +1666,6 @@ c:\>rpn -x 0xF0F0F0F0 0x12345678 and
 
 c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] and
 [ 0, 0, 0, 1 ]
-''' ],
-    'apery' : [
-'constants', 'returns Apery\'s constant',
-'''
-Apery's constant is the sum of the infinite series of the reciprocals of cubes
-from 1 to infinity.  It is also, therefore, zeta( 3 ).
-''',
-'''
-c:\>rpn -a50 -d5 apery
-1.20205 69031 59594 28539 97381 61511 44999 07649 86292 3405
-
-c:\>rpn -a50 -d5 3 zeta
-1.20205 69031 59594 28539 97381 61511 44999 07649 86292 3405
-''' ],
-    'append' : [
-'list_operators', 'appends the second list on to the first list',
-'''
-This operator appends the second list of items to the first list resulting
-in a single list containing all items in order from the first operand list and
-then the second operand list.
-''',
-'''
-c:\>rpn 1 5 range 6 10 range append
-[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-''' ],
-    'april' : [
-'constants', 'returns 4, which is the code for April',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-c:\>rpn april
-4
-
-c:\>rpn 2015 april 3 tuesday nthweekday
-2015-04-21
 ''' ],
     'argument' : [
 'complex_math', 'calculates complex argument (phase) of n',
@@ -1817,29 +1762,6 @@ instead of a unit circle.
 ''',
 '''
 ''' ],
-    'august' : [
-'constants', 'returns 8, which is the code for August',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-c:\>rpn august
-8
-
-c:\>rpn 2015 august 4 tuesday nthweekday
-2015-08-25
-''' ],
-    'avogadro' : [
-'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
-'''
-''',
-'''
-c:\>rpn avogadro
-6.02214129e+23
-
-c:\>rpn -a24 avogadro
-602214129000000000000000
-''' ],
     'balanced_prime' : [
 'prime_numbers', 'calculates the first of the nth set of balanced primes',
 '''
@@ -1884,14 +1806,6 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'billion' : [
-'constants', 'returns the constant one billion, i.e. 1.0e9, or 1,000,000,000',
-'''
-''',
-'''
-c:\>rpn -c 7 billion
-7,000,000,000
-''' ],
     'binomial' : [
 'combinatorics', 'calculates the binomial coefficient of n and k',
 '''
@@ -1903,14 +1817,6 @@ c:\>rpn -c 7 billion
 '''
 ''',
 '''
-''' ],
-    'catalan' : [
-'constants', 'returns Catalan\'s constant',
-'''
-''',
-'''
-c:\>rpn catalan
-0.915965594177
 ''' ],
     'centered_cube' : [
 'polyhedral_numbers', 'calculates the nth centered cube number',
@@ -1947,29 +1853,6 @@ number.
 '''
 ''',
 '''
-''' ],
-    'champernowne' : [
-'constants', 'returns the Champernowne constant for the input base',
-'''
-The Champernowne constant is a transcendental number created by successive
-appending every natural number as a decimal value.
-
-The Champernowne constant is normally defined for base 10, but this operator
-can also apply the same concept for any input base.
-''',
-'''
-c:\>rpn -a60 champernowne
-0.123456789101112131415161718192021222324252627282930313233344
-
-The base 7 Champernowne constant
-
-c:\>rpn -a60 -b7 champernowne -r7
-0.123456101112131415162021222324252630313233343536404142434445
-
-The base 7 Champernowne constant converted to base 10
-
-c:\>rpn -a60 -b7 champernowne
-0.1944355350862405214758400930829085764529329710504220831702
 ''' ],
     'char' : [
 'conversion', 'converts the value to a signed 8-bit integer',
@@ -2142,14 +2025,6 @@ fix yet:
 c:\>rpn 150,000 seconds [ day hour minute second ] convert
 [ 1 day, 17 hours, 39 minutes, 60 seconds ]
 ''' ],
-    'copeland' : [
-'constants', 'returns the Copeland Erdos constant',
-'''
-''',
-'''
-c:\>rpn -a60 copeland
-0.235711131719232931374143475359616771737983899710110310710911
-''' ],
     'cos' : [
 'trigonometry', 'calculates the cosine of n',
 '''
@@ -2181,15 +2056,6 @@ trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 ''',
 '''
-''' ],
-    'count' : [
-'list_operators', 'counts the elements of list n',
-'''
-This simply counts the number of elements in the list.
-''',
-'''
-c:\>rpn 1 100 range count
-100
 ''' ],
     'count_bits' : [
 'bitwise', 'returns the number of set bits in the value of n',
@@ -2365,29 +2231,8 @@ c:\>rpn 3 3 debruijn
 ''',
 '''
 ''' ],
-    'december' : [
-'constants', 'returns 12, which is the code for December',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-c:\>rpn [ 2016 dec 25 ] make_time
-2016-12-25 00:00:00
-''' ],
-    'decillion' : [
-'constants', 'returns the constant one decillion, i.e. 1.0e33',
-'''
-''',
-'''
-''' ],
     'decimal_grouping' : [
 'settings', 'used in interactive mode to set the decimal grouping level',
-'''
-''',
-'''
-''' ],
-    'default' : [
-'constants', 'used with settings operators',
 '''
 ''',
 '''
@@ -2408,18 +2253,6 @@ seconds.
 '''
 c:\>rpn sidereal_year dhms
 [ 365 days, 6 hours, 9 minutes, 9.7632 seconds ]
-''' ],
-    'diffs' : [
-'list_operators', 'returns a list with the differences between successive elements of list n',
-'''
-''',
-'''
-''' ],
-    'diffs2' : [
-'list_operators', 'returns a list with the differences between each element of list n with the first element',
-'''
-''',
-'''
 ''' ],
     'divide' : [
 'arithmetic', 'divides n by k',
@@ -2583,12 +2416,6 @@ c:\>rpn [ 1 10 range 10 dup ] unique
 ''',
 '''
 ''' ],
-    'e' : [
-'constants', 'returns e (Euler\'s number)',
-'''
-''',
-'''
-''' ],
     'easter' : [
 'date', 'calculates the date of Easter for the year specified',
 '''
@@ -2599,13 +2426,6 @@ c:\>rpn [ 1 10 range 10 dup ] unique
 'number_theory', 'factors n using the elliptical curve method',
 '''
 ''',
-'''
-''' ],
-    'eddington_number' : [
-'constants', 'returns Arthur Eddington\'s famous estimate of the number of subatomic particles in the Universe',
-'''In 1938, Arthur Eddington famously claimed that, "I believe there are
-15,747,724,136,275,002,577,605,653,961,181,555,468,044,717,914,527,116,709,366,231,425,076,185,631,031,296
-protons in the universe and the same number of electrons."  This number is equal to 136 * 2^256.''',
 '''
 ''' ],
     'egypt' : [
@@ -2628,38 +2448,8 @@ c:\>rpn 2016 election_day
 c:\>rpn 1964 election_day
 1964-11-03
 ''' ],
-    'electric_constant' : [
-'constants', 'returns the electric constant',
-'''
-''',
-'''
-''' ],
-    'element' : [
-'list_operators', 'returns a single element from a list',
-'''
-The index is zero-based.
-''',
-'''
-c:\>rpn 1 10 range 5 element
-6
-
-c:\>rpn 0 1000 range 34 element
-34
-''' ],
-    'electric_constant' : [
-'constants', 'returns a electic constant',
-'''
-''',
-'''
-''' ],
     'estimate' : [
 'special', 'estimates the value of a measurement in common terms',
-'''
-''',
-'''
-''' ],
-    'euler' : [
-'constants', 'returns the Euler-Mascheroni constant',
 '''
 ''',
 '''
@@ -2770,19 +2560,6 @@ c:\>rpn 2 expphi
 c:\>rpn 3 expphi 2 expphi -
 1.61803398875
 ''' ],
-    'exponential_range' : [
-'list_operators', 'generates a list of exponential progression of numbers',
-'''
-a = starting value, b = step exponent, c = size of list to generate
-
-Each successive item in the list is calculated by raising the previous item to
-the bth power.  The list is expanded to contain c items.
-''',
-'''
-c:\>rpn 2 2 10 exponential_range
-[ 2, 4, 16, 256, 65536, 4294967296, 18446744073709551616, 3.4028236692e38,
-1.1579208924e77, 1.34078079210e154 ]
-''' ],
     'factor' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
@@ -2797,28 +2574,6 @@ c:\>rpn 2 2 10 exponential_range
 '''
 c:\>rpn 1 10 range factorial
 [ 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800 ]
-''' ],
-    'false' : [
-'constants', 'used with boolean settings operators',
-'''
-'false' simply evaluates to 0
-''',
-'''
-''' ],
-    'faradays_constant' : [
-'constants', 'returns Faraday\'s Constant',
-'''
-''',
-'''
-c:\>rpn faradays_constant
-96485.33289 coulombs per mole
-''' ],
-    'february' : [
-'constants', 'returns 2, which is the code for February',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
 ''' ],
     'fibonacci' : [
 'number_theory', 'calculates the nth Fibonacci number',
@@ -2891,18 +2646,6 @@ c:\>rpn -a30 10911 55 find_palindrome
 ''',
 '''
 ''' ],
-    'fine_structure' : [
-'constants', 'returns the fine-structure constant',
-'''
-''',
-'''
-''' ],
-    'flatten' : [
-'list_operators', 'flattens a nested lists in list n to a single level',
-'''
-''',
-'''
-''' ],
     'float' : [
 'conversion', 'converts n to the representation of a 32-bit IEEE 754 float',
 '''
@@ -2924,13 +2667,6 @@ c:\>rpn 0x40490fdb unfloat
     'fraction' : [
 'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
 '''
-''',
-'''
-''' ],
-    'friday' : [
-'constants', 'returns 5, which is the code for Friday',
-'''
-This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -2958,41 +2694,6 @@ This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-    'geometric_mean' : [
-'list_operators', 'calculates the geometric mean of a a list of numbers n',
-'''
-The geometric mean is calculated by taking the kth root of the product of k
-values.
-''',
-'''
-c:\>rpn [ 1 2 ] geometric_mean
-1.41421356237
-
-c:\>rpn [ 1 10 range ] geometric_mean
-[ 4.52872868812 ]
-
-Calculate the geometric mean of the first n numbers from 1 to 5:
-
-c:\>rpn [ 1 1 5 range range ] geometric_mean
-[ [ 1, 1.41421356237, 1.81712059283, 2.2133638394, 2.6051710847 ] ]
-''' ],
-    'geometric_range' : [
-'list_operators', 'generates a list of geometric progression of numbers',
-'''
-The list starts at a, and each successive value is multiplied by b, until the
-list contains c items.
-''',
-'''
-c:\>rpn 1 2 10 geometric_range
-[ 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 ]
-
-The intervals of the chromatic scale:
-
-c:\>rpn 1 2 12 // 13 geometric_range
-[ 1, 1.05946309436, 1.12246204831, 1.189207115, 1.25992104989, 1.33483985417,
-1.41421356237, 1.49830707688, 1.58740105197, 1.68179283051, 1.78179743628,
-1.88774862536, 2 ]
-''' ],
     'get_digits' : [
 'lexicographic', 'returns the list of digits comprising integer n',
 '''
@@ -3000,47 +2701,6 @@ This operation is useful for working with any lexicographic feature based
 on the digits that comprise an integer.
 ''',
 '''
-''' ],
-    'glaisher' : [
-'constants', 'returns Glaisher\'s constant',
-'''
-''',
-'''
-''' ],
-    'googol' : [
-'constants', 'returns the constant one googol, i.e., 1.0e100',
-'''
-''',
-'''
-''' ],
-    'group_elements' : [
-'list_operators', 'groups the elements of list n into sublsts of k elements',
-'''
-If there are elements left over (i.e., not enough to create the final group
-of k elements, then the remaining list elements are included in the final
-group.
-''',
-'''
-c:\>rpn 1 10 range 5 group_elements
-[ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
-
-c:\>rpn 1 11 range 5 group_elements
-[ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ], [ 11 ] ]
-
-c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
-[
-[ 1, 0 ],
-[ 2, 1 ],
-[ 3, 1 ],
-[ 4, 0 ],
-[ 5, 1 ],
-[ 6, 0 ],
-[ 7, 1 ],
-[ 8, 0 ],
-[ 9, 0 ],
-[ 10, 0 ],
-[ 11, 1 ],
-]
 ''' ],
     'harmonic' : [
 'number_theory', 'returns the sum of the first n terms of the harmonic series',
@@ -3252,45 +2912,6 @@ c:\>rpn infinity x 1 + fib x fib / limit
 '''
 ''',
 '''
-''' ],
-    'interleave' : [
-'list_operators', 'interleaves lists n and k into a single list',
-'''
-Given an input of two lists, n and k 'interleave' returns a single list in which the
-members of n and k are interleaved alternately.  If one list is longer than the other
-then the extra list elements from the longer list are ignored.
-''',
-'''
-c:\>rpn [ 1 3 5 ] [ 2 4 6 ] interleave
-[ 1, 2, 3, 4, 5, 6 ]
-
-c:\>rpn [ 1 3 5 ] [ 2 4 6 8 10 ] interleave
-[ 1, 2, 3, 4, 5, 6 ]
-
-c:\>rpn 1 20 2 range2 2 20 2 range2 interleave
-[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
-''' ],
-    'intersection' : [
-'''
-'list_operators', 'returns a list of unique elements that exist in both lists',
-''',
-'''
-c:\>rpn [ 1 2 4 ] [ 3 4 5 ] intersection
-[ 4 ]
-
-c:\>rpn [ 1 2 3 ] [ 4 5 6 ] intersection
-[  ]
-
-c:\>rpn [ 1 1 2 3 3 3 ] [ 1 2 3 4 5 5 ] intersection
-[ 1, 2, 3 ]
-
-c:\>rpn 1 10 range 1 10 range prime intersection
-[ 2, 3, 5, 7 ]
-
-Find numbers that are triangular and square at the same time:
-
-c:\>rpn 1 100 range tri 1 100 range sqr intersect
-[ 1, 36, 1225 ]
 ''' ],
     'invert_units' : [
 'conversion', 'inverts the units and takes the reciprocal of the value'
@@ -3572,46 +3193,8 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 ''',
 '''
 ''' ],
-    'itoi' : [
-'constants', 'returns i to the i power',
-'''
-''',
-'''
-c:\>rpn 1 i 1 i **
-(0.20787957635076190855 + 0.0j)
-
-c:\>rpn itoi
-0.207879576351
-''' ],
     'jacobsthal' : [
 'number_theory', 'returns nth number of the Jacobsthal sequence',
-'''
-''',
-'''
-''' ],
-    'january' : [
-'constants', 'returns 1, which is the code for January',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-    'july' : [
-'constants', 'returns 7, which is the code for July',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-    'june' : [
-'constants', 'returns 6, which is the code for June',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-    'khinchin' : [
-'constants', 'returns Khinchin\'s constant',
 '''
 ''',
 '''
@@ -3666,20 +3249,6 @@ c:\>rpn 2016 labor_day
 '''
 ''',
 '''
-''' ],
-    'left' : [
-'list_operators', 'returns the left k items from list n',
-'''
-''',
-'''
-c:\>rpn 1 10 range 6 left
-[ 1, 2, 3, 4, 5, 6 ]
-
-c:\>rpn 1 10 range 4 left
-[ 1, 2, 3, 4 ]
-
-c:\>rpn 1 10 range 1 4 range left
-[ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
 ''' ],
     'is_less' : [
 'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
@@ -3873,13 +3442,6 @@ sequence.
 c:\>rpn 1 17 range lucas
 [ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571 ]
 ''' ],
-    'magnetic_constant' : [
-'constants', 'returns the magnetic constant',
-'''
-TODO:  explain all the other names this has
-''',
-'''
-''' ],
     'make_cf' : [
 'number_theory', 'calculates k terms of the continued fraction representation of n',
 '''
@@ -3917,160 +3479,11 @@ n and k cannot both be odd.
 ''',
 '''
 ''' ],
-    'march' : [
-'constants', 'returns 3, which is the code for March',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-c:\>rpn [ 2016 march 31 ] make_time
-2016-03-31 00:00:00
-''' ],
     'max' : [
 'arithmetic', 'returns the largest value in list n',
 '''
 ''',
 '''
-''' ],
-    'max_char' : [
-'constants', 'returns the maximum 8-bit signed integer',
-'''
-''',
-'''
-''' ],
-    'max_double' : [
-'constants', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
-'''
-For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
-''',
-'''
-c:\>rpn max_double
-1.79769313486e308
-
-c:\>rpn max_double double -x
-7fef ffff ffff ffff
-''' ],
-    'max_float' : [
-'constants', 'returns the largest value that can be represented by a 32-bit IEEE 754 float',
-'''
-For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
-''',
-'''
-c:\>rpn max_float
-3.40282346639e38
-
-c:\>rpn max_float float -x
-7f7f ffff
-''' ],
-    'max_index' : [
-'list_operators', 'returns the index of largest value in list n',
-'''
-''',
-'''
-''' ],
-    'max_long' : [
-'constants', 'returns the maximum 32-bit signed integer',
-'''
-This is the largest number that can be represented by a 32-bit signed
-integer assuming two's complement representation.
-
-''',
-'''
-c:\>rpn max_long
-2147483647
-
-When does a 32-bit time_t wrap?
-
-c:\>rpn 1970-01-01 max_long seconds +
-2038-01-19 03:14:07
-''' ],
-    'max_longlong' : [
-'constants', 'returns the maximum 64-bit signed integer',
-'''
-This is the largest number that can be represented by a 64-bit signed
-integer assuming two's complement representation.
-''',
-'''
-c:\>rpn max_longlong
-9223372036854775807
-
-When does a 64-bit time_t wrap?
-
-c:\>rpn 1970-01-01 max_longlong seconds +
-rpn:  value is out of range to be converted into a time
-0
-
-c:\>rpn -c max_longlong seconds years convert
-292,271,023,045 years
-
-Not for a long while...
-''' ],
-    'max_quadlong' : [
-'constants', 'returns the maximum 128-bit signed integer',
-'''
-This is the largest number that can be represented by a 128-bit signed
-integer assuming two's complement representation.
-''',
-'''
-''' ],
-    'max_short' : [
-'constants', 'returns the maximum 16-bit signed integer',
-'''
-This is the largest number that can be represented by a 16-bit signed
-integer assuming two's complement representation.
-''',
-'''
-''' ],
-    'max_uchar' : [
-'constants', 'returns the maximum 8-bit unsigned integer',
-'''
-This is the largest number that can be represented by a 16-bit unsigned
-integer.
-''',
-'''
-''' ],
-    'max_ulong' : [
-'constants', 'returns the maximum 32-bit unsigned integer',
-'''
-This is the largest number that can be represented by a 32-bit unsigned
-integer.
-''',
-'''
-''' ],
-    'max_ulonglong' : [
-'constants', 'returns the maximum 64-bit unsigned integer',
-'''
-This is the largest number that can be represented by a 64-bit unsigned
-integer.
-''',
-'''
-''' ],
-    'max_uquadlong' : [
-'constants', 'returns the maximum 128-bit unsigned integer',
-'''
-This is the largest number that can be represented by a 128-bit unsigned
-integer.
-''',
-'''
-''' ],
-    'max_ushort' : [
-'constants', 'returns the maximum 16-bit unsigned integer',
-'''
-This is the largest number that can be represented by a 16-bit unsigned
-integer.
-''',
-'''
-c:\>rpn max_ushort
-65535
-''' ],
-    'may' : [
-'constants', 'returns 5, which is the code for May',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-c:\>rpn [ 2016 may 31 ] make_time
-2016-05-31 00:00:00
 ''' ],
     'mean' : [
 'arithmetic', 'calculates the mean of values in list n',
@@ -4112,199 +3525,11 @@ c:\>rpn 2020 2025 range memorial_day -s1
 ''',
 '''
 ''' ],
-    'mertens_constant' : [
-'constants', 'returns Merten\'s constant',
-'''
-''',
-'''
-''' ],
-    'million' : [
-'constants', 'returns the constant one million (i.e., 1.0e6, or 1,000,000)',
-'''
-''',
-'''
-''' ],
-    'mills' : [
-'constants', 'returns the Mills constant',
-'''
-from http://primes.utm.edu/glossary/page.php?sort=MillsConstant:
-
-In the late forties Mills proved that there was a real number A > 1 for which
-A ^ 3 ^ n is always a prime (n = 1,2,3,...).  He proved existence only, and did
-not attempt to find such an A.  Later others proved that there are uncountably
-many choices for A, but again gave no value for A. It is still not yet possible
-to calculate a proven value for A, but if you are willing to accept the Riemann
-Hypothesis, then the least possible value for Mills' constant (usually called
-"the Mills Constant") [is this].
-
-rpn does not calculate Mills' constant.  The value is hard-coded to 3500
-decimal places.
-''',
-'''
-''' ],
     'min' : [
 'arithmetic', 'returns the smallest value in list n',
 '''
 ''',
 '''
-''' ],
-    'min_char' : [
-'constants', 'returns the minimum 8-bit signed integer',
-'''
-This is the smallest number that can be represented by an 8-bit signed
-integer assuming two's complement representation.
-''',
-'''
-c:\>rpn min_char
--128
-
-c:\>rpn min_char -x
--0080
-
-c:\>rpn max_char min_char -
-255
-''' ],
-    'min_double' : [
-'constants', 'returns the smallest value that can be represented by a 64-bit IEEE 754 float',
-'''
-For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
-''',
-'''
-c:\>rpn min_double
-2.22507385851e-308
-
-c:\>rpn min_double double -x
-0010 0000 0000 0000
-''' ],
-    'min_float' : [
-'conversion', 'returns the smallest value that can be represented by a 32-bit IEEE 754 float',
-'''
-For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
-''',
-'''
-c:\>rpn min_float
-1.17549435082e-38
-
-c:\>rpn min_float float -x
-0080 0000
-''' ],
-    'min_index' : [
-'list_operators', 'returns the index of smallest value in list n',
-'''
-''',
-'''
-''' ],
-    'min_long' : [
-'constants', 'returns the minimum 32-bit signed integer',
-'''
-This is the smallest number that can be represented by a 32-bit signed
-integer assuming two's complement representation.
-''',
-'''
-c:\>rpn min_long
--2147483648
-
-c:\>rpn max_long min_long -
-4294967295
-''' ],
-    'min_longlong' : [
-'constants', 'returns the minimum 64-bit signed integer',
-'''
-This is the smallest number that can be represented by a 64-bit signed
-integer assuming two's complement representation.
-''',
-'''
-c:\>rpn min_longlong
--9223372036854775808
-
-c:\>rpn max_longlong min_longlong - 1 + log2
-64
-''' ],
-    'min_quadlong' : [
-'constants', 'returns the minimum 128-bit signed integer',
-'''
-This is the smallest number that can be represented by a 128-bit signed
-integer assuming two's complement representation.
-''',
-'''
-c:\>rpn min_quadlong
--170141183460469231731687303715884105728
-
-c:\>rpn max_quadlong min_quadlong - 1 + log2
-128
-''' ],
-    'min_short' : [
-'constants', 'returns the minimum 16-bit signed integer',
-'''
-This is the smallest number that can be represented by a 16-bit signed
-integer assuming two's complement representation.
-''',
-'''
-c:\>rpn min_short
--32768
-
-c:\>rpn max_short min_short -
-65535
-''' ],
-    'min_uchar' : [
-'constants', 'returns the minimum 8-bit unsigned integer',
-'''
-By definition, the smallest unsigned integer of any size is 0.
-''',
-'''
-c:\>rpn min_uchar
-0
-
-c:\>rpn max_uchar min_uchar -
-255
-''' ],
-    'min_ulong' : [
-'constants', 'returns the minimum 32-bit unsigned integer',
-'''
-By definition, the smallest unsigned integer of any size is 0.
-''',
-'''
-c:\>rpn min_ulong
-0
-
-c:\>rpn max_ulong min_ulong - 1 + log2
-32
-''' ],
-    'min_ulonglong' : [
-'constants', 'returns the minimum 64-bit unsigned integer',
-'''
-By definition, the smallest unsigned integer of any size is 0.
-''',
-'''
-c:\>rpn min_ulonglong
-0
-
-c:\>rpn max_ulonglong min_ulonglong - 1 + log2
-64
-''' ],
-    'min_uquadlong' : [
-'constants', 'returns the minimum 128-bit unsigned integer',
-'''
-By definition, the smallest unsigned integer of any size is 0.
-''',
-'''
-c:\>rpn min_uquadlong
-0
-
-c:\>rpn max_uquadlong min_uquadlong - 1 + log2
-128
-''' ],
-    'min_ushort' : [
-'constants', 'returns the minimum 16-bit unsigned integer',
-'''
-By definition, the smallest unsigned integer of any size is 0.
-''',
-'''
-c:\>rpn min_ushort
-0
-
-c:\>rpn max_ushort min_ushort -
-65535
 ''' ],
     'mobius' : [
 'number_theory', 'calculates the Mobius function for n',
@@ -4315,13 +3540,6 @@ c:\>rpn max_ushort min_ushort -
     'modulo' : [
 'arithmetic', 'calculates n modulo k',
 '''
-''',
-'''
-''' ],
-    'monday' : [
-'constants', 'returns 1, which is the code for Monday',
-'''
-This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -4433,12 +3651,6 @@ c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand
 ''',
 '''
 ''' ],
-    'newtons_constant' : [
-'constants', 'returns Newton\'s gravitational constant',
-'''
-''',
-'''
-''' ],
     'nint' : [
 'arithmetic', 'returns the nearest integer to n',
 '''
@@ -4518,31 +3730,6 @@ TODO: fix me
 ''',
 '''
 ''' ],
-    'nonillion' : [
-'constants', 'returns the constant one nonillion, i.e. 1.0e30',
-'''
-''',
-'''
-''' ],
-    'nonzero' : [
-'list_operators', 'returns the indices of elements of list n that are not zero',
-'''
-This operator is useful for applying an operator that returns a binary value
-on a list, and getting a summary of the results.
-
-Indices are zero-based.
-
-(see 'nonzero')
-''',
-'''
-c:\>rpn [ 1 0 2 0 3 0 4 ] nonzero
-[ 0, 2, 4, 6 ]
-
-List the prime Fibonacci numbers:
-
-c:\>rpn 0 20 range fib is_prime nonzero fib
-[ 2, 3, 5, 13, 89, 233, 1597 ]
-''' ],
     'nor' : [
 'bitwise', 'calculates the bitwise \'nor\' of n and k',
 '''
@@ -4583,13 +3770,6 @@ c:\>rpn -x 0xF0F0F0F0 not
 
 c:\>rpn -x [ 0 1 ] not
 [ ffff, fffe ]
-''' ],
-    'november' : [
-'constants', 'returns 11, which is the code for November',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
 ''' ],
     'now' : [
 'date', 'returns the current date and time',
@@ -4675,24 +3855,6 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''' ],
-    'occurrences' : [
-'list_operators', 'returns the number of occurrences of each value in a list',
-'''
-The result is a list of lists, where each sublist contains a value and a
-count.  The result will be sorted by values.
-''',
-'''
-c:\>rpn 1 10 range occurrences
-[ [ 1, 1 ], [ 2, 1 ], [ 3, 1 ], [ 4, 1 ], [ 5, 1 ], [ 6, 1 ], [ 7, 1 ],
-[ 8, 1 ], [ 9, 1 ], [ 10, 1 ] ]
-
-c:\>rpn 10 100 random_integer_ occurrences
-[ [ 0, 9 ], [ 1, 8 ], [ 2, 6 ], [ 3, 10 ], [ 4, 12 ], [ 5, 11 ], [ 6, 7 ],
-[ 7, 13 ], [ 8, 12 ], [ 9, 12 ] ]
-
-c:\>rpn 5 6 debruijn occurrences
-[ [ 0, 3125 ], [ 1, 3125 ], [ 2, 3125 ], [ 3, 3125 ], [ 4, 3125 ] ]
-''' ],
     'octagonal' : [
 'polygonal_numbers', 'calculates the nth octagonal number',
 '''
@@ -4726,19 +3888,6 @@ c:\>rpn 5 6 debruijn occurrences
     'octagonal_hexagonal' : [
 'polygonal_numbers', 'calculates the nth octagonal hexagonal number',
 '''
-''',
-'''
-''' ],
-    'octillion' : [
-'constants', 'returns the constant one octillion, i.e. 1.0e27',
-'''
-''',
-'''
-''' ],
-    'october' : [
-'constants', 'returns 10, which is the code for October',
-'''
-This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -4822,14 +3971,6 @@ c:\>rpn 10349 oeisname
 '''
 ''',
 '''
-''' ],
-    'omega' : [
-'constants', 'returns the Omega constant',
-'''
-''',
-'''
-c:\>rpn omega
-0.56714329041
 ''' ],
     'or' : [
 'bitwise', 'calculates the bitwise \'or\' of n and k',
@@ -4938,24 +4079,6 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
 ''' ],
     'perm' : [
 'combinatorics', 'calculates the number of permutations of k out of n objects',
-'''
-''',
-'''
-''' ],
-    'phi' : [
-'constants', 'returns phi (the Golden Ratio)',
-'''
-''',
-'''
-''' ],
-    'pi' : [
-'constants', 'returns pi (Archimedes\' constant)',
-'''
-''',
-'''
-''' ],
-    'plastic' : [
-'constants', 'returns the Plastic constant',
 '''
 ''',
 '''
@@ -5138,13 +4261,6 @@ c:\>rpn 1 foot 3 ** gallon convert
 ''',
 '''
 ''' ],
-    'prevost' : [
-'constants', 'returns Prevost\'s constant',
-'''
-Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
-''',
-'''
-''' ],
     'prime' : [
 'prime_numbers', 'returns the nth prime',
 '''
@@ -5245,18 +4361,6 @@ distributed with data files calculated through the first billion primes.
 ''',
 '''
 ''' ],
-    'quadrillion' : [
-'constants', 'returns the constant one quadrillion, i.e. 1.0e15',
-'''
-''',
-'''
-''' ],
-    'quintillion' : [
-'constants', 'returns the constant one quintillion, i.e. 1.0e18',
-'''
-''',
-'''
-''' ],
     'quintuplet_prime?' : [
 'prime_numbers', 'finds the closest set of quintuplet primes above n',
 '''
@@ -5286,14 +4390,6 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through the first billion primes.
 ''',
 '''
-''' ],
-    'radiation_constant' : [
-'constants', 'returns the Radiation Constant',
-'''
-''',
-'''
-c:\>rpn radiation_constant
-7.5657e-16 joules per meter^3 kelvin^4
 ''' ],
     'random_integer' : [
 'special', 'returns a random integer from 0 to n - 1',
@@ -5325,25 +4421,6 @@ You will see a duplicate approximately 50% of the time.
 ''',
 '''
 ''' ],
-    'range' : [
-'list_operators', 'generates a list of successive integers from n to k',
-'''
-''',
-'''
-''' ],
-    'range2' : [
-'list_operators', 'generates a list of arithmetic progression of numbers',
-'''
-''',
-'''
-''' ],
-    'ratios' : [
-'list_operators', 'returns a list with the ratios between successive elements of list n',
-'''
-This operator is analogous to the 'diffs' operator.
-''',
-'''
-''' ],
     'real' : [
 'complex_math', 'returns the real part of n',
 '''
@@ -5364,14 +4441,6 @@ c:\>rpn 7 real
 ''',
 '''
 ''' ],
-    'reduce' : [
-'list_operators', 'reduces out the common factors from each element of a list',
-'''
-In other words, each element of the list is divided by the greatest common
-denominator of the whole list.
-''',
-'''
-''' ],
     'repunit' : [
 'algebra', 'returns the nth repunit in base k',
 '''
@@ -5380,12 +4449,6 @@ denominator of the whole list.
 ''' ],
     'result' : [
 'special', 'loads the result from the previous invokation of rpn',
-'''
-''',
-'''
-''' ],
-    'reverse' : [
-'list_operators', 'returns list n with its elements reversed',
 '''
 ''',
 '''
@@ -5420,28 +4483,6 @@ c:\>rpn 123456789 reverse_digits
 ''',
 '''
 ''' ],
-    'right' : [
-'list_operators', 'returns the right k items from list n',
-'''
-''',
-'''
-c:\>rpn 1 10 range 6 right
-[ 5, 6, 7, 8, 9, 10 ]
-
-c:\>rpn 1 10 range 4 right
-[ 7, 8, 9, 10 ]
-
-c:\>rpn 1 10 range 1 4 range right
-[ [ 10 ], [ 9, 10 ], [ 8, 9, 10 ], [ 7, 8, 9, 10 ] ]
-''' ],
-    'robbins' : [
-'constants', 'returns Robbins\' constant',
-'''
-Robbins' constant represents the average distance between two points selected
-at random within a unit cube.
-''',
-'''
-''' ],
     'root' : [
 'powers_and_roots', 'calculates the kth root of n',
 '''
@@ -5468,12 +4509,6 @@ This operator is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
-    'rydberg_constant' : [
-'constants', 'returns a Rydberg constant',
-'''
-''',
-'''
-''' ],
     'safe_prime' : [
 'prime_numbers', 'returns the nth safe prime',
 '''
@@ -5487,13 +4522,6 @@ distributed with data files calculated through the first billion primes.
     'safe_prime?' : [
 'prime_numbers', '',
 '''
-''',
-'''
-''' ],
-    'saturday' : [
-'constants', 'returns 6, which is the code for Saturday',
-'''
-This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -5519,27 +4547,8 @@ instead of a unit circle.
 ''',
 '''
 ''' ],
-    'september' : [
-'constants', 'returns 9, which is the code for September',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-    'septillion' : [
-'constants', 'returns the constant one septillion, i.e. 1.0e24',
-'''
-''',
-'''
-''' ],
     'set' : [
 'special', 'sets variable n (which must start with \'$\') to value k in interactive mode',
-'''
-''',
-'''
-''' ],
-    'sextillion' : [
-'constants', 'returns the constant one sextillion, i.e. 1.0e21',
 '''
 ''',
 '''
@@ -5646,20 +4655,8 @@ fixed-size integer types.
 ''',
 '''
 ''' ],
-    'shuffle' : [
-'list_operators', 'randomly shuffles the elements in a list',
-'''
-''',
-'''
-''' ],
     'sigma' : [
 'number_theory', 'returns the sum of the proper divisors of n'
-'''
-''',
-'''
-''' ],
-    'silver_ratio' : [
-'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )'
 '''
 ''',
 '''
@@ -5714,49 +4711,6 @@ instead of a unit circle.
 ''',
 '''
 ''' ],
-    'slice' : [
-'list_operators', 'returns a slice of list a from starting index b to ending index c',
-'''
-Indices are zero-based, and the ending index is not included in the slice.
-This functionality echoes the Python slicing semantics.  As in Python, a
-negative ending index represents counting backwards from the end of the list.
-
-The starting and ending indices can, of course, be lists, and if they
-are multiple lists will be returned iterating through one or both of the
-operands as needed.
-''',
-'''
-c:\>rpn 1 10 range 0 5 slice
-[ 1, 2, 3, 4, 5 ]
-
-c:\>rpn 1 10 range 5 10 slice
-[ 6, 7, 8, 9, 10 ]
-
-c:\>rpn 1 10 range 2 -1 slice
-[ 3, 4, 5, 6, 7, 8, 9 ]
-
-c:\>rpn 1 10 range 2 -2 slice
-[ 3, 4, 5, 6, 7, 8 ]
-
-c:\>rpn 1 10 range 0 4 range 6 8 range slice -s1
-[
-[ 1, 2, 3, 4, 5, 6 ],
-[ 1, 2, 3, 4, 5, 6, 7 ],
-[ 1, 2, 3, 4, 5, 6, 7, 8 ],
-[ 2, 3, 4, 5, 6 ],
-[ 2, 3, 4, 5, 6, 7 ],
-[ 2, 3, 4, 5, 6, 7, 8 ],
-[ 3, 4, 5, 6 ],
-[ 3, 4, 5, 6, 7 ],
-[ 3, 4, 5, 6, 7, 8 ],
-[ 4, 5, 6 ],
-[ 4, 5, 6, 7 ],
-[ 4, 5, 6, 7, 8 ],
-[ 5, 6 ],
-[ 5, 6, 7 ],
-[ 5, 6, 7, 8 ],
-]
-''' ],
     'solve' : [
 'algebra', 'interprets list n as a polynomial and solves for its roots',
 '''
@@ -5790,35 +4744,6 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through the first billion primes.
 ''',
 '''
-''' ],
-    'sort' : [
-'list_operators', 'sorts the elements of list n numerically in ascending order',
-'''
-The 'sort' operator gets applied recursively, so all sublists will be sorted as
-well.  I might have to reconsider that.
-''',
-'''
-c:\>rpn [ rand rand rand ] sort
-[ 0.782934612763, 0.956555810967, 0.97728726503 ]
-
-c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
-[ [ 10 ], [ 9 ], [ 8 ], [ 5, 6, 7 ], [ 4 ], [ 3 ], [ 1, 2 ], [ 0 ], [ -1 ] ]
-
-c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] flatten sort
-[ -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-''' ],
-    'sort_descending' : [
-'list_operators', 'sorts the elements of list n numerically in descending order',
-'''
-The 'sort_descending' operator works exactly like the sort operator, sorting
-the list (and all sublists), except in descending order.
-''',
-'''
-c:\>rpn 1 70 6 range2 sort_descending
-[ 67, 61, 55, 49, 43, 37, 31, 25, 19, 13, 7, 1 ]
-
-c:\>rpn 1 20 range countdiv sort_descending
-[ 6, 6, 6, 5, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1 ]
 ''' ],
     'sphere_area' : [
 'trigonometry', 'calculates the surface area of an sphere of size n (radius or volume)',
@@ -5858,14 +4783,6 @@ c:\>rpn 1 20 range countdiv sort_descending
 c:\>rpn 1 50 range countdiv stddev
 2.14485430741
 ''' ],
-    'stefan_boltzmann' : [
-'constants', 'returns the Stefan-Boltzmann constant',
-'''
-''',
-'''
-c:\>rpn stefan_boltzmann
-5.670373e-8 watts per meter^2 kelvin^4
-''' ],
     'stella_octangula' : [
 'polyhedral_numbers', 'calculates the nth stella octangula number',
 '''
@@ -5886,51 +4803,6 @@ c:\>rpn 1 8 range steloct
 '''
 ''',
 '''
-''' ],
-    'sublist' : [
-'list_operators', 'returns a sublist of list a from starting index b consisting of c items',
-'''
-The index is zero-based.  If c items cannot be returned, then however many
-existing items will be returned instead.
-
-The starting index and count operands can, of course, be lists, and if they
-are multiple lists will be returned iterating through one or both of the
-operands as needed.
-''',
-'''
-c:\>rpn 1 10 range 0 5 sublist
-[ 1, 2, 3, 4, 5 ]
-
-c:\>rpn 1 10 range 1 5 sublist
-[ 2, 3, 4, 5, 6 ]
-
-c:\>rpn 1 10 range 1 3 sublist
-[ 2, 3, 4 ]
-
-Print multiple sublists of 3 items each starting with the first 5 items in
-the list:
-
-c:\>rpn 1 10 range 0 4 range 3 sublist
-[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], [ 4, 5, 6 ], [ 5, 6, 7 ] ]
-
-Print multiple sublists of 1 to 3 items, inclusive, starting with the first
-4 items in the list:
-
-c:\>rpn 1 10 range 0 3 range 1 3 range sublist -s1
-[
-[ 1 ],
-[ 1, 2 ],
-[ 1, 2, 3 ],
-[ 2 ],
-[ 2, 3 ],
-[ 2, 3, 4 ],
-[ 3 ],
-[ 3, 4 ],
-[ 3, 4, 5 ],
-[ 4 ],
-[ 4, 5 ],
-[ 4, 5, 6 ],
-]
 ''' ],
     'subtract' : [
 'arithmetic', 'subtracts k from n',
@@ -6048,13 +4920,6 @@ c:\>rpn 2 1 6 range tetrate
 ''',
 '''
 ''' ],
-    'thursday' : [
-'constants', 'returns 4, which is the code for Thursday',
-'''
-This constant operator is defined for convenience for use with date operators.
-''',
-'''
-''' ],
     'timer' : [
 'settings', 'set timer mode in interactive mode',
 '''
@@ -6131,12 +4996,6 @@ c:\>rpn 2 3 make_pyth_3 unlist triangle_area
 ''',
 '''
 ''' ],
-    'trillion' : [
-'constants', 'returns the constant one trillion, i.e. 1.0e12',
-'''
-''',
-'''
-''' ],
     'triple_balanced' : [
 'prime_numbers', 'returns the nth triple balanced prime',
 '''
@@ -6207,19 +5066,6 @@ c:\>rpn 1 10 range triplet_prime_
 [ 37, 41, 43 ], [ 41, 43, 47 ], [ 67, 71, 73 ], [ 97, 101, 103 ],
 [ 101, 103, 107 ] ]
 ''' ],
-    'true' : [
-'constants', 'used with boolean settings operators',
-'''
-'true' simply evaluates to 1
-''',
-'''
-rpn (1)>5 12 **
-244140625
-rpn (2)>true comma
-1
-rpn (3)>5 12 **
-244,140,625
-''' ],
     'truncated_octahedral' : [
 'polyhedral_numbers', 'calculates the nth truncated octahedral number',
 '''
@@ -6229,13 +5075,6 @@ rpn (3)>5 12 **
     'truncated_tetrahedral' : [
 'polyhedral_numbers', 'calculates the nth truncated tetrahedral number',
 '''
-''',
-'''
-''' ],
-    'tuesday' : [
-'constants', 'returns 2, which is the code for Tuesday',
-'''
-This constant operator is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
@@ -6334,20 +5173,6 @@ c:\>rpn pi float -x
 
 c:\>rpn 0x40490fdb unfloat
 3.14159274101
-''' ],
-    'union' : [
-'list_operators', 'returns the union of unique elements from two lists',
-'''
-''',
-'''
-''' ],
-    'unique' : [
-'list_operators', 'returns a list of its unique elements',
-'''
-''',
-'''
-c:\>rpn 1 8 range 2 9 range append 3 10 range append unique
-[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
     'unit_roots' : [
 'number_theory', 'calculates the nth roots of unity',
@@ -6503,25 +5328,6 @@ and seconds.
 '''
 ''',
 '''
-''' ],
-    'zero' : [
-'list_operators', 'returns a list of the indices of elements in list n that are zero',
-'''
-This operator is useful for applying an operator that returns a binary value
-on a list, and getting a summary of the results.
-
-Indices are zero-based.
-
-(see 'nonzero')
-''',
-'''
-c:\>rpn [ 1 0 2 0 3 0 4 ] zero
-[ 1, 3, 5 ]
-
-List the non-prime Fibonacci numbers:
-
-c:\>rpn 0 20 range fib is_prime zero fib
-[ 0, 1, 1, 8, 21, 34, 55, 144, 377, 610, 987, 2584, 4181, 6765 ]
 ''' ],
     'zeta' : [
 'number_theory', 'calculates Riemann\'s zeta function for n',
@@ -6883,7 +5689,7 @@ c:\>rpn 1965-03-31 moon_phase
 
 # //******************************************************************************
 # //
-# // calendar operators
+# //  calendar operators
 # //
 # //******************************************************************************
 
@@ -6974,6 +5780,1076 @@ far as rpn is concerned, it's an operator that does nothing.
 ''' ],
 
 
+# //******************************************************************************
+# //
+# //  constants operators
+# //
+# //******************************************************************************
+
+    'apery' : [
+'constants', 'returns Apery\'s constant',
+'''
+Apery's constant is the sum of the infinite series of the reciprocals of cubes
+from 1 to infinity.  It is also, therefore, zeta( 3 ).
+''',
+'''
+c:\>rpn -a50 -d5 apery
+1.20205 69031 59594 28539 97381 61511 44999 07649 86292 3405
+
+c:\>rpn -a50 -d5 3 zeta
+1.20205 69031 59594 28539 97381 61511 44999 07649 86292 3405
+''' ],
+    'avogadro' : [
+'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
+'''
+''',
+'''
+c:\>rpn avogadro
+6.02214129e+23
+
+c:\>rpn -a24 avogadro
+602214129000000000000000
+''' ],
+    'billion' : [
+'constants', 'returns the constant one billion, i.e. 1.0e9, or 1,000,000,000',
+'''
+''',
+'''
+c:\>rpn -c 7 billion
+7,000,000,000
+''' ],
+    'catalan' : [
+'constants', 'returns Catalan\'s constant',
+'''
+''',
+'''
+c:\>rpn catalan
+0.915965594177
+''' ],
+    'champernowne' : [
+'constants', 'returns the Champernowne constant for the input base',
+'''
+The Champernowne constant is a transcendental number created by successive
+appending every natural number as a decimal value.
+
+The Champernowne constant is normally defined for base 10, but this operator
+can also apply the same concept for any input base.
+''',
+'''
+c:\>rpn -a60 champernowne
+0.123456789101112131415161718192021222324252627282930313233344
+
+The base 7 Champernowne constant
+
+c:\>rpn -a60 -b7 champernowne -r7
+0.123456101112131415162021222324252630313233343536404142434445
+
+The base 7 Champernowne constant converted to base 10
+
+c:\>rpn -a60 -b7 champernowne
+0.1944355350862405214758400930829085764529329710504220831702
+''' ],
+    'copeland' : [
+'constants', 'returns the Copeland Erdos constant',
+'''
+''',
+'''
+c:\>rpn -a60 copeland
+0.235711131719232931374143475359616771737983899710110310710911
+''' ],
+    'decillion' : [
+'constants', 'returns the constant one decillion, i.e. 1.0e33',
+'''
+''',
+'''
+''' ],
+    'default' : [
+'constants', 'used with settings operators',
+'''
+''',
+'''
+''' ],
+    'e' : [
+'constants', 'returns e (Euler\'s number)',
+'''
+''',
+'''
+''' ],
+    'eddington_number' : [
+'constants', 'returns Arthur Eddington\'s famous estimate of the number of subatomic particles in the Universe',
+'''In 1938, Arthur Eddington famously claimed that, "I believe there are
+15,747,724,136,275,002,577,605,653,961,181,555,468,044,717,914,527,116,709,366,231,425,076,185,631,031,296
+protons in the universe and the same number of electrons."  This number is equal to 136 * 2^256.''',
+'''
+''' ],
+    'electric_constant' : [
+'constants', 'returns the electric constant',
+'''
+''',
+'''
+''' ],
+    'euler' : [
+'constants', 'returns the Euler-Mascheroni constant',
+'''
+''',
+'''
+''' ],
+    'false' : [
+'constants', 'used with boolean settings operators',
+'''
+'false' simply evaluates to 0
+''',
+'''
+''' ],
+    'faradays_constant' : [
+'constants', 'returns Faraday\'s Constant',
+'''
+''',
+'''
+c:\>rpn faradays_constant
+96485.33289 coulombs per mole
+''' ],
+    'fine_structure' : [
+'constants', 'returns the fine-structure constant',
+'''
+''',
+'''
+''' ],
+    'glaisher' : [
+'constants', 'returns Glaisher\'s constant',
+'''
+''',
+'''
+''' ],
+    'googol' : [
+'constants', 'returns the constant one googol, i.e., 1.0e100',
+'''
+''',
+'''
+''' ],
+    'itoi' : [
+'constants', 'returns i to the i power',
+'''
+''',
+'''
+c:\>rpn 1 i 1 i **
+(0.20787957635076190855 + 0.0j)
+
+c:\>rpn itoi
+0.207879576351
+''' ],
+    'khinchin' : [
+'constants', 'returns Khinchin\'s constant',
+'''
+''',
+'''
+''' ],
+    'magnetic_constant' : [
+'constants', 'returns the magnetic constant',
+'''
+TODO:  explain all the other names this has
+''',
+'''
+''' ],
+    'max_char' : [
+'constants', 'returns the maximum 8-bit signed integer',
+'''
+''',
+'''
+''' ],
+    'max_double' : [
+'constants', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
+'''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
+''',
+'''
+c:\>rpn max_double
+1.79769313486e308
+
+c:\>rpn max_double double -x
+7fef ffff ffff ffff
+''' ],
+    'max_float' : [
+'constants', 'returns the largest value that can be represented by a 32-bit IEEE 754 float',
+'''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
+''',
+'''
+c:\>rpn max_float
+3.40282346639e38
+
+c:\>rpn max_float float -x
+7f7f ffff
+''' ],
+    'max_long' : [
+'constants', 'returns the maximum 32-bit signed integer',
+'''
+This is the largest number that can be represented by a 32-bit signed
+integer assuming two's complement representation.
+
+''',
+'''
+c:\>rpn max_long
+2147483647
+
+When does a 32-bit time_t wrap?
+
+c:\>rpn 1970-01-01 max_long seconds +
+2038-01-19 03:14:07
+''' ],
+    'max_longlong' : [
+'constants', 'returns the maximum 64-bit signed integer',
+'''
+This is the largest number that can be represented by a 64-bit signed
+integer assuming two's complement representation.
+''',
+'''
+c:\>rpn max_longlong
+9223372036854775807
+
+When does a 64-bit time_t wrap?
+
+c:\>rpn 1970-01-01 max_longlong seconds +
+rpn:  value is out of range to be converted into a time
+0
+
+c:\>rpn -c max_longlong seconds years convert
+292,271,023,045 years
+
+Not for a long while...
+''' ],
+    'max_quadlong' : [
+'constants', 'returns the maximum 128-bit signed integer',
+'''
+This is the largest number that can be represented by a 128-bit signed
+integer assuming two's complement representation.
+''',
+'''
+''' ],
+    'max_short' : [
+'constants', 'returns the maximum 16-bit signed integer',
+'''
+This is the largest number that can be represented by a 16-bit signed
+integer assuming two's complement representation.
+''',
+'''
+''' ],
+    'max_uchar' : [
+'constants', 'returns the maximum 8-bit unsigned integer',
+'''
+This is the largest number that can be represented by a 16-bit unsigned
+integer.
+''',
+'''
+''' ],
+    'max_ulong' : [
+'constants', 'returns the maximum 32-bit unsigned integer',
+'''
+This is the largest number that can be represented by a 32-bit unsigned
+integer.
+''',
+'''
+''' ],
+    'max_ulonglong' : [
+'constants', 'returns the maximum 64-bit unsigned integer',
+'''
+This is the largest number that can be represented by a 64-bit unsigned
+integer.
+''',
+'''
+''' ],
+    'max_uquadlong' : [
+'constants', 'returns the maximum 128-bit unsigned integer',
+'''
+This is the largest number that can be represented by a 128-bit unsigned
+integer.
+''',
+'''
+''' ],
+    'max_ushort' : [
+'constants', 'returns the maximum 16-bit unsigned integer',
+'''
+This is the largest number that can be represented by a 16-bit unsigned
+integer.
+''',
+'''
+c:\>rpn max_ushort
+65535
+''' ],
+    'mertens_constant' : [
+'constants', 'returns Merten\'s constant',
+'''
+''',
+'''
+''' ],
+    'million' : [
+'constants', 'returns the constant one million (i.e., 1.0e6, or 1,000,000)',
+'''
+''',
+'''
+''' ],
+    'mills' : [
+'constants', 'returns the Mills constant',
+'''
+from http://primes.utm.edu/glossary/page.php?sort=MillsConstant:
+
+In the late forties Mills proved that there was a real number A > 1 for which
+A ^ 3 ^ n is always a prime (n = 1,2,3,...).  He proved existence only, and did
+not attempt to find such an A.  Later others proved that there are uncountably
+many choices for A, but again gave no value for A. It is still not yet possible
+to calculate a proven value for A, but if you are willing to accept the Riemann
+Hypothesis, then the least possible value for Mills' constant (usually called
+"the Mills Constant") [is this].
+
+rpn does not calculate Mills' constant.  The value is hard-coded to 3500
+decimal places.
+''',
+'''
+''' ],
+    'min_char' : [
+'constants', 'returns the minimum 8-bit signed integer',
+'''
+This is the smallest number that can be represented by an 8-bit signed
+integer assuming two's complement representation.
+''',
+'''
+c:\>rpn min_char
+-128
+
+c:\>rpn min_char -x
+-0080
+
+c:\>rpn max_char min_char -
+255
+''' ],
+    'min_double' : [
+'constants', 'returns the smallest value that can be represented by a 64-bit IEEE 754 float',
+'''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
+''',
+'''
+c:\>rpn min_double
+2.22507385851e-308
+
+c:\>rpn min_double double -x
+0010 0000 0000 0000
+''' ],
+    'min_float' : [
+'constants', 'returns the smallest value that can be represented by a 32-bit IEEE 754 float',
+'''
+For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
+''',
+'''
+c:\>rpn min_float
+1.17549435082e-38
+
+c:\>rpn min_float float -x
+0080 0000
+''' ],
+    'min_long' : [
+'constants', 'returns the minimum 32-bit signed integer',
+'''
+This is the smallest number that can be represented by a 32-bit signed
+integer assuming two's complement representation.
+''',
+'''
+c:\>rpn min_long
+-2147483648
+
+c:\>rpn max_long min_long -
+4294967295
+''' ],
+    'min_longlong' : [
+'constants', 'returns the minimum 64-bit signed integer',
+'''
+This is the smallest number that can be represented by a 64-bit signed
+integer assuming two's complement representation.
+''',
+'''
+c:\>rpn min_longlong
+-9223372036854775808
+
+c:\>rpn max_longlong min_longlong - 1 + log2
+64
+''' ],
+    'min_quadlong' : [
+'constants', 'returns the minimum 128-bit signed integer',
+'''
+This is the smallest number that can be represented by a 128-bit signed
+integer assuming two's complement representation.
+''',
+'''
+c:\>rpn min_quadlong
+-170141183460469231731687303715884105728
+
+c:\>rpn max_quadlong min_quadlong - 1 + log2
+128
+''' ],
+    'min_short' : [
+'constants', 'returns the minimum 16-bit signed integer',
+'''
+This is the smallest number that can be represented by a 16-bit signed
+integer assuming two's complement representation.
+''',
+'''
+c:\>rpn min_short
+-32768
+
+c:\>rpn max_short min_short -
+65535
+''' ],
+    'min_uchar' : [
+'constants', 'returns the minimum 8-bit unsigned integer',
+'''
+By definition, the smallest unsigned integer of any size is 0.
+''',
+'''
+c:\>rpn min_uchar
+0
+
+c:\>rpn max_uchar min_uchar -
+255
+''' ],
+    'min_ulong' : [
+'constants', 'returns the minimum 32-bit unsigned integer',
+'''
+By definition, the smallest unsigned integer of any size is 0.
+''',
+'''
+c:\>rpn min_ulong
+0
+
+c:\>rpn max_ulong min_ulong - 1 + log2
+32
+''' ],
+    'min_ulonglong' : [
+'constants', 'returns the minimum 64-bit unsigned integer',
+'''
+By definition, the smallest unsigned integer of any size is 0.
+''',
+'''
+c:\>rpn min_ulonglong
+0
+
+c:\>rpn max_ulonglong min_ulonglong - 1 + log2
+64
+''' ],
+    'min_uquadlong' : [
+'constants', 'returns the minimum 128-bit unsigned integer',
+'''
+By definition, the smallest unsigned integer of any size is 0.
+''',
+'''
+c:\>rpn min_uquadlong
+0
+
+c:\>rpn max_uquadlong min_uquadlong - 1 + log2
+128
+''' ],
+    'min_ushort' : [
+'constants', 'returns the minimum 16-bit unsigned integer',
+'''
+By definition, the smallest unsigned integer of any size is 0.
+''',
+'''
+c:\>rpn min_ushort
+0
+
+c:\>rpn max_ushort min_ushort -
+65535
+''' ],
+    'newtons_constant' : [
+'constants', 'returns Newton\'s gravitational constant',
+'''
+''',
+'''
+''' ],
+    'nonillion' : [
+'constants', 'returns the constant one nonillion, i.e. 1.0e30',
+'''
+''',
+'''
+''' ],
+    'octillion' : [
+'constants', 'returns the constant one octillion, i.e. 1.0e27',
+'''
+''',
+'''
+''' ],
+    'omega' : [
+'constants', 'returns the Omega constant',
+'''
+''',
+'''
+c:\>rpn omega
+0.56714329041
+''' ],
+    'phi' : [
+'constants', 'returns phi (the Golden Ratio)',
+'''
+''',
+'''
+''' ],
+    'pi' : [
+'constants', 'returns pi (Archimedes\' constant)',
+'''
+''',
+'''
+''' ],
+    'plastic' : [
+'constants', 'returns the Plastic constant',
+'''
+''',
+'''
+''' ],
+    'prevost' : [
+'constants', 'returns Prevost\'s constant',
+'''
+Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
+''',
+'''
+''' ],
+    'quadrillion' : [
+'constants', 'returns the constant one quadrillion, i.e. 1.0e15',
+'''
+''',
+'''
+''' ],
+    'quintillion' : [
+'constants', 'returns the constant one quintillion, i.e. 1.0e18',
+'''
+''',
+'''
+''' ],
+    'radiation_constant' : [
+'constants', 'returns the Radiation Constant',
+'''
+''',
+'''
+c:\>rpn radiation_constant
+7.5657e-16 joules per meter^3 kelvin^4
+''' ],
+    'robbins' : [
+'constants', 'returns Robbins\' constant',
+'''
+Robbins' constant represents the average distance between two points selected
+at random within a unit cube.
+''',
+'''
+''' ],
+    'rydberg_constant' : [
+'constants', 'returns a Rydberg constant',
+'''
+''',
+'''
+''' ],
+    'septillion' : [
+'constants', 'returns the constant one septillion, i.e. 1.0e24',
+'''
+''',
+'''
+''' ],
+    'sextillion' : [
+'constants', 'returns the constant one sextillion, i.e. 1.0e21',
+'''
+''',
+'''
+''' ],
+    'silver_ratio' : [
+'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )'
+'''
+''',
+'''
+''' ],
+    'stefan_boltzmann' : [
+'constants', 'returns the Stefan-Boltzmann constant',
+'''
+''',
+'''
+c:\>rpn stefan_boltzmann
+5.670373e-8 watts per meter^2 kelvin^4
+''' ],
+    'trillion' : [
+'constants', 'returns the constant one trillion, i.e. 1.0e12',
+'''
+''',
+'''
+''' ],
+    'true' : [
+'constants', 'used with boolean settings operators',
+'''
+'true' simply evaluates to 1
+''',
+'''
+rpn (1)>5 12 **
+244140625
+rpn (2)>true comma
+1
+rpn (3)>5 12 **
+244,140,625
+''' ],
+
+# //******************************************************************************
+# //
+# //  list operators
+# //
+# //******************************************************************************
+
+    'alternate_signs' : [
+'list_operators', 'alternates signs in the list by making every even element negative',
+'''
+The return value is a list of the same size as the original with the sign of
+every second element reversed, starting with the second.
+''',
+'''
+c:\>rpn 1 10 range alternate_signs
+[ 1, -2, 3, -4, 5, -6, 7, -8, 9, -10 ]
+''' ],
+    'alternate_signs_2' : [
+'list_operators', 'alternates signs in the list by making every odd element negative',
+'''
+The return value is a list of the same size as the original with the sign of
+every other element reversed, starting with the first element.
+''',
+'''
+c:\>rpn 1 10 range alterate_signs_2
+[ -1, 2, -3, 4, -5, 6, -7, 8, -9, 10 ]
+
+''' ],
+    'append' : [
+'list_operators', 'appends the second list on to the first list',
+'''
+This operator appends the second list of items to the first list resulting
+in a single list containing all items in order from the first operand list and
+then the second operand list.
+''',
+'''
+c:\>rpn 1 5 range 6 10 range append
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+''' ],
+    'count' : [
+'list_operators', 'counts the elements of list n',
+'''
+This simply counts the number of elements in the list.
+''',
+'''
+c:\>rpn 1 100 range count
+100
+''' ],
+    'diffs' : [
+'list_operators', 'returns a list with the differences between successive elements of list n',
+'''
+''',
+'''
+''' ],
+    'diffs2' : [
+'list_operators', 'returns a list with the differences between each element of list n with the first element',
+'''
+''',
+'''
+''' ],
+    'element' : [
+'list_operators', 'returns a single element from a list',
+'''
+The index is zero-based.
+''',
+'''
+c:\>rpn 1 10 range 5 element
+6
+
+c:\>rpn 0 1000 range 34 element
+34
+''' ],
+    'exponential_range' : [
+'list_operators', 'generates a list of exponential progression of numbers',
+'''
+a = starting value, b = step exponent, c = size of list to generate
+
+Each successive item in the list is calculated by raising the previous item to
+the bth power.  The list is expanded to contain c items.
+''',
+'''
+c:\>rpn 2 2 10 exponential_range
+[ 2, 4, 16, 256, 65536, 4294967296, 18446744073709551616, 3.4028236692e38,
+1.1579208924e77, 1.34078079210e154 ]
+''' ],
+    'flatten' : [
+'list_operators', 'flattens a nested lists in list n to a single level',
+'''
+''',
+'''
+''' ],
+    'geometric_mean' : [
+'list_operators', 'calculates the geometric mean of a a list of numbers n',
+'''
+The geometric mean is calculated by taking the kth root of the product of k
+values.
+''',
+'''
+c:\>rpn [ 1 2 ] geometric_mean
+1.41421356237
+
+c:\>rpn [ 1 10 range ] geometric_mean
+[ 4.52872868812 ]
+
+Calculate the geometric mean of the first n numbers from 1 to 5:
+
+c:\>rpn [ 1 1 5 range range ] geometric_mean
+[ [ 1, 1.41421356237, 1.81712059283, 2.2133638394, 2.6051710847 ] ]
+''' ],
+    'geometric_range' : [
+'list_operators', 'generates a list of geometric progression of numbers',
+'''
+The list starts at a, and each successive value is multiplied by b, until the
+list contains c items.
+''',
+'''
+c:\>rpn 1 2 10 geometric_range
+[ 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 ]
+
+The intervals of the chromatic scale:
+
+c:\>rpn 1 2 12 // 13 geometric_range
+[ 1, 1.05946309436, 1.12246204831, 1.189207115, 1.25992104989, 1.33483985417,
+1.41421356237, 1.49830707688, 1.58740105197, 1.68179283051, 1.78179743628,
+1.88774862536, 2 ]
+''' ],
+    'group_elements' : [
+'list_operators', 'groups the elements of list n into sublsts of k elements',
+'''
+If there are elements left over (i.e., not enough to create the final group
+of k elements, then the remaining list elements are included in the final
+group.
+''',
+'''
+c:\>rpn 1 10 range 5 group_elements
+[ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
+
+c:\>rpn 1 11 range 5 group_elements
+[ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ], [ 11 ] ]
+
+c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
+[
+[ 1, 0 ],
+[ 2, 1 ],
+[ 3, 1 ],
+[ 4, 0 ],
+[ 5, 1 ],
+[ 6, 0 ],
+[ 7, 1 ],
+[ 8, 0 ],
+[ 9, 0 ],
+[ 10, 0 ],
+[ 11, 1 ],
+]
+''' ],
+    'interleave' : [
+'list_operators', 'interleaves lists n and k into a single list',
+'''
+Given an input of two lists, n and k 'interleave' returns a single list in which the
+members of n and k are interleaved alternately.  If one list is longer than the other
+then the extra list elements from the longer list are ignored.
+''',
+'''
+c:\>rpn [ 1 3 5 ] [ 2 4 6 ] interleave
+[ 1, 2, 3, 4, 5, 6 ]
+
+c:\>rpn [ 1 3 5 ] [ 2 4 6 8 10 ] interleave
+[ 1, 2, 3, 4, 5, 6 ]
+
+c:\>rpn 1 20 2 range2 2 20 2 range2 interleave
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+''' ],
+    'intersection' : [
+'''
+'list_operators', 'returns a list of unique elements that exist in both lists',
+''',
+'''
+c:\>rpn [ 1 2 4 ] [ 3 4 5 ] intersection
+[ 4 ]
+
+c:\>rpn [ 1 2 3 ] [ 4 5 6 ] intersection
+[  ]
+
+c:\>rpn [ 1 1 2 3 3 3 ] [ 1 2 3 4 5 5 ] intersection
+[ 1, 2, 3 ]
+
+c:\>rpn 1 10 range 1 10 range prime intersection
+[ 2, 3, 5, 7 ]
+
+Find numbers that are triangular and square at the same time:
+
+c:\>rpn 1 100 range tri 1 100 range sqr intersect
+[ 1, 36, 1225 ]
+''' ],
+    'left' : [
+'list_operators', 'returns the left k items from list n',
+'''
+''',
+'''
+c:\>rpn 1 10 range 6 left
+[ 1, 2, 3, 4, 5, 6 ]
+
+c:\>rpn 1 10 range 4 left
+[ 1, 2, 3, 4 ]
+
+c:\>rpn 1 10 range 1 4 range left
+[ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
+''' ],
+    'max_index' : [
+'list_operators', 'returns the index of largest value in list n',
+'''
+''',
+'''
+''' ],
+    'min_index' : [
+'list_operators', 'returns the index of smallest value in list n',
+'''
+''',
+'''
+''' ],
+    'nonzero' : [
+'list_operators', 'returns the indices of elements of list n that are not zero',
+'''
+This operator is useful for applying an operator that returns a binary value
+on a list, and getting a summary of the results.
+
+Indices are zero-based.
+
+(see 'nonzero')
+''',
+'''
+c:\>rpn [ 1 0 2 0 3 0 4 ] nonzero
+[ 0, 2, 4, 6 ]
+
+List the prime Fibonacci numbers:
+
+c:\>rpn 0 20 range fib is_prime nonzero fib
+[ 2, 3, 5, 13, 89, 233, 1597 ]
+''' ],
+    'occurrences' : [
+'list_operators', 'returns the number of occurrences of each value in a list',
+'''
+The result is a list of lists, where each sublist contains a value and a
+count.  The result will be sorted by values.
+''',
+'''
+c:\>rpn 1 10 range occurrences
+[ [ 1, 1 ], [ 2, 1 ], [ 3, 1 ], [ 4, 1 ], [ 5, 1 ], [ 6, 1 ], [ 7, 1 ],
+[ 8, 1 ], [ 9, 1 ], [ 10, 1 ] ]
+
+c:\>rpn 10 100 random_integer_ occurrences
+[ [ 0, 9 ], [ 1, 8 ], [ 2, 6 ], [ 3, 10 ], [ 4, 12 ], [ 5, 11 ], [ 6, 7 ],
+[ 7, 13 ], [ 8, 12 ], [ 9, 12 ] ]
+
+c:\>rpn 5 6 debruijn occurrences
+[ [ 0, 3125 ], [ 1, 3125 ], [ 2, 3125 ], [ 3, 3125 ], [ 4, 3125 ] ]
+''' ],
+    'range' : [
+'list_operators', 'generates a list of successive integers from n to k',
+'''
+''',
+'''
+''' ],
+    'range2' : [
+'list_operators', 'generates a list of arithmetic progression of numbers',
+'''
+''',
+'''
+''' ],
+    'ratios' : [
+'list_operators', 'returns a list with the ratios between successive elements of list n',
+'''
+This operator is analogous to the 'diffs' operator.
+''',
+'''
+''' ],
+    'reduce' : [
+'list_operators', 'reduces out the common factors from each element of a list',
+'''
+In other words, each element of the list is divided by the greatest common
+denominator of the whole list.
+''',
+'''
+''' ],
+    'reverse' : [
+'list_operators', 'returns list n with its elements reversed',
+'''
+''',
+'''
+''' ],
+    'right' : [
+'list_operators', 'returns the right k items from list n',
+'''
+''',
+'''
+c:\>rpn 1 10 range 6 right
+[ 5, 6, 7, 8, 9, 10 ]
+
+c:\>rpn 1 10 range 4 right
+[ 7, 8, 9, 10 ]
+
+c:\>rpn 1 10 range 1 4 range right
+[ [ 10 ], [ 9, 10 ], [ 8, 9, 10 ], [ 7, 8, 9, 10 ] ]
+''' ],
+    'shuffle' : [
+'list_operators', 'randomly shuffles the elements in a list',
+'''
+''',
+'''
+''' ],
+    'slice' : [
+'list_operators', 'returns a slice of list a from starting index b to ending index c',
+'''
+Indices are zero-based, and the ending index is not included in the slice.
+This functionality echoes the Python slicing semantics.  As in Python, a
+negative ending index represents counting backwards from the end of the list.
+
+The starting and ending indices can, of course, be lists, and if they
+are multiple lists will be returned iterating through one or both of the
+operands as needed.
+''',
+'''
+c:\>rpn 1 10 range 0 5 slice
+[ 1, 2, 3, 4, 5 ]
+
+c:\>rpn 1 10 range 5 10 slice
+[ 6, 7, 8, 9, 10 ]
+
+c:\>rpn 1 10 range 2 -1 slice
+[ 3, 4, 5, 6, 7, 8, 9 ]
+
+c:\>rpn 1 10 range 2 -2 slice
+[ 3, 4, 5, 6, 7, 8 ]
+
+c:\>rpn 1 10 range 0 4 range 6 8 range slice -s1
+[
+[ 1, 2, 3, 4, 5, 6 ],
+[ 1, 2, 3, 4, 5, 6, 7 ],
+[ 1, 2, 3, 4, 5, 6, 7, 8 ],
+[ 2, 3, 4, 5, 6 ],
+[ 2, 3, 4, 5, 6, 7 ],
+[ 2, 3, 4, 5, 6, 7, 8 ],
+[ 3, 4, 5, 6 ],
+[ 3, 4, 5, 6, 7 ],
+[ 3, 4, 5, 6, 7, 8 ],
+[ 4, 5, 6 ],
+[ 4, 5, 6, 7 ],
+[ 4, 5, 6, 7, 8 ],
+[ 5, 6 ],
+[ 5, 6, 7 ],
+[ 5, 6, 7, 8 ],
+]
+''' ],
+    'sort' : [
+'list_operators', 'sorts the elements of list n numerically in ascending order',
+'''
+The 'sort' operator gets applied recursively, so all sublists will be sorted as
+well.  I might have to reconsider that.
+''',
+'''
+c:\>rpn [ rand rand rand ] sort
+[ 0.782934612763, 0.956555810967, 0.97728726503 ]
+
+c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
+[ [ 10 ], [ 9 ], [ 8 ], [ 5, 6, 7 ], [ 4 ], [ 3 ], [ 1, 2 ], [ 0 ], [ -1 ] ]
+
+c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] flatten sort
+[ -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+''' ],
+    'sort_descending' : [
+'list_operators', 'sorts the elements of list n numerically in descending order',
+'''
+The 'sort_descending' operator works exactly like the sort operator, sorting
+the list (and all sublists), except in descending order.
+''',
+'''
+c:\>rpn 1 70 6 range2 sort_descending
+[ 67, 61, 55, 49, 43, 37, 31, 25, 19, 13, 7, 1 ]
+
+c:\>rpn 1 20 range countdiv sort_descending
+[ 6, 6, 6, 5, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1 ]
+''' ],
+    'sublist' : [
+'list_operators', 'returns a sublist of list a from starting index b consisting of c items',
+'''
+The index is zero-based.  If c items cannot be returned, then however many
+existing items will be returned instead.
+
+The starting index and count operands can, of course, be lists, and if they
+are multiple lists will be returned iterating through one or both of the
+operands as needed.
+''',
+'''
+c:\>rpn 1 10 range 0 5 sublist
+[ 1, 2, 3, 4, 5 ]
+
+c:\>rpn 1 10 range 1 5 sublist
+[ 2, 3, 4, 5, 6 ]
+
+c:\>rpn 1 10 range 1 3 sublist
+[ 2, 3, 4 ]
+
+Print multiple sublists of 3 items each starting with the first 5 items in
+the list:
+
+c:\>rpn 1 10 range 0 4 range 3 sublist
+[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], [ 4, 5, 6 ], [ 5, 6, 7 ] ]
+
+Print multiple sublists of 1 to 3 items, inclusive, starting with the first
+4 items in the list:
+
+c:\>rpn 1 10 range 0 3 range 1 3 range sublist -s1
+[
+[ 1 ],
+[ 1, 2 ],
+[ 1, 2, 3 ],
+[ 2 ],
+[ 2, 3 ],
+[ 2, 3, 4 ],
+[ 3 ],
+[ 3, 4 ],
+[ 3, 4, 5 ],
+[ 4 ],
+[ 4, 5 ],
+[ 4, 5, 6 ],
+]
+''' ],
+    'union' : [
+'list_operators', 'returns the union of unique elements from two lists',
+'''
+''',
+'''
+''' ],
+    'unique' : [
+'list_operators', 'returns a list of its unique elements',
+'''
+''',
+'''
+c:\>rpn 1 8 range 2 9 range append 3 10 range append unique
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+''' ],
+    'zero' : [
+'list_operators', 'returns a list of the indices of elements in list n that are zero',
+'''
+This operator is useful for applying an operator that returns a binary value
+on a list, and getting a summary of the results.
+
+Indices are zero-based.
+
+(see 'nonzero')
+''',
+'''
+c:\>rpn [ 1 0 2 0 3 0 4 ] zero
+[ 1, 3, 5 ]
+
+List the non-prime Fibonacci numbers:
+
+c:\>rpn 0 20 range fib is_prime zero fib
+[ 0, 1, 1, 8, 21, 34, 55, 144, 377, 610, 987, 2584, 4181, 6765 ]
+''' ],
+
+
 #   'antitet' : [ findTetrahedralNumber, 1 ],
 #   'bernfrac' : [ bernfrac, 1 ],
 }
@@ -7020,4 +6896,6 @@ def main( ):
 
 if __name__ == '__main__':
     main( )
+
+
 

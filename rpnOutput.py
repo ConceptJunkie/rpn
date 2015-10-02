@@ -230,7 +230,9 @@ def formatListOutput( result, level = 0 ):
         if isinstance( item, list ):
             resultString += formatListOutput( item, level + 1 )
         else:
-            if isinstance( item, RPNDateTime ):
+            if isinstance( item, str ):
+                resultString += item
+            elif isinstance( item, RPNDateTime ):
                 resultString += formatDateTime( item )
             elif isinstance( item, Measurement ):
                 itemString = nstr( item.getValue( ) )

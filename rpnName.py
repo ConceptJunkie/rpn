@@ -49,14 +49,26 @@ def getModifiedOnesName( name, code ):
 # //
 # //******************************************************************************
 
-def getSmallNumberName( n ):
-    unitNumberNames = [ '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven',
-                        'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen',
-                        'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen',
-                        'nineteen' ]
+def getSmallNumberName( n, ordinal = False ):
+    unitNumberNames = \
+        [ '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight',
+          'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen',
+          'sixteen', 'seventeen', 'eighteen', 'nineteen' ]
 
-    tensNumberNames = [ '', '', 'twenty', 'thirty', 'forty',
-                        'fifty', 'sixty', 'seventy', 'eighty', 'ninety' ]
+    unitOrdinalNumberNames = \
+        [ '', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh',
+          'eighth', 'ninth', 'tenth', 'eleventh', 'twelfth', 'thirteenth',
+          'fourteenth', 'fifteenth', 'sixteenth', 'seventeenth', 'eighteenth',
+          'nineteenth' ]
+
+    tensNumberNames = \
+        [ '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy',
+          'eighty', 'ninety' ]
+
+    tensOrdinalNumberNames = \
+        [ '', '', 'twentieth', 'thirtieth', 'fortieth',
+          'fiftieth', 'sixtieth', 'seventieth', 'eightieth', 'ninetieth' ]
+
 
     hundreds = n // 100
     tens = ( n // 10 ) % 10
@@ -67,31 +79,51 @@ def getSmallNumberName( n ):
     if hundreds > 0:
         name = unitNumberNames[ hundreds ] + ' hundred'
 
+        if ordinal:
+            if tens == 0 and ones == 0:
+                name += 'th'
+
     if tens > 1:
         if name != '':
             name += ' '
 
-        name += tensNumberNames[ tens ]
+        if ordinal and ones == 0:
+            name += tensOrdinalNumberNames[ tens ]
+        else:
+            name += tensNumberNames[ tens ]
 
     if ones > 0:
         if tens > 1:
             name += '-'
-            name += unitNumberNames[ ones ]
+
+            if ordinal:
+                name += unitOrdinalNumberNames[ ones ]
+            else:
+                name += unitNumberNames[ ones ]
         elif tens == 1:
             if name != '':
                 name += ' '
 
-            name += unitNumberNames[ ones + 10 ]
+            if ordinal:
+                name += unitOrdinalNumberNames[ ones + 10 ]
+            else:
+                name += unitNumberNames[ ones + 10 ]
         else:
             if name != '':
                 name += ' '
 
-            name += unitNumberNames[ ones ]
+            if ordinal:
+                name += unitOrdinalNumberNames[ ones ]
+            else:
+                name += unitNumberNames[ ones ]
     elif tens == 1:
         if name != '':
             name += ' '
 
-        name += unitNumberNames[ 10 ]
+        if ordinal:
+            name += unitOrdinalNumberNames[ 10 ]
+        else:
+            name += unitNumberNames[ 10 ]
 
     return name
 
@@ -160,11 +192,21 @@ def getNumberGroupName( n ):
 
 # //******************************************************************************
 # //
+# //  getOrdinalName
+# //
+# //******************************************************************************
+
+def getOrdinalName( n ):
+    return getNumberName( n, True )
+
+
+# //******************************************************************************
+# //
 # //  getNumberName
 # //
 # //******************************************************************************
 
-def getNumberName( n ):
+def getNumberName( n, ordinal = False ):
     if isinstance( n, Measurement ):
         n = mpf( n )
 
@@ -180,7 +222,7 @@ def getNumberName( n ):
     name = ''
 
     while current > 0:
-        section = getSmallNumberName( int( fmod( current, 1000 ) ) )
+        section = getSmallNumberName( int( fmod( current, 1000 ) ), ordinal )
 
         if section != '':
             groupName = getNumberGroupName( group )
