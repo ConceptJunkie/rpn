@@ -2465,6 +2465,13 @@ concerned, it's an operator that does nothing.
 '''
 ''' ],
 
+    'from_indian_civil' : [
+'calendar', 'converts a date in the Indian civil calendar to the equivalent Gregorian date',
+'''
+''',
+'''
+''' ],
+
     'from_islamic' : [
 'calendar', 'converts a date in the Islamic calendar to the equivalent Gregorian date',
 '''
@@ -2516,6 +2523,20 @@ concerned, it's an operator that does nothing.
 
     'to_hebrew_name' : [
 'calendar', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
+'''
+''',
+'''
+''' ],
+
+    'to_indian_civil' : [
+'calendar', 'converts a date to the equivalent date in the Indian Civil calendar',
+'''
+''',
+'''
+''' ],
+
+    'to_indian_civil_name' : [
+'calendar', 'converts a date to the equivalent date in the Indian Civil calendar with the weekday and month names',
 '''
 ''',
 '''

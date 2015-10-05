@@ -111,6 +111,31 @@ hebrewDays = [
     'Yom Rishon'
 ]
 
+indianCivilDays = (
+    "Somavara",     # Monday
+    "Mangalavara",
+    "Budhavara",
+    "Guruvara",
+    "Sukravara",
+    "Sanivara",
+    "Ravivara",
+)
+
+indianCivilMonths = (
+    "Chaitra",
+    "Vaishakha",
+    "Jyeshtha",
+    "Ashadha",
+    "Shravana",
+    "Bhaadra",
+    "Ashwin",
+    "Kartika",
+    "Agrahayana",
+    "Pausha",
+    "Magha",
+    "Phalguna",
+)
+
 islamicMonths = [
     'Muharram',
     'Safar',
@@ -266,6 +291,45 @@ def getHebrewCalendarDateName( n ):
     date = hebrew.from_gregorian( n.year, n.month, n.day )
 
     return hebrewDays[ n.weekday( ) ] + ', ' + hebrewMonths[ date[ 1 ] - 1 ] + \
+           ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
+
+
+# //******************************************************************************
+# //
+# //  getIndianCivilCalendarDate
+# //
+# //******************************************************************************
+
+def getIndianCivilCalendarDate( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    return list( indian_civil.from_gregorian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  convertIndianCivilDate
+# //
+# //******************************************************************************
+
+def convertIndianCivilDate( year, month, day ):
+    return RPNDateTime( *indian_civil.to_gregorian( int( year ), int( month ), int( day ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getIndianCivilCalendarDateName
+# //
+# //******************************************************************************
+
+def getIndianCivilCalendarDateName( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    date = indian_civil.from_gregorian( n.year, n.month, n.day )
+
+    return indianCivilDays[ n.weekday( ) ] + ', ' + indianCivilMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', ' + str( date[ 0 ] )
 
 
