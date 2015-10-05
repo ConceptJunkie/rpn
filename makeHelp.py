@@ -888,10 +888,14 @@ Added 'sunrise', 'sunset', 'moonrise', 'moonset', 'sun_transit',
 'previous_antitransit', operators.
 
 Added support for calendar conversions (and the Calendar operator type) with
-the following operators: 'hebrew', 'hebrew_name', 'julian_date', 'islamic',
-'islamic_name', 'ordinal_date', 'persian', 'persian_name', 'bahai', 'bahai_name'.
+the following operators: 'to_hebrew', 'to_hebrew_name', 'to_julian_date',
+'to_islamic', 'to_islamic_name', 'to_ordinal_date', 'to_persian',
+'to_persian_name', 'to_bahai', 'to_bahai_name'.
 
 Added the 'ordinal_name' operator.
+
+Added 'from_hebrew', 'from_islamic', 'from_julian', 'from_bahai',
+'from_persian' operators.
 
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
@@ -2437,20 +2441,6 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] xor
 # //
 # //******************************************************************************
 
-    'bahai' : [
-'calendar', 'converts a date to the equivalent date in the Baha\'i',
-'''
-''',
-'''
-''' ],
-
-    'bahai_name' : [
-'calendar', 'converts a date to the equivalent date in the Baha\'i calendar with the weekday and month names',
-'''
-''',
-'''
-''' ],
-
     'calendar' : [
 'calendar', 'prints a month calendar for the date value',
 '''
@@ -2461,29 +2451,36 @@ concerned, it's an operator that does nothing.
 '''
 ''' ],
 
-    'hebrew' : [
-'calendar', 'converts a date to the equivalent date in the Hebrew calendar',
+    'from_bahai' : [
+'calendar', 'converts a date in the Baha\'i calendar to the equivalent Gregorian date',
 '''
 ''',
 '''
 ''' ],
 
-    'hebrew_name' : [
-'calendar', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
+    'from_hebrew' : [
+'calendar', 'converts a date in the Hebrew calendar to the equivalent Gregorian date',
 '''
 ''',
 '''
 ''' ],
 
-    'islamic' : [
-'calendar', 'converts a date to the equivalent date in the Islamic calendar',
+    'from_islamic' : [
+'calendar', 'converts a date in the Islamic calendar to the equivalent Gregorian date',
 '''
 ''',
 '''
 ''' ],
 
-    'islamic_name' : [
-'calendar', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
+    'from_julian' : [
+'calendar', 'converts a date to the equivalent date in the Julian calendar',
+'''
+''',
+'''
+''' ],
+
+    'from_persian' : [
+'calendar', 'converts a date in the Persian calendar to the equivalent Gregorian date',
 '''
 ''',
 '''
@@ -2496,28 +2493,70 @@ concerned, it's an operator that does nothing.
 '''
 ''' ],
 
-    'julian' : [
+    'to_bahai' : [
+'calendar', 'converts a date to the equivalent date in the Baha\'i',
+'''
+''',
+'''
+''' ],
+
+    'to_bahai_name' : [
+'calendar', 'converts a date to the equivalent date in the Baha\'i calendar with the weekday and month names',
+'''
+''',
+'''
+''' ],
+
+    'to_hebrew' : [
+'calendar', 'converts a date to the equivalent date in the Hebrew calendar',
+'''
+''',
+'''
+''' ],
+
+    'to_hebrew_name' : [
+'calendar', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
+'''
+''',
+'''
+''' ],
+
+    'to_islamic' : [
+'calendar', 'converts a date to the equivalent date in the Islamic calendar',
+'''
+''',
+'''
+''' ],
+
+    'to_islamic_name' : [
+'calendar', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
+'''
+''',
+'''
+''' ],
+
+    'to_julian' : [
 'calendar', 'converts a date to the equivalent date in the Julian calendar',
 '''
 ''',
 '''
 ''' ],
 
-    'ordinal_date' : [
+    'to_ordinal_date' : [
 'calendar', 'returns the date in the Ordinal Date format',
 '''
 ''',
 '''
 ''' ],
 
-    'persian' : [
+    'to_persian' : [
 'calendar', 'converts a date to the equivalent date in the Persian calendar',
 '''
 ''',
 '''
 ''' ],
 
-    'persian_name' : [
+    'to_persian_name' : [
 'calendar', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
 '''
 ''',

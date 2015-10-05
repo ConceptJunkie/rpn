@@ -245,6 +245,16 @@ def getHebrewCalendarDate( n ):
 
 # //******************************************************************************
 # //
+# //  convertHebrewDate
+# //
+# //******************************************************************************
+
+def convertHebrewDate( year, month, day ):
+    return RPNDateTime( *hebrew.to_gregorian( int( year ), int( month ), int( day ) ) )
+
+
+# //******************************************************************************
+# //
 # //  getHebrewCalendarDateName
 # //
 # //******************************************************************************
@@ -270,6 +280,16 @@ def getIslamicCalendarDate( n ):
         raise ValueError( 'time type required for this operator' )
 
     return list( islamic.from_gregorian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  convertIslamicDate
+# //
+# //******************************************************************************
+
+def convertIslamicDate( year, month, day ):
+    return RPNDateTime( *islamic.to_gregorian( int( year ), int( month ), int( day ) ) )
 
 
 # //******************************************************************************
@@ -303,6 +323,16 @@ def getJulianCalendarDate( n ):
 
 # //******************************************************************************
 # //
+# //  convertJulianDate
+# //
+# //******************************************************************************
+
+def convertJulianDate( year, month, day ):
+    return RPNDateTime( *julian.to_gregorian( int( year ), int( month ), int( day ) ) )
+
+
+# //******************************************************************************
+# //
 # //  getPersianCalendarDate
 # //
 # //******************************************************************************
@@ -312,6 +342,16 @@ def getPersianCalendarDate( n ):
         raise ValueError( 'time type required for this operator' )
 
     return list( persian.from_gregorian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  convertPersianDate
+# //
+# //******************************************************************************
+
+def convertPersianDate( year, month, day ):
+    return RPNDateTime( *persian.to_gregorian( int( year ), int( month ), int( day ) ) )
 
 
 # //******************************************************************************
@@ -341,6 +381,16 @@ def getBahaiCalendarDate( n ):
         raise ValueError( 'time type required for this operator' )
 
     return list( bahai.from_gregorian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  convertBahaiDate
+# //
+# //******************************************************************************
+
+def convertBahaiDate( year, month, day ):
+    return RPNDateTime( *bahai.to_gregorian( int( year ), int( month ), int( day ) ) )
 
 
 # //******************************************************************************
