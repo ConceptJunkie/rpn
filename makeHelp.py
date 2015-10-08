@@ -2442,9 +2442,9 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] xor
 # //******************************************************************************
 
     'calendar' : [
-'calendar', 'prints a month calendar for the date value',
+'calendars', 'prints a month calendar for the date value',
 '''
-The 'calendar' operator is special in that what it prints out is a side-effect.
+The 'calendars' operator is special in that what it prints out is a side-effect.
 It actually returns the date value passed in as a result, so as far as rpn is
 concerned, it's an operator that does nothing.
 ''',
@@ -2452,161 +2452,161 @@ concerned, it's an operator that does nothing.
 ''' ],
 
     'from_bahai' : [
-'calendar', 'converts a date in the Baha\'i calendar to the equivalent Gregorian date',
+'calendars', 'converts a date in the Baha\'i calendar to the equivalent Gregorian date',
 '''
 ''',
 '''
 ''' ],
 
     'from_hebrew' : [
-'calendar', 'converts a date in the Hebrew calendar to the equivalent Gregorian date',
+'calendars', 'converts a date in the Hebrew calendar to the equivalent Gregorian date',
 '''
 ''',
 '''
 ''' ],
 
     'from_indian_civil' : [
-'calendar', 'converts a date in the Indian civil calendar to the equivalent Gregorian date',
+'calendars', 'converts a date in the Indian civil calendar to the equivalent Gregorian date',
 '''
 ''',
 '''
 ''' ],
 
     'from_islamic' : [
-'calendar', 'converts a date in the Islamic calendar to the equivalent Gregorian date',
+'calendars', 'converts a date in the Islamic calendar to the equivalent Gregorian date',
 '''
 ''',
 '''
 ''' ],
 
     'from_julian' : [
-'calendar', 'converts a date to the equivalent date in the Julian calendar',
+'calendars', 'converts a date to the equivalent date in the Julian calendar',
 '''
 ''',
 '''
 ''' ],
 
     'from_mayan' : [
-'calendar', 'converts a date in the Mayan long count calendar to the equivalent Gregorian date',
+'calendars', 'converts a date in the Mayan long count calendar to the equivalent Gregorian date',
 '''
 ''',
 '''
 ''' ],
 
     'from_persian' : [
-'calendar', 'converts a date in the Persian calendar to the equivalent Gregorian date',
+'calendars', 'converts a date in the Persian calendar to the equivalent Gregorian date',
 '''
 ''',
 '''
 ''' ],
 
     'iso_date' : [
-'calendar', 'returns the date in the ISO format',
+'calendars', 'returns the date in the ISO format',
 '''
 ''',
 '''
 ''' ],
 
     'to_bahai' : [
-'calendar', 'converts a date to the equivalent date in the Baha\'i',
+'calendars', 'converts a date to the equivalent date in the Baha\'i',
 '''
 ''',
 '''
 ''' ],
 
     'to_bahai_name' : [
-'calendar', 'converts a date to the equivalent date in the Baha\'i calendar with the weekday and month names',
+'calendars', 'converts a date to the equivalent date in the Baha\'i calendar with the weekday and month names',
 '''
 ''',
 '''
 ''' ],
 
     'to_hebrew' : [
-'calendar', 'converts a date to the equivalent date in the Hebrew calendar',
+'calendars', 'converts a date to the equivalent date in the Hebrew calendar',
 '''
 ''',
 '''
 ''' ],
 
     'to_hebrew_name' : [
-'calendar', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
+'calendars', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
 '''
 ''',
 '''
 ''' ],
 
     'to_indian_civil' : [
-'calendar', 'converts a date to the equivalent date in the Indian Civil calendar',
+'calendars', 'converts a date to the equivalent date in the Indian Civil calendar',
 '''
 ''',
 '''
 ''' ],
 
     'to_indian_civil_name' : [
-'calendar', 'converts a date to the equivalent date in the Indian Civil calendar with the weekday and month names',
+'calendars', 'converts a date to the equivalent date in the Indian Civil calendar with the weekday and month names',
 '''
 ''',
 '''
 ''' ],
 
     'to_islamic' : [
-'calendar', 'converts a date to the equivalent date in the Islamic calendar',
+'calendars', 'converts a date to the equivalent date in the Islamic calendar',
 '''
 ''',
 '''
 ''' ],
 
     'to_islamic_name' : [
-'calendar', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
+'calendars', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
 '''
 ''',
 '''
 ''' ],
 
     'to_julian' : [
-'calendar', 'converts a date to the equivalent date in the Julian calendar',
+'calendars', 'converts a date to the equivalent date in the Julian calendar',
 '''
 ''',
 '''
 ''' ],
 
     'to_mayan' : [
-'calendar', 'converts a date to the equivalent date in the Mayan long count calendar',
+'calendars', 'converts a date to the equivalent date in the Mayan long count calendar',
 '''
 ''',
 '''
 ''' ],
 
     'to_mayan_name' : [
-'calendar', 'converts a date to the equivalent date in the Mayan calendar with... ',
+'calendars', 'converts a date to the equivalent date in the Mayan calendar with... ',
 '''
 ''',
 '''
 ''' ],
 
     'to_ordinal_date' : [
-'calendar', 'returns the date in the Ordinal Date format',
+'calendars', 'returns the date in the Ordinal Date format',
 '''
 ''',
 '''
 ''' ],
 
     'to_persian' : [
-'calendar', 'converts a date to the equivalent date in the Persian calendar',
+'calendars', 'converts a date to the equivalent date in the Persian calendar',
 '''
 ''',
 '''
 ''' ],
 
     'to_persian_name' : [
-'calendar', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
+'calendars', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
 '''
 ''',
 '''
 ''' ],
 
     'year_calendar' : [
-'calendar', 'prints a month calendar for the date value',
+'calendars', 'prints a month calendar for the date value',
 '''
 The 'year_calendar' operator is special in that what it prints out is a
 side-effect.  It actually returns the date value passed in as a result, so as
