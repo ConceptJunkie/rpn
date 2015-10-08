@@ -288,9 +288,9 @@ def getNthPadovanNumber( arg ):
     s = fsub( fmul( fdiv( d, -6 ), a ), fdiv( fmul( c, b ), fmul( 2, e ) ) )
     t = fsub( fmul( fdiv( c, -6 ), a ), fdiv( fmul( d, b ), fmul( 2, e ) ) )
 
-    return round( re( fsum( [ fdiv( power( r, n ), fadd( fmul( 2, r ), 3 ) ),
-                              fdiv( power( s, n ), fadd( fmul( 2, s ), 3 ) ),
-                              fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
+    return nint( re( fsum( [ fdiv( power( r, n ), fadd( fmul( 2, r ), 3 ) ),
+                             fdiv( power( s, n ), fadd( fmul( 2, s ), 3 ) ),
+                             fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
 
 
 # //******************************************************************************

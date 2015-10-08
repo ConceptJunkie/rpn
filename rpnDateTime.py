@@ -2,9 +2,9 @@
 
 # //******************************************************************************
 # //
-# //  rpnDate.py
+# //  rpnDateTime.py
 # //
-# //  RPN command-line calculator date operators
+# //  RPN command-line calculator date and time operations
 # //  copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -15,9 +15,15 @@
 import arrow
 import calendar
 import datetime
+import ephem
 
-from rpnDeclarations import *
-from rpnTime import *
+from dateutil import tz
+from rpnMeasurement import *
+from rpnUtils import debugPrint
+
+import rpnGlobals as g
+
+from mpmath import *
 
 
 # //******************************************************************************
@@ -46,6 +52,281 @@ September = 9
 October = 10
 November = 11
 December = 12
+
+
+# //******************************************************************************
+# //
+# //  class RPNDateTime
+# //
+# //******************************************************************************
+
+class RPNDateTime( arrow.Arrow ):
+    def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
+                  microsecond = 0, tzinfo = None, dateOnly = False ):
+        self.dateOnly = dateOnly
+        super( RPNDateTime, self ).__init__( int( year ), int( month ), int( day ),
+                                             int( hour ), int( minute ), int( second ),
+                                             microsecond, tzinfo )
+
+    def setDateOnly( self, dateOnly = True ):
+        self.dateOnly = dateOnly
+
+    def getDateOnly( self ):
+        return self.dateOnly
+
+    def get( self, *args, **kwargs ):
+        result = arrow.api.get( *args, **kwargs )
+
+        return RPNDateTime( result.year, result.month, result.day, result.hour,
+                            result.minute, result.second, result.microsecond, result.tzinfo )
+
+    # returned object won't have the right timezone, TODO: fix that and fix DST calculation
+    # The real problem here is that arrow timezone conversion doesn't work for times before the Unix epoch.  Duh.
+    def getLocalTime( rpnDateTime ):
+        offset = tz.tzlocal( ).utcoffset( arrow.now( ) )
+        return rpnDateTime + offset
+
+    @staticmethod
+    def parseDateTime( n ):
+        result = arrow.api.get( n )
+
+        return RPNDateTime( result.year, result.month, result.day, result.hour,
+                            result.minute, result.second, result.microsecond, result.tzinfo )
+
+    @staticmethod
+    def convertFromArrow( arrow ):
+        return RPNDateTime( arrow.year, arrow.month, arrow.day, arrow.hour,
+                            arrow.minute, arrow.second, arrow.microsecond, arrow.tzinfo )
+
+    @staticmethod
+    def convertFromEphemDate( ephem_date ):
+        dateValues = list( ephem_date.tuple( ) )
+
+        dateValues.append( int( fmul( fsub( dateValues[ 5 ], floor( dateValues[ 5 ] ) ), 1000000 ) ) )
+        dateValues[ 5 ] = int( floor( dateValues[ 5 ] ) )
+
+        return RPNDateTime( *dateValues )
+
+    @staticmethod
+    def getNow( ):
+        return RPNDateTime.convertFromArrow( arrow.now( ) )
+
+    def incrementMonths( self, months ):
+        newDay = self.day
+        newMonth = self.month + int( months )
+        newYear = self.year
+
+        if newMonth < 1 or newMonth > 12:
+            newYear += ( newMonth - 1 ) // 12
+            newMonth = ( ( newMonth - 1 ) % 12 ) + 1
+
+        maxDay = calendar.monthrange( newYear, newMonth )[ 1 ]
+
+        if newDay > maxDay:
+            newDay = maxDay
+
+        return RPNDateTime( newYear, newMonth, newDay, self.hour, self.minute, self.second )
+
+    def add( self, time ):
+        if not isinstance( time, RPNMeasurement ):
+            ValueError( 'RPNMeasurement expected' )
+
+        if 'years' in g.unitOperators[ time.getUnitString( ) ].categories:
+            years = convertUnits( time, 'year' ).getValue( )
+            return self.replace( year = self.year + years )
+        elif 'months' in g.unitOperators[ time.getUnitString( ) ].categories:
+            months = convertUnits( time, 'month' ).getValue( )
+            result = incrementMonths( self, months )
+            return result
+        else:
+            days = int( floor( convertUnits( time, 'day' ).getValue( ) ) )
+            seconds = int( fmod( floor( convertUnits( time, 'second' ).getValue( ) ), 86400 ) )
+            microseconds = int( fmod( floor( convertUnits( time, 'microsecond' ).getValue( ) ), 1000000 ) )
+
+            try:
+                return self + datetime.timedelta( days = days, seconds = seconds, microseconds = microseconds )
+            except OverflowError:
+                print( 'rpn:  value is out of range to be converted into a time' )
+                return 0
+
+    def subtract( self, time ):
+        if isinstance( time, RPNMeasurement ):
+            kneg = RPNMeasurement( fneg( time.getValue( ) ), time.getUnits( ) )
+            return self.add( self, kneg )
+        elif isinstance( time, RPNDateTime ):
+            if self > time:
+                delta = self - time
+                factor = 1
+            else:
+                delta = time - self
+                factor = -1
+
+            if delta.days != 0:
+                result = RPNMeasurement( delta.days * factor, 'day' )
+                result = result.add( RPNMeasurement( delta.seconds * factor, 'second' ) )
+                result = result.add( RPNMeasurement( delta.microseconds * factor, 'microsecond' ) )
+            elif delta.seconds != 0:
+                result = RPNMeasurement( delta.seconds * factor, 'second' )
+                result = result.add( RPNMeasurement( delta.microseconds * factor, 'microsecond' ) )
+            else:
+                result = RPNMeasurement( delta.microseconds * factor, 'microsecond' )
+
+            return result
+        else:
+            raise ValueError( 'incompatible type for subtracting from an absolute time' )
+
+
+#//******************************************************************************
+#//
+#//  convertToUnixTime
+#//
+#//******************************************************************************
+
+def convertToUnixTime( n ):
+    try:
+        result = RPNDateTime.parseDateTime( n ).timestamp
+    except OverflowError as error:
+        print( 'rpn:  out of range error for \'to_unix_time\'' )
+        return 0
+    except TypeError as error:
+        print( 'rpn:  expected time value for \'to_unix_time\'' )
+        return 0
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  convertFromUnixTime
+#//
+#//******************************************************************************
+
+def convertFromUnixTime( n ):
+    try:
+        result = RPNDateTime.parseDateTime( n )
+    except OverflowError as error:
+        print( 'rpn:  out of range error for \'from_unix_time\'' )
+        return 0
+    except TypeError as error:
+        print( 'rpn:  expected time value for \'from_unix_time\'' )
+        return 0
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  convertToHMS
+#//
+#//******************************************************************************
+
+def convertToHMS( n ):
+    return convertUnits( n, [ RPNMeasurement( 1, { 'hour' : 1 } ),
+                              RPNMeasurement( 1, { 'minute' : 1 } ),
+                              RPNMeasurement( 1, { 'second' : 1 } ) ] )
+
+
+#//******************************************************************************
+#//
+#//  convertToDHMS
+#//
+#//******************************************************************************
+
+def convertToDHMS( n ):
+    return convertUnits( n, [ RPNMeasurement( 1, { 'day' : 1 } ),
+                              RPNMeasurement( 1, { 'hour' : 1 } ),
+                              RPNMeasurement( 1, { 'minute' : 1 } ),
+                              RPNMeasurement( 1, { 'second' : 1 } ) ] )
+
+
+#//******************************************************************************
+#//
+#//  convertToYDHMS
+#//
+#//******************************************************************************
+
+def convertToYDHMS( n ):
+    return convertUnits( n, [ RPNMeasurement( 1, { 'year' : 1 } ),
+                              RPNMeasurement( 1, { 'day' : 1 } ),
+                              RPNMeasurement( 1, { 'hour' : 1 } ),
+                              RPNMeasurement( 1, { 'minute' : 1 } ),
+                              RPNMeasurement( 1, { 'second' : 1 } ) ] )
+
+
+#//******************************************************************************
+#//
+#//  makeJulianTime
+#//
+#//******************************************************************************
+
+def makeJulianTime( n ):
+    if len( n ) == 1:
+        return RPNDateTime( n[ 0 ], 1, 1 )
+
+    result = RPNDateTime( n[ 0 ], 1, 1 ).add( RPNMeasurement( n[ 1 ] - 1, 'day' ) )
+
+    if len( n ) >= 3:
+        result = result.replace( hour = n[ 2 ] )
+
+    if len( n ) >= 4:
+        result = result.replace( minute = n[ 3 ] )
+
+    if len( n ) >= 5:
+        result = result.replace( second = n[ 4 ] )
+
+    if len( n ) >= 6:
+        result = result.replace( microsecond = n[ 5 ] )
+
+    return result
+
+
+#//******************************************************************************
+#//
+#//  makeISOTime
+#//
+#//******************************************************************************
+
+def makeISOTime( n ):
+    if len( n ) == 1:
+        year = n[ 0 ]
+        week = 1
+        day = 1
+    elif len( n ) == 2:
+        year = n[ 0 ]
+        week = n[ 1 ]
+        day = 1
+    else:
+        year = n[ 0 ]
+        week = n[ 1 ]
+        day = n[ 2 ]
+
+    result = datetime.datetime.strptime( '%04d-%02d-%1d' % ( year, week, day ), '%Y-%W-%w' )
+
+    if RPNDateTime( year, 1, 4 ).isoweekday( ) > 4:
+        result -= datetime.timedelta( days = 7 )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  makeTime
+# //
+# //******************************************************************************
+
+def makeTime( n ):
+    if isinstance( n, str ):
+        return RPNDateTime.get( n )
+
+    if len( n ) == 1:
+        n.append( 1 )
+
+    if len( n ) == 2:
+        n.append( 1 )
+    elif len( n ) > 7:
+        n = n[ : 7 ]
+
+    return RPNDateTime( *n )
 
 
 # //******************************************************************************
@@ -128,7 +409,7 @@ def calculateEaster( year ):
 # //******************************************************************************
 
 def calculateAshWednesday( year ):
-    return calculateEaster( year ).add( Measurement( -46, 'day' ) )
+    return calculateEaster( year ).add( RPNMeasurement( -46, 'day' ) )
 
 
 # //******************************************************************************
@@ -176,7 +457,7 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
         if firstWeekDay < 1:
             firstWeekDay += 7
 
-        result = RPNDateTime( year, 1, firstWeekDay ).add( Measurement( nth - 1, 'week' ) )
+        result = RPNDateTime( year, 1, firstWeekDay ).add( RPNMeasurement( nth - 1, 'week' ) )
         result.setDateOnly( )
 
         return result
@@ -190,7 +471,7 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
 
         lastWeekDay += 31
 
-        result = RPNDateTime( year, 12, lastWeekDay, dateOnly = True ).add( Measurement( ( nth + 1 ), 'week' ) )
+        result = RPNDateTime( year, 12, lastWeekDay, dateOnly = True ).add( RPNMeasurement( ( nth + 1 ), 'week' ) )
         result.setDateOnly( )
 
         return result
@@ -390,4 +671,5 @@ def getWeekday( n ):
         raise ValueError( 'time type required for this operator' )
 
     return calendar.day_name[ n.weekday( ) ]
+
 

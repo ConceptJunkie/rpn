@@ -129,10 +129,10 @@ def handleOutput( valueList ):
                 outputString = formatOutput( resultString )
 
                 # handle the units if we are displaying a measurement
-                if isinstance( result, Measurement ):
+                if isinstance( result, RPNMeasurement ):
                     outputString += ' ' + formatUnits( result )
 
-            printParagraph( outputString )
+            print( outputString )
 
             # handle --identify
             if g.identify:

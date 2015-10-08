@@ -1137,7 +1137,7 @@ def getNthTripletPrime( arg ):
 # //
 # //  getNextQuintupletPrimeCandidate
 # //
-# //  For ( p - 10 ) mod 30 , the only quintuplet prime candidates are:
+# //  For ( p - 10 ) mod 30, the only quintuplet prime candidates are:
 # //  1, 7, 21, or 27
 # //
 # //******************************************************************************

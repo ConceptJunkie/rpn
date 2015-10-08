@@ -14,7 +14,7 @@
 
 from mpmath import *
 
-from rpnMeasurement import Measurement
+from rpnMeasurement import RPNMeasurement
 
 
 # //******************************************************************************
@@ -207,7 +207,7 @@ def getOrdinalName( n ):
 # //******************************************************************************
 
 def getNumberName( n, ordinal = False ):
-    if isinstance( n, Measurement ):
+    if isinstance( n, RPNMeasurement ):
         n = mpf( n )
 
     if n == 0:

@@ -19,6 +19,12 @@ import six
 if six.PY3:
     import builtins
 
+def debugPrint( *args, **kwargs ):
+    if g.debugMode:
+        builtins.print( *args, **kwargs )
+    else:
+        return
+
 import arrow
 import bz2
 import contextlib
@@ -30,6 +36,7 @@ import signal
 from mpmath import *
 from random import randrange
 
+from rpnDateTime import RPNDateTime
 from rpnDeclarations import *
 from rpnUnitClasses import UnitTypeInfo
 from rpnVersion import *
@@ -177,20 +184,6 @@ def loadHelpData( ):
 
 # //******************************************************************************
 # //
-# //  loadUnitConversionMatrix
-# //
-# //******************************************************************************
-
-def loadUnitConversionMatrix( ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
-            g.unitConversionMatrix.update( pickle.load( pickleFile ) )
-    except FileNotFoundError:
-        print( 'rpn:  Unable to load unit conversion data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
-
-
-# //******************************************************************************
-# //
 # //  removeUnderscores
 # //
 # //******************************************************************************
@@ -205,19 +198,6 @@ def removeUnderscores( source ):
             result += c
 
     return result
-
-
-# //******************************************************************************
-# //
-# //  debugPrint
-# //
-# //******************************************************************************
-
-def debugPrint( *args, **kwargs ):
-    if g.debugMode:
-        builtins.print( *args, **kwargs )
-    else:
-        return
 
 
 # //******************************************************************************
@@ -353,15 +333,15 @@ def parseInputValue( term, inputRadix ):
         innerChars = term[ 1 : -1 ]
 
     if ( '-' in innerChars ) or ( ':' in innerChars ):
-        try:
+        #try:
             datetime = arrow.get( term )
             datetime = RPNDateTime( datetime.year, datetime.month, datetime.day, datetime.hour,
                                     datetime.minute, datetime.second, datetime.microsecond,
                                     datetime.tzinfo )
-        except:
-            raise ValueError( 'error parsing datetime' )
+        #except:
+        #    raise ValueError( 'error parsing datetime' )
 
-        return datetime
+            return datetime
 
     if term == '0':
         return mpmathify( 0 )

@@ -13,98 +13,12 @@
 # //******************************************************************************
 
 import arrow
-import calendar
 import datetime
 
 from rpnMeasurement import *
 from rpnUtils import *
 
-
-#//******************************************************************************
-#//
-#//  incrementMonths
-#//
-#//******************************************************************************
-
-def incrementMonths( n, months ):
-    newDay = n.day
-    newMonth = n.month + int( months )
-    newYear = n.year
-
-    if newMonth < 1 or newMonth > 12:
-        newYear += ( newMonth - 1 ) // 12
-        newMonth = ( ( newMonth - 1 ) % 12 ) + 1
-
-    maxDay = calendar.monthrange( newYear, newMonth )[ 1 ]
-
-    if newDay > maxDay:
-        newDay = maxDay
-
-    return RPNDateTime( newYear, newMonth, newDay, n.hour, n.minute, n.second )
-
-
-# //******************************************************************************
-# //
-# //  addTimes
-# //
-# //  arrow + measurement
-# //
-# //******************************************************************************
-
-def addTimes( n, k ):
-    if 'years' in g.unitOperators[ k.getUnitString( ) ].categories:
-        years = convertUnits( k, 'year' ).getValue( )
-        return n.replace( year = n.year + years )
-    elif 'months' in g.unitOperators[ k.getUnitString( ) ].categories:
-        months = convertUnits( k, 'month' ).getValue( )
-        result = incrementMonths( n, months )
-        return result
-    else:
-        days = int( floor( convertUnits( k, 'day' ).getValue( ) ) )
-        seconds = int( fmod( floor( convertUnits( k, 'second' ).getValue( ) ), 86400 ) )
-        microseconds = int( fmod( floor( convertUnits( k, 'microsecond' ).getValue( ) ), 1000000 ) )
-
-        try:
-            return n + datetime.timedelta( days = days, seconds = seconds, microseconds = microseconds )
-        except OverflowError:
-            print( 'rpn:  value is out of range to be converted into a time' )
-            return 0
-
-
-#//******************************************************************************
-#//
-#//  subtractTimes
-#//
-#//  arrow - measurement
-#//
-#//******************************************************************************
-
-def subtractTimes( n, k ):
-    if isinstance( k, Measurement ):
-        kneg = Measurement( fneg( k.getValue( ) ), k.getUnits( ) )
-        return addTimes( n, kneg )
-    elif isinstance( k, RPNDateTime ):
-        if n > k:
-            delta = n - k
-            factor = 1
-        else:
-            delta = k - n
-            factor = -1
-
-        if delta.days != 0:
-            result = Measurement( delta.days * factor, 'day' )
-            result = result.add( Measurement( delta.seconds * factor, 'second' ) )
-            result = result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
-        elif delta.seconds != 0:
-            result = Measurement( delta.seconds * factor, 'second' )
-            result = result.add( Measurement( delta.microseconds * factor, 'microsecond' ) )
-        else:
-            result = Measurement( delta.microseconds * factor, 'microsecond' )
-
-        return result
-    else:
-        raise ValueError( 'incompatible type for subtracting from an absolute time' )
-
+from rpnDeclarations import RPNDateTime
 
 
 #//******************************************************************************
@@ -190,7 +104,7 @@ def makeJulianTime( n ):
     if len( n ) == 1:
         return RPNDateTime( n[ 0 ], 1, 1 )
 
-    result = addTimes( RPNDateTime( n[ 0 ], 1, 1 ), Measurement( n[ 1 ] - 1, 'day' ) )
+    result = RPNDateTime( n[ 0 ], 1, 1 ).add( Measurement( n[ 1 ] - 1, 'day' ) )
 
     if len( n ) >= 3:
         result = result.replace( hour = n[ 2 ] )

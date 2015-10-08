@@ -14,9 +14,8 @@
 
 from mpmath import *
 
-from rpnDate import *
-from rpnMeasurement import *
-from rpnTime import *
+from rpnDateTime import *
+from rpnMeasurement import RPNMeasurement
 
 
 # //******************************************************************************
@@ -30,14 +29,14 @@ from rpnTime import *
 # //******************************************************************************
 
 def add( n, k ):
-    if isinstance( n, RPNDateTime ) and isinstance( k, Measurement ):
-        return addTimes( n, k )
-    elif isinstance( n, Measurement ) and isinstance( k, RPNDateTime ):
-        return addTimes( k, n )
-    elif isinstance( n, Measurement ):
+    if isinstance( n, RPNDateTime ) and isinstance( k, RPNMeasurement ):
         return n.add( k )
-    elif isinstance( k, Measurement ):
-        return Measurement( n ).add( k )
+    elif isinstance( n, RPNMeasurement ) and isinstance( k, RPNDateTime ):
+        return k.add( n )
+    elif isinstance( n, RPNMeasurement ):
+        return n.add( k )
+    elif isinstance( k, RPNMeasurement ):
+        return RPNMeasurement( n ).add( k )
     else:
         return fadd( n, k )
 
@@ -53,14 +52,14 @@ def add( n, k ):
 
 def subtract( n, k ):
     if isinstance( n, RPNDateTime ):
-        return subtractTimes( n, k )
-    elif isinstance( n, Measurement ):
+        return n.subtract( k )
+    elif isinstance( n, RPNMeasurement ):
         if isinstance( k, RPNDateTime ):
-            return subtractTimes( k, n )
+            return k.subtract( n )
         else:
             return n.subtract( k )
-    elif isinstance( k, Measurement ):
-        return Measurement( n ).subtract( k )
+    elif isinstance( k, RPNMeasurement ):
+        return RPNMeasurement( n ).subtract( k )
     else:
         return fsub( n, k )
 
@@ -72,8 +71,8 @@ def subtract( n, k ):
 # //******************************************************************************
 
 def getNegative( n ):
-    if isinstance( n, Measurement ):
-        return Measurement( fneg( n.getValue( ) ), n.getUnits( ) )
+    if isinstance( n, RPNMeasurement ):
+        return RPNMeasurement( fneg( n.getValue( ) ), n.getUnits( ) )
     else:
         return fneg( n )
 
@@ -90,10 +89,10 @@ def getNegative( n ):
 # //******************************************************************************
 
 def divide( n, k ):
-    if isinstance( n, Measurement ):
+    if isinstance( n, RPNMeasurement ):
         return n.divide( k )
-    elif isinstance( k, Measurement ):
-        return Measurement( n ).divide( k )
+    elif isinstance( k, RPNMeasurement ):
+        return RPNMeasurement( n ).divide( k )
     else:
         return fdiv( n, k )
 
@@ -109,10 +108,10 @@ def divide( n, k ):
 # //******************************************************************************
 
 def multiply( n, k ):
-    if isinstance( n, Measurement ):
+    if isinstance( n, RPNMeasurement ):
         return n.multiply( k )
-    elif isinstance( k, Measurement ):
-        return Measurement( n ).multiply( k )
+    elif isinstance( k, RPNMeasurement ):
+        return RPNMeasurement( n ).multiply( k )
     else:
         return fmul( n, k )
 
@@ -124,9 +123,9 @@ def multiply( n, k ):
 # //******************************************************************************
 
 def exponentiate( n, k ):
-    if isinstance( n, Measurement ):
+    if isinstance( n, RPNMeasurement ):
         return n.exponentiate( k )
-    elif isinstance( k, Measurement ):
+    elif isinstance( k, RPNMeasurement ):
         raise ValueError( 'a measurement cannot be exponentiated (yet)' )
     else:
         return power( n, k )
@@ -137,12 +136,12 @@ def exponentiate( n, k ):
 # //  takeReciprocal
 # //
 # //  We used to be able to call fdiv directly, but now we want to handle
-# //  Measurements.
+# //  RPNMeasurements.
 # //
 # //******************************************************************************
 
 def takeReciprocal( n ):
-    if isinstance( n, Measurement ):
+    if isinstance( n, RPNMeasurement ):
         return n.invert( )
     else:
         return fdiv( 1, n )
@@ -207,8 +206,8 @@ def isSquare( n ):
 # //******************************************************************************
 
 def performTrigOperation( i, operation ):
-    if isinstance( i, Measurement ):
-        value = mpf( i.convertValue( Measurement( 1, { 'radian' : 1 } ) ) )
+    if isinstance( i, RPNMeasurement ):
+        value = mpf( i.convertValue( RPNMeasurement( 1, { 'radian' : 1 } ) ) )
     else:
         value = i
 

@@ -12,9 +12,11 @@
 # //
 # //******************************************************************************
 
+import struct
+
 from mpmath import *
 
-from rpnMeasurement import *
+from rpnMeasurement import RPNMeasurement
 from rpnUtils import *
 
 import rpnGlobals as g
@@ -126,7 +128,7 @@ def performBitwiseOperation( i, j, operation ):
 def getBitCount( n ):
     result = 0
 
-    if isinstance( n, Measurement ):
+    if isinstance( n, RPNMeasurement ):
         value = n.getValue( )
     else:
         value = int( n )

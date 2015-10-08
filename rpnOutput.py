@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 
 # //******************************************************************************
 # //
@@ -31,27 +31,15 @@ import textwrap
 
 from mpmath import *
 
-from rpnDate import RPNDateTime
+from rpnDateTime import RPNDateTime
 from rpnDeclarations import PROGRAM_NAME, PROGRAM_DESCRIPTION
-from rpnMeasurement import *
+from rpnMeasurement import RPNMeasurement
 from rpnNumberTheory import getNthLucasNumber
 from rpnPolytope import getNthPolygonalNumber
 from rpnPrimeUtils import getNthPrimorial
+from rpnUtils import *
 
 import rpnGlobals as g
-
-
-# //******************************************************************************
-# //
-# //  debugPrint
-# //
-# //******************************************************************************
-
-def debugPrint( *args, **kwargs ):
-    if g.debugMode:
-        builtins.print( *args, **kwargs )
-    else:
-        return
 
 
 # //******************************************************************************
@@ -234,7 +222,7 @@ def formatListOutput( result, level = 0 ):
                 resultString += item
             elif isinstance( item, RPNDateTime ):
                 resultString += formatDateTime( item )
-            elif isinstance( item, Measurement ):
+            elif isinstance( item, RPNMeasurement ):
                 itemString = nstr( item.getValue( ) )
 
                 resultString += formatOutput( itemString )

@@ -19,9 +19,8 @@ import datetime
 from convertdate import *
 from dateutil import tz
 
-from rpnMeasurement import *
+from rpnDateTime import RPNDateTime
 from rpnName import getOrdinalName
-from rpnTime import *
 
 
 # //******************************************************************************
@@ -335,6 +334,30 @@ def getIndianCivilCalendarDateName( n ):
 
 # //******************************************************************************
 # //
+# //  getMayanCalendarDate
+# //
+# //******************************************************************************
+
+def getMayanCalendarDate( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'time type required for this operator' )
+
+    return list( mayan.from_gregorian( n.year, n.month, n.day ) )
+
+
+# //******************************************************************************
+# //
+# //  convertMayanDate
+# //
+# //******************************************************************************
+
+def convertMayanDate( baktun, katun, tun, uinal, kin ):
+    return RPNDateTime( *mayan.to_gregorian( int( baktun ), int( katun ), int( tun ), \
+                        int( uinal ), int( kin ) ) )
+
+
+# //******************************************************************************
+# //
 # //  getIslamicCalendarDate
 # //
 # //******************************************************************************
@@ -472,8 +495,10 @@ def getBahaiCalendarDateName( n ):
     result = bahaiDays[ n.weekday( ) ] + ', ' + bahaiMonths[ date[ 1 ] - 1 ] + \
            ' ' + str( date[ 2 ] ) + ', '
 
+    print( date )
+
     if date[ 0 ] >= 1:
-        result += 'Year ' + bahaiYears[ date[ 0 ] % 19 ] + ' of the ' + \
+        result += 'Year ' + bahaiYears[ date[ 0 ] % 19 - 1 ] + ' of the ' + \
                   getOrdinalName( ( date[ 0 ] / 19 ) + 1 ) + ' Vahid of the ' + \
                   getOrdinalName( ( date[ 0 ] / 361 ) + 1 ) + ' Kull-i-Shay\'' + \
                   ' (Year ' + str( date[ 0 ] ) + ')'

@@ -14,7 +14,8 @@
 
 from mpmath import *
 
-from rpnMeasurement import *
+from rpnMeasurement import RPNMeasurement
+from rpnUnitClasses import *
 
 
 # //******************************************************************************
@@ -38,8 +39,8 @@ def getRegularPolygonArea( n ):
 # //
 # //  getNSphereRadius
 # //
-# //  k needs to be a Measurement so getNSphereRadius can tell if it's an area
-# //  or a volume and use the correct formula.
+# //  k needs to be an RPNMeasurement so getNSphereRadius can tell if it's an
+# //  area or a volume and use the correct formula.
 # //
 # //******************************************************************************
 
@@ -47,8 +48,8 @@ def getNSphereRadius( n, k ):
     if n < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
-    if not isinstance( k, Measurement ):
-        return Measurement( k, 'inch' )
+    if not isinstance( k, RPNMeasurement ):
+        return RPNMeasurement( k, 'inch' )
 
     measurementType = k.getBasicTypes( )
 
@@ -81,8 +82,8 @@ def getNSphereRadius( n, k ):
 # //******************************************************************************
 
 def getNSphereSurfaceArea( n, k ):
-    if not isinstance( k, Measurement ):
-        return getNSphereSurfaceArea( n, Measurement( k, 'inch' ) )
+    if not isinstance( k, RPNMeasurement ):
+        return getNSphereSurfaceArea( n, RPNMeasurement( k, 'inch' ) )
 
     if n < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
@@ -95,8 +96,8 @@ def getNSphereSurfaceArea( n, k ):
         for unit in newUnits:
             newUnits[ unit ] *= 2
 
-        return Measurement( fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
-                                  gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, fsub( n, 1 ) ) ),
+        return RPNMeasurement( fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
+                                     gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, fsub( n, 1 ) ) ),
                             newUnits )
     elif measurementType == { 'length' : 2 }:
         return k
@@ -125,8 +126,8 @@ def getNSphereVolume( n, k ):
     if n < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
-    if not isinstance( k, Measurement ):
-        return getNSphereVolume( n, Measurement( k, 'inch' ) )
+    if not isinstance( k, RPNMeasurement ):
+        return getNSphereVolume( n, RPNMeasurement( k, 'inch' ) )
 
     measurementType = k.getBasicTypes( )
 

@@ -26,20 +26,20 @@ from rpnCalendar import *
 from rpnCombinatorics import *
 from rpnComputer import *
 from rpnConstants import *
-from rpnDate import *
+from rpnDateTime import *
 from rpnDeclarations import *
 from rpnFactor import *
 from rpnGeometry import *
 from rpnLexicographic import *
 from rpnList import *
 from rpnMath import *
+from rpnMeasurement import *
 from rpnModifiers import *
 from rpnName import *
 from rpnNumberTheory import *
 from rpnPolynomials import *
 from rpnPolytope import *
 from rpnPrimeUtils import *
-from rpnTime import *
 from rpnUtils import *
 
 from rpnOutput import printHelp
@@ -71,9 +71,9 @@ def getCurrentArgList( valueList ):
 
 def applyNumberValueToUnit( number, term ):
     if g.unitOperators[ term ].unitType == 'constant':
-        value = mpf( Measurement( number, term ).convertValue( Measurement( 1, { 'unity' : 1 } ) ) )
+        value = mpf( RPNMeasurement( number, term ).convertValue( RPNMeasurement( 1, { 'unity' : 1 } ) ) )
     else:
-        value = Measurement( number, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+        value = RPNMeasurement( number, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
 
     return value
 
@@ -134,7 +134,7 @@ def evaluateOperator( term, index, currentValueList ):
         result = [ result ]
 
     for item in result:
-        if isinstance( item, Measurement ) and item.getUnits( ) == { }:
+        if isinstance( item, RPNMeasurement ) and item.getUnits( ) == { }:
             newResult.append( mpf( item ) )
         else:
             newResult.append( item )
@@ -221,9 +221,9 @@ def evaluateTerm( term, index, currentValueList ):
         elif not isList and term in g.unitOperators:
             # handle a unit operator
             # look for unit without a value (in which case we give it a value of 1)
-            if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], Measurement ) or \
+            if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
                 isinstance( currentValueList[ -1 ], RPNDateTime ) or ( isinstance( currentValueList[ -1 ], list ) and
-                                                                       isinstance( currentValueList[ -1 ][ 0 ], Measurement ) ):
+                                                                       isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
                     currentValueList.append( applyNumberValueToUnit( 1, term ) )
             # if the unit comes after a list, then apply it to every item in the list
             elif isinstance( currentValueList[ -1 ], list ):
@@ -536,7 +536,7 @@ def evaluateFunction3( a, b, c, d ):
 # //******************************************************************************
 
 def plotFunction( start, end, func ):
-    plot( lambda x: evaluateFunction1( x, func ), [ start , end ] )
+    plot( lambda x: evaluateFunction1( x, func ), [ start, end ] )
     return 0
 
 
@@ -894,7 +894,7 @@ def printHelpMessage( ):
 def printHelpTopic( n ):
     if isinstance( n, str ):
         printHelp( operators, listOperators, modifiers, n, True )
-    elif isinstance( n, Measurement ):
+    elif isinstance( n, RPNMeasurement ):
         units = n.getUnits( )
         # help for units isn't implemented yet, but now it will work
         printHelp( operators, listOperators, modifiers, list( units.keys( ) )[ 0 ], True )
@@ -1195,7 +1195,7 @@ operators = {
     'centered_triangular'           : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 3 ), 1 ),
     'centered_triangular?'          : OperatorInfo( lambda n: findCenteredPolygonalNumber( n, 3 ), 1 ),
     'champernowne'                  : OperatorInfo( getChampernowneConstant, 0 ),
-    'char'                          : OperatorInfo( lambda n: convertToSignedInt( n , 8 ), 1 ),
+    'char'                          : OperatorInfo( lambda n: convertToSignedInt( n, 8 ), 1 ),
     'comma'                         : OperatorInfo( setComma, 1 ),
     'comma_mode'                    : OperatorInfo( setCommaMode, 0 ),
     'compositions'                  : OperatorInfo( getCompositions, 2 ),
@@ -1238,7 +1238,7 @@ operators = {
     'eddington_number'              : OperatorInfo( getEddingtonNumber, 0 ),
     'egypt'                         : OperatorInfo( getGreedyEgyptianFraction, 2 ),
     'election_day'                  : OperatorInfo( calculateElectionDay, 1 ),
-    'electric_constant'             : OperatorInfo( lambda: Measurement( mpmathify( '8.854187817e-12' ), [ { 'farad' : 1 }, { 'meter' : -1 } ] ), 0 ),
+    'electric_constant'             : OperatorInfo( lambda: RPNMeasurement( mpmathify( '8.854187817e-12' ), [ { 'farad' : 1 }, { 'meter' : -1 } ] ), 0 ),
     'estimate'                      : OperatorInfo( estimate, 1 ),
     'euler'                         : OperatorInfo( euler, 0 ),
     'euler_brick'                   : OperatorInfo( makeEulerBrick, 3 ),
@@ -1253,7 +1253,7 @@ operators = {
     'factor'                        : OperatorInfo( getFactorList, 1 ),
     'factorial'                     : OperatorInfo( fac, 1 ),
     'false'                         : OperatorInfo( lambda: 0, 0 ),
-    'faradays_constant'             : OperatorInfo( lambda: Measurement( mpmathify( '96485.33289' ), [ { 'coulomb' : 1 }, { 'mole' : -1 } ] ), 0 ),
+    'faradays_constant'             : OperatorInfo( lambda: RPNMeasurement( mpmathify( '96485.33289' ), [ { 'coulomb' : 1 }, { 'mole' : -1 } ] ), 0 ),
     'fibonacci'                     : OperatorInfo( fib, 1 ),
     'fibonorial'                    : OperatorInfo( getNthFibonorial, 1 ),
     'find_palindrome'               : OperatorInfo( findPalindrome, 2 ),
@@ -1267,6 +1267,7 @@ operators = {
     'from_indian_civil'             : OperatorInfo( convertIndianCivilDate, 3 ),
     'from_islamic'                  : OperatorInfo( convertIslamicDate, 3 ),
     'from_julian'                   : OperatorInfo( convertJulianDate, 3 ),
+    'from_mayan'                    : OperatorInfo( convertMayanDate, 5 ),
     'from_persian'                  : OperatorInfo( convertPersianDate, 3 ),
     'from_unix_time'                : OperatorInfo( convertFromUnixTime, 1 ),
     'gamma'                         : OperatorInfo( gamma, 1 ),
@@ -1356,8 +1357,8 @@ operators = {
     'log10'                         : OperatorInfo( log10, 1 ),
     'log2'                          : OperatorInfo( lambda n: log( n, 2 ), 1 ),
     'logxy'                         : OperatorInfo( log, 2 ),
-    'long'                          : OperatorInfo( lambda n: convertToSignedInt( n , 32 ), 1 ),
-    'longlong'                      : OperatorInfo( lambda n: convertToSignedInt( n , 64 ), 1 ),
+    'long'                          : OperatorInfo( lambda n: convertToSignedInt( n, 32 ), 1 ),
+    'longlong'                      : OperatorInfo( lambda n: convertToSignedInt( n, 64 ), 1 ),
     'lucas'                         : OperatorInfo( getNthLucasNumber, 1 ),
     'magnetic_constant'             : OperatorInfo( getMagneticConstant, 0 ),
     'make_cf'                       : OperatorInfo( lambda n, k: ContinuedFraction( n, maxterms = k, cutoff = power( 10, -( mp.dps - 2 ) ) ), 2 ),
@@ -1416,6 +1417,7 @@ operators = {
     'next_full_moon'                : OperatorInfo( lambda n: getEphemTime( n, ephem.next_full_moon ), 1 ),
     'next_last_quarter_moon'        : OperatorInfo( lambda n: getEphemTime( n, ephem.next_last_quarter_moon ), 1 ),
     'next_new_moon'                 : OperatorInfo( lambda n: getEphemTime( n, ephem.next_new_moon ), 1 ),
+    'next_prime'                    : OperatorInfo( lambda n: findPrime( n )[ 1 ], 1 ),
     'next_rising'                   : OperatorInfo( getNextRising, 3 ),
     'next_setting'                  : OperatorInfo( getNextSetting, 3 ),
     'next_transit'                  : OperatorInfo( getNextTransit, 3 ),
@@ -1437,7 +1439,7 @@ operators = {
     'nth_catalan'                   : OperatorInfo( lambda n: fdiv( binomial( fmul( 2, n ), n ), fadd( n, 1 ) ), 1 ),
     'nth_prime?'                    : OperatorInfo( lambda n: findPrime( n )[ 0 ], 1 ),
     'nth_quad?'                     : OperatorInfo( lambda n: findQuadrupletPrimes( n )[ 0 ], 1 ),
-    'nth_weekday'                   : OperatorInfo( calculateNthWeekdayOfMonth , 4 ),
+    'nth_weekday'                   : OperatorInfo( calculateNthWeekdayOfMonth, 4 ),
     'nth_weekday_of_year'           : OperatorInfo( calculateNthWeekdayOfYear, 3 ),
     'n_sphere_area'                 : OperatorInfo( getNSphereSurfaceArea, 2 ),
     'n_sphere_radius'               : OperatorInfo( getNSphereRadius, 2 ),
@@ -1498,7 +1500,6 @@ operators = {
     'previous_transit'              : OperatorInfo( getPreviousTransit, 3 ),
     'prevost'                       : OperatorInfo( getPrevostConstant, 0 ),
     'prime'                         : OperatorInfo( getNthPrime, 1 ),
-    'prime?'                        : OperatorInfo( lambda n: findPrime( n )[ 1 ], 1 ),
     'primepi'                       : OperatorInfo( getPrimePi, 1 ),
     'primes'                        : OperatorInfo( getPrimes, 2 ),
     'primorial'                     : OperatorInfo( getNthPrimorial, 1 ),
@@ -1527,7 +1528,7 @@ operators = {
     'root2'                         : OperatorInfo( sqrt, 1 ),
     'root3'                         : OperatorInfo( cbrt, 1 ),
     'round'                         : OperatorInfo( lambda n: floor( fadd( n, 0.5 ) ), 1 ),
-    'rydberg_constant'              : OperatorInfo( lambda: Measurement( mpmathify( '10973731.568508' ), { 'meter' : -1 } ), 0 ),
+    'rydberg_constant'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '10973731.568508' ), { 'meter' : -1 } ), 0 ),
     'safe_prime'                    : OperatorInfo( lambda n: fadd( fmul( getNthSophiePrime( n ), 2 ), 1 ), 1 ),
     'schroeder'                     : OperatorInfo( getNthSchroederNumber, 1 ),
     'sec'                           : OperatorInfo( lambda n: performTrigOperation( n, sec ), 1 ),
@@ -1543,7 +1544,7 @@ operators = {
     'sexy_triplet_'                 : OperatorInfo( getNthSexyTripletList, 1 ),
     'shift_left'                    : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x << y ), 2 ),
     'shift_right'                   : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x >> y ), 2 ),
-    'short'                         : OperatorInfo( lambda n: convertToSignedInt( n , 16 ), 1 ),
+    'short'                         : OperatorInfo( lambda n: convertToSignedInt( n, 16 ), 1 ),
     'sigma'                         : OperatorInfo( getSigma, 1 ),
     'sign'                          : OperatorInfo( sign, 1 ),
     'silver_ratio'                  : OperatorInfo( getSilverRatio, 0 ),
@@ -1582,6 +1583,8 @@ operators = {
     'timer'                         : OperatorInfo( setTimer, 1 ),
     'timer_mode'                    : OperatorInfo( setTimerMode, 0 ),
     'today'                         : OperatorInfo( getToday, 0 ),
+    'tomorrow'                      : OperatorInfo( getTomorrow, 0 ),
+    'yesterday'                     : OperatorInfo( getYesterday, 0 ),
     'topic'                         : OperatorInfo( printHelpTopic, 1 ),
     'to_bahai'                      : OperatorInfo( getBahaiCalendarDate, 1 ),
     'to_bahai_name'                 : OperatorInfo( getBahaiCalendarDateName, 1 ),
@@ -1592,6 +1595,7 @@ operators = {
     'to_islamic'                    : OperatorInfo( getIslamicCalendarDate, 1 ),
     'to_islamic_name'               : OperatorInfo( getIslamicCalendarDateName, 1 ),
     'to_julian'                     : OperatorInfo( getJulianCalendarDate, 1 ),
+    'to_mayan'                      : OperatorInfo( getMayanCalendarDate, 1 ),
     'to_ordinal_date'               : OperatorInfo( getOrdinalDate, 1 ),
     'to_persian'                    : OperatorInfo( getPersianCalendarDate, 1 ),
     'to_persian_name'               : OperatorInfo( getPersianCalendarDateName, 1 ),
@@ -1628,8 +1632,33 @@ operators = {
     '_dump_aliases'                 : OperatorInfo( dumpAliases, 0 ),
     '_dump_operators'               : OperatorInfo( dumpOperators, 0 ),
     '_stats'                        : OperatorInfo( dumpStats, 0 ),
-#   'antitet'                       : OperatorInfo( findTetrahedralNumber, 1 ),
+#   'antitet'                       : OperatorInfo( findTetrahedralNumber, 0 ),
 #   'bernfrac'                      : OperatorInfo( bernfrac, 1 ),
+
+    # day of week operators
+
+    'monday'                        : OperatorInfo( lambda: 1, 0 ),
+    'tuesday'                       : OperatorInfo( lambda: 2, 0 ),
+    'wednesday'                     : OperatorInfo( lambda: 3, 0 ),
+    'thursday'                      : OperatorInfo( lambda: 4, 0 ),
+    'friday'                        : OperatorInfo( lambda: 5, 0 ),
+    'saturday'                      : OperatorInfo( lambda: 6, 0 ),
+    'sunday'                        : OperatorInfo( lambda: 7, 0 ),
+
+    # month operators
+
+    'january'                       : OperatorInfo( lambda: 1, 0 ),
+    'february'                      : OperatorInfo( lambda: 2, 0 ),
+    'march'                         : OperatorInfo( lambda: 3, 0 ),
+    'april'                         : OperatorInfo( lambda: 4, 0 ),
+    'may'                           : OperatorInfo( lambda: 5, 0 ),
+    'june'                          : OperatorInfo( lambda: 6, 0 ),
+    'july'                          : OperatorInfo( lambda: 7, 0 ),
+    'august'                        : OperatorInfo( lambda: 8, 0 ),
+    'september'                     : OperatorInfo( lambda: 9, 0 ),
+    'october'                       : OperatorInfo( lambda: 10, 0 ),
+    'november'                      : OperatorInfo( lambda: 11, 0 ),
+    'december'                      : OperatorInfo( lambda: 12, 0 ),
 
     # Astronomical object operators
     'mercury'                       : OperatorInfo( ephem.Mercury, 0 ),

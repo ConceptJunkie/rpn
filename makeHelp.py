@@ -580,7 +580,7 @@ rpn now throws an error when attempting to get the 0th or less prime number.
 
 5.20.6
 
-The prime? operator wasn't working correctly for small values.
+The 'next_prime' operator wasn't working correctly for small values.
 
 5.20.7
 
@@ -2486,6 +2486,13 @@ concerned, it's an operator that does nothing.
 '''
 ''' ],
 
+    'from_mayan' : [
+'calendar', 'converts a date in the Mayan long count calendar to the equivalent Gregorian date',
+'''
+''',
+'''
+''' ],
+
     'from_persian' : [
 'calendar', 'converts a date in the Persian calendar to the equivalent Gregorian date',
 '''
@@ -2558,6 +2565,20 @@ concerned, it's an operator that does nothing.
 
     'to_julian' : [
 'calendar', 'converts a date to the equivalent date in the Julian calendar',
+'''
+''',
+'''
+''' ],
+
+    'to_mayan' : [
+'calendar', 'converts a date to the equivalent date in the Mayan long count calendar',
+'''
+''',
+'''
+''' ],
+
+    'to_mayan_name' : [
+'calendar', 'converts a date to the equivalent date in the Mayan calendar with... ',
 '''
 ''',
 '''
@@ -3535,6 +3556,217 @@ rpn (3)>5 12 **
 ''' ],
 
 
+    'monday' : [
+'constants', 'returns 1, which is the code for Monday',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'tuesday' : [
+'constants', 'returns 2, which is the code for Tuesday',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'wednesday' : [
+'constants', 'returns 3, which is the code for Wednesday',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'thursday' : [
+'constants', 'returns 4, which is the code for Thursday',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'friday' : [
+'constants', 'returns 5, which is the code for Friday',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'saturday' : [
+'constants', 'returns 6, which is the code for Saturday',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'sunday' : [
+'constants', 'returns 7, which is the code for Sunday',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'january' : [
+'constants', 'returns 1, which is the code for January',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'february' : [
+'constants', 'returns 1, which is the code for February',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'march' : [
+'constants', 'returns 1, which is the code for March',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'april' : [
+'constants', 'returns 1, which is the code for April',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'may' : [
+'constants', 'returns 1, which is the code for May',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'june' : [
+'constants', 'returns 1, which is the code for June',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'july' : [
+'constants', 'returns 1, which is the code for July',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'august' : [
+'constants', 'returns 1, which is the code for August',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'september' : [
+'constants', 'returns 9, which is the code for September',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'october' : [
+'constants', 'returns 10, which is the code for October',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'november' : [
+'constants', 'returns 11, which is the code for November',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'december' : [
+'constants', 'returns 12, which is the code for December',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'january' : [
+'constants', 'returns 1, which is the code for January',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'january' : [
+'constants', 'returns 1, which is the code for January',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'january' : [
+'constants', 'returns 1, which is the code for January',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'january' : [
+'constants', 'returns 1, which is the code for January',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'january' : [
+'constants', 'returns 1, which is the code for January',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'january' : [
+'constants', 'returns 1, which is the code for January',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+    'january' : [
+'constants', 'returns 1, which is the code for January',
+'''
+This is defined for convenience for use with date operators.
+''',
+'''
+''' ],
+
+
+
+
 # //******************************************************************************
 # //
 # //  conversion operators
@@ -3996,6 +4228,13 @@ a = four-digit year, b = week (negative values count from the end), c = day
 '''
 ''' ],
 
+    'tomorrow' : [
+'date-time', 'returns the next date',
+'''
+''',
+'''
+''' ],
+
     'weekday' : [
 'date-time', 'calculates the day of the week of an absolute time',
 '''
@@ -4019,6 +4258,13 @@ c:\>rpn 1965-03-31 weekday
 
 c:\>rpn 2043-04-17 weekday
 'Friday'
+''' ],
+
+    'yesterday' : [
+'date-time', 'returns the previous date',
+'''
+''',
+'''
 ''' ],
 
 
@@ -6631,8 +6877,19 @@ and is distributed with data files calculated through the first billion primes.
 '''
 ''' ],
 
+    'next_prime' : [
+'prime_numbers', 'returns the next prime number greater than or equal to n',
+'''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+
     'nth_prime?' : [
-'prime_numbers', 'finds the index of the closest prime over n',
+'prime_numbers', 'finds the index of the closest prime greater than or equal n',
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
@@ -6702,17 +6959,6 @@ c:\>rpn 1 20 primes
 c:\>rpn 320620307 10 primes
 [ 6927837559, 6927837563, 6927837571, 6927837583, 6927837599, 6927837617,
 6927837641, 6927837673, 6927837713, 6927837757 ]
-''' ],
-
-    'prime?' : [
-'prime_numbers', 'finds the index of the closest prime at n or above',
-'''
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through the first billion primes.
-''',
-'''
 ''' ],
 
     'primorial' : [

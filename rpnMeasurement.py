@@ -14,11 +14,113 @@
 
 from mpmath import *
 
-from rpnOperators import *
 from rpnUnitClasses import *
 from rpnUtils import *
 
 import rpnGlobals as g
+
+
+# //******************************************************************************
+# //
+# //  specialUnitConversionMatrix
+# //
+# //  This is for units that can't be converted with a simple multiplication
+# //  factor.
+# //
+# //  Plus, I'm not going to do the transitive thing here, so it's necessary
+# //  to explicitly state the conversions for all permutations.  That bugs me.
+# //
+# //  I would have included this table in makeUnits.py, but pickle doesn't
+# //  work on lambdas, which is, to me, very non-Pythonic.   I could also
+# //  save the expressions as strings and use eval, but that seems very
+# //  non-Pythonic, too.
+# //
+# //  ( first unit, second unit, conversion function )
+# //
+# //******************************************************************************
+
+specialUnitConversionMatrix = {
+    ( 'celsius',               'delisle' )                         : lambda c: fmul( fsub( 100, c ), fdiv( 3, 2 ) ),
+    ( 'celsius',               'degrees_newton' )                  : lambda c: fmul( c, fdiv( 33, 100 ) ),
+    ( 'celsius',               'fahrenheit' )                      : lambda c: fadd( fmul( c, fdiv( 9, 5 ) ), 32 ),
+    ( 'celsius',               'kelvin' )                          : lambda c: fadd( c, mpf( '273.15' ) ),
+    ( 'celsius',               'rankine' )                         : lambda c: fmul( fadd( c, mpf( '273.15' ) ), fdiv( 9, 5 ) ),
+    ( 'celsius',               'reaumur' )                         : lambda c: fmul( c, fdiv( 4, 5 ) ),
+    ( 'celsius',               'romer' )                           : lambda c: fadd( fmul( c, fdiv( 21, 40 ) ), mpf( '7.5' ) ),
+
+    ( 'delisle',               'celsius' )                         : lambda d: fsub( 100, fmul( fdiv( 2, 3 ), d ) ),
+    ( 'delisle',               'degrees_newton' )                  : lambda d: fsub( 33, fmul( d, fdiv( 11, 50 ) ) ),
+    ( 'delisle',               'fahrenheit' )                      : lambda d: fsub( 212, fmul( fdiv( 6, 5 ), d ) ),
+    ( 'delisle',               'kelvin' )                          : lambda d: fsub( mpf( '373.15' ), fmul( fdiv( 2, 3 ), d ) ),
+    ( 'delisle',               'rankine' )                         : lambda d: fsub( mpf( '671.67' ), fmul( fdiv( 6, 5 ), d ) ),
+    ( 'delisle',               'reaumur' )                         : lambda d: fsub( 80, fmul( d, fdiv( 8, 15 ) ) ),
+    ( 'delisle',               'romer' )                           : lambda d: fsub( 60, fmul( d, fdiv( 7, 20 ) ) ),
+
+    ( 'degrees_newton',        'celsius' )                         : lambda n: fmul( n, fdiv( 100, 33 ) ),
+    ( 'degrees_newton',        'delisle' )                         : lambda n: fmul( fsub( 33, n ), fdiv( 50, 11 ) ),
+    ( 'degrees_newton',        'fahrenheit' )                      : lambda n: fadd( fmul( n, fdiv( 60, 11 ) ), 32 ),
+    ( 'degrees_newton',        'kelvin' )                          : lambda n: fadd( fmul( n, fdiv( 100, 33 ) ), mpf( '273.15' ) ),
+    ( 'degrees_newton',        'rankine' )                         : lambda n: fadd( fmul( n, fdiv( 60, 11 ) ), mpf( '491.67' ) ),
+    ( 'degrees_newton',        'reaumur' )                         : lambda n: fmul( n, fdiv( 80, 33 ) ),
+    ( 'degrees_newton',        'romer' )                           : lambda n: fadd( fmul( n, fdiv( 35, 22 ) ), mpf( 7.5 ) ),
+
+    ( 'fahrenheit',            'celsius' )                         : lambda f: fmul( fsub( f, 32 ), fdiv( 5, 9 ) ),
+    ( 'fahrenheit',            'degrees_newton' )                  : lambda f: fmul( fsub( f, 32 ), fdiv( 11, 60 ) ),
+    ( 'fahrenheit',            'delisle' )                         : lambda f: fmul( fsub( 212, f ), fdiv( 5, 6 ) ),
+    ( 'fahrenheit',            'kelvin' )                          : lambda f: fadd( fmul( fsub( f, 32 ), fdiv( 5, 9 ) ), mpf( '273.15' ) ),
+    ( 'fahrenheit',            'rankine' )                         : lambda f: fadd( f, mpf( '459.67' ) ),
+    ( 'fahrenheit',            'reaumur' )                         : lambda f: fmul( fsub( f, 32 ), fdiv( 4, 9 ) ),
+    ( 'fahrenheit',            'romer' )                           : lambda f: fadd( fmul( fsub( f, 32 ), fdiv( 7, 24 ) ), mpf( '7.5' ) ),
+
+    ( 'kelvin',                'celsius' )                         : lambda k: fsub( k, mpf( '273.15' ) ),
+    ( 'kelvin',                'degrees_newton' )                  : lambda k: fmul( fsub( k, mpf( '273.15' ) ), fdiv( 33, 100 ) ),
+    ( 'kelvin',                'delisle' )                         : lambda k: fmul( fsub( mpf( '373.15' ), k ), fdiv( 3, 2 ) ),
+    ( 'kelvin',                'fahrenheit' )                      : lambda k: fsub( fmul( k, fdiv( 9, 5 ) ), mpf( '459.67' ) ),
+    ( 'kelvin',                'rankine' )                         : lambda k: fmul( k, fdiv( 9, 5 ) ),
+    ( 'kelvin',                'reaumur' )                         : lambda k: fmul( fsub( k, mpf( '273.15' ) ), fdiv( 4, 5 ) ),
+    ( 'kelvin',                'romer' )                           : lambda k: fadd( fmul( fsub( k, mpf( '273.15' ) ), fdiv( 21, 40 ) ), mpf( 7.5 ) ),
+
+    ( 'rankine',               'celsius' )                         : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 5, 9 ) ),
+    ( 'rankine',               'degrees_newton' )                  : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 11, 60 ) ),
+    ( 'rankine',               'delisle' )                         : lambda r: fmul( fsub( mpf( '671.67' ), r ), fdiv( 5, 6 ) ),
+    ( 'rankine',               'fahrenheit' )                      : lambda r: fsub( r, mpf( '459.67' ) ),
+    ( 'rankine',               'kelvin' )                          : lambda r: fmul( r, fdiv( 5, 9 ) ),
+    ( 'rankine',               'reaumur' )                         : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 4, 9 ) ),
+    ( 'rankine',               'romer' )                           : lambda r: fadd( fmul( fsub( r, mpf( '491.67' ) ), fdiv( 7, 24 ) ), mpf( '7.5' ) ),
+
+    ( 'reaumur',               'celsius' )                         : lambda re: fmul( re, fdiv( 5, 4 ) ),
+    ( 'reaumur',               'degrees_newton' )                  : lambda re: fmul( re, fdiv( 33, 80 ) ),
+    ( 'reaumur',               'delisle' )                         : lambda re: fmul( fsub( 80, re ), fdiv( 15, 8 ) ),
+    ( 'reaumur',               'fahrenheit' )                      : lambda re: fadd( fmul( re, fdiv( 9, 4 ) ), 32 ),
+    ( 'reaumur',               'kelvin' )                          : lambda re: fadd( fmul( re, fdiv( 5, 4 ) ), mpf( '273.15' ) ),
+    ( 'reaumur',               'rankine' )                         : lambda re: fadd( fmul( re, fdiv( 9, 4 ) ), mpf( '491.67' ) ),
+    ( 'reaumur',               'romer' )                           : lambda re: fadd( fmul( re, fdiv( 21, 32 ) ), mpf( 7.5 ) ),
+
+    ( 'romer',                 'celsius' )                         : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 40, 21 ) ),
+    ( 'romer',                 'degrees_newton' )                  : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 22, 35 ) ),
+    ( 'romer',                 'delisle' )                         : lambda ro: fmul( fsub( 60, ro ), fdiv( 20, 7 ) ),
+    ( 'romer',                 'fahrenheit' )                      : lambda ro: fadd( fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 24, 7 ) ), 32 ),
+    ( 'romer',                 'kelvin' )                          : lambda ro: fadd( fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 40, 21 ) ), mpf( '273.15' ) ),
+    ( 'romer',                 'rankine' )                         : lambda ro: fadd( fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 24, 7 ) ), mpf( '491.67' ) ),
+    ( 'romer',                 'reaumur' )                         : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 32, 21 ) ),
+
+    ( 'dBm',                   'watt' )                            : lambda dBm: power( 10, fdiv( fsub( dBm, 30 ), 10 ) ),
+    ( 'watt',                  'dBm' )                             : lambda W: fmul( log10( fmul( W, 1000 ) ), 10 ),
+}
+
+
+# //******************************************************************************
+# //
+# //  loadUnitConversionMatrix
+# //
+# //******************************************************************************
+
+def loadUnitConversionMatrix( ):
+    try:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
+            g.unitConversionMatrix.update( pickle.load( pickleFile ) )
+    except FileNotFoundError:
+        print( 'rpn:  Unable to load unit conversion data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
 
 
 # //******************************************************************************
@@ -92,41 +194,6 @@ def getSimpleUnitType( unit ):
 
 # //******************************************************************************
 # //
-# //  combineUnits
-# //
-# //  Combine units2 into units1
-# //
-# //******************************************************************************
-
-def combineUnits( units1, units2 ):
-    if not g.unitConversionMatrix:
-        loadUnitConversionMatrix( )
-
-    newUnits = Units( )
-    newUnits.update( units1 )
-
-    factor = mpmathify( 1 )
-
-    for unit2 in units2:
-        if unit2 in newUnits:
-            newUnits[ unit2 ] += units2[ unit2 ]
-        else:
-            for unit1 in units1:
-                if unit1 == unit2:
-                    newUnits[ unit2 ] += units2[ unit2 ]
-                    break
-                elif getUnitType( unit1 ) == getUnitType( unit2 ):
-                    factor = fdiv( factor, pow( mpmathify( g.unitConversionMatrix[ ( unit1, unit2 ) ] ), units2[ unit2 ] ) )
-                    newUnits[ unit1 ] += units2[ unit2 ]
-                    break
-            else:
-                newUnits[ unit2 ] = units2[ unit2 ]
-
-    return factor, newUnits
-
-
-# //******************************************************************************
-# //
 # //  invertUnits
 # //
 # //  invert the units and take the reciprocal of the value to create an
@@ -135,19 +202,19 @@ def combineUnits( units1, units2 ):
 # //******************************************************************************
 
 def invertUnits( measurement ):
-    if not isinstance( measurement, Measurement ):
+    if not isinstance( measurement, RPNMeasurement ):
         raise ValueError( 'cannot invert non-measurements' )
 
-    return Measurement( fdiv( 1, measurement.getValue( ) ), measurement.invert( ).getUnits( ) )
+    return RPNMeasurement( fdiv( 1, measurement.getValue( ) ), measurement.invert( ).getUnits( ) )
 
 
 # //******************************************************************************
 # //
-# //  class Measurement
+# //  class RPNMeasurement
 # //
 # //******************************************************************************
 
-class Measurement( mpf ):
+class RPNMeasurement( mpf ):
     def __new__( cls, value, units = None, unitName = None, pluralUnitName = None ):
         if isinstance( value, list ):
             raise ValueError( 'cannot use a list for the value of a measurement' )
@@ -163,7 +230,7 @@ class Measurement( mpf ):
     def __eq__( self, other ):
         result = mpf.__eq__( other )
 
-        if isinstance( other, Measurement ):
+        if isinstance( other, RPNMeasurement ):
             result &= ( self.units == other.units )
 
         return result
@@ -172,7 +239,7 @@ class Measurement( mpf ):
         return not __eq__( self, other )
 
     def __str__( self ):
-        return 'Measurement(' + str( mpf( self ) ) + ', { ' + \
+        return 'RPNMeasurement(' + str( mpf( self ) ) + ', { ' + \
                ', '.join( [ '(\'' + name + '\', ' + str( self.units[ name ] ) + ')' for name in self.units ] ) + ' })'
 
     def increment( self, value, amount = 1 ):
@@ -186,41 +253,41 @@ class Measurement( mpf ):
         self.units[ value ] = -amount
 
     def add( self, other ):
-        if isinstance( other, Measurement ):
+        if isinstance( other, RPNMeasurement ):
             if self.getUnits( ) == other.getUnits( ):
-                return Measurement( fadd( self, other ), self.getUnits( ),
+                return RPNMeasurement( fadd( self, other ), self.getUnits( ),
                                     self.getUnitName( ), self.getPluralUnitName( ) )
             else:
                 newOther = other.convertValue( self )
-                return Measurement( fadd( self, newOther ), self.getUnits( ),
+                return RPNMeasurement( fadd( self, newOther ), self.getUnits( ),
                                     self.getUnitName( ), self.getPluralUnitName( ) )
         else:
-            return Measurement( fadd( self, other ), self.getUnits( ),
+            return RPNMeasurement( fadd( self, other ), self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
 
     def subtract( self, other ):
-        if isinstance( other, Measurement ):
+        if isinstance( other, RPNMeasurement ):
             if self.getUnits( ) == other.getUnits( ):
-                return Measurement( fsub( self, other ), self.getUnits( ),
+                return RPNMeasurement( fsub( self, other ), self.getUnits( ),
                                     self.getUnitName( ), self.getPluralUnitName( ) )
             else:
                 newOther = other.convertValue( self )
-                return Measurement( fsub( self, newOther ), self.getUnits( ),
+                return RPNMeasurement( fsub( self, newOther ), self.getUnits( ),
                                     self.getUnitName( ), self.getPluralUnitName( ) )
 
         else:
-            return Measurement( fsub( self, other ), self.getUnits( ),
+            return RPNMeasurement( fsub( self, other ), self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
 
     def multiply( self, other ):
         newValue = fmul( self, other )
 
-        if isinstance( other, Measurement ):
+        if isinstance( other, RPNMeasurement ):
             factor, newUnits = combineUnits( self.getUnits( ).simplify( ), other.getUnits( ).simplify( ) )
 
-            self = Measurement( fmul( newValue, factor ), newUnits )
+            self = RPNMeasurement( fmul( newValue, factor ), newUnits )
         else:
-            self = Measurement( newValue, self.getUnits( ),
+            self = RPNMeasurement( newValue, self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
 
         return self.dezeroUnits( )
@@ -228,13 +295,13 @@ class Measurement( mpf ):
     def divide( self, other ):
         newValue = fdiv( self, other )
 
-        if isinstance( other, Measurement ):
+        if isinstance( other, RPNMeasurement ):
             factor, newUnits = combineUnits( self.getUnits( ).simplify( ),
                                              other.getUnits( ).invert( ).simplify( ) )
 
-            self = Measurement( fmul( newValue, factor ), newUnits )
+            self = RPNMeasurement( fmul( newValue, factor ), newUnits )
         else:
-            self = Measurement( newValue, self.getUnits( ),
+            self = RPNMeasurement( newValue, self.getUnits( ),
                                 self.getUnitName( ), self.getPluralUnitName( ) )
 
         return self.dezeroUnits( )
@@ -248,7 +315,7 @@ class Measurement( mpf ):
         for unit in self.units:
             self.units[ unit ] *= exponent
 
-        self = Measurement( newValue, self.units )
+        self = RPNMeasurement( newValue, self.units )
 
         return self
 
@@ -261,7 +328,7 @@ class Measurement( mpf ):
         for unit in units:
             newUnits[ unit ] = -units[ unit ]
 
-        return Measurement( value, newUnits )
+        return RPNMeasurement( value, newUnits )
 
     def dezeroUnits( self ):
         value = mpf( self )
@@ -273,7 +340,7 @@ class Measurement( mpf ):
             if units[ unit ] != 0:
                 newUnits[ unit ] = units[ unit ]
 
-        return Measurement( value, newUnits, self.getUnitName( ), self.getPluralUnitName( ) )
+        return RPNMeasurement( value, newUnits, self.getUnitName( ), self.getPluralUnitName( ) )
 
     def update( self, units ):
         for i in self.units:
@@ -300,7 +367,7 @@ class Measurement( mpf ):
                     break
 
             return result
-        elif isinstance( other, Measurement ):
+        elif isinstance( other, RPNMeasurement ):
             debugPrint( 'units: ', self.units, other.units )
             debugPrint( 'types: ', self.getUnitTypes( ), other.getUnitTypes( ) )
             debugPrint( 'simple types: ', self.getSimpleTypes( ), other.getSimpleTypes( ) )
@@ -316,10 +383,10 @@ class Measurement( mpf ):
             elif self.getPrimitiveTypes( ) == other.getPrimitiveTypes( ):
                 return True
             else:
-                debugPrint( 'Measurement.isCompatible exiting with false...' )
+                debugPrint( 'RPNMeasurement.isCompatible exiting with false...' )
                 return False
         else:
-            raise ValueError( 'Measurement or dict expected' )
+            raise ValueError( 'RPNMeasurement or dict expected' )
 
     def isEquivalent( self, other ):
         if isinstance( other, list ):
@@ -332,13 +399,13 @@ class Measurement( mpf ):
                     break
 
             return result
-        elif isinstance( other, Measurement ):
+        elif isinstance( other, RPNMeasurement ):
             if self.units == other.units:
                 return True
             else:
                 return self.getSimpleTypes( ) == other.getSimpleTypes( )
         else:
-            raise ValueError( 'Measurement or dict expected' )
+            raise ValueError( 'RPNMeasurement or dict expected' )
 
     def getValue( self ):
         return mpf( self )
@@ -400,7 +467,7 @@ class Measurement( mpf ):
             units.update( Units( g.unitOperators[ newUnit ].representation + "^" + str( self.units[ unit ] ) ) )
             debugPrint( 'value', value )
 
-        reduced = Measurement( value, units )
+        reduced = RPNMeasurement( value, units )
         debugPrint( 'getReduced 2:', reduced )
         return reduced
 
@@ -420,10 +487,10 @@ class Measurement( mpf ):
                         conversion = source.convertValue( measurement )
 
                     if count < len( other ) - 1:
-                        result.append( Measurement( floor( conversion ), measurement.getUnits( ) ) )
-                        source = Measurement( chop( frac( conversion ) ), measurement.getUnits( ) )
+                        result.append( RPNMeasurement( floor( conversion ), measurement.getUnits( ) ) )
+                        source = RPNMeasurement( chop( frac( conversion ) ), measurement.getUnits( ) )
                     else:
-                        result.append( Measurement( conversion, measurement.getUnits( ) ) )
+                        result.append( RPNMeasurement( conversion, measurement.getUnits( ) ) )
 
                 return result
 
@@ -507,8 +574,7 @@ class Measurement( mpf ):
 
                         reduced = reduced.convertValue( reducedOther )
 
-                        return Measurement( fdiv( reduced, reducedOther ),
-                                            reducedOther.getUnits( ) )
+                        return RPNMeasurement( fdiv( reduced, reducedOther ), reducedOther.getUnits( ) )
 
                 value = conversionValue
 
@@ -553,23 +619,23 @@ def convertUnits( unit1, unit2 ):
 
         return result
 
-    if not isinstance( unit1, Measurement ):
+    if not isinstance( unit1, RPNMeasurement ):
         raise ValueError( 'cannot convert non-measurements' )
 
     if isinstance( unit2, list ):
         return unit1.convertValue( unit2 )
     elif isinstance( unit2, str ):
-        measurement = Measurement( 1, { unit2 : 1 } )
-        return Measurement( unit1.convertValue( measurement ), unit2 )
-    elif not isinstance( unit2, Measurement ):
+        measurement = RPNMeasurement( 1, { unit2 : 1 } )
+        return RPNMeasurement( unit1.convertValue( measurement ), unit2 )
+    elif not isinstance( unit2, RPNMeasurement ):
         raise ValueError( 'cannot convert non-measurements' )
     else:
         debugPrint( 'convertUnits' )
         debugPrint( 'unit1:', unit1.getUnitTypes( ) )
         debugPrint( 'unit2:', unit2.getUnitTypes( ) )
 
-        return Measurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
-                            unit2.getUnitName( ), unit2.getPluralUnitName( ) )
+        return RPNMeasurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
+                               unit2.getUnitName( ), unit2.getPluralUnitName( ) )
 
 
 # //******************************************************************************
@@ -579,9 +645,9 @@ def convertUnits( unit1, unit2 ):
 # //******************************************************************************
 
 def convertToDMS( n ):
-    return convertUnits( n, [ Measurement( 1, { 'degree' : 1 } ),
-                              Measurement( 1, { 'arcminute' : 1 } ),
-                              Measurement( 1, { 'arcsecond' : 1 } ) ] )
+    return convertUnits( n, [ RPNMeasurement( 1, { 'degree' : 1 } ),
+                              RPNMeasurement( 1, { 'arcminute' : 1 } ),
+                              RPNMeasurement( 1, { 'arcsecond' : 1 } ) ] )
 
 
 # //******************************************************************************
@@ -591,11 +657,11 @@ def convertToDMS( n ):
 # //******************************************************************************
 
 def estimate( measurement ):
-    if isinstance( measurement, Measurement ):
+    if isinstance( measurement, RPNMeasurement ):
         unitType = None
 
         for basicUnitType in g.basicUnitTypes:
-            if measurement.isCompatible( Measurement( 1, g.basicUnitTypes[ basicUnitType ].baseUnit ) ):
+            if measurement.isCompatible( RPNMeasurement( 1, g.basicUnitTypes[ basicUnitType ].baseUnit ) ):
                 unitType = basicUnitType
                 break
 
@@ -604,8 +670,8 @@ def estimate( measurement ):
 
         unitTypeInfo = g.basicUnitTypes[ unitType ]
 
-        unit = Measurement( 1, unitTypeInfo.baseUnit )
-        value = mpf( Measurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
+        unit = RPNMeasurement( 1, unitTypeInfo.baseUnit )
+        value = mpf( RPNMeasurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
 
         if len( unitTypeInfo.estimateTable ) == 0:
             return 'No estimates are available for this unit type (' + unitTypeOutput + ').'
@@ -630,5 +696,4 @@ def estimate( measurement ):
         return measurement.humanize( )
     else:
         raise TypeError( 'incompatible type for estimating' )
-
 

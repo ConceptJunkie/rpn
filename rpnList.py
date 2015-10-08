@@ -15,7 +15,7 @@
 from mpmath import *
 
 from rpnDeclarations import *
-from rpnMeasurement import *
+from rpnMeasurement import RPNMeasurement
 
 
 # //******************************************************************************
@@ -623,7 +623,7 @@ def getSum( n ):
     hasUnits = False
 
     for item in n:
-        if isinstance( item, Measurement ):
+        if isinstance( item, RPNMeasurement ):
             hasUnits = True
             break
 
@@ -660,7 +660,7 @@ def getProduct( n ):
     hasUnits = False
 
     for item in n:
-        if isinstance( item, Measurement ):
+        if isinstance( item, RPNMeasurement ):
             hasUnits = True
             break
 

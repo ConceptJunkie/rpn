@@ -160,7 +160,7 @@ def getNthHeptagonalTriangularNumber( n ):
 # //
 # //  http://oeis.org/A046195
 # //
-# //  LinearRecurrence[ { 1 , 0, 1442, -1442, 0, -1, 1 },
+# //  LinearRecurrence[ { 1, 0, 1442, -1442, 0, -1, 1 },
 # //                    { 1, 6, 49, 961, 8214, 70225, 1385329 }, n ]
 # //
 # //******************************************************************************
@@ -335,7 +335,7 @@ def getNthNonagonalSquareNumber( n ):
                         fmul( fsub( p, fmul( q, sign ) ),
                               power( fsub( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), fsub( n, 1 ) ) ) ), 112 )
 
-    return nint( power( round( index ), 2 ) )
+    return nint( power( nint( index ), 2 ) )
 
 
 # //******************************************************************************

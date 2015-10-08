@@ -50,7 +50,7 @@
 from mpmath import *
 
 from rpnDeclarations import *
-from rpnMeasurement import *
+from rpnMeasurement import RPNMeasurement
 from rpnPrimeUtils import *
 from rpnUtils import *
 
@@ -269,7 +269,7 @@ def getRobbinsConstant( ):
 # //******************************************************************************
 
 def getMagneticConstant( ):
-    return Measurement( fprod( [ 4, pi, power( 10, -7 ) ] ), [ { 'newton' : 1 }, { 'ampere' : -2 } ] )
+    return RPNMeasurement( fprod( [ 4, pi, power( 10, -7 ) ] ), [ { 'newton' : 1 }, { 'ampere' : -2 } ] )
 
 
 # //******************************************************************************
@@ -283,7 +283,7 @@ def getMagneticConstant( ):
 # //******************************************************************************
 
 def getNewtonsConstant( ):
-    return Measurement( mpmathify( '6.67408e-11' ), [ { 'meter' : 3 }, { 'kilogram' : -1 }, { 'second' : -2 } ] )
+    return RPNMeasurement( mpmathify( '6.67408e-11' ), [ { 'meter' : 3 }, { 'kilogram' : -1 }, { 'second' : -2 } ] )
 
 
 # //******************************************************************************
@@ -297,7 +297,7 @@ def getNewtonsConstant( ):
 # //******************************************************************************
 
 def getStefanBoltzmannConstant( ):
-    return Measurement( mpmathify( '5.670367e-8' ), [ { 'watt' : 1 }, { 'meter' : -2 }, { 'kelvin' : -4 } ] )
+    return RPNMeasurement( mpmathify( '5.670367e-8' ), [ { 'watt' : 1 }, { 'meter' : -2 }, { 'kelvin' : -4 } ] )
 
 
 # //******************************************************************************
@@ -309,7 +309,7 @@ def getStefanBoltzmannConstant( ):
 # //******************************************************************************
 
 def getRadiationConstant( ):
-    return Measurement( mpmathify( '7.5657e-16' ), [ { 'joule' : 1 }, { 'meter' : -3 }, { 'kelvin' : -4 } ] )
+    return RPNMeasurement( mpmathify( '7.5657e-16' ), [ { 'joule' : 1 }, { 'meter' : -3 }, { 'kelvin' : -4 } ] )
 
 
 # //******************************************************************************
