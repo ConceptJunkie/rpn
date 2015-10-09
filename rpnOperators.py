@@ -1595,7 +1595,7 @@ operators = {
     'to_iso_name'                   : OperatorInfo( getISODateName, 1 ),
     'to_julian'                     : OperatorInfo( getJulianCalendarDate, 1 ),
     'to_julian_day'                 : OperatorInfo( getJulianDay, 1 ),
-    'to_lilian'                     : OperatorInfo( getLilianDay, 1 ),
+    'to_lilian_day'                 : OperatorInfo( getLilianDay, 1 ),
     'to_mayan'                      : OperatorInfo( getMayanCalendarDate, 1 ),
     'to_ordinal_date'               : OperatorInfo( getOrdinalDate, 1 ),
     'to_persian'                    : OperatorInfo( getPersianCalendarDate, 1 ),

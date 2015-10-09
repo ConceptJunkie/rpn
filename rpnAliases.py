@@ -614,6 +614,7 @@ operatorAliases = {
     'tounix'            : 'to_unix_time',
     'tounixtime'        : 'to_unix_time',
     'to_jalali'         : 'to_persian',
+    'to_lilian'         : 'to_lilian_day',
     'to_ordinal'        : 'to_ordinal_date',
     'to_unix'           : 'to_unix_time',
     'tri'               : 'triangular',

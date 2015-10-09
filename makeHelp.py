@@ -2507,20 +2507,6 @@ concerned, it's an operator that does nothing.
 '''
 ''' ],
 
-    'julian_day' : [
-'calendars', 'returns the Julian day for a time value',
-'''
-''',
-'''
-''' ],
-
-    'lilian_day' : [
-'calendars', 'returns the Lilian day for a time value',
-'''
-''',
-'''
-''' ],
-
     'to_bahai' : [
 'calendars', 'converts a date to the equivalent date in the Baha\'i',
 '''
@@ -2593,6 +2579,20 @@ concerned, it's an operator that does nothing.
 
     'to_julian' : [
 'calendars', 'converts a date to the equivalent date in the Julian calendar',
+'''
+''',
+'''
+''' ],
+
+    'to_julian_day' : [
+'calendars', 'returns the Julian day for a time value',
+'''
+''',
+'''
+''' ],
+
+    'to_lilian_day' : [
+'calendars', 'returns the Lilian day for a time value',
 '''
 ''',
 '''
