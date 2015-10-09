@@ -18,6 +18,7 @@ import datetime
 
 from convertdate import *
 from dateutil import tz
+from mpmath import ceil
 
 from rpnDateTime import RPNDateTime
 from rpnName import getOrdinalName
@@ -250,6 +251,19 @@ def getJulianDay( n ):
         raise ValueError( 'a date-time type required for this operator' )
 
     return gregorian.to_jd( n.year, n.month, n.day )
+
+
+# //******************************************************************************
+# //
+# //  getLilianDay
+# //
+# //******************************************************************************
+
+def getLilianDay( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'a date-time type required for this operator' )
+
+    return ceil( n.subtract( RPNDateTime( 1582, 10, 15 ) ) )
 
 
 # //******************************************************************************

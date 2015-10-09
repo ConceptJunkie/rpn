@@ -2507,6 +2507,20 @@ concerned, it's an operator that does nothing.
 '''
 ''' ],
 
+    'julian_day' : [
+'calendars', 'returns the Julian day for a time value',
+'''
+''',
+'''
+''' ],
+
+    'lilian_day' : [
+'calendars', 'returns the Lilian day for a time value',
+'''
+''',
+'''
+''' ],
+
     'to_bahai' : [
 'calendars', 'converts a date to the equivalent date in the Baha\'i',
 '''
@@ -2558,6 +2572,20 @@ concerned, it's an operator that does nothing.
 
     'to_islamic_name' : [
 'calendars', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
+'''
+''',
+'''
+''' ],
+
+    'to_iso' : [
+'calendars', 'converts a date to the equivalent ISO date',
+'''
+''',
+'''
+''' ],
+
+    'to_iso_name' : [
+'calendars', 'converts a date to the formatted version of the equivalent ISO date',
 '''
 ''',
 '''
@@ -4129,12 +4157,6 @@ c:\>rpn 1964 election_day
 '''
 ''' ],
 
-    'julian_day' : [
-'date-time', 'returns the Julian day for a time value',
-'''
-''',
-'''
-''' ],
 
     'labor_day' : [
 'date-time', 'calculates the date of Labor Day (US) for the year specified',
