@@ -1792,22 +1792,23 @@ c:\>rpn 16800 mA hours * 5 volts * joule convert
 '''
 ''' ],
 
-    'nint' : [
+    'nearest_int' : [
 'arithmetic', 'returns the nearest integer to n',
 '''
-On a tie, 'nint' returns the nearest even number.
+On a tie, 'nearest_int' returns the nearest even number.  This makes it slightly
+different than 'round'.
 ''',
 '''
-c:\>rpn 2 sqrt nint
+c:\>rpn 2 sqrt nearest_int
 1
 
-c:\>rpn 3 sqrt neg nint
+c:\>rpn 3 sqrt neg nearest_int
 -2
 
-c:\>rpn 0.5 nint
+c:\>rpn 0.5 nearest_int
 0
 
-c:\>rpn 1.5 nint
+c:\>rpn 1.5 nearest_int
 2
 ''' ],
 
@@ -2916,15 +2917,6 @@ c:\>rpn -a24 avogadro
 602214129000000000000000
 ''' ],
 
-    'billion' : [
-'constants', 'returns the constant one billion, i.e. 1.0e9, or 1,000,000,000',
-'''
-''',
-'''
-c:\>rpn -c 7 billion
-7,000,000,000
-''' ],
-
     'catalan' : [
 'constants', 'returns Catalan\'s constant',
 '''
@@ -2965,13 +2957,6 @@ c:\>rpn -a60 -b7 champernowne
 '''
 c:\>rpn -a60 copeland
 0.235711131719232931374143475359616771737983899710110310710911
-''' ],
-
-    'decillion' : [
-'constants', 'returns the constant one decillion, i.e. 1.0e33',
-'''
-''',
-'''
 ''' ],
 
     'default' : [
@@ -3036,13 +3021,6 @@ c:\>rpn faradays_constant
 
     'glaisher' : [
 'constants', 'returns Glaisher\'s constant',
-'''
-''',
-'''
-''' ],
-
-    'googol' : [
-'constants', 'returns the constant one googol, i.e., 1.0e100',
 '''
 ''',
 '''
@@ -3232,13 +3210,6 @@ c:\>rpn max_ushort
 
     'mertens_constant' : [
 'constants', 'returns Merten\'s constant',
-'''
-''',
-'''
-''' ],
-
-    'million' : [
-'constants', 'returns the constant one million (i.e., 1.0e6, or 1,000,000)',
 '''
 ''',
 '''
@@ -3441,20 +3412,6 @@ c:\>rpn max_ushort min_ushort -
 '''
 ''' ],
 
-    'nonillion' : [
-'constants', 'returns the constant one nonillion, i.e. 1.0e30',
-'''
-''',
-'''
-''' ],
-
-    'octillion' : [
-'constants', 'returns the constant one octillion, i.e. 1.0e27',
-'''
-''',
-'''
-''' ],
-
     'omega' : [
 'constants', 'returns the Omega constant',
 '''
@@ -3493,20 +3450,6 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 '''
 ''' ],
 
-    'quadrillion' : [
-'constants', 'returns the constant one quadrillion, i.e. 1.0e15',
-'''
-''',
-'''
-''' ],
-
-    'quintillion' : [
-'constants', 'returns the constant one quintillion, i.e. 1.0e18',
-'''
-''',
-'''
-''' ],
-
     'radiation_constant' : [
 'constants', 'returns the Radiation Constant',
 '''
@@ -3532,20 +3475,6 @@ at random within a unit cube.
 '''
 ''' ],
 
-    'septillion' : [
-'constants', 'returns the constant one septillion, i.e. 1.0e24',
-'''
-''',
-'''
-''' ],
-
-    'sextillion' : [
-'constants', 'returns the constant one sextillion, i.e. 1.0e21',
-'''
-''',
-'''
-''' ],
-
     'silver_ratio' : [
 'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )'
 '''
@@ -3560,13 +3489,6 @@ at random within a unit cube.
 '''
 c:\>rpn stefan_boltzmann
 5.670373e-8 watts per meter^2 kelvin^4
-''' ],
-
-    'trillion' : [
-'constants', 'returns the constant one trillion, i.e. 1.0e12',
-'''
-''',
-'''
 ''' ],
 
     'true' : [
@@ -3735,64 +3657,6 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
-
-    'january' : [
-'constants', 'returns 1, which is the code for January',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-
-    'january' : [
-'constants', 'returns 1, which is the code for January',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-
-    'january' : [
-'constants', 'returns 1, which is the code for January',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-
-    'january' : [
-'constants', 'returns 1, which is the code for January',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-
-    'january' : [
-'constants', 'returns 1, which is the code for January',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-
-    'january' : [
-'constants', 'returns 1, which is the code for January',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-
-    'january' : [
-'constants', 'returns 1, which is the code for January',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' ],
-
-
 
 
 # //******************************************************************************
@@ -4876,6 +4740,7 @@ c:\>rpn 2 2 10 exponential_range
 [ 2, 4, 16, 256, 65536, 4294967296, 18446744073709551616, 3.4028236692e38,
 1.1579208924e77, 1.34078079210e154 ]
 ''' ],
+
     'flatten' : [
 'list_operators', 'flattens a nested lists in list n to a single level',
 '''
@@ -6663,6 +6528,14 @@ c:\>rpn 1 8 range steloct
 '''
 ''' ],
 
+    'cube_root' : [
+'powers_and_roots', 'calculates the cube root of n',
+'''
+This operator is the equivalent of 'n 3 root'.
+''',
+'''
+''' ],
+
     'exp' : [
 'powers_and_roots', 'calculates the nth power of e',
 '''
@@ -6746,25 +6619,17 @@ c:\>rpn 1 foot 3 ** gallon convert
 '''
 ''' ],
 
-    'root2' : [
-'powers_and_roots', 'calculates the square root of n',
-'''
-This operator is the equivalent of 'n 2 root'.
-''',
-'''
-''' ],
-
-    'root3' : [
-'powers_and_roots', 'calculates the cube root of n',
-'''
-This operator is the equivalent of 'n 3 root'.
-''',
-'''
-''' ],
-
     'square' : [
 'powers_and_roots', 'calculates the square of n',
 '''
+''',
+'''
+''' ],
+
+    'square_root' : [
+'powers_and_roots', 'calculates the square root of n',
+'''
+This operator is the equivalent of 'n 2 root'.
 ''',
 '''
 ''' ],

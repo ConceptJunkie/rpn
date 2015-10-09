@@ -136,8 +136,7 @@ class RPNDateTime( arrow.Arrow ):
             return self.replace( year = self.year + years )
         elif 'months' in g.unitOperators[ time.getUnitString( ) ].categories:
             months = convertUnits( time, 'month' ).getValue( )
-            result = incrementMonths( self, months )
-            return result
+            return self.incrementMonths( months )
         else:
             days = int( floor( convertUnits( time, 'day' ).getValue( ) ) )
             seconds = int( fmod( floor( convertUnits( time, 'second' ).getValue( ) ), 86400 ) )
@@ -152,7 +151,8 @@ class RPNDateTime( arrow.Arrow ):
     def subtract( self, time ):
         if isinstance( time, RPNMeasurement ):
             kneg = RPNMeasurement( fneg( time.getValue( ) ), time.getUnits( ) )
-            return self.add( self, kneg )
+            return self.add( kneg )
+
         elif isinstance( time, RPNDateTime ):
             if self > time:
                 delta = self - time
