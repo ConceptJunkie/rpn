@@ -241,11 +241,39 @@ def generateYearCalendar( n ):
 
 # //******************************************************************************
 # //
+# //  getJulianDay
+# //
+# //******************************************************************************
+
+def getJulianDay( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'a date-time type required for this operator' )
+
+    return gregorian.to_jd( n.year, n.month, n.day )
+
+
+# //******************************************************************************
+# //
 # //  getISODate
 # //
 # //******************************************************************************
 
 def getISODate( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'a date-time type required for this operator' )
+
+    result = n.isocalendar( )
+
+    return list( result )
+
+
+# //******************************************************************************
+# //
+# //  getISODateName
+# //
+# //******************************************************************************
+
+def getISODateName( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'a date-time type required for this operator' )
 

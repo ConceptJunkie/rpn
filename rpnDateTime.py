@@ -424,19 +424,6 @@ def getLastDayOfMonth( year, month ):
 
 # //******************************************************************************
 # //
-# //  getJulianDay
-# //
-# //******************************************************************************
-
-def getJulianDay( n ):
-    if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'a date-time type required for this operator' )
-
-    return n.timetuple( ).tm_yday
-
-
-# //******************************************************************************
-# //
 # //  calculateNthWeekdayOfYear
 # //
 # //  Monday = 1, etc., as per arrow, nth == -1 for last
