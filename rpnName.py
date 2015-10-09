@@ -211,7 +211,10 @@ def getNumberName( n, ordinal = False ):
         n = mpf( n )
 
     if n == 0:
-        return 'zero'
+        if ordinal:
+            return 'zeroth'
+        else:
+            return 'zero'
 
     current = fabs( n )
 
