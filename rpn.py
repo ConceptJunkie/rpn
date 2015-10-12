@@ -491,14 +491,12 @@ def rpn( cmd_args ):
         return
 
     if g.unitsVersion != PROGRAM_VERSION:
-        print( 'rpn  units data file version mismatch' )
+        print( 'rpn:  units data file version mismatch' )
 
     if g.timer:
         g.startTime = time.process_time( )
 
-    valueList = evaluate( args.terms )
-
-    handleOutput( valueList )
+    return evaluate( args.terms )
 
 
 # //******************************************************************************
@@ -509,7 +507,8 @@ def rpn( cmd_args ):
 
 if __name__ == '__main__':
     try:
-        rpn( sys.argv[ 1 : ] )
+        results = rpn( sys.argv[ 1 : ] )
+        handleOutput( results )
     except ValueError as error:
         print( 'rpn:  value error:  {0}'.format( error ) )
 

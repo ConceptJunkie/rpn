@@ -10,7 +10,7 @@
 # //
 # //******************************************************************************
 
-from rpn import rpn
+from rpn import rpn, handleOutput
 
 from testConvert import *
 from testHelp import *
@@ -24,7 +24,11 @@ from testHelp import *
 
 def testRPN( command ):
     print( command )
-    rpn( command.split( ' ' )[ 1 : ] )
+    result = rpn( command.split( ' ' )[ 1 : ] )
+
+    if not result is None:
+        handleOutput( result )
+
     print( )
 
 
