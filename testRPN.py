@@ -18,16 +18,59 @@ from testHelp import *
 
 # //******************************************************************************
 # //
+# //  testEqual
+# //
+# //******************************************************************************
+
+def testEqual( command1, command2 ):
+    print( command1 )
+    print( command2 )
+    result1 = rpn( command1.split( ' ' )[ 1 : ] )[ 0 ]
+    result2 = rpn( command2.split( ' ' )[ 1 : ] )[ 0 ]
+
+    if result1 != result2:
+        print( '**** error in equivalence test \'' + command1 + '\' and \'' + command2 + '\'' )
+        print( '    result 1: ', result1 )
+        print( '    result 2: ', result2 )
+    else:
+        print( 'passed!' )
+
+    print( )
+
+
+# //******************************************************************************
+# //
 # //  testRPN
 # //
 # //******************************************************************************
 
 def testRPN( command ):
     print( command )
-    result = rpn( command.split( ' ' )[ 1 : ] )
+    result = rpn( command.split( ' ' )[ 1 : ] )[ 0 ]
 
     if not result is None:
         handleOutput( result )
+
+    print( )
+
+
+# //******************************************************************************
+# //
+# //  expectRPN
+# //
+# //******************************************************************************
+
+def expectRPN( command, expected ):
+    print( command )
+    result = rpn( command.split( ' ' )[ 1 : ] )
+
+    if not result is None:
+        if result != expected:
+            print( '**** error in test \'' + command + '\'' )
+            print( '    expected: ', expected )
+            print( '    but got: ', result )
+        else:
+            print( 'passed!' )
 
     print( )
 
@@ -204,11 +247,13 @@ def runTests( ):
 
     # abs
 
-    testRPN( 'rpn -394 abs' )
+    expectRPN( 'rpn -394 abs', 394 )
+    expectRPN( 'rpn 0 abs', 0 )
+    expectRPN( 'rpn 394 abs', 394 )
 
     # add
 
-    testRPN( 'rpn 4 3 add' )
+    expectRPN( 'rpn 4 3 add', 7 )
     testRPN( 'rpn today 7 days +' )
     testRPN( 'rpn today 3 weeks +' )
     testRPN( 'rpn today 50 years +' )
@@ -222,7 +267,7 @@ def runTests( ):
 
     # ceiling
 
-    testRPN( 'rpn 9.99999 ceiling' )
+    expectRPN( 'rpn 9.99999 ceiling', 10 )
 
     # divide
 
@@ -234,7 +279,9 @@ def runTests( ):
 
     # floor
 
-    testRPN( 'rpn 3.4 floor' )
+    expectRPN( 'rpn -0.4 floor', -1 )
+    expectRPN( 'rpn 1 floor', 1 )
+    expectRPN( 'rpn 3.4 floor', 3 )
 
     # gcd
 
@@ -242,74 +289,108 @@ def runTests( ):
 
     # is_divisible
 
-    testRPN( 'rpn 1000 10000 is_divisible' )
-    testRPN( 'rpn 12 1 12 range is_divisible' )
-    testRPN( 'rpn 1 20 range 6 is_divisible' )
+    expectRPN( 'rpn 1000 10000 is_divisible', 0 )
+    expectRPN( 'rpn 10000 1000 is_divisible', 1 )
+    expectRPN( 'rpn 12 1 12 range is_divisible', [ 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 ] )
+    expectRPN( 'rpn 1 20 range 6 is_divisible', [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ] )
 
     # is_equal
 
-    testRPN( 'rpn 4 3 is_equal' )
+    expectRPN( 'rpn 4 3 is_equal', 0 )
+    expectRPN( 'rpn pi pi is_equal', 1 )
 
     # is_even
 
+    expectRPN( 'rpn -2 is_even', 1 )
+    expectRPN( 'rpn -1 is_even', 0 )
+    expectRPN( 'rpn 0 is_even', 1 )
+    expectRPN( 'rpn 1 is_even', 0 )
+    expectRPN( 'rpn 2 is_even', 1 )
+
     # is_greater
 
-    testRPN( 'rpn 4 3 is_greater' )
+    expectRPN( 'rpn 4 3 is_greater', 1 )
+    expectRPN( 'rpn 55 55 is_greater', 0 )
+    expectRPN( 'rpn e pi is_greater', 0 )
 
     # is_less
 
-    testRPN( 'rpn 4 3 is_less' )
+    expectRPN( 'rpn 4 3 is_less', 0 )
+    expectRPN( 'rpn 2 2 is_less', 0 )
+    expectRPN( 'rpn 2 3 is_less', 1 )
 
     # is_not_equal
 
-    testRPN( 'rpn 4 3 is_not_equal' )
+    expectRPN( 'rpn 4 3 is_not_equal', 1 )
+    expectRPN( 'rpn 3 3 is_not_equal', 0 )
 
     # is_not_greater
 
-    testRPN( 'rpn 4 3 is_not_greater' )
+    expectRPN( 'rpn 4 3 is_not_greater', 0 )
+    expectRPN( 'rpn 77 77 is_not_greater', 1 )
+    expectRPN( 'rpn 2 99 is_not_greater', 1 )
 
     # is_not_less
 
-    testRPN( 'rpn 4 3 is_not_less' )
+    expectRPN( 'rpn 4 3 is_not_less', 1 )
+    expectRPN( 'rpn 663 663 is_not_less', 1 )
+    expectRPN( 'rpn -100 100 is_not_less', 0 )
 
     # is_not_zero
 
+    expectRPN( 'rpn -1 is_not_zero', 1 )
+    expectRPN( 'rpn 0 is_not_zero', 0 )
+    expectRPN( 'rpn 1 is_not_zero', 1 )
+
     # is_odd
+
+    expectRPN( 'rpn -2 is_odd', 0 )
+    expectRPN( 'rpn -1 is_odd', 1 )
+    expectRPN( 'rpn 0 is_odd', 0 )
+    expectRPN( 'rpn 1 is_odd', 1 )
+    expectRPN( 'rpn 2 is_odd', 0 )
 
     # is_square
 
-    testRPN( 'rpn 1024 is_square' )
+    expectRPN( 'rpn 1024 is_square', 1 )
+    expectRPN( 'rpn 5 is_square', 0 )
 
     # is_zero
+
+    expectRPN( 'rpn -1 is_zero', 0 )
+    expectRPN( 'rpn 0 is_zero', 1 )
+    expectRPN( 'rpn 1 is_zero', 0 )
 
     # lcm
 
     # max
 
-    testRPN( 'rpn 1 10 range max' )
+    expectRPN( 'rpn 1 10 range max', 10 )
 
     # mean
 
-    testRPN( 'rpn 1 10 range mean' )
+    expectRPN( 'rpn 1 10 range mean', 5.5 )
 
     # min
 
-    testRPN( 'rpn 1 10 range min' )
+    expectRPN( 'rpn 1 10 range min', 1 )
 
     # modulo
 
-    testRPN( 'rpn 11001 100 modulo' )
+    expectRPN( 'rpn 11001 100 modulo', 1 )
 
     # multiply
 
-    testRPN( 'rpn 5 7 multiply' )
+    expectRPN( 'rpn 5 7 multiply', 35 )
     testRPN( 'rpn 15 mph 10 hours *' )
     testRPN( 'rpn c m/s convert 1 nanosecond * inches convert' )
     testRPN( 'rpn barn gigaparsec * cubic_inch convert' )
 
     # negative
 
-    testRPN( 'rpn 4 negative' )
+    expectRPN( 'rpn -4 negative', 4 )
+    expectRPN( 'rpn 0 negative', 0 )
+    expectRPN( 'rpn 4 negative', -4 )
 
     # nearest_int
 
@@ -693,6 +774,7 @@ def runTests( ):
     # infinity
 
     testRPN( 'rpn infinity x fib x 1 - fib / limit' )
+    testEqual( 'rpn infinity x fib x 1 - fib / limit', 'rpn phi' )
     testRPN( 'rpn infinity x 1/x 1 + x ** limit' )
 
     # itoi
