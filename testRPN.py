@@ -1,4 +1,4 @@
-
+# //******************************************************************************
 # //
 # //  testRPN
 # //
@@ -18,11 +18,11 @@ from testHelp import *
 
 # //******************************************************************************
 # //
-# //  testEqual
+# //  expectEqual
 # //
 # //******************************************************************************
 
-def testEqual( command1, command2 ):
+def expectEqual( command1, command2 ):
     print( command1 )
     print( command2 )
     result1 = rpn( command1.split( ' ' )[ 1 : ] )[ 0 ]
@@ -33,7 +33,7 @@ def testEqual( command1, command2 ):
         print( '    result 1: ', result1 )
         print( '    result 2: ', result2 )
     else:
-        print( 'passed!' )
+        print( 'both are equal!' )
 
     print( )
 
@@ -46,7 +46,7 @@ def testEqual( command1, command2 ):
 
 def testRPN( command ):
     print( command )
-    result = rpn( command.split( ' ' )[ 1 : ] )[ 0 ]
+    result = rpn( command.split( ' ' )[ 1 : ] )
 
     if not result is None:
         handleOutput( result )
@@ -62,7 +62,7 @@ def testRPN( command ):
 
 def expectRPN( command, expected ):
     print( command )
-    result = rpn( command.split( ' ' )[ 1 : ] )
+    result = rpn( command.split( ' ' )[ 1 : ] )[ 0 ]
 
     if not result is None:
         if result != expected:
@@ -77,15 +77,11 @@ def expectRPN( command, expected ):
 
 # //******************************************************************************
 # //
-# //  runTests
-# //
-# //  At this point, there is no validation of the answers.  Mostly this tests
-# //  that every operator works without throwing unhandled exceptions.
+# //  runCommandLineOptionsTests
 # //
 # //******************************************************************************
 
-def runTests( ):
-    # command-line options
+def runCommandLineOptionsTests( ):
     testRPN( 'rpn -a20 7 square_root' )
 
     testRPN( 'rpn 100101011010011 -b 2' )
@@ -186,12 +182,13 @@ def runTests( ):
     testRPN( 'rpn 65537 4 ** -r16 -g8 -z' )
 
 
-    # //******************************************************************************
-    # //
-    # //  algebra operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runAlgebraOperatorTests
+# //
+# //******************************************************************************
 
+def runAlgebraOperatorTests( ):
     # bell_polynomal
 
     testRPN( 'rpn 4 5 bell_polynomial' )
@@ -239,12 +236,13 @@ def runTests( ):
     testRPN( 'rpn 2 -3 2 -3 2 solve4' )
 
 
-    # //******************************************************************************
-    # //
-    # //  arithmetic operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runArithmeticOperatorTests
+# //
+# //******************************************************************************
 
+def runArithmeticOperatorTests( ):
     # abs
 
     expectRPN( 'rpn -394 abs', 394 )
@@ -285,7 +283,9 @@ def runTests( ):
 
     # gcd
 
-    testRPN( 'rpn 1 100 range gcd' )
+    expectRPN( 'rpn 1 100 range gcd', 1 )
+    expectRPN( 'rpn [ 124 324 ] gcd', 4 )
+    expectRPN( 'rpn [ 8 64 ] gcd', 8 )
 
     # is_divisible
 
@@ -363,6 +363,8 @@ def runTests( ):
 
     # lcm
 
+    expectEqual( 'rpn 1 10 range lcm', 'rpn [ 2 2 2 3 3 5 7 ] prod' )
+
     # max
 
     expectRPN( 'rpn 1 10 range max', 10 )
@@ -394,7 +396,12 @@ def runTests( ):
 
     # nearest_int
 
+    expectRPN( 'rpn 0.1 nearest_int', 0 )
+    expectRPN( 'rpn 4.5 nearest_int', 4 )
+
     # percent
+
+    expectRPN( 'rpn 100 percent', 1 )
 
     # product
 
@@ -406,9 +413,16 @@ def runTests( ):
 
     # round
 
-    testRPN( 'rpn 4.5 round' )
+    expectRPN( 'rpn 0.1 round', 0 )
+    expectRPN( 'rpn 4.5 round', 5 )
 
     # sign
+
+    expectRPN( 'rpn 1 sign', 1 )
+    expectRPN( 'rpn 0 sign', 0 )
+    expectRPN( 'rpn -1 sign', -1 )
+    expectRPN( 'rpn infinity sign', 1 )
+    expectRPN( 'rpn negative_infinity sign', -1 )
 
     # stddev
 
@@ -430,15 +444,16 @@ def runTests( ):
 
     # sum
 
-    testRPN( 'rpn 1 10 range sum' )
+    expectRPN( 'rpn 1 10 range sum', 55 )
 
 
-    # //******************************************************************************
-    # //
-    # //  astronomy operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runAstronomyOperatorTests
+# //
+# //******************************************************************************
 
+def runAstronomyOperatorTests( ):
     # astronomical_dawn
 
     # astronomical_dusk
@@ -536,13 +551,16 @@ def runTests( ):
     # venus
 
     # winter_solstice
+    pass
 
-    # //******************************************************************************
-    # //
-    # //  bitwise operators
-    # //
-    # //******************************************************************************
 
+# //******************************************************************************
+# //
+# //  runBitwiseOperatorTests
+# //
+# //******************************************************************************
+
+def runBitwiseOperatorTests( ):
     # and
 
     testRPN( 'rpn 0x7777 0xdcba and' )
@@ -580,12 +598,13 @@ def runTests( ):
     testRPN( 'rpn 0x1939 0x3948 xor' )
 
 
-    # //******************************************************************************
-    # //
-    # //  calendar operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runCalendarOperatorTests
+# //
+# //******************************************************************************
 
+def runCalendarOperatorTests( ):
     # calendar
 
     testRPN( 'rpn 1965-03 calendar' )
@@ -625,12 +644,14 @@ def runTests( ):
     testRPN( 'rpn 1965 year_calendar' )
     testRPN( 'rpn today year_calendar' )
 
-    # //******************************************************************************
-    # //
-    # //  combinatoric operators
-    # //
-    # //******************************************************************************
 
+# //******************************************************************************
+# //
+# //  runCombinatoricOperatorTests
+# //
+# //******************************************************************************
+
+def runCombinatoricOperatorTests( ):
     # bell
 
     testRPN( 'rpn -a43 45 bell' )
@@ -691,12 +712,13 @@ def runTests( ):
     testRPN( 'rpn 45 sylvester' )
 
 
-    # //******************************************************************************
-    # //
-    # //  complex math operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runComplexMathOperatorTests
+# //
+# //******************************************************************************
 
+def runComplexMathOperatorTests( ):
     # argument
 
     testRPN( 'rpn 3 3 i + argument' )
@@ -713,12 +735,13 @@ def runTests( ):
     # real
 
 
-    # //******************************************************************************
-    # //
-    # //  constants operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runConstantOperatorTests
+# //
+# //******************************************************************************
 
+def runConstantOperatorTests( ):
     # apery
 
     testRPN( 'rpn apery' )
@@ -774,7 +797,7 @@ def runTests( ):
     # infinity
 
     testRPN( 'rpn infinity x fib x 1 - fib / limit' )
-    testEqual( 'rpn infinity x fib x 1 - fib / limit', 'rpn phi' )
+    expectEqual( 'rpn infinity x fib x 1 - fib / limit', 'rpn phi' )
     testRPN( 'rpn infinity x 1/x 1 + x ** limit' )
 
     # itoi
@@ -791,7 +814,7 @@ def runTests( ):
 
     # max_char
 
-    testRPN( 'rpn max_char' )
+    expectRPN( 'rpn max_char', 127 )
 
     # max_double
 
@@ -961,12 +984,14 @@ def runTests( ):
     # november
     # december
 
-    # //******************************************************************************
-    # //
-    # //  conversion operators
-    # //
-    # //******************************************************************************
 
+# //******************************************************************************
+# //
+# //  runConversionOperatorTests
+# //
+# //******************************************************************************
+
+def runConversionOperatorTests( ):
     # char
 
     testRPN( 'rpn 0x101 char' )
@@ -1069,12 +1094,13 @@ def runTests( ):
     testRPN( 'rpn 14578 seconds ydhms' )
 
 
-    # //******************************************************************************
-    # //
-    # //  date-time operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runDateTimeOperatorTests
+# //
+# //******************************************************************************
 
+def runDateTimeOperatorTests( ):
     # ash_wednesday
     # dst_end
 
@@ -1136,12 +1162,14 @@ def runTests( ):
     # weekday
     # yesterday
 
-    # //******************************************************************************
-    # //
-    # //  function operators
-    # //
-    # //******************************************************************************
 
+# //******************************************************************************
+# //
+# //  runFunctionOperatorTests
+# //
+# //******************************************************************************
+
+def runFunctionOperatorTests( ):
     # eval
 
     testRPN( 'rpn 10 x 5 * eval' )
@@ -1165,12 +1193,14 @@ def runTests( ):
     # y
     # z
 
-    # //******************************************************************************
-    # //
-    # //  geometry operators
-    # //
-    # //******************************************************************************
 
+# //******************************************************************************
+# //
+# //  runGeometryOperatorTests
+# //
+# //******************************************************************************
+
+def runGeometryOperatorTests( ):
     # n_sphere_area
 
     testRPN( 'rpn 34 inches 3 n_sphere_area' )
@@ -1214,12 +1244,13 @@ def runTests( ):
     testRPN( 'rpn 123 456 789 triangle_area' )
 
 
-    # //******************************************************************************
-    # //
-    # //  internal operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runInternalOperatorTests
+# //
+# //******************************************************************************
 
+def runInternalOperatorTests( ):
     # _dump_aliases
 
     testRPN( 'rpn _dump_aliases' )
@@ -1233,12 +1264,13 @@ def runTests( ):
     testRPN( 'rpn _stats' )
 
 
-    # //******************************************************************************
-    # //
-    # //  lexicographic operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runLexicographicOperatorTests
+# //
+# //******************************************************************************
 
+def runLexicographicOperatorTests( ):
     # add_digits
 
     testRPN( 'rpn 3 4 add_digits' )
@@ -1280,12 +1312,13 @@ def runTests( ):
     # sum_digits
 
 
-    # //******************************************************************************
-    # //
-    # //  list operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runListOperatorTests
+# //
+# //******************************************************************************
 
+def runListOperatorTests( ):
     # alternate_signs
 
     testRPN( 'rpn 1 10 range alternate_signs' )
@@ -1421,12 +1454,13 @@ def runTests( ):
     testRPN( 'rpn 1 10 range zero' )
 
 
-    # //******************************************************************************
-    # //
-    # //  logarithm operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runLogarithmOperatorTests
+# //
+# //******************************************************************************
 
+def runLogarithmOperatorTests( ):
     # lambertw
 
     testRPN( 'rpn 5 lambertw' )
@@ -1456,12 +1490,13 @@ def runTests( ):
     testRPN( 'rpn 9 3 polylog' )
 
 
-    # //******************************************************************************
-    # //
-    # //  modifier operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runModifierOperatorTests
+# //
+# //******************************************************************************
 
+def runModifierOperatorTests( ):
     # [
     # ]
     # {
@@ -1476,12 +1511,14 @@ def runTests( ):
     # unlist
     # use_members
 
-    # //******************************************************************************
-    # //
-    # //  number theory operators
-    # //
-    # //******************************************************************************
 
+# //******************************************************************************
+# //
+# //  runNumberTheoryOperatorTests
+# //
+# //******************************************************************************
+
+def runNumberTheoryOperatorTests( ):
     # aliquot
 
     testRPN( 'rpn 276 10 aliquot' )
@@ -1707,12 +1744,13 @@ def runTests( ):
     testRPN( 'rpn 4 zeta' )
 
 
-    # //******************************************************************************
-    # //
-    # //  polygonal number operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runPolygonalOperatorTests
+# //
+# //******************************************************************************
 
+def runPolygonalOperatorTests( ):
     # centered_decagonal
 
     testRPN( 'rpn 17 centered_decagonal' )
@@ -1919,12 +1957,13 @@ def runTests( ):
     testRPN( 'rpn 20706 triangular?' )
 
 
-    # //******************************************************************************
-    # //
-    # //  polyhedral number operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runPolyhedralOperatorTests
+# //
+# //******************************************************************************
 
+def runPolyhedralOperatorTests( ):
     # centered_cube
 
     testRPN( 'rpn 100 centered_cube' )
@@ -1977,12 +2016,13 @@ def runTests( ):
     testRPN( 'rpn 12 pentatope' )
 
 
-    # //******************************************************************************
-    # //
-    # //  powers and roots operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runPowersAndRootsOperatorTests
+# //
+# //******************************************************************************
 
+def runPowersAndRootsOperatorTests( ):
     # cube
 
     testRPN( 'rpn 3 cube' )
@@ -2039,12 +2079,13 @@ def runTests( ):
     testRPN( 'rpn [ 4 4 4 ] tower2' )
 
 
-    # //******************************************************************************
-    # //
-    # //  prime number operators
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runPrimeNumberOperatorTests
+# //
+# //******************************************************************************
 
+def runPrimeNumberOperatorTests( ):
     # balanced_prime
 
     testRPN( 'rpn 1 10 range balanced' )
@@ -2266,17 +2307,18 @@ def runTests( ):
     testRPN( 'rpn 39485 twin_prime' )
 
 
-    # //******************************************************************************
-    # //
-    # //  settings operators (for use in interactive mode)
-    # //
-    # //******************************************************************************
+# //******************************************************************************
+# //
+# //  runSettingsOperatorTests
+# //
+# //******************************************************************************
 
+def runSettingsOperatorTests( ):
     # accuracy
     # comma
     # comma_mode
     # decimal_grouping
-    # # hex_mode
+    # hex_mode
     # identify
     # identify_mode
     # input_radix
@@ -2288,13 +2330,16 @@ def runTests( ):
     # precision
     # timer
     # timer_mode
+    pass
 
-    # //******************************************************************************
-    # //
-    # //  special operators
-    # //
-    # //******************************************************************************
 
+# //******************************************************************************
+# //
+# //  runSpecialOperatorTests
+# //
+# //******************************************************************************
+
+def runSpecialOperatorTests( ):
     # estimate
 
     testRPN( 'rpn 150 amps estimate' )
@@ -2428,12 +2473,14 @@ def runTests( ):
     # topic
     # value
 
-    # //******************************************************************************
-    # //
-    # //  trigonometry operators
-    # //
-    # //******************************************************************************
 
+# //******************************************************************************
+# //
+# //  runTrigonometryOperatorTests
+# //
+# //******************************************************************************
+
+def runTrigonometryOperatorTests( ):
     # acos
 
     testRPN( 'rpn 0.8 acos' )
@@ -2534,6 +2581,41 @@ def runTests( ):
     # tanh
 
     testRPN( 'rpn pi 4 / tanh' )
+
+
+# //******************************************************************************
+# //
+# //  runTests
+# //
+# //******************************************************************************
+
+def runTests( ):
+    runCommandLineOptionsTests( )
+    runAlgebraOperatorTests( )
+    runArithmeticOperatorTests( )
+    runAstronomyOperatorTests( )
+    runBitwiseOperatorTests( )
+    runCalendarOperatorTests( )
+    runCombinatoricOperatorTests( )
+    runComplexMathOperatorTests( )
+    runConstantOperatorTests( )
+    runConversionOperatorTests( )
+    runDateTimeOperatorTests( )
+    runFunctionOperatorTests( )
+    runGeometryOperatorTests( )
+    runInternalOperatorTests( )
+    runLexicographicOperatorTests( )
+    runListOperatorTests( )
+    runLogarithmOperatorTests( )
+    runModifierOperatorTests( )
+    runNumberTheoryOperatorTests( )
+    runPolygonalOperatorTests( )
+    runPolyhedralOperatorTests( )
+    runPowersAndRootsOperatorTests( )
+    runPrimeNumberOperatorTests( )
+    runSettingsOperatorTests( )
+    runSpecialOperatorTests( )
+    runTrigonometryOperatorTests( )
 
 
 # //******************************************************************************
