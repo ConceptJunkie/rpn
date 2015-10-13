@@ -1243,6 +1243,44 @@ def getNthQuintupletPrimeList( arg ):
 
 # //******************************************************************************
 # //
+# //  findQuintupletPrimes
+# //
+# //******************************************************************************
+
+def findQuintupletPrimes( arg ):
+    global quintPrimes
+
+    n = int( arg )
+
+    if n < 5:
+        return 1, [ 5, 7, 11, 13, 17 ]
+    elif n < 7:
+        return 2, [ 7, 11, 13, 17, 19 ]
+
+    if quintPrimes == { }:
+        quintPrimes = loadQuintupletPrimes( g.dataPath )
+
+    currentIndex = max( key for key in quintPrimes if quintPrimes[ key ] <= n )
+    p = quintPrimes[ currentIndex ]
+
+    while True:
+        p += 30
+
+        f = p % 10
+
+        if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
+           ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
+            currentIndex += 1
+
+            if p > n:
+                if f == 1:
+                    return currentIndex, [ p, fadd( p, 2 ), fadd( p, 6 ), fadd( p, 8 ), fadd( p, 12 ) ]
+                elif f == 7:
+                    return currentIndex, [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ) ]
+
+
+# //******************************************************************************
+# //
 # //  getNthSextupletPrime
 # //
 # //******************************************************************************

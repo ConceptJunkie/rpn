@@ -30,6 +30,7 @@ from rpnDateTime import *
 from rpnDeclarations import *
 from rpnFactor import *
 from rpnGeometry import *
+from rpnInput import *
 from rpnLexicographic import *
 from rpnList import *
 from rpnMath import *
@@ -1453,6 +1454,7 @@ operators = {
     'quadruplet_prime?'             : OperatorInfo( lambda n: findQuadrupletPrimes( n )[ 1 ], 1 ),
     'quadruplet_prime_'             : OperatorInfo( getNthQuadrupletPrimeList, 1 ),
     'quintuplet_prime'              : OperatorInfo( getNthQuintupletPrime, 1 ),
+    'quintuplet_prime?'             : OperatorInfo( lambda n: findQuintupletPrimes( n )[ 1 ], 1 ),
     'quintuplet_prime_'             : OperatorInfo( getNthQuintupletPrimeList, 1 ),
     'radiation_constant'            : OperatorInfo( getRadiationConstant, 0 ),
     'random'                        : OperatorInfo( rand, 0 ),

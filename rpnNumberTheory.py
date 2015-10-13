@@ -987,7 +987,7 @@ def isKSemiPrime( n, k ):
 # //
 # //******************************************************************************
 
-def isSphenic( n, k ):
+def isSphenic( n ):
     factors = getECMFactors( n ) if g.ecm else getFactors( n )
 
     if len( factors ) != 3:

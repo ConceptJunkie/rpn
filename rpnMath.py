@@ -14,7 +14,7 @@
 
 from mpmath import *
 
-from rpnDateTime import *
+from rpnDateTime import RPNDateTime
 from rpnMeasurement import RPNMeasurement
 
 

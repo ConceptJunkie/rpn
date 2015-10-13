@@ -50,6 +50,7 @@
 from mpmath import *
 
 from rpnDeclarations import *
+from rpnInput import convertToBase10
 from rpnMeasurement import RPNMeasurement
 from rpnPrimeUtils import *
 from rpnUtils import *

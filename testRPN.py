@@ -10,9 +10,10 @@
 # //
 # //******************************************************************************
 
-from rpn import rpn, handleOutput
+import shlex
 
 from rpnMeasurement import RPNMeasurement
+from rpnTestUtils import *
 
 from testConvert import *
 from testHelp import *
@@ -22,188 +23,109 @@ from mpmath import *
 
 # //******************************************************************************
 # //
-# //  expectEqual
-# //
-# //******************************************************************************
-
-def expectEqual( command1, command2 ):
-    print( 'rpn', command1 )
-    print( 'rpn', command2 )
-
-    result1 = rpn( command1.split( ' ' ) )[ 0 ]
-    result2 = rpn( command2.split( ' ' ) )[ 0 ]
-
-    if result1 != result2:
-        print( '**** error in equivalence test \'' + command1 + '\' and \'' + command2 + '\'' )
-        print( '    result 1: ', result1 )
-        print( '    result 2: ', result2 )
-    else:
-        print( 'both are equal!' )
-
-    print( )
-
-
-# //******************************************************************************
-# //
-# //  testRPN
-# //
-# //******************************************************************************
-
-def testRPN( command ):
-    print( 'rpn', command )
-    result = rpn( command.split( ' ' ) )
-
-    if not result is None:
-        handleOutput( result )
-
-    print( )
-
-
-# //******************************************************************************
-# //
-# //  expectRPN
-# //
-# //******************************************************************************
-
-def expectRPN( command, expected ):
-    print( 'rpn', command )
-    result = rpn( command.split( ' ' ) )[ 0 ]
-
-    compare = None
-
-    if isinstance( expected, list ):
-        compare = [ ]
-
-        for i in expected:
-            if isinstance( i, int ) or isinstance( i, float ) or isinstance( i, complex ):
-                compare.append( mpmathify( i ) )
-            else:
-                compare.append( i )
-    else:
-        if isinstance( expected, int ) or isinstance( expected, float ) or isinstance( expected, complex ):
-            compare = mpmathify( expected )
-        else:
-            compare = expected
-
-    if not result is None:
-        if result == compare:
-            print( result )
-            print( 'passed!' )
-        else:
-            print( '**** error in test \'' + command + '\'' )
-            print( '    expected: ', expected )
-            print( '    but got: ', result )
-
-            raise ValueError( 'unit test failed' )
-
-    print( )
-
-
-# //******************************************************************************
-# //
 # //  runCommandLineOptionsTests
 # //
 # //******************************************************************************
 
 def runCommandLineOptionsTests( ):
-    testRPN( '-a20 7 square_root' )
+    testOperator( '-a20 7 square_root' )
 
-    testRPN( '100101011010011 -b 2' )
-    testRPN( '120012022211222012 -b 3' )
-    testRPN( 'rick -b 36' )
+    testOperator( '100101011010011 -b 2' )
+    testOperator( '120012022211222012 -b 3' )
+    testOperator( 'rick -b 36' )
 
-    testRPN( '6 8 ** -c' )
+    testOperator( '6 8 ** -c' )
 
-    testRPN( '-a3 7 square_root -d' )
-    testRPN( '-a12 8 square_root -d5' )
-    testRPN( '-a50 19 square_root -d10' )
+    testOperator( '-a3 7 square_root -d' )
+    testOperator( '-a12 8 square_root -d5' )
+    testOperator( '-a50 19 square_root -d10' )
 
-    testRPN( '-a50 1 30 range fibonacci -g 3' )
-    testRPN( '-a50 1 30 range fibonacci -g 4' )
+    testOperator( '-a50 1 30 range fibonacci -g 3' )
+    testOperator( '-a50 1 30 range fibonacci -g 4' )
 
-    testRPN( '-h' )
+    testOperator( '-h' )
 
-    testRPN( '2 sqrt pi * -i' )
+    testOperator( '2 sqrt pi * -i' )
 
-    testRPN( '1 10 range 3 ** -o' )
+    testOperator( '1 10 range 3 ** -o' )
 
-    testRPN( 'pi -p 1000' )
+    testOperator( 'pi -p 1000' )
 
-    testRPN( '10 100 10 range2 -r phi' )
+    testOperator( '10 100 10 range2 -r phi' )
 
-    testRPN( '1 100 range -r2' )
-    testRPN( '1 100 range -r3' )
-    testRPN( '1 100 range -r4' )
-    testRPN( '1 100 range -r5' )
-    testRPN( '1 100 range -r6' )
-    testRPN( '1 100 range -r7' )
-    testRPN( '1 100 range -r8' )
-    testRPN( '1 100 range -r9' )
-    testRPN( '1 100 range -r10' )
-    testRPN( '1 100 range -r11' )
-    testRPN( '1 100 range -r12' )
-    testRPN( '1 100 range -r13' )
-    testRPN( '1 100 range -r14' )
-    testRPN( '1 100 range -r15' )
-    testRPN( '1 100 range -r16' )
-    testRPN( '1 100 range -r17' )
-    testRPN( '1 100 range -r18' )
-    testRPN( '1 100 range -r19' )
-    testRPN( '1 100 range -r20' )
-    testRPN( '1 100 range -r21' )
-    testRPN( '1 100 range -r22' )
-    testRPN( '1 100 range -r23' )
-    testRPN( '1 100 range -r24' )
-    testRPN( '1 100 range -r25' )
-    testRPN( '1 100 range -r26' )
-    testRPN( '1 100 range -r27' )
-    testRPN( '1 100 range -r28' )
-    testRPN( '1 100 range -r29' )
-    testRPN( '1 100 range -r30' )
-    testRPN( '1 100 range -r31' )
-    testRPN( '1 100 range -r32' )
-    testRPN( '1 100 range -r33' )
-    testRPN( '1 100 range -r34' )
-    testRPN( '1 100 range -r35' )
-    testRPN( '1 100 range -r36' )
-    testRPN( '1 100 range -r37' )
-    testRPN( '1 100 range -r38' )
-    testRPN( '1 100 range -r39' )
-    testRPN( '1 100 range -r40' )
-    testRPN( '1 100 range -r41' )
-    testRPN( '1 100 range -r42' )
-    testRPN( '1 100 range -r43' )
-    testRPN( '1 100 range -r44' )
-    testRPN( '1 100 range -r45' )
-    testRPN( '1 100 range -r46' )
-    testRPN( '1 100 range -r47' )
-    testRPN( '1 100 range -r48' )
-    testRPN( '1 100 range -r49' )
-    testRPN( '1 100 range -r50' )
-    testRPN( '1 100 range -r51' )
-    testRPN( '1 100 range -r52' )
-    testRPN( '1 100 range -r53' )
-    testRPN( '1 100 range -r54' )
-    testRPN( '1 100 range -r55' )
-    testRPN( '1 100 range -r56' )
-    testRPN( '1 100 range -r57' )
-    testRPN( '1 100 range -r58' )
-    testRPN( '1 100 range -r59' )
-    testRPN( '1 100 range -r60' )
-    testRPN( '1 100 range -r61' )
-    testRPN( '1 100 range -r62' )
-    testRPN( '1 100 range -rphi' )
+    testOperator( '1 100 range -r2' )
+    testOperator( '1 100 range -r3' )
+    testOperator( '1 100 range -r4' )
+    testOperator( '1 100 range -r5' )
+    testOperator( '1 100 range -r6' )
+    testOperator( '1 100 range -r7' )
+    testOperator( '1 100 range -r8' )
+    testOperator( '1 100 range -r9' )
+    testOperator( '1 100 range -r10' )
+    testOperator( '1 100 range -r11' )
+    testOperator( '1 100 range -r12' )
+    testOperator( '1 100 range -r13' )
+    testOperator( '1 100 range -r14' )
+    testOperator( '1 100 range -r15' )
+    testOperator( '1 100 range -r16' )
+    testOperator( '1 100 range -r17' )
+    testOperator( '1 100 range -r18' )
+    testOperator( '1 100 range -r19' )
+    testOperator( '1 100 range -r20' )
+    testOperator( '1 100 range -r21' )
+    testOperator( '1 100 range -r22' )
+    testOperator( '1 100 range -r23' )
+    testOperator( '1 100 range -r24' )
+    testOperator( '1 100 range -r25' )
+    testOperator( '1 100 range -r26' )
+    testOperator( '1 100 range -r27' )
+    testOperator( '1 100 range -r28' )
+    testOperator( '1 100 range -r29' )
+    testOperator( '1 100 range -r30' )
+    testOperator( '1 100 range -r31' )
+    testOperator( '1 100 range -r32' )
+    testOperator( '1 100 range -r33' )
+    testOperator( '1 100 range -r34' )
+    testOperator( '1 100 range -r35' )
+    testOperator( '1 100 range -r36' )
+    testOperator( '1 100 range -r37' )
+    testOperator( '1 100 range -r38' )
+    testOperator( '1 100 range -r39' )
+    testOperator( '1 100 range -r40' )
+    testOperator( '1 100 range -r41' )
+    testOperator( '1 100 range -r42' )
+    testOperator( '1 100 range -r43' )
+    testOperator( '1 100 range -r44' )
+    testOperator( '1 100 range -r45' )
+    testOperator( '1 100 range -r46' )
+    testOperator( '1 100 range -r47' )
+    testOperator( '1 100 range -r48' )
+    testOperator( '1 100 range -r49' )
+    testOperator( '1 100 range -r50' )
+    testOperator( '1 100 range -r51' )
+    testOperator( '1 100 range -r52' )
+    testOperator( '1 100 range -r53' )
+    testOperator( '1 100 range -r54' )
+    testOperator( '1 100 range -r55' )
+    testOperator( '1 100 range -r56' )
+    testOperator( '1 100 range -r57' )
+    testOperator( '1 100 range -r58' )
+    testOperator( '1 100 range -r59' )
+    testOperator( '1 100 range -r60' )
+    testOperator( '1 100 range -r61' )
+    testOperator( '1 100 range -r62' )
+    testOperator( '1 100 range -rphi' )
 
-    testRPN( '-a1000 -d5 7 square_root -r62' )
-    testRPN( '-a1000 -d5 pi -r8' )
-    testRPN( '2 1 32 range ** -r16' )
+    testOperator( '-a1000 -d5 7 square_root -r62' )
+    testOperator( '-a1000 -d5 pi -r8' )
+    testOperator( '2 1 32 range ** -r16' )
 
-    testRPN( '-t 12 14 ** 1 + factor' )
-    testRPN( '1 40 range fibonacci factor -s1' )
+    testOperator( '-t 12 14 ** 1 + factor' )
+    testOperator( '1 40 range fibonacci factor -s1' )
 
-    testRPN( '3 1 20 range ** -x' )
+    testOperator( '3 1 20 range ** -x' )
 
-    testRPN( '65537 4 ** -r16 -g8 -z' )
+    testOperator( '65537 4 ** -r16 -g8 -z' )
 
 
 # //******************************************************************************
@@ -214,40 +136,40 @@ def runCommandLineOptionsTests( ):
 
 def runAlgebraOperatorTests( ):
     # bell_polynomal
-    testRPN( '4 5 bell_polynomial' )
+    testOperator( '4 5 bell_polynomial' )
 
     # eval_poly
-    testRPN( '1 10 range 6 eval_poly' )
-    testRPN( '[ 4 -2 3 5 -6 20 ] 1 10 range eval_poly' )
+    testOperator( '1 10 range 6 eval_poly' )
+    testOperator( '[ 4 -2 3 5 -6 20 ] 1 10 range eval_poly' )
 
     # find_poly
 
     # polyadd
-    testRPN( '1 10 range 1 10 range polyadd' )
+    testOperator( '1 10 range 1 10 range polyadd' )
 
     # polymul
-    testRPN( '1 10 range 1 10 range polymul' )
+    testOperator( '1 10 range 1 10 range polymul' )
 
     # polypower
-    testRPN( '[ 1 2 3 4 ] 5 polypower' )
+    testOperator( '[ 1 2 3 4 ] 5 polypower' )
 
     # polyprod
-    testRPN( '[ [ 1 10 range ] [ 1 10 range ] [ 2 11 range ] ] polyprod' )
+    testOperator( '[ [ 1 10 range ] [ 1 10 range ] [ 2 11 range ] ] polyprod' )
 
     # polysum
-    testRPN( '[ [ 1 10 range ] [ 2 11 range ] ] polysum' )
+    testOperator( '[ [ 1 10 range ] [ 2 11 range ] ] polysum' )
 
     # solve
-    testRPN( '1 8 range solve' )
+    testOperator( '1 8 range solve' )
 
     # solve2
-    testRPN( '8 9 10 solve2' )
+    testOperator( '8 9 10 solve2' )
 
     # solve3
-    testRPN( '10 -10 10 -10 solve3' )
+    testOperator( '10 -10 10 -10 solve3' )
 
     # solve4
-    testRPN( '2 -3 2 -3 2 solve4' )
+    testOperator( '2 -3 2 -3 2 solve4' )
 
 
 # //******************************************************************************
@@ -265,27 +187,27 @@ def runArithmeticOperatorTests( ):
     # add
     expectRPN( '4 3 add', 7 )
     expectRPN( '3 feet 7 inches + inches convert', RPNMeasurement( mpmathify( '43' ), [ { 'inch' : 1 } ] ) )
-    testRPN( 'today 7 days +' )
-    testRPN( 'today 3 weeks +' )
-    testRPN( 'today 50 years +' )
-    testRPN( '4 cups 13 teaspoons +' )
-    testRPN( '55 mph 10 miles hour / +' )
-    testRPN( '55 mph 10 meters second / +' )
-    testRPN( '55 mph 10 furlongs fortnight / +' )
-    testRPN( 'today 3 days add' )
-    testRPN( 'today 3 weeks add' )
-    testRPN( 'now 150 miles 10 furlongs fortnight / / add' )
+    testOperator( 'today 7 days +' )
+    testOperator( 'today 3 weeks +' )
+    testOperator( 'today 50 years +' )
+    testOperator( '4 cups 13 teaspoons +' )
+    testOperator( '55 mph 10 miles hour / +' )
+    testOperator( '55 mph 10 meters second / +' )
+    testOperator( '55 mph 10 furlongs fortnight / +' )
+    testOperator( 'today 3 days add' )
+    testOperator( 'today 3 weeks add' )
+    testOperator( 'now 150 miles 10 furlongs fortnight / / add' )
 
     # ceiling
     expectRPN( '9.99999 ceiling', 10 )
     expectRPN( '-0.00001 ceiling', 0 )
 
     # divide
-    testRPN( '12 13 divide' )
-    testRPN( '10 days 7 / dhms' )
-    testRPN( 'marathon 100 miles hour / / minutes convert' )
-    testRPN( '2 zeta sqrt 24 sqrt / 12 *' )
-    testRPN( 'now 2014-01-01 - minutes /' )
+    testOperator( '12 13 divide' )
+    testOperator( '10 days 7 / dhms' )
+    testOperator( 'marathon 100 miles hour / / minutes convert' )
+    testOperator( '2 zeta sqrt 24 sqrt / 12 *' )
+    testOperator( 'now 2014-01-01 - minutes /' )
 
     # floor
     expectRPN( '-0.4 floor', -1 )
@@ -384,9 +306,9 @@ def runArithmeticOperatorTests( ):
 
     # multiply
     expectRPN( '5 7 multiply', 35 )
-    testRPN( '15 mph 10 hours *' )
-    testRPN( 'c m/s convert 1 nanosecond * inches convert' )
-    testRPN( 'barn gigaparsec * cubic_inch convert' )
+    testOperator( '15 mph 10 hours *' )
+    testOperator( 'c m/s convert 1 nanosecond * inches convert' )
+    testOperator( 'barn gigaparsec * cubic_inch convert' )
 
     # negative
     expectRPN( '-4 negative', 4 )
@@ -398,10 +320,10 @@ def runArithmeticOperatorTests( ):
     expectRPN( '4.5 nearest_int', 4 )
 
     # product
-    testRPN( '1 10 range product' )
+    testOperator( '1 10 range product' )
 
     # reciprocal
-    testRPN( '6 7 / reciprocal' )
+    testOperator( '6 7 / reciprocal' )
 
     # round
     expectRPN( '0.1 round', 0 )
@@ -415,20 +337,20 @@ def runArithmeticOperatorTests( ):
     expectRPN( 'negative_infinity sign', -1 )
 
     # stddev
-    testRPN( '1 10 range stddev' )
+    testOperator( '1 10 range stddev' )
 
     # subtract
-    testRPN( '3948 474 subtract' )
-    testRPN( '4 cups 27 teaspoons -' )
-    testRPN( '57 hectares 23 acres -' )
-    testRPN( '10 Mb second / 700 MB hour / -' )
-    testRPN( 'today 3 days -' )
-    testRPN( 'today 3 weeks -' )
-    testRPN( 'today 3 months -' )
-    testRPN( 'now earth_radius 2 pi * * miles convert 4 mph / -' )
-    testRPN( 'today 2 months -' )
-    testRPN( 'today 1965-03-31 -' )
-    testRPN( '2015-01-01 1965-03-31 -' )
+    testOperator( '3948 474 subtract' )
+    testOperator( '4 cups 27 teaspoons -' )
+    testOperator( '57 hectares 23 acres -' )
+    testOperator( '10 Mb second / 700 MB hour / -' )
+    testOperator( 'today 3 days -' )
+    testOperator( 'today 3 weeks -' )
+    testOperator( 'today 3 months -' )
+    testOperator( 'now earth_radius 2 pi * * miles convert 4 mph / -' )
+    testOperator( 'today 2 months -' )
+    testOperator( 'today 1965-03-31 -' )
+    testOperator( '2015-01-01 1965-03-31 -' )
 
     # sum
     expectRPN( '1 10 range sum', 55 )
@@ -442,6 +364,7 @@ def runArithmeticOperatorTests( ):
 
 def runAstronomyOperatorTests( ):
     # astronomical_dawn
+    rpn
 
     # astronomical_dusk
 
@@ -466,79 +389,115 @@ def runAstronomyOperatorTests( ):
     # moon
 
     # moonrise
+    testOperator( '"Leesburg, VA" location today moonrise' )
 
     # moonset
+    testOperator( '"Leesburg, VA" location today moonset' )
 
     # moon_antitransit
+    testOperator( '"Leesburg, VA" location today moon_antitransit' )
 
     # moon_phase
+    testOperator( 'today moon_phase' )
 
     # moon_transit
+    testOperator( '"Leesburg, VA" location today moon_transit' )
 
     # nautical_dawn
+    testOperator( '"Leesburg, VA" location today nautical_dawn' )
 
     # nautical_dusk
+    testOperator( '"Leesburg, VA" location today nautical_dusk' )
 
     # neptune
+    testOperator( 'neptune "Leesburg, VA" location now next_rising' )
 
     # next_antitransit
+    testOperator( 'saturn "Leesburg, VA" location today next_antitransit' )
 
     # next_first_quarter_moon
+    testOperator( 'today next_first_quarter_moon' )
 
     # next_full_moon
+    testOperator( 'today next_full_moon' )
 
     # next_last_quarter_moon
+    testOperator( 'today next_last_quarter_moon' )
 
     # next_new_moon
+    testOperator( 'today next_new_moon' )
 
     # next_rising
+    testOperator( 'moon "Leesburg, VA" location now next_rising' )
 
     # next_setting
+    testOperator( 'moon "Leesburg, VA" location now next_setting' )
 
     # next_transit
+    testOperator( 'moon "Leesburg, VA" location now next_transit' )
 
     # pluto
+    testOperator( 'pluto "Leesburg, VA" location now next_rising' )
 
     # previous_antitransit
+    testOperator( 'neptune "Leesburg, VA" location now previous_antitransit' )
 
     # previous_first_quarter_moon
+    testOperator( 'today previous_first_quarter_moon' )
 
     # previous_full_moon
+    testOperator( 'today previous_full_moon' )
 
     # previous_last_quarter_moon
+    testOperator( 'today previous_last_quarter_moon' )
 
     # previous_new_moon
+    testOperator( 'today previous_new_moon' )
 
     # previous_rising
+    testOperator( 'jupiter "Leesburg, VA" location now previous_rising' )
 
     # previous_setting
+    testOperator( 'jupiter "Leesburg, VA" location now previous_setting' )
 
     # previous_transit
+    testOperator( 'mercury "Leesburg, VA" location now previous_transit' )
 
     # saturn
+    testOperator( 'saturn "Leesburg, VA" location today next_rising' )
 
     # sky_location
+    testOperator( 'mars now sky_location' )
 
     # solar_noon
+    testOperator( '"Leesburg, VA" location today solar_noon' )
 
     # summer_solstice
+    testOperator( '2015 summer_solstice' )
 
     # sun
+    testOperator( 'sun "Leesburg, VA" location today next_rising' )
 
     # sunrise
+    testOperator( '"Leesburg, VA" location today sunrise' )
 
     # sunset
+    testOperator( '"Leesburg, VA" location today sunset' )
 
     # sun_antitransit
+    testOperator( '"Leesburg, VA" location today sun_antitransit' )
 
     # vernal_equinox
+    testOperator( '2015 vernal_equinox' )
 
     # uranus
+    testOperator( 'uranus "Leesburg, VA" location today next_rising' )
 
     # venus
+    testOperator( 'venus "Leesburg, VA" location today next_rising' )
 
     # winter_solstice
-    pass
+    testOperator( '2015 winter_solstice' )
 
 
 # //******************************************************************************
@@ -549,36 +508,36 @@ def runAstronomyOperatorTests( ):
 
 def runBitwiseOperatorTests( ):
     # and
-    testRPN( '0x7777 0xdcba and' )
+    testOperator( '0x7777 0xdcba and' )
 
     # count_bits
-    testRPN( '0xffff count_bits' )
+    testOperator( '0xffff count_bits' )
 
     # nand
-    testRPN( '-x 0x5543 0x7789 nand' )
+    testOperator( '-x 0x5543 0x7789 nand' )
 
     # nor
-    testRPN( '-x 0x5543 0x7789 nor' )
+    testOperator( '-x 0x5543 0x7789 nor' )
 
     # not
-    testRPN( '0xffffff ~' )
-    testRPN( '142857 not' )
-    testRPN( '-x 0xefefefefefefef not' )
+    testOperator( '0xffffff ~' )
+    testOperator( '142857 not' )
+    testOperator( '-x 0xefefefefefefef not' )
 
     # or
-    testRPN( '-x 0x5543 0x7789 or' )
+    testOperator( '-x 0x5543 0x7789 or' )
 
     # parity
-    testRPN( '0xff889d8f parity' )
+    testOperator( '0xff889d8f parity' )
 
     # shift_left
-    testRPN( '-x 0x10 3 shift_left' )
+    testOperator( '-x 0x10 3 shift_left' )
 
     # shift_right
-    testRPN( '-x 0x1000 4 shift_right' )
+    testOperator( '-x 0x1000 4 shift_right' )
 
     # xor
-    testRPN( '0x1939 0x3948 xor' )
+    testOperator( '0x1939 0x3948 xor' )
 
 
 # //******************************************************************************
@@ -589,8 +548,8 @@ def runBitwiseOperatorTests( ):
 
 def runCalendarOperatorTests( ):
     # calendar
-    testRPN( '1965-03 calendar' )
-    testRPN( '2014-10 calendar' )
+    testOperator( '1965-03 calendar' )
+    testOperator( '2014-10 calendar' )
 
     # from_bahai
 
@@ -631,7 +590,7 @@ def runCalendarOperatorTests( ):
     # to_julian
 
     # to_julian_day
-    testRPN( 'today to_julian_day' )
+    testOperator( 'today to_julian_day' )
 
     # to_lilian_day
 
@@ -646,8 +605,8 @@ def runCalendarOperatorTests( ):
     # to_persian_name
 
     # year_calendar
-    testRPN( '1965 year_calendar' )
-    testRPN( 'today year_calendar' )
+    testOperator( '1965 year_calendar' )
+    testOperator( 'today year_calendar' )
 
 
 # //******************************************************************************
@@ -658,54 +617,54 @@ def runCalendarOperatorTests( ):
 
 def runCombinatoricOperatorTests( ):
     # bell
-    testRPN( '-a43 45 bell' )
+    testOperator( '-a43 45 bell' )
 
     # bernoulli
-    testRPN( '16 bernoulli' )
+    testOperator( '16 bernoulli' )
 
     # binomial
-    testRPN( '12 9 binomial' )
-    testRPN( '-a20 -c 120 108 binomial' )
+    testOperator( '12 9 binomial' )
+    testOperator( '-a20 -c 120 108 binomial' )
 
     # compositions
 
     # debruijn
-    testRPN( '4 3 debruijn' )
+    testOperator( '4 3 debruijn' )
 
     # delannoy
-    testRPN( '-a80 100 delannoy' )
+    testOperator( '-a80 100 delannoy' )
 
     # lah
-    testRPN( '5 6 lah' )
+    testOperator( '5 6 lah' )
 
     # motzkin
-    testRPN( '-a25 56 motzkin' )
+    testOperator( '-a25 56 motzkin' )
 
     # multifactorial
 
     # narayana
-    testRPN( '6 8 narayana' )
+    testOperator( '6 8 narayana' )
 
     # nth_apery
-    testRPN( '-a20 12 nth_apery' )
+    testOperator( '-a20 12 nth_apery' )
 
     # nth_catalan
-    testRPN( '-a50 85 nth_catalan' )
+    testOperator( '-a50 85 nth_catalan' )
 
     # partitions
     expectEqual( '-t 0 30 range partitions', '41 oeis 31 left' )
 
     # pell
-    testRPN( '13 pell' )
+    testOperator( '13 pell' )
 
     # permutations
-    testRPN( '8 3 permutations' )
+    testOperator( '8 3 permutations' )
 
     # schroeder
-    testRPN( '-a50 67 schroeder' )
+    testOperator( '-a50 67 schroeder' )
 
     # sylvester
-    testRPN( '45 sylvester' )
+    testOperator( '45 sylvester' )
 
 
 # //******************************************************************************
@@ -716,13 +675,13 @@ def runCombinatoricOperatorTests( ):
 
 def runComplexMathOperatorTests( ):
     # argument
-    testRPN( '3 3 i + argument' )
+    testOperator( '3 3 i + argument' )
 
     # conjugate
-    testRPN( '3 3 i + conjugate' )
+    testOperator( '3 3 i + conjugate' )
 
     # i
-    testRPN( '3 i' )
+    testOperator( '3 i' )
 
     # imaginary
 
@@ -737,69 +696,69 @@ def runComplexMathOperatorTests( ):
 
 def runConstantOperatorTests( ):
     # apery
-    testRPN( 'apery' )
+    testOperator( 'apery' )
 
     # avogadro
-    testRPN( '-a25 avogadro' )
+    testOperator( '-a25 avogadro' )
 
     # catalan
-    testRPN( 'catalan' )
+    testOperator( 'catalan' )
 
     # champernowne
-    testRPN( '-a100 champernowne' )
+    testOperator( '-a100 champernowne' )
 
     # copeland
-    testRPN( '-a 1000 copeland' )
+    testOperator( '-a 1000 copeland' )
 
     # default
     expectRPN( 'default', -1 )
 
     # e
-    testRPN( 'e' )
+    testOperator( 'e' )
 
     # eddington_number
-    testRPN( 'eddington_number' )
+    testOperator( 'eddington_number' )
 
     # electric_constant
-    testRPN( 'electric_constant' )
+    testOperator( 'electric_constant' )
 
     # euler
-    testRPN( 'euler' )
+    testOperator( 'euler' )
 
     # false
     expectRPN( 'false', 0 )
 
     # faradays_constant
-    testRPN( 'faradays_constant' )
+    testOperator( 'faradays_constant' )
 
     # fine_structure
-    testRPN( 'fine_structure' )
+    testOperator( 'fine_structure' )
 
     # glaisher
-    testRPN( 'glaisher' )
+    testOperator( 'glaisher' )
 
     # infinity
-    testRPN( 'infinity x fib x 1 - fib / limit' )
+    testOperator( 'infinity x fib x 1 - fib / limit' )
     expectEqual( 'infinity x fib x 1 - fib / limit', 'phi' )
-    testRPN( 'infinity x 1/x 1 + x ** limit' )
+    testOperator( 'infinity x 1/x 1 + x ** limit' )
 
     # itoi
-    testRPN( 'itoi' )
+    testOperator( 'itoi' )
 
     # khinchin
-    testRPN( 'khinchin' )
+    testOperator( 'khinchin' )
 
     # magnetic_constant
-    testRPN( 'magnetic_constant' )
+    testOperator( 'magnetic_constant' )
 
     # max_char
     expectEqual( 'max_char', '2 7 ** 1 -' )
 
     # max_double
-    testRPN( 'max_double' )
+    testOperator( 'max_double' )
 
     # max_float
-    testRPN( 'max_float' )
+    testOperator( 'max_float' )
 
     # max_long
     expectEqual( 'max_long', '2 31 ** 1 -' )
@@ -829,19 +788,19 @@ def runConstantOperatorTests( ):
     expectEqual( 'max_ushort', '2 16 ** 1 -' )
 
     # mertens_constant
-    testRPN( 'mertens_constant' )
+    testOperator( 'mertens_constant' )
 
     # mills
-    testRPN( 'mills' )
+    testOperator( 'mills' )
 
     # min_char
     expectEqual( 'min_char', '2 7 ** negative' )
 
     # min_double
-    testRPN( 'min_double' )
+    testOperator( 'min_double' )
 
     # min_float
-    testRPN( 'min_float' )
+    testOperator( 'min_float' )
 
     # min_long
     expectEqual( 'min_long', '2 31 ** negative' )
@@ -871,40 +830,40 @@ def runConstantOperatorTests( ):
     expectRPN( 'min_ushort', 0 )
 
     # negative_infinity
-    testRPN( 'negative_infinity' )
+    testOperator( 'negative_infinity' )
 
     # newtons_constant
-    testRPN( 'newtons_constant' )
+    testOperator( 'newtons_constant' )
 
     # omega
-    testRPN( 'omega' )
+    testOperator( 'omega' )
 
     # phi
-    testRPN( 'phi' )
+    testOperator( 'phi' )
 
     # pi
-    testRPN( 'pi' )
+    testOperator( 'pi' )
 
     # plastic
-    testRPN( 'plastic' )
+    testOperator( 'plastic' )
 
     # prevost
-    testRPN( 'prevost' )
+    testOperator( 'prevost' )
 
     # radiation_constant
-    testRPN( 'radiation_constant' )
+    testOperator( 'radiation_constant' )
 
     # robbins
-    testRPN( 'robbins' )
+    testOperator( 'robbins' )
 
     # rydberg_constant
-    testRPN( 'rydberg_constant' )
+    testOperator( 'rydberg_constant' )
 
     # silver_ratio
-    testRPN( 'silver_ratio' )
+    testOperator( 'silver_ratio' )
 
     # stefan_boltzmann
-    testRPN( 'stefan_boltzmann' )
+    testOperator( 'stefan_boltzmann' )
 
     # true
     expectRPN( 'true', 1 )
@@ -941,41 +900,41 @@ def runConstantOperatorTests( ):
 
 def runConversionOperatorTests( ):
     # char
-    testRPN( '0x101 char' )
+    testOperator( '0x101 char' )
 
     # convert - convert is handled separately
 
     # dhms
-    testRPN( '8 million seconds dhms' )
+    testOperator( '8 million seconds dhms' )
 
     # dms
-    testRPN( '1 radian dms' )
+    testOperator( '1 radian dms' )
 
     # double
-    testRPN( '-x 10 20 ** double' )
-    testRPN( '-x pi double' )
+    testOperator( '-x 10 20 ** double' )
+    testOperator( '-x pi double' )
 
     # float
-    testRPN( '-x 1029.3 float' )
-    testRPN( 'pi float' )
+    testOperator( '-x 1029.3 float' )
+    testOperator( 'pi float' )
 
     # from_unix_time
-    testRPN( '1234567890 from_unix_time' )
+    testOperator( '1234567890 from_unix_time' )
 
     # long
-    testRPN( '3456789012 long' )
+    testOperator( '3456789012 long' )
 
     # longlong
-    testRPN( '1234567890123456789012 longlong' )
+    testOperator( '1234567890123456789012 longlong' )
 
     # hms
-    testRPN( '54658 seconds hms' )
+    testOperator( '54658 seconds hms' )
 
     # integer
-    testRPN( '456 8 integer' )
+    testOperator( '456 8 integer' )
 
     # invert_units
-    testRPN( '30 miles gallon / invert_units' )
+    testOperator( '30 miles gallon / invert_units' )
 
     # latlong_to_nac
 
@@ -986,42 +945,42 @@ def runConversionOperatorTests( ):
     # make_time
 
     # pack
-    testRPN( '-x [ 192 168 0 1 ] [ 8 8 8 8 ] pack' )
+    testOperator( '-x [ 192 168 0 1 ] [ 8 8 8 8 ] pack' )
 
     # short
-    testRPN( '32800 short' )
+    testOperator( '32800 short' )
 
     # to_unix_time
-    testRPN( '[ 2014 4 30 0 0 0 ] make_time to_unix_time' )
+    testOperator( '[ 2014 4 30 0 0 0 ] make_time to_unix_time' )
 
     # uchar
-    testRPN( '290 uchar' )
+    testOperator( '290 uchar' )
 
     # uinteger
-    testRPN( '200 8 uinteger' )
+    testOperator( '200 8 uinteger' )
 
     # ulong
-    testRPN( '234567890 ulong' )
+    testOperator( '234567890 ulong' )
 
     # ulonglong
-    testRPN( '-a20 12345678901234567890 ulonglong' )
+    testOperator( '-a20 12345678901234567890 ulonglong' )
 
     # undouble
-    testRPN( '0x400921fb54442d18 undouble' )
-    testRPN( '0xcdcdcdcdcdcdcdcd undouble' )
+    testOperator( '0x400921fb54442d18 undouble' )
+    testOperator( '0xcdcdcdcdcdcdcdcd undouble' )
 
     # unfloat
-    testRPN( '0x40490fdb unfloat' )
-    testRPN( '0xcdcdcdcd unfloat' )
+    testOperator( '0x40490fdb unfloat' )
+    testOperator( '0xcdcdcdcd unfloat' )
 
     # unpack
-    testRPN( '503942034 [ 3 4 5 11 4 4 ] unpack' )
+    testOperator( '503942034 [ 3 4 5 11 4 4 ] unpack' )
 
     # ushort
-    testRPN( '23456 ushort' )
+    testOperator( '23456 ushort' )
 
     # ydhms
-    testRPN( '14578 seconds ydhms' )
+    testOperator( '14578 seconds ydhms' )
 
 
 # //******************************************************************************
@@ -1032,62 +991,62 @@ def runConversionOperatorTests( ):
 
 def runDateTimeOperatorTests( ):
     # ash_wednesday
-    testRPN( '2015 ash_wednesday' )
+    testOperator( '2015 ash_wednesday' )
 
     # dst_end
-    testRPN( '2015 dst_end' )
+    testOperator( '2015 dst_end' )
 
     # dst_start
-    testRPN( '2015 dst_start' )
+    testOperator( '2015 dst_start' )
 
     # easter
-    testRPN( '2015 easter' )
+    testOperator( '2015 easter' )
 
     # election_day
-    testRPN( '2015 election_day' )
+    testOperator( '2015 election_day' )
 
     # iso_day
-    testRPN( 'today iso_day' )
+    testOperator( 'today iso_day' )
 
     # labor_day
-    testRPN( '2015 labor_day' )
+    testOperator( '2015 labor_day' )
 
     # make_julian_time
-    testRPN( '[ 2015 7 5 4 3 ] make_julian_time' )
+    testOperator( '[ 2015 7 5 4 3 ] make_julian_time' )
 
     # make_iso_time
 
     # memorial_day
-    testRPN( '2015 memorial_day' )
+    testOperator( '2015 memorial_day' )
 
     # now
-    testRPN( 'now' )
+    testOperator( 'now' )
 
     # nth_weekday
-    testRPN( '2015 march 4 thursday nth_weekday' )
-    testRPN( '2015 march -1 thursday nth_weekday' )
+    testOperator( '2015 march 4 thursday nth_weekday' )
+    testOperator( '2015 march -1 thursday nth_weekday' )
 
     # nth_weekday_of_year
-    testRPN( '2015 20 thursday nth_weekday_of_year' )
-    testRPN( '2015 -1 thursday nth_weekday_of_year' )
+    testOperator( '2015 20 thursday nth_weekday_of_year' )
+    testOperator( '2015 -1 thursday nth_weekday_of_year' )
 
     # presidents_day
-    testRPN( '2015 presidents_day' )
+    testOperator( '2015 presidents_day' )
 
     # thanksgiving
-    testRPN( '2015 thanksgiving' )
+    testOperator( '2015 thanksgiving' )
 
     # today
-    testRPN( 'today' )
+    testOperator( 'today' )
 
     # tomorrow
-    testRPN( 'tomorrow' )
+    testOperator( 'tomorrow' )
 
     # weekday
-    testRPN( 'today weekday' )
+    testOperator( 'today weekday' )
 
     # yesterday
-    testRPN( 'yesterday' )
+    testOperator( 'yesterday' )
 
 
 # //******************************************************************************
@@ -1098,8 +1057,8 @@ def runDateTimeOperatorTests( ):
 
 def runFunctionOperatorTests( ):
     # eval
-    testRPN( '10 x 5 * eval' )
-    testRPN( '-a20 57 x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval' )
+    testOperator( '10 x 5 * eval' )
+    testOperator( '-a20 57 x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval' )
 
     # eval2
     # eval3
@@ -1128,38 +1087,38 @@ def runFunctionOperatorTests( ):
 
 def runGeometryOperatorTests( ):
     # n_sphere_area
-    testRPN( '34 inches 3 n_sphere_area' )
-    testRPN( '34 square_inches 3 n_sphere_area' )
-    testRPN( '34 cubic_inches 3 n_sphere_area' )
+    testOperator( '34 inches 3 n_sphere_area' )
+    testOperator( '34 square_inches 3 n_sphere_area' )
+    testOperator( '34 cubic_inches 3 n_sphere_area' )
 
     # n_sphere_radius
-    testRPN( '3 meters 4 n_sphere_radius' )
-    testRPN( '3 square_meters 4 n_sphere_radius' )
-    testRPN( '3 cubic_meters 4 n_sphere_radius' )
+    testOperator( '3 meters 4 n_sphere_radius' )
+    testOperator( '3 square_meters 4 n_sphere_radius' )
+    testOperator( '3 cubic_meters 4 n_sphere_radius' )
 
     # n_sphere_volume
-    testRPN( '3 square_feet 6 nsphere_volume' )
+    testOperator( '3 square_feet 6 nsphere_volume' )
 
     # polygon_area
-    testRPN( '13 polygon_area' )
+    testOperator( '13 polygon_area' )
 
     # sphere_area
-    testRPN( '8 inches sphere_area' )
-    testRPN( '8 sq_inches sphere_area' )
-    #testRPN( '8 cu_inches sphere_area' )    # not implemented yet
+    testOperator( '8 inches sphere_area' )
+    testOperator( '8 sq_inches sphere_area' )
+    #testOperator( '8 cu_inches sphere_area' )    # not implemented yet
 
     # sphere_radius
-    testRPN( '4 inches sphere_radius' )
-    testRPN( '4 square_inches sphere_radius' )
-    testRPN( '4 cubic_inches sphere_radius' )
+    testOperator( '4 inches sphere_radius' )
+    testOperator( '4 square_inches sphere_radius' )
+    testOperator( '4 cubic_inches sphere_radius' )
 
     # sphere_volume
-    testRPN( '5 inches sphere_volume' )
-    #testRPN( '5 sq_inches sphere_volume' )  # not implemented yet
-    testRPN( '5 cubic_in sphere_volume' )
+    testOperator( '5 inches sphere_volume' )
+    #testOperator( '5 sq_inches sphere_volume' )  # not implemented yet
+    testOperator( '5 cubic_in sphere_volume' )
 
     # triangle_area
-    testRPN( '123 456 789 triangle_area' )
+    testOperator( '123 456 789 triangle_area' )
 
 
 # //******************************************************************************
@@ -1170,13 +1129,13 @@ def runGeometryOperatorTests( ):
 
 def runInternalOperatorTests( ):
     # _dump_aliases
-    testRPN( '_dump_aliases' )
+    testOperator( '_dump_aliases' )
 
     # _dump_operators
-    testRPN( '_dump_operators' )
+    testOperator( '_dump_operators' )
 
     # _stats
-    testRPN( '_stats' )
+    testOperator( '_stats' )
 
 
 # //******************************************************************************
@@ -1192,42 +1151,42 @@ def runLexicographicOperatorTests( ):
     expectRPN( '34 567 add_digits', 34567 )
 
     # combine_digits
-    testRPN( '1 9 range combine_digits' )
+    testOperator( '1 9 range combine_digits' )
 
     # dup_digits
-    testRPN( '543 2 dup_digits' )
+    testOperator( '543 2 dup_digits' )
 
     # find_palindrome
-    testRPN( '-a30 10911 55 find_palindrome' )
-    testRPN( '180 200 range 10 find_palindrome -s1' )
+    testOperator( '-a30 10911 55 find_palindrome' )
+    testOperator( '180 200 range 10 find_palindrome -s1' )
 
     # get_digits
-    testRPN( '123456789 get_digits' )
+    testOperator( '123456789 get_digits' )
 
     # is_palindrome
-    testRPN( '101 is_palindrome' )
-    testRPN( '1 22 range is_palindrome' )
-    testRPN( '1234567890 is_palindrome' )
+    testOperator( '101 is_palindrome' )
+    testOperator( '1 22 range is_palindrome' )
+    testOperator( '1234567890 is_palindrome' )
 
     # is_pandigital
-    testRPN( '1234567890 is_pandigital' )
+    testOperator( '1234567890 is_pandigital' )
 
     # multiply_digits
-    testRPN( '123456789 multiply_digits' )
+    testOperator( '123456789 multiply_digits' )
 
     # reversal_addition
-    testRPN( '-a20 89 24 reversal_addition' )
-    testRPN( '-a20 80 89 range 24 reversal_addition' )
-    testRPN( '-a20 89 16 24 range reversal_addition' )
-    testRPN( '-a90 14,104,229,999,995 185 reversal_addition' )
-    testRPN( '-a90 14,104,229,999,995 185 reversal_addition is_palindrome' )
+    testOperator( '-a20 89 24 reversal_addition' )
+    testOperator( '-a20 80 89 range 24 reversal_addition' )
+    testOperator( '-a20 89 16 24 range reversal_addition' )
+    testOperator( '-a90 14,104,229,999,995 185 reversal_addition' )
+    testOperator( '-a90 14,104,229,999,995 185 reversal_addition is_palindrome' )
 
     # reverse_digits
-    testRPN( '37 1 8 range * reverse_digits' )
-    testRPN( '37 1 2 9 range range * reverse_digits' )
+    testOperator( '37 1 8 range * reverse_digits' )
+    testOperator( '37 1 2 9 range range * reverse_digits' )
 
     # sum_digits
-    testRPN( '2 32 ** 1 - sum_digits' )
+    testOperator( '2 32 ** 1 - sum_digits' )
 
 
 # //******************************************************************************
@@ -1238,119 +1197,119 @@ def runLexicographicOperatorTests( ):
 
 def runListOperatorTests( ):
     # alternate_signs
-    testRPN( '1 10 range alternate_signs' )
+    testOperator( '1 10 range alternate_signs' )
 
     # alternate_signs_2
-    testRPN( '1 10 range alternate_signs_2' )
+    testOperator( '1 10 range alternate_signs_2' )
 
     # alternating_sum
-    testRPN( '1 10 range alternating_sum' )
+    testOperator( '1 10 range alternating_sum' )
 
     # alternating_sum_2
-    testRPN( '1 10 range alternating_sum_2' )
+    testOperator( '1 10 range alternating_sum_2' )
 
     # append
-    testRPN( '1 10 range 45 50 range append' )
-    testRPN( '1 10 range 11 20 range append 21 30 range append' )
+    testOperator( '1 10 range 45 50 range append' )
+    testOperator( '1 10 range 11 20 range append 21 30 range append' )
 
     # count
     expectRPN( '1 10 range count', 10 )
 
     # diffs
-    testRPN( '1 10 range diffs' )
-    testRPN( '1 10 range fib diffs' )
+    testOperator( '1 10 range diffs' )
+    testOperator( '1 10 range fib diffs' )
 
     # diffs2
-    testRPN( '1 10 range diffs2' )
-    testRPN( '1 10 range fib diffs2' )
+    testOperator( '1 10 range diffs2' )
+    testOperator( '1 10 range fib diffs2' )
 
     # element
-    testRPN( '1 10 range 5 element' )
-    testRPN( '-a25 1 100 range fibonacci 55 element' )
+    testOperator( '1 10 range 5 element' )
+    testOperator( '-a25 1 100 range fibonacci 55 element' )
 
     # exponential_range
-    testRPN( '1.1 1.1 10 exponential_range' )
+    testOperator( '1.1 1.1 10 exponential_range' )
 
     # flatten
     expectEqual( '[ 1 2 [ 3 4 5 ] [ 6 [ 7 [ 8 9 ] ] 10 ] ] flatten', '1 10 range' )
 
     # geometric_mean
-    testRPN( '1 100 range geometric_mean' )
-    testRPN( '[ 1 10 range 1 20 range 1 30 range ] geometric_mean' )
+    testOperator( '1 100 range geometric_mean' )
+    testOperator( '[ 1 10 range 1 20 range 1 30 range ] geometric_mean' )
 
     # geometric_range
-    testRPN( '2 8 8 geometric_range' )
+    testOperator( '2 8 8 geometric_range' )
 
     # group_elements
 
     # interleave
-    testRPN( '1 10 range 1 10 range interleave' )
+    testOperator( '1 10 range 1 10 range interleave' )
 
     # intersection
-    testRPN( '1 10 range 1 8 range intersection' )
+    testOperator( '1 10 range 1 8 range intersection' )
 
     # left
-    testRPN( '1 10 range 5 left' )
+    testOperator( '1 10 range 5 left' )
 
     # max_index
-    testRPN( '1 10 range max_index' )
+    testOperator( '1 10 range max_index' )
 
     # min_index
-    testRPN( '1 10 range min_index' )
+    testOperator( '1 10 range min_index' )
 
     # nonzero
-    testRPN( '1 10 range nonzero' )
+    testOperator( '1 10 range nonzero' )
 
     # occurrences
-    testRPN( '4 100 random_integer_ occurrences' )
+    testOperator( '4 100 random_integer_ occurrences' )
 
     # range
-    testRPN( '1 23 range' )
+    testOperator( '1 23 range' )
 
     # range2
-    testRPN( '1 23 2 range2' )
+    testOperator( '1 23 2 range2' )
 
     # ratios
-    testRPN( '1 10 range ratios' )
+    testOperator( '1 10 range ratios' )
 
     # reduce
-    testRPN( '[ 4 8 12 ] reduce' )
+    testOperator( '[ 4 8 12 ] reduce' )
 
     # reverse
-    testRPN( '1 10 range reverse' )
-    testRPN( '1 2 10 range range reverse' )
-    testRPN( '1 2 10 range reverse range reverse' )
-    testRPN( '1 2 10 range reverse range' )
+    testOperator( '1 10 range reverse' )
+    testOperator( '1 2 10 range range reverse' )
+    testOperator( '1 2 10 range reverse range reverse' )
+    testOperator( '1 2 10 range reverse range' )
 
     # right
-    testRPN( '1 10 range 5 right' )
+    testOperator( '1 10 range 5 right' )
 
     # shuffle
 
     # slice
-    testRPN( '1 10 range 3 5 slice' )
-    testRPN( '1 10 range 2 -5 slice' )
+    testOperator( '1 10 range 3 5 slice' )
+    testOperator( '1 10 range 2 -5 slice' )
 
     # sort
-    testRPN( '10 1 -1 range2 sort' )
+    testOperator( '10 1 -1 range2 sort' )
 
     # sort_descending
-    testRPN( '1 10 range sort_descending' )
+    testOperator( '1 10 range sort_descending' )
 
     # sublist
-    testRPN( '1 10 range 1 5 sublist' )
+    testOperator( '1 10 range 1 5 sublist' )
 
     # union
-    testRPN( '1 10 range 11 20 range union' )
+    testOperator( '1 10 range 11 20 range union' )
 
     # unique
-    testRPN( '1 10 range unique' )
-    testRPN( '1 10 range 1 10 range append unique' )
-    testRPN( '[ 1 10 range 10 dup ] unique' )
+    testOperator( '1 10 range unique' )
+    testOperator( '1 10 range 1 10 range append unique' )
+    testOperator( '[ 1 10 range 10 dup ] unique' )
 
     # zero
-    testRPN( '-10 10 range zero' )
-    testRPN( '1 10 range zero' )
+    testOperator( '-10 10 range zero' )
+    testOperator( '1 10 range zero' )
 
 
 # //******************************************************************************
@@ -1361,25 +1320,25 @@ def runListOperatorTests( ):
 
 def runLogarithmOperatorTests( ):
     # lambertw
-    testRPN( '5 lambertw' )
+    testOperator( '5 lambertw' )
 
     # li
-    testRPN( '12 li' )
+    testOperator( '12 li' )
 
     # ln
-    testRPN( '1000 ln' )
+    testOperator( '1000 ln' )
 
     # log10
-    testRPN( '1000 log10' )
+    testOperator( '1000 log10' )
 
     # log2
-    testRPN( '1000 log2' )
+    testOperator( '1000 log2' )
 
     # logxy
-    testRPN( '6561 3 logxy' )
+    testOperator( '6561 3 logxy' )
 
     # polylog
-    testRPN( '9 3 polylog' )
+    testOperator( '9 3 polylog' )
 
 
 # //******************************************************************************
@@ -1394,23 +1353,23 @@ def runModifierOperatorTests( ):
     # ]
 
     # {
-    testRPN( '"Leesburg, VA" location today { sunrise sunset moonrise moonset }' )
+    testOperator( '"Leesburg, VA" location today { sunrise sunset moonrise moonset }' )
 
     # }
-    testRPN( '1 10 range { is_prime is_pronic is_semiprime }' )
+    testOperator( '1 10 range { is_prime is_pronic is_semiprime }' )
 
     # dup_term
-    testRPN( '[ 1 2 10 dup_term ] cf' )
+    testOperator( '[ 1 2 10 dup_term ] cf' )
 
     # dup_operator
-    testRPN( '2 5 dup_operator sqr' )
-    testRPN( '4 6 5 dup_operator *' )
+    testOperator( '2 5 dup_operator sqr' )
+    testOperator( '4 6 5 dup_operator *' )
 
     # previous
     expectRPN( '6 previous *', 36 )
 
     # unlist
-    testRPN( '[ 1 2 ] unlist +' )
+    testOperator( '[ 1 2 ] unlist +' )
 
     # use_members
 
@@ -1423,224 +1382,224 @@ def runModifierOperatorTests( ):
 
 def runNumberTheoryOperatorTests( ):
     # aliquot
-    testRPN( '276 10 aliquot' )
+    testOperator( '276 10 aliquot' )
 
     # alternating_factorial
-    testRPN( '13 alternating_factorial' )
-    testRPN( '-a20 1 20 range alternating_factorial' )
+    testOperator( '13 alternating_factorial' )
+    testOperator( '-a20 1 20 range alternating_factorial' )
 
     # base
-    testRPN( '1 10 range 2 base' )
-    testRPN( '1 10 range 3 base' )
-    testRPN( '1 10 range 4 base' )
-    testRPN( '1 10 range 5 base' )
-    testRPN( '1 10 range 6 base' )
-    testRPN( '1 10 range 7 base' )
-    testRPN( '1 10 range 8 base' )
-    testRPN( '1 10 range 9 base' )
+    testOperator( '1 10 range 2 base' )
+    testOperator( '1 10 range 3 base' )
+    testOperator( '1 10 range 4 base' )
+    testOperator( '1 10 range 5 base' )
+    testOperator( '1 10 range 6 base' )
+    testOperator( '1 10 range 7 base' )
+    testOperator( '1 10 range 8 base' )
+    testOperator( '1 10 range 9 base' )
 
-    testRPN( '-a30 1 20 range 11 base' )
-    testRPN( '-a30 1 20 range 12 base' )
-    testRPN( '-a30 1 20 range 13 base' )
-    testRPN( '-a30 1 20 range 14 base' )
-    testRPN( '-a30 1 20 range 15 base' )
-    testRPN( '-a30 1 20 range 16 base' )
-    testRPN( '-a30 1 20 range 17 base' )
-    testRPN( '-a30 1 20 range 18 base' )
-    testRPN( '-a30 1 20 range 19 base' )
-    testRPN( '-a30 1 20 range 20 base' )
+    testOperator( '-a30 1 20 range 11 base' )
+    testOperator( '-a30 1 20 range 12 base' )
+    testOperator( '-a30 1 20 range 13 base' )
+    testOperator( '-a30 1 20 range 14 base' )
+    testOperator( '-a30 1 20 range 15 base' )
+    testOperator( '-a30 1 20 range 16 base' )
+    testOperator( '-a30 1 20 range 17 base' )
+    testOperator( '-a30 1 20 range 18 base' )
+    testOperator( '-a30 1 20 range 19 base' )
+    testOperator( '-a30 1 20 range 20 base' )
 
     # carol
-    testRPN( '-a500 773 carol' )
+    testOperator( '-a500 773 carol' )
 
     # cf
-    testRPN( '1 10 range cf' )
+    testOperator( '1 10 range cf' )
 
     # count_divisors
-    testRPN( '1024 count_divisors' )
+    testOperator( '1024 count_divisors' )
 
     # crt
-    testRPN( '1 3 range 10 20 range 3 primes crt' )
+    testOperator( '1 3 range 10 20 range 3 primes crt' )
 
     # divisors
-    testRPN( '2 3 ** 3 4 ** * divisors' )
-    testRPN( '12 ! divisors' )
+    testOperator( '2 3 ** 3 4 ** * divisors' )
+    testOperator( '12 ! divisors' )
 
     # double_factorial
-    testRPN( '9 double_factorial' )
+    testOperator( '9 double_factorial' )
 
     # ecm
-    testRPN( '-a40 10 30 ** random_integer ecm' )
+    testOperator( '-a40 10 30 ** random_integer ecm' )
 
     # egypt
-    testRPN( '45 67 egypt' )
+    testOperator( '45 67 egypt' )
 
     # euler_brick
-    testRPN( '2 3 make_pyth_3 unlist euler_brick' )
+    testOperator( '2 3 make_pyth_3 unlist euler_brick' )
 
     # euler_phi
-    testRPN( '1 20 range euler_phi' )
+    testOperator( '1 20 range euler_phi' )
 
     # factor
-    testRPN( '883847311 factor' )
-    testRPN( '1 40 range fibonacci factor -s1' )
+    testOperator( '883847311 factor' )
+    testOperator( '1 40 range fibonacci factor -s1' )
 
     # factorial
-    testRPN( '-a25 23 factorial' )
+    testOperator( '-a25 23 factorial' )
 
     # fibonacci
-    testRPN( '1 50 range fibonacci' )
-    testRPN( '-c -a 8300 39399 fibonacci' )
+    testOperator( '1 50 range fibonacci' )
+    testOperator( '-c -a 8300 39399 fibonacci' )
 
     # fibonorial
-    testRPN( '5 fibonorial' )
-    testRPN( '-a50 24 fibonorial' )
+    testOperator( '5 fibonorial' )
+    testOperator( '-a50 24 fibonorial' )
 
     # fraction
-    testRPN( '12 23 fraction' )
+    testOperator( '12 23 fraction' )
 
     # frobenius
-    testRPN( '10 20 range 3 primes frobenius' )
+    testOperator( '10 20 range 3 primes frobenius' )
 
     # gamma
-    testRPN( '3 gamma' )
+    testOperator( '3 gamma' )
 
     # harmonic
-    testRPN( '34 harmonic' )
+    testOperator( '34 harmonic' )
 
     # heptanacci
-    testRPN( '224623 heptanacci' )
+    testOperator( '224623 heptanacci' )
 
     # hexanacci
-    testRPN( '949 hexanacci' )
+    testOperator( '949 hexanacci' )
 
     # hyperfactorial
-    testRPN( '-a160 17 hyperfactorial' )
+    testOperator( '-a160 17 hyperfactorial' )
 
     # is_abundant
-    testRPN( '1 20 range is_abundant' )
+    testOperator( '1 20 range is_abundant' )
 
     # is_achilles
-    testRPN( '1 20 range is_achilles' )
+    testOperator( '1 20 range is_achilles' )
 
     # is_deficient
-    testRPN( '1 20 range is_deficient' )
+    testOperator( '1 20 range is_deficient' )
 
     # is_k_semiprime
-    testRPN( '1 20 range 3 is_k_semiprime' )
+    testOperator( '1 20 range 3 is_k_semiprime' )
 
     # is_perfect
-    testRPN( '1 30 range is_perfect' )
+    testOperator( '1 30 range is_perfect' )
 
     # is_prime
-    testRPN( '1000 1030 range is_prime' )
-    testRPN( '2049 is_prime' )
-    testRPN( '92348759911 is_prime' )
+    testOperator( '1000 1030 range is_prime' )
+    testOperator( '2049 is_prime' )
+    testOperator( '92348759911 is_prime' )
 
     # is_pronic
-    testRPN( '1 20 range is_pronic' )
+    testOperator( '1 20 range is_pronic' )
 
     # is_powerful
-    testRPN( '1 20 range is_powerful' )
+    testOperator( '1 20 range is_powerful' )
 
     # is_rough
-    testRPN( '1 20 range is_rough' )
+    testOperator( '1 20 range 2 is_rough' )
 
     # is_semiprime
-    testRPN( '12 is_semiprime' )
+    testOperator( '12 is_semiprime' )
 
     # is_smooth
-    testRPN( '3 4 is_smooth' )
-    testRPN( '2 1 20 is_smooth' )
+    testOperator( '128 4 is_smooth' )
+    testOperator( '1 20 range 2 is_smooth' )
 
     # is_sphenic
-    testRPN( '[ 2 3 5 ] prime is_sphenic' )
+    testOperator( '[ 2 3 5 ] prime is_sphenic' )
 
     # is_squarefree
-    testRPN( '2013 sqr is_squarefree' )
-    testRPN( '8 primorial is_squarefree' )
-    testRPN( '1 20 range is_squarefree' )
+    testOperator( '2013 sqr is_squarefree' )
+    testOperator( '8 primorial is_squarefree' )
+    testOperator( '1 20 range is_squarefree' )
 
     # is_unusual
-    testRPN( '-a50 81 23 ** is_unusual' )
-    testRPN( '1 20 range is_unusual' )
+    testOperator( '-a50 81 23 ** is_unusual' )
+    testOperator( '1 20 range is_unusual' )
 
     # jacobsthal
-    testRPN( '10 jacobsthal' )
+    testOperator( '10 jacobsthal' )
 
     # kynea
-    testRPN( '8 kynea' )
+    testOperator( '8 kynea' )
 
     # leonardo
-    testRPN( '1 10 range leonardo' )
+    testOperator( '1 10 range leonardo' )
 
     # leyland
-    testRPN( '7 8 leyland' )
+    testOperator( '7 8 leyland' )
 
     # lgamma
-    testRPN( '10 lgamma' )
+    testOperator( '10 lgamma' )
 
     # linear_recurrence
-    testRPN( '1 10 range 2 5 range 17 linear_recur' )
+    testOperator( '1 10 range 2 5 range 17 linear_recur' )
 
     # lucas
-    testRPN( '-a21 99 lucas' )
+    testOperator( '-a21 99 lucas' )
 
     # make_cf
-    testRPN( 'e 20 make_cf' )
+    testOperator( 'e 20 make_cf' )
 
     # mertens
-    testRPN( '20 mertens' )
-    testRPN( '1 10 range mertens' )
+    testOperator( '20 mertens' )
+    testOperator( '1 10 range mertens' )
 
     # mobius
-    testRPN( '20176 mobius' )
-    testRPN( '1 20 range mobius' )
+    testOperator( '20176 mobius' )
+    testOperator( '1 20 range mobius' )
 
     # padovan
-    testRPN( '76 padovan' )
-    testRPN( '1 20 range padovan' )
+    testOperator( '76 padovan' )
+    testOperator( '1 20 range padovan' )
 
     # pascal_triangle
-    testRPN( '12 pascal_triangle' )
-    testRPN( '1 10 range pascal_triangle -s1' )
+    testOperator( '12 pascal_triangle' )
+    testOperator( '1 10 range pascal_triangle -s1' )
 
     # pentanacci
-    testRPN( '16 pentanacci' )
+    testOperator( '16 pentanacci' )
 
     # polygamma
-    testRPN( '4 5 polygamma' )
+    testOperator( '4 5 polygamma' )
 
     # repunit
-    testRPN( '-a20 23 5 repunit' )
+    testOperator( '-a20 23 5 repunit' )
 
     # riesel
-    testRPN( '23 riesel' )
+    testOperator( '23 riesel' )
 
     # sigma
-    testRPN( '1 20 range sigma' )
+    testOperator( '1 20 range sigma' )
 
     # subfactorial
-    testRPN( '-a20 19 subfactorial' )
+    testOperator( '-a20 19 subfactorial' )
 
     # superfactorial
-    testRPN( '-a50 12 superfactorial' )
+    testOperator( '-a50 12 superfactorial' )
 
     # tetranacci
-    testRPN( '-a30 87 tetranacci' )
+    testOperator( '-a30 87 tetranacci' )
 
     # thabit
-    testRPN( '-a20 45 thabit' )
+    testOperator( '-a20 45 thabit' )
 
     # tribonacci
-    testRPN( '1 20 range tribonacci' )
-    testRPN( '-c -a 2800 10239 tribonacci' )
+    testOperator( '1 20 range tribonacci' )
+    testOperator( '-c -a 2800 10239 tribonacci' )
 
     # unit_roots
-    testRPN( '7 unit_roots' )
+    testOperator( '7 unit_roots' )
 
     # zeta
-    testRPN( '4 zeta' )
+    testOperator( '4 zeta' )
 
 
 # //******************************************************************************
@@ -1651,165 +1610,165 @@ def runNumberTheoryOperatorTests( ):
 
 def runPolygonalOperatorTests( ):
     # centered_decagonal
-    testRPN( '17 centered_decagonal' )
+    testOperator( '17 centered_decagonal' )
 
     # centered_decagonal?
-    testRPN( '1000 centered_decagonal?' )
+    testOperator( '1000 centered_decagonal?' )
 
     # centered_heptagonal
-    testRPN( '102 centered_heptagonal' )
+    testOperator( '102 centered_heptagonal' )
 
     # centered_heptagonal?
-    testRPN( '100000 centered_heptagonal?' )
+    testOperator( '100000 centered_heptagonal?' )
 
     # centered_hexagonal
-    testRPN( '103 centered_hexagonal' )
+    testOperator( '103 centered_hexagonal' )
 
     # centered_hexagonal?
 
     # centered_nonagonal
-    testRPN( '104 centered_nonagonal' )
+    testOperator( '104 centered_nonagonal' )
 
     # centered_nonagonal?
-    testRPN( '5,000,000 centered_nonagonal?' )
+    testOperator( '5,000,000 centered_nonagonal?' )
 
     # centered_octagonal
-    testRPN( '10 centered_octagonal' )
+    testOperator( '10 centered_octagonal' )
 
     # centered_octagonal?
-    testRPN( '361 centered_octagonal?' )
+    testOperator( '361 centered_octagonal?' )
 
     # centered_pentagonal
-    testRPN( '108 centered_pentagonal' )
+    testOperator( '108 centered_pentagonal' )
 
     # centered_pentagonal?
-    testRPN( '9999 centered_pentagonal?' )
+    testOperator( '9999 centered_pentagonal?' )
 
     # centered_polygonal
-    testRPN( '108 5 centered_polygonal' )
+    testOperator( '108 5 centered_polygonal' )
 
     # centered_polygonal?
-    testRPN( '9999 5 centered_polygonal?' )
+    testOperator( '9999 5 centered_polygonal?' )
 
     # centered_square
-    testRPN( '5 centered_square' )
+    testOperator( '5 centered_square' )
 
     # centered_square?
-    testRPN( '49 centered_square?' )
+    testOperator( '49 centered_square?' )
 
     # centered_triangular
-    testRPN( '100 centered_triangular' )
+    testOperator( '100 centered_triangular' )
 
     # centered_triangular?
-    testRPN( '10000 centered_triangular?' )
+    testOperator( '10000 centered_triangular?' )
 
     # decagonal
-    testRPN( '151 decagonal' )
+    testOperator( '151 decagonal' )
 
     # decagonal?
-    testRPN( '123454321 decagonal?' )
+    testOperator( '123454321 decagonal?' )
 
     # heptagonal
-    testRPN( '203 heptagonal' )
+    testOperator( '203 heptagonal' )
 
     # heptagonal?
-    testRPN( '99999 heptagonal?' )
+    testOperator( '99999 heptagonal?' )
 
     # heptagonal_hexagonal
-    testRPN( '2039 heptagonal_hexagonal' )
+    testOperator( '2039 heptagonal_hexagonal' )
 
     # heptagonal_pentagonal
-    testRPN( '8684 heptagonal_pentagonal' )
+    testOperator( '8684 heptagonal_pentagonal' )
 
     # heptagonal_square
-    testRPN( '222 heptagonal_square' )
+    testOperator( '222 heptagonal_square' )
 
     # heptagonal_triangular
-    testRPN( '399 heptagonal_triangular' )
+    testOperator( '399 heptagonal_triangular' )
 
     # hexagonal
-    testRPN( '340 hexagonal' )
+    testOperator( '340 hexagonal' )
 
     # hexagonal?
-    testRPN( '230860 hexagonal?' )
+    testOperator( '230860 hexagonal?' )
 
     # hexagonal_pentagonal
-    testRPN( '107 hexagonal_pentagonal' )
+    testOperator( '107 hexagonal_pentagonal' )
 
     # hexagonal_square
-    testRPN( '-a70 23 hexagonal_square' )
+    testOperator( '-a70 23 hexagonal_square' )
 
     # nonagonal
-    testRPN( '554 nonagonal' )
+    testOperator( '554 nonagonal' )
 
     # nonagonal?
-    testRPN( '9 6 ** nonagonal?' )
+    testOperator( '9 6 ** nonagonal?' )
 
     # nonagonal_heptagonal
-    testRPN( '-a50 12 nonagonal_heptagonal' )
+    testOperator( '-a50 12 nonagonal_heptagonal' )
 
     # nonagonal_hexagonal
-    testRPN( '-a60 13 nonagonal_hexagonal' )
+    testOperator( '-a60 13 nonagonal_hexagonal' )
 
     # nonagonal_octagonal
-    testRPN( '-a 75 14 nonagonal_octagonal' )
+    testOperator( '-a 75 14 nonagonal_octagonal' )
 
     # nonagonal_pentagonal
-    testRPN( '-a60 15 nonagonal_pentagonal' )
+    testOperator( '-a60 15 nonagonal_pentagonal' )
 
     # nonagonal_square
-    testRPN( '-a22 16 nonagonal_square' )
+    testOperator( '-a22 16 nonagonal_square' )
 
     # nonagonal_triangular
-    testRPN( '-a21 17 nonagonal_triangular' )
+    testOperator( '-a21 17 nonagonal_triangular' )
 
     # octagonal
-    testRPN( '102 octagonal' )
+    testOperator( '102 octagonal' )
 
     # octagonal?
-    testRPN( '8 4 ** 1 + octagonal?' )
+    testOperator( '8 4 ** 1 + octagonal?' )
 
     # octagonal_heptagonal
-    testRPN( '-a40 8 octagonal_heptagonal' )
+    testOperator( '-a40 8 octagonal_heptagonal' )
 
     # octagonal_hexagonal
-    testRPN( '-a30 7 octagonal_hexagonal' )
+    testOperator( '-a30 7 octagonal_hexagonal' )
 
     # octagonal_pentagonal
-    testRPN( '-a15 6 octagonal_pentagonal' )
+    testOperator( '-a15 6 octagonal_pentagonal' )
 
     # octagonal_square
-    testRPN( '-a25 11 octagonal_square' )
+    testOperator( '-a25 11 octagonal_square' )
 
     # octagonal_triangular
-    testRPN( '-a20 10 octagonal_triangular' )
+    testOperator( '-a20 10 octagonal_triangular' )
 
     # pentagonal
-    testRPN( '16 pentagonal' )
+    testOperator( '16 pentagonal' )
 
     # pentagonal?
-    testRPN( '5 5 ** 5 + pentagonal?' )
+    testOperator( '5 5 ** 5 + pentagonal?' )
 
     # pentagonal_square
-    testRPN( '-a70 10 pentagonal_square' )
+    testOperator( '-a70 10 pentagonal_square' )
 
     # pentagonal_triangular
-    testRPN( '-a40 17 pentagonal_triangular' )
+    testOperator( '-a40 17 pentagonal_triangular' )
 
     # polygonal
-    testRPN( '9 12 polygonal' )
+    testOperator( '9 12 polygonal' )
 
     # polygonal?
-    testRPN( '12 12 ** 12 polygonal?' )
+    testOperator( '12 12 ** 12 polygonal?' )
 
     # square_triangular
-    testRPN( '-a60 34 square_triangular' )
+    testOperator( '-a60 34 square_triangular' )
 
     # triangular
-    testRPN( '203 triangular' )
+    testOperator( '203 triangular' )
 
     # triangular?
-    testRPN( '20706 triangular?' )
+    testOperator( '20706 triangular?' )
 
 
 # //******************************************************************************
@@ -1820,43 +1779,43 @@ def runPolygonalOperatorTests( ):
 
 def runPolyhedralOperatorTests( ):
     # centered_cube
-    testRPN( '100 centered_cube' )
+    testOperator( '100 centered_cube' )
 
     # dodecahedral
-    testRPN( '44 dodecahedral' )
+    testOperator( '44 dodecahedral' )
 
     # icosahedral
-    testRPN( '100 icosahedral' )
+    testOperator( '100 icosahedral' )
 
     # polytope
-    testRPN( '1 10 range 7 polytope' )
-    testRPN( '10 2 8 range polytope' )
-    testRPN( '1 10 range 2 8 range polytope' )
-    testRPN( '-a20 -c 18 47 polytope' )
+    testOperator( '1 10 range 7 polytope' )
+    testOperator( '10 2 8 range polytope' )
+    testOperator( '1 10 range 2 8 range polytope' )
+    testOperator( '-a20 -c 18 47 polytope' )
 
     # pyramid
-    testRPN( '304 pyramid' )
+    testOperator( '304 pyramid' )
 
     # rhombdodec
-    testRPN( '89 rhombdodec' )
+    testOperator( '89 rhombdodec' )
 
     # stella_octangula
-    testRPN( '3945 stella_octangula' )
+    testOperator( '3945 stella_octangula' )
 
     # tetrahedral
-    testRPN( '-a20 19978 tetrahedral' )
+    testOperator( '-a20 19978 tetrahedral' )
 
     # truncated_octahedral
-    testRPN( '394 truncated_octahedral' )
+    testOperator( '394 truncated_octahedral' )
 
     # truncated_tetrahedral
-    testRPN( '683 truncated_tetrahedral' )
+    testOperator( '683 truncated_tetrahedral' )
 
     # octahedral
-    testRPN( '23 octahedral' )
+    testOperator( '23 octahedral' )
 
     # pentatope
-    testRPN( '12 pentatope' )
+    testOperator( '12 pentatope' )
 
 
 # //******************************************************************************
@@ -1867,48 +1826,48 @@ def runPolyhedralOperatorTests( ):
 
 def runPowersAndRootsOperatorTests( ):
     # cube
-    testRPN( '3 cube' )
+    testOperator( '3 cube' )
 
     # cube_root
-    testRPN( 'pi cube_root' )
+    testOperator( 'pi cube_root' )
 
     # exp
-    testRPN( '13 exp' )
+    testOperator( '13 exp' )
 
     # exp10
-    testRPN( '12 exp10' )
+    testOperator( '12 exp10' )
 
     # expphi
-    testRPN( '100 expphi' )
+    testOperator( '100 expphi' )
 
     # hyper4_2
-    testRPN( '-a160 4 3 hyper4_2' )
+    testOperator( '-a160 4 3 hyper4_2' )
 
     # power
-    testRPN( '4 5 power' )
-    testRPN( '4 1 i power' )
-    testRPN( '1 10 range 2 10 range power' )
+    testOperator( '4 5 power' )
+    testOperator( '4 1 i power' )
+    testOperator( '1 10 range 2 10 range power' )
 
     # powmod
-    testRPN( '43 67 9 powmod' )
+    testOperator( '43 67 9 powmod' )
 
     # root
-    testRPN( '8 3 root' )
+    testOperator( '8 3 root' )
 
     # root2
-    testRPN( '2 square_root' )
+    testOperator( '2 square_root' )
 
     # square
-    testRPN( '45 square' )
+    testOperator( '45 square' )
 
     # tetrate
-    testRPN( '3 2 tetrate' )
+    testOperator( '3 2 tetrate' )
 
     # tower
-    testRPN( '-c -a30 [ 2 3 2 ] tower' )
+    testOperator( '-c -a30 [ 2 3 2 ] tower' )
 
     # tower2
-    testRPN( '[ 4 4 4 ] tower2' )
+    testOperator( '[ 4 4 4 ] tower2' )
 
 
 # //******************************************************************************
@@ -1919,196 +1878,196 @@ def runPowersAndRootsOperatorTests( ):
 
 def runPrimeNumberOperatorTests( ):
     # balanced_prime
-    testRPN( '1 10 range balanced' )
-    testRPN( '53 balanced' )
-    testRPN( '153 balanced' )
-    testRPN( '2153 balanced' )
+    testOperator( '1 10 range balanced' )
+    testOperator( '53 balanced' )
+    testOperator( '153 balanced' )
+    testOperator( '2153 balanced' )
 
     # balanced_prime_
-    testRPN( '1 10 range balanced_' )
-    testRPN( '53 balanced_' )
-    testRPN( '153 balanced_' )
-    testRPN( '2153 balanced_' )
+    testOperator( '1 10 range balanced_' )
+    testOperator( '53 balanced_' )
+    testOperator( '153 balanced_' )
+    testOperator( '2153 balanced_' )
 
     # cousin_prime
-    testRPN( '1 10 range cousin_prime' )
-    testRPN( '77 cousin_prime' )
-    testRPN( '5176 cousin_prime' )
+    testOperator( '1 10 range cousin_prime' )
+    testOperator( '77 cousin_prime' )
+    testOperator( '5176 cousin_prime' )
 
     # cousin_prime_
-    testRPN( '1 10 range cousin_prime_' )
-    testRPN( '4486 cousin_prime_' )
-    testRPN( '192765 cousin_prime_' )
+    testOperator( '1 10 range cousin_prime_' )
+    testOperator( '4486 cousin_prime_' )
+    testOperator( '192765 cousin_prime_' )
 
     # double_balanced
-    testRPN( '1 5 range double_balanced' )
-    testRPN( '54 double_balanced' )
-    testRPN( '82154 double_balanced' )
+    testOperator( '1 5 range double_balanced' )
+    testOperator( '54 double_balanced' )
+    testOperator( '82154 double_balanced' )
 
     # double_balanced_
-    testRPN( '1 5 range double_balanced_' )
-    testRPN( '54 double_balanced_' )
-    testRPN( '100000 double_balanced_' )
+    testOperator( '1 5 range double_balanced_' )
+    testOperator( '54 double_balanced_' )
+    testOperator( '100000 double_balanced_' )
 
     # isolated_prime
-    testRPN( '102 isolated_prime' )
-    testRPN( '1902 isolated_prime' )
+    testOperator( '102 isolated_prime' )
+    testOperator( '1902 isolated_prime' )
 
     # next_prime
-    testRPN( '1 100 range next_prime' )
-    testRPN( '35 next_prime' )
-    testRPN( '8783 next_prime' )
-    testRPN( '142857 next_prime' )
-    testRPN( '-c 6 13 ** 1 + next_prime' )
-    testRPN( '-c 7 13 ** 1 + next_prime' )
+    testOperator( '1 100 range next_prime' )
+    testOperator( '35 next_prime' )
+    testOperator( '8783 next_prime' )
+    testOperator( '142857 next_prime' )
+    testOperator( '-c 6 13 ** 1 + next_prime' )
+    testOperator( '-c 7 13 ** 1 + next_prime' )
 
     # nth_prime?
-    testRPN( '1 10 range nth_prime?' )
-    testRPN( '67 nth_prime?' )
-    testRPN( '16467 nth_prime?' )
-    testRPN( '-c 13,000,000,000 nth_prime?' )
-    testRPN( '-c 256,000,000,000 nth_prime?' )
+    testOperator( '1 10 range nth_prime?' )
+    testOperator( '67 nth_prime?' )
+    testOperator( '16467 nth_prime?' )
+    testOperator( '-c 13,000,000,000 nth_prime?' )
+    testOperator( '-c 256,000,000,000 nth_prime?' )
 
     # nth_quad?
-    testRPN( '1 100000 10000 range2 nth_quad?' )
-    testRPN( '453456 nth_quad?' )
-    testRPN( '74,000,000,000 nth_quad?' )
+    testOperator( '1 100000 10000 range2 nth_quad?' )
+    testOperator( '453456 nth_quad?' )
+    testOperator( '74,000,000,000 nth_quad?' )
 
     # polyprime
-    testRPN( '1 5 range 1 5 range polyprime' )
-    testRPN( '4 3 polyprime' )
-    testRPN( '5 8 polyprime' )
+    testOperator( '1 5 range 1 5 range polyprime' )
+    testOperator( '4 3 polyprime' )
+    testOperator( '5 8 polyprime' )
 
     # prime
-    testRPN( '1 101 range prime' )
-    testRPN( '8783 prime' )
-    testRPN( '142857 prime' )
-    testRPN( '367981443 prime' )
-    testRPN( '9113486725 prime' )
+    testOperator( '1 101 range prime' )
+    testOperator( '8783 prime' )
+    testOperator( '142857 prime' )
+    testOperator( '367981443 prime' )
+    testOperator( '9113486725 prime' )
 
     # primepi
-    testRPN( '87 primepi' )
+    testOperator( '87 primepi' )
 
     # primes
-    testRPN( '1 5 range 5 primes' )
-    testRPN( '1 1 5 range primes' )
-    testRPN( '2 1 5 range primes' )
-    testRPN( '3 1 5 range primes' )
-    testRPN( '4 1 5 range primes' )
-    testRPN( '150 10 primes' )
-    testRPN( '98765 20 primes' )
-    testRPN( '176176176 25 primes' )
-    testRPN( '11,000,000,000 25 primes' )
+    testOperator( '1 5 range 5 primes' )
+    testOperator( '1 1 5 range primes' )
+    testOperator( '2 1 5 range primes' )
+    testOperator( '3 1 5 range primes' )
+    testOperator( '4 1 5 range primes' )
+    testOperator( '150 10 primes' )
+    testOperator( '98765 20 primes' )
+    testOperator( '176176176 25 primes' )
+    testOperator( '11,000,000,000 25 primes' )
 
     # primorial
-    testRPN( '1 10 range primorial' )
+    testOperator( '1 10 range primorial' )
 
     # quadruplet_prime?
-    testRPN( '8 quadruplet_prime?' )
-    testRPN( '8871 quadruplet_prime?' )
+    testOperator( '8 quadruplet_prime?' )
+    testOperator( '8871 quadruplet_prime?' )
 
     # quadruplet_prime
-    testRPN( '17 quadruplet_prime' )
-    testRPN( '99831 quadruplet_prime' )
+    testOperator( '17 quadruplet_prime' )
+    testOperator( '99831 quadruplet_prime' )
 
     # quadruplet_prime_
-    testRPN( '17 quadruplet_prime_' )
-    testRPN( '55731 quadruplet_prime_' )
+    testOperator( '17 quadruplet_prime_' )
+    testOperator( '55731 quadruplet_prime_' )
 
     # quintuplet_prime?
-    testRPN( '147951 quintuplet_prime?' )
-    testRPN( '2,300,000 quintuplet_prime?' )
+    testOperator( '147951 quintuplet_prime?' )
+    testOperator( '2,300,000 quintuplet_prime?' )
 
     # quintuplet_prime
-    testRPN( '18 quintuplet_prime' )
-    testRPN( '9387 quintuplet_prime' )
+    testOperator( '18 quintuplet_prime' )
+    testOperator( '9387 quintuplet_prime' )
 
     # quintuplet_prime_
-    testRPN( '62 quintuplet_prime_' )
-    testRPN( '74238 quintuplet_prime_' )
+    testOperator( '62 quintuplet_prime_' )
+    testOperator( '74238 quintuplet_prime_' )
 
     # safe_prime
-    testRPN( '45 safe_prime' )
-    testRPN( '5199846 safe_prime' )
+    testOperator( '45 safe_prime' )
+    testOperator( '5199846 safe_prime' )
 
     # sextuplet_prime
-    testRPN( '29 sextuplet_prime' )
-    testRPN( '1176 sextuplet_prime' )
-    testRPN( '556 sextuplet_prime' )
+    testOperator( '29 sextuplet_prime' )
+    testOperator( '1176 sextuplet_prime' )
+    testOperator( '556 sextuplet_prime' )
 
     # sextuplet_prime_
-    testRPN( '1 sextuplet_prime_' )
-    testRPN( '587 sextuplet_prime_' )
-    testRPN( '835 sextuplet_prime_' )
-    testRPN( '29 sextuplet_prime_' )
+    testOperator( '1 sextuplet_prime_' )
+    testOperator( '587 sextuplet_prime_' )
+    testOperator( '835 sextuplet_prime_' )
+    testOperator( '29 sextuplet_prime_' )
 
     # sexy_prime
-    testRPN( '-c 89,999,999 sexy_prime' )
-    testRPN( '1 sexy_prime' )
-    testRPN( '1487 sexy_prime' )
-    testRPN( '2 sexy_prime' )
-    testRPN( '23235 sexy_prime' )
-    testRPN( '29 sexy_prime' )
+    testOperator( '-c 89,999,999 sexy_prime' )
+    testOperator( '1 sexy_prime' )
+    testOperator( '1487 sexy_prime' )
+    testOperator( '2 sexy_prime' )
+    testOperator( '23235 sexy_prime' )
+    testOperator( '29 sexy_prime' )
 
     # sexy_prime_
-    testRPN( '1 10 range sexy_prime_' )
-    testRPN( '29 sexy_prime_' )
-    testRPN( '21985 sexy_prime_' )
-    testRPN( '-c 100,000,000 sexy_prime_' )
+    testOperator( '1 10 range sexy_prime_' )
+    testOperator( '29 sexy_prime_' )
+    testOperator( '21985 sexy_prime_' )
+    testOperator( '-c 100,000,000 sexy_prime_' )
 
     # sexy_triplet
-    testRPN( '1 10 range sexy_triplet' )
-    testRPN( '29 sexy_triplet' )
-    testRPN( '-c 593847 sexy_triplet' )
-    testRPN( '-c 8574239 sexy_triplet' )
+    testOperator( '1 10 range sexy_triplet' )
+    testOperator( '29 sexy_triplet' )
+    testOperator( '-c 593847 sexy_triplet' )
+    testOperator( '-c 8574239 sexy_triplet' )
 
     # sexy_triplet_
-    testRPN( '1 10 range sexy_triplet_' )
-    testRPN( '52 sexy_triplet_' )
-    testRPN( '5298 sexy_triplet_' )
-    testRPN( '-c 10984635 sexy_triplet_' )
+    testOperator( '1 10 range sexy_triplet_' )
+    testOperator( '52 sexy_triplet_' )
+    testOperator( '5298 sexy_triplet_' )
+    testOperator( '-c 10984635 sexy_triplet_' )
 
     # sexy_quadruplet
-    testRPN( '1 10 range sexy_quadruplet' )
-    testRPN( '29 sexy_quadruplet' )
-    testRPN( '-c 289747 sexy_quadruplet' )
+    testOperator( '1 10 range sexy_quadruplet' )
+    testOperator( '29 sexy_quadruplet' )
+    testOperator( '-c 289747 sexy_quadruplet' )
 
     # sexy_quadruplet_
-    testRPN( '1 10 range sexy_quadruplet_' )
-    testRPN( '29 sexy_quadruplet_' )
-    testRPN( '2459 sexy_quadruplet_' )
+    testOperator( '1 10 range sexy_quadruplet_' )
+    testOperator( '29 sexy_quadruplet_' )
+    testOperator( '2459 sexy_quadruplet_' )
 
     # sophie_prime
-    testRPN( '1 10 range sophie_prime' )
-    testRPN( '87 sophie_prime' )
-    testRPN( '6,500,000 sophie_prime' )
+    testOperator( '1 10 range sophie_prime' )
+    testOperator( '87 sophie_prime' )
+    testOperator( '6,500,000 sophie_prime' )
 
     # superprime
-    testRPN( '89 superprime' )
+    testOperator( '89 superprime' )
 
     # triple_balanced
-    testRPN( '1 10 range triple_balanced' )
-    testRPN( '5588 triple_balanced' )
+    testOperator( '1 10 range triple_balanced' )
+    testOperator( '5588 triple_balanced' )
 
     # triple_balanced_
-    testRPN( '1 10 range triple_balanced_' )
-    testRPN( '6329 triple_balanced_' )
+    testOperator( '1 10 range triple_balanced_' )
+    testOperator( '6329 triple_balanced_' )
 
     # triplet_prime
-    testRPN( '1 10 range triplet_prime' )
-    testRPN( '192834 triplet_prime' )
+    testOperator( '1 10 range triplet_prime' )
+    testOperator( '192834 triplet_prime' )
 
     # triplet_prime_
-    testRPN( '1 10 range triplet_prime_' )
-    testRPN( '192834 triplet_prime_' )
+    testOperator( '1 10 range triplet_prime_' )
+    testOperator( '192834 triplet_prime_' )
 
     # twin_prime
-    testRPN( '1 10 range twin_prime_' )
-    testRPN( '57454632 twin_prime_' )
+    testOperator( '1 10 range twin_prime_' )
+    testOperator( '57454632 twin_prime_' )
 
     # twin_prime_
-    testRPN( '1 20 range twin_prime' )
-    testRPN( '39485 twin_prime' )
+    testOperator( '1 20 range twin_prime' )
+    testOperator( '39485 twin_prime' )
 
 
 # //******************************************************************************
@@ -2160,73 +2119,73 @@ def runSettingsOperatorTests( ):
 
 def runSpecialOperatorTests( ):
     # estimate
-    testRPN( '150 amps estimate' )
-    testRPN( '150 barns estimate' )
-    testRPN( '150 bytes second / estimate' )
-    testRPN( '150 candelas estimate' )
-    testRPN( '150 cd meter meter * / estimate' )
-    testRPN( '150 coulombs estimate' )
-    testRPN( '150 cubic_feet estimate' )
-    testRPN( '150 cubic_inches estimate' )
-    testRPN( '150 cubic_miles estimate' )
-    testRPN( '150 cubic_mm estimate' )
-    testRPN( '150 cubic_nm estimate' )
-    testRPN( '150 cubic_parsecs estimate' )
-    testRPN( '150 days estimate' )
-    testRPN( '150 degC estimate' )
-    testRPN( '150 degrees estimate' )
-    testRPN( '150 farads estimate' )
-    testRPN( '150 feet estimate' )
-    testRPN( '150 G estimate' )
-    testRPN( '150 gallons estimate' )
-    testRPN( '150 grams estimate' )
-    testRPN( '150 GW estimate' )
-    testRPN( '150 Hz estimate' )
-    testRPN( '150 joules estimate' )
-    testRPN( '150 K estimate' )
-    testRPN( '150 kg liter / estimate' )
-    testRPN( '150 light-years estimate' )
-    testRPN( '150 liters estimate' )
-    testRPN( '150 lumens estimate' )
-    testRPN( '150 lux estimate' )
-    testRPN( '150 mach estimate' )
-    testRPN( '150 MB estimate' )
-    testRPN( '150 megapascals estimate' )
-    testRPN( '150 meter second second * / estimate' )
-    testRPN( '150 mhos estimate' )
-    testRPN( '150 microfarads estimate' )
-    testRPN( '150 miles estimate' )
-    testRPN( '150 minutes estimate' )
-    testRPN( '150 months estimate' )
-    testRPN( '150 mph estimate' )
-    testRPN( '150 mps estimate' )
-    testRPN( '150 newtons estimate' )
-    testRPN( '150 ohms estimate' )
-    testRPN( '150 pascal-seconds estimate' )
-    testRPN( '150 pascals estimate' )
-    testRPN( '150 Pg estimate' )
-    testRPN( '150 picofarads estimate' )
-    testRPN( '150 pounds estimate' )
-    testRPN( '150 radians estimate' )
-    testRPN( '150 seconds estimate' )
-    testRPN( '150 sieverts estimate' )
-    testRPN( '150 square_degrees estimate' )
-    testRPN( '150 square_feet estimate' )
-    testRPN( '150 square_inches estimate' )
-    testRPN( '150 square_light-years estimate' )
-    testRPN( '150 square_miles estimate' )
-    testRPN( '150 square_mm estimate' )
-    testRPN( '150 square_nm estimate' )
-    testRPN( '150 stilbs estimate' )
-    testRPN( '150 teaspoons estimate' )
-    testRPN( '150 tesla estimate' )
-    testRPN( '150 tons estimate' )
-    testRPN( '150 tTNT estimate' )
-    testRPN( '150 volts estimate' )
-    testRPN( '150 watts estimate' )
-    testRPN( '150 weeks estimate' )
-    testRPN( '150 years estimate' )
-    testRPN( 'c 150 / estimate' )
+    testOperator( '150 amps estimate' )
+    testOperator( '150 barns estimate' )
+    testOperator( '150 bytes second / estimate' )
+    testOperator( '150 candelas estimate' )
+    testOperator( '150 cd meter meter * / estimate' )
+    testOperator( '150 coulombs estimate' )
+    testOperator( '150 cubic_feet estimate' )
+    testOperator( '150 cubic_inches estimate' )
+    testOperator( '150 cubic_miles estimate' )
+    testOperator( '150 cubic_mm estimate' )
+    testOperator( '150 cubic_nm estimate' )
+    testOperator( '150 cubic_parsecs estimate' )
+    testOperator( '150 days estimate' )
+    testOperator( '150 degC estimate' )
+    testOperator( '150 degrees estimate' )
+    testOperator( '150 farads estimate' )
+    testOperator( '150 feet estimate' )
+    testOperator( '150 G estimate' )
+    testOperator( '150 gallons estimate' )
+    testOperator( '150 grams estimate' )
+    testOperator( '150 GW estimate' )
+    testOperator( '150 Hz estimate' )
+    testOperator( '150 joules estimate' )
+    testOperator( '150 K estimate' )
+    testOperator( '150 kg liter / estimate' )
+    testOperator( '150 light-years estimate' )
+    testOperator( '150 liters estimate' )
+    testOperator( '150 lumens estimate' )
+    testOperator( '150 lux estimate' )
+    testOperator( '150 mach estimate' )
+    testOperator( '150 MB estimate' )
+    testOperator( '150 megapascals estimate' )
+    testOperator( '150 meter second second * / estimate' )
+    testOperator( '150 mhos estimate' )
+    testOperator( '150 microfarads estimate' )
+    testOperator( '150 miles estimate' )
+    testOperator( '150 minutes estimate' )
+    testOperator( '150 months estimate' )
+    testOperator( '150 mph estimate' )
+    testOperator( '150 mps estimate' )
+    testOperator( '150 newtons estimate' )
+    testOperator( '150 ohms estimate' )
+    testOperator( '150 pascal-seconds estimate' )
+    testOperator( '150 pascals estimate' )
+    testOperator( '150 Pg estimate' )
+    testOperator( '150 picofarads estimate' )
+    testOperator( '150 pounds estimate' )
+    testOperator( '150 radians estimate' )
+    testOperator( '150 seconds estimate' )
+    testOperator( '150 sieverts estimate' )
+    testOperator( '150 square_degrees estimate' )
+    testOperator( '150 square_feet estimate' )
+    testOperator( '150 square_inches estimate' )
+    testOperator( '150 square_light-years estimate' )
+    testOperator( '150 square_miles estimate' )
+    testOperator( '150 square_mm estimate' )
+    testOperator( '150 square_nm estimate' )
+    testOperator( '150 stilbs estimate' )
+    testOperator( '150 teaspoons estimate' )
+    testOperator( '150 tesla estimate' )
+    testOperator( '150 tons estimate' )
+    testOperator( '150 tTNT estimate' )
+    testOperator( '150 volts estimate' )
+    testOperator( '150 watts estimate' )
+    testOperator( '150 weeks estimate' )
+    testOperator( '150 years estimate' )
+    testOperator( 'c 150 / estimate' )
 
     # help - help is handled separately
 
@@ -2241,45 +2200,45 @@ def runSpecialOperatorTests( ):
     expectRPN( '23 name', 'twenty-three' )
     expectRPN( '47 name', 'forty-seven' )
     expectRPN( '-1 name', 'negative one' )
-    testRPN( '-a100 45 primorial name' )
+    testOperator( '-a100 45 primorial name' )
 
     # oeis
-    testRPN( '1000 oeis' )
-    testRPN( '250000 randint oeis' )
+    testOperator( '1000 oeis' )
+    testOperator( '250000 randint oeis' )
 
     # oeis_comment
-    testRPN( '1000 oeis_comment' )
-    testRPN( '250000 randint oeis_comment' )
+    testOperator( '1000 oeis_comment' )
+    testOperator( '250000 randint oeis_comment' )
 
     # oeis_ex
-    testRPN( '1000 oeis_ex' )
-    testRPN( '250000 randint oeis_ex' )
+    testOperator( '1000 oeis_ex' )
+    testOperator( '250000 randint oeis_ex' )
 
     # oeis_name
-    testRPN( '1000 oeis_name' )
-    testRPN( '250000 randint oeis_name' )
+    testOperator( '1000 oeis_name' )
+    testOperator( '250000 randint oeis_name' )
 
     # ordinal_name
-    testRPN( '-1 ordinal_name' )
-    testRPN( '0 ordinal_name' )
-    testRPN( '1 ordinal_name' )
-    testRPN( '2 26 ** ordinal_name' )
+    testOperator( '-1 ordinal_name' )
+    testOperator( '0 ordinal_name' )
+    testOperator( '1 ordinal_name' )
+    testOperator( '2 26 ** ordinal_name' )
 
     # random
-    testRPN( 'random' )
+    testOperator( 'random' )
 
     # random_
-    testRPN( '50 random_' )
+    testOperator( '50 random_' )
 
     # random_integer
-    testRPN( '100 random_integer' )
-    testRPN( '10 12 ^ random_integer' )
+    testOperator( '100 random_integer' )
+    testOperator( '10 12 ^ random_integer' )
 
     # random_integer_
-    testRPN( '23 265 random_integer_' )
+    testOperator( '23 265 random_integer_' )
 
     # result
-    testRPN( 'result' )
+    testOperator( 'result' )
 
     # set
 
@@ -2297,80 +2256,80 @@ def runSpecialOperatorTests( ):
 
 def runTrigonometryOperatorTests( ):
     # acos
-    testRPN( '0.8 acos' )
+    testOperator( '0.8 acos' )
 
     # acosh
-    testRPN( '0.6 acosh' )
+    testOperator( '0.6 acosh' )
 
     # acot
-    testRPN( '0.4 acot' )
+    testOperator( '0.4 acot' )
 
     # acoth
-    testRPN( '0.3 acoth' )
+    testOperator( '0.3 acoth' )
 
     # acsc
-    testRPN( '0.2 acsc' )
+    testOperator( '0.2 acsc' )
 
     # acsch
-    testRPN( '0.67 acsch' )
+    testOperator( '0.67 acsch' )
 
     # asec
-    testRPN( '0.4 asec' )
+    testOperator( '0.4 asec' )
 
     # asech
-    testRPN( '0.1 asech' )
+    testOperator( '0.1 asech' )
 
     # asin
-    testRPN( '0.8 asin' )
+    testOperator( '0.8 asin' )
 
     # asinh
-    testRPN( '0.3 asinh' )
+    testOperator( '0.3 asinh' )
 
     # atan
-    testRPN( '0.2 atan' )
+    testOperator( '0.2 atan' )
 
     # atanh
-    testRPN( '0.45 atanh' )
+    testOperator( '0.45 atanh' )
 
     # cos
-    testRPN( '45 degrees cos' )
-    testRPN( 'pi radians cos' )
+    testOperator( '45 degrees cos' )
+    testOperator( 'pi radians cos' )
 
     # cosh
-    testRPN( 'pi 3 / cosh' )
+    testOperator( 'pi 3 / cosh' )
 
     # cot
-    testRPN( 'pi 7 / cot' )
+    testOperator( 'pi 7 / cot' )
 
     # coth
-    testRPN( 'pi 9 / coth' )
+    testOperator( 'pi 9 / coth' )
 
     # csc
-    testRPN( 'pi 12 / csc' )
+    testOperator( 'pi 12 / csc' )
 
     # csch
-    testRPN( 'pi 13 / csch' )
+    testOperator( 'pi 13 / csch' )
 
     # hypotenuse
-    testRPN( '3 4 hypotenuse' )
+    testOperator( '3 4 hypotenuse' )
 
     # sec
-    testRPN( 'pi 7 / sec' )
+    testOperator( 'pi 7 / sec' )
 
     # sech
-    testRPN( 'pi 7 / sech' )
+    testOperator( 'pi 7 / sech' )
 
     # sin
-    testRPN( 'pi 2 / sin' )
+    testOperator( 'pi 2 / sin' )
 
     # sinh
-    testRPN( 'pi 2 / sinh' )
+    testOperator( 'pi 2 / sinh' )
 
     # tan
-    testRPN( 'pi 3 / tan' )
+    testOperator( 'pi 3 / tan' )
 
     # tanh
-    testRPN( 'pi 4 / tanh' )
+    testOperator( 'pi 4 / tanh' )
 
 
 # //******************************************************************************

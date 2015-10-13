@@ -18,8 +18,8 @@ import datetime
 import ephem
 
 from dateutil import tz
-from rpnMeasurement import *
 from rpnUtils import debugPrint
+from rpnMeasurement import *
 
 import rpnGlobals as g
 
@@ -658,5 +658,4 @@ def getWeekday( n ):
         raise ValueError( 'time type required for this operator' )
 
     return calendar.day_name[ n.weekday( ) ]
-
 

@@ -1,6 +1,6 @@
 # //******************************************************************************
 # //
-# //  testRPN
+# //  testOperator
 # //
 # //  main test script for RPN
 # //  copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
@@ -12,18 +12,7 @@
 
 from rpn import rpn
 
-
-
-# //******************************************************************************
-# //
-# //  testRPN
-# //
-# //******************************************************************************
-
-def testRPN( command ):
-    print( command )
-    rpn( command.split( ' ' )[ 1 : ] )
-    print( )
+from rpnTestUtils import *
 
 
 # //******************************************************************************
@@ -33,49 +22,49 @@ def testRPN( command ):
 # //******************************************************************************
 
 def runHelpTests( ):
-    testRPN( 'help about' )
-    testRPN( 'help arguments' )
-    testRPN( 'help bugs' )
-    testRPN( 'help examples' )
-    testRPN( 'help input' )
-    testRPN( 'help interactive_mode' )
-    testRPN( 'help license' )
-    testRPN( 'help metric' )
-    testRPN( 'help notes' )
-    testRPN( 'help options' )
-    testRPN( 'help output' )
-    testRPN( 'help release_notes' )
-    testRPN( 'help release_notes_5' )
-    testRPN( 'help time_features' )
-    testRPN( 'help unit_conversion' )
-    testRPN( 'help unit_types' )
-    testRPN( 'help user_functions' )
+    testOperator( 'help about' )
+    testOperator( 'help arguments' )
+    testOperator( 'help bugs' )
+    testOperator( 'help examples' )
+    testOperator( 'help input' )
+    testOperator( 'help interactive_mode' )
+    testOperator( 'help license' )
+    testOperator( 'help metric' )
+    testOperator( 'help notes' )
+    testOperator( 'help options' )
+    testOperator( 'help output' )
+    testOperator( 'help release_notes' )
+    testOperator( 'help release_notes_5' )
+    testOperator( 'help time_features' )
+    testOperator( 'help unit_conversion' )
+    testOperator( 'help unit_types' )
+    testOperator( 'help user_functions' )
 
-    testRPN( 'help algebra' )
-    testRPN( 'help arithmetic' )
-    testRPN( 'help astronomy' )
-    testRPN( 'help bitwise' )
-    testRPN( 'help calendar' )
-    testRPN( 'help combinatorics' )
-    testRPN( 'help complex_math' )
-    testRPN( 'help constants' )
-    testRPN( 'help conversion' )
-    testRPN( 'help datetime' )
-    testRPN( 'help function' )
-    testRPN( 'help geometry' )
-    testRPN( 'help internal' )
-    testRPN( 'help lexicographic' )
-    testRPN( 'help list_operators' )
-    testRPN( 'help logarithms' )
-    testRPN( 'help modifiers' )
-    testRPN( 'help number_theory' )
-    testRPN( 'help polygonal_numbers' )
-    testRPN( 'help polyhedral_numbers' )
-    testRPN( 'help powers_and_roots' )
-    testRPN( 'help prime_numbers' )
-    testRPN( 'help settings' )
-    testRPN( 'help special' )
-    testRPN( 'help trigonometry' )
+    testOperator( 'help algebra' )
+    testOperator( 'help arithmetic' )
+    testOperator( 'help astronomy' )
+    testOperator( 'help bitwise' )
+    testOperator( 'help calendars' )
+    testOperator( 'help combinatorics' )
+    testOperator( 'help complex_math' )
+    testOperator( 'help constants' )
+    testOperator( 'help conversion' )
+    testOperator( 'help datetime' )
+    testOperator( 'help function' )
+    testOperator( 'help geometry' )
+    testOperator( 'help internal' )
+    testOperator( 'help lexicographic' )
+    testOperator( 'help list_operators' )
+    testOperator( 'help logarithms' )
+    testOperator( 'help modifiers' )
+    testOperator( 'help number_theory' )
+    testOperator( 'help polygonal_numbers' )
+    testOperator( 'help polyhedral_numbers' )
+    testOperator( 'help powers_and_roots' )
+    testOperator( 'help prime_numbers' )
+    testOperator( 'help settings' )
+    testOperator( 'help special' )
+    testOperator( 'help trigonometry' )
 
 
 # //******************************************************************************
