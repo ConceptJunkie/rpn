@@ -3960,40 +3960,40 @@ and seconds.
 
 # //******************************************************************************
 # //
-# //  date-time operators
+# //  datetime operators
 # //
 # //******************************************************************************
 
     'ash_wednesday' : [
-'date-time', 'calculates the date of Ash Wednesday for the year specified',
+'datetime', 'calculates the date of Ash Wednesday for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'dst_end' : [
-'date-time', 'calculates the ending date for Daylight Saving Time for the year specified',
+'datetime', 'calculates the ending date for Daylight Saving Time for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'dst_start' : [
-'date-time', 'calculates the starting date for Daylight Saving Time for the year specified',
+'datetime', 'calculates the starting date for Daylight Saving Time for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'easter' : [
-'date-time', 'calculates the date of Easter for the year specified',
+'datetime', 'calculates the date of Easter for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'election_day' : [
-'date-time', 'calculates the date of Election Day (US) for the year specified',
+'datetime', 'calculates the date of Election Day (US) for the year specified',
 '''
 In the U.S., Election Day is defined to be the first Tuesday after the first
 Monday in November.  This definition was established by the U.S. Congress in
@@ -4008,7 +4008,7 @@ c:\>rpn 1964 election_day
 ''' ],
 
     'iso_day' : [
-'date-time', 'returns the ISO day and week for a time value',
+'datetime', 'returns the ISO day and week for a time value',
 '''
 ''',
 '''
@@ -4016,7 +4016,7 @@ c:\>rpn 1964 election_day
 
 
     'labor_day' : [
-'date-time', 'calculates the date of Labor Day (US) for the year specified',
+'datetime', 'calculates the date of Labor Day (US) for the year specified',
 '''
 In the U.S., Labor Day falls on the first Monday of September.
 ''',
@@ -4026,21 +4026,21 @@ c:\>rpn 2016 labor_day
 ''' ],
 
     'make_julian_time' : [
-'date-time', 'interpret argument as absolute time specified by year, Julian day and optional time of day',
+'datetime', 'interpret argument as absolute time specified by year, Julian day and optional time of day',
 '''
 ''',
 '''
 ''' ],
 
     'make_iso_time' : [
-'date-time', 'interpret argument as absolute time specified in the ISO format',
+'datetime', 'interpret argument as absolute time specified in the ISO format',
 '''
 ''',
 '''
 ''' ],
 
     'memorial_day' : [
-'date-time', 'calculates the date of Memorial Day (US) for the year specified',
+'datetime', 'calculates the date of Memorial Day (US) for the year specified',
 '''
 In the U.S., Memorial Day occurs on the last Monday in May.  This holiday
 is dedicated to the memorial of the men and women who gave their lives in the
@@ -4062,14 +4062,14 @@ c:\>rpn 2020 2025 range memorial_day -s1
 ''' ],
 
     'now' : [
-'date-time', 'returns the current date and time',
+'datetime', 'returns the current date and time',
 '''
 ''',
 '''
 ''' ],
 
     'nth_weekday' : [
-'date-time', 'finds the nth day (1 = Monday, etc.) of the month',
+'datetime', 'finds the nth day (1 = Monday, etc.) of the month',
 '''
 a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
 d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
@@ -4078,7 +4078,7 @@ d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''' ],
 
     'nth_weekday_of_year' : [
-'date-time', 'finds the nth day (1 = Monday) of the year',
+'datetime', 'finds the nth day (1 = Monday) of the year',
 '''
 a = four-digit year, b = week (negative values count from the end), c = day
 (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
@@ -4087,35 +4087,35 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''' ],
 
     'presidents_day' : [
-'date-time', 'calculates the date of Presidents Day (US) for the year specified',
+'datetime', 'calculates the date of Presidents Day (US) for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'thanksgiving' : [
-'date-time', 'calculates the date of Thanksgiving (US) for the year specified',
+'datetime', 'calculates the date of Thanksgiving (US) for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'today' : [
-'date-time', 'returns the current date',
+'datetime', 'returns the current date',
 '''
 ''',
 '''
 ''' ],
 
     'tomorrow' : [
-'date-time', 'returns the next date',
+'datetime', 'returns the next date',
 '''
 ''',
 '''
 ''' ],
 
     'weekday' : [
-'date-time', 'calculates the day of the week of an absolute time',
+'datetime', 'calculates the day of the week of an absolute time',
 '''
 Given any date, the 'weekday' operator will determine what day of the week
 that date occurred on.
@@ -4140,7 +4140,7 @@ c:\>rpn 2043-04-17 weekday
 ''' ],
 
     'yesterday' : [
-'date-time', 'returns the previous date',
+'datetime', 'returns the previous date',
 '''
 ''',
 '''

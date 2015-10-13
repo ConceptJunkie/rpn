@@ -60,7 +60,7 @@ def runHelpTests( ):
     testRPN( 'help complex_math' )
     testRPN( 'help constants' )
     testRPN( 'help conversion' )
-    testRPN( 'help date-time' )
+    testRPN( 'help datetime' )
     testRPN( 'help function' )
     testRPN( 'help geometry' )
     testRPN( 'help internal' )
