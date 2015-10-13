@@ -144,33 +144,6 @@ def handleUseMembersOperator( valueList ):
 
 # //******************************************************************************
 # //
-# //  flatten
-# //
-# //  http://rightfootin.blogspot.com/2006/09/more-on-python-flatten.html
-# //
-# //******************************************************************************
-
-def _flatten( L, containers = ( list, tuple ) ):
-    i = 0
-
-    while i < len( L ):
-        while isinstance( L[ i ], containers ):
-            if not L[ i ]:
-                L.pop( i )
-                i -= 1
-                break
-            else:
-                L[ i : i + 1 ] = ( L[ i ] )
-        i += 1
-    return L
-
-
-def flatten( valueList ):
-    valueList.append( _flatten( valueList.pop( ) ) )
-
-
-# //******************************************************************************
-# //
 # //  getPrevious
 # //
 # //******************************************************************************
