@@ -5330,19 +5330,19 @@ This function duplicates terms, but requires the bracket operators to make the
 resulting expression a list, rather than a set of k expressions.
 ''',
 '''
-c:\>rpn 10 2 dup +
+c:\>rpn 10 2 dup_term +
 20
 
-c:\>rpn [ 10 10 dup ]
+c:\>rpn [ 10 10 dup_term ]
 [ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 ]
 
-c:\>rpn [ 1 10 range 10 dup ]
+c:\>rpn [ 1 10 range 10 dup_term ]
 [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5,
 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
-c:\>rpn [ 1 10 range 10 dup ] unique
+c:\>rpn [ 1 10 range 10 dup_term ] unique
 [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
 
@@ -6930,12 +6930,6 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
 
-    'safe_prime?' : [
-'prime_numbers', '',
-'''
-''',
-'''
-''' ],
     'sextuplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of sextuplet primes',
 '''
@@ -7402,12 +7396,11 @@ c:\>rpn 10349 oeisname
     'random_integer_' : [
 'special', 'returns a list of k random integers from 0 to n - 1',
 '''
-
 ''',
 '''
 Test the birthday paradox:
 
-rpn -D 365 23 random_integer_ sort
+rpn 365 23 random_integer_ sort
 
 You will see a duplicate approximately 50% of the time.
 ''' ],
