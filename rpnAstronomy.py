@@ -24,6 +24,7 @@ from mpmath import *
 from ephem import cities
 from rpnDeclarations import *
 from rpnUtils import DelayedKeyboardInterrupt
+from rpnDateTime import RPNDateTime
 
 import rpnGlobals as g
 
