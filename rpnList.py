@@ -16,6 +16,7 @@ from mpmath import *
 
 from rpnDeclarations import *
 from rpnMeasurement import RPNMeasurement
+from rpnNumberTheory import getGCD
 
 
 # //******************************************************************************
@@ -930,6 +931,24 @@ def filterListByIndex( n, k, invert = False ) :
 
         if ( value != 0 ) != invert:
             result.append( item )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  flatten
+# //
+# //******************************************************************************
+
+def flatten( value ):
+    result = [ ]
+
+    if isinstance( value, list ):
+        for item in value:
+            result.extend( flatten( item ) )
+    else:
+        result.append( value )
 
     return result
 
