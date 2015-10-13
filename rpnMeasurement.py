@@ -228,10 +228,13 @@ class RPNMeasurement( mpf ):
         self.pluralUnitName = pluralUnitName
 
     def __eq__( self, other ):
-        result = mpf.__eq__( other )
+        result = mpf.__eq__( self, other )
+
+        if not result:
+            return result
 
         if isinstance( other, RPNMeasurement ):
-            result &= ( self.units == other.units )
+            result = ( self.units == other.units )
 
         return result
 

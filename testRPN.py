@@ -12,6 +12,8 @@
 
 from rpn import rpn, handleOutput
 
+from rpnMeasurement import RPNMeasurement
+
 from testConvert import *
 from testHelp import *
 
@@ -84,13 +86,14 @@ def expectRPN( command, expected ):
             compare = expected
 
     if not result is None:
-        if result != compare:
+        if result == compare:
+            print( 'passed!' )
+        else:
             print( '**** error in test \'' + command + '\'' )
             print( '    expected: ', expected )
             print( '    but got: ', result )
+
             raise ValueError( 'unit test failed' )
-        else:
-            print( 'passed!' )
 
     print( )
 
@@ -260,6 +263,7 @@ def runArithmeticOperatorTests( ):
 
     # add
     expectRPN( 'rpn 4 3 add', 7 )
+    expectRPN( 'rpn 3 feet 7 inches + inches convert', RPNMeasurement( mpmathify( '43' ), [ { 'inch' : 1 } ] ) )
     testRPN( 'rpn today 7 days +' )
     testRPN( 'rpn today 3 weeks +' )
     testRPN( 'rpn today 50 years +' )
@@ -938,7 +942,7 @@ def runConversionOperatorTests( ):
     # char
     testRPN( 'rpn 0x101 char' )
 
-    # convert
+    # convert - convert is handled separately
 
     # dhms
     testRPN( 'rpn 8 million seconds dhms' )
