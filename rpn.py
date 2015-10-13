@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 
 # //******************************************************************************
 # //
@@ -97,7 +97,7 @@ def evaluate( terms ):
 # //******************************************************************************
 
 def handleOutput( valueList ):
-    if len( valueList ) == 0:
+    if valueList is None:
         return
 
     if isinstance( valueList[ 0 ], FunctionInfo ):

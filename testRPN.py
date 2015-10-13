@@ -15,6 +15,8 @@ from rpn import rpn, handleOutput
 from testConvert import *
 from testHelp import *
 
+from mpmath import *
+
 
 # //******************************************************************************
 # //
@@ -25,6 +27,7 @@ from testHelp import *
 def expectEqual( command1, command2 ):
     print( command1 )
     print( command2 )
+
     result1 = rpn( command1.split( ' ' )[ 1 : ] )[ 0 ]
     result2 = rpn( command2.split( ' ' )[ 1 : ] )[ 0 ]
 
@@ -64,11 +67,28 @@ def expectRPN( command, expected ):
     print( command )
     result = rpn( command.split( ' ' )[ 1 : ] )[ 0 ]
 
+    compare = None
+
+    if isinstance( expected, list ):
+        compare = [ ]
+
+        for i in expected:
+            if isinstance( i, int ) or isinstance( i, float ) or isinstance( i, complex ):
+                compare.append( mpmathify( i ) )
+            else:
+                compare.append( i )
+    else:
+        if isinstance( expected, int ) or isinstance( expected, float ) or isinstance( expected, complex ):
+            compare = mpmathify( expected )
+        else:
+            compare = expected
+
     if not result is None:
-        if result != expected:
+        if result != compare:
             print( '**** error in test \'' + command + '\'' )
             print( '    expected: ', expected )
             print( '    but got: ', result )
+            raise ValueError( 'unit test failed' )
         else:
             print( 'passed!' )
 
@@ -253,6 +273,7 @@ def runArithmeticOperatorTests( ):
 
     # ceiling
     expectRPN( 'rpn 9.99999 ceiling', 10 )
+    expectRPN( 'rpn -0.00001 ceiling', 0 )
 
     # divide
     testRPN( 'rpn 12 13 divide' )
@@ -338,15 +359,23 @@ def runArithmeticOperatorTests( ):
 
     # max
     expectRPN( 'rpn 1 10 range max', 10 )
+    expectRPN( 'rpn 10 1 range min', 1 )
+    expectRPN( 'rpn [ 9 4 7 2 5 6 3 8 ] max', 9 )
 
     # mean
     expectRPN( 'rpn 1 10 range mean', 5.5 )
+    expectRPN( 'rpn 1 10000 range mean', 5000.5 )
 
     # min
     expectRPN( 'rpn 1 10 range min', 1 )
+    expectRPN( 'rpn 10 1 range min', 1 )
+    expectRPN( 'rpn [ 9 4 7 2 5 6 3 8 ] min', 2 )
 
     # modulo
     expectRPN( 'rpn 11001 100 modulo', 1 )
+    expectRPN( 'rpn -120 7 modulo', 6 )
+    expectRPN( 'rpn 8875 49 modulo', 6 )
+    expectRPN( 'rpn 199467 8876 modulo', 4195 )
 
     # multiply
     expectRPN( 'rpn 5 7 multiply', 35 )
@@ -362,9 +391,6 @@ def runArithmeticOperatorTests( ):
     # nearest_int
     expectRPN( 'rpn 0.1 nearest_int', 0 )
     expectRPN( 'rpn 4.5 nearest_int', 4 )
-
-    # percent
-    expectRPN( 'rpn 100 percent', 1 )
 
     # product
     testRPN( 'rpn 1 10 range product' )
@@ -524,8 +550,10 @@ def runBitwiseOperatorTests( ):
     testRPN( 'rpn 0xffff count_bits' )
 
     # nand
+    testRPN( 'rpn -x 0x5543 0x7789 nand' )
 
     # nor
+    testRPN( 'rpn -x 0x5543 0x7789 nor' )
 
     # not
     testRPN( 'rpn 0xffffff ~' )
@@ -660,6 +688,7 @@ def runCombinatoricOperatorTests( ):
     testRPN( 'rpn -a50 85 nth_catalan' )
 
     # partitions
+    expectEqual( 'rpn -t 0 30 range partitions', 'rpn 41 oeis 31 left' )
 
     # pell
     testRPN( 'rpn 13 pell' )
@@ -822,7 +851,7 @@ def runConstantOperatorTests( ):
     expectEqual( 'rpn min_short', 'rpn 2 15 ** negative' )
 
     # min_uchar
-    expectRPN( 'rpn min_short', 0 )
+    expectRPN( 'rpn min_uchar', 0 )
 
     # min_ulong
     expectRPN( 'rpn min_ulong', 0 )

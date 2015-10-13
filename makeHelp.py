@@ -1812,13 +1812,6 @@ c:\>rpn 1.5 nearest_int
 2
 ''' ],
 
-    'percent' : [
-'arithmetic', 'represents n as a percent (i.e., n / 100)',
-'''
-''',
-'''
-''' ],
-
     'product' : [
 'arithmetic', 'calculates the product of values in list n',
 '''

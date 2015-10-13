@@ -246,6 +246,9 @@ def getPartitionNumber( n, k ):
     #if n < 0:
     #    raise ValueError
 
+    if n == 0:
+        return 1
+
     if k > n:
          return 0
 
