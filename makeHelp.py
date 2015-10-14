@@ -5970,35 +5970,9 @@ c:\>rpn 4 unit_roots
 '''
 ''' ],
 
-    'centered_decagonal?' : [
-'polygonal_numbers', 'finds the index of the centered decagonal number of value n',
-'''
-'centered_decagonal?' solves for the index of the equation used by
-'centered_decagonal' to get the index i of the ith centered decagonal number
-that corresponds to the value n.
-
-If n is not a centered decagonal number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
     'centered_heptagonal' : [
 'polygonal_numbers', 'calculates the nth centered heptagonal number',
 '''
-''',
-'''
-''' ],
-
-    'centered_heptagonal?' : [
-'polygonal_numbers', 'finds the index of the centered heptagonal number of value n',
-'''
-'centered_heptagonal?' solves for the index of the equation used by
-'centered_heptagonal' to get the index i of the ith centered heptagonal number
-that corresponds to the value n.
-
-If n is not a centered heptagonal number, the result will not be a whole
-number.
 ''',
 '''
 ''' ],
@@ -6010,35 +5984,9 @@ number.
 '''
 ''' ],
 
-    'centered_hexagonal?' : [
-'polygonal_numbers', 'finds the index of the centered hexagonal number of value n',
-'''
-'centered_hexagonal?' solves for the index of the equation used by
-'centered_hexagonal' to get the index i of the ith centered hexagonal number
-that corresponds to the value n.
-
-If n is not a centered hexagonal number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
     'centered_nonagonal' : [
 'polygonal_numbers', 'calculates the nth centered nonagonal number',
 '''
-''',
-'''
-''' ],
-
-    'centered_nonagonal?' : [
-'polygonal_numbers', 'finds the index of the centered nonagonal number of value n',
-'''
-'cnonagonal?' solves for the index of the equation used by 'cnonagonal' to
-get the index i of the ith centered nonagonal number that corresponds to the
-value n.
-
-If n is not a centered nonagonal number, the result will not be a whole
-number.
 ''',
 '''
 ''' ],
@@ -6050,34 +5998,9 @@ number.
 '''
 ''' ],
 
-    'centered_octagonal?' : [
-'polygonal_numbers', 'finds the index of the centered octgonal number of value n',
-'''
-'centered_octagonal?' solves for the index of the equation used by
-'centered_octagonal' to get the index i of the ith centered octagonal number
-that corresponds to the value n.
-
-If n is not a centered octagonal number, the result will not be a whole number.
-''',
-'''
-''' ],
-
     'centered_pentagonal' : [
 'polygonal_numbers', 'calculates the nth centered pentagonal number',
 '''
-''',
-'''
-''' ],
-
-    'centered_pentagonal?' : [
-'polygonal_numbers', 'finds the index of the centered pentagonal number of value n',
-'''
-'cpentagonal?' solves for the index of the equation used by 'cpentagonal' to
-get the index i of the ith centered pentagonal number that corresponds to the
-value n.
-
-If n is not a centered pentagonal number, the result will not be a whole
-number.
 ''',
 '''
 ''' ],
@@ -6089,34 +6012,9 @@ number.
 '''
 ''' ],
 
-    'centered_polygonal?' : [
-'polygonal_numbers', 'finds the index of the centered polygonal number of value n',
-'''
-'centered_polygonal?' solves for the index of the equation used by
-'centered_polygonal' to get the index i of the ith centered k-sided polygonal
-number that corresponds to the value n.
-
-If n is not a centered k-sided polygonal number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
     'centered_square' : [
 'polygonal_numbers', 'calculates the nth centered square number',
 '''
-''',
-'''
-''' ],
-
-    'centered_square?' : [
-'polygonal_numbers', 'finds the index of the centered square number of value n',
-'''
-'centered_square?' solves for the index of the equation used by 'csquare' to
-get the index i of the ith centered square number that corresponds to the
-value n.
-
-If n is not a centered square number, the result will not be a whole number.
 ''',
 '''
 ''' ],
@@ -6128,19 +6026,6 @@ If n is not a centered square number, the result will not be a whole number.
 '''
 ''' ],
 
-    'centered_triangular?' : [
-'polygonal_numbers', 'finds the index of the centered triangular number of value n',
-'''
-'ctriangular?' solves for the index of the equation used by 'ctriangular' to
-get the index i of the ith centered triangular number that corresponds to the
-value n.
-
-If n is not a centered triangular number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
     'decagonal' : [
 'polygonal_numbers', 'calculates the nth decagonal number',
 '''
@@ -6148,22 +6033,70 @@ number.
 '''
 ''' ],
 
-    'decagonal?' : [
-'polygonal_numbers', 'finds the index of the decagonal number of value n',
+    'decagonal_heptagonal' : [
+'polygonal_numbers', 'calculates the nth decagonal heptagonal number',
 '''
+'decagonal_heptagonal' calculates the nth number that is both decagonal and
+heptagonal.
+''',
+'''
+''' ],
+
+    'decagonal_hexagonal' : [
+'polygonal_numbers', 'calculates the nth decagonal hexagonal number',
+'''
+'decagonal_hexagonal' calculates the nth number that is both decagonal and
+hexagonal.
+''',
+'''
+''' ],
+
+    'decagonal_nonagonal' : [
+'polygonal_numbers', 'calculates the nth decagonal heptagonal number',
+'''
+'decagonal_heptagonal' calculates the nth number that is both decagonal and
+heptagonal.
+''',
+'''
+''' ],
+
+    'decagonal_octagonal' : [
+'polygonal_numbers', 'calculates the nth decagonal octagonal number',
+'''
+'decagonal_octagonal' calculates the nth number that is both decagonal and
+octagonal.
+''',
+'''
+''' ],
+
+    'decagonal_pentagonal' : [
+'polygonal_numbers', 'calculates the nth decagonal pentagonal number',
+'''
+'decagonal_pentagonal' calculates the nth number that is both decagonal and
+pentgonal.
+''',
+'''
+''' ],
+
+    'decagonal_square' : [
+'polygonal_numbers', 'calculates the nth decagonal square number',
+'''
+'decagonal_square' calculates the nth number that is both decagonal and square.
+''',
+'''
+''' ],
+
+    'decagonal_triangular' : [
+'polygonal_numbers', 'calculates the nth decagonal triangular number',
+'''
+'decagonal_triangular' calculates the nth number that is both decagonal and
+triangular.
 ''',
 '''
 ''' ],
 
     'heptagonal' : [
 'polygonal_numbers', 'calculates the nth heptagonal number',
-'''
-''',
-'''
-''' ],
-
-    'heptagonal?' : [
-'polygonal_numbers', 'finds the index of the heptagonal number of value n',
 '''
 ''',
 '''
@@ -6204,7 +6137,7 @@ number.
 '''
 ''' ],
 
-    'hexagonal?' : [
+    'next_hexagonal' : [
 'polygonal_numbers', 'finds the index of the hexagonal number of value n',
 '''
 ''',
@@ -6225,15 +6158,179 @@ number.
 '''
 ''' ],
 
-    'nonagonal' : [
-'polygonal_numbers', 'calculates the nth nonagonal number',
+    'next_centered_decagonal' : [
+'polygonal_numbers', 'finds the index of the centered decagonal number of value n',
+'''
+'next_centered_decagonal' solves for the index of the equation used by
+'centered_decagonal' to get the index i of the ith centered decagonal number
+that corresponds to the value n.
+
+If n is not a centered decagonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'next_centered_heptagonal' : [
+'polygonal_numbers', 'finds the index of the centered heptagonal number of value n',
+'''
+'next_centered_heptagonal' solves for the index of the equation used by
+'centered_heptagonal' to get the index i of the ith centered heptagonal number
+that corresponds to the value n.
+
+If n is not a centered heptagonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'next_centered_hexagonal' : [
+'polygonal_numbers', 'finds the index of the centered hexagonal number of value n',
+'''
+'next_centered_hexagonal' solves for the index of the equation used by
+'centered_hexagonal' to get the index i of the ith centered hexagonal number
+that corresponds to the value n.
+
+If n is not a centered hexagonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'next_centered_nonagonal' : [
+'polygonal_numbers', 'finds the index of the centered nonagonal number of value n',
+'''
+'next_centered_nonagonal' solves for the index of the equation used by
+'centered_nonagonal' to get the index i of the ith centered nonagonal number
+that corresponds to the value n.
+
+If n is not a centered nonagonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'next_centered_octagonal' : [
+'polygonal_numbers', 'finds the index of the centered octgonal number of value n',
+'''
+'next_centered_octagonal' solves for the index of the equation used by
+'centered_octagonal' to get the index i of the ith centered octagonal number
+that corresponds to the value n.
+
+If n is not a centered octagonal number, the result will not be a whole number.
+''',
+'''
+''' ],
+
+    'next_centered_pentagonal' : [
+'polygonal_numbers', 'finds the index of the centered pentagonal number of value n',
+'''
+'next_centered_pentagonal? solves for the index of the equation used by
+'centered_pentagonal' to get the index i of the ith centered pentagonal number
+that corresponds to the value n.
+
+If n is not a centered pentagonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'next_centered_polygonal' : [
+'polygonal_numbers', 'finds the index of the centered polygonal number of value n',
+'''
+'next_centered_polygonal' solves for the index of the equation used by
+'centered_polygonal' to get the index i of the ith centered k-sided polygonal
+number that corresponds to the value n.
+
+If n is not a centered k-sided polygonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'next_centered_square' : [
+'polygonal_numbers', 'finds the index of the centered square number of value n',
+'''
+'next_centered_square' solves for the index of the equation used by 'csquare'
+to get the index i of the ith centered square number that corresponds to the
+value n.
+
+If n is not a centered square number, the result will not be a whole number.
+''',
+'''
+''' ],
+
+    'next_centered_triangular' : [
+'polygonal_numbers', 'finds the index of the centered triangular number of value n',
+'''
+'next_centered_triangular' solves for the index of the equation used by
+'centered_triangular' to get the index i of the ith centered triangular number
+that corresponds to the value n.
+
+If n is not a centered triangular number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'next_decagonal' : [
+'polygonal_numbers', 'finds the index of the decagonal number of value n',
 '''
 ''',
 '''
 ''' ],
 
-    'nonagonal?' : [
+    'next_heptagonal' : [
+'polygonal_numbers', 'finds the index of the heptagonal number of value n',
+'''
+''',
+'''
+''' ],
+
+    'next_nonagonal' : [
 'polygonal_numbers', 'finds the index of the nonagonal number of value n',
+'''
+''',
+'''
+''' ],
+
+    'next_octagonal' : [
+'polygonal_numbers', 'finds the index of the octagonal number of value n',
+'''
+''',
+'''
+''' ],
+
+    'next_pentagonal' : [
+'polygonal_numbers', 'finds the index of the pentagonal number of value n',
+'''
+''',
+'''
+''' ],
+
+    'next_polygonal' : [
+'polygonal_numbers', 'finds the index of the polygonal number with k sides of value n',
+'''
+''',
+'''
+''' ],
+
+    'next_square' : [
+'polygonal_numbers', 'finds the index of the square number of value n',
+'''
+''',
+'''
+''' ],
+
+    'next_triangular' : [
+'polygonal_numbers', 'finds the index of the triangular number of value n',
+'''
+''',
+'''
+''' ],
+
+    'nonagonal' : [
+'polygonal_numbers', 'calculates the nth nonagonal number',
 '''
 ''',
 '''
@@ -6301,13 +6398,6 @@ TODO: fix me
 '''
 ''' ],
 
-    'octagonal?' : [
-'polygonal_numbers', 'finds the index of the octagonal number of value n',
-'''
-''',
-'''
-''' ],
-
     'octagonal_heptagonal' : [
 'polygonal_numbers', 'returns the nth octagonal heptagonal number',
 '''
@@ -6350,13 +6440,6 @@ TODO: fix me
 '''
 ''' ],
 
-    'pentagonal?' : [
-'polygonal_numbers', 'finds the index of the pentagonal number of value n',
-'''
-''',
-'''
-''' ],
-
     'pentagonal_square' : [
 'polygonal_numbers', 'calculates the nth pentagonal square number',
 '''
@@ -6378,13 +6461,6 @@ TODO: fix me
 '''
 ''' ],
 
-    'polygonal?' : [
-'polygonal_numbers', 'finds the index of the polygonal number with k sides of value n',
-'''
-''',
-'''
-''' ],
-
     'square_triangular' : [
 'polygonal_numbers', 'calculates the nth square triangular number',
 '''
@@ -6394,13 +6470,6 @@ TODO: fix me
 
     'triangular' : [
 'polygonal_numbers', 'calcuates the nth triangular number',
-'''
-''',
-'''
-''' ],
-
-    'triangular?' : [
-'polygonal_numbers', 'finds the index of the triangular number of value n',
 '''
 ''',
 '''
@@ -6768,6 +6837,28 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
 
+    'next_quadruplet_prime' : [
+'prime_numbers', 'finds the closest set of quadruplet primes above n',
+'''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+
+    'next_quintuplet_prime' : [
+'prime_numbers', 'finds the closest set of quintuplet primes above n',
+'''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+
     'nth_prime?' : [
 'prime_numbers', 'finds the index of the closest prime greater than or equal n',
 '''
@@ -6853,17 +6944,6 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
 
-    'quadruplet_prime?' : [
-'prime_numbers', 'finds the closest set of quadruplet primes above n',
-'''
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through the first billion primes.
-''',
-'''
-''' ],
-
     'quadruplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of quadruplet primes',
 '''
@@ -6877,17 +6957,6 @@ distributed with data files calculated through the first billion primes.
 
     'quadruplet_prime_' : [
 'prime_numbers', 'returns the nth set of quadruplet primes',
-'''
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through the first billion primes.
-''',
-'''
-''' ],
-
-    'quintuplet_prime?' : [
-'prime_numbers', 'finds the closest set of quintuplet primes above n',
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
