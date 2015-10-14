@@ -16,15 +16,18 @@ import bz2
 import contextlib
 from dateutil import tz
 import ephem
+from ephem import cities
+from haversine import haversine
 import os
 import pickle
 
 from mpmath import *
 
-from ephem import cities
-from rpnDeclarations import *
-from rpnUtils import DelayedKeyboardInterrupt
 from rpnDateTime import RPNDateTime
+from rpnDeclarations import *
+from rpnLocation import RPNLocation
+from rpnMeasurement import RPNMeasurement
+from rpnUtils import DelayedKeyboardInterrupt
 
 import rpnGlobals as g
 
@@ -401,10 +404,12 @@ def getLocation( name ):
         g.locationCache = loadLocationCache( )
 
     #if name in g.locationCache:
-    #    print( 'looked up', g.locationCache[ name ].name )
-    #    print( 'lat/long', fdiv( fmul( mpmathify( g.locationCache[ name ].observer.lat ), 180 ), pi ),
-    #         fdiv( fmul( mpmathify( g.locationCache[ name ].observer.long ), 180 ), pi ) )
-    #    return g.locationCache[ name ]
+    #    print( 'cache:', g.locationCache[ name ] )
+    #    result = g.locationCache[ name ]
+    #
+    #    print( 'looked up', result.name )
+    #    print( 'lat/long', result.getLat( ), result.getLong( ) )
+    #    return result
 
     try:
         observer = cities.lookup( name )
@@ -412,10 +417,7 @@ def getLocation( name ):
         raise ValueError( 'location cannot be found, please try different terms' )
 
     g.locationCache[ name ] = RPNLocation( name, observer )
-    saveLocationCache( g.locationCache )
-
-    #print( 'lat/long', fdiv( fmul( mpmathify( g.locationCache[ name ].observer.lat ), 180 ), pi ),
-    #    fdiv( fmul( mpmathify( g.locationCache[ name ].observer.long ), 180 ), pi ) )
+    #saveLocationCache( g.locationCache )
 
     return g.locationCache[ name ]
 
@@ -434,4 +436,34 @@ def getLocationInfo( location ):
 
     return [ fdiv( fmul( mpmathify( location.observer.lat ), 180 ), pi ),
              fdiv( fmul( mpmathify( location.observer.long ), 180 ), pi ) ]
+
+
+# //******************************************************************************
+# //
+# //  getDistance
+# //
+# //******************************************************************************
+
+def getDistance( location1, location2 ):
+    if not isinstance( location1, RPNLocation ) or not isinstance( location2, RPNLocation ):
+        raise ValueError( 'expected an two locations as arguments' )
+
+    result = RPNDateTime.convertFromEphemDate( location.observer.next_rising( body ) ).getLocalTime( )
+
+
+
+# //******************************************************************************
+# //
+# //  getDistance
+# //
+# //******************************************************************************
+
+def getDistance( location1, location2 ):
+    if not isinstance( location1, RPNLocation ) or not isinstance( location2, RPNLocation ):
+        raise ValueError( 'expected an two locations as arguments' )
+
+    distance = haversine( ( location1.getLat( ), location1.getLong( ) ),
+                          ( location2.getLat( ), location2.getLong( ) ), miles = True )
+
+    return RPNMeasurement( distance, [ { 'mile' : 1 } ] )
 

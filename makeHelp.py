@@ -4707,6 +4707,13 @@ c:\>rpn 1 100 range count
 '''
 ''' ],
 
+    'distance' : [
+'astronomy', 'calculates the distance, along the Earth\'s surface, of two locations',
+'''
+''',
+'''
+''' ],
+
     'element' : [
 'list_operators', 'returns a single element from a list',
 '''
@@ -6837,6 +6844,17 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
 
+    'next_prime_index' : [
+'prime_numbers', 'finds the index of the closest prime greater than or equal n',
+'''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+
     'next_quadruplet_prime' : [
 'prime_numbers', 'finds the closest set of quadruplet primes above n',
 '''
@@ -6848,30 +6866,19 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
 
+    'next_quadruplet_prime_index' : [
+'prime_numbers', 'finds the index of the first of the closest quadruplet prime set over n',
+'''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+
     'next_quintuplet_prime' : [
 'prime_numbers', 'finds the closest set of quintuplet primes above n',
-'''
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through the first billion primes.
-''',
-'''
-''' ],
-
-    'nth_prime?' : [
-'prime_numbers', 'finds the index of the closest prime greater than or equal n',
-'''
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through the first billion primes.
-''',
-'''
-''' ],
-
-    'nth_quad?' : [
-'prime_numbers', 'finds the index of the first of the closest quadruplet prime set over n',
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively

@@ -55,6 +55,7 @@ following:
     pip install pyreadline
     pip install ephem
     pip install convertdate
+    pip install haversine
 
 Before running rpn, you should run the scripts to generate the data files that
 rpn uses for displaying help, doing unit conversions, and looking up various

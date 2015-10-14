@@ -364,15 +364,22 @@ def runArithmeticOperatorTests( ):
 
 def runAstronomyOperatorTests( ):
     # astronomical_dawn
-    rpn
+    testOperator( '"Leesburg, VA" location today astronomical_dawn' )
 
     # astronomical_dusk
+    testOperator( '"Leesburg, VA" location today astronomical_dusk' )
 
     # autumnal_equinox
+    testOperator( '2015 autumnal_equinox' )
+
+    # distance
+    testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
 
     # dawn
+    testOperator( '"Leesburg, VA" location today dawn' )
 
     # dusk
+    testOperator( '"Leesburg, VA" location today dusk' )
 
     # jupiter
 
