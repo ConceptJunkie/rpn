@@ -33,6 +33,7 @@ from rpnGeometry import *
 from rpnInput import *
 from rpnLexicographic import *
 from rpnList import *
+from rpnLocation import *
 from rpnMath import *
 from rpnMeasurement import *
 from rpnModifiers import *

@@ -12,14 +12,9 @@
 # //
 # //******************************************************************************
 
-import bz2
-import contextlib
 from dateutil import tz
 import ephem
-from ephem import cities
 from haversine import haversine
-import os
-import pickle
 
 from mpmath import *
 
@@ -27,7 +22,6 @@ from rpnDateTime import RPNDateTime
 from rpnDeclarations import *
 from rpnLocation import RPNLocation
 from rpnMeasurement import RPNMeasurement
-from rpnUtils import DelayedKeyboardInterrupt
 
 import rpnGlobals as g
 
@@ -360,82 +354,6 @@ def getNextDusk( location, date, horizon = -6 ):
     location.observer.horizon = old_horizon
 
     return result
-
-
-# //******************************************************************************
-# //
-# //  loadLocationCache
-# //
-# //******************************************************************************
-
-def loadLocationCache( ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'locations.pckl.bz2', 'rb' ) ) as pickleFile:
-            locationCache = pickle.load( pickleFile )
-    except FileNotFoundError:
-        locationCache = { }
-
-    return locationCache
-
-
-# //******************************************************************************
-# //
-# //  saveLocationCache
-# //
-# //******************************************************************************
-
-def saveLocationCache( locationCache ):
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'locations.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( locationCache, pickleFile )
-
-
-# //******************************************************************************
-# //
-# //  getLocation
-# //
-# //******************************************************************************
-
-def getLocation( name ):
-    if not isinstance( name, str ):
-        raise ValueError( '\'location\' expects a string argument' )
-
-    if g.locationCache == None:
-        g.locationCache = loadLocationCache( )
-
-    #if name in g.locationCache:
-    #    print( 'cache:', g.locationCache[ name ] )
-    #    result = g.locationCache[ name ]
-    #
-    #    print( 'looked up', result.name )
-    #    print( 'lat/long', result.getLat( ), result.getLong( ) )
-    #    return result
-
-    try:
-        observer = cities.lookup( name )
-    except ValueError:
-        raise ValueError( 'location cannot be found, please try different terms' )
-
-    g.locationCache[ name ] = RPNLocation( name, observer )
-    #saveLocationCache( g.locationCache )
-
-    return g.locationCache[ name ]
-
-
-# //******************************************************************************
-# //
-# //  getLocationInfo
-# //
-# //******************************************************************************
-
-def getLocationInfo( location ):
-    if isinstance( location, str ):
-        location = getLocation( location )
-    elif not isinstance( location. RPNLocation ):
-        raise ValueError( 'location name or location object expected' )
-
-    return [ fdiv( fmul( mpmathify( location.observer.lat ), 180 ), pi ),
-             fdiv( fmul( mpmathify( location.observer.long ), 180 ), pi ) ]
 
 
 # //******************************************************************************
