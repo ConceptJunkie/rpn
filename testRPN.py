@@ -138,6 +138,7 @@ def runCommandLineOptionsTests( ):
 def runAlgebraOperatorTests( ):
     # bell_polynomal
     testOperator( '4 5 bell_polynomial' )
+    testOperator( '5 5 10 range bell_polynomial -a1' )
 
     # eval_poly
     testOperator( '1 10 range 6 eval_poly' )
@@ -195,7 +196,7 @@ def runArithmeticOperatorTests( ):
     testOperator( 'today 3 weeks +' )
     testOperator( 'today 50 years +' )
     testOperator( '4 cups 13 teaspoons +' )
-    testOperator( '55 mph 10 miles hour / +' )
+    expectRPN( '55 mph 10 miles hour / +', RPNMeasurement( mpmathify( '65' ), [ { 'mile' : 1 }, { 'hour' : -1 } ] ) )
     testOperator( '55 mph 10 meters second / +' )
     testOperator( '55 mph 10 furlongs fortnight / +' )
     testOperator( 'today 3 days add' )
@@ -324,10 +325,10 @@ def runArithmeticOperatorTests( ):
     expectRPN( '4.5 nearest_int', 4 )
 
     # product
-    testOperator( '1 10 range product' )
+    expectEqual( '-a100 1 100 range product', '-a100 100 !' )
 
     # reciprocal
-    testOperator( '6 7 / reciprocal' )
+    expectEqual( '6 7 / reciprocal', '7 6 /' )
 
     # round
     expectRPN( '0.1 round', 0 )
@@ -383,45 +384,50 @@ def runAstronomyOperatorTests( ):
     testOperator( '"Leesburg, VA" location today dusk' )
 
     # jupiter
+    testOperator( 'saturn "Ottawa, Canada" location today next_setting' )
 
     # latlong
 
     # location
 
     # location_info
+    testOperator( '"Scottsdale, AZ" location_info' )
 
     # mars
+    testOperator( 'saturn "Beijing, China" location today next_rising' )
 
     # mercury
+    testOperator( 'saturn "Los Angeles, CA" location today next_rising' )
 
     # moon
+    testOperator( 'saturn "Burlington, VT" location today next_antitransit' )
 
     # moonrise
-    testOperator( '"Leesburg, VA" location today moonrise' )
+    testOperator( '"Las Cruces, NM" location today moonrise' )
 
     # moonset
-    testOperator( '"Leesburg, VA" location today moonset' )
+    testOperator( '"Tacoma, WA" location today moonset' )
 
     # moon_antitransit
-    testOperator( '"Leesburg, VA" location today moon_antitransit' )
+    testOperator( '"Madrid, Spain" location today moon_antitransit' )
 
     # moon_phase
     testOperator( 'today moon_phase' )
 
     # moon_transit
-    testOperator( '"Leesburg, VA" location today moon_transit' )
+    testOperator( '"Riga, Latvia" location today moon_transit' )
 
     # nautical_dawn
-    testOperator( '"Leesburg, VA" location today nautical_dawn' )
+    testOperator( '"Columbia, SC" location today nautical_dawn' )
 
     # nautical_dusk
-    testOperator( '"Leesburg, VA" location today nautical_dusk' )
+    testOperator( '"Roanoke Rapids, NC" location today nautical_dusk' )
 
     # neptune
-    testOperator( 'neptune "Leesburg, VA" location now next_rising' )
+    testOperator( 'neptune "Hatfield, PA" location now next_rising' )
 
     # next_antitransit
-    testOperator( 'saturn "Leesburg, VA" location today next_antitransit' )
+    testOperator( 'saturn "Blacksburg, VA" location today next_antitransit' )
 
     # next_first_quarter_moon
     testOperator( 'today next_first_quarter_moon' )
@@ -493,13 +499,13 @@ def runAstronomyOperatorTests( ):
     testOperator( '"Leesburg, VA" location today sunset' )
 
     # sun_antitransit
-    testOperator( '"Leesburg, VA" location today sun_antitransit' )
+    testOperator( '"Nice, France" location today sun_antitransit' )
 
     # vernal_equinox
     testOperator( '2015 vernal_equinox' )
 
     # uranus
-    testOperator( 'uranus "Leesburg, VA" location today next_rising' )
+    testOperator( 'uranus "Frankfurt, Germany" location today next_rising' )
 
     # venus
     testOperator( 'venus "Leesburg, VA" location today next_rising' )
@@ -609,6 +615,7 @@ def runCalendarOperatorTests( ):
     # to_ordinal_date
 
     # to_persian
+    testOperator( 'today to_persian' )
 
     # to_persian_name
 
@@ -1457,7 +1464,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '9 double_factorial' )
 
     # ecm
-    testOperator( '-a40 10 24 ** random_integer ecm' )
+    testOperator( '-a40 10 20 ** random_integer ecm' )
 
     # egypt
     testOperator( '45 67 egypt' )

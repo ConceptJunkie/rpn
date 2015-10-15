@@ -46,6 +46,7 @@ import itertools
 from mpmath import *
 
 from rpnNumberTheory import *
+from rpnPolytope import getNthPolygonalNumber
 
 
 # //******************************************************************************
@@ -257,6 +258,62 @@ def getPartitionNumber( n, k ):
 
     return getPartitionNumber( n, k + 1 ) + getPartitionNumber( n - k, k )
 
+
+
+## function for pentagonal numbers
+#def pent (n):     return int((0.5*n)*((3*n)-1))
+#
+## function for generalized pentagonal numbers
+#def gen_pent (n): return pent(int(((-1)**(n+1))*(round((n+1)/2))))
+#
+#
+#
+#
+## array for storing partitions - first ten already stored
+#partitions = [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42]
+#
+## function to generate partitions
+#def partition (k):
+## if (k < len(partitions)): return partitions[k]
+#
+# total, sign, i = 0, 1, 1
+#
+# while (k - gen_pent(i)) >= 0:
+#  sign   = (-1)**(int((i-1)/2))
+#  total += sign*(partition(k - gen_pent(i)))
+#  i     +=  1
+#
+# partitions.insert(k,total)
+# return total
+#
+#-------------
+#
+#def pent_new(n):
+#    return (n*(3*n - 1))/2
+#
+#def gen_pent_new(n):
+#    if n%2:
+#        i = (n + 1)/2
+#    else:
+#        i = -n/2
+#    return pent_new(i)
+#
+#
+#def partition_new(n):
+#    try:
+#        return partitions_new[n]
+#    except IndexError:
+#        total, sign, i = 0, 1, 1
+#        k = gen_pent_new(i)
+#        while n - k >= 0:
+#            total += sign*partition_new(n - k)
+#
+#            i += 1
+#            if i%2: sign *= -1
+#            k = gen_pent_new(i)
+#
+#        partitions_new.insert(n, total)
+#        return total
 
 # //******************************************************************************
 # //
