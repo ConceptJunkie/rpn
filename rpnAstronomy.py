@@ -14,7 +14,6 @@
 
 from dateutil import tz
 import ephem
-from haversine import haversine
 
 from mpmath import *
 
@@ -355,33 +354,4 @@ def getNextDusk( location, date, horizon = -6 ):
 
     return result
 
-
-# //******************************************************************************
-# //
-# //  getDistance
-# //
-# //******************************************************************************
-
-def getDistance( location1, location2 ):
-    if not isinstance( location1, RPNLocation ) or not isinstance( location2, RPNLocation ):
-        raise ValueError( 'expected an two locations as arguments' )
-
-    result = RPNDateTime.convertFromEphemDate( location.observer.next_rising( body ) ).getLocalTime( )
-
-
-
-# //******************************************************************************
-# //
-# //  getDistance
-# //
-# //******************************************************************************
-
-def getDistance( location1, location2 ):
-    if not isinstance( location1, RPNLocation ) or not isinstance( location2, RPNLocation ):
-        raise ValueError( 'expected an two locations as arguments' )
-
-    distance = haversine( ( location1.getLat( ), location1.getLong( ) ),
-                          ( location2.getLat( ), location2.getLong( ) ), miles = True )
-
-    return RPNMeasurement( distance, [ { 'mile' : 1 } ] )
 

@@ -18,12 +18,9 @@ import pickle
 import ephem
 import os
 
-from ephem import cities
 from mpmath import *
 
 import rpnGlobals as g
-
-from rpnUtils import DelayedKeyboardInterrupt
 
 
 # //******************************************************************************
@@ -108,6 +105,8 @@ def loadLocationCache( ):
 # //******************************************************************************
 
 def saveLocationCache( locationCache ):
+    from rpnUtils import DelayedKeyboardInterrupt
+
     with DelayedKeyboardInterrupt( ):
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'locations.pckl.bz2', 'wb' ) ) as pickleFile:
             pickle.dump( locationCache, pickleFile )
@@ -134,26 +133,30 @@ def getLocation( name ):
 
         result.setLat( locationInfo[ 1 ] )
         result.setLong( locationInfo[ 2 ] )
-        result.setDate( locationInfo[ 3 ] )
-        result.setEpoch( locationInfo[ 4 ] )
-        result.setElevation( locationInfo[ 5 ] )
-        result.setTemp( locationInfo[ 6 ] )
-        result.setPressure( locationInfo[ 7 ] )
 
         #print( 'looked up', result.name )
         #print( 'lat/long', result.getLat( ), result.getLong( ) )
         return result
 
     try:
-        observer = cities.lookup( name )
+        from geopy.geocoders import Nominatim
+        geolocator = Nominatim( )
+        location = geolocator.geocode( name )
+
+        if location is None:
+            raise ValueError( 'location lookup failed, try a different search term' )
+
+        observer = ephem.Observer( )
+        result = RPNLocation( name, observer )
+
+        result.setLat( location.latitude )
+        result.setLong( location.longitude )
     except ValueError:
-        raise ValueError( 'location cannot be found, please try different terms' )
+        raise ValueError( 'location lookup failed' )
 
     result = RPNLocation( name, observer )
 
-    g.locationCache[ name ] = [ name, result.getLat( ), result.getLong( ), result.getDate( ),
-                                result.getEpoch( ), result.getElevation( ), result.getTemp( ),
-                                result.getPressure( ) ]
+    g.locationCache[ name ] = [ name, result.getLat( ), result.getLong( ) ]
     saveLocationCache( g.locationCache )
 
     return result
@@ -173,4 +176,22 @@ def getLocationInfo( location ):
 
     return [ fdiv( fmul( mpmathify( location.observer.lat ), 180 ), pi ),
              fdiv( fmul( mpmathify( location.observer.long ), 180 ), pi ) ]
+
+
+# //******************************************************************************
+# //
+# //  getDistance
+# //
+# //******************************************************************************
+
+def getDistance( location1, location2 ):
+    if not isinstance( location1, RPNLocation ) or not isinstance( location2, RPNLocation ):
+        raise ValueError( 'expected an two locations as arguments' )
+
+    from geopy.distance import vincenty
+
+    distance = vincenty( ( location1.getLat( ), location1.getLong( ) ),
+                         ( location2.getLat( ), location2.getLong( ) ).miles )
+
+    return RPNMeasurement( distance, [ { 'mile' : 1 } ] )
 
