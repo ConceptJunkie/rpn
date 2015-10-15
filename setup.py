@@ -42,6 +42,7 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
     author_email = 'rickg@his.com',
     py_modules = [ 'rpn',
                    'rpnAliases',
+                   'rpnAstronomy',
                    'rpnCalendar',
                    'rpnCombinatorics',
                    'rpnComputer',
@@ -54,6 +55,7 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
                    'rpnGlobals',
                    'rpnLexicographic',
                    'rpnList',
+                   'rpnLocation',
                    'rpnMath',
                    'rpnMeasurement',
                    'rpnModifiers',
@@ -64,8 +66,8 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
                    'rpnPolynomials',
                    'rpnPolytope',
                    'rpnPrimes',
-                   'rpnPrimeUtils',
                    'rpnPrimes',
+                   'rpnPrimeUtils',
                    'rpnUnitClasses',
                    'rpnUnits',
                    'rpnUtils',
@@ -73,7 +75,10 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
                    'pyecm',
                    'makeHelp',
                    'makeUnits',
-                   'preparePrimeData' ],
+                   'preparePrimeData',
+                   'testRPN'
+                   'testConvert'
+                   'testHelp' ],
     install_requires = open( 'requirements.txt' ).read( ).splitlines( ),
     include_package_data = True,
     classifiers = [

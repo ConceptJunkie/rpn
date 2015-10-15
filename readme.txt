@@ -10,6 +10,20 @@ conversions comparable to the GNU units program.
 
 ****
 
+UPDATE - October 15, 2015
+
+I've decided the upcoming release will be version 7 since so much has been
+added, a lot has been reorganized and I've gotten serious about unit tests.
+
+An official release of version 7 probably won't be for a while, because I
+really want to be able to release it on PyPI.  There's a lot of work I want to
+do before cutting another release, and it's going to take some time, but the
+current git master contains all the latest features and is working fine.
+
+rpn should still work on Android, but there are problems with the ephem
+library.  I think it has to do with building the AstroLib code, and haven't had
+a chance to try to diagnose the problem.
+
 UPDATE - August 5, 2015
 
 I am working on creating a wheel for rpn, and I'm hoping I can also make it
@@ -55,7 +69,7 @@ following:
     pip install pyreadline
     pip install ephem
     pip install convertdate
-    pip install haversine
+    pip install geopy
 
 Before running rpn, you should run the scripts to generate the data files that
 rpn uses for displaying help, doing unit conversions, and looking up various
