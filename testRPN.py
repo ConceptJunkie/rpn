@@ -1711,7 +1711,7 @@ def runPolygonalOperatorTests( ):
 
     # heptagonal_triangular
     testOperator( '399 heptagonal_triangular' )
-    expectEqual( '-a40 1 14 range heptagonal_triagular', '-a40 46194 oeis 14 left' )
+    expectEqual( '-a40 1 14 range heptagonal_triangular', '-a40 46194 oeis 14 left' )
 
     # hexagonal
     testOperator( '340 hexagonal' )
