@@ -1292,6 +1292,7 @@ def runListOperatorTests( ):
     testOperator( '1 10 range 5 right' )
 
     # shuffle
+    testOperator( '1 20 range shuffle' )
 
     # slice
     testOperator( '1 10 range 3 5 slice' )
@@ -1356,8 +1357,10 @@ def runLogarithmOperatorTests( ):
 
 def runModifierOperatorTests( ):
     # [
+    testOperator( '[ "Philadelphia, PA" location "Raleigh, NC" location ] today sunrise' )
 
     # ]
+    #testOperator( '[ 1 2 3 ] [ 4 5 6 ] eval_poly' )
 
     # {
     testOperator( '"Leesburg, VA" location today { sunrise sunset moonrise moonset }' )
@@ -1376,7 +1379,7 @@ def runModifierOperatorTests( ):
     expectRPN( '6 previous *', 36 )
 
     # unlist
-    testOperator( '[ 1 2 ] unlist +' )
+    expectRPN( '[ 1 2 ] unlist +', 3 )
 
     # use_members
 
@@ -1436,7 +1439,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '9 double_factorial' )
 
     # ecm
-    testOperator( '-a40 10 30 ** random_integer ecm' )
+    testOperator( '-a40 10 24 ** random_integer ecm' )
 
     # egypt
     testOperator( '45 67 egypt' )
@@ -1649,6 +1652,9 @@ def runPolygonalOperatorTests( ):
     # decagonal?
     testOperator( '123454321 decagonal?' )
 
+    # decagonal_centered_square
+    testOperator( '-a40 9 decagonal_centered_square' )
+
     # decagonal_heptagonal
     testOperator( '-a50 8 decagonal_heptagonal' )
 
@@ -1664,8 +1670,8 @@ def runPolygonalOperatorTests( ):
     # decagonal_pentagonal
     testOperator( '-a60 7 decagonal_pentagonal' )
 
-    # decagonal_square
-    testOperator( '-a40 9 decagonal_square' )
+    # decagonal_centered_square
+    testOperator( '-a40 9 decagonal_centered_square' )
 
     # decagonal_triangular
     testOperator( '-a40 13 decagonal_triangular' )
@@ -1687,15 +1693,18 @@ def runPolygonalOperatorTests( ):
 
     # heptagonal_triangular
     testOperator( '399 heptagonal_triangular' )
+    expectEqual( '-a40 1 14 range heptagonal_triagular', '-a40 46194 oeis 14 left' )
 
     # hexagonal
     testOperator( '340 hexagonal' )
 
     # hexagonal_pentagonal
     testOperator( '107 hexagonal_pentagonal' )
+    expectEqual( '-a40 1 14 range hexagonal_pentagonal', '-a40 46178 oeis 14 left' )
 
     # hexagonal_square
     testOperator( '-a70 23 hexagonal_square' )
+    expectEqual( '-a70 1 15 range hexagonal_square', '-a40 46177 oeis 15 left' )
 
     # nth_centered_decagonal
     testOperator( '1000 nth_centered_decagonal' )
@@ -2106,39 +2115,26 @@ def runPrimeNumberOperatorTests( ):
 # //
 # //  runSettingsOperatorTests
 # //
+# //  These operators need to be tested in interactive mode.
+# //
 # //******************************************************************************
 
 def runSettingsOperatorTests( ):
     # accuracy
-
     # comma
-
     # comma_mode
-
     # decimal_grouping
-
     # hex_mode
-
     # identify
-
     # identify_mode
-
     # input_radix
-
     # integer_grouping
-
     # leading_zero
-
     # leading_zero_mode
-
     # octal_mode
-
     # output_radix
-
     # precision
-
     # timer
-
     # timer_mode
     pass
 
@@ -2272,9 +2268,9 @@ def runSpecialOperatorTests( ):
     # result
     testOperator( 'result' )
 
-    # set
+    # set - interactive mode
 
-    # topic
+    # topic - interactive mode
 
     # value
     expectRPN( '40 minutes value', 40 )

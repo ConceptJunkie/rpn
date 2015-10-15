@@ -12,6 +12,8 @@
 # //
 # //******************************************************************************
 
+import random
+
 from mpmath import *
 
 from rpnDeclarations import *
