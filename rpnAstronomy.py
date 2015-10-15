@@ -354,4 +354,3 @@ def getNextDusk( location, date, horizon = -6 ):
 
     return result
 
-

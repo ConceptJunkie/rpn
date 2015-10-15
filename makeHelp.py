@@ -1966,20 +1966,6 @@ center of the sun is 6 degrees below the horizon.
 '''
 ''' ],
 
-    'location' : [
-'astronomy', 'returns the lat-long for a location string',
-'''
-''',
-'''
-''' ],
-
-    'location_info' : [
-'astronomy', 'returns the lat-long for a location',
-'''
-''',
-'''
-''' ],
-
     'mars' : [
 'astronomy', '',
 '''
@@ -3968,40 +3954,40 @@ and seconds.
 
 # //******************************************************************************
 # //
-# //  datetime operators
+# //  date_time operators
 # //
 # //******************************************************************************
 
     'ash_wednesday' : [
-'datetime', 'calculates the date of Ash Wednesday for the year specified',
+'date_time', 'calculates the date of Ash Wednesday for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'dst_end' : [
-'datetime', 'calculates the ending date for Daylight Saving Time for the year specified',
+'date_time', 'calculates the ending date for Daylight Saving Time for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'dst_start' : [
-'datetime', 'calculates the starting date for Daylight Saving Time for the year specified',
+'date_time', 'calculates the starting date for Daylight Saving Time for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'easter' : [
-'datetime', 'calculates the date of Easter for the year specified',
+'date_time', 'calculates the date of Easter for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'election_day' : [
-'datetime', 'calculates the date of Election Day (US) for the year specified',
+'date_time', 'calculates the date of Election Day (US) for the year specified',
 '''
 In the U.S., Election Day is defined to be the first Tuesday after the first
 Monday in November.  This definition was established by the U.S. Congress in
@@ -4016,7 +4002,7 @@ c:\>rpn 1964 election_day
 ''' ],
 
     'iso_day' : [
-'datetime', 'returns the ISO day and week for a time value',
+'date_time', 'returns the ISO day and week for a time value',
 '''
 ''',
 '''
@@ -4024,7 +4010,7 @@ c:\>rpn 1964 election_day
 
 
     'labor_day' : [
-'datetime', 'calculates the date of Labor Day (US) for the year specified',
+'date_time', 'calculates the date of Labor Day (US) for the year specified',
 '''
 In the U.S., Labor Day falls on the first Monday of September.
 ''',
@@ -4034,21 +4020,21 @@ c:\>rpn 2016 labor_day
 ''' ],
 
     'make_julian_time' : [
-'datetime', 'interpret argument as absolute time specified by year, Julian day and optional time of day',
+'date_time', 'interpret argument as absolute time specified by year, Julian day and optional time of day',
 '''
 ''',
 '''
 ''' ],
 
     'make_iso_time' : [
-'datetime', 'interpret argument as absolute time specified in the ISO format',
+'date_time', 'interpret argument as absolute time specified in the ISO format',
 '''
 ''',
 '''
 ''' ],
 
     'memorial_day' : [
-'datetime', 'calculates the date of Memorial Day (US) for the year specified',
+'date_time', 'calculates the date of Memorial Day (US) for the year specified',
 '''
 In the U.S., Memorial Day occurs on the last Monday in May.  This holiday
 is dedicated to the memorial of the men and women who gave their lives in the
@@ -4070,14 +4056,14 @@ c:\>rpn 2020 2025 range memorial_day -s1
 ''' ],
 
     'now' : [
-'datetime', 'returns the current date and time',
+'date_time', 'returns the current date and time',
 '''
 ''',
 '''
 ''' ],
 
     'nth_weekday' : [
-'datetime', 'finds the nth day (1 = Monday, etc.) of the month',
+'date_time', 'finds the nth day (1 = Monday, etc.) of the month',
 '''
 a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
 d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
@@ -4086,7 +4072,7 @@ d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 ''' ],
 
     'nth_weekday_of_year' : [
-'datetime', 'finds the nth day (1 = Monday) of the year',
+'date_time', 'finds the nth day (1 = Monday) of the year',
 '''
 a = four-digit year, b = week (negative values count from the end), c = day
 (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
@@ -4095,35 +4081,35 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''' ],
 
     'presidents_day' : [
-'datetime', 'calculates the date of Presidents Day (US) for the year specified',
+'date_time', 'calculates the date of Presidents Day (US) for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'thanksgiving' : [
-'datetime', 'calculates the date of Thanksgiving (US) for the year specified',
+'date_time', 'calculates the date of Thanksgiving (US) for the year specified',
 '''
 ''',
 '''
 ''' ],
 
     'today' : [
-'datetime', 'returns the current date',
+'date_time', 'returns the current date',
 '''
 ''',
 '''
 ''' ],
 
     'tomorrow' : [
-'datetime', 'returns the next date',
+'date_time', 'returns the next date',
 '''
 ''',
 '''
 ''' ],
 
     'weekday' : [
-'datetime', 'calculates the day of the week of an absolute time',
+'date_time', 'calculates the day of the week of an absolute time',
 '''
 Given any date, the 'weekday' operator will determine what day of the week
 that date occurred on.
@@ -4148,7 +4134,7 @@ c:\>rpn 2043-04-17 weekday
 ''' ],
 
     'yesterday' : [
-'datetime', 'returns the previous date',
+'date_time', 'returns the previous date',
 '''
 ''',
 '''
@@ -4382,61 +4368,61 @@ c:\>rpn inf x 1 + fib x fib / limit
 
 # //******************************************************************************
 # //
-# //  geometry operators
+# //  geometric operators
 # //
 # //******************************************************************************
 
     'n_sphere_area' : [
-'geometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
+'geometric', 'calculates the surface area of an n-sphere of size k (radius or volume)',
 '''
 ''',
 '''
 ''' ],
 
     'n_sphere_radius' : [
-'geometry', 'calculates the radius of an n-sphere of size k (surface area or volume)',
+'geometric', 'calculates the radius of an n-sphere of size k (surface area or volume)',
 '''
 ''',
 '''
 ''' ],
 
     'n_sphere_volume' : [
-'geometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
+'geometric', 'calculates the volume of an n-sphere of size k (radius or surface area)',
 '''
 ''',
 '''
 ''' ],
 
     'polygon_area' : [
-'geometry', 'calculates the area of an regular n-sided polygon with sides of unit length',
+'geometric', 'calculates the area of an regular n-sided polygon with sides of unit length',
 '''
 ''',
 '''
 ''' ],
 
     'sphere_area' : [
-'geometry', 'calculates the surface area of an sphere of size n (radius or volume)',
+'geometric', 'calculates the surface area of an sphere of size n (radius or volume)',
 '''
 ''',
 '''
 ''' ],
 
     'sphere_radius' : [
-'geometry', 'calculates the radius of an sphere of size n (surface area or volume)',
+'geometric', 'calculates the radius of an sphere of size n (surface area or volume)',
 '''
 ''',
 '''
 ''' ],
 
     'sphere_volume' : [
-'geometry', 'calculates the volume of an sphere of size n (radius or surface area)',
+'geometric', 'calculates the volume of an sphere of size n (radius or surface area)',
 '''
 ''',
 '''
 ''' ],
 
     'triangle_area' : [
-'geometry', 'calculates the area of a triangle with sides of length a, b, and c',
+'geometric', 'calculates the area of a triangle with sides of length a, b, and c',
 '''
 This operator uses Heron's formula, which takes the square root of the product
 of the semiperimeter and the respective differences of the semiperimeter and
@@ -4450,6 +4436,34 @@ c:\>rpn 3 4 5 triangle_area
 
 c:\>rpn 2 3 make_pyth_3 unlist triangle_area
 30
+''' ],
+
+
+# //******************************************************************************
+# //
+# //  geographic operators
+# //
+# //******************************************************************************
+
+    'distance' : [
+'geographic', 'calculates the distance, along the Earth\'s surface, of two locations',
+'''
+''',
+'''
+''' ],
+
+    'location' : [
+'geographic', 'returns the lat-long for a location string',
+'''
+''',
+'''
+''' ],
+
+    'location_info' : [
+'geographic', 'returns the lat-long for a location',
+'''
+''',
+'''
 ''' ],
 
 
@@ -4710,13 +4724,6 @@ c:\>rpn 1 100 range count
 
     'diffs2' : [
 'list_operators', 'returns a list with the differences between each element of list n with the first element',
-'''
-''',
-'''
-''' ],
-
-    'distance' : [
-'astronomy', 'calculates the distance, along the Earth\'s surface, of two locations',
 '''
 ''',
 '''
@@ -7540,12 +7547,12 @@ c:\>rpn 1000 light-years value
 
 # //******************************************************************************
 # //
-# //  trigonometry operators
+# //  trigonometric operators
 # //
 # //******************************************************************************
 
     'acos' : [
-'trigonometry', 'calculates the arccosine of n',
+'trigonometric', 'calculates the arccosine of n',
 '''
 The arcosine is the inverse of cosine.  In other words, if cos( x ) = y, then
 acos( y ) = x.
@@ -7564,7 +7571,7 @@ c:\>rpn 45 degrees cos acos rad deg convert
 ''' ],
 
     'acosh' : [
-'trigonometry', 'calculates the hyperbolic arccosine of n',
+'trigonometric', 'calculates the hyperbolic arccosine of n',
 '''
 The hyperbolic arccosine is the inverse of the hyperbolic cosine.
 
@@ -7576,14 +7583,14 @@ instead of a unit circle.
 ''' ],
 
     'acot' : [
-'trigonometry', 'calcuates the arccotangent of n',
+'trigonometric', 'calcuates the arccotangent of n',
 '''
 ''',
 '''
 ''' ],
 
     'acoth' : [
-'trigonometry', 'calculates the hyperbolic arccotangent of n',
+'trigonometric', 'calculates the hyperbolic arccotangent of n',
 '''
 The hyperbolic arccotangent is the inverse of the hyperbolic cotangent.
 
@@ -7595,14 +7602,14 @@ instead of a unit circle.
 ''' ],
 
     'acsc' : [
-'trigonometry', 'calculates the arccosecant of n',
+'trigonometric', 'calculates the arccosecant of n',
 '''
 ''',
 '''
 ''' ],
 
     'acsch' : [
-'trigonometry', 'calculates the hyperbolic arccosecant of n',
+'trigonometric', 'calculates the hyperbolic arccosecant of n',
 '''
 The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.
 
@@ -7614,14 +7621,14 @@ instead of a unit circle.
 ''' ],
 
     'asec' : [
-'trigonometry', 'calculates the arcsecant of n',
+'trigonometric', 'calculates the arcsecant of n',
 '''
 ''',
 '''
 ''' ],
 
     'asech' : [
-'trigonometry', 'calculates the hyperbolic arcsecant of n',
+'trigonometric', 'calculates the hyperbolic arcsecant of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -7632,7 +7639,7 @@ instead of a unit circle.
 ''' ],
 
     'asin' : [
-'trigonometry', 'calculates the arcsine of n',
+'trigonometric', 'calculates the arcsine of n',
 '''
 The arcsine is the inverse of sine.  In other words, if sin( x ) = y, then
 asin( y ) = x.
@@ -7653,7 +7660,7 @@ c:\>rpn 2 sqrt 1/x asin rad deg convert
 ''' ],
 
     'asinh' : [
-'trigonometry', 'calculates the hyperbolic arcsine of n',
+'trigonometric', 'calculates the hyperbolic arcsine of n',
 '''
 The hyperbolic arcsine is the inverse of the hyperbolic sine.
 
@@ -7665,7 +7672,7 @@ instead of a unit circle.
 ''' ],
 
     'atan' : [
-'trigonometry', 'calculates the arctangent of n',
+'trigonometric', 'calculates the arctangent of n',
 '''
 The arctangent is the inverse of tangent.  In other words, if tan( x ) = y, then
 atan( y ) = x.
@@ -7684,7 +7691,7 @@ c:\>rpn 89 degrees tan atan rad deg convert
 ''' ],
 
     'atanh' : [
-'trigonometry', 'calculates the hyperbolic arctangent of n',
+'trigonometric', 'calculates the hyperbolic arctangent of n',
 '''
 The hyperbolic arctangent is the inverse of the hyperbolic tangent.
 
@@ -7696,14 +7703,14 @@ instead of a unit circle.
 ''' ],
 
     'cos' : [
-'trigonometry', 'calculates the cosine of n',
+'trigonometric', 'calculates the cosine of n',
 '''
 ''',
 '''
 ''' ],
 
     'cosh' : [
-'trigonometry', 'calculates the hyperbolic cosine of n',
+'trigonometric', 'calculates the hyperbolic cosine of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -7714,14 +7721,14 @@ instead of a unit circle.
 ''' ],
 
     'cot' : [
-'trigonometry', 'calculates the cotangent of n',
+'trigonometric', 'calculates the cotangent of n',
 '''
 ''',
 '''
 ''' ],
 
     'coth' : [
-'trigonometry', 'calculates the hyperbolic cotangent of n',
+'trigonometric', 'calculates the hyperbolic cotangent of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -7732,7 +7739,7 @@ instead of a unit circle.
 ''' ],
 
     'csc' : [
-'trigonometry', 'calculates the cosecant of n',
+'trigonometric', 'calculates the cosecant of n',
 '''
 The cosecant function is defined to be the reciprocal of the sine function.
 ''',
@@ -7748,7 +7755,7 @@ c:\>rpn 36 degrees sin
 ''' ],
 
     'csch' : [
-'trigonometry', 'calculates hyperbolic cosecant of n',
+'trigonometric', 'calculates hyperbolic cosecant of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -7759,7 +7766,7 @@ instead of a unit circle.
 ''' ],
 
     'hypotenuse' : [
-'trigonometry', 'calculates the hypotenuse of n and k',
+'trigonometric', 'calculates the hypotenuse of n and k',
 '''
 Given a right triangle with sides of n and k, the 'hypotenuse' operator
 calculates what the length of the hypotenuse would be.
@@ -7776,14 +7783,14 @@ c:\>rpn 1 1 hypotenuse
 ''' ],
 
     'sec' : [
-'trigonometry', 'calculates the secant of n',
+'trigonometric', 'calculates the secant of n',
 '''
 ''',
 '''
 ''' ],
 
     'sech' : [
-'trigonometry', 'calculates the hyperbolic secant of n',
+'trigonometric', 'calculates the hyperbolic secant of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -7794,14 +7801,14 @@ instead of a unit circle.
 ''' ],
 
     'sin' : [
-'trigonometry', 'calculates the sine of n',
+'trigonometric', 'calculates the sine of n',
 '''
 ''',
 '''
 ''' ],
 
     'sinh' : [
-'trigonometry', 'calculates the hyperbolic sine of n',
+'trigonometric', 'calculates the hyperbolic sine of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -7812,14 +7819,14 @@ instead of a unit circle.
 ''' ],
 
     'tan' : [
-'trigonometry', 'calculates the tangent of n',
+'trigonometric', 'calculates the tangent of n',
 '''
 ''',
 '''
 ''' ],
 
     'tanh' : [
-'trigonometry', 'calculates the hyperbolic tangent of n',
+'trigonometric', 'calculates the hyperbolic tangent of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular

@@ -11,6 +11,7 @@
 # //******************************************************************************
 
 import shlex
+import sys
 
 from rpnMeasurement import RPNMeasurement
 from rpnTestUtils import *
@@ -154,22 +155,25 @@ def runAlgebraOperatorTests( ):
     testOperator( '[ 1 2 3 4 ] 5 polypower' )
 
     # polyprod
-    testOperator( '[ [ 1 10 range ] [ 1 10 range ] [ 2 11 range ] ] polyprod' )
+    testOperator( '[ 1 10 range 1 10 range 2 11 range ] polyprod' )
 
     # polysum
-    testOperator( '[ [ 1 10 range ] [ 2 11 range ] ] polysum' )
+    testOperator( '[ 1 10 range 2 11 range ] polysum' )
 
     # solve
     testOperator( '1 8 range solve' )
 
     # solve2
     testOperator( '8 9 10 solve2' )
+    expectEqual( '8 9 10 solve2', '[ 8 9 10 ] solve' )
 
     # solve3
     testOperator( '10 -10 10 -10 solve3' )
+    expectEqual( '10 -10 10 -10 solve3', '[ 10 -10 10 -10 ] solve' )
 
     # solve4
     testOperator( '2 -3 2 -3 2 solve4' )
+    expectEqual( '2 -3 2 -3 2 solve4', '[ 2 -3 2 -3 2 ] solve' )
 
 
 # //******************************************************************************
@@ -371,9 +375,6 @@ def runAstronomyOperatorTests( ):
 
     # autumnal_equinox
     testOperator( '2015 autumnal_equinox' )
-
-    # distance
-    testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
 
     # dawn
     testOperator( '"Leesburg, VA" location today dawn' )
@@ -1088,11 +1089,11 @@ def runFunctionOperatorTests( ):
 
 # //******************************************************************************
 # //
-# //  runGeometryOperatorTests
+# //  runGeometricOperatorTests
 # //
 # //******************************************************************************
 
-def runGeometryOperatorTests( ):
+def runGeometricOperatorTests( ):
     # n_sphere_area
     testOperator( '34 inches 3 n_sphere_area' )
     testOperator( '34 square_inches 3 n_sphere_area' )
@@ -1126,6 +1127,23 @@ def runGeometryOperatorTests( ):
 
     # triangle_area
     testOperator( '123 456 789 triangle_area' )
+
+
+# //******************************************************************************
+# //
+# //  runGeographicOperatorTests
+# //
+# //******************************************************************************
+
+def runGeographicOperatorTests( ):
+    # distance
+    testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
+
+    # location
+    testOperator( '"Uppsala, Sweden" location today moonrise' )
+
+    # location_info
+    testOperator( '"Dakar, Senegal" location_info' )
 
 
 # //******************************************************************************
@@ -2278,11 +2296,11 @@ def runSpecialOperatorTests( ):
 
 # //******************************************************************************
 # //
-# //  runTrigonometryOperatorTests
+# //  runTrigonometricOperatorTests
 # //
 # //******************************************************************************
 
-def runTrigonometryOperatorTests( ):
+def runTrigonometricOperatorTests( ):
     # acos
     testOperator( '0.8 acos' )
 
@@ -2362,40 +2380,58 @@ def runTrigonometryOperatorTests( ):
 
 # //******************************************************************************
 # //
+# //  tests
+# //
+# //******************************************************************************
+
+rpnTests = {
+    'command-line'      : runCommandLineOptionsTests,
+    'algebra'           : runAlgebraOperatorTests,
+    'arithmetic'        : runArithmeticOperatorTests,
+    'astronomy'         : runAstronomyOperatorTests,
+    'bitwise'           : runBitwiseOperatorTests,
+    'calendar'          : runCalendarOperatorTests,
+    'combinatoric'      : runCombinatoricOperatorTests,
+    'complex'           : runComplexMathOperatorTests,
+    'constant'          : runConstantOperatorTests,
+    'conversion'        : runConversionOperatorTests,
+    'date_time'         : runDateTimeOperatorTests,
+    'function'          : runFunctionOperatorTests,
+    'geometric'         : runGeometricOperatorTests,
+    'geographic'        : runGeographicOperatorTests,
+    'lexicographic'     : runLexicographicOperatorTests,
+    'list'              : runListOperatorTests,
+    'logarithmic'       : runLogarithmOperatorTests,
+    'modifier'          : runModifierOperatorTests,
+    'number_theory'     : runNumberTheoryOperatorTests,
+    'polygonal'         : runPolygonalOperatorTests,
+    'polyhedral'        : runPolyhedralOperatorTests,
+    'powers_and_roots'  : runPowersAndRootsOperatorTests,
+    'prime_number'      : runPrimeNumberOperatorTests,
+    'settings'          : runSettingsOperatorTests,
+    'trigonometric'     : runTrigonometricOperatorTests,
+
+    'convert' : runConvertTests,
+    'help' : runHelpTests,
+
+    'internal' : runInternalOperatorTests
+}
+
+
+# //******************************************************************************
+# //
 # //  runTests
 # //
 # //******************************************************************************
 
-def runTests( ):
-    runCommandLineOptionsTests( )
-    runAlgebraOperatorTests( )
-    runArithmeticOperatorTests( )
-    runAstronomyOperatorTests( )
-    runBitwiseOperatorTests( )
-    runCalendarOperatorTests( )
-    runCombinatoricOperatorTests( )
-    runComplexMathOperatorTests( )
-    runConstantOperatorTests( )
-    runConversionOperatorTests( )
-    runDateTimeOperatorTests( )
-    runFunctionOperatorTests( )
-    runGeometryOperatorTests( )
-    runLexicographicOperatorTests( )
-    runListOperatorTests( )
-    runLogarithmOperatorTests( )
-    runModifierOperatorTests( )
-    runNumberTheoryOperatorTests( )
-    runPolygonalOperatorTests( )
-    runPolyhedralOperatorTests( )
-    runPowersAndRootsOperatorTests( )
-    runPrimeNumberOperatorTests( )
-    runSettingsOperatorTests( )
-    runTrigonometryOperatorTests( )
-
-    runConvertTests( )
-    runHelpTests( )
-
-    runInternalOperatorTests( )
+def runTests( tests ):
+    if len( tests ) == 0:
+        for test in rpnTests:
+            rpnTests[ test ]( )
+    else:
+        for test in tests:
+            if test in rpnTests:
+                rpnTests[ test ]( )
 
 
 # //******************************************************************************
@@ -2405,5 +2441,5 @@ def runTests( ):
 # //******************************************************************************
 
 if __name__ == '__main__':
-    runTests( )
+    runTests( sys.argv[ 1 : ] )
 
