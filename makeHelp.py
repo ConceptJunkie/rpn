@@ -6144,13 +6144,6 @@ triangular.
 '''
 ''' ],
 
-    'next_hexagonal' : [
-'polygonal_numbers', 'finds the index of the hexagonal number of value n',
-'''
-''',
-'''
-''' ],
-
     'hexagonal_pentagonal' : [
 'polygonal_numbers', 'calculates the nth hexagonal pentagonal number',
 '''
@@ -6344,6 +6337,13 @@ number.
 
     'nth_decagonal' : [
 'polygonal_numbers', 'finds the index of the decagonal number of value n',
+'''
+''',
+'''
+''' ],
+
+    'nth_hexagonal' : [
+'polygonal_numbers', 'finds the index of the hexagonal number of value n',
 '''
 ''',
 '''
