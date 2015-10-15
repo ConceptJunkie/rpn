@@ -445,7 +445,7 @@ def getNthDecagonalTriangularNumber( n ):
 
 # //******************************************************************************
 # //
-# //  getNthDecagonalSquareNumber
+# //  getNthDecagonalCenteredSquareNumber
 # //
 # //  from http://oeis.org/A133142
 # //
@@ -457,7 +457,7 @@ def getNthDecagonalTriangularNumber( n ):
 # //
 # //******************************************************************************
 
-def getNthDecagonalSquareNumber( n ):
+def getNthDecagonalCenteredSquareNumber( n ):
     sqrt10 = sqrt( 10 )
 
     dps = 7 * int( n )

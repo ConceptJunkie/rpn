@@ -6040,6 +6040,15 @@ c:\>rpn 4 unit_roots
 '''
 ''' ],
 
+    'decagonal_centered_square' : [
+'polygonal_numbers', 'calculates the nth decagonal centered square number',
+'''
+'decagonal_centered_square' calculates the nth number that is both decagonal and
+centered square.
+''',
+'''
+''' ],
+
     'decagonal_heptagonal' : [
 'polygonal_numbers', 'calculates the nth decagonal heptagonal number',
 '''
@@ -6081,14 +6090,6 @@ octagonal.
 '''
 'decagonal_pentagonal' calculates the nth number that is both decagonal and
 pentgonal.
-''',
-'''
-''' ],
-
-    'decagonal_square' : [
-'polygonal_numbers', 'calculates the nth decagonal square number',
-'''
-'decagonal_square' calculates the nth number that is both decagonal and square.
 ''',
 '''
 ''' ],
