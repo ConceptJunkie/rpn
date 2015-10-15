@@ -25,7 +25,7 @@ def read( *paths ):
 
 setup(
     name = 'rpn',
-    version = '6.5.0',
+    version = '7.0.0',
     description = 'command-line RPN calculator with arbitrary precision',
     long_description =
 '''

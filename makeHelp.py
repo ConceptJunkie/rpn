@@ -388,7 +388,7 @@ Interactive mode also introduces some new operators.  Each expression that is
 evaluated is given a successive number:
 
 c:\>rpn
-rpn 6.5.0 - RPN command-line calculator
+rpn 7.0.0 - RPN command-line calculator
 copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
 
 Type "help" for more information, and "exit" to exit.
@@ -810,7 +810,7 @@ Added 'crt' operator.
 
 ...and the usual bug fixes.
 
-6.5.0
+7.0.0
 
 Added 'ecm' operator.
 
@@ -894,8 +894,16 @@ the following operators: 'to_hebrew', 'to_hebrew_name', 'to_julian_date',
 
 Added the 'ordinal_name' operator.
 
-Added 'from_hebrew', 'from_islamic', 'from_julian', 'from_bahai',
+Added the 'from_hebrew', 'from_islamic', 'from_julian', 'from_bahai',
 'from_persian' operators.
+
+Added the 'decagonal_triangular', 'decagonal_centered_square',
+'decagonal_pentagonal', 'decagonal_hexagonal', 'decagonal_heptagonal',
+'decagonal_octagonal', 'decagonal_nonagonal' operators.
+
+Added the 'distance' operator and changed geocoding lookup to use Nominatim
+instead of Google, because the Google lookup (provided by ephem) suddenly
+stopped working.
 
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
@@ -4341,7 +4349,7 @@ c:\>rpn 1 20 range x is_prime negate filter
 '''
 Allows the user to define a function for use with the eval, nsum, nprod,
 and limit operators, etc.  Basically 'x' starts an expression that
-becomes a function.  As of version 6.5.0 a user-defined function must start
+becomes a function.  As of version 7.0.0 a user-defined function must start
 with 'x', but I hope to remove that limitation.
 
 See the 'user_functions' help topic for more details.
@@ -4454,7 +4462,7 @@ c:\>rpn 2 3 make_pyth_3 unlist triangle_area
     '_dump_aliases' : [
 'internal', 'dumps the list of aliases for operators',
 '''
-rpn maintains a list of aliases for operators and units.  As of 6.5.0, there
+rpn maintains a list of aliases for operators and units.  As of 7.0.0, there
 are over 7000 aliases.  A lot of these are automatically generated for
 metric unit types and certain compound units.  The rest are manually defined
 aliases for units and operator names.
@@ -5254,7 +5262,7 @@ subsequent list operand.  If the lists are not the same size, rpn performs
 the operator for each item of the shortest list and ignores the extra list
 items.
 
-*** Note:  As of 6.5.0, there are a few operators that don't correctly support
+*** Note:  As of 7.0.0, there are a few operators that don't correctly support
 replacing single operands with lists.  I'm working through these to make
 sure they all work.
 
@@ -5295,7 +5303,7 @@ subsequent list operand.  If the lists are not the same size, rpn performs
 the operator for each item of the shortest list and ignores the extra list
 items.
 
-*** Note:  As of 6.5.0, there are a few operators that don't correctly support
+*** Note:  As of 7.0.0, there are a few operators that don't correctly support
 replacing single operands with lists.  I'm working through these to make
 sure they all work.
 
