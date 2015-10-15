@@ -428,33 +428,138 @@ def getNthNonagonalOctagonalNumber( n ):
                                     power( fadd( sqrt6, sqrt7 ), fsub( fmul( 8, n ), 5 ) ) ),
                               672 ) ) )
 
-# Dec-tri
-# http://oeis.org/A133216
-# a(n) = floor ( 1/64 * (9 + 4*sqrt(2)*(-1)^n) * (1+sqrt(2))^(4*n-6) )
+# //******************************************************************************
+# //
+# //  getNthDecagonalTriangularNumber
+# //
+# //  from http://oeis.org/A133216
+# //
+# //  a(n) = floor ( 1/64 * (9 + 4*sqrt(2)*(-1)^n) * (1+sqrt(2))^(4*n-6) )
+# //
+# //******************************************************************************
 
-# Dec-square
-# http://oeis.org/A133142
-#  a(n)=(1/8)+(7/16)*[721-228*sqrt(10)]^n-(1/8)*[721-228*sqrt(10)]^n*sqrt(10)+(1/8)*[721+228 *sqrt(10)]^n*sqrt(10)+(7/16)*[721+228*sqrt(10)]^n
+def getNthDecagonalTriangularNumber( n ):
+    return nint( floor( fdiv( fmul( fadd( 9, fprod( [ 4, sqrt( 2 ), power( -1, fadd( n, 1 ) ) ] ) ),
+                              power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 4, fadd( n, 1 ) ), 6 ) ) ), 64 ) ) )
 
-# Dec-pent
-# http://oeis.org/A202563
-# a(n) = floor(25/192*(sqrt(3)+sqrt(2))^(8*n-6))
 
-# Dec-hex
-# http://oeis.org/A203134
-# a(n) = floor(1/64 *(5*sqrt(2)-1)*(sqrt(2)+1)^(8*n-5)).
+# //******************************************************************************
+# //
+# //  getNthDecagonalSquareNumber
+# //
+# //  from http://oeis.org/A133142
+# //
+# //  a( n ) = ( 1/8 ) +
+# //           ( 7/16 ) * [ 721 - 228 * sqrt( 10 ) ] ^ n -
+# //           ( 1/8 ) * [ 721 - 228 * sqrt( 10 ) ] ^ n * sqrt( 10 ) +
+# //           ( 1/8 ) * [ 721 + 228 * sqrt( 10 ) ] ^ n * sqrt( 10 ) +
+# //           ( 7/16 ) * [ 721 + 228 * sqrt( 10 ) ] ^ n
+# //
+# //******************************************************************************
 
-# Dec-hept
-# http://oeis.org/A203408
-# a(n) = floor(1/320*(11-2*sqrt(10)*(-1)^n)*(1+sqrt(10))* (3+sqrt(10))^(4*n-3)).
+def getNthDecagonalSquareNumber( n ):
+    sqrt10 = sqrt( 10 )
 
-# Dec-oct
-# http://oeis.org/A203624
-# a(n) = floor(1/192*(13+4*sqrt(3))*(2+sqrt(3))^(8*n-6)).
+    dps = 7 * int( n )
 
-# Dec-non
-# http://oeis.org/A203627
-# a(n) = floor(1/448*(15+2*sqrt(14))*(2*sqrt(2)+sqrt(7))^(8*n-6)).
+    if mp.dps < dps:
+        mp.dps = dps
+
+    return nint( floor( fsum( [ fdiv( 1, 8 ),
+                              fmul( fdiv( 7, 16 ), power( fsub( 721, fmul( 228, sqrt10 ) ), fsub( n, 1 ) ) ),
+                              fmul( fmul( fdiv( 1, 8 ), power( fsub( 721, fmul( 228, sqrt10 ) ), fsub( n, 1 ) ) ), sqrt10 ),
+                              fmul( fmul( fdiv( 1, 8 ), power( fadd( 721, fmul( 228, sqrt10 ) ), fsub( n, 1 ) ) ), sqrt10 ),
+                              fmul( fdiv( 7, 16 ), power( fadd( 721, fmul( 228, sqrt10 ) ), fsub( n, 1 ) ) ) ] ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthDecagonalPentagonalNumber
+# //
+# //  from http://oeis.org/A202563
+# //
+# //  a( n ) = floor( 25 / 192 * ( sqrt( 3 ) + sqrt( 2 ) ) ^ ( 8 * n - 6 ) )
+# //
+# //******************************************************************************
+
+def getNthDecagonalPentagonalNumber( n ):
+    return nint( floor( fmul( fdiv( 25, 192 ),
+                              power( fadd( sqrt( 3 ), sqrt( 2 ) ),
+                                     fsub( fmul( 8, n ), 6 ) ) ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthDecagonalHexagonalNumber
+# //
+# //  http://oeis.org/A203134
+# //
+# //  a(n) = floor(1/64 *(5*sqrt(2)-1)*(sqrt(2)+1)^(8*n-5)).
+# //
+# //******************************************************************************
+
+def getNthDecagonalHexagonalNumber( n ):
+    return nint( floor( fdiv( fmul( fsub( fmul( 5, sqrt( 2 ) ), 1 ),
+                                    power( fadd( sqrt( 2 ), 1 ),
+                                           fsub( fmul( 8, n ), 5 ) ) ), 64 ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthDecagonalHeptagonalNumber
+# //
+# //  http://oeis.org/A203408
+# //
+# //  a(n) = floor(1/320*(11-2*sqrt(10)*(-1)^n)*(1+sqrt(10))* (3+sqrt(10))^(4*n-3)).
+# //
+# //******************************************************************************
+
+def getNthDecagonalHeptagonalNumber( n ):
+    sqrt10 = sqrt( 10 )
+
+    return nint( floor( fdiv( fprod( [ fsub( 11,
+                                             fmul( fmul( 2, sqrt10 ),
+                                                   power( -1, n ) ) ),
+                                       fadd( 1, sqrt10 ),
+                                       power( fadd( 3, sqrt10 ),
+                                              fsub( fmul( 4, n ), 3 ) ) ] ), 320 ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthDecagonalOctagonalNumber
+# //
+# //  http://oeis.org/A203624
+# //
+# //  a(n) = floor(1/192*(13+4*sqrt(3))*(2+sqrt(3))^(8*n-6)).
+# //
+# //******************************************************************************
+
+def getNthDecagonalOctagonalNumber( n ):
+    return nint( floor( fdiv( fmul( fadd( 13, fmul( 4, sqrt( 3 ) ) ),
+                                    power( fadd( 2, sqrt( 3 ) ),
+                                           fsub( fmul( 8, n ), 6 ) ) ), 192 ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthDecagonalNonagonalNumber
+# //
+# //  http://oeis.org/A203627
+# //
+# //  a(n) = floor(1/448*(15+2*sqrt(14))*(2*sqrt(2)+sqrt(7))^(8*n-6)).
+# //
+# //******************************************************************************
+
+def getNthDecagonalNonagonalNumber( n ):
+    dps = 8 * int( n )
+
+    if mp.dps < dps:
+        mp.dps = dps
+
+    return nint( floor( fdiv( fmul( fadd( 15, fmul( 2, sqrt( 14 ) ) ),
+                                    power( fadd( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ),
+                                           fsub( fmul( 8, n ), 6 ) ) ), 448 ) ) )
 
 
 # //******************************************************************************

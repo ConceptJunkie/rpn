@@ -1619,61 +1619,56 @@ def runPolygonalOperatorTests( ):
     # centered_decagonal
     testOperator( '17 centered_decagonal' )
 
-    # centered_decagonal?
-    testOperator( '1000 centered_decagonal?' )
-
     # centered_heptagonal
     testOperator( '102 centered_heptagonal' )
-
-    # centered_heptagonal?
-    testOperator( '100000 centered_heptagonal?' )
 
     # centered_hexagonal
     testOperator( '103 centered_hexagonal' )
 
-    # centered_hexagonal?
-
     # centered_nonagonal
     testOperator( '104 centered_nonagonal' )
-
-    # centered_nonagonal?
-    testOperator( '5,000,000 centered_nonagonal?' )
 
     # centered_octagonal
     testOperator( '10 centered_octagonal' )
 
-    # centered_octagonal?
-    testOperator( '361 centered_octagonal?' )
-
     # centered_pentagonal
     testOperator( '108 centered_pentagonal' )
-
-    # centered_pentagonal?
-    testOperator( '9999 centered_pentagonal?' )
 
     # centered_polygonal
     testOperator( '108 5 centered_polygonal' )
 
-    # centered_polygonal?
-    testOperator( '9999 5 centered_polygonal?' )
-
     # centered_square
     testOperator( '5 centered_square' )
 
-    # centered_square?
-    testOperator( '49 centered_square?' )
-
     # centered_triangular
     testOperator( '100 centered_triangular' )
-
-    # centered_triangular?
-    testOperator( '10000 centered_triangular?' )
 
     # decagonal
     testOperator( '151 decagonal' )
 
     # decagonal?
     testOperator( '123454321 decagonal?' )
+
+    # decagonal_heptagonal
+    testOperator( '-a50 8 decagonal_heptagonal' )
+
+    # decagonal_hexagonal
+    testOperator( '-a60 9 decagonal_hexagonal' )
+
+    # decagonal_octagonal
+    testOperator( '-a 75 9 decagonal_nonagonal' )
+
+    # decagonal_octagonal
+    testOperator( '-a 75 9 decagonal_octagonal' )
+
+    # decagonal_pentagonal
+    testOperator( '-a60 7 decagonal_pentagonal' )
+
+    # decagonal_square
+    testOperator( '-a40 9 decagonal_square' )
+
+    # decagonal_triangular
+    testOperator( '-a40 13 decagonal_triangular' )
 
     # heptagonal
     testOperator( '203 heptagonal' )
@@ -1696,20 +1691,62 @@ def runPolygonalOperatorTests( ):
     # hexagonal
     testOperator( '340 hexagonal' )
 
-    # hexagonal?
-    testOperator( '230860 hexagonal?' )
-
     # hexagonal_pentagonal
     testOperator( '107 hexagonal_pentagonal' )
 
     # hexagonal_square
     testOperator( '-a70 23 hexagonal_square' )
 
+    # nth_centered_decagonal
+    testOperator( '1000 nth_centered_decagonal' )
+
+    # nth_centered_heptagonal
+    testOperator( '100000 nth_centered_heptagonal' )
+
+    # nth_centered_hexagonal
+    testOperator( '7785961 nth_centered_hexagonal' )
+
+    # nth_centered_nonagonal
+    testOperator( '5,000,000 nth_centered_nonagonal' )
+
+    # nth_centered_octagonal
+    testOperator( '361 nth_centered_octagonal' )
+
+    # nth_centered_pentagonal
+    testOperator( '9999 nth_centered_pentagonal' )
+
+    # nth_centered_polygonal
+    testOperator( '9999 5 nth_centered_polygonal' )
+
+    # nth_centered_square
+    testOperator( '49 nth_centered_square' )
+
+    # nth_centered_triangular
+    testOperator( '10000 nth_centered_triangular' )
+
+    # nth_hexagonal
+    testOperator( '230860 nth_hexagonal' )
+
+    # nth_nonagonal
+    testOperator( '9 6 ** nth_nonagonal' )
+
+    # nth_octagonal
+    testOperator( '8 4 ** 1 + nth_octagonal' )
+
+    # nth_pentagonal
+    testOperator( '5 5 ** 5 + nth_pentagonal' )
+
+    # nth_polygonal
+    testOperator( '12 12 ** 12 nth_polygonal' )
+
+    # nth_square
+    testOperator( '111333111 nth_square' )
+
+    # nth_triangular
+    testOperator( '20706 nth_triangular' )
+
     # nonagonal
     testOperator( '554 nonagonal' )
-
-    # nonagonal?
-    testOperator( '9 6 ** nonagonal?' )
 
     # nonagonal_heptagonal
     testOperator( '-a50 12 nonagonal_heptagonal' )
@@ -1732,9 +1769,6 @@ def runPolygonalOperatorTests( ):
     # octagonal
     testOperator( '102 octagonal' )
 
-    # octagonal?
-    testOperator( '8 4 ** 1 + octagonal?' )
-
     # octagonal_heptagonal
     testOperator( '-a40 8 octagonal_heptagonal' )
 
@@ -1753,9 +1787,6 @@ def runPolygonalOperatorTests( ):
     # pentagonal
     testOperator( '16 pentagonal' )
 
-    # pentagonal?
-    testOperator( '5 5 ** 5 + pentagonal?' )
-
     # pentagonal_square
     testOperator( '-a70 10 pentagonal_square' )
 
@@ -1765,17 +1796,11 @@ def runPolygonalOperatorTests( ):
     # polygonal
     testOperator( '9 12 polygonal' )
 
-    # polygonal?
-    testOperator( '12 12 ** 12 polygonal?' )
-
     # square_triangular
     testOperator( '-a60 34 square_triangular' )
 
     # triangular
     testOperator( '203 triangular' )
-
-    # triangular?
-    testOperator( '20706 triangular?' )
 
 
 # //******************************************************************************

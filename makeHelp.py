@@ -6165,177 +6165,6 @@ triangular.
 '''
 ''' ],
 
-    'next_centered_decagonal' : [
-'polygonal_numbers', 'finds the index of the centered decagonal number of value n',
-'''
-'next_centered_decagonal' solves for the index of the equation used by
-'centered_decagonal' to get the index i of the ith centered decagonal number
-that corresponds to the value n.
-
-If n is not a centered decagonal number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
-    'next_centered_heptagonal' : [
-'polygonal_numbers', 'finds the index of the centered heptagonal number of value n',
-'''
-'next_centered_heptagonal' solves for the index of the equation used by
-'centered_heptagonal' to get the index i of the ith centered heptagonal number
-that corresponds to the value n.
-
-If n is not a centered heptagonal number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
-    'next_centered_hexagonal' : [
-'polygonal_numbers', 'finds the index of the centered hexagonal number of value n',
-'''
-'next_centered_hexagonal' solves for the index of the equation used by
-'centered_hexagonal' to get the index i of the ith centered hexagonal number
-that corresponds to the value n.
-
-If n is not a centered hexagonal number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
-    'next_centered_nonagonal' : [
-'polygonal_numbers', 'finds the index of the centered nonagonal number of value n',
-'''
-'next_centered_nonagonal' solves for the index of the equation used by
-'centered_nonagonal' to get the index i of the ith centered nonagonal number
-that corresponds to the value n.
-
-If n is not a centered nonagonal number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
-    'next_centered_octagonal' : [
-'polygonal_numbers', 'finds the index of the centered octgonal number of value n',
-'''
-'next_centered_octagonal' solves for the index of the equation used by
-'centered_octagonal' to get the index i of the ith centered octagonal number
-that corresponds to the value n.
-
-If n is not a centered octagonal number, the result will not be a whole number.
-''',
-'''
-''' ],
-
-    'next_centered_pentagonal' : [
-'polygonal_numbers', 'finds the index of the centered pentagonal number of value n',
-'''
-'next_centered_pentagonal? solves for the index of the equation used by
-'centered_pentagonal' to get the index i of the ith centered pentagonal number
-that corresponds to the value n.
-
-If n is not a centered pentagonal number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
-    'next_centered_polygonal' : [
-'polygonal_numbers', 'finds the index of the centered polygonal number of value n',
-'''
-'next_centered_polygonal' solves for the index of the equation used by
-'centered_polygonal' to get the index i of the ith centered k-sided polygonal
-number that corresponds to the value n.
-
-If n is not a centered k-sided polygonal number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
-    'next_centered_square' : [
-'polygonal_numbers', 'finds the index of the centered square number of value n',
-'''
-'next_centered_square' solves for the index of the equation used by 'csquare'
-to get the index i of the ith centered square number that corresponds to the
-value n.
-
-If n is not a centered square number, the result will not be a whole number.
-''',
-'''
-''' ],
-
-    'next_centered_triangular' : [
-'polygonal_numbers', 'finds the index of the centered triangular number of value n',
-'''
-'next_centered_triangular' solves for the index of the equation used by
-'centered_triangular' to get the index i of the ith centered triangular number
-that corresponds to the value n.
-
-If n is not a centered triangular number, the result will not be a whole
-number.
-''',
-'''
-''' ],
-
-    'next_decagonal' : [
-'polygonal_numbers', 'finds the index of the decagonal number of value n',
-'''
-''',
-'''
-''' ],
-
-    'next_heptagonal' : [
-'polygonal_numbers', 'finds the index of the heptagonal number of value n',
-'''
-''',
-'''
-''' ],
-
-    'next_nonagonal' : [
-'polygonal_numbers', 'finds the index of the nonagonal number of value n',
-'''
-''',
-'''
-''' ],
-
-    'next_octagonal' : [
-'polygonal_numbers', 'finds the index of the octagonal number of value n',
-'''
-''',
-'''
-''' ],
-
-    'next_pentagonal' : [
-'polygonal_numbers', 'finds the index of the pentagonal number of value n',
-'''
-''',
-'''
-''' ],
-
-    'next_polygonal' : [
-'polygonal_numbers', 'finds the index of the polygonal number with k sides of value n',
-'''
-''',
-'''
-''' ],
-
-    'next_square' : [
-'polygonal_numbers', 'finds the index of the square number of value n',
-'''
-''',
-'''
-''' ],
-
-    'next_triangular' : [
-'polygonal_numbers', 'finds the index of the triangular number of value n',
-'''
-''',
-'''
-''' ],
-
     'nonagonal' : [
 'polygonal_numbers', 'calculates the nth nonagonal number',
 '''
@@ -6394,6 +6223,177 @@ pentgonal.
 triangular.
 
 TODO: fix me
+''',
+'''
+''' ],
+
+    'nth_centered_decagonal' : [
+'polygonal_numbers', 'finds the index of the centered decagonal number of value n',
+'''
+'nth_centered_decagonal' solves for the index of the equation used by
+'centered_decagonal' to get the index i of the ith centered decagonal number
+that corresponds to the value n.
+
+If n is not a centered decagonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'nth_centered_heptagonal' : [
+'polygonal_numbers', 'finds the index of the centered heptagonal number of value n',
+'''
+'nth_centered_heptagonal' solves for the index of the equation used by
+'centered_heptagonal' to get the index i of the ith centered heptagonal number
+that corresponds to the value n.
+
+If n is not a centered heptagonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'nth_centered_hexagonal' : [
+'polygonal_numbers', 'finds the index of the centered hexagonal number of value n',
+'''
+'nth_centered_hexagonal' solves for the index of the equation used by
+'centered_hexagonal' to get the index i of the ith centered hexagonal number
+that corresponds to the value n.
+
+If n is not a centered hexagonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'nth_centered_nonagonal' : [
+'polygonal_numbers', 'finds the index of the centered nonagonal number of value n',
+'''
+'nth_centered_nonagonal' solves for the index of the equation used by
+'centered_nonagonal' to get the index i of the ith centered nonagonal number
+that corresponds to the value n.
+
+If n is not a centered nonagonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'nth_centered_octagonal' : [
+'polygonal_numbers', 'finds the index of the centered octgonal number of value n',
+'''
+'nth_centered_octagonal' solves for the index of the equation used by
+'centered_octagonal' to get the index i of the ith centered octagonal number
+that corresponds to the value n.
+
+If n is not a centered octagonal number, the result will not be a whole number.
+''',
+'''
+''' ],
+
+    'nth_centered_pentagonal' : [
+'polygonal_numbers', 'finds the index of the centered pentagonal number of value n',
+'''
+'nth_centered_pentagonal? solves for the index of the equation used by
+'centered_pentagonal' to get the index i of the ith centered pentagonal number
+that corresponds to the value n.
+
+If n is not a centered pentagonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'nth_centered_polygonal' : [
+'polygonal_numbers', 'finds the index of the centered polygonal number of value n',
+'''
+'nth_centered_polygonal' solves for the index of the equation used by
+'centered_polygonal' to get the index i of the ith centered k-sided polygonal
+number that corresponds to the value n.
+
+If n is not a centered k-sided polygonal number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'nth_centered_square' : [
+'polygonal_numbers', 'finds the index of the centered square number of value n',
+'''
+'nth_centered_square' solves for the index of the equation used by 'csquare'
+to get the index i of the ith centered square number that corresponds to the
+value n.
+
+If n is not a centered square number, the result will not be a whole number.
+''',
+'''
+''' ],
+
+    'nth_centered_triangular' : [
+'polygonal_numbers', 'finds the index of the centered triangular number of value n',
+'''
+'nth_centered_triangular' solves for the index of the equation used by
+'centered_triangular' to get the index i of the ith centered triangular number
+that corresponds to the value n.
+
+If n is not a centered triangular number, the result will not be a whole
+number.
+''',
+'''
+''' ],
+
+    'nth_decagonal' : [
+'polygonal_numbers', 'finds the index of the decagonal number of value n',
+'''
+''',
+'''
+''' ],
+
+    'nth_heptagonal' : [
+'polygonal_numbers', 'finds the index of the heptagonal number of value n',
+'''
+''',
+'''
+''' ],
+
+    'nth_nonagonal' : [
+'polygonal_numbers', 'finds the index of the nonagonal number of value n',
+'''
+''',
+'''
+''' ],
+
+    'nth_octagonal' : [
+'polygonal_numbers', 'finds the index of the octagonal number of value n',
+'''
+''',
+'''
+''' ],
+
+    'nth_pentagonal' : [
+'polygonal_numbers', 'finds the index of the pentagonal number of value n',
+'''
+''',
+'''
+''' ],
+
+    'nth_polygonal' : [
+'polygonal_numbers', 'finds the index of the polygonal number with k sides of value n',
+'''
+''',
+'''
+''' ],
+
+    'nth_square' : [
+'polygonal_numbers', 'finds the index of the square number of value n',
+'''
+''',
+'''
+''' ],
+
+    'nth_triangular' : [
+'polygonal_numbers', 'finds the index of the triangular number of value n',
+'''
 ''',
 '''
 ''' ],
