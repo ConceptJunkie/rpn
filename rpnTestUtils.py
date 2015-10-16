@@ -30,13 +30,19 @@ def expectEqual( command1, command2 ):
     result1 = rpn( shlex.split( command1 ) )[ 0 ]
     result2 = rpn( shlex.split( command2 ) )[ 0 ]
 
-    if result1 != result2:
+    if isinstance( result1, list ) and isinstance( result2, list ):
+        for i in range( 0, min( len( result1 ), len( result2 ) ) ):
+            if not almosteq( result1[ i ], result2[ i ] ):
+                print( type( result1[ i ] ), type( result2[ i ] ) )
+                print( result1[ i ], result2[ i ], 'are not equal' )
+                raise ValueError( 'unit test failed' )
+    elif result1 != result2:
         print( '**** error in equivalence test \'' + command1 + '\' and \'' + command2 + '\'' )
         print( '    result 1: ', result1 )
         print( '    result 2: ', result2 )
-    else:
-        print( 'both are equal!' )
+        raise ValueError( 'unit test failed' )
 
+    print( 'both are equal!' )
     print( )
 
 

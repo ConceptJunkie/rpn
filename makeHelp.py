@@ -2593,13 +2593,6 @@ concerned, it's an operator that does nothing.
 '''
 ''' ],
 
-    'to_mayan_name' : [
-'calendars', 'converts a date to the equivalent date in the Mayan calendar with... ',
-'''
-''',
-'''
-''' ],
-
     'to_ordinal_date' : [
 'calendars', 'returns the date in the Ordinal Date format',
 '''

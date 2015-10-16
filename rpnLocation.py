@@ -20,6 +20,8 @@ import os
 
 from mpmath import *
 
+from rpnMeasurement import RPNMeasurement
+
 import rpnGlobals as g
 
 
@@ -191,7 +193,7 @@ def getDistance( location1, location2 ):
     from geopy.distance import vincenty
 
     distance = vincenty( ( location1.getLat( ), location1.getLong( ) ),
-                         ( location2.getLat( ), location2.getLong( ) ).miles )
+                         ( location2.getLat( ), location2.getLong( ) ) ).miles
 
     return RPNMeasurement( distance, [ { 'mile' : 1 } ] )
 

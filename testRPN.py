@@ -1,3 +1,4 @@
+
 # //******************************************************************************
 # //
 # //  testRPN
@@ -325,7 +326,7 @@ def runArithmeticOperatorTests( ):
     expectRPN( '4.5 nearest_int', 4 )
 
     # product
-    expectEqual( '-a100 1 100 range product', '-a100 100 !' )
+    expectEqual( '-a200 1 100 range product', '-a200 100 !' )
 
     # reciprocal
     expectEqual( '6 7 / reciprocal', '7 6 /' )
@@ -394,10 +395,10 @@ def runAstronomyOperatorTests( ):
     testOperator( '"Scottsdale, AZ" location_info' )
 
     # mars
-    testOperator( 'saturn "Beijing, China" location today next_rising' )
+    testOperator( 'mars "Beijing, China" location today next_transit' )
 
     # mercury
-    testOperator( 'saturn "Los Angeles, CA" location today next_rising' )
+    testOperator( 'mercury "Los Angeles, CA" location today next_rising' )
 
     # moon
     testOperator( 'saturn "Burlington, VT" location today next_antitransit' )
@@ -472,7 +473,7 @@ def runAstronomyOperatorTests( ):
     testOperator( 'jupiter "Leesburg, VA" location now previous_rising' )
 
     # previous_setting
-    testOperator( 'jupiter "Leesburg, VA" location now previous_setting' )
+    testOperator( 'uranus "Leesburg, VA" location now previous_setting' )
 
     # previous_transit
     testOperator( 'mercury "Leesburg, VA" location now previous_transit' )
@@ -508,7 +509,7 @@ def runAstronomyOperatorTests( ):
     testOperator( 'uranus "Frankfurt, Germany" location today next_rising' )
 
     # venus
-    testOperator( 'venus "Leesburg, VA" location today next_rising' )
+    testOperator( 'venus "Butte, Montana" location today next_rising' )
 
     # winter_solstice
     testOperator( '2015 winter_solstice' )
@@ -582,26 +583,37 @@ def runCalendarOperatorTests( ):
     # iso_date
 
     # to_bahai
+    testOperator( 'today to_bahai' )
 
     # to_bahai_name
+    testOperator( 'today to_bahai_name' )
 
     # to_hebrew
+    testOperator( 'today to_hebrew' )
 
     # to_hebrew_name
+    testOperator( 'today to_hebrew_name' )
 
     # to_indian_civil
+    testOperator( 'today to_indian_civil' )
 
     # to_indian_civil_name
+    testOperator( 'today to_indian_civil_name' )
 
     # to_islamic
+    testOperator( 'today to_islamic' )
 
     # to_islamic_name
+    testOperator( 'today to_islamic_name' )
 
     # to_iso
+    testOperator( 'today to_iso' )
 
     # to_iso_name
+    testOperator( 'today to_iso_name' )
 
     # to_julian
+    testOperator( 'today to_julian' )
 
     # to_julian_day
     testOperator( 'today to_julian_day' )
@@ -609,15 +621,16 @@ def runCalendarOperatorTests( ):
     # to_lilian_day
 
     # to_mayan
-
-    # to_mayan_name
+    testOperator( 'today to_mayan' )
 
     # to_ordinal_date
+    testOperator( 'today to_ordinal_date' )
 
     # to_persian
     testOperator( 'today to_persian' )
 
     # to_persian_name
+    testOperator( 'today to_persian_name' )
 
     # year_calendar
     testOperator( '1965 year_calendar' )
@@ -633,29 +646,45 @@ def runCalendarOperatorTests( ):
 def runCombinatoricOperatorTests( ):
     # bell
     testOperator( '-a43 45 bell' )
+    expectEqual( '-a20 0 26 range bell', '-a20 110 oeis 27 left' )
 
     # bernoulli
     testOperator( '16 bernoulli' )
+    expectEqual( '-a20 0 39 range bernoulli', '-a20 27641 oeis 40 left 27642 oeis 40 left /' )
 
     # binomial
     testOperator( '12 9 binomial' )
     testOperator( '-a20 -c 120 108 binomial' )
 
     # compositions
+    testOperator( '5 2 compositions' )
+    testOperator( '6 3 compositions' )
+    testOperator( '7 2 4 range compositions' )
 
     # debruijn
     testOperator( '4 3 debruijn' )
 
     # delannoy
     testOperator( '-a80 100 delannoy' )
+    expectEqual( '-a20 0 22 range delannoy', '-a20 1850 oeis 23 left' )
 
     # lah
     testOperator( '5 6 lah' )
 
     # motzkin
     testOperator( '-a25 56 motzkin' )
+    expectEqual( '-a20 0 29 range motzkin', '1006 oeis 30 left' )
 
     # multifactorial
+    testOperator( '1 20 range 5 multifactorial' )
+    expectEqual( '-a20 0 26 range 2 multifactorial', '6882 oeis 27 left' )
+    expectEqual( '0 29 range 3 multifactorial', '7661 oeis 30 left' )
+    expectEqual( '0 33 range 4 multifactorial', '7662 oeis 34 left' )
+    expectEqual( '0 36 range 5 multifactorial', '85157 oeis 37 left' )
+    expectEqual( '0 38 range 6 multifactorial', '85158 oeis 39 left' )
+    expectEqual( '0 42 range 7 multifactorial', '114799 oeis 41 left' )
+    expectEqual( '0 42 range 8 multifactorial', '114800 oeis 43 left' )
+    expectEqual( '0 43 range 9 multifactorial', '114806 oeis 44 left' )
 
     # narayana
     testOperator( '6 8 narayana' )
