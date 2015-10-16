@@ -1403,7 +1403,7 @@ operatorHelp = {
 ''' ],
 
     'find_poly' : [
-'algebra', 'finds a polynomial for which n is a zero',
+'algebra', 'finds a polynomial, of order less than or equal to k, for which n is a zero',
 '''
 ''',
 '''

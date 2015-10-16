@@ -146,6 +146,7 @@ def runAlgebraOperatorTests( ):
     testOperator( '[ 4 -2 3 5 -6 20 ] 1 10 range eval_poly' )
 
     # find_poly
+    testOperator( 'phi 3 find_poly' )
 
     # polyadd
     testOperator( '1 10 range 1 10 range polyadd' )
@@ -347,7 +348,7 @@ def runArithmeticOperatorTests( ):
 
     # subtract
     testOperator( '3948 474 subtract' )
-    testOperator( '4 cups 27 teaspoons -' )
+    expectRPN( '4 cups 27 teaspoons - teaspoons convert', RPNMeasurement( mpmathify( '165' ), [ { 'teaspoon' : 1 } ] ) )
     testOperator( '57 hectares 23 acres -' )
     testOperator( '10 Mb second / 700 MB hour / -' )
     testOperator( 'today 3 days -' )
@@ -446,13 +447,13 @@ def runAstronomyOperatorTests( ):
     testOperator( 'moon "Leesburg, VA" location now next_rising' )
 
     # next_setting
-    testOperator( 'moon "Leesburg, VA" location now next_setting' )
+    testOperator( 'moon "Kyoto, Japan" location now next_setting' )
 
     # next_transit
-    testOperator( 'moon "Leesburg, VA" location now next_transit' )
+    testOperator( 'moon "Oslo, Norway" location now next_transit' )
 
     # pluto
-    testOperator( 'pluto "Leesburg, VA" location now next_rising' )
+    testOperator( 'pluto "Johannesburg, South Africa" location now next_rising' )
 
     # previous_antitransit
     testOperator( 'neptune "Leesburg, VA" location now previous_antitransit' )
@@ -694,9 +695,10 @@ def runCombinatoricOperatorTests( ):
 
     # nth_catalan
     testOperator( '-a50 85 nth_catalan' )
+    expectEqual( '-a20 1 36 2 range2 nth_catalan', '24492 oeis 17 left' )
 
     # partitions
-    expectEqual( '-t 0 30 range partitions', '41 oeis 31 left' )
+    expectEqual( '-t 0 20 range partitions', '41 oeis 21 left' )
 
     # pell
     testOperator( '13 pell' )
@@ -1103,6 +1105,8 @@ def runFunctionOperatorTests( ):
     # eval
     testOperator( '10 x 5 * eval' )
     testOperator( '-a20 57 x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval' )
+    expectEqual( '-a20 0 23 range x 0 * 2 x 1 - power + 2 x power 1 - * eval', '6516 oeis 24 left' )
+    expectEqual( '1 46 range x sqr 2 * 2 + eval', '5893 oeis 47 left 46 right' )
 
     # eval2
 
@@ -1229,10 +1233,11 @@ def runLexicographicOperatorTests( ):
     expectRPN( '34 567 add_digits', 34567 )
 
     # combine_digits
-    testOperator( '1 9 range combine_digits' )
+    expectRPN( '1 9 range combine_digits', 123456789 )
 
     # dup_digits
-    testOperator( '543 2 dup_digits' )
+    expectRPN( '543 2 dup_digits', 54343 )
+    expectRPN( '1024 1 4 range dup_digits', [ 10244, 102424, 1024024, 10241024 ] )
 
     # find_palindrome
     testOperator( '-a30 10911 55 find_palindrome' )
@@ -1243,15 +1248,16 @@ def runLexicographicOperatorTests( ):
     # expectEqual   30 oeis 85 left
 
     # is_palindrome
-    testOperator( '101 is_palindrome' )
-    testOperator( '1 22 range is_palindrome' )
-    testOperator( '1234567890 is_palindrome' )
+    expectRPN( '101 is_palindrome', 1 )
+    expectRPN( '1 22 range is_palindrome', [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] )
+    expectRPN( '1234567890 is_palindrome', 0 )
 
     # is_pandigital
-    testOperator( '1234567890 is_pandigital' )
+    expectRPN( '1234567890 is_pandigital', 1 )
+    expectRPN( '123456789 is_pandigital', 0 )
 
     # multiply_digits
-    testOperator( '123456789 multiply_digits' )
+    expectEqual( '123456789 multiply_digits', '9 !' )
 
     # reversal_addition
     testOperator( '-a20 89 24 reversal_addition' )
@@ -1328,7 +1334,7 @@ def runListOperatorTests( ):
     testOperator( '1 10 range 1 8 range intersection' )
 
     # left
-    testOperator( '1 10 range 5 left' )
+    expectRPN( '1 10 range 5 left', [ 1, 2, 3, 4, 5 ] )
 
     # max_index
     testOperator( '1 10 range max_index' )
@@ -1343,7 +1349,7 @@ def runListOperatorTests( ):
     testOperator( '4 100 random_integer_ occurrences' )
 
     # range
-    testOperator( '1 23 range' )
+    expectRPN( '1 12 range', [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] )
 
     # range2
     testOperator( '1 23 2 range2' )
@@ -1361,7 +1367,7 @@ def runListOperatorTests( ):
     testOperator( '1 2 10 range reverse range' )
 
     # right
-    testOperator( '1 10 range 5 right' )
+    expectEqual( '1 10 range 5 right', '6 10 range' )
 
     # shuffle
     testOperator( '1 20 range shuffle' )
@@ -1409,7 +1415,7 @@ def runLogarithmOperatorTests( ):
     testOperator( '1000 ln' )
 
     # log10
-    testOperator( '1000 log10' )
+    expectRPN( '1000 log10', 3 )
 
     # log2
     testOperator( '1000 log2' )
@@ -1432,7 +1438,7 @@ def runModifierOperatorTests( ):
     testOperator( '[ "Philadelphia, PA" location "Raleigh, NC" location ] today sunrise' )
 
     # ]
-    #testOperator( '[ 1 2 3 ] [ 4 5 6 ] eval_poly' )
+    testOperator( '2 [ 4 5 6 ] eval_poly' )
 
     # {
     testOperator( '"Leesburg, VA" location today { sunrise sunset moonrise moonset }' )
@@ -1493,6 +1499,7 @@ def runNumberTheoryOperatorTests( ):
 
     # carol
     testOperator( '-a500 773 carol' )
+    expectEqual( '1 25 range carol', '93112 oeis 25 left' )
 
     # cf
     testOperator( '1 10 range cf' )
@@ -1529,7 +1536,8 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 40 range fibonacci factor -s1' )
 
     # factorial
-    testOperator( '-a25 23 factorial' )
+    testOperator( '-a25 -c 23 factorial' )
+    expectEqual( '0 22 range !', '142 oeis 23 left' )
 
     # fibonacci
     testOperator( '1 50 range fibonacci' )
@@ -1609,13 +1617,13 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 20 range is_unusual' )
 
     # jacobsthal
-    testOperator( '10 jacobsthal' )
+    expectEqual( '0 34 range jacobsthal', '1045 oeis 35 left' )
 
     # kynea
-    testOperator( '8 kynea' )
+    expectEqual( '-a20 1 25 range kynea', '93069 oeis 25 left' )
 
     # leonardo
-    testOperator( '1 10 range leonardo' )
+    expectEqual( '0 37 range leonardo', '1595 oeis 28 left' )
 
     # leyland
     testOperator( '7 8 leyland' )
@@ -1634,16 +1642,15 @@ def runNumberTheoryOperatorTests( ):
     testOperator( 'e 20 make_cf' )
 
     # mertens
-    testOperator( '20 mertens' )
-    testOperator( '1 10 range mertens' )
+    expectEqual( '1 81 range mertens', '2321 oeis 81 left' )
 
     # mobius
     testOperator( '20176 mobius' )
-    testOperator( '1 20 range mobius' )
+    expectEqual( '1 77 range mobius', '8683 oeis 77 left' )
 
     # padovan
     testOperator( '76 padovan' )
-    testOperator( '1 20 range padovan' )
+    expectEqual( '0 45 range padovan', '931 oeis 50 left 46 right' )
 
     # pascal_triangle
     testOperator( '12 pascal_triangle' )
@@ -1651,6 +1658,7 @@ def runNumberTheoryOperatorTests( ):
 
     # pentanacci
     testOperator( '16 pentanacci' )
+    expectEqual( '-a20 0 34 range pentanacci', '-a20 1591 oeis 38 left 35 right' )
 
     # polygamma
     testOperator( '4 5 polygamma' )
@@ -1666,15 +1674,19 @@ def runNumberTheoryOperatorTests( ):
 
     # subfactorial
     testOperator( '-a20 19 subfactorial' )
+    # A000166
 
     # superfactorial
     testOperator( '-a50 12 superfactorial' )
+    expectEqual( ' -a50 0 12 range superfactorial', '178 oeis 13 left' )
 
     # tetranacci
     testOperator( '-a30 87 tetranacci' )
+    #expectEqual( '0 36 range tetranacci', '78 oeis 38 left 37 right' )
 
     # thabit
     testOperator( '-a20 45 thabit' )
+    # A055010
 
     # tribonacci
     testOperator( '1 20 range tribonacci' )
@@ -1968,13 +1980,14 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '43 67 9 powmod' )
 
     # root
-    testOperator( '8 3 root' )
+    expectEqual( '8 3 root', '8 cube_root' )
 
     # root2
     testOperator( '2 square_root' )
 
     # square
     testOperator( '45 square' )
+    expectEqual( '123 square', '123 123 *' )
 
     # tetrate
     testOperator( '3 2 tetrate' )
@@ -2324,8 +2337,7 @@ def runSpecialOperatorTests( ):
 
     # ordinal_name
     testOperator( '-1 ordinal_name' )
-    testOperator( '0 ordinal_name' )
-    testOperator( '1 ordinal_name' )
+    testOperator( '0 10 range ordinal_name -s1' )
     testOperator( '2 26 ** ordinal_name' )
 
     # random
@@ -2443,7 +2455,6 @@ def runTrigonometricOperatorTests( ):
 # //******************************************************************************
 
 rpnTests = {
-    'command-line'      : runCommandLineOptionsTests,
     'algebra'           : runAlgebraOperatorTests,
     'arithmetic'        : runArithmeticOperatorTests,
     'astronomy'         : runAstronomyOperatorTests,
@@ -2455,8 +2466,8 @@ rpnTests = {
     'conversion'        : runConversionOperatorTests,
     'date_time'         : runDateTimeOperatorTests,
     'function'          : runFunctionOperatorTests,
-    'geometric'         : runGeometricOperatorTests,
     'geographic'        : runGeographicOperatorTests,
+    'geometric'         : runGeometricOperatorTests,
     'lexicographic'     : runLexicographicOperatorTests,
     'list'              : runListOperatorTests,
     'logarithmic'       : runLogarithmOperatorTests,
@@ -2469,10 +2480,11 @@ rpnTests = {
     'settings'          : runSettingsOperatorTests,
     'trigonometric'     : runTrigonometricOperatorTests,
 
-    'convert' : runConvertTests,
-    'help' : runHelpTests,
+    'command-line'      : runCommandLineOptionsTests,
+    'convert'           : runConvertTests,
+    'help'              : runHelpTests,
 
-    'internal' : runInternalOperatorTests
+    'internal'          : runInternalOperatorTests
 }
 
 

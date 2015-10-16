@@ -142,7 +142,7 @@ def getNthLucasNumber( n ):
 # //******************************************************************************
 
 def getNthJacobsthalNumber( n ):
-    return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], n )
+    return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], fadd( n, 1 ) )
 
 
 # //******************************************************************************

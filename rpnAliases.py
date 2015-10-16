@@ -415,7 +415,6 @@ operatorAliases = {
     'multifac'                  : 'multifactorial',
     'mult_dig'                  : 'multiply_digits',
     'mult_digits'               : 'multiply_digits',
-    'n'                         : 'x',
     'napiers_constant'          : 'e',
     'neg'                       : 'negative',
     'next_first_quarter'        : 'next_first_quarter_moon',

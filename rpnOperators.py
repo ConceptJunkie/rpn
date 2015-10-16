@@ -1288,7 +1288,7 @@ operators = {
     'latlong'                       : OperatorInfo( lambda n, k: RPNLocation( n, k ), 2 ),
     'leading_zero'                  : OperatorInfo( setLeadingZero, 1 ),
     'leading_zero_mode'             : OperatorInfo( setLeadingZeroMode, 0 ),
-    'leonardo'                      : OperatorInfo( lambda n: fsub( fmul( 2, fib( n ) ), 1 ), 1 ),
+    'leonardo'                      : OperatorInfo( lambda n: fsub( fmul( 2, fib( fadd( n, 1 ) ) ), 1 ), 1 ),
     'leyland'                       : OperatorInfo( lambda x, y: fadd( power( x, y ), power( y, x ) ), 2 ),
     'lgamma'                        : OperatorInfo( loggamma, 1 ),
     'li'                            : OperatorInfo( li, 1 ),
