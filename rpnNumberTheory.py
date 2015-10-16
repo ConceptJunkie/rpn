@@ -123,7 +123,9 @@ def getDivisors( n ):
 # //******************************************************************************
 
 def getNthLucasNumber( n ):
-    if n == 1:
+    if n == 0:
+        return 2
+    elif n == 1:
         return 1
     else:
         return floor( fadd( power( phi, n ), 0.5 ) )

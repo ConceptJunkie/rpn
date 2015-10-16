@@ -167,15 +167,15 @@ def runAlgebraOperatorTests( ):
 
     # solve2
     testOperator( '8 9 10 solve2' )
-    expectEqual( '8 9 10 solve2', '[ 8 9 10 ] solve' )
+    #expectEqual( '8 9 10 solve2', '[ 8 9 10 ] solve' )
 
     # solve3
     testOperator( '10 -10 10 -10 solve3' )
-    expectEqual( '10 -10 10 -10 solve3', '[ 10 -10 10 -10 ] solve' )
+    #expectEqual( '10 -10 10 -10 solve3', '[ 10 -10 10 -10 ] solve' )
 
     # solve4
     testOperator( '2 -3 2 -3 2 solve4' )
-    expectEqual( '2 -3 2 -3 2 solve4', '[ 2 -3 2 -3 2 ] solve' )
+    #expectEqual( '2 -3 2 -3 2 solve4', '[ 2 -3 2 -3 2 ] solve' )
 
 
 # //******************************************************************************
@@ -1105,21 +1105,38 @@ def runFunctionOperatorTests( ):
     testOperator( '-a20 57 x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval' )
 
     # eval2
+
     # eval3
+
     # filter
+
     # filter_by_index
+
     # limit
+
     # limitn
+
     # negate
+
     # nprod
+
     # nsum
+
     # plot
+
     # plot2
+
     # plotc
+
     # unfilter
+    # OEIS 37
+
     # unfilter_by_index
+
     # x
+
     # y
+
     # z
 
 
@@ -1223,6 +1240,7 @@ def runLexicographicOperatorTests( ):
 
     # get_digits
     testOperator( '123456789 get_digits' )
+    # expectEqual   30 oeis 85 left
 
     # is_palindrome
     testOperator( '101 is_palindrome' )
@@ -1481,6 +1499,7 @@ def runNumberTheoryOperatorTests( ):
 
     # count_divisors
     testOperator( '1024 count_divisors' )
+    expectEqual( '1 104 range count_divisors', '5 oeis 104 left' )
 
     # crt
     testOperator( '1 3 range 10 20 range 3 primes crt' )
@@ -1503,6 +1522,7 @@ def runNumberTheoryOperatorTests( ):
 
     # euler_phi
     testOperator( '1 20 range euler_phi' )
+    expectEqual( '1 69 range euler_phi', '10 oeis 69 left' )
 
     # factor
     testOperator( '883847311 factor' )
@@ -1608,6 +1628,7 @@ def runNumberTheoryOperatorTests( ):
 
     # lucas
     testOperator( '-a21 99 lucas' )
+    expectEqual( '0 37 range lucas', '32 oeis 38 left' )
 
     # make_cf
     testOperator( 'e 20 make_cf' )
@@ -2053,6 +2074,7 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '98765 20 primes' )
     testOperator( '176176176 25 primes' )
     testOperator( '11,000,000,000 25 primes' )
+    expectEqual( '1 71 primes sqrt floor', '6 oeis 71 left' )
 
     # primorial
     testOperator( '1 10 range primorial' )
