@@ -48,6 +48,32 @@ def expectEqual( command1, command2 ):
 
 # //******************************************************************************
 # //
+# //  expectEquivalent
+# //
+# //******************************************************************************
+
+def expectEquivalent( command1, command2 ):
+    print( 'rpn', command1 )
+    print( 'rpn', command2 )
+
+    result1 = rpn( shlex.split( command1 ) )[ 0 ]
+    result2 = rpn( shlex.split( command2 ) )[ 0 ]
+
+    if isinstance( result1, list ) and isinstance( result2, list ):
+        if not areListsEquivalent( result1, result2 ):
+            raise ValueError( 'unit test failed' )
+    elif not almosteq( result1, result2 ):
+        print( '**** error in equivalence test \'' + command1 + '\' and \'' + command2 + '\'' )
+        print( '    result 1: ', result1 )
+        print( '    result 2: ', result2 )
+        raise ValueError( 'unit test failed' )
+
+    print( 'both are equal!' )
+    print( )
+
+
+# //******************************************************************************
+# //
 # //  testOperator
 # //
 # //******************************************************************************

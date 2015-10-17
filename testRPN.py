@@ -172,11 +172,11 @@ def runAlgebraOperatorTests( ):
 
     # solve3
     testOperator( '10 -10 10 -10 solve3' )
-    #expectEqual( '10 -10 10 -10 solve3', '[ 10 -10 10 -10 ] solve' )
+    expectEquivalent( '10 -10 10 -10 solve3', '[ 10 -10 10 -10 ] solve' )
 
     # solve4
     testOperator( '2 -3 2 -3 2 solve4' )
-    #expectEqual( '2 -3 2 -3 2 solve4', '[ 2 -3 2 -3 2 ] solve' )
+    expectEquivalent( '2 -3 2 -3 2 solve4', '[ 2 -3 2 -3 2 ] solve' )
 
 
 # //******************************************************************************
@@ -1548,7 +1548,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a50 24 fibonorial' )
 
     # fraction
-    testOperator( '12 23 fraction' )
+    testOperator( '2 sqrt 30 fraction' )
 
     # frobenius
     testOperator( '10 20 range 3 primes frobenius' )
@@ -1640,6 +1640,7 @@ def runNumberTheoryOperatorTests( ):
 
     # make_cf
     testOperator( 'e 20 make_cf' )
+    expectEqual( '-a100 2 pi * 3 2 / power 1/x 1 4 / gamma sqr * 100 make_cf', '53002 oeis 100 left' )
 
     # mertens
     expectEqual( '1 81 range mertens', '2321 oeis 81 left' )
