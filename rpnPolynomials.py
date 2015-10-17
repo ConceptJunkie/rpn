@@ -48,6 +48,9 @@ def solveQuadraticPolynomial( a, b, c ):
 # //******************************************************************************
 
 def solveCubicPolynomial( a, b, c, d ):
+    if mp.dps < 50:
+        mp.dps = 50
+
     if a == 0:
         return solveQuadraticPolynomial( b, c, d )
 
@@ -116,6 +119,9 @@ def solveCubicPolynomial( a, b, c, d ):
 # //******************************************************************************
 
 def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
+    if mp.dps < 50:
+        mp.dps = 50
+
     # maybe it's really an order-3 polynomial
     if _a == 0:
         return solveCubicPolynomial( _b, _c, _d, _e )

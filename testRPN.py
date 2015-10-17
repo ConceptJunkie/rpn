@@ -14,9 +14,10 @@
 import shlex
 import sys
 
+from collections import OrderedDict
+
 from rpnMeasurement import RPNMeasurement
 from rpnTestUtils import *
-
 from testConvert import *
 from testHelp import *
 
@@ -168,7 +169,7 @@ def runAlgebraOperatorTests( ):
 
     # solve2
     testOperator( '8 9 10 solve2' )
-    #expectEqual( '8 9 10 solve2', '[ 8 9 10 ] solve' )
+    expectEquivalent( '8 9 10 solve2', '[ 8 9 10 ] solve' )
 
     # solve3
     testOperator( '10 -10 10 -10 solve3' )
@@ -2455,38 +2456,43 @@ def runTrigonometricOperatorTests( ):
 # //
 # //******************************************************************************
 
-rpnTests = {
-    'algebra'           : runAlgebraOperatorTests,
-    'arithmetic'        : runArithmeticOperatorTests,
-    'astronomy'         : runAstronomyOperatorTests,
-    'bitwise'           : runBitwiseOperatorTests,
-    'calendar'          : runCalendarOperatorTests,
-    'combinatoric'      : runCombinatoricOperatorTests,
-    'complex'           : runComplexMathOperatorTests,
-    'constant'          : runConstantOperatorTests,
-    'conversion'        : runConversionOperatorTests,
-    'date_time'         : runDateTimeOperatorTests,
-    'function'          : runFunctionOperatorTests,
-    'geographic'        : runGeographicOperatorTests,
-    'geometric'         : runGeometricOperatorTests,
-    'lexicographic'     : runLexicographicOperatorTests,
-    'list'              : runListOperatorTests,
-    'logarithmic'       : runLogarithmOperatorTests,
-    'modifier'          : runModifierOperatorTests,
-    'number_theory'     : runNumberTheoryOperatorTests,
-    'polygonal'         : runPolygonalOperatorTests,
-    'polyhedral'        : runPolyhedralOperatorTests,
-    'powers_and_roots'  : runPowersAndRootsOperatorTests,
-    'prime_number'      : runPrimeNumberOperatorTests,
-    'settings'          : runSettingsOperatorTests,
-    'trigonometric'     : runTrigonometricOperatorTests,
+rpnTestList = [
+    ( 'algebra',          runAlgebraOperatorTests ),
+    ( 'arithmetic',       runArithmeticOperatorTests ),
+    ( 'astronomy',        runAstronomyOperatorTests ),
+    ( 'bitwise',          runBitwiseOperatorTests ),
+    ( 'calendar',         runCalendarOperatorTests ),
+    ( 'combinatoric',     runCombinatoricOperatorTests ),
+    ( 'complex',          runComplexMathOperatorTests ),
+    ( 'constant',         runConstantOperatorTests ),
+    ( 'conversion',       runConversionOperatorTests ),
+    ( 'date_time',        runDateTimeOperatorTests ),
+    ( 'function',         runFunctionOperatorTests ),
+    ( 'geographic',       runGeographicOperatorTests ),
+    ( 'geometric',        runGeometricOperatorTests ),
+    ( 'lexicographic',    runLexicographicOperatorTests ),
+    ( 'list',             runListOperatorTests ),
+    ( 'logarithmic',      runLogarithmOperatorTests ),
+    ( 'modifier',         runModifierOperatorTests ),
+    ( 'number_theory',    runNumberTheoryOperatorTests ),
+    ( 'polygonal',        runPolygonalOperatorTests ),
+    ( 'polyhedral',       runPolyhedralOperatorTests ),
+    ( 'powers_and_roots', runPowersAndRootsOperatorTests ),
+    ( 'prime_number',     runPrimeNumberOperatorTests ),
+    ( 'settings',         runSettingsOperatorTests ),
+    ( 'trigonometric',    runTrigonometricOperatorTests ),
 
-    'command-line'      : runCommandLineOptionsTests,
-    'convert'           : runConvertTests,
-    'help'              : runHelpTests,
+    ( 'command-line',     runCommandLineOptionsTests ),
+    ( 'convert',          runConvertTests ),
+    ( 'help',             runHelpTests ),
 
-    'internal'          : runInternalOperatorTests
-}
+    ( 'internal',         runInternalOperatorTests )
+]
+
+rpnTests = OrderedDict( )
+
+for test in rpnTestList:
+    rpnTests[ test[ 0 ] ] = test[ 1 ]
 
 
 # //******************************************************************************

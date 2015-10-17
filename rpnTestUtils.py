@@ -48,6 +48,32 @@ def expectEqual( command1, command2 ):
 
 # //******************************************************************************
 # //
+# //  areListsEquivalent
+# //
+# //******************************************************************************
+
+def areListsEquivalent( list1, list2 ):
+    if len( list1 ) != len( list2 ):
+        return False
+
+    temp2 = list( list2 )   # make a mutable copy
+
+    try:
+        for elem in list1:
+            for elem2 in temp2:
+                if almosteq( elem, elem2 ):
+                    temp2.remove( elem2 )
+                    break
+    except ValueError:
+        print( 'catch', elem, temp2 )
+        return False
+
+    print( 'temp2', temp2 )
+    return not temp2
+
+
+# //******************************************************************************
+# //
 # //  expectEquivalent
 # //
 # //******************************************************************************
@@ -59,14 +85,17 @@ def expectEquivalent( command1, command2 ):
     result1 = rpn( shlex.split( command1 ) )[ 0 ]
     result2 = rpn( shlex.split( command2 ) )[ 0 ]
 
+    print( '1', result1, type( result1 ) )
+    print( '2', result2, type( result2 ) )
+
     if isinstance( result1, list ) and isinstance( result2, list ):
         if not areListsEquivalent( result1, result2 ):
+            print( '**** error in equivalence test \'' + command1 + '\' and \'' + command2 + '\'' )
+            print( '    result 1: ', result1 )
+            print( '    result 2: ', result2 )
             raise ValueError( 'unit test failed' )
-    elif not almosteq( result1, result2 ):
-        print( '**** error in equivalence test \'' + command1 + '\' and \'' + command2 + '\'' )
-        print( '    result 1: ', result1 )
-        print( '    result 2: ', result2 )
-        raise ValueError( 'unit test failed' )
+    else:
+        return expectEqual( command1, command2 )
 
     print( 'both are equal!' )
     print( )
