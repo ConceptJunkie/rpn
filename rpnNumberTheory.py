@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 
 # //******************************************************************************
 # //
@@ -300,7 +300,13 @@ def getNthKFibonacciNumber( n, k ):
 # //******************************************************************************
 
 def getNthKFibonacciNumberTheSlowWay( n, k ):
-        return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], fadd( n, 1 ) )
+    precision = int( fdiv( fmul( n, k ), 8 ) )
+
+    if ( mp.dps < precision ):
+        mp.dps = precision
+
+
+    return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], fadd( n, 1 ) )
 
 
 # //******************************************************************************

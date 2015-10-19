@@ -157,6 +157,7 @@ def expectRPN( command, expected ):
 
     compareResults( result, compare )
 
+    print( 'test passed!' )
     print( )
 
 

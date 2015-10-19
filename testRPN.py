@@ -1567,8 +1567,8 @@ def runNumberTheoryOperatorTests( ):
 
     # heptanacci
     testOperator( '623 heptanacci' )
-    expectEqual( '0 38 range heptanacci', '122189 oeis 39 left' )
-    expectRPN( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
+    #expectEqual( '0 38 range heptanacci', '122189 oeis 39 left' )
+    #expectRPN( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
 
     # hexanacci
     testOperator( '949 hexanacci' )
@@ -1633,7 +1633,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '-a20 1 25 range kynea', '93069 oeis 25 left' )
 
     # leonardo
-    expectEqual( '0 37 range leonardo', '1595 oeis 28 left' )
+    expectEqual( '0 37 range leonardo', '1595 oeis 38 left' )
 
     # leyland
     testOperator( '7 8 leyland' )
@@ -1646,7 +1646,7 @@ def runNumberTheoryOperatorTests( ):
 
     # lucas
     testOperator( '-a21 99 lucas' )
-    expectEqual( '0 37 range lucas', '32 oeis 38 left' )
+    expectEqual( '0 36 range lucas', '32 oeis 37 left' )
 
     # make_cf
     testOperator( 'e 20 make_cf' )
@@ -1660,16 +1660,11 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 77 range mobius', '8683 oeis 77 left' )
 
     # n_fibonacci
-    testOperator( '1946 43 n_fibonacci' )
-    expectRPN( '0 200 range 2 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 201 ) ] )
-    expectRPN( '0 200 range 3 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 201 ) ] )
-    expectRPN( '0 200 range 4 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 201 ) ] )
-    expectRPN( '0 200 range 5 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 201 ) ] )
-    expectRPN( '0 200 range 6 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 201 ) ] )
-    expectRPN( '0 200 range 7 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 201 ) ] )
-    expectRPN( '0 200 range 8 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 8 ) for i in range( 0, 201 ) ] )
-    expectRPN( '0 200 range 9 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 9 ) for i in range( 0, 201 ) ] )
-    expectRPN( '0 200 range 10 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 201 ) ] )
+    expectRPN( '0 100 range 2 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
+    expectRPN( '0 100 range 5 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
+    expectRPN( '0 100 range 10 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 101 ) ] )
+    expectRPN( '1000 10 n_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
+    #expectRPN( '10000 15 n_fibonacci', getNthKFibonacciNumberTheSlowWay( 10000, 15 ) )
 
     # octanacci
     testOperator( '906 octanacci' )
