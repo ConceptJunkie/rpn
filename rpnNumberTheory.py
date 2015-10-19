@@ -197,66 +197,6 @@ def getNthFibonacciPolynomial( n ):
 
 # //******************************************************************************
 # //
-# //  getNthTribonacci
-# //
-# //  http://mathworld.wolfram.com/TribonacciNumber.html
-# //
-# //******************************************************************************
-
-def getNthTribonacci( n ):
-    if n < 0:
-        raise ValueError( 'non-negative argument expected' )
-
-    precision = int( fdiv( n, 3 ) )
-
-    if ( mp.dps < precision ):
-        mp.dps = precision
-
-    roots = polyroots( [ 1, -1, -1, -1  ] )
-    roots2 = polyroots( [ 44, 0, -2, -1 ] )
-
-    result = 0
-
-    for i in range( 0, 3 ):
-        result += fmul( roots2[ i ], power( roots[ i ], fsub( n, 1 ) ) )
-
-    return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getNthTetranacci
-# //
-# //  http://mathworld.wolfram.com/TetranacciNumber.html
-# //
-# //******************************************************************************
-
-def getNthTetranacci( n ):
-    if n < 0:
-        raise ValueError( 'non-negative argument expected' )
-    elif n < 3:
-        return 0
-    elif n == 3:
-        return 1
-    else:
-        precision = int( fdiv( n, 3 ) )
-
-        if ( mp.dps < precision ):
-            mp.dps = precision
-
-        roots = polyroots( [ 1, -1, -1, -1, -1 ] )
-        roots2 = polyroots( [ 563, 0, -20, -5, -1 ] )
-
-        result = 0
-
-        for i in range( 0, 4 ):
-            result += fmul( roots2[ i ], power( roots[ i ], fsub( n, 2 ) ) )
-
-        return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
-
-
-# //******************************************************************************
-# //
 # //  getNthKFibonacciNumber
 # //
 # //******************************************************************************

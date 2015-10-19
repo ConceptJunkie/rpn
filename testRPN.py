@@ -569,20 +569,28 @@ def runCalendarOperatorTests( ):
     testOperator( '2014-10 calendar' )
 
     # from_bahai
+    testOperator( '172 12 4 from_bahai' )
 
     # from_hebrew
+    testOperator( '5776 8 6 from_hebrew' )
 
     # from_indian_civil
+    testOperator( '1937 7 27 from_indian_civil' )
 
     # from_islamic
+    testOperator( '1437 1 5 from_islamic' )
 
     # from_julian
+    testOperator( '2015 10 6 from_julian' )
 
     # from_mayan
+    testOperator( '13 0 2 15 12 from_mayan' )
 
     # from_persian
+    testOperator( '1394 7 27 from_persian' )
 
     # iso_date
+    testOperator( 'today iso_date' )
 
     # to_bahai
     testOperator( 'today to_bahai' )
@@ -985,12 +993,16 @@ def runConversionOperatorTests( ):
     testOperator( '30 miles gallon / invert_units' )
 
     # latlong_to_nac
+    testOperator( '"Detroit, MI" location_info latlong_to_nac' )
 
     # make_pyth_3
+    testOperator( '12 34 make_pyth_3' )
 
     # make_pyth_4
+    testOperator( '17 29 make_pyth_4' )
 
     # make_time
+    testOperator( '[ 1965 03 31 ] make_time' )
 
     # pack
     testOperator( '-x [ 192 168 0 1 ] [ 8 8 8 8 ] pack' )
@@ -1111,8 +1123,10 @@ def runFunctionOperatorTests( ):
     expectEqual( '1 46 range x sqr 2 * 2 + eval', '5893 oeis 47 left 46 right' )
 
     # eval2
+    testOperator( '7 8 x 2 ** y 3 ** + eval2' )
 
     # eval3
+    testOperator( '15 4 26 x 2 ** y 3 ** + z 4 ** + eval3' )
 
     # filter
 

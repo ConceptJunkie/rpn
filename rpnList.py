@@ -17,6 +17,7 @@ import random
 from mpmath import *
 
 from rpnDeclarations import *
+from rpnFunction import evaluateFunction
 from rpnMeasurement import RPNMeasurement
 from rpnNumberTheory import getGCD
 
