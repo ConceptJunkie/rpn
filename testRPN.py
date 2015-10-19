@@ -1471,6 +1471,8 @@ def runModifierOperatorTests( ):
 # //******************************************************************************
 
 def runNumberTheoryOperatorTests( ):
+    from rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
+
     # aliquot
     testOperator( '276 10 aliquot' )
 
@@ -1545,6 +1547,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 50 range fibonacci' )
     testOperator( '-c -a 8300 39399 fibonacci' )
     expectEqual( '0 38 range fibonacci', '45 oeis 39 left' )
+    expectRPN( '0 100 range fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
 
     # fibonorial
     testOperator( '5 fibonorial' )
@@ -1565,10 +1568,12 @@ def runNumberTheoryOperatorTests( ):
     # heptanacci
     testOperator( '623 heptanacci' )
     expectEqual( '0 38 range heptanacci', '122189 oeis 39 left' )
+    expectRPN( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
 
     # hexanacci
     testOperator( '949 hexanacci' )
     expectEqual( '0 38 range hexanacci', '1592 oeis 39 left' )
+    expectRPN( '0 100 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 101 ) ] )
 
     # hyperfactorial
     testOperator( '-a160 17 hyperfactorial' )
@@ -1656,17 +1661,20 @@ def runNumberTheoryOperatorTests( ):
 
     # n_fibonacci
     testOperator( '1946 43 n_fibonacci' )
-    expectEqual( '0 50 range fibonacci', '0 50 range 2 n_fibonacci' )
-    expectEqual( '0 100 range tribonacci', '0 100 range 3 n_fibonacci' )
-    expectEqual( '0 100 range tetranacci', '0 100 range 4 n_fibonacci' )
-    expectEqual( '0 100 range pentanacci', '0 100 range 5 n_fibonacci' )
-    expectEqual( '0 100 range hexanacci', '0 100 range 6 n_fibonacci' )
-    expectEqual( '0 100 range heptanacci', '0 100 range 7 n_fibonacci' )
-    #expectEqual( '0 100 range octanacci', '0 100 range 8 n_fibonacci' )
+    expectRPN( '0 200 range 2 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 201 ) ] )
+    expectRPN( '0 200 range 3 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 201 ) ] )
+    expectRPN( '0 200 range 4 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 201 ) ] )
+    expectRPN( '0 200 range 5 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 201 ) ] )
+    expectRPN( '0 200 range 6 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 201 ) ] )
+    expectRPN( '0 200 range 7 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 201 ) ] )
+    expectRPN( '0 200 range 8 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 8 ) for i in range( 0, 201 ) ] )
+    expectRPN( '0 200 range 9 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 9 ) for i in range( 0, 201 ) ] )
+    expectRPN( '0 200 range 10 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 201 ) ] )
 
     # octanacci
     testOperator( '906 octanacci' )
     expectEqual( '0 39 range octanacci', '79262 oeis 40 left' )
+    expectRPN( '0 100 range octanacci', [ getNthKFibonacciNumberTheSlowWay( i, 8 ) for i in range( 0, 101 ) ] )
 
     # padovan
     testOperator( '76 padovan' )
@@ -1679,6 +1687,7 @@ def runNumberTheoryOperatorTests( ):
     # pentanacci
     testOperator( '16 pentanacci' )
     expectEqual( '-a20 0 37 range pentanacci', '-a20 1591 oeis 38 left' )
+    expectRPN( '0 100 range pentanacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
 
     # polygamma
     testOperator( '4 5 polygamma' )
@@ -1703,6 +1712,8 @@ def runNumberTheoryOperatorTests( ):
     # tetranacci
     testOperator( '-a30 87 tetranacci' )
     expectEqual( '0 37 range tetranacci', '78 oeis 38 left' )
+    expectRPN( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
+    expectRPN( '0 100 range tetranacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 101 ) ] )
 
     # thabit
     testOperator( '-a20 45 thabit' )
@@ -1712,6 +1723,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 20 range tribonacci' )
     testOperator( '-c -a 2800 10239 tribonacci' )
     expectEqual( '0 37 range tribonacci', '73 oeis 38 left' )
+    expectRPN( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
 
     # unit_roots
     testOperator( '7 unit_roots' )

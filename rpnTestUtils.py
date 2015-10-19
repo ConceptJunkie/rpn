@@ -19,6 +19,39 @@ from mpmath import *
 
 # //******************************************************************************
 # //
+# //  compareResults
+# //
+# //  Does nothing if the results compare successfully, otherwise raises an
+# //  expection.
+# //
+# //******************************************************************************
+
+def compareResults( result1, result2 ):
+    if isinstance( result1, list ) != isinstance( result2, list ):
+        print( '**** error in results comparison' )
+        print( '    result 1: ', result1 )
+        print( '    result 2: ', result2 )
+        raise ValueError( 'one result is a list, the other isn\'t' )
+
+    if isinstance( result1, list ) and isinstance( result2, list ):
+        if len( result1 ) != len( result2 ):
+            raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ) )
+
+        for i in range( 0, len( result1 ) ):
+            if not almosteq( result1[ i ], result2[ i ] ):
+                print( type( result1[ i ] ), type( result2[ i ] ) )
+                print( result1[ i ], result2[ i ], 'are not equal' )
+                print( 'difference found at index', i )
+                raise ValueError( 'unit test failed' )
+    elif not almosteq( result1, result2 ):
+        print( '**** error in results comparison' )
+        print( '    result 1: ', result1 )
+        print( '    result 2: ', result2 )
+        raise ValueError( 'unit test failed' )
+
+
+# //******************************************************************************
+# //
 # //  expectEqual
 # //
 # //******************************************************************************
@@ -30,18 +63,7 @@ def expectEqual( command1, command2 ):
     result1 = rpn( shlex.split( command1 ) )[ 0 ]
     result2 = rpn( shlex.split( command2 ) )[ 0 ]
 
-    if isinstance( result1, list ) and isinstance( result2, list ):
-        for i in range( 0, min( len( result1 ), len( result2 ) ) ):
-            if not almosteq( result1[ i ], result2[ i ] ):
-                print( type( result1[ i ] ), type( result2[ i ] ) )
-                print( result1[ i ], result2[ i ], 'are not equal' )
-                print( 'difference found at index', i )
-                raise ValueError( 'unit test failed' )
-    elif not almosteq( result1, result2 ):
-        print( '**** error in equivalence test \'' + command1 + '\' and \'' + command2 + '\'' )
-        print( '    result 1: ', result1 )
-        print( '    result 2: ', result2 )
-        raise ValueError( 'unit test failed' )
+    compareResults( result1, result2 )
 
     print( 'both are equal!' )
     print( )
@@ -55,7 +77,7 @@ def expectEqual( command1, command2 ):
 
 def areListsEquivalent( list1, list2 ):
     if len( list1 ) != len( list2 ):
-        return False
+        raise ValueError( 'lists are not of equal length:', len( list1 ), len( list2 ) )
 
     temp2 = list( list2 )   # make a mutable copy
 
@@ -69,7 +91,6 @@ def areListsEquivalent( list1, list2 ):
         print( 'catch', elem, temp2 )
         return False
 
-    print( 'temp2', temp2 )
     return not temp2
 
 
@@ -86,17 +107,7 @@ def expectEquivalent( command1, command2 ):
     result1 = rpn( shlex.split( command1 ) )[ 0 ]
     result2 = rpn( shlex.split( command2 ) )[ 0 ]
 
-    print( '1', result1, type( result1 ) )
-    print( '2', result2, type( result2 ) )
-
-    if isinstance( result1, list ) and isinstance( result2, list ):
-        if not areListsEquivalent( result1, result2 ):
-            print( '**** error in equivalence test \'' + command1 + '\' and \'' + command2 + '\'' )
-            print( '    result 1: ', result1 )
-            print( '    result 2: ', result2 )
-            raise ValueError( 'unit test failed' )
-    else:
-        return expectEqual( command1, command2 )
+    compareResults( result1, result2 )
 
     print( 'both are equal!' )
     print( )
@@ -144,16 +155,7 @@ def expectRPN( command, expected ):
         else:
             compare = expected
 
-    if not result is None:
-        if result == compare:
-            print( result )
-            print( 'passed!' )
-        else:
-            print( '**** error in test \'' + command + '\'' )
-            print( '    expected: ', expected )
-            print( '    but got: ', result )
-
-            raise ValueError( 'unit test failed' )
+    compareResults( result, compare )
 
     print( )
 

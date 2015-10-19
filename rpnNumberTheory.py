@@ -169,7 +169,37 @@ def getPrimePi( n ):
 
 # //******************************************************************************
 # //
+# //  getNthFibonacciPolynomial
+# //
+# //  http://mathworld.wolfram.com/Fibonaccin-StepNumber.html
+# //  http://oeis.org/A118745
+# //
+# //******************************************************************************
+
+def getNthFibonacciPolynomial( n ):
+    if n < 2:
+        raise ValueError( 'argument >= 2 expected' )
+    elif n == 2:
+        return [ 2, -1 ]
+    else:
+        result = [ ]
+
+        i = int( n )
+
+        for j in range( -1, i - 3 ):
+            result.append( j )
+
+        result.append( ( i - 1 ) * 2 )
+        result.append( -1 )
+
+        return result
+
+
+# //******************************************************************************
+# //
 # //  getNthTribonacci
+# //
+# //  http://mathworld.wolfram.com/TribonacciNumber.html
 # //
 # //******************************************************************************
 
@@ -227,134 +257,50 @@ def getNthTetranacci( n ):
 
 # //******************************************************************************
 # //
-# //  getNthPentanacci
+# //  getNthKFibonacciNumber
 # //
 # //******************************************************************************
 
-def getNthPentanacci( n ):
+def getNthKFibonacciNumber( n, k ):
     if n < 0:
         raise ValueError( 'non-negative argument expected' )
-    elif n < 3:
+
+    if k < 2:
+        raise ValueError( 'argument <= 2 expected' )
+
+    if n < k - 1:
         return 0
-    else:
-        precision = int( fdiv( n, 3 ) )
 
-        if ( mp.dps < precision ):
-            mp.dps = precision
+    nth = int( n ) + 4
 
-        roots = polyroots( [ 1, -1, -1, -1, -1, -1 ] )
+    precision = int( fdiv( fmul( n, k ), 8 ) )
 
-        result = 0
+    if ( mp.dps < precision ):
+        mp.dps = precision
 
-        for i in range( 0, 5 ):
-            result += fdiv( power( roots[ i ], fsub( n, 3 ) ), polyval( [ -1, 0, 1, 8, -1 ], roots[ i ] ) )
+    poly = [ 1 ]
+    poly.extend( [ -1 ] * int( k ) )
 
-        return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
+    roots = polyroots( poly )
+    nthPoly = getNthFibonacciPolynomial( k )
 
+    result = 0
+    exponent = fsum( [ nth, fneg( k ), -2 ] )
 
-# //******************************************************************************
-# //
-# //  getNthHexanacci
-# //
-# //******************************************************************************
+    for i in range( 0, int( k ) ):
+        result += fdiv( power( roots[ i ], exponent ), polyval( nthPoly, roots[ i ] ) )
 
-def getNthHexanacci( n ):
-    if n < 0:
-        raise ValueError( 'non-negative argument expected' )
-    elif n < 4:
-        return 0
-    else:
-        precision = int( fdiv( n, 3 ) )
-
-        if ( mp.dps < precision ):
-            mp.dps = precision
-
-        roots = polyroots( [ 1, -1, -1, -1, -1, -1, -1 ] )
-
-        result = 0
-
-        for i in range( 0, 6 ):
-            result += fdiv( power( roots[ i ], fsub( n, 4 ) ), polyval( [ -1, 0, 1, 2, 10, -1 ], roots[ i ] ) )
-
-        return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
+    return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
 
 
 # //******************************************************************************
 # //
-# //  getNthHeptanacci
+# //  getNthKFibonacciNumberTheSlowWay
 # //
 # //******************************************************************************
 
-def getNthHeptanacci( n ):
-    if n < 0:
-        raise ValueError( 'non-negative argument expected' )
-    elif n < 6:
-        return 0
-    else:
-        precision = int( fdiv( n, 3 ) )
-
-        if ( mp.dps < precision ):
-            mp.dps = precision
-
-        roots = polyroots( [ 1, -1, -1, -1, -1, -1, -1, -1 ] )
-
-        result = 0
-
-        for i in range( 0, 7 ):
-            result += fdiv( power( roots[ i ], fsub( n, 5 ) ), polyval( [ -1, 0, 1, 2, 3, 12, -1 ], roots[ i ] ) )
-
-        return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getNthOctanacci
-# //
-# //  I've adjusted this formula from the OEIS (http://oeis.org/A079262) to be
-# //  consistent with the other -nacci operators.
-# //
-# //  a(1)..a(9) = 1, 1, 2, 4, 8, 16, 32, 64, 128.
-# //
-# //  a(10) and following are given by:
-# //
-# //  63 * 2 ^ ( n - 8 ) + ( 1 / 2 + sqrt( 5 / 4 ) ) ^ ( n - 6 ) / sqrt( 5 ) -
-# //                       ( 1 / 2 - sqrt( 5 / 4 ) ) ^ ( n - 6 ) / sqrt( 5 )
-# //
-# //******************************************************************************
-
-def getNthOctanacci( n ):
-    if n < 0:
-        raise ValueError( 'non-negative argument expected' )
-    elif n < 7:
-        return 0
-    elif n == 7:
-        return 1
-    elif n < 16:
-        return power( 2, fsub( n, 8 ) )
-    else:
-        precision = int( fdiv( n, 3 ) )
-
-        if ( mp.dps < precision ):
-            mp.dps = precision
-
-        index = fsub( n, 6 )
-
-        sqrt_5_4 = sqrt( fdiv( 5, 4 ) )
-        sqrt_5 = sqrt( 5 )
-
-        return fadd( fmul( 63, power( 2, fsub( index, 8 ) ) ),
-                     fsub( fdiv( power( fadd( fdiv( 1, 2 ), sqrt_5_4 ), fsub( index, 6 ) ), sqrt_5 ),
-                           fdiv( power( fsub( fdiv( 1, 2 ), sqrt_5_4 ), fsub( index, 6 ) ), sqrt_5 ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getNthNFibonacciNumber
-# //
-# //******************************************************************************
-
-def getNthNFibonacciNumber( n, k ):
-    return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], fadd( n, 1 ) )
+def getNthKFibonacciNumberTheSlowWay( n, k ):
+        return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], fadd( n, 1 ) )
 
 
 # //******************************************************************************
@@ -394,16 +340,6 @@ def getNthPadovanNumber( arg ):
     return nint( re( fsum( [ fdiv( power( r, n ), fadd( fmul( 2, r ), 3 ) ),
                              fdiv( power( s, n ), fadd( fmul( 2, s ), 3 ) ),
                              fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
-
-
-# //******************************************************************************
-# //
-# //  getNthNFibonacciNumber
-# //
-# //******************************************************************************
-
-def getNthNFibonacciNumber( n, k ):
-    return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], fadd( n, 1 ) )
 
 
 # //******************************************************************************
