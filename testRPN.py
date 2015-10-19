@@ -1,4 +1,3 @@
-
 # //******************************************************************************
 # //
 # //  testRPN
@@ -546,6 +545,7 @@ def runBitwiseOperatorTests( ):
 
     # parity
     testOperator( '0xff889d8f parity' )
+    expectEqual( '1 128 range parity nonzero 1 +', '69 oeis 65 left' )
 
     # shift_left
     testOperator( '-x 0x10 3 shift_left' )
@@ -712,6 +712,7 @@ def runCombinatoricOperatorTests( ):
 
     # sylvester
     testOperator( '45 sylvester' )
+    expectEqual( '-a60 1 9 range sylvester', '-a60 58 oeis 9 left' )
 
 
 # //******************************************************************************
@@ -1543,6 +1544,7 @@ def runNumberTheoryOperatorTests( ):
     # fibonacci
     testOperator( '1 50 range fibonacci' )
     testOperator( '-c -a 8300 39399 fibonacci' )
+    expectEqual( '0 38 range fibonacci', '45 oeis 39 left' )
 
     # fibonorial
     testOperator( '5 fibonorial' )
@@ -1561,10 +1563,12 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '34 harmonic' )
 
     # heptanacci
-    testOperator( '224623 heptanacci' )
+    testOperator( '623 heptanacci' )
+    expectEqual( '0 38 range heptanacci', '122189 oeis 39 left' )
 
     # hexanacci
     testOperator( '949 hexanacci' )
+    expectEqual( '0 38 range hexanacci', '1592 oeis 39 left' )
 
     # hyperfactorial
     testOperator( '-a160 17 hyperfactorial' )
@@ -1650,6 +1654,20 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '20176 mobius' )
     expectEqual( '1 77 range mobius', '8683 oeis 77 left' )
 
+    # n_fibonacci
+    testOperator( '1946 43 n_fibonacci' )
+    expectEqual( '0 50 range fibonacci', '0 50 range 2 n_fibonacci' )
+    expectEqual( '0 100 range tribonacci', '0 100 range 3 n_fibonacci' )
+    expectEqual( '0 100 range tetranacci', '0 100 range 4 n_fibonacci' )
+    expectEqual( '0 100 range pentanacci', '0 100 range 5 n_fibonacci' )
+    expectEqual( '0 100 range hexanacci', '0 100 range 6 n_fibonacci' )
+    expectEqual( '0 100 range heptanacci', '0 100 range 7 n_fibonacci' )
+    #expectEqual( '0 100 range octanacci', '0 100 range 8 n_fibonacci' )
+
+    # octanacci
+    testOperator( '906 octanacci' )
+    expectEqual( '0 39 range octanacci', '79262 oeis 40 left' )
+
     # padovan
     testOperator( '76 padovan' )
     expectEqual( '0 45 range padovan', '931 oeis 50 left 46 right' )
@@ -1660,7 +1678,7 @@ def runNumberTheoryOperatorTests( ):
 
     # pentanacci
     testOperator( '16 pentanacci' )
-    expectEqual( '-a20 0 34 range pentanacci', '-a20 1591 oeis 38 left 35 right' )
+    expectEqual( '-a20 0 37 range pentanacci', '-a20 1591 oeis 38 left' )
 
     # polygamma
     testOperator( '4 5 polygamma' )
@@ -1684,7 +1702,7 @@ def runNumberTheoryOperatorTests( ):
 
     # tetranacci
     testOperator( '-a30 87 tetranacci' )
-    #expectEqual( '0 36 range tetranacci', '78 oeis 38 left 37 right' )
+    expectEqual( '0 37 range tetranacci', '78 oeis 38 left' )
 
     # thabit
     testOperator( '-a20 45 thabit' )
@@ -1693,6 +1711,7 @@ def runNumberTheoryOperatorTests( ):
     # tribonacci
     testOperator( '1 20 range tribonacci' )
     testOperator( '-c -a 2800 10239 tribonacci' )
+    expectEqual( '0 37 range tribonacci', '73 oeis 38 left' )
 
     # unit_roots
     testOperator( '7 unit_roots' )

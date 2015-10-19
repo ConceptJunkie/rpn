@@ -291,4 +291,3 @@ def addListOfPolynomials( args ):
 
     return result.getCoefficients( )
 
-

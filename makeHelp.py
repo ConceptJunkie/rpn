@@ -5865,6 +5865,20 @@ c:\>rpn 1 17 range lucas
 '''
 ''' ],
 
+    'n_fibonacci' : [
+'number_theory', 'calculates the nth K-Fibonacci number',
+'''
+''',
+'''
+''' ],
+
+    'octanacci' : [
+'number_theory', 'calculates the nth Octanacci number',
+'''
+''',
+'''
+''' ],
+
     'padovan' : [
 'number_theory', 'calculates the the nth Padovan number',
 '''

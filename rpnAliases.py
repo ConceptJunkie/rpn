@@ -37,6 +37,7 @@ operatorAliases = {
     '5-nacci'                   : 'pentanacci',
     '6-nacci'                   : 'hexanacci',
     '7-nacci'                   : 'heptanacci',
+    '8-nacci'                   : 'octanacci',
     '<'                         : 'less',
     '<<'                        : 'shift_left',
     '<='                        : 'not_greater',

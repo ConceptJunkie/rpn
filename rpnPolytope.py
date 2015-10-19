@@ -654,16 +654,8 @@ def getNthPolygonalPyramidalNumber( n, k ):
 # //
 # // A048736         Dana Scott's sequence: a(n) = (a(n-2) + a(n-1) * a(n-3)) / a(n-4), a(0) = a(1) = a(2) = a(3) = 1.
 # //
-# // A022095         Fibonacci sequence beginning 1 5.
-# //                 a(n) = ((2*sqrt(5)-1)*(((1+sqrt(5))/2)^(n+1)) + (2*sqrt(5)+1)*(((1-sqrt(5))/2)^(n+1)))/(sqrt(5)).
-# //
 # // A005894         Centered tetrahedral numbers.
 # //                 a(n)=(2*n+1)*(n^2+n+3)/3
-# //
-# // A015447         Generalized Fibonacci numbers: a(n) = a(n-1) + 11*a(n-2).
-# //                 a(n)={[ (1+3*sqrt(5))/2 ]^(n+1) - [ (1-3*sqrt(5))/2 ]^(n+1)}/3*sqrt(5).
-# //                 LinearRecurrence[{1, 11}, {1, 1}, 30]
-# //                 CoefficientList[Series[ 1/(1-x-11 x^2), {x, 0, 50}], x]
 # //
 # // A046176         Indices of square numbers which are also hexagonal.
 # //
@@ -679,17 +671,11 @@ def getNthPolygonalPyramidalNumber( n, k ):
 # //
 # // A005021         Random walks (binomial transform of A006054).
 # //
-# // A074584         Esanacci ("6-anacci") numbers.
-# //                 LinearRecurrence[{1, 1, 1, 1, 1, 1}, {6, 1, 3, 7, 15, 31}, 50]
-# //
 # // A195142         Concentric 10-gonal numbers.
 # //
 # // A000453         Stirling numbers of the second kind, S(n,4).
 # //
 # // A005915         Hexagonal prism numbers: (n + 1)*(3*n^2 + 3*n + 1).
-# //
-# // A015442         Generalized Fibonacci numbers: a(n) = a(n-1) + 7 a(n-2), a(0)=0, a(1)=1.
-# //                 a(n) = ( ((1+sqrt(29))/2)^(n+1) - ((1-sqrt(29))/2)^(n+1) )/sqrt(29)
 # //
 # // A002418         4-dimensional figurate numbers: (5*n-1)*binomial(n+2,3)/4.
 # //

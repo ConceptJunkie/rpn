@@ -35,6 +35,7 @@ def expectEqual( command1, command2 ):
             if not almosteq( result1[ i ], result2[ i ] ):
                 print( type( result1[ i ] ), type( result2[ i ] ) )
                 print( result1[ i ], result2[ i ], 'are not equal' )
+                print( 'difference found at index', i )
                 raise ValueError( 'unit test failed' )
     elif not almosteq( result1, result2 ):
         print( '**** error in equivalence test \'' + command1 + '\' and \'' + command2 + '\'' )
