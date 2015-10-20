@@ -692,7 +692,7 @@ def runCombinatoricOperatorTests( ):
     expectEqual( '0 33 range 4 multifactorial', '7662 oeis 34 left' )
     expectEqual( '0 36 range 5 multifactorial', '85157 oeis 37 left' )
     expectEqual( '0 38 range 6 multifactorial', '85158 oeis 39 left' )
-    expectEqual( '0 42 range 7 multifactorial', '114799 oeis 41 left' )
+    expectEqual( '0 40 range 7 multifactorial', '114799 oeis 41 left' )
     expectEqual( '0 42 range 8 multifactorial', '114800 oeis 43 left' )
     expectEqual( '0 43 range 9 multifactorial', '114806 oeis 44 left' )
 
@@ -704,7 +704,7 @@ def runCombinatoricOperatorTests( ):
 
     # nth_catalan
     testOperator( '-a50 85 nth_catalan' )
-    expectEqual( '-a20 1 36 2 range2 nth_catalan', '24492 oeis 17 left' )
+    expectEqual( '-a20 1 34 2 range2 nth_catalan', '24492 oeis 17 left' )
 
     # partitions
     expectEqual( '-t 0 20 range partitions', '41 oeis 21 left' )
@@ -1833,7 +1833,7 @@ def runPolygonalOperatorTests( ):
 
     # hexagonal_square
     testOperator( '-a70 23 hexagonal_square' )
-    expectEqual( '-a70 1 15 range hexagonal_square', '-a40 46177 oeis 15 left' )
+    expectEqual( '-a70 1 12 range hexagonal_square', '-a40 46177 oeis 12 left' )
 
     # nth_centered_decagonal
     testOperator( '1000 nth_centered_decagonal' )

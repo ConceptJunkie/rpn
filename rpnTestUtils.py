@@ -107,7 +107,17 @@ def expectEquivalent( command1, command2 ):
     result1 = rpn( shlex.split( command1 ) )[ 0 ]
     result2 = rpn( shlex.split( command2 ) )[ 0 ]
 
-    compareResults( result1, result2 )
+    if isinstance( result1, list ) != isinstance( result2, list ):
+        print( '**** error in results comparison' )
+        print( '    result 1: ', result1 )
+        print( '    result 2: ', result2 )
+        raise ValueError( 'one result is a list, the other isn\'t' )
+
+    if not areListsEquivalent( result1, result2 ):
+        print( '**** error in results comparison' )
+        print( '    result 1: ', result1 )
+        print( '    result 2: ', result2 )
+        raise ValueError( 'unit test failed' )
 
     print( 'both are equal!' )
     print( )
@@ -126,6 +136,7 @@ def testOperator( command ):
     if not result is None:
         handleOutput( result )
 
+    print( 'operator works' )
     print( )
 
 
