@@ -174,4 +174,3 @@ def parseInputValue( term, inputRadix ):
     result = convertToBase10( integer, mantissa, inputRadix )
     return fneg( result ) if negative else mpmathify( result )
 
-

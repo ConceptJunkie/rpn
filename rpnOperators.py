@@ -29,7 +29,6 @@ from rpnConstants import *
 from rpnDateTime import *
 from rpnDeclarations import *
 from rpnFactor import *
-from rpnFunction import *
 from rpnGeometry import *
 from rpnInput import *
 from rpnLexicographic import *
@@ -43,6 +42,7 @@ from rpnNumberTheory import *
 from rpnPolynomials import *
 from rpnPolytope import *
 from rpnPrimeUtils import *
+from rpnSettings import *
 from rpnUtils import *
 
 from rpnOutput import printHelp
@@ -180,155 +180,6 @@ def evaluateListOperator( term, index, currentValueList ):
             listArgs.insert( 0, currentValueList.pop( ) )
 
         currentValueList.append( operatorInfo.function( *listArgs ) )
-
-    return True
-
-
-# //******************************************************************************
-# //
-# //  evaluateTerm
-# //
-# //  This looks worse than it is.  It just has to do slightly different things
-# //  depending on what kind of term or operator is involved.  Plus, there's a
-# //  lot of exception handling.
-# //
-# //******************************************************************************
-
-def evaluateTerm( term, index, currentValueList ):
-    # first check for a variable name or history expression
-    if isinstance( term, str ) and term[ 0 ] == '$':
-        if term[ 1 ].isalpha( ):
-            if term[ 1 : ] in g.variables:
-                currentValueList.append( g.variables[ term[ 1 : ] ] )
-                return True
-            else:
-                g.variables[ term[ 1 : ] ] = None
-                currentValueList.append( term[ 1 : ] )
-                return True
-        else:
-            prompt = int( term[ 1 : ] )
-
-            if ( prompt > 0 ) and ( prompt < g.promptCount ):
-                currentValueList.append( g.results[ prompt ] )
-                return True
-            else:
-                raise ValueError( 'result index out of range' )
-
-    isList = isinstance( term, list )
-
-    try:
-        # handle a modifier operator
-        if not isList and term in modifiers:
-            operatorInfo = modifiers[ term ]
-            operatorInfo.function( currentValueList )
-        elif not isList and term in g.unitOperators:
-            # handle a unit operator
-            # look for unit without a value (in which case we give it a value of 1)
-            if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
-                isinstance( currentValueList[ -1 ], RPNDateTime ) or ( isinstance( currentValueList[ -1 ], list ) and
-                                                                       isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
-                    currentValueList.append( applyNumberValueToUnit( 1, term ) )
-            # if the unit comes after a list, then apply it to every item in the list
-            elif isinstance( currentValueList[ -1 ], list ):
-                argList = currentValueList.pop( )
-
-                newArg = [ ]
-
-                for listItem in argList:
-                    newArg.append( applyNumberValueToUnit( listItem, term ) )
-
-                currentValueList.append( newArg )
-            # and if it's a plain old number, then apply it to the unit
-            elif isinstance( currentValueList[ -1 ], ( mpf, int ) ):
-                currentValueList.append( applyNumberValueToUnit( currentValueList.pop( ), term ) )
-            else:
-                raise ValueError( 'unsupported type for a unit operator' )
-        elif not isList and term in operators:
-            if g.duplicateOperations > 0:
-                operatorInfo = operators[ term ]
-                argsNeeded = operatorInfo.argCount
-
-                if argsNeeded > 1:
-                    savedArgs = currentValueList[ -argsNeeded + 1 : ]
-
-                for i in range( 0, int( g.duplicateOperations ) ):
-                    if argsNeeded > 1 and i > 0:
-                        currentValueList.extend( savedArgs )
-
-                    if not evaluateOperator( term, index, currentValueList ):
-                        return False
-
-                g.duplicateOperations = 0
-            else:
-                if not evaluateOperator( term, index, currentValueList ):
-                    return False
-        elif not isList and term in listOperators:
-            if g.duplicateOperations > 0:
-                operatorInfo = operators[ term ]
-                argsNeeded = operatorInfo.argCount
-
-                if argsNeeded > 1:
-                    savedArgs = currentValueList[ -argsNeeded + 1 : ]
-
-                for i in range( 0, int( g.duplicateOperations ) ):
-                    if argsNeeded > 1 and i > 0:
-                        currentValueList.extend( savedArgs )
-
-                    if not evaluateListOperator( term, index, currentValueList ):
-                        return False
-
-                g.duplicateOperations = 0
-            else:
-                if not evaluateListOperator( term, index, currentValueList ):
-                    return False
-        else:
-            # handle a plain old value (i.e., a number or list, not an operator)
-            try:
-                currentValueList.append( parseInputValue( term, g.inputRadix ) )
-
-            except ValueError as error:
-                print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
-                if g.debugMode:
-                    raise
-                else:
-                    return False
-
-            except ( AttributeError, TypeError ):
-                currentValueList.append( term )
-                return True
-
-    except KeyboardInterrupt as error:
-        print( 'rpn:  keyboard interrupt' )
-
-        if g.debugMode:
-            raise
-        else:
-            return False
-
-    except ( ValueError, AttributeError, TypeError ) as error:
-        print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
-
-        if g.debugMode:
-            raise
-        else:
-            return False
-
-    except ZeroDivisionError as error:
-        print( 'rpn:  division by zero' )
-
-        if g.debugMode:
-            raise
-        else:
-            return False
-
-    except IndexError as error:
-        print( 'rpn:  index error for list operator at arg ' + format( index ) +
-               '.  Are your arguments in the right order?' )
-
-        if g.debugMode:
-            raise
-        else:
-            return False
 
     return True
 
@@ -513,165 +364,6 @@ def dumpStats( ):
 
 # //******************************************************************************
 # //
-# //  setPrecision
-# //
-# //******************************************************************************
-
-def setPrecision( n ):
-    if n == -1:
-        mp.dps = g.defaultPrecision
-    else:
-        mp.dps = int( n )
-
-    if mp.dps < g.outputAccuracy:
-        mp.dps = g.outputAccuracy
-
-    return mp.dps
-
-
-# //******************************************************************************
-# //
-# //  setComma
-# //
-# //******************************************************************************
-
-def setComma( n ):
-    if n == 1:
-        g.comma = True
-    else:
-        g.comma = False
-
-    return 1 if g.comma else 0
-
-
-# //******************************************************************************
-# //
-# //  setTimer
-# //
-# //******************************************************************************
-
-def setTimer( n ):
-    if n == 1:
-        g.timer = True
-    else:
-        g.timer = False
-
-    return 1 if g.timer else 0
-
-
-# //******************************************************************************
-# //
-# //  setIntegerGrouping
-# //
-# //******************************************************************************
-
-def setIntegerGrouping( n ):
-    if n == -1:
-        g.integerGrouping = g.defaultIntegerGrouping
-    else:
-        g.integerGrouping = int( n )
-
-    return g.integerGrouping
-
-
-# //******************************************************************************
-# //
-# //  setDecimalGrouping
-# //
-# //******************************************************************************
-
-def setDecimalGrouping( n ):
-    if n == -1:
-        g.decimalGrouping = g.defaultDecimalGrouping
-    else:
-        g.decimalGrouping = int( n )
-
-    return g.decimalGrouping
-
-
-# //******************************************************************************
-# //
-# //  setInputRadix
-# //
-# //******************************************************************************
-
-def setInputRadix( n ):
-    if ( n == 0 ) or ( n == -1 ):
-        g.inputRadix = g.defaultInputRadix
-    else:
-        g.inputRadix = int( n )
-
-    return g.inputRadix
-
-
-# //******************************************************************************
-# //
-# //  setOutputRadix
-# //
-# //******************************************************************************
-
-def setOutputRadix( n ):
-    if ( n == 0 ) or ( n == -1 ):
-        g.outputRadix = g.defaultOutputRadix
-    else:
-        g.outputRadix = int( n )
-
-    return g.outputRadix
-
-
-# //******************************************************************************
-# //
-# //  setLeadingZero
-# //
-# //******************************************************************************
-
-def setLeadingZero( n ):
-    result = 1 if g.leadingZero else 0
-
-    if ( n == 0 ):
-        g.leadingZero = False
-    else:
-        g.leadingZero = True
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  setIdentify
-# //
-# //******************************************************************************
-
-def setIdentify( n ):
-    result = 1 if g.identify else 0
-
-    if ( n == 0 ):
-        g.identify = False
-    else:
-        g.identify = True
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  setVariable
-# //
-# //  set variable n with value k
-# //
-# //******************************************************************************
-
-def setVariable( n, k ):
-    if isinstance( n, str ):
-        g.variables[ n ] = k
-    else:
-        raise ValueError( 'variable name expected' )
-
-    return k
-
-
-# //******************************************************************************
-# //
 # //  printHelpMessage
 # //
 # //******************************************************************************
@@ -702,68 +394,307 @@ def printHelpTopic( n ):
 
 # //******************************************************************************
 # //
-# //  setHexMode
+# //  evaluateFunction
+# //
+# //  Evaluate a user-defined function.  This is the simplest operator to use
+# //  user-defined functions.   Eventually I want to compile the user-defined
+# //  function into Python code, so when I start passing them to mpmath they'll
+# //  run faster.
 # //
 # //******************************************************************************
 
-def setHexMode( ):
-    g.tempHexMode = True
+def evaluateFunction( a, b, c, func ):
+    if not isinstance( func, FunctionInfo ):
+        raise ValueError( '\'eval\' expects a function argument' )
+
+    if isinstance( a, list ) or isinstance( b, list ) or isinstance( c, list ):
+        result = [ ]
+
+        for item in a:
+            result.append( k.evaluate( item ) )
+
+        return result
+    else:
+        valueList = [ ]
+
+        for index, item in enumerate( func.valueList ):
+            if index < func.startingIndex:
+                continue
+
+            if item == 'x':
+                valueList.append( a )
+            elif item == 'y':
+                valueList.append( b )
+            elif item == 'z':
+                valueList.append( c )
+            else:
+                valueList.append( item )
+
+        index = 1
+
+        while len( valueList ) > 1:
+            oldValueList = list( valueList )
+            listLength = len( valueList )
+
+            term = valueList.pop( 0 )
+
+            if not isinstance( term, list ) and term in g.operatorAliases:
+                term = g.operatorAliases[ term ]
+
+            g.creatingFunction = False
+
+            try:
+                if not evaluateTerm( term, index, valueList ):
+                    break
+            except:
+                return 0
+
+            index = index + 1
+
+            validFormula = True
+
+            if len( valueList ) > 1:
+                validFormula = False
+
+                for value in valueList:
+                    if not isinstance( value, mpf ):
+                        validFormula = True
+                        break
+
+            if not validFormula:
+                raise ValueError( 'evaluateFunction:  incompletely specified function' )
+
+        return valueList[ 0 ]
+
+
+# //******************************************************************************
+# //
+# //  evaluateFunction1
+# //
+# //******************************************************************************
+
+def evaluateFunction1( n, k ):
+    return evaluateFunction( n, 0, 0, k )
+
+
+# //******************************************************************************
+# //
+# //  evaluateFunction2
+# //
+# //******************************************************************************
+
+def evaluateFunction2( a, b, c ):
+    return evaluateFunction( a, b, 0, c )
+
+
+# //******************************************************************************
+# //
+# //  evaluateFunction3
+# //
+# //******************************************************************************
+
+def evaluateFunction3( a, b, c, d ):
+    return evaluateFunction( a, b, c, d )
+
+
+# //******************************************************************************
+# //
+# //  plotFunction
+# //
+# //******************************************************************************
+
+def plotFunction( start, end, func ):
+    plot( lambda x: evaluateFunction1( x, func ), [ start, end ] )
     return 0
 
 
 # //******************************************************************************
 # //
-# //  setOctalMode
+# //  plot2DFunction
 # //
 # //******************************************************************************
 
-def setOctalMode( ):
-    g.tempOctalMode = True
+def plot2DFunction( start1, end1, start2, end2, func ):
+    splot( lambda x, y: evaluateFunction( x, y, 0, func ),
+           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
     return 0
 
 
 # //******************************************************************************
 # //
-# //  setCommaMode
+# //  plot2DFunction
 # //
 # //******************************************************************************
 
-def setCommaMode( ):
-    g.tempCommaMode = True
+def plot2DFunction( start1, end1, start2, end2, func ):
+    splot( lambda x, y: evaluateFunction( x, y, 0, func ),
+           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
     return 0
 
 
 # //******************************************************************************
 # //
-# //  setTimerMode
+# //  plotComplexFunction
 # //
 # //******************************************************************************
 
-def setTimerMode( ):
-    g.tempTimerMode = True
+def plotComplexFunction( start1, end1, start2, end2, func ):
+    cplot( lambda x: evaluateFunction( x, 0, 0, func ),
+           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ],
+           points = 10000 )
     return 0
 
 
 # //******************************************************************************
 # //
-# //  setLeadingZeroMode
+# //  evaluateTerm
+# //
+# //  This looks worse than it is.  It just has to do slightly different things
+# //  depending on what kind of term or operator is involved.  Plus, there's a
+# //  lot of exception handling.
+# //
+# //  This function assumes operator alias replacements have already occurred.
 # //
 # //******************************************************************************
 
-def setLeadingZeroMode( ):
-    g.tempLeadingZeroMode = True
-    return 0
+def evaluateTerm( term, index, currentValueList ):
+    # first check for a variable name or history expression
+    if isinstance( term, str ) and term[ 0 ] == '$':
+        if term[ 1 ].isalpha( ):
+            if term[ 1 : ] in g.variables:
+                currentValueList.append( g.variables[ term[ 1 : ] ] )
+                return True
+            else:
+                g.variables[ term[ 1 : ] ] = None
+                currentValueList.append( term[ 1 : ] )
+                return True
+        else:
+            prompt = int( term[ 1 : ] )
 
+            if ( prompt > 0 ) and ( prompt < g.promptCount ):
+                currentValueList.append( g.results[ prompt ] )
+                return True
+            else:
+                raise ValueError( 'result index out of range' )
 
-# //******************************************************************************
-# //
-# //  setIdentifyMode
-# //
-# //******************************************************************************
+    isList = isinstance( term, list )
 
-def setIdentifyMode( ):
-    g.tempIdentifyMode = True
-    return 0
+    try:
+        # handle a modifier operator
+        if not isList and term in modifiers:
+            operatorInfo = modifiers[ term ]
+            operatorInfo.function( currentValueList )
+        elif not isList and term in g.unitOperators:
+            # handle a unit operator
+            # look for unit without a value (in which case we give it a value of 1)
+            if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
+                isinstance( currentValueList[ -1 ], RPNDateTime ) or ( isinstance( currentValueList[ -1 ], list ) and
+                                                                       isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
+                    currentValueList.append( applyNumberValueToUnit( 1, term ) )
+            # if the unit comes after a list, then apply it to every item in the list
+            elif isinstance( currentValueList[ -1 ], list ):
+                argList = currentValueList.pop( )
+
+                newArg = [ ]
+
+                for listItem in argList:
+                    newArg.append( applyNumberValueToUnit( listItem, term ) )
+
+                currentValueList.append( newArg )
+            # and if it's a plain old number, then apply it to the unit
+            elif isinstance( currentValueList[ -1 ], ( mpf, int ) ):
+                currentValueList.append( applyNumberValueToUnit( currentValueList.pop( ), term ) )
+            else:
+                raise ValueError( 'unsupported type for a unit operator' )
+        elif not isList and term in operators:
+            if g.duplicateOperations > 0:
+                operatorInfo = operators[ term ]
+                argsNeeded = operatorInfo.argCount
+
+                if argsNeeded > 1:
+                    savedArgs = currentValueList[ -argsNeeded + 1 : ]
+
+                for i in range( 0, int( g.duplicateOperations ) ):
+                    if argsNeeded > 1 and i > 0:
+                        currentValueList.extend( savedArgs )
+
+                    if not evaluateOperator( term, index, currentValueList ):
+                        return False
+
+                g.duplicateOperations = 0
+            else:
+                if not evaluateOperator( term, index, currentValueList ):
+                    return False
+        elif not isList and term in listOperators:
+            if g.duplicateOperations > 0:
+                operatorInfo = operators[ term ]
+                argsNeeded = operatorInfo.argCount
+
+                if argsNeeded > 1:
+                    savedArgs = currentValueList[ -argsNeeded + 1 : ]
+
+                for i in range( 0, int( g.duplicateOperations ) ):
+                    if argsNeeded > 1 and i > 0:
+                        currentValueList.extend( savedArgs )
+
+                    if not evaluateListOperator( term, index, currentValueList ):
+                        return False
+
+                g.duplicateOperations = 0
+            else:
+                if not evaluateListOperator( term, index, currentValueList ):
+                    return False
+        else:
+            # handle a plain old value (i.e., a number or list, not an operator)
+            try:
+                currentValueList.append( parseInputValue( term, g.inputRadix ) )
+
+            except ValueError as error:
+                print( 'rpn:  error in arg ' + format( index ) + ':  {0}'.format( error ) )
+
+                if g.debugMode:
+                    raise
+                else:
+                    return False
+
+            except ( AttributeError, TypeError ):
+                currentValueList.append( term )
+                return True
+
+    except KeyboardInterrupt as error:
+        print( 'rpn:  keyboard interrupt' )
+
+        if g.debugMode:
+            raise
+        else:
+            return False
+
+    except ( ValueError, AttributeError, TypeError ) as error:
+        print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
+
+        if g.debugMode:
+            raise
+        else:
+            return False
+
+    except ZeroDivisionError as error:
+        print( 'rpn:  division by zero' )
+
+        if g.debugMode:
+            raise
+        else:
+            return False
+
+    except IndexError as error:
+        print( 'rpn:  index error for list operator at arg ' + format( index ) +
+               '.  Are your arguments in the right order?' )
+
+        if g.debugMode:
+            raise
+        else:
+            return False
+
+    return True
 
 
 # //******************************************************************************
