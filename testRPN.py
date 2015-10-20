@@ -187,18 +187,18 @@ def runAlgebraOperatorTests( ):
 
 def runArithmeticOperatorTests( ):
     # abs
-    expectRPN( '-394 abs', 394 )
-    expectRPN( '0 abs', 0 )
-    expectRPN( '394 abs', 394 )
+    expectResult( '-394 abs', 394 )
+    expectResult( '0 abs', 0 )
+    expectResult( '394 abs', 394 )
 
     # add
-    expectRPN( '4 3 add', 7 )
-    expectRPN( '3 feet 7 inches + inches convert', RPNMeasurement( mpmathify( '43' ), [ { 'inch' : 1 } ] ) )
+    expectResult( '4 3 add', 7 )
+    expectResult( '3 feet 7 inches + inches convert', RPNMeasurement( mpmathify( '43' ), [ { 'inch' : 1 } ] ) )
     testOperator( 'today 7 days +' )
     testOperator( 'today 3 weeks +' )
     testOperator( 'today 50 years +' )
     testOperator( '4 cups 13 teaspoons +' )
-    expectRPN( '55 mph 10 miles hour / +', RPNMeasurement( mpmathify( '65' ), [ { 'mile' : 1 }, { 'hour' : -1 } ] ) )
+    expectResult( '55 mph 10 miles hour / +', RPNMeasurement( mpmathify( '65' ), [ { 'mile' : 1 }, { 'hour' : -1 } ] ) )
     testOperator( '55 mph 10 meters second / +' )
     testOperator( '55 mph 10 furlongs fortnight / +' )
     testOperator( 'today 3 days add' )
@@ -206,8 +206,8 @@ def runArithmeticOperatorTests( ):
     testOperator( 'now 150 miles 10 furlongs fortnight / / add' )
 
     # ceiling
-    expectRPN( '9.99999 ceiling', 10 )
-    expectRPN( '-0.00001 ceiling', 0 )
+    expectResult( '9.99999 ceiling', 10 )
+    expectResult( '-0.00001 ceiling', 0 )
 
     # divide
     testOperator( '12 13 divide' )
@@ -217,114 +217,114 @@ def runArithmeticOperatorTests( ):
     testOperator( 'now 2014-01-01 - minutes /' )
 
     # floor
-    expectRPN( '-0.4 floor', -1 )
-    expectRPN( '1 floor', 1 )
-    expectRPN( '3.4 floor', 3 )
+    expectResult( '-0.4 floor', -1 )
+    expectResult( '1 floor', 1 )
+    expectResult( '3.4 floor', 3 )
 
     # gcd
-    expectRPN( '1 100 range gcd', 1 )
-    expectRPN( '[ 124 324 ] gcd', 4 )
-    expectRPN( '[ 8 64 ] gcd', 8 )
+    expectResult( '1 100 range gcd', 1 )
+    expectResult( '[ 124 324 ] gcd', 4 )
+    expectResult( '[ 8 64 ] gcd', 8 )
 
     # is_divisible
-    expectRPN( '1000 10000 is_divisible', 0 )
-    expectRPN( '10000 1000 is_divisible', 1 )
-    expectRPN( '12 1 12 range is_divisible', [ 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 ] )
-    expectRPN( '1 20 range 6 is_divisible', [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ] )
+    expectResult( '1000 10000 is_divisible', 0 )
+    expectResult( '10000 1000 is_divisible', 1 )
+    expectResult( '12 1 12 range is_divisible', [ 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 ] )
+    expectResult( '1 20 range 6 is_divisible', [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ] )
 
     # is_equal
-    expectRPN( '4 3 is_equal', 0 )
-    expectRPN( 'pi pi is_equal', 1 )
+    expectResult( '4 3 is_equal', 0 )
+    expectResult( 'pi pi is_equal', 1 )
 
     # is_even
-    expectRPN( '-2 is_even', 1 )
-    expectRPN( '-1 is_even', 0 )
-    expectRPN( '0 is_even', 1 )
-    expectRPN( '1 is_even', 0 )
-    expectRPN( '2 is_even', 1 )
+    expectResult( '-2 is_even', 1 )
+    expectResult( '-1 is_even', 0 )
+    expectResult( '0 is_even', 1 )
+    expectResult( '1 is_even', 0 )
+    expectResult( '2 is_even', 1 )
 
     # is_greater
-    expectRPN( '4 3 is_greater', 1 )
-    expectRPN( '55 55 is_greater', 0 )
-    expectRPN( 'e pi is_greater', 0 )
+    expectResult( '4 3 is_greater', 1 )
+    expectResult( '55 55 is_greater', 0 )
+    expectResult( 'e pi is_greater', 0 )
 
     # is_less
-    expectRPN( '4 3 is_less', 0 )
-    expectRPN( '2 2 is_less', 0 )
-    expectRPN( '2 3 is_less', 1 )
+    expectResult( '4 3 is_less', 0 )
+    expectResult( '2 2 is_less', 0 )
+    expectResult( '2 3 is_less', 1 )
 
     # is_not_equal
-    expectRPN( '4 3 is_not_equal', 1 )
-    expectRPN( '3 3 is_not_equal', 0 )
+    expectResult( '4 3 is_not_equal', 1 )
+    expectResult( '3 3 is_not_equal', 0 )
 
     # is_not_greater
-    expectRPN( '4 3 is_not_greater', 0 )
-    expectRPN( '77 77 is_not_greater', 1 )
-    expectRPN( '2 99 is_not_greater', 1 )
+    expectResult( '4 3 is_not_greater', 0 )
+    expectResult( '77 77 is_not_greater', 1 )
+    expectResult( '2 99 is_not_greater', 1 )
 
     # is_not_less
-    expectRPN( '4 3 is_not_less', 1 )
-    expectRPN( '663 663 is_not_less', 1 )
-    expectRPN( '-100 100 is_not_less', 0 )
+    expectResult( '4 3 is_not_less', 1 )
+    expectResult( '663 663 is_not_less', 1 )
+    expectResult( '-100 100 is_not_less', 0 )
 
     # is_not_zero
-    expectRPN( '-1 is_not_zero', 1 )
-    expectRPN( '0 is_not_zero', 0 )
-    expectRPN( '1 is_not_zero', 1 )
+    expectResult( '-1 is_not_zero', 1 )
+    expectResult( '0 is_not_zero', 0 )
+    expectResult( '1 is_not_zero', 1 )
 
     # is_odd
-    expectRPN( '-2 is_odd', 0 )
-    expectRPN( '-1 is_odd', 1 )
-    expectRPN( '0 is_odd', 0 )
-    expectRPN( '1 is_odd', 1 )
-    expectRPN( '2 is_odd', 0 )
+    expectResult( '-2 is_odd', 0 )
+    expectResult( '-1 is_odd', 1 )
+    expectResult( '0 is_odd', 0 )
+    expectResult( '1 is_odd', 1 )
+    expectResult( '2 is_odd', 0 )
 
     # is_square
-    expectRPN( '1024 is_square', 1 )
-    expectRPN( '5 is_square', 0 )
+    expectResult( '1024 is_square', 1 )
+    expectResult( '5 is_square', 0 )
 
     # is_zero
-    expectRPN( '-1 is_zero', 0 )
-    expectRPN( '0 is_zero', 1 )
-    expectRPN( '1 is_zero', 0 )
+    expectResult( '-1 is_zero', 0 )
+    expectResult( '0 is_zero', 1 )
+    expectResult( '1 is_zero', 0 )
 
     # lcm
     expectEqual( '1 10 range lcm', '[ 2 2 2 3 3 5 7 ] prod' )
 
     # max
-    expectRPN( '1 10 range max', 10 )
-    expectRPN( '10 1 range min', 1 )
-    expectRPN( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
+    expectResult( '1 10 range max', 10 )
+    expectResult( '10 1 range min', 1 )
+    expectResult( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
 
     # mean
-    expectRPN( '1 10 range mean', 5.5 )
-    expectRPN( '1 10000 range mean', 5000.5 )
+    expectResult( '1 10 range mean', 5.5 )
+    expectResult( '1 10000 range mean', 5000.5 )
 
     # min
-    expectRPN( '1 10 range min', 1 )
-    expectRPN( '10 1 range min', 1 )
-    expectRPN( '[ 9 4 7 2 5 6 3 8 ] min', 2 )
+    expectResult( '1 10 range min', 1 )
+    expectResult( '10 1 range min', 1 )
+    expectResult( '[ 9 4 7 2 5 6 3 8 ] min', 2 )
 
     # modulo
-    expectRPN( '11001 100 modulo', 1 )
-    expectRPN( '-120 7 modulo', 6 )
-    expectRPN( '8875 49 modulo', 6 )
-    expectRPN( '199467 8876 modulo', 4195 )
+    expectResult( '11001 100 modulo', 1 )
+    expectResult( '-120 7 modulo', 6 )
+    expectResult( '8875 49 modulo', 6 )
+    expectResult( '199467 8876 modulo', 4195 )
 
     # multiply
-    expectRPN( '5 7 multiply', 35 )
+    expectResult( '5 7 multiply', 35 )
     testOperator( '15 mph 10 hours *' )
     testOperator( 'c m/s convert 1 nanosecond * inches convert' )
     testOperator( 'barn gigaparsec * cubic_inch convert' )
 
     # negative
-    expectRPN( '-4 negative', 4 )
-    expectRPN( '0 negative', 0 )
-    expectRPN( '4 negative', -4 )
+    expectResult( '-4 negative', 4 )
+    expectResult( '0 negative', 0 )
+    expectResult( '4 negative', -4 )
 
     # nearest_int
-    expectRPN( '0.1 nearest_int', 0 )
-    expectRPN( '4.5 nearest_int', 4 )
+    expectResult( '0.1 nearest_int', 0 )
+    expectResult( '4.5 nearest_int', 4 )
 
     # product
     expectEqual( '-a200 1 100 range product', '-a200 100 !' )
@@ -333,22 +333,22 @@ def runArithmeticOperatorTests( ):
     expectEqual( '6 7 / reciprocal', '7 6 /' )
 
     # round
-    expectRPN( '0.1 round', 0 )
-    expectRPN( '4.5 round', 5 )
+    expectResult( '0.1 round', 0 )
+    expectResult( '4.5 round', 5 )
 
     # sign
-    expectRPN( '1 sign', 1 )
-    expectRPN( '0 sign', 0 )
-    expectRPN( '-1 sign', -1 )
-    expectRPN( 'infinity sign', 1 )
-    expectRPN( 'negative_infinity sign', -1 )
+    expectResult( '1 sign', 1 )
+    expectResult( '0 sign', 0 )
+    expectResult( '-1 sign', -1 )
+    expectResult( 'infinity sign', 1 )
+    expectResult( 'negative_infinity sign', -1 )
 
     # stddev
     testOperator( '1 10 range stddev' )
 
     # subtract
     testOperator( '3948 474 subtract' )
-    expectRPN( '4 cups 27 teaspoons - teaspoons convert', RPNMeasurement( mpmathify( '165' ), [ { 'teaspoon' : 1 } ] ) )
+    expectResult( '4 cups 27 teaspoons - teaspoons convert', RPNMeasurement( mpmathify( '165' ), [ { 'teaspoon' : 1 } ] ) )
     testOperator( '57 hectares 23 acres -' )
     testOperator( '10 Mb second / 700 MB hour / -' )
     testOperator( 'today 3 days -' )
@@ -360,7 +360,7 @@ def runArithmeticOperatorTests( ):
     testOperator( '2015-01-01 1965-03-31 -' )
 
     # sum
-    expectRPN( '1 10 range sum', 55 )
+    expectResult( '1 10 range sum', 55 )
 
 
 # //******************************************************************************
@@ -767,7 +767,7 @@ def runConstantOperatorTests( ):
     testOperator( '-a 1000 copeland' )
 
     # default
-    expectRPN( 'default', -1 )
+    expectResult( 'default', -1 )
 
     # e
     testOperator( 'e' )
@@ -782,7 +782,7 @@ def runConstantOperatorTests( ):
     testOperator( 'euler' )
 
     # false
-    expectRPN( 'false', 0 )
+    expectResult( 'false', 0 )
 
     # faradays_constant
     testOperator( 'faradays_constant' )
@@ -871,19 +871,19 @@ def runConstantOperatorTests( ):
     expectEqual( 'min_short', '2 15 ** negative' )
 
     # min_uchar
-    expectRPN( 'min_uchar', 0 )
+    expectResult( 'min_uchar', 0 )
 
     # min_ulong
-    expectRPN( 'min_ulong', 0 )
+    expectResult( 'min_ulong', 0 )
 
     # min_ulonglong
-    expectRPN( 'min_ulonglong', 0 )
+    expectResult( 'min_ulonglong', 0 )
 
     # min_uquadlong
-    expectRPN( 'min_uquadlong', 0 )
+    expectResult( 'min_uquadlong', 0 )
 
     # min_ushort
-    expectRPN( 'min_ushort', 0 )
+    expectResult( 'min_ushort', 0 )
 
     # negative_infinity
     testOperator( 'negative_infinity' )
@@ -922,30 +922,30 @@ def runConstantOperatorTests( ):
     testOperator( 'stefan_boltzmann' )
 
     # true
-    expectRPN( 'true', 1 )
+    expectResult( 'true', 1 )
 
     # days of the week
-    expectRPN( 'monday', 1 )
-    expectRPN( 'tuesday', 2 )
-    expectRPN( 'wednesday', 3 )
-    expectRPN( 'thursday', 4 )
-    expectRPN( 'friday', 5 )
-    expectRPN( 'saturday', 6 )
-    expectRPN( 'sunday', 7 )
+    expectResult( 'monday', 1 )
+    expectResult( 'tuesday', 2 )
+    expectResult( 'wednesday', 3 )
+    expectResult( 'thursday', 4 )
+    expectResult( 'friday', 5 )
+    expectResult( 'saturday', 6 )
+    expectResult( 'sunday', 7 )
 
     # months
-    expectRPN( 'january', 1 )
-    expectRPN( 'february', 2 )
-    expectRPN( 'march', 3 )
-    expectRPN( 'april', 4 )
-    expectRPN( 'may', 5 )
-    expectRPN( 'june', 6 )
-    expectRPN( 'july', 7 )
-    expectRPN( 'august', 8 )
-    expectRPN( 'september', 9 )
-    expectRPN( 'october', 10 )
-    expectRPN( 'november', 11 )
-    expectRPN( 'december', 12 )
+    expectResult( 'january', 1 )
+    expectResult( 'february', 2 )
+    expectResult( 'march', 3 )
+    expectResult( 'april', 4 )
+    expectResult( 'may', 5 )
+    expectResult( 'june', 6 )
+    expectResult( 'july', 7 )
+    expectResult( 'august', 8 )
+    expectResult( 'september', 9 )
+    expectResult( 'october', 10 )
+    expectResult( 'november', 11 )
+    expectResult( 'december', 12 )
 
 
 # //******************************************************************************
@@ -1244,16 +1244,16 @@ def runInternalOperatorTests( ):
 
 def runLexicographicOperatorTests( ):
     # add_digits
-    expectRPN( '3 4 add_digits', 34 )
-    expectRPN( '3 45 add_digits', 345 )
-    expectRPN( '34 567 add_digits', 34567 )
+    expectResult( '3 4 add_digits', 34 )
+    expectResult( '3 45 add_digits', 345 )
+    expectResult( '34 567 add_digits', 34567 )
 
     # combine_digits
-    expectRPN( '1 9 range combine_digits', 123456789 )
+    expectResult( '1 9 range combine_digits', 123456789 )
 
     # dup_digits
-    expectRPN( '543 2 dup_digits', 54343 )
-    expectRPN( '1024 1 4 range dup_digits', [ 10244, 102424, 1024024, 10241024 ] )
+    expectResult( '543 2 dup_digits', 54343 )
+    expectResult( '1024 1 4 range dup_digits', [ 10244, 102424, 1024024, 10241024 ] )
 
     # find_palindrome
     testOperator( '-a30 10911 55 find_palindrome' )
@@ -1264,13 +1264,13 @@ def runLexicographicOperatorTests( ):
     # expectEqual   30 oeis 85 left
 
     # is_palindrome
-    expectRPN( '101 is_palindrome', 1 )
-    expectRPN( '1 22 range is_palindrome', [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] )
-    expectRPN( '1234567890 is_palindrome', 0 )
+    expectResult( '101 is_palindrome', 1 )
+    expectResult( '1 22 range is_palindrome', [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] )
+    expectResult( '1234567890 is_palindrome', 0 )
 
     # is_pandigital
-    expectRPN( '1234567890 is_pandigital', 1 )
-    expectRPN( '123456789 is_pandigital', 0 )
+    expectResult( '1234567890 is_pandigital', 1 )
+    expectResult( '123456789 is_pandigital', 0 )
 
     # multiply_digits
     expectEqual( '123456789 multiply_digits', '9 !' )
@@ -1314,7 +1314,7 @@ def runListOperatorTests( ):
     testOperator( '1 10 range 11 20 range append 21 30 range append' )
 
     # count
-    expectRPN( '1 10 range count', 10 )
+    expectResult( '1 10 range count', 10 )
 
     # diffs
     testOperator( '1 10 range diffs' )
@@ -1350,7 +1350,7 @@ def runListOperatorTests( ):
     testOperator( '1 10 range 1 8 range intersection' )
 
     # left
-    expectRPN( '1 10 range 5 left', [ 1, 2, 3, 4, 5 ] )
+    expectResult( '1 10 range 5 left', [ 1, 2, 3, 4, 5 ] )
 
     # max_index
     testOperator( '1 10 range max_index' )
@@ -1365,7 +1365,7 @@ def runListOperatorTests( ):
     testOperator( '4 100 random_integer_ occurrences' )
 
     # range
-    expectRPN( '1 12 range', [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] )
+    expectResult( '1 12 range', [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] )
 
     # range2
     testOperator( '1 23 2 range2' )
@@ -1431,7 +1431,7 @@ def runLogarithmOperatorTests( ):
     testOperator( '1000 ln' )
 
     # log10
-    expectRPN( '1000 log10', 3 )
+    expectResult( '1000 log10', 3 )
 
     # log2
     testOperator( '1000 log2' )
@@ -1470,10 +1470,10 @@ def runModifierOperatorTests( ):
     testOperator( '4 6 5 dup_operator *' )
 
     # previous
-    expectRPN( '6 previous *', 36 )
+    expectResult( '6 previous *', 36 )
 
     # unlist
-    expectRPN( '[ 1 2 ] unlist +', 3 )
+    expectResult( '[ 1 2 ] unlist +', 3 )
 
     # use_members
 
@@ -1561,7 +1561,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 50 range fibonacci' )
     testOperator( '-c -a 8300 39399 fibonacci' )
     expectEqual( '0 38 range fibonacci', '45 oeis 39 left' )
-    expectRPN( '0 100 range fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
 
     # fibonorial
     testOperator( '5 fibonorial' )
@@ -1582,12 +1582,12 @@ def runNumberTheoryOperatorTests( ):
     # heptanacci
     testOperator( '623 heptanacci' )
     #expectEqual( '0 38 range heptanacci', '122189 oeis 39 left' )
-    #expectRPN( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
+    #expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
 
     # hexanacci
     testOperator( '949 hexanacci' )
     expectEqual( '0 38 range hexanacci', '1592 oeis 39 left' )
-    expectRPN( '0 100 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 101 ) ] )
 
     # hyperfactorial
     testOperator( '-a160 17 hyperfactorial' )
@@ -1674,16 +1674,16 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 77 range mobius', '8683 oeis 77 left' )
 
     # n_fibonacci
-    expectRPN( '0 100 range 2 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
-    expectRPN( '0 100 range 5 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
-    expectRPN( '0 100 range 10 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 101 ) ] )
-    expectRPN( '1000 10 n_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
-    #expectRPN( '10000 15 n_fibonacci', getNthKFibonacciNumberTheSlowWay( 10000, 15 ) )
+    expectResult( '0 100 range 2 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range 5 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range 10 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 101 ) ] )
+    expectResult( '1000 10 n_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
+    #expectResult( '10000 15 n_fibonacci', getNthKFibonacciNumberTheSlowWay( 10000, 15 ) )
 
     # octanacci
     testOperator( '906 octanacci' )
     expectEqual( '0 39 range octanacci', '79262 oeis 40 left' )
-    expectRPN( '0 100 range octanacci', [ getNthKFibonacciNumberTheSlowWay( i, 8 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range octanacci', [ getNthKFibonacciNumberTheSlowWay( i, 8 ) for i in range( 0, 101 ) ] )
 
     # padovan
     testOperator( '76 padovan' )
@@ -1696,7 +1696,7 @@ def runNumberTheoryOperatorTests( ):
     # pentanacci
     testOperator( '16 pentanacci' )
     expectEqual( '-a20 0 37 range pentanacci', '-a20 1591 oeis 38 left' )
-    expectRPN( '0 100 range pentanacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range pentanacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
 
     # polygamma
     testOperator( '4 5 polygamma' )
@@ -1721,8 +1721,8 @@ def runNumberTheoryOperatorTests( ):
     # tetranacci
     testOperator( '-a30 87 tetranacci' )
     expectEqual( '0 37 range tetranacci', '78 oeis 38 left' )
-    expectRPN( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
-    expectRPN( '0 100 range tetranacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range tetranacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 101 ) ] )
 
     # thabit
     testOperator( '-a20 45 thabit' )
@@ -1732,7 +1732,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 20 range tribonacci' )
     testOperator( '-c -a 2800 10239 tribonacci' )
     expectEqual( '0 37 range tribonacci', '73 oeis 38 left' )
-    expectRPN( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
 
     # unit_roots
     testOperator( '7 unit_roots' )
@@ -2349,16 +2349,16 @@ def runSpecialOperatorTests( ):
     # help - help is handled separately
 
     # name
-    expectRPN( '0 name', 'zero' )
-    expectRPN( '1 name', 'one' )
-    expectRPN( '10 name', 'ten' )
-    expectRPN( '100 name', 'one hundred' )
-    expectRPN( '1000 name', 'one thousand' )
-    expectRPN( '10000 name', 'ten thousand' )
-    expectRPN( '100000 name', 'one hundred thousand' )
-    expectRPN( '23 name', 'twenty-three' )
-    expectRPN( '47 name', 'forty-seven' )
-    expectRPN( '-1 name', 'negative one' )
+    expectResult( '0 name', 'zero' )
+    expectResult( '1 name', 'one' )
+    expectResult( '10 name', 'ten' )
+    expectResult( '100 name', 'one hundred' )
+    expectResult( '1000 name', 'one thousand' )
+    expectResult( '10000 name', 'ten thousand' )
+    expectResult( '100000 name', 'one hundred thousand' )
+    expectResult( '23 name', 'twenty-three' )
+    expectResult( '47 name', 'forty-seven' )
+    expectResult( '-1 name', 'negative one' )
     testOperator( '-a100 45 primorial name' )
 
     # oeis
@@ -2381,6 +2381,7 @@ def runSpecialOperatorTests( ):
     testOperator( '-1 ordinal_name' )
     testOperator( '0 10 range ordinal_name -s1' )
     testOperator( '2 26 ** ordinal_name' )
+    expectResult( '1 ordinal_name', 'first' )
 
     # random
     testOperator( 'random' )
@@ -2403,7 +2404,7 @@ def runSpecialOperatorTests( ):
     # topic - interactive mode
 
     # value
-    expectRPN( '40 minutes value', 40 )
+    expectResult( '40 minutes value', 40 )
 
 
 # //******************************************************************************
@@ -2520,6 +2521,7 @@ rpnTestList = [
     ( 'powers_and_roots', runPowersAndRootsOperatorTests ),
     ( 'prime_number',     runPrimeNumberOperatorTests ),
     ( 'settings',         runSettingsOperatorTests ),
+    ( 'special',          runSpecialOperatorTests ),
     ( 'trigonometric',    runTrigonometricOperatorTests ),
 
     ( 'command-line',     runCommandLineOptionsTests ),

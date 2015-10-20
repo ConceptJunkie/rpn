@@ -33,6 +33,21 @@ def compareResults( result1, result2 ):
         print( '    result 2: ', result2 )
         raise ValueError( 'one result is a list, the other isn\'t' )
 
+    if isinstance( result1, str ) != isinstance( result2, str ):
+        print( '**** error in results comparison' )
+        print( '    result 1: ', result1 )
+        print( '    result 2: ', result2 )
+        raise ValueError( 'one result is a string, the other isn\'t' )
+
+    if isinstance( result1, str ) and isinstance( result2, str ):
+        if result1 != result2:
+            print( type( result1[ i ] ), type( result2[ i ] ) )
+            print( result1[ i ], result2[ i ], 'are not equal' )
+            print( 'difference found at index', i )
+            raise ValueError( 'unit test failed' )
+        else:
+            return
+
     if isinstance( result1, list ) and isinstance( result2, list ):
         if len( result1 ) != len( result2 ):
             raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ) )
@@ -142,11 +157,11 @@ def testOperator( command ):
 
 # //******************************************************************************
 # //
-# //  expectRPN
+# //  expectResult
 # //
 # //******************************************************************************
 
-def expectRPN( command, expected ):
+def expectResult( command, expected ):
     print( 'rpn', command )
     result = rpn( shlex.split( command ) )[ 0 ]
 
