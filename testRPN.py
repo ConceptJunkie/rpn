@@ -1143,6 +1143,7 @@ def runFunctionOperatorTests( ):
     expectEqual( '0 1000 range x is_prime filter_by_index', '1 168 primes' )
 
     # limit
+    testOperator( '0 x x / 2 -1 x / power + 1/x limit' )
     expectEqual( 'infinity x fibonacci x 1 + fibonacci / limit', 'infinity x lucas x 1 + lucas / limit' )
 
     # limitn
