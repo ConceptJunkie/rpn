@@ -76,14 +76,14 @@ def evaluate( terms ):
 
         currentValueList = getCurrentArgList( valueList )
 
-        try:
-            if not evaluateTerm( term, index, currentValueList ):
+        #try:
+        if not evaluateTerm( term, index, currentValueList ):
                 valueList = [ 0 ]
                 break
-        except ValueError as error:
-            print( 'rpn:  error:  {0}'.format( error ) )
-            valueList = [ 0 ]
-            break
+        #except ValueError as error:
+        #    print( 'rpn:  error:  {0}'.format( error ) )
+        #    valueList = [ 0 ]
+        #    break
 
         index = index + 1
 

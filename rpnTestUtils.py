@@ -41,9 +41,8 @@ def compareResults( result1, result2 ):
 
     if isinstance( result1, str ) and isinstance( result2, str ):
         if result1 != result2:
-            print( type( result1[ i ] ), type( result2[ i ] ) )
-            print( result1[ i ], result2[ i ], 'are not equal' )
-            print( 'difference found at index', i )
+            print( type( result1 ), type( result2 ) )
+            print( result1, result2, 'are not equal' )
             raise ValueError( 'unit test failed' )
         else:
             return

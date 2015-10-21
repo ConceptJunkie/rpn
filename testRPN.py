@@ -371,19 +371,19 @@ def runArithmeticOperatorTests( ):
 
 def runAstronomyOperatorTests( ):
     # astronomical_dawn
-    testOperator( '"Leesburg, VA" location today astronomical_dawn' )
+    testOperator( '"Chattanooga, TN" location today astronomical_dawn' )
 
     # astronomical_dusk
-    testOperator( '"Leesburg, VA" location today astronomical_dusk' )
+    testOperator( '"Perth, Australia" location today astronomical_dusk' )
 
     # autumnal_equinox
     testOperator( '2015 autumnal_equinox' )
 
     # dawn
-    testOperator( '"Leesburg, VA" location today dawn' )
+    testOperator( '"Christchurch, NZ" location today dawn' )
 
     # dusk
-    testOperator( '"Leesburg, VA" location today dusk' )
+    testOperator( '"Vienna, Austria" location today dusk' )
 
     # jupiter
     testOperator( 'saturn "Ottawa, Canada" location today next_setting' )
@@ -495,10 +495,10 @@ def runAstronomyOperatorTests( ):
     testOperator( 'sun "Leesburg, VA" location today next_rising' )
 
     # sunrise
-    testOperator( '"Leesburg, VA" location today sunrise' )
+    testOperator( '"Salzburg, Germany" location today sunrise' )
 
     # sunset
-    testOperator( '"Leesburg, VA" location today sunset' )
+    testOperator( '"New Delhi, India" location today sunset' )
 
     # sun_antitransit
     testOperator( '"Nice, France" location today sun_antitransit' )
@@ -629,6 +629,7 @@ def runCalendarOperatorTests( ):
     testOperator( 'today to_julian_day' )
 
     # to_lilian_day
+    testOperator( 'today to_lilian_day' )
 
     # to_mayan
     testOperator( 'today to_mayan' )
@@ -1075,6 +1076,7 @@ def runDateTimeOperatorTests( ):
     testOperator( '[ 2015 7 5 4 3 ] make_julian_time' )
 
     # make_iso_time
+    testOperator( '[ 2015 34 6 ] make_iso_time' )
 
     # memorial_day
     testOperator( '2015 memorial_day' )
@@ -1129,6 +1131,7 @@ def runFunctionOperatorTests( ):
     testOperator( '15 4 26 x 2 ** y 3 ** + z 4 ** + eval3' )
 
     # filter
+    testOperator( '-a20 1 80 range fib x is_prime filter' )
 
     # filter_by_index
 
@@ -2025,10 +2028,9 @@ def runPowersAndRootsOperatorTests( ):
     expectEqual( '8 3 root', '8 cube_root' )
 
     # root2
-    testOperator( '2 square_root' )
+    expectEqual( '2 square_root', '4 4 root' )
 
     # square
-    testOperator( '45 square' )
     expectEqual( '123 square', '123 123 *' )
 
     # tetrate
@@ -2378,10 +2380,15 @@ def runSpecialOperatorTests( ):
     testOperator( '250000 randint oeis_name' )
 
     # ordinal_name
-    testOperator( '-1 ordinal_name' )
     testOperator( '0 10 range ordinal_name -s1' )
     testOperator( '2 26 ** ordinal_name' )
+    expectResult( '-1 ordinal_name', 'negative first' )
+    expectResult( '0 ordinal_name', 'zeroth' )
     expectResult( '1 ordinal_name', 'first' )
+    expectResult( '100 ordinal_name', 'one hundredth' )
+    expectResult( '1000 ordinal_name', 'one thousandth' )
+    expectResult( '10000 ordinal_name', 'ten thousandth' )
+    expectResult( '100000 ordinal_name', 'one hundred thousandth' )
 
     # random
     testOperator( 'random' )
@@ -2405,6 +2412,8 @@ def runSpecialOperatorTests( ):
 
     # value
     expectResult( '40 minutes value', 40 )
+    expectResult( '756 light-years value', 756 )
+    expectResult( '73 gallons value', 73 )
 
 
 # //******************************************************************************

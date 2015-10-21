@@ -35,12 +35,11 @@ import signal
 
 from mpmath import *
 from random import randrange
+from functools import reduce
 
 from rpnDeclarations import *
 from rpnUnitClasses import UnitTypeInfo
 from rpnVersion import *
-
-from functools import reduce
 
 import rpnGlobals as g
 
@@ -71,24 +70,6 @@ class DelayedKeyboardInterrupt( object ):
 
 # //******************************************************************************
 # //
-# //  setAccuracy
-# //
-# //******************************************************************************
-
-def setAccuracy( n ):
-    if n == -1:
-        g.outputAccuracy = g.defaultOutputAccuracy
-    else:
-        g.outputAccuracy = int( n )
-
-    if mp.dps < g.outputAccuracy:
-        mp.dps = g.outputAccuracy
-
-    return g.outputAccuracy
-
-
-# //******************************************************************************
-# //
 # //  rand_
 # //
 # //******************************************************************************
@@ -115,17 +96,6 @@ def randrange_( n, k ):
         result.append( randrange( n ) )
 
     return result
-
-
-# //******************************************************************************
-# //
-# //  round
-# //
-# //******************************************************************************
-
-def round( n, decimals ):
-    factor = power( 10, decimals )
-    return fdiv( nint( fmul( n, factor ) ), factor )
 
 
 # //******************************************************************************
@@ -279,318 +249,6 @@ def downloadOEISText( id, char, addCR = False ):
 
 # //******************************************************************************
 # //
-# //  convertToBaseN
-# //
-# //  This handles any integer base as long as there is a big-enough list of
-# //  numerals to use.  In practice this ends up being 0-9, a-z, and A-Z, which
-# //  allows us to support up to base 62.
-# //
-# //******************************************************************************
-
-def convertToBaseN( value, base, outputBaseDigits, numerals ):
-    if outputBaseDigits:
-        if ( base < 2 ):
-            raise ValueError( 'base must be greater than 1' )
-    else:
-        if not ( 2 <= base <= len( numerals ) ):
-            raise ValueError( 'base must be from 2 to %d' % len( numerals ) )
-
-    if value == 0:
-        return 0
-
-    if value < 0:
-        return '-' + convertToBaseN( fneg( value ), base, outputBaseDigits, numerals )
-
-    if base == 10:
-        return str( value )
-
-    if outputBaseDigits:
-        result = [ ]
-    else:
-        result = ''
-
-    leftDigits = mpmathify( value )
-
-    while leftDigits > 0:
-        modulo = fmod( leftDigits, base )
-
-        if outputBaseDigits:
-            result.insert( 0, int( modulo ) )
-        else:
-            result = numerals[ int( modulo ) ] + result
-
-        leftDigits = floor( fdiv( leftDigits, base ) )
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  convertFractionToBaseN
-# //
-# //******************************************************************************
-
-def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
-    if outputBaseDigits:
-        if ( base < 2 ):
-            raise ValueError( 'base must be greater than 1' )
-    else:
-        if not ( 2 <= base <= len( g.numerals ) ):
-            raise ValueError( 'base must be from 2 to %d' % len( g.numerals ) )
-
-    if value < 0 or value >= 1.0:
-        raise ValueError( 'value (%s) must be >= 0 and < 1.0' % value )
-
-    if base == 10:
-        return str( value )
-
-    if outputBaseDigits:
-        result = [ ]
-    else:
-        result = ''
-
-    while value > 0 and precision > 0:
-        value = fmul( value, base )
-
-        digit = int( value )
-
-        if len( result ) == g.outputAccuracy:
-            if digit >= base // 2:
-                digit += 1
-
-            break
-
-        if outputBaseDigits:
-            result.append( digit )
-        else:
-            result += g.numerals[ digit ]
-
-        value = fsub( value, digit )
-        precision -= 1
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  convertToSpecialBase
-# //
-# //  This version supports arbitrary non-constant bases.  The place value is
-# //  determined by the function passed in.  The function takes a single argument
-# //  which represents the place, and it returns the value that that place
-# //  represents.   As an example for base 10, the function would return 10^n for
-# //  argument n.
-# //
-# //******************************************************************************
-
-def convertToSpecialBase( value, baseFunction, outputBaseDigits = False, numerals = g.defaultNumerals ):
-    if value == 0:
-        return 0
-
-    if value < 0:
-        return '-' + convertToBaseN( fneg( value ), base, outputBaseDigits, numerals )
-
-    if outputBaseDigits:
-        result = [ ]
-    else:
-        result = ''
-
-    positionValues = [ ]
-
-    position = 1
-    positionValue = baseFunction( position )
-
-    while positionValue <= value:
-        positionValues.append( positionValue )
-
-        position += 1
-        positionValue = baseFunction( position )
-
-    if outputBaseDigits:
-        result = [ ]
-    else:
-        result = ''
-
-    remaining = value
-
-    while len( positionValues ):
-        base = positionValues.pop( )
-
-        digit = floor( fdiv( remaining, base ) )
-
-        if outputBaseDigits:
-            result.append( digit )
-        else:
-            result += numerals[ int( digit ) ]
-
-        remaining = fsub( remaining, fmul( digit, base ) )
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  convertToIterativeBase
-# //
-# //******************************************************************************
-
-def convertToIterativeBase( value, baseFunction, outputBaseDigits, numerals ):
-    return 'fred'
-
-
-# //******************************************************************************
-# //
-# //  convertToNonintegerBase
-# //
-# //******************************************************************************
-
-def convertToNonintegerBase( num, base ):
-    epsilon = power( 10, -( mp.dps - 3 ) )
-    minPlace = -( floor( mp.dps / log( base ) ) )
-
-    output = ''
-    integer = ''
-
-    start = True
-    previousPlace = 0
-    remaining = num
-
-    originalPlace = 0
-
-    # find starting place
-    place = int( floor( log( remaining, base ) ) )
-
-    #print( 'remaining', remaining )
-
-    while remaining > epsilon:
-        #print( 'place', place )
-        if place < minPlace:
-            break
-
-        if place == -1:
-            integer = output
-            output = ''
-
-        placeValue = power( base, place )
-        #print( 'placeValue', placeValue )
-
-        value = fdiv( remaining, placeValue )
-
-        value = fmul( value, power( 10, mp.dps - 3 ) )
-        value = nint( value )
-        value = fdiv( value, power( 10, mp.dps - 3 ) )
-
-        value = floor( value )
-        remaining = chop( fsub( remaining, fmul( placeValue, value ) ) )
-        #print( 'remaining', remaining )
-
-        output += str( value )[ : -2 ]
-
-        place -= 1
-
-    #print( 'escaped from loop, place:', place )
-
-    if place >= 0:
-        integer = output + '0' * ( place + 1 )
-        output = ''
-
-    if integer == '':
-        return output, ''
-    else:
-        return integer, output
-
-
-# //******************************************************************************
-# //
-# //  convertToPhiBase
-# //
-# //******************************************************************************
-
-def convertToPhiBase( num ):
-    epsilon = power( 10, -( mp.dps - 3 ) )
-
-    output = ''
-    integer = ''
-
-    start = True
-    previousPlace = 0
-    remaining = num
-
-    originalPlace = 0
-
-    while remaining > epsilon:
-        place = int( floor( log( remaining, phi ) ) )
-
-        if start:
-            output = '1'
-            start = False
-            originalPlace = place
-        else:
-            if place < -( originalPlace + 1 ):
-                break
-
-            for i in range( previousPlace, place + 1, -1 ):
-                output += '0'
-
-                if ( i == 1 ):
-                    integer = output
-                    output = ''
-
-            output += '1'
-
-            if place == 0:
-                integer = output
-                output = ''
-
-        previousPlace = place
-        remaining -= power( phi, place )
-
-    if integer == '':
-        return output, ''
-    else:
-        return integer, output
-
-
-# //******************************************************************************
-# //
-# //  convertToFibBase
-# //
-# //  Returns a string with Fibonacci encoding for n (n >= 1).
-# //
-# //  adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
-# //
-# //******************************************************************************
-
-def convertToFibBase( value ):
-    result = ''
-
-    n = value
-
-    if n >= 1:
-        a = 1
-        b = 1
-
-        c = fadd( a, b )    # next Fibonacci number
-        fibs = [ b ]        # list of Fibonacci numbers, starting with F(2), each <= n
-
-        while n >= c:
-            fibs.append( c )  # add next Fibonacci number to end of list
-            a = b
-            b = c
-            c = fadd( a, b )
-
-        for fibnum in reversed( fibs ):
-            if n >= fibnum:
-                n = fsub( n, fibnum )
-                result = result + '1'
-            else:
-                result = result + '0'
-
-    return result
-
-
-# //******************************************************************************
-# //
 # //  addAliases
 # //
 # //******************************************************************************
@@ -678,100 +336,147 @@ def validateArguments( terms ):
 
 # //******************************************************************************
 # //
-# //  evaluateOneListFunction
+# //  getCurrentArgList
 # //
 # //******************************************************************************
 
-def evaluateOneListFunction( func, args ):
-    if isinstance( args, list ):
-        for arg in args:
-            if isinstance( arg, list ) and isinstance( arg[ 0 ], list ):
-                return [ evaluateOneListFunction( func, arg ) for arg in args ]
+def getCurrentArgList( valueList ):
+    argList = valueList
 
-        return func( args )
+    for i in range( 0, g.nestedListLevel ):
+        argList = argList[ -1 ]
+
+    return argList
+
+
+# //******************************************************************************
+# //
+# //  abortArgsNeeded
+# //
+# //******************************************************************************
+
+def abortArgsNeeded( term, index, argsNeeded ):
+    print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
+           format( argsNeeded ) + ' argument', end = '' )
+
+    print( 's' if argsNeeded > 1 else '' )
+
+
+# //******************************************************************************
+# //
+# //  handleIdentify
+# //
+# //******************************************************************************
+
+def handleIdentify( result ):
+    formula = identify( result )
+
+    if formula is None:
+        base = [ 'pi', 'e', 'euler' ]
+        formula = identify( result, base )
+
+    if formula is None:
+        print( '    = [formula cannot be found]' )
     else:
-        return func( [ args ] )
+        print( '    = ' + formula )
 
 
 # //******************************************************************************
 # //
-# //  evaluateOneArgFunction
+# //  findPolynomial
 # //
 # //******************************************************************************
 
-def evaluateOneArgFunction( func, args ):
-    if isinstance( args, list ):
-        return [ evaluateOneArgFunction( func, i ) for i in args ]
+def findPolynomial( n, k ):
+    poly = findpoly( n, int( k ) )
+
+    if poly is None:
+        poly = findpoly( n, int( k ), tol = 1e-10 )
+
+    if poly is None:
+        poly = findpoly( n, int( k ), tol = 1e-7 )
+
+    if poly is None:
+        return [ 0 ]
     else:
-        return func( args )
+        return poly
 
 
 # //******************************************************************************
 # //
-# //  evaluateTwoArgFunction
-# //
-# //  This seems somewhat non-pythonic...
+# //  loadResult
 # //
 # //******************************************************************************
 
-def evaluateTwoArgFunction( func, _arg1, _arg2 ):
-    if isinstance( _arg1, list ):
-        len1 = len( _arg1 )
-        if len1 == 1:
-            arg1 = _arg1[ 0 ]
-            list1 = False
-        else:
-            arg1 = _arg1
-            list1 = True
+def loadResult( valueList ):
+    try:
+        fileName = g.dataPath + os.sep + 'result.pckl.bz2'
+
+        with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
+            result = pickle.load( pickleFile )
+    except FileNotFoundError:
+        result = mapmathify( 0 )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  saveResult
+# //
+# //******************************************************************************
+
+def saveResult( result ):
+    if not os.path.isdir( g.dataPath ):
+        os.makedirs( g,dataPath )
+
+    fileName = g.dataPath + os.sep + 'result.pckl.bz2'
+
+    with DelayedKeyboardInterrupt( ):
+        with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
+            pickle.dump( result, pickleFile )
+
+
+# //******************************************************************************
+# //
+# //  printStats
+# //
+# //******************************************************************************
+
+def printStats( dict, name ):
+    index = max( [ key for key in dict ] )
+
+    print( '{:10,} {:23} max: {:14,} ({:,})'.format( len( dict ), name, index, dict[ index ] ) )
+
+
+# //******************************************************************************
+# //
+# //  printHelpMessage
+# //
+# //******************************************************************************
+
+def printHelpMessage( ):
+    printHelp( operators, listOperators, modifiers, '', True )
+    return 0
+
+
+# //******************************************************************************
+# //
+# //  printHelpTopic
+# //
+# //******************************************************************************
+
+def printHelpTopic( n ):
+    if isinstance( n, str ):
+        printHelp( operators, listOperators, modifiers, n, True )
+    #elif isinstance( n, RPNMeasurement ):
+        units = n.getUnits( )
+        # help for units isn't implemented yet, but now it will work
+        printHelp( operators, listOperators, modifiers, list( units.keys( ) )[ 0 ], True )
     else:
-        arg1 = _arg1
-        list1 = False
+        print( 'The \'topic\' operator requires a string argument.' )
 
-    if isinstance( _arg2, list ):
-        len2 = len( _arg2 )
-        if len2 == 1:
-            arg2 = _arg2[ 0 ]
-            list2 = False
-        else:
-            arg2 = _arg2
-            list2 = True
-    else:
-        arg2 = _arg2
-        list2 = False
-
-    if list1:
-        if list2:
-            return [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ] ) for index in range( 0, min( len1, len2 ) ) ]
-        else:
-            return [ evaluateTwoArgFunction( func, i, arg2 ) for i in arg1 ]
-
-    else:
-        if list2:
-            return [ evaluateTwoArgFunction( func, arg1, j ) for j in arg2 ]
-        else:
-            return func( arg2, arg1 )
-
-
-# //******************************************************************************
-# //
-# //  callers
-# //
-# //******************************************************************************
-
-callers = [
-    lambda func, args: [ func( ) ],
-    evaluateOneArgFunction,
-    evaluateTwoArgFunction,
-
-    # 3, 4, and 5 argument functions don't recurse with lists more than one level
-
-    lambda func, arg1, arg2, arg3:
-        [ func( a, b, c ) for c in arg1 for b in arg2 for a in arg3 ],
-    lambda func, arg1, arg2, arg3, arg4:
-        [ func( a, b, c, d ) for d in arg1 for c in arg2 for b in arg3 for a in arg4 ],
-    lambda func, arg1, arg2, arg3, arg4, arg5:
-        [ func( a, b, c, d, e ) for e in arg1 for d in arg2 for c in arg3 for b in arg4 for a in arg5 ],
-]
+    return 0
 
 
 # //******************************************************************************
@@ -784,36 +489,8 @@ callers = [
 # //******************************************************************************
 
 def getExpandedFactorList( factors ):
-    factors = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
-    return sorted( reduce( lambda x, y: x + y, factors, [ ] ) )
+    factorMap = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
+    return sorted( reduce( lambda x, y: x + y, factorMap, [ ] ) )
 
 
-# //******************************************************************************
-# //
-# //  convertLatLongToNAC
-# //
-# //  https://en.wikipedia.org/wiki/Natural_Area_Code
-# //
-# //******************************************************************************
-
-def convertLatLongToNAC( args ):
-    if not isinstance( args, list ):
-        args = [ args, 0 ]
-    elif len( args ) > 0 and isinstance( args[ 0 ], list ):
-        return [ convertLatLongToNAC( i ) for i in args ]
-    elif len( args ) == 1:
-        args.append( 0 )
-
-    numerals = '0123456789BCDFGHJKLMNPQRSTVWXZ'
-
-    if args[ 0 ] > 90.0 or args[ 0 ] < -90.0:
-        raise ValueError( '\'natural_area_code\' requires a latitude parameter of -90 to 90' )
-
-    if args[ 1 ] > 180.0 or args[ 1 ] < -180.0:
-        raise ValueError( '\'natural_area_code\' requires a longitutde parameter of -180 to 180' )
-
-    lat = fdiv( fadd( args[ 0 ], 90 ), 180 ) * 729000000
-    long = fdiv( fadd( args[ 1 ], 180 ), 360 ) * 729000000   # 30 ** 6
-
-    return convertToBaseN( long, 30, False, numerals ) + ' ' + convertToBaseN( lat, 30, False, numerals )
 

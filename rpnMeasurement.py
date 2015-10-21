@@ -705,3 +705,21 @@ def estimate( measurement ):
     else:
         raise TypeError( 'incompatible type for estimating' )
 
+
+# //******************************************************************************
+# //
+# //  applyNumberValueToUnit
+# //
+# //  We have to treat constant units differently because they become plain
+# //  numbers.
+# //
+# //******************************************************************************
+
+def applyNumberValueToUnit( number, term ):
+    if g.unitOperators[ term ].unitType == 'constant':
+        value = mpf( RPNMeasurement( number, term ).convertValue( RPNMeasurement( 1, { 'unity' : 1 } ) ) )
+    else:
+        value = RPNMeasurement( number, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
+
+    return value
+

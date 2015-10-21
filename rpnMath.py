@@ -293,3 +293,14 @@ def isInteger( n ):
 def divides( n, k ):
     return isInteger( n / k );
 
+
+# //******************************************************************************
+# //
+# //  round
+# //
+# //******************************************************************************
+
+def round( n, decimals ):
+    factor = power( 10, decimals )
+    return fdiv( nint( fmul( n, factor ) ), factor )
+

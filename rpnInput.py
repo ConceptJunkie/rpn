@@ -18,7 +18,7 @@ import math
 from mpmath import *
 
 from rpnDateTime import RPNDateTime
-from rpnUtils import setAccuracy
+from rpnSettings import setAccuracy
 
 import rpnGlobals as g
 

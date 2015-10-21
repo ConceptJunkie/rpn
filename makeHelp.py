@@ -4202,7 +4202,7 @@ non-zero value.
 '''
 Which of the first 80 fibonacci numbers is prime?
 
-c:\>rpn -p80 1 80 range fib x is_prime filter
+c:\>rpn -a20 1 80 range fib x is_prime filter
 [ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
 ''' ],
 

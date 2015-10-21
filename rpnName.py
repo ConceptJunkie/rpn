@@ -224,14 +224,21 @@ def getNumberName( n, ordinal = False ):
     group = 0
     name = ''
 
+    firstTime = True
+
     while current > 0:
-        section = getSmallNumberName( int( fmod( current, 1000 ) ), ordinal )
+        section = getSmallNumberName( int( fmod( current, 1000 ) ), ordinal if firstTime else False )
+
+        firstTime = False
 
         if section != '':
             groupName = getNumberGroupName( group )
 
             if groupName != '':
                 section += ' ' + groupName
+
+                if ordinal and name == '':
+                    section += 'th'
 
             if name == '':
                 name = section

@@ -21,13 +21,13 @@ from mpmath import *
 
 from random import randrange
 
+from rpnAliases import *
 from rpnAstronomy import *
 from rpnCalendar import *
 from rpnCombinatorics import *
 from rpnComputer import *
 from rpnConstants import *
 from rpnDateTime import *
-from rpnDeclarations import *
 from rpnFactor import *
 from rpnGeometry import *
 from rpnInput import *
@@ -46,52 +46,6 @@ from rpnSettings import *
 from rpnUtils import *
 
 from rpnOutput import printHelp
-
-
-# //******************************************************************************
-# //
-# //  getCurrentArgList
-# //
-# //******************************************************************************
-
-def getCurrentArgList( valueList ):
-    argList = valueList
-
-    for i in range( 0, g.nestedListLevel ):
-        argList = argList[ -1 ]
-
-    return argList
-
-
-# //******************************************************************************
-# //
-# //  applyNumberValueToUnit
-# //
-# //  We have to treat constant units differently because they become plain
-# //  numbers.
-# //
-# //******************************************************************************
-
-def applyNumberValueToUnit( number, term ):
-    if g.unitOperators[ term ].unitType == 'constant':
-        value = mpf( RPNMeasurement( number, term ).convertValue( RPNMeasurement( 1, { 'unity' : 1 } ) ) )
-    else:
-        value = RPNMeasurement( number, term, g.unitOperators[ term ].representation, g.unitOperators[ term ].plural )
-
-    return value
-
-
-# //******************************************************************************
-# //
-# //  abortArgsNeeded
-# //
-# //******************************************************************************
-
-def abortArgsNeeded( term, index, argsNeeded ):
-    print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
-           format( argsNeeded ) + ' argument', end = '' )
-
-    print( 's' if argsNeeded > 1 else '' )
 
 
 # //******************************************************************************
@@ -182,367 +136,6 @@ def evaluateListOperator( term, index, currentValueList ):
         currentValueList.append( operatorInfo.function( *listArgs ) )
 
     return True
-
-
-# //******************************************************************************
-# //
-# //  handleIdentify
-# //
-# //******************************************************************************
-
-def handleIdentify( result ):
-    formula = identify( result )
-
-    if formula is None:
-        base = [ 'pi', 'e', 'euler' ]
-        formula = identify( result, base )
-
-    if formula is None:
-        print( '    = [formula cannot be found]' )
-    else:
-        print( '    = ' + formula )
-
-
-# //******************************************************************************
-# //
-# //  findPolynomial
-# //
-# //******************************************************************************
-
-def findPolynomial( n, k ):
-    poly = findpoly( n, int( k ) )
-
-    if poly is None:
-        poly = findpoly( n, int( k ), tol = 1e-10 )
-
-    if poly is None:
-        poly = findpoly( n, int( k ), tol = 1e-7 )
-
-    if poly is None:
-        return [ 0 ]
-    else:
-        return poly
-
-
-# //******************************************************************************
-# //
-# //  loadResult
-# //
-# //******************************************************************************
-
-def loadResult( valueList ):
-    try:
-        fileName = g.dataPath + os.sep + 'result.pckl.bz2'
-
-        with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
-            result = pickle.load( pickleFile )
-    except FileNotFoundError:
-        result = mapmathify( 0 )
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  saveResult
-# //
-# //******************************************************************************
-
-def saveResult( result ):
-    if not os.path.isdir( g.dataPath ):
-        os.makedirs( g,dataPath )
-
-    fileName = g.dataPath + os.sep + 'result.pckl.bz2'
-
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
-            pickle.dump( result, pickleFile )
-
-
-# //******************************************************************************
-# //
-# //  dumpOperators
-# //
-# //******************************************************************************
-
-def dumpOperators( ):
-    print( 'operators:' )
-
-    for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
-        print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
-
-    print( )
-
-    print( 'list operators:' )
-
-    for i in sorted( [ key for key in listOperators ] ):
-        print( '   ' + i )
-
-    print( )
-
-    print( 'modifer operators:' )
-
-    for i in sorted( [ key for key in modifiers ] ):
-        print( '   ' + i )
-
-    print( )
-    print( 'internal operators:' )
-
-    for i in sorted( [ key for key in operators if key[ 0 ] == '_' ] ):
-        print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
-
-    print( )
-
-
-    return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
-
-
-# //******************************************************************************
-# //
-# //  dumpAliases
-# //
-# //******************************************************************************
-
-def dumpAliases( ):
-    for alias in sorted( [ key for key in g.operatorAliases ] ):
-        print( alias, g.operatorAliases[ alias ] )
-
-    print( )
-
-    return len( g.operatorAliases )
-
-
-# //******************************************************************************
-# //
-# //  printStats
-# //
-# //******************************************************************************
-
-def printStats( dict, name ):
-    index = max( [ key for key in dict ] )
-
-    print( '{:10,} {:23} max: {:14,} ({:,})'.format( len( dict ), name, index, dict[ index ] ) )
-
-
-# //******************************************************************************
-# //
-# //  dumpStats
-# //
-# //******************************************************************************
-
-def dumpStats( ):
-    if not g.unitConversionMatrix:
-        loadUnitConversionMatrix( )
-
-    print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) +
-                                             len( modifiers ) ) )
-    print( '{:10,} unit conversions'.format( len( g.unitConversionMatrix ) ) )
-    print( )
-
-    printStats( loadSmallPrimes( g.dataPath ), 'small primes' )
-    printStats( loadLargePrimes( g.dataPath ), 'large primes' )
-    printStats( loadHugePrimes( g.dataPath ), 'huge primes' )
-    printStats( loadIsolatedPrimes( g.dataPath ), 'isolated primes' )
-    printStats( loadTwinPrimes( g.dataPath ), 'twin primes' )
-    printStats( loadBalancedPrimes( g.dataPath ), 'balanced primes' )
-    printStats( loadDoubleBalancedPrimes( g.dataPath ), 'double balanced primes' )
-    printStats( loadTripleBalancedPrimes( g.dataPath ), 'triple balanced primes' )
-    printStats( loadSophiePrimes( g.dataPath ), 'Sophie Germain primes' )
-    printStats( loadCousinPrimes( g.dataPath ), 'cousin primes' )
-    printStats( loadSexyPrimes( g.dataPath ), 'sexy primes' )
-    printStats( loadTripletPrimes( g.dataPath ), 'triplet primes' )
-    printStats( loadSexyTripletPrimes( g.dataPath ), 'sexy triplet primes' )
-    printStats( loadQuadrupletPrimes( g.dataPath ), 'quadruplet primes' )
-    printStats( loadSexyQuadrupletPrimes( g.dataPath ), 'sexy quadruplet primes' )
-    printStats( loadQuintupletPrimes( g.dataPath ), 'quintuplet primes' )
-    printStats( loadSextupletPrimes( g.dataPath ), 'sextuplet primes' )
-
-    print( )
-
-    return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
-
-
-# //******************************************************************************
-# //
-# //  printHelpMessage
-# //
-# //******************************************************************************
-
-def printHelpMessage( ):
-    printHelp( operators, listOperators, modifiers, '', True )
-    return 0
-
-
-# //******************************************************************************
-# //
-# //  printHelpTopic
-# //
-# //******************************************************************************
-
-def printHelpTopic( n ):
-    if isinstance( n, str ):
-        printHelp( operators, listOperators, modifiers, n, True )
-    elif isinstance( n, RPNMeasurement ):
-        units = n.getUnits( )
-        # help for units isn't implemented yet, but now it will work
-        printHelp( operators, listOperators, modifiers, list( units.keys( ) )[ 0 ], True )
-    else:
-        print( 'The \'topic\' operator requires a string argument.' )
-
-    return 0
-
-
-# //******************************************************************************
-# //
-# //  evaluateFunction
-# //
-# //  Evaluate a user-defined function.  This is the simplest operator to use
-# //  user-defined functions.   Eventually I want to compile the user-defined
-# //  function into Python code, so when I start passing them to mpmath they'll
-# //  run faster.
-# //
-# //******************************************************************************
-
-def evaluateFunction( a, b, c, func ):
-    if not isinstance( func, FunctionInfo ):
-        raise ValueError( '\'eval\' expects a function argument' )
-
-    if isinstance( a, list ) or isinstance( b, list ) or isinstance( c, list ):
-        result = [ ]
-
-        for item in a:
-            result.append( k.evaluate( item ) )
-
-        return result
-    else:
-        valueList = [ ]
-
-        for index, item in enumerate( func.valueList ):
-            if index < func.startingIndex:
-                continue
-
-            if item == 'x':
-                valueList.append( a )
-            elif item == 'y':
-                valueList.append( b )
-            elif item == 'z':
-                valueList.append( c )
-            else:
-                valueList.append( item )
-
-        index = 1
-
-        while len( valueList ) > 1:
-            oldValueList = list( valueList )
-            listLength = len( valueList )
-
-            term = valueList.pop( 0 )
-
-            if not isinstance( term, list ) and term in g.operatorAliases:
-                term = g.operatorAliases[ term ]
-
-            g.creatingFunction = False
-
-            try:
-                if not evaluateTerm( term, index, valueList ):
-                    break
-            except:
-                return 0
-
-            index = index + 1
-
-            validFormula = True
-
-            if len( valueList ) > 1:
-                validFormula = False
-
-                for value in valueList:
-                    if not isinstance( value, mpf ):
-                        validFormula = True
-                        break
-
-            if not validFormula:
-                raise ValueError( 'evaluateFunction:  incompletely specified function' )
-
-        return valueList[ 0 ]
-
-
-# //******************************************************************************
-# //
-# //  evaluateFunction1
-# //
-# //******************************************************************************
-
-def evaluateFunction1( n, k ):
-    return evaluateFunction( n, 0, 0, k )
-
-
-# //******************************************************************************
-# //
-# //  evaluateFunction2
-# //
-# //******************************************************************************
-
-def evaluateFunction2( a, b, c ):
-    return evaluateFunction( a, b, 0, c )
-
-
-# //******************************************************************************
-# //
-# //  evaluateFunction3
-# //
-# //******************************************************************************
-
-def evaluateFunction3( a, b, c, d ):
-    return evaluateFunction( a, b, c, d )
-
-
-# //******************************************************************************
-# //
-# //  plotFunction
-# //
-# //******************************************************************************
-
-def plotFunction( start, end, func ):
-    plot( lambda x: evaluateFunction1( x, func ), [ start, end ] )
-    return 0
-
-
-# //******************************************************************************
-# //
-# //  plot2DFunction
-# //
-# //******************************************************************************
-
-def plot2DFunction( start1, end1, start2, end2, func ):
-    splot( lambda x, y: evaluateFunction( x, y, 0, func ),
-           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
-    return 0
-
-
-# //******************************************************************************
-# //
-# //  plot2DFunction
-# //
-# //******************************************************************************
-
-def plot2DFunction( start1, end1, start2, end2, func ):
-    splot( lambda x, y: evaluateFunction( x, y, 0, func ),
-           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
-    return 0
-
-
-# //******************************************************************************
-# //
-# //  plotComplexFunction
-# //
-# //******************************************************************************
-
-def plotComplexFunction( start1, end1, start2, end2, func ):
-    cplot( lambda x: evaluateFunction( x, 0, 0, func ),
-           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ],
-           points = 10000 )
-    return 0
 
 
 # //******************************************************************************
@@ -695,6 +288,425 @@ def evaluateTerm( term, index, currentValueList ):
             return False
 
     return True
+
+
+# //******************************************************************************
+# //
+# //  dumpOperators
+# //
+# //******************************************************************************
+
+def dumpOperators( ):
+    print( 'operators:' )
+
+    for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
+        print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
+
+    print( )
+
+    print( 'list operators:' )
+
+    for i in sorted( [ key for key in listOperators ] ):
+        print( '   ' + i )
+
+    print( )
+
+    print( 'modifer operators:' )
+
+    for i in sorted( [ key for key in modifiers ] ):
+        print( '   ' + i )
+
+    print( )
+    print( 'internal operators:' )
+
+    for i in sorted( [ key for key in operators if key[ 0 ] == '_' ] ):
+        print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
+
+    print( )
+
+
+    return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
+
+
+# //******************************************************************************
+# //
+# //  evaluateOneListFunction
+# //
+# //******************************************************************************
+
+def evaluateOneListFunction( func, args ):
+    if isinstance( args, list ):
+        for arg in args:
+            if isinstance( arg, list ) and isinstance( arg[ 0 ], list ):
+                return [ evaluateOneListFunction( func, arg ) for arg in args ]
+
+        return func( args )
+    else:
+        return func( [ args ] )
+
+
+# //******************************************************************************
+# //
+# //  evaluateOneArgFunction
+# //
+# //******************************************************************************
+
+def evaluateOneArgFunction( func, args ):
+    if isinstance( args, list ):
+        return [ evaluateOneArgFunction( func, i ) for i in args ]
+    else:
+        return func( args )
+
+
+# //******************************************************************************
+# //
+# //  evaluateTwoArgFunction
+# //
+# //  This seems somewhat non-pythonic...
+# //
+# //******************************************************************************
+
+def evaluateTwoArgFunction( func, _arg1, _arg2 ):
+    if isinstance( _arg1, list ):
+        len1 = len( _arg1 )
+        if len1 == 1:
+            arg1 = _arg1[ 0 ]
+            list1 = False
+        else:
+            arg1 = _arg1
+            list1 = True
+    else:
+        arg1 = _arg1
+        list1 = False
+
+    if isinstance( _arg2, list ):
+        len2 = len( _arg2 )
+        if len2 == 1:
+            arg2 = _arg2[ 0 ]
+            list2 = False
+        else:
+            arg2 = _arg2
+            list2 = True
+    else:
+        arg2 = _arg2
+        list2 = False
+
+    if list1:
+        if list2:
+            return [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ] ) for index in range( 0, min( len1, len2 ) ) ]
+        else:
+            return [ evaluateTwoArgFunction( func, i, arg2 ) for i in arg1 ]
+
+    else:
+        if list2:
+            return [ evaluateTwoArgFunction( func, arg1, j ) for j in arg2 ]
+        else:
+            return func( arg2, arg1 )
+
+
+# //******************************************************************************
+# //
+# //  callers
+# //
+# //******************************************************************************
+
+callers = [
+    lambda func, args: [ func( ) ],
+    evaluateOneArgFunction,
+    evaluateTwoArgFunction,
+
+    # 3, 4, and 5 argument functions don't recurse with lists more than one level
+
+    lambda func, arg1, arg2, arg3:
+        [ func( a, b, c ) for c in arg1 for b in arg2 for a in arg3 ],
+    lambda func, arg1, arg2, arg3, arg4:
+        [ func( a, b, c, d ) for d in arg1 for c in arg2 for b in arg3 for a in arg4 ],
+    lambda func, arg1, arg2, arg3, arg4, arg5:
+        [ func( a, b, c, d, e ) for e in arg1 for d in arg2 for c in arg3 for b in arg4 for a in arg5 ],
+]
+
+
+# //******************************************************************************
+# //
+# //  evaluateFunction
+# //
+# //  Evaluate a user-defined function.  This is the simplest operator to use
+# //  user-defined functions.   Eventually I want to compile the user-defined
+# //  function into Python code, so when I start passing them to mpmath they'll
+# //  run faster.
+# //
+# //******************************************************************************
+
+def evaluateFunction( a, b, c, func ):
+    if not isinstance( func, FunctionInfo ):
+        raise ValueError( '\'eval\' expects a function argument' )
+
+    if isinstance( a, list ) or isinstance( b, list ) or isinstance( c, list ):
+        result = [ ]
+
+        for item in a:
+            result.append( k.evaluate( item ) )
+
+        return result
+    else:
+        valueList = [ ]
+
+        for index, item in enumerate( func.valueList ):
+            if index < func.startingIndex:
+                continue
+
+            if item == 'x':
+                valueList.append( a )
+            elif item == 'y':
+                valueList.append( b )
+            elif item == 'z':
+                valueList.append( c )
+            else:
+                valueList.append( item )
+
+        index = 1
+
+        while len( valueList ) > 1:
+            oldValueList = list( valueList )
+            listLength = len( valueList )
+
+            term = valueList.pop( 0 )
+
+            if not isinstance( term, list ) and term in g.operatorAliases:
+                term = g.operatorAliases[ term ]
+
+            g.creatingFunction = False
+
+            #try:
+            if not evaluateTerm( term, index, valueList ):
+                break
+            #except:
+            #    return 0
+
+            index = index + 1
+
+            validFormula = True
+
+            if len( valueList ) > 1:
+                validFormula = False
+
+                for value in valueList:
+                    if not isinstance( value, mpf ):
+                        validFormula = True
+                        break
+
+            if not validFormula:
+                raise ValueError( 'evaluateFunction:  incompletely specified function' )
+
+        return valueList[ 0 ]
+
+
+# //******************************************************************************
+# //
+# //  evaluateFunction1
+# //
+# //******************************************************************************
+
+def evaluateFunction1( n, k ):
+    return evaluateFunction( n, 0, 0, k )
+
+
+# //******************************************************************************
+# //
+# //  evaluateFunction2
+# //
+# //******************************************************************************
+
+def evaluateFunction2( a, b, c ):
+    return evaluateFunction( a, b, 0, c )
+
+
+# //******************************************************************************
+# //
+# //  evaluateFunction3
+# //
+# //******************************************************************************
+
+def evaluateFunction3( a, b, c, d ):
+    return evaluateFunction( a, b, c, d )
+
+
+# //******************************************************************************
+# //
+# //  plotFunction
+# //
+# //******************************************************************************
+
+def plotFunction( start, end, func ):
+    plot( lambda x: evaluateFunction1( x, func ), [ start, end ] )
+    return 0
+
+
+# //******************************************************************************
+# //
+# //  plot2DFunction
+# //
+# //******************************************************************************
+
+def plot2DFunction( start1, end1, start2, end2, func ):
+    splot( lambda x, y: evaluateFunction( x, y, 0, func ),
+           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
+    return 0
+
+
+# //******************************************************************************
+# //
+# //  plot2DFunction
+# //
+# //******************************************************************************
+
+def plot2DFunction( start1, end1, start2, end2, func ):
+    splot( lambda x, y: evaluateFunction( x, y, 0, func ),
+           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
+    return 0
+
+
+# //******************************************************************************
+# //
+# //  plotComplexFunction
+# //
+# //******************************************************************************
+
+def plotComplexFunction( start1, end1, start2, end2, func ):
+    cplot( lambda x: evaluateFunction( x, 0, 0, func ),
+           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ],
+           points = 10000 )
+    return 0
+
+
+# //******************************************************************************
+# //
+# //  filterList
+# //
+# //******************************************************************************
+
+def filterList( n, k, invert = False ) :
+    if not isinstance( n, list ):
+        n = [ n ]
+
+    if not isinstance( k, FunctionInfo ):
+        if invert:
+            raise ValueError( '\'unfilter\' expects a function argument' )
+        else:
+            raise ValueError( '\'filter\' expects a function argument' )
+
+    result = [ ]
+
+    for item in n:
+        value = evaluateFunction( item, 0, 0, k )
+
+        if ( value != 0 ) != invert:
+            result.append( item )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  filterListByIndex
+# //
+# //******************************************************************************
+
+def filterListByIndex( n, k, invert = False ) :
+    if not isinstance( n, list ):
+        n = [ n ]
+
+    if not isinstance( k, FunctionInfo ):
+        if invert:
+            raise ValueError( '\'unfilter_by_index\' expects a function argument' )
+        else:
+            raise ValueError( '\'filter_by_index\' expects a function argument' )
+
+    result = [ ]
+
+    for index, item in enumerate( n ):
+        value = evaluateFunction( index, 0, 0, k )
+
+        if ( value != 0 ) != invert:
+            result.append( item )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  dumpOperators
+# //
+# //******************************************************************************
+
+def dumpOperators( ):
+    print( 'operators:' )
+
+    for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
+        print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
+
+    print( )
+
+    print( 'list operators:' )
+
+    for i in sorted( [ key for key in listOperators ] ):
+        print( '   ' + i )
+
+    print( )
+
+    print( 'modifer operators:' )
+
+    for i in sorted( [ key for key in modifiers ] ):
+        print( '   ' + i )
+
+    print( )
+    print( 'internal operators:' )
+
+    for i in sorted( [ key for key in operators if key[ 0 ] == '_' ] ):
+        print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
+
+    print( )
+
+
+    return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
+
+
+# //******************************************************************************
+# //
+# //  dumpStats
+# //
+# //******************************************************************************
+
+def dumpStats( ):
+    if not g.unitConversionMatrix:
+        loadUnitConversionMatrix( )
+
+    print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) +
+                                             len( modifiers ) ) )
+    print( '{:10,} unit conversions'.format( len( g.unitConversionMatrix ) ) )
+    print( )
+
+    printStats( loadSmallPrimes( g.dataPath ), 'small primes' )
+    printStats( loadLargePrimes( g.dataPath ), 'large primes' )
+    printStats( loadHugePrimes( g.dataPath ), 'huge primes' )
+    printStats( loadIsolatedPrimes( g.dataPath ), 'isolated primes' )
+    printStats( loadTwinPrimes( g.dataPath ), 'twin primes' )
+    printStats( loadBalancedPrimes( g.dataPath ), 'balanced primes' )
+    printStats( loadDoubleBalancedPrimes( g.dataPath ), 'double balanced primes' )
+    printStats( loadTripleBalancedPrimes( g.dataPath ), 'triple balanced primes' )
+    printStats( loadSophiePrimes( g.dataPath ), 'Sophie Germain primes' )
+    printStats( loadCousinPrimes( g.dataPath ), 'cousin primes' )
+    printStats( loadSexyPrimes( g.dataPath ), 'sexy primes' )
+    printStats( loadTripletPrimes( g.dataPath ), 'triplet primes' )
+    printStats( loadSexyTripletPrimes( g.dataPath ), 'sexy triplet primes' )
+    printStats( loadQuadrupletPrimes( g.dataPath ), 'quadruplet primes' )
+    printStats( loadSexyQuadrupletPrimes( g.dataPath ), 'sexy quadruplet primes' )
+    printStats( loadQuintupletPrimes( g.dataPath ), 'quintuplet primes' )
+    printStats( loadSextupletPrimes( g.dataPath ), 'sextuplet primes' )
+
+    print( )
+
+    return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
 
 
 # //******************************************************************************
@@ -1435,4 +1447,5 @@ operators = {
 #    'oberon'                        : OperatorInfo( ephem.Oberon, 0 ),
 #    'miranda'                       : OperatorInfo( ephem.Miranda, 0 ),
 }
+
 

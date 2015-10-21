@@ -21,6 +21,7 @@ import os
 from mpmath import *
 
 from rpnMeasurement import RPNMeasurement
+from rpnOutput import convertToBaseN
 
 import rpnGlobals as g
 
@@ -196,4 +197,35 @@ def getDistance( location1, location2 ):
                          ( location2.getLat( ), location2.getLong( ) ) ).miles
 
     return RPNMeasurement( distance, [ { 'mile' : 1 } ] )
+
+
+# //******************************************************************************
+# //
+# //  convertLatLongToNAC
+# //
+# //  https://en.wikipedia.org/wiki/Natural_Area_Code
+# //
+# //******************************************************************************
+
+def convertLatLongToNAC( args ):
+    if not isinstance( args, list ):
+        args = [ args, 0 ]
+    elif len( args ) > 0 and isinstance( args[ 0 ], list ):
+        return [ convertLatLongToNAC( i ) for i in args ]
+    elif len( args ) == 1:
+        args.append( 0 )
+
+    numerals = '0123456789BCDFGHJKLMNPQRSTVWXZ'
+
+    if args[ 0 ] > 90.0 or args[ 0 ] < -90.0:
+        raise ValueError( '\'natural_area_code\' requires a latitude parameter of -90 to 90' )
+
+    if args[ 1 ] > 180.0 or args[ 1 ] < -180.0:
+        raise ValueError( '\'natural_area_code\' requires a longitutde parameter of -180 to 180' )
+
+    lat = fdiv( fadd( args[ 0 ], 90 ), 180 ) * 729000000
+    long = fdiv( fadd( args[ 1 ], 180 ), 360 ) * 729000000   # 30 ** 6
+
+    return convertToBaseN( long, 30, False, numerals ) + ' ' + convertToBaseN( lat, 30, False, numerals )
+
 

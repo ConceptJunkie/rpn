@@ -20,16 +20,13 @@ import os
 import pickle
 import random
 
-from rpnDeclarations import *
-
-from rpnUtils import setAccuracy
-from rpnPrimes import primes
-from rpnUtils import DelayedKeyboardInterrupt
-
 import rpnGlobals as g
 
-from pyecm import factors
-from rpnUtils import getExpandedFactorList
+from rpnDeclarations import *
+from rpnPersistence import *
+from rpnPrimes import primes
+from rpnSettings import setAccuracy
+from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList
 
 
 # //******************************************************************************
@@ -636,6 +633,8 @@ def getFactorList( n ):
 # //******************************************************************************
 
 def getECMFactors( target ):
+    from pyecm import factors
+
     n = int( target )
 
     verbose = g.verbose

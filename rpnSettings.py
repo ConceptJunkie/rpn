@@ -19,6 +19,24 @@ import rpnGlobals as g
 
 # //******************************************************************************
 # //
+# //  setAccuracy
+# //
+# //******************************************************************************
+
+def setAccuracy( n ):
+    if n == -1:
+        g.outputAccuracy = g.defaultOutputAccuracy
+    else:
+        g.outputAccuracy = int( n )
+
+    if mp.dps < g.outputAccuracy:
+        mp.dps = g.outputAccuracy
+
+    return g.outputAccuracy
+
+
+# //******************************************************************************
+# //
 # //  setPrecision
 # //
 # //******************************************************************************

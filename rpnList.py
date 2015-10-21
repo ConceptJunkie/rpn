@@ -885,60 +885,6 @@ def getOccurrences( args ):
 
 # //******************************************************************************
 # //
-# //  filterList
-# //
-# //******************************************************************************
-
-def filterList( n, k, invert = False ) :
-    if not isinstance( n, list ):
-        n = [ n ]
-
-    if not isinstance( k, FunctionInfo ):
-        if invert:
-            raise ValueError( '\'unfilter\' expects a function argument' )
-        else:
-            raise ValueError( '\'filter\' expects a function argument' )
-
-    result = [ ]
-
-    for item in n:
-        value = evaluateFunction( item, 0, 0, k )
-
-        if ( value != 0 ) != invert:
-            result.append( item )
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  filterListByIndex
-# //
-# //******************************************************************************
-
-def filterListByIndex( n, k, invert = False ) :
-    if not isinstance( n, list ):
-        n = [ n ]
-
-    if not isinstance( k, FunctionInfo ):
-        if invert:
-            raise ValueError( '\'unfilter_by_index\' expects a function argument' )
-        else:
-            raise ValueError( '\'filter_by_index\' expects a function argument' )
-
-    result = [ ]
-
-    for index, item in enumerate( n ):
-        value = evaluateFunction( index, 0, 0, k )
-
-        if ( value != 0 ) != invert:
-            result.append( item )
-
-    return result
-
-
-# //******************************************************************************
-# //
 # //  flatten
 # //
 # //******************************************************************************
