@@ -37,6 +37,8 @@ formatting, which I haven't gotten around to investigating, but otherwise it
 works great.  Where else can you factor a 50-digit number on your Android
 device?
 
+****
+
 The current release is 6.4.0.
 
 rpn is a console app and can be launched from the command-line.  However,
@@ -70,6 +72,9 @@ following:
     pip install ephem
     pip install convertdate
     pip install geopy
+
+Note:  Windows users will want to install ephem using the wheels provided here:
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyephem
 
 Before running rpn, you should run the scripts to generate the data files that
 rpn uses for displaying help, doing unit conversions, and looking up various
