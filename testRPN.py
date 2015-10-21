@@ -738,11 +738,17 @@ def runComplexMathOperatorTests( ):
     testOperator( '3 3 i + conjugate' )
 
     # i
-    testOperator( '3 i' )
+    expectEqual( '3 i', '-9 sqrt' )
 
     # imaginary
+    expectResult( '3 i 4 + imaginary', 3 )
+    expectResult( '5 imaginary', 0 )
+    expectResult( '7 i imaginary', 7 )
 
     # real
+    expectResult( '3 i 4 + real', 4 )
+    expectResult( '5 real', 5 )
+    expectResult( '7 i real', 0 )
 
 
 # //******************************************************************************
@@ -1134,33 +1140,41 @@ def runFunctionOperatorTests( ):
     testOperator( '-a20 1 80 range fib x is_prime filter' )
 
     # filter_by_index
+    expectEqual( '0 1000 range x is_prime filter_by_index', '1 168 primes' )
 
     # limit
+    expectEqual( 'infinity x fibonacci x 1 + fibonacci / limit', 'infinity x lucas x 1 + lucas / limit' )
 
     # limitn
+    testOperator( '0 x x / 2 -1 x / power + 1/x limitn' )
 
     # negate
+    expectEqual( '[ 0 10 dup ] negate', '[ 1 10 dup ]' )
 
     # nprod
+    testOperator( '-a20 -p20 -d 5 3 inf x pi / 1/x cos nprod' )
 
     # nsum
+    expectEqual( '1 infinity x 3 ** 1/x nsum', '3 zeta' )
 
     # plot
-
     # plot2
-
     # plotc
 
     # unfilter
-    # OEIS 37
+    expectEqual( '1 100 range x is_square unfilter', '37 oeis 90 left' )
 
     # unfilter_by_index
+    expectEqual( '0 200 range x is_sphenic unfilter_by_index', '0 200 range x is_sphenic unfilter' )
 
     # x
+    testOperator( '23 x 4 ** 5 x 3 ** * + x sqrt - eval' )
 
     # y
+    testOperator( '23 57 x 4 ** 5 x 3 ** * + y sqrt - eval2' )
 
     # z
+    testOperator( '23 57 86 x 4 ** 5 y 3 ** * + z sqrt - eval3' )
 
 
 # //******************************************************************************
@@ -1584,8 +1598,8 @@ def runNumberTheoryOperatorTests( ):
 
     # heptanacci
     testOperator( '623 heptanacci' )
-    #expectEqual( '0 38 range heptanacci', '122189 oeis 39 left' )
-    #expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
+    expectEqual( '0 38 range heptanacci', '122189 oeis 39 left' )
+    expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
 
     # hexanacci
     testOperator( '949 hexanacci' )
