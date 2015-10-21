@@ -1,4 +1,6 @@
 arrow
+convertdate
+ephem
 mpmath>=0.19
-pyreadline>=2.1
 pyprimes
+pyreadline>=2.1
