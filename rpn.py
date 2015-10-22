@@ -301,6 +301,7 @@ def rpn( cmd_args ):
     parser.add_argument( '-d', '--decimal_grouping', nargs = '?', type = int, action = 'store',
                          default = 0, const = g.defaultDecimalGrouping )
     parser.add_argument( '-D', '--DEBUG', action = 'store_true' )
+    parser.add_argument( '-e', '--profile', action = 'store_true' )
     parser.add_argument( '-g', '--integer_grouping', nargs = '?', type = int, action = 'store',
                          default = 0, const = g.defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action = 'store_true' )
@@ -507,8 +508,12 @@ def rpn( cmd_args ):
 
 if __name__ == '__main__':
     try:
-        results = rpn( sys.argv[ 1 : ] )
-        handleOutput( results )
+        for arg in sys.argv:
+            if arg == '-e':
+                import profile
+                profile.run( 'handleOutput( rpn( sys.argv[ 1 : ] ) )' )
+
+        handleOutput( rpn( sys.argv[ 1 : ] ) )
     except ValueError as error:
         print( 'rpn:  value error:  {0}'.format( error ) )
 
