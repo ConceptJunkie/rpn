@@ -141,21 +141,22 @@ def getLocation( name ):
         #print( 'lat/long', result.getLat( ), result.getLong( ) )
         return result
 
+    from geopy.geocoders import Nominatim
+    geolocator = Nominatim( )
+
     try:
-        from geopy.geocoders import Nominatim
-        geolocator = Nominatim( )
         location = geolocator.geocode( name )
+    except:
+        raise ValueError( 'location lookup connection failure, check network connectivity' )
 
-        if location is None:
-            raise ValueError( 'location lookup failed, try a different search term' )
+    if location is None:
+        raise ValueError( 'location lookup failed, try a different search term' )
 
-        observer = ephem.Observer( )
-        result = RPNLocation( name, observer )
+    observer = ephem.Observer( )
+    result = RPNLocation( name, observer )
 
-        result.setLat( location.latitude )
-        result.setLong( location.longitude )
-    except ValueError:
-        raise ValueError( 'location lookup failed' )
+    result.setLat( location.latitude )
+    result.setLong( location.longitude )
 
     result = RPNLocation( name, observer )
 
