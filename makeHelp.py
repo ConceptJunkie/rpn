@@ -6868,17 +6868,6 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
 
-    'next_prime_index' : [
-'prime_numbers', 'finds the index of the closest prime greater than or equal n',
-'''
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through the first billion primes.
-''',
-'''
-''' ],
-
     'next_quadruplet_prime' : [
 'prime_numbers', 'finds the closest set of quadruplet primes above n',
 '''
@@ -6890,7 +6879,29 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
 
-    'next_quadruplet_prime_index' : [
+    'next_quintuplet_prime' : [
+'prime_numbers', 'finds the closest set of quintuplet primes above n',
+'''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+
+    'nth_prime' : [
+'prime_numbers', 'finds the index of the closest prime greater than or equal n',
+'''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through the first billion primes.
+''',
+'''
+''' ],
+
+    'nth_quadruplet_prime' : [
 'prime_numbers', 'finds the index of the first of the closest quadruplet prime set over n',
 '''
 
@@ -6901,8 +6912,8 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
 
-    'next_quintuplet_prime' : [
-'prime_numbers', 'finds the closest set of quintuplet primes above n',
+    'nth_quintuplet_prime' : [
+'prime_numbers', 'finds the index of the first of the closest quintuplet prime set over n',
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively
@@ -6934,17 +6945,6 @@ distributed with data files calculated through the first billion primes.
 '''
 ''' ],
 
-    'primepi' : [
-'prime_numbers', 'estimates the count of prime numbers up to and including n',
-'''
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through the first billion primes.
-''',
-'''
-''' ],
-
     'primes' : [
 'prime_numbers', 'generates a range of k primes starting from index n',
 '''
@@ -6961,6 +6961,17 @@ c:\>rpn 1 20 primes
 c:\>rpn 320620307 10 primes
 [ 6927837559, 6927837563, 6927837571, 6927837583, 6927837599, 6927837617,
 6927837641, 6927837673, 6927837713, 6927837757 ]
+''' ],
+
+    'prime_pi' : [
+'prime_numbers', 'estimates the count of prime numbers up to and including n',
+'''
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through the first billion primes.
+''',
+'''
 ''' ],
 
     'primorial' : [

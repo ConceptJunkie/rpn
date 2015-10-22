@@ -115,6 +115,9 @@ def loadUnitData( ):
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
         return False
 
+    if g.unitsVersion != PROGRAM_VERSION:
+        print( 'rpn:  units data file version mismatch' )
+
     return True
 
 

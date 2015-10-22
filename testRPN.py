@@ -1794,9 +1794,6 @@ def runPolygonalOperatorTests( ):
     # decagonal
     testOperator( '151 decagonal' )
 
-    # decagonal?
-    testOperator( '123454321 decagonal?' )
-
     # decagonal_centered_square
     testOperator( '-a40 9 decagonal_centered_square' )
 
@@ -1823,9 +1820,6 @@ def runPolygonalOperatorTests( ):
 
     # heptagonal
     testOperator( '203 heptagonal' )
-
-    # heptagonal?
-    testOperator( '99999 heptagonal?' )
 
     # heptagonal_hexagonal
     testOperator( '2039 heptagonal_hexagonal' )
@@ -1877,6 +1871,12 @@ def runPolygonalOperatorTests( ):
 
     # nth_centered_triangular
     testOperator( '10000 nth_centered_triangular' )
+
+    # nth_decagonal
+    testOperator( '123454321 nth_decagonal' )
+
+    # nth_heptagonal
+    testOperator( '99999 nth_heptagonal' )
 
     # nth_hexagonal
     testOperator( '230860 nth_hexagonal' )
@@ -2107,17 +2107,25 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '-c 6 13 ** 1 + next_prime' )
     testOperator( '-c 7 13 ** 1 + next_prime' )
 
-    # nth_prime?
-    testOperator( '1 10 range nth_prime?' )
-    testOperator( '67 nth_prime?' )
-    testOperator( '16467 nth_prime?' )
-    testOperator( '-c 13,000,000,000 nth_prime?' )
-    testOperator( '-c 256,000,000,000 nth_prime?' )
+    # next_quadruplet_prime
+    testOperator( '8 next_quadruplet_prime' )
+    testOperator( '8871 next_quadruplet_prime' )
 
-    # nth_quad?
-    testOperator( '1 100000 10000 range2 nth_quad?' )
-    testOperator( '453456 nth_quad?' )
-    testOperator( '74,000,000,000 nth_quad?' )
+    # next_quintuplet_prime
+    testOperator( '147951 next_quintuplet_prime' )
+    testOperator( '2,300,000 next_quintuplet_prime' )
+
+    # nth_prime
+    testOperator( '1 10 range nth_prime' )
+    testOperator( '67 nth_prime' )
+    testOperator( '16467 nth_prime' )
+    testOperator( '-c 13,000,000,000 nth_prime' )
+    testOperator( '-c 256,000,000,000 nth_prime' )
+
+    # nth_quadruplet_prime
+    testOperator( '1 100000 10000 range2 nth_quadruplet_prime' )
+    testOperator( '453456 nth_quadruplet_prime' )
+    testOperator( '74,000,000,000 nth_quadruplet_prime' )
 
     # polyprime
     testOperator( '1 5 range 1 5 range polyprime' )
@@ -2132,7 +2140,7 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '9113486725 prime' )
 
     # primepi
-    testOperator( '87 primepi' )
+    testOperator( '87 prime_pi' )
 
     # primes
     testOperator( '1 5 range 5 primes' )
@@ -2149,10 +2157,6 @@ def runPrimeNumberOperatorTests( ):
     # primorial
     testOperator( '1 10 range primorial' )
 
-    # quadruplet_prime?
-    testOperator( '8 quadruplet_prime?' )
-    testOperator( '8871 quadruplet_prime?' )
-
     # quadruplet_prime
     testOperator( '17 quadruplet_prime' )
     testOperator( '99831 quadruplet_prime' )
@@ -2160,10 +2164,6 @@ def runPrimeNumberOperatorTests( ):
     # quadruplet_prime_
     testOperator( '17 quadruplet_prime_' )
     testOperator( '55731 quadruplet_prime_' )
-
-    # quintuplet_prime?
-    testOperator( '147951 quintuplet_prime?' )
-    testOperator( '2,300,000 quintuplet_prime?' )
 
     # quintuplet_prime
     testOperator( '18 quintuplet_prime' )

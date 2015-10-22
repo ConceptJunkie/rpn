@@ -491,9 +491,6 @@ def rpn( cmd_args ):
     if not loadUnitData( ):
         return
 
-    if g.unitsVersion != PROGRAM_VERSION:
-        print( 'rpn:  units data file version mismatch' )
-
     if g.timer:
         g.startTime = time.process_time( )
 
