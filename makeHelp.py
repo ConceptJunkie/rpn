@@ -41,7 +41,8 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
 helpTopics = {
     'options' :
-    'rpn ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' + COPYRIGHT_MESSAGE + '\n\n' +
+    'rpn' + PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION + '\n' +
+    COPYRIGHT_MESSAGE + '\n\n' +
     '''
 command-line options:
 
@@ -467,7 +468,7 @@ timer:
 timer_mode:  Turns on the timer for the next operation.  Aliased to '-t'.
     ''',
     'about' :
-    PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION + '\n' +
+    PROGRAM_NAME + PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION + '\n' +
     COPYRIGHT_MESSAGE +
     '''
 
@@ -7875,7 +7876,7 @@ def makeHelp( helpTopics ):
 # //******************************************************************************
 
 def main( ):
-    print( 'makeHelp', PROGRAM_VERSION, '-', 'RPN command-line calculator help file generator' )
+    print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
     print( COPYRIGHT_MESSAGE )
     print( )
 

@@ -624,7 +624,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 # //******************************************************************************
 
 def main( ):
-    print( PROGRAM_NAME, PROGRAM_VERSION, '-', PROGRAM_DESCRIPTION )
+    print( PROGRAM_NAME + PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
 

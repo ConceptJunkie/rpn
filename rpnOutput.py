@@ -535,7 +535,7 @@ def printHelp( operators, listOperators, modifiers, term, interactive = False ):
 # //******************************************************************************
 
 def printGeneralHelp( ):
-    print( PROGRAM_NAME + ' ' + PROGRAM_VERSION + ' - ' + PROGRAM_DESCRIPTION )
+    print( PROGRAM_NAME + PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
 
@@ -603,7 +603,7 @@ def printHelpModeHelp( ):
 # //******************************************************************************
 
 def printTitleScreen( programName, programDescription ):
-    print( programName, PROGRAM_VERSION, '-', programDescription )
+    print( programName + PROGRAM_VERSION_STRING + programDescription )
     print( COPYRIGHT_MESSAGE )
     print( )
     print( 'Type "help" for more information, and "exit" to exit.' )
