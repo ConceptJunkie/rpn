@@ -41,6 +41,7 @@ def compareResults( result1, result2 ):
 
     if isinstance( result1, str ) and isinstance( result2, str ):
         if result1 != result2:
+            print( '**** error in results comparison' )
             print( type( result1 ), type( result2 ) )
             print( result1, result2, 'are not equal' )
             raise ValueError( 'unit test failed' )
@@ -53,6 +54,7 @@ def compareResults( result1, result2 ):
 
         for i in range( 0, len( result1 ) ):
             if not almosteq( result1[ i ], result2[ i ] ):
+                print( '**** error in results comparison' )
                 print( type( result1[ i ] ), type( result2[ i ] ) )
                 print( result1[ i ], result2[ i ], 'are not equal' )
                 print( 'difference found at index', i )
@@ -79,7 +81,7 @@ def expectEqual( command1, command2 ):
 
     compareResults( result1, result2 )
 
-    print( 'both are equal!' )
+    print( '    both are equal!' )
     print( )
 
 
@@ -133,7 +135,7 @@ def expectEquivalent( command1, command2 ):
         print( '    result 2: ', result2 )
         raise ValueError( 'unit test failed' )
 
-    print( 'both are equal!' )
+    print( '    both are equal!' )
     print( )
 
 
@@ -150,7 +152,7 @@ def testOperator( command ):
     if not result is None:
         handleOutput( result )
 
-    print( 'operator works' )
+    print( '    operator works!' )
     print( )
 
 
@@ -182,7 +184,7 @@ def expectResult( command, expected ):
 
     compareResults( result, compare )
 
-    print( 'test passed!' )
+    print( '    test passed!' )
     print( )
 
 

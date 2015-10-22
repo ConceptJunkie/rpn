@@ -139,7 +139,7 @@ def runCommandLineOptionsTests( ):
 def runAlgebraOperatorTests( ):
     # bell_polynomal
     testOperator( '4 5 bell_polynomial' )
-    testOperator( '5 5 10 range bell_polynomial -a1' )
+    testOperator( '5 5 10 range bell_polynomial' )
 
     # eval_poly
     testOperator( '1 10 range 6 eval_poly' )
@@ -1696,7 +1696,6 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '0 100 range 5 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
     expectResult( '0 100 range 10 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 101 ) ] )
     expectResult( '1000 10 n_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
-    #expectResult( '10000 15 n_fibonacci', getNthKFibonacciNumberTheSlowWay( 10000, 15 ) )
 
     # octanacci
     testOperator( '906 octanacci' )
@@ -1739,7 +1738,6 @@ def runNumberTheoryOperatorTests( ):
     # tetranacci
     testOperator( '-a30 87 tetranacci' )
     expectEqual( '0 37 range tetranacci', '78 oeis 38 left' )
-    expectResult( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
     expectResult( '0 100 range tetranacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 101 ) ] )
 
     # thabit
