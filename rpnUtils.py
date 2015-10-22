@@ -178,6 +178,10 @@ def removeUnderscores( source ):
 def downloadOEISSequence( id ):
     keywords = downloadOEISText( id, 'K' ).split( ',' )
 
+    # If oeis.org isn't available, just punt everything
+    if keywords == [ '' ]:
+        return 0
+
     if 'nonn' in keywords:
         result = downloadOEISText( id, 'S' )
         result += downloadOEISText( id, 'T' )
@@ -219,7 +223,11 @@ def downloadOEISText( id, char, addCR = False ):
     if char in oeisItem:
         return oeisItem[ char ]
 
-    data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( id ) + '&fmt=text' ).read( )
+    try:
+        data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( id ) + '&fmt=text' ).read( )
+    except:
+        print( 'rpn:  HTTP access to oeis.org failed' )
+        return ''
 
     pattern = regex.compile( b'%' + bytes( char, 'ascii' ) + b' A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
 
