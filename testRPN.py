@@ -166,11 +166,13 @@ def runAlgebraOperatorTests( ):
 
     total = 0
 
-    for i in range( 1, 10 ):
+    polynomials_to_check = 10
+
+    for i in range( 1, polynomials_to_check + 2 ):
         bell_term_offsets.append( total )
         total += i
 
-    for i in range( 0, 8 ):
+    for i in range( 0, polynomials_to_check ):
         bell_poly = bell_terms[ bell_term_offsets[ i ] : bell_term_offsets[ i + 1 ] ]
 
         bell_poly_str = '[ '
@@ -207,16 +209,20 @@ def runAlgebraOperatorTests( ):
     testOperator( '1 8 range solve' )
 
     # solve2
-    testOperator( '8 9 10 solve2' )
+    expectEquivalent( '1 -1 1 solve2', '[ 1 -1 1 ] solve' )
     expectEquivalent( '8 9 10 solve2', '[ 8 9 10 ] solve' )
+    expectEquivalent( '-36 150 93 solve2', '[ -36 150 93 ] solve' )
 
     # solve3
-    testOperator( '10 -10 10 -10 solve3' )
+    #expectEquivalent( '1 0 0 0 solve3', '[ 1 0 0 0 ] solve' )
+    expectEquivalent( '1 0 -3 0 solve3', '[ 1 0 -3 0 ] solve' )
     expectEquivalent( '10 -10 10 -10 solve3', '[ 10 -10 10 -10 ] solve' )
+    expectEquivalent( '57 -43 15 28 solve3', '[ 57 -43 15 28 ] solve' )
 
     # solve4
-    testOperator( '2 -3 2 -3 2 solve4' )
+    #expectEquivalent( '1 0 -5 0 7 solve4', '[ 1 0 -5 0 7 ] solve' )
     expectEquivalent( '2 -3 2 -3 2 solve4', '[ 2 -3 2 -3 2 ] solve' )
+    expectEquivalent( '54 23 -87 19 2042 solve4', '[ 54 23 -87 19 2042 ] solve' )
 
 
 # //******************************************************************************
