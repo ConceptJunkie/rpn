@@ -154,56 +154,27 @@ def runCommandLineOptionsTests( ):
 # //******************************************************************************
 
 def runAlgebraOperatorTests( ):
-    # bell_polynomal
-    testOperator( '4 5 bell_polynomial' )
-    testOperator( '5 5 10 range bell_polynomial' )
+    # add_polynomials
+    testOperator( '1 10 range 1 10 range add_polynomials' )
 
-    from rpnUtils import downloadOEISSequence
+    # eval_polynomial
+    testOperator( '1 10 range 6 eval_polynomial' )
+    testOperator( '[ 4 -2 3 5 -6 20 ] 1 10 range eval_polynomial' )
 
-    bell_terms = downloadOEISSequence( 106800 )
+    # find_polynomial
+    testOperator( 'phi 3 find_polynomial' )
 
-    bell_term_offsets = [ ]
+    # multiply_polynomials
+    testOperator( '1 10 range 1 10 range multiply_polynomials' )
 
-    total = 0
+    # polynomial_power
+    testOperator( '[ 1 2 3 4 ] 5 polynomial_power' )
 
-    polynomials_to_check = 10
+    # polynomial_product
+    testOperator( '[ 1 10 range 1 10 range 2 11 range ] polynomial_product' )
 
-    for i in range( 1, polynomials_to_check + 2 ):
-        bell_term_offsets.append( total )
-        total += i
-
-    for i in range( 0, polynomials_to_check ):
-        bell_poly = bell_terms[ bell_term_offsets[ i ] : bell_term_offsets[ i + 1 ] ]
-
-        bell_poly_str = '[ '
-        bell_poly_str += ' '.join( [ str( k ) for k in bell_poly ] )
-
-        bell_poly_str += ' ] '
-
-        for j in [ -300, -84, -1, 0, 1, 8, 23, 157 ]:
-            expectEqual( str( i ) + ' ' + str( j ) + ' bell_polynomial', bell_poly_str + str( j ) + ' eval_poly' )
-
-    # eval_poly
-    testOperator( '1 10 range 6 eval_poly' )
-    testOperator( '[ 4 -2 3 5 -6 20 ] 1 10 range eval_poly' )
-
-    # find_poly
-    testOperator( 'phi 3 find_poly' )
-
-    # polyadd
-    testOperator( '1 10 range 1 10 range polyadd' )
-
-    # polymul
-    testOperator( '1 10 range 1 10 range polymul' )
-
-    # polypower
-    testOperator( '[ 1 2 3 4 ] 5 polypower' )
-
-    # polyprod
-    testOperator( '[ 1 10 range 1 10 range 2 11 range ] polyprod' )
-
-    # polysum
-    testOperator( '[ 1 10 range 2 11 range ] polysum' )
+    # polynomial_sum
+    testOperator( '[ 1 10 range 2 11 range ] polynomial_sum' )
 
     # solve
     testOperator( '1 8 range solve' )
@@ -704,6 +675,36 @@ def runCombinatoricOperatorTests( ):
     # bell
     testOperator( '-a43 45 bell' )
     expectEqual( '-a20 0 26 range bell', '-a20 110 oeis 27 left' )
+
+    # bell_polynomal
+    testOperator( '4 5 bell_polynomial' )
+    testOperator( '5 5 10 range bell_polynomial' )
+
+    from rpnUtils import downloadOEISSequence
+
+    bell_terms = downloadOEISSequence( 106800 )
+
+    bell_term_offsets = [ ]
+
+    total = 0
+
+    polynomials_to_check = 10
+
+    for i in range( 1, polynomials_to_check + 2 ):
+        bell_term_offsets.append( total )
+        total += i
+
+    for i in range( 0, polynomials_to_check ):
+        bell_poly = bell_terms[ bell_term_offsets[ i ] : bell_term_offsets[ i + 1 ] ]
+
+        bell_poly_str = '[ '
+        bell_poly_str += ' '.join( [ str( k ) for k in bell_poly ] )
+
+        bell_poly_str += ' ] '
+
+        for j in [ -300, -84, -1, 0, 1, 8, 23, 157 ]:
+            expectEqual( str( i ) + ' ' + str( j ) + ' bell_polynomial',
+                         bell_poly_str + str( j ) + ' eval_polynomial' )
 
     # bernoulli
     testOperator( '16 bernoulli' )

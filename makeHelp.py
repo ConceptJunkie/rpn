@@ -1382,62 +1382,56 @@ SI Prefixes:
 # //******************************************************************************
 
 operatorHelp = {
+
 # //******************************************************************************
 # //
 # //  algebra operators
 # //
 # //******************************************************************************
 
-    'bell_polynomial' : [
-'algebra', 'evaluates the nth Bell polynomial with k',
-'''
-''',
-'''
-''' ],
-
-    'eval_poly' : [
-'algebra', 'interprets the list as a polynomial and evaluates it for value k',
-'''
-''',
-'''
-''' ],
-
-    'find_poly' : [
-'algebra', 'finds a polynomial, of order less than or equal to k, for which n is a zero',
-'''
-''',
-'''
-''' ],
-
-    'polyadd' : [
+    'add_polynomials' : [
 'algebra', 'interprets two lists as polynomials and adds them',
 '''
 ''',
 '''
 ''' ],
 
-    'polymul' : [
+    'eval_polynomial' : [
+'algebra', 'interprets the list as a polynomial and evaluates it for value k',
+'''
+''',
+'''
+''' ],
+
+    'find_polynomial' : [
+'algebra', 'finds a polynomial, of order less than or equal to k, for which n is a zero',
+'''
+''',
+'''
+''' ],
+
+    'multiply_polynomials' : [
 'algebra', 'interprets two lists as polynomials and multiplies them',
 '''
 ''',
 '''
 ''' ],
 
-    'polypower' : [
+    'polynomial_power' : [
 'algebra', 'exponentiates polynomial n by the integer power k',
 '''
 ''',
 '''
 ''' ],
 
-    'polyprod' : [
+    'polynomial_product' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their product',
 '''
 ''',
 '''
 ''' ],
 
-    'polysum' : [
+    'polynomial_sum' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their sum',
 '''
 ''',
@@ -2633,6 +2627,13 @@ far as rpn is concerned, it's an operator that does nothing.
 
     'bell' : [
 'combinatorics', 'calculates the nth Bell number',
+'''
+''',
+'''
+''' ],
+
+    'bell_polynomial' : [
+'combinatoric', 'evaluates the nth Bell polynomial with k',
 '''
 ''',
 '''
