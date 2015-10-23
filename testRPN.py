@@ -25,6 +25,23 @@ from mpmath import *
 
 # //******************************************************************************
 # //
+# //  testOperator just evaluates an RPN expression to make sure nothing throws
+# //  an exception.
+# //
+# //  expectResult actually tests that the result from RPN matches the value
+# //  given.
+# //
+# //  expectEqual evaluates two RPN expressions and verifies that the results
+# //  are the same.
+# //
+# //  expectEquivalent evaluates two RPN expressions and verifies that the
+# //  results are equivalent.  This means that if the results are lists, they
+# //  need to have the same elements, but not necessarily be in the same order.
+# //
+# //******************************************************************************
+
+# //******************************************************************************
+# //
 # //  runCommandLineOptionsTests
 # //
 # //******************************************************************************
@@ -140,6 +157,29 @@ def runAlgebraOperatorTests( ):
     # bell_polynomal
     testOperator( '4 5 bell_polynomial' )
     testOperator( '5 5 10 range bell_polynomial' )
+
+    from rpnUtils import downloadOEISSequence
+
+    bell_terms = downloadOEISSequence( 106800 )
+
+    bell_term_offsets = [ ]
+
+    total = 0
+
+    for i in range( 1, 10 ):
+        bell_term_offsets.append( total )
+        total += i
+
+    for i in range( 0, 8 ):
+        bell_poly = bell_terms[ bell_term_offsets[ i ] : bell_term_offsets[ i + 1 ] ]
+
+        bell_poly_str = '[ '
+        bell_poly_str += ' '.join( [ str( k ) for k in bell_poly ] )
+
+        bell_poly_str += ' ] '
+
+        for j in [ -300, -84, -1, 0, 1, 8, 23, 157 ]:
+            expectEqual( str( i ) + ' ' + str( j ) + ' bell_polynomial', bell_poly_str + str( j ) + ' eval_poly' )
 
     # eval_poly
     testOperator( '1 10 range 6 eval_poly' )
