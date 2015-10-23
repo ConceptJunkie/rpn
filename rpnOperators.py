@@ -50,6 +50,18 @@ from rpnOutput import printHelp
 
 # //******************************************************************************
 # //
+# //  class OperatorInfo
+# //
+# //******************************************************************************
+
+class OperatorInfo( ):
+    def __init__( self, function, argCount = 0 ):
+        self.function = function
+        self.argCount = argCount
+
+
+# //******************************************************************************
+# //
 # //  evaluateOperator
 # //
 # //******************************************************************************
@@ -424,6 +436,87 @@ callers = [
     lambda func, arg1, arg2, arg3, arg4, arg5:
         [ func( a, b, c, d, e ) for e in arg1 for d in arg2 for c in arg3 for b in arg4 for a in arg5 ],
 ]
+
+
+# //******************************************************************************
+# //
+# //  class FunctionInfo
+# //
+# //  Starting index is a little confusing.  When rpn knows it is parsing a
+# //  function declaration, it will put all the arguments so far into the
+# //  FunctionInfo object.  However, it can't know how many of them it actually
+# //  needs until it's time to evaluate the function, so we need to save all the
+# //  terms we have so far, since we can't know until later how many of them we
+# //  will need.
+# //
+# //  Once we are able to parse out how many arguments belong to the function
+# //  declaration, then we can determine what arguments are left over to be used
+# //  with the function operation.   All function operations take at least one
+# //  argument before the function declaration.
+# //
+# //******************************************************************************
+
+class FunctionInfo( ):
+    def __init__( self, valueList = [ ], startingIndex = 0 ):
+        self.valueList = [ ]
+
+        if isinstance( valueList, list ):
+            for value in valueList:
+                self.valueList.append( value )
+        else:
+            self.valueList.append( valueList )
+
+        self.startingIndex = startingIndex
+
+    def evaluate( self, arg ):
+        return arg
+
+    def add( self, arg ):
+        self.valueList.append( arg )
+
+
+# //******************************************************************************
+# //
+# //  createFunction
+# //
+# //  This only gets called if we are not already creating a function.
+# //
+# //******************************************************************************
+
+def createFunction( var, valueList ):
+    g.creatingFunction = True
+    valueList.append( FunctionInfo( valueList, len( valueList ) ) )
+    valueList[ -1 ].add( var )
+
+
+# //******************************************************************************
+# //
+# //  createXFunction
+# //
+# //******************************************************************************
+
+def createXFunction( valueList ):
+    createFunction( 'x', valueList )
+
+
+# //******************************************************************************
+# //
+# //  createYFunction
+# //
+# //******************************************************************************
+
+def createYFunction( valueList ):
+    createFunction( 'y', valueList )
+
+
+# //******************************************************************************
+# //
+# //  createZFunction
+# //
+# //******************************************************************************
+
+def createZFunction( valueList ):
+    createFunction( 'z', valueList )
 
 
 # //******************************************************************************

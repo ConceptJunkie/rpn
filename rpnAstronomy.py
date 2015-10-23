@@ -18,7 +18,6 @@ import ephem
 from mpmath import *
 
 from rpnDateTime import RPNDateTime
-from rpnDeclarations import *
 from rpnLocation import RPNLocation
 from rpnMeasurement import RPNMeasurement
 

@@ -12,11 +12,11 @@
 # //
 # //******************************************************************************
 
+import collections
 import random
 
 from mpmath import *
 
-from rpnDeclarations import *
 from rpnMeasurement import RPNMeasurement
 from rpnNumberTheory import getGCD
 

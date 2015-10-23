@@ -37,7 +37,6 @@ from mpmath import *
 from random import randrange
 from functools import reduce
 
-from rpnDeclarations import *
 from rpnUnitClasses import UnitTypeInfo
 from rpnVersion import *
 

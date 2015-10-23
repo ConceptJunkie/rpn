@@ -48,7 +48,6 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
                    'rpnComputer',
                    'rpnConstants',
                    'rpnDateTime',
-                   'rpnDeclarations',
                    'rpnEstimates',
                    'rpnFactor',
                    'rpnGeometry',

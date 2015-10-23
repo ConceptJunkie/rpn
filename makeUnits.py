@@ -27,7 +27,6 @@ from mpmath import *
 #  This has to go here so the mpf's in the import get created with 50 places of precision.
 mp.dps = 50
 
-from rpnDeclarations import *
 from rpnUnits import *
 from rpnVersion import *
 

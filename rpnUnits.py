@@ -14,7 +14,6 @@
 
 from mpmath import *
 
-from rpnDeclarations import *
 from rpnEstimates import *
 from rpnUnitClasses import *
 
@@ -57,6 +56,11 @@ from rpnUnitClasses import *
 # //
 # //  Constant is not a 'real' unit type, but it is useful for it to act like
 # //  one because it makes for useful operators, e.g. "20 M" for "20,000,000'.
+# //
+# //  simpleTypes
+# //  baseUnitType
+# //  primitiveUnit
+# //  estimateTable
 # //
 # //******************************************************************************
 

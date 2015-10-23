@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 
 # //******************************************************************************
 # //
@@ -41,7 +41,6 @@ import time
 from mpmath import *
 
 from rpnAliases import *
-from rpnDeclarations import *
 from rpnOperators import *
 from rpnOutput import *
 from rpnUtils import *
@@ -159,7 +158,7 @@ def enterInteractiveMode( ):
     readline.parse_and_bind( 'tab: complete' )
     readline.parse_and_bind( 'set editing-mode vi' )
 
-    printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
+    printTitleScreen( g.PROGRAM_NAME, g.PROGRAM_DESCRIPTION )
 
     g.results.append( None )   # g.results[ 0 ]
 
@@ -266,8 +265,8 @@ def rpn( cmd_args ):
             cmd_args[ i ] = ' ' + arg
 
     if help:
-        parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = PROGRAM_NAME +
-                                          PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION + '\n    ' +
+        parser = argparse.ArgumentParser( prog = g.PROGRAM_NAME, description = g.PROGRAM_NAME +
+                                          PROGRAM_VERSION_STRING + g.PROGRAM_DESCRIPTION + '\n    ' +
                                           COPYRIGHT_MESSAGE, add_help = False,
                                           formatter_class = argparse.RawTextHelpFormatter,
                                           prefix_chars = '-' )
@@ -286,8 +285,8 @@ def rpn( cmd_args ):
         return
 
     # set up the command-line options parser
-    parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = PROGRAM_NAME +
-                                      PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION + '\n    ' +
+    parser = argparse.ArgumentParser( prog = g.PROGRAM_NAME, description = g.PROGRAM_NAME +
+                                      PROGRAM_VERSION_STRING + g.PROGRAM_DESCRIPTION + '\n    ' +
                                       COPYRIGHT_MESSAGE, add_help = False,
                                       formatter_class = argparse.RawTextHelpFormatter,
                                       prefix_chars = '-' )

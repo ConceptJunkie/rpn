@@ -32,7 +32,6 @@ import textwrap
 from mpmath import *
 
 from rpnDateTime import RPNDateTime
-from rpnDeclarations import PROGRAM_NAME, PROGRAM_DESCRIPTION
 from rpnMeasurement import RPNMeasurement
 from rpnNumberTheory import getNthLucasNumber
 from rpnPolytope import getNthPolygonalNumber
@@ -535,7 +534,7 @@ def printHelp( operators, listOperators, modifiers, term, interactive = False ):
 # //******************************************************************************
 
 def printGeneralHelp( ):
-    print( PROGRAM_NAME + PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION )
+    print( g.PROGRAM_NAME + PROGRAM_VERSION_STRING + g.PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
 

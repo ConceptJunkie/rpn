@@ -12,7 +12,7 @@
 # //
 # //******************************************************************************
 
-from rpnDeclarations import *
+from mpmath import *
 
 import rpnGlobals as g
 
@@ -150,49 +150,5 @@ def handleUseMembersOperator( valueList ):
 
 def getPrevious( valueList ):
     valueList.append( valueList[ -1 ] )
-
-
-# //******************************************************************************
-# //
-# //  createFunction
-# //
-# //  This only gets called if we are not already creating a function.
-# //
-# //******************************************************************************
-
-def createFunction( var, valueList ):
-    g.creatingFunction = True
-    valueList.append( FunctionInfo( valueList, len( valueList ) ) )
-    valueList[ -1 ].add( var )
-
-
-# //******************************************************************************
-# //
-# //  createXFunction
-# //
-# //******************************************************************************
-
-def createXFunction( valueList ):
-    createFunction( 'x', valueList )
-
-
-# //******************************************************************************
-# //
-# //  createYFunction
-# //
-# //******************************************************************************
-
-def createYFunction( valueList ):
-    createFunction( 'y', valueList )
-
-
-# //******************************************************************************
-# //
-# //  createZFunction
-# //
-# //******************************************************************************
-
-def createZFunction( valueList ):
-    createFunction( 'z', valueList )
 
 

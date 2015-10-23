@@ -22,6 +22,9 @@ ecm = True
 
 # constants
 
+PROGRAM_NAME = 'rpn'
+PROGRAM_DESCRIPTION = 'RPN command-line calculator'
+
 phiBase = -1
 fibBase = -2
 facBase = -3

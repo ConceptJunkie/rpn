@@ -49,7 +49,6 @@
 
 from mpmath import *
 
-from rpnDeclarations import *
 from rpnInput import convertToBase10
 from rpnMeasurement import RPNMeasurement
 from rpnOutput import convertToBaseN

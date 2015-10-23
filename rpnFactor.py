@@ -20,9 +20,10 @@ import os
 import pickle
 import random
 
+from mpmath import *
+
 import rpnGlobals as g
 
-from rpnDeclarations import *
 from rpnPersistence import *
 from rpnPrimes import primes
 from rpnSettings import setAccuracy

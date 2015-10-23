@@ -19,7 +19,6 @@ from fractions import Fraction
 from functools import reduce
 from mpmath import *
 
-from rpnDeclarations import *
 from rpnFactor import *
 from rpnPrimeUtils import *
 
@@ -286,6 +285,58 @@ def getNthPadovanNumber( arg ):
     return nint( re( fsum( [ fdiv( power( r, n ), fadd( fmul( 2, r ), 3 ) ),
                              fdiv( power( s, n ), fadd( fmul( 2, s ), 3 ) ),
                              fdiv( power( t, n ), fadd( fmul( 2, t ), 3 ) ) ] ) ) )
+
+
+# //******************************************************************************
+# //
+# //  ContinuedFraction
+# //
+# //  A continued fraction, represented as a list of integer terms.
+# //
+# //  adapted from ActiveState Python, recipe 578647
+# //
+# //******************************************************************************
+
+class ContinuedFraction( list ):
+    def __init__( self, value, maxterms = 15, cutoff = 1e-10 ):
+        if isinstance( value, ( int, float, mpf ) ):
+            value = mpmathify( value )
+            remainder = floor( value )
+            self.append( remainder )
+
+            while len( self ) < maxterms:
+                value -= remainder
+
+                if value > cutoff:
+                    value = fdiv( 1, value )
+                    remainder = floor( value )
+                    self.append( remainder )
+                else:
+                    break
+
+        elif isinstance( value, ( list, tuple ) ):
+            self.extend( value )
+        else:
+            raise ValueError( 'ContinuedFraction requires a number or a list' )
+
+    def getFraction( self, terms = None ):
+        if terms is None or terms >= len( self ):
+            terms = len( self ) - 1
+
+        frac = Fraction( 1, int( self[ terms ] ) )
+
+        for t in reversed( self[ 1 : terms ] ):
+            frac = 1 / ( frac + int( t ) )
+
+        frac += int( self[ 0 ] )
+
+        return frac
+
+    def __float__( self ):
+        return float( self.getFraction( ) )
+
+    def __str__( self ):
+        return '[%s]' % ', '.join( [ str( int( x ) ) for x in self ] )
 
 
 # //******************************************************************************

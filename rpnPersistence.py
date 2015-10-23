@@ -22,7 +22,6 @@ import random
 
 import rpnGlobals as g
 
-from rpnDeclarations import *
 from rpnPrimes import primes
 from rpnSettings import setAccuracy
 from rpnUtils import DelayedKeyboardInterrupt

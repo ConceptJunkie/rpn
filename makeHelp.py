@@ -17,7 +17,6 @@ import contextlib
 import pickle
 import os
 
-from rpnDeclarations import *
 from rpnVersion import *
 
 import rpnGlobals as g
