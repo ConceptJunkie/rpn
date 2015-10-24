@@ -146,7 +146,7 @@ class RPNDateTime( arrow.Arrow ):
                 return self + datetime.timedelta( days = days, seconds = seconds, microseconds = microseconds )
             except OverflowError:
                 print( 'rpn:  value is out of range to be converted into a time' )
-                return 0
+                return nan
 
     def subtract( self, time ):
         if isinstance( time, RPNMeasurement ):
@@ -187,10 +187,10 @@ def convertToUnixTime( n ):
         result = RPNDateTime.parseDateTime( n ).timestamp
     except OverflowError as error:
         print( 'rpn:  out of range error for \'to_unix_time\'' )
-        return 0
+        return nan
     except TypeError as error:
         print( 'rpn:  expected time value for \'to_unix_time\'' )
-        return 0
+        return nan
 
     return result
 
@@ -206,10 +206,10 @@ def convertFromUnixTime( n ):
         result = RPNDateTime.parseDateTime( n )
     except OverflowError as error:
         print( 'rpn:  out of range error for \'from_unix_time\'' )
-        return 0
+        return nan
     except TypeError as error:
         print( 'rpn:  expected time value for \'from_unix_time\'' )
-        return 0
+        return nan
 
     return result
 

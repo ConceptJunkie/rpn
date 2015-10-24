@@ -401,7 +401,13 @@ def exponentiatePolynomial( n, k ):
 # //******************************************************************************
 
 def solvePolynomial( args ):
+    while args[ 0 ] == 0:
+        args = args[ 1 : ]
+
     length = len( args )
+
+    if length == 0:
+        raise ValueError( 'invalid expression, no variable coefficients' )
 
     if length < 2:
         raise ValueError( "'solve' requires at least an order-1 polynomial (i.e., 2 terms)" )
@@ -414,7 +420,7 @@ def solvePolynomial( args ):
             nonZeroes += 1
             nonZeroIndex = i
 
-    if nonZeroes == 0 or ( nonZeroes == 1 and nonZeroIndex == length - 1 ):
+    if nonZeroes == 1 and nonZeroIndex == length - 1:
         raise ValueError( 'invalid expression, no variable coefficients' )
 
     if nonZeroes == 1:

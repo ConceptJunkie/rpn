@@ -156,19 +156,25 @@ def runCommandLineOptionsTests( ):
 def runAlgebraOperatorTests( ):
     # add_polynomials
     testOperator( '1 10 range 1 10 range add_polynomials' )
+    expectException( '1 10 range add_polynomials' )
 
     # eval_polynomial
     testOperator( '1 10 range 6 eval_polynomial' )
     testOperator( '[ 4 -2 3 5 -6 20 ] 1 10 range eval_polynomial' )
+    expectException( '1 eval_polynomial' )
+    expectException( '1 10 range eval_polynomial' )
 
     # find_polynomial
     testOperator( 'phi 3 find_polynomial' )
+    expectException( '1 find_polynomial' )
 
     # multiply_polynomials
     testOperator( '1 10 range 1 10 range multiply_polynomials' )
+    expectException( '1 10 range multiply_polynomials' )
 
     # polynomial_power
     testOperator( '[ 1 2 3 4 ] 5 polynomial_power' )
+    expectException( '1 10 range polynomial_power' )
 
     # polynomial_product
     testOperator( '[ 1 10 range 1 10 range 2 11 range ] polynomial_product' )
@@ -178,6 +184,11 @@ def runAlgebraOperatorTests( ):
 
     # solve
     testOperator( '1 8 range solve' )
+    expectException( '0 solve' )
+    expectException( '1 solve' )
+    expectException( '[ 0 1 ] solve' )
+    expectException( '[ 0 0 1 ] solve' )
+    expectException( '[ 0 0 0 ] solve' )
 
     # solve_cubic
     expectEquivalent( '1 0 0 0 solve_cubic', '[ 1 0 0 0 ] solve' )
@@ -187,17 +198,24 @@ def runAlgebraOperatorTests( ):
     expectEquivalent( '1 0 -3 0 solve_cubic', '[ 1 0 -3 0 ] solve' )
     expectEquivalent( '10 -10 10 -10 solve_cubic', '[ 10 -10 10 -10 ] solve' )
     expectEquivalent( '57 -43 15 28 solve_cubic', '[ 57 -43 15 28 ] solve' )
+    expectException( '0 0 0 0 solve_cubic' )
+    expectException( '0 0 0 1 solve_cubic' )
 
     # solve_quadratic
     expectEquivalent( '1 0 0 solve_quadratic', '[ 1 0 0 ] solve' )
+    expectEquivalent( '1 1 0 solve_quadratic', '[ 1 1 0 ] solve' )
+    expectEquivalent( '1 0 1 solve_quadratic', '[ 1 0 1 ] solve' )
     expectEquivalent( '0 1 0 solve_quadratic', '[ 0 1 0 ] solve' )
     expectEquivalent( '1 -1 1 solve_quadratic', '[ 1 -1 1 ] solve' )
     expectEquivalent( '8 9 10 solve_quadratic', '[ 8 9 10 ] solve' )
     expectEquivalent( '-36 150 93 solve_quadratic', '[ -36 150 93 ] solve' )
+    expectException( '0 0 0 solve_quadratic' )
+    expectException( '0 0 1 solve_quadratic' )
 
     # solve_quartic
     expectEquivalent( '1 0 0 0 0 solve_quartic', '[ 1 0 0 0 0 ] solve' )
     expectEquivalent( '0 1 0 0 0 solve_quartic', '[ 0 1 0 0 0 ] solve' )
+    expectEquivalent( '0 1 0 1 0 solve_quartic', '[ 0 1 0 1 0 ] solve' )
     expectEquivalent( '0 0 1 0 0 solve_quartic', '[ 0 0 1 0 0 ] solve' )
     expectEquivalent( '0 0 0 1 0 solve_quartic', '[ 0 0 0 1 0 ] solve' )
     expectEquivalent( '1 0 -5 0 7 solve_quartic', '[ 1 0 -5 0 7 ] solve' )
@@ -241,6 +259,7 @@ def runArithmeticOperatorTests( ):
     testOperator( 'marathon 100 miles hour / / minutes convert' )
     testOperator( '2 zeta sqrt 24 sqrt / 12 *' )
     testOperator( 'now 2014-01-01 - minutes /' )
+    expectException( '0 0 divide' )
 
     # floor
     expectResult( '-0.4 floor', -1 )

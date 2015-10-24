@@ -75,14 +75,14 @@ def evaluate( terms ):
 
         currentValueList = getCurrentArgList( valueList )
 
-        #try:
-        if not evaluateTerm( term, index, currentValueList ):
-                valueList = [ 0 ]
+        try:
+            if not evaluateTerm( term, index, currentValueList ):
+                valueList = [ nan ]
                 break
-        #except ValueError as error:
-        #    print( 'rpn:  error:  {0}'.format( error ) )
-        #    valueList = [ 0 ]
-        #    break
+        except ValueError as error:
+            print( 'rpn:  error:  {0}'.format( error ) )
+            valueList = [ nan ]
+            break
 
         index = index + 1
 
@@ -416,7 +416,7 @@ def rpn( cmd_args ):
                 g.outputRadix = int( args.output_radix )
         except ValueError:
             print( 'rpn:  can\'t interpret output radix \'%s\' as a number' % args.output_radix )
-            return
+            return [ nan ]
 
     # handle -R
     if args.output_radix_numerals > 0:
@@ -427,11 +427,11 @@ def rpn( cmd_args ):
     if g.outputBaseDigits:
         if ( g.outputRadix < 2 ):
             print( 'rpn:  output radix must be greater than 1' )
-            return
+            return [ nan ]
     elif ( ( g.outputRadix < g.maxSpecialBase ) or ( g.outputRadix == 0 ) or
            ( g.outputRadix == 1 ) or ( g.outputRadix > 62 ) ):
         print( 'rpn:  output radix must be from 2 to 62, fib, phi, fac, doublefac, square, lucas' )
-        return
+        return [ nan ]
 
     # handle -s
     g.listFormatLevel = args.list_format_level

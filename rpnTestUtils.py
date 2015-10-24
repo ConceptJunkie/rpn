@@ -68,6 +68,26 @@ def compareResults( result1, result2 ):
 
 # //******************************************************************************
 # //
+# //  expectException
+# //
+# //******************************************************************************
+
+def expectException( command ):
+    print( 'rpn', command )
+
+    result = rpn( shlex.split( command ) )
+
+    if result == [ nan ]:
+        print( 'exception test passed!' )
+        print( )
+        return True
+
+    raise ValueError( 'exception was expected but didn\'t happen' )
+    return False
+
+
+# //******************************************************************************
+# //
 # //  expectEqual
 # //
 # //******************************************************************************

@@ -570,11 +570,11 @@ def evaluateFunction( a, b, c, func ):
 
             g.creatingFunction = False
 
-            #try:
-            if not evaluateTerm( term, index, valueList ):
-                break
-            #except:
-            #    return 0
+            try:
+                if not evaluateTerm( term, index, valueList ):
+                    break
+            except:
+                return nan
 
             index = index + 1
 
