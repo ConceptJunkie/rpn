@@ -179,21 +179,30 @@ def runAlgebraOperatorTests( ):
     # solve
     testOperator( '1 8 range solve' )
 
-    # solve2
-    expectEquivalent( '1 -1 1 solve2', '[ 1 -1 1 ] solve' )
-    expectEquivalent( '8 9 10 solve2', '[ 8 9 10 ] solve' )
-    expectEquivalent( '-36 150 93 solve2', '[ -36 150 93 ] solve' )
+    # solve_cubic
+    expectEquivalent( '1 0 0 0 solve_cubic', '[ 1 0 0 0 ] solve' )
+    expectEquivalent( '0 1 0 0 solve_cubic', '[ 0 1 0 0 ] solve' )
+    expectEquivalent( '1 1 0 0 solve_cubic', '[ 1 1 0 0 ] solve' )
+    expectEquivalent( '0 0 1 0 solve_cubic', '[ 0 0 1 0 ] solve' )
+    expectEquivalent( '1 0 -3 0 solve_cubic', '[ 1 0 -3 0 ] solve' )
+    expectEquivalent( '10 -10 10 -10 solve_cubic', '[ 10 -10 10 -10 ] solve' )
+    expectEquivalent( '57 -43 15 28 solve_cubic', '[ 57 -43 15 28 ] solve' )
 
-    # solve3
-    #expectEquivalent( '1 0 0 0 solve3', '[ 1 0 0 0 ] solve' )
-    expectEquivalent( '1 0 -3 0 solve3', '[ 1 0 -3 0 ] solve' )
-    expectEquivalent( '10 -10 10 -10 solve3', '[ 10 -10 10 -10 ] solve' )
-    expectEquivalent( '57 -43 15 28 solve3', '[ 57 -43 15 28 ] solve' )
+    # solve_quadratic
+    expectEquivalent( '1 0 0 solve_quadratic', '[ 1 0 0 ] solve' )
+    expectEquivalent( '0 1 0 solve_quadratic', '[ 0 1 0 ] solve' )
+    expectEquivalent( '1 -1 1 solve_quadratic', '[ 1 -1 1 ] solve' )
+    expectEquivalent( '8 9 10 solve_quadratic', '[ 8 9 10 ] solve' )
+    expectEquivalent( '-36 150 93 solve_quadratic', '[ -36 150 93 ] solve' )
 
-    # solve4
-    #expectEquivalent( '1 0 -5 0 7 solve4', '[ 1 0 -5 0 7 ] solve' )
-    expectEquivalent( '2 -3 2 -3 2 solve4', '[ 2 -3 2 -3 2 ] solve' )
-    expectEquivalent( '54 23 -87 19 2042 solve4', '[ 54 23 -87 19 2042 ] solve' )
+    # solve_quartic
+    expectEquivalent( '1 0 0 0 0 solve_quartic', '[ 1 0 0 0 0 ] solve' )
+    expectEquivalent( '0 1 0 0 0 solve_quartic', '[ 0 1 0 0 0 ] solve' )
+    expectEquivalent( '0 0 1 0 0 solve_quartic', '[ 0 0 1 0 0 ] solve' )
+    expectEquivalent( '0 0 0 1 0 solve_quartic', '[ 0 0 0 1 0 ] solve' )
+    expectEquivalent( '1 0 -5 0 7 solve_quartic', '[ 1 0 -5 0 7 ] solve' )
+    expectEquivalent( '2 -3 2 -3 2 solve_quartic', '[ 2 -3 2 -3 2 ] solve' )
+    expectEquivalent( '54 23 -87 19 2042 solve_quartic', '[ 54 23 -87 19 2042 ] solve' )
 
 
 # //******************************************************************************

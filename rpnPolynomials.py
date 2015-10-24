@@ -171,7 +171,7 @@ class Polynomial( object ):
 def solveQuadraticPolynomial( a, b, c ):
     if a == 0:
         if b == 0:
-            raise ValueError( 'invalid equation, no variable coefficients' )
+            raise ValueError( 'invalid expression, no variable coefficients' )
         else:
             # linear equation, one root
             return [ fdiv( fneg( c ), b ) ]
@@ -302,19 +302,22 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
                                        fneg( fdiv( power( g, 2 ), 64 ) ) )
 
     # pick two non-zero roots, if there are two imaginary roots, use them
-    if im( y1 ) != 0:
-        root1 = y1
-
-        if y2 == 0 or im( y2 ) == 0:
-            root2 = y3
-        else:
-            root2 = y2
-    elif y1 == 0:
+    if y1 == 0:
         root1 = y2
         root2 = y3
     elif y2 == 0:
         root1 = y1
         root2 = y3
+    elif y3 == 0:
+        root1 = y1
+        root2 = y2
+    elif im( y1 ) != 0:
+        root1 = y1
+
+        if im( y2 ) != 0:
+            root2 = y2
+        else:
+            root2 = y3
     else:
         root1 = y2
         root2 = y3
@@ -398,10 +401,31 @@ def exponentiatePolynomial( n, k ):
 # //******************************************************************************
 
 def solvePolynomial( args ):
-    if len( args ) < 2:
+    length = len( args )
+
+    if length < 2:
         raise ValueError( "'solve' requires at least an order-1 polynomial (i.e., 2 terms)" )
 
-    return polyroots( args )
+    nonZeroes = 0
+    nonZeroIndex = 0
+
+    for i in range( 0, length ):
+        if args[ i ] != 0:
+            nonZeroes += 1
+            nonZeroIndex = i
+
+    if nonZeroes == 0 or ( nonZeroes == 1 and nonZeroIndex == length - 1 ):
+        raise ValueError( 'invalid expression, no variable coefficients' )
+
+    if nonZeroes == 1:
+        return [ 0 ] * ( length - nonZeroIndex - 1 )
+
+    try:
+        result = polyroots( args )
+    except libmp.libhyper.NoConvergence:
+        result = polyroots( args, maxsteps = 100, extraprec = 20 )
+
+    return result
 
 
 # //******************************************************************************
