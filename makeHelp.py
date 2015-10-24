@@ -1445,21 +1445,21 @@ operatorHelp = {
 '''
 ''' ],
 
-    'solve2' : [
-'algebra', 'solves a quadratic equation',
-'''
-''',
-'''
-''' ],
-
-    'solve3' : [
+    'solve_cubic' : [
 'algebra', 'solves a cubic equation',
 '''
 ''',
 '''
 ''' ],
 
-    'solve4' : [
+    'solve_quadratic' : [
+'algebra', 'solves a quadratic equation',
+'''
+''',
+'''
+''' ],
+
+    'solve_quartic' : [
 'algebra', 'solves a quartic equation',
 '''
 ''',
