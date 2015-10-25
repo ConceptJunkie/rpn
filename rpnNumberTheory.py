@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 
 # //******************************************************************************
 # //
@@ -21,6 +21,7 @@ from mpmath import *
 
 from rpnFactor import *
 from rpnPrimeUtils import *
+from rpnUtils import real, real_int
 
 
 # //******************************************************************************
@@ -34,7 +35,7 @@ def getNthAlternatingFactorial( n ):
 
     negative = False
 
-    for i in arange( n, 0, -1 ):
+    for i in arange( real( n ), 0, -1 ):
         if negative:
             result = fadd( result, fneg( fac( i ) ) )
             negative = False
@@ -54,7 +55,7 @@ def getNthAlternatingFactorial( n ):
 def getNthPascalLine( n ):
     result = [ ]
 
-    for i in arange( 0, n ):
+    for i in arange( 0, real( n ) ):
         result.append( binomial( n - 1, i ) )
 
     return result
@@ -122,7 +123,7 @@ def getDivisors( n ):
 # //******************************************************************************
 
 def getNthLucasNumber( n ):
-    if n == 0:
+    if real( n ) == 0:
         return 2
     elif n == 1:
         return 1
@@ -141,7 +142,7 @@ def getNthLucasNumber( n ):
 # //******************************************************************************
 
 def getNthJacobsthalNumber( n ):
-    return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], fadd( n, 1 ) )
+    return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], fadd( real( n ), 1 ) )
 
 
 # //******************************************************************************
@@ -151,7 +152,7 @@ def getNthJacobsthalNumber( n ):
 # //******************************************************************************
 
 def getNthBaseKRepunit( n, k ):
-    return getNthLinearRecurrence( [ fneg( k ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], n )
+    return getNthLinearRecurrence( [ fneg( real( k ) ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], n )
 
 
 # //******************************************************************************
@@ -161,7 +162,7 @@ def getNthBaseKRepunit( n, k ):
 # //******************************************************************************
 
 def getPrimePi( n ):
-    result = primepi2( n )
+    result = primepi2( real( n ) )
 
     return [ mpf( result.a ), mpf( result.b ) ]
 
@@ -176,7 +177,7 @@ def getPrimePi( n ):
 # //******************************************************************************
 
 def getNthFibonacciPolynomial( n ):
-    if n < 2:
+    if real( n ) < 2:
         raise ValueError( 'argument >= 2 expected' )
     elif n == 2:
         return [ 2, -1 ]
@@ -201,10 +202,10 @@ def getNthFibonacciPolynomial( n ):
 # //******************************************************************************
 
 def getNthKFibonacciNumber( n, k ):
-    if n < 0:
+    if real( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
 
-    if k < 2:
+    if real( k ) < 2:
         raise ValueError( 'argument <= 2 expected' )
 
     if n < k - 1:
@@ -239,7 +240,7 @@ def getNthKFibonacciNumber( n, k ):
 # //******************************************************************************
 
 def getNthKFibonacciNumberTheSlowWay( n, k ):
-    precision = int( fdiv( fmul( n, k ), 8 ) )
+    precision = int( fdiv( fmul( real( n ), real( k ) ), 8 ) )
 
     if ( mp.dps < precision ):
         mp.dps = precision
@@ -270,7 +271,7 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 # //******************************************************************************
 
 def getNthPadovanNumber( arg ):
-    n = fadd( arg, 4 )
+    n = fadd( real( arg ), 4 )
 
     a = root( fsub( fdiv( 27, 2 ), fdiv( fmul( 3, sqrt( 69 ) ), 2 ) ), 3 )
     b = root( fdiv( fadd( 9, sqrt( 69 ) ), 2 ), 3 )
@@ -405,7 +406,7 @@ def interpretAsBase( args, base ):
 # //******************************************************************************
 
 def getGreedyEgyptianFraction( n, d ):
-    if n > d:
+    if real( n ) > real( d ):
         raise ValueError( "'egypt' requires the numerator to be smaller than the denominator" )
 
     # Create a list to store the Egyptian fraction representation.
@@ -444,10 +445,10 @@ def getGreedyEgyptianFraction( n, d ):
 
 def getNthLinearRecurrence( recurrence, seeds, n ):
     if not isinstance( recurrence, list ):
-        return getNthLinearRecurrence( [ recurrence ], seeds, n )
+        return getNthLinearRecurrence( [ recurrence ], seeds, real( n ) )
 
     if not isinstance( seeds, list ):
-        return getNthLinearRecurrence( recurrence, [ seeds ], n )
+        return getNthLinearRecurrence( recurrence, [ seeds ], real( n ) )
 
     if len( seeds ) == 0:
         raise ValueError( 'for operator \'linear_recur\', seeds list cannot be empty ' )
@@ -457,9 +458,9 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
         seeds.append( getNthLinearRecurrence( recurrence[ : i ], seeds, i ) )
 
     if isinstance( n, list ):
-        return [ getNthLinearRecurrence( recurrence, seeds, i ) for i in n ]
+        return [ getNthLinearRecurrence( recurrence, seeds, real( i ) ) for i in n ]
 
-    if n < len( seeds ):
+    if real( n ) < len( seeds ):
         return seeds[ int( n ) - 1 ]
     else:
         if len( recurrence ) == 0:
@@ -491,18 +492,18 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
 # //
 # //******************************************************************************
 
-def makePythagoreanTriple( a, b ):
-    if a < 0 or b < 0:
+def makePythagoreanTriple( n, k ):
+    if real( n ) < 0 or real( k ) < 0:
         raise ValueError( "'make_pyth_3' requires positive arguments" )
 
-    if a == b:
+    if n == k:
         raise ValueError( "'make_pyth_3' requires unequal arguments" )
 
     result = [ ]
 
-    result.append( fprod( [ 2, a, b ] ) )
-    result.append( fabs( fsub( fmul( a, a ), fmul( b, b ) ) ) )
-    result.append( fadd( fmul( a, a ), fmul( b, b ) ) )
+    result.append( fprod( [ 2, n, k ] ) )
+    result.append( fabs( fsub( fmul( n, n ), fmul( k, k ) ) ) )
+    result.append( fadd( fmul( n, n ), fmul( k, k ) ) )
 
     return sorted( result )
 
@@ -577,7 +578,7 @@ def makePythagoreanQuadruple( a, b ):
 # //******************************************************************************
 
 def makeEulerBrick( _a, _b, _c ):
-    a, b, c = sorted( [ _a, _b, _c ] )
+    a, b, c = sorted( [ real( _a ), real( _b ), real( _c ) ] )
 
     if fadd( power( a, 2 ), power( b, 2 ) ) != power( c, 2 ):
         raise ValueError( "'euler_brick' requires a pythogorean triple" )
@@ -604,7 +605,7 @@ def makeEulerBrick( _a, _b, _c ):
 def getNthFibonorial( n ):
     result = 1
 
-    for i in arange( 2, n ):
+    for i in arange( 2, real( n ) ):
         result = fmul( result, fib( i ) )
 
     return result
@@ -622,7 +623,7 @@ def getNthFibonorial( n ):
 # //******************************************************************************
 
 def getGCD( a, b = 0 ):
-    if b != 0:
+    if real( b ) != 0:
         a, b = fabs( a ), fabs( b )
 
         while a:
@@ -634,7 +635,7 @@ def getGCD( a, b = 0 ):
         return a
 
     if isinstance( a[ 0 ], list ):
-        return [ getGCD( arg ) for arg in a ]
+        return [ getGCD( real( arg ) ) for arg in a ]
     else:
         result = max( a )
 
@@ -849,7 +850,7 @@ def calculateChineseRemainderTheorem( values, mods ):
 # //******************************************************************************
 
 def getSigma( n ):
-    if n == 0:
+    if real( n ) == 0:
         return 0
     elif n == 1:
         return 1
@@ -864,11 +865,11 @@ def getSigma( n ):
 # //******************************************************************************
 
 def getAliquotSequence( n, k ):
-    result = [ n ]
+    result = [ real( n ) ]
 
     a = n
 
-    for i in arange( 0, k - 1 ):
+    for i in arange( 0, real( k ) - 1 ):
         b = fsub( getSigma( a ), a )
         result.append( b )
         a = b
@@ -883,7 +884,7 @@ def getAliquotSequence( n, k ):
 # //******************************************************************************
 
 def getMobius( n ):
-    if n == 1:
+    if real( n ) == 1:
         return 1
 
     factors = getECMFactors( n ) if g.ecm else getFactors( n )
@@ -907,7 +908,7 @@ def getMobius( n ):
 # //******************************************************************************
 
 def getMertens( n ):
-    if n == 1:
+    if real( n ) == 1:
         return 1
 
     result = 0
@@ -925,7 +926,7 @@ def getMertens( n ):
 # //******************************************************************************
 
 def getEulerPhi( n ):
-    if n < 2:
+    if real( n ) < 2:
         return n
 
     if g.ecm:
@@ -941,7 +942,7 @@ def getEulerPhi( n ):
 # //******************************************************************************
 
 def getPowMod( a, b, c ):
-    return pow( int( a ), int( b ), int ( c ) )
+    return pow( real_int( a ), real_int( b ), real_int( c ) )
 
 
 # //******************************************************************************
@@ -951,7 +952,7 @@ def getPowMod( a, b, c ):
 # //******************************************************************************
 
 def isDeficient( n ):
-    if n < 2:
+    if real( n ) < 2:
         return 0
 
     return 1 if fsum( getDivisors( n )[ : -1 ] ) < n else 0
@@ -964,7 +965,7 @@ def isDeficient( n ):
 # //******************************************************************************
 
 def isAbundant( n ):
-    if n < 2:
+    if real( n ) < 2:
         return 0
 
     return 1 if fsum( getDivisors( n )[ : -1 ] ) > n else 0
@@ -990,7 +991,7 @@ def isPerfect( n ):
 # //******************************************************************************
 
 def isSmooth( n, k ):
-    if n < k:
+    if real( n ) < real( k ):
         return 0
 
     factors = getECMFactors( n ) if g.ecm else getFactors( n )
@@ -1007,7 +1008,7 @@ def isSmooth( n, k ):
 # //******************************************************************************
 
 def isRough( n, k ):
-    if n < k:
+    if real( n ) < real( k ):
         return 0
 
     factors = getECMFactors( n ) if g.ecm else getFactors( n )
@@ -1049,7 +1050,7 @@ def isSphenic( n ):
 # //******************************************************************************
 
 def isSquareFree( n ):
-    if n == 0:
+    if real_int( n ) == 0:
         return 0
 
     factors = getECMFactors( n ) if g.ecm else getFactors( n )
@@ -1093,7 +1094,7 @@ def isAchillesNumber( n ):
 # //******************************************************************************
 
 def isUnusual( n ):
-    if n < 2:
+    if real_int( n ) < 2:
         return 0
 
     factors = getECMFactors( n ) if g.ecm else getFactors( n )
@@ -1108,6 +1109,6 @@ def isUnusual( n ):
 # //******************************************************************************
 
 def isPronic( n ):
-    a = floor( sqrt( n ) )
+    a = floor( sqrt( real_int( n ) ) )
     return 1 if n == fmul( a, fadd( a, 1 ) ) else 0
 

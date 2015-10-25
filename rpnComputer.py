@@ -29,7 +29,7 @@ import rpnGlobals as g
 # //******************************************************************************
 
 def getInvertedBits( n ):
-    value = floor( n )
+    value = real_int( n )
 
     # determine how many groups of bits we will be looking at
     if value == 0:
@@ -62,7 +62,7 @@ def getInvertedBits( n ):
 # //******************************************************************************
 
 def convertToSignedInt( n, k ):
-    value = fadd( n, ( power( 2, fsub( k, 1 ) ) ) )
+    value = fadd( real_int( n ), ( power( 2, fsub( real_int( k ), 1 ) ) ) )
     value = fmod( value, power( 2, k ) )
     value = fsub( value, ( power( 2, fsub( k, 1 ) ) ) )
 
@@ -81,8 +81,8 @@ def convertToSignedInt( n, k ):
 # //******************************************************************************
 
 def performBitwiseOperation( i, j, operation ):
-    value1 = floor( i )
-    value2 = floor( j )
+    value1 = real_int( i )
+    value2 = real_int( j )
 
     # determine how many groups of bits we will be looking at
     if value1 == 0:
@@ -129,9 +129,9 @@ def getBitCount( n ):
     result = 0
 
     if isinstance( n, RPNMeasurement ):
-        value = n.getValue( )
+        value = real_int( n.getValue( ) )
     else:
-        value = int( n )
+        value = real_int( n )
 
     while ( value ):
         value &= value - 1
@@ -153,7 +153,7 @@ def unpackInteger( n, fields ):
     if not isinstance( fields, list ):
         return unpackInteger( n, [ fields ] )
 
-    value = int( n )
+    value = real_int( n )
     result = [ ]
 
     for field in reversed( fields ):
@@ -200,7 +200,7 @@ def packInteger( values, fields ):
 # //******************************************************************************
 
 def interpretAsFloat( n ):
-    if ( n < 0 ) or ( n >= 2 ** 32 - 1 ):
+    if ( real_int( n ) < 0 ) or ( n >= 2 ** 32 - 1 ):
         raise ValueError( 'value out of range for a 32-bit float' )
 
     intValue = struct.pack( 'I', int( n ) )
@@ -214,7 +214,7 @@ def interpretAsFloat( n ):
 # //******************************************************************************
 
 def interpretAsDouble( n ):
-    if ( n < 0 ) or ( n >= 2 ** 64 - 1 ):
+    if ( real_int( n ) < 0 ) or ( n >= 2 ** 64 - 1 ):
         raise ValueError( 'value out of range for a 64-bit float' )
 
     intValue = struct.pack( 'Q', int( n ) )

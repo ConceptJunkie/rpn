@@ -20,6 +20,7 @@ import ephem
 from dateutil import tz
 from rpnUtils import debugPrint
 from rpnMeasurement import *
+from rpnUtils import real, real_int
 
 import rpnGlobals as g
 
@@ -203,7 +204,7 @@ def convertToUnixTime( n ):
 
 def convertFromUnixTime( n ):
     try:
-        result = RPNDateTime.parseDateTime( n )
+        result = RPNDateTime.parseDateTime( real( n ) )
     except OverflowError as error:
         print( 'rpn:  out of range error for \'from_unix_time\'' )
         return nan
@@ -383,7 +384,7 @@ def getYesterday( ):
 # //******************************************************************************
 
 def calculateEaster( year ):
-    if isinstance( year, RPNDateTime ):
+    if isinstance( real( year ), RPNDateTime ):
         year = year.year
     else:
         year = int( year )
@@ -409,7 +410,7 @@ def calculateEaster( year ):
 # //******************************************************************************
 
 def calculateAshWednesday( year ):
-    return calculateEaster( year ).add( RPNMeasurement( -46, 'day' ) )
+    return calculateEaster( real( year ) ).add( RPNMeasurement( -46, 'day' ) )
 
 
 # //******************************************************************************
@@ -419,7 +420,7 @@ def calculateAshWednesday( year ):
 # //******************************************************************************
 
 def getLastDayOfMonth( year, month ):
-    return calendar.monthrange( int( year ), int( month ) )[ 1 ]
+    return calendar.monthrange( real_int( year ), real_int( month ) )[ 1 ]
 
 
 # //******************************************************************************
@@ -434,12 +435,12 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
     if isinstance( year, RPNDateTime ):
         year = year.year
     else:
-        year = int( year )
+        year = real_int( year )
 
-    if nth > 0:
+    if real( nth ) > 0:
         firstDay = RPNDateTime( year, 1, 1 )
 
-        firstWeekDay = weekday - firstDay.isoweekday( ) + 1
+        firstWeekDay = real( weekday ) - firstDay.isoweekday( ) + 1
 
         if firstWeekDay < 1:
             firstWeekDay += 7
@@ -451,7 +452,7 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
     elif nth < 0:
         lastDay = RPNDateTime( year, 12, 31 )
 
-        lastWeekDay = weekday - lastDay.isoweekday( )
+        lastWeekDay = real( weekday ) - lastDay.isoweekday( )
 
         if lastWeekDay > 0:
             lastWeekDay -= 7
@@ -474,25 +475,25 @@ def calculateNthWeekdayOfYear( year, nth, weekday ):
 # //******************************************************************************
 
 def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
-    if weekday > Sunday or weekday < Monday:
+    if real( weekday ) > Sunday or weekday < Monday:
         raise ValueError( 'day of week must be 1 - 7 (Monday to Sunday)' )
 
     if isinstance( year, RPNDateTime ):
         year = year.year
     else:
-        year = int( year )
+        year = real_int( year )
 
-    firstDayOfWeek = arrow.Arrow( year, month, 1 ).isoweekday( )
+    firstDayOfWeek = arrow.Arrow( real( year ), real( month ), 1 ).isoweekday( )
 
     if nth < 0:
-        day = ( ( weekday + 1 ) - firstDayOfWeek ) % 7
+        day = ( ( real( weekday ) + 1 ) - firstDayOfWeek ) % 7
 
         while day <= getLastDayOfMonth( year, month ):
             day += 7
 
         day += nth * 7
     else:
-        day = ( weekday - firstDayOfWeek + 1 ) + nth * 7
+        day = ( real( weekday ) - firstDayOfWeek + 1 ) + nth * 7
 
         if weekday >= firstDayOfWeek:
             day -= 7
@@ -512,7 +513,7 @@ def calculateThanksgiving( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
     else:
-        year = int( year )
+        year = real_int( year )
 
     return calculateNthWeekdayOfMonth( year, November, 4, Thursday )
 
@@ -529,7 +530,7 @@ def calculateLaborDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
     else:
-        year = int( year )
+        year = real_int( year )
 
     return calculateNthWeekdayOfMonth( year, 9, 1, 1 )
 
@@ -546,7 +547,7 @@ def calculateElectionDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
     else:
-        year = int( year )
+        year = real_int( year )
 
     result = calculateNthWeekdayOfMonth( year, November, 1, Monday)
     return result.replace( day = result.day + 1 )
@@ -564,7 +565,7 @@ def calculateMemorialDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
     else:
-        year = int( year )
+        year = real_int( year )
 
     return calculateNthWeekdayOfMonth( year, May, -1, Monday )
 
@@ -581,7 +582,7 @@ def calculatePresidentsDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
     else:
-        year = int( year )
+        year = real_int( year )
 
     return calculateNthWeekdayOfMonth( year, February, 3, Monday )
 
@@ -598,7 +599,7 @@ def calculateDSTStart( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
     else:
-        year = int( year )
+        year = real_int( year )
 
     if year >= 2007:
         return calculateNthWeekdayOfMonth( year, March, 2, Sunday )
@@ -622,7 +623,7 @@ def calculateDSTEnd( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
     else:
-        year = int( year )
+        year = real_int( year )
 
     if year >= 2007:
         return calculateNthWeekdayOfMonth( year, November, 1, Sunday )

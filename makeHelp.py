@@ -905,8 +905,15 @@ Added the 'distance' operator and changed geocoding lookup to use Nominatim
 instead of Google, because the Google lookup (provided by ephem) suddenly
 stopped working.
 
+Added the 'cone_volume', 'cone_area', 'torus_volume' and 'torus_area',
+'tetrahedron_area', 'tetrahedron_volume', 'octahedron_area',
+'octahedron_volume', 'dodecahedron_area', 'dodecahedron_volume',
+'icosahedron_area', 'icosahedron_volume' operators.
+
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
+
+Implemented lots of unit tests.
 
 ...and the usual bug fixes.
     ''',
@@ -4366,6 +4373,48 @@ c:\>rpn inf x 1 + fib x fib / limit
 # //
 # //******************************************************************************
 
+    'cone_area' : [
+'geometric', 'calculates the surface area of a cone of radius n and height k',
+'''
+''',
+'''
+''' ],
+
+    'cone_volume' : [
+'geometric', 'calculates the volume of a cone of radius n and height k',
+'''
+''',
+'''
+''' ],
+
+    'dodecahedron_area' : [
+'geometric', 'calculates the surface area of a dodecahedron of edge length n',
+'''
+''',
+'''
+''' ],
+
+    'dodecahedron_volume' : [
+'geometric', 'calculates the volume of a dodecahedron of edge length n',
+'''
+''',
+'''
+''' ],
+
+    'icosahedron_area' : [
+'geometric', 'calculates the surface area of a icosahedron of edge length n',
+'''
+''',
+'''
+''' ],
+
+    'icosahedron_volume' : [
+'geometric', 'calculates the volume of a icosahedron of edge length n',
+'''
+''',
+'''
+''' ],
+
     'n_sphere_area' : [
 'geometric', 'calculates the surface area of an n-sphere of size k (radius or volume)',
 '''
@@ -4387,6 +4436,20 @@ c:\>rpn inf x 1 + fib x fib / limit
 '''
 ''' ],
 
+    'octahedron_area' : [
+'geometric', 'calculates the surface area of a octahedron of edge length n',
+'''
+''',
+'''
+''' ],
+
+    'octahedron_volume' : [
+'geometric', 'calculates the volume of a octahedron of edge length n',
+'''
+''',
+'''
+''' ],
+
     'polygon_area' : [
 'geometric', 'calculates the area of an regular n-sided polygon with sides of unit length',
 '''
@@ -4395,21 +4458,49 @@ c:\>rpn inf x 1 + fib x fib / limit
 ''' ],
 
     'sphere_area' : [
-'geometric', 'calculates the surface area of an sphere of size n (radius or volume)',
+'geometric', 'calculates the surface area of a sphere of size n (radius or volume)',
 '''
 ''',
 '''
 ''' ],
 
     'sphere_radius' : [
-'geometric', 'calculates the radius of an sphere of size n (surface area or volume)',
+'geometric', 'calculates the radius of a sphere of size n (surface area or volume)',
 '''
 ''',
 '''
 ''' ],
 
     'sphere_volume' : [
-'geometric', 'calculates the volume of an sphere of size n (radius or surface area)',
+'geometric', 'calculates the volume of a sphere of size n (radius or surface area)',
+'''
+''',
+'''
+''' ],
+
+    'tetrahedron_area' : [
+'geometric', 'calculates the surface area of a tetrahedron of edge length n',
+'''
+''',
+'''
+''' ],
+
+    'tetrahedron_volume' : [
+'geometric', 'calculates the volume of a tetrahedron of edge length n',
+'''
+''',
+'''
+''' ],
+
+    'torus_area' : [
+'geometric', 'calculates the surface area of a torus of major radius n and minor radius k',
+'''
+''',
+'''
+''' ],
+
+    'torus_volume' : [
+'geometric', 'calculates the volume of a torus of major radius n and minor radius k',
 '''
 ''',
 '''

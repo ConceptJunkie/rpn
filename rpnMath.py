@@ -16,6 +16,7 @@ from mpmath import *
 
 from rpnDateTime import RPNDateTime
 from rpnMeasurement import RPNMeasurement
+from rpnUtils import real
 
 
 # //******************************************************************************
@@ -24,7 +25,7 @@ from rpnMeasurement import RPNMeasurement
 # //
 # //  We used to be able to call fadd directly, but now we want to be able to add
 # //  units.  Adding units includes an implicit conversion if the units are not
-# //  the same.
+# //  the same, assuming they are compatible.
 # //
 # //******************************************************************************
 
@@ -241,7 +242,7 @@ def isNotEqual( n, k ):
 # //******************************************************************************
 
 def isGreater( n, k ):
-    return 1 if n > k else 0
+    return 1 if real( n ) > real( k ) else 0
 
 
 # //******************************************************************************
@@ -251,7 +252,7 @@ def isGreater( n, k ):
 # //******************************************************************************
 
 def isLess( n, k ):
-    return 1 if n < k else 0
+    return 1 if real( n ) < real( k ) else 0
 
 
 # //******************************************************************************
@@ -261,7 +262,7 @@ def isLess( n, k ):
 # //******************************************************************************
 
 def isNotGreater( n, k ):
-    return 1 if n <= k else 0
+    return 1 if real( n ) <= real( k ) else 0
 
 
 # //******************************************************************************
@@ -271,7 +272,7 @@ def isNotGreater( n, k ):
 # //******************************************************************************
 
 def isNotLess( n, k ):
-    return 1 if n >= k else 0
+    return 1 if real( n ) >= real( k ) else 0
 
 
 # //******************************************************************************
@@ -291,7 +292,7 @@ def isInteger( n ):
 # //******************************************************************************
 
 def divides( n, k ):
-    return isInteger( n / k );
+    return isInteger( real( n ) / real( k ) );
 
 
 # //******************************************************************************

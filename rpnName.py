@@ -15,6 +15,7 @@
 from mpmath import *
 
 from rpnMeasurement import RPNMeasurement
+from rpnUtils import real
 
 
 # //******************************************************************************
@@ -197,7 +198,7 @@ def getNumberGroupName( n ):
 # //******************************************************************************
 
 def getOrdinalName( n ):
-    return getNumberName( n, True )
+    return getNumberName( real( n ), True )
 
 
 # //******************************************************************************
@@ -207,7 +208,7 @@ def getOrdinalName( n ):
 # //******************************************************************************
 
 def getNumberName( n, ordinal = False ):
-    if isinstance( n, RPNMeasurement ):
+    if isinstance( real( n ), RPNMeasurement ):
         n = mpf( n )
 
     if n == 0:
@@ -252,5 +253,4 @@ def getNumberName( n, ordinal = False ):
         name = 'negative ' + name
 
     return name
-
 

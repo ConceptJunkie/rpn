@@ -332,4 +332,3 @@ def getSilverRatio( ):
 def getEddingtonNumber( ):
     return fmul( 136, power( 2, 256 ) )
 
-

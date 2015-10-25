@@ -12,7 +12,6 @@
 # //
 # //******************************************************************************
 
-
 # http://oeis.org/A000001
 #
 # From Mitch Harris, Oct 25 2006: (Start)
@@ -47,6 +46,7 @@ from mpmath import *
 
 from rpnNumberTheory import *
 from rpnPolytope import getNthPolygonalNumber
+from rpnUtils import real, real_int
 
 
 # //******************************************************************************
@@ -62,7 +62,7 @@ from rpnPolytope import getNthPolygonalNumber
 def getNthAperyNumber( n ):
     result = 0
 
-    for k in arange( 0, n + 1 ):
+    for k in arange( 0, real( n ) + 1 ):
         result = fadd( result, fmul( power( binomial( n, k ), 2 ),
                                      power( binomial( fadd( n, k ), k ), 2 ) ) )
 
@@ -78,7 +78,7 @@ def getNthAperyNumber( n ):
 def getNthDelannoyNumber( n ):
     result = 0
 
-    for k in arange( 0, fadd( n, 1 ) ):
+    for k in arange( 0, fadd( real( n ), 1 ) ):
         result = fadd( result, fmul( binomial( n, k ), binomial( fadd( n, k ), k ) ) )
 
     return result
@@ -91,7 +91,7 @@ def getNthDelannoyNumber( n ):
 # //******************************************************************************
 
 def getNthSchroederNumber( n ):
-    if n == 1:
+    if real( n ) == 1:
         return 1
 
     if n < 0:
@@ -121,7 +121,7 @@ def getNthSchroederNumber( n ):
 def getNthMotzkinNumber( n ):
     result = 0
 
-    for j in arange( 0, floor( fdiv( n, 3 ) ) + 1 ):
+    for j in arange( 0, floor( fdiv( real( n ), 3 ) ) + 1 ):
         result = fadd( result, fprod( [ power( -1, j ), binomial( fadd( n, 1 ), j ),
                                       binomial( fsub( fmul( 2, n ), fmul( 3, j ) ), n ) ] ) )
 
@@ -149,7 +149,7 @@ def getNthPellNumber( n ):
 # //******************************************************************************
 
 def getPermutations( n, r ):
-    if ( r > n ):
+    if ( real( r ) > real( n ) ):
         raise ValueError( 'number of elements (%d) cannot exceed the size '
                           'of the set (%d)' % ( r, n ) )
 
@@ -163,7 +163,7 @@ def getPermutations( n, r ):
 # //******************************************************************************
 
 def getNthSylvester( n ):
-    if n == 1:
+    if real( n ) == 1:
         return 2
     elif n == 2:
         return 3
@@ -183,8 +183,8 @@ def getNthSylvester( n ):
 # //******************************************************************************
 
 def createDeBruijnSequence( n, k ):
-    wordSize = int( k )
-    symbolCount = int( n )
+    wordSize = real_int( k )
+    symbolCount = real_int( n )
 
     v = [ 0 for _ in range( wordSize ) ]
     l = 1
@@ -217,8 +217,8 @@ def createDeBruijnSequence( n, k ):
 # //******************************************************************************
 
 def getCompositions( n, k ):
-    value = int( floor( n ) )
-    count = int( floor( k ) )
+    value = int( floor( real( n ) ) )
+    count = int( floor( real( k ) ) )
 
     if count < 1:
         raise ValueError( "'compositions' expects a size argument greater than 0'" )
@@ -241,11 +241,11 @@ def getCompositions( n, k ):
 # //******************************************************************************
 
 def getPartitionNumber( n, k ):
-    #if k < 1:
-    #    raise ValueError
+    if k < 1:
+        raise ValueError( 'positive argument expected' )
 
-    #if n < 0:
-    #    raise ValueError
+    if n < 0:
+        raise ValueError( 'non-negative argument expected' )
 
     if n == 0:
         return 1
@@ -265,8 +265,6 @@ def getPartitionNumber( n, k ):
 #
 ## function for generalized pentagonal numbers
 #def gen_pent (n): return pent(int(((-1)**(n+1))*(round((n+1)/2))))
-#
-#
 #
 #
 ## array for storing partitions - first ten already stored
@@ -315,6 +313,7 @@ def getPartitionNumber( n, k ):
 #        partitions_new.insert(n, total)
 #        return total
 
+
 # //******************************************************************************
 # //
 # //  getNthMultifactorial
@@ -322,5 +321,5 @@ def getPartitionNumber( n, k ):
 # //******************************************************************************
 
 def getNthMultifactorial( n, k ):
-    return fprod( range( int( n ), 0, -( int( k ) ) ) )
+    return fprod( arange( real_int( n ), 0, -( real_int( k ) ) ) )
 

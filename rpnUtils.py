@@ -76,7 +76,7 @@ class DelayedKeyboardInterrupt( object ):
 def rand_( n ):
     result = [ ]
 
-    for i in arange( 0, n ):
+    for i in arange( 0, real( n ) ):
         result.append( rand( ) )
 
     return result
@@ -91,66 +91,10 @@ def rand_( n ):
 def randrange_( n, k ):
     result = [ ]
 
-    for i in arange( 0, k ):
-        result.append( randrange( n ) )
+    for i in arange( 0, real( k ) ):
+        result.append( randrange( real( n ) ) )
 
     return result
-
-
-# //******************************************************************************
-# //
-# //  loadUnitData
-# //
-# //******************************************************************************
-
-def loadUnitData( ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
-            g.unitsVersion = pickle.load( pickleFile )
-            g.basicUnitTypes.update( pickle.load( pickleFile ) )
-            g.unitOperators.update( pickle.load( pickleFile ) )
-            g.operatorAliases.update( pickle.load( pickleFile ) )
-    except IOError:
-        print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
-        return False
-
-    if g.unitsVersion != PROGRAM_VERSION:
-        print( 'rpn:  units data file version mismatch' )
-
-    return True
-
-
-# //******************************************************************************
-# //
-# //  loadHelpData
-# //
-# //******************************************************************************
-
-def loadHelpData( ):
-    if g.helpLoaded:
-        return
-
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
-            g.helpVersion = pickle.load( pickleFile )
-            g.helpTopics = pickle.load( pickleFile )
-            g.operatorHelp = pickle.load( pickleFile )
-    except FileNotFoundError:
-        print( 'rpn:  Unable to load help file.  Help will be unavailable.  Run makeHelp.py to create the help files.' )
-        return
-
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) as pickleFile:
-            g.unitTypeDict = pickle.load( pickleFile )
-    except FileNotFoundError:
-        print( 'rpn:  Unable to load unit help data.  Run makeUnits.py to make the unit data files.' )
-        return False
-
-    g.operatorCategories = set( g.operatorHelp[ key ][ 0 ] for key in g.operatorHelp )
-
-    g.helpLoaded = True
-
-    return True
 
 
 # //******************************************************************************
@@ -414,41 +358,6 @@ def findPolynomial( n, k ):
 
 # //******************************************************************************
 # //
-# //  loadResult
-# //
-# //******************************************************************************
-
-def loadResult( valueList ):
-    try:
-        fileName = g.dataPath + os.sep + 'result.pckl.bz2'
-
-        with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
-            result = pickle.load( pickleFile )
-    except FileNotFoundError:
-        result = mapmathify( 0 )
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  saveResult
-# //
-# //******************************************************************************
-
-def saveResult( result ):
-    if not os.path.isdir( g.dataPath ):
-        os.makedirs( g,dataPath )
-
-    fileName = g.dataPath + os.sep + 'result.pckl.bz2'
-
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
-            pickle.dump( result, pickleFile )
-
-
-# //******************************************************************************
-# //
 # //  printStats
 # //
 # //******************************************************************************
@@ -479,7 +388,7 @@ def printHelpMessage( ):
 def printHelpTopic( n ):
     if isinstance( n, str ):
         printHelp( operators, listOperators, modifiers, n, True )
-    #elif isinstance( n, RPNMeasurement ):
+    elif isinstance( n, RPNMeasurement ):
         units = n.getUnits( )
         # help for units isn't implemented yet, but now it will work
         printHelp( operators, listOperators, modifiers, list( units.keys( ) )[ 0 ], True )
@@ -503,4 +412,35 @@ def getExpandedFactorList( factors ):
     return sorted( reduce( lambda x, y: x + y, factorMap, [ ] ) )
 
 
+# //******************************************************************************
+# //
+# //  real
+# //
+# //  Skipping the standard naming convention to keep this name really short.
+# //
+# //******************************************************************************
+
+def real( n ):
+    if im( n ) != 0:
+        raise ValueError( 'real argument expected' )
+
+    return n
+
+
+# //******************************************************************************
+# //
+# //  real_int
+# //
+# //  Skipping the standard naming convention to keep this name really short.
+# //
+# //******************************************************************************
+
+def real_int( n ):
+    if im( n ) != 0:
+        raise ValueError( 'real argument expected' )
+
+    if n != floor( n ):
+        raise ValueError( 'integer argument expected' )
+
+    return int( n )
 

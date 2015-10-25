@@ -259,4 +259,3 @@ def setIdentifyMode( ):
     g.tempIdentifyMode = True
     return 0
 
-

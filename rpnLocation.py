@@ -229,4 +229,3 @@ def convertLatLongToNAC( args ):
 
     return convertToBaseN( long, 30, False, numerals ) + ' ' + convertToBaseN( lat, 30, False, numerals )
 
-

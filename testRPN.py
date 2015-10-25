@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # //******************************************************************************
 # //
 # //  testRPN
@@ -221,6 +223,8 @@ def runAlgebraOperatorTests( ):
     expectEquivalent( '1 0 -5 0 7 solve_quartic', '[ 1 0 -5 0 7 ] solve' )
     expectEquivalent( '2 -3 2 -3 2 solve_quartic', '[ 2 -3 2 -3 2 ] solve' )
     expectEquivalent( '54 23 -87 19 2042 solve_quartic', '[ 54 23 -87 19 2042 ] solve' )
+    expectException( '0 0 0 0 0 solve_quadratic' )
+    expectException( '0 0 0 0 1 solve_quadratic' )
 
 
 # //******************************************************************************
@@ -259,7 +263,7 @@ def runArithmeticOperatorTests( ):
     testOperator( 'marathon 100 miles hour / / minutes convert' )
     testOperator( '2 zeta sqrt 24 sqrt / 12 *' )
     testOperator( 'now 2014-01-01 - minutes /' )
-    expectException( '0 0 divide' )
+    expectException( '1 0 divide' )
 
     # floor
     expectResult( '-0.4 floor', -1 )
@@ -276,6 +280,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '10000 1000 is_divisible', 1 )
     expectResult( '12 1 12 range is_divisible', [ 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 ] )
     expectResult( '1 20 range 6 is_divisible', [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ] )
+    expectException( '1 0 is_divisible' )
+    expectException( '2 i 1 is_divisible' )
 
     # is_equal
     expectResult( '4 3 is_equal', 0 )
@@ -287,6 +293,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '0 is_even', 1 )
     expectResult( '1 is_even', 0 )
     expectResult( '2 is_even', 1 )
+    expectException( '1 i is_even' )
 
     # is_greater
     expectResult( '4 3 is_greater', 1 )
@@ -759,7 +766,7 @@ def runCombinatoricOperatorTests( ):
 
     # motzkin
     testOperator( '-a25 56 motzkin' )
-    expectEqual( '-a20 0 29 range motzkin', '1006 oeis 30 left' )
+    expectEqual( '-a20 0 29 range motzkin', '-a20 1006 oeis 30 left' )
 
     # multifactorial
     testOperator( '1 20 range 5 multifactorial' )
@@ -1081,7 +1088,8 @@ def runConversionOperatorTests( ):
     testOperator( '12 34 make_pyth_3' )
 
     # make_pyth_4
-    testOperator( '17 29 make_pyth_4' )
+    testOperator( '18 29 make_pyth_4' )
+    expectException( '17 29 make_pyth_4' )
 
     # make_time
     testOperator( '[ 1965 03 31 ] make_time' )
@@ -1260,6 +1268,12 @@ def runFunctionOperatorTests( ):
 # //******************************************************************************
 
 def runGeometricOperatorTests( ):
+    # cone_area
+    testOperator( '4 5 cone_area' )
+
+    # cone_volume
+    testOperator( '3 8 cone_volume' )
+
     # n_sphere_area
     testOperator( '34 inches 3 n_sphere_area' )
     testOperator( '34 square_inches 3 n_sphere_area' )
@@ -1290,6 +1304,12 @@ def runGeometricOperatorTests( ):
     testOperator( '5 inches sphere_volume' )
     #testOperator( '5 sq_inches sphere_volume' )  # not implemented yet
     testOperator( '5 cubic_in sphere_volume' )
+
+    # torus_area
+    testOperator( '12 5 torus_area' )
+
+    # torus_volume
+    testOperator( '20 8 torus_volume' )
 
     # triangle_area
     testOperator( '123 456 789 triangle_area' )

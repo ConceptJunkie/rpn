@@ -151,4 +151,3 @@ def handleUseMembersOperator( valueList ):
 def getPrevious( valueList ):
     valueList.append( valueList[ -1 ] )
 
-

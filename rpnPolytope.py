@@ -16,6 +16,8 @@ from mpmath import *
 
 from rpnNumberTheory import *
 
+from rpnUtils import real
+
 
 # //******************************************************************************
 # //
@@ -24,11 +26,11 @@ from rpnNumberTheory import *
 # //******************************************************************************
 
 def getNthPolygonalNumber( n, k ):
-    if k < 3:
+    if real( k ) < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
     coeff = fdiv( fsub( k, 2 ), 2 )
-    return polyval( [ coeff, fneg( fsub( coeff, 1 ) ), 0 ], n )
+    return polyval( [ coeff, fneg( fsub( coeff, 1 ) ), 0 ], real( n ) )
 
 
 # //******************************************************************************
@@ -40,10 +42,10 @@ def getNthPolygonalNumber( n, k ):
 # //******************************************************************************
 
 def findNthPolygonalNumber( n, k ):
-    if k < 3:
+    if real( k ) < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
-    return nint( fdiv( fsum( [ sqrt( fsum( [ power( k, 2 ), fprod( [ 8, k, n ] ),
+    return nint( fdiv( fsum( [ sqrt( fsum( [ power( k, 2 ), fprod( [ 8, k, real( n ) ] ),
                                              fneg( fmul( 8, k ) ), fneg( fmul( 16, n ) ), 16 ] ) ),
                                k, -4 ] ), fmul( 2, fsub( k, 2 ) ) ) )
 
@@ -55,11 +57,11 @@ def findNthPolygonalNumber( n, k ):
 # //******************************************************************************
 
 def getCenteredPolygonalNumber( n, k ):
-    if k < 3:
+    if real( k ) < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
     coefficient = fdiv( k, 2 )
-    return polyval( [ coefficient, fneg( coefficient ), 1 ], n )
+    return polyval( [ coefficient, fneg( coefficient ), 1 ], real( n ) )
 
 
 # //******************************************************************************
@@ -71,13 +73,13 @@ def getCenteredPolygonalNumber( n, k ):
 # //******************************************************************************
 
 def findCenteredPolygonalNumber( n, k ):
-    if k < 3:
+    if real( k ) < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
     s = fdiv( k, 2 )
 
     return nint( fdiv( fadd( sqrt( s ),
-                       sqrt( fsum( [ fmul( 4, n ), s, -4 ] ) ) ), fmul( 2, sqrt( s ) ) ) )
+                       sqrt( fsum( [ fmul( 4, real( n ) ), s, -4 ] ) ) ), fmul( 2, sqrt( s ) ) ) )
 
 
 # //******************************************************************************
@@ -116,7 +118,7 @@ def getNthPentagonalSquareNumber( n ):
 
 def getNthHexagonalSquareNumber( n ):
     return nint( floor( fdiv( power( tan( fdiv( fmul( 3, pi ), 8 ) ),
-                                     fsub( fmul( 8, n ), 4 ) ), 32 ) ) )
+                                     fsub( fmul( 8, real( n ) ), 4 ) ), 32 ) ) )
 
 
 # //******************************************************************************
@@ -131,7 +133,7 @@ def getNthHexagonalSquareNumber( n ):
 
 def getNthHexagonalPentagonalNumber( n ):
     return nint( ceil( fdiv( fmul( fsub( sqrt( 3 ), 1 ),
-                                   power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ) ),
+                                   power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, real( n ) ), 2 ) ) ),
                              12 ) ) )
 
 
@@ -184,7 +186,7 @@ def getNthHeptagonalSquareNumber( n ):
 
 def getNthHeptagonalPentagonalNumber( n ):
     return nint( floor( fdiv( fmul( power( fadd( 2, sqrt( 15 ) ), 2 ),
-                                    power( fadd( 4, sqrt( 15 ) ), fsub( fmul( 4, n ), 3 ) ) ), 240 ) ) )
+                                    power( fadd( 4, sqrt( 15 ) ), fsub( fmul( 4, real( n ) ), 3 ) ) ), 240 ) ) )
 
 
 # //******************************************************************************
@@ -199,7 +201,7 @@ def getNthHeptagonalPentagonalNumber( n ):
 
 def getNthHeptagonalHexagonalNumber( n ):
     return nint( floor( fdiv( fmul( fsub( sqrt( 5 ), 1 ),
-                                    power( fadd( 2, sqrt( 5 ) ), fsub( fmul( 8, n ), 5 ) ) ), 80 ) ) )
+                                    power( fadd( 2, sqrt( 5 ) ), fsub( fmul( 8, real( n ) ), 5 ) ) ), 80 ) ) )
 
 
 # //******************************************************************************
@@ -215,7 +217,7 @@ def getNthHeptagonalHexagonalNumber( n ):
 # //******************************************************************************
 
 def getNthOctagonalTriangularNumber( n ):
-    sign = power( -1, n )
+    sign = power( -1, real( n ) )
 
     return nint( floor( fdiv( fmul( fsub( 7, fprod( [ 2, sqrt( 6 ), sign ] ) ),
                                     power( fadd( sqrt( 3 ), sqrt( 2 ) ), fsub( fmul( 4, n ), 2 ) ) ),
@@ -234,7 +236,7 @@ def getNthOctagonalTriangularNumber( n ):
 # //******************************************************************************
 
 def getNthOctagonalSquareNumber( n ):
-    return nint( floor( fdiv( power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, n ), 2 ) ), 12 ) ) )
+    return nint( floor( fdiv( power( fadd( 2, sqrt( 3 ) ), fsub( fmul( 4, real( n ) ), 2 ) ), 12 ) ) )
 
 
 # //******************************************************************************
@@ -248,7 +250,7 @@ def getNthOctagonalSquareNumber( n ):
 # //******************************************************************************
 
 def getNthOctagonalPentagonalNumber( n ):
-    return nint( floor( fdiv( fmul( fsub( 11, fprod( [ 6, sqrt( 2 ), power( -1, n ) ] ) ),
+    return nint( floor( fdiv( fmul( fsub( 11, fprod( [ 6, sqrt( 2 ), power( -1, real( n ) ) ] ) ),
                               power( fadd( 1, sqrt( 2 ) ), fsub( fmul( 8, n ), 6 ) ) ), 96 ) ) )
 
 
@@ -264,7 +266,7 @@ def getNthOctagonalPentagonalNumber( n ):
 
 def getNthOctagonalHexagonalNumber( n ):
     return floor( fdiv( fmul( fsub( fmul( 3, sqrt( 3 ) ), sqrt( 2 ) ),
-                              power( fadd( sqrt( 3 ), sqrt( 2 ) ), fsub( fmul( 8, n ), 5 ) ) ), 96 ) )
+                              power( fadd( sqrt( 3 ), sqrt( 2 ) ), fsub( fmul( 8, real( n ) ), 5 ) ) ), 96 ) )
 
 
 # //******************************************************************************
@@ -279,7 +281,7 @@ def getNthOctagonalHexagonalNumber( n ):
 
 def getNthOctagonalHeptagonalNumber( n ):
     return nint( floor( fdiv( fmul( fadd( 17, fmul( sqrt( 30 ), 2 ) ),
-                                    power( fadd( sqrt( 5 ), sqrt( 6 ) ), fsub( fmul( 8, n ), 6 ) ) ), 480 ) ) )
+                                    power( fadd( sqrt( 5 ), sqrt( 6 ) ), fsub( fmul( 8, real( n ) ), 6 ) ) ), 480 ) ) )
 
 
 # //******************************************************************************
@@ -326,9 +328,12 @@ def getNthNonagonalTriangularNumber( n ):
 # //******************************************************************************
 
 def getNthNonagonalSquareNumber( n ):
+    if real( n ) < 0:
+        ValueError( '' )
+
     p = fsum( [ fmul( 8, sqrt( 7 ) ), fmul( 9, sqrt( 14 ) ), fmul( -7, sqrt( 2 ) ), -28 ] )
     q = fsum( [ fmul( 7, sqrt( 2 ) ), fmul( 9, sqrt( 14 ) ), fmul( -8, sqrt( 7 ) ), -28 ] )
-    sign = power( -1, n )
+    sign = power( -1, real( n ) )
 
     index = fdiv( fsub( fmul( fadd( p, fmul( q, sign ) ),
                               power( fadd( fmul( 2, sqrt( 2 ) ), sqrt( 7 ) ), n ) ),
@@ -352,7 +357,7 @@ def getNthNonagonalSquareNumber( n ):
 
 def getNthNonagonalPentagonalNumber( n ):
     sqrt21 = sqrt( 21 )
-    sign = power( -1, n )
+    sign = power( -1, real( n ) )
 
     return nint( floor( fdiv( fprod( [ fadd( 25, fmul( 4, sqrt21 ) ),
                                        fsub( 5, fmul( sqrt21, sign ) ),
@@ -786,5 +791,4 @@ def getNthPolytopeNumber( n, d ):
         m += 1
 
     return fdiv( result, fac( d - 1 ) )
-
 

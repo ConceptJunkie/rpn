@@ -16,6 +16,7 @@ from mpmath import *
 
 from rpnMeasurement import RPNMeasurement
 from rpnUnitClasses import *
+from rpnUtils import real
 
 
 # //******************************************************************************
@@ -29,7 +30,7 @@ from rpnUnitClasses import *
 # //******************************************************************************
 
 def getRegularPolygonArea( n ):
-    if n < 3:
+    if real( n ) < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
     return fdiv( n, fmul( 4, tan( fdiv( pi, n ) ) ) )
@@ -45,7 +46,7 @@ def getRegularPolygonArea( n ):
 # //******************************************************************************
 
 def getNSphereRadius( n, k ):
-    if n < 3:
+    if real( n ) < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     if not isinstance( k, RPNMeasurement ):
@@ -83,9 +84,9 @@ def getNSphereRadius( n, k ):
 
 def getNSphereSurfaceArea( n, k ):
     if not isinstance( k, RPNMeasurement ):
-        return getNSphereSurfaceArea( n, RPNMeasurement( k, 'inch' ) )
+        return getNSphereSurfaceArea( n, RPNMeasurement( real( k ), 'inch' ) )
 
-    if n < 3:
+    if real( n ) < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     measurementType = k.getBasicTypes( )
@@ -123,11 +124,11 @@ def getNSphereSurfaceArea( n, k ):
 # //******************************************************************************
 
 def getNSphereVolume( n, k ):
-    if n < 3:
+    if real( n ) < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     if not isinstance( k, RPNMeasurement ):
-        return getNSphereVolume( n, RPNMeasurement( k, 'inch' ) )
+        return getNSphereVolume( n, RPNMeasurement( real( k ), 'inch' ) )
 
     measurementType = k.getBasicTypes( )
 
@@ -152,9 +153,7 @@ def getNSphereVolume( n, k ):
 # //******************************************************************************
 
 def getTriangleArea( a, b, c ):
-    # semiperimeter
-    s = fdiv( fsum( [ a, b, c ] ), 2 )
-    return sqrt( fprod( [ s, fsub( s, a ), fsub( s, b ), fsub( s, c ) ] ) )
+    return fdiv( fsum( [ power( a, 2 ), power( b, 2 ), power( c, 2 ) ] ), fmul( 4, sqrt( 3 ) ) )
 
 
 # //******************************************************************************
@@ -169,7 +168,7 @@ def getTriangleArea( a, b, c ):
 # //******************************************************************************
 
 def getTorusVolume( R, s ):
-    return fprod( [ 2, power( pi, 2 ), R, pow( s, 2 ) ] )
+    return fprod( [ 2, power( pi, 2 ), real( R ), pow( real( s ), 2 ) ] )
 
 
 # //******************************************************************************
@@ -184,7 +183,7 @@ def getTorusVolume( R, s ):
 # //******************************************************************************
 
 def getTorusSurfaceArea( R, s ):
-    return fprod( [ 4, power( pi, 2 ), R, s ] )
+    return fprod( [ 4, power( pi, 2 ), real( R ), real( s ) ] )
 
 
 # //******************************************************************************
@@ -199,7 +198,7 @@ def getTorusSurfaceArea( R, s ):
 # //******************************************************************************
 
 def getConeVolume( r, h ):
-    return fprod( [ pi, power( r, 2 ), fdiv( h, 3 ) ] )
+    return fprod( [ pi, power( real( r ), 2 ), fdiv( real( h ), 3 ) ] )
 
 
 # //******************************************************************************
@@ -214,5 +213,101 @@ def getConeVolume( r, h ):
 # //******************************************************************************
 
 def getConeSurfaceArea( r, h ):
-    return fprod( [ pi, r, fadd( r, hypot( r, h ) ) ] )
+    return fprod( [ pi, real( r ), fadd( r, hypot( r, real( h ) ) ) ] )
+
+
+# //******************************************************************************
+# //
+# //  getTetrahedronSurfaceArea
+# //
+# //  https://en.wikipedia.org/wiki/Tetrahedron
+# //
+# //******************************************************************************
+
+def getTetrahedronSurfaceArea( n ):
+    return fmul( sqrt( 3 ), power( real( n ), 2 ) )
+
+
+# //******************************************************************************
+# //
+# //  getTetrahedronVolume
+# //
+# //  https://en.wikipedia.org/wiki/Tetrahedron
+# //
+# //******************************************************************************
+
+def getTetrahedronVolume( n ):
+    return fdiv( power( real( n ), 3 ), fmul( 6, sqrt( 2 ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getOctahedronSurfaceArea
+# //
+# //  https://en.wikipedia.org/wiki/Octahedron
+# //
+# //******************************************************************************
+
+def getOctahedronSurfaceArea( n ):
+    return fprod( [ 2, sqrt( 3 ), power( real( n ), 2 ) ] )
+
+
+# //******************************************************************************
+# //
+# //  getOctahedronVolume
+# //
+# //  https://en.wikipedia.org/wiki/Octahedron
+# //
+# //******************************************************************************
+
+def getOctahedronVolume( n ):
+    return fdiv( fmul( [ sqrt( 2 ), power( real( n ), 3 ) ] ), 3 )
+
+
+# //******************************************************************************
+# //
+# //  getDodecahedronSurfaceArea
+# //
+# //  https://en.wikipedia.org/wiki/Dodecahedron
+# //
+# //******************************************************************************
+
+def getDodecahedronSurfaceArea( n ):
+    return fmul( 3, sqrt( fadd( 25, fprod( [ 10, sqrt( 5 ), power( real( a ), 2 ) ] ) ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getDodecahedronVolume
+# //
+# //  https://en.wikipedia.org/wiki/Dodecahedron
+# //
+# //******************************************************************************
+
+def getDodecahedronVolume( n ):
+    return fdiv( fmul( fadd( 15, fmul( 7, sqrt( 5 ) ) ), power( a, 3 ) ), 4 )
+
+
+# //******************************************************************************
+# //
+# //  getIcosahedronSurfaceArea
+# //
+# //  https://en.wikipedia.org/wiki/Icosahedron
+# //
+# //******************************************************************************
+
+def getIcosahedronSurfaceArea( n ):
+    return fprod( [ 5, sqrt( 3 ), power( a, 2 ) ] )
+
+
+# //******************************************************************************
+# //
+# //  getIcosahedronVolume
+# //
+# //  https://en.wikipedia.org/wiki/Icosahedron
+# //
+# //******************************************************************************
+
+def getIcosahedronVolume( n ):
+    return fprod( [ fdiv( 5, 12 ), fadd( 3, sqrt( 5 ) ), power( a, 3 ) ] )
 

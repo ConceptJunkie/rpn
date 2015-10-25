@@ -27,7 +27,7 @@ import rpnGlobals as g
 from rpnPersistence import *
 from rpnPrimes import primes
 from rpnSettings import setAccuracy
-from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList
+from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList, real, real_int
 
 
 # //******************************************************************************
@@ -526,7 +526,7 @@ def doSelfridgeTest( candidate, verbose = False ):
 def getFactors( n ):
     verbose = g.verbose
 
-    if n < -1:
+    if real( n ) < -1:
         return [ ( -1, 1 ) ] + getFactors( fneg( n ) )
     elif n == -1:
         return [ ( -1, 1 ) ]
@@ -636,7 +636,7 @@ def getFactorList( n ):
 def getECMFactors( target ):
     from pyecm import factors
 
-    n = int( target )
+    n = int( real_int( target ) )
 
     verbose = g.verbose
     randomSigma = True
@@ -653,7 +653,7 @@ def getECMFactors( target ):
         return [ ( 1, 1 ) ]
 
     if verbose:
-        print( 'factoring', n, '(', int( log10( n ) ), ')' )
+        print( 'factoring', n, '(', int( floor( log10( n ) ) ), ')' )
 
     if g.factorCache is None:
         g.factorCache = loadFactorCache( )

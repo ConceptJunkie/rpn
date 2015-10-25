@@ -22,6 +22,7 @@ from mpmath import ceil
 
 from rpnDateTime import RPNDateTime
 from rpnName import getOrdinalName
+from rpnUtils import real, real_int
 
 
 # //******************************************************************************
@@ -212,7 +213,7 @@ def generateMonthCalendar( n ):
     if isinstance( n[ 0 ], RPNDateTime ):
         cal.prmonth( n[ 0 ].year, n[ 0 ].month )
     elif len( n ) >= 2:
-        cal.prmonth( int( n[ 0 ] ), int( n[ 1 ] ) )
+        cal.prmonth( real_int( n[ 0 ] ), real_int( n[ 1 ] ) )
     else:
         raise ValueError( 'this operator requires at least 2 items in the list' )
 
@@ -233,7 +234,7 @@ def generateYearCalendar( n ):
     if isinstance( n, RPNDateTime ):
         cal.pryear( n.year )
     else:
-        cal.pryear( n )
+        cal.pryear( real( n ) )
 
     print( )
 
@@ -316,7 +317,7 @@ def getHebrewCalendarDate( n ):
 # //******************************************************************************
 
 def convertHebrewDate( year, month, day ):
-    return RPNDateTime( *hebrew.to_gregorian( int( year ), int( month ), int( day ) ) )
+    return RPNDateTime( *hebrew.to_gregorian( real_int( year ), real_int( month ), real_int( day ) ) )
 
 
 # //******************************************************************************
@@ -355,7 +356,7 @@ def getIndianCivilCalendarDate( n ):
 # //******************************************************************************
 
 def convertIndianCivilDate( year, month, day ):
-    return RPNDateTime( *indian_civil.to_gregorian( int( year ), int( month ), int( day ) ) )
+    return RPNDateTime( *indian_civil.to_gregorian( real_int( year ), real_int( month ), real_int( day ) ) )
 
 
 # //******************************************************************************
@@ -394,8 +395,8 @@ def getMayanCalendarDate( n ):
 # //******************************************************************************
 
 def convertMayanDate( baktun, katun, tun, uinal, kin ):
-    return RPNDateTime( *mayan.to_gregorian( int( baktun ), int( katun ), int( tun ), \
-                        int( uinal ), int( kin ) ) )
+    return RPNDateTime( *mayan.to_gregorian( real_int( baktun ), real_int( katun ), real_int( tun ), \
+                        real_int( uinal ), real_int( kin ) ) )
 
 
 # //******************************************************************************
@@ -418,7 +419,7 @@ def getIslamicCalendarDate( n ):
 # //******************************************************************************
 
 def convertIslamicDate( year, month, day ):
-    return RPNDateTime( *islamic.to_gregorian( int( year ), int( month ), int( day ) ) )
+    return RPNDateTime( *islamic.to_gregorian( real_int( year ), real_int( month ), real_int( day ) ) )
 
 
 # //******************************************************************************
@@ -457,7 +458,7 @@ def getJulianCalendarDate( n ):
 # //******************************************************************************
 
 def convertJulianDate( year, month, day ):
-    return RPNDateTime( *julian.to_gregorian( int( year ), int( month ), int( day ) ) )
+    return RPNDateTime( *julian.to_gregorian( real_int( year ), real_int( month ), real_int( day ) ) )
 
 
 # //******************************************************************************
@@ -480,7 +481,7 @@ def getPersianCalendarDate( n ):
 # //******************************************************************************
 
 def convertPersianDate( year, month, day ):
-    return RPNDateTime( *persian.to_gregorian( int( year ), int( month ), int( day ) ) )
+    return RPNDateTime( *persian.to_gregorian( real_int( year ), real_int( month ), real_int( day ) ) )
 
 
 # //******************************************************************************

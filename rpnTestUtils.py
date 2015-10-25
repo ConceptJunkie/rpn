@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # //******************************************************************************
 # //
 # //  testRPN
@@ -169,6 +171,9 @@ def testOperator( command ):
     print( 'rpn', command )
     result = rpn( shlex.split( command ) )
 
+    if result == [ nan ]:
+        raise ValueError( 'unit test failed' )
+
     if not result is None:
         handleOutput( result )
 
@@ -206,5 +211,4 @@ def expectResult( command, expected ):
 
     print( '    test passed!' )
     print( )
-
 

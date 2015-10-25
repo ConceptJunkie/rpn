@@ -1450,4 +1450,3 @@ def getNthPrimorial( n ):
 
     return result
 
-

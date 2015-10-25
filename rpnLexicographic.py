@@ -12,10 +12,13 @@
 # //
 # //******************************************************************************
 
+import string
+
 from mpmath import *
 
 import rpnGlobals as g
-import string
+
+from rpnUtils import real, real_int
 
 
 # //******************************************************************************
@@ -62,7 +65,7 @@ def multiplyDigits( n ):
 # //******************************************************************************
 
 def appendDigits( n, digits, digitCount ):
-    if n < 0:
+    if real( n ) < 0:
         return nint( fsub( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
     else:
         return nint( fadd( fmul( floor( n ), power( 10, digitCount ) ), digits ) )
@@ -75,7 +78,7 @@ def appendDigits( n, digits, digitCount ):
 # //******************************************************************************
 
 def addDigits( n, k ):
-    if k < 0:
+    if real( k ) < 0:
         raise ValueError( "'add_digits' requires a non-negative integer for the second argument" )
 
     digits = int( k )
@@ -102,7 +105,9 @@ def combineDigits( n ):
             result = 0
 
             for i in n:
-                if i < 0:
+                if im( i ) != 0:
+                    raise ValueError( "'combine_digits' requires a list of real values" )
+                elif i < 0:
                     raise ValueError( "'combine_digits' requires a list of non-negative integers" )
                 else:
                     result = addDigits( result, i )
@@ -119,10 +124,10 @@ def combineDigits( n ):
 # //******************************************************************************
 
 def duplicateDigits( n, k ):
-    if k < 0:
+    if real( k ) < 0:
         raise ValueError( "'add_digits' requires a non-negative integer for the second argument" )
 
-    return appendDigits( n, fmod( n, power( 10, nint( floor( k ) ) ) ), k )
+    return appendDigits( real( n ), fmod( n, power( 10, nint( floor( k ) ) ) ), k )
 
 
 # //******************************************************************************
@@ -143,7 +148,7 @@ def reverseDigits( n ):
 # //******************************************************************************
 
 def isPalindrome( n ):
-    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )[ 0 : -2 ]
+    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )[ 0: -2 ]
 
     length = len( str )
 
@@ -161,7 +166,7 @@ def isPalindrome( n ):
 # //******************************************************************************
 
 def isPandigital( n ):
-    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )[ 0 : -2 ]
+    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )[ 0: -2 ]
 
     for c in string.digits:
         if not c in str:
@@ -179,9 +184,9 @@ def isPandigital( n ):
 # //******************************************************************************
 
 def getNthReversalAddition( n, k ):
-    next = n
+    next = int( real_int( n ) )
 
-    for i in range( int( nint( k ) ) ):
+    for i in range( int( real_int( k ) ) ):
         if isPalindrome( next ):
             break
 
@@ -199,14 +204,13 @@ def getNthReversalAddition( n, k ):
 # //******************************************************************************
 
 def findPalindrome( n, k ):
-    next = n
+    next = int( real_int( n ) )
 
-    for i in range( int( nint( k ) ) + 1 ):
+    for i in range( int( real_int( k ) ) + 1 ):
         if isPalindrome( next ):
             return [ i, next ]
         else:
             next = reverseDigits( next ) + next
 
     return [ k, 0 ]
-
 
