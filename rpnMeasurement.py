@@ -700,8 +700,8 @@ def estimate( measurement ):
 
             return 'approximately ' + nstr( multiple, 3 ) + ' times ' + \
                    unitTypeInfo.estimateTable[ estimateKey ]
-    elif isinstance( measurement, RPNDateTime ):
-        return measurement.humanize( )
+    #elif isinstance( measurement, RPNDateTime ):
+    #    return measurement.humanize( )
     else:
         raise TypeError( 'incompatible type for estimating' )
 

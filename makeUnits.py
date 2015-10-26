@@ -408,12 +408,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
     newConversions = { }
 
     for op1, op2 in unitConversionMatrix:
-        if op1 == 'light':            # special exception because it's called 'light-second',
-            op1 = 'speed_of_light'    # not 'speed_of_light-second'
-
-        if op2 == 'light':
-            op2 = 'speed_of_light'
-
         if unitOperators[ op1 ].unitType == 'length':
             conversion = unitConversionMatrix[ ( op1, op2 ) ]
             newConversions[ ( 'square_' + op1, 'square_' + op2 ) ] = power( conversion, 2 )
@@ -441,9 +435,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
            not any( ( c in [ '*^/' ] ) for c in unit ):
             unitRoot = unit[ : -7 ]
             unitInfo = unitOperators[ unit ]
-
-            if unitRoot == 'light':           # special exception (see above)
-                unitRoot = 'speed_of_light'
 
             rootUnitInfo = unitOperators[ unitRoot ]
 

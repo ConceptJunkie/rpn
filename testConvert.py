@@ -26,7 +26,7 @@ from rpnTestUtils import *
 def runConvertTests( ):
     testOperator( 'barn gigaparsec * cubic_inch convert' )
     testOperator( 'c m/s convert' )
-    testOperator( 'earth_radius 2 pi * * miles convert' )
+    #testOperator( 'earth_radius 2 pi * * miles convert' )
     testOperator( 'gallon cup convert' )
     testOperator( 'marathon miles convert' )
     testOperator( 'marathon [ miles feet ] convert' )

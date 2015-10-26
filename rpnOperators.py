@@ -972,6 +972,77 @@ listOperators = {
 # //******************************************************************************
 
 operators = {
+    # algebra
+
+    # arithmetic
+
+    # astronomy
+
+    # bitwise
+
+    # calendar
+
+    # combinatoric
+
+    # complex
+
+    # constant
+    'apery_constant'                : OperatorInfo( apery, 0 ),
+    'boltzmann_constant'            : OperatorInfo( getBoltzmannConstant, 0 ),
+    'catalan_constant'              : OperatorInfo( catalan, 0 ),
+    'champernowne_constant'         : OperatorInfo( getChampernowneConstant, 0 ),
+    'copeland_erdos_constant'       : OperatorInfo( getCopelandErdosConstant, 0 ),
+    'electric_constant'             : OperatorInfo( lambda: RPNMeasurement( mpmathify( '8.854187817e-12' ), [ { 'farad' : 1 }, { 'meter' : -1 } ] ), 0 ),
+    'euler_mascheroni_constant'     : OperatorInfo( euler, 0 ),
+    'faraday_constant'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '96485.33289' ), [ { 'coulomb' : 1 }, { 'mole' : -1 } ] ), 0 ),
+    'magnetic_constant'             : OperatorInfo( getMagneticConstant, 0 ),
+    'merten_constant'               : OperatorInfo( mertens, 0 ),
+    'mills_constant'                : OperatorInfo( getMillsConstant, 0 ),
+    'newton_constant'               : OperatorInfo( getNewtonsConstant, 0 ),
+    'planck_constant'               : OperatorInfo( getPlanckConstant, 0 ),
+    'plastic_constant'              : OperatorInfo( getPlasticConstant, 0 ),
+    'prevost_constant'              : OperatorInfo( getPrevostConstant, 0 ),
+    'radiation_constant'            : OperatorInfo( getRadiationConstant, 0 ),
+    'reduced_planck_constant'       : OperatorInfo( getReducedPlanckConstant, 0 ),
+    'robbins_constant'              : OperatorInfo( getRobbinsConstant, 0 ),
+    'rydberg_constant'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '10973731.568508' ), { 'meter' : -1 } ), 0 ),
+
+    # conversion
+
+    # date_time
+
+    # function
+
+    # geographic
+
+    # geometric
+
+    # lexicographic
+
+    # list
+
+    # logarithmic
+
+    # modifier
+
+    # number_theory
+
+    # polygonal
+
+    # polyhedral
+
+    # powers_and_roots
+
+    # prime_number
+
+    # settings
+
+    # special
+
+    # trigonometric
+
+    # internal
+
     'abs'                           : OperatorInfo( fabs, 1 ),
     'accuracy'                      : OperatorInfo( lambda n: setAccuracy( fadd( n, 2 ) ), 1 ),
     'acos'                          : OperatorInfo( lambda n: performTrigOperation( n, acos ), 1 ),
@@ -987,7 +1058,6 @@ operators = {
     'and'                           : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x & y ), 2 ),
     'antiprism_area'                : OperatorInfo( getAntiprismSurfaceArea, 2 ),
     'antiprism_volume'              : OperatorInfo( getAntiprismVolume, 2 ),
-    'apery'                         : OperatorInfo( apery, 0 ),
     'argument'                      : OperatorInfo( arg, 1 ),
     'asec'                          : OperatorInfo( lambda n: performTrigOperation( n, asec ), 1 ),
     'asech'                         : OperatorInfo( lambda n: performTrigOperation( n, asech ), 1 ),
@@ -999,7 +1069,7 @@ operators = {
     'atan'                          : OperatorInfo( lambda n: performTrigOperation( n, atan ), 1 ),
     'atanh'                         : OperatorInfo( lambda n: performTrigOperation( n, atanh ), 1 ),
     'autumnal_equinox'              : OperatorInfo( getAutumnalEquinox, 1 ),
-    'avogadro'                      : OperatorInfo( getAvogadrosNumber, 0 ),
+    'avogadro_number'               : OperatorInfo( getAvogadrosNumber, 0 ),
     'balanced_prime'                : OperatorInfo( getNthBalancedPrime, 1 ),
     'balanced_prime_'               : OperatorInfo( getNthBalancedPrimeList, 1 ),
     'bell'                          : OperatorInfo( bell, 1 ),
@@ -1007,7 +1077,6 @@ operators = {
     'bernoulli'                     : OperatorInfo( bernoulli, 1 ),
     'binomial'                      : OperatorInfo( binomial, 2 ),
     'carol'                         : OperatorInfo( lambda n: fsub( power( fsub( power( 2, real( n ) ), 1 ), 2 ), 2 ), 1 ),
-    'catalan'                       : OperatorInfo( catalan, 0 ),
     'ceiling'                       : OperatorInfo( ceil, 1 ),
     'centered_cube'                 : OperatorInfo( getNthCenteredCubeNumber, 1 ),
     'centered_decagonal'            : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 10 ), 1 ),
@@ -1019,7 +1088,6 @@ operators = {
     'centered_polygonal'            : OperatorInfo( getCenteredPolygonalNumber, 2 ),
     'centered_square'               : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 4 ), 1 ),
     'centered_triangular'           : OperatorInfo( lambda n: getCenteredPolygonalNumber( n, 3 ), 1 ),
-    'champernowne'                  : OperatorInfo( getChampernowneConstant, 0 ),
     'char'                          : OperatorInfo( lambda n: convertToSignedInt( n, 8 ), 1 ),
     'comma'                         : OperatorInfo( setComma, 1 ),
     'comma_mode'                    : OperatorInfo( setCommaMode, 0 ),
@@ -1027,7 +1095,6 @@ operators = {
     'cone_area'                     : OperatorInfo( getConeSurfaceArea, 2 ),
     'cone_volume'                   : OperatorInfo( getConeVolume, 2 ),
     'conjugate'                     : OperatorInfo( conj, 1 ),
-    'copeland'                      : OperatorInfo( getCopelandErdosConstant, 0 ),
     'cos'                           : OperatorInfo( lambda n: performTrigOperation( n, cos ), 1 ),
     'cosh'                          : OperatorInfo( lambda n: performTrigOperation( n, cosh ), 1 ),
     'cot'                           : OperatorInfo( lambda n: performTrigOperation( n, cot ), 1 ),
@@ -1075,9 +1142,7 @@ operators = {
     'eddington_number'              : OperatorInfo( getEddingtonNumber, 0 ),
     'egypt'                         : OperatorInfo( getGreedyEgyptianFraction, 2 ),
     'election_day'                  : OperatorInfo( calculateElectionDay, 1 ),
-    'electric_constant'             : OperatorInfo( lambda: RPNMeasurement( mpmathify( '8.854187817e-12' ), [ { 'farad' : 1 }, { 'meter' : -1 } ] ), 0 ),
     'estimate'                      : OperatorInfo( estimate, 1 ),
-    'euler'                         : OperatorInfo( euler, 0 ),
     'euler_brick'                   : OperatorInfo( makeEulerBrick, 3 ),
     'euler_phi'                     : OperatorInfo( getEulerPhi, 1 ),
     'eval'                          : OperatorInfo( evaluateFunction1, 2 ),
@@ -1090,7 +1155,6 @@ operators = {
     'factor'                        : OperatorInfo( getFactorList, 1 ),
     'factorial'                     : OperatorInfo( fac, 1 ),
     'false'                         : OperatorInfo( lambda: 0, 0 ),
-    'faradays_constant'             : OperatorInfo( lambda: RPNMeasurement( mpmathify( '96485.33289' ), [ { 'coulomb' : 1 }, { 'mole' : -1 } ] ), 0 ),
     'fibonacci'                     : OperatorInfo( fib, 1 ),
     'fibonorial'                    : OperatorInfo( getNthFibonorial, 1 ),
     'find_palindrome'               : OperatorInfo( findPalindrome, 2 ),
@@ -1195,7 +1259,6 @@ operators = {
     'long'                          : OperatorInfo( lambda n: convertToSignedInt( n, 32 ), 1 ),
     'longlong'                      : OperatorInfo( lambda n: convertToSignedInt( n, 64 ), 1 ),
     'lucas'                         : OperatorInfo( getNthLucasNumber, 1 ),
-    'magnetic_constant'             : OperatorInfo( getMagneticConstant, 0 ),
     'make_cf'                       : OperatorInfo( lambda n, k: ContinuedFraction( real( n ), maxterms = real( k ), cutoff = power( 10, -( mp.dps - 2 ) ) ), 2 ),
     'make_pyth_3'                   : OperatorInfo( makePythagoreanTriple, 2 ),
     'make_pyth_4'                   : OperatorInfo( makePythagoreanQuadruple, 2 ),
@@ -1212,9 +1275,7 @@ operators = {
     'max_uquadlong'                 : OperatorInfo( lambda: ( 1 << 128 ) - 1, 0 ),
     'max_ushort'                    : OperatorInfo( lambda: ( 1 << 16 ) - 1, 0 ),
     'memorial_day'                  : OperatorInfo( calculateMemorialDay, 1 ),
-    'mertens'                       : OperatorInfo( getMertens, 1 ),
-    'mertens_constant'              : OperatorInfo( mertens, 0 ),
-    'mills'                         : OperatorInfo( getMillsConstant, 0 ),
+    'merten'                        : OperatorInfo( getNthMerten, 1 ),
     'min_char'                      : OperatorInfo( lambda: -( 1 << 7 ), 0 ),
     'min_double'                    : OperatorInfo( lambda: interpretAsDouble( mpmathify( 0x0010000000000000 ) ), 0 ),
     'min_float'                     : OperatorInfo( lambda: interpretAsFloat( mpmathify( 0x00800000 ) ), 0 ),
@@ -1247,7 +1308,6 @@ operators = {
     'negate'                        : OperatorInfo( lambda n: 1 if n == 0 else 0, 1 ),
     'negative'                      : OperatorInfo( getNegative, 1 ),
     'negative_infinity'             : OperatorInfo( lambda: -inf, 0 ),
-    'newtons_constant'              : OperatorInfo( getNewtonsConstant, 0 ),
     'next_antitransit'              : OperatorInfo( getNextAntitransit, 3 ),
     'next_first_quarter_moon'       : OperatorInfo( lambda n: getEphemTime( n, ephem.next_first_quarter_moon ), 1 ),
     'next_full_moon'                : OperatorInfo( lambda n: getEphemTime( n, ephem.next_full_moon ), 1 ),
@@ -1315,7 +1375,7 @@ operators = {
     'oeis_comment'                  : OperatorInfo( lambda n: downloadOEISText( real_int( n ), 'C', True ), 1 ),
     'oeis_ex'                       : OperatorInfo( lambda n: downloadOEISText( real_int( n ), 'E', True ), 1 ),
     'oeis_name'                     : OperatorInfo( lambda n: downloadOEISText( real_int( n ), 'N', True ), 1 ),
-    'omega'                         : OperatorInfo( lambda: lambertw( 1 ), 0 ),
+    'omega_constant'                : OperatorInfo( lambda: lambertw( 1 ), 0 ),
     'or'                            : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x | y ), 2 ),
     'ordinal_name'                  : OperatorInfo( getOrdinalName, 1 ),
     'output_radix'                  : OperatorInfo( setOutputRadix, 1 ),
@@ -1332,8 +1392,6 @@ operators = {
     'permutations'                  : OperatorInfo( getPermutations, 2 ),
     'phi'                           : OperatorInfo( phi, 0 ),
     'pi'                            : OperatorInfo( pi, 0 ),
-    'planck_constant'               : OperatorInfo( getPlanckConstant, 0 ),
-    'plastic'                       : OperatorInfo( getPlasticConstant, 0 ),
     'plot'                          : OperatorInfo( plotFunction, 3 ),
     'plot2'                         : OperatorInfo( plot2DFunction, 5 ),
     'plotc'                         : OperatorInfo( plotComplexFunction, 5 ),
@@ -1355,7 +1413,6 @@ operators = {
     'previous_rising'               : OperatorInfo( getPreviousRising, 3 ),
     'previous_setting'              : OperatorInfo( getPreviousSetting, 3 ),
     'previous_transit'              : OperatorInfo( getPreviousTransit, 3 ),
-    'prevost'                       : OperatorInfo( getPrevostConstant, 0 ),
     'prime'                         : OperatorInfo( getNthPrime, 1 ),
     'primes'                        : OperatorInfo( getPrimes, 2 ),
     'prime_pi'                      : OperatorInfo( getPrimePi, 1 ),
@@ -1367,7 +1424,6 @@ operators = {
     'quadruplet_prime_'             : OperatorInfo( getNthQuadrupletPrimeList, 1 ),
     'quintuplet_prime'              : OperatorInfo( getNthQuintupletPrime, 1 ),
     'quintuplet_prime_'             : OperatorInfo( getNthQuintupletPrimeList, 1 ),
-    'radiation_constant'            : OperatorInfo( getRadiationConstant, 0 ),
     'random'                        : OperatorInfo( rand, 0 ),
     'random_'                       : OperatorInfo( rand_, 1 ),
     'random_integer'                : OperatorInfo( randrange, 1 ),
@@ -1376,16 +1432,13 @@ operators = {
     'range2'                        : OperatorInfo( expandSteppedRange, 3 ),
     'real'                          : OperatorInfo( re, 1 ),
     'reciprocal'                    : OperatorInfo( takeReciprocal, 1 ),
-    'reduced_planck_constant'       : OperatorInfo( getReducedPlanckConstant, 0 ),
     'repunit'                       : OperatorInfo( getNthBaseKRepunit, 2 ),
     'reversal_addition'             : OperatorInfo( getNthReversalAddition, 2 ),
     'reverse_digits'                : OperatorInfo( reverseDigits, 1 ),
     'rhombdodec'                    : OperatorInfo( getNthRhombicDodecahedralNumber, 1 ),
     'riesel'                        : OperatorInfo( lambda n: fsub( fmul( real( n ), power( 2, n ) ), 1 ), 1 ),
-    'robbins'                       : OperatorInfo( getRobbinsConstant, 0 ),
     'root'                          : OperatorInfo( root, 2 ),
     'round'                         : OperatorInfo( lambda n: floor( fadd( n, 0.5 ) ), 1 ),
-    'rydberg_constant'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '10973731.568508' ), { 'meter' : -1 } ), 0 ),
     'safe_prime'                    : OperatorInfo( lambda n: fadd( fmul( getNthSophiePrime( n ), 2 ), 1 ), 1 ),
     'schroeder'                     : OperatorInfo( getNthSchroederNumber, 1 ),
     'sec'                           : OperatorInfo( lambda n: performTrigOperation( n, sec ), 1 ),
@@ -1413,13 +1466,14 @@ operators = {
     'solve_quadratic'               : OperatorInfo( solveQuadraticPolynomial, 3 ),
     'solve_quartic'                 : OperatorInfo( solveQuarticPolynomial, 5 ),
     'sophie_prime'                  : OperatorInfo( getNthSophiePrime, 1 ),
+    'speed_of_light'                : OperatorInfo( getSpeedOfLight, 0 ),
     'sphere_area'                   : OperatorInfo( lambda n: getNSphereSurfaceArea( 3, n ), 1 ),
     'sphere_radius'                 : OperatorInfo( lambda n: getNSphereRadius( 3, n ), 1 ),
     'sphere_volume'                 : OperatorInfo( lambda n: getNSphereVolume( 3, n ), 1 ),
     'square'                        : OperatorInfo( lambda n: exponentiate( n, 2 ), 1 ),
     'square_root'                   : OperatorInfo( sqrt, 1 ),
     'square_triangular'             : OperatorInfo( getNthSquareTriangularNumber, 1 ),
-    'stefan_boltzmann'              : OperatorInfo( getStefanBoltzmannConstant, 0 ),
+    'stefan_boltzmann_constant'     : OperatorInfo( getStefanBoltzmannConstant, 0 ),
     'stella_octangula'              : OperatorInfo( getNthStellaOctangulaNumber, 1 ),
     'subfactorial'                  : OperatorInfo( lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1 ),
     'subtract'                      : OperatorInfo( subtract, 2, ),

@@ -901,13 +901,13 @@ def getMobius( n ):
 
 # //******************************************************************************
 # //
-# //  getMertens
+# //  getNthMerten
 # //
 # //  This function could be cached like the prime numbers.
 # //
 # //******************************************************************************
 
-def getMertens( n ):
+def getNthMerten( n ):
     if real( n ) == 1:
         return 1
 

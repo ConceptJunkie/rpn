@@ -789,11 +789,11 @@ Fixed several minor bugs.
 
 6.4.0
 
-Added the 'faradays_constant', 'radiation_constant' and 'stefan_boltzmann'
-operators.
+Added the 'faraday_constant', 'radiation_constant' and
+'stefan_boltzmann_constant' operators.
 
 Added the 'magnetic_constant', 'electric_constant', 'rydberg_constant',
-'newtons_constant' and 'fine_structure' operators.
+'newton_constant' and 'fine_structure' operators.
 
 Revamped factorization to be much, much faster.
 
@@ -801,8 +801,8 @@ Added 'euler_phi' operator.
 
 Added caching for factorizations.
 
-Added the 'sigma, 'aliquot', 'polypower', 'mobius' and 'mertens' operators.
-The old 'mertens' operator was renamed to 'mertens_constant'.
+Added the 'sigma, 'aliquot', 'polypower', 'mobius' and 'merten' operators.
+The old 'merten' operator was renamed to 'merten_constant'.
 
 Added the 'frobenius', 'slice', 'sublist', 'left' and 'right' operators.
 
@@ -2884,7 +2884,7 @@ c:\>rpn 7 real
 # //
 # //******************************************************************************
 
-    'apery' : [
+    'apery_constant' : [
 'constants', 'returns Apery\'s constant',
 '''
 Apery's constant is the sum of the infinite series of the reciprocals of cubes
@@ -2898,7 +2898,7 @@ c:\>rpn -a50 -d5 3 zeta
 1.20205 69031 59594 28539 97381 61511 44999 07649 86292 3405
 ''' ],
 
-    'avogadro' : [
+    'avogadro_number' : [
 'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
 '''
 ''',
@@ -2910,16 +2910,23 @@ c:\>rpn -a24 avogadro
 602214129000000000000000
 ''' ],
 
-    'catalan' : [
+    'boltzmann_constant' : [
+'constants', 'returns the Boltzmann constant',
+'''
+''',
+'''
+''' ],
+
+    'catalan_constant' : [
 'constants', 'returns Catalan\'s constant',
 '''
 ''',
 '''
-c:\>rpn catalan
+c:\>rpn catalan_constant
 0.915965594177
 ''' ],
 
-    'champernowne' : [
+    'champernowne_constant' : [
 'constants', 'returns the Champernowne constant for the input base',
 '''
 The Champernowne constant is a transcendental number created by successive
@@ -2929,22 +2936,22 @@ The Champernowne constant is normally defined for base 10, but this operator
 can also apply the same concept for any input base.
 ''',
 '''
-c:\>rpn -a60 champernowne
+c:\>rpn -a60 champernowne_constant
 0.123456789101112131415161718192021222324252627282930313233344
 
 The base 7 Champernowne constant
 
-c:\>rpn -a60 -b7 champernowne -r7
+c:\>rpn -a60 -b7 champernowne_constant -r7
 0.123456101112131415162021222324252630313233343536404142434445
 
 The base 7 Champernowne constant converted to base 10
 
-c:\>rpn -a60 -b7 champernowne
+c:\>rpn -a60 -b7 champernowne_constant
 0.1944355350862405214758400930829085764529329710504220831702
 ''' ],
 
-    'copeland' : [
-'constants', 'returns the Copeland Erdos constant',
+    'copeland_erdos_constant' : [
+'constants', 'returns the Copeland-Erdos constant',
 '''
 ''',
 '''
@@ -2981,7 +2988,7 @@ protons in the universe and the same number of electrons."  This number is equal
 '''
 ''' ],
 
-    'euler' : [
+    'euler_mascheroni_constant' : [
 'constants', 'returns the Euler-Mascheroni constant',
 '''
 ''',
@@ -2996,7 +3003,7 @@ protons in the universe and the same number of electrons."  This number is equal
 '''
 ''' ],
 
-    'faradays_constant' : [
+    'faraday_constant' : [
 'constants', 'returns Faraday\'s Constant',
 '''
 ''',
@@ -3201,14 +3208,14 @@ c:\>rpn max_ushort
 65535
 ''' ],
 
-    'mertens_constant' : [
+    'merten_constant' : [
 'constants', 'returns Merten\'s constant',
 '''
 ''',
 '''
 ''' ],
 
-    'mills' : [
+    'mills_constant' : [
 'constants', 'returns the Mills constant',
 '''
 from http://primes.utm.edu/glossary/page.php?sort=MillsConstant:
@@ -3398,14 +3405,14 @@ c:\>rpn max_ushort min_ushort -
 '''
 ''' ],
 
-    'newtons_constant' : [
+    'newton_constant' : [
 'constants', 'returns Newton\'s gravitational constant',
 '''
 ''',
 '''
 ''' ],
 
-    'omega' : [
+    'omega_constant' : [
 'constants', 'returns the Omega constant',
 '''
 ''',
@@ -3435,14 +3442,14 @@ c:\>rpn omega
 '''
 ''' ],
 
-    'plastic' : [
+    'plastic_constant' : [
 'constants', 'returns the Plastic constant',
 '''
 ''',
 '''
 ''' ],
 
-    'prevost' : [
+    'prevost_constant' : [
 'constants', 'returns Prevost\'s constant',
 '''
 Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
@@ -3466,7 +3473,7 @@ c:\>rpn radiation_constant
 '''
 ''' ],
 
-    'robbins' : [
+    'robbins_constant' : [
 'constants', 'returns Robbins\' constant',
 '''
 Robbins' constant represents the average distance between two points selected
@@ -3489,7 +3496,14 @@ at random within a unit cube.
 '''
 ''' ],
 
-    'stefan_boltzmann' : [
+    'speed_of_light' : [
+'constants', 'returns the speed of light in meters per second',
+'''
+''',
+'''
+''' ],
+
+    'stefan_boltzmann_constant' : [
 'constants', 'returns the Stefan-Boltzmann constant',
 '''
 ''',
@@ -3512,6 +3526,12 @@ rpn (3)>5 12 **
 244,140,625
 ''' ],
 
+
+# //******************************************************************************
+# //
+# //  day of week name constants
+# //
+# //******************************************************************************
 
     'monday' : [
 'constants', 'returns 1, which is the code for Monday',
@@ -3568,6 +3588,13 @@ This is defined for convenience for use with date operators.
 ''',
 '''
 ''' ],
+
+
+# //******************************************************************************
+# //
+# //  month name constants
+# //
+# //******************************************************************************
 
     'january' : [
 'constants', 'returns 1, which is the code for January',
@@ -5990,7 +6017,7 @@ c:\>rpn 1 17 range lucas
 '''
 ''' ],
 
-    'mertens' : [
+    'merten' : [
 'number_theory', 'returns Merten\'s function for n',
 '''
 ''',

@@ -347,14 +347,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'moon_gravity' :
-        UnitInfo( 'acceleration', 'moon_gravity', 'moon_gravities', '', [ 'moon_g' ], [ 'natural' ],
-                  '''The equivalent surface gravity on the moon.''' ),
-
-    'standard_gravity' :
-        UnitInfo( 'acceleration', 'standard_gravity', 'standard_gravities', 'G', [ 'grav', 'gee' ], [ 'natural' ],
-                  '''
-                  ''' ),
 
     # amount of substance
 
@@ -482,11 +474,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'planck_area' :
-        UnitInfo( 'area', 'planck_area', 'planck_areas', 'aP', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
     'rood' :
         UnitInfo( 'area', 'rood', 'roods', '', [ 'farthingdale' ], [ 'imperial' ],
                   '''
@@ -581,18 +568,8 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'electron_charge' :
-        UnitInfo( 'charge', 'electron_charge', 'electron_charges', '', [ 'elementary_charge', 'proton_charge' ], [ 'natural' ],
-                  '''
-                  ''' ),
-
     'faraday' :
         UnitInfo( 'charge', 'faraday', 'faradays', 'Fd', [ ], [ 'natural' ],   # electron_charge * Avogradro's number!
-                  '''
-                  ''' ),
-
-    'planck_charge' :
-        UnitInfo( 'charge', 'planck_charge', 'planck_charges', 'cP', [ ], [ 'natural', 'science' ],
                   '''
                   ''' ),
 
@@ -652,11 +629,6 @@ unitOperators = {
     'thousandth' :
         UnitInfo( 'constant', 'thousandth', 'thousandths', '', [ 'milli' ], [ 'constant' ],
                   '''One thousandth:  10e-3 or 1/1,000''' ),
-
-    'alpha' :
-        UnitInfo( 'constant', 'alpha', 'alpha', '', [ 'fine_structure_constant' ], [ 'constant' ],
-                  '''
-                  ''' ),
 
     'percent' :
         UnitInfo( 'constant', 'percent', 'percent', '%', [ 'hundredth', 'centi' ], [ 'constant' ],
@@ -1030,11 +1002,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'von_klitzing_constant' :
-        UnitInfo( 'electrical_resistance', 'von_klitzing_constant', 'x_von_klitzing_constant', '', [ 'von_klitzing' ], [ 'natural' ],
-                  '''
-                  ''' ),
-
     'volt/ampere' :
         UnitInfo( 'electrical_resistance', 'volt/ampere', 'volts/ampere', 'V/A', [ 'volt/amp', 'volt/amps', 'volt/A', 'volts/amp', 'volts/amps', 'volts/A', 'V/amp', 'V/amps', 'V/ampere', 'V/amperes' ], [ 'SI' ],
                   '''
@@ -1046,11 +1013,6 @@ unitOperators = {
                   ''' ),
 
     # energy
-
-    'aa_battery' :
-        UnitInfo( 'energy', 'AA_battery', 'AA_batteries', '', [ 'aa-battery', 'aa-batteries', 'AA-battery', 'AA-batteries' ], [ 'informal' ],
-                  '''
-                  ''' ),
 
     'ampere-second-volt' :
         UnitInfo( 'energy', 'ampere*second*volt', 'ampere*second*volt', 'AVs', [ ], [ 'SI' ],
@@ -1074,16 +1036,6 @@ unitOperators = {
 
     'erg' :
         UnitInfo( 'energy', 'erg', 'ergs', '', [ ], [ 'CGS' ],
-                  '''
-                  ''' ),
-
-    'gallon_of_ethanol' :
-        UnitInfo( 'energy', 'gallon_of_ethanol', 'gallons_of_ethanol', '', [ ], [ 'informal' ],
-                  '''
-                  ''' ),
-
-    'gallon_of_gasoline' :
-        UnitInfo( 'energy', 'gallon_of_gasoline', 'gallons_of_gasoline', '', [ 'gallon_of_gas', 'gallons_of_gas' ], [ 'informal' ],
                   '''
                   ''' ),
 
@@ -1114,11 +1066,6 @@ unitOperators = {
 
     'newton-meter' :
         UnitInfo( 'energy', 'newton*meter', 'newton-meters', 'N*m', [ ], [ 'SI' ],
-                  '''
-                  ''' ),
-
-    'planck_energy' :
-        UnitInfo( 'energy', 'planck_energy', 'planck_energy', 'eP', [ ], [ 'natural', 'science' ],
                   '''
                   ''' ),
 
@@ -1161,11 +1108,6 @@ unitOperators = {
 
     'newton' :
         UnitInfo( 'force', 'newton', 'newtons', 'N', [ ], [ 'SI' ],
-                  '''
-                  ''' ),
-
-    'planck_force' :
-        UnitInfo( 'force', 'planck_force', 'planck_force', 'fP', [ ], [ 'natural', 'science' ],
                   '''
                   ''' ),
 
@@ -1306,11 +1248,6 @@ unitOperators = {
         UnitInfo( 'information_entropy', 'bit', 'bits', 'b', [ 'shannon', 'shannons' ], [ 'computing' ],
                   '''A 'binary digit', which can store two values.''' ),
 
-    'boltzmann_constant' :
-        UnitInfo( 'information_entropy', 'boltzmann_constant', 'x boltzmann_constant', '', [ 'boltzmann' ], [ 'natural' ],
-                  '''
-                  ''' ),
-
     'byte' :
         UnitInfo( 'information_entropy', 'byte', 'bytes', 'B', [ 'octet', 'octets' ], [ 'computing' ],
                   '''The traditional unit of computer storage, whose value has varied over the years and on different platforms,'''
@@ -1402,11 +1339,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'bohr_radius' :
-        UnitInfo( 'length', 'bohr_radius', 'bohr_radii', 'a0', [ 'bohr' ], [ 'science' ],
-                  '''
-                  ''' ),
-
     'bolt' :
         UnitInfo( 'length', 'bolt', 'bolts', '', [ ], [ 'obsolete' ],
                   '''
@@ -1424,11 +1356,6 @@ unitOperators = {
 
     'cubit' :
         UnitInfo( 'length', 'cubit', 'cubits', '', [ ], [ 'imperial' ],
-                  '''
-                  ''' ),
-
-    'earth_radius' :
-        UnitInfo( 'length', 'earth_radius', 'earth_radii', 'Rgeo', [ ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -1507,11 +1434,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'jupiter_radius' :
-        UnitInfo( 'length', 'jupiter_radius', 'jupiter_radii', 'Rjov', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
     'ken' :
         UnitInfo( 'length', 'ken', 'kens', '', [ ], [ 'obsolete' ],
                   '''
@@ -1528,7 +1450,7 @@ unitOperators = {
                   ''' ),
 
     'light-second' :
-        UnitInfo( 'length', 'light*second', 'light-seconds', '', [ ], [ 'science' ],
+        UnitInfo( 'length', 'light-second', 'light-seconds', '', [ ], [ 'science' ],
                   '''
                   ''' ),
 
@@ -1602,11 +1524,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'planck_length' :
-        UnitInfo( 'length', 'planck_length', 'planck_lengths', 'lP', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
     'point' :
         UnitInfo( 'length', 'point', 'points', '', [ ], [ 'typography' ],
                   '''
@@ -1649,11 +1566,6 @@ unitOperators = {
 
     'smoot' :
         UnitInfo( 'length', 'smoot', 'smoots', '', [ ], [ 'humorous' ],
-                  '''
-                  ''' ),
-
-    'solar_radius' :
-        UnitInfo( 'length', 'solar_radius', 'solar_radii', 'Rsol', [ 'sun_radius', 'sun_radii' ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -1881,11 +1793,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'planck_mass' :
-        UnitInfo( 'mass', 'planck_mass', 'planck_masses', 'mP', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
     'pound' :
         UnitInfo( 'mass', 'pound', 'pounds', 'lb', [ ], [ 'US', 'traditional', 'FPS' ],
                   '''
@@ -1903,11 +1810,6 @@ unitOperators = {
 
     'slug' :
         UnitInfo( 'mass', 'slug', 'slugs', '', [ 'gee_pound', 'geepound', 'gee-pound', 'gee_pounds', 'geepounds', 'gee-pounds' ], [ 'FPS' ],
-                  '''
-                  ''' ),
-
-    'solar_mass' :
-        UnitInfo( 'mass', 'solar_mass', 'solar_masses', 'Msol', [ 'sun_mass', 'sun_masses' ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -1948,110 +1850,6 @@ unitOperators = {
 
     'zentner' :
         UnitInfo( 'mass', 'zentner', 'zentners', '', [ ], [ 'Germany' ],
-                  '''
-                  ''' ),
-
-    # particle masses
-
-    'alpha_particle_mass' :
-        UnitInfo( 'mass', 'alpha_particle_mass', 'alpha_particle_masses', '', [ 'alpha_mass', 'alpha_masses' ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
-    'deuteron_mass' :
-        UnitInfo( 'mass', 'deuteron_mass', 'deuteron_masses', '', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
-    'electron_mass' :
-        UnitInfo( 'mass', 'electron_mass', 'electron_masses', '', [ 'electron_rest_mass', 'electron_rest_masses' ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
-    'helion_mass' :
-        UnitInfo( 'mass', 'helion_mass', 'helion_masses', '', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
-    'proton_mass' :
-        UnitInfo( 'mass', 'proton_mass', 'proton_masses', '', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
-    'muon_mass' :
-        UnitInfo( 'mass', 'muon_mass', 'muon_masses', '', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
-    'neutron_mass' :
-        UnitInfo( 'mass', 'neutron_mass', 'neutron_masses', '', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
-    'proton_mass' :
-        UnitInfo( 'mass', 'proton_mass', 'proton_masses', '', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
-    'tau_mass' :
-        UnitInfo( 'mass', 'tau_mass', 'tau_masses', '', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
-    'triton_mass' :
-        UnitInfo( 'mass', 'triton_mass', 'triton_masses', '', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
-    # planet masses
-
-    'mercury_mass' :
-        UnitInfo( 'mass', 'mercury_mass', 'mercury_masses', '', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
-    'venus_mass' :
-        UnitInfo( 'mass', 'venus_mass', 'venus_masses', '', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
-    'earth_mass' :
-        UnitInfo( 'mass', 'earth_mass', 'earth_masses', '', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
-    'earth_moon_mass' :
-        UnitInfo( 'mass', 'earth_moon_mass', 'earth_moon_masses', '', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
-    'mars_mass' :
-        UnitInfo( 'mass', 'mars_mass', 'mars_masses', '', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
-    'jupiter_mass' :
-        UnitInfo( 'mass', 'jupiter_mass', 'jupiter_masses', 'Mjov', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
-    'saturn_mass' :
-        UnitInfo( 'mass', 'saturn_mass', 'saturn_masses', '', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
-    'uranus_mass' :
-        UnitInfo( 'mass', 'uranus_mass', 'uranus_masses', '', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
-    'neptune_mass' :
-        UnitInfo( 'mass', 'neptune_mass', 'neptune_masses', '', [ ], [ 'natural' ],
-                  '''
-                  ''' ),
-
-    'pluto_mass' :
-        UnitInfo( 'mass', 'pluto_mass', 'pluto_masses', '', [ ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -2097,18 +1895,8 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'planck_power' :
-        UnitInfo( 'power', 'planck_power', 'planck_power', 'pP', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
     'poncelet' :
         UnitInfo( 'power', 'poncelet', 'poncelets', '', [ ], [ 'obsolete' ],
-                  '''
-                  ''' ),
-
-    'solar_luminosity' :
-        UnitInfo( 'power', 'solar_luminosity', 'solar_luminosities', '', [ 'solar_output' ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -2349,11 +2137,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'gregorian_year' :
-        UnitInfo( 'time', 'gregorian_year', 'gregorian_years', '', [ ], [ 'traditional' ],
-                  '''
-                  ''' ),
-
     'hour' :
         UnitInfo( 'time', 'hour', 'hours', 'hr', [ ], [ 'traditional' ],
                   '''
@@ -2366,11 +2149,6 @@ unitOperators = {
 
     'jiffy' :
         UnitInfo( 'time', 'jiffy', 'jiffies', '', [ ], [ 'computing' ],
-                  '''
-                  ''' ),
-
-    'lunar_day' :
-        UnitInfo( 'time', 'lunar_day', 'lunar_days', '', [ 'tidal_day', 'tidal_days' ], [ 'science' ],
                   '''
                   ''' ),
 
@@ -2414,11 +2192,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'planck_time' :
-        UnitInfo( 'time', 'x planck_time', 'x planck_time', 'tP', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
     'second' :
         UnitInfo( 'time', 'second', 'seconds', '', [ ], [ 'SI', 'traditional', 'FPS' ],   # 'sec' is already an operator
                   '''
@@ -2429,43 +2202,8 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'sidereal_day' :
-        UnitInfo( 'time', 'sidereal_day', 'sidereal_days', '', [ 'earth_day' ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'sidereal_hour' :
-        UnitInfo( 'time', 'sidereal_hour', 'sidereal_hours', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'sidereal_minute' :
-        UnitInfo( 'time', 'sidereal_minute', 'sidereal_minutes', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'sidereal_month' :
-        UnitInfo( 'time', 'sidereal_month', 'sidereal_months', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'sidereal_second' :
-        UnitInfo( 'time', 'sidereal_second', 'sidereal_seconds', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'sidereal_year' :
-        UnitInfo( 'time', 'sidereal_year', 'sidereal_years', '', [ 'earth_year' ], [ 'science' ],
-                  '''
-                  ''' ),
-
     'svedberg' :
         UnitInfo( 'time', 'svedberg', 'svedbergs', '', [ ], [ ],
-                  '''
-                  ''' ),
-
-    'tropical_year' :
-        UnitInfo( 'time', 'tropical_year', 'tropical_years', '', [ 'solar_year', 'solar_years' ], [ 'science' ],
                   '''
                   ''' ),
 
@@ -2489,90 +2227,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    # planet days
-
-    'mercury_day' :
-        UnitInfo( 'time', 'mercury_day', 'mercury_days', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'venus_day' :
-        UnitInfo( 'time', 'venus_day', 'venus_days', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'mars_day' :
-        UnitInfo( 'time', 'mars_day', 'mars_days', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'jupiter_day' :
-        UnitInfo( 'time', 'jupiter_day', 'jupiter_days', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'saturn_day' :
-        UnitInfo( 'time', 'saturn_day', 'saturn_days', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'uranus_day' :
-        UnitInfo( 'time', 'uranus_day', 'uranus_days', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'neptune_day' :
-        UnitInfo( 'time', 'neptune_day', 'neptune_days', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'pluto_day' :
-        UnitInfo( 'time', 'pluto_day', 'pluto_days', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    # planet years
-
-    'mercury_year' :
-        UnitInfo( 'time', 'mercury_year', 'mercury_years', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'venus_year' :
-        UnitInfo( 'time', 'venus_year', 'venus_years', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'mars_year' :
-        UnitInfo( 'time', 'mars_year', 'mars_years', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'jupiter_year' :
-        UnitInfo( 'time', 'jupiter_year', 'jupiter_years', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'saturn_year' :
-        UnitInfo( 'time', 'saturn_year', 'saturn_years', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'uranus_year' :
-        UnitInfo( 'time', 'uranus_year', 'uranus_years', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'neptune_year' :
-        UnitInfo( 'time', 'neptune_year', 'neptune_years', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'pluto_year' :
-        UnitInfo( 'time', 'pluto_year', 'pluto_years', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
     # velocity
 
     'kine' :
@@ -2590,8 +2244,8 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'speed_of_light' :
-        UnitInfo( 'velocity', 'speed_of_light', 'x_speed_of_light', 'c', [ 'light' ], [ 'natural' ],
+    'light' :
+        UnitInfo( 'velocity', 'light', 'x_light', 'c', [ 'light' ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -2932,11 +2586,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'planck_volume' :
-        UnitInfo( 'volume', 'planck_volume', 'planck_volumes', 'vP', [ ], [ 'natural', 'science' ],
-                  '''
-                  ''' ),
-
     'pony' :
         UnitInfo( 'volume', 'pony', 'ponies', '', [ ], [ 'imperial' ],
                   '''
@@ -3225,15 +2874,6 @@ binaryPrefixes = [
 
 # //******************************************************************************
 # //
-# //  conversion constants
-# //
-# //******************************************************************************
-
-speedOfLight = '299792458'   # in m/s by definition
-
-
-# //******************************************************************************
-# //
 # //  unitConversionMatrix
 # //
 # //  ( first unit, second unit, conversion factor )
@@ -3241,7 +2881,6 @@ speedOfLight = '299792458'   # in m/s by definition
 # //******************************************************************************
 
 unitConversionMatrix = {
-    ( 'aa_battery',                 'joule' )                               : mpmathify( '15400' ),
     ( 'abampere',                   'ampere' )                              : mpmathify( '10' ),
     ( 'abcoulomb',                  'coulomb' )                             : mpmathify( '10' ),
     ( 'abfarad',                    'farad' )                               : mpmathify( '1.0e9' ),
@@ -3250,10 +2889,8 @@ unitConversionMatrix = {
     ( 'acre',                       'square_yard' )                         : mpmathify( '4840' ),
     ( 'acre-foot',                  'cubic_foot' )                          : mpmathify( '43560' ),
     ( 'aln',                        'inch' )                                : mpmathify( '23.377077865' ),
-    ( 'alpha',                      'unity' )                               : mpmathify( '0.0072973526' ),
-    ( 'alpha_particle_mass',        'dalton' )                              : mpmathify( '4.001506179125' ),
     ( 'ampere',                     'coulomb/second' )                      : mpmathify( '1' ),
-    ( 'ampere',                     'statampere' )                          : mpmathify( speedOfLight ),
+    ( 'ampere',                     'statampere' )                          : mpmathify( '299792458' ),
     ( 'ampere-second-volt',         'joule' )                               : mpmathify( '1' ),
     ( 'arcminute',                  'arcsecond' )                           : mpmathify( '60' ),
     ( 'arcsecond',                  'milliarcsecond' )                      : mpmathify( '1000' ),
@@ -3273,9 +2910,7 @@ unitConversionMatrix = {
     ( 'blintz',                     'farshimmelt_blintz' )                  : mpmathify( '1.0e5' ),
     ( 'blintz',                     'furshlugginer_blintz' )                : mpmathify( '1.0e-6' ),
     ( 'blintz',                     'gram' )                                : mpmathify( '36.42538631' ),
-    ( 'bohr_radius',                'meter' )                               : mpmathify( '5.2917721e-11' ),
     ( 'bolt',                       'foot' )                                : mpmathify( '120' ),
-    ( 'boltzmann_constant',         'joule/kelvin' )                        : mpmathify( '1.3806488e-23' ),
     ( 'btu',                        'joule' )                               : mpmathify( '1054.5' ),
     ( 'btupf',                      'joule/kelvin' )                        : mpmathify( '1899.100534716' ),
     ( 'bucket',                     'gallon' )                              : mpmathify( '4' ),
@@ -3323,7 +2958,6 @@ unitConversionMatrix = {
     ( 'density_of_water',           'gram/liter' )                          : mpmathify( '1.0e3' ),
     ( 'density_of_water',           'gram/meter^3' )                        : mpmathify( '1.0e6' ),
     ( 'dessertspoon',               'teaspoon' )                            : mpmathify( '2' ),
-    ( 'deuteron_mass',              'dalton' )                              : mpmathify( '2.013553212712' ),
     ( 'doppelzentner',              'zentner' )                             : mpmathify( '2' ),
     ( 'dozen',                      'unity' )                               : mpmathify( '12' ),
     ( 'dram',                       'scruple' )                             : mpmathify( '3' ),
@@ -3336,10 +2970,6 @@ unitConversionMatrix = {
     ( 'dry_tun',                    'dry_hogshead' )                        : mpmathify( '4' ),
     ( 'duodecillion',               'unity' )                               : mpmathify( '1.0e39' ),
     ( 'dword',                      'bit' )                                 : mpmathify( '32' ),
-    ( 'earth_mass',                 'gram' )                                : mpmathify( '5.9742e27' ),
-    ( 'earth_radius',               'meter' )                               : mpmathify( '6378136' ),
-    ( 'electron_charge',            'coulomb' )                             : mpmathify( '1.602176565e-19' ),
-    ( 'electron_mass',              'gram' )                                : mpmathify( '9.10938291e-28' ),
     ( 'ell',                        'inch' )                                : mpmathify( '45' ),
     ( 'every_minute',               'hourly' )                              : mpmathify( '60' ),
     ( 'famn',                       'aln' )                                 : mpmathify( '3' ),
@@ -3361,26 +2991,23 @@ unitConversionMatrix = {
     ( 'fortnight',                  'day' )                                 : mpmathify( '14' ),
     ( 'fortnight',                  'microfortnight' )                      : mpmathify( '1.0e6' ),
     ( 'furlong',                    'yard' )                                : mpmathify( '220' ),
+    ( 'galileo',                    'meter/second^2' )                      : mpmathify( '100' ),
     ( 'gallon',                     'fifth' )                               : mpmathify( '5' ),
     ( 'gallon',                     'quart' )                               : mpmathify( '4' ),
-    ( 'gallon_of_gasoline',         'gallon_of_ethanol' )                   : mpmathify( '1.425' ),  # approx.
-    ( 'gallon_of_gasoline',         'joule' )                               : mpmathify( '1.2e8' ),  # approx. obviously
     ( 'gauss',                      'maxwell/centimeter^2' )                : mpmathify( '1' ),
     ( 'goliath',                    'liter' )                               : mpmathify( '27.0' ),
     ( 'googol',                     'unity' )                               : mpmathify( '1.0e100' ),
     ( 'grad',                       'degree' )                              : mpmathify( '0.9' ),
     ( 'gram',                       'dalton' )                              : mpmathify( '1.66053886e-24' ),
-    ( 'gram-equivalent',            'joule' )                               : fdiv( power( mpf( speedOfLight ), 2 ), 1000 ),
+    ( 'gram-equivalent',            'joule' )                               : fdiv( power( mpf( '299792458' ), 2 ), 1000 ),
     ( 'gray',                       'joule/kilogram' )                      : mpmathify( '1' ),
     ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
     ( 'great_gross',                'gross' )                               : mpmathify( '12' ),
     ( 'greek_cubit',                'inch' )                                : mpmathify( '18.22' ),
-    ( 'gregorian_year',             'day' )                                 : mpmathify( '365.2425' ),
     ( 'gross',                      'unity' )                               : mpmathify( '144' ),
     ( 'handbreadth',                'inch' )                                : mpmathify( '3' ),
     ( 'hartree',                    'rydberg' )                             : mpmathify( '2' ),
     ( 'hefnerkerze',                'candela' )                             : mpmathify( '0.920' ),  # approx.
-    ( 'helion_mass',                'dalton' )                              : mpmathify( '3.0149322468' ),
     ( 'henry',                      'abhenry' )                             : mpmathify( '1.0e9' ),
     ( 'henry',                      'weber/ampere' )                        : mpmathify( '1' ),
     ( 'hertz',                      'every_minute' )                        : mpmathify( '60' ),
@@ -3417,9 +3044,6 @@ unitConversionMatrix = {
     ( 'joule',                      'erg' )                                 : mpmathify( '1.0e7' ),
     ( 'joule',                      'kilogram-meter^2/second^2' )           : mpmathify( '1' ),
     ( 'joule/second',               'watt' )                                : mpmathify( '1' ),
-    ( 'jupiter_day',                'day' )                                 : mpmathify( '0.41354' ),
-    ( 'jupiter_radius',             'meter' )                               : mpmathify( '7.1492e7' ),
-    ( 'jupiter_year',               'year' )                                : mpmathify( '11.862615' ),
     ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
     ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
     ( 'kilderkin',                  'firkin' )                              : mpmathify( '2' ),
@@ -3428,14 +3052,14 @@ unitConversionMatrix = {
     ( 'lambert',                    'candela/meter^2' )                     : fdiv( 10000, pi ),
     ( 'league',                     'mile' )                                : mpmathify( '3' ),
     ( 'library_of_congress',        'byte' )                                : mpmathify( '1.0e13' ),
-    ( 'light-second',               'meter' )                               : mpmathify( speedOfLight ),
+    ( 'light',                      'meter/second' )                        : mpmathify( '299792458' ),
+    ( 'light-second',               'meter' )                               : mpmathify( '299792458' ),
     ( 'light-year',                 'light-second' )                        : mpmathify( '31557600' ),
     ( 'link',                       'inch' )                                : mpmathify( '7.92' ),
     ( 'liter',                      'ngogn' )                               : mpmathify( '86.2477899004' ),
     ( 'long_cubit',                 'inch' )                                : mpmathify( '21' ),
     ( 'long_hundred',               'unity' )                               : mpmathify( '120' ),
     ( 'long_reed',                  'foot' )                                : mpmathify( '10.5' ),
-    ( 'lunar_day',                  'minute' )                              : mpmathify( '1490' ),
     ( 'lustrum',                    'year' )                                : mpmathify( '5' ),
     ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '1' ),
     ( 'lux',                        'nox' )                                 : mpmathify( '1000' ),
@@ -3443,14 +3067,10 @@ unitConversionMatrix = {
     ( 'magnum',                     'liter' )                               : mpmathify( '1.5' ),
     ( 'marathon',                   'yard' )                                : mpmathify( '46145' ),
     ( 'marie_jeanne',               'liter' )                               : mpmathify( '2.25' ),
-    ( 'mars_day',                   'day' )                                 : mpmathify( '1.02595675' ),
-    ( 'mars_year',                  'year' )                                : mpmathify( '1.8808476' ),
     ( 'martin',                     'kovac' )                               : mpmathify( '100' ),
     ( 'maxwell',                    'gauss*centimeter^2' )                  : mpmathify( '1' ),
     ( 'melchior',                   'liter' )                               : mpmathify( '18.0' ),
     ( 'melchizedek',                'liter' )                               : mpmathify( '30.0' ),
-    ( 'mercury_day',                'day' )                                 : mpmathify( '58.6462' ),
-    ( 'mercury_year',               'year' )                                : mpmathify( '0.2408467' ),
     ( 'meter',                      'angstrom' )                            : mpmathify( '1.0e10' ),
     ( 'meter',                      'fermi' )                               : mpmathify( '1.0e15' ),
     ( 'meter',                      'kyu' )                                 : mpmathify( '4000' ),
@@ -3466,17 +3086,12 @@ unitConversionMatrix = {
     ( 'minute',                     'second' )                              : mpmathify( '60' ),
     ( 'mmHg',                       'pascal' )                              : mpmathify( '133.3224' ),        # approx.
     ( 'month',                      'day' )                                 : mpmathify( '30' ),
-    ( 'moon_gravity',               'meter/second^2' )                      : mpmathify( '1.62' ),
     ( 'mordechai',                  'liter' )                               : mpmathify( '9.0' ),
     ( 'morgen',                     'are' )                                 : mpmathify( '85.6532' ),
-    ( 'muon_mass',                  'dalton' )                              : mpmathify( '0.1134289267' ),
     ( 'nail',                       'inch' )                                : mpmathify( '2.25' ),
     ( 'nat',                        'joule/kelvin' )                        : mpmathify( '1.380650e-23' ),
     ( 'nautical_mile',              'meter' )                               : mpmathify( '1852' ),
     ( 'nebuchadnezzar',             'liter' )                               : mpmathify( '15.0' ),
-    ( 'neptune_day',                'day' )                                 : mpmathify( '0.768' ),
-    ( 'neptune_year',               'year' )                                : mpmathify( '164.79132' ),
-    ( 'neutron_mass',               'dalton' )                              : mpmathify( '1.00866491600' ),
     ( 'newton',                     'dyne' )                                : mpmathify( '1.0e5' ),
     ( 'newton',                     'joule/meter' )                         : mpmathify( '1' ),
     ( 'newton',                     'pond' )                                : mpmathify( '101.97161298' ),
@@ -3523,15 +3138,6 @@ unitConversionMatrix = {
     ( 'phot',                       'lux' )                                 : mpmathify( '10000' ),
     ( 'piccolo',                    'liter' )                               : mpmathify( '0.1875' ),
     ( 'pieze',                      'pascal' )                              : mpmathify( '1000' ),
-    ( 'planck_area',                'square_meter' )                        : mpmathify( '2.6121003e-70' ),
-    ( 'planck_charge',              'coulomb' )                             : mpmathify( '1.875545956e-18' ),
-    ( 'planck_energy',              'joule' )                               : mpmathify( '1.956e9' ),
-    ( 'planck_length',              'meter' )                               : mpmathify( '1.616199e-35' ),
-    ( 'planck_mass',                'gram' )                                : mpmathify( '2.17651e-8' ),
-    ( 'planck_time',                'second' )                              : mpmathify( '5.39106e-44' ),
-    ( 'planck_volume',              'cubic_meter' )                         : mpmathify( '4.22419e-105' ),
-    ( 'pluto_day',                  'day' )                                 : mpmathify( '6.3867' ),
-    ( 'pluto_year',                 'year' )                                : mpmathify( '247.92065' ),
     ( 'pointangle',                 'degree' )                              : fdiv( 360, 32 ),
     ( 'poncelet',                   'watt' )                                : mpmathify( '980.665' ),
     ( 'pony',                       'dram' )                                : mpmathify( '6' ),
@@ -3542,8 +3148,6 @@ unitConversionMatrix = {
     ( 'pound',                      'grain' )                               : mpmathify( '7000' ),
     ( 'pound',                      'ounce' )                               : mpmathify( '16' ),
     ( 'pound',                      'sheet' )                               : mpmathify( '700' ),
-    ( 'proton_mass',                'dalton' )                              : mpmathify( '1.007276466812' ),
-    ( 'proton_mass',                'gram' )                                : mpmathify( '1.6726218e-24' ),
     ( 'psi',                        'pascal' )                              : mpmathify( '6894.757' ),        # approx.
     ( 'quadrant',                   'degree' )                              : mpmathify( '90' ),
     ( 'quadrillion',                'unity' )                               : mpmathify( '1.0e15' ),
@@ -3565,8 +3169,6 @@ unitConversionMatrix = {
     ( 'rutherford',                 'becquerel' )                           : mpmathify( '1.0e6' ),
     ( 'rydberg',                    'joule' )                               : mpmathify( '2.179872e-18' ),
     ( 'salmanazar',                 'liter' )                               : mpmathify( '9.0' ),
-    ( 'saturn_day',                 'day' )                                 : mpmathify( '0.4375' ),
-    ( 'saturn_year',                'year' )                                : mpmathify( '29.447498' ),
     ( 'score',                      'unity' )                               : mpmathify( '20' ),
     ( 'scruple',                    'minim' )                               : mpmathify( '20' ),
     ( 'second',                     'jiffy' )                               : mpmathify( '100' ),
@@ -3579,12 +3181,6 @@ unitConversionMatrix = {
     ( 'sextant',                    'degree' )                              : mpmathify( '60' ),
     ( 'sextillion',                 'unity' )                               : mpmathify( '1.0e21' ),
     ( 'shock',                      'unity' )                               : mpmathify( '60' ),
-    ( 'sidereal_day',               'second' )                              : mpmathify( '86164.09054' ),
-    ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
-    ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
-    ( 'sidereal_minute',            'sidereal_second' )                     : mpmathify( '60' ),
-    ( 'sidereal_month',             'day' )                                 : mpmathify( '27.321661' ),
-    ( 'sidereal_year',              'day' )                                 : mpmathify( '365.256360417' ),
     ( 'siemens',                    'ampere/volt' )                         : mpmathify( '1' ),
     ( 'siemens',                    'kilogram-meter^2/second^3-ampere^2' )  : mpmathify( '1' ),
     ( 'siemens',                    'statsiemens' )                         : mpmathify( '898755178736.5' ),
@@ -3595,22 +3191,9 @@ unitConversionMatrix = {
     ( 'skot',                       'lambert' )                             : mpmathify( '1.0e7' ),
     ( 'slug',                       'pound' )                               : mpmathify( '32.174048556' ),
     ( 'smoot',                      'inch' )                                : mpmathify( '67' ),
-    ( 'solar_luminosity',           'watt' )                                : mpmathify( '3.826e26' ),
-    ( 'solar_mass',                 'earth_moon_mass' )                     : mpmathify( '328900.56' ), # 0.02
-    ( 'solar_mass',                 'gram' )                                : mpmathify( '1.9891e33' ),
-    ( 'solar_mass',                 'jupiter_mass' )                        : mpmathify( '1047.3486' ), # 0.0008
-    ( 'solar_mass',                 'mars_mass' )                           : mpmathify( '3098708' ),   # 9
-    ( 'solar_mass',                 'mercury_mass' )                        : mpmathify( '6023600' ),   # 250
-    ( 'solar_mass',                 'neptune_mass' )                        : mpmathify( '19412.24' ),  # 0.04
-    ( 'solar_mass',                 'pluto_mass' )                          : mpmathify( '1.35e8' ),    # 0.07e8
-    ( 'solar_mass',                 'saturn_mass' )                         : mpmathify( '3497.898' ),  # 0.018
-    ( 'solar_mass',                 'uranus_mass' )                         : mpmathify( '22902.98' ),  # 0.03
-    ( 'solar_mass',                 'venus_mass' )                          : mpmathify( '408523.71' ), # 0.06
-    ( 'solar_radius',               'meter' )                               : mpmathify( '6.9599e8' ),
     ( 'solomon',                    'liter' )                               : mpmathify( '20.0' ),
     ( 'sovereign',                  'liter' )                               : mpmathify( '25.0' ),
     ( 'span',                       'inch' )                                : mpmathify( '9' ),
-    ( 'speed_of_light',             'meter/second' )                        : mpmathify( speedOfLight ),
     ( 'sphere',                     'steradian' )                           : fmul( 4, pi ),
     ( 'square_arcminute',           'square_arcsecond' )                    : mpmathify( '3600' ),
     ( 'square_degree',              'square_arcminute' )                    : mpmathify( '3600' ),
@@ -3622,14 +3205,12 @@ unitConversionMatrix = {
     ( 'square_sextant',             'square_degree' )                       : mpmathify( '3600' ),
     ( 'square_yard',                'square_foot' )                         : mpmathify( '9' ),
     ( 'standard',                   'liter' )                               : mpmathify( '0.75' ),
-    ( 'standard_gravity',           'galileo' )                             : mpmathify( '980.6650' ),
-    ( 'standard_gravity',           'meter/second^2' )                      : mpmathify( '9.80665' ),
     ( 'statcoulomb',                'coulomb' )                             : mpmathify( '3.335641e-10' ),  # 0.1A*m/c, approx.
     ( 'statcoulomb',                'franklin' )                            : mpmathify( '1' ),
     ( 'stathenry',                  'henry' )                               : mpmathify( '898755178740' ),
     ( 'statmho',                    'siemens' )                             : mpmathify( '8.99e11' ),
     ( 'statohm',                    'ohm' )                                 : mpmathify( '898755178740' ),
-    ( 'statvolt',                   'volt' )                                : fdiv( mpf( speedOfLight ), mpf( '1.0e6' ) ),
+    ( 'statvolt',                   'volt' )                                : fdiv( mpf( '299792458' ), mpf( '1.0e6' ) ),
     ( 'steradian',                  'square_degree' )                       : power( fdiv( 180, pi ), 2 ),
     ( 'steradian',                  'square_grad' )                         : power( fdiv( 200, pi ), 2 ),
     ( 'sthene',                     'newton' )                              : mpmathify( '1000' ),
@@ -3638,7 +3219,6 @@ unitConversionMatrix = {
     ( 'stone_us',                   'pound' )                               : mpmathify( '12.5' ),
     ( 'strike',                     'imperial_bushel' )                     : mpmathify( '2' ),
     ( 'tablespoon',                 'teaspoon' )                            : mpmathify( '3' ),
-    ( 'tau_mass',                   'dalton' )                              : mpmathify( '1.90749' ),
     ( 'teaspoon',                   'dash' )                                : mpmathify( '8' ),
     ( 'teaspoon',                   'pinch' )                               : mpmathify( '16' ),
     ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
@@ -3650,15 +3230,13 @@ unitConversionMatrix = {
     ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '100' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
-    ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
     ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
+    ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
     ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),
     ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),
     ( 'trillion',                   'unity' )                               : mpmathify( '1.0e12' ),
     ( 'trit',                       'nat' )                                 : log( 3 ),
-    ( 'triton_mass',                'dalton' )                              : mpmathify( '3.0155007134' ),
-    ( 'tropical_year',              'day' )                                 : mpmathify( '365.24219' ),
     ( 'troy_ounce',                 'gram' )                                : mpmathify( '31.1034768' ),
     ( 'troy_pound',                 'pound' )                               : mpmathify( '12' ),
     ( 'tryte',                      'trit' )                                : mpmathify( '6' ),   # as defined by the Setun computer
@@ -3678,16 +3256,11 @@ unitConversionMatrix = {
     ( 'unity',                      'tenth' )                               : mpmathify( '10' ),
     ( 'unity',                      'third' )                               : mpmathify( '3' ),
     ( 'unity',                      'trillionth' )                          : mpmathify( '1.0e12' ),
-    ( 'uranus_day',                 'day' )                                 : mpmathify( '0.65' ),
-    ( 'uranus_year',                'year' )                                : mpmathify( '84.016846' ),
-    ( 'venus_day',                  'day' )                                 : mpmathify( '243.01' ),
-    ( 'venus_year',                 'year' )                                : mpmathify( '0.61519726' ),
     ( 'vigintillion',               'unity' )                               : mpmathify( '1.0e63' ),
     ( 'virgate',                    'bovate' )                              : mpmathify( '30' ),
     ( 'volt',                       'abvolt' )                              : mpmathify( '1.0e8' ),
     ( 'volt-ampere',                'watt' )                                : mpmathify( '1' ),
     ( 'volt-coulomb',               'joule' )                               : mpmathify( '1' ),
-    ( 'von_klitzing_constant',      'ohm' )                                 : mpmathify( '25812.807557' ),
     ( 'watt',                       'erg/second' )                          : mpmathify( '1.0e7' ),
     ( 'watt',                       'kilogram-meter^2/second^3' )           : mpmathify( '1' ),
     ( 'watt',                       'lusec' )                               : mpmathify( '7500' ),

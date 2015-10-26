@@ -35,9 +35,6 @@
 # b_wien      0.0028977721    m K             Wien wavelength displacement law constant
 # e           1.60217657e-19  C               Electron charge
 # eps0        8.85418782e-12  F/m             Electric constant
-# h           6.62606957e-34  J s             Planck constant
-# hbar        1.05457173e-34  J s             Reduced Planck constant
-# k_B         1.3806488e-23   J / (K)         Boltzmann constant
 # m_e         9.10938291e-31  kg              Electron mass
 # m_n         1.67492735e-27  kg              Neutron mass
 # m_p         1.67262178e-27  kg              Proton mass
@@ -355,4 +352,352 @@ def getPlanckConstant( ):
 
 def getReducedPlanckConstant( ):
     return getPlanckConstant( ) / fmul( 2, pi )
+
+
+# //******************************************************************************
+# //
+# //  getBoltzmannConstant
+# //
+# //  https://en.wikipedia.org/wiki/Boltzmann_constant
+# //
+# //******************************************************************************
+
+def getBoltzmannConstant( ):
+    return RPNMeasurement( mpmathify( '1.3806488e-23' ), [ { 'joule' : 1 }, { 'kelvin' : 1 } ] )
+
+
+# //******************************************************************************
+# //
+# //  getSpeedOfLight
+# //
+# //******************************************************************************
+
+def getSpeedOfLight( ):
+    return RPNMeasurement( mpmathify( '299792458' ), [ { 'meter' : 1 }, { 'second' : -1 } ] )
+
+
+#
+#    'moon_gravity' :
+#        UnitInfo( 'acceleration', 'moon_gravity', 'moon_gravities', '', [ 'moon_g' ], [ 'natural' ],
+#                  '''The equivalent surface gravity on the moon.''' ),
+#
+#    'standard_gravity' :
+#        UnitInfo( 'acceleration', 'standard_gravity', 'standard_gravities', 'G', [ 'grav', 'gee' ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'electron_charge' :
+#        UnitInfo( 'charge', 'electron_charge', 'electron_charges', '', [ 'elementary_charge', 'proton_charge' ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'alpha' :
+#        UnitInfo( 'constant', 'alpha', 'alpha', '', [ 'fine_structure_constant' ], [ 'constant' ],
+#                  '''
+#                  ''' ),
+#
+#    'density_of_water' :
+#        UnitInfo( 'density', 'x density_of_water', 'x density_of_water', '', [ 'water' ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'impedance_of_free_space' :
+#        UnitInfo( 'electrical_resistance', 'impedance_of_free_space', 'x impedance_of_free_space', 'Z0', [ 'vacuum_impedence' ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'earth_radius' :
+#        UnitInfo( 'length', 'earth_radius', 'earth_radii', 'Rgeo', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'jupiter_radius' :
+#        UnitInfo( 'length', 'jupiter_radius', 'jupiter_radii', 'Rjov', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'solar_radius' :
+#        UnitInfo( 'length', 'solar_radius', 'solar_radii', 'Rsol', [ 'sun_radius', 'sun_radii' ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'solar_mass' :
+#        UnitInfo( 'mass', 'solar_mass', 'solar_masses', 'Msol', [ 'sun_mass', 'sun_masses' ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    # particle masses
+#
+#    'alpha_particle_mass' :
+#        UnitInfo( 'mass', 'alpha_particle_mass', 'alpha_particle_masses', '', [ 'alpha_mass', 'alpha_masses' ], [ 'natural', 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'deuteron_mass' :
+#        UnitInfo( 'mass', 'deuteron_mass', 'deuteron_masses', '', [ ], [ 'natural', 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'electron_mass' :
+#        UnitInfo( 'mass', 'electron_mass', 'electron_masses', '', [ 'electron_rest_mass', 'electron_rest_masses' ], [ 'natural', 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'helion_mass' :
+#        UnitInfo( 'mass', 'helion_mass', 'helion_masses', '', [ ], [ 'natural', 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'proton_mass' :
+#        UnitInfo( 'mass', 'proton_mass', 'proton_masses', '', [ ], [ 'natural', 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'muon_mass' :
+#        UnitInfo( 'mass', 'muon_mass', 'muon_masses', '', [ ], [ 'natural', 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'neutron_mass' :
+#        UnitInfo( 'mass', 'neutron_mass', 'neutron_masses', '', [ ], [ 'natural', 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'proton_mass' :
+#        UnitInfo( 'mass', 'proton_mass', 'proton_masses', '', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'tau_mass' :
+#        UnitInfo( 'mass', 'tau_mass', 'tau_masses', '', [ ], [ 'natural', 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'triton_mass' :
+#        UnitInfo( 'mass', 'triton_mass', 'triton_masses', '', [ ], [ 'natural', 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    # planet masses
+#
+#    'mercury_mass' :
+#        UnitInfo( 'mass', 'mercury_mass', 'mercury_masses', '', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'venus_mass' :
+#        UnitInfo( 'mass', 'venus_mass', 'venus_masses', '', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'earth_mass' :
+#        UnitInfo( 'mass', 'earth_mass', 'earth_masses', '', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'earth_moon_mass' :
+#        UnitInfo( 'mass', 'earth_moon_mass', 'earth_moon_masses', '', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'mars_mass' :
+#        UnitInfo( 'mass', 'mars_mass', 'mars_masses', '', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'jupiter_mass' :
+#        UnitInfo( 'mass', 'jupiter_mass', 'jupiter_masses', 'Mjov', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'saturn_mass' :
+#        UnitInfo( 'mass', 'saturn_mass', 'saturn_masses', '', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'uranus_mass' :
+#        UnitInfo( 'mass', 'uranus_mass', 'uranus_masses', '', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'neptune_mass' :
+#        UnitInfo( 'mass', 'neptune_mass', 'neptune_masses', '', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'pluto_mass' :
+#        UnitInfo( 'mass', 'pluto_mass', 'pluto_masses', '', [ ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#
+#    'solar_luminosity' :
+#        UnitInfo( 'power', 'solar_luminosity', 'solar_luminosities', '', [ 'solar_output' ], [ 'natural' ],
+#                  '''
+#                  ''' ),
+#
+#    'lunar_day' :
+#        UnitInfo( 'time', 'lunar_day', 'lunar_days', '', [ 'tidal_day', 'tidal_days' ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#
+#    # planet days
+#
+#    'mercury_day' :
+#        UnitInfo( 'time', 'mercury_day', 'mercury_days', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'venus_day' :
+#        UnitInfo( 'time', 'venus_day', 'venus_days', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'mars_day' :
+#        UnitInfo( 'time', 'mars_day', 'mars_days', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'jupiter_day' :
+#        UnitInfo( 'time', 'jupiter_day', 'jupiter_days', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'saturn_day' :
+#        UnitInfo( 'time', 'saturn_day', 'saturn_days', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'uranus_day' :
+#        UnitInfo( 'time', 'uranus_day', 'uranus_days', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'neptune_day' :
+#        UnitInfo( 'time', 'neptune_day', 'neptune_days', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'pluto_day' :
+#        UnitInfo( 'time', 'pluto_day', 'pluto_days', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    # planet years
+#
+#    'mercury_year' :
+#        UnitInfo( 'time', 'mercury_year', 'mercury_years', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'venus_year' :
+#        UnitInfo( 'time', 'venus_year', 'venus_years', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'mars_year' :
+#        UnitInfo( 'time', 'mars_year', 'mars_years', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'jupiter_year' :
+#        UnitInfo( 'time', 'jupiter_year', 'jupiter_years', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'saturn_year' :
+#        UnitInfo( 'time', 'saturn_year', 'saturn_years', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'uranus_year' :
+#        UnitInfo( 'time', 'uranus_year', 'uranus_years', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'neptune_year' :
+#        UnitInfo( 'time', 'neptune_year', 'neptune_years', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    'pluto_year' :
+#        UnitInfo( 'time', 'pluto_year', 'pluto_years', '', [ ], [ 'science' ],
+#                  '''
+#                  ''' ),
+#
+#    ( 'jupiter_day',                'day' )                                 : mpmathify( '0.41354' ),
+#    ( 'jupiter_radius',             'meter' )                               : mpmathify( '7.1492e7' ),
+#    ( 'jupiter_year',               'year' )                                : mpmathify( '11.862615' ),
+#    ( 'mars_day',                   'day' )                                 : mpmathify( '1.02595675' ),
+#    ( 'mars_year',                  'year' )                                : mpmathify( '1.8808476' ),
+#    ( 'mercury_day',                'day' )                                 : mpmathify( '58.6462' ),
+#    ( 'mercury_year',               'year' )                                : mpmathify( '0.2408467' ),
+#    ( 'neptune_day',                'day' )                                 : mpmathify( '0.768' ),
+#    ( 'neptune_year',               'year' )                                : mpmathify( '164.79132' ),
+#    ( 'pluto_day',                  'day' )                                 : mpmathify( '6.3867' ),
+#    ( 'pluto_year',                 'year' )                                : mpmathify( '247.92065' ),
+#    ( 'saturn_day',                 'day' )                                 : mpmathify( '0.4375' ),
+#    ( 'saturn_year',                'year' )                                : mpmathify( '29.447498' ),
+#    ( 'uranus_day',                 'day' )                                 : mpmathify( '0.65' ),
+#    ( 'uranus_year',                'year' )                                : mpmathify( '84.016846' ),
+#    ( 'venus_day',                  'day' )                                 : mpmathify( '243.01' ),
+#    ( 'venus_year',                 'year' )                                : mpmathify( '0.61519726' ),
+#    ( 'lunar_day',                  'minute' )                              : mpmathify( '1490' ),
+#
+#    ( 'solar_luminosity',           'watt' )                                : mpmathify( '3.826e26' ),
+#    ( 'solar_mass',                 'earth_moon_mass' )                     : mpmathify( '328900.56' ), # 0.02
+#    ( 'solar_mass',                 'gram' )                                : mpmathify( '1.9891e33' ),
+#    ( 'solar_mass',                 'jupiter_mass' )                        : mpmathify( '1047.3486' ), # 0.0008
+#    ( 'solar_mass',                 'mars_mass' )                           : mpmathify( '3098708' ),   # 9
+#    ( 'solar_mass',                 'mercury_mass' )                        : mpmathify( '6023600' ),   # 250
+#    ( 'solar_mass',                 'neptune_mass' )                        : mpmathify( '19412.24' ),  # 0.04
+#    ( 'solar_mass',                 'pluto_mass' )                          : mpmathify( '1.35e8' ),    # 0.07e8
+#    ( 'solar_mass',                 'saturn_mass' )                         : mpmathify( '3497.898' ),  # 0.018
+#    ( 'solar_mass',                 'uranus_mass' )                         : mpmathify( '22902.98' ),  # 0.03
+#    ( 'solar_mass',                 'venus_mass' )                          : mpmathify( '408523.71' ), # 0.06
+#    ( 'solar_radius',               'meter' )                               : mpmathify( '6.9599e8' ),
+#
+#    ( 'alpha_particle_mass',        'dalton' )                              : mpmathify( '4.001506179125' ),
+#    ( 'electron_mass',              'gram' )                                : mpmathify( '9.10938291e-28' ),
+#    ( 'earth_mass',                 'gram' )                                : mpmathify( '5.9742e27' ),
+#    ( 'deuteron_mass',              'dalton' )                              : mpmathify( '2.013553212712' ),
+#    ( 'earth_radius',               'meter' )                               : mpmathify( '6378136' ),
+#    ( 'helion_mass',                'dalton' )                              : mpmathify( '3.0149322468' ),
+#    ( 'neutron_mass',               'dalton' )                              : mpmathify( '1.00866491600' ),
+#    ( 'muon_mass',                  'dalton' )                              : mpmathify( '0.1134289267' ),
+#    ( 'proton_mass',                'dalton' )                              : mpmathify( '1.007276466812' ),
+#    ( 'proton_mass',                'gram' )                                : mpmathify( '1.6726218e-24' ),
+#    ( 'tau_mass',                   'dalton' )                              : mpmathify( '1.90749' ),
+#    ( 'triton_mass',                'dalton' )                              : mpmathify( '3.0155007134' ),
+#    ( 'bohr_radius',                'meter' )                               : mpmathify( '5.2917721e-11' ),
+#    ( 'sidereal_day',               'second' )                              : mpmathify( '86164.09054' ),
+#    ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
+#    ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
+#    ( 'sidereal_minute',            'sidereal_second' )                     : mpmathify( '60' ),
+#    ( 'sidereal_month',             'day' )                                 : mpmathify( '27.321661' ),
+#    ( 'sidereal_year',              'day' )                                 : mpmathify( '365.256360417' ),
+#    ( 'gregorian_year',             'day' )                                 : mpmathify( '365.2425' ),
+#    ( 'tropical_year',              'day' )                                 : mpmathify( '365.24219' ),
+#    ( 'von_klitzing_constant',      'ohm' )                                 : mpmathify( '25812.807557' ),
+#    ( 'planck_area',                'square_meter' )                        : mpmathify( '2.6121003e-70' ),
+#    ( 'planck_charge',              'coulomb' )                             : mpmathify( '1.875545956e-18' ),
+#    ( 'planck_energy',              'joule' )                               : mpmathify( '1.956e9' ),
+#    ( 'planck_length',              'meter' )                               : mpmathify( '1.616199e-35' ),
+#    ( 'planck_mass',                'gram' )                                : mpmathify( '2.17651e-8' ),
+#    ( 'planck_time',                'second' )                              : mpmathify( '5.39106e-44' ),
+#    ( 'planck_volume',              'cubic_meter' )                         : mpmathify( '4.22419e-105' ),
+#    ( 'electron_charge',            'coulomb' )                             : mpmathify( '1.602176565e-19' ),
+#    ( 'gallon_of_gasoline',         'gallon_of_ethanol' )                   : mpmathify( '1.425' ),  # approx.
+#    ( 'gallon_of_gasoline',         'joule' )                               : mpmathify( '1.2e8' ),  # approx. obviously
+#    ( 'aa_battery',                 'joule' )                               : mpmathify( '15400' ),
+#    ( 'alpha',                      'unity' )                               : mpmathify( '0.0072973526' ),
+#    ( 'moon_gravity',               'meter/second^2' )                      : mpmathify( '1.62' ),
+#    ( 'standard_gravity',           'galileo' )                             : mpmathify( '980.6650' ),
+
+
+#  http://www.numericana.com/answer/constants.htm
+#  (2014-05-15)    1-1/e  =  0.632120558828557678404476229838539...
+#  Rise time and fixed-point probability:  1/1! - 1/2! + 1/3! - 1/4! + 1/5! - ...
+
 

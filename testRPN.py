@@ -406,7 +406,7 @@ def runArithmeticOperatorTests( ):
     testOperator( 'today 3 days -' )
     testOperator( 'today 3 weeks -' )
     testOperator( 'today 3 months -' )
-    testOperator( 'now earth_radius 2 pi * * miles convert 4 mph / -' )
+    #testOperator( 'now earth_radius 2 pi * * miles convert 4 mph / -' )
     testOperator( 'today 2 months -' )
     testOperator( 'today 1965-03-31 -' )
     testOperator( '2015-01-01 1965-03-31 -' )
@@ -843,14 +843,14 @@ def runConstantOperatorTests( ):
     # apery
     testOperator( 'apery' )
 
-    # avogadro
-    testOperator( '-a25 avogadro' )
+    # avogadro_number
+    testOperator( '-a25 avogadro_number' )
 
     # catalan
-    testOperator( 'catalan' )
+    testOperator( 'catalan_constant' )
 
-    # champernowne
-    testOperator( '-a100 champernowne' )
+    # champernowne_constant
+    testOperator( '-a100 champernowne_constant' )
 
     # copeland
     testOperator( '-a 1000 copeland' )
@@ -932,8 +932,8 @@ def runConstantOperatorTests( ):
     # max_ushort
     expectEqual( 'max_ushort', '2 16 ** 1 -' )
 
-    # mertens_constant
-    testOperator( 'mertens_constant' )
+    # merten
+    testOperator( '10 merten' )
 
     # mills
     testOperator( 'mills' )
@@ -981,7 +981,7 @@ def runConstantOperatorTests( ):
     testOperator( 'newtons_constant' )
 
     # omega
-    testOperator( 'omega' )
+    testOperator( 'omega_constant' )
 
     # phi
     testOperator( 'phi' )
@@ -989,17 +989,23 @@ def runConstantOperatorTests( ):
     # pi
     testOperator( 'pi' )
 
+    # planck_constant
+    testOperator( 'planck_constant' )
+
     # plastic
-    testOperator( 'plastic' )
+    testOperator( 'plastic_constant' )
 
     # prevost
-    testOperator( 'prevost' )
+    testOperator( 'prevost_constant' )
 
     # radiation_constant
     testOperator( 'radiation_constant' )
 
+    # reduced_planck_constant
+    testOperator( 'reduced_planck_constant' )
+
     # robbins
-    testOperator( 'robbins' )
+    testOperator( 'robbins_constant' )
 
     # rydberg_constant
     testOperator( 'rydberg_constant' )
@@ -1007,8 +1013,11 @@ def runConstantOperatorTests( ):
     # silver_ratio
     testOperator( 'silver_ratio' )
 
+    # speed_of_light
+    testOperator( 'speed_of_light' )
+
     # stefan_boltzmann
-    testOperator( 'stefan_boltzmann' )
+    testOperator( 'stefan_boltzmann_constant' )
 
     # true
     expectResult( 'true', 1 )
@@ -2417,7 +2426,7 @@ def runSpecialOperatorTests( ):
     testOperator( '150 degrees estimate' )
     testOperator( '150 farads estimate' )
     testOperator( '150 feet estimate' )
-    testOperator( '150 G estimate' )
+    #testOperator( '150 G estimate' )
     testOperator( '150 gallons estimate' )
     testOperator( '150 grams estimate' )
     testOperator( '150 GW estimate' )
