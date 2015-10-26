@@ -19,9 +19,11 @@ import pickle
 import pyprimes
 import sys
 
+from mpmath import *
+
 import rpnGlobals as g
 
-from mpmath import *
+from rpnUtils import real_int
 
 
 # //******************************************************************************
@@ -172,6 +174,11 @@ def isPrime( arg ):
 # 151, 157, 163, 167, 169, 173, 179, 181, 187, 191, 193, 197, 199, 209, 211 ]
 
 
+# //******************************************************************************
+# //
+# //  getNextPrimeCandidate
+# //
+# //******************************************************************************
 
 def getNextPrimeCandidate( p ):
     f = ( p - 10 ) % 30
@@ -334,7 +341,7 @@ def findPrime( arg ):
 def findQuadrupletPrimes( arg ):
     global quadPrimes
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 5:
         return 1, [ 5, 7, 11, 13 ]
@@ -367,7 +374,7 @@ def getNthQuadrupletPrime( arg ):
     global quadPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -415,7 +422,7 @@ def getNthIsolatedPrime( arg ):
     global isolatedPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -477,7 +484,7 @@ def getNthTwinPrime( arg ):
     global twinPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -539,7 +546,7 @@ def getNthBalancedPrime( arg ):
     global balancedPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -591,7 +598,6 @@ def getNthBalancedPrime( arg ):
 
 def getNthBalancedPrimeList( arg ):
     p = getNthBalancedPrime( arg )
-
     q = getNextPrime( p )
     r = getNextPrime( q )
 
@@ -608,7 +614,7 @@ def getNthDoubleBalancedPrime( arg, first = False ):
     global doubleBalancedPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -680,7 +686,7 @@ def getNthTripleBalancedPrime( arg, first = False ):
     global tripleBalancedPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -752,7 +758,7 @@ def getNthSophiePrime( arg ):
     global sophiePrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -805,7 +811,7 @@ def getNthCousinPrime( arg ):
     global cousinPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -888,7 +894,7 @@ def getNthSexyPrime( arg ):
     global sexyPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -943,7 +949,7 @@ def getNthSexyTriplet( arg ):
     global sexyTriplets
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -1007,7 +1013,7 @@ def getNthSexyQuadruplet( arg ):
     global sexyQuadruplets
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -1069,7 +1075,7 @@ def getNthTripletPrimeList( arg ):
     global tripletPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -1178,7 +1184,7 @@ def getNthQuintupletPrime( arg ):
     global quintPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -1250,7 +1256,7 @@ def getNthQuintupletPrimeList( arg ):
 def findQuintupletPrimes( arg ):
     global quintPrimes
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 5:
         return 1, [ 5, 7, 11, 13, 17 ]
@@ -1289,7 +1295,7 @@ def getNthSextupletPrime( arg ):
     global sextPrimes
     global updateDicts
 
-    n = int( arg )
+    n = int( real_int( arg ) )
 
     if n < 1:
         raise ValueError( 'index must be > 0' )
@@ -1343,8 +1349,8 @@ def getNthSextupletPrimeList( arg ):
 # //******************************************************************************
 
 def getNthPrimeRange( arg1, arg2 ):
-    n = int( arg1 )
-    count = int( arg2 )
+    n = int( real_int( arg1 ) )
+    count = int( real_int( arg2 ) )
 
     if count < 1:
         return [ ]
@@ -1440,7 +1446,7 @@ def getPrimes( value, count ):
 # //******************************************************************************
 
 def getNthPrimorial( n ):
-    if n == 0:
+    if real_int( n ) == 0:
         return 1
 
     result = 2
