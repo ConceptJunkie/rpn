@@ -631,16 +631,13 @@ def getSum( n ):
             break
 
     if hasUnits:
-        result = None
+        result = RPNMeasurement( 0, { } )
 
         for item in n:
             if isinstance( item, list ):
                 return [ getSum( arg ) for arg in item ]
 
-            if result is None:
-                result = item
-            else:
-                result = result.add( item )
+            result = result.add( item )
 
         return result
     else:
@@ -668,16 +665,13 @@ def getProduct( n ):
             break
 
     if hasUnits:
-        result = None
+        result = RPNMeasurement( 1, { } )
 
         for item in n:
             if isinstance( item, list ):
                 return [ getProduct( arg ) for arg in item ]
 
-            if result is None:
-                result = item
-            else:
-                result = result.multiply( item )
+            result = result.multiply( item )
 
         return result
     else:
