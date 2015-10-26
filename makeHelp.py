@@ -793,7 +793,7 @@ Added the 'faraday_constant', 'radiation_constant' and
 'stefan_boltzmann_constant' operators.
 
 Added the 'magnetic_constant', 'electric_constant', 'rydberg_constant',
-'newton_constant' and 'fine_structure' operators.
+'newton_constant' and 'fine_structure_constant' operators.
 
 Revamped factorization to be much, much faster.
 
@@ -3012,14 +3012,14 @@ c:\>rpn faradays_constant
 96485.33289 coulombs per mole
 ''' ],
 
-    'fine_structure' : [
+    'fine_structure_constant' : [
 'constants', 'returns the fine-structure constant',
 '''
 ''',
 '''
 ''' ],
 
-    'glaisher' : [
+    'glaisher_constant' : [
 'constants', 'returns Glaisher\'s constant',
 '''
 ''',
@@ -3056,7 +3056,7 @@ c:\>rpn itoi
 0.207879576351
 ''' ],
 
-    'khinchin' : [
+    'khinchin_constant' : [
 'constants', 'returns Khinchin\'s constant',
 '''
 ''',

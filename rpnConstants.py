@@ -284,97 +284,6 @@ def getNewtonsConstant( ):
     return RPNMeasurement( mpmathify( '6.67408e-11' ), [ { 'meter' : 3 }, { 'kilogram' : -1 }, { 'second' : -2 } ] )
 
 
-# //******************************************************************************
-# //
-# //  getStefanBoltzmannConstant
-# //
-# //  https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant
-# //
-# //  value updated based on CODATA 2014
-# //
-# //******************************************************************************
-
-def getStefanBoltzmannConstant( ):
-    return RPNMeasurement( mpmathify( '5.670367e-8' ), [ { 'watt' : 1 }, { 'meter' : -2 }, { 'kelvin' : -4 } ] )
-
-
-# //******************************************************************************
-# //
-# //  getRadiationConstant
-# //
-# //  https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant
-# //
-# //******************************************************************************
-
-def getRadiationConstant( ):
-    return RPNMeasurement( mpmathify( '7.5657e-16' ), [ { 'joule' : 1 }, { 'meter' : -3 }, { 'kelvin' : -4 } ] )
-
-
-# //******************************************************************************
-# //
-# //  getSilverRatio
-# //
-# //******************************************************************************
-
-def getSilverRatio( ):
-    return fadd( 1, sqrt( 2 ) )
-
-
-# //******************************************************************************
-# //
-# //  getEddingtonNumber
-# //
-# //******************************************************************************
-
-def getEddingtonNumber( ):
-    return fmul( 136, power( 2, 256 ) )
-
-
-# //******************************************************************************
-# //
-# //  getPlanckConstant
-# //
-# //  https://en.wikipedia.org/wiki/Planck_constant
-# //
-# //******************************************************************************
-
-def getPlanckConstant( ):
-    return RPNMeasurement( mpmathify( '6.626070040e-34' ), [ { 'joule' : 1 }, { 'second' : 1 } ] )
-
-
-# //******************************************************************************
-# //
-# //  getReducedPlanckConstant
-# //
-# //  https://en.wikipedia.org/wiki/Planck_constant
-# //
-# //******************************************************************************
-
-def getReducedPlanckConstant( ):
-    return getPlanckConstant( ) / fmul( 2, pi )
-
-
-# //******************************************************************************
-# //
-# //  getBoltzmannConstant
-# //
-# //  https://en.wikipedia.org/wiki/Boltzmann_constant
-# //
-# //******************************************************************************
-
-def getBoltzmannConstant( ):
-    return RPNMeasurement( mpmathify( '1.3806488e-23' ), [ { 'joule' : 1 }, { 'kelvin' : 1 } ] )
-
-
-# //******************************************************************************
-# //
-# //  getSpeedOfLight
-# //
-# //******************************************************************************
-
-def getSpeedOfLight( ):
-    return RPNMeasurement( mpmathify( '299792458' ), [ { 'meter' : 1 }, { 'second' : -1 } ] )
-
 
 #
 #    'moon_gravity' :
@@ -388,11 +297,6 @@ def getSpeedOfLight( ):
 #
 #    'electron_charge' :
 #        UnitInfo( 'charge', 'electron_charge', 'electron_charges', '', [ 'elementary_charge', 'proton_charge' ], [ 'natural' ],
-#                  '''
-#                  ''' ),
-#
-#    'alpha' :
-#        UnitInfo( 'constant', 'alpha', 'alpha', '', [ 'fine_structure_constant' ], [ 'constant' ],
 #                  '''
 #                  ''' ),
 #

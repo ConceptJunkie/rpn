@@ -876,11 +876,11 @@ def runConstantOperatorTests( ):
     # faradays_constant
     testOperator( 'faradays_constant' )
 
-    # fine_structure
-    testOperator( 'fine_structure' )
+    # fine_structure_constant
+    testOperator( 'fine_structure_constant' )
 
-    # glaisher
-    testOperator( 'glaisher' )
+    # glaisher_constant
+    testOperator( 'glaisher_constant' )
 
     # infinity
     testOperator( 'infinity x fib x 1 - fib / limit' )
@@ -890,8 +890,8 @@ def runConstantOperatorTests( ):
     # itoi
     testOperator( 'itoi' )
 
-    # khinchin
-    testOperator( 'khinchin' )
+    # khinchin_constant
+    testOperator( 'khinchin_constant' )
 
     # magnetic_constant
     testOperator( 'magnetic_constant' )
