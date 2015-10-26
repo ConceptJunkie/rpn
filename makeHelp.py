@@ -908,10 +908,15 @@ stopped working.
 Added the 'cone_volume', 'cone_area', 'torus_volume' and 'torus_area',
 'tetrahedron_area', 'tetrahedron_volume', 'octahedron_area',
 'octahedron_volume', 'dodecahedron_area', 'dodecahedron_volume',
-'icosahedron_area', 'icosahedron_volume' operators.
+'icosahedron_area', 'icosahedron_volume', 'prism_area', 'prism_volume',
+'antiprism_area', 'antiprism_volume' operators.
+
+Added the 'planck_constant' and 'reduced_planck_constant' operators.
 
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
+
+Added a number of unit tests and argument validation for most of the operators.
 
 Implemented lots of unit tests.
 
@@ -3423,6 +3428,13 @@ c:\>rpn omega
 '''
 ''' ],
 
+    'planck_constant' : [
+'constants', 'returns the Planck constant',
+'''
+''',
+'''
+''' ],
+
     'plastic' : [
 'constants', 'returns the Plastic constant',
 '''
@@ -3445,6 +3457,13 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 '''
 c:\>rpn radiation_constant
 7.5657e-16 joules per meter^3 kelvin^4
+''' ],
+
+    'reduced_planck_constant' : [
+'constants', 'returns the reduced Planck constant',
+'''
+''',
+'''
 ''' ],
 
     'robbins' : [

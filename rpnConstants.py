@@ -332,3 +332,27 @@ def getSilverRatio( ):
 def getEddingtonNumber( ):
     return fmul( 136, power( 2, 256 ) )
 
+
+# //******************************************************************************
+# //
+# //  getPlanckConstant
+# //
+# //  https://en.wikipedia.org/wiki/Planck_constant
+# //
+# //******************************************************************************
+
+def getPlanckConstant( ):
+    return RPNMeasurement( mpmathify( '6.626070040e-34' ), [ { 'joule' : 1 }, { 'second' : 1 } ] )
+
+
+# //******************************************************************************
+# //
+# //  getReducedPlanckConstant
+# //
+# //  https://en.wikipedia.org/wiki/Planck_constant
+# //
+# //******************************************************************************
+
+def getReducedPlanckConstant( ):
+    return getPlanckConstant( ) / fmul( 2, pi )
+
