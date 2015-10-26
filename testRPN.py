@@ -1268,6 +1268,12 @@ def runFunctionOperatorTests( ):
 # //******************************************************************************
 
 def runGeometricOperatorTests( ):
+    # antiprism_area
+    testOperator( '8 5 antiprism_area' )
+
+    # antiprism_volume
+    testOperator( '3 8 antiprism_volume' )
+
     # cone_area
     testOperator( '4 5 cone_area' )
 
@@ -1289,6 +1295,12 @@ def runGeometricOperatorTests( ):
 
     # polygon_area
     testOperator( '13 polygon_area' )
+
+    # prism_area
+    testOperator( '8 5 2 prism_area' )
+
+    # prism_volume
+    testOperator( '3 8 4 prism_volume' )
 
     # sphere_area
     testOperator( '8 inches sphere_area' )

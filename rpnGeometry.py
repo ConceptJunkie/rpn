@@ -311,3 +311,69 @@ def getIcosahedronSurfaceArea( n ):
 def getIcosahedronVolume( n ):
     return fprod( [ fdiv( 5, 12 ), fadd( 3, sqrt( 5 ) ), power( a, 3 ) ] )
 
+
+# //******************************************************************************
+# //
+# //  getAntiprismSurfaceArea
+# //
+# //  https://en.wikipedia.org/wiki/Antiprism
+# //
+# //  n = sides
+# //  k = edge length
+# //
+# //******************************************************************************
+
+def getAntiprismSurfaceArea( n, k ):
+    return fprod( [ fdiv( n, 2 ), fadd( cot( fdiv( pi, n ) ), sqrt( 3 ) ), power( k, 2 ) ] )
+
+
+# //******************************************************************************
+# //
+# //  getAntiprismVolume
+# //
+# //  http://www.fxsolver.com/browse/formulas/Antiprism+uniform+%28Volume%29
+# //
+# //  n = sides
+# //  k = edge length
+# //
+# //******************************************************************************
+
+def getAntiprismVolume( n, k ):
+    return fprod( [ fdiv( fprod( [ n, sqrt( fsub( fmul( 4, cos( cos( fdiv( pi, fmul( n, 2 ) ) ) ) ), 1 ) ),
+                                   sin( fdiv( fmul( 3, pi ), fmul( 2, n ) ) ) ] ),
+                          fmul( 12, sin( sin( fdiv( pi, n ) ) ) ) ),
+                    sin( fdiv( fmul( 3, pi ), fmul( 2, n ) ) ),
+                    power( k, 3 ) ] )
+
+
+# //******************************************************************************
+# //
+# //  getPrismSurfaceArea
+# //
+# //  https://en.wikipedia.org/wiki/Prism
+# //
+# //  n = sides
+# //  k = edge length
+# //  h = height
+# //
+# //******************************************************************************
+
+def getPrismSurfaceArea( n, k, h ):
+    return fadd( fprod( [ fdiv( n, 2 ), power( k, 2 ), cot( fdiv( pi, n ) ) ] ), fprod( [ n, k, h, ] ) )
+
+
+# //******************************************************************************
+# //
+# //  getPrismVolume
+# //
+# //  https://en.wikipedia.org/wiki/Prism
+# //
+# //  n = sides
+# //  k = edge length
+# //  h = height
+# //
+# //******************************************************************************
+
+def getPrismVolume( n, k, h ):
+    return fprod( [ fdiv( n, 4 ), h, power( k, 2 ), cot( fdiv( pi, n ) ) ] )
+

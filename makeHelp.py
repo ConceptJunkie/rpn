@@ -4373,6 +4373,20 @@ c:\>rpn inf x 1 + fib x fib / limit
 # //
 # //******************************************************************************
 
+    'antiprism_area' : [
+'geometric', 'calculates the surface area of an n-sided antiprism of edge length k',
+'''
+''',
+'''
+''' ],
+
+    'antiprism_volume' : [
+'geometric', 'calculates the volume of an n-sided antiprism of edge length k',
+'''
+''',
+'''
+''' ],
+
     'cone_area' : [
 'geometric', 'calculates the surface area of a cone of radius n and height k',
 '''
@@ -4388,28 +4402,28 @@ c:\>rpn inf x 1 + fib x fib / limit
 ''' ],
 
     'dodecahedron_area' : [
-'geometric', 'calculates the surface area of a dodecahedron of edge length n',
+'geometric', 'calculates the surface area of a regular dodecahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'dodecahedron_volume' : [
-'geometric', 'calculates the volume of a dodecahedron of edge length n',
+'geometric', 'calculates the volume of a regular dodecahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'icosahedron_area' : [
-'geometric', 'calculates the surface area of a icosahedron of edge length n',
+'geometric', 'calculates the surface area of a regular icosahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'icosahedron_volume' : [
-'geometric', 'calculates the volume of a icosahedron of edge length n',
+'geometric', 'calculates the volume of a regular icosahedron of edge length n',
 '''
 ''',
 '''
@@ -4437,14 +4451,14 @@ c:\>rpn inf x 1 + fib x fib / limit
 ''' ],
 
     'octahedron_area' : [
-'geometric', 'calculates the surface area of a octahedron of edge length n',
+'geometric', 'calculates the surface area of a regular octahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'octahedron_volume' : [
-'geometric', 'calculates the volume of a octahedron of edge length n',
+'geometric', 'calculates the volume of a regular octahedron of edge length n',
 '''
 ''',
 '''
@@ -4452,6 +4466,20 @@ c:\>rpn inf x 1 + fib x fib / limit
 
     'polygon_area' : [
 'geometric', 'calculates the area of an regular n-sided polygon with sides of unit length',
+'''
+''',
+'''
+''' ],
+
+    'prism_area' : [
+'geometric', 'calculates the surface area of an a-sided prism of edge length b, and height c',
+'''
+''',
+'''
+''' ],
+
+    'prism_volume' : [
+'geometric', 'calculates the volume of an a-sided prism of edge length b, and height c',
 '''
 ''',
 '''
@@ -4479,14 +4507,14 @@ c:\>rpn inf x 1 + fib x fib / limit
 ''' ],
 
     'tetrahedron_area' : [
-'geometric', 'calculates the surface area of a tetrahedron of edge length n',
+'geometric', 'calculates the surface area of a regular tetrahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'tetrahedron_volume' : [
-'geometric', 'calculates the volume of a tetrahedron of edge length n',
+'geometric', 'calculates the volume of a regular tetrahedron of edge length n',
 '''
 ''',
 '''
