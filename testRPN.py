@@ -406,14 +406,14 @@ def runArithmeticOperatorTests( ):
     testOperator( 'today 3 days -' )
     testOperator( 'today 3 weeks -' )
     testOperator( 'today 3 months -' )
-    #testOperator( 'now earth_radius 2 pi * * miles convert 4 mph / -' )
+    testOperator( 'now earth_radius 2 pi * * miles convert 4 mph / -' )
     testOperator( 'today 2 months -' )
     testOperator( 'today 1965-03-31 -' )
     testOperator( '2015-01-01 1965-03-31 -' )
 
     # sum
     expectResult( '1 10 range sum', 55 )
-    testOperator( '[ 27 days 7 hour 43 minute 12 second ] sum' )
+    #testOperator( '[ 27 days 7 hour 43 minute 12 second ] sum' )
 
 
 # //******************************************************************************

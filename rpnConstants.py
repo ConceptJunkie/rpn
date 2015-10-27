@@ -305,11 +305,6 @@ def getNewtonsConstant( ):
 #                  '''
 #                  ''' ),
 #
-#    'earth_radius' :
-#        UnitInfo( 'length', 'earth_radius', 'earth_radii', 'Rgeo', [ ], [ 'natural' ],
-#                  '''
-#                  ''' ),
-#
 #    'jupiter_radius' :
 #        UnitInfo( 'length', 'jupiter_radius', 'jupiter_radii', 'Rjov', [ ], [ 'natural' ],
 #                  '''
@@ -570,14 +565,6 @@ def getNewtonsConstant( ):
 #    ( 'tau_mass',                   'dalton' )                              : mpmathify( '1.90749' ),
 #    ( 'triton_mass',                'dalton' )                              : mpmathify( '3.0155007134' ),
 #    ( 'bohr_radius',                'meter' )                               : mpmathify( '5.2917721e-11' ),
-#    ( 'sidereal_day',               'second' )                              : mpmathify( '86164.09054' ),
-#    ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
-#    ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
-#    ( 'sidereal_minute',            'sidereal_second' )                     : mpmathify( '60' ),
-#    ( 'sidereal_month',             'day' )                                 : mpmathify( '27.321661' ),
-#    ( 'sidereal_year',              'day' )                                 : mpmathify( '365.256360417' ),
-#    ( 'gregorian_year',             'day' )                                 : mpmathify( '365.2425' ),
-#    ( 'tropical_year',              'day' )                                 : mpmathify( '365.24219' ),
 #    ( 'von_klitzing_constant',      'ohm' )                                 : mpmathify( '25812.807557' ),
 #    ( 'planck_area',                'square_meter' )                        : mpmathify( '2.6121003e-70' ),
 #    ( 'planck_charge',              'coulomb' )                             : mpmathify( '1.875545956e-18' ),

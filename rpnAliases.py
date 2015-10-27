@@ -37,8 +37,6 @@ def dumpAliases( ):
 # //******************************************************************************
 
 operatorAliases = {
-    'G'                         : 'earth_gravity',
-    'standard_gravity'          : 'earth_gravity',
     '!!'                        : 'double_factorial',
     '!'                         : 'factorial',
     '!='                        : 'not_equal',
@@ -272,6 +270,7 @@ operatorAliases = {
     'fromunixtime'              : 'from_unix_time',
     'from_indian'               : 'from_indian_civil',
     'from_unix'                 : 'from_unix_time',
+    'G'                         : 'earth_gravity',
     'gammaflux'                 : 'nanotesla',
     'gamma_flux'                : 'nanotesla',
     'gemmho'                    : 'micromho',
@@ -362,6 +361,7 @@ operatorAliases = {
     'll_nac'                    : 'latlong_to_nac',
     'll_to_nac'                 : 'latlong_to_nac',
     'log'                       : 'ln',
+    'lunar_gravity'             : 'moon_gravity',
     'makecf'                    : 'make_cf',
     'makeiso'                   : 'make_iso_time',
     'makeisotime'               : 'make_iso_time',
@@ -717,6 +717,7 @@ operatorAliases = {
     'squaretri'                 : 'square_triangular',
     'square_tri'                : 'square_triangular',
     'sright'                    : 'shift_right',
+    'standard_gravity'          : 'earth_gravity',
     'stefan_boltzmann'          : 'stefan_boltzmann_constant',
     'stelloct'                  : 'stella_octagula',
     'subfac'                    : 'subfactorial',

@@ -869,8 +869,7 @@ Added 'is_smooth', 'is_rough', 'unfilter', 'unfilter_by_index', 'negate',
 'is_semiprime', 'is_sphenic', 'is_k_semiprime', 'is_squarefree', 'is_unusual',
 'is_powerful', 'is_achilles', 'is_pronic', and 'leonardo' operators.
 
-Added the 'eddington_number' operator.  I would have made it a constant, but
-constants are limited to 50 decimal places.
+Added the 'eddington_number' operator... just a fun historical oddity.
 
 Added a new operator category:  Astronomy (thanks to pyephem).  Added the
 'vernal_equinox', 'summer_solstice', 'autumnal_equinox', and 'winter_solstice'
@@ -911,7 +910,7 @@ Added the 'cone_volume', 'cone_area', 'torus_volume' and 'torus_area',
 'icosahedron_area', 'icosahedron_volume', 'prism_area', 'prism_volume',
 'antiprism_area', 'antiprism_volume' operators.
 
-Added the 'planck_constant' and 'reduced_planck_constant' operators.
+Added the 'planck_constant' and 'reduced_planck_constant' operators... finally.
 
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
@@ -3497,7 +3496,7 @@ at random within a unit cube.
 ''' ],
 
     'speed_of_light' : [
-'constants', 'returns the speed of light in meters per second',
+'constants', 'returns the speed of light in a vacuum in meters per second',
 '''
 ''',
 '''
@@ -3525,6 +3524,116 @@ rpn (2)>true comma
 rpn (3)>5 12 **
 244,140,625
 ''' ],
+
+
+# sort me
+
+    'aa_battery' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'alpha_particle_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'bohr_radius' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'deuteron_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'earth_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'earth_radius' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'electron_charge' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'electron_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'gallon_of_gasoline' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'earth_gravity' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'moon_gravity' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'gallon_of_ethanol' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'solar_luminosity' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'jupiter_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'jupiter_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+
 
 
 # //******************************************************************************

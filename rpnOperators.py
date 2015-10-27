@@ -1052,69 +1052,64 @@ operators = {
     'jupiter_day'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '9.92496' ), [ { 'hour' : 1 } ] ), 0 ),
     'jupiter_year'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '11.862615' ), [ { 'year' : 1 } ] ), 0 ),
 
-    'aa_battery'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '15400' ), [ { 'joule' : '1' } ] ), 0 ),
-    'alpha_particle_mass'           : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.001506179125' ), [ { 'dalton' : '1' } ] ), 0 ),
-    'bohr_radius'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.2917721e-11' ), [ { 'meter' : '1' } ] ), 0 ),
-    'deuteron_mass'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.013553212712' ), [ { 'dalton' : '1' } ] ), 0 ),
-    'earth_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.9742e27' ), [ { 'gram' : '1' } ] ), 0 ),
-    'earth_radius'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6378136' ), [ { 'meter' : '1' } ] ), 0 ),
-    'electron_charge'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.602176565e-19' ), [ { 'coulomb' : '1' } ] ), 0 ),
-    'electron_mass'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '9.10938291e-28' ), [ { 'gram' : '1' } ] ), 0 ),
-    'gallon_of_gasoline'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.2e8' ), [ { 'joule' : '1' } ] ), 0 ),
-    'standard_gravity'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '9.806650' ), [ { 'meter' : 1 }, { 'second' : -2 } ] ), 0 ),
+    'aa_battery'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '15400' ), [ { 'joule' : 1 } ] ), 0 ),
+    'alpha_particle_mass'           : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.001506179125' ), [ { 'dalton' : 1 } ] ), 0 ),
+    'bohr_radius'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.2917721e-11' ), [ { 'meter' : 1 } ] ), 0 ),
+    'deuteron_mass'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.013553212712' ), [ { 'dalton' : 1 } ] ), 0 ),
+    'earth_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.9742e27' ), [ { 'gram' : 1 } ] ), 0 ),
+    'earth_radius'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6378136' ), [ { 'meter' : 1 } ] ), 0 ),
+    'electron_charge'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.602176565e-19' ), [ { 'coulomb' : 1 } ] ), 0 ),
+    'electron_mass'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '9.10938291e-28' ), [ { 'gram' : 1 } ] ), 0 ),
+    'gallon_of_gasoline'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.2e8' ), [ { 'joule' : 1 } ] ), 0 ),
+    'earth_gravity'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '9.806650' ), [ { 'meter' : 1 }, { 'second' : -2 } ] ), 0 ),
+    'moon_gravity'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.62' ), [ { 'meter' : 1 }, { 'second' : -2 } ] ), 0 ),
     'gallon_of_ethanol'             : OperatorInfo( lambda: RPNMeasurement( mpmathify( '8.4e7' ), [ { 'joule' : 1 } ] ), 0 ),
-#    'helion_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.0149322468' ),                          'dalton' )
-#    'jupiter_radius'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '7.1492e7' ),                              'meter' )
-#    'lunar_day'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1490' ),                                  'minute' )
-#    'mars_day'                      : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.02595675' ),                            'day' )
-#    'mars_year'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.8808476' ),                             'year' )
-#    'mercury_day'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '58.6462' ),                               'day' )
-#    'mercury_year'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.2408467' ),                             'year' )
-#    'moon_gravity'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.62' ),                                  'meter/second^2' )
-#    'muon_mass'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.1134289267' ),                          'dalton' )
-#    'neptune_day'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.768' ),                                 'day' )
-#    'neptune_year'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '164.79132' ),                             'year' )
-#    'neutron_mass'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.00866491600' ),                         'dalton' )
-#    'planck_area'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.6121003e-70' ),                         'square_meter' )
-#    'planck_charge'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.875545956e-18' ),                       'coulomb' )
-#    'planck_energy'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.956e9' ),                               'joule' )
-#    'planck_length'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.616199e-35' ),                          'meter' )
-#    'planck_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.17651e-8' ),                            'gram' )
-#    'planck_time'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.39106e-44' ),                           'second' )
-#    'planck_volume'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.22419e-105' ),                          'cubic_meter' )
-#    'pluto_day'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.3867' ),                                'day' )
-#    'pluto_year'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '247.92065' ),                             'year' )
-#    'proton_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.007276466812' ),                        'dalton' )
-#    'proton_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.6726218e-24' ),                         'gram' )
-#    'saturn_day'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.4375' ),                                'day' )
-#    'saturn_year'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '29.447498' ),                             'year' )
-#    'sidereal_day'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '24' ),                                    'sidereal_hour' )
-#    'sidereal_day'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '86164.09054' ),                           'second' )
-#    'sidereal_hour'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '60' ),                                    'sidereal_minute' )
-#    'sidereal_minute'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '60' ),                                    'sidereal_second' )
-#    'sidereal_month'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '27.321661' ),                             'day' )
-#    'sidereal_year'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '365.256360417' ),                         'day' )
-#    'solar_luminosity'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.826e26' ), [ { 'watt' : 1 } ] ), 0 ),
-#    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.35e8' ),    'pluto_mass' )
+    'solar_luminosity'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.826e26' ), [ { 'watt' : 1 } ] ), 0 ),
 #    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.9891e33' ), 'gram' )
 #    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1047.3486' ), 'jupiter_mass' )
 #    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '19412.24' ),  'neptune_mass' )
-#    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '22902.98' ),  'uranus_mass' )
-#    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3098708' ),   'mars_mass' )
+#    'solar_radius'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.9599e8' ),  'meter' )
+#    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6023600' ),   'mercury_mass' )
+#    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.35e8' ),    'pluto_mass' )
 #    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '328900.56' ), 'earth_moon_mass' )
 #    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3497.898' ),  'saturn_mass' )
 #    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '408523.71' ), 'venus_mass' )
-#    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6023600' ),   'mercury_mass' )
-#    'solar_radius'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.9599e8' ),  'meter' )
-#    'standard_gravity'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '980.6650' ),                              'galileo' )
+#    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '22902.98' ),  'uranus_mass' )
+#    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3098708' ),   'mars_mass' )
+#    'planck_charge'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.875545956e-18' ),                       'coulomb' )
+#    'planck_volume'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.22419e-105' ),                          'cubic_meter' )
 #    'tau_mass'                      : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.90749' ),                               'dalton' )
+#    'proton_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.007276466812' ),                        'dalton' )
 #    'triton_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.0155007134' ),                          'dalton' )
-#    'tropical_year'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '365.24219' ),                             'day' )
+#    'helion_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.0149322468' ),                          'dalton' )
+#    'neutron_mass'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.00866491600' ),                         'dalton' )
+#    'muon_mass'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.1134289267' ),                          'dalton' )
+#    'sidereal_year'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '365.256360417' ),                         'day' )
+#    'sidereal_month'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '27.321661' ),                             'day' )
+#    'saturn_day'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.4375' ),                                'day' )
+#    'neptune_day'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.768' ),                                 'day' )
 #    'uranus_day'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.65' ),                                  'day' )
-#    'uranus_year'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '84.016846' ),                             'year' )
+#    'tropical_year'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '365.24219' ),                             'day' )
+#    'mars_day'                      : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.02595675' ),                            'day' )
+#    'mercury_day'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '58.6462' ),                               'day' )
 #    'venus_day'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '243.01' ),                                'day' )
-#    'venus_year'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.61519726' ),                            'year' )
+#    'pluto_day'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.3867' ),                                'day' )
+#    'proton_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.6726218e-24' ),                         'gram' )
+#    'planck_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.17651e-8' ),                            'gram' )
+#    'planck_energy'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.956e9' ),                               'joule' )
+#    'planck_length'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.616199e-35' ),                          'meter' )
+#    'jupiter_radius'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '7.1492e7' ),                              'meter' )
+#    'lunar_day'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1490' ),                                  'minute' )
 #    'von_klitzing_constant'         : OperatorInfo( lambda: RPNMeasurement( mpmathify( '25812.807557' ),                          'ohm' )
+#    'planck_time'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.39106e-44' ),                           'second' )
+#    'planck_area'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.6121003e-70' ),                         'square_meter' )
+#    'mercury_year'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.2408467' ),                             'year' )
+#    'venus_year'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.61519726' ),                            'year' )
+#    'mars_year'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.8808476' ),                             'year' )
+#    'uranus_year'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '84.016846' ),                             'year' )
+#    'pluto_year'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '247.92065' ),                             'year' )
+#    'saturn_year'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '29.447498' ),                             'year' )
+#    'neptune_year'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '164.79132' ),                             'year' )
 
 
 

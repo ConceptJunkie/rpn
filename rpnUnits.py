@@ -2137,6 +2137,11 @@ unitOperators = {
                   '''
                   ''' ),
 
+    'gregorian_year' :
+        UnitInfo( 'time', 'gregorian_year', 'gregorian_years', '', [ ], [ 'traditional' ],
+                  '''
+                  ''' ),
+
     'hour' :
         UnitInfo( 'time', 'hour', 'hours', 'hr', [ ], [ 'traditional' ],
                   '''
@@ -2202,8 +2207,43 @@ unitOperators = {
                   '''
                   ''' ),
 
+    'sidereal_day' :
+        UnitInfo( 'time', 'sidereal_day', 'sidereal_days', '', [ 'earth_day' ], [ 'science' ],
+                  '''
+                  ''' ),
+
+    'sidereal_hour' :
+        UnitInfo( 'time', 'sidereal_hour', 'sidereal_hours', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
+
+    'sidereal_minute' :
+        UnitInfo( 'time', 'sidereal_minute', 'sidereal_minutes', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
+
+    'sidereal_month' :
+        UnitInfo( 'time', 'sidereal_month', 'sidereal_months', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
+
+    'sidereal_second' :
+        UnitInfo( 'time', 'sidereal_second', 'sidereal_seconds', '', [ ], [ 'science' ],
+                  '''
+                  ''' ),
+
+    'sidereal_year' :
+        UnitInfo( 'time', 'sidereal_year', 'sidereal_years', '', [ 'earth_year' ], [ 'science' ],
+                  '''
+                  ''' ),
+
     'svedberg' :
         UnitInfo( 'time', 'svedberg', 'svedbergs', '', [ ], [ ],
+                  '''
+                  ''' ),
+
+    'tropical_year' :
+        UnitInfo( 'time', 'tropical_year', 'tropical_years', '', [ 'solar_year', 'solar_years' ], [ 'science' ],
                   '''
                   ''' ),
 
