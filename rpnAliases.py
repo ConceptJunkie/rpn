@@ -37,6 +37,8 @@ def dumpAliases( ):
 # //******************************************************************************
 
 operatorAliases = {
+    'G'                         : 'earth_gravity',
+    'standard_gravity'          : 'earth_gravity',
     '!!'                        : 'double_factorial',
     '!'                         : 'factorial',
     '!='                        : 'not_equal',

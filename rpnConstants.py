@@ -21,11 +21,6 @@
 
 
 # Name        Value           Unit            Description
-# G           6.67384e-11     m3 / (kg s2)    Gravitational constant
-# L_sun       3.846e+26       W               Solar luminosity
-# M_earth     5.9742e+24      kg              Earth mass
-# M_jup       1.8987e+27      kg              Jupiter mass
-# M_sun       1.9891e+30      kg              Solar mass
 # R           8.3144621       J / (K mol)     Gas constant
 # R_earth     6378136         m               Earth equatorial radius
 # R_jup       71492000        m               Jupiter equatorial radius
@@ -595,9 +590,8 @@ def getNewtonsConstant( ):
 #    ( 'gallon_of_gasoline',         'gallon_of_ethanol' )                   : mpmathify( '1.425' ),  # approx.
 #    ( 'gallon_of_gasoline',         'joule' )                               : mpmathify( '1.2e8' ),  # approx. obviously
 #    ( 'aa_battery',                 'joule' )                               : mpmathify( '15400' ),
-#    ( 'alpha',                      'unity' )                               : mpmathify( '0.0072973526' ),
-#    ( 'moon_gravity',               'meter/second^2' )                      : mpmathify( '1.62' ),
-#    ( 'standard_gravity',           'galileo' )                             : mpmathify( '980.6650' ),
+#    ( 'alpha'                       'unity' )                               : mpmathify( '0.0072973526' ),
+#    ( 'moon_gravity'                'meter/second^2' )                      : mpmathify( '1.62' ),
 
 
 #  http://www.numericana.com/answer/constants.htm

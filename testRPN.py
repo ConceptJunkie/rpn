@@ -413,6 +413,7 @@ def runArithmeticOperatorTests( ):
 
     # sum
     expectResult( '1 10 range sum', 55 )
+    testOperator( '[ 27 days 7 hour 43 minute 12 second ] sum' )
 
 
 # //******************************************************************************
