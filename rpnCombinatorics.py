@@ -95,7 +95,7 @@ def getNthSchroederNumber( n ):
         return 1
 
     if n < 0:
-        raise ValueError( '\'schroeder\' expects a non-negative argument' )
+        raise ValueError( '\'nth_schroeder\' expects a non-negative argument' )
 
     n = fsub( n, 1 )
 

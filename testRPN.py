@@ -618,8 +618,8 @@ def runBitwiseOperatorTests( ):
 
 def runCalendarOperatorTests( ):
     # calendar
-    testOperator( '1965-03 calendar' )
-    testOperator( '2014-10 calendar' )
+    testOperator( '1965 3 calendar' )
+    testOperator( '2014 10 calendar' )
 
     # from_bahai
     testOperator( '172 12 4 from_bahai' )
@@ -708,10 +708,6 @@ def runCalendarOperatorTests( ):
 # //******************************************************************************
 
 def runCombinatoricOperatorTests( ):
-    # bell
-    testOperator( '-a43 45 bell' )
-    expectEqual( '-a20 0 26 range bell', '-a20 110 oeis 27 left' )
-
     # bell_polynomal
     testOperator( '4 5 bell_polynomial' )
     testOperator( '5 5 10 range bell_polynomial' )
@@ -742,10 +738,6 @@ def runCombinatoricOperatorTests( ):
             expectEqual( str( i ) + ' ' + str( j ) + ' bell_polynomial',
                          bell_poly_str + str( j ) + ' eval_polynomial' )
 
-    # bernoulli
-    testOperator( '16 bernoulli' )
-    expectEqual( '-a20 0 39 range bernoulli', '-a20 27641 oeis 40 left 27642 oeis 40 left /' )
-
     # binomial
     testOperator( '12 9 binomial' )
     testOperator( '-a20 -c 120 108 binomial' )
@@ -758,16 +750,8 @@ def runCombinatoricOperatorTests( ):
     # debruijn
     testOperator( '4 3 debruijn' )
 
-    # delannoy
-    testOperator( '-a80 100 delannoy' )
-    expectEqual( '-a20 0 22 range delannoy', '-a20 1850 oeis 23 left' )
-
     # lah
     testOperator( '5 6 lah' )
-
-    # motzkin
-    testOperator( '-a25 56 motzkin' )
-    expectEqual( '-a20 0 29 range motzkin', '-a20 1006 oeis 30 left' )
 
     # multifactorial
     testOperator( '1 20 range 5 multifactorial' )
@@ -786,25 +770,41 @@ def runCombinatoricOperatorTests( ):
     # nth_apery
     testOperator( '-a20 12 nth_apery' )
 
+    # nth_bell
+    testOperator( '-a43 45 nth_bell' )
+    expectEqual( '-a20 0 26 range nth_bell', '-a20 110 oeis 27 left' )
+
+    # nth_bernoulli
+    testOperator( '16 nth_bernoulli' )
+    expectEqual( '-a20 0 39 range nth_bernoulli', '-a20 27641 oeis 40 left 27642 oeis 40 left /' )
+
     # nth_catalan
     testOperator( '-a50 85 nth_catalan' )
     expectEqual( '-a20 1 34 2 range2 nth_catalan', '24492 oeis 17 left' )
 
+    # nth_delannoy
+    testOperator( '-a80 100 nth_delannoy' )
+    expectEqual( '-a20 0 22 range nth_delannoy', '-a20 1850 oeis 23 left' )
+
+    # nth_motzkin
+    testOperator( '-a25 56 nth_motzkin' )
+    expectEqual( '-a20 0 29 range nth_motzkin', '-a20 1006 oeis 30 left' )
+
+    # nth_pell
+    testOperator( '13 nth_pell' )
+
+    # nth_schroeder
+    testOperator( '-a50 67 nth_schroeder' )
+
+    # nth_sylvester
+    testOperator( '45 nth_sylvester' )
+    expectEqual( '-a60 1 9 range nth_sylvester', '-a60 58 oeis 9 left' )
+
     # partitions
     expectEqual( '-t 0 20 range partitions', '41 oeis 21 left' )
 
-    # pell
-    testOperator( '13 pell' )
-
     # permutations
     testOperator( '8 3 permutations' )
-
-    # schroeder
-    testOperator( '-a50 67 schroeder' )
-
-    # sylvester
-    testOperator( '45 sylvester' )
-    expectEqual( '-a60 1 9 range sylvester', '-a60 58 oeis 9 left' )
 
 
 # //******************************************************************************

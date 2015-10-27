@@ -207,19 +207,12 @@ def getOrdinalDate( n ):
 # //
 # //******************************************************************************
 
-def generateMonthCalendar( n ):
+def generateMonthCalendar( year, month ):
     cal = calendar.TextCalendar( firstweekday = 6 )
-
-    if isinstance( n[ 0 ], RPNDateTime ):
-        cal.prmonth( n[ 0 ].year, n[ 0 ].month )
-    elif len( n ) >= 2:
-        cal.prmonth( real_int( n[ 0 ] ), real_int( n[ 1 ] ) )
-    else:
-        raise ValueError( 'this operator requires at least 2 items in the list' )
-
+    cal.prmonth( real_int( year ), real_int( month ) )
     print( )
 
-    return n
+    return ''
 
 
 # //******************************************************************************
@@ -234,11 +227,11 @@ def generateYearCalendar( n ):
     if isinstance( n, RPNDateTime ):
         cal.pryear( n.year )
     else:
-        cal.pryear( real( n ) )
+        cal.pryear( real_int( n ) )
 
     print( )
 
-    return n
+    return ''
 
 
 # //******************************************************************************

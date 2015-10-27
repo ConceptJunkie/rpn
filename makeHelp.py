@@ -1964,13 +1964,6 @@ center of the sun is 6 degrees below the horizon.
 '''
 ''' ],
 
-    'latlong' : [
-'astronomy', 'sets the current location on the Earth\'s surface',
-'''
-''',
-'''
-''' ],
-
     'mars' : [
 'astronomy', '',
 '''
@@ -2435,11 +2428,9 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] xor
 # //******************************************************************************
 
     'calendar' : [
-'calendars', 'prints a month calendar for the date value',
+'calendars', 'prints a month calendar for year n, month k',
 '''
-The 'calendars' operator is special in that what it prints out is a side-effect.
-It actually returns the date value passed in as a result, so as far as rpn is
-concerned, it's an operator that does nothing.
+The 'calendar' operator is special in that what it prints out is a side-effect.
 ''',
 '''
 ''' ],
@@ -2636,22 +2627,8 @@ far as rpn is concerned, it's an operator that does nothing.
 # //
 # //******************************************************************************
 
-    'bell' : [
-'combinatorics', 'calculates the nth Bell number',
-'''
-''',
-'''
-''' ],
-
     'bell_polynomial' : [
 'combinatoric', 'evaluates the nth Bell polynomial with k',
-'''
-''',
-'''
-''' ],
-
-    'bernoulli' : [
-'combinatorics', 'calculates the nth Bernoulli number',
 '''
 ''',
 '''
@@ -2701,22 +2678,8 @@ c:\>rpn 3 3 debruijn
 2, 2 ]
 ''' ],
 
-    'delannoy' : [
-'combinatorics', 'calculates the nth Delannoy number',
-'''
-''',
-'''
-''' ],
-
     'lah' : [
 'combinatorics', '',
-'''
-''',
-'''
-''' ],
-
-    'motzkin' : [
-'combinatorics', 'calculates the nth Motzkin number',
 '''
 ''',
 '''
@@ -2758,8 +2721,57 @@ c:\>rpn 1 20 range 5 multifactorial
 '''
 ''' ],
 
+    'nth_bell' : [
+'combinatorics', 'calculates the nth Bell number',
+'''
+''',
+'''
+''' ],
+
+    'nth_bernoulli' : [
+'combinatorics', 'calculates the nth Bernoulli number',
+'''
+''',
+'''
+''' ],
+
     'nth_catalan' : [
 'combinatorics', 'calculates nth Catalan number',
+'''
+''',
+'''
+''' ],
+
+    'nth_delannoy' : [
+'combinatorics', 'calculates the nth Delannoy number',
+'''
+''',
+'''
+''' ],
+
+    'nth_motzkin' : [
+'combinatorics', 'calculates the nth Motzkin number',
+'''
+''',
+'''
+''' ],
+
+    'nth_pell' : [
+'combinatorics', 'calculates the nth Pell number',
+'''
+''',
+'''
+''' ],
+
+    'nth_schroeder' : [
+'combinatorics', 'calculates the nth Schroeder number',
+'''
+''',
+'''
+''' ],
+
+    'nth_sylvester' : [
+'combinatorics', 'calculates the nth Sylvester number',
 '''
 ''',
 '''
@@ -2772,29 +2784,8 @@ c:\>rpn 1 20 range 5 multifactorial
 '''
 ''' ],
 
-    'pell' : [
-'combinatorics', 'calculates the nth Pell number',
-'''
-''',
-'''
-''' ],
-
     'permutations' : [
 'combinatorics', 'calculates the number of permutations of k out of n objects',
-'''
-''',
-'''
-''' ],
-
-    'schroeder' : [
-'combinatorics', 'calculates the nth Schroeder number',
-'''
-''',
-'''
-''' ],
-
-    'sylvester' : [
-'combinatorics', 'calculates the nth Sylvester number',
 '''
 ''',
 '''
@@ -2900,6 +2891,7 @@ c:\>rpn -a50 -d5 3 zeta
     'avogadro_number' : [
 'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
 '''
+Ref: CODATA 2014
 ''',
 '''
 c:\>rpn avogadro
@@ -3441,6 +3433,98 @@ c:\>rpn omega
 '''
 ''' ],
 
+    'planck_angular_frequency' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_current' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_density' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_energy_density' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_force' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_impedance' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_intensity' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_momentum' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_power' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_pressure' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_temperature' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_voltage' : [
+'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+
+    'planck_mopmentum' : [
+'constants', 'returns the Planck momentum',
+'''
+''',
+'''
+''' ],
+
     'plastic_constant' : [
 'constants', 'returns the Plastic constant',
 '''
@@ -3627,6 +3711,317 @@ rpn (3)>5 12 **
 ''' ],
 
     'jupiter_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'saturn_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'mercury_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'venus_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'neptune_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'planck_energy' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'uranus_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'pluto_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'mars_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'sidereal_month' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'sidereal_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'tropical_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'solar_mass' : [
+'constants', 'returns the estimated mass of the Sun in grams',
+'''
+''',
+'''
+''' ],
+
+    'jupiter_mass' : [
+'constants', 'returns the estimated mass of the planet Jupiter in grams',
+'''
+''',
+'''
+''' ],
+
+    'neptune_mass' : [
+'constants', 'returns the estimated mass of the planet Neptune in grams',
+'''
+''',
+'''
+''' ],
+
+    'mercury_mass' : [
+'constants', 'returns the estimated mass of the planet Mercury in grams',
+'''
+''',
+'''
+''' ],
+
+    'pluto_mass' : [
+'constants', 'returns the estimated mass of the planet Pluto in grams',
+'''
+''',
+'''
+''' ],
+
+    'earth_moon_mass' : [
+'constants', 'returns the estimated mass of the combined Earth-Moon system in grams',
+'''
+''',
+'''
+''' ],
+
+    'saturn_mass' : [
+'constants', 'returns the estimated mass of the planet Saturn in grams',
+'''
+''',
+'''
+''' ],
+
+    'venus_mass' : [
+'constants', 'returns the estimated mass of the planet Venus in grams',
+'''
+''',
+'''
+''' ],
+
+    'uranus_mass' : [
+'constants', 'returns the estimated mass of the planet Uranus in grams',
+'''
+''',
+'''
+''' ],
+
+    'mars_mass' : [
+'constants', 'returns the estimated mass of the planet Mars in grams',
+'''
+''',
+'''
+''' ],
+
+    'planck_mass' : [
+'constants', 'returns the Planck Mass in grams',
+'''
+''',
+'''
+''' ],
+
+    'proton_mass' : [
+'constants', 'returns the mass of a proton in grams',
+'''
+''',
+'''
+''' ],
+
+    'planck_charge' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'planck_volume' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'tau_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'proton_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'triton_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'helion_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'neutron_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'muon_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'solar_radius' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'planck_length' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'jupiter_radius' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'von_klitzing_constant' : [
+'constants', 'returns the von Klitzing constant',
+'''
+This constant is exact by definition.
+
+Ref:  CODATA 2014
+''',
+'''
+''' ],
+
+    'planck_time' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'planck_area' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'mercury_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'venus_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'mars_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'uranus_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'pluto_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'saturn_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'neptune_year' : [
 'constants', 'returns ',
 '''
 ''',
@@ -4715,6 +5110,13 @@ c:\>rpn 2 3 make_pyth_3 unlist triangle_area
 
     'distance' : [
 'geographic', 'calculates the distance, along the Earth\'s surface, of two locations',
+'''
+''',
+'''
+''' ],
+
+    'latlong' : [
+'geographic', 'creates a location object given the lat/long for use with other operators',
 '''
 ''',
 '''
@@ -6147,15 +6549,15 @@ c:\>rpn 1 17 range lucas
 '''
 ''' ],
 
-    'octanacci' : [
-'number_theory', 'calculates the nth Octanacci number',
+    'nth_padovan' : [
+'number_theory', 'calculates the the nth Padovan number',
 '''
 ''',
 '''
 ''' ],
 
-    'padovan' : [
-'number_theory', 'calculates the the nth Padovan number',
+    'octanacci' : [
+'number_theory', 'calculates the nth Octanacci number',
 '''
 ''',
 '''
