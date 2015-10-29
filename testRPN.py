@@ -256,6 +256,7 @@ def runArithmeticOperatorTests( ):
     # ceiling
     expectResult( '9.99999 ceiling', 10 )
     expectResult( '-0.00001 ceiling', 0 )
+    # ceiling should handle units
 
     # divide
     testOperator( '12 13 divide' )
@@ -269,6 +270,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '-0.4 floor', -1 )
     expectResult( '1 floor', 1 )
     expectResult( '3.4 floor', 3 )
+    # floor should handle units
 
     # gcd
     expectResult( '1 100 range gcd', 1 )
@@ -347,15 +349,18 @@ def runArithmeticOperatorTests( ):
     expectResult( '1 10 range max', 10 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
+    # max should handle units
 
     # mean
     expectResult( '1 10 range mean', 5.5 )
     expectResult( '1 10000 range mean', 5000.5 )
+    # mean should handle units
 
     # min
     expectResult( '1 10 range min', 1 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] min', 2 )
+    # min should handle units
 
     # modulo
     expectResult( '11001 100 modulo', 1 )
@@ -380,6 +385,10 @@ def runArithmeticOperatorTests( ):
 
     # product
     expectEqual( '-a200 1 100 range product', '-a200 100 !' )
+    expectResult( '[ 2 cups ] prod', RPNMeasurement( mpmathify( '2' ), [ { 'cup' : 1 } ] ) )
+    expectResult( '[ 3 2 cups ] prod', RPNMeasurement( mpmathify( '6' ), [ { 'cup' : 1 } ] ) )
+    expectResult( '[ 2 cups 8 16 ] prod', RPNMeasurement( mpmathify( '256' ), [ { 'cup' : 1 } ] ) )
+    expectResult( '[ 3 2 cups 8 16 ] prod', RPNMeasurement( mpmathify( '768' ), [ { 'cup' : 1 } ] ) )
 
     # reciprocal
     expectEqual( '6 7 / reciprocal', '7 6 /' )
@@ -394,6 +403,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '-1 sign', -1 )
     expectResult( 'infinity sign', 1 )
     expectResult( 'negative_infinity sign', -1 )
+    expectResult( '-2 cups', -1 )
 
     # stddev
     testOperator( '1 10 range stddev' )

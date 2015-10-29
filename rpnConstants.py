@@ -20,25 +20,6 @@
 # http://primes.utm.edu/glossary/xpage/BrunsConstant.html
 
 
-# Name        Value           Unit            Description
-# R           8.3144621       J / (K mol)     Gas constant
-# R_earth     6378136         m               Earth equatorial radius
-# R_jup       71492000        m               Jupiter equatorial radius
-# R_sun       695508000       m               Solar radius
-# Ryd         10973731.6      1 / (m)         Rydberg constant
-# a0          5.29177211e-11  m               Bohr radius
-# b_wien      0.0028977721    m K             Wien wavelength displacement law constant
-# e           1.60217657e-19  C               Electron charge
-# eps0        8.85418782e-12  F/m             Electric constant
-# m_e         9.10938291e-31  kg              Electron mass
-# m_n         1.67492735e-27  kg              Neutron mass
-# m_p         1.67262178e-27  kg              Proton mass
-# mu0         1.25663706e-06  N/A2            Magnetic constant
-# muB         9.27400968e-24  J/T             Bohr magneton
-# pc          3.08567758e+16  m               Parsec
-# sigma_sb    5.670373e-08    W / (K4 m2)     Stefan-Boltzmann constant
-# u           1.66053892e-27  kg              Atomic mass
-
 from mpmath import *
 
 from rpnInput import convertToBase10
@@ -229,31 +210,6 @@ def getRobbinsConstant( ):
     return robbins
 
 
-#    'electron_charge' :
-#        UnitInfo( 'charge', 'electron_charge', 'electron_charges', '', [ 'elementary_charge', 'proton_charge' ], [ 'natural' ],
-#                  '''
-#                  ''' ),
-#
-#    'impedance_of_free_space' :
-#        UnitInfo( 'electrical_resistance', 'impedance_of_free_space', 'x impedance_of_free_space', 'Z0', [ 'vacuum_impedence' ], [ 'natural' ],
-#                  '''
-#                  ''' ),
-#
-#    'jupiter_radius' :
-#        UnitInfo( 'length', 'jupiter_radius', 'jupiter_radii', 'Rjov', [ ], [ 'natural' ],
-#                  '''
-#                  ''' ),
-#
-#    'solar_radius' :
-#        UnitInfo( 'length', 'solar_radius', 'solar_radii', 'Rsol', [ 'sun_radius', 'sun_radii' ], [ 'natural' ],
-#                  '''
-#                  ''' ),
-#
-#    'solar_mass' :
-#        UnitInfo( 'mass', 'solar_mass', 'solar_masses', 'Msol', [ 'sun_mass', 'sun_masses' ], [ 'natural' ],
-#                  '''
-#                  ''' ),
-#
 #  http://www.numericana.com/answer/constants.htm
 #  (2014-05-15)    1-1/e  =  0.632120558828557678404476229838539...
 #  Rise time and fixed-point probability:  1/1! - 1/2! + 1/3! - 1/4! + 1/5! - ...
@@ -261,3 +217,4 @@ def getRobbinsConstant( ):
 #   CODATA
 #
 #   http://physics.nist.gov/cuu/Constants/index.html
+

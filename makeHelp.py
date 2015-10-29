@@ -2874,6 +2874,20 @@ c:\>rpn 7 real
 # //
 # //******************************************************************************
 
+    'aa_battery' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'alpha_particle_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
     'apery_constant' : [
 'constants', 'returns Apery\'s constant',
 '''
@@ -2899,6 +2913,13 @@ c:\>rpn avogadro
 
 c:\>rpn -a24 avogadro
 602214129000000000000000
+''' ],
+
+    'bohr_radius' : [
+'constants', 'returns ',
+'''
+''',
+'''
 ''' ],
 
     'boltzmann_constant' : [
@@ -2957,6 +2978,13 @@ c:\>rpn -a60 copeland
 '''
 ''' ],
 
+    'deuteron_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
     'e' : [
 'constants', 'returns e (Euler\'s number)',
 '''
@@ -2974,6 +3002,20 @@ protons in the universe and the same number of electrons."  This number is equal
 
     'electric_constant' : [
 'constants', 'returns the electric constant',
+'''
+''',
+'''
+''' ],
+
+    'electron_charge' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'electron_mass' : [
+'constants', 'returns ',
 '''
 ''',
 '''
@@ -3010,8 +3052,29 @@ c:\>rpn faradays_constant
 '''
 ''' ],
 
+    'gallon_of_ethanol' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'gallon_of_gasoline' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
     'glaisher_constant' : [
 'constants', 'returns Glaisher\'s constant',
+'''
+''',
+'''
+''' ],
+
+    'helion_mass' : [
+'constants', 'returns ',
 '''
 ''',
 '''
@@ -3389,8 +3452,22 @@ c:\>rpn max_ushort min_ushort -
 65535
 ''' ],
 
+    'muon_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
     'negative_infinity' : [
 'constants', 'evaluates to negative infinity, used to describe ranges for nsum, nprod, and limit',
+'''
+''',
+'''
+''' ],
+
+    'neutron_mass' : [
+'constants', 'returns ',
 '''
 ''',
 '''
@@ -3426,15 +3503,36 @@ c:\>rpn omega
 '''
 ''' ],
 
+    'planck_area' : [
+'constants', 'returns ',
+'''
+This is a derived constant calculated from the CODATA value for the Planck
+length.
+
+
+Ref:  CODATA 2014
+''',
+'''
+''' ],
+
     'planck_constant' : [
 'constants', 'returns the Planck constant',
 '''
+
+Ref:  CODATA 2014
 ''',
 '''
 ''' ],
 
     'planck_angular_frequency' : [
 'constants', 'returns the ',
+'''
+''',
+'''
+''' ],
+
+    'planck_charge' : [
+'constants', 'returns ',
 '''
 ''',
 '''
@@ -3450,6 +3548,19 @@ c:\>rpn omega
     'planck_density' : [
 'constants', 'returns the ',
 '''
+This is a derived constant calculated from the CODATA values for the Planck
+mass and Planck length.
+
+Ref:  CODATA 2014
+''',
+'''
+''' ],
+
+    'planck_energy' : [
+'constants', 'returns ',
+'''
+
+Ref:  CODATA 2014
 ''',
 '''
 ''' ],
@@ -3464,6 +3575,10 @@ c:\>rpn omega
     'planck_force' : [
 'constants', 'returns the ',
 '''
+This is a derived constant calculated from the CODATA values for the Planck
+mass, Planck length and Planck time.
+
+Ref:  CODATA 2014
 ''',
 '''
 ''' ],
@@ -3482,8 +3597,26 @@ c:\>rpn omega
 '''
 ''' ],
 
+    'planck_length' : [
+'constants', 'returns ',
+'''
+
+Ref:  CODATA 2014
+''',
+'''
+''' ],
+
+    'planck_mass' : [
+'constants', 'returns the Planck Mass in grams',
+'''
+
+Ref:  CODATA 2014
+''',
+'''
+''' ],
+
     'planck_momentum' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck momentum',
 '''
 ''',
 '''
@@ -3506,6 +3639,17 @@ c:\>rpn omega
     'planck_temperature' : [
 'constants', 'returns the ',
 '''
+
+Ref:  CODATA 2014
+''',
+'''
+''' ],
+
+    'planck_time' : [
+'constants', 'returns ',
+'''
+
+Ref:  CODATA 2014
 ''',
 '''
 ''' ],
@@ -3517,10 +3661,13 @@ c:\>rpn omega
 '''
 ''' ],
 
-
-    'planck_mopmentum' : [
-'constants', 'returns the Planck momentum',
+    'planck_volume' : [
+'constants', 'returns ',
 '''
+This is a derived constant calculated from the CODATA value for the Planck
+length.
+
+Ref:  CODATA 2014
 ''',
 '''
 ''' ],
@@ -3536,6 +3683,13 @@ c:\>rpn omega
 'constants', 'returns Prevost\'s constant',
 '''
 Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
+''',
+'''
+''' ],
+
+    'proton_mass' : [
+'constants', 'returns the mass of a proton in grams',
+'''
 ''',
 '''
 ''' ],
@@ -3572,8 +3726,43 @@ at random within a unit cube.
 '''
 ''' ],
 
+    'sidereal_month' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'sidereal_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
     'silver_ratio' : [
 'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )'
+'''
+''',
+'''
+''' ],
+
+    'solar_luminosity' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'solar_mass' : [
+'constants', 'returns the estimated mass of the Sun in grams',
+'''
+''',
+'''
+''' ],
+
+    'solar_radius' : [
+'constants', 'returns ',
 '''
 ''',
 '''
@@ -3595,6 +3784,27 @@ c:\>rpn stefan_boltzmann
 5.670373e-8 watts per meter^2 kelvin^4
 ''' ],
 
+    'tau_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'triton_mass' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'tropical_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
     'true' : [
 'constants', 'used with boolean settings operators',
 '''
@@ -3609,31 +3819,66 @@ rpn (3)>5 12 **
 244,140,625
 ''' ],
 
+    'von_klitzing_constant' : [
+'constants', 'returns the von Klitzing constant',
+'''
+This constant is exact by definition.
 
-# sort me
+Ref:  CODATA 2014
+''',
+'''
+''' ],
 
-    'aa_battery' : [
+
+# //******************************************************************************
+# //
+# //  planet, sun and moon constants
+# //
+# //******************************************************************************
+
+    'mercury_day' : [
 'constants', 'returns ',
 '''
 ''',
 '''
 ''' ],
 
-    'alpha_particle_mass' : [
+    'mercury_mass' : [
+'constants', 'returns the estimated mass of the planet Mercury in grams',
+'''
+''',
+'''
+''' ],
+
+    'mercury_year' : [
 'constants', 'returns ',
 '''
 ''',
 '''
 ''' ],
 
-    'bohr_radius' : [
+    'venus_day' : [
 'constants', 'returns ',
 '''
 ''',
 '''
 ''' ],
 
-    'deuteron_mass' : [
+    'venus_mass' : [
+'constants', 'returns the estimated mass of the planet Venus in grams',
+'''
+''',
+'''
+''' ],
+
+    'venus_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'earth_gravity' : [
 'constants', 'returns ',
 '''
 ''',
@@ -3654,112 +3899,14 @@ rpn (3)>5 12 **
 '''
 ''' ],
 
-    'electron_charge' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'electron_mass' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'gallon_of_gasoline' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'earth_gravity' : [
-'constants', 'returns ',
+    'earth_moon_mass' : [
+'constants', 'returns the estimated mass of the combined Earth-Moon system in grams',
 '''
 ''',
 '''
 ''' ],
 
     'moon_gravity' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'gallon_of_ethanol' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'solar_luminosity' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'jupiter_year' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'jupiter_day' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'saturn_day' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'mercury_day' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'venus_day' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'neptune_day' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'planck_energy' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'uranus_day' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'pluto_day' : [
 'constants', 'returns ',
 '''
 ''',
@@ -3773,221 +3920,8 @@ rpn (3)>5 12 **
 '''
 ''' ],
 
-    'sidereal_month' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'sidereal_year' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'tropical_year' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'solar_mass' : [
-'constants', 'returns the estimated mass of the Sun in grams',
-'''
-''',
-'''
-''' ],
-
-    'jupiter_mass' : [
-'constants', 'returns the estimated mass of the planet Jupiter in grams',
-'''
-''',
-'''
-''' ],
-
-    'neptune_mass' : [
-'constants', 'returns the estimated mass of the planet Neptune in grams',
-'''
-''',
-'''
-''' ],
-
-    'mercury_mass' : [
-'constants', 'returns the estimated mass of the planet Mercury in grams',
-'''
-''',
-'''
-''' ],
-
-    'pluto_mass' : [
-'constants', 'returns the estimated mass of the planet Pluto in grams',
-'''
-''',
-'''
-''' ],
-
-    'earth_moon_mass' : [
-'constants', 'returns the estimated mass of the combined Earth-Moon system in grams',
-'''
-''',
-'''
-''' ],
-
-    'saturn_mass' : [
-'constants', 'returns the estimated mass of the planet Saturn in grams',
-'''
-''',
-'''
-''' ],
-
-    'venus_mass' : [
-'constants', 'returns the estimated mass of the planet Venus in grams',
-'''
-''',
-'''
-''' ],
-
-    'uranus_mass' : [
-'constants', 'returns the estimated mass of the planet Uranus in grams',
-'''
-''',
-'''
-''' ],
-
     'mars_mass' : [
 'constants', 'returns the estimated mass of the planet Mars in grams',
-'''
-''',
-'''
-''' ],
-
-    'planck_mass' : [
-'constants', 'returns the Planck Mass in grams',
-'''
-''',
-'''
-''' ],
-
-    'proton_mass' : [
-'constants', 'returns the mass of a proton in grams',
-'''
-''',
-'''
-''' ],
-
-    'planck_charge' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'planck_volume' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'tau_mass' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'proton_mass' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'triton_mass' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'helion_mass' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'neutron_mass' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'muon_mass' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'solar_radius' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'planck_length' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'jupiter_radius' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'von_klitzing_constant' : [
-'constants', 'returns the von Klitzing constant',
-'''
-This constant is exact by definition.
-
-Ref:  CODATA 2014
-''',
-'''
-''' ],
-
-    'planck_time' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'planck_area' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'mercury_year' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'venus_year' : [
-'constants', 'returns ',
 '''
 ''',
 '''
@@ -4000,15 +3934,43 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'uranus_year' : [
+    'jupiter_day' : [
 'constants', 'returns ',
 '''
 ''',
 '''
 ''' ],
 
-    'pluto_year' : [
+    'jupiter_mass' : [
+'constants', 'returns the estimated mass of the planet Jupiter in grams',
+'''
+''',
+'''
+''' ],
+
+    'jupiter_radius' : [
 'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'jupiter_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'saturn_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'saturn_mass' : [
+'constants', 'returns the estimated mass of the planet Saturn in grams',
 '''
 ''',
 '''
@@ -4021,6 +3983,41 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
+    'uranus_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'uranus_mass' : [
+'constants', 'returns the estimated mass of the planet Uranus in grams',
+'''
+''',
+'''
+''' ],
+
+    'uranus_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'neptune_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'neptune_mass' : [
+'constants', 'returns the estimated mass of the planet Neptune in grams',
+'''
+''',
+'''
+''' ],
+
     'neptune_year' : [
 'constants', 'returns ',
 '''
@@ -4028,6 +4025,26 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
+    'pluto_day' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'pluto_mass' : [
+'constants', 'returns the estimated mass of the planet Pluto in grams',
+'''
+''',
+'''
+''' ],
+
+    'pluto_year' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
 
 
 

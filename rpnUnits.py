@@ -57,7 +57,7 @@ from rpnUnitClasses import *
 # //  Constant is not a 'real' unit type, but it is useful for it to act like
 # //  one because it makes for useful operators, e.g. "20 M" for "20,000,000'.
 # //
-# //  simpleTypes
+# //  dimension
 # //  baseUnitType
 # //  primitiveUnit
 # //  estimateTable
@@ -130,15 +130,15 @@ basicUnitTypes = {
 
     'density' : UnitTypeInfo(
         'mass/length^3',
-        'gram/liter',
-        'gram/liter',
+        'kilogram/liter',
+        'kilogram/liter',
         densityTable,
     ),
 
     'dynamic_viscosity' : UnitTypeInfo(
         'mass/length*time',     # force*time/length^2
         'pascal*second',
-        'gram/meter*second',
+        'kilogram/meter*second',
         dynamicViscosityTable,
     ),
 
@@ -164,16 +164,16 @@ basicUnitTypes = {
     ),
 
     'energy' : UnitTypeInfo(
-        'electric_potential*charge',
+        'mass*length^2/time^2',
         'joule',
-        'volt*coulomb',
+        'kilogram*meter^2/second^2',  # , 'volt*coulomb' ]
         energyTable,
     ),
 
     'force' : UnitTypeInfo(
         'mass*length/time^2',
         'newton',
-        'gram*meter/second^2',
+        'kilogram*meter/second^2',
         forceTable,
     ),
 
@@ -256,8 +256,8 @@ basicUnitTypes = {
 
     'mass' : UnitTypeInfo(
         'mass',
-        'gram',
-        'gram',
+        'kilogram',
+        'kilogram',
         massTable,
     ),
 
@@ -269,23 +269,23 @@ basicUnitTypes = {
     ),
 
     'pressure' : UnitTypeInfo(
-        'mass/length^2',
+        'mass/length*time^2',
         'pascal',
-        'gram/meter^2',
+        'kilogram/meter*second^2',
         pressureTable,
     ),
 
     'radiation_dose' : UnitTypeInfo(
         'electric_potential*charge/mass',
         'sievert',
-        'volt*coulomb/gram',
+        'volt*coulomb/kilogram',
         radiationDoseTable,
     ),
 
     'radiation_exposure' : UnitTypeInfo(
         'charge/mass',
-        'coulomb/gram',
-        'coulomb/gram',
+        'coulomb/kilogram',
+        'coulomb/kilogram',
         radiationExposureTable,
     ),
 
@@ -820,13 +820,13 @@ unitOperators = {
 
     # density
 
-    'gram/liter' :
-        UnitInfo( 'density', 'gram/liter', 'grams/liter', 'g/l', [ '' ], [ 'SI' ],
+    'kilogram/liter' :
+        UnitInfo( 'density', 'kilogram/liter', 'kilograms/liter', 'kg/l', [ '' ], [ 'SI' ],
                   '''
                   ''' ),
 
-    'gram/meter^3' :
-        UnitInfo( 'density', 'gram/meter^3', 'grams/meter^3', 'g/m^3', [ '' ], [ 'SI' ],
+    'kilogram/meter^3' :
+        UnitInfo( 'density', 'kilogram/meter^3', 'kilograms/meter^3', 'kg/m^3', [ '' ], [ 'SI' ],
                   '''
                   ''' ),
 
@@ -842,18 +842,18 @@ unitOperators = {
 #pound-force second per square foot  lbf*s/ft2    1 lbf*s/ft2   = 47.88026 Pa*s
 #pound-force second per square inch  lbf*s/in2    1 lbf*s/in2   = 6,894.757 Pa*s
 
-    'gram/meter*second' :
-        UnitInfo( 'dynamic_viscosity', 'gram/meter*second', 'gram/meter*second', '', [ ], [ 'CGS' ],
+    'kilogram/meter-second' :
+        UnitInfo( 'dynamic_viscosity', 'kilogram/meter*second', 'kilogram/meter*second', 'kg/m*s', [ ], [ 'CGS' ],
                   '''
                   ''' ),
 
     'newton-second/meter^2' :
-        UnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', 'Ns/m^2', [ ], [ 'CGS' ],
+        UnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', 'N*s/m^2', [ ], [ 'CGS' ],
                   '''
                   ''' ),
 
     'pascal-second' :
-        UnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal-seconds', 'Pas', [ ], [ 'SI' ],
+        UnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal-seconds', 'Pa*s', [ ], [ 'SI' ],
                   '''
                   ''' ),
 
@@ -911,7 +911,7 @@ unitOperators = {
                   ''' ),
 
     'second^3-ampere^2/kilogram-meter^2':
-        UnitInfo( 'electrical_conductance', 'kilogram*meter^2/second^3*ampere^2', 'kilogram*meter^2/second^3*ampere^2', 'kg*m^2/s^3*A^2', [ ], [ 'SI' ],
+        UnitInfo( 'electrical_conductance', 'second^3*ampere^2/kilogram*meter^2', 'second^3*ampere^2/kilogram*meter^2', 's^3*A^2/kg*m^2', [ ], [ 'SI' ],
                   '''
                   ''' ),
 
@@ -977,8 +977,8 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'meter^2-kilogram/second-coulomb^2' :
-        UnitInfo( 'electrical_resistance', 'meter^2*kilogram/second*coulomb^2', 'meter^2*kilogram/second*coulomb^2', 'm^2*kg/s*C^2', [ ], [ 'SI' ],
+    'kilogram-meter^2/second-coulomb^2' :
+        UnitInfo( 'electrical_resistance', 'kilogram*meter^2/second*coulomb^2', 'kilogram*meter^2/second*coulomb^2', 'm^2*kg/s*C^2', [ ], [ 'SI' ],
                   '''
                   ''' ),
 
@@ -1029,8 +1029,8 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'electronvolt' :
-        UnitInfo( 'energy', 'electronvolt', 'electronvolts', 'eV', [ 'electron-volt', 'electron-volts' ], [ 'science' ],
+    'electron-volt' :
+        UnitInfo( 'energy', 'electron-volt', 'electron-volts', 'eV', [ 'electronvolt', 'electronvolts' ], [ 'science' ],
                   '''
                   ''' ),
 
@@ -1069,6 +1069,11 @@ unitOperators = {
                   '''
                   ''' ),
 
+    'pascal-meter^3' :
+        UnitInfo( 'energy', 'pascal*meter^3', 'pascal*meter^3', 'Pa*m^3', [ ], [ 'SI' ],
+                  '''
+                  ''' ),
+
     'rydberg' :
         UnitInfo( 'energy', 'rydberg', 'rydbergs', 'Ry', [ ], [ 'science' ],
                   '''
@@ -1104,6 +1109,12 @@ unitOperators = {
     'joule/meter' :
         UnitInfo( 'force', 'joule/meter', 'joule/meter', 'J/m', [ ], [ 'SI' ],
                   '''
+                  ''' ),
+
+    'kilogram-meter/second^2' :
+        UnitInfo( 'energy', 'kilogram*meter/second^2', 'kilogram*meter/second^2', 'kg*m/s^2', [ ], [ 'SI' ],
+                  '''
+                  This is the definition of the SI derived unit Newton (N).
                   ''' ),
 
     'newton' :
@@ -1664,7 +1675,7 @@ unitOperators = {
 
     # magnetic_flux
 
-    'gauss*centimeter^2' :
+    'gauss-centimeter^2' :
         UnitInfo( 'magnetic_flux', 'gauss*centimeter^2', 'gauss*centimeter^2', 'gauss*cm^2', [ 'gauss*square_cm' ], [ 'CGS' ],
                   '''
                   ''' ),
@@ -1684,7 +1695,7 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'tesla*meter^2' :
+    'tesla-meter^2' :
         UnitInfo( 'magnetic_flux', 'tesla*meter^2', 'tesla*meter^2', 'T/m^2', [ 'tesla*square_meter', 'teslas*square_meter', 'T*square_meter', 'tesla*m^2', 'teslas*m^2', 'teslas*meter^2' ], [ 'SI' ],
                   '''
                   ''' ),
@@ -1716,7 +1727,7 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'volt*second/meter^2' :
+    'volt-second/meter^2' :
         UnitInfo( 'magnetic_flux_density', 'volt*second/meter^2', 'volt*second/meter^2', '', [ ], [ 'SI' ],
                   '''
                   ''' ),
@@ -1929,6 +1940,11 @@ unitOperators = {
 
     'mmHg' :
         UnitInfo( 'pressure', 'mmHg', 'mmHg', '', [ ], [ 'metric' ],
+                  '''
+                  ''' ),
+
+    'kilogram/meter-second^2' :
+        UnitInfo( 'pressure', 'kilogram/meter*second^2', 'kilogram/meter*second^2', 'kg/m*s^2', [ ], [ 'SI' ],
                   '''
                   ''' ),
 
@@ -2285,7 +2301,7 @@ unitOperators = {
                   ''' ),
 
     'light' :
-        UnitInfo( 'velocity', 'light', 'x_light', 'c', [ 'light' ], [ 'natural' ],
+        UnitInfo( 'velocity', 'light', 'x_light', '', [ 'light' ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -2773,7 +2789,7 @@ metricUnits = [
     ( 'blintz',             'blintzes',         'bl',   [ ], [ ] ),
     ( 'coulomb',            'coulombs',         'C',    [ ], [ ] ),
     ( 'calorie',            'calories',         'cal',  [ 'cal' ], [ 'cals' ] ),
-    ( 'electronvolt',       'electronvolts',    'eV',   [ ], [ ] ),
+    ( 'electron-volt',      'electron-volts',   'eV',   [ ], [ ] ),
     ( 'farad',              'farads',           'F',    [ ], [ ] ),
     ( 'gram-equivalent',    'grams-equivalent', 'gE',   [ 'gram-energy', 'gramme-energy' ], [ 'grams-energy', 'grammes-energy' ] ),
     ( 'gram',               'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
@@ -2995,8 +3011,8 @@ unitConversionMatrix = {
     ( 'degree',                     'arcminute' )                           : mpmathify( '60' ),
     ( 'degree',                     'streck' )                              : mpmathify( '17.5' ),
     ( 'demi',                       'liter' )                               : mpmathify( '0.375' ),
-    ( 'density_of_water',           'gram/liter' )                          : mpmathify( '1.0e3' ),
-    ( 'density_of_water',           'gram/meter^3' )                        : mpmathify( '1.0e6' ),
+    ( 'density_of_water',           'kilogram/liter' )                      : mpmathify( '1.0' ),
+    ( 'density_of_water',           'kilogram/meter^3' )                    : mpmathify( '1.0e3' ),
     ( 'dessertspoon',               'teaspoon' )                            : mpmathify( '2' ),
     ( 'doppelzentner',              'zentner' )                             : mpmathify( '2' ),
     ( 'dozen',                      'unity' )                               : mpmathify( '12' ),
@@ -3080,7 +3096,7 @@ unitConversionMatrix = {
     ( 'jennie',                     'liter' )                               : mpmathify( '0.5' ),
     ( 'jeroboam',                   'liter' )                               : mpmathify( '3.0' ),  # some French regions use 4.5
     ( 'jigger',                     'pony' )                                : mpmathify( '2' ),
-    ( 'joule',                      'electronvolt' )                        : mpmathify( '6.24150974e18' ),
+    ( 'joule',                      'electron-volt' )                       : mpmathify( '6.24150974e18' ),
     ( 'joule',                      'erg' )                                 : mpmathify( '1.0e7' ),
     ( 'joule',                      'kilogram-meter^2/second^2' )           : mpmathify( '1' ),
     ( 'joule/second',               'watt' )                                : mpmathify( '1' ),
@@ -3108,7 +3124,7 @@ unitConversionMatrix = {
     ( 'marathon',                   'yard' )                                : mpmathify( '46145' ),
     ( 'marie_jeanne',               'liter' )                               : mpmathify( '2.25' ),
     ( 'martin',                     'kovac' )                               : mpmathify( '100' ),
-    ( 'maxwell',                    'gauss*centimeter^2' )                  : mpmathify( '1' ),
+    ( 'maxwell',                    'gauss-centimeter^2' )                  : mpmathify( '1' ),
     ( 'melchior',                   'liter' )                               : mpmathify( '18.0' ),
     ( 'melchizedek',                'liter' )                               : mpmathify( '30.0' ),
     ( 'meter',                      'angstrom' )                            : mpmathify( '1.0e10' ),
@@ -3134,6 +3150,7 @@ unitConversionMatrix = {
     ( 'nebuchadnezzar',             'liter' )                               : mpmathify( '15.0' ),
     ( 'newton',                     'dyne' )                                : mpmathify( '1.0e5' ),
     ( 'newton',                     'joule/meter' )                         : mpmathify( '1' ),
+    ( 'newton',                     'kilogram-meter/second^2' )             : mpmathify( '1' ),
     ( 'newton',                     'pond' )                                : mpmathify( '101.97161298' ),
     ( 'newton',                     'poundal' )                             : mpmathify( '7.233013851' ),
     ( 'newton-second/meter^2',      'pascal-second' )                       : mpmathify( '1' ),
@@ -3157,9 +3174,9 @@ unitConversionMatrix = {
     ( 'ohm',                        'jacobi' )                              : mpmathify( '0.6367' ),
     ( 'ohm',                        'joule-second/coulomb^2' )              : mpmathify( '1' ),
     ( 'ohm',                        'joule/second-ampere^2' )               : mpmathify( '1' ),
+    ( 'ohm',                        'kilogram-meter^2/second-coulomb^2' )   : mpmathify( '1' ),
     ( 'ohm',                        'kilogram-meter^2/second^3-ampere^2' )  : mpmathify( '1' ),
     ( 'ohm',                        'matthiessen' )                         : mpmathify( '13.59' ),
-    ( 'ohm',                        'meter^2-kilogram/second-coulomb^2' )   : mpmathify( '1' ),
     ( 'ohm',                        'second/farad' )                        : mpmathify( '1' ),
     ( 'ohm',                        'varley' )                              : mpmathify( '25.61' ),
     ( 'ohm',                        'volt/ampere' )                         : mpmathify( '1' ),
@@ -3169,7 +3186,9 @@ unitConversionMatrix = {
     ( 'oword',                      'bit' )                                 : mpmathify( '128' ),
     ( 'parsec',                     'light-year' )                          : mpmathify( '3.261563776971' ),
     ( 'pascal',                     'barye' )                               : mpmathify( '10' ),
-    ( 'pascal-second',              'gram/meter*second' )                   : mpmathify( '1000' ),
+    ( 'pascal',                     'kilogram/meter-second^2' )             : mpmathify( '1' ),
+    ( 'pascal-meter^3',             'joule' )                               : mpmathify( '1' ),
+    ( 'pascal-second',              'kilogram/meter-second' )               : mpmathify( '1' ),
     ( 'pascal-second',              'poise' )                               : mpmathify( '10' ),
     ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
     ( 'perch',                      'foot' )                                : mpmathify( '16.5' ),
@@ -3266,7 +3285,7 @@ unitConversionMatrix = {
     ( 'tenth',                      'liter' )                               : mpmathify( '0.378' ),
     ( 'tesla',                      'gauss' )                               : mpmathify( '10000' ),
     ( 'tesla',                      'kilogram/ampere-second^2' )            : mpmathify( '1' ),
-    ( 'tesla',                      'volt*second/meter^2' )                 : mpmathify( '1' ),
+    ( 'tesla',                      'volt-second/meter^2' )                 : mpmathify( '1' ),
     ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '100' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
@@ -3307,7 +3326,7 @@ unitConversionMatrix = {
     ( 'watt',                       'newton-meter/second' )                 : mpmathify( '1' ),
     ( 'watt-second',                'joule' )                               : mpmathify( '1' ),
     ( 'weber',                      'maxwell' )                             : mpmathify( '1.0e8' ),
-    ( 'weber',                      'tesla*meter^2' )                       : mpmathify( '1' ),
+    ( 'weber',                      'tesla-meter^2' )                       : mpmathify( '1' ),
     ( 'weber',                      'unit_pole' )                           : mpmathify( '7957747.154594' ),
     ( 'weber',                      'volt-second' )                         : mpmathify( '1' ),
     ( 'week',                       'day' )                                 : mpmathify( '7' ),

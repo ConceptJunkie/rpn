@@ -436,6 +436,10 @@ def initializeConversionMatrix( unitConversionMatrix ):
             unitRoot = unit[ : -7 ]
             unitInfo = unitOperators[ unit ]
 
+            # if we end up with a real unit, then start expanding it with different times
+            if not unitRoot in unitOperators:
+                continue
+
             rootUnitInfo = unitOperators[ unitRoot ]
 
             for timeUnit in timeUnits:

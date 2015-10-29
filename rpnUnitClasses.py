@@ -26,8 +26,8 @@ import rpnGlobals as g
 # //******************************************************************************
 
 class UnitTypeInfo( ):
-    def __init__( self, simpleTypes, baseUnit, primitiveUnit, estimateTable ):
-        self.simpleTypes = Units( simpleTypes )
+    def __init__( self, dimension, baseUnit, primitiveUnit, estimateTable ):
+        self.dimension = Units( dimension )
         self.baseUnitType = Units( baseUnit )
         self.baseUnit = baseUnit
         self.primitiveUnit = primitiveUnit
@@ -131,7 +131,7 @@ class Units( collections.Counter ):
             if primitive:
                 basicUnits = Units( g.basicUnitTypes[ unitType ].primitiveUnit )
             else:
-                basicUnits = Units( g.basicUnitTypes[ unitType ].simpleTypes )
+                basicUnits = Units( g.basicUnitTypes[ unitType ].baseUnitType )
 
             exponent = self[ unit ]
 
