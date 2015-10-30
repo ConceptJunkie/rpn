@@ -256,6 +256,7 @@ operatorAliases = {
     'euler_constant'            : 'euler_mascheroni_constant',
     'euler_mascheroni'          : 'euler_mascheroni_constant',
     'eval_poly'                 : 'eval_polynomial',
+    'eval1'                     : 'eval',
     'exprange'                  : 'exponential_range',
     'f!'                        : 'fibonorial',
     'fac'                       : 'factorial',

@@ -4047,7 +4047,6 @@ Ref:  CODATA 2014
 ''' ],
 
 
-
 # //******************************************************************************
 # //
 # //  day of week name constants
@@ -4323,24 +4322,6 @@ c:\>rpn 0x40490fdb unfloat
 '''
 ''' ],
 
-    'long' : [
-'conversion', 'converts the value to a signed 32-bit integer',
-'''
-This operator is useful for determining the behavior for C and C++ that use
-fixed-size integer types.
-''',
-'''
-''' ],
-
-    'longlong' : [
-'conversion', 'converts the value to a signed 64-bit integer',
-'''
-This operator is useful for determining the behavior for C and C++ that use
-fixed-size integer types.
-''',
-'''
-''' ],
-
     'hms' : [
 'conversion', 'shortcut for \'[ hour minute second ] convert\'',
 '''
@@ -4378,17 +4359,20 @@ the original operand.
 '''
 ''' ],
 
-    'make_pyth_3' : [
-'conversion', 'makes a pythagorean triple given two integers, n and k, as seeds',
+    'long' : [
+'conversion', 'converts the value to a signed 32-bit integer',
 '''
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
 
-    'make_pyth_4' : [
-'conversion', 'makes a pythagorean quadruple given two integers, n and k, as seeds',
+    'longlong' : [
+'conversion', 'converts the value to a signed 64-bit integer',
 '''
-n and k cannot both be odd.
+This operator is useful for determining the behavior for C and C++ that use
+fixed-size integer types.
 ''',
 '''
 ''' ],
@@ -6369,6 +6353,13 @@ c:\>rpn 1 10 range fibonorial
 '''
 ''' ],
 
+    'is_powerful' : [
+'number_theory', 'returns whether n is a powerful number',
+'''
+''',
+'''
+''' ],
+
     'is_prime' : [
 'number_theory', 'returns whether n is prime',
 '''
@@ -6378,13 +6369,6 @@ c:\>rpn 1 10 range fibonorial
 
     'is_pronic' : [
 'number_theory', 'returns whether n is pronic',
-'''
-''',
-'''
-''' ],
-
-    'is_powerful' : [
-'number_theory', 'returns whether n is a powerful number',
 '''
 ''',
 '''
@@ -6541,6 +6525,21 @@ c:\>rpn 1 17 range lucas
     'make_cf' : [
 'number_theory', 'calculates k terms of the continued fraction representation of n',
 '''
+''',
+'''
+''' ],
+
+    'make_pyth_3' : [
+'number_theory', 'makes a pythagorean triple given two integers, n and k, as seeds',
+'''
+''',
+'''
+''' ],
+
+    'make_pyth_4' : [
+'number_theory', 'makes a pythagorean quadruple given two integers, n and k, as seeds',
+'''
+n and k cannot both be odd.
 ''',
 '''
 ''' ],
@@ -7227,6 +7226,20 @@ number.
 '''
 ''' ],
 
+    'octahedral' : [
+'polyhedral_numbers', 'calculates the nth octahedral number',
+'''
+''',
+'''
+''' ],
+
+    'pentatope' : [
+'polyhedral_numbers', 'calculates the nth pentatope number',
+'''
+''',
+'''
+''' ],
+
     'polytope' : [
 'polyhedral_numbers', 'calculates nth polytope number of dimension k',
 '''
@@ -7280,20 +7293,6 @@ c:\>rpn 1 8 range steloct
 
     'truncated_tetrahedral' : [
 'polyhedral_numbers', 'calculates the nth truncated tetrahedral number',
-'''
-''',
-'''
-''' ],
-
-    'octahedral' : [
-'polyhedral_numbers', 'calculates the nth octahedral number',
-'''
-''',
-'''
-''' ],
-
-    'pentatope' : [
-'polyhedral_numbers', 'calculates the nth pentatope number',
 '''
 ''',
 '''
@@ -7645,7 +7644,7 @@ This operator is much faster than using 'range' with 'prime'.
 
 Prime numbers can be calculated from scratch, but this would be excessively
 slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through the first billion primes.
+distributed with data files calculated through the first billion pribmes.
 ''',
 '''
 c:\>rpn 1 20 primes
