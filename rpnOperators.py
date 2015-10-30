@@ -1479,7 +1479,7 @@ operators = {
     'kynea'                         : OperatorInfo( lambda n: fsub( power( fadd( power( 2, real( n ) ), 1 ), 2 ), 2 ), 1 ),
     'leonardo'                      : OperatorInfo( lambda n: fsub( fmul( 2, fib( fadd( real( n ), 1 ) ) ), 1 ), 1 ),
     'leyland'                       : OperatorInfo( lambda n, k: fadd( power( n, k ), power( k, n ) ), 2 ),
-    'lgamma'                        : OperatorInfo( loggamma, 1 ),
+    'log_gamma'                     : OperatorInfo( loggamma, 1 ),
     'lucas'                         : OperatorInfo( getNthLucasNumber, 1 ),
     'make_cf'                       : OperatorInfo( lambda n, k: ContinuedFraction( real( n ), maxterms = real( k ), cutoff = power( 10, -( mp.dps - 2 ) ) ), 2 ),
     'make_pyth_3'                   : OperatorInfo( makePythagoreanTriple, 2 ),
