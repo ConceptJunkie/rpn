@@ -148,12 +148,11 @@ def getNSphereVolume( n, k ):
 # //
 # //  getTriangleArea
 # //
-# //  https://en.wikipedia.org/wiki/Equilateral_triangle#Area
-# //
 # //******************************************************************************
 
 def getTriangleArea( a, b, c ):
-    return fdiv( fsum( [ power( a, 2 ), power( b, 2 ), power( c, 2 ) ] ), fmul( 4, sqrt( 3 ) ) )
+    s = fdiv( fsum( [ a, b, c ] ), 2 )   # semi-perimeter
+    return sqrt( fprod( [ s, fsub( s, a ), fsub( s, b ), fsub( s, c ) ] ) )
 
 
 # //******************************************************************************
