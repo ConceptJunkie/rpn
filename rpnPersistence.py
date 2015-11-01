@@ -58,6 +58,28 @@ def saveFactorCache( factorCache ):
 
 # //******************************************************************************
 # //
+# //  loadUnitNameData
+# //
+# //******************************************************************************
+
+def loadUnitNameData( ):
+    try:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_names.pckl.bz2', 'rb' ) ) as pickleFile:
+            g.unitsVersion = pickle.load( pickleFile )
+            g.unitOperatorNames = pickle.load( pickleFile )
+            g.operatorAliases.update( pickle.load( pickleFile ) )
+    except IOError:
+        print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
+        return False
+
+    if g.unitsVersion != PROGRAM_VERSION:
+        print( 'rpn:  units data file version mismatch' )
+
+    return True
+
+
+# //******************************************************************************
+# //
 # //  loadUnitData
 # //
 # //******************************************************************************
@@ -68,7 +90,6 @@ def loadUnitData( ):
             g.unitsVersion = pickle.load( pickleFile )
             g.basicUnitTypes.update( pickle.load( pickleFile ) )
             g.unitOperators.update( pickle.load( pickleFile ) )
-            g.operatorAliases.update( pickle.load( pickleFile ) )
     except IOError:
         print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
         return False
