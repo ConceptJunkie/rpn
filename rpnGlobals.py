@@ -99,6 +99,7 @@ basicUnitTypes = { }
 operatorAliases = { }
 unitConversionMatrix = { }
 unitOperators = { }
+unitOperatorNames = [ ]
 unitsVersion = "0.0.0"
 
 # help data
