@@ -229,7 +229,7 @@ def enterHelpMode( terms ):
             printInteractiveHelp( )
         else:
             for term in terms:
-                printHelp( operators, listOperators, modifiers, term, True )
+                printHelp( operators, constants, listOperators, modifiers, term, True )
 
 
 # //******************************************************************************
@@ -277,11 +277,11 @@ def rpn( cmd_args ):
 
         args = parser.parse_args( cmd_args )
 
-        loadUnitData( )
+        loadUnitNameData( )
 
         g.operatorAliases.update( operatorAliases )
 
-        printHelp( operators, listOperators, modifiers, helpArg )
+        printHelp( operators, constants, listOperators, modifiers, helpArg )
         return
 
     # set up the command-line options parser
@@ -335,9 +335,9 @@ def rpn( cmd_args ):
     g.operatorAliases.update( operatorAliases )
 
     if args.help or args.other_help:
-        loadUnitData( )
+        loadUnitNameData( )
 
-        printHelp( operators, listOperators, modifiers, '' )
+        printHelp( operators, constants, listOperators, modifiers, '' )
         return
 
     valid, errorString = validateOptions( args )
@@ -476,7 +476,7 @@ def rpn( cmd_args ):
 
     # enter interactive mode if there are no arguments
     if len( args.terms ) == 0:
-        if not loadUnitData( ):
+        if not loadUnitNameData( ):
             return
 
         enterInteractiveMode( )
@@ -487,7 +487,7 @@ def rpn( cmd_args ):
         return
 
     # waiting until we've validated the arguments to do this because it's slow
-    if not loadUnitData( ):
+    if not loadUnitNameData( ):
         return
 
     if g.timer:
