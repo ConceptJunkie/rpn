@@ -22,45 +22,18 @@ from rpnUnitClasses import *
 # //
 # //  basicUnitTypes
 # //
-# //  There are 'primitive' unit types and 'compound' unit types.
-# //  The compound unit types can always be broken down in terms of the
-# //  primitive unit types.  The 'primitive' unit types cannot be expressed
-# //  in terms of other primitive unit types.
-# //
-# //  The primitive unit types include:
-# //
-# //  length, mass, time, charge, temperature, angle, electric_potential
-# //  information_entropy, luminous_intensity
-# //
-# //  simpleUnitType:  conversion from the primitive unit types
-# //
-# //  compoundUnitType:  a list of conversions from other unit types where
-# //     the conversion does not consist solely of primitive unit types
+# //  dimension:
+# //      length, mass, time, charge, temperature, angle, electric_potential
+# //      information_entropy, luminous_intensity
 # //
 # //  baseUnit:  The standard or customary unit of measurement for this unit
-# //     type
+# //      type
 # //
 # //  estimateTable : The table of estimates, expressed in terms of the base
-# //     unit, used for the 'estimate' operator.
-# //
-# //******************************************************************************
-
-# //******************************************************************************
-# //
-# //  Notes:
-# //
-# //  I chose not to incorporate mass-energy equivalence here.  I don't think it
-# //  helps.  I just created the 'gram-equivalent' unit instead.  I have some
-# //  ideas about how to better implement the fact that a number of energy
-# //  units are really mass units in disguise.
+# //      unit, used for the 'estimate' operator.
 # //
 # //  Constant is not a 'real' unit type, but it is useful for it to act like
 # //  one because it makes for useful operators, e.g. "20 M" for "20,000,000'.
-# //
-# //  dimension
-# //  baseUnitType
-# //  primitiveUnit
-# //  estimateTable
 # //
 # //******************************************************************************
 
@@ -68,13 +41,11 @@ basicUnitTypes = {
     'acceleration' : UnitTypeInfo(
         'length/time^2',
         'meter/second^2',
-        'meter/second^2',
         accelerationTable
     ),
 
     'amount_of_substance' : UnitTypeInfo(
         'amount_of_substance',
-        'mole',
         'mole',
         amountOfSubstanceTable
     ),
@@ -82,13 +53,11 @@ basicUnitTypes = {
     'angle' : UnitTypeInfo(
         'angle',
         'radian',
-        'radian',
         angleTable
     ),
 
     'area' : UnitTypeInfo(
         'length^2',
-        'square_meter',
         'square_meter',
         areaTable,
     ),
@@ -96,13 +65,11 @@ basicUnitTypes = {
     'capacitance' : UnitTypeInfo(
         'charge/electric_potential',
         'farad',
-        'coulomb/volt',
         capacitanceTable,
     ),
 
     'charge' : UnitTypeInfo(
         'charge',
-        'coulomb',
         'coulomb',
         chargeTable,
     ),
@@ -110,20 +77,17 @@ basicUnitTypes = {
     'constant' : UnitTypeInfo(
         'constant',
         'unity',
-        'unity',
         constantTable,
     ),
 
     'current' : UnitTypeInfo(
         'charge/time',
         'ampere',
-        'coulomb/second',
         currentTable,
     ),
 
     'data_rate' : UnitTypeInfo(
         'information_entropy/time',
-        'bit/second',
         'bit/second',
         dataRateTable,
     ),
@@ -131,27 +95,23 @@ basicUnitTypes = {
     'density' : UnitTypeInfo(
         'mass/length^3',
         'kilogram/liter',
-        'kilogram/liter',
         densityTable,
     ),
 
     'dynamic_viscosity' : UnitTypeInfo(
         'mass/length*time',     # force*time/length^2
         'pascal*second',
-        'kilogram/meter*second',
         dynamicViscosityTable,
     ),
 
     'electrical_conductance' : UnitTypeInfo(
         '1/electrical_resistance',
         'siemens',
-        '1/ohm',
         electricalConductanceTable,
     ),
 
     'electrical_resistance' : UnitTypeInfo(
         'electrical_resistance',
-        'ohm',
         'ohm',
         electricalResistanceTable,
     ),
@@ -159,27 +119,23 @@ basicUnitTypes = {
     'electric_potential' : UnitTypeInfo(
         'electric_potential',
         'volt',
-        'volt',
         electricPotentialTable,
     ),
 
     'energy' : UnitTypeInfo(
         'mass*length^2/time^2',
         'joule',
-        'kilogram*meter^2/second^2',  # , 'volt*coulomb' ]
         energyTable,
     ),
 
     'force' : UnitTypeInfo(
         'mass*length/time^2',
         'newton',
-        'kilogram*meter/second^2',
         forceTable,
     ),
 
     'frequency' : UnitTypeInfo(
         '1/time',
-        'hertz',
         'hertz',
         frequencyTable,
     ),
@@ -187,20 +143,17 @@ basicUnitTypes = {
     'illuminance' : UnitTypeInfo(
         'luminous_intensity*angle^2/length^2',
         'lux',
-        'candela*steradian/meter^2',
         illuminanceTable,
     ),
 
     'inductance' : UnitTypeInfo(
         'electric_potential/charge',
         'henry',
-        'volt/coulomb',
         inductanceTable,
     ),
 
     'information_entropy' : UnitTypeInfo(
         'information_entropy',
-        'bit',
         'bit',
         informationEntropyTable,
     ),
@@ -208,13 +161,11 @@ basicUnitTypes = {
     'length' : UnitTypeInfo(
         'length',
         'meter',
-        'meter',
         lengthTable,
     ),
 
     'luminance' : UnitTypeInfo(
         'luminous_intensity/length^2',
-        'candela/meter^2',
         'candela/meter^2',
         luminanceTable,
     ),
@@ -222,13 +173,11 @@ basicUnitTypes = {
     'luminous_flux' : UnitTypeInfo(
         'luminous_intensity*angle^2',
         'lumen',
-        'candela*steradian',
         luminousFluxTable,
     ),
 
     'luminous_intensity' : UnitTypeInfo(
         'luminous_intensity',
-        'candela',
         'candela',
         luminousIntensityTable,
     ),
@@ -236,27 +185,23 @@ basicUnitTypes = {
     'magnetic_field_strength' : UnitTypeInfo(
         'charge/length',
         'ampere/meter',
-        'ampere/meter',
         magneticFieldStrengthTable,
     ),
 
     'magnetic_flux' : UnitTypeInfo(
         'electric_potential*time',
         'weber',
-        'volt*second',
         magneticFluxTable,
     ),
 
     'magnetic_flux_density' : UnitTypeInfo(
         'electric_potential*time/length^2',
         'tesla',
-        'volt*second/meter^2',
         magneticFluxDensityTable,
     ),
 
     'mass' : UnitTypeInfo(
         'mass',
-        'kilogram',
         'kilogram',
         massTable,
     ),
@@ -264,27 +209,23 @@ basicUnitTypes = {
     'power' : UnitTypeInfo(
         'electric_potential*charge/time',
         'watt',
-        'volt*coulomb/second',
         powerTable,
     ),
 
     'pressure' : UnitTypeInfo(
         'mass/length*time^2',
         'pascal',
-        'kilogram/meter*second^2',
         pressureTable,
     ),
 
     'radiation_dose' : UnitTypeInfo(
         'electric_potential*charge/mass',
         'sievert',
-        'volt*coulomb/kilogram',
         radiationDoseTable,
     ),
 
     'radiation_exposure' : UnitTypeInfo(
         'charge/mass',
-        'coulomb/kilogram',
         'coulomb/kilogram',
         radiationExposureTable,
     ),
@@ -292,13 +233,11 @@ basicUnitTypes = {
     'solid_angle' : UnitTypeInfo(
         'angle^2',
         'steradian',
-        'steradian',
         solidAngleTable,
     ),
 
     'temperature' : UnitTypeInfo(
         'temperature',
-        'kelvin',
         'kelvin',
         temperatureTable,
     ),
@@ -306,20 +245,17 @@ basicUnitTypes = {
     'time' : UnitTypeInfo(
         'time',
         'second',
-        'second',
         timeTable,
     ),
 
     'velocity' : UnitTypeInfo(
         'length/time',
         'meter/second',
-        'meter/second',
         velocityTable,
     ),
 
     'volume' : UnitTypeInfo(
         'length^3',
-        'liter',
         'liter',
         volumeTable,
     ),
@@ -336,7 +272,6 @@ basicUnitTypes = {
 
 unitOperators = {
     # acceleration
-
     'galileo' :
         UnitInfo( 'acceleration', 'galileo', 'galileos', '', [ ], [ 'CGS' ],
                   '''
@@ -349,14 +284,12 @@ unitOperators = {
 
 
     # amount of substance
-
     'mole' :
         UnitInfo( 'amount_of_substance', 'mole', 'mole', 'mol', [ 'einstein' ], [ 'SI' ],
                   '''
                   ''' ),
 
     # angle
-
     'arcminute' :
         UnitInfo( 'angle', 'arcminute', 'arcminutes', 'arcmin', [ 'arcmins' ], [ 'mathematics' ],
                   '''
@@ -423,7 +356,6 @@ unitOperators = {
                   ''' ),
 
     # area
-
     'acre' :
         UnitInfo( 'area', 'acre', 'acres', 'ac', [ ], [ 'imperial' ],
                   '''
@@ -515,7 +447,6 @@ unitOperators = {
                   ''' ),
 
     # capacitance
-
     'abfarad' :
         UnitInfo( 'capacitance', 'abfarad', 'abfarads', 'abF', [ ], [ 'CGS' ],
                   '''
@@ -542,7 +473,6 @@ unitOperators = {
                   ''' ),
 
     # charge
-
     'abcoulomb' :
         UnitInfo( 'charge', 'abcoulomb', 'abcoulombs', 'abC', [ ], [ 'CGS' ],
                   '''
@@ -581,7 +511,6 @@ unitOperators = {
     # constant - Constant is a special type that is immediately converted to a numerical value when used.
     #            It's not intended to be used as a unit, per se.  Also, these units are in order of their
     #            value instead of alphabetical order like all the others
-
     'decillionth' :
         UnitInfo( 'constant', 'decillionth', 'decillionths', '', [ ], [ 'constant' ],
                   '''One decillionth:  10e-33 or 1/1,000,000,000,000,000,000,000,000,000,000,000''' ),
@@ -785,7 +714,6 @@ unitOperators = {
                   '''One centillion:  10e303''' ),
 
     # current
-
     'abampere' :
         UnitInfo( 'current', 'abampere', 'abamperes', 'abA', [ 'abamp', 'abamps', 'biot', 'biots' ], [ 'CGS' ],
                   '''
@@ -807,7 +735,6 @@ unitOperators = {
                   ''' ),
 
     # data_rate
-
     'bit/second' :
         UnitInfo( 'data_rate', 'bit/second', 'bits/second', 'b/s', [ 'bit/s', 'bits/s', 'bit/sec', 'bits/sec', 'b/sec', 'b/second' ], [ 'computing' ],
                   '''
@@ -819,7 +746,6 @@ unitOperators = {
                   ''' ),
 
     # density
-
     'kilogram/liter' :
         UnitInfo( 'density', 'kilogram/liter', 'kilograms/liter', 'kg/l', [ '' ], [ 'SI' ],
                   '''
@@ -827,11 +753,6 @@ unitOperators = {
 
     'kilogram/meter^3' :
         UnitInfo( 'density', 'kilogram/meter^3', 'kilograms/meter^3', 'kg/m^3', [ '' ], [ 'SI' ],
-                  '''
-                  ''' ),
-
-    'density_of_water' :
-        UnitInfo( 'density', 'x density_of_water', 'x density_of_water', '', [ 'water' ], [ 'natural' ],
                   '''
                   ''' ),
 
@@ -863,7 +784,6 @@ unitOperators = {
                   ''' ),
 
     # electric_potential
-
     'abvolt' :
         UnitInfo( 'electric_potential', 'abvolt', 'abvolts', 'abV', [ ], [ 'CGS' ],
                   '''
@@ -890,7 +810,6 @@ unitOperators = {
                   ''' ),
 
     # electrical_conductance
-
     'abmho' :
         UnitInfo( 'electrical_conductance', 'abmho', 'abmhos', '', [ 'absiemens' ], [ 'CGS' ],
                   '''
@@ -931,7 +850,6 @@ unitOperators = {
                   ''' ),
 
     # electrical_resistance
-
     '1/siemens' :
         UnitInfo( 'electrical_resistance', '1/siemens', '1/siemens', '1/S', [ '1/mho' ], [ 'SI' ],
                   '''
@@ -1013,7 +931,6 @@ unitOperators = {
                   ''' ),
 
     # energy
-
     'ampere-second-volt' :
         UnitInfo( 'energy', 'ampere*second*volt', 'ampere*second*volt', 'AVs', [ ], [ 'SI' ],
                   '''
@@ -1095,7 +1012,6 @@ unitOperators = {
                   ''' ),
 
     # force
-
     'dyne' :
         UnitInfo( 'force', 'dyne', 'dynes', 'dyn', [ ], [ 'CGS' ],
                   '''
@@ -1143,7 +1059,6 @@ unitOperators = {
                   ''' ),
 
     # frequency
-
     'hertz' :
         UnitInfo( 'frequency', 'hertz', 'hertz', 'Hz', [ ], [ 'SI' ],
                   '''
@@ -1195,7 +1110,6 @@ unitOperators = {
                   ''' ),
 
     # illuminance
-
     'footcandle' :
         UnitInfo( 'illuminance', 'footcandle', 'footcandles', 'fc', [ ], [ 'FPS' ],
                   '''
@@ -1227,7 +1141,6 @@ unitOperators = {
                   ''' ),
 
     # inductance
-
     'abhenry' :
         UnitInfo( 'inductance', 'abhenry', 'abhenries', 'abH', [ ], [ 'CGS' ],
                   '''
@@ -1249,7 +1162,6 @@ unitOperators = {
                   ''' ),
 
     # information_entropy
-
     'ban' :
         UnitInfo( 'information_entropy', 'ban', 'bans', '', [ 'hartley', 'hartleys', 'dit', 'dits' ], [ 'IEC' ],
                   '''
@@ -1324,7 +1236,6 @@ unitOperators = {
                   '''A word is traditionally two bytes, or 16 bits.  The term 'wyde' was suggested by Knuth.''' ),
 
     # length
-
     'aln' :
         UnitInfo( 'length', 'aln', 'alns', '', [ ], [ 'obsolete' ],
                   '''
@@ -1596,7 +1507,6 @@ unitOperators = {
                   ''' ),
 
     # luminance
-
     'apostilb' :
         UnitInfo( 'luminance', 'apostilb', 'apostilbs', 'asb', [ 'blondel' ], [ 'CGS' ],
                   '''
@@ -1638,7 +1548,6 @@ unitOperators = {
                   ''' ),
 
     # luminous_flux
-
     'lumen' :
         UnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm', [ ], [ 'SI' ],
                   '''
@@ -1650,7 +1559,6 @@ unitOperators = {
                   ''' ),
 
     # luminous_intensity
-
     'candela' :
         UnitInfo( 'luminous_intensity', 'candela', 'candelas', 'cd', [ 'candle' ], [ 'SI' ],
                   '''
@@ -1662,7 +1570,6 @@ unitOperators = {
                   ''' ),
 
     # magnetic_field_strength
-
     'ampere/meter' :
         UnitInfo( 'magnetic_field_strength', 'ampere/meter', 'amperes/meter', 'A/m', [ 'amp/m', 'amps/m', 'ampere/m', 'amperes/m', 'A/meter', 'amp/meter', 'amps/meter', 'A/meters', 'amp/meters', 'amps/meters', 'ampere/meters', 'amperes/meters' ], [ 'SI' ],
                   '''
@@ -1674,7 +1581,6 @@ unitOperators = {
                   ''' ),
 
     # magnetic_flux
-
     'gauss-centimeter^2' :
         UnitInfo( 'magnetic_flux', 'gauss*centimeter^2', 'gauss*centimeter^2', 'gauss*cm^2', [ 'gauss*square_cm' ], [ 'CGS' ],
                   '''
@@ -1706,7 +1612,6 @@ unitOperators = {
                   ''' ),
 
     # magnetic_flux_density
-
     'gauss' :
         UnitInfo( 'magnetic_flux_density', 'gauss', 'gauss', '', [ ], [ 'CGS' ],
                   '''
@@ -1738,7 +1643,6 @@ unitOperators = {
                   ''' ),
 
     # mass
-
     'blintz' :
         UnitInfo( 'mass', 'blintz', 'blintzes', 'b', [ ], [ 'Potrzebie', 'humorous' ],
                   '''
@@ -1865,7 +1769,6 @@ unitOperators = {
                   ''' ),
 
     # power
-
     'dBm' :
         UnitInfo( 'power', 'dBm', 'dBm', 'dBm', [ 'dBmW', 'decibel-milliwatt' ], [ 'engineering' ],
                   '''
@@ -1922,7 +1825,6 @@ unitOperators = {
                   ''' ),
 
     # pressure
-
     'atmosphere' :
         UnitInfo( 'pressure', 'atmosphere', 'atmospheres', 'atm', [ ], [ 'natural' ],
                   '''
@@ -1974,7 +1876,6 @@ unitOperators = {
                   ''' ),
 
     # radiation_dose
-
     'banana_equivalent_dose' :
         UnitInfo( 'radiation_dose', 'banana_equivalent_dose', 'banana_equivalent_doses', '', [ 'banana' ], [ 'natural' ],
                   '''
@@ -2006,7 +1907,6 @@ unitOperators = {
                   ''' ),
 
     # radiation_exposure
-
     'coulomb/kilogram' :
         UnitInfo( 'radiation_exposure', 'coulomb/kilogram', 'coulombs/kilogram', 'C/kg', [ ], [ 'SI' ],
                   '''
@@ -2018,7 +1918,6 @@ unitOperators = {
                   ''' ),
 
     # solid_angle
-
     'sphere' :
         UnitInfo( 'solid_angle', 'sphere', 'spheres', '', [ ], [ 'mathematics' ],
                   '''
@@ -2070,7 +1969,6 @@ unitOperators = {
                   ''' ),
 
     # temperature
-
     'celsius' :
         UnitInfo( 'temperature', 'celsius', 'degrees_celsius', '', [ 'centigrade', 'degC', 'degreesC' ], [ 'SI' ],
                   '''
@@ -2112,7 +2010,6 @@ unitOperators = {
                   ''' ),
 
     # time
-
     'beat' :
         UnitInfo( 'time', 'beat', 'beat', '', [ ], [ ],
                   '''
@@ -2284,7 +2181,6 @@ unitOperators = {
                   ''' ),
 
     # velocity
-
     'kine' :
         UnitInfo( 'velocity', 'kine', 'kine', '', [ '' ], [ 'CGS' ],
                   '''
@@ -2321,7 +2217,6 @@ unitOperators = {
                   ''' ),
 
     # volume
-
     'acre-foot' :
         UnitInfo( 'volume', 'acre*foot', 'acre-feet', 'ac*ft', [ ], [ 'FPS', 'imperial' ],
                   '''
@@ -3011,8 +2906,6 @@ unitConversionMatrix = {
     ( 'degree',                     'arcminute' )                           : mpmathify( '60' ),
     ( 'degree',                     'streck' )                              : mpmathify( '17.5' ),
     ( 'demi',                       'liter' )                               : mpmathify( '0.375' ),
-    ( 'density_of_water',           'kilogram/liter' )                      : mpmathify( '1.0' ),
-    ( 'density_of_water',           'kilogram/meter^3' )                    : mpmathify( '1.0e3' ),
     ( 'dessertspoon',               'teaspoon' )                            : mpmathify( '2' ),
     ( 'doppelzentner',              'zentner' )                             : mpmathify( '2' ),
     ( 'dozen',                      'unity' )                               : mpmathify( '12' ),

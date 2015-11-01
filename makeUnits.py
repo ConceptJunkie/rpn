@@ -575,17 +575,26 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
     print( 'Saving everything...' )
 
+    # save the list of unit operator names and aliases
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + g.dataDir )
-    fileName = dataPath + os.sep + 'units.pckl.bz2'
+    fileName = dataPath + os.sep + 'unit_names.pckl.bz2'
 
     if not os.path.isdir( dataPath ):
         os.makedirs( dataPath )
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
+        pickle.dump( list( unitOperators.keys( ) ), pickleFile )
+        pickle.dump( newAliases, pickleFile )
+
+    # save the actual unit data
+    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + g.dataDir )
+    fileName = dataPath + os.sep + 'units.pckl.bz2'
+
+    with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
+        pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( basicUnitTypes, pickleFile )
         pickle.dump( unitOperators, pickleFile )
-        pickle.dump( newAliases, pickleFile )
 
     fileName = dataPath + os.sep + 'unit_conversions.pckl.bz2'
 
