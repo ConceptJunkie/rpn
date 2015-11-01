@@ -26,11 +26,10 @@ import rpnGlobals as g
 # //******************************************************************************
 
 class UnitTypeInfo( ):
-    def __init__( self, dimension, baseUnit, primitiveUnit, estimateTable ):
-        self.dimension = Units( dimension )
+    def __init__( self, dimensions, baseUnit, estimateTable ):
+        self.dimensions = Units( dimensions )
         self.baseUnitType = Units( baseUnit )
         self.baseUnit = baseUnit
-        self.primitiveUnit = primitiveUnit
         self.estimateTable = estimateTable
 
 
@@ -93,6 +92,25 @@ class Units( collections.Counter ):
             types[ unitType ] += self[ unit ]
 
         return types
+
+    def getDimensions( self ):
+        result = Units( )
+
+        for unit in self:
+            #if unit not in g.unitOperators:
+            #    raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+
+            dimensions = Units( g.basicUnitTypes[ g.unitOperators[ unit ].unitType ].dimensions )
+
+            exponent = self.get( unit )
+
+            if exponent != 1:   # handle exponent
+                for unit2 in dimensions:
+                    dimensions[ unit2 ] *= exponent
+
+            result.update( dimensions )
+
+        return result
 
     def simplify( self ):
         result = Units( )

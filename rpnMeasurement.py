@@ -378,17 +378,11 @@ class RPNMeasurement( mpf ):
         elif isinstance( other, RPNMeasurement ):
             debugPrint( 'units: ', self.units, other.units )
             debugPrint( 'types: ', self.getUnitTypes( ), other.getUnitTypes( ) )
-            debugPrint( 'simple types: ', self.getSimpleTypes( ), other.getSimpleTypes( ) )
-            debugPrint( 'basic types: ', self.getBasicTypes( ), other.getBasicTypes( ) )
-            debugPrint( 'primitive types: ', self.getPrimitiveTypes( ), other.getPrimitiveTypes( ) )
+            debugPrint( 'dimensions: ', self.getDimensions( ), other.getDimensions( ) )
 
             if self.getUnitTypes( ) == other.getUnitTypes( ):
                 return True
-            elif self.getSimpleTypes( ) == other.getSimpleTypes( ):
-                return True
-            elif self.getBasicTypes( ) == other.getBasicTypes( ):
-                return True
-            elif self.getPrimitiveTypes( ) == other.getPrimitiveTypes( ):
+            elif self.getDimensions( ) == other.getDimensions( ):
                 return True
             else:
                 debugPrint( 'RPNMeasurement.isCompatible exiting with false...' )
@@ -445,6 +439,9 @@ class RPNMeasurement( mpf ):
                 types[ unitType ] = self.units[ unit ]
 
         return types
+
+    def getDimensions( self ):
+        return self.units.getDimensions( )
 
     def getSimpleTypes( self ):
         return self.units.simplify( )
@@ -665,45 +662,45 @@ def convertToDMS( n ):
 # //******************************************************************************
 
 def estimate( measurement ):
-    if isinstance( measurement, RPNMeasurement ):
-        unitType = None
-
-        for basicUnitType in g.basicUnitTypes:
-            if measurement.isCompatible( RPNMeasurement( 1, g.basicUnitTypes[ basicUnitType ].baseUnit ) ):
-                unitType = basicUnitType
-                break
-
-        if unitType is None:
-            return 'No estimates are available for this unit type'
-
-        unitTypeInfo = g.basicUnitTypes[ unitType ]
-
-        unit = RPNMeasurement( 1, unitTypeInfo.baseUnit )
-        value = mpf( RPNMeasurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
-
-        if len( unitTypeInfo.estimateTable ) == 0:
-            return 'No estimates are available for this unit type (' + unitTypeOutput + ').'
-
-        matchingKeys = [ key for key in unitTypeInfo.estimateTable if key <= mpf( value ) ]
-
-        if len( matchingKeys ) == 0:
-            estimateKey = min( key for key in unitTypeInfo.estimateTable )
-
-            multiple = fdiv( estimateKey, value )
-
-            return 'approximately ' + nstr( multiple, 3 ) + ' times smaller than ' + \
-                   unitTypeInfo.estimateTable[ estimateKey ]
-        else:
-            estimateKey = max( matchingKeys )
-
-            multiple = fdiv( value, estimateKey )
-
-            return 'approximately ' + nstr( multiple, 3 ) + ' times ' + \
-                   unitTypeInfo.estimateTable[ estimateKey ]
-    #elif isinstance( measurement, RPNDateTime ):
-    #    return measurement.humanize( )
-    else:
+    if not isinstance( measurement, RPNMeasurement ):
         raise TypeError( 'incompatible type for estimating' )
+
+    unitType = None
+
+    dimensions = measurement.getDimensions( )
+
+    for key, basicUnitType in g.basicUnitTypes.items( ):
+        if dimensions == basicUnitType.dimensions:
+            unitType = key
+            break
+
+    if unitType is None:
+        return 'No estimates are available for this unit type'
+
+    unitTypeInfo = g.basicUnitTypes[ unitType ]
+
+    unit = RPNMeasurement( 1, unitTypeInfo.baseUnit )
+    value = mpf( RPNMeasurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
+
+    if len( unitTypeInfo.estimateTable ) == 0:
+        return 'No estimates are available for this unit type (' + unitTypeOutput + ').'
+
+    matchingKeys = [ key for key in unitTypeInfo.estimateTable if key <= mpf( value ) ]
+
+    if len( matchingKeys ) == 0:
+        estimateKey = min( key for key in unitTypeInfo.estimateTable )
+
+        multiple = fdiv( estimateKey, value )
+
+        return 'approximately ' + nstr( multiple, 3 ) + ' times smaller than ' + \
+               unitTypeInfo.estimateTable[ estimateKey ]
+    else:
+        estimateKey = max( matchingKeys )
+
+        multiple = fdiv( value, estimateKey )
+
+        return 'approximately ' + nstr( multiple, 3 ) + ' times ' + \
+               unitTypeInfo.estimateTable[ estimateKey ]
 
 
 # //******************************************************************************
