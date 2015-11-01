@@ -45,8 +45,6 @@ from rpnPrimeUtils import *
 from rpnSettings import *
 from rpnUtils import *
 
-from rpnOutput import printHelp
-
 
 # //******************************************************************************
 # //
@@ -815,6 +813,7 @@ def dumpStats( ):
 
     print( '{:10,} unique operators'.format( len( listOperators ) + len( operators ) +
                                              len( modifiers ) ) )
+    print( '{:10,} constants'.format( len( constants ) ) )
     print( '{:10,} unit conversions'.format( len( g.unitConversionMatrix ) ) )
     print( )
 
@@ -1231,13 +1230,13 @@ operators = {
     'plot2'                         : OperatorInfo( plot2DFunction, 5 ),
     'plotc'                         : OperatorInfo( plotComplexFunction, 5 ),
 
-    # geographic
+    # geography
     'distance'                      : OperatorInfo( getDistance, 2 ),
     'latlong'                       : OperatorInfo( lambda n, k: RPNLocation( n, k ), 2 ),
     'location'                      : OperatorInfo( getLocation, 1 ),
     'location_info'                 : OperatorInfo( getLocationInfo, 1 ),
 
-    # geometric
+    # geometry
     'antiprism_area'                : OperatorInfo( getAntiprismSurfaceArea, 2 ),
     'antiprism_volume'              : OperatorInfo( getAntiprismVolume, 2 ),
     'cone_area'                     : OperatorInfo( getConeSurfaceArea, 2 ),
@@ -1281,7 +1280,7 @@ operators = {
     'range'                         : OperatorInfo( expandRange, 2 ),
     'range2'                        : OperatorInfo( expandSteppedRange, 3 ),
 
-    # logarithmic
+    # logarithms
     'lambertw'                      : OperatorInfo( lambertw, 1 ),
     'li'                            : OperatorInfo( li, 1 ),
     'ln'                            : OperatorInfo( ln, 1 ),
@@ -1522,7 +1521,7 @@ operators = {
     'topic'                         : OperatorInfo( printHelpTopic, 1 ),
     'value'                         : OperatorInfo( lambda n: mpf( n ), 1 ),
 
-    # trigonometric
+    # trigonometry
     'acos'                          : OperatorInfo( lambda n: performTrigOperation( n, acos ), 1 ),
     'acosh'                         : OperatorInfo( lambda n: performTrigOperation( n, acosh ), 1 ),
     'acot'                          : OperatorInfo( lambda n: performTrigOperation( n, acot ), 1 ),

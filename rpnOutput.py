@@ -428,7 +428,7 @@ def printCategoryHelp( category, operators, listOperators, modifiers, operatorHe
 # //
 # //******************************************************************************
 
-def printHelp( operators, listOperators, modifiers, term, interactive = False ):
+def printHelp( operators, constants, listOperators, modifiers, term, interactive = False ):
     loadHelpData( )
 
     if g.helpVersion != PROGRAM_VERSION:
@@ -448,6 +448,8 @@ def printHelp( operators, listOperators, modifiers, term, interactive = False ):
     # then look for exact matches in all the lists of terms for which we have help support
     if term in operators:
         printOperatorHelp( term, operators[ term ], g.operatorHelp[ term ] )
+    elif term in constants:
+        printOperatorHelp( term, constants[ term ], g.operatorHelp[ term ] )
     elif term in listOperators:
         printOperatorHelp( term, listOperators[ term ], g.operatorHelp[ term ] )
     elif term in modifiers:
@@ -484,6 +486,14 @@ def printHelp( operators, listOperators, modifiers, term, interactive = False ):
             print( 'Interpreting topic as \'' + helpTerm + '\'.' )
             print( )
             printOperatorHelp( helpTerm, operators[ helpTerm ], g.operatorHelp[ helpTerm ] )
+            return
+
+        helpTerm = next( ( i for i in constants if i != term and i.startswith( term ) ), '' )
+
+        if helpTerm != '':
+            print( 'Interpreting topic as \'' + helpTerm + '\'.' )
+            print( )
+            printOperatorHelp( helpTerm, constants[ helpTerm ], g.operatorHelp[ helpTerm ] )
             return
 
         helpTerm = next( ( i for i in listOperators if i != term and i.startswith( term ) ), '' )

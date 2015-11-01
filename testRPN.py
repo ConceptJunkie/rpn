@@ -256,7 +256,7 @@ def runArithmeticOperatorTests( ):
     # ceiling
     expectResult( '9.99999 ceiling', 10 )
     expectResult( '-0.00001 ceiling', 0 )
-    # ceiling should handle units
+    # rjg: ceiling should handle units
 
     # divide
     testOperator( '12 13 divide' )
@@ -270,7 +270,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '-0.4 floor', -1 )
     expectResult( '1 floor', 1 )
     expectResult( '3.4 floor', 3 )
-    # floor should handle units
+    # rjg: floor should handle units
 
     # gcd
     expectResult( '1 100 range gcd', 1 )
@@ -349,18 +349,18 @@ def runArithmeticOperatorTests( ):
     expectResult( '1 10 range max', 10 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
-    # max should handle units
+    # rjg: max should handle units
 
     # mean
     expectResult( '1 10 range mean', 5.5 )
     expectResult( '1 10000 range mean', 5000.5 )
-    # mean should handle units
+    # rjg: mean should handle units
 
     # min
     expectResult( '1 10 range min', 1 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] min', 2 )
-    # min should handle units
+    # rjg: min should handle units
 
     # modulo
     expectResult( '11001 100 modulo', 1 )
@@ -372,7 +372,6 @@ def runArithmeticOperatorTests( ):
     expectResult( '5 7 multiply', 35 )
     testOperator( '15 mph 10 hours *' )
     testOperator( 'c m/s convert 1 nanosecond * inches convert' )
-    testOperator( 'barn gigaparsec * cubic_inch convert' )
 
     # negative
     expectResult( '-4 negative', 4 )
@@ -403,7 +402,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '-1 sign', -1 )
     expectResult( 'infinity sign', 1 )
     expectResult( 'negative_infinity sign', -1 )
-    expectResult( '-2 cups', -1 )
+    expectResult( '-2 cups sign', -1 )
 
     # stddev
     testOperator( '1 10 range stddev' )
@@ -713,11 +712,11 @@ def runCalendarOperatorTests( ):
 
 # //******************************************************************************
 # //
-# //  runCombinatoricOperatorTests
+# //  runCombinatoricsOperatorTests
 # //
 # //******************************************************************************
 
-def runCombinatoricOperatorTests( ):
+def runCombinatoricsOperatorTests( ):
     # bell_polynomal
     testOperator( '4 5 bell_polynomial' )
     testOperator( '5 5 10 range bell_polynomial' )
@@ -1283,11 +1282,11 @@ def runFunctionOperatorTests( ):
 
 # //******************************************************************************
 # //
-# //  runGeometricOperatorTests
+# //  runGeometryOperatorTests
 # //
 # //******************************************************************************
 
-def runGeometricOperatorTests( ):
+def runGeometryOperatorTests( ):
     # antiprism_area
     testOperator( '8 5 antiprism_area' )
 
@@ -1325,7 +1324,7 @@ def runGeometricOperatorTests( ):
     # sphere_area
     testOperator( '8 inches sphere_area' )
     testOperator( '8 sq_inches sphere_area' )
-    #testOperator( '8 cu_inches sphere_area' )    # not implemented yet
+    testOperator( '8 cu_inches sphere_area' )    # not implemented yet
 
     # sphere_radius
     testOperator( '4 inches sphere_radius' )
@@ -1334,7 +1333,7 @@ def runGeometricOperatorTests( ):
 
     # sphere_volume
     testOperator( '5 inches sphere_volume' )
-    #testOperator( '5 sq_inches sphere_volume' )  # not implemented yet
+    testOperator( '5 sq_inches sphere_volume' )  # not implemented yet
     testOperator( '5 cubic_in sphere_volume' )
 
     # torus_area
@@ -1349,11 +1348,11 @@ def runGeometricOperatorTests( ):
 
 # //******************************************************************************
 # //
-# //  runGeographicOperatorTests
+# //  runGeographyOperatorTests
 # //
 # //******************************************************************************
 
-def runGeographicOperatorTests( ):
+def runGeographyOperatorTests( ):
     # distance
     testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
 
@@ -1383,11 +1382,11 @@ def runInternalOperatorTests( ):
 
 # //******************************************************************************
 # //
-# //  runLexicographicOperatorTests
+# //  runLexicographyOperatorTests
 # //
 # //******************************************************************************
 
-def runLexicographicOperatorTests( ):
+def runLexicographyOperatorTests( ):
     # add_digits
     expectResult( '3 4 add_digits', 34 )
     expectResult( '3 45 add_digits', 345 )
@@ -1561,11 +1560,11 @@ def runListOperatorTests( ):
 
 # //******************************************************************************
 # //
-# //  runLogarithmOperatorTests
+# //  runLogarithmsOperatorTests
 # //
 # //******************************************************************************
 
-def runLogarithmOperatorTests( ):
+def runLogarithmsOperatorTests( ):
     # lambertw
     testOperator( '5 lambertw' )
 
@@ -1797,8 +1796,8 @@ def runNumberTheoryOperatorTests( ):
     # leyland
     testOperator( '7 8 leyland' )
 
-    # lgamma
-    testOperator( '10 lgamma' )
+    # log_gamma
+    testOperator( '10 log_gamma' )
 
     # linear_recurrence
     testOperator( '1 10 range 2 5 range 17 linear_recur' )
@@ -2544,7 +2543,7 @@ def runSpecialOperatorTests( ):
     testOperator( '23 265 random_integer_' )
 
     # result
-    testOperator( 'result' )
+    #testOperator( 'result' )
 
     # set - interactive mode
 
@@ -2558,11 +2557,11 @@ def runSpecialOperatorTests( ):
 
 # //******************************************************************************
 # //
-# //  runTrigonometricOperatorTests
+# //  runTrigonometryOperatorTests
 # //
 # //******************************************************************************
 
-def runTrigonometricOperatorTests( ):
+def runTrigonometryOperatorTests( ):
     # acos
     testOperator( '0.8 acos' )
 
@@ -2652,17 +2651,17 @@ rpnTestList = [
     ( 'astronomy',        runAstronomyOperatorTests ),
     ( 'bitwise',          runBitwiseOperatorTests ),
     ( 'calendar',         runCalendarOperatorTests ),
-    ( 'combinatoric',     runCombinatoricOperatorTests ),
+    ( 'combinatorics',    runCombinatoricsOperatorTests ),
     ( 'complex',          runComplexMathOperatorTests ),
     ( 'constant',         runConstantOperatorTests ),
     ( 'conversion',       runConversionOperatorTests ),
     ( 'date_time',        runDateTimeOperatorTests ),
     ( 'function',         runFunctionOperatorTests ),
-    ( 'geographic',       runGeographicOperatorTests ),
-    ( 'geometric',        runGeometricOperatorTests ),
-    ( 'lexicographic',    runLexicographicOperatorTests ),
+    ( 'geography',        runGeographyOperatorTests ),
+    ( 'geometry',         runGeometryOperatorTests ),
+    ( 'lexicography',     runLexicographycOperatorTests ),
     ( 'list',             runListOperatorTests ),
-    ( 'logarithmic',      runLogarithmOperatorTests ),
+    ( 'logarithms',       runLogarithmsOperatorTests ),
     ( 'modifier',         runModifierOperatorTests ),
     ( 'number_theory',    runNumberTheoryOperatorTests ),
     ( 'polygonal',        runPolygonalOperatorTests ),
@@ -2671,7 +2670,7 @@ rpnTestList = [
     ( 'prime_number',     runPrimeNumberOperatorTests ),
     ( 'settings',         runSettingsOperatorTests ),
     ( 'special',          runSpecialOperatorTests ),
-    ( 'trigonometric',    runTrigonometricOperatorTests ),
+    ( 'trigonometry',     runTrigonometryOperatorTests ),
 
     ( 'command-line',     runCommandLineOptionsTests ),
     ( 'convert',          runConvertTests ),

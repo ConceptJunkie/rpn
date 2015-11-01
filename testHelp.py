@@ -53,8 +53,8 @@ def runHelpTests( ):
     testOperator( 'help conversion' )
     testOperator( 'help date_time' )
     testOperator( 'help function' )
-    testOperator( 'help geometric' )
-    testOperator( 'help geographic' )
+    testOperator( 'help geometry' )
+    testOperator( 'help geography' )
     testOperator( 'help internal' )
     testOperator( 'help lexicographic' )
     testOperator( 'help list_operators' )
@@ -67,7 +67,7 @@ def runHelpTests( ):
     testOperator( 'help prime_numbers' )
     testOperator( 'help settings' )
     testOperator( 'help special' )
-    testOperator( 'help trigonometric' )
+    testOperator( 'help trigonometry' )
 
 
 # //******************************************************************************

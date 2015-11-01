@@ -2628,7 +2628,7 @@ far as rpn is concerned, it's an operator that does nothing.
 # //******************************************************************************
 
     'bell_polynomial' : [
-'combinatoric', 'evaluates the nth Bell polynomial with k',
+'combinatorics', 'evaluates the nth Bell polynomial with k',
 '''
 ''',
 '''
@@ -4920,173 +4920,173 @@ c:\>rpn inf x 1 + fib x fib / limit
 
 # //******************************************************************************
 # //
-# //  geometric operators
+# //  geometry operators
 # //
 # //******************************************************************************
 
     'antiprism_area' : [
-'geometric', 'calculates the surface area of an n-sided antiprism of edge length k',
+'geometry', 'calculates the surface area of an n-sided antiprism of edge length k',
 '''
 ''',
 '''
 ''' ],
 
     'antiprism_volume' : [
-'geometric', 'calculates the volume of an n-sided antiprism of edge length k',
+'geometry', 'calculates the volume of an n-sided antiprism of edge length k',
 '''
 ''',
 '''
 ''' ],
 
     'cone_area' : [
-'geometric', 'calculates the surface area of a cone of radius n and height k',
+'geometry', 'calculates the surface area of a cone of radius n and height k',
 '''
 ''',
 '''
 ''' ],
 
     'cone_volume' : [
-'geometric', 'calculates the volume of a cone of radius n and height k',
+'geometry', 'calculates the volume of a cone of radius n and height k',
 '''
 ''',
 '''
 ''' ],
 
     'dodecahedron_area' : [
-'geometric', 'calculates the surface area of a regular dodecahedron of edge length n',
+'geometry', 'calculates the surface area of a regular dodecahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'dodecahedron_volume' : [
-'geometric', 'calculates the volume of a regular dodecahedron of edge length n',
+'geometry', 'calculates the volume of a regular dodecahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'icosahedron_area' : [
-'geometric', 'calculates the surface area of a regular icosahedron of edge length n',
+'geometry', 'calculates the surface area of a regular icosahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'icosahedron_volume' : [
-'geometric', 'calculates the volume of a regular icosahedron of edge length n',
+'geometry', 'calculates the volume of a regular icosahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'n_sphere_area' : [
-'geometric', 'calculates the surface area of an n-sphere of size k (radius or volume)',
+'geometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
 '''
 ''',
 '''
 ''' ],
 
     'n_sphere_radius' : [
-'geometric', 'calculates the radius of an n-sphere of size k (surface area or volume)',
+'geometry', 'calculates the radius of an n-sphere of size k (surface area or volume)',
 '''
 ''',
 '''
 ''' ],
 
     'n_sphere_volume' : [
-'geometric', 'calculates the volume of an n-sphere of size k (radius or surface area)',
+'geometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
 '''
 ''',
 '''
 ''' ],
 
     'octahedron_area' : [
-'geometric', 'calculates the surface area of a regular octahedron of edge length n',
+'geometry', 'calculates the surface area of a regular octahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'octahedron_volume' : [
-'geometric', 'calculates the volume of a regular octahedron of edge length n',
+'geometry', 'calculates the volume of a regular octahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'polygon_area' : [
-'geometric', 'calculates the area of an regular n-sided polygon with sides of unit length',
+'geometry', 'calculates the area of an regular n-sided polygon with sides of unit length',
 '''
 ''',
 '''
 ''' ],
 
     'prism_area' : [
-'geometric', 'calculates the surface area of an a-sided prism of edge length b, and height c',
+'geometry', 'calculates the surface area of an a-sided prism of edge length b, and height c',
 '''
 ''',
 '''
 ''' ],
 
     'prism_volume' : [
-'geometric', 'calculates the volume of an a-sided prism of edge length b, and height c',
+'geometry', 'calculates the volume of an a-sided prism of edge length b, and height c',
 '''
 ''',
 '''
 ''' ],
 
     'sphere_area' : [
-'geometric', 'calculates the surface area of a sphere of size n (radius or volume)',
+'geometry', 'calculates the surface area of a sphere of size n (radius or volume)',
 '''
 ''',
 '''
 ''' ],
 
     'sphere_radius' : [
-'geometric', 'calculates the radius of a sphere of size n (surface area or volume)',
+'geometry', 'calculates the radius of a sphere of size n (surface area or volume)',
 '''
 ''',
 '''
 ''' ],
 
     'sphere_volume' : [
-'geometric', 'calculates the volume of a sphere of size n (radius or surface area)',
+'geometry', 'calculates the volume of a sphere of size n (radius or surface area)',
 '''
 ''',
 '''
 ''' ],
 
     'tetrahedron_area' : [
-'geometric', 'calculates the surface area of a regular tetrahedron of edge length n',
+'geometry', 'calculates the surface area of a regular tetrahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'tetrahedron_volume' : [
-'geometric', 'calculates the volume of a regular tetrahedron of edge length n',
+'geometry', 'calculates the volume of a regular tetrahedron of edge length n',
 '''
 ''',
 '''
 ''' ],
 
     'torus_area' : [
-'geometric', 'calculates the surface area of a torus of major radius n and minor radius k',
+'geometry', 'calculates the surface area of a torus of major radius n and minor radius k',
 '''
 ''',
 '''
 ''' ],
 
     'torus_volume' : [
-'geometric', 'calculates the volume of a torus of major radius n and minor radius k',
+'geometry', 'calculates the volume of a torus of major radius n and minor radius k',
 '''
 ''',
 '''
 ''' ],
 
     'triangle_area' : [
-'geometric', 'calculates the area of a triangle with sides of length a, b, and c',
+'geometry', 'calculates the area of a triangle with sides of length a, b, and c',
 '''
 This operator uses Heron's formula, which takes the square root of the product
 of the semiperimeter and the respective differences of the semiperimeter and
@@ -5105,33 +5105,33 @@ c:\>rpn 2 3 make_pyth_3 unlist triangle_area
 
 # //******************************************************************************
 # //
-# //  geographic operators
+# //  geography operators
 # //
 # //******************************************************************************
 
     'distance' : [
-'geographic', 'calculates the distance, along the Earth\'s surface, of two locations',
+'geography', 'calculates the distance, along the Earth\'s surface, of two locations',
 '''
 ''',
 '''
 ''' ],
 
     'latlong' : [
-'geographic', 'creates a location object given the lat/long for use with other operators',
+'geography', 'creates a location object given the lat/long for use with other operators',
 '''
 ''',
 '''
 ''' ],
 
     'location' : [
-'geographic', 'returns the lat-long for a location string',
+'geography', 'returns the lat-long for a location string',
 '''
 ''',
 '''
 ''' ],
 
     'location_info' : [
-'geographic', 'returns the lat-long for a location',
+'geography', 'returns the lat-long for a location',
 '''
 ''',
 '''
@@ -5189,14 +5189,14 @@ The operator returns the RPN version number in list format.
 # //******************************************************************************
 
     'add_digits' : [
-'lexicographic', 'adds the digits of k to n',
+'lexicography', 'adds the digits of k to n',
 '''
 ''',
 '''
 ''' ],
 
     'combine_digits' : [
-'lexicographic', 'combines the digits of all elements of list n into a single number',
+'lexicography', 'combines the digits of all elements of list n into a single number',
 '''
 ''',
 '''
@@ -5208,14 +5208,14 @@ c:\>rpn 1 1 7 range primes combine_digits
 ''' ],
 
     'dup_digits' : [
-'lexicographic', 'append n with a copy of its last k digits',
+'lexicography', 'append n with a copy of its last k digits',
 '''
 ''',
 '''
 ''' ],
 
     'find_palindrome' : [
-'lexicographic', 'adds the reverse of n to itself up to k successive times to find a palindrome',
+'lexicography', 'adds the reverse of n to itself up to k successive times to find a palindrome',
 '''
 ''',
 '''
@@ -5224,7 +5224,7 @@ c:\>rpn -a30 10911 55 find_palindrome
 ''' ],
 
     'get_digits' : [
-'lexicographic', 'returns the list of digits comprising integer n',
+'lexicography', 'returns the list of digits comprising integer n',
 '''
 This operation is useful for working with any lexicographic feature based
 on the digits that comprise an integer.
@@ -5233,7 +5233,7 @@ on the digits that comprise an integer.
 ''' ],
 
     'is_palindrome' : [
-'lexicographic', 'returns whether an integer n is palindromic',
+'lexicography', 'returns whether an integer n is palindromic',
 '''
 n is treated as an integer.  If its digits are palindromic, i.e., they
 read the same forwards as backwards, then the operator returns 1.
@@ -5247,7 +5247,7 @@ c:\>rpn 1201 is_palindrome
 ''' ],
 
     'is_pandigital' : [
-'lexicographic', 'returns whether an integer n is pandigital',
+'lexicography', 'returns whether an integer n is pandigital',
 '''
 A pandigital number contains at least one of all the of the digits 0 through
 9.
@@ -5264,14 +5264,14 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 ''' ],
 
     'multiply_digits' : [
-'lexicographic', 'calculates the product of the digits of integer n',
+'lexicography', 'calculates the product of the digits of integer n',
 '''
 ''',
 '''
 ''' ],
 
     'reversal_addition' : [
-'lexicographic', 'TODO: describe me',
+'lexicography', 'TODO: describe me',
 '''
 ''',
 '''
@@ -5280,7 +5280,7 @@ c:\>rpn -a20 89 24 rev_add
 ''' ],
 
     'reverse_digits' : [
-'lexicographic', 'returns n with its digits reversed',
+'lexicography', 'returns n with its digits reversed',
 '''
 'reverse_digits' converts the argument to an integer.
 ''',
@@ -5291,7 +5291,7 @@ c:\>rpn 123456789 reverse_digits
 ''' ],
 
     'sum_digits' : [
-'lexicographic', 'calculates the sum of the digits of integer n',
+'lexicography', 'calculates the sum of the digits of integer n',
 '''
 ''',
 '''
@@ -6608,7 +6608,7 @@ n and k cannot both be odd.
 ''' ],
 
     'repunit' : [
-'number_thoery', 'returns the nth repunit in base k',
+'number_theory', 'returns the nth repunit in base k',
 '''
 ''',
 '''
@@ -8265,12 +8265,12 @@ c:\>rpn 1000 light-years value
 
 # //******************************************************************************
 # //
-# //  trigonometric operators
+# //  trigonometry operators
 # //
 # //******************************************************************************
 
     'acos' : [
-'trigonometric', 'calculates the arccosine of n',
+'trigonometry', 'calculates the arccosine of n',
 '''
 The arcosine is the inverse of cosine.  In other words, if cos( x ) = y, then
 acos( y ) = x.
@@ -8289,7 +8289,7 @@ c:\>rpn 45 degrees cos acos rad deg convert
 ''' ],
 
     'acosh' : [
-'trigonometric', 'calculates the hyperbolic arccosine of n',
+'trigonometry', 'calculates the hyperbolic arccosine of n',
 '''
 The hyperbolic arccosine is the inverse of the hyperbolic cosine.
 
@@ -8301,14 +8301,14 @@ instead of a unit circle.
 ''' ],
 
     'acot' : [
-'trigonometric', 'calcuates the arccotangent of n',
+'trigonometry', 'calcuates the arccotangent of n',
 '''
 ''',
 '''
 ''' ],
 
     'acoth' : [
-'trigonometric', 'calculates the hyperbolic arccotangent of n',
+'trigonometry', 'calculates the hyperbolic arccotangent of n',
 '''
 The hyperbolic arccotangent is the inverse of the hyperbolic cotangent.
 
@@ -8320,14 +8320,14 @@ instead of a unit circle.
 ''' ],
 
     'acsc' : [
-'trigonometric', 'calculates the arccosecant of n',
+'trigonometry', 'calculates the arccosecant of n',
 '''
 ''',
 '''
 ''' ],
 
     'acsch' : [
-'trigonometric', 'calculates the hyperbolic arccosecant of n',
+'trigonometry', 'calculates the hyperbolic arccosecant of n',
 '''
 The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.
 
@@ -8339,14 +8339,14 @@ instead of a unit circle.
 ''' ],
 
     'asec' : [
-'trigonometric', 'calculates the arcsecant of n',
+'trigonometry', 'calculates the arcsecant of n',
 '''
 ''',
 '''
 ''' ],
 
     'asech' : [
-'trigonometric', 'calculates the hyperbolic arcsecant of n',
+'trigonometry', 'calculates the hyperbolic arcsecant of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -8357,7 +8357,7 @@ instead of a unit circle.
 ''' ],
 
     'asin' : [
-'trigonometric', 'calculates the arcsine of n',
+'trigonometry', 'calculates the arcsine of n',
 '''
 The arcsine is the inverse of sine.  In other words, if sin( x ) = y, then
 asin( y ) = x.
@@ -8378,7 +8378,7 @@ c:\>rpn 2 sqrt 1/x asin rad deg convert
 ''' ],
 
     'asinh' : [
-'trigonometric', 'calculates the hyperbolic arcsine of n',
+'trigonometry', 'calculates the hyperbolic arcsine of n',
 '''
 The hyperbolic arcsine is the inverse of the hyperbolic sine.
 
@@ -8390,7 +8390,7 @@ instead of a unit circle.
 ''' ],
 
     'atan' : [
-'trigonometric', 'calculates the arctangent of n',
+'trigonometry', 'calculates the arctangent of n',
 '''
 The arctangent is the inverse of tangent.  In other words, if tan( x ) = y, then
 atan( y ) = x.
@@ -8409,7 +8409,7 @@ c:\>rpn 89 degrees tan atan rad deg convert
 ''' ],
 
     'atanh' : [
-'trigonometric', 'calculates the hyperbolic arctangent of n',
+'trigonometry', 'calculates the hyperbolic arctangent of n',
 '''
 The hyperbolic arctangent is the inverse of the hyperbolic tangent.
 
@@ -8421,14 +8421,14 @@ instead of a unit circle.
 ''' ],
 
     'cos' : [
-'trigonometric', 'calculates the cosine of n',
+'trigonometry', 'calculates the cosine of n',
 '''
 ''',
 '''
 ''' ],
 
     'cosh' : [
-'trigonometric', 'calculates the hyperbolic cosine of n',
+'trigonometry', 'calculates the hyperbolic cosine of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -8439,14 +8439,14 @@ instead of a unit circle.
 ''' ],
 
     'cot' : [
-'trigonometric', 'calculates the cotangent of n',
+'trigonometry', 'calculates the cotangent of n',
 '''
 ''',
 '''
 ''' ],
 
     'coth' : [
-'trigonometric', 'calculates the hyperbolic cotangent of n',
+'trigonometry', 'calculates the hyperbolic cotangent of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -8457,7 +8457,7 @@ instead of a unit circle.
 ''' ],
 
     'csc' : [
-'trigonometric', 'calculates the cosecant of n',
+'trigonometry', 'calculates the cosecant of n',
 '''
 The cosecant function is defined to be the reciprocal of the sine function.
 ''',
@@ -8473,7 +8473,7 @@ c:\>rpn 36 degrees sin
 ''' ],
 
     'csch' : [
-'trigonometric', 'calculates hyperbolic cosecant of n',
+'trigonometry', 'calculates hyperbolic cosecant of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -8484,7 +8484,7 @@ instead of a unit circle.
 ''' ],
 
     'hypotenuse' : [
-'trigonometric', 'calculates the hypotenuse of n and k',
+'trigonometry', 'calculates the hypotenuse of n and k',
 '''
 Given a right triangle with sides of n and k, the 'hypotenuse' operator
 calculates what the length of the hypotenuse would be.
@@ -8501,14 +8501,14 @@ c:\>rpn 1 1 hypotenuse
 ''' ],
 
     'sec' : [
-'trigonometric', 'calculates the secant of n',
+'trigonometry', 'calculates the secant of n',
 '''
 ''',
 '''
 ''' ],
 
     'sech' : [
-'trigonometric', 'calculates the hyperbolic secant of n',
+'trigonometry', 'calculates the hyperbolic secant of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -8519,14 +8519,14 @@ instead of a unit circle.
 ''' ],
 
     'sin' : [
-'trigonometric', 'calculates the sine of n',
+'trigonometry', 'calculates the sine of n',
 '''
 ''',
 '''
 ''' ],
 
     'sinh' : [
-'trigonometric', 'calculates the hyperbolic sine of n',
+'trigonometry', 'calculates the hyperbolic sine of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular
@@ -8537,14 +8537,14 @@ instead of a unit circle.
 ''' ],
 
     'tan' : [
-'trigonometric', 'calculates the tangent of n',
+'trigonometry', 'calculates the tangent of n',
 '''
 ''',
 '''
 ''' ],
 
     'tanh' : [
-'trigonometric', 'calculates the hyperbolic tangent of n',
+'trigonometry', 'calculates the hyperbolic tangent of n',
 '''
 
 The hyperbolic trigonometric functions are analogous to the regular circular

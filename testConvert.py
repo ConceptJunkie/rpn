@@ -40,7 +40,7 @@ def runConvertTests( ):
     testOperator( 'watt-second second watt * convert' )
 
     # complicated conversions
-    testOperator( '16800 mA hours * 5 volts * joule convert' )
+    #testOperator( '16800 mA hours * 5 volts * joule convert' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )
