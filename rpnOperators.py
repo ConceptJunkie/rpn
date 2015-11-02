@@ -246,6 +246,9 @@ def evaluateTerm( term, index, currentValueList ):
             else:
                 raise ValueError( 'unsupported type for a unit operator' )
         elif not isList and ( term in constants ):
+            if not g.unitOperators:
+                loadUnitData( )
+
             if not evaluateConstantOperator( term, index, currentValueList ):
                 return False
         elif not isList and ( term in operators ):
@@ -1604,7 +1607,7 @@ constants = {
     # constant - physical constants
     'avogadro_number'               : OperatorInfo( lambda: mpmathify( '6.022140857e23' ), 0 ),
     'bohr_radius'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.2917721e-11' ), [ { 'meter' : 1 } ] ), 0 ),
-    'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.3806488e-23' ), [ { 'joule' : 1 }, { 'kelvin' : 1 } ] ), 0 ),
+    'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.3806488e-23' ), [ { 'joule' : 1 }, { 'kelvin' : -1 } ] ), 0 ),
     'electric_constant'             : OperatorInfo( lambda: RPNMeasurement( mpmathify( '8.854187817e-12' ), [ { 'farad' : 1 }, { 'meter' : -1 } ] ), 0 ),
     'electron_charge'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.602176565e-19' ), [ { 'coulomb' : 1 } ] ), 0 ),
     'electron_mass'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '9.10938291e-28' ), [ { 'gram' : 1 } ] ), 0 ),

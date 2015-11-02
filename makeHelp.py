@@ -350,15 +350,29 @@ up to 60 seconds.
 Here's a shortcut for "[ day hour minute second ] convert":
 
     c:\>rpn 150,000 seconds dhms
-    [ 1 day, 17 hours, 39 minutes, 60 seconds ]
+    [ 1 day, 17 hours, 40 minutes, 1.6263e-17 seconds ]
+
+There's a slight rounding error that I'd really like to fix.
+
+What is the temperature of a black hole with the same mass as the sun?
+
+    c:\>rpn h_bar c 3 ** * [ 8 pi G boltzmann solar_mass ] prod /
+    6.16832371699e-8 degrees kelvin
+
+And what is the radius of the black hole (i.e., the Schwartzchild radius)?
+
+    c:\>rpn [ 2 G solar_mass ] prod c sqr /
+    2954.17769868 meters
 
 What is the radius of a sphere needed to hold 8 fluid ounces?
 
-    c:\>rpn 8 floz inch 3 ** convert sphereradius
-    1.510547765004
+    c:\>rpn 8 floz sphere_radius inch convert
+    1.510547765 inches
 
-It should say '1.510547765004 inches', but I haven't worked out all the unit
-stuff with the sphere functions yet.
+And how does the surface gravity of that black hole compare to Earth's?
+
+    c:\>rpn -a20 G solar_mass * 2954.17769868 meters sqr / gee /
+    1551151150565.8376167
 
 I tried to make the unit conversion flexible and smart.  It is... sometimes.
 
@@ -366,7 +380,7 @@ I tried to make the unit conversion flexible and smart.  It is... sometimes.
     302400 joules
 
     c:\>rpn gigaparsec barn * cubic_inches convert
-    188.299599080441 cubic inches
+    188.29959908 cubic inches
 
 And sometimes it isn't:
 
