@@ -291,7 +291,7 @@ class RPNMeasurement( mpf ):
         newValue = fmul( self, other )
 
         if isinstance( other, RPNMeasurement ):
-            factor, newUnits = combineUnits( self.getUnits( ).simplify( ), other.getUnits( ).simplify( ) )
+            factor, newUnits = combineUnits( self.getUnits( ), other.getUnits( ) )
 
             self = RPNMeasurement( fmul( newValue, factor ), newUnits )
         else:
@@ -304,8 +304,7 @@ class RPNMeasurement( mpf ):
         newValue = fdiv( self, other )
 
         if isinstance( other, RPNMeasurement ):
-            factor, newUnits = combineUnits( self.getUnits( ).simplify( ),
-                                             other.getUnits( ).invert( ).simplify( ) )
+            factor, newUnits = combineUnits( self.getUnits( ), other.getUnits( ).invert( ) )
 
             self = RPNMeasurement( fmul( newValue, factor ), newUnits )
         else:
@@ -402,10 +401,7 @@ class RPNMeasurement( mpf ):
 
             return result
         elif isinstance( other, RPNMeasurement ):
-            if self.units == other.units:
-                return True
-            else:
-                return self.getSimpleTypes( ) == other.getSimpleTypes( )
+            return self.getUnits( ) == other.getUnits( )
         else:
             raise ValueError( 'RPNMeasurement or dict expected' )
 
@@ -443,14 +439,8 @@ class RPNMeasurement( mpf ):
     def getDimensions( self ):
         return self.units.getDimensions( )
 
-    def getSimpleTypes( self ):
-        return self.units.simplify( )
-
     def getBasicTypes( self ):
         return self.getUnitTypes( ).getBasicTypes( )
-
-    def getPrimitiveTypes( self ):
-        return self.getUnitTypes( ).getPrimitiveTypes( )
 
     def getReduced( self ):
         debugPrint( 'getReduced 1:', self, [ ( i, self.units[ i ] ) for i in self.units ] )

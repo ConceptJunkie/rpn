@@ -112,29 +112,7 @@ class Units( collections.Counter ):
 
         return result
 
-    def simplify( self ):
-        result = Units( )
-
-        for unit in self:
-            if unit not in g.unitOperators:
-                raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
-            simpleUnits = Units( g.unitOperators[ unit ].representation )
-
-            exponent = self.get( unit )
-
-            if exponent != 1:   # handle exponent
-                for unit2 in simpleUnits:
-                    simpleUnits[ unit2 ] *= exponent
-
-            result.update( simpleUnits )
-
-        return result
-
-    def getPrimitiveTypes( self ):
-        return self.getBasicTypes( True )
-
-    def getBasicTypes( self, primitive = False ):
+    def getBasicTypes( self ):
         result = Units( )
 
         for unit in self:
@@ -146,10 +124,7 @@ class Units( collections.Counter ):
 
                 unitType = g.unitOperators[ unit ].unitType
 
-            if primitive:
-                basicUnits = Units( g.basicUnitTypes[ unitType ].primitiveUnit )
-            else:
-                basicUnits = Units( g.basicUnitTypes[ unitType ].baseUnitType )
+            basicUnits = Units( g.basicUnitTypes[ unitType ].baseUnitType )
 
             exponent = self[ unit ]
 

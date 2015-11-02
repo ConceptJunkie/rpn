@@ -263,8 +263,7 @@ def formatUnits( measurement ):
 
     unitString = ''
 
-    # first, we simplify the units
-    units = measurement.getUnits( ).simplify( )
+    units = measurement.getUnits( )
 
     # now that we've expanded the compound units, let's format...
     for unit in units:
