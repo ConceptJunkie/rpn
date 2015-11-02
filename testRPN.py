@@ -1300,20 +1300,26 @@ def runGeometryOperatorTests( ):
     testOperator( '3 8 cone_volume' )
 
     # n_sphere_area
-    testOperator( '34 inches 3 n_sphere_area' )
-    testOperator( '34 square_inches 3 n_sphere_area' )
-    testOperator( '34 cubic_inches 3 n_sphere_area' )
+    testOperator( '34 inches 8 n_sphere_area' )
+    testOperator( '34 square_inches 5 n_sphere_area' )
+    testOperator( '34 cubic_inches 7 n_sphere_area' )
+    expectException( '34 cubic_inches 2 n_sphere_area' )
 
     # n_sphere_radius
     testOperator( '3 meters 4 n_sphere_radius' )
     testOperator( '3 square_meters 4 n_sphere_radius' )
     testOperator( '3 cubic_meters 4 n_sphere_radius' )
+    expectException( '3 cubic_meters 2 n_sphere_radius' )
 
     # n_sphere_volume
-    testOperator( '3 square_feet 6 nsphere_volume' )
+    testOperator( '6 inches 9 n_sphere_volume' )
+    testOperator( '3 square_feet 6 n_sphere_volume' )
+    testOperator( '50 cubic_centimeters 7 n_sphere_volume' )
+    expectException( '50 cubic_centimeters 1 n_sphere_volume' )
 
     # polygon_area
     testOperator( '13 polygon_area' )
+    testOperator( '3 10 range polygon_area' )
 
     # prism_area
     testOperator( '8 5 2 prism_area' )
@@ -2659,7 +2665,7 @@ rpnTestList = [
     ( 'function',         runFunctionOperatorTests ),
     ( 'geography',        runGeographyOperatorTests ),
     ( 'geometry',         runGeometryOperatorTests ),
-    ( 'lexicography',     runLexicographycOperatorTests ),
+    ( 'lexicography',     runLexicographyOperatorTests ),
     ( 'list',             runListOperatorTests ),
     ( 'logarithms',       runLogarithmsOperatorTests ),
     ( 'modifier',         runModifierOperatorTests ),

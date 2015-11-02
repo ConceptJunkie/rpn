@@ -16,7 +16,7 @@ from mpmath import *
 
 from rpnMeasurement import RPNMeasurement
 from rpnUnitClasses import *
-from rpnUtils import real
+from rpnUtils import real, real_int
 
 
 # //******************************************************************************
@@ -40,32 +40,43 @@ def getRegularPolygonArea( n ):
 # //
 # //  getNSphereRadius
 # //
-# //  k needs to be an RPNMeasurement so getNSphereRadius can tell if it's an
+# //  n - measurement
+# //  k - dimension
+# //
+# //  n needs to be an RPNMeasurement so getNSphereRadius can tell if it's an
 # //  area or a volume and use the correct formula.
 # //
 # //******************************************************************************
 
 def getNSphereRadius( n, k ):
-    if real( n ) < 3:
+    if real_int( k ) < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
-    if not isinstance( k, RPNMeasurement ):
-        return RPNMeasurement( k, 'inch' )
+    if not isinstance( n, RPNMeasurement ):
+        return RPNMeasurement( n, 'meter' )
 
-    measurementType = k.getBasicTypes( )
+    dimensions = n.getDimensions( )
 
-    if measurementType == { 'length' : 1 }:
-        return k
-    elif measurementType == { 'length' : 2 }:
-        return fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
-                           fmul( n, power( pi, fdiv( n, 2 ) ) ) ),
-                     root( k, fsub( n, 1 ) ) )
-    elif measurementType == { 'length' : 3 }:
-        return root( fmul( fdiv( gamma( fadd( fdiv( n, 2 ), 1 ) ),
-                                 power( pi, fdiv( n, 2 ) ) ), k ), 3 )
+    if dimensions == { 'length' : 1 }:
+        return n
+    elif dimensions == { 'length' : 2 }:
+        m2 = n.convertValue( RPNMeasurement( 1, [ { 'meter' : 2 } ] ) )
+
+        result = root( fdiv( fmul( m2, gamma( fdiv( k, 2 ) ) ),
+                             fmul( 2, power( pi, fdiv( k, 2 ) ) ) ), fsub( k, 1 ) )
+
+        return RPNMeasurement( result, [ { 'meter' : 1 } ] )
+    elif dimensions == { 'length' : 3 }:
+        m3 = n.convertValue( RPNMeasurement( 1, [ { 'meter' : 3 } ] ) )
+
+        result = root( fmul( fdiv( gamma( fadd( fdiv( k, 2 ), 1 ) ),
+                                   power( pi, fdiv( k, 2 ) ) ),
+                             m3 ), k )
+
+        return RPNMeasurement( result, [ { 'meter' : 1 } ] )
     else:
         raise ValueError( 'incompatible measurement type for computing the radius: ' +
-                          measurementType )
+                          dimensions )
 
 
 # //******************************************************************************
@@ -74,37 +85,37 @@ def getNSphereRadius( n, k ):
 # //
 # //  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
 # //
-# //  n dimensions, k measurement
+# //  n - measurement
+# //  k - dimension
 # //
-# //  If k is a length, then it is taken to be the radius.  If it is a volume
+# //  If n is a length, then it is taken to be the radius.  If it is a volume
 # //  then it is taken to be the volume.  If it is an area, then it is returned
 # //  unchanged.  Other measurement types cause an exception.
 # //
 # //******************************************************************************
 
 def getNSphereSurfaceArea( n, k ):
-    if not isinstance( k, RPNMeasurement ):
-        return getNSphereSurfaceArea( n, RPNMeasurement( real( k ), 'inch' ) )
-
-    if real( n ) < 3:
+    if real_int( k ) < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
-    measurementType = k.getBasicTypes( )
+    if not isinstance( n, RPNMeasurement ):
+        return getNSphereSurfaceArea( n, RPNMeasurement( real( n ), 'inch' ) )
 
-    if measurementType == { 'length' : 1 }:
-        newUnits = Units( k.units )
+    dimensions = n.getDimensions( )
 
-        for unit in newUnits:
-            newUnits[ unit ] *= 2
+    if dimensions == { 'length' : 1 }:
+        m = n.convertValue( RPNMeasurement( 1, [ { 'meter' : 1 } ] ) )
 
-        return RPNMeasurement( fmul( fdiv( fmul( n, power( pi, fdiv( n, 2 ) ) ),
-                                     gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, fsub( n, 1 ) ) ),
-                            newUnits )
-    elif measurementType == { 'length' : 2 }:
-        return k
-    elif measurementType == { 'length' : 3 }:
-        raise ValueError( 'convertion volume to area is not implemented yet' )
-        return 3    # TODO: formula for converting volume to surface area
+        result = fmul( fdiv( fmul( power( pi, fdiv( k, 2 ) ), 2 ),
+                             gamma( fdiv( k, 2 ) ) ),
+                       power( m, fsub( k, 1 ) ) )
+
+        return RPNMeasurement( result, [ { 'meter' : 2 } ] )
+    elif dimensions == { 'length' : 2 }:
+        return n
+    elif dimensions == { 'length' : 3 }:
+        radius = getNSphereRadius( n, k )
+        return getNSphereSurfaceArea( radius, k )
     else:
         raise ValueError( 'incompatible measurement type for computing the surface area' )
 
@@ -115,31 +126,37 @@ def getNSphereSurfaceArea( n, k ):
 # //
 # //  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
 # //
-# //  n dimensions, k measurement
+# //  n - measurement
+# //  k - dimension
 # //
-# //  If k is a length, then it is taken to be the radius.  If it is an area
+# //  If n is a length, then it is taken to be the radius.  If it is an area
 # //  then it is taken to be the surface area.  If it is a volume, then it is
 # //  returned unchanged.  Other measurement types cause an exception.
 # //
 # //******************************************************************************
 
 def getNSphereVolume( n, k ):
-    if real( n ) < 3:
+    if real_int( k ) < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
-    if not isinstance( k, RPNMeasurement ):
-        return getNSphereVolume( n, RPNMeasurement( real( k ), 'inch' ) )
+    if not isinstance( n, RPNMeasurement ):
+        return getNSphereVolume( RPNMeasurement( real( n ), 'inch' ), k )
 
-    measurementType = k.getBasicTypes( )
+    dimensions = n.getDimensions( )
+    m = n.getValue( )
 
-    if measurementType == { 'length' : 1 }:
-        return fmul( fdiv( power( pi, fdiv( n, 2 ) ),
-                           gamma( fadd( fdiv( n, 2 ), 1 ) ) ), power( k, n ) )
-    elif measurementType == { 'length' : 2 }:
-        raise ValueError( 'convertion area to volume is not implemented yet' )
-        return 2   # TODO: formula for converting surface area to volume
-    elif measurementType == { 'length' : 3 }:
-        return k
+    if dimensions == { 'length' : 1 }:
+        m = n.convertValue( RPNMeasurement( 1, [ { 'meter' : 1 } ] ) )
+
+        result = fmul( fdiv( power( pi, fdiv( k, 2 ) ),
+                             gamma( fadd( fdiv( k, 2 ), 1 ) ) ), power( m, k ) )
+
+        return RPNMeasurement( result, [ { 'meter' : 3 } ] )
+    elif dimensions == { 'length' : 2 }:
+        radius = getNSphereRadius( n, k )
+        return getNSphereVolume( radius, k )
+    elif dimensions == { 'length' : 3 }:
+        return n
     else:
         raise ValueError( 'incompatible measurement type for computing the volume' )
 
