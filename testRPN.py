@@ -1301,20 +1301,20 @@ def runGeometryOperatorTests( ):
 
     # n_sphere_area
     testOperator( '34 inches 8 n_sphere_area' )
-    testOperator( '34 square_inches 5 n_sphere_area' )
-    testOperator( '34 cubic_inches 7 n_sphere_area' )
+    testOperator( '34 inches 4 ** 5 n_sphere_area' )
+    testOperator( '34 inches 7 ** 7 n_sphere_area' )
     expectException( '34 cubic_inches 2 n_sphere_area' )
 
     # n_sphere_radius
     testOperator( '3 meters 4 n_sphere_radius' )
-    testOperator( '3 square_meters 4 n_sphere_radius' )
+    testOperator( '3 meters 3 ** 4 n_sphere_radius' )
     testOperator( '3 cubic_meters 4 n_sphere_radius' )
     expectException( '3 cubic_meters 2 n_sphere_radius' )
 
     # n_sphere_volume
-    testOperator( '6 inches 9 n_sphere_volume' )
-    testOperator( '3 square_feet 6 n_sphere_volume' )
-    testOperator( '50 cubic_centimeters 7 n_sphere_volume' )
+    testOperator( '6 inches 8 ** 9 n_sphere_volume' )
+    testOperator( '3 feet 5 ** 6 n_sphere_volume' )
+    testOperator( '50 cubic_centimeters sqr 7 n_sphere_volume' )
     expectException( '50 cubic_centimeters 1 n_sphere_volume' )
 
     # polygon_area

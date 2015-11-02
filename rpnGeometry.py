@@ -59,15 +59,15 @@ def getNSphereRadius( n, k ):
 
     if dimensions == { 'length' : 1 }:
         return n
-    elif dimensions == { 'length' : 2 }:
-        m2 = n.convertValue( RPNMeasurement( 1, [ { 'meter' : 2 } ] ) )
+    elif dimensions == { 'length' : int( k - 1 ) }:
+        m2 = n.convertValue( RPNMeasurement( 1, [ { 'meter' : int( k - 1 ) } ] ) )
 
         result = root( fdiv( fmul( m2, gamma( fdiv( k, 2 ) ) ),
                              fmul( 2, power( pi, fdiv( k, 2 ) ) ) ), fsub( k, 1 ) )
 
         return RPNMeasurement( result, [ { 'meter' : 1 } ] )
-    elif dimensions == { 'length' : 3 }:
-        m3 = n.convertValue( RPNMeasurement( 1, [ { 'meter' : 3 } ] ) )
+    elif dimensions == { 'length' : int( k ) }:
+        m3 = n.convertValue( RPNMeasurement( 1, [ { 'meter' : int( k ) } ] ) )
 
         result = root( fmul( fdiv( gamma( fadd( fdiv( k, 2 ), 1 ) ),
                                    power( pi, fdiv( k, 2 ) ) ),
@@ -76,7 +76,7 @@ def getNSphereRadius( n, k ):
         return RPNMeasurement( result, [ { 'meter' : 1 } ] )
     else:
         raise ValueError( 'incompatible measurement type for computing the radius: ' +
-                          dimensions )
+                          str( dimensions ) )
 
 
 # //******************************************************************************
@@ -110,10 +110,10 @@ def getNSphereSurfaceArea( n, k ):
                              gamma( fdiv( k, 2 ) ) ),
                        power( m, fsub( k, 1 ) ) )
 
-        return RPNMeasurement( result, [ { 'meter' : fsub( k, 1 ) } ] )
-    elif dimensions == { 'length' : 2 }:
+        return RPNMeasurement( result, [ { 'meter' : int( k - 1 ) } ] )
+    elif dimensions == { 'length' : int( k - 1 ) }:
         return n
-    elif dimensions == { 'length' : 3 }:
+    elif dimensions == { 'length' : int( k ) }:
         radius = getNSphereRadius( n, k )
         return getNSphereSurfaceArea( radius, k )
     else:
@@ -136,7 +136,7 @@ def getNSphereSurfaceArea( n, k ):
 # //******************************************************************************
 
 def getNSphereVolume( n, k ):
-    if real_int( k ) < 3:
+    if real_int( k ) < 1:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     if not isinstance( n, RPNMeasurement ):
@@ -152,10 +152,10 @@ def getNSphereVolume( n, k ):
                              gamma( fadd( fdiv( k, 2 ), 1 ) ) ), power( m, k ) )
 
         return RPNMeasurement( result, [ { 'meter' : k } ] )
-    elif dimensions == { 'length' : 2 }:
+    elif dimensions == { 'length' : int( k - 1 ) }:
         radius = getNSphereRadius( n, k )
         return getNSphereVolume( radius, k )
-    elif dimensions == { 'length' : 3 }:
+    elif dimensions == { 'length' : int( k ) }:
         return n
     else:
         raise ValueError( 'incompatible measurement type for computing the volume' )
