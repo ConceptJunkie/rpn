@@ -69,7 +69,7 @@ basicUnitTypes = {
     ),
 
     'charge' : UnitTypeInfo(
-        'charge',
+        'current*second',
         'coulomb',
         chargeTable,
     ),
@@ -81,7 +81,7 @@ basicUnitTypes = {
     ),
 
     'current' : UnitTypeInfo(
-        'charge/time',
+        'current',
         'ampere',
         currentTable,
     ),
@@ -105,19 +105,19 @@ basicUnitTypes = {
     ),
 
     'electrical_conductance' : UnitTypeInfo(
-        '1/electrical_resistance',
+        'current^2*time^3/length*mass^3',
         'siemens',
         electricalConductanceTable,
     ),
 
     'electrical_resistance' : UnitTypeInfo(
-        'electrical_resistance',
+        'length*mass^3/current^2*time^3',
         'ohm',
         electricalResistanceTable,
     ),
 
     'electric_potential' : UnitTypeInfo(
-        'electric_potential',
+        'length*mass^3/time^3*current',
         'volt',
         electricPotentialTable,
     ),
@@ -147,7 +147,7 @@ basicUnitTypes = {
     ),
 
     'inductance' : UnitTypeInfo(
-        'electric_potential/charge',
+        'mass*length^2/time^2*current^2',
         'henry',
         inductanceTable,
     ),
@@ -183,19 +183,19 @@ basicUnitTypes = {
     ),
 
     'magnetic_field_strength' : UnitTypeInfo(
-        'charge/length',
+        'current/length',
         'ampere/meter',
         magneticFieldStrengthTable,
     ),
 
     'magnetic_flux' : UnitTypeInfo(
-        'electric_potential*time',
+        'mass*length^2/time^2*current',
         'weber',
         magneticFluxTable,
     ),
 
     'magnetic_flux_density' : UnitTypeInfo(
-        'electric_potential*time/length^2',
+        'mass/time^2*current',
         'tesla',
         magneticFluxDensityTable,
     ),
@@ -207,7 +207,7 @@ basicUnitTypes = {
     ),
 
     'power' : UnitTypeInfo(
-        'electric_potential*charge/time',
+        'mass*length^2/time^3',
         'watt',
         powerTable,
     ),
@@ -219,13 +219,13 @@ basicUnitTypes = {
     ),
 
     'radiation_dose' : UnitTypeInfo(
-        'electric_potential*charge/mass',
+        'length*mass^3*current/time^2*current*mass',
         'sievert',
         radiationDoseTable,
     ),
 
     'radiation_exposure' : UnitTypeInfo(
-        'charge/mass',
+        'current*time/mass',
         'coulomb/kilogram',
         radiationExposureTable,
     ),
