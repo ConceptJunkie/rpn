@@ -110,7 +110,7 @@ def getNSphereSurfaceArea( n, k ):
                              gamma( fdiv( k, 2 ) ) ),
                        power( m, fsub( k, 1 ) ) )
 
-        return RPNMeasurement( result, [ { 'meter' : 2 } ] )
+        return RPNMeasurement( result, [ { 'meter' : fsub( k, 1 ) } ] )
     elif dimensions == { 'length' : 2 }:
         return n
     elif dimensions == { 'length' : 3 }:
@@ -151,7 +151,7 @@ def getNSphereVolume( n, k ):
         result = fmul( fdiv( power( pi, fdiv( k, 2 ) ),
                              gamma( fadd( fdiv( k, 2 ), 1 ) ) ), power( m, k ) )
 
-        return RPNMeasurement( result, [ { 'meter' : 3 } ] )
+        return RPNMeasurement( result, [ { 'meter' : k } ] )
     elif dimensions == { 'length' : 2 }:
         radius = getNSphereRadius( n, k )
         return getNSphereVolume( radius, k )
