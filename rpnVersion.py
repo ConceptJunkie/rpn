@@ -19,7 +19,7 @@
 # //******************************************************************************
 
 PROGRAM_VERSION = '6.99.0'
-PROGRAM_VERSION_NAME = '7.0 beta 1'
+PROGRAM_VERSION_NAME = '7.0 alpha 1'
 COPYRIGHT_MESSAGE = 'copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)'
 
 PROGRAM_VERSION_STRING = ' ' + PROGRAM_VERSION + ' (' + PROGRAM_VERSION_NAME + ') - '

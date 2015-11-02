@@ -3761,27 +3761,6 @@ at random within a unit cube.
 '''
 ''' ],
 
-    'solar_luminosity' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
-    'solar_mass' : [
-'constants', 'returns the estimated mass of the Sun in grams',
-'''
-''',
-'''
-''' ],
-
-    'solar_radius' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
     'speed_of_light' : [
 'constants', 'returns the speed of light in a vacuum in meters per second',
 '''
@@ -3850,7 +3829,29 @@ Ref:  CODATA 2014
 # //
 # //******************************************************************************
 
-    'mercury_day' : [
+    'solar_luminosity' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'solar_mass' : [
+'constants', 'returns the estimated mass of the Sun in grams',
+'''
+''',
+'''
+Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
+''' ],
+
+    'solar_radius' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'mercury_rotation' : [
 'constants', 'returns ',
 '''
 ''',
@@ -3864,14 +3865,21 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'mercury_year' : [
+    'mercury_radius' : [
 'constants', 'returns ',
 '''
 ''',
 '''
 ''' ],
 
-    'venus_day' : [
+    'mercury_revolution' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'venus_rotation' : [
 'constants', 'returns ',
 '''
 ''',
@@ -3885,7 +3893,14 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'venus_year' : [
+    'venus_radius' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'venus_revolution' : [
 'constants', 'returns ',
 '''
 ''',
@@ -3927,7 +3942,14 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'mars_day' : [
+    'moon_radius' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'mars_rotation' : [
 'constants', 'returns ',
 '''
 ''',
@@ -3941,14 +3963,21 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'mars_year' : [
+    'mars_radius' : [
 'constants', 'returns ',
 '''
 ''',
 '''
 ''' ],
 
-    'jupiter_day' : [
+    'mars_revolution' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'jupiter_rotation' : [
 'constants', 'returns ',
 '''
 ''',
@@ -3969,14 +3998,14 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'jupiter_year' : [
+    'jupiter_revolution' : [
 'constants', 'returns ',
 '''
 ''',
 '''
 ''' ],
 
-    'saturn_day' : [
+    'saturn_rotation' : [
 'constants', 'returns ',
 '''
 ''',
@@ -3990,14 +4019,21 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'saturn_year' : [
+    'saturn_radius' : [
 'constants', 'returns ',
 '''
 ''',
 '''
 ''' ],
 
-    'uranus_day' : [
+    'saturn_revolution' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'uranus_rotation' : [
 'constants', 'returns ',
 '''
 ''',
@@ -4011,14 +4047,21 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'uranus_year' : [
+    'uranus_radius' : [
 'constants', 'returns ',
 '''
 ''',
 '''
 ''' ],
 
-    'neptune_day' : [
+    'uranus_revolution' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'neptune_rotation' : [
 'constants', 'returns ',
 '''
 ''',
@@ -4032,14 +4075,21 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'neptune_year' : [
+    'neptune_radius' : [
 'constants', 'returns ',
 '''
 ''',
 '''
 ''' ],
 
-    'pluto_day' : [
+    'neptune_revolution' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'pluto_rotation' : [
 'constants', 'returns ',
 '''
 ''',
@@ -4053,7 +4103,14 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'pluto_year' : [
+    'pluto_radius' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'pluto_revolution' : [
 'constants', 'returns ',
 '''
 ''',

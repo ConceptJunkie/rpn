@@ -151,13 +151,14 @@ constants = {
     # constant - heavenly body constants
     # sun_day
     'solar_luminosity'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.826e26' ), [ { 'watt' : 1 } ] ), 0 ),
-    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.9891e33' ), [ { 'gram' : 1 } ] ), 0 ),
+    'solar_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.988500e30' ), [ { 'kilogram' : 1 } ] ), 0 ),
     'solar_radius'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.9599e8' ), [ { 'meter' : 1 } ] ), 0 ),
+    'solar_volume'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.412e27' ), [ { 'meter' : 3 } ] ), 0 ),
 
-    'mercury_day'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '58.6462' ), [ { 'day' : 1 } ] ), 0 ),
-    'mercury_mass'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.3022e26' ), [ { 'gram' : 1 } ] ), 0 ),
-    # mercury_radius
-    'mercury_year'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.2408467' ), [ { 'year' : 1 } ] ), 0 ),
+    'mercury_day'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '58.785' ), [ { 'day' : 1 } ] ), 0 ),
+    'mercury_mass'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.301e26' ), [ { 'kilogram' : 1 } ] ), 0 ),
+    'mercury_radius'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.4397e6' ), [ { 'meter' : 1 } ] ), 0 ),
+    'mercury_year'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '87.969' ), [ { 'day' : 1 } ] ), 0 ),
 
     'venus_day'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '243.01' ), [ { 'day' : 1 } ] ), 0 ),
     'venus_mass'                    : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.8689952e27' ), [ { 'gram' : 1 } ] ), 0 ),
