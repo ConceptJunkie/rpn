@@ -84,7 +84,7 @@ constants = {
     'fine_structure_constant'       : OperatorInfo( lambda: mpmathify( '7.2973525664e-3' ), 0 ),
     'magnetic_constant'             : OperatorInfo( lambda: RPNMeasurement( fprod( [ 4, pi, power( 10, -7 ) ] ), [ { 'newton' : 1 }, { 'ampere' : -2 } ] ), 0 ),
     'newton_constant'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.67408e-11' ), [ { 'meter' : 3 }, { 'kilogram' : -1 }, { 'second' : -2 } ] ), 0 ),
-    'radiation_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '7.5657e-16' ), [ { 'joule' : 1 }, { 'meter' : -3 }, { 'kelvin' : -4 } ] ), 0 ),
+    'radiation_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '7.5657e-16' ), [ { 'kilogram' : 1 }, { 'second' : -2 }, { 'meter' : -1 }, { 'kelvin' : -4 } ] ), 0 ),
     'rydberg_constant'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '10973731.568508' ), { 'meter' : -1 } ), 0 ),
     'speed_of_light'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '299792458' ), [ { 'meter' : 1 }, { 'second' : -1 } ] ), 0 ),
     'stefan_boltzmann_constant'     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.670367e-8' ), [ { 'watt' : 1 }, { 'meter' : -2 }, { 'kelvin' : -4 } ] ), 0 ),

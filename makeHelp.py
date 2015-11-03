@@ -3700,7 +3700,7 @@ Ref:  CODATA 2014
 This is a derived constant calculated from the CODATA value for the Planck
 length.
 
-Ref:  CODATA 2014
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3740,6 +3740,7 @@ c:\>rpn radiation_constant
     'reduced_planck_constant' : [
 'constants', 'returns the reduced Planck constant',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3756,6 +3757,7 @@ at random within a unit cube.
     'rydberg_constant' : [
 'constants', 'returns a Rydberg constant',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
