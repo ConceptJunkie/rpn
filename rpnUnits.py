@@ -35,6 +35,9 @@ from rpnUnitClasses import *
 # //  Constant is not a 'real' unit type, but it is useful for it to act like
 # //  one because it makes for useful operators, e.g. "20 M" for "20,000,000'.
 # //
+# //  https://en.wikipedia.org/wiki/SI_electromagnetism_units
+# //
+# //
 # //******************************************************************************
 
 basicUnitTypes = {
@@ -63,7 +66,7 @@ basicUnitTypes = {
     ),
 
     'capacitance' : UnitTypeInfo(
-        'charge/electric_potential',
+        'current^2*time^4/mass*length^2
         'farad',
         capacitanceTable,
     ),
@@ -99,7 +102,7 @@ basicUnitTypes = {
     ),
 
     'dynamic_viscosity' : UnitTypeInfo(
-        'mass/length*time',     # force*time/length^2
+        'mass/length*time',
         'pascal*second',
         dynamicViscosityTable,
     ),
