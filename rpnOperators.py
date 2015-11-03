@@ -1435,16 +1435,16 @@ operators = {
 
     # powers_and_roots
     'cube'                          : OperatorInfo( lambda n: exponentiate( n, 3 ), 1 ),
-    'cube_root'                     : OperatorInfo( cbrt, 1 ),
+    'cube_root'                     : OperatorInfo( lambda n: getRoot( n, 3 ), 1 ),
     'exp'                           : OperatorInfo( exp, 1 ),
     'exp10'                         : OperatorInfo( lambda n: power( 10, n ), 1 ),
     'expphi'                        : OperatorInfo( lambda n: power( phi, n ), 1 ),
     'hyper4_2'                      : OperatorInfo( tetrateLarge, 2 ),
     'power'                         : OperatorInfo( exponentiate, 2 ),
     'powmod'                        : OperatorInfo( getPowMod, 3 ),
-    'root'                          : OperatorInfo( root, 2 ),
+    'root'                          : OperatorInfo( lambda n, k: getRoot( n, k ), 2 ),
     'square'                        : OperatorInfo( lambda n: exponentiate( n, 2 ), 1 ),
-    'square_root'                   : OperatorInfo( sqrt, 1 ),
+    'square_root'                   : OperatorInfo( lambda n: getRoot( n, 2 ), 1 ),
     'tetrate'                       : OperatorInfo( tetrate, 2 ),
 
     # prime_number

@@ -75,7 +75,8 @@ constants = {
     # constant - physical constants
     'avogadro_number'               : OperatorInfo( lambda: mpmathify( '6.022140857e23' ), 0 ),
     'bohr_radius'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.2917721e-11' ), [ { 'meter' : 1 } ] ), 0 ),
-    'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.3806488e-23' ), [ { 'joule' : 1 }, { 'kelvin' : -1 } ] ), 0 ),
+    #'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.3806488e-23' ), [ { 'joule' : 1 }, { 'kelvin' : -1 } ] ), 0 ),
+    'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.3806488e-23' ), [ { 'kilogram' : 1 }, { 'meter' : 2 }, { 'second' : -2 }, { 'kelvin' : -1 } ] ), 0 ),
     'electric_constant'             : OperatorInfo( lambda: RPNMeasurement( mpmathify( '8.854187817e-12' ), [ { 'farad' : 1 }, { 'meter' : -1 } ] ), 0 ),
     'electron_charge'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.602176565e-19' ), [ { 'coulomb' : 1 } ] ), 0 ),
     'electron_mass'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '9.10938291e-28' ), [ { 'gram' : 1 } ] ), 0 ),
@@ -88,6 +89,8 @@ constants = {
     'speed_of_light'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '299792458' ), [ { 'meter' : 1 }, { 'second' : -1 } ] ), 0 ),
     'stefan_boltzmann_constant'     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.670367e-8' ), [ { 'watt' : 1 }, { 'meter' : -2 }, { 'kelvin' : -4 } ] ), 0 ),
     'von_klitzing_constant'         : OperatorInfo( lambda: RPNMeasurement( mpmathify( '25812.807' ), [ { 'ohm' : 1 } ] ), 0 ),
+    'vacuum_impedance'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '376.730313461' ), [ { 'ohm' : 1 } ] ), 0 ),
+    'coulomb_constant'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '8.987551787e9' ), [ { 'newton' : 1 }, { 'meter' : 2 }, { 'coulomb' : -2 } ] ), 0 ),
 
     # constant - programming integer constants
     'max_char'                      : OperatorInfo( lambda: mpmathify( ( 1 << 7 ) - 1 ), 0 ),
@@ -116,10 +119,19 @@ constants = {
     'min_ushort'                    : OperatorInfo( lambda: mpmathify( 0 ), 0 ),
 
     # constant - Planck constants
+    #'planck_constant'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.626070040e-34' ), [ { 'joule' : 1 }, { 'second' : 1 } ] ), 0 ),
+    #'reduced_planck_constant'       : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.054571800e-34' ), [ { 'joule' : 1 }, { 'second' : 1 } ] ), 0 ),
+    'planck_constant'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.626070040e-34' ), [ { 'kilogram' : 1 }, { 'meter' : 2 }, { 'second' : -1 } ] ), 0 ),
+    'reduced_planck_constant'       : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.054571800e-34' ), [ { 'kilogram' : 1 }, { 'meter' : 2 }, { 'second' : -1 } ] ), 0 ),
+
+    'planck_length'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.616229e-35' ), [ { 'meter' : 1 } ] ), 0 ),
+    'planck_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.176470e-8' ), [ { 'kilogram' : 1 } ] ), 0 ),
+    'planck_time'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.39116e-44' ), [ { 'second' : 1 } ] ), 0 ),
+    'planck_charge'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.875545956e-18' ), [ { 'coulomb' : 1 } ] ), 0 ),
+    'planck_temperature'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.416808e32' ), [ { 'kelvin' : 1 } ] ), 0 ),
+
     'planck_angular_frequency'      : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.8548743' ), [ { 'second' : -1 } ] ), 0 ),
     'planck_area'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.61219618e-70' ), [ { 'square_meter' : 1 } ] ), 0 ),
-    'planck_charge'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.875545956e-18' ), [ { 'coulomb' : 1 } ] ), 0 ),
-    'planck_constant'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.626070040e-34' ), [ { 'joule' : 1 }, { 'second' : 1 } ] ), 0 ),
     'planck_current'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.4789e25' ), [ { 'ampere' : 1 } ] ), 0 ),
     'planck_density'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.15518197484e+96' ), [ { 'kilogram' : 1 }, { 'meter' : -3 } ] ), 0 ),
     'planck_energy'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.220910e28' ), [ { 'electron-volt' : 1 } ] ), 0 ),
@@ -127,16 +139,11 @@ constants = {
     'planck_force'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.2102947186e44' ), [ { 'newton' : 1 } ] ), 0 ),
     'planck_impedance'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '29.9792458' ), [ { 'ohm' : 1 } ] ), 0 ),
     'planck_intensity'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.38893e122' ), [ { 'watt' : 1 }, { 'meter' : -2 } ] ), 0 ),
-    'planck_length'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.616229e-35' ), [ { 'meter' : 1 } ] ), 0 ),
-    'planck_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.176470e-8' ), [ { 'kilogram' : 1 } ] ), 0 ),
     'planck_momentum'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6524.85' ), [ { 'gram' : 1 }, { 'meter' : 1 }, { 'second': -1 } ] ), 0 ),
     'planck_power'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.62831e52' ), [ { 'watt' : 1 } ] ), 0 ),
     'planck_pressure'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.63309e113' ), [ { 'pascal' : 1 } ] ), 0 ),
-    'planck_temperature'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.416808e32' ), [ { 'kelvin' : 1 } ] ), 0 ),
-    'planck_time'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.39116e-44' ), [ { 'second' : 1 } ] ), 0 ),
     'planck_voltage'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.04295e27' ), [ { 'volt' : 1 } ] ), 0 ),
     'planck_volume'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.22190722e-105' ), [ { 'cubic_meter' : 1 } ] ), 0 ),
-    'reduced_planck_constant'       : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.054571800e-34' ), [ { 'joule' : 1 }, { 'second' : 1 } ] ), 0 ),
 
     # constant - subatomic particle constants
     'alpha_particle_mass'           : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.001506179125' ), [ { 'dalton' : 1 } ] ), 0 ),

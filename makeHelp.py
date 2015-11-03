@@ -364,6 +364,10 @@ And what is the radius of the black hole (i.e., the Schwartzchild radius)?
     c:\>rpn [ 2 G solar_mass ] prod c sqr /
     2954.17769868 meters
 
+What is the Planck temperature:
+    c:\>rpn h_bar c 5 ** * G boltzmann sqr * / sqrt
+    1.41680770632e+32 degrees kelvin
+
 What is the radius of a sphere needed to hold 8 fluid ounces?
 
     c:\>rpn 8 floz sphere_radius inch convert

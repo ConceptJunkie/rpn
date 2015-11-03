@@ -16,6 +16,7 @@ from mpmath import *
 
 from rpnDateTime import RPNDateTime
 from rpnMeasurement import RPNMeasurement
+from rpnName import getOrdinalName
 from rpnUtils import real
 
 
@@ -130,6 +131,39 @@ def exponentiate( n, k ):
         raise ValueError( 'a measurement cannot be exponentiated (yet)' )
     else:
         return power( n, k )
+
+
+# //******************************************************************************
+# //
+# //  getRoot
+# //
+# //******************************************************************************
+
+def getRoot( n, k ):
+    if isinstance( n, RPNMeasurement ):
+        if isInteger( k ):
+            newUnits = n.getUnits( )
+
+            for unit, exponent in newUnits.items( ):
+                if fmod( exponent, k ) != 0:
+                    if k == 2:
+                        name = 'square'
+                    elif k == 3:
+                        name = 'cube'
+                    else:
+                        name = getOrdinalName( k )
+
+                    raise ValueError( 'cannot take the ' + name + ' root of this measurement' )
+
+                newUnits[ unit ] /= k
+
+            value = root( n, k )
+
+            return RPNMeasurement( value, newUnits )
+        else:
+            raise ValueError( 'cannot take a fractional root of a measurement' )
+
+    return root( n, k )
 
 
 # //******************************************************************************
