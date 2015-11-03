@@ -66,7 +66,7 @@ basicUnitTypes = {
     ),
 
     'capacitance' : UnitTypeInfo(
-        'current^2*time^4/mass*length^2
+        'current^2*time^4/mass*length^2',
         'farad',
         capacitanceTable,
     ),

@@ -348,38 +348,48 @@ be epsilon shy of the even amount it should be, and it ends up getting rounded
 up to 60 seconds.
 
 Here's a shortcut for "[ day hour minute second ] convert":
-
     c:\>rpn 150,000 seconds dhms
     [ 1 day, 17 hours, 40 minutes, 1.6263e-17 seconds ]
 
 There's a slight rounding error that I'd really like to fix.
 
 What is the temperature of a black hole with the same mass as the sun?
-
     c:\>rpn h_bar c 3 ** * [ 8 pi G boltzmann solar_mass ] prod /
     6.16832371699e-8 degrees kelvin
 
 And what is the radius of the black hole (i.e., the Schwartzchild radius)?
-
     c:\>rpn [ 2 G solar_mass ] prod c sqr /
     2954.17769868 meters
 
-What is the Planck temperature:
+What is the Planck length?
+    c:\>rpn h_bar G * c 3 ** / sqrt
+    1.61622837297e-35 meters
+
+What is the Planck temperature?
     c:\>rpn h_bar c 5 ** * G boltzmann sqr * / sqrt
     1.41680770632e+32 degrees kelvin
 
-What is the radius of a sphere needed to hold 8 fluid ounces?
+What is the Planck energy?
+    c:\>rpn h_bar c 5 ** * G / sqrt joule convert
+    1956113859.56 joules
 
+What is the Planck mass?
+    c:\>rpn h_bar c * G / sqrt
+    2.17647019549e-8 kilograms
+
+What is the Planck time?
+    c:\>rpn h_bar G * c 5 ** / sqrt
+    5.39115754865e-44 seconds
+
+What is the radius of a sphere needed to hold 8 fluid ounces?
     c:\>rpn 8 floz sphere_radius inch convert
     1.510547765 inches
 
 And how does the surface gravity of that black hole compare to Earth's?
-
     c:\>rpn -a20 G solar_mass * 2954.17769868 meters sqr / gee /
     1551151150565.8376167
 
 I tried to make the unit conversion flexible and smart.  It is... sometimes.
-
     c:>rpn 16800 mA hours * 5 volts * joule convert
     302400 joules
 
@@ -387,7 +397,6 @@ I tried to make the unit conversion flexible and smart.  It is... sometimes.
     188.29959908 cubic inches
 
 And sometimes it isn't:
-
     c:\>rpn cubic_inches gigaparsec barn * convert
     1 gigaparsec barn
 
