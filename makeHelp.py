@@ -2911,6 +2911,7 @@ c:\>rpn 7 real
     'alpha_particle_mass' : [
 'constants', 'returns ',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -2952,6 +2953,7 @@ c:\>rpn -a24 avogadro
     'boltzmann_constant' : [
 'constants', 'returns the Boltzmann constant',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3008,6 +3010,7 @@ c:\>rpn -a60 copeland
     'deuteron_mass' : [
 'constants', 'returns ',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3044,6 +3047,7 @@ protons in the universe and the same number of electrons."  This number is equal
     'electron_mass' : [
 'constants', 'returns ',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3103,6 +3107,7 @@ c:\>rpn faradays_constant
     'helion_mass' : [
 'constants', 'returns ',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3482,6 +3487,7 @@ c:\>rpn max_ushort min_ushort -
     'muon_mass' : [
 'constants', 'returns ',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3496,6 +3502,7 @@ c:\>rpn max_ushort min_ushort -
     'neutron_mass' : [
 'constants', 'returns ',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3666,7 +3673,6 @@ Ref:  CODATA 2014
     'planck_temperature' : [
 'constants', 'returns the ',
 '''
-
 Ref:  CODATA 2014
 ''',
 '''
@@ -3717,6 +3723,7 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
     'proton_mass' : [
 'constants', 'returns the mass of a proton in grams',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3784,15 +3791,17 @@ at random within a unit cube.
     'stefan_boltzmann_constant' : [
 'constants', 'returns the Stefan-Boltzmann constant',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 c:\>rpn stefan_boltzmann
-5.670373e-8 watts per meter^2 kelvin^4
+5.670367e-8 watts per meter^2 kelvin^4
 ''' ],
 
     'tau_mass' : [
 'constants', 'returns ',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3800,6 +3809,7 @@ c:\>rpn stefan_boltzmann
     'triton_mass' : [
 'constants', 'returns ',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3852,9 +3862,9 @@ Ref:  CODATA 2014
     'solar_mass' : [
 'constants', 'returns the estimated mass of the Sun in grams',
 '''
+Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''',
 '''
-Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'solar_radius' : [

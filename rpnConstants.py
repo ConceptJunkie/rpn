@@ -75,8 +75,8 @@ constants = {
     # constant - physical constants
     'avogadro_number'               : OperatorInfo( lambda: mpmathify( '6.022140857e23' ), 0 ),
     'bohr_radius'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.2917721e-11' ), [ { 'meter' : 1 } ] ), 0 ),
-    #'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.3806488e-23' ), [ { 'joule' : 1 }, { 'kelvin' : -1 } ] ), 0 ),
-    'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.3806488e-23' ), [ { 'kilogram' : 1 }, { 'meter' : 2 }, { 'second' : -2 }, { 'kelvin' : -1 } ] ), 0 ),
+    #'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.38064852e-23' ), [ { 'joule' : 1 }, { 'kelvin' : -1 } ] ), 0 ),
+    'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.38064852e-23' ), [ { 'kilogram' : 1 }, { 'meter' : 2 }, { 'second' : -2 }, { 'kelvin' : -1 } ] ), 0 ),
     'electric_constant'             : OperatorInfo( lambda: RPNMeasurement( mpmathify( '8.854187817e-12' ), [ { 'farad' : 1 }, { 'meter' : -1 } ] ), 0 ),
     'electron_charge'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.602176565e-19' ), [ { 'coulomb' : 1 } ] ), 0 ),
     'electron_mass'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '9.10938291e-28' ), [ { 'gram' : 1 } ] ), 0 ),
@@ -130,7 +130,7 @@ constants = {
     'planck_charge'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.875545956e-18' ), [ { 'coulomb' : 1 } ] ), 0 ),
     'planck_temperature'            : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.416808e32' ), [ { 'kelvin' : 1 } ] ), 0 ),
 
-    'planck_angular_frequency'      : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.8548743' ), [ { 'second' : -1 } ] ), 0 ),
+    'planck_angular_frequency'      : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.85487e43' ), [ { 'second' : -1 } ] ), 0 ),
     'planck_area'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.61219618e-70' ), [ { 'square_meter' : 1 } ] ), 0 ),
     'planck_current'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.4789e25' ), [ { 'ampere' : 1 } ] ), 0 ),
     'planck_density'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.15518197484e+96' ), [ { 'kilogram' : 1 }, { 'meter' : -3 } ] ), 0 ),
@@ -139,21 +139,22 @@ constants = {
     'planck_force'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.2102947186e44' ), [ { 'newton' : 1 } ] ), 0 ),
     'planck_impedance'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '29.9792458' ), [ { 'ohm' : 1 } ] ), 0 ),
     'planck_intensity'              : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.38893e122' ), [ { 'watt' : 1 }, { 'meter' : -2 } ] ), 0 ),
-    'planck_momentum'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6524.85' ), [ { 'gram' : 1 }, { 'meter' : 1 }, { 'second': -1 } ] ), 0 ),
+    'planck_momentum'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.52485' ), [ { 'kilogram' : 1 }, { 'meter' : 1 }, { 'second': -1 } ] ), 0 ),
     'planck_power'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.62831e52' ), [ { 'watt' : 1 } ] ), 0 ),
     'planck_pressure'               : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.63309e113' ), [ { 'pascal' : 1 } ] ), 0 ),
     'planck_voltage'                : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.04295e27' ), [ { 'volt' : 1 } ] ), 0 ),
     'planck_volume'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.22190722e-105' ), [ { 'cubic_meter' : 1 } ] ), 0 ),
 
     # constant - subatomic particle constants
-    'alpha_particle_mass'           : OperatorInfo( lambda: RPNMeasurement( mpmathify( '4.001506179125' ), [ { 'dalton' : 1 } ] ), 0 ),
-    'deuteron_mass'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '2.013553212712' ), [ { 'dalton' : 1 } ] ), 0 ),
-    'helion_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.0149322468' ), [ { 'dalton' : 1 } ] ), 0 ),
-    'muon_mass'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '0.1134289267' ), [ { 'dalton' : 1 } ] ), 0 ),
-    'neutron_mass'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.00866491600' ), [ { 'dalton' : 1 } ] ), 0 ),
-    'proton_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.6726218e-27' ), [ { 'kilogram' : 1 } ] ), 0 ),
-    'tau_mass'                      : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.90749' ), [ { 'dalton' : 1 } ] ), 0 ),
-    'triton_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.0155007134' ), [ { 'dalton' : 1 } ] ), 0 ),
+    'alpha_particle_mass'           : OperatorInfo( lambda: RPNMeasurement( mpmathify( '6.644657230e-27' ), [ { 'kilogram' : 1 } ] ), 0 ),
+    'deuteron_mass'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.343583719e-27' ), [ { 'kilogram' : 1 } ] ), 0 ),
+    'electron_mass'                 : OperatorInfo( lambda: RPNMeasurement( mpmathify( '9.10938356e-31' ), [ { 'kilogram' : 1 } ] ), 0 ),
+    'helion_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.006412700e-27' ), [ { 'kilogram' : 1 } ] ), 0 ),
+    'muon_mass'                     : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.883531594e-28' ), [ { 'kilogram' : 1 } ] ), 0 ),
+    'neutron_mass'                  : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.674927471e-27' ), [ { 'kilogram' : 1 } ] ), 0 ),
+    'proton_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '1.672621898e-27' ), [ { 'kilogram' : 1 } ] ), 0 ),
+    'tau_mass'                      : OperatorInfo( lambda: RPNMeasurement( mpmathify( '3.16747e-27' ), [ { 'kilogram' : 1 } ] ), 0 ),
+    'triton_mass'                   : OperatorInfo( lambda: RPNMeasurement( mpmathify( '5.007356665e-27' ), [ { 'kilogram' : 1 } ] ), 0 ),
 
     # constant - heavenly body constants
     # sun_day
