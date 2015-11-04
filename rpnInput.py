@@ -77,16 +77,18 @@ def parseInputValue( term, inputRadix ):
         term = term.replace( '/', '-' )
         innerChars = term[ 1 : -1 ]
 
-    if ( '-' in innerChars ) or ( ':' in innerChars ):
-        #try:
-            datetime = arrow.get( term )
-            datetime = RPNDateTime( datetime.year, datetime.month, datetime.day, datetime.hour,
-                                    datetime.minute, datetime.second, datetime.microsecond,
-                                    datetime.tzinfo )
-        #except:
-        #    raise ValueError( 'error parsing datetime' )
+    # 'e' implies scientific notation, which isn't a date regardless
+    if ( 'e' not in innerChars ):
+        if ( '-' in innerChars ) or ( ':' in innerChars ):
+            #try:
+                datetime = arrow.get( term )
+                datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
+                                        datetime.hour, datetime.minute, datetime.second,
+                                        datetime.microsecond, datetime.tzinfo )
+            #except:
+            #    raise ValueError( 'error parsing datetime' )
 
-            return datetime
+                return datetime
 
     if term == '0':
         return mpmathify( 0 )
