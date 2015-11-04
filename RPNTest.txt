@@ -472,9 +472,9 @@ default input_radix
 18 quintprime
 19 subfac
 1902 isolated
-192834 tripletprime
+192834 triplet_prime
 1965 year_calendar
-1965-03 calendar
+1965 march calendar
 19978 tetrahedral
 2 -3 2 -3 2 solve4
 16 output_radix
@@ -532,17 +532,17 @@ default decimal_grouping
 3 cubic_meters 4 nsphereradius
 3 gamma
 3 i
-3 meters 4 nsphereradius
-3 square_feet 6 nspherevolume
-3 square_meters 4 nsphereradius
+3 meters 4 n_sphere_radius
+3 subic_feet 6 n_sphere_volume
+3 square_meters 3 n_sphere_radius
 3.4 floor
 304 pyramid
 32800 short
-34 cubic_inches 3 nspherearea
+34 cubic_inches sphere_area
 34 harmonic
-34 inches 3 nspherearea
+34 inches sphere_area
 34 squaretri
-34 square_inches 3 nspherearea
+34 square_inches sphere_area
 340 hexagonal
 3456789012 long
 35 prime?
@@ -561,12 +561,12 @@ default decimal_grouping
 4 5 bellpoly
 4 5 polygamma
 4 5 power
-4 cubic_inches sphereradius
+4 cubic_inches sphere_radius
 4 cups 13 teaspoons +
 4 cups 27 teaspoons -
-4 inches sphereradius
+4 inches sphere_radius
 4 negative
-4 square_inches sphereradius
+4 square_inches sphere_radius
 4 zeta
 4.5 round
 44 dodecahedral
@@ -584,19 +584,19 @@ default decimal_grouping
 5 7 multiply
 5 8 polyprime
 5 csquare
-5 cubic_in spherevolume
-5 inches spherevolume
+5 cubic_in sphere_volume
+5 inches sphere_volume
 5 lambertw
-5,000,000 cnonagonal?
+5,000,000 nth_centered_nonagonal?
 503942034 [ 3 4 5 11 4 4 ] unpack
-5176 cousinprime
-5199846 safeprime
-52 sexytriplet_
-5298 sexytriplet_
-53 balanced
-53 balanced_
-54 doublebal
-54 doublebal_
+5176 cousin_prime
+5199846 safe_prime
+52 sexy_triplet_
+5298 sexy_triplet_
+53 balanced_prime
+53 balanced_prime_
+54 double_balanced
+54 double_balanced_
 54658 seconds hms
 55 mph 10 furlongs fortnight / +
 55 mph 10 meters second / +
