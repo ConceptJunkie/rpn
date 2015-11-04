@@ -353,6 +353,20 @@ Here's a shortcut for "[ day hour minute second ] convert":
 
 There's a slight rounding error that I'd really like to fix.
 
+What is the radius of a sphere needed to hold 8 fluid ounces?
+    c:\>rpn 8 floz sphere_radius inch convert
+    1.510547765 inches
+
+What is the volume of a sphere with a surface area of 100 square inches?
+    c:\>rpn 100 square_inches sphere_volume cubic_inches convert
+    94.031597258 cubic inches
+
+What is the escape velocity from the Earth's surface?
+    c:\>rpn 2 G * earth_mass * earth_radius / sqrt
+    11181.5933259 meters per second
+
+Obviously, this doesn't take air resistance into account.
+
 What is the temperature of a black hole with the same mass as the sun?
     c:\>rpn h_bar c 3 ** * [ 8 pi G boltzmann solar_mass ] prod /
     6.16832371699e-8 degrees kelvin
@@ -380,10 +394,6 @@ What is the Planck mass?
 What is the Planck time?
     c:\>rpn h_bar G * c 5 ** / sqrt
     5.39115754865e-44 seconds
-
-What is the radius of a sphere needed to hold 8 fluid ounces?
-    c:\>rpn 8 floz sphere_radius inch convert
-    1.510547765 inches
 
 And how does the surface gravity of that black hole compare to Earth's?
     c:\>rpn -a20 G solar_mass * 2954.17769868 meters sqr / gee /
@@ -1174,43 +1184,37 @@ Unit conversions:
         c:\>rpn 65 miles hour / furlongs fortnight / convert
         174720 furlongs per fortnight
 
-    rpn can handle combinations of different types of units, but sometimes
-    it needs help to get them into meaningful terms.
+    rpn has unit definitions, as well as physical constants defined:
 
-        c:\>rpn G
-        1 standard gravity
+        c:\>rpn gee
+        9.80665 meters per second^2
 
-        c:\>rpn G 10 seconds *
-        10 standard gravities seconds
+        c:\>rpn gee 10 seconds *
+        98.0665 meters per second
 
-        c:\>rpn G 10 seconds * ft s / convert
-        321.7404855643 feet per second
+        c:\>rpn gee 10 seconds * ft s / convert
+        321.740485564 feet per second
 
-        So a falling object will be travelling at 321.7 ft/sec after 10
-        seconds.
+    So a falling object will be travelling at 321.7 ft/sec after 10 seconds.
 
     Here's a little more advanced version of the problem.  Let's say we have
     launched a rocket that is accelerated at 5 Gs for 5 minutes.  How long
     would it take for it to reach Jupiter (assume Jupiter is 500,000,000 miles
     away)?
 
-        c:\>rpn 500 million miles 5 G 5 minutes * /
-            20000000 miles per minute standard gravity
+        c:\>rpn 500 million miles 5 gee * 5 minutes * /
+        54702472.302 seconds
 
-    That's not too helpful.  It's necessary to convert to miles/second partway
-    through the conversion because rpn isn't smart enough (yet) to deduce that
-    you can go from minute-Gs to miles per minute.
+    Note that constants (e.g., gee) must use the 'multiply' operator, i.e.,
+    '5 gee *', but units do not require it (e.g., '500 million miles').  This
+    isn't consistent, but I don't know of a better way to handle this because
+    you don't want adjacent constants to automatically be multiplied:
 
-    Here's the final velocity:
+        c:\>rpn 2 pi +
+        5.14159265359
 
-        c:\>rpn 5 G 5 minutes * miles second / convert
-            9.14035470353 miles per second
-
-    This is something we can use...
-
-        c:\>rpn 500 million miles 5 G 5 minutes * miles second / convert /
-                days convert
-            633.130466458 days
+        c:\>rpn 500 million miles 5 gee * 5 minutes * / days convert
+        633.130466458 days
 
     [ TODO:  finish unit conversion examples ]
 
@@ -1256,15 +1260,15 @@ Calculation (or approximation) of various mathematical constants:
         = rpn -a20 3 log 2 log /
 
     Machin-Gregory Series
-        = rpn -a20 1 1000 2 range2 2 1 1000 2 range2 power * 1/x altsum
+        = rpn -a20 1 1000 2 range2 2 1 1000 2 range2 power * 1/x alt_sum
         = rpn -a20 1 2 / atan
 
     Beta( 3 )
-        = rpn -a17 1 1000000 2 range2 3 power 1/x altsum
+        = rpn -a17 1 1000000 2 range2 3 power 1/x alt_sum
         = rpn -a17 pi 3 power 32 /
 
     Cahen's constant
-        = rpn -a20 1 20 range sylvester 1 - 1/x altsum
+        = rpn -a20 1 20 range sylvester 1 - 1/x alt_sum
 
     Lemniscate Constant
         = rpn 4 2 pi / sqrt * 0.25 ! sqr *
@@ -1275,10 +1279,10 @@ Calculation (or approximation) of various mathematical constants:
         = rpn -a20 e sqrt
 
     1/e
-        = rpn -a20 0 25 range fac 1/x altsum
+        = rpn -a20 0 25 range fac 1/x alt_sum
         = rpn -a20 e 1/x
 
-    Zeta( 6 )           goobles - look into this!
+    Zeta( 6 )
         = rpn -a20 -p30 1 1 1000 primes -6 power - 1/x prod
         = rpn -a20 pi 6 power 945 /
         = rpn -a20 6 zeta
@@ -1298,7 +1302,7 @@ Calculation (or approximation) of various mathematical constants:
                 1 100000 primes 1 100000 primes 1 + * 1/x * - prod *
 
     Ramanujan-Forsythe Constant
-        = rpn 0 100000 range 2 * 3 - fac2 0 100000 range 2 * fac2 / sqr sum
+        = rpn 0 100000 range 2 * 3 - !! 0 100000 range 2 * !! / sqr sum
 
     Apery's Constant
         = rpn -a20 1 5000 range 3 power 1/x sum
@@ -5450,13 +5454,13 @@ c:\>rpn -a20 0 25 range factorial 1/x alternating_sum 1/x
 This operator calculates the sum of the list, alternating the signs of every
 other element starting with the first.
 
-This operator is the same as using 'alternating_signs_2 sum'.
+This operator is the same as using 'alternate_signs_2 sum'.
 ''',
 '''
-c:\>rpn 1 10 range alternating_signs_2 sum
+c:\>rpn 1 10 range alternate_signs_2 sum
 5
 
-c:\>rpn 1 10 range alternating_signs_2
+c:\>rpn 1 10 range alternating_sum_2 sum
 5
 ''' ],
 
