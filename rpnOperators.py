@@ -983,6 +983,7 @@ listOperators = {
     'sum'                   : OperatorInfo( getSum, 1 ),
 
     # conversion
+    'convert'               : OperatorInfo( convertUnits, 2 ),   # list arguments are special
     'latlong_to_nac'        : OperatorInfo( convertLatLongToNAC, 1 ),
     'make_time'             : OperatorInfo( makeTime, 1 ),
     'unpack'                : OperatorInfo( unpackInteger, 2 ),
@@ -1214,7 +1215,6 @@ operators = {
     'char'                          : OperatorInfo( lambda n: convertToSignedInt( n, 8 ), 1 ),
     'dhms'                          : OperatorInfo( convertToDHMS, 1 ),
     'dms'                           : OperatorInfo( convertToDMS, 1 ),
-    'convert'                       : OperatorInfo( convertUnits, 2 ),
     'double'                        : OperatorInfo( lambda n: fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( real( n ) ) ) ) ), 1 ),
     'float'                         : OperatorInfo( lambda n: fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( real( n ) ) ) ) ), 1 ),
     'from_unix_time'                : OperatorInfo( convertFromUnixTime, 1 ),
