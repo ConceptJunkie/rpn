@@ -348,7 +348,7 @@ def getNow( ):
 
 def getToday( ):
     now = datetime.datetime.now( )
-    return RPNDateTime( now.year, now.month, now.day, dateOnly = True, tzinfo = tz.tzlocal( ) )
+    return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
 
 
 # //******************************************************************************
@@ -360,7 +360,7 @@ def getToday( ):
 def getTomorrow( ):
     now = datetime.datetime.now( )
     now = now + datetime.timedelta( days = 1 )
-    return RPNDateTime( now.year, now.month, now.day, dateOnly = True, tzinfo = tz.tzlocal( ) )
+    return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
 
 
 # //******************************************************************************
@@ -372,7 +372,7 @@ def getTomorrow( ):
 def getYesterday( ):
     now = datetime.datetime.now( )
     now = now + datetime.timedelta( days = -1 )
-    return RPNDateTime( now.year, now.month, now.day, dateOnly = True, tzinfo = tz.tzlocal( ) )
+    return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
 
 
 # //******************************************************************************

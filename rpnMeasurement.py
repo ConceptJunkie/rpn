@@ -19,6 +19,7 @@ import pickle
 
 from mpmath import *
 
+from rpnPersistence import loadUnitData
 from rpnUnitClasses import *
 from rpnUtils import debugPrint
 
@@ -227,6 +228,9 @@ class RPNMeasurement( mpf ):
         return mpf.__new__( cls, value )
 
     def __init__( self, value, units = None, unitName = None, pluralUnitName = None ):
+        if not g.unitOperators:
+            loadUnitData( )
+
         mpf.__init__( value )
         self.units = Units( units )
         self.unitName = unitName
