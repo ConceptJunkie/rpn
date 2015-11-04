@@ -370,36 +370,6 @@ def printStats( dict, name ):
 
 # //******************************************************************************
 # //
-# //  printHelpMessage
-# //
-# //******************************************************************************
-
-def printHelpMessage( ):
-    printHelp( operators, listOperators, modifiers, '', True )
-    return 0
-
-
-# //******************************************************************************
-# //
-# //  printHelpTopic
-# //
-# //******************************************************************************
-
-def printHelpTopic( n ):
-    if isinstance( n, str ):
-        printHelp( operators, listOperators, modifiers, n, True )
-    elif isinstance( n, RPNMeasurement ):
-        units = n.getUnits( )
-        # help for units isn't implemented yet, but now it will work
-        printHelp( operators, listOperators, modifiers, list( units.keys( ) )[ 0 ], True )
-    else:
-        print( 'The \'topic\' operator requires a string argument.' )
-
-    return 0
-
-
-# //******************************************************************************
-# //
 # //  getExpandedFactorList
 # //
 # //  Takes a list of tuples where each tuple is a prime factor and an exponent

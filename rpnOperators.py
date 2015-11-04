@@ -845,6 +845,39 @@ def evaluateTerm( term, index, currentValueList ):
 
 # //******************************************************************************
 # //
+# //  printHelpMessage
+# //
+# //******************************************************************************
+
+def printHelpMessage( ):
+    from rpnOutput import printHelp
+    printHelp( operators, constants, listOperators, modifiers, '', True )
+    return 0
+
+
+# //******************************************************************************
+# //
+# //  printHelpTopic
+# //
+# //******************************************************************************
+
+def printHelpTopic( n ):
+    from rpnOutput import printHelp
+
+    if isinstance( n, str ):
+        printHelp( operators, listOperators, modifiers, n, True )
+    elif isinstance( n, RPNMeasurement ):
+        units = n.getUnits( )
+        # help for units isn't implemented yet, but now it will work
+        printHelp( operators, constants, listOperators, modifiers, list( units.keys( ) )[ 0 ], True )
+    else:
+        print( 'The \'topic\' operator requires a string argument.' )
+
+    return 0
+
+
+# //******************************************************************************
+# //
 # //  functionOperators
 # //
 # //  This is a list of operators that terminate the function creation state.
