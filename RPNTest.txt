@@ -492,7 +492,7 @@ default output_radix
 200000 randint oeiscomment
 200000 randint oeisex
 200000 randint oeisname
-2014-10 calendar
+2014 10 calendar
 203 heptagonal
 203 triangular
 2039 hepthex
