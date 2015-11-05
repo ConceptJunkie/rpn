@@ -17,10 +17,12 @@ from __future__ import print_function
 import six
 
 import bz2
+import codecs
 import contextlib
 import itertools
 import os
 import pickle
+import re as regex
 
 from mpmath import *
 
@@ -51,6 +53,32 @@ def main( ):
     print( PROGRAM_NAME + PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
+
+    lineCount = 0
+
+    for line in codecs.open( 'rpnConstants.txt', 'rU', 'ascii', 'replace' ):
+        lineCount += 1
+
+        line = line.rstrip( )
+        comment = line.find( '#' )
+
+        if comment >= 0:
+            line = line[ : comment ]
+
+        tokens = regex.split( ' +', line )
+
+        tokenCount = len( tokens )
+
+        if tokenCount == 0:
+            continue
+        elif tokenCount == 1 and tokens[ 0 ] == '' :
+            continue
+        elif ( 2 > tokenCount > 5 ) or ( tokens[ 1 ] != '=' ):
+            print( 'error parsing line ' + str( lineCount ) + ':' )
+            print( line )
+
+        name = token[ 0 ]
+        value = token[ 2 : ]
 
 
 # //******************************************************************************

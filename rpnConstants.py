@@ -73,10 +73,11 @@ constants = {
 #    'density_of_water'
 
     # constant - physical constants
+    #'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( '1.38064852e-23', 'joule/kelvin' ), 0 ),
     'avogadro_number'               : OperatorInfo( lambda: '6.022140857e23', 0 ),
     'bohr_radius'                   : OperatorInfo( lambda: RPNMeasurement( '5.2917721e-11', [ { 'meter' : 1 } ] ), 0 ),
-    #'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( '1.38064852e-23', 'joule/kelvin' ), 0 ),
     'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( '1.38064852e-23', 'kilogram*meter^2/second^2*kelvin' ), 0 ),
+    'coulomb_constant'              : OperatorInfo( lambda: RPNMeasurement( '8.987551787e9', 'newton*meter^2/coulomb^2' ), 0 ),
     'electric_constant'             : OperatorInfo( lambda: RPNMeasurement( '8.854187817e-12', 'farad/meter' ), 0 ),
     'electron_charge'               : OperatorInfo( lambda: RPNMeasurement( '1.602176565e-19', 'coulomb' ), 0 ),
     'electron_mass'                 : OperatorInfo( lambda: RPNMeasurement( '9.10938291e-28', 'gram' ), 0 ),
@@ -88,9 +89,8 @@ constants = {
     'rydberg_constant'              : OperatorInfo( lambda: RPNMeasurement( '10973731.568508', 'meter^-1' ), 0 ),
     'speed_of_light'                : OperatorInfo( lambda: RPNMeasurement( '299792458', 'meter/second' ), 0 ),
     'stefan_boltzmann_constant'     : OperatorInfo( lambda: RPNMeasurement( '5.670367e-8', 'watt/meter^2*kelvin^4' ), 0 ),
-    'von_klitzing_constant'         : OperatorInfo( lambda: RPNMeasurement( '25812.807', 'ohm' ), 0 ),
     'vacuum_impedance'              : OperatorInfo( lambda: RPNMeasurement( '376.730313461', 'ohm' ), 0 ),
-    'coulomb_constant'              : OperatorInfo( lambda: RPNMeasurement( '8.987551787e9', 'newton*meter^2/coulomb^2' ), 0 ),
+    'von_klitzing_constant'         : OperatorInfo( lambda: RPNMeasurement( '25812.8074555', 'ohm' ), 0 ),
 
     # constant - programming integer constants
     'max_char'                      : OperatorInfo( lambda: ( 1 << 7 ) - 1, 0 ),

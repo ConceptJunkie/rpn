@@ -3037,6 +3037,7 @@ protons in the universe and the same number of electrons."  This number is equal
     'electric_constant' : [
 'constants', 'returns the electric constant',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3156,7 +3157,9 @@ c:\>rpn itoi
     'magnetic_constant' : [
 'constants', 'returns the magnetic constant',
 '''
-TODO:  explain all the other names this has
+This constant is exact by definition.
+
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3514,6 +3517,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
     'newton_constant' : [
 'constants', 'returns Newton\'s gravitational constant',
 '''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' ],
@@ -3553,15 +3557,6 @@ Ref:  CODATA 2014
 '''
 ''' ],
 
-    'planck_constant' : [
-'constants', 'returns the Planck constant',
-'''
-
-Ref:  CODATA 2014
-''',
-'''
-''' ],
-
     'planck_angular_frequency' : [
 'constants', 'returns the ',
 '''
@@ -3572,6 +3567,15 @@ Ref:  CODATA 2014
     'planck_charge' : [
 'constants', 'returns ',
 '''
+''',
+'''
+''' ],
+
+    'planck_constant' : [
+'constants', 'returns the Planck constant',
+'''
+
+Ref:  CODATA 2014
 ''',
 '''
 ''' ],
@@ -3841,11 +3845,17 @@ rpn (3)>5 12 **
 244,140,625
 ''' ],
 
+    'vacuum_impedance' : [
+'constants', 'returns ',
+'''
+Ref:  http://physics.nist.gov/cuu/Constants/index.html
+''',
+'''
+''' ],
+
     'von_klitzing_constant' : [
 'constants', 'returns the von Klitzing constant',
 '''
-This constant is exact by definition.
-
 Ref:  CODATA 2014
 ''',
 '''
