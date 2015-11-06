@@ -196,7 +196,7 @@ class Units( collections.Counter ):
 
             for unit in units:
                 if unit == '':
-                    raise ValueError( 'wasn\'t expecting another \'*\'' )
+                    raise ValueError( 'wasn\'t expecting another \'*\' in \'' + expression + '\'' )
 
                 operands = unit.split( '^' )
 

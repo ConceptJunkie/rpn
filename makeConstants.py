@@ -24,13 +24,19 @@ import os
 import pickle
 import re as regex
 
+from collections import namedtuple
+
 from mpmath import *
 
 #  This has to go here so the mpf's in the import get created with 50 places of precision.
 mp.dps = 50
 
+from rpnMeasurement import *
+from rpnPersistence import *
 from rpnUnits import *
 from rpnVersion import *
+
+import rpnGlobals as g
 
 
 # //******************************************************************************
@@ -54,7 +60,17 @@ def main( ):
     print( COPYRIGHT_MESSAGE )
     print( )
 
+    g.dataPath = os.path.dirname( os.path.realpath( __file__ ) ) + os.sep + g.dataDir
+
     lineCount = 0
+
+    definitions = { }
+
+    errors = False
+
+    Definition = namedtuple( 'Definition', [ 'line', 'value', 'units', 'reference' ] )
+
+    # compile the data file
 
     for line in codecs.open( 'rpnConstants.txt', 'rU', 'ascii', 'replace' ):
         lineCount += 1
@@ -76,9 +92,51 @@ def main( ):
         elif ( 2 > tokenCount > 5 ) or ( tokens[ 1 ] != '=' ):
             print( 'error parsing line ' + str( lineCount ) + ':' )
             print( line )
+            print( )
+            errors = True
 
-        name = token[ 0 ]
-        value = token[ 2 : ]
+        name = tokens[ 0 ]
+        value = tokens[ 2 ]
+
+        if tokenCount > 3:
+            units = tokens[ 3 ]
+        else:
+            units = ''
+
+        if not name.isidentifier( ):
+            print( 'invalid identifier \'' + name + '\' on line ' + str( lineCount ) )
+            print( )
+            errors = True
+
+        if name in definitions:
+            print( 'duplicate identifier \'' + name + '\' on line ' + str( lineCount ) +
+                   ' (originally defined on line ' + str( definitions[ name ].line ) + ')' )
+            print( )
+            errors = True
+
+        definitions[ name ] = Definition( lineCount, value, units, False )
+
+    if errors:
+        return
+
+    constants = { }
+
+    # first parsing pass
+    for name in definitions:
+        try:
+            value = mpmathify( definitions[ name ].value )
+        except:
+            value = 'parse me'
+
+        if value == 'parse me':
+            continue
+
+        if definitions[ name ].units == '':
+            constants[ name ] = value
+        else:
+            constants[ name ] = RPNMeasurement( value, definitions[ name ].units )
+
+        print( constants[ name ] )
 
 
 # //******************************************************************************
