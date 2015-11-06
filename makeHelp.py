@@ -5342,6 +5342,13 @@ on the digits that comprise an integer.
 '''
 ''' ],
 
+    'is_narcissistic' : [
+'lexicography', 'returns whether an integer n is narcissistic',
+'''
+''',
+'''
+''' ],
+
     'is_palindrome' : [
 'lexicography', 'returns whether an integer n is palindromic',
 '''

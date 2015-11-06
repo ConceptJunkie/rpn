@@ -214,3 +214,22 @@ def findPalindrome( n, k ):
 
     return [ k, 0 ]
 
+
+# //******************************************************************************
+# //
+# //  isNarcissistic
+# //
+# //******************************************************************************
+
+def isNarcissistic( n ):
+    digits = getDigits( real_int( n ) )
+
+    count = len( digits )
+
+    sum = 0
+
+    for d in digits:
+        sum = fadd( sum, power( d, count ) )
+
+    return 1 if sum == n else 0
+

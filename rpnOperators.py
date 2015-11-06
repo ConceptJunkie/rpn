@@ -192,17 +192,22 @@ def dumpOperators( ):
     print( 'operators:' )
 
     for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
-        print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
+        # print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
+        print( '   ' + i )
 
     print( )
+    print( 'constants:' )
 
+    for i in sorted( [ key for key in constants ] ):
+        print( '   ' + i )
+
+    print( )
     print( 'list operators:' )
 
     for i in sorted( [ key for key in listOperators ] ):
         print( '   ' + i )
 
     print( )
-
     print( 'modifer operators:' )
 
     for i in sorted( [ key for key in modifiers ] ):
@@ -604,44 +609,6 @@ def filterListByIndex( n, k, invert = False ) :
             result.append( item )
 
     return result
-
-
-# //******************************************************************************
-# //
-# //  dumpOperators
-# //
-# //******************************************************************************
-
-def dumpOperators( ):
-    print( 'operators:' )
-
-    for i in sorted( [ key for key in operators if key[ 0 ] != '_' ] ):
-        print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
-
-    print( )
-
-    print( 'list operators:' )
-
-    for i in sorted( [ key for key in listOperators ] ):
-        print( '   ' + i )
-
-    print( )
-
-    print( 'modifer operators:' )
-
-    for i in sorted( [ key for key in modifiers ] ):
-        print( '   ' + i )
-
-    print( )
-    print( 'internal operators:' )
-
-    for i in sorted( [ key for key in operators if key[ 0 ] == '_' ] ):
-        print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
-
-    print( )
-
-
-    return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
 
 
 # //******************************************************************************
@@ -1303,6 +1270,7 @@ operators = {
     'dup_digits'                    : OperatorInfo( duplicateDigits, 2 ),
     'find_palindrome'               : OperatorInfo( findPalindrome, 2 ),
     'get_digits'                    : OperatorInfo( getDigits, 1 ),
+    'is_narcissistic'               : OperatorInfo( isNarcissistic, 1 ),
     'is_palindrome'                 : OperatorInfo( isPalindrome, 1 ),
     'is_pandigital'                 : OperatorInfo( isPandigital, 1 ),
     'multiply_digits'               : OperatorInfo( multiplyDigits, 1 ),
