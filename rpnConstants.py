@@ -38,19 +38,41 @@ class OperatorInfo( ):
 # //******************************************************************************
 
 constants = {
-    # constant
-    'aa_battery'                    : OperatorInfo( lambda: RPNMeasurement( '15400', 'joule' ), 0 ),
+    'default'                       : OperatorInfo( lambda: -1, 0 ),
+    'false'                         : OperatorInfo( lambda: 0, 0 ),
+    'true'                          : OperatorInfo( lambda: 1, 0 ),
+
+    # constant - day of week operators
+    'monday'                        : OperatorInfo( lambda: 1, 0 ),
+    'tuesday'                       : OperatorInfo( lambda: 2, 0 ),
+    'wednesday'                     : OperatorInfo( lambda: 3, 0 ),
+    'thursday'                      : OperatorInfo( lambda: 4, 0 ),
+    'friday'                        : OperatorInfo( lambda: 5, 0 ),
+    'saturday'                      : OperatorInfo( lambda: 6, 0 ),
+    'sunday'                        : OperatorInfo( lambda: 7, 0 ),
+
+    # constant - month operators
+    'january'                       : OperatorInfo( lambda: 1, 0 ),
+    'february'                      : OperatorInfo( lambda: 2, 0 ),
+    'march'                         : OperatorInfo( lambda: 3, 0 ),
+    'april'                         : OperatorInfo( lambda: 4, 0 ),
+    'may'                           : OperatorInfo( lambda: 5, 0 ),
+    'june'                          : OperatorInfo( lambda: 6, 0 ),
+    'july'                          : OperatorInfo( lambda: 7, 0 ),
+    'august'                        : OperatorInfo( lambda: 8, 0 ),
+    'september'                     : OperatorInfo( lambda: 9, 0 ),
+    'october'                       : OperatorInfo( lambda: 10, 0 ),
+    'november'                      : OperatorInfo( lambda: 11, 0 ),
+    'december'                      : OperatorInfo( lambda: 12, 0 ),
+
+    # mathematical constants
     'apery_constant'                : OperatorInfo( apery, 0 ),
     'catalan_constant'              : OperatorInfo( catalan, 0 ),
     'champernowne_constant'         : OperatorInfo( getChampernowneConstant, 0 ),
     'copeland_erdos_constant'       : OperatorInfo( getCopelandErdosConstant, 0 ),
-    'default'                       : OperatorInfo( lambda: -1, 0 ),
     'e'                             : OperatorInfo( e, 0 ),
     'eddington_number'              : OperatorInfo( lambda: fmul( 136, power( 2, 256 ) ), 0 ),
     'euler_mascheroni_constant'     : OperatorInfo( euler, 0 ),
-    'false'                         : OperatorInfo( lambda: 0, 0 ),
-    'gallon_of_ethanol'             : OperatorInfo( lambda: RPNMeasurement( '8.4e7', 'joule' ), 0 ),
-    'gallon_of_gasoline'            : OperatorInfo( lambda: RPNMeasurement( '1.2e8', 'joule' ), 0 ),
     'glaisher_constant'             : OperatorInfo( glaisher, 0 ),
     'infinity'                      : OperatorInfo( lambda: inf, 0 ),
     'itoi'                          : OperatorInfo( lambda: exp( fmul( -0.5, pi ) ), 0 ),
@@ -64,13 +86,16 @@ constants = {
     'plastic_constant'              : OperatorInfo( getPlasticConstant, 0 ),
     'prevost_constant'              : OperatorInfo( lambda: nsum( lambda n: fdiv( 1, fib( n ) ), [ 1, inf ] ), 0 ),
     'robbins_constant'              : OperatorInfo( getRobbinsConstant, 0 ),
+    'silver_ratio'                  : OperatorInfo( lambda: fadd( 1, sqrt( 2 ) ), 0 ),
+
+    # constant - physical quantities
+    'aa_battery'                    : OperatorInfo( lambda: RPNMeasurement( '15400', 'joule' ), 0 ),
+    'gallon_of_ethanol'             : OperatorInfo( lambda: RPNMeasurement( '8.4e7', 'joule' ), 0 ),
+    'gallon_of_gasoline'            : OperatorInfo( lambda: RPNMeasurement( '1.2e8', 'joule' ), 0 ),
     'sidereal_month'                : OperatorInfo( lambda: RPNMeasurement( '27.321661', 'day' ), 0 ),
     'sidereal_year'                 : OperatorInfo( lambda: RPNMeasurement( '365.256360417', 'day' ), 0 ),
-    'silver_ratio'                  : OperatorInfo( lambda: fadd( 1, sqrt( 2 ) ), 0 ),
     'tropical_year'                 : OperatorInfo( lambda: RPNMeasurement( '365.24219', 'day' ), 0 ),
-    'true'                          : OperatorInfo( lambda: 1, 0 ),
-#    'density_of_hg'        13595.1 g/L (or kg/m3 ) :  Conventional density of mercury.
-#    'density_of_water'
+    'density_of_hg'                 : OperatorInfo( lambda: RPNMeasurement( '13595.1', 'kilogram/meter^3' ), 0 ),
 
     # constant - physical constants
     #'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( '1.38064852e-23', 'joule/kelvin' ), 0 ),
@@ -212,29 +237,6 @@ constants = {
     'pluto_mass'                    : OperatorInfo( lambda: RPNMeasurement( '1.4734074e22', 'kilogram' ), 0 ),
     # pluto_radius
     'pluto_year'                    : OperatorInfo( lambda: RPNMeasurement( '247.92065', 'year' ), 0 ),
-
-    # constant - day of week operators
-    'monday'                        : OperatorInfo( lambda: 1, 0 ),
-    'tuesday'                       : OperatorInfo( lambda: 2, 0 ),
-    'wednesday'                     : OperatorInfo( lambda: 3, 0 ),
-    'thursday'                      : OperatorInfo( lambda: 4, 0 ),
-    'friday'                        : OperatorInfo( lambda: 5, 0 ),
-    'saturday'                      : OperatorInfo( lambda: 6, 0 ),
-    'sunday'                        : OperatorInfo( lambda: 7, 0 ),
-
-    # constant - month operators
-    'january'                       : OperatorInfo( lambda: 1, 0 ),
-    'february'                      : OperatorInfo( lambda: 2, 0 ),
-    'march'                         : OperatorInfo( lambda: 3, 0 ),
-    'april'                         : OperatorInfo( lambda: 4, 0 ),
-    'may'                           : OperatorInfo( lambda: 5, 0 ),
-    'june'                          : OperatorInfo( lambda: 6, 0 ),
-    'july'                          : OperatorInfo( lambda: 7, 0 ),
-    'august'                        : OperatorInfo( lambda: 8, 0 ),
-    'september'                     : OperatorInfo( lambda: 9, 0 ),
-    'october'                       : OperatorInfo( lambda: 10, 0 ),
-    'november'                      : OperatorInfo( lambda: 11, 0 ),
-    'december'                      : OperatorInfo( lambda: 12, 0 ),
 
     # Astronomical object operators
 

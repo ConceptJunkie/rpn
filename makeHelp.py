@@ -3011,6 +3011,13 @@ c:\>rpn -a60 copeland
 '''
 ''' ],
 
+    'density_of_hg' : [
+'constants', '',
+'''
+''',
+'''
+''' ],
+
     'deuteron_mass' : [
 'constants', 'returns ',
 '''

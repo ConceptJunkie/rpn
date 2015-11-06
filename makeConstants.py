@@ -89,17 +89,17 @@ def main( ):
             continue
         elif tokenCount == 1 and tokens[ 0 ] == '' :
             continue
-        elif ( 2 > tokenCount > 5 ) or ( tokens[ 1 ] != '=' ):
+        elif ( 1 > tokenCount > 4 ):
             print( 'error parsing line ' + str( lineCount ) + ':' )
             print( line )
             print( )
             errors = True
 
         name = tokens[ 0 ]
-        value = tokens[ 2 ]
+        value = tokens[ 1 ]
 
-        if tokenCount > 3:
-            units = tokens[ 3 ]
+        if tokenCount > 2:
+            units = tokens[ 2 ]
         else:
             units = ''
 
