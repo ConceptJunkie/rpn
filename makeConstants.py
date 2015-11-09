@@ -71,7 +71,6 @@ def main( ):
     Definition = namedtuple( 'Definition', [ 'line', 'value', 'units', 'reference' ] )
 
     # compile the data file
-
     for line in codecs.open( 'rpnConstants.txt', 'rU', 'ascii', 'replace' ):
         lineCount += 1
 

@@ -600,7 +600,8 @@ to fdiv( ), resulting in rounding errors.
 
 5.20.2
 
-Fixed the list operator parsing so polyprod and polysum work correctly.
+Fixed the list operator parsing so 'polynomial_product' and 'polynomial_sum'
+work correctly.
 
 5.20.3
 
@@ -838,8 +839,8 @@ Added 'euler_phi' operator.
 
 Added caching for factorizations.
 
-Added the 'sigma, 'aliquot', 'polypower', 'mobius' and 'merten' operators.
-The old 'merten' operator was renamed to 'merten_constant'.
+Added the 'sigma, 'aliquot', 'polynomial_power', 'mobius' and 'merten'
+operators.  The old 'merten' operator was renamed to 'merten_constant'.
 
 Added the 'frobenius', 'slice', 'sublist', 'left' and 'right' operators.
 
@@ -7435,6 +7436,13 @@ c:\>rpn 1 8 range steloct
 # //  powers and roots operators
 # //
 # //******************************************************************************
+
+    'agm' : [
+'powers_and_roots', 'calculates the arithmetic-geometric mean of two numbers',
+'''
+''',
+'''
+''' ],
 
     'cube' : [
 'powers_and_roots', 'calculates the cube of n',

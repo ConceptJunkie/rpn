@@ -1435,6 +1435,7 @@ operators = {
     'truncated_tetrahedral'         : OperatorInfo( getNthTruncatedTetrahedralNumber, 1 ),
 
     # powers_and_roots
+    'agm'                           : OperatorInfo( agm, 2 ),
     'cube'                          : OperatorInfo( lambda n: exponentiate( n, 3 ), 1 ),
     'cube_root'                     : OperatorInfo( lambda n: getRoot( n, 3 ), 1 ),
     'exp'                           : OperatorInfo( exp, 1 ),
