@@ -16,16 +16,7 @@ from __future__ import print_function
 
 import six
 
-import arrow
-
-if six.PY3:
-    import builtins
-
-import bz2
-import contextlib
 import math
-import os
-import pickle
 import string
 import textwrap
 
@@ -34,10 +25,7 @@ from mpmath import *
 from rpnBase import *
 from rpnDateTime import RPNDateTime
 from rpnMeasurement import RPNMeasurement
-from rpnNumberTheory import getNthLucasNumber
 from rpnPersistence import loadHelpData
-from rpnPolytope import getNthPolygonalNumber
-from rpnPrimeUtils import getNthPrimorial
 from rpnUtils import *
 
 import rpnGlobals as g
@@ -82,7 +70,6 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping,  ):
             decimal = len( strNumber )
 
         strInteger = strNumber[ 1 if negative else 0 : decimal ]
-        integerLength = len( strNumber )
 
         strMantissa = strNumber[ decimal + 1 : ]
 
@@ -148,10 +135,10 @@ def formatOutput( output ):
             return output
 
     # override settings with temporary settings if needed
-    if g.tempCommaMode:
-        comma = True
-    else:
-        comma = g.comma
+    #if g.tempCommaMode:
+    #    comma = True
+    #else:
+    #    comma = g.comma
 
     # output settings, which may be overrided by temp settings
     outputRadix = g.outputRadix

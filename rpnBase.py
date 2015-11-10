@@ -209,11 +209,7 @@ def convertToNonintegerBase( num, base ):
     output = ''
     integer = ''
 
-    start = True
-    previousPlace = 0
     remaining = num
-
-    originalPlace = 0
 
     # find starting place
     place = int( floor( log( remaining, base ) ) )

@@ -13,17 +13,13 @@
 # //******************************************************************************
 
 import bz2
-import collections
 import contextlib
-import fractions
 import os
 import pickle
-import random
 
 import rpnGlobals as g
 
 from rpnPrimes import primes
-from rpnSettings import setAccuracy
 from rpnUtils import DelayedKeyboardInterrupt
 from rpnVersion import PROGRAM_VERSION
 
@@ -160,7 +156,7 @@ def loadResult( valueList ):
         with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
             result = pickle.load( pickleFile )
     except FileNotFoundError:
-        result = mapmathify( 0 )
+        result = mpmathify( 0 )
 
     return result
 
@@ -173,7 +169,7 @@ def loadResult( valueList ):
 
 def saveResult( result ):
     if not os.path.isdir( g.dataPath ):
-        os.makedirs( g,dataPath )
+        os.makedirs( g.dataPath )
 
     fileName = g.dataPath + os.sep + 'result.pckl.bz2'
 

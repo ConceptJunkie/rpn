@@ -12,7 +12,6 @@
 # //
 # //******************************************************************************
 
-import shlex
 import sys
 
 from collections import OrderedDict

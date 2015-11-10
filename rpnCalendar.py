@@ -12,9 +12,7 @@
 # //
 # //******************************************************************************
 
-import arrow
 import calendar
-import datetime
 
 from convertdate import *
 from dateutil import tz
@@ -22,7 +20,7 @@ from mpmath import ceil
 
 from rpnDateTime import RPNDateTime
 from rpnName import getOrdinalName
-from rpnUtils import real, real_int
+from rpnUtils import real_int
 
 
 # //******************************************************************************

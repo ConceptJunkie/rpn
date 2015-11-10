@@ -16,8 +16,6 @@ import string
 
 from mpmath import *
 
-import rpnGlobals as g
-
 from rpnUtils import real, real_int
 
 

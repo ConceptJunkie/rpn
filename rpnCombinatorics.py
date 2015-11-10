@@ -40,12 +40,9 @@
 # * Yes.........Yes.........Yes.........p+4 (table from Derek Holt) (End)
 
 
-import itertools
-
 from mpmath import *
 
 from rpnNumberTheory import *
-from rpnPolytope import getNthPolygonalNumber
 from rpnUtils import real, real_int
 
 
@@ -217,18 +214,18 @@ def createDeBruijnSequence( n, k ):
 # //******************************************************************************
 
 def getCompositions( n, k ):
-    value = int( floor( real( n ) ) )
-    count = int( floor( real( k ) ) )
+    value = int( real_int( n ) )
+    count = int( real_int( k ) )
 
     if count < 1:
         raise ValueError( "'compositions' expects a size argument greater than 0'" )
 
     if count == 1:
-        return [ [ floor( n ) ] ]
+        return [ [ value ] ]
     else:
         result = [ ]
 
-        for i in range( 1, int( ( n - count ) + 2 ) ):
+        for i in range( 1, int( ( value - count ) + 2 ) ):
             result.extend( [ [ nint( i ) ] + comp for comp in getCompositions( n - i, count - 1 ) ] )
 
         return result

@@ -14,7 +14,6 @@
 
 from __future__ import print_function
 
-import six
 import struct
 
 from mpmath import *
@@ -445,9 +444,6 @@ def evaluateFunction( a, b, c, func ):
         index = 1
 
         while len( valueList ) > 1:
-            oldValueList = list( valueList )
-            listLength = len( valueList )
-
             term = valueList.pop( 0 )
 
             if not isinstance( term, list ) and term in g.operatorAliases:
@@ -517,18 +513,6 @@ def evaluateFunction3( a, b, c, d ):
 
 def plotFunction( start, end, func ):
     plot( lambda x: evaluateFunction1( x, func ), [ start, end ] )
-    return 0
-
-
-# //******************************************************************************
-# //
-# //  plot2DFunction
-# //
-# //******************************************************************************
-
-def plot2DFunction( start1, end1, start2, end2, func ):
-    splot( lambda x, y: evaluateFunction( x, y, 0, func ),
-           [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
     return 0
 
 

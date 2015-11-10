@@ -12,16 +12,12 @@
 # //
 # //******************************************************************************
 
-from dateutil import tz
 import ephem
 
 from mpmath import *
 
 from rpnDateTime import RPNDateTime
 from rpnLocation import RPNLocation
-from rpnMeasurement import RPNMeasurement
-
-import rpnGlobals as g
 
 
 # //******************************************************************************

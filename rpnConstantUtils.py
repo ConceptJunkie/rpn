@@ -24,7 +24,6 @@ from mpmath import *
 
 from rpnComputer import *
 from rpnInput import convertToBase10
-from rpnMeasurement import RPNMeasurement
 from rpnOutput import convertToBaseN
 from rpnPrimeUtils import *
 from rpnUtils import *

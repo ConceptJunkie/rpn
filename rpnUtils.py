@@ -25,10 +25,8 @@ def debugPrint( *args, **kwargs ):
     else:
         return
 
-import arrow
 import bz2
 import contextlib
-import math
 import os
 import pickle
 import signal
@@ -37,7 +35,6 @@ from mpmath import *
 from random import randrange
 from functools import reduce
 
-from rpnUnitClasses import UnitTypeInfo
 from rpnVersion import *
 
 import rpnGlobals as g

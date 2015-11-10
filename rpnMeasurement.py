@@ -12,11 +12,6 @@
 # //
 # //******************************************************************************
 
-import bz2
-import contextlib
-import os
-import pickle
-
 from mpmath import *
 
 from rpnPersistence import loadUnitData, loadUnitConversionMatrix

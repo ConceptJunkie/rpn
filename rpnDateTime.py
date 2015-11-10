@@ -15,10 +15,8 @@
 import arrow
 import calendar
 import datetime
-import ephem
 
 from dateutil import tz
-from rpnUtils import debugPrint
 from rpnMeasurement import *
 from rpnUtils import real, real_int
 
@@ -186,10 +184,10 @@ class RPNDateTime( arrow.Arrow ):
 def convertToUnixTime( n ):
     try:
         result = RPNDateTime.parseDateTime( n ).timestamp
-    except OverflowError as error:
+    except OverflowError:
         print( 'rpn:  out of range error for \'to_unix_time\'' )
         return nan
-    except TypeError as error:
+    except TypeError:
         print( 'rpn:  expected time value for \'to_unix_time\'' )
         return nan
 
@@ -205,10 +203,10 @@ def convertToUnixTime( n ):
 def convertFromUnixTime( n ):
     try:
         result = RPNDateTime.parseDateTime( real( n ) )
-    except OverflowError as error:
+    except OverflowError:
         print( 'rpn:  out of range error for \'from_unix_time\'' )
         return nan
-    except TypeError as error:
+    except TypeErrorme:
         print( 'rpn:  expected time value for \'from_unix_time\'' )
         return nan
 

@@ -286,7 +286,6 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
         return [ x1, x2, x3, x4 ]
 
     # otherwise we have a regular quartic to solve
-    a = 1
     b = fdiv( _b, _a )
     c = fdiv( _c, _a )
     d = fdiv( _d, _a )
