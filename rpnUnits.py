@@ -2138,18 +2138,8 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'sidereal_month' :
-        UnitInfo( 'time', 'sidereal_month', 'sidereal_months', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
     'sidereal_second' :
         UnitInfo( 'time', 'sidereal_second', 'sidereal_seconds', '', [ ], [ 'science' ],
-                  '''
-                  ''' ),
-
-    'sidereal_year' :
-        UnitInfo( 'time', 'sidereal_year', 'sidereal_years', '', [ 'earth_year' ], [ 'science' ],
                   '''
                   ''' ),
 

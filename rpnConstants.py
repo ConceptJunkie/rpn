@@ -92,9 +92,6 @@ constants = {
     'aa_battery'                    : OperatorInfo( lambda: RPNMeasurement( '15400', 'joule' ), 0 ),
     'gallon_of_ethanol'             : OperatorInfo( lambda: RPNMeasurement( '8.4e7', 'joule' ), 0 ),
     'gallon_of_gasoline'            : OperatorInfo( lambda: RPNMeasurement( '1.2e8', 'joule' ), 0 ),
-    'sidereal_month'                : OperatorInfo( lambda: RPNMeasurement( '27.321661', 'day' ), 0 ),
-    'sidereal_year'                 : OperatorInfo( lambda: RPNMeasurement( '365.256360417', 'day' ), 0 ),
-    'tropical_year'                 : OperatorInfo( lambda: RPNMeasurement( '365.24219', 'day' ), 0 ),
     'density_of_hg'                 : OperatorInfo( lambda: RPNMeasurement( '13595.1', 'kilogram/meter^3' ), 0 ),
 
     # constant - physical constants
@@ -188,55 +185,60 @@ constants = {
     'solar_radius'                  : OperatorInfo( lambda: RPNMeasurement( '6.9599e8', 'meter' ), 0 ),
     'solar_volume'                  : OperatorInfo( lambda: RPNMeasurement( '1.412e27', 'meter^3' ), 0 ),
 
-    'mercury_day'                   : OperatorInfo( lambda: RPNMeasurement( '58.785', 'day' ), 0 ),
     'mercury_mass'                  : OperatorInfo( lambda: RPNMeasurement( '3.301e26', 'kilogram' ), 0 ),
+    # equitorial radius
     'mercury_radius'                : OperatorInfo( lambda: RPNMeasurement( '2.4397e6', 'meter' ), 0 ),
-    'mercury_year'                  : OperatorInfo( lambda: RPNMeasurement( '87.969', 'day' ), 0 ),
+    # sidereal orbit period
+    'mercury_revolution'            : OperatorInfo( lambda: RPNMeasurement( '87.969', 'day' ), 0 ),
+    'mercury_volume'                : OperatorInfo( lambda: RPNMeasurement( '6.083e19', 'meter^3' ), 0 ),
 
-    'venus_day'                     : OperatorInfo( lambda: RPNMeasurement( '243.01', 'day' ), 0 ),
     'venus_mass'                    : OperatorInfo( lambda: RPNMeasurement( '4.8689952e24', 'kilogram' ), 0 ),
-    # venus_radius
-    'venus_year'                    : OperatorInfo( lambda: RPNMeasurement( '0.61519726', 'year' ), 0 ),
+    'venus_radius'                  : OperatorInfo( lambda: RPNMeasurement( '6.0518e6', 'meter' ), 0 ),
+    'venus_revolution'              : OperatorInfo( lambda: RPNMeasurement( '224.701', 'day' ), 0 ),
+    'venus_volume'                  : OperatorInfo( lambda: RPNMeasurement( '9.2843e20', 'meter^3' ), 0 ),
 
     'earth_gravity'                 : OperatorInfo( lambda: RPNMeasurement( '9.806650', 'meter/second^2' ), 0 ),
     'earth_mass'                    : OperatorInfo( lambda: RPNMeasurement( '5.9742e24', 'kilogram' ), 0 ),
     'earth_radius'                  : OperatorInfo( lambda: RPNMeasurement( '6378136', 'meter' ), 0 ),
+    'earth_volume'                  : OperatorInfo( lambda: RPNMeasurement( '1.08321e21', 'meter^3' ), 0 ),
+    'sidereal_year'                 : OperatorInfo( lambda: RPNMeasurement( '365.256360417', 'day' ), 0 ),
+    'tropical_year'                 : OperatorInfo( lambda: RPNMeasurement( '365.24219', 'day' ), 0 ),
 
-    #'moon_day'                     : OperatorInfo( lambda: RPNMeasurement( '1490' ),  'minute' )
     'moon_gravity'                  : OperatorInfo( lambda: RPNMeasurement( '1.62', 'meter/second^2' ), 0 ),
-    # moon_mass
-    # moon_radius
-    # moon_orbit
+    'moon_mass'                     : OperatorInfo( lambda: RPNMeasurement( '7.342e22', 'kilogram' ), 0 ),
+    'moon_radius'                   : OperatorInfo( lambda: RPNMeasurement( '1.7381e6', 'meter' ), 0 ),
+    'moon_revolution'               : OperatorInfo( lambda: RPNMeasurement( '27.3217', 'day' ), 0 ),
+    'moon_volume'                   : OperatorInfo( lambda: RPNMeasurement( '2.1958e19', 'meter^3' ), 0 ),
 
-    'mars_day'                      : OperatorInfo( lambda: RPNMeasurement( '1.02595675', 'day' ), 0 ),
     'mars_mass'                     : OperatorInfo( lambda: RPNMeasurement( '6.4191269e23', 'kilogram' ), 0 ),
-    # mars_radius
-    'mars_year'                     : OperatorInfo( lambda: RPNMeasurement( '1.8808476', 'year' ), 0 ),
+    'mars_radius'                   : OperatorInfo( lambda: RPNMeasurement( '3.3962e6', 'meter' ), 0 ),
+    'mars_revolution'               : OperatorInfo( lambda: RPNMeasurement( '686.980', 'day' ), 0 ),
+    'mars_volume'                   : OperatorInfo( lambda: RPNMeasurement( '1.6318e20', 'meter^3' ), 0 ),
 
-    'jupiter_day'                   : OperatorInfo( lambda: RPNMeasurement( '9.92496', 'hour' ), 0 ),
-    'jupiter_mass'                  : OperatorInfo( lambda: RPNMeasurement( '1.8992e27', 'kilogram' ), 0 ),
+    'jupiter_mass'                  : OperatorInfo( lambda: RPNMeasurement( '1.8983e27', 'kilogram' ), 0 ),
     'jupiter_radius'                : OperatorInfo( lambda: RPNMeasurement( '7.1492e7', 'meter' ), 0 ),
-    'jupiter_year'                  : OperatorInfo( lambda: RPNMeasurement( '11.862615', 'year' ), 0 ),
+    'jupiter_revolution'            : OperatorInfo( lambda: RPNMeasurement( '11.862', 'year' ), 0 ),
+    'jupiter_volume'                : OperatorInfo( lambda: RPNMeasurement( '1.43128e24', 'meter^3' ), 0 ),
 
-    'saturn_day'                    : OperatorInfo( lambda: RPNMeasurement( '0.4375', 'day' ), 0 ),
-    'saturn_mass'                   : OperatorInfo( lambda: RPNMeasurement( '5.6865580e26', 'kilogram' ), 0 ),
-    # saturn_radius
-    'saturn_year'                   : OperatorInfo( lambda: RPNMeasurement( '29.447498', 'year' ), 0 ),
+    'saturn_mass'                   : OperatorInfo( lambda: RPNMeasurement( '5.6836e26', 'kilogram' ), 0 ),
+    'saturn_radius'                 : OperatorInfo( lambda: RPNMeasurement( '6.0268e7', 'meter' ), 0 ),
+    'saturn_revolution'             : OperatorInfo( lambda: RPNMeasurement( '29.457', 'year' ), 0 ),
+    'saturn_volume'                 : OperatorInfo( lambda: RPNMeasurement( '8.2713e23', 'meter^3' ), 0 ),
 
-    'uranus_day'                    : OperatorInfo( lambda: RPNMeasurement( '0.65', 'day' ), 0 ),
-    'uranus_mass'                   : OperatorInfo( lambda: RPNMeasurement( '8.6848960e25', 'kilogram' ), 0 ),
-    # uranus_radius
-    'uranus_year'                   : OperatorInfo( lambda: RPNMeasurement( '84.016846', 'year' ), 0 ),
+    'uranus_mass'                   : OperatorInfo( lambda: RPNMeasurement( '8.6816e25', 'kilogram' ), 0 ),
+    'uranus_radius'                 : OperatorInfo( lambda: RPNMeasurement( '2.5559e7', 'meter' ), 0 ),
+    'uranus_revolution'             : OperatorInfo( lambda: RPNMeasurement( '84.011', 'year' ), 0 ),
+    'uranus_volume'                 : OperatorInfo( lambda: RPNMeasurement( '6.833e22', 'meter^3' ), 0 ),
 
-    'neptune_day'                   : OperatorInfo( lambda: RPNMeasurement( '0.768', 'day' ), 0 ),
-    'neptune_mass'                  : OperatorInfo( lambda: RPNMeasurement( '1.0247e26', 'kilogram' ), 0 ),
-    # neptune_radius
-    'neptune_year'                  : OperatorInfo( lambda: RPNMeasurement( '164.79132', 'year' ), 0 ),
+    'neptune_mass'                  : OperatorInfo( lambda: RPNMeasurement( '1.0242e26', 'kilogram' ), 0 ),
+    'neptune_radius'                : OperatorInfo( lambda: RPNMeasurement( '2.4764e7', 'meter' ), 0 ),
+    'neptune_revolution'            : OperatorInfo( lambda: RPNMeasurement( '164.79', 'year' ), 0 ),
+    'neptune_volume'                : OperatorInfo( lambda: RPNMeasurement( '6.254e22', 'meter^3' ), 0 ),
 
-    'pluto_day'                     : OperatorInfo( lambda: RPNMeasurement( '6.3867', 'day' ), 0 ),
-    'pluto_mass'                    : OperatorInfo( lambda: RPNMeasurement( '1.4734074e22', 'kilogram' ), 0 ),
-    # pluto_radius
-    'pluto_year'                    : OperatorInfo( lambda: RPNMeasurement( '247.92065', 'year' ), 0 ),
+    'pluto_mass'                    : OperatorInfo( lambda: RPNMeasurement( '1.0303e22', 'kilogram' ), 0 ),
+    'pluto_radius'                  : OperatorInfo( lambda: RPNMeasurement( '1.185e6', 'meter' ), 0 ),
+    'pluto_revolution'              : OperatorInfo( lambda: RPNMeasurement( '247.94', 'year' ), 0 ),
+    'pluto_volume'                  : OperatorInfo( lambda: RPNMeasurement( '6.97e18', 'meter^3' ), 0 ),
 
     # Astronomical object operators
 

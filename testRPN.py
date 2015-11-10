@@ -1055,6 +1055,52 @@ def runConstantOperatorTests( ):
     expectResult( 'november', 11 )
     expectResult( 'december', 12 )
 
+    testOperator( 'solar_luminosity' )
+    testOperator( 'solar_mass' )
+    testOperator( 'solar_radius' )
+    testOperator( 'solar_volume' )
+
+    testOperator( 'mercury_mass' )
+    testOperator( 'mercury_radius' )
+    testOperator( 'mercury_revolution' )
+
+    testOperator( 'venus_mass' )
+    testOperator( 'venus_radius' )
+    testOperator( 'venus_revolution' )
+
+    testOperator( 'earth_gravity' )
+    testOperator( 'earth_mass' )
+    testOperator( 'earth_radius' )
+
+    testOperator( 'moon_gravity' )
+    testOperator( 'moon_mass' )
+    testOperator( 'moon_radius' )
+    testOperator( 'moon_orbit' )
+
+    testOperator( 'mars_mass' )
+    testOperator( 'mars_radius' )
+    testOperator( 'mars_revolution' )
+
+    testOperator( 'jupiter_mass' )
+    testOperator( 'jupiter_radius' )
+    testOperator( 'jupiter_revolution' )
+
+    testOperator( 'saturn_mass' )
+    testOperator( 'saturn_radius' )
+    testOperator( 'saturn_revolution' )
+
+    testOperator( 'uranus_mass' )
+    testOperator( 'uranus_radius' )
+    testOperator( 'uranus_revolution' )
+
+    testOperator( 'neptune_mass' )
+    testOperator( 'neptune_radius' )
+    testOperator( 'neptune_revolution' )
+
+    testOperator( 'pluto_mass' )
+    testOperator( 'pluto_radius' )
+    testOperator( 'pluto_revolution' )
+
 
 # //******************************************************************************
 # //
@@ -2105,6 +2151,12 @@ def runPolyhedralOperatorTests( ):
     # icosahedral
     testOperator( '100 icosahedral' )
 
+    # octahedral
+    testOperator( '23 octahedral' )
+
+    # pentatope
+    testOperator( '12 pentatope' )
+
     # polytope
     testOperator( '1 10 range 7 polytope' )
     testOperator( '10 2 8 range polytope' )
@@ -2129,12 +2181,6 @@ def runPolyhedralOperatorTests( ):
     # truncated_tetrahedral
     testOperator( '683 truncated_tetrahedral' )
 
-    # octahedral
-    testOperator( '23 octahedral' )
-
-    # pentatope
-    testOperator( '12 pentatope' )
-
 
 # //******************************************************************************
 # //
@@ -2143,6 +2189,9 @@ def runPolyhedralOperatorTests( ):
 # //******************************************************************************
 
 def runPowersAndRootsOperatorTests( ):
+    # agm
+    testOperator( '1 2 sqrt agm' )
+
     # cube
     testOperator( '3 cube' )
 

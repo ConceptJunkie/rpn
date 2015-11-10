@@ -1,123 +1,121 @@
 # physical constants
-avogadro_number               6.022140857e23
-bohr_radius                   5.2917721e-11 meter
-#boltzmann_constant            1.38064852e-23 joule/kelvin
-boltzmann_constant            1.38064852e-23 kilogram*meter^2/second^2*kelvin
-coulomb_constant              8.987551787e9 newton*meter^2/coulomb^2
-electric_constant             8.854187817e-12 farad/meter
-electron_charge               1.602176565e-19 coulomb
-faraday_constant              96485.33289 coulomb/mole
-fine_structure_constant       7.2973525664e-3
-magnetic_constant             4e-7*pi newton/ampere^2
-newton_constant               6.67408e-11 meter^3/kilogram*second^2
-radiation_constant            7.5657e-16 kilogram/second^2*meter*kelvin^4
-rydberg_constant              10973731.568508 meter^-1
-speed_of_light                299792458 meter/second
-stefan_boltzmann_constant     5.670367e-8 watt/meter^2*kelvin^4
-vacuum_impedance              376.730313461 ohm
-von_klitzing_constant         25812.8074555 ohm
+avogadro_number                 6.022140857e23
+bohr_radius                     5.2917721e-11 meter
+boltzmann_constant              1.38064852e-23 kilogram*meter^2/second^2*kelvin
+coulomb_constant                8.987551787e9 newton*meter^2/coulomb^2
+electric_constant               8.854187817e-12 farad/meter
+electron_charge                 1.602176565e-19 coulomb
+faraday_constant                96485.33289 coulomb/mole
+fine_structure_constant         7.2973525664e-3
+magnetic_constant               4e-7*pi newton/ampere^2
+newton_constant                 6.67408e-11 meter^3/kilogram*second^2
+radiation_constant              7.5657e-16 kilogram/second^2*meter*kelvin^4
+rydberg_constant                10973731.568508 meter^-1
+speed_of_light                  299792458 meter/second
+stefan_boltzmann_constant       5.670367e-8 watt/meter^2*kelvin^4
+vacuum_impedance                376.730313461 ohm
+von_klitzing_constant           25812.8074555 ohm
 
 # constant - physical quantities
-aa_battery                    15400 joule
-gallon_of_ethanol             8.4e7 joule
-gallon_of_gasoline            1.2e8 joule
-sidereal_month                27.321661 day
-sidereal_year                 365.256360417 day
-tropical_year                 365.24219 day
-density_of_hg                 13595.1 kilogram/meter^3
+aa_battery                      15400 joule
+gallon_of_ethanol               8.4e7 joule
+gallon_of_gasoline              1.2e8 joule
+density_of_hg                   13595.1 kilogram/meter^3
 
 # Planck constants
-#planck_constant               6.626070040e-34 joule*second
-#reduced_planck_constant       1.054571800e-34 joule*second
-planck_constant               6.626070040e-34 kilogram*meter^2/second
-reduced_planck_constant       1.054571800e-34 kilogram*meter^2/second
+planck_constant                 6.626070040e-34 kilogram*meter^2/second
+reduced_planck_constant         1.054571800e-34 kilogram*meter^2/second
 
-planck_length                 1.616229e-35 meter
-planck_mass                   2.176470e-8 kilogram
-planck_time                   5.39116e-44 second
-planck_charge                 1.875545956e-18 coulomb
-planck_temperature            1.416808e32 kelvin
+planck_length                   1.616229e-35 meter
+planck_mass                     2.176470e-8 kilogram
+planck_time                     5.39116e-44 second
+planck_charge                   1.875545956e-18 coulomb
+planck_temperature              1.416808e32 kelvin
 
-planck_angular_frequency      1.85487e43 second^-1
-planck_area                   2.61219618e-70 meter^2
-planck_current                3.4789e25 ampere
-planck_density                5.15518197484e+96 kilogram/meter^3
-planck_energy                 1.220910e28 electron-volt
-planck_energy_density         4.63298e113 joule/meter^3
-planck_force                  1.2102947186e44 newton
-planck_impedance              29.9792458 ohm
-planck_intensity              1.38893e122 watt/meter^2
-planck_momentum               6.52485 kilogram*meter/second
-planck_power                  3.62831e52 watt
-planck_pressure               4.63309e113 pascal
-planck_voltage                1.04295e27 volt
-planck_volume                 4.22190722e-105 meter^3
+planck_angular_frequency        1.85487e43 second^-1
+planck_area                     2.61219618e-70 meter^2
+planck_current                  3.4789e25 ampere
+planck_density                  5.15518197484e+96 kilogram/meter^3
+planck_energy                   1.220910e28 electron-volt
+planck_energy_density           4.63298e113 joule/meter^3
+planck_force                    1.2102947186e44 newton
+planck_impedance                29.9792458 ohm
+planck_intensity                1.38893e122 watt/meter^2
+planck_momentum                 6.52485 kilogram*meter/second
+planck_power                    3.62831e52 watt
+planck_pressure                 4.63309e113 pascal
+planck_voltage                  1.04295e27 volt
+planck_volume                   4.22190722e-105 meter^3
 
 # subatomic particle constants
-alpha_particle_mass           6.644657230e-27 kilogram
-deuteron_mass                 3.343583719e-27 kilogram
-electron_mass                 9.10938356e-31 kilogram
-helion_mass                   5.006412700e-27 kilogram
-muon_mass                     1.883531594e-28 kilogram
-neutron_mass                  1.674927471e-27 kilogram
-proton_mass                   1.672621898e-27 kilogram
-tau_mass                      3.16747e-27 kilogram
-triton_mass                   5.007356665e-27 kilograms
+alpha_particle_mass             6.644657230e-27 kilogram
+deuteron_mass                   3.343583719e-27 kilogram
+electron_mass                   9.10938356e-31 kilogram
+helion_mass                     5.006412700e-27 kilogram
+muon_mass                       1.883531594e-28 kilogram
+neutron_mass                    1.674927471e-27 kilogram
+proton_mass                     1.672621898e-27 kilogram
+tau_mass                        3.16747e-27 kilogram
+triton_mass                     5.007356665e-27 kilograms
 
 # constant - heavenly body constants
-sun_day                       28 days # ?????
-solar_luminosity              3.826e26 watts
-solar_mass                    1.988500e30 kilograms
-solar_radius                  6.9599e8 meters
-solar_volume                  1.412e27 meter^3
+solar_luminosity                3.826e26 watts
+solar_mass                      1.988500e30 kilograms
+solar_radius                    6.9599e8 meters
+solar_volume                    1.412e27 meter^3
 
-mercury_day                   58.785 days
-mercury_mass                  3.301e26 kilograms
-mercury_radius                2.4397e6 meters
-mercury_year                  87.969 days
+mercury_mass                    3.301e26 kilograms
+# equitorial radius
+mercury_radius                  2.4397e6 meters
+# sidereal orbit period
+mercury_revolution              87.969 days
+mercury_volume                  6.083e19 meter^3
 
-venus_day                     243.01 days
-venus_mass                    4.8689952e24 kilograms
-venus_radius                  2 miles # ???
-venus_year                    0.61519726 years
+venus_mass                      4.8689952e24 kilogram
+venus_radius                    6.0518e6 meters
+venus_revolution                224.701 days
+venus_volume                    9.2843e20 meter^3
 
-earth_gravity                 9.806650 meter/second^2
-earth_mass                    5.9742e24 kilograms
-earth_radius                  6378136 meters
+earth_gravity                   9.806650 meter/second^2
+earth_mass                      5.9742e24 kilograms
+earth_radius                    6378136 meters
+earth_volume                    1.08321e21 meter^3
+sidereal_year                   365.256360417 day
+tropical_year                   365.24219 day
 
-moon_day                      28 days # ???
-moon_gravity                  1.62 meter/second^2
-moon_mass                     2 kilograms # ???
-moon_radius                   2 meters # ???
-moon_orbit                    28 days # ???
+moon_gravity                    1.62 meter/second^2
+moon_mass                       7.342e22 kilograms
+moon_radius                     1.7381e6 meters
+moon_revolution                 27.3217 days
+moon_volume                     2.1958e19 meter^3
 
-mars_day                      1.02595675 days
-mars_mass                     6.4191269e23 kilograms
-mars_radius                   20 miles # ???
-mars_year                     1.8808476 years
+mars_mass                       6.4191269e23 kilograms
+mars_radius                     3.3962e6 meters
+mars_revolution                 686.980 days
+mars_volume                     1.6318e20 meter^3
 
-jupiter_day                   9.92496 hours
-jupiter_mass                  1.8992e27 kilograms
-jupiter_radius                7.1492e7 meters
-jupiter_year                  11.862615 years
+jupiter_mass                    1.8983e27 kilograms
+jupiter_radius                  7.1492e7 meters
+jupiter_revolution              11.862 years
+jupiter_volume                  1.43128e24 meter^3
 
-saturn_day                    0.4375 day
-saturn_mass                   5.6865580e26 kilograms
-saturn_radius                 2 miles # ???
-saturn_year                   29.447498 years
+saturn_mass                     5.6836e26 kilograms
+saturn_radius                   6.0268e7 meters
+saturn_revolution               29.457 years
+saturn_volume                   8.2713e23 meter^3
 
-uranus_day                    0.65 days
-uranus_mass                   8.6848960e25 kilograms
-uranus_radius                 20 miles # ???
-uranus_year                   84.016846 years
+uranus_mass                     8.6816e25 kilograms
+uranus_radius                   2.5559e7 meters
+uranus_revolution               84.011 years
+uranus_volume                   6.833e22 meter^3
 
-neptune_day                   0.768 days
-neptune_mass                  1.0247e26 kilograms
-neptune_radius                2 miles # ???
-neptune_year                  164.79132 years
+neptune_mass                    1.0242e26 kilograms
+neptune_radius                  2.4764e7 meters
+neptune_revolution              164.79 years
+neptune_volume                  6.254e22 meter^3
 
-pluto_day                     6.3867 days
-pluto_mass                    1.4734074e22 kilograms
-pluto_radius                  2 miles # ???
-pluto_year                    247.92065 years
+pluto_mass                      1.0303e22 kilograms
+pluto_radius                    1.185e6 meters
+pluto_revolution                247.94 years
+pluto_volume                    6.97e18 meter^3
 

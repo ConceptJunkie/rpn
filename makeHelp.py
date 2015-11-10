@@ -331,9 +331,6 @@ For now, here are some examples:
     c:\>rpn 60 miles hour / furlongs fortnight / convert
     161280 furlongs per fortnight
 
-    c:\>rpn mars_day hms
-    [ 24 hours, 37 minutes, 22.6632 seconds ]
-
     c:\>rpn 10 tons estimate
     'approximately 1.65 times the mass of an average male African bush elephant'
 
@@ -3778,13 +3775,6 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''' ],
 
-    'sidereal_month' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
     'sidereal_year' : [
 'constants', 'returns ',
 '''
@@ -3884,7 +3874,7 @@ Ref:  CODATA 2014
 ''' ],
 
     'solar_mass' : [
-'constants', 'returns the estimated mass of the Sun in grams',
+'constants', 'returns the estimated mass of the Sun in kilograms',
 '''
 Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''',
@@ -3898,15 +3888,8 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''' ],
 
-    'mercury_rotation' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''' ],
-
     'mercury_mass' : [
-'constants', 'returns the estimated mass of the planet Mercury in grams',
+'constants', 'returns the estimated mass of the planet Mercury in kilograms',
 '''
 ''',
 '''
@@ -3926,15 +3909,15 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''' ],
 
-    'venus_rotation' : [
-'constants', 'returns ',
+    'mercury_volume' : [
+'constants', 'returns the estimated volume of the planet Mercury in cubic meters',
 '''
 ''',
 '''
 ''' ],
 
     'venus_mass' : [
-'constants', 'returns the estimated mass of the planet Venus in grams',
+'constants', 'returns the estimated mass of the planet Venus in kilograms',
 '''
 ''',
 '''
@@ -3949,6 +3932,13 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 
     'venus_revolution' : [
 'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'venus_volume' : [
+'constants', 'returns the estimated volume of the planet Venus in cubic meters',
 '''
 ''',
 '''
@@ -3996,8 +3986,22 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''' ],
 
-    'mars_rotation' : [
+    'earth_volume' : [
+'constants', 'returns the estimated volume of the planet Earth in cubic meters',
+'''
+''',
+'''
+''' ],
+
+    'moon_revolution' : [
 'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'moon_volume' : [
+'constants', 'returns the estimated volume of the Moon in cubic meters',
 '''
 ''',
 '''
@@ -4024,15 +4028,15 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''' ],
 
-    'jupiter_rotation' : [
-'constants', 'returns ',
+    'mars_volume' : [
+'constants', 'returns the estimated volume of the planet Mars in cubic meters',
 '''
 ''',
 '''
 ''' ],
 
     'jupiter_mass' : [
-'constants', 'returns the estimated mass of the planet Jupiter in grams',
+'constants', 'returns the estimated mass of the planet Jupiter in kilograms',
 '''
 ''',
 '''
@@ -4052,15 +4056,15 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''' ],
 
-    'saturn_rotation' : [
-'constants', 'returns ',
+    'jupiter_volume' : [
+'constants', 'returns the estimated volume of the planet Jupiter in cubic meters',
 '''
 ''',
 '''
 ''' ],
 
     'saturn_mass' : [
-'constants', 'returns the estimated mass of the planet Saturn in grams',
+'constants', 'returns the estimated mass of the planet Saturn in kilograms',
 '''
 ''',
 '''
@@ -4080,15 +4084,15 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''' ],
 
-    'uranus_rotation' : [
-'constants', 'returns ',
+    'saturn_volume' : [
+'constants', 'returns the estimated volume of the planet Saturn in cubic meters',
 '''
 ''',
 '''
 ''' ],
 
     'uranus_mass' : [
-'constants', 'returns the estimated mass of the planet Uranus in grams',
+'constants', 'returns the estimated mass of the planet Uranus in kilograms',
 '''
 ''',
 '''
@@ -4108,15 +4112,15 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''' ],
 
-    'neptune_rotation' : [
-'constants', 'returns ',
+    'uranus_volume' : [
+'constants', 'returns the estimated volume of the planet Uranus in cubic meters',
 '''
 ''',
 '''
 ''' ],
 
     'neptune_mass' : [
-'constants', 'returns the estimated mass of the planet Neptune in grams',
+'constants', 'returns the estimated mass of the planet Neptune in kilograms',
 '''
 ''',
 '''
@@ -4136,15 +4140,15 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''' ],
 
-    'pluto_rotation' : [
-'constants', 'returns ',
+    'neptune_volume' : [
+'constants', 'returns the estimated volume of the planet Neptune in cubic meters',
 '''
 ''',
 '''
 ''' ],
 
     'pluto_mass' : [
-'constants', 'returns the estimated mass of the planet Pluto in grams',
+'constants', 'returns the estimated mass of the planet Pluto in kilograms',
 '''
 ''',
 '''
@@ -4159,6 +4163,13 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 
     'pluto_revolution' : [
 'constants', 'returns ',
+'''
+''',
+'''
+''' ],
+
+    'pluto_volume' : [
+'constants', 'returns the estimated volume of the planet Pluto in cubic meters',
 '''
 ''',
 '''
@@ -4370,9 +4381,6 @@ c:\>rpn 65 mph kph convert
 
 c:\>rpn 60 miles hour / furlongs fortnight / convert
 161280 furlongs per fortnight
-
-c:\>rpn mars_day [ hour minute second ] convert
-[ 24 hours, 37 minutes, 22.6632 seconds ]
 
 c:\>rpn 78 kg [ pound ounce ] convert
 [ 171 pounds, 15.369032067272 ounces ]
