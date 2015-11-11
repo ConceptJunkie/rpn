@@ -40,10 +40,9 @@ import time
 
 from mpmath import *
 
-from rpnAliases import *
+from rpnAliases import operatorAliases
 from rpnOperators import *
 from rpnOutput import *
-from rpnUtils import *
 from rpnVersion import *
 
 import rpnGlobals as g

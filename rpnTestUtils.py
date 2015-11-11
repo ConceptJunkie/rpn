@@ -174,7 +174,7 @@ def testOperator( command ):
     if result == [ nan ]:
         raise ValueError( 'unit test failed' )
 
-    if not result is None:
+    if result is not None:
         handleOutput( result )
 
     print( '    operator works!' )

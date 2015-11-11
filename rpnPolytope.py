@@ -14,8 +14,9 @@
 
 from mpmath import *
 
-from rpnNumberTheory import *
+from rpnNumberTheory import getNthLinearRecurrence
 
+from rpnSettings import setAccuracy
 from rpnUtils import real, real_int
 
 
@@ -301,7 +302,7 @@ def getNthOctagonalHeptagonalNumber( n ):
 # //
 # //******************************************************************************
 
-#TODO:  fix me
+# TODO:  fix me
 
 def getNthNonagonalTriangularNumber( n ):
     a = fmul( 3, sqrt( 7 ) )
@@ -383,16 +384,16 @@ def getNthNonagonalPentagonalNumber( n ):
 # //******************************************************************************
 
 def getNthNonagonalHexagonalNumber( n ):
-    #a = fmul( 3, sqrt( 7 ) )
-    #b = fadd( 8, a )
-    #c = fsub( 8, a )
+    # a = fmul( 3, sqrt( 7 ) )
+    # b = fadd( 8, a )
+    # c = fsub( 8, a )
 
-    #sign = 1 #power( -1, n )
-    #exponent = fsub( fmul( 4, n ), 4 )
+    # sign = 1 #power( -1, n )
+    # exponent = fsub( fmul( 4, n ), 4 )
 
-    #print( str( fmul( c, sign ) ) + '  ' + str( power( b, exponent ) ) )
+    # print( str( fmul( c, sign ) ) + '  ' + str( power( b, exponent ) ) )
 
-    #return floor( fprod( [ fdiv( 9, 112 ), fmul( c, sign ), power( b, exponent ) ] ) )
+    # return floor( fprod( [ fdiv( 9, 112 ), fmul( c, sign ), power( b, exponent ) ] ) )
 
     return getNthLinearRecurrence( [ 1, -1, -4162056194, 4162056194, 1 ],
                                    [ 1, 325, 5330229625, 1353857339341, 22184715227362706161 ],
@@ -438,6 +439,7 @@ def getNthNonagonalOctagonalNumber( n ):
     return nint( floor( fdiv( fmul( fsub( fmul( 11, sqrt7 ), fmul( 9, sqrt6 ) ),
                                     power( fadd( sqrt6, sqrt7 ), fsub( fmul( 8, real_int( n ) ), 5 ) ) ),
                               672 ) ) )
+
 
 # //******************************************************************************
 # //
@@ -583,8 +585,8 @@ def getNthDecagonalNonagonalNumber( n ):
 # //******************************************************************************
 
 def findTetrahedralNumber( n ):
-    #sqrt3 = sqrt( 3 )
-    #curt3 = cbrt( 3 )
+    # sqrt3 = sqrt( 3 )
+    # curt3 = cbrt( 3 )
 
     # TODO:  finish me
     return 0

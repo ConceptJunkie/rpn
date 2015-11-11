@@ -240,12 +240,12 @@ def runArithmeticOperatorTests( ):
 
     # add
     expectResult( '4 3 add', 7 )
-    expectResult( '3 feet 7 inches + inches convert', RPNMeasurement( mpmathify( '43' ), [ { 'inch' : 1 } ] ) )
+    expectResult( '3 feet 7 inches + inches convert', RPNMeasurement( 43, 'inch' ) )
     testOperator( 'today 7 days +' )
     testOperator( 'today 3 weeks +' )
     testOperator( 'today 50 years +' )
     testOperator( '4 cups 13 teaspoons +' )
-    expectResult( '55 mph 10 miles hour / +', RPNMeasurement( mpmathify( '65' ), [ { 'mile' : 1 }, { 'hour' : -1 } ] ) )
+    expectResult( '55 mph 10 miles hour / +', RPNMeasurement( 65, 'mile/hour' ) )
     testOperator( '55 mph 10 meters second / +' )
     testOperator( '55 mph 10 furlongs fortnight / +' )
     testOperator( 'today 3 days add' )
@@ -383,10 +383,10 @@ def runArithmeticOperatorTests( ):
 
     # product
     expectEqual( '-a200 1 100 range product', '-a200 100 !' )
-    expectResult( '[ 2 cups ] prod', RPNMeasurement( mpmathify( '2' ), [ { 'cup' : 1 } ] ) )
-    expectResult( '[ 3 2 cups ] prod', RPNMeasurement( mpmathify( '6' ), [ { 'cup' : 1 } ] ) )
-    expectResult( '[ 2 cups 8 16 ] prod', RPNMeasurement( mpmathify( '256' ), [ { 'cup' : 1 } ] ) )
-    expectResult( '[ 3 2 cups 8 16 ] prod', RPNMeasurement( mpmathify( '768' ), [ { 'cup' : 1 } ] ) )
+    expectResult( '[ 2 cups ] prod', RPNMeasurement( 2, 'cup' ) )
+    expectResult( '[ 3 2 cups ] prod', RPNMeasurement( 6, 'cup' ) )
+    expectResult( '[ 2 cups 8 16 ] prod', RPNMeasurement( 256, 'cup' ) )
+    expectResult( '[ 3 2 cups 8 16 ] prod', RPNMeasurement( 768, 'cup' ) )
 
     # reciprocal
     expectEqual( '6 7 / reciprocal', '7 6 /' )
@@ -408,7 +408,7 @@ def runArithmeticOperatorTests( ):
 
     # subtract
     testOperator( '3948 474 subtract' )
-    expectResult( '4 cups 27 teaspoons - teaspoons convert', RPNMeasurement( mpmathify( '165' ), [ { 'teaspoon' : 1 } ] ) )
+    expectResult( '4 cups 27 teaspoons - teaspoons convert', RPNMeasurement( 165, 'teaspoon' ) )
     testOperator( '57 hectares 23 acres -' )
     testOperator( '10 Mb second / 700 MB hour / -' )
     testOperator( 'today 3 days -' )
@@ -421,7 +421,7 @@ def runArithmeticOperatorTests( ):
 
     # sum
     expectResult( '1 10 range sum', 55 )
-    #testOperator( '[ 27 days 7 hour 43 minute 12 second ] sum' )
+    # testOperator( '[ 27 days 7 hour 43 minute 12 second ] sum' )
 
 
 # //******************************************************************************
@@ -2597,7 +2597,7 @@ def runSpecialOperatorTests( ):
     testOperator( '23 265 random_integer_' )
 
     # result
-    #testOperator( 'result' )
+    # testOperator( 'result' )
 
     # set - interactive mode
 

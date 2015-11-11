@@ -70,7 +70,6 @@ def getSmallNumberName( n, ordinal = False ):
         [ '', '', 'twentieth', 'thirtieth', 'fortieth',
           'fiftieth', 'sixtieth', 'seventieth', 'eightieth', 'ninetieth' ]
 
-
     hundreds = n // 100
     tens = ( n // 10 ) % 10
     ones = n % 10

@@ -20,7 +20,8 @@ from mpmath import *
 
 from random import randrange
 
-from rpnAliases import *
+from rpnAliases import dumpAliases
+
 from rpnAstronomy import *
 from rpnCalendar import *
 from rpnCombinatorics import *
@@ -44,6 +45,8 @@ from rpnPolytope import *
 from rpnPrimeUtils import *
 from rpnSettings import *
 from rpnUtils import *
+
+import rpnGlobals as g
 
 
 # //******************************************************************************
@@ -219,7 +222,6 @@ def dumpOperators( ):
         print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
 
     print( )
-
 
     return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
 
@@ -632,6 +634,7 @@ def dumpStats( ):
     print( )
 
     return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
+
 
 # //******************************************************************************
 # //
@@ -1103,9 +1106,9 @@ operators = {
     'not'                           : OperatorInfo( getInvertedBits, 1 ),
     'or'                            : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x | y ), 2 ),
     'parity'                        : OperatorInfo( lambda n: getBitCount( n ) & 1, 1 ),
-    'shift_left'                    : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x << y ), 2 ),
-    'shift_right'                   : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x >> y ), 2 ),
-    'xor'                           : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y:  x ^ y ), 2 ),
+    'shift_left'                    : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x << y ), 2 ),
+    'shift_right'                   : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x >> y ), 2 ),
+    'xor'                           : OperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x ^ y ), 2 ),
 
     # calendar
     'calendar'                      : OperatorInfo( generateMonthCalendar, 2 ),
@@ -1542,7 +1545,7 @@ operators = {
     '_dump_operators'               : OperatorInfo( dumpOperators, 0 ),
     '_stats'                        : OperatorInfo( dumpStats, 0 ),
 
-#   'antitet'                       : OperatorInfo( findTetrahedralNumber, 0 ),
-#   'bernfrac'                      : OperatorInfo( bernfrac, 1 ),
+    #   'antitet'                       : OperatorInfo( findTetrahedralNumber, 0 ),
+    #   'bernfrac'                      : OperatorInfo( bernfrac, 1 ),
 }
 

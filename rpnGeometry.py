@@ -15,7 +15,6 @@
 from mpmath import *
 
 from rpnMeasurement import RPNMeasurement
-from rpnUnitClasses import *
 from rpnUtils import real, real_int
 
 

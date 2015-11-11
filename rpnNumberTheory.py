@@ -19,9 +19,10 @@ from fractions import Fraction
 from functools import reduce
 from mpmath import *
 
-from rpnFactor import *
-from rpnPrimeUtils import *
+from rpnFactor import getECMFactors
 from rpnUtils import real, real_int
+
+import rpnGlobals as g
 
 
 # //******************************************************************************
@@ -244,7 +245,6 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 
     if ( mp.dps < precision ):
         mp.dps = precision
-
 
     return getNthLinearRecurrence( [ 1 ] * int( k ), [ 0 ] * ( int( k ) - 1 ) + [ 1 ], fadd( n, 1 ) )
 
@@ -532,8 +532,8 @@ def makePythagoreanQuadruple( a, b ):
     if a < 0 or b < 0:
         raise ValueError( "'make_pyth_4' requires positive arguments" )
 
-    #if a == b:
-    #    raise ValueError( "'make_pyth_4' requires unequal arguments" )
+    # if a == b:
+    #     raise ValueError( "'make_pyth_4' requires unequal arguments" )
 
     odd1 = ( fmod( a, 2 ) == 1 )
     odd2 = ( fmod( b, 2 ) == 1 )
@@ -758,7 +758,7 @@ def getFrobeniusNumber( args ):
                                 p = nn % a[ 0 ]
                                 nn = min( nn, n[ p ] ) if n[ p ] is not None else nn
                                 n[ p ] = nn
-                return [ i for i in n if not i is None ]
+                return [ i for i in n if i is not None ]
 
             return max( __residue_table( sorted( a ) ) ) - min( a )
     else:

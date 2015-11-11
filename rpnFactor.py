@@ -282,8 +282,11 @@ def getPollard( n, verbose = False ):
 # //******************************************************************************
 
 def getBrentPollard( n ):
-    if n % 2 == 0: return 2
-    if n % 3 == 0: return 3
+    if n % 2 == 0:
+        return 2
+
+    if n % 3 == 0:
+        return 3
 
     y = random.randint( 1, n - 1 )
     c = random.randint( 1, n - 1 )
@@ -301,7 +304,7 @@ def getBrentPollard( n ):
             ys = y
             for i in range( min( m, r - k ) ):
                 y = ( pow( y, 2, n ) + c ) % n
-                q = q * abs( x- y ) % n
+                q = q * abs( x - y ) % n
             g = fractions.gcd( q, n )
             k += m
         r *= 2
@@ -405,7 +408,7 @@ def getPrimeFactors( n, verbose = False ):
 
     remaining, smallFactors = getSmallFactors( n, verbose )
 
-    if remaining > 1 and not g.factorCache is None:
+    if remaining > 1 and g.factorCache is not None:
         if remaining in g.factorCache:
             if verbose:
                 print( 'cache hit:', remaining )
@@ -429,7 +432,7 @@ def getPrimeFactors( n, verbose = False ):
             if P < cutoff:
                 print( P, 'is a prime factor of', n )
 
-        if  fabs( P ) > fabs( cutoff ):
+        if fabs( P ) > fabs( cutoff ):
             if verbose:
                 print( P, 'is a q-prime factor of', n )
 
@@ -546,8 +549,8 @@ def getFactors( n ):
         if g.factorCache is None:
             g.factorCache = loadFactorCache( )
 
-            #for i in g.factorCache:
-            #    print( i, g.factorCache[ i ] )
+            # for i in g.factorCache:
+            #     print( i, g.factorCache[ i ] )
 
         if target in g.factorCache:
             if verbose:
@@ -556,7 +559,6 @@ def getFactors( n ):
             return g.factorCache[ target ]
 
     smallFactors, largeFactors, qPrimes = getPrimeFactors( int( n ), verbose )
-    u = 0
 
     if len( qPrimes ) == 0:
         if verbose:
@@ -598,7 +600,7 @@ def getFactors( n ):
     result.extend( smallFactors )
     result.extend( largeFactors )
 
-    if not g.factorCache is None:
+    if g.factorCache is not None:
         product = int( fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] ) )
 
         save = False

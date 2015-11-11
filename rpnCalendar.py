@@ -15,7 +15,6 @@
 import calendar
 
 from convertdate import *
-from dateutil import tz
 from mpmath import ceil
 
 from rpnDateTime import RPNDateTime
@@ -386,7 +385,7 @@ def getMayanCalendarDate( n ):
 # //******************************************************************************
 
 def convertMayanDate( baktun, katun, tun, uinal, kin ):
-    return RPNDateTime( *mayan.to_gregorian( real_int( baktun ), real_int( katun ), real_int( tun ), \
+    return RPNDateTime( *mayan.to_gregorian( real_int( baktun ), real_int( katun ), real_int( tun ),
                         real_int( uinal ), real_int( kin ) ) )
 
 

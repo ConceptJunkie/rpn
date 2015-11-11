@@ -80,13 +80,13 @@ def parseInputValue( term, inputRadix ):
     # 'e' implies scientific notation, which isn't a date regardless
     if ( 'e' not in innerChars ):
         if ( '-' in innerChars ) or ( ':' in innerChars ):
-            #try:
+            # try:
                 datetime = arrow.get( term )
                 datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
                                         datetime.hour, datetime.minute, datetime.second,
                                         datetime.microsecond, datetime.tzinfo )
-            #except:
-            #    raise ValueError( 'error parsing datetime' )
+            # except:
+            #     raise ValueError( 'error parsing datetime' )
 
                 return datetime
 

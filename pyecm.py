@@ -24,365 +24,386 @@ from rpnUtils import getExpandedFactorList
 
 
 try:
-   import psyco
-   psyco.full()
-   PSYCO_EXISTS = True
+    import psyco
+    psyco.full()
+    PSYCO_EXISTS = True
 except ImportError:
-   PSYCO_EXISTS = False
+    PSYCO_EXISTS = False
 
-try: # Try to use gmpy
-   from gmpy2 import isqrt as sqrt
-   from gmpy2 import iroot as root
-   from gmpy2 import gcd, invert, mpz, next_prime
-   import gmpy2
-   GMPY_EXISTS = True
+try:  # Try to use gmpy
+    from gmpy2 import isqrt as sqrt
+    from gmpy2 import iroot as root
+    from gmpy2 import gcd, invert, mpz, next_prime
+    import gmpy2
+    GMPY_EXISTS = True
 except ImportError:
-   try:
-      from gmpy import gcd, invert, mpz, next_prime, sqrt, root
-      GMPY_EXISTS = True
-   except ImportError:
-      GMPY_EXISTS = False
+    try:
+        from gmpy import gcd, invert, mpz, next_prime, sqrt, root
+        GMPY_EXISTS = True
+    except ImportError:
+        GMPY_EXISTS = False
 
 if not GMPY_EXISTS:
-   PRIMES = (5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 167)
-   GMPY_EXISTS = False
+    PRIMES = (5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 167)
+    GMPY_EXISTS = False
 
-   def gcd(a, b):
-      '''Computes the Greatest Common Divisor of a and b using the standard quadratic time improvement to the Euclidean Algorithm.
-
+    def gcd(a, b):
+        '''Computes the Greatest Common Divisor of a and b using the standard quadratic time improvement to the Euclidean Algorithm.
 Returns the GCD of a and b.'''
 
-      if b == 0:
-         return a
-      elif a == 0:
-         return b
+        if b == 0:
+            return a
+        elif a == 0:
+            return b
 
-      count = 0
+        count = 0
 
-      if a < 0:
-         a = -a
-      if b < 0:
-         b = -b
+        if a < 0:
+            a = -a
 
-      while not ((a & 1) | (b & 1)):
-         count += 1
-         a >>= 1
-         b >>= 1
+        if b < 0:
+            b = -b
 
-      while not a & 1:
-         a >>= 1
+        while not ((a & 1) | (b & 1)):
+            count += 1
+            a >>= 1
+            b >>= 1
 
-      while not b & 1:
-         b >>= 1
-
-      if b > a:
-         b,a = a,b
-
-      while b != 0 and a != b:
-         a -= b
-         while not (a & 1):
+        while not a & 1:
             a >>= 1
 
-         if b > a:
+        while not b & 1:
+            b >>= 1
+
+        if b > a:
             b, a = a, b
 
-      return a << count
+        while b != 0 and a != b:
+            a -= b
+            while not (a & 1):
+                a >>= 1
 
-   def invert(a, b):
-      '''Computes the inverse of a modulo b. b must be odd.
+            if b > a:
+                b, a = a, b
+
+        return a << count
+
+    def invert(a, b):
+        '''Computes the inverse of a modulo b. b must be odd.
 
 Returns the inverse of a (mod b).'''
-      if a == 0 or b == 0:
-         return 0
+        if a == 0 or b == 0:
+            return 0
 
-      truth = False
-      if a < 0:
-         truth = True
-         a = -a
+        truth = False
 
-      b_orig = b
-      alpha = 1
-      beta = 0
+        if a < 0:
+            truth = True
+            a = -a
 
-      while not a & 1:
-         if alpha & 1:
-            alpha += b_orig
-         alpha >>= 1
-         a >>= 1
+        b_orig = b
+        alpha = 1
+        beta = 0
 
-      if b > a:
-         a, b = b, a
-         alpha, beta = beta, alpha
-
-      while b != 0 and a != b:
-         a -= b
-         alpha -= beta
-
-         while not a & 1:
+        while not a & 1:
             if alpha & 1:
-               alpha += b_orig
+                alpha += b_orig
             alpha >>= 1
             a >>= 1
 
-         if b > a:
-            a,b = b,a
+        if b > a:
+            a, b = b, a
             alpha, beta = beta, alpha
 
-      if a == b:
-         a -= b
-         alpha -= beta
-         a, b = b, a
-         alpha, beta = beta, alpha
+        while b != 0 and a != b:
+            a -= b
+            alpha -= beta
 
-      if a != 1:
-         return 0
+            while not a & 1:
+                if alpha & 1:
+                    alpha += b_orig
+                alpha >>= 1
+                a >>= 1
 
-      if truth:
-         alpha = b_orig - alpha
+            if b > a:
+                a, b = b, a
+                alpha, beta = beta, alpha
 
-      return alpha
+        if a == b:
+            a -= b
+            alpha -= beta
+            a, b = b, a
+            alpha, beta = beta, alpha
 
-   def next_prime(n):
-      '''Finds the next prime after n.
+        if a != 1:
+            return 0
 
+        if truth:
+            alpha = b_orig - alpha
+
+        return alpha
+
+    def next_prime(n):
+        '''Finds the next prime after n.
 Returns the next prime after n.'''
-      n += 1
-      if n <= 167:
-         if n <= 23:
-            if n <= 3:
-               return 3 - (n <= 2)
+        n += 1
+
+        if n <= 167:
+            if n <= 23:
+                if n <= 3:
+                    return 3 - (n <= 2)
+                n += (n & 1) ^ 1
+                return n + (((4 - (n % 3)) >> 1) & 2)
+
             n += (n & 1) ^ 1
-            return n + (((4 - (n % 3)) >> 1) & 2)
+            inc = n % 3
+            n += ((4 - inc) >> 1) & 2
+            inc = 6 - ((inc + ((2 - inc) & 2)) << 1)
 
-         n += (n & 1) ^ 1
-         inc = n % 3
-         n += ((4 - inc) >> 1) & 2
-         inc = 6 - ((inc + ((2 - inc) & 2)) << 1)
+            while 0 in (n % 5, n % 7, n % 11):
+                n += inc
+                inc = 6 - inc
 
-         while 0 in (n % 5, n % 7, n % 11):
-            n += inc
-            inc = 6 - inc
-         return n
-
-      n += (n & 1) ^ 1
-      inc = n % 3
-      n += ((4 - inc) >> 1) & 2
-      inc = 6 - ((inc + ((2 - inc) & 2)) << 1)
-      should_break = False
-
-      while 1:
-         for prime in PRIMES:
-            if not n % prime:
-               should_break = True
-               break
-
-         if should_break:
-            should_break = False
-            n += inc
-            inc = 6 - inc
-            continue
-
-         p = 1
-         for i in range(int(math.log(n) / LOG_2), 0, -1):
-            p <<= (n >> i) & 1
-            p = (p * p) % n
-
-         if p == 1:
             return n
 
-         n += inc
-         inc = 6 - inc
+        n += (n & 1) ^ 1
+        inc = n % 3
+        n += ((4 - inc) >> 1) & 2
+        inc = 6 - ((inc + ((2 - inc) & 2)) << 1)
+        should_break = False
 
-   def mpz(n):
-      '''A dummy function to ensure compatibility with those that do not have gmpy.
+        while 1:
+            for prime in PRIMES:
+                if not n % prime:
+                    should_break = True
+                    break
 
+            if should_break:
+                should_break = False
+                n += inc
+                inc = 6 - inc
+                continue
+
+            p = 1
+
+            for i in range(int(math.log(n) / LOG_2), 0, -1):
+                p <<= (n >> i) & 1
+                p = (p * p) % n
+
+            if p == 1:
+                return n
+
+            n += inc
+            inc = 6 - inc
+
+    def mpz(n):
+        '''A dummy function to ensure compatibility with those that do not have gmpy.
 Returns n.'''
-      return n
+        return n
 
-   def root(n, k):
-      '''Finds the floor of the kth root of n. This is a duplicate of gmpy's root function.
-
+    def root(n, k):
+        '''Finds the floor of the kth root of n. This is a duplicate of gmpy's root function.
 Returns a tuple. The first item is the floor of the kth root of n. The second is 1 if the root is exact (as in, sqrt(16)) and 0 if it is not.'''
-      low = 0
-      high = n + 1
-      while high > low + 1:
-         mid = (low + high) >> 1
-         mr = mid**k
-         if mr == n:
-            return (mid, 1)
-         if mr < n:
-            low = mid
-         if mr > n:
-            high = mid
-      return (low, 0)
+        low = 0
+        high = n + 1
 
-   def sqrt(n):
-      return root(n, 2)[0]
+        while high > low + 1:
+            mid = (low + high) >> 1
+            mr = mid**k
+
+            if mr == n:
+                return (mid, 1)
+
+            if mr < n:
+                low = mid
+
+            if mr > n:
+                high = mid
+
+        return (low, 0)
+
+    def sqrt(n):
+        return root(n, 2)[0]
 
 # We're done importing. Now for some constants.
 if GMPY_EXISTS:
-   INV_C = 1.4
+    INV_C = 1.4
 else:
-   if PSYCO_EXISTS:
-      INV_C = 7.3
-   else:
-      INV_C = 13.0
-LOG_2 = math.log(2)
-LOG_4 = math.log(4)
-LOG_3_MINUS_LOG_LOG_2 = math.log(3) - math.log(LOG_2)
+    if PSYCO_EXISTS:
+        INV_C = 7.3
+    else:
+        INV_C = 13.0
+
+LOG_2 = math.log( 2 )
+LOG_4 = math.log( 4 )
+LOG_3_MINUS_LOG_LOG_2 = math.log( 3 ) - math.log( LOG_2 )
 LOG_4_OVER_9 = LOG_4 / 9
 _3_OVER_LOG_2 = 3 / LOG_2
-_5_LOG_10 = 5 * math.log(10)
+_5_LOG_10 = 5 * math.log( 10 )
 _7_OVER_LOG_2 = 7 / LOG_2
-BIG = 2.0**512
-BILLION = 10**9 # Something big that fits into an int.
-MULT = math.log(3) / LOG_2
-ONE = mpz(1)
-SMALL = 2.0**(-30)
+BIG = 2.0 ** 512
+BILLION = 10 ** 9 # Something big that fits into an int.
+MULT = math.log( 3 ) / LOG_2
+ONE = mpz( 1 )
+SMALL = 2.0 ** (-30)
 SMALLEST_COUNTEREXAMPLE_FASTPRIME = 2047
-T = (type(mpz(1)), type(1), type(1))
+T = ( type( mpz( 1 ) ), type( 1 ), type( 1 ) )
 DUMMY = 'dummy' # Dummy value throughout the program
 VERSION = '2.0.1 (Python 3)'
-_12_LOG_2_OVER_49 = 12 * math.log(2) / 49
+_12_LOG_2_OVER_49 = 12 * math.log( 2 ) / 49
 RECORD = 1162795072109807846655696105569042240239
 
+
 class ts:
-   '''Does basic manipulations with Taylor Series (centered at 0). An example call to ts:
+    '''Does basic manipulations with Taylor Series (centered at 0). An example call to ts:
 a = ts(7, 23, [1<<23, 2<<23, 3<<23]) -- now, a represents 1 + 2x + 3x^2. Here, computations will be done to degree 7, with accuracy 2^(-23). Input coefficients must be integers.'''
 
-   def __init__(self, degree, acc, p):
-      self.acc = acc
-      self.coefficients = p[:degree + 1]
-      while len(self.coefficients) <= degree:
-         self.coefficients.append(0)
+    def __init__(self, degree, acc, p):
+        self.acc = acc
+        self.coefficients = p[:degree + 1]
 
-   def add(self, a, b):
-      '''Adds a and b'''
-      b_ = b.coefficients[:]
-      a_ = a.coefficients[:]
-      self.coefficients = []
+        while len(self.coefficients) <= degree:
+            self.coefficients.append(0)
 
-      while len(b_) > len(a_):
-         a_.append(0)
-      while len(b_) < len(a_):
-         b_.append(0)
+    def add(self, a, b):
+        '''Adds a and b'''
+        b_ = b.coefficients[:]
+        a_ = a.coefficients[:]
+        self.coefficients = []
 
-      for i in range(len(a_)):
-         self.coefficients.append(a_[i] + b_[i])
+        while len(b_) > len(a_):
+            a_.append(0)
 
-      self.acc = a.acc
+        while len(b_) < len(a_):
+            b_.append(0)
 
-   def ev(self, x):
-      '''Returns a(x)'''
-      answer = 0
-      for i in range(len(self.coefficients) - 1, -1, -1):
-         answer *= x
-         answer += self.coefficients[i]
-      return answer
+        for i in range(len(a_)):
+            self.coefficients.append(a_[i] + b_[i])
 
-   def evh(self):
-      '''Returns a(1/2)'''
-      answer = 0
-      for i in range(len(self.coefficients) - 1, -1, -1):
-         answer >>= 1
-         answer += self.coefficients[i]
-      return answer
+        self.acc = a.acc
 
-   def evmh(self):
-      '''Returns a(-1/2)'''
-      answer = 0
-      for i in range(len(self.coefficients) - 1, -1, -1):
-         answer = - answer >> 1
-         answer += self.coefficients[i]
-      return answer
+    def ev(self, x):
+        '''Returns a(x)'''
+        answer = 0
 
-   def int(self):
-      '''Replaces a by an integral of a'''
-      self.coefficients = [0] + self.coefficients
-      for i in range(1, len(self.coefficients)):
-         self.coefficients[i] = self.coefficients[i] // i
+        for i in range(len(self.coefficients) - 1, -1, -1):
+            answer *= x
+            answer += self.coefficients[i]
 
-   def lindiv(self, a):
-      '''a.lindiv(k) -- sets a/(x-k/2) for integer k'''
-      for i in range(len(self.coefficients) - 1):
-         self.coefficients[i] <<= 1
-         self.coefficients[i] = self.coefficients[i] // a
-         self.coefficients[i + 1] -= self.coefficients[i]
-      self.coefficients[-1] <<= 1
-      self.coefficients[-1] = self.coefficients[-1] // a
+        return answer
 
-   def neg(self):
-      '''Sets a to -a'''
-      for i in range(len(self.coefficients)):
-         self.coefficients[i] = - self.coefficients[i]
+    def evh(self):
+        '''Returns a(1/2)'''
+        answer = 0
 
-   def set(self, a):
-      '''a.set(b) sets a to b'''
-      self.coefficients = a.coefficients[:]
-      self.acc = a.acc
+        for i in range(len(self.coefficients) - 1, -1, -1):
+            answer >>= 1
+            answer += self.coefficients[i]
 
-   def simp(self):
-      '''Turns a into a type of Taylor series that can be fed into ev, but cannot be computed with further.'''
-      for i in range(len(self.coefficients)):
-         shift = max(0, int(math.log(abs(self.coefficients[i]) + 1) / LOG_2) - 1000)
-         self.coefficients[i] = float(self.coefficients[i] >> shift)
-         shift = self.acc - shift
-         for _ in range(shift >> 9):
-            self.coefficients[i] /= BIG
-         self.coefficients[i] /= 2.0**(shift & 511)
-         if (abs(self.coefficients[i] / self.coefficients[0]) <= SMALL):
-            self.coefficients = self.coefficients[:i]
-            break
+        return answer
+
+    def evmh(self):
+        '''Returns a(-1/2)'''
+        answer = 0
+
+        for i in range(len(self.coefficients) - 1, -1, -1):
+            answer = - answer >> 1
+            answer += self.coefficients[i]
+
+        return answer
+
+    def int(self):
+        '''Replaces a by an integral of a'''
+        self.coefficients = [0] + self.coefficients
+
+        for i in range(1, len(self.coefficients)):
+            self.coefficients[i] = self.coefficients[i] // i
+
+    def lindiv(self, a):
+        '''a.lindiv(k) -- sets a/(x-k/2) for integer k'''
+        for i in range(len(self.coefficients) - 1):
+            self.coefficients[i] <<= 1
+            self.coefficients[i] = self.coefficients[i] // a
+            self.coefficients[i + 1] -= self.coefficients[i]
+
+        self.coefficients[-1] <<= 1
+        self.coefficients[-1] = self.coefficients[-1] // a
+
+    def neg(self):
+        '''Sets a to -a'''
+        for i in range(len(self.coefficients)):
+            self.coefficients[i] = - self.coefficients[i]
+
+    def set(self, a):
+        '''a.set(b) sets a to b'''
+        self.coefficients = a.coefficients[:]
+        self.acc = a.acc
+
+    def simp(self):
+        '''Turns a into a type of Taylor series that can be fed into ev, but cannot be computed with further.'''
+        for i in range(len(self.coefficients)):
+            shift = max(0, int(math.log(abs(self.coefficients[i]) + 1) / LOG_2) - 1000)
+            self.coefficients[i] = float(self.coefficients[i] >> shift)
+            shift = self.acc - shift
+
+            for _ in range(shift >> 9):
+                self.coefficients[i] /= BIG
+
+            self.coefficients[i] /= 2.0**(shift & 511)
+
+            if (abs(self.coefficients[i] / self.coefficients[0]) <= SMALL):
+                self.coefficients = self.coefficients[:i]
+                break
 
 # Functions are declared in alphabetical order except when dependencies force them to be at the end.
 
-def add(p1, p2,  n):
-   '''Adds first argument to second (second argument is not preserved). The arguments are points on an elliptic curve. The first argument may be a tuple instead of a list. The addition is thus done pointwise. This function has bizzare input/output because there are fast algorithms for inverting a bunch of numbers at once.
-
+def add( p1, p2, n ):
+    '''Adds first argument to second (second argument is not preserved). The arguments are points on an elliptic curve. The first argument may be a tuple instead of a list. The addition is thus done pointwise. This function has bizzare input/output because there are fast algorithms for inverting a bunch of numbers at once.
 Returns a list of the addition results.'''
-   inv = list(range(len(p1)))
+    inv = list(range(len(p1)))
 
-   for i in range(len(p1)):
-      inv[i] = p1[i][0] - p2[i][0]
+    for i in range(len(p1)):
+        inv[i] = p1[i][0] - p2[i][0]
 
-   inv = parallel_invert(inv, n)
+    inv = parallel_invert(inv, n)
 
-   if not isinstance(inv, list):
-      return inv
+    if not isinstance(inv, list):
+        return inv
 
-   for i in range(len(p1)):
-      m = ((p1[i][1] - p2[i][1]) * inv[i]) % n
-      p2[i][0] = (m * m - p1[i][0] - p2[i][0]) % n
-      p2[i][1] = (m * (p1[i][0] - p2[i][0]) - p1[i][1]) % n
+    for i in range(len(p1)):
+        m = ((p1[i][1] - p2[i][1]) * inv[i]) % n
+        p2[i][0] = (m * m - p1[i][0] - p2[i][0]) % n
+        p2[i][1] = (m * (p1[i][0] - p2[i][0]) - p1[i][1]) % n
 
-   return p2
+    return p2
 
-def add_sub_x_only(p1, p2,  n):
-   '''Given a pair of lists of points p1 and p2, computes the x-coordinates of
+
+def add_sub_x_only( p1, p2, n ):
+    '''Given a pair of lists of points p1 and p2, computes the x-coordinates of
 p1[i] + p2[i] and p1[i] - p2[i] for each i.
-
 Returns two lists, the first being the sums and the second the differences.'''
-   sums = list(range(len(p1)))
-   difs = list(range(len(p1)))
+    sums = list(range(len(p1)))
+    difs = list(range(len(p1)))
 
-   for i in range(len(p1)):
-      sums[i] = p2[i][0] - p1[i][0]
+    for i in range(len(p1)):
+        sums[i] = p2[i][0] - p1[i][0]
 
-   sums = parallel_invert(sums, n)
+    sums = parallel_invert(sums, n)
 
-   if not isinstance(sums, list):
-      return (sums, None)
+    if not isinstance(sums, list):
+        return (sums, None)
 
-   for i in range(len(p1)):
-      ms = ((p2[i][1] - p1[i][1]) * sums[i]) % n
-      md = ((p2[i][1] + p1[i][1]) * sums[i]) % n
-      sums[i] = (ms * ms - p1[i][0] - p2[i][0]) % n
-      difs[i] = (md * md - p1[i][0] - p2[i][0]) % n
+    for i in range(len(p1)):
+        ms = ((p2[i][1] - p1[i][1]) * sums[i]) % n
+        md = ((p2[i][1] + p1[i][1]) * sums[i]) % n
+        sums[i] = (ms * ms - p1[i][0] - p2[i][0]) % n
+        difs[i] = (md * md - p1[i][0] - p2[i][0]) % n
 
-   sums = tuple(sums)
-   difs = tuple(difs)
+    sums = tuple(sums)
+    difs = tuple(difs)
 
-   return (sums, difs)
+    return (sums, difs)
+
 
 def atdn(a, d, n):
    '''Calculates a to the dth power modulo n.
@@ -399,6 +420,7 @@ Returns the calculation's result.'''
 
    return x % n
 
+
 def copy(p):
    '''Copies a list using only deep copies.
 
@@ -408,6 +430,7 @@ Returns a copy of p.'''
       answer.append(i[:])
 
    return answer
+
 
 def could_be_prime(n):
    '''Performs some trials to compute whether n could be prime. Run time is O(N^3 / (log N)^2) for N bits.
@@ -442,6 +465,7 @@ Returns whether it is possible for n to be prime (True or False).
 
    return gcd(n, product) == 1
 
+
 def double(p, n):
    '''Doubles each point in the input list. Much like the add function, we take advantage of fast inversion.
 
@@ -462,6 +486,7 @@ Returns the doubled list.'''
       p[i][0] = (m * m - x - x) % n
       p[i][1] = (m * (x - p[i][0]) - p[i][1]) % n
    return p
+
 
 def fastprime(n):
    '''Tests for primality of n using an algorithm that is very fast, O(N**3 / log(N)) (assuming quadratic multiplication) where n has N digits, but ocasionally inaccurate for n >= 2047.
@@ -500,127 +525,143 @@ Returns the primality of n (True or False).'''
 
    return False
 
+
 def greatest_n(phi_max):
-   '''Finds the greatest n such that phi(n) < phi_max.
-
+    '''Finds the greatest n such that phi(n) < phi_max.
 Returns the greatest n such that phi(n) < phi_max.'''
-   phi_product = 1
-   product = 1
-   prime = 1
-   while phi_product <= phi_max:
-      prime = next_prime(prime)
-      phi_product *= prime - 1
-      product *= prime
+    phi_product = 1
+    product = 1
+    prime = 1
 
-   n_max = (phi_max * product) // phi_product
-   phi_values = list(range(n_max))
+    while phi_product <= phi_max:
+        prime = next_prime(prime)
+        phi_product *= prime - 1
+        product *= prime
 
-   prime = 2
-   while prime <= n_max:
-      for i in range(0, n_max, prime):
-         phi_values[i] -= phi_values[i] // prime
+    n_max = (phi_max * product) // phi_product
+    phi_values = list(range(n_max))
 
-      prime = next_prime(prime)
+    prime = 2
 
-   for i in range(n_max - 1, 0, -1):
-      if phi_values[i] <= phi_max:
-         return i
+    while prime <= n_max:
+        for i in range(0, n_max, prime):
+            phi_values[i] -= phi_values[i] // prime
+
+        prime = next_prime(prime)
+
+    for i in range(n_max - 1, 0, -1):
+        if phi_values[i] <= phi_max:
+            return i
+
 
 def inv_const(n):
-   '''Finds a constant relating the complexity of multiplication to that of modular inversion.
+    '''Finds a constant relating the complexity of multiplication to that of modular inversion.
 
 Returns the constant for a given n.'''
-   return int(INV_C * math.log(n)**0.42)
+    return int(INV_C * math.log(n)**0.42)
 
-def naf(d):
-   '''Finds a number's non-adjacent form, reverses the bits, replaces the
+
+def naf( d ):
+    '''Finds a number's non-adjacent form, reverses the bits, replaces the
 -1's with 3's, and interprets the result base 4.
 
 Returns the result interpreted as if in base 4.'''
-   g = 0
-   while d:
-      g <<= 2
-      g ^= ((d & 2) & (d << 1)) ^ (d & 1)
-      d += (d & 2) >> 1
-      d >>= 1
-   return g
+    g = 0
+    while d:
+        g <<= 2
+        g ^= ((d & 2) & (d << 1)) ^ (d & 1)
+        d += (d & 2) >> 1
+        d >>= 1
+
+    return g
+
 
 def parallel_invert(l, n):
-   '''Inverts all elements of a list modulo some number, using 3(n-1) modular multiplications and one inversion.
+    '''Inverts all elements of a list modulo some number, using 3(n-1) modular multiplications and one inversion.
 
 Returns the list with all elements inverted modulo 3(n-1).'''
-   l_ = l[:]
-   for i in range(len(l)-1):
-      l[i+1] = (l[i] * l[i+1]) % n
+    l_ = l[:]
+    for i in range(len(l)-1):
+        l[i+1] = (l[i] * l[i+1]) % n
 
-   try:
-      inv = invert(l[-1], n)
-   except ZeroDivisionError:
-      inv = 0
-   if inv == 0:
-      return gcd(l[-1], n)
+    try:
+        inv = invert(l[-1], n)
+    except ZeroDivisionError:
+        inv = 0
 
-   for i in range(len(l)-1, 0, -1):
-      l[i] = (inv * l[i-1]) % n
-      inv = (inv * l_[i]) % n
-   l[0] = inv
+    if inv == 0:
+        return gcd(l[-1], n)
 
-   return l
+    for i in range(len(l)-1, 0, -1):
+        l[i] = (inv * l[i-1]) % n
+        inv = (inv * l_[i]) % n
+
+    l[0] = inv
+
+    return l
+
 
 def prod(p):
-   '''Multiplies all elements of a list together. The order in which the
+    '''Multiplies all elements of a list together. The order in which the
 elements are multiplied is chosen to take advantage of Python's Karatsuba
 Multiplication
 
 Returns the product of everything in p.'''
-   jump = 1
+    jump = 1
 
-   while jump < len(p):
-      for i in range(0, len(p) - jump, jump << 1):
-         p[i] *= p[i + jump]
-         p[i + jump] = None
+    while jump < len(p):
+        for i in range(0, len(p) - jump, jump << 1):
+            p[i] *= p[i + jump]
+            p[i + jump] = None
 
-      jump <<= 1
+        jump <<= 1
 
-   return p[0]
+    return p[0]
+
 
 def rho_ev(x, ts):
-   '''Evaluates Dickman's rho function, which calculates the asymptotic
+    '''Evaluates Dickman's rho function, which calculates the asymptotic
 probability as N approaches infinity (for a given x) that all of N's factors
 are bounded by N^(1/x).'''
-   return ts[int(x)].ev(x - int(x) - 0.5)
+    return ts[int(x)].ev(x - int(x) - 0.5)
+
 
 def rho_ts(n):
-   '''Makes a list of Taylor series for the rho function centered at 0.5, 1.5, 2.5 ... n + 0.5. The reason this is necessary is that the radius of convergence of rho is small, so we need lots of Taylor series centered at different places to correctly evaluate it.
+    '''Makes a list of Taylor series for the rho function centered at 0.5, 1.5, 2.5 ... n + 0.5. The reason this is necessary is that the radius of convergence of rho is small, so we need lots of Taylor series centered at different places to correctly evaluate it.
 
 Returns a list of Taylor series.'''
-   f = ts(10, 10, [])
-   answer = [ts(10, 10, [1])]
-   for _ in range(n):
-      answer.append(ts(10, 10, [1]))
-   deg = 5
-   acc = 50 + n * int(1 + math.log(1 + n) + math.log(math.log(3 + n)))
-   r = 1
-   rho_series = ts(1, 10, [0])
-   while r != rho_series.coefficients[0]:
-      deg = (deg + (deg << 2)) // 3
-      r = rho_series.coefficients[0]
-      rho_series = ts(deg, acc, [(1) << acc])
-      center = 0.5
-      for i in range(1, n+1):
-         f.set(rho_series)
-         center += 1
-         f.lindiv(int(2*center))
-         f.int()
-         f.neg()
-         d = ts(deg, acc, [rho_series.evh() - f.evmh()])
-         f.add(f, d)
-         rho_series.set(f)
-         f.simp()
-         answer[i].set(f)
-      rho_series.simp()
+    f = ts(10, 10, [])
+    answer = [ts(10, 10, [1])]
+    for _ in range(n):
+        answer.append(ts(10, 10, [1]))
 
-   return answer
+    deg = 5
+    acc = 50 + n * int(1 + math.log(1 + n) + math.log(math.log(3 + n)))
+    r = 1
+    rho_series = ts(1, 10, [0])
+
+    while r != rho_series.coefficients[0]:
+        deg = (deg + (deg << 2)) // 3
+        r = rho_series.coefficients[0]
+        rho_series = ts(deg, acc, [(1) << acc])
+        center = 0.5
+
+        for i in range(1, n+1):
+            f.set(rho_series)
+            center += 1
+            f.lindiv(int(2*center))
+            f.int()
+            f.neg()
+            d = ts(deg, acc, [rho_series.evh() - f.evmh()])
+            f.add(f, d)
+            rho_series.set(f)
+            f.simp()
+            answer[i].set(f)
+
+        rho_series.simp()
+
+    return answer
+
 
 def sub_sub_sure_factors(f, u, curve_parameter):
    '''Finds all factors that can be found using ECM with a smoothness bound of u and sigma and give curve parameters. If that fails, checks for being a prime power and does Fermat factoring as well.

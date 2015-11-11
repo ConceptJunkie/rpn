@@ -14,12 +14,8 @@
 
 from __future__ import print_function
 
-import bz2
 import codecs
-import contextlib
-import itertools
 import os
-import pickle
 import re as regex
 
 from collections import namedtuple
@@ -29,9 +25,7 @@ from mpmath import *
 #  This has to go here so the mpf's in the import get created with 50 places of precision.
 mp.dps = 50
 
-from rpnMeasurement import *
-from rpnPersistence import *
-from rpnUnits import *
+from rpnMeasurement import RPNMeasurement
 from rpnVersion import *
 
 import rpnGlobals as g

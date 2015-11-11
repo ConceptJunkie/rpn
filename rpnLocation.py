@@ -125,7 +125,7 @@ def getLocation( name ):
     if not isinstance( name, str ):
         raise ValueError( '\'location\' expects a string argument' )
 
-    if g.locationCache == None:
+    if g.locationCache is None:
         g.locationCache = loadLocationCache( )
 
     if name in g.locationCache:
@@ -137,8 +137,8 @@ def getLocation( name ):
         result.setLat( locationInfo[ 1 ] )
         result.setLong( locationInfo[ 2 ] )
 
-        #print( 'looked up', result.name )
-        #print( 'lat/long', result.getLat( ), result.getLong( ) )
+        # print( 'looked up', result.name )
+        # print( 'lat/long', result.getLat( ), result.getLong( ) )
         return result
 
     from geopy.geocoders import Nominatim

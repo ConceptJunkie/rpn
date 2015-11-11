@@ -16,7 +16,6 @@ import bz2
 import contextlib
 import os
 import pickle
-import sys
 
 import rpnGlobals as g
 
@@ -32,7 +31,7 @@ def preparePrimeData( baseName ):
 
     inputFileName = g.dataDir + os.sep + baseName + '.txt'
 
-    with open ( inputFileName, "r" ) as input:
+    with open( inputFileName, "r" ) as input:
         data = eval( input.read( ).replace( '\n', '' ) )
 
     pickleFileName = g.dataDir + os.sep + baseName + '.pckl.bz2'

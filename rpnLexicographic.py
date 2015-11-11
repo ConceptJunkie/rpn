@@ -167,7 +167,7 @@ def isPandigital( n ):
     str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )[ 0: -2 ]
 
     for c in string.digits:
-        if not c in str:
+        if c not in str:
             return 0
 
     return 1

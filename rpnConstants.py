@@ -95,7 +95,6 @@ constants = {
     'density_of_hg'                 : OperatorInfo( lambda: RPNMeasurement( '13595.1', 'kilogram/meter^3' ), 0 ),
 
     # constant - physical constants
-    #'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( '1.38064852e-23', 'joule/kelvin' ), 0 ),
     'avogadro_number'               : OperatorInfo( lambda: '6.022140857e23', 0 ),
     'bohr_radius'                   : OperatorInfo( lambda: RPNMeasurement( '5.2917721e-11', [ { 'meter' : 1 } ] ), 0 ),
     'boltzmann_constant'            : OperatorInfo( lambda: RPNMeasurement( '1.38064852e-23', 'kilogram*meter^2/second^2*kelvin' ), 0 ),
@@ -141,8 +140,6 @@ constants = {
     'min_ushort'                    : OperatorInfo( lambda: 0, 0 ),
 
     # constant - Planck constants
-    #'planck_constant'               : OperatorInfo( lambda: RPNMeasurement( '6.626070040e-34', 'joule*second' ), 0 ),
-    #'reduced_planck_constant'       : OperatorInfo( lambda: RPNMeasurement( '1.054571800e-34', 'joule*second' ), 0 ),
     'planck_constant'               : OperatorInfo( lambda: RPNMeasurement( '6.626070040e-34', 'kilogram*meter^2/second' ), 0 ),
     'reduced_planck_constant'       : OperatorInfo( lambda: RPNMeasurement( '1.054571800e-34', 'kilogram*meter^2/second' ), 0 ),
 
@@ -242,26 +239,26 @@ constants = {
 
     # Astronomical object operators
 
-#    # Planetary moon operators
-#    'phobos'                        : OperatorInfo( ephem.Phobos, 0 ),
-#    'deimos'                        : OperatorInfo( ephem.Deimos, 0 ),
-#    'io'                            : OperatorInfo( ephem.Io, 0 ),
-#    'europa'                        : OperatorInfo( ephem.Europa, 0 ),
-#    'ganymede'                      : OperatorInfo( ephem.Ganymede, 0 ),
-#    'callisto'                      : OperatorInfo( ephem.Callisto, 0 ),
-#    'mimas'                         : OperatorInfo( ephem.Mimas, 0 ),
-#    'enceladus'                     : OperatorInfo( ephem.Enceladus, 0 ),
-#    'tethys'                        : OperatorInfo( ephem.Tethys, 0 ),
-#    'dione'                         : OperatorInfo( ephem.Dione, 0 ),
-#    'rhea'                          : OperatorInfo( ephem.Rhea, 0 ),
-#    'titan'                         : OperatorInfo( ephem.Titan, 0 ),
-#    'hyperion'                      : OperatorInfo( ephem.Hyperion, 0 ),
-#    'iapetus'                       : OperatorInfo( ephem.Iapetus, 0 ),
-#    'ariel'                         : OperatorInfo( ephem.Ariel, 0 ),
-#    'umbriel'                       : OperatorInfo( ephem.Umbriel, 0 ),
-#    'titania'                       : OperatorInfo( ephem.Titania, 0 ),
-#    'oberon'                        : OperatorInfo( ephem.Oberon, 0 ),
-#    'miranda'                       : OperatorInfo( ephem.Miranda, 0 ),
+    #    # Planetary moon operators
+    #    'phobos'                        : OperatorInfo( ephem.Phobos, 0 ),
+    #    'deimos'                        : OperatorInfo( ephem.Deimos, 0 ),
+    #    'io'                            : OperatorInfo( ephem.Io, 0 ),
+    #    'europa'                        : OperatorInfo( ephem.Europa, 0 ),
+    #    'ganymede'                      : OperatorInfo( ephem.Ganymede, 0 ),
+    #    'callisto'                      : OperatorInfo( ephem.Callisto, 0 ),
+    #    'mimas'                         : OperatorInfo( ephem.Mimas, 0 ),
+    #    'enceladus'                     : OperatorInfo( ephem.Enceladus, 0 ),
+    #    'tethys'                        : OperatorInfo( ephem.Tethys, 0 ),
+    #    'dione'                         : OperatorInfo( ephem.Dione, 0 ),
+    #    'rhea'                          : OperatorInfo( ephem.Rhea, 0 ),
+    #    'titan'                         : OperatorInfo( ephem.Titan, 0 ),
+    #    'hyperion'                      : OperatorInfo( ephem.Hyperion, 0 ),
+    #    'iapetus'                       : OperatorInfo( ephem.Iapetus, 0 ),
+    #    'ariel'                         : OperatorInfo( ephem.Ariel, 0 ),
+    #    'umbriel'                       : OperatorInfo( ephem.Umbriel, 0 ),
+    #    'titania'                       : OperatorInfo( ephem.Titania, 0 ),
+    #    'oberon'                        : OperatorInfo( ephem.Oberon, 0 ),
+    #    'miranda'                       : OperatorInfo( ephem.Miranda, 0 ),
 }
 
 #  Earth's approximate water volume (the total water supply of the world) is

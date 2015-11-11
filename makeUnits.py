@@ -435,7 +435,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
             unitInfo = unitOperators[ unit ]
 
             # if we end up with a real unit, then start expanding it with different times
-            if not unitRoot in unitOperators:
+            if unitRoot not in unitOperators:
                 continue
 
             rootUnitInfo = unitOperators[ unitRoot ]

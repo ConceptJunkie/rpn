@@ -19,11 +19,13 @@ import six
 if six.PY3:
     import builtins
 
+
 def debugPrint( *args, **kwargs ):
     if g.debugMode:
         builtins.print( *args, **kwargs )
     else:
         return
+
 
 import bz2
 import contextlib

@@ -2298,7 +2298,7 @@ operands are true.
 
 The operands are converted to strings of bits large enough to represent the
 larger of the values, rounded up to the next highest multiple of the bitwise
-group size, which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+group size, which defaults to ''' + str( g.defaultBitwiseGroupSize ) + '.' + '''
 
 As a bitwise operator, this operation is applied succesively to each
 corresponding bit in the binary representation of both operands.  The result
@@ -2327,7 +2327,7 @@ of the operands is true.
 
 The operands are converted to strings of bits large enough to represent the
 larger of the values, rounded up to the next highest multiple of the bitwise
-group size, which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+group size, which defaults to ''' + str( g.defaultBitwiseGroupSize ) + '.' + '''
 
 As a bitwise operator, this operation is applied succesively to each
 corresponding bit in the binary representation of both operands.  The result
@@ -2349,7 +2349,7 @@ neither of the two operands is true.
 
 The operands are converted to strings of bits large enough to represent the
 larger of the values, rounded up to the next highest multiple of the bitwise
-group size, which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+group size, which defaults to ''' + str( g.defaultBitwiseGroupSize ) + '.' + '''
 
 As a bitwise operator, this operation is applied succesively to each
 corresponding bit in the binary representation of both operands.  The result
@@ -2370,7 +2370,7 @@ c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nor
 
 The operand is converted to a string of bits large enough to represent the
 value, rounded up to the next highest multiple of the bitwise group size,
-which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+which defaults to ''' + str( g.defaultBitwiseGroupSize ) + '.' + '''
 
 As a bitwise operator, this operation is applied succesively to each bit in
 the binary representation of the operand.  The result is the numerical
@@ -2392,7 +2392,7 @@ operands is true.
 
 The operands are converted to strings of bits large enough to represent the
 larger of the values, rounded up to the next highest multiple of the bitwise
-group size, which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+group size, which defaults to ''' + str( g.defaultBitwiseGroupSize ) + '.' + '''
 
 As a bitwise operator, this operation is applied succesively to each
 corresponding bit in the binary representation of both operands.  The result
@@ -2435,7 +2435,7 @@ if the two operands are different.
 
 The operands are converted to strings of bits large enough to represent the
 larger of the values, rounded up to the next highest multiple of the bitwise
-group size, which defaults to '''  + str( g.defaultBitwiseGroupSize ) + '.' + '''
+group size, which defaults to ''' + str( g.defaultBitwiseGroupSize ) + '.' + '''
 
 As a bitwise operator, this operation is applied succesively to each
 corresponding bit in the binary representation of both operands.  The result

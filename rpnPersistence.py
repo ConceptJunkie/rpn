@@ -19,7 +19,6 @@ import pickle
 
 import rpnGlobals as g
 
-from rpnPrimes import primes
 from rpnUtils import DelayedKeyboardInterrupt
 from rpnVersion import PROGRAM_VERSION
 
@@ -156,7 +155,7 @@ def loadResult( valueList ):
         with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
             result = pickle.load( pickleFile )
     except FileNotFoundError:
-        result = mpmathify( 0 )
+        result = 0
 
     return result
 

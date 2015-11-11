@@ -97,8 +97,8 @@ class Units( collections.Counter ):
         result = Units( )
 
         for unit in self:
-            #if unit not in g.unitOperators:
-            #    raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
+            # if unit not in g.unitOperators:
+            #     raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
             dimensions = Units( g.basicUnitTypes[ g.unitOperators[ unit ].unitType ].dimensions )
 

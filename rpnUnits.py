@@ -761,10 +761,10 @@ unitOperators = {
 
     # dynamic_viscosity
 
-#pound per foot hour                 lb/(ft*h)    1 lb/(ft*h)   = 4.133 789e-4 Pa*s
-#pound per foot second               lb/(ft*s)    1 lb/(ft*s)   = 1.488164 Pa*s
-#pound-force second per square foot  lbf*s/ft2    1 lbf*s/ft2   = 47.88026 Pa*s
-#pound-force second per square inch  lbf*s/in2    1 lbf*s/in2   = 6,894.757 Pa*s
+    # pound per foot hour                 lb/(ft*h)    1 lb/(ft*h)   = 4.133 789e-4 Pa*s
+    # pound per foot second               lb/(ft*s)    1 lb/(ft*s)   = 1.488164 Pa*s
+    # pound-force second per square foot  lbf*s/ft2    1 lbf*s/ft2   = 47.88026 Pa*s
+    # pound-force second per square inch  lbf*s/in2    1 lbf*s/in2   = 6,894.757 Pa*s
 
     'kilogram/meter-second' :
         UnitInfo( 'dynamic_viscosity', 'kilogram/meter*second', 'kilogram/meter*second', 'kg/m*s', [ ], [ 'CGS' ],
@@ -1962,7 +1962,7 @@ unitOperators = {
                   ''' ),
 
     'square_grad' :
-        UnitInfo( 'solid_angle', 'grad^2', 'grads^2', '', [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons','sqgon', 'sqgons', 'grad^2', 'grads^2', 'gon^2', 'gons^2', 'spherical_gon', 'spherical_gons', 'spherical_grad', 'spherical_grads' ], [ 'mathematics' ],
+        UnitInfo( 'solid_angle', 'grad^2', 'grads^2', '', [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons', 'sqgon', 'sqgons', 'grad^2', 'grads^2', 'gon^2', 'gons^2', 'spherical_gon', 'spherical_gons', 'spherical_grad', 'spherical_grads' ], [ 'mathematics' ],
                   '''
                   ''' ),
 

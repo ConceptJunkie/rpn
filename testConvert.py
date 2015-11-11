@@ -12,8 +12,6 @@
 # //
 # //******************************************************************************
 
-from rpn import rpn
-
 from rpnTestUtils import *
 
 
@@ -31,6 +29,7 @@ def runConvertTests( ):
     testOperator( 'marathon miles convert' )
     testOperator( 'marathon [ miles feet ] convert' )
     testOperator( 'mph miles hour / convert' )
+    testOperator( 'miles hour / mph convert' )
     testOperator( '65 miles hour / furlongs fortnight / convert' )
 
     # compound units
@@ -40,7 +39,7 @@ def runConvertTests( ):
     testOperator( 'watt-second second watt * convert' )
 
     # complicated conversions
-    #testOperator( '16800 mA hours * 5 volts * joule convert' )
+    # testOperator( '16800 mA hours * 5 volts * joule convert' )
 
     # unit exponentiation
     testOperator( '8 floz inch 3 ** convert' )

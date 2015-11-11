@@ -14,8 +14,6 @@
 
 from __future__ import print_function
 
-import six
-
 import math
 import string
 import textwrap
@@ -39,7 +37,7 @@ import rpnGlobals as g
 # //
 # //******************************************************************************
 
-def formatNumber( number, outputRadix, leadingZero, integerGrouping,  ):
+def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
     negative = ( number < 0 )
 
     if outputRadix == g.fibBase:
@@ -135,19 +133,17 @@ def formatOutput( output ):
             return output
 
     # override settings with temporary settings if needed
-    #if g.tempCommaMode:
-    #    comma = True
-    #else:
-    #    comma = g.comma
+    # if g.tempCommaMode:
+    #     comma = True
+    # else:
+    #     comma = g.comma
 
     # output settings, which may be overrided by temp settings
     outputRadix = g.outputRadix
-    bitwiseGroupSize = g.bitwiseGroupSize
     integerGrouping = g.integerGrouping
     leadingZero = g.leadingZero
 
     if g.tempHexMode:
-        bitwiseGroupSize = 16
         integerGrouping = 4
         leadingZero = True
         outputRadix = 16
@@ -156,7 +152,6 @@ def formatOutput( output ):
         leadingZero = True
 
     if g.tempOctalMode:
-        bitwiseGroupSize = 9
         integerGrouping = 3
         leadingZero = True
         outputRadix = 8
@@ -321,9 +316,9 @@ def formatDateTime( datetime ):
     if datetime.getDateOnly( ):
         return datetime.format( 'YYYY-MM-DD' )
     else:
-        #if datetime.microsecond:
-        #    return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
-        #else:
+        # if datetime.microsecond:
+        #     return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
+        # else:
         return datetime.format( 'YYYY-MM-DD HH:mm:ss' )
 
 
@@ -528,7 +523,7 @@ def printGeneralHelp( ):
     print( )
 
     printParagraph(
-'''For help on a specific topic, use 'rpn help' and add a help topic, operator category or a specific operator name.''' )
+        '''For help on a specific topic, use 'rpn help' and add a help topic, operator category or a specific operator name.''' )
 
     print( )
     print( 'The following is a list of general topics:' )
@@ -556,7 +551,7 @@ def printInteractiveHelp( ):
     loadHelpData( )
 
     printParagraph(
-'''For help on a specific topic, use the topic operator with a general topic, operator category or a specific operator name.''' )
+        '''For help on a specific topic, use the topic operator with a general topic, operator category or a specific operator name.''' )
 
     print( )
     print( 'The following is a list of general topics:' )

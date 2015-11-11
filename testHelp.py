@@ -2,9 +2,9 @@
 
 # //******************************************************************************
 # //
-# //  testOperator
+# //  testHelp
 # //
-# //  main test script for RPN
+# //  test script for RPN help
 # //  copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more

@@ -17,7 +17,7 @@ import struct
 from mpmath import *
 
 from rpnMeasurement import RPNMeasurement
-from rpnUtils import *
+from rpnUtils import real_int
 
 import rpnGlobals as g
 

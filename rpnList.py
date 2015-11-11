@@ -700,7 +700,6 @@ def getStandardDeviation( args ):
     return sqrt( fsum( dev ) / len( dev ) )
 
 
-
 # //******************************************************************************
 # //
 # //  reduceList
@@ -789,7 +788,6 @@ def getMin( args ):
             return min( args )
     else:
         return args
-
 
 
 # //******************************************************************************
