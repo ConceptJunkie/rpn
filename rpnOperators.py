@@ -1257,6 +1257,7 @@ operators = {
     'dup_digits'                    : OperatorInfo( duplicateDigits, 2 ),
     'find_palindrome'               : OperatorInfo( findPalindrome, 2 ),
     'get_digits'                    : OperatorInfo( getDigits, 1 ),
+    'is_kaprekar'                   : OperatorInfo( isKaprekar, 1 ),
     'is_narcissistic'               : OperatorInfo( isNarcissistic, 1 ),
     'is_palindrome'                 : OperatorInfo( isPalindrome, 1 ),
     'is_pandigital'                 : OperatorInfo( isPandigital, 1 ),

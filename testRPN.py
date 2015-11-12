@@ -1458,6 +1458,19 @@ def runLexicographyOperatorTests( ):
     testOperator( '123456789 get_digits' )
     # expectEqual   30 oeis 85 left
 
+    # is_kaprekar
+    expectResult( '533170 is_kaprekar', 1 )
+    expectResult( '77777 is_kaprekar', 0 )
+    expectResult( '77778 is_kaprekar', 1 )
+    expectResult( '95121 is_kaprekar', 1 )
+    expectResult( '7272 is_kaprekar', 1 )
+    expectResult( '22223 is_kaprekar', 0 )
+
+    # is_narcissistic
+    expectResult( '152 is_narcissistic', 0 )
+    expectResult( '153 is_narcissistic', 1 )
+    expectResult( '154 is_narcissistic', 0 )
+
     # is_palindrome
     expectResult( '101 is_palindrome', 1 )
     expectResult( '1 22 range is_palindrome', [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] )

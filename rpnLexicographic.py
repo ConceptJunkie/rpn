@@ -21,6 +21,24 @@ from rpnUtils import real, real_int
 
 # //******************************************************************************
 # //
+# //  splitNumberByDigits
+# //
+# //  This splits the number into 2 numbers by splitting off half the digits
+# //  for the first and the rest of the digits for the second.  If there is an
+# //  odd number of digits then the extra digit goes to the second number.
+# //
+# //******************************************************************************
+
+def splitNumberByDigits( n ):
+    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )
+
+    split = len( str ) // 2 - 1
+
+    return mpmathify( str[ : split ] ), mpmathify( str[ split : ] )
+
+
+# //******************************************************************************
+# //
 # //  getDigits
 # //
 # //******************************************************************************
@@ -230,4 +248,21 @@ def isNarcissistic( n ):
         sum = fadd( sum, power( d, count ) )
 
     return 1 if sum == n else 0
+
+
+# //******************************************************************************
+# //
+# //  isKaprekar
+# //
+# //******************************************************************************
+
+def isKaprekar( n ):
+    if n == 1:
+        return 1
+    elif n < 9:
+        return 0
+
+    a, b = splitNumberByDigits( power( n, 2 ) )
+
+    return 1 if ( fadd( a, b ) == n ) else 0
 

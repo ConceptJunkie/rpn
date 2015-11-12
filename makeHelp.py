@@ -5358,6 +5358,13 @@ on the digits that comprise an integer.
 '''
 ''' ],
 
+    'is_kaprekar' : [
+'lexicography', 'returns whether an integer n is a Kaprekar number',
+'''
+''',
+'''
+''' ],
+
     'is_narcissistic' : [
 'lexicography', 'returns whether an integer n is narcissistic',
 '''
