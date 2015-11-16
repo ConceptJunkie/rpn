@@ -10,6 +10,15 @@ conversions comparable to the GNU units program.
 
 ****
 
+UPDATE - November 16, 2015
+
+The scope of changes for version 7 keeps growing.  The transition to lazy list
+evaluation (using generators) is going to be a very big change and currently a
+lot of operators are broken.
+
+It is recommended that anyone using RPN from Git stick with the 7.0.alpha1 tag
+for the time being.
+
 UPDATE - October 15, 2015
 
 I've decided the upcoming release will be version 7 since so much has been
