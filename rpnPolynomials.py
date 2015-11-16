@@ -17,6 +17,8 @@ import itertools
 
 from mpmath import *
 
+from rpnGenerator import RPNGenerator
+
 
 # //******************************************************************************
 # //
@@ -369,13 +371,20 @@ def multiplyPolynomials( a, b ):
 # //******************************************************************************
 
 def evaluatePolynomial( a, b ):
-    if not isinstance( a, list ):
+    if isinstance( a, RPNGenerator ):
+        a = list( a )
+    elif not isinstance( a, list ):
         a = [ a ]
 
-    if isinstance( b, list ):
-        return [ evaluatePolynomial( a, item ) for item in b ]
+    if isinstance( b, RPNGenerator ):
+        result = [ polyval( a, i ) for i in b.getGenerator( ) ]
 
-    return polyval( a, b )
+        if len( result ) == 1:
+            return result[ 0 ]
+        else:
+            return result
+    else:
+        return polyval( a, b )
 
 
 # //******************************************************************************
@@ -385,12 +394,25 @@ def evaluatePolynomial( a, b ):
 # //******************************************************************************
 
 def exponentiatePolynomial( n, k ):
-    result = n
+    if isinstance( n, RPNGenerator ):
+        n = list( n )
+    elif not isinstance( n, list ):
+        n = [ n ]
 
-    for i in arange( 0, k - 1 ):
-        result = multiplyPolynomials( result, n )
+    if isinstance( k, RPNGenerator ):
+        result = [ multiplyPolynomials( n, i ) for i in k.getGenerator( ) ]
 
-    return result
+        if len( result ) == 1:
+            return result[ 0 ]
+        else:
+            return result
+    else:
+        result = n
+
+        for i in arange( 0, k - 1 ):
+            result = multiplyPolynomials( result, n )
+
+        return result
 
 
 # //******************************************************************************
@@ -400,6 +422,11 @@ def exponentiatePolynomial( n, k ):
 # //******************************************************************************
 
 def solvePolynomial( args ):
+    if isinstance( args, RPNGenerator ):
+        args = list( args )
+    elif not isinstance( args, list ):
+        args = [ args ]
+
     while args[ 0 ] == 0:
         args = args[ 1 : ]
 
@@ -440,13 +467,23 @@ def solvePolynomial( args ):
 # //******************************************************************************
 
 def multiplyListOfPolynomials( args ):
-    result = Polynomial( args[ 0 ] )
+    if isinstance( args, RPNGenerator ):
+        args = list( args )
+    elif not isinstance( args, list ):
+        args = [ args ]
 
-    for i in range( 1, len( args ) ):
-        if isinstance( args[ i ], list ) and isinstance( args[ i ][ 0 ], list ):
-            pass  # dunno what to do here
+    result = None
+
+    for arg in args:
+        if isinstance( arg, RPNGenerator ):
+            arg = list( arg )
+        elif not isinstance( arg, list ):
+            arg = [ arg ]
+
+        if result is None:
+            result = Polynomial( [ int( i ) for i in arg ] )
         else:
-            result *= Polynomial( args[ i ] )
+            result *= Polynomial( [ int( i ) for i in arg ] )
 
     return result.getCoefficients( )
 
@@ -458,10 +495,23 @@ def multiplyListOfPolynomials( args ):
 # //******************************************************************************
 
 def addListOfPolynomials( args ):
-    result = Polynomial( args[ 0 ] )
+    if isinstance( args, RPNGenerator ):
+        args = list( args )
+    elif not isinstance( args, list ):
+        args = [ args ]
 
-    for i in range( 1, len( args ) ):
-        result += Polynomial( args[ i ] )
+    result = None
+
+    for arg in args:
+        if isinstance( arg, RPNGenerator ):
+            arg = list( arg )
+        elif not isinstance( arg, list ):
+            arg = [ arg ]
+
+        if result is None:
+            result = Polynomial( [ int( i ) for i in arg ] )
+        else:
+            result += Polynomial( [ int( i ) for i in arg ] )
 
     return result.getCoefficients( )
 

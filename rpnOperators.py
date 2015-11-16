@@ -14,6 +14,7 @@
 
 from __future__ import print_function
 
+import itertools
 import struct
 
 from mpmath import *
@@ -261,9 +262,17 @@ def evaluateTwoArgFunction( func, _arg1, _arg2 ):
         else:
             arg1 = _arg1
             list1 = True
+
+        generator1 = False
+        print( 'list1' )
     else:
         arg1 = _arg1
         list1 = False
+
+    if isinstance( arg1, RPNGenerator ):
+        generator1 = True
+    else:
+        generator1 = False
 
     if isinstance( _arg2, list ):
         len2 = len( _arg2 )
@@ -274,9 +283,25 @@ def evaluateTwoArgFunction( func, _arg1, _arg2 ):
         else:
             arg2 = _arg2
             list2 = True
+
+        generator2 = False
+        print( 'list2' )
     else:
         arg2 = _arg2
         list2 = False
+
+    if isinstance( arg2, RPNGenerator ):
+        generator2 = True
+    else:
+        generator2 = False
+
+    if generator1:
+        if generator2:
+            return [ i for i in itertools.map( func, [ arg1.getGenerator( ), arg2.getGenerator( ) ] ) ]
+        else:
+            return [ func( i, arg2 ) for i in arg1.getGenerator( ) ]
+    elif generator2:
+        return [ func( arg1, i ) for i in arg2.getGenerator( ) ]
 
     if list1:
         if list2:
@@ -1017,7 +1042,7 @@ operators = {
     'ceiling'                       : OperatorInfo( ceil, 1 ),
     'divide'                        : OperatorInfo( divide, 2 ),
     'floor'                         : OperatorInfo( floor, 1 ),
-    'is_divisible'                  : OperatorInfo( lambda n, k: 1 if fmod( real( n ), k ) == 0 else 0, 2 ),
+    'is_divisible'                  : OperatorInfo( isDivisible, 2 ),
     'is_equal'                      : OperatorInfo( isEqual, 2 ),
     'is_even'                       : OperatorInfo( lambda n: 1 if fmod( real( n ), 2 ) == 0 else 0, 1 ),
     'is_greater'                    : OperatorInfo( isGreater, 2 ),

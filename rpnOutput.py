@@ -22,7 +22,7 @@ from mpmath import *
 
 from rpnBase import *
 from rpnDateTime import RPNDateTime
-from rpnList import RPNGenerator
+from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 from rpnPersistence import loadHelpData
 from rpnUtils import *

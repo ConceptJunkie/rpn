@@ -14,6 +14,7 @@
 
 from mpmath import *
 
+from rpnGenerator import RPNGenerator
 from rpnPersistence import loadUnitData, loadUnitConversionMatrix
 from rpnUnitClasses import Units
 from rpnUtils import debugPrint
@@ -591,6 +592,18 @@ class RPNMeasurement( mpf ):
 # //******************************************************************************
 
 def convertUnits( unit1, unit2 ):
+    if isinstance( unit1, RPNGenerator ):
+        unit1 = list( unit1 )
+
+        if len( unit1 ) == 1:
+            unit1 = unit1[ 0 ]
+
+    if isinstance( unit2, RPNGenerator ):
+        unit2 = list( unit2 )
+
+        if len( unit2 ) == 1:
+            unit2 = unit2[ 0 ]
+
     if isinstance( unit1, list ):
         result = [ ]
 

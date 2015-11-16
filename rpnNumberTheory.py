@@ -623,16 +623,15 @@ def getNthFibonorial( n ):
 # //******************************************************************************
 
 def getGCD( a, b = 0 ):
-    if real( b ) != 0:
+    if real( b ) == 0:
+        a = list( a )
+    else:
         a, b = fabs( a ), fabs( b )
 
         while a:
             b, a = a, fmod( b, a )
 
         return b
-
-    if not isinstance( a, list ):
-        return a
 
     if isinstance( a[ 0 ], list ):
         return [ getGCD( real( arg ) ) for arg in a ]

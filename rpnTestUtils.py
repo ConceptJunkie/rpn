@@ -15,7 +15,7 @@
 import shlex
 
 from rpn import rpn, handleOutput
-from rpnList import RPNGenerator
+from rpnGenerator import RPNGenerator
 
 from mpmath import *
 
