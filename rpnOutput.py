@@ -22,6 +22,7 @@ from mpmath import *
 
 from rpnBase import *
 from rpnDateTime import RPNDateTime
+from rpnList import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 from rpnPersistence import loadHelpData
 from rpnUtils import *
@@ -180,42 +181,37 @@ def formatOutput( output ):
 # //******************************************************************************
 
 def formatListOutput( result, level = 0 ):
-    resultString = '[ '
+    stringList = [ ]
 
     for item in result:
-        if level < g.listFormatLevel:
-            resultString += '\n' + ' ' * level * 4
-        else:
-            if resultString != '[ ':
-                resultString += ', '
+        newString = ''
 
-        if isinstance( item, list ):
-            resultString += formatListOutput( item, level + 1 )
+        if level < g.listFormatLevel:
+            newString == '\n' + ' ' * level * 4
+
+        if isinstance( item, ( list, RPNGenerator ) ):
+            newString = formatListOutput( item, level + 1 )
         else:
             if isinstance( item, str ):
-                resultString += item
+                newString = item
             elif isinstance( item, RPNDateTime ):
-                resultString += formatDateTime( item )
+                newString = formatDateTime( item )
             elif isinstance( item, RPNMeasurement ):
-                itemString = nstr( item.getValue( ) )
-
-                resultString += formatOutput( itemString )
-
-                resultString += ' ' + formatUnits( item )
+                newString = formatOutput( nstr( item.getValue( ) ) )
+                newString += ' ' + formatUnits( item )
             else:
-                itemString = str( item )
+                newString = formatOutput( str( item ) )
 
-                resultString += formatOutput( itemString )
+        stringList.append( newString )
 
-        if level < g.listFormatLevel:
-            resultString += ','
+    result = '[ ' + ', '.join( [ i for i in stringList ] )
 
     if level < g.listFormatLevel:
-        resultString += '\n]'
+        result += '\n]'
     else:
-        resultString += ' ]'
+        result += ' ]'
 
-    return resultString
+    return result
 
 
 # //******************************************************************************

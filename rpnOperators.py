@@ -170,14 +170,16 @@ def evaluateListOperator( term, index, currentValueList ):
     # handle the call depending on the number of arguments needed
     if argsNeeded == 0:
         currentValueList.append( operatorInfo.function( currentValueList ) )
-    elif argsNeeded == 1:
-        currentValueList.append( evaluateOneListFunction( operatorInfo.function,
-                                                          currentValueList.pop( ) ) )
     else:
         listArgs = [ ]
 
         for i in range( 0, argsNeeded ):
-            listArgs.insert( 0, currentValueList.pop( ) )
+            arg = currentValueList.pop( )
+
+            if isinstance( arg, ( RPNGenerator, RPNFunctionInfo ) ):
+                listArgs.insert( 0, arg )
+            else:
+                listArgs.insert( 0, RPNGenerator.create( arg ) )
 
         currentValueList.append( operatorInfo.function( *listArgs ) )
 
@@ -228,23 +230,6 @@ def dumpOperators( ):
 
 # //******************************************************************************
 # //
-# //  evaluateOneListFunction
-# //
-# //******************************************************************************
-
-def evaluateOneListFunction( func, args ):
-    if isinstance( args, list ):
-        for arg in args:
-            if isinstance( arg, list ) and isinstance( arg[ 0 ], list ):
-                return [ evaluateOneListFunction( func, arg ) for arg in args ]
-
-        return func( args )
-    else:
-        return func( [ args ] )
-
-
-# //******************************************************************************
-# //
 # //  evaluateOneArgFunction
 # //
 # //******************************************************************************
@@ -252,6 +237,8 @@ def evaluateOneListFunction( func, args ):
 def evaluateOneArgFunction( func, args ):
     if isinstance( args, list ):
         return [ evaluateOneArgFunction( func, i ) for i in args ]
+    elif isinstance( args, RPNGenerator ):
+        return RPNGenerator.createChained( args.getGenerator( ), func )
     else:
         return func( args )
 
@@ -267,6 +254,7 @@ def evaluateOneArgFunction( func, args ):
 def evaluateTwoArgFunction( func, _arg1, _arg2 ):
     if isinstance( _arg1, list ):
         len1 = len( _arg1 )
+
         if len1 == 1:
             arg1 = _arg1[ 0 ]
             list1 = False
@@ -279,6 +267,7 @@ def evaluateTwoArgFunction( func, _arg1, _arg2 ):
 
     if isinstance( _arg2, list ):
         len2 = len( _arg2 )
+
         if len2 == 1:
             arg2 = _arg2[ 0 ]
             list2 = False
@@ -326,14 +315,14 @@ callers = [
 
 # //******************************************************************************
 # //
-# //  class FunctionInfo
+# //  class RPNFunctionInfo
 # //
 # //  Starting index is a little confusing.  When rpn knows it is parsing a
 # //  function declaration, it will put all the arguments so far into the
-# //  FunctionInfo object.  However, it can't know how many of them it actually
-# //  needs until it's time to evaluate the function, so we need to save all the
-# //  terms we have so far, since we can't know until later how many of them we
-# //  will need.
+# //  RPNFunctionInfo object.  However, it can't know how many of them it
+# //  actually needs until it's time to evaluate the function, so we need to
+# //  save all the terms we have so far, since we can't know until later how
+# //  many of them we will need.
 # //
 # //  Once we are able to parse out how many arguments belong to the function
 # //  declaration, then we can determine what arguments are left over to be used
@@ -342,7 +331,7 @@ callers = [
 # //
 # //******************************************************************************
 
-class FunctionInfo( ):
+class RPNFunctionInfo( ):
     def __init__( self, valueList = [ ], startingIndex = 0 ):
         self.valueList = [ ]
 
@@ -371,7 +360,7 @@ class FunctionInfo( ):
 
 def createFunction( var, valueList ):
     g.creatingFunction = True
-    valueList.append( FunctionInfo( valueList, len( valueList ) ) )
+    valueList.append( RPNFunctionInfo( valueList, len( valueList ) ) )
     valueList[ -1 ].add( var )
 
 
@@ -417,7 +406,7 @@ def createZFunction( valueList ):
 # //******************************************************************************
 
 def evaluateFunction( a, b, c, func ):
-    if not isinstance( func, FunctionInfo ):
+    if not isinstance( func, RPNFunctionInfo ):
         raise ValueError( '\'eval\' expects a function argument' )
 
     if isinstance( a, list ) or isinstance( b, list ) or isinstance( c, list ):
@@ -549,11 +538,8 @@ def plotComplexFunction( start1, end1, start2, end2, func ):
 # //
 # //******************************************************************************
 
-def filterList( n, k, invert = False ) :
-    if not isinstance( n, list ):
-        n = [ n ]
-
-    if not isinstance( k, FunctionInfo ):
+def filterList( n, k, invert = False ):
+    if not isinstance( k, RPNFunctionInfo ):
         if invert:
             raise ValueError( '\'unfilter\' expects a function argument' )
         else:
@@ -561,7 +547,7 @@ def filterList( n, k, invert = False ) :
 
     result = [ ]
 
-    for item in n:
+    for item in n.getGenerator( ):
         value = evaluateFunction( item, 0, 0, k )
 
         if ( value != 0 ) != invert:
@@ -576,11 +562,11 @@ def filterList( n, k, invert = False ) :
 # //
 # //******************************************************************************
 
-def filterListByIndex( n, k, invert = False ) :
+def filterListByIndex( n, k, invert = False ):
     if not isinstance( n, list ):
         n = [ n ]
 
-    if not isinstance( k, FunctionInfo ):
+    if not isinstance( k, RPNFunctionInfo ):
         if invert:
             raise ValueError( '\'unfilter_by_index\' expects a function argument' )
         else:
@@ -669,10 +655,11 @@ def evaluateTerm( term, index, currentValueList ):
                 raise ValueError( 'result index out of range' )
 
     isList = isinstance( term, list )
+    isGenerator = isinstance( term, RPNGenerator )
 
     try:
         # handle a modifier operator
-        if not isList and term in modifiers:
+        if not isList and not isGenerator and term in modifiers:
             operatorInfo = modifiers[ term ]
             operatorInfo.function( currentValueList )
         elif not isList and term in g.unitOperatorNames:
@@ -686,6 +673,8 @@ def evaluateTerm( term, index, currentValueList ):
                                                                        isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
                     currentValueList.append( applyNumberValueToUnit( 1, term ) )
             # if the unit comes after a list, then apply it to every item in the list
+            elif isinstance( currentValueList[ -1 ], RPNGenerator ):
+                print( 'implement me' )
             elif isinstance( currentValueList[ -1 ], list ):
                 argList = currentValueList.pop( )
 
@@ -700,13 +689,13 @@ def evaluateTerm( term, index, currentValueList ):
                 currentValueList.append( applyNumberValueToUnit( currentValueList.pop( ), term ) )
             else:
                 raise ValueError( 'unsupported type for a unit operator' )
-        elif not isList and ( term in constants ):
+        elif term in constants:
             if not g.unitOperators:
                 loadUnitData( )
 
             if not evaluateConstantOperator( term, index, currentValueList ):
                 return False
-        elif not isList and ( term in operators ):
+        elif term in operators:
             if g.duplicateOperations > 0:
                 operatorInfo = operators[ term ]
                 argsNeeded = operatorInfo.argCount
@@ -725,7 +714,7 @@ def evaluateTerm( term, index, currentValueList ):
             else:
                 if not evaluateOperator( term, index, currentValueList ):
                     return False
-        elif not isList and term in listOperators:
+        elif term in listOperators:
             if g.duplicateOperations > 0:
                 operatorInfo = operators[ term ]
                 argsNeeded = operatorInfo.argCount
@@ -930,7 +919,8 @@ listOperators = {
     'gcd'                   : OperatorInfo( getGCD, 1 ),
     'lcm'                   : OperatorInfo( getLCM, 1 ),
     'max'                   : OperatorInfo( getMax, 1 ),
-    'mean'                  : OperatorInfo( calculateMean, 1 ),
+    'mean'                  : OperatorInfo( calculateArithmeticMean, 1 ),
+    'geometric_mean'        : OperatorInfo( calculateGeometricMean, 1 ),
     'min'                   : OperatorInfo( getMin, 1 ),
     'product'               : OperatorInfo( getProduct, 1 ),
     'stddev'                : OperatorInfo( getStandardDeviation, 1 ),
@@ -954,17 +944,16 @@ listOperators = {
     'unfilter_by_index'     : OperatorInfo( lambda n, k: filterListByIndex( n, k, True ), 2 ),
 
     # list
-    'alternate_signs'       : OperatorInfo( alternateSigns, 1 ),
-    'alternate_signs_2'     : OperatorInfo( alternateSigns2, 1 ),
-    'alternating_sum'       : OperatorInfo( getAlternatingSum, 1 ),
-    'alternating_sum_2'     : OperatorInfo( getAlternatingSum2, 1 ),
+    'alternate_signs'       : OperatorInfo( lambda n: RPNGenerator( alternateSigns( n, False ) ), 1 ),
+    'alternate_signs_2'     : OperatorInfo( lambda n: RPNGenerator( alternateSigns( n, True ) ), 1 ),
+    'alternating_sum'       : OperatorInfo( lambda n: getAlternatingSum( n, False ), 1 ),
+    'alternating_sum_2'     : OperatorInfo( lambda n: getAlternatingSum( n, False ), 1 ),
     'append'                : OperatorInfo( appendLists, 2 ),
     'count'                 : OperatorInfo( countElements, 1 ),
-    'diffs'                 : OperatorInfo( getListDiffs, 1 ),
-    'diffs2'                : OperatorInfo( getListDiffsFromFirst, 1 ),
+    'diffs'                 : OperatorInfo( lambda n: RPNGenerator( getListDiffs( n ) ), 1 ),
+    'diffs2'                : OperatorInfo( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ), 1 ),
     'element'               : OperatorInfo( getListElement, 2 ),
     'flatten'               : OperatorInfo( flatten, 1 ),
-    'geometric_mean'        : OperatorInfo( calculateGeometricMean, 1 ),
     'group_elements'        : OperatorInfo( groupElements, 2 ),
     'interleave'            : OperatorInfo( interleave, 2 ),
     'intersection'          : OperatorInfo( makeIntersection, 2 ),
@@ -974,6 +963,7 @@ listOperators = {
     'nonzero'               : OperatorInfo( getNonzeroes, 1 ),
     'occurrences'           : OperatorInfo( getOccurrences, 1 ),
     'ratios'                : OperatorInfo( getListRatios, 1 ),
+    'ratios2'               : OperatorInfo( getCumulativeListRatios, 1 ),
     'reduce'                : OperatorInfo( reduceList, 1 ),
     'reverse'               : OperatorInfo( getReverse, 1 ),
     'right'                 : OperatorInfo( getRight, 2 ),
@@ -1267,10 +1257,10 @@ operators = {
     'sum_digits'                    : OperatorInfo( sumDigits, 1 ),
 
     # list
-    'exponential_range'             : OperatorInfo( expandExponentialRange, 3 ),
-    'geometric_range'               : OperatorInfo( expandGeometricRange, 3 ),
-    'range'                         : OperatorInfo( expandRange, 2 ),
-    'range2'                        : OperatorInfo( expandSteppedRange, 3 ),
+    'exponential_range'             : OperatorInfo( RPNGenerator.createExponential, 3 ),
+    'geometric_range'               : OperatorInfo( RPNGenerator.createGeometric, 3 ),
+    'range'                         : OperatorInfo( RPNGenerator.createRange, 2 ),
+    'range2'                        : OperatorInfo( RPNGenerator.createRange, 3 ),
 
     # logarithms
     'lambertw'                      : OperatorInfo( lambertw, 1 ),

@@ -13,6 +13,7 @@
 # //******************************************************************************
 
 import collections
+import itertools
 import random
 
 from mpmath import *
@@ -23,28 +24,174 @@ from rpnNumberTheory import getGCD
 
 # //******************************************************************************
 # //
+# //  class RPNGenerator
+# //
+# //******************************************************************************
+
+class RPNGenerator( ):
+    def __init__( self, generator = None, count = -1 ):
+        self.generator = generator
+        self.count = count
+
+    def getGenerator( self ):
+        return self.generator
+
+    def getCount( self ):
+        return self.count
+
+    def __iter__( self ):
+        return self.getGenerator( )
+
+    def __getitem__( self, index ):
+        return next( itertools.islice( self.generator, index, index + 1 ) )
+
+    @staticmethod
+    def create( value ):
+        if isinstance( value, RPNGenerator ):
+            return value
+        else:
+            if isinstance( value, list ):
+                count = len( value )
+            else:
+                count = 1
+
+            return RPNGenerator( itemGenerator( value ), count )
+
+    @staticmethod
+    def createRange( start, end, step = 1 ):
+        try:
+            result = RPNGenerator( rangeGenerator( start, end, step ),
+                                   ceil( fdiv( fadd( fsub( end, start ), 1 ), step ) ) )
+        except TypeError:
+            result = RPNGenerator( rangeGenerator( start, end, step ) )
+
+        return result
+
+    @staticmethod
+    def createGeometric( value, step, count ):
+        return RPNGenerator( geometricRangeGenerator( value, step, count ), count )
+
+    @staticmethod
+    def createExponential( value, step, count ):
+        return RPNGenerator( exponentialRangeGenerator( value, step, count ), count )
+
+    @staticmethod
+    def createChained( generator, func ):
+        return RPNGenerator( chainedGenerator( generator, func ) )
+
+
+# //******************************************************************************
+# //
+# //  itemGenerator
+# //
+# //  A generator for a single item or list, used in list operators
+# //
+# //******************************************************************************
+
+def itemGenerator( value ):
+    if isinstance( value, list ):
+        for item in value:
+            yield item
+    else:
+        for item in [ value ]:
+            yield item
+
+
+# //******************************************************************************
+# //
+# //  rangeGenerator
+# //
+# //******************************************************************************
+
+def rangeGenerator( start, end, step ):
+    if start > end and step > 0:
+        step = -step
+
+    current = start
+
+    if ( step > 0 ):
+        while ( current <= end ):
+            yield current
+            current = fadd( current, step )
+    else:
+        while ( current >= end ):
+            yield current
+            current = fadd( current, step )
+
+
+# //******************************************************************************
+# //
+# //  geometricRangeGenerator
+# //
+# //******************************************************************************
+
+def geometricRangeGenerator( value, step, count ):
+    current = value
+
+    for i in arange( 0, count ):
+        yield current
+        current = fmul( current, step )
+
+
+# //******************************************************************************
+# //
+# //  exponentialRangeGenerator
+# //
+# //******************************************************************************
+
+def exponentialRangeGenerator( value, step, count ):
+    current = value
+
+    for i in arange( 0, count ):
+        yield current
+        current = power( current, step )
+
+
+# //******************************************************************************
+# //
+# //  chainedGenerator
+# //
+# //******************************************************************************
+
+def chainedGenerator( generator, func ):
+    for i in generator:
+        yield( func( i ) )
+
+
+# //******************************************************************************
+# //
 # //  alternateSigns
 # //
 # //******************************************************************************
 
-def alternateSigns( n ):
-    for i in range( 1, len( n ), 2 ):
-        n[ i ] = -n[ i ]
+def alternateSigns( n, startNegative = False ):
+    negative = startNegative
 
-    return n
+    for i in n.getGenerator( ):
+        yield fneg( i ) if negative else i
+        negative = not negative
 
 
 # //******************************************************************************
 # //
-# //  alternateSigns2
+# //  getAlternatingSum
 # //
 # //******************************************************************************
 
-def alternateSigns2( n ):
-    for i in range( 0, len( n ), 2 ):
-        n[ i ] = -n[ i ]
+def getAlternatingSum( arg, startNegative = False ):
+    result = 0
 
-    return n
+    negative = startNegative
+
+    for i in arg.getGenerator( ):
+        if negative:
+            result = fsub( result, i )
+        else:
+            result = fadd( result, i )
+
+        negative = not negative
+
+    return result
 
 
 # //******************************************************************************
@@ -54,94 +201,28 @@ def alternateSigns2( n ):
 # //******************************************************************************
 
 def appendLists( arg1, arg2 ):
-    list1 = isinstance( arg1, list )
-    list2 = isinstance( arg2, list )
-
-    result = [ ]
-
-    if list1:
-        result.extend( arg1 )
-
-        if list2:
-            result.extend( arg2 )
-        else:
-            result.append( arg2 )
-    else:
-        result.append( arg1 )
-
-        if list2:
-            result.extend( arg2 )
-        else:
-            result.append( arg2 )
+    result = list( arg1 )
+    result.extend( list( arg2 ) )
 
     return result
 
 
 # //******************************************************************************
 # //
-# //  expandRange
+# //  countElements
 # //
 # //******************************************************************************
 
-def expandRange( start, end ):
-    if start > end:
-        step = -1
-    else:
-        step = 1
+def countElements( arg ):
+    if arg.getCount( ) > -1:
+        return arg.getCount( )
 
-    result = list( )
+    count = 0
 
-    for i in arange( start, end + step, step ):
-        result.append( i )
+    for i in arg.getGenerator( ):
+        count += 1
 
-    return result
-
-
-# //******************************************************************************
-# //
-# //  expandSteppedRange
-# //
-# //******************************************************************************
-
-def expandSteppedRange( start, end, step ):
-    result = list( )
-
-    for i in arange( start, end + 1, step ):
-        result.append( i )
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  expandGeometricRange
-# //
-# //******************************************************************************
-
-def expandGeometricRange( value, step, count ):
-    result = list( )
-
-    for i in arange( 0, count ):
-        result.append( value )
-        value = fmul( value, step )
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  expandExponentialRange
-# //
-# //******************************************************************************
-
-def expandExponentialRange( value, step, count ):
-    result = list( )
-
-    for i in arange( 0, count ):
-        result.append( value )
-        value = power( value, step )
-
-    return result
+    return count
 
 
 # //******************************************************************************
@@ -151,29 +232,16 @@ def expandExponentialRange( value, step, count ):
 # //******************************************************************************
 
 def interleave( arg1, arg2 ):
-    list1 = isinstance( arg1, list )
-    list2 = isinstance( arg2, list )
-
     result = list( )
 
-    if list1:
-        if list2:
-            combined = list( zip( arg1, arg2  ) )
-            combined = [ item for sublist in combined for item in sublist ]
+    combined = list( zip( arg1, arg2  ) )
+    combined = [ item for sublist in combined for item in sublist ]
 
-            for i in combined:
-                result.append( i )
-        else:
-            for i in arg1:
-                result.append( i )
-                result.append( arg2 )
+    for i in combined:
+        result.append( i )
     else:
-        if list2:
-            for i in arg2:
-                result.append( arg1 )
-                result.append( i )
-        else:
-            result.append( arg1 )
+        for i in arg1:
+            result.append( i )
             result.append( arg2 )
 
     return result
@@ -186,27 +254,8 @@ def interleave( arg1, arg2 ):
 # //******************************************************************************
 
 def makeUnion( arg1, arg2 ):
-    list1 = isinstance( arg1, list )
-    list2 = isinstance( arg2, list )
-
-    result = list( )
-
-    if list1:
-        for arg in arg1:
-            if arg not in result:
-                result.append( arg )
-    else:
-        result.append( arg1 )
-
-    if list2:
-        for arg in arg2:
-            if arg not in result:
-                result.append( arg )
-    else:
-        if arg2 not in result:
-            result.append( arg )
-
-    return result
+    result = set( arg1 )
+    return list( result.union( set( arg2 ) ) )
 
 
 # //******************************************************************************
@@ -216,28 +265,8 @@ def makeUnion( arg1, arg2 ):
 # //******************************************************************************
 
 def makeIntersection( arg1, arg2 ):
-    list1 = isinstance( arg1, list )
-    list2 = isinstance( arg2, list )
-
-    result = list( )
-
-    if list1:
-        if list2:
-            for i in arg1:
-                if i in arg2 and i not in result:
-                    result.append( i )
-        else:
-            if arg2 in arg1:
-                result.append( arg2 )
-    else:
-        if list2:
-            if arg1 in arg2:
-                result.append( arg1 )
-        else:
-            if arg1 == arg2:
-                result.append( arg1 )
-
-    return result
+    result = set( arg1 )
+    return list( result.intersection( set( arg2 ) ) )
 
 
 # //******************************************************************************
@@ -247,18 +276,15 @@ def makeIntersection( arg1, arg2 ):
 # //******************************************************************************
 
 def getIndexOfMax( arg ):
-    if isinstance( arg[ 0 ], list ):
-        return [ getIndexOfMax( item ) for item in arg ]
-
     maximum = -inf
-    index = -1
+    result = -1
 
-    for i in range( 0, len( arg ) ):
-        if arg[ i ] > maximum:
-            maximum = arg[ i ]
-            index = i
+    for index, i in enumerate( arg ):
+        if i > maximum:
+            maximum = i
+            result = index
 
-    return index
+    return result
 
 
 # //******************************************************************************
@@ -268,18 +294,15 @@ def getIndexOfMax( arg ):
 # //******************************************************************************
 
 def getIndexOfMin( arg ):
-    if isinstance( arg[ 0 ], list ):
-        return [ getIndexOfMin( item ) for item in arg ]
-
     minimum = inf
-    index = -1
+    result = -1
 
-    for i in range( 0, len( arg ) ):
-        if arg[ i ] < minimum:
-            minimum = arg[ i ]
-            index = i
+    for index, i in enumerate( arg ):
+        if i < minimum:
+            minimum = i
+            result = index
 
-    return index
+    return result
 
 
 # //******************************************************************************
@@ -289,11 +312,7 @@ def getIndexOfMin( arg ):
 # //******************************************************************************
 
 def getListElement( arg, index ):
-    if isinstance( arg, list ):
-        return arg[ int( index ) ]
-    else:
-        return arg
-        # TODO: throw exception if index > 0
+    return arg[ int( index[ 0 ] ) ]
 
 
 # //******************************************************************************
@@ -302,24 +321,16 @@ def getListElement( arg, index ):
 # //
 # //******************************************************************************
 
-def getSlice( arg, start, end ):
-    if isinstance( arg, list ):
-        slist = isinstance( start, list )
-        elist = isinstance( end, list )
+def getSlice( arg, start_, end_ ):
+    start = int( start_[ 0 ] )
+    end = int( end_[ 0 ] )
 
-        if slist:
-            if elist:
-                return [ getSlice( arg, i, j ) for i in start for j in end ]
-            else:
-                return [ getSlice( arg, i, end ) for i in start ]
-        else:
-            if elist:
-                return [ getSlice( arg, start, i ) for i in end ]
-            else:
-                return arg[ int( start ) : int( end ) ]
-    else:
-        return arg
-        # TODO: raise an exception for slicing a non-list
+    result = [ arg[ start ] ]
+
+    for i in range( end - start - 1 ):
+        result.append( next( arg.getGenerator( ) ) )
+
+    return result
 
 
 # //******************************************************************************
@@ -329,23 +340,18 @@ def getSlice( arg, start, end ):
 # //******************************************************************************
 
 def getSublist( arg, start, count ):
-    if isinstance( arg, list ):
-        slist = isinstance( start, list )
-        clist = isinstance( count, list )
+    result = [ ]
 
-        if slist:
-            if clist:
-                return [ getSublist( arg, i, j ) for i in start for j in count ]
-            else:
-                return [ getSublist( arg, i, count ) for i in start ]
-        else:
-            if clist:
-                return [ getSublist( arg, start, i ) for i in count ]
-            else:
-                return arg[ int( start ) : int( start + count ) ]
+    fullList = [ item for item in arg.getGenerator( ) ]
+
+    for i in start.getGenerator( ):
+        for j in count.getGenerator( ):
+            result.append( fullList[ int( i ) : int( j ) ] )
+
+    if len( result ) == 1:
+        return result[ 0 ]
     else:
-        return arg
-        # TODO: raise an exception for sublisting a non-list
+        return result
 
 
 # //******************************************************************************
@@ -355,14 +361,15 @@ def getSublist( arg, start, count ):
 # //******************************************************************************
 
 def getLeft( arg, count ):
-    if isinstance( arg, list ):
-        if isinstance( count, list ):
-            return [ getLeft( arg, i ) for i in count ]
-        else:
-            return arg[ : int( count ) ]
+    result = [ ]
+
+    for i in count.getGenerator( ):
+        result.append( [ j for j in arg.getGenerator( ) ][ : int( i ) ] )
+
+    if len( result ) == 1:
+        return result[ 0 ]
     else:
-        return arg
-        # TODO: raise an exception for slicing a non-list
+        return result
 
 
 # //******************************************************************************
@@ -372,32 +379,15 @@ def getLeft( arg, count ):
 # //******************************************************************************
 
 def getRight( arg, count ):
-    if isinstance( arg, list ):
-        if isinstance( count, list ):
-            return [ getRight( arg, i ) for i in count ]
-        else:
-            return arg[ len( arg ) - int( count ) : ]
-    else:
-        return arg
-        # TODO: raise an exception for slicing a non-list
-
-
-# //******************************************************************************
-# //
-# //  countElements
-# //
-# //******************************************************************************
-
-def countElements( args ):
     result = [ ]
 
-    if isinstance( args[ 0 ], list ):
-        for i in range( 0, len( args ) ):
-            result.append( countElements( args[ i ] ) )
+    for i in count.getGenerator( ):
+        result.append( [ j for j in arg.getGenerator( ) ][ int( fneg( i ) ) : ] )
 
-        return result
+    if len( result ) == 1:
+        return result[ 0 ]
     else:
-        return len( args )
+        return result
 
 
 # //******************************************************************************
@@ -406,36 +396,32 @@ def countElements( args ):
 # //
 # //******************************************************************************
 
-def getListDiffs( args ):
-    result = [ ]
+def getListDiffs( arg ):
+    old = None
 
-    for i in range( 0, len( args ) ):
-        if isinstance( args[ i ], list ):
-            result.append( getListDiffs( args[ i ] ) )
-        else:
-            if i < len( args ) - 1:
-                result.append( fsub( args[ i + 1 ], args[ i ] ) )
+    for i in arg.getGenerator( ):
+        if old is not None:
+            yield( fsub( i, old ) )
 
-    return result
+        old = i
 
 
 # //******************************************************************************
 # //
-# //  getListDiffsFromFirst
+# //  getCumulativeListDiffs
 # //
 # //******************************************************************************
 
-def getListDiffsFromFirst( args ):
+def getCumulativeListDiffs( arg ):
     result = [ ]
 
-    for i in range( 0, len( args ) ):
-        if isinstance( args[ i ], list ):
-            result.append( getListDiffsFromFirst( args[ i ] ) )
-        else:
-            if i < len( args ) - 1:
-                result.append( fsub( args[ i + 1 ], args[ 0 ] ) )
+    first = None
 
-    return result
+    for i in arg.getGenerator( ):
+        if first is None:
+            first = i
+        else:
+            yield fsub( i, first )
 
 
 # //******************************************************************************
@@ -445,16 +431,31 @@ def getListDiffsFromFirst( args ):
 # //******************************************************************************
 
 def getListRatios( args ):
+    old = None
+
+    for i in arg.getGenerator( ):
+        if old is not None:
+            yield( fdiv( i, old ) )
+
+        old = i
+
+
+# //******************************************************************************
+# //
+# //  getCumulativeListRatios
+# //
+# //******************************************************************************
+
+def getCumulativeListRatios( arg ):
     result = [ ]
 
-    for i in range( 0, len( args ) ):
-        if isinstance( args[ i ], list ):
-            result.append( getListRatios( args[ i ] ) )
-        else:
-            if i < len( args ) - 1:
-                result.append( fdiv( args[ i + 1 ], args[ i ] ) )
+    first = None
 
-    return result
+    for i in arg.getGenerator( ):
+        if first is None:
+            first = i
+        else:
+            yield fdiv( i, first )
 
 
 # //******************************************************************************
@@ -464,7 +465,7 @@ def getListRatios( args ):
 # //******************************************************************************
 
 def getReverse( args ):
-    return [ arg for arg in reversed( args ) ]
+    return [ i for i in reversed( [ j for j in args.getGenerator( ) ] ) ]
 
 
 # //******************************************************************************
@@ -474,13 +475,19 @@ def getReverse( args ):
 # //******************************************************************************
 
 def shuffleList( args ):
+    if not isinstance( args, list ):
+        return args
+
     if isinstance( args[ 0 ], list ):
+        result = [ ]
+
         for i in range( 0, len( args ) ):
             result.append( shuffleList( args[ i ] ) )
+
+        return result
     else:
         result = args[ : ]
         random.shuffle( result )
-
         return result
 
 
@@ -491,23 +498,7 @@ def shuffleList( args ):
 # //******************************************************************************
 
 def getUniqueElements( args ):
-    result = [ ]
-
-    if isinstance( args[ 0 ], list ):
-        for i in range( 0, len( args ) ):
-            result.append( getUniqueElements( args[ i ] ) )
-    else:
-        seen = set( )
-
-        for i in range( 0, len( args ) ):
-            seen.add( args[ i ] )
-
-        result = [ ]
-
-        for i in seen:
-            result.append( i )
-
-    return result
+    return list( set( args ) )
 
 
 # //******************************************************************************
@@ -554,7 +545,7 @@ def sortDescending( args ):
 
 def calculatePowerTower( args ):
     if isinstance( args[ 0 ], list ):
-        return [ calculatePowerTower2( arg ) for arg in args ]
+        return [ calculatePowerTower( arg ) for arg in args ]
 
     result = args[ 0 ]
 
@@ -572,11 +563,9 @@ def calculatePowerTower( args ):
 
 def calculatePowerTower2( args ):
     if isinstance( args[ 0 ], list ):
-        return [ calculatePowerTower( arg ) for arg in args ]
+        return [ calculatePowerTower2( arg ) for arg in args ]
 
     result = args[ -1 ]
-
-    print( args[ -2 : : -1 ] )
 
     for i in args[ -2 : : -1 ]:
         result = power( i, result )
@@ -586,68 +575,17 @@ def calculatePowerTower2( args ):
 
 # //******************************************************************************
 # //
-# //  getAlternatingSum
-# //
-# //******************************************************************************
-
-def getAlternatingSum( args ):
-    if isinstance( args[ 0 ], list ):
-        return [ getAlternatingSum( arg ) for arg in args ]
-
-    for i in range( 1, len( args ), 2 ):
-        args[ i ] = fneg( args[ i ] )
-
-    return fsum( args )
-
-
-# //******************************************************************************
-# //
-# //  getAlternatingSum2
-# //
-# //******************************************************************************
-
-def getAlternatingSum2( args ):
-    if isinstance( args[ 0 ], list ):
-        return [ getAlternatingSum2( arg ) for arg in args ]
-
-    for i in range( 0, len( args ), 2 ):
-        args[ i ] = fneg( args[ i ] )
-
-    return fsum( args )
-
-
-# //******************************************************************************
-# //
 # //  getSum
 # //
 # //******************************************************************************
 
 def getSum( n ):
-    hasUnits = False
+    result = 0
 
-    for item in n:
-        if isinstance( item, RPNMeasurement ):
-            hasUnits = True
-            break
+    for i in n.getGenerator( ):
+        result = fadd( result, i )
 
-    if hasUnits:
-        result = RPNMeasurement( 0, { } )
-
-        for item in n:
-            if isinstance( item, list ):
-                return [ getSum( arg ) for arg in item ]
-
-            result = result.add( item )
-
-        return result
-    else:
-        if len( n ) == 0:
-            return 0
-
-        if isinstance( n[ 0 ], list ):
-            return [ getSum( item ) for item in n ]
-        else:
-            return fsum( n )
+    return result
 
 
 # //******************************************************************************
@@ -657,6 +595,11 @@ def getSum( n ):
 # //******************************************************************************
 
 def getProduct( n ):
+    if len( n ) == 0:
+        return 0
+    elif len( n ) == 1:
+        return n[ 0 ]
+
     hasUnits = False
 
     for item in n:
@@ -744,11 +687,11 @@ def calculateGeometricMean( args ):
 
 # //******************************************************************************
 # //
-# //  calculateMean
+# //  calculateArithmeticMean
 # //
 # //******************************************************************************
 
-def calculateMean( args ):
+def calculateArithmeticMean( args ):
     if isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
             return [ calculateMean( arg ) for arg in args ]
@@ -765,13 +708,7 @@ def calculateMean( args ):
 # //******************************************************************************
 
 def getMax( args ):
-    if isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ getMax( arg ) for arg in args ]
-        else:
-            return max( args )
-    else:
-        return args
+    return max( list( args ) )
 
 
 # //******************************************************************************
@@ -781,14 +718,7 @@ def getMax( args ):
 # //******************************************************************************
 
 def getMin( args ):
-    if isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ getMin( arg ) for arg in args ]
-        else:
-            return min( args )
-    else:
-        return args
-
+    return min( list( args ) )
 
 # //******************************************************************************
 # //
@@ -886,6 +816,9 @@ def flatten( value ):
 
     if isinstance( value, list ):
         for item in value:
+            result.extend( flatten( item ) )
+    elif isinstance( value, RPNGenerator ):
+        for item in value.getGenerator( ):
             result.extend( flatten( item ) )
     else:
         result.append( value )

@@ -947,6 +947,16 @@ Added the 'cone_volume', 'cone_area', 'torus_volume' and 'torus_area',
 
 Added the 'planck_constant' and 'reduced_planck_constant' operators... finally.
 
+Added support for expressions that are generators instead of lists.  This
+allows for lazy evaluation of large lists and avoids creating them entirely in
+memory unnecessarily.
+
+The following command:
+
+    rpn -t 1 10000 2 range2 2 10000 2 range2 union
+
+now runs about 60 times faster.
+
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
 
@@ -1609,6 +1619,25 @@ c:\>rpn miles hour / furlongs fortnight / convert
 '''
 ''',
 '''
+''' ],
+
+    'geometric_mean' : [
+'arithmetic', 'calculates the geometric mean of a a list of numbers n',
+'''
+The geometric mean is calculated by taking the kth root of the product of k
+values.
+''',
+'''
+c:\>rpn [ 1 2 ] geometric_mean
+1.41421356237
+
+c:\>rpn [ 1 10 range ] geometric_mean
+[ 4.52872868812 ]
+
+Calculate the geometric mean of the first n numbers from 1 to 5:
+
+c:\>rpn [ 1 1 5 range range ] geometric_mean
+[ [ 1, 1.41421356237, 1.81712059283, 2.2133638394, 2.6051710847 ] ]
 ''' ],
 
     'is_divisible' : [
@@ -5574,25 +5603,6 @@ c:\>rpn 2 2 10 exponential_range
 '''
 ''' ],
 
-    'geometric_mean' : [
-'list_operators', 'calculates the geometric mean of a a list of numbers n',
-'''
-The geometric mean is calculated by taking the kth root of the product of k
-values.
-''',
-'''
-c:\>rpn [ 1 2 ] geometric_mean
-1.41421356237
-
-c:\>rpn [ 1 10 range ] geometric_mean
-[ 4.52872868812 ]
-
-Calculate the geometric mean of the first n numbers from 1 to 5:
-
-c:\>rpn [ 1 1 5 range range ] geometric_mean
-[ [ 1, 1.41421356237, 1.81712059283, 2.2133638394, 2.6051710847 ] ]
-''' ],
-
     'geometric_range' : [
 'list_operators', 'generates a list of geometric progression of numbers',
 '''
@@ -5768,6 +5778,14 @@ c:\>rpn 5 6 debruijn occurrences
 'list_operators', 'returns a list with the ratios between successive elements of list n',
 '''
 This operator is analogous to the 'diffs' operator.
+''',
+'''
+''' ],
+
+    'ratios2' : [
+'list_operators', 'returns a list with the ratios between each element of n and the first',
+'''
+This operator is analogous to the 'diffs2' operator.
 ''',
 '''
 ''' ],

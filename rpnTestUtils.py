@@ -15,6 +15,7 @@
 import shlex
 
 from rpn import rpn, handleOutput
+from rpnList import RPNGenerator
 
 from mpmath import *
 
@@ -29,6 +30,12 @@ from mpmath import *
 # //******************************************************************************
 
 def compareResults( result1, result2 ):
+    if isinstance( result1, RPNGenerator ):
+        return compareResults( [ i for i in result1.getGenerator( ) ], result2 )
+
+    if isinstance( result2, RPNGenerator ):
+        return compareResults( result1, [ i for i in result2.getGenerator( ) ] )
+
     if isinstance( result1, list ) != isinstance( result2, list ):
         print( '**** error in results comparison' )
         print( '    result 1: ', result1 )

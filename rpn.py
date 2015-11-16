@@ -98,7 +98,7 @@ def handleOutput( valueList ):
     if valueList is None:
         return
 
-    if isinstance( valueList[ 0 ], FunctionInfo ):
+    if isinstance( valueList[ 0 ], RPNFunctionInfo ):
         print( 'rpn:  unexpected end of input in function definition' )
     elif len( valueList ) > 1 or len( valueList ) == 0:
         print( 'rpn:  unexpected end of input' )
@@ -113,7 +113,9 @@ def handleOutput( valueList ):
         else:
             g.integerDelimiter = ' '
 
-        if isinstance( result, list ):
+        if isinstance( result, RPNGenerator ):
+            print( formatListOutput( result.getGenerator( ) ) )
+        elif isinstance( result, list ):
             print( formatListOutput( result ) )
         else:
             if isinstance( result, arrow.Arrow ):

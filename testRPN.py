@@ -1579,16 +1579,19 @@ def runListOperatorTests( ):
     testOperator( '1 23 2 range2' )
 
     # ratios
-    testOperator( '1 10 range ratios' )
+    testOperator( '1 10 range fib ratios' )
+
+    # ratios2
+    testOperator( '1 10 range fib ratios2' )
 
     # reduce
     testOperator( '[ 4 8 12 ] reduce' )
 
     # reverse
     testOperator( '1 10 range reverse' )
-    testOperator( '1 2 10 range range reverse' )
-    testOperator( '1 2 10 range reverse range reverse' )
-    testOperator( '1 2 10 range reverse range' )
+    #testOperator( '1 2 10 range range reverse' )
+    #testOperator( '1 2 10 range reverse range reverse' )
+    #testOperator( '1 2 10 range reverse range' )
 
     # right
     expectEqual( '1 10 range 5 right', '6 10 range' )
