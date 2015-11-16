@@ -99,6 +99,7 @@ operatorAliases = {
     'arg'                       : 'argument',
     'args'                      : 'arguments',
     'arithmean'                 : 'mean',
+    'arithmetic_mean'           : 'mean',
     'ashwed'                    : 'ash_wednesday',
     'ashwednesday'              : 'ash_wednesday',
     'ash_wed'                   : 'ash_wednesday',
