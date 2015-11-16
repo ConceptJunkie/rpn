@@ -172,8 +172,9 @@ def saveResult( result ):
 
     fileName = g.dataPath + os.sep + 'result.pckl.bz2'
 
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
-            pickle.dump( result, pickleFile )
+    # TODO:  handle RPNGenerator and RPNMeasurement
+    #with DelayedKeyboardInterrupt( ):
+    #    with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
+    #        pickle.dump( result, pickleFile )
 
 
