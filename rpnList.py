@@ -460,6 +460,9 @@ def getSum( n ):
 # //******************************************************************************
 
 def getProduct( n ):
+    if isinstance( n, RPNGenerator ):
+        return getProduct( list( n ) )
+
     if len( n ) == 0:
         return 0
     elif len( n ) == 1:
@@ -499,6 +502,9 @@ def getProduct( n ):
 # //******************************************************************************
 
 def getStandardDeviation( args ):
+    if isinstance( args, RPNGenerator ):
+        return getStandardDeviation( list( args ) )
+
     if isinstance( args[ 0 ], list ):
         return [ getStandardDeviation( arg ) for arg in args ]
 
@@ -518,7 +524,9 @@ def getStandardDeviation( args ):
 # //******************************************************************************
 
 def reduceList( args ):
-    if isinstance( args, list ):
+    if isinstance( args, RPNGenerator ):
+        return reduceList( list( args ) )
+    elif isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
             return [ reduceList( arg ) for arg in args ]
         else:
@@ -541,7 +549,9 @@ def reduceList( args ):
 # //******************************************************************************
 
 def calculateGeometricMean( args ):
-    if isinstance( args, list ):
+    if isinstance( args, RPNGenerator ):
+        return calculateGeometricMean( list( args ) )
+    elif isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
             return [ calculateGeometricMean( arg ) for arg in args ]
         else:
@@ -557,7 +567,9 @@ def calculateGeometricMean( args ):
 # //******************************************************************************
 
 def calculateArithmeticMean( args ):
-    if isinstance( args, list ):
+    if isinstance( args, RPNGenerator ):
+        return calculateArithmeticMean( list( args ) )
+    elif isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
             return [ calculateMean( arg ) for arg in args ]
         else:
@@ -573,7 +585,10 @@ def calculateArithmeticMean( args ):
 # //******************************************************************************
 
 def getMax( args ):
-    return max( list( args ) )
+    if isinstance( args, RPNGenerator ):
+        return getMax( list( args ) )
+    else:
+        return max( args )
 
 
 # //******************************************************************************
@@ -583,7 +598,11 @@ def getMax( args ):
 # //******************************************************************************
 
 def getMin( args ):
-    return min( list( args ) )
+    if isinstance( args, RPNGenerator ):
+        return getMin( list( args ) )
+    else:
+        return min( args )
+
 
 # //******************************************************************************
 # //
@@ -592,7 +611,9 @@ def getMin( args ):
 # //******************************************************************************
 
 def getZeroes( args ):
-    if isinstance( args, list ):
+    if isinstance( args, RPNGenerator ):
+        return [ index for index, e in enumerate( args.getGenerator( ) ) if e == 0 ]
+    elif isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
             return [ getZeroes( arg ) for arg in args ]
         else:
@@ -608,7 +629,9 @@ def getZeroes( args ):
 # //******************************************************************************
 
 def getNonzeroes( args ):
-    if isinstance( args, list ):
+    if isinstance( args, RPNGenerator ):
+        return [ index for index, e in enumerate( args.getGenerator( ) ) if e != 0 ]
+    elif isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
             return [ getNonzeroes( arg ) for arg in args ]
         else:
@@ -626,8 +649,7 @@ def getNonzeroes( args ):
 def groupElements( args, count ):
     if isinstance( count, list ):
         return [ groupElements( args, i ) for i in count ]
-
-    if isinstance( args, list ):
+    elif isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
             return [ groupElements( args, count ) for arg in args ]
         else:

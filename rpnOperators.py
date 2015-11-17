@@ -264,15 +264,11 @@ def evaluateTwoArgFunction( func, _arg1, _arg2 ):
             list1 = True
 
         generator1 = False
-        print( 'list1' )
     else:
         arg1 = _arg1
         list1 = False
 
-    if isinstance( arg1, RPNGenerator ):
-        generator1 = True
-    else:
-        generator1 = False
+    generator1 = isinstance( arg1, RPNGenerator )
 
     if isinstance( _arg2, list ):
         len2 = len( _arg2 )
@@ -285,23 +281,19 @@ def evaluateTwoArgFunction( func, _arg1, _arg2 ):
             list2 = True
 
         generator2 = False
-        print( 'list2' )
     else:
         arg2 = _arg2
         list2 = False
 
-    if isinstance( arg2, RPNGenerator ):
-        generator2 = True
-    else:
-        generator2 = False
+    generator2 = isinstance( arg2, RPNGenerator )
 
     if generator1:
         if generator2:
             return [ i for i in itertools.map( func, [ arg1.getGenerator( ), arg2.getGenerator( ) ] ) ]
         else:
-            return [ func( i, arg2 ) for i in arg1.getGenerator( ) ]
+            return [ evaluateTwoArgFunction( func, i, arg2 ) for i in arg1.getGenerator( ) ]
     elif generator2:
-        return [ func( arg1, i ) for i in arg2.getGenerator( ) ]
+        return [ evaluateTwoArgFunction( func, arg1, i ) for i in arg2.getGenerator( ) ]
 
     if list1:
         if list2:

@@ -20,6 +20,7 @@ from functools import reduce
 from mpmath import *
 
 from rpnFactor import getECMFactors
+from rpnGenerator import RPNGenerator
 from rpnUtils import real, real_int
 
 import rpnGlobals as g
@@ -682,7 +683,9 @@ def getExtendedGCD( a, b ):
 # //******************************************************************************
 
 def getLCM( args ):
-    if isinstance( args, list ):
+    if isinstance( args, RPNGenerator ):
+        return getLCM( list( args ) )
+    elif isinstance( args, list ):
         if isinstance( args[ 0 ], list ):
             return [ getLCM( arg ) for arg in args ]
         else:
