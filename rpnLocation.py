@@ -20,6 +20,7 @@ import os
 
 from mpmath import *
 
+from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 from rpnOutput import convertToBaseN
 
@@ -209,7 +210,9 @@ def getDistance( location1, location2 ):
 # //******************************************************************************
 
 def convertLatLongToNAC( args ):
-    if not isinstance( args, list ):
+    if isinstance( args, RPNGenerator ):
+        return convertLatLongToNAC( list( args ) )
+    elif not isinstance( args, list ):
         args = [ args, 0 ]
     elif len( args ) > 0 and isinstance( args[ 0 ], list ):
         return [ convertLatLongToNAC( i ) for i in args ]

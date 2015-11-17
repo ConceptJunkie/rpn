@@ -556,6 +556,9 @@ def plotComplexFunction( start1, end1, start2, end2, func ):
 # //******************************************************************************
 
 def filterList( n, k, invert = False ):
+    if isinstance( n, mpf ):
+        n = [ n ]
+
     if not isinstance( k, RPNFunctionInfo ):
         if invert:
             raise ValueError( '\'unfilter\' expects a function argument' )
@@ -580,7 +583,7 @@ def filterList( n, k, invert = False ):
 # //******************************************************************************
 
 def filterListByIndex( n, k, invert = False ):
-    if not isinstance( n, list ):
+    if isinstance( n, mpf ):
         n = [ n ]
 
     if not isinstance( k, RPNFunctionInfo ):

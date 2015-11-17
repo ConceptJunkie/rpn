@@ -16,6 +16,7 @@ import string
 
 from mpmath import *
 
+from rpnGenerator import RPNGenerator
 from rpnUtils import real, real_int
 
 
@@ -114,23 +115,22 @@ def addDigits( n, k ):
 # //******************************************************************************
 
 def combineDigits( n ):
-    if isinstance( n, list ):
-        if isinstance( n[ 0 ], list ):
-            return [ combineDigits( i ) for i in n ]
-        else:
-            result = 0
-
-            for i in n:
-                if im( i ) != 0:
-                    raise ValueError( "'combine_digits' requires a list of real values" )
-                elif i < 0:
-                    raise ValueError( "'combine_digits' requires a list of non-negative integers" )
-                else:
-                    result = addDigits( result, i )
-
-            return result
-    else:
+    if isinstance( n, mpf ):
         return n
+    elif isinstance( n, RPNGenerator ):
+        result = 0
+
+        for i in n.getGenerator( ):
+            result = addDigits( result, real_int( i ) )
+
+        return result
+    else:
+        result = 0
+
+        for i in n:
+            result = addDigits( result, real_int( i ) )
+
+        return result
 
 
 # //******************************************************************************

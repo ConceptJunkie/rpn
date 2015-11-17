@@ -17,6 +17,8 @@ import calendar
 import datetime
 
 from dateutil import tz
+
+from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement, convertUnits
 from rpnUtils import real, real_int
 
@@ -259,7 +261,9 @@ def convertToYDHMS( n ):
 # //******************************************************************************
 
 def makeJulianTime( n ):
-    if len( n ) == 1:
+    if isinstance( n, RPNGenerator ):
+        return makeJulianTime( list( n ) )
+    elif len( n ) == 1:
         return RPNDateTime( n[ 0 ], 1, 1 )
 
     result = RPNDateTime( n[ 0 ], 1, 1 ).add( RPNMeasurement( n[ 1 ] - 1, 'day' ) )
@@ -286,7 +290,9 @@ def makeJulianTime( n ):
 # //******************************************************************************
 
 def makeISOTime( n ):
-    if len( n ) == 1:
+    if isinstance( n, RPNGenerator ):
+        return makeISOTime( list( n ) )
+    elif len( n ) == 1:
         year = n[ 0 ]
         week = 1
         day = 1
@@ -314,7 +320,9 @@ def makeISOTime( n ):
 # //******************************************************************************
 
 def makeTime( n ):
-    if isinstance( n, str ):
+    if isinstance( n, RPNGenerator ):
+        return makeTime( list( n ) )
+    elif isinstance( n, str ):
         return RPNDateTime.get( n )
 
     if len( n ) == 1:

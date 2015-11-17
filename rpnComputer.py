@@ -16,6 +16,7 @@ import struct
 
 from mpmath import *
 
+from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 from rpnUtils import real_int
 
@@ -147,10 +148,14 @@ def getBitCount( n ):
 # //******************************************************************************
 
 def unpackInteger( n, fields ):
-    if isinstance( n, list ):
+    if isinstance( n, RPNGenerator ):
+        return unpackInteger( list( n ), fields )
+    elif isinstance( n, list ):
         return [ unpackInteger( i, fields ) for i in n ]
 
-    if not isinstance( fields, list ):
+    if isinstance( fields, RPNGenerator ):
+        return unpackInteger( n, list( fields ) )
+    elif not isinstance( fields, list ):
         return unpackInteger( n, [ fields ] )
 
     value = real_int( n )
@@ -171,10 +176,14 @@ def unpackInteger( n, fields ):
 # //******************************************************************************
 
 def packInteger( values, fields ):
-    if not isinstance( values, list ):
+    if isinstance( values, RPNGenerator ):
+        return packInteger( list( values ), fields )
+    elif not isinstance( values, list ):
         return unpackInteger( [ values ], fields )
 
-    if not isinstance( fields, list ):
+    if isinstance( fields, RPNGenerator ):
+        return packInteger( values, list( fields ) )
+    elif not isinstance( fields, list ):
         return unpackInteger( values, [ fields ] )
 
     if isinstance( values[ 0 ], list ):
