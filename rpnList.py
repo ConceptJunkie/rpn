@@ -79,12 +79,14 @@ def appendLists( arg1, arg2 ):
 # //******************************************************************************
 
 def countElements( arg ):
-    if arg.getCount( ) > -1:
+    if isinstance( arg, list ):
+        return len( arg )
+    elif isinstance( arg, RPNGenerator ) and arg.getCount( ) > -1:
         return arg.getCount( )
 
     count = 0
 
-    for i in arg.getGenerator( ):
+    for i in arg:
         count += 1
 
     return count
@@ -447,7 +449,7 @@ def calculatePowerTower2( args ):
 def getSum( n ):
     result = 0
 
-    for i in n.getGenerator( ):
+    for i in n:
         result = fadd( result, i )
 
     return result
@@ -552,8 +554,8 @@ def calculateGeometricMean( args ):
     if isinstance( args, RPNGenerator ):
         return calculateGeometricMean( list( args ) )
     elif isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ calculateGeometricMean( arg ) for arg in args ]
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+            return [ calculateGeometricMean( list( arg ) ) for arg in args ]
         else:
             return root( fprod( args ), len( args ) )
     else:
@@ -570,38 +572,12 @@ def calculateArithmeticMean( args ):
     if isinstance( args, RPNGenerator ):
         return calculateArithmeticMean( list( args ) )
     elif isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ calculateMean( arg ) for arg in args ]
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+            return [ calculateGeometricMean( list( arg ) ) for arg in args ]
         else:
             return fdiv( fsum( args ), len( args ) )
     else:
         return args
-
-
-# //******************************************************************************
-# //
-# //  getMax
-# //
-# //******************************************************************************
-
-def getMax( args ):
-    if isinstance( args, RPNGenerator ):
-        return getMax( list( args ) )
-    else:
-        return max( args )
-
-
-# //******************************************************************************
-# //
-# //  getMin
-# //
-# //******************************************************************************
-
-def getMin( args ):
-    if isinstance( args, RPNGenerator ):
-        return getMin( list( args ) )
-    else:
-        return min( args )
 
 
 # //******************************************************************************
@@ -699,16 +675,13 @@ def getOccurrences( args ):
 # //******************************************************************************
 
 def flatten( value ):
-    result = [ ]
+    if isinstance( value, ( list, RPNGenerator ) ):
+        result = [ ]
 
-    if isinstance( value, list ):
         for item in value:
             result.extend( flatten( item ) )
-    elif isinstance( value, RPNGenerator ):
-        for item in value.getGenerator( ):
-            result.extend( flatten( item ) )
-    else:
-        result.append( value )
 
-    return result
+        return result
+    else:
+        return [ value ]
 

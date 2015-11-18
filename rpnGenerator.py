@@ -35,7 +35,10 @@ class RPNGenerator( ):
         return self.count
 
     def __iter__( self ):
-        return self.getGenerator( )
+        return self.generator
+
+    def __next__( self ):
+        return self.generator.__next__( )
 
     def __getitem__( self, index ):
         return next( itertools.islice( self.generator, index, index + 1 ) )

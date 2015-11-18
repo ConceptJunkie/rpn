@@ -17,9 +17,10 @@ from __future__ import print_function
 import itertools
 import struct
 
-from mpmath import *
-
+from enum import Enum
 from random import randrange
+
+from mpmath import *
 
 from rpnAliases import dumpAliases
 
@@ -50,6 +51,12 @@ from rpnUtils import *
 import rpnGlobals as g
 
 
+class OperatorType( Enum ):
+    Normal = 0,                 # any normal operator
+    List = 1,                   # a list operator that prefers list arguments
+    Generator = 2               # a list operator that expects a generator argument
+
+
 # //******************************************************************************
 # //
 # //  class OperatorInfo
@@ -57,9 +64,10 @@ import rpnGlobals as g
 # //******************************************************************************
 
 class OperatorInfo( ):
-    def __init__( self, function, argCount = 0 ):
+    def __init__( self, function, argCount, operatorType = OperatorType.Normal ):
         self.function = function
         self.argCount = argCount
+        self.type = operatorType
 
 
 # //******************************************************************************
@@ -154,6 +162,58 @@ def evaluateOperator( term, index, currentValueList ):
 
 # //******************************************************************************
 # //
+# //  handleOneArgListOperator
+# //
+# //******************************************************************************
+
+def handleOneArgListOperator( func, args, currentValueList ):
+    recursive = False
+
+    if isinstance( args, RPNGenerator ):
+        args = list( args )
+
+    if isinstance( args, list ):
+        for arg in args:
+            if isinstance( arg, ( list, RPNGenerator ) ):
+                recursive = True
+                break
+
+    if not isinstance( args, list ):
+        currentValueList.append( func( [ args ] ) )
+    elif recursive:
+        currentValueList.append( [ func( arg ) for arg in args ] )
+    else:
+        currentValueList.append( func( args ) )
+
+
+# //******************************************************************************
+# //
+# //  handleOneArgGeneratorOperator
+# //
+# //******************************************************************************
+
+def handleOneArgGeneratorOperator( func, args, currentValueList ):
+    recursive = False
+
+    if isinstance( args, list ):
+        args = RPNGenerator.create( args )
+
+    #if isinstance( args, RPNGenerator ):
+    #    for arg in args:
+    #        if isinstance( arg, ( list, RPNGenerator ) ):
+    #            recursive = True
+    #            break
+
+    if not isinstance( args, RPNGenerator ):
+        currentValueList.append( func( RPNGenerator.create( ) ) )
+    elif recursive:
+        currentValueList.append( [ func( arg ) for arg in args ] )
+    else:
+        currentValueList.append( func( args ) )
+
+
+# //******************************************************************************
+# //
 # //  evaluateListOperator
 # //
 # //******************************************************************************
@@ -162,6 +222,7 @@ def evaluateListOperator( term, index, currentValueList ):
     # handle a list operator
     operatorInfo = listOperators[ term ]
     argsNeeded = operatorInfo.argCount
+    operatorType = operatorInfo.type
 
     # first we validate, and make sure the operator has enough arguments
     if len( currentValueList ) < argsNeeded:
@@ -171,7 +232,14 @@ def evaluateListOperator( term, index, currentValueList ):
     # handle the call depending on the number of arguments needed
     if argsNeeded == 0:
         currentValueList.append( operatorInfo.function( currentValueList ) )
-    else:
+    elif argsNeeded == 1:
+        args = currentValueList.pop( )
+
+        if operatorType == OperatorType.Generator:
+            handleOneArgGeneratorOperator( operatorInfo.function, args, currentValueList )
+        else:
+            handleOneArgListOperator( operatorInfo.function, args, currentValueList )
+    else:    # TODO goobles, can we do this intelligently?!
         listArgs = [ ]
 
         for i in range( 0, argsNeeded ):
@@ -900,18 +968,18 @@ sideEffectOperators = [
 # //******************************************************************************
 
 modifiers = {
-    'dup_term'          : OperatorInfo( duplicateTerm ),
-    'dup_operator'      : OperatorInfo( duplicateOperation ),
-    'previous'          : OperatorInfo( getPrevious ),
-    'unlist'            : OperatorInfo( unlist ),
-    'use_members'       : OperatorInfo( handleUseMembersOperator ),
-    'x'                 : OperatorInfo( createXFunction ),
-    'y'                 : OperatorInfo( createYFunction ),
-    'z'                 : OperatorInfo( createZFunction ),
-    '['                 : OperatorInfo( incrementNestedListLevel ),
-    ']'                 : OperatorInfo( decrementNestedListLevel ),
-    '{'                 : OperatorInfo( startOperatorList ),
-    '}'                 : OperatorInfo( endOperatorList ),
+    'dup_term'          : OperatorInfo( duplicateTerm, 0 ),
+    'dup_operator'      : OperatorInfo( duplicateOperation, 0 ),
+    'previous'          : OperatorInfo( getPrevious, 0 ),
+    'unlist'            : OperatorInfo( unlist, 0 ),
+    'use_members'       : OperatorInfo( handleUseMembersOperator, 0 ),
+    'x'                 : OperatorInfo( createXFunction, 0 ),
+    'y'                 : OperatorInfo( createYFunction, 0 ),
+    'z'                 : OperatorInfo( createZFunction, 0 ),
+    '['                 : OperatorInfo( incrementNestedListLevel, 0 ),
+    ']'                 : OperatorInfo( decrementNestedListLevel, 0 ),
+    '{'                 : OperatorInfo( startOperatorList, 0 ),
+    '}'                 : OperatorInfo( endOperatorList, 0 ),
 }
 
 
@@ -927,88 +995,88 @@ modifiers = {
 
 listOperators = {
     # algebra
-    'add_polynomials'       : OperatorInfo( addPolynomials, 2 ),
-    'eval_polynomial'       : OperatorInfo( evaluatePolynomial, 2 ),
-    'multiply_polynomials'  : OperatorInfo( multiplyPolynomials, 2 ),
-    'polynomial_power'      : OperatorInfo( exponentiatePolynomial, 2 ),
-    'polynomial_product'    : OperatorInfo( multiplyListOfPolynomials, 1 ),
-    'polynomial_sum'        : OperatorInfo( addListOfPolynomials, 1 ),
-    'solve'                 : OperatorInfo( solvePolynomial, 1 ),
+    'add_polynomials'       : OperatorInfo( addPolynomials, 2, OperatorType.List ),
+    'eval_polynomial'       : OperatorInfo( evaluatePolynomial, 2, OperatorType.List ),
+    'multiply_polynomials'  : OperatorInfo( multiplyPolynomials, 2, OperatorType.List ),
+    'polynomial_power'      : OperatorInfo( exponentiatePolynomial, 2, OperatorType.List ),
+    'polynomial_product'    : OperatorInfo( multiplyListOfPolynomials, 1, OperatorType.List ),
+    'polynomial_sum'        : OperatorInfo( addListOfPolynomials, 1, OperatorType.List ),
+    'solve'                 : OperatorInfo( solvePolynomial, 1, OperatorType.List ),
 
     # arithmetic
-    'gcd'                   : OperatorInfo( getGCD, 1 ),
-    'lcm'                   : OperatorInfo( getLCM, 1 ),
-    'max'                   : OperatorInfo( getMax, 1 ),
-    'mean'                  : OperatorInfo( calculateArithmeticMean, 1 ),
-    'geometric_mean'        : OperatorInfo( calculateGeometricMean, 1 ),
-    'min'                   : OperatorInfo( getMin, 1 ),
-    'product'               : OperatorInfo( getProduct, 1 ),
-    'stddev'                : OperatorInfo( getStandardDeviation, 1 ),
-    'sum'                   : OperatorInfo( getSum, 1 ),
+    'gcd'                   : OperatorInfo( getGCD, 1, OperatorType.List ),
+    'lcm'                   : OperatorInfo( getLCM, 1, OperatorType.List ),
+    'max'                   : OperatorInfo( max, 1, OperatorType.List ),
+    'mean'                  : OperatorInfo( calculateArithmeticMean, 1, OperatorType.List ),
+    'geometric_mean'        : OperatorInfo( calculateGeometricMean, 1, OperatorType.List ),
+    'min'                   : OperatorInfo( min, 1, OperatorType.List ),
+    'product'               : OperatorInfo( getProduct, 1, OperatorType.List ),
+    'stddev'                : OperatorInfo( getStandardDeviation, 1, OperatorType.List ),
+    'sum'                   : OperatorInfo( getSum, 1, OperatorType.List ),
 
     # conversion
-    'convert'               : OperatorInfo( convertUnits, 2 ),   # list arguments are special
-    'latlong_to_nac'        : OperatorInfo( convertLatLongToNAC, 1 ),
-    'make_time'             : OperatorInfo( makeTime, 1 ),
-    'unpack'                : OperatorInfo( unpackInteger, 2 ),
-    'pack'                  : OperatorInfo( packInteger, 2 ),
+    'convert'               : OperatorInfo( convertUnits, 2, OperatorType.List ),   # list arguments are special
+    'latlong_to_nac'        : OperatorInfo( convertLatLongToNAC, 1, OperatorType.List ),
+    'make_time'             : OperatorInfo( makeTime, 1, OperatorType.List ),
+    'unpack'                : OperatorInfo( unpackInteger, 2, OperatorType.List ),
+    'pack'                  : OperatorInfo( packInteger, 2, OperatorType.List ),
 
     # date_time
-    'make_iso_time'         : OperatorInfo( makeISOTime, 1 ),
-    'make_julian_time'      : OperatorInfo( makeJulianTime, 1 ),
+    'make_iso_time'         : OperatorInfo( makeISOTime, 1, OperatorType.List ),
+    'make_julian_time'      : OperatorInfo( makeJulianTime, 1, OperatorType.List ),
 
     # function
-    'filter'                : OperatorInfo( filterList, 2 ),
-    'filter_by_index'       : OperatorInfo( filterListByIndex, 2 ),
-    'unfilter'              : OperatorInfo( lambda n, k: filterList( n, k, True ), 2 ),
-    'unfilter_by_index'     : OperatorInfo( lambda n, k: filterListByIndex( n, k, True ), 2 ),
+    'filter'                : OperatorInfo( filterList, 2, OperatorType.List ),
+    'filter_by_index'       : OperatorInfo( filterListByIndex, 2, OperatorType.List ),
+    'unfilter'              : OperatorInfo( lambda n, k: filterList( n, k, True ), 2, OperatorType.List ),
+    'unfilter_by_index'     : OperatorInfo( lambda n, k: filterListByIndex( n, k, True ), 2, OperatorType.List ),
 
     # list
-    'alternate_signs'       : OperatorInfo( lambda n: RPNGenerator( alternateSigns( n, False ) ), 1 ),
-    'alternate_signs_2'     : OperatorInfo( lambda n: RPNGenerator( alternateSigns( n, True ) ), 1 ),
-    'alternating_sum'       : OperatorInfo( lambda n: getAlternatingSum( n, False ), 1 ),
-    'alternating_sum_2'     : OperatorInfo( lambda n: getAlternatingSum( n, False ), 1 ),
-    'append'                : OperatorInfo( appendLists, 2 ),
-    'count'                 : OperatorInfo( countElements, 1 ),
-    'diffs'                 : OperatorInfo( lambda n: RPNGenerator( getListDiffs( n ) ), 1 ),
-    'diffs2'                : OperatorInfo( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ), 1 ),
-    'element'               : OperatorInfo( getListElement, 2 ),
-    'flatten'               : OperatorInfo( flatten, 1 ),
-    'group_elements'        : OperatorInfo( groupElements, 2 ),
-    'interleave'            : OperatorInfo( interleave, 2 ),
-    'intersection'          : OperatorInfo( makeIntersection, 2 ),
-    'left'                  : OperatorInfo( getLeft, 2 ),
-    'max_index'             : OperatorInfo( getIndexOfMax, 1 ),
-    'min_index'             : OperatorInfo( getIndexOfMin, 1 ),
-    'nonzero'               : OperatorInfo( getNonzeroes, 1 ),
-    'occurrences'           : OperatorInfo( getOccurrences, 1 ),
-    'ratios'                : OperatorInfo( getListRatios, 1 ),
-    'ratios2'               : OperatorInfo( getCumulativeListRatios, 1 ),
-    'reduce'                : OperatorInfo( reduceList, 1 ),
-    'reverse'               : OperatorInfo( getReverse, 1 ),
-    'right'                 : OperatorInfo( getRight, 2 ),
-    'shuffle'               : OperatorInfo( shuffleList, 1 ),
-    'slice'                 : OperatorInfo( getSlice, 3 ),
-    'sort'                  : OperatorInfo( sortAscending, 1 ),
-    'sort_descending'       : OperatorInfo( sortDescending, 1 ),
-    'sublist'               : OperatorInfo( getSublist, 3 ),
-    'union'                 : OperatorInfo( makeUnion, 2 ),
-    'unique'                : OperatorInfo( getUniqueElements, 1 ),
-    'zero'                  : OperatorInfo( getZeroes, 1 ),
+    'alternate_signs'       : OperatorInfo( lambda n: RPNGenerator( alternateSigns( n, False ) ), 1, OperatorType.Generator ),
+    'alternate_signs_2'     : OperatorInfo( lambda n: RPNGenerator( alternateSigns( n, True ) ), 1, OperatorType.Generator ),
+    'alternating_sum'       : OperatorInfo( lambda n: getAlternatingSum( n, False ), 1, OperatorType.Generator ),
+    'alternating_sum_2'     : OperatorInfo( lambda n: getAlternatingSum( n, False ), 1, OperatorType.Generator ),
+    'append'                : OperatorInfo( appendLists, 2, OperatorType.List ),
+    'count'                 : OperatorInfo( countElements, 1, OperatorType.Generator ),
+    'diffs'                 : OperatorInfo( lambda n: RPNGenerator( getListDiffs( n ) ), 1, OperatorType.Generator ),
+    'diffs2'                : OperatorInfo( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ), 1, OperatorType.Generator ),
+    'element'               : OperatorInfo( getListElement, 2, OperatorType.List ),
+    'flatten'               : OperatorInfo( flatten, 1, OperatorType.List ),
+    'group_elements'        : OperatorInfo( groupElements, 2, OperatorType.List ),
+    'interleave'            : OperatorInfo( interleave, 2, OperatorType.List ),
+    'intersection'          : OperatorInfo( makeIntersection, 2, OperatorType.List ),
+    'left'                  : OperatorInfo( getLeft, 2, OperatorType.List ),
+    'max_index'             : OperatorInfo( getIndexOfMax, 1, OperatorType.List ),
+    'min_index'             : OperatorInfo( getIndexOfMin, 1, OperatorType.List ),
+    'nonzero'               : OperatorInfo( getNonzeroes, 1, OperatorType.List ),
+    'occurrences'           : OperatorInfo( getOccurrences, 1, OperatorType.List ),
+    'ratios'                : OperatorInfo( getListRatios, 1, OperatorType.List ),
+    'ratios2'               : OperatorInfo( getCumulativeListRatios, 1, OperatorType.List ),
+    'reduce'                : OperatorInfo( reduceList, 1, OperatorType.List ),
+    'reverse'               : OperatorInfo( getReverse, 1, OperatorType.List ),
+    'right'                 : OperatorInfo( getRight, 2, OperatorType.List ),
+    'shuffle'               : OperatorInfo( shuffleList, 1, OperatorType.List ),
+    'slice'                 : OperatorInfo( getSlice, 3, OperatorType.List ),
+    'sort'                  : OperatorInfo( sortAscending, 1, OperatorType.List ),
+    'sort_descending'       : OperatorInfo( sortDescending, 1, OperatorType.List ),
+    'sublist'               : OperatorInfo( getSublist, 3, OperatorType.List ),
+    'union'                 : OperatorInfo( makeUnion, 2, OperatorType.List ),
+    'unique'                : OperatorInfo( getUniqueElements, 1, OperatorType.List ),
+    'zero'                  : OperatorInfo( getZeroes, 1, OperatorType.List ),
 
     # number_theory
-    'base'                  : OperatorInfo( interpretAsBase, 2 ),
-    'cf'                    : OperatorInfo( convertFromContinuedFraction, 1 ),
-    'crt'                   : OperatorInfo( calculateChineseRemainderTheorem, 2 ),
-    'frobenius'             : OperatorInfo( getFrobeniusNumber, 1 ),
-    'linear_recurrence'     : OperatorInfo( getNthLinearRecurrence, 3 ),
+    'base'                  : OperatorInfo( interpretAsBase, 2, OperatorType.List ),
+    'cf'                    : OperatorInfo( convertFromContinuedFraction, 1, OperatorType.List ),
+    'crt'                   : OperatorInfo( calculateChineseRemainderTheorem, 2, OperatorType.List ),
+    'frobenius'             : OperatorInfo( getFrobeniusNumber, 1, OperatorType.List ),
+    'linear_recurrence'     : OperatorInfo( getNthLinearRecurrence, 3, OperatorType.List ),
 
     # lexicographic
-    'combine_digits'        : OperatorInfo( combineDigits, 1 ),
+    'combine_digits'        : OperatorInfo( combineDigits, 1, OperatorType.Generator ),
 
     # powers_and_roots
-    'tower'                 : OperatorInfo( calculatePowerTower, 1 ),
-    'tower2'                : OperatorInfo( calculatePowerTower2, 1 ),
+    'tower'                 : OperatorInfo( calculatePowerTower, 1, OperatorType.List ),
+    'tower2'                : OperatorInfo( calculatePowerTower2, 1, OperatorType.List ),
 }
 
 

@@ -115,22 +115,12 @@ def addDigits( n, k ):
 # //******************************************************************************
 
 def combineDigits( n ):
-    if isinstance( n, mpf ):
-        return n
-    elif isinstance( n, RPNGenerator ):
-        result = 0
+    result = 0
 
-        for i in n.getGenerator( ):
-            result = addDigits( result, real_int( i ) )
+    for i in n:
+        result = addDigits( result, real_int( i ) )
 
-        return result
-    else:
-        result = 0
-
-        for i in n:
-            result = addDigits( result, real_int( i ) )
-
-        return result
+    return result
 
 
 # //******************************************************************************
