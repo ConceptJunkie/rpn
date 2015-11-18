@@ -6668,13 +6668,6 @@ c:\>rpn [ 1 1 0 ] [ 3 0 2 ] 1 20 range linear_recurrence
 [ 3, 0, 2, 3, 2, 5, 5, 7, 10, 12, 17, 22, 29, 39, 51, 68, 90, 119, 158, 209 ]
 ''' ],
 
-    'log_gamma' : [
-'number_theory', 'calculates the loggamma function for n',
-'''
-''',
-'''
-''' ],
-
     'lucas' : [
 'number_theory', 'calculates the nth Lucas number',
 '''

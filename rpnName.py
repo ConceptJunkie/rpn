@@ -79,9 +79,8 @@ def getSmallNumberName( n, ordinal = False ):
     if hundreds > 0:
         name = unitNumberNames[ hundreds ] + ' hundred'
 
-        if ordinal:
-            if tens == 0 and ones == 0:
-                name += 'th'
+        if ordinal and tens == 0 and ones == 0:
+            name += 'th'
 
     if tens > 1:
         if name != '':

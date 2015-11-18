@@ -214,7 +214,7 @@ def convertLatLongToNAC( args ):
         return convertLatLongToNAC( list( args ) )
     elif not isinstance( args, list ):
         args = [ args, 0 ]
-    elif len( args ) > 0 and isinstance( args[ 0 ], list ):
+    elif args and isinstance( args[ 0 ], list ):
         return [ convertLatLongToNAC( i ) for i in args ]
     elif len( args ) == 1:
         args.append( 0 )

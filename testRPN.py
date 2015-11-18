@@ -1706,25 +1706,18 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a20 1 20 range alternating_factorial' )
 
     # base
-    testOperator( '1 10 range 2 base' )
-    testOperator( '1 10 range 3 base' )
-    testOperator( '1 10 range 4 base' )
-    testOperator( '1 10 range 5 base' )
-    testOperator( '1 10 range 6 base' )
-    testOperator( '1 10 range 7 base' )
-    testOperator( '1 10 range 8 base' )
-    testOperator( '1 10 range 9 base' )
+    testOperator( '[ 1 1 1 1 1 1 ] 2 10 range base' )
 
-    testOperator( '-a30 1 20 range 11 base' )
-    testOperator( '-a30 1 20 range 12 base' )
-    testOperator( '-a30 1 20 range 13 base' )
-    testOperator( '-a30 1 20 range 14 base' )
-    testOperator( '-a30 1 20 range 15 base' )
-    testOperator( '-a30 1 20 range 16 base' )
-    testOperator( '-a30 1 20 range 17 base' )
-    testOperator( '-a30 1 20 range 18 base' )
-    testOperator( '-a30 1 20 range 19 base' )
-    testOperator( '-a30 1 20 range 20 base' )
+    testOperator( '-a30 1 10 range 11 base' )
+    testOperator( '-a30 1 11 range 12 base' )
+    testOperator( '-a30 1 12 range 13 base' )
+    testOperator( '-a30 1 13 range 14 base' )
+    testOperator( '-a30 1 14 range 15 base' )
+    testOperator( '-a30 1 15 range 16 base' )
+    testOperator( '-a30 1 16 range 17 base' )
+    testOperator( '-a30 1 17 range 18 base' )
+    testOperator( '-a30 1 18 range 19 base' )
+    testOperator( '-a30 1 19 range 20 base' )
 
     # carol
     testOperator( '-a500 773 carol' )
@@ -2762,14 +2755,13 @@ for test in rpnTestList:
 # //******************************************************************************
 
 def runTests( tests ):
-    if len( tests ) == 0:
-        for test in rpnTests:
-            rpnTests[ test ]( )
-    else:
+    if tests:
         for test in tests:
             if test in rpnTests:
                 rpnTests[ test ]( )
-
+    else:
+        for test in rpnTests:
+            rpnTests[ test ]( )
 
 # //******************************************************************************
 # //

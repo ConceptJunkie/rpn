@@ -670,24 +670,24 @@ def estimate( measurement ):
     unit = RPNMeasurement( 1, unitTypeInfo.baseUnit )
     value = mpf( RPNMeasurement( measurement.convertValue( unit ), unit.getUnits( ) ) )
 
-    if len( unitTypeInfo.estimateTable ) == 0:
+    if not unitTypeInfo.estimateTable:
         return 'No estimates are available for this unit type (' + unitTypeOutput + ').'
 
     matchingKeys = [ key for key in unitTypeInfo.estimateTable if key <= mpf( value ) ]
 
-    if len( matchingKeys ) == 0:
-        estimateKey = min( key for key in unitTypeInfo.estimateTable )
-
-        multiple = fdiv( estimateKey, value )
-
-        return 'approximately ' + nstr( multiple, 3 ) + ' times smaller than ' + \
-               unitTypeInfo.estimateTable[ estimateKey ]
-    else:
+    if matchingKeys:
         estimateKey = max( matchingKeys )
 
         multiple = fdiv( value, estimateKey )
 
         return 'approximately ' + nstr( multiple, 3 ) + ' times ' + \
+               unitTypeInfo.estimateTable[ estimateKey ]
+    else:
+        estimateKey = min( key for key in unitTypeInfo.estimateTable )
+
+        multiple = fdiv( estimateKey, value )
+
+        return 'approximately ' + nstr( multiple, 3 ) + ' times smaller than ' + \
                unitTypeInfo.estimateTable[ estimateKey ]
 
 

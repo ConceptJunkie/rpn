@@ -23,7 +23,7 @@ from mpmath import *
 # //
 # //******************************************************************************
 
-class RPNGenerator( ):
+class RPNGenerator( object ):
     def __init__( self, generator = None, count = -1 ):
         self.generator = generator
         self.count = count

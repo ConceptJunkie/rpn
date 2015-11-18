@@ -63,7 +63,7 @@ class OperatorType( Enum ):
 # //
 # //******************************************************************************
 
-class OperatorInfo( ):
+class OperatorInfo( object ):
     def __init__( self, function, argCount, operatorType = OperatorType.Normal ):
         self.function = function
         self.argCount = argCount
@@ -164,6 +164,9 @@ def evaluateOperator( term, index, currentValueList ):
 # //
 # //  handleOneArgListOperator
 # //
+# //  Each operator is going to have to be responsible for how it handles
+# //  recursive lists.  In some cases, handling recursive lists makes sense.
+# //
 # //******************************************************************************
 
 def handleOneArgListOperator( func, args, currentValueList ):
@@ -172,16 +175,8 @@ def handleOneArgListOperator( func, args, currentValueList ):
     if isinstance( args, RPNGenerator ):
         args = list( args )
 
-    if isinstance( args, list ):
-        for arg in args:
-            if isinstance( arg, ( list, RPNGenerator ) ):
-                recursive = True
-                break
-
     if not isinstance( args, list ):
         currentValueList.append( func( [ args ] ) )
-    elif recursive:
-        currentValueList.append( [ func( arg ) for arg in args ] )
     else:
         currentValueList.append( func( args ) )
 
@@ -198,18 +193,49 @@ def handleOneArgGeneratorOperator( func, args, currentValueList ):
     if isinstance( args, list ):
         args = RPNGenerator.create( args )
 
-    #if isinstance( args, RPNGenerator ):
-    #    for arg in args:
-    #        if isinstance( arg, ( list, RPNGenerator ) ):
-    #            recursive = True
-    #            break
-
     if not isinstance( args, RPNGenerator ):
         currentValueList.append( func( RPNGenerator.create( ) ) )
-    elif recursive:
-        currentValueList.append( [ func( arg ) for arg in args ] )
     else:
         currentValueList.append( func( args ) )
+
+
+# //******************************************************************************
+# //
+# //  handleMultiArgListOperator
+# //
+# //  Each operator is going to have to be responsible for how it handles
+# //  recursive lists.  In some cases, handling recursive lists makes sense.
+# //
+# //******************************************************************************
+
+def handleMultiArgListOperator( func, argList, currentValueList ):
+    newArgList = [ ]
+
+    for arg in argList:
+        if isinstance( arg, RPNGenerator ):
+            newArgList.append( list( arg ) )
+        else:
+            newArgList.append( arg )
+
+    currentValueList.append( func( *newArgList ) )
+
+
+# //******************************************************************************
+# //
+# //  handleMultiArgGeneratorOperator
+# //
+# //******************************************************************************
+
+def handleMultiArgGeneratorOperator( func, args, currentValueList ):
+    newArgList = [ ]
+
+    for arg in argList:
+        if isinstance( arg, list ):
+            newArgList.append( RPNGenerator.create( arg ) )
+        else:
+            newArgList.append( arg )
+
+    currentValueList.append( func( *newArgList ) )
 
 
 # //******************************************************************************
@@ -239,18 +265,16 @@ def evaluateListOperator( term, index, currentValueList ):
             handleOneArgGeneratorOperator( operatorInfo.function, args, currentValueList )
         else:
             handleOneArgListOperator( operatorInfo.function, args, currentValueList )
-    else:    # TODO goobles, can we do this intelligently?!
-        listArgs = [ ]
+    else:
+        argList = [ ]
 
         for i in range( 0, argsNeeded ):
-            arg = currentValueList.pop( )
+            argList.insert( 0, currentValueList.pop( ) )
 
-            if isinstance( arg, ( RPNGenerator, RPNFunctionInfo ) ):
-                listArgs.insert( 0, arg )
-            else:
-                listArgs.insert( 0, RPNGenerator.create( arg ) )
-
-        currentValueList.append( operatorInfo.function( *listArgs ) )
+        if operatorType == OperatorType.Generator:
+            handleMultiArgGeneratorOperator( operatorInfo.function, argList, currentValueList )
+        else:
+            handleMultiArgListOperator( operatorInfo.function, argList, currentValueList )
 
     return True
 
@@ -357,7 +381,21 @@ def evaluateTwoArgFunction( func, _arg1, _arg2 ):
 
     if generator1:
         if generator2:
-            return [ i for i in itertools.map( func, [ arg1.getGenerator( ), arg2.getGenerator( ) ] ) ]
+            iter1 = iter( arg1 )
+            iter2 = iter( arg2 )
+
+            result = [ ]
+
+            while True:
+                try:
+                    i1 = iter1.__next__( )
+                    i2 = iter2.__next__( )
+
+                    result.append( func( i1, i2 ) )
+                except:
+                    break
+
+            return result
         else:
             return [ evaluateTwoArgFunction( func, i, arg2 ) for i in arg1.getGenerator( ) ]
     elif generator2:
@@ -416,7 +454,7 @@ callers = [
 # //
 # //******************************************************************************
 
-class RPNFunctionInfo( ):
+class RPNFunctionInfo( object ):
     def __init__( self, valueList = [ ], startingIndex = 0 ):
         self.valueList = [ ]
 
@@ -635,7 +673,7 @@ def filterList( n, k, invert = False ):
 
     result = [ ]
 
-    for item in n.getGenerator( ):
+    for item in n:
         value = evaluateFunction( item, 0, 0, k )
 
         if ( value != 0 ) != invert:

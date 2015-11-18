@@ -200,7 +200,6 @@ operatorAliases = {
     'ctri'                      : 'centered_triangular',
     'ctri?'                     : 'nth_centered_triangular',
     'ctriangular'               : 'centered_triangular',
-    'ctriangular'               : 'centered_triangular',
     'ctriangular?'              : 'nth_centered_triangular',
     'cuberoot'                  : 'cube_root',
     'c_cube'                    : 'centered_cube',

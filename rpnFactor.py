@@ -502,10 +502,10 @@ def doSelfridgeTest( candidate, verbose = False ):
             return False
 
     if verbose:
-        if len( qPrimes ) == 0:
-            print( 'Selfridge\'s test is finished:', candidate, 'is prime.' )
-        else:
+        if qPrimes:
             print( 'Selfridge\'s test is finished:', candidate, 'is still q-prime.' )
+        else:
+            print( 'Selfridge\'s test is finished:', candidate, 'is prime.' )
 
     return True
 
@@ -560,18 +560,7 @@ def getFactors( n ):
 
     smallFactors, largeFactors, qPrimes = getPrimeFactors( int( n ), verbose )
 
-    if len( qPrimes ) == 0:
-        if verbose:
-            print( 'NO Q-PRIMES:' )
-            print( )
-            print( n, 'has the following factorization:' )
-
-            for i in smallFactors:
-                print( 'prime factor:', i[ 0 ], 'exponent:', i[ 1 ] )
-
-            for i in largeFactors:
-                print( 'prime factor:', i[ 0 ], 'exponent:', i[ 1 ] )
-    else:
+    if qPrimes:
         if verbose:
             print( 'testing q-primes for primality' )
             print( '--' )
@@ -588,6 +577,17 @@ def getFactors( n ):
         if verbose:
             print( 'all q-primes are primes:', n, 'has the following factorization:' )
             print( )
+
+            for i in smallFactors:
+                print( 'prime factor:', i[ 0 ], 'exponent:', i[ 1 ] )
+
+            for i in largeFactors:
+                print( 'prime factor:', i[ 0 ], 'exponent:', i[ 1 ] )
+    else:
+        if verbose:
+            print( 'NO Q-PRIMES:' )
+            print( )
+            print( n, 'has the following factorization:' )
 
             for i in smallFactors:
                 print( 'prime factor:', i[ 0 ], 'exponent:', i[ 1 ] )

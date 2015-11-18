@@ -100,7 +100,7 @@ def handleOutput( valueList ):
 
     if isinstance( valueList[ 0 ], RPNFunctionInfo ):
         print( 'rpn:  unexpected end of input in function definition' )
-    elif len( valueList ) > 1 or len( valueList ) == 0:
+    elif len( valueList ) != 1:
         print( 'rpn:  unexpected end of input' )
     else:
         mp.pretty = True
@@ -476,7 +476,7 @@ def rpn( cmd_args ):
         print( )
 
     # enter interactive mode if there are no arguments
-    if len( args.terms ) == 0:
+    if not args.terms:
         if not loadUnitNameData( ):
             return
 

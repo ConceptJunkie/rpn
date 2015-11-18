@@ -2610,11 +2610,6 @@ unitOperators = {
                   '''
                   ''' ),
 
-    'tenth' :
-        UnitInfo( 'volume', 'tenth', 'tenths', '', [ ], [ 'wine' ],
-                  '''
-                  ''' ),
-
     'tierce' :
         UnitInfo( 'volume', 'tierce', 'tierces', '', [ ], [ 'wine', 'imperial' ],
                   '''
@@ -3168,7 +3163,6 @@ unitConversionMatrix = {
     ( 'teaspoon',                   'pinch' )                               : mpmathify( '16' ),
     ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
     ( 'ten',                        'unity' )                               : mpmathify( '10' ),
-    ( 'tenth',                      'liter' )                               : mpmathify( '0.378' ),
     ( 'tesla',                      'gauss' )                               : mpmathify( '10000' ),
     ( 'tesla',                      'kilogram/ampere-second^2' )            : mpmathify( '1' ),
     ( 'tesla',                      'volt-second/meter^2' )                 : mpmathify( '1' ),

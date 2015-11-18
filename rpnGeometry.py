@@ -288,7 +288,7 @@ def getOctahedronVolume( n ):
 # //******************************************************************************
 
 def getDodecahedronSurfaceArea( n ):
-    return fmul( 3, sqrt( fadd( 25, fprod( [ 10, sqrt( 5 ), power( real( a ), 2 ) ] ) ) ) )
+    return fmul( 3, sqrt( fadd( 25, fprod( [ 10, sqrt( 5 ), power( real( n ), 2 ) ] ) ) ) )
 
 
 # //******************************************************************************
@@ -300,7 +300,7 @@ def getDodecahedronSurfaceArea( n ):
 # //******************************************************************************
 
 def getDodecahedronVolume( n ):
-    return fdiv( fmul( fadd( 15, fmul( 7, sqrt( 5 ) ) ), power( a, 3 ) ), 4 )
+    return fdiv( fmul( fadd( 15, fmul( 7, sqrt( 5 ) ) ), power( n, 3 ) ), 4 )
 
 
 # //******************************************************************************
@@ -312,7 +312,7 @@ def getDodecahedronVolume( n ):
 # //******************************************************************************
 
 def getIcosahedronSurfaceArea( n ):
-    return fprod( [ 5, sqrt( 3 ), power( a, 2 ) ] )
+    return fprod( [ 5, sqrt( 3 ), power( n, 2 ) ] )
 
 
 # //******************************************************************************
@@ -324,7 +324,7 @@ def getIcosahedronSurfaceArea( n ):
 # //******************************************************************************
 
 def getIcosahedronVolume( n ):
-    return fprod( [ fdiv( 5, 12 ), fadd( 3, sqrt( 5 ) ), power( a, 3 ) ] )
+    return fprod( [ fdiv( 5, 12 ), fadd( 3, sqrt( 5 ) ), power( n, 3 ) ] )
 
 
 # //******************************************************************************

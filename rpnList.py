@@ -32,7 +32,7 @@ from rpnNumberTheory import getGCD
 def alternateSigns( n, startNegative = False ):
     negative = startNegative
 
-    for i in n.getGenerator( ):
+    for i in n:
         yield fneg( i ) if negative else i
         negative = not negative
 
@@ -48,7 +48,7 @@ def getAlternatingSum( arg, startNegative = False ):
 
     negative = startNegative
 
-    for i in arg.getGenerator( ):
+    for i in arg:
         if negative:
             result = fsub( result, i )
         else:
@@ -179,7 +179,10 @@ def getIndexOfMin( arg ):
 # //******************************************************************************
 
 def getListElement( arg, index ):
-    return arg[ int( index[ 0 ] ) ]
+    if isinstance( index, list ):
+        return [ arg[ int( i ) ] for i in index ]
+    else:
+        return arg[ int( index ) ]
 
 
 # //******************************************************************************
@@ -188,14 +191,11 @@ def getListElement( arg, index ):
 # //
 # //******************************************************************************
 
-def getSlice( arg, start_, end_ ):
-    start = int( start_[ 0 ] )
-    end = int( end_[ 0 ] )
+def getSlice( arg, start, end ):
+    result = [ ]
 
-    result = [ arg[ start ] ]
-
-    for i in range( end - start - 1 ):
-        result.append( next( arg.getGenerator( ) ) )
+    for i in range( int( start ), int( end + 1 ) ):
+        result.append( arg[ i ] )
 
     return result
 
@@ -207,18 +207,7 @@ def getSlice( arg, start_, end_ ):
 # //******************************************************************************
 
 def getSublist( arg, start, count ):
-    result = [ ]
-
-    fullList = [ item for item in arg.getGenerator( ) ]
-
-    for i in start.getGenerator( ):
-        for j in count.getGenerator( ):
-            result.append( fullList[ int( i ) : int( j ) ] )
-
-    if len( result ) == 1:
-        return result[ 0 ]
-    else:
-        return result
+    return arg[ int( start ) : int( count ) ]
 
 
 # //******************************************************************************
@@ -230,8 +219,11 @@ def getSublist( arg, start, count ):
 def getLeft( arg, count ):
     result = [ ]
 
-    for i in count.getGenerator( ):
-        result.append( [ j for j in arg.getGenerator( ) ][ : int( i ) ] )
+    if isinstance( count, list ):
+        for i in count:
+            result.append( [ j for j in arg ][ : int( i ) ] )
+    else:
+        result.append( [ j for j in arg ][ : int( count ) ] )
 
     if len( result ) == 1:
         return result[ 0 ]
@@ -248,8 +240,11 @@ def getLeft( arg, count ):
 def getRight( arg, count ):
     result = [ ]
 
-    for i in count.getGenerator( ):
-        result.append( [ j for j in arg.getGenerator( ) ][ int( fneg( i ) ) : ] )
+    if isinstance( count, list ):
+        for i in count:
+            result.append( [ j for j in arg ][ int( fneg( i ) ) : ] )
+    else:
+        result.append( [ j for j in arg ][ int( fneg( count ) ) : ] )
 
     if len( result ) == 1:
         return result[ 0 ]
@@ -266,7 +261,7 @@ def getRight( arg, count ):
 def getListDiffs( arg ):
     old = None
 
-    for i in arg.getGenerator( ):
+    for i in arg:
         if old is not None:
             yield( fsub( i, old ) )
 
@@ -284,7 +279,7 @@ def getCumulativeListDiffs( arg ):
 
     first = None
 
-    for i in arg.getGenerator( ):
+    for i in arg:
         if first is None:
             first = i
         else:
@@ -300,7 +295,7 @@ def getCumulativeListDiffs( arg ):
 def getListRatios( args ):
     old = None
 
-    for i in arg.getGenerator( ):
+    for i in arg:
         if old is not None:
             yield( fdiv( i, old ) )
 
@@ -318,7 +313,7 @@ def getCumulativeListRatios( arg ):
 
     first = None
 
-    for i in arg.getGenerator( ):
+    for i in arg:
         if first is None:
             first = i
         else:
@@ -332,7 +327,7 @@ def getCumulativeListRatios( arg ):
 # //******************************************************************************
 
 def getReverse( args ):
-    return [ i for i in reversed( [ j for j in args.getGenerator( ) ] ) ]
+    return [ i for i in reversed( [ j for j in args ] ) ]
 
 
 # //******************************************************************************
@@ -465,7 +460,7 @@ def getProduct( n ):
     if isinstance( n, RPNGenerator ):
         return getProduct( list( n ) )
 
-    if len( n ) == 0:
+    if not n:
         return 0
     elif len( n ) == 1:
         return n[ 0 ]
@@ -488,7 +483,7 @@ def getProduct( n ):
 
         return result
     else:
-        if len( n ) == 0:
+        if not n:
             return 0
 
         if isinstance( n[ 0 ], list ):
@@ -587,15 +582,10 @@ def calculateArithmeticMean( args ):
 # //******************************************************************************
 
 def getZeroes( args ):
-    if isinstance( args, RPNGenerator ):
-        return [ index for index, e in enumerate( args.getGenerator( ) ) if e == 0 ]
-    elif isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ getZeroes( arg ) for arg in args ]
-        else:
-            return [ index for index, e in enumerate( args ) if e == 0 ]
+    if isinstance( args, ( RPNGenerator, list ) ):
+        return [ index for index, e in enumerate( args ) if e == 0 ]
     else:
-        return args
+        return [ 0 ] if args == 0 else [ ]
 
 
 # //******************************************************************************
@@ -605,15 +595,10 @@ def getZeroes( args ):
 # //******************************************************************************
 
 def getNonzeroes( args ):
-    if isinstance( args, RPNGenerator ):
-        return [ index for index, e in enumerate( args.getGenerator( ) ) if e != 0 ]
-    elif isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ getNonzeroes( arg ) for arg in args ]
-        else:
-            return [ index for index, e in enumerate( args ) if e != 0 ]
+    if isinstance( args, ( RPNGenerator, list ) ):
+        return [ index for index, e in enumerate( args ) if e != 0 ]
     else:
-        return args
+        return [ 0 ] if args == 0 else [ ]
 
 
 # //******************************************************************************

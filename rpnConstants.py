@@ -23,7 +23,7 @@ from rpnConstantUtils import *
 # //
 # //******************************************************************************
 
-class OperatorInfo( ):
+class OperatorInfo( object ):
     def __init__( self, function, argCount = 0 ):
         self.function = function
         self.argCount = argCount
@@ -101,7 +101,6 @@ constants = {
     'coulomb_constant'              : OperatorInfo( lambda: RPNMeasurement( '8.987551787e9', 'newton*meter^2/coulomb^2' ), 0 ),
     'electric_constant'             : OperatorInfo( lambda: RPNMeasurement( '8.854187817e-12', 'farad/meter' ), 0 ),
     'electron_charge'               : OperatorInfo( lambda: RPNMeasurement( '1.602176565e-19', 'coulomb' ), 0 ),
-    'electron_mass'                 : OperatorInfo( lambda: RPNMeasurement( '9.10938291e-28', 'gram' ), 0 ),
     'faraday_constant'              : OperatorInfo( lambda: RPNMeasurement( '96485.33289', 'coulomb/mole' ), 0 ),
     'fine_structure_constant'       : OperatorInfo( lambda: '7.2973525664e-3', 0 ),
     'magnetic_constant'             : OperatorInfo( lambda: RPNMeasurement( fprod( [ 4, pi, power( 10, -7 ) ] ), 'newton/ampere^2' ), 0 ),

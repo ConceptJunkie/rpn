@@ -220,7 +220,7 @@ def addAliases( operatorList, operatorAliases ):
 
             aliasList = list( set( aliasList ) )
 
-        if len( aliasList ) > 0:
+        if aliasList:
             operatorList[ index ] += ' (' + ', '.join( sorted( aliasList ) ) + ')'
 
 

@@ -204,12 +204,12 @@ def expectResult( command, expected ):
         compare = [ ]
 
         for i in expected:
-            if isinstance( i, int ) or isinstance( i, float ) or isinstance( i, complex ):
+            if isinstance( i, ( int, float, complex ) ):
                 compare.append( mpmathify( i ) )
             else:
                 compare.append( i )
     else:
-        if isinstance( expected, int ) or isinstance( expected, float ) or isinstance( expected, complex ):
+        if isinstance( expected, ( int, float, complex ) ):
             compare = mpmathify( expected )
         else:
             compare = expected

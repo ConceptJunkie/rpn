@@ -187,6 +187,7 @@ def getCopelandErdosConstant( ):
     count = 1
 
     while len( result ) < mp.dps:
+        # TODO: use a generator
         result += str( getNthPrime( count ) )
         count += 1
 

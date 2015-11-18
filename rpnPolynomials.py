@@ -371,18 +371,11 @@ def multiplyPolynomials( a, b ):
 # //******************************************************************************
 
 def evaluatePolynomial( a, b ):
-    if isinstance( a, RPNGenerator ):
-        a = list( a )
-    elif not isinstance( a, list ):
+    if not isinstance( a, list ):
         a = [ a ]
 
-    if isinstance( b, RPNGenerator ):
-        result = [ polyval( a, i ) for i in b.getGenerator( ) ]
-
-        if len( result ) == 1:
-            return result[ 0 ]
-        else:
-            return result
+    if isinstance( b, list ):
+        return [ evaluatePolynomial( a, i ) for i in b ]
     else:
         return polyval( a, b )
 
@@ -394,18 +387,11 @@ def evaluatePolynomial( a, b ):
 # //******************************************************************************
 
 def exponentiatePolynomial( n, k ):
-    if isinstance( n, RPNGenerator ):
-        n = list( n )
-    elif not isinstance( n, list ):
+    if not isinstance( n, list ):
         n = [ n ]
 
-    if isinstance( k, RPNGenerator ):
-        result = [ multiplyPolynomials( n, i ) for i in k.getGenerator( ) ]
-
-        if len( result ) == 1:
-            return result[ 0 ]
-        else:
-            return result
+    if isinstance( k, list ):
+        return [ multiplyPolynomials( n, i ) for i in k ]
     else:
         result = n
 

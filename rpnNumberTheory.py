@@ -380,10 +380,7 @@ def interpretAsFraction( i, j ):
 
 def interpretAsBase( args, base ):
     if isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
-            return [ interpretAsBase( i, base ) for i in args ]
-        else:
-            args.reverse( )
+        args.reverse( )
     else:
         args = [ args ]
 
@@ -394,6 +391,9 @@ def interpretAsBase( args, base ):
     multiplier = mpmathify( 1 )
 
     for i in args:
+        if i >= real_int( base ):
+            raise ValueError( 'invalid value for base', int( base ) )
+
         value = fadd( value, fmul( i, multiplier ) )
         multiplier = fmul( multiplier, base )
 
@@ -451,7 +451,7 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
     if not isinstance( seeds, list ):
         return getNthLinearRecurrence( recurrence, [ seeds ], real( n ) )
 
-    if len( seeds ) == 0:
+    if not seeds:
         raise ValueError( 'for operator \'linear_recur\', seeds list cannot be empty ' )
 
     # calculate missing seeds
@@ -464,7 +464,7 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
     if real( n ) < len( seeds ):
         return seeds[ int( n ) - 1 ]
     else:
-        if len( recurrence ) == 0:
+        if not recurrence:
             raise ValueError( 'internal error:  for operator \'linear_recur\', '
                               'recurrence list cannot be empty ' )
 
