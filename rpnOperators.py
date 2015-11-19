@@ -466,11 +466,65 @@ class RPNFunctionInfo( object ):
 
         self.startingIndex = startingIndex
 
-    def evaluate( self, arg ):
-        return arg
-
     def add( self, arg ):
         self.valueList.append( arg )
+
+    def evaluate( self, a, b = 0, c = 0 ):
+        if isinstance( a, list ) or isinstance( b, list ) or isinstance( c, list ):
+            result = [ ]
+
+            for i in a:
+                result.append( k.evaluate( i ) )
+
+            return result
+        else:
+            valueList = [ ]
+
+            for index, item in enumerate( self.valueList ):
+                if index < self.startingIndex:
+                    continue
+
+                if item == 'x':
+                    valueList.append( a )
+                elif item == 'y':
+                    valueList.append( b )
+                elif item == 'z':
+                    valueList.append( c )
+                else:
+                    valueList.append( item )
+
+            index = 1
+
+            while len( valueList ) > 1:
+                term = valueList.pop( 0 )
+
+                if not isinstance( term, list ) and term in g.operatorAliases:
+                    term = g.operatorAliases[ term ]
+
+                g.creatingFunction = False
+
+                try:
+                    if not evaluateTerm( term, index, valueList ):
+                        break
+                except:
+                    return nan
+
+                index = index + 1
+
+                validFormula = True
+
+                if len( valueList ) > 1:
+                    validFormula = False
+
+                    for value in valueList:
+                        if not isinstance( value, mpf ):
+                            validFormula = True
+                            break
+
+                if not validFormula:
+                    raise ValueError( 'evaluate:  incompletely specified function' )
+
+            return valueList[ 0 ]
 
 
 # //******************************************************************************
@@ -519,114 +573,12 @@ def createZFunction( valueList ):
 
 # //******************************************************************************
 # //
-# //  evaluateFunction
-# //
-# //  Evaluate a user-defined function.  This is the simplest operator to use
-# //  user-defined functions.   Eventually I want to compile the user-defined
-# //  function into Python code, so when I start passing them to mpmath they'll
-# //  run faster.
-# //
-# //******************************************************************************
-
-def evaluateFunction( a, b, c, func ):
-    if not isinstance( func, RPNFunctionInfo ):
-        raise ValueError( '\'eval\' expects a function argument' )
-
-    if isinstance( a, list ) or isinstance( b, list ) or isinstance( c, list ):
-        result = [ ]
-
-        for item in a:
-            result.append( k.evaluate( item ) )
-
-        return result
-    else:
-        valueList = [ ]
-
-        for index, item in enumerate( func.valueList ):
-            if index < func.startingIndex:
-                continue
-
-            if item == 'x':
-                valueList.append( a )
-            elif item == 'y':
-                valueList.append( b )
-            elif item == 'z':
-                valueList.append( c )
-            else:
-                valueList.append( item )
-
-        index = 1
-
-        while len( valueList ) > 1:
-            term = valueList.pop( 0 )
-
-            if not isinstance( term, list ) and term in g.operatorAliases:
-                term = g.operatorAliases[ term ]
-
-            g.creatingFunction = False
-
-            try:
-                if not evaluateTerm( term, index, valueList ):
-                    break
-            except:
-                return nan
-
-            index = index + 1
-
-            validFormula = True
-
-            if len( valueList ) > 1:
-                validFormula = False
-
-                for value in valueList:
-                    if not isinstance( value, mpf ):
-                        validFormula = True
-                        break
-
-            if not validFormula:
-                raise ValueError( 'evaluateFunction:  incompletely specified function' )
-
-        return valueList[ 0 ]
-
-
-# //******************************************************************************
-# //
-# //  evaluateFunction1
-# //
-# //******************************************************************************
-
-def evaluateFunction1( n, k ):
-    return evaluateFunction( n, 0, 0, k )
-
-
-# //******************************************************************************
-# //
-# //  evaluateFunction2
-# //
-# //******************************************************************************
-
-def evaluateFunction2( a, b, c ):
-    return evaluateFunction( a, b, 0, c )
-
-
-# //******************************************************************************
-# //
-# //  evaluateFunction3
-# //
-# //******************************************************************************
-
-def evaluateFunction3( a, b, c, d ):
-    return evaluateFunction( a, b, c, d )
-
-
-# //******************************************************************************
-# //
 # //  plotFunction
 # //
 # //******************************************************************************
 
 def plotFunction( start, end, func ):
-    plot( lambda x: evaluateFunction1( x, func ), [ start, end ] )
+    plot( lambda x: func.evaluate( x, func ), [ start, end ] )
     return 0
 
 
@@ -637,7 +589,7 @@ def plotFunction( start, end, func ):
 # //******************************************************************************
 
 def plot2DFunction( start1, end1, start2, end2, func ):
-    splot( lambda x, y: evaluateFunction( x, y, 0, func ),
+    splot( lambda x, y: func.evaluate( x, y, 0 ),
            [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ] )
     return 0
 
@@ -649,7 +601,7 @@ def plot2DFunction( start1, end1, start2, end2, func ):
 # //******************************************************************************
 
 def plotComplexFunction( start1, end1, start2, end2, func ):
-    cplot( lambda x: evaluateFunction( x, 0, 0, func ),
+    cplot( lambda x: func.evaluate( x, 0, 0 ),
            [ float( start1 ), float( end1 ) ], [ float( start2 ), float( end2 ) ],
            points = 10000 )
     return 0
@@ -673,11 +625,11 @@ def filterList( n, k, invert = False ):
 
     result = [ ]
 
-    for item in n:
-        value = evaluateFunction( item, 0, 0, k )
+    for i in n:
+        value = k.evaluate( i, 0, 0 )
 
         if ( value != 0 ) != invert:
-            result.append( item )
+            result.append( i )
 
     return result
 
@@ -701,7 +653,7 @@ def filterListByIndex( n, k, invert = False ):
     result = [ ]
 
     for index, item in enumerate( n ):
-        value = evaluateFunction( index, 0, 0, k )
+        value = k.evaluate( index, 0, 0 )
 
         if ( value != 0 ) != invert:
             result.append( item )
@@ -1324,14 +1276,14 @@ operators = {
     'yesterday'                     : OperatorInfo( getYesterday, 0 ),
 
     # function
-    'eval'                          : OperatorInfo( evaluateFunction1, 2 ),
-    'eval2'                         : OperatorInfo( evaluateFunction2, 3 ),
-    'eval3'                         : OperatorInfo( evaluateFunction3, 4 ),
-    'limit'                         : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction1( x, func ), n ), 2 ),
-    'limitn'                        : OperatorInfo( lambda n, func: limit( lambda x: evaluateFunction1( x, func ), n, direction = -1 ), 2 ),
+    'eval'                          : OperatorInfo( lambda n, func: func.evaluate( n ), 2 ),
+    'eval2'                         : OperatorInfo( lambda a, b, func: func.evaluate( a, b ), 3 ),
+    'eval3'                         : OperatorInfo( lambda a, b, c, func: func.evaluate( a, b, c ), 4 ),
+    'limit'                         : OperatorInfo( lambda n, func: limit( lambda x: func.evaluate( x ), n ), 2 ),
+    'limitn'                        : OperatorInfo( lambda n, func: limit( lambda x: func.evaluate( x ), n, direction = -1 ), 2 ),
     'negate'                        : OperatorInfo( lambda n: 1 if n == 0 else 0, 1 ),
-    'nprod'                         : OperatorInfo( lambda start, end, func: nprod( lambda x: evaluateFunction1( x, func ), [ start, end ] ), 3 ),
-    'nsum'                          : OperatorInfo( lambda start, end, func: nsum( lambda x: evaluateFunction1( x, func ), [ start, end ] ), 3 ),
+    'nprod'                         : OperatorInfo( lambda start, end, func: nprod( lambda x: func.evaluate( x ), [ start, end ] ), 3 ),
+    'nsum'                          : OperatorInfo( lambda start, end, func: nsum( lambda x: func.evaluate( x, func ), [ start, end ] ), 3 ),
     'plot'                          : OperatorInfo( plotFunction, 3 ),
     'plot2'                         : OperatorInfo( plot2DFunction, 5 ),
     'plotc'                         : OperatorInfo( plotComplexFunction, 5 ),
