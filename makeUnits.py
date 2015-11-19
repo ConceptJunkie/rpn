@@ -20,7 +20,7 @@ import itertools
 import os
 import pickle
 
-from mpmath import *
+from mpmath import mp, fdiv, fmul
 
 #  This has to go here so the mpf's in the import get created with 50 places of precision.
 mp.dps = 50

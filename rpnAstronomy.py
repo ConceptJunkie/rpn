@@ -14,7 +14,7 @@
 
 import ephem
 
-from mpmath import *
+from mpmath import mpmathify, fdiv, fmul, pi
 
 from rpnDateTime import RPNDateTime
 from rpnLocation import RPNLocation

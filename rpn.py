@@ -33,12 +33,11 @@
 # c:\>rpn 1 0.9999 sqr - sqrt 1/x
 # 70.7124459519
 
+from mpmath import mp
 
 import argparse
 import sys
 import time
-
-from mpmath import *
 
 from rpnAliases import operatorAliases
 from rpnOperators import *

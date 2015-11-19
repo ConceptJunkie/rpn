@@ -12,8 +12,6 @@
 # //
 # //******************************************************************************
 
-from mpmath import *
-
 import rpnGlobals as g
 
 from rpnNumberTheory import *
@@ -171,7 +169,7 @@ def convertToSpecialBase( value, baseFunction, outputBaseDigits = False, numeral
 
     remaining = value
 
-    while len( positionValues ):
+    while positionValues:
         base = positionValues.pop( )
 
         digit = floor( fdiv( remaining, base ) )

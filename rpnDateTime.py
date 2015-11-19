@@ -83,9 +83,9 @@ class RPNDateTime( arrow.Arrow ):
 
     # returned object won't have the right timezone, TODO: fix that and fix DST calculation
     # The real problem here is that arrow timezone conversion doesn't work for times before the Unix epoch.  Duh.
-    def getLocalTime( rpnDateTime ):
+    def getLocalTime( self ):
         offset = tz.tzlocal( ).utcoffset( arrow.now( ) )
-        return rpnDateTime + offset
+        return self + offset
 
     @staticmethod
     def parseDateTime( n ):

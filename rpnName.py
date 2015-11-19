@@ -12,7 +12,7 @@
 # //
 # //******************************************************************************
 
-from mpmath import *
+from mpmath import fabs, fdiv, floor, fmod, power
 
 from rpnMeasurement import RPNMeasurement
 from rpnUtils import real
@@ -25,11 +25,11 @@ from rpnUtils import real
 # //******************************************************************************
 
 def getModifiedOnesName( name, code ):
-    if ( 'n' in code ) and ( ( name == 'septe' ) or ( name == 'nove' ) ):
+    if ( 'n' in code ) and ( name in [ 'septe', 'nove' ] ):
         return name + 'n'
-    elif ( 'm' in code ) and ( ( name == 'septe' ) or ( name == 'nove' ) ):
+    elif ( 'm' in code ) and ( name in [ 'septe', 'nove' ] ):
         return name + 'm'
-    elif ( 's' in code ) and ( ( name == 'tre' ) or ( name == 'se' ) ):
+    elif ( 's' in code ) and ( name in [ 'tre', 'se' ] ):
         return name + 's'
     elif ( 'x' in code ):
         if ( name == 'tre' ):
