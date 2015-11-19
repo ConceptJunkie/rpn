@@ -21,7 +21,8 @@ from mpmath import *
 
 from rpnFactor import getECMFactors
 from rpnGenerator import RPNGenerator
-from rpnUtils import real, real_int
+from rpnMath import isDivisible
+from rpnUtils import real, real_int, getMPFIntegerAsString
 
 import rpnGlobals as g
 
@@ -1113,4 +1114,28 @@ def isUnusual( n ):
 def isPronic( n ):
     a = floor( sqrt( real_int( n ) ) )
     return 1 if n == fmul( a, fadd( a, 1 ) ) else 0
+
+
+# //******************************************************************************
+# //
+# //  isPolydivisible
+# //
+# //  It seems to be about 10% faster on average to do the division tests in
+# //  reverse order.
+# //
+# //******************************************************************************
+
+def isPolydivisible( n ):
+    if real_int( n ) <= 0:
+        raise ValueError( 'non-negative, real integer expected' )
+
+    strValue = getMPFIntegerAsString( n )
+
+    for i in range( len( strValue ), 1, -1 ):
+        current = mpmathify( strValue[ : i ] )
+
+        if not isDivisible( current, i ):
+            return 0
+
+    return 1
 

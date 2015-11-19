@@ -2671,7 +2671,7 @@ metricUnits = [
     ( 'becquerel',          'becquerels',       'Bq',   [ ], [ ] ),
     ( 'blintz',             'blintzes',         'bl',   [ ], [ ] ),
     ( 'coulomb',            'coulombs',         'C',    [ ], [ ] ),
-    ( 'calorie',            'calories',         'cal',  [ 'cal' ], [ 'cals' ] ),
+    ( 'calorie',            'calories',         'cal',  [ ], [ 'cals' ] ),
     ( 'electron-volt',      'electron-volts',   'eV',   [ ], [ ] ),
     ( 'farad',              'farads',           'F',    [ ], [ ] ),
     ( 'gram-equivalent',    'grams-equivalent', 'gE',   [ 'gram-energy', 'gramme-energy' ], [ 'grams-energy', 'grammes-energy' ] ),

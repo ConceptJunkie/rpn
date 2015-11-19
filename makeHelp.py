@@ -6204,6 +6204,14 @@ c:\>rpn [ 1 10 range 10 dup_term ] unique
 '''
 ''' ],
 
+    'for_each' : [
+'modifiers', 'instructs the next operater to act on list members rather than the list itself as an argument'
+'''
+TODO:  This operator is not implemented yet!
+''',
+'''
+''' ],
+
     'previous' : [
 'modifiers', 'duplicates the previous argument (identical to \'n 2 dup\')',
 '''
@@ -6223,14 +6231,6 @@ c:\>rpn 4 5 make_pyth_3
 
 c:\>rpn 4 5 make_pyth_3 unlist euler_brick
 [ 42471, 54280, 59040 ]
-''' ],
-
-    'use_members' : [
-'modifiers', 'instructs the next operater to act on list members rather than the list itself as an argument'
-'''
-TODO:  This operator is not implemented yet!
-''',
-'''
 ''' ],
 
 
@@ -6506,6 +6506,13 @@ c:\>rpn 1 10 range fibonorial
 
     'is_perfect' : [
 'number_theory', 'returns whether or not n is a perfect number',
+'''
+''',
+'''
+''' ],
+
+    'is_polydivisible' : [
+'number_theory', 'returns whether or not n is polydivisible',
 '''
 ''',
 '''

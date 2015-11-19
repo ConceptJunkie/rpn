@@ -17,7 +17,7 @@ import string
 from mpmath import *
 
 from rpnGenerator import RPNGenerator
-from rpnUtils import real, real_int
+from rpnUtils import real, real_int, getMPFIntegerAsString
 
 
 # //******************************************************************************
@@ -31,9 +31,9 @@ from rpnUtils import real, real_int
 # //******************************************************************************
 
 def splitNumberByDigits( n ):
-    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )
+    str = getMPFIntegerAsString( n )
 
-    split = len( str ) // 2 - 1
+    split = len( str ) // 2
 
     return mpmathify( str[ : split ] ), mpmathify( str[ split : ] )
 
@@ -45,11 +45,11 @@ def splitNumberByDigits( n ):
 # //******************************************************************************
 
 def getDigits( n ):
-    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )
+    str = getMPFIntegerAsString( n )
 
     result = [ ]
 
-    for c in str[ : -2 ]:
+    for c in str:
         result.append( int( c ) )
 
     return result
@@ -143,8 +143,7 @@ def duplicateDigits( n, k ):
 # //******************************************************************************
 
 def reverseDigits( n ):
-    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )
-    return mpmathify( str[ -3 : : -1 ] )
+    return mpmathify( getMPFIntegerAsString( n )[ : : -1 ] )
 
 
 # //******************************************************************************
@@ -154,7 +153,7 @@ def reverseDigits( n ):
 # //******************************************************************************
 
 def isPalindrome( n ):
-    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )[ 0: -2 ]
+    str = getMPFIntegerAsString( n )
 
     length = len( str )
 
@@ -172,7 +171,7 @@ def isPalindrome( n ):
 # //******************************************************************************
 
 def isPandigital( n ):
-    str = nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )[ 0: -2 ]
+    str = getMPFIntegerAsString( n )
 
     for c in string.digits:
         if c not in str:
