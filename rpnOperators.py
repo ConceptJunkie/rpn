@@ -14,6 +14,7 @@
 
 from __future__ import print_function
 
+import inspect
 import itertools
 import struct
 
@@ -50,6 +51,12 @@ from rpnUtils import *
 
 import rpnGlobals as g
 
+
+# //******************************************************************************
+# //
+# //  class OperatorType
+# //
+# //******************************************************************************
 
 class OperatorType( Enum ):
     Normal = 0,                 # any normal operator
@@ -465,66 +472,78 @@ class RPNFunctionInfo( object ):
             self.valueList.append( valueList )
 
         self.startingIndex = startingIndex
+        self.code = ''
+        self.compiled = None
 
     def add( self, arg ):
         self.valueList.append( arg )
 
-    def evaluate( self, a, b = 0, c = 0 ):
-        if isinstance( a, list ) or isinstance( b, list ) or isinstance( c, list ):
-            result = [ ]
+    def evaluate( self, x, y = 0, z = 0 ):
+        if not self.code:
+            self.compile( )
 
-            for i in a:
-                result.append( k.evaluate( i ) )
+        code_locals = { }
+        exec( self.compiled, globals( ), code_locals )
+        return code_locals[ 'rpnInternalFunction' ]( x, y, z )
 
-            return result
-        else:
-            valueList = [ ]
+    def compile( self ):
+        valueList = [ ]
 
-            for index, item in enumerate( self.valueList ):
-                if index < self.startingIndex:
-                    continue
+        xArg = False
+        yArg = False
+        zArg = False
 
-                if item == 'x':
-                    valueList.append( a )
-                elif item == 'y':
-                    valueList.append( b )
-                elif item == 'z':
-                    valueList.append( c )
-                else:
-                    valueList.append( item )
+        for index, item in enumerate( self.valueList ):
+            if index < self.startingIndex:
+                continue
 
-            index = 1
+            valueList.append( item )
 
-            while len( valueList ) > 1:
-                term = valueList.pop( 0 )
+        self.code = 'def rpnInternalFunction( x, y, z ): return '
 
-                if not isinstance( term, list ) and term in g.operatorAliases:
-                    term = g.operatorAliases[ term ]
+        args = [ ]
 
-                g.creatingFunction = False
+        while valueList:
+            term = valueList.pop( 0 )
 
-                try:
-                    if not evaluateTerm( term, index, valueList ):
-                        break
-                except:
-                    return nan
+            if not isinstance( term, list ) and term in g.operatorAliases:
+                term = g.operatorAliases[ term ]
 
-                index = index + 1
+            if term in operators:
+                function = operators[ term ].function.__name__
 
-                validFormula = True
+                if function == '<lambda>':
+                    function = inspect.getsource( operators[ term ].function )
+                    function = function[ function.find( 'OperatorInfo' ) + 12 : -7 ] + ')'
 
-                if len( valueList ) > 1:
-                    validFormula = False
+                function += '( '
 
-                    for value in valueList:
-                        if not isinstance( value, mpf ):
-                            validFormula = True
-                            break
+                first = True
 
-                if not validFormula:
-                    raise ValueError( 'evaluate:  incompletely specified function' )
+                argList = [ ]
 
-            return valueList[ 0 ]
+                for i in range( 0, operators[ term ].argCount ):
+                    argList.insert( 0, args.pop( ) )
+
+                for arg in argList:
+                    if first:
+                        first = False
+                    else:
+                        function += ', '
+
+                    function += arg
+
+                function += ' )'
+                args.append( function )
+
+                if not valueList:
+                    self.code += function
+            else:
+                args.append( term )
+
+        debugPrint( 'valueList:', self.valueList[ self.startingIndex : ] )
+        debugPrint( 'code:', self.code )
+        self.compiled = compile( self.code, '<string>', 'exec' )
 
 
 # //******************************************************************************
@@ -1070,6 +1089,10 @@ listOperators = {
 }
 
 
+def getNthFibonacci( n ):
+    return fib( n )
+
+
 # //******************************************************************************
 # //
 # //  operators
@@ -1362,7 +1385,7 @@ operators = {
     'euler_phi'                     : OperatorInfo( getEulerPhi, 1 ),
     'factor'                        : OperatorInfo( getFactorList, 1 ),
     'factorial'                     : OperatorInfo( fac, 1 ),
-    'fibonacci'                     : OperatorInfo( fib, 1 ),
+    'fibonacci'                     : OperatorInfo( getNthFibonacci, 1 ),
     'fibonorial'                    : OperatorInfo( getNthFibonorial, 1 ),
     'fraction'                      : OperatorInfo( interpretAsFraction, 2 ),
     'gamma'                         : OperatorInfo( gamma, 1 ),
