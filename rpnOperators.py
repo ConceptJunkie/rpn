@@ -433,7 +433,6 @@ callers = [
     evaluateTwoArgFunction,
 
     # 3, 4, and 5 argument functions don't recurse with lists more than one level
-
     lambda func, arg1, arg2, arg3:
         [ func( a, b, c ) for c in arg1 for b in arg2 for a in arg3 ],
     lambda func, arg1, arg2, arg3, arg4:
@@ -514,6 +513,8 @@ class RPNFunctionInfo( object ):
 
                 if function == '<lambda>':
                     function = inspect.getsource( operators[ term ].function )
+                    # Inspect returns the actual source line, which is the definition in the
+                    # operators dictionary, so we need to parse out the lambda definition.
                     function = function[ function.find( 'OperatorInfo' ) + 12 : -7 ] + ')'
 
                 function += '( '

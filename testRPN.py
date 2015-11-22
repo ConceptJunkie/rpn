@@ -1375,7 +1375,7 @@ def runGeometryOperatorTests( ):
     # sphere_area
     testOperator( '8 inches sphere_area' )
     testOperator( '8 sq_inches sphere_area' )
-    testOperator( '8 cu_inches sphere_area' )    # not implemented yet
+    testOperator( '8 cu_inches sphere_area' )
 
     # sphere_radius
     testOperator( '4 inches sphere_radius' )
@@ -1384,7 +1384,7 @@ def runGeometryOperatorTests( ):
 
     # sphere_volume
     testOperator( '5 inches sphere_volume' )
-    testOperator( '5 sq_inches sphere_volume' )  # not implemented yet
+    testOperator( '5 sq_inches sphere_volume' )
     testOperator( '5 cubic_in sphere_volume' )
 
     # torus_area
