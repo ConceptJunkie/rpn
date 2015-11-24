@@ -1580,6 +1580,13 @@ c:\>rpn 1 mile 1 km +
 '''
 ''' ],
 
+    'decrement' : [
+'arithmetic', 'returns n - 1',
+'''
+''',
+'''
+''' ],
+
     'divide' : [
 'arithmetic', 'divides n by k',
 '''
@@ -1638,6 +1645,13 @@ Calculate the geometric mean of the first n numbers from 1 to 5:
 
 c:\>rpn [ 1 1 5 range range ] geometric_mean
 [ [ 1, 1.41421356237, 1.81712059283, 2.2133638394, 2.6051710847 ] ]
+''' ],
+
+    'increment' : [
+'arithmetic', 'returns n + 1',
+'''
+''',
+'''
 ''' ],
 
     'is_divisible' : [

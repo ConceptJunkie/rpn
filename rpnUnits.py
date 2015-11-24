@@ -2220,6 +2220,16 @@ unitOperators = {
                   '''
                   ''' ),
 
+    'beer_barrel' :
+        UnitInfo( 'volume', 'beer_barrel', 'beer_barrel', '', [ ], [ 'US', 'beer' ],
+                  '''
+                  ''' ),
+
+    'beer_keg' :
+        UnitInfo( 'volume', 'beer_keg', 'beer_kegs', '', [ ], [ 'US', 'beer' ],
+                  '''
+                  ''' ),
+
     'bucket' :
         UnitInfo( 'volume', 'bucket', 'buckets', '', [ ], [ 'imperial' ],
                   '''
@@ -2844,6 +2854,8 @@ unitConversionMatrix = {
     ( 'barleycorn',                 'poppyseed' )                           : mpmathify( '4' ),
     ( 'beat',                       'blink' )                               : mpmathify( '100' ),
     ( 'becquerel',                  'curie' )                               : mpmathify( '3.7e10' ),
+    ( 'beer_barrel',                'beer_keg' )                            : mpmathify( '2' ),
+    ( 'beer_barrel',                'gallon' )                              : mpmathify( '31' ),
     ( 'billion',                    'unity' )                               : mpmathify( '1.0e9' ),
     ( 'bit',                        'nat' )                                 : log( 2 ),
     ( 'blintz',                     'farshimmelt_blintz' )                  : mpmathify( '1.0e5' ),
