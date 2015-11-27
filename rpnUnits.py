@@ -516,205 +516,304 @@ unitOperators = {
     #            value instead of alphabetical order like all the others
     'decillionth' :
         UnitInfo( 'constant', 'decillionth', 'decillionths', '', [ ], [ 'constant' ],
-                  '''One decillionth:  10e-33 or 1/1,000,000,000,000,000,000,000,000,000,000,000''' ),
+                  '''
+One decillionth:  10e-33 or 1/1,000,000,000,000,000,000,000,000,000,000,000
+                  ''' ),
 
     'nonillionth' :
         UnitInfo( 'constant', 'nonillionth', 'nonillionths', '', [ ], [ 'constant' ],
-                  '''One nonillionth:  10e-30 or 1/1,000,000,000,000,000,000,000,000,000,000''' ),
+                  '''
+One nonillionth:  10e-30 or 1/1,000,000,000,000,000,000,000,000,000,000
+                  ''' ),
 
     'octillionth' :
         UnitInfo( 'constant', 'octillionth', 'octillionths', '', [ ], [ 'constant' ],
-                  '''One octillionth:  10e-27 or 1/1,000,000,000,000,000,000,000,000,000''' ),
+                  '''
+One octillionth:  10e-27 or 1/1,000,000,000,000,000,000,000,000,000
+                  ''' ),
 
     # 'y' can't be used here since it's an operator
     'septillionth' :
         UnitInfo( 'constant', 'septillionth', 'septillionths', '', [ 'yocto' ], [ 'constant' ],
-                  '''One septillionth:  10e-24 or 1/1,000,000,000,000,000,000,000,000''' ),
+                  '''
+One septillionth:  10e-24 or 1/1,000,000,000,000,000,000,000,000
+                  ''' ),
 
     # 'z' can't be used here since it's an operator
     'sextillionth' :
         UnitInfo( 'constant', 'sextillionth', 'sextillionths', '', [ 'zepto' ], [ 'constant' ],
-                  '''One sextillionth:  10e-21 or 1/1,000,000,000,000,000,000,000''' ),
+                  '''
+One sextillionth:  10e-21 or 1/1,000,000,000,000,000,000,000
+                  ''' ),
 
     # 'a' can't be used here since it's used for 'are'
     'quintillionth' :
         UnitInfo( 'constant', 'quintillionth', 'quintillionths', '', [ 'atto' ], [ 'constant' ],
-                  '''One quintillionth:  10e-18 or 1/1,000,000,000,000,000,000''' ),
+                  '''
+One quintillionth:  10e-18 or 1/1,000,000,000,000,000,000
+                  ''' ),
 
     'quadrillionth' :
         UnitInfo( 'constant', 'quadrillionth', 'quadrillionths', 'f', [ 'femto' ], [ 'constant' ],
-                  '''One quadrillionth:  10e-15 or 1/1,000,000,000,000,000''' ),
+                  '''
+One quadrillionth:  10e-15 or 1/1,000,000,000,000,000
+                  ''' ),
 
     'trillionth' :
         UnitInfo( 'constant', 'trillionth', 'trillionths', 'p', [ 'pico' ], [ 'constant' ],
-                  '''One trillionth:  10e-12 or 1/1,000,000,000,000''' ),
+                  '''
+One trillionth:  10e-12 or 1/1,000,000,000,000
+                  ''' ),
 
     'billionth' :
         UnitInfo( 'constant', 'billionth', 'billionths', 'n', [ 'nano' ], [ 'constant' ],
-                  '''One billionth:  10e-9 or 1/1,000,000,000''' ),
+                  '''
+One billionth:  10e-9 or 1/1,000,000,000
+                  ''' ),
 
     'millionth' :
         UnitInfo( 'constant', 'millionth', 'millionths', 'u', [ 'micro' ], [ 'constant' ],
-                  '''One millionth:  10e-6 or 1/1,000,000''' ),
+                  '''
+One millionth:  10e-6 or 1/1,000,000
+                  ''' ),
 
     # 'm' can't be used here since it's used for 'meter'
     'thousandth' :
         UnitInfo( 'constant', 'thousandth', 'thousandths', '', [ 'milli' ], [ 'constant' ],
-                  '''One thousandth:  10e-3 or 1/1,000''' ),
+                  '''
+One thousandth:  10e-3 or 1/1,000
+                  ''' ),
 
     'percent' :
         UnitInfo( 'constant', 'percent', 'percent', '%', [ 'hundredth', 'centi' ], [ 'constant' ],
-                  '''One hundredth:  10e-2 or 1/100''' ),
+                  '''
+One hundredth:  10e-2 or 1/100
+                  ''' ),
 
     'tenth' :
         UnitInfo( 'constant', 'tenth', 'tenths', '', [ 'deci', 'tithe' ], [ 'constant' ],
-                  '''One tenth:  10e-1 or 1/10''' ),
+                  '''
+One tenth:  10e-1 or 1/10
+                  ''' ),
 
     'quarter' :
         UnitInfo( 'constant', 'quarter', 'quarters', '', [ 'fourth' ], [ 'constant' ],
-                  '''One quarter:  1/4 or 0.25''' ),
+                  '''
+One quarter:  1/4 or 0.25
+                  ''' ),
 
     'third' :
         UnitInfo( 'constant', 'third', 'thirds', '', [ ], [ 'constant' ],
-                  '''One third:  1/3 or 0.333333...''' ),
+                  '''
+One third:  1/3 or 0.333333...
+                  ''' ),
 
     'half' :
         UnitInfo( 'constant', 'half', 'halves', '', [ ], [ 'constant' ],
-                  '''One half:  1/2 or 0.5''' ),
+                  '''
+One half:  1/2 or 0.5
+                  ''' ),
 
     'unity' :
         UnitInfo( 'constant', 'x unity', 'x unity', '', [ ], [ 'constant' ],
-                  '''Unity, one, 1''' ),
+                  '''
+Unity, one, 1
+                  ''' ),
 
     'ten' :
         UnitInfo( 'constant', 'ten', 'tens', '', [ 'deca', 'deka', 'dicker' ], [ 'constant' ],
-                  '''Ten:  10e1, or 10''' ),
+                  '''
+Ten:  10e1, or 10
+                  ''' ),
 
     'dozen' :
         UnitInfo( 'constant', 'dozen', 'dozen', '', [ ], [ 'constant' ],
-                  '''A dozen is 12.''' ),
+                  '''
+A dozen is 12.
+                  ''' ),
 
     'score' :
         UnitInfo( 'constant', 'score', 'score', '', [ ], [ 'constant' ],
-                  '''A score is 20.''' ),
+                  '''
+A score is 20.
+                  ''' ),
 
     'flock' :
         UnitInfo( 'constant', 'flock', 'flocks', '', [ ], [ 'constant' ],
-                  '''A flock is an archaic name for 40.''' ),
+                  '''
+A flock is an archaic name for 40.
+                  ''' ),
 
     'shock' :
         UnitInfo( 'constant', 'shock', 'shocks', '', [ ], [ 'constant' ],
-                  '''A shock is an archaic name for 60.''' ),
+                  '''
+A shock is an archaic name for 60.
+                  ''' ),
 
     'hundred' :
         UnitInfo( 'constant', 'hundred', 'hundred', '', [ 'hecto', 'toncount' ], [ 'constant' ],
-                  '''One hundred:  10e2, or 100''' ),
+                  '''
+One hundred:  10e2, or 100
+                  ''' ),
 
     'long_hundred' :
         UnitInfo( 'constant', 'long_hundred', 'long_hundreds', '', [ ], [ 'constant' ],
-                  '''\'long\' hundred is an archaic term for 120.''' ),
+                  '''
+\'long\' hundred is an archaic term for 120.
+                  ''' ),
 
     'gross' :
         UnitInfo( 'constant', 'gross', 'gross', '', [ ], [ 'constant' ],
-                  '''A gross is a dozen dozen, or 144''' ),
+                  '''
+A gross is a dozen dozen, or 144
+                  ''' ),
 
     'thousand' :
         UnitInfo( 'constant', 'thousand', 'thousand', 'k', [ 'kilo' ], [ 'constant' ],
-                  '''One thousand:  10e3, or 1,000''' ),
+                  '''
+One thousand:  10e3, or 1,000
+                  ''' ),
 
     'great_gross' :
         UnitInfo( 'constant', 'great_gross', 'great_gross', '', [ ], [ 'constant' ],
-                  '''A great gross is a dozen gross, or 1728.''' ),
+                  '''
+A great gross is a dozen gross, or 1728.
+                  ''' ),
 
     'million' :
         UnitInfo( 'constant', 'million', 'million', 'M', [ 'mega' ], [ 'constant' ],
-                  '''One million:  10e6 or 1,000,000''' ),
+                  '''
+One million:  10e6 or 1,000,000
+                  ''' ),
 
     # 'G' can't be used here since it's used for 'standard gravity'
     'billion' :
         UnitInfo( 'constant', 'billion', 'billion', '', [ 'giga' ], [ 'constant' ],
-                  '''One billion:  10e9 or 1,000,000,000''' ),
+                  '''
+One billion:  10e9 or 1,000,000,000
+                  ''' ),
 
     # 'T' can't be used here since it's used for 'tesla'
     'trillion' :
         UnitInfo( 'constant', 'trillion', 'trillion', '', [ 'tera' ], [ 'constant' ],
-                  '''One trillion:  10e12 or 1,000,000,000,000''' ),
+                  '''
+One trillion:  10e12 or 1,000,000,000,000
+                  ''' ),
 
     'quadrillion' :
         UnitInfo( 'constant', 'quadrillion', 'quadrillion', 'P', [ 'peta' ], [ 'constant' ],
-                  '''One quadrillion:  10e15 or 1,000,000,000,000,000''' ),
+                  '''
+One quadrillion:  10e15 or 1,000,000,000,000,000
+                  ''' ),
 
     'quintillion' :
         UnitInfo( 'constant', 'quintillion', 'quintillion', 'E', [ 'exa' ], [ 'constant' ],
-                  '''One quintillion:  10e18 or 1,000,000,000,000,000,000''' ),
+                  '''
+One quintillion:  10e18 or 1,000,000,000,000,000,000
+                  ''' ),
 
     'sextillion' :
         UnitInfo( 'constant', 'sextillion', 'sextillion', 'Z', [ 'zetta' ], [ 'constant' ],
-                  '''One sextillion:  10e21 or 1,000,000,000,000,000,000,000''' ),
+                  '''
+One sextillion:  10e21 or 1,000,000,000,000,000,000,000
+                  ''' ),
 
     'septillion' :
         UnitInfo( 'constant', 'septillion', 'septillion', 'Y', [ 'yotta' ], [ 'constant' ],
-                  '''One septillion:  10e24 or 1,000,000,000,000,000,000,000,000''' ),
+                  '''
+One septillion:  10e24 or 1,000,000,000,000,000,000,000,000
+                  ''' ),
 
     'octillion' :
         UnitInfo( 'constant', 'octillion', 'octillion', '', [ ], [ 'constant' ],
-                  '''One octillion:  10e27 or 1,000,000,000,000,000,000,000,000,000''' ),
+                  '''
+One octillion:  10e27 or 1,000,000,000,000,000,000,000,000,000
+                  ''' ),
 
     'nonillion' :
         UnitInfo( 'constant', 'nonillion', 'nonillion', '', [ ], [ 'constant' ],
-                  '''One nonillion:  10e30 or 1,000,000,000,000,000,000,000,000,000,000''' ),
+                  '''
+One nonillion:  10e30 or 1,000,000,000,000,000,000,000,000,000,000
+                  ''' ),
 
     'decillion' :
         UnitInfo( 'constant', 'decillion', 'decillion', '', [ ], [ 'constant' ],
-                  '''One decillion:  10e33 or 1,000,000,000,000,000,000,000,000,000,000,000''' ),
+                  '''
+One decillion:  10e33 or 1,000,000,000,000,000,000,000,000,000,000,000
+                  ''' ),
 
     'undecillion' :
         UnitInfo( 'constant', 'undecillion', 'undecillion', '', [ ], [ 'constant' ],
-                  '''One undecillion:  10e36''' ),
+                  '''
+One undecillion:  10e36
+                  ''' ),
 
     'duodecillion' :
         UnitInfo( 'constant', 'duodecillion', 'duodecillion', '', [ ], [ 'constant' ],
-                  '''One duodecillion:  10e39''' ),
+                  '''
+One duodecillion:  10e39
+                  ''' ),
 
     'tredecillion' :
         UnitInfo( 'constant', 'tredecillion', 'tredecillion', '', [ ], [ 'constant' ],
-                  '''One decillion:  10e42''' ),
+                  '''
+One decillion:  10e42
+                  ''' ),
 
     'quattuordecillion' :
         UnitInfo( 'constant', 'quattuordecillion', 'quattuordecillion', '', [ ], [ 'constant' ],
-                  '''One decillion:  10e45''' ),
+                  '''
+One decillion:  10e45
+                  ''' ),
 
     'quindecillion' :
         UnitInfo( 'constant', 'quindecillion', 'quindecillion', '', [ 'quinquadecillion' ], [ 'constant' ],
-                  '''One decillion:  10e48''' ),
+                  '''
+One decillion:  10e48
+                  ''' ),
 
     'sexdecillion' :
         UnitInfo( 'constant', 'sexdecillion', 'sexdecillion', '', [ ], [ 'constant' ],
-                  '''One decillion:  10e51''' ),
+                  '''
+One decillion:  10e51
+                  ''' ),
 
     'septendecillion' :
         UnitInfo( 'constant', 'septemdecillion', 'septemdecillion', '', [ ], [ 'constant' ],
-                  '''One decillion:  10e54''' ),
+                  '''
+One decillion:  10e54
+                  ''' ),
 
     'octodecillion' :
         UnitInfo( 'constant', 'octodecillion', 'octodecillion', '', [ ], [ 'constant' ],
-                  '''One decillion:  10e57''' ),
+                  '''
+One decillion:  10e57
+                  ''' ),
 
     'novemdecillion' :
         UnitInfo( 'constant', 'novemdecillion', 'novemdecillion', '', [ 'novendecillion' ], [ 'constant' ],
-                  '''One decillion:  10e60''' ),
+                  '''
+One decillion:  10e60
+                  ''' ),
 
     'vigintillion' :
         UnitInfo( 'constant', 'vigintillion', 'vigintillion', '', [ ], [ 'constant' ],
-                  '''One decillion:  10e63''' ),
+                  '''
+One decillion:  10e63
+                  ''' ),
 
     'googol' :
         UnitInfo( 'constant', 'googol', 'googols', '', [ ], [ 'constant' ],
-                  '''One googol:  10e100 or ten duotrigintillion, famously named in 1920 by 9-year-old Milton Sirotta''' ),
+                  '''
+One googol:  10e100 or ten duotrigintillion, famously named in 1920 by
+9-year-old Milton Sirotta.
+                  ''' ),
 
     'centillion' :
         UnitInfo( 'constant', 'centillion', 'centillion', '', [ ], [ 'constant' ],
-                  '''One centillion:  10e303''' ),
+                  '''
+One centillion:  10e303
+                  ''' ),
 
     # current
     'abampere' :
@@ -826,10 +925,11 @@ unitOperators = {
     'conductance_quantum' :
         UnitInfo( 'electrical_conductance', 'conductance_quantum', 'conductance_quanta', 'G0', [ ], [ 'SI' ],
                   '''
-                  The conductance quantum appears when measuring the conductance of a quantum point contact,
-                  and, more generally, is a key component of Landauer formula which relates the electrical
-                  conductance of a quantum conductor to its quantum properties. It is twice the reciprocal
-                  of the von Klitzing constant (2/RK). (https://en.wikipedia.org/wiki/Conductance_quantum)
+The conductance quantum appears when measuring the conductance of a quantum
+point contact, and, more generally, is a key component of Landauer formula
+which relates the electrical conductance of a quantum conductor to its quantum
+properties. It is twice the reciprocal of the von Klitzing constant (2/RK).
+(https://en.wikipedia.org/wiki/Conductance_quantum)
                   ''' ),
 
     'second^3-ampere^2/kilogram-meter^2':
@@ -959,6 +1059,16 @@ unitOperators = {
                   '''
                   ''' ),
 
+    'foe' :
+        UnitInfo( 'energy', 'foe', 'foes', 'J', [ ], [ 'SI' ],
+                  '''
+A foe is a unit of energy equal to 10^44 joules or 10^51 ergs, used to measure
+the large amount of energy released by a supernova.  The word is an acronym
+derived from the phrase [ten to the power of] fifty-one ergs.  It was coined
+by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
+"it came up often enough in our work".
+                  ''' ),
+
     'gram-equivalent' :
         UnitInfo( 'energy', 'gram-equivalent', 'grams-equivalent', 'gE', [ 'gram-energy', 'grams-energy', 'gramme-equivalent', 'grammes-equivalent',  'gramme-energy', 'grammes-energy' ], [ 'natural' ],
                   '''
@@ -994,9 +1104,28 @@ unitOperators = {
                   '''
                   ''' ),
 
+    'quad' :
+        UnitInfo( 'energy', 'quad', 'quads', '', [ ], [ 'US' ],
+                  '''
+A quad is a unit of energy equal to 10^15 (a short-scale quadrillion) BTU, or
+1.055e18 joules (1.055 exajoules or EJ) in SI units.  The unit is used by
+the U.S. Department of Energy in discussing world and national energy budgets.
+The global primary energy production in 2004 was 446 quad, equivalent to 471 EJ.
+(https://en.wikipedia.org/wiki/Quad_%28unit%29)
+                  ''' ),
+
     'rydberg' :
         UnitInfo( 'energy', 'rydberg', 'rydbergs', 'Ry', [ ], [ 'science' ],
                   '''
+                  ''' ),
+
+    'therm' :
+        UnitInfo( 'energy', 'therm', 'therms', '', [ 'thm' ], [ 'England', 'US' ],
+                  '''
+The therm (symbol thm) is a non-SI unit of heat energy equal to 100,000
+British thermal units (BTU).  It is approximately the energy equivalent of
+burning 100 cubic feet (often referred to as 1 CCF) of natural gas.
+(https://en.wikipedia.org/wiki/Therm)
                   ''' ),
 
     'ton_of_TNT' :
@@ -1033,7 +1162,7 @@ unitOperators = {
     'kilogram-meter/second^2' :
         UnitInfo( 'energy', 'kilogram*meter/second^2', 'kilogram*meter/second^2', 'kg*m/s^2', [ ], [ 'SI' ],
                   '''
-                  This is the definition of the SI derived unit Newton (N).
+This is the definition of the SI derived unit Newton (N).
                   ''' ),
 
     'newton' :
@@ -1172,12 +1301,16 @@ unitOperators = {
 
     'bit' :
         UnitInfo( 'information_entropy', 'bit', 'bits', 'b', [ 'shannon', 'shannons' ], [ 'computing' ],
-                  '''A 'binary digit', which can store two values.''' ),
+                  '''
+A 'binary digit', which can store two values.
+                  ''' ),
 
     'byte' :
         UnitInfo( 'information_entropy', 'byte', 'bytes', 'B', [ 'octet', 'octets' ], [ 'computing' ],
-                  '''The traditional unit of computer storage, whose value has varied over the years and on different platforms,'''
-                  '''but is now commonly defined to be 8 bits in size.''' ),
+                  '''
+The traditional unit of computer storage, whose value has varied over the years and on different platforms,
+but is now commonly defined to be 8 bits in size.
+                  ''' ),
 
     'btupf' :
         UnitInfo( 'information_entropy', 'btupf', 'btupf', '', [ ], [ 'England' ],
@@ -1191,7 +1324,9 @@ unitOperators = {
 
     'dword' :
         UnitInfo( 'information_entropy', 'dword', 'dwords', '', [ 'double_word', 'double_words', 'long_integer', 'long_integers' ], [ 'computing' ],
-                  '''A 'double-word' consisting of 2 16-bits words, or 32 bits total.''' ),
+                  '''
+A 'double-word' consisting of 2 16-bits words, or 32 bits total.
+                  ''' ),
 
     'joule/kelvin' :
         UnitInfo( 'information_entropy', 'joule/kelvin', 'joules/kelvin', 'J/K', [ 'joule/K', 'joules/K' ], [ 'SI' ],
@@ -1200,12 +1335,17 @@ unitOperators = {
 
     'library_of_congress' :
         UnitInfo( 'information_entropy', 'library_of_congress', 'libraries_of_congress', 'LoC', [ 'congress', 'congresses', 'loc' ], [ 'computing' ],
-                  '''An informal unit of information measurement based on the contents of the U.S. Library of Congress, estimated to be'''
-                  '''the equivalent of 10 terabytes in size.''' ),
+                  '''
+An informal unit of information measurement based on the contents of the U.S.
+Library of Congress, estimated to be the equivalent of 10 terabytes in size.
+                  ''' ),
 
     'nibble' :
         UnitInfo( 'information_entropy', 'nibble', 'nibbles', '', [ 'nybble', 'nybbles' ], [ 'computing' ],
-                  '''A nybble is a half-byte, or 4 bits.  A nybble can be represented by a single hexadecimal digit.''' ),
+                  '''
+A nybble is a half-byte, or 4 bits.  A nybble can be represented by a single
+hexadecimal digit.
+                  ''' ),
 
     'nat' :
         UnitInfo( 'information_entropy', 'nat', 'nats', '', [ 'nip', 'nips', 'nepit', 'nepits' ], [ 'IEC' ],
@@ -1214,29 +1354,45 @@ unitOperators = {
 
     'nyp' :
         UnitInfo( 'information_entropy', 'nyp', 'nyps', '', [ ], [ 'computing' ],   # suggested by Donald Knuth
-                  '''A nyp is a term suggested by Knuth to represent two bits.  It is not a commonly used term.''' ),
+                  '''
+A nyp is a term suggested by Knuth to represent two bits.  It is not a
+commonly used term.
+                  ''' ),
 
     'oword' :
         UnitInfo( 'information_entropy', 'oword', 'owords', '', [ 'octaword', 'octawords' ], [ 'computing' ],
-                  '''An 'octo-word' consisting of 8 16-bit words or 128 bits total.''' ),
+                  '''
+An 'octo-word' consisting of 8 16-bit words or 128 bits total.
+                  ''' ),
 
     'qword' :
         UnitInfo( 'information_entropy', 'qword', 'qwords', '', [ 'quad_word', 'quad_words', 'longlong_integer', 'longlong_integers' ], [ 'computing' ],
-                  '''A 'quad-word' consisting of 4 16-bit words, or 64 bits total.''' ),
+                  '''
+A 'quad-word' consisting of 4 16-bit words, or 64 bits total.
+                  ''' ),
 
     'trit' :
         UnitInfo( 'information_entropy', 'trit', 'trits', '', [ ], [ 'computing' ],
-                  '''A trit is a 'ternary digit', by extension from the term 'bit' for 'binary digit'.  In 1958 the Setun '''
-                  '''balanced ternary computer was developed at Moscow State University, which used trits and 6-trit trytes.''' ),
+                  '''
+A trit is a 'ternary digit', by extension from the term 'bit' for 'binary
+digit'.  In 1958 the Setun balanced ternary computer was developed at Moscow
+State University, which used trits and 6-trit trytes.
+                  ''' ),
 
     'tryte' :
         UnitInfo( 'information_entropy', 'tryte', 'trytes', '', [ ], [ 'computing' ],
-                  '''A tryte consists of 6 trits (i.e., 'ternary digits'), and is named by extension from the term 'byte'.  In 1958 the Setun '''
-                  '''balanced ternary computer was developed at Moscow State University, which used trits and 6-trit trytes.''' ),
+                  '''
+A tryte consists of 6 trits (i.e., 'ternary digits'), and is named by extension
+from the term 'byte'.  In 1958 the Setun balanced ternary computer was
+developed at Moscow State University, which used trits and 6-trit trytes.
+                  ''' ),
 
     'word' :
         UnitInfo( 'information_entropy', 'word', 'words', '', [ 'short_integer', 'short_integers', 'wyde' ], [ 'computing' ],
-                  '''A word is traditionally two bytes, or 16 bits.  The term 'wyde' was suggested by Knuth.''' ),
+                  '''
+A word is traditionally two bytes, or 16 bits.  The term 'wyde' was suggested
+by Knuth.
+                  ''' ),
 
     # length
     'aln' :
@@ -2677,17 +2833,19 @@ metricUnits = [
     ( 'ampere-second',      'ampere-seconds',   'As',   [ 'amp-second' ], [ 'amp-seconds' ] ),
     ( 'are',                'ares',             'a',    [ ], [ ] ),
     ( 'bar',                'bars',             'bar',  [ ], [ ] ),
-    ( 'barn',               'barns',            'bn',   [ ], [ ] ),     # 'bn' is not standard
+    ( 'barn',               'barns',            '',     [ ], [ ] ),
     ( 'becquerel',          'becquerels',       'Bq',   [ ], [ ] ),
     ( 'blintz',             'blintzes',         'bl',   [ ], [ ] ),
     ( 'coulomb',            'coulombs',         'C',    [ ], [ ] ),
     ( 'calorie',            'calories',         'cal',  [ ], [ 'cals' ] ),
     ( 'electron-volt',      'electron-volts',   'eV',   [ ], [ ] ),
+    ( 'erg',                'ergs',             '',     [ ], [ ] ),
     ( 'farad',              'farads',           'F',    [ ], [ ] ),
     ( 'gram-equivalent',    'grams-equivalent', 'gE',   [ 'gram-energy', 'gramme-energy' ], [ 'grams-energy', 'grammes-energy' ] ),
     ( 'gram',               'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
     ( 'gram-force',         'grams-force',      'gf',   [ 'gramme-force' ], [ 'grammes-force' ] ),
     ( 'henry',              'henries',          'H',    [ ], [ ] ),
+    ( 'hertz',              'hertz',            'Hz',   [ ], [ ] ),
     ( 'joule',              'joules',           'J',    [ ], [ ] ),
     ( 'kelvin',             'kelvins',          'K',    [ ], [ ] ),
     ( 'liter',              'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
@@ -2701,7 +2859,7 @@ metricUnits = [
     ( 'parsec',             'parsecs',          'pc',   [ ], [ ] ),
     ( 'pascal',             'pascals',          'Pa',   [ ], [ ] ),
     ( 'pascal-second',      'pascal-seconds',   'Pas',  [ ], [ ] ),
-    ( 'pond',               'ponds',            'pond', [ ], [ ] ),     # 'p' is used for 'pico'
+    ( 'pond',               'ponds',            '',     [ ], [ ] ),
     ( 'potrzebie',          'potrzebies',       'pz',   [ ], [ ] ),
     ( 'rem',                'rems',             'rem',  [ ], [ ] ),
     ( 'second',             'seconds',          's',    [ ], [ ] ),
@@ -2933,6 +3091,7 @@ unitConversionMatrix = {
     ( 'flock',                      'unity' )                               : mpmathify( '40' ),
     ( 'fluid_ounce',                'dram' )                                : mpmathify( '8' ),
     ( 'fluid_ounce',                'tablespoon' )                          : mpmathify( '2' ),
+    ( 'foe',                        'joule' )                               : mpmathify( '10e44' ),
     ( 'foot',                       'inch' )                                : mpmathify( '12' ),
     ( 'footcandle',                 'lumen/foot^2' )                        : mpmathify( '1' ),
     ( 'footcandle',                 'lux' )                                 : mpmathify( '10.763910417' ),            # (m/ft)^2
@@ -3101,6 +3260,7 @@ unitConversionMatrix = {
     ( 'pound',                      'ounce' )                               : mpmathify( '16' ),
     ( 'pound',                      'sheet' )                               : mpmathify( '700' ),
     ( 'psi',                        'pascal' )                              : mpmathify( '6894.757' ),        # approx.
+    ( 'quad',                       'btu' )                                 : mpmathify( '10e15' ),
     ( 'quadrant',                   'degree' )                              : mpmathify( '90' ),
     ( 'quadrillion',                'unity' )                               : mpmathify( '1.0e15' ),
     ( 'quart',                      'cup' )                                 : mpmathify( '4' ),
@@ -3178,6 +3338,7 @@ unitConversionMatrix = {
     ( 'tesla',                      'gauss' )                               : mpmathify( '10000' ),
     ( 'tesla',                      'kilogram/ampere-second^2' )            : mpmathify( '1' ),
     ( 'tesla',                      'volt-second/meter^2' )                 : mpmathify( '1' ),
+    ( 'therm',                      'btu' )                                 : mpmathify( '100000' ),
     ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '100' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),

@@ -32,6 +32,7 @@ import contextlib
 import os
 import pickle
 import signal
+import sys
 
 from mpmath import *
 from random import randrange
@@ -40,6 +41,19 @@ from functools import reduce
 from rpnVersion import *
 
 import rpnGlobals as g
+
+
+# //******************************************************************************
+# //
+# //  getDataPath
+# //
+# //******************************************************************************
+
+def getDataPath( ):
+    if getattr( sys, 'frozen', False ):
+        g.dataPath = os.path.dirname( sys.executable )
+    else:
+        g.dataPath = os.path.dirname( os.path.realpath( __file__ ) ) + os.sep + g.dataDir
 
 
 # //******************************************************************************

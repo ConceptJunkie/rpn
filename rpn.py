@@ -249,10 +249,7 @@ def rpn( cmd_args ):
     g.debugMode = False
     g.outputRadix = 10
 
-    if getattr( sys, 'frozen', False ):
-        g.dataPath = os.path.dirname( sys.executable )
-    else:
-        g.dataPath = os.path.dirname( os.path.realpath( __file__ ) ) + os.sep + g.dataDir
+    getDataPath( )
 
     # look for help argument before we start setting everything up (because it's faster this way)
     help = False

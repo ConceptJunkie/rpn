@@ -87,16 +87,12 @@ def makeAliases( ):
     newAliases = { }
 
     for metricUnit in metricUnits:
-        newAliases[ metricUnit[ 2 ] ] = metricUnit[ 0 ]
-
         for prefix in metricPrefixes:
             unit = makeMetricUnit( prefix[ 0 ], metricUnit[ 0 ] )
             pluralUnit = makeMetricUnit( prefix[ 0 ], metricUnit[ 1 ] )
 
             if pluralUnit != unit:
                 newAliases[ pluralUnit ] = unit             # add plural alias
-
-            newAliases[ prefix[ 1 ] + metricUnit[ 2 ] ] = unit   # add SI abbreviation alias
 
             for alternateUnit in metricUnit[ 3 ]:           # add alternate spelling alias
                 newAliases[ makeMetricUnit( prefix[ 0 ], alternateUnit ) ] = unit
@@ -149,8 +145,6 @@ def makeAliases( ):
         if unitInfo.abbrev != '':
             newAliases[ unitInfo.abbrev ] = unit
 
-    # for i in newAliases:
-    #     print( i, newAliases[ i ] )
     return newAliases
 
 
@@ -175,9 +169,15 @@ def expandMetricUnits( ):
 
             if newName not in unitOperators:
                 # constuct unit operator info
-                unitOperators[ newName ] = \
-                    UnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
-                              prefix[ 1 ] + metricUnit[ 2 ], [ ], [ 'SI' ], True )
+                if metricUnit[ 2 ]:
+                    unitOperators[ newName ] = \
+                        UnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
+                                  prefix[ 1 ] + metricUnit[ 2 ], [ ], [ 'SI' ], True )
+                else:
+                    unitOperators[ newName ] = \
+                        UnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
+                                  '', [ ], [ 'SI' ], True )
+
 
                 newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
                 unitConversionMatrix[ ( newName, metricUnit[ 0 ] ) ] = newConversion

@@ -16,8 +16,14 @@ import sys
 
 from collections import OrderedDict
 
+from rpnOperators import *
+
+from rpnAliases import operatorAliases
+from rpnConstants import constants
 from rpnMeasurement import RPNMeasurement
+from rpnPersistence import loadUnitNameData
 from rpnTestUtils import *
+from rpnUtils import getDataPath
 from testConvert import *
 from testHelp import *
 
@@ -2772,5 +2778,34 @@ def runTests( tests ):
 # //******************************************************************************
 
 if __name__ == '__main__':
+    getDataPath( )
+    loadHelpData( )
+    loadUnitNameData( )
+
+    for alias in operatorAliases:
+        if operatorAliases[ alias ] in operators:
+            continue
+
+        if operatorAliases[ alias ] in listOperators:
+            continue
+
+        if operatorAliases[ alias ] in modifiers:
+            continue
+
+        if operatorAliases[ alias ] in constants:
+            continue
+
+        if operatorAliases[ alias ] in g.unitOperatorNames:
+            continue
+
+        if operatorAliases[ alias ] in g.operatorCategories:
+            continue
+
+        if operatorAliases[ alias ] == 'unit_types':
+            continue
+
+        print( 'alias \'' + alias + '\' resolves to invalid name \'' + operatorAliases[ alias ] + '\'' )
+        exit( )
+
     runTests( sys.argv[ 1 : ] )
 
