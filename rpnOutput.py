@@ -178,6 +178,9 @@ def formatOutput( output ):
 # //
 # //  formatListOutput
 # //
+# //  This function formats a list for output, taking into account the list
+# //  format level, as specified by the -s option.
+# //
 # //******************************************************************************
 
 def formatListOutput( result, level = 0 ):
@@ -185,9 +188,6 @@ def formatListOutput( result, level = 0 ):
 
     for item in result:
         newString = ''
-
-        if level < g.listFormatLevel:
-            newString == '\n' + ' ' * level * 4
 
         if isinstance( item, ( list, RPNGenerator ) ):
             newString = formatListOutput( item, level + 1 )
@@ -204,11 +204,12 @@ def formatListOutput( result, level = 0 ):
 
         stringList.append( newString )
 
-    result = '[ ' + ', '.join( [ i for i in stringList ] )
-
     if level < g.listFormatLevel:
-        result += '\n]'
+        indent = ' ' * ( level + 1 ) * 4
+        result = '[\n' + indent + ( ',\n' + indent ).join( [ i for i in stringList ] )
+        result += '\n' + ' ' * level * 4 + ']'
     else:
+        result = '[ ' + ', '.join( [ i for i in stringList ] )
         result += ' ]'
 
     return result
@@ -217,6 +218,9 @@ def formatListOutput( result, level = 0 ):
 # //******************************************************************************
 # //
 # //  formatUnits
+# //
+# //  For outputting an RPNMeasurement object, this method formats the units part
+# //  of the object.
 # //
 # //******************************************************************************
 

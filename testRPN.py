@@ -156,7 +156,7 @@ def runCommandLineOptionsTests( ):
 
 def runAlgebraOperatorTests( ):
     # add_polynomials
-    testOperator( '1 10 range 1 10 range add_polynomials' )
+    expectEqual( '1 10 range 1 10 range add_polynomials', '2 20 2 range2' )
     expectException( '1 10 range add_polynomials' )
 
     # eval_polynomial
@@ -166,7 +166,7 @@ def runAlgebraOperatorTests( ):
     expectException( '1 10 range eval_polynomial' )
 
     # find_polynomial
-    testOperator( 'phi 3 find_polynomial' )
+    expectEqual( 'phi 3 find_polynomial', '[ -1 1 1 ]' )
     expectException( '1 find_polynomial' )
 
     # multiply_polynomials
@@ -812,7 +812,9 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '-t 0 20 range partitions', '41 oeis 21 left' )
 
     # permutations
-    testOperator( '8 3 permutations' )
+    expectEqual( '8 3 permutations', '8 ! 5 ! /' )
+    expectEqual( '-a20 17 12 permutations', '-a20 17 ! 5 ! /' )
+    expectException( '6 7 permutations' )
 
 
 # //******************************************************************************

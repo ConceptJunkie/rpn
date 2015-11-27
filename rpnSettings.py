@@ -183,16 +183,10 @@ def setIdentify( n ):
 # //
 # //  set variable n with value k
 # //
-# //  TODO:  variables can't be changed once they are set
-# //
 # //******************************************************************************
 
 def setVariable( n, k ):
-    if isinstance( n, str ):
-        g.variables[ n ] = k
-    else:
-        raise ValueError( 'variable name expected' )
-
+    n.setValue( k )
     return k
 
 

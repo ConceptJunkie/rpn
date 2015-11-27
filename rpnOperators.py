@@ -128,9 +128,7 @@ class RPNFunctionInfo( object ):
                     # Inspect returns the actual source line, which is the definition in the
                     # operators dictionary, so we need to parse out the lambda definition.
                     className = 'RPNOperatorInfo'
-                    length = len( className )
-
-                    function = function[ function.find( className ) + length : -7 ] + ')'
+                    function = function[ function.find( className ) + len( className ): -7 ] + ' )'
 
                 function += '( '
 
@@ -331,34 +329,19 @@ def evaluateConstantOperator( term, index, currentValueList ):
 
 # //******************************************************************************
 # //
-# //  expandVariable
-# //
-# //  We can't use this until we are sure we need to expand the variable.  If
-# //  the operator is "set", for instance, the variable should not be expanded.
-# //
-# //  This function also works for history expressions (i.e., $1).
+# //  checkForVariable
 # //
 # //******************************************************************************
 
-def expandVariable( term ):
+def checkForVariable( term ):
     if not isinstance( term, str ):
-        return str
+        return term
 
     # first check for a variable name or history expression
     if term[ 0 ] != '$':
-        return str
+        return term
 
-    if term[ 1 ].isalpha( ):
-        return RPNVariable( term[ 1 : ] )
-    else:
-        prompt = int( term[ 1 : ] )
-
-        if ( prompt > 0 ) and ( prompt < g.promptCount ):
-            return g.results[ prompt ]
-        else:
-            raise ValueError( 'result index out of range' )
-
-    return nan
+    return RPNVariable( term[ 1 : ] )
 
 
 # //******************************************************************************
@@ -392,7 +375,10 @@ def evaluateOperator( term, index, currentValueList ):
                 if argsNeeded > g.operandsToRemove:
                     g.operandsToRemove = argsNeeded
             else:
-                arg = currentValueList.pop( )
+                arg = checkForVariable( currentValueList.pop( ) )
+
+                if term != 'set' and isinstance( arg, RPNVariable ):
+                    arg = arg.getValue( )
 
             argList.append( arg if isinstance( arg, list ) else [ arg ] )
 
@@ -1514,7 +1500,7 @@ operators = {
     'agm'                           : RPNOperatorInfo( agm, 2 ),
     'cube'                          : RPNOperatorInfo( lambda n: exponentiate( n, 3 ), 1 ),
     'cube_root'                     : RPNOperatorInfo( lambda n: getRoot( n, 3 ), 1 ),
-    'exp'                           : RPNOperatorInfo( exp, 1 ),
+    'exp'                           : RPNOperatorInfo( lambda n: exp( n ), 1 ),
     'exp10'                         : RPNOperatorInfo( lambda n: power( 10, n ), 1 ),
     'expphi'                        : RPNOperatorInfo( lambda n: power( phi, n ), 1 ),
     'hyper4_2'                      : RPNOperatorInfo( tetrateLarge, 2 ),

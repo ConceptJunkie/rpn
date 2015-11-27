@@ -117,6 +117,12 @@ def handleOutput( valueList ):
         elif isinstance( result, list ):
             print( formatListOutput( result ) )
         else:
+            if isinstance( result, str ):
+                result = checkForVariable( result )
+
+            if isinstance( result, RPNVariable ):
+                result = result.getValue( )
+
             if isinstance( result, arrow.Arrow ):
                 outputString = formatDateTime( result )
             elif isinstance( result, str ):

@@ -127,8 +127,6 @@ def multiply( n, k ):
 def exponentiate( n, k ):
     if isinstance( n, RPNMeasurement ):
         return n.exponentiate( k )
-    elif isinstance( k, RPNMeasurement ):
-        raise ValueError( 'a measurement cannot be exponentiated (yet)' )
     else:
         return power( n, k )
 
@@ -141,27 +139,27 @@ def exponentiate( n, k ):
 
 def getRoot( n, k ):
     if isinstance( n, RPNMeasurement ):
-        if isInteger( k ):
-            newUnits = n.getUnits( )
-
-            for unit, exponent in newUnits.items( ):
-                if fmod( exponent, k ) != 0:
-                    if k == 2:
-                        name = 'square'
-                    elif k == 3:
-                        name = 'cube'
-                    else:
-                        name = getOrdinalName( k )
-
-                    raise ValueError( 'cannot take the ' + name + ' root of this measurement' )
-
-                newUnits[ unit ] /= k
-
-            value = root( n, k )
-
-            return RPNMeasurement( value, newUnits )
-        else:
+        if not isInteger( k ):
             raise ValueError( 'cannot take a fractional root of a measurement' )
+
+        newUnits = n.getUnits( )
+
+        for unit, exponent in newUnits.items( ):
+            if fmod( exponent, k ) != 0:
+                if k == 2:
+                    name = 'square'
+                elif k == 3:
+                    name = 'cube'
+                else:
+                    name = getOrdinalName( k )
+
+                raise ValueError( 'cannot take the ' + name + ' root of this measurement' )
+
+            newUnits[ unit ] /= k
+
+        value = root( n, k )
+
+        return RPNMeasurement( value, newUnits )
 
     return root( n, k )
 

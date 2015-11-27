@@ -42,6 +42,7 @@ class RPNOperatorType( Enum ):
 class RPNVariable( object ):
     def __init__( self, name ):
         self.name = name
+        self.isHistory = not name[ 0 ].isalpha( )
 
         if name in g.variables:
             self.value = g.variables[ name ]
@@ -49,10 +50,21 @@ class RPNVariable( object ):
             self.value = nan
 
     def setValue( self, value ):
+        if self.isHistory:
+            raise ValueError( 'cannot set the value of a history expression' )
+
         self.value = value
-        g.variables[ name ] = value
+        g.variables[ self.name ] = value
 
     def getValue( self ):
+        if self.isHistory:
+            prompt = int( self.name )
+
+            if ( prompt > 0 ) and ( prompt < g.promptCount ):
+                self.value = g.results[ prompt ]
+            else:
+                raise ValueError( 'result index out of range' )
+
         return self.value
 
 
