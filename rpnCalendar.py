@@ -207,7 +207,6 @@ def getOrdinalDate( n ):
 def generateMonthCalendar( year, month ):
     cal = calendar.TextCalendar( firstweekday = 6 )
     cal.prmonth( real_int( year ), real_int( month ) )
-    print( )
 
     return ''
 
@@ -225,8 +224,6 @@ def generateYearCalendar( n ):
         cal.pryear( n.year )
     else:
         cal.pryear( real_int( n ) )
-
-    print( )
 
     return ''
 

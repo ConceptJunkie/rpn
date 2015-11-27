@@ -19,6 +19,7 @@ import random
 from mpmath import *
 
 from rpnGenerator import *
+from rpnMath import add
 from rpnMeasurement import RPNMeasurement
 from rpnNumberTheory import getGCD
 
@@ -442,10 +443,13 @@ def calculatePowerTower2( args ):
 # //******************************************************************************
 
 def getSum( n ):
-    result = 0
+    result = None
 
     for i in n:
-        result = fadd( result, i )
+        if result is None:
+            result = i
+        else:
+            result = add( result, i )
 
     return result
 

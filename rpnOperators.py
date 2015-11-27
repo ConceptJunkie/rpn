@@ -338,7 +338,7 @@ def checkForVariable( term ):
         return term
 
     # first check for a variable name or history expression
-    if term[ 0 ] != '$':
+    if not term or term[ 0 ] != '$':
         return term
 
     return RPNVariable( term[ 1 : ] )
