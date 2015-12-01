@@ -171,12 +171,12 @@ def expandMetricUnits( ):
                 # constuct unit operator info
                 if metricUnit[ 2 ]:
                     unitOperators[ newName ] = \
-                        UnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
-                                  prefix[ 1 ] + metricUnit[ 2 ], [ ], [ 'SI' ], True )
+                        RPNUnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
+                                     prefix[ 1 ] + metricUnit[ 2 ], [ ], [ 'SI' ], True )
                 else:
                     unitOperators[ newName ] = \
-                        UnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
-                                  '', [ ], [ 'SI' ], True )
+                        RPNUnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
+                                     '', [ ], [ 'SI' ], True )
 
 
                 newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -244,9 +244,9 @@ def expandDataUnits( ):
 
             # constuct unit operator info
             unitOperators[ newName ] = \
-                UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
-                          prefix[ 1 ] + dataUnit[ 2 ], [ ],
-                          unitOperators[ dataUnit[ 0 ] ].categories, True )
+                RPNUnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
+                             prefix[ 1 ] + dataUnit[ 2 ], [ ],
+                             unitOperators[ dataUnit[ 0 ] ].categories, True )
 
             # create new conversions
             newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -260,9 +260,9 @@ def expandDataUnits( ):
 
             # constuct unit operator info
             unitOperators[ newName ] = \
-                UnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
-                          prefix[ 1 ] + dataUnit[ 2 ],
-                          [ ], unitOperators[ dataUnit[ 0 ] ].categories, True )
+                RPNUnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
+                             prefix[ 1 ] + dataUnit[ 2 ],
+                             [ ], unitOperators[ dataUnit[ 0 ] ].categories, True )
 
             # create new conversions
             newConversion = power( 2, mpmathify( prefix[ 2 ] ) )
@@ -294,8 +294,8 @@ def makeAreaOperator( unit, unitPlural ):
         newAliases[ 'sq' + unitInfo.abbrev ] = newUnit
         newAliases[ 'sq_' + unitInfo.abbrev ] = newUnit
 
-    newUnitInfo = UnitInfo( 'area', unit + '^2', 'square_' + unitPlural, abbrev, [ ],
-                            unitInfo.categories, True )
+    newUnitInfo = RPNUnitInfo( 'area', unit + '^2', 'square_' + unitPlural, abbrev, [ ],
+                               unitInfo.categories, True )
 
     newAliases[ 'square_' + unitInfo.plural ] = newUnit
     newAliases[ 'square_' + unitInfo.abbrev ] = newUnit
@@ -328,8 +328,8 @@ def makeVolumeOperator( unit, unitPlural ):
         newAliases[ 'cu' + unitInfo.abbrev ] = newUnit
         newAliases[ 'cu_' + unitInfo.abbrev ] = newUnit
 
-    newUnitInfo = UnitInfo( 'volume', unit + '^3', 'cubic_' + unitPlural, abbrev, [ ],
-                            unitInfo.categories, True )
+    newUnitInfo = RPNUnitInfo( 'volume', unit + '^3', 'cubic_' + unitPlural, abbrev, [ ],
+                               unitInfo.categories, True )
 
     newAliases[ 'cubic_' + unitInfo.plural ] = newUnit
     newAliases[ 'cubic_' + unitInfo.abbrev ] = newUnit
@@ -460,8 +460,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
                         newAliases[ alias + '-' + timeUnit[ 1 ] ] = newUnit
 
                 newUnitOperators[ newUnit ] = \
-                    UnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural, '', [ ],
-                              unitInfo.categories, True )
+                    RPNUnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural, '', [ ],
+                                 unitInfo.categories, True )
 
                 conversion = mpmathify( timeUnit[ 3 ] )
                 unitConversionMatrix[ ( newUnit, unit ) ] = conversion
@@ -496,8 +496,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
                         newAliases[ alias + '/' + timeUnit[ 1 ] ] = newUnit
 
                 newUnitOperators[ newUnit ] = \
-                    UnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural, '',
-                              [ ], unitInfo.categories, True )
+                    RPNUnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural, '',
+                                 [ ], unitInfo.categories, True )
 
                 conversion = mpmathify( timeUnit[ 3 ] )
                 unitConversionMatrix[ ( newUnit, unit ) ] = fdiv( 1, conversion )

@@ -44,6 +44,7 @@ from rpnMeasurement import *
 from rpnModifiers import *
 from rpnName import *
 from rpnNumberTheory import *
+from rpnPhysics import *
 from rpnPolynomials import *
 from rpnPolytope import *
 from rpnPrimeUtils import *
@@ -1417,6 +1418,9 @@ operators = {
     'tribonacci'                    : RPNOperatorInfo( lambda n: getNthKFibonacciNumber( n, 3 ), 1 ),
     'unit_roots'                    : RPNOperatorInfo( lambda n: unitroots( real_int( n ) ), 1 ),
     'zeta'                          : RPNOperatorInfo( zeta, 1 ),
+
+    # physics
+    'schwarzchild_radius'           : RPNOperatorInfo( getSchwarzchildRadius, 1 ),
 
     # polygonal
     'centered_decagonal'            : RPNOperatorInfo( lambda n: getCenteredPolygonalNumber( n, 10 ), 1 ),

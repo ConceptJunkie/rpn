@@ -692,6 +692,7 @@ operatorAliases = {
     'sat'                       : 'saturday',
     'saturn_year'               : 'saturn_revolution',
     'schroeder'                 : 'nth_schroeder',
+    'schwarzchild'              : 'schwarzchild_radius',
     'secant'                    : 'sec',
     'sep'                       : 'september',
     'sext'                      : 'sextuplet_prime',

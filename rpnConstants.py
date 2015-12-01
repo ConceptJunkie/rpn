@@ -12,10 +12,160 @@
 # //
 # //******************************************************************************
 
+from functools import lru_cache
+
 from mpmath import *
 
 from rpnConstantUtils import *
 from rpnDeclarations import *
+from rpnMath import exponentiate, getRoot
+
+
+# //******************************************************************************
+# //
+# //  getNewtonsConstant
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getNewtonsConstant( ):
+    return RPNMeasurement( '6.67408e-11', 'meter^3/kilogram*second^2' )
+
+
+# //******************************************************************************
+# //
+# //  getSpeedOfLight
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getSpeedOfLight( ):
+    return RPNMeasurement( '299792458', 'meter/second' )
+
+
+# //******************************************************************************
+# //
+# //  getElectricConstant
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getElectricConstant( ):
+    return RPNMeasurement( '8.854187817e-12', 'farad/meter' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckConstant
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getPlanckConstant( ):
+    return RPNMeasurement( '6.626070040e-34', 'kilogram*meter^2/second' )
+
+
+# //******************************************************************************
+# //
+# //  getReducedPlanckConstant
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getReducedPlanckConstant( ):
+    return getPlanckConstant( ).divide( fmul( 2, pi ) )
+
+
+# //******************************************************************************
+# //
+# //  getFineStructureConstant
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getFineStructureConstant( ):
+    return mpmathify( '7.2973525664e-3' )
+
+
+# //******************************************************************************
+# //
+# //  getElectronCharge
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getElectronCharge( ):
+    return RPNMeasurement( '1.602176565e-19', 'coulomb' )
+
+
+# //******************************************************************************
+# //
+# //  getBoltzmannsConstant
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getBoltzmannsConstant( ):
+    return RPNMeasurement( '1.38064852e-23', 'kilogram*meter^2/second^2*kelvin' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckLength
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getPlanckLength( ):
+    return getRoot( getReducedPlanckConstant( ).multiply( getNewtonsConstant( ) ).divide(
+                exponentiate( getSpeedOfLight( ), 3 ) ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckMass
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getPlanckMass( ):
+    return getRoot( getReducedPlanckConstant( ).multiply( getSpeedOfLight( ) ).divide(
+                getNewtonsConstant( ) ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckTime
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getPlanckTime( ):
+    return getRoot( getReducedPlanckConstant( ).multiply( getNewtonsConstant( ) ).divide(
+                exponentiate( getSpeedOfLight( ), 5 ) ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckCharge
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getPlanckCharge( ):
+    return getElectronCharge( ).divide( getRoot( getFineStructureConstant( ), 2 ) )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckTemperature
+# //
+# //******************************************************************************
+
+@lru_cache( maxsize=1 )
+def getPlanckTemperature( ):
+    return getRoot( getReducedPlanckConstant( ).multiply( exponentiate( getSpeedOfLight( ), 5 ) ).
+        divide( getNewtonsConstant( ).multiply( exponentiate( getBoltzmannsConstant( ), 2 ) ) ), 2 )
 
 
 # //******************************************************************************
@@ -87,17 +237,17 @@ constants = {
     # constant - physical constants
     'avogadro_number'               : RPNOperatorInfo( lambda: '6.022140857e23', 0 ),
     'bohr_radius'                   : RPNOperatorInfo( lambda: RPNMeasurement( '5.2917721e-11', [ { 'meter' : 1 } ] ), 0 ),
-    'boltzmann_constant'            : RPNOperatorInfo( lambda: RPNMeasurement( '1.38064852e-23', 'kilogram*meter^2/second^2*kelvin' ), 0 ),
+    'boltzmann_constant'            : RPNOperatorInfo( getBoltzmannsConstant, 0 ),
     'coulomb_constant'              : RPNOperatorInfo( lambda: RPNMeasurement( '8.987551787e9', 'newton*meter^2/coulomb^2' ), 0 ),
-    'electric_constant'             : RPNOperatorInfo( lambda: RPNMeasurement( '8.854187817e-12', 'farad/meter' ), 0 ),
-    'electron_charge'               : RPNOperatorInfo( lambda: RPNMeasurement( '1.602176565e-19', 'coulomb' ), 0 ),
+    'electric_constant'             : RPNOperatorInfo( getElectricConstant, 0 ),
+    'electron_charge'               : RPNOperatorInfo( getElectronCharge, 0 ),
     'faraday_constant'              : RPNOperatorInfo( lambda: RPNMeasurement( '96485.33289', 'coulomb/mole' ), 0 ),
-    'fine_structure_constant'       : RPNOperatorInfo( lambda: '7.2973525664e-3', 0 ),
+    'fine_structure_constant'       : RPNOperatorInfo( getFineStructureConstant, 0 ),
     'magnetic_constant'             : RPNOperatorInfo( lambda: RPNMeasurement( fprod( [ 4, pi, power( 10, -7 ) ] ), 'newton/ampere^2' ), 0 ),
-    'newton_constant'               : RPNOperatorInfo( lambda: RPNMeasurement( '6.67408e-11', 'meter^3/kilogram*second^2' ), 0 ),
+    'newton_constant'               : RPNOperatorInfo( getNewtonsConstant, 0 ),
     'radiation_constant'            : RPNOperatorInfo( lambda: RPNMeasurement( '7.5657e-16', 'kilogram/second^2*meter*kelvin^4' ), 0 ),
     'rydberg_constant'              : RPNOperatorInfo( lambda: RPNMeasurement( '10973731.568508', 'meter^-1' ), 0 ),
-    'speed_of_light'                : RPNOperatorInfo( lambda: RPNMeasurement( '299792458', 'meter/second' ), 0 ),
+    'speed_of_light'                : RPNOperatorInfo( getSpeedOfLight, 0 ),
     'stefan_boltzmann_constant'     : RPNOperatorInfo( lambda: RPNMeasurement( '5.670367e-8', 'watt/meter^2*kelvin^4' ), 0 ),
     'vacuum_impedance'              : RPNOperatorInfo( lambda: RPNMeasurement( '376.730313461', 'ohm' ), 0 ),
     'von_klitzing_constant'         : RPNOperatorInfo( lambda: RPNMeasurement( '25812.8074555', 'ohm' ), 0 ),
@@ -129,14 +279,14 @@ constants = {
     'min_ushort'                    : RPNOperatorInfo( lambda: 0, 0 ),
 
     # constant - Planck constants
-    'planck_constant'               : RPNOperatorInfo( lambda: RPNMeasurement( '6.626070040e-34', 'kilogram*meter^2/second' ), 0 ),
-    'reduced_planck_constant'       : RPNOperatorInfo( lambda: RPNMeasurement( '1.054571800e-34', 'kilogram*meter^2/second' ), 0 ),
+    'planck_constant'               : RPNOperatorInfo( getPlanckConstant, 0 ),
+    'reduced_planck_constant'       : RPNOperatorInfo( getReducedPlanckConstant, 0 ),
 
-    'planck_length'                 : RPNOperatorInfo( lambda: RPNMeasurement( '1.616229e-35', 'meter' ), 0 ),
-    'planck_mass'                   : RPNOperatorInfo( lambda: RPNMeasurement( '2.176470e-8', 'kilogram' ), 0 ),
-    'planck_time'                   : RPNOperatorInfo( lambda: RPNMeasurement( '5.39116e-44', 'second' ), 0 ),
-    'planck_charge'                 : RPNOperatorInfo( lambda: RPNMeasurement( '1.875545956e-18', 'coulomb' ), 0 ),
-    'planck_temperature'            : RPNOperatorInfo( lambda: RPNMeasurement( '1.416808e32', 'kelvin' ), 0 ),
+    'planck_length'                 : RPNOperatorInfo( getPlanckLength, 0 ),
+    'planck_mass'                   : RPNOperatorInfo( getPlanckMass, 0 ),
+    'planck_time'                   : RPNOperatorInfo( getPlanckTime, 0 ),
+    'planck_charge'                 : RPNOperatorInfo( getPlanckCharge, 0 ),
+    'planck_temperature'            : RPNOperatorInfo( getPlanckTemperature, 0 ),
 
     'planck_angular_frequency'      : RPNOperatorInfo( lambda: RPNMeasurement( '1.85487e43', 'second^-1' ), 0 ),
     'planck_area'                   : RPNOperatorInfo( lambda: RPNMeasurement( '2.61219618e-70', 'meter^2' ), 0 ),

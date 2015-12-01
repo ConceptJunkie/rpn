@@ -1953,6 +1953,17 @@ def runNumberTheoryOperatorTests( ):
 
 # //******************************************************************************
 # //
+# //  runPhysicsOperatorTests
+# //
+# //******************************************************************************
+
+def runPhysicsOperatorTests( ):
+    # schwarzchild_radius
+    testOperator( 'earth_mass schwarzchild_radius' )
+
+
+# //******************************************************************************
+# //
 # //  runPolygonalOperatorTests
 # //
 # //******************************************************************************
@@ -2670,7 +2681,7 @@ def runTrigonometryOperatorTests( ):
     testOperator( '0.45 atanh' )
 
     # cos
-    testOperator( '45 degrees cos' )
+    expectEqual( '45 degrees cos', '2 sqrt 1/x' )
     testOperator( 'pi radians cos' )
 
     # cosh
@@ -2698,7 +2709,7 @@ def runTrigonometryOperatorTests( ):
     testOperator( 'pi 7 / sech' )
 
     # sin
-    testOperator( 'pi 2 / sin' )
+    expectEqual( 'pi 4 / sin', '2 sqrt 1/x' )
 
     # sinh
     testOperator( 'pi 2 / sinh' )
@@ -2735,6 +2746,7 @@ rpnTestList = [
     ( 'logarithms',       runLogarithmsOperatorTests ),
     ( 'modifier',         runModifierOperatorTests ),
     ( 'number_theory',    runNumberTheoryOperatorTests ),
+    ( 'physics',          runPhysicsOperatorTests ),
     ( 'polygonal',        runPolygonalOperatorTests ),
     ( 'polyhedral',       runPolyhedralOperatorTests ),
     ( 'powers_and_roots', runPowersAndRootsOperatorTests ),

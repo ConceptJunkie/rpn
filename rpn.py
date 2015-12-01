@@ -21,11 +21,7 @@
 
 # http://pythonhosted.org//astral/#
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
-# http://rhodesmill.org/pyephem/quick.html
 # https://github.com/geopy/geopy
-
-# Schwarzschild Radius - Hmmm... operators that turn one kind of unit into another
-# (e.g., mass -> length)
 
 # The Hubble Constant
 

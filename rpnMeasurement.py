@@ -16,7 +16,7 @@ from mpmath import *
 
 from rpnGenerator import RPNGenerator
 from rpnPersistence import loadUnitData, loadUnitConversionMatrix
-from rpnUnitClasses import Units
+from rpnUnitClasses import RPNUnits
 from rpnUtils import debugPrint
 
 import rpnGlobals as g
@@ -123,7 +123,7 @@ def combineUnits( units1, units2 ):
     if not g.unitConversionMatrix:
         loadUnitConversionMatrix( )
 
-    newUnits = Units( units1 )
+    newUnits = RPNUnits( units1 )
 
     factor = mpmathify( 1 )
 
@@ -214,7 +214,7 @@ class RPNMeasurement( mpf ):
             loadUnitData( )
 
         mpf.__init__( value )
-        self.units = Units( units )
+        self.units = RPNUnits( units )
         self.unitName = unitName
         self.pluralUnitName = pluralUnitName
 
@@ -316,7 +316,7 @@ class RPNMeasurement( mpf ):
         value = mpf( self )
         units = self.getUnits( )
 
-        newUnits = Units( )
+        newUnits = RPNUnits( )
 
         for unit in units:
             newUnits[ unit ] = -units[ unit ]
@@ -327,7 +327,7 @@ class RPNMeasurement( mpf ):
         value = mpf( self )
         units = self.getUnits( )
 
-        newUnits = Units( )
+        newUnits = RPNUnits( )
 
         for unit in units:
             if units[ unit ] != 0:
@@ -407,7 +407,7 @@ class RPNMeasurement( mpf ):
         return self.pluralUnitName
 
     def getUnitTypes( self ):
-        types = Units( )
+        types = RPNUnits( )
 
         for unit in self.units:
             if unit not in g.unitOperators:
@@ -434,7 +434,7 @@ class RPNMeasurement( mpf ):
             loadUnitConversionMatrix( )
 
         value = mpf( self )
-        units = Units( )
+        units = RPNUnits( )
 
         debugPrint( 'value', value )
 
@@ -445,7 +445,7 @@ class RPNMeasurement( mpf ):
             if unit != newUnit:
                 value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] ) )
 
-            units.update( Units( g.unitOperators[ newUnit ].representation + "^" + str( self.units[ unit ] ) ) )
+            units.update( RPNUnits( g.unitOperators[ newUnit ].representation + "^" + str( self.units[ unit ] ) ) )
             debugPrint( 'value', value )
 
         reduced = RPNMeasurement( value, units )
@@ -509,17 +509,17 @@ class RPNMeasurement( mpf ):
                 conversionValue = mpmathify( 1 )
 
                 # if that isn't found, then we need to do the hard work and break the units down
-                newUnits1 = Units( )
+                newUnits1 = RPNUnits( )
 
                 for unit in units1:
-                    newUnits1.update( Units( g.unitOperators[ unit ].representation + "^" +
-                                             str( units1[ unit ] ) ) )
+                    newUnits1.update( RPNUnits( g.unitOperators[ unit ].representation + "^" +
+                                                str( units1[ unit ] ) ) )
 
-                newUnits2 = Units( )
+                newUnits2 = RPNUnits( )
 
                 for unit in units2:
-                    newUnits2.update( Units( g.unitOperators[ unit ].representation + "^" +
-                                             str( units2[ unit ] ) ) )
+                    newUnits2.update( RPNUnits( g.unitOperators[ unit ].representation + "^" +
+                                                str( units2[ unit ] ) ) )
 
                 debugPrint( 'units1:', units1 )
                 debugPrint( 'units2:', units2 )
@@ -708,4 +708,15 @@ def applyNumberValueToUnit( number, term ):
                                 g.unitOperators[ term ].plural )
 
     return value
+
+
+# //******************************************************************************
+# //
+# //  validateUnits
+# //
+# //******************************************************************************
+
+def validateUnits( measurement, unitType ):
+    if not measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].dimensions ) ):
+        raise ValueError( unitType + ' unit expected' )
 
