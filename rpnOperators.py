@@ -740,10 +740,16 @@ def evaluateTerm( term, index, currentValueList ):
         if not isList and not isGenerator and term in modifiers:
             operatorInfo = modifiers[ term ]
             operatorInfo.function( currentValueList )
-        elif not isList and term in g.unitOperatorNames:
+        elif not isList and term in g.unitOperatorNames or \
+             ( '*' in term or '^' in term or '/' in term ) and \
+             any( c in term for c in string.ascii_letters ):
+
             # handle a unit operator
             if not g.unitOperators:
                 loadUnitData( )
+
+            if term not in g.unitOperatorNames:
+                term = RPNUnits( term )
 
             # look for unit without a value (in which case we give it a value of 1)
             if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
@@ -752,7 +758,7 @@ def evaluateTerm( term, index, currentValueList ):
                     currentValueList.append( applyNumberValueToUnit( 1, term ) )
             # if the unit comes after a list, then apply it to every item in the list
             elif isinstance( currentValueList[ -1 ], RPNGenerator ):
-                print( 'implement me' )
+                raise ValueException( 'implement me' )
             elif isinstance( currentValueList[ -1 ], list ):
                 argList = currentValueList.pop( )
 

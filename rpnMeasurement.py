@@ -701,7 +701,9 @@ def estimate( measurement ):
 # //******************************************************************************
 
 def applyNumberValueToUnit( number, term ):
-    if g.unitOperators[ term ].unitType == 'constant':
+    if isinstance( term, RPNUnits ):
+        value = RPNMeasurement( number, term )
+    elif g.unitOperators[ term ].unitType == 'constant':
         value = mpf( RPNMeasurement( number, term ).convertValue( RPNMeasurement( 1, { 'unity' : 1 } ) ) )
     else:
         value = RPNMeasurement( number, term, g.unitOperators[ term ].representation,

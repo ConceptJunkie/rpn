@@ -200,6 +200,11 @@ class RPNUnits( collections.Counter ):
 
                 operands = unit.split( '^' )
 
+                plainUnit = operands[ 0 ]
+
+                if plainUnit not in g.unitOperators and plainUnit in g.operatorAliases:
+                    plainUnit = g.operatorAliases[ plainUnit ]
+
                 operandCount = len( operands )
 
                 exponent = 1
@@ -208,7 +213,7 @@ class RPNUnits( collections.Counter ):
                     for i in range( 1, operandCount ):
                         exponent *= int( floor( operands[ i ] ) )
 
-                result[ operands[ 0 ] ] += exponent
+                result[ plainUnit ] += exponent
 
             return result
 
