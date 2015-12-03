@@ -12,8 +12,6 @@
 # //
 # //******************************************************************************
 
-from functools import lru_cache
-
 from mpmath import *
 
 from rpnConstantUtils import *

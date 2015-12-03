@@ -20,6 +20,8 @@
 # http://primes.utm.edu/glossary/xpage/BrunsConstant.html
 
 
+from functools import lru_cache
+
 from mpmath import *
 
 from rpnComputer import *
