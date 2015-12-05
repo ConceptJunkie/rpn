@@ -392,7 +392,7 @@ def evaluateOperator( term, index, currentValueList ):
 
     for item in result:
         if isinstance( item, RPNMeasurement ) and item.getUnits( ) == { }:
-            newResult.append( mpf( item ) )
+            newResult.append( item.value )
         else:
             newResult.append( item )
 
@@ -1125,7 +1125,7 @@ operators = {
     'negative'                      : RPNOperatorInfo( getNegative, 1 ),
     'reciprocal'                    : RPNOperatorInfo( takeReciprocal, 1 ),
     'round'                         : RPNOperatorInfo( lambda n: floor( fadd( n, 0.5 ) ), 1 ),
-    'sign'                          : RPNOperatorInfo( sign, 1 ),
+    'sign'                          : RPNOperatorInfo( getSign, 1 ),
     'subtract'                      : RPNOperatorInfo( subtract, 2, ),
 
     # astronomy
@@ -1596,7 +1596,7 @@ operators = {
     'result'                        : RPNOperatorInfo( loadResult, 0 ),
     'set'                           : RPNOperatorInfo( setVariable, 2 ),
     'topic'                         : RPNOperatorInfo( printHelpTopic, 1 ),
-    'value'                         : RPNOperatorInfo( lambda n: mpf( n ), 1 ),
+    'value'                         : RPNOperatorInfo( getValue, 1 ),
 
     # trigonometry
     'acos'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, acos ), 1 ),

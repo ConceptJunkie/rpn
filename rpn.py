@@ -125,13 +125,13 @@ def handleOutput( valueList ):
                 outputString = result
             else:
                 # output the answer with all the extras according to command-line arguments
-                resultString = nstr( result, mp.dps )
-
-                outputString = formatOutput( resultString )
 
                 # handle the units if we are displaying a measurement
                 if isinstance( result, RPNMeasurement ):
+                    outputString = formatOutput( nstr( result.getValue( ), mp.dps ) )
                     outputString += ' ' + formatUnits( result )
+                else:
+                    outputString = formatOutput( nstr( result, mp.dps ) )
 
             print( outputString )
 

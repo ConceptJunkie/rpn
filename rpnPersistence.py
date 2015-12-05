@@ -16,9 +16,11 @@ import bz2
 import contextlib
 import os
 import pickle
+import types
 
 import rpnGlobals as g
 
+from rpnGenerator import RPNGenerator
 from rpnUtils import DelayedKeyboardInterrupt
 from rpnVersion import PROGRAM_VERSION
 
@@ -148,7 +150,7 @@ def loadHelpData( ):
 # //
 # //******************************************************************************
 
-def loadResult( valueList ):
+def loadResult( ):
     try:
         fileName = g.dataPath + os.sep + 'result.pckl.bz2'
 
@@ -172,9 +174,11 @@ def saveResult( result ):
 
     fileName = g.dataPath + os.sep + 'result.pckl.bz2'
 
-    # TODO:  handle RPNGenerator and RPNMeasurement
-    #with DelayedKeyboardInterrupt( ):
-    #    with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
-    #        pickle.dump( result, pickleFile )
-
+    # TODO:  handle RPNGenerator
+    try:
+        with DelayedKeyboardInterrupt( ):
+            with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
+                pickle.dump( result, pickleFile )
+    except:
+        pass
 

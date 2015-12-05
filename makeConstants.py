@@ -60,7 +60,7 @@ def main( ):
 
     errors = False
 
-    Definition = namedtuple( 'Definition', [ 'line', 'value', 'units', 'reference' ] )
+    Definition = namedtuple( 'Definition', [ 'line', 'value', 'reference' ] )
 
     # compile the data file
     for line in codecs.open( 'rpnConstants.txt', 'rU', 'ascii', 'replace' ):
@@ -79,20 +79,16 @@ def main( ):
         if tokenCount == 0:
             continue
         elif tokenCount == 1 and tokens[ 0 ] == '' :
+            # empty line, except for maybe a comment
             continue
-        elif ( 1 > tokenCount > 4 ):
+        elif ( tokenCount < 2 ):
             print( 'error parsing line ' + str( lineCount ) + ':' )
             print( line )
             print( )
             errors = True
 
         name = tokens[ 0 ]
-        value = tokens[ 1 ]
-
-        if tokenCount > 2:
-            units = tokens[ 2 ]
-        else:
-            units = ''
+        value = tokens[ 1 : ]
 
         if not name.isidentifier( ):
             print( 'invalid identifier \'' + name + '\' on line ' + str( lineCount ) )
@@ -105,7 +101,7 @@ def main( ):
             print( )
             errors = True
 
-        definitions[ name ] = Definition( lineCount, value, units, False )
+        definitions[ name ] = Definition( lineCount, value, False )
 
     if errors:
         return
@@ -114,20 +110,21 @@ def main( ):
 
     # first parsing pass
     for name in definitions:
-        try:
-            value = mpmathify( definitions[ name ].value )
-        except:
-            value = 'parse me'
-
-        if value == 'parse me':
-            continue
-
-        if definitions[ name ].units == '':
-            constants[ name ] = value
-        else:
-            constants[ name ] = RPNMeasurement( value, definitions[ name ].units )
-
-        print( constants[ name ] )
+        print( definitions[ name ].value )
+#        try:
+#            value = mpmathify( definitions[ name ].value )
+#        except:
+#            value = 'parse me'
+#
+#        if value == 'parse me':
+#            continue
+#
+#        if definitions[ name ].units == '':
+#            constants[ name ] = value
+#        else:
+#            constants[ name ] = RPNMeasurement( value, definitions[ name ].units )
+#
+#        print( constants[ name ] )
 
 
 # //******************************************************************************

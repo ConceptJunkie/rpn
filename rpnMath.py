@@ -81,6 +81,32 @@ def getNegative( n ):
 
 # //******************************************************************************
 # //
+# //  getSign
+# //
+# //******************************************************************************
+
+def getSign( n ):
+    if isinstance( n, RPNMeasurement ):
+        return sign( n.getValue( ) )
+    else:
+        return sign( n )
+
+
+# //******************************************************************************
+# //
+# //  getValue
+# //
+# //******************************************************************************
+
+def getValue( n ):
+    if isinstance( n, RPNMeasurement ):
+        return n.getValue( )
+    else:
+        return n
+
+
+# //******************************************************************************
+# //
 # //  divide
 # //
 # //  We used to be able to call fdiv directly, but now we want to also divide

@@ -73,7 +73,7 @@ class DelayedKeyboardInterrupt( object ):
     def handler( self, signal, frame ):
         self.signal_received = ( signal, frame )
 
-    def __exit__(self, type, value, traceback):
+    def __exit__( self, type, value, traceback ):
         signal.signal( signal.SIGINT, self.old_handler )
 
         if self.signal_received:

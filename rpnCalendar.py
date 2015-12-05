@@ -251,7 +251,7 @@ def getLilianDay( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'a date-time type required for this operator' )
 
-    return ceil( n.subtract( RPNDateTime( 1582, 10, 15 ) ) )
+    return ceil( n.subtract( RPNDateTime( 1582, 10, 15 ) ).getValue( ) )
 
 
 # //******************************************************************************

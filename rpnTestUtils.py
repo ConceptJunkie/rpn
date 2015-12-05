@@ -16,6 +16,7 @@ import shlex
 
 from rpn import rpn, handleOutput
 from rpnGenerator import RPNGenerator
+from rpnMeasurement import RPNMeasurement
 
 from mpmath import *
 
@@ -62,17 +63,36 @@ def compareResults( result1, result2 ):
             raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ) )
 
         for i in range( 0, len( result1 ) ):
-            if not almosteq( result1[ i ], result2[ i ] ):
+            if not compareValues( result1[ i ], result2[ i ] ):
                 print( '**** error in results comparison' )
                 print( type( result1[ i ] ), type( result2[ i ] ) )
                 print( result1[ i ], result2[ i ], 'are not equal' )
                 print( 'difference found at index', i )
                 raise ValueError( 'unit test failed' )
-    elif not almosteq( result1, result2 ):
+    elif not compareValues( result1, result2 ):
         print( '**** error in results comparison' )
         print( '    result 1: ', result1 )
         print( '    result 2: ', result2 )
         raise ValueError( 'unit test failed' )
+
+
+# //******************************************************************************
+# //
+# //  compareValues
+# //
+# //******************************************************************************
+
+def compareValues( result1, result2 ):
+    if isinstance( result1, RPNMeasurement ):
+        if isinstance( result2, RPNMeasurement ):
+            return result1.__eq__( result2 )
+        else:
+            return almosteq( result1.getValue( ), result2 )
+    else:
+        if isinstance( result2, RPNMeasurement ):
+            return almosteq( result1, result2.getValue( ) )
+        else:
+            return almosteq( result1, result2 )
 
 
 # //******************************************************************************
@@ -129,7 +149,7 @@ def areListsEquivalent( list1, list2 ):
     try:
         for elem in list1:
             for elem2 in temp2:
-                if almosteq( elem, elem2 ):
+                if compareValues( elem, elem2 ):
                     temp2.remove( elem2 )
                     break
     except ValueError:
@@ -178,7 +198,7 @@ def testOperator( command ):
     print( 'rpn', command )
     result = rpn( shlex.split( command ) )
 
-    if result == [ nan ]:
+    if result is not None and isinstance( result[ 0 ], mpf ) and result == [ nan ]:
         raise ValueError( 'unit test failed' )
 
     if result is not None:
