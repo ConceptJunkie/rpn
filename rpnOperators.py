@@ -158,6 +158,7 @@ class RPNFunctionInfo( object ):
 
         debugPrint( 'valueList:', self.valueList[ self.startingIndex : ] )
         debugPrint( 'code:', self.code )
+
         self.compiled = compile( self.code, '<string>', 'exec' )
 
 
@@ -1076,10 +1077,6 @@ listOperators = {
 }
 
 
-def getNthFibonacci( n ):
-    return fib( n )
-
-
 # //******************************************************************************
 # //
 # //  operators
@@ -1585,6 +1582,7 @@ operators = {
     'timer_mode'                    : RPNOperatorInfo( setTimerMode, 0 ),
 
     # special
+    'constant'                      : RPNOperatorInfo( createConstant, 2 ),
     'estimate'                      : RPNOperatorInfo( estimate, 1 ),
     'help'                          : RPNOperatorInfo( printHelpMessage, 0 ),
     'name'                          : RPNOperatorInfo( getNumberName, 1 ),

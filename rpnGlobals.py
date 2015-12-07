@@ -121,3 +121,7 @@ factorCache = None
 # location cache
 locationCache = None
 
+# user-defined constants
+
+constants = { }
+

@@ -182,3 +182,31 @@ def saveResult( result ):
     except:
         pass
 
+
+# //******************************************************************************
+# //
+# //  loadUserConstants
+# //
+# //******************************************************************************
+
+def loadConstants( ):
+    try:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'constants.pckl.bz2', 'rb' ) ) as pickleFile:
+            constants = pickle.load( pickleFile )
+    except FileNotFoundError:
+        constants = { }
+
+    return constants
+
+
+# //******************************************************************************
+# //
+# //  saveConstants
+# //
+# //******************************************************************************
+
+def saveConstants( constants ):
+    with DelayedKeyboardInterrupt( ):
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'constants.pckl.bz2', 'wb' ) ) as pickleFile:
+            pickle.dump( constants, pickleFile )
+

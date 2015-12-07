@@ -172,6 +172,16 @@ def getPrimePi( n ):
 
 # //******************************************************************************
 # //
+# //  getNthFibonacci
+# //
+# //******************************************************************************
+
+def getNthFibonacci( n ):
+    return fib( real_int( n ) )
+
+
+# //******************************************************************************
+# //
 # //  getNthFibonacciPolynomial
 # //
 # //  http://mathworld.wolfram.com/Fibonaccin-StepNumber.html
