@@ -757,9 +757,15 @@ def evaluateTerm( term, index, currentValueList ):
                 isinstance( currentValueList[ -1 ], RPNDateTime ) or ( isinstance( currentValueList[ -1 ], list ) and
                                                                        isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
                     currentValueList.append( applyNumberValueToUnit( 1, term ) )
-            # if the unit comes after a list, then apply it to every item in the list
+            # if the unit comes after a generator, convert it to a list and apply the unit to each
             elif isinstance( currentValueList[ -1 ], RPNGenerator ):
-                raise ValueException( 'implement me' )
+                newArg = [ ]
+
+                for value in list( currentValueList.pop( ) ):
+                    newArg.append( applyNumberValueToUnit( value, term ) )
+
+                currentValueList.append( newArg )
+            # if the unit comes after a list, then apply it to every item in the list
             elif isinstance( currentValueList[ -1 ], list ):
                 argList = currentValueList.pop( )
 

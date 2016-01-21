@@ -8300,6 +8300,13 @@ rpn (3)>5 12 **
 # //
 # //******************************************************************************
 
+    'constant' : [
+'special', 'creates a user-defined constant',
+'''
+''',
+'''
+''' ],
+
     'estimate' : [
 'special', 'estimates the value of a measurement in common terms',
 '''

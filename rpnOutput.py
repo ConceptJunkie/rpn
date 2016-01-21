@@ -197,8 +197,6 @@ def formatListOutput( result, level = 0 ):
             elif isinstance( item, RPNDateTime ):
                 newString = formatDateTime( item )
             elif isinstance( item, RPNMeasurement ):
-                print( 'item', item )
-                print( 'item.getValue( )', item.getValue( ) )
                 newString = formatOutput( nstr( item.getValue( ) ) )
                 newString += ' ' + formatUnits( item )
             else:

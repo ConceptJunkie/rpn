@@ -44,3 +44,7 @@ def runConvertTests( ):
     testOperator( '8 floz inch 3 ** convert' )
     testOperator( 'foot 4 power square_inch sqr convert' )
 
+    # lists of units
+    testOperator( '1 20 range dBm watt convert' )
+    testOperator( '0 5000 284 range2 seconds [ hour minute second ] convert -s1' )
+
