@@ -631,9 +631,24 @@ def runBitwiseOperatorTests( ):
 # //******************************************************************************
 
 def runCalendarOperatorTests( ):
+    # ash_wednesday
+    testOperator( '2015 ash_wednesday' )
+
     # calendar
     testOperator( '1965 3 calendar' )
     testOperator( '2014 10 calendar' )
+
+    # dst_end
+    testOperator( '2015 dst_end' )
+
+    # dst_start
+    testOperator( '2015 dst_start' )
+
+    # easter
+    testOperator( '2015 easter' )
+
+    # election_day
+    testOperator( '2015 election_day' )
 
     # from_bahai
     testOperator( '172 12 4 from_bahai' )
@@ -658,6 +673,26 @@ def runCalendarOperatorTests( ):
 
     # iso_date
     testOperator( 'today iso_date' )
+
+    # labor_day
+    testOperator( '2015 labor_day' )
+
+    # memorial_day
+    testOperator( '2015 memorial_day' )
+
+    # nth_weekday
+    testOperator( '2015 march 4 thursday nth_weekday' )
+    testOperator( '2015 march -1 thursday nth_weekday' )
+
+    # nth_weekday_of_year
+    testOperator( '2015 20 thursday nth_weekday_of_year' )
+    testOperator( '2015 -1 thursday nth_weekday_of_year' )
+
+    # presidents_day
+    testOperator( '2015 presidents_day' )
+
+    # thanksgiving
+    testOperator( '2015 thanksgiving' )
 
     # to_bahai
     testOperator( 'today to_bahai' )
@@ -709,6 +744,9 @@ def runCalendarOperatorTests( ):
 
     # to_persian_name
     testOperator( 'today to_persian_name' )
+
+    # weekday
+    testOperator( 'today weekday' )
 
     # year_calendar
     testOperator( '1965 year_calendar' )
@@ -1163,8 +1201,8 @@ def runConversionOperatorTests( ):
     testOperator( '18 29 make_pyth_4' )
     expectException( '17 29 make_pyth_4' )
 
-    # make_time
-    testOperator( '[ 1965 03 31 ] make_time' )
+    # make_datetime
+    testOperator( '[ 1965 03 31 ] make_datetime' )
 
     # pack
     testOperator( '-x [ 192 168 0 1 ] [ 8 8 8 8 ] pack' )
@@ -1212,26 +1250,8 @@ def runConversionOperatorTests( ):
 # //******************************************************************************
 
 def runDateTimeOperatorTests( ):
-    # ash_wednesday
-    testOperator( '2015 ash_wednesday' )
-
-    # dst_end
-    testOperator( '2015 dst_end' )
-
-    # dst_start
-    testOperator( '2015 dst_start' )
-
-    # easter
-    testOperator( '2015 easter' )
-
-    # election_day
-    testOperator( '2015 election_day' )
-
     # iso_day
     testOperator( 'today iso_day' )
-
-    # labor_day
-    testOperator( '2015 labor_day' )
 
     # make_julian_time
     testOperator( '[ 2015 7 5 4 3 ] make_julian_time' )
@@ -1239,34 +1259,14 @@ def runDateTimeOperatorTests( ):
     # make_iso_time
     testOperator( '[ 2015 34 6 ] make_iso_time' )
 
-    # memorial_day
-    testOperator( '2015 memorial_day' )
-
     # now
     testOperator( 'now' )
-
-    # nth_weekday
-    testOperator( '2015 march 4 thursday nth_weekday' )
-    testOperator( '2015 march -1 thursday nth_weekday' )
-
-    # nth_weekday_of_year
-    testOperator( '2015 20 thursday nth_weekday_of_year' )
-    testOperator( '2015 -1 thursday nth_weekday_of_year' )
-
-    # presidents_day
-    testOperator( '2015 presidents_day' )
-
-    # thanksgiving
-    testOperator( '2015 thanksgiving' )
 
     # today
     testOperator( 'today' )
 
     # tomorrow
     testOperator( 'tomorrow' )
-
-    # weekday
-    testOperator( 'today weekday' )
 
     # yesterday
     testOperator( 'yesterday' )

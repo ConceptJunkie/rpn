@@ -1020,11 +1020,11 @@ listOperators = {
     # conversion
     'convert'               : RPNOperatorInfo( convertUnits, 2, RPNOperatorType.List ),   # list arguments are special
     'latlong_to_nac'        : RPNOperatorInfo( convertLatLongToNAC, 1, RPNOperatorType.List ),
-    'make_time'             : RPNOperatorInfo( makeTime, 1, RPNOperatorType.List ),
     'unpack'                : RPNOperatorInfo( unpackInteger, 2, RPNOperatorType.List ),
     'pack'                  : RPNOperatorInfo( packInteger, 2, RPNOperatorType.List ),
 
     # date_time
+    'make_datetime'         : RPNOperatorInfo( makeDateTime, 1, RPNOperatorType.List ),
     'make_iso_time'         : RPNOperatorInfo( makeISOTime, 1, RPNOperatorType.List ),
     'make_julian_time'      : RPNOperatorInfo( makeJulianTime, 1, RPNOperatorType.List ),
 
@@ -1194,7 +1194,12 @@ operators = {
     'xor'                           : RPNOperatorInfo( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x ^ y ), 2 ),
 
     # calendar
+    'ash_wednesday'                 : RPNOperatorInfo( calculateAshWednesday, 1 ),
     'calendar'                      : RPNOperatorInfo( generateMonthCalendar, 2 ),
+    'dst_end'                       : RPNOperatorInfo( calculateDSTEnd, 1 ),
+    'dst_start'                     : RPNOperatorInfo( calculateDSTStart, 1 ),
+    'easter'                        : RPNOperatorInfo( calculateEaster, 1 ),
+    'election_day'                  : RPNOperatorInfo( calculateElectionDay, 1 ),
     'from_bahai'                    : RPNOperatorInfo( convertBahaiDate, 3 ),
     'from_hebrew'                   : RPNOperatorInfo( convertHebrewDate, 3 ),
     'from_indian_civil'             : RPNOperatorInfo( convertIndianCivilDate, 3 ),
@@ -1202,6 +1207,12 @@ operators = {
     'from_julian'                   : RPNOperatorInfo( convertJulianDate, 3 ),
     'from_mayan'                    : RPNOperatorInfo( convertMayanDate, 5 ),
     'from_persian'                  : RPNOperatorInfo( convertPersianDate, 3 ),
+    'labor_day'                     : RPNOperatorInfo( calculateLaborDay, 1 ),
+    'memorial_day'                  : RPNOperatorInfo( calculateMemorialDay, 1 ),
+    'nth_weekday'                   : RPNOperatorInfo( calculateNthWeekdayOfMonth, 4 ),
+    'nth_weekday_of_year'           : RPNOperatorInfo( calculateNthWeekdayOfYear, 3 ),
+    'presidents_day'                : RPNOperatorInfo( calculatePresidentsDay, 1 ),
+    'thanksgiving'                  : RPNOperatorInfo( calculateThanksgiving, 1 ),
     'to_bahai'                      : RPNOperatorInfo( getBahaiCalendarDate, 1 ),
     'to_bahai_name'                 : RPNOperatorInfo( getBahaiCalendarDateName, 1 ),
     'to_hebrew'                     : RPNOperatorInfo( getHebrewCalendarDate, 1 ),
@@ -1219,6 +1230,7 @@ operators = {
     'to_ordinal_date'               : RPNOperatorInfo( getOrdinalDate, 1 ),
     'to_persian'                    : RPNOperatorInfo( getPersianCalendarDate, 1 ),
     'to_persian_name'               : RPNOperatorInfo( getPersianCalendarDateName, 1 ),
+    'weekday'                       : RPNOperatorInfo( getWeekday, 1, ),
     'year_calendar'                 : RPNOperatorInfo( generateYearCalendar, 1 ),
 
     # combinatoric
@@ -1272,22 +1284,18 @@ operators = {
     'ydhms'                         : RPNOperatorInfo( convertToYDHMS, 1 ),
 
     # date_time
-    'ash_wednesday'                 : RPNOperatorInfo( calculateAshWednesday, 1 ),
-    'dst_end'                       : RPNOperatorInfo( calculateDSTEnd, 1 ),
-    'dst_start'                     : RPNOperatorInfo( calculateDSTStart, 1 ),
-    'easter'                        : RPNOperatorInfo( calculateEaster, 1 ),
-    'election_day'                  : RPNOperatorInfo( calculateElectionDay, 1 ),
+
+    'get_year'                      : RPNOperatorInfo( getYear, 1 ),
+    'get_month'                     : RPNOperatorInfo( getMonth, 1 ),
+    'get_day'                       : RPNOperatorInfo( getDay, 1 ),
+    'get_hour'                      : RPNOperatorInfo( getHour, 1 ),
+    'get_minute'                    : RPNOperatorInfo( getMinute, 1 ),
+    'get_second'                    : RPNOperatorInfo( getSecond, 1 ),
     'iso_day'                       : RPNOperatorInfo( getISODay, 1 ),
     'labor_day'                     : RPNOperatorInfo( calculateLaborDay, 1 ),
-    'memorial_day'                  : RPNOperatorInfo( calculateMemorialDay, 1 ),
     'now'                           : RPNOperatorInfo( RPNDateTime.getNow, 0 ),
-    'nth_weekday'                   : RPNOperatorInfo( calculateNthWeekdayOfMonth, 4 ),
-    'nth_weekday_of_year'           : RPNOperatorInfo( calculateNthWeekdayOfYear, 3 ),
-    'presidents_day'                : RPNOperatorInfo( calculatePresidentsDay, 1 ),
-    'thanksgiving'                  : RPNOperatorInfo( calculateThanksgiving, 1 ),
     'today'                         : RPNOperatorInfo( getToday, 0 ),
     'tomorrow'                      : RPNOperatorInfo( getTomorrow, 0 ),
-    'weekday'                       : RPNOperatorInfo( getWeekday, 1, ),
     'yesterday'                     : RPNOperatorInfo( getYesterday, 0 ),
 
     # function

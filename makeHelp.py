@@ -215,23 +215,23 @@ For now, here are some examples:
         c:\>rpn 2014-09-02
         2014-09-02 00:00:00
 
-    'maketime' operator:
-        c:\>rpn [ 2014 ] maketime
+    'make_datetime' operator:
+        c:\>rpn [ 2014 ] make_datetime
         2014-01-01 00:00:00
 
-        c:\>rpn [ 2014 9 ] maketime
+        c:\>rpn [ 2014 9 ] make_datetime
         2014-09-01 00:00:00
 
-        c:\>rpn [ 2014 9 2 ] maketime
+        c:\>rpn [ 2014 9 2 ] make_datetime
         2014-09-02 00:00:00
 
-        c:\>rpn [ 2014 9 2 13 ] maketime
+        c:\>rpn [ 2014 9 2 13 ] make_datetime
         2014-09-02 13:00:00
 
-        c:\>rpn [ 2014 9 2 13 36 ] maketime
+        c:\>rpn [ 2014 9 2 13 36 ] make_datetime
         2014-09 02 13:36:00
 
-        c:\>rpn [ 2014 9 2 13 36 28 ] maketime
+        c:\>rpn [ 2014 9 2 13 36 28 ] make_datetime
         2014-09-02 13:36:28
 
     How many days old am I?
@@ -626,8 +626,8 @@ but they are pretty self-explanatory.
 
 The long-awaited absolute time feature:  rpn can now handle absolute time
 values.  For input, just use ISO 8601 format, or a reasonable subset thereof.
-There is also the 'maketime' operator, which takes a list similar to the old
-'tounixtime' operator.
+There is also the 'make_datetime' operator, which takes a list similar to the
+old 'tounixtime' operator.
 
 5.21.1
 
@@ -1107,23 +1107,23 @@ Calculations with absolute time:
         c:\>rpn 2014-09-02
         2014-09-02 00:00:00
 
-    'maketime' operator:
-        c:\>rpn [ 2014 ] maketime
+    'make_datetime' operator:
+        c:\>rpn [ 2014 ] make_datetime
         2014-01-01 00:00:00
 
-        c:\>rpn [ 2014 9 ] maketime
+        c:\>rpn [ 2014 9 ] make_datetime
         2014-09-01 00:00:00
 
-        c:\>rpn [ 2014 9 2 ] maketime
+        c:\>rpn [ 2014 9 2 ] make_datetime
         2014-09-02 00:00:00
 
-        c:\>rpn [ 2014 9 2 13 ] maketime
+        c:\>rpn [ 2014 9 2 13 ] make_datetime
         2014-09-02 13:00:00
 
-        c:\>rpn [ 2014 9 2 13 36 ] maketime
+        c:\>rpn [ 2014 9 2 13 36 ] make_datetime
         2014-09 02 13:36:00
 
-        c:\>rpn [ 2014 9 2 13 36 28 ] maketime
+        c:\>rpn [ 2014 9 2 13 36 28 ] make_datetime
         2014-09-02 13:36:28
 
     How many days old am I?
@@ -2499,12 +2499,55 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] xor
 # //
 # //******************************************************************************
 
+    'ash_wednesday' : [
+'calendars', 'calculates the date of Ash Wednesday for the year specified',
+'''
+''',
+'''
+''' ],
+
     'calendar' : [
 'calendars', 'prints a month calendar for year n, month k',
 '''
 The 'calendar' operator is special in that what it prints out is a side-effect.
 ''',
 '''
+''' ],
+
+    'dst_end' : [
+'calendars', 'calculates the ending date for Daylight Saving Time for the year specified',
+'''
+''',
+'''
+''' ],
+
+    'dst_start' : [
+'calendars', 'calculates the starting date for Daylight Saving Time for the year specified',
+'''
+''',
+'''
+''' ],
+
+    'easter' : [
+'calendars', 'calculates the date of Easter for the year specified',
+'''
+''',
+'''
+''' ],
+
+    'election_day' : [
+'calendars', 'calculates the date of Election Day (US) for the year specified',
+'''
+In the U.S., Election Day is defined to be the first Tuesday after the first
+Monday in November.  This definition was established by the U.S. Congress in
+1845.
+''',
+'''
+c:\>rpn 2016 election_day
+2016-11-08
+
+c:\>rpn 1964 election_day
+1964-11-03
 ''' ],
 
     'from_bahai' : [
@@ -2558,6 +2601,70 @@ The 'calendar' operator is special in that what it prints out is a side-effect.
 
     'iso_date' : [
 'calendars', 'returns the date in the ISO format',
+'''
+''',
+'''
+''' ],
+
+    'labor_day' : [
+'calendars', 'calculates the date of Labor Day (US) for the year specified',
+'''
+In the U.S., Labor Day falls on the first Monday of September.
+''',
+'''
+c:\>rpn 2016 labor_day
+2016-09-05
+''' ],
+
+    'memorial_day' : [
+'calendars', 'calculates the date of Memorial Day (US) for the year specified',
+'''
+In the U.S., Memorial Day occurs on the last Monday in May.  This holiday
+is dedicated to the memorial of the men and women who gave their lives in the
+armed services.
+''',
+'''
+c:\>rpn 2016 memorial_day
+2016-05-30
+
+c:\>rpn 2020 2025 range memorial_day -s1
+[
+2020-05-25,
+2021-05-31,
+2022-05-30,
+2023-05-29,
+2024-05-27,
+2025-05-26,
+]
+''' ],
+
+    'nth_weekday' : [
+'calendars', 'finds the nth day (1 = Monday, etc.) of the month',
+'''
+a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
+d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
+''',
+'''
+''' ],
+
+    'nth_weekday_of_year' : [
+'calendars', 'finds the nth day (1 = Monday) of the year',
+'''
+a = four-digit year, b = week (negative values count from the end), c = day
+(1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
+''',
+'''
+''' ],
+
+    'presidents_day' : [
+'calendars', 'calculates the date of Presidents Day (US) for the year specified',
+'''
+''',
+'''
+''' ],
+
+    'thanksgiving' : [
+'calendars', 'calculates the date of Thanksgiving (US) for the year specified',
 '''
 ''',
 '''
@@ -2680,6 +2787,31 @@ The 'calendar' operator is special in that what it prints out is a side-effect.
 '''
 ''',
 '''
+''' ],
+
+    'weekday' : [
+'calendars', 'calculates the day of the week of an absolute time',
+'''
+Given any date, the 'weekday' operator will determine what day of the week
+that date occurred on.
+
+This operator is special in that it returns a string.  rpn cannot use a string
+as an operand, so this function cannot be combined with other operators.
+
+*** 'weekday' does not currently work with list operands.
+''',
+'''
+c:\>rpn today weekday
+'Friday'
+
+c:\>rpn 1776-07-04 weekday
+'Thursday'
+
+c:\>rpn 1965-03-31 weekday
+'Wednesday'
+
+c:\>rpn 2043-04-17 weekday
+'Friday'
 ''' ],
 
     'year_calendar' : [
@@ -4546,13 +4678,6 @@ fixed-size integer types.
 '''
 ''' ],
 
-    'make_time' : [
-'conversion', 'interpret argument as absolute time',
-'''
-''',
-'''
-''' ],
-
     'pack' : [
 'conversion', 'packs an integer using a values list n and a list of bit fields k',
 '''
@@ -4679,137 +4804,79 @@ and seconds.
 # //
 # //******************************************************************************
 
-    'ash_wednesday' : [
-'date_time', 'calculates the date of Ash Wednesday for the year specified',
-'''
-''',
-'''
-''' ],
-
-    'dst_end' : [
-'date_time', 'calculates the ending date for Daylight Saving Time for the year specified',
-'''
-''',
-'''
-''' ],
-
-    'dst_start' : [
-'date_time', 'calculates the starting date for Daylight Saving Time for the year specified',
-'''
-''',
-'''
-''' ],
-
-    'easter' : [
-'date_time', 'calculates the date of Easter for the year specified',
-'''
-''',
-'''
-''' ],
-
-    'election_day' : [
-'date_time', 'calculates the date of Election Day (US) for the year specified',
-'''
-In the U.S., Election Day is defined to be the first Tuesday after the first
-Monday in November.  This definition was established by the U.S. Congress in
-1845.
-''',
-'''
-c:\>rpn 2016 election_day
-2016-11-08
-
-c:\>rpn 1964 election_day
-1964-11-03
-''' ],
-
     'iso_day' : [
-'date_time', 'returns the ISO day and week for a time value',
+'date_time', 'returns the ISO day and week for a date-time value',
 '''
 ''',
 '''
 ''' ],
 
 
-    'labor_day' : [
-'date_time', 'calculates the date of Labor Day (US) for the year specified',
+    'get_day' : [
+'datetime', 'returns the day value of a date-time',
 '''
-In the U.S., Labor Day falls on the first Monday of September.
 ''',
 '''
-c:\>rpn 2016 labor_day
-2016-09-05
 ''' ],
 
-    'make_julian_time' : [
-'date_time', 'interpret argument as absolute time specified by year, Julian day and optional time of day',
+    'get_hour' : [
+'datetime', 'returns the hour value of a date-time',
+'''
+''',
+'''
+''' ],
+
+    'get_minute' : [
+'datetime', 'returns the minute value of a date-time',
+'''
+''',
+'''
+''' ],
+
+    'get_month' : [
+'datetime', 'returns the month value of a date-time',
+'''
+''',
+'''
+''' ],
+
+    'get_second' : [
+'datetime', 'returns the second value of a date-time',
+'''
+''',
+'''
+''' ],
+
+    'get_year' : [
+'datetime', 'returns the year value of a date-time',
+'''
+''',
+'''
+''' ],
+
+    'make_datetime' : [
+'datetime', 'interpret argument as absolute date-time',
 '''
 ''',
 '''
 ''' ],
 
     'make_iso_time' : [
-'date_time', 'interpret argument as absolute time specified in the ISO format',
+'date_time', 'interpret argument as absolute date-time specified in the ISO format',
 '''
 ''',
 '''
 ''' ],
 
-    'memorial_day' : [
-'date_time', 'calculates the date of Memorial Day (US) for the year specified',
+    'make_julian_time' : [
+'date_time', 'interpret argument as absolute date-time specified by year, Julian day and optional time of day',
 '''
-In the U.S., Memorial Day occurs on the last Monday in May.  This holiday
-is dedicated to the memorial of the men and women who gave their lives in the
-armed services.
 ''',
 '''
-c:\>rpn 2016 memorial_day
-2016-05-30
-
-c:\>rpn 2020 2025 range memorial_day -s1
-[
-2020-05-25,
-2021-05-31,
-2022-05-30,
-2023-05-29,
-2024-05-27,
-2025-05-26,
-]
 ''' ],
 
     'now' : [
-'date_time', 'returns the current date and time',
-'''
-''',
-'''
-''' ],
-
-    'nth_weekday' : [
-'date_time', 'finds the nth day (1 = Monday, etc.) of the month',
-'''
-a = four-digit year, b = month (1-12), c = week (1-5 for first through 5th),
-d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
-''',
-'''
-''' ],
-
-    'nth_weekday_of_year' : [
-'date_time', 'finds the nth day (1 = Monday) of the year',
-'''
-a = four-digit year, b = week (negative values count from the end), c = day
-(1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
-''',
-'''
-''' ],
-
-    'presidents_day' : [
-'date_time', 'calculates the date of Presidents Day (US) for the year specified',
-'''
-''',
-'''
-''' ],
-
-    'thanksgiving' : [
-'date_time', 'calculates the date of Thanksgiving (US) for the year specified',
+'date_time', 'returns the current date-time',
 '''
 ''',
 '''
@@ -4827,31 +4894,6 @@ a = four-digit year, b = week (negative values count from the end), c = day
 '''
 ''',
 '''
-''' ],
-
-    'weekday' : [
-'date_time', 'calculates the day of the week of an absolute time',
-'''
-Given any date, the 'weekday' operator will determine what day of the week
-that date occurred on.
-
-This operator is special in that it returns a string.  rpn cannot use a string
-as an operand, so this function cannot be combined with other operators.
-
-*** 'weekday' does not currently work with list operands.
-''',
-'''
-c:\>rpn today weekday
-'Friday'
-
-c:\>rpn 1776-07-04 weekday
-'Thursday'
-
-c:\>rpn 1965-03-31 weekday
-'Wednesday'
-
-c:\>rpn 2043-04-17 weekday
-'Friday'
 ''' ],
 
     'yesterday' : [

@@ -315,13 +315,13 @@ def makeISOTime( n ):
 
 # //******************************************************************************
 # //
-# //  makeTime
+# //  makeDateTime
 # //
 # //******************************************************************************
 
-def makeTime( n ):
+def makeDateTime( n ):
     if isinstance( n, RPNGenerator ):
-        return makeTime( list( n ) )
+        return makeDateTime( list( n ) )
     elif isinstance( n, str ):
         return RPNDateTime.get( n )
 
@@ -649,7 +649,7 @@ def calculateDSTEnd( year ):
 
 def getISODay( n ):
     if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'a time type required for this operator' )
+        raise ValueError( 'date/time type required for this operator' )
 
     return list( n.isocalendar( ) )
 
@@ -662,7 +662,85 @@ def getISODay( n ):
 
 def getWeekday( n ):
     if not isinstance( n, RPNDateTime ):
-        raise ValueError( 'time type required for this operator' )
+        raise ValueError( 'date/time type required for this operator' )
 
     return calendar.day_name[ n.weekday( ) ]
+
+
+# //******************************************************************************
+# //
+# //  getYear
+# //
+# //******************************************************************************
+
+def getYear( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'date/time type required for this operator' )
+
+    return n.year
+
+
+# //******************************************************************************
+# //
+# //  getMonth
+# //
+# //******************************************************************************
+
+def getMonth( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'date/time type required for this operator' )
+
+    return n.month
+
+
+# //******************************************************************************
+# //
+# //  getDay
+# //
+# //******************************************************************************
+
+def getDay( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'date/time type required for this operator' )
+
+    return n.day
+
+
+# //******************************************************************************
+# //
+# //  getHour
+# //
+# //******************************************************************************
+
+def getHour( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'date/time type required for this operator' )
+
+    return n.hour
+
+
+# //******************************************************************************
+# //
+# //  getMinute
+# //
+# //******************************************************************************
+
+def getMinute( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'date/time type required for this operator' )
+
+    return n.minute
+
+
+# //******************************************************************************
+# //
+# //  getSecond
+# //
+# //******************************************************************************
+
+def getSecond( n ):
+    if not isinstance( n, RPNDateTime ):
+        raise ValueError( 'date/time type required for this operator' )
+
+    return n.second + n.microsecond / 1000000
 
