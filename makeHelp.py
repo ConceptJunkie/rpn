@@ -2507,9 +2507,10 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] xor
 ''' ],
 
     'calendar' : [
-'calendars', 'prints a month calendar for year n, month k',
+'calendars', 'prints a month calendar for date-time n',
 '''
 The 'calendar' operator is special in that what it prints out is a side-effect.
+The operator itself doesn't actually do anything.
 ''',
 '''
 ''' ],

@@ -204,9 +204,12 @@ def getOrdinalDate( n ):
 # //
 # //******************************************************************************
 
-def generateMonthCalendar( year, month ):
+def generateMonthCalendar( datetime ):
+    if not isinstance( datetime, RPNDateTime ):
+        raise ValueError( 'a date-time type required for this operator' )
+
     cal = calendar.TextCalendar( firstweekday = 6 )
-    cal.prmonth( real_int( year ), real_int( month ) )
+    cal.prmonth( datetime.year, datetime.month )
 
     return ''
 

@@ -1195,7 +1195,7 @@ operators = {
 
     # calendar
     'ash_wednesday'                 : RPNOperatorInfo( calculateAshWednesday, 1 ),
-    'calendar'                      : RPNOperatorInfo( generateMonthCalendar, 2 ),
+    'calendar'                      : RPNOperatorInfo( generateMonthCalendar, 1 ),
     'dst_end'                       : RPNOperatorInfo( calculateDSTEnd, 1 ),
     'dst_start'                     : RPNOperatorInfo( calculateDSTStart, 1 ),
     'easter'                        : RPNOperatorInfo( calculateEaster, 1 ),

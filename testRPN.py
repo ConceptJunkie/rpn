@@ -635,8 +635,9 @@ def runCalendarOperatorTests( ):
     testOperator( '2015 ash_wednesday' )
 
     # calendar
-    testOperator( '1965 3 calendar' )
-    testOperator( '2014 10 calendar' )
+    testOperator( '1965-03-31 calendar' )
+    testOperator( '2014-10-01 calendar' )
+    testOperator( 'today calendar' )
 
     # dst_end
     testOperator( '2015 dst_end' )
