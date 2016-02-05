@@ -203,6 +203,8 @@ def invertUnits( measurement ):
 # //******************************************************************************
 
 class RPNMeasurement( object ):
+    """This class represents a measurement, which includes a numerical value
+       and an RPNUnits instance."""
     value = mpf( )
     units = RPNUnits( )
     unitName = None

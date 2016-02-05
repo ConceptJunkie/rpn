@@ -44,12 +44,12 @@ def alternateSigns( n, startNegative = False ):
 # //
 # //******************************************************************************
 
-def getAlternatingSum( arg, startNegative = False ):
+def getAlternatingSum( args, startNegative = False ):
     result = 0
 
     negative = startNegative
 
-    for i in arg:
+    for i in args:
         if negative:
             result = fsub( result, i )
         else:
@@ -79,15 +79,15 @@ def appendLists( arg1, arg2 ):
 # //
 # //******************************************************************************
 
-def countElements( arg ):
-    if isinstance( arg, list ):
-        return len( arg )
-    elif isinstance( arg, RPNGenerator ) and arg.getCount( ) > -1:
-        return arg.getCount( )
+def countElements( args ):
+    if isinstance( args, list ):
+        return len( args )
+    elif isinstance( args, RPNGenerator ) and args.getCount( ) > -1:
+        return args.getCount( )
 
     count = 0
 
-    for i in arg:
+    for i in args:
         count += 1
 
     return count
@@ -143,11 +143,11 @@ def makeIntersection( arg1, arg2 ):
 # //
 # //******************************************************************************
 
-def getIndexOfMax( arg ):
+def getIndexOfMax( args ):
     maximum = -inf
     result = -1
 
-    for index, i in enumerate( arg ):
+    for index, i in enumerate( args ):
         if i > maximum:
             maximum = i
             result = index
@@ -161,11 +161,11 @@ def getIndexOfMax( arg ):
 # //
 # //******************************************************************************
 
-def getIndexOfMin( arg ):
+def getIndexOfMin( args ):
     minimum = inf
     result = -1
 
-    for index, i in enumerate( arg ):
+    for index, i in enumerate( args ):
         if i < minimum:
             minimum = i
             result = index
@@ -179,11 +179,11 @@ def getIndexOfMin( arg ):
 # //
 # //******************************************************************************
 
-def getListElement( arg, index ):
+def getListElement( args, index ):
     if isinstance( index, list ):
-        return [ arg[ int( i ) ] for i in index ]
+        return [ args[ int( i ) ] for i in index ]
     else:
-        return arg[ int( index ) ]
+        return args[ int( index ) ]
 
 
 # //******************************************************************************
@@ -192,11 +192,11 @@ def getListElement( arg, index ):
 # //
 # //******************************************************************************
 
-def getSlice( arg, start, end ):
+def getSlice( args, start, end ):
     result = [ ]
 
     for i in range( int( start ), int( end + 1 ) ):
-        result.append( arg[ i ] )
+        result.append( args[ i ] )
 
     return result
 
@@ -207,8 +207,8 @@ def getSlice( arg, start, end ):
 # //
 # //******************************************************************************
 
-def getSublist( arg, start, count ):
-    return arg[ int( start ) : int( count ) ]
+def getSublist( args, start, count ):
+    return args[ int( start ) : int( count ) ]
 
 
 # //******************************************************************************
@@ -217,14 +217,14 @@ def getSublist( arg, start, count ):
 # //
 # //******************************************************************************
 
-def getLeft( arg, count ):
+def getLeft( args, count ):
     result = [ ]
 
     if isinstance( count, list ):
         for i in count:
-            result.append( [ j for j in arg ][ : int( i ) ] )
+            result.append( [ j for j in args ][ : int( i ) ] )
     else:
-        result.append( [ j for j in arg ][ : int( count ) ] )
+        result.append( [ j for j in args ][ : int( count ) ] )
 
     if len( result ) == 1:
         return result[ 0 ]
@@ -238,14 +238,14 @@ def getLeft( arg, count ):
 # //
 # //******************************************************************************
 
-def getRight( arg, count ):
+def getRight( args, count ):
     result = [ ]
 
     if isinstance( count, list ):
         for i in count:
-            result.append( [ j for j in arg ][ int( fneg( i ) ) : ] )
+            result.append( [ j for j in args ][ int( fneg( i ) ) : ] )
     else:
-        result.append( [ j for j in arg ][ int( fneg( count ) ) : ] )
+        result.append( [ j for j in args ][ int( fneg( count ) ) : ] )
 
     if len( result ) == 1:
         return result[ 0 ]
@@ -259,10 +259,10 @@ def getRight( arg, count ):
 # //
 # //******************************************************************************
 
-def getListDiffs( arg ):
+def getListDiffs( args ):
     old = None
 
-    for i in arg:
+    for i in args:
         if old is not None:
             yield( fsub( i, old ) )
 
@@ -275,12 +275,12 @@ def getListDiffs( arg ):
 # //
 # //******************************************************************************
 
-def getCumulativeListDiffs( arg ):
+def getCumulativeListDiffs( args ):
     result = [ ]
 
     first = None
 
-    for i in arg:
+    for i in args:
         if first is None:
             first = i
         else:
@@ -296,7 +296,7 @@ def getCumulativeListDiffs( arg ):
 def getListRatios( args ):
     old = None
 
-    for i in arg:
+    for i in args:
         if old is not None:
             yield( fdiv( i, old ) )
 
@@ -309,12 +309,12 @@ def getListRatios( args ):
 # //
 # //******************************************************************************
 
-def getCumulativeListRatios( arg ):
+def getCumulativeListRatios( args ):
     result = [ ]
 
     first = None
 
-    for i in arg:
+    for i in args:
         if first is None:
             first = i
         else:

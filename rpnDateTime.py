@@ -62,6 +62,8 @@ December = 12
 # //******************************************************************************
 
 class RPNDateTime( arrow.Arrow ):
+    """This class wraps the Arrow class, with lots of convenience functions and
+       implements support for date math."""
     def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
                   microsecond = 0, tzinfo = None, dateOnly = False ):
         self.dateOnly = dateOnly
@@ -75,6 +77,7 @@ class RPNDateTime( arrow.Arrow ):
     def getDateOnly( self ):
         return self.dateOnly
 
+    @staticmethod
     def get( self, *args, **kwargs ):
         result = arrow.api.get( *args, **kwargs )
 

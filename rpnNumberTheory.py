@@ -302,15 +302,14 @@ def getNthPadovanNumber( arg ):
 
 # //******************************************************************************
 # //
-# //  ContinuedFraction
-# //
-# //  A continued fraction, represented as a list of integer terms.
+# //  RPNContinuedFraction
 # //
 # //  adapted from ActiveState Python, recipe 578647
 # //
 # //******************************************************************************
 
-class ContinuedFraction( list ):
+class RPNContinuedFraction( list ):
+    """This class represents a continued fraction as a list of integer terms."""
     def __init__( self, value, maxterms = 15, cutoff = 1e-10 ):
         if isinstance( value, ( int, float, mpf ) ):
             value = mpmathify( value )
@@ -330,7 +329,7 @@ class ContinuedFraction( list ):
         elif isinstance( value, ( list, tuple ) ):
             self.extend( value )
         else:
-            raise ValueError( 'ContinuedFraction requires a number or a list' )
+            raise ValueError( 'RPNContinuedFraction requires a number or a list' )
 
     def getFraction( self, terms = None ):
         if terms is None or terms >= len( self ):
@@ -365,7 +364,7 @@ def convertFromContinuedFraction( n ):
     if ( len( n ) == 1 ) and ( n[ 0 ] <= 0 ):
         raise ValueError( "invalid input for evaluating a continued fraction" )
 
-    fraction = ContinuedFraction( n ).getFraction( )
+    fraction = RPNContinuedFraction( n ).getFraction( )
     return fdiv( fraction.numerator, fraction.denominator )
 
 
@@ -376,7 +375,7 @@ def convertFromContinuedFraction( n ):
 # //******************************************************************************
 
 def interpretAsFraction( i, j ):
-    fraction = ContinuedFraction( i, maxterms = j ).getFraction( )
+    fraction = RPNContinuedFraction( i, maxterms = j ).getFraction( )
     return [ fraction.numerator, fraction.denominator ]
 
 

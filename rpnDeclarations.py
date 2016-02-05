@@ -28,6 +28,7 @@ import rpnGlobals as g
 # //******************************************************************************
 
 class RPNOperatorType( Enum ):
+    """This enum is used to identify among the different types of operator."""
     Normal = 0,                 # any normal operator
     List = 1,                   # a list operator that prefers list arguments
     Generator = 2               # a list operator that expects a generator argument
@@ -40,6 +41,8 @@ class RPNOperatorType( Enum ):
 # //******************************************************************************
 
 class RPNVariable( object ):
+    """This class represents a variable in rpn, and it maintains a global
+       dictionary of all variables keyed by name."""
     def __init__( self, name ):
         self.name = name
         self.isHistory = not name[ 0 ].isalpha( )
@@ -60,7 +63,7 @@ class RPNVariable( object ):
         if self.isHistory:
             prompt = int( self.name )
 
-            if ( prompt > 0 ) and ( prompt < g.promptCount ):
+            if ( 0 < prompt < g.promptCount ):
                 self.value = g.results[ prompt ]
             else:
                 raise ValueError( 'result index out of range' )
@@ -75,6 +78,7 @@ class RPNVariable( object ):
 # //******************************************************************************
 
 class RPNOperatorInfo( object ):
+    """This class represents all the data needed to define an operator."""
     def __init__( self, function, argCount, operatorType = RPNOperatorType.Normal ):
         self.function = function
         self.argCount = argCount

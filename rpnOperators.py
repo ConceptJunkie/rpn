@@ -73,6 +73,7 @@ import rpnGlobals as g
 # //******************************************************************************
 
 class RPNFunctionInfo( object ):
+    """This class represents a user-defined function in rpn."""
     def __init__( self, valueList = [ ], startingIndex = 0 ):
         self.valueList = [ ]
 
@@ -1292,7 +1293,6 @@ operators = {
     'get_minute'                    : RPNOperatorInfo( getMinute, 1 ),
     'get_second'                    : RPNOperatorInfo( getSecond, 1 ),
     'iso_day'                       : RPNOperatorInfo( getISODay, 1 ),
-    'labor_day'                     : RPNOperatorInfo( calculateLaborDay, 1 ),
     'now'                           : RPNOperatorInfo( RPNDateTime.getNow, 0 ),
     'today'                         : RPNOperatorInfo( getToday, 0 ),
     'tomorrow'                      : RPNOperatorInfo( getTomorrow, 0 ),
@@ -1414,7 +1414,7 @@ operators = {
     'leyland'                       : RPNOperatorInfo( lambda n, k: fadd( power( n, k ), power( k, n ) ), 2 ),
     'log_gamma'                     : RPNOperatorInfo( loggamma, 1 ),
     'lucas'                         : RPNOperatorInfo( getNthLucasNumber, 1 ),
-    'make_cf'                       : RPNOperatorInfo( lambda n, k: ContinuedFraction( real( n ), maxterms = real( k ), cutoff = power( 10, -( mp.dps - 2 ) ) ), 2 ),
+    'make_cf'                       : RPNOperatorInfo( lambda n, k: RPNContinuedFraction( real( n ), maxterms = real( k ), cutoff = power( 10, -( mp.dps - 2 ) ) ), 2 ),
     'make_pyth_3'                   : RPNOperatorInfo( makePythagoreanTriple, 2 ),
     'make_pyth_4'                   : RPNOperatorInfo( makePythagoreanQuadruple, 2 ),
     'merten'                        : RPNOperatorInfo( getNthMerten, 1 ),

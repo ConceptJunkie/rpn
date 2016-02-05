@@ -31,14 +31,13 @@ import rpnGlobals as g
 # //
 # //  class RPNLocation
 # //
-# //  This class represents a location on the surface of the Earth.
-# //
 # //  The observer class measures lat/long in radians, but no one else does,
 # //  so the methods assume degrees.
 # //
 # //******************************************************************************
 
 class RPNLocation( object ):
+    """This class represents a location on the surface of the Earth."""
     def __init__( self, name, observer ):
         self.name = name
         self.observer = observer

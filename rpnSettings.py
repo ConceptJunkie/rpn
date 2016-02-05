@@ -120,7 +120,7 @@ def setDecimalGrouping( n ):
 # //******************************************************************************
 
 def setInputRadix( n ):
-    if ( n == 0 ) or ( n == -1 ):
+    if n in [ 0, -1 ]:
         g.inputRadix = g.defaultInputRadix
     else:
         g.inputRadix = int( n )
@@ -135,7 +135,7 @@ def setInputRadix( n ):
 # //******************************************************************************
 
 def setOutputRadix( n ):
-    if ( n == 0 ) or ( n == -1 ):
+    if n in [ 0, -1 ]:
         g.outputRadix = g.defaultOutputRadix
     else:
         g.outputRadix = int( n )

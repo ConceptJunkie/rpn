@@ -182,7 +182,7 @@ def enterInteractiveMode( ):
 
         line = line.strip( )
 
-        if line == 'exit' or line == 'quit':
+        if line in [ 'exit', 'quit' ]:
             break
 
         terms = line.split( ' ' )
@@ -220,7 +220,7 @@ def enterHelpMode( terms ):
 
         line = line.strip( )
 
-        if line == 'exit' or line == 'quit':
+        if line in [ 'exit', 'quit' ]:
             break
 
         terms = line.split( ' ' )

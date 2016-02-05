@@ -65,6 +65,7 @@ def getDataPath( ):
 # //******************************************************************************
 
 class DelayedKeyboardInterrupt( object ):
+    """This class is used to mask keyboard interrupts."""
     def __enter__( self ):
         self.signal_received = False
         self.old_handler = signal.getsignal( signal.SIGINT )

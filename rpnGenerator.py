@@ -24,6 +24,8 @@ from mpmath import *
 # //******************************************************************************
 
 class RPNGenerator( object ):
+    """This class implements generators for rpn values, which allows rpn to
+       avoid having to expand ranges to complete lists when evaluating them."""
     def __init__( self, generator = None, count = -1 ):
         self.generator = generator
         self.count = count

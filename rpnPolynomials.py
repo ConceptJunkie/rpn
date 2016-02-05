@@ -29,6 +29,7 @@ from rpnGenerator import RPNGenerator
 # //******************************************************************************
 
 class Polynomial( object ):
+    """This class represents a polynomial as a list of coefficients."""
     def __init__( self, *args ):
         """
         Create a polynomial in one of three ways:
@@ -50,6 +51,7 @@ class Polynomial( object ):
                 self.coeffs = [ val + 0 ]
         else:                                                # multiple scalars
             self.coeffs = [ i + 0 for i in args ]
+
         self.trim( )
 
     def __add__( self, val ):
@@ -96,6 +98,7 @@ class Polynomial( object ):
                     res[ selfpow + valpow ] += selfco * valco
         else:
             res = [ co * val for co in self.coeffs ]
+
         return self.__class__( res )
 
     def __neg__( self ):
