@@ -6318,6 +6318,13 @@ c:\>rpn 4 5 make_pyth_3 unlist euler_brick
 '''
 ''' ],
 
+    'calkin_wilf' : [
+'number_theory', 'calculates the nth member of the Calkin-Wilf sequence',
+'''
+''',
+'''
+''' ],
+
     'carol' : [
 'number_theory', 'gets the nth Carol number',
 '''
@@ -6838,6 +6845,13 @@ n and k cannot both be odd.
 
     'sigma' : [
 'number_theory', 'returns the sum of the proper divisors of n'
+'''
+''',
+'''
+''' ],
+
+    'stern' : [
+'number_theory', 'calculates the nth value of the Stern diatomic series',
 '''
 ''',
 '''

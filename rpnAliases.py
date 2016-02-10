@@ -287,6 +287,7 @@ operatorAliases = {
     'fromunixtime'              : 'from_unix_time',
     'from_indian'               : 'from_indian_civil',
     'from_unix'                 : 'from_unix_time',
+    'fusc'                      : 'stern',
     'G'                         : 'newton_constant',
     'gammaflux'                 : 'nanotesla',
     'gamma_flux'                : 'nanotesla',

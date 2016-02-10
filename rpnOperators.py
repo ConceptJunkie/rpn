@@ -74,7 +74,7 @@ import rpnGlobals as g
 
 class RPNFunctionInfo( object ):
     """This class represents a user-defined function in rpn."""
-    def __init__( self, valueList = [ ], startingIndex = 0 ):
+    def __init__( self, valueList, startingIndex = 0 ):
         self.valueList = [ ]
 
         if isinstance( valueList, list ):
@@ -1375,6 +1375,7 @@ operators = {
     # number_theory
     'aliquot'                       : RPNOperatorInfo( getAliquotSequence, 2 ),
     'alternating_factorial'         : RPNOperatorInfo( getNthAlternatingFactorial, 1 ),
+    'calkin_wilf'                   : RPNOperatorInfo( getNthCalkinWilf, 1 ),
     'carol'                         : RPNOperatorInfo( lambda n: fsub( power( fsub( power( 2, real( n ) ), 1 ), 2 ), 2 ), 1 ),
     'count_divisors'                : RPNOperatorInfo( getDivisorCount, 1 ),
     'divisors'                      : RPNOperatorInfo( getDivisors, 1 ),
@@ -1428,6 +1429,7 @@ operators = {
     'repunit'                       : RPNOperatorInfo( getNthBaseKRepunit, 2 ),
     'riesel'                        : RPNOperatorInfo( lambda n: fsub( fmul( real( n ), power( 2, n ) ), 1 ), 1 ),
     'sigma'                         : RPNOperatorInfo( getSigma, 1 ),
+    'stern'                         : RPNOperatorInfo( getNthStern, 1 ),
     'subfactorial'                  : RPNOperatorInfo( lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1 ),
     'superfactorial'                : RPNOperatorInfo( superfac, 1 ),
     'tetranacci'                    : RPNOperatorInfo( lambda n: getNthKFibonacciNumber( n, 4 ), 1 ),

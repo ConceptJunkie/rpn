@@ -524,7 +524,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
                     for op3 in unitTypeTable[ unitType ]:
                         # we can ignore duplicate operators
-                        if ( op3 == op1 ) or ( op3 == op2 ):
+                        if op3 in [ op1, op2 ]:
                             continue
 
                         # we can shortcut if the types are not compatible

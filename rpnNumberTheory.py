@@ -1136,7 +1136,7 @@ def isPronic( n ):
 
 def isPolydivisible( n ):
     if real_int( n ) <= 0:
-        raise ValueError( 'non-negative, real integer expected' )
+        raise ValueError( 'positive, real integer expected' )
 
     strValue = getMPFIntegerAsString( n )
 
@@ -1147,4 +1147,40 @@ def isPolydivisible( n ):
             return 0
 
     return 1
+
+
+# //******************************************************************************
+# //
+# //  getNthStern
+# //
+# //******************************************************************************
+
+def getNthStern( n ):
+    """Return the nth number of Stern's diatomic series recursively"""
+    if real_int( n ) < 0:
+        raise ValueError( 'non-negative, real integer expected' )
+
+    if n in [ 0, 1 ]:
+        return n
+    elif n % 2 == 0: # even
+        return getNthStern( floor( fdiv( n, 2 ) ) )
+    else:
+        return fadd( getNthStern( floor( fdiv( fsub( n, 1 ), 2 ) ) ),
+                     getNthStern( floor( fdiv( fadd( n, 1 ), 2 ) ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthCalkinWilf
+# //
+# //******************************************************************************
+
+def getNthCalkinWilf( n ):
+    if real_int( n ) < 0:
+        raise ValueError( 'non-negative, real integer expected' )
+
+    if n == 0:
+        return 0
+
+    return fdiv( getNthStern( n ), getNthStern( fadd( n, 1 ) ) )
 

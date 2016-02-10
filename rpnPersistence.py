@@ -180,7 +180,7 @@ def saveResult( result ):
             with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
                 pickle.dump( result, pickleFile )
     except:
-        print( 'error:  failed to save result' )
+        pass #print( 'error:  failed to save result' )
 
 
 # //******************************************************************************
