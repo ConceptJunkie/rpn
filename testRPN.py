@@ -896,187 +896,14 @@ def runComplexMathOperatorTests( ):
 # //******************************************************************************
 
 def runConstantOperatorTests( ):
-    # apery
-    testOperator( 'apery' )
-
-    # avogadro_number
-    testOperator( '-a25 avogadro_number' )
-
-    # catalan
-    testOperator( 'catalan_constant' )
-
-    # champernowne_constant
-    testOperator( '-a100 champernowne_constant' )
-
-    # copeland
-    testOperator( '-a 1000 copeland' )
-
-    # default
     expectResult( 'default', -1 )
-
-    # e
-    testOperator( 'e' )
-
-    # eddington_number
-    testOperator( 'eddington_number' )
-
-    # electric_constant
-    testOperator( 'electric_constant' )
-
-    # euler
-    testOperator( 'euler' )
-
-    # false
     expectResult( 'false', 0 )
-
-    # faradays_constant
-    testOperator( 'faradays_constant' )
-
-    # fine_structure_constant
-    testOperator( 'fine_structure_constant' )
-
-    # glaisher_constant
-    testOperator( 'glaisher_constant' )
+    expectResult( 'true', 1 )
 
     # infinity
     testOperator( 'infinity x fib x 1 - fib / limit' )
     expectEqual( 'infinity x fib x 1 - fib / limit', 'phi' )
     testOperator( 'infinity x 1/x 1 + x ** limit' )
-
-    # itoi
-    testOperator( 'itoi' )
-
-    # khinchin_constant
-    testOperator( 'khinchin_constant' )
-
-    # magnetic_constant
-    testOperator( 'magnetic_constant' )
-
-    # max_char
-    expectEqual( 'max_char', '2 7 ** 1 -' )
-
-    # max_double
-    testOperator( 'max_double' )
-
-    # max_float
-    testOperator( 'max_float' )
-
-    # max_long
-    expectEqual( 'max_long', '2 31 ** 1 -' )
-
-    # max_longlong
-    expectEqual( '-a20 max_longlong', '-a20 2 63 ** 1 -' )
-
-    # max_quadlong
-    expectEqual( '-a40 max_quadlong', '-a40 2 127 ** 1 -' )
-
-    # max_short
-    expectEqual( 'max_short', '2 15 ** 1 -' )
-
-    # max_uchar
-    expectEqual( 'max_uchar', '2 8 ** 1 -' )
-
-    # max_ulong
-    expectEqual( 'max_ulong', '2 32 ** 1 -' )
-
-    # max_ulonglong
-    expectEqual( '-a20 max_ulonglong', '-a20 2 64 ** 1 -' )
-
-    # max_uquadlong
-    expectEqual( '-a40 max_uquadlong', '-a40 2 128 ** 1 -' )
-
-    # max_ushort
-    expectEqual( 'max_ushort', '2 16 ** 1 -' )
-
-    # merten
-    testOperator( '10 merten' )
-
-    # mills
-    testOperator( 'mills' )
-
-    # min_char
-    expectEqual( 'min_char', '2 7 ** negative' )
-
-    # min_double
-    testOperator( 'min_double' )
-
-    # min_float
-    testOperator( 'min_float' )
-
-    # min_long
-    expectEqual( 'min_long', '2 31 ** negative' )
-
-    # min_longlong
-    expectEqual( '-a20 min_longlong', '-a20 2 63 ** negative' )
-
-    # min_quadlong
-    expectEqual( '-a40 min_quadlong', '-a40 2 127 ** negative' )
-
-    # min_short
-    expectEqual( 'min_short', '2 15 ** negative' )
-
-    # min_uchar
-    expectResult( 'min_uchar', 0 )
-
-    # min_ulong
-    expectResult( 'min_ulong', 0 )
-
-    # min_ulonglong
-    expectResult( 'min_ulonglong', 0 )
-
-    # min_uquadlong
-    expectResult( 'min_uquadlong', 0 )
-
-    # min_ushort
-    expectResult( 'min_ushort', 0 )
-
-    # negative_infinity
-    testOperator( 'negative_infinity' )
-
-    # newtons_constant
-    testOperator( 'newtons_constant' )
-
-    # omega
-    testOperator( 'omega_constant' )
-
-    # phi
-    testOperator( 'phi' )
-
-    # pi
-    testOperator( 'pi' )
-
-    # planck_constant
-    testOperator( 'planck_constant' )
-
-    # plastic
-    testOperator( 'plastic_constant' )
-
-    # prevost
-    testOperator( 'prevost_constant' )
-
-    # radiation_constant
-    testOperator( 'radiation_constant' )
-
-    # reduced_planck_constant
-    testOperator( 'reduced_planck_constant' )
-
-    # robbins
-    testOperator( 'robbins_constant' )
-
-    # rydberg_constant
-    testOperator( 'rydberg_constant' )
-
-    # silver_ratio
-    testOperator( 'silver_ratio' )
-
-    # speed_of_light
-    testOperator( 'speed_of_light' )
-
-    # stefan_boltzmann
-    testOperator( 'stefan_boltzmann_constant' )
-
-    # true
-    expectResult( 'true', 1 )
 
     # days of the week
     expectResult( 'monday', 1 )
@@ -1101,6 +928,118 @@ def runConstantOperatorTests( ):
     expectResult( 'november', 11 )
     expectResult( 'december', 12 )
 
+    # mathematical constants
+    testOperator( 'apery_constant' )
+    testOperator( 'catalan_constant' )
+    testOperator( 'champernowne_constant' )
+    testOperator( 'copeland_erdos_constant' )
+    testOperator( 'e' )
+    testOperator( 'eddington_number' )
+    testOperator( 'euler_mascheroni_constant' )
+    testOperator( 'glaisher_constant' )
+    testOperator( 'infinity' )
+    testOperator( 'itoi' )
+    testOperator( 'khinchin_constant' )
+    testOperator( 'merten_constant' )
+    testOperator( 'mills_constant' )
+    testOperator( 'negative_infinity' )
+    testOperator( 'omega_constant' )
+    testOperator( 'phi' )
+    testOperator( 'pi' )
+    testOperator( 'plastic_constant' )
+    testOperator( 'prevost_constant' )
+    testOperator( 'robbins_constant' )
+    testOperator( 'silver_ratio' )
+
+    # physical quantities
+    testOperator( 'aa_battery' )
+    testOperator( 'gallon_of_ethanol' )
+    testOperator( 'gallon_of_gasoline' )
+    testOperator( 'density_of_water' )
+    testOperator( 'density_of_hg' )
+
+    # constant - physical constants
+    testOperator( 'avogadro_number' )
+    testOperator( 'bohr_radius' )
+    testOperator( 'boltzmann_constant' )
+    testOperator( 'coulomb_constant' )
+    testOperator( 'electric_constant' )
+    testOperator( 'electron_charge' )
+    testOperator( 'faraday_constant' )
+    testOperator( 'fine_structure_constant' )
+    testOperator( 'magnetic_constant' )
+    testOperator( 'newton_constant' )
+    testOperator( 'radiation_constant' )
+    testOperator( 'rydberg_constant' )
+    testOperator( 'speed_of_light' )
+    testOperator( 'stefan_boltzmann_constant' )
+    testOperator( 'vacuum_impedance' )
+    testOperator( 'von_klitzing_constant' )
+
+    # constant - programming integer constants
+    expectEqual( 'max_char', '2 7 ** 1 -' )
+    testOperator( 'max_double' )
+    testOperator( 'max_float' )
+    expectEqual( 'max_long', '2 31 ** 1 -' )
+    expectEqual( '-a20 max_longlong', '-a20 2 63 ** 1 -' )
+    expectEqual( '-a40 max_quadlong', '-a40 2 127 ** 1 -' )
+    expectEqual( 'max_short', '2 15 ** 1 -' )
+    expectEqual( 'max_uchar', '2 8 ** 1 -' )
+    expectEqual( 'max_ulong', '2 32 ** 1 -' )
+    expectEqual( '-a20 max_ulonglong', '-a20 2 64 ** 1 -' )
+    expectEqual( '-a40 max_uquadlong', '-a40 2 128 ** 1 -' )
+    expectEqual( 'max_ushort', '2 16 ** 1 -' )
+
+    expectEqual( 'min_char', '2 7 ** negative' )
+    testOperator( 'min_double' )
+    testOperator( 'min_float' )
+    expectEqual( 'min_long', '2 31 ** negative' )
+    expectEqual( '-a20 min_longlong', '-a20 2 63 ** negative' )
+    expectEqual( '-a40 min_quadlong', '-a40 2 127 ** negative' )
+    expectEqual( 'min_short', '2 15 ** negative' )
+    expectResult( 'min_uchar', 0 )
+    expectResult( 'min_ulong', 0 )
+    expectResult( 'min_ulonglong', 0 )
+    expectResult( 'min_uquadlong', 0 )
+    expectResult( 'min_ushort', 0 )
+
+    # Planck constants
+    testOperator( 'planck_constant' )
+    testOperator( 'reduced_planck_constant' )
+
+    testOperator( 'planck_length' )
+    testOperator( 'planck_mass' )
+    testOperator( 'planck_time' )
+    testOperator( 'planck_charge' )
+    testOperator( 'planck_temperature' )
+
+    testOperator( 'planck_angular_frequency' )
+    testOperator( 'planck_area' )
+    testOperator( 'planck_current' )
+    testOperator( 'planck_density' )
+    testOperator( 'planck_energy' )
+    testOperator( 'planck_energy_density' )
+    testOperator( 'planck_force' )
+    testOperator( 'planck_impedance' )
+    testOperator( 'planck_intensity' )
+    testOperator( 'planck_momentum' )
+    testOperator( 'planck_power' )
+    testOperator( 'planck_pressure' )
+    testOperator( 'planck_voltage' )
+    testOperator( 'planck_volume' )
+
+    # subatomic particle constants
+    testOperator( 'alpha_particle_mass' )
+    testOperator( 'deuteron_mass' )
+    testOperator( 'electron_mass' )
+    testOperator( 'helion_mass' )
+    testOperator( 'muon_mass' )
+    testOperator( 'neutron_mass' )
+    testOperator( 'proton_mass' )
+    testOperator( 'tau_mass' )
+    testOperator( 'triton_mass' )
+
+    # heavenly body constants
     testOperator( 'solar_luminosity' )
     testOperator( 'solar_mass' )
     testOperator( 'solar_radius' )
@@ -1109,43 +1048,55 @@ def runConstantOperatorTests( ):
     testOperator( 'mercury_mass' )
     testOperator( 'mercury_radius' )
     testOperator( 'mercury_revolution' )
+    testOperator( 'mercury_volume' )
 
     testOperator( 'venus_mass' )
     testOperator( 'venus_radius' )
     testOperator( 'venus_revolution' )
+    testOperator( 'venus_volume' )
 
     testOperator( 'earth_gravity' )
     testOperator( 'earth_mass' )
     testOperator( 'earth_radius' )
+    testOperator( 'earth_volume' )
+    testOperator( 'sidereal_year' )
+    testOperator( 'tropical_year' )
 
     testOperator( 'moon_gravity' )
     testOperator( 'moon_mass' )
     testOperator( 'moon_radius' )
-    testOperator( 'moon_orbit' )
+    testOperator( 'moon_revolution' )
+    testOperator( 'moon_volume' )
 
     testOperator( 'mars_mass' )
     testOperator( 'mars_radius' )
     testOperator( 'mars_revolution' )
+    testOperator( 'mars_volume' )
 
     testOperator( 'jupiter_mass' )
     testOperator( 'jupiter_radius' )
     testOperator( 'jupiter_revolution' )
+    testOperator( 'jupiter_volume' )
 
     testOperator( 'saturn_mass' )
     testOperator( 'saturn_radius' )
     testOperator( 'saturn_revolution' )
+    testOperator( 'saturn_volume' )
 
     testOperator( 'uranus_mass' )
     testOperator( 'uranus_radius' )
     testOperator( 'uranus_revolution' )
+    testOperator( 'uranus_volume' )
 
     testOperator( 'neptune_mass' )
     testOperator( 'neptune_radius' )
     testOperator( 'neptune_revolution' )
+    testOperator( 'neptune_volume' )
 
     testOperator( 'pluto_mass' )
     testOperator( 'pluto_radius' )
     testOperator( 'pluto_revolution' )
+    testOperator( 'pluto_volume' )
 
 
 # //******************************************************************************
