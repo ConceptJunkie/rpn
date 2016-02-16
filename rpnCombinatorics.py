@@ -147,8 +147,7 @@ def getNthPellNumber( n ):
 
 def getPermutations( n, r ):
     if ( real( r ) > real( n ) ):
-        raise ValueError( 'number of elements (%d) cannot exceed the size '
-                          'of the set (%d)' % ( r, n ) )
+        raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
 
     return fdiv( fac( n ), fac( fsub( n, r ) ) )
 

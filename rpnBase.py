@@ -49,7 +49,7 @@ def convertToBaseN( value, base, outputBaseDigits, numerals ):
             raise ValueError( 'base must be greater than 1' )
     else:
         if not ( 2 <= base <= len( numerals ) ):
-            raise ValueError( 'base must be from 2 to %d' % len( numerals ) )
+            raise ValueError( 'base must be from 2 to {0}'.format( len( numerals ) ) )
 
     if value == 0:
         return 0

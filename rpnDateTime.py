@@ -308,7 +308,7 @@ def makeISOTime( n ):
         week = n[ 1 ]
         day = n[ 2 ]
 
-    result = datetime.datetime.strptime( '%04d-%02d-%1d' % ( year, week, day ), '%Y-%W-%w' )
+    result = datetime.datetime.strptime( '%04d-%02d-%1d' % ( int( year ), int( week ), int( day ) ), '%Y-%W-%w' )
 
     if RPNDateTime( year, 1, 4 ).isoweekday( ) > 4:
         result -= datetime.timedelta( days = 7 )
