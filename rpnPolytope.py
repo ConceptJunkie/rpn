@@ -715,14 +715,58 @@ def getNthStellaOctangulaNumber( n ):
 
 # //******************************************************************************
 # //
-# //  getNthCenteredCube
+# //  getNthCenteredCubicNumber
 # //
 # //  from Conway and Guy's "The Book of Numbers"
 # //
 # //******************************************************************************
 
-def getNthCenteredCubeNumber( n ):
+def getNthCenteredCubicNumber( n ):
     return fadd( power( real_int( n ), 3 ), power( fsub( n, 1 ), 3 ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthCenteredTetrahedralNumber
+# //
+# //******************************************************************************
+
+def getNthCenteredTetrahedralNumber( n ):
+    arg = real_int( fsub( n, 1 ) )
+    return fmul( fadd( fmul( arg, 2 ), 1 ), fdiv( polyval( [ 1, 1, 3 ], arg ), 3 ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthCenteredOctahedralNumber
+# //
+# //******************************************************************************
+
+def getNthCenteredOctahedralNumber( n ):
+    arg = real_int( fsub( n, 1 ) )
+    return fmul( fadd( fmul( arg, 2 ), 1 ), fdiv( polyval( [ 2, 2, 3 ], arg ), 3 ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthCenteredDodecahedralNumber
+# //
+# //******************************************************************************
+
+def getNthCenteredDodecahedralNumber( n ):
+    arg = real_int( fsub( n, 1 ) )
+    return fmul( fadd( fmul( arg, 2 ), 1 ), polyval( [ 5, 5, 1 ], arg ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthCenteredIcosahedralNumber
+# //
+# //******************************************************************************
+
+def getNthCenteredIcosahedralNumber( n ):
+    arg = real_int( fsub( n, 1 ) )
+    return fmul( fadd( fmul( arg, 2 ), 1 ), fdiv( polyval( [ 5, 5, 3 ], arg ), 3 ) )
 
 
 # //******************************************************************************

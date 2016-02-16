@@ -1506,7 +1506,11 @@ operators = {
     'triangular'                    : RPNOperatorInfo( lambda n: getNthPolygonalNumber( n, 3 ), 1 ),
 
     # polyhedral
-    'centered_cube'                 : RPNOperatorInfo( getNthCenteredCubeNumber, 1 ),
+    'centered_cubic'                : RPNOperatorInfo( getNthCenteredCubicNumber, 1 ),
+    'centered_dodecahedral'         : RPNOperatorInfo( getNthCenteredDodecahedralNumber, 1 ),
+    'centered_icosahedral'          : RPNOperatorInfo( getNthCenteredIcosahedralNumber, 1 ),
+    'centered_octahedral'           : RPNOperatorInfo( getNthCenteredOctahedralNumber, 1 ),
+    'centered_tetrahedral'          : RPNOperatorInfo( getNthCenteredTetrahedralNumber, 1 ),
     'dodecahedral'                  : RPNOperatorInfo( lambda n: polyval( [ fdiv( 9, 2 ), fdiv( -9, 2 ), 1, 0 ], real( n ) ), 1 ),
     'icosahedral'                   : RPNOperatorInfo( lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], real( n ) ), 1 ),
     'octahedral'                    : RPNOperatorInfo( lambda n: polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], real( n ) ), 1 ),

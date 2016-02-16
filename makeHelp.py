@@ -957,6 +957,9 @@ The following command:
 
 now runs about 60 times faster.
 
+Added the 'centered_tetrahedral', 'centered_octahedral',
+'centered_dodecahedral', and 'centered_icosahedral' operators.
+
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
 
@@ -7455,8 +7458,36 @@ number.
 # //
 # //******************************************************************************
 
-    'centered_cube' : [
-'polyhedral_numbers', 'calculates the nth centered cube number',
+    'centered_cubic' : [
+'polyhedral_numbers', 'calculates the nth centered cubic number',
+'''
+''',
+'''
+''' ],
+
+    'centered_dodecahedral' : [
+'polyhedral_numbers', 'calculates the nth centered dodecahedral number',
+'''
+''',
+'''
+''' ],
+
+    'centered_icosahedral' : [
+'polyhedral_numbers', 'calculates the nth centered icosahedral number',
+'''
+''',
+'''
+''' ],
+
+    'centered_octahedral' : [
+'polyhedral_numbers', 'calculates the nth centered octahedral number',
+'''
+''',
+'''
+''' ],
+
+    'centered_tetrahedral' : [
+'polyhedral_numbers', 'calculates the nth centered tetrahedral number',
 '''
 ''',
 '''

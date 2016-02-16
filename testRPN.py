@@ -2170,8 +2170,30 @@ def runPolygonalOperatorTests( ):
 # //******************************************************************************
 
 def runPolyhedralOperatorTests( ):
-    # centered_cube
+    # centered_cubic
+    testOperator( '1 20 range centered_cube' )
     testOperator( '100 centered_cube' )
+    expectEqual( '1 38 range centered_cube', '5898 oeis 38 left' )
+
+    # centered_dodecahedral
+    testOperator( '1 20 range centered_dodecahedral' )
+    testOperator( '60 centered_dodecahedral' )
+    expectEqual( '1 36 range centered_dodecahedral', '5904 oeis 36 left' )
+
+    # centered_icosahedral
+    testOperator( '1 20 range centered_icosahedral' )
+    testOperator( '30 centered_icosahedral' )
+    expectEqual( '1 36 range centered_icosahedral', '5902 oeis 36 left' )
+
+    # centered_octahedral
+    testOperator( '1 20 range centered_octahedral' )
+    testOperator( '70 centered_octahedral' )
+    expectEqual( '1 40 range centered_octahedral', '1845 oeis 40 left' )
+
+    # centered_tetrahedral
+    testOperator( '1 20 range centered_tetrahedral' )
+    testOperator( '120 centered_tetrahedral' )
+    expectEqual( '1 39 range centered_tetrahedral', '5894 oeis 39 left' )
 
     # dodecahedral
     testOperator( '44 dodecahedral' )
