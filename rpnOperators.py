@@ -844,13 +844,15 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                     currentValueList.append( term )
                     return True
 
-                keys = list( operators.keys( ) )
-                keys.extend( list( listOperators.keys( ) ) )
-                keys.extend( constants )
-                keys.extend( g.unitOperatorNames )
-                keys.extend( g.operatorAliases )
+                # build keyword list if needed
+                if len( g.keywords ) == 0:
+                    g.keywords = list( operators.keys( ) )
+                    g.keywords.extend( list( listOperators.keys( ) ) )
+                    g.keywords.extend( constants )
+                    g.keywords.extend( g.unitOperatorNames )
+                    g.keywords.extend( g.operatorAliases )
 
-                guess = difflib.get_close_matches( term, keys, 1 )
+                guess = difflib.get_close_matches( term, g.keywords, 1 )
 
                 if ( len( guess ) == 1 ):
                     guess = guess[ 0 ]

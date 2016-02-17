@@ -13,13 +13,11 @@
 # //******************************************************************************
 
 # general globals
-
 dataPath = ''
 dataDir = 'rpndata'
 ecm = True
 
 # constants
-
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
@@ -38,7 +36,6 @@ sqrt2Base = -11
 maxSpecialBase = -11
 
 # default options
-
 defaultOutputAccuracy = 12
 defaultBitwiseGroupSize = 16
 defaultCFTerms = 10
@@ -54,7 +51,6 @@ defaultPrecision = 20
 defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 # state variables
-
 creatingFunction = False
 helpLoaded = False
 nestedListLevel = 0
@@ -67,7 +63,6 @@ operandsToRemove = 0
 operatorsInList = 0
 
 # options
-
 bitwiseGroupSize = 0
 comma = False
 debugMode = False
@@ -92,7 +87,6 @@ timer = False
 verbose = False
 
 # unit data
-
 basicUnitTypes = { }
 operatorAliases = { }
 unitConversionMatrix = { }
@@ -101,7 +95,6 @@ unitOperatorNames = [ ]
 unitsVersion = "0.0.0"
 
 # help data
-
 helpTopics = { }
 helpVersion = "0.0.0"
 operatorCategories = [ ]
@@ -109,7 +102,6 @@ operatorHelp = { }
 unitTypeDict = { }
 
 # interactive mode
-
 results = [ ]
 variables = { }
 promptCount = 0
@@ -122,6 +114,8 @@ factorCache = None
 locationCache = None
 
 # user-defined constants
-
 constants = { }
+
+# all keywords
+keywords = [ ]
 
