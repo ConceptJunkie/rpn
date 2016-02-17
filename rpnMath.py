@@ -183,7 +183,7 @@ def getRoot( n, k ):
 
             newUnits[ unit ] /= k
 
-        value = root( n, k )
+        value = root( n.getValue( ), k )
 
         return RPNMeasurement( value, newUnits )
 

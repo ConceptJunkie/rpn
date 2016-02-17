@@ -85,7 +85,7 @@ constants = {
     'density_of_water'              : RPNOperatorInfo( lambda: RPNMeasurement( '1000', 'kilogram/meter^3' ), 0 ),
     'density_of_hg'                 : RPNOperatorInfo( lambda: RPNMeasurement( '13595.1', 'kilogram/meter^3' ), 0 ),
 
-    # constant - physical constants
+    # physical constants
     'avogadro_number'               : RPNOperatorInfo( lambda: '6.022140857e23', 0 ),
     'bohr_radius'                   : RPNOperatorInfo( lambda: RPNMeasurement( '5.2917721e-11', [ { 'meter' : 1 } ] ), 0 ),
     'boltzmann_constant'            : RPNOperatorInfo( getBoltzmannsConstant, 0 ),
@@ -103,7 +103,7 @@ constants = {
     'vacuum_impedance'              : RPNOperatorInfo( lambda: RPNMeasurement( '376.730313461', 'ohm' ), 0 ),
     'von_klitzing_constant'         : RPNOperatorInfo( lambda: RPNMeasurement( '25812.8074555', 'ohm' ), 0 ),
 
-    # constant - programming integer constants
+    # programming integer constants
     'max_char'                      : RPNOperatorInfo( lambda: ( 1 << 7 ) - 1, 0 ),
     'max_double'                    : RPNOperatorInfo( getMaxDouble, 0 ),
     'max_float'                     : RPNOperatorInfo( getMaxFloat, 0 ),
@@ -129,7 +129,7 @@ constants = {
     'min_uquadlong'                 : RPNOperatorInfo( lambda: 0, 0 ),
     'min_ushort'                    : RPNOperatorInfo( lambda: 0, 0 ),
 
-    # constant - Planck constants
+    # Planck constants
     'planck_constant'               : RPNOperatorInfo( getPlanckConstant, 0 ),
     'reduced_planck_constant'       : RPNOperatorInfo( getReducedPlanckConstant, 0 ),
 
@@ -154,7 +154,7 @@ constants = {
     'planck_voltage'                : RPNOperatorInfo( lambda: RPNMeasurement( '1.04295e27', 'volt' ), 0 ),
     'planck_volume'                 : RPNOperatorInfo( lambda: RPNMeasurement( '4.22190722e-105', 'meter^3' ), 0 ),
 
-    # constant - subatomic particle constants
+    # subatomic particle constants
     'alpha_particle_mass'           : RPNOperatorInfo( lambda: RPNMeasurement( '6.644657230e-27', 'kilogram' ), 0 ),
     'deuteron_mass'                 : RPNOperatorInfo( lambda: RPNMeasurement( '3.343583719e-27', 'kilogram' ), 0 ),
     'electron_mass'                 : RPNOperatorInfo( lambda: RPNMeasurement( '9.10938356e-31', 'kilogram' ), 0 ),
@@ -165,7 +165,7 @@ constants = {
     'tau_mass'                      : RPNOperatorInfo( lambda: RPNMeasurement( '3.16747e-27', 'kilogram' ), 0 ),
     'triton_mass'                   : RPNOperatorInfo( lambda: RPNMeasurement( '5.007356665e-27', 'kilogram' ), 0 ),
 
-    # constant - heavenly body constants
+    # heavenly body constants
     # sun_day
     'solar_luminosity'              : RPNOperatorInfo( lambda: RPNMeasurement( '3.826e26', 'watt' ), 0 ),
     'solar_mass'                    : RPNOperatorInfo( lambda: RPNMeasurement( '1.988500e30', 'kilogram' ), 0 ),
