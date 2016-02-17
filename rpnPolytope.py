@@ -715,13 +715,13 @@ def getNthStellaOctangulaNumber( n ):
 
 # //******************************************************************************
 # //
-# //  getNthCenteredCubicNumber
+# //  getNthCenteredCubeNumber
 # //
 # //  from Conway and Guy's "The Book of Numbers"
 # //
 # //******************************************************************************
 
-def getNthCenteredCubicNumber( n ):
+def getNthCenteredCubeNumber( n ):
     return fadd( power( real_int( n ), 3 ), power( fsub( n, 1 ), 3 ) )
 
 

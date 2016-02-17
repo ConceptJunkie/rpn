@@ -929,8 +929,8 @@ def runConstantOperatorTests( ):
     # false
     expectResult( 'false', 0 )
 
-    # faradays_constant
-    testOperator( 'faradays_constant' )
+    # faraday_constant
+    testOperator( 'faraday_constant' )
 
     # fine_structure_constant
     testOperator( 'fine_structure_constant' )
@@ -1109,43 +1109,53 @@ def runConstantOperatorTests( ):
     testOperator( 'mercury_mass' )
     testOperator( 'mercury_radius' )
     testOperator( 'mercury_revolution' )
+    testOperator( 'mercury_volume' )
 
     testOperator( 'venus_mass' )
     testOperator( 'venus_radius' )
     testOperator( 'venus_revolution' )
+    testOperator( 'venus_volume' )
 
     testOperator( 'earth_gravity' )
     testOperator( 'earth_mass' )
     testOperator( 'earth_radius' )
+    testOperator( 'earth_volume' )
 
     testOperator( 'moon_gravity' )
     testOperator( 'moon_mass' )
     testOperator( 'moon_radius' )
-    testOperator( 'moon_orbit' )
+    testOperator( 'moon_revolution' )
+    testOperator( 'moon_volume' )
 
     testOperator( 'mars_mass' )
     testOperator( 'mars_radius' )
     testOperator( 'mars_revolution' )
+    testOperator( 'mars_volume' )
 
     testOperator( 'jupiter_mass' )
     testOperator( 'jupiter_radius' )
     testOperator( 'jupiter_revolution' )
+    testOperator( 'jupiter_volume' )
 
     testOperator( 'saturn_mass' )
     testOperator( 'saturn_radius' )
     testOperator( 'saturn_revolution' )
+    testOperator( 'saturn_volume' )
 
     testOperator( 'uranus_mass' )
     testOperator( 'uranus_radius' )
     testOperator( 'uranus_revolution' )
+    testOperator( 'uranus_volume' )
 
     testOperator( 'neptune_mass' )
     testOperator( 'neptune_radius' )
     testOperator( 'neptune_revolution' )
+    testOperator( 'neptune_volume' )
 
     testOperator( 'pluto_mass' )
     testOperator( 'pluto_radius' )
     testOperator( 'pluto_revolution' )
+    testOperator( 'pluto_volume' )
 
 
 # //******************************************************************************
@@ -2170,7 +2180,7 @@ def runPolygonalOperatorTests( ):
 # //******************************************************************************
 
 def runPolyhedralOperatorTests( ):
-    # centered_cubic
+    # centered_cube
     testOperator( '1 20 range centered_cube' )
     testOperator( '100 centered_cube' )
     expectEqual( '1 38 range centered_cube', '5898 oeis 38 left' )

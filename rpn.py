@@ -45,6 +45,31 @@ import rpnGlobals as g
 
 # //******************************************************************************
 # //
+# //  lookAhead
+# //
+# //******************************************************************************
+
+def lookAhead( iterable ):
+    """Pass through all values from the given iterable, augmented by the
+    information if there are more values to come after the current one
+    (True), or if it is the last value (False).
+    """
+    # Get an iterator and pull the first value.
+    it = iter( iterable )
+    last = next( it )
+
+    # Run the iterator to exhaustion (starting from the second value).
+    for val in it:
+        # Report the *previous* value (more to come).
+        yield last, True
+        last = val
+
+    # Report the last value.
+    yield last, False
+
+
+# //******************************************************************************
+# //
 # //  evaluate
 # //
 # //******************************************************************************
@@ -54,7 +79,7 @@ def evaluate( terms ):
     index = 1                 # only used for error messages
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
-    for term in terms:
+    for term, hasMore in lookAhead( terms ):
         if term in g.operatorAliases:
             term = g.operatorAliases[ term ]
 
@@ -70,7 +95,7 @@ def evaluate( terms ):
         currentValueList = getCurrentArgList( valueList )
 
         try:
-            if not evaluateTerm( term, index, currentValueList ):
+            if not evaluateTerm( term, index, currentValueList, not hasMore ):
                 valueList = [ nan ]
                 break
         except ValueError as error:
@@ -100,6 +125,9 @@ def handleOutput( valueList ):
     else:
         mp.pretty = True
         result = valueList.pop( )
+
+        if result is nan:
+            return
 
         if g.comma:
             g.integerGrouping = 3     # override whatever was set on the command-line

@@ -3261,7 +3261,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-c:\>rpn faradays_constant
+c:\>rpn faraday_constant
 96485.33289 coulombs per mole
 ''' ],
 
@@ -7458,8 +7458,8 @@ number.
 # //
 # //******************************************************************************
 
-    'centered_cubic' : [
-'polyhedral_numbers', 'calculates the nth centered cubic number',
+    'centered_cube' : [
+'polyhedral_numbers', 'calculates the nth centered cube number',
 '''
 ''',
 '''

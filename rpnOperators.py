@@ -14,6 +14,7 @@
 
 from __future__ import print_function
 
+import difflib
 import inspect
 import itertools
 import struct
@@ -733,7 +734,7 @@ def dumpStats( ):
 # //
 # //******************************************************************************
 
-def evaluateTerm( term, index, currentValueList ):
+def evaluateTerm( term, index, currentValueList, lastArg = True ):
     isList = isinstance( term, list )
     isGenerator = isinstance( term, RPNGenerator )
 
@@ -839,8 +840,29 @@ def evaluateTerm( term, index, currentValueList ):
                     return False
 
             except ( AttributeError, TypeError ):
-                currentValueList.append( term )
-                return True
+                if not lastArg:
+                    currentValueList.append( term )
+                    return True
+
+                keys = list( operators.keys( ) )
+                keys.extend( list( listOperators.keys( ) ) )
+                keys.extend( constants )
+                keys.extend( g.unitOperatorNames )
+                keys.extend( g.operatorAliases )
+
+                guess = difflib.get_close_matches( term, keys, 1 )
+
+                if ( len( guess ) == 1 ):
+                    guess = guess[ 0 ]
+
+                    if guess in g.operatorAliases:
+                        print( 'rpn:  Unrecognized operator \'{0}\'.  Did you mean \'{1}\', i.e., an alias for \'{2}\'?'.format( term, guess, g.operatorAliases[ guess ] ) )
+                    else:
+                        print( 'rpn:  Unrecognized operator \'{0}\'.  Did you mean \'{1}\'?'.format( term, guess ) )
+                else:
+                    print( 'rpn:  Unrecognized operator \'{0}\'.'.format( term ) )
+
+                return False
 
     except KeyboardInterrupt as error:
         print( 'rpn:  keyboard interrupt' )
@@ -1506,7 +1528,7 @@ operators = {
     'triangular'                    : RPNOperatorInfo( lambda n: getNthPolygonalNumber( n, 3 ), 1 ),
 
     # polyhedral
-    'centered_cubic'                : RPNOperatorInfo( getNthCenteredCubicNumber, 1 ),
+    'centered_cube'                 : RPNOperatorInfo( getNthCenteredCubeNumber, 1 ),
     'centered_dodecahedral'         : RPNOperatorInfo( getNthCenteredDodecahedralNumber, 1 ),
     'centered_icosahedral'          : RPNOperatorInfo( getNthCenteredIcosahedralNumber, 1 ),
     'centered_octahedral'           : RPNOperatorInfo( getNthCenteredOctahedralNumber, 1 ),
