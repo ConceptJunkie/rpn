@@ -1527,6 +1527,7 @@ operators = {
     'pentagonal_triangular'         : RPNOperatorInfo( getNthPentagonalTriangularNumber, 1 ),
     'polygonal'                     : RPNOperatorInfo( getNthPolygonalNumber, 2 ),
     'square_triangular'             : RPNOperatorInfo( getNthSquareTriangularNumber, 1 ),
+    'star'                          : RPNOperatorInfo( getNthStarNumber, 1 ),
     'triangular'                    : RPNOperatorInfo( lambda n: getNthPolygonalNumber( n, 3 ), 1 ),
 
     # polyhedral

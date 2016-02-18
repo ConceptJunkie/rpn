@@ -845,3 +845,16 @@ def getNthPolytopeNumber( n, d ):
 
     return fdiv( result, fac( d - 1 ) )
 
+
+# //******************************************************************************
+# //
+# //  getNthStarNumber
+# //
+# //  https://en.wikipedia.org/wiki/Star_number
+# //
+# //******************************************************************************
+
+def getNthStarNumber( n ):
+    arg = real_int( n )
+    return fadd( fmul( fmul( 6, n ), fsub( n, 1 ) ), 1 )
+

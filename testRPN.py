@@ -2110,6 +2110,9 @@ def runPolygonalOperatorTests( ):
     # square_triangular
     testOperator( '-a60 34 square_triangular' )
 
+    # octagonal
+    expectEqual( '1 43 range star', '3154 oeis 43 left' )
+
     # triangular
     testOperator( '203 triangular' )
 

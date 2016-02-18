@@ -7444,6 +7444,13 @@ number.
 '''
 ''' ],
 
+    'star' : [
+'polygonal_numbers', 'calculates the nth star number',
+'''
+''',
+'''
+''' ],
+
     'triangular' : [
 'polygonal_numbers', 'calcuates the nth triangular number',
 '''
