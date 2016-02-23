@@ -2,7 +2,7 @@
 
 # //******************************************************************************
 # //
-# //  rpnFactor.py
+# //  rpnPersistence.py
 # //
 # //  RPN command-line calculator factoring utilities
 # //  copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
@@ -14,6 +14,7 @@
 
 import bz2
 import contextlib
+import functools
 import os
 import pickle
 import types
@@ -209,4 +210,60 @@ def saveConstants( constants ):
     with DelayedKeyboardInterrupt( ):
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'constants.pckl.bz2', 'wb' ) ) as pickleFile:
             pickle.dump( constants, pickleFile )
+
+
+# //******************************************************************************
+# //
+# //  loadOperatorCache
+# //
+# //******************************************************************************
+
+def loadOperatorCache( name ):
+    try:
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + name + '.pckl.bz2', 'rb' ) ) as pickleFile:
+            operatorCache = pickle.load( pickleFile )
+    except FileNotFoundError:
+        operatorCache = { }
+
+    return operatorCache
+
+
+# //******************************************************************************
+# //
+# //  saveOperatorCache
+# //
+# //******************************************************************************
+
+def saveOperatorCache( operatorCache, name ):
+    with DelayedKeyboardInterrupt( ):
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + name + '.pckl.bz2', 'wb' ) ) as pickleFile:
+            pickle.dump( operatorCache, pickleFile )
+
+
+# //******************************************************************************
+# //
+# //  cachedOperator
+# //
+# //******************************************************************************
+
+def cachedOperator( func ):
+    @functools.wraps( func )
+    def cacheResults( *args, **kwargs ):
+        if func.__name__ in g.operatorCaches:
+            cache = g.operatorCaches[ func.__name__ ]
+        else:
+            cache = loadOperatorCache( func.__name__ )
+            g.operatorCaches[ func.__name__ ] = cache
+
+        if args in cache:
+            return cache[ args ]
+        else:
+            result = func( *args, **kwargs )
+
+            cache[ args ] = result
+            saveOperatorCache( cache, func.__name__ )
+
+            return result
+
+    return cacheResults
 

@@ -22,6 +22,7 @@ from mpmath import *
 from rpnFactor import getECMFactors
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
+from rpnPersistence import cachedOperator
 from rpnUtils import real, real_int, getMPFIntegerAsString
 
 import rpnGlobals as g
@@ -1155,6 +1156,7 @@ def isPolydivisible( n ):
 # //
 # //******************************************************************************
 
+@cachedOperator
 def getNthStern( n ):
     """Return the nth number of Stern's diatomic series recursively"""
     if real_int( n ) < 0:

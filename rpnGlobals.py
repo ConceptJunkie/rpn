@@ -119,3 +119,7 @@ constants = { }
 # all keywords
 keywords = [ ]
 
+# operator caches
+
+operatorCaches = { }
+

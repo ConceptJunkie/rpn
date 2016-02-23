@@ -39,10 +39,10 @@
 # * Yes.........Yes.........No..........p+2
 # * Yes.........Yes.........Yes.........p+4 (table from Derek Holt) (End)
 
-
 from mpmath import *
 
 from rpnNumberTheory import getNthLinearRecurrence
+from rpnPersistence import cachedOperator
 from rpnUtils import real, real_int
 
 
@@ -236,6 +236,7 @@ def getCompositions( n, k ):
 # //
 # //******************************************************************************
 
+@cachedOperator
 def getPartitionNumber( n, k ):
     if k < 1:
         raise ValueError( 'positive argument expected' )
@@ -261,23 +262,6 @@ def getPartitionNumber( n, k ):
 # # function for generalized pentagonal numbers
 # def gen_pent (n): return pent(int(((-1)**(n+1))*(round((n+1)/2))))
 #
-#
-# # array for storing partitions - first ten already stored
-# partitions = [1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42]
-#
-# # function to generate partitions
-# def partition (k):
-# # if (k < len(partitions)): return partitions[k]
-#
-# total, sign, i = 0, 1, 1
-#
-# while (k - gen_pent(i)) >= 0:
-#  sign   = (-1)**(int((i-1)/2))
-#  total += sign*(partition(k - gen_pent(i)))
-#  i     +=  1
-#
-# partitions.insert(k,total)
-# return total
 #
 # -------------
 #

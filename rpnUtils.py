@@ -438,3 +438,4 @@ def real_int( n ):
 def getMPFIntegerAsString( n ):
     return nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )[ : -2 ]
 
+
