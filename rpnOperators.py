@@ -1275,7 +1275,7 @@ operators = {
     'nth_pell'                      : RPNOperatorInfo( getNthPellNumber, 1 ),
     'nth_schroeder'                 : RPNOperatorInfo( getNthSchroederNumber, 1 ),
     'nth_sylvester'                 : RPNOperatorInfo( getNthSylvester, 1 ),
-    'partitions'                    : RPNOperatorInfo( lambda n: getPartitionNumber( n, 1 ), 1 ),
+    'partitions'                    : RPNOperatorInfo( lambda n: getPartitionNumber( n ), 1 ),
     'permutations'                  : RPNOperatorInfo( getPermutations, 2 ),
 
     # complex
@@ -1483,6 +1483,7 @@ operators = {
     'decagonal_octagonal'           : RPNOperatorInfo( getNthDecagonalOctagonalNumber, 1 ),
     'decagonal_pentagonal'          : RPNOperatorInfo( getNthDecagonalPentagonalNumber, 1 ),
     'decagonal_triangular'          : RPNOperatorInfo( getNthDecagonalTriangularNumber, 1 ),
+    'generalized_pentagonal'        : RPNOperatorInfo( lambda n: getNthGeneralizedPolygonalNumber( n, 5 ), 1 ),
     'heptagonal'                    : RPNOperatorInfo( lambda n: getNthPolygonalNumber( n, 7 ), 1 ),
     'heptagonal_hexagonal'          : RPNOperatorInfo( getNthHeptagonalHexagonalNumber, 1 ),
     'heptagonal_pentagonal'         : RPNOperatorInfo( getNthHeptagonalPentagonalNumber, 1 ),

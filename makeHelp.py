@@ -960,6 +960,11 @@ now runs about 60 times faster.
 Added the 'centered_tetrahedral', 'centered_octahedral',
 'centered_dodecahedral', and 'centered_icosahedral' operators.
 
+Added the 'stern', 'calkin_wilf', and 'generalized_pentagonal' operators.
+
+Added support for automatically caching the results of any function, so
+expensive calculations can be persisted for future reuse.
+
 Filled in a bunch of help text.  There's still a long way to go, but I'm making
 progress.
 
@@ -7067,6 +7072,13 @@ pentgonal.
 '''
 'decagonal_triangular' calculates the nth number that is both decagonal and
 triangular.
+''',
+'''
+''' ],
+
+    'generalized_pentagonal' : [
+'polygonal_numbers', 'calculates the nth generalized pentagonal number',
+'''
 ''',
 '''
 ''' ],

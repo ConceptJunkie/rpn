@@ -38,6 +38,7 @@ import time
 from rpnAliases import operatorAliases
 from rpnOperators import *
 from rpnOutput import *
+from rpnPersistence import flushDirtyCaches
 from rpnVersion import *
 
 import rpnGlobals as g
@@ -537,6 +538,7 @@ if __name__ == '__main__':
                 profile.run( 'handleOutput( rpn( sys.argv[ 1 : ] ) )' )
 
         handleOutput( rpn( sys.argv[ 1 : ] ) )
+        flushDirtyCaches( )
     except ValueError as error:
         print( 'rpn:  value error:  {0}'.format( error ) )
 

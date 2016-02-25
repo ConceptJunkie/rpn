@@ -120,6 +120,6 @@ constants = { }
 keywords = [ ]
 
 # operator caches
-
 operatorCaches = { }
+dirtyCaches = [ ]
 

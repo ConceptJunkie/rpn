@@ -242,28 +242,43 @@ def saveOperatorCache( operatorCache, name ):
 
 # //******************************************************************************
 # //
-# //  cachedOperator
+# //  cachedFunction
 # //
 # //******************************************************************************
 
-def cachedOperator( func ):
-    @functools.wraps( func )
-    def cacheResults( *args, **kwargs ):
-        if func.__name__ in g.operatorCaches:
-            cache = g.operatorCaches[ func.__name__ ]
-        else:
-            cache = loadOperatorCache( func.__name__ )
-            g.operatorCaches[ func.__name__ ] = cache
+def cachedFunction( name ):
+    def namedCachedFunction( func ):
+        @functools.wraps( func )
+        def cacheResults( *args, **kwargs ):
+            if name not in g.operatorCaches:
+                g.operatorCaches[ name ] = loadOperatorCache( name )
 
-        if args in cache:
-            return cache[ args ]
-        else:
-            result = func( *args, **kwargs )
+            if args in g.operatorCaches[ name ]:
+                return g.operatorCaches[ name ][ args ]
+            else:
+                result = func( *args, **kwargs )
 
-            cache[ args ] = result
-            saveOperatorCache( cache, func.__name__ )
+                g.operatorCaches[ name ][ args ] = result
 
-            return result
+                if name not in g.dirtyCaches:
+                    g.dirtyCaches.append( name )
 
-    return cacheResults
+                return result
+
+        return cacheResults
+
+    return namedCachedFunction
+
+
+# //******************************************************************************
+# //
+# //  flushDirtyCaches
+# //
+# //******************************************************************************
+
+def flushDirtyCaches( ):
+    for name in g.dirtyCaches:
+        saveOperatorCache( g.operatorCaches[ name ], name )
+
+    g.dirtyCaches = [ ]
 

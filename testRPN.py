@@ -1975,6 +1975,9 @@ def runPolygonalOperatorTests( ):
     # decagonal_triangular
     testOperator( '-a40 13 decagonal_triangular' )
 
+    # generalized_pentagonal
+    testOperator( '187 generalized_pentagonal' )
+
     # heptagonal
     testOperator( '203 heptagonal' )
 

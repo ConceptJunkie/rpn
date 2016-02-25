@@ -22,7 +22,7 @@ from mpmath import *
 from rpnFactor import getECMFactors
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
-from rpnPersistence import cachedOperator
+from rpnPersistence import cachedFunction
 from rpnUtils import real, real_int, getMPFIntegerAsString
 
 import rpnGlobals as g
@@ -896,6 +896,7 @@ def getAliquotSequence( n, k ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'mobius' )
 def getMobius( n ):
     if real( n ) == 1:
         return 1
@@ -916,10 +917,9 @@ def getMobius( n ):
 # //
 # //  getNthMerten
 # //
-# //  This function could be cached like the prime numbers.
-# //
 # //******************************************************************************
 
+@cachedFunction( 'merten' )
 def getNthMerten( n ):
     if real( n ) == 1:
         return 1
@@ -938,6 +938,7 @@ def getNthMerten( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'euler_phi' )
 def getEulerPhi( n ):
     if real( n ) < 2:
         return n
@@ -1156,7 +1157,6 @@ def isPolydivisible( n ):
 # //
 # //******************************************************************************
 
-@cachedOperator
 def getNthStern( n ):
     """Return the nth number of Stern's diatomic series recursively"""
     if real_int( n ) < 0:

@@ -22,6 +22,26 @@ from rpnUtils import real, real_int
 
 # //******************************************************************************
 # //
+# //  getNthGeneralizedPolygonalNumber
+# //
+# //******************************************************************************
+
+def getNthGeneralizedPolygonalNumber( n, k ):
+    if real_int( k ) < 3:
+        raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
+
+    negative = ( fmod( n, 2 ) == 0 )
+
+    n = floor( fdiv( fadd( n, 1 ), 2 ) )
+
+    if negative:
+        n = fneg( n )
+
+    return getNthPolygonalNumber( n, k )
+
+
+# //******************************************************************************
+# //
 # //  getNthPolygonalNumber
 # //
 # //******************************************************************************

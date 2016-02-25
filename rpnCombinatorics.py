@@ -42,7 +42,8 @@
 from mpmath import *
 
 from rpnNumberTheory import getNthLinearRecurrence
-from rpnPersistence import cachedOperator
+from rpnPersistence import cachedFunction
+from rpnPolytope import getNthGeneralizedPolygonalNumber
 from rpnUtils import real, real_int
 
 
@@ -236,24 +237,31 @@ def getCompositions( n, k ):
 # //
 # //******************************************************************************
 
-@cachedOperator
-def getPartitionNumber( n, k ):
-    if k < 1:
-        raise ValueError( 'positive argument expected' )
-
-    if n < 0:
+@cachedFunction( 'partition' )
+def getPartitionNumber( n ):
+    if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
-
-    if n == 0:
+    elif n in ( 0, 1 ):
         return 1
 
-    if k > n:
-        return 0
+    total = 0
+    sign = 1
+    i = 1
 
-    if k == n:
-        return 1
+    k = getNthGeneralizedPolygonalNumber( i, 5 )
 
-    return getPartitionNumber( n, k + 1 ) + getPartitionNumber( n - k, k )
+    while n - k >= 0:
+        total += sign * getPartitionNumber( fsub( n, k ) )
+
+        i += 1
+
+        if i % 2:
+            sign *= -1
+
+        k = getNthGeneralizedPolygonalNumber( i, 5 )
+
+    return total
+
 
 
 # # function for pentagonal numbers
