@@ -4822,49 +4822,49 @@ and seconds.
 
 
     'get_day' : [
-'datetime', 'returns the day value of a date-time',
+'date_time', 'returns the day value of a date-time',
 '''
 ''',
 '''
 ''' ],
 
     'get_hour' : [
-'datetime', 'returns the hour value of a date-time',
+'date_time', 'returns the hour value of a date-time',
 '''
 ''',
 '''
 ''' ],
 
     'get_minute' : [
-'datetime', 'returns the minute value of a date-time',
+'date_time', 'returns the minute value of a date-time',
 '''
 ''',
 '''
 ''' ],
 
     'get_month' : [
-'datetime', 'returns the month value of a date-time',
+'date_time', 'returns the month value of a date-time',
 '''
 ''',
 '''
 ''' ],
 
     'get_second' : [
-'datetime', 'returns the second value of a date-time',
+'date_time', 'returns the second value of a date-time',
 '''
 ''',
 '''
 ''' ],
 
     'get_year' : [
-'datetime', 'returns the year value of a date-time',
+'date_time', 'returns the year value of a date-time',
 '''
 ''',
 '''
 ''' ],
 
     'make_datetime' : [
-'datetime', 'interpret argument as absolute date-time',
+'date_time', 'interpret argument as absolute date-time',
 '''
 ''',
 '''
