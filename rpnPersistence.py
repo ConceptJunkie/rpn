@@ -244,6 +244,8 @@ def saveOperatorCache( operatorCache, name ):
 # //
 # //  cachedFunction
 # //
+# //  The caches are saved once when flushDirtyCaches is called by main( ).
+# //
 # //******************************************************************************
 
 def cachedFunction( name ):
@@ -261,7 +263,7 @@ def cachedFunction( name ):
                 g.operatorCaches[ name ][ args ] = result
 
                 if name not in g.dirtyCaches:
-                    g.dirtyCaches.append( name )
+                    g.dirtyCaches.add( name )
 
                 return result
 
@@ -280,5 +282,5 @@ def flushDirtyCaches( ):
     for name in g.dirtyCaches:
         saveOperatorCache( g.operatorCaches[ name ], name )
 
-    g.dirtyCaches = [ ]
+    g.dirtyCaches.clear( )
 

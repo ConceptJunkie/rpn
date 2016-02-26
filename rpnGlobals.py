@@ -121,5 +121,5 @@ keywords = [ ]
 
 # operator caches
 operatorCaches = { }
-dirtyCaches = [ ]
+dirtyCaches = set( )
 
