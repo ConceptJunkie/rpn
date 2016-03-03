@@ -1623,7 +1623,7 @@ operators = {
     'random'                        : RPNOperatorInfo( rand, 0 ),
     'random_'                       : RPNOperatorInfo( rand_, 1 ),
     'random_integer'                : RPNOperatorInfo( randrange, 1 ),
-    'random_integer_'               : RPNOperatorInfo( randrange_, 2 ),
+    'random_integer_'               : RPNOperatorInfo( getRandomIntegers, 2 ),
     'timer'                         : RPNOperatorInfo( setTimer, 1 ),
     'timer_mode'                    : RPNOperatorInfo( setTimerMode, 0 ),
 
@@ -1638,6 +1638,8 @@ operators = {
     'oeis_name'                     : RPNOperatorInfo( lambda n: downloadOEISText( real_int( n ), 'N', True ), 1 ),
     'ordinal_name'                  : RPNOperatorInfo( getOrdinalName, 1 ),
     'result'                        : RPNOperatorInfo( loadResult, 0 ),
+    'roll_dice'                     : RPNOperatorInfo( rollDice, 1 ),
+    'roll_dice_'                    : RPNOperatorInfo( rollMultipleDice, 2 ),
     'set'                           : RPNOperatorInfo( setVariable, 2 ),
     'topic'                         : RPNOperatorInfo( printHelpTopic, 1 ),
     'value'                         : RPNOperatorInfo( getValue, 1 ),

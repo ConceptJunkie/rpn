@@ -8543,6 +8543,20 @@ You will see a duplicate approximately 50% of the time.
 '''
 ''' ],
 
+    'roll_dice' : [
+'special', 'evaluates a dice expression to simulate rolling dice',
+'''
+''',
+'''
+''' ],
+
+    'roll_dice_' : [
+'special', 'evaluates a dice expression to simulate rolling dice k times',
+'''
+''',
+'''
+''' ],
+
     'set' : [
 'special', 'sets variable n (which must start with \'$\') to value k in interactive mode',
 '''

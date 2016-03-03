@@ -2,9 +2,9 @@
 
 # //******************************************************************************
 # //
-# //  rpnVersion.py
+# //  rpnDice.py
 # //
-# //  RPN command-line calculator version identification
+# //  RPN command-line calculator dice function
 # //  copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -14,13 +14,10 @@
 
 # //******************************************************************************
 # //
-# //  variable initialization
+# //  rollDice
 # //
 # //******************************************************************************
 
-PROGRAM_VERSION = '6.99.5'
-PROGRAM_VERSION_NAME = '7.0 alpha 6'
-COPYRIGHT_MESSAGE = 'copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)'
+def rollDice( expression ):
 
-PROGRAM_VERSION_STRING = ' ' + PROGRAM_VERSION + ' (' + PROGRAM_VERSION_NAME + ') - '
 
