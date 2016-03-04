@@ -17,7 +17,7 @@ import ephem
 from mpmath import mpmathify, fdiv, fmul, pi
 
 from rpnDateTime import RPNDateTime
-from rpnLocation import RPNLocation
+from rpnLocation import RPNLocation, getLocation
 
 
 # //******************************************************************************
@@ -123,6 +123,9 @@ def getSkyLocation( n, k ):
 # //******************************************************************************
 
 def getNextRising( body, location, date ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
@@ -145,6 +148,9 @@ def getNextRising( body, location, date ):
 # //******************************************************************************
 
 def getNextSetting( body, location, date ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
@@ -167,6 +173,9 @@ def getNextSetting( body, location, date ):
 # //******************************************************************************
 
 def getNextTransit( body, location, date ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
        not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
@@ -190,6 +199,9 @@ def getNextTransit( body, location, date ):
 # //******************************************************************************
 
 def getNextAntitransit( body, location, date ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
        not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
@@ -213,6 +225,9 @@ def getNextAntitransit( body, location, date ):
 # //******************************************************************************
 
 def getPreviousRising( body, location, date ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
@@ -235,6 +250,9 @@ def getPreviousRising( body, location, date ):
 # //******************************************************************************
 
 def getPreviousSetting( body, location, date ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
 
@@ -257,6 +275,9 @@ def getPreviousSetting( body, location, date ):
 # //******************************************************************************
 
 def getPreviousTransit( body, location, date ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
        not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
@@ -280,6 +301,9 @@ def getPreviousTransit( body, location, date ):
 # //******************************************************************************
 
 def getPreviousAntitransit( body, location, date ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
        not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
@@ -307,6 +331,9 @@ def getPreviousAntitransit( body, location, date ):
 # //******************************************************************************
 
 def getNextDawn( location, date, horizon = -6 ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
     if not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected locaton and date-time arguments' )
 
@@ -334,6 +361,9 @@ def getNextDawn( location, date, horizon = -6 ):
 # //******************************************************************************
 
 def getNextDusk( location, date, horizon = -6 ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
     if not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
         raise ValueError( 'expected locaton and date-time arguments' )
 

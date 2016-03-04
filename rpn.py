@@ -15,7 +15,7 @@
 # Another bug!
 #
 #  'result' doesn't work with units
-#
+#  'diffs' doesn't work with units, either
 
 # http://en.wikipedia.org/wiki/Physical_constant
 

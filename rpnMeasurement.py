@@ -210,18 +210,6 @@ class RPNMeasurement( object ):
     unitName = None
     pluralUnitName = None
 
-    #def __new__( cls, value = 0, units = RPNUnits( ), unitName = None, pluralUnitName = None ):
-    #    if isinstance( value, list ):
-    #        raise ValueError( 'cannot use a list for the value of a measurement' )
-    #
-    #    #print( '__new__', value, units, unitName, pluralUnitName )
-    #
-    #    measurement.value = mpf( value )
-    #    measurement.units = RPNUnits( units )
-    #    measurement.unitName = unitName
-    #    measurement.pluralUnitName = pluralUnitName
-    #    return measurement
-
     def __init__( self, value, units = RPNUnits( ), unitName = None, pluralUnitName = None ):
         if not g.unitOperators:
             loadUnitData( )
@@ -743,4 +731,4 @@ def applyNumberValueToUnit( number, term ):
 def validateUnits( measurement, unitType ):
     if not measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].dimensions ) ):
         raise ValueError( unitType + ' unit expected' )
-
+b

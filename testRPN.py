@@ -439,21 +439,26 @@ def runArithmeticOperatorTests( ):
 def runAstronomyOperatorTests( ):
     # astronomical_dawn
     testOperator( '"Chattanooga, TN" location today astronomical_dawn' )
+    testOperator( '"Chattanooga, TN" today astronomical_dawn' )
 
     # astronomical_dusk
     testOperator( '"Perth, Australia" location today astronomical_dusk' )
+    testOperator( '"Perth, Australia" today astronomical_dusk' )
 
     # autumnal_equinox
     testOperator( '2015 autumnal_equinox' )
 
     # dawn
     testOperator( '"Christchurch, NZ" location today dawn' )
+    testOperator( '"Christchurch, NZ" today dawn' )
 
     # dusk
     testOperator( '"Vienna, Austria" location today dusk' )
+    testOperator( '"Vienna, Austria" today dusk' )
 
     # jupiter
     testOperator( 'saturn "Ottawa, Canada" location today next_setting' )
+    testOperator( 'saturn "Ottawa, Canada" today next_setting' )
 
     # latlong
 
@@ -464,39 +469,50 @@ def runAstronomyOperatorTests( ):
 
     # mars
     testOperator( 'mars "Beijing, China" location today next_transit' )
+    testOperator( 'mars "Beijing, China" today next_transit' )
 
     # mercury
     testOperator( 'mercury "Los Angeles, CA" location today next_rising' )
+    testOperator( 'mercury "Los Angeles, CA" today next_rising' )
 
     # moon
     testOperator( 'saturn "Burlington, VT" location today next_antitransit' )
+    testOperator( 'saturn "Burlington, VT" today next_antitransit' )
 
     # moonrise
     testOperator( '"Las Cruces, NM" location today moonrise' )
+    testOperator( '"Las Cruces, NM" today moonrise' )
 
     # moonset
     testOperator( '"Tacoma, WA" location today moonset' )
+    testOperator( '"Tacoma, WA" today moonset' )
 
     # moon_antitransit
     testOperator( '"Madrid, Spain" location today moon_antitransit' )
+    testOperator( '"Madrid, Spain" today moon_antitransit' )
 
     # moon_phase
     testOperator( 'today moon_phase' )
 
     # moon_transit
     testOperator( '"Riga, Latvia" location today moon_transit' )
+    testOperator( '"Riga, Latvia" today moon_transit' )
 
     # nautical_dawn
     testOperator( '"Columbia, SC" location today nautical_dawn' )
+    testOperator( '"Columbia, SC" today nautical_dawn' )
 
     # nautical_dusk
     testOperator( '"Roanoke Rapids, NC" location today nautical_dusk' )
+    testOperator( '"Roanoke Rapids, NC" today nautical_dusk' )
 
     # neptune
     testOperator( 'neptune "Hatfield, PA" location now next_rising' )
+    testOperator( 'neptune "Hatfield, PA" now next_rising' )
 
     # next_antitransit
     testOperator( 'saturn "Blacksburg, VA" location today next_antitransit' )
+    testOperator( 'saturn "Blacksburg, VA" today next_antitransit' )
 
     # next_first_quarter_moon
     testOperator( 'today next_first_quarter_moon' )
@@ -512,18 +528,23 @@ def runAstronomyOperatorTests( ):
 
     # next_rising
     testOperator( 'moon "Leesburg, VA" location now next_rising' )
+    testOperator( 'moon "Leesburg, VA" now next_rising' )
 
     # next_setting
     testOperator( 'moon "Kyoto, Japan" location now next_setting' )
+    testOperator( 'moon "Kyoto, Japan" now next_setting' )
 
     # next_transit
     testOperator( 'moon "Oslo, Norway" location now next_transit' )
+    testOperator( 'moon "Oslo, Norway" now next_transit' )
 
     # pluto
     testOperator( 'pluto "Johannesburg, South Africa" location now next_rising' )
+    testOperator( 'pluto "Johannesburg, South Africa" now next_rising' )
 
     # previous_antitransit
     testOperator( 'neptune "Leesburg, VA" location now previous_antitransit' )
+    testOperator( 'neptune "Leesburg, VA" now previous_antitransit' )
 
     # previous_first_quarter_moon
     testOperator( 'today previous_first_quarter_moon' )
@@ -539,45 +560,56 @@ def runAstronomyOperatorTests( ):
 
     # previous_rising
     testOperator( 'jupiter "Leesburg, VA" location now previous_rising' )
+    testOperator( 'jupiter "Leesburg, VA" now previous_rising' )
 
     # previous_setting
     testOperator( 'uranus "Leesburg, VA" location now previous_setting' )
+    testOperator( 'uranus "Leesburg, VA" now previous_setting' )
 
     # previous_transit
     testOperator( 'mercury "Leesburg, VA" location now previous_transit' )
+    testOperator( 'mercury "Leesburg, VA" now previous_transit' )
 
     # saturn
     testOperator( 'saturn "Leesburg, VA" location today next_rising' )
+    testOperator( 'saturn "Leesburg, VA" today next_rising' )
 
     # sky_location
     testOperator( 'mars now sky_location' )
 
     # solar_noon
     testOperator( '"Leesburg, VA" location today solar_noon' )
+    testOperator( '"Leesburg, VA" today solar_noon' )
 
     # summer_solstice
     testOperator( '2015 summer_solstice' )
 
     # sun
     testOperator( 'sun "Leesburg, VA" location today next_rising' )
+    testOperator( 'sun "Leesburg, VA" today next_rising' )
 
     # sunrise
     testOperator( '"Salzburg, Germany" location today sunrise' )
+    testOperator( '"Salzburg, Germany" today sunrise' )
 
     # sunset
     testOperator( '"New Delhi, India" location today sunset' )
+    testOperator( '"New Delhi, India" today sunset' )
 
     # sun_antitransit
     testOperator( '"Nice, France" location today sun_antitransit' )
+    testOperator( '"Nice, France" today sun_antitransit' )
 
     # vernal_equinox
     testOperator( '2015 vernal_equinox' )
 
     # uranus
     testOperator( 'uranus "Frankfurt, Germany" location today next_rising' )
+    testOperator( 'uranus "Frankfurt, Germany" today next_rising' )
 
     # venus
     testOperator( 'venus "Butte, Montana" location today next_rising' )
+    testOperator( 'venus "Butte, Montana" today next_rising' )
 
     # winter_solstice
     testOperator( '2015 winter_solstice' )
@@ -1366,6 +1398,7 @@ def runGeometryOperatorTests( ):
 def runGeographyOperatorTests( ):
     # distance
     testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
+    testOperator( '"Leesburg, VA" "Smithfield, VA" distance' )
 
     # location
     testOperator( '"Uppsala, Sweden" location today moonrise' )
@@ -1623,12 +1656,14 @@ def runLogarithmsOperatorTests( ):
 def runModifierOperatorTests( ):
     # [
     testOperator( '[ "Philadelphia, PA" location "Raleigh, NC" location ] today sunrise' )
+    testOperator( '[ "Philadelphia, PA" "Raleigh, NC" ] today sunrise' )
 
     # ]
     testOperator( '2 [ 4 5 6 ] eval_poly' )
 
     # {
     testOperator( '"Leesburg, VA" location today { sunrise sunset moonrise moonset }' )
+    testOperator( '"Leesburg, VA" today { sunrise sunset moonrise moonset }' )
 
     # }
     testOperator( '1 10 range { is_prime is_pronic is_semiprime }' )
