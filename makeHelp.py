@@ -2920,6 +2920,13 @@ c:\>rpn 1 20 range 5 multifactorial
 9576, 15000 ]
 ''' ],
 
+    'multinomial' : [
+'combinatorics', 'calculates the multinomial coefficient of list n',
+'''
+''',
+'''
+''' ],
+
     'narayana' : [
 'combinatorics', '',
 '''

@@ -272,3 +272,20 @@ def getPartitionNumber( n ):
 def getNthMultifactorial( n, k ):
     return fprod( arange( real_int( n ), 0, -( real_int( k ) ) ) )
 
+
+# //******************************************************************************
+# //
+# //  getMultinomial
+# //
+# //******************************************************************************
+
+def getMultinomial( args ):
+    numerator = fac( fsum( args ) )
+
+    denominator = 1
+
+    for arg in args:
+        denominator = fmul( denominator, fac( arg ) )
+
+    return fdiv( numerator, denominator )
+

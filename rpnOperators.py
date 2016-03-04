@@ -1042,6 +1042,9 @@ listOperators = {
     'stddev'                : RPNOperatorInfo( getStandardDeviation, 1, RPNOperatorType.List ),
     'sum'                   : RPNOperatorInfo( getSum, 1, RPNOperatorType.List ),
 
+    # combinatoric
+    'multinomial'           : RPNOperatorInfo( getMultinomial, 1, RPNOperatorType.List ),
+
     # conversion
     'convert'               : RPNOperatorInfo( convertUnits, 2, RPNOperatorType.List ),   # list arguments are special
     'latlong_to_nac'        : RPNOperatorInfo( convertLatLongToNAC, 1, RPNOperatorType.List ),
