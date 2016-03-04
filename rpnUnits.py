@@ -370,7 +370,7 @@ unitOperators = {
                      ''' ),
 
     'barn' :
-        RPNUnitInfo( 'area', 'barn', 'barns', '', [ ], [ 'science' ],
+        RPNUnitInfo( 'area', 'barn', 'barns', '', [ 'bethe', 'oppenheimer' ], [ 'science' ],
                      '''
                      ''' ),
 
@@ -1565,6 +1565,11 @@ by Knuth.
                      '''
                      ''' ),
 
+    'metric_foot' :
+        RPNUnitInfo( 'length', 'metric_foot', 'metric_feet', '', [ ], [ 'UK', 'unofficial' ],
+                     '''
+                     ''' ),
+
     'micron' :
         RPNUnitInfo( 'length', 'micron', 'microns', '', [ ], [ 'science' ],
                      '''
@@ -2517,7 +2522,7 @@ by Knuth.
                      ''' ),
 
     'gill' :
-        RPNUnitInfo( 'volume', 'gill', 'gills', '', [ ], [ 'imperial' ],
+        RPNUnitInfo( 'volume', 'gill', 'gills', '', [ 'noggin' ], [ 'imperial' ],
                      '''
                      ''' ),
 
@@ -2764,6 +2769,12 @@ by Knuth.
     'strike' :
         RPNUnitInfo( 'volume', 'strike', 'strikes', '', [ ], [ 'imperial' ],
                      '''
+                     ''' ),
+
+    'sydharb' :
+        RPNUnitInfo( 'volume', 'sydharb', 'sydharbs', '', [ ], [ 'informal' ],
+                     '''The approximate volume of the Syndey Harbor at high tide, considered to be
+                        equal to 562,000 megaliters.
                      ''' ),
 
     'tablespoon' :
@@ -3186,6 +3197,7 @@ unitConversionMatrix = {
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
     ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
     ( 'methuselah',                 'liter' )                               : mpmathify( '6.0' ),
+    ( 'metric_foot',                'meter' )                               : mpmathify( '0.3' ),
     ( 'mile',                       'foot' )                                : mpmathify( '5280' ),
     ( 'mile/hour',                  'kilometer/hour' )                      : mpmathify( '1.609344' ),
     ( 'mile/hour',                  'meter/second' )                        : mpmathify( '0.44704' ),
@@ -3330,6 +3342,7 @@ unitConversionMatrix = {
     ( 'stone',                      'pound' )                               : mpmathify( '14' ),
     ( 'stone_us',                   'pound' )                               : mpmathify( '12.5' ),
     ( 'strike',                     'imperial_bushel' )                     : mpmathify( '2' ),
+    ( 'sydharb',                    'liter' )                               : mpmathify( '5.62e11' ),
     ( 'tablespoon',                 'teaspoon' )                            : mpmathify( '3' ),
     ( 'teaspoon',                   'dash' )                                : mpmathify( '8' ),
     ( 'teaspoon',                   'pinch' )                               : mpmathify( '16' ),
