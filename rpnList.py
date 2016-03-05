@@ -19,7 +19,7 @@ import random
 from mpmath import *
 
 from rpnGenerator import *
-from rpnMath import add
+from rpnMath import add, subtract, divide
 from rpnMeasurement import RPNMeasurement
 from rpnNumberTheory import getGCD
 
@@ -264,7 +264,7 @@ def getListDiffs( args ):
 
     for i in args:
         if old is not None:
-            yield( fsub( i, old ) )
+            yield( subtract( i, old ) )
 
         old = i
 
@@ -284,7 +284,7 @@ def getCumulativeListDiffs( args ):
         if first is None:
             first = i
         else:
-            yield fsub( i, first )
+            yield subtract( i, first )
 
 
 # //******************************************************************************
@@ -298,7 +298,7 @@ def getListRatios( args ):
 
     for i in args:
         if old is not None:
-            yield( fdiv( i, old ) )
+            yield( divide( i, old ) )
 
         old = i
 
@@ -318,7 +318,7 @@ def getCumulativeListRatios( args ):
         if first is None:
             first = i
         else:
-            yield fdiv( i, first )
+            yield divide( i, first )
 
 
 # //******************************************************************************
