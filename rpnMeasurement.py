@@ -731,4 +731,4 @@ def applyNumberValueToUnit( number, term ):
 def validateUnits( measurement, unitType ):
     if not measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].dimensions ) ):
         raise ValueError( unitType + ' unit expected' )
-b
+
