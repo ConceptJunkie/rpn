@@ -79,12 +79,6 @@ def endOperatorList( valueList ):
     for i in range( 0, g.operatorsInList ):
         result.insert( 0, valueList.pop( ) )
 
-    #if len( g.echoArguments ) > 0:
-    #    for echoArg in g.echoArguments[ : : -1 ]:
-    #        result.insert( 0, echoArg )
-    #
-    #    g.echoArguments = [ ]
-
     valueList.append( result )
 
 

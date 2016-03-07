@@ -679,8 +679,7 @@ def evaluateTwoArgFunction( func, _arg1, _arg2, level = 0 ):
             result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1.getGenerator( ) ]
     elif generator2:
         result = [ evaluateTwoArgFunction( func, arg1, i, level + 1 ) for i in arg2.getGenerator( ) ]
-
-    if list1:
+    elif list1:
         if list2:
             result = [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ], level + 1 ) for index in range( 0, min( len1, len2 ) ) ]
         else:
