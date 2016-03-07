@@ -117,6 +117,44 @@ def interleave( arg1, arg2 ):
 
 # //******************************************************************************
 # //
+# //  collate
+# //
+# //******************************************************************************
+
+def collate( argList ):
+    if not isinstance( argList, list ):
+        return argList
+
+    listOfLists = [ ]
+    length = 0
+
+    for arg in argList:
+        if isinstance( arg, list ):
+            listOfLists.append( arg )
+
+            if length < len( arg ):
+                length = len( arg )
+        else:
+            listOfLists.append( [ arg ] )
+
+            if length < 1:
+                length = 1
+
+    result = [ ]
+
+    for i in range( 0, length ):
+        newSubList = [ ]
+
+        for subList in argList:
+            newSubList.append( subList[ i ] )
+
+        result.append( newSubList )
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  makeUnion
 # //
 # //******************************************************************************

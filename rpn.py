@@ -15,7 +15,6 @@
 # Another bug!
 #
 #  'result' doesn't work with units
-#  'diffs' doesn't work with units, either
 
 # http://en.wikipedia.org/wiki/Physical_constant
 
@@ -105,6 +104,17 @@ def evaluate( terms ):
             break
 
         index = index + 1
+
+    if len( g.echoArguments ) > 0:
+        returnValue = list( g.echoArguments )
+
+        if isinstance( valueList, list ) and len( valueList ) == 1:
+            returnValue.append( valueList[ 0 ] )
+        else:
+            returnValue.append( valueList )
+
+        g.echoArguments = [ ]
+        return [ returnValue ]
 
     return valueList
 

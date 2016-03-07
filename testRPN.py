@@ -849,6 +849,9 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '0 42 range 8 multifactorial', '114800 oeis 43 left' )
     expectEqual( '0 43 range 9 multifactorial', '114806 oeis 44 left' )
 
+    # multinomial
+    testOperator( '[ 2 5 6 7 ] multinomial' )
+
     # narayana
     testOperator( '6 8 narayana' )
 

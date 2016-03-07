@@ -605,3 +605,18 @@ def evaluateDiceExpression( expression ):
 
     return result
 
+
+# //******************************************************************************
+# //
+# //  addEchoArgument
+# //
+# //******************************************************************************
+
+def addEchoArgument( argument ):
+    if isinstance( argument, list ) and len( argument ) == 1:
+        g.echoArguments.append( argument[ 0 ] )
+    else:
+        g.echoArguments.append( argument )
+
+    return argument
+

@@ -21,6 +21,7 @@ ecm = True
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
+# base identifiers
 phiBase = -1
 fibBase = -2
 facBase = -3
@@ -52,6 +53,7 @@ defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 
 # state variables
 creatingFunction = False
+echoArguments = [ ]
 helpLoaded = False
 nestedListLevel = 0
 duplicateOperations = 0

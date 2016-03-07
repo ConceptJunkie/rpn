@@ -5617,6 +5617,13 @@ c:\>rpn 1 5 range 6 10 range append
 [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ''' ],
 
+    'collate' : [
+'list_operators', 'returns a list of n-element lists of corresponding elements from each sublist of n',
+'''
+''',
+'''
+''' ],
+
     'count' : [
 'list_operators', 'counts the elements of list n',
 '''
@@ -8419,6 +8426,21 @@ rpn (3)>5 12 **
 '''
 ''',
 '''
+''' ],
+
+    'echo' : [
+'special', 'when the next operator is evaluated, appends the result to n',
+'''
+The echo operator does not apply to operators in an operator list, but is
+applied when the operator list is completed.
+''',
+'''
+c:\>rpn 2 echo 2 +
+[ 2, 4 ]
+
+c:\>rpn 2 echo 2 echo +
+[ 2, 2, 4 ]
+
 ''' ],
 
     'estimate' : [

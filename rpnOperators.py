@@ -423,6 +423,11 @@ def handleOneArgListOperator( func, args, currentValueList ):
     if isinstance( args, RPNGenerator ):
         args = list( args )
 
+    # check for arguments to be echoed, and echo them before the result
+    if len( g.echoArguments ) > 0:
+        for echoArg in g.echoArguments:
+            currentValueList.append( echoArg )
+
     if not isinstance( args, list ):
         currentValueList.append( func( [ args ] ) )
     else:
@@ -440,6 +445,11 @@ def handleOneArgGeneratorOperator( func, args, currentValueList ):
 
     if isinstance( args, list ):
         args = RPNGenerator.create( args )
+
+    # check for arguments to be echoed, and echo them before the result
+    if len( g.echoArguments ) > 0:
+        for echoArg in g.echoArguments:
+            currentValueList.append( echoArg )
 
     if not isinstance( args, RPNGenerator ):
         currentValueList.append( func( RPNGenerator.create( ) ) )
@@ -465,6 +475,11 @@ def handleMultiArgListOperator( func, argList, currentValueList ):
         else:
             newArgList.append( arg )
 
+    # check for arguments to be echoed, and echo them before the result
+    if len( g.echoArguments ) > 0:
+        for echoArg in g.echoArguments:
+            currentValueList.append( echoArg )
+
     currentValueList.append( func( *newArgList ) )
 
 
@@ -482,6 +497,11 @@ def handleMultiArgGeneratorOperator( func, args, currentValueList ):
             newArgList.append( RPNGenerator.create( arg ) )
         else:
             newArgList.append( arg )
+
+    # check for arguments to be echoed, and echo them before the result
+    if len( g.echoArguments ) > 0:
+        for echoArg in g.echoArguments:
+            currentValueList.append( echoArg )
 
     currentValueList.append( func( *newArgList ) )
 
@@ -575,13 +595,26 @@ def dumpOperators( ):
 # //
 # //******************************************************************************
 
-def evaluateOneArgFunction( func, args ):
+def evaluateOneArgFunction( func, args, level = 0 ):
     if isinstance( args, list ):
-        return [ evaluateOneArgFunction( func, i ) for i in args ]
+        result = [ evaluateOneArgFunction( func, i, level + 1 ) for i in args ]
     elif isinstance( args, RPNGenerator ):
-        return RPNGenerator.createChained( args.getGenerator( ), func )
+        result =  RPNGenerator.createChained( args.getGenerator( ), func )
     else:
-        return func( args )
+        result = func( args )
+
+    # if this is the 'echo' operator, just return the result
+    if func.__name__ == 'addEchoArgument':
+        return result
+
+    # otherwise, check for arguments to be echoed, and echo them before the result
+    if level == 0 and not g.operatorList and len( g.echoArguments ) > 0:
+        returnValue = list( g.echoArguments )
+        returnValue.append( result )
+        g.echoArguments = [ ]
+        return returnValue
+    else:
+        return result
 
 
 # //******************************************************************************
@@ -592,7 +625,7 @@ def evaluateOneArgFunction( func, args ):
 # //
 # //******************************************************************************
 
-def evaluateTwoArgFunction( func, _arg1, _arg2 ):
+def evaluateTwoArgFunction( func, _arg1, _arg2, level = 0 ):
     if isinstance( _arg1, list ):
         len1 = len( _arg1 )
 
@@ -642,24 +675,31 @@ def evaluateTwoArgFunction( func, _arg1, _arg2 ):
                     result.append( func( i1, i2 ) )
                 except:
                     break
-
-            return result
         else:
-            return [ evaluateTwoArgFunction( func, i, arg2 ) for i in arg1.getGenerator( ) ]
+            result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1.getGenerator( ) ]
     elif generator2:
-        return [ evaluateTwoArgFunction( func, arg1, i ) for i in arg2.getGenerator( ) ]
+        result = [ evaluateTwoArgFunction( func, arg1, i, level + 1 ) for i in arg2.getGenerator( ) ]
 
     if list1:
         if list2:
-            return [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ] ) for index in range( 0, min( len1, len2 ) ) ]
+            result = [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ], level + 1 ) for index in range( 0, min( len1, len2 ) ) ]
         else:
-            return [ evaluateTwoArgFunction( func, i, arg2 ) for i in arg1 ]
+            result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1 ]
 
     else:
         if list2:
-            return [ evaluateTwoArgFunction( func, arg1, j ) for j in arg2 ]
+            result = [ evaluateTwoArgFunction( func, arg1, j, level + 1 ) for j in arg2 ]
         else:
-            return func( arg2, arg1 )
+            result = func( arg2, arg1 )
+
+    # check for arguments to be echoed, and echo them before the result
+    if level == 0 and not g.operatorList and len( g.echoArguments ) > 0:
+        returnValue = list( g.echoArguments )
+        returnValue.append( result )
+        g.echoArguments = [ ]
+        return returnValue
+    else:
+        return result
 
 
 # //******************************************************************************
@@ -1068,6 +1108,7 @@ listOperators = {
     'alternating_sum'       : RPNOperatorInfo( lambda n: getAlternatingSum( n, False ), 1, RPNOperatorType.Generator ),
     'alternating_sum_2'     : RPNOperatorInfo( lambda n: getAlternatingSum( n, False ), 1, RPNOperatorType.Generator ),
     'append'                : RPNOperatorInfo( appendLists, 2, RPNOperatorType.List ),
+    'collate'               : RPNOperatorInfo( collate, 1, RPNOperatorType.List ),
     'count'                 : RPNOperatorInfo( countElements, 1, RPNOperatorType.Generator ),
     'diffs'                 : RPNOperatorInfo( lambda n: RPNGenerator( getListDiffs( n ) ), 1, RPNOperatorType.Generator ),
     'diffs2'                : RPNOperatorInfo( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ), 1, RPNOperatorType.Generator ),
@@ -1108,6 +1149,10 @@ listOperators = {
     # powers_and_roots
     'tower'                 : RPNOperatorInfo( calculatePowerTower, 1, RPNOperatorType.List ),
     'tower2'                : RPNOperatorInfo( calculatePowerTower2, 1, RPNOperatorType.List ),
+
+    # special
+    'echo'                  : RPNOperatorInfo( addEchoArgument, 1 ),
+
 }
 
 
