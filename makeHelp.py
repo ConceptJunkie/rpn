@@ -1998,6 +1998,13 @@ c:\>rpn 1 gallon 4 cups -
 # //
 # //******************************************************************************
 
+    'antitransit_time' : [
+'astronomy', 'calculates the duration of time from the next setting until the subseqent rising of a body'
+'''
+''',
+'''
+''' ],
+
     'astronomical_dawn' : [
 'astronomy', 'calculates the time of the astronomical dawn for location n and date k',
 '''
@@ -2024,6 +2031,13 @@ c:\>rpn 1 gallon 4 cups -
 '''
 The definition of dusk being used the is "civil" definition of dawn, i.e., the
 center of the sun is 6 degrees below the horizon.
+''',
+'''
+''' ],
+
+    'day_time' : [
+'astronomy', 'calculates the duration of the next day (i.e., transit_time for the sun)'
+'''
 ''',
 '''
 ''' ],
@@ -2187,6 +2201,13 @@ c:\>rpn 1965-03-31 moon_phase
 '''
 ''' ],
 
+    'night_time' : [
+'astronomy', 'calculates the duration of the next night (i.e., antitransit_time for the sun)'
+'''
+''',
+'''
+''' ],
+
     'pluto' : [
 'astronomy', '',
 '''
@@ -2301,6 +2322,13 @@ c:\>rpn 1965-03-31 moon_phase
 
     'sun_antitransit' : [
 'astronomy', 'calculates the next sun antitransit time at location n for date-time k',
+'''
+''',
+'''
+''' ],
+
+    'transit_time' : [
+'astronomy', 'calculates the duration of time from the next rising until the subseqent setting of a body'
 '''
 ''',
 '''

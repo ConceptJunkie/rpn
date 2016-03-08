@@ -38,9 +38,21 @@ import rpnGlobals as g
 
 class RPNLocation( object ):
     """This class represents a location on the surface of the Earth."""
-    def __init__( self, name, observer ):
+    def __init__( self, name, observer=ephem.Observer( ) ):
         self.name = name
         self.observer = observer
+
+    def setObserver( self, observer ):
+        self.observer.lat = observer.lat
+        self.observer.long = observer.long
+        self.observer.epoch = observer.epoch
+        self.observer.date = observer.date
+        self.observer.elevation = observer.elevation
+        self.observer.temp = observer.temp
+        self.observer.pressure = observer.pressure
+
+    def getName( self ):
+        return self.name
 
     def getLat( self ):
         return fdiv( fmul( mpmathify( float( self.observer.lat ) ), 180 ), pi )
@@ -62,6 +74,9 @@ class RPNLocation( object ):
 
     def getPressure( self ):
         return self.observer.pressure
+
+    def setName( self, value ):
+        self.name = value
 
     def setLat( self, value ):
         self.observer.lat = fmul( fdiv( value, 180 ), pi )

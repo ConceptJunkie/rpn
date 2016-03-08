@@ -1204,10 +1204,12 @@ operators = {
     'subtract'                      : RPNOperatorInfo( subtract, 2, ),
 
     # astronomy
+    'antitransit_time'              : RPNOperatorInfo( getAntitransitTime, 3 ),
     'astronomical_dawn'             : RPNOperatorInfo( lambda n, k: getNextDawn( n, k, -18 ), 2 ),
     'astronomical_dusk'             : RPNOperatorInfo( lambda n, k: getNextDawn( n, k, -18 ), 2 ),
     'autumnal_equinox'              : RPNOperatorInfo( getAutumnalEquinox, 1 ),
     'dawn'                          : RPNOperatorInfo( getNextDawn, 2 ),
+    'day_time'                      : RPNOperatorInfo( lambda n, k: getTransitTime( ephem.Sun( ), n, k ), 2 ),
     'dusk'                          : RPNOperatorInfo( getNextDusk, 2 ),
     'moonrise'                      : RPNOperatorInfo( lambda n, k: getNextRising( ephem.Moon( ), n, k ), 2 ),
     'moonset'                       : RPNOperatorInfo( lambda n, k: getNextSetting( ephem.Moon( ), n, k ), 2 ),
@@ -1224,6 +1226,7 @@ operators = {
     'next_rising'                   : RPNOperatorInfo( getNextRising, 3 ),
     'next_setting'                  : RPNOperatorInfo( getNextSetting, 3 ),
     'next_transit'                  : RPNOperatorInfo( getNextTransit, 3 ),
+    'night_time'                    : RPNOperatorInfo( lambda n, k: getAntitransitTime( ephem.Sun( ), n, k ), 2 ),
     'previous_antitransit'          : RPNOperatorInfo( getPreviousAntitransit, 3 ),
     'previous_first_quarter_moon'   : RPNOperatorInfo( lambda n: getEphemTime( n, ephem.previous_first_quarter_moon ), 1 ),
     'previous_full_moon'            : RPNOperatorInfo( lambda n: getEphemTime( n, ephem.previous_full_moon ), 1 ),
@@ -1238,6 +1241,7 @@ operators = {
     'sunrise'                       : RPNOperatorInfo( lambda n, k: getNextRising( ephem.Sun( ), n, k ), 2 ),
     'sunset'                        : RPNOperatorInfo( lambda n, k: getNextSetting( ephem.Sun( ), n, k ), 2 ),
     'sun_antitransit'               : RPNOperatorInfo( lambda n, k: getNextAntitransit( ephem.Sun( ), n, k ), 2 ),
+    'transit_time'                  : RPNOperatorInfo( getTransitTime, 3 ),
     'vernal_equinox'                : RPNOperatorInfo( getVernalEquinox, 1 ),
     'winter_solstice'               : RPNOperatorInfo( getWinterSolstice, 1 ),
 

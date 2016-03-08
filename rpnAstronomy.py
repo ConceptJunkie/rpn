@@ -18,6 +18,7 @@ from mpmath import mpmathify, fdiv, fmul, pi
 
 from rpnDateTime import RPNDateTime
 from rpnLocation import RPNLocation, getLocation
+from rpnMath import subtract
 
 
 # //******************************************************************************
@@ -216,6 +217,54 @@ def getNextAntitransit( body, location, date ):
     location.observer.horizon = old_horizon
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  getTransitTime
+# //
+# //******************************************************************************
+
+def getTransitTime( body, location, date ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
+       not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = '0'
+
+    ephemRising = location.observer.next_rising( body )
+    rising = RPNDateTime.convertFromEphemDate( ephemRising ).getLocalTime( )
+    setting = RPNDateTime.convertFromEphemDate( location.observer.next_setting( body, start=ephemRising ) ).getLocalTime( )
+
+    return subtract( setting, rising )
+
+
+# //******************************************************************************
+# //
+# //  getAntitransitTime
+# //
+# //******************************************************************************
+
+def getAntitransitTime( body, location, date ):
+    if isinstance( location, str ):
+        location = getLocation( location )
+
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
+       not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+
+    location.observer.date = date.to( 'utc' ).format( )
+    location.observer.horizon = '0'
+
+    ephemSetting = location.observer.next_setting( body )
+    setting = RPNDateTime.convertFromEphemDate( ephemSetting ).getLocalTime( )
+    rising = RPNDateTime.convertFromEphemDate( location.observer.next_rising( body, start=ephemSetting ) ).getLocalTime( )
+
+    return subtract( rising, setting )
 
 
 # //******************************************************************************
