@@ -14,10 +14,10 @@
 
 import ephem
 
-from mpmath import mpmathify, fdiv, fmul, pi
+from mpmath import fdiv, fmul, mpmathify, pi
 
 from rpnDateTime import RPNDateTime
-from rpnLocation import RPNLocation, getLocation
+from rpnLocation import getLocation, RPNLocation
 from rpnMath import subtract
 
 

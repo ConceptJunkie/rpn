@@ -39,7 +39,8 @@
 # * Yes.........Yes.........No..........p+2
 # * Yes.........Yes.........Yes.........p+4 (table from Derek Holt) (End)
 
-from mpmath import *
+from mpmath import arange, binomial, fac, fadd, fdiv, floor, fmul, fprod, \
+                   fsub, fsum, nint, power
 
 from rpnNumberTheory import getNthLinearRecurrence
 from rpnPersistence import cachedFunction

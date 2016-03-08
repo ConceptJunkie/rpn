@@ -14,7 +14,7 @@
 
 from enum import Enum
 
-from mpmath import *
+from mpmath import nan
 
 from rpnUtils import debugPrint
 

@@ -12,7 +12,8 @@
 # //
 # //******************************************************************************
 
-from mpmath import *
+from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, fsum, gamma, hypot, \
+                   power, pi, root, sin, sqrt, tan
 
 from rpnMeasurement import RPNMeasurement
 from rpnUtils import real, real_int

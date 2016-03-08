@@ -19,7 +19,7 @@ import pickle
 import pyprimes
 import sys
 
-from mpmath import *
+from mpmath import arange, fadd, fmul
 
 import rpnGlobals as g
 

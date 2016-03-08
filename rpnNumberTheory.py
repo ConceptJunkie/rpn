@@ -17,7 +17,10 @@ import random
 
 from fractions import Fraction
 from functools import reduce
-from mpmath import *
+
+from mpmath import arange, binomial, fabs, fac, fadd, fdiv, fib, floor, fmod, \
+                   fmul, fneg, fprod, fsub, fsum, mp, mpc, mpf, mpmathify, nint, \
+                   phi, polyroots, polyval, power, primepi2, re, root, sqrt
 
 from rpnFactor import getECMFactors
 from rpnGenerator import RPNGenerator

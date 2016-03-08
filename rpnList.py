@@ -16,9 +16,9 @@ import collections
 import itertools
 import random
 
-from mpmath import *
+from mpmath import fadd, fdiv, fneg, fprod, fsub, fsum, inf, power, root, sqrt
 
-from rpnGenerator import *
+from rpnGenerator import RPNGenerator
 from rpnMath import add, subtract, divide
 from rpnMeasurement import RPNMeasurement
 from rpnNumberTheory import getGCD

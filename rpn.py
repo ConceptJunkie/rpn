@@ -24,9 +24,17 @@
 
 # The Hubble Constant
 
-# Time dilation
+# TODO: Time dilation
 # c:\>rpn 1 0.9999 sqr - sqrt 1/x
 # 70.7124459519
+
+# TODO:  support rounding to something other than integers
+# TODO:  support measurements with 'name'
+# TODO:  'humanize' - like 'name' but only 2 significant digits when > 1000
+# TODO:  'name' handle fractions smaller than 1 gracefully (right now it prints nothing)
+# TODO:  support date comparisons, etc. before the epoch
+# TODO:  separate out argument validation so each operator function doesn't have to do it
+# TODO:  create an output handler for RPNLocation
 
 from mpmath import mp
 
@@ -34,11 +42,24 @@ import argparse
 import sys
 import time
 
+from mpmath import nan, nstr
+
 from rpnAliases import operatorAliases
-from rpnOperators import *
-from rpnOutput import *
+from rpnDateTime import RPNDateTime
+from rpnGenerator import RPNGenerator
+from rpnMeasurement import RPNMeasurement
+
+from rpnOperators import checkForVariable, constants, evaluateTerm, functionOperators, \
+                         listOperators, loadUnitNameData, modifiers, operators, \
+                         RPNFunctionInfo, RPNVariable, saveResult, setAccuracy, \
+                         setPrecision
+
+from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
+                      getCurrentArgList, getDataPath, handleIdentify, printHelp, \
+                      validateArguments, validateOptions
+
 from rpnPersistence import flushDirtyCaches
-from rpnVersion import *
+from rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 import rpnGlobals as g
 
@@ -158,7 +179,7 @@ def handleOutput( valueList ):
             if isinstance( result, RPNVariable ):
                 result = result.getValue( )
 
-            if isinstance( result, arrow.Arrow ):
+            if isinstance( result, RPNDateTime ):
                 outputString = formatDateTime( result )
             elif isinstance( result, str ):
                 outputString = result

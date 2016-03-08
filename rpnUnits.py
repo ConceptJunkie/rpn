@@ -12,7 +12,7 @@
 # //
 # //******************************************************************************
 
-from mpmath import *
+from mpmath import mpmathify
 
 from rpnEstimates import *
 from rpnUnitClasses import *

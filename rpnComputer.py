@@ -14,7 +14,8 @@
 
 import struct
 
-from mpmath import *
+from mpmath import fadd, fdiv, floor, fmod, fmul, fneg, fsub, fsum, log, mpf, \
+                   mpmathify, power
 
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement

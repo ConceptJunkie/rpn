@@ -12,7 +12,7 @@
 # //
 # //******************************************************************************
 
-from mpmath import *
+from mpmath import mp
 
 import rpnGlobals as g
 

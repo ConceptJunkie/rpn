@@ -20,11 +20,11 @@ import os
 import pickle
 import random
 
-from mpmath import *
+from mpmath import ceil, fabs, fprod, log, mp, power
 
 import rpnGlobals as g
 
-from rpnPersistence import *
+#from rpnPersistence import *
 from rpnPrimes import primes
 from rpnSettings import setAccuracy
 from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList, real, real_int

@@ -12,10 +12,12 @@
 # //
 # //******************************************************************************
 
-from mpmath import *
+from mpmath import apery, bell, bernoulli, catalan, e, euler, exp, glaisher, \
+                   inf, khinchin, lambertw, mertens, phi, pi
 
 from rpnConstantUtils import *
-from rpnDeclarations import *
+
+from rpnDeclarations import RPNOperatorInfo
 from rpnMath import exponentiate, getRoot
 
 

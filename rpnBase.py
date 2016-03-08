@@ -14,7 +14,10 @@
 
 import rpnGlobals as g
 
-from rpnNumberTheory import *
+from mpmath import chop, fac, fac2, fdiv, floor, fmod, fmul, fsub, log, mp, mpmathify, \
+                   nint, power
+
+from rpnNumberTheory import getNthLucasNumber
 
 
 # //******************************************************************************

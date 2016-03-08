@@ -22,7 +22,8 @@
 
 from functools import lru_cache
 
-from mpmath import *
+from mpmath import cbrt, fadd, fdiv, fib, fmul, fprod, fsub, log, mp, nsum, \
+                   pi, sqrt
 
 from rpnComputer import *
 from rpnInput import convertToBase10

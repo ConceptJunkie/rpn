@@ -14,7 +14,7 @@
 
 import itertools
 
-from mpmath import *
+from mpmath import arange, ceil, fadd, fdiv, fmul, fsub, power
 
 
 # //******************************************************************************

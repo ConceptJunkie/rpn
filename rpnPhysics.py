@@ -14,9 +14,7 @@
 
 import struct
 
-from mpmath import *
-
-from rpnConstants import *
+from rpnConstants import getNewtonsConstant, getSpeedOfLight
 from rpnGenerator import RPNGenerator
 from rpnList import getProduct
 from rpnMath import exponentiate

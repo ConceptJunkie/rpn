@@ -12,7 +12,7 @@
 # //
 # //******************************************************************************
 
-from mpmath import *
+from mpmath import arange, fadd, fdiv, floor, fmod, fmul, fneg, fsub, mpf, nint, power, root, sign, sqrt
 
 from rpnDateTime import RPNDateTime
 from rpnMeasurement import RPNMeasurement
@@ -212,8 +212,8 @@ def takeReciprocal( n ):
 # //
 # //  This is the smaller (left-associative) version of the hyper4 operator.
 # //
-# //  This function forces the second argument to an integer and runs at O( n )
-# //  based on the second argument.
+# //  This function forces the second argument to an integer and runs in O( n )
+# //  time based on the second argument.
 # //
 # //******************************************************************************
 
@@ -232,8 +232,8 @@ def tetrate( i, j ):
 # //
 # //  This is the larger (right-associative) version of the hyper4 operator.
 # //
-# //  This function forces the second argument to an integer and runs at O( n )
-# //  based on the second argument.
+# //  This function forces the second argument to an integer and runs in O( n )
+# //  time based on the second argument.
 # //
 # //******************************************************************************
 

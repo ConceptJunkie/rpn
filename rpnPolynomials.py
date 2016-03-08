@@ -15,7 +15,8 @@
 import collections
 import itertools
 
-from mpmath import *
+from mpmath import acos, arange, chop, cos, fadd, fdiv, fmul, fneg, fprod, fsub, \
+                   fsum, im, libmp, mp, mpc, polyroots, polyval, power, root, sin, sqrt
 
 from rpnGenerator import RPNGenerator
 

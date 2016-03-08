@@ -34,11 +34,11 @@ import pickle
 import signal
 import sys
 
-from mpmath import *
+from mpmath import arange, findpoly, floor, identify, im, log10, mpmathify, \
+                   nint, nstr, rand
+
 from random import randrange
 from functools import reduce
-
-from rpnVersion import *
 
 import rpnGlobals as g
 

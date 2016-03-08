@@ -18,7 +18,7 @@ import pickle
 import ephem
 import os
 
-from mpmath import *
+from mpmath import fadd, fdiv, fmul, mpmathify, pi
 
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement

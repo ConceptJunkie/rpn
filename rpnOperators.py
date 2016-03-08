@@ -22,7 +22,11 @@ import struct
 from enum import Enum
 from random import randrange
 
-from mpmath import *
+from mpmath import acosh, acot, acoth, acsc, acsch, agm, arg, asec, asech, asin, \
+                   asinh, atan, atanh, conj, cosh, cos, coth, csc, csch, fac2, \
+                   fadd, fmod, floor, harmonic, hyperfac, lambertw, li, limit, \
+                   ln, loggamma, nprod, nsum, polylog, psi, rand, sec, sech, sin, \
+                   sinh, superfac, tan, tanh, unitroots, zeta
 
 from rpnAliases import dumpAliases
 
@@ -45,6 +49,7 @@ from rpnMeasurement import *
 from rpnModifiers import *
 from rpnName import *
 from rpnNumberTheory import *
+from rpnPersistence import *
 from rpnPhysics import *
 from rpnPolynomials import *
 from rpnPolytope import *

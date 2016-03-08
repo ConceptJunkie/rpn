@@ -12,7 +12,7 @@
 # //
 # //******************************************************************************
 
-from mpmath import *
+from mpmath import floor, nint
 
 import rpnGlobals as g
 

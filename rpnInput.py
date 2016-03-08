@@ -15,7 +15,7 @@
 import arrow
 import math
 
-from mpmath import *
+from mpmath import fdiv, fneg, mp, mpf, mpmathify
 
 from rpnDateTime import RPNDateTime
 from rpnSettings import setAccuracy

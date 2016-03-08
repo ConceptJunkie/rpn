@@ -12,7 +12,8 @@
 # //
 # //******************************************************************************
 
-from mpmath import *
+from mpmath import arange, ceil, fadd, fac, fdiv, floor, fmod, fmul, fneg, fprod, \
+                   fsub, fsum, mp, nint, pi, polyval, power, sqrt, tan
 
 from rpnNumberTheory import getNthLinearRecurrence
 

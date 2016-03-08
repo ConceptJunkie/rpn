@@ -14,7 +14,8 @@
 
 import calendar
 
-from convertdate import *
+from convertdate import bahai, gregorian, hebrew, indian_civil, islamic, julian, \
+                        mayan, persian
 from mpmath import ceil
 
 from rpnDateTime import RPNDateTime

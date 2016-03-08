@@ -24,7 +24,7 @@ from rpnUtils import real, real_int
 
 import rpnGlobals as g
 
-from mpmath import *
+from mpmath import floor, fmod, fmul, fneg, fsub
 
 
 # //******************************************************************************

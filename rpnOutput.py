@@ -18,14 +18,17 @@ import math
 import string
 import textwrap
 
-from mpmath import *
+from mpmath import frac, im, mp, mpf, nstr, phi, re
 
-from rpnBase import *
+from rpnBase import convertFractionToBaseN, convertToBaseN, convertToFibBase, \
+                    convertToNonintegerBase, convertToSpecialBase, specialBaseFunctions
+
 from rpnDateTime import RPNDateTime
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 from rpnPersistence import loadHelpData
 from rpnUtils import *
+from rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_STRING
 
 import rpnGlobals as g
 
@@ -590,5 +593,4 @@ def printTitleScreen( programName, programDescription ):
     print( COPYRIGHT_MESSAGE )
     print( )
     print( 'Type "help" for more information, and "exit" to exit.' )
-
 

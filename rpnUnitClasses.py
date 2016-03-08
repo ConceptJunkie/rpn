@@ -14,7 +14,7 @@
 
 import collections
 
-from mpmath import *
+from mpmath import floor
 
 import rpnGlobals as g
 

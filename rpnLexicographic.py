@@ -2,7 +2,7 @@
 
 # //******************************************************************************
 # //
-# //  rpnUtils.py
+# //  rpnLexicographic.py
 # //
 # //  RPN command-line calculator lexicographic functions
 # //  copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
@@ -14,7 +14,8 @@
 
 import string
 
-from mpmath import *
+from mpmath import fadd, fdiv, floor, fmod, fmul, fprod, fsub, fsum, log10, \
+                   mpmathify, nint, power
 
 from rpnGenerator import RPNGenerator
 from rpnUtils import real, real_int, getMPFIntegerAsString
