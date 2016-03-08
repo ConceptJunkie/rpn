@@ -437,6 +437,11 @@ def runArithmeticOperatorTests( ):
 # //******************************************************************************
 
 def runAstronomyOperatorTests( ):
+    # antitransit_time
+    testOperator( 'moon "Calais, France" location today antitransit_time' )
+    testOperator( 'sun "Calais, France" today antitransit_time' )
+    testOperator( 'jupiter "Las Vegas, NV" 2016 spring 1 20 range days + antitransit_time' )
+
     # astronomical_dawn
     testOperator( '"Chattanooga, TN" location today astronomical_dawn' )
     testOperator( '"Chattanooga, TN" today astronomical_dawn' )
@@ -452,17 +457,18 @@ def runAstronomyOperatorTests( ):
     testOperator( '"Christchurch, NZ" location today dawn' )
     testOperator( '"Christchurch, NZ" today dawn' )
 
+    # day_time
+    testOperator( '"Toulouse, France" location today day_time' )
+    testOperator( '"Nice, France" today day_time' )
+    testOperator( '"Allentown, PA" 1975-03-31 0 20 range days + day_time' )
+
     # dusk
     testOperator( '"Vienna, Austria" location today dusk' )
     testOperator( '"Vienna, Austria" today dusk' )
 
     # jupiter
-    testOperator( 'saturn "Ottawa, Canada" location today next_setting' )
-    testOperator( 'saturn "Ottawa, Canada" today next_setting' )
-
-    # latlong
-
-    # location
+    testOperator( 'jupiter "Ottawa, Canada" location today next_setting' )
+    testOperator( 'jupiter "Ottawa, Canada" today next_setting' )
 
     # location_info
     testOperator( '"Scottsdale, AZ" location_info' )
@@ -503,8 +509,8 @@ def runAstronomyOperatorTests( ):
     testOperator( '"Columbia, SC" today nautical_dawn' )
 
     # nautical_dusk
-    testOperator( '"Roanoke Rapids, NC" location today nautical_dusk' )
-    testOperator( '"Roanoke Rapids, NC" today nautical_dusk' )
+    testOperator( '"Norfolk, VA" location today nautical_dusk' )
+    testOperator( '"Norfolk, VA" today nautical_dusk' )
 
     # neptune
     testOperator( 'neptune "Hatfield, PA" location now next_rising' )
@@ -537,6 +543,11 @@ def runAstronomyOperatorTests( ):
     # next_transit
     testOperator( 'moon "Oslo, Norway" location now next_transit' )
     testOperator( 'moon "Oslo, Norway" now next_transit' )
+
+    # night_time
+    testOperator( '"Toulouse, France" location today night_time' )
+    testOperator( '"Nice, France" today night_time' )
+    testOperator( '"Cologne, Germany" 2015 winter 1 20 range days + night_time' )
 
     # pluto
     testOperator( 'pluto "Johannesburg, South Africa" location now next_rising' )
@@ -599,6 +610,11 @@ def runAstronomyOperatorTests( ):
     # sun_antitransit
     testOperator( '"Nice, France" location today sun_antitransit' )
     testOperator( '"Nice, France" today sun_antitransit' )
+
+    # antitransit_time
+    testOperator( 'sun "Munich, Germany" location today transit_time' )
+    testOperator( 'moon "Dusseldorf, Germany" today transit_time' )
+    testOperator( 'mars "Dortmund, Germany" 2015 summer 1 20 range days + transit_time' )
 
     # vernal_equinox
     testOperator( '2015 vernal_equinox' )
@@ -1782,12 +1798,12 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '34 harmonic' )
 
     # heptanacci
-    testOperator( '623 heptanacci' )
+    testOperator( '-a200 -c 623 heptanacci' )
     expectEqual( '0 38 range heptanacci', '122189 oeis 39 left' )
     expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
 
     # hexanacci
-    testOperator( '949 hexanacci' )
+    testOperator( '-a300 -c 949 hexanacci' )
     expectEqual( '0 38 range hexanacci', '1592 oeis 39 left' )
     expectResult( '0 100 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 101 ) ] )
 
@@ -1882,12 +1898,12 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '1000 10 n_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
 
     # octanacci
-    testOperator( '906 octanacci' )
+    testOperator( '-a300 -c 906 octanacci' )
     expectEqual( '0 39 range octanacci', '79262 oeis 40 left' )
     expectResult( '0 100 range octanacci', [ getNthKFibonacciNumberTheSlowWay( i, 8 ) for i in range( 0, 101 ) ] )
 
     # padovan
-    testOperator( '76 padovan' )
+    testOperator( '-c 76 padovan' )
     expectEqual( '0 45 range padovan', '931 oeis 50 left 46 right' )
 
     # pascal_triangle
@@ -2029,7 +2045,7 @@ def runPolygonalOperatorTests( ):
     testOperator( '222 heptagonal_square' )
 
     # heptagonal_triangular
-    testOperator( '399 heptagonal_triangular' )
+    testOperator( '-a1000 -c 399 heptagonal_triangular' )
     expectEqual( '-a40 1 14 range heptagonal_triangular', '-a40 46194 oeis 14 left' )
 
     # hexagonal
