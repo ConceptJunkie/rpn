@@ -12,7 +12,8 @@
 # //
 # //******************************************************************************
 
-from mpmath import arange, fadd, fdiv, floor, fmod, fmul, fneg, fsub, mpf, nint, power, root, sign, sqrt
+from mpmath import arange, fadd, fdiv, floor, fmod, fmul, fneg, fsub, mpf, \
+                   nint, power, root, sign, sqrt
 
 from rpnDateTime import RPNDateTime
 from rpnMeasurement import RPNMeasurement

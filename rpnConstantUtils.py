@@ -22,15 +22,17 @@
 
 from functools import lru_cache
 
-from mpmath import cbrt, fadd, fdiv, fib, fmul, fprod, fsub, log, mp, nsum, \
-                   pi, sqrt
+from mpmath import cbrt, fadd, fdiv, fib, fmul, fprod, fsub, log, mp, mpf, \
+                   mpmathify, nsum, pi, power, sqrt
 
-from rpnComputer import *
+import rpnGlobals as g
+
+from rpnComputer import interpretAsDouble, interpretAsFloat
 from rpnInput import convertToBase10
 from rpnMath import exponentiate, getRoot
+from rpnMeasurement import RPNMeasurement
 from rpnOutput import convertToBaseN
-from rpnPrimeUtils import *
-from rpnUtils import *
+from rpnPrimeUtils import getNthPrime
 
 
 # //******************************************************************************

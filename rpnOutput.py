@@ -18,7 +18,7 @@ import math
 import string
 import textwrap
 
-from mpmath import frac, im, mp, mpf, nstr, phi, re
+from mpmath import floor, frac, im, mp, mpf, mpmathify, nstr, phi, re
 
 from rpnBase import convertFractionToBaseN, convertToBaseN, convertToFibBase, \
                     convertToNonintegerBase, convertToSpecialBase, specialBaseFunctions
@@ -27,8 +27,8 @@ from rpnDateTime import RPNDateTime
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 from rpnPersistence import loadHelpData
-from rpnUtils import *
 from rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_STRING
+from rpnUtils import addAliases
 
 import rpnGlobals as g
 

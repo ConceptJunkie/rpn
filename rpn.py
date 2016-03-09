@@ -55,10 +55,13 @@ from rpnOperators import checkForVariable, constants, evaluateTerm, functionOper
                          setPrecision
 
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
-                      getCurrentArgList, getDataPath, handleIdentify, printHelp, \
-                      validateArguments, validateOptions
+                      printHelp
 
 from rpnPersistence import flushDirtyCaches
+
+from rpnUtils import getCurrentArgList, getDataPath, handleIdentify, \
+                     validateArguments, validateOptions
+
 from rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 import rpnGlobals as g
