@@ -12,7 +12,7 @@
 # //
 # //******************************************************************************
 
-from mpmath import mpmathify
+from mpmath import fadd, fdiv, fmul, log, mpf, mpmathify, pi, power
 
 from rpnEstimates import *
 from rpnUnitClasses import *

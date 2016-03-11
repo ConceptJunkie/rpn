@@ -14,6 +14,8 @@
 
 from __future__ import print_function
 
+import six
+
 import bz2
 import contextlib
 import itertools
@@ -27,6 +29,9 @@ mp.dps = 50
 
 from rpnUnits import *
 from rpnVersion import *
+
+if not six.PY3:
+    g.dataDir = "rpndata2"
 
 
 # //******************************************************************************

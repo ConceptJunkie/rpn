@@ -12,15 +12,10 @@
 # //
 # //******************************************************************************
 
-# Another bug!
-#
-#  'result' doesn't work with units
-
 # http://en.wikipedia.org/wiki/Physical_constant
 
 # http://pythonhosted.org//astral/#
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
-# https://github.com/geopy/geopy
 
 # The Hubble Constant
 
@@ -35,6 +30,9 @@
 # TODO:  support date comparisons, etc. before the epoch
 # TODO:  separate out argument validation so each operator function doesn't have to do it
 # TODO:  create an output handler for RPNLocation
+# TODO:  'result' doesn't work with measurements
+
+import six
 
 from mpmath import mp
 
@@ -55,7 +53,7 @@ from rpnOperators import checkForVariable, constants, evaluateTerm, functionOper
                          setPrecision
 
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
-                      printHelp
+                      printHelp, printHelpModeHelp, printTitleScreen
 
 from rpnPersistence import flushDirtyCaches
 
@@ -65,6 +63,9 @@ from rpnUtils import getCurrentArgList, getDataPath, handleIdentify, \
 from rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 import rpnGlobals as g
+
+if not six.PY3:
+    g.dataDir = "rpndata2"
 
 
 # //******************************************************************************

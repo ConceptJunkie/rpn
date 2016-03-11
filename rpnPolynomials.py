@@ -12,8 +12,14 @@
 # //
 # //******************************************************************************
 
+import six
+
 import collections
-import itertools
+
+if six.PY3:
+    from itertools import zip_longest
+else:
+    from itertools import izip_longest as zip_longest
 
 from mpmath import acos, arange, chop, cos, fadd, fdiv, fmul, fneg, fprod, fsub, \
                    fsum, im, libmp, mp, mpc, polyroots, polyval, power, root, sin, sqrt
@@ -58,8 +64,7 @@ class Polynomial( object ):
     def __add__( self, val ):
         "Return self+val"
         if isinstance( val, Polynomial ):                    # add Polynomial
-            res = [ a + b for a, b in itertools.zip_longest( self.coeffs,
-                                                             val.coeffs, fillvalue = 0 ) ]
+            res = [ a + b for a, b in zip_longest( self.coeffs, val.coeffs, fillvalue = 0 ) ]
         else:                                                # add scalar
             if self.coeffs:
                 res = self.coeffs[ : ]

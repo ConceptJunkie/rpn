@@ -12,12 +12,17 @@
 # //
 # //******************************************************************************
 
+import six
+
 import bz2
 import contextlib
 import os
 import pickle
 
 import rpnGlobals as g
+
+if not six.PY3:
+    g.dataDir = "rpndata2"
 
 
 # //******************************************************************************

@@ -12,6 +12,8 @@
 # //
 # //******************************************************************************
 
+import six
+
 import bz2
 import contextlib
 import pickle
@@ -20,6 +22,9 @@ import os
 from rpnVersion import *
 
 import rpnGlobals as g
+
+if not six.PY3:
+    g.dataDir = "rpndata2"
 
 
 # //******************************************************************************
