@@ -660,7 +660,7 @@ def runBitwiseOperatorTests( ):
 
     # parity
     testOperator( '0xff889d8f parity' )
-    expectEqual( '1 128 range parity nonzero 1 +', '69 oeis 65 left' )
+    expectEqual( '1 128 range parity nonzero 1 +', '69 oeis 65 left -D' )
 
     # shift_left
     testOperator( '-x 0x10 3 shift_left' )

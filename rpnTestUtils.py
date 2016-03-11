@@ -31,6 +31,7 @@ from mpmath import *
 # //******************************************************************************
 
 def compareResults( result1, result2 ):
+
     if isinstance( result1, RPNGenerator ):
         return compareResults( [ i for i in result1.getGenerator( ) ], result2 )
 
@@ -108,7 +109,7 @@ def expectException( command ):
 
     if result == [ nan ]:
         print( 'exception test passed!' )
-        print( )
+        print( '' )
         return True
 
     raise ValueError( 'exception was expected but didn\'t happen' )
@@ -131,7 +132,7 @@ def expectEqual( command1, command2 ):
     compareResults( result1, result2 )
 
     print( '    both are equal!' )
-    print( )
+    print( '' )
 
 
 # //******************************************************************************
@@ -185,7 +186,7 @@ def expectEquivalent( command1, command2 ):
         raise ValueError( 'unit test failed' )
 
     print( '    both are equal!' )
-    print( )
+    print( '' )
 
 
 # //******************************************************************************
@@ -205,7 +206,7 @@ def testOperator( command ):
         handleOutput( result )
 
     print( '    operator works!' )
-    print( )
+    print( '' )
 
 
 # //******************************************************************************
@@ -237,5 +238,5 @@ def expectResult( command, expected ):
     compareResults( result, compare )
 
     print( '    test passed!' )
-    print( )
+    print( '' )
 

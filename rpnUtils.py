@@ -18,6 +18,8 @@ import six
 
 if six.PY3:
     import builtins
+else:
+    FileNotFoundError = IOError
 
 
 def debugPrint( *args, **kwargs ):
@@ -166,7 +168,11 @@ def downloadOEISSequence( id ):
 # //******************************************************************************
 
 def downloadOEISText( id, char, addCR = False ):
-    import urllib.request
+    if six.PY3:
+        import urllib.request as urllib2
+    else:
+        import urllib2
+
     import re as regex
 
     try:
@@ -184,7 +190,7 @@ def downloadOEISText( id, char, addCR = False ):
         return oeisItem[ char ]
 
     try:
-        data = urllib.request.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( id ) + '&fmt=text' ).read( )
+        data = urllib2.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( id ) + '&fmt=text' ).read( )
     except:
         print( 'rpn:  HTTP access to oeis.org failed' )
         return ''

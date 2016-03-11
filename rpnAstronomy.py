@@ -99,7 +99,7 @@ def getMoonPhase( n ):
     cycle = next - previous
     current = n - previous
 
-    return current / cycle
+    return current.total_seconds( ) / cycle.total_seconds( )
 
 
 # //******************************************************************************
