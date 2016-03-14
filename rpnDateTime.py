@@ -78,7 +78,7 @@ class RPNDateTime( arrow.Arrow ):
         return self.dateOnly
 
     @staticmethod
-    def get( self, *args, **kwargs ):
+    def get( *args, **kwargs ):
         result = arrow.api.get( *args, **kwargs )
 
         return RPNDateTime( result.year, result.month, result.day, result.hour,

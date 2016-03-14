@@ -207,7 +207,7 @@ def handleOutput( valueList ):
         saveResult( result )
 
     if g.timer or g.tempTimerMode:
-        print( '\n%.3f seconds' % ( time.process_time( ) - g.startTime ) )
+        print( '\n{:.3f} seconds'.format( time.process_time( ) - g.startTime ) )
 
 
 # //******************************************************************************
