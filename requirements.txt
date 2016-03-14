@@ -1,6 +1,11 @@
 arrow
 convertdate
+enum34
 ephem
+geopy
+gmpy2
 mpmath>=0.19
+pylru
 pyprimes
 pyreadline>=2.1
+

@@ -12,6 +12,9 @@
 # //
 # //******************************************************************************
 
+requirements = 'requirements.txt'
+rpndata = 'rpndata'
+
 import os
 
 from setuptools import setup, find_packages
@@ -26,15 +29,16 @@ def read( *paths ):
 
 setup(
     name = 'rpn',
-    version = '7.0.0',
+    version = '6.99.7',
     description = 'command-line RPN calculator with arbitrary precision',
     long_description =
 '''
 rpn is a command-line Reverse-Polish Notation calculator that was first
-written in C in 1988.  It was rewritten in Python 3 in 2012 and now uses the
-mpmath library.  It was a Python-learning exercise for me, and a fun little
-toy, but when I found mpmath, it became really cool, so props to Fredrik
-Johansson, who did all the heavy lifting (http://mpmath.org).
+written in C in 1988 as a four-function calculator.  It was rewritten in
+Python 3 in 2012 and now uses the mpmath library.  It was a Python learning
+exercise for me, and a fun little toy, but when I found mpmath, it became
+really cool and powerful, so props to Fredrik Johansson, who did all the
+heavy lifting (http://mpmath.org).
 ''',
 
     url = 'http://github.com/ConceptJunkie/rpn/',
@@ -44,13 +48,17 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
     py_modules = [ 'rpn',
                    'rpnAliases',
                    'rpnAstronomy',
+                   'rpnBase',
                    'rpnCalendar',
                    'rpnCombinatorics',
                    'rpnComputer',
                    'rpnConstants',
+                   'rpnConstantUtils',
                    'rpnDateTime',
+                   'rpnDeclarations',
                    'rpnEstimates',
                    'rpnFactor',
+                   'rpnGenerator',
                    'rpnGeometry',
                    'rpnGlobals',
                    'rpnInput',
@@ -65,6 +73,7 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
                    'rpnOperators',
                    'rpnOutput',
                    'rpnPersistence',
+                   'rpnPhysics',
                    'rpnPolynomials',
                    'rpnPolytope',
                    'rpnPrimes',
@@ -79,10 +88,11 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
                    'makeHelp',
                    'makeUnits',
                    'preparePrimeData',
-                   'testRPN'
-                   'testConvert'
+                   'testRPN',
+                   'testConvert',
                    'testHelp' ],
-    install_requires = open( 'requirements.txt' ).read( ).splitlines( ),
+    install_requires = open( requirements ).read( ).splitlines( ),
+
     include_package_data = True,
     classifiers = [
         'Development Status :: 5 - Production/Stable',
@@ -100,24 +110,24 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
         'Topic :: Scientific/Engineering :: Mathematics',
         'Environment :: Console',
     ],
-    data_files = [ ( 'data_files', [ g.dataDir + os.sep + 'balanced_primes.txt',
-                                     g.dataDir + os.sep + 'cousin_primes.txt',
-                                     g.dataDir + os.sep + 'double_balanced_primes.txt',
-                                     g.dataDir + os.sep + 'huge_primes.txt',
-                                     g.dataDir + os.sep + 'isolated_primes.txt',
-                                     g.dataDir + os.sep + 'large_primes.txt',
-                                     g.dataDir + os.sep + 'quad_primes.txt',
-                                     g.dataDir + os.sep + 'quint_primes.txt',
-                                     g.dataDir + os.sep + 'sext_primes.txt',
-                                     g.dataDir + os.sep + 'sexy_primes.txt',
-                                     g.dataDir + os.sep + 'sexy_quadruplets.txt',
-                                     g.dataDir + os.sep + 'sexy_triplets.txt',
-                                     g.dataDir + os.sep + 'small_primes.txt',
-                                     g.dataDir + os.sep + 'sophie_primes.txt',
-                                     g.dataDir + os.sep + 'super_primes.txt',
-                                     g.dataDir + os.sep + 'triple_balanced_primes.txt',
-                                     g.dataDir + os.sep + 'triplet_primes.txt',
-                                     g.dataDir + os.sep + 'twin_primes.txt' ] ) ],
+    data_files = [ ( rpndata, [ g.dataDir + os.sep + 'balanced_primes.txt',
+                                g.dataDir + os.sep + 'cousin_primes.txt',
+                                g.dataDir + os.sep + 'double_balanced_primes.txt',
+                                g.dataDir + os.sep + 'huge_primes.txt',
+                                g.dataDir + os.sep + 'isolated_primes.txt',
+                                g.dataDir + os.sep + 'large_primes.txt',
+                                g.dataDir + os.sep + 'quad_primes.txt',
+                                g.dataDir + os.sep + 'quint_primes.txt',
+                                g.dataDir + os.sep + 'sext_primes.txt',
+                                g.dataDir + os.sep + 'sexy_primes.txt',
+                                g.dataDir + os.sep + 'sexy_quadruplets.txt',
+                                g.dataDir + os.sep + 'sexy_triplets.txt',
+                                g.dataDir + os.sep + 'small_primes.txt',
+                                g.dataDir + os.sep + 'sophie_primes.txt',
+                                g.dataDir + os.sep + 'super_primes.txt',
+                                g.dataDir + os.sep + 'triple_balanced_primes.txt',
+                                g.dataDir + os.sep + 'triplet_primes.txt',
+                                g.dataDir + os.sep + 'twin_primes.txt' ] ) ],
     packages = find_packages( exclude = [ 'setup_*' ] ),
 )
 

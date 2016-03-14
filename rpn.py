@@ -31,6 +31,7 @@
 # TODO:  separate out argument validation so each operator function doesn't have to do it
 # TODO:  create an output handler for RPNLocation
 # TODO:  'result' doesn't work with measurements
+# TODO:  https://en.wikipedia.org/wiki/American_wire_gauge
 
 import six
 
