@@ -3353,7 +3353,7 @@ unitConversionMatrix = {
     ( 'tesla',                      'volt-second/meter^2' )                 : mpmathify( '1' ),
     ( 'therm',                      'btu' )                                 : mpmathify( '100000' ),
     ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
-    ( 'thousand',                   'unity' )                               : mpmathify( '100' ),
+    ( 'thousand',                   'unity' )                               : mpmathify( '1000' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
     ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
     ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),

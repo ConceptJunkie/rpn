@@ -82,6 +82,10 @@ class RPNGenerator( object ):
         return RPNGenerator( chainedGenerator( generator, func ) )
 
     @staticmethod
+    def createFilter( generator, func ):
+        return RPNGenerator( filterGenerator( generator, func ) )
+
+    @staticmethod
     def createPermutations( value ):
         return RPNGenerator( permutationGenerator( value ) )
 
@@ -162,6 +166,18 @@ def exponentialRangeGenerator( value, step, count ):
 def chainedGenerator( generator, func ):
     for i in generator:
         yield( func( i ) )
+
+
+# //******************************************************************************
+# //
+# //  filterGenerator
+# //
+# //******************************************************************************
+
+def filterGenerator( generator, func ):
+    for i in generator:
+        if func( i ):
+            yield( i )
 
 
 # //******************************************************************************

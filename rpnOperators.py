@@ -91,18 +91,24 @@ class RPNFunctionInfo( object ):
 
         self.startingIndex = startingIndex
         self.code = ''
+        self.code_locals = { }
         self.compiled = None
+        self.function = None
 
     def add( self, arg ):
         self.valueList.append( arg )
 
     def evaluate( self, x, y = 0, z = 0 ):
-        if not self.code:
+        if not self.function:
             self.compile( )
 
-        code_locals = { }
-        exec( self.compiled, globals( ), code_locals )
-        return code_locals[ 'rpnInternalFunction' ]( x, y, z )
+        return self.function( x, y, z )
+
+    def getFunction( self ):
+        if not self.function:
+            self.compile( )
+
+        return self.function
 
     def compile( self ):
         valueList = [ ]
@@ -117,7 +123,7 @@ class RPNFunctionInfo( object ):
 
             valueList.append( item )
 
-        self.code = 'def rpnInternalFunction( x, y, z ): return '
+        self.code = 'def rpnInternalFunction( x, y = 0, z = 0 ): return '
 
         args = [ ]
 
@@ -167,6 +173,10 @@ class RPNFunctionInfo( object ):
         debugPrint( 'code:', self.code )
 
         self.compiled = compile( self.code, '<string>', 'exec' )
+
+        exec( self.compiled, globals( ), self.code_locals )
+        self.function = self.code_locals[ 'rpnInternalFunction' ]
+
 
 
 # //******************************************************************************
@@ -266,6 +276,9 @@ def filterList( n, k, invert = False ):
             raise ValueError( '\'filter\' expects a function argument' )
 
     result = [ ]
+
+    if isinstance( n, RPNGenerator ):
+        return RPNGenerator.createFilter( n.generator, k.getFunction( ) )
 
     for i in n:
         value = k.evaluate( i, 0, 0 )
@@ -497,7 +510,7 @@ def handleMultiArgListOperator( func, argList, currentValueList ):
 def handleMultiArgGeneratorOperator( func, args, currentValueList ):
     newArgList = [ ]
 
-    for arg in argList:
+    for arg in args:
         if isinstance( arg, list ):
             newArgList.append( RPNGenerator.create( arg ) )
         else:
@@ -1101,7 +1114,7 @@ listOperators = {
     'make_julian_time'      : RPNOperatorInfo( makeJulianTime, 1, RPNOperatorType.List ),
 
     # function
-    'filter'                : RPNOperatorInfo( filterList, 2, RPNOperatorType.List ),
+    'filter'                : RPNOperatorInfo( filterList, 2, RPNOperatorType.Generator ),
     'filter_by_index'       : RPNOperatorInfo( filterListByIndex, 2, RPNOperatorType.List ),
     'unfilter'              : RPNOperatorInfo( lambda n, k: filterList( n, k, True ), 2, RPNOperatorType.List ),
     'unfilter_by_index'     : RPNOperatorInfo( lambda n, k: filterListByIndex( n, k, True ), 2, RPNOperatorType.List ),

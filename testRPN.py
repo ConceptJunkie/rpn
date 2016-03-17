@@ -1502,6 +1502,9 @@ def runLexicographyOperatorTests( ):
     testOperator( '-a90 14,104,229,999,995 185 reversal_addition' )
     testOperator( '-a90 14,104,229,999,995 185 reversal_addition is_palindrome' )
 
+    # permute_digits
+    testOperator( '12345 permute_digits' )
+
     # reverse_digits
     testOperator( '37 1 8 range * reverse_digits' )
     testOperator( '37 1 2 9 range range * reverse_digits' )
@@ -1808,7 +1811,7 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '0 100 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 101 ) ] )
 
     # hyperfactorial
-    testOperator( '-a160 17 hyperfactorial' )
+    testOperator( '-a160 -c 17 hyperfactorial' )
 
     # is_abundant
     testOperator( '1 20 range is_abundant' )
@@ -1928,25 +1931,25 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 20 range sigma' )
 
     # subfactorial
-    testOperator( '-a20 19 subfactorial' )
+    testOperator( '-a20 -c 19 subfactorial' )
     # A000166
 
     # superfactorial
-    testOperator( '-a50 12 superfactorial' )
+    testOperator( '-a50 -c 12 superfactorial' )
     expectEqual( ' -a50 0 12 range superfactorial', '178 oeis 13 left' )
 
     # tetranacci
-    testOperator( '-a30 87 tetranacci' )
+    testOperator( '-a30 -c 87 tetranacci' )
     expectEqual( '0 37 range tetranacci', '78 oeis 38 left' )
     expectResult( '0 100 range tetranacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 101 ) ] )
 
     # thabit
-    testOperator( '-a20 45 thabit' )
+    testOperator( '-a20 -c 45 thabit' )
     # A055010
 
     # tribonacci
     testOperator( '1 20 range tribonacci' )
-    testOperator( '-c -a 2800 10239 tribonacci' )
+    testOperator( '-c -a2800 10239 tribonacci' )
     expectEqual( '0 37 range tribonacci', '73 oeis 38 left' )
     expectResult( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
 
@@ -2052,11 +2055,11 @@ def runPolygonalOperatorTests( ):
     testOperator( '340 hexagonal' )
 
     # hexagonal_pentagonal
-    testOperator( '107 hexagonal_pentagonal' )
+    testOperator( '-a250 -c 107 hexagonal_pentagonal' )
     expectEqual( '-a40 1 14 range hexagonal_pentagonal', '-a40 46178 oeis 14 left' )
 
     # hexagonal_square
-    testOperator( '-a70 23 hexagonal_square' )
+    testOperator( '-a70 -c 23 hexagonal_square' )
     expectEqual( '-a70 1 12 range hexagonal_square', '-a40 46177 oeis 12 left' )
 
     # nth_centered_decagonal
@@ -2117,55 +2120,55 @@ def runPolygonalOperatorTests( ):
     testOperator( '554 nonagonal' )
 
     # nonagonal_heptagonal
-    testOperator( '-a50 12 nonagonal_heptagonal' )
+    testOperator( '-a50 -c 12 nonagonal_heptagonal' )
 
     # nonagonal_hexagonal
-    testOperator( '-a60 13 nonagonal_hexagonal' )
+    testOperator( '-a60 -c 13 nonagonal_hexagonal' )
 
     # nonagonal_octagonal
-    testOperator( '-a 75 14 nonagonal_octagonal' )
+    testOperator( '-a75 -c 14 nonagonal_octagonal' )
 
     # nonagonal_pentagonal
-    testOperator( '-a60 15 nonagonal_pentagonal' )
+    testOperator( '-a60 -c 15 nonagonal_pentagonal' )
 
     # nonagonal_square
-    testOperator( '-a22 16 nonagonal_square' )
+    testOperator( '-a22 -c 16 nonagonal_square' )
 
     # nonagonal_triangular
-    testOperator( '-a21 17 nonagonal_triangular' )
+    testOperator( '-a21 -c 17 nonagonal_triangular' )
 
     # octagonal
     testOperator( '102 octagonal' )
 
     # octagonal_heptagonal
-    testOperator( '-a40 8 octagonal_heptagonal' )
+    testOperator( '-a40 -c 8 octagonal_heptagonal' )
 
     # octagonal_hexagonal
-    testOperator( '-a30 7 octagonal_hexagonal' )
+    testOperator( '-a30 -c 7 octagonal_hexagonal' )
 
     # octagonal_pentagonal
-    testOperator( '-a15 6 octagonal_pentagonal' )
+    testOperator( '-a15 -c 6 octagonal_pentagonal' )
 
     # octagonal_square
-    testOperator( '-a25 11 octagonal_square' )
+    testOperator( '-a25 -c 11 octagonal_square' )
 
     # octagonal_triangular
-    testOperator( '-a20 10 octagonal_triangular' )
+    testOperator( '-a20 -c 10 octagonal_triangular' )
 
     # pentagonal
     testOperator( '16 pentagonal' )
 
     # pentagonal_square
-    testOperator( '-a70 10 pentagonal_square' )
+    testOperator( '-a70 -c 10 pentagonal_square' )
 
     # pentagonal_triangular
-    testOperator( '-a40 17 pentagonal_triangular' )
+    testOperator( '-a40 -c 17 pentagonal_triangular' )
 
     # polygonal
     testOperator( '9 12 polygonal' )
 
     # square_triangular
-    testOperator( '-a60 34 square_triangular' )
+    testOperator( '-a60 -c 34 square_triangular' )
 
     # octagonal
     expectEqual( '1 43 range star', '3154 oeis 43 left' )
@@ -2269,7 +2272,7 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '100 expphi' )
 
     # hyper4_2
-    testOperator( '-a160 4 3 hyper4_2' )
+    testOperator( '-a160 -c 4 3 hyper4_2' )
 
     # power
     testOperator( '4 5 power' )
@@ -2295,7 +2298,7 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '-c -a30 [ 2 3 2 ] tower' )
 
     # tower2
-    testOperator( '[ 4 4 4 ] tower2' )
+    testOperator( '-a160 -c [ 4 4 4 ] tower2' )
 
 
 # //******************************************************************************
@@ -2767,6 +2770,7 @@ def runTrigonometryOperatorTests( ):
 def runAdvancedTests( ):
     testOperator( '2016 dst_end 2016 dst_start - 2016-12-31 2016-01-01 - /' )
     testOperator( '"Leesburg, VA" today 0 20 range days + echo daytime collate -s1' )
+    testOperator( '1 1 thousand range x is_polydivisible filter' )
 
 
 # //******************************************************************************
