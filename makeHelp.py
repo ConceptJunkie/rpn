@@ -1816,6 +1816,13 @@ c:\>rpn 3 5 ** 5 3 ** is_not_less
 '''
 ''' ],
 
+    'larger' : [
+'arithmetic', 'returns the larger of n and k',
+'''
+''',
+'''
+''' ],
+
     'lcm' : [
 'arithmetic', 'calculates the least common multiple of elements in list n',
 '''
@@ -1951,6 +1958,13 @@ c:\>rpn 0 sign
 
 c:\>rpn 3 4 i + sign
 (0.6 + 0.8j)
+''' ],
+
+    'smaller' : [
+'arithmetic', 'returns the smaller of n and k',
+'''
+''',
+'''
 ''' ],
 
     'stddev' : [
@@ -5539,6 +5553,13 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 
     'multiply_digits' : [
 'lexicography', 'calculates the product of the digits of integer n',
+'''
+''',
+'''
+''' ],
+
+    'permute_digits' : [
+'lexicography', 'genrates all values with lexicographic permutations of the digits of n',
 '''
 ''',
 '''

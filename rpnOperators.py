@@ -1199,6 +1199,7 @@ operators = {
     'is_odd'                        : RPNOperatorInfo( lambda n: 1 if fmod( real( n ), 2 ) == 1 else 0, 1 ),
     'is_square'                     : RPNOperatorInfo( isSquare, 1 ),
     'is_zero'                       : RPNOperatorInfo( lambda n: 1 if n == 0 else 0, 1 ),
+    'larger'                        : RPNOperatorInfo( getLarger, 2 ),
     'modulo'                        : RPNOperatorInfo( lambda n, k: fmod( real( n ), real( k ) ), 2 ),
     'multiply'                      : RPNOperatorInfo( multiply, 2 ),
     'nearest_int'                   : RPNOperatorInfo( nint, 1 ),
@@ -1206,6 +1207,7 @@ operators = {
     'reciprocal'                    : RPNOperatorInfo( takeReciprocal, 1 ),
     'round'                         : RPNOperatorInfo( lambda n: floor( fadd( n, 0.5 ) ), 1 ),
     'sign'                          : RPNOperatorInfo( getSign, 1 ),
+    'smaller'                       : RPNOperatorInfo( getSmaller, 2 ),
     'subtract'                      : RPNOperatorInfo( subtract, 2, ),
 
     # astronomy
@@ -1433,6 +1435,7 @@ operators = {
     'is_palindrome'                 : RPNOperatorInfo( isPalindrome, 1 ),
     'is_pandigital'                 : RPNOperatorInfo( isPandigital, 1 ),
     'multiply_digits'               : RPNOperatorInfo( multiplyDigits, 1 ),
+    'permute_digits'                : RPNOperatorInfo( RPNGenerator.createPermutations, 1 ),
     'reversal_addition'             : RPNOperatorInfo( getNthReversalAddition, 2 ),
     'reverse_digits'                : RPNOperatorInfo( reverseDigits, 1 ),
     'sum_digits'                    : RPNOperatorInfo( sumDigits, 1 ),

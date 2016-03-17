@@ -18,9 +18,9 @@ rpndata = 'rpndata'
 import os
 
 from setuptools import setup, find_packages
+from rpnVersion import PROGRAM_VERSION_NAME
 
 import rpnGlobals as g
-
 
 def read( *paths ):
     """Build a file path from *paths* and return the contents."""
@@ -29,7 +29,7 @@ def read( *paths ):
 
 setup(
     name = 'rpn',
-    version = '6.99.7',
+    version = PROGRAM_VERSION_NAME,
     description = 'command-line RPN calculator with arbitrary precision',
     long_description =
 '''
@@ -110,6 +110,26 @@ heavy lifting (http://mpmath.org).
         'Topic :: Scientific/Engineering :: Mathematics',
         'Environment :: Console',
     ],
+
+    #package_data = { 'rpn' : [ 'rpndata/balanced_primes.txt',
+    #                           'rpndata/cousin_primes.txt',
+    #                           'rpndata/double_balanced_primes.txt',
+    #                           'rpndata/huge_primes.txt',
+    #                           'rpndata/isolated_primes.txt',
+    #                           'rpndata/large_primes.txt',
+    #                           'rpndata/quad_primes.txt',
+    #                           'rpndata/quint_primes.txt',
+    #                           'rpndata/sext_primes.txt',
+    #                           'rpndata/sexy_primes.txt',
+    #                           'rpndata/sexy_quadruplets.txt',
+    #                           'rpndata/sexy_triplets.txt',
+    #                           'rpndata/small_primes.txt',
+    #                           'rpndata/sophie_primes.txt',
+    #                           'rpndata/super_primes.txt',
+    #                           'rpndata/triple_balanced_primes.txt',
+    #                           'rpndata/triplet_primes.txt',
+    #                           'rpndata/twin_primes.txt' ] },
+
     data_files = [ ( rpndata, [ g.dataDir + os.sep + 'balanced_primes.txt',
                                 g.dataDir + os.sep + 'cousin_primes.txt',
                                 g.dataDir + os.sep + 'double_balanced_primes.txt',
@@ -129,5 +149,6 @@ heavy lifting (http://mpmath.org).
                                 g.dataDir + os.sep + 'triplet_primes.txt',
                                 g.dataDir + os.sep + 'twin_primes.txt' ] ) ],
     packages = find_packages( exclude = [ 'setup_*' ] ),
+    package_dir = { 'rpn' : '' }
 )
 

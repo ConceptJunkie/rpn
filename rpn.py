@@ -32,6 +32,11 @@
 # TODO:  create an output handler for RPNLocation
 # TODO:  'result' doesn't work with measurements
 # TODO:  https://en.wikipedia.org/wiki/American_wire_gauge
+# TODO:  Add support for lists in user-defined functions:
+#        rpn 1970 2016 range x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval
+# TODO:  rpn 1 20 range dBm kilowatt convert
+#        conversion doesn't work because dBm to watt uses a special function
+
 
 import six
 

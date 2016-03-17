@@ -210,6 +210,7 @@ def generateMonthCalendar( datetime ):
         raise ValueError( 'a date-time type required for this operator' )
 
     cal = calendar.TextCalendar( firstweekday = 6 )
+    print( )
     cal.prmonth( datetime.year, datetime.month )
 
     return ''

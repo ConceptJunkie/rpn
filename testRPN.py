@@ -2757,43 +2757,58 @@ def runTrigonometryOperatorTests( ):
 
 # //******************************************************************************
 # //
+# //  runAdvancedTests
+# //
+# //  This is just for tests that are more complex than the single operator
+# //  tests.
+# //
+# //******************************************************************************
+
+def runAdvancedTests( ):
+    testOperator( '2016 dst_end 2016 dst_start - 2016-12-31 2016-01-01 - /' )
+    testOperator( '"Leesburg, VA" today 0 20 range days + echo daytime collate -s1' )
+
+
+# //******************************************************************************
+# //
 # //  tests
 # //
 # //******************************************************************************
 
 rpnTestList = [
-    ( 'algebra',          runAlgebraOperatorTests ),
-    ( 'arithmetic',       runArithmeticOperatorTests ),
-    ( 'astronomy',        runAstronomyOperatorTests ),
-    ( 'bitwise',          runBitwiseOperatorTests ),
-    ( 'calendar',         runCalendarOperatorTests ),
-    ( 'combinatorics',    runCombinatoricsOperatorTests ),
-    ( 'complex',          runComplexMathOperatorTests ),
-    ( 'constant',         runConstantOperatorTests ),
-    ( 'conversion',       runConversionOperatorTests ),
-    ( 'date_time',        runDateTimeOperatorTests ),
-    ( 'function',         runFunctionOperatorTests ),
-    ( 'geography',        runGeographyOperatorTests ),
-    ( 'geometry',         runGeometryOperatorTests ),
-    ( 'lexicography',     runLexicographyOperatorTests ),
-    ( 'list',             runListOperatorTests ),
-    ( 'logarithms',       runLogarithmsOperatorTests ),
-    ( 'modifier',         runModifierOperatorTests ),
-    ( 'number_theory',    runNumberTheoryOperatorTests ),
-    ( 'physics',          runPhysicsOperatorTests ),
-    ( 'polygonal',        runPolygonalOperatorTests ),
-    ( 'polyhedral',       runPolyhedralOperatorTests ),
-    ( 'powers_and_roots', runPowersAndRootsOperatorTests ),
-    ( 'prime_number',     runPrimeNumberOperatorTests ),
-    ( 'settings',         runSettingsOperatorTests ),
-    ( 'special',          runSpecialOperatorTests ),
-    ( 'trigonometry',     runTrigonometryOperatorTests ),
+    ( 'algebra',            runAlgebraOperatorTests ),
+    ( 'arithmetic',         runArithmeticOperatorTests ),
+    ( 'astronomy',          runAstronomyOperatorTests ),
+    ( 'bitwise',            runBitwiseOperatorTests ),
+    ( 'calendar',           runCalendarOperatorTests ),
+    ( 'combinatorics',      runCombinatoricsOperatorTests ),
+    ( 'complex',            runComplexMathOperatorTests ),
+    ( 'constant',           runConstantOperatorTests ),
+    ( 'conversion',         runConversionOperatorTests ),
+    ( 'date_time',          runDateTimeOperatorTests ),
+    ( 'function',           runFunctionOperatorTests ),
+    ( 'geography',          runGeographyOperatorTests ),
+    ( 'geometry',           runGeometryOperatorTests ),
+    ( 'lexicography',       runLexicographyOperatorTests ),
+    ( 'list',               runListOperatorTests ),
+    ( 'logarithms',         runLogarithmsOperatorTests ),
+    ( 'modifier',           runModifierOperatorTests ),
+    ( 'number_theory',      runNumberTheoryOperatorTests ),
+    ( 'physics',            runPhysicsOperatorTests ),
+    ( 'polygonal',          runPolygonalOperatorTests ),
+    ( 'polyhedral',         runPolyhedralOperatorTests ),
+    ( 'powers_and_roots',   runPowersAndRootsOperatorTests ),
+    ( 'prime_number',       runPrimeNumberOperatorTests ),
+    ( 'settings',           runSettingsOperatorTests ),
+    ( 'special',            runSpecialOperatorTests ),
+    ( 'trigonometry',       runTrigonometryOperatorTests ),
+    ( 'advanced',           runAdvancedTests ),
 
-    ( 'command-line',     runCommandLineOptionsTests ),
-    ( 'convert',          runConvertTests ),
-    ( 'help',             runHelpTests ),
+    ( 'command-line',       runCommandLineOptionsTests ),
+    ( 'convert',            runConvertTests ),
+    ( 'help',               runHelpTests ),
 
-    ( 'internal',         runInternalOperatorTests )
+    ( 'internal',           runInternalOperatorTests )
 ]
 
 rpnTests = OrderedDict( )

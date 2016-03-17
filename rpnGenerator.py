@@ -14,7 +14,9 @@
 
 import itertools
 
-from mpmath import arange, ceil, fadd, fdiv, fmul, fsub, power
+from rpnUtils import getMPFIntegerAsString
+
+from mpmath import arange, ceil, fadd, fdiv, fmul, fsub, mpmathify, power
 
 
 # //******************************************************************************
@@ -78,6 +80,10 @@ class RPNGenerator( object ):
     @staticmethod
     def createChained( generator, func ):
         return RPNGenerator( chainedGenerator( generator, func ) )
+
+    @staticmethod
+    def createPermutations( value ):
+        return RPNGenerator( permutationGenerator( value ) )
 
 
 # //******************************************************************************
@@ -157,4 +163,14 @@ def chainedGenerator( generator, func ):
     for i in generator:
         yield( func( i ) )
 
+
+# //******************************************************************************
+# //
+# //  permutationGenerator
+# //
+# //******************************************************************************
+
+def permutationGenerator( value ):
+    for permutation in itertools.permutations( getMPFIntegerAsString( value ) ):
+        yield mpmathify( ''.join( permutation ) )
 
