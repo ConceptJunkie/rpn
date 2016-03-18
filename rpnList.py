@@ -697,6 +697,35 @@ def getOccurrences( args ):
 
 # //******************************************************************************
 # //
+# //  getOccurrenceRatios
+# //
+# //******************************************************************************
+
+def getOccurrenceRatios( args ):
+    if isinstance( args, list ):
+        count = len( args )
+
+        if isinstance( args[ 0 ], list ):
+            return [ getOccurrences( arg ) for arg in args ]
+        else:
+            counter = collections.Counter( )
+
+            for i in args:
+                counter[ i ] += 1
+
+            result = [ ]
+
+            for i in counter:
+                result.append( [ i, counter[ i ] / count ] )
+
+            return sorted( result )
+
+    else:
+        return [ [ args, 1 ] ]
+
+
+# //******************************************************************************
+# //
 # //  flatten
 # //
 # //******************************************************************************

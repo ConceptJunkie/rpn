@@ -37,6 +37,7 @@ from rpnComputer import *
 from rpnConstants import *
 from rpnConstantUtils import *
 from rpnDateTime import *
+from rpnDice import *
 from rpnDeclarations import *
 from rpnFactor import *
 from rpnGeometry import *
@@ -1139,6 +1140,7 @@ listOperators = {
     'min_index'             : RPNOperatorInfo( getIndexOfMin, 1, RPNOperatorType.List ),
     'nonzero'               : RPNOperatorInfo( getNonzeroes, 1, RPNOperatorType.List ),
     'occurrences'           : RPNOperatorInfo( getOccurrences, 1, RPNOperatorType.List ),
+    'occurrence_ratios'     : RPNOperatorInfo( getOccurrenceRatios, 1, RPNOperatorType.List ),
     'ratios'                : RPNOperatorInfo( lambda n: RPNGenerator( getListRatios( n ) ), 1, RPNOperatorType.Generator ),
     'ratios2'               : RPNOperatorInfo( lambda n: RPNGenerator( getCumulativeListRatios( n ) ), 1, RPNOperatorType.Generator ),
     'reduce'                : RPNOperatorInfo( reduceList, 1, RPNOperatorType.List ),
@@ -1710,6 +1712,7 @@ operators = {
     'oeis_name'                     : RPNOperatorInfo( lambda n: downloadOEISText( real_int( n ), 'N', True ), 1 ),
     'ordinal_name'                  : RPNOperatorInfo( getOrdinalName, 1 ),
     'result'                        : RPNOperatorInfo( loadResult, 0 ),
+    'permute_dice'                  : RPNOperatorInfo( permuteDice, 1 ),
     'roll_dice'                     : RPNOperatorInfo( rollDice, 1 ),
     'roll_dice_'                    : RPNOperatorInfo( rollMultipleDice, 2 ),
     'set'                           : RPNOperatorInfo( setVariable, 2 ),

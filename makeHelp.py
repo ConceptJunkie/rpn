@@ -5874,6 +5874,15 @@ c:\>rpn 0 20 range fib is_prime nonzero fib
 [ 2, 3, 5, 13, 89, 233, 1597 ]
 ''' ],
 
+    'occurrence_ratios' : [
+'list_operators', 'returns the ratio of occurrences of each value in a list',
+'''
+The result is a list of lists, where each sublist contains a value and a
+ratio (out of 1.0).  The result will be sorted by values.
+''',
+'''
+''' ],
+
     'occurrences' : [
 'list_operators', 'returns the number of occurrences of each value in a list',
 '''
@@ -8621,6 +8630,13 @@ You will see a duplicate approximately 50% of the time.
 
     'result' : [
 'special', 'loads the result from the previous invokation of rpn',
+'''
+''',
+'''
+''' ],
+
+    'permute_dice' : [
+'special', 'evaluates all permutations for a dice expression',
 '''
 ''',
 '''
