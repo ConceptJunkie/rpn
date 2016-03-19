@@ -73,14 +73,19 @@ stuff (gmpy2 is optional, but recommended for improved performance).
 If you have pip installed, you can install the prerequisites with the
 following:
 
-    pip install arrow
-    pip install convertdate
-    pip install ephem
-    pip install geopy
-    pip install gmpy2
-    pip install mpmath
     pip install pyprimes
+    pip install mpmath
+    pip install gmpy2
+    pip install arrow
     pip install pyreadline
+    pip install ephem
+    pip install convertdate
+    pip install geopy
+
+If you are running Python 2, you will also need:
+
+    pip install enum34
+    pip install pylru
 
 Note:  Windows users will want to install ephem using the wheels provided here:
 http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyephem
