@@ -82,14 +82,51 @@ def permuteDice( expression ):
 
     diceList = [ ]
 
-    for diceCount, diceValue, dropLowest, dropHighestCount, modifier in dice:
+    dropAny = False
+    ranges = [ ]
+    dropRanges = [ ]
+    drops = [ ]
+    start = 0
+    modifierTotal = 0
+    groupCount = len( dice )
+
+    for diceCount, diceValue, dropLowest, dropHighest, modifier in dice:
+        ranges.append( ( start, start + diceCount ) )
+        start += diceCount
+
+        if dropLowest > 0 or dropHighest > 0:
+            drops.append( True )
+            dropRanges.append( ( dropLowest, diceCount - dropHighest ) )
+            dropAny = True
+        else:
+            drops.append( False )
+            dropRanges.append( ( 0, 0 ) )
+
+        modifierTotal += modifier
+
         for i in range( diceCount ):
             diceList.append( range( 1, diceValue + 1 ) )
 
     permutations = itertools.product( *diceList )
 
     for values in permutations:
-        result.append( sum( values ) )
+        if dropAny:
+            total = 0
+
+            for i in range( 0, groupCount ):
+                group = values[ ranges[ i ][ 0 ] : ranges[ i ][ 1 ] ]
+
+                if drops[ i ]:
+                    group = list( group )
+                    group.sort( )
+                    total += sum( group[ dropRanges[ i ][ 0 ] : dropRanges[ i ][ 1 ] ] ) 
+                else:
+                    total += sum( group )
+
+                total += modifierTotal
+                result.append( total )
+        else:
+            result.append( sum( values ) + modifierTotal )
 
     return result
 
