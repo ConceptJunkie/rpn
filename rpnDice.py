@@ -123,8 +123,8 @@ def permuteDice( expression ):
                 else:
                     total += sum( group )
 
-                total += modifierTotal
-                result.append( total )
+            total += modifierTotal
+            result.append( total )
         else:
             result.append( sum( values ) + modifierTotal )
 
