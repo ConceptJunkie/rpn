@@ -530,7 +530,7 @@ operatorAliases = {
     'next_new'                  : 'next_new_moon',
     'next_prime_index'          : 'nth_prime',
     'ninf'                      : 'negative_infinity',
-    'ninghttime'                : 'night_time',
+    'nighttime'                 : 'night_time',
     'nint'                      : 'nearest_int',
     'nlimit'                    : 'limit',
     'non'                       : 'nonagonal',

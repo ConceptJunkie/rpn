@@ -4974,7 +4974,7 @@ and seconds.
 # //******************************************************************************
 
     'eval' : [
-'special', 'evaluates the function n for the given argument[s] k',
+'function', 'evaluates the function n for the given argument[s] k',
 '''
 'eval' is the simplest operator for user-defined functions.  It just plugs
 in the value n into the function k and returns the result.
@@ -4991,7 +4991,7 @@ c:\>rpn 1 10 range x 2 ** 1 - eval
 ''' ],
 
     'eval2' : [
-'special', 'evaluates the function c for the given arguments a and b',
+'function', 'evaluates the function c for the given arguments a and b',
 '''
 'eval2' is the simplest operator for user-defined functions with 2 variables.
 It just plugs in the values a and b into the function c and returns the
@@ -5001,7 +5001,7 @@ result.
 ''' ],
 
     'eval3' : [
-'special', 'evaluates the function d for the given arguments a, b, and c',
+'function', 'evaluates the function d for the given arguments a, b, and c',
 '''
 'eval3' is the simplest operator for user-defined functions with 3 variables.
 It just plugs in the values a, b, and c into the function d and returns the
@@ -5469,6 +5469,13 @@ The operator returns the RPN version number in list format.
 '''
 ''' ],
 
+    'build_numbers' : [
+'lexicography', '',
+'''
+''',
+'''
+''' ],
+
     'combine_digits' : [
 'lexicography', 'combines the digits of all elements of list n into a single number',
 '''
@@ -5872,6 +5879,16 @@ List the prime Fibonacci numbers:
 
 c:\>rpn 0 20 range fib is_prime nonzero fib
 [ 2, 3, 5, 13, 89, 233, 1597 ]
+''' ],
+
+    'occurrence_cumulative' : [
+'list_operators', 'returns the cumulative ratio of occurrences of each value in a list',
+'''
+The result is a list of lists, where each sublist contains a value and a
+ratio (out of 1.0), where each value is the cumulative ratio of that item and the
+ones preceding it.  The result will be sorted by values.
+''',
+'''
 ''' ],
 
     'occurrence_ratios' : [

@@ -263,6 +263,9 @@ def runArithmeticOperatorTests( ):
     expectResult( '-0.00001 ceiling', 0 )
     # rjg: ceiling should handle units
 
+    # decrement
+    expectResult( '2 decrement', 1 )
+
     # divide
     testOperator( '12 13 divide' )
     testOperator( '10 days 7 / dhms' )
@@ -281,6 +284,12 @@ def runArithmeticOperatorTests( ):
     expectResult( '1 100 range gcd', 1 )
     expectResult( '[ 124 324 ] gcd', 4 )
     expectResult( '[ 8 64 ] gcd', 8 )
+
+    # geometric_mean
+    testOperator( '1 10 range geometric_mean' )
+
+    # increment
+    expectResult( '2 increment', 3 )
 
     # is_divisible
     expectResult( '1000 10000 is_divisible', 0 )
@@ -347,6 +356,9 @@ def runArithmeticOperatorTests( ):
     expectResult( '0 is_zero', 1 )
     expectResult( '1 is_zero', 0 )
 
+    # larger
+    expectResult( '7 -7 larger' , 7 )
+
     # lcm
     expectEqual( '1 10 range lcm', '[ 2 2 2 3 3 5 7 ] prod' )
 
@@ -378,14 +390,15 @@ def runArithmeticOperatorTests( ):
     testOperator( '15 mph 10 hours *' )
     testOperator( 'c m/s convert 1 nanosecond * inches convert' )
 
+    # nearest_int
+    expectResult( '0.1 nearest_int', 0 )
+    expectResult( '4.5 nearest_int', 4 )
+    expectResult( 'pi nearest_int', 3 )
+
     # negative
     expectResult( '-4 negative', 4 )
     expectResult( '0 negative', 0 )
     expectResult( '4 negative', -4 )
-
-    # nearest_int
-    expectResult( '0.1 nearest_int', 0 )
-    expectResult( '4.5 nearest_int', 4 )
 
     # product
     expectEqual( '-a200 1 100 range product', '-a200 100 !' )
@@ -408,6 +421,9 @@ def runArithmeticOperatorTests( ):
     expectResult( 'infinity sign', 1 )
     expectResult( 'negative_infinity sign', -1 )
     expectResult( '-2 cups sign', -1 )
+
+    # smaller
+    expectResult( '7 -7 smaller' , -7 )
 
     # stddev
     testOperator( '1 10 range stddev' )
@@ -470,9 +486,6 @@ def runAstronomyOperatorTests( ):
     testOperator( 'jupiter "Ottawa, Canada" location today next_setting' )
     testOperator( 'jupiter "Ottawa, Canada" today next_setting' )
 
-    # location_info
-    testOperator( '"Scottsdale, AZ" location_info' )
-
     # mars
     testOperator( 'mars "Beijing, China" location today next_transit' )
     testOperator( 'mars "Beijing, China" today next_transit' )
@@ -485,14 +498,6 @@ def runAstronomyOperatorTests( ):
     testOperator( 'saturn "Burlington, VT" location today next_antitransit' )
     testOperator( 'saturn "Burlington, VT" today next_antitransit' )
 
-    # moonrise
-    testOperator( '"Las Cruces, NM" location today moonrise' )
-    testOperator( '"Las Cruces, NM" today moonrise' )
-
-    # moonset
-    testOperator( '"Tacoma, WA" location today moonset' )
-    testOperator( '"Tacoma, WA" today moonset' )
-
     # moon_antitransit
     testOperator( '"Madrid, Spain" location today moon_antitransit' )
     testOperator( '"Madrid, Spain" today moon_antitransit' )
@@ -503,6 +508,14 @@ def runAstronomyOperatorTests( ):
     # moon_transit
     testOperator( '"Riga, Latvia" location today moon_transit' )
     testOperator( '"Riga, Latvia" today moon_transit' )
+
+    # moonrise
+    testOperator( '"Las Cruces, NM" location today moonrise' )
+    testOperator( '"Las Cruces, NM" today moonrise' )
+
+    # moonset
+    testOperator( '"Tacoma, WA" location today moonset' )
+    testOperator( '"Tacoma, WA" today moonset' )
 
     # nautical_dawn
     testOperator( '"Columbia, SC" location today nautical_dawn' )
@@ -599,6 +612,10 @@ def runAstronomyOperatorTests( ):
     testOperator( 'sun "Leesburg, VA" location today next_rising' )
     testOperator( 'sun "Leesburg, VA" today next_rising' )
 
+    # sun_antitransit
+    testOperator( '"Leesburg, VA" location today sun_antitransit' )
+    testOperator( '"Leesburg, VA" today sun_antitransit' )
+
     # sunrise
     testOperator( '"Salzburg, Germany" location today sunrise' )
     testOperator( '"Salzburg, Germany" today sunrise' )
@@ -607,17 +624,10 @@ def runAstronomyOperatorTests( ):
     testOperator( '"New Delhi, India" location today sunset' )
     testOperator( '"New Delhi, India" today sunset' )
 
-    # sun_antitransit
-    testOperator( '"Nice, France" location today sun_antitransit' )
-    testOperator( '"Nice, France" today sun_antitransit' )
-
-    # antitransit_time
+    # transit_time
     testOperator( 'sun "Munich, Germany" location today transit_time' )
     testOperator( 'moon "Dusseldorf, Germany" today transit_time' )
     testOperator( 'mars "Dortmund, Germany" 2015 summer 1 20 range days + transit_time' )
-
-    # vernal_equinox
-    testOperator( '2015 vernal_equinox' )
 
     # uranus
     testOperator( 'uranus "Frankfurt, Germany" location today next_rising' )
@@ -626,6 +636,9 @@ def runAstronomyOperatorTests( ):
     # venus
     testOperator( 'venus "Butte, Montana" location today next_rising' )
     testOperator( 'venus "Butte, Montana" today next_rising' )
+
+    # vernal_equinox
+    testOperator( '2015 vernal_equinox' )
 
     # winter_solstice
     testOperator( '2015 winter_solstice' )
@@ -1179,12 +1192,6 @@ def runConversionOperatorTests( ):
     # from_unix_time
     testOperator( '1234567890 from_unix_time' )
 
-    # long
-    testOperator( '3456789012 long' )
-
-    # longlong
-    testOperator( '1234567890123456789012 longlong' )
-
     # hms
     testOperator( '54658 seconds hms' )
 
@@ -1197,15 +1204,11 @@ def runConversionOperatorTests( ):
     # latlong_to_nac
     testOperator( '"Detroit, MI" location_info latlong_to_nac' )
 
-    # make_pyth_3
-    testOperator( '12 34 make_pyth_3' )
+    # long
+    testOperator( '3456789012 long' )
 
-    # make_pyth_4
-    testOperator( '18 29 make_pyth_4' )
-    expectException( '17 29 make_pyth_4' )
-
-    # make_datetime
-    testOperator( '[ 1965 03 31 ] make_datetime' )
+    # longlong
+    testOperator( '1234567890123456789012 longlong' )
 
     # pack
     testOperator( '-x [ 192 168 0 1 ] [ 8 8 8 8 ] pack' )
@@ -1253,14 +1256,29 @@ def runConversionOperatorTests( ):
 # //******************************************************************************
 
 def runDateTimeOperatorTests( ):
+    # get_day
+
+    # get_hour
+
+    # get_minute
+
+    # get_month
+
+    # get_second
+
+    # get_year
+
     # iso_day
     testOperator( 'today iso_day' )
 
-    # make_julian_time
-    testOperator( '[ 2015 7 5 4 3 ] make_julian_time' )
+    # make_datetime
+    testOperator( '[ 1965 03 31 ] make_datetime' )
 
     # make_iso_time
     testOperator( '[ 2015 34 6 ] make_iso_time' )
+
+    # make_julian_time
+    testOperator( '[ 2015 7 5 4 3 ] make_julian_time' )
 
     # now
     testOperator( 'now' )
@@ -1338,6 +1356,28 @@ def runFunctionOperatorTests( ):
 
 # //******************************************************************************
 # //
+# //  runGeographyOperatorTests
+# //
+# //******************************************************************************
+
+def runGeographyOperatorTests( ):
+    # distance
+    testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
+    testOperator( '"Leesburg, VA" "Smithfield, VA" distance' )
+
+    # latlong
+    #testOperator( '"Leesburg, VA" 43 -80 latlong distance' )
+
+    # location
+    testOperator( '"Uppsala, Sweden" location today moonrise' )
+
+    # location_info
+    testOperator( '"Dakar, Senegal" location_info' )
+    testOperator( '"Scottsdale, AZ" location_info' )
+
+
+# //******************************************************************************
+# //
 # //  runGeometryOperatorTests
 # //
 # //******************************************************************************
@@ -1354,6 +1394,11 @@ def runGeometryOperatorTests( ):
 
     # cone_volume
     testOperator( '3 8 cone_volume' )
+
+    # dodecahedron_area
+    # dodecahedron_volume
+    # icosahedron_area
+    # icosahedron_volume
 
     # n_sphere_area
     testOperator( '34 inches 8 n_sphere_area' )
@@ -1372,6 +1417,9 @@ def runGeometryOperatorTests( ):
     testOperator( '3 feet 5 ** 6 n_sphere_volume' )
     testOperator( '50 cubic_centimeters sqr 7 n_sphere_volume' )
     expectException( '50 cubic_centimeters 1 n_sphere_volume' )
+
+    # octahedron_area
+    # octahedron_volume
 
     # polygon_area
     testOperator( '13 polygon_area' )
@@ -1398,6 +1446,9 @@ def runGeometryOperatorTests( ):
     testOperator( '5 sq_inches sphere_volume' )
     testOperator( '5 cubic_in sphere_volume' )
 
+    # tetrahedron_area
+    # tetrahedron_volume
+
     # torus_area
     testOperator( '12 5 torus_area' )
 
@@ -1406,24 +1457,6 @@ def runGeometryOperatorTests( ):
 
     # triangle_area
     testOperator( '123 456 789 triangle_area' )
-
-
-# //******************************************************************************
-# //
-# //  runGeographyOperatorTests
-# //
-# //******************************************************************************
-
-def runGeographyOperatorTests( ):
-    # distance
-    testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
-    testOperator( '"Leesburg, VA" "Smithfield, VA" distance' )
-
-    # location
-    testOperator( '"Uppsala, Sweden" location today moonrise' )
-
-    # location_info
-    testOperator( '"Dakar, Senegal" location_info' )
 
 
 # //******************************************************************************
@@ -1536,6 +1569,9 @@ def runListOperatorTests( ):
     testOperator( '1 10 range 45 50 range append' )
     testOperator( '1 10 range 11 20 range append 21 30 range append' )
 
+    # collate
+    testOperator( '[ 1 10 range 1 10 range ] collate' )
+
     # count
     expectResult( '1 10 range count', 10 )
 
@@ -1565,6 +1601,7 @@ def runListOperatorTests( ):
     testOperator( '2 8 8 geometric_range' )
 
     # group_elements
+    testOperator( '1 10 range 5 group_elements' )
 
     # interleave
     testOperator( '1 10 range 1 10 range interleave' )
@@ -1583,6 +1620,12 @@ def runListOperatorTests( ):
 
     # nonzero
     testOperator( '1 10 range nonzero' )
+
+    # occurrence_cumulative
+    testOperator( '4 100 random_integer_ occurrence_cumulative' )
+
+    # occurrence_ratios
+    testOperator( '4 100 random_integer_ occurrence_ratios' )
 
     # occurrences
     testOperator( '4 100 random_integer_ occurrences' )
@@ -1886,6 +1929,13 @@ def runNumberTheoryOperatorTests( ):
     # make_cf
     testOperator( 'e 20 make_cf' )
     expectEqual( '-a100 2 pi * 3 2 / power 1/x 1 4 / gamma sqr * 100 make_cf', '53002 oeis 100 left' )
+
+    # make_pyth_3
+    testOperator( '12 34 make_pyth_3' )
+
+    # make_pyth_4
+    testOperator( '18 29 make_pyth_4' )
+    expectException( '17 29 make_pyth_4' )
 
     # mertens
     expectEqual( '1 81 range mertens', '2321 oeis 81 left' )
@@ -2537,6 +2587,9 @@ def runSettingsOperatorTests( ):
 # //******************************************************************************
 
 def runSpecialOperatorTests( ):
+    # echo
+    testOperator( '1 10 range echo sqrt collate -s1' )
+
     # estimate
     testOperator( '150 amps estimate' )
     testOperator( '150 barns estimate' )
@@ -2647,6 +2700,10 @@ def runSpecialOperatorTests( ):
     expectResult( '1000 ordinal_name', 'one thousandth' )
     expectResult( '10000 ordinal_name', 'ten thousandth' )
     expectResult( '100000 ordinal_name', 'one hundred thousandth' )
+
+    # permute_dice
+    testOperator( '3d6 permute_dice' )
+    testOperator( '4d6x1 permute_dice occurrences -s1' )
 
     # random
     testOperator( 'random' )

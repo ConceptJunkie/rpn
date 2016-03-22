@@ -1141,6 +1141,7 @@ listOperators = {
     'nonzero'               : RPNOperatorInfo( getNonzeroes, 1, RPNOperatorType.List ),
     'occurrences'           : RPNOperatorInfo( getOccurrences, 1, RPNOperatorType.List ),
     'occurrence_ratios'     : RPNOperatorInfo( getOccurrenceRatios, 1, RPNOperatorType.List ),
+    'occurrence_cumulative' : RPNOperatorInfo( getCumulativeOccurrenceRatios, 1, RPNOperatorType.List ),
     'ratios'                : RPNOperatorInfo( lambda n: RPNGenerator( getListRatios( n ) ), 1, RPNOperatorType.Generator ),
     'ratios2'               : RPNOperatorInfo( lambda n: RPNGenerator( getCumulativeListRatios( n ) ), 1, RPNOperatorType.Generator ),
     'reduce'                : RPNOperatorInfo( reduceList, 1, RPNOperatorType.List ),
@@ -1305,6 +1306,7 @@ operators = {
     'from_julian'                   : RPNOperatorInfo( convertJulianDate, 3 ),
     'from_mayan'                    : RPNOperatorInfo( convertMayanDate, 5 ),
     'from_persian'                  : RPNOperatorInfo( convertPersianDate, 3 ),
+    'iso_date'                      : RPNOperatorInfo( getISODate, 1 ),
     'labor_day'                     : RPNOperatorInfo( calculateLaborDay, 1 ),
     'memorial_day'                  : RPNOperatorInfo( calculateMemorialDay, 1 ),
     'nth_weekday'                   : RPNOperatorInfo( calculateNthWeekdayOfMonth, 4 ),
@@ -1442,6 +1444,7 @@ operators = {
 
     # lexicographic
     'add_digits'                    : RPNOperatorInfo( addDigits, 2 ),
+    'build_numbers'                 : RPNOperatorInfo( buildNumbers, 1 ),
     'dup_digits'                    : RPNOperatorInfo( duplicateDigits, 2 ),
     'find_palindrome'               : RPNOperatorInfo( findPalindrome, 2 ),
     'get_digits'                    : RPNOperatorInfo( getDigits, 1 ),

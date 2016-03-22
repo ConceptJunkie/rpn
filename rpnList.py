@@ -16,7 +16,8 @@ import collections
 import itertools
 import random
 
-from mpmath import fadd, fdiv, fneg, fprod, fsub, fsum, inf, power, root, sqrt
+from mpmath import arange, fadd, fdiv, fneg, fprod, fsub, fsum, inf, power, \
+                   root, sqrt
 
 from rpnGenerator import RPNGenerator
 from rpnMath import add, subtract, divide
@@ -726,6 +727,37 @@ def getOccurrenceRatios( args ):
 
 # //******************************************************************************
 # //
+# //  getCumulativeOccurrenceRatios
+# //
+# //******************************************************************************
+
+def getCumulativeOccurrenceRatios( args ):
+    if isinstance( args, list ):
+        count = len( args )
+
+        if isinstance( args[ 0 ], list ):
+            return [ getOccurrences( arg ) for arg in args ]
+        else:
+            counter = collections.Counter( )
+
+            for i in args:
+                counter[ i ] += 1
+
+            result = [ ]
+
+            runningTotal = 0
+            for i in counter:
+                runningTotal += counter[ i ]
+                result.append( [ i, runningTotal / count ] )
+
+            return sorted( result )
+
+    else:
+        return [ [ args, 1 ] ]
+
+
+# //******************************************************************************
+# //
 # //  flatten
 # //
 # //******************************************************************************
@@ -740,4 +772,14 @@ def flatten( value ):
         return result
     else:
         return [ value ]
+
+
+# //******************************************************************************
+# //
+# //  buildNumbers
+# //
+# //******************************************************************************
+
+def buildNumbers( expression ):
+    return arange( 0, 10 )
 
