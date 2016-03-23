@@ -16,7 +16,7 @@ import collections
 import itertools
 import random
 
-from mpmath import arange, fadd, fdiv, fneg, fprod, fsub, fsum, inf, power, \
+from mpmath import fadd, fdiv, fneg, fprod, fsub, fsum, inf, power, \
                    root, sqrt
 
 from rpnGenerator import RPNGenerator
@@ -773,13 +773,4 @@ def flatten( value ):
     else:
         return [ value ]
 
-
-# //******************************************************************************
-# //
-# //  buildNumbers
-# //
-# //******************************************************************************
-
-def buildNumbers( expression ):
-    return arange( 0, 10 )
 

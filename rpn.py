@@ -36,6 +36,7 @@
 #        rpn 1970 2016 range x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval
 # TODO:  rpn 1 20 range dBm kilowatt convert
 #        conversion doesn't work because dBm to watt uses a special function
+# TODO:  'floor', 'ceiling', 'mean', 'max' and 'min' should work with measurements
 
 
 import six

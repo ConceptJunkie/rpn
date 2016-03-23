@@ -1453,7 +1453,7 @@ operators = {
     'is_palindrome'                 : RPNOperatorInfo( isPalindrome, 1 ),
     'is_pandigital'                 : RPNOperatorInfo( isPandigital, 1 ),
     'multiply_digits'               : RPNOperatorInfo( multiplyDigits, 1 ),
-    'permute_digits'                : RPNOperatorInfo( RPNGenerator.createPermutations, 1 ),
+    'permute_digits'                : RPNOperatorInfo( lambda n: RPNGenerator.createPermutations( getMPFIntegerAsString( n ) ), 1 ),
     'reversal_addition'             : RPNOperatorInfo( getNthReversalAddition, 2 ),
     'reverse_digits'                : RPNOperatorInfo( reverseDigits, 1 ),
     'sum_digits'                    : RPNOperatorInfo( sumDigits, 1 ),

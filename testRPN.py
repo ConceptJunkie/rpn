@@ -261,7 +261,6 @@ def runArithmeticOperatorTests( ):
     # ceiling
     expectResult( '9.99999 ceiling', 10 )
     expectResult( '-0.00001 ceiling', 0 )
-    # rjg: ceiling should handle units
 
     # decrement
     expectResult( '2 decrement', 1 )
@@ -278,7 +277,6 @@ def runArithmeticOperatorTests( ):
     expectResult( '-0.4 floor', -1 )
     expectResult( '1 floor', 1 )
     expectResult( '3.4 floor', 3 )
-    # rjg: floor should handle units
 
     # gcd
     expectResult( '1 100 range gcd', 1 )
@@ -366,18 +364,15 @@ def runArithmeticOperatorTests( ):
     expectResult( '1 10 range max', 10 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
-    # rjg: max should handle units
 
     # mean
     expectResult( '1 10 range mean', 5.5 )
     expectResult( '1 10000 range mean', 5000.5 )
-    # rjg: mean should handle units
 
     # min
     expectResult( '1 10 range min', 1 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] min', 2 )
-    # rjg: min should handle units
 
     # modulo
     expectResult( '11001 100 modulo', 1 )
@@ -1257,16 +1252,22 @@ def runConversionOperatorTests( ):
 
 def runDateTimeOperatorTests( ):
     # get_day
+    testOperator( 'now get_day' )
 
     # get_hour
+    testOperator( 'now get_hour' )
 
     # get_minute
+    testOperator( 'now get_minute' )
 
     # get_month
+    testOperator( 'now get_month' )
 
     # get_second
+    testOperator( 'now get_second' )
 
     # get_year
+    testOperator( 'now get_year' )
 
     # iso_day
     testOperator( 'today iso_day' )
@@ -1334,6 +1335,7 @@ def runFunctionOperatorTests( ):
     # nsum
     expectEqual( '1 infinity x 3 ** 1/x nsum', '3 zeta' )
 
+    # These operators use the plotting GUI, so aren't included in the automated tests.
     # plot
     # plot2
     # plotc
@@ -1396,9 +1398,16 @@ def runGeometryOperatorTests( ):
     testOperator( '3 8 cone_volume' )
 
     # dodecahedron_area
+    testOperator( '1 dodecahedron_area' )
+
     # dodecahedron_volume
+    testOperator( '1 dodecahedron_volume' )
+
     # icosahedron_area
+    testOperator( '1 icosahedron_area' )
+
     # icosahedron_volume
+    testOperator( '1 icosahedron_volume' )
 
     # n_sphere_area
     testOperator( '34 inches 8 n_sphere_area' )
@@ -1419,7 +1428,10 @@ def runGeometryOperatorTests( ):
     expectException( '50 cubic_centimeters 1 n_sphere_volume' )
 
     # octahedron_area
+    testOperator( '1 octahedron_area' )
+
     # octahedron_volume
+    testOperator( '1 octahedron_volume' )
 
     # polygon_area
     testOperator( '13 polygon_area' )
@@ -1447,7 +1459,10 @@ def runGeometryOperatorTests( ):
     testOperator( '5 cubic_in sphere_volume' )
 
     # tetrahedron_area
+    testOperator( '1 tetrahedron_area' )
+
     # tetrahedron_volume
+    testOperator( '1 tetrahedron_volume' )
 
     # torus_area
     testOperator( '12 5 torus_area' )
@@ -1782,6 +1797,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a30 1 19 range 20 base' )
 
     # calkin_wilf
+    testOperator( '1 100 range calkin_wilf' )
 
     # carol
     testOperator( '-a500 773 carol' )
@@ -1979,6 +1995,9 @@ def runNumberTheoryOperatorTests( ):
     # polygamma
     testOperator( '4 5 polygamma' )
 
+    # primorial
+    testOperator( '1 10 range primorial' )
+
     # repunit
     testOperator( '-a20 23 5 repunit' )
 
@@ -1989,6 +2008,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 20 range sigma' )
 
     # stern
+    testOperator( '1 100 range stern' )
 
     # subfactorial
     testOperator( '-a20 -c 19 subfactorial' )
@@ -2122,6 +2142,27 @@ def runPolygonalOperatorTests( ):
     testOperator( '-a70 -c 23 hexagonal_square' )
     expectEqual( '-a70 1 12 range hexagonal_square', '-a40 46177 oeis 12 left' )
 
+    # nonagonal
+    testOperator( '554 nonagonal' )
+
+    # nonagonal_heptagonal
+    testOperator( '-a50 -c 12 nonagonal_heptagonal' )
+
+    # nonagonal_hexagonal
+    testOperator( '-a60 -c 13 nonagonal_hexagonal' )
+
+    # nonagonal_octagonal
+    testOperator( '-a75 -c 14 nonagonal_octagonal' )
+
+    # nonagonal_pentagonal
+    testOperator( '-a60 -c 15 nonagonal_pentagonal' )
+
+    # nonagonal_square
+    testOperator( '-a22 -c 16 nonagonal_square' )
+
+    # nonagonal_triangular
+    testOperator( '-a21 -c 17 nonagonal_triangular' )
+
     # nth_centered_decagonal
     testOperator( '1000 nth_centered_decagonal' )
 
@@ -2176,27 +2217,6 @@ def runPolygonalOperatorTests( ):
     # nth_triangular
     testOperator( '20706 nth_triangular' )
 
-    # nonagonal
-    testOperator( '554 nonagonal' )
-
-    # nonagonal_heptagonal
-    testOperator( '-a50 -c 12 nonagonal_heptagonal' )
-
-    # nonagonal_hexagonal
-    testOperator( '-a60 -c 13 nonagonal_hexagonal' )
-
-    # nonagonal_octagonal
-    testOperator( '-a75 -c 14 nonagonal_octagonal' )
-
-    # nonagonal_pentagonal
-    testOperator( '-a60 -c 15 nonagonal_pentagonal' )
-
-    # nonagonal_square
-    testOperator( '-a22 -c 16 nonagonal_square' )
-
-    # nonagonal_triangular
-    testOperator( '-a21 -c 17 nonagonal_triangular' )
-
     # octagonal
     testOperator( '102 octagonal' )
 
@@ -2230,7 +2250,7 @@ def runPolygonalOperatorTests( ):
     # square_triangular
     testOperator( '-a60 -c 34 square_triangular' )
 
-    # octagonal
+    # star
     expectEqual( '1 43 range star', '3154 oeis 43 left' )
 
     # triangular
@@ -2345,11 +2365,11 @@ def runPowersAndRootsOperatorTests( ):
     # root
     expectEqual( '8 3 root', '8 cube_root' )
 
-    # root2
-    expectEqual( '2 square_root', '4 4 root' )
-
     # square
     expectEqual( '123 square', '123 123 *' )
+
+    # square_root
+    expectEqual( '2 square_root', '4 4 root' )
 
     # tetrate
     testOperator( '3 2 tetrate' )
@@ -2432,6 +2452,11 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '453456 nth_quadruplet_prime' )
     testOperator( '74,000,000,000 nth_quadruplet_prime' )
 
+    # nth_quintuplet_prime
+    testOperator( '1 100000 10000 range2 nth_quintuplet_prime' )
+    testOperator( '23887 nth_quintuplet_prime' )
+    testOperator( '13,000,000,000 nth_quintuplet_prime' )
+
     # polyprime
     testOperator( '1 5 range 1 5 range polyprime' )
     testOperator( '4 3 polyprime' )
@@ -2444,7 +2469,7 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '367981443 prime' )
     testOperator( '9113486725 prime' )
 
-    # primepi
+    # prime_pi
     testOperator( '87 prime_pi' )
 
     # primes
@@ -2458,9 +2483,6 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '176176176 25 primes' )
     testOperator( '11,000,000,000 25 primes' )
     expectEqual( '1 71 primes sqrt floor', '6 oeis 71 left' )
-
-    # primorial
-    testOperator( '1 10 range primorial' )
 
     # quadruplet_prime
     testOperator( '17 quadruplet_prime' )
@@ -2507,6 +2529,16 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '21985 sexy_prime_' )
     testOperator( '-c 100,000,000 sexy_prime_' )
 
+    # sexy_quadruplet
+    testOperator( '1 10 range sexy_quadruplet' )
+    testOperator( '29 sexy_quadruplet' )
+    testOperator( '-c 289747 sexy_quadruplet' )
+
+    # sexy_quadruplet_
+    testOperator( '1 10 range sexy_quadruplet_' )
+    testOperator( '29 sexy_quadruplet_' )
+    testOperator( '2459 sexy_quadruplet_' )
+
     # sexy_triplet
     testOperator( '1 10 range sexy_triplet' )
     testOperator( '29 sexy_triplet' )
@@ -2518,16 +2550,6 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '52 sexy_triplet_' )
     testOperator( '5298 sexy_triplet_' )
     testOperator( '-c 10984635 sexy_triplet_' )
-
-    # sexy_quadruplet
-    testOperator( '1 10 range sexy_quadruplet' )
-    testOperator( '29 sexy_quadruplet' )
-    testOperator( '-c 289747 sexy_quadruplet' )
-
-    # sexy_quadruplet_
-    testOperator( '1 10 range sexy_quadruplet_' )
-    testOperator( '29 sexy_quadruplet_' )
-    testOperator( '2459 sexy_quadruplet_' )
 
     # sophie_prime
     testOperator( '1 10 range sophie_prime' )
@@ -2597,6 +2619,8 @@ def runSettingsOperatorTests( ):
 # //******************************************************************************
 
 def runSpecialOperatorTests( ):
+    # constant
+
     # echo
     testOperator( '1 10 range echo sqrt collate -s1' )
 
@@ -2714,6 +2738,7 @@ def runSpecialOperatorTests( ):
     # permute_dice
     testOperator( '3d6 permute_dice' )
     testOperator( '4d6x1 permute_dice occurrences -s1' )
+    testOperator( '2d4+1 permute_dice occurrences -s1' )
 
     # random
     testOperator( 'random' )
@@ -2730,6 +2755,15 @@ def runSpecialOperatorTests( ):
 
     # result
     # testOperator( 'result' )
+
+    # roll_dice
+    testOperator( '20d6 roll_dice' )
+    testOperator( '3d8+5 roll_dice' )
+    testOperator( '10d12x2-4 roll_dice' )
+
+    # roll_dice_
+    testOperator( '3d6 6 roll_dice_' )
+    testOperator( '4d6x1 6 roll_dice_' )
 
     # set - interactive mode
 

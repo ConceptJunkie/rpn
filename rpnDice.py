@@ -2,9 +2,9 @@
 
 # //******************************************************************************
 # //
-# //  rpnUtils.py
+# //  rpnDice.py
 # //
-# //  RPN command-line calculator utility functions
+# //  RPN command-line calculator dice rolling functions
 # //  copyright (c) 2015 (1988), Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -12,25 +12,12 @@
 # //
 # //******************************************************************************
 
-from __future__ import print_function
-
-import six
-
-if six.PY3:
-    import builtins
-else:
-    FileNotFoundError = IOError
-
-
-def debugPrint( *args, **kwargs ):
-    if g.debugMode:
-        builtins.print( *args, **kwargs )
-    else:
-        return
-
 import itertools
 
+from mpmath import arange
 from random import randrange
+
+from rpnUtils import debugPrint
 
 import rpnGlobals as g
 
@@ -119,7 +106,7 @@ def permuteDice( expression ):
                 if drops[ i ]:
                     group = list( group )
                     group.sort( )
-                    total += sum( group[ dropRanges[ i ][ 0 ] : dropRanges[ i ][ 1 ] ] ) 
+                    total += sum( group[ dropRanges[ i ][ 0 ] : dropRanges[ i ][ 1 ] ] )
                 else:
                     total += sum( group )
 
@@ -129,20 +116,6 @@ def permuteDice( expression ):
             result.append( sum( values ) + modifierTotal )
 
     return result
-
-
-# //******************************************************************************
-# //
-# //  getDicePermutations
-# //
-# //******************************************************************************
-
-#def getDicePermutations( diceCount, diceValue, dropLowestCount, dropHighestCount, modifier ):
-#    if dropLowestCount == 0 and dropHighestCount == 0:
-#        return itertools.product( range( 1, diceValue + 1 ), repeat=diceCount )
-#    else:
-#        for values in itertools.product( range( 1, diceValue + 1 ), repeat=diceCount ):
-
 
 
 # //******************************************************************************
@@ -233,7 +206,6 @@ def parseDiceExpression( arg ):
                 else:
                     dropHighestCount = int( piece )
             elif state == plusModifierState:
-                print( 'plus', piece )
                 if piece == '':
                     modifier = 1
                 else:

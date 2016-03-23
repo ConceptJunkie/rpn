@@ -89,6 +89,10 @@ class RPNGenerator( object ):
     def createPermutations( value ):
         return RPNGenerator( permutationGenerator( value ) )
 
+    @staticmethod
+    def createProduct( value ):
+        return RPNGenerator( productGenerator( value ) )
+
 
 # //******************************************************************************
 # //
@@ -187,6 +191,22 @@ def filterGenerator( generator, func ):
 # //******************************************************************************
 
 def permutationGenerator( value ):
-    for permutation in itertools.permutations( getMPFIntegerAsString( value ) ):
+    print( 'value', value )
+    for permutation in itertools.permutations( value ):
+        print( 'permutation', permutation )
         yield mpmathify( ''.join( permutation ) )
+
+
+# //******************************************************************************
+# //
+# //  productGenerator
+# //
+# //******************************************************************************
+
+def productGenerator( value ):
+    print( 'value', value )
+    for permutation in itertools.product( *value ):
+        print( 'permutation', permutation )
+        yield mpmathify( ''.join( permutation ) )
+
 

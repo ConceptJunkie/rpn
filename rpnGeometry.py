@@ -277,7 +277,7 @@ def getOctahedronSurfaceArea( n ):
 # //******************************************************************************
 
 def getOctahedronVolume( n ):
-    return fdiv( fmul( [ sqrt( 2 ), power( real( n ), 3 ) ] ), 3 )
+    return fdiv( fmul( sqrt( 2 ), power( real( n ), 3 ) ), 3 )
 
 
 # //******************************************************************************
