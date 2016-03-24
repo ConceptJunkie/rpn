@@ -1504,6 +1504,9 @@ def runLexicographyOperatorTests( ):
     expectResult( '34 567 add_digits', 34567 )
 
     # build_numbers
+    testOperator( '123d build_numbers' )
+    testOperator( '[0-3]d0[3-5] build_numbers' )
+    testOperator( '[246]d[7-9][12] build_numbers' )
 
     # combine_digits
     expectResult( '1 9 range combine_digits', 123456789 )

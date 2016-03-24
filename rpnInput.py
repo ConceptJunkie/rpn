@@ -79,8 +79,8 @@ def parseInputValue( term, inputRadix ):
 
     # 'e' implies scientific notation, which isn't a date regardless
     if ( 'e' not in innerChars ):
-        # 'd' means a dice expression, so don't treat it as a date
-        if ( ( '-' in innerChars ) or ( ':' in innerChars ) ) and ( 'd' not in term ):
+        # 'd' means a dice expression, '[' means a build_number expression, so don't treat it as a date
+        if ( ( '-' in innerChars ) or ( ':' in innerChars ) ) and ( 'd' not in term ) and ( '[' not in term ):
             # try:
                 datetime = arrow.get( term )
                 datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,

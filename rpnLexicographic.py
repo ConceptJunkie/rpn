@@ -273,10 +273,77 @@ def buildNumbers( expression ):
 # //
 # //  parseNumbersExpression
 # //
+# //  D[D]...
+# //
+# //  One or more digit expressions where each digit expression can be:
+# //      - A single digit, "0" through "9"
+# //      - "d" - digit (equivalent to "[0-9]"
+# //      - "[I[I]...]" - any of the individual digit expressions
+# //
+# //  A digit expression (I) can be a single digit or a range.  A single digit is
+# //  anything from "0" through "9".  A digit range looks like: "a-b" where a
+# //  is a digit that is smaller than b.
+# //
 # //******************************************************************************
 
-def parseNumbersExpression( expression ):
-    return [ [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ],
-             [ '2', '3', '4', '5', '9' ],
-             [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ] ]
+def parseNumbersExpression( arg ):
+    if not isinstance( arg, str ):
+        arg = str( real_int( arg ) )
+
+    result = [ ]
+
+    digitRange = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
+
+    defaultState = 0
+    startDigitState = 1
+    digitState = 2
+    startRangeState = 3
+
+    state = defaultState
+
+    currentGroup = set( )
+
+    for ch in arg:
+        #print( 'state', state, 'ch', ch, 'result', result, 'currentGroup', currentGroup )
+        if state == defaultState:
+            if ch == 'd':
+                result.append( digitRange )
+            elif ch == '[':
+                state = digitState
+                currentGroup = set( )
+            elif '0' <= ch <= '9':
+                result.append( [ ch ] )
+            else:
+                raise ValueError( 'unexpected character \'{}\''.format( ch ) )
+        elif state == startDigitState:
+            if '0' <= ch <= '9':
+                currentGroup.add( ch )
+                state = digitState
+                lastDigit = ch
+            elif ch == ']':
+                result.append( sorted( list( currentGroup ) ) )
+                state = defaultState
+            else:
+                raise ValueError( 'unexpected character \'{}\''.format( ch ) )
+        elif state == digitState:
+            if '0' <= ch <= '9':
+                currentGroup.add( ch )
+                lastDigit = ch
+            elif ch == '-':
+                state = startRangeState
+            elif ch == ']':
+                result.append( sorted( list( currentGroup ) ) )
+                state = defaultState
+        elif state == startRangeState:
+            if '0' <= ch <= '9':
+                if ch <= lastDigit:
+                    raise ValueError( 'invalid digit range' )
+                else:
+                    for i in range( int( lastDigit ), int( ch ) + 1 ):
+                        currentGroup.add( str( i ) )
+
+                state = startDigitState
+
+    return result
+
 

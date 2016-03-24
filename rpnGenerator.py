@@ -191,9 +191,7 @@ def filterGenerator( generator, func ):
 # //******************************************************************************
 
 def permutationGenerator( value ):
-    print( 'value', value )
     for permutation in itertools.permutations( value ):
-        print( 'permutation', permutation )
         yield mpmathify( ''.join( permutation ) )
 
 
@@ -204,9 +202,7 @@ def permutationGenerator( value ):
 # //******************************************************************************
 
 def productGenerator( value ):
-    print( 'value', value )
     for permutation in itertools.product( *value ):
-        print( 'permutation', permutation )
         yield mpmathify( ''.join( permutation ) )
 
 
