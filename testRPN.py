@@ -2875,6 +2875,7 @@ def runAdvancedTests( ):
     testOperator( '2016 dst_end 2016 dst_start - 2016-12-31 2016-01-01 - /' )
     testOperator( '"Leesburg, VA" today 0 20 range days + echo daytime collate -s1' )
     testOperator( '1 1 thousand range x is_polydivisible filter' )
+    expectEqual( '38[147][246]5[246][124679][246][124679]0 build_numbers x is_polydivisible filter x is_pandigital filter', '[ 3816547290 ]' )
 
 
 # //******************************************************************************

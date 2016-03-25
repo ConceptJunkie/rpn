@@ -1145,6 +1145,13 @@ def isPolydivisible( n ):
 
     strValue = getMPFIntegerAsString( n )
 
+    # a couple of cheats
+    if ( len( strValue ) > 4 ) and ( strValue[ 4 ] not in [ '5', '0' ] ):
+        return 0
+
+    if ( len( strValue ) > 9 ) and ( strValue[ 9 ] != '0' ):
+        return 0
+
     for i in range( len( strValue ), 1, -1 ):
         current = mpmathify( strValue[ : i ] )
 
@@ -1152,6 +1159,46 @@ def isPolydivisible( n ):
             return 0
 
     return 1
+
+
+# //******************************************************************************
+# //
+# //  findPolydivisible
+# //
+# //******************************************************************************
+
+def findPolydivisible( ):
+    result = list( range( 1, 10 ) )
+    newItems = range( 1, 10 )
+
+    while newItems:
+        newCandidates = [ ]
+
+        for item in newItems:
+            strValue = getMPFIntegerAsString( item )
+
+            place = len( strValue ) + 1
+
+            if place % 10 == 0:
+                newDigits = [ '0' ]
+            elif place % 5 == 0:
+                newDigits = [ '5', '0' ]
+            elif place % 2 == 0:
+                newDigits = [ '2', '4', '6', '8', '0' ]
+            else:
+                newDigits = [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ]
+
+            for digit in newDigits:
+                newCandidate = mpmathify( strValue + digit )
+
+                if isDivisible( newCandidate, place ):
+                    newCandidates.append( newCandidate )
+
+        newItems = newCandidates
+        newCandidates = [ ]
+        result.extend( newItems )
+
+    return sorted( result )
 
 
 # //******************************************************************************

@@ -6591,6 +6591,13 @@ c:\>rpn 1 10 range fibonorial
 [ 1, 1, 1, 2, 6, 30, 240, 3120, 65520, 2227680 ]
 ''' ],
 
+    'find_polydivisible' : [
+'number_theory', 'generates all the polydivisible numbers',
+'''
+''',
+'''
+''' ],
+
     'fraction' : [
 'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
 '''

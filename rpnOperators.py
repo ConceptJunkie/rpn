@@ -1489,6 +1489,7 @@ operators = {
     'factorial'                     : RPNOperatorInfo( fac, 1 ),
     'fibonacci'                     : RPNOperatorInfo( getNthFibonacci, 1 ),
     'fibonorial'                    : RPNOperatorInfo( getNthFibonorial, 1 ),
+    'find_polydivisible'            : RPNOperatorInfo( findPolydivisible, 0 ),
     'fraction'                      : RPNOperatorInfo( interpretAsFraction, 2 ),
     'gamma'                         : RPNOperatorInfo( gamma, 1 ),
     'harmonic'                      : RPNOperatorInfo( harmonic, 1 ),
