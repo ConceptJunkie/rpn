@@ -329,11 +329,6 @@ def rpn( cmd_args ):
             if help:
                 helpArg = cmd_args[ i ]
 
-    # this hack keeps argparse from interpreting negative numbers with scientific notation as flags
-    for i, arg in enumerate( cmd_args ):
-        if ( len( arg ) > 1 ) and ( arg[ 0 ] == '-' ) and arg[ 1 ].isdigit( ):
-            cmd_args[ i ] = ' ' + arg
-
     if help:
         parser = argparse.ArgumentParser( prog = g.PROGRAM_NAME, description = g.PROGRAM_NAME +
                                           PROGRAM_VERSION_STRING + g.PROGRAM_DESCRIPTION + '\n    ' +
@@ -361,7 +356,6 @@ def rpn( cmd_args ):
                                       formatter_class = argparse.RawTextHelpFormatter,
                                       prefix_chars = '-' )
 
-    parser.add_argument( 'terms', nargs = '*', metavar = 'term' )
     parser.add_argument( '-a', '--output_accuracy', nargs = '?', type = int, action = 'store',
                          default = g.defaultOutputAccuracy, const = g.defaultOutputAccuracy )
     parser.add_argument( '-b', '--input_radix', type = str, action = 'store',
@@ -394,13 +388,21 @@ def rpn( cmd_args ):
     parser.add_argument( '-!', '--print_options', action = 'store_true' )
     parser.add_argument( '-?', '--other_help', action = 'store_true' )
 
-    # OK, let's parse and validate the arguments
-    args = parser.parse_args( cmd_args )
+    # pull out the options and the terms
+    options = [ ]
+    terms = [ ]
 
-    # now that argparse is done, let's get rid of the spaces we added above
-    for i, arg in enumerate( args.terms ):
-        if arg[ 0 ] == ' ':
-            args.terms[ i ] = arg[ 1 : ]
+    for i, arg in enumerate( cmd_args ):
+        if ( len( arg ) > 1 ) and ( arg[ 0 ] == '-' ):
+            if arg[ 1 ].isdigit( ):     # a negative number, not an option
+                terms.append( arg )
+            else:
+                options.append( arg )
+        else:
+            terms.append( arg )
+
+    # OK, let's parse and validate the options
+    args = parser.parse_args( options )
 
     g.operatorAliases.update( operatorAliases )
 
@@ -545,7 +547,7 @@ def rpn( cmd_args ):
         print( )
 
     # enter interactive mode if there are no arguments
-    if not args.terms:
+    if not terms:
         if not loadUnitNameData( ):
             return
 
@@ -553,7 +555,7 @@ def rpn( cmd_args ):
         return
 
     # let's check out the arguments before we start to do any calculations
-    if not validateArguments( args.terms ):
+    if not validateArguments( terms ):
         return
 
     # waiting until we've validated the arguments to do this because it's slow
@@ -563,7 +565,7 @@ def rpn( cmd_args ):
     if g.timer:
         g.startTime = time.process_time( )
 
-    return evaluate( args.terms )
+    return evaluate( terms )
 
 
 # //******************************************************************************
