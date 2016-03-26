@@ -6592,7 +6592,7 @@ c:\>rpn 1 10 range fibonorial
 ''' ],
 
     'find_polydivisible' : [
-'number_theory', 'generates all the polydivisible numbers',
+'number_theory', 'generates all the polydivisible numbers for base n',
 '''
 ''',
 '''

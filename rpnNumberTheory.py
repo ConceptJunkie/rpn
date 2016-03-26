@@ -1163,36 +1163,76 @@ def isPolydivisible( n ):
 
 # //******************************************************************************
 # //
+# //  splitNumber
+# //
+# //******************************************************************************
+
+def splitNumber( value, base ):
+    result = [ ]
+
+    while value:
+        digit = fmod( value, base )
+        result.append( digit )
+        value = fdiv( fsub( value, digit ), base )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  joinNumber
+# //
+# //******************************************************************************
+
+def joinNumber( digits, base ):
+    place = 1
+    result = 0
+
+    for digit in digits:
+        result = fadd( result, fmul( digit, place ) )
+        place = fmul( place, base )
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  findPolydivisible
 # //
 # //******************************************************************************
 
-def findPolydivisible( ):
-    result = list( range( 1, 10 ) )
-    newItems = range( 1, 10 )
+def findPolydivisible( _base ):
+    base = int( _base )
+    result = list( range( 1, base ) )
+    newItems = range( 1, base )
 
     while newItems:
         newCandidates = [ ]
 
         for item in newItems:
-            strValue = getMPFIntegerAsString( item )
+            digits = splitNumber( item, base )
 
-            place = len( strValue ) + 1
+            place = len( digits ) + 1
 
-            if place % 10 == 0:
-                newDigits = [ '0' ]
-            elif place % 5 == 0:
-                newDigits = [ '5', '0' ]
-            elif place % 2 == 0:
-                newDigits = [ '2', '4', '6', '8', '0' ]
+            if place % base == 0:
+                newDigits = [ 0 ]
+            elif base > 2 and isDivisible( base, 2 ):
+                if place % ( base / 2 ) == 0:
+                    newDigits = [ base / 2, 0 ]
+                elif place % 2 == 0:
+                    newDigits = list( range( 0, base, 2 ) )
+                else:
+                    newDigits = list( range( 0, base ) )
             else:
-                newDigits = [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' ]
+                newDigits = list( range( 0, base ) )
+
+            newCandidateBase = fmul( item, base )
 
             for digit in newDigits:
-                newCandidate = mpmathify( strValue + digit )
+                testMe = fadd( newCandidateBase, digit )
 
-                if isDivisible( newCandidate, place ):
-                    newCandidates.append( newCandidate )
+                if isDivisible( testMe, place ):
+                    newCandidates.append( testMe )
 
         newItems = newCandidates
         newCandidates = [ ]
