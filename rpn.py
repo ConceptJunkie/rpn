@@ -14,7 +14,6 @@
 
 # http://en.wikipedia.org/wiki/Physical_constant
 
-# http://pythonhosted.org//astral/#
 # http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 
 # The Hubble Constant
@@ -26,7 +25,7 @@
 # TODO:  support rounding to something other than integers
 # TODO:  support measurements with 'name'
 # TODO:  'humanize' - like 'name' but only 2 significant digits when > 1000
-# TODO:  'name' handle fractions smaller than 1 gracefully (right now it prints nothing)
+# TODO:  'name' should handle fractions smaller than 1 gracefully (right now it prints nothing)
 # TODO:  support date comparisons, etc. before the epoch
 # TODO:  separate out argument validation so each operator function doesn't have to do it
 # TODO:  create an output handler for RPNLocation
@@ -37,6 +36,9 @@
 # TODO:  rpn 1 20 range dBm kilowatt convert
 #        conversion doesn't work because dBm to watt uses a special function
 # TODO:  'floor', 'ceiling', 'mean', 'max' and 'min' should work with measurements
+# TODO:  units aren't handled in user-defined functions
+# TODO:  input parsing doesn't happen in a user-defined function, e.g., '1,000' doesn't get translated to 1000
+# TODO:  Recursion crash when testing:  expectException( '2 i 1 is_divisible' )
 
 
 import six
@@ -107,6 +109,12 @@ def lookAhead( iterable ):
 # //******************************************************************************
 
 def evaluate( terms ):
+    """This is the core function in rpn that evaluates the terms to be
+    calculated.  terms are put into a stack, and popped off one at a time
+    when evaluated.  When an operator is popped off and evaluated, the results
+    get pushed back on to the stack for further processing, or ultimately,
+    output.
+    """
     valueList = list( )
     index = 1                 # only used for error messages
 
@@ -158,6 +166,14 @@ def evaluate( terms ):
 # //******************************************************************************
 
 def handleOutput( valueList ):
+    """Once the evaluation of terms is complete, the results need to be
+    translated into output.  It is expected there will be a single result,
+    otherwise an error is thrown because the expression was incomplete.
+
+    If the result is a list or a generator, special formatting turns those
+    into text output.  Date-time values and measurements also require special
+    formatting.
+    """
     if valueList is None:
         return
 
@@ -223,6 +239,11 @@ def handleOutput( valueList ):
 # //******************************************************************************
 
 def enterInteractiveMode( ):
+    """
+    If rpn is launched with no expression, then it goes into interactive
+    mode, where it will continue to evaluate new expressions input until
+    the 'exit' command.
+    """
     try:
         import readline
     except ImportError:
@@ -281,6 +302,10 @@ def enterInteractiveMode( ):
 # //******************************************************************************
 
 def enterHelpMode( terms ):
+    """When using rpn interactively, help is a special mode, which allows
+    the user to navigate the help contents with much fewer keystrokes than
+    having to invoke help over and over.
+    """
     printHelpModeHelp( )
 
     while True:
@@ -312,6 +337,14 @@ def enterHelpMode( terms ):
 # //******************************************************************************
 
 def rpn( cmd_args ):
+    """This is the main function which processes the command-line arguments,
+    handling both options and the expression to evaluate.   This function is
+    mainly concerned with parsing and handling the command-line options.
+
+    It finally calls evaluate( ) with the expression to be calculated, and
+    returns the results, which can be formatted for output or used in another
+    way (such as the unit test functionality).
+    """
     # initialize globals
     g.debugMode = False
     g.outputRadix = 10

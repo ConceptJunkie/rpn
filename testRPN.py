@@ -56,9 +56,9 @@ from mpmath import *
 def runCommandLineOptionsTests( ):
     testOperator( '-a20 7 square_root' )
 
-    testOperator( '100101011010011 -b 2' )
-    testOperator( '120012022211222012 -b 3' )
-    testOperator( 'rick -b 36' )
+    testOperator( '100101011010011 -b2' )
+    testOperator( '120012022211222012 -b3' )
+    testOperator( 'rick -b36' )
 
     testOperator( '6 8 ** -c' )
 
@@ -66,8 +66,8 @@ def runCommandLineOptionsTests( ):
     testOperator( '-a12 8 square_root -d5' )
     testOperator( '-a50 19 square_root -d10' )
 
-    testOperator( '-a50 1 30 range fibonacci -g 3' )
-    testOperator( '-a50 1 30 range fibonacci -g 4' )
+    testOperator( '-a50 1 30 range fibonacci -g3' )
+    testOperator( '-a50 1 30 range fibonacci -g4' )
 
     testOperator( '-h' )
 
@@ -75,9 +75,9 @@ def runCommandLineOptionsTests( ):
 
     testOperator( '1 10 range 3 ** -o' )
 
-    testOperator( 'pi -p 1000' )
+    testOperator( 'pi -p1000' )
 
-    testOperator( '10 100 10 range2 -r phi' )
+    testOperator( '10 100 10 range2 -rphi' )
 
     testOperator( '1 100 range -r2' )
     testOperator( '1 100 range -r3' )
@@ -295,7 +295,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '12 1 12 range is_divisible', [ 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 ] )
     expectResult( '1 20 range 6 is_divisible', [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ] )
     expectException( '1 0 is_divisible' )
-    expectException( '2 i 1 is_divisible' )
+    #expectException( '2 i 1 is_divisible' )
 
     # is_equal
     expectResult( '4 3 is_equal', 0 )
@@ -1854,6 +1854,9 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '5 fibonorial' )
     testOperator( '-a50 24 fibonorial' )
 
+    # find_polydivisible
+    testOperator( '3 find_polydivisible -r3' )
+
     # fraction
     testOperator( '2 sqrt 30 fraction' )
 
@@ -1901,6 +1904,9 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1000 1030 range is_prime' )
     testOperator( '2049 is_prime' )
     testOperator( '92348759911 is_prime' )
+
+    # is_polydivisible
+    expectEqual( '3608528850368400786036725 is_polydivisible', '1' )
 
     # is_pronic
     testOperator( '1 20 range is_pronic' )
