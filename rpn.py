@@ -12,35 +12,6 @@
 # //
 # //******************************************************************************
 
-# http://en.wikipedia.org/wiki/Physical_constant
-
-# http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
-
-# The Hubble Constant
-
-# TODO: Time dilation
-# c:\>rpn 1 0.9999 sqr - sqrt 1/x
-# 70.7124459519
-
-# TODO:  support rounding to something other than integers
-# TODO:  support measurements with 'name'
-# TODO:  'humanize' - like 'name' but only 2 significant digits when > 1000
-# TODO:  'name' should handle fractions smaller than 1 gracefully (right now it prints nothing)
-# TODO:  support date comparisons, etc. before the epoch
-# TODO:  separate out argument validation so each operator function doesn't have to do it
-# TODO:  create an output handler for RPNLocation
-# TODO:  'result' doesn't work with measurements
-# TODO:  https://en.wikipedia.org/wiki/American_wire_gauge
-# TODO:  Add support for lists in user-defined functions:
-#        rpn 1970 2016 range x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval
-# TODO:  rpn 1 20 range dBm kilowatt convert
-#        conversion doesn't work because dBm to watt uses a special function
-# TODO:  'floor', 'ceiling', 'mean', 'max' and 'min' should work with measurements
-# TODO:  units aren't handled in user-defined functions
-# TODO:  input parsing doesn't happen in a user-defined function, e.g., '1,000' doesn't get translated to 1000
-# TODO:  Recursion crash when testing:  expectException( '2 i 1 is_divisible' )
-
-
 import six
 
 from mpmath import mp

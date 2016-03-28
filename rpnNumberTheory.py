@@ -1197,11 +1197,11 @@ def joinNumber( digits, base ):
 
 # //******************************************************************************
 # //
-# //  findPolydivisible
+# //  generatePolydivisibles
 # //
 # //******************************************************************************
 
-def findPolydivisible( _base ):
+def generatePolydivisibles( _base ):
     base = int( _base )
     result = list( range( 1, base ) )
     newItems = range( 1, base )
@@ -1218,7 +1218,7 @@ def findPolydivisible( _base ):
                 newDigits = [ 0 ]
             elif base > 2 and isDivisible( base, 2 ):
                 if place % ( base / 2 ) == 0:
-                    newDigits = [ base / 2, 0 ]
+                    newDigits = [ 0, base / 2 ]
                 elif place % 2 == 0:
                     newDigits = list( range( 0, base, 2 ) )
                 else:
@@ -1238,7 +1238,7 @@ def findPolydivisible( _base ):
         newCandidates = [ ]
         result.extend( newItems )
 
-    return sorted( result )
+    return result
 
 
 # //******************************************************************************

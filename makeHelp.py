@@ -50,20 +50,20 @@ helpTopics = {
     '''
 command-line options:
 
-    -a [n], --output_accuracy [n]
+    -a[n], --output_accuracy [n]
         maximum number of decimal places to display, irrespective of internal
         precision (default: ''' + str( g.defaultOutputAccuracy ) + ')' + '''
 
-    -b n : --input_radix n
+    -bn : --input_radix n
         specify the radix for input (default: ''' + str( g.defaultInputRadix ) + ')' + '''
 
     -c, --comma -
         add commas to result, e.g., 1,234,567.0
 
-    -d [n], --decimal_grouping [n] -
+    -d[n], --decimal_grouping [n] -
         display decimal places separated into groups (default: ''' + str( g.defaultDecimalGrouping ) + ')' + '''
 
-    -g [n], --integer_grouping [n]
+    -g[n], --integer_grouping [n]
         display integer separated into groups (default: ''' + str( g.defaultIntegerGrouping ) + ')' + '''
 
     -h, --help -
@@ -72,19 +72,19 @@ command-line options:
     -i, --identify
         identify the result (may repeat input)
 
-    -l n, -- line_length
+    -ln, --line_length
         line length to use for formatting help (default: 80)
 
-    -n str, --numerals str
+    -nstr, --numerals str
         characters set to use as numerals for output
 
     -o, --octal
         octal mode: equivalent to \'-r8 -w9 -i3 -z\'
 
-    -p n, --precision n
+    -pn, --precision n
         precision, i.e., number of significant digits to use
 
-    -r n, --output_radix n
+    - n, --output_radix n
         output in a different base (2 to 62, fib, fac, fac2, tri, sqr, lucas, primorial,
         e, pi, phi, sqrt2 )
 
@@ -94,7 +94,7 @@ command-line options:
     -t, --timer
         display calculation time
 
-    -w [n], --bitwise_group_size [n]
+    -w[n], --bitwise_group_size [n]
         bitwise operations group values by this size (default: ''' + str( g.defaultBitwiseGroupSize ) + ')' + '''
 
     -x, --hex
@@ -530,8 +530,48 @@ If rpn crashes converting a number to another base, increase the accuracy
 using -a.  I really want to prevent this from happening, but don't know how
 yet.
 
-I've been making a concerted efforts to identify and fix bugs, but I'm certain
-there are still more.
+'result' doesn't work with measurements.
+
+Date comparisons before the epoch (1970-01-01) don't work.
+
+User-defined functions can't include lists, units or anything other than
+default format numbers.
+
+Transitive conversions with units that require special functions don't work.
+
+Options that take arguments can no longer have a space between them (i.e.,
+You need to do '-a20' instead of '-a 20' ).
+
+See 'rpn help TODO'.
+    ''',
+    'TODO' :
+    '''
+This is my informal, short-term todo list for rpn:
+
+*  support rounding to something other than integers
+*  support measurements with 'name'
+*  'humanize' - like 'name' but only 2 significant digits when > 1000
+*  'name' should handle fractions smaller than 1 gracefully (right now it prints nothing)
+*  support date comparisons, etc. before the epoch
+*  separate out argument validation so each operator function doesn't have to do it
+*  create an output handler for RPNLocation
+*  'result' doesn't work with measurements
+*  https://en.wikipedia.org/wiki/American_wire_gauge
+*  Add support for lists in user-defined functions:
+   rpn 1970 2016 range x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval
+*  'rpn 1 20 range dBm kilowatt convert' fails.
+   This conversion doesn't work because dBm to watt uses a special function.
+*  'floor', 'ceiling', 'mean', 'max' and 'min' should work with measurements
+*  units aren't handled in user-defined functions
+*  input parsing doesn't happen in a user-defined function, e.g., '1,000' doesn't get translated to 1000
+*  160327 - Recursion crash when testing:  expectException( '2 i 1 is_divisible' )
+*  Make argument parsing more flexible again.
+*  http://en.wikipedia.org/wiki/Physical_constant
+*  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
+*  The Hubble Constant
+*  TODO: Time dilation
+   c:\>rpn 1 0.9999 sqr - sqrt 1/x
+   70.7124459519
     ''',
     'old_release_notes' :
     '''
@@ -6591,13 +6631,6 @@ c:\>rpn 1 10 range fibonorial
 [ 1, 1, 1, 2, 6, 30, 240, 3120, 65520, 2227680 ]
 ''' ],
 
-    'find_polydivisible' : [
-'number_theory', 'generates all the polydivisible numbers for base n',
-'''
-''',
-'''
-''' ],
-
     'fraction' : [
 'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
 '''
@@ -6614,6 +6647,13 @@ c:\>rpn 1 10 range fibonorial
 
     'gamma' : [
 'number_theory', 'calculates the gamma function for n',
+'''
+''',
+'''
+''' ],
+
+    'generate_polydivisibles' : [
+'number_theory', 'generates all the polydivisible numbers for base n',
 '''
 ''',
 '''

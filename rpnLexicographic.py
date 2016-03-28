@@ -347,3 +347,34 @@ def parseNumbersExpression( arg ):
     return result
 
 
+# //******************************************************************************
+# //
+# //  hasUniqueDigits
+# //
+# //******************************************************************************
+
+def hasUniqueDigits( n ):
+    digits = getDigits( real_int( n ) )
+
+    existing = set( )
+
+    for digit in digits:
+        if digit in existing:
+            return 0
+        else:
+            existing.add( digit )
+
+    return 1
+
+
+# //******************************************************************************
+# //
+# //  hasDigits
+# //
+# //******************************************************************************
+
+def hasDigits( value, digits ):
+    pass
+
+
+

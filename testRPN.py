@@ -1854,8 +1854,8 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '5 fibonorial' )
     testOperator( '-a50 24 fibonorial' )
 
-    # find_polydivisible
-    testOperator( '3 find_polydivisible -r3' )
+    # generate_polydivisibles
+    testOperator( '3 generate_polydivisibles -r3' )
 
     # fraction
     testOperator( '2 sqrt 30 fraction' )
