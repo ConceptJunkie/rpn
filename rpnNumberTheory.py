@@ -783,7 +783,7 @@ def getFrobeniusNumber( args ):
 
 # //******************************************************************************
 # //
-# //  def _crt(a, b, m, n):
+# //  _crt
 # //
 # //  Helper function for calculateChineseRemainderTheorem
 # //
@@ -1206,6 +1206,9 @@ def generatePolydivisibles( _base ):
     result = list( range( 1, base ) )
     newItems = range( 1, base )
 
+    for i in newItems:
+        yield i
+
     while newItems:
         newCandidates = [ ]
 
@@ -1235,10 +1238,11 @@ def generatePolydivisibles( _base ):
                     newCandidates.append( testMe )
 
         newItems = newCandidates
-        newCandidates = [ ]
-        result.extend( newItems )
 
-    return result
+        for i in newItems:
+            yield i
+
+        newCandidates = [ ]
 
 
 # //******************************************************************************
