@@ -186,14 +186,20 @@ def formatOutput( output ):
 # //
 # //******************************************************************************
 
-def formatListOutput( result, level = 0 ):
+def formatListOutput( result, printList = False, level = 0 ):
+    """
+    In print mode, we print each item as the iterator hits it.  If print mode
+    is off, then we gather everything up and build a giant string which is
+    returned to the caller.
+    """
+
     stringList = [ ]
 
     for item in result:
         newString = ''
 
         if isinstance( item, ( list, RPNGenerator ) ):
-            newString = formatListOutput( item, level + 1 )
+            newString = formatListOutput( item, printList, level + 1 )
         else:
             if isinstance( item, str ):
                 newString = item
@@ -209,11 +215,44 @@ def formatListOutput( result, level = 0 ):
 
     if level < g.listFormatLevel:
         indent = ' ' * ( level + 1 ) * 4
-        result = '[\n' + indent + ( ',\n' + indent ).join( [ i for i in stringList ] )
-        result += '\n' + ' ' * level * 4 + ']'
+
+        if printList:
+            print( '[' )
+
+            first = True
+
+            for i in stringList:
+                if first:
+                    first = False
+                else:
+                    print( ',' )
+
+                print( indent, end='' )
+                print( i, end='' )
+
+            print( )
+            print( ' ' * level * 4 + ']' )
+        else:
+            result = '[\n' + indent + ( ',\n' + indent ).join( [ i for i in stringList ] )
+            result += '\n' + ' ' * level * 4 + ']'
     else:
-        result = '[ ' + ', '.join( [ i for i in stringList ] )
-        result += ' ]'
+        if printList:
+            print( '[' )
+
+            first = True
+
+            for i in stringList:
+                if first:
+                    first = False
+                else:
+                    print( ', ', end='' )
+
+                print( i, end='' )
+
+            print( ' ]' )
+        else:
+            result = '[ ' + ', '.join( [ i for i in stringList ] )
+            result += ' ]'
 
     return result
 

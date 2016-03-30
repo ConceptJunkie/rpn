@@ -55,7 +55,8 @@ if not six.PY3:
 # //******************************************************************************
 
 def lookAhead( iterable ):
-    """Pass through all values from the given iterable, augmented by the
+    """
+    Pass through all values from the given iterable, augmented by the
     information if there are more values to come after the current one
     (True), or if it is the last value (False).
     """
@@ -80,7 +81,8 @@ def lookAhead( iterable ):
 # //******************************************************************************
 
 def evaluate( terms ):
-    """This is the core function in rpn that evaluates the terms to be
+    """
+    This is the core function in rpn that evaluates the terms to be
     calculated.  terms are put into a stack, and popped off one at a time
     when evaluated.  When an operator is popped off and evaluated, the results
     get pushed back on to the stack for further processing, or ultimately,
@@ -137,7 +139,8 @@ def evaluate( terms ):
 # //******************************************************************************
 
 def handleOutput( valueList ):
-    """Once the evaluation of terms is complete, the results need to be
+    """
+    Once the evaluation of terms is complete, the results need to be
     translated into output.  It is expected there will be a single result,
     otherwise an error is thrown because the expression was incomplete.
 
@@ -167,9 +170,9 @@ def handleOutput( valueList ):
             g.integerDelimiter = ' '
 
         if isinstance( result, RPNGenerator ):
-            print( formatListOutput( result.getGenerator( ) ) )
+            formatListOutput( result.getGenerator( ), True )
         elif isinstance( result, list ):
-            print( formatListOutput( result ) )
+            formatListOutput( result, True )
         else:
             if isinstance( result, str ):
                 result = checkForVariable( result )
@@ -273,9 +276,10 @@ def enterInteractiveMode( ):
 # //******************************************************************************
 
 def enterHelpMode( terms ):
-    """When using rpn interactively, help is a special mode, which allows
-    the user to navigate the help contents with much fewer keystrokes than
-    having to invoke help over and over.
+    """
+    When using rpn interactively, help is a special mode, which allows the user
+    to navigate the help contents with much fewer keystrokes than having to
+    invoke help over and over.
     """
     printHelpModeHelp( )
 
@@ -308,7 +312,8 @@ def enterHelpMode( terms ):
 # //******************************************************************************
 
 def rpn( cmd_args ):
-    """This is the main function which processes the command-line arguments,
+    """
+    This is the main function which processes the command-line arguments,
     handling both options and the expression to evaluate.   This function is
     mainly concerned with parsing and handling the command-line options.
 
