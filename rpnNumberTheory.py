@@ -90,14 +90,14 @@ def createDivisorList( seed, factors ):
     factor, count = factors[ 0 ]
 
     for i in range( count + 1 ):
-        divisor = [ ]
-        divisor.extend( seed )
-        divisor.extend( [ factor ] * i )
+        divisors = [ ]
+        divisors.extend( seed )
+        divisors.extend( [ factor ] * i )
 
         if len( factors ) > 1:
-            result.extend( createDivisorList( divisor, factors[ 1 : ] ) )
+            result.extend( createDivisorList( divisors, factors[ 1 : ] ) )
         else:
-            result.extend( [ fprod( divisor ) ] )
+            result.extend( [ fprod( divisors ) ] )
 
     return result
 
@@ -583,7 +583,7 @@ def makePythagoreanQuadruple( a, b ):
 # //
 # //  http://mathworld.wolfram.com/EulerBrick.html
 # //
-# //  Saunderson's solution lets (a^',b^',c^') be a Pythagorean triple, then
+# //  Saunderson's solution lets (a',b',c') be a Pythagorean triple, then
 # //  ( a, b, c ) = ( a'( 4b'^2 - c'^2 ), ( b'( 4a'^2 ) - c'^2 ), 4a'b'c' )
 # //
 # //******************************************************************************
@@ -856,18 +856,29 @@ def calculateChineseRemainderTheorem( values, mods ):
 # //
 # //  getSigma
 # //
-# //  This is the naive implementation.  I believe there's a formula that's
-# //  much faster.
+# //  http://math.stackexchange.com/questions/22721/is-there-a-formula-to-calculate-the-sum-of-all-proper-divisors-of-a-number
 # //
 # //******************************************************************************
 
 def getSigma( n ):
+    '''
+    Returns the sum of the divisors of n, including 1 and n.
+    '''
     if real( n ) == 0:
         return 0
     elif n == 1:
         return 1
 
-    return fsum( getDivisors( n ) )
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    result = 1
+
+    for factor in factors:
+        numerator = fsub( power( factor[ 0 ], fadd( factor[ 1 ], 1 ) ), 1 )
+        denominator = fsub( factor[ 0 ], 1 )
+        result = fmul( result, fdiv( numerator, denominator ) )
+
+    return result
 
 
 # //******************************************************************************
@@ -877,6 +888,12 @@ def getSigma( n ):
 # //******************************************************************************
 
 def getAliquotSequence( n, k ):
+    '''
+    The aliquot sum of n is the sum of the divisors of n, not counting n itself
+    as a divisor.  Subsequent aliquot sums can then be computed.  These sequences
+    usually terminate, but some, like 276, get so large it has not been determined
+    if they ever terminate.
+    '''
     yield real( n )
 
     a = n
@@ -1198,7 +1215,7 @@ def joinNumber( digits, base ):
 def generatePolydivisibles( _base ):
     base = int( _base )
     result = list( range( 1, base ) )
-    newItems = range( 1, base )
+    newItems = list( range( 1, base ) )
 
     for i in newItems:
         yield i
@@ -1206,7 +1223,8 @@ def generatePolydivisibles( _base ):
     while newItems:
         newCandidates = [ ]
 
-        for item in newItems:
+        while newItems:
+            item = newItems.pop( 0 )
             digits = splitNumber( item, base )
 
             place = len( digits ) + 1

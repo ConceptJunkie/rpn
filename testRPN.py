@@ -2015,6 +2015,7 @@ def runNumberTheoryOperatorTests( ):
 
     # sigma
     testOperator( '1 20 range sigma' )
+    expectEqual( '1 70 range sigma', '203 oeis 70 left' )
 
     # stern
     testOperator( '1 100 range stern' )
@@ -2025,7 +2026,7 @@ def runNumberTheoryOperatorTests( ):
 
     # superfactorial
     testOperator( '-a50 -c 12 superfactorial' )
-    expectEqual( ' -a50 0 12 range superfactorial', '178 oeis 13 left' )
+    expectEqual( '-a50 0 12 range superfactorial', '178 oeis 13 left' )
 
     # tetranacci
     testOperator( '-a30 -c 87 tetranacci' )
