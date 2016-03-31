@@ -111,6 +111,7 @@ promptCount = 0
 # factor cache
 minValueToCache = 1000000
 factorCache = None
+factorCacheIsDirty = False
 
 # location cache
 locationCache = None

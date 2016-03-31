@@ -40,11 +40,9 @@ from rpnVersion import PROGRAM_VERSION
 def loadFactorCache( ):
     try:
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'rb' ) ) as pickleFile:
-            factorCache = pickle.load( pickleFile )
+            g.factorCache = pickle.load( pickleFile )
     except FileNotFoundError:
-        factorCache = { }
-
-    return factorCache
+        g.factorCache = { }
 
 
 # //******************************************************************************
@@ -53,10 +51,10 @@ def loadFactorCache( ):
 # //
 # //******************************************************************************
 
-def saveFactorCache( factorCache ):
+def saveFactorCache( ):
     with DelayedKeyboardInterrupt( ):
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( factorCache, pickleFile )
+            pickle.dump( g.factorCache, pickleFile )
 
 
 # //******************************************************************************
@@ -288,4 +286,7 @@ def flushDirtyCaches( ):
         saveOperatorCache( g.operatorCaches[ name ], name )
 
     g.dirtyCaches.clear( )
+
+    if g.factorCacheIsDirty:
+        saveFactorCache( )
 

@@ -241,9 +241,9 @@ def formatListOutput( result, level=0 ):
 
         if useIndent:
             print( )
-            print( indent + newString, end='' )
+            print( indent + newString, end='', flush=True )
         else:
-            print( newString, end='' )
+            print( newString, end='', flush=True )
 
     if useIndent:
         print( )

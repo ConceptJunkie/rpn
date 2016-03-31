@@ -924,14 +924,6 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
                 return False
 
-    except KeyboardInterrupt as error:
-        print( 'rpn:  keyboard interrupt' )
-
-        if g.debugMode:
-            raise
-        else:
-            return False
-
     except ( ValueError, AttributeError, TypeError ) as error:
         print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
 

@@ -599,4 +599,8 @@ if __name__ == '__main__':
             raise
         else:
             sys.exit( 0 )
+    except KeyboardInterrupt:
+        print( 'handling ctrl-c keyboard interrupt...' )
+        flushDirtyCaches( )
+        sys.exit( 0 )
 

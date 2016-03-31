@@ -572,6 +572,7 @@ This is my informal, short-term todo list for rpn:
 *  TODO: Time dilation
    c:\>rpn 1 0.9999 sqr - sqrt 1/x
    70.7124459519
+*  This shouldn't crash:  rpn 1 10 range factor factor
     ''',
     'old_release_notes' :
     '''

@@ -24,6 +24,7 @@ from mpmath import ceil, fabs, fprod, log, mp, power
 
 import rpnGlobals as g
 
+from rpnPersistence import loadFactorCache, saveFactorCache
 from rpnPrimes import primes
 from rpnSettings import setAccuracy
 from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList, real, real_int
@@ -50,34 +51,6 @@ def getCompactFactors( factors ):
         result.append( tuple( [ i, counter[ i ] ] ) )
 
     return result
-
-
-# //******************************************************************************
-# //
-# //  loadFactorCache
-# //
-# //******************************************************************************
-
-def loadFactorCache( ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'rb' ) ) as pickleFile:
-            factorCache = pickle.load( pickleFile )
-    except FileNotFoundError:
-        factorCache = { }
-
-    return factorCache
-
-
-# //******************************************************************************
-# //
-# //  saveFactorCache
-# //
-# //******************************************************************************
-
-def saveFactorCache( factorCache ):
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( factorCache, pickleFile )
 
 
 # //******************************************************************************
@@ -546,10 +519,7 @@ def getFactors( n ):
 
     if target > g.minValueToCache:
         if g.factorCache is None:
-            g.factorCache = loadFactorCache( )
-
-            # for i in g.factorCache:
-            #     print( i, g.factorCache[ i ] )
+            loadFactorCache( )
 
         if target in g.factorCache:
             if verbose:
@@ -602,18 +572,13 @@ def getFactors( n ):
     if g.factorCache is not None:
         product = int( fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] ) )
 
-        save = False
-
         if product not in g.factorCache:
             g.factorCache[ product ] = largeFactors
-            save = True
+            g.factorCacheIsDirty = True
 
         if n > g.minValueToCache and n not in g.factorCache:
             g.factorCache[ n ] = result
-            save = True
-
-        if save:
-            saveFactorCache( g.factorCache )
+            g.factorCacheIsDirty = True
 
     return result
 
@@ -657,7 +622,7 @@ def getECMFactors( target ):
         print( 'factoring', n, '(', int( floor( log10( n ) ) ), ')' )
 
     if g.factorCache is None:
-        g.factorCache = loadFactorCache( )
+        loadFactorCache( )
 
     if n in g.factorCache:
         if verbose and n != 1:
@@ -686,10 +651,7 @@ def getECMFactors( target ):
 
     if n > g.minValueToCache and n not in g.factorCache:
         g.factorCache[ n ] = result
-        save = True
-
-    if save:
-        saveFactorCache( g.factorCache )
+        g.factorCacheIsDirty = True
 
     if verbose:
         print( )
