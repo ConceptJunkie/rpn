@@ -1523,6 +1523,7 @@ operators = {
     'repunit'                       : RPNOperatorInfo( getNthBaseKRepunit, 2 ),
     'riesel'                        : RPNOperatorInfo( lambda n: fsub( fmul( real( n ), power( 2, n ) ), 1 ), 1 ),
     'sigma'                         : RPNOperatorInfo( getSigma, 1 ),
+    'sigma_n'                       : RPNOperatorInfo( getSigmaN, 2 ),
     'stern'                         : RPNOperatorInfo( getNthStern, 1 ),
     'subfactorial'                  : RPNOperatorInfo( lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ), 1 ),
     'superfactorial'                : RPNOperatorInfo( superfac, 1 ),

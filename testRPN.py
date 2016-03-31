@@ -2017,6 +2017,32 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 20 range sigma' )
     expectEqual( '1 70 range sigma', '203 oeis 70 left' )
 
+    # sigma_n
+    testOperator( '1 20 3 range sigma_n' )
+    expectEqual( '1 50 range 2 sigma_n', '1157 oeis 50 left' )
+    expectEqual( '1 39 range 3 sigma_n', '1158 oeis 39 left' )
+    expectEqual( '1 33 range 4 sigma_n', '1159 oeis 33 left' )
+    expectEqual( '1 29 range 5 sigma_n', '1160 oeis 29 left' )
+    expectEqual( '1 23 range 6 sigma_n', '13954 oeis 23 left' )
+    expectEqual( '1 22 range 7 sigma_n', '13955 oeis 22 left' )
+    expectEqual( '1 20 range 8 sigma_n', '13956 oeis 20 left' )
+    expectEqual( '1 20 range 9 sigma_n', '13957 oeis 20 left' )
+    expectEqual( '1 17 range 10 sigma_n', '13958 oeis 17 left' )
+    expectEqual( '-a20 1 17 range 11 sigma_n', '-a20 13959 oeis 17 left' )
+    expectEqual( '-a20 1 16 range 12 sigma_n', '-a20 13960 oeis 16 left' )
+    expectEqual( '-a20 1 15 range 13 sigma_n', '-a20 13961 oeis 15 left' )
+    expectEqual( '-a20 1 15 range 14 sigma_n', '-a20 13962 oeis 15 left' )
+    expectEqual( '-a20 1 14 range 15 sigma_n', '-a20 13963 oeis 14 left' )
+    expectEqual( '-a20 1 13 range 16 sigma_n', '-a20 13964 oeis 13 left' )
+    expectEqual( '-a25 1 13 range 17 sigma_n', '-a25 13965 oeis 13 left' )
+    expectEqual( '-a25 1 12 range 18 sigma_n', '-a25 13966 oeis 12 left' )
+    expectEqual( '-a25 1 12 range 19 sigma_n', '-a25 13967 oeis 12 left' )
+    expectEqual( '-a25 1 12 range 20 sigma_n', '-a25 13968 oeis 12 left' )
+    expectEqual( '-a25 1 12 range 21 sigma_n', '-a25 13969 oeis 12 left' )
+    expectEqual( '-a25 1 11 range 22 sigma_n', '-a25 13970 oeis 11 left' )
+    expectEqual( '-a25 1 11 range 23 sigma_n', '-a25 13971 oeis 11 left' )
+    expectEqual( '-a25 1 11 range 24 sigma_n', '-a25 13972 oeis 11 left' )
+
     # stern
     testOperator( '1 100 range stern' )
 

@@ -7010,6 +7010,13 @@ distributed with data files calculated through several billion primes.
 '''
 ''' ],
 
+    'sigma_n' : [
+'number_theory', 'returns the sum of the proper divisors of n each to the kth power'
+'''
+''',
+'''
+''' ],
+
     'stern' : [
 'number_theory', 'calculates the nth value of the Stern diatomic series',
 '''

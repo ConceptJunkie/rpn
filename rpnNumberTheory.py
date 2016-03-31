@@ -856,13 +856,13 @@ def calculateChineseRemainderTheorem( values, mods ):
 # //
 # //  getSigma
 # //
-# //  http://math.stackexchange.com/questions/22721/is-there-a-formula-to-calculate-the-sum-of-all-proper-divisors-of-a-number
-# //
 # //******************************************************************************
 
 def getSigma( n ):
     '''
     Returns the sum of the divisors of n, including 1 and n.
+
+    http://math.stackexchange.com/questions/22721/is-there-a-formula-to-calculate-the-sum-of-all-proper-divisors-of-a-number
     '''
     if real( n ) == 0:
         return 0
@@ -876,6 +876,35 @@ def getSigma( n ):
     for factor in factors:
         numerator = fsub( power( factor[ 0 ], fadd( factor[ 1 ], 1 ) ), 1 )
         denominator = fsub( factor[ 0 ], 1 )
+        result = fmul( result, fdiv( numerator, denominator ) )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  getSigmaN
+# //
+# //******************************************************************************
+
+def getSigmaN( n, k ):
+    '''
+    Returns the sum of the divisors of n, including 1 and n, to the k power.
+
+    https://oeis.org/A001157
+    '''
+    if real( n ) == 0:
+        return 0
+    elif n == 1:
+        return 1
+
+    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+
+    result = 1
+
+    for factor in factors:
+        numerator = fsub( power( factor[ 0 ], fmul( fadd( factor[ 1 ], 1 ), k ) ), 1 )
+        denominator = fsub( power( factor[ 0 ], k ), 1 )
         result = fmul( result, fdiv( numerator, denominator ) )
 
     return result
