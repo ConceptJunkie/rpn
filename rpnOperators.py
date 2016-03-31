@@ -1691,9 +1691,9 @@ operators = {
     'output_radix'                  : RPNOperatorInfo( setOutputRadix, 1 ),
     'precision'                     : RPNOperatorInfo( setPrecision, 1 ),
     'random'                        : RPNOperatorInfo( rand, 0 ),
-    'random_'                       : RPNOperatorInfo( rand_, 1 ),
+    'random_'                       : RPNOperatorInfo( lambda n: RPNGenerator.createGenerator( getMultipleRandoms, n ), 1 ),
     'random_integer'                : RPNOperatorInfo( randrange, 1 ),
-    'random_integer_'               : RPNOperatorInfo( getRandomIntegers, 2 ),
+    'random_integer_'               : RPNOperatorInfo( lambda n, k: RPNGenerator.createGenerator( getRandomIntegers, [ n, k ] ), 2 ),
     'timer'                         : RPNOperatorInfo( setTimer, 1 ),
     'timer_mode'                    : RPNOperatorInfo( setTimerMode, 0 ),
 

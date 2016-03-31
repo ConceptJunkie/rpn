@@ -85,17 +85,13 @@ class DelayedKeyboardInterrupt( object ):
 
 # //******************************************************************************
 # //
-# //  rand_
+# //  getMultipleRandoms
 # //
 # //******************************************************************************
 
-def rand_( n ):
-    result = [ ]
-
+def getMultipleRandoms( n ):
     for i in arange( 0, real( n ) ):
-        result.append( rand( ) )
-
-    return result
+        yield rand( )
 
 
 # //******************************************************************************
@@ -105,12 +101,8 @@ def rand_( n ):
 # //******************************************************************************
 
 def getRandomIntegers( n, k ):
-    result = [ ]
-
     for i in arange( 0, real( k ) ):
-        result.append( randrange( real( n ) ) )
-
-    return result
+        yield randrange( n )
 
 
 # //******************************************************************************
