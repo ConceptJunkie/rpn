@@ -600,6 +600,7 @@ if __name__ == '__main__':
         else:
             sys.exit( 0 )
     except KeyboardInterrupt:
+        print( )
         print( 'handling ctrl-c keyboard interrupt...' )
         flushDirtyCaches( )
         sys.exit( 0 )

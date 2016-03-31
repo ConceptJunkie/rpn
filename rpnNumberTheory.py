@@ -60,12 +60,8 @@ def getNthAlternatingFactorial( n ):
 # //******************************************************************************
 
 def getNthPascalLine( n ):
-    result = [ ]
-
     for i in arange( 0, real( n ) ):
-        result.append( binomial( n - 1, i ) )
-
-    return result
+        yield binomial( n - 1, i )
 
 
 # //******************************************************************************
@@ -881,16 +877,14 @@ def getSigma( n ):
 # //******************************************************************************
 
 def getAliquotSequence( n, k ):
-    result = [ real( n ) ]
+    yield real( n )
 
     a = n
 
     for i in arange( 0, real( k ) - 1 ):
         b = fsub( getSigma( a ), a )
-        result.append( b )
+        yield b
         a = b
-
-    return result
 
 
 # //******************************************************************************

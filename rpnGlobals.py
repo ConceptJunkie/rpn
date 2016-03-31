@@ -109,7 +109,7 @@ variables = { }
 promptCount = 0
 
 # factor cache
-minValueToCache = 1000000
+minValueToCache = 10000000
 factorCache = None
 factorCacheIsDirty = False
 

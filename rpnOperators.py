@@ -1466,7 +1466,7 @@ operators = {
     'polylog'                       : RPNOperatorInfo( polylog, 2 ),
 
     # number_theory
-    'aliquot'                       : RPNOperatorInfo( getAliquotSequence, 2 ),
+    'aliquot'                       : RPNOperatorInfo( lambda n, k: RPNGenerator.createGenerator( getAliquotSequence, [ n, k ] ), 2 ),
     'alternating_factorial'         : RPNOperatorInfo( getNthAlternatingFactorial, 1 ),
     'calkin_wilf'                   : RPNOperatorInfo( getNthCalkinWilf, 1 ),
     'carol'                         : RPNOperatorInfo( lambda n: fsub( power( fsub( power( 2, real( n ) ), 1 ), 2 ), 2 ), 1 ),
@@ -1517,7 +1517,7 @@ operators = {
     'nth_padovan'                   : RPNOperatorInfo( getNthPadovanNumber, 1 ),
     'n_fibonacci'                   : RPNOperatorInfo( getNthKFibonacciNumber, 2 ),
     'octanacci'                     : RPNOperatorInfo( lambda n: getNthKFibonacciNumber( n, 8 ), 1 ),
-    'pascal_triangle'               : RPNOperatorInfo( getNthPascalLine, 1 ),
+    'pascal_triangle'               : RPNOperatorInfo( lambda n: RPNGenerator.createGenerator( getNthPascalLine, n ), 1 ),
     'pentanacci'                    : RPNOperatorInfo( lambda n: getNthKFibonacciNumber( n, 5 ), 1 ),
     'polygamma'                     : RPNOperatorInfo( psi, 2 ),
     'repunit'                       : RPNOperatorInfo( getNthBaseKRepunit, 2 ),
