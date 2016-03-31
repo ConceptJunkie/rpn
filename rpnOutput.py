@@ -186,7 +186,7 @@ def formatOutput( output ):
 # //
 # //******************************************************************************
 
-def formatListOutput( result, printList = False, level = 0 ):
+def formatListOutput( result, level=0 ):
     """
     In print mode, we print each item as the iterator hits it.  If print mode
     is off, then we gather everything up and build a giant string which is
@@ -195,11 +195,34 @@ def formatListOutput( result, printList = False, level = 0 ):
 
     stringList = [ ]
 
+    first = True
+
+    if level < g.listFormatLevel:
+        useIndent = True
+        print( '[' )
+        indent = ' ' * ( level + 1 ) * 4
+    else:
+        useIndent = False
+        print( '[ ', end='' )
+
     for item in result:
         newString = ''
 
         if isinstance( item, ( list, RPNGenerator ) ):
-            newString = formatListOutput( item, printList, level + 1 )
+            if first:
+                first = False
+
+                if useIndent:
+                    print( indent, end='' )
+            else:
+                if useIndent:
+                    print( ',' )
+                    print( indent, end='' )
+                else:
+                    print( ', ', end='' )
+
+            formatListOutput( item, level + 1 )
+            continue
         else:
             if isinstance( item, str ):
                 newString = item
@@ -211,50 +234,22 @@ def formatListOutput( result, printList = False, level = 0 ):
             else:
                 newString = formatOutput( str( item ) )
 
-        stringList.append( newString )
+        if first:
+            first = False
+        else:
+            print( ', ', end='' )
 
-    if level < g.listFormatLevel:
-        indent = ' ' * ( level + 1 ) * 4
-
-        if printList:
-            print( '[' )
-
-            first = True
-
-            for i in stringList:
-                if first:
-                    first = False
-                else:
-                    print( ',' )
-
-                print( indent, end='' )
-                print( i, end='' )
-
+        if useIndent:
             print( )
-            print( ' ' * level * 4 + ']' )
+            print( indent + newString, end='' )
         else:
-            result = '[\n' + indent + ( ',\n' + indent ).join( [ i for i in stringList ] )
-            result += '\n' + ' ' * level * 4 + ']'
+            print( newString, end='' )
+
+    if useIndent:
+        print( )
+        print( ' ' * level * 4 + ']', end='' )
     else:
-        if printList:
-            print( '[' )
-
-            first = True
-
-            for i in stringList:
-                if first:
-                    first = False
-                else:
-                    print( ', ', end='' )
-
-                print( i, end='' )
-
-            print( ' ]' )
-        else:
-            result = '[ ' + ', '.join( [ i for i in stringList ] )
-            result += ' ]'
-
-    return result
+        print( ' ]', end='' )
 
 
 # //******************************************************************************
@@ -336,6 +331,7 @@ def formatUnits( measurement ):
 
     result = ''
 
+    # filter out the underscores
     for c in unitString + negativeUnits:
         if c == '_':
             result += ' '

@@ -170,9 +170,9 @@ def handleOutput( valueList ):
             g.integerDelimiter = ' '
 
         if isinstance( result, RPNGenerator ):
-            formatListOutput( result.getGenerator( ), True )
+            formatListOutput( result.getGenerator( ) )
         elif isinstance( result, list ):
-            formatListOutput( result, True )
+            formatListOutput( result )
         else:
             if isinstance( result, str ):
                 result = checkForVariable( result )
