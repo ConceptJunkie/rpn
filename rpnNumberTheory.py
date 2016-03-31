@@ -1236,11 +1236,9 @@ def generatePolydivisibles( _base ):
 
                 if isDivisible( testMe, place ):
                     newCandidates.append( testMe )
+                    yield testMe
 
         newItems = newCandidates
-
-        for i in newItems:
-            yield i
 
         newCandidates = [ ]
 
