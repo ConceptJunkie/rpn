@@ -593,7 +593,7 @@ if __name__ == '__main__':
         handleOutput( rpn( sys.argv[ 1 : ] ) )
         flushDirtyCaches( )
     except ValueError as error:
-        print( 'rpn:  value error:  {0}'.format( error ) )
+        print( '\nrpn:  value error:  {0}'.format( error ) )
 
         if g.debugMode:
             raise

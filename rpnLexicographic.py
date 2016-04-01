@@ -377,4 +377,19 @@ def hasDigits( value, digits ):
     pass
 
 
+# //******************************************************************************
+# //
+# //  isMorphic
+# //
+# //******************************************************************************
+
+def isMorphic( n, k ):
+    '''
+    Returns true if n to the k power ends with n.
+    '''
+    digits = getMPFIntegerAsString( real_int( n ) )
+    sqr_digits = getMPFIntegerAsString( power( n, real_int( k ) ) )
+
+    start = len( sqr_digits ) - len( digits )
+    return 1 if ( sqr_digits[ start : ] == digits ) else 0
 

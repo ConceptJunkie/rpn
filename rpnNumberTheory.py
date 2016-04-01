@@ -858,12 +858,14 @@ def calculateChineseRemainderTheorem( values, mods ):
 # //
 # //******************************************************************************
 
-def getSigma( n ):
+def getSigma( target ):
     '''
     Returns the sum of the divisors of n, including 1 and n.
 
     http://math.stackexchange.com/questions/22721/is-there-a-formula-to-calculate-the-sum-of-all-proper-divisors-of-a-number
     '''
+    n = floor( target )
+
     if real( n ) == 0:
         return 0
     elif n == 1:
@@ -876,7 +878,11 @@ def getSigma( n ):
     for factor in factors:
         numerator = fsub( power( factor[ 0 ], fadd( factor[ 1 ], 1 ) ), 1 )
         denominator = fsub( factor[ 0 ], 1 )
+        #debugPrint( 'sigma', numerator, denominator )
         result = fmul( result, fdiv( numerator, denominator ) )
+
+        if result != floor( result ):
+            raise ValueError( 'insufficient precision for \'sigma\', increase precision (-p))' )
 
     return result
 
@@ -907,6 +913,9 @@ def getSigmaN( n, k ):
         denominator = fsub( power( factor[ 0 ], k ), 1 )
         result = fmul( result, fdiv( numerator, denominator ) )
 
+        if result != floor( result ):
+            raise ValueError( 'insufficient precision for \'sigma_n\', increase precision (-p))' )
+
     return result
 
 
@@ -923,7 +932,7 @@ def getAliquotSequence( n, k ):
     usually terminate, but some, like 276, get so large it has not been determined
     if they ever terminate.
     '''
-    yield real( n )
+    yield real( floor( n ) )
 
     a = n
 

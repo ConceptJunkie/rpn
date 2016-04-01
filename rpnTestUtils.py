@@ -31,7 +31,6 @@ from mpmath import *
 # //******************************************************************************
 
 def compareResults( result1, result2 ):
-
     if isinstance( result1, RPNGenerator ):
         return compareResults( [ i for i in result1.getGenerator( ) ], result2 )
 
@@ -61,7 +60,7 @@ def compareResults( result1, result2 ):
 
     if isinstance( result1, list ) and isinstance( result2, list ):
         if len( result1 ) != len( result2 ):
-            raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ) )
+            raise ValueError( 'lists are not of equal length:', len( result1 ), len( result2 ), result1, result2 )
 
         for i in range( 0, len( result1 ) ):
             if not compareValues( result1[ i ], result2[ i ] ):

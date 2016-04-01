@@ -1523,6 +1523,10 @@ def runLexicographyOperatorTests( ):
     testOperator( '123456789 get_digits' )
     # expectEqual   30 oeis 85 left
 
+    # is_automorphic
+    testOperator( '1 100 range x is_automorphic filter' )
+    expectResult( '-a30 59918212890625 is_automorphic', 1 )
+
     # is_kaprekar
     expectResult( '533170 is_kaprekar', 1 )
     expectResult( '77777 is_kaprekar', 0 )
@@ -1530,6 +1534,11 @@ def runLexicographyOperatorTests( ):
     expectResult( '95121 is_kaprekar', 1 )
     expectResult( '7272 is_kaprekar', 1 )
     expectResult( '22223 is_kaprekar', 0 )
+
+    # is_morphic
+    testOperator( '1 100 range x 7 is_morphic filter' )
+    testOperator( '-a3000 1 1000 range x x is_morphic filter' )
+    expectEqual( '-a3000 1 1000 range x x is_morphic filter', '82576 oeis 58 left' )
 
     # is_narcissistic
     expectResult( '152 is_narcissistic', 0 )
@@ -1544,6 +1553,10 @@ def runLexicographyOperatorTests( ):
     # is_pandigital
     expectResult( '1234567890 is_pandigital', 1 )
     expectResult( '123456789 is_pandigital', 0 )
+
+    # is_trimorphic
+    testOperator( '1 100 range is_trimorphic' )
+    expectEqual( '1 1000 range x is_trimorphic filter', '33819 oeis 26 left' )
 
     # multiply_digits
     expectEqual( '123456789 multiply_digits', '9 !' )
@@ -2028,20 +2041,20 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 20 range 8 sigma_n', '13956 oeis 20 left' )
     expectEqual( '1 20 range 9 sigma_n', '13957 oeis 20 left' )
     expectEqual( '1 17 range 10 sigma_n', '13958 oeis 17 left' )
-    expectEqual( '-a20 1 17 range 11 sigma_n', '-a20 13959 oeis 17 left' )
-    expectEqual( '-a20 1 16 range 12 sigma_n', '-a20 13960 oeis 16 left' )
-    expectEqual( '-a20 1 15 range 13 sigma_n', '-a20 13961 oeis 15 left' )
-    expectEqual( '-a20 1 15 range 14 sigma_n', '-a20 13962 oeis 15 left' )
-    expectEqual( '-a20 1 14 range 15 sigma_n', '-a20 13963 oeis 14 left' )
-    expectEqual( '-a20 1 13 range 16 sigma_n', '-a20 13964 oeis 13 left' )
-    expectEqual( '-a25 1 13 range 17 sigma_n', '-a25 13965 oeis 13 left' )
-    expectEqual( '-a25 1 12 range 18 sigma_n', '-a25 13966 oeis 12 left' )
-    expectEqual( '-a25 1 12 range 19 sigma_n', '-a25 13967 oeis 12 left' )
-    expectEqual( '-a25 1 12 range 20 sigma_n', '-a25 13968 oeis 12 left' )
-    expectEqual( '-a25 1 12 range 21 sigma_n', '-a25 13969 oeis 12 left' )
-    expectEqual( '-a25 1 11 range 22 sigma_n', '-a25 13970 oeis 11 left' )
-    expectEqual( '-a25 1 11 range 23 sigma_n', '-a25 13971 oeis 11 left' )
-    expectEqual( '-a25 1 11 range 24 sigma_n', '-a25 13972 oeis 11 left' )
+    expectEqual( '-a20 -p30 1 17 range 11 sigma_n', '-a20 13959 oeis 17 left' )
+    expectEqual( '-a20 -p30 1 16 range 12 sigma_n', '-a20 13960 oeis 16 left' )
+    expectEqual( '-a20 -p30 1 15 range 13 sigma_n', '-a20 13961 oeis 15 left' )
+    expectEqual( '-a20 -p30 1 15 range 14 sigma_n', '-a20 13962 oeis 15 left' )
+    expectEqual( '-a20 -p30 1 14 range 15 sigma_n', '-a20 13963 oeis 14 left' )
+    expectEqual( '-a20 -p30 1 13 range 16 sigma_n', '-a20 13964 oeis 13 left' )
+    expectEqual( '-a25 -p30 1 13 range 17 sigma_n', '-a25 13965 oeis 13 left' )
+    expectEqual( '-a25 -p30 1 12 range 18 sigma_n', '-a25 13966 oeis 12 left' )
+    expectEqual( '-a25 -p30 1 12 range 19 sigma_n', '-a25 13967 oeis 12 left' )
+    expectEqual( '-a25 -p30 1 12 range 20 sigma_n', '-a25 13968 oeis 12 left' )
+    expectEqual( '-a25 -p35 1 12 range 21 sigma_n', '-a25 13969 oeis 12 left' )
+    expectEqual( '-a25 -p35 1 11 range 22 sigma_n', '-a25 13970 oeis 11 left' )
+    expectEqual( '-a25 -p40 1 11 range 23 sigma_n', '-a25 13971 oeis 11 left' )
+    expectEqual( '-a25 -p40 1 11 range 24 sigma_n', '-a25 13972 oeis 11 left' )
 
     # stern
     testOperator( '1 100 range stern' )

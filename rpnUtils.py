@@ -404,7 +404,7 @@ def getExpandedFactorList( factors ):
 
 def real( n ):
     if im( n ) != 0:
-        raise ValueError( 'real argument expected' )
+        raise ValueError( 'real argument expected ({})'.format( n ) )
 
     return n
 
@@ -419,10 +419,10 @@ def real( n ):
 
 def real_int( n ):
     if im( n ) != 0:
-        raise ValueError( 'real argument expected' )
+        raise ValueError( 'real argument expected ({})'.format( n ) )
 
     if n != floor( n ):
-        raise ValueError( 'integer argument expected' )
+        raise ValueError( 'integer argument expected ({})'.format( n ) )
 
     return int( n )
 
@@ -434,7 +434,7 @@ def real_int( n ):
 # //******************************************************************************
 
 def getMPFIntegerAsString( n ):
-    return nstr( nint( n ), int( floor( log10( n ) + 2 ) ) )[ : -2 ]
+    return nstr( nint( n ), int( floor( log10( n ) + 10  ) ) )[ : -2 ]
 
 
 # //******************************************************************************

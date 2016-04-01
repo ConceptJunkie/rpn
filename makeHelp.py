@@ -63,6 +63,12 @@ command-line options:
     -d[n], --decimal_grouping [n] -
         display decimal places separated into groups (default: ''' + str( g.defaultDecimalGrouping ) + ')' + '''
 
+    -D, --DEBUG -
+        output debugging information
+
+    -e, --profile -
+        gather performance statistics
+
     -g[n], --integer_grouping [n]
         display integer separated into groups (default: ''' + str( g.defaultIntegerGrouping ) + ')' + '''
 
@@ -84,15 +90,21 @@ command-line options:
     -pn, --precision n
         precision, i.e., number of significant digits to use
 
-    - n, --output_radix n
+    -rn, --output_radix n
         output in a different base (2 to 62, fib, fac, fac2, tri, sqr, lucas, primorial,
         e, pi, phi, sqrt2 )
 
-    -R n, --output_radix_numerals n
+    -Rn, --output_radix_numerals n
         output a list of digits, where each digit is a base-10 number
+
+    -sn, --list_format_level n
+        output lists with one item per line, up to n levels deep of nested lists
 
     -t, --timer
         display calculation time
+
+    -v, --verbose
+        output status messages when factoring
 
     -w[n], --bitwise_group_size [n]
         bitwise operations group values by this size (default: ''' + str( g.defaultBitwiseGroupSize ) + ')' + '''
@@ -5552,8 +5564,22 @@ on the digits that comprise an integer.
 '''
 ''' ],
 
+    'is_automorphic' : [
+'lexicography', 'returns whether the digits of n squared end with n',
+'''
+''',
+'''
+''' ],
+
     'is_kaprekar' : [
 'lexicography', 'returns whether an integer n is a Kaprekar number',
+'''
+''',
+'''
+''' ],
+
+    'is_morphic' : [
+'lexicography', 'returns whether the digits of n to the k power end with n',
 '''
 ''',
 '''
@@ -5595,6 +5621,13 @@ c:\>rpn 1234567890 is_pandigital
 
 c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 1
+''' ],
+
+    'is_trimorphic' : [
+'lexicography', 'returns whether the digits of n cubed end with n',
+'''
+''',
+'''
 ''' ],
 
     'multiply_digits' : [

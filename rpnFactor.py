@@ -20,7 +20,7 @@ import os
 import pickle
 import random
 
-from mpmath import ceil, fabs, fprod, log, mp, power
+from mpmath import ceil, fabs, floor, fprod, log, log10, mp, power
 
 import rpnGlobals as g
 
@@ -376,7 +376,7 @@ def getPrimeFactors( n, verbose = False ):
     qPrimes = [ ]
 
     if verbose:
-        print( "Factoring", n, '...' )
+        print( "\nFactoring", n, '...' )
 
     remaining, smallFactors = getSmallFactors( n, verbose )
 
@@ -602,7 +602,7 @@ def getFactorList( n ):
 def getECMFactors( target ):
     from pyecm import factors
 
-    n = int( real_int( target ) )
+    n = int( floor( target ) )
 
     verbose = g.verbose
     randomSigma = True
@@ -619,7 +619,7 @@ def getECMFactors( target ):
         return [ ( 1, 1 ) ]
 
     if verbose:
-        print( 'factoring', n, '(', int( floor( log10( n ) ) ), ')' )
+        print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), ' digits)...' )
 
     if g.factorCache is None:
         loadFactorCache( )
