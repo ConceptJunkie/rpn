@@ -1537,8 +1537,7 @@ def runLexicographyOperatorTests( ):
 
     # is_morphic
     testOperator( '1 100 range x 7 is_morphic filter' )
-    testOperator( '-a3000 1 1000 range x x is_morphic filter' )
-    expectEqual( '-a3000 1 1000 range x x is_morphic filter', '82576 oeis 58 left' )
+    expectEqual( '-a3000 1 1000 range x x is_morphic filter', '-a3000 82576 oeis 58 left' )
 
     # is_narcissistic
     expectResult( '152 is_narcissistic', 0 )
@@ -1556,7 +1555,7 @@ def runLexicographyOperatorTests( ):
 
     # is_trimorphic
     testOperator( '1 100 range is_trimorphic' )
-    expectEqual( '1 1000 range x is_trimorphic filter', '33819 oeis 26 left' )
+    expectEqual( '1 1000 range x is_trimorphic filter', '33819 oeis 26 left 25 right' )
 
     # multiply_digits
     expectEqual( '123456789 multiply_digits', '9 !' )
