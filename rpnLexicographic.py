@@ -12,6 +12,7 @@
 # //
 # //******************************************************************************
 
+import itertools
 import string
 
 from mpmath import fadd, fdiv, floor, fmod, fmul, fprod, fsub, fsum, log10, \
@@ -259,6 +260,17 @@ def isKaprekar( n ):
 
 # //******************************************************************************
 # //
+# //  convertStringsToNumbers
+# //
+# //******************************************************************************
+
+def convertStringsToNumbers( values ):
+    for i in values:
+        yield( mpmathify( i ) )
+
+
+# //******************************************************************************
+# //
 # //  buildNumbers
 # //
 # //******************************************************************************
@@ -266,7 +278,31 @@ def isKaprekar( n ):
 def buildNumbers( expression ):
     digitLists = parseNumbersExpression( expression )
 
-    return RPNGenerator.createProduct( digitLists )
+    if ( len( digitLists ) == 1 ):
+        return RPNGenerator.createGenerator( convertStringsToNumbers, digitLists )
+    else:
+        return RPNGenerator.createProduct( digitLists )
+
+
+# //******************************************************************************
+# //
+# //  buildLimitedDigitNumbers
+# //
+# //******************************************************************************
+
+def buildLimitedDigitNumbers( digits, minLength, maxLength ):
+    result = [ ]
+
+    for i in range( minLength, maxLength + 1 ):
+        for item in itertools.product( digits, repeat=i ):
+            number = ''
+
+            for digit in item:
+                number += digit
+
+            result.append( number )
+
+    return result
 
 
 # //******************************************************************************
@@ -279,6 +315,9 @@ def buildNumbers( expression ):
 # //      - A single digit, "0" through "9"
 # //      - "d" - digit (equivalent to "[0-9]"
 # //      - "[I[I]...]" - any of the individual digit expressions
+# //      - "[I[I]...:m]" - permutations of any digits I, m digits long
+# //      - "[I[I]...:n:m]" - permutations of any digits I, from a minimum of n,
+# //                          up to a maximum of m digits long
 # //
 # //  A digit expression (I) can be a single digit or a range.  A single digit is
 # //  anything from "0" through "9".  A digit range looks like: "a-b" where a
@@ -298,10 +337,15 @@ def parseNumbersExpression( arg ):
     startDigitState = 1
     digitState = 2
     startRangeState = 3
+    numberLengthRange1 = 4
+    numberLengthRange2 = 5
 
     state = defaultState
 
     currentGroup = set( )
+
+    lengthRangeLow = ''
+    lengthRangeHigh = ''
 
     for ch in arg:
         #print( 'state', state, 'ch', ch, 'result', result, 'currentGroup', currentGroup )
@@ -331,6 +375,8 @@ def parseNumbersExpression( arg ):
                 lastDigit = ch
             elif ch == '-':
                 state = startRangeState
+            elif ch == ':':
+                state = numberLengthRange1
             elif ch == ']':
                 result.append( sorted( list( currentGroup ) ) )
                 state = defaultState
@@ -342,7 +388,33 @@ def parseNumbersExpression( arg ):
                     for i in range( int( lastDigit ), int( ch ) + 1 ):
                         currentGroup.add( str( i ) )
 
-                state = startDigitState
+                state = digitState
+        elif state == numberLengthRange1:
+            if '0' <= ch <= '9':
+                lengthRangeHigh += ch
+            elif ch == ':':
+                lengthRangeLow = lengthRangeHigh
+                lengthRangeHigh = ''
+                state = numberLengthRange2
+            elif ch == ']':
+                result.append( buildLimitedDigitNumbers( sorted( list( currentGroup ) ),
+                                                         int( lengthRangeHigh ), int( lengthRangeHigh ) ) )
+                lengthRangeLow = ''
+                lengthRangeHigh = ''
+                state = defaultState
+            else:
+                raise ValueError( 'unexpected character \'{}\''.format( ch ) )
+        elif state == numberLengthRange2:
+            if '0' <= ch <= '9':
+                lengthRangeHigh += ch
+            elif ch == ']':
+                result.append( buildLimitedDigitNumbers( sorted( list( currentGroup ) ),
+                                                         int( lengthRangeLow ), int( lengthRangeHigh ) ) )
+                lengthRangeLow = ''
+                lengthRangeHigh = ''
+                state = defaultState
+            else:
+                raise ValueError( 'unexpected character \'{}\''.format( ch ) )
 
     return result
 
@@ -392,4 +464,30 @@ def isMorphic( n, k ):
 
     start = len( sqr_digits ) - len( digits )
     return 1 if ( sqr_digits[ start : ] == digits ) else 0
+
+
+# //******************************************************************************
+# //
+# //  getLeftTruncations
+# //
+# //******************************************************************************
+
+def getLeftTruncations( n ):
+    str = getMPFIntegerAsString( n )
+
+    for i in range( len( str ) ):
+        yield mpmathify( str[ i : ] )
+
+
+# //******************************************************************************
+# //
+# //  getRightTruncations
+# //
+# //******************************************************************************
+
+def getRightTruncations( n ):
+    str = getMPFIntegerAsString( n )
+
+    for i in range( len( str ), 0, -1 ):
+        yield mpmathify( str[ 0 : i ] )
 

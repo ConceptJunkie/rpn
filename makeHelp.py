@@ -310,22 +310,17 @@ start with 'x', but I hope to remove that limitation soon.
 
 Some examples:
 
-c:\>rpn 3 x 2 * eval
+c:\>rpn 3 lambda x 2 * eval
 6
 
-c:\>rpn 5 x 2 ** 1 - eval
+c:\>rpn 5 lambda x 2 ** 1 - eval
 24
 
-c:\>rpn inf x 1 + fib x fib / limit
+c:\>rpn inf lambda x 1 + fib x fib / limit
 1.6180339887
 
-Here is the kludge to work around having to have 'x' be first:
-
-c:\>rpn 1 inf x 0 * 2 x ** + 1/x nsum
+c:\>rpn 1 inf lambda 2 x ** 1/x nsum
 1
-
-Basically, all you have to do is add x * 0 to the expression.  It's cheesy,
-but it works for now.
     ''',
     'unit_conversion' :
     '''
@@ -413,6 +408,7 @@ And how does the surface gravity of that black hole compare to Earth's?
     c:\>rpn -a20 G solar_mass * 2954.17769868 meters sqr / gee /
     1551151150565.8376167
 
+TODO:  This doesn't work right now!
 I tried to make the unit conversion flexible and smart.  It is... sometimes.
     c:>rpn 16800 mA hours * 5 volts * joule convert
     302400 joules
@@ -581,10 +577,12 @@ This is my informal, short-term todo list for rpn:
 *  http://en.wikipedia.org/wiki/Physical_constant
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 *  The Hubble Constant
-*  TODO: Time dilation
+*  Time dilation
    c:\>rpn 1 0.9999 sqr - sqrt 1/x
    70.7124459519
 *  This shouldn't crash:  rpn 1 10 range factor factor
+*  expand 'build_numbers' syntax to include '[12345:0:4]'
+*  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
     ''',
     'old_release_notes' :
     '''
@@ -3418,16 +3416,16 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-c:\>rpn 1 inf x fib 1/x nsum
+c:\>rpn 1 inf lambda x fib 1/x nsum
 3.35988566624
 
-c:\>rpn 1 inf x lucas 1/x nsum
+c:\>rpn 1 inf lambda x lucas 1/x nsum
 1.96285817321
 
 c:\>rpn phi
 1.618033988741
 
-c:\>rpn infinity x 1 + fib x fib / limit
+c:\>rpn infinity lambda x 1 + fib x fib / limit
 1.618033988741
 ''' ],
 
@@ -5031,13 +5029,13 @@ and seconds.
 in the value n into the function k and returns the result.
 ''',
 '''
-c:\>rpn 3 x 2 * eval
+c:\>rpn 3 lambda x 2 * eval
 6
 
-c:\>rpn 5 x 2 ** 1 - eval
+c:\>rpn 5 lambda x 2 ** 1 - eval
 24
 
-c:\>rpn 1 10 range x 2 ** 1 - eval
+c:\>rpn 1 10 range lambda x 2 ** 1 - eval
 [ 0, 3, 8, 15, 24, 35, 48, 63, 80, 99 ]
 ''' ],
 
@@ -5061,10 +5059,10 @@ result.
 '''
 Solving a quadratic equation the hard way, using the quadratic formula:
 
-c:\>rpn 1 -4 -21 y neg y sqr 4 x * z * - sqrt + 2 x * / eval3
+c:\>rpn 1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt + 2 x * / eval3
 7
 
-c:\>rpn 1 -4 -21 y neg y sqr 4 x * z * - sqrt - 2 x * / eval3
+c:\>rpn 1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt - 2 x * / eval3
 -3
 
 Of course, rpn has better ways to do this:
@@ -5086,7 +5084,7 @@ non-zero value.
 '''
 Which of the first 80 fibonacci numbers is prime?
 
-c:\>rpn -a20 1 80 range fib x is_prime filter
+c:\>rpn -a20 1 80 range fib lambda x is_prime filter
 [ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
 ''' ],
 
@@ -5095,6 +5093,26 @@ c:\>rpn -a20 1 80 range fib x is_prime filter
 '''
 ''',
 '''
+''' ],
+
+    'lambda' : [
+'function', 'begins a function definition',
+'''
+Allows the user to define a function for use with the eval, nsum, nprod,
+and limit operators, etc.  Basically 'lambda' starts an expression that
+becomes a function.
+
+See the 'user_functions' help topic for more details.
+''',
+'''
+c:\>rpn 3 lambda x 2 * eval
+6
+
+c:\>rpn 5 lambda x 2 ** 1 - eval
+24
+
+c:\>rpn inf lambda x 1 + fib x fib / limit
+1.6180339887
 ''' ],
 
     'limit' : [
@@ -5147,7 +5165,7 @@ also allow me to plot more than one function at a time.
 a number of extra libraries.
 ''',
 '''
-c:\>rpn 0 pi x sin plot
+c:\>rpn 0 pi lambda x sin plot
 
 c:\>rpn -5 5 x 4 ** 3 x 3 ** * + 25 x * - plot
 
@@ -5208,35 +5226,30 @@ c:\>rpn 1 20 range x is_prime negate filter
 ''' ],
 
     'x' : [
-'function', '\'x\' is used to create functions',
+'function', 'used as a variable in user-defined functions',
 '''
-Allows the user to define a function for use with the eval, nsum, nprod,
-and limit operators, etc.  Basically 'x' starts an expression that
-becomes a function.  As of version 7.0.0 a user-defined function must start
-with 'x', but I hope to remove that limitation.
-
 See the 'user_functions' help topic for more details.
 ''',
 '''
-c:\>rpn 3 x 2 * eval
+c:\>rpn 3 lambda x 2 * eval
 6
 
-c:\>rpn 5 x 2 ** 1 - eval
+c:\>rpn 5 lambda x 2 ** 1 - eval
 24
 
-c:\>rpn inf x 1 + fib x fib / limit
+c:\>rpn inf lambda x 1 + fib x fib / limit
 1.6180339887
 ''' ],
 
     'y' : [
-'function', '\'y\' is used to create functions',
+'function', 'used as a variable in user-defined functions',
 '''
 ''',
 '''
 ''' ],
 
     'z' : [
-'function', '\'z\' is used to create functions',
+'function', 'used as a variable in user-defined functions',
 '''
 ''',
 '''
@@ -5564,6 +5577,20 @@ on the digits that comprise an integer.
 '''
 ''' ],
 
+    'get_left_truncations' : [
+'lexicography', 'returns the blah blah blah',
+'''
+''',
+'''
+''' ],
+
+    'get_right_truncations' : [
+'lexicography', 'returns the blah blah blah',
+'''
+''',
+'''
+''' ],
+
     'is_automorphic' : [
 'lexicography', 'returns whether the digits of n squared end with n',
 '''
@@ -5736,6 +5763,13 @@ c:\>rpn 1 10 range alternate_signs_2 sum
 
 c:\>rpn 1 10 range alternating_sum_2 sum
 5
+''' ],
+
+    'and_all' : [
+'list_operators', 'returns true if every member of the list is non-zero',
+'''
+''',
+'''
 ''' ],
 
     'append' : [
@@ -5933,6 +5967,13 @@ c:\>rpn 1 10 range 1 4 range left
 '''
 ''' ],
 
+    'nand_all' : [
+'list_operators', 'returns true if every member of the list is zero',
+'''
+''',
+'''
+''' ],
+
     'nonzero' : [
 'list_operators', 'returns the indices of elements of list n that are not zero',
 '''
@@ -5940,8 +5981,6 @@ This operator is useful for applying an operator that returns a binary value
 on a list, and getting a summary of the results.
 
 Indices are zero-based.
-
-(see 'nonzero')
 ''',
 '''
 c:\>rpn [ 1 0 2 0 3 0 4 ] nonzero
@@ -5951,6 +5990,13 @@ List the prime Fibonacci numbers:
 
 c:\>rpn 0 20 range fib is_prime nonzero fib
 [ 2, 3, 5, 13, 89, 233, 1597 ]
+''' ],
+
+    'nor_all' : [
+'list_operators', 'returns true if any member of the list is zero',
+'''
+''',
+'''
 ''' ],
 
     'occurrence_cumulative' : [
@@ -5989,6 +6035,13 @@ c:\>rpn 10 100 random_integer_ occurrences
 
 c:\>rpn 5 6 debruijn occurrences
 [ [ 0, 3125 ], [ 1, 3125 ], [ 2, 3125 ], [ 3, 3125 ], [ 4, 3125 ] ]
+''' ],
+
+    'or_all' : [
+'list_operators', 'returns true if any member of the list is non-zero',
+'''
+''',
+'''
 ''' ],
 
     'range' : [

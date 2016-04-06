@@ -1189,8 +1189,8 @@ def isPronic( n ):
 # //******************************************************************************
 
 def isPolydivisible( n ):
-    if real_int( n ) <= 0:
-        raise ValueError( 'positive, real integer expected' )
+    if real_int( n ) < 0:
+        raise ValueError( 'non-negative, real integer expected' )
 
     strValue = getMPFIntegerAsString( n )
 

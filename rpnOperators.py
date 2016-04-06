@@ -25,8 +25,8 @@ from random import randrange
 from mpmath import acosh, acot, acoth, acsc, acsch, agm, arg, asec, asech, asin, \
                    asinh, atan, atanh, conj, cosh, cos, coth, csc, csch, fac2, \
                    fadd, fmod, floor, harmonic, hyperfac, lambertw, li, limit, \
-                   ln, loggamma, nprod, nsum, polylog, psi, rand, sec, sech, sin, \
-                   sinh, superfac, tan, tanh, unitroots, zeta
+                   ln, loggamma, nprod, nsum, polylog, plot, psi, rand, sec, sech, \
+                   sin, sinh, superfac, tan, tanh, unitroots, zeta
 
 from rpnAliases import dumpAliases
 
@@ -136,6 +136,7 @@ class RPNFunctionInfo( object ):
 
             if term in operators:
                 function = operators[ term ].function.__name__
+                debugPrint( 'function', function )
 
                 if function == '<lambda>':
                     function = inspect.getsource( operators[ term ].function )
@@ -151,7 +152,12 @@ class RPNFunctionInfo( object ):
 
                 argList = [ ]
 
-                for i in range( 0, operators[ term ].argCount ):
+                operands = operators[ term ].argCount
+
+                if len( args ) < operands:
+                    raise ValueError( '{} expects {} operands'.format( term, operands ) )
+
+                for i in range( 0, operands ):
                     argList.insert( 0, args.pop( ) )
 
                 for arg in argList:
@@ -179,7 +185,6 @@ class RPNFunctionInfo( object ):
         self.function = self.code_locals[ 'rpnInternalFunction' ]
 
 
-
 # //******************************************************************************
 # //
 # //  createFunction
@@ -188,40 +193,48 @@ class RPNFunctionInfo( object ):
 # //
 # //******************************************************************************
 
-def createFunction( var, valueList ):
+def createFunction( valueList ):
     g.creatingFunction = True
     valueList.append( RPNFunctionInfo( valueList, len( valueList ) ) )
-    valueList[ -1 ].add( var )
 
 
 # //******************************************************************************
 # //
-# //  createXFunction
+# //  addX
 # //
 # //******************************************************************************
 
-def createXFunction( valueList ):
-    createFunction( 'x', valueList )
+def addX( valueList ):
+    if not g.creatingFunction:
+        raise ValueError( '\'x\' requires \'lambda\' to start a function declaration' )
 
-
-# //******************************************************************************
-# //
-# //  createYFunction
-# //
-# //******************************************************************************
-
-def createYFunction( valueList ):
-    createFunction( 'y', valueList )
+    valueList[ -1 ].add( 'x' )
 
 
 # //******************************************************************************
 # //
-# //  createZFunction
+# //  addY
 # //
 # //******************************************************************************
 
-def createZFunction( valueList ):
-    createFunction( 'z', valueList )
+def addY( valueList ):
+    if not g.creatingFunction:
+        raise ValueError( '\'y\' requires \'lambda\' to start a function declaration' )
+
+    valueList[ -1 ].add( 'y' )
+
+
+# //******************************************************************************
+# //
+# //  addZ
+# //
+# //******************************************************************************
+
+def addZ( valueList ):
+    if not g.creatingFunction:
+        raise ValueError( '\'z\' requires \'lambda\' to start a function declaration' )
+
+    valueList[ -1 ].add( 'z' )
 
 
 # //******************************************************************************
@@ -1051,9 +1064,10 @@ modifiers = {
     'previous'          : RPNOperatorInfo( getPrevious, 0 ),
     'unlist'            : RPNOperatorInfo( unlist, 0 ),
     'for_each'          : RPNOperatorInfo( forEach, 0 ),
-    'x'                 : RPNOperatorInfo( createXFunction, 0 ),
-    'y'                 : RPNOperatorInfo( createYFunction, 0 ),
-    'z'                 : RPNOperatorInfo( createZFunction, 0 ),
+    'lambda'            : RPNOperatorInfo( createFunction, 0 ),
+    'x'                 : RPNOperatorInfo( addX, 0 ),
+    'y'                 : RPNOperatorInfo( addY, 0 ),
+    'z'                 : RPNOperatorInfo( addZ, 0 ),
     '['                 : RPNOperatorInfo( incrementNestedListLevel, 0 ),
     ']'                 : RPNOperatorInfo( decrementNestedListLevel, 0 ),
     '{'                 : RPNOperatorInfo( startOperatorList, 0 ),
@@ -1117,6 +1131,7 @@ listOperators = {
     'alternate_signs_2'     : RPNOperatorInfo( lambda n: RPNGenerator( alternateSigns( n, True ) ), 1, RPNOperatorType.Generator ),
     'alternating_sum'       : RPNOperatorInfo( lambda n: getAlternatingSum( n, False ), 1, RPNOperatorType.Generator ),
     'alternating_sum_2'     : RPNOperatorInfo( lambda n: getAlternatingSum( n, False ), 1, RPNOperatorType.Generator ),
+    'and_all'               : RPNOperatorInfo( getAndAll, 1 ),
     'append'                : RPNOperatorInfo( appendLists, 2, RPNOperatorType.List ),
     'collate'               : RPNOperatorInfo( collate, 1, RPNOperatorType.List ),
     'count'                 : RPNOperatorInfo( countElements, 1, RPNOperatorType.Generator ),
@@ -1130,10 +1145,13 @@ listOperators = {
     'left'                  : RPNOperatorInfo( getLeft, 2, RPNOperatorType.List ),
     'max_index'             : RPNOperatorInfo( getIndexOfMax, 1, RPNOperatorType.List ),
     'min_index'             : RPNOperatorInfo( getIndexOfMin, 1, RPNOperatorType.List ),
+    'nand_all'              : RPNOperatorInfo( getNandAll, 1 ),
     'nonzero'               : RPNOperatorInfo( getNonzeroes, 1, RPNOperatorType.List ),
+    'nor_all'               : RPNOperatorInfo( getNorAll, 1 ),
     'occurrences'           : RPNOperatorInfo( getOccurrences, 1, RPNOperatorType.List ),
-    'occurrence_ratios'     : RPNOperatorInfo( getOccurrenceRatios, 1, RPNOperatorType.List ),
     'occurrence_cumulative' : RPNOperatorInfo( getCumulativeOccurrenceRatios, 1, RPNOperatorType.List ),
+    'occurrence_ratios'     : RPNOperatorInfo( getOccurrenceRatios, 1, RPNOperatorType.List ),
+    'or_all'                : RPNOperatorInfo( getOrAll, 1 ),
     'ratios'                : RPNOperatorInfo( lambda n: RPNGenerator( getListRatios( n ) ), 1, RPNOperatorType.Generator ),
     'ratios2'               : RPNOperatorInfo( lambda n: RPNGenerator( getCumulativeListRatios( n ) ), 1, RPNOperatorType.Generator ),
     'reduce'                : RPNOperatorInfo( reduceList, 1, RPNOperatorType.List ),
@@ -1164,7 +1182,6 @@ listOperators = {
 
     # special
     'echo'                  : RPNOperatorInfo( addEchoArgument, 1 ),
-
 }
 
 
@@ -1376,7 +1393,6 @@ operators = {
     'ydhms'                         : RPNOperatorInfo( convertToYDHMS, 1 ),
 
     # date_time
-
     'get_year'                      : RPNOperatorInfo( getYear, 1 ),
     'get_month'                     : RPNOperatorInfo( getMonth, 1 ),
     'get_day'                       : RPNOperatorInfo( getDay, 1 ),
@@ -1440,6 +1456,8 @@ operators = {
     'dup_digits'                    : RPNOperatorInfo( duplicateDigits, 2 ),
     'find_palindrome'               : RPNOperatorInfo( findPalindrome, 2 ),
     'get_digits'                    : RPNOperatorInfo( getDigits, 1 ),
+    'get_left_truncations'          : RPNOperatorInfo( lambda n: RPNGenerator.createGenerator( getLeftTruncations, n ), 1 ),
+    'get_right_truncations'         : RPNOperatorInfo( lambda n: RPNGenerator.createGenerator( getRightTruncations, n ), 1 ),
     'is_automorphic'                : RPNOperatorInfo( lambda n: isMorphic( n, 2 ), 1 ),
     'is_kaprekar'                   : RPNOperatorInfo( isKaprekar, 1 ),
     'is_morphic'                    : RPNOperatorInfo( isMorphic, 2 ),
@@ -1475,13 +1493,13 @@ operators = {
     'carol'                         : RPNOperatorInfo( lambda n: fsub( power( fsub( power( 2, real( n ) ), 1 ), 2 ), 2 ), 1 ),
     'count_divisors'                : RPNOperatorInfo( getDivisorCount, 1 ),
     'divisors'                      : RPNOperatorInfo( getDivisors, 1 ),
-    'double_factorial'              : RPNOperatorInfo( fac2, 1 ),
+    'double_factorial'              : RPNOperatorInfo( lambda n: fac2( n ), 1 ),
     'ecm'                           : RPNOperatorInfo( getECMFactorList, 1 ),
     'egypt'                         : RPNOperatorInfo( getGreedyEgyptianFraction, 2 ),
     'euler_brick'                   : RPNOperatorInfo( makeEulerBrick, 3 ),
     'euler_phi'                     : RPNOperatorInfo( getEulerPhi, 1 ),
     'factor'                        : RPNOperatorInfo( getFactorList, 1 ),
-    'factorial'                     : RPNOperatorInfo( fac, 1 ),
+    'factorial'                     : RPNOperatorInfo( lambda n: fac( n ), 1 ),
     'fibonacci'                     : RPNOperatorInfo( getNthFibonacci, 1 ),
     'fibonorial'                    : RPNOperatorInfo( getNthFibonorial, 1 ),
     'generate_polydivisibles'       : RPNOperatorInfo( lambda n: RPNGenerator.createGenerator( generatePolydivisibles, n ), 1 ),
@@ -1633,7 +1651,7 @@ operators = {
     'hyper4_2'                      : RPNOperatorInfo( tetrateLarge, 2 ),
     'power'                         : RPNOperatorInfo( exponentiate, 2 ),
     'powmod'                        : RPNOperatorInfo( getPowMod, 3 ),
-    'root'                          : RPNOperatorInfo( lambda n, k: getRoot( n, k ), 2 ),
+    'root'                          : RPNOperatorInfo( getRoot, 2 ),
     'square'                        : RPNOperatorInfo( lambda n: exponentiate( n, 2 ), 1 ),
     'square_root'                   : RPNOperatorInfo( lambda n: getRoot( n, 2 ), 1 ),
     'tetrate'                       : RPNOperatorInfo( tetrate, 2 ),

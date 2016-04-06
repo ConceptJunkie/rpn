@@ -960,9 +960,9 @@ def runConstantOperatorTests( ):
     expectResult( 'true', 1 )
 
     # infinity
-    testOperator( 'infinity x fib x 1 - fib / limit' )
-    expectEqual( 'infinity x fib x 1 - fib / limit', 'phi' )
-    testOperator( 'infinity x 1/x 1 + x ** limit' )
+    testOperator( 'infinity lambda x fib x 1 - fib / limit' )
+    expectEqual( 'infinity lambda x fib x 1 - fib / limit', 'phi' )
+    testOperator( 'infinity lambda x 1/x 1 + x ** limit' )
 
     # days of the week
     expectResult( 'monday', 1 )
@@ -1302,38 +1302,40 @@ def runDateTimeOperatorTests( ):
 
 def runFunctionOperatorTests( ):
     # eval
-    testOperator( '10 x 5 * eval' )
-    testOperator( '-a20 57 x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval' )
-    expectEqual( '-a20 0 23 range x 0 * 2 x 1 - power + 2 x power 1 - * eval', '6516 oeis 24 left' )
-    expectEqual( '1 46 range x sqr 2 * 2 + eval', '5893 oeis 47 left 46 right' )
+    testOperator( '10 lambda x 5 * eval' )
+    testOperator( '-a20 57 lambda x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval' )
+    expectEqual( '-a20 0 23 range lambda x 0 * 2 x 1 - power + 2 x power 1 - * eval', '6516 oeis 24 left' )
+    expectEqual( '1 46 range lambda x sqr 2 * 2 + eval', '5893 oeis 47 left 46 right' )
 
     # eval2
-    testOperator( '7 8 x 2 ** y 3 ** + eval2' )
+    testOperator( '7 8 lambda x 2 ** y 3 ** + eval2' )
 
     # eval3
-    testOperator( '15 4 26 x 2 ** y 3 ** + z 4 ** + eval3' )
+    testOperator( '15 4 26 lambda x 2 ** y 3 ** + z 4 ** + eval3' )
 
     # filter
-    testOperator( '-a20 1 80 range fib x is_prime filter' )
+    testOperator( '-a20 1 80 range fib lambda x is_prime filter' )
 
     # filter_by_index
-    expectEqual( '0 1000 range x is_prime filter_by_index', '1 168 primes' )
+    expectEqual( '0 1000 range lambda x is_prime filter_by_index', '1 168 primes' )
 
     # limit
-    testOperator( '0 x x / 2 -1 x / power + 1/x limit' )
-    expectEqual( 'infinity x fibonacci x 1 + fibonacci / limit', 'infinity x lucas x 1 + lucas / limit' )
+    testOperator( 'infinity lambda 1 1 x / + x power limit' )
+    testOperator( '0 lambda x x / 2 -1 x / power + 1/x limit' )
+    testOperator( 'infinity lambda x x ! x root / limit' )   # This one isn't very precise...
+    expectEqual( 'infinity lambda x fibonacci x 1 + fibonacci / limit', 'infinity lambda x lucas x 1 + lucas / limit' )
 
     # limitn
-    testOperator( '0 x x / 2 -1 x / power + 1/x limitn' )
+    testOperator( '0 lambda x x / 2 -1 x / power + 1/x limitn' )
 
     # negate
     expectEqual( '[ 0 10 dup ] negate', '[ 1 10 dup ]' )
 
     # nprod
-    testOperator( '-a20 -p20 -d 5 3 inf x pi / 1/x cos nprod' )
+    testOperator( '-a20 -p20 -d5 3 inf lambda x pi / 1/x cos nprod' )
 
     # nsum
-    expectEqual( '1 infinity x 3 ** 1/x nsum', '3 zeta' )
+    expectEqual( '1 infinity lambda x 3 ** 1/x nsum', '3 zeta' )
 
     # These operators use the plotting GUI, so aren't included in the automated tests.
     # plot
@@ -1341,19 +1343,19 @@ def runFunctionOperatorTests( ):
     # plotc
 
     # unfilter
-    expectEqual( '1 100 range x is_square unfilter', '37 oeis 90 left' )
+    expectEqual( '1 100 range lambda x is_square unfilter', '37 oeis 90 left' )
 
     # unfilter_by_index
-    expectEqual( '0 200 range x is_sphenic unfilter_by_index', '0 200 range x is_sphenic unfilter' )
+    expectEqual( '0 200 range lambda x is_sphenic unfilter_by_index', '0 200 range lambda x is_sphenic unfilter' )
 
     # x
-    testOperator( '23 x 4 ** 5 x 3 ** * + x sqrt - eval' )
+    testOperator( '23 lambda x 4 ** 5 x 3 ** * + x sqrt - eval' )
 
     # y
-    testOperator( '23 57 x 4 ** 5 x 3 ** * + y sqrt - eval2' )
+    testOperator( '23 57 lambda x 4 ** 5 x 3 ** * + y sqrt - eval2' )
 
     # z
-    testOperator( '23 57 86 x 4 ** 5 y 3 ** * + z sqrt - eval3' )
+    testOperator( '23 57 86 lambda x 4 ** 5 y 3 ** * + z sqrt - eval3' )
 
 
 # //******************************************************************************
@@ -1507,6 +1509,12 @@ def runLexicographyOperatorTests( ):
     testOperator( '123d build_numbers' )
     testOperator( '[0-3]d0[3-5] build_numbers' )
     testOperator( '[246]d[7-9][12] build_numbers' )
+    testOperator( '[123:1] build_numbers' )
+    testOperator( '[123:2] build_numbers' )
+    testOperator( '[123:3] build_numbers' )
+    testOperator( '[1-3:2:3] build_numbers' )
+    testOperator( '[1-38-9:2:3] build_numbers' )
+    testOperator( '[1-3:2][8-9:2] build_numbers' )
 
     # combine_digits
     expectResult( '1 9 range combine_digits', 123456789 )
@@ -1524,7 +1532,7 @@ def runLexicographyOperatorTests( ):
     # expectEqual   30 oeis 85 left
 
     # is_automorphic
-    testOperator( '1 100 range x is_automorphic filter' )
+    testOperator( '1 100 range lambda x is_automorphic filter' )
     expectResult( '-a30 59918212890625 is_automorphic', 1 )
 
     # is_kaprekar
@@ -1536,8 +1544,8 @@ def runLexicographyOperatorTests( ):
     expectResult( '22223 is_kaprekar', 0 )
 
     # is_morphic
-    testOperator( '1 100 range x 7 is_morphic filter' )
-    expectEqual( '-a3000 1 1000 range x x is_morphic filter', '-a3000 82576 oeis 58 left' )
+    testOperator( '1 100 range lambda x 7 is_morphic filter' )
+    expectEqual( '-a3000 1 1000 range lambda x x is_morphic filter', '-a3000 82576 oeis 58 left' )
 
     # is_narcissistic
     expectResult( '152 is_narcissistic', 0 )
@@ -1555,7 +1563,7 @@ def runLexicographyOperatorTests( ):
 
     # is_trimorphic
     testOperator( '1 100 range is_trimorphic' )
-    expectEqual( '1 1000 range x is_trimorphic filter', '33819 oeis 26 left 25 right' )
+    expectEqual( '1 1000 range lambda x is_trimorphic filter', '33819 oeis 26 left 25 right' )
 
     # multiply_digits
     expectEqual( '123456789 multiply_digits', '9 !' )
@@ -1858,7 +1866,7 @@ def runNumberTheoryOperatorTests( ):
 
     # fibonacci
     testOperator( '1 50 range fibonacci' )
-    testOperator( '-c -a 8300 39399 fibonacci' )
+    testOperator( '-c -a8300 39399 fibonacci' )
     expectEqual( '0 38 range fibonacci', '45 oeis 39 left' )
     expectResult( '0 100 range fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
 
@@ -2146,10 +2154,10 @@ def runPolygonalOperatorTests( ):
     testOperator( '-a60 9 decagonal_hexagonal' )
 
     # decagonal_octagonal
-    testOperator( '-a 75 9 decagonal_nonagonal' )
+    testOperator( '-a75 9 decagonal_nonagonal' )
 
     # decagonal_octagonal
-    testOperator( '-a 75 9 decagonal_octagonal' )
+    testOperator( '-a75 9 decagonal_octagonal' )
 
     # decagonal_pentagonal
     testOperator( '-a60 7 decagonal_pentagonal' )
@@ -2919,8 +2927,8 @@ def runTrigonometryOperatorTests( ):
 def runAdvancedTests( ):
     testOperator( '2016 dst_end 2016 dst_start - 2016-12-31 2016-01-01 - /' )
     testOperator( '"Leesburg, VA" today 0 20 range days + echo daytime collate -s1' )
-    testOperator( '1 1 thousand range x is_polydivisible filter' )
-    expectEqual( '38[147][246]5[246][124679][246][124679]0 build_numbers x is_polydivisible filter x is_pandigital filter', '[ 3816547290 ]' )
+    testOperator( '1 1 thousand range lambda x is_polydivisible filter' )
+    expectEqual( '38[147][246]5[246][124679][246][124679]0 build_numbers lambda x is_polydivisible filter lambda x is_pandigital filter', '[ 3816547290 ]' )
 
 
 # //******************************************************************************
