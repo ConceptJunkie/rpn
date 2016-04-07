@@ -23,19 +23,6 @@ import rpnGlobals as g
 
 # //******************************************************************************
 # //
-# //  class RPNOperatorType
-# //
-# //******************************************************************************
-
-class RPNOperatorType( Enum ):
-    """This enum is used to identify among the different types of operator."""
-    Normal = 0,                 # any normal operator
-    List = 1,                   # a list operator that prefers list arguments
-    Generator = 2               # a list operator that expects a generator argument
-
-
-# //******************************************************************************
-# //
 # //  class RPNVariable
 # //
 # //******************************************************************************
@@ -73,15 +60,35 @@ class RPNVariable( object ):
 
 # //******************************************************************************
 # //
+# //  class RPNOperatorType
+# //
+# //******************************************************************************
+
+class RPNOperatorType( Enum ):
+    """This enum is used to identify among the different types of operator."""
+    Default = 0,                    # any argument is valid
+    List = 1,                       # the argument must be a list or a generator
+    Real = 2,                       # the argument must be a real number
+    Integer = 3,
+    PositiveInteger = 4,            # the argument must be a positive integer
+    NonnegativeInteger = 5,
+    String = 6,
+    Date = 7,
+    Location = 8,
+    Generator = 9,
+    Function = 10
+
+
+# //******************************************************************************
+# //
 # //  class RPNOperatorInfo
 # //
 # //******************************************************************************
 
 class RPNOperatorInfo( object ):
     """This class represents all the data needed to define an operator."""
-    def __init__( self, function, argCount, operatorType = RPNOperatorType.Normal ):
+    def __init__( self, function, argCount, argTypes = list( ) ):
         self.function = function
         self.argCount = argCount
-        self.type = operatorType
-
+        self.argTypes = argTypes
 
