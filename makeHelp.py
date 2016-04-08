@@ -583,6 +583,7 @@ This is my informal, short-term todo list for rpn:
 *  This shouldn't crash:  rpn 1 10 range factor factor
 *  expand 'build_numbers' syntax to include '[12345:0:4]'
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
+*  'dup_digits' is not intuitive, and it doesn't work right with negative numbers
     ''',
     'old_release_notes' :
     '''

@@ -65,18 +65,24 @@ class RPNVariable( object ):
 # //******************************************************************************
 
 class RPNOperatorType( Enum ):
-    """This enum is used to identify among the different types of operator."""
-    Default = 0,                    # any argument is valid
-    List = 1,                       # the argument must be a list or a generator
-    Real = 2,                       # the argument must be a real number
+    """
+    This enum is used for argument validation for operators.
+    """
+    Default = 0,                # any argument is valid
+    List = 1,                   # the argument must be a list
+    Real = 2,
     Integer = 3,
-    PositiveInteger = 4,            # the argument must be a positive integer
-    NonnegativeInteger = 5,
-    String = 6,
-    Date = 7,
-    Location = 8,
-    Generator = 9,
-    Function = 10
+    NonnegativeReal = 4,        # real >= 0
+    PositiveInteger = 5,        # integer >= 1
+    NonnegativeInteger = 6,     # integer >= 0
+    String = 7,
+    DateTime = 8,
+    Location = 9,               # location object (operators will automatically convert a string)
+    Boolean = 10,               # 0 or 1
+    Measurement = 11,
+    AstronomicalObject = 12,
+    Generator = 13,             # Generator needs to be a separate type now, but eventually it should be equivalent to List
+    Function = 14
 
 
 # //******************************************************************************
