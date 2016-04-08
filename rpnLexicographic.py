@@ -15,8 +15,8 @@
 import itertools
 import string
 
-from mpmath import fadd, fdiv, floor, fmod, fmul, fprod, fsub, fsum, log10, \
-                   mpmathify, nint, power
+from mpmath import arange, fadd, fdiv, floor, fmod, fmul, fprod, fsub, fsum, \
+                   log10, mpmathify, nint, power
 
 from rpnGenerator import RPNGenerator
 from rpnUtils import real, real_int, getMPFIntegerAsString
@@ -192,14 +192,16 @@ def isPandigital( n ):
 
 def getNthReversalAddition( n, k ):
     next = int( real_int( n ) )
+    yield next
 
-    for i in range( int( real_int( k ) ) ):
+    previous = next
+
+    for i in arange( k ):
         if isPalindrome( next ):
             break
 
-        next = reverseDigits( next ) + next
-
-    return next
+        next = fadd( reverseDigits( next ), next )
+        yield next
 
 
 # //******************************************************************************

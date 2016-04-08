@@ -36,8 +36,8 @@ import pickle
 import signal
 import sys
 
-from mpmath import arange, findpoly, floor, identify, im, log10, mpmathify, \
-                   nint, nstr, rand
+from mpmath import arange, fadd, findpoly, floor, identify, im, log10, \
+                   mpmathify, nint, nstr, rand
 
 from random import randrange
 from functools import reduce
