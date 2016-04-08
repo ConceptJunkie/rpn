@@ -584,6 +584,7 @@ This is my informal, short-term todo list for rpn:
 *  expand 'build_numbers' syntax to include '[12345:0:4]'
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
 *  'dup_digits' is not intuitive, and it doesn't work right with negative numbers
+*  'is_equal' should handle measurements of different types
     ''',
     'old_release_notes' :
     '''

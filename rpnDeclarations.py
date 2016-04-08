@@ -92,9 +92,13 @@ class RPNOperatorType( Enum ):
 # //******************************************************************************
 
 class RPNOperatorInfo( object ):
+    measurementsAllowed = True
+    measurementsNotAllowed = False
+
     """This class represents all the data needed to define an operator."""
-    def __init__( self, function, argCount, argTypes = list( ) ):
+    def __init__( self, function, argCount, argTypes = list( ), allowMeasurements = measurementsNotAllowed ):
         self.function = function
         self.argCount = argCount
         self.argTypes = argTypes
+        self.allowMeasurements = allowMeasurements
 

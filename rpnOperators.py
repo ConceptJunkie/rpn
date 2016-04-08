@@ -1413,13 +1413,15 @@ operators = {
                                                        1, [ RPNOperatorType.Default ] ),
 
     'add'                           : RPNOperatorInfo( add,
-                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Default ] ),
+                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'ceiling'                       : RPNOperatorInfo( ceil,
                                                        1, [ RPNOperatorType.Default ] ),
 
     'decrement'                     : RPNOperatorInfo( lambda n: subtract( n, 1 ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'divide'                        : RPNOperatorInfo( divide,
                                                        2, [ RPNOperatorType.Default, RPNOperatorType.Default ] ),
@@ -1428,13 +1430,15 @@ operators = {
                                                        1, [ RPNOperatorType.Default ] ),
 
     'increment'                     : RPNOperatorInfo( lambda n: add( n, 1 ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'is_divisible'                  : RPNOperatorInfo( isDivisible,
                                                        2, [ RPNOperatorType.Default, RPNOperatorType.Default ] ),
 
     'is_equal'                      : RPNOperatorInfo( isEqual,
-                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Default ] ),
+                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'is_even'                       : RPNOperatorInfo( lambda n: 1 if fmod( real( n ), 2 ) == 0 else 0,
                                                        1, [ RPNOperatorType.Real ] ),
@@ -1446,7 +1450,8 @@ operators = {
                                                        2, [ RPNOperatorType.Real, RPNOperatorType.Real ] ),
 
     'is_not_equal'                  : RPNOperatorInfo( isNotEqual,
-                                                       2, [ RPNOperatorType.Real, RPNOperatorType.Real ] ),
+                                                       2, [ RPNOperatorType.Real, RPNOperatorType.Real ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'is_not_greater'                : RPNOperatorInfo( isNotGreater,
                                                        2, [ RPNOperatorType.Real, RPNOperatorType.Real ] ),
@@ -1464,7 +1469,8 @@ operators = {
                                                        1, [ RPNOperatorType.Default ] ),
 
     'is_zero'                       : RPNOperatorInfo( lambda n: 1 if n == 0 else 0,
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'larger'                        : RPNOperatorInfo( getLarger,
                                                        2, [ RPNOperatorType.Real, RPNOperatorType.Real ] ),
@@ -1473,13 +1479,16 @@ operators = {
                                                        2, [ RPNOperatorType.Real, RPNOperatorType.Real ] ),
 
     'multiply'                      : RPNOperatorInfo( multiply,
-                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Default ] ),
+                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'nearest_int'                   : RPNOperatorInfo( nint,
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'negative'                      : RPNOperatorInfo( getNegative,
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'reciprocal'                    : RPNOperatorInfo( takeReciprocal,
                                                        1, [ RPNOperatorType.Default ] ),
@@ -1488,13 +1497,15 @@ operators = {
                                                        1, [ RPNOperatorType.Default ] ),
 
     'sign'                          : RPNOperatorInfo( getSign,
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'smaller'                       : RPNOperatorInfo( getSmaller,
                                                        2, [ RPNOperatorType.Real, RPNOperatorType.Real ] ),
 
     'subtract'                      : RPNOperatorInfo( subtract,
-                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Default ] ),
+                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     # astronomy
     'antitransit_time'              : RPNOperatorInfo( getAntitransitTime,
@@ -1891,10 +1902,12 @@ operators = {
                                                        1, [ RPNOperatorType.Integer ] ),
 
     'dhms'                          : RPNOperatorInfo( convertToDHMS,
-                                                       1, [ RPNOperatorType.Measurement ] ),
+                                                       1, [ RPNOperatorType.Measurement ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'dms'                           : RPNOperatorInfo( convertToDMS,
-                                                       1, [ RPNOperatorType.Measurement ] ),
+                                                       1, [ RPNOperatorType.Measurement ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'double'                        : RPNOperatorInfo( lambda n: fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( real( n ) ) ) ) ),
                                                        1, [ RPNOperatorType.Real ] ),
@@ -1912,13 +1925,15 @@ operators = {
                                                        1, [ RPNOperatorType.Integer ] ),
 
     'hms'                           : RPNOperatorInfo( convertToHMS,
-                                                       1, [ RPNOperatorType.Measurement ] ),
+                                                       1, [ RPNOperatorType.Measurement ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'integer'                       : RPNOperatorInfo( convertToSignedInt,
                                                        1, [ RPNOperatorType.Integer ] ),
 
     'invert_units'                  : RPNOperatorInfo( invertUnits,
-                                                       1, [ RPNOperatorType.Measurement ] ),
+                                                       1, [ RPNOperatorType.Measurement ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'uchar'                         : RPNOperatorInfo( lambda n: fmod( real_int( n ), power( 2, 8 ) ),
                                                        1, [ RPNOperatorType.Integer ] ),
@@ -1948,7 +1963,8 @@ operators = {
                                                        1, [ RPNOperatorType.DateTime ] ),
 
     'ydhms'                         : RPNOperatorInfo( convertToYDHMS,
-                                                       1, [ RPNOperatorType.Measurement ] ),
+                                                       1, [ RPNOperatorType.Measurement ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     # date_time
     'get_year'                      : RPNOperatorInfo( getYear,
@@ -2066,13 +2082,16 @@ operators = {
                                                        1, [ RPNOperatorType.NonnegativeReal ] ),
 
     'n_sphere_area'                 : RPNOperatorInfo( getNSphereSurfaceArea,
-                                                       2, [ RPNOperatorType.PositiveInteger, RPNOperatorType.NonnegativeReal ] ),
+                                                       2, [ RPNOperatorType.PositiveInteger, RPNOperatorType.NonnegativeReal ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'n_sphere_radius'               : RPNOperatorInfo( getNSphereRadius,
-                                                       2, [ RPNOperatorType.PositiveInteger, RPNOperatorType.NonnegativeReal ] ),
+                                                       2, [ RPNOperatorType.PositiveInteger, RPNOperatorType.NonnegativeReal ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'n_sphere_volume'               : RPNOperatorInfo( getNSphereVolume,
-                                                       2, [ RPNOperatorType.PositiveInteger, RPNOperatorType.NonnegativeReal ] ),
+                                                       2, [ RPNOperatorType.PositiveInteger, RPNOperatorType.NonnegativeReal ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'octahedron_area'               : RPNOperatorInfo( getOctahedronSurfaceArea,
                                                        1, [ RPNOperatorType.NonnegativeReal ] ),
@@ -2092,13 +2111,16 @@ operators = {
                                                             RPNOperatorType.NonnegativeReal ] ),
 
     'sphere_area'                   : RPNOperatorInfo( lambda n: getNSphereSurfaceArea( n, 3 ),
-                                                       1, [ RPNOperatorType.NonnegativeReal ] ),
+                                                       1, [ RPNOperatorType.NonnegativeReal ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'sphere_radius'                 : RPNOperatorInfo( lambda n: getNSphereRadius( n, 3 ),
-                                                       1, [ RPNOperatorType.NonnegativeReal ] ),
+                                                       1, [ RPNOperatorType.NonnegativeReal ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'sphere_volume'                 : RPNOperatorInfo( lambda n: getNSphereVolume( n, 3 ),
-                                                       1, [ RPNOperatorType.NonnegativeReal ] ),
+                                                       1, [ RPNOperatorType.NonnegativeReal ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'tetrahedron_area'              : RPNOperatorInfo( getTetrahedronSurfaceArea,
                                                        1, [ RPNOperatorType.NonnegativeReal ] ),
@@ -2659,10 +2681,12 @@ operators = {
                                                        2, [ RPNOperatorType.Default, RPNOperatorType.Default ] ),
 
     'cube'                          : RPNOperatorInfo( lambda n: exponentiate( n, 3 ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'cube_root'                     : RPNOperatorInfo( lambda n: getRoot( n, 3 ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'exp'                           : RPNOperatorInfo( lambda n: exp( n ),
                                                        1, [ RPNOperatorType.Default ] ),
@@ -2677,19 +2701,23 @@ operators = {
                                                        2, [ RPNOperatorType.Default, RPNOperatorType.Real ] ),
 
     'power'                         : RPNOperatorInfo( exponentiate,
-                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Default ] ),
+                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'powmod'                        : RPNOperatorInfo( getPowMod,
                                                        3, [ ] ),
 
     'root'                          : RPNOperatorInfo( getRoot,
-                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Real ] ),
+                                                       2, [ RPNOperatorType.Default, RPNOperatorType.Real ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'square'                        : RPNOperatorInfo( lambda n: exponentiate( n, 2 ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'square_root'                   : RPNOperatorInfo( lambda n: getRoot( n, 2 ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'tetrate'                       : RPNOperatorInfo( tetrate,
                                                        2, [ RPNOperatorType.Default, RPNOperatorType.Real ] ),
@@ -2875,10 +2903,12 @@ operators = {
 
     # special
     'constant'                      : RPNOperatorInfo( createConstant,
-                                                       2, [ RPNOperatorType.Default, RPNOperatorType.String ] ),
+                                                       2, [ RPNOperatorType.Default, RPNOperatorType.String ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'estimate'                      : RPNOperatorInfo( estimate,
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'help'                          : RPNOperatorInfo( printHelpMessage,
                                                        0, [ ] ),
@@ -2920,83 +2950,108 @@ operators = {
                                                        1, [ RPNOperatorType.String ] ),
 
     'value'                         : RPNOperatorInfo( getValue,
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     # trigonometry
     'acos'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, acos ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'acosh'                         : RPNOperatorInfo( lambda n: performTrigOperation( n, acosh ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'acot'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, acot ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'acoth'                         : RPNOperatorInfo( lambda n: performTrigOperation( n, acoth ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'acsc'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, acsc ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'acsch'                         : RPNOperatorInfo( lambda n: performTrigOperation( n, acsch ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'asec'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, asec ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'asech'                         : RPNOperatorInfo( lambda n: performTrigOperation( n, asech ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'asin'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, asin ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'asinh'                         : RPNOperatorInfo( lambda n: performTrigOperation( n, asinh ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'atan'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, atan ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'atanh'                         : RPNOperatorInfo( lambda n: performTrigOperation( n, atanh ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'cos'                           : RPNOperatorInfo( lambda n: performTrigOperation( n, cos ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'cosh'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, cosh ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'cot'                           : RPNOperatorInfo( lambda n: performTrigOperation( n, cot ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'coth'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, coth ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'csc'                           : RPNOperatorInfo( lambda n: performTrigOperation( n, csc ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'csch'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, csch ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'hypotenuse'                    : RPNOperatorInfo( hypot,
                                                        2, [ RPNOperatorType.Real, RPNOperatorType.Real ] ),
 
     'sec'                           : RPNOperatorInfo( lambda n: performTrigOperation( n, sec ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'sech'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, sech ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'sin'                           : RPNOperatorInfo( lambda n: performTrigOperation( n, sin ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'sinh'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, sinh ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'tan'                           : RPNOperatorInfo( lambda n: performTrigOperation( n, tan ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     'tanh'                          : RPNOperatorInfo( lambda n: performTrigOperation( n, tanh ),
-                                                       1, [ RPNOperatorType.Default ] ),
+                                                       1, [ RPNOperatorType.Default ],
+                                                       RPNOperatorInfo.measurementsAllowed ),
 
     # internal
     '_dump_aliases'                 : RPNOperatorInfo( dumpAliases,
