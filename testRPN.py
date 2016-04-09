@@ -1819,6 +1819,13 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a30 1 18 range 19 base' )
     testOperator( '-a30 1 19 range 20 base' )
 
+    # barnesg
+    testOperator( '2 i barnesg' )
+    expectEqual( '-a30 3 12 range barnesg', '-a30 1 10 range superfac' )
+
+    # beta
+    testOperator( '5 2 beta' )
+
     # calkin_wilf
     testOperator( '1 100 range calkin_wilf' )
 
@@ -1835,6 +1842,9 @@ def runNumberTheoryOperatorTests( ):
 
     # crt
     testOperator( '1 3 range 10 20 range 3 primes crt' )
+
+    # digamma
+    testOperator( '3 digamma' )
 
     # divisors
     testOperator( '2 3 ** 3 4 ** * divisors' )
@@ -2088,6 +2098,9 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-c -a2800 10239 tribonacci' )
     expectEqual( '0 37 range tribonacci', '73 oeis 38 left' )
     expectResult( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
+
+    # trigamma
+    testOperator( '3 trigamma' )
 
     # unit_roots
     testOperator( '7 unit_roots' )

@@ -60,40 +60,29 @@ class RPNVariable( object ):
 
 # //******************************************************************************
 # //
-# //  class RPNOperatorType
+# //  class RPNOperator
 # //
 # //******************************************************************************
 
-class RPNOperatorType( Enum ):
-    """
-    This enum is used for argument validation for operators.
-    """
-    Default = 0,                # any argument is valid
-    List = 1,                   # the argument must be a list
-    Real = 2,
-    Integer = 3,
-    NonnegativeReal = 4,        # real >= 0
-    PositiveInteger = 5,        # integer >= 1
-    NonnegativeInteger = 6,     # integer >= 0
-    String = 7,
-    DateTime = 8,
-    Location = 9,               # location object (operators will automatically convert a string)
-    Boolean = 10,               # 0 or 1
-    Measurement = 11,
-    AstronomicalObject = 12,
-    Generator = 13,             # Generator needs to be a separate type now, but eventually it should be equivalent to List
-    Function = 14
-
-
-# //******************************************************************************
-# //
-# //  class RPNOperatorInfo
-# //
-# //******************************************************************************
-
-class RPNOperatorInfo( object ):
+class RPNOperator( object ):
     measurementsAllowed = True
     measurementsNotAllowed = False
+
+    Default = 0                 # any argument is valid
+    List = 1                    # the argument must be a list
+    Real = 2
+    Integer = 3
+    NonnegativeReal = 4         # real >= 0
+    PositiveInteger = 5         # integer >= 1
+    NonnegativeInteger = 6      # integer >= 0
+    String = 7
+    DateTime = 8
+    Location = 9                # location object (operators will automatically convert a string)
+    Boolean = 10                # 0 or 1
+    Measurement = 11
+    AstronomicalObject = 12
+    Generator = 13              # Generator needs to be a separate type now, but eventually it should be equivalent to List
+    Function = 14
 
     """This class represents all the data needed to define an operator."""
     def __init__( self, function, argCount, argTypes = list( ), allowMeasurements = measurementsNotAllowed ):

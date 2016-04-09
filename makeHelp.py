@@ -566,7 +566,7 @@ This is my informal, short-term todo list for rpn:
 *  'result' doesn't work with measurements
 *  https://en.wikipedia.org/wiki/American_wire_gauge
 *  Add support for lists in user-defined functions:
-   rpn 1970 2016 range x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval
+   rpn 1970 2016 range lambda x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval
 *  'rpn 1 20 range dBm kilowatt convert' fails.
    This conversion doesn't work because dBm to watt uses a special function.
 *  'floor', 'ceiling', 'mean', 'max' and 'min' should work with measurements
@@ -5169,11 +5169,11 @@ a number of extra libraries.
 '''
 c:\>rpn 0 pi lambda x sin plot
 
-c:\>rpn -5 5 x 4 ** 3 x 3 ** * + 25 x * - plot
+c:\>rpn -5 5 lambda x 4 ** 3 x 3 ** * + 25 x * - plot
 
-c:\>rpn 1 50 x fib plot
+c:\>rpn 1 50 lambda x fib plot
 
-c:\>rpn 1 10 x 1 + fib x fib / plot
+c:\>rpn 1 10 lambda x 1 + fib x fib / plot
 
 ''' ],
 
@@ -5184,7 +5184,7 @@ c:\>rpn 1 10 x 1 + fib x fib / plot
 
 Here's an example to try:
 
-c:\>rpn -2 2 -2 2 x 2 ** y 2 ** - plot2
+c:\>rpn -2 2 -2 2 lambda x 2 ** y 2 ** - plot2
 
 'plot2' is not currently supported by the Windows installer since it requires
 a number of extra libraries.
@@ -5213,10 +5213,10 @@ value.
 '''
 'unfilter' is the same as adding 'negate' to 'filter':
 
-c:\>rpn 1 20 range x is_prime unfilter
+c:\>rpn 1 20 range lambda x is_prime unfilter
 [ 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20 ]
 
-c:\>rpn 1 20 range x is_prime negate filter
+c:\>rpn 1 20 range lambda x is_prime negate filter
 [ 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20 ]
 ''' ],
 
@@ -6540,9 +6540,25 @@ c:\>rpn 4 5 make_pyth_3 unlist euler_brick
 '''
 ''' ],
 
+    'barnesg' : [
+'number_theory', 'evaluates the Barnes G-function for n',
+'''
+The Barnes G-function is the generalization of the superfactorial.
+''',
+'''
+''' ],
+
     'base' : [
 'number_theory', 'interprets list elements as base k digits',
 '''
+''',
+'''
+''' ],
+
+    'beta' : [
+'number_theory', 'evaluates the Beta function for n and k',
+'''
+The Beta function is the equivalent to 'n gamma k gamma * n k + gamma /'.
 ''',
 '''
 ''' ],
@@ -6590,6 +6606,14 @@ c:\>rpn 1 20 range count_divisors
 So using the Chinese Remainder Theorem, this function calculates a number that
 is equal to n[ x ] modulo k[ x ], where x iterating through the indices of each
 list (which must be the same size).
+''',
+'''
+''' ],
+
+    'digamma' : [
+'number_theory', 'calculates the digamma function for n',
+'''
+This is the equivalent of '0 n polygamma'.
 ''',
 '''
 ''' ],
@@ -6698,8 +6722,8 @@ c:\>rpn 1 20 range fibonacci
 
 This shows the relationship between the Fibonacci numbers and the Lucas numbers
 
-c:\>rpn 1 30 2 range2 fib x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib x sqr 5 *
-4 + eval sqrt interleave
+c:\>rpn 1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib
+lambda x sqr 5 * 4 + eval sqrt interleave
 [ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571,
 5778, 9349, 15127, 24476, 39603, 64079, 103682, 167761, 271443, 439204, 710647,
 1149851, 1860498 ]
@@ -7143,6 +7167,14 @@ distributed with data files calculated through several billion primes.
     'tribonacci' : [
 'number_theory', 'calculates the nth Tribonacci number',
 '''
+''',
+'''
+''' ],
+
+    'trigamma' : [
+'number_theory', 'calculates the trigamma function for n',
+'''
+This is the equivalent of '1 n polygamma'.
 ''',
 '''
 ''' ],
@@ -7938,17 +7970,9 @@ c:\>rpn 1 foot 3 ** gallon convert
     'powmod' : [
 'powers_and_roots', 'calculates a to the bth power modulo c',
 '''
-a, b and c are assumed to be integers.  TODO:  rpn should truncate them.
+a, b and c are assumed to be integers
 ''',
 '''
-c:\>rpn 4 5 **
-1024
-
-c:\>rpn 1 10 range 3 **
-[ 1, 8, 27, 64, 125, 216, 343, 512, 729, 1000 ]
-
-c:\>rpn 1 foot 3 ** gallon convert
-7.480519480519 gallons
 ''' ],
 
     'root' : [
