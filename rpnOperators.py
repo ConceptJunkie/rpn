@@ -1145,242 +1145,242 @@ modifiers = {
 listOperators = {
     # algebra
     'add_polynomials'       : RPNOperator( addPolynomials,
-                                                2, [ RPNOperator.List, RPNOperator.List ] ),
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'eval_polynomial'       : RPNOperator( evaluatePolynomial,
-                                                2, [ RPNOperator.List, RPNOperator.List ] ),
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'multiply_polynomials'  : RPNOperator( multiplyPolynomials,
-                                                2, [ RPNOperator.List, RPNOperator.List ] ),
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'polynomial_power'      : RPNOperator( exponentiatePolynomial,
-                                                2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
+                                           2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
 
     'polynomial_product'    : RPNOperator( multiplyListOfPolynomials,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'polynomial_sum'        : RPNOperator( addListOfPolynomials,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'solve'                 : RPNOperator( solvePolynomial,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     # arithmetic
     'gcd'                   : RPNOperator( getGCD,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'lcm'                   : RPNOperator( getLCM,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'max'                   : RPNOperator( max,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'mean'                  : RPNOperator( calculateArithmeticMean,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'geometric_mean'        : RPNOperator( calculateGeometricMean,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'min'                   : RPNOperator( min,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'product'               : RPNOperator( getProduct,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'stddev'                : RPNOperator( getStandardDeviation,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'sum'                   : RPNOperator( getSum,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     # combinatoric
     'multinomial'           : RPNOperator( getMultinomial,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     # conversion
     'convert'               : RPNOperator( convertUnits,
-                                                2, [ RPNOperator.List ] ),   # list arguments are special
+                                           2, [ RPNOperator.List ] ),   # list arguments are special
 
     'latlong_to_nac'        : RPNOperator( convertLatLongToNAC,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'unpack'                : RPNOperator( unpackInteger,
-                                                2, [ RPNOperator.Integer, RPNOperator.List ] ),
+                                           2, [ RPNOperator.Integer, RPNOperator.List ] ),
 
     'pack'                  : RPNOperator( packInteger,
-                                                2, [ RPNOperator.List, RPNOperator.List ] ),
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
 
     # date_time
     'make_datetime'         : RPNOperator( makeDateTime,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'make_iso_time'         : RPNOperator( makeISOTime,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'make_julian_time'      : RPNOperator( makeJulianTime,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     # function
     'filter'                : RPNOperator( filterList,
-                                                2, [ RPNOperator.Generator, RPNOperator.Function ] ),
+                                           2, [ RPNOperator.Generator, RPNOperator.Function ] ),
 
     'filter_by_index'       : RPNOperator( filterListByIndex,
-                                                2, [ RPNOperator.List, RPNOperator.Function ] ),
+                                           2, [ RPNOperator.List, RPNOperator.Function ] ),
 
     'unfilter'              : RPNOperator( lambda n, k: filterList( n, k, True ),
-                                                2, [ RPNOperator.List, RPNOperator.Function ] ),
+                                           2, [ RPNOperator.List, RPNOperator.Function ] ),
 
     'unfilter_by_index'     : RPNOperator( lambda n, k: filterListByIndex( n, k, True ),
-                                                2, [ RPNOperator.List, RPNOperator.Function ] ),
+                                           2, [ RPNOperator.List, RPNOperator.Function ] ),
 
     # list
     'alternate_signs'       : RPNOperator( lambda n: RPNGenerator( alternateSigns( n, False ) ),
-                                                1, [ RPNOperator.Generator ] ),
+                                           1, [ RPNOperator.Generator ] ),
 
     'alternate_signs_2'     : RPNOperator( lambda n: RPNGenerator( alternateSigns( n, True ) ),
-                                                1, [ RPNOperator.Generator ] ),
+                                           1, [ RPNOperator.Generator ] ),
 
     'alternating_sum'       : RPNOperator( lambda n: getAlternatingSum( n, False ),
-                                                1, [ RPNOperator.Generator ] ),
+                                           1, [ RPNOperator.Generator ] ),
 
     'alternating_sum_2'     : RPNOperator( lambda n: getAlternatingSum( n, False ),
-                                                1, [ RPNOperator.Generator ] ),
+                                           1, [ RPNOperator.Generator ] ),
 
     'and_all'               : RPNOperator( getAndAll,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'append'                : RPNOperator( appendLists,
-                                                2, [ RPNOperator.List, RPNOperator.List ] ),
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'collate'               : RPNOperator( collate,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'count'                 : RPNOperator( countElements,
-                                                1, [ RPNOperator.Generator ] ),
+                                           1, [ RPNOperator.Generator ] ),
 
     'diffs'                 : RPNOperator( lambda n: RPNGenerator( getListDiffs( n ) ),
-                                                1, [ RPNOperator.Generator ] ),
+                                           1, [ RPNOperator.Generator ] ),
 
     'diffs2'                : RPNOperator( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ),
-                                                1, [ RPNOperator.Generator ] ),
+                                           1, [ RPNOperator.Generator ] ),
 
     'element'               : RPNOperator( getListElement,
-                                                2, [ RPNOperator.List, RPNOperator.NonnegativeInteger ] ),
+                                           2, [ RPNOperator.List, RPNOperator.NonnegativeInteger ] ),
 
     'flatten'               : RPNOperator( flatten,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'group_elements'        : RPNOperator( groupElements,
-                                                2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
+                                           2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
 
     'interleave'            : RPNOperator( interleave,
-                                                2, [ RPNOperator.List, RPNOperator.List ] ),
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'intersection'          : RPNOperator( makeIntersection,
-                                                2, [ RPNOperator.List, RPNOperator.List ] ),
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'left'                  : RPNOperator( getLeft,
-                                                2, [ RPNOperator.List, RPNOperator.NonnegativeInteger ] ),
+                                           2, [ RPNOperator.List, RPNOperator.NonnegativeInteger ] ),
 
     'max_index'             : RPNOperator( getIndexOfMax,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'min_index'             : RPNOperator( getIndexOfMin,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'nand_all'              : RPNOperator( getNandAll,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'nonzero'               : RPNOperator( getNonzeroes,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'nor_all'               : RPNOperator( getNorAll,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'occurrences'           : RPNOperator( getOccurrences,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'occurrence_cumulative' : RPNOperator( getCumulativeOccurrenceRatios,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'occurrence_ratios'     : RPNOperator( getOccurrenceRatios,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'or_all'                : RPNOperator( getOrAll,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'ratios'                : RPNOperator( lambda n: RPNGenerator( getListRatios( n ) ),
-                                                1, [ RPNOperator.Generator ] ),
+                                           1, [ RPNOperator.Generator ] ),
 
     'ratios2'               : RPNOperator( lambda n: RPNGenerator( getCumulativeListRatios( n ) ),
-                                                1, [ RPNOperator.Generator ] ),
+                                           1, [ RPNOperator.Generator ] ),
 
     'reduce'                : RPNOperator( reduceList,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'reverse'               : RPNOperator( getReverse,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'right'                 : RPNOperator( getRight,
-                                                2, [ RPNOperator.List, RPNOperator.NonnegativeInteger ] ),
+                                           2, [ RPNOperator.List, RPNOperator.NonnegativeInteger ] ),
 
     'shuffle'               : RPNOperator( shuffleList,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'slice'                 : RPNOperator( getSlice,
-                                                3, [ RPNOperator.List, RPNOperator.Integer,
-                                                     RPNOperator.Integer ] ),
+                                           3, [ RPNOperator.List, RPNOperator.Integer,
+                                                RPNOperator.Integer ] ),
 
     'sort'                  : RPNOperator( sortAscending,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'sort_descending'       : RPNOperator( sortDescending,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'sublist'               : RPNOperator( getSublist,
-                                                3, [ RPNOperator.List, RPNOperator.Integer,
+                                           3, [ RPNOperator.List, RPNOperator.Integer,
                                                      RPNOperator.Integer ] ),
 
     'union'                 : RPNOperator( makeUnion,
-                                                2, [ RPNOperator.List, RPNOperator.List ] ),
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'unique'                : RPNOperator( getUniqueElements,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'zero'                  : RPNOperator( getZeroes,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     # number_theory
     'base'                  : RPNOperator( interpretAsBase,
-                                                2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
+                                           2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
 
     'cf'                    : RPNOperator( convertFromContinuedFraction,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'crt'                   : RPNOperator( calculateChineseRemainderTheorem,
-                                                2, [ RPNOperator.List, RPNOperator.List ] ),
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'frobenius'             : RPNOperator( getFrobeniusNumber,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'linear_recurrence'     : RPNOperator( getNthLinearRecurrence,
-                                                3, [ RPNOperator.List, RPNOperator.List,
+                                           3, [ RPNOperator.List, RPNOperator.List,
                                                      RPNOperator.PositiveInteger ] ),
 
     # lexicographic
     'combine_digits'        : RPNOperator( combineDigits,
-                                                1, [ RPNOperator.Generator ] ),
+                                           1, [ RPNOperator.Generator ] ),
 
     # powers_and_roots
     'tower'                 : RPNOperator( calculatePowerTower,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     'tower2'                : RPNOperator( calculatePowerTower2,
-                                                1, [ RPNOperator.List ] ),
+                                           1, [ RPNOperator.List ] ),
 
     # special
     'echo'                  : RPNOperator( addEchoArgument,
-                                                1, [ RPNOperator.Default ] ),
+                                           1, [ RPNOperator.Default ] ),
 }
 
 
