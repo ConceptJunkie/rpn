@@ -98,22 +98,12 @@ def countElements( args ):
 # //
 # //  interleave
 # //
+# //  http://stackoverflow.com/questions/7946798/interleaving-two-lists-in-python
+# //
 # //******************************************************************************
 
 def interleave( arg1, arg2 ):
-    result = list( )
-
-    combined = list( zip( arg1, arg2  ) )
-    combined = [ item for sublist in combined for item in sublist ]
-
-    for i in combined:
-        result.append( i )
-    else:
-        for i in arg1:
-            result.append( i )
-            result.append( arg2 )
-
-    return result
+    return [ val for pair in zip( arg1, arg2 ) for val in pair ]
 
 
 # //******************************************************************************
