@@ -820,3 +820,26 @@ def getNorAll( value ):
     return 0
 
 
+# //******************************************************************************
+# //
+# //  permuteLists
+# //
+# //******************************************************************************
+
+def permuteLists( lists ):
+    for i in lists:
+        if not isinstance( i, ( list, RPNGenerator ) ):
+            raise ValueError( '\'permute_lists\' expects a list of lists' )
+
+    return RPNGenerator.createProduct( lists )
+
+
+# //******************************************************************************
+# //
+# //  forEach
+# //
+# //******************************************************************************
+
+def forEach( list, func ):
+    return [ func( *i ) for i in list ]
+

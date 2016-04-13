@@ -90,6 +90,10 @@ class RPNGenerator( object ):
         return RPNGenerator( permutationGenerator( value ) )
 
     @staticmethod
+    def createStringProduct( value ):
+        return RPNGenerator( productStringGenerator( value ) )
+
+    @staticmethod
     def createProduct( value ):
         return RPNGenerator( productGenerator( value ) )
 
@@ -204,12 +208,23 @@ def permutationGenerator( value ):
 
 # //******************************************************************************
 # //
+# //  productStringGenerator
+# //
+# //******************************************************************************
+
+def productStringGenerator( value ):
+    for product in itertools.product( *value ):
+        yield mpmathify( ''.join( product ) )
+
+
+# //******************************************************************************
+# //
 # //  productGenerator
 # //
 # //******************************************************************************
 
 def productGenerator( value ):
     for product in itertools.product( *value ):
-        yield mpmathify( ''.join( product ) )
+        yield [ mpmathify( i ) for i in product ]
 
 

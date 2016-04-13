@@ -1309,6 +1309,9 @@ listOperators = {
     'or_all'                : RPNOperator( getOrAll,
                                            1, [ RPNOperator.List ] ),
 
+    'permute_lists'         : RPNOperator( permuteLists,
+                                           1, [ RPNOperator.List ] ),
+
     'ratios'                : RPNOperator( lambda n: RPNGenerator( getListRatios( n ) ),
                                            1, [ RPNOperator.Generator ] ),
 
@@ -1394,6 +1397,10 @@ listOperators = {
 # //  the operator handler is called for each element in the first list, along
 # //  with the nth element of each other argument that is also a list.
 # //
+# //  Note:  There is something about the way some of the mpmath functions are
+# //  defined causes them not to work when used in a user-defined function.  So,
+# //  they are all wrapped in a lambda.
+# //
 # //******************************************************************************
 
 operators = {
@@ -1422,7 +1429,7 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'ceiling'                        : RPNOperator( ceil,
+    'ceiling'                        : RPNOperator( lambda n: ceil( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'decrement'                      : RPNOperator( lambda n: subtract( n, 1 ),
@@ -1432,7 +1439,7 @@ operators = {
     'divide'                         : RPNOperator( divide,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
-    'floor'                          : RPNOperator( floor,
+    'floor'                          : RPNOperator( lambda n: floor( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'increment'                      : RPNOperator( lambda n: add( n, 1 ),
@@ -1836,7 +1843,7 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     # combinatoric
-    'bell_polynomial'                : RPNOperator( bell,
+    'bell_polynomial'                : RPNOperator( lambda n, k: bell( n, k ),
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
     'binomial'                       : RPNOperator( binomial,
@@ -1860,7 +1867,7 @@ operators = {
     'nth_apery'                      : RPNOperator( getNthAperyNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'nth_bell'                       : RPNOperator( bell,
+    'nth_bell'                       : RPNOperator( lambda n: bell( n ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'nth_bernoulli'                  : RPNOperator( bernoulli,
@@ -1884,7 +1891,7 @@ operators = {
     'nth_sylvester'                  : RPNOperator( getNthSylvester,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'partitions'                     : RPNOperator( lambda n: getPartitionNumber( n ),
+    'partitions'                     : RPNOperator( getPartitionNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'permutations'                   : RPNOperator( getPermutations,
@@ -2219,13 +2226,13 @@ operators = {
                                                          RPNOperator.Real ] ),
 
     # logarithms
-    'lambertw'                       : RPNOperator( lambertw,
+    'lambertw'                       : RPNOperator( lambda n: lambertw( n ),
                                                     1, [ RPNOperator.Default ] ),
 
-    'li'                             : RPNOperator( li,
+    'li'                             : RPNOperator( lambda n: li( n ),
                                                     1, [ RPNOperator.Default ] ),
 
-    'ln'                             : RPNOperator( ln,
+    'ln'                             : RPNOperator( lambda n: ln( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'log10'                          : RPNOperator( log10,
@@ -2237,7 +2244,7 @@ operators = {
     'logxy'                          : RPNOperator( log,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
-    'polylog'                        : RPNOperator( polylog,
+    'polylog'                        : RPNOperator( lambda n, k: polylog( n, k ),
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
     # number_theory
@@ -2247,7 +2254,7 @@ operators = {
     'alternating_factorial'          : RPNOperator( getNthAlternatingFactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'barnesg'                        : RPNOperator( barnesg,
+    'barnesg'                        : RPNOperator( lambda n: barnesg( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'beta'                           : RPNOperator( beta,
@@ -2302,10 +2309,10 @@ operators = {
     'fraction'                       : RPNOperator( interpretAsFraction,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
-    'gamma'                          : RPNOperator( gamma,
+    'gamma'                          : RPNOperator( lambda n: gamma( n ),
                                                     1, [ RPNOperator.Default ] ),
 
-    'harmonic'                       : RPNOperator( harmonic,
+    'harmonic'                       : RPNOperator( lambda n: harmonic( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'heptanacci'                     : RPNOperator( lambda n: getNthKFibonacciNumber( n, 7 ),
@@ -2314,7 +2321,7 @@ operators = {
     'hexanacci'                      : RPNOperator( lambda n: getNthKFibonacciNumber( n, 6 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'hyperfactorial'                 : RPNOperator( hyperfac,
+    'hyperfactorial'                 : RPNOperator( lambda n: hyperfac( n ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_abundant'                    : RPNOperator( isAbundant,
@@ -2374,7 +2381,7 @@ operators = {
     'leyland'                        : RPNOperator( lambda n, k: fadd( power( n, k ), power( k, n ) ),
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
-    'log_gamma'                      : RPNOperator( loggamma,
+    'log_gamma'                      : RPNOperator( lambda n: loggamma( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'lucas'                          : RPNOperator( getNthLucasNumber,

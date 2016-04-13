@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 
 # //******************************************************************************
 # //
@@ -1315,6 +1315,7 @@ def runFunctionOperatorTests( ):
 
     # filter
     testOperator( '-a20 1 80 range fib lambda x is_prime filter' )
+    expectEqual( '1 100 range lambda x is_prime filter', '1 25 range prime' )
 
     # filter_by_index
     expectEqual( '0 1000 range lambda x is_prime filter_by_index', '1 168 primes' )
@@ -1324,9 +1325,13 @@ def runFunctionOperatorTests( ):
     testOperator( '0 lambda x x / 2 -1 x / power + 1/x limit' )
     testOperator( 'infinity lambda x x ! x root / limit' )   # This one isn't very precise...
     expectEqual( 'infinity lambda x fibonacci x 1 + fibonacci / limit', 'infinity lambda x lucas x 1 + lucas / limit' )
+    expectEqual( 'infinity lambda 1 1 x / + x power limit', 'e' )
+    expectEqual( 'infinity lambda x 1 x / sin * limit', '1' )
+    expectEqual( 'inf lambda 7 x / 1 + 3 x * ** limit', 'e 7 3 * **' )
 
     # limitn
     testOperator( '0 lambda x x / 2 -1 x / power + 1/x limitn' )
+    expectEqual( '0 lambda x x sin / limitn', '1' )
 
     # negate
     expectEqual( '[ 0 10 dup ] negate', '[ 1 10 dup ]' )
@@ -1336,6 +1341,7 @@ def runFunctionOperatorTests( ):
 
     # nsum
     expectEqual( '1 infinity lambda x 3 ** 1/x nsum', '3 zeta' )
+    expectEqual( '0 infinity lambda 1 x ! / nsum', 'e' )
 
     # These operators use the plotting GUI, so aren't included in the automated tests.
     # plot
@@ -1645,6 +1651,7 @@ def runListOperatorTests( ):
 
     # interleave
     testOperator( '1 10 range 1 10 range interleave' )
+    expectEqual( '1 100 2 range2 2 100 2 range2 interleave', '1 100 range' )
 
     # intersection
     testOperator( '1 10 range 1 8 range intersection' )
@@ -1719,8 +1726,8 @@ def runListOperatorTests( ):
     testOperator( '[ 1 10 range 10 dup ] unique' )
 
     # zero
-    testOperator( '-10 10 range zero' )
-    testOperator( '1 10 range zero' )
+    expectEqual( '-10 10 range zero', '[ 10 ]' )
+    expectEqual( '1 10 range zero', '[ ]' )
 
 
 # //******************************************************************************
@@ -1738,6 +1745,7 @@ def runLogarithmsOperatorTests( ):
 
     # ln
     testOperator( '1000 ln' )
+    expectEqual( '0 lambda 1 x ** 5 x * + ln 13 x * / limitn', '5 13 /' )
 
     # log10
     expectResult( '1000 log10', 3 )
@@ -2890,6 +2898,7 @@ def runTrigonometryOperatorTests( ):
     # cos
     expectEqual( '45 degrees cos', '2 sqrt 1/x' )
     testOperator( 'pi radians cos' )
+    expectEqual( '0 lambda 1 x cos - x sqr / limitn', '0.5' )
 
     # cosh
     testOperator( 'pi 3 / cosh' )
@@ -2917,6 +2926,7 @@ def runTrigonometryOperatorTests( ):
 
     # sin
     expectEqual( 'pi 4 / sin', '2 sqrt 1/x' )
+    expectEqual( '0 lambda 2 x * sin 3 x * sin / limitn', '2 3 /' )
 
     # sinh
     testOperator( 'pi 2 / sinh' )

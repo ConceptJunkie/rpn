@@ -283,7 +283,7 @@ def buildNumbers( expression ):
     if ( len( digitLists ) == 1 ):
         return RPNGenerator.createGenerator( convertStringsToNumbers, digitLists )
     else:
-        return RPNGenerator.createProduct( digitLists )
+        return RPNGenerator.createStringProduct( digitLists )
 
 
 # //******************************************************************************

@@ -6046,6 +6046,13 @@ c:\>rpn 5 6 debruijn occurrences
 '''
 ''' ],
 
+    'permute_lists' : [
+'list_operators', 'generates all permutations of the members of each list',
+'''
+''',
+'''
+''' ],
+
     'range' : [
 'list_operators', 'generates a list of successive integers from n to k',
 '''
