@@ -17,11 +17,13 @@ import struct
 from rpnConstants import getNewtonsConstant, getSpeedOfLight
 from rpnGenerator import RPNGenerator
 from rpnList import getProduct
-from rpnMath import exponentiate
+from rpnMath import divide, exponentiate
 from rpnMeasurement import RPNMeasurement, validateUnits
 from rpnUtils import real_int
 
 import rpnGlobals as g
+
+from mpmath import fdiv, fsub, inf, power, sqrt
 
 
 # //******************************************************************************
@@ -35,4 +37,20 @@ def getSchwarzchildRadius( mass ):
 
     return getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( exponentiate( getSpeedOfLight( ), 2 ) )
 
+
+# //******************************************************************************
+# //
+# //  getTimeDilation
+# //
+# //******************************************************************************
+
+def getTimeDilation( velocity ):
+    validateUnits( velocity, 'velocity' )
+
+    c_ratio = divide( velocity, getSpeedOfLight( ) ).value
+
+    if c_ratio == 1:
+        return inf
+
+    return fdiv( 1, sqrt( fsub( 1, power( c_ratio, 2 ) ) ) )
 

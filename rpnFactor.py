@@ -590,6 +590,10 @@ def getFactors( n ):
 # //******************************************************************************
 
 def getFactorList( n ):
+    # We shouldn't have to check for lists here, but something isn't right...
+    if isinstance( n, list ):
+        return [ getFactorList( i ) for i in n ]
+
     return getExpandedFactorList( getFactors( n ) )
 
 

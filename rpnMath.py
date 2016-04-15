@@ -12,8 +12,8 @@
 # //
 # //******************************************************************************
 
-from mpmath import arange, fadd, fdiv, floor, fmod, fmul, fneg, fsub, mpf, \
-                   nint, power, root, sign, sqrt
+from mpmath import arange, ceil, fadd, fdiv, floor, fmod, fmul, fneg, fsub, \
+                   mpf, nint, power, root, sign, sqrt
 
 from rpnDateTime import RPNDateTime
 from rpnMeasurement import RPNMeasurement
@@ -356,13 +356,22 @@ def isInteger( n ):
 
 # //******************************************************************************
 # //
-# //  round
+# //  roundByValue
 # //
 # //******************************************************************************
 
-def round( n, decimals ):
-    factor = power( 10, decimals )
-    return fdiv( nint( fmul( n, factor ) ), factor )
+def roundByValue( n, value ):
+    return fmul( floor( fdiv( fadd( n, fdiv( value, 2 ) ), value ) ), value )
+
+
+# //******************************************************************************
+# //
+# //  roundByDigits
+# //
+# //******************************************************************************
+
+def roundByDigits( n, digits ):
+    return roundByValue( n, power( 10, digits ) )
 
 
 # //******************************************************************************
@@ -384,4 +393,43 @@ def getLarger( n, k ):
 def getSmaller( n, k ):
     return n if real( n ) < real( k ) else k
 
+
+# //******************************************************************************
+# //
+# //  getFloor
+# //
+# //******************************************************************************
+
+def getFloor( n ):
+    return floor( n )
+
+
+# //******************************************************************************
+# //
+# //  getCeiling
+# //
+# //******************************************************************************
+
+def getCeiling( n ):
+    return ceil( n )
+
+
+# //******************************************************************************
+# //
+# //  getMaximum
+# //
+# //******************************************************************************
+
+def getMaximum( n ):
+    return max( n )
+
+
+# //******************************************************************************
+# //
+# //  getMinimum
+# //
+# //******************************************************************************
+
+def getMinimum( n ):
+    return min( n )
 

@@ -556,12 +556,10 @@ See 'rpn help TODO'.
     '''
 This is my informal, short-term todo list for rpn:
 
-*  support rounding to something other than integers
 *  support measurements with 'name'
 *  'humanize' - like 'name' but only 2 significant digits when > 1000
 *  'name' should handle fractions smaller than 1 gracefully (right now it prints nothing)
 *  support date comparisons, etc. before the epoch
-*  separate out argument validation so each operator function doesn't have to do it
 *  create an output handler for RPNLocation
 *  'result' doesn't work with measurements
 *  https://en.wikipedia.org/wiki/American_wire_gauge
@@ -570,18 +568,13 @@ This is my informal, short-term todo list for rpn:
 *  'rpn 1 20 range dBm kilowatt convert' fails.
    This conversion doesn't work because dBm to watt uses a special function.
 *  'floor', 'ceiling', 'mean', 'max' and 'min' should work with measurements
-*  units aren't handled in user-defined functions
+*  units aren't supported in user-defined functions
 *  input parsing doesn't happen in a user-defined function, e.g., '1,000' doesn't get translated to 1000
 *  160327 - Recursion crash when testing:  expectException( '2 i 1 is_divisible' )
 *  Make argument parsing more flexible again.
 *  http://en.wikipedia.org/wiki/Physical_constant
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 *  The Hubble Constant
-*  Time dilation
-   c:\>rpn 1 0.9999 sqr - sqrt 1/x
-   70.7124459519
-*  This shouldn't crash:  rpn 1 10 range factor factor
-*  expand 'build_numbers' syntax to include '[12345:0:4]'
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
 *  'dup_digits' is not intuitive, and it doesn't work right with negative numbers
 *  'is_equal' should handle measurements of different types
@@ -1987,6 +1980,22 @@ c:\>rpn 1.5 nearest_int
     'round' : [
 'arithmetic', 'rounds n to the nearest integer',
 '''
+''',
+'''
+''' ],
+
+    'round_by_digits' : [
+'arithmetic', 'rounds n to the nearest kth power of 10',
+'''
+Note that 'n round' is the equivalent of 'n 0 round_by_digits'.
+''',
+'''
+''' ],
+
+    'round_by_value' : [
+'arithmetic', 'rounds n to the nearest multiple of k',
+'''
+Note that 'n round' is the equivalent of 'n 1 round_by_value'.
 ''',
 '''
 ''' ],
@@ -7222,6 +7231,13 @@ c:\>rpn 4 unit_roots
 '''
 ''' ],
 
+    'time_dilation' : [
+'physics', 'calculates the relativistic time-dilation effect of a velocity difference of n',
+'''
+''',
+'''
+''' ],
+
 
 # //******************************************************************************
 # //
@@ -9165,7 +9181,6 @@ instead of a unit circle.
 
 
 #   'antitet' : [ findTetrahedralNumber, 1 ],
-#   'bernfrac' : [ bernfrac, 1 ],
 }
 
 

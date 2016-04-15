@@ -367,7 +367,7 @@ def runArithmeticOperatorTests( ):
 
     # mean
     expectResult( '1 10 range mean', 5.5 )
-    expectResult( '1 10000 range mean', 5000.5 )
+    expectEqual( '1 10000 range mean', '5000.5' )
 
     # min
     expectResult( '1 10 range min', 1 )
@@ -408,6 +408,22 @@ def runArithmeticOperatorTests( ):
     # round
     expectResult( '0.1 round', 0 )
     expectResult( '4.5 round', 5 )
+
+    # round_by_digits
+    expectResult( '0.1 0 round_by_digits', 0 )
+    expectResult( '4.5 0 round_by_digits', 5 )
+    expectResult( '4.5 1 round_by_digits', 0 )
+    expectResult( '8 1 round_by_digits', 10 )
+    expectResult( '4500 3 round_by_digits', 5000 )
+    expectEqual( 'pi -2 round_by_digits', '3.14' )
+
+    # round_by_value
+    expectResult( '0.1 1 round_by_value', 0 )
+    expectResult( '4.5 1 round_by_value', 5 )
+    expectResult( '4.5 2 round_by_value', 4 )
+    expectResult( '8 3 round_by_value', 9 )
+    expectResult( '4500 7 round_by_value', 4501 )
+    expectEqual( 'pi 0.01 round_by_value', '3.14' )
 
     # sign
     expectResult( '1 sign', 1 )
@@ -2126,6 +2142,9 @@ def runNumberTheoryOperatorTests( ):
 def runPhysicsOperatorTests( ):
     # schwarzchild_radius
     testOperator( 'earth_mass schwarzchild_radius' )
+
+    # time_dilation
+    testOperator( '1 million miles hour / time_dilation' )
 
 
 # //******************************************************************************

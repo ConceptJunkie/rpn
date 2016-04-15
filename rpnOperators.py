@@ -24,10 +24,10 @@ from random import randrange
 
 from mpmath import acosh, acot, acoth, acsc, acsch, agm, arg, asec, asech, \
                    asin, asinh, atan, atanh, barnesg, beta, conj, cosh, cos, \
-                   coth, csc, csch, fac2, fadd, fmod, floor, harmonic, \
-                   hyperfac, lambertw, li, limit, ln, loggamma, nprod, nsum, \
-                   polylog, plot, psi, rand, sec, sech, sin, sinh, superfac, \
-                   tan, tanh, unitroots, zeta
+                   coth, csc, csch, fac2, fadd, fmod, harmonic, hyperfac, \
+                   lambertw, li, limit, ln, loggamma, nprod, nsum, polylog, \
+                   plot, psi, rand, sec, sech, sin, sinh, superfac, tan, \
+                   tanh, unitroots, zeta
 
 from rpnAliases import dumpAliases
 
@@ -1172,7 +1172,7 @@ listOperators = {
     'lcm'                   : RPNOperator( getLCM,
                                            1, [ RPNOperator.List ] ),
 
-    'max'                   : RPNOperator( max,
+    'max'                   : RPNOperator( getMaximum,
                                            1, [ RPNOperator.List ] ),
 
     'mean'                  : RPNOperator( calculateArithmeticMean,
@@ -1181,7 +1181,7 @@ listOperators = {
     'geometric_mean'        : RPNOperator( calculateGeometricMean,
                                            1, [ RPNOperator.List ] ),
 
-    'min'                   : RPNOperator( min,
+    'min'                   : RPNOperator( getMinimum,
                                            1, [ RPNOperator.List ] ),
 
     'product'               : RPNOperator( getProduct,
@@ -1429,7 +1429,7 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'ceiling'                        : RPNOperator( lambda n: ceil( n ),
+    'ceiling'                        : RPNOperator( getCeiling,
                                                     1, [ RPNOperator.Default ] ),
 
     'decrement'                      : RPNOperator( lambda n: subtract( n, 1 ),
@@ -1439,7 +1439,7 @@ operators = {
     'divide'                         : RPNOperator( divide,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
-    'floor'                          : RPNOperator( lambda n: floor( n ),
+    'floor'                          : RPNOperator( getFloor,
                                                     1, [ RPNOperator.Default ] ),
 
     'increment'                      : RPNOperator( lambda n: add( n, 1 ),
@@ -1507,7 +1507,13 @@ operators = {
                                                     1, [ RPNOperator.Default ] ),
 
     'round'                          : RPNOperator( lambda n: floor( fadd( n, 0.5 ) ),
-                                                    1, [ RPNOperator.Default ] ),
+                                                    1, [ RPNOperator.Real ] ),
+
+    'round_by_value'                 : RPNOperator( roundByValue,
+                                                    2, [ RPNOperator.Real, RPNOperator.NonnegativeReal ] ),
+
+    'round_by_digits'                : RPNOperator( roundByDigits,
+                                                    2, [ RPNOperator.Real, RPNOperator.Integer ] ),
 
     'sign'                           : RPNOperator( getSign,
                                                     1, [ RPNOperator.Default ],
@@ -2464,6 +2470,9 @@ operators = {
 
     # physics
     'schwarzchild_radius'            : RPNOperator( getSchwarzchildRadius,
+                                                    1, [ RPNOperator.Measurement ] ),
+
+    'time_dilation'                  : RPNOperator( getTimeDilation,
                                                     1, [ RPNOperator.Measurement ] ),
 
     # polygonal
