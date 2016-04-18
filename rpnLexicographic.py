@@ -493,3 +493,16 @@ def getRightTruncations( n ):
     for i in range( len( str ), 0, -1 ):
         yield mpmathify( str[ 0 : i ] )
 
+
+# //******************************************************************************
+# //
+# //  getPersistence
+# //
+# //******************************************************************************
+
+def getPersistence( n, persistence = 0 ):
+    if n < 10:
+        return persistence
+    else:
+        return getPersistence( multiplyDigits( n ), persistence + 1 )
+

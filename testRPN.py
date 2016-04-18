@@ -1593,6 +1593,12 @@ def runLexicographyOperatorTests( ):
     # permute_digits
     testOperator( '12345 permute_digits' )
 
+    # persistence
+    expectResult( '77 persistence', 4 )
+    testOperator( '679 persistence' )
+    testOperator( '6788 persistence' )
+    testOperator( '68889 persistence' )
+
     # reversal_addition
     testOperator( '-a20 89 24 reversal_addition' )
     testOperator( '-a20 80 89 range 24 reversal_addition' )

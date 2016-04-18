@@ -5682,6 +5682,20 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 '''
 ''' ],
 
+    'persistence' : [
+'lexicography', 'counts the number of times it takes to successively multiply the digits of n to get a one-digit number',
+'''
+This operator implements 'persistence' as described by Martin Gardner:
+
+"A number's persistence is the number of steps required to reduce it to a
+single digit by multiplying all its digits to obtain a second number, then
+multiplying all the digits of that number to obtain a third number, and so
+on until a one-digit number is obtained.
+''',
+'''
+''' ],
+
+
     'reversal_addition' : [
 'lexicography', 'TODO: describe me',
 '''

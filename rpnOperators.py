@@ -2746,6 +2746,9 @@ operators = {
     'pentanacci'                     : RPNOperator( lambda n: getNthKFibonacciNumber( n, 5 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'persistence'                    : RPNOperator( getPersistence,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'polygamma'                      : RPNOperator( psi,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.Default ] ),
 
