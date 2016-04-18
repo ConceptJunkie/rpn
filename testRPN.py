@@ -19,7 +19,7 @@ from collections import OrderedDict
 from rpnOperators import *
 
 from rpnAliases import operatorAliases
-from rpnConstants import constants
+from rpnOperators import constants
 from rpnMeasurement import RPNMeasurement
 from rpnPersistence import loadUnitNameData
 from rpnTestUtils import *

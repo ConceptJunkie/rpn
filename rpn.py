@@ -29,7 +29,7 @@ from rpnMeasurement import RPNMeasurement
 
 from rpnOperators import checkForVariable, constants, evaluateTerm, functionOperators, \
                          listOperators, loadUnitNameData, modifiers, operators, \
-                         RPNFunctionInfo, RPNVariable, saveResult, setAccuracy, \
+                         RPNFunction, RPNVariable, saveResult, setAccuracy, \
                          setPrecision
 
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
@@ -151,7 +151,7 @@ def handleOutput( valueList ):
     if valueList is None:
         return
 
-    if isinstance( valueList[ 0 ], RPNFunctionInfo ):
+    if isinstance( valueList[ 0 ], RPNFunction ):
         print( 'rpn:  unexpected end of input in function definition' )
     elif len( valueList ) != 1:
         print( 'rpn:  unexpected end of input' )
