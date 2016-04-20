@@ -46,12 +46,15 @@ def splitNumberByDigits( n ):
 # //
 # //******************************************************************************
 
-def getDigits( n ):
+def getDigits( n, dropZeroes = False ):
     str = getMPFIntegerAsString( n )
 
     result = [ ]
 
     for c in str:
+        if dropZeroes and c == '0':
+            continue
+
         result.append( int( c ) )
 
     return result
@@ -73,8 +76,13 @@ def sumDigits( n ):
 # //
 # //******************************************************************************
 
-def multiplyDigits( n ):
-    return fprod( getDigits( n ) )
+def multiplyDigits( n, exponent = 1, dropZeroes = False ):
+    if exponent < 1:
+        raise ValueError( 'multiplyDigits( ) expects a positive integer for \'exponent\'' )
+    elif exponent == 1:
+        return fprod( getDigits( n, dropZeroes ) )
+    else:
+        return fprod( [ power( i, exponent ) for i in getDigits( n, dropZeroes ) ] )
 
 
 # //******************************************************************************
@@ -500,9 +508,45 @@ def getRightTruncations( n ):
 # //
 # //******************************************************************************
 
-def getPersistence( n, persistence = 0 ):
-    if n < 10:
+def getPersistence( n, exponent = 1, dropZeroes = False, persistence = 0 ):
+    if exponent == 1 and n < 10:
+        return persistence
+
+    if n <= 1:
         return persistence
     else:
-        return getPersistence( multiplyDigits( n ), persistence + 1 )
+        return getPersistence( multiplyDigits( n, exponent, dropZeroes ), exponent, dropZeroes, persistence + 1 )
+
+
+# //******************************************************************************
+# //
+# //  showPersistence
+# //
+# //******************************************************************************
+
+def showPersistence( n, exponent = 1, dropZeroes = False ):
+    yield n
+
+    if exponent == 1:
+        while n >= 10:
+            n = multiplyDigits( n, exponent, dropZeroes )
+            yield n
+    else:
+        while n > 1:
+            n = multiplyDigits( n, exponent, dropZeroes )
+            yield n
+
+
+# //******************************************************************************
+# //
+# //  showErdosPersistence
+# //
+# //******************************************************************************
+
+def showErdosPersistence( n ):
+    yield n
+
+    while n >= 10:
+        n = multiplyDigits( n, 1, True )
+        yield n
 

@@ -5570,6 +5570,15 @@ c:\>rpn 1 1 7 range primes combine_digits
 '''
 ''' ],
 
+    'erdos_persistence' : [
+'lexicography', 'counts the Erdos version of multiplicative persistence for n',
+'''
+Erdos' version of multiplicative persistence is like Gardner's, but when
+multiplying digits, zeroes are dropped, which makes it more interesting.
+''',
+'''
+''' ],
+
     'find_palindrome' : [
 'lexicography', 'adds the reverse of n to itself up to k successive times to find a palindrome',
 '''
@@ -5675,6 +5684,13 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
 '''
 ''' ],
 
+    'n_persistence' : [
+'lexicography', 'counts the number of times it takes to successively multiply the digits of n to the kth power to get a one-digit number',
+'''
+''',
+'''
+''' ],
+
     'permute_digits' : [
 'lexicography', 'genrates all values with lexicographic permutations of the digits of n',
 '''
@@ -5685,7 +5701,7 @@ c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
     'persistence' : [
 'lexicography', 'counts the number of times it takes to successively multiply the digits of n to get a one-digit number',
 '''
-This operator implements 'persistence' as described by Martin Gardner:
+This operator implements 'multiplicative persistence' as described by Martin Gardner:
 
 "A number's persistence is the number of steps required to reduce it to a
 single digit by multiplying all its digits to obtain a second number, then
@@ -5694,7 +5710,6 @@ on until a one-digit number is obtained.
 ''',
 '''
 ''' ],
-
 
     'reversal_addition' : [
 'lexicography', 'TODO: describe me',
@@ -5714,6 +5729,27 @@ c:\>rpn -a20 89 24 rev_add
 c:\>rpn 123456789 reverse_digits
 987654321
 
+''' ],
+
+    'show_erdos_persistence' : [
+'lexicography', 'shows the Erdos multiplicative persistence chain of n (see \'persistence\')'
+'''
+''',
+'''
+''' ],
+
+    'show_n_persistence' : [
+'lexicography', 'shows the multiplicative persistence chain of n for k (see \'n_persistence\')'
+'''
+''',
+'''
+''' ],
+
+    'show_persistence' : [
+'lexicography', 'shows the multiplicative persistence chain of n (see \'persistence\')'
+'''
+''',
+'''
 ''' ],
 
     'sum_digits' : [

@@ -1545,6 +1545,9 @@ def runLexicographyOperatorTests( ):
     expectResult( '543 2 dup_digits', 54343 )
     expectResult( '1024 1 4 range dup_digits', [ 10244, 102424, 1024024, 10241024 ] )
 
+    # erdos_persistence
+    expectResult( '55555555555555557777777777777 erdos_persistence', 12 )
+
     # find_palindrome
     testOperator( '-a30 10911 55 find_palindrome' )
     testOperator( '180 200 range 10 find_palindrome -s1' )
@@ -1590,6 +1593,12 @@ def runLexicographyOperatorTests( ):
     # multiply_digits
     expectEqual( '123456789 multiply_digits', '9 !' )
 
+    # n_persistence
+    expectResult( '77 1 n_persistence', 4 )
+    testOperator( '679 2 n_persistence' )
+    testOperator( '6788 3 n_persistence' )
+    testOperator( '68889 4 n_persistence' )
+
     # permute_digits
     testOperator( '12345 permute_digits' )
 
@@ -1609,6 +1618,15 @@ def runLexicographyOperatorTests( ):
     # reverse_digits
     testOperator( '37 1 8 range * reverse_digits' )
     testOperator( '37 1 2 9 range range * reverse_digits' )
+
+    # show_erdos_persistence
+    testOperator( '-a30 55555555555555557777777777777 show_erdos_persistence' )
+
+    # show_n_persistence
+    testOperator( '-a60 3 2222222223333333778 3 show_n_persistence' )
+
+    # show_persistence
+    testOperator( '-a20 2222222223333333778 show_persistence' )
 
     # sum_digits
     testOperator( '2 32 ** 1 - sum_digits' )

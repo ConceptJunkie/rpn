@@ -2635,6 +2635,9 @@ operators = {
     'generate_polydivisibles'        : RPNOperator( lambda n: RPNGenerator.createGenerator( generatePolydivisibles, n ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'erdos_persistence'              : RPNOperator( lambda n: getPersistence( n, 1, True ),
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
     'fraction'                       : RPNOperator( interpretAsFraction,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
@@ -2737,6 +2740,9 @@ operators = {
     'n_fibonacci'                    : RPNOperator( getNthKFibonacciNumber,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
+    'n_persistence'                  : RPNOperator( getPersistence,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
+
     'octanacci'                      : RPNOperator( lambda n: getNthKFibonacciNumber( n, 8 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
@@ -2747,7 +2753,7 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'persistence'                    : RPNOperator( getPersistence,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
 
     'polygamma'                      : RPNOperator( psi,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.Default ] ),
@@ -2760,6 +2766,15 @@ operators = {
 
     'riesel'                         : RPNOperator( lambda n: fsub( fmul( real( n ), power( 2, n ) ), 1 ),
                                                     1, [ RPNOperator.Real ] ),
+
+    'show_n_persistence'             : RPNOperator( lambda n, k: RPNGenerator.createGenerator( showPersistence, [ n, k ] ),
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
+
+    'show_persistence'               : RPNOperator( lambda n: RPNGenerator.createGenerator( showPersistence, [ n ] ),
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'show_erdos_persistence'         : RPNOperator( lambda n: RPNGenerator.createGenerator( showErdosPersistence, [ n ] ),
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
 
     'sigma'                          : RPNOperator( getSigma,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
