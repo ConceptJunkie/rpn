@@ -356,12 +356,28 @@ def isInteger( n ):
 
 # //******************************************************************************
 # //
+# //  roundOff
+# //
+# //******************************************************************************
+
+def roundOff( n ):
+    if isinstance( n, RPNMeasurement ):
+        return RPNMeasurement( roundOff( n.getValue( ) ), n.getUnits( ) )
+    else:
+        return floor( fadd( n, 0.5 ) )
+
+
+# //******************************************************************************
+# //
 # //  roundByValue
 # //
 # //******************************************************************************
 
 def roundByValue( n, value ):
-    return fmul( floor( fdiv( fadd( n, fdiv( value, 2 ) ), value ) ), value )
+    if isinstance( n, RPNMeasurement ):
+        return RPNMeasurement( roundByValue( n.getValue( ), value ), n.getUnits( ) )
+    else:
+        return fmul( floor( fdiv( fadd( n, fdiv( value, 2 ) ), value ) ), value )
 
 
 # //******************************************************************************
@@ -371,7 +387,10 @@ def roundByValue( n, value ):
 # //******************************************************************************
 
 def roundByDigits( n, digits ):
-    return roundByValue( n, power( 10, digits ) )
+    if isinstance( n, RPNMeasurement ):
+        return RPNMeasurement( roundByDigits( n.getValue( ), digits ), n.getUnits( ) )
+    else:
+        return roundByValue( n, power( 10, digits ) )
 
 
 # //******************************************************************************
@@ -401,7 +420,10 @@ def getSmaller( n, k ):
 # //******************************************************************************
 
 def getFloor( n ):
-    return floor( n )
+    if isinstance( n, RPNMeasurement ):
+        return RPNMeasurement( getFloor( n.getValue( ) ), n.getUnits( ) )
+    else:
+        return floor( n )
 
 
 # //******************************************************************************
@@ -411,7 +433,10 @@ def getFloor( n ):
 # //******************************************************************************
 
 def getCeiling( n ):
-    return ceil( n )
+    if isinstance( n, RPNMeasurement ):
+        return RPNMeasurement( getCeiling( n.getValue( ) ), n.getUnits( ) )
+    else:
+        return ceil( n )
 
 
 # //******************************************************************************

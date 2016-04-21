@@ -292,7 +292,7 @@ def formatUnits( measurement ):
         exponent = units[ unit ]
 
         if exponent > 0:
-            if unitString != '':
+            if unitString != '' and unit != '_null_unit':
                 unitString += ' '
 
             if value == 1:

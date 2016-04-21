@@ -1163,6 +1163,69 @@ def dumpStats( ):
 
 # //******************************************************************************
 # //
+# //  unpackUnitExpression
+# //
+# //******************************************************************************
+
+def unpackUnitExpression( expression, addNullUnit = True ):
+    pieces = expression.split( '/' )
+
+    if len( pieces ) > 2:
+        raise ValueError( 'only one \'/\' is permitted' )
+    elif len( pieces ) == 2:
+        result = unpackUnitExpression( pieces[ 0 ] )
+        result.extend( unpackUnitExpression( pieces[ 1 ], False ) )
+        result.append( 'divide' )
+
+        return result
+    else:
+        result = [ ]
+
+        units = expression.split( '*' )
+
+        bFirst = True
+
+        for unit in units:
+            if unit == '':
+                raise ValueError( 'wasn\'t expecting another \'*\' in \'' + expression + '\'' )
+
+            operands = unit.split( '^' )
+
+            plainUnit = operands[ 0 ]
+
+            if plainUnit not in g.unitOperators and plainUnit in g.operatorAliases:
+                plainUnit = g.operatorAliases[ plainUnit ]
+
+            operandCount = len( operands )
+
+            exponent = 1
+
+            if operandCount > 1:
+                for i in range( 1, operandCount ):
+                    exponent *= int( floor( operands[ i ] ) )
+
+            if exponent != 0:
+                result.append( plainUnit )
+
+                if exponent != 1:
+                    result.append( str( exponent ) )
+                    result.append( 'power' )
+
+            if bFirst:
+                bFirst = False
+            else:
+                result.append( 'multiply' )
+
+        # kludge
+        if len( result ) > 1 and addNullUnit:
+            result.insert( 0, '_null_unit' )
+            result.append( 'multiply' )
+
+        return result
+
+
+# //******************************************************************************
+# //
 # //  evaluateTerm
 # //
 # //  This looks worse than it is.  It just has to do slightly different things
@@ -1191,7 +1254,15 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 loadUnitData( )
 
             if term not in g.unitOperatorNames:
-                term = RPNUnits( term )
+                newTerms = unpackUnitExpression( term )
+
+                if len( newTerms ) == 1 and newTerms[ 0 ] == term:
+                    term = RPNUnits( term )
+                else:
+                    for newTerm in newTerms:
+                        evaluateTerm( newTerm, index, currentValueList, lastArg )
+
+                    return True
 
             # look for unit without a value (in which case we give it a value of 1)
             if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
@@ -1665,7 +1736,7 @@ listOperators = {
 
     'sublist'               : RPNOperator( getSublist,
                                            3, [ RPNOperator.List, RPNOperator.Integer,
-                                                     RPNOperator.Integer ] ),
+                                                RPNOperator.Integer ] ),
 
     'union'                 : RPNOperator( makeUnion,
                                            2, [ RPNOperator.List, RPNOperator.List ] ),
@@ -1691,7 +1762,7 @@ listOperators = {
 
     'linear_recurrence'     : RPNOperator( getNthLinearRecurrence,
                                            3, [ RPNOperator.List, RPNOperator.List,
-                                                     RPNOperator.PositiveInteger ] ),
+                                                RPNOperator.PositiveInteger ] ),
 
     # lexicographic
     'combine_digits'        : RPNOperator( combineDigits,
@@ -1829,14 +1900,17 @@ operators = {
     'reciprocal'                     : RPNOperator( takeReciprocal,
                                                     1, [ RPNOperator.Default ] ),
 
-    'round'                          : RPNOperator( lambda n: floor( fadd( n, 0.5 ) ),
-                                                    1, [ RPNOperator.Real ] ),
+    'round'                          : RPNOperator( roundOff,
+                                                    1, [ RPNOperator.Real ],
+                                                    RPNOperator.measurementsAllowed ),
 
     'round_by_value'                 : RPNOperator( roundByValue,
-                                                    2, [ RPNOperator.Real, RPNOperator.NonnegativeReal ] ),
+                                                    2, [ RPNOperator.Real, RPNOperator.NonnegativeReal ],
+                                                    RPNOperator.measurementsAllowed ),
 
     'round_by_digits'                : RPNOperator( roundByDigits,
-                                                    2, [ RPNOperator.Real, RPNOperator.Integer ] ),
+                                                    2, [ RPNOperator.Real, RPNOperator.Integer ],
+                                                    RPNOperator.measurementsAllowed ),
 
     'sign'                           : RPNOperator( getSign,
                                                     1, [ RPNOperator.Default ],

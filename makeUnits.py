@@ -517,7 +517,8 @@ def initializeConversionMatrix( unitConversionMatrix ):
     unitTypeTable = makeUnitTypeTable( unitOperators )
 
     for unitType in sorted( basicUnitTypes ):
-        print( '    ', unitType, '({} units)'.format( len( unitTypeTable[ unitType ] ) ) )
+        if unitType != '_null_type':
+            print( '    ', unitType, '({} units)'.format( len( unitTypeTable[ unitType ] ) ) )
 
         while True:
             newConversion = False

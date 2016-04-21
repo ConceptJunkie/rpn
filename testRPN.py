@@ -277,6 +277,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '-0.4 floor', -1 )
     expectResult( '1 floor', 1 )
     expectResult( '3.4 floor', 3 )
+    expectEqual( '10.3 cups floor', '10 cups' )
+    expectEqual( '88 mph 10 round_by_value', '90 mph' )
 
     # gcd
     expectResult( '1 100 range gcd', 1 )
@@ -408,6 +410,7 @@ def runArithmeticOperatorTests( ):
     # round
     expectResult( '0.1 round', 0 )
     expectResult( '4.5 round', 5 )
+    expectEqual( '9.9 W round', '10 W' )
 
     # round_by_digits
     expectResult( '0.1 0 round_by_digits', 0 )
@@ -416,6 +419,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '8 1 round_by_digits', 10 )
     expectResult( '4500 3 round_by_digits', 5000 )
     expectEqual( 'pi -2 round_by_digits', '3.14' )
+    expectEqual( '88 mph 1 round_by_digits', '90 mph' )
+    expectEqual( 'avogadro 20 round_by_digits', '6.022e23' )
 
     # round_by_value
     expectResult( '0.1 1 round_by_value', 0 )
@@ -424,6 +429,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '8 3 round_by_value', 9 )
     expectResult( '4500 7 round_by_value', 4501 )
     expectEqual( 'pi 0.01 round_by_value', '3.14' )
+    expectEqual( '88 mph 10 round_by_value', '90 mph' )
 
     # sign
     expectResult( '1 sign', 1 )

@@ -41,6 +41,12 @@ from rpnUnitClasses import *
 # //******************************************************************************
 
 basicUnitTypes = {
+    '_null_type' : RPNUnitTypeInfo(
+        'constant',
+        'length^0',
+        None
+    ),
+
     'acceleration' : RPNUnitTypeInfo(
         'length/time^2',
         'meter/second^2',
@@ -274,6 +280,12 @@ basicUnitTypes = {
 # //******************************************************************************
 
 unitOperators = {
+    # _null_type
+    '_null_unit' :
+        RPNUnitInfo( '_null_type', '', '', '', [ ], [ ],
+                     '''
+                     ''' ),
+
     # acceleration
     'galileo' :
         RPNUnitInfo( 'acceleration', 'galileo', 'galileos', '', [ ], [ 'CGS' ],
@@ -2275,7 +2287,7 @@ by Knuth.
                      ''' ),
 
     'second' :
-        RPNUnitInfo( 'time', 'second', 'seconds', '', [ ], [ 'SI', 'traditional', 'FPS' ],   # 'sec' is already an operator
+        RPNUnitInfo( 'time', 'second', 'seconds', 's', [ ], [ 'SI', 'traditional', 'FPS' ],   # 'sec' is already an operator
                      '''
                      ''' ),
 

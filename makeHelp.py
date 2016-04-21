@@ -326,6 +326,14 @@ c:\>rpn 1 inf lambda 2 x ** 1/x nsum
     '''
     [ TODO: describe unit conversions in rpn ]
 
+    explain the difference between:
+
+    40 cm 3 **
+
+    and
+
+    40 cm^3
+
 For now, here are some examples:
 
     c:\>rpn 10 miles km convert
@@ -407,6 +415,12 @@ What is the Planck time?
 And how does the surface gravity of that black hole compare to Earth's?
     c:\>rpn -a20 G solar_mass * 2954.17769868 meters sqr / gee /
     1551151150565.8376167
+
+What is the age of the universe based on a Hubble constant of 67.8
+km/second*Mpc?
+
+    c:\>rpn 67.8 km second Mpc * / invert years convert -c
+    14,421,714,183.2 years
 
 TODO:  This doesn't work right now!
 I tried to make the unit conversion flexible and smart.  It is... sometimes.
@@ -528,9 +542,6 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
     '''
 -u doesn't work with complex numbers
 
-Polynomials should support being taken to positive integral powers, but don't
-yet.
-
 Unit conversion suffers from small rounding errors in some situations.  This
 is unavoidable to a certain extent, but it's worse than I think it should be.
 
@@ -550,6 +561,12 @@ Transitive conversions with units that require special functions don't work.
 Options that take arguments can no longer have a space between them (i.e.,
 You need to do '-a20' instead of '-a 20' ).
 
+"rpn 1 1 4 range range 10 15 range 1 3 range range2" crashes because
+operators that take more than 2 arguments don't handle recursive list
+arguments.
+
+160327 - Recursion crash when testing:  expectException( '2 i 1 is_divisible' )
+
 See 'rpn help TODO'.
     ''',
     'TODO' :
@@ -558,7 +575,8 @@ This is my informal, short-term todo list for rpn:
 
 *  support measurements with 'name'
 *  'humanize' - like 'name' but only 2 significant digits when > 1000
-*  'name' should handle fractions smaller than 1 gracefully (right now it prints nothing)
+*  'name' should handle fractions smaller than 1 gracefully (right now it
+   prints nothing)
 *  support date comparisons, etc. before the epoch
 *  create an output handler for RPNLocation
 *  'result' doesn't work with measurements
@@ -567,17 +585,18 @@ This is my informal, short-term todo list for rpn:
    rpn 1970 2016 range lambda x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval
 *  'rpn 1 20 range dBm kilowatt convert' fails.
    This conversion doesn't work because dBm to watt uses a special function.
-*  'floor', 'ceiling', 'mean', 'max' and 'min' should work with measurements
+*  'mean', 'max' and 'min' should work with measurements
 *  units aren't supported in user-defined functions
-*  input parsing doesn't happen in a user-defined function, e.g., '1,000' doesn't get translated to 1000
-*  160327 - Recursion crash when testing:  expectException( '2 i 1 is_divisible' )
+*  input parsing doesn't happen in a user-defined function, e.g., '1,000'
+   doesn't get translated to 1000
 *  Make argument parsing more flexible again.
 *  http://en.wikipedia.org/wiki/Physical_constant
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
-*  The Hubble Constant
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
 *  'dup_digits' is not intuitive, and it doesn't work right with negative numbers
 *  'is_equal' should handle measurements of different types
+
+See 'rpn help bugs'.
     ''',
     'old_release_notes' :
     '''
