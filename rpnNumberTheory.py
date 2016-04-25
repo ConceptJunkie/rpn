@@ -696,7 +696,7 @@ def getLCM( args ):
     if isinstance( args, RPNGenerator ):
         return getLCM( list( args ) )
     elif isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ getLCM( arg ) for arg in args ]
         else:
             result = 1

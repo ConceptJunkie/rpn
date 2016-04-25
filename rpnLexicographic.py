@@ -298,10 +298,18 @@ def buildNumbers( expression ):
 # //
 # //  buildLimitedDigitNumbers
 # //
+# //  TODO:  This should be creating a generator!
+# //
 # //******************************************************************************
 
 def buildLimitedDigitNumbers( digits, minLength, maxLength ):
     result = [ ]
+
+    if minLength < 1:
+        raise ValueError( 'minimum length must be greater than 0' )
+
+    if  maxLength < minLength:
+        raise ValueError( 'maximum length must be greater than or equal to minimum length' )
 
     for i in range( minLength, maxLength + 1 ):
         for item in itertools.product( digits, repeat=i ):

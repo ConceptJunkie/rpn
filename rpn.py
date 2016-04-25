@@ -29,8 +29,8 @@ from rpnMeasurement import RPNMeasurement
 
 from rpnOperators import checkForVariable, constants, evaluateTerm, functionOperators, \
                          listOperators, loadUnitNameData, modifiers, operators, \
-                         RPNFunction, RPNVariable, saveResult, setAccuracy, \
-                         setPrecision
+                         preprocessTerms, RPNFunction, RPNVariable, saveResult, \
+                         setAccuracy, setPrecision
 
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                       printHelp, printHelpModeHelp, printTitleScreen
@@ -258,6 +258,9 @@ def enterInteractiveMode( ):
         else:
             if g.timer or g.tempTimerMode:
                 g.startTime = time.process_time( )
+
+            #newTerms = preprocessTerms( terms )
+            #print( 'newTerms', newTerms )
 
             if validateArguments( terms ):
                 valueList = evaluate( terms )
@@ -566,6 +569,9 @@ def rpn( cmd_args ):
     # let's check out the arguments before we start to do any calculations
     if not validateArguments( terms ):
         return
+
+    #newTerms = preprocessTerms( terms )
+    #print( 'newTerms', newTerms )
 
     # waiting until we've validated the arguments to do this because it's slow
     if not loadUnitNameData( ):

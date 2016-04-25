@@ -743,6 +743,54 @@ def filterListByIndex( n, k, invert = False ):
 
 # //******************************************************************************
 # //
+# //  preprocessTerms
+# //
+# //******************************************************************************
+
+def preprocessTerms( terms ):
+    """
+    Given the initial list of arguments form the user, there are several
+    things we want to do to the list before handing it off to the actual
+    operator evaluator.  This logic used to be part of the evaluator, but
+    that made the code a lot more complicated.  Hopefully, this will make
+    the code simpler and easier to read.
+
+    If this function returns an empty list, then rpn should abort.  This
+    function should print out any error messages.
+    """
+    result = [ ]
+
+    # do some basic validation of the arguments we were given...
+    if not validateArguments( terms ):
+        return result
+
+    for term in terms:
+        # translate the aliases into their real names
+        if term in g.operatorAliases:
+            result.append( g.operatorAliases[ term ] )
+        # operators and unit operator names can be stuck right back in the list
+        elif term in ( operators, g.unitOperatorNames ):
+            result.append( term )
+        # translate compound units in the equivalent operators
+        elif ( '*' in term or '^' in term or '/' in term ) and \
+            any( c in term for c in string.ascii_letters ):
+
+            # handle a unit operator
+            if not g.unitOperators:
+                loadUnitData( )
+
+            newTerms = unpackUnitExpression( term )
+
+            for newTerm in newTerms:
+                result.append( newTerm )
+        else:
+            result.append( term )
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  evaluateConstantOperator
 # //
 # //  We know there are no arguments.  Although none of the constants currently
@@ -1098,7 +1146,6 @@ def caller( func, args ):
         if isinstance( arg, list ):
             for i in arg:
                 return [ map( func, *args ) ]
-
 
 
 # //******************************************************************************

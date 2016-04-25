@@ -297,6 +297,18 @@ def validateArguments( terms ):
         print( 'rpn:  mismatched brackets (count: {})'.format( bracketCount ) )
         return False
 
+    braceCount = 0
+
+    for term in terms:
+        if term == '{':
+            braceCount += 1
+        elif term == '}':
+            braceCount -= 1
+
+    if braceCount:
+        print( 'rpn:  mismatched brace (count: {})'.format( braceCount ) )
+        return False
+
     return True
 
 
