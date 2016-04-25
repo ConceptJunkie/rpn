@@ -284,9 +284,11 @@ def runArithmeticOperatorTests( ):
     expectResult( '1 100 range gcd', 1 )
     expectResult( '[ 124 324 ] gcd', 4 )
     expectResult( '[ 8 64 ] gcd', 8 )
+    testOperator( '1 2 10 range range gcd' )
 
     # geometric_mean
     testOperator( '1 10 range geometric_mean' )
+    testOperator( '1 1 10 range range geometric_mean' )
 
     # increment
     expectResult( '2 increment', 3 )
@@ -361,20 +363,24 @@ def runArithmeticOperatorTests( ):
 
     # lcm
     expectEqual( '1 10 range lcm', '[ 2 2 2 3 3 5 7 ] prod' )
+    testOperator( '1 1 10 range range lcm' )
 
     # max
     expectResult( '1 10 range max', 10 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
+    expectEqual( '1 1 10 range range max', '1 10 range' )
 
     # mean
     expectResult( '1 10 range mean', 5.5 )
     expectEqual( '1 10000 range mean', '5000.5' )
+    testOperator( '1 1 10 range range mean' )
 
     # min
     expectResult( '1 10 range min', 1 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] min', 2 )
+    expectEqual( '1 1 10 range range min', '[ 1 10 dup ]' )
 
     # modulo
     expectResult( '11001 100 modulo', 1 )
@@ -399,10 +405,11 @@ def runArithmeticOperatorTests( ):
 
     # product
     expectEqual( '-a200 1 100 range product', '-a200 100 !' )
-    expectResult( '[ 2 cups ] prod', RPNMeasurement( 2, 'cup' ) )
-    expectResult( '[ 3 2 cups ] prod', RPNMeasurement( 6, 'cup' ) )
-    expectResult( '[ 2 cups 8 16 ] prod', RPNMeasurement( 256, 'cup' ) )
-    expectResult( '[ 3 2 cups 8 16 ] prod', RPNMeasurement( 768, 'cup' ) )
+    expectResult( '[ 2 cups ] product', RPNMeasurement( 2, 'cup' ) )
+    expectResult( '[ 3 2 cups ] product', RPNMeasurement( 6, 'cup' ) )
+    expectResult( '[ 2 cups 8 16 ] product', RPNMeasurement( 256, 'cup' ) )
+    expectResult( '[ 3 2 cups 8 16 ] product', RPNMeasurement( 768, 'cup' ) )
+    testOperator( '1 1 10 range range prod' )
 
     # reciprocal
     expectEqual( '6 7 / reciprocal', '7 6 /' )
@@ -444,6 +451,7 @@ def runArithmeticOperatorTests( ):
 
     # stddev
     testOperator( '1 10 range stddev' )
+    testOperator( '1 1 10 range range stddev' )
 
     # subtract
     testOperator( '3948 474 subtract' )
@@ -461,6 +469,7 @@ def runArithmeticOperatorTests( ):
     # sum
     expectResult( '1 10 range sum', 55 )
     testOperator( '[ 27 days 7 hour 43 minute 12 second ] sum' )
+    testOperator( '1 1 10 range range sum' )
 
 
 # //******************************************************************************

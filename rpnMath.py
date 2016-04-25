@@ -16,6 +16,7 @@ from mpmath import arange, ceil, fadd, fdiv, floor, fmod, fmul, fneg, fsub, \
                    mpf, nint, power, root, sign, sqrt
 
 from rpnDateTime import RPNDateTime
+from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 from rpnName import getOrdinalName
 from rpnUtils import real
@@ -446,7 +447,10 @@ def getCeiling( n ):
 # //******************************************************************************
 
 def getMaximum( n ):
-    return max( n )
+    if isinstance( n[ 0 ], ( list, RPNGenerator ) ):
+        return [ max( arg ) for arg in n ]
+    else:
+        return max( n )
 
 
 # //******************************************************************************
@@ -456,5 +460,8 @@ def getMaximum( n ):
 # //******************************************************************************
 
 def getMinimum( n ):
-    return min( n )
+    if isinstance( n[ 0 ], ( list, RPNGenerator ) ):
+        return [ min( arg ) for arg in n ]
+    else:
+        return min( n )
 

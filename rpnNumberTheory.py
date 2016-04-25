@@ -644,7 +644,7 @@ def getGCD( a, b = 0 ):
 
         return b
 
-    if isinstance( a[ 0 ], list ):
+    if isinstance( a[ 0 ], ( list, RPNGenerator ) ):
         return [ getGCD( real( arg ) ) for arg in a ]
     else:
         result = max( a )

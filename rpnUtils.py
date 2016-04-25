@@ -44,6 +44,8 @@ from functools import reduce
 
 import rpnGlobals as g
 
+from rpnGenerator import RPNGenerator
+
 
 # //******************************************************************************
 # //
@@ -415,6 +417,9 @@ def getExpandedFactorList( factors ):
 # //******************************************************************************
 
 def real( n ):
+    if isinstance( n, ( list, RPNGenerator ) ):
+        return n
+
     if im( n ) != 0:
         raise ValueError( 'real argument expected ({})'.format( n ) )
 

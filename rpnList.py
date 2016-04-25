@@ -472,6 +472,11 @@ def calculatePowerTower2( args ):
 # //******************************************************************************
 
 def getSum( n ):
+    if isinstance( n, RPNGenerator ):
+        return getSum( list( n ) )
+    elif isinstance( n[ 0 ], ( list, RPNGenerator ) ):
+        return [ getSum( arg ) for arg in n ]
+
     result = None
 
     for i in n:
@@ -492,6 +497,8 @@ def getSum( n ):
 def getProduct( n ):
     if isinstance( n, RPNGenerator ):
         return getProduct( list( n ) )
+    elif isinstance( n[ 0 ], ( list, RPNGenerator ) ):
+        return [ getProduct( arg ) for arg in n ]
 
     if not n:
         return 0
@@ -534,8 +541,7 @@ def getProduct( n ):
 def getStandardDeviation( args ):
     if isinstance( args, RPNGenerator ):
         return getStandardDeviation( list( args ) )
-
-    if isinstance( args[ 0 ], list ):
+    elif isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         return [ getStandardDeviation( arg ) for arg in args ]
 
     mean = fsum( args ) / len( args )

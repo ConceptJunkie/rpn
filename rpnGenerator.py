@@ -14,8 +14,6 @@
 
 import itertools
 
-from rpnUtils import getMPFIntegerAsString
-
 from mpmath import arange, ceil, fadd, fdiv, fmul, fsub, mpmathify, power
 
 
