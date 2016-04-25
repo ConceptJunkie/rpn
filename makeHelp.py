@@ -321,6 +321,15 @@ c:\>rpn inf lambda x 1 + fib x fib / limit
 
 c:\>rpn 1 inf lambda 2 x ** 1/x nsum
 1
+
+What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
+number with a 1 added on the end?
+
+    c:\> rpn ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter
+    [ 42857 ]
+
+    c:\>rpn 428571 142857 /
+    3
     ''',
     'unit_conversion' :
     '''
