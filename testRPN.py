@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 
 # //******************************************************************************
 # //
@@ -29,23 +29,6 @@ from testHelp import *
 
 from mpmath import *
 
-
-# //******************************************************************************
-# //
-# //  testOperator just evaluates an RPN expression to make sure nothing throws
-# //  an exception.
-# //
-# //  expectResult actually tests that the result from RPN matches the value
-# //  given.
-# //
-# //  expectEqual evaluates two RPN expressions and verifies that the results
-# //  are the same.
-# //
-# //  expectEquivalent evaluates two RPN expressions and verifies that the
-# //  results are equivalent.  This means that if the results are lists, they
-# //  need to have the same elements, but not necessarily be in the same order.
-# //
-# //******************************************************************************
 
 # //******************************************************************************
 # //
