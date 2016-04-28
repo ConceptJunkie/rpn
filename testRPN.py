@@ -42,6 +42,7 @@ def runCommandLineOptionsTests( ):
     testOperator( '100101011010011 -b2' )
     testOperator( '120012022211222012 -b3' )
     testOperator( 'rick -b36' )
+    expectException( '9999 -b8' )
 
     testOperator( '6 8 ** -c' )
 
@@ -124,6 +125,7 @@ def runCommandLineOptionsTests( ):
     testOperator( '1 100 range -r61' )
     testOperator( '1 100 range -r62' )
     testOperator( '1 100 range -rphi' )
+    expectException( '1 100 range -r63' )
 
     testOperator( '-a1000 -d5 7 square_root -r62' )
     testOperator( '-a1000 -d5 pi -r8' )
@@ -240,13 +242,16 @@ def runArithmeticOperatorTests( ):
     testOperator( 'today 3 days add' )
     testOperator( 'today 3 weeks add' )
     testOperator( 'now 150 miles 10 furlongs fortnight / / add' )
+    expectException( '2 cups 3 weeks +' )
 
     # ceiling
     expectResult( '9.99999 ceiling', 10 )
     expectResult( '-0.00001 ceiling', 0 )
+    expectResult( '9.5 cups ceiling', RPNMeasurement( 10, 'cups' ) )
 
     # decrement
     expectResult( '2 decrement', 1 )
+    expectResult( '3 miles decrement', RPNMeasurement( 2, 'miles' ) )
 
     # divide
     testOperator( '12 13 divide' )
@@ -254,6 +259,7 @@ def runArithmeticOperatorTests( ):
     testOperator( 'marathon 100 miles hour / / minutes convert' )
     testOperator( '2 zeta sqrt 24 sqrt / 12 *' )
     testOperator( 'now 2014-01-01 - minutes /' )
+    expectResult( '4 cups 2 cups /', 2 )
     expectException( '1 0 divide' )
 
     # floor
@@ -262,6 +268,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '3.4 floor', 3 )
     expectEqual( '10.3 cups floor', '10 cups' )
     expectEqual( '88 mph 10 round_by_value', '90 mph' )
+    expectEqual( '4.5 i 8.6 + floor', '4 i 8 +' )
+    expectResult( '3.14 miles floor', RPNMeasurement( 3, 'miles' ) )
 
     # gcd
     expectResult( '1 100 range gcd', 1 )
@@ -275,6 +283,8 @@ def runArithmeticOperatorTests( ):
 
     # increment
     expectResult( '2 increment', 3 )
+    expectEqual( '2 i increment', '2 i 1 +' )
+    expectResult( '3 miles increment', RPNMeasurement( 4, 'miles' ) )
 
     # is_divisible
     expectResult( '1000 10000 is_divisible', 0 )
@@ -282,7 +292,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '12 1 12 range is_divisible', [ 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 ] )
     expectResult( '1 20 range 6 is_divisible', [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ] )
     expectException( '1 0 is_divisible' )
-    #expectException( '2 i 1 is_divisible' )
+    expectException( '20 i 4 is_divisible' )
 
     # is_equal
     expectResult( '4 3 is_equal', 0 )
@@ -300,11 +310,13 @@ def runArithmeticOperatorTests( ):
     expectResult( '4 3 is_greater', 1 )
     expectResult( '55 55 is_greater', 0 )
     expectResult( 'e pi is_greater', 0 )
+    expectException( '3 i 6 is_greater' )
 
     # is_less
     expectResult( '4 3 is_less', 0 )
     expectResult( '2 2 is_less', 0 )
     expectResult( '2 3 is_less', 1 )
+    expectException( '5 i 4 is_less' )
 
     # is_not_equal
     expectResult( '4 3 is_not_equal', 1 )
@@ -314,11 +326,13 @@ def runArithmeticOperatorTests( ):
     expectResult( '4 3 is_not_greater', 0 )
     expectResult( '77 77 is_not_greater', 1 )
     expectResult( '2 99 is_not_greater', 1 )
+    expectException( '2 i 7 is_not_greater' )
 
     # is_not_less
     expectResult( '4 3 is_not_less', 1 )
     expectResult( '663 663 is_not_less', 1 )
     expectResult( '-100 100 is_not_less', 0 )
+    expectException( '8 i -14 is_not_less' )
 
     # is_not_zero
     expectResult( '-1 is_not_zero', 1 )
@@ -331,6 +345,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '0 is_odd', 0 )
     expectResult( '1 is_odd', 1 )
     expectResult( '2 is_odd', 0 )
+    expectException( '5 i 3 + is_odd' )
 
     # is_square
     expectResult( '1024 is_square', 1 )
@@ -342,7 +357,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '1 is_zero', 0 )
 
     # larger
-    expectResult( '7 -7 larger' , 7 )
+    expectResult( '7 -7 larger', 7 )
+    expectException( '5 i 3 + 6 larger' )
 
     # lcm
     expectEqual( '1 10 range lcm', '[ 2 2 2 3 3 5 7 ] prod' )
@@ -353,6 +369,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
     expectEqual( '1 1 10 range range max', '1 10 range' )
+    expectException( '[ 5 i 3 6 7 ] max' )
 
     # mean
     expectResult( '1 10 range mean', 5.5 )
@@ -364,12 +381,14 @@ def runArithmeticOperatorTests( ):
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] min', 2 )
     expectEqual( '1 1 10 range range min', '[ 1 10 dup ]' )
+    expectException( '[ 5 i 3 6 7 ] min' )
 
     # modulo
     expectResult( '11001 100 modulo', 1 )
     expectResult( '-120 7 modulo', 6 )
     expectResult( '8875 49 modulo', 6 )
     expectResult( '199467 8876 modulo', 4195 )
+    expectException( '20 i 3 modulo' )
 
     # multiply
     expectResult( '5 7 multiply', 35 )
@@ -385,6 +404,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '-4 negative', 4 )
     expectResult( '0 negative', 0 )
     expectResult( '4 negative', -4 )
+    expectEqual( '5 i 7 + negative', '-5 i 7 -' )
 
     # product
     expectEqual( '-a200 1 100 range product', '-a200 100 !' )
@@ -401,6 +421,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '0.1 round', 0 )
     expectResult( '4.5 round', 5 )
     expectEqual( '9.9 W round', '10 W' )
+    expectException( '5.4 i round' )
 
     # round_by_digits
     expectResult( '0.1 0 round_by_digits', 0 )
@@ -411,6 +432,7 @@ def runArithmeticOperatorTests( ):
     expectEqual( 'pi -2 round_by_digits', '3.14' )
     expectEqual( '88 mph 1 round_by_digits', '90 mph' )
     expectEqual( 'avogadro 20 round_by_digits', '6.022e23' )
+    expectException( '6.7 i 5 + 1 round_by_digits' )
 
     # round_by_value
     expectResult( '0.1 1 round_by_value', 0 )
@@ -420,6 +442,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '4500 7 round_by_value', 4501 )
     expectEqual( 'pi 0.01 round_by_value', '3.14' )
     expectEqual( '88 mph 10 round_by_value', '90 mph' )
+    expectException( '12.3 i 1 round_by_value' )
 
     # sign
     expectResult( '1 sign', 1 )
@@ -431,6 +454,7 @@ def runArithmeticOperatorTests( ):
 
     # smaller
     expectResult( '7 -7 smaller' , -7 )
+    expectException( '2 i 5 + 3 smaller' )
 
     # stddev
     testOperator( '1 10 range stddev' )
@@ -448,11 +472,13 @@ def runArithmeticOperatorTests( ):
     testOperator( 'today 2 months -' )
     testOperator( 'today 1965-03-31 -' )
     testOperator( '2015-01-01 1965-03-31 -' )
+    expectException( '2 light_years 3 seconds -' )
 
     # sum
     expectResult( '1 10 range sum', 55 )
     testOperator( '[ 27 days 7 hour 43 minute 12 second ] sum' )
     testOperator( '1 1 10 range range sum' )
+    expectEqual( '[ 2 cups 3 cups 4 cups 5 cups ] sum', '14 cups' )
 
 
 # //******************************************************************************
@@ -946,7 +972,9 @@ def runComplexMathOperatorTests( ):
     testOperator( '3 3 i + argument' )
 
     # conjugate
-    testOperator( '3 3 i + conjugate' )
+    expectEqual( '3 3 i + conjugate', '3 3 i -' )
+    expectEqual( '3 3 i + conjugate', '3 3 i -' )
+    expectEqual( '5 i 7 - conjugate', '-5 i 7 -' )
 
     # i
     expectEqual( '3 i', '-9 sqrt' )

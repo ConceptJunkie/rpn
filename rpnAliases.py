@@ -381,6 +381,7 @@ operatorAliases = {
     'is_nonequal'               : 'is_not_equal',
     'is_not_more'               : 'is_not_greater',
     'is_sqr'                    : 'is_square',
+    'j'                         : 'i',
     'jalali'                    : 'to_persian',
     'jalali_name'               : 'to_persian_name',
     'jan'                       : 'january',

@@ -207,10 +207,8 @@ def runArithmeticOperatorTests( ):
     #expectEqual( '88 mph 10 round_by_value', '90 mph' )
 
     # gcd
-    #expectResult( '1 100 range gcd', 1 )
-    #expectResult( '[ 124 324 ] gcd', 4 )
-    #expectResult( '[ 8 64 ] gcd', 8 )
-    #testOperator( '1 2 10 range range gcd' )
+    expectEqual( '[ 124 324 ] gcd', queryAlpha( 'gcd of 324 and 124' ) )
+    expectEqual( '[ 1296 1440 ] gcd', queryAlpha( 'gcd of 1296 and 1440' ) )
 
     # geometric_mean
     #testOperator( '1 10 range geometric_mean' )
@@ -288,8 +286,8 @@ def runArithmeticOperatorTests( ):
     #expectResult( '7 -7 larger' , 7 )
 
     # lcm
-    #expectEqual( '1 10 range lcm', '[ 2 2 2 3 3 5 7 ] prod' )
-    #testOperator( '1 1 10 range range lcm' )
+    expectEqual( '[ 3 12 36 65 10 ] lcm', queryAlpha( 'least common multiple of 3 12 36 65 10' ) )
+    expectEqual( '[ 1296 728 3600 460 732 ] lcm', queryAlpha( 'least common multiple of 1296 728 3600 460 732' ) )
 
     # max
     #expectResult( '1 10 range max', 10 )
@@ -396,7 +394,6 @@ def runArithmeticOperatorTests( ):
     #expectResult( '1 10 range sum', 55 )
     #testOperator( '[ 27 days 7 hour 43 minute 12 second ] sum' )
     #testOperator( '1 1 10 range range sum' )
-    pass
 
 
 # //******************************************************************************

@@ -1888,7 +1888,7 @@ operators = {
                                                     RPNOperator.measurementsAllowed ),
 
     'is_divisible'                   : RPNOperator( isDivisible,
-                                                    2, [ RPNOperator.Default, RPNOperator.Default ] ),
+                                                    2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
     'is_equal'                       : RPNOperator( isEqual,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ],

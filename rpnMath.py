@@ -255,7 +255,7 @@ def tetrateLarge( i, j ):
 # //******************************************************************************
 
 def isDivisible( n, k ):
-    return 1 if fmod( n, k ) == 0 else 0
+    return 1 if fmod( real( n ), real( k ) ) == 0 else 0
 
 
 # //******************************************************************************
@@ -365,7 +365,7 @@ def roundOff( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundOff( n.getValue( ) ), n.getUnits( ) )
     else:
-        return floor( fadd( n, 0.5 ) )
+        return floor( fadd( real( n ), 0.5 ) )
 
 
 # //******************************************************************************
@@ -378,7 +378,7 @@ def roundByValue( n, value ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundByValue( n.getValue( ), value ), n.getUnits( ) )
     else:
-        return fmul( floor( fdiv( fadd( n, fdiv( value, 2 ) ), value ) ), value )
+        return fmul( floor( fdiv( fadd( real( n ), fdiv( value, 2 ) ), value ) ), value )
 
 
 # //******************************************************************************
@@ -391,7 +391,7 @@ def roundByDigits( n, digits ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundByDigits( n.getValue( ), digits ), n.getUnits( ) )
     else:
-        return roundByValue( n, power( 10, digits ) )
+        return roundByValue( real( n ), power( 10, digits ) )
 
 
 # //******************************************************************************

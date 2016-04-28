@@ -165,6 +165,8 @@ def getNSphereVolume( n, k ):
 # //
 # //  getTriangleArea
 # //
+# //  TODO:  check for invalid triangles
+# //
 # //******************************************************************************
 
 def getTriangleArea( a, b, c ):
