@@ -2151,6 +2151,13 @@ center of the sun is 6 degrees below the horizon.
 '''
 ''' ],
 
+    'distance_from_earth' : [
+'astronomy', 'returns the distance from Earth of astronomical object n for date-time k',
+'''
+''',
+'''
+''' ],
+
     'dusk' : [
 'astronomy', 'calculates the next dusk time at location n for date-time k',
 '''

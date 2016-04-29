@@ -1990,6 +1990,9 @@ operators = {
     'day_time'                       : RPNOperator( lambda n, k: getTransitTime( ephem.Sun( ), n, k ),
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
+    'distance_from_earth'            : RPNOperator( getDistanceFromEarth,
+                                                    2, [ RPNOperator.AstronomicalObject, RPNOperator.DateTime ] ),
+
     'dusk'                           : RPNOperator( getNextDusk,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 

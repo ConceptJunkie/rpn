@@ -18,6 +18,7 @@ from mpmath import fdiv, fmul, mpmathify, pi
 
 from rpnDateTime import RPNDateTime
 from rpnLocation import getLocation, RPNLocation
+from rpnMeasurement import RPNMeasurement
 from rpnMath import subtract
 
 
@@ -427,4 +428,19 @@ def getNextDusk( location, date, horizon = -6 ):
     location.observer.horizon = old_horizon
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  getDistanceFromEarth
+# //
+# //******************************************************************************
+
+def getDistanceFromEarth( n, k ):
+    if not isinstance( n, ephem.Body ) or not isinstance( k, RPNDateTime ):
+        raise ValueError( '\'sky_location\' expects an astronomical object and a date-time' )
+
+    n.compute( k.to( 'utc' ).format( ) )
+
+    return RPNMeasurement( n.earth_distance * ephem.meters_per_au, 'meters' )
 
