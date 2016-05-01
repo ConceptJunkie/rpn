@@ -125,6 +125,7 @@ def runCommandLineOptionsTests( ):
     testOperator( '1 100 range -r61' )
     testOperator( '1 100 range -r62' )
     testOperator( '1 100 range -rphi' )
+    expectException( '1 100 range -r1' )
     expectException( '1 100 range -r63' )
 
     testOperator( '-a1000 -d5 7 square_root -r62' )
