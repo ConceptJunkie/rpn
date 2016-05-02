@@ -181,7 +181,7 @@ def getRoot( n, k ):
                 else:
                     name = getOrdinalName( k )
 
-                raise ValueError( 'cannot take the ' + name + ' root of this measurement' )
+                raise ValueError( 'cannot take the ' + name + ' root of this measurement: ', n.getUnits( ) ) #print measurement RPNMeasurement.getValue( ) )
 
             newUnits[ unit ] /= k
 

@@ -734,6 +734,30 @@ def applyNumberValueToUnit( number, term ):
 # //******************************************************************************
 
 def validateUnits( measurement, unitType ):
-    if not measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].dimensions ) ):
+    if not checkUnits( measurement, unitType ):
         raise ValueError( unitType + ' unit expected' )
+
+
+# //******************************************************************************
+# //
+# //  checkUnits
+# //
+# //******************************************************************************
+
+def checkUnits( measurement, unitType ):
+    return measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].dimensions ) )
+
+
+# //******************************************************************************
+# //
+# //  getWhichUnitType
+# //
+# //******************************************************************************
+
+def getWhichUnitType( measurement, unitTypes ):
+    for unitType in unitTypes:
+        if checkUnits( measurement, unitType ):
+            return unitType
+
+    return None
 

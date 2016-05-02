@@ -436,6 +436,12 @@ of 640 kilometers?
     c:\>rpn G earth_mass * earth_radius 640 km + / sqrt mph convert
     16860.8051067 miles/hour
 
+What is the altitude from the Earth's surface of an object in geosynchronous
+orbit?
+    c:\>rpn [ 24 hours sqr G earth_mass ] prod 4 pi sqr * /  cube_root miles
+        convert earth_rad
+    22286.8973699 miles
+
 TODO:  This doesn't work right now!
 I tried to make the unit conversion flexible and smart.  It is... sometimes.
     c:>rpn 16800 mA hours * 5 volts * joule convert
@@ -7328,6 +7334,13 @@ c:\>rpn 4 unit_roots
 '''
 ''' ],
 
+    'orbital_mass' : [
+'physics', '',
+'''
+''',
+'''
+''' ],
+
     'orbital_period' : [
 'physics', 'calculates the orbital period of an object orbiting mass n at radius k',
 '''
@@ -7335,9 +7348,22 @@ c:\>rpn 4 unit_roots
 '''
 ''' ],
 
-    'orbital_velocity' : [
-'physics', 'calculates the orbital velocity of an object orbiting mass n at radius k',
+    'orbital_radius' : [
+'physics', '',
 '''
+''',
+'''
+''' ],
+
+    'orbital_velocity' : [
+'physics', 'calculates the circular orbital velocity of an object for values n and k',
+'''
+The two arguments need to measurements of two of the following three types in
+any order:
+
+mass (the mass of the object being orbited)
+length (the radius of the orbit)
+time (the period of the orbit)
 ''',
 '''
 ''' ],

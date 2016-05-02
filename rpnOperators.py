@@ -2169,27 +2169,27 @@ operators = {
 
     # calendar
     'ash_wednesday'                  : RPNOperator( calculateAshWednesday,
-                                                    1, [ 
+                                                    1, [
 RPNOperator.PositiveInteger ] ),
 
     'calendar'                       : RPNOperator( generateMonthCalendar,
-                                                    1, [ 
+                                                    1, [
 RPNOperator.PositiveInteger ] ),
 
     'dst_end'                        : RPNOperator( calculateDSTEnd,
-                                                    1, [ 
+                                                    1, [
 RPNOperator.PositiveInteger ] ),
 
     'dst_start'                      : RPNOperator( calculateDSTStart,
-                                                    1, [ 
+                                                    1, [
 RPNOperator.PositiveInteger ] ),
 
     'easter'                         : RPNOperator( calculateEaster,
-                                                    1, [ 
+                                                    1, [
 RPNOperator.PositiveInteger ] ),
 
     'election_day'                   : RPNOperator( calculateElectionDay,
-                                                    1, [ 
+                                                    1, [
 RPNOperator.PositiveInteger ] ),
 
     'from_bahai'                     : RPNOperator( convertBahaiDate,
@@ -2225,11 +2225,11 @@ RPNOperator.PositiveInteger ] ),
                                                     1, [ RPNOperator.DateTime ] ),
 
     'labor_day'                      : RPNOperator( calculateLaborDay,
-                                                    1, [ 
+                                                    1, [
 RPNOperator.PositiveInteger ] ),
 
     'memorial_day'                   : RPNOperator( calculateMemorialDay,
-                                                    1, [ 
+                                                    1, [
 RPNOperator.PositiveInteger ] ),
 
     'nth_weekday'                    : RPNOperator( calculateNthWeekdayOfMonth,
@@ -2241,11 +2241,11 @@ RPNOperator.PositiveInteger ] ),
                                                          RPNOperator.PositiveInteger ] ),
 
     'presidents_day'                 : RPNOperator( calculatePresidentsDay,
-                                                    1, [ 
+                                                    1, [
 RPNOperator.PositiveInteger ] ),
 
     'thanksgiving'                   : RPNOperator( calculateThanksgiving,
-                                                    1, [ 
+                                                    1, [
 RPNOperator.PositiveInteger ] ),
 
     'to_bahai'                       : RPNOperator( getBahaiCalendarDate,
@@ -2947,7 +2947,13 @@ RPNOperator.PositiveInteger ] ),
     'escape_velocity'                : RPNOperator( getEscapeVelocity,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
+    'orbital_mass'                   : RPNOperator( getOrbitalMass,
+                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
+
     'orbital_period'                 : RPNOperator( getOrbitalPeriod,
+                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
+
+    'orbital_radius'                 : RPNOperator( getOrbitalRadius,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
     'orbital_velocity'               : RPNOperator( getOrbitalVelocity,
