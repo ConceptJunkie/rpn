@@ -217,7 +217,11 @@ class RPNMeasurement( object ):
 
         #print( '__init__', value, units, unitName, pluralUnitName )
 
-        self.value = value
+        if isinstance( value, str ):
+            self.value = mpmathify( value )
+        else:
+            self.value = value
+
         self.units = RPNUnits( units )
         self.unitName = unitName
         self.pluralUnitName = pluralUnitName

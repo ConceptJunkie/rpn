@@ -387,18 +387,12 @@ What is the volume of a sphere with a surface area of 100 square inches?
     c:\>rpn 100 square_inches sphere_volume cubic_inches convert
     94.031597258 cubic inches
 
-What is the escape velocity from the Earth's surface?
-    c:\>rpn 2 G * earth_mass * earth_radius / sqrt
-    11181.5933259 meters per second
-
-Obviously, this doesn't take air resistance into account.
-
 What is the temperature of a black hole with the same mass as the sun?
-    c:\>rpn h_bar c 3 ** * [ 8 pi G boltzmann solar_mass ] prod /
+    c:\>rpn h_bar c 3 ** * [ 8 pi G boltzmann sun_mass ] prod /
     6.16832371699e-8 degrees kelvin
 
 And what is the radius of the black hole (i.e., the Schwartzchild radius)?
-    c:\>rpn [ 2 G solar_mass ] prod c sqr /
+    c:\>rpn [ 2 G sun_mass ] prod c sqr /
     2954.17769868 meters
 
 What is the Planck length?
@@ -422,7 +416,7 @@ What is the Planck time?
     5.39115754865e-44 seconds
 
 And how does the surface gravity of that black hole compare to Earth's?
-    c:\>rpn -a20 G solar_mass * 2954.17769868 meters sqr / gee /
+    c:\>rpn -a20 G sun_mass * 2954.17769868 meters sqr / gee /
     1551151150565.8376167
 
 What is the age of the universe based on a Hubble constant of 67.8
@@ -430,6 +424,17 @@ km/second*Mpc?
 
     c:\>rpn 67.8 km second Mpc * / invert years convert -c
     14,421,714,183.2 years
+
+What is the escape velocity from the Earth's surface?
+    c:\>rpn 2 G * earth_mass * earth_radius / sqrt
+    11181.5933259 meters per second
+
+Obviously, this doesn't take air resistance into account.
+
+What is the orbital velocity of a satellite orbiting the Earth at an altitude
+of 640 kilometers?
+    c:\>rpn G earth_mass * earth_radius 640 km + / sqrt mph convert
+    16860.8051067 miles/hour
 
 TODO:  This doesn't work right now!
 I tried to make the unit conversion flexible and smart.  It is... sometimes.
@@ -4201,14 +4206,14 @@ Ref:  CODATA 2014
 # //
 # //******************************************************************************
 
-    'solar_luminosity' : [
-'constants', 'returns ',
+    'sun_luminosity' : [
+'constants', 'returns the luminosity of the Sun',
 '''
 ''',
 '''
 ''' ],
 
-    'solar_mass' : [
+    'sun_mass' : [
 'constants', 'returns the estimated mass of the Sun in kilograms',
 '''
 Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
@@ -4216,8 +4221,15 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''' ],
 
-    'solar_radius' : [
-'constants', 'returns ',
+    'sun_radius' : [
+'constants', 'returns the radius of the Sun in meters',
+'''
+''',
+'''
+''' ],
+
+    'sun_volume' : [
+'constants', 'returns the volume of the Sun in meters^3',
 '''
 ''',
 '''
@@ -7309,8 +7321,29 @@ c:\>rpn 4 unit_roots
 # //
 # //******************************************************************************
 
+    'escape_velocity' : [
+'physics', 'calculates the escape velocity of an object of mass n and radius k',
+'''
+''',
+'''
+''' ],
+
+    'orbital_period' : [
+'physics', 'calculates the orbital period of an object orbiting mass n at radius k',
+'''
+''',
+'''
+''' ],
+
+    'orbital_velocity' : [
+'physics', 'calculates the orbital velocity of an object orbiting mass n at radius k',
+'''
+''',
+'''
+''' ],
+
     'schwarzchild_radius' : [
-'physics', 'calculates the Schwarzchild radius of a black hole given its mass',
+'physics', 'calculates the Schwarzchild radius of a black hole of mass n',
 '''
 ''',
 '''

@@ -2191,6 +2191,15 @@ def runNumberTheoryOperatorTests( ):
 # //******************************************************************************
 
 def runPhysicsOperatorTests( ):
+    # escape_velocity
+    testOperator( 'earth_mass earth_radius escape_velocity' )
+
+    # orbital_period
+    testOperator( 'earth_mass earth_radius 640 km + orbital_period' )
+
+    # orbital_velocity
+    testOperator( 'earth_mass earth_radius 640 km + orbital_velocity' )
+
     # schwarzchild_radius
     testOperator( 'earth_mass schwarzchild_radius' )
 

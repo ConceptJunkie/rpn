@@ -508,10 +508,10 @@ constants = {
 
     # heavenly body constants
     # sun_day
-    'solar_luminosity'              : RPNOperator( lambda: RPNMeasurement( '3.826e26', 'watt' ), 0 ),
-    'solar_mass'                    : RPNOperator( lambda: RPNMeasurement( '1.988500e30', 'kilogram' ), 0 ),
-    'solar_radius'                  : RPNOperator( lambda: RPNMeasurement( '6.9599e8', 'meter' ), 0 ),
-    'solar_volume'                  : RPNOperator( lambda: RPNMeasurement( '1.412e27', 'meter^3' ), 0 ),
+    'sun_luminosity'                : RPNOperator( lambda: RPNMeasurement( '3.826e26', 'watt' ), 0 ),
+    'sun_mass'                      : RPNOperator( lambda: RPNMeasurement( '1.988500e30', 'kilogram' ), 0 ),
+    'sun_radius'                    : RPNOperator( lambda: RPNMeasurement( '6.9599e8', 'meter' ), 0 ),
+    'sun_volume'                    : RPNOperator( lambda: RPNMeasurement( '1.412e27', 'meter^3' ), 0 ),
 
     'mercury_mass'                  : RPNOperator( lambda: RPNMeasurement( '3.301e26', 'kilogram' ), 0 ),
     # equitorial radius
@@ -2238,7 +2238,7 @@ RPNOperator.PositiveInteger ] ),
 
     'nth_weekday_of_year'            : RPNOperator( calculateNthWeekdayOfYear,
                                                     3, [ RPNOperator.PositiveInteger, RPNOperator.Integer,
-                                                         RPNOperator.Integer ] ),
+                                                         RPNOperator.PositiveInteger ] ),
 
     'presidents_day'                 : RPNOperator( calculatePresidentsDay,
                                                     1, [ 
@@ -2944,6 +2944,15 @@ RPNOperator.PositiveInteger ] ),
                                                     1, [ RPNOperator.Default ] ),
 
     # physics
+    'escape_velocity'                : RPNOperator( getEscapeVelocity,
+                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
+
+    'orbital_period'                 : RPNOperator( getOrbitalPeriod,
+                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
+
+    'orbital_velocity'               : RPNOperator( getOrbitalVelocity,
+                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
+
     'schwarzchild_radius'            : RPNOperator( getSchwarzchildRadius,
                                                     1, [ RPNOperator.Measurement ] ),
 

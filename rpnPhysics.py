@@ -17,13 +17,13 @@ import struct
 from rpnConstants import getNewtonsConstant, getSpeedOfLight
 from rpnGenerator import RPNGenerator
 from rpnList import getProduct
-from rpnMath import divide, exponentiate
+from rpnMath import divide, exponentiate, getRoot, multiply
 from rpnMeasurement import RPNMeasurement, validateUnits
 from rpnUtils import real_int
 
 import rpnGlobals as g
 
-from mpmath import fdiv, fsub, inf, power, sqrt
+from mpmath import fdiv, fsub, inf, pi, power, sqrt
 
 
 # //******************************************************************************
@@ -53,4 +53,43 @@ def getTimeDilation( velocity ):
         return inf
 
     return fdiv( 1, sqrt( fsub( 1, power( c_ratio, 2 ) ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getEscapeVelocity
+# //
+# //******************************************************************************
+
+def getEscapeVelocity( mass, radius ):
+    validateUnits( mass, 'mass' )
+    validateUnits( radius, 'length' )
+
+    return getRoot( getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( radius ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getOrbitalVelocity
+# //
+# //******************************************************************************
+
+def getOrbitalVelocity( mass, radius ):
+    validateUnits( mass, 'mass' )
+    validateUnits( radius, 'length' )
+
+    return getRoot( getProduct( [ getNewtonsConstant( ), mass ] ).divide( radius ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getOrbitalPeriod
+# //
+# //******************************************************************************
+
+def getOrbitalPeriod( mass, radius ):
+    validateUnits( mass, 'mass' )
+    validateUnits( radius, 'length' )
+
+    return divide( getProduct( [ 2, pi, radius ] ), getOrbitalVelocity( mass, radius ) )
 
