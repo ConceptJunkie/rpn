@@ -86,7 +86,7 @@ def getOrbitalMass( measurement1, measurement2 ):
     r = orbit radius (the distance from the center of mass)
 
     ---- mass in terms of period and velocity
-    m =
+    m = v^3*T/2*pi*G
 
     ---- mass in terms of period and radius
     m = 4*pi^2*r3/G*T^2
@@ -99,14 +99,14 @@ def getOrbitalMass( measurement1, measurement2 ):
     unitType1 = getWhichUnitType( measurement1, unitTypes )
 
     if not unitType1:
-        raise ValueError( '\'orbital_period\' expects arguments for two of the following: ', ', '.join( unitTypes ) )
+        raise ValueError( '\'orbital_mass\' expects arguments for two of the following: ', ', '.join( unitTypes ) )
 
     unitTypes.remove( unitType1 )
 
     unitType2 = getWhichUnitType( measurement2, unitTypes )
 
     if not unitType2:
-        raise ValueError( '\'orbital_period\' expects the second argument to be one of the following: ', ', '.join( unitTypes ) )
+        raise ValueError( '\'orbital_mass\' expects the second argument to be one of the following: ', ', '.join( unitTypes ) )
 
     if unitType1 == 'time':
         period = measurement1
@@ -118,7 +118,7 @@ def getOrbitalMass( measurement1, measurement2 ):
             bRadius = False
             velocity = measurement2
     elif unitType2 == 'time':
-        mass = measurement2
+        period = measurement2
 
         if unitType1 == 'length':
             bRadius = True
@@ -132,13 +132,17 @@ def getOrbitalMass( measurement1, measurement2 ):
         else:
             radius, velocity = measurement2, measurement1
 
+        # velocity and radius
         return divide( getProduct( [ velocity, velocity, radius ] ), getNewtonsConstant( ) )
 
     if bRadius:
+        # radius and period
         return divide( getProduct( [ 4, pi, pi, radius, radius, radius ] ),
                        getProduct( [ getNewtonsConstant( ), period, period ] ) )
     else:
-        return RPNMeasurement( 1, [ 'kilogram' ] )  # velocity and period
+        # velocity and period
+        return divide( getProduct( [ velocity, velocity, velocity, period ] ),
+                       getProduct( [ 2, pi, getNewtonsConstant( ) ] ) )
 
 
 # //******************************************************************************
@@ -165,7 +169,7 @@ def getOrbitalPeriod( measurement1, measurement2 ):
     T = 2*pi*r/v
 
     ---- period in terms of mass and velocity
-    T =
+    T = 2*pi*G*m/v^3
     """
     unitTypes = [ 'mass', 'length', 'velocity' ]
 
@@ -205,13 +209,17 @@ def getOrbitalPeriod( measurement1, measurement2 ):
         else:
             radius, velocity = measurement2, measurement1
 
+        # radius and velocity
         return divide( getProduct( [ 2, pi, radius ] ), velocity )
 
     if bRadius:
+        # radius and mass
         term = divide( exponentiate( radius, 3 ), multiply( getNewtonsConstant( ), mass ) )
         return getProduct( [ 2, pi, getRoot( term, 2 ) ] )
     else:
-        return RPNMeasurement( 1, [ 'second ' ] )  # velocity and mass
+        # velocity and mass
+        return divide( getProduct( [ 2, pi, getNewtonsConstant( ), mass ] ),
+                       exponentiate( velocity, 3 ) )
 
 
 # //******************************************************************************
@@ -278,13 +286,16 @@ def getOrbitalRadius( measurement1, measurement2 ):
         else:
             period, velocity = measurement2, measurement1
 
+        # period and velocity
         return divide( multiply( velocity, period ), fmul( 2, pi ) )
 
     if bPeriod:
+        # period and mass
         term = divide( getProduct( [ exponentiate( period, 2 ), getNewtonsConstant( ), mass ] ),
                        fmul( 4, power( pi, 2 ) ) )
         return getRoot( term, 3 )
     else:
+        # velocity and mass
         return divide( multiply( getNewtonsConstant( ), mass ), exponentiate( velocity, 2 ) )
 
 
@@ -352,11 +363,14 @@ def getOrbitalVelocity( measurement1, measurement2 ):
         else:
             radius, period = measurement2, measurement1
 
+        # radius and period
         return divide( getProduct( [ 2, pi, radius ] ), period )
 
     if bRadius:
+        # mass and radius
         return getRoot( divide( multiply( getNewtonsConstant( ), mass ), radius ), 2 )
     else:
+        # mass and period
         term = divide( getProduct( [ period, period, getNewtonsConstant( ), mass ] ),
                        getProduct( [ 4, pi, pi ] ) )
 

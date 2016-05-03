@@ -2198,6 +2198,7 @@ def runPhysicsOperatorTests( ):
     testOperator( 'earth_mass earth_radius 640 km + orbital_period' )
 
     # orbital_mass
+    testOperator( '25620 miles 24 hours orbital_mass' )
 
     # orbital_radius
     expectEqual( '24 hours 6872 mph orbital_radius', '6872 mph 24 hours orbital_radius' )
@@ -2205,9 +2206,9 @@ def runPhysicsOperatorTests( ):
     # orbital_velocity
     testOperator( 'earth_mass earth_radius 640 km + orbital_velocity' )
 
-    expectEqual( 'earth_mass 24 hours orbital_velocity mph convert', '24 hours earth_mass orbital_velocity mph convert' )
-    expectEqual( '26250.08 miles 24 hours orbital_velocity mph convert', '24 hours 26250.08 miles orbital_velocity mph convert' )
-    expectEqual( 'earth_mass 26250.08 miles orbital_velocity mph convert', 'earth_mass 26250.08 miles orbital_velocity mph convert' )
+    #expectEqual( 'earth_mass 24 hours orbital_velocity mph convert', '24 hours earth_mass orbital_velocity mph convert' )
+    #expectEqual( '26250.08 miles 24 hours orbital_velocity mph convert', '24 hours 26250.08 miles orbital_velocity mph convert' )
+    #expectEqual( 'earth_mass 26250.08 miles orbital_velocity mph convert', 'earth_mass 26250.08 miles orbital_velocity mph convert' )
 
     # schwarzchild_radius
     testOperator( 'earth_mass schwarzchild_radius' )
