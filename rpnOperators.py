@@ -1030,7 +1030,7 @@ def evaluateOneArgFunction( func, args, level = 0 ):
     if isinstance( args, list ):
         result = [ evaluateOneArgFunction( func, i, level + 1 ) for i in args ]
     elif isinstance( args, RPNGenerator ):
-        result =  RPNGenerator.createChained( args.getGenerator( ), func )
+        result = RPNGenerator.createChained( args.getGenerator( ), func )
     else:
         result = func( args )
 
@@ -2169,28 +2169,22 @@ operators = {
 
     # calendar
     'ash_wednesday'                  : RPNOperator( calculateAshWednesday,
-                                                    1, [
-RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'calendar'                       : RPNOperator( generateMonthCalendar,
-                                                    1, [
-RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'dst_end'                        : RPNOperator( calculateDSTEnd,
-                                                    1, [
-RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'dst_start'                      : RPNOperator( calculateDSTStart,
-                                                    1, [
-RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'easter'                         : RPNOperator( calculateEaster,
-                                                    1, [
-RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'election_day'                   : RPNOperator( calculateElectionDay,
-                                                    1, [
-RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'from_bahai'                     : RPNOperator( convertBahaiDate,
                                                     3, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger,
@@ -2225,12 +2219,10 @@ RPNOperator.PositiveInteger ] ),
                                                     1, [ RPNOperator.DateTime ] ),
 
     'labor_day'                      : RPNOperator( calculateLaborDay,
-                                                    1, [
-RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'memorial_day'                   : RPNOperator( calculateMemorialDay,
-                                                    1, [
-RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'nth_weekday'                    : RPNOperator( calculateNthWeekdayOfMonth,
                                                     4, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger,
@@ -2241,12 +2233,10 @@ RPNOperator.PositiveInteger ] ),
                                                          RPNOperator.PositiveInteger ] ),
 
     'presidents_day'                 : RPNOperator( calculatePresidentsDay,
-                                                    1, [
-RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'thanksgiving'                   : RPNOperator( calculateThanksgiving,
-                                                    1, [
-RPNOperator.PositiveInteger ] ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'to_bahai'                       : RPNOperator( getBahaiCalendarDate,
                                                     1, [ RPNOperator.DateTime ] ),
