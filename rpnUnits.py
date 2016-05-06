@@ -167,6 +167,18 @@ basicUnitTypes = {
         informationEntropyTable,
     ),
 
+    'jerk' : RPNUnitTypeInfo(
+        'length/time^3',
+        'meter/second^3',
+        jerkTable
+    ),
+
+    'jounce' : RPNUnitTypeInfo(
+        'length/time^4',
+        'meter/second^4',
+        jounceTable
+    ),
+
     'length' : RPNUnitTypeInfo(
         'length',
         'meter',
@@ -1404,6 +1416,18 @@ developed at Moscow State University, which used trits and 6-trit trytes.
                      '''
 A word is traditionally two bytes, or 16 bits.  The term 'wyde' was suggested
 by Knuth.
+                     ''' ),
+
+    # jerk
+    'meter/second^3' :
+        RPNUnitInfo( 'jerk', 'meter/second^3', 'meter/second^3', 'm/s^3', [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
+    # jounce
+    'meter/second^4' :
+        RPNUnitInfo( 'jounce', 'meter/second^4', 'meter/second^4', 'm/s^4', [ ], [ 'SI' ],
+                     '''
                      ''' ),
 
     # length

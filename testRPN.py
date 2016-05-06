@@ -2197,18 +2197,64 @@ def runPhysicsOperatorTests( ):
     # orbital_period
     testOperator( 'earth_mass earth_radius 640 km + orbital_period' )
 
+    testOperator( 'earth_mass 6872.2568 mph orbital_period' )
+    testOperator( '6872.2568 mph earth_mass orbital_period' )
+    testOperator( 'earth_mass 26250.087 miles orbital_period' )
+    testOperator( '26250.087 miles earth_mass orbital_period' )
+    testOperator( '26250.087 miles 6872.2568 mph orbital_period' )
+    testOperator( '6872.2568 mph 26250.087 miles orbital_period' )
+
+    expectEqual( 'earth_mass 6872.2568 mph orbital_period', '6872.2568 mph earth_mass orbital_period' )
+    expectEqual( 'earth_mass 26250.087 miles orbital_period', '26250.087 miles earth_mass orbital_period' )
+    expectEqual( '26250.087 miles 6872.2568 mph orbital_period', '6872.2568 mph 26250.087 miles orbital_period' )
+
+    expectException( '6872.2568 gallons 25620.087 mph orbital_mass' )
+
     # orbital_mass
-    testOperator( '25620 miles 24 hours orbital_mass' )
+    testOperator( '25620.087 miles 24 hours orbital_mass' )
+    testOperator( '24 hours 25620.087 miles orbital_mass' )
+    testOperator( '25620.087 miles 6872.2568 mph orbital_mass' )
+    testOperator( '6872.2568 mph 25620.087 miles orbital_mass' )
+    testOperator( '24 hours 6872.2568 mph orbital_mass' )
+    testOperator( '6872.2568 mph 24 hours orbital_mass' )
+
+    expectEqual( '25620.087 miles 24 hours orbital_mass', '24 hours 25620.087 miles orbital_mass' )
+    expectEqual( '25620.087 miles 6872.2568 mph orbital_mass', '6872.2568 mph 25620.087 miles orbital_mass' )
+    expectEqual( '24 hours 6872.2568 mph orbital_mass', '6872.2568 mph 24 hours orbital_mass' )
+
+    expectException( '6872.2568 mph 25620.087 mph orbital_mass' )
 
     # orbital_radius
+    testOperator( '24 hours 6872 mph orbital_radius' )
+    testOperator( '6872 mph 24 hours orbital_radius' )
+    testOperator( '6872 mph earth_mass orbital_radius' )
+    testOperator( 'earth_mass 6872 mph orbital_radius' )
+    testOperator( '24 hours earth_mass orbital_radius' )
+    testOperator( 'earth_mass 24 hours orbital_radius' )
+
+    expectEqual( '24 hours earth_mass orbital_radius', 'earth_mass 24 hours orbital_radius' )
+    expectEqual( '6872 mph earth_mass orbital_radius', 'earth_mass 6872 mph orbital_radius' )
     expectEqual( '24 hours 6872 mph orbital_radius', '6872 mph 24 hours orbital_radius' )
+
+    expectEqual( '24 hours 6872 mph orbital_radius', '6872 mph 24 hours orbital_radius' )
+
+    expectException( '24 hours 6872 miles orbital_radius' )
 
     # orbital_velocity
     testOperator( 'earth_mass earth_radius 640 km + orbital_velocity' )
 
-    #expectEqual( 'earth_mass 24 hours orbital_velocity mph convert', '24 hours earth_mass orbital_velocity mph convert' )
-    #expectEqual( '26250.08 miles 24 hours orbital_velocity mph convert', '24 hours 26250.08 miles orbital_velocity mph convert' )
-    #expectEqual( 'earth_mass 26250.08 miles orbital_velocity mph convert', 'earth_mass 26250.08 miles orbital_velocity mph convert' )
+    testOperator( 'earth_mass 24 hours orbital_velocity mph convert' )
+    testOperator( '24 hours earth_mass orbital_velocity mph convert' )
+    testOperator( '26250.08 miles 24 hours orbital_velocity mph convert' )
+    testOperator( '24 hours 26250.08 miles orbital_velocity mph convert' )
+    testOperator( 'earth_mass 26250.08 miles orbital_velocity mph convert' )
+    testOperator( 'earth_mass 26250.08 miles orbital_velocity mph convert' )
+
+    expectEqual( 'earth_mass 24 hours orbital_velocity mph convert', '24 hours earth_mass orbital_velocity mph convert' )
+    expectEqual( '26250.08 miles 24 hours orbital_velocity mph convert', '24 hours 26250.08 miles orbital_velocity mph convert' )
+    expectEqual( 'earth_mass 26250.08 miles orbital_velocity mph convert', 'earth_mass 26250.08 miles orbital_velocity mph convert' )
+
+    expectException( '24 hours 6872 pounds orbital_mass' )
 
     # schwarzchild_radius
     testOperator( 'earth_mass schwarzchild_radius' )

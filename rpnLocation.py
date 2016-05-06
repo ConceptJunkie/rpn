@@ -28,6 +28,7 @@ from mpmath import fadd, fdiv, fmul, mpmathify, pi
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 from rpnOutput import convertToBaseN
+from rpnPhysics import calculateDistance
 
 import rpnGlobals as g
 
@@ -209,6 +210,10 @@ def getLocationInfo( location ):
 # //******************************************************************************
 
 def getDistance( location1, location2 ):
+    # if measurements were passed in, we want the physics version of 'distance'
+    if isinstance( location1, RPNMeasurement ) or isinstance( location2, RPNMeasurement ):
+        return calculateDistance( location1, location2 )
+
     if isinstance( location1, str ):
         location1 = getLocation( location1 )
 

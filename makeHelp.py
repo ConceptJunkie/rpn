@@ -7327,8 +7327,22 @@ c:\>rpn 4 unit_roots
 # //
 # //******************************************************************************
 
+    'acceleration' : [
+'physics', 'calculates acceleration...',
+'''
+''',
+'''
+''' ],
+
     'escape_velocity' : [
 'physics', 'calculates the escape velocity of an object of mass n and radius k',
+'''
+''',
+'''
+''' ],
+
+    'kinetic_energy' : [
+'physics', '',
 '''
 ''',
 '''
@@ -7377,6 +7391,13 @@ time (the period of the orbit)
 
     'time_dilation' : [
 'physics', 'calculates the relativistic time-dilation effect of a velocity difference of n',
+'''
+''',
+'''
+''' ],
+
+    'velocity' : [
+'physics', 'calculates velocity...',
 '''
 ''',
 '''

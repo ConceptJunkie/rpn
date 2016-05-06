@@ -2934,26 +2934,35 @@ operators = {
                                                     1, [ RPNOperator.Default ] ),
 
     # physics
-    'escape_velocity'                : RPNOperator( getEscapeVelocity,
+    'acceleration'                   : RPNOperator( calculateAcceleration,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
-    'orbital_mass'                   : RPNOperator( getOrbitalMass,
+    'escape_velocity'                : RPNOperator( calculateEscapeVelocity,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
-    'orbital_period'                 : RPNOperator( getOrbitalPeriod,
+    'kinetic_energy'                 : RPNOperator( calculateKineticEnergy,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
-    'orbital_radius'                 : RPNOperator( getOrbitalRadius,
+    'orbital_mass'                   : RPNOperator( calculateOrbitalMass,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
-    'orbital_velocity'               : RPNOperator( getOrbitalVelocity,
+    'orbital_period'                 : RPNOperator( calculateOrbitalPeriod,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
-    'schwarzchild_radius'            : RPNOperator( getSchwarzchildRadius,
+    'orbital_radius'                 : RPNOperator( calculateOrbitalRadius,
+                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
+
+    'orbital_velocity'               : RPNOperator( calculateOrbitalVelocity,
+                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
+
+    'schwarzchild_radius'            : RPNOperator( calculateSchwarzchildRadius,
                                                     1, [ RPNOperator.Measurement ] ),
 
-    'time_dilation'                  : RPNOperator( getTimeDilation,
+    'time_dilation'                  : RPNOperator( calculateTimeDilation,
                                                     1, [ RPNOperator.Measurement ] ),
+
+    'velocity'                       : RPNOperator( calculateVelocity,
+                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
     # polygonal
     'centered_decagonal'             : RPNOperator( lambda n: getCenteredPolygonalNumber( n, 10 ),

@@ -441,9 +441,6 @@ class RPNMeasurement( object ):
     def getDimensions( self ):
         return self.units.getDimensions( )
 
-    def getBasicTypes( self ):
-        return self.getUnitTypes( ).getBasicTypes( )
-
     def getReduced( self ):
         debugPrint( 'getReduced 1:', self, [ ( i, self.units[ i ] ) for i in self.units ] )
         if not g.unitConversionMatrix:
@@ -467,6 +464,15 @@ class RPNMeasurement( object ):
         reduced = RPNMeasurement( value, units )
         debugPrint( 'getReduced 2:', reduced )
         return reduced
+
+    def convert( self, other ):
+        if isinstance( other, RPNMeasurement ):
+            return RPNMeasurement( self.convertValue( other ), other.getUnits( ) )
+        elif isinstance( other, ( RPNUnits, dict, str ) ):
+            measurement = RPNMeasurement( 1, other )
+            return RPNMeasurement( self.convertValue( measurement ), measurement.getUnits( ) )
+        else:
+            raise ValueError( 'convert doesn\'t know what to do with this argument' )
 
     def convertValue( self, other ):
         if self.isEquivalent( other ):
@@ -759,5 +765,42 @@ def getWhichUnitType( measurement, unitTypes ):
         if checkUnits( measurement, unitType ):
             return unitType
 
+    return None
+
+
+# //******************************************************************************
+# //
+# //  matchUnitTypes
+# //
+# //******************************************************************************
+
+def matchUnitTypes( args, validUnitTypes ):
+    result = { }
+
+    for unitTypeList in validUnitTypes:
+        unitTypes = list( unitTypeList )
+
+        #print( 'unitTypes', unitTypes )
+
+        if len( args ) != len( unitTypes ):
+            raise ValueError( 'argument count mismatch in matchUnitTypes( )' )
+
+        for arg in args:
+            unitType = getWhichUnitType( arg, unitTypes )
+            #print( 'found unit type', unitType )
+
+            if unitType:
+                #print( 'setting unitType', unitType )
+                result[ unitType ] = arg
+            else:
+                result = { }
+                #print( 'breaking...' )
+                break
+
+            unitTypes.remove( unitType )
+        else:
+            return result
+
+    #print( 'first loop completed' )
     return None
 

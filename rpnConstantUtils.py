@@ -291,7 +291,7 @@ def getMinFloat( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getNewtonsConstant( ):
     return RPNMeasurement( '6.67408e-11', 'meter^3/kilogram*second^2' )
 
@@ -302,7 +302,7 @@ def getNewtonsConstant( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getSpeedOfLight( ):
     return RPNMeasurement( '299792458', 'meter/second' )
 
@@ -313,7 +313,7 @@ def getSpeedOfLight( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getElectricConstant( ):
     return RPNMeasurement( '8.854187817e-12', 'farad/meter' )
 
@@ -324,7 +324,7 @@ def getElectricConstant( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getPlanckConstant( ):
     return RPNMeasurement( '6.626070040e-34', 'kilogram*meter^2/second' )
 
@@ -335,7 +335,7 @@ def getPlanckConstant( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getReducedPlanckConstant( ):
     return getPlanckConstant( ).divide( fmul( 2, pi ) )
 
@@ -357,7 +357,7 @@ def getFineStructureConstant( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getElectronCharge( ):
     return RPNMeasurement( '1.602176565e-19', 'coulomb' )
 
@@ -368,7 +368,7 @@ def getElectronCharge( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getBoltzmannsConstant( ):
     return RPNMeasurement( '1.38064852e-23', 'kilogram*meter^2/second^2*kelvin' )
 
@@ -379,10 +379,10 @@ def getBoltzmannsConstant( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getPlanckLength( ):
     return getRoot( getReducedPlanckConstant( ).multiply( getNewtonsConstant( ) ).divide(
-                exponentiate( getSpeedOfLight( ), 3 ) ), 2 )
+                        exponentiate( getSpeedOfLight( ), 3 ) ), 2 )
 
 
 # //******************************************************************************
@@ -391,10 +391,10 @@ def getPlanckLength( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getPlanckMass( ):
     return getRoot( getReducedPlanckConstant( ).multiply( getSpeedOfLight( ) ).divide(
-                getNewtonsConstant( ) ), 2 )
+                        getNewtonsConstant( ) ), 2 )
 
 
 # //******************************************************************************
@@ -403,10 +403,10 @@ def getPlanckMass( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getPlanckTime( ):
     return getRoot( getReducedPlanckConstant( ).multiply( getNewtonsConstant( ) ).divide(
-                exponentiate( getSpeedOfLight( ), 5 ) ), 2 )
+                        exponentiate( getSpeedOfLight( ), 5 ) ), 2 )
 
 
 # //******************************************************************************
@@ -415,7 +415,7 @@ def getPlanckTime( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getPlanckCharge( ):
     return getElectronCharge( ).divide( getRoot( getFineStructureConstant( ), 2 ) )
 
@@ -426,9 +426,8 @@ def getPlanckCharge( ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+#@lru_cache( 1 )
 def getPlanckTemperature( ):
     return getRoot( getReducedPlanckConstant( ).multiply( exponentiate( getSpeedOfLight( ), 5 ) ).
         divide( getNewtonsConstant( ).multiply( exponentiate( getBoltzmannsConstant( ), 2 ) ) ), 2 )
-
 

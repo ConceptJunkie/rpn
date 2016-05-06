@@ -115,39 +115,6 @@ class RPNUnits( collections.Counter ):
 
         return result
 
-    def getBasicTypes( self ):
-        result = RPNUnits( )
-
-        for unit in self:
-            if unit in g.basicUnitTypes:
-                unitType = unit
-            else:
-                if unit not in g.unitOperators:
-                    raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
-                unitType = g.unitOperators[ unit ].unitType
-
-            basicUnits = RPNUnits( g.basicUnitTypes[ unitType ].baseUnitType )
-
-            exponent = self[ unit ]
-
-            if exponent != 1:   # handle exponent
-                for unitType2 in basicUnits:
-                    basicUnits[ unitType2 ] *= exponent
-
-            result.update( basicUnits )
-
-        zeroKeys = [ ]
-
-        for unitType in result:
-            if result[ unitType ] == 0:
-                zeroKeys.append( unitType )
-
-        for zeroKey in zeroKeys:
-            del result[ zeroKey ]
-
-        return result
-
     def getUnitString( self ):
         resultString = ''
 

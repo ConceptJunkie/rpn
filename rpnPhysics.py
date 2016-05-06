@@ -18,7 +18,8 @@ from rpnConstants import getNewtonsConstant, getSpeedOfLight
 from rpnGenerator import RPNGenerator
 from rpnList import getProduct
 from rpnMath import divide, exponentiate, getRoot, multiply
-from rpnMeasurement import checkUnits, getWhichUnitType, RPNMeasurement, validateUnits
+from rpnMeasurement import checkUnits, getWhichUnitType, matchUnitTypes, \
+                           RPNMeasurement, validateUnits
 from rpnUtils import real_int
 
 import rpnGlobals as g
@@ -28,23 +29,24 @@ from mpmath import fdiv, fmul, fsub, inf, pi, power, sqrt
 
 # //******************************************************************************
 # //
-# //  getSchwarzchildRadius
+# //  calculateSchwarzchildRadius
 # //
 # //******************************************************************************
 
-def getSchwarzchildRadius( mass ):
+def calculateSchwarzchildRadius( mass ):
     validateUnits( mass, 'mass' )
 
-    return getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( exponentiate( getSpeedOfLight( ), 2 ) )
+    radius = getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( exponentiate( getSpeedOfLight( ), 2 ) )
+    return radius.convert( 'meter' )
 
 
 # //******************************************************************************
 # //
-# //  getTimeDilation
+# //  calculateTimeDilation
 # //
 # //******************************************************************************
 
-def getTimeDilation( velocity ):
+def calculateTimeDilation( velocity ):
     validateUnits( velocity, 'velocity' )
 
     c_ratio = divide( velocity, getSpeedOfLight( ) ).value
@@ -57,24 +59,25 @@ def getTimeDilation( velocity ):
 
 # //******************************************************************************
 # //
-# //  getEscapeVelocity
+# //  calculateEscapeVelocity
 # //
 # //******************************************************************************
 
-def getEscapeVelocity( mass, radius ):
+def calculateEscapeVelocity( mass, radius ):
     validateUnits( mass, 'mass' )
     validateUnits( radius, 'length' )
 
-    return getRoot( getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( radius ), 2 )
+    velocity = getRoot( getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( radius ), 2 )
+    return velocity.convert( 'meter/second' )
 
 
 # //******************************************************************************
 # //
-# //  getOrbitalMass
+# //  calculateOrbitalMass
 # //
 # //******************************************************************************
 
-def getOrbitalMass( measurement1, measurement2 ):
+def calculateOrbitalMass( measurement1, measurement2 ):
     """
     To solve for the planetary mass for an object in a circular orbit, we need
     Newton's gravitational constant and two of the following three items:
@@ -94,64 +97,52 @@ def getOrbitalMass( measurement1, measurement2 ):
     ---- mass in terms of velocity and radius
     m = v^2*r/G
     """
-    unitTypes = [ 'time', 'length', 'velocity' ]
+    validUnitTypes = [
+        [ 'time', 'length' ],
+        [ 'velocity', 'length' ],
+        [ 'time', 'velocity' ],
+    ]
 
-    unitType1 = getWhichUnitType( measurement1, unitTypes )
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
 
-    if not unitType1:
-        raise ValueError( '\'orbital_mass\' expects arguments for two of the following: ', ', '.join( unitTypes ) )
+    if not arguments:
+        raise ValueError( '\'orbital_mass\' requires specific measurement types (see help)' )
 
-    unitTypes.remove( unitType1 )
+    if 'time' in arguments:
+        period = arguments[ 'time' ]
 
-    unitType2 = getWhichUnitType( measurement2, unitTypes )
-
-    if not unitType2:
-        raise ValueError( '\'orbital_mass\' expects the second argument to be one of the following: ', ', '.join( unitTypes ) )
-
-    if unitType1 == 'time':
-        period = measurement1
-
-        if unitType2 == 'length':
+        if 'length' in arguments:
             bRadius = True
-            radius = measurement2
+            radius = arguments[ 'length' ]
         else:
             bRadius = False
-            velocity = measurement2
-    elif unitType2 == 'time':
-        period = measurement2
-
-        if unitType1 == 'length':
-            bRadius = True
-            radius = measurement1
-        else:
-            bRadius = False
-            velocity = measurement1
+            velocity = arguments[ 'velocity' ]
     else:
-        if unitType1 == 'length':
-            radius, velocity = measurement1, measurement2
-        else:
-            radius, velocity = measurement2, measurement1
-
         # velocity and radius
-        return divide( getProduct( [ velocity, velocity, radius ] ), getNewtonsConstant( ) )
+        radius = arguments[ 'length' ]
+        velocity = arguments[ 'velocity' ]
+        mass = divide( getProduct( [ velocity, velocity, radius ] ), getNewtonsConstant( ) )
+        return mass.convert( 'kilogram' )
 
     if bRadius:
         # radius and period
-        return divide( getProduct( [ 4, pi, pi, radius, radius, radius ] ),
+        mass = divide( getProduct( [ 4, pi, pi, radius, radius, radius ] ),
                        getProduct( [ getNewtonsConstant( ), period, period ] ) )
     else:
         # velocity and period
-        return divide( getProduct( [ velocity, velocity, velocity, period ] ),
+        mass = divide( getProduct( [ velocity, velocity, velocity, period ] ),
                        getProduct( [ 2, pi, getNewtonsConstant( ) ] ) )
 
+    return mass.convert( 'kilogram' )
+
 
 # //******************************************************************************
 # //
-# //  getOrbitalPeriod
+# //  calculateOrbitalPeriod
 # //
 # //******************************************************************************
 
-def getOrbitalPeriod( measurement1, measurement2 ):
+def calculateOrbitalPeriod( measurement1, measurement2 ):
     """
     To solve the period of a circular orbit, we need Newton's gravitational
     constant and two of the following three items:
@@ -171,64 +162,52 @@ def getOrbitalPeriod( measurement1, measurement2 ):
     ---- period in terms of mass and velocity
     T = 2*pi*G*m/v^3
     """
-    unitTypes = [ 'mass', 'length', 'velocity' ]
+    validUnitTypes = [
+        [ 'mass', 'length' ],
+        [ 'velocity', 'length' ],
+        [ 'mass', 'velocity' ],
+    ]
 
-    unitType1 = getWhichUnitType( measurement1, unitTypes )
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
 
-    if not unitType1:
-        raise ValueError( '\'orbital_period\' expects arguments for two of the following: ', ', '.join( unitTypes ) )
+    if not arguments:
+        raise ValueError( '\'orbital_period\' requires specific measurement types (see help)' )
 
-    unitTypes.remove( unitType1 )
+    if 'mass' in arguments:
+        mass = arguments[ 'mass' ]
 
-    unitType2 = getWhichUnitType( measurement2, unitTypes )
-
-    if not unitType2:
-        raise ValueError( '\'orbital_period\' expects the second argument to be one of the following: ', ', '.join( unitTypes ) )
-
-    if unitType1 == 'mass':
-        mass = measurement1
-
-        if unitType2 == 'length':
+        if 'length' in arguments:
             bRadius = True
-            radius = measurement2
+            radius = arguments[ 'length' ]
         else:
             bRadius = False
-            velocity = measurement2
-    elif unitType2 == 'mass':
-        mass = measurement2
-
-        if unitType1 == 'length':
-            bRadius = True
-            radius = measurement1
-        else:
-            bRadius = False
-            velocity = measurement1
+            velocity = arguments[ 'velocity' ]
     else:
-        if unitType1 == 'length':
-            radius, velocity = measurement1, measurement2
-        else:
-            radius, velocity = measurement2, measurement1
-
         # radius and velocity
-        return divide( getProduct( [ 2, pi, radius ] ), velocity )
+        radius = arguments[ 'length' ]
+        velocity = arguments[ 'velocity' ]
+        period = divide( getProduct( [ 2, pi, radius ] ), velocity )
+        return period.convert( 'second' )
 
     if bRadius:
         # radius and mass
         term = divide( exponentiate( radius, 3 ), multiply( getNewtonsConstant( ), mass ) )
-        return getProduct( [ 2, pi, getRoot( term, 2 ) ] )
+        period = getProduct( [ 2, pi, getRoot( term, 2 ) ] )
     else:
         # velocity and mass
-        return divide( getProduct( [ 2, pi, getNewtonsConstant( ), mass ] ),
-                       exponentiate( velocity, 3 ) )
+        period = divide( getProduct( [ 2, pi, getNewtonsConstant( ), mass ] ),
+                         exponentiate( velocity, 3 ) )
+
+    return period.convert( 'second' )
 
 
 # //******************************************************************************
 # //
-# //  getOrbitalRadius
+# //  calculateOrbitalRadius
 # //
 # //******************************************************************************
 
-def getOrbitalRadius( measurement1, measurement2 ):
+def calculateOrbitalRadius( measurement1, measurement2 ):
     """
     To solve the radius of a circular orbit, we need Newton's gravitational
     constant and two of the following three items:
@@ -248,64 +227,52 @@ def getOrbitalRadius( measurement1, measurement2 ):
     ---- radius in terms of velocity and period
     r = v*T/2*pi
     """
-    unitTypes = [ 'mass', 'time', 'velocity' ]
+    validUnitTypes = [
+        [ 'mass', 'time' ],
+        [ 'velocity', 'time' ],
+        [ 'mass', 'velocity' ],
+    ]
 
-    unitType1 = getWhichUnitType( measurement1, unitTypes )
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
 
-    if not unitType1:
-        raise ValueError( '\'orbital_radius\' expects arguments for two of the following: ', ', '.join( unitTypes ) )
+    if not arguments:
+        raise ValueError( '\'orbital_radius\' requires specific measurement types (see help)' )
 
-    unitTypes.remove( unitType1 )
+    if 'mass' in arguments:
+        mass = arguments[ 'mass' ]
 
-    unitType2 = getWhichUnitType( measurement2, unitTypes )
-
-    if not unitType2:
-        raise ValueError( '\'orbital_radius\' expects the second argument to be one of the following: ', ', '.join( unitTypes ) )
-
-    if unitType1 == 'mass':
-        mass = measurement1
-
-        if unitType2 == 'time':
+        if 'time' in arguments:
             bPeriod = True
-            period = measurement2
+            period = arguments[ 'time' ]
         else:
             bPeriod = False
-            period = measurement2
-    elif unitType2 == 'mass':
-        mass = measurement2
-
-        if unitType1 == 'time':
-            bPeriod = True
-            period = measurement1
-        else:
-            bPeriod = False
-            velocity = measurement1
+            velocity = arguments[ 'velocity' ]
     else:
-        if unitType1 == 'time':
-            period, velocity = measurement1, measurement2
-        else:
-            period, velocity = measurement2, measurement1
-
         # period and velocity
-        return divide( multiply( velocity, period ), fmul( 2, pi ) )
+        period = arguments[ 'time' ]
+        velocity = arguments[ 'velocity' ]
+        radius = divide( multiply( velocity, period ), fmul( 2, pi ) )
+        return radius.convert( 'meter' )
 
     if bPeriod:
         # period and mass
         term = divide( getProduct( [ exponentiate( period, 2 ), getNewtonsConstant( ), mass ] ),
                        fmul( 4, power( pi, 2 ) ) )
-        return getRoot( term, 3 )
+        radius = getRoot( term, 3 )
     else:
         # velocity and mass
-        return divide( multiply( getNewtonsConstant( ), mass ), exponentiate( velocity, 2 ) )
+        radius = divide( multiply( getNewtonsConstant( ), mass ), exponentiate( velocity, 2 ) )
+
+    return radius.convert( 'meter' )
 
 
 # //******************************************************************************
 # //
-# //  getOrbitalVelocity
+# //  calculateOrbitalVelocity
 # //
 # //******************************************************************************
 
-def getOrbitalVelocity( measurement1, measurement2 ):
+def calculateOrbitalVelocity( measurement1, measurement2 ):
     """
     To solve the velocity of a circular orbit, we need Newton's gravitational
     constant and two of the following three items:
@@ -325,54 +292,142 @@ def getOrbitalVelocity( measurement1, measurement2 ):
     ---- velocity in terms of mass and period
     v = ( 2*pi*cbrt( T^2*G*m/4*pi^2 ) ) / T
     """
-    unitTypes = [ 'mass', 'length', 'time' ]
+    validUnitTypes = [
+        [ 'mass', 'time' ],
+        [ 'length', 'time' ],
+        [ 'mass', 'length' ],
+    ]
 
-    unitType1 = getWhichUnitType( measurement1, unitTypes )
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
 
-    if not unitType1:
-        raise ValueError( '\'orbital_velocity\' expects arguments for two of the following: ', ', '.join( unitTypes ) )
+    if not arguments:
+        raise ValueError( '\'orbital_velocity\' requires specific measurement types (see help)' )
 
-    unitTypes.remove( unitType1 )
+    if 'mass' in arguments:
+        mass = arguments[ 'mass' ]
 
-    unitType2 = getWhichUnitType( measurement2, unitTypes )
-
-    if not unitType2:
-        raise ValueError( '\'orbital_velocity\' expects the second argument to be one of the following: ', ', '.join( unitTypes ) )
-
-    if unitType1 == 'mass':
-        mass = measurement1
-
-        if unitType2 == 'length':
+        if 'length' in arguments:
             bRadius = True
-            radius = measurement2
+            radius = arguments[ 'length' ]
         else:
             bRadius = False
-            period = measurement2
-    elif unitType2 == 'mass':
-        mass = measurement2
-
-        if unitType1 == 'length':
-            bRadius = True
-            radius = measurement1
-        else:
-            bRadius = False
-            period = measurement1
+            period = arguments[ 'time' ]
     else:
-        if unitType1 == 'length':
-            radius, period = measurement1, measurement2
-        else:
-            radius, period = measurement2, measurement1
-
         # radius and period
-        return divide( getProduct( [ 2, pi, radius ] ), period )
+        radius = arguments[ 'length' ]
+        period = arguments[ 'time' ]
+        velocity = divide( getProduct( [ 2, pi, radius ] ), period )
+        return velocity.convert( 'meter/second' )
 
     if bRadius:
         # mass and radius
-        return getRoot( divide( multiply( getNewtonsConstant( ), mass ), radius ), 2 )
+        velocity = getRoot( divide( multiply( getNewtonsConstant( ), mass ), radius ), 2 )
     else:
         # mass and period
         term = divide( getProduct( [ period, period, getNewtonsConstant( ), mass ] ),
                        getProduct( [ 4, pi, pi ] ) )
 
-        return divide( getProduct( [ 2, pi, getRoot( term, 3 ) ] ), period )
+        velocity = divide( getProduct( [ 2, pi, getRoot( term, 3 ) ] ), period )
+
+    return velocity.convert( 'meter/second' )
+
+
+# //******************************************************************************
+# //
+# //  calculateDistance
+# //
+# //******************************************************************************
+
+def calculateDistance( measurement1, measurement2 ):
+    validUnitTypes = [
+        [ 'length', 'time' ],
+        [ 'velocity', 'time' ],
+        [ 'acceleration', 'time' ],
+        [ 'jerk', 'time' ],
+        [ 'jounce', 'time' ]
+    ]
+
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( '\'distance\' requires specific measurement types (see help)' )
+
+    time = arguments[ 'time' ]
+
+    if 'length' in arguments:
+        distance = arguments[ 'length' ]
+    elif 'acceleration' in arguments:
+        # acceleration and time
+        distance = getProduct( [ 0.5, arguments[ 'acceleration' ], time, time ] )
+    elif 'jerk' in arguments:
+        # jerk and time
+        distance = calculateDistance( getProduct( [ 0.5, arguments[ 'jerk' ], time ] ), time )
+    elif 'jounce' in arguments:
+        # jounce and time
+        distance = calculateDistance( getProduct( [ 0.5, arguments[ 'jounce' ], time ] ), time )
+    else:
+        # velocity and time
+        distance = multiply( arguments[ 'velocity' ], time )
+
+    return distance.convert( 'meter' )
+
+
+# //******************************************************************************
+# //
+# //  calculateVelocity
+# //
+# //******************************************************************************
+
+def calculateVelocity( measurement1, measurement2 ):
+    validUnitTypes = [
+        [ 'length', 'time' ],
+        [ 'velocity', 'time' ],
+        [ 'acceleration', 'time' ],
+        [ 'acceleration', 'distance' ],
+        [ 'jerk', 'time' ],
+        [ 'jerk', 'distance' ],
+        [ 'jounce', 'time' ],
+        [ 'jounce', 'distance' ]
+    ]
+
+    velocity = RPNMeasurement( '1.0', 'meter/second' )
+    return velocity.convert( 'meter/second' )
+
+
+# //******************************************************************************
+# //
+# //  calculateAcceleration
+# //
+# //******************************************************************************
+
+def calculateAcceleration( measurement1, measurement2 ):
+    validUnitTypes = [
+        [ 'velocity', 'distance' ],
+        [ 'distance', 'time' ],
+    ]
+
+    acceleration = RPNMeasurement( '1.0', 'meter/second^2' )
+    return acceleration.convert( 'meter/second^2' )
+
+
+# //******************************************************************************
+# //
+# //  calculateKineticEnergy
+# //
+# //******************************************************************************
+
+def calculateKineticEnergy( measurement1, measurement2 ):
+    validUnitTypes = [
+        [ 'velocity', 'mass' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( '\'kinetic_energy\' requires velocity and mass measurements' )
+
+    mass = arguments[ 'mass' ]
+    velocity = arguments[ 'velocity' ]
+    energy = getProduct( [ 0.5, mass, velocity, velocity ] )
+    return energy.convert( 'joule' )
 
