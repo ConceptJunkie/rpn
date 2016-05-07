@@ -2940,6 +2940,9 @@ operators = {
     'escape_velocity'                : RPNOperator( calculateEscapeVelocity,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
+    'horizon_distance'               : RPNOperator( lambda n: calculateHorizonDistance( n, constants[ 'earth_radius' ].function( ) ),
+                                                    1, [ RPNOperator.Measurement ] ),
+
     'kinetic_energy'                 : RPNOperator( calculateKineticEnergy,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 

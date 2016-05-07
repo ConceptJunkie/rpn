@@ -431,3 +431,17 @@ def calculateKineticEnergy( measurement1, measurement2 ):
     energy = getProduct( [ 0.5, mass, velocity, velocity ] )
     return energy.convert( 'joule' )
 
+
+# //******************************************************************************
+# //
+# //  calculateHorizonDistance
+# //
+# //******************************************************************************
+
+def calculateHorizonDistance( altitude, radius ):
+    validateUnits( altitude, 'length' )
+    validateUnits( radius, 'length' )
+
+    distance = getRoot( getProduct( [ 2, radius, altitude ] ), 2 )
+    return distance.convert( 'meter' )
+

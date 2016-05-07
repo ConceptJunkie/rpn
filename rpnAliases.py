@@ -350,6 +350,7 @@ operatorAliases = {
     'hex_sqr'                   : 'hexagonal_square',
     'hex_square'                : 'hexagonal_square',
     'hex_tri'                   : 'hexagonal',
+    'horizon'                   : 'horizon_distance',
     'hyper4'                    : 'tetrate',
     'hyperfac'                  : 'hyperfactorial',
     'hypot'                     : 'hypotenuse',

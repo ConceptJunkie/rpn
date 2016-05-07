@@ -2194,6 +2194,10 @@ def runPhysicsOperatorTests( ):
     # escape_velocity
     testOperator( 'earth_mass earth_radius escape_velocity' )
 
+    # kinetic_energy
+    testOperator( '310 pounds 65 mph kinetic_energy' )
+    testOperator( '65 mph 310 pounds kinetic_energy' )
+
     # orbital_period
     testOperator( 'earth_mass earth_radius 640 km + orbital_period' )
 

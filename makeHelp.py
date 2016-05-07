@@ -425,6 +425,10 @@ km/second*Mpc?
     c:\>rpn 67.8 km second Mpc * / invert years convert -c
     14,421,714,183.2 years
 
+What is the acceleration due to gravity at the Earth's surface?
+    c:\>rpn G earth_mass * earth_radius 2 ** /
+    9.80129847538 meters per second^2
+
 What is the escape velocity from the Earth's surface?
     c:\>rpn 2 G * earth_mass * earth_radius / sqrt
     11181.5933259 meters per second
@@ -584,8 +588,6 @@ You need to do '-a20' instead of '-a 20' ).
 "rpn 1 1 4 range range 10 15 range 1 3 range range2" crashes because
 operators that take more than 2 arguments don't handle recursive list
 arguments.
-
-160327 - Recursion crash when testing:  expectException( '2 i 1 is_divisible' )
 
 See 'rpn help TODO'.
     ''',
@@ -7336,6 +7338,13 @@ c:\>rpn 4 unit_roots
 
     'escape_velocity' : [
 'physics', 'calculates the escape velocity of an object of mass n and radius k',
+'''
+''',
+'''
+''' ],
+
+    'horizon_distance' : [
+'physics', 'calculates the distance to the horizon for altitude n (assuming the Earth is a perfect sphere)'
 '''
 ''',
 '''
