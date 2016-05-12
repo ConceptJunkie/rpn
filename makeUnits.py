@@ -348,6 +348,51 @@ def makeVolumeOperator( unit, unitPlural ):
 
 # //******************************************************************************
 # //
+# //  extrapolateTransitiveConversions
+# //
+# //******************************************************************************
+
+def extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitConversionMatrix ):
+    # print( )
+    # print( ( op1, op2 ), ': ', unitConversionMatrix[ ( op1, op2 ) ] )
+
+    for op3 in unitTypeTable[ unitType ]:
+        # we can ignore duplicate operators
+        if op3 in [ op1, op2 ]:
+            continue
+
+        # we can shortcut if the types are not compatible
+        if unitOperators[ op3 ].unitType != unitOperators[ op1 ].unitType:
+            continue
+
+        conversion = unitConversionMatrix[ ( op1, op2 ) ]
+
+        if ( op1, op3 ) not in unitConversionMatrix and \
+           ( op2, op3 ) in unitConversionMatrix:
+            # print( 'transitive: ', ( op2, op3 ),
+            #        unitConversionMatrix[ ( op2, op3 ) ] )
+            newConversion = fmul( conversion, unitConversionMatrix[ ( op2, op3 ) ] )
+            # print( ( op1, op3 ), newConversion )
+            unitConversionMatrix[ ( op1, op3 ) ] = newConversion
+            # print( ( op3, op1 ), fdiv( 1, newConversion ) )
+            unitConversionMatrix[ ( op3, op1 ) ] = fdiv( 1, newConversion )
+
+            newConversion = True
+        elif ( op2, op3 ) not in unitConversionMatrix and \
+             ( op1, op3 ) in unitConversionMatrix:
+            # print( 'transitive: ', ( op1, op3 ),
+            #        unitConversionMatrix[ ( op1, op3 ) ] )
+            newConversion = fdiv( unitConversionMatrix[ ( op1, op3 ) ], conversion )
+            # print( ( op2, op3 ), newConversion )
+            unitConversionMatrix[ ( op2, op3 ) ] = newConversion
+            # print( ( op3, op2 ), fdiv( 1, newConversion ) )
+            unitConversionMatrix[ ( op3, op2 ) ] = fdiv( 1, newConversion )
+
+            newConversion = True
+
+
+# //******************************************************************************
+# //
 # //  initializeConversionMatrix
 # //
 # //******************************************************************************
@@ -523,46 +568,16 @@ def initializeConversionMatrix( unitConversionMatrix ):
         while True:
             newConversion = False
 
+            count = 0
+
             for op1, op2 in itertools.combinations( unitTypeTable[ unitType ], 2 ):
                 if ( op1, op2 ) in unitConversionMatrix:
-                    # print( )
-                    # print( ( op1, op2 ), ': ', unitConversionMatrix[ ( op1, op2 ) ] )
+                    extrapolateTransitiveConversions( op1, op2, unitTypeTable, unitType, unitConversionMatrix )
 
-                    for op3 in unitTypeTable[ unitType ]:
-                        # we can ignore duplicate operators
-                        if op3 in [ op1, op2 ]:
-                            continue
+                if count % 1000 == 0:
+                    print( len( unitConversionMatrix ), end='\r' )
 
-                        # we can shortcut if the types are not compatible
-                        if unitOperators[ op3 ].unitType != unitOperators[ op1 ].unitType:
-                            continue
-
-                        conversion = unitConversionMatrix[ ( op1, op2 ) ]
-
-                        if ( op1, op3 ) not in unitConversionMatrix and \
-                           ( op2, op3 ) in unitConversionMatrix:
-                            # print( 'transitive: ', ( op2, op3 ),
-                            #        unitConversionMatrix[ ( op2, op3 ) ] )
-                            newConversion = fmul( conversion, unitConversionMatrix[ ( op2, op3 ) ] )
-                            # print( ( op1, op3 ), newConversion )
-                            unitConversionMatrix[ ( op1, op3 ) ] = newConversion
-                            # print( ( op3, op1 ), fdiv( 1, newConversion ) )
-                            unitConversionMatrix[ ( op3, op1 ) ] = fdiv( 1, newConversion )
-
-                            newConversion = True
-                        elif ( op2, op3 ) not in unitConversionMatrix and \
-                             ( op1, op3 ) in unitConversionMatrix:
-                            # print( 'transitive: ', ( op1, op3 ),
-                            #        unitConversionMatrix[ ( op1, op3 ) ] )
-                            newConversion = fdiv( unitConversionMatrix[ ( op1, op3 ) ], conversion )
-                            # print( ( op2, op3 ), newConversion )
-                            unitConversionMatrix[ ( op2, op3 ) ] = newConversion
-                            # print( ( op3, op2 ), fdiv( 1, newConversion ) )
-                            unitConversionMatrix[ ( op3, op2 ) ] = fdiv( 1, newConversion )
-
-                            newConversion = True
-
-                print( len( unitConversionMatrix ), end = '\r' )
+                count += 1
 
             if not newConversion:
                 break
