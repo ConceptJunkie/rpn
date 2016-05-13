@@ -17,14 +17,14 @@ import struct
 from rpnConstants import getNewtonsConstant, getSpeedOfLight
 from rpnGenerator import RPNGenerator
 from rpnList import getProduct
-from rpnMath import divide, exponentiate, getRoot, multiply
+from rpnMath import divide, getPower, getRoot, multiply, performTrigOperation
 from rpnMeasurement import checkUnits, getWhichUnitType, matchUnitTypes, \
                            RPNMeasurement, validateUnits
 from rpnUtils import real_int
 
 import rpnGlobals as g
 
-from mpmath import fdiv, fmul, fsub, inf, pi, power, sqrt
+from mpmath import fdiv, fmul, fsub, inf, pi, power, sin, sqrt
 
 
 # //******************************************************************************
@@ -36,7 +36,7 @@ from mpmath import fdiv, fmul, fsub, inf, pi, power, sqrt
 def calculateSchwarzchildRadius( mass ):
     validateUnits( mass, 'mass' )
 
-    radius = getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( exponentiate( getSpeedOfLight( ), 2 ) )
+    radius = getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( getPower( getSpeedOfLight( ), 2 ) )
     return radius.convert( 'meter' )
 
 
@@ -191,12 +191,12 @@ def calculateOrbitalPeriod( measurement1, measurement2 ):
 
     if bRadius:
         # radius and mass
-        term = divide( exponentiate( radius, 3 ), multiply( getNewtonsConstant( ), mass ) )
+        term = divide( getPower( radius, 3 ), multiply( getNewtonsConstant( ), mass ) )
         period = getProduct( [ 2, pi, getRoot( term, 2 ) ] )
     else:
         # velocity and mass
         period = divide( getProduct( [ 2, pi, getNewtonsConstant( ), mass ] ),
-                         exponentiate( velocity, 3 ) )
+                         getPower( velocity, 3 ) )
 
     return period.convert( 'second' )
 
@@ -256,12 +256,12 @@ def calculateOrbitalRadius( measurement1, measurement2 ):
 
     if bPeriod:
         # period and mass
-        term = divide( getProduct( [ exponentiate( period, 2 ), getNewtonsConstant( ), mass ] ),
+        term = divide( getProduct( [ getPower( period, 2 ), getNewtonsConstant( ), mass ] ),
                        fmul( 4, power( pi, 2 ) ) )
         radius = getRoot( term, 3 )
     else:
         # velocity and mass
-        radius = divide( multiply( getNewtonsConstant( ), mass ), exponentiate( velocity, 2 ) )
+        radius = divide( multiply( getNewtonsConstant( ), mass ), getPower( velocity, 2 ) )
 
     return radius.convert( 'meter' )
 
@@ -316,6 +316,7 @@ def calculateOrbitalVelocity( measurement1, measurement2 ):
         # radius and period
         radius = arguments[ 'length' ]
         period = arguments[ 'time' ]
+
         velocity = divide( getProduct( [ 2, pi, radius ] ), period )
         return velocity.convert( 'meter/second' )
 
@@ -336,15 +337,22 @@ def calculateOrbitalVelocity( measurement1, measurement2 ):
 # //
 # //  calculateDistance
 # //
+# //  see https://en.wikipedia.org/wiki/Jounce
+# //
 # //******************************************************************************
 
 def calculateDistance( measurement1, measurement2 ):
     validUnitTypes = [
-        [ 'length', 'time' ],
-        [ 'velocity', 'time' ],
+        [ 'time', 'velocity' ],
         [ 'acceleration', 'time' ],
+        [ 'acceleration', 'velocity' ],
+        [ 'jerk', 'acceleration' ],
         [ 'jerk', 'time' ],
-        [ 'jounce', 'time' ]
+        [ 'jerk', 'velocity' ],
+        [ 'jounce', 'acceleration' ],
+        [ 'jounce', 'time' ],
+        [ 'jounce', 'velocity' ],
+        [ 'jounce', 'jerk' ],
     ]
 
     arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
@@ -352,22 +360,45 @@ def calculateDistance( measurement1, measurement2 ):
     if not arguments:
         raise ValueError( '\'distance\' requires specific measurement types (see help)' )
 
-    time = arguments[ 'time' ]
+    types = sorted( [ key for key in arguments.keys( ) ] )
 
-    if 'length' in arguments:
-        distance = arguments[ 'length' ]
-    elif 'acceleration' in arguments:
-        # acceleration and time
-        distance = getProduct( [ 0.5, arguments[ 'acceleration' ], time, time ] )
-    elif 'jerk' in arguments:
-        # jerk and time
-        distance = calculateDistance( getProduct( [ 0.5, arguments[ 'jerk' ], time ] ), time )
-    elif 'jounce' in arguments:
-        # jounce and time
-        distance = calculateDistance( getProduct( [ 0.5, arguments[ 'jounce' ], time ] ), time )
-    else:
-        # velocity and time
-        distance = multiply( arguments[ 'velocity' ], time )
+    if 'acceleration' in arguments:
+        acceleration = arguments[ 'acceleration' ]
+
+    if 'jerk' in arguments:
+        jerk = arguments[ 'jerk' ]
+
+    if 'jounce' in arguments:
+        jounce = arguments[ 'jounce' ]
+
+    if 'time' in arguments:
+        time = arguments[ 'time' ]
+
+    if 'velocity' in arguments:
+        velocity = arguments[ 'velocity' ]
+
+    if types == [ 'time', 'velocity' ]:
+        distance = multiply( velocity, time )
+    if types == [ 'acceleration', 'time' ]:
+        distance = divide( multiply( acceleration, getPower( time, 2 ) ), 2 )
+    if types == [ 'acceleration', 'velocity' ]:
+        distance = divide( multiply( velocity, velocity ), multiply( acceleration, 2 ) )
+    if types == [ 'jerk', 'acceleration' ]:
+        time = divide( jerk, acceleration )
+        distance = divide( multiply( jerk, getPower( time, 3 ) ), 6 )
+    if types == [ 'jerk', 'time' ]:
+        distance = divide( multiply( jerk, getPower( time, 3 ) ), 6 )
+    if types == [ 'jerk', 'velocity' ]:
+        distance = RPNMeasurement( '0.0', 'meter' )
+    if types == [ 'jounce', 'acceleration' ]:
+        distance = RPNMeasurement( '0.0', 'meter' )
+    if types == [ 'jounce', 'time' ]:
+        distance = divide( multiply( jounce, getPower( time, 4 ) ), 24 )
+    if types == [ 'jounce', 'velocity' ]:
+        distance = RPNMeasurement( '0.0', 'meter' )
+    if types == [ 'jounce', 'jerk' ]:
+        time = divide( jounce, jerk )
+        distance = divide( multiply( jounce, getPower( time, 4 ) ), 24 )
 
     return distance.convert( 'meter' )
 
@@ -376,21 +407,68 @@ def calculateDistance( measurement1, measurement2 ):
 # //
 # //  calculateVelocity
 # //
+# //  see https://en.wikipedia.org/wiki/Jounce
+# //
 # //******************************************************************************
 
 def calculateVelocity( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'length', 'time' ],
-        [ 'velocity', 'time' ],
         [ 'acceleration', 'time' ],
-        [ 'acceleration', 'distance' ],
+        [ 'acceleration', 'length' ],
         [ 'jerk', 'time' ],
-        [ 'jerk', 'distance' ],
+        [ 'jerk', 'length' ],
+        [ 'jerk', 'acceleration' ],
         [ 'jounce', 'time' ],
-        [ 'jounce', 'distance' ]
+        [ 'jounce', 'length' ],
+        [ 'jounce', 'acceleration' ],
+        [ 'jounce', 'jerk' ],
     ]
 
-    velocity = RPNMeasurement( '1.0', 'meter/second' )
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( '\'velocity\' requires specific measurement types (see help)' )
+
+    types = sorted( [ key for key in arguments.keys( ) ] )
+
+    if 'acceleration' in arguments:
+        acceleration = arguments[ 'acceleration' ]
+
+    if 'jerk' in arguments:
+        jerk = arguments[ 'jerk' ]
+
+    if 'jounce' in arguments:
+        jounce = arguments[ 'jounce' ]
+
+    if 'length' in arguments:
+        distance = arguments[ 'length' ]
+
+    if 'time' in arguments:
+        time = arguments[ 'time' ]
+
+    if types == [ 'length', 'time' ]:
+        velocity = divide( distance, time )
+    elif types == [ 'acceleration', 'time' ]:
+        velocity = multiply( acceleration, time )
+    elif types == [ 'acceleration', 'length' ]:
+        velocity = root( getProduct( [ 2, acceleration, distance ] ), 2 )
+    elif types == [ 'jerk', 'time' ]:
+        velocity = divide( multiply( jounce, getPower( time, 2 ) ), 2 )
+    elif types == [ 'jerk', 'length' ]:
+        velocity = RPNMeasurement( '0.0', 'meter/second' )
+    elif types == [ 'jerk', 'accelerationn' ]:
+        velocity = RPNMeasurement( '0.0', 'meter/second' )
+    elif types == [ 'jounce', 'time' ]:
+        velocity = divide( multiply( jounce, getPower( time, 3 ) ), 6 )
+    elif types == [ 'jounce', 'length' ]:
+        velocity = RPNMeasurement( '0.0', 'meter/second' )
+    elif types == [ 'jounce', 'accelerationn' ]:
+        velocity = RPNMeasurement( '0.0', 'meter/second' )
+    elif types == [ 'jounce', 'jerk' ]:
+        time = divide( jounce, jerk )
+        velocity = divide( multiply( jounce, getPower( time, 3 ) ), 6 )
+
     return velocity.convert( 'meter/second' )
 
 
@@ -398,15 +476,66 @@ def calculateVelocity( measurement1, measurement2 ):
 # //
 # //  calculateAcceleration
 # //
+# //  see https://en.wikipedia.org/wiki/Jounce,
+# //  http://hyperphysics.phy-astr.gsu.edu/hbase/avari.html
+# //
 # //******************************************************************************
 
 def calculateAcceleration( measurement1, measurement2 ):
     validUnitTypes = [
-        [ 'velocity', 'distance' ],
-        [ 'distance', 'time' ],
+        [ 'length', 'velocity' ],
+        [ 'time', 'velocity' ],
+        [ 'jerk', 'length' ],
+        [ 'jerk', 'time' ],
+        [ 'jerk', 'velocity' ],
+        [ 'jounce', 'length' ],
+        [ 'jounce', 'time' ],
+        [ 'jounce', 'velocity' ],
+        [ 'jounce', 'jerk' ],
     ]
 
-    acceleration = RPNMeasurement( '1.0', 'meter/second^2' )
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( '\'acceleration\' requires specific measurement types (see help)' )
+
+    types = sorted( [ key for key in arguments.keys( ) ] )
+
+    if 'jerk' in arguments:
+        jerk = arguments[ 'jerk' ]
+
+    if 'jounce' in arguments:
+        jounce = arguments[ 'jounce' ]
+
+    if 'length' in arguments:
+        distance = arguments[ 'length' ]
+
+    if 'time' in arguments:
+        time = arguments[ 'time' ]
+
+    if 'velocity' in arguments:
+        velocity = arguments[ 'velocity' ]
+
+    if types == [ 'length', 'velocity' ]:
+        acceleration = divide( multiply( velocity, velocity ), multply( distance, 2 ) )
+    elif types == [ 'time', 'velocity' ]:
+        acceleration = divide( velocity, time )
+    elif types == [ 'jerk', 'length' ]:
+        acceleration = RPNMeasurement( '0.0', 'meter/second^2' )
+    elif types == [ 'jerk', 'time' ]:
+        acceleration = multiply( jerk, time )
+    elif types == [ 'jerk', 'velocity' ]:
+        acceleration = RPNMeasurement( '0.0', 'meter/second^2' )
+    elif types == [ 'jounce', 'length' ]:
+        acceleration = RPNMeasurement( '0.0', 'meter/second^2' )
+    elif types == [ 'jounce', 'time' ]:
+        acceleration = calculateAcceleration( divide( multiply( jounce, time ), 2 ), time )
+    elif types == [ 'jounce', 'velocity' ]:
+        acceleration = RPNMeasurement( '0.0', 'meter/second^2' )
+    elif types == [ 'jounce', 'jerk' ]:
+        time = divide( jounce, jerk )
+        acceleration = calculateAcceleration( divide( multiply( jounce, time ), 2 ), time )
+
     return acceleration.convert( 'meter/second^2' )
 
 
@@ -428,6 +557,7 @@ def calculateKineticEnergy( measurement1, measurement2 ):
 
     mass = arguments[ 'mass' ]
     velocity = arguments[ 'velocity' ]
+
     energy = getProduct( [ 0.5, mass, velocity, velocity ] )
     return energy.convert( 'joule' )
 
@@ -443,5 +573,23 @@ def calculateHorizonDistance( altitude, radius ):
     validateUnits( radius, 'length' )
 
     distance = getRoot( getProduct( [ 2, radius, altitude ] ), 2 )
+    return distance.convert( 'meter' )
+
+
+# //******************************************************************************
+# //
+# //  calculateTrajectoryDistance
+# //
+# //  https://en.wikipedia.org/wiki/Trajectory_of_a_projectile
+# //
+# //******************************************************************************
+
+def calculateTrajectoryDistance( velocity, angle ):
+    validateUnits( velocity, 'velocity' )
+    validateUnits( angle, 'angle' )
+
+    sinValue = performTrigOperation( multiply( 2, angle ), sin )
+
+    distance = divide( getProduct( [ velocity, velocity, sinValue ] ), RPNMeasurement( '9.806650', 'meter/second^2' ) )
     return distance.convert( 'meter' )
 

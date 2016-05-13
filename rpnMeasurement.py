@@ -317,7 +317,7 @@ class RPNMeasurement( object ):
 
         return self.dezeroUnits( )
 
-    def exponentiate( self, exponent ):
+    def getPower( self, exponent ):
         if ( floor( exponent ) != exponent ):
             raise ValueError( 'cannot raise a measurement to a non-integral power' )
 

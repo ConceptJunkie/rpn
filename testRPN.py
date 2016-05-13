@@ -1419,7 +1419,7 @@ def runGeographyOperatorTests( ):
     testOperator( '"Leesburg, VA" "Smithfield, VA" distance' )
 
     # latlong
-    #testOperator( '"Leesburg, VA" 43 -80 latlong distance' )
+    testOperator( '"Leesburg, VA" 43 -80 latlong distance' )
 
     # location
     testOperator( '"Uppsala, Sweden" location today moonrise' )
@@ -2191,8 +2191,27 @@ def runNumberTheoryOperatorTests( ):
 # //******************************************************************************
 
 def runPhysicsOperatorTests( ):
+    # acceleration
+    testOperator( '3 m/s 10 seconds acceleration' )
+
+    # distance
+    testOperator( '3 m/s 3 days distance' )
+    testOperator( '3 days 3 m/s distance' )
+    testOperator( '3 m/s^2 1 hour distance' )
+    testOperator( '1 hour 3 m/s^2 distance' )
+    testOperator( '65 mph gee distance' )
+    testOperator( 'gee 65 mph distance' )
+    testOperator( '3 m/s^3 10 seconds distance' )
+    testOperator( '10 seconds 3 m/s^3 distance' )
+    testOperator( '3 m/s^4 10 seconds distance' )
+    testOperator( '10 seconds 3 m/s^4 distance' )
+
+    expectException( '3 gallons 3 seconds distance' )
+
     # escape_velocity
     testOperator( 'earth_mass earth_radius escape_velocity' )
+    testOperator( 'mars_mass mars_radius escape_velocity' )
+    testOperator( 'jupiter_mass jupiter_radius escape_velocity' )
 
     # kinetic_energy
     testOperator( '310 pounds 65 mph kinetic_energy' )
@@ -2265,6 +2284,10 @@ def runPhysicsOperatorTests( ):
 
     # time_dilation
     testOperator( '1 million miles hour / time_dilation' )
+
+    # velocity
+    testOperator( '3 m/s^2 10 seconds velocity' )
+    #testOperator( '3 m/s^2 10 feet velocity' )
 
 
 # //******************************************************************************

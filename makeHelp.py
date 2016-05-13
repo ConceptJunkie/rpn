@@ -7405,6 +7405,13 @@ time (the period of the orbit)
 '''
 ''' ],
 
+    'trajectory_distance' : [
+'physics', '',
+'''
+''',
+'''
+''' ],
+
     'velocity' : [
 'physics', 'calculates velocity...',
 '''

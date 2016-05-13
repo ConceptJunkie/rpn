@@ -148,13 +148,13 @@ def multiply( n, k ):
 
 # //******************************************************************************
 # //
-# //  exponentiate
+# //  getPower
 # //
 # //******************************************************************************
 
-def exponentiate( n, k ):
+def getPower( n, k ):
     if isinstance( n, RPNMeasurement ):
-        return n.exponentiate( k )
+        return n.getPower( k )
     else:
         return power( n, k )
 
