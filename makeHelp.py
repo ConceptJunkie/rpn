@@ -8909,6 +8909,20 @@ c:\>rpn 2 echo 2 echo +
     'name' : [
 'special', 'returns the English name for the integer value n',
 '''
+This operator returns the English name for any integer n.
+
+The upper limit of integers rpn can name is 10^3004 - 1.
+
+If the number has more digits than the current precision setting of rpn, the
+result will be subject to rounding and will be incorrect.
+
+c:\>rpn 10 3000 ** ordinal_name
+nine hundred ninety-nine octononagintanongentillion nine hundred ninety-nine
+septenonagintanongentillion nine hundred ninety-nine senonagintanongentillion
+nine hundred ninety-nine...
+
+c:\>rpn -a3000 10 3000 ** ordinal_name
+one novenonagintanongentillionth
 ''',
 '''
 ''' ],
@@ -8977,22 +8991,55 @@ c:\>rpn 10349 oeisname
     'ordinal_name' : [
 'special', 'returns the English ordinal name for the integer value n',
 '''
+The ordinal names for numbers start with 'first', 'second', etc.
+
+The upper limit of integers rpn can name is 10^3004 - 1.
+
+If the number has more digits than the current precision setting of rpn, the
+result will be subject to rounding and will be incorrect.
+
+c:\>rpn 10 3000 ** ordinal_name
+nine hundred ninety-nine octononagintanongentillion nine hundred ninety-nine
+septenonagintanongentillion nine hundred ninety-nine senonagintanongentillion
+nine hundred ninety-nine...
+
+c:\>rpn -a3000 10 3000 ** ordinal_name
+one novenonagintanongentillionth
 ''',
 '''
+c:\>rpn 1999 ordinal_name
+one thousand nine hundred ninety-ninth
+
+c:\>rpn 2001 ordinal_name
+two thousand first
 ''' ],
 
     'random_integer' : [
 'special', 'returns a random integer from 0 to n - 1',
 '''
+This operator returns a random integer in the range of 0 to n - 1, inclusive.
+
+rpn is automatically seeded every time it runs, so random number streams are
+not reproducible.
 ''',
 '''
+c:\>rpn 10 random_integer
+2
 ''' ],
 
     'random_integer_' : [
 'special', 'returns a list of k random integers from 0 to n - 1',
 '''
+This operator returns a series of k random integers in the range of 0 to
+n - 1, inclusive.
+
+rpn is automatically seeded every time it runs, so random number streams are
+not reproducible.
 ''',
 '''
+c:\>rpn 10 10 random_integer_
+[ 2, 4, 6, 7, 6, 8, 5, 5, 4, 2 ]
+
 Test the birthday paradox:
 
 rpn 365 23 random_integer_ sort
@@ -9003,6 +9050,9 @@ You will see a duplicate approximately 50% of the time.
     'random' : [
 'special', 'returns a random value from 0 to 1',
 '''
+This operator will return a random value greater than or equal to zero and less
+than one.  The number of sigificant digits is controlled by the precision set
+in rpn.
 ''',
 '''
 ''' ],
@@ -9010,6 +9060,9 @@ You will see a duplicate approximately 50% of the time.
     'random_' : [
 'special', 'returns a list of n random values from 0 to 1',
 '''
+This operator will return a list of n random values greater than or equal to
+zero and less than one.  The number of sigificant digits is controlled by the
+precision set in rpn.
 ''',
 '''
 ''' ],
