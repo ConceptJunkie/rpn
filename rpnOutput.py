@@ -18,7 +18,7 @@ import math
 import string
 import textwrap
 
-from mpmath import floor, frac, im, mp, mpf, mpmathify, nstr, phi, re
+from mpmath import floor, frac, inf, im, mp, mpf, mpmathify, nstr, phi, re
 
 from rpnBase import convertFractionToBaseN, convertToBaseN, convertToFibBase, \
                     convertToNonintegerBase, convertToSpecialBase, specialBaseFunctions
@@ -64,7 +64,7 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
                                                    int( mp.dps / math.log10( outputRadix ) ),
                                                    g.outputBaseDigits ) )
     else:
-        strNumber = nstr( number, n = g.outputAccuracy )
+        strNumber = nstr( number, n = g.outputAccuracy, min_fixed=-inf )
 
         if '.' in strNumber:
             decimal = strNumber.find( '.' )
@@ -229,7 +229,7 @@ def formatListOutput( result, level=0 ):
             elif isinstance( item, RPNDateTime ):
                 newString = formatDateTime( item )
             elif isinstance( item, RPNMeasurement ):
-                newString = formatOutput( nstr( item.getValue( ) ) )
+                newString = formatOutput( nstr( item.getValue( ), min_fixed=-inf ) )
                 newString += ' ' + formatUnits( item )
             else:
                 newString = formatOutput( str( item ) )

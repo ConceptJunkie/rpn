@@ -20,7 +20,7 @@ import argparse
 import sys
 import time
 
-from mpmath import nan, nstr
+from mpmath import inf, nan, nstr
 
 from rpnAliases import operatorAliases
 from rpnDateTime import RPNDateTime
@@ -189,10 +189,10 @@ def handleOutput( valueList ):
 
                 # handle the units if we are displaying a measurement
                 if isinstance( result, RPNMeasurement ):
-                    outputString = formatOutput( nstr( result.getValue( ), mp.dps ) )
+                    outputString = formatOutput( nstr( result.getValue( ), mp.dps, min_fixed=-inf ) )
                     outputString += ' ' + formatUnits( result )
                 else:
-                    outputString = formatOutput( nstr( result, mp.dps ) )
+                    outputString = formatOutput( nstr( result, mp.dps, min_fixed=-inf ) )
 
             print( outputString )
 
