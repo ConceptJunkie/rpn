@@ -584,8 +584,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
             print( '    ', unitType, '({} units)'.format( len( unitTypeTable[ unitType ] ) ) )
 
         while True:
-            count = 0
-
             newConversions = { }
 
             for op1, op2 in itertools.combinations( unitTypeTable[ unitType ], 2 ):
@@ -598,11 +596,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
 
             if newConversions:
                 unitConversionMatrix.update( newConversions )
-
-                if count % 100 == 0:
-                    print( len( unitConversionMatrix ), end='\r' )
-
-                count += 1
+                print( len( unitConversionMatrix ), end='\r' )
             else:
                 break
 
