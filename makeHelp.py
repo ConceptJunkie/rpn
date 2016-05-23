@@ -6646,6 +6646,13 @@ c:\>rpn 4 5 make_pyth_3 unlist euler_brick
 # //
 # //******************************************************************************
 
+    'abundance' : [
+'number_theory', 'returns the abundance of n',
+'''
+''',
+'''
+''' ],
+
     'aliquot' : [
 'number_theory', 'returns the first k members of the aliquot sequence of n',
 '''
@@ -6936,6 +6943,13 @@ c:\>rpn 1 10 range fibonorial
 
     'is_deficient' : [
 'number_theory', 'returns whether or not n is a deficient number',
+'''
+''',
+'''
+''' ],
+
+    'is_friendly' : [
+'number_theory', 'returns whether list n is a list of mutually friendly numbers',
 '''
 ''',
 '''

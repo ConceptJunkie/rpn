@@ -1807,6 +1807,9 @@ listOperators = {
     'frobenius'             : RPNOperator( getFrobeniusNumber,
                                            1, [ RPNOperator.List ] ),
 
+    'is_friendly'           : RPNOperator( isFriendly,
+                                           1, [ RPNOperator.List ] ),
+
     'linear_recurrence'     : RPNOperator( getNthLinearRecurrence,
                                            3, [ RPNOperator.List, RPNOperator.List,
                                                 RPNOperator.PositiveInteger ] ),
@@ -2701,6 +2704,9 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
     # number_theory
+    'abundance'                      : RPNOperator( lambda n: fdiv( getSigma( n ), n ),
+                                                    1, RPNOperator.PositiveInteger ),
+
     'aliquot'                        : RPNOperator( lambda n, k: RPNGenerator.createGenerator( getAliquotSequence, [ n, k ] ),
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 

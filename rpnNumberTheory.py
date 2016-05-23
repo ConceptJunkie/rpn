@@ -1329,3 +1329,23 @@ def getNthCalkinWilf( n ):
     return fdiv( getNthStern( n ), getNthStern( fadd( n, 1 ) ) )
 
 
+# //******************************************************************************
+# //
+# //  isFriendly
+# //
+# //******************************************************************************
+
+def isFriendly( n ):
+    first = True
+
+    abundance = 0
+
+    for i in n:
+        if first:
+            abundance = fdiv( getSigma( i ), i )
+            first = False
+        elif fdiv( getSigma( i ), i ) != abundance:
+            return 0
+
+    return 1
+
