@@ -2512,15 +2512,6 @@ operators = {
                                                          RPNOperator.Default, RPNOperator.Default,
                                                          RPNOperator.Function ] ),
 
-    'x'                              : RPNOperator( addX,
-                                                    0, [ ] ),
-
-    'y'                              : RPNOperator( addY,
-                                                    0, [ ] ),
-
-    'z'                              : RPNOperator( addZ,
-                                                    0, [ ] ),
-
     # geography
     'distance'                       : RPNOperator( getDistance,
                                                     2, [ RPNOperator.Location, RPNOperator.Location ] ),
