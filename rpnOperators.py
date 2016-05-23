@@ -2512,6 +2512,15 @@ operators = {
                                                          RPNOperator.Default, RPNOperator.Default,
                                                          RPNOperator.Function ] ),
 
+    'x'                              : RPNOperator( addX,
+                                                    0, [ ] ),
+
+    'y'                              : RPNOperator( addY,
+                                                    0, [ ] ),
+
+    'z'                              : RPNOperator( addZ,
+                                                    0, [ ] ),
+
     # geography
     'distance'                       : RPNOperator( getDistance,
                                                     2, [ RPNOperator.Location, RPNOperator.Location ] ),
@@ -2964,9 +2973,6 @@ operators = {
     'time_dilation'                  : RPNOperator( calculateTimeDilation,
                                                     1, [ RPNOperator.Measurement ] ),
 
-    'trajectory_distance'            : RPNOperator( calculateTrajectoryDistance,
-                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
-
     'velocity'                       : RPNOperator( calculateVelocity,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
@@ -3216,7 +3222,7 @@ operators = {
     'agm'                            : RPNOperator( agm,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
-    'cube'                           : RPNOperator( lambda n: getPower( n, 3 ),
+    'cube'                           : RPNOperator( lambda n: exponentiate( n, 3 ),
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
@@ -3236,7 +3242,7 @@ operators = {
     'hyper4_2'                       : RPNOperator( tetrateLarge,
                                                     2, [ RPNOperator.Default, RPNOperator.Real ] ),
 
-    'power'                          : RPNOperator( getPower,
+    'power'                          : RPNOperator( exponentiate,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
@@ -3248,7 +3254,7 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.Real ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'square'                         : RPNOperator( lambda n: getPower( n, 2 ),
+    'square'                         : RPNOperator( lambda n: exponentiate( n, 2 ),
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 

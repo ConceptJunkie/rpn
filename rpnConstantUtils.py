@@ -34,7 +34,7 @@ import rpnGlobals as g
 
 from rpnComputer import interpretAsDouble, interpretAsFloat
 from rpnInput import convertToBase10
-from rpnMath import getPower, getRoot
+from rpnMath import exponentiate, getRoot
 from rpnMeasurement import RPNMeasurement
 from rpnOutput import convertToBaseN
 from rpnPrimeUtils import getNthPrime
@@ -382,7 +382,7 @@ def getBoltzmannsConstant( ):
 #@lru_cache( 1 )
 def getPlanckLength( ):
     return getRoot( getReducedPlanckConstant( ).multiply( getNewtonsConstant( ) ).divide(
-                        getPower( getSpeedOfLight( ), 3 ) ), 2 )
+                        exponentiate( getSpeedOfLight( ), 3 ) ), 2 )
 
 
 # //******************************************************************************
@@ -406,7 +406,7 @@ def getPlanckMass( ):
 #@lru_cache( 1 )
 def getPlanckTime( ):
     return getRoot( getReducedPlanckConstant( ).multiply( getNewtonsConstant( ) ).divide(
-                        getPower( getSpeedOfLight( ), 5 ) ), 2 )
+                        exponentiate( getSpeedOfLight( ), 5 ) ), 2 )
 
 
 # //******************************************************************************
@@ -428,6 +428,6 @@ def getPlanckCharge( ):
 
 #@lru_cache( 1 )
 def getPlanckTemperature( ):
-    return getRoot( getReducedPlanckConstant( ).multiply( getPower( getSpeedOfLight( ), 5 ) ).
-        divide( getNewtonsConstant( ).multiply( getPower( getBoltzmannsConstant( ), 2 ) ) ), 2 )
+    return getRoot( getReducedPlanckConstant( ).multiply( exponentiate( getSpeedOfLight( ), 5 ) ).
+        divide( getNewtonsConstant( ).multiply( exponentiate( getBoltzmannsConstant( ), 2 ) ) ), 2 )
 

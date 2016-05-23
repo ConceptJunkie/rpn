@@ -18,7 +18,7 @@ from mpmath import apery, bell, bernoulli, catalan, e, euler, exp, glaisher, \
 from rpnConstantUtils import *
 
 #from rpnDeclarations import RPNOperator
-from rpnMath import getPower, getRoot
+from rpnMath import exponentiate, getRoot
 
 
 # //******************************************************************************

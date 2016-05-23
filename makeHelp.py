@@ -304,9 +304,8 @@ For now, here are some examples:
     'user_functions' :
     '''
 This feature allows the user to define a function for use with the eval, nsum,
-nprod, limit and limitn operators, etc.  Basically 'x' starts an expression
-that becomes a function.  Right now (5.28.0), a user-defined function must
-start with 'x', but I hope to remove that limitation soon.
+nprod, limit and limitn operators, etc.  'lambda' starts an expression that
+becomes a function.
 
 Some examples:
 
@@ -7400,13 +7399,6 @@ time (the period of the orbit)
 
     'time_dilation' : [
 'physics', 'calculates the relativistic time-dilation effect of a velocity difference of n',
-'''
-''',
-'''
-''' ],
-
-    'trajectory_distance' : [
-'physics', '',
 '''
 ''',
 '''

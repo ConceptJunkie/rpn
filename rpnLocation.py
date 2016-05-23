@@ -44,15 +44,9 @@ import rpnGlobals as g
 
 class RPNLocation( object ):
     """This class represents a location on the surface of the Earth."""
-    def __init__( self, arg1, arg2=ephem.Observer( ) ):
-        if isinstance( arg1, str ):
-            self.name = arg1
-            self.observer = arg2
-        else:
-            self.observer = ephem.Observer( )
-            # convert to radians
-            self.setLat( arg1 )
-            self.setLong( arg2 )
+    def __init__( self, name, observer=ephem.Observer( ) ):
+        self.name = name
+        self.observer = observer
 
     def setObserver( self, observer ):
         self.observer.lat = observer.lat
