@@ -6955,6 +6955,13 @@ c:\>rpn 1 10 range fibonorial
 '''
 ''' ],
 
+    'is_k_hyperperfect' : [
+'number_theory', 'returns whether an integer n is k hyperperfect',
+'''
+''',
+'''
+''' ],
+
     'is_k_semiprime' : [
 'number_theory', 'returns whether n is a k-factor square-free number',
 '''

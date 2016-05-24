@@ -2795,6 +2795,9 @@ operators = {
     'is_deficient'                   : RPNOperator( isDeficient,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_k_hyperperfect'              : RPNOperator( isKHyperperfect,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
     'is_k_semiprime'                 : RPNOperator( isKSemiPrime,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
