@@ -2663,6 +2663,13 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] xor
 # //
 # //******************************************************************************
 
+    'ascension' : [
+'calendars', 'returns the date of Ascension Thursday for the year specified',
+'''
+''',
+'''
+''' ],
+
     'ash_wednesday' : [
 'calendars', 'calculates the date of Ash Wednesday for the year specified',
 '''
@@ -2675,6 +2682,17 @@ c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] xor
 '''
 The 'calendar' operator is special in that what it prints out is a side-effect.
 The operator itself doesn't actually do anything.
+''',
+'''
+''' ],
+
+    'christmas' : [
+'calendars', 'returns the date of Christmas for the year specified',
+'''
+I deliberately didn't intend to make this operator, since Christmas is always
+on the same date, but one day, I was checking the number of days until
+Christmas and used the 'christmas' operator without remembering I never made
+one.  <shrug>
 ''',
 '''
 ''' ],
@@ -2713,6 +2731,13 @@ c:\>rpn 2016 election_day
 
 c:\>rpn 1964 election_day
 1964-11-03
+''' ],
+
+    'epiphany' : [
+'calendars', 'returns the date of Epiphany for the year specified',
+'''
+''',
+'''
 ''' ],
 
     'from_bahai' : [
@@ -2817,6 +2842,13 @@ d = day (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
 '''
 a = four-digit year, b = week (negative values count from the end), c = day
 (1 = Monday, 2 = Tuesday, etc. through 7 = Sunday)
+''',
+'''
+''' ],
+
+    'pentecost' : [
+'calendars', 'returns the date of Pentecost Sunday for the year specified',
+'''
 ''',
 '''
 ''' ],
@@ -7060,6 +7092,13 @@ c:\>rpn 1 10 range fibonorial
 '''
 ''' ],
 
+    'k_fibonacci' : [
+'number_theory', 'calculates the nth K-Fibonacci number',
+'''
+''',
+'''
+''' ],
+
     'leonardo' : [
 'number_theory', 'returns the nth Leonardo number',
 '''
@@ -7183,13 +7222,6 @@ n and k cannot both be odd.
 
     'mobius' : [
 'number_theory', 'calculates the Mobius function for n',
-'''
-''',
-'''
-''' ],
-
-    'n_fibonacci' : [
-'number_theory', 'calculates the nth K-Fibonacci number',
 '''
 ''',
 '''

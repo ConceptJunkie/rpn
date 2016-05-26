@@ -2171,7 +2171,13 @@ operators = {
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     # calendar
+    'ascension'                      : RPNOperator( calculateAscensionThursday,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'ash_wednesday'                  : RPNOperator( calculateAshWednesday,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'christmas'                      : RPNOperator( getChristmasDay,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'calendar'                       : RPNOperator( generateMonthCalendar,
@@ -2187,6 +2193,9 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'election_day'                   : RPNOperator( calculateElectionDay,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'epiphany'                       : RPNOperator( getEpiphanyDay,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'from_bahai'                     : RPNOperator( convertBahaiDate,
@@ -2234,6 +2243,9 @@ operators = {
     'nth_weekday_of_year'            : RPNOperator( calculateNthWeekdayOfYear,
                                                     3, [ RPNOperator.PositiveInteger, RPNOperator.Integer,
                                                          RPNOperator.PositiveInteger ] ),
+
+    'pentecost'                      : RPNOperator( calculatePentecostSunday,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'presidents_day'                 : RPNOperator( calculatePresidentsDay,
                                                     1, [ RPNOperator.PositiveInteger ] ),
@@ -2840,6 +2852,9 @@ operators = {
     'kynea'                          : RPNOperator( lambda n: fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ),
                                                     1, [ RPNOperator.Real ] ),
 
+    'k_fibonacci'                    : RPNOperator( getNthKFibonacciNumber,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
     'leonardo'                       : RPNOperator( lambda n: fsub( fmul( 2, fib( fadd( n, 1 ) ) ), 1 ),
                                                     1, [ RPNOperator.Real ] ),
 
@@ -2869,9 +2884,6 @@ operators = {
 
     'nth_padovan'                    : RPNOperator( getNthPadovanNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
-
-    'n_fibonacci'                    : RPNOperator( getNthKFibonacciNumber,
-                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'n_persistence'                  : RPNOperator( getPersistence,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),

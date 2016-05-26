@@ -575,6 +575,7 @@ operatorAliases = {
     'nth_prime?'                : 'nth_prime',
     'nth_quad?'                 : 'nth_quadruplet_prime',
     'nth_quint?'                : 'nth_quintuplet_prime',
+    'n_fibonacci'               : 'k_fibonacci',
     'oct'                       : 'october',
     'octa'                      : 'octagonal',
     'octa?'                     : 'nth_octagonal',

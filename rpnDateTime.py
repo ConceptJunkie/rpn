@@ -600,6 +600,51 @@ def calculatePresidentsDay( year ):
 
 # //******************************************************************************
 # //
+# //  getChristmasDay
+# //
+# //******************************************************************************
+
+def getChristmasDay( year ):
+    return RPNDateTime( year, 12, 25, dateOnly = True )
+
+
+# //******************************************************************************
+# //
+# //  getEpiphanyDay
+# //
+# //******************************************************************************
+
+def getEpiphanyDay( year ):
+    return RPNDateTime( year, 1, 6, dateOnly = True )
+
+
+# //******************************************************************************
+# //
+# //  calculatePentecostSunday
+# //
+# //******************************************************************************
+
+def calculatePentecostSunday( year ):
+    return calculateEaster( year ).add( RPNMeasurement( 7, 'weeks' ) )
+
+
+# //******************************************************************************
+# //
+# //  calculateAscensionThursday
+# //
+# //
+# //******************************************************************************
+
+def calculateAscensionThursday( year ):
+    '''
+    I don't know why it's 39 days instead of 40, but that's how the math
+    works out.
+    '''
+    return calculateEaster( year ).add( RPNMeasurement( 39, 'days' ) )
+
+
+# //******************************************************************************
+# //
 # //  calculateDSTStart
 # //
 # //  the second Sunday in March

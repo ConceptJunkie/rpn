@@ -736,6 +736,12 @@ def runCalendarOperatorTests( ):
     testOperator( '2014-10-01 calendar' )
     testOperator( 'today calendar' )
 
+    # ascension
+    testOperator( '2016 ascension' )
+
+    # christmas
+    testOperator( '2016 christmas' )
+
     # dst_end
     testOperator( '2015 dst_end' )
 
@@ -785,6 +791,9 @@ def runCalendarOperatorTests( ):
     # nth_weekday_of_year
     testOperator( '2015 20 thursday nth_weekday_of_year' )
     testOperator( '2015 -1 thursday nth_weekday_of_year' )
+
+    # pentecost
+    testOperator( '2016 pentecost' )
 
     # presidents_day
     testOperator( '2015 presidents_day' )
@@ -1873,6 +1882,13 @@ def runModifierOperatorTests( ):
 def runNumberTheoryOperatorTests( ):
     from rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
 
+    # abundance
+    expectResult( '6 abundance', 2 )
+    expectResult( '28 abundance', 2 )
+    expectResult( '8128 abundance', 2 )
+    expectResult( '120 abundance', 3 )
+    expectResult( '672 abundance', 3 )
+
     # aliquot
     testOperator( '276 10 aliquot' )
 
@@ -1996,6 +2012,9 @@ def runNumberTheoryOperatorTests( ):
     # is_deficient
     testOperator( '1 20 range is_deficient' )
 
+    # is_k_hyperperfect
+    expectEqual( '1 2100 range lambda x 12 is_k_hyperperfect filter', '[ 697 2041 ]' )
+
     # is_k_semiprime
     testOperator( '1 20 range 3 is_k_semiprime' )
 
@@ -2044,6 +2063,12 @@ def runNumberTheoryOperatorTests( ):
     # kynea
     expectEqual( '-a20 1 25 range kynea', '93069 oeis 25 left' )
 
+    # k_fibonacci
+    expectResult( '0 100 range 2 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range 5 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range 10 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 101 ) ] )
+    expectResult( '1000 10 k_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
+
     # leonardo
     expectEqual( '0 37 range leonardo', '1595 oeis 38 left' )
 
@@ -2077,12 +2102,6 @@ def runNumberTheoryOperatorTests( ):
     # mobius
     testOperator( '20176 mobius' )
     expectEqual( '1 77 range mobius', '8683 oeis 77 left' )
-
-    # n_fibonacci
-    expectResult( '0 100 range 2 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
-    expectResult( '0 100 range 5 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
-    expectResult( '0 100 range 10 n_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 101 ) ] )
-    expectResult( '1000 10 n_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
 
     # nth_padovan
     testOperator( '-c 76 nth_padovan' )
