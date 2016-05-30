@@ -36,8 +36,16 @@ def preparePrimeData( baseName ):
 
     inputFileName = g.dataDir + os.sep + baseName + '.txt'
 
-    with open( inputFileName, "r" ) as input:
-        data = eval( input.read( ).replace( '\n', '' ) )
+    data = { }
+
+    with open( inputFileName, "rU" ) as input:
+        for line in input:
+            try:
+                key, value = line.split( )
+                data[ int( key ) ] = int( value )
+            except:
+                print( 'parsing error in file ' + inputFileName + ': \'' + line + '\'' )
+
 
     pickleFileName = g.dataDir + os.sep + baseName + '.pckl.bz2'
 
