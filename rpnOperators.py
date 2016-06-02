@@ -3299,7 +3299,7 @@ operators = {
     'isolated_prime'                 : RPNOperator( getNthIsolatedPrime,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'next_prime'                     : RPNOperator( lambda n: findPrime( n )[ 1 ],
+    'next_prime'                     : RPNOperator( lambda n: getNextPrime( n ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'next_quadruplet_prime'          : RPNOperator( lambda n: findQuadrupletPrimes( n )[ 1 ],
