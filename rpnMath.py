@@ -17,7 +17,7 @@ from mpmath import arange, ceil, fadd, fdiv, floor, fmod, fmul, fneg, fsub, \
 
 from rpnDateTime import RPNDateTime
 from rpnGenerator import RPNGenerator
-from rpnMeasurement import RPNMeasurement
+from rpnMeasurement import RPNMeasurement, RPNUnits
 from rpnName import getOrdinalName
 from rpnUtils import real
 
@@ -148,13 +148,14 @@ def multiply( n, k ):
 
 # //******************************************************************************
 # //
-# //  exponentiate
+# //  getPower
 # //
 # //******************************************************************************
 
-def exponentiate( n, k ):
+def getPower( n, k ):
     if isinstance( n, RPNMeasurement ):
-        return n.exponentiate( k )
+        result = RPNMeasurement( n )
+        return result.exponentiate( k )
     else:
         return power( n, k )
 
@@ -170,7 +171,7 @@ def getRoot( n, k ):
         if not isInteger( k ):
             raise ValueError( 'cannot take a fractional root of a measurement' )
 
-        newUnits = n.getUnits( )
+        newUnits = RPNUnits( n.getUnits( ) )
 
         for unit, exponent in newUnits.items( ):
             if fmod( exponent, k ) != 0:

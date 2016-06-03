@@ -1494,8 +1494,8 @@ def runGeometryOperatorTests( ):
     testOperator( '1 octahedron_volume' )
 
     # polygon_area
-    testOperator( '13 polygon_area' )
-    testOperator( '3 10 range polygon_area' )
+    testOperator( '13 1 inch polygon_area square_inches convert' )
+    testOperator( '3 10 range 1 polygon_area' )
 
     # prism_area
     testOperator( '8 5 2 prism_area' )
@@ -1531,7 +1531,7 @@ def runGeometryOperatorTests( ):
     testOperator( '20 8 torus_volume' )
 
     # triangle_area
-    testOperator( '123 456 789 triangle_area' )
+    testOperator( '456 456 789 triangle_area' )
 
 
 # //******************************************************************************

@@ -219,10 +219,14 @@ class RPNMeasurement( object ):
 
         if isinstance( value, str ):
             self.value = mpmathify( value )
+            self.units = RPNUnits( units )
+        elif isinstance( value, RPNMeasurement ):
+            self.value = value.getValue( )
+            self.units = RPNUnits( value.getUnits( ) )
         else:
             self.value = value
+            self.units = RPNUnits( units )
 
-        self.units = RPNUnits( units )
         self.unitName = unitName
         self.pluralUnitName = pluralUnitName
 

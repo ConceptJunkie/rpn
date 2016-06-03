@@ -5451,7 +5451,7 @@ c:\>rpn inf lambda x 1 + fib x fib / limit
 ''' ],
 
     'polygon_area' : [
-'geometry', 'calculates the area of an regular n-sided polygon with sides of unit length',
+'geometry', 'calculates the area of an regular n-sided polygon with sides of length k',
 '''
 ''',
 '''

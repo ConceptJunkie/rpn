@@ -15,6 +15,8 @@
 from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, fsum, gamma, hypot, \
                    power, pi, root, sin, sqrt, tan
 
+from rpnList import getProduct
+from rpnMath import add, divide, getPower, getRoot, multiply
 from rpnMeasurement import RPNMeasurement
 from rpnUtils import real, real_int
 
@@ -23,17 +25,25 @@ from rpnUtils import real, real_int
 # //
 # //  getRegularPolygonArea
 # //
-# //  based on having sides of unit length
+# //  based on having sides of edge length k
 # //
 # //  http://www.mathopenref.com/polygonregulararea.html
 # //
 # //******************************************************************************
 
-def getRegularPolygonArea( n ):
+def getRegularPolygonArea( n, k ):
     if real( n ) < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
-    return fdiv( n, fmul( 4, tan( fdiv( pi, n ) ) ) )
+    if not isinstance( k, RPNMeasurement ):
+        return getRegularPolygonArea( n, RPNMeasurement( real( k ), 'meter' ) )
+
+    dimensions = k.getDimensions( )
+
+    if dimensions != { 'length' : 1 }:
+        raise ValueError( '\'polygon_area\' argument 2 must be a length' )
+
+    return multiply( fdiv( n, fmul( 4, tan( fdiv( pi, n ) ) ) ), getPower( k, 2 ) ).convert( 'meter^2' )
 
 
 # //******************************************************************************
@@ -99,7 +109,7 @@ def getNSphereSurfaceArea( n, k ):
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     if not isinstance( n, RPNMeasurement ):
-        return getNSphereSurfaceArea( n, RPNMeasurement( real( n ), 'inch' ) )
+        return getNSphereSurfaceArea( n, RPNMeasurement( real( n ), 'meter' ) )
 
     dimensions = n.getDimensions( )
 
@@ -140,7 +150,7 @@ def getNSphereVolume( n, k ):
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     if not isinstance( n, RPNMeasurement ):
-        return getNSphereVolume( RPNMeasurement( real( n ), 'inch' ), k )
+        return getNSphereVolume( RPNMeasurement( real( n ), 'meter' ), k )
 
     dimensions = n.getDimensions( )
     m = n.getValue( )
@@ -165,28 +175,14 @@ def getNSphereVolume( n, k ):
 # //
 # //  getTriangleArea
 # //
-# //  TODO:  check for invalid triangles
-# //
 # //******************************************************************************
 
 def getTriangleArea( a, b, c ):
+    if fadd( a, b ) < c or fadd( b, c ) < a or fadd( a, c ) < b:
+        raise ValueError( 'invalid triangle, the sum of any two sides must be as long as the third side' )
+
     s = fdiv( fsum( [ a, b, c ] ), 2 )   # semi-perimeter
     return sqrt( fprod( [ s, fsub( s, a ), fsub( s, b ), fsub( s, c ) ] ) )
-
-
-# //******************************************************************************
-# //
-# //  getTorusVolume
-# //
-# //  http://preccalc.sourceforge.net/geometry.shtml
-# //
-# //  R = major radius
-# //  s = minor radius
-# //
-# //******************************************************************************
-
-def getTorusVolume( R, s ):
-    return fprod( [ 2, power( pi, 2 ), real( R ), pow( real( s ), 2 ) ] )
 
 
 # //******************************************************************************
@@ -201,22 +197,46 @@ def getTorusVolume( R, s ):
 # //******************************************************************************
 
 def getTorusSurfaceArea( R, s ):
-    return fprod( [ 4, power( pi, 2 ), real( R ), real( s ) ] )
+    if not isinstance( R, RPNMeasurement ):
+        return getTorusSurfaceArea( RPNMeasurement( real( R ), 'meter' ), s )
+
+    if R.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'torus_area\' argument 1 must be a length' )
+
+    if not isinstance( s, RPNMeasurement ):
+        return getTorusSurfaceArea( R, RPNMeasurement( real( s ), 'meter' ) )
+
+    if s.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'torus_area\' argument 2 must be a length' )
+
+    return getProduct( [ 4, power( pi, 2 ), R, s ] )
 
 
 # //******************************************************************************
 # //
-# //  getConeVolume
+# //  getTorusVolume
 # //
 # //  http://preccalc.sourceforge.net/geometry.shtml
 # //
-# //  r = radius
-# //  h = height
+# //  R = major radius
+# //  s = minor radius
 # //
 # //******************************************************************************
 
-def getConeVolume( r, h ):
-    return fprod( [ pi, power( real( r ), 2 ), fdiv( real( h ), 3 ) ] )
+def getTorusVolume( R, s ):
+    if not isinstance( R, RPNMeasurement ):
+        return getTorusVolume( RPNMeasurement( real( R ), 'meter' ), s )
+
+    if R.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'torus_volume\' argument 1 must be a length' )
+
+    if not isinstance( s, RPNMeasurement ):
+        return getTorusVolume( R, RPNMeasurement( real( s ), 'meter' ) )
+
+    if s.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'torus_volume\' argument 2 must be a length' )
+
+    return getProduct( [ 2, power( pi, 2 ), R, getPower( s, 2 ) ] )
 
 
 # //******************************************************************************
@@ -231,7 +251,48 @@ def getConeVolume( r, h ):
 # //******************************************************************************
 
 def getConeSurfaceArea( r, h ):
-    return fprod( [ pi, real( r ), fadd( r, hypot( r, real( h ) ) ) ] )
+    if not isinstance( r, RPNMeasurement ):
+        return getConeSurfaceArea( RPNMeasurement( real( r ), 'meter' ), h )
+
+    if r.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'cone_area\' argument 1 must be a length' )
+
+    if not isinstance( h, RPNMeasurement ):
+        return getConeSurfaceArea( r, RPNMeasurement( real( h ), 'meter' ) )
+
+    if h.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'cone_area\' argument 2 must be a length' )
+
+    hypotenuse = getRoot( add( getPower( r, 2 ), getPower( h, 2 ) ), 2 )
+
+    return getProduct( [ pi, r, add( r, hypotenuse ) ] )
+
+
+# //******************************************************************************
+# //
+# //  getConeVolume
+# //
+# //  http://preccalc.sourceforge.net/geometry.shtml
+# //
+# //  r = radius
+# //  h = height
+# //
+# //******************************************************************************
+
+def getConeVolume( r, h ):
+    if not isinstance( r, RPNMeasurement ):
+        return getConeVolume( RPNMeasurement( real( r ), 'meter' ), h )
+
+    if r.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'cone_volume\' argument 1 must be a length' )
+
+    if not isinstance( h, RPNMeasurement ):
+        return getConeVolume( r, RPNMeasurement( real( h ), 'meter' ) )
+
+    if h.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'cone_volume\' argument 2 must be a length' )
+
+    return getProduct( [ pi, getPower( r, 2 ), divide( h, 3 ) ] )
 
 
 # //******************************************************************************
@@ -243,7 +304,13 @@ def getConeSurfaceArea( r, h ):
 # //******************************************************************************
 
 def getTetrahedronSurfaceArea( n ):
-    return fmul( sqrt( 3 ), power( real( n ), 2 ) )
+    if not isinstance( n, RPNMeasurement ):
+        return getTetrahedronSurfaceArea( RPNMeasurement( real( n ), 'meter' ) )
+
+    if n.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'tetrahedron_area\' argument must be a length' )
+
+    return multiply( sqrt( 3 ), getPower( n, 2 ) )
 
 
 # //******************************************************************************
@@ -255,7 +322,13 @@ def getTetrahedronSurfaceArea( n ):
 # //******************************************************************************
 
 def getTetrahedronVolume( n ):
-    return fdiv( power( real( n ), 3 ), fmul( 6, sqrt( 2 ) ) )
+    if not isinstance( n, RPNMeasurement ):
+        return getTetrahedronVolume( RPNMeasurement( real( n ), 'meter' ) )
+
+    if n.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'tetrahedron_volume\' argument must be a length' )
+
+    return divide( getPower( n, 3 ), fmul( 6, sqrt( 2 ) ) )
 
 
 # //******************************************************************************
@@ -267,7 +340,13 @@ def getTetrahedronVolume( n ):
 # //******************************************************************************
 
 def getOctahedronSurfaceArea( n ):
-    return fprod( [ 2, sqrt( 3 ), power( real( n ), 2 ) ] )
+    if not isinstance( n, RPNMeasurement ):
+        return getOctahedronSurfaceArea( RPNMeasurement( real( n ), 'meter' ) )
+
+    if n.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'octahedron_area\' argument must be a length' )
+
+    return getProduct( [ 2, sqrt( 3 ), getPower( n, 2 ) ] )
 
 
 # //******************************************************************************
@@ -279,7 +358,13 @@ def getOctahedronSurfaceArea( n ):
 # //******************************************************************************
 
 def getOctahedronVolume( n ):
-    return fdiv( fmul( sqrt( 2 ), power( real( n ), 3 ) ), 3 )
+    if not isinstance( n, RPNMeasurement ):
+        return getOctahedronVolume( RPNMeasurement( real( n ), 'meter' ) )
+
+    if n.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'octahedron_volume\' argument must be a length' )
+
+    return divide( multiply( sqrt( 2 ), getPower( n, 3 ) ), 3 )
 
 
 # //******************************************************************************
@@ -291,7 +376,14 @@ def getOctahedronVolume( n ):
 # //******************************************************************************
 
 def getDodecahedronSurfaceArea( n ):
-    return fmul( 3, sqrt( fadd( 25, fprod( [ 10, sqrt( 5 ), power( real( n ), 2 ) ] ) ) ) )
+    if not isinstance( n, RPNMeasurement ):
+        return getDodecahedronSurfaceArea( RPNMeasurement( real( n ), 'meter' ) )
+
+    if n.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'dodecahedron_area\' argument must be a length' )
+
+    area = getProduct( [ 3, getRoot( add( 25, fmul( 10, sqrt( 5 ) ) ), 2 ), getPower( n, 2 ) ] )
+    return area.convert( 'meter^2' )
 
 
 # //******************************************************************************
@@ -303,7 +395,13 @@ def getDodecahedronSurfaceArea( n ):
 # //******************************************************************************
 
 def getDodecahedronVolume( n ):
-    return fdiv( fmul( fadd( 15, fmul( 7, sqrt( 5 ) ) ), power( n, 3 ) ), 4 )
+    if not isinstance( n, RPNMeasurement ):
+        return getDodecahedronVolume( RPNMeasurement( real( n ), 'meter' ) )
+
+    if n.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'dodecahedron_volume\' argument must be a length' )
+
+    return divide( multiply( fadd( 15, fmul( 7, sqrt( 5 ) ) ), getPower( n, 3 ) ), 4 ).convert( 'meter^3' )
 
 
 # //******************************************************************************
@@ -315,7 +413,13 @@ def getDodecahedronVolume( n ):
 # //******************************************************************************
 
 def getIcosahedronSurfaceArea( n ):
-    return fprod( [ 5, sqrt( 3 ), power( n, 2 ) ] )
+    if not isinstance( n, RPNMeasurement ):
+        return getIcosahedronVolume( RPNMeasurement( real( n ), 'meter' ) )
+
+    if n.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'icosahedron_area\' argument must be a length' )
+
+    return getProduct( [ 5, sqrt( 3 ), getPower( n, 2 ) ] ).convert( 'meter^2' )
 
 
 # //******************************************************************************
@@ -327,7 +431,13 @@ def getIcosahedronSurfaceArea( n ):
 # //******************************************************************************
 
 def getIcosahedronVolume( n ):
-    return fprod( [ fdiv( 5, 12 ), fadd( 3, sqrt( 5 ) ), power( n, 3 ) ] )
+    if not isinstance( n, RPNMeasurement ):
+        return getIcosahedronVolume( RPNMeasurement( real( n ), 'meter' ) )
+
+    if n.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'icosahedron_volume\' argument must be a length' )
+
+    return getProduct( [ fdiv( 5, 12 ), fadd( 3, sqrt( 5 ) ), getPower( n, 3 ) ] ).convert( 'meter^3' )
 
 
 # //******************************************************************************
@@ -342,7 +452,17 @@ def getIcosahedronVolume( n ):
 # //******************************************************************************
 
 def getAntiprismSurfaceArea( n, k ):
-    return fprod( [ fdiv( n, 2 ), fadd( cot( fdiv( pi, n ) ), sqrt( 3 ) ), power( k, 2 ) ] )
+    if real( n ) < 3:
+        raise ValueError( 'the number of sides of the prism cannot be less than 3,' )
+
+    if not isinstance( k, RPNMeasurement ):
+        return getAntiprismSurfaceArea( n, RPNMeasurement( real( k ), 'meter' ) )
+
+    if k.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'antiprism_area\' argument 2 must be a length' )
+
+    result = getProduct( [ fdiv( n, 2 ), fadd( cot( fdiv( pi, n ) ), sqrt( 3 ) ), getPower( k, 2 ) ] )
+    return result.convert( 'meter^2' )
 
 
 # //******************************************************************************
@@ -357,11 +477,22 @@ def getAntiprismSurfaceArea( n, k ):
 # //******************************************************************************
 
 def getAntiprismVolume( n, k ):
-    return fprod( [ fdiv( fprod( [ n, sqrt( fsub( fmul( 4, cos( cos( fdiv( pi, fmul( n, 2 ) ) ) ) ), 1 ) ),
+    if real( n ) < 3:
+        raise ValueError( 'the number of sides of the prism cannot be less than 3,' )
+
+    if not isinstance( k, RPNMeasurement ):
+        return getAntiprismVolume( n, RPNMeasurement( real( k ), 'meter' ) )
+
+    if k.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'antiprism_volume\' argument 2 must be a length' )
+
+    result = getProduct( [ fdiv( fprod( [ n, sqrt( fsub( fmul( 4, cos( cos( fdiv( pi, fmul( n, 2 ) ) ) ) ), 1 ) ),
                                    sin( fdiv( fmul( 3, pi ), fmul( 2, n ) ) ) ] ),
-                          fmul( 12, sin( sin( fdiv( pi, n ) ) ) ) ),
-                    sin( fdiv( fmul( 3, pi ), fmul( 2, n ) ) ),
-                    power( k, 3 ) ] )
+                           fmul( 12, sin( sin( fdiv( pi, n ) ) ) ) ),
+                           sin( fdiv( fmul( 3, pi ), fmul( 2, n ) ) ),
+                           getPower( k, 3 ) ] )
+
+    return result.convert( 'meter^3' )
 
 
 # //******************************************************************************
@@ -377,7 +508,24 @@ def getAntiprismVolume( n, k ):
 # //******************************************************************************
 
 def getPrismSurfaceArea( n, k, h ):
-    return fadd( fprod( [ fdiv( n, 2 ), power( k, 2 ), cot( fdiv( pi, n ) ) ] ), fprod( [ n, k, h, ] ) )
+    if real( n ) < 3:
+        raise ValueError( 'the number of sides of the prism cannot be less than 3,' )
+
+    if not isinstance( k, RPNMeasurement ):
+        return getPrismSurfaceArea( n, RPNMeasurement( real( k ), 'meter' ), h )
+
+    if not isinstance( h, RPNMeasurement ):
+        return getPrismSurfaceArea( n, k, RPNMeasurement( real( h ), 'meter' ) )
+
+    if k.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'prism_area\' argument 2 must be a length' )
+
+    if h.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'prism_area\' argument 3 must be a length' )
+
+    result = add( getProduct( [ fdiv( n, 2 ), getPower( k, 2 ), cot( fdiv( pi, n ) ) ] ),
+                  getProduct( [ n, k, h ] ) )
+    return result.convert( 'meter^2' )
 
 
 # //******************************************************************************
@@ -393,5 +541,21 @@ def getPrismSurfaceArea( n, k, h ):
 # //******************************************************************************
 
 def getPrismVolume( n, k, h ):
-    return fprod( [ fdiv( n, 4 ), h, power( k, 2 ), cot( fdiv( pi, n ) ) ] )
+    if real( n ) < 3:
+        raise ValueError( 'the number of sides of the prism cannot be less than 3,' )
+
+    if not isinstance( k, RPNMeasurement ):
+        return getPrismVolume( n, RPNMeasurement( real( k ), 'meter' ), h )
+
+    if not isinstance( h, RPNMeasurement ):
+        return getPrismVolume( n, k, RPNMeasurement( real( h ), 'meter' ) )
+
+    if k.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'prism_volume\' argument 2 must be a length' )
+
+    if h.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'prism_volume\' argument 3 must be a length' )
+
+    return getProduct( [ fdiv( n, 4 ), h, getPower( k, 2 ), cot( fdiv( pi, n ) ) ] ).convert( 'meter^3' )
+
 

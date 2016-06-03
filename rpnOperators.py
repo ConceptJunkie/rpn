@@ -2584,7 +2584,7 @@ operators = {
                                                     1, [ RPNOperator.NonnegativeReal ] ),
 
     'polygon_area'                   : RPNOperator( getRegularPolygonArea,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.Measurement ] ),
 
     'prism_area'                     : RPNOperator( getPrismSurfaceArea,
                                                     3, [ RPNOperator.PositiveInteger, RPNOperator.NonnegativeReal,
@@ -3234,7 +3234,7 @@ operators = {
     'agm'                            : RPNOperator( agm,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
-    'cube'                           : RPNOperator( lambda n: exponentiate( n, 3 ),
+    'cube'                           : RPNOperator( lambda n: getPower( n, 3 ),
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
@@ -3254,7 +3254,7 @@ operators = {
     'hyper4_2'                       : RPNOperator( tetrateLarge,
                                                     2, [ RPNOperator.Default, RPNOperator.Real ] ),
 
-    'power'                          : RPNOperator( exponentiate,
+    'power'                          : RPNOperator( getPower,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
@@ -3266,7 +3266,7 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.Real ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'square'                         : RPNOperator( lambda n: exponentiate( n, 2 ),
+    'square'                         : RPNOperator( lambda n: getPower( n, 2 ),
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
@@ -3299,7 +3299,7 @@ operators = {
     'isolated_prime'                 : RPNOperator( getNthIsolatedPrime,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'next_prime'                     : RPNOperator( lambda n: getNextPrime( n ),
+    'next_prime'                     : RPNOperator( lambda n: getNextPrime( n, func=getNextPrimeCandidateForAny ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'next_quadruplet_prime'          : RPNOperator( lambda n: findQuadrupletPrimes( n )[ 1 ],

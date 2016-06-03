@@ -17,7 +17,7 @@ import struct
 from rpnConstants import getNewtonsConstant, getSpeedOfLight
 from rpnGenerator import RPNGenerator
 from rpnList import getProduct
-from rpnMath import divide, exponentiate, getRoot, multiply
+from rpnMath import divide, getPower, getRoot, multiply
 from rpnMeasurement import checkUnits, getWhichUnitType, matchUnitTypes, \
                            RPNMeasurement, validateUnits
 from rpnUtils import real_int
@@ -36,7 +36,7 @@ from mpmath import fdiv, fmul, fsub, inf, pi, power, sqrt
 def calculateSchwarzchildRadius( mass ):
     validateUnits( mass, 'mass' )
 
-    radius = getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( exponentiate( getSpeedOfLight( ), 2 ) )
+    radius = getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( getPower( getSpeedOfLight( ), 2 ) )
     return radius.convert( 'meter' )
 
 
@@ -191,12 +191,12 @@ def calculateOrbitalPeriod( measurement1, measurement2 ):
 
     if bRadius:
         # radius and mass
-        term = divide( exponentiate( radius, 3 ), multiply( getNewtonsConstant( ), mass ) )
+        term = divide( getPower( radius, 3 ), multiply( getNewtonsConstant( ), mass ) )
         period = getProduct( [ 2, pi, getRoot( term, 2 ) ] )
     else:
         # velocity and mass
         period = divide( getProduct( [ 2, pi, getNewtonsConstant( ), mass ] ),
-                         exponentiate( velocity, 3 ) )
+                         getPower( velocity, 3 ) )
 
     return period.convert( 'second' )
 
@@ -256,12 +256,12 @@ def calculateOrbitalRadius( measurement1, measurement2 ):
 
     if bPeriod:
         # period and mass
-        term = divide( getProduct( [ exponentiate( period, 2 ), getNewtonsConstant( ), mass ] ),
+        term = divide( getProduct( [ getPower( period, 2 ), getNewtonsConstant( ), mass ] ),
                        fmul( 4, power( pi, 2 ) ) )
         radius = getRoot( term, 3 )
     else:
         # velocity and mass
-        radius = divide( multiply( getNewtonsConstant( ), mass ), exponentiate( velocity, 2 ) )
+        radius = divide( multiply( getNewtonsConstant( ), mass ), getPower( velocity, 2 ) )
 
     return radius.convert( 'meter' )
 
