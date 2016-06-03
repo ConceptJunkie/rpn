@@ -311,28 +311,53 @@ def runArithmeticOperatorTests( ):
     expectResult( '4 3 is_greater', 1 )
     expectResult( '55 55 is_greater', 0 )
     expectResult( 'e pi is_greater', 0 )
+    expectResult( '3 inches 2 inches is_greater', 1 )
+    expectResult( '8 miles 40000 feet is_greater', 1 )
+    expectResult( '1 light-year 1 parsec is_greater', 0 )
+
     expectException( '3 i 6 is_greater' )
+    expectException( '4 cups 1 mile is_greater' )
 
     # is_less
     expectResult( '4 3 is_less', 0 )
     expectResult( '2 2 is_less', 0 )
     expectResult( '2 3 is_less', 1 )
     expectException( '5 i 4 is_less' )
+    expectResult( '3 inches 2 inches is_less', 0 )
+    expectResult( '8 miles 40000 feet is_less', 0 )
+    expectResult( '1 light-year 1 parsec is_less', 1 )
+
+    expectException( '1 gallon 1 watt is_not_equal' )
 
     # is_not_equal
     expectResult( '4 3 is_not_equal', 1 )
     expectResult( '3 3 is_not_equal', 0 )
+    expectResult( '4 cups 1 quart is_not_equal', 0 )
+    expectResult( '3 inches 2 inches is_not_equal', 1 )
+    expectResult( '8 miles 40000 feet is_not_equal', 1 )
+    expectResult( '1 light-year 1 parsec is_not_equal', 1 )
+    expectResult( '1 inch 1 inch is_not_equal', 0 )
+
+    expectException( '4 cups 1 is_not_equal' )
+    expectException( '1 inch 1 cup is_not_equal' )
 
     # is_not_greater
     expectResult( '4 3 is_not_greater', 0 )
     expectResult( '77 77 is_not_greater', 1 )
     expectResult( '2 99 is_not_greater', 1 )
+    expectResult( '2 miles 2 kilometers is_not_greater', 0 )
+
     expectException( '2 i 7 is_not_greater' )
 
     # is_not_less
     expectResult( '4 3 is_not_less', 1 )
     expectResult( '663 663 is_not_less', 1 )
     expectResult( '-100 100 is_not_less', 0 )
+    expectResult( '3 inches 2 inches is_not_less', 1 )
+    expectResult( '8 miles 40000 feet is_not_less', 1 )
+    expectResult( '1 light-year 1 parsec is_not_less', 0 )
+    expectResult( '12 inches 1 foot is_not_less', 1 )
+
     expectException( '8 i -14 is_not_less' )
 
     # is_not_zero
@@ -473,7 +498,8 @@ def runArithmeticOperatorTests( ):
     testOperator( 'today 2 months -' )
     testOperator( 'today 1965-03-31 -' )
     testOperator( '2015-01-01 1965-03-31 -' )
-    expectException( '2 light_years 3 seconds -' )
+
+    expectException( '2 light-year 3 seconds -' )
 
     # sum
     expectResult( '1 10 range sum', 55 )

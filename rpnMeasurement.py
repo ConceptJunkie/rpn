@@ -478,6 +478,28 @@ class RPNMeasurement( object ):
         else:
             raise ValueError( 'convert doesn\'t know what to do with this argument' )
 
+    def isLarger( self, other ):
+        newValue = self.convert( other )
+        return ( newValue.getValue( ) > other.getValue( ) )
+
+    def isNotLarger( self, other ):
+        return not self.isLarger( other )
+
+    def isSmaller( self, other ):
+        newValue = self.convert( other )
+        return ( newValue.getValue( ) < other.getValue( ) )
+
+    def isNotSmaller( self, other ):
+        return not self.isSmaller( other )
+
+    def isEqual( self, other ):
+        newValue = self.convert( other )
+        print( newValue.getValue( ), other.getValue( ) )
+        return ( newValue.getValue( ) == other.getValue( ) )
+
+    def isNotEqual( self, other ):
+        return not self.isEqual( other )
+
     def convertValue( self, other ):
         if self.isEquivalent( other ):
             return self.getValue( )

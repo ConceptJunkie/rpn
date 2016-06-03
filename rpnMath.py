@@ -293,7 +293,10 @@ def performTrigOperation( i, operation ):
 # //******************************************************************************
 
 def isEqual( n, k ):
-    return 1 if n == k else 0
+    if isinstance( n, RPNMeasurement ):
+        return 1 if n.isEqual( k ) else 0
+    else:
+        return 1 if n == k else 0
 
 
 # //******************************************************************************
@@ -303,7 +306,10 @@ def isEqual( n, k ):
 # //******************************************************************************
 
 def isNotEqual( n, k ):
-    return 1 if n != k else 0
+    if isinstance( n, RPNMeasurement ):
+        return 1 if n.isNotEqual( k ) else 0
+    else:
+        return 1 if n != k else 0
 
 
 # //******************************************************************************
@@ -313,7 +319,10 @@ def isNotEqual( n, k ):
 # //******************************************************************************
 
 def isGreater( n, k ):
-    return 1 if real( n ) > real( k ) else 0
+    if isinstance( n, RPNMeasurement ):
+        return 1 if n.isLarger( k ) else 0
+    else:
+        return 1 if real( n ) > real( k ) else 0
 
 
 # //******************************************************************************
@@ -323,7 +332,10 @@ def isGreater( n, k ):
 # //******************************************************************************
 
 def isLess( n, k ):
-    return 1 if real( n ) < real( k ) else 0
+    if isinstance( n, RPNMeasurement ):
+        return 1 if n.isSmaller( k ) else 0
+    else:
+        return 1 if real( n ) < real( k ) else 0
 
 
 # //******************************************************************************
@@ -333,7 +345,10 @@ def isLess( n, k ):
 # //******************************************************************************
 
 def isNotGreater( n, k ):
-    return 1 if real( n ) <= real( k ) else 0
+    if isinstance( n, RPNMeasurement ):
+        return 1 if n.isNotLarger( k ) else 0
+    else:
+        return 1 if real( n ) <= real( k ) else 0
 
 
 # //******************************************************************************
@@ -343,7 +358,10 @@ def isNotGreater( n, k ):
 # //******************************************************************************
 
 def isNotLess( n, k ):
-    return 1 if real( n ) >= real( k ) else 0
+    if isinstance( n, RPNMeasurement ):
+        return 1 if n.isNotSmaller( k ) else 0
+    else:
+        return 1 if real( n ) >= real( k ) else 0
 
 
 # //******************************************************************************
