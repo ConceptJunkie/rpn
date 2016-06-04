@@ -15,8 +15,8 @@
 from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, fsum, gamma, hypot, \
                    power, pi, root, sin, sqrt, tan
 
-from rpnList import getProduct
-from rpnMath import add, divide, getPower, getRoot, multiply
+from rpnList import getProduct, getSum
+from rpnMath import add, divide, getPower, getRoot, multiply, subtract
 from rpnMeasurement import RPNMeasurement
 from rpnUtils import real, real_int
 
@@ -178,11 +178,29 @@ def getNSphereVolume( n, k ):
 # //******************************************************************************
 
 def getTriangleArea( a, b, c ):
-    if fadd( a, b ) < c or fadd( b, c ) < a or fadd( a, c ) < b:
-        raise ValueError( 'invalid triangle, the sum of any two sides must be as long as the third side' )
+    if not isinstance( a, RPNMeasurement ):
+        return getTriangleArea( RPNMeasurement( real( a ), 'meter' ), b, c )
 
-    s = fdiv( fsum( [ a, b, c ] ), 2 )   # semi-perimeter
-    return sqrt( fprod( [ s, fsub( s, a ), fsub( s, b ), fsub( s, c ) ] ) )
+    if a.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'triangle_area\' argument 1 must be a length' )
+
+    if not isinstance( b, RPNMeasurement ):
+        return getTriangleArea( a, RPNMeasurement( real( b ), 'meter' ), c )
+
+    if b.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'triangle_area\' argument 2 must be a length' )
+
+    if not isinstance( c, RPNMeasurement ):
+        return getTriangleArea( a, b, RPNMeasurement( real( c ), 'meter' ) )
+
+    if b.getDimensions( ) != { 'length' : 1 }:
+        raise ValueError( '\'triangle_area\' argument 3 must be a length' )
+
+    if add( a, b ).isNotLarger( c ) or add( b, c ).isNotLarger( a ) or add( a, c ).isNotLarger( b ):
+        raise ValueError( 'invalid triangle, the sum of any two sides must be longer than the third side' )
+
+    s = divide( getSum( [ a, b, c ] ), 2 )   # semi-perimeter
+    return getRoot( getProduct( [ s, subtract( s, a ), subtract( s, b ), subtract( s, c ) ] ), 2 )
 
 
 # //******************************************************************************
