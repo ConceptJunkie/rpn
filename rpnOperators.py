@@ -167,6 +167,7 @@ class RPNOperator( object ):
             #    self.validateArgType( term, arg, self.argTypes[ i ] )
 
             #print( 'argList', *reversed( argList ) )
+            #print( 'self.function', self.function )
 
             result = callers[ argsNeeded ]( self.function, *argList )
             #result = list( map( self.function, *reversed( argList ) ) )
@@ -174,14 +175,17 @@ class RPNOperator( object ):
         # process results
         newResult = list( )
 
-        if not isinstance( result, ( list, RPNGenerator ) ):
-            result = [ result ]
+        if isinstance( result, RPNGenerator ):
+            newResult.append( result )
+        else:
+            if not isinstance( result, list ):
+                result = [ result ]
 
-        for item in result:
-            if isinstance( item, RPNMeasurement ) and item.getUnits( ) == { }:
-                newResult.append( item.value )
-            else:
-                newResult.append( item )
+            for item in result:
+                if isinstance( item, RPNMeasurement ) and item.getUnits( ) == { }:
+                    newResult.append( item.value )
+                else:
+                    newResult.append( item )
 
         if len( newResult ) == 1:
             newResult = newResult[ 0 ]
@@ -852,7 +856,7 @@ def handleOneArgListOperator( func, args, currentValueList ):
     recursive = False
 
     if isinstance( args, RPNGenerator ):
-        args = list( args )
+        raise ValueError( 'call handleOneArgGeneratorOperator instead' )
 
     # check for arguments to be echoed, and echo them before the result
     if len( g.echoArguments ) > 0:
@@ -882,10 +886,10 @@ def handleOneArgGeneratorOperator( func, args, currentValueList ):
         for echoArg in g.echoArguments:
             currentValueList.append( echoArg )
 
-    if not isinstance( args, RPNGenerator ):
-        currentValueList.append( func( RPNGenerator.create( ) ) )
-    else:
+    if isinstance( args, RPNGenerator ):
         currentValueList.append( func( args ) )
+    else:
+        raise ValueError( 'then you should call handleOneArgGeneratorOperator, should you?' )
 
 
 # //******************************************************************************

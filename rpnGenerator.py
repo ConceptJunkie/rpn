@@ -49,20 +49,21 @@ class RPNGenerator( object ):
     def create( value ):
         if isinstance( value, RPNGenerator ):
             return value
+        elif isinstance( value, list ):
+            count = len( value )
         else:
-            if isinstance( value, list ):
-                count = len( value )
-            else:
-                count = 1
+            count = 1
 
-            return RPNGenerator( itemGenerator( value ), count )
+        return RPNGenerator( itemGenerator( value ), count )
 
     @staticmethod
     def createRange( start, end, step = 1 ):
         try:
+            # attempt to calculate the number of items to be generated
             result = RPNGenerator( rangeGenerator( start, end, step ),
                                    ceil( fdiv( fadd( fsub( end, start ), 1 ), step ) ) )
         except TypeError:
+            # if that fails, then just do without the count
             result = RPNGenerator( rangeGenerator( start, end, step ) )
 
         return result
