@@ -856,7 +856,7 @@ def handleOneArgListOperator( func, args, currentValueList ):
     recursive = False
 
     if isinstance( args, RPNGenerator ):
-        raise ValueError( 'call handleOneArgGeneratorOperator instead' )
+        args = list( args )
 
     # check for arguments to be echoed, and echo them before the result
     if len( g.echoArguments ) > 0:
