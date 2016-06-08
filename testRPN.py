@@ -1629,6 +1629,7 @@ def runLexicographyOperatorTests( ):
     expectResult( '95121 is_kaprekar', 1 )
     expectResult( '7272 is_kaprekar', 1 )
     expectResult( '22223 is_kaprekar', 0 )
+    expectEqual( '1 10000 range lambda x is_kaprekar filter', '53816 oeis 15 left' )
 
     # is_morphic
     testOperator( '1 100 range lambda x 7 is_morphic filter' )
@@ -1638,6 +1639,7 @@ def runLexicographyOperatorTests( ):
     expectResult( '152 is_narcissistic', 0 )
     expectResult( '153 is_narcissistic', 1 )
     expectResult( '154 is_narcissistic', 0 )
+    expectEqual( '1 10000 range lambda x is_narcissistic filter', '5188 oeis 16 left' )
 
     # is_palindrome
     expectResult( '101 is_palindrome', 1 )
@@ -1732,7 +1734,7 @@ def runListOperatorTests( ):
     testOperator( '1 10 range fib diffs2' )
 
     # element
-    testOperator( '1 10 range 5 element' )
+    expectResult( '1 10 range 5 element', 6 )
     testOperator( '-a25 1 100 range fibonacci 55 element' )
 
     # exponential_range
@@ -1749,6 +1751,7 @@ def runListOperatorTests( ):
     testOperator( '2 8 8 geometric_range' )
 
     # group_elements
+    #expectEqual( '1 10 range 5 group_elements', '[ 1 5 range 6 10 range ]' )
     testOperator( '1 10 range 5 group_elements' )
 
     # interleave
@@ -1756,19 +1759,19 @@ def runListOperatorTests( ):
     expectEqual( '1 100 2 range2 2 100 2 range2 interleave', '1 100 range' )
 
     # intersection
-    testOperator( '1 10 range 1 8 range intersection' )
+    expectEqual( '1 10 range 1 8 range intersection', '1 8 range' )
 
     # left
     expectResult( '1 10 range 5 left', [ 1, 2, 3, 4, 5 ] )
 
     # max_index
-    testOperator( '1 10 range max_index' )
+    expectResult( '1 10 range max_index', 9 )
 
     # min_index
-    testOperator( '1 10 range min_index' )
+    expectResult( '1 10 range min_index', 0 )
 
     # nonzero
-    testOperator( '1 10 range nonzero' )
+    expectResult( '1 10 range nonzero', [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ] )
 
     # occurrence_cumulative
     testOperator( '4 100 random_integer_ occurrence_cumulative' )
@@ -1783,7 +1786,7 @@ def runListOperatorTests( ):
     expectResult( '1 12 range', [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] )
 
     # range2
-    testOperator( '1 23 2 range2' )
+    expectResult( '1 23 2 range2', [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23 ] )
 
     # ratios
     testOperator( '1 10 range fib ratios' )
@@ -1796,9 +1799,9 @@ def runListOperatorTests( ):
 
     # reverse
     testOperator( '1 10 range reverse' )
-    #testOperator( '1 2 10 range range reverse' )
-    #testOperator( '1 2 10 range reverse range reverse' )
-    #testOperator( '1 2 10 range reverse range' )
+    testOperator( '1 2 10 range range reverse' )
+    testOperator( '1 2 10 range reverse range reverse' )
+    testOperator( '1 2 10 range reverse range' )
 
     # right
     expectEqual( '1 10 range 5 right', '6 10 range' )

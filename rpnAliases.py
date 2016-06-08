@@ -377,6 +377,7 @@ operatorAliases = {
     'isprime'                   : 'is_prime',
     'issqr'                     : 'is_square',
     'issquare'                  : 'is_square',
+    'is_armstrong'              : 'is_narcissistic',
     'is_div'                    : 'is_divisible',
     'is_more'                   : 'is_greater',
     'is_nonequal'               : 'is_not_equal',
