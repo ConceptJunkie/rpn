@@ -1771,7 +1771,7 @@ def runListOperatorTests( ):
     expectResult( '1 10 range min_index', 0 )
 
     # nonzero
-    expectResult( '1 10 range nonzero', [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ] )
+    expectEqual( '1 10 range nonzero', '0 9 range' )
 
     # occurrence_cumulative
     testOperator( '4 100 random_integer_ occurrence_cumulative' )
