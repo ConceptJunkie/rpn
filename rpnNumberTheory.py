@@ -37,7 +37,6 @@ import rpnGlobals as g
 # //
 # //******************************************************************************
 
-@cachedFunction( 'alt_factorial' )
 def getNthAlternatingFactorial( n ):
     result = 0
 
@@ -254,9 +253,6 @@ def getNthKFibonacciNumber( n, k ):
 # //******************************************************************************
 
 def getNthKFibonacciNumberTheSlowWay( n, k ):
-    '''
-    This is used for testing getNthKFibonacciNumber( ).
-    '''
     precision = int( fdiv( fmul( real( n ), real( k ) ), 8 ) )
 
     if ( mp.dps < precision ):
@@ -286,7 +282,6 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'padovan' )
 def getNthPadovanNumber( arg ):
     n = fadd( real( arg ), 4 )
 
@@ -1026,7 +1021,7 @@ def isDeficient( n ):
     if real( n ) < 2:
         return 0
 
-    return 1 if getSigma( n ) < fmul( n, 2 ) else 0
+    return 1 if fsum( getDivisors( n )[ : -1 ] ) < n else 0
 
 
 # //******************************************************************************
@@ -1039,7 +1034,7 @@ def isAbundant( n ):
     if real( n ) < 2:
         return 0
 
-    return 1 if getSigma( n ) > fmul( n, 2 ) else 0
+    return 1 if fsum( getDivisors( n )[ : -1 ] ) > n else 0
 
 
 # //******************************************************************************
@@ -1052,7 +1047,7 @@ def isPerfect( n ):
     if n < 2:
         return 0
 
-    return 1 if getSigma( n ) == fmul( n, 2 ) else 0
+    return 1 if fsum( getDivisors( n )[ : -1 ] ) == n else 0
 
 
 # //******************************************************************************
