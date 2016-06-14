@@ -33,6 +33,7 @@ from rpnAliases import dumpAliases
 
 from rpnAstronomy import *
 from rpnCalendar import *
+from rpnChemistry import *
 from rpnCombinatorics import *
 from rpnComputer import *
 from rpnConstants import *
@@ -2312,6 +2313,13 @@ operators = {
                                                     1, [ RPNOperator.DateTime ] ),
 
     'year_calendar'                  : RPNOperator( generateYearCalendar,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    # chemistry
+    'atomic_symbol'                  : RPNOperator( getAtomicSymbol,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'element_name'                   : RPNOperator( getElementName,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     # combinatoric
