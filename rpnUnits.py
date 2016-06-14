@@ -2236,7 +2236,7 @@ by Knuth.
                      ''' ),
 
     'day' :
-        RPNUnitInfo( 'time', 'day', 'days', 'd', [ ], [ 'traditional', 'US' ],
+        RPNUnitInfo( 'time', 'day', 'days', 'd', [ 'ephemeris_day' ], [ 'traditional', 'US' ],
                      '''
                      ''' ),
 
@@ -2335,6 +2335,11 @@ by Knuth.
                      '''
                      ''' ),
 
+    'sidereal_month' :
+        RPNUnitInfo( 'time', 'sidereal_month', 'sidereal_months', '', [ ], [ 'science' ],
+                     '''
+                     ''' ),
+
     'sidereal_second' :
         RPNUnitInfo( 'time', 'sidereal_second', 'sidereal_seconds', '', [ ], [ 'science' ],
                      '''
@@ -2345,9 +2350,16 @@ by Knuth.
                      '''
                      ''' ),
 
+    'tropical_month' :
+        RPNUnitInfo( 'time', 'tropical_month', 'tropical_months', '', [ ], [ 'science' ],
+                     '''
+                     ''' ),
+
     'tropical_year' :
         RPNUnitInfo( 'time', 'tropical_year', 'tropical_years', '', [ 'solar_year', 'solar_years' ], [ 'science' ],
                      '''
+                     The definition used is the calculation of the mean tropical year on
+                     1 January 2000.
                      ''' ),
 
     'week' :
@@ -2372,7 +2384,7 @@ by Knuth.
 
     # velocity
     'kine' :
-        RPNUnitInfo( 'velocity', 'kine', 'kine', '', [ '' ], [ 'CGS' ],
+        RPNUnitInfo( 'velocity', 'kine', 'kine', '', [ ], [ 'CGS' ],
                      '''
                      ''' ),
 
@@ -3341,6 +3353,10 @@ unitConversionMatrix = {
     ( 'sextant',                    'degree' )                              : mpmathify( '60' ),
     ( 'sextillion',                 'unity' )                               : mpmathify( '1.0e21' ),
     ( 'shock',                      'unity' )                               : mpmathify( '60' ),
+    ( 'sidereal_day',               'hour' )                                : mpmathify( '23.9344699' ),
+    ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
+    ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
+    ( 'sidereal_month',             'day' )                                 : mpmathify( '27.321661' ),
     ( 'siemens',                    'ampere/volt' )                         : mpmathify( '1' ),
     ( 'siemens',                    'kilogram-meter^2/second^3-ampere^2' )  : mpmathify( '1' ),
     ( 'siemens',                    'statsiemens' )                         : mpmathify( '898755178736.5' ),
@@ -3398,6 +3414,8 @@ unitConversionMatrix = {
     ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),
     ( 'trillion',                   'unity' )                               : mpmathify( '1.0e12' ),
     ( 'trit',                       'nat' )                                 : log( 3 ),
+    ( 'tropical_month',             'day' )                                 : mpmathify( '27.321582' ),
+    ( 'tropical_year',              'day' )                                 : mpmathify( '365.2421897' ),
     ( 'troy_ounce',                 'gram' )                                : mpmathify( '31.1034768' ),
     ( 'troy_pound',                 'pound' )                               : mpmathify( '12' ),
     ( 'tryte',                      'trit' )                                : mpmathify( '6' ),   # as defined by the Setun computer
