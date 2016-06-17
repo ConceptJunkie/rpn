@@ -7394,6 +7394,13 @@ c:\>rpn 4 unit_roots
 '''
 ''' ],
 
+    'zeta_zero' : [
+'number_theory', 'calculates the nth non-trivial zero of Riemann\'s zeta function',
+'''
+''',
+'''
+''' ],
+
 
 # //******************************************************************************
 # //

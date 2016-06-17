@@ -20,7 +20,8 @@ from functools import reduce
 
 from mpmath import arange, binomial, fabs, fac, fadd, fdiv, fib, floor, fmod, \
                    fmul, fneg, fprod, fsub, fsum, mp, mpc, mpf, mpmathify, nint, \
-                   phi, polyroots, polyval, power, primepi2, re, root, sqrt
+                   phi, polyroots, polyval, power, primepi2, re, root, sqrt, \
+                   zetazero
 
 from rpnFactor import getECMFactors
 from rpnGenerator import RPNGenerator
@@ -1363,4 +1364,14 @@ def isFriendly( n ):
 
 def isKHyperperfect( n, k ):
     return 1 if fadd( fmul( k, fsub( getSigma( n ), fadd( n, 1 ) ) ), 1 ) == n else 0
+
+
+# //******************************************************************************
+# //
+# //  getNthZetaZero
+# //
+# //******************************************************************************
+
+def getNthZetaZero( n ):
+    return zetazero( int( n ) )
 

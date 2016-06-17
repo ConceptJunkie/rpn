@@ -14,13 +14,14 @@
 
 import six
 
-from mpmath import mp
-
 import argparse
 import sys
+import signal
 import time
 
-from mpmath import inf, nan, nstr
+from contextlib import contextmanager
+
+from mpmath import inf, mp, nan, nstr
 
 from rpnAliases import operatorAliases
 from rpnDateTime import RPNDateTime
@@ -392,6 +393,8 @@ def rpn( cmd_args ):
     parser.add_argument( '-s', '--list_format_level', nargs = '?', type = int, action = 'store', default = 0,
                          const = g.defaultListFormatLevel )
     parser.add_argument( '-t', '--timer', action = 'store_true' )
+    parser.add_argument( '-T', '--time_limit', nargs = '?', type = int, action = 'store',
+                         default = 0, const = g.timeLimit )
     parser.add_argument( '-v', '--verbose', action = 'store_true' )
     parser.add_argument( '-w', '--bitwise_group_size', type = int, action = 'store',
                          default = g.defaultBitwiseGroupSize )
@@ -522,6 +525,9 @@ def rpn( cmd_args ):
 
     # handle -t
     g.timer = args.timer
+
+    # handle -T
+    g.timeLimit = args.time_limit
 
     # handle -v
     g.verbose = args.verbose

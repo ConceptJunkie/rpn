@@ -12,14 +12,17 @@
 # //
 # //******************************************************************************
 
+import rpnGlobals as g
+
+
 # //******************************************************************************
 # //
-# //  getElementName
+# //  loadChemistryTables
 # //
 # //******************************************************************************
 
-def getElementName( n ):
-    elements = {
+def loadChemistryTables( ):
+    g.elements = {
         1 : 'Hydrogen',
         2 : 'Helium',
         3 : 'Lithium',
@@ -140,20 +143,7 @@ def getElementName( n ):
         118 : 'Oganesson',
     }
 
-    if int( n ) < 1 or n > 118:
-        raise ValueError( 'invalid atomic number' )
-
-    return elements[ int( n ) ]
-
-
-# //******************************************************************************
-# //
-# //  getAtomicSymbol
-# //
-# //******************************************************************************
-
-def getAtomicSymbol( n ):
-    atomic_symbols = {
+    g.atomic_symbols = {
         1 : 'H',
         2 : 'He',
         3 : 'Li',
@@ -274,9 +264,40 @@ def getAtomicSymbol( n ):
         118 : 'Og',
     }
 
+    g.atomic_numbers = { }
+    for k, v in g.atomic_symbols.items( ):
+        g.atomic_numbers[ v ] = k
+
+
+# //******************************************************************************
+# //
+# //  getElementName
+# //
+# //******************************************************************************
+
+def getElementName( n ):
     if int( n ) < 1 or n > 118:
         raise ValueError( 'invalid atomic number' )
 
-    return atomic_symbols[ int( n ) ]
+    if g.elements is None:
+        loadChemistryTables( )
+
+    return elements[ int( n ) ]
+
+
+# //******************************************************************************
+# //
+# //  getAtomicSymbol
+# //
+# //******************************************************************************
+
+def getAtomicSymbol( n ):
+    if int( n ) < 1 or n > 118:
+        raise ValueError( 'invalid atomic number' )
+
+    if g.atomic_symbols is None:
+        loadChemistryTables( )
+
+    return g.atomic_symbols[ int( n ) ]
 
 

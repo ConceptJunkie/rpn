@@ -85,6 +85,7 @@ tempIdentifyMode = False
 tempLeadingZeroMode = False
 tempOctalMode = False
 tempTimerMode = False
+timeLimit = 0
 timer = False
 verbose = False
 
@@ -125,4 +126,9 @@ keywords = [ ]
 # operator caches
 operatorCaches = { }
 dirtyCaches = set( )
+
+# chemistry tables
+elements = None
+atomic_symbols = None
+atomic_numbers = None
 

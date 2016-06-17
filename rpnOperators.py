@@ -2966,6 +2966,9 @@ operators = {
     'zeta'                           : RPNOperator( zeta,
                                                     1, [ RPNOperator.Default ] ),
 
+    'zeta_zero'                      : RPNOperator( getNthZetaZero,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     # physics
     'acceleration'                   : RPNOperator( calculateAcceleration,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),

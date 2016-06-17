@@ -2231,6 +2231,9 @@ def runNumberTheoryOperatorTests( ):
     # zeta
     testOperator( '4 zeta' )
 
+    # zeta_zero
+    testOperator( '4 zeta_zero' )
+
 
 # //******************************************************************************
 # //
