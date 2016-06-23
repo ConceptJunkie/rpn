@@ -1979,6 +1979,10 @@ def runNumberTheoryOperatorTests( ):
     # egypt
     testOperator( '45 67 egypt' )
 
+    # eta
+    testOperator( '4 eta' )
+    expectEqual( '1 eta', '2 ln' )
+
     # euler_brick
     testOperator( '2 3 make_pyth_3 unlist euler_brick' )
 

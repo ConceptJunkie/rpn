@@ -6840,6 +6840,14 @@ c:\>rpn 1 10 range double_factorial
 '''
 ''' ],
 
+    'eta' : [
+'number_theory', 'calculates the Dirichlet eta function for n',
+'''
+The eta function is also known as the "alternating zeta function".
+''',
+'''
+''' ],
+
     'euler_brick' : [
 'number_theory', 'creates the dimensions of an Euler brick, given a Pythagorean triple',
 '''

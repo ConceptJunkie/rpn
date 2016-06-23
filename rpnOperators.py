@@ -22,9 +22,9 @@ import struct
 from enum import Enum
 from random import randrange
 
-from mpmath import acosh, acot, acoth, acsc, acsch, agm, arg, asec, asech, \
-                   asin, asinh, atan, atanh, barnesg, beta, conj, cosh, cos, \
-                   coth, csc, csch, fac2, fadd, fmod, harmonic, hyperfac, \
+from mpmath import acosh, acot, acoth, acsc, acsch, agm, altzeta, arg, asec, \
+                   asech, asin, asinh, atan, atanh, barnesg, beta, conj, cosh, \
+                   cos, coth, csc, csch, fac2, fadd, fmod, harmonic, hyperfac, \
                    lambertw, li, limit, ln, loggamma, nprod, nsum, polylog, \
                    plot, psi, rand, sec, sech, sin, sinh, superfac, tan, \
                    tanh, unitroots, zeta
@@ -2766,6 +2766,9 @@ operators = {
 
     'egypt'                          : RPNOperator( getGreedyEgyptianFraction,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
+    'eta'                            : RPNOperator( altzeta,
+                                                    1, [ RPNOperator.Default ] ),
 
     'euler_brick'                    : RPNOperator( makeEulerBrick,
                                                     3, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger,
