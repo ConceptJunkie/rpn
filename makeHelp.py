@@ -6522,6 +6522,14 @@ c:\>rpn e sqr e logxy
 2
 ''' ],
 
+    'polyexp' : [
+'logarithms', 'calculates the polyexponential of n, k',
+'''
+''',
+'''
+''' ],
+
+
     'polylog' : [
 'logarithms', 'calculates the polylogarithm of n, k',
 '''

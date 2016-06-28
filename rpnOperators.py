@@ -25,9 +25,9 @@ from random import randrange
 from mpmath import acosh, acot, acoth, acsc, acsch, agm, altzeta, arg, asec, \
                    asech, asin, asinh, atan, atanh, barnesg, beta, conj, cosh, \
                    cos, coth, csc, csch, fac2, fadd, fmod, harmonic, hyperfac, \
-                   lambertw, li, limit, ln, loggamma, nprod, nsum, polylog, \
-                   plot, psi, rand, sec, sech, sin, sinh, superfac, tan, \
-                   tanh, unitroots, zeta
+                   lambertw, li, limit, ln, loggamma, nprod, nsum, polyexp, \
+                   polylog, plot, psi, rand, sec, sech, sin, sinh, superfac, \
+                   tan, tanh, unitroots, zeta
 
 from rpnAliases import dumpAliases
 
@@ -2722,6 +2722,9 @@ operators = {
                                                     1, [ RPNOperator.Default ] ),
 
     'logxy'                          : RPNOperator( log,
+                                                    2, [ RPNOperator.Default, RPNOperator.Default ] ),
+
+    'polyexp'                        : RPNOperator( lambda n, k: polyexp( n, k ),
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
     'polylog'                        : RPNOperator( lambda n, k: polylog( n, k ),

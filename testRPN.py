@@ -1861,6 +1861,9 @@ def runLogarithmsOperatorTests( ):
     # logxy
     testOperator( '6561 3 logxy' )
 
+    # polyexp
+    testOperator( '4 5 polyexp' )
+
     # polylog
     testOperator( '9 3 polylog' )
 

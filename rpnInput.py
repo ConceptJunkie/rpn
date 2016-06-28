@@ -85,7 +85,7 @@ def parseInputValue( term, inputRadix ):
                 datetime = arrow.get( term )
                 datetime = RPNDateTime( datetime.year, datetime.month, datetime.day,
                                         datetime.hour, datetime.minute, datetime.second,
-                                        datetime.microsecond, datetime.tzinfo )
+                                        datetime.microsecond )
             # except:
             #     raise ValueError( 'error parsing datetime' )
 
