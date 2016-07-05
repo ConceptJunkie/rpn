@@ -14,6 +14,8 @@
 
 from __future__ import print_function
 
+import six
+
 import math
 import string
 import textwrap
@@ -241,9 +243,15 @@ def formatListOutput( result, level=0 ):
 
         if useIndent:
             print( )
-            print( indent + newString, end='', flush=True )
+            if six.PY3:
+                print( indent + newString, end='', flush=True )
+            else:
+                print( indent + newString, end='' )
         else:
-            print( newString, end='', flush=True )
+            if six.PY3:
+                print( newString, end='', flush=True )
+            else:
+                print( newString, end='' )
 
     if useIndent:
         print( )
