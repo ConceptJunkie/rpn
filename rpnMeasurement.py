@@ -718,7 +718,7 @@ def estimate( measurement ):
     value = RPNMeasurement( measurement.convertValue( unit ), unit.getUnits( ) ).getValue( )
 
     if not unitTypeInfo.estimateTable:
-        return 'No estimates are available for this unit type (' + unitTypeOutput + ').'
+        return 'No estimates are available for this unit type (' + unitType + ').'
 
     matchingKeys = [ key for key in unitTypeInfo.estimateTable if key <= value ]
 

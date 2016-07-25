@@ -445,7 +445,6 @@ orbit?
         convert earth_rad
     22286.8973699 miles
 
-TODO:  This doesn't work right now!
 I tried to make the unit conversion flexible and smart.  It is... sometimes.
     c:>rpn 16800 mA hours * 5 volts * joule convert
     302400 joules

@@ -10,6 +10,28 @@ conversions comparable to the GNU units program.
 
 ****
 
+UPDATE - July 19, 2016
+
+I don't know if anyone has ever looked at this project... not even my Mom.  But
+anyhow, I wanted to leave an update anyway.  The "imminent" release of version
+7 is anything but.  I have been too lazy to tackle trying to make the wheel
+work correctly.  I've been making small additions here and there, including bug
+fixes whenever I find problems.
+
+Currently, my short list is topped with switching to SQLite for caching
+function results to disk.  I was experimenting with the sigma function and
+found that once the cache of values got past a million, loading it had become
+unreasonably slow.  I think it would also be a very good idea to convert the
+prime number data files to SQLite tables as well.
+
+There are a few Python 2 compatibility problems that remain, and those should
+be easy to fix, but I've been too busy with a combiniation of real life and
+general laziness.  The conversion to using generators mentioned in the last
+update is complete and has greatly improved performance for a lot of operators.
+
+RPN continues to proceed slowly and it works just fine right now, so it can be
+used just fine despite being a "pre-release".
+
 UPDATE - November 16, 2015
 
 The scope of changes for version 7 keeps growing.  The transition to lazy list

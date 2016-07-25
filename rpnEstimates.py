@@ -1768,11 +1768,18 @@ radiationDoseTable = {
 # //
 # //  radiationExposureTable
 # //
-# //  coulombs/gram : description
+# //  coulombs/kilogram : description
 # //
 # //******************************************************************************
 
 radiationExposureTable = {
+    mpmathify( '6.8e-9' )   : 'the average hourly background radiation exposure on Earth',
+    mpmathify( '1.47e-7' )  : 'the average radiation exposure from a dental X-ray',
+    mpmathify( '4.12e-9' )  : 'the average radiation exposure from a gantrointestinal X-ray investigation',
+    mpmathify( '0.03' )     : 'the radiation exposure sufficient to cause nausea, vomiting and weakness in humans',
+    mpmathify( '0.06' )     : 'the radiation exposure sufficient to cause headache, fever, puroura, hemorrhage or infections in humans',
+    mpmathify( '0.18' )     : 'the radiation exposure sufficient to cause diarrhea and leukopenia in humans',
+    mpmathify( '0.235' )    : 'the radiation exposure sufficient to cause death in humans',
 }
 
 

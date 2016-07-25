@@ -78,7 +78,7 @@ basicUnitTypes = {
     ),
 
     'charge' : RPNUnitTypeInfo(
-        'current*second',
+        'current*time',
         'coulomb',
         chargeTable,
     ),
@@ -96,7 +96,7 @@ basicUnitTypes = {
     ),
 
     'data_rate' : RPNUnitTypeInfo(
-        'information_entropy/time',
+        'mass*length^2/time^3*temperature',
         'bit/second',
         dataRateTable,
     ),
@@ -114,19 +114,19 @@ basicUnitTypes = {
     ),
 
     'electrical_conductance' : RPNUnitTypeInfo(
-        'current^2*time^3/length*mass^3',
+        'current^2*time^3/length^2*mass',
         'siemens',
         electricalConductanceTable,
     ),
 
     'electrical_resistance' : RPNUnitTypeInfo(
-        'length*mass^3/current^2*time^3',
+        'length^2*mass/current^2*time^3',
         'ohm',
         electricalResistanceTable,
     ),
 
     'electric_potential' : RPNUnitTypeInfo(
-        'length*mass^3/time^3*current',
+        'mass*length^2/current*time^3',
         'volt',
         electricPotentialTable,
     ),
@@ -162,7 +162,7 @@ basicUnitTypes = {
     ),
 
     'information_entropy' : RPNUnitTypeInfo(
-        'information_entropy',
+        'mass*length^2/time^2*temperature',
         'bit',
         informationEntropyTable,
     ),
@@ -240,7 +240,7 @@ basicUnitTypes = {
     ),
 
     'radiation_dose' : RPNUnitTypeInfo(
-        'length*mass^3*current/time^2*current*mass',
+        'length^2/time^2',
         'sievert',
         radiationDoseTable,
     ),
@@ -318,12 +318,12 @@ unitOperators = {
 
     # angle
     'arcminute' :
-        RPNUnitInfo( 'angle', 'arcminute', 'arcminutes', 'arcmin', [ 'arcmins' ], [ 'mathematics' ],
+        RPNUnitInfo( 'angle', 'arcminute', 'arcminutes', 'arcmin', [ 'arcmins' ], [ 'astronomy', 'mathematics' ],
                      '''
                      ''' ),
 
     'arcsecond' :
-        RPNUnitInfo( 'angle', 'arcsecond', 'arcseconds', 'arcsec', [ 'arcsecs' ], [ 'mathematics' ],
+        RPNUnitInfo( 'angle', 'arcsecond', 'arcseconds', 'arcsec', [ 'arcsecs' ], [ 'astronomy', 'mathematics' ],
                      '''
                      ''' ),
 
@@ -333,17 +333,12 @@ unitOperators = {
                      ''' ),
 
     'degree' :
-        RPNUnitInfo( 'angle', 'degree', 'degrees', 'deg', [ ], [ 'mathematics' ],
+        RPNUnitInfo( 'angle', 'degree', 'degrees', 'deg', [ ], [ 'astronomy', 'mathematics' ],
                      '''
                      ''' ),
 
     'grad' :
         RPNUnitInfo( 'angle', 'grad', 'grads', '', [ 'gon', 'gons' ], [ 'mathematics' ],
-                     '''
-                     ''' ),
-
-    'milliarcsecond' :
-        RPNUnitInfo( 'angle', 'milliarcsecond', 'milliarcseconds', 'mas', [ 'milliarcsecs' ], [ 'astronomy' ],
                      '''
                      ''' ),
 
@@ -368,7 +363,7 @@ unitOperators = {
                      ''' ),
 
     'radian' :
-        RPNUnitInfo( 'angle', 'radian', 'radians', 'rad', [ ], [ 'mathematics', 'SI' ],
+        RPNUnitInfo( 'angle', 'radian', 'radians', '', [ ], [ 'mathematics', 'SI' ],
                      '''
                      ''' ),
 
@@ -2236,11 +2231,6 @@ by Knuth.
                      '''
                      ''' ),
 
-    'rad' :
-        RPNUnitInfo( 'radiation_dose', 'rad', 'rads', '', [ ], [ 'CGS' ],
-                     '''
-                     ''' ),
-
     'rem' :
         RPNUnitInfo( 'radiation_dose', 'rem', 'rems', '', [ 'roentgen_equivalent_man' ], [ 'CGS' ],
                      '''
@@ -2254,6 +2244,11 @@ by Knuth.
     # radiation_exposure
     'coulomb/kilogram' :
         RPNUnitInfo( 'radiation_exposure', 'coulomb/kilogram', 'coulombs/kilogram', 'C/kg', [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
+    'rad' :
+        RPNUnitInfo( 'radiation_exposure', 'rad', 'rads', '', [ ], [ 'CGS' ],
                      '''
                      ''' ),
 
@@ -3035,6 +3030,7 @@ by Knuth.
 metricUnits = [
     ( 'ampere',             'amperes',          'A',    [ 'amp' ], [ 'amps' ] ),
     ( 'ampere-second',      'ampere-seconds',   'As',   [ 'amp-second' ], [ 'amp-seconds' ] ),
+    ( 'arcsecond',          'arcseconds',       'as',   [ ], [ ] ),
     ( 'are',                'ares',             'a',    [ ], [ ] ),
     ( 'bar',                'bars',             'bar',  [ ], [ ] ),
     ( 'barn',               'barns',            '',     [ ], [ ] ),
@@ -3043,9 +3039,11 @@ metricUnits = [
     ( 'calorie',            'calories',         'cal',  [ ], [ 'cals' ] ),
     ( 'coulomb',            'coulombs',         'C',    [ ], [ ] ),
     ( 'curie',              'cruies',           'Ci',   [ ], [ ] ),
+    ( 'dyne',               'dynes',            '',     [ ], [ ] ),
     ( 'electron-volt',      'electron-volts',   'eV',   [ ], [ ] ),
     ( 'erg',                'ergs',             '',     [ ], [ ] ),
     ( 'farad',              'farads',           'F',    [ ], [ ] ),
+    ( 'gauss',              'gauss',            '',     [ ], [ ] ),
     ( 'gram',               'grams',            'g',    [ 'gramme' ], [ 'grammes' ] ),
     ( 'gram-equivalent',    'grams-equivalent', 'gE',   [ 'gram-energy', 'gramme-energy' ], [ 'grams-energy', 'grammes-energy' ] ),
     ( 'gram-force',         'grams-force',      'gf',   [ 'gramme-force' ], [ 'grammes-force' ] ),
@@ -3056,7 +3054,9 @@ metricUnits = [
     ( 'kelvin',             'kelvins',          'K',    [ ], [ ] ),
     ( 'light-year',         'light-years',      'ly',   [ ], [ ] ),
     ( 'liter',              'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
+    ( 'lumen',              'lumens',           'lm ',   [ ], [ ] ),
     ( 'lux',                'lux',              'lx',   [ ], [ ] ),
+    ( 'maxwell',            'maxwells',         'Mx',   [ ], [ ] ),
     ( 'meter',              'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
     ( 'mole',               'moles',            'mol',  [ ], [ ] ),
     ( 'newton',             'newtons',          'N',    [ ], [ ] ),
@@ -3065,14 +3065,20 @@ metricUnits = [
     ( 'parsec',             'parsecs',          'pc',   [ ], [ ] ),
     ( 'pascal',             'pascals',          'Pa',   [ ], [ ] ),
     ( 'pascal-second',      'pascal-seconds',   'Pas',  [ ], [ ] ),
+    ( 'poise',              'poise',            '',     [ ], [ ] ),
     ( 'pond',               'ponds',            '',     [ ], [ ] ),
     ( 'potrzebie',          'potrzebies',       'pz',   [ ], [ ] ),
+    ( 'rad',                'rads',             'rad',  [ ], [ ] ),
+    ( 'radian',             'radians',          '',     [ ], [ ] ),
     ( 'rem',                'rems',             'rem',  [ ], [ ] ),
     ( 'second',             'seconds',          's',    [ ], [ ] ),
     ( 'siemens',            'siemens',          'S',    [ 'mho' ], [ 'mhos' ] ),
     ( 'sievert',            'sieverts',         'Sv',   [ ], [ ] ),
+    ( 'steradian',          'steradians',       '',     [ ], [ ] ),
     ( 'stere',              'steres',           'st',   [ ], [ ] ),
     ( 'tesla',              'teslas',           'T',    [ ], [ ] ),
+    ( 'ton',                'tons',             '',     [ ], [ ] ),
+    ( 'tonne',              'tonnes',           '',     [ ], [ ] ),
     ( 'ton_of_TNT',         'tons_of_TNT',      'tTNT', [ ], [ ] ),
     ( 'volt',               'volts',            'V',    [ ], [ ] ),
     ( 'watt',               'watts',            'W',    [ ], [ ] ),
@@ -3206,7 +3212,6 @@ unitConversionMatrix = {
     ( 'ampere',                     'statampere' )                          : mpmathify( '299792458' ),
     ( 'ampere-second-volt',         'joule' )                               : mpmathify( '1' ),
     ( 'arcminute',                  'arcsecond' )                           : mpmathify( '60' ),
-    ( 'arcsecond',                  'milliarcsecond' )                      : mpmathify( '1000' ),
     ( 'are',                        'square_meter' )                        : mpmathify( '100' ),
     ( 'arpent',                     'foot' )                                : mpmathify( '192' ),
     ( 'arshin',                     'pyad' )                                : mpmathify( '4' ),
@@ -3403,7 +3408,7 @@ unitConversionMatrix = {
     ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
     ( 'methuselah',                 'liter' )                               : mpmathify( '6.0' ),
     ( 'metric_foot',                'meter' )                               : mpmathify( '0.3' ),
-    ( 'mezhevaya_versta',            'versta' )                              : mpmathify( '2' ),
+    ( 'mezhevaya_versta',           'versta' )                              : mpmathify( '2' ),
     ( 'mile',                       'foot' )                                : mpmathify( '5280' ),
     ( 'mile/hour',                  'kilometer/hour' )                      : mpmathify( '1.609344' ),
     ( 'mile/hour',                  'meter/second' )                        : mpmathify( '0.44704' ),
@@ -3504,6 +3509,7 @@ unitConversionMatrix = {
     ( 'reed',                       'foot' )                                : mpmathify( '9' ),
     ( 'rehoboam',                   'liter' )                               : mpmathify( '4.5' ),
     ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
+    ( 'roentgen',                   'rad' )                                 : mpmathify( '0.877' ),
     ( 'rood',                       'square_yard' )                         : mpmathify( '1210' ),
     ( 'rope',                       'foot' )                                : mpmathify( '20' ),
     ( 'rutherford',                 'becquerel' )                           : mpmathify( '1.0e6' ),

@@ -73,6 +73,7 @@ def parseInputValue( term, inputRadix ):
 
     innerChars = term[ 1 : -1 ]
 
+    # this helps us parse dates
     if '/' in innerChars:
         term = term.replace( '/', '-' )
         innerChars = term[ 1 : -1 ]

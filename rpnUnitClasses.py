@@ -113,6 +113,14 @@ class RPNUnits( collections.Counter ):
 
             result.update( dimensions )
 
+        # It's possible to end up with a dimension with exponent 0 due to something dividing out,
+        # so we need to clean those out.
+        old_result = dict( result )
+
+        for unit in old_result:
+            if result[ unit ] == 0:
+                del result[ unit ]
+
         return result
 
     def getUnitString( self ):
