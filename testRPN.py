@@ -3187,7 +3187,7 @@ rpnTestList = [
     ( 'advanced',           runAdvancedTests ),
 
     ( 'command-line',       runCommandLineOptionsTests ),
-    ( 'convert',            runConvertTests ),
+    ( 'unit_conversion',    runConvertTests ),
     ( 'help',               runHelpTests ),
 
     ( 'internal',           runInternalOperatorTests )

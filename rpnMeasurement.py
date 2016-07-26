@@ -547,10 +547,16 @@ class RPNMeasurement( object ):
                 loadUnitConversionMatrix( )
 
             # look for a straight-up conversion
-            if ( unit1String, unit2String ) in g.unitConversionMatrix:
-                value = fmul( self.value, mpmathify( g.unitConversionMatrix[ ( unit1String, unit2String ) ] ) )
-            elif ( unit1String, unit2String ) in specialUnitConversionMatrix:
-                value = specialUnitConversionMatrix[ ( unit1String, unit2String ) ]( self.value )
+            unit1NoStar = unit1String.replace( '*', '-' )
+            unit2NoStar = unit2String.replace( '*', '-' )
+
+            debugPrint( 'unit1NoStar: ', unit1NoStar )
+            debugPrint( 'unit2NoStar: ', unit2NoStar )
+
+            if ( unit1NoStar, unit2NoStar ) in g.unitConversionMatrix:
+                value = fmul( self.value, mpmathify( g.unitConversionMatrix[ ( unit1NoStar, unit2NoStar ) ] ) )
+            elif ( unit1NoStar, unit2NoStar ) in specialUnitConversionMatrix:
+                value = specialUnitConversionMatrix[ ( unit1NoStar, unit2NoStar ) ]( self.value )
             else:
                 # otherwise, we need to figure out how to do the conversion
                 conversionValue = mpmathify( 1 )
@@ -590,12 +596,13 @@ class RPNMeasurement( object ):
                         debugPrint( 'didn\'t find a conversion, try reducing' )
                         reduced = self.getReduced( )
 
-                        debugPrint( 'reduced:', self.units, " becomes ", reduced.units )
+                        debugPrint( 'reduced:', self.units, 'becomes', reduced.units )
 
                         reducedOther = other.getReduced( )
 
-                        debugPrint( 'reduced other:', other.units, " becomes ", reducedOther.units )
+                        debugPrint( 'reduced other:', other.units, 'becomes', reducedOther.units )
 
+                        # check to see if reducing did anything and bail if it didn't... we're out of options
                         if ( reduced.units == self.units ) and ( reducedOther.units == other.units ):
                             raise ValueError( 'unable to convert ' + self.getUnitString( ) +
                                               ' to ' + other.getUnitString( ) )
