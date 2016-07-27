@@ -608,7 +608,6 @@ class RPNMeasurement( object ):
                                               ' to ' + other.getUnitString( ) )
 
                         reduced = reduced.convertValue( reducedOther )
-
                         return RPNMeasurement( fdiv( reduced, reducedOther.value ), reducedOther.getUnits( ) ).getValue( )
 
                 value = conversionValue
@@ -618,7 +617,7 @@ class RPNMeasurement( object ):
                         continue  # no conversion needed
 
                     debugPrint( 'unit conversion:', g.unitConversionMatrix[ tuple( conversion ) ] )
-                    debugPrint( exponents )
+                    debugPrint( 'exponents', exponents )
 
                     conversionValue = mpmathify( g.unitConversionMatrix[ tuple( conversion ) ] )
                     conversionValue = power( conversionValue, exponents[ tuple( conversion ) ] )
