@@ -272,6 +272,7 @@ operatorAliases = {
     'dup_op'                    : 'dup_operator',
     'eddington'                 : 'eddington_number',
     'election'                  : 'election_day',
+    'electron_volt'             : 'electron-volt',
     'elementary_charge'         : 'electron_charge',
     'equal'                     : 'is_equal',
     'euler'                     : 'euler_mascheroni_constant',

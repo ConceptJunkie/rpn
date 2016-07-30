@@ -452,12 +452,10 @@ I tried to make the unit conversion flexible and smart.  It is... sometimes.
     c:\>rpn gigaparsec barn * cubic_inches convert
     188.29959908 cubic inches
 
-And sometimes it isn't:
-    c:\>rpn cubic_inches gigaparsec barn * convert
-    1 gigaparsec barn
+And sometimes it isn't.
 
-This is a long-standing bug.   In general you'll have better luck putting
-the more complex unit first.  I have a plan that should correct this.
+This is a long-standing deficiency in the design.  I've struggled to figure
+out to support more compound unit conversions through dimensional analysis.
 
 Help topics for individual units is coming someday, but not today.
     ''',

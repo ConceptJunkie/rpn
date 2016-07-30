@@ -12,6 +12,9 @@
 # //
 # //******************************************************************************
 
+#  https://en.wikipedia.org/wiki/Natural_units#Stoney_units
+#  https://en.wikipedia.org/wiki/Medieval_weights_and_measures
+
 import six
 
 import argparse

@@ -500,7 +500,7 @@ class RPNMeasurement( object ):
     def isNotEqual( self, other ):
         return not self.isEqual( other )
 
-    def convertValue( self, other ):
+    def convertValue( self, other, tryReverse=True ):
         if self.isEquivalent( other ):
             return self.getValue( )
 
@@ -579,12 +579,15 @@ class RPNMeasurement( object ):
                 debugPrint( 'newUnits1:', newUnits1 )
                 debugPrint( 'newUnits2:', newUnits2 )
 
+                debugPrint( )
+                debugPrint( 'iterating through units:' )
+
                 for unit1 in newUnits1:
                     foundConversion = False
 
                     for unit2 in newUnits2:
-                        debugPrint( '1 and 2:', unit1, newUnits1[ unit1 ], getUnitType( unit1 ),
-                                    unit2, newUnits2[ unit2 ], getUnitType( unit2 ) )
+                        debugPrint( 'units 1:', unit1, newUnits1[ unit1 ], getUnitType( unit1 ) )
+                        debugPrint( 'units 2:', unit2, newUnits2[ unit2 ], getUnitType( unit2 ) )
 
                         if getUnitType( unit1 ) == getUnitType( unit2 ):
                             conversions.append( [ unit1, unit2 ] )
@@ -602,15 +605,27 @@ class RPNMeasurement( object ):
 
                         debugPrint( 'reduced other:', other.units, 'becomes', reducedOther.units )
 
-                        # check to see if reducing did anything and bail if it didn't... we're out of options
+                        # check to see if reducing did anything and bail if it didn't... bail out
                         if ( reduced.units == self.units ) and ( reducedOther.units == other.units ):
-                            raise ValueError( 'unable to convert ' + self.getUnitString( ) +
-                                              ' to ' + other.getUnitString( ) )
+                            break
 
                         reduced = reduced.convertValue( reducedOther )
                         return RPNMeasurement( fdiv( reduced, reducedOther.value ), reducedOther.getUnits( ) ).getValue( )
 
+                debugPrint( )
+
                 value = conversionValue
+
+                if not foundConversion:
+                    # This is a cheat.  The conversion logic has flaws, but if it's possible to do the
+                    # conversion in the opposite direction, then we can do that and return the reciprocal.
+                    # This allows more conversions without fixing the underlying problems, which will
+                    # require some redesign.
+                    if tryReverse:
+                        return fdiv( 1, other.convertValue( self, False ) )
+                    else:
+                        raise ValueError( 'unable to convert ' + self.getUnitString( ) +
+                                          ' to ' + other.getUnitString( ) )
 
                 for conversion in conversions:
                     if conversion[ 0 ] == conversion[ 1 ]:

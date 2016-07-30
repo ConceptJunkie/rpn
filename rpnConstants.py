@@ -91,7 +91,7 @@ from rpnMath import getPower, getRoot
 #    'avogadro_number'               : RPNOperator( lambda: '6.022140857e23', 0 ),
 #    'bohr_radius'                   : RPNOperator( lambda: RPNMeasurement( '5.2917721e-11', [ { 'meter' : 1 } ] ), 0 ),
 #    'boltzmann_constant'            : RPNOperator( getBoltzmannsConstant, 0 ),
-#    'coulomb_constant'              : RPNOperator( lambda: RPNMeasurement( '8.987551787e9', 'newton*meter^2/coulomb^2' ), 0 ),
+#    'coulomb_constant'              : RPNOperator( lambda: RPNMeasurement( '8.987551787e9', 'joule*meter/coulomb^2' ), 0 ),
 #    'electric_constant'             : RPNOperator( getElectricConstant, 0 ),
 #    'electron_charge'               : RPNOperator( getElectronCharge, 0 ),
 #    'faraday_constant'              : RPNOperator( lambda: RPNMeasurement( '96485.33289', 'coulomb/mole' ), 0 ),
