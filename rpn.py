@@ -42,7 +42,7 @@ from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnit
 from rpnPersistence import flushDirtyCaches
 
 from rpnUtils import getCurrentArgList, getDataPath, handleIdentify, \
-                     validateArguments, validateOptions
+                     parseNumerals, validateArguments, validateOptions
 
 from rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
@@ -464,7 +464,7 @@ def rpn( cmd_args ):
     g.lineLength = args.line_length
 
     # handle -n
-    g.numerals = args.numerals
+    g.numerals = parseNumerals( args.numerals )
 
     # handle -o
     if args.octal:

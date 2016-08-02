@@ -471,3 +471,39 @@ def addEchoArgument( argument ):
 
     return argument
 
+
+# //******************************************************************************
+# //
+# //  parseNumerals
+# //
+# //******************************************************************************
+
+def parseNumerals( argument ):
+    result = ''
+
+    previous = ''
+    makeRange = False
+
+    for c in argument:
+        if c == '-':
+            makeRange = True
+
+            if previous == '':
+                raise ValueError( 'invalid numeral expression' )
+        else:
+            if makeRange:
+
+                for c2 in range( ord( previous ) + 1, ord( c ) + 1 ):
+                    result += chr( c2 )
+
+                makeRange = False
+            else:
+                result += c
+
+            previous = c
+
+    if makeRange:
+        raise ValueError( 'invalid numeral expression' )
+
+    return result
+
