@@ -27,8 +27,9 @@ from mpmath import mp, fdiv, fmul
 #  This has to go here so the mpf's in the import get created with 50 places of precision.
 mp.dps = 50
 
+import rpnGlobals as g
 from rpnUnits import *
-from rpnVersion import *
+from rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 if not six.PY3:
     g.dataDir = "rpndata2"

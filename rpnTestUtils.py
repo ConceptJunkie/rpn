@@ -18,7 +18,7 @@ from rpn import rpn, handleOutput
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 
-from mpmath import *
+from mpmath import almosteq, mpf, mpmathify, nan
 
 
 # //******************************************************************************

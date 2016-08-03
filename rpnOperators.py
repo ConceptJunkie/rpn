@@ -90,12 +90,18 @@ class RPNOperator( object ):
     Function = 14
 
     """This class represents all the data needed to define an operator."""
-    def __init__( self, function, argCount, argTypes = list( ), allowMeasurements = measurementsNotAllowed ):
+    def __init__( self, function, argCount, argTypes = None, allowMeasurements = measurementsNotAllowed ):
         self.function = function
         self.argCount = argCount
-        self.argTypes = argTypes
+
+        if argTypes is None:
+            self.argTypes = list( )
+        else:
+            self.argTypes = argTypes
+
         self.allowMeasurements = allowMeasurements
 
+    @staticmethod
     def validateArgType( self, term, arg, argType ):
         if isinstance( arg, ( list, RPNGenerator ) ) and argType not in ( RPNOperator.List, RPNOperator.Generator ):
             return True

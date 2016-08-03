@@ -19,7 +19,7 @@ import contextlib
 import pickle
 import os
 
-from rpnVersion import *
+from rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 import rpnGlobals as g
 

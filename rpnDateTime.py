@@ -122,7 +122,7 @@ class RPNDateTime( arrow.Arrow ):
         newMonth = self.month + int( months )
         newYear = self.year
 
-        if newMonth < 1 or newMonth > 12:
+        if not ( 1 < newMonth < 12 ):
             newYear += ( newMonth - 1 ) // 12
             newMonth = ( ( newMonth - 1 ) % 12 ) + 1
 

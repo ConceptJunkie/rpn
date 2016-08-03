@@ -479,6 +479,12 @@ def addEchoArgument( argument ):
 # //******************************************************************************
 
 def parseNumerals( argument ):
+    '''
+    '-' is a special character that defines a range from the preceding character
+    to the succeeding character.
+
+    Therefore, '-' is not a valid numeral, but really, who would want to do that?
+    '''
     result = ''
 
     previous = ''

@@ -15,7 +15,13 @@
 from mpmath import apery, bell, bernoulli, catalan, e, euler, exp, glaisher, \
                    inf, khinchin, lambertw, mertens, phi, pi
 
-from rpnConstantUtils import *
+from rpnConstantUtils import getBoltzmannsConstant, getChampernowneConstant, \
+        getCopelandErdosConstant, getElectricConstant, getElectronCharge, \
+        getFineStructureConstant, getMaxDouble, getMaxFloat, getMillsConstant, \
+        getMinDouble, getMinFloat, getNewtonsConstant, getPlanckCharge, \
+        getPlanckConstant, getPlanckLength, getPlanckMass, getPlanckTemperature, \
+        getPlanckTime, getPlasticConstant,  getReducedPlanckConstant, \
+        getRobbinsConstant, getSpeedOfLight
 
 #from rpnDeclarations import RPNOperator
 from rpnMath import getPower, getRoot

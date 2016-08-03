@@ -878,7 +878,6 @@ def runCombinatoricsOperatorTests( ):
     #expectEqual( '8 3 permutations', '8 ! 5 ! /' )
     #expectEqual( '-a20 17 12 permutations', '-a20 17 ! 5 ! /' )
     #expectException( '6 7 permutations' )
-    pass
 
 
 # //******************************************************************************
@@ -2113,7 +2112,6 @@ def runNumberTheoryOperatorTests( ):
 
     # zeta
     #testOperator( '4 zeta' )
-    pass
 
 
 # //******************************************************************************

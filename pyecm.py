@@ -1064,7 +1064,7 @@ def mainloop(n, u, p1):
          center_down -= small_jump
 
          pmed_step_up, pmed_step_down = add_sub_x_only(big_multiples[i], pgiant_step, n)
-         if pmed_step_down == None:
+         if pmed_step_down is None:
             return pmed_step_up
 
          while prime_up < center_up + small_jump_2:

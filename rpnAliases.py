@@ -319,6 +319,8 @@ operatorAliases = {
     'georange'                  : 'geometric_range',
     'geo_mean'                  : 'geometric_mean',
     'geo_range'                 : 'geometric_range',
+    'get_left_trunc'            : 'get_left_truncations',
+    'get_right_trunc'           : 'get_right_truncations',
     'gigohm'                    : 'gigaohm',
     'glaisher'                  : 'glaisher_constant',
     'golden'                    : 'phi',

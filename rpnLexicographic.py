@@ -491,9 +491,12 @@ def isMorphic( n, k ):
 # //******************************************************************************
 
 def getLeftTruncations( n ):
+    if n < 0:
+        raise ValueError( '\'get_left_truncations\' requires a positive argument' )
+
     str = getMPFIntegerAsString( n )
 
-    for i in range( len( str ) ):
+    for i, e in enumerate( str ):
         yield mpmathify( str[ i : ] )
 
 
@@ -504,6 +507,9 @@ def getLeftTruncations( n ):
 # //******************************************************************************
 
 def getRightTruncations( n ):
+    if n < 0:
+        raise ValueError( '\'get_right_truncations\' requires a positive argument' )
+
     str = getMPFIntegerAsString( n )
 
     for i in range( len( str ), 0, -1 ):
