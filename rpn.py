@@ -37,7 +37,7 @@ from rpnOperators import checkForVariable, constants, evaluateTerm, functionOper
                          setAccuracy, setPrecision
 
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
-                      printHelp, printHelpModeHelp, printTitleScreen
+                      printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
 
 from rpnPersistence import flushDirtyCaches
 
