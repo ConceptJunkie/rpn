@@ -477,6 +477,7 @@ operatorAliases = {
     'megalerg'                  : 'megaerg',
     'megaohm'                   : 'megohm',
     'mercury_year'              : 'mercury_revolution',
+    'mersenne'                  : 'nth_mersenne',
     'mertens'                   : 'merten',
     'mertens_constant'          : 'merten_constant',
     'metre'                     : 'meter',

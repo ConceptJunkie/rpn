@@ -2906,6 +2906,9 @@ operators = {
     'mobius'                         : RPNOperator( getMobius,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'nth_mersenne'                   : RPNOperator( getNthMersennePrime,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'nth_padovan'                    : RPNOperator( getNthPadovanNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 

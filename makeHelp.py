@@ -560,6 +560,8 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
     ''',
     'bugs' :
     '''
+Converting negative numbers to different bases gives weird answers.
+
 -u doesn't work with complex numbers
 
 Unit conversion suffers from small rounding errors in some situations.  This
@@ -597,13 +599,14 @@ This is my informal, short-term todo list for rpn:
    prints nothing)
 *  support date comparisons, etc. before the epoch
 *  create an output handler for RPNLocation
-*  'result' doesn't work with measurements
+*  'result' doesn't work with measurements (see bugs)
 *  https://en.wikipedia.org/wiki/American_wire_gauge
 *  Add support for lists in user-defined functions:
    rpn 1970 2016 range lambda x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval
 *  'rpn 1 20 range dBm kilowatt convert' fails.
    This conversion doesn't work because dBm to watt uses a special function.
-*  'mean', 'max' and 'min' should work with measurements
+*  'mean', 'max' and 'min' should work with measurements, but measurements
+    currently can't be compared.
 *  units aren't supported in user-defined functions
 *  input parsing doesn't happen in a user-defined function, e.g., '1,000'
    doesn't get translated to 1000
@@ -612,7 +615,7 @@ This is my informal, short-term todo list for rpn:
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
 *  'dup_digits' is not intuitive, and it doesn't work right with negative numbers
-*  'is_equal' should handle measurements of different types
+*  'is_equal' should handle measurements of different (but compatible) types
 
 See 'rpn help bugs'.
     ''',
@@ -1049,6 +1052,8 @@ Added the 'centered_tetrahedral', 'centered_octahedral',
 'centered_dodecahedral', and 'centered_icosahedral' operators.
 
 Added the 'stern', 'calkin_wilf', and 'generalized_pentagonal' operators.
+
+Added the 'nth_mersenne' operator.
 
 Added support for automatically caching the results of any function, so
 expensive calculations can be persisted for future reuse.
@@ -3226,7 +3231,7 @@ c:\>rpn 1 20 range 5 multifactorial
     'argument' : [
 'complex_math', 'calculates complex argument (phase) of n',
 '''
-The complex argument, or phase, of a complex number is defined as the the
+The complex argument, or phase, of a complex number is defined as the
 signed angle between the positive real axis and n in the complex plane.
 ''',
 '''
@@ -7260,8 +7265,19 @@ n and k cannot both be odd.
 '''
 ''' ],
 
+    'nth_mersenne' : [
+'number_theory', 'returns the nth Mersenne prime',
+'''
+These values are stored in a look-up table.  They are not calculated. ;-)
+
+There are currently 49 known Mersenne primes.  This list is subject to change
+as new Mersenne Primes are being actively searched for.
+''',
+'''
+''' ],
+
     'nth_padovan' : [
-'number_theory', 'calculates the the nth Padovan number',
+'number_theory', 'calculates the nth Padovan number',
 '''
 ''',
 '''

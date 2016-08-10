@@ -2139,6 +2139,10 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '20176 mobius' )
     expectEqual( '1 77 range mobius', '8683 oeis 77 left' )
 
+    # nth_mersenne
+    testOperator( '-a30 1 10 range nth_mersenne' )
+    testOperator( '-c 25 nth_mersenne' )
+
     # nth_padovan
     testOperator( '-c 76 nth_padovan' )
     expectEqual( '0 45 range nth_padovan', '931 oeis 50 left 46 right' )
