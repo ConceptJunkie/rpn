@@ -142,49 +142,49 @@ default precision
 1 10 range balanced_
 1 10 range cf
 1 10 range count
-1 10 range cousinprime
+1 10 range cousin_prime
 1 10 range diffs
 1 10 range diffs2
 1 10 range fib diffs
 1 10 range fib diffs2
 1 10 range max
-1 10 range maxindex
+1 10 range max_index
 1 10 range mean
 1 10 range min
-1 10 range minindex
+1 10 range min_index
 1 10 range nonzero
-1 10 range nthprime?
+1 10 range nth_prime?
 1 10 range product
-1 10 range sexyprime_
-1 10 range sexyquad
-1 10 range sexyquad_
-1 10 range sexytriplet
-1 10 range sexytriplet_
-1 10 range sophieprime
+1 10 range sexy_prime_
+1 10 range sexy_quad
+1 10 range sexy_quad_
+1 10 range sexy_triplet
+1 10 range sexy_triplet_
+1 10 range sophie_prime
 1 10 range sortdesc
 1 10 range stddev
 1 10 range sum
-1 10 range triplebal
-1 10 range triplebal_
-1 10 range tripletprime
-1 10 range twinprime_
+1 10 range triple_bal
+1 10 range triple_bal_
+1 10 range triplet_prime
+1 10 range twin_prime_
 1 10 range unique
 1 10 range zero
 2 output_radix
 1 100 range
-3  output_radix
+3 output_radix
 1 100 range
-4  output_radix
+4 output_radix
 1 100 range
-5  output_radix
+5 output_radix
 1 100 range
-6  output_radix
+6 output_radix
 1 100 range
-7  output_radix
+7 output_radix
 1 100 range
-8  output_radix
+8 output_radix
 1 100 range
-9  output_radix
+9 output_radix
 1 100 range
 10 output_radix
 1 100 range
@@ -327,7 +327,7 @@ default output_radix
 100 expphi
 100 icosahedral
 100 randint
-1000 10000 isdivisible
+1000 10000 is_divisible
 1000 1030 range isprime
 1000 cdecagonal?
 1000 ln
@@ -346,7 +346,7 @@ default input_radix
 102 cheptagonal
 102 isolated
 102 octagonal
-1024 countdiv
+1024 count_div
 1024 issquare
 103 chexagonal
 104 cnonagonal
@@ -370,7 +370,7 @@ default input_radix
 3 input_radix
 120012022211222012
 default input_radix
-123 456 789 trianglearea
+123 456 567 trianglearea
 123454321 decagonal?
 1234567890 fromunixtime
 12345678901234567890 ulonglong
@@ -379,7 +379,7 @@ default input_radix
 13 exp
 13 nonahex
 13 pell
-13 polyarea
+13 13 polygon_area
 14 nonaoct
 142857 prime
 142857 prime?
@@ -474,7 +474,7 @@ default input_radix
 1902 isolated
 192834 triplet_prime
 1965 year_calendar
-1965 march calendar
+1965-03 calendar
 19978 tetrahedral
 2 -3 2 -3 2 solve4
 16 output_radix
@@ -492,7 +492,7 @@ default output_radix
 200000 randint oeiscomment
 200000 randint oeisex
 200000 randint oeisname
-2014 10 calendar
+2014-10-01 calendar
 203 heptagonal
 203 triangular
 2039 hepthex
@@ -502,7 +502,7 @@ default output_radix
 2153 balanced_
 21985 sexyprime_
 222 heptsquare
-224623 heptanacci
+224 heptanacci
 23 5 repunit
 23 factorial
 23 octahedral
@@ -533,8 +533,8 @@ default decimal_grouping
 3 gamma
 3 i
 3 meters 4 n_sphere_radius
-3 subic_feet 6 n_sphere_volume
-3 square_meters 3 n_sphere_radius
+feet 5 ** 3 * 6 n_sphere_volume
+meters 6 ** 3 * 7 n_sphere_radius
 3.4 floor
 304 pyramid
 32800 short
@@ -549,7 +549,7 @@ default decimal_grouping
 361 coctagonal?
 367981443 prime
 394 truncoct
-3945 steloct
+3945 stelloct
 3948 474 subtract
 39485 twinprime
 399 hepttri
@@ -587,7 +587,7 @@ default decimal_grouping
 5 cubic_in sphere_volume
 5 inches sphere_volume
 5 lambertw
-5,000,000 nth_centered_nonagonal?
+5,000,000 nth_centered_nonagonal
 503942034 [ 3 4 5 11 4 4 ] unpack
 5176 cousin_prime
 5199846 safe_prime
@@ -639,7 +639,7 @@ false comma
 8 sq_inches spherearea
 82154 doublebal
 835 sextprime_
-85 catalan
+85 nth_catalan
 8684 heptpent
 87 primepi
 87 sophieprime
@@ -655,7 +655,7 @@ false comma
 9 6 ** nonagonal?
 9 doublefac
 9.99999 ceiling
-92348759911 isprime
+92348759911 is_prime
 9387 quintprime
 949 hexanacci
 98765 20 primes
@@ -669,7 +669,7 @@ avogadro
 barn gigaparsec * cubic_inch convert
 c 150 / estimate
 c m/s convert 1 nanosecond * inches convert
-catalans
+catalan
 e 20 makecf
 e
 euler
@@ -687,7 +687,7 @@ maxulong
 maxulonglong
 maxuquadlong
 maxushort
-mertens
+merten_constant
 minchar
 minlong
 minlonglong
@@ -753,3 +753,50 @@ mindouble
 minfloat
 default accuracy
 default precision
+help
+topics
+about
+arguments
+bugs
+examples
+input
+interactive_mode
+license
+metric
+notes
+options
+output
+release_notes
+release_notes_5
+time_features
+unit_conversion
+unit_types
+user_functions
+algebra
+arithmetic
+astronomy
+bitwise
+calendars
+combinatorics
+complex_math
+constants
+conversion
+date_time
+function
+geometry
+geography
+internal
+lexicographic
+list_operators
+logarithms
+modifiers
+number_theory
+polygonal_numbers
+polyhedral_numbers
+powers_and_roots
+prime_numbers
+settings
+special
+trigonometry
+exit
+exit
