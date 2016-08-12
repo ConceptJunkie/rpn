@@ -66,7 +66,7 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
                                                    int( mp.dps / math.log10( outputRadix ) ),
                                                    g.outputBaseDigits ) )
     else:
-        strNumber = nstr( number, n = g.outputAccuracy, min_fixed=-inf )
+        strNumber = nstr( number, n = g.outputAccuracy, min_fixed=-g.maximumFixed )
 
         if '.' in strNumber:
             decimal = strNumber.find( '.' )
@@ -231,7 +231,7 @@ def formatListOutput( result, level=0 ):
             elif isinstance( item, RPNDateTime ):
                 newString = formatDateTime( item )
             elif isinstance( item, RPNMeasurement ):
-                newString = formatOutput( nstr( item.getValue( ), min_fixed=-inf ) )
+                newString = formatOutput( nstr( item.getValue( ), min_fixed=-g.maximumFixed ) )
                 newString += ' ' + formatUnits( item )
             else:
                 newString = formatOutput( str( item ) )

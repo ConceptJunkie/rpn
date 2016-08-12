@@ -368,7 +368,9 @@ class RPNMeasurement( object ):
         self.units.update( units )
 
     def isCompatible( self, other ):
-        if isinstance( other, dict ):
+        if isinstance( other, RPNUnits ):
+            return self.getUnitTypes( ) == other.getUnitTypes( )
+        elif isinstance( other, dict ):
             return self.getUnitTypes( ) == other
         elif isinstance( other, list ):
             result = True
@@ -494,7 +496,7 @@ class RPNMeasurement( object ):
 
     def isEqual( self, other ):
         newValue = self.convert( other )
-        print( newValue.getValue( ), other.getValue( ) )
+        #print( newValue.getValue( ), other.getValue( ) )
         return ( newValue.getValue( ) == other.getValue( ) )
 
     def isNotEqual( self, other ):
@@ -782,6 +784,19 @@ def applyNumberValueToUnit( number, term ):
 
 # //******************************************************************************
 # //
+# //  checkUnits
+# //
+# //******************************************************************************
+
+def checkUnits( measurement, unitType ):
+    if measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].baseUnit ) ):
+        return True
+
+    return measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].dimensions ) )
+
+
+# //******************************************************************************
+# //
 # //  validateUnits
 # //
 # //******************************************************************************
@@ -789,16 +804,6 @@ def applyNumberValueToUnit( number, term ):
 def validateUnits( measurement, unitType ):
     if not checkUnits( measurement, unitType ):
         raise ValueError( unitType + ' unit expected' )
-
-
-# //******************************************************************************
-# //
-# //  checkUnits
-# //
-# //******************************************************************************
-
-def checkUnits( measurement, unitType ):
-    return measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].dimensions ) )
 
 
 # //******************************************************************************

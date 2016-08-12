@@ -46,6 +46,7 @@ defaultInputRadix = 10
 defaultIntegerGrouping = 3
 defaultLineLength = 80
 defaultListFormatLevel = 1
+defaultMaximumFixed = 12
 defaultOutputRadix = 10
 defaultPrecision = 20
 
@@ -75,6 +76,7 @@ inputRadix = defaultInputRadix
 leadingZero = False
 lineLength = defaultLineLength
 listFormatLevel = 0
+maximumFixed = defaultMaximumFixed
 numerals = ''
 outputAccuracy = -1
 outputBaseDigits = False

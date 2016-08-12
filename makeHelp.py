@@ -81,8 +81,11 @@ command-line options:
     -ln, --line_length
         line length to use for formatting help (default: 80)
 
+    -mn, --maximum_fixed (default: 12)
+        the maximum number of decimal places to show fixed notation (as opposed to scientific notation)
+
     -nstr, --numerals str
-        characters set to use as numerals for output
+        characters set to use as numerals for output, '-' can be used for range (e.g., -na-z)
 
     -o, --octal
         octal mode: equivalent to \'-r8 -w9 -i3 -z\'
@@ -560,6 +563,8 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
     ''',
     'bugs' :
     '''
+-d needs to parse out the scientific notation part of the value
+
 Converting negative numbers to different bases gives weird answers.
 
 -u doesn't work with complex numbers
@@ -7444,6 +7449,13 @@ c:\>rpn 4 unit_roots
 '''
 ''' ],
 
+    'energy_equivalence' : [
+'physics', 'calculates the energy equivalence of mass n',
+'''
+''',
+'''
+''' ],
+
     'escape_velocity' : [
 'physics', 'calculates the escape velocity of an object of mass n and radius k',
 '''
@@ -7460,6 +7472,13 @@ c:\>rpn 4 unit_roots
 
     'kinetic_energy' : [
 'physics', '',
+'''
+''',
+'''
+''' ],
+
+    'mass_equivalence' : [
+'physics', 'calculates the mass equivalence of energy n',
 '''
 ''',
 '''

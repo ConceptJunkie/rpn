@@ -506,6 +506,12 @@ constants = {
     'planck_voltage'                : RPNOperator( lambda: RPNMeasurement( '1.04295e27', 'volt' ), 0 ),
     'planck_volume'                 : RPNOperator( lambda: RPNMeasurement( '4.22190722e-105', 'meter^3' ), 0 ),
 
+    # https://en.wikipedia.org/wiki/Natural_units
+    # Stoney Units
+    # Hartee Atomic Units
+    # QCD Units
+    # Natural Units
+
     # subatomic particle constants
     'alpha_particle_mass'           : RPNOperator( lambda: RPNMeasurement( '6.644657230e-27', 'kilogram' ), 0 ),
     'deuteron_mass'                 : RPNOperator( lambda: RPNMeasurement( '3.343583719e-27', 'kilogram' ), 0 ),
@@ -2988,6 +2994,9 @@ operators = {
     'acceleration'                   : RPNOperator( calculateAcceleration,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
+    'energy_equivalence'             : RPNOperator( calculateEnergyEquivalence,
+                                                    1, [ RPNOperator.Measurement ] ),
+
     'escape_velocity'                : RPNOperator( calculateEscapeVelocity,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
@@ -2996,6 +3005,9 @@ operators = {
 
     'kinetic_energy'                 : RPNOperator( calculateKineticEnergy,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
+
+    'mass_equivalence'               : RPNOperator( calculateMassEquivalence,
+                                                    1, [ RPNOperator.Measurement ] ),
 
     'orbital_mass'                   : RPNOperator( calculateOrbitalMass,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),

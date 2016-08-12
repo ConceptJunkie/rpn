@@ -2008,6 +2008,12 @@ by Knuth.
                      '''
                      ''' ),
 
+    'joule-second^2/meter^2' :
+        RPNUnitInfo( 'mass', 'joule*second^2/meter^2', 'joule*second^2/meter^2', 'J*s^2/m^2', [ ], [ 'SI' ],
+                     '''
+This conversion is required to do mass-energy equivalence calculations.
+                     ''' ),
+
     'kip' :
         RPNUnitInfo( 'mass', 'kip', 'kips', '', [ 'kilopound', 'kilopounds' ], [ 'US' ],
                      '''
@@ -3369,6 +3375,7 @@ unitConversionMatrix = {
     ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
     ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
     ( 'kilderkin',                  'firkin' )                              : mpmathify( '2' ),
+    ( 'joule-second^2/meter^2',     'gram' )                                : mpmathify( '1000' ),
     ( 'kip',                        'pound' )                               : mpmathify( '1000' ),
     ( 'kosaya_sazhen',              'meter' )                               : mpmathify( '2.48' ),
     ( 'kovac',                      'wolverton' )                           : mpmathify( '10' ),

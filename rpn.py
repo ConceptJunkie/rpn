@@ -193,10 +193,10 @@ def handleOutput( valueList ):
 
                 # handle the units if we are displaying a measurement
                 if isinstance( result, RPNMeasurement ):
-                    outputString = formatOutput( nstr( result.getValue( ), mp.dps, min_fixed=-inf ) )
+                    outputString = formatOutput( nstr( result.getValue( ), mp.dps, min_fixed=-g.maximumFixed ) )
                     outputString += ' ' + formatUnits( result )
                 else:
-                    outputString = formatOutput( nstr( result, mp.dps, min_fixed=-inf ) )
+                    outputString = formatOutput( nstr( result, mp.dps, min_fixed=-g.maximumFixed ) )
 
             print( outputString )
 
@@ -387,6 +387,7 @@ def rpn( cmd_args ):
     parser.add_argument( '-i', '--identify', action = 'store_true' )
     parser.add_argument( '-l', '--line_length', type = int, action = 'store',
                          default = g.defaultLineLength )
+    parser.add_argument( '-m', '--maximum_fixed', type = int, action = 'store', default = g.defaultMaximumFixed )
     parser.add_argument( '-n', '--numerals', type = str, action = 'store', default = g.defaultNumerals )
     parser.add_argument( '-o', '--octal', action = 'store_true' )
     parser.add_argument( '-p', '--precision', type = int, action = 'store', default = g.defaultPrecision )
@@ -462,6 +463,9 @@ def rpn( cmd_args ):
 
     # handle -l
     g.lineLength = args.line_length
+
+    # handle -m
+    g.maximumFixed = args.maximum_fixed
 
     # handle -n
     g.numerals = parseNumerals( args.numerals )

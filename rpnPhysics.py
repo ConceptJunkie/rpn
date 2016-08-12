@@ -445,3 +445,30 @@ def calculateHorizonDistance( altitude, radius ):
     distance = getRoot( getProduct( [ 2, radius, altitude ] ), 2 )
     return distance.convert( 'meter' )
 
+
+# //******************************************************************************
+# //
+# //  calculateEnergyEquivalence
+# //
+# //******************************************************************************
+
+def calculateEnergyEquivalence( mass ):
+    validateUnits( mass, 'mass' )
+
+    energy = getProduct( [ mass, getSpeedOfLight( ), getSpeedOfLight( ) ] )
+    return energy.convert( 'joule' )
+
+
+# //******************************************************************************
+# //
+# //  calculateMassEquivalence
+# //
+# //******************************************************************************
+
+def calculateMassEquivalence( energy ):
+    validateUnits( energy, 'energy' )
+
+    mass = divide( energy, multiply( getSpeedOfLight( ), getSpeedOfLight( ) ) )
+    return mass.convert( 'kilogram' )
+
+

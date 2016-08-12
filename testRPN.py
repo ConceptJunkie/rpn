@@ -57,6 +57,8 @@ def runCommandLineOptionsTests( ):
 
     testOperator( '2 sqrt pi * -i' )
 
+    testOperator( '-m50 planck_length' )
+
     testOperator( '1 10 range 3 ** -o' )
 
     testOperator( 'pi -p1000' )
@@ -2253,12 +2255,18 @@ def runNumberTheoryOperatorTests( ):
 # //******************************************************************************
 
 def runPhysicsOperatorTests( ):
+    # energy_equivalence
+    testOperator( '1 gram energy_equivalence' )
+
     # escape_velocity
     testOperator( 'earth_mass earth_radius escape_velocity' )
 
     # kinetic_energy
     testOperator( '310 pounds 65 mph kinetic_energy' )
     testOperator( '65 mph 310 pounds kinetic_energy' )
+
+    # mass_equivalence
+    testOperator( '1 joule mass_equivalence' )
 
     # orbital_period
     testOperator( 'earth_mass earth_radius 640 km + orbital_period' )
