@@ -295,49 +295,33 @@ c:\>rpn 1 inf lambda 2 x ** 1/x nsum
 What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
 number with a 1 added on the end?
 
-    c:\> rpn ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter
-    [ 42857 ]
+c:\> rpn ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter
+[ 42857 ]
 
-    c:\>rpn 428571 142857 /
-    3
+c:\>rpn 428571 142857 /
+3
     ''',
     'unit_conversion' :
     '''
-    [ TODO: describe unit conversions in rpn ]
+[ TODO: describe unit conversions in rpn ]
 
-    explain the difference between:
+explain the difference between:
 
-    40 cm 3 **
+40 cm 3 **
 
-    and
+and
 
-    40 cm^3
+40 cm^3
 
 For now, here are some examples:
-    c:\>rpn 10 miles km convert
-    16.09344 kilometers
-
-    c:\>rpn 2 gallons cups convert
-    32 cups
-
-    c:\>rpn 153 pounds stone convert
-    10.928571428571 stone
-
-    c:\>rpn 65 mph kph convert
-    104.60736 kilometers/hour
-
-    c:\>rpn 60 miles hour / furlongs fortnight / convert
-    161280 furlongs per fortnight
-
-    c:\>rpn 10 tons estimate
-    'approximately 1.65 times the mass of an average male African bush elephant'
-
-    c:\>rpn 78 kg [ pound ounce ] convert
-    [ 171 pounds, 15.369032067272 ounces ]
-
-    c:\>rpn 150,000 seconds [ day hour minute second ] convert
-    [ 1 day, 17 hours, 40 minutes, 1.6263e-17 seconds ]
-
+''' + makeCommandExample( '10 miles km convert', indent=4 ) + '''
+''' + makeCommandExample( '2 gallons cups convert', indent=4 ) + '''
+''' + makeCommandExample( '153 pounds stone convert', indent=4 ) + '''
+''' + makeCommandExample( '65 mph kph convert', indent=4 ) + '''
+''' + makeCommandExample( '60 miles hour / furlongs fortnight / convert', indent=4 ) + '''
+''' + makeCommandExample( '10 tons estimate', indent=4 ) + '''
+''' + makeCommandExample( '78 kg [ pound ounce ] convert', indent=4 ) + '''
+''' + makeCommandExample( '150,000 seconds [ day hour minute second ] convert', indent=4 ) + '''
 There's a slight rounding error that I'd really like to fix.
 
 What is the radius of a sphere needed to hold 8 fluid ounces?
@@ -545,6 +529,7 @@ This is my informal, short-term todo list for rpn:
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
 *  'dup_digits' is not intuitive, and it doesn't work right with negative numbers
+    (i.e., I can't even figure it out any more...)
 *  'is_equal' should handle measurements of different (but compatible) types
 
 See 'rpn help bugs'.
