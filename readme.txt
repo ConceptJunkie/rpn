@@ -10,6 +10,20 @@ conversions comparable to the GNU units program.
 
 ****
 
+UPDATE - August 15, 2016
+
+I am very excited that people have started noticing rpn!
+
+Please continue with comments, suggestions and bug reports.  rpn has lots of
+little bugs and possibly some big ones, too, and although I have unit tests,
+most of the time, I find bugs from using it.
+
+I especially want to thank the folks at The Nineteenth Byte on Stack Exchange
+for their nice comments.  I also love solving puzzles with rpn, so if there's
+something you'd like to see it be able to do, drop me a line at rickg@his.com.
+
+I'll try to focus on improving the help in the near future.
+
 UPDATE - July 19, 2016
 
 I don't know if anyone has ever looked at this project... not even my Mom.  But
