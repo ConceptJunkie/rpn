@@ -348,7 +348,7 @@ def abortArgsNeeded( term, index, argsNeeded ):
 # //
 # //******************************************************************************
 
-def handleIdentify( result ):
+def handleIdentify( result, file=sys.stdout ):
     formula = identify( result )
 
     if formula is None:
@@ -356,9 +356,9 @@ def handleIdentify( result ):
         formula = identify( result, base )
 
     if formula is None:
-        print( '    = [formula cannot be found]' )
+        print( '    = [formula cannot be found]', file=file )
     else:
-        print( '    = ' + formula )
+        print( '    = ' + formula, file=file )
 
 
 # //******************************************************************************
