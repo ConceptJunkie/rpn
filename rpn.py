@@ -142,7 +142,7 @@ def evaluate( terms ):
 # //
 # //******************************************************************************
 
-def handleOutput( valueList ):
+def handleOutput( valueList, indent=0, file=sys.stdout ):
     """
     Once the evaluation of terms is complete, the results need to be
     translated into output.  It is expected there will be a single result,
@@ -151,20 +151,25 @@ def handleOutput( valueList ):
     If the result is a list or a generator, special formatting turns those
     into text output.  Date-time values and measurements also require special
     formatting.
+
+    Setting file to an io.StringIO objects allows for 'printing' to a string,
+    which is used by makeHelp.py to generate actual rpn output for the examples.
     """
     if valueList is None:
-        return
+        return file
+
+    indentString = ' ' * indent
 
     if isinstance( valueList[ 0 ], RPNFunction ):
-        print( 'rpn:  unexpected end of input in function definition' )
+        print( indentString + 'rpn:  unexpected end of input in function definition', file=file )
     elif len( valueList ) != 1:
-        print( 'rpn:  unexpected end of input' )
+        print( indentString + 'rpn:  unexpected end of input', file=file )
     else:
         mp.pretty = True
         result = valueList.pop( )
 
         if result is nan:
-            return
+            return file
 
         if g.comma:
             g.integerGrouping = 3     # override whatever was set on the command-line
@@ -174,19 +179,16 @@ def handleOutput( valueList ):
             g.integerDelimiter = ' '
 
         if isinstance( result, RPNGenerator ):
-            formatListOutput( result.getGenerator( ) )
+            formatListOutput( result.getGenerator( ), indent=indent, file=file )
         elif isinstance( result, list ):
-            formatListOutput( result )
+            formatListOutput( result, indent=indent, file=file )
         else:
-            if isinstance( result, str ):
-                result = checkForVariable( result )
-
             if isinstance( result, RPNVariable ):
                 result = result.getValue( )
-
-            if isinstance( result, RPNDateTime ):
+            elif isinstance( result, RPNDateTime ):
                 outputString = formatDateTime( result )
             elif isinstance( result, str ):
+                result = checkForVariable( result )
                 outputString = result
             else:
                 # output the answer with all the extras according to command-line arguments
@@ -198,16 +200,16 @@ def handleOutput( valueList ):
                 else:
                     outputString = formatOutput( nstr( result, mp.dps, min_fixed=-g.maximumFixed ) )
 
-            print( outputString )
+            print( indentString + outputString, file=file )
 
             # handle --identify
             if g.identify:
-                handleIdentify( result )
+                handleIdentify( result, file )
 
         saveResult( result )
 
     if g.timer or g.tempTimerMode:
-        print( '\n{:.3f} seconds'.format( time.process_time( ) - g.startTime ) )
+        print( '\n' + indentString + '{:.3f} seconds'.format( time.process_time( ) - g.startTime ), file=file )
 
 
 # //******************************************************************************

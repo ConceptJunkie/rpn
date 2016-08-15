@@ -12,19 +12,28 @@
 # //
 # //******************************************************************************
 
+import shlex
 import six
 
 import bz2
 import contextlib
+import io
 import pickle
 import os
 
 from rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
+from rpn import rpn, handleOutput
+
 import rpnGlobals as g
 
 if not six.PY3:
     g.dataDir = "rpndata2"
+
+print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
+print( COPYRIGHT_MESSAGE )
+print( )
+print( 'generating help files...' )
 
 
 # //******************************************************************************
@@ -35,6 +44,29 @@ if not six.PY3:
 
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
+
+
+# //******************************************************************************
+# //
+# //  makeCommandExample
+# //
+# //******************************************************************************
+
+def makeCommandExample( command, indent=0 ):
+    '''
+    You know, it didn't occur to me for years that I should make the help
+    actually use rpn to run the examples.  This way, when minor things change,
+    the output is always accurate.
+    '''
+    output = io.StringIO( )
+
+    print( ' ' * indent + 'c:\\>rpn ' + command, file=output )
+    handleOutput( rpn( shlex.split( command ) ), indent=indent, file=output )
+
+    result = output.getvalue( )
+    output.close( )
+
+    return result
 
 
 # //******************************************************************************
@@ -132,14 +164,11 @@ described later.
 Some simple examples:
 
 2 + 2:
-    rpn 2 2 +
-
-3 sqrt(2) / 4:
-    rpn 3 2 sqrt * 4 /
-
+''' + makeCommandExample( '2 2 + ', indent=4 ) + '''
 ( 5 + 6 ) * ( 7 + 8 )
-    rpn 5 6 + 7 8 +
-
+''' + makeCommandExample( '5 6 + 7 8 + *', indent=4 ) + '''
+3 sqrt(2) / 4:
+''' + makeCommandExample( '3 2 sqrt * 4 /', indent=4 ) + '''
 Lists are specified using the bracket operators.  Most operators can take
 lists as operands, which results in the operation being performed on each
 item in the list.  If the operator takes two or more operands, then any
@@ -147,52 +176,36 @@ operand can be a list.  If one operand is a list and the other is a single
 value, then each value in the list will have the single operand applied to
 it with the operator, and the result will be displayed as a list.
 
-c:\>rpn [ 2 3 4 5 6 ] 10 +
-[ 12, 13, 14, 15, 16, 17 ]
-
-c:\>rpn 7 [ 1 2 3 4 5 6 7 ] *
-[ 7, 14, 21, 28, 35, 42, 49 ]
-
+''' + makeCommandExample( '[ 2 3 4 5 6 ] 10 +', indent=4 ) + '''
+''' + makeCommandExample( '7 [ 1 2 3 4 5 6 7 ] *', indent=4 ) + '''
 If both operands are lists, then each element from the first list is applied
 to the corresponding element in the second list.  If one list is shorter than
 the other, then only that many elements will have the operator applied and the
 resulting list will only be as long as the shorter list.  The rest of the
 items in the longer list are ignored.
 
-rpn [ 1 2 3 4 5 6 7 ] [ 1 2 3 4 5 6 7 ] **
-[ 1, 4, 27, 256, 3125, 46656, 823543 ]
-
-rpn [ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *
-[ 30, 40, 90, 160 ]
-
+''' + makeCommandExample( '[ 1 2 3 4 5 6 7 ] [ 1 2 3 4 5 6 7 ] **', indent=4 ) + '''
+''' + makeCommandExample( '[ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *', indent=4 ) + '''
 Some operators take lists as operands 'natively'.  This means the operator
 requires a list, because the operation does not make sense for a single
 value.  For example, 'mean' averages the values of a list.  If the
 required list argument is a single value, rpn will promote it to a list.
 
-c:\>rpn 1 mean
-1
-
+''' + makeCommandExample( '1 mean', indent=4 ) + '''
 If the list operator takes a list and a non-list argument, then the non-list
 argument can be a list, and rpn will evaluate the operator for all values in
 the list.
 
-c:\>rpn [ 1 2 3 ] [ 4 5 6 ] eval_poly
-[ 27, 38, 51 ]
-
+''' + makeCommandExample( '[ 1 2 3 ] [ 4 5 6 ] eval_poly', indent=4 ) + '''
 List operands can also themselves be composed of lists and rpn will recurse.
 
-c:\>rpn [ [ 1 2 3 ] [ 4 5 6 ] [ 2 3 5 ] ] mean
-[ 2, 5, 3.33333333333 ]
-
+''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 2 3 5 ] ] mean', indent=4 ) + '''
+*** THIS IS A BUG ***
 This becomes more powerful when used with operators that return lists, such as
 the 'range' operator.  Here is an rpn expression that calculates the first 10
 harmonic numbers:
 
-c:\>rpn 1 1 10 range range 1/x sum
-[ 1, 1.5, 1.83333333333, 2.08333333333, 2.28333333333, 2.45, 2.59285714286,
-2.71785714286, 2.82896825397, 2.92896825397 ]
-    ''',
+''' + makeCommandExample( '1 1 10 range range 1/x sum', indent=4 ),
     'input' :
     '''
 For integers, rpn understands hexidecimal input of the form '0x....'.
@@ -218,92 +231,47 @@ use with higher bases with -b).
 
 For now, here are some examples:
 
-    operators:
-        c:\>rpn now
-        2014-09-02 13:36:28
+operators:
+''' + makeCommandExample( 'now', indent=4 ) + '''
+''' + makeCommandExample( 'today', indent=4 ) + '''
+ISO-8601 format ("YYYY-MM-DD[T| ][HH:mm:SS]", no timezones):
+''' + makeCommandExample( '2014-09-02T13:36:28', indent=4 ) + '''
+''' + makeCommandExample( '"2014-09-02 13:36:28"', indent=4 ) + '''
+''' + makeCommandExample( '2014-09-02', indent=4 ) + '''
+'make_datetime' operator:
+''' + makeCommandExample( '[ 2014 ] make_datetime', indent=4 ) + '''
+''' + makeCommandExample( '[ 2014 9 ] make_datetime', indent=4 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 ] make_datetime', indent=4 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 13 ] make_datetime', indent=4 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 13 36 ] make_datetime', indent=4 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 13 36 28 ] make_datetime', indent=4 ) + '''
+How many days old am I?
+''' + makeCommandExample( 'today 1965-03-31 -', indent=4 ) + '''
+When will I be 20,000 days old?
+''' + makeCommandExample( '1965-03-31 20000 days +', indent=4 ) + '''
+How many seconds old is my oldest son (to within a few minutes)?
+''' + makeCommandExample( '-c now "1994-03-06 06:20:00" - seconds convert', indent=4 ) + '''
+What day of the week was I born on?
+''' + makeCommandExample( '1965-03-31 weekday', indent=4 ) + '''
+How many days until Christmas?
+''' + makeCommandExample( '2016-12-25 today -', indent=4 ) + '''
+How many days older am I than my first child?
+''' + makeCommandExample( '1994-03-06 1965-03-31 -', indent=4 ) + '''
+What date is 4 weeks from now?
+''' + makeCommandExample( 'today 4 weeks +', indent=4 ) + '''
+What date is 4 months from now?
+''' + makeCommandExample( 'today 4 months +', indent=4 ) + '''
+What about 6 months from 2 days ago?
+''' + makeCommandExample( 'today 2 days - 6 months +', indent=4 ) + '''
+There is no February 30, so we use the real last day of the month.  Months
+are handled differently from the other time units with respect to time math
+because they can differ in length.
 
-        c:\>rpn today
-        2014-09-02
-
-    ISO-8601 format ("YYYY-MM-DD[T| ][HH:mm:SS]", no timezones):
-        c:\>rpn 2014-09-02T13:36:28
-        2014-09-02 13:36:28
-
-        c:\>rpn "2014-09-02 13:36:28"
-        2014-09-02 13:36:28
-
-        c:\>rpn 2014-09-02
-        2014-09-02 00:00:00
-
-    'make_datetime' operator:
-        c:\>rpn [ 2014 ] make_datetime
-        2014-01-01 00:00:00
-
-        c:\>rpn [ 2014 9 ] make_datetime
-        2014-09-01 00:00:00
-
-        c:\>rpn [ 2014 9 2 ] make_datetime
-        2014-09-02 00:00:00
-
-        c:\>rpn [ 2014 9 2 13 ] make_datetime
-        2014-09-02 13:00:00
-
-        c:\>rpn [ 2014 9 2 13 36 ] make_datetime
-        2014-09 02 13:36:00
-
-        c:\>rpn [ 2014 9 2 13 36 28 ] make_datetime
-        2014-09-02 13:36:28
-
-    How many days old am I?
-        c:\>rpn today 1965-03-31 -
-        18052 days
-
-    When will I be 20,000 days old?
-        c:\>rpn 1965-03-31 20000 days +
-        2020-01-02 00:00:00
-
-    How many seconds old am I (to within an hour or so)?
-        c:\>rpn -c now "1965-03-31 05:00:00" - seconds convert
-        1,559,739,194.098935 seconds
-
-    What day of the week was I born on?
-        c:\>rpn 1965-03-31 weekday
-        'Wednesday'
-
-    How many days until Christmas?
-        c:\>rpn 2014-12-25 today -
-        114 days
-
-    How many days older am I than my first child?
-        c:\>rpn 1994-03-06 1965-03-31 -
-        10567 days
-
-    What date is 4 weeks from now?
-        c:\>rpn today 4 weeks +
-        2014-09-30 00:00:00
-
-    What date is 4 months from now?
-        c:\>rpn today 4 months +
-        2015-01-02 00:00:00
-
-    What about 6 months from 2 days ago?
-        c:\>rpn today 2 days - 6 months +
-        2015-02-28 00:00:00
-
-    There is no February 30, so we use the real last day of the month.  Months
-    are handled differently from the other time units with respect to time math
-    because they can differ in length.
-
-    However, the month as an absolute unit of time is simply equated to 30
-    days:
-        c:\>rpn month days convert
-        30 days
-
-    How long was the summer in 2015?
-
-        c:\>rpn 2015 autumnal_equinox 2015 summer_solstice - dhms
-        [ 93 days, 15 hours, 42 minutes, 22.6755 seconds ]
-    ''',
+However, the month as an absolute unit of time is simply equated to 30
+days:
+''' + makeCommandExample( 'month days convert', indent=4 ) + '''
+How long was the summer in 2015?
+''' + makeCommandExample( '2015 autumnal_equinox 2015 summer_solstice - dhms', indent=4 ),
     'user_functions' :
     '''
 This feature allows the user to define a function for use with the eval, nsum,
@@ -346,7 +314,6 @@ number with a 1 added on the end?
     40 cm^3
 
 For now, here are some examples:
-
     c:\>rpn 10 miles km convert
     16.09344 kilometers
 
@@ -369,92 +336,50 @@ For now, here are some examples:
     [ 171 pounds, 15.369032067272 ounces ]
 
     c:\>rpn 150,000 seconds [ day hour minute second ] convert
-    [ 1 day, 17 hours, 39 minutes, 60 seconds ]
-
-I fixed the rounding error... sort of!  In this case, the result works out to
-be epsilon shy of the even amount it should be, and it ends up getting rounded
-up to 60 seconds.
-
-Here's a shortcut for "[ day hour minute second ] convert":
-    c:\>rpn 150,000 seconds dhms
     [ 1 day, 17 hours, 40 minutes, 1.6263e-17 seconds ]
 
 There's a slight rounding error that I'd really like to fix.
 
 What is the radius of a sphere needed to hold 8 fluid ounces?
-    c:\>rpn 8 floz sphere_radius inch convert
-    1.510547765 inches
-
+''' + makeCommandExample( '8 floz sphere_radius inch convert', indent=4 ) + '''
 What is the volume of a sphere with a surface area of 100 square inches?
-    c:\>rpn 100 square_inches sphere_volume cubic_inches convert
-    94.031597258 cubic inches
-
+''' + makeCommandExample( '100 square_inches sphere_volume cubic_inches convert', indent=4 ) + '''
 What is the temperature of a black hole with the same mass as the sun?
-    c:\>rpn h_bar c 3 ** * [ 8 pi G boltzmann sun_mass ] prod /
-    6.16832371699e-8 degrees kelvin
-
+''' + makeCommandExample( 'h_bar c 3 ** * [ 8 pi G boltzmann sun_mass ] prod /', indent=4 ) + '''
 And what is the radius of the black hole (i.e., the Schwartzchild radius)?
-    c:\>rpn [ 2 G sun_mass ] prod c sqr /
-    2954.17769868 meters
-
+''' + makeCommandExample( '[ 2 G sun_mass ] prod c sqr /', indent=4 ) + '''
 What is the Planck length?
-    c:\>rpn h_bar G * c 3 ** / sqrt
-    1.61622837297e-35 meters
-
+''' + makeCommandExample( 'h_bar G * c 3 ** / sqrt', indent=4 ) + '''
 What is the Planck temperature?
-    c:\>rpn h_bar c 5 ** * G boltzmann sqr * / sqrt
-    1.41680770632e+32 degrees kelvin
-
+''' + makeCommandExample( 'h_bar c 5 ** * G boltzmann sqr * / sqrt', indent=4 ) + '''
 What is the Planck energy?
-    c:\>rpn h_bar c 5 ** * G / sqrt joule convert
-    1956113859.56 joules
-
+''' + makeCommandExample( 'h_bar c 5 ** * G / sqrt joule convert', indent=4 ) + '''
 What is the Planck mass?
-    c:\>rpn h_bar c * G / sqrt
-    2.17647019549e-8 kilograms
-
+''' + makeCommandExample( 'h_bar c * G / sqrt', indent=4 ) + '''
 What is the Planck time?
-    c:\>rpn h_bar G * c 5 ** / sqrt
-    5.39115754865e-44 seconds
-
+''' + makeCommandExample( 'h_bar G * c 5 ** / sqrt', indent=4 ) + '''
 And how does the surface gravity of that black hole compare to Earth's?
-    c:\>rpn -a20 G sun_mass * 2954.17769868 meters sqr / gee /
-    1551151150565.8376167
-
+''' + makeCommandExample( '-c -a20 G sun_mass * 2954.17769868 meters sqr / gee /', indent=4 ) + '''
 What is the age of the universe based on a Hubble constant of 67.8
 km/second*Mpc?
-
-    c:\>rpn 67.8 km second Mpc * / invert years convert -c
-    14,421,714,183.2 years
-
+''' + makeCommandExample( '-c 67.8 km second Mpc * / invert years convert', indent=4 ) + '''
 What is the acceleration due to gravity at the Earth's surface?
-    c:\>rpn G earth_mass * earth_radius 2 ** /
-    9.80129847538 meters per second^2
-
+''' + makeCommandExample( 'G earth_mass * earth_radius 2 ** /', indent=4 ) + '''
 What is the escape velocity from the Earth's surface?
-    c:\>rpn 2 G * earth_mass * earth_radius / sqrt
-    11181.5933259 meters per second
-
+''' + makeCommandExample( '2 G * earth_mass * earth_radius / sqrt', indent=4 ) + '''
 Obviously, this doesn't take air resistance into account.
 
 What is the orbital velocity of a satellite orbiting the Earth at an altitude
 of 640 kilometers?
-    c:\>rpn G earth_mass * earth_radius 640 km + / sqrt mph convert
-    16860.8051067 miles/hour
-
+''' + makeCommandExample( 'G earth_mass * earth_radius 640 km + / sqrt mph convert', indent=4 ) + '''
 What is the altitude from the Earth's surface of an object in geosynchronous
 orbit?
-    c:\>rpn [ 24 hours sqr G earth_mass ] prod 4 pi sqr * /  cube_root miles
-        convert earth_rad
-    22286.8973699 miles
-
+''' + makeCommandExample( '[ 24 hours sqr G earth_mass ] prod 4 pi sqr * / cube_root miles convert earth_radius -', indent=4 ) + '''
+Or better yet, there's now an operator for that:
+''' + makeCommandExample( '24 hours earth_mass orbital_radius earth_radius - miles convert', 4 ) + '''
 I tried to make the unit conversion flexible and smart.  It is... sometimes.
-    c:>rpn 16800 mA hours * 5 volts * joule convert
-    302400 joules
-
-    c:\>rpn gigaparsec barn * cubic_inches convert
-    188.29959908 cubic inches
-
+''' + makeCommandExample( '16800 mA hours * 5 volts * joule convert', indent=4 ) + '''
+''' + makeCommandExample( 'gigaparsec barn * cubic_inches convert', indent=4 ) + '''
 And sometimes it isn't.
 
 This is a long-standing deficiency in the design.  I've struggled to figure
@@ -9564,10 +9489,6 @@ def makeHelp( helpTopics ):
 # //******************************************************************************
 
 def main( ):
-    print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
-    print( COPYRIGHT_MESSAGE )
-    print( )
-
     makeHelp( helpTopics )
 
 

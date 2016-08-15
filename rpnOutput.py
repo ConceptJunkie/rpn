@@ -18,6 +18,7 @@ import six
 
 import math
 import string
+import sys
 import textwrap
 
 from mpmath import floor, frac, inf, im, mp, mpf, mpmathify, nstr, phi, re
@@ -188,24 +189,25 @@ def formatOutput( output ):
 # //
 # //******************************************************************************
 
-def formatListOutput( result, level=0 ):
+def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
     """
     In print mode, we print each item as the iterator hits it.  If print mode
     is off, then we gather everything up and build a giant string which is
     returned to the caller.
     """
-
     stringList = [ ]
+
+    indentString = ' ' * indent
 
     first = True
 
     if level < g.listFormatLevel:
         useIndent = True
-        print( '[' )
-        indent = ' ' * ( level + 1 ) * 4
+        print( indentString + '[', file=file )
+        levelIndent = ' ' * ( level + 1 ) * 4
     else:
         useIndent = False
-        print( '[ ', end='' )
+        print( indentString + '[ ', end='', file=file )
 
     for item in result:
         newString = ''
@@ -215,13 +217,13 @@ def formatListOutput( result, level=0 ):
                 first = False
 
                 if useIndent:
-                    print( indent, end='' )
+                    print( indentString + levelIndent, end='', file=file )
             else:
                 if useIndent:
-                    print( ',' )
-                    print( indent, end='' )
+                    print( ',', file=file )
+                    print( indentString + levelIndent, end='', file=file )
                 else:
-                    print( ', ', end='' )
+                    print( ', ', end='', file=file )
 
             formatListOutput( item, level + 1 )
             continue
@@ -239,28 +241,28 @@ def formatListOutput( result, level=0 ):
         if first:
             first = False
         else:
-            print( ', ', end='' )
+            print( ', ', end='', file=file )
 
         if useIndent:
-            print( )
+            print( file=file )
             if six.PY3:
-                print( indent + newString, end='', flush=True )
+                print( indentString + levelIndent + newString, end='', flush=True, file=file )
             else:
-                print( indent + newString, end='' )
+                print( indentString + levelIndent + newString, end='', file=file )
         else:
             if six.PY3:
-                print( newString, end='', flush=True )
+                print( newString, end='', flush=True, file=file )
             else:
-                print( newString, end='' )
+                print( newString, end='', file=file )
 
     if useIndent:
-        print( )
-        print( ' ' * level * 4 + ']', end='' )
+        print( file=file )
+        print( ' ' * level * 4 + ']', end='', file=file )
     else:
-        print( ' ]', end='' )
+        print( ' ]', end='', file=file )
 
     if level == 0:
-        print( )
+        print( file=file )
 
 
 # //******************************************************************************
@@ -268,7 +270,7 @@ def formatListOutput( result, level=0 ):
 # //  formatUnits
 # //
 # //  For outputting an RPNMeasurement object, this method formats the units part
-# //  of the object.
+# //  of the object, and returns the formatted string.
 # //
 # //******************************************************************************
 
@@ -278,7 +280,7 @@ def formatUnits( measurement ):
     if measurement.getUnitName( ) is not None:
         unitString = ''
 
-        if mpf( -1.0 ) > value > mpf( 1.0 ):
+        if mpf( -1.0 ) < value > mpf( 1.0 ):
             tempString = measurement.getPluralUnitName( )
         else:
             tempString = measurement.getUnitName( )
