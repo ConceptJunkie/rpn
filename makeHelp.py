@@ -278,29 +278,25 @@ This feature allows the user to define a function for use with the eval, nsum,
 nprod, limit and limitn operators, etc.  'lambda' starts an expression that
 becomes a function.
 
+rpn user fuctions can use up to 3 variables, x, y, and z.  rpn provides a
+number of operators that can be used with user functions.  See, 'rpn help
+functions' for information about these operators.
+
+User functions cannot currently contain lists or measurements.
+
 Some examples:
-
-c:\>rpn 3 lambda x 2 * eval
-6
-
-c:\>rpn 5 lambda x 2 ** 1 - eval
-24
-
-c:\>rpn inf lambda x 1 + fib x fib / limit
-1.6180339887
-
-c:\>rpn 1 inf lambda 2 x ** 1/x nsum
-1
+''' + makeCommandExample( '3 lambda x 2 * eval', indent=4 ) + '''
+''' + makeCommandExample( '5 lambda x 2 ** 1 - eval', indent=4 ) + '''
+''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit', indent=4 ) + '''
+''' + makeCommandExample( '1 inf lambda 2 x ** 1/x nsum', indent=4 ) + '''
 
 What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
 number with a 1 added on the end?
 
-c:\> rpn ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter
-[ 42857 ]
+''' + makeCommandExample( 'ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4 ) + '''
+And we can check that our result works:
 
-c:\>rpn 428571 142857 /
-3
-    ''',
+''' + makeCommandExample( '428571 142857 /', indent=4 ),
     'unit_conversion' :
     '''
 [ TODO: describe unit conversions in rpn ]
@@ -968,7 +964,8 @@ Added the 'centered_tetrahedral', 'centered_octahedral',
 
 Added the 'stern', 'calkin_wilf', and 'generalized_pentagonal' operators.
 
-Added the 'nth_mersenne' operator.
+Added the 'nth_mersenne', 'mass_equivalence', and 'energy_equivalence'
+operators.
 
 Added support for automatically caching the results of any function, so
 expensive calculations can be persisted for future reuse.
@@ -1004,64 +1001,45 @@ Here are some examples of using rpn:
 
 Basic arithmetic operations:
 
-    c:\>rpn 2 3 +
-    5
-
-    c:\>rpn 12 9 -
-    3
-
-    c:\>rpn 23 47 *
-    1081
-
-    c:\>rpn 10 7 /
-    1.4285714285714285714
-
+''' + makeCommandExample( '2 3 +', indent=4 ) + '''
+''' + makeCommandExample( '12 9 -', indent=4 ) + '''
+''' + makeCommandExample( '23 47 *', indent=4 ) + '''
+''' + makeCommandExample( '10 7 /', indent=4 ) + '''
 Basic trigonometry usage:
 
-    c:\>rpn 60 deg sin         # sine of 60 degrees
-    0.86602540378443864676
-
-    c:\>rpn 45 deg tan         # tangent of 45 degrees
-    1
-
-    c:\>rpn 2 pi * rad degrees convert      # 2 pi radians is how many degrees?
-    360 degrees
-
-    c:\>rpn 2 atan rad degrees convert      # What angle (in degrees) has a slope of 2?
-    63.434948822922010648 degrees
+    Sine of 60 degrees:
+''' + makeCommandExample( '60 degrees sin', indent=8 ) + '''
+    Tangent of 45 degrees ('deg' is an alias for 'degrees'):
+''' + makeCommandExample( '45 deg tan', indent=8 ) + '''
+    Convert 2 pi radians to degrees:
+''' + makeCommandExample( '2 pi * radians degrees convert', indent=8 ) + '''
+    What angle has a slope of 2?
+''' + makeCommandExample( '2 atan', indent=8 ) + '''
+    Let's do that again and convert the answer to degrees:
+''' + makeCommandExample( '2 atan radians degrees convert', indent=8 ) + '''
+    Note:  'rad' is not an alias for 'radians' since it is a unit of radiation
+           exposure.
 
 Convert an IP address to a 32-bit value and back:
-
-    c:\>rpn -x [ 192 168 0 1 ] 256 base
-    c0a8 0001
-
-    c:\>rpn -R 256 0xc0a80001
-    [192, 168, 0, 1]
-
+    We'll use '-x' to convert the result to hexadecimal:
+''' + makeCommandExample( '-x [ 192 168 0 1 ] 256 base', indent=8 ) + '''
+    We can convert it back by use base 256:
+''' + makeCommandExample( '-R256 0xc0a80001', indent=8 ) + '''
 Construct the square root of two from a continued fraction:
 
     First, here's the square root of two to 20 places:
-
-        c:\>rpn -a20 2 sqrt
-        1.4142135623730950488
-
+''' + makeCommandExample( '-a20 2 sqrt', indent=8 ) + '''
     Now let's make a continued fraction from that, calculated to 20 terms.
-
-        c:\>rpn 2 sqrt 20 make_cf
-        [ 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ]
-
-    Here's the nearest fractional approximation of the square root of two:
-
-        c:\>rpn 2 sqrt 20 frac
-        [ 22619537, 15994428 ]
-
+''' + makeCommandExample( '2 sqrt 20 make_cf', indent=8 ) + '''
+    Here's the nearest fractional approximation of the square root of two,
+    taken to 20 terms:
+''' + makeCommandExample( '2 sqrt 20 frac', indent=8 ) + '''
     And we can calculate the square root of two from the continued fraction.
+
     In reality, the continued fraction representation of the square root of
-    two is infinite, so this is only an approximation.
-
-        c:\>rpn -a20 [ 1 2 30 dup ] cf
-        1.4142135623730950488
-
+    two is infinite, so this is only an approximation, based on the first 30
+    terms of the continued fraction:
+''' + makeCommandExample( '-a20 [ 1 2 30 dup ] cf', indent=8 ) + '''
 Calculations with lists:
 
     List of primes in the first 50 fibonacci numbers:
