@@ -66,8 +66,10 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
         strMantissa = str( convertFractionToBaseN( frac( number ), outputRadix,
                                                    int( mp.dps / math.log10( outputRadix ) ),
                                                    g.outputBaseDigits ) )
+        if strMantissa == '[]':
+            strMantissa = ''
     else:
-        strNumber = nstr( number, n = g.outputAccuracy, min_fixed=-g.maximumFixed )
+        strNumber = nstr( number, n = g.outputAccuracy, min_fixed=-g.maximumFixed - 1 )
 
         if '.' in strNumber:
             decimal = strNumber.find( '.' )
@@ -233,7 +235,7 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
             elif isinstance( item, RPNDateTime ):
                 newString = formatDateTime( item )
             elif isinstance( item, RPNMeasurement ):
-                newString = formatOutput( nstr( item.getValue( ), min_fixed=-g.maximumFixed ) )
+                newString = formatOutput( nstr( item.getValue( ), min_fixed=-g.maximumFixed - 1 ) )
                 newString += ' ' + formatUnits( item )
             else:
                 newString = formatOutput( str( item ) )

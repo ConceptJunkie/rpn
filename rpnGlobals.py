@@ -37,7 +37,6 @@ sqrt2Base = -11
 maxSpecialBase = -11
 
 # default options
-defaultOutputAccuracy = 12
 defaultBitwiseGroupSize = 16
 defaultCFTerms = 10
 defaultDecimalDelimiter = ' '
@@ -46,7 +45,8 @@ defaultInputRadix = 10
 defaultIntegerGrouping = 3
 defaultLineLength = 80
 defaultListFormatLevel = 1
-defaultMaximumFixed = 12
+defaultMaximumFixed = 5
+defaultOutputAccuracy = 12
 defaultOutputRadix = 10
 defaultPrecision = 20
 

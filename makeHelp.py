@@ -111,10 +111,12 @@ command-line options:
         identify the result (may repeat input)
 
     -ln, --line_length
-        line length to use for formatting help (default: 80)
+        line length to use for formatting help (default: ''' + str( g.defaultLineLength ) + ')' + '''
 
-    -mn, --maximum_fixed (default: 12)
-        the maximum number of decimal places to show fixed notation (as opposed to scientific notation)
+    -mn, --maximum_fixed (default: ''' + str( g.defaultMaximumFixed ) + ')' + '''
+        the maximum number of decimal places to show fixed notation (e.g., if
+        -m8 is set, then any value smaller 1.0e-8 will be displayed with
+        scientific notation),
 
     -nstr, --numerals str
         characters set to use as numerals for output, '-' can be used for range (e.g., -na-z)
@@ -532,6 +534,8 @@ See 'rpn help bugs'.
     ''',
     'old_release_notes' :
     '''
+See git for changes prior to 5.18.1.
+
 5.18.1
 
 It's clear I haven't done any unit conversions in a while because there were
@@ -1041,183 +1045,102 @@ Construct the square root of two from a continued fraction:
     terms of the continued fraction:
 ''' + makeCommandExample( '-a20 [ 1 2 30 dup ] cf', indent=8 ) + '''
 Calculations with lists:
-
     List of primes in the first 50 fibonacci numbers:
-        c:\>rpn 1 50 range fib is_prime nonzero 1 + fib
-        [ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
-
+''' + makeCommandExample( '1 50 range fib is_prime nonzero 1 + fib', indent=8 ) + '''
     List the indices of the primes in the first 50 fibonacci numbers:
-        c:\>rpn 3 50 range fib factor count 1 - zeroes 3 +
-        [ 3, 4, 5, 7, 11, 13, 17, 23, 29, 43, 47 ]
+''' + makeCommandExample( '3 50 range fib factor count 1 - zeroes 3 +', indent=8 ) + '''
 
     This calculation works by listing the indices of fibonacci numbers with a
     single factor.  We are skipping fib( 1 ) and fib( 2 ) because they have a
     single factor (of 1), but of course, aren't prime.
 
     Which of the first thousand pentagonal numbers are also triangular:
-        c:\>rpn 1000 pent tri?
-        1731.262180554824
-
+''' + makeCommandExample( '1000 pent tri?', indent=8 ) + '''
     So the thousandth pentagonal number is a little bigger than the 1731st
     triangular number.  That tells us how many triangular numbers to look at.
-
-        c:\>rpn 1 1000 range pent 1 1732 range tri intersection
-        [ 1, 210, 40755 ]
-
+''' + makeCommandExample( '1 1000 range pent 1 1731 range tri intersection', indent=8 ) + '''
     So, 1, 210, and 40755 are triangular and pentagonal.
 
     Which triangular numbers are those?
-        c:\>rpn 1 1000 range pent 1 1732 range tri intersection tri?
-        [ 1, 20, 285 ]
-
+''' + makeCommandExample( '1 1000 range pent 1 1731 range tri intersection tri?', indent=8 ) + '''
     The first, 20th, and 285th.
 
     Which pentagonal numbers are those?
-        c:\>rpn 1 1000 range pent 1 1732 range tri intersection pent?
-        [ 1, 12, 165 ]
-
+''' + makeCommandExample( '1 1000 range pent 1 1731 range tri intersection pent?', indent=8 ) + '''
     The first, 12th, and 165th pentagonal numbers are also triangular.
 
     Calculate the first 10 Fibonacci numbers without using the 'fib' operator:
-        c:\>rpn [ 1 1 ] 1 1 10 range linear_recurrence
-        [ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 ]
-
+''' + makeCommandExample( '[ 1 1 ] 1 1 10 range linear_recurrence', indent=8 ) + '''
 Calculations with absolute time:
-
     operators:
-        c:\>rpn now
-        2014-09-02 13:36:28
-
-        c:\>rpn today
-        2014-09-02
-
+''' + makeCommandExample( 'now', indent=8 ) + '''
+''' + makeCommandExample( 'today', indent=8 ) + '''
     ISO-8601 format ("YYYY-MM-DD[T| ][HH:mm:SS]", no timezones):
-        c:\>rpn 2014-09-02T13:36:28
-        2014-09-02 13:36:28
-
-        c:\>rpn "2014-09-02 13:36:28"
-        2014-09-02 13:36:28
-
-        c:\>rpn 2014-09-02
-        2014-09-02 00:00:00
-
+''' + makeCommandExample( '2014-09-02T13:36:28', indent=8 ) + '''
+''' + makeCommandExample( '"2014-09-02 13:36:28"', indent=8 ) + '''
+''' + makeCommandExample( '2014-09-02', indent=8 ) + '''
     'make_datetime' operator:
-        c:\>rpn [ 2014 ] make_datetime
-        2014-01-01 00:00:00
-
-        c:\>rpn [ 2014 9 ] make_datetime
-        2014-09-01 00:00:00
-
-        c:\>rpn [ 2014 9 2 ] make_datetime
-        2014-09-02 00:00:00
-
-        c:\>rpn [ 2014 9 2 13 ] make_datetime
-        2014-09-02 13:00:00
-
-        c:\>rpn [ 2014 9 2 13 36 ] make_datetime
-        2014-09 02 13:36:00
-
-        c:\>rpn [ 2014 9 2 13 36 28 ] make_datetime
-        2014-09-02 13:36:28
-
+''' + makeCommandExample( '[ 2014 ] make_datetime', indent=8 ) + '''
+''' + makeCommandExample( '[ 2014 9 ] make_datetime', indent=8 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 ] make_datetime', indent=8 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 13 ] make_datetime', indent=8 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 13 36 ] make_datetime', indent=8 ) + '''
+''' + makeCommandExample( '[ 2014 9 2 13 36 28 ] make_datetime', indent=8 ) + '''
     How many days old am I?
-        c:\>rpn today 1965-03-31 -
-        18052 days
-
+''' + makeCommandExample( 'today 1965-03-31 -', indent=8 ) + '''
     When will I be 20,000 days old?
-        c:\>rpn 1965-03-31 20000 days +
-        2020-01-02 00:00:00
-
-    How many seconds old am I (to within an hour or so)?
-        c:\>rpn -c now "1965-03-31 05:00:00" - seconds convert
-        1,559,739,194.098935 seconds
-
+''' + makeCommandExample( '1965-03-31 20000 days +', indent=8 ) + '''
     What day of the week was I born on?
-        c:\>rpn 1965-03-31 weekday
-        'Wednesday'
-
+''' + makeCommandExample( '1965-03-31 weekday', indent=8 ) + '''
+    What is today (when the help file was generated)?
+''' + makeCommandExample( 'today', indent=8 ) + '''
     How many days until Christmas?
-        c:\>rpn 2014-12-25 today -
-        114 days
-
+''' + makeCommandExample( 'today get_year christmas today -', indent=8 ) + '''
     How many days older am I than my first child?
-        c:\>rpn 1994-03-06 1965-03-31 -
-        10567 days
-
+''' + makeCommandExample( '1994-03-06 1965-03-31 -', indent=8 ) + '''
     What date is 4 weeks from now?
-        c:\>rpn today 4 weeks +
-        2014-09-30 00:00:00
-
+''' + makeCommandExample( 'today 4 weeks +', indent=8 ) + '''
     What date is 4 months from now?
-        c:\>rpn today 4 months +
-        2015-01-02 00:00:00
-
-    What about 6 months from 2 days ago?
-        c:\>rpn today 2 days - 6 months +
-        2015-02-28 00:00:00
-
+''' + makeCommandExample( 'today 4 months +', indent=8 ) + '''
+    On September 1, 2014, what would have 6 months from 2 days ago?
+''' + makeCommandExample( '2014-09-01 2 days - 6 months +', indent=8 ) + '''
     There is no February 30, so we use the real last day of the month.  Months
     are handled differently from the other time units with respect to time math
     because they can differ in length.
 
     However, the month as an absolute unit of time is simply equated to 30
     days:
-        c:\>rpn month days convert
-        30 days
-
+''' + makeCommandExample( 'month days convert', indent=8 ) + '''
 Unit conversions:
-
     Unit conversions should be very intuitive.
-
-        c:\>rpn 10 miles km convert
-        16.0934399991 kilometers
-
-        c:\>rpn 2 gallons cups convert
-        32 cups
-
-        c:\>rpn 153 pounds stone convert
-        10.9285714286 stone
-
+''' + makeCommandExample( '10 miles km convert', indent=8 ) + '''
+''' + makeCommandExample( '2 gallons cups convert', indent=8 ) + '''
+''' + makeCommandExample( '153 pounds stone convert', indent=8 ) + '''
     rpn supports compound units:
-
-        c:\>rpn 65 miles hour / meters second / convert
-        29.0575999991 meters per second
-
-        c:\>rpn 65 miles hour / furlongs fortnight / convert
-        174720 furlongs per fortnight
-
+''' + makeCommandExample( '65 miles hour / meters second / convert', indent=8 ) + '''
+''' + makeCommandExample( '65 miles hour / furlongs fortnight / convert', indent=8 ) + '''
     rpn has unit definitions, as well as physical constants defined:
-
-        c:\>rpn gee
-        9.80665 meters per second^2
-
-        c:\>rpn gee 10 seconds *
-        98.0665 meters per second
-
-        c:\>rpn gee 10 seconds * ft s / convert
-        321.740485564 feet per second
-
+''' + makeCommandExample( 'gee', indent=8 ) + '''
+''' + makeCommandExample( 'gee 10 seconds *', indent=8 ) + '''
+''' + makeCommandExample( 'gee 10 seconds * ft s / convert', indent=8 ) + '''
     So a falling object will be travelling at 321.7 ft/sec after 10 seconds.
 
     Here's a little more advanced version of the problem.  Let's say we have
     launched a rocket that is accelerated at 5 Gs for 5 minutes.  How long
     would it take for it to reach Jupiter (assume Jupiter is 500,000,000 miles
     away)?
-
-        c:\>rpn 500 million miles 5 gee * 5 minutes * /
-        54702472.302 seconds
-
+''' + makeCommandExample( '500 million miles 5 gee * 5 minutes * /', indent=8 ) + '''
     Note that constants (e.g., gee) must use the 'multiply' operator, i.e.,
     '5 gee *', but units do not require it (e.g., '500 million miles').  This
     isn't consistent, but I don't know of a better way to handle this because
-    you don't want adjacent constants to automatically be multiplied:
+    you don't want adjacent constants to automatically be multiplied.
 
-        c:\>rpn 2 pi +
-        5.14159265359
-
-        c:\>rpn 500 million miles 5 gee * 5 minutes * / days convert
-        633.130466458 days
-
+    'pi' is a constant:
+''' + makeCommandExample( '2 pi *', indent=8 ) + '''
+    'million' is a unit.
+''' + makeCommandExample( '500 million miles', indent=8 ) + '''
+    'gee' is a constant.
+''' + makeCommandExample( '5 gee *', indent=8 ) + '''
     [ TODO:  finish unit conversion examples ]
 
 Advanced examples:
@@ -1526,15 +1449,9 @@ The absolute value of 0 or a postive number is the number itself.  The
 absolute value of a negative number is the number without the negative sign.
 ''',
 '''
-c:\>rpn 1 abs
-1
-
-c:\>rpn -1 abs
-1
-
-c:\>rpn [ -10 20 -30 40 -50 ] abs
-[ 10, 20, 30, 40, 50 ]
-''' ],
+''' + makeCommandExample( '1 abs' ) + '''
+''' + makeCommandExample( '-1 abs' ) + '''
+''' + makeCommandExample( '[ -10 20 -30 40 -50 ] abs' ) ],
 
     'add' : [
 'arithmetic', 'adds n to k',

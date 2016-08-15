@@ -96,3 +96,13 @@ def runConvertTests( ):
     testOperator( '1 20 range dBm watt convert' )
     testOperator( '0 5000 284 range2 seconds [ hour minute second ] convert -s1' )
 
+
+# //******************************************************************************
+# //
+# //  __main__
+# //
+# //******************************************************************************
+
+if __name__ == '__main__':
+    runConvertTests( )
+

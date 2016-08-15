@@ -1022,7 +1022,7 @@ properties. It is twice the reciprocal of the von Klitzing constant (2/RK).
                      ''' ),
 
     'statsiemens' :
-        RPNUnitInfo( 'electrical_conductance', 'statsiemens', 'statsiemens', 'statS', [ '' ], [ 'SI' ],
+        RPNUnitInfo( 'electrical_conductance', 'statsiemens', 'statsiemens', 'statS', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1556,11 +1556,6 @@ by Knuth.
                      '''
                      ''' ),
 
-    'fermi' :
-        RPNUnitInfo( 'length', 'fermi', 'fermis', '', [ ], [ '' ],
-                     '''
-                     ''' ),
-
     'finger' :
         RPNUnitInfo( 'length', 'finger', 'fingers', '', [ ], [ 'imperial' ],
                      '''
@@ -1722,7 +1717,7 @@ by Knuth.
                      ''' ),
 
     'pica' :
-        RPNUnitInfo( 'length', 'pica', 'picas', '', [ '' ], [ 'typography' ],
+        RPNUnitInfo( 'length', 'pica', 'picas', '', [ ], [ 'typography' ],
                      '''
                      ''' ),
 
@@ -1887,7 +1882,7 @@ by Knuth.
                      ''' ),
 
     'magnetic_flux_quantum' :
-        RPNUnitInfo( 'magnetic_flux', 'magnetic_flux_quantum', 'magnetic_flux_quantum', 'phi0', [ '' ], [ 'science' ],
+        RPNUnitInfo( 'magnetic_flux', 'magnetic_flux_quantum', 'magnetic_flux_quantum', 'phi0', [ ], [ 'science' ],
                      '''
                      ''' ),
 
@@ -2065,7 +2060,7 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'stone' :
-        RPNUnitInfo( 'mass', 'stone', 'stone', '', [ ], [ 'traditional', 'England' ],
+        RPNUnitInfo( 'mass', 'stone', 'stones', '', [ ], [ 'traditional', 'England' ],
                      '''
                      ''' ),
 
@@ -3403,7 +3398,6 @@ unitConversionMatrix = {
     ( 'melchior',                   'liter' )                               : mpmathify( '18.0' ),
     ( 'melchizedek',                'liter' )                               : mpmathify( '30.0' ),
     ( 'meter',                      'angstrom' )                            : mpmathify( '1.0e10' ),
-    ( 'meter',                      'fermi' )                               : mpmathify( '1.0e15' ),
     ( 'meter',                      'kyu' )                                 : mpmathify( '4000' ),
     ( 'meter',                      'micron' )                              : mpmathify( '1.0e6' ),
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),

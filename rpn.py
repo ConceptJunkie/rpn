@@ -195,10 +195,10 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
 
                 # handle the units if we are displaying a measurement
                 if isinstance( result, RPNMeasurement ):
-                    outputString = formatOutput( nstr( result.getValue( ), mp.dps, min_fixed=-g.maximumFixed ) )
+                    outputString = formatOutput( nstr( result.getValue( ), mp.dps, min_fixed=-g.maximumFixed - 1 ) )
                     outputString += ' ' + formatUnits( result )
                 else:
-                    outputString = formatOutput( nstr( result, mp.dps, min_fixed=-g.maximumFixed ) )
+                    outputString = formatOutput( nstr( result, mp.dps, min_fixed=-g.maximumFixed - 1 ) )
 
             print( indentString + outputString, file=file )
 
