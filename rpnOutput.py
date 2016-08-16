@@ -227,7 +227,7 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
                 else:
                     print( ', ', end='', file=file )
 
-            formatListOutput( item, level + 1 )
+            formatListOutput( item, level + 1, file=file )
             continue
         else:
             if isinstance( item, str ):

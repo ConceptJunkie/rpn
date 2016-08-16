@@ -1468,21 +1468,11 @@ of the two.
 Addition is supported for measurements..
 ''',
 '''
-c:\>rpn 2 2 add
-4
-
-c:\>rpn [ 1 2 3 4 5 6 ] 5 add
-[ 6, 7, 8, 9, 10, 11 ]
-
-c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 10 10 10 ] add
-[ 11, 12, 13, 14, 15, 16 ]
-
-c:\>rpn [ 1 2 3 4 5 6 ] [ 10 10 10 ] add
-[ 11, 12, 13 ]
-
-c:\>rpn 1 mile 1 km +
-1.621371192237 miles
-''' ],
+''' + makeCommandExample( '2 2 +' ) + '''
+''' + makeCommandExample( '[ 1 2 3 4 5 6 ] 5 add' ) + '''
+''' + makeCommandExample( '[ 1 2 3 4 5 6 ] [ 10 10 10 10 10 10 ] +' ) + '''
+''' + makeCommandExample( '[ 1 2 3 4 5 6 ] [ 10 10 10 ] add' ) + '''
+''' + makeCommandExample( '1 mile 1 km +' ) ],
 
     'ceiling' : [
 'arithmetic', 'returns the next highest integer for n',
@@ -1515,15 +1505,9 @@ the shorter of the two.
 Division is supported for measurements.
 ''',
 '''
-c:\>rpn 1440 24 /
-60
-
-c:\>rpn 2520 1 10 range /
-[ 2520, 1260, 840, 630, 504, 420, 360, 315, 280, 252 ]
-
-c:\>rpn miles hour / furlongs fortnight / convert
-2688 furlongs per fortnight
-''' ],
+''' + makeCommandExample( '1440 24 /' ) + '''
+''' + makeCommandExample( '2520 1 10 range /' ) + '''
+''' + makeCommandExample( 'miles hour / furlongs fortnight / convert' ) ],
 
     'floor' : [
 'arithmetic', 'calculates the next lowest integer for n',
@@ -1546,17 +1530,10 @@ The geometric mean is calculated by taking the kth root of the product of k
 values.
 ''',
 '''
-c:\>rpn [ 1 2 ] geometric_mean
-1.41421356237
-
-c:\>rpn [ 1 10 range ] geometric_mean
-[ 4.52872868812 ]
-
+''' + makeCommandExample( '[ 1 2 ] geometric_mean' ) + '''
+''' + makeCommandExample( '[ 1 10 range ] geometric_mean' ) + '''
 Calculate the geometric mean of the first n numbers from 1 to 5:
-
-c:\>rpn [ 1 1 5 range range ] geometric_mean
-[ [ 1, 1.41421356237, 1.81712059283, 2.2133638394, 2.6051710847 ] ]
-''' ],
+''' + makeCommandExample( '[ 1 1 5 range range ] geometric_mean' ) ],
 
     'increment' : [
 'arithmetic', 'returns n + 1',
@@ -1577,18 +1554,10 @@ c:\>rpn [ 1 1 5 range range ] geometric_mean
 '''
 ''',
 '''
-c:\>rpn 0 1 is_equal
-0
-
-c:\>rpn 1 0 is_equal
-0
-
-c:\>rpn 1 1 is_equal
-1
-
-c:\>rpn pi 2 / 1 asin is_equal
-1
-''' ],
+''' + makeCommandExample( '0 1 is_equal' ) + '''
+''' + makeCommandExample( '1 0 is_equal' ) + '''
+''' + makeCommandExample( '1 1 is_equal' ) + '''
+''' + makeCommandExample( 'pi 2 / 1 asin is_equal' ) ],
 
     'is_even' : [
 'arithmetic', 'returns whether n is an even number',
@@ -1602,51 +1571,29 @@ c:\>rpn pi 2 / 1 asin is_equal
 '''
 ''',
 '''
-c:\>rpn 0 1 is_greater
-0
-
-c:\>rpn 1 0 is_greater
-1
-
-c:\>rpn 1 1 is_greater
-0
-
-c:\>rpn 3 5 ** 5 3 ** is_greater
-1
-''' ],
+''' + makeCommandExample( '0 1 is_greater' ) + '''
+''' + makeCommandExample( '1 0 is_greater' ) + '''
+''' + makeCommandExample( '1 1 is_greater' ) + '''
+''' + makeCommandExample( '3 5 ** 5 3 ** is_greater' ) ],
 
     'is_less' : [
 'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
 '''
 ''',
 '''
-c:\>rpn 1 0 is_less
-0
-
-c:\>rpn 0 1 is_less
-1
-
-c:\>rpn 1 1 is_less
-0
-
-c:\>rpn 3 5 ** 5 3 ** is_less
-0
-''' ],
+''' + makeCommandExample( '0 1 is_less' ) + '''
+''' + makeCommandExample( '1 0 is_less' ) + '''
+''' + makeCommandExample( '1 1 is_less' ) + '''
+''' + makeCommandExample( '3 5 ** 5 3 ** is_less' ) ],
 
     'is_not_equal' : [
 'arithmetic', 'returns 1 if n does not equal k, otherwise returns 0',
 '''
 ''',
 '''
-c:\>rpn 0 1 is_not_equal
-1
-
-c:\>rpn 1 0 is_not_equal
-1
-
-c:\>rpn 1 1 is_not_equal
-0
-''' ],
+''' + makeCommandExample( '0 1 is_not_equal' ) + '''
+''' + makeCommandExample( '1 0 is_not_equal' ) + '''
+''' + makeCommandExample( '1 1 is_not_equal' ) ],
 
     'is_not_greater' : [
 'arithmetic', 'returns 1 if n is not greater than k, otherwise returns 0',
@@ -1654,18 +1601,10 @@ c:\>rpn 1 1 is_not_equal
 'is_not_greater' is the equivalent of "less than or equal".
 ''',
 '''
-c:\>rpn 0 1 is_not_greater
-1
-
-c:\>rpn 1 0 is_not_greater
-0
-
-c:\>rpn 1 1 is_not_greater
-1
-
-c:\>rpn 3 5 ** 5 3 ** is_not_greater
-0
-''' ],
+''' + makeCommandExample( '0 1 is_not_greater' ) + '''
+''' + makeCommandExample( '1 0 is_not_greater' ) + '''
+''' + makeCommandExample( '1 1 is_not_greater' ) + '''
+''' + makeCommandExample( '3 5 ** 5 3 ** is_not_greater' ) ],
 
     'is_not_less' : [
 'arithmetic', 'returns 1 if n is not less than k, otherwise returns 0',
@@ -1673,18 +1612,10 @@ c:\>rpn 3 5 ** 5 3 ** is_not_greater
 'is_not_less' is the equivalent of "greater than or equal".
 ''',
 '''
-c:\>rpn 0 1 is_not_less
-0
-
-c:\>rpn 1 0 is_not_less
-1
-
-c:\>rpn 1 1 is_not_less
-1
-
-c:\>rpn 3 5 ** 5 3 ** is_not_less
-1
-''' ],
+''' + makeCommandExample( '0 1 is_not_less' ) + '''
+''' + makeCommandExample( '1 0 is_not_less' ) + '''
+''' + makeCommandExample( '1 1 is_not_less' ) + '''
+''' + makeCommandExample( '3 5 ** 5 3 ** is_not_less' ) ],
 
     'is_not_zero' : [
 'arithmetic', 'returns whether n is not zero',
@@ -1742,12 +1673,8 @@ This is the classic definition of 'mean', often called 'average':  the sum of
 all items divided by the number of items.
 ''',
 '''
-c:\>rpn 1 10 range mean
-5.5
-
-c:\>rpn 1 1000 range sum_digits mean
-13.501
-''' ],
+''' + makeCommandExample( '1 10 range mean' ) + '''
+''' + makeCommandExample( '1 1000 range sum_digits mean' ) ],
 
     'min' : [
 'arithmetic', 'returns the smallest value in list n',
@@ -1778,15 +1705,9 @@ of the two.
 Multiplication is supported for measurements.
 ''',
 '''
-c:\>rpn 32 56 *
-1792
-
-c:\>rpn 7 1 10 range *
-[ 7, 14, 21, 28, 35, 42, 49, 56, 63, 70 ]
-
-c:\>rpn 16800 mA hours * 5 volts * joule convert
-302400 joules
-''' ],
+''' + makeCommandExample( '32 56 *' ) + '''
+''' + makeCommandExample( '7 1 10 range *' ) + '''
+''' + makeCommandExample( '16800 mA hours * 5 volts * joule convert' ) ],
 
     'negative' : [
 'arithmetic', 'calculates the negative of n',
@@ -1802,18 +1723,10 @@ On a tie, 'nearest_int' returns the nearest even number.  This makes it slightly
 different than 'round'.
 ''',
 '''
-c:\>rpn 2 sqrt nearest_int
-1
-
-c:\>rpn 3 sqrt neg nearest_int
--2
-
-c:\>rpn 0.5 nearest_int
-0
-
-c:\>rpn 1.5 nearest_int
-2
-''' ],
+''' + makeCommandExample( '2 sqrt nearest_int' ) + '''
+''' + makeCommandExample( '3 sqrt neg nearest_int' ) + '''
+''' + makeCommandExample( '0.5 nearest_int' ) + '''
+''' + makeCommandExample( '1.5 nearest_int' ) ],
 
     'product' : [
 'arithmetic', 'calculates the product of values in list n',
@@ -1858,21 +1771,14 @@ Note that 'n round' is the equivalent of 'n 1 round_by_value'.
 For real numbers, 'sign' returns 1 for positive, -1 for negative and 0 for
 zero.
 
-For complex numbers, it gives the projection onto the unit circle.
+For complex numbers, it gives the projection of the value n onto the complex
+unit circle.
 ''',
 '''
-c:\>rpn 37 sign
-1
-
-c:\>rpn -8 sign
--1
-
-c:\>rpn 0 sign
-0
-
-c:\>rpn 3 4 i + sign
-(0.6 + 0.8j)
-''' ],
+''' + makeCommandExample( '37 sign' ) + '''
+''' + makeCommandExample( '-8 sign' ) + '''
+''' + makeCommandExample( '0 sign' ) + '''
+''' + makeCommandExample( '3 4 i + sign' ) ],
 
     'smaller' : [
 'arithmetic', 'returns the smaller of n and k',
@@ -1886,9 +1792,8 @@ c:\>rpn 3 4 i + sign
 '''
 ''',
 '''
-c:\>rpn 1 50 range countdiv stddev
-2.14485430741
-''' ],
+''' + makeCommandExample( '10 50 random_integer_ stddev' ) + '''
+''' + makeCommandExample( '1 50 range count_div stddev' ) ],
 
     'subtract' : [
 'arithmetic', 'subtracts k from n',
@@ -1907,15 +1812,11 @@ the shorter of the two.
 Subtraction is supported for measurements.
 ''',
 '''
-c:\>rpn 17 8 -
-9
-
-c:\>rpn 10 [ 1 2 3 4 ] -
-[ 9, 8, 7, 6 ]
-
-c:\>rpn 1 gallon 4 cups -
-0.75 gallon
-''' ],
+''' + makeCommandExample( '17 8 -' ) + '''
+''' + makeCommandExample( '10 [ 1 2 3 4 ] -' ) + '''
+''' + makeCommandExample( '[ 10 9 8 7 ] [ 6 5 4 3 ] -' ) + '''
+''' + makeCommandExample( '1 gallon 4 cups -' ) + '''
+''' + makeCommandExample( '1776-06-24 10 days -' ) ],
 
     'sum' : [
 'arithmetic', 'calculates the sum of values in list n',
@@ -2048,13 +1949,10 @@ moon.  Therefore, 0% is the new moon, 25% is the first quarter, 50% is a full
 moon, 75% is the last quarter and 100% is the new moon again.
 ''',
 '''
-What was the phase of the moon when I was born:
+What was the phase of the moon the day I was born:
 
-c:\>rpn 1965-03-31 moon_phase
-0.931952504017
-
+''' + makeCommandExample( '1965-03-31 moon_phase' ) + '''
 ... a waning crescent.
-
 ''' ],
 
     'moon_transit' : [
@@ -2324,12 +2222,8 @@ corresponding bit in the binary representation of both operands.  The result
 is the numerical representation of the string of 'and'ed bits.
 ''',
 '''
-c:\>rpn -x 0xF0F0F0F0 0x12345678 and
-1030 5070
-
-c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] and
-[ 0, 0, 0, 1 ]
-''' ],
+''' + makeCommandExample( '-x 0xF0F0F0F0 0x12345678 and' ) + '''
+''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] and' ) ],
 
     'count_bits' : [
 'bitwise', 'returns the number of set bits in the value of n',
@@ -2353,12 +2247,8 @@ corresponding bit in the binary representation of both operands.  The result
 is the numerical representation of the string of 'and'ed bits.
 ''',
 '''
-c:\>rpn -x 0x01234567 0xffff0000 nand
-fedc ffff
-
-c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand
-[ ffff, ffff, ffff, 0000 ]
-''' ],
+''' + makeCommandExample( '-x 0x01234567 0xffff0000 nand' ) + '''
+''' + makeCommandExample( '-x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand' ) ],
 
     'nor' : [
 'bitwise', 'calculates the bitwise \'nor\' of n and k',
@@ -2375,12 +2265,8 @@ corresponding bit in the binary representation of both operands.  The result
 is the numerical representation of the string of 'nor'ed bits.
 ''',
 '''
-c:\>rpn -x 0x01234567 0x0000ffff nor
-fedc 0000
-
-c:\>rpn -x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nor
-[ ffff, 0000, 0000, 0000 ]
-''' ],
+''' + makeCommandExample( '-x 0x01234567 0x0000ffff nor' ) + '''
+''' + makeCommandExample( '-x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nor' ) ],
 
     'not' : [
 'bitwise', 'calculates the bitwise negation of n',
@@ -2396,12 +2282,8 @@ the binary representation of the operand.  The result is the numerical
 representation of the string of 'not'ed bits.
 ''',
 '''
-c:\>rpn -x 0xF0F0F0F0 not
-0f0f 0f0f
-
-c:\>rpn -x [ 0 1 ] not
-[ ffff, fffe ]
-''' ],
+''' + makeCommandExample( '-x 0xF0F0F0F0 not' ) + '''
+''' + makeCommandExample( '-x [ 0 1 ] not' ) ],
 
     'or' : [
 'bitwise', 'calculates the bitwise \'or\' of n and k',
@@ -2418,12 +2300,8 @@ corresponding bit in the binary representation of both operands.  The result
 is the numerical representation of the string of 'or'ed bits.
 ''',
 '''
-c:\>rpn -x 0xf0f0f0f0 0x0f0f0f0f or
-ffff ffff
-
-c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] or
-[ 0, 1, 1, 1 ]
-''' ],
+''' + makeCommandExample( '-x 0xf0f0f0f0 0x0f0f0f0f or' ) + '''
+''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] or' ) ],
 
     'parity' : [
 'bitwise', 'returns the bit parity of n (0 == even, 1 == odd)',
@@ -2461,12 +2339,8 @@ corresponding bit in the binary representation of both operands.  The result
 is the numerical representation of the string of 'xor'ed bits.
 ''',
 '''
-c:\>rpn -x 0xffff0000 0x12345678 xor
-edcb 5678
-
-c:\>rpn [ 0 0 1 1 ] [ 0 1 0 1 ] xor
-[ 0, 1, 1, 0 ]
-''' ],
+''' + makeCommandExample( '-x 0xffff0000 0x12345678 xor' ) + '''
+''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] xor' ) ],
 
 
 # //******************************************************************************
@@ -2538,12 +2412,8 @@ Monday in November.  This definition was established by the U.S. Congress in
 1845.
 ''',
 '''
-c:\>rpn 2016 election_day
-2016-11-08
-
-c:\>rpn 1964 election_day
-1964-11-03
-''' ],
+''' + makeCommandExample( '2016 election_day' ) + '''
+''' + makeCommandExample( '1964 election_day' ) ],
 
     'epiphany' : [
 'calendars', 'returns the date of Epiphany for the year specified',
@@ -2614,9 +2484,8 @@ c:\>rpn 1964 election_day
 In the U.S., Labor Day falls on the first Monday of September.
 ''',
 '''
-c:\>rpn 2016 labor_day
-2016-09-05
-''' ],
+''' + makeCommandExample( '2016 labor_day' ) + '''
+''' + makeCommandExample( '2016 labor_day 2015 memorial_day -' ) ],
 
     'memorial_day' : [
 'calendars', 'calculates the date of Memorial Day (US) for the year specified',
@@ -2626,19 +2495,8 @@ is dedicated to the memorial of the men and women who gave their lives in the
 armed services.
 ''',
 '''
-c:\>rpn 2016 memorial_day
-2016-05-30
-
-c:\>rpn 2020 2025 range memorial_day -s1
-[
-2020-05-25,
-2021-05-31,
-2022-05-30,
-2023-05-29,
-2024-05-27,
-2025-05-26,
-]
-''' ],
+''' + makeCommandExample( '2016 memorial_day' ) + '''
+''' + makeCommandExample( '2020 2025 memorial_day -s1' ) ],
 
     'nth_weekday' : [
 'calendars', 'finds the nth day (1 = Monday, etc.) of the month',
@@ -2810,18 +2668,11 @@ as an operand, so this function cannot be combined with other operators.
 *** 'weekday' does not currently work with list operands.
 ''',
 '''
-c:\>rpn today weekday
-'Friday'
-
-c:\>rpn 1776-07-04 weekday
-'Thursday'
-
-c:\>rpn 1965-03-31 weekday
-'Wednesday'
-
-c:\>rpn 2043-04-17 weekday
-'Friday'
-''' ],
+''' + makeCommandExample( 'today weekday' ) + '''
+''' + makeCommandExample( '1776-07-04 weekday' ) + '''
+''' + makeCommandExample( '1851-02-29 weekday' ) + '''
+''' + makeCommandExample( '1929-10-29 weekday' ) + '''
+''' + makeCommandExample( '2043-04-17 weekday' ) ],
 
     'year_calendar' : [
 'calendars', 'prints a month calendar for the date value',
@@ -2881,15 +2732,9 @@ This is referred to as the compositions of n.  Non-integer arguments are
 truncated to integers.
 ''',
 '''
-c:\>rpn 5 2 compositions
-[ [ 1, 4 ], [ 2, 3 ], [ 3, 2 ], [ 4, 1 ] ]
-
-c:\>rpn 5 3 compositions
-[ [ 1, 1, 3 ], [ 1, 2, 2 ], [ 1, 3, 1 ], [ 2, 1, 2 ], [ 2, 2, 1 ], [ 3, 1, 1 ] ]
-
-c:\>rpn 5 4 compositions
-[ [ 1, 1, 1, 2 ], [ 1, 1, 2, 1 ], [ 1, 2, 1, 1 ], [ 2, 1, 1, 1 ] ]
-''' ],
+''' + makeCommandExample( '5 2 compositions' ) + '''
+''' + makeCommandExample( '5 3 compositions' ) + '''
+''' + makeCommandExample( '5 4 compositions' ) ],
 
     'debruijn' : [
 'combinatorics', 'generates a deBruijn sequence of n symbols and word-size k',
@@ -2906,10 +2751,7 @@ In the example below, you can find every combination of the symbols 0, 1, and
 permutations of the 3 symbols in groups of 3 because the groups can overlap.
 ''',
 '''
-c:\>rpn 3 3 debruijn
-[ 0, 0, 0, 1, 0, 0, 2, 0, 1, 1, 0, 1, 2, 0, 2, 1, 0, 2, 2, 1, 1, 1, 2, 1, 2,
-2, 2 ]
-''' ],
+''' + makeCommandExample( '3 3 debruijn' ) ],
 
     'lah' : [
 'combinatorics', '',
@@ -2927,18 +2769,9 @@ same as the 'factorial' operator and the 2-multifactorial function is the
 same as the 'doublefac' operator.
 ''',
 '''
-c:\>rpn 1 20 range 3 multifactorial
-[ 1, 2, 3, 4, 10, 18, 28, 80, 162, 280, 880, 1944, 3640, 12320, 29160, 58240,
-209440, 524880, 1106560, 4188800 ]
-
-c:\>rpn 1 20 range 4 multifactorial
-[ 1, 2, 3, 4, 5, 12, 21, 32, 45, 120, 231, 384, 585, 1680, 3465, 6144, 9945,
-30240, 65835, 122880 ]
-
-c:\>rpn 1 20 range 5 multifactorial
-[ 1, 2, 3, 4, 5, 6, 14, 24, 36, 50, 66, 168, 312, 504, 750, 1056, 2856, 5616,
-9576, 15000 ]
-''' ],
+''' + makeCommandExample( '1 20 range 3 multifactorial' ) + '''
+''' + makeCommandExample( '1 20 range 4 multifactorial' ) + '''
+''' + makeCommandExample( '1 20 range 5 multifactorial' ) ],
 
     'multinomial' : [
 'combinatorics', 'calculates the multinomial coefficient of list n',
@@ -3045,12 +2878,8 @@ The complex argument, or phase, of a complex number is defined as the
 signed angle between the positive real axis and n in the complex plane.
 ''',
 '''
-c:\>rpn 3 3 i + arg
-0.785398163397
-
-c:\>rpn 3 3 i + arg radians degrees convert
-45 degrees
-''' ],
+''' + makeCommandExample( '3 3 i + arg' ) + '''
+''' + makeCommandExample( '3 3 i + arg radians degrees convert' ) ],
 
     'conjugate' : [
 'complex_math', 'calculates complex conjugate of n',
@@ -3059,17 +2888,14 @@ The complex conjugate is simply the nunmber with the same real part and an
 imaginary part with the same magnitude but opposite sign.
 ''',
 '''
-c:\>rpn 3 3 i + conj
-(3.0 - 3.0j)
-''' ],
+''' + makeCommandExample( '3 3 i + conj' ) ],
 
     'i' : [
 'complex_math', 'multiplies n by i',
 '''
 ''',
 '''
-c:\>rpn -a10 e pi i **
-(-1.0 + 5.2405181056621568055e-22j)
+''' + makeCommandExample( 'e pi i **' ) + '''
 
 There's a rounding error here, but this demonstrates Euler's famous equation:
 
@@ -3081,31 +2907,18 @@ e ^ ( pi * i ) = -1
 '''
 ''',
 '''
-c:\>rpn 3 4 i + imaginary
-4
-
-c:\>rpn 7 imaginary
-0
-
-c:\>rpn 7 i imaginary
-7
-
-''' ],
+''' + makeCommandExample( '7 imaginary' ) + '''
+''' + makeCommandExample( '7 i imaginary' ) + '''
+''' + makeCommandExample( '3 4 i + imaginary' ) ],
 
     'real' : [
 'complex_math', 'returns the real part of n',
 '''
 ''',
 '''
-c:\>rpn 3 4 i + real
-3
-
-c:\>rpn 7 i real
-0
-
-c:\>rpn 7 real
-7
-''' ],
+''' + makeCommandExample( '7 real' ) + '''
+''' + makeCommandExample( '7 i real' ) + '''
+''' + makeCommandExample( '3 4 i + real' ) ],
 
 
 # //******************************************************************************
@@ -3136,12 +2949,8 @@ Apery's constant is the sum of the infinite series of the reciprocals of cubes
 from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
-c:\>rpn -a50 -d5 apery
-1.20205 69031 59594 28539 97381 61511 44999 07649 86292 3405
-
-c:\>rpn -a50 -d5 3 zeta
-1.20205 69031 59594 28539 97381 61511 44999 07649 86292 3405
-''' ],
+''' + makeCommandExample( '-a50 -d5 apery' ) + '''
+''' + makeCommandExample( '-a50 -d5 3 zeta' ) ],
 
     'avogadro_number' : [
 'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
@@ -3149,12 +2958,8 @@ c:\>rpn -a50 -d5 3 zeta
 Ref: CODATA 2014
 ''',
 '''
-c:\>rpn avogadro
-6.02214129e+23
-
-c:\>rpn -a24 avogadro
-602214129000000000000000
-''' ],
+''' + makeCommandExample( 'avogadro' ) + '''
+''' + makeCommandExample( '-a24 avogadro' ) ],
 
     'bohr_radius' : [
 'constants', 'returns ',
@@ -3176,9 +2981,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-c:\>rpn catalan_constant
-0.915965594177
-''' ],
+''' + makeCommandExample( 'catalan_constant' ) ],
 
     'champernowne_constant' : [
 'constants', 'returns the Champernowne constant for the input base',
@@ -3190,28 +2993,18 @@ The Champernowne constant is normally defined for base 10, but this operator
 can also apply the same concept for any input base.
 ''',
 '''
-c:\>rpn -a60 champernowne_constant
-0.123456789101112131415161718192021222324252627282930313233344
-
-The base 7 Champernowne constant
-
-c:\>rpn -a60 -b7 champernowne_constant -r7
-0.123456101112131415162021222324252630313233343536404142434445
-
-The base 7 Champernowne constant converted to base 10
-
-c:\>rpn -a60 -b7 champernowne_constant
-0.1944355350862405214758400930829085764529329710504220831702
-''' ],
+''' + makeCommandExample( '-a60 champernowne_constant' ) + '''
+The base 7 Champernowne constant in base 7:
+''' + makeCommandExample( '-a60 -b7 champernowne_constant -r7' ) + '''
+The base 7 Champernowne constant converted to base 10:
+''' + makeCommandExample( '-a60 -b7 champernowne_constant' ) ],
 
     'copeland_erdos_constant' : [
 'constants', 'returns the Copeland-Erdos constant',
 '''
 ''',
 '''
-c:\>rpn -a60 copeland
-0.235711131719232931374143475359616771737983899710110310710911
-''' ],
+''' + makeCommandExample( '-a60 copeland' ) ],
 
     'default' : [
 'constants', 'used with settings operators',
@@ -3293,9 +3086,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-c:\>rpn faraday_constant
-96485.33289 coulombs per mole
-''' ],
+''' + makeCommandExample( 'faraday_constant' ) ],
 
     'fine_structure_constant' : [
 'constants', 'returns the fine-structure constant',
@@ -3338,30 +3129,18 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-c:\>rpn 1 inf lambda x fib 1/x nsum
-3.35988566624
-
-c:\>rpn 1 inf lambda x lucas 1/x nsum
-1.96285817321
-
-c:\>rpn phi
-1.618033988741
-
-c:\>rpn infinity lambda x 1 + fib x fib / limit
-1.618033988741
-''' ],
+''' + makeCommandExample( '1 inf lambda x fib 1/x nsum' ) + '''
+''' + makeCommandExample( '1 inf lambda x lucas 1/x nsum' ) + '''
+''' + makeCommandExample( 'phi' ) + '''
+''' + makeCommandExample( 'infinity lambda x 1 + fib x fib / limit' ) ],
 
     'itoi' : [
 'constants', 'returns i to the i power',
 '''
 ''',
 '''
-c:\>rpn 1 i 1 i **
-(0.20787957635076190855 + 0.0j)
-
-c:\>rpn itoi
-0.207879576351
-''' ],
+''' + makeCommandExample( '1 i 1 i **' ) + '''
+''' + makeCommandExample( 'itoi' ) ],
 
     'khinchin_constant' : [
 'constants', 'returns Khinchin\'s constant',
@@ -3393,12 +3172,8 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn max_double
-1.79769313486e308
-
-c:\>rpn max_double double -x
-7fef ffff ffff ffff
-''' ],
+''' + makeCommandExample( 'max_double' ) + '''
+''' + makeCommandExample( 'max_double double -x' ) ],
 
     'max_float' : [
 'constants', 'returns the largest value that can be represented by a 32-bit IEEE 754 float',
@@ -3406,12 +3181,8 @@ c:\>rpn max_double double -x
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn max_float
-3.40282346639e38
-
-c:\>rpn max_float float -x
-7f7f ffff
-''' ],
+''' + makeCommandExample( 'max_float' ) + '''
+''' + makeCommandExample( 'max_float float -x' ) ],
 
     'max_long' : [
 'constants', 'returns the maximum 32-bit signed integer',
@@ -3421,14 +3192,9 @@ integer assuming two's complement representation.
 
 ''',
 '''
-c:\>rpn max_long
-2147483647
-
+''' + makeCommandExample( 'max_long' ) + '''
 When does a 32-bit time_t wrap?
-
-c:\>rpn 1970-01-01 max_long seconds +
-2038-01-19 03:14:07
-''' ],
+''' + makeCommandExample( '1970-01-01 max_long seconds +' ) ],
 
     'max_longlong' : [
 'constants', 'returns the maximum 64-bit signed integer',
@@ -3437,20 +3203,9 @@ This is the largest number that can be represented by a 64-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn max_longlong
-9223372036854775807
-
-When does a 64-bit time_t wrap?
-
-c:\>rpn 1970-01-01 max_longlong seconds +
-rpn:  value is out of range to be converted into a time
-0
-
-c:\>rpn -c max_longlong seconds years convert
-292,271,023,045 years
-
-Not for a long while...
-''' ],
+''' + makeCommandExample( 'max_longlong' ) + '''
+How long until a 64-bit time_t would wrap?
+''' + makeCommandExample( '-c max_longlong seconds years convert' ) ],
 
     'max_quadlong' : [
 'constants', 'returns the maximum 128-bit signed integer',
@@ -3459,7 +3214,7 @@ This is the largest number that can be represented by a 128-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '-a40 max_quadlong' ) ],
 
     'max_short' : [
 'constants', 'returns the maximum 16-bit signed integer',
@@ -3468,7 +3223,7 @@ This is the largest number that can be represented by a 16-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'max_short' ) ],
 
     'max_uchar' : [
 'constants', 'returns the maximum 8-bit unsigned integer',
@@ -3477,7 +3232,7 @@ This is the largest number that can be represented by a 16-bit unsigned
 integer.
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'max_uchar' ) ],
 
     'max_ulong' : [
 'constants', 'returns the maximum 32-bit unsigned integer',
@@ -3486,7 +3241,7 @@ This is the largest number that can be represented by a 32-bit unsigned
 integer.
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'max_ulong' ) ],
 
     'max_ulonglong' : [
 'constants', 'returns the maximum 64-bit unsigned integer',
@@ -3495,7 +3250,7 @@ This is the largest number that can be represented by a 64-bit unsigned
 integer.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '-a20 max_ulonglong' ) ],
 
     'max_uquadlong' : [
 'constants', 'returns the maximum 128-bit unsigned integer',
@@ -3504,7 +3259,7 @@ This is the largest number that can be represented by a 128-bit unsigned
 integer.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '-a40 max_uquadlong' ) ],
 
     'max_ushort' : [
 'constants', 'returns the maximum 16-bit unsigned integer',
@@ -3513,16 +3268,14 @@ This is the largest number that can be represented by a 16-bit unsigned
 integer.
 ''',
 '''
-c:\>rpn max_ushort
-65535
-''' ],
+''' + makeCommandExample( 'max_ushort' ) ],
 
     'merten_constant' : [
 'constants', 'returns Merten\'s constant',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '-a50 merten_constant' ) ],
 
     'mills_constant' : [
 'constants', 'returns the Mills constant',
@@ -3541,7 +3294,7 @@ rpn does not calculate Mills' constant.  The value is hard-coded to 3500
 decimal places.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '-a50 mills_constant' ) ],
 
     'min_char' : [
 'constants', 'returns the minimum 8-bit signed integer',

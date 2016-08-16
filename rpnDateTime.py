@@ -24,7 +24,7 @@ from rpnUtils import real, real_int
 
 import rpnGlobals as g
 
-from mpmath import floor, fmod, fmul, fneg, fsub
+from mpmath import floor, fmod, fmul, fneg, fsub, nan
 
 
 # //******************************************************************************
@@ -65,7 +65,7 @@ class RPNDateTime( arrow.Arrow ):
     """This class wraps the Arrow class, with lots of convenience functions and
        implements support for date math."""
     def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
-                  microsecond = 0, tzinfo = tz.tzlocal( ), dateOnly = False ):
+                  microsecond = 0, tzinfo = None, dateOnly = False ):
         self.dateOnly = dateOnly
         super( RPNDateTime, self ).__init__( int( year ), int( month ), int( day ),
                                              int( hour ), int( minute ), int( second ),
@@ -84,12 +84,11 @@ class RPNDateTime( arrow.Arrow ):
         return RPNDateTime( result.year, result.month, result.day, result.hour,
                             result.minute, result.second, result.microsecond, result.tzinfo )
 
-    # fix DST calculation
-    # The real problem here is that arrow timezone conversion doesn't work for times before the Unix epoch.  Duh.
+    # TODO: fix DST calculation
     def getLocalTime( self ):
         offset = tz.tzlocal( ).utcoffset( arrow.now( ) )
         result = self + offset
-        result.tzinfo = tz.tzlocal( )
+        #result.tzinfo = tz.tzlocal( )  # This crashes for dates before the epoch!
         return result
 
     @staticmethod
