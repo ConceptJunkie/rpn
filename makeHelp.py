@@ -3147,7 +3147,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'khinchin_constant' ) ],
 
     'magnetic_constant' : [
 'constants', 'returns the magnetic constant',
@@ -3164,7 +3164,8 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'max_char' ) + '''
+''' + makeCommandExample( 'max_char -x' ) ],
 
     'max_double' : [
 'constants', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
@@ -3303,15 +3304,8 @@ This is the smallest number that can be represented by an 8-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn min_char
--128
-
-c:\>rpn min_char -x
--0080
-
-c:\>rpn max_char min_char -
-255
-''' ],
+''' + makeCommandExample( 'min_char' ) + '''
+''' + makeCommandExample( 'max_char min_char -' ) ],
 
     'min_double' : [
 'constants', 'returns the smallest value that can be represented by a 64-bit IEEE 754 float',
@@ -3319,12 +3313,8 @@ c:\>rpn max_char min_char -
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn min_double
-2.22507385851e-308
-
-c:\>rpn min_double double -x
-0010 0000 0000 0000
-''' ],
+''' + makeCommandExample( 'min_double' ) + '''
+''' + makeCommandExample( 'min_double double -x' ) ],
 
     'min_float' : [
 'constants', 'returns the smallest value that can be represented by a 32-bit IEEE 754 float',
@@ -3332,12 +3322,8 @@ c:\>rpn min_double double -x
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn min_float
-1.17549435082e-38
-
-c:\>rpn min_float float -x
-0080 0000
-''' ],
+''' + makeCommandExample( 'min_float' ) + '''
+''' + makeCommandExample( 'min_float float -x' ) ],
 
     'min_long' : [
 'constants', 'returns the minimum 32-bit signed integer',
@@ -3346,12 +3332,8 @@ This is the smallest number that can be represented by a 32-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn min_long
--2147483648
-
-c:\>rpn max_long min_long -
-4294967295
-''' ],
+''' + makeCommandExample( 'min_long' ) + '''
+''' + makeCommandExample( 'max_long min_long -' ) ],
 
     'min_longlong' : [
 'constants', 'returns the minimum 64-bit signed integer',
@@ -3360,12 +3342,8 @@ This is the smallest number that can be represented by a 64-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn min_longlong
--9223372036854775808
-
-c:\>rpn max_longlong min_longlong - 1 + log2
-64
-''' ],
+''' + makeCommandExample( 'min_longlong' ) + '''
+''' + makeCommandExample( 'max_longlong min_longlong - 1 + log2' ) ],
 
     'min_quadlong' : [
 'constants', 'returns the minimum 128-bit signed integer',
@@ -3374,12 +3352,8 @@ This is the smallest number that can be represented by a 128-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn min_quadlong
--170141183460469231731687303715884105728
-
-c:\>rpn max_quadlong min_quadlong - 1 + log2
-128
-''' ],
+''' + makeCommandExample( 'min_quadlong' ) + '''
+''' + makeCommandExample( 'max_quadlong min_quadlong - 1 + log2' ) ],
 
     'min_short' : [
 'constants', 'returns the minimum 16-bit signed integer',
@@ -3388,12 +3362,8 @@ This is the smallest number that can be represented by a 16-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn min_short
--32768
-
-c:\>rpn max_short min_short -
-65535
-''' ],
+''' + makeCommandExample( 'min_short' ) + '''
+''' + makeCommandExample( 'max_short min_short -' ) ],
 
     'min_uchar' : [
 'constants', 'returns the minimum 8-bit unsigned integer',
@@ -3401,12 +3371,8 @@ c:\>rpn max_short min_short -
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn min_uchar
-0
-
-c:\>rpn max_uchar min_uchar -
-255
-''' ],
+''' + makeCommandExample( 'min_uchar' ) + '''
+''' + makeCommandExample( 'max_uchar min_uchar -' ) ],
 
     'min_ulong' : [
 'constants', 'returns the minimum 32-bit unsigned integer',
@@ -3414,12 +3380,8 @@ c:\>rpn max_uchar min_uchar -
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn min_ulong
-0
-
-c:\>rpn max_ulong min_ulong - 1 + log2
-32
-''' ],
+''' + makeCommandExample( 'min_ulong' ) + '''
+''' + makeCommandExample( 'max_ulong min_ulong - 1 + log2' ) ],
 
     'min_ulonglong' : [
 'constants', 'returns the minimum 64-bit unsigned integer',
@@ -3427,12 +3389,8 @@ c:\>rpn max_ulong min_ulong - 1 + log2
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn min_ulonglong
-0
-
-c:\>rpn max_ulonglong min_ulonglong - 1 + log2
-64
-''' ],
+''' + makeCommandExample( 'min_ulonglong' ) + '''
+''' + makeCommandExample( 'max_ulonglong min_ulonglong - 1 + log2' ) ],
 
     'min_uquadlong' : [
 'constants', 'returns the minimum 128-bit unsigned integer',
@@ -3440,12 +3398,8 @@ c:\>rpn max_ulonglong min_ulonglong - 1 + log2
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn min_uquadlong
-0
-
-c:\>rpn max_uquadlong min_uquadlong - 1 + log2
-128
-''' ],
+''' + makeCommandExample( 'min_uquadlong' ) + '''
+''' + makeCommandExample( 'max_uquadlong min_uquadlong - 1 + log2' ) ],
 
     'min_ushort' : [
 'constants', 'returns the minimum 16-bit unsigned integer',
@@ -3453,12 +3407,8 @@ c:\>rpn max_uquadlong min_uquadlong - 1 + log2
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn min_ushort
-0
-
-c:\>rpn max_ushort min_ushort -
-65535
-''' ],
+''' + makeCommandExample( 'min_ushort' ) + '''
+''' + makeCommandExample( 'max_ushort min_ushort -' ) ],
 
     'muon_mass' : [
 'constants', 'returns ',
@@ -3496,9 +3446,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-c:\>rpn omega
-0.56714329041
-''' ],
+''' + makeCommandExample( 'omega' ) ],
 
     'phi' : [
 'constants', 'returns phi (the Golden Ratio)',
@@ -3512,7 +3460,7 @@ c:\>rpn omega
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'pi' ) ],
 
     'planck_area' : [
 'constants', 'returns ',
@@ -3710,9 +3658,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-c:\>rpn radiation_constant
-7.5657e-16 joules per meter^3 kelvin^4
-''' ],
+''' + makeCommandExample( 'radiation_constant' ) ],
 
     'reduced_planck_constant' : [
 'constants', 'returns the reduced Planck constant',
@@ -3766,9 +3712,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-c:\>rpn stefan_boltzmann
-5.670367e-8 watts per meter^2 kelvin^4
-''' ],
+''' + makeCommandExample( 'stefan_boltzmann' ) ],
 
     'tau_mass' : [
 'constants', 'returns ',
@@ -4335,33 +4279,16 @@ Unit conversion is a pretty extensive feature and needs some serious help
 text.  Some day, I'll write it.  In the meantime, see 'help unit_conversion'.
 ''',
 '''
-c:\>rpn 10 miles km convert
-16.09344 kilometers
-
-c:\>rpn 2 gallons cups convert
-32 cups
-
-c:\>rpn 3 cups 4 tablespoons + fluid_ounce convert
-26 fluid ounces
-
-c:\>rpn 153 pounds stone convert
-10.928571428571 stone
-
-c:\>rpn 65 mph kph convert
-104.60736 kilometers/hour
-
-c:\>rpn 60 miles hour / furlongs fortnight / convert
-161280 furlongs per fortnight
-
-c:\>rpn 78 kg [ pound ounce ] convert
-[ 171 pounds, 15.369032067272 ounces ]
-
+''' + makeCommandExample( '10 miles km convert' ) + '''
+''' + makeCommandExample( '2 gallons cups convert' ) + '''
+''' + makeCommandExample( '3 cups 4 tablespoons + fluid_ounce convert' ) + '''
+''' + makeCommandExample( '153 pounds grams convert' ) + '''
+''' + makeCommandExample( '65 mph kph convert' ) + '''
+''' + makeCommandExample( '60 miles hour / furlongs fortnight / convert' ) + '''
+''' + makeCommandExample( '78 kg [ pound ounce ] convert' ) + '''
 This conversions suffers from a minor rounding error I haven't been able to
 fix yet:
-
-c:\>rpn 150,000 seconds [ day hour minute second ] convert
-[ 1 day, 17 hours, 39 minutes, 60 seconds ]
-''' ],
+''' + makeCommandExample( '150,000 seconds [ day hour minute second ] convert' ) ],
 
     'dhms' : [
 'conversion', 'shortcut for \'[ day hour minute second ] convert\'',
@@ -4371,9 +4298,7 @@ convert' in order to convert a time interval to days, hours, minutes and
 seconds.
 ''',
 '''
-c:\>rpn sidereal_year dhms
-[ 365 days, 6 hours, 9 minutes, 9.7632 seconds ]
-''' ],
+''' + makeCommandExample( 'sidereal_year dhms' ) ],
 
     'dms' : [
 'conversion', 'shortcut for \'[ degree arcminute arcsecond ] convert\'',
@@ -4382,9 +4307,7 @@ This shortcut operator replaces having to type '[ degree arcminute arcsecond ]
 convert' in order to convert an angle to degrees, arcminutes and arcseconds.
 ''',
 '''
-c:\>rpn pi 7 / radians dms
-[ 25 degrees, 42 arcminutes, 51.4285714285 arcseconds ]
-''' ],
+''' + makeCommandExample( 'pi 7 / radians dms' ) ],
 
     'double' : [
 'conversion', 'converts n to the representation of a 64-bit IEEE 754 float',
@@ -4392,12 +4315,8 @@ c:\>rpn pi 7 / radians dms
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn pi double -x
-4009 21fb 5444 2d18
-
-c:\>rpn -a20 0x400921fb54442d18 undouble
-3.141592653589793116
-''' ],
+''' + makeCommandExample( 'pi double -x' ) + '''
+''' + makeCommandExample( '-a20 0x400921fb54442d18 undouble' ) ],
 
     'float' : [
 'conversion', 'converts n to the representation of a 32-bit IEEE 754 float',
@@ -4405,12 +4324,8 @@ c:\>rpn -a20 0x400921fb54442d18 undouble
 For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''',
 '''
-c:\>rpn pi float -x
-4049 0fdb
-
-c:\>rpn 0x40490fdb unfloat
-3.14159274101
-''' ],
+''' + makeCommandExample( 'pi float -x' ) + '''
+''' + makeCommandExample( '-a20 0x400921fb54442d18 unfloat' ) ],
 
     'from_unix_time' : [
 'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
@@ -4426,12 +4341,8 @@ This shortcut operator replaces having to type '[ hour minute second ] convert'
 in order to convert a time interval to hours, minutes and seconds.
 ''',
 '''
-c:\>rpn 8 microcenturies hms
-[ 7 hours, 0 minutes, 46.08 seconds ]
-
-c:\>rpn 15,625 seconds hms
-[ 4 hours, 20 minutes, 25 seconds ]
-''' ],
+''' + makeCommandExample( '8 microcenturies hms' ) + '''
+''' + makeCommandExample( '15,625 seconds hms' ) ],
 
     'integer' : [
 'conversion', 'converts the value to an signed k-bit integer',
@@ -4537,12 +4448,8 @@ fixed-size integer types.
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn pi double -x
-4009 21fb 5444 2d18
-
-c:\>rpn -a20 0x400921fb54442d18 undouble
-3.141592653589793116
-''' ],
+''' + makeCommandExample( 'pi double -x' ) + '''
+''' + makeCommandExample( '-a20 0x400921fb54442d18 undouble' ) ],
 
     'unfloat' : [
 'conversion', 'interprets a 32-bit integer as a 32-bit IEEE 754 float',
@@ -4550,12 +4457,8 @@ c:\>rpn -a20 0x400921fb54442d18 undouble
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn pi float -x
-4049 0fdb
-
-c:\>rpn 0x40490fdb unfloat
-3.14159274101
-''' ],
+''' + makeCommandExample( 'pi float -x' ) + '''
+''' + makeCommandExample( '-a20 0x400921fb54442d18 unfloat' ) ],
 
     'unpack' : [
 'conversion', 'unpacks an integer value n into bit fields k',
