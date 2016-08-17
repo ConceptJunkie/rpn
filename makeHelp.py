@@ -35,6 +35,9 @@ print( COPYRIGHT_MESSAGE )
 print( )
 print( 'generating help files...' )
 
+exampleCount = 0
+
+
 
 # //******************************************************************************
 # //
@@ -58,8 +61,14 @@ def makeCommandExample( command, indent=0 ):
     actually use rpn to run the examples.  This way, when minor things change,
     the output is always accurate.
     '''
+    global exampleCount
+    exampleCount += 1
+    print( '\rGenerating example: ', exampleCount, end='' )
+
     output = io.StringIO( )
 
+    #print( )
+    #print( command )
     print( ' ' * indent + 'c:\\>rpn ' + command, file=output )
     handleOutput( rpn( shlex.split( command ) ), indent=indent, file=output )
 
@@ -295,7 +304,7 @@ Some examples:
 What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
 number with a 1 added on the end?
 
-''' + makeCommandExample( 'ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4 ) + '''
+''' + makeCommandExample( '-t ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4 ) + '''
 And we can check that our result works:
 
 ''' + makeCommandExample( '428571 142857 /', indent=4 ),
@@ -3303,15 +3312,9 @@ This is the smallest number that can be represented by an 8-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn min_char
--128
-
-c:\>rpn min_char -x
--0080
-
-c:\>rpn max_char min_char -
-255
-''' ],
+''' + makeCommandExample( 'min_char' ) + '''
+''' + makeCommandExample( 'min_char -x' ) + '''
+''' + makeCommandExample( 'max_char min_char -' ) ],
 
     'min_double' : [
 'constants', 'returns the smallest value that can be represented by a 64-bit IEEE 754 float',
@@ -3319,12 +3322,8 @@ c:\>rpn max_char min_char -
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn min_double
-2.22507385851e-308
-
-c:\>rpn min_double double -x
-0010 0000 0000 0000
-''' ],
+''' + makeCommandExample( 'min_double' ) + '''
+''' + makeCommandExample( 'min_double double -x' ) ],
 
     'min_float' : [
 'constants', 'returns the smallest value that can be represented by a 32-bit IEEE 754 float',
@@ -3332,12 +3331,8 @@ c:\>rpn min_double double -x
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn min_float
-1.17549435082e-38
-
-c:\>rpn min_float float -x
-0080 0000
-''' ],
+''' + makeCommandExample( 'min_float' ) + '''
+''' + makeCommandExample( 'min_float float -x' ) ],
 
     'min_long' : [
 'constants', 'returns the minimum 32-bit signed integer',
@@ -3346,12 +3341,8 @@ This is the smallest number that can be represented by a 32-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn min_long
--2147483648
-
-c:\>rpn max_long min_long -
-4294967295
-''' ],
+''' + makeCommandExample( 'min_long' ) + '''
+''' + makeCommandExample( 'max_long min_long -' ) ],
 
     'min_longlong' : [
 'constants', 'returns the minimum 64-bit signed integer',
@@ -3360,12 +3351,8 @@ This is the smallest number that can be represented by a 64-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn min_longlong
--9223372036854775808
-
-c:\>rpn max_longlong min_longlong - 1 + log2
-64
-''' ],
+''' + makeCommandExample( 'min_longlong' ) + '''
+''' + makeCommandExample( 'max_longlong min_longlong - 1 + log2' ) ],
 
     'min_quadlong' : [
 'constants', 'returns the minimum 128-bit signed integer',
@@ -3374,12 +3361,8 @@ This is the smallest number that can be represented by a 128-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn min_quadlong
--170141183460469231731687303715884105728
-
-c:\>rpn max_quadlong min_quadlong - 1 + log2
-128
-''' ],
+''' + makeCommandExample( 'min_quadlong' ) + '''
+''' + makeCommandExample( 'max_quadlong min_quadlong - 1 + log2' ) ],
 
     'min_short' : [
 'constants', 'returns the minimum 16-bit signed integer',
@@ -3388,12 +3371,8 @@ This is the smallest number that can be represented by a 16-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-c:\>rpn min_short
--32768
-
-c:\>rpn max_short min_short -
-65535
-''' ],
+''' + makeCommandExample( 'min_short' ) + '''
+''' + makeCommandExample( 'max_short min_short -' ) ],
 
     'min_uchar' : [
 'constants', 'returns the minimum 8-bit unsigned integer',
@@ -3401,12 +3380,8 @@ c:\>rpn max_short min_short -
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn min_uchar
-0
-
-c:\>rpn max_uchar min_uchar -
-255
-''' ],
+''' + makeCommandExample( 'min_uchar' ) + '''
+''' + makeCommandExample( 'max_uchar min_uchar -' ) ],
 
     'min_ulong' : [
 'constants', 'returns the minimum 32-bit unsigned integer',
@@ -3414,12 +3389,8 @@ c:\>rpn max_uchar min_uchar -
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn min_ulong
-0
-
-c:\>rpn max_ulong min_ulong - 1 + log2
-32
-''' ],
+''' + makeCommandExample( 'min_ulong' ) + '''
+''' + makeCommandExample( 'max_ulong min_ulong - 1 + log2' ) ],
 
     'min_ulonglong' : [
 'constants', 'returns the minimum 64-bit unsigned integer',
@@ -3427,12 +3398,8 @@ c:\>rpn max_ulong min_ulong - 1 + log2
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn min_ulonglong
-0
-
-c:\>rpn max_ulonglong min_ulonglong - 1 + log2
-64
-''' ],
+''' + makeCommandExample( 'min_ulonglong' ) + '''
+''' + makeCommandExample( 'max_ulonglong min_ulonglong - 1 + log2' ) ],
 
     'min_uquadlong' : [
 'constants', 'returns the minimum 128-bit unsigned integer',
@@ -3440,12 +3407,8 @@ c:\>rpn max_ulonglong min_ulonglong - 1 + log2
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn min_uquadlong
-0
-
-c:\>rpn max_uquadlong min_uquadlong - 1 + log2
-128
-''' ],
+''' + makeCommandExample( 'min_uquadlong' ) + '''
+''' + makeCommandExample( 'max_uquadlong min_uquadlong - 1 + log2' ) ],
 
     'min_ushort' : [
 'constants', 'returns the minimum 16-bit unsigned integer',
@@ -3453,12 +3416,8 @@ c:\>rpn max_uquadlong min_uquadlong - 1 + log2
 By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
-c:\>rpn min_ushort
-0
-
-c:\>rpn max_ushort min_ushort -
-65535
-''' ],
+''' + makeCommandExample( 'min_ushort' ) + '''
+''' + makeCommandExample( 'max_ushort min_ushort -' ) ],
 
     'muon_mass' : [
 'constants', 'returns ',
@@ -3496,9 +3455,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-c:\>rpn omega
-0.56714329041
-''' ],
+''' + makeCommandExample( 'omega' ) ],
 
     'phi' : [
 'constants', 'returns phi (the Golden Ratio)',
@@ -3710,9 +3667,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-c:\>rpn radiation_constant
-7.5657e-16 joules per meter^3 kelvin^4
-''' ],
+''' + makeCommandExample( 'radiation_constant' ) ],
 
     'reduced_planck_constant' : [
 'constants', 'returns the reduced Planck constant',
@@ -3766,9 +3721,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-c:\>rpn stefan_boltzmann
-5.670367e-8 watts per meter^2 kelvin^4
-''' ],
+''' + makeCommandExample( 'stefan_boltzmann' ) ],
 
     'tau_mass' : [
 'constants', 'returns ',
@@ -4335,33 +4288,16 @@ Unit conversion is a pretty extensive feature and needs some serious help
 text.  Some day, I'll write it.  In the meantime, see 'help unit_conversion'.
 ''',
 '''
-c:\>rpn 10 miles km convert
-16.09344 kilometers
-
-c:\>rpn 2 gallons cups convert
-32 cups
-
-c:\>rpn 3 cups 4 tablespoons + fluid_ounce convert
-26 fluid ounces
-
-c:\>rpn 153 pounds stone convert
-10.928571428571 stone
-
-c:\>rpn 65 mph kph convert
-104.60736 kilometers/hour
-
-c:\>rpn 60 miles hour / furlongs fortnight / convert
-161280 furlongs per fortnight
-
-c:\>rpn 78 kg [ pound ounce ] convert
-[ 171 pounds, 15.369032067272 ounces ]
-
+''' + makeCommandExample( '10 miles km convert' ) + '''
+''' + makeCommandExample( '2 gallons cups convert' ) + '''
+''' + makeCommandExample( '3 cups 4 tablespoons + fluid_ounce convert' ) + '''
+''' + makeCommandExample( '153 pounds grams convert' ) + '''
+''' + makeCommandExample( '65 mph kph convert' ) + '''
+''' + makeCommandExample( '60 miles hour / furlongs fortnight / convert' ) + '''
+''' + makeCommandExample( '78 kg [ pound ounce ] convert' ) + '''
 This conversions suffers from a minor rounding error I haven't been able to
 fix yet:
-
-c:\>rpn 150,000 seconds [ day hour minute second ] convert
-[ 1 day, 17 hours, 39 minutes, 60 seconds ]
-''' ],
+''' + makeCommandExample( '150,000 seconds [ day hour minute second ] convert' ) ],
 
     'dhms' : [
 'conversion', 'shortcut for \'[ day hour minute second ] convert\'',
@@ -4371,9 +4307,7 @@ convert' in order to convert a time interval to days, hours, minutes and
 seconds.
 ''',
 '''
-c:\>rpn sidereal_year dhms
-[ 365 days, 6 hours, 9 minutes, 9.7632 seconds ]
-''' ],
+''' + makeCommandExample( 'sidereal_year dhms' ) ],
 
     'dms' : [
 'conversion', 'shortcut for \'[ degree arcminute arcsecond ] convert\'',
@@ -4382,9 +4316,7 @@ This shortcut operator replaces having to type '[ degree arcminute arcsecond ]
 convert' in order to convert an angle to degrees, arcminutes and arcseconds.
 ''',
 '''
-c:\>rpn pi 7 / radians dms
-[ 25 degrees, 42 arcminutes, 51.4285714285 arcseconds ]
-''' ],
+''' + makeCommandExample( 'pi 7 / radians dms' ) ],
 
     'double' : [
 'conversion', 'converts n to the representation of a 64-bit IEEE 754 float',
@@ -4392,12 +4324,8 @@ c:\>rpn pi 7 / radians dms
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn pi double -x
-4009 21fb 5444 2d18
-
-c:\>rpn -a20 0x400921fb54442d18 undouble
-3.141592653589793116
-''' ],
+''' + makeCommandExample( 'pi double -x' ) + '''
+''' + makeCommandExample( '-a20 0x400921fb54442d18 undouble' ) ],
 
     'float' : [
 'conversion', 'converts n to the representation of a 32-bit IEEE 754 float',
@@ -4405,19 +4333,15 @@ c:\>rpn -a20 0x400921fb54442d18 undouble
 For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''',
 '''
-c:\>rpn pi float -x
-4049 0fdb
-
-c:\>rpn 0x40490fdb unfloat
-3.14159274101
-''' ],
+''' + makeCommandExample( 'pi float -x' ) + '''
+''' + makeCommandExample( '0x40490fdb unfloat' ) ],
 
     'from_unix_time' : [
 'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1471461891 from_unix_time' ) ],
 
     'hms' : [
 'conversion', 'shortcut for \'[ hour minute second ] convert\'',
@@ -4426,12 +4350,8 @@ This shortcut operator replaces having to type '[ hour minute second ] convert'
 in order to convert a time interval to hours, minutes and seconds.
 ''',
 '''
-c:\>rpn 8 microcenturies hms
-[ 7 hours, 0 minutes, 46.08 seconds ]
-
-c:\>rpn 15,625 seconds hms
-[ 4 hours, 20 minutes, 25 seconds ]
-''' ],
+''' + makeCommandExample( '8 microcenturies hms' ) + '''
+''' + makeCommandExample( '15,625 seconds hms' ) ],
 
     'integer' : [
 'conversion', 'converts the value to an signed k-bit integer',
@@ -4537,12 +4457,8 @@ fixed-size integer types.
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn pi double -x
-4009 21fb 5444 2d18
-
-c:\>rpn -a20 0x400921fb54442d18 undouble
-3.141592653589793116
-''' ],
+''' + makeCommandExample( 'pi double -x' ) + '''
+''' + makeCommandExample( '-a20 0x400921fb54442d18 undouble' ) ],
 
     'unfloat' : [
 'conversion', 'interprets a 32-bit integer as a 32-bit IEEE 754 float',
@@ -4550,12 +4466,8 @@ c:\>rpn -a20 0x400921fb54442d18 undouble
 For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
-c:\>rpn pi float -x
-4049 0fdb
-
-c:\>rpn 0x40490fdb unfloat
-3.14159274101
-''' ],
+''' + makeCommandExample( 'pi float -x' ) + '''
+''' + makeCommandExample( '0x40490fdb unfloat' ) ],
 
     'unpack' : [
 'conversion', 'unpacks an integer value n into bit fields k',
@@ -4571,15 +4483,9 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
-c:\>rpn 10 ushort
-10
-
-c:\>rpn 100000 ushort
-34464
-
-c:\>rpn -2000 ushort
-63536
-''' ],
+''' + makeCommandExample( '10 ushort' ) + '''
+''' + makeCommandExample( '100000 ushort' ) + '''
+''' + makeCommandExample( '-2000 ushort' ) ],
 
     'ydhms' : [
 'conversion', 'shortcut for \'[ year day hour minute second ] convert\'',
@@ -4589,7 +4495,7 @@ second ] convert' in order to convert a time interval to days, hours, minutes
 and seconds.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 billion seconds ydhms' ) ],
 
 
 # //******************************************************************************
@@ -4711,15 +4617,9 @@ and seconds.
 in the value n into the function k and returns the result.
 ''',
 '''
-c:\>rpn 3 lambda x 2 * eval
-6
-
-c:\>rpn 5 lambda x 2 ** 1 - eval
-24
-
-c:\>rpn 1 10 range lambda x 2 ** 1 - eval
-[ 0, 3, 8, 15, 24, 35, 48, 63, 80, 99 ]
-''' ],
+''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
+''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
+''' + makeCommandExample( '1 10 range lambda x 2 ** 1 - eval' ) ],
 
     'eval2' : [
 'function', 'evaluates the function c for the given arguments a and b',
@@ -4741,20 +4641,11 @@ result.
 '''
 Solving a quadratic equation the hard way, using the quadratic formula:
 
-c:\>rpn 1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt + 2 x * / eval3
-7
-
-c:\>rpn 1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt - 2 x * / eval3
--3
-
+''' + makeCommandExample( '1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt + 2 x * / eval3' ) + '''
+''' + makeCommandExample( '1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt - 2 x * / eval3' ) + '''
 Of course, rpn has better ways to do this:
-
-c:\>rpn 1 -4 -21 solve2
-[ 7, -3 ]
-
-c:\>rpn [ 1 -4 -21 ] solve
-[ -3, 7 ]
-''' ],
+''' + makeCommandExample( '1 -4 -21 solve2' ) + '''
+''' + makeCommandExample( '[ 1 -4 -21 ] solve' ) ],
 
     'filter' : [
 'function', 'filters a list n using function k',
@@ -4766,9 +4657,7 @@ non-zero value.
 '''
 Which of the first 80 fibonacci numbers is prime?
 
-c:\>rpn -a20 1 80 range fib lambda x is_prime filter
-[ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
-''' ],
+''' + makeCommandExample( '-a20 1 80 range fib lambda x is_prime filter' ) ],
 
     'filter_by_index' : [
 'function', 'filters a list n using function k applied to the list indexes',
@@ -4787,15 +4676,9 @@ becomes a function.
 See the 'user_functions' help topic for more details.
 ''',
 '''
-c:\>rpn 3 lambda x 2 * eval
-6
-
-c:\>rpn 5 lambda x 2 ** 1 - eval
-24
-
-c:\>rpn inf lambda x 1 + fib x fib / limit
-1.6180339887
-''' ],
+''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
+''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
+''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit' ) ],
 
     'limit' : [
 'function', 'calculates the limit of function k( x ) as x approaches n',
@@ -4893,12 +4776,8 @@ value.
 '''
 'unfilter' is the same as adding 'negate' to 'filter':
 
-c:\>rpn 1 20 range lambda x is_prime unfilter
-[ 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20 ]
-
-c:\>rpn 1 20 range lambda x is_prime negate filter
-[ 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20 ]
-''' ],
+''' + makeCommandExample( '1 20 range lambda x is_prime unfilter' ) + '''
+''' + makeCommandExample( '1 20 range lambda x is_prime negate filter' ) ],
 
     'unfilter_by_index' : [
 'function', 'filters a list n using the inverse of function k applied to the list indexes',
@@ -4913,15 +4792,9 @@ c:\>rpn 1 20 range lambda x is_prime negate filter
 See the 'user_functions' help topic for more details.
 ''',
 '''
-c:\>rpn 3 lambda x 2 * eval
-6
-
-c:\>rpn 5 lambda x 2 ** 1 - eval
-24
-
-c:\>rpn inf lambda x 1 + fib x fib / limit
-1.6180339887
-''' ],
+''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
+''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
+''' + makeCommandExample( '1 inf lambda 1 2 x ** / nsum' ) ],
 
     'y' : [
 'function', 'used as a variable in user-defined functions',
@@ -5113,14 +4986,13 @@ of the semiperimeter and the respective differences of the semiperimeter and
 the lengths of each side.
 
 area = sqrt( s( s - a )( s - b )( s - c ) )
+
+This operator can also handle length measurements.
 ''',
 '''
-c:\>rpn 3 4 5 triangle_area
-6
-
-c:\>rpn 2 3 make_pyth_3 unlist triangle_area
-30
-''' ],
+''' + makeCommandExample( '3 4 5 triangle_area' ) + '''
+''' + makeCommandExample( '3 inches 4 inches 5 inches triangle_area' ) + '''
+''' + makeCommandExample( '2 3 make_pyth_3 unlist triangle_area' ) ],
 
 
 # //******************************************************************************
@@ -5227,12 +5099,8 @@ The operator returns the RPN version number in list format.
 '''
 ''',
 '''
-c:\>rpn 9 0 range combine_digits
-9876543210
-
-c:\>rpn 1 1 7 range primes combine_digits
-[ 2, 23, 235, 2357, 235711, 23571113, 2357111317 ]
-''' ],
+''' + makeCommandExample( '9 0 range combine_digits' ) + '''
+''' + makeCommandExample( '1 1 7 range primes combine_digits' ) ],
 
     'dup_digits' : [
 'lexicography', 'append n with a copy of its last k digits',
@@ -5255,9 +5123,7 @@ multiplying digits, zeroes are dropped, which makes it more interesting.
 '''
 ''',
 '''
-c:\>rpn -a30 10911 55 find_palindrome
-[ 55, 4668731596684224866951378664 ]
-''' ],
+''' + makeCommandExample( '-a30 10911 55 find_palindrome' ) ],
 
     'get_digits' : [
 'lexicography', 'returns the list of digits comprising integer n',
@@ -5317,12 +5183,8 @@ n is treated as an integer.  If its digits are palindromic, i.e., they
 read the same forwards as backwards, then the operator returns 1.
 ''',
 '''
-c:\>rpn 101 is_palindrome
-1
-
-c:\>rpn 1201 is_palindrome
-0
-''' ],
+''' + makeCommandExample( '101 is_palindrome' ) + '''
+''' + makeCommandExample( '1201 is_palindrome' ) ],
 
     'is_pandigital' : [
 'lexicography', 'returns whether an integer n is pandigital',
@@ -5331,15 +5193,9 @@ A pandigital number contains at least one of all the of the digits 0 through
 9.
 ''',
 '''
-c:\>rpn 123456789 is_pandigital
-0
-
-c:\>rpn 1234567890 is_pandigital
-1
-
-c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
-1
-''' ],
+''' + makeCommandExample( '123456789 is_pandigital' ) + '''
+''' + makeCommandExample( '1234567890 is_pandigital' ) + '''
+''' + makeCommandExample( '-a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital' ) ],
 
     'is_trimorphic' : [
 'lexicography', 'returns whether the digits of n cubed end with n',
@@ -5387,9 +5243,7 @@ on until a one-digit number is obtained.
 '''
 ''',
 '''
-c:\>rpn -a20 89 24 rev_add
-8813200023188
-''' ],
+''' + makeCommandExample( '-a20 89 24 rev_add' ) ],
 
     'reverse_digits' : [
 'lexicography', 'returns n with its digits reversed',
@@ -5397,10 +5251,7 @@ c:\>rpn -a20 89 24 rev_add
 'reverse_digits' converts the argument to an integer.
 ''',
 '''
-c:\>rpn 123456789 reverse_digits
-987654321
-
-''' ],
+''' + makeCommandExample( '123456789 reverse_digits' ) ],
 
     'show_erdos_persistence' : [
 'lexicography', 'shows the Erdos multiplicative persistence chain of n (see \'persistence\')'
@@ -5444,9 +5295,7 @@ The return value is a list of the same size as the original with the sign of
 every second element reversed, starting with the second.
 ''',
 '''
-c:\>rpn 1 10 range alternate_signs
-[ 1, -2, 3, -4, 5, -6, 7, -8, 9, -10 ]
-''' ],
+''' + makeCommandExample( '1 10 range alternate_signs' ) ],
 
     'alternate_signs_2' : [
 'list_operators', 'alternates signs in the list by making every odd element negative',
@@ -5455,10 +5304,7 @@ The return value is a list of the same size as the original with the sign of
 every other element reversed, starting with the first element.
 ''',
 '''
-c:\>rpn 1 10 range alterate_signs_2
-[ -1, 2, -3, 4, -5, 6, -7, 8, -9, 10 ]
-
-''' ],
+''' + makeCommandExample( '1 10 range alternate_signs_2' ) ],
 
     'alternating_sum' : [
 'list_operators', 'calculates the alternating sum of list n (addition first)',
@@ -5469,17 +5315,10 @@ second element starting with the second.
 This operator is the same as using 'alternate_signs sum'.
 ''',
 '''
-c:\>rpn 1 10 range alternate_signs sum
--5
-
-c:\>rpn 1 10 range alternating_sum
--5
-
+''' + makeCommandExample( '1 10 range alternate_signs sum' ) + '''
+''' + makeCommandExample( '1 10 range alternating_sum' ) + '''
 Calculating e:
-
-c:\>rpn -a20 0 25 range factorial 1/x alternating_sum 1/x
-2.7182818284590452354
-''' ],
+''' + makeCommandExample( '-a20 0 25 range factorial 1/x alternating_sum 1/x' ) ],
 
     'alternating_sum_2' : [
 'list_operators', 'calaculates the alternating sum of list n (subtraction first)',
@@ -5490,12 +5329,8 @@ other element starting with the first.
 This operator is the same as using 'alternate_signs_2 sum'.
 ''',
 '''
-c:\>rpn 1 10 range alternate_signs_2 sum
-5
-
-c:\>rpn 1 10 range alternating_sum_2 sum
-5
-''' ],
+''' + makeCommandExample( '1 10 range alternate_signs_2 sum' ) + '''
+''' + makeCommandExample( '1 10 range alternating_sum_2 sum' ) ],
 
     'and_all' : [
 'list_operators', 'returns true if every member of the list is non-zero',
@@ -5512,9 +5347,7 @@ in a single list containing all items in order from the first operand list and
 then the second operand list.
 ''',
 '''
-c:\>rpn 1 5 range 6 10 range append
-[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-''' ],
+''' + makeCommandExample( '1 5 range 6 10 range append' ) ],
 
     'collate' : [
 'list_operators', 'returns a list of n-element lists of corresponding elements from each sublist of n',
@@ -5529,9 +5362,7 @@ c:\>rpn 1 5 range 6 10 range append
 This simply counts the number of elements in the list.
 ''',
 '''
-c:\>rpn 1 100 range count
-100
-''' ],
+''' + makeCommandExample( '1 100 range count' ) ],
 
     'diffs' : [
 'list_operators', 'returns a list with the differences between successive elements of list n',
@@ -6482,17 +6313,8 @@ c:\>rpn 1 20 range fibonacci
 
 This shows the relationship between the Fibonacci numbers and the Lucas numbers
 
-c:\>rpn 1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib
-lambda x sqr 5 * 4 + eval sqrt interleave
-[ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571,
-5778, 9349, 15127, 24476, 39603, 64079, 103682, 167761, 271443, 439204, 710647,
-1149851, 1860498 ]
-
-c:\>rpn 1 30 range lucas
-[ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571,
-5778, 9349, 15127, 24476, 39603, 64079, 103682, 167761, 271443, 439204, 710647,
-1149851, 1860498 ]
-''' ],
+''' + makeCommandExample( '1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib lambda x sqr 5 * 4 + eval sqrt interleave' ) + '''
+''' + makeCommandExample( '1 30 range lucas' ) ],
 
     'fibonorial' : [
 'number_theory', 'calculates the product of the first n Fibonacci numbers',
@@ -9113,6 +8935,9 @@ def makeHelp( helpTopics ):
         pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( helpTopics, pickleFile )
         pickle.dump( operatorHelp, pickleFile )
+
+    print( )
+    print( '...complete!' )
 
 
 # //******************************************************************************

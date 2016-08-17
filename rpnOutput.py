@@ -86,6 +86,9 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
             strMantissa = strMantissa.rstrip( '0' )
 
     if integerGrouping > 0:
+        if strInteger[ 0 ] == '-':
+            strInteger = strInteger[ 1 : ]
+
         firstDelimiter = len( strInteger ) % integerGrouping
 
         if leadingZero and firstDelimiter > 0:
@@ -100,7 +103,6 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
                 integerResult += g.integerDelimiter
 
             integerResult += strInteger[ i : i + integerGrouping ]
-
     else:
         integerResult = strInteger
 

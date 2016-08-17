@@ -518,6 +518,8 @@ def rpn( cmd_args ):
     if args.output_radix_numerals > 0:
         g.outputBaseDigits = True
         g.outputRadix = args.output_radix_numerals
+    else:
+        g.outputBaseDigits = False
 
     # -r/-R validation
     if g.outputBaseDigits:

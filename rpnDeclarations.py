@@ -28,8 +28,10 @@ import rpnGlobals as g
 # //******************************************************************************
 
 class RPNVariable( object ):
-    """This class represents a variable in rpn, and it maintains a global
-       dictionary of all variables keyed by name."""
+    """
+    This class represents a variable in rpn, and it maintains a global
+    dictionary of all variables keyed by name.
+    """
     def __init__( self, name ):
         self.name = name
         self.isHistory = not name[ 0 ].isalpha( )
