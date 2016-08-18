@@ -902,7 +902,7 @@ def handleOneArgGeneratorOperator( func, args, currentValueList ):
     if isinstance( args, RPNGenerator ):
         currentValueList.append( func( args ) )
     else:
-        raise ValueError( 'then you should call handleOneArgGeneratorOperator, should you?' )
+        raise ValueError( 'then you shouldn\'t call handleOneArgGeneratorOperator, should you?' )
 
 
 # //******************************************************************************

@@ -127,8 +127,16 @@ def addDigits( n, k ):
 def combineDigits( n ):
     result = 0
 
+    listResult = False
+
     for i in n:
-        result = addDigits( result, real_int( i ) )
+        if isinstance( i, ( list, RPNGenerator ) ) and result == 0:
+            listResult = True
+            result = [ combineDigits( i ) ]
+        elif listResult:
+            result.append( combineDigits( i ) )
+        else:
+            result = addDigits( result, real_int( i ) )
 
     return result
 

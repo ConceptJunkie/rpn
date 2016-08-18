@@ -35,6 +35,9 @@ print( COPYRIGHT_MESSAGE )
 print( )
 print( 'generating help files...' )
 
+exampleCount = 0
+
+
 
 # //******************************************************************************
 # //
@@ -58,8 +61,14 @@ def makeCommandExample( command, indent=0 ):
     actually use rpn to run the examples.  This way, when minor things change,
     the output is always accurate.
     '''
+    global exampleCount
+    exampleCount += 1
+    print( '\rGenerating example: ', exampleCount, end='' )
+
     output = io.StringIO( )
 
+    #print( )
+    #print( command )
     print( ' ' * indent + 'c:\\>rpn ' + command, file=output )
     handleOutput( rpn( shlex.split( command ) ), indent=indent, file=output )
 
@@ -295,7 +304,7 @@ Some examples:
 What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
 number with a 1 added on the end?
 
-''' + makeCommandExample( 'ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4 ) + '''
+''' + makeCommandExample( '-t ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4 ) + '''
 And we can check that our result works:
 
 ''' + makeCommandExample( '428571 142857 /', indent=4 ),
@@ -3147,7 +3156,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' + makeCommandExample( 'khinchin_constant' ) ],
+''' ],
 
     'magnetic_constant' : [
 'constants', 'returns the magnetic constant',
@@ -3164,8 +3173,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' + makeCommandExample( 'max_char' ) + '''
-''' + makeCommandExample( 'max_char -x' ) ],
+''' ],
 
     'max_double' : [
 'constants', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
@@ -3305,6 +3313,7 @@ integer assuming two's complement representation.
 ''',
 '''
 ''' + makeCommandExample( 'min_char' ) + '''
+''' + makeCommandExample( 'min_char -x' ) + '''
 ''' + makeCommandExample( 'max_char min_char -' ) ],
 
     'min_double' : [
@@ -3460,7 +3469,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' + makeCommandExample( 'pi' ) ],
+''' ],
 
     'planck_area' : [
 'constants', 'returns ',
@@ -4325,14 +4334,14 @@ For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( 'pi float -x' ) + '''
-''' + makeCommandExample( '-a20 0x400921fb54442d18 unfloat' ) ],
+''' + makeCommandExample( '0x40490fdb unfloat' ) ],
 
     'from_unix_time' : [
 'conversion', 'converts Unix time (seconds since epoch) to a date-time format'
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1471461891 from_unix_time' ) ],
 
     'hms' : [
 'conversion', 'shortcut for \'[ hour minute second ] convert\'',
@@ -4458,7 +4467,7 @@ For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( 'pi float -x' ) + '''
-''' + makeCommandExample( '-a20 0x400921fb54442d18 unfloat' ) ],
+''' + makeCommandExample( '0x40490fdb unfloat' ) ],
 
     'unpack' : [
 'conversion', 'unpacks an integer value n into bit fields k',
@@ -4474,15 +4483,9 @@ This operator is useful for determining the behavior for C and C++ that use
 fixed-size integer types.
 ''',
 '''
-c:\>rpn 10 ushort
-10
-
-c:\>rpn 100000 ushort
-34464
-
-c:\>rpn -2000 ushort
-63536
-''' ],
+''' + makeCommandExample( '10 ushort' ) + '''
+''' + makeCommandExample( '100000 ushort' ) + '''
+''' + makeCommandExample( '-2000 ushort' ) ],
 
     'ydhms' : [
 'conversion', 'shortcut for \'[ year day hour minute second ] convert\'',
@@ -4492,7 +4495,7 @@ second ] convert' in order to convert a time interval to days, hours, minutes
 and seconds.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 billion seconds ydhms' ) ],
 
 
 # //******************************************************************************
@@ -4614,15 +4617,9 @@ and seconds.
 in the value n into the function k and returns the result.
 ''',
 '''
-c:\>rpn 3 lambda x 2 * eval
-6
-
-c:\>rpn 5 lambda x 2 ** 1 - eval
-24
-
-c:\>rpn 1 10 range lambda x 2 ** 1 - eval
-[ 0, 3, 8, 15, 24, 35, 48, 63, 80, 99 ]
-''' ],
+''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
+''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
+''' + makeCommandExample( '1 10 range lambda x 2 ** 1 - eval' ) ],
 
     'eval2' : [
 'function', 'evaluates the function c for the given arguments a and b',
@@ -4644,20 +4641,11 @@ result.
 '''
 Solving a quadratic equation the hard way, using the quadratic formula:
 
-c:\>rpn 1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt + 2 x * / eval3
-7
-
-c:\>rpn 1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt - 2 x * / eval3
--3
-
+''' + makeCommandExample( '1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt + 2 x * / eval3' ) + '''
+''' + makeCommandExample( '1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt - 2 x * / eval3' ) + '''
 Of course, rpn has better ways to do this:
-
-c:\>rpn 1 -4 -21 solve2
-[ 7, -3 ]
-
-c:\>rpn [ 1 -4 -21 ] solve
-[ -3, 7 ]
-''' ],
+''' + makeCommandExample( '1 -4 -21 solve2' ) + '''
+''' + makeCommandExample( '[ 1 -4 -21 ] solve' ) ],
 
     'filter' : [
 'function', 'filters a list n using function k',
@@ -4669,9 +4657,7 @@ non-zero value.
 '''
 Which of the first 80 fibonacci numbers is prime?
 
-c:\>rpn -a20 1 80 range fib lambda x is_prime filter
-[ 2, 3, 5, 13, 89, 233, 1597, 28657, 514229, 433494437, 2971215073 ]
-''' ],
+''' + makeCommandExample( '-a20 1 80 range fib lambda x is_prime filter' ) ],
 
     'filter_by_index' : [
 'function', 'filters a list n using function k applied to the list indexes',
@@ -4690,15 +4676,9 @@ becomes a function.
 See the 'user_functions' help topic for more details.
 ''',
 '''
-c:\>rpn 3 lambda x 2 * eval
-6
-
-c:\>rpn 5 lambda x 2 ** 1 - eval
-24
-
-c:\>rpn inf lambda x 1 + fib x fib / limit
-1.6180339887
-''' ],
+''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
+''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
+''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit' ) ],
 
     'limit' : [
 'function', 'calculates the limit of function k( x ) as x approaches n',
@@ -4796,12 +4776,8 @@ value.
 '''
 'unfilter' is the same as adding 'negate' to 'filter':
 
-c:\>rpn 1 20 range lambda x is_prime unfilter
-[ 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20 ]
-
-c:\>rpn 1 20 range lambda x is_prime negate filter
-[ 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20 ]
-''' ],
+''' + makeCommandExample( '1 20 range lambda x is_prime unfilter' ) + '''
+''' + makeCommandExample( '1 20 range lambda x is_prime negate filter' ) ],
 
     'unfilter_by_index' : [
 'function', 'filters a list n using the inverse of function k applied to the list indexes',
@@ -4816,15 +4792,9 @@ c:\>rpn 1 20 range lambda x is_prime negate filter
 See the 'user_functions' help topic for more details.
 ''',
 '''
-c:\>rpn 3 lambda x 2 * eval
-6
-
-c:\>rpn 5 lambda x 2 ** 1 - eval
-24
-
-c:\>rpn inf lambda x 1 + fib x fib / limit
-1.6180339887
-''' ],
+''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
+''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
+''' + makeCommandExample( '1 inf lambda 1 2 x ** / nsum' ) ],
 
     'y' : [
 'function', 'used as a variable in user-defined functions',
@@ -5016,14 +4986,13 @@ of the semiperimeter and the respective differences of the semiperimeter and
 the lengths of each side.
 
 area = sqrt( s( s - a )( s - b )( s - c ) )
+
+This operator can also handle length measurements.
 ''',
 '''
-c:\>rpn 3 4 5 triangle_area
-6
-
-c:\>rpn 2 3 make_pyth_3 unlist triangle_area
-30
-''' ],
+''' + makeCommandExample( '3 4 5 triangle_area' ) + '''
+''' + makeCommandExample( '3 inches 4 inches 5 inches triangle_area' ) + '''
+''' + makeCommandExample( '2 3 make_pyth_3 unlist triangle_area' ) ],
 
 
 # //******************************************************************************
@@ -5130,12 +5099,8 @@ The operator returns the RPN version number in list format.
 '''
 ''',
 '''
-c:\>rpn 9 0 range combine_digits
-9876543210
-
-c:\>rpn 1 1 7 range primes combine_digits
-[ 2, 23, 235, 2357, 235711, 23571113, 2357111317 ]
-''' ],
+''' + makeCommandExample( '9 0 range combine_digits' ) + '''
+''' + makeCommandExample( '1 1 7 range primes combine_digits' ) ],
 
     'dup_digits' : [
 'lexicography', 'append n with a copy of its last k digits',
@@ -5158,9 +5123,7 @@ multiplying digits, zeroes are dropped, which makes it more interesting.
 '''
 ''',
 '''
-c:\>rpn -a30 10911 55 find_palindrome
-[ 55, 4668731596684224866951378664 ]
-''' ],
+''' + makeCommandExample( '-a30 10911 55 find_palindrome' ) ],
 
     'get_digits' : [
 'lexicography', 'returns the list of digits comprising integer n',
@@ -5220,12 +5183,8 @@ n is treated as an integer.  If its digits are palindromic, i.e., they
 read the same forwards as backwards, then the operator returns 1.
 ''',
 '''
-c:\>rpn 101 is_palindrome
-1
-
-c:\>rpn 1201 is_palindrome
-0
-''' ],
+''' + makeCommandExample( '101 is_palindrome' ) + '''
+''' + makeCommandExample( '1201 is_palindrome' ) ],
 
     'is_pandigital' : [
 'lexicography', 'returns whether an integer n is pandigital',
@@ -5234,15 +5193,9 @@ A pandigital number contains at least one of all the of the digits 0 through
 9.
 ''',
 '''
-c:\>rpn 123456789 is_pandigital
-0
-
-c:\>rpn 1234567890 is_pandigital
-1
-
-c:\>rpn -a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital
-1
-''' ],
+''' + makeCommandExample( '123456789 is_pandigital' ) + '''
+''' + makeCommandExample( '1234567890 is_pandigital' ) + '''
+''' + makeCommandExample( '-a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital' ) ],
 
     'is_trimorphic' : [
 'lexicography', 'returns whether the digits of n cubed end with n',
@@ -5290,9 +5243,7 @@ on until a one-digit number is obtained.
 '''
 ''',
 '''
-c:\>rpn -a20 89 24 rev_add
-8813200023188
-''' ],
+''' + makeCommandExample( '-a20 89 24 rev_add' ) ],
 
     'reverse_digits' : [
 'lexicography', 'returns n with its digits reversed',
@@ -5300,10 +5251,7 @@ c:\>rpn -a20 89 24 rev_add
 'reverse_digits' converts the argument to an integer.
 ''',
 '''
-c:\>rpn 123456789 reverse_digits
-987654321
-
-''' ],
+''' + makeCommandExample( '123456789 reverse_digits' ) ],
 
     'show_erdos_persistence' : [
 'lexicography', 'shows the Erdos multiplicative persistence chain of n (see \'persistence\')'
@@ -5347,9 +5295,7 @@ The return value is a list of the same size as the original with the sign of
 every second element reversed, starting with the second.
 ''',
 '''
-c:\>rpn 1 10 range alternate_signs
-[ 1, -2, 3, -4, 5, -6, 7, -8, 9, -10 ]
-''' ],
+''' + makeCommandExample( '1 10 range alternate_signs' ) ],
 
     'alternate_signs_2' : [
 'list_operators', 'alternates signs in the list by making every odd element negative',
@@ -5358,10 +5304,7 @@ The return value is a list of the same size as the original with the sign of
 every other element reversed, starting with the first element.
 ''',
 '''
-c:\>rpn 1 10 range alterate_signs_2
-[ -1, 2, -3, 4, -5, 6, -7, 8, -9, 10 ]
-
-''' ],
+''' + makeCommandExample( '1 10 range alternate_signs_2' ) ],
 
     'alternating_sum' : [
 'list_operators', 'calculates the alternating sum of list n (addition first)',
@@ -5372,17 +5315,10 @@ second element starting with the second.
 This operator is the same as using 'alternate_signs sum'.
 ''',
 '''
-c:\>rpn 1 10 range alternate_signs sum
--5
-
-c:\>rpn 1 10 range alternating_sum
--5
-
+''' + makeCommandExample( '1 10 range alternate_signs sum' ) + '''
+''' + makeCommandExample( '1 10 range alternating_sum' ) + '''
 Calculating e:
-
-c:\>rpn -a20 0 25 range factorial 1/x alternating_sum 1/x
-2.7182818284590452354
-''' ],
+''' + makeCommandExample( '-a20 0 25 range factorial 1/x alternating_sum 1/x' ) ],
 
     'alternating_sum_2' : [
 'list_operators', 'calaculates the alternating sum of list n (subtraction first)',
@@ -5393,12 +5329,8 @@ other element starting with the first.
 This operator is the same as using 'alternate_signs_2 sum'.
 ''',
 '''
-c:\>rpn 1 10 range alternate_signs_2 sum
-5
-
-c:\>rpn 1 10 range alternating_sum_2 sum
-5
-''' ],
+''' + makeCommandExample( '1 10 range alternate_signs_2 sum' ) + '''
+''' + makeCommandExample( '1 10 range alternating_sum_2 sum' ) ],
 
     'and_all' : [
 'list_operators', 'returns true if every member of the list is non-zero',
@@ -5415,9 +5347,7 @@ in a single list containing all items in order from the first operand list and
 then the second operand list.
 ''',
 '''
-c:\>rpn 1 5 range 6 10 range append
-[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-''' ],
+''' + makeCommandExample( '1 5 range 6 10 range append' ) ],
 
     'collate' : [
 'list_operators', 'returns a list of n-element lists of corresponding elements from each sublist of n',
@@ -5432,9 +5362,7 @@ c:\>rpn 1 5 range 6 10 range append
 This simply counts the number of elements in the list.
 ''',
 '''
-c:\>rpn 1 100 range count
-100
-''' ],
+''' + makeCommandExample( '1 100 range count' ) ],
 
     'diffs' : [
 'list_operators', 'returns a list with the differences between successive elements of list n',
@@ -6385,17 +6313,8 @@ c:\>rpn 1 20 range fibonacci
 
 This shows the relationship between the Fibonacci numbers and the Lucas numbers
 
-c:\>rpn 1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib
-lambda x sqr 5 * 4 + eval sqrt interleave
-[ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571,
-5778, 9349, 15127, 24476, 39603, 64079, 103682, 167761, 271443, 439204, 710647,
-1149851, 1860498 ]
-
-c:\>rpn 1 30 range lucas
-[ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571,
-5778, 9349, 15127, 24476, 39603, 64079, 103682, 167761, 271443, 439204, 710647,
-1149851, 1860498 ]
-''' ],
+''' + makeCommandExample( '1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib lambda x sqr 5 * 4 + eval sqrt interleave' ) + '''
+''' + makeCommandExample( '1 30 range lucas' ) ],
 
     'fibonorial' : [
 'number_theory', 'calculates the product of the first n Fibonacci numbers',
@@ -9016,6 +8935,9 @@ def makeHelp( helpTopics ):
         pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( helpTopics, pickleFile )
         pickle.dump( operatorHelp, pickleFile )
+
+    print( )
+    print( '...complete!' )
 
 
 # //******************************************************************************
