@@ -55,7 +55,7 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 # //
 # //******************************************************************************
 
-def makeCommandExample( command, indent=0 ):
+def makeCommandExample( command, indent=0, slow=False ):
     '''
     You know, it didn't occur to me for years that I should make the help
     actually use rpn to run the examples.  This way, when minor things change,
@@ -63,7 +63,11 @@ def makeCommandExample( command, indent=0 ):
     '''
     global exampleCount
     exampleCount += 1
+
     print( '\rGenerating example: ', exampleCount, end='' )
+
+    if slow:
+        print( '  (please be patient...)', end='', flush=True )
 
     output = io.StringIO( )
 
@@ -71,6 +75,9 @@ def makeCommandExample( command, indent=0 ):
     #print( command )
     print( ' ' * indent + 'c:\\>rpn ' + command, file=output )
     handleOutput( rpn( shlex.split( command ) ), indent=indent, file=output )
+
+    if slow:
+        print( '\r', ' ' * 50, end='' )
 
     result = output.getvalue( )
     output.close( )
@@ -304,7 +311,7 @@ Some examples:
 What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
 number with a 1 added on the end?
 
-''' + makeCommandExample( '-t ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4 ) + '''
+''' + makeCommandExample( '-t ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4, slow=True ) + '''
 And we can check that our result works:
 
 ''' + makeCommandExample( '428571 142857 /', indent=4 ),
@@ -3156,7 +3163,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'khinchin_constant' ) ],
 
     'magnetic_constant' : [
 'constants', 'returns the magnetic constant',
@@ -3173,7 +3180,8 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'max_char' ) + '''
+''' + makeCommandExample( 'max_char -x' ) ],
 
     'max_double' : [
 'constants', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
@@ -3469,7 +3477,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'pi' ) ],
 
     'planck_area' : [
 'constants', 'returns ',
@@ -5384,12 +5392,8 @@ This simply counts the number of elements in the list.
 The index is zero-based.
 ''',
 '''
-c:\>rpn 1 10 range 5 element
-6
-
-c:\>rpn 0 1000 range 34 element
-34
-''' ],
+''' + makeCommandExample( '1 10 range 5 element' ) + '''
+''' + makeCommandExample( '0 1000 range 34 element' ) ],
 
     'exponential_range' : [
 'list_operators', 'generates a list of exponential progression of numbers',
@@ -5400,10 +5404,7 @@ Each successive item in the list is calculated by raising the previous item to
 the bth power.  The list is expanded to contain c items.
 ''',
 '''
-c:\>rpn 2 2 10 exponential_range
-[ 2, 4, 16, 256, 65536, 4294967296, 18446744073709551616, 3.4028236692e38,
-1.1579208924e77, 1.34078079210e154 ]
-''' ],
+''' + makeCommandExample( '2 2 10 exponential_range' ) ],
 
     'flatten' : [
 'list_operators', 'flattens a nested lists in list n to a single level',
@@ -5419,16 +5420,9 @@ The list starts at a, and each successive value is multiplied by b, until the
 list contains c items.
 ''',
 '''
-c:\>rpn 1 2 10 geometric_range
-[ 1, 2, 4, 8, 16, 32, 64, 128, 256, 512 ]
-
+''' + makeCommandExample( '1 2 10 geometric_range' ) + '''
 The intervals of the chromatic scale:
-
-c:\>rpn 1 2 12 // 13 geometric_range
-[ 1, 1.05946309436, 1.12246204831, 1.189207115, 1.25992104989, 1.33483985417,
-1.41421356237, 1.49830707688, 1.58740105197, 1.68179283051, 1.78179743628,
-1.88774862536, 2 ]
-''' ],
+''' + makeCommandExample( '1 2 12 // 13 geometric_range' ) ],
 
     'group_elements' : [
 'list_operators', 'groups the elements of list n into sublsts of k elements',
@@ -5438,27 +5432,8 @@ of k elements, then the remaining list elements are included in the final
 group.
 ''',
 '''
-c:\>rpn 1 10 range 5 group_elements
-[ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ] ]
-
-c:\>rpn 1 11 range 5 group_elements
-[ [ 1, 2, 3, 4, 5 ], [ 6, 7, 8, 9, 10 ], [ 11 ] ]
-
-c:\>rpn 1 11 range previous is_prime interleave 2 group_elements -s1
-[
-[ 1, 0 ],
-[ 2, 1 ],
-[ 3, 1 ],
-[ 4, 0 ],
-[ 5, 1 ],
-[ 6, 0 ],
-[ 7, 1 ],
-[ 8, 0 ],
-[ 9, 0 ],
-[ 10, 0 ],
-[ 11, 1 ],
-]
-''' ],
+''' + makeCommandExample( '1 10 range 5 group_elements' ) + '''
+''' + makeCommandExample( '1 11 range 5 group_elements' ) ],
 
     'interleave' : [
 'list_operators', 'interleaves lists n and k into a single list',
@@ -5468,53 +5443,30 @@ members of n and k are interleaved alternately.  If one list is longer than the 
 then the extra list elements from the longer list are ignored.
 ''',
 '''
-c:\>rpn [ 1 3 5 ] [ 2 4 6 ] interleave
-[ 1, 2, 3, 4, 5, 6 ]
-
-c:\>rpn [ 1 3 5 ] [ 2 4 6 8 10 ] interleave
-[ 1, 2, 3, 4, 5, 6 ]
-
-c:\>rpn 1 20 2 range2 2 20 2 range2 interleave
-[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
-''' ],
+''' + makeCommandExample( '[ 1 3 5 ] [ 2 4 6 ] interleave' ) + '''
+''' + makeCommandExample( '[ 1 3 5 ] [ 2 4 6 8 10 ] interleave' ) + '''
+''' + makeCommandExample( '1 20 2 range2 2 20 2 range2 interleave' ) ],
 
     'intersection' : [
 'list_operators', 'returns a list of unique elements that exist in both lists',
 '''
 ''',
 '''
-c:\>rpn [ 1 2 4 ] [ 3 4 5 ] intersection
-[ 4 ]
-
-c:\>rpn [ 1 2 3 ] [ 4 5 6 ] intersection
-[  ]
-
-c:\>rpn [ 1 1 2 3 3 3 ] [ 1 2 3 4 5 5 ] intersection
-[ 1, 2, 3 ]
-
-c:\>rpn 1 10 range 1 10 range prime intersection
-[ 2, 3, 5, 7 ]
-
+''' + makeCommandExample( '[ 1 2 4 ] [ 3 4 5 ] intersection' ) + '''
+''' + makeCommandExample( '[ 1 2 3 ] [ 4 5 6 ] intersection' ) + '''
+''' + makeCommandExample( '[ 1 1 2 3 3 3 ] [ 1 2 3 4 5 5 ] intersection' ) + '''
+''' + makeCommandExample( '1 10 range 1 10 range prime intersection' ) + '''
 Find numbers that are triangular and square at the same time:
-
-c:\>rpn 1 100 range tri 1 100 range sqr intersect
-[ 1, 36, 1225 ]
-''' ],
+''' + makeCommandExample( '1 100 range tri 1 100 range sqr intersect' ) ],
 
     'left' : [
 'list_operators', 'returns the left k items from list n',
 '''
 ''',
 '''
-c:\>rpn 1 10 range 6 left
-[ 1, 2, 3, 4, 5, 6 ]
-
-c:\>rpn 1 10 range 4 left
-[ 1, 2, 3, 4 ]
-
-c:\>rpn 1 10 range 1 4 range left
-[ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
-''' ],
+''' + makeCommandExample( '1 10 range 6 left' ) + '''
+''' + makeCommandExample( '1 10 range 4 left' ) + '''
+''' + makeCommandExample( '1 10 range 1 4 range left' ) ],
 
     'max_index' : [
 'list_operators', 'returns the index of largest value in list n',
@@ -5546,14 +5498,9 @@ on a list, and getting a summary of the results.
 Indices are zero-based.
 ''',
 '''
-c:\>rpn [ 1 0 2 0 3 0 4 ] nonzero
-[ 0, 2, 4, 6 ]
-
+''' + makeCommandExample( '[ 1 0 2 0 3 0 4 ] nonzero' ) + '''
 List the prime Fibonacci numbers:
-
-c:\>rpn 0 20 range fib is_prime nonzero fib
-[ 2, 3, 5, 13, 89, 233, 1597 ]
-''' ],
+''' + makeCommandExample( '0 20 range fib is_prime nonzero fib' ) ],
 
     'nor_all' : [
 'list_operators', 'returns true if any member of the list is zero',
@@ -5588,17 +5535,9 @@ The result is a list of lists, where each sublist contains a value and a
 count.  The result will be sorted by values.
 ''',
 '''
-c:\>rpn 1 10 range occurrences
-[ [ 1, 1 ], [ 2, 1 ], [ 3, 1 ], [ 4, 1 ], [ 5, 1 ], [ 6, 1 ], [ 7, 1 ],
-[ 8, 1 ], [ 9, 1 ], [ 10, 1 ] ]
-
-c:\>rpn 10 100 random_integer_ occurrences
-[ [ 0, 9 ], [ 1, 8 ], [ 2, 6 ], [ 3, 10 ], [ 4, 12 ], [ 5, 11 ], [ 6, 7 ],
-[ 7, 13 ], [ 8, 12 ], [ 9, 12 ] ]
-
-c:\>rpn 5 6 debruijn occurrences
-[ [ 0, 3125 ], [ 1, 3125 ], [ 2, 3125 ], [ 3, 3125 ], [ 4, 3125 ] ]
-''' ],
+''' + makeCommandExample( '1 10 range occurrences' ) + '''
+''' + makeCommandExample( '10 100 random_integer_ occurrences' ) + '''
+''' + makeCommandExample( '5 6 debruijn occurrences' ) ],
 
     'or_all' : [
 'list_operators', 'returns true if any member of the list is non-zero',
@@ -5665,22 +5604,16 @@ denominator of the whole list.
 '''
 ''',
 '''
-c:\>rpn 1 10 range 6 right
-[ 5, 6, 7, 8, 9, 10 ]
-
-c:\>rpn 1 10 range 4 right
-[ 7, 8, 9, 10 ]
-
-c:\>rpn 1 10 range 1 4 range right
-[ [ 10 ], [ 9, 10 ], [ 8, 9, 10 ], [ 7, 8, 9, 10 ] ]
-''' ],
+''' + makeCommandExample( '1 10 range 6 right' ) + '''
+''' + makeCommandExample( '1 10 range 4 right' ) + '''
+''' + makeCommandExample( '1 10 range 1 4 range right' ) ],
 
     'shuffle' : [
 'list_operators', 'randomly shuffles the elements in a list',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range shuffle' ) ],
 
     'slice' : [
 'list_operators', 'returns a slice of list a from starting index b to ending index c',
@@ -5694,37 +5627,10 @@ are multiple lists will be returned iterating through one or both of the
 operands as needed.
 ''',
 '''
-c:\>rpn 1 10 range 0 5 slice
-[ 1, 2, 3, 4, 5 ]
-
-c:\>rpn 1 10 range 5 10 slice
-[ 6, 7, 8, 9, 10 ]
-
-c:\>rpn 1 10 range 2 -1 slice
-[ 3, 4, 5, 6, 7, 8, 9 ]
-
-c:\>rpn 1 10 range 2 -2 slice
-[ 3, 4, 5, 6, 7, 8 ]
-
-c:\>rpn 1 10 range 0 4 range 6 8 range slice -s1
-[
-[ 1, 2, 3, 4, 5, 6 ],
-[ 1, 2, 3, 4, 5, 6, 7 ],
-[ 1, 2, 3, 4, 5, 6, 7, 8 ],
-[ 2, 3, 4, 5, 6 ],
-[ 2, 3, 4, 5, 6, 7 ],
-[ 2, 3, 4, 5, 6, 7, 8 ],
-[ 3, 4, 5, 6 ],
-[ 3, 4, 5, 6, 7 ],
-[ 3, 4, 5, 6, 7, 8 ],
-[ 4, 5, 6 ],
-[ 4, 5, 6, 7 ],
-[ 4, 5, 6, 7, 8 ],
-[ 5, 6 ],
-[ 5, 6, 7 ],
-[ 5, 6, 7, 8 ],
-]
-''' ],
+''' + makeCommandExample( '1 10 range 0 5 slice' ) + '''
+''' + makeCommandExample( '1 10 range 5 9 slice' ) + '''
+''' + makeCommandExample( '1 10 range 2 -1 slice' ) + '''
+''' + makeCommandExample( '1 10 range 2 -2 slice' ) ],
 
     'sort' : [
 'list_operators', 'sorts the elements of list n numerically in ascending order',
@@ -5733,15 +5639,8 @@ The 'sort' operator gets applied recursively, so all sublists will be sorted as
 well.  I might have to reconsider that.
 ''',
 '''
-c:\>rpn [ rand rand rand ] sort
-[ 0.782934612763, 0.956555810967, 0.97728726503 ]
-
-c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] sort
-[ [ 10 ], [ 9 ], [ 8 ], [ 5, 6, 7 ], [ 4 ], [ 3 ], [ 1, 2 ], [ 0 ], [ -1 ] ]
-
-c:\>rpn [ 10 9 8 [ 7 6 5 ] 4 3 [ 2 1 ] 0 [ -1 ] ] flatten sort
-[ -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-''' ],
+''' + makeCommandExample( '[ rand rand rand ] sort' ) + '''
+''' + makeCommandExample( '[ [ 3 2 1 ] [ 7 3 4 ] [ 10 5 9 ] ]' ) ],
 
     'sort_descending' : [
 'list_operators', 'sorts the elements of list n numerically in descending order',
@@ -5750,12 +5649,8 @@ The 'sort_descending' operator works exactly like the sort operator, sorting
 the list (and all sublists), except in descending order.
 ''',
 '''
-c:\>rpn 1 70 6 range2 sort_descending
-[ 67, 61, 55, 49, 43, 37, 31, 25, 19, 13, 7, 1 ]
-
-c:\>rpn 1 20 range countdiv sort_descending
-[ 6, 6, 6, 5, 4, 4, 4, 4, 4, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 1 ]
-''' ],
+''' + makeCommandExample( '1 70 6 range2 sort_descending' ) + '''
+''' + makeCommandExample( '1 20 range countdiv sort_descending' ) ],
 
     'sublist' : [
 'list_operators', 'returns a sublist of list a from starting index b consisting of c items',
@@ -5768,40 +5663,9 @@ are multiple lists will be returned iterating through one or both of the
 operands as needed.
 ''',
 '''
-c:\>rpn 1 10 range 0 5 sublist
-[ 1, 2, 3, 4, 5 ]
-
-c:\>rpn 1 10 range 1 5 sublist
-[ 2, 3, 4, 5, 6 ]
-
-c:\>rpn 1 10 range 1 3 sublist
-[ 2, 3, 4 ]
-
-Print multiple sublists of 3 items each starting with the first 5 items in
-the list:
-
-c:\>rpn 1 10 range 0 4 range 3 sublist
-[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], [ 4, 5, 6 ], [ 5, 6, 7 ] ]
-
-Print multiple sublists of 1 to 3 items, inclusive, starting with the first
-4 items in the list:
-
-c:\>rpn 1 10 range 0 3 range 1 3 range sublist -s1
-[
-[ 1 ],
-[ 1, 2 ],
-[ 1, 2, 3 ],
-[ 2 ],
-[ 2, 3 ],
-[ 2, 3, 4 ],
-[ 3 ],
-[ 3, 4 ],
-[ 3, 4, 5 ],
-[ 4 ],
-[ 4, 5 ],
-[ 4, 5, 6 ],
-]
-''' ],
+''' + makeCommandExample( '1 10 range 0 5 sublist' ) + '''
+''' + makeCommandExample( '1 10 range 1 5 sublist' ) + '''
+''' + makeCommandExample( '1 10 range 1 3 sublist' ) ],
 
     'union' : [
 'list_operators', 'returns the union of unique elements from two lists',
@@ -5815,9 +5679,7 @@ c:\>rpn 1 10 range 0 3 range 1 3 range sublist -s1
 '''
 ''',
 '''
-c:\>rpn 1 8 range 2 9 range append 3 10 range append unique
-[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-''' ],
+''' + makeCommandExample( '1 8 range 2 9 range append 3 10 range append unique' ) ],
 
     'zero' : [
 'list_operators', 'returns a list of the indices of elements in list n that are zero',
@@ -5830,14 +5692,9 @@ Indices are zero-based.
 (see 'nonzero')
 ''',
 '''
-c:\>rpn [ 1 0 2 0 3 0 4 ] zero
-[ 1, 3, 5 ]
-
+''' + makeCommandExample( '[ 1 0 2 0 3 0 4 ] zero' ) + '''
 List the non-prime Fibonacci numbers:
-
-c:\>rpn 0 20 range fib is_prime zero fib
-[ 0, 1, 1, 8, 21, 34, 55, 144, 377, 610, 987, 2584, 4181, 6765 ]
-''' ],
+''' + makeCommandExample( '0 20 range fib is_prime zero fib' ) ],
 
 
 # //******************************************************************************
@@ -5874,15 +5731,9 @@ The base-10 logarithm of n is the power to which 10 is raised to get the number
 n.
 ''',
 '''
-c:\>rpn 10 log10
-1
-
-c:\>rpn 3221 log10
-3.507990724811
-
-c:\>rpn 10 3221 log10 1481 log10 + power
-4770301
-''' ],
+''' + makeCommandExample( '10 log10' ) + '''
+''' + makeCommandExample( '3221 log10' ) + '''
+''' + makeCommandExample( '10 3221 log10 1481 log10 + power' ) ],
 
     'log2' : [
 'logarithms', 'calculates the base-2 logarithm of n',
@@ -5894,12 +5745,8 @@ The base-2 logarithm also calculates the number of bits necessary to store n
 different values.
 ''',
 '''
-c:\>rpn 8 log2
-3
-
-c:\>rpn 65536 log2
-16
-''' ],
+''' + makeCommandExample( '8 log2' ) + '''
+''' + makeCommandExample( '65536 log2' ) ],
 
     'logxy' : [
 'logarithms', 'calculates the base-k logarithm of n',
@@ -5908,15 +5755,9 @@ The base-k logarithm of n is the power to which k is raised to get the number
 n.
 ''',
 '''
-c:\>rpn 1000 10 logxy
-3
-
-c:\>rpn 78125 5 logxy
-7
-
-c:\>rpn e sqr e logxy
-2
-''' ],
+''' + makeCommandExample( '1000 10 logxy' ) + '''
+''' + makeCommandExample( '78125 5 logxy' ) + '''
+''' + makeCommandExample( 'e sqr e logxy' ) ],
 
     'polyexp' : [
 'logarithms', 'calculates the polyexponential of n, k',
@@ -5968,18 +5809,10 @@ sure they all work.
 take three or more operands do not work with lists.
 ''',
 '''
-c:\>rpn [ 10 20 30 40 ] prime
-[ 29, 71, 113, 173 ]
-
-c:\>rpn [ 2 3 4 6 7 ] 3 +
-[ 5, 6, 7, 9, 10 ]
-
-c:\>rpn [ 1 2 3 4 ] [ 4 3 2 1 ] +
-[ 5, 5, 5, 5 ]
-
-c:\>rpn [ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +
-[ [ 9, 10, 11, 12 ], [ 11, 12, 13, 14 ], [ 13, 14, 15, 16 ] ]
-''' ],
+''' + makeCommandExample( '[ 10 20 30 40 ] prime' ) + '''
+''' + makeCommandExample( '[ 2 3 4 6 7 ] 3 +' ) + '''
+''' + makeCommandExample( '[ 1 2 3 4 ] [ 4 3 2 1 ] +' ) + '''
+''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ) ],
 
     ']' : [
 'modifiers', 'ends a list',
@@ -6009,18 +5842,10 @@ sure they all work.
 take three or more operands do not work with lists.
 ''',
 '''
-c:\>rpn [ 10 20 30 40 ] prime
-[ 29, 71, 113, 173 ]
-
-c:\>rpn [ 2 3 4 6 7 ] 3 +
-[ 5, 6, 7, 9, 10 ]
-
-c:\>rpn [ 1 2 3 4 ] [ 4 3 2 1 ] +
-[ 5, 5, 5, 5 ]
-
-c:\>rpn [ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +
-[ [ 9, 10, 11, 12 ], [ 11, 12, 13, 14 ], [ 13, 14, 15, 16 ] ]
-''' ],
+''' + makeCommandExample( '[ 10 20 30 40 ] prime' ) + '''
+''' + makeCommandExample( '[ 2 3 4 6 7 ] 3 +' ) + '''
+''' + makeCommandExample( '[ 1 2 3 4 ] [ 4 3 2 1 ] +' ) + '''
+''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ) ],
 
     '{' : [
 'modifiers', 'starts an operator list',
@@ -6043,21 +5868,10 @@ This function duplicates terms, but requires the bracket operators to make the
 resulting expression a list, rather than a set of k expressions.
 ''',
 '''
-c:\>rpn 10 2 dup_term +
-20
-
-c:\>rpn [ 10 10 dup_term ]
-[ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 ]
-
-c:\>rpn [ 1 10 range 10 dup_term ]
-[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5,
-6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6,
-7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-
-c:\>rpn [ 1 10 range 10 dup_term ] unique
-[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-''' ],
+''' + makeCommandExample( '10 2 dup_term +' ) + '''
+''' + makeCommandExample( '[ 10 10 dup_term ]' ) + '''
+''' + makeCommandExample( '[ 1 10 range 10 dup_term ]' ) + '''
+''' + makeCommandExample( '[ 1 10 range 10 dup_term ] unique' ) ],
 
     'dup_operator' : [
 'modifiers', 'duplicates an operation n times',
@@ -6088,12 +5902,8 @@ TODO:  This operator is not implemented yet!
 '''
 Here, we use 'unlist' to make arguments for 'euler_brick':
 
-c:\>rpn 4 5 make_pyth_3
-[ 9, 40, 41 ]
-
-c:\>rpn 4 5 make_pyth_3 unlist euler_brick
-[ 42471, 54280, 59040 ]
-''' ],
+''' + makeCommandExample( '4 5 make_pyth_3' ) + '''
+''' + makeCommandExample( '4 5 make_pyth_3 unlist euler_brick' ) ],
 
 
 # //******************************************************************************
@@ -6176,12 +5986,8 @@ result, but the 'divisors' operator can generate prohibitively large lists for
 numbers with a lot of factors.
 ''',
 '''
-c:\>rpn 98280 count_divisors
-128
-
-c:\>rpn 1 20 range count_divisors
-[ 1, 2, 2, 3, 2, 4, 2, 4, 3, 4, 2, 6, 2, 4, 4, 5, 2, 6, 2, 6 ]
-''' ],
+''' + makeCommandExample( '98280 count_divisors' ) + '''
+''' + makeCommandExample( '1 20 range count_divisors' ) ],
 
     'crt' : [
 'number_theory', 'calculates Chinese Remainder Theorem result of a list n of values and a list k of modulos',
@@ -6208,14 +6014,8 @@ This operator lists all proper divisors of an integer including 1 and the
 integer itself, sorted in order of increasing size.
 ''',
 '''
-c:\>rpn 3600 divisors
-[ 1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 16, 18, 20, 24, 25, 30, 36, 40, 45, 48,
-50, 60, 72, 75, 80, 90, 100, 120, 144, 150, 180, 200, 225, 240, 300, 360, 400,
-450, 600, 720, 900, 1200, 1800, 3600 ]
-
-c:\>rpn [ 2 3 5 ] prod divisors
-[ 1, 2, 3, 5, 6, 10, 15, 30 ]
-''' ],
+''' + makeCommandExample( '3600 divisors' ) + '''
+''' + makeCommandExample( '[ 2 3 5 ] prod divisors' ) ],
 
     'double_factorial' : [
 'number_theory', 'calculates the double factorial of n',
@@ -6226,9 +6026,7 @@ function is that n is multiplied by every second number between it and 1.
 So it could sort of be thought of as a "half factorial".
 ''',
 '''
-c:\>rpn 1 10 range double_factorial
-[ 1, 2, 3, 8, 15, 48, 105, 384, 945, 3840 ]
-''' ],
+''' + makeCommandExample( '1 10 range double_factorial' ) ],
 
     'ecm' : [
 'number_theory', 'factors n using the elliptical curve method',
@@ -6259,18 +6057,10 @@ An Euler brick is a brick with three dimensions such that any two pairs form
 a Pythogorean triples, therefore the face diagonals are also integers.
 ''',
 '''
-c:\>rpn 2 3 make_pyth_3 unlist euler_brick
-[ 828, 2035, 3120 ]
-
-c:\>rpn 828 2035 hypotenuse
-2197
-
-c:\>rpn 828 3120 hypotenuse
-3228
-
-c:\>rpn 2035 3120 hypotenuse
-3725
-''' ],
+''' + makeCommandExample( '2 3 make_pyth_3 unlist euler_brick' ) + '''
+''' + makeCommandExample( '828 2035 hypotenuse' ) + '''
+''' + makeCommandExample( '828 3120 hypotenuse' ) + '''
+''' + makeCommandExample( '2035 3120 hypotenuse' ) ],
 
     'euler_phi' : [
 'number_theory', 'calculates Euler\'s totient function for n',
@@ -6292,9 +6082,7 @@ c:\>rpn 2035 3120 hypotenuse
 'factorial' calculates the product of all whole numbers from 1 to n.
 ''',
 '''
-c:\>rpn 1 10 range factorial
-[ 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800 ]
-''' ],
+''' + makeCommandExample( '1 10 range factorial' ) ],
 
     'fibonacci' : [
 'number_theory', 'calculates the nth Fibonacci number',
@@ -6307,12 +6095,8 @@ This sequence was first written about by Leonardo of Pisa (known as Fibonacci)
 in the 13th century.  The sequence has many amazing properties.
 ''',
 '''
-c:\>rpn 1 20 range fibonacci
-[ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584,
-4181, 6765 ]
-
+''' + makeCommandExample( '1 20 range fibonacci' ) + '''
 This shows the relationship between the Fibonacci numbers and the Lucas numbers
-
 ''' + makeCommandExample( '1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib lambda x sqr 5 * 4 + eval sqrt interleave' ) + '''
 ''' + makeCommandExample( '1 30 range lucas' ) ],
 
@@ -6322,9 +6106,7 @@ This shows the relationship between the Fibonacci numbers and the Lucas numbers
 The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''',
 '''
-c:\>rpn 1 10 range fibonorial
-[ 1, 1, 1, 2, 6, 30, 240, 3120, 65520, 2227680 ]
-''' ],
+''' + makeCommandExample( '1 10 range fibonorial' ) ],
 
     'fraction' : [
 'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
@@ -6566,41 +6348,19 @@ Internally, rpn uses this same linear recurrence functionality in the
 'nonagonal_hexagonal' operators.
 ''',
 '''
-The 250th Fibonacci number:
-
-c:\>rpn -c -a55 [ 1 1 ] [ 1 1 ] 250 linear_recurrence
-7,896,325,826,131,730,509,282,738,943,634,332,893,686,268,675,876,375
-
+''' + makeCommandExample( '-c -a55 [ 1 1 ] [ 1 1 ] 250 linear_recurrence' ) + '''
 The Fibonacci sequence:
-
-c:\>rpn [ 1 1 ] [ 0 1 ] 1 18 range linear_recurrence
-[ 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597 ]
-
+''' + makeCommandExample( '[ 1 1 ] [ 0 1 ] 1 18 range linear_recurrence' ) + '''
 The Lucas Sequence:
-
-c:\>rpn [ 1 1 ] [ 1 3 ] 1 17 range linear_recurrence
-[ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571 ]
-
+''' + makeCommandExample( '[ 1 1 ] [ 1 3 ] 1 17 range linear_recurrence' ) + '''
 The Tribonacci sequence:
-
-c:\>rpn [ 1 1 1 ] [ 0 0 1 ] 1 18 range linear_recurrence
-[ 0, 0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504, 927, 1705, 3136, 5768 ]
-
+''' + makeCommandExample( '[ 1 1 1 ] [ 0 0 1 ] 1 18 range linear_recurrence' ) + '''
 The Octanacci sequence:
-
-c:\>rpn [ 1 8 dup ] [ 0 7 dup 1 ] 1 20 range linearrence
-[ 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 4, 8, 16, 32, 64, 128, 255, 509, 1016, 2028 ]
-
+''' + makeCommandExample( '[ 1 8 dup ] [ 0 7 dup 1 ] 1 20 range linear_recurrence' ) + '''
 The Pell numbers:
-
-c:\>rpn [ 1 2 ] [ 0 1 ] 1 15 range linear_recurrence
-[ 0, 1, 2, 5, 12, 29, 70, 169, 408, 985, 2378, 5741, 13860, 33461, 80782 ]
-
+''' + makeCommandExample( '[ 1 2 ] [ 0 1 ] 1 15 range linear_recurrence' ) + '''
 The Perrin sequence:
-
-c:\>rpn [ 1 1 0 ] [ 3 0 2 ] 1 20 range linear_recurrence
-[ 3, 0, 2, 3, 2, 5, 5, 7, 10, 12, 17, 22, 29, 39, 51, 68, 90, 119, 158, 209 ]
-''' ],
+''' + makeCommandExample( '[ 1 1 0 ] [ 3 0 2 ] 1 20 range linear_recurrence' ) ],
 
     'lucas' : [
 'number_theory', 'calculates the nth Lucas number',
@@ -6610,9 +6370,7 @@ The Lucas sequence works just like the Fibonacci sequence, but starts with
 sequence.
 ''',
 '''
-c:\>rpn 1 17 range lucas
-[ 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843, 1364, 2207, 3571 ]
-''' ],
+''' + makeCommandExample( '1 17 range lucas' ) ],
 
     'make_cf' : [
 'number_theory', 'calculates k terms of the continued fraction representation of n',
@@ -6706,7 +6464,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range primorial' ) ],
 
     'repunit' : [
 'number_theory', 'returns the nth repunit in base k',
@@ -6791,15 +6549,9 @@ This is the equivalent of '1 n polygamma'.
 '''
 ''',
 '''
-c:\>rpn 2 unit_roots
-[ 1, -1 ]
-
-c:\>rpn 3 unit_roots
-[ 1, (-0.5 + 0.86602540378443864676j), (-0.5 - 0.86602540378443864676j) ]
-
-c:\>rpn 4 unit_roots
-[ 1, (0.0 + 1.0j), -1, (0.0 - 1.0j) ]
-''' ],
+''' + makeCommandExample( '2 unit_roots' ) + '''
+''' + makeCommandExample( '3 unit_roots' ) + '''
+''' + makeCommandExample( '4 unit_roots' ) ],
 
     'zeta' : [
 'number_theory', 'calculates Riemann\'s zeta function for n',
@@ -7556,9 +7308,7 @@ https://en.wikipedia.org/wiki/Stella_octangula_number
 http://oeis.org/A007588
 ''',
 '''
-c:\>rpn 1 8 range steloct
-[ 2, 14, 34, 62, 98, 142, 194, 254 ]
-''' ],
+''' + makeCommandExample( '1 8 range stelloct' ) ],
 
     'tetrahedral' : [
 'polyhedral_numbers', 'calculates the nth tetrahedral number',
@@ -7633,12 +7383,8 @@ expphi simply takes phi (the Golden Ratio) to the power of the argument n.
 It was originally added to make testing the base phi output easier.
 ''',
 '''
-c:\>rpn 2 expphi
-2.61803398875
-
-c:\>rpn 3 expphi 2 expphi -
-1.61803398875
-''' ],
+''' + makeCommandExample( '2 expphi' ) + '''
+''' + makeCommandExample( '3 expphi 2 expphi -' ) ],
 
     'hyper4_2' : [
 'powers_and_roots', 'calculates the right-associative tetration of n by k',
@@ -7661,15 +7407,9 @@ lists are not of equal length, then the resulting list is the length of the
 shorter of the two.
 ''',
 '''
-c:\>rpn 4 5 **
-1024
-
-c:\>rpn 1 10 range 3 **
-[ 1, 8, 27, 64, 125, 216, 343, 512, 729, 1000 ]
-
-c:\>rpn 1 foot 3 ** gallon convert
-7.480519480519 gallons
-''' ],
+''' + makeCommandExample( '4 5 **' ) + '''
+''' + makeCommandExample( '1 10 range 3 **' ) + '''
+''' + makeCommandExample( '1 foot 3 ** gallon convert' ) ],
 
     'powmod' : [
 'powers_and_roots', 'calculates a to the bth power modulo c',
@@ -7708,15 +7448,9 @@ Tetration is the process of repeated exponentiation.  n is exponentiated by
 itself k times.
 ''',
 '''
-c:\>rpn 3 3 tetrate
-19683
-
-c:\>rpn 10 10 tetrate
-1.0e+1000000000
-
-c:\>rpn 2 1 6 range tetrate
-[ 2, 4, 16, 256, 65536, 4294967296 ]
-''' ],
+''' + makeCommandExample( '3 3 tetrate' ) + '''
+''' + makeCommandExample( '10 10 tetrate' ) + '''
+''' + makeCommandExample( '2 1 6 range tetrate' ) ],
 
     'tower' : [
 'powers_and_roots', 'calculates list n as a power tower',
@@ -7794,12 +7528,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-c:\>rpn 50 double_balanced
-931181
-
-c:\>rpn 1 10 range double_balanced
-[ 18713, 25621, 28069, 30059, 31051, 44741, 76913, 97441, 103669, 106681 ]
-''' ],
+''' + makeCommandExample( '50 double_balanced' ) + '''
+''' + makeCommandExample( '1 10 range double_balanced' ) ],
 
     'double_balanced_' : [
 'prime_numbers', 'returns the nth double balanced prime and its neighbors',
@@ -7813,12 +7543,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-c:\>rpn 50 double_balanced_
-[ 931163, 931169, 931181, 931193, 931199 ]
-
-c:\>rpn 50 double_balanced_ diffs
-[ 6, 12, 12, 6 ]
-''' ],
+''' + makeCommandExample( '50 double_balanced_' ) + '''
+''' + makeCommandExample( '50 double_balanced_ diffs' ) ],
 
     'isolated_prime' : [
 'prime_numbers', 'returns the nth isolated prime',
@@ -7929,13 +7655,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion pribmes.
 ''',
 '''
-c:\>rpn 1 20 primes
-[ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71 ]
-
-c:\>rpn 320620307 10 primes
-[ 6927837559, 6927837563, 6927837571, 6927837583, 6927837599, 6927837617,
-6927837641, 6927837673, 6927837713, 6927837757 ]
-''' ],
+''' + makeCommandExample( '1 20 primes' ) + '''
+''' + makeCommandExample( '320620307 10 primes' ) ],
 
     'prime_pi' : [
 'prime_numbers', 'estimates the count of prime numbers up to and including n',
@@ -8033,12 +7754,8 @@ prime.  n + 2 or n + 4 may also be prime.  This operator returns the smaller of
 nth set of sexy primes, so the value of the result + 6 will also be prime.
 ''',
 '''
-c:\>rpn 16387 sexy_prime
-1000033
-
-c:\>rpn 1 10 range sexy_prime
-[ 5, 7, 11, 13, 17, 23, 31, 37, 41, 47 ]
-''' ],
+''' + makeCommandExample( '16387 sexy_prime' ) + '''
+''' + makeCommandExample( '1 10 range sexy_prime' ) ],
 
     'sexy_prime_' : [
 'prime_numbers', 'returns the nth set of sexy primes',
@@ -8052,14 +7769,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-c:\>rpn 213819 sexy_prime_
-[ 20000063, 20000069 ]
-
-c:\>rpn 1001 1010 range sexy_prime_
-[ [ 31957, 31963 ], [ 32003, 32009 ], [ 32051, 32057 ], [ 32057, 32063 ],
-[ 32063, 32069 ], [ 32077, 32083 ], [ 32083, 32089 ], [ 32183, 32189 ],
-[ 32251, 32257 ], [ 32297, 32303 ] ]
-''' ],
+''' + makeCommandExample( '213819 sexy_prime_' ) + '''
+''' + makeCommandExample( '1001 1010 range sexy_prime_' ) ],
 
     'sexy_triplet' : [
 'prime_numbers', 'returns the first of the nth set of sexy triplet primes',
@@ -8138,9 +7849,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-c:\>rpn 10 triple_balanced
-14907649
-''' ],
+''' + makeCommandExample( '1 10 range triple_balanced' ) ],
 
     'triple_balanced_' : [
 'prime_numbers', 'returns the nth triple balanced prime and its neighbors',
@@ -8154,12 +7863,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-c:\>rpn 10 triple_balanced_
-[ 14907619, 14907631, 14907637, 14907649, 14907661, 14907667, 14907679 ]
-
-c:\>rpn 10 triple_balanced_ diffs
-[ 12, 6, 12, 12, 6, 12 ]
-''' ],
+''' + makeCommandExample( '10 triple_balanced_' ) + '''
+''' + makeCommandExample( '10 triple_balanced_ diffs' ) ],
 
     'triplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of triplet primes',
@@ -8173,12 +7878,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-c:\>rpn 10 triplet_prime
-101
-
-c:\>rpn 1 10 range triplet_prime
-[ 5, 7, 11, 13, 17, 37, 41, 67, 97, 101 ]
-''' ],
+''' + makeCommandExample( '1231 triplet_prime' ) + '''
+''' + makeCommandExample( '1 10 range triplet_prime' ) ],
 
     'triplet_prime_' : [
 'prime_numbers', 'returns the nth set of triplet primes',
@@ -8192,14 +7893,8 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-c:\>rpn 10 triplet_prime_
-[ 101, 103, 107 ]
-
-c:\>rpn 1 10 range triplet_prime_
-[ [ 5, 7, 11 ], [ 7, 11, 13 ], [ 11, 15, 17 ], [ 13, 17, 19 ], [ 17, 19, 23 ],
-[ 37, 41, 43 ], [ 41, 43, 47 ], [ 67, 71, 73 ], [ 97, 101, 103 ],
-[ 101, 103, 107 ] ]
-''' ],
+''' + makeCommandExample( '1231 triplet_prime_' ) + '''
+''' + makeCommandExample( '1 10 range triplet_prime_ -s1' ) ],
 
     'twin_prime' : [
 'prime_numbers', 'returns the first of the nth set of twin primes',
@@ -8384,13 +8079,8 @@ The echo operator does not apply to operators in an operator list, but is
 applied when the operator list is completed.
 ''',
 '''
-c:\>rpn 2 echo 2 +
-[ 2, 4 ]
-
-c:\>rpn 2 echo 2 echo +
-[ 2, 2, 4 ]
-
-''' ],
+''' + makeCommandExample( '2 echo 2 +' ) + '''
+''' + makeCommandExample( '2 echo 2 echo +' ) ],
 
     'estimate' : [
 'special', 'estimates the value of a measurement in common terms',
@@ -8416,16 +8106,17 @@ The upper limit of integers rpn can name is 10^3004 - 1.
 If the number has more digits than the current precision setting of rpn, the
 result will be subject to rounding and will be incorrect.
 
-c:\>rpn 10 3000 ** ordinal_name
+''' + makeCommandExample( '1 name' ) + '''
+''' + makeCommandExample( '157 name' ) + '''
+c:\>rpn 10 3000 ** name
 nine hundred ninety-nine octononagintanongentillion nine hundred ninety-nine
 septenonagintanongentillion nine hundred ninety-nine senonagintanongentillion
 nine hundred ninety-nine...
-
-c:\>rpn -a3000 10 3000 ** ordinal_name
-one novenonagintanongentillionth
-''',
+''' + makeCommandExample( '-a3000 10 3000 ** name' ),
 '''
-''' ],
+''' + makeCommandExample( '1 name' ) + '''
+''' + makeCommandExample( '157 name' ) + '''
+''' + makeCommandExample( '1,234,567,890 name' ) ],
 
     'oeis' : [
 'special', 'downloads the OEIS integer series n',
@@ -8436,11 +8127,7 @@ to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
 flushing the cache for a particular entry.
 ''',
 '''
-c:\>rpn 10349 oeis
-[ 1, 2, 3, 4, 5, 6, 13, 34, 44, 63, 250, 251, 305, 505, 12205, 12252, 13350,
-13351, 15124, 36034, 205145, 1424553, 1433554, 3126542, 4355653, 6515652,
-125543055, 161340144, 254603255, 336133614, 542662326 ]
-''' ],
+''' + makeCommandExample( 'rpn 10349 oeis' ) ],
 
     'oeis_comment' : [
 'special', 'downloads the comment field for the OEIS integer series n',
@@ -8451,16 +8138,7 @@ to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
 flushing the cache for a particular entry.
 ''',
 '''
-c:\>rpn 98593 oeiscomment
-'Row sums are A009545(n+1), with e.g.f. exp(x)(cos(x)+sin(x)). Diagonal sums
-are A077948.\nThe rows are the diagonals of the Krawtchouk matrices. Coincides
-with the Riordan array (1/(1-x),(1-2x)/(1-x)). - _Paul Barry_, Sep 24
-2004\nCorresponds to Pascal-(1,-2,1) array, read by anti-diagonals. The
-Pascal-(1,-2,1) array has n-th row generated by (1-2x)^n/(1-x)^(n+1). - _Paul
-Barry_, Sep 24 2004\nA modified version (different signs) of this triangle is
-given by T(n,k)=sum{j=0..n, C(n-k,j)C(k,j)cos(Pi*(k-j))}. - _Paul Barry_, Jun
-14 2007'
-''' ],
+''' + makeCommandExample( '98593 oeiscomment' ) ],
 
     'oeis_ex' : [
 'special', 'downloads the extra information field for the OEIS integer series n',
@@ -8471,9 +8149,7 @@ to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
 flushing the cache for a particular entry.
 ''',
 '''
-c:\>rpn 178 oeisex
-'One more term from _Stefan Steinerberger_, Mar 10 2006'
-''' ],
+''' + makeCommandExample( '178 oeisex' ) ],
 
     'oeis_name' : [
 'special', 'downloads the name of the OEIS integer series n',
@@ -8484,9 +8160,7 @@ to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
 flushing the cache for a particular entry.
 ''',
 '''
-c:\>rpn 10349 oeisname
-'Base 7 Armstrong or narcissistic numbers.'
-''' ],
+''' + makeCommandExample( '10349 oeisname' ) ],
 
     'ordinal_name' : [
 'special', 'returns the English ordinal name for the integer value n',
