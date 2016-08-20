@@ -105,11 +105,12 @@ def evaluate( terms ):
                 g.creatingFunction = False
             else:
                 raise ValueError( 'function operators require a function definition' )
-        elif g.creatingFunction:
-            currentValueList[ -1 ].add( term )
-            continue
 
         currentValueList = getCurrentArgList( valueList )
+
+        if g.creatingFunction:
+            currentValueList[ -1 ].add( term )
+            continue
 
         try:
             if not evaluateTerm( term, index, currentValueList, not hasMore ):
@@ -574,6 +575,8 @@ def rpn( cmd_args ):
         print( '--identify:  ' + ( 'true' if args.identify else 'false' ) )
         print( '--leading_zero:  ' + ( 'true' if g.leadingZero else 'false' ) )
         print( )
+
+    g.creatingFunction = False
 
     # enter interactive mode if there are no arguments
     if not terms:

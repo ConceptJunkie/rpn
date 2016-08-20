@@ -53,12 +53,13 @@ def rollMultipleDice( expression, times ):
 # //
 # //  permuteDice
 # //
-# //  format: [c]dv[x[p]][h[q]]
+# //  format: [c]dv[x[p]][h[q]][-+]y
 # //
 # //  c - dice count, defaults to 1
-# //  v - dice value, i.e., number of sides, minumum 2, no maximum
+# //  v - dice value, i.e., number of sides, minumum 2
 # //  p - drop lowest die value(s), defaults to 1
 # //  q - drop highest value(s), defaults to 1
+# //  y - add or subtract y from the total (modifier)
 # //
 # //******************************************************************************
 

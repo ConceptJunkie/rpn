@@ -15,6 +15,7 @@
 import shlex
 import six
 
+import argparse
 import bz2
 import contextlib
 import io
@@ -48,6 +49,9 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
+maxExampleCount = 607
+debugMode = False
+
 
 # //******************************************************************************
 # //
@@ -64,20 +68,28 @@ def makeCommandExample( command, indent=0, slow=False ):
     global exampleCount
     exampleCount += 1
 
-    print( '\rGenerating example: ', exampleCount, end='' )
+    if not command:
+        return ''
+
+    # This total count needs to be manually updated when the help examples are modified.
+    global maxExampleCount
+    print( '\rGenerating example: ', exampleCount, 'of', maxExampleCount, end='' )
 
     if slow:
         print( '  (please be patient...)', end='', flush=True )
 
     output = io.StringIO( )
 
-    #print( )
-    #print( command )
+    global debugMode
+    if debugMode:
+        print( )
+        print( command )
+
     print( ' ' * indent + 'c:\\>rpn ' + command, file=output )
     handleOutput( rpn( shlex.split( command ) ), indent=indent, file=output )
 
     if slow:
-        print( '\r', ' ' * 50, end='' )
+        print( '\r', ' ' * 55, end='' )
 
     result = output.getvalue( )
     output.close( )
@@ -185,7 +197,7 @@ Some simple examples:
 ''' + makeCommandExample( '2 2 + ', indent=4 ) + '''
 ( 5 + 6 ) * ( 7 + 8 )
 ''' + makeCommandExample( '5 6 + 7 8 + *', indent=4 ) + '''
-3 sqrt(2) / 4:
+3 sqrt( 2 ) / 4:
 ''' + makeCommandExample( '3 2 sqrt * 4 /', indent=4 ) + '''
 Lists are specified using the bracket operators.  Most operators can take
 lists as operands, which results in the operation being performed on each
@@ -241,11 +253,14 @@ use with higher bases with -b).
     ''',
     'output' :
     '''
-    [ TODO: describe output formats supported by rpn ]
+[ TODO: describe output formats supported by rpn ]
+
+For now, go to 'rpn help options' and see -a, -c, -d, -g, -l, -m, -o, -r,
+-R, -s, -t, -v, -w, -x, and -z,
     ''',
     'time_features' :
     '''
-    [ TODO: describe time features supported by rpn ]
+[ TODO: describe time features supported by rpn ]
 
 For now, here are some examples:
 
@@ -331,7 +346,7 @@ For now, here are some examples:
 ''' + makeCommandExample( '10 miles km convert', indent=4 ) + '''
 ''' + makeCommandExample( '2 gallons cups convert', indent=4 ) + '''
 ''' + makeCommandExample( '153 pounds stone convert', indent=4 ) + '''
-''' + makeCommandExample( '65 mph kph convert', indent=4 ) + '''
+''' + makeCommandExample( 'usb1 kilobit/second', indent=4 ) + '''
 ''' + makeCommandExample( '60 miles hour / furlongs fortnight / convert', indent=4 ) + '''
 ''' + makeCommandExample( '10 tons estimate', indent=4 ) + '''
 ''' + makeCommandExample( '78 kg [ pound ounce ] convert', indent=4 ) + '''
@@ -486,6 +501,9 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
     ''',
     'bugs' :
     '''
+Chained calls to 'next_new_moon' give the same answer over and over.  Other
+related operators probably do the same thing.
+
 -d needs to parse out the scientific notation part of the value
 
 Converting negative numbers to different bases gives weird answers.
@@ -515,11 +533,17 @@ You need to do '-a20' instead of '-a 20' ).
 operators that take more than 2 arguments don't handle recursive list
 arguments.
 
+There are some minor bugs in the dice expression evaluator.
+
+'mean' doesn't seem to be working correctly with nested list arguments.  There
+could be other list operators with the same problem.
+
 See 'rpn help TODO'.
     ''',
     'TODO' :
     '''
-This is my informal, short-term todo list for rpn:
+This is my informal, short-term todo list for rpn.  It often grows and seldom
+gets smaller.
 
 *  support measurements with 'name'
 *  'humanize' - like 'name' but only 2 significant digits when > 1000
@@ -1391,7 +1415,11 @@ operatorHelp = {
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2 sqrt 10 find_polynomial' ) + '''
+''' + makeCommandExample( 'phi 3 ** 10 find_polynomial' ) + '''
+''' + makeCommandExample( 'silver 10 find_polynomial' ) + '''
+''' + makeCommandExample( 'plastic 10 find_polynomial' ) + '''
+''' + makeCommandExample( 'mertens_constant 100 find_polynomial' ) ],
 
     'multiply_polynomials' : [
 'algebra', 'interprets two lists as polynomials and multiplies them',
@@ -1431,23 +1459,39 @@ operatorHelp = {
     'solve_cubic' : [
 'algebra', 'solves a cubic equation',
 '''
+a is the cubic coefficient (x^3), b is the quadratic coefficient (x^2), c is
+the linear coefficient (x), and d is the constant coefficient.
+
+This operator uses the cubic formula to solve cubic equations.  The 'solve'
+operator uses mpmath's numerical solver to do the same thing.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 4 -20 -48 solve_cubic' ) ],
 
     'solve_quadratic' : [
 'algebra', 'solves a quadratic equation',
 '''
+a is the quadratic coefficient (x^2), b is the linear coefficient (x), and c
+is the constant coefficient.
+
+This operator uses the quadratic formula to solve quadratic equations.  The
+'solve' operator uses mpmath's numerical solver to do the same thing.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 3 -28 solve_quadratic' ) ],
 
     'solve_quartic' : [
 'algebra', 'solves a quartic equation',
 '''
+a is the quartic coefficient (x^4), b is the cubic coefficient (x^3), c is the
+quadratic coefficient (x^2), d is the linear coefficient (x), and e is the
+constant coefficient.
+
+This operator uses the cubic formula to solve cubic equations.  The 'solve'
+operator uses mpmath's numerical solver to do the same thing.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 2 -107 -648 -1008 solve_quartic' ) ],
 
 
 # //******************************************************************************
@@ -1495,14 +1539,19 @@ Addition is supported for measurements..
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '3.4 ceil' ) + '''
+''' + makeCommandExample( '-5.8 ceil' ) + '''
+''' + makeCommandExample( '5.1 3.4 i +' ) ],
 
     'decrement' : [
 'arithmetic', 'returns n - 1',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 decrement', indent=4 ) + '''
+''' + makeCommandExample( '1 10 range decrement', indent=4 ) + '''
+List the first 10 pronic numbers:
+''' + makeCommandExample( '1 10 range lambda x x decrement * eval', indent=4 ) ],
 
     'divide' : [
 'arithmetic', 'divides n by k',
@@ -1530,14 +1579,17 @@ Division is supported for measurements.
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '0.1 floor' ) + '''
+''' + makeCommandExample( '-6.9 floor' ) + '''
+''' + makeCommandExample( '-2.5 5.7 i + floor' ) ],
 
     'gcd' : [
 'arithmetic', 'calculates the greatest common denominator of elements in list n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 5 10 20 ] gcd' ) + '''
+''' + makeCommandExample( '[ 3150 8820 ] gcd' ) ],
 
     'geometric_mean' : [
 'arithmetic', 'calculates the geometric mean of a a list of numbers n',
@@ -1556,7 +1608,9 @@ Calculate the geometric mean of the first n numbers from 1 to 5:
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 increment' ) + '''
+''' + makeCommandExample( '1 10 range increment' ) + '''
+''' + makeCommandExample( '1 10 range lambda x increment fib x fib / eval' ) ],
 
     'is_divisible' : [
 'arithmetic', 'returns whether n is n divisible by k',
@@ -1580,7 +1634,9 @@ Calculate the geometric mean of the first n numbers from 1 to 5:
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2 is_even' ) + '''
+''' + makeCommandExample( '3 is_even' ) + '''
+''' + makeCommandExample( '1 100 primes lambda x is_even filter' ) ],
 
     'is_greater' : [
 'arithmetic', 'returns 1 if n is greater than k, otherwise returns 0',
@@ -1664,16 +1720,21 @@ Calculate the geometric mean of the first n numbers from 1 to 5:
     'larger' : [
 'arithmetic', 'returns the larger of n and k',
 '''
+'larger' requires real arguments.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '7 8 larger' ) + '''
+''' + makeCommandExample( 'pi 3' ) + '''
+''' + makeCommandExample( '1 -1 larger' ) ],
 
     'lcm' : [
 'arithmetic', 'calculates the least common multiple of elements in list n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 3 6 12 ] lcm' ) + '''
+''' + makeCommandExample( '1 20 range lcm' ) + '''
+''' + makeCommandExample( '1 5 primes lcm 5 primorial is_equal' ) ],
 
     'max' : [
 'arithmetic', 'returns the largest value in list n',
@@ -1730,7 +1791,9 @@ Multiplication is supported for measurements.
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 negative' ) + '''
+''' + makeCommandExample( '-1 negative' ) + '''
+''' + makeCommandExample( '0 negative' ) ],
 
     'nearest_int' : [
 'arithmetic', 'returns the nearest integer to n',
@@ -1761,17 +1824,27 @@ different than 'round'.
     'round' : [
 'arithmetic', 'rounds n to the nearest integer',
 '''
+'round' requires a real argument.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1.2 round' ) + '''
+''' + makeCommandExample( '-7.8 round' ) + '''
+''' + makeCommandExample( '4.5 round' ) + '''
+''' + makeCommandExample( '-13.5 round' ) ],
 
     'round_by_digits' : [
 'arithmetic', 'rounds n to the nearest kth power of 10',
 '''
 Note that 'n round' is the equivalent of 'n 0 round_by_digits'.
+
+'round_by_digits' requires a real argument.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '12 1 round_by_digits' ) + '''
+''' + makeCommandExample( '12 0 round_by_digits' ) + '''
+''' + makeCommandExample( '567 3 round_by_digits' ) + '''
+''' + makeCommandExample( 'pi -3 round_by_digits' ) + '''
+''' + makeCommandExample( '-a15 -13 pi round_by_digits -d' ) ],
 
     'round_by_value' : [
 'arithmetic', 'rounds n to the nearest multiple of k',
@@ -1779,7 +1852,12 @@ Note that 'n round' is the equivalent of 'n 0 round_by_digits'.
 Note that 'n round' is the equivalent of 'n 1 round_by_value'.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '11 3 round_by_value' ) + '''
+''' + makeCommandExample( '23 5 round_by_value' ) + '''
+''' + makeCommandExample( 'pi 2 round_by_value' ) + '''
+''' + makeCommandExample( 'pi 0.2 round_by_value' ) + '''
+''' + makeCommandExample( 'pi 0.03 round_by_value' ) + '''
+''' + makeCommandExample( 'pi 0.004 round_by_value' ) ],
 
     'sign' : [
 'arithmetic', 'returns the sign of a value',
@@ -1799,9 +1877,12 @@ unit circle.
     'smaller' : [
 'arithmetic', 'returns the smaller of n and k',
 '''
+'smaller' requires real arguments.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 2 smaller' ) + '''
+''' + makeCommandExample( '4 3 smaller' ) + '''
+''' + makeCommandExample( '8 9 ** 9 8 ** smaller' ) ],
 
     'stddev' : [
 'arithmetic', 'calculates the standard deviation of values in list n',
@@ -1836,6 +1917,83 @@ Subtraction is supported for measurements.
 
     'sum' : [
 'arithmetic', 'calculates the sum of values in list n',
+'''
+''',
+'''
+''' ],
+
+
+# //******************************************************************************
+# //
+# //  astronomical_object operators
+# //
+# //******************************************************************************
+
+    'jupiter' : [
+'astronomical_objects', '',
+'''
+''',
+'''
+''' ],
+
+    'mars' : [
+'astronomical_objects', '',
+'''
+''',
+'''
+''' ],
+
+    'mercury' : [
+'astronomical_objects', '',
+'''
+''',
+'''
+''' ],
+
+    'moon' : [
+'astronomical_objects', '',
+'''
+''',
+'''
+''' ],
+
+    'neptune' : [
+'astronomical_objects', '',
+'''
+''',
+'''
+''' ],
+
+    'pluto' : [
+'astronomical_objects', '',
+'''
+''',
+'''
+''' ],
+
+    'saturn' : [
+'astronomical_objects', '',
+'''
+''',
+'''
+''' ],
+
+    'sun' : [
+'astronomical_objects', '',
+'''
+''',
+'''
+''' ],
+
+    'uranus' : [
+'astronomical_objects', '',
+'''
+''',
+'''
+''' ],
+
+    'venus' : [
+'astronomical_objects', '',
 '''
 ''',
 '''
@@ -1908,34 +2066,6 @@ center of the sun is 6 degrees below the horizon.
 '''
 ''' ],
 
-    'jupiter' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-
-    'mars' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-
-    'mercury' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-
-    'moon' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-
     'moonrise' : [
 'astronomy', 'calculates the next moonrise time at location n for date-time k',
 '''
@@ -1992,13 +2122,6 @@ What was the phase of the moon the day I was born:
 '''
 ''' ],
 
-    'neptune' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-
     'next_antitransit' : [
 'astronomy', 'returns the date of the next antitransit of body a, when viewed from location b, at date c',
 '''
@@ -2011,28 +2134,32 @@ What was the phase of the moon the day I was born:
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'today next_first_quarter_moon' ) + '''
+''' + makeCommandExample( '2008 easter next_first_quarter_moon' ) ],
 
     'next_full_moon' : [
 'astronomy', 'returns the date of the next Full Moon after n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'today next_full_moon' ) + '''
+''' + makeCommandExample( '1911-02-02 next_full_moon' ) ],
 
     'next_last_quarter_moon' : [
 'astronomy', 'returns the date of the next Last Quarter Moon after n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'today next_last_quarter_moon' ) + '''
+''' + makeCommandExample( '2050-01-01 next_last_quarter_moon' ) ],
 
     'next_new_moon' : [
 'astronomy', 'returns the date of the next New Moon after n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'today next_new_moon' ) + '''
+''' + makeCommandExample( '5776 05 15 from_hebrew next_new_moon to_hebrew_name' ) ],
 
     'next_rising' : [
 'astronomy', 'returns the date of the next rising of body a, when viewed from location b, at date c',
@@ -2062,13 +2189,6 @@ What was the phase of the moon the day I was born:
 '''
 ''' ],
 
-    'pluto' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-
     'previous_antitransit' : [
 'astronomy', 'returns the date of the previous antitransit of body a, when viewed from location b, at date c',
 '''
@@ -2081,28 +2201,34 @@ What was the phase of the moon the day I was born:
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'today previous_first_quarter_moon' ) + '''
+''' + makeCommandExample( '1868-05-03 previous_first_quarter_moon' ) ],
 
     'previous_full_moon' : [
 'astronomy', 'returns the date of the previous Full Moon before n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'today previous_full_moon' ) + '''
+''' + makeCommandExample( '2016-10-31 previous_full_moon' ) + '''
+''' + makeCommandExample( '2005-06-23 previous_full_moon' ) ],
+
 
     'previous_last_quarter_moon' : [
 'astronomy', 'returns the date of the previous Last Quarter Moon before n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'today previous_last_quarter_moon' ) + '''
+''' + makeCommandExample( '1971-01-01 previous_last_quarter_moon' ) ],
 
     'previous_new_moon' : [
 'astronomy', 'returns the date of the previous New Moon before n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'today previous_new_moon' ) + '''
+''' + makeCommandExample( '2020-03-19 previous_new_moon' ) ],
 
     'previous_rising' : [
 'astronomy', 'returns the date of the previous rising of body a, when viewed from location b, at date c',
@@ -2120,13 +2246,6 @@ What was the phase of the moon the day I was born:
 
     'previous_transit' : [
 'astronomy', 'returns the date of the previous transit of body a, when viewed from location b, at date c',
-'''
-''',
-'''
-''' ],
-
-    'saturn' : [
-'astronomy', '',
 '''
 ''',
 '''
@@ -2153,13 +2272,6 @@ What was the phase of the moon the day I was born:
 '''
 ''' ],
 
-    'sun' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-
     'sunrise' : [
 'astronomy', 'calculates the next sunrise time at location n for date-time k',
 '''
@@ -2177,33 +2289,21 @@ What was the phase of the moon the day I was born:
     'sun_antitransit' : [
 'astronomy', 'calculates the next sun antitransit time at location n for date-time k',
 '''
+Think of it sort of like "anti-noon".
 ''',
 '''
-''' ],
+''' + makeCommandExample( '"Bridgeford, CT" today sun_antitransit' ) ],
 
     'transit_time' : [
 'astronomy', 'calculates the duration of time from the next rising until the subseqent setting of a body'
 '''
+a is an astronomical object, b is a location and c is a date-time value
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'moon "Washington, DC" today transit_time hms' ) ],
 
     'vernal_equinox' : [
 'astronomy', 'calculates the time of the vernal equinox for year n',
-'''
-''',
-'''
-''' ],
-
-    'uranus' : [
-'astronomy', '',
-'''
-''',
-'''
-''' ],
-
-    'venus' : [
-'astronomy', '',
 '''
 ''',
 '''
@@ -3057,7 +3157,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 15,747,724,136,275,002,577,605,653,961,181,555,468,044,717,914,527,116,709,366,231,425,076,185,631,031,296
 protons in the universe and the same number of electrons."  This number is equal to 136 * 2^256.''',
 '''
-''' ],
+''' + makeCommandExample( '-c -a100 eddington_number' ) ],
 
     'electric_constant' : [
 'constants', 'returns the electric constant',
@@ -6648,7 +6748,9 @@ length (the radius of the orbit)
 time (the period of the orbit)
 ''',
 '''
-''' ],
+''' + makeCommandExample( '24 hours earth_mass orbital_velocity' ) + '''
+''' + makeCommandExample( 'earth_mass 100 miles orbital_velocity' ) + '''
+''' + makeCommandExample( 'sun_mass solar_year orbital_velocity mph convert' ) ],
 
     'schwarzchild_radius' : [
 'physics', 'calculates the Schwarzchild radius of a black hole of mass n',
@@ -7429,9 +7531,13 @@ a, b and c are assumed to be integers
     'square' : [
 'powers_and_roots', 'calculates the square of n',
 '''
+This operator is the equivalent of 'n 2 power'.
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'pi sqr' ) + '''
+''' + makeCommandExample( '10 inches sqr foot^2 convert' ) + '''
+''' + makeCommandExample( '[ 2 G sun_mass ] prod c sqr /' ) + '''
+''' + makeCommandExample( '1 10 range sqr' ) ],
 
     'square_root' : [
 'powers_and_roots', 'calculates the square root of n',
@@ -8176,17 +8282,10 @@ c:\>rpn 10 3000 ** ordinal_name
 nine hundred ninety-nine octononagintanongentillion nine hundred ninety-nine
 septenonagintanongentillion nine hundred ninety-nine senonagintanongentillion
 nine hundred ninety-nine...
-
-c:\>rpn -a3000 10 3000 ** ordinal_name
-one novenonagintanongentillionth
-''',
+''' + makeCommandExample( '-a3000 10 3000 ** ordinal_name' ),
 '''
-c:\>rpn 1999 ordinal_name
-one thousand nine hundred ninety-ninth
-
-c:\>rpn 2001 ordinal_name
-two thousand first
-''' ],
+''' + makeCommandExample( '1999 ordinal_name' ) + '''
+''' + makeCommandExample( '2001 ordinal_name' ) ],
 
     'random_integer' : [
 'special', 'returns a random integer from 0 to n - 1',
@@ -8197,9 +8296,9 @@ rpn is automatically seeded every time it runs, so random number streams are
 not reproducible.
 ''',
 '''
-c:\>rpn 10 random_integer
-2
-''' ],
+''' + makeCommandExample( '10 random_integer' ) + '''
+''' + makeCommandExample( '1000 random_integer' ) + '''
+''' + makeCommandExample( '1000000 random_integer' ) ],
 
     'random_integer_' : [
 'special', 'returns a list of k random integers from 0 to n - 1',
@@ -8211,15 +8310,15 @@ rpn is automatically seeded every time it runs, so random number streams are
 not reproducible.
 ''',
 '''
-c:\>rpn 10 10 random_integer_
-[ 2, 4, 6, 7, 6, 8, 5, 5, 4, 2 ]
-
+''' + makeCommandExample( '10 10 random_integer_' ) + '''
+''' + makeCommandExample( '1000 5 random_integer_' ) + '''
+''' + makeCommandExample( '1 billion 4 random_integer_' ) + '''
 Test the birthday paradox:
-
-rpn 365 23 random_integer_ sort
-
-You will see a duplicate approximately 50% of the time.
-''' ],
+''' + makeCommandExample( '365 23 random_integer_ sort', indent=4 ) + '''
+You will see a duplicate approximately 50% of the time.  Since this command
+is run when the help file is generated, you may or may not see a duplicate
+here, but the exact odds of seeing a duplicate can be computed:
+''' + makeCommandExample( '1 364 364 21 - range 365 / prod -', indent=4 ) ],
 
     'random' : [
 'special', 'returns a random value from 0 to 1',
@@ -8229,7 +8328,9 @@ than one.  The number of sigificant digits is controlled by the precision set
 in rpn.
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'random' ) + '''
+''' + makeCommandExample( '-a20 random' ) + '''
+''' + makeCommandExample( 'random 1000000 *' ) ],
 
     'random_' : [
 'special', 'returns a list of n random values from 0 to 1',
@@ -8251,27 +8352,104 @@ precision set in rpn.
     'permute_dice' : [
 'special', 'evaluates all permutations for a dice expression',
 '''
+This operator will iterate through all unique combinations of the dice
+expression n (see 'roll_dice') and list all the results.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2d6 permute_dice' ) + '''
+This expression compares the distribution of 4d6 drop the lowest and 5d6 drop
+the two lowest for all outcomes.
+''' + makeCommandExample( '4d6x1 permute_dice occurrence_ratios 5d6x2 permute_dice occurrence_ratios interleave -s1', indent=4 ) + '''
+As can be seen the change for an 18 goes from 1.6% with '4d6x1' to 3.5% with
+'5d6x2'.''' ],
 
     'roll_dice' : [
 'special', 'evaluates a dice expression to simulate rolling dice',
 '''
+This feature simulates dice rolling and can be used to do calculations and
+simulations for role-playing games, war games or anything else that uses dice.
+
+The dice syntax is a mini-language whose expressions look like this:
+
+format: [c]dv[,[c]dv]...][x[p]][h[q]][(-+)y]
+
+c - dice count, defaults to 1
+v - dice value, i.e., number of sides, minumum 2
+p - drop lowest die value(s), defaults to 1
+q - drop highest value(s), defaults to 1
+y - add or subtract y from the total (modifier)
+
+This is very terse and probably not valid BNF, so here's a breakdown.
+
+First, there are one or more expressions of [c]dv separated by commas
+(no spaces are allowed obviously).
+
+c is the optional number of dice, and v describes the number of sides, so '3d6'
+means 3 six-sided dice.  '2d6,d8' means 2 six-sided dice and 1 eight-sided die.
+
+You can have as many of these expressions string together as you wish.
+''' + makeCommandExample( '3d6 roll_dice', indent=4 ) + '''
+''' + makeCommandExample( '2d6,d8 roll_dice', indent=4 ) + '''
+''' + makeCommandExample( 'd100 roll_dice', indent=4 ) + '''
+''' + makeCommandExample( 'd2,d3,d4,d5,d6,d7,d8 roll_dice', indent=4 ) + '''
+
+Next, you can have two options to control the number of dice dropped by value:
+
+x[p]
+
+'x' means to drop the p lowest valued dice, where p defaults to 1 if it is left
+out.
+
+So, '4d6x' or '4d6x1' means: roll 4 six-sided dice and drop the lowest one.
+
+For example, if rpn were to roll 2, 3, 3, and 6, the total would be 12 because
+the 2 would be dropped.
+''' + makeCommandExample( '4d6x1 roll_dice', indent=4 ) + '''
+''' + makeCommandExample( '12d6x9 roll_dice', indent=4 ) + '''
+h[q]
+
+'h' means to drop the q highest valued dice, where q defaults to 1 if it is left
+out.
+
+So, '4d6h' or '4d6h1' means: roll 4 six-sided dice and drop the highest one.
+
+For example, if rpn were to roll 1, 2, 4, and 5, the total would be 7 because
+the 5 would be dropped.
+''' + makeCommandExample( '4d6h1 roll_dice', indent=4 ) + '''
+''' + makeCommandExample( '12d6h9 roll_dice', indent=4 ) + '''
+Of course, you can combine 'x' and 'h':
+''' + makeCommandExample( '10d8x3h3 roll_dice', indent=4 ) + '''
+''' + makeCommandExample( '5d6xh roll_dice', indent=4 ) + '''
+It is possible to drop all of your dice and the result would always be 0.
+*** THIS IS A BUG ***
+''' + makeCommandExample( '10d4x5h5 roll_dice', indent=4 ) + '''
+Finally, you can optionally add or subtract a fixed amount to the result:
+''' + makeCommandExample( '3d6+4 roll_dice', indent=4 ) + '''
+''' + makeCommandExample( '2d4-2 roll_dice', indent=4 ) + '''
+And obviously, this can result in a negative value.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '3d6 roll_dice' ) + '''
+''' + makeCommandExample( '4d8,3d10 roll_dice' ) + '''
+''' + makeCommandExample( '2d4,2d6x1 roll_dice' ) + '''
+''' + makeCommandExample( '2d4+2 roll_dice' ) + '''
+''' + makeCommandExample( '4d6x1-3 roll_dice' ) + '''
+''' + makeCommandExample( '2d4,4d6,8d10 roll_dice' ) ],
 
     'roll_dice_' : [
 'special', 'evaluates a dice expression to simulate rolling dice k times',
 '''
+Please see 'roll_dice' for an explanation of the dice expression language.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2d6 10 roll_dice_' ) + '''
+''' + makeCommandExample( '4d6x1 6 roll_dice_' ) ],
 
     'set' : [
 'special', 'sets variable n (which must start with \'$\') to value k in interactive mode',
 '''
+The 'set' operator has no effect when not in interactive mode.   The value is
+set, of course, but since rpn immediately exits, nothing useful can happen.
 ''',
 '''
 ''' ],
@@ -8291,9 +8469,9 @@ of measurement, then this operator will evaluate that value as a number, the
 numerical part of the measurement value.
 ''',
 '''
-c:\>rpn 1000 light-years value
-1000
-''' ],
+''' + makeCommandExample( '1000 light-years value' ) + '''
+''' + makeCommandExample( '100 years seconds convert value' ) + '''
+''' + makeCommandExample( '2 pounds value 3 gallons value +' ) ],
 
 
 # //******************************************************************************
@@ -8311,15 +8489,9 @@ acos( y ) = x.
 All trigonometric functions work on radians unless specified.
 ''',
 '''
-c:\>rpn 0 acos
-1.570796326795
-
-c:\>rpn 0.5 acos rad deg convert
-60 degrees
-
-c:\>rpn 45 degrees cos acos rad deg convert
-45 degrees
-''' ],
+''' + makeCommandExample( '0 acos' ) + '''
+''' + makeCommandExample( '0.5 acos radians deg convert' ) + '''
+''' + makeCommandExample( '45 degrees cos acos radians degrees convert' ) ],
 
     'acosh' : [
 'trigonometry', 'calculates the hyperbolic arccosine of n',
@@ -8398,17 +8570,9 @@ asin( y ) = x.
 All trigonometric functions work on radians unless specified.
 ''',
 '''
-c:\>rpn 0.5 asin
-0.523598775598
-
-c:\>rpn 0.75 sqrt asin rad deg convert
-60 degrees
-
-c:\>rpn 2 sqrt 1/x asin rad deg convert
-45 degrees
-''',
-'''
-''' ],
+''' + makeCommandExample( '0.5 asin' ) + '''
+''' + makeCommandExample( '0.75 sqrt asin radian deg convert' ) + '''
+''' + makeCommandExample( '2 sqrt 1/x asin radian deg convert' ) ],
 
     'asinh' : [
 'trigonometry', 'calculates the hyperbolic arcsine of n',
@@ -8431,15 +8595,9 @@ atan( y ) = x.
 All trigonometric functions work on radians unless specified.
 ''',
 '''
-c:\>rpn 3 atan
-1.249045772398
-
-c:\>rpn 10 atan rad deg convert
-84.2894068625 degrees
-
-c:\>rpn 89 degrees tan atan rad deg convert
-89 degrees
-''' ],
+''' + makeCommandExample( '3 atan' ) + '''
+''' + makeCommandExample( '10 atan radians deg convert' ) + '''
+''' + makeCommandExample( '89 degrees tan atan radians deg convert' ) ],
 
     'atanh' : [
 'trigonometry', 'calculates the hyperbolic arctangent of n',
@@ -8495,15 +8653,10 @@ instead of a unit circle.
 The cosecant function is defined to be the reciprocal of the sine function.
 ''',
 '''
-c:\>rpn 36 degrees csc
-1.7013016167
-
-c:\>rpn 36 degrees csc 1/x
-0.587785252292
-
-c:\>rpn 36 degrees sin
-0.587785252292
-''' ],
+''' + makeCommandExample( '36 degrees csc', indent=4 ) + '''
+Comparing csc to sin:
+''' + makeCommandExample( '36 degrees csc 1/x', indent=4 ) + '''
+''' + makeCommandExample( '36 degrees sin', indent=4 ) ],
 
     'csch' : [
 'trigonometry', 'calculates hyperbolic cosecant of n',
@@ -8523,15 +8676,9 @@ Given a right triangle with sides of n and k, the 'hypotenuse' operator
 calculates what the length of the hypotenuse would be.
 ''',
 '''
-c:\>rpn 3 4 hypotenuse
-5
-
-c:\>rpn 7 24 hypotenuse
-25
-
-c:\>rpn 1 1 hypotenuse
-1.414213562373
-''' ],
+''' + makeCommandExample( '3 4 hypotenuse' ) + '''
+''' + makeCommandExample( '7 24 hypotenuse' ) + '''
+''' + makeCommandExample( '1 1 hypotenuse' ) ],
 
     'sec' : [
 'trigonometry', 'calculates the secant of n',
