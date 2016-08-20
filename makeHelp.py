@@ -34,7 +34,6 @@ if not six.PY3:
 print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
 print( COPYRIGHT_MESSAGE )
 print( )
-print( 'generating help files...' )
 
 exampleCount = 0
 
@@ -49,7 +48,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 609
+maxExampleCount = 617
 debugMode = False
 
 
@@ -8779,9 +8778,6 @@ def makeHelp( helpTopics ):
         pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( helpTopics, pickleFile )
         pickle.dump( operatorHelp, pickleFile )
-
-    print( )
-    print( '...complete!' )
 
 
 # //******************************************************************************
