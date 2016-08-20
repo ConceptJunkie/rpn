@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 607
+maxExampleCount = 609
 debugMode = False
 
 
@@ -86,7 +86,7 @@ def makeCommandExample( command, indent=0, slow=False ):
         print( command )
 
     print( ' ' * indent + 'c:\\>rpn ' + command, file=output )
-    handleOutput( rpn( shlex.split( command ) ), indent=indent, file=output )
+    handleOutput( rpn( shlex.split( command.replace( '\\', '\\\\' ) ) ), indent=indent, file=output )
 
     if slow:
         print( '\r', ' ' * 55, end='' )
@@ -205,7 +205,6 @@ item in the list.  If the operator takes two or more operands, then any
 operand can be a list.  If one operand is a list and the other is a single
 value, then each value in the list will have the single operand applied to
 it with the operator, and the result will be displayed as a list.
-
 ''' + makeCommandExample( '[ 2 3 4 5 6 ] 10 +', indent=4 ) + '''
 ''' + makeCommandExample( '7 [ 1 2 3 4 5 6 7 ] *', indent=4 ) + '''
 If both operands are lists, then each element from the first list is applied
@@ -213,43 +212,42 @@ to the corresponding element in the second list.  If one list is shorter than
 the other, then only that many elements will have the operator applied and the
 resulting list will only be as long as the shorter list.  The rest of the
 items in the longer list are ignored.
-
 ''' + makeCommandExample( '[ 1 2 3 4 5 6 7 ] [ 1 2 3 4 5 6 7 ] **', indent=4 ) + '''
 ''' + makeCommandExample( '[ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *', indent=4 ) + '''
 Some operators take lists as operands 'natively'.  This means the operator
 requires a list, because the operation does not make sense for a single
 value.  For example, 'mean' averages the values of a list.  If the
 required list argument is a single value, rpn will promote it to a list.
-
 ''' + makeCommandExample( '1 mean', indent=4 ) + '''
 If the list operator takes a list and a non-list argument, then the non-list
 argument can be a list, and rpn will evaluate the operator for all values in
 the list.
-
 ''' + makeCommandExample( '[ 1 2 3 ] [ 4 5 6 ] eval_poly', indent=4 ) + '''
 List operands can also themselves be composed of lists and rpn will recurse.
-
 ''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 2 3 5 ] ] mean', indent=4 ) + '''
 *** THIS IS A BUG ***
 This becomes more powerful when used with operators that return lists, such as
 the 'range' operator.  Here is an rpn expression that calculates the first 10
 harmonic numbers:
-
 ''' + makeCommandExample( '1 1 10 range range 1/x sum', indent=4 ),
     'input' :
     '''
 For integers, rpn understands hexidecimal input of the form '0x....'.
-
+''' + makeCommandExample( 'rpn 0x10', indent=4 ) + '''
 A number consisting solely of 0s and 1s with a trailing 'b' or 'B' is
 interpreted as binary.
-
+''' + makeCommandExample( 'rpn 101b', indent=4 ) + '''
+''' + makeCommandExample( '011b', indent=4 ) + '''
 Otherwise, a leading '0' is interpreted as octal.
-
+''' + makeCommandExample( '030', indent=4 ) + '''
+''' + makeCommandExample( '0101', indent=4 ) + '''
 Decimal points are not allowed for binary, octal or hexadecimal modes,
 but fractional numbers in bases other than 10 can be input using -b.
-
+''' + makeCommandExample( '14.5 -b6', indent=4 ) + '''
+''' + makeCommandExample( 'hello.hi -b36', indent=4 ) + '''
 A leading '\\' forces the term to be a number rather than an operator (for
 use with higher bases with -b).
+''' + makeCommandExample( '\\add -b20', indent=4 ) + '''
     ''',
     'output' :
     '''
@@ -322,13 +320,10 @@ Some examples:
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval', indent=4 ) + '''
 ''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit', indent=4 ) + '''
 ''' + makeCommandExample( '1 inf lambda 2 x ** 1/x nsum', indent=4 ) + '''
-
 What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
 number with a 1 added on the end?
-
 ''' + makeCommandExample( '-t ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4, slow=True ) + '''
 And we can check that our result works:
-
 ''' + makeCommandExample( '428571 142857 /', indent=4 ),
     'unit_conversion' :
     '''
@@ -526,9 +521,6 @@ default format numbers.
 
 Transitive conversions with units that require special functions don't work.
 
-Options that take arguments can no longer have a space between them (i.e.,
-You need to do '-a20' instead of '-a 20' ).
-
 "rpn 1 1 4 range range 10 15 range 1 3 range range2" crashes because
 operators that take more than 2 arguments don't handle recursive list
 arguments.
@@ -562,7 +554,6 @@ gets smaller.
 *  units aren't supported in user-defined functions
 *  input parsing doesn't happen in a user-defined function, e.g., '1,000'
    doesn't get translated to 1000
-*  Make argument parsing more flexible again.
 *  http://en.wikipedia.org/wiki/Physical_constant
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
@@ -1028,7 +1019,6 @@ Implemented lots of unit tests.
 rpn is licensed under the GPL, version 3.0 and is ''' +
     '\n' + COPYRIGHT_MESSAGE +
     '''
-
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
 Foundation.
@@ -1044,7 +1034,6 @@ Please see <http://www.gnu.org/licenses/gpl.html> for more information.
 Here are some examples of using rpn:
 
 Basic arithmetic operations:
-
 ''' + makeCommandExample( '2 3 +', indent=4 ) + '''
 ''' + makeCommandExample( '12 9 -', indent=4 ) + '''
 ''' + makeCommandExample( '23 47 *', indent=4 ) + '''
@@ -1089,7 +1078,6 @@ Calculations with lists:
 ''' + makeCommandExample( '1 50 range fib is_prime nonzero 1 + fib', indent=8 ) + '''
     List the indices of the primes in the first 50 fibonacci numbers:
 ''' + makeCommandExample( '3 50 range fib factor count 1 - zeroes 3 +', indent=8 ) + '''
-
     This calculation works by listing the indices of fibonacci numbers with a
     single factor.  We are skipping fib( 1 ) and fib( 2 ) because they have a
     single factor (of 1), but of course, aren't prime.
@@ -7433,6 +7421,8 @@ http://oeis.org/A007588
 '''
 ''' ],
 
+#   'antitet' : [ findTetrahedralNumber, 1 ],
+
 
 # //******************************************************************************
 # //
@@ -8485,8 +8475,6 @@ numerical part of the measurement value.
 '''
 The arcosine is the inverse of cosine.  In other words, if cos( x ) = y, then
 acos( y ) = x.
-
-All trigonometric functions work on radians unless specified.
 ''',
 '''
 ''' + makeCommandExample( '0 acos' ) + '''
@@ -8535,10 +8523,6 @@ instead of a unit circle.
 'trigonometry', 'calculates the hyperbolic arccosecant of n',
 '''
 The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.
-
-The hyperbolic trigonometric functions are analogous to the regular circular
-trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
-instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -8553,10 +8537,6 @@ instead of a unit circle.
     'asech' : [
 'trigonometry', 'calculates the hyperbolic arcsecant of n',
 '''
-
-The hyperbolic trigonometric functions are analogous to the regular circular
-trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
-instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -8566,8 +8546,6 @@ instead of a unit circle.
 '''
 The arcsine is the inverse of sine.  In other words, if sin( x ) = y, then
 asin( y ) = x.
-
-All trigonometric functions work on radians unless specified.
 ''',
 '''
 ''' + makeCommandExample( '0.5 asin' ) + '''
@@ -8578,10 +8556,6 @@ All trigonometric functions work on radians unless specified.
 'trigonometry', 'calculates the hyperbolic arcsine of n',
 '''
 The hyperbolic arcsine is the inverse of the hyperbolic sine.
-
-The hyperbolic trigonometric functions are analogous to the regular circular
-trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
-instead of a unit circle.
 ''',
 '''
 ''' ],
@@ -8592,7 +8566,9 @@ instead of a unit circle.
 The arctangent is the inverse of tangent.  In other words, if tan( x ) = y, then
 atan( y ) = x.
 
-All trigonometric functions work on radians unless specified.
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '3 atan' ) + '''
@@ -8614,14 +8590,20 @@ instead of a unit circle.
     'cos' : [
 'trigonometry', 'calculates the cosine of n',
 '''
+The cosine of an angle is the ratio of the length of the adjacent side to the
+length of the hypotenuse.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'pi 2 / cos' ) + '''
+''' + makeCommandExample( '60 degrees cos' ) ],
 
     'cosh' : [
 'trigonometry', 'calculates the hyperbolic cosine of n',
 '''
-
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
@@ -8632,6 +8614,12 @@ instead of a unit circle.
     'cot' : [
 'trigonometry', 'calculates the cotangent of n',
 '''
+The cotangent cot( n ) is the reciprocal of tan( n ); i.e., the ratio of the
+length of the adjacent side to the length of the opposite side.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' ],
@@ -8639,10 +8627,13 @@ instead of a unit circle.
     'coth' : [
 'trigonometry', 'calculates the hyperbolic cotangent of n',
 '''
-
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' ],
@@ -8651,6 +8642,10 @@ instead of a unit circle.
 'trigonometry', 'calculates the cosecant of n',
 '''
 The cosecant function is defined to be the reciprocal of the sine function.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '36 degrees csc', indent=4 ) + '''
@@ -8665,6 +8660,10 @@ Comparing csc to sin:
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' ],
@@ -8683,6 +8682,10 @@ calculates what the length of the hypotenuse would be.
     'sec' : [
 'trigonometry', 'calculates the secant of n',
 '''
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' ],
@@ -8694,6 +8697,10 @@ calculates what the length of the hypotenuse would be.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' ],
@@ -8701,6 +8708,12 @@ instead of a unit circle.
     'sin' : [
 'trigonometry', 'calculates the sine of n',
 '''
+The sine of an angle is the ratio of the length of the opposite side to the
+length of the hypotenuse.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' ],
@@ -8712,6 +8725,10 @@ instead of a unit circle.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' ],
@@ -8719,6 +8736,10 @@ instead of a unit circle.
     'tan' : [
 'trigonometry', 'calculates the tangent of n',
 '''
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' ],
@@ -8730,12 +8751,14 @@ instead of a unit circle.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' ],
 
-
-#   'antitet' : [ findTetrahedralNumber, 1 ],
 }
 
 
