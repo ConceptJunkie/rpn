@@ -14,6 +14,7 @@
 
 import itertools
 
+from collections import Counter
 from mpmath import arange
 from random import randrange
 
@@ -29,7 +30,8 @@ import rpnGlobals as g
 # //******************************************************************************
 
 def rollDice( expression ):
-    return evaluateDiceExpression( parseDiceExpression( expression ) )
+    values, modifier = evaluateDiceExpression( parseDiceExpression( expression ) )
+    return sum( values ) + modifier
 
 
 # //******************************************************************************
@@ -44,7 +46,35 @@ def rollMultipleDice( expression, times ):
     dice = parseDiceExpression( expression )
 
     for i in arange( 0, times ):
-        result.append( evaluateDiceExpression( dice ) )
+        values, modifier = evaluateDiceExpression( dice )
+        result.append( sum( values ) + modifier )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  enumerateDice
+# //
+# //******************************************************************************
+
+def enumerateDice( expression ):
+    return evaluateDiceExpression( parseDiceExpression( expression ) )[ 0 ]
+
+
+# //******************************************************************************
+# //
+# //  enumerateMultipleDice
+# //
+# //******************************************************************************
+
+def enumerateMultipleDice( expression, times ):
+    result = [ ]
+
+    dice = parseDiceExpression( expression )
+
+    for i in arange( 0, times ):
+        result.append( evaluateDiceExpression( dice )[ 0 ] )
 
     return result
 
@@ -123,10 +153,7 @@ def permuteDice( expression ):
 # //
 # //  parseDiceExpression
 # //
-# //  expr[,expr]
-# //
-# //
-# //  format: [c]dv[x[p]][h[q]][-+]y
+# //  format: [c]dv[,[c]dv...][x[p]][h[q]][-+]y
 # //
 # //  c - dice count, defaults to 1
 # //  v - dice value, i.e., number of sides, minumum 2
@@ -142,6 +169,23 @@ def permuteDice( expression ):
 # //******************************************************************************
 
 def parseDiceExpression( arg ):
+    counter = Counter( arg )
+
+    if ( counter[ 'a' ] > 1 ):
+        raise ValueError( 'dice expressions can only contain a single \'x\'' )
+
+    if ( counter[ 'h' ] > 1 ):
+        raise ValueError( 'dice expressions can only contain a single \'h\'' )
+
+    if ( counter[ '+' ] > 1 ):
+        raise ValueError( 'dice expressions can only contain a single \'+\'' )
+
+    if ( counter[ '-' ] > 1 ):
+        raise ValueError( 'dice expressions can only contain a single \'-\'' )
+
+    if ( counter[ '+' ] + counter[ '-' ] > 1 ):
+        raise ValueError( 'dice expressions can only have a single modifier (\'+\' or \'-\')' )
+
     import re
     expressions = re.split( ',', arg )
 
@@ -197,8 +241,8 @@ def parseDiceExpression( arg ):
                 else:
                     dropLowestCount = int( piece )
 
-                if ( dropLowestCount < 0 ):
-                    raise ValueError( 'drop lowest count must be non-negative' )
+                if ( dropLowestCount < 1 ):
+                    raise ValueError( 'drop lowest count must be positive' )
 
                 state = defaultState
             elif state == dropHighestCountState:
@@ -206,6 +250,10 @@ def parseDiceExpression( arg ):
                     dropHighestCount = 1
                 else:
                     dropHighestCount = int( piece )
+
+                if ( dropHighestCount < 1 ):
+                    raise ValueError( 'drop highest count must be positive' )
+
             elif state == plusModifierState:
                 if piece == '':
                     modifier = 1
@@ -221,12 +269,6 @@ def parseDiceExpression( arg ):
 
                 state = defaultState
 
-        # trailing x means drop count is 1
-        if state == dropLowestCountState:
-            dropLowestCount = 1
-        elif state == dropHighestCountState:
-            dropHighestCount = 1
-
         if diceCount == 0:
             diceCount = 1
 
@@ -236,11 +278,8 @@ def parseDiceExpression( arg ):
         if dropHighestCount != 0 and diceValue == 0:
             raise ValueError( 'dice expression requires \'d\' if \'h\' is used' )
 
-        if dropLowestCount >= diceCount:
-            raise ValueError( 'drop lowest count \'x\' cannot be greater than or equal to dice count \'d\'' )
-
-        if dropHighestCount >= diceCount:
-            raise ValueError( 'drop highest count \'h\' cannot be greater than or equal to dice count \'d\'' )
+        if ( dropLowestCount + dropHighestCount ) >= diceCount:
+            raise ValueError( 'this dice expression is dropping as many or more dice than are being rolled' )
 
         debugPrint( 'expression', expr )
         debugPrint( 'diceCount', diceCount )
@@ -264,12 +303,12 @@ def parseDiceExpression( arg ):
 # //******************************************************************************
 
 def evaluateDiceExpression( args ):
-    result = 0
+    result = [ ]
 
     for diceCount, diceValue, dropLowestCount, dropHighestCount, modifier in args:
         if dropLowestCount == 0 and dropHighestCount == 0:
             for i in range( 0, diceCount ):
-                result += randrange( diceValue ) + 1
+                result.append( randrange( diceValue ) + 1 )
         else:
             dice = [ ]
 
@@ -281,12 +320,10 @@ def evaluateDiceExpression( args ):
 
             if dropHighestCount > 0:
                 debugPrint( 'drop', dice[ dropLowestCount : -dropHighestCount ] )
-                result += sum( dice[ dropLowestCount : -dropHighestCount ] )
+                result.extend( dice[ dropLowestCount : -dropHighestCount ] )
             else:
                 debugPrint( 'drop', dice[ dropLowestCount : ] )
-                result += sum( dice[ dropLowestCount : ] )
+                result.extend( dice[ dropLowestCount : ] )
 
-        result += modifier
-
-    return result
+    return result, modifier
 

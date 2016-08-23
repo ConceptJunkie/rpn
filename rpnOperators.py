@@ -3503,6 +3503,12 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.String ],
                                                     RPNOperator.measurementsAllowed ),
 
+    'enumerate_dice'                 : RPNOperator( enumerateDice,
+                                                    1, [ RPNOperator.String ] ),
+
+    'enumerate_dice_'                : RPNOperator( enumerateMultipleDice,
+                                                    2, [ RPNOperator.String, RPNOperator.PositiveInteger ] ),
+
     'estimate'                       : RPNOperator( estimate,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
@@ -3533,6 +3539,7 @@ operators = {
 
     'permute_dice'                   : RPNOperator( permuteDice,
                                                     1, [ RPNOperator.String ] ),
+
 
     'roll_dice'                      : RPNOperator( rollDice,
                                                     1, [ RPNOperator.String ] ),

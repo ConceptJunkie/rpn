@@ -48,7 +48,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 617
+maxExampleCount = 654
 debugMode = False
 
 
@@ -523,8 +523,6 @@ Transitive conversions with units that require special functions don't work.
 "rpn 1 1 4 range range 10 15 range 1 3 range range2" crashes because
 operators that take more than 2 arguments don't handle recursive list
 arguments.
-
-There are some minor bugs in the dice expression evaluator.
 
 'mean' doesn't seem to be working correctly with nested list arguments.  There
 could be other list operators with the same problem.
@@ -2965,7 +2963,9 @@ same as the 'doublefac' operator.
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '5 2 permutations' ) + '''
+''' + makeCommandExample( '10 7 permutations' ) + '''
+''' + makeCommandExample( '20 10 permutations' ) ],
 
 
 # //******************************************************************************
@@ -8177,12 +8177,56 @@ applied when the operator list is completed.
 ''' + makeCommandExample( '2 echo 2 +' ) + '''
 ''' + makeCommandExample( '2 echo 2 echo +' ) ],
 
+    'enumerate_dice' : [
+'special', 'evaluates a dice expression to simulate rolling dice, with dice values enumerated separately',
+'''
+This feature simulates dice rolling and can be used to do calculations and
+simulations for role-playing games, war games or anything else that uses dice.
+
+Please see 'roll_dice' for details of the dice expression mini-language.
+
+Please note that 'enumerate_dice' ignores the modifiers applied to the dice
+expressions.
+''',
+'''
+''' + makeCommandExample( '3d6 enumerate_dice', indent=4 ) + '''
+''' + makeCommandExample( '2d6,d8 enumerate_dice', indent=4 ) + '''
+''' + makeCommandExample( 'd100 enumerate_dice', indent=4 ) + '''
+''' + makeCommandExample( 'd2,d3,d4,d5,d6,d7,d8 enumerate_dice', indent=4 ) ],
+
+    'enumerate_dice_' : [
+'special', 'evaluates a dice expression to simulate rolling dice k times, with dice values enumerated separately for each roll',
+'''
+Please see 'roll_dice' for an explanation of the dice expression language.
+
+Please note that 'enumerate_dice' ignores the modifiers applied to the dice
+expressions.
+''',
+'''
+''' + makeCommandExample( '2d6 10 enumerate_dice_' ) + '''
+''' + makeCommandExample( '4d6x1 6 enumerate_dice_' ) ],
+
     'estimate' : [
 'special', 'estimates the value of a measurement in common terms',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1100 lumens estimate' ) + '''
+''' + makeCommandExample( '400 acres estimate' ) + '''
+''' + makeCommandExample( '1 square_mm estimate' ) + '''
+''' + makeCommandExample( '8 gees estimate' ) + '''
+''' + makeCommandExample( '1 arcsecond estimate' ) + '''
+''' + makeCommandExample( '300 pounds estimate' ) + '''
+''' + makeCommandExample( '1 farad estimate' ) + '''
+''' + makeCommandExample( '1 franklin estimate' ) + '''
+''' + makeCommandExample( '60 pascal-seconds estimate' ) + '''
+''' + makeCommandExample( '1 gram energy_equivalence estimate' ) + '''
+''' + makeCommandExample( '8 micrograms estimate' ) + '''
+''' + makeCommandExample( '1 MHz estimate' ) + '''
+''' + makeCommandExample( 'c 100 / estimate' ) + '''
+''' + makeCommandExample( '10000 cubic_miles estimate' ) + '''
+''' + makeCommandExample( '1 petabyte estimate' ) + '''
+''' + makeCommandExample( '4 million gallons estimate' ) ],
 
     'help' : [
 'special', 'displays help text',
@@ -8329,14 +8373,17 @@ zero and less than one.  The number of sigificant digits is controlled by the
 precision set in rpn.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '5 random_' ) + '''
+''' + makeCommandExample( '1000 random_ mean' ) ],
 
     'result' : [
 'special', 'loads the result from the previous invokation of rpn',
 '''
+'result' currently doesn't work with measurements.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2 sqrt' ) + '''
+''' + makeCommandExample( 'result sqr' ) ],
 
     'permute_dice' : [
 'special', 'evaluates all permutations for a dice expression',
@@ -8409,9 +8456,7 @@ the 5 would be dropped.
 Of course, you can combine 'x' and 'h':
 ''' + makeCommandExample( '10d8x3h3 roll_dice', indent=4 ) + '''
 ''' + makeCommandExample( '5d6xh roll_dice', indent=4 ) + '''
-It is possible to drop all of your dice and the result would always be 0.
-*** THIS IS A BUG ***
-''' + makeCommandExample( '10d4x5h5 roll_dice', indent=4 ) + '''
+''' + makeCommandExample( '10d4x5h4 roll_dice', indent=4 ) + '''
 Finally, you can optionally add or subtract a fixed amount to the result:
 ''' + makeCommandExample( '3d6+4 roll_dice', indent=4 ) + '''
 ''' + makeCommandExample( '2d4-2 roll_dice', indent=4 ) + '''
@@ -8478,6 +8523,7 @@ acos( y ) = x.
 '''
 ''' + makeCommandExample( '0 acos' ) + '''
 ''' + makeCommandExample( '0.5 acos radians deg convert' ) + '''
+''' + makeCommandExample( '0.234 acos cos' ) + '''
 ''' + makeCommandExample( '45 degrees cos acos radians degrees convert' ) ],
 
     'acosh' : [
@@ -8548,6 +8594,7 @@ asin( y ) = x.
 ''',
 '''
 ''' + makeCommandExample( '0.5 asin' ) + '''
+''' + makeCommandExample( '0.345 asin sin' ) + '''
 ''' + makeCommandExample( '0.75 sqrt asin radian deg convert' ) + '''
 ''' + makeCommandExample( '2 sqrt 1/x asin radian deg convert' ) ],
 
@@ -8571,6 +8618,8 @@ can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '3 atan' ) + '''
+''' + makeCommandExample( '1 atan radians deg convert' ) + '''
+''' + makeCommandExample( '5.612 atan tan' ) + '''
 ''' + makeCommandExample( '10 atan radians deg convert' ) + '''
 ''' + makeCommandExample( '89 degrees tan atan radians deg convert' ) ],
 
@@ -8715,7 +8764,9 @@ radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '60 degrees sin' ) + '''
+''' + makeCommandExample( 'pi 2 / sin' ) + '''
+''' + makeCommandExample( '0 sin' ) ],
 
     'sinh' : [
 'trigonometry', 'calculates the hyperbolic sine of n',
@@ -8735,13 +8786,17 @@ can handle a value in degrees without having to first convert.
     'tan' : [
 'trigonometry', 'calculates the tangent of n',
 '''
+The tangent of an angle is the ratio of the length of the opposite side to the
+length of the adjacent side.
 
 All trigonometric operators that take angles assume the arguments are in
 radians.  However, the operators also take measurements as arguments, so they
 can handle a value in degrees without having to first convert.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '30 degrees tan' ) + '''
+''' + makeCommandExample( '' ) + '''
+''' + makeCommandExample( '' ) ],
 
     'tanh' : [
 'trigonometry', 'calculates the hyperbolic tangent of n',
