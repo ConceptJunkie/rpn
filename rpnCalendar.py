@@ -534,8 +534,8 @@ def getBahaiCalendarDateName( n ):
 
     if date[ 0 ] >= 1:
         result += 'Year ' + bahaiYears[ date[ 0 ] % 19 - 1 ] + ' of the ' + \
-                  getOrdinalName( ( date[ 0 ] / 19 ) + 1 ) + ' Vahid of the ' + \
-                  getOrdinalName( ( date[ 0 ] / 361 ) + 1 ) + ' Kull-i-Shay\'' + \
+                  getOrdinalName( ( date[ 0 ] // 19 ) + 1 ) + ' Vahid of the ' + \
+                  getOrdinalName( ( date[ 0 ] // 361 ) + 1 ) + ' Kull-i-Shay\'' + \
                   ' (Year ' + str( date[ 0 ] ) + ')'
     else:
         result += str( date[ 0 ] )
