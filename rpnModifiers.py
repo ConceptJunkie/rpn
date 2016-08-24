@@ -108,12 +108,30 @@ def duplicateTerm( valueList ):
 
 def duplicateOperation( valueList ):
     if g.duplicateOperations > 0:
-        raise ValueError( "'dupop' must be followed by another operation" )
+        raise ValueError( "'dup_operator' must be followed by another operation" )
 
     if isinstance( valueList[ -1 ], list ):
-        raise ValueError( "'dupop' cannot accept a list argument" )
+        raise ValueError( "'dup_operator' cannot accept a list argument" )
 
-    g.duplicateOperations = nint( floor( valueList.pop( ) ) )
+    duplicateOperations = nint( floor( valueList.pop( ) ) )
+
+    print( 'end of list', valueList[ -1 ] )
+
+    # operatorInfo = operators[ term ]
+    # argsNeeded = operatorInfo.argCount
+    #
+    # if argsNeeded > 1:
+    #     savedArgs = currentValueList[ -argsNeeded + 1 : ]
+    #
+    # for i in range( 0, int( g.duplicateOperations ) ):
+    #     if argsNeeded > 1 and i > 0:
+    #         currentValueList.extend( savedArgs )
+    #
+    #     if not operators[ term ].evaluate( term, index, currentValueList ):
+    #         return False
+    #
+    # g.duplicateOperations = 0
+
 
 
 # //******************************************************************************

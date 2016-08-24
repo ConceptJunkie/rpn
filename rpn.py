@@ -161,10 +161,10 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
 
     indentString = ' ' * indent
 
-    if isinstance( valueList[ 0 ], RPNFunction ):
-        print( indentString + 'rpn:  unexpected end of input in function definition', file=file )
-    elif len( valueList ) != 1:
+    if len( valueList ) != 1:
         print( indentString + 'rpn:  unexpected end of input', file=file )
+    elif isinstance( valueList[ 0 ], RPNFunction ):
+        print( indentString + 'rpn:  unexpected end of input in function definition', file=file )
     else:
         mp.pretty = True
         result = valueList.pop( )

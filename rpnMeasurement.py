@@ -423,10 +423,27 @@ class RPNMeasurement( object ):
         return self.units.getUnitString( )
 
     def getUnitName( self ):
-        return self.unitName
+        if self.unitName:
+            return self.unitName
+
+        unitString = self.getUnitString( )
+
+        if unitString in g.unitOperators:
+            return g.unitOperators[ unitString ].representation
+        else:
+            return unitString
+
 
     def getPluralUnitName( self ):
-        return self.pluralUnitName
+        if self.pluralUnitName:
+            return self.pluralUnitName
+
+        unitString = self.getUnitString( )
+
+        if unitString in g.unitOperators:
+            return g.unitOperators[ unitString ].plural
+        else:
+            return unitString
 
     def getUnitTypes( self ):
         types = RPNUnits( )

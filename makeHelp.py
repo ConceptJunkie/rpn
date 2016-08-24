@@ -48,7 +48,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 654
+maxExampleCount = 657
 debugMode = False
 
 
@@ -224,7 +224,6 @@ the list.
 ''' + makeCommandExample( '[ 1 2 3 ] [ 4 5 6 ] eval_poly', indent=4 ) + '''
 List operands can also themselves be composed of lists and rpn will recurse.
 ''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 2 3 5 ] ] mean', indent=4 ) + '''
-*** THIS IS A BUG ***
 This becomes more powerful when used with operators that return lists, such as
 the 'range' operator.  Here is an rpn expression that calculates the first 10
 harmonic numbers:
@@ -524,9 +523,6 @@ Transitive conversions with units that require special functions don't work.
 operators that take more than 2 arguments don't handle recursive list
 arguments.
 
-'mean' doesn't seem to be working correctly with nested list arguments.  There
-could be other list operators with the same problem.
-
 See 'rpn help TODO'.
     ''',
     'TODO' :
@@ -534,7 +530,6 @@ See 'rpn help TODO'.
 This is my informal, short-term todo list for rpn.  It often grows and seldom
 gets smaller.
 
-*  support measurements with 'name'
 *  'humanize' - like 'name' but only 2 significant digits when > 1000
 *  'name' should handle fractions smaller than 1 gracefully (right now it
    prints nothing)
@@ -554,8 +549,7 @@ gets smaller.
 *  http://en.wikipedia.org/wiki/Physical_constant
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
-*  'dup_digits' is not intuitive, and it doesn't work right with negative numbers
-    (i.e., I can't even figure it out any more...)
+*  'dup_ops' flat out doesn't work any more
 *  'is_equal' should handle measurements of different (but compatible) types
 
 See 'rpn help bugs'.
@@ -8209,6 +8203,10 @@ expressions.
     'estimate' : [
 'special', 'estimates the value of a measurement in common terms',
 '''
+Often calculations result in units which are not intuitive, usually when they
+are very small or very large.  The 'estimate' operator is an attempt to compare
+a measurement to something familiar to give the user an idea of the rough
+magnitude of the measurement.
 ''',
 '''
 ''' + makeCommandExample( '1100 lumens estimate' ) + '''
@@ -8236,7 +8234,7 @@ expressions.
 ''' ],
 
     'name' : [
-'special', 'returns the English name for the integer value n',
+'special', 'returns the English name for the integer value or measurement n',
 '''
 This operator returns the English name for any integer n.
 
@@ -8255,7 +8253,10 @@ nine hundred ninety-nine...
 '''
 ''' + makeCommandExample( '1 name' ) + '''
 ''' + makeCommandExample( '157 name' ) + '''
-''' + makeCommandExample( '1,234,567,890 name' ) ],
+''' + makeCommandExample( '1,234,567,890 name' ) + '''
+''' + makeCommandExample( '1 gallon name' ) + '''
+''' + makeCommandExample( '114 feet name' ) + '''
+''' + makeCommandExample( '2337 ounces [ pounds ounces ] convert name' ) ],
 
     'oeis' : [
 'special', 'downloads the OEIS integer series n',

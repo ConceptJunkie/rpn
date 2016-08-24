@@ -12,10 +12,10 @@
 # //
 # //******************************************************************************
 
-from mpmath import fabs, fdiv, floor, fmod, power
+from mpmath import fabs, fdiv, floor, fmod, mpf, power
 
 from rpnMeasurement import RPNMeasurement
-from rpnUtils import real
+from rpnUtils import real_int
 
 
 # //******************************************************************************
@@ -196,7 +196,7 @@ def getNumberGroupName( n ):
 # //******************************************************************************
 
 def getOrdinalName( n ):
-    return getNumberName( real( n ), True )
+    return getNumberName( real_int( n ), True )
 
 
 # //******************************************************************************
@@ -206,14 +206,29 @@ def getOrdinalName( n ):
 # //******************************************************************************
 
 def getNumberName( n, ordinal = False ):
-    if isinstance( real( n ), RPNMeasurement ):
-        n = mpf( n )
+    units = ''
+
+    if isinstance( n, RPNMeasurement ):
+        value = n.getValue( )
+
+        if value == 1 or value == -1:
+            units = n.getUnitName( )
+        else:
+            units = n.getPluralUnitName( )
+
+        n = real_int( value )
 
     if n == 0:
         if ordinal:
-            return 'zeroth'
+            name = 'zeroth'
         else:
-            return 'zero'
+            name = 'zero'
+
+        if units:
+            name += ' '
+            name += units
+
+        return name
 
     current = fabs( n )
 
@@ -249,6 +264,10 @@ def getNumberName( n, ordinal = False ):
 
     if n < 0:
         name = 'negative ' + name
+
+    if units:
+        name += ' '
+        name += units
 
     return name
 

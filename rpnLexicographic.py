@@ -149,7 +149,7 @@ def combineDigits( n ):
 
 def duplicateDigits( n, k ):
     if real( k ) < 0:
-        raise ValueError( "'add_digits' requires a non-negative integer for the second argument" )
+        raise ValueError( "'dup_digits' requires a non-negative integer for the second argument" )
 
     return appendDigits( real( n ), fmod( n, power( 10, nint( floor( k ) ) ) ), k )
 

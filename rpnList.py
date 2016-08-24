@@ -604,10 +604,17 @@ def calculateGeometricMean( args ):
 
 def calculateArithmeticMean( args ):
     if isinstance( args, RPNGenerator ):
-        return calculateArithmeticMean( list( args ) )
+        total = 0
+        count = 0
+
+        for i in args:
+            total += i
+            count += 1
+
+        return fdiv( total, count )
     elif isinstance( args, list ):
         if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-            return [ calculateGeometricMean( list( arg ) ) for arg in args ]
+            return [ calculateArithmeticMean( list( arg ) ) for arg in args ]
         else:
             return fdiv( fsum( args ), len( args ) )
     else:
