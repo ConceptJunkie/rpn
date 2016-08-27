@@ -48,7 +48,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 669
+maxExampleCount = 703
 debugMode = False
 
 
@@ -1395,16 +1395,23 @@ coefficient.
     'eval_polynomial' : [
 'algebra', 'interprets the list as a polynomial and evaluates it for value k',
 '''
+This operator interprets n as a polynomial and evaluates it for value k.
+
 For functions that take polynomial arguments, rpn interprets the list as
 coefficients of powers of x in decreasing order with the rightmost element
 representing the coefficient of x^0 (i.e., the constant).
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 1 2 ] 3 eval_polynomial' ) + '''
+''' + makeCommandExample( '[ 10 -20 30 -40 50 -60 ] 154 eval_polynomial' ) + '''
+''' + makeCommandExample( '[ 8 5 3 -4 ] 1 10 range eval_polynomial' ) ],
 
     'find_polynomial' : [
 'algebra', 'finds a polynomial, of order less than or equal to k, for which n is a zero',
 '''
+This operator uses mpmath's algebraic identification functionality to attempt
+to find a polynomial for which n is a zero.  The matching polynomial, if found,
+will be limited to an order of no higher than k.
 ''',
 '''
 ''' + makeCommandExample( '2 sqrt 10 find_polynomial' ) + '''
@@ -1416,6 +1423,8 @@ representing the coefficient of x^0 (i.e., the constant).
     'multiply_polynomials' : [
 'algebra', 'interprets two lists as polynomials and multiplies them',
 '''
+This operator multiplies two polynomials.
+
 For functions that take polynomial arguments, rpn interprets the list as
 coefficients of powers of x in decreasing order with the rightmost element
 representing the coefficient of x^0 (i.e., the constant).
@@ -1428,6 +1437,8 @@ representing the coefficient of x^0 (i.e., the constant).
     'polynomial_power' : [
 'algebra', 'exponentiates polynomial n by the integer power k',
 '''
+This operator raises a polynomial to an integral power.
+
 For functions that take polynomial arguments, rpn interprets the list as
 coefficients of powers of x in decreasing order with the rightmost element
 representing the coefficient of x^0 (i.e., the constant).
@@ -1440,26 +1451,37 @@ representing the coefficient of x^0 (i.e., the constant).
     'polynomial_product' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their product',
 '''
+This operator calculates the product of a list of polynomials.
+
 For functions that take polynomial arguments, rpn interprets the list as
 coefficients of powers of x in decreasing order with the rightmost element
 representing the coefficient of x^0 (i.e., the constant).
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 3 4 ] [ 2 3 ] multiply_polynomials' ) + '''
+''' + makeCommandExample( '[ [ 3 4 ] [ 2 3 ] ] polynomial_product' ) + '''
+''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 10 ] ] polynomial_product' ) ],
 
     'polynomial_sum' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their sum',
 '''
+This operator calculates the sum of a list of polynomials.
+
 For functions that take polynomial arguments, rpn interprets the list as
 coefficients of powers of x in decreasing order with the rightmost element
 representing the coefficient of x^0 (i.e., the constant).
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 3 4 ] [ 2 3 ] add_polynomials' ) + '''
+''' + makeCommandExample( '[ [ 3 4 ] [ 2 3 ] ] polynomial_sum' ) + '''
+''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 10 ] ] polynomial_sum' ) ],
 
     'solve' : [
 'algebra', 'interprets list n as a polynomial and solves for its roots',
 '''
+This function solves for the roots of a polynomial, using mpmath's numerical
+solver.
+
 For functions that take polynomial arguments, rpn interprets the list as
 coefficients of powers of x in decreasing order with the rightmost element
 representing the coefficient of x^0 (i.e., the constant).
@@ -6279,9 +6301,11 @@ The harmonic series consists of the reciprocals of the natural numbers.
     'hyperfactorial' : [
 'number_theory', 'calculates the hyperfactorial of n',
 '''
+Sloane and Plouffe define the hyperfactorial function as the product of the
+first n numbers each taken to the power of itself.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '-a45 1 10 range hyperfactorial' ) ],
 
     'is_abundant' : [
 'number_theory', 'returns whether or not n is an abundant number',
@@ -6426,9 +6450,18 @@ The harmonic series consists of the reciprocals of the natural numbers.
     'leonardo' : [
 'number_theory', 'returns the nth Leonardo number',
 '''
+The Leonardo numbers form a recurrence relation where zeroth and first values
+are 1 and 1, and each subsequent value is calculated by:
+
+L( n ) = L( n - 1 ) + L( n - 2 ) + 1
+
+rpn calculates the nth Leonardo number using the following formula, where
+F( n ) is the nth Fibonacci number:
+
+L( n ) = 2F( n + 1 ) - 1
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 20 range leonardo' ) ],
 
     'leyland' : [
 'number_theory', 'returns the Leyland number for n and k',
@@ -6536,14 +6569,26 @@ There are currently 49 known Mersenne primes.  This list is subject to change
 as new Mersenne Primes are being actively searched for.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '-a30 1 10 range nth_mersenne' ) + '''
+''' + makeCommandExample( '49 nth_mersenne' ) ],
 
     'nth_padovan' : [
 'number_theory', 'calculates the nth Padovan number',
 '''
+The Padovan sequence is the sequence of integers P(n) defined by the initial values
+
+    P( 0 ) = P( 1 ) = P( 2 ) = 1
+
+and the recurrence relation
+
+    P( n ) = P( n - 2 ) + P( n - 3 ).
+
+The Padovan can be computed by rpn using the 'linear_recurrence' functionality,
+but OEIS (http://oeis.org/A000931) provides a non-iterative formula.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 20 range nth_padovan' ) + '''
+''' + makeCommandExample( '1 100 range padovan lambda x is_prime filter' ) ],
 
     'octanacci' : [
 'number_theory', 'calculates the nth Octanacci number',
@@ -6557,14 +6602,15 @@ as new Mersenne Primes are being actively searched for.
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range pascal_triangle -s1' ) ],
 
     'pentanacci' : [
 'number_theory', 'calculates the nth Pentanacci number',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 20 range pentanacci' ) + '''
+''' + makeCommandExample( 'infinity lambda x 4 + pentanacci x 3 + pentanacci / limit' ) ],
 
     'polygamma' : [
 'number_theory', 'calculates the polygamma function for n',
@@ -6590,7 +6636,9 @@ distributed with data files calculated through several billion primes.
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '11 10 repunit' ) + '''
+''' + makeCommandExample( '11 4 repunit -r4' ) + '''
+''' + makeCommandExample( '11 4 repunit' ) ],
 
     'riesel' : [
 'number_theory', 'calculates the nth Riesel (or Woodall) number',
@@ -6604,35 +6652,51 @@ distributed with data files calculated through several billion primes.
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 100 range sigma' ) ],
 
     'sigma_n' : [
 'number_theory', 'returns the sum of the proper divisors of n each to the kth power'
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range sigma' ) + '''
+''' + makeCommandExample( '1 10 range 1 sigma_n' ) + '''
+''' + makeCommandExample( '1 10 range 2 sigma_n' ) + '''
+''' + makeCommandExample( '1 10 range 3 sigma_n' ) + '''
+''' + makeCommandExample( '1 10 range 4 sigma_n' ) ],
 
     'stern' : [
 'number_theory', 'calculates the nth value of the Stern diatomic series',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 100 range stern' ) ],
 
     'subfactorial' : [
 'number_theory', 'calculates the subfactorial of n',
 '''
+Also known as the 'derangement number', the subfactorial of integer n is the
+number of permuations of n where no item appears in its natural place.
+
+For instance, the derangements of [ 1, 2, 3 ] include [ 2, 3, 1 ] and
+[ 3, 1, 2 ].
+
+The subfactorial is calculated by the following formula:
+
+floor( ( n!/e ) + 1/2 )
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range subfactorial' ) ],
 
     'superfactorial' : [
 'number_theory', 'calculates the superfactorial of n',
 '''
+The superfactorial function is defined by Sloane and Plouffe to be the product
+of the first n factorials, which is the equivalent of the integral values of
+the Barnes G-function.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '-a30 1 10 range superfactorial' ) ],
 
     'tetranacci' : [
 'number_theory', 'calculates the nth Tetranacci number',
