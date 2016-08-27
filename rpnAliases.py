@@ -542,6 +542,7 @@ operatorAliases = {
     'mu0'                       : 'magnetic_constant',
     'mu_sub_0'                  : 'magnetic_constant',
     'mul_poly'                  : 'multiply_polynomials',
+    'mult_poly'                 : 'multiply_polynomials',
     'mult'                      : 'multiply',
     'mult_dig'                  : 'multiply_digits',
     'mult_digits'               : 'multiply_digits',

@@ -354,6 +354,15 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
 # //******************************************************************************
 
 def addPolynomials( a, b ):
+    len_diff = len( a ) - len( b )
+
+    if len_diff > 0:
+        for i in range( 0, len_diff ):
+            b.insert( 0, 0 )
+    else:
+        for i in range( 0, -len_diff ):
+            a.insert( 0, 0 )
+
     result = Polynomial( a )
     result += Polynomial( b )
 

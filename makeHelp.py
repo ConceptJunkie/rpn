@@ -48,7 +48,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 657
+maxExampleCount = 669
 debugMode = False
 
 
@@ -158,8 +158,14 @@ command-line options:
         output in a different base (2 to 62, fib, fac, fac2, tri, sqr, lucas, primorial,
         e, pi, phi, sqrt2 )
 
+        Please note that rpn doesn't use scientific notation with -r, so if the
+        number being converted exceeds the accuracy setting, it will appear to
+        be converted accurately.
+
     -Rn, --output_radix_numerals n
         output a list of digits, where each digit is a base-10 number
+
+        The same accuracy warning given for -r applies here as well.
 
     -sn, --list_format_level n
         output lists with one item per line, up to n levels deep of nested lists
@@ -505,10 +511,6 @@ Converting negative numbers to different bases gives weird answers.
 
 Unit conversion suffers from small rounding errors in some situations.  This
 is unavoidable to a certain extent, but it's worse than I think it should be.
-
-If rpn crashes converting a number to another base, increase the accuracy
-using -a.  I really want to prevent this from happening, but don't know how
-yet.
 
 'result' doesn't work with measurements.
 
@@ -1378,13 +1380,24 @@ operatorHelp = {
     'add_polynomials' : [
 'algebra', 'interprets two lists as polynomials and adds them',
 '''
+For functions that take polynomial arguments, rpn interprets the list as
+coefficients of powers of x in decreasing order with the rightmost element
+representing the coefficient of x^0 (i.e., the constant).
+
+For 'add_polynomials', the result is simply the sum of each respective
+coefficient.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 1 3 5 ] [ 2 4 6 ] add_polynomials' ) + '''
+''' + makeCommandExample( '[ 1 1 ] [ 2 2 2 ] add_polynomials' ) + '''
+''' + makeCommandExample( '[ 1 ] [ 4 5 dup ] add_polynomials' ) ],
 
     'eval_polynomial' : [
 'algebra', 'interprets the list as a polynomial and evaluates it for value k',
 '''
+For functions that take polynomial arguments, rpn interprets the list as
+coefficients of powers of x in decreasing order with the rightmost element
+representing the coefficient of x^0 (i.e., the constant).
 ''',
 '''
 ''' ],
@@ -1403,20 +1416,33 @@ operatorHelp = {
     'multiply_polynomials' : [
 'algebra', 'interprets two lists as polynomials and multiplies them',
 '''
+For functions that take polynomial arguments, rpn interprets the list as
+coefficients of powers of x in decreasing order with the rightmost element
+representing the coefficient of x^0 (i.e., the constant).
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 1 0 ] [ 1 0 ] multiply_polynomials' ) + '''
+''' + makeCommandExample( '[ 1 1 ] [ 1 1 1 ] multiply_polynomials' ) + '''
+''' + makeCommandExample( '[ 6 6 8 8 ] [ 10 12 24 36 ] multiply_polynomials' ) ],
 
     'polynomial_power' : [
 'algebra', 'exponentiates polynomial n by the integer power k',
 '''
+For functions that take polynomial arguments, rpn interprets the list as
+coefficients of powers of x in decreasing order with the rightmost element
+representing the coefficient of x^0 (i.e., the constant).
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 1 1 ] 2 polynomial_power' ) + '''
+''' + makeCommandExample( '[ 1 2 1 ] 4 polynomial_power' ) + '''
+''' + makeCommandExample( '[ 1 1 ] 8 polynomial_power' ) ],
 
     'polynomial_product' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their product',
 '''
+For functions that take polynomial arguments, rpn interprets the list as
+coefficients of powers of x in decreasing order with the rightmost element
+representing the coefficient of x^0 (i.e., the constant).
 ''',
 '''
 ''' ],
@@ -1424,6 +1450,9 @@ operatorHelp = {
     'polynomial_sum' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their sum',
 '''
+For functions that take polynomial arguments, rpn interprets the list as
+coefficients of powers of x in decreasing order with the rightmost element
+representing the coefficient of x^0 (i.e., the constant).
 ''',
 '''
 ''' ],
@@ -1431,9 +1460,14 @@ operatorHelp = {
     'solve' : [
 'algebra', 'interprets list n as a polynomial and solves for its roots',
 '''
+For functions that take polynomial arguments, rpn interprets the list as
+coefficients of powers of x in decreasing order with the rightmost element
+representing the coefficient of x^0 (i.e., the constant).
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 1 3 -28 ] solve' ) + '''
+''' + makeCommandExample( '[ 1 4 -20 -48 ] solve' ) + '''
+''' + makeCommandExample( '[ 1 2 -107 -648 -1008 ] solve' ) ],
 
     'solve_cubic' : [
 'algebra', 'solves a cubic equation',
@@ -6220,9 +6254,13 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
     'harmonic' : [
 'number_theory', 'returns the sum of the first n terms of the harmonic series',
 '''
+The harmonic series consists of the reciprocals of the natural numbers.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 harmonic' ) + '''
+''' + makeCommandExample( '2 harmonic' ) + '''
+''' + makeCommandExample( '100 harmonic' ) + '''
+''' + makeCommandExample( '1e100 harmonic' ) ],
 
     'heptanacci' : [
 'number_theory', 'calculates the nth Heptanacci number',
