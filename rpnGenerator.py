@@ -173,13 +173,26 @@ def exponentialRangeGenerator( value, step, count ):
 
 # //******************************************************************************
 # //
+# //  evaluateNestedArgs
+# //
+# //******************************************************************************
+
+def evaluateNestedArgs( func, i ):
+    if isinstance( i, ( list, RPNGenerator ) ):
+        return [ evaluateNestedArgs( func, j ) for j in i ]
+    else:
+        return func( i )
+
+
+# //******************************************************************************
+# //
 # //  chainedGenerator
 # //
 # //******************************************************************************
 
 def chainedGenerator( generator, func ):
     for i in generator:
-        yield( func( i ) )
+        yield( evaluateNestedArgs( func, i ) )
 
 
 # //******************************************************************************

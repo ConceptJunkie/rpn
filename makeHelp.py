@@ -17,6 +17,10 @@ import six
 
 import argparse
 import bz2
+
+
+
+
 import contextlib
 import io
 import pickle
@@ -48,7 +52,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 703
+maxExampleCount = 713
 debugMode = False
 
 
@@ -525,6 +529,9 @@ Transitive conversions with units that require special functions don't work.
 operators that take more than 2 arguments don't handle recursive list
 arguments.
 
+'rpn 1 10 range lambda x twin_primes_ 1/x sum eval' crashes, trying to create an
+mpf fron None.
+
 See 'rpn help TODO'.
     ''',
     'TODO' :
@@ -533,26 +540,24 @@ This is my informal, short-term todo list for rpn.  It often grows and seldom
 gets smaller.
 
 *  'humanize' - like 'name' but only 2 significant digits when > 1000
-*  'name' should handle fractions smaller than 1 gracefully (right now it
-   prints nothing)
+*  'name' should handle fractions smaller than 1 gracefully (right now it prints nothing)
 *  support date comparisons, etc. before the epoch
 *  create an output handler for RPNLocation
 *  'result' doesn't work with measurements (see bugs)
 *  https://en.wikipedia.org/wiki/American_wire_gauge
 *  Add support for lists in user-defined functions:
-   rpn 1970 2016 range lambda x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval
-*  'rpn 1 20 range dBm kilowatt convert' fails.
-   This conversion doesn't work because dBm to watt uses a special function.
-*  'mean', 'max' and 'min' should work with measurements, but measurements
-    currently can't be compared.
+   'rpn 1970 2016 range lambda x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval'
+*  'rpn 1 20 range dBm kilowatt convert' fails.  This conversion doesn't work because dBm to watt uses a special function.
+*  'mean', 'max' and 'min' should work with measurements, but measurements currently can't be compared.
 *  units aren't supported in user-defined functions
-*  input parsing doesn't happen in a user-defined function, e.g., '1,000'
-   doesn't get translated to 1000
+*  input parsing doesn't happen in a user-defined function, e.g., '1,000' doesn't get translated to 1000
 *  http://en.wikipedia.org/wiki/Physical_constant
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
 *  'dup_ops' flat out doesn't work any more
 *  'is_equal' should handle measurements of different (but compatible) types
+*  *_primes_ operators seem to be unreasonably slow
+
 
 See 'rpn help bugs'.
     ''',
@@ -1256,7 +1261,7 @@ Calculation (or approximation) of various mathematical constants:
         = rpn -a20 apery
 
     Omega Constant
-        = rpn -a20 [ e 1/x 100 dup ] tower
+        = rpn -a20 [ e 1/x 100 dup ] tower2
         = rpn -a20 omega
 
     Liouville Number
@@ -1272,7 +1277,7 @@ Calculation (or approximation) of various mathematical constants:
         = rpn 2 zeta 1/x
 
     Infinite Tetration of i
-        = rpn -a20 [ 1 i 1000 dup ] tower
+        = rpn -a20 [ 1 i 1000 dup ] tower2
     ''',
     'notes' :
     '''
@@ -1774,15 +1779,21 @@ Calculate the geometric mean of the first n numbers from 1 to 5:
     'max' : [
 'arithmetic', 'returns the largest value in list n',
 '''
+This operator returns the largest value in the input list of values n.
+
+'max' requires a list of real arguments.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 5 8 2 23 9 ] max' ) + '''
+''' + makeCommandExample( '10 1000 random_integer_ max' ) ],
 
     'mean' : [
 'arithmetic', 'calculates the mean of values in list n',
 '''
 This is the classic definition of 'mean', often called 'average':  the sum of
 all items divided by the number of items.
+
+'mean' requires a list of real arguments.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range mean' ) + '''
@@ -1791,9 +1802,13 @@ all items divided by the number of items.
     'min' : [
 'arithmetic', 'returns the smallest value in list n',
 '''
+This operator returns the smallest value in the input list of values n.
+
+'min' requires a list of real arguments.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 5 8 2 23 9 ] min' ) + '''
+''' + makeCommandExample( '10 1000 random_integer_ min' ) ],
 
     'modulo' : [
 'arithmetic', 'calculates n modulo k',
@@ -1859,7 +1874,8 @@ different than 'round'.
     'round' : [
 'arithmetic', 'rounds n to the nearest integer',
 '''
-'round' requires a real argument.
+'round' requires a real argument.   If the value is exactly halfway between
+integers, 'round' will round up to the next highest integer.
 ''',
 '''
 ''' + makeCommandExample( '1.2 round' ) + '''
@@ -1872,7 +1888,8 @@ different than 'round'.
 '''
 Note that 'n round' is the equivalent of 'n 0 round_by_digits'.
 
-'round_by_digits' requires a real argument.
+'round_by_digits' requires a real argument.  If the value is exactly halfway
+between the least significant digit, 'round_by_digits' will round up.
 ''',
 '''
 ''' + makeCommandExample( '12 1 round_by_digits' ) + '''
@@ -1884,7 +1901,8 @@ Note that 'n round' is the equivalent of 'n 0 round_by_digits'.
     'round_by_value' : [
 'arithmetic', 'rounds n to the nearest multiple of k',
 '''
-Note that 'n round' is the equivalent of 'n 1 round_by_value'.
+Note that 'n round' is the equivalent of 'n 1 round_by_value'.  If the value
+is exactly halfway between multiples of k, 'round_by_value' will round up.
 ''',
 '''
 ''' + makeCommandExample( '11 3 round_by_value' ) + '''
@@ -1953,9 +1971,12 @@ Subtraction is supported for measurements.
     'sum' : [
 'arithmetic', 'calculates the sum of values in list n',
 '''
+In addition to numbers, 'sum' can also add up a list of measurements.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 5 8 3 ] sum' ) + '''
+''' + makeCommandExample( '1 100 range sum' ) + '''
+''' + makeCommandExample( '[ 3 cups 21 teaspoons 7 tablespoons 1.5 deciliters ] sum' ) ],
 
 
 # //******************************************************************************
@@ -6100,13 +6121,6 @@ The Beta function is the equivalent to 'n gamma k gamma * n k + gamma /'.
 '''
 ''' ],
 
-    'carol' : [
-'number_theory', 'gets the nth Carol number',
-'''
-''',
-'''
-''' ],
-
     'cf' : [
 'number_theory', 'interprets list n as a continued fraction',
 '''
@@ -6426,42 +6440,12 @@ first n numbers each taken to the power of itself.
 '''
 ''' ],
 
-    'jacobsthal' : [
-'number_theory', 'returns nth number of the Jacobsthal sequence',
-'''
-''',
-'''
-''' ],
-
-    'kynea' : [
-'number_theory', 'gets the nth Kynea number',
-'''
-''',
-'''
-''' ],
-
     'k_fibonacci' : [
 'number_theory', 'calculates the nth K-Fibonacci number',
 '''
 ''',
 '''
 ''' ],
-
-    'leonardo' : [
-'number_theory', 'returns the nth Leonardo number',
-'''
-The Leonardo numbers form a recurrence relation where zeroth and first values
-are 1 and 1, and each subsequent value is calculated by:
-
-L( n ) = L( n - 1 ) + L( n - 2 ) + 1
-
-rpn calculates the nth Leonardo number using the following formula, where
-F( n ) is the nth Fibonacci number:
-
-L( n ) = 2F( n + 1 ) - 1
-''',
-'''
-''' + makeCommandExample( '1 20 range leonardo' ) ],
 
     'leyland' : [
 'number_theory', 'returns the Leyland number for n and k',
@@ -6560,7 +6544,47 @@ n and k cannot both be odd.
 '''
 ''' ],
 
-    'nth_mersenne' : [
+    'nth_carol' : [
+'number_theory', 'gets the nth Carol number',
+'''
+''',
+'''
+''' ],
+
+    'nth_kynea' : [
+'number_theory', 'gets the nth Kynea number',
+'''
+A Kynea number is an integer of the form 4 ^ n + 2 ^ ( n + 1 ) - 1, studied by
+Cletus Emmanuel.  The nth Kynea number is also equal to the nth power of 4
+added to the (n + 1)th Mersenne number.
+''',
+'''
+''' ],
+
+    'nth_jacobsthal' : [
+'number_theory', 'returns nth number of the Jacobsthal sequence',
+'''
+''',
+'''
+''' ],
+
+    'nth_leonardo' : [
+'number_theory', 'returns the nth Leonardo number',
+'''
+The Leonardo numbers form a recurrence relation where zeroth and first values
+are 1 and 1, and each subsequent value is calculated by:
+
+L( n ) = L( n - 1 ) + L( n - 2 ) + 1
+
+rpn calculates the nth Leonardo number using the following formula, where
+F( n ) is the nth Fibonacci number:
+
+L( n ) = 2F( n + 1 ) - 1
+''',
+'''
+''' + makeCommandExample( '1 20 range nth_leonardo' ) ],
+
+    'nth_mersenne_prime' : [
 'number_theory', 'returns the nth Mersenne prime',
 '''
 These values are stored in a look-up table.  They are not calculated. ;-)
@@ -6569,8 +6593,8 @@ There are currently 49 known Mersenne primes.  This list is subject to change
 as new Mersenne Primes are being actively searched for.
 ''',
 '''
-''' + makeCommandExample( '-a30 1 10 range nth_mersenne' ) + '''
-''' + makeCommandExample( '49 nth_mersenne' ) ],
+''' + makeCommandExample( '-a30 1 10 range nth_mersenne_prime' ) + '''
+''' + makeCommandExample( '49 nth_mersenne_prime' ) ],
 
     'nth_padovan' : [
 'number_theory', 'calculates the nth Padovan number',
@@ -6588,7 +6612,14 @@ but OEIS (http://oeis.org/A000931) provides a non-iterative formula.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_padovan' ) + '''
-''' + makeCommandExample( '1 100 range padovan lambda x is_prime filter' ) ],
+''' + makeCommandExample( '1 100 range nth_padovan lambda x is_prime filter' ) ],
+
+    'nth_stern' : [
+'number_theory', 'calculates the nth value of the Stern diatomic series',
+'''
+''',
+'''
+''' + makeCommandExample( '1 100 range nth_stern' ) ],
 
     'octanacci' : [
 'number_theory', 'calculates the nth Octanacci number',
@@ -6664,13 +6695,6 @@ distributed with data files calculated through several billion primes.
 ''' + makeCommandExample( '1 10 range 2 sigma_n' ) + '''
 ''' + makeCommandExample( '1 10 range 3 sigma_n' ) + '''
 ''' + makeCommandExample( '1 10 range 4 sigma_n' ) ],
-
-    'stern' : [
-'number_theory', 'calculates the nth value of the Stern diatomic series',
-'''
-''',
-'''
-''' + makeCommandExample( '1 100 range stern' ) ],
 
     'subfactorial' : [
 'number_theory', 'calculates the subfactorial of n',
@@ -8107,7 +8131,11 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '157 twin_prime_' ) + '''
+''' + makeCommandExample( '1 20 twin_prime_' ) + '''
+An extremely crude estimation of Brun's twin prime constant:
+
+''' + makeCommandExample( 'rpn 1 50 range twin_primes_ 1/x sum sum' ) ],
 
 
 # //******************************************************************************
@@ -8259,6 +8287,7 @@ rpn (3)>5 12 **
     'constant' : [
 'special', 'creates a user-defined constant',
 '''
+This operator is not implemented yet!
 ''',
 '''
 ''' ],
@@ -8936,6 +8965,8 @@ def makeHelp( helpTopics ):
         pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( helpTopics, pickleFile )
         pickle.dump( operatorHelp, pickleFile )
+
+    print( )
 
 
 # //******************************************************************************

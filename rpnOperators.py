@@ -205,174 +205,6 @@ class RPNOperator( object ):
 
 # //******************************************************************************
 # //
-# //  class RPNFunction
-# //
-# //  Starting index is a little confusing.  When rpn knows it is parsing a
-# //  function declaration, it will put all the arguments so far into the
-# //  RPNFunction object.  However, it can't know how many of them it
-# //  actually needs until it's time to evaluate the function, so we need to
-# //  save all the terms we have so far, since we can't know until later how
-# //  many of them we will need.
-# //
-# //  Once we are able to parse out how many arguments belong to the function
-# //  declaration, then we can determine what arguments are left over to be used
-# //  with the function operation.   All function operations take at least one
-# //  argument before the function declaration.
-# //
-# //******************************************************************************
-
-class RPNFunction( object ):
-    """This class represents a user-defined function in rpn."""
-    def __init__( self, valueList, startingIndex = 0 ):
-        self.valueList = [ ]
-
-        if isinstance( valueList, list ):
-            for value in valueList:
-                self.valueList.append( value )
-        else:
-            self.valueList.append( valueList )
-
-        self.startingIndex = startingIndex
-        self.code = ''
-        self.code_locals = { }
-        self.compiled = None
-        self.function = None
-        self.argCount = 0
-
-    def add( self, arg ):
-        self.valueList.append( arg )
-
-    def evaluate( self, x, y = 0, z = 0 ):
-        if not self.function:
-            self.compile( )
-
-        if self.argCount == 1:
-            return self.function( x )
-        elif self.argCount == 2:
-            return self.function( x, y )
-        elif self.argCount == 3:
-            return self.function( x, y, z )
-
-    def getFunction( self ):
-        if not self.function:
-            self.compile( )
-
-        return self.function
-
-    def compile( self ):
-        valueList = [ ]
-
-        xArg = False
-        yArg = False
-        zArg = False
-
-        for index, item in enumerate( self.valueList ):
-            if index < self.startingIndex:
-                continue
-
-            if item == 'x':
-                xArg = True
-            elif item == 'y':
-                yArg = True
-            elif item == 'z':
-                zArg = True
-
-            valueList.append( item )
-
-        self.code = 'def rpnInternalFunction('
-
-        first = True
-
-        self.argCount = 0
-
-        if xArg:
-            self.code += ' x'
-            first = False
-            self.argCount += 1
-
-        if yArg:
-            if first:
-                first = False
-            else:
-                self.code += ','
-
-            self.code += ' y'
-            self.argCount += 1
-
-        if zArg:
-            if not first:
-                self.code += ','
-
-            self.code += ' z'
-            self.argCount += 1
-
-        self.code += ' ): return '
-
-        args = [ ]
-
-        debugPrint( 'terms', valueList )
-
-        while valueList:
-            term = valueList.pop( 0 )
-            debugPrint( 'term:', term, 'args:', args )
-
-            if not isinstance( term, list ) and term in g.operatorAliases:
-                term = g.operatorAliases[ term ]
-
-            if term in operators:
-                function = operators[ term ].function.__name__
-                debugPrint( 'function', function )
-
-                if function == '<lambda>':
-                    function = inspect.getsource( operators[ term ].function )
-
-                    # Inspect returns the actual source line, which is the definition in the
-                    # operators dictionary, so we need to parse out the lambda definition.
-                    className = 'RPNOperator'
-                    function = function[ function.find( className ) + len( className ) : function.find( '\n' ) -1 ] + ' )'
-
-                function += '( '
-
-                first = True
-
-                argList = [ ]
-
-                operands = operators[ term ].argCount
-
-                if len( args ) < operands:
-                    raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
-
-                for i in range( 0, operands ):
-                    argList.insert( 0, args.pop( ) )
-
-                for arg in argList:
-                    if first:
-                        first = False
-                    else:
-                        function += ', '
-
-                    function += arg
-
-                function += ' )'
-
-                args.append( function )
-
-                if not valueList:
-                    self.code += function
-            else:
-                args.append( term )
-
-        debugPrint( 'valueList:', self.valueList[ self.startingIndex : ] )
-        debugPrint( 'code:', self.code )
-
-        self.compiled = compile( self.code, '<string>', 'exec' )
-
-        exec( self.compiled, globals( ), self.code_locals )
-        self.function = self.code_locals[ 'rpnInternalFunction' ]
-
-
-# //******************************************************************************
-# //
 # //  constants
 # //
 # //  Constants are operators that take no arguments.
@@ -611,6 +443,174 @@ constants = {
 
 #  Earth's approximate water volume (the total water supply of the world) is
 #  1,338,000,000 km3 (321,000,000 mi3).[2]
+
+
+# //******************************************************************************
+# //
+# //  class RPNFunction
+# //
+# //  Starting index is a little confusing.  When rpn knows it is parsing a
+# //  function declaration, it will put all the arguments so far into the
+# //  RPNFunction object.  However, it can't know how many of them it
+# //  actually needs until it's time to evaluate the function, so we need to
+# //  save all the terms we have so far, since we can't know until later how
+# //  many of them we will need.
+# //
+# //  Once we are able to parse out how many arguments belong to the function
+# //  declaration, then we can determine what arguments are left over to be used
+# //  with the function operation.   All function operations take at least one
+# //  argument before the function declaration.
+# //
+# //******************************************************************************
+
+class RPNFunction( object ):
+    """This class represents a user-defined function in rpn."""
+    def __init__( self, valueList, startingIndex = 0 ):
+        self.valueList = [ ]
+
+        if isinstance( valueList, list ):
+            for value in valueList:
+                self.valueList.append( value )
+        else:
+            self.valueList.append( valueList )
+
+        self.startingIndex = startingIndex
+        self.code = ''
+        self.code_locals = { }
+        self.compiled = None
+        self.function = None
+        self.argCount = 0
+
+    def add( self, arg ):
+        self.valueList.append( arg )
+
+    def evaluate( self, x, y = 0, z = 0 ):
+        if not self.function:
+            self.compile( )
+
+        if self.argCount == 1:
+            return self.function( x )
+        elif self.argCount == 2:
+            return self.function( x, y )
+        elif self.argCount == 3:
+            return self.function( x, y, z )
+
+    def getFunction( self ):
+        if not self.function:
+            self.compile( )
+
+        return self.function
+
+    def compile( self ):
+        valueList = [ ]
+
+        xArg = False
+        yArg = False
+        zArg = False
+
+        for index, item in enumerate( self.valueList ):
+            if index < self.startingIndex:
+                continue
+
+            if item == 'x':
+                xArg = True
+            elif item == 'y':
+                yArg = True
+            elif item == 'z':
+                zArg = True
+
+            valueList.append( item )
+
+        self.code = 'def rpnInternalFunction('
+
+        first = True
+
+        self.argCount = 0
+
+        if xArg:
+            self.code += ' x'
+            first = False
+            self.argCount += 1
+
+        if yArg:
+            if first:
+                first = False
+            else:
+                self.code += ','
+
+            self.code += ' y'
+            self.argCount += 1
+
+        if zArg:
+            if not first:
+                self.code += ','
+
+            self.code += ' z'
+            self.argCount += 1
+
+        self.code += ' ): return '
+
+        args = [ ]
+
+        debugPrint( 'terms', valueList )
+
+        while valueList:
+            term = valueList.pop( 0 )
+            debugPrint( 'term:', term, 'args:', args )
+
+            if not isinstance( term, list ) and term in g.operatorAliases:
+                term = g.operatorAliases[ term ]
+
+            if term in operators:
+                function = operators[ term ].function.__name__
+                debugPrint( 'function', function )
+
+                if function == '<lambda>':
+                    function = inspect.getsource( operators[ term ].function )
+
+                    # Inspect returns the actual source line, which is the definition in the
+                    # operators dictionary, so we need to parse out the lambda definition.
+                    className = 'RPNOperator'
+                    function = function[ function.find( className ) + len( className ) : function.find( '\n' ) -1 ] + ' )'
+
+                function += '( '
+
+                first = True
+
+                argList = [ ]
+
+                operands = operators[ term ].argCount
+
+                if len( args ) < operands:
+                    raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
+
+                for i in range( 0, operands ):
+                    argList.insert( 0, args.pop( ) )
+
+                for arg in argList:
+                    if first:
+                        first = False
+                    else:
+                        function += ', '
+
+                    function += arg
+
+                function += ' )'
+
+                args.append( function )
+
+                if not valueList:
+                    self.code += function
+            else:
+                args.append( term )
+
+        debugPrint( 'valueList:', self.valueList[ self.startingIndex : ] )
+        debugPrint( 'code:', self.code )
+
+        self.compiled = compile( self.code, '<string>', 'exec' )
+
+        exec( self.compiled, globals( ), self.code_locals )
+        self.function = self.code_locals[ 'rpnInternalFunction' ]
 
 
 # //******************************************************************************
@@ -2761,9 +2761,6 @@ operators = {
     'calkin_wilf'                    : RPNOperator( getNthCalkinWilf,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'carol'                          : RPNOperator( lambda n: fsub( power( fsub( power( 2, real( n ) ), 1 ), 2 ), 2 ),
-                                                    1, [ RPNOperator.Real ] ),
-
     'count_divisors'                 : RPNOperator( getDivisorCount,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
@@ -2876,17 +2873,8 @@ operators = {
     'is_unusual'                     : RPNOperator( isUnusual,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'jacobsthal'                     : RPNOperator( getNthJacobsthalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'kynea'                          : RPNOperator( lambda n: fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ),
-                                                    1, [ RPNOperator.Real ] ),
-
     'k_fibonacci'                    : RPNOperator( getNthKFibonacciNumber,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
-
-    'leonardo'                       : RPNOperator( lambda n: fsub( fmul( 2, fib( fadd( n, 1 ) ) ), 1 ),
-                                                    1, [ RPNOperator.Real ] ),
 
     'leyland'                        : RPNOperator( lambda n, k: fadd( power( n, k ), power( k, n ) ),
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
@@ -2912,10 +2900,25 @@ operators = {
     'mobius'                         : RPNOperator( getMobius,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'nth_mersenne'                   : RPNOperator( getNthMersennePrime,
+    'nth_carol'                      : RPNOperator( lambda n: fsub( power( fsub( power( 2, real( n ) ), 1 ), 2 ), 2 ),
+                                                    1, [ RPNOperator.Real ] ),
+
+    'nth_jacobsthal'                 : RPNOperator( getNthJacobsthalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_kynea'                      : RPNOperator( lambda n: fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ),
+                                                    1, [ RPNOperator.Real ] ),
+
+    'nth_leonardo'                   : RPNOperator( lambda n: fsub( fmul( 2, fib( fadd( n, 1 ) ) ), 1 ),
+                                                    1, [ RPNOperator.Real ] ),
+
+    'nth_mersenne_prime'             : RPNOperator( getNthMersennePrime,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'nth_padovan'                    : RPNOperator( getNthPadovanNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_stern'                      : RPNOperator( getNthStern,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'n_persistence'                  : RPNOperator( getPersistence,
@@ -2959,9 +2962,6 @@ operators = {
 
     'sigma_n'                        : RPNOperator( getSigmaN,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
-
-    'stern'                          : RPNOperator( getNthStern,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'subfactorial'                   : RPNOperator( lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),

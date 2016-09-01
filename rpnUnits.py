@@ -1932,6 +1932,11 @@ by Knuth.
                      '''
                      ''' ),
 
+    'newton-second/coulomb-meter' :
+        RPNUnitInfo( 'magnetic_flux_density', 'newton-second/coulomb-meter', 'newton-second/coulomb-meter', 'Ns/Cm', [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
     'second-volt/meter^2' :
         RPNUnitInfo( 'magnetic_flux_density', 'second*volt/meter^2', 'second*volt/meter^2', '', [ ], [ 'SI' ],
                      '''
@@ -3050,7 +3055,7 @@ metricUnits = [
     ( 'kelvin',             'kelvins',          'K',    [ ], [ ] ),
     ( 'light-year',         'light-years',      'ly',   [ ], [ ] ),
     ( 'liter',              'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
-    ( 'lumen',              'lumens',           'lm ',   [ ], [ ] ),
+    ( 'lumen',              'lumens',           'lm ',  [ ], [ ] ),
     ( 'lux',                'lux',              'lx',   [ ], [ ] ),
     ( 'maxwell',            'maxwells',         'Mx',   [ ], [ ] ),
     ( 'meter',              'meters',           'm',    [ 'metre' ], [ 'metres' ] ),
@@ -3079,6 +3084,7 @@ metricUnits = [
     ( 'volt',               'volts',            'V',    [ ], [ ] ),
     ( 'watt',               'watts',            'W',    [ ], [ ] ),
     ( 'watt-second',        'watt-seconds',     'Ws',   [ ], [ ] ),
+    ( 'weber',              'webers',           'Wb',   [ ], [ ] ),
 ]
 
 
@@ -3574,6 +3580,7 @@ unitConversionMatrix = {
     ( 'tesla',                      'kilogram/ampere-second^2' )            : mpmathify( '1' ),
     ( 'tesla',                      'second-volt/meter^2' )                 : mpmathify( '1' ),
     ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
+    ( 'tesla',                      'newton-second/coulomb-meter' )         : mpmathify( '1' ),
     ( 'therm',                      'btu' )                                 : mpmathify( '100000' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '1000' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),

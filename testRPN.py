@@ -3161,6 +3161,7 @@ def runAdvancedTests( ):
     testOperator( '"Leesburg, VA" today 0 20 range days + echo daytime collate -s1' )
     testOperator( '1 1 thousand range lambda x is_polydivisible filter' )
     expectEqual( '38[147][246]5[246][124679][246][124679]0 build_numbers lambda x is_polydivisible filter lambda x is_pandigital filter', '[ 3816547290 ]' )
+    testOperator( 'rpn 1 50 range twin_primes_ 1/x sum sum' )
 
 
 # //******************************************************************************
