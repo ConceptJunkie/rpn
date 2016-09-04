@@ -15,6 +15,11 @@
 #  https://en.wikipedia.org/wiki/Natural_units#Stoney_units
 #  https://en.wikipedia.org/wiki/Medieval_weights_and_measures
 
+#  http://mathworld.wolfram.com/FavardConstants.html
+#  How can we create a lambda to produce multiple Favard constants with a single expression?
+
+from __future__ import print_function
+
 import six
 
 import argparse

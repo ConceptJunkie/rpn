@@ -12,8 +12,8 @@
 # //
 # //******************************************************************************
 
-from mpmath import arange, ceil, fadd, fdiv, floor, fmod, fmul, fneg, fsub, \
-                   mpf, nint, power, root, sign, sqrt
+from mpmath import arange, ceil, fabs, fadd, fdiv, floor, fmod, fmul, fneg, \
+                   fsub, mpf, nint, power, root, sign, sqrt
 
 from rpnDateTime import RPNDateTime
 from rpnGenerator import RPNGenerator
@@ -207,6 +207,38 @@ def takeReciprocal( n ):
         return n.invert( )
     else:
         return fdiv( 1, n )
+
+
+# //******************************************************************************
+# //
+# //  getAbsoluteValue
+# //
+# //  We used to be able to call fabs directly, but now we want to handle
+# //  RPNMeasurements.
+# //
+# //******************************************************************************
+
+def getAbsoluteValue( n ):
+    if isinstance( n, RPNMeasurement ):
+        return RPNMeasurement( fabs( n.getValue( ) ), n.getUnits( ) )
+    else:
+        return fabs( n )
+
+
+# //******************************************************************************
+# //
+# //  getNearestInt
+# //
+# //  We used to be able to call fdiv directly, but now we want to handle
+# //  RPNMeasurements.
+# //
+# //******************************************************************************
+
+def getNearestInt( n ):
+    if isinstance( n, RPNMeasurement ):
+        return RPNMeasurement( nint( n.getValue( ) ), n.getUnits( ) )
+    else:
+        return nint( n )
 
 
 # //******************************************************************************

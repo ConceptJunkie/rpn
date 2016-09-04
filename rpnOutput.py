@@ -281,13 +281,18 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
 def formatUnits( measurement ):
     value = measurement.getValue( )
 
-    if measurement.getUnitName( ) is not None:
+    unitName = measurement.getUnitName( )
+
+    if unitName is not None:
         unitString = ''
 
         if mpf( -1.0 ) < value > mpf( 1.0 ):
             tempString = measurement.getPluralUnitName( )
         else:
-            tempString = measurement.getUnitName( )
+            tempString = unitName
+
+        tempString = tempString.replace( '_null_unit*', '' )
+        tempString = tempString.replace( '*_null_unit', '' )
 
         for c in tempString:
             if c == '_':
@@ -303,10 +308,14 @@ def formatUnits( measurement ):
 
     # now that we've expanded the compound units, let's format...
     for unit in units:
+        if unit == '_null_unit':
+            continue
+
         exponent = units[ unit ]
 
         if exponent > 0:
-            if unitString != '' and unit != '_null_unit':
+
+            if unitString != '':
                 unitString += ' '
 
             if value == 1:
@@ -321,6 +330,9 @@ def formatUnits( measurement ):
 
     if unitString == '':
         for unit in units:
+            if unit == '_null_unit':
+                continue
+
             exponent = units[ unit ]
 
             if exponent < 0:
@@ -331,6 +343,9 @@ def formatUnits( measurement ):
                 negativeUnits += '^' + str( int( exponent ) )
     else:
         for unit in units:
+            if unit == '_null_unit':
+                continue
+
             exponent = units[ unit ]
 
             if exponent < 0:

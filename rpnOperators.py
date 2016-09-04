@@ -1883,7 +1883,7 @@ operators = {
                                                          RPNOperator.Default ] ),
 
     # arithmetic
-    'abs'                            : RPNOperator( fabs,
+    'abs'                            : RPNOperator( getAbsoluteValue,
                                                     1, [ RPNOperator.Default ] ),
 
     'add'                            : RPNOperator( add,
@@ -1956,7 +1956,7 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'nearest_int'                    : RPNOperator( nint,
+    'nearest_int'                    : RPNOperator( getNearestInt,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
@@ -3539,7 +3539,6 @@ operators = {
 
     'permute_dice'                   : RPNOperator( permuteDice,
                                                     1, [ RPNOperator.String ] ),
-
 
     'roll_dice'                      : RPNOperator( rollDice,
                                                     1, [ RPNOperator.String ] ),

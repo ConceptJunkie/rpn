@@ -12,15 +12,13 @@
 # //
 # //******************************************************************************
 
+from __future__ import print_function
+
 import shlex
 import six
 
 import argparse
 import bz2
-
-
-
-
 import contextlib
 import io
 import pickle
@@ -42,7 +40,6 @@ print( )
 exampleCount = 0
 
 
-
 # //******************************************************************************
 # //
 # //  constants
@@ -52,7 +49,6 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 713
 debugMode = False
 
 
@@ -336,14 +332,6 @@ And we can check that our result works:
     'unit_conversion' :
     '''
 [ TODO: describe unit conversions in rpn ]
-
-explain the difference between:
-
-40 cm 3 **
-
-and
-
-40 cm^3
 
 For now, here are some examples:
 ''' + makeCommandExample( '10 miles km convert', indent=4 ) + '''
@@ -1181,103 +1169,76 @@ the value, the same precision is used.
 Calculation (or approximation) of various mathematical constants:
 
     Polya Random Walk Constant
-        = rpn -p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 /
-                    gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -
-
+''' + makeCommandExample( '-p1000 -a30 1 16 2 3 / sqrt * pi 3 power * [ 1 24 / gamma 5 24 / gamma 7 24 / gamma 11 24 / gamma ] prod 1/x * -', indent=8, slow=True ) + '''
     Schwartzchild Constant (Conic Constant)
-        = rpn -a20 2 0 30 range ** 0 30 range ! / sum
-        = rpn e 2 **
-
+''' + makeCommandExample( '0 inf lambda 2 x ** x ! / nsum', indent=8 ) + '''
+''' + makeCommandExample( 'e 2 **', indent=8 ) + '''
     Somos\' Quadratic Recurrence Constant
-        = rpn -a20 1 100 range 0.5 0.5 100 geometric_range ** prod
-
+''' + makeCommandExample( '-a20 1 inf lambda x 1 2 x ** / power nprod', indent=8 ) + '''
     Prevost Constant
-        = rpn -a20 1 100 range fib 1/x sum
-
-    Euler's number = rpn -a20 0 100 range fac 1/x sum
-                   = rpn -a20 e
-
+''' + makeCommandExample( '-a20 1 inf lambda x fib 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 prevost_constant', indent=8 ) + '''
+    Euler's number
+''' + makeCommandExample( '-a20 0 inf lambda x ! 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 e', indent=8 ) + '''
     Gelfond Constant
-        = rpn -a20 pi 0 100 range power 0 100 range ! / sum
-        = rpn -a20 e pi power
-
+''' + makeCommandExample( '-a20 0 inf lambda pi x power x ! / nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 e pi power', indent=8 ) + '''
     Bloch-Landau Constant
-        = rpn -a20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /
-
+''' + makeCommandExample( '-a20 1 3 / gamma 5 6 / gamma * 1 6 / gamma /', indent=8 ) + '''
     Hausdorff Dimension
-        = rpn -a20 2 0 100 range 2 * 1 + power 0 100 range 2 * 1 + *
-            1/x sum 3 0 100 range 2 * 1 + power 0 100 range 2 * 1 +
-            * 1/x sum /
-        = rpn -a20 3 log 2 log /
-
-    Machin-Gregory Series
-        = rpn -a20 1 1000 2 range2 2 1 1000 2 range2 power * 1/x alt_sum
-        = rpn -a20 1 2 / atan
-
+''' + makeCommandExample( '-a20 0 inf lambda 2 x 2 * 1 + power x 2 * 1 + * 1/x nsum 0 inf lambda 3 x 2 * 1 + power x 2 * 1 + * 1/x nsum /', indent=8 ) + '''
+''' + makeCommandExample( '-a20 3 log 2 log /', indent=8 ) + '''
     Beta( 3 )
-        = rpn -a17 1 1000000 2 range2 3 power 1/x alt_sum
-        = rpn -a17 pi 3 power 32 /
-
-    Cahen's constant
-        = rpn -a20 1 20 range sylvester 1 - 1/x alt_sum
-
+''' + makeCommandExample( '-a20 0 inf lambda x 2 * 1 + 3 power 1/x -1 x ** * nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 pi 3 power 32 /', indent=8 ) + '''
     Lemniscate Constant
-        = rpn 4 2 pi / sqrt * 0.25 ! sqr *
-
+''' + makeCommandExample( '-a20 4 2 pi / sqrt * 0.25 ! sqr *', indent=8 ) + '''
     sqrt( e )
-        = rpn -a20 2 0 20 range power [ 0 20 range ] ! * 1/x sum
-        = rpn -a20 0 20 range 2 * !! 1/x sum
-        = rpn -a20 e sqrt
-
+''' + makeCommandExample( '-a20 0 inf lambda 2 x power x ! * 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 0 inf lambda x 2 * !! 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 e sqrt', indent=8 ) + '''
     1/e
-        = rpn -a20 0 25 range fac 1/x alt_sum
-        = rpn -a20 e 1/x
-
-    Zeta( 6 )
-        = rpn -a20 -p30 1 1 1000 primes -6 power - 1/x prod
-        = rpn -a20 pi 6 power 945 /
-        = rpn -a20 6 zeta
-
-    Pythagoras' constant
-        = rpn -a20 [ 1 2 25 dup ] cf
-        = rpn -a20 2 sqrt
-
-    Digamma
-        = rpn -p25 -a20 1 1 1000 primes -6 power - 1/x prod
-        = rpn -a5 [ 0 100000 range ] 1 + 1/x
-                        [ 0 100000 range ] 1 4 / + 1/x - sum euler -
-
-    Strongly Carefree Constant
-        = rpn -a6 1 1 100000 primes 3 * 2 - 1 100000 primes 3 power / - prod
-        = rpn -a7 6 pi sqr / 1 2
-                1 100000 primes 1 100000 primes 1 + * 1/x * - prod *
-
+''' + makeCommandExample( '-a20 0 inf lambda x ! 1/x -1 x ** * nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 e 1/x', indent=8 ) + '''
+    An approximation of Zeta( 6 )
+''' + makeCommandExample( '-a20 -p30 1 1 1000 primes -6 power - 1/x prod', indent=8 ) + '''
+''' + makeCommandExample( '-a20 pi 6 power 945 /', indent=8 ) + '''
+''' + makeCommandExample( '-a20 6 zeta', indent=8 ) + '''
     Ramanujan-Forsythe Constant
-        = rpn 0 100000 range 2 * 3 - !! 0 100000 range 2 * !! / sqr sum
-
+''' + makeCommandExample( '0 inf lambda x 2 * 3 - !! x 2 * !! / sqr nsum', indent=8 ) + '''
     Apery's Constant
-        = rpn -a20 1 5000 range 3 power 1/x sum
-        = rpn -a20 3 zeta
-        = rpn -a20 apery
-
-    Omega Constant
-        = rpn -a20 [ e 1/x 100 dup ] tower2
-        = rpn -a20 omega
-
+''' + makeCommandExample( '-a20 1 inf lambda x 3 power 1/x nsum', indent=8 ) + '''
+''' + makeCommandExample( '-a20 3 zeta', indent=8 ) + '''
+''' + makeCommandExample( '-a20 apery', indent=8 ) + '''
+    An approximation of the Omega Constant
+''' + makeCommandExample( '-a20 [ e 1/x 100 dup ] tower2', indent=8 ) + '''
+''' + makeCommandExample( '-a20 omega', indent=8 ) + '''
     Liouville Number
-        = rpn -a120 10 1 10 range ! power 1/x sum
-
+''' + makeCommandExample( '-a120 1 inf lambda 10 x ! power 1/x nsum', indent=8 ) + '''
     Gieseking Constant
         = rpn -a10 -p20 3 3 sqrt * 4 / 1
                 0 100000 range 3 * 2 + sqr 1/x sum -
                 1 100000 range 3 * 1 + sqr 1/x sum + *
 
-    Hafner-Sarnak-McCurley Constant (2)
-        = rpn -a7 1 1 100000 primes sqr 1/x - prod
-        = rpn 2 zeta 1/x
-
-    Infinite Tetration of i
-        = rpn -a20 [ 1 i 1000 dup ] tower2
+    An approximation of the Hafner-Sarnak-McCurley Constant (2)
+''' + makeCommandExample( '-a7 1 1 100000 primes sqr 1/x - prod', indent=8, slow=True ) + '''
+''' + makeCommandExample( '2 zeta 1/x', indent=8 ) + '''
+    An approximation of the infinite tetration of i
+''' + makeCommandExample( '-a20 [ 1 i 1000 dup ] tower2', indent=8 ) + '''
+    Cahen's Constant
+''' + makeCommandExample( '1 inf lambda x nth_sylvester 1 - 1/x -1 x 1 + ** * nsum', indent=8 ) + '''
+    Erdos-Borwein Constant
+''' + makeCommandExample( '1 inf lambda 2 x ** 1 - 1/x nsum', indent=8 ) + '''
+    An approximation of the Heath-Brown-Moroz constant
+''' + makeCommandExample( '-a6 1 60000 primes lambda 1 x 1/x - 7 ** 1 7 x * 1 + x sqr / + * eval prod', indent=8, slow=True ) + '''
+    Kepler-Bouwkamp constant
+''' + makeCommandExample( '3 inf lambda pi x / cos nprod', indent=8 ) + '''
+    Ramanujan-Forsyth series
+''' + makeCommandExample( '0 inf lambda x 2 * 3 - !! x 2 * !! / sqr nsum', indent=8 ) + '''
+    Machin-Gregory series
+''' + makeCommandExample( '0 inf lambda -1 x ** 1 2 / 2 x * 1 + ** * 2 x * 1 + / nsum', indent=8 ) + '''
+''' + makeCommandExample( '1 2 / arctan', indent=8 ) + '''
     ''',
     'notes' :
     '''
@@ -1655,9 +1616,12 @@ Calculate the geometric mean of the first n numbers from 1 to 5:
     'is_divisible' : [
 'arithmetic', 'returns whether n is n divisible by k',
 '''
+'is_divisible' returns 1 if n is divisible by k, and 0 if not.  This operator
+expects real, integral arguments.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '6 2 is_divisible' ) + '''
+''' + makeCommandExample( '12 1 10 range is_divisible' ) ],
 
     'is_equal' : [
 'arithmetic', 'returns 1 if n equals k, otherwise returns 0',
@@ -1862,7 +1826,12 @@ different than 'round'.
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '[ 2 3 7 12 ] product' ) + '''
+''' + makeCommandExample( '1 10 range product' ) + '''
+''' + makeCommandExample( '10 !' ) + '''
+Calculating the magnetic constant:
+''' + makeCommandExample( '[ 4 pi 10 -7 ** joule/ampere^2*meter ] product', indent=4 ) ],
+
 
     'reciprocal' : [
 'arithmetic', 'returns the reciprocal of n',

@@ -1307,7 +1307,7 @@ magneticFluxTable = {
 # //******************************************************************************
 
 magneticFluxDensityTable = {
-    mpmathify( '5e-18' )        : 'the magnetic flux density precision attained for Gravity Probe B',
+    mpmathify( '5e-18' )        : 'the magnetic flux density measurement precision attained for NASA\'s Gravity Probe B',
     mpmathify( '3.1869e-5' )    : 'the magnetic flux density of the Earth\'s magnetic field at 0 degrees long., 0 degrees lat.',
     mpmathify( '5.0e-3' )       : 'the magnetic flux density of a typical refrigerator magnet',
     mpmathify( '0.3' )          : 'the magnetic flux density of solar sunspots',
