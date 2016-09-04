@@ -49,6 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
+maxExampleCount = 761
 debugMode = False
 
 
@@ -1621,6 +1622,7 @@ expects real, integral arguments.
 ''',
 '''
 ''' + makeCommandExample( '6 2 is_divisible' ) + '''
+''' + makeCommandExample( '1 10 range 2 is_divisible' ) + '''
 ''' + makeCommandExample( '12 1 10 range is_divisible' ) ],
 
     'is_equal' : [
