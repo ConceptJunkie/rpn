@@ -304,7 +304,7 @@ class RPNMeasurement( object ):
             self = RPNMeasurement( newValue, self.getUnits( ),
                                    self.getUnitName( ), self.getPluralUnitName( ) )
 
-        return self.dezeroUnits( )
+        return self.normalizeUnits( )
 
     def divide( self, other ):
         if isinstance( other, RPNMeasurement ):
@@ -319,7 +319,7 @@ class RPNMeasurement( object ):
             self = RPNMeasurement( newValue, self.getUnits( ),
                                    self.getUnitName( ), self.getPluralUnitName( ) )
 
-        return self.dezeroUnits( )
+        return self.normalizeUnits( )
 
     def exponentiate( self, exponent ):
         if ( floor( exponent ) != exponent ):
@@ -344,13 +344,13 @@ class RPNMeasurement( object ):
 
         return RPNMeasurement( self.value, newUnits )
 
-    def dezeroUnits( self ):
+    def normalizeUnits( self ):
         units = self.getUnits( )
 
         newUnits = RPNUnits( )
 
         for unit in units:
-            if units[ unit ] != 0:
+            if units[ unit ] != 0 and unit != '_null_unit':
                 newUnits[ unit ] = units[ unit ]
 
         return RPNMeasurement( self.value, newUnits, self.getUnitName( ), self.getPluralUnitName( ) )

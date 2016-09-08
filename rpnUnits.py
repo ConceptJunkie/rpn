@@ -67,7 +67,7 @@ basicUnitTypes = {
 
     'area' : RPNUnitTypeInfo(
         'length^2',
-        'square_meter',
+        'meter^2',
         areaTable,
     ),
 
@@ -292,7 +292,7 @@ basicUnitTypes = {
 # //******************************************************************************
 
 unitOperators = {
-    # _null_type
+    # _null_type - used internally
     '_null_unit' :
         RPNUnitInfo( '_null_type', '', '', '', [ ], [ ],
                      '''
@@ -305,7 +305,7 @@ unitOperators = {
                      ''' ),
 
     'meter/second^2' :
-        RPNUnitInfo( 'acceleration', 'meter/second^2', 'meters/second^2', 'm/s^2', [ ], [ 'SI' ],
+        RPNUnitInfo( 'acceleration', 'meter/second^2', 'meters/second^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -413,6 +413,11 @@ unitOperators = {
                      '''
                      ''' ),
 
+    'meter^2' :
+        RPNUnitInfo( 'area', 'meter^2', 'meter^2', '', [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
     'morgen' :
         RPNUnitInfo( 'area', 'morgen', 'morgens', '', [ ], [ 'obsolete' ],
                      '''
@@ -444,17 +449,17 @@ unitOperators = {
                      ''' ),
 
     'square_foot' :
-        RPNUnitInfo( 'area', 'foot^2', 'square_feet', 'ft^2', [ 'feet^2', 'sqft', 'sq_ft', 'sq_foot', 'sq_feet', 'square_ft' ], [ 'imperial' ],
+        RPNUnitInfo( 'area', 'square_foot', 'square_feet', '', [ 'sqft', 'sq_ft', 'sq_foot', 'sq_feet', 'square_ft' ], [ 'imperial' ],
                      '''
                      ''' ),
 
     'square_meter' :
-        RPNUnitInfo( 'area', 'meter^2', 'square_meters', 'm^2', [ 'meters^2', 'sqm', 'sq_m', 'sq_meter', 'sq_meters', 'square_m' ], [ 'SI' ],
+        RPNUnitInfo( 'area', 'square_meter', 'square_meters', '', [ 'sqm', 'sq_m', 'sq_meter', 'sq_meters', 'square_m' ], [ 'SI' ],
                      '''
                      ''' ),
 
     'square_yard' :
-        RPNUnitInfo( 'area', 'yard^2', 'square_yards', 'yd^2', [ 'yards^2', 'sqyd', 'sq_yd', 'sq_yard', 'sq_yards', 'square_yd' ], [ 'imperial' ],
+        RPNUnitInfo( 'area', 'square_yard', 'square_yards', '', [ 'sqyd', 'sq_yd', 'sq_yard', 'sq_yards', 'square_yd' ], [ 'imperial' ],
                      '''
                      ''' ),
 
@@ -475,7 +480,7 @@ unitOperators = {
                      ''' ),
 
     'coulomb/volt' :
-        RPNUnitInfo( 'capacitance', 'coulomb/volt', 'coulombs/volt', 'C/V', [ 'coulomb/volts', 'coulombs/volts', 'C/volts', 'C/volt', 'coulomb/V', 'coulombs/V' ], [ 'SI' ],
+        RPNUnitInfo( 'capacitance', 'coulomb/volt', 'coulombs/volt', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -501,7 +506,7 @@ unitOperators = {
                      ''' ),
 
     'ampere-second' :
-        RPNUnitInfo( 'charge', 'ampere*second', 'ampere-seconds', 'A/s', [ ], [ 'SI' ],
+        RPNUnitInfo( 'charge', 'ampere*second', 'ampere-seconds', 'As', [ 'second-ampere', 'second-amperes' ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -511,7 +516,7 @@ unitOperators = {
                      ''' ),
 
     'farad-volt' :
-        RPNUnitInfo( 'charge', 'farad*volt', 'farad-volts', 'F*V', [ ], [ 'SI' ],
+        RPNUnitInfo( 'charge', 'farad*volt', 'farad-volts', 'FV', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -522,6 +527,11 @@ unitOperators = {
 
     'faraday' :
         RPNUnitInfo( 'charge', 'faraday', 'faradays', 'Fd', [ ], [ 'natural' ],   # electron_charge * Avogradro's number!
+                     '''
+                     ''' ),
+
+    'joule/volt' :
+        RPNUnitInfo( 'charge', 'joule/volt', 'joule/volt', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -846,7 +856,7 @@ One centillion:  10e303
                      ''' ),
 
     'coulomb/second' :
-        RPNUnitInfo( 'current', 'coulomb/second', 'coulombs/second', 'C/s', [ 'C/sec', 'coulomb/sec', 'coulombs/sec', 'coulomb/s', 'coulombs/s' ], [ 'SI' ],
+        RPNUnitInfo( 'current', 'coulomb/second', 'coulombs/second', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -857,12 +867,12 @@ One centillion:  10e303
 
     # data_rate
     'bit/second' :
-        RPNUnitInfo( 'data_rate', 'bit/second', 'bits/second', 'b/s', [ 'bit/s', 'bits/s', 'bit/sec', 'bits/sec', 'b/sec', 'b/second' ], [ 'computing' ],
+        RPNUnitInfo( 'data_rate', 'bit/second', 'bits/second', 'bps', [ ], [ 'computing' ],
                      '''
                      ''' ),
 
     'byte/second' :
-        RPNUnitInfo( 'data_rate', 'byte/second', 'bytes/second', 'B/s', [ 'byte/s', 'bytes/s' 'byte/sec', 'bytes/sec', 'B/sec', 'B/second' ], [ 'computing' ],
+        RPNUnitInfo( 'data_rate', 'byte/second', 'bytes/second', 'Bps', [ ], [ 'computing' ],
                      '''
                      ''' ),
 
@@ -923,12 +933,12 @@ One centillion:  10e303
 
     # density
     'kilogram/liter' :
-        RPNUnitInfo( 'density', 'kilogram/liter', 'kilograms/liter', 'kg/l', [ ], [ 'SI' ],
+        RPNUnitInfo( 'density', 'kilogram/liter', 'kilograms/liter', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     'kilogram/meter^3' :
-        RPNUnitInfo( 'density', 'kilogram/meter^3', 'kilograms/meter^3', 'kg/m^3', [ ], [ 'SI' ],
+        RPNUnitInfo( 'density', 'kilogram/meter^3', 'kilograms/meter^3', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -940,17 +950,17 @@ One centillion:  10e303
     # pound-force second per square inch  lbf*s/in2    1 lbf*s/in2   = 6,894.757 Pa*s
 
     'kilogram/meter-second' :
-        RPNUnitInfo( 'dynamic_viscosity', 'kilogram/meter*second', 'kilogram/meter*second', 'kg/m*s', [ ], [ 'CGS' ],
+        RPNUnitInfo( 'dynamic_viscosity', 'kilogram/meter*second', 'kilogram/meter*second', '', [ ], [ 'CGS' ],
                      '''
                      ''' ),
 
     'newton-second/meter^2' :
-        RPNUnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', 'N*s/m^2', [ ], [ 'CGS' ],
+        RPNUnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', '', [ ], [ 'CGS' ],
                      '''
                      ''' ),
 
     'pascal-second' :
-        RPNUnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal-seconds', 'Pa*s', [ ], [ 'SI' ],
+        RPNUnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal-seconds', 'Pas', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -966,7 +976,7 @@ One centillion:  10e303
                      ''' ),
 
     'coulomb/farad' :
-        RPNUnitInfo( 'electric_potential', 'coulomb/farad', 'coulombs/farad', 'C/F', [ 'coulomb/F', 'coulombs/F', 'C/farad', 'C/farads', 'coulombs/farads' ], [ 'SI' ],
+        RPNUnitInfo( 'electric_potential', 'coulomb/farad', 'coulombs/farad', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -976,7 +986,7 @@ One centillion:  10e303
                      ''' ),
 
     'watt/ampere' :
-        RPNUnitInfo( 'electric_potential', 'watt/ampere', 'watts/ampere', 'W/A', [ 'watt/amp', 'watt/amps', 'watt/A', 'watts/amp', 'watts/amps', 'watts/A', 'W/amp', 'W/amps', 'W/ampere', 'W/amperes' ], [ 'SI' ],
+        RPNUnitInfo( 'electric_potential', 'watt/ampere', 'watts/ampere', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -992,7 +1002,7 @@ One centillion:  10e303
                      ''' ),
 
     'ampere/volt' :
-        RPNUnitInfo( 'electrical_conductance', 'ampere/volt', 'amperes/volt', 'A/V', [ 'amp/V', 'amps/V', 'ampere/V', 'amperes/V', 'A/volt', 'amp/volt', 'amps/volt', 'A/volts', 'amp/volts', 'amps/volts', 'amperes/volts', ], [ 'SI' ],
+        RPNUnitInfo( 'electrical_conductance', 'ampere/volt', 'amperes/volt', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1007,7 +1017,7 @@ properties. It is twice the reciprocal of the von Klitzing constant (2/RK).
                      ''' ),
 
     'ampere^2-second^3/kilogram-meter^2':
-        RPNUnitInfo( 'electrical_conductance', 'ampere^2*second^3/kilogram*meter^2', 'ampere^2*second^3/kilogram*meter^2', 'A^2*s^3/kg*m^2', [ ], [ 'SI' ],
+        RPNUnitInfo( 'electrical_conductance', 'ampere^2*second^3/kilogram*meter^2', 'ampere^2*second^3/kilogram*meter^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1028,7 +1038,7 @@ properties. It is twice the reciprocal of the von Klitzing constant (2/RK).
 
     # electrical_resistance
     '1/siemens' :
-        RPNUnitInfo( 'electrical_resistance', '1/siemens', '1/siemens', '1/S', [ '1/mho' ], [ 'SI' ],
+        RPNUnitInfo( 'electrical_resistance', '1/siemens', '1/siemens', '', [ '1/mho' ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1053,17 +1063,17 @@ properties. It is twice the reciprocal of the von Klitzing constant (2/RK).
                      ''' ),
 
     'joule-second/coulomb^2' :
-        RPNUnitInfo( 'electrical_resistance', 'joule*second/coulomb^2', 'joule*second/coulomb^2', 'J*s/C^2', [ ], [ 'SI' ],
+        RPNUnitInfo( 'electrical_resistance', 'joule*second/coulomb^2', 'joule*second/coulomb^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     'joule/ampere^2-second' :
-        RPNUnitInfo( 'electrical_resistance', 'joule/ampere^2*second', 'joule/ampere^2*second', 'J/A^2*s', [ ], [ 'SI' ],
+        RPNUnitInfo( 'electrical_resistance', 'joule/ampere^2*second', 'joule/ampere^2*second', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     'kilogram-meter^2/ampere^2-second^3' :
-        RPNUnitInfo( 'electrical_resistance', 'kilogram*meter^2/ampere^2*second^3', 'kilogram*meter^2/ampere^2*second^3', 'kg*m^2/A^2*s^3', [ ], [ 'SI' ],
+        RPNUnitInfo( 'electrical_resistance', 'kilogram*meter^2/ampere^2*second^3', 'kilogram*meter^2/ampere^2*second^3', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1078,7 +1088,7 @@ properties. It is twice the reciprocal of the von Klitzing constant (2/RK).
                      ''' ),
 
     'second/farad' :
-        RPNUnitInfo( 'electrical_resistance', 'second/farad', 'second/farad', 's/F', [ 's/farad', 's/farads', 'sec/farad', 'sec/farads', 'sec/F', 'second/F', 'seconds/F' ], [ 'SI' ],
+        RPNUnitInfo( 'electrical_resistance', 'second/farad', 'second/farad', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1093,12 +1103,12 @@ properties. It is twice the reciprocal of the von Klitzing constant (2/RK).
                      ''' ),
 
     'volt/ampere' :
-        RPNUnitInfo( 'electrical_resistance', 'volt/ampere', 'volts/ampere', 'V/A', [ 'volt/amp', 'volt/amps', 'volt/A', 'volts/amp', 'volts/amps', 'volts/A', 'V/amp', 'V/amps', 'V/ampere', 'V/amperes' ], [ 'SI' ],
+        RPNUnitInfo( 'electrical_resistance', 'volt/ampere', 'volts/ampere', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     'watt/ampere^2' :
-        RPNUnitInfo( 'electrical_resistance', 'watt/ampere^2', 'watts/ampere^2', 'W/A^2', [ 'watt/amperes^2', 'watts/amperes^2', 'W/ampere^2', 'W/amperes^2' ], [ 'SI' ],
+        RPNUnitInfo( 'electrical_resistance', 'watt/ampere^2', 'watts/ampere^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1149,7 +1159,7 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
                      ''' ),
 
     'horsepower-second' :
-        RPNUnitInfo( 'energy', 'horsepower*second', 'horsepower-seconds', 'hps', [ ], [ 'US' ],
+        RPNUnitInfo( 'energy', 'horsepower*second', 'horsepower-seconds', 'hps', [ 'second-horsepower' ], [ 'US' ],
                      '''
                      ''' ),
 
@@ -1159,17 +1169,17 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
                      ''' ),
 
     'kilogram-meter^2/second^2' :
-        RPNUnitInfo( 'energy', 'kilogram*meter^2/second^2', 'kilogram*meter^2/second^2', 'kg*m^2/s^2', [ ], [ 'SI' ],
+        RPNUnitInfo( 'energy', 'kilogram*meter^2/second^2', 'kilogram*meter^2/second^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     'meter-newton' :
-        RPNUnitInfo( 'energy', 'meter*newton', 'meter-newtons', 'N*m', [ ], [ 'SI' ],
+        RPNUnitInfo( 'energy', 'meter*newton', 'meter*newtons', '', [ 'newton-meter', 'newton-meters' ], [ 'SI' ],
                      '''
                      ''' ),
 
     'meter^3-pascal' :
-        RPNUnitInfo( 'energy', 'meter^3*pascal', 'meter^3*pascal', 'm^3*Pa', [ ], [ 'SI' ],
+        RPNUnitInfo( 'energy', 'meter^3*pascal', 'meter^3*pascal', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1203,12 +1213,12 @@ burning 100 cubic feet (often referred to as 1 CCF) of natural gas.
                      ''' ),
 
     'volt-coulomb' :
-        RPNUnitInfo( 'energy', 'volt*coulomb', 'volt*coulomb', 'VC', [ ], [ 'SI' ],
+        RPNUnitInfo( 'energy', 'volt*coulomb', 'volt*coulomb', 'VC', [ 'coulomb-volt', 'coulomb-volts' ], [ 'SI' ],
                      '''
                      ''' ),
 
     'watt-second' :
-        RPNUnitInfo( 'energy', 'watt*second', 'watt-seconds', 'Ws', [ ], [ 'SI' ],
+        RPNUnitInfo( 'energy', 'watt*second', 'watt-seconds', 'Ws', [ 'second-watt', 'second-watts' ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1224,12 +1234,12 @@ burning 100 cubic feet (often referred to as 1 CCF) of natural gas.
                      ''' ),
 
     'joule/meter' :
-        RPNUnitInfo( 'force', 'joule/meter', 'joule/meter', 'J/m', [ ], [ 'SI' ],
+        RPNUnitInfo( 'force', 'joule/meter', 'joule/meter', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     'kilogram-meter/second^2' :
-        RPNUnitInfo( 'energy', 'kilogram*meter/second^2', 'kilogram*meter/second^2', 'kg*m/s^2', [ ], [ 'SI' ],
+        RPNUnitInfo( 'energy', 'kilogram*meter/second^2', 'kilogram*meter/second^2', '', [ ], [ 'SI' ],
                      '''
 This is the definition of the SI derived unit Newton (N).
                      ''' ),
@@ -1245,7 +1255,7 @@ This is the definition of the SI derived unit Newton (N).
                      ''' ),
 
     'pound-foot/second^2' :
-        RPNUnitInfo( 'force', 'pound*foot/second^2', 'pound*foot/second^2', 'lb*ft/sec^2', [ ], [ 'FPS' ],
+        RPNUnitInfo( 'force', 'pound*foot/second^2', 'pound*foot/second^2', '', [ ], [ 'FPS' ],
                      '''
                      ''' ),
 
@@ -1266,32 +1276,32 @@ This is the definition of the SI derived unit Newton (N).
                      ''' ),
 
     'every_minute' :
-        RPNUnitInfo( 'frequency', 'x every_minute', 'x every minute', '', [ ], [ ],
+        RPNUnitInfo( 'frequency', 'x_every_minute', 'x_every_minute', '', [ ], [ ],
                      '''
                      ''' ),
 
     'hourly' :
-        RPNUnitInfo( 'frequency', 'x hourly', 'x hourly', '', [ ], [ ],
+        RPNUnitInfo( 'frequency', 'x_hourly', 'x_hourly', '', [ ], [ ],
                      '''
                      ''' ),
 
     'daily' :
-        RPNUnitInfo( 'frequency', 'x daily', 'x daily', '', [ ], [ ],
+        RPNUnitInfo( 'frequency', 'x_daily', 'x_daily', '', [ ], [ ],
                      '''
                      ''' ),
 
     'weekly' :
-        RPNUnitInfo( 'frequency', 'x weekly', 'x weekly', '', [ ], [ ],
+        RPNUnitInfo( 'frequency', 'x_weekly', 'x_weekly', '', [ ], [ ],
                      '''
                      ''' ),
 
     'monthly' :
-        RPNUnitInfo( 'frequency', 'x monthly', 'x monthly', '', [ ], [ ],
+        RPNUnitInfo( 'frequency', 'x_monthly', 'x_monthly', '', [ ], [ ],
                      '''
                      ''' ),
 
     'yearly' :
-        RPNUnitInfo( 'frequency', 'x yearly', 'x yearly', '', [ ], [ ],
+        RPNUnitInfo( 'frequency', 'x_yearly', 'x_yearly', '', [ 'annually' ], [ ],
                      '''
                      ''' ),
 
@@ -1322,12 +1332,12 @@ This is the definition of the SI derived unit Newton (N).
                      ''' ),
 
     'lumen/meter^2' :
-        RPNUnitInfo( 'illuminance', 'lumen/meter^2', 'lumens/meter^2', 'lm/m^2', [ 'lm/square_meter', 'lumen/square_meter', 'lumens/square_meter', 'lumen/m^2', 'lumens/m^2' ], [ 'SI' ],
+        RPNUnitInfo( 'illuminance', 'lumen/meter^2', 'lumens/meter^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     'lumen/foot^2' :
-        RPNUnitInfo( 'illuminance', 'lumen/foot^2', 'lumens/foot^2', 'lm/ft^2', [ 'lm/square_foot', 'lumen/square_foot', 'lumens/square_foot', 'lumen/ft^2', 'lumens/ft^2' ], [ 'FPS' ],
+        RPNUnitInfo( 'illuminance', 'lumen/foot^2', 'lumens/foot^2', '', [ ], [ 'FPS' ],
                      '''
                      ''' ),
 
@@ -1353,7 +1363,7 @@ This is the definition of the SI derived unit Newton (N).
                      ''' ),
 
     'weber/ampere' :
-        RPNUnitInfo( 'inductance', 'weber/ampere', 'webers/ampere', 'Wb/A', [ 'Wb/ampere', 'Wb/ampere', 'weber/A', 'webers/A', 'Wb/amp', 'weber/amp', 'webers/amp' ], [ 'SI' ],
+        RPNUnitInfo( 'inductance', 'weber/ampere', 'webers/ampere', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1398,7 +1408,7 @@ A 'double-word' consisting of 2 16-bits words, or 32 bits total.
                      ''' ),
 
     'joule/kelvin' :
-        RPNUnitInfo( 'information_entropy', 'joule/kelvin', 'joules/kelvin', 'J/K', [ 'joule/K', 'joules/K' ], [ 'SI' ],
+        RPNUnitInfo( 'information_entropy', 'joule/kelvin', 'joules/kelvin', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1465,13 +1475,13 @@ by Knuth.
 
     # jerk
     'meter/second^3' :
-        RPNUnitInfo( 'jerk', 'meter/second^3', 'meter/second^3', 'm/s^3', [ ], [ 'SI' ],
+        RPNUnitInfo( 'jerk', 'meter/second^3', 'meter/second^3', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     # jounce
     'meter/second^4' :
-        RPNUnitInfo( 'jounce', 'meter/second^4', 'meter/second^4', 'm/s^4', [ ], [ 'SI' ],
+        RPNUnitInfo( 'jounce', 'meter/second^4', 'meter/second^4', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1813,7 +1823,7 @@ by Knuth.
                      ''' ),
 
     'candela/meter^2' :
-        RPNUnitInfo( 'luminance', 'candela/meter^2', 'candelas/meter^2', 'cd/m^2', [ 'candela/m^2', 'candelas/m^2', 'candela/square_meter', 'candelas/square_meter', 'cd/square_meter' ], [ 'SI' ],
+        RPNUnitInfo( 'luminance', 'candela/meter^2', 'candelas/meter^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1849,7 +1859,7 @@ by Knuth.
                      ''' ),
 
     'candela-steradian' :
-        RPNUnitInfo( 'luminous_flux', 'candela-steradian', 'candela-steradians', 'cd*sr', [ 'cd-sr' ], [ 'SI' ],
+        RPNUnitInfo( 'luminous_flux', 'candela-steradian', 'candela-steradians', '', [ 'cd-sr', 'steradian-candela', 'steradian-candelas' ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1866,7 +1876,7 @@ by Knuth.
 
     # magnetic_field_strength
     'ampere/meter' :
-        RPNUnitInfo( 'magnetic_field_strength', 'ampere/meter', 'amperes/meter', 'A/m', [ 'amp/m', 'amps/m', 'ampere/m', 'amperes/m', 'A/meter', 'amp/meter', 'amps/meter', 'A/meters', 'amp/meters', 'amps/meters', 'ampere/meters', 'amperes/meters' ], [ 'SI' ],
+        RPNUnitInfo( 'magnetic_field_strength', 'ampere/meter', 'amperes/meter', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1877,7 +1887,7 @@ by Knuth.
 
     # magnetic_flux
     'centimeter^2-gauss' :
-        RPNUnitInfo( 'magnetic_flux', 'centimeter^2*gauss', 'centimeter^2*gauss', 'cm^2*gauss', [ 'square_cm*gauss' ], [ 'CGS' ],
+        RPNUnitInfo( 'magnetic_flux', 'centimeter^2*gauss', 'centimeter^2*gauss', '', [ 'gauss-centimeter^2' ], [ 'CGS' ],
                      '''
                      ''' ),
 
@@ -1892,7 +1902,7 @@ by Knuth.
                      ''' ),
 
     'volt-second' :
-        RPNUnitInfo( 'magnetic_flux', 'volt*second', 'volt*second', 'V*s', [ ], [ 'SI' ],
+        RPNUnitInfo( 'magnetic_flux', 'volt*second', 'volt*second', 'V*s', [ 'second-volt', 'second-volts' ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1902,7 +1912,7 @@ by Knuth.
                      ''' ),
 
     'meter^2-tesla' :
-        RPNUnitInfo( 'magnetic_flux', 'meter^2-tesla', 'meter^2-tesla', 'm^2*T', [ ], [ 'SI' ],
+        RPNUnitInfo( 'magnetic_flux', 'meter^2-tesla', 'meter^2-tesla', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1918,12 +1928,12 @@ by Knuth.
                      ''' ),
 
     'kilogram/ampere-second^2' :
-        RPNUnitInfo( 'magnetic_flux_density', 'kilogram/ampere*second^2', 'kilogram/ampere*second^2', 'kg/A*s^2', [ ], [ 'SI' ],
+        RPNUnitInfo( 'magnetic_flux_density', 'kilogram/ampere*second^2', 'kilogram/ampere*second^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     'maxwell/centimeter^2' :
-        RPNUnitInfo( 'magnetic_flux_density', 'maxwell/centimeter^2', 'maxwells/centimeter^2', 'Mx/cm^2', [ 'maxwell/cm^2', 'maxwells/cm^2', 'Mx/centimeter^2', 'Mx/square_centimeter', 'Mx/square_cm', 'maxwell/square_centimeter', 'maxwells/square_centimeter', 'maxwell/square_cm', 'maxwells/square_cm' ], [ 'CGS' ],
+        RPNUnitInfo( 'magnetic_flux_density', 'maxwell/centimeter^2', 'maxwells/centimeter^2', '', [ ], [ 'CGS' ],
                      '''
                      ''' ),
 
@@ -1933,7 +1943,7 @@ by Knuth.
                      ''' ),
 
     'newton-second/coulomb-meter' :
-        RPNUnitInfo( 'magnetic_flux_density', 'newton-second/coulomb-meter', 'newton-second/coulomb-meter', 'Ns/Cm', [ ], [ 'SI' ],
+        RPNUnitInfo( 'magnetic_flux_density', 'newton-second/coulomb-meter', 'newton-second/coulomb-meter', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1943,7 +1953,7 @@ by Knuth.
                      ''' ),
 
     'weber/meter^2' :
-        RPNUnitInfo( 'magnetic_flux_density', 'weber/meter^2', 'webers/meter^2', 'Wb/m^2', [ ], [ 'SI' ],
+        RPNUnitInfo( 'magnetic_flux_density', 'weber/meter^2', 'webers/meter^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -2009,7 +2019,7 @@ by Knuth.
                      ''' ),
 
     'joule-second^2/meter^2' :
-        RPNUnitInfo( 'mass', 'joule*second^2/meter^2', 'joule*second^2/meter^2', 'J*s^2/m^2', [ ], [ 'SI' ],
+        RPNUnitInfo( 'mass', 'joule*second^2/meter^2', 'joule*second^2/meter^2', '', [ ], [ 'SI' ],
                      '''
 This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
@@ -2116,7 +2126,7 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'erg/second' :
-        RPNUnitInfo( 'power', 'erg/second', 'ergs/second', 'erg/s', [ 'ergs/s' ], [ 'CGS' ],
+        RPNUnitInfo( 'power', 'erg/second', 'ergs/second', 'erg/s', [ ], [ 'CGS' ],
                      '''
                      ''' ),
 
@@ -2126,7 +2136,7 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'joule/second' :
-        RPNUnitInfo( 'power', 'joule/second', 'joules/second', 'J/s', [ 'joule/s', 'joules/s', 'J/sec', 'joule/sec', 'joules/sec', 'J/seconds', 'joule/seconds', 'joules/seconds' ], [ 'SI' ],
+        RPNUnitInfo( 'power', 'joule/second', 'joules/second', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -2136,12 +2146,12 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'kilogram-meter^2/second^3' :
-        RPNUnitInfo( 'power', 'kilogram*meter^2/second^3', 'kilogram*meter^2/second^3', 'kg*m^2/s^3', [ ], [ 'SI' ],
+        RPNUnitInfo( 'power', 'kilogram*meter^2/second^3', 'kilogram*meter^2/second^3', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     'meter-newton/second' :
-        RPNUnitInfo( 'power', 'meter*newton/second', 'meter*newton/second', 'm*N/s', [ ], [ 'SI' ],
+        RPNUnitInfo( 'power', 'meter*newton/second', 'meter*newton/second', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -2187,12 +2197,12 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'kilogram/meter-second^2' :
-        RPNUnitInfo( 'pressure', 'kilogram/meter*second^2', 'kilogram/meter*second^2', 'kg/m*s^2', [ ], [ 'SI' ],
+        RPNUnitInfo( 'pressure', 'kilogram/meter*second^2', 'kilogram/meter*second^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
     'newton/meter^2' :
-        RPNUnitInfo( 'pressure', 'newton/meter^2', 'newtons/meter^2', 'N/m^2', [ ], [ 'SI' ],
+        RPNUnitInfo( 'pressure', 'newton/meter^2', 'newtons/meter^2', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -2207,7 +2217,7 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'psi' :
-        RPNUnitInfo( 'pressure', 'pound/inch^2', 'pounds/inch^2', 'psi', [ 'lb/in^2' ], [ 'FPS' ],
+        RPNUnitInfo( 'pressure', 'pound/inch^2', 'pounds/inch^2', '', [ ], [ 'FPS' ],
                      '''
                      ''' ),
 
@@ -2218,17 +2228,17 @@ This conversion is required to do mass-energy equivalence calculations.
 
     # radiation_dose
     'banana_equivalent_dose' :
-        RPNUnitInfo( 'radiation_dose', 'banana_equivalent_dose', 'banana_equivalent_doses', '', [ 'banana' ], [ 'natural' ],
+        RPNUnitInfo( 'radiation_dose', 'banana_equivalent_dose', 'banana_equivalent_doses', '', [ 'banana', 'bananas' ], [ 'natural' ],
                      '''
                      ''' ),
 
     'gray' :
-        RPNUnitInfo( 'radiation_dose', 'gray', 'grays', 'Gy', [ ], [ 'SI' ],
+        RPNUnitInfo( 'radiation_dose', 'gray', 'grays', 'Gy', [ ], [ 'SI' ],   # or should 'Gy' be giga-years?
                      '''
                      ''' ),
 
     'joule/kilogram' :
-        RPNUnitInfo( 'radiation_dose', 'joule/kilogram', 'joules/kilogram', 'J/kg', [ 'joule/kg', 'joules/kg', 'J/kilogram', 'J/kilograms', 'joule/kilograms', 'joules/kilograms' ], [ 'SI' ],
+        RPNUnitInfo( 'radiation_dose', 'joule/kilogram', 'joules/kilogram', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -2244,7 +2254,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     # radiation_exposure
     'coulomb/kilogram' :
-        RPNUnitInfo( 'radiation_exposure', 'coulomb/kilogram', 'coulombs/kilogram', 'C/kg', [ ], [ 'SI' ],
+        RPNUnitInfo( 'radiation_exposure', 'coulomb/kilogram', 'coulombs/kilogram', '', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -2265,17 +2275,17 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'square_arcminute' :
-        RPNUnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', 'arcmin^2', [ 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2', 'spherical_minute', 'spherical_minutes' ], [ 'mathematics' ],
+        RPNUnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', '', [ 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2', 'spherical_minute', 'spherical_minutes' ], [ 'mathematics' ],
                      '''
                      ''' ),
 
     'square_arcsecond' :
-        RPNUnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', 'arcsec^2', [ 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2', 'spherical_second', 'spherical_seconds' ], [ 'mathematics' ],
+        RPNUnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', '', [ 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2', 'spherical_second', 'spherical_seconds' ], [ 'mathematics' ],
                      '''
                      ''' ),
 
     'square_degree' :
-        RPNUnitInfo( 'solid_angle', 'degree^2', 'degrees^2', 'deg^2', [ 'square_degrees', 'sqdeg', 'solid_degree', 'solid_degrees', 'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs', 'spherical_degree', 'spherical_degrees' ], [ 'mathematics' ],
+        RPNUnitInfo( 'solid_angle', 'degree^2', 'degrees^2', '', [ 'square_degrees', 'sqdeg', 'solid_degree', 'solid_degrees', 'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs', 'spherical_degree', 'spherical_degrees' ], [ 'mathematics' ],
                      '''
                      ''' ),
 
@@ -2530,7 +2540,7 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'meter/second' :
-        RPNUnitInfo( 'velocity', 'meter/second', 'meters/second', 'm/s', [ 'mps' ], [ 'SI' ],
+        RPNUnitInfo( 'velocity', 'meter/second', 'meters/second', 'mps', [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -2540,7 +2550,7 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'light' :
-        RPNUnitInfo( 'velocity', 'light', 'x_light', '', [ 'light' ], [ 'natural' ],
+        RPNUnitInfo( 'velocity', 'light', 'x_light', '', [ ], [ 'natural' ],
                      '''
                      ''' ),
 
@@ -2550,18 +2560,18 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'mile/hour' :
-        RPNUnitInfo( 'velocity', 'mile/hour', 'miles/hour', 'mph', [ 'mi/hr' ], [ 'FPS', 'imperial' ],
+        RPNUnitInfo( 'velocity', 'mile/hour', 'miles/hour', 'mph', [ ], [ 'FPS', 'imperial' ],
                      '''
                      ''' ),
 
     'kilometer/hour' :
-        RPNUnitInfo( 'velocity', 'kilometer/hour', 'kilometers/hour', 'km/h', [ 'kph' ], [ 'FPS', 'imperial' ],
+        RPNUnitInfo( 'velocity', 'kilometer/hour', 'kilometers/hour', 'kph', [ ], [ 'FPS', 'imperial' ],
                      '''
                      ''' ),
 
     # volume
     'acre-foot' :
-        RPNUnitInfo( 'volume', 'acre*foot', 'acre-feet', 'ac*ft', [ ], [ 'FPS', 'imperial' ],
+        RPNUnitInfo( 'volume', 'acre*foot', 'acre-feet', '', [ ], [ 'FPS', 'imperial' ],
                      '''
                      ''' ),
 
@@ -2606,17 +2616,17 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'cubic_inch' :
-        RPNUnitInfo( 'volume', 'inch^3', 'cubic_inches', 'in^3', [ 'inches^3', 'cuin', 'cu_in', 'cu_inch', 'cu_inches', 'cubic_in' ], [ 'traditional' ],
+        RPNUnitInfo( 'volume', 'cubic_inch', 'cubic_inches', '', [ 'cuin', 'cu_in', 'cu_inch', 'cu_inches', 'cubic_in' ], [ 'traditional' ],
                      '''
                      ''' ),
 
     'cubic_foot' :
-        RPNUnitInfo( 'volume', 'foot^3', 'cubic_feet', 'ft^3', [ 'feet^3', 'cuft', 'cu_ft', 'cu_foot', 'cu_feet', 'cubic_ft' ], [ 'traditional', 'FPS' ],
+        RPNUnitInfo( 'volume', 'cubic_foot', 'cubic_feet', '', [ 'cuft', 'cu_ft', 'cu_foot', 'cu_feet', 'cubic_ft' ], [ 'traditional', 'FPS' ],
                      '''
                      ''' ),
 
     'cubic_meter' :
-        RPNUnitInfo( 'volume', 'meter^3', 'cubic_meters', 'm^3', [ 'meters^3', 'cum', 'cu_m', 'cu_meter', 'cu_meters', 'cubic_m' ], [ 'SI' ],
+        RPNUnitInfo( 'volume', 'cubic_meter', 'cubic_meters', '', [ 'cum', 'cu_m', 'cu_meter', 'cu_meters', 'cubic_m' ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -2830,6 +2840,10 @@ This conversion is required to do mass-energy equivalence calculations.
                      '''
                      ''' ),
 
+    'meter^3' :
+        RPNUnitInfo( 'volume', 'meter^3', 'meter^3', '', [ ], [ 'SI' ],
+                     '''
+                     ''' ),
     'methuselah' :
         RPNUnitInfo( 'volume', 'methuselah', 'methuselahs', '', [ ], [ 'wine' ],
                      '''
@@ -3257,6 +3271,7 @@ unitConversionMatrix = {
     ( 'conductance_quantum',        'siemens' )                             : mpmathify( '7.7480917310e-5' ),
     ( 'coomb',                      'strike' )                              : mpmathify( '2' ),
     ( 'cord',                       'cubic_foot' )                          : mpmathify( '128' ),
+    ( 'coulomb',                    'joule/volt' )                          : mpmathify( '1' ),
     ( 'coulomb',                    'ampere-second' )                       : mpmathify( '1' ),
     ( 'coulomb',                    'farad-volt' )                          : mpmathify( '1' ),
     ( 'coulomb/farad',              'volt' )                                : mpmathify( '1' ),
@@ -3409,6 +3424,7 @@ unitConversionMatrix = {
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
     ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
     ( 'meter^3-pascal',             'joule' )                               : mpmathify( '1' ),
+    ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
     ( 'methuselah',                 'liter' )                               : mpmathify( '6.0' ),
     ( 'metric_foot',                'meter' )                               : mpmathify( '0.3' ),
     ( 'mezhevaya_versta',           'versta' )                              : mpmathify( '2' ),
@@ -3550,6 +3566,7 @@ unitConversionMatrix = {
     ( 'square_arcminute',           'square_arcsecond' )                    : mpmathify( '3600' ),
     ( 'square_degree',              'square_arcminute' )                    : mpmathify( '3600' ),
     ( 'square_meter',               'barn' )                                : mpmathify( '1.0e28' ),
+    ( 'square_meter',               'meter^2' )                             : mpmathify( '1' ),
     ( 'square_meter',               'outhouse' )                            : mpmathify( '1.0e34' ),
     ( 'square_meter',               'shed' )                                : mpmathify( '1.0e52' ),
     ( 'square_octant',              'square_degree' )                       : mpmathify( '2025' ),
@@ -3578,14 +3595,14 @@ unitConversionMatrix = {
     ( 'ten',                        'unity' )                               : mpmathify( '10' ),
     ( 'tesla',                      'gauss' )                               : mpmathify( '10000' ),
     ( 'tesla',                      'kilogram/ampere-second^2' )            : mpmathify( '1' ),
+    ( 'tesla',                      'newton-second/coulomb-meter' )         : mpmathify( '1' ),
     ( 'tesla',                      'second-volt/meter^2' )                 : mpmathify( '1' ),
     ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
-    ( 'tesla',                      'newton-second/coulomb-meter' )         : mpmathify( '1' ),
     ( 'therm',                      'btu' )                                 : mpmathify( '100000' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '1000' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
-    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
     ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
+    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
     ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),
     ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),

@@ -268,6 +268,7 @@ constants = {
     'gallon_of_gasoline'            : RPNOperator( lambda: RPNMeasurement( '1.2e8', 'joule' ), 0 ),
     'density_of_water'              : RPNOperator( lambda: RPNMeasurement( '1000', 'kilogram/meter^3' ), 0 ),
     'density_of_hg'                 : RPNOperator( lambda: RPNMeasurement( '13595.1', 'kilogram/meter^3' ), 0 ),
+    'solar_constant'                : RPNOperator( lambda: RPNMeasurement( '1360.8', 'watt/meter^2' ), 0 ),  # average... it varies slightly
 
     # physical constants
     'avogadro_number'               : RPNOperator( lambda: '6.022140857e23', 0 ),
@@ -2347,13 +2348,13 @@ operators = {
     'debruijn'                       : RPNOperator( createDeBruijnSequence,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'lah'                            : RPNOperator( lambda n, k: fdiv( fmul( binomial( real( n ), real( k ) ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ),
+    'lah'                            : RPNOperator( getLahNumber,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
     'multifactorial'                 : RPNOperator( getNthMultifactorial,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'narayana'                       : RPNOperator( lambda n, k: fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n ),
+    'narayana'                       : RPNOperator( getNarayanaNumber,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
     'nth_apery'                      : RPNOperator( getNthAperyNumber,
@@ -2365,7 +2366,7 @@ operators = {
     'nth_bernoulli'                  : RPNOperator( bernoulli,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'nth_catalan'                    : RPNOperator( lambda n: fdiv( binomial( fmul( 2, real( n ) ), n ), fadd( n, 1 ) ),
+    'nth_catalan'                    : RPNOperator( getNthCatalanNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'nth_delannoy'                   : RPNOperator( getNthDelannoyNumber,
@@ -2380,6 +2381,9 @@ operators = {
     'nth_schroeder'                  : RPNOperator( getNthSchroederNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'nth_schroeder_hipparchus'       : RPNOperator( getNthSchroederHipparchusNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'nth_sylvester'                  : RPNOperator( getNthSylvester,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
@@ -2388,6 +2392,7 @@ operators = {
 
     'permutations'                   : RPNOperator( getPermutations,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
 
     # complex
     'argument'                       : RPNOperator( arg,

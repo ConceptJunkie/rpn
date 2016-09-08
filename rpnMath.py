@@ -168,6 +168,8 @@ def getPower( n, k ):
 
 def getRoot( n, k ):
     if isinstance( n, RPNMeasurement ):
+        n = n.normalizeUnits( )
+
         if not isInteger( k ):
             raise ValueError( 'cannot take a fractional root of a measurement' )
 

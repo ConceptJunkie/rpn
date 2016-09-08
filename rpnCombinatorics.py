@@ -290,3 +290,51 @@ def getMultinomial( args ):
 
     return fdiv( numerator, denominator )
 
+
+# //******************************************************************************
+# //
+# //  getLahNumber
+# //
+# //******************************************************************************
+
+def getLahNumber( n, k ):
+    return fdiv( fmul( binomial( real( n ), real( k ) ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getNarayanaNumber
+# //
+# //******************************************************************************
+
+def getNarayanaNumber( n, k ):
+    return fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n )
+
+
+# //******************************************************************************
+# //
+# //  getNthCatalanNumber
+# //
+# //******************************************************************************
+
+def getNthCatalanNumber( n ):
+    return fdiv( binomial( fmul( 2, real( n ) ), n ), fadd( n, 1 ) )
+
+
+# //******************************************************************************
+# //
+# //  getNthSchroederHipparchusNumber
+# //
+# //  https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number
+# //  https://oeis.org/A001003
+# //
+# //******************************************************************************
+
+def getNthSchroederHipparchusNumber( n ):
+    result = 0
+
+    for i in arange( n ):
+        result = fadd( result, fmul( getNarayanaNumber( n, fadd( i, 1 ) ), power( 2, i ) ) )
+
+    return result
+

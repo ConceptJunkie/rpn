@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 761
+maxExampleCount = 800
 debugMode = False
 
 
@@ -385,6 +385,7 @@ Or better yet, there's now an operator for that:
 I tried to make the unit conversion flexible and smart.  It is... sometimes.
 ''' + makeCommandExample( '16800 mA hours * 5 volts * joule convert', indent=4 ) + '''
 ''' + makeCommandExample( 'gigaparsec barn * cubic_inches convert', indent=4 ) + '''
+''' + makeCommandExample( 'cubic_inches gigaparsec barn * convert', indent=4 ) + '''
 And sometimes it isn't.
 
 This is a long-standing deficiency in the design.  I've struggled to figure
@@ -1240,6 +1241,8 @@ Calculation (or approximation) of various mathematical constants:
     Machin-Gregory series
 ''' + makeCommandExample( '0 inf lambda -1 x ** 1 2 / 2 x * 1 + ** * 2 x * 1 + / nsum', indent=8 ) + '''
 ''' + makeCommandExample( '1 2 / arctan', indent=8 ) + '''
+    Somos quadratic recurrence constant
+''' + makeCommandExample( '1 inf lambda x 1 + x / 2 x ** root nprod', indent=8 ) + '''
     ''',
     'notes' :
     '''
@@ -1537,8 +1540,12 @@ Addition is supported for measurements..
 ''' + makeCommandExample( '1 mile 1 km +' ) ],
 
     'ceiling' : [
-'arithmetic', 'returns the next highest integer for n',
+'arithmetic', 'returns the next higher integer for n',
 '''
+This operator returns the next higher integer for n.
+
+n can be any real number.  If n is complex, the imaginary component is also
+increased to the next integral multiple of i.
 ''',
 '''
 ''' + makeCommandExample( '3.4 ceil' ) + '''
@@ -1548,6 +1555,7 @@ Addition is supported for measurements..
     'decrement' : [
 'arithmetic', 'returns n - 1',
 '''
+This operator is the equivalent of 'n 1 subtract'.
 ''',
 '''
 ''' + makeCommandExample( '1 decrement', indent=4 ) + '''
@@ -1577,8 +1585,12 @@ Division is supported for measurements.
 ''' + makeCommandExample( 'miles hour / furlongs fortnight / convert' ) ],
 
     'floor' : [
-'arithmetic', 'calculates the next lowest integer for n',
+'arithmetic', 'calculates the next lower integer for n',
 '''
+This operator returns the next lower integer for n.
+
+n can be any real number.  If n is complex, the imaginary component is also
+decreased to the next lower integral multiple of i.
 ''',
 '''
 ''' + makeCommandExample( '0.1 floor' ) + '''
@@ -1608,6 +1620,7 @@ Calculate the geometric mean of the first n numbers from 1 to 5:
     'increment' : [
 'arithmetic', 'returns n + 1',
 '''
+This operator is the equivalent of 'n 1 add'.
 ''',
 '''
 ''' + makeCommandExample( '1 increment' ) + '''
@@ -2495,16 +2508,26 @@ is the numerical representation of the string of 'xor'ed bits.
     'ascension' : [
 'calendars', 'returns the date of Ascension Thursday for the year specified',
 '''
+Ascension Thursday is the 40th day of the Easter season in the Christian
+calendar, which starts with Easter.  It commemorates the day Christ ascended
+into Heaven, on the 40th day after His Resurrection, and marks the end of the
+Easter season.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2017 ascension' ) + '''
+''' + makeCommandExample( '2017 ascension 2017 easter -' ) ],
 
     'ash_wednesday' : [
 'calendars', 'calculates the date of Ash Wednesday for the year specified',
 '''
+Ash Wednesday marks the beginning of Lent, the 40-day penitential season
+leading up to Easter in the Christian calendar.  Note that the season of Lent
+does not technically include Sundays, so the difference between Easter and Ash
+Wednesday is actually 46 days.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2017 ash_wednesday' ) + '''
+''' + makeCommandExample( '2017 easter 2017 ash_wednesday -' ) ],
 
     'calendar' : [
 'calendars', 'prints a month calendar for date-time n',
@@ -2513,18 +2536,31 @@ The 'calendar' operator is special in that what it prints out is a side-effect.
 The operator itself doesn't actually do anything.
 ''',
 '''
+c:\>rpn 2016-09-01 cal
+
+   September 2016
+Su Mo Tu We Th Fr Sa
+             1  2  3
+ 4  5  6  7  8  9 10
+11 12 13 14 15 16 17
+18 19 20 21 22 23 24
+25 26 27 28 29 30
 ''' ],
 
     'christmas' : [
 'calendars', 'returns the date of Christmas for the year specified',
 '''
-I deliberately didn't intend to make this operator, since Christmas is always
+Christmas commemorates the birth of Christ in the Christian calendar, although
+it does not reflect the actual birth day of Jesus, which is unrecorded, and
+is considered likely to have happened in the springtime, some time between
+6 B.C. and 4 A.D.
+
+I originally didn't intend to make this operator, since Christmas is always
 on the same date, but one day, I was checking the number of days until
-Christmas and used the 'christmas' operator without remembering I never made
-one.  <shrug>
+Christmas and used the 'christmas' operator instinctively.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2017 christmas' ) ],
 
     'dst_end' : [
 'calendars', 'calculates the ending date for Daylight Saving Time for the year specified',
@@ -2543,9 +2579,11 @@ one.  <shrug>
     'easter' : [
 'calendars', 'calculates the date of Easter for the year specified',
 '''
+In the Christian calendar, Easter commemorates the Resurrection of Christ.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2016 easter' ) + '''
+''' + makeCommandExample( '1973 easter' ) ],
 
     'election_day' : [
 'calendars', 'calculates the date of Election Day (US) for the year specified',
@@ -2897,11 +2935,29 @@ permutations of the 3 symbols in groups of 3 because the groups can overlap.
 ''' + makeCommandExample( '3 3 debruijn' ) ],
 
     'lah' : [
-'combinatorics', '',
+'combinatorics', 'calculate the Lah number for n and k',
 '''
+from https://en.wikipedia.org/wiki/Lah_number:
+
+In mathematics, the Lah numbers, discovered by Ivo Lah in 1955, are
+coefficients expressing rising factorials in terms of falling factorials.
+
+Unsigned Lah numbers have an interesting meaning in combinatorics: they count
+the number of ways a set of n elements can be partitioned into k nonempty
+linearly ordered subsets. Lah numbers are related to Stirling numbers.
+
+The Lah numbers are only defined for n >= k.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '3 2 lah' ) + '''
+''' + makeCommandExample( '12 1 lah' ) + '''
+''' + makeCommandExample( '12 1 lah 12 ! -' ) + '''
+''' + makeCommandExample( '7 2 lah' ) + '''
+''' + makeCommandExample( '7 2 lah 6 7 ! *  2 / -' ) + '''
+''' + makeCommandExample( '15 3 lah' ) + '''
+''' + makeCommandExample( '15 3 lah [ 13 14 15 ! ] prod 12 / -' ) + '''
+''' + makeCommandExample( '17 16 lah' ) + '''
+''' + makeCommandExample( '17 16 lah 17 16 * -' ) ],
 
     'multifactorial' : [
 'combinatorics', 'calculates the nth k-factorial',
@@ -2924,11 +2980,20 @@ same as the 'doublefac' operator.
 ''' ],
 
     'narayana' : [
-'combinatorics', '',
+'combinatorics', 'calculates the Nayayana number for n and k',
 '''
+From https://en.wikipedia.org/wiki/Narayana_number:
+
+In combinatorics, the Narayana numbers N(n, k), n = 1, 2, 3 ..., 1 <= k <= n,
+form a triangular array of natural numbers, called Narayana triangle, that
+occur in various counting problems.  They are named after Indian mathematician
+T. V. Narayana (1930-1987).
 ''',
 '''
-''' ],
+''' + makeCommandExample( '10 5 narayana' ) + '''
+''' + makeCommandExample( '8 4 narayana' ) + '''
+The 10th row of the 'Narayana triangle':
+''' + makeCommandExample( '10 1 10 range narayana', indent=4 ) ],
 
     'nth_apery' : [
 'combinatorics', 'calculates the nth Apery number',
@@ -2947,62 +3012,156 @@ same as the 'doublefac' operator.
     'nth_bernoulli' : [
 'combinatorics', 'calculates the nth Bernoulli number',
 '''
+From https://en.wikipedia.org/wiki/Bernoulli_number:
+
+In mathematics, the Bernoulli numbers Bn are a sequence of rational numbers
+with deep connections to number theory.
+
+The Bernoulli numbers appear in the Taylor series expansions of the tangent
+and hyperbolic tangent functions, in formulas for the sum of powers of the
+first positive integers, in the Euler-Maclaurin formula, and in expressions
+for certain values of the Riemann zeta function.
+
+The Bernoulli numbers were discovered around the same time by the Swiss
+mathematician Jakob Bernoulli, after whom they are named, and independently by
+Japanese mathematician Seki Ko-wa.
+
+Ada Lovelace's note G on the analytical engine from 1842 describes an algorithm
+for generating Bernoulli numbers with Babbage's machine.  As a result, the
+Bernoulli numbers have the distinction of being the subject of the first
+published complex computer program.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 20 range nth_bernoulli' ) ],
 
     'nth_catalan' : [
 'combinatorics', 'calculates nth Catalan number',
 '''
+From https://en.wikipedia.org/wiki/Catalan_number:
+
+In combinatorial mathematics, the Catalan numbers form a sequence of natural
+numbers that occur in various counting problems, often involving
+recursively-defined objects. They are named after the Belgian mathematician
+Eugene Charles Catalan (1814-1894).
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 20 range nth_catalan' ) ],
 
     'nth_delannoy' : [
-'combinatorics', 'calculates the nth Delannoy number',
+'combinatorics', 'calculates the nth Central Delannoy number',
 '''
+From https://en.wikipedia.org/wiki/Delannoy_number:
+
+In mathematics, a central Delannoy number D describes the number of paths from
+the southwest corner (0, 0) of a rectangular grid to the northeast corner
+(n, n), using only single steps north, northeast, or east.  The Delannoy
+numbers are named after French army officer and amateur mathematician Henri
+Delannoy.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range nth_delannoy' ) ],
 
     'nth_motzkin' : [
 'combinatorics', 'calculates the nth Motzkin number',
 '''
+From https://en.wikipedia.org/wiki/Motzkin_number:
+
+In mathematics, a Motzkin number for a given number n is the number of
+different ways of drawing non-intersecting chords between n points on a circle
+(not necessarily touching every point by a chord).  The Motzkin numbers are
+named after Theodore Motzkin, and have very diverse applications in geometry,
+combinatorics and number theory.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range nth_motzkin' ) ],
 
     'nth_pell' : [
 'combinatorics', 'calculates the nth Pell number',
 '''
+From https://en.wikipedia.org/wiki/Pell_number:
+
+In mathematics, the Pell numbers are an infinite sequence of integers, known
+since ancient times, that comprise the denominators of the closest rational
+approximations to the square root of 2. This sequence of approximations begins
+1/1, 3/2, 7/5, 17/12, and 41/29, so the sequence of Pell numbers begins with
+1, 2, 5, 12, and 29.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 20 range nth_pell' ) ],
 
     'nth_schroeder' : [
 'combinatorics', 'calculates the nth Schroeder number',
 '''
+In mathematics, a Schroeder number describes the number of paths from the
+southwest corner (0, 0) of an n x n grid to the northeast corner (n, n), using
+only single steps north, northeast, or east, that do not rise above the SW-NE
+diagonal.
+
+They were named after the German mathematician Ernst Schroeder.
+
+(see 'nth_delannoy')
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range nth_schroeder' ) ],
+
+    'nth_schroeder_hipparchus' : [
+'combinatorics', 'calculates the nth Schroeder-Hipparchus number',
+'''
+From https://en.wikipedia.org/wiki/Schr%C3%B6der%E2%80%93Hipparchus_number:
+
+In number theory, the Schroeder-Hipparchus numbers form an integer sequence
+that can be used to count the number of plane trees with a given set of leaves,
+the number of ways of inserting parentheses into a sequence, and the number of
+ways of dissecting a convex polygon into smaller polygons by inserting
+diagonals.
+
+They are also called the super-Catalan numbers, the little Schroeder numbers,
+or the Hipparchus numbers, after Eugene Charles Catalan and his Catalan numbers,
+Ernst Schroeder and the closely related Schroeder numbers, and the ancient Greek
+mathematician Hipparchus who appears from evidence in Plutarch to have known of
+these numbers.
+''',
+'''
+''' + makeCommandExample( '1 12 range nth_schroeder_hipparchus' ) ],
 
     'nth_sylvester' : [
 'combinatorics', 'calculates the nth Sylvester number',
 '''
+In number theory, Sylvester's sequence is an integer sequence in which each member
+of the sequence is the product of the previous members, plus one.
+
+Sylvester's sequence is named after James Joseph Sylvester, who first
+investigated it in 1880. Its values grow doubly exponentially, and the sum of
+its reciprocals forms a series of unit fractions that converges to 1 more
+rapidly than any other series of unit fractions with the same number of terms.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range nth_sylvester' ) ],
 
     'partitions' : [
 'combinatorics', 'returns the partition number for n',
 '''
+From https://en.wikipedia.org/wiki/Partition_%28number_theory%29:
+
+In number theory and combinatorics, a partition of a positive integer n, also
+called an integer partition, is a way of writing n as a sum of positive
+integers.  Two sums that differ only in the order of their summands are
+considered the same partition.
+
+For example, 4 can be partitioned in five distinct ways:
+    4
+    3 + 1
+    2 + 2
+    2 + 1 + 1
+    1 + 1 + 1 + 1
 ''',
 '''
-''' ],
+''' + makeCommandExample( '4 partitions' ) ],
 
     'permutations' : [
 'combinatorics', 'calculates the number of permutations of k out of n objects',
 '''
+When calculating the number of permutations of k objects, order matters.
 ''',
 '''
 ''' + makeCommandExample( '5 2 permutations' ) + '''
@@ -3073,7 +3232,7 @@ e ^ ( pi * i ) = -1
 # //******************************************************************************
 
     'aa_battery' : [
-'constants', 'returns ',
+'constants', 'returns the approximate energy content of a fully-charged AA alkaline battery',
 '''
 ''',
 '''
@@ -3614,7 +3773,6 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 This is a derived constant calculated from the CODATA value for the Planck
 length.
 
-
 Ref:  CODATA 2014
 ''',
 '''
@@ -3841,6 +3999,16 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
     'silver_ratio' : [
 'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )'
 '''
+''',
+'''
+''' ],
+
+    'solar_constant' : [
+'constants', 'returns the solar constant',
+'''
+This operator returns the average amount of luminous energy the Earth receives
+from the Sun.  The solar constant does vary slightly over time due to
+fluctuations in solar energy output.
 ''',
 '''
 ''' ],
@@ -7531,6 +7699,8 @@ http://oeis.org/A007588
 'powers_and_roots', 'calculates the cube of n',
 '''
 'cube' simply returns the value of n to the third power.
+
+It is the equivalent of 'n 3 power'.
 ''',
 '''
 ''' ],
@@ -7538,7 +7708,9 @@ http://oeis.org/A007588
     'cube_root' : [
 'powers_and_roots', 'calculates the cube root of n',
 '''
-This operator is the equivalent of 'n 3 root'.
+This operator returns the cube root of n.
+
+It is the equivalent of 'n 3 root'.
 ''',
 '''
 ''' ],
@@ -7546,16 +7718,32 @@ This operator is the equivalent of 'n 3 root'.
     'exp' : [
 'powers_and_roots', 'calculates the nth power of e',
 '''
+This operator returns e to the power of n.  it is the inverse of the 'log'
+operator and is the equivalent of the following:
+
+'e n power'
+
+n can be any real or complex value.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2 exp' ) + '''
+''' + makeCommandExample( '1 10 range exp' ) + '''
+''' + makeCommandExample( '1 i exp' ) ],
 
     'exp10' : [
 'powers_and_roots', 'calculates nth power of 10',
 '''
+This operator returns 10 to the power of n.  it is the inverse of the 'log10'
+operator and is the equivalent of the following:
+
+'10 n power'
+
+n can be any real or complex value.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2 exp10' ) + '''
+''' + makeCommandExample( '1 10 range exp10' ) + '''
+''' + makeCommandExample( '1 i exp10' ) ],
 
     'expphi' : [
 'powers_and_roots', 'calculates the nth power of phi',
@@ -7578,15 +7766,7 @@ It was originally added to make testing the base phi output easier.
     'power' : [
 'powers_and_roots', 'calculates the kth power of n',
 '''
-This operator raises the first term to the power of the second.  If the first
-operand is a list, then each item is raised to the power of the other operand
-and the result is a list.  If the second operand is a list, then the first
-operand is raised to the power of each member in the list and the result is a list.
-
-If both operands are lists, then each member of the list is raised to the power
-of its corresponding member in the other list and the result is a list.  If the
-lists are not of equal length, then the resulting list is the length of the
-shorter of the two.
+This operator raises the n to the power of k.
 ''',
 '''
 ''' + makeCommandExample( '4 5 **' ) + '''
@@ -7604,14 +7784,19 @@ a, b and c are assumed to be integers
     'root' : [
 'powers_and_roots', 'calculates the kth root of n',
 '''
+This operator returns the kth root of n.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '2 12 //' ) + '''
+''' + makeCommandExample( '1 10 range 2 //' ) + '''
+''' + makeCommandExample( '4 foot^2 2 //' ) ],
 
     'square' : [
 'powers_and_roots', 'calculates the square of n',
 '''
 This operator is the equivalent of 'n 2 power'.
+
+It returns the square of n.
 ''',
 '''
 ''' + makeCommandExample( 'pi sqr' ) + '''
