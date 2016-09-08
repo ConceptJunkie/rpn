@@ -54,7 +54,7 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator unit conversion data generato
 def makeMetricUnit( prefix, unit ):
     # special case because the standard is inconsistent
     if ( unit == 'ohm' ) and ( prefix == 'giga' ):
-        return 'gigaohm'
+        return 'gigaohm'   # not gigohm
     elif ( unit[ 0 ] == 'o' ) and ( prefix[ -1 ] in 'oa' ):
         return prefix[ : -1 ] + unit
     elif unit[ 0 ] == 'a' and ( ( prefix[ -1 ] == 'a' ) or ( prefix[ -3 : ] == 'cto' ) ):

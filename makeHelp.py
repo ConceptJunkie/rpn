@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 800
+maxExampleCount = 803
 debugMode = False
 
 
@@ -539,7 +539,7 @@ gets smaller.
    'rpn 1970 2016 range lambda x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval'
 *  'rpn 1 20 range dBm kilowatt convert' fails.  This conversion doesn't work because dBm to watt uses a special function.
 *  'mean', 'max' and 'min' should work with measurements, but measurements currently can't be compared.
-*  units aren't supported in user-defined functions
+*  lists and units aren't supported in user-defined functions
 *  input parsing doesn't happen in a user-defined function, e.g., '1,000' doesn't get translated to 1000
 *  http://en.wikipedia.org/wiki/Physical_constant
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
@@ -1157,16 +1157,9 @@ Unit conversions:
 ''' + makeCommandExample( '500 million miles', indent=8 ) + '''
     'gee' is a constant.
 ''' + makeCommandExample( '5 gee *', indent=8 ) + '''
-    [ TODO:  finish unit conversion examples ]
-
+    And finally, let's convert our example to better units:
+''' + makeCommandExample( '500 million miles 5 gee * 5 minutes * / dhms', indent=8 ) + '''
 Advanced examples:
-
-Please note that several of the following commands are broken up into multiple
-lines for readability, but all of them are single commands to rpn.
-
-In some commands, the precision is explicitly set such to limit the output to
-what is accurately calculated.   If there are alternate versions to calculate
-the value, the same precision is used.
 
 Calculation (or approximation) of various mathematical constants:
 
@@ -1243,6 +1236,10 @@ Calculation (or approximation) of various mathematical constants:
 ''' + makeCommandExample( '1 2 / arctan', indent=8 ) + '''
     Somos quadratic recurrence constant
 ''' + makeCommandExample( '1 inf lambda x 1 + x / 2 x ** root nprod', indent=8 ) + '''
+    Niven's constant
+''' + makeCommandExample( '1 2 inf lambda 1 x zeta 1/x - nsum +', indent=8 ) + '''
+    Kepler-Bouwkamp constant
+''' + makeCommandExample( '3 inf lambda pi x / cos nprod', indent=8 ) + '''
     ''',
     'notes' :
     '''

@@ -502,6 +502,7 @@ operatorAliases = {
     'mcg'                       : 'microgram',
     'megalerg'                  : 'megaerg',
     'megaohm'                   : 'megohm',
+    'megmho'                    : 'megasiemens',
     'mercury_year'              : 'mercury_revolution',
     'mersenne'                  : 'nth_mersenne_prime',
     'mertens'                   : 'merten',

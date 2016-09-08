@@ -1223,6 +1223,11 @@ burning 100 cubic feet (often referred to as 1 CCF) of natural gas.
                      ''' ),
 
     # force
+    'amp-weber/meter' :
+        RPNUnitInfo( 'force', 'amp*weber/meter', 'amp_weber/meter', '', [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
     'dyne' :
         RPNUnitInfo( 'force', 'dyne', 'dynes', 'dyn', [ ], [ 'CGS' ],
                      '''
@@ -2269,6 +2274,16 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     # solid_angle
+    'hemisphere' :
+        RPNUnitInfo( 'solid_angle', 'hemisphere', 'hemisphere', '', [ 'half_sphere', 'half_spheres' ], [ 'SI', 'mathematics' ],
+                     '''
+                     ''' ),
+
+    'radian^2' :
+        RPNUnitInfo( 'solid_angle', 'radian^2', 'radian^2', '', [ ], [ 'SI', 'mathematics' ],
+                     '''
+                     ''' ),
+
     'sphere' :
         RPNUnitInfo( 'solid_angle', 'sphere', 'spheres', '', [ ], [ 'mathematics' ],
                      '''
@@ -2315,7 +2330,7 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'steradian' :
-        RPNUnitInfo( 'solid_angle', 'steradian', 'steradians', 'sr', [ 'square_radian', 'square_radians', 'sq_radian', 'sq_radians', 'sq_rad', 'sqrad', 'radian^2', 'radians^2', 'rad^2', 'spherical_radian', 'spherical_radians' ], [ 'SI', 'mathematics' ],
+        RPNUnitInfo( 'solid_angle', 'steradian', 'steradians', 'sr', [ 'square_radian', 'square_radians', 'sq_radian', 'sq_radians', 'sq_rad', 'sqrad', 'spherical_radian', 'spherical_radians' ], [ 'SI', 'mathematics' ],
                      '''
                      ''' ),
 
@@ -3271,9 +3286,9 @@ unitConversionMatrix = {
     ( 'conductance_quantum',        'siemens' )                             : mpmathify( '7.7480917310e-5' ),
     ( 'coomb',                      'strike' )                              : mpmathify( '2' ),
     ( 'cord',                       'cubic_foot' )                          : mpmathify( '128' ),
-    ( 'coulomb',                    'joule/volt' )                          : mpmathify( '1' ),
     ( 'coulomb',                    'ampere-second' )                       : mpmathify( '1' ),
     ( 'coulomb',                    'farad-volt' )                          : mpmathify( '1' ),
+    ( 'coulomb',                    'joule/volt' )                          : mpmathify( '1' ),
     ( 'coulomb/farad',              'volt' )                                : mpmathify( '1' ),
     ( 'coulomb/kilogram',           'roentgen' )                            : mpmathify( '3876' ),
     ( 'coulomb/volt',               'farad' )                               : mpmathify( '1' ),
@@ -3387,11 +3402,11 @@ unitConversionMatrix = {
     ( 'joule',                      'electron-volt' )                       : mpmathify( '6.24150974e18' ),
     ( 'joule',                      'erg' )                                 : mpmathify( '1.0e7' ),
     ( 'joule',                      'kilogram-meter^2/second^2' )           : mpmathify( '1' ),
+    ( 'joule-second^2/meter^2',     'gram' )                                : mpmathify( '1000' ),
     ( 'joule/second',               'watt' )                                : mpmathify( '1' ),
     ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
     ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
     ( 'kilderkin',                  'firkin' )                              : mpmathify( '2' ),
-    ( 'joule-second^2/meter^2',     'gram' )                                : mpmathify( '1000' ),
     ( 'kip',                        'pound' )                               : mpmathify( '1000' ),
     ( 'kosaya_sazhen',              'meter' )                               : mpmathify( '2.48' ),
     ( 'kovac',                      'wolverton' )                           : mpmathify( '10' ),
@@ -3423,8 +3438,8 @@ unitConversionMatrix = {
     ( 'meter',                      'micron' )                              : mpmathify( '1.0e6' ),
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
     ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
-    ( 'meter^3-pascal',             'joule' )                               : mpmathify( '1' ),
     ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
+    ( 'meter^3-pascal',             'joule' )                               : mpmathify( '1' ),
     ( 'methuselah',                 'liter' )                               : mpmathify( '6.0' ),
     ( 'metric_foot',                'meter' )                               : mpmathify( '0.3' ),
     ( 'mezhevaya_versta',           'versta' )                              : mpmathify( '2' ),
@@ -3442,6 +3457,7 @@ unitConversionMatrix = {
     ( 'nat',                        'joule/kelvin' )                        : mpmathify( '1.380650e-23' ),
     ( 'nautical_mile',              'meter' )                               : mpmathify( '1852' ),
     ( 'nebuchadnezzar',             'liter' )                               : mpmathify( '15.0' ),
+    ( 'newton',                     'amp-weber/meter' )                     : mpmathify( '1' ),
     ( 'newton',                     'dyne' )                                : mpmathify( '1.0e5' ),
     ( 'newton',                     'joule/meter' )                         : mpmathify( '1' ),
     ( 'newton',                     'kilogram-meter/second^2' )             : mpmathify( '1' ),
@@ -3562,6 +3578,7 @@ unitConversionMatrix = {
     ( 'solomon',                    'liter' )                               : mpmathify( '20.0' ),
     ( 'sovereign',                  'liter' )                               : mpmathify( '25.0' ),
     ( 'span',                       'inch' )                                : mpmathify( '9' ),
+    ( 'sphere',                     'hemisphere' )                          : mpmathify( '2' ),
     ( 'sphere',                     'steradian' )                           : fmul( 4, pi ),
     ( 'square_arcminute',           'square_arcsecond' )                    : mpmathify( '3600' ),
     ( 'square_degree',              'square_arcminute' )                    : mpmathify( '3600' ),
@@ -3580,6 +3597,7 @@ unitConversionMatrix = {
     ( 'statmho',                    'siemens' )                             : mpmathify( '8.99e11' ),
     ( 'statohm',                    'ohm' )                                 : mpmathify( '898755178740' ),
     ( 'statvolt',                   'volt' )                                : fdiv( mpf( '299792458' ), mpf( '1.0e6' ) ),
+    ( 'steradian',                  'radian^2' )                            : mpmathify( '1' ),
     ( 'steradian',                  'square_degree' )                       : power( fdiv( 180, pi ), 2 ),
     ( 'steradian',                  'square_grad' )                         : power( fdiv( 200, pi ), 2 ),
     ( 'sthene',                     'newton' )                              : mpmathify( '1000' ),

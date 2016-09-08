@@ -457,7 +457,8 @@ densityTable = {
     mpmathify( '1.5e5' )      : 'the density of the core of the Sun',
     mpmathify( '1.0e9' )      : 'the density of a white dwarf',
     mpmathify( '2.0e13' )     : 'the approximate density of the universe at end of the electroweak epoch',
-    mpmathify( '2.0e17' )     : 'the density of atomic nuclei and neutron stars',
+    mpmathify( '2.3e17' )     : 'the density of an atomic nucleus',
+    mpmathify( '1.0e18' )     : 'the density of a neutron star',
     mpmathify( '1.0e23' )     : 'the density of a hypothetical preon star',
     mpmathify( '5.1e96' )     : 'the Planck density',
 }
@@ -996,7 +997,7 @@ informationEntropyTable = {
     mpmathify( '1.40737e14' )     : 'the NTFS volume capacity in Windows 7, Windows Server 2008 R2 or earlier implementation',
     mpmathify( '3.6028e16' )      : 'the theoretical maximum of addressable physical memory in the AMD64 architecture',
     mpmathify( '4.5e16' )         : 'the estimated hard drive space in Google\'s server farm as of 2004',
-    mpmathify( '1.0e16' )         : 'the estimated approximate size of the Library of Congress\'s collection, including non-book materials, as of 2005',
+    mpmathify( '2.4e16' )         : 'the estimated approximate size of the Library of Congress\'s collection, including non-book materials',
     mpmathify( '2.0e17' )         : 'the storage space of Megaupload file-hosting service at the time it was shut down in 2012',
     mpmathify( '8.0e17' )         : 'the storage capacity of the fictional Star Trek character Data',
     mpmathify( '1.15292e18' )     : 'the storage limit using the ATA-6 standard introduced in 2002',
