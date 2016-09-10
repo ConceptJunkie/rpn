@@ -2007,6 +2007,10 @@ radiationExposureTable = {
 solidAngleTable = {
     mpmathify( '6.67e-5' )  : 'the solid angle of the Moon as seen from Earth',
     mpmathify( '6.87e-5' )  : 'the solid angle of the Sun as seen from Earth',
+    mpmathify( '0.62' )     : 'the solid angle of a spherical octant',
+    mpmathify( '2.47' )     : 'the solid angle of a spherical quadrant',
+    mpmathify( '6.28' )     : 'the solid angle of a hemisphere',
+    mpmathify( '12.57' )     : 'the solid angle of a sphere, the largest possible solid angle by definition',
 }
 
 

@@ -890,6 +890,57 @@ def runCalendarOperatorTests( ):
 
 # //******************************************************************************
 # //
+# //  runChemistryOperatorTests
+# //
+# //******************************************************************************
+
+def runChemistryOperatorTests( ):
+    # atomic_number
+    expectResult( 'He atomic_number', 2 )
+    expectResult( 'Ne atomic_number', 10 )
+    expectResult( 'Fe atomic_number', 26 )
+    expectResult( 'U atomic_number', 92 )
+    expectException( 'Va atomic_number' )
+
+    # atomic_symbol
+    testOperator( '1 atomic_symbol' )
+    testOperator( '118 atomic_symbol' )
+    expectException( '119 atomic_symbol' )
+    expectException( '0 atomic_symbol' )
+
+    # element_block
+    testOperator( '1 118 range element_block')
+    expectException( '119 element_block' )
+    expectException( '0 element_block' )
+
+    # element_description
+    testOperator( '1 118 range element_description' )
+    expectException( '119 element_description' )
+    expectException( '0 element_description' )
+
+    # element_group
+    testOperator( '1 118 range element_group')
+    expectException( '119 element_group' )
+    expectException( '0 element_group' )
+
+    # element_name
+    testOperator( '1 118 range element_name' )
+    expectException( '119 element_name' )
+    expectException( '0 element_name' )
+
+    # element_occurrence
+    testOperator( '1 118 range element_occurrence' )
+    expectException( '119 element_occurrence' )
+    expectException( '0 element_occurrence' )
+
+    # element_period
+    testOperator( '1 118 range element_period' )
+    expectException( '119 element_period' )
+    expectException( '0 element_period' )
+
+
+# //******************************************************************************
+# //
 # //  runCombinatoricsOperatorTests
 # //
 # //******************************************************************************
@@ -3177,6 +3228,7 @@ rpnTestList = [
     ( 'astronomy',          runAstronomyOperatorTests ),
     ( 'bitwise',            runBitwiseOperatorTests ),
     ( 'calendar',           runCalendarOperatorTests ),
+    ( 'chemistry',          runChemistryOperatorTests ),
     ( 'combinatorics',      runCombinatoricsOperatorTests ),
     ( 'complex',            runComplexMathOperatorTests ),
     ( 'constant',           runConstantOperatorTests ),

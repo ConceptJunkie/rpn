@@ -131,6 +131,5 @@ dirtyCaches = set( )
 
 # chemistry tables
 elements = None
-atomic_symbols = None
 atomic_numbers = None
 

@@ -2329,10 +2329,32 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     # chemistry
-    'atomic_symbol'                  : RPNOperator( getAtomicSymbol,
+    'atomic_number'                  : RPNOperator( getAtomicNumber,
+                                                    1, [ RPNOperator.String ] ),
+
+    'atomic_symbol'                  : RPNOperator( lambda n: getElementAttribute( n, 1 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'element_name'                   : RPNOperator( getElementName,
+    'element_block'                  : RPNOperator( lambda n: getElementAttribute( n, 4 ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'element_description'            : RPNOperator( lambda n: getElementAttribute( n, 7 ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'element_group'                  : RPNOperator( lambda n: getElementAttribute( n, 2 ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+
+    'element_name'                   : RPNOperator( lambda n: getElementAttribute( n, 0 ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'element_occurrence'             : RPNOperator( lambda n: getElementAttribute( n, 6 ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'element_period'                 : RPNOperator( lambda n: getElementAttribute( n, 3 ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'element_state'                  : RPNOperator( lambda n: getElementAttribute( n, 5 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     # combinatoric

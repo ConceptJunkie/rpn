@@ -2869,18 +2869,69 @@ far as rpn is concerned, it's an operator that does nothing.
 # //
 # //******************************************************************************
 
+    'atomic_number' : [
+'chemistry', 'returns the atomic number of atomic symbol n',
+'''
+''',
+'''
+''' ],
+
     'atomic_symbol' : [
 'chemistry', 'returns the atomic symbol of element n',
 '''
 ''',
 '''
 ''' ],
+
+    'element_block' : [
+'chemistry', 'returns the block of element n',
+'''
+''',
+'''
+''' ],
+
+    'element_description' : [
+'chemistry', 'returns the description of element n',
+'''
+''',
+'''
+''' ],
+
+    'element_group' : [
+'chemistry', 'returns the group of element n',
+'''
+''',
+'''
+''' ],
+
     'element_name' : [
 'chemistry', 'returns the name of element n',
 '''
 ''',
 '''
 ''' ],
+
+    'element_occurrence' : [
+'chemistry', 'returns the occurrence of element n',
+'''
+''',
+'''
+''' ],
+
+    'element_period' : [
+'chemistry', 'returns the period of element n',
+'''
+''',
+'''
+''' ],
+
+    'element_state' : [
+'chemistry', 'returns the state (at STP) of element n',
+'''
+''',
+'''
+''' ],
+
 
 
 # //******************************************************************************
