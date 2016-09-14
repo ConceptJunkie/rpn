@@ -908,6 +908,11 @@ def runChemistryOperatorTests( ):
     expectException( '119 atomic_symbol' )
     expectException( '0 atomic_symbol' )
 
+    # atomic_weight
+    testOperator( '1 118 range atomic_weight' )
+    expectException( '119 atomic_symbol' )
+    expectException( '0 atomic_symbol' )
+
     # element_block
     testOperator( '1 118 range element_block')
     expectException( '119 element_block' )

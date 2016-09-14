@@ -332,9 +332,25 @@ unitOperators = {
                      '''
                      ''' ),
 
+    'circle' :
+        RPNUnitInfo( 'angle', 'circle', 'circles', '', [ ], [ 'mathematics' ],
+                     '''
+                     ''' ),
+
     'degree' :
         RPNUnitInfo( 'angle', 'degree', 'degrees', 'deg', [ ], [ 'astronomy', 'mathematics' ],
                      '''
+                     ''' ),
+
+    'furman' :
+        RPNUnitInfo( 'angle', 'furman', 'furmans', '', [ ], [ 'non-standard' ],
+                     '''
+From https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Furman:
+
+The Furman is a unit of angular measure equal to 1/65,536 of a circle, or just
+under 20 arcseconds.  It is named for Alan T. Furman, the American
+mathematician who adapted the CORDIC algorithm for 16-bit fixed-point
+arithmetic sometime around 1980.
                      ''' ),
 
     'grad' :
@@ -3279,6 +3295,7 @@ unitConversionMatrix = {
     ( 'chain',                      'yard' )                                : mpmathify( '22' ),
     ( 'chandrasekhar_limit',        'gram' )                                : mpmathify( '2.765e33' ),
     ( 'chopine',                    'liter' )                               : mpmathify( '0.25' ),
+    ( 'circle',                     'degree' )                              : mpmathify( '360' ),
     ( 'clarke',                     'day' )                                 : mpmathify( '1' ),
     ( 'clarke',                     'wolverton' )                           : mpmathify( '1.0e6' ),
     ( 'clausius',                   'joule/kelvin' )                        : mpmathify( '4186.8' ),
@@ -3307,6 +3324,7 @@ unitConversionMatrix = {
     ( 'decade',                     'year' )                                : mpmathify( '10' ),
     ( 'decillion',                  'unity' )                               : mpmathify( '1.0e33' ),
     ( 'degree',                     'arcminute' )                           : mpmathify( '60' ),
+    ( 'degree',                     'furman' )                              : mpmathify( '65536' ),
     ( 'degree',                     'streck' )                              : mpmathify( '17.5' ),
     ( 'demi',                       'liter' )                               : mpmathify( '0.375' ),
     ( 'dessertspoon',               'teaspoon' )                            : mpmathify( '2' ),

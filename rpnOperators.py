@@ -2335,6 +2335,9 @@ operators = {
     'atomic_symbol'                  : RPNOperator( lambda n: getElementAttribute( n, 1 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'atomic_weight'                  : RPNOperator( getAtomicWeight,
+                                                    1, [ RPNOperator.String ] ),
+
     'element_block'                  : RPNOperator( lambda n: getElementAttribute( n, 4 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 

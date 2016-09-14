@@ -2883,6 +2883,13 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''' ],
 
+    'atomic_weight' : [
+'chemistry', 'returns the atomic weight of element n',
+'''
+''',
+'''
+''' ],
+
     'element_block' : [
 'chemistry', 'returns the block of element n',
 '''
