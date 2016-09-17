@@ -918,6 +918,11 @@ def runChemistryOperatorTests( ):
     expectException( '119 element_block' )
     expectException( '0 element_block' )
 
+    # element_density
+    testOperator( '1 118 range element_density')
+    expectException( '119 element_density' )
+    expectException( '0 element_density' )
+
     # element_description
     testOperator( '1 118 range element_description' )
     expectException( '119 element_description' )

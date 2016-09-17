@@ -2341,6 +2341,9 @@ operators = {
     'element_block'                  : RPNOperator( lambda n: getElementAttribute( n, 4 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'element_density'                : RPNOperator( getElementDensity,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'element_description'            : RPNOperator( lambda n: getElementAttribute( n, 7 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 

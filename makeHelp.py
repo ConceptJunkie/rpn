@@ -2897,6 +2897,13 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''' ],
 
+    'element_density' : [
+'chemistry', 'returns the density of element n for STP',
+'''
+''',
+'''
+''' ],
+
     'element_description' : [
 'chemistry', 'returns the description of element n',
 '''
