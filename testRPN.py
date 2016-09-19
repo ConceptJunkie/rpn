@@ -2394,6 +2394,31 @@ def runPhysicsOperatorTests( ):
     # schwarzchild_radius
     testOperator( 'earth_mass schwarzchild_radius' )
 
+    # surface_gravity
+
+    # mass length
+    testOperator( 'earth_mass earth_radius surface_gravity' )
+    testOperator( 'earth_radius earth_mass surface_gravity' )
+
+    # volume density
+    testOperator( 'earth_volume 5.51 g/cm^3 surface_gravity' )
+    testOperator( '5.51 g/cm^3 earth_volume surface_gravity' )
+
+    # mass density
+    testOperator( '5.51 g/cm^3 earth_mass surface_gravity' )
+    testOperator( 'earth_mass 5.51 g/cm^3 surface_gravity' )
+
+    # mass volume
+    testOperator( 'earth_volume earth_mass surface_gravity' )
+    testOperator( 'earth_mass earth_volume surface_gravity' )
+
+    # density length
+    testOperator( '5.51 g/cm^3 earth_radius surface_gravity' )
+    testOperator( 'earth_radius 5.51 g/cm^3 surface_gravity' )
+
+    expectException( 'earth_radius earth_volume surface_gravity' )
+    expectException( 'earth_mass sun_mass surface_gravity' )
+
     # time_dilation
     testOperator( '1 million miles hour / time_dilation' )
 

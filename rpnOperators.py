@@ -3057,6 +3057,10 @@ operators = {
     'schwarzchild_radius'            : RPNOperator( calculateSchwarzchildRadius,
                                                     1, [ RPNOperator.Measurement ] ),
 
+    'surface_gravity'                : RPNOperator( calculateSurfaceGravity,
+                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
+
+
     'time_dilation'                  : RPNOperator( calculateTimeDilation,
                                                     1, [ RPNOperator.Measurement ] ),
 

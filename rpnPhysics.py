@@ -14,8 +14,9 @@
 
 import struct
 
-from rpnConstants import getNewtonsConstant, getSpeedOfLight
+from rpnConstantUtils import getNewtonsConstant, getSpeedOfLight
 from rpnGenerator import RPNGenerator
+from rpnGeometry import getNSphereRadius
 from rpnList import getProduct
 from rpnMath import divide, getPower, getRoot, multiply
 from rpnMeasurement import checkUnits, getWhichUnitType, matchUnitTypes, \
@@ -381,16 +382,42 @@ def calculateDistance( measurement1, measurement2 ):
 def calculateVelocity( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'length', 'time' ],
+        [ 'acceleration', 'length' ],
+        [ 'jerk', 'length' ],
+        [ 'jounce', 'length' ],
         [ 'velocity', 'time' ],
+        [ 'velocity', 'length' ],
         [ 'acceleration', 'time' ],
-        [ 'acceleration', 'distance' ],
         [ 'jerk', 'time' ],
-        [ 'jerk', 'distance' ],
         [ 'jounce', 'time' ],
-        [ 'jounce', 'distance' ]
     ]
 
-    velocity = RPNMeasurement( '1.0', 'meter/second' )
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
+
+    if 'velocity' in arguments:
+        velocity = arguments[ 'velocity' ]
+    elif 'length' in arguments:
+        if 'time' in arguments:
+            velocity = divide( arguments[ 'length' ], arguments[ 'time' ] )
+        elif 'acceleration' in arguments:
+            acceleration = arguments[ 'acceleration' ]
+            time = getRoot( multiply( divide( arguments[ 'length' ], acceleration ), 2 ), 2 )
+            velocity = multiply( acceleration, time )
+        elif 'jerk' in arguments:
+            jerk = arguments[ 'jerk' ]
+            time = getRoot( multiply( divide( arguments[ 'length' ], jerk ), 6 ), 3 )
+            velocity = getProduct( [ jerk, time, time, fdiv( 1, 2 ) ] )
+        elif 'jounce' in arguments:
+            jounce = arguments[ 'jounce' ]
+            time = getRoot( multiply( divide( arguments[ 'length' ], jounce ), 24 ), 4 )
+            velocity = getProduct( [ jounce, time, time, time, fdiv( 1, 6 ) ] )
+    elif 'acceleration' in arguments:
+        velocity = divide( multiply( arguments[ 'acceleration' ], arguments[ 'time' ] ), 2 )
+    elif 'jerk' in arguments:
+        velocity = divide( multiply( arguments[ 'jerk' ], getPower( arguments[ 'time' ], 2 ) ), 4 )
+    elif 'jounce' in arguments:
+        velocity = divide( multiply( arguments[ 'jounce' ], getPower( arguments[ 'time' ], 3 ) ), 8 )
+
     return velocity.convert( 'meter/second' )
 
 
@@ -403,10 +430,19 @@ def calculateVelocity( measurement1, measurement2 ):
 def calculateAcceleration( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'velocity', 'distance' ],
+        [ 'velocity', 'time' ],
         [ 'distance', 'time' ],
+        [ 'acceleration', 'time' ],
+        [ 'acceleration', 'distance' ],
     ]
 
-    acceleration = RPNMeasurement( '1.0', 'meter/second^2' )
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
+
+    if 'acceleration' in arguments:
+        acceleration = arguments[ 'acceleration' ]
+    else:
+        acceleration = RPNMeasurement( '1.0', 'meter/second^2' )
+
     return acceleration.convert( 'meter/second^2' )
 
 
@@ -471,4 +507,49 @@ def calculateMassEquivalence( energy ):
     mass = divide( energy, multiply( getSpeedOfLight( ), getSpeedOfLight( ) ) )
     return mass.convert( 'kilogram' )
 
+
+# //******************************************************************************
+# //
+# //  calculateSurfaceGravity
+# //
+# //******************************************************************************
+
+def calculateSurfaceGravity( measurement1, measurement2 ):
+    validUnitTypes = [
+        [ 'mass', 'density' ],
+        [ 'mass', 'length' ],
+        [ 'mass', 'volume' ],
+
+        [ 'density', 'length' ],
+        [ 'density', 'volume' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( '\'surface_gravity\' requires length and mass measurements' )
+
+    if 'mass' in arguments:
+        mass = arguments[ 'mass' ]
+
+        if 'length' in arguments:
+            length = arguments[ 'length' ]
+        elif 'density' in arguments:
+            volume = divide( mass, arguments[ 'density' ] )
+            length = getNSphereRadius( volume, 3 )
+        else:
+            length = getNSphereRadius( arguments[ 'volume' ], 3 )
+    elif 'volume' in arguments:
+        # density, volume
+        volume = arguments[ 'volume' ]
+        mass = multiply( arguments[ 'density' ], volume )
+        length = getNSphereRadius( volume, 3 )
+    else:
+        # density, length
+        length = arguments[ 'length' ]
+        volume = getPower( length, 3 )
+        mass = multiply( arguments[ 'density' ], volume )
+
+    gravity = multiply( divide( mass, getPower( length, 2 ) ), getNewtonsConstant( ) )
+    return gravity.convert( 'meters/seconds^2' )
 

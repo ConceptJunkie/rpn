@@ -310,7 +310,7 @@ class RPNMeasurement( object ):
         if isinstance( other, RPNMeasurement ):
             newValue = fdiv( self.value, other.value )
 
-            factor, newUnits = combineUnits( self.getUnits( ), other.getUnits( ).invert( ) )
+            factor, newUnits = combineUnits( self.getUnits( ), other.getUnits( ).inverted( ) )
 
             self = RPNMeasurement( fmul( newValue, factor ), newUnits )
         else:

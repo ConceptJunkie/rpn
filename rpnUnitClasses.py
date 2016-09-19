@@ -80,6 +80,14 @@ class RPNUnits( collections.Counter ):
 
         return self
 
+    def inverted( self ):
+        result = RPNUnits( self )
+
+        for unit in result:
+            result[ unit ] = -( result[ unit ] )
+
+        return result
+
     def getUnitTypes( self ):
         types = RPNUnits( )
 

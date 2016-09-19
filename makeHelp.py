@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 803
+maxExampleCount = 810
 debugMode = False
 
 
@@ -6985,6 +6985,7 @@ This is the equivalent of '1 n polygamma'.
     'acceleration' : [
 'physics', 'calculates acceleration...',
 '''
+Not implemented yet!
 ''',
 '''
 ''' ],
@@ -7065,14 +7066,28 @@ time (the period of the orbit)
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'earth_mass schwarzchild_radius' ) + '''
+''' + makeCommandExample( '10 solar_mass * schwarzchild_radius' ) ],
+
+    'surface_gravity' : [
+'physics', 'calculates the surface gravity of a spherical object',
+'''
+The two arguments need to be measurements of mass and radius, or measurements
+of density and volume in either order.
+''',
+'''
+''' + makeCommandExample( 'earth_mass earth_radius surface_gravity' ) + '''
+''' + makeCommandExample( '5.51 g/cm^3 earth_volume surface_gravity' ) + '''
+Calculate the surface gravity of a 10-solar-mass black hole:
+''' + makeCommandExample( '10 solar_mass * 10 solar_mass * schwarzchild_radius surface_gravity', indent=4 ) ],
 
     'time_dilation' : [
 'physics', 'calculates the relativistic time-dilation effect of a velocity difference of n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 million mph time_dilation' ) + '''
+''' + makeCommandExample( '0.99 c * time_dilation' ) ],
 
     'velocity' : [
 'physics', 'calculates velocity...',
