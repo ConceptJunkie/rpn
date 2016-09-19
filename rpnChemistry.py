@@ -156,7 +156,9 @@ def loadChemistryTables( ):
     }
 
     g.atomic_numbers = { }
+
     for k, v in g.elements.items( ):
+        g.atomic_numbers[ v[ 0 ] ] = k
         g.atomic_numbers[ v[ 1 ] ] = k
 
 
@@ -167,6 +169,9 @@ def loadChemistryTables( ):
 # //******************************************************************************
 
 def getElementAttribute( n, k ):
+    if isinstance( n, str ):
+        n = getAtomicNumber( n )
+
     if int( n ) < 1 or n > 118:
         raise ValueError( 'invalid atomic number' )
 
@@ -213,5 +218,4 @@ def getAtomicWeight( n ):
 
 def getElementDensity( n ):
     return RPNMeasurement( getElementAttribute( n, 10 ), 'g/cm^3' )
-
 
