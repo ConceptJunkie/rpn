@@ -1,13 +1,13 @@
 rem TCC script for building the RPN wheel
 
-mkdir src\rpn
-copy *.py src\rpn
+mkdir rpn
+copy *.py rpn
 
-mkdir src\rpn\data
-copy rpndata\*.txt src\rpn\data
+mkdir rpn\rpndata
+copy rpndata\*.txt rpn\rpndata
 
 python setup.py bdist_wheel
 
 del /sxyz /nt build
-del /sxyz /nt src
+del /sxyz /nt rpn
 

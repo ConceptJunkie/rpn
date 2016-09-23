@@ -59,7 +59,7 @@ def rollMultipleDice( expression, times ):
 # //******************************************************************************
 
 def enumerateDice( expression ):
-    return evaluateDiceExpression( parseDiceExpression( expression ) )[ 0 ]
+    return evaluateDiceExpression( parseDiceExpression( expression ), False )[ 0 ]
 
 
 # //******************************************************************************
@@ -302,13 +302,19 @@ def parseDiceExpression( arg ):
 # //
 # //******************************************************************************
 
-def evaluateDiceExpression( args ):
+def evaluateDiceExpression( args, sumIfPossible=True ):
     result = [ ]
 
     for diceCount, diceValue, dropLowestCount, dropHighestCount, modifier in args:
         if dropLowestCount == 0 and dropHighestCount == 0:
-            for i in range( 0, diceCount ):
-                result.append( randrange( diceValue ) + 1 )
+            if sumIfPossible:
+                result = [ 0 ]
+
+                for i in range( 0, diceCount ):
+                    result[ 0 ] += ( randrange( diceValue ) + 1 )
+            else:
+                for i in range( 0, diceCount ):
+                    result.append( randrange( diceValue ) + 1 )
         else:
             dice = [ ]
 

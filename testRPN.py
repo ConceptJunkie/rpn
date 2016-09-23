@@ -918,6 +918,11 @@ def runChemistryOperatorTests( ):
     expectException( '119 element_block' )
     expectException( '0 element_block' )
 
+    # element_boiling_point
+    testOperator( '1 118 range element_boiling_point')
+    expectException( '119 element_boiling_point' )
+    expectException( '0 element_boiling_point' )
+
     # element_density
     testOperator( '1 118 range element_density')
     expectException( '119 element_density' )
@@ -932,6 +937,11 @@ def runChemistryOperatorTests( ):
     testOperator( '1 118 range element_group')
     expectException( '119 element_group' )
     expectException( '0 element_group' )
+
+    # element_melting_point
+    testOperator( '1 118 range element_melting_point')
+    expectException( '119 element_melting_point' )
+    expectException( '0 element_melting_point' )
 
     # element_name
     testOperator( '1 118 range element_name' )
