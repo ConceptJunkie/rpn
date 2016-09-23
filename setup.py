@@ -45,17 +45,19 @@ heavy lifting (http://mpmath.org).
     license = 'GPL3',
     author = 'Rick Gutleber',
     author_email = 'rickg@his.com',
+
     py_modules = [ 'rpn',
                    'rpnAliases',
                    'rpnAstronomy',
                    'rpnBase',
                    'rpnCalendar',
+                   'rpnChemistry',
                    'rpnCombinatorics',
                    'rpnComputer',
-                   'rpnConstants',
                    'rpnConstantUtils',
                    'rpnDateTime',
                    'rpnDeclarations',
+                   'rpnDice',
                    'rpnEstimates',
                    'rpnFactor',
                    'rpnGenerator',
@@ -94,6 +96,7 @@ heavy lifting (http://mpmath.org).
     install_requires = open( requirements ).read( ).splitlines( ),
 
     include_package_data = True,
+
     classifiers = [
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: End Users/Desktop',
@@ -129,7 +132,7 @@ heavy lifting (http://mpmath.org).
                                 g.dataDir + os.sep + 'triple_balanced_primes.txt',
                                 g.dataDir + os.sep + 'triplet_primes.txt',
                                 g.dataDir + os.sep + 'twin_primes.txt' ] ) ],
-    packages = find_packages( exclude = [ 'setup_*' ] ),
-    package_dir = { 'rpn' : '' }
+    packages = find_packages( 'src/rpn', exclude = [ 'setup_*' ] ),
+    package_dir = { '' : 'src/rpn' }
 )
 

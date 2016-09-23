@@ -2401,20 +2401,20 @@ def runPhysicsOperatorTests( ):
     testOperator( 'earth_radius earth_mass surface_gravity' )
 
     # volume density
-    testOperator( 'earth_volume 5.51 g/cm^3 surface_gravity' )
-    testOperator( '5.51 g/cm^3 earth_volume surface_gravity' )
+    testOperator( 'earth_volume earth_density surface_gravity' )
+    testOperator( 'earth_density earth_volume surface_gravity' )
 
     # mass density
-    testOperator( '5.51 g/cm^3 earth_mass surface_gravity' )
-    testOperator( 'earth_mass 5.51 g/cm^3 surface_gravity' )
+    testOperator( 'earth_density earth_mass surface_gravity' )
+    testOperator( 'earth_mass earth_density surface_gravity' )
 
     # mass volume
     testOperator( 'earth_volume earth_mass surface_gravity' )
     testOperator( 'earth_mass earth_volume surface_gravity' )
 
     # density length
-    testOperator( '5.51 g/cm^3 earth_radius surface_gravity' )
-    testOperator( 'earth_radius 5.51 g/cm^3 surface_gravity' )
+    testOperator( 'earth_density earth_radius surface_gravity' )
+    testOperator( 'earth_radius earth_density surface_gravity' )
 
     expectException( 'earth_radius earth_volume surface_gravity' )
     expectException( 'earth_mass sun_mass surface_gravity' )

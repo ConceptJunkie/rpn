@@ -2897,6 +2897,13 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''' ],
 
+    'element_boiling_point' : [
+'chemistry', 'returns the boiling point of element n',
+'''
+''',
+'''
+''' ],
+
     'element_density' : [
 'chemistry', 'returns the density of element n for STP',
 '''
@@ -2913,6 +2920,13 @@ far as rpn is concerned, it's an operator that does nothing.
 
     'element_group' : [
 'chemistry', 'returns the group of element n',
+'''
+''',
+'''
+''' ],
+
+    'element_melting_point' : [
+'chemistry', 'returns the melting point of element n',
 '''
 ''',
 '''

@@ -519,7 +519,6 @@ def calculateSurfaceGravity( measurement1, measurement2 ):
         [ 'mass', 'density' ],
         [ 'mass', 'length' ],
         [ 'mass', 'volume' ],
-
         [ 'density', 'length' ],
         [ 'density', 'volume' ],
     ]

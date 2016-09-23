@@ -375,10 +375,11 @@ constants = {
     'venus_revolution'              : RPNOperator( lambda: RPNMeasurement( '224.701', 'day' ), 0 ),
     'venus_volume'                  : RPNOperator( lambda: RPNMeasurement( '9.2843e20', 'meter^3' ), 0 ),
 
+    'earth_density'                 : RPNOperator( lambda: RPNMeasurement( '5.514', 'gram/centimeter^3' ), 0 ),  # https://en.wikipedia.org/wiki/Earth#Composition_and_structure
     'earth_gravity'                 : RPNOperator( lambda: RPNMeasurement( '9.806650', 'meter/second^2' ), 0 ),
-    'earth_mass'                    : RPNOperator( lambda: RPNMeasurement( '5.9742e24', 'kilogram' ), 0 ),
-    'earth_radius'                  : RPNOperator( lambda: RPNMeasurement( '6378136', 'meter' ), 0 ),
-    'earth_volume'                  : RPNOperator( lambda: RPNMeasurement( '1.08321e21', 'meter^3' ), 0 ),
+    'earth_mass'                    : RPNOperator( lambda: RPNMeasurement( '5.9640955e24', 'kilogram' ), 0 ),   # based on earth_radius and earth_gravity
+    'earth_radius'                  : RPNOperator( lambda: RPNMeasurement( '6371000.8', 'meter' ), 0 ),         # https://en.wikipedia.org/wiki/Earth_radius#Global_average_radii - volumetric radius
+    'earth_volume'                  : RPNOperator( lambda: RPNMeasurement( '1.083207324897e21', 'meter^3' ), 0 ),  # based on earth_radius
     'sidereal_year'                 : RPNOperator( lambda: RPNMeasurement( '365.256360417', 'day' ), 0 ),
     'tropical_year'                 : RPNOperator( lambda: RPNMeasurement( '365.24219', 'day' ), 0 ),
 
@@ -2341,6 +2342,9 @@ operators = {
     'element_block'                  : RPNOperator( lambda n: getElementAttribute( n, 4 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'element_boiling_point'          : RPNOperator( getElementBoilingPoint,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'element_density'                : RPNOperator( getElementDensity,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
@@ -2350,6 +2354,8 @@ operators = {
     'element_group'                  : RPNOperator( lambda n: getElementAttribute( n, 2 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'element_melting_point'          : RPNOperator( getElementMeltingPoint,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'element_name'                   : RPNOperator( lambda n: getElementAttribute( n, 0 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
