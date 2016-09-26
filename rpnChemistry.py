@@ -12,6 +12,9 @@
 # //
 # //******************************************************************************
 
+import collections
+import string
+
 import rpnGlobals as g
 
 from rpnMeasurement import RPNMeasurement
@@ -177,6 +180,67 @@ def loadChemistryTables( ):
 
 # //******************************************************************************
 # //
+# //  splitAtoms
+# //
+# //******************************************************************************
+
+def splitAtoms( expression ):
+    atom = ''
+
+    for c in expression:
+        if c in string.ascii_uppercase:
+            if atom:
+                yield atom
+
+            atom = c
+        else:
+            atom += c
+
+    yield atom
+
+
+# //******************************************************************************
+# //
+# //  parseAtom
+# //
+# //******************************************************************************
+
+def parseAtom( expression ):
+    return 'H', 1
+
+
+# //******************************************************************************
+# //
+# //  class RPNMolecule
+# //
+# //******************************************************************************
+
+class RPNMolecule( collections.Counter ):
+    """This class represents a collection of atoms."""
+    def __init__( self, arg = '' ):
+        if isinstance( arg, str ) and arg:
+            self.update( self.parseMoleculeString( arg ) )
+        elif isinstance( arg, RPNMolecule ):
+            self.update( arg )
+
+    @staticmethod
+    def parseMoleculeString( expression ):
+        result = RPNMolecule( )
+
+        if expression.count( '(' ) != expression.count( ')' ):
+            raise ValueError( 'molecule expression \'' + expression + '\' has mismatched parentheses' )
+
+        atoms = splitAtoms( expression )
+
+        for atom in atoms:
+            element, count = parseAtom( atom )
+            self[ element ] += count
+
+        return result
+
+
+# //******************************************************************************
+# //
 # //  getElementAttribute
 # //
 # //******************************************************************************
@@ -253,4 +317,13 @@ def getElementMeltingPoint( n ):
 def getElementBoilingPoint( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 12 ) ), 'kelvin' )
 
+
+# //******************************************************************************
+# //
+# //  getMolarWeight
+# //
+# //******************************************************************************
+
+def getMolarWeight( n ):
+    return RPNMeasurement( 1, 'gram' )
 

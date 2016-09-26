@@ -2369,6 +2369,9 @@ operators = {
     'element_state'                  : RPNOperator( lambda n: getElementAttribute( n, 5 ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'molar_weight'                   : RPNOperator( lambda n: getMolarWeight( RPNMolecule( n ) ),
+                                                    1, [ RPNOperator.String ] ),
+
     # combinatoric
     'bell_polynomial'                : RPNOperator( lambda n, k: bell( n, k ),
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
