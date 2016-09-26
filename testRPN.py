@@ -958,6 +958,11 @@ def runChemistryOperatorTests( ):
     expectException( '119 element_period' )
     expectException( '0 element_period' )
 
+    # molar_mass
+    testOperator( 'H2O molar_mass' )
+    testOperator( 'C12H22O11 molar_mass' )
+    expectException( 'ZoO2 molar_mass' )
+
 
 # //******************************************************************************
 # //

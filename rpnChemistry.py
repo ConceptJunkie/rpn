@@ -206,7 +206,22 @@ def splitAtoms( expression ):
 # //******************************************************************************
 
 def parseAtom( expression ):
-    return 'H', 1
+    atom = expression[ 0 ]
+    count = 1
+
+    if expression[ 0 ] not in string.ascii_uppercase:
+        raise ValueError( 'atom expression is invalid' )
+
+    index = 1
+
+    while index < len( expression ) and expression[ index ] in string.ascii_lowercase:
+        atom += expression[ index ]
+        index += 1
+
+    if expression[ index : ]:
+        count = int( expression[ index : ] )
+
+    return atom, count
 
 
 # //******************************************************************************
@@ -234,7 +249,7 @@ class RPNMolecule( collections.Counter ):
 
         for atom in atoms:
             element, count = parseAtom( atom )
-            self[ element ] += count
+            result[ element ] += count
 
         return result
 
@@ -320,10 +335,15 @@ def getElementBoilingPoint( n ):
 
 # //******************************************************************************
 # //
-# //  getMolarWeight
+# //  getMolarMass
 # //
 # //******************************************************************************
 
-def getMolarWeight( n ):
-    return RPNMeasurement( 1, 'gram' )
+def getMolarMass( n ):
+    result = 0
+
+    for atom in n:
+        result = fadd( result, fmul( getAtomicWeight( atom ), n[ atom ] ) )
+
+    return RPNMeasurement( result, 'gram' )
 

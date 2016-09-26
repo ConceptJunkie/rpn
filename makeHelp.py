@@ -2960,6 +2960,13 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''' ],
 
+    'molar_mass' : [
+'chemistry', 'returns the molar mass of molecule n',
+'''
+''',
+'''
+''' ],
+
 
 
 # //******************************************************************************

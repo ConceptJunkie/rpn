@@ -63,3 +63,7 @@ from . import testRPN
 
 __version__ = PROGRAM_VERSION
 
+__all__ = [
+    'makeHelp', 'makeUnits', 'preparePrimeData', 'rpn', 'testRPN',
+]
+

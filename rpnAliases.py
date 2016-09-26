@@ -554,6 +554,7 @@ operatorAliases = {
     'minuquadlong'              : 'min_uquadlong',
     'minushort'                 : 'min_ushort',
     'mod'                       : 'modulo',
+    'molar_weight'              : 'molar_mass',
     'mon'                       : 'monday',
     'more'                      : 'is_greater',
     'motzkin'                   : 'nth_motzkin',
