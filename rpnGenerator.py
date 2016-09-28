@@ -69,6 +69,11 @@ class RPNGenerator( object ):
         return result
 
     @staticmethod
+    def createSizedRange( start, step = 1, count = 1 ):
+        end = fadd( start, fmul( fsub( count, 1 ), step ) )
+        return RPNGenerator( rangeGenerator( start, end, step ), count )
+
+    @staticmethod
     def createGeometric( value, step, count ):
         return RPNGenerator( geometricRangeGenerator( value, step, count ), count )
 
@@ -238,5 +243,4 @@ def productStringGenerator( value ):
 def productGenerator( value ):
     for product in itertools.product( *value ):
         yield [ mpmathify( i ) for i in product ]
-
 

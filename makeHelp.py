@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 810
+maxExampleCount = 818
 debugMode = False
 
 
@@ -5775,6 +5775,16 @@ The index is zero-based.
 ''' + makeCommandExample( '1 10 range 5 element' ) + '''
 ''' + makeCommandExample( '0 1000 range 34 element' ) ],
 
+    'enumerate' : [
+'list_operators', 'numbers the items in list n starting with k',
+'''
+This operator returns a list of lists, where each sublist contains a
+consecutive number, starting with k, and the original nth element of the list.
+''',
+'''
+''' + makeCommandExample( '1 10 range 1 enumerate' ) + '''
+''' + makeCommandExample( '20 30 boiling_point 20 enumerate -s1' ) ],
+
     'exponential_range' : [
 'list_operators', 'generates a list of exponential progression of numbers',
 '''
@@ -5838,6 +5848,19 @@ then the extra list elements from the longer list are ignored.
 ''' + makeCommandExample( '1 10 range 1 10 range prime intersection' ) + '''
 Find numbers that are triangular and square at the same time:
 ''' + makeCommandExample( '1 100 range tri 1 100 range sqr intersect' ) ],
+
+    'interval_range' : [
+'list_operators', 'generates a list of arithmetic progression of numbers',
+'''
+a is the starting value, b is the ending value, c is the increment.
+
+The generated list will contain every value up to, but not exceeding b.  If b
+is not equal to a plus a multiple of c, then it will not appear in the list.
+''',
+'''
+''' + makeCommandExample( '1 10 2 interval_range' ) + '''
+''' + makeCommandExample( '100 90 -2 interval_range' ) + '''
+''' + makeCommandExample( '1 10 1 10 range interval_range' ) ],
 
     'left' : [
 'list_operators', 'returns the left k items from list n',
@@ -5940,13 +5963,6 @@ count.  The result will be sorted by values.
 '''
 ''' ],
 
-    'range2' : [
-'list_operators', 'generates a list of arithmetic progression of numbers',
-'''
-''',
-'''
-''' ],
-
     'ratios' : [
 'list_operators', 'returns a list with the ratios between successive elements of list n',
 '''
@@ -5994,6 +6010,17 @@ denominator of the whole list.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range shuffle' ) ],
+
+    'sized_range' : [
+'list_operators', 'generates a list of arithmetic progression of numbers',
+'''
+The list starts at a, and each successive value is increased by b, until the
+list contains c items.
+''',
+'''
+''' + makeCommandExample( '1 2 10 sized_range' ) + '''
+''' + makeCommandExample( '10 10 10 sized_range' ) + '''
+''' + makeCommandExample( '1 1 5 range 5 sized_range' ) ],
 
     'slice' : [
 'list_operators', 'returns a slice of list a from starting index b to ending index c',
@@ -8029,10 +8056,13 @@ and is distributed with data files calculated through several billion primes.
     'next_prime' : [
 'prime_numbers', 'returns the next prime number greater than or equal to n',
 '''
+''',
+'''
+''' ],
 
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
+    'next_primes' : [
+'prime_numbers', 'returns the next k prime numbers greater than or equal to n',
+'''
 ''',
 '''
 ''' ],

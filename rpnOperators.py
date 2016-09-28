@@ -1724,8 +1724,11 @@ listOperators = {
     'diffs2'                : RPNOperator( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ),
                                            1, [ RPNOperator.Generator ] ),
 
-    'element'               : RPNOperator( getListElement,
+    'element'               : RPNOperator( lambda n, k: RPNGenerator( getListElement( n, k ) ),
                                            2, [ RPNOperator.List, RPNOperator.NonnegativeInteger ] ),
+
+    'enumerate'             : RPNOperator( lambda n, k: RPNGenerator( enumerateList( n, k ) ),
+                                           2, [ RPNOperator.List, RPNOperator.Integer ] ),
 
     'flatten'               : RPNOperator( flatten,
                                            1, [ RPNOperator.List ] ),
@@ -1790,7 +1793,7 @@ listOperators = {
     'shuffle'               : RPNOperator( shuffleList,
                                            1, [ RPNOperator.List ] ),
 
-    'slice'                 : RPNOperator( getSlice,
+    'slice'                 : RPNOperator( lambda a, b, c: RPNGenerator( getSlice( a, b, c ) ),
                                            3, [ RPNOperator.List, RPNOperator.Integer,
                                                 RPNOperator.Integer ] ),
 
@@ -1800,7 +1803,7 @@ listOperators = {
     'sort_descending'       : RPNOperator( sortDescending,
                                            1, [ RPNOperator.List ] ),
 
-    'sublist'               : RPNOperator( getSublist,
+    'sublist'               : RPNOperator( lambda a, b, c: RPNGenerator( getSublist( a, b, c ) ),
                                            3, [ RPNOperator.List, RPNOperator.Integer,
                                                 RPNOperator.Integer ] ),
 
@@ -2432,19 +2435,19 @@ operators = {
 
 
     # complex
-    'argument'                       : RPNOperator( arg,
+    'argument'                       : RPNOperator( lambda n: arg( n ),
                                                     1, [ RPNOperator.Default ] ),
 
-    'conjugate'                      : RPNOperator( conj,
+    'conjugate'                      : RPNOperator( lambda n: conj( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'i'                              : RPNOperator( lambda n: mpc( real = '0.0', imag = n ),
                                                     1, [ RPNOperator.Real ] ),
 
-    'imaginary'                      : RPNOperator( im,
+    'imaginary'                      : RPNOperator( lambda n: im( n ),
                                                     1, [ RPNOperator.Default ] ),
 
-    'real'                           : RPNOperator( re,
+    'real'                           : RPNOperator( lambda n: re( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     # conversion
@@ -2752,10 +2755,14 @@ operators = {
                                                     3, [ RPNOperator.Real, RPNOperator.Real,
                                                          RPNOperator.PositiveInteger ] ),
 
+    'interval_range'                 : RPNOperator( RPNGenerator.createRange,
+                                                    3, [ RPNOperator.Real, RPNOperator.Real,
+                                                         RPNOperator.Real ] ),
+
     'range'                          : RPNOperator( RPNGenerator.createRange,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
-    'range2'                         : RPNOperator( RPNGenerator.createRange,
+    'sized_range'                    : RPNOperator( RPNGenerator.createSizedRange,
                                                     3, [ RPNOperator.Real, RPNOperator.Real,
                                                          RPNOperator.Real ] ),
 
@@ -2769,13 +2776,13 @@ operators = {
     'ln'                             : RPNOperator( lambda n: ln( n ),
                                                     1, [ RPNOperator.Default ] ),
 
-    'log10'                          : RPNOperator( log10,
+    'log10'                          : RPNOperator( lambda n: log10( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'log2'                           : RPNOperator( lambda n: log( n, 2 ),
                                                     1, [ RPNOperator.Default ] ),
 
-    'logxy'                          : RPNOperator( log,
+    'logxy'                          : RPNOperator( lambda n, k: log( n, k ),
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
     'polyexp'                        : RPNOperator( lambda n, k: polyexp( n, k ),
@@ -2797,7 +2804,7 @@ operators = {
     'barnesg'                        : RPNOperator( lambda n: barnesg( n ),
                                                     1, [ RPNOperator.Default ] ),
 
-    'beta'                           : RPNOperator( beta,
+    'beta'                           : RPNOperator( lambda n, k: beta( n, k ),
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
     'calkin_wilf'                    : RPNOperator( getNthCalkinWilf,
@@ -2821,7 +2828,7 @@ operators = {
     'egypt'                          : RPNOperator( getGreedyEgyptianFraction,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'eta'                            : RPNOperator( altzeta,
+    'eta'                            : RPNOperator( lambda n: altzeta( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'euler_brick'                    : RPNOperator( makeEulerBrick,
@@ -2978,7 +2985,7 @@ operators = {
     'persistence'                    : RPNOperator( getPersistence,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'polygamma'                      : RPNOperator( psi,
+    'polygamma'                      : RPNOperator( lambda n, k: psi( n, k ),
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.Default ] ),
 
     'repunit'                        : RPNOperator( getNthBaseKRepunit,
@@ -3008,7 +3015,7 @@ operators = {
     'subfactorial'                   : RPNOperator( lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'superfactorial'                 : RPNOperator( superfac,
+    'superfactorial'                 : RPNOperator( lambda n: superfac( n ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'tetranacci'                     : RPNOperator( lambda n: getNthKFibonacciNumber( n, 4 ),
@@ -3026,7 +3033,7 @@ operators = {
     'unit_roots'                     : RPNOperator( lambda n: unitroots( real_int( n ) ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'zeta'                           : RPNOperator( zeta,
+    'zeta'                           : RPNOperator( lambda n: zeta( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'zeta_zero'                      : RPNOperator( getNthZetaZero,
@@ -3068,7 +3075,6 @@ operators = {
 
     'surface_gravity'                : RPNOperator( calculateSurfaceGravity,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
-
 
     'time_dilation'                  : RPNOperator( calculateTimeDilation,
                                                     1, [ RPNOperator.Measurement ] ),
@@ -3319,7 +3325,7 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     # powers_and_roots
-    'agm'                            : RPNOperator( agm,
+    'agm'                            : RPNOperator( lambda n, k: agm( n, k ),
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
     'cube'                           : RPNOperator( lambda n: getPower( n, 3 ),
@@ -3389,6 +3395,9 @@ operators = {
 
     'next_prime'                     : RPNOperator( lambda n: getNextPrime( n, func=getNextPrimeCandidateForAny ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
+
+    'next_primes'                    : RPNOperator( lambda n, k: getNextPrimes( n, k, func=getNextPrimeCandidateForAny ),
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'next_quadruplet_prime'          : RPNOperator( lambda n: findQuadrupletPrimes( n )[ 1 ],
                                                     1, [ RPNOperator.PositiveInteger ] ),
@@ -3675,7 +3684,7 @@ operators = {
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'hypotenuse'                     : RPNOperator( hypot,
+    'hypotenuse'                     : RPNOperator( lambda n, k: hypot( n, k ),
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
     'sec'                            : RPNOperator( lambda n: performTrigOperation( n, sec ),

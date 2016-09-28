@@ -16,7 +16,7 @@ import collections
 import itertools
 import random
 
-from mpmath import fadd, fdiv, fneg, fprod, fsub, fsum, inf, power, \
+from mpmath import arange, fadd, fdiv, fneg, fprod, fsub, fsum, inf, power, \
                    root, sqrt
 
 from rpnGenerator import RPNGenerator
@@ -175,11 +175,14 @@ def makeIntersection( arg1, arg2 ):
 def getIndexOfMax( args ):
     maximum = -inf
     result = -1
+    index = 0
 
-    for index, i in enumerate( args ):
+    for i in args:
         if i > maximum:
             maximum = i
             result = index
+
+        index += 1
 
     return result
 
@@ -193,11 +196,14 @@ def getIndexOfMax( args ):
 def getIndexOfMin( args ):
     minimum = inf
     result = -1
+    index = 0
 
-    for index, i in enumerate( args ):
+    for i in args:
         if i < minimum:
             minimum = i
             result = index
+
+        index += 1
 
     return result
 
@@ -209,10 +215,25 @@ def getIndexOfMin( args ):
 # //******************************************************************************
 
 def getListElement( args, index ):
-    if isinstance( index, list ):
-        return [ args[ int( i ) ] for i in index ]
+    if isinstance( index, ( list, RPNGenerator ) ):
+        for i in index:
+            yield args[ int( i ) ]
     else:
-        return args[ int( index ) ]
+        yield args[ int( index ) ]
+
+
+# //******************************************************************************
+# //
+# //  enumerateList
+# //
+# //******************************************************************************
+
+def enumerateList( args, k ):
+    i = 0
+
+    for arg in args:
+        yield [ fadd( i, k ), arg ]
+        i += 1
 
 
 # //******************************************************************************
@@ -225,9 +246,7 @@ def getSlice( args, start, end ):
     result = [ ]
 
     for i in range( int( start ), int( end + 1 ) ):
-        result.append( args[ i ] )
-
-    return result
+        yield args[ i ]
 
 
 # //******************************************************************************
@@ -237,7 +256,8 @@ def getSlice( args, start, end ):
 # //******************************************************************************
 
 def getSublist( args, start, count ):
-    return args[ int( start ) : int( count ) ]
+    for i in arange( start, fadd( count, 1 ) ):
+        yield args[ int( i ) ]
 
 
 # //******************************************************************************
@@ -854,5 +874,6 @@ def permuteLists( lists ):
 # //******************************************************************************
 
 def forEach( list, func ):
-    return [ func( *i ) for i in list ]
+    for i in list:
+        yield func( *i )
 

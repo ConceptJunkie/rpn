@@ -1812,8 +1812,11 @@ def runListOperatorTests( ):
     testOperator( '1 10 range fib diffs2' )
 
     # element
-    expectResult( '1 10 range 5 element', 6 )
+    expectResult( '1 10 range 5 element', [ 6 ] )
     testOperator( '-a25 1 100 range fibonacci 55 element' )
+
+    # enumerate
+    testOperator( '1 5 range 1 enumerate' )
 
     # exponential_range
     testOperator( '1.1 1.1 10 exponential_range' )
@@ -1839,6 +1842,9 @@ def runListOperatorTests( ):
     # intersection
     expectEqual( '1 10 range 1 8 range intersection', '1 8 range' )
 
+    # interval_range
+    expectResult( '1 23 2 interval_range', [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23 ] )
+
     # left
     expectResult( '1 10 range 5 left', [ 1, 2, 3, 4, 5 ] )
 
@@ -1863,9 +1869,6 @@ def runListOperatorTests( ):
     # range
     expectResult( '1 12 range', [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] )
 
-    # range2
-    expectResult( '1 23 2 range2', [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23 ] )
-
     # ratios
     testOperator( '1 10 range fib ratios' )
 
@@ -1886,6 +1889,11 @@ def runListOperatorTests( ):
 
     # shuffle
     testOperator( '1 20 range shuffle' )
+
+    # sized_range
+    expectResult( '10 10 10 sized_range', [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ] )
+    testOperator( '10 1 10 range 10 sized_range -s1' )
+    testOperator( '1 10 range 1 10 range 10 sized_range -s1' )
 
     # slice
     testOperator( '1 10 range 3 5 slice' )
@@ -2818,6 +2826,14 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '142857 next_prime' )
     testOperator( '-c 6 13 ** 1 + next_prime' )
     testOperator( '-c 7 13 ** 1 + next_prime' )
+
+    # next_primes
+    testOperator( '35 100 next_primes' )
+    testOperator( '8783 50 next_primes' )
+    testOperator( '142857 10 next_primes' )
+    testOperator( '-c 6 13 ** 1 + 10 next_primes' )
+    testOperator( '-c 7 13 ** 1 + 10 next_primes' )
+    testOperator( '-a20 253931039382790 18 next_primes -s1' )
 
     # next_quadruplet_prime
     testOperator( '8 next_quadruplet_prime' )
