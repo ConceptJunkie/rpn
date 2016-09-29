@@ -68,7 +68,7 @@ def startOperatorList( valueList ):
 
 def endOperatorList( valueList ):
     if not g.operatorList:
-        raise ValueError( 'mismatched operator list ending' )
+        raise ValueError( 'mismatched operator list ending (\'}\')' )
 
     g.operatorList = False
 
@@ -77,7 +77,9 @@ def endOperatorList( valueList ):
     result = [ ]
 
     for i in range( 0, g.operatorsInList ):
-        result.insert( 0, valueList.pop( ) )
+        operator = valueList.pop( )
+        print( 'operator', operator )
+        result.insert( 0, operator )
 
     valueList.append( result )
 

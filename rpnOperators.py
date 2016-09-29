@@ -157,7 +157,11 @@ class RPNOperator( object ):
             # build argument list
             for i in range( 0, argsNeeded ):
                 if g.operatorList:
-                    arg = currentValueList[ g.lastOperand - i ]
+                    # we need to tee a generator so it can run more than once
+                    if isinstance( currentValueList[ g.lastOperand - 1 ], RPNGenerator ):
+                        arg = currentValueList[ g.lastOperand - i ].clone( )
+                    else:
+                        arg = currentValueList[ g.lastOperand - i ]
 
                     if argsNeeded > g.operandsToRemove:
                         g.operandsToRemove = argsNeeded
@@ -2390,6 +2394,9 @@ operators = {
 
     'lah'                            : RPNOperator( getLahNumber,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
+
+    'nth_menage'                     : RPNOperator( getNthMenageNumber,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
 
     'multifactorial'                 : RPNOperator( getNthMultifactorial,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),

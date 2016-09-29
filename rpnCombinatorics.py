@@ -40,7 +40,7 @@
 # * Yes.........Yes.........Yes.........p+4 (table from Derek Holt) (End)
 
 from mpmath import arange, binomial, fac, fadd, fdiv, floor, fmul, fprod, \
-                   fsub, fsum, nint, power
+                   fsub, fsum, nint, nsum, power
 
 from rpnNumberTheory import getNthLinearRecurrence
 from rpnPersistence import cachedFunction
@@ -338,3 +338,22 @@ def getNthSchroederHipparchusNumber( n ):
 
     return result
 
+
+# //******************************************************************************
+# //
+# //  getNthMenageNumber
+# //
+# //  https://oeis.org/A000179
+# //
+# //******************************************************************************
+
+def getNthMenageNumber( n ):
+    if n < 0:
+        raise ValueError( '\'menage\' requires a non-negative argument' )
+    elif n in [ 1, 2 ]:
+        return 0
+    elif n in [ 0, 3 ]:
+        return 1
+    else:
+        return nsum( lambda k: fdiv( fprod( [ power( -1, k ), fmul( 2, n ), binomial( fsub( fmul( 2, n ), k ), k ),
+                                            fac( fsub( n, k ) ) ] ), fsub( fmul( 2, n ), k ) ), [ 0, n ] )

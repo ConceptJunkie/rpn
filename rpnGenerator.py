@@ -45,6 +45,10 @@ class RPNGenerator( object ):
     def __getitem__( self, index ):
         return next( itertools.islice( self.generator, index, index + 1 ) )
 
+    def clone( self ):
+        self.generator, newGenerator = itertools.tee( self.generator )
+        return RPNGenerator( newGenerator, self.count )
+
     @staticmethod
     def create( value ):
         if isinstance( value, RPNGenerator ):

@@ -3564,7 +3564,7 @@ unitConversionMatrix = {
     ( 'rood',                       'square_yard' )                         : mpmathify( '1210' ),
     ( 'rope',                       'foot' )                                : mpmathify( '20' ),
     ( 'rutherford',                 'becquerel' )                           : mpmathify( '1.0e6' ),
-    ( 'rydberg',                    'joule' )                               : mpmathify( '2.179872e-18' ),
+    ( 'rydberg',                    'joule' )                               : mpmathify( '2.17987232498e-18' ),
     ( 'salmanazar',                 'liter' )                               : mpmathify( '9.0' ),
     ( 'sazhen',                     'meter' )                               : mpmathify( '2.1336' ),
     ( 'score',                      'unity' )                               : mpmathify( '20' ),

@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 818
+maxExampleCount = 834
 debugMode = False
 
 
@@ -494,6 +494,9 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
     ''',
     'bugs' :
     '''
+'{' and '}' (multiple operators) don't work with generators because the
+generator only works once, I guess.
+
 Chained calls to 'next_new_moon' give the same answer over and over.  Other
 related operators probably do the same thing.
 
@@ -2874,98 +2877,99 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo atomic_number collate -s1' ) ],
 
     'atomic_symbol' : [
 'chemistry', 'returns the atomic symbol of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo atomic_symbol collate -s1' ) ],
 
     'atomic_weight' : [
 'chemistry', 'returns the atomic weight of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo atomic_weight collate -s1' ) ],
 
     'element_block' : [
 'chemistry', 'returns the block of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo element_block collate -s1' ) ],
 
     'element_boiling_point' : [
 'chemistry', 'returns the boiling point of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo element_boiling_point collate -s1' ) ],
 
     'element_density' : [
 'chemistry', 'returns the density of element n for STP',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo element_density collate -s1' ) ],
 
     'element_description' : [
 'chemistry', 'returns the description of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo element_description collate -s1' ) ],
 
     'element_group' : [
 'chemistry', 'returns the group of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo element_group collate -s1' ) ],
 
     'element_melting_point' : [
 'chemistry', 'returns the melting point of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo element_melting_point collate -s1' ) ],
 
     'element_name' : [
 'chemistry', 'returns the name of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range atomic_symbol echo element_name collate -s1' ) ],
 
     'element_occurrence' : [
 'chemistry', 'returns the occurrence of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo element_occurrence collate -s1' ) ],
 
     'element_period' : [
 'chemistry', 'returns the period of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo element_period collate -s1' ) ],
 
     'element_state' : [
 'chemistry', 'returns the state (at STP) of element n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '1 10 range element_name echo element_state collate -s1' ) ],
 
     'molar_mass' : [
 'chemistry', 'returns the molar mass of molecule n',
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( 'H2O molar_mass' ) + '''
+''' + makeCommandExample( 'C12H22O11 molar_mass' ) ],
 
 
 
@@ -3143,6 +3147,14 @@ Delannoy.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range nth_delannoy' ) ],
+
+    'nth_menage' : [
+'combinatorics', 'calculate the nth Menage number for n and k',
+'''
+https://en.wikipedia.org/wiki/M%C3%A9nage_problem
+''',
+'''
+''' + makeCommandExample( '1 10 range nth_menage' ) ],
 
     'nth_motzkin' : [
 'combinatorics', 'calculates the nth Motzkin number',

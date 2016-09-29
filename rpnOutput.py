@@ -510,7 +510,7 @@ def printHelp( operators, constants, listOperators, modifiers, term, interactive
     elif term in g.operatorCategories:
         printCategoryHelp( term, operators, listOperators, modifiers, g.operatorHelp )
     elif term == 'unit_types':
-        printParagraph( ', '.join( sorted( g.unitTypeDict.keys( ) ) ), 4 )
+        printParagraph( ', '.join( sorted( [ key for key in g.unitTypeDict.keys( ) if key != '_null_type' ] ) ), 4 )
     elif term in g.unitTypeDict:
         unitList = sorted( g.unitTypeDict[ term ] )
         addAliases( unitList, g.operatorAliases )
