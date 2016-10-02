@@ -1441,3 +1441,18 @@ def getNthMersennePrime( n ):
     return fsub( power( 2, mersennePrimes[ n ] ), 1 )
 
 
+# //******************************************************************************
+# //
+# //  getNthThueMorse
+# //
+# //  https://en.wikipedia.org/wiki/Thue%E2%80%93Morse_sequence
+# //
+# //******************************************************************************
+
+@cachedFunction( 'nth_thue_morse' )
+def getNthThueMorse( n ):
+    if n == 0:
+        return 0
+    else:
+        return fmod( fadd( n, getNthThueMorse( floor( fdiv( n, 2 ) ) ) ), 2 )
+

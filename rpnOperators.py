@@ -2977,6 +2977,9 @@ operators = {
     'nth_stern'                      : RPNOperator( getNthStern,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'nth_thue_morse'                 : RPNOperator( getNthThueMorse,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'n_persistence'                  : RPNOperator( getPersistence,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
