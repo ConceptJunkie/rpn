@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 834
+maxExampleCount = 835
 debugMode = False
 
 
@@ -4136,6 +4136,8 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
+''' ],
+
     'triton_mass' : [
 'constants', 'returns the mass of the tritium nucleus',
 '''
