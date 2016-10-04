@@ -3420,7 +3420,7 @@ The base 7 Champernowne constant converted to base 10:
 ''' ],
 
     'deuteron_mass' : [
-'constants', 'returns ',
+'constants', 'returns the mass of a deuterium nucleus',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -3965,7 +3965,7 @@ Ref:  CODATA 2014
 ''' ],
 
     'planck_mass' : [
-'constants', 'returns the Planck Mass in grams',
+'constants', 'returns the Planck Mass',
 '''
 
 Ref:  CODATA 2014
@@ -4037,7 +4037,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''' ],
 
     'prevost_constant' : [
-'constants', 'returns Prevost\'s constant',
+'constants', 'calculates Prevost\'s constant',
 '''
 Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 ''',
@@ -4045,7 +4045,7 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 ''' ],
 
     'proton_mass' : [
-'constants', 'returns the mass of a proton in grams',
+'constants', 'returns the mass of a proton',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -4131,8 +4131,13 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''' ],
 
+    'thue_morse_constant' : [
+'constants', 'calculates the Thue-Morse constant',
+'''
+''',
+'''
     'triton_mass' : [
-'constants', 'returns ',
+'constants', 'returns the mass of the tritium nucleus',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -4191,7 +4196,7 @@ Ref:  CODATA 2014
 ''' ],
 
     'sun_mass' : [
-'constants', 'returns the estimated mass of the Sun in kilograms',
+'constants', 'returns the estimated mass of the Sun',
 '''
 Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''',
@@ -4199,21 +4204,21 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'sun_radius' : [
-'constants', 'returns the radius of the Sun in meters',
+'constants', 'returns the radius of the Sun',
 '''
 ''',
 '''
 ''' ],
 
     'sun_volume' : [
-'constants', 'returns the volume of the Sun in meters^3',
+'constants', 'returns the volume of the Sun',
 '''
 ''',
 '''
 ''' ],
 
     'mercury_mass' : [
-'constants', 'returns the estimated mass of the planet Mercury in kilograms',
+'constants', 'returns the estimated mass of the planet Mercury',
 '''
 ''',
 '''
@@ -4234,14 +4239,14 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'mercury_volume' : [
-'constants', 'returns the estimated volume of the planet Mercury in cubic meters',
+'constants', 'returns the estimated volume of the planet Mercury',
 '''
 ''',
 '''
 ''' ],
 
     'venus_mass' : [
-'constants', 'returns the estimated mass of the planet Venus in kilograms',
+'constants', 'returns the estimated mass of the planet Venus',
 '''
 ''',
 '''
@@ -4262,7 +4267,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'venus_volume' : [
-'constants', 'returns the estimated volume of the planet Venus in cubic meters',
+'constants', 'returns the estimated volume of the planet Venus',
 '''
 ''',
 '''
@@ -4290,7 +4295,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'earth_moon_mass' : [
-'constants', 'returns the estimated mass of the combined Earth-Moon system in grams',
+'constants', 'returns the estimated mass of the combined Earth-Moon system',
 '''
 ''',
 '''
@@ -4311,7 +4316,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'earth_volume' : [
-'constants', 'returns the estimated volume of the planet Earth in cubic meters',
+'constants', 'returns the estimated volume of the planet Earth',
 '''
 ''',
 '''
@@ -4325,14 +4330,14 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'moon_volume' : [
-'constants', 'returns the estimated volume of the Moon in cubic meters',
+'constants', 'returns the estimated volume of the Moon',
 '''
 ''',
 '''
 ''' ],
 
     'mars_mass' : [
-'constants', 'returns the estimated mass of the planet Mars in grams',
+'constants', 'returns the estimated mass of the planet Mars',
 '''
 ''',
 '''
@@ -4353,14 +4358,14 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'mars_volume' : [
-'constants', 'returns the estimated volume of the planet Mars in cubic meters',
+'constants', 'returns the estimated volume of the planet Mars',
 '''
 ''',
 '''
 ''' ],
 
     'jupiter_mass' : [
-'constants', 'returns the estimated mass of the planet Jupiter in kilograms',
+'constants', 'returns the estimated mass of the planet Jupiter',
 '''
 ''',
 '''
@@ -4381,14 +4386,14 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'jupiter_volume' : [
-'constants', 'returns the estimated volume of the planet Jupiter in cubic meters',
+'constants', 'returns the estimated volume of the planet Jupiter',
 '''
 ''',
 '''
 ''' ],
 
     'saturn_mass' : [
-'constants', 'returns the estimated mass of the planet Saturn in kilograms',
+'constants', 'returns the estimated mass of the planet Saturn',
 '''
 ''',
 '''
@@ -4409,14 +4414,14 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'saturn_volume' : [
-'constants', 'returns the estimated volume of the planet Saturn in cubic meters',
+'constants', 'returns the estimated volume of the planet Saturn',
 '''
 ''',
 '''
 ''' ],
 
     'uranus_mass' : [
-'constants', 'returns the estimated mass of the planet Uranus in kilograms',
+'constants', 'returns the estimated mass of the planet Uranus',
 '''
 ''',
 '''
@@ -4437,14 +4442,14 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'uranus_volume' : [
-'constants', 'returns the estimated volume of the planet Uranus in cubic meters',
+'constants', 'returns the estimated volume of the planet Uranus',
 '''
 ''',
 '''
 ''' ],
 
     'neptune_mass' : [
-'constants', 'returns the estimated mass of the planet Neptune in kilograms',
+'constants', 'returns the estimated mass of the planet Neptune',
 '''
 ''',
 '''
@@ -4465,14 +4470,14 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'neptune_volume' : [
-'constants', 'returns the estimated volume of the planet Neptune in cubic meters',
+'constants', 'returns the estimated volume of the planet Neptune',
 '''
 ''',
 '''
 ''' ],
 
     'pluto_mass' : [
-'constants', 'returns the estimated mass of the planet Pluto in kilograms',
+'constants', 'returns the estimated mass of the planet Pluto',
 '''
 ''',
 '''
@@ -4493,7 +4498,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ],
 
     'pluto_volume' : [
-'constants', 'returns the estimated volume of the planet Pluto in cubic meters',
+'constants', 'returns the estimated volume of the planet Pluto',
 '''
 ''',
 '''
@@ -6881,6 +6886,13 @@ but OEIS (http://oeis.org/A000931) provides a non-iterative formula.
 ''',
 '''
 ''' + makeCommandExample( '1 100 range nth_stern' ) ],
+
+    'nth_thue_morse' : [
+'number_theory', 'calculates the nth value of the Thue-Morse sequence',
+'''
+''',
+'''
+''' + makeCommandExample( '1 100 range nth_thue_morse' ) ],
 
     'octanacci' : [
 'number_theory', 'calculates the nth Octanacci number',

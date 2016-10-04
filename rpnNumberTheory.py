@@ -1449,7 +1449,7 @@ def getNthMersennePrime( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'nth_thue_morse' )
+@cachedFunction( 'thue_morse' )
 def getNthThueMorse( n ):
     if n == 0:
         return 0

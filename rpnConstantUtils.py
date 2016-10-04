@@ -27,8 +27,8 @@ if six.PY3:
 else:
     from pylru import lrudecorator as lru_cache
 
-from mpmath import cbrt, fadd, fdiv, fib, fmul, fprod, fsub, log, mp, mpf, \
-                   mpmathify, nsum, pi, power, sqrt
+from mpmath import arange, cbrt, fadd, fdiv, fib, fmul, fprod, fsub, log, mp, \
+                   mpf, mpmathify, nsum, pi, power, sqrt
 
 import rpnGlobals as g
 
@@ -36,6 +36,7 @@ from rpnComputer import interpretAsDouble, interpretAsFloat
 from rpnInput import convertToBase10
 from rpnMath import getPower, getRoot
 from rpnMeasurement import RPNMeasurement
+from rpnNumberTheory import getNthThueMorse
 from rpnOutput import convertToBaseN
 from rpnPrimeUtils import getNthPrime
 
@@ -430,4 +431,23 @@ def getPlanckCharge( ):
 def getPlanckTemperature( ):
     return getRoot( getReducedPlanckConstant( ).multiply( getPower( getSpeedOfLight( ), 5 ) ).
         divide( getNewtonsConstant( ).multiply( getPower( getBoltzmannsConstant( ), 2 ) ) ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getThueMorseConstant
+# //
+# //  https://en.wikipedia.org/wiki/Prouhet%E2%80%93Thue%E2%80%93Morse_constant
+# //
+# //******************************************************************************
+
+def getThueMorseConstant( ):
+    result = 0
+    factor = mpmathify( '0.5' )
+
+    for i in arange( 0, mp.prec + 1 ):
+        result = fadd( result, fmul( getNthThueMorse( i ), factor ) )
+        factor = fdiv( factor, 2 )
+
+    return result
 

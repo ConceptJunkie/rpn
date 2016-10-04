@@ -265,6 +265,7 @@ constants = {
     'prevost_constant'              : RPNOperator( lambda: nsum( lambda n: fdiv( 1, fib( n ) ), [ 1, inf ] ), 0 ),
     'robbins_constant'              : RPNOperator( getRobbinsConstant, 0 ),
     'silver_ratio'                  : RPNOperator( lambda: fadd( 1, sqrt( 2 ) ), 0 ),
+    'thue_morse_constant'           : RPNOperator( getThueMorseConstant, 0 ),
 
     # physical quantities
     'aa_battery'                    : RPNOperator( lambda: RPNMeasurement( '15400', 'joule' ), 0 ),

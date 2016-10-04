@@ -2236,6 +2236,9 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-c 76 nth_padovan' )
     expectEqual( '0 45 range nth_padovan', '931 oeis 50 left 46 right' )
 
+    # nth_thue_morse
+    expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
+
     # octanacci
     testOperator( '-a300 -c 906 octanacci' )
     expectEqual( '0 39 range octanacci', '79262 oeis 40 left' )
