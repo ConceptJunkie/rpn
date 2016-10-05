@@ -24,10 +24,10 @@ from random import randrange
 
 from mpmath import acosh, acot, acoth, acsc, acsch, agm, altzeta, arg, asec, \
                    asech, asin, asinh, atan, atanh, barnesg, beta, conj, cosh, \
-                   cos, coth, csc, csch, fac2, fadd, fmod, harmonic, hyperfac, \
-                   lambertw, li, limit, ln, loggamma, nprod, nsum, polyexp, \
-                   polylog, plot, psi, rand, sec, sech, sin, sinh, superfac, \
-                   tan, tanh, unitroots, zeta
+                   cos, coth, cplot, csc, csch, fac2, fadd, fmod, harmonic, \
+                   hyperfac, lambertw, li, limit, ln, loggamma, nprod, nsum, \
+                   polyexp, polylog, plot, psi, rand, sec, sech, sin, sinh, \
+                   splot, superfac, tan, tanh, unitroots, zeta
 
 from rpnAliases import dumpAliases
 

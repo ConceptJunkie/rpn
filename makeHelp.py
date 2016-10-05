@@ -73,7 +73,9 @@ def makeCommandExample( command, indent=0, slow=False ):
 
     # This total count needs to be manually updated when the help examples are modified.
     global maxExampleCount
+    #print( command )
     print( '\rGenerating example: ', exampleCount, 'of', maxExampleCount, end='' )
+    #print( )
 
     if slow:
         print( '  (please be patient...)', end='', flush=True )
@@ -7173,82 +7175,117 @@ Calculate the surface gravity of a 10-solar-mass black hole:
 
 # //******************************************************************************
 # //
-# //  polygonal number operators
+# //  figurate number operators
 # //
 # //******************************************************************************
 
+    'centered_cube' : [
+'figurate_numbers', 'calculates the nth centered cube number',
+'''
+''',
+'''
+''' ],
+
     'centered_decagonal' : [
-'polygonal_numbers', 'calculates the nth centered decagonal number',
+'figurate_numbers', 'calculates the nth centered decagonal number',
+'''
+''',
+'''
+''' ],
+
+    'centered_dodecahedral' : [
+'figurate_numbers', 'calculates the nth centered dodecahedral number',
 '''
 ''',
 '''
 ''' ],
 
     'centered_heptagonal' : [
-'polygonal_numbers', 'calculates the nth centered heptagonal number',
+'figurate_numbers', 'calculates the nth centered heptagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'centered_hexagonal' : [
-'polygonal_numbers', 'calculates the nth centered hexagonal number',
+'figurate_numbers', 'calculates the nth centered hexagonal number',
+'''
+''',
+'''
+''' ],
+
+    'centered_icosahedral' : [
+'figurate_numbers', 'calculates the nth centered icosahedral number',
 '''
 ''',
 '''
 ''' ],
 
     'centered_nonagonal' : [
-'polygonal_numbers', 'calculates the nth centered nonagonal number',
+'figurate_numbers', 'calculates the nth centered nonagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'centered_octagonal' : [
-'polygonal_numbers', 'calculates the nth centered octagonal number',
+'figurate_numbers', 'calculates the nth centered octagonal number',
+'''
+''',
+'''
+''' ],
+
+    'centered_octahedral' : [
+'figurate_numbers', 'calculates the nth centered octahedral number',
 '''
 ''',
 '''
 ''' ],
 
     'centered_pentagonal' : [
-'polygonal_numbers', 'calculates the nth centered pentagonal number',
+'figurate_numbers', 'calculates the nth centered pentagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'centered_polygonal' : [
-'polygonal_numbers', 'calculates the nth centered k-gonal number',
+'figurate_numbers', 'calculates the nth centered k-gonal number',
 '''
 ''',
 '''
 ''' ],
 
     'centered_square' : [
-'polygonal_numbers', 'calculates the nth centered square number',
+'figurate_numbers', 'calculates the nth centered square number',
+'''
+''',
+'''
+''' ],
+
+    'centered_tetrahedral' : [
+'figurate_numbers', 'calculates the nth centered tetrahedral number',
 '''
 ''',
 '''
 ''' ],
 
     'centered_triangular' : [
-'polygonal_numbers', 'calculates the nth centered triangular number',
+'figurate_numbers', 'calculates the nth centered triangular number',
 '''
 ''',
 '''
 ''' ],
 
     'decagonal' : [
-'polygonal_numbers', 'calculates the nth decagonal number',
+'figurate_numbers', 'calculates the nth decagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'decagonal_centered_square' : [
-'polygonal_numbers', 'calculates the nth decagonal centered square number',
+'figurate_numbers', 'calculates the nth decagonal centered square number',
 '''
 'decagonal_centered_square' calculates the nth number that is both decagonal and
 centered square.
@@ -7257,7 +7294,7 @@ centered square.
 ''' ],
 
     'decagonal_heptagonal' : [
-'polygonal_numbers', 'calculates the nth decagonal heptagonal number',
+'figurate_numbers', 'calculates the nth decagonal heptagonal number',
 '''
 'decagonal_heptagonal' calculates the nth number that is both decagonal and
 heptagonal.
@@ -7266,7 +7303,7 @@ heptagonal.
 ''' ],
 
     'decagonal_hexagonal' : [
-'polygonal_numbers', 'calculates the nth decagonal hexagonal number',
+'figurate_numbers', 'calculates the nth decagonal hexagonal number',
 '''
 'decagonal_hexagonal' calculates the nth number that is both decagonal and
 hexagonal.
@@ -7275,7 +7312,7 @@ hexagonal.
 ''' ],
 
     'decagonal_nonagonal' : [
-'polygonal_numbers', 'calculates the nth decagonal heptagonal number',
+'figurate_numbers', 'calculates the nth decagonal heptagonal number',
 '''
 'decagonal_heptagonal' calculates the nth number that is both decagonal and
 heptagonal.
@@ -7284,7 +7321,7 @@ heptagonal.
 ''' ],
 
     'decagonal_octagonal' : [
-'polygonal_numbers', 'calculates the nth decagonal octagonal number',
+'figurate_numbers', 'calculates the nth decagonal octagonal number',
 '''
 'decagonal_octagonal' calculates the nth number that is both decagonal and
 octagonal.
@@ -7293,7 +7330,7 @@ octagonal.
 ''' ],
 
     'decagonal_pentagonal' : [
-'polygonal_numbers', 'calculates the nth decagonal pentagonal number',
+'figurate_numbers', 'calculates the nth decagonal pentagonal number',
 '''
 'decagonal_pentagonal' calculates the nth number that is both decagonal and
 pentgonal.
@@ -7302,7 +7339,7 @@ pentgonal.
 ''' ],
 
     'decagonal_triangular' : [
-'polygonal_numbers', 'calculates the nth decagonal triangular number',
+'figurate_numbers', 'calculates the nth decagonal triangular number',
 '''
 'decagonal_triangular' calculates the nth number that is both decagonal and
 triangular.
@@ -7310,78 +7347,92 @@ triangular.
 '''
 ''' ],
 
+    'dodecahedral' : [
+'figurate_numbers', 'returns the nth dodecahedral number',
+'''
+''',
+'''
+''' ],
+
     'generalized_pentagonal' : [
-'polygonal_numbers', 'calculates the nth generalized pentagonal number',
+'figurate_numbers', 'calculates the nth generalized pentagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'heptagonal' : [
-'polygonal_numbers', 'calculates the nth heptagonal number',
+'figurate_numbers', 'calculates the nth heptagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'heptagonal_hexagonal' : [
-'polygonal_numbers', 'calculates the nth heptagonal hexagonal number',
+'figurate_numbers', 'calculates the nth heptagonal hexagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'heptagonal_pentagonal' : [
-'polygonal_numbers', 'calculates the nth heptagonal pentagonal number',
+'figurate_numbers', 'calculates the nth heptagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'heptagonal_square' : [
-'polygonal_numbers', 'calculates the nth heptagonal square number',
+'figurate_numbers', 'calculates the nth heptagonal square number',
 '''
 ''',
 '''
 ''' ],
 
     'heptagonal_triangular' : [
-'polygonal_numbers', 'calculates the nth heptagonal triangular number',
+'figurate_numbers', 'calculates the nth heptagonal triangular number',
 '''
 ''',
 '''
 ''' ],
 
     'hexagonal' : [
-'polygonal_numbers', 'calculates the nth hexagonal number',
+'figurate_numbers', 'calculates the nth hexagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'hexagonal_pentagonal' : [
-'polygonal_numbers', 'calculates the nth hexagonal pentagonal number',
+'figurate_numbers', 'calculates the nth hexagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'hexagonal_square' : [
-'polygonal_numbers', 'calculates the nth hexagonal square number',
+'figurate_numbers', 'calculates the nth hexagonal square number',
+'''
+''',
+'''
+''' ],
+
+    'icosahedral' : [
+'figurate_numbers', 'returns the nth icosahedral number',
 '''
 ''',
 '''
 ''' ],
 
     'nonagonal' : [
-'polygonal_numbers', 'calculates the nth nonagonal number',
+'figurate_numbers', 'calculates the nth nonagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'nonagonal_heptagonal' : [
-'polygonal_numbers', 'calculates the nth nonagonal heptagonal number',
+'figurate_numbers', 'calculates the nth nonagonal heptagonal number',
 '''
 'nonagonal_heptagonal' calculates the nth number that is both nonagonal and
 heptagonal.
@@ -7390,7 +7441,7 @@ heptagonal.
 ''' ],
 
     'nonagonal_hexagonal' : [
-'polygonal_numbers', 'calculates the nth nonagonal hexagonal number',
+'figurate_numbers', 'calculates the nth nonagonal hexagonal number',
 '''
 'nonagonal_hexagonal' calculates the nth number that is both nonagonal and
 hexagonal.
@@ -7399,7 +7450,7 @@ hexagonal.
 ''' ],
 
     'nonagonal_octagonal' : [
-'polygonal_numbers', 'calculates the nth nonagonal octagonal number',
+'figurate_numbers', 'calculates the nth nonagonal octagonal number',
 '''
 'nonagonal_octagonal' calculates the nth number that is both nonagonal and
 octagonal.
@@ -7408,7 +7459,7 @@ octagonal.
 ''' ],
 
     'nonagonal_pentagonal' : [
-'polygonal_numbers', 'calculates the nth nonagonal pentagonal number',
+'figurate_numbers', 'calculates the nth nonagonal pentagonal number',
 '''
 'nonagonal_pentagonal' calculates the nth number that is both nonagonal and
 pentgonal.
@@ -7417,7 +7468,7 @@ pentgonal.
 ''' ],
 
     'nonagonal_square' : [
-'polygonal_numbers', 'calculates the nth nonagonal square number',
+'figurate_numbers', 'calculates the nth nonagonal square number',
 '''
 'nonagonal_square' calculates the nth number that is both nonagonal and square.
 ''',
@@ -7425,7 +7476,7 @@ pentgonal.
 ''' ],
 
     'nonagonal_triangular' : [
-'polygonal_numbers', 'calculates the nth nonagonal triangular number',
+'figurate_numbers', 'calculates the nth nonagonal triangular number',
 '''
 'nonagonal_triangular' calculates the nth number that is both nonagonal and
 triangular.
@@ -7436,7 +7487,7 @@ TODO: fix me
 ''' ],
 
     'nth_centered_decagonal' : [
-'polygonal_numbers', 'finds the index of the centered decagonal number of value n',
+'figurate_numbers', 'finds the index of the centered decagonal number of value n',
 '''
 'nth_centered_decagonal' solves for the index of the equation used by
 'centered_decagonal' to get the index i of the ith centered decagonal number
@@ -7449,7 +7500,7 @@ number.
 ''' ],
 
     'nth_centered_heptagonal' : [
-'polygonal_numbers', 'finds the index of the centered heptagonal number of value n',
+'figurate_numbers', 'finds the index of the centered heptagonal number of value n',
 '''
 'nth_centered_heptagonal' solves for the index of the equation used by
 'centered_heptagonal' to get the index i of the ith centered heptagonal number
@@ -7462,7 +7513,7 @@ number.
 ''' ],
 
     'nth_centered_hexagonal' : [
-'polygonal_numbers', 'finds the index of the centered hexagonal number of value n',
+'figurate_numbers', 'finds the index of the centered hexagonal number of value n',
 '''
 'nth_centered_hexagonal' solves for the index of the equation used by
 'centered_hexagonal' to get the index i of the ith centered hexagonal number
@@ -7475,7 +7526,7 @@ number.
 ''' ],
 
     'nth_centered_nonagonal' : [
-'polygonal_numbers', 'finds the index of the centered nonagonal number of value n',
+'figurate_numbers', 'finds the index of the centered nonagonal number of value n',
 '''
 'nth_centered_nonagonal' solves for the index of the equation used by
 'centered_nonagonal' to get the index i of the ith centered nonagonal number
@@ -7488,7 +7539,7 @@ number.
 ''' ],
 
     'nth_centered_octagonal' : [
-'polygonal_numbers', 'finds the index of the centered octgonal number of value n',
+'figurate_numbers', 'finds the index of the centered octgonal number of value n',
 '''
 'nth_centered_octagonal' solves for the index of the equation used by
 'centered_octagonal' to get the index i of the ith centered octagonal number
@@ -7500,7 +7551,7 @@ If n is not a centered octagonal number, the result will not be a whole number.
 ''' ],
 
     'nth_centered_pentagonal' : [
-'polygonal_numbers', 'finds the index of the centered pentagonal number of value n',
+'figurate_numbers', 'finds the index of the centered pentagonal number of value n',
 '''
 'nth_centered_pentagonal? solves for the index of the equation used by
 'centered_pentagonal' to get the index i of the ith centered pentagonal number
@@ -7513,7 +7564,7 @@ number.
 ''' ],
 
     'nth_centered_polygonal' : [
-'polygonal_numbers', 'finds the index of the centered polygonal number of value n',
+'figurate_numbers', 'finds the index of the centered polygonal number of value n',
 '''
 'nth_centered_polygonal' solves for the index of the equation used by
 'centered_polygonal' to get the index i of the ith centered k-sided polygonal
@@ -7526,7 +7577,7 @@ number.
 ''' ],
 
     'nth_centered_square' : [
-'polygonal_numbers', 'finds the index of the centered square number of value n',
+'figurate_numbers', 'finds the index of the centered square number of value n',
 '''
 'nth_centered_square' solves for the index of the equation used by 'csquare'
 to get the index i of the ith centered square number that corresponds to the
@@ -7538,7 +7589,7 @@ If n is not a centered square number, the result will not be a whole number.
 ''' ],
 
     'nth_centered_triangular' : [
-'polygonal_numbers', 'finds the index of the centered triangular number of value n',
+'figurate_numbers', 'finds the index of the centered triangular number of value n',
 '''
 'nth_centered_triangular' solves for the index of the equation used by
 'centered_triangular' to get the index i of the ith centered triangular number
@@ -7551,252 +7602,189 @@ number.
 ''' ],
 
     'nth_decagonal' : [
-'polygonal_numbers', 'finds the index of the decagonal number of value n',
+'figurate_numbers', 'finds the index of the decagonal number of value n',
 '''
 ''',
 '''
 ''' ],
 
     'nth_hexagonal' : [
-'polygonal_numbers', 'finds the index of the hexagonal number of value n',
+'figurate_numbers', 'finds the index of the hexagonal number of value n',
 '''
 ''',
 '''
 ''' ],
 
     'nth_heptagonal' : [
-'polygonal_numbers', 'finds the index of the heptagonal number of value n',
+'figurate_numbers', 'finds the index of the heptagonal number of value n',
 '''
 ''',
 '''
 ''' ],
 
     'nth_nonagonal' : [
-'polygonal_numbers', 'finds the index of the nonagonal number of value n',
+'figurate_numbers', 'finds the index of the nonagonal number of value n',
 '''
 ''',
 '''
 ''' ],
 
     'nth_octagonal' : [
-'polygonal_numbers', 'finds the index of the octagonal number of value n',
+'figurate_numbers', 'finds the index of the octagonal number of value n',
 '''
 ''',
 '''
 ''' ],
 
     'nth_pentagonal' : [
-'polygonal_numbers', 'finds the index of the pentagonal number of value n',
+'figurate_numbers', 'finds the index of the pentagonal number of value n',
 '''
 ''',
 '''
 ''' ],
 
     'nth_polygonal' : [
-'polygonal_numbers', 'finds the index of the polygonal number with k sides of value n',
+'figurate_numbers', 'finds the index of the polygonal number with k sides of value n',
 '''
 ''',
 '''
 ''' ],
 
     'nth_square' : [
-'polygonal_numbers', 'finds the index of the square number of value n',
+'figurate_numbers', 'finds the index of the square number of value n',
 '''
 ''',
 '''
 ''' ],
 
     'nth_triangular' : [
-'polygonal_numbers', 'finds the index of the triangular number of value n',
+'figurate_numbers', 'finds the index of the triangular number of value n',
 '''
 ''',
 '''
 ''' ],
 
     'octagonal' : [
-'polygonal_numbers', 'calculates the nth octagonal number',
+'figurate_numbers', 'calculates the nth octagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'octagonal_heptagonal' : [
-'polygonal_numbers', 'returns the nth octagonal heptagonal number',
+'figurate_numbers', 'returns the nth octagonal heptagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'octagonal_hexagonal' : [
-'polygonal_numbers', 'calculates the nth octagonal hexagonal number',
+'figurate_numbers', 'calculates the nth octagonal hexagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'octagonal_pentagonal' : [
-'polygonal_numbers', 'calculates the nth octagonal pentagonal number',
+'figurate_numbers', 'calculates the nth octagonal pentagonal number',
 '''
 ''',
 '''
 ''' ],
 
     'octagonal_square' : [
-'polygonal_numbers', 'calculates the nth octagonal square number',
+'figurate_numbers', 'calculates the nth octagonal square number',
 '''
 ''',
 '''
 ''' ],
 
     'octagonal_triangular' : [
-'polygonal_numbers', 'calculates the nth octagonal triangular number',
-'''
-''',
-'''
-''' ],
-
-    'pentagonal' : [
-'polygonal_numbers', 'calculates the nth pentagonal number',
-'''
-''',
-'''
-''' ],
-
-    'pentagonal_square' : [
-'polygonal_numbers', 'calculates the nth pentagonal square number',
-'''
-''',
-'''
-''' ],
-
-    'pentagonal_triangular' : [
-'polygonal_numbers', 'calculates the nth pentagonal triangular number',
-'''
-''',
-'''
-''' ],
-
-    'polygonal' : [
-'polygonal_numbers', 'calculates the nth polygonal number with k sides',
-'''
-''',
-'''
-''' ],
-
-    'square_triangular' : [
-'polygonal_numbers', 'calculates the nth square triangular number',
-'''
-''',
-'''
-''' ],
-
-    'star' : [
-'polygonal_numbers', 'calculates the nth star number',
-'''
-''',
-'''
-''' ],
-
-    'triangular' : [
-'polygonal_numbers', 'calcuates the nth triangular number',
-'''
-''',
-'''
-''' ],
-
-
-# //******************************************************************************
-# //
-# //  polyhedral number operators
-# //
-# //******************************************************************************
-
-    'centered_cube' : [
-'polyhedral_numbers', 'calculates the nth centered cube number',
-'''
-''',
-'''
-''' ],
-
-    'centered_dodecahedral' : [
-'polyhedral_numbers', 'calculates the nth centered dodecahedral number',
-'''
-''',
-'''
-''' ],
-
-    'centered_icosahedral' : [
-'polyhedral_numbers', 'calculates the nth centered icosahedral number',
-'''
-''',
-'''
-''' ],
-
-    'centered_octahedral' : [
-'polyhedral_numbers', 'calculates the nth centered octahedral number',
-'''
-''',
-'''
-''' ],
-
-    'centered_tetrahedral' : [
-'polyhedral_numbers', 'calculates the nth centered tetrahedral number',
-'''
-''',
-'''
-''' ],
-
-    'dodecahedral' : [
-'polyhedral_numbers', 'returns the nth dodecahedral number',
-'''
-''',
-'''
-''' ],
-
-    'icosahedral' : [
-'polyhedral_numbers', 'returns the nth icosahedral number',
+'figurate_numbers', 'calculates the nth octagonal triangular number',
 '''
 ''',
 '''
 ''' ],
 
     'octahedral' : [
-'polyhedral_numbers', 'calculates the nth octahedral number',
+'figurate_numbers', 'calculates the nth octahedral number',
+'''
+''',
+'''
+''' ],
+
+    'pentagonal' : [
+'figurate_numbers', 'calculates the nth pentagonal number',
+'''
+''',
+'''
+''' ],
+
+    'pentagonal_square' : [
+'figurate_numbers', 'calculates the nth pentagonal square number',
+'''
+''',
+'''
+''' ],
+
+    'pentagonal_triangular' : [
+'figurate_numbers', 'calculates the nth pentagonal triangular number',
 '''
 ''',
 '''
 ''' ],
 
     'pentatope' : [
-'polyhedral_numbers', 'calculates the nth pentatope number',
+'figurate_numbers', 'calculates the nth pentatope number',
+'''
+''',
+'''
+''' ],
+
+    'polygonal' : [
+'figurate_numbers', 'calculates the nth polygonal number with k sides',
 '''
 ''',
 '''
 ''' ],
 
     'polytope' : [
-'polyhedral_numbers', 'calculates nth polytope number of dimension k',
+'figurate_numbers', 'calculates nth polytope number of dimension k',
 '''
 ''',
 '''
 ''' ],
 
     'pyramid' : [
-'polyhedral_numbers', 'calculates the nth square pyramidal number',
+'figurate_numbers', 'calculates the nth square pyramidal number',
 '''
 ''',
 '''
 ''' ],
 
     'rhombdodec' : [
-'polyhedral_numbers', 'calculates the nth rhombic dodecahedral number',
+'figurate_numbers', 'calculates the nth rhombic dodecahedral number',
+'''
+''',
+'''
+''' ],
+
+    'square_triangular' : [
+'figurate_numbers', 'calculates the nth square triangular number',
+'''
+''',
+'''
+''' ],
+
+    'star' : [
+'figurate_numbers', 'calculates the nth star number',
 '''
 ''',
 '''
 ''' ],
 
     'stella_octangula' : [
-'polyhedral_numbers', 'calculates the nth stella octangula number',
+'figurate_numbers', 'calculates the nth stella octangula number',
 '''
 A stella octangula number is a figurate number based on the stella octangula,
 of the form n(2n^2 - 1).
@@ -7810,21 +7798,28 @@ http://oeis.org/A007588
 ''' + makeCommandExample( '1 8 range stelloct' ) ],
 
     'tetrahedral' : [
-'polyhedral_numbers', 'calculates the nth tetrahedral number',
+'figurate_numbers', 'calculates the nth tetrahedral number',
+'''
+''',
+'''
+''' ],
+
+    'triangular' : [
+'figurate_numbers', 'calcuates the nth triangular number',
 '''
 ''',
 '''
 ''' ],
 
     'truncated_octahedral' : [
-'polyhedral_numbers', 'calculates the nth truncated octahedral number',
+'figurate_numbers', 'calculates the nth truncated octahedral number',
 '''
 ''',
 '''
 ''' ],
 
     'truncated_tetrahedral' : [
-'polyhedral_numbers', 'calculates the nth truncated tetrahedral number',
+'figurate_numbers', 'calculates the nth truncated tetrahedral number',
 '''
 ''',
 '''

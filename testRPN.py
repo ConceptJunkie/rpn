@@ -2454,13 +2454,23 @@ def runPhysicsOperatorTests( ):
 
 # //******************************************************************************
 # //
-# //  runPolygonalOperatorTests
+# //  runFigurateNumberOperatorTests
 # //
 # //******************************************************************************
 
-def runPolygonalOperatorTests( ):
+def runFigurateNumberOperatorTests( ):
+    # centered_cube
+    testOperator( '1 20 range centered_cube' )
+    testOperator( '100 centered_cube' )
+    expectEqual( '1 38 range centered_cube', '5898 oeis 38 left' )
+
     # centered_decagonal
     testOperator( '17 centered_decagonal' )
+
+    # centered_dodecahedral
+    testOperator( '1 20 range centered_dodecahedral' )
+    testOperator( '60 centered_dodecahedral' )
+    expectEqual( '1 36 range centered_dodecahedral', '5904 oeis 36 left' )
 
     # centered_heptagonal
     testOperator( '102 centered_heptagonal' )
@@ -2468,11 +2478,21 @@ def runPolygonalOperatorTests( ):
     # centered_hexagonal
     testOperator( '103 centered_hexagonal' )
 
+    # centered_icosahedral
+    testOperator( '1 20 range centered_icosahedral' )
+    testOperator( '30 centered_icosahedral' )
+    expectEqual( '1 36 range centered_icosahedral', '5902 oeis 36 left' )
+
     # centered_nonagonal
     testOperator( '104 centered_nonagonal' )
 
     # centered_octagonal
     testOperator( '10 centered_octagonal' )
+
+    # centered_octahedral
+    testOperator( '1 20 range centered_octahedral' )
+    testOperator( '70 centered_octahedral' )
+    expectEqual( '1 40 range centered_octahedral', '1845 oeis 40 left' )
 
     # centered_pentagonal
     testOperator( '108 centered_pentagonal' )
@@ -2482,6 +2502,11 @@ def runPolygonalOperatorTests( ):
 
     # centered_square
     testOperator( '5 centered_square' )
+
+    # centered_tetrahedral
+    testOperator( '1 20 range centered_tetrahedral' )
+    testOperator( '120 centered_tetrahedral' )
+    expectEqual( '1 39 range centered_tetrahedral', '5894 oeis 39 left' )
 
     # centered_triangular
     testOperator( '100 centered_triangular' )
@@ -2513,6 +2538,9 @@ def runPolygonalOperatorTests( ):
     # decagonal_triangular
     testOperator( '-a40 13 decagonal_triangular' )
 
+    # dodecahedral
+    testOperator( '44 dodecahedral' )
+
     # generalized_pentagonal
     testOperator( '187 generalized_pentagonal' )
 
@@ -2542,6 +2570,9 @@ def runPolygonalOperatorTests( ):
     # hexagonal_square
     testOperator( '-a70 -c 23 hexagonal_square' )
     expectEqual( '-a70 1 12 range hexagonal_square', '-a40 46177 oeis 12 left' )
+
+    # icosahedral
+    testOperator( '100 icosahedral' )
 
     # nonagonal
     testOperator( '554 nonagonal' )
@@ -2621,6 +2652,9 @@ def runPolygonalOperatorTests( ):
     # octagonal
     testOperator( '102 octagonal' )
 
+    # octahedral
+    testOperator( '23 octahedral' )
+
     # octagonal_heptagonal
     testOperator( '-a40 -c 8 octagonal_heptagonal' )
 
@@ -2645,62 +2679,11 @@ def runPolygonalOperatorTests( ):
     # pentagonal_triangular
     testOperator( '-a40 -c 17 pentagonal_triangular' )
 
-    # polygonal
-    testOperator( '9 12 polygonal' )
-
-    # square_triangular
-    testOperator( '-a60 -c 34 square_triangular' )
-
-    # star
-    expectEqual( '1 43 range star', '3154 oeis 43 left' )
-
-    # triangular
-    testOperator( '203 triangular' )
-
-
-# //******************************************************************************
-# //
-# //  runPolyhedralOperatorTests
-# //
-# //******************************************************************************
-
-def runPolyhedralOperatorTests( ):
-    # centered_cube
-    testOperator( '1 20 range centered_cube' )
-    testOperator( '100 centered_cube' )
-    expectEqual( '1 38 range centered_cube', '5898 oeis 38 left' )
-
-    # centered_dodecahedral
-    testOperator( '1 20 range centered_dodecahedral' )
-    testOperator( '60 centered_dodecahedral' )
-    expectEqual( '1 36 range centered_dodecahedral', '5904 oeis 36 left' )
-
-    # centered_icosahedral
-    testOperator( '1 20 range centered_icosahedral' )
-    testOperator( '30 centered_icosahedral' )
-    expectEqual( '1 36 range centered_icosahedral', '5902 oeis 36 left' )
-
-    # centered_octahedral
-    testOperator( '1 20 range centered_octahedral' )
-    testOperator( '70 centered_octahedral' )
-    expectEqual( '1 40 range centered_octahedral', '1845 oeis 40 left' )
-
-    # centered_tetrahedral
-    testOperator( '1 20 range centered_tetrahedral' )
-    testOperator( '120 centered_tetrahedral' )
-    expectEqual( '1 39 range centered_tetrahedral', '5894 oeis 39 left' )
-
-    # dodecahedral
-    testOperator( '44 dodecahedral' )
-
-    # icosahedral
-    testOperator( '100 icosahedral' )
-
-    # octahedral
-    testOperator( '23 octahedral' )
-
     # pentatope
     testOperator( '12 pentatope' )
+
+    # polygonal
+    testOperator( '9 12 polygonal' )
 
     # polytope
     testOperator( '1 10 range 7 polytope' )
@@ -2714,11 +2697,20 @@ def runPolyhedralOperatorTests( ):
     # rhombdodec
     testOperator( '89 rhombdodec' )
 
+    # square_triangular
+    testOperator( '-a60 -c 34 square_triangular' )
+
+    # star
+    expectEqual( '1 43 range star', '3154 oeis 43 left' )
+
     # stella_octangula
     testOperator( '3945 stella_octangula' )
 
     # tetrahedral
     testOperator( '-a20 19978 tetrahedral' )
+
+    # triangular
+    testOperator( '203 triangular' )
 
     # truncated_octahedral
     testOperator( '394 truncated_octahedral' )
@@ -3306,6 +3298,7 @@ rpnTestList = [
     ( 'constant',           runConstantOperatorTests ),
     ( 'conversion',         runConversionOperatorTests ),
     ( 'date_time',          runDateTimeOperatorTests ),
+    ( 'figurate',           runFigurateNumberOperatorTests ),
     ( 'function',           runFunctionOperatorTests ),
     ( 'geography',          runGeographyOperatorTests ),
     ( 'geometry',           runGeometryOperatorTests ),
@@ -3315,13 +3308,12 @@ rpnTestList = [
     ( 'modifier',           runModifierOperatorTests ),
     ( 'number_theory',      runNumberTheoryOperatorTests ),
     ( 'physics',            runPhysicsOperatorTests ),
-    ( 'polygonal',          runPolygonalOperatorTests ),
-    ( 'polyhedral',         runPolyhedralOperatorTests ),
     ( 'powers_and_roots',   runPowersAndRootsOperatorTests ),
     ( 'prime_number',       runPrimeNumberOperatorTests ),
     ( 'settings',           runSettingsOperatorTests ),
     ( 'special',            runSpecialOperatorTests ),
     ( 'trigonometry',       runTrigonometryOperatorTests ),
+
     ( 'advanced',           runAdvancedTests ),
 
     ( 'command-line',       runCommandLineOptionsTests ),
