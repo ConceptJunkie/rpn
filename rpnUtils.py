@@ -384,18 +384,6 @@ def findPolynomial( n, k ):
 
 # //******************************************************************************
 # //
-# //  printStats
-# //
-# //******************************************************************************
-
-def printStats( dict, name ):
-    index = max( [ key for key in dict ] )
-
-    print( '{:10,} {:23} max: {:14,} ({:,})'.format( len( dict ), name, index, dict[ index ] ) )
-
-
-# //******************************************************************************
-# //
 # //  getExpandedFactorList
 # //
 # //  Takes a list of tuples where each tuple is a prime factor and an exponent

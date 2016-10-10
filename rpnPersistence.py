@@ -22,6 +22,7 @@ import contextlib
 import functools
 import os
 import pickle
+import sqlite3
 import types
 
 import rpnGlobals as g
@@ -38,11 +39,27 @@ from rpnVersion import PROGRAM_VERSION
 # //******************************************************************************
 
 def loadFactorCache( ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'rb' ) ) as pickleFile:
-            g.factorCache = pickle.load( pickleFile )
-    except FileNotFoundError:
-        g.factorCache = { }
+    if doesCacheExist( 'factor' ):
+        db = sqlite3.connect( getCacheFileName( 'factor' ) )
+        cursor = db.cursor( )
+    else:
+        db, cursor = createCache( 'factor' )
+
+    g.databases[ 'factor' ] = db
+    g.cursors[ 'factor' ] = cursor
+
+
+# //******************************************************************************
+# //
+# //  lookUpFactors
+# //
+# //******************************************************************************
+
+def lookUpFactors( f ):
+    if 'factor' not in g.cursors:
+        loadFactorCache( )
+
+    return lookUpCache( g.cursors[ 'factor' ], repr( f ) )
 
 
 # //******************************************************************************
@@ -53,8 +70,7 @@ def loadFactorCache( ):
 
 def saveFactorCache( ):
     with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( g.factorCache, pickleFile )
+        g.databases[ 'factor' ].close( )
 
 
 # //******************************************************************************
@@ -245,13 +261,13 @@ def saveOperatorCache( operatorCache, name ):
 
 # //******************************************************************************
 # //
-# //  cachedFunction
+# //  oldCachedFunction
 # //
 # //  The caches are saved once when flushDirtyCaches is called by main( ).
 # //
 # //******************************************************************************
 
-def cachedFunction( name ):
+def oldCachedFunction( name ):
     def namedCachedFunction( func ):
         @functools.wraps( func )
         def cacheResults( *args, **kwargs ):
@@ -277,16 +293,192 @@ def cachedFunction( name ):
 
 # //******************************************************************************
 # //
-# //  flushDirtyCaches
+# //  cachedFunction
+# //
+# //  The caches are saved once when flushDirtyCaches is called by main( ).
 # //
 # //******************************************************************************
 
-def flushDirtyCaches( ):
-    for name in g.dirtyCaches:
-        saveOperatorCache( g.operatorCaches[ name ], name )
+def cachedFunction( name ):
+    def namedCachedFunction( func ):
+        @functools.wraps( func )
+        def cacheResults( *args, **kwargs ):
+            if name not in g.databases:
+                g.databases[ name ], g.cursors[ name ] = openCache( name )
+
+            found, value = lookUpCache( g.cursors[ name ], repr( args ) )
+
+            if found:
+                return value
+            else:
+                result = func( *args, **kwargs )
+                saveToCache( g.databases[ name ], g.cursors[ name ], repr( args ), repr( result ) )
+                return result
+
+        return cacheResults
+
+    return namedCachedFunction
+
+
+# //******************************************************************************
+# //
+# //  oldFlushDirtyCaches
+# //
+# //******************************************************************************
+
+def oldFlushDirtyCaches( ):
+    with DelayedKeyboardInterrupt( ):
+        for name in g.dirtyCaches:
+            saveOperatorCache( g.operatorCaches[ name ], name )
 
     g.dirtyCaches.clear( )
 
     if g.factorCacheIsDirty:
         saveFactorCache( )
+
+
+# //******************************************************************************
+# //
+# //  flushDirtyCaches
+# //
+# //******************************************************************************
+
+def flushDirtyCaches( ):
+    for name in g.databases:
+        g.databases[ name ].close( )
+
+    g.databases.clear( )
+    g.cursors.clear( )
+
+
+# //******************************************************************************
+# //
+# //  getCacheFileName
+# //
+# //******************************************************************************
+
+def getCacheFileName( name ):
+    return g.dataDir + os.sep + name
+
+
+# //******************************************************************************
+# //
+# //  createCache
+# //
+# //******************************************************************************
+
+def createCache( name ):
+    db = sqlite3.connect( getCacheFileName( name ) )
+
+    cursor = db.cursor( )
+    cursor.execute( '''CREATE TABLE cache( id TEXT PRIMARY KEY, value TEXT )''' )
+    db.commit( )
+
+    return db, cursor
+
+
+# //******************************************************************************
+# //
+# //  doesCacheExist
+# //
+# //******************************************************************************
+
+def doesCacheExist( name ):
+    return os.path.isfile( getCacheFileName( name ) )
+
+
+# //******************************************************************************
+# //
+# //  deleteCache
+# //
+# //******************************************************************************
+
+def deleteCache( name ):
+    if doesCacheExist( name ):
+        os.remove( getCacheFileName( name ) )
+
+
+# //******************************************************************************
+# //
+# //  openCache
+# //
+# //******************************************************************************
+
+def openCache( name ):
+    if doesCacheExist( name ):
+        db = sqlite3.connect( getCacheFileName( name ) )
+        cursor = db.cursor( )
+    else:
+        db, cursor = createCache( name )
+
+    return db, cursor
+
+
+# //******************************************************************************
+# //
+# //  lookUpCache
+# //
+# //******************************************************************************
+
+def lookUpCache( cursor, key ):
+    try:
+        cursor.execute( '''SELECT value FROM cache WHERE id=?''', ( key, ) )
+    except sqlite3.DatabaseError:
+        return False, None
+    except sqlite3.IntegrityError:
+        return False, None
+
+    result = cursor.fetchone( )
+
+    if result is None:
+        return False, None
+    else:
+        return True, eval( result[ 0 ] )
+
+
+# //******************************************************************************
+# //
+# //  saveToCache
+# //
+# //******************************************************************************
+
+def saveToCache( db, cursor, key, value, commit=True ):
+    cursor.execute( '''INSERT INTO cache( id, value ) VALUES( ?, ? )''', ( key, value ) )
+
+    if commit:
+        db.commit( )
+
+
+# //******************************************************************************
+# //
+# //  createPrimeCache
+# //
+# //******************************************************************************
+
+def createPrimeCache( name ):
+    db = sqlite3.connect( getCacheFileName( name ) )
+
+    cursor = db.cursor( )
+    cursor.execute( '''CREATE TABLE cache( id INTEGER PRIMARY KEY, value INTEGER )''' )
+    db.commit( )
+
+    return db, cursor
+
+
+# //******************************************************************************
+# //
+# //  openPrimeCache
+# //
+# //******************************************************************************
+
+def openPrimeCache( name ):
+    if name in g.cursors:
+        return g.cursors[ name ]
+    else:
+        try:
+            g.databases[ name ] = sqlite3.connect( getCacheFileName( name ) )
+            g.cursors[ name ] = g.databases[ name ].cursor( )
+        except:
+            print( 'prime number table ' + name + ' can\'t be found, please run preparePrimeData.py' )
+
 

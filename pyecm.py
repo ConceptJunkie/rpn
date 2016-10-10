@@ -4,14 +4,29 @@
 You should install psyco and gmpy if you want maximal speed.
 
 Filename: pyecm
-Authors: Eric Larson <elarson3@uoregon.edu>, Martin Kelly <martin@martingkelly.com>, Matt Ford <zeotherm@gmail.com>
+Authors: Eric Larson <elarson3@uoregon.edu>,
+         Martin Kelly <martin@martingkelly.com>,
+         Matt Ford <zeotherm@gmail.com>
+
 License: GNU GPL (see <http://www.gnu.org/licenses/gpl.html> for more information.
-Description: Factors a number using the Elliptic Curve Method, a fast algorithm for numbers < 50 digits.
 
-We are using curves in Suyama's parametrization, but points are in affine coordinates, and the curve is in Wierstrass form.
-The idea is to do many curves in parallel to take advantage of batch inversion algorithms. This gives asymptotically 7 modular multiplications per bit.
+Description: Factors a number using the Elliptic Curve Method, a fast
+algorithm for numbers < 50 digits.
 
-WARNING: pyecm is NOT a general-purpose number theory or elliptic curve library. Many of the functions have confusing calling syntax, and some will rather unforgivingly crash or return bad output if the input is not formatted exactly correctly. That said, there are a couple of functions that you CAN safely import into another program. These are: factors, isprime. However, be sure to read the documentation for each function that you use.
+We are using curves in Suyama's parametrization, but points are in affine
+coordinates, and the curve is in Wierstrass form.
+
+The idea is to do many curves in parallel to take advantage of batch inversion
+algorithms. This gives asymptotically 7 modular multiplications per bit.
+
+WARNING: pyecm is NOT a general-purpose number theory or elliptic curve
+library.  Many of the functions have confusing calling syntax, and some will
+rather unforgivingly crash or return bad output if the input is not formatted
+exactly correctly. That said, there are a couple of functions that you CAN
+safely import into another program. These are: getFactors, isprime.  However,
+be sure to read the documentation for each function that you use.
+
+NOTE:  The original code has been modified by Rick Gutleber for use in rpn.
 '''
 
 import math
@@ -20,6 +35,7 @@ import random
 
 import rpnGlobals as g
 
+from rpnPersistence import lookUpFactors
 from rpnUtils import getExpandedFactorList
 
 
@@ -845,11 +861,13 @@ Yields factors of n.'''
    if f == 1:
       return
 
-   if f in g.factorCache:
+   found, factors = lookUpFactors( f )
+
+   if found:
        if veb and f != 1:
            print( 'cache hit:', f )
 
-       for i in getExpandedFactorList( g.factorCache[ f ] ):
+       for i in getExpandedFactorList( factors ):
            yield i
 
        return
@@ -863,11 +881,13 @@ Yields factors of n.'''
       yield f
       n = n // f
 
-      if n in g.factorCache:
+      found, factors = lookUpFactors( n )
+
+      if found:
           if veb and f != 1:
               print( 'cache hit:', n )
 
-          for i in getExpandedFactorList( g.factorCache[ n ] ):
+          for i in getExpandedFactorList( factors ):
               yield i
 
           return
@@ -880,17 +900,19 @@ Yields factors of n.'''
       return
 
    for factor in sub_sure_factors(f, u, curve_params):
-      if factor in g.factorCache:
+      found, factors = lookUpFactors( factor )
+
+      if found:
           if veb and factor != 1:
               print( 'cache hit:', factor )
 
-          for i in getExpandedFactorList( g.factorCache[ factor ] ):
+          for i in getExpandedFactorList( factors ):
               yield i
 
           return
 
-      if isprime(factor):
-         congrats(f, veb)
+      if isprime( factor ):
+         congrats( f, veb )
          yield factor
       else:
          if veb:
@@ -901,11 +923,13 @@ Yields factors of n.'''
 
       n = n // factor
 
-      if n in g.factorCache:
+      found, factors = lookUpFactors( n )
+
+      if found:
           if veb and n != 1:
               print( 'cache hit:', n )
 
-          for i in getExpandedFactorList( g.factorCache[ n ] ):
+          for i in getExpandedFactorList( factors ):
               yield i
 
           return
@@ -1258,11 +1282,13 @@ Notes:
       yield factor
       n = n // factor
 
-      if n in g.factorCache:
+      found, factors = lookUpFactors( n )
+
+      if found:
           if veb and n != 1:
               print( 'cache hit:', n )
 
-          for i in getExpandedFactorList( g.factorCache[ n ] ):
+          for i in getExpandedFactorList( factors ):
               yield i
 
           return
@@ -1315,11 +1341,13 @@ Notes:
          yield factor
          n = n // factor
 
-         if n in g.factorCache:
+         found, factors = lookUpFactors( n )
+
+         if found:
              if veb and n != 1:
                  print( 'cache hit:', n )
 
-             for i in getExpandedFactorList( g.factorCache[ n ] ):
+             for i in getExpandedFactorList( factors ):
                  yield i
 
              return
@@ -1345,7 +1373,7 @@ Notes:
 
    return
 
-def factors(n, veb, ra, ov, pr):
+def getFactors( n, veb, ra, ov, pr ):
    '''Generates factors of n.
 Strips small primes, then feeds to ecm function.
 
@@ -1385,23 +1413,25 @@ Notes:
          n = n // prime
          yield prime
 
-   if n in g.factorCache:
+   found, factors = lookUpFactors( n )
+
+   if found:
        if veb and n != 1:
            print( 'cache hit:', n )
 
-       for i in getExpandedFactorList( g.factorCache[ n ] ):
+       for i in getExpandedFactorList( factors ):
            yield i
 
        return
 
-   if isprime(n):
+   if isprime( n ):
       yield n
       return
 
    if n == 1:
       return
 
-   for factor in ecm(n, ra, ov, veb, trial_division_bound, pr):
+   for factor in ecm( n, ra, ov, veb, trial_division_bound, pr ):
       yield factor
 
 ### End of algorithm code; beginning of interface code ##
@@ -1510,8 +1540,9 @@ def command_line(veb, ra, ov, pr):
 
       if ov == DUMMY:
          ov = 2*math.log(math.log(n))
-      for factor in factors(n, veb, ra, ov, pr):
-         print(factor)
+
+      for factor in getFactors( n, veb, ra, ov, pr ):
+         print( factor )
 
 def interactive(veb, ra, ov, pr):
    print('pyecm v. {0} (interactive mode):'.format(VERSION))
@@ -1547,7 +1578,7 @@ def interactive(veb, ra, ov, pr):
 
       if ov == DUMMY:
          ov = 2*math.log(math.log(n))
-      for factor in factors(n, veb, ra, ov, pr):
+      for factor in getFactors(n, veb, ra, ov, pr):
          print(factor)
       print()
       user_input = input()

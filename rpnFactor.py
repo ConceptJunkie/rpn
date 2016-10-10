@@ -24,7 +24,7 @@ from mpmath import ceil, fabs, floor, fprod, log, log10, mp, power
 
 import rpnGlobals as g
 
-from rpnPersistence import loadFactorCache, saveFactorCache
+from rpnPersistence import lookUpFactors, saveToCache
 from rpnPrimes import primes
 from rpnSettings import setAccuracy
 from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList, real, real_int
@@ -380,11 +380,13 @@ def getPrimeFactors( n, verbose = False ):
 
     remaining, smallFactors = getSmallFactors( n, verbose )
 
-    if remaining > 1 and g.factorCache is not None:
-        if remaining in g.factorCache:
+    if remaining > 1:
+        found, factors = lookUpFactors( remaining )
+        if found:
             if verbose:
                 print( 'cache hit:', remaining )
-            largeFactors.extend( g.factorCache[ remaining ] )
+
+            largeFactors.extend( factors )
             remaining = 1
 
     while remaining > 1:
@@ -518,14 +520,13 @@ def getFactors( n ):
         setAccuracy( dps )
 
     if target > g.minValueToCache:
-        if g.factorCache is None:
-            loadFactorCache( )
+        found, factors = lookUpFactors( target )
 
-        if target in g.factorCache:
+        if found:
             if verbose:
                 print( 'cache hit:', target )
 
-            return g.factorCache[ target ]
+            return factors
 
     smallFactors, largeFactors, qPrimes = getPrimeFactors( int( n ), verbose )
 
@@ -569,15 +570,19 @@ def getFactors( n ):
     result.extend( smallFactors )
     result.extend( largeFactors )
 
-    if g.factorCache is not None:
-        product = int( fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] ) )
+    product = int( fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] ) )
 
-        if product not in g.factorCache:
-            g.factorCache[ product ] = largeFactors
-            g.factorCacheIsDirty = True
+    found = lookUpFactors( product )[ 0 ]
 
-        if n > g.minValueToCache and n not in g.factorCache:
-            g.factorCache[ n ] = result
+    if not found:
+        saveToCache( g.databases[ 'factor' ], g.cursors[ 'factor' ], repr( product ), repr( largeFactors ) )
+        g.factorCacheIsDirty = True
+
+    if n > g.minValueToCache:
+        found = lookUpFactors( n )[ 0 ]
+
+        if not found:
+            saveToCache( g.databases[ 'factor' ], g.cursors[ 'factor' ], repr( n ), repr( result ) )
             g.factorCacheIsDirty = True
 
     return result
@@ -604,7 +609,7 @@ def getFactorList( n ):
 # //******************************************************************************
 
 def getECMFactors( target ):
-    from pyecm import factors
+    from pyecm import getFactors
 
     n = int( floor( target ) )
 
@@ -625,19 +630,18 @@ def getECMFactors( target ):
     if verbose:
         print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), ' digits)...' )
 
-    if g.factorCache is None:
-        loadFactorCache( )
+    found, factors = lookUpFactors( n )
 
-    if n in g.factorCache:
+    if found:
         if verbose and n != 1:
             print( 'cache hit:', n )
             print( )
 
-        return g.factorCache[ n ]
+        return factors
 
     result = [ ]
 
-    for factor in factors( n, verbose, randomSigma, asymptoticSpeed, processingPower ):
+    for factor in getFactors( n, verbose, randomSigma, asymptoticSpeed, processingPower ):
         result.append( factor )
 
     result = [ int( i ) for i in result ]
@@ -647,15 +651,20 @@ def getECMFactors( target ):
 
     save = False
 
-    if product not in g.factorCache:
-        g.factorCache[ product ] = largeFactors
+    found = lookUpFactors( product )[ 0 ]
+
+    if not found:
+        saveToCache( g.databases[ 'factor' ], g.cursors[ 'factor' ], repr( product ), repr( largeFactors ) )
         save = True
 
     result = list( collections.Counter( result ).items( ) )
 
-    if n > g.minValueToCache and n not in g.factorCache:
-        g.factorCache[ n ] = result
-        g.factorCacheIsDirty = True
+    if n > g.minValueToCache:
+        found = lookUpFactors( n )[ 0 ]
+
+        if not found:
+            saveToCache( g.databases[ 'factor' ], g.cursors[ 'factor' ], repr( n ), repr( result ) )
+            g.factorCacheIsDirty = True
 
     if verbose:
         print( )

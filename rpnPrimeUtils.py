@@ -21,121 +21,11 @@ import sys
 
 from mpmath import arange, fadd, fmul
 
+from rpnPersistence import openPrimeCache
+
 import rpnGlobals as g
 
 from rpnUtils import real_int
-
-
-# //******************************************************************************
-# //
-# //  globals
-# //
-# //******************************************************************************
-
-updateDicts = False
-
-balancedPrimes = { }
-cousinPrimes = { }
-doubleBalancedPrimes = { }
-hugePrimes = { }
-isolatedPrimes = { }
-largePrimes = { }
-quadPrimes = { }
-quintPrimes = { }
-sextPrimes = { }
-sexyPrimes = { }
-sexyQuadruplets = { }
-sexyTriplets = { }
-smallPrimes = { }
-sophiePrimes = { }
-superPrimes = { }
-tripleBalancedPrimes = { }
-tripletPrimes = { }
-twinPrimes = { }
-
-
-# //******************************************************************************
-# //
-# //  loadTable
-# //
-# //******************************************************************************
-
-def loadTable( dataPath, fileName, default ):
-    try:
-        with contextlib.closing( bz2.BZ2File( dataPath + os.sep + fileName + '.pckl.bz2', 'rb' ) ) as pickleFile:
-            primes = pickle.load( pickleFile )
-    except FileNotFoundError:
-        primes = default
-
-    return primes
-
-
-def loadBalancedPrimes( dataPath ):
-    return loadTable( dataPath, 'balanced_primes', { 2 : 5 } )
-
-
-def loadCousinPrimes( dataPath ):
-    return loadTable( dataPath, 'cousin_primes', { 2 : 7 } )
-
-
-def loadDoubleBalancedPrimes( dataPath ):
-    return loadTable( dataPath, 'double_balanced_primes', { 1 : getNthDoubleBalancedPrime( 1 ) } )
-
-
-def loadHugePrimes( dataPath ):
-    return loadTable( dataPath, 'huge_primes', { 1000000000: 22801763489 } )
-
-
-def loadIsolatedPrimes( dataPath ):
-    return loadTable( dataPath, 'isolated_primes', { 2 : 23 } )
-
-
-def loadLargePrimes( dataPath ):
-    return loadTable( dataPath, 'large_primes', { 1000000 : 15485863 } )
-
-
-def loadQuadrupletPrimes( dataPath ):
-    return loadTable( dataPath, 'quad_primes', { 2 : 11 } )
-
-
-def loadQuintupletPrimes( dataPath ):
-    return loadTable( dataPath, 'quint_primes', { 3 : 11 } )
-
-
-def loadSextupletPrimes( dataPath ):
-    return loadTable( dataPath, 'sext_primes', { 1 : 7 } )
-
-
-def loadSexyPrimes( dataPath ):
-    return loadTable( dataPath, 'sexy_primes', { 2 : 7 } )
-
-
-def loadSexyQuadrupletPrimes( dataPath ):
-    return loadTable( dataPath, 'sexy_quadruplets', { 2 : 11 } )
-
-
-def loadSexyTripletPrimes( dataPath ):
-    return loadTable( dataPath, 'sexy_triplets', { 2 : 7 } )
-
-
-def loadSmallPrimes( dataPath ):
-    return loadTable( dataPath, 'small_primes', { 4 : 7 } )
-
-
-def loadSophiePrimes( dataPath ):
-    return loadTable( dataPath, 'sophie_primes', { 4 : 11 } )
-
-
-def loadTripleBalancedPrimes( dataPath ):
-    return loadTable( dataPath, 'triple_balanced_primes', { 1 : getNthTripleBalancedPrime( 1 ) } )
-
-
-def loadTripletPrimes( dataPath ):
-    return loadTable( dataPath, 'triplet_primes', { 2 : 7 } )
-
-
-def loadTwinPrimes( dataPath ):
-    return loadTable( dataPath, 'twin_primes', { 3 : 11 } )
 
 
 # //******************************************************************************
@@ -166,12 +56,6 @@ def isPrime( arg ):
 # rpn 10 4 primorial 9 - range x [ 2 3 5 7 ] is_div sum unfilter
 
 # simpler version:   rpn 3 x [ 2 3 ] + eval
-
-# rpn 10 219 range x 7 is_div unfilter x 5 is_div unfilter x 3 is_div unfilter x 2 is_div unfilter
-#
-# [ 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79,
-# 83, 89, 97, 101, 103, 107, 109, 113, 121, 127, 131, 137, 139, 143, 149,
-# 151, 157, 163, 167, 169, 173, 179, 181, 187, 191, 193, 197, 199, 209, 211 ]
 
 
 # //******************************************************************************
@@ -211,10 +95,14 @@ def getNextPrimeCandidate( p ):
 # //  need to check 43 values out of the next 210, which eliminates all multiples
 # //  of 2, 3, 5, and 7 and saves us a lot of unnecessary checking.
 # //
-# //  We only need to check for a prime if ( p - 10 ) mod 210 is 1, 3, 7, 9, 13, 19,
-# //  21, 27 31, 33, 37, 43, 49, 51, 57, 61, 63, 69, 73, 79, 87, 91, 93, 97, 99,
-# //  103, 117, 121, 127, 129, 139, 141, 147, 153, 157, 163, 169, 171, 181, 183,
-# //  187, 189, or 201.
+# //  We only need to check for a prime if ( p - 10 ) mod 210 is one of the
+# //  following:
+# //
+# //  1, 3, 7, 9, 13, 19, 21, 27, 31, 33, 37, 43, 49, 51, 57, 61, 63, 69, 73,
+# //  79, 87, 91, 93, 97, 99, 103, 111, 117, 121, 127, 129, 133, 139, 141, 147,
+# //  153, 157, 159, 163, 169, 171, 177, 181, 183, 187, 189, 199, 201
+# //
+# //  rpn 10 219 range lambda x 7 is_div unfilter lambda x 5 is_div unfilter lambda x 3 is_div unfilter lambda x 2 is_div unfilter 10 -
 # //
 # //******************************************************************************
 
@@ -248,23 +136,28 @@ def getNextPrimeCandidateForAny( p ):
         93 : 4, 94 : 3, 95 : 2, 96 : 1,
         97 : 2, 98 : 1,
         99 : 4, 100 : 3, 101 : 2, 102 : 1,
-        103 : 14, 104 : 13, 105 : 12, 106 : 11, 107 : 10, 108 : 9, 109 : 8, 110 : 7, 111 : 6, 112 : 5, 113 : 4, 114 : 3, 115 : 2, 116 : 1,
+        103 : 8, 104 : 7, 105 : 6, 106 : 5, 107 : 4, 108 : 3, 109 : 2, 110 : 1,
+        111 : 6, 112 : 5, 113 : 4, 114 : 3, 115 : 2, 116 : 1,
         117 : 4, 118 : 3, 119 : 2, 120 : 1,
         121 : 6, 122 : 5, 123 : 4, 124 : 3, 125 : 2, 126 : 1,
         127 : 2, 128 : 1,
-        129 : 10, 130 : 9, 131 : 8, 132 : 7, 133 : 6, 134 : 5, 135 : 4, 136 : 3, 137 : 2, 138 : 1,
+        129 : 4, 130 : 3, 131 : 2, 132 : 1,
+        133 : 6, 134 : 5, 135 : 4, 136 : 3, 137 : 2, 138 : 1,
         139 : 2, 140 : 1,
         141 : 6, 142 : 5, 143 : 4, 144 : 3, 145 : 2, 146 : 1,
         147 : 6, 148 : 5, 149 : 4, 150 : 3, 151 : 2, 152 : 1,
         153 : 4, 154 : 3, 155 : 2, 156 : 1,
-        157 : 6, 158 : 5, 159 : 4, 160 : 3, 161 : 2, 162 : 1,
+        157 : 2, 158 : 1,
+        159 : 4, 160 : 3, 161 : 2, 162 : 1,
         163 : 6, 164 : 5, 165 : 4, 166 : 3, 167 : 2, 168 : 1,
         169 : 2, 170 : 1,
-        171 : 10, 172 : 9, 173 : 8, 174 : 7, 175 : 6, 176 : 5, 177 : 4, 178 : 3, 179 : 2, 180 : 1,
+        171 : 6, 172 : 5, 173 : 4, 174 : 3, 175 : 2, 176 : 1,
+        177 : 4, 178 : 3, 179 : 2, 180 : 1,
         181 : 2, 182 : 1,
         183 : 4, 184 : 3, 185 : 2, 186 : 1,
         187 : 2, 188 : 1,
-        189 : 12, 190 : 11, 191 : 10, 192 : 9, 193 : 8, 194 : 7, 195 : 6, 196 : 5, 197 : 4, 198 : 3, 199 : 2, 200 : 1,
+        189 : 10, 190 : 9, 191 : 8, 192 : 7, 193 : 6, 194 : 5, 195 : 4, 196 : 3, 197 : 2, 198 : 1,
+        199 : 2, 200 : 1,
         201 : 10, 202 : 9, 203 : 8, 204 : 7, 205 : 6, 206 : 5, 207 : 4, 208 : 3, 209 : 2
     }
 
@@ -309,11 +202,6 @@ def getNextPrimes( p, k, func = getNextPrimeCandidate ):
 # //******************************************************************************
 
 def getNthPrime( arg ):
-    global smallPrimes
-    global largePrimes
-    global hugePrimes
-    global updateDicts
-
     n = int( arg )
 
     if n < 1:
@@ -325,29 +213,27 @@ def getNthPrime( arg ):
     elif n == 3:
         return 5
     elif n >= 1000000000:
-        if hugePrimes == { }:
-            hugePrimes = loadHugePrimes( g.dataPath )
+        openPrimeCache( 'huge_primes' )
 
-        maxIndex = max( key for key in hugePrimes )
+        maxIndex = g.cursors[ 'huge_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        currentIndex = max( key for key in hugePrimes if key <= n )
-        p = hugePrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'huge_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     elif n >= 1000000:
-        if largePrimes == { }:
-            largePrimes = loadLargePrimes( g.dataPath )
+        openPrimeCache( 'large_primes' )
 
-        currentIndex = max( key for key in largePrimes if key <= n )
-        p = largePrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'large_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     elif n >= 100:
-        if smallPrimes == { }:
-            smallPrimes = loadSmallPrimes( g.dataPath )
+        openPrimeCache( 'small_primes' )
 
-        currentIndex = max( key for key in smallPrimes if key <= n )
-        p = smallPrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'small_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 4
         p = 7
@@ -355,12 +241,6 @@ def getNthPrime( arg ):
     while n > currentIndex:
         p = getNextPrime( p )
         currentIndex += 1
-
-    if updateDicts:
-        if n >= 1000000:
-            largePrimes[ n ] = p
-        else:
-            smallPrimes[ n ] = p
 
     return p
 
@@ -372,10 +252,6 @@ def getNthPrime( arg ):
 # //******************************************************************************
 
 def findPrime( arg ):
-    global smallPrimes
-    global largePrimes
-    global hugePrimes
-
     target = int( arg )
 
     if target < 3:
@@ -390,23 +266,20 @@ def findPrime( arg ):
         currentIndex = 4
         p = 7
     elif target < 15485863:     # 1,000,000th prime
-        if smallPrimes == { }:
-            smallPrimes = loadSmallPrimes( g.dataPath )
+        openPrimeCache( 'small_primes' )
 
-        currentIndex = max( key for key in smallPrimes if smallPrimes[ key ] <= target )
-        p = smallPrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'small_primes' ].execute(
+            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( target, ) ).fetchone( )
     elif target < 22801763489:  # 1,000,000,000th prime
-        if largePrimes == { }:
-            largePrimes = loadLargePrimes( g.dataPath )
+        openPrimeCache( 'large_primes' )
 
-        currentIndex = max( key for key in largePrimes if largePrimes[ key ] <= target )
-        p = largePrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'large_primes' ].execute(
+            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( target, ) ).fetchone( )
     else:
-        if hugePrimes == { }:
-            hugePrimes = loadHugePrimes( g.dataPath )
+        openPrimeCache( 'huge_primes' )
 
-        currentIndex = max( key for key in hugePrimes if hugePrimes[ key ] <= target )
-        p = hugePrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'huge_primes' ].execute(
+            '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( target, ) ).fetchone( )
 
     while True:
         p = getNextPrime( p )
@@ -423,8 +296,6 @@ def findPrime( arg ):
 # //******************************************************************************
 
 def findQuadrupletPrimes( arg ):
-    global quadPrimes
-
     n = int( real_int( arg ) )
 
     if n < 5:
@@ -432,11 +303,10 @@ def findQuadrupletPrimes( arg ):
     elif n < 11:
         return 2, [ 11, 13, 17, 19 ]
 
-    if quadPrimes == { }:
-        quadPrimes = loadQuadrupletPrimes( g.dataPath )
+    openPrimeCache( 'quad_primes' )
 
-    currentIndex = max( key for key in quadPrimes if quadPrimes[ key ] <= n )
-    p = quadPrimes[ currentIndex ]
+    currentIndex, p = g.cursors[ 'quad_primes' ].execute(
+        '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
 
     while True:
         p += 30
@@ -455,9 +325,6 @@ def findQuadrupletPrimes( arg ):
 # //******************************************************************************
 
 def getNthQuadrupletPrime( arg ):
-    global quadPrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -468,17 +335,17 @@ def getNthQuadrupletPrime( arg ):
         return 11
 
     if n >= 10:
-        if quadPrimes == { }:
-            quadPrimes = loadQuadrupletPrimes( g.dataPath )
+        openPrimeCache( 'quad_primes' )
 
-        maxIndex = max( key for key in quadPrimes )
+        maxIndex = g.cursors[ 'quad_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        startingPlace = max( key for key in quadPrimes if key <= n )
-        p = quadPrimes[ startingPlace ]
+        startingPlace, p = g.cursors[ 'quad_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         startingPlace = 2
         p = 11
@@ -490,9 +357,6 @@ def getNthQuadrupletPrime( arg ):
         if isPrime( p ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ):
             n -= 1
 
-    if updateDicts:
-        quadPrimes[ int( arg ) ] = p
-
     return p
 
 
@@ -503,9 +367,6 @@ def getNthQuadrupletPrime( arg ):
 # //******************************************************************************
 
 def getNthIsolatedPrime( arg ):
-    global isolatedPrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -515,11 +376,10 @@ def getNthIsolatedPrime( arg ):
     elif n == 2:
         return 23
     elif n >= 1000:
-        if isolatedPrimes == { }:
-            isolatedPrimes = loadIsolatedPrimes( g.dataPath )
+        openPrimeCache( 'isolated_primes' )
 
-        currentIndex = max( key for key in isolatedPrimes if key <= n )
-        p = isolatedPrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'isolated_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 2
         p = 23
@@ -529,9 +389,6 @@ def getNthIsolatedPrime( arg ):
 
         if not isPrime( p - 2 ) and not isPrime( p + 2 ):
             currentIndex += 1
-
-    if updateDicts:
-        isolatedPrimes[ n ] = p
 
     return p
 
@@ -565,9 +422,6 @@ def getNextTwinPrimeCandidate( p ):
 # //******************************************************************************
 
 def getNthTwinPrime( arg ):
-    global twinPrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -580,17 +434,17 @@ def getNthTwinPrime( arg ):
         return 11
 
     if n >= 100:
-        if twinPrimes == { }:
-            twinPrimes = loadTwinPrimes( g.dataPath )
+        openPrimeCache( 'twin_primes' )
 
-        maxIndex = max( key for key in twinPrimes )
+        maxIndex = g.cursors[ 'twin_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        currentIndex = max( key for key in twinPrimes if key <= n )
-        p = twinPrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'twin_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 3
         p = 11
@@ -600,9 +454,6 @@ def getNthTwinPrime( arg ):
 
         if isPrime( p + 2 ):
             currentIndex += 1
-
-    if updateDicts:
-        twinPrimes[ int( arg ) ] = p
 
     return p
 
@@ -627,8 +478,6 @@ def getNthTwinPrimeList( arg ):
 # //******************************************************************************
 
 def getNthBalancedPrime( arg ):
-    global balancedPrimes
-    global updateDicts
 
     n = int( real_int( arg ) )
 
@@ -639,17 +488,17 @@ def getNthBalancedPrime( arg ):
     elif n == 2:
         return 5
     elif n >= 100:
-        if balancedPrimes == { }:
-            balancedPrimes = loadBalancedPrimes( g.dataPath )
+        openPrimeCache( 'balanced_primes' )
 
-        maxIndex = max( key for key in balancedPrimes )
+        maxIndex = g.cursors[ 'balanced_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        currentIndex = max( key for key in balancedPrimes if key < n )
-        p = balancedPrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'balanced_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
         prevPrime = 0
         secondPrevPrime = 0
     else:
@@ -667,9 +516,6 @@ def getNthBalancedPrime( arg ):
         if n > currentIndex:
             secondPrevPrime = prevPrime
             prevPrime = p
-
-    if updateDicts:
-        balancedPrimes[ int( arg ) ] = secondPrevPrime
 
     return secondPrevPrime
 
@@ -695,9 +541,6 @@ def getNthBalancedPrimeList( arg ):
 # //******************************************************************************
 
 def getNthDoubleBalancedPrime( arg, first = False ):
-    global doubleBalancedPrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -705,19 +548,19 @@ def getNthDoubleBalancedPrime( arg, first = False ):
     elif n == 1:
         return 18713
 
-    if doubleBalancedPrimes == { }:
-        doubleBalancedPrimes = loadDoubleBalancedPrimes( g.dataPath )
+    openPrimeCache( 'double_balanced_primes' )
 
-    maxIndex = max( key for key in doubleBalancedPrimes )
+    maxIndex = g.cursors[ 'double_balanced_primes' ].execute(
+        '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-    if n > maxIndex and not updateDicts:
+    if n > maxIndex:
         sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                           format( n, maxIndex ) )
 
-    currentIndex = max( key for key in doubleBalancedPrimes if key <= n )
     primes = [ ]
 
-    p = doubleBalancedPrimes[ currentIndex ]
+    currentIndex, p = g.cursors[ 'double_balanced_primes' ].execute(
+        '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
 
     primes = [ p ]
 
@@ -736,9 +579,6 @@ def getNthDoubleBalancedPrime( arg, first = False ):
             currentIndex += 1
 
     result = primes[ 0 ] if first else primes[ 2 ]
-
-    if updateDicts:
-        doubleBalancedPrimes[ n ] = result
 
     return result
 
@@ -767,9 +607,6 @@ def getNthDoubleBalancedPrimeList( arg ):
 # //******************************************************************************
 
 def getNthTripleBalancedPrime( arg, first = False ):
-    global tripleBalancedPrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -777,18 +614,17 @@ def getNthTripleBalancedPrime( arg, first = False ):
     elif n == 1:
         return 683747
 
-    if tripleBalancedPrimes == { }:
-        tripleBalancedPrimes = loadTripleBalancedPrimes( g.dataPath )
+    openPrimeCache( 'triple_balanced_primes' )
 
-    maxIndex = max( key for key in tripleBalancedPrimes )
+    maxIndex = g.cursors[ 'triple_balanced_primes' ].execute(
+        '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-    if n > maxIndex and not updateDicts:
+    if n > maxIndex:
         sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                           format( n, maxIndex ) )
 
-    currentIndex = max( key for key in tripleBalancedPrimes if key <= n )
-
-    p = tripleBalancedPrimes[ currentIndex ]
+    currentIndex, p = g.cursors[ 'triple_balanced_primes' ].execute(
+        '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
 
     primes = [ p ]
 
@@ -808,9 +644,6 @@ def getNthTripleBalancedPrime( arg, first = False ):
             currentIndex += 1
 
     result = primes[ 0 ] if first else primes[ 3 ]
-
-    if updateDicts:
-        tripleBalancedPrimes[ n ] = result
 
     return result
 
@@ -839,9 +672,6 @@ def getNthTripleBalancedPrimeList( arg ):
 # //******************************************************************************
 
 def getNthSophiePrime( arg ):
-    global sophiePrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -854,17 +684,17 @@ def getNthSophiePrime( arg ):
         return 5
 
     if n >= 100:
-        if sophiePrimes == { }:
-            sophiePrimes = loadSophiePrimes( g.dataPath )
+        openPrimeCache( 'sophie_primes' )
 
-        maxIndex = max( key for key in sophiePrimes )
+        maxIndex = g.cursors[ 'sophie_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        currentIndex = max( key for key in sophiePrimes if key <= n )
-        p = sophiePrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'sophie_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 4
         p = 11
@@ -874,9 +704,6 @@ def getNthSophiePrime( arg ):
 
         if isPrime( 2 * p + 1 ):
             currentIndex += 1
-
-    if updateDicts:
-        sophiePrimes[ int( arg ) ] = p
 
     return p
 
@@ -892,9 +719,6 @@ def getNthSophiePrime( arg ):
 # //******************************************************************************
 
 def getNthCousinPrime( arg ):
-    global cousinPrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -902,17 +726,17 @@ def getNthCousinPrime( arg ):
     elif n == 1:
         return 3
     elif n >= 100:
-        if cousinPrimes == { }:
-            cousinPrimes = loadCousinPrimes( g.dataPath )
+        openPrimeCache( 'cousin_primes' )
 
-        maxIndex = max( key for key in cousinPrimes )
+        maxIndex = g.cursors[ 'cousin_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        currentIndex = max( key for key in cousinPrimes if key <= n )
-        p = cousinPrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'cousin_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 2
         p = 7
@@ -922,9 +746,6 @@ def getNthCousinPrime( arg ):
 
         if isPrime( p + 4 ):
             currentIndex += 1
-
-    if updateDicts:
-        cousinPrimes[ int( arg ) ] = p
 
     return p
 
@@ -975,9 +796,6 @@ def getNextSexyPrimeCandidate( p ):
 # //******************************************************************************
 
 def getNthSexyPrime( arg ):
-    global sexyPrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -985,17 +803,17 @@ def getNthSexyPrime( arg ):
     elif n == 1:
         return 5
     elif n >= 100:
-        if sexyPrimes == { }:
-            sexyPrimes = loadSexyPrimes( g.dataPath )
+        openPrimeCache( 'sexy_primes' )
 
-        maxIndex = max( key for key in sexyPrimes )
+        maxIndex = g.cursors[ 'sexy_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        startingPlace = max( key for key in sexyPrimes if key <= n )
-        p = sexyPrimes[ startingPlace ]
+        startingPlace, p = g.cursors[ 'sexy_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         startingPlace = 2
         p = 7
@@ -1005,9 +823,6 @@ def getNthSexyPrime( arg ):
 
         if isPrime( p + 6 ):
             n -= 1
-
-    if updateDicts:
-        sexyPrimes[ int( arg ) ] = p
 
     return p
 
@@ -1030,9 +845,6 @@ def getNthSexyPrimeList( arg ):
 # //******************************************************************************
 
 def getNthSexyTriplet( arg ):
-    global sexyTriplets
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -1042,17 +854,17 @@ def getNthSexyTriplet( arg ):
     elif n == 2:
         return 7
     elif n >= 100:
-        if sexyTriplets == { }:
-            sexyTriplets = loadSexyTripletPrimes( g.dataPath )
+        openPrimeCache( 'sexy_triplets' )
 
-        maxIndex = max( key for key in sexyTriplets )
+        maxIndex = g.cursors[ 'sexy_triplets' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        startingPlace = max( key for key in sexyTriplets if key <= n )
-        p = sexyTriplets[ startingPlace ]
+        startingPlace, p = g.cursors[ 'sexy_triplets' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         startingPlace = 2
         p = 7
@@ -1069,9 +881,6 @@ def getNthSexyTriplet( arg ):
 
         if isPrime( p ) and isPrime( p + 6 ) and isPrime( p + 12 ):
             n -= 1
-
-    if updateDicts:
-        sexyTriplets[ int( arg ) ] = p
 
     return p
 
@@ -1094,9 +903,6 @@ def getNthSexyTripletList( arg ):
 # //******************************************************************************
 
 def getNthSexyQuadruplet( arg ):
-    global sexyQuadruplets
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -1107,17 +913,17 @@ def getNthSexyQuadruplet( arg ):
         startingPlace = 2
         p = 11
     elif n >= 100:
-        if sexyQuadruplets == { }:
-            sexyQuadruplets = loadSexyQuadrupletPrimes( g.dataPath )
+        openPrimeCache( 'sexy_quadruplets' )
 
-            maxIndex = max( key for key in sexyQuadruplets )
+        maxIndex = g.cursors[ 'sexy_quadruplets' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-            if n > maxIndex and not updateDicts:
-                sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
-                                  format( n, maxIndex ) )
+        if n > maxIndex:
+            sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
+                              format( n, maxIndex ) )
 
-        startingPlace = max( key for key in sexyQuadruplets if key <= n )
-        p = sexyQuadruplets[ startingPlace ]
+        startingPlace, p = g.cursors[ 'sexy_quadruplets' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
 
     ten = True
 
@@ -1131,9 +937,6 @@ def getNthSexyQuadruplet( arg ):
 
         if isPrime( p ) and isPrime( p + 6 ) and isPrime( p + 12 ) and isPrime( p + 18 ):
             n -= 1
-
-    if updateDicts:
-        sexyQuadruplets[ int( arg ) ] = p
 
     return p
 
@@ -1156,9 +959,6 @@ def getNthSexyQuadrupletList( arg ):
 # //******************************************************************************
 
 def getNthTripletPrimeList( arg ):
-    global tripletPrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -1169,17 +969,17 @@ def getNthTripletPrimeList( arg ):
         return [ 7, 11, 13 ]
 
     if n >= 100:
-        if tripletPrimes == { }:
-            tripletPrimes = loadTripletPrimes( g.dataPath )
+        openPrimeCache( 'triplet_primes' )
 
-        maxIndex = max( key for key in tripletPrimes )
+        maxIndex = g.cursors[ 'triplet_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        currentIndex = max( key for key in tripletPrimes if key <= n )
-        p = tripletPrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'triplet_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 3
         p = 11
@@ -1206,9 +1006,6 @@ def getNthTripletPrimeList( arg ):
             elif isPrime( p + 4 ):
                 pPlus2 = False
                 currentIndex += 1
-
-    if updateDicts:
-        tripletPrimes[ int( arg ) ] = p
 
     return [ p, p + 2 if pPlus2 else p + 4, p + 6 ]
 
@@ -1265,9 +1062,6 @@ def getNthQuadrupletPrimeList( arg ):
 # //******************************************************************************
 
 def getNthQuintupletPrime( arg ):
-    global quintPrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -1278,17 +1072,17 @@ def getNthQuintupletPrime( arg ):
         return 7
 
     if n >= 10:
-        if quintPrimes == { }:
-            quintPrimes = loadQuintupletPrimes( g.dataPath )
+        openPrimeCache( 'quint_primes' )
 
-        maxIndex = max( key for key in quintPrimes )
+        maxIndex = g.cursors[ 'quint_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        currentIndex = max( key for key in quintPrimes if key <= n )
-        p = quintPrimes[ currentIndex ]
+        currentIndex, p = g.cursors[ 'quint_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         currentIndex = 3
         p = 11
@@ -1302,9 +1096,6 @@ def getNthQuintupletPrime( arg ):
         if ( ( f == 1 ) and isPrime( p + 2 ) and isPrime( p + 6 ) and isPrime( p + 8 ) and isPrime( p + 12 ) ) or \
            ( ( f == 7 ) and isPrime( p + 4 ) and isPrime( p + 6 ) and isPrime( p + 10 ) and isPrime( p + 12 ) ):
             currentIndex += 1
-
-    if updateDicts:
-        quintPrimes[ int( arg ) ] = p
 
     return p
 
@@ -1338,8 +1129,6 @@ def getNthQuintupletPrimeList( arg ):
 # //******************************************************************************
 
 def findQuintupletPrimes( arg ):
-    global quintPrimes
-
     n = int( real_int( arg ) )
 
     if n < 5:
@@ -1347,11 +1136,10 @@ def findQuintupletPrimes( arg ):
     elif n < 7:
         return 2, [ 7, 11, 13, 17, 19 ]
 
-    if quintPrimes == { }:
-        quintPrimes = loadQuintupletPrimes( g.dataPath )
+    openPrimeCache( 'quint_primes' )
 
-    currentIndex = max( key for key in quintPrimes if quintPrimes[ key ] <= n )
-    p = quintPrimes[ currentIndex ]
+    currentIndex, p = g.cursors[ 'quint_primes' ].execute(
+        '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( n, ) ).fetchone( )
 
     while True:
         p += 30
@@ -1376,9 +1164,6 @@ def findQuintupletPrimes( arg ):
 # //******************************************************************************
 
 def getNthSextupletPrime( arg ):
-    global sextPrimes
-    global updateDicts
-
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -1386,17 +1171,17 @@ def getNthSextupletPrime( arg ):
     elif n == 1:
         return 7
     elif n >= 10:
-        if sextPrimes == { }:
-            sextPrimes = loadSextupletPrimes( g.dataPath )
+        openPrimeCache( 'sext_primes' )
 
-        maxIndex = max( key for key in sextPrimes )
+        maxIndex = g.cursors[ 'sext_primes' ].execute(
+            '''SELECT MAX( id ) FROM cache''' ).fetchone( )[ 0 ]
 
-        if n > maxIndex and not updateDicts:
+        if n > maxIndex:
             sys.stderr.write( '{:,} is above the max cached index of {:,}.  This could take some time...\n'.
                               format( n, maxIndex ) )
 
-        startingPlace = max( key for key in sextPrimes if key <= n )
-        p = sextPrimes[ startingPlace ]
+        startingPlace, p = g.cursors[ 'sext_primes' ].execute(
+            '''SELECT MAX( id ), value FROM cache WHERE id <= ?''', ( int( n ), ) ).fetchone( )
     else:
         startingPlace = 1
         p = 7
@@ -1408,9 +1193,6 @@ def getNthSextupletPrime( arg ):
         if isPrime( p ) and isPrime( p + 4 ) and isPrime( p + 6 ) and \
            isPrime( p + 10 ) and isPrime( p + 12 ) + isPrime( 16 ):
             n -= 1
-
-    if updateDicts:
-        sextPrimes[ int( arg ) ] = p
 
     return p
 
@@ -1539,4 +1321,39 @@ def getNthPrimorial( n ):
         result = fmul( result, getNthPrime( i + 1 ) )
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  countCache
+# //
+# //******************************************************************************
+
+def countCache( name ):
+    openPrimeCache( name )
+    return g.cursors[ name ].execute( '''SELECT count( id ) FROM cache''' ).fetchone( )[ 0 ]
+
+
+# //******************************************************************************
+# //
+# //  getMaxPrime
+# //
+# //******************************************************************************
+
+def getMaxPrime( name ):
+    openPrimeCache( name )
+    return g.cursors[ name ].execute( '''SELECT max( id ), value FROM cache''' ).fetchone( )
+
+
+# //******************************************************************************
+# //
+# //  printStats
+# //
+# //******************************************************************************
+
+def printStats( cacheName, name ):
+    count = countCache( cacheName )
+    key, value = getMaxPrime( cacheName )
+
+    print( '{:10,} {:23} max: {:14,} ({:,})'.format( count, name, key, value ) )
 
