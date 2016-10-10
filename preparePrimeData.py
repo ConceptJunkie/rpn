@@ -36,7 +36,7 @@ if not six.PY3:
 def preparePrimeData( baseName ):
     print( 'processing ' + baseName + '...' )
 
-    inputFileName = g.dataDir + os.sep + baseName + '.txt'
+    inputFileName = g.dataPath + os.sep + baseName + '.txt'
 
     deleteCache( baseName )
     db, cursor = createPrimeCache( baseName )
@@ -51,34 +51,6 @@ def preparePrimeData( baseName ):
 
     db.commit( )
     db.close( )
-
-
-# //******************************************************************************
-# //
-# //  oldPreparePrimeData
-# //
-# //******************************************************************************
-
-def oldPreparePrimeData( baseName ):
-    print( 'processing ' + baseName + '...' )
-
-    inputFileName = g.dataDir + os.sep + baseName + '.txt'
-
-    data = { }
-
-    with open( inputFileName, "rU" ) as input:
-        for line in input:
-            try:
-                key, value = line.split( )
-                data[ int( key ) ] = int( value )
-            except:
-                print( 'parsing error in file ' + inputFileName + ': \'' + line + '\'' )
-
-
-    pickleFileName = g.dataDir + os.sep + baseName + '.pckl.bz2'
-
-    with contextlib.closing( bz2.BZ2File( pickleFileName, 'wb' ) ) as pickleFile:
-        pickle.dump( data, pickleFile )
 
 
 # //******************************************************************************
