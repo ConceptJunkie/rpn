@@ -113,6 +113,7 @@ promptCount = 0
 
 # factor cache
 minValueToCache = 10000000
+factorCache = None
 factorCacheIsDirty = False
 
 # location cache
@@ -127,8 +128,6 @@ keywords = [ ]
 # operator caches
 operatorCaches = { }
 dirtyCaches = set( )
-databases = { }
-cursors = { }
 
 # chemistry tables
 elements = None

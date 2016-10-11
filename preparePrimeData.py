@@ -21,8 +21,6 @@ import pickle
 
 import rpnGlobals as g
 
-from rpnPersistence import createPrimeCache, deleteCache, saveToCache
-
 if not six.PY3:
     g.dataDir = "rpndata2"
 
@@ -34,32 +32,6 @@ if not six.PY3:
 # //******************************************************************************
 
 def preparePrimeData( baseName ):
-    print( 'processing ' + baseName + '...' )
-
-    inputFileName = g.dataDir + os.sep + baseName + '.txt'
-
-    deleteCache( baseName )
-    db, cursor = createPrimeCache( baseName )
-
-    with open( inputFileName, "rU" ) as input:
-        for line in input:
-            try:
-                key, value = line.split( )
-                saveToCache( db, cursor, key, value, commit=False )
-            except:
-                print( 'parsing error in file ' + inputFileName + ': \'' + line + '\'' )
-
-    db.commit( )
-    db.close( )
-
-
-# //******************************************************************************
-# //
-# //  oldPreparePrimeData
-# //
-# //******************************************************************************
-
-def oldPreparePrimeData( baseName ):
     print( 'processing ' + baseName + '...' )
 
     inputFileName = g.dataDir + os.sep + baseName + '.txt'
