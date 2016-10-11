@@ -358,7 +358,7 @@ def flushDirtyCaches( ):
 # //******************************************************************************
 
 def getCacheFileName( name ):
-    return g.dataPath + os.sep + name
+    return g.dataDir + os.sep + name
 
 
 # //******************************************************************************
