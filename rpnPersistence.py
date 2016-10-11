@@ -22,6 +22,7 @@ import contextlib
 import functools
 import os
 import pickle
+import sqlite3
 import types
 
 import rpnGlobals as g
@@ -289,4 +290,103 @@ def flushDirtyCaches( ):
 
     if g.factorCacheIsDirty:
         saveFactorCache( )
+
+
+# //******************************************************************************
+# //
+# //  getCacheFileName
+# //
+# //******************************************************************************
+
+def getCacheFileName( name ):
+    return g.dataPath + os.sep + name
+
+
+# //******************************************************************************
+# //
+# //  doesCacheExist
+# //
+# //******************************************************************************
+
+def doesCacheExist( name ):
+    return os.path.isfile( getCacheFileName( name ) )
+
+
+# //******************************************************************************
+# //
+# //  deleteCache
+# //
+# //******************************************************************************
+
+def deleteCache( name ):
+    if doesCacheExist( name ):
+        os.remove( getCacheFileName( name ) )
+
+
+# //******************************************************************************
+# //
+# //  lookUpCache
+# //
+# //******************************************************************************
+
+def lookUpCache( cursor, key ):
+    try:
+        cursor.execute( '''SELECT value FROM cache WHERE id=?''', ( key, ) )
+    except sqlite3.DatabaseError:
+        return False, None
+    except sqlite3.IntegrityError:
+        return False, None
+
+    result = cursor.fetchone( )
+
+    if result is None:
+        return False, None
+    else:
+        return True, eval( result[ 0 ] )
+
+
+# //******************************************************************************
+# //
+# //  saveToCache
+# //
+# //******************************************************************************
+
+def saveToCache( db, cursor, key, value, commit=True ):
+    cursor.execute( '''INSERT INTO cache( id, value ) VALUES( ?, ? )''', ( key, value ) )
+
+    if commit:
+        db.commit( )
+
+
+# //******************************************************************************
+# //
+# //  createPrimeCache
+# //
+# //******************************************************************************
+
+def createPrimeCache( name ):
+    db = sqlite3.connect( getCacheFileName( name ) )
+
+    cursor = db.cursor( )
+    cursor.execute( '''CREATE TABLE cache( id INTEGER PRIMARY KEY, value INTEGER )''' )
+    db.commit( )
+
+    return db, cursor
+
+
+# //******************************************************************************
+# //
+# //  openPrimeCache
+# //
+# //******************************************************************************
+
+def openPrimeCache( name ):
+    if name in g.cursors:
+        return g.cursors[ name ]
+    else:
+        try:
+            g.databases[ name ] = sqlite3.connect( getCacheFileName( name ) )
+            g.cursors[ name ] = g.databases[ name ].cursor( )
+        except:
+            print( 'prime number table ' + name + ' can\'t be found, please run preparePrimeData.py' )
 

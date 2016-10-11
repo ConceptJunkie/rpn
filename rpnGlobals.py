@@ -129,6 +129,10 @@ keywords = [ ]
 operatorCaches = { }
 dirtyCaches = set( )
 
+# prime number data
+databases = { }
+cursors = { }
+
 # chemistry tables
 elements = None
 atomic_numbers = None

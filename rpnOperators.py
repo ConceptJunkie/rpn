@@ -206,6 +206,9 @@ class RPNOperator( object ):
 
         return True
 
+    def generateCalls( self, args ):
+        pass
+
 
 # //******************************************************************************
 # //
@@ -1209,23 +1212,23 @@ def dumpStats( ):
     print( '{:10,} unit conversions'.format( len( g.unitConversionMatrix ) ) )
     print( )
 
-    printStats( loadSmallPrimes( g.dataPath ), 'small primes' )
-    printStats( loadLargePrimes( g.dataPath ), 'large primes' )
-    printStats( loadHugePrimes( g.dataPath ), 'huge primes' )
-    printStats( loadIsolatedPrimes( g.dataPath ), 'isolated primes' )
-    printStats( loadTwinPrimes( g.dataPath ), 'twin primes' )
-    printStats( loadBalancedPrimes( g.dataPath ), 'balanced primes' )
-    printStats( loadDoubleBalancedPrimes( g.dataPath ), 'double balanced primes' )
-    printStats( loadTripleBalancedPrimes( g.dataPath ), 'triple balanced primes' )
-    printStats( loadSophiePrimes( g.dataPath ), 'Sophie Germain primes' )
-    printStats( loadCousinPrimes( g.dataPath ), 'cousin primes' )
-    printStats( loadSexyPrimes( g.dataPath ), 'sexy primes' )
-    printStats( loadTripletPrimes( g.dataPath ), 'triplet primes' )
-    printStats( loadSexyTripletPrimes( g.dataPath ), 'sexy triplet primes' )
-    printStats( loadQuadrupletPrimes( g.dataPath ), 'quadruplet primes' )
-    printStats( loadSexyQuadrupletPrimes( g.dataPath ), 'sexy quadruplet primes' )
-    printStats( loadQuintupletPrimes( g.dataPath ), 'quintuplet primes' )
-    printStats( loadSextupletPrimes( g.dataPath ), 'sextuplet primes' )
+    printStats( 'small_primes', 'small primes' )
+    printStats( 'large_primes', 'large primes' )
+    printStats( 'huge_primes', 'huge primes' )
+    printStats( 'isolated_primes', 'isolated primes' )
+    printStats( 'twin_primes', 'twin primes' )
+    printStats( 'balanced_primes', 'balanced primes' )
+    printStats( 'double_balanced_primes', 'double balanced primes' )
+    printStats( 'triple_balanced_primes', 'triple balanced primes' )
+    printStats( 'sophie_primes', 'Sophie Germain primes' )
+    printStats( 'cousin_primes', 'cousin primes' )
+    printStats( 'sexy_primes', 'sexy primes' )
+    printStats( 'triplet_primes', 'triplet primes' )
+    printStats( 'sexy_triplets', 'sexy triplet primes' )
+    printStats( 'quad_primes', 'quadruplet primes' )
+    printStats( 'sexy_quadruplets', 'sexy quadruplet primes' )
+    printStats( 'quint_primes', 'quintuplet primes' )
+    printStats( 'sext_primes', 'sextuplet primes' )
 
     print( )
 
