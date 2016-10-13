@@ -288,6 +288,7 @@ operatorAliases = {
     'doublebal'                 : 'double_balanced',
     'doublebal_'                : 'double_balanced_',
     'doublefac'                 : 'double_factorial',
+    'dow'                       : 'weekday',
     'dup'                       : 'dup_term',
     'dup_dig'                   : 'dup_digits',
     'dup_op'                    : 'dup_operator',
