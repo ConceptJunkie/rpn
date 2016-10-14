@@ -90,8 +90,8 @@ class RPNGenerator( object ):
         return RPNGenerator( chainedGenerator( generator, func ) )
 
     @staticmethod
-    def createFilter( generator, func ):
-        return RPNGenerator( filterGenerator( generator, func ) )
+    def createFilter( generator, func, invert=False ):
+        return RPNGenerator( filterGenerator( generator, func, invert ) )
 
     @staticmethod
     def createPermutations( value ):
@@ -210,9 +210,9 @@ def chainedGenerator( generator, func ):
 # //
 # //******************************************************************************
 
-def filterGenerator( generator, func ):
+def filterGenerator( generator, func, invert=False ):
     for i in generator:
-        if func( i ):
+        if func( i ) != invert:
             yield( i )
 
 

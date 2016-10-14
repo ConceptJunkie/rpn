@@ -730,7 +730,7 @@ def filterList( n, k, invert = False ):
     result = [ ]
 
     if isinstance( n, RPNGenerator ):
-        return RPNGenerator.createFilter( n.generator, k.getFunction( ) )
+        return RPNGenerator.createFilter( n.generator, k.getFunction( ), invert )
 
     for i in n:
         value = k.evaluate( i )

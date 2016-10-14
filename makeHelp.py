@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 835
+maxExampleCount = 837
 debugMode = False
 
 
@@ -5611,7 +5611,8 @@ A pandigital number contains at least one of all the of the digits 0 through
 '''
 ''',
 '''
-''' ],
+''' + makeCommandExample( '123 permute_digits' ) + '''
+''' + makeCommandExample( '5567 permute_digits' ) ],
 
     'multiply_digits' : [
 'lexicography', 'calculates the product of the digits of integer n',
@@ -5628,8 +5629,10 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''' ],
 
     'permute_digits' : [
-'lexicography', 'genrates all values with lexicographic permutations of the digits of n',
+'lexicography', 'generates all values with lexicographic permutations of the digits of n',
 '''
+This operator takes the individual digits of n and returns a list of all
+lexicographic permutations of the digits.
 ''',
 '''
 ''' ],
@@ -5637,7 +5640,8 @@ A pandigital number contains at least one of all the of the digits 0 through
     'persistence' : [
 'lexicography', 'counts the number of times it takes to successively multiply the digits of n to get a one-digit number',
 '''
-This operator implements 'multiplicative persistence' as described by Martin Gardner:
+This operator implements 'multiplicative persistence' as described by Martin
+Gardner:
 
 "A number's persistence is the number of steps required to reduce it to a
 single digit by multiplying all its digits to obtain a second number, then
