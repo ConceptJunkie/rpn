@@ -727,18 +727,11 @@ def filterList( n, k, invert = False ):
         else:
             raise ValueError( '\'filter\' expects a function argument' )
 
-    result = [ ]
-
-    if isinstance( n, RPNGenerator ):
-        return RPNGenerator.createFilter( n.generator, k.getFunction( ), invert )
-
     for i in n:
         value = k.evaluate( i )
 
         if ( value != 0 ) != invert:
-            result.append( i )
-
-    return result
+            yield i
 
 
 # //******************************************************************************
@@ -1689,7 +1682,7 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     # function
-    'filter'                : RPNOperator( filterList,
+    'filter'                : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k ) ),
                                            2, [ RPNOperator.Generator, RPNOperator.Function ] ),
 
     'filter_by_index'       : RPNOperator( filterListByIndex,
