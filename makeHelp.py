@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 837
+maxExampleCount = 839
 debugMode = False
 
 
@@ -5611,8 +5611,8 @@ A pandigital number contains at least one of all the of the digits 0 through
 '''
 ''',
 '''
-''' + makeCommandExample( '123 permute_digits' ) + '''
-''' + makeCommandExample( '5567 permute_digits' ) ],
+''' + makeCommandExample( '9999 is_trimorphic' ) + '''
+''' + makeCommandExample( '1 50 range is_trimorphic' ) ],
 
     'multiply_digits' : [
 'lexicography', 'calculates the product of the digits of integer n',
@@ -5635,7 +5635,8 @@ This operator takes the individual digits of n and returns a list of all
 lexicographic permutations of the digits.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '123 permute_digits' ) + '''
+''' + makeCommandExample( '5567 permute_digits' ) ],
 
     'persistence' : [
 'lexicography', 'counts the number of times it takes to successively multiply the digits of n to get a one-digit number',

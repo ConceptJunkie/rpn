@@ -306,13 +306,9 @@ def buildNumbers( expression ):
 # //
 # //  buildLimitedDigitNumbers
 # //
-# //  TODO:  This should be creating a generator!
-# //
 # //******************************************************************************
 
 def buildLimitedDigitNumbers( digits, minLength, maxLength ):
-    result = [ ]
-
     if minLength < 1:
         raise ValueError( 'minimum length must be greater than 0' )
 
@@ -326,9 +322,7 @@ def buildLimitedDigitNumbers( digits, minLength, maxLength ):
             for digit in item:
                 number += digit
 
-            result.append( number )
-
-    return result
+            yield number
 
 
 # //******************************************************************************

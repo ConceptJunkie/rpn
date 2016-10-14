@@ -186,11 +186,11 @@ def createDeBruijnSequence( n, k ):
 
     v = [ 0 for _ in range( wordSize ) ]
     l = 1
-    result = [ ]
 
     while True:
         if wordSize % l == 0:
-            result.extend( v[ 0 : l ] )
+            for i in range( 0, l ):
+                yield v[ i ]
 
         for i in range( l, wordSize ):
             v[ i ] = v[ i - l ]
@@ -204,8 +204,6 @@ def createDeBruijnSequence( n, k ):
             break
 
         v[ l - 1 ] += 1
-
-    return result
 
 
 # //******************************************************************************

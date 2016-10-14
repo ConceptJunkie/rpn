@@ -41,15 +41,11 @@ def rollDice( expression ):
 # //******************************************************************************
 
 def rollMultipleDice( expression, times ):
-    result = [ ]
-
     dice = parseDiceExpression( expression )
 
     for i in arange( 0, times ):
         values, modifier = evaluateDiceExpression( dice )
-        result.append( sum( values ) + modifier )
-
-    return result
+        yield sum( values ) + modifier
 
 
 # //******************************************************************************
@@ -69,14 +65,10 @@ def enumerateDice( expression ):
 # //******************************************************************************
 
 def enumerateMultipleDice( expression, times ):
-    result = [ ]
-
     dice = parseDiceExpression( expression )
 
     for i in arange( 0, times ):
-        result.append( evaluateDiceExpression( dice )[ 0 ] )
-
-    return result
+        yield evaluateDiceExpression( dice )[ 0 ]
 
 
 # //******************************************************************************
@@ -95,8 +87,6 @@ def enumerateMultipleDice( expression, times ):
 
 def permuteDice( expression ):
     dice = parseDiceExpression( expression )
-
-    result = [ ]
 
     diceList = [ ]
 
@@ -142,11 +132,9 @@ def permuteDice( expression ):
                     total += sum( group )
 
                 total += modifierTotal
-                result.append( total )
+                yield total
         else:
-            result.append( sum( values ) + modifierTotal )
-
-    return result
+            yield sum( values ) + modifierTotal
 
 
 # //******************************************************************************

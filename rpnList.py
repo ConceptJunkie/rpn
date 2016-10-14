@@ -131,17 +131,13 @@ def collate( argList ):
             if length < 1:
                 length = 1
 
-    result = [ ]
-
     for i in range( 0, length ):
         newSubList = [ ]
 
         for subList in argList:
             newSubList.append( subList[ i ] )
 
-        result.append( newSubList )
-
-    return result
+        yield newSubList
 
 
 # //******************************************************************************
@@ -243,8 +239,6 @@ def enumerateList( args, k ):
 # //******************************************************************************
 
 def getSlice( args, start, end ):
-    result = [ ]
-
     for i in range( int( start ), int( end + 1 ) ):
         yield args[ i ]
 

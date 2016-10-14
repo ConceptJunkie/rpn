@@ -750,15 +750,11 @@ def filterListByIndex( n, k, invert = False ):
         else:
             raise ValueError( '\'filter_by_index\' expects a function argument' )
 
-    result = [ ]
-
     for index, item in enumerate( n ):
         value = k.evaluate( index )
 
         if ( value != 0 ) != invert:
-            result.append( item )
-
-    return result
+            yield item
 
 
 # //******************************************************************************
@@ -1683,15 +1679,15 @@ listOperators = {
 
     # function
     'filter'                : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k ) ),
-                                           2, [ RPNOperator.Generator, RPNOperator.Function ] ),
-
-    'filter_by_index'       : RPNOperator( filterListByIndex,
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
-    'unfilter'              : RPNOperator( lambda n, k: filterList( n, k, True ),
+    'filter_by_index'       : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k ) ),
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
-    'unfilter_by_index'     : RPNOperator( lambda n, k: filterListByIndex( n, k, True ),
+    'unfilter'              : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k, True ) ),
+                                           2, [ RPNOperator.List, RPNOperator.Function ] ),
+
+    'unfilter_by_index'     : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k, True ) ),
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
     # list
@@ -1713,7 +1709,7 @@ listOperators = {
     'append'                : RPNOperator( appendLists,
                                            2, [ RPNOperator.List, RPNOperator.List ] ),
 
-    'collate'               : RPNOperator( collate,
+    'collate'               : RPNOperator( lambda n: RPNGenerator( collate( n ) ),
                                            1, [ RPNOperator.List ] ),
 
     'count'                 : RPNOperator( countElements,
@@ -2386,7 +2382,7 @@ operators = {
     'compositions'                   : RPNOperator( getCompositions,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'debruijn'                       : RPNOperator( createDeBruijnSequence,
+    'debruijn'                       : RPNOperator( lambda n, k: RPNGenerator( createDeBruijnSequence( n, k ) ),
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'lah'                            : RPNOperator( getLahNumber,
@@ -3565,10 +3561,10 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.String ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'enumerate_dice'                 : RPNOperator( enumerateDice,
+    'enumerate_dice'                 : RPNOperator( lambda n: RPNGenerator( enumerateDice( n ) ),
                                                     1, [ RPNOperator.String ] ),
 
-    'enumerate_dice_'                : RPNOperator( enumerateMultipleDice,
+    'enumerate_dice_'                : RPNOperator( lambda n, k: RPNGenerator( enumerateMultipleDice( n, k ) ),
                                                     2, [ RPNOperator.String, RPNOperator.PositiveInteger ] ),
 
     'estimate'                       : RPNOperator( estimate,
@@ -3599,13 +3595,13 @@ operators = {
     'result'                         : RPNOperator( loadResult,
                                                     0, [ ] ),
 
-    'permute_dice'                   : RPNOperator( permuteDice,
+    'permute_dice'                   : RPNOperator( lambda n: RPNGenerator( permuteDice( n ) ),
                                                     1, [ RPNOperator.String ] ),
 
     'roll_dice'                      : RPNOperator( rollDice,
                                                     1, [ RPNOperator.String ] ),
 
-    'roll_dice_'                     : RPNOperator( rollMultipleDice,
+    'roll_dice_'                     : RPNOperator( lambda n, k: RPNGenerator( rollMultipleDice( n, k ) ),
                                                     2, [ RPNOperator.String, RPNOperator.PositiveInteger ] ),
 
     'set'                            : RPNOperator( setVariable,
