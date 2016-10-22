@@ -398,6 +398,25 @@ def getExpandedFactorList( factors ):
 
 # //******************************************************************************
 # //
+# //  getExpandedFactorListSympy
+# //
+# //  Takes a list of tuples where each tuple is a prime factor and an exponent
+# //  and returns a simple list of prime factors.
+# //
+# //******************************************************************************
+
+def getExpandedFactorListSympy( factors ):
+    result = [ ]
+
+    for key in factors:
+        for i in arange( 0, factors[ key ] ):
+            result.append( key )
+
+    return sorted( result )
+
+
+# //******************************************************************************
+# //
 # //  real
 # //
 # //  Skipping the standard naming convention to keep this name really short.

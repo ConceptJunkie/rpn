@@ -2841,6 +2841,9 @@ operators = {
     'factor'                         : RPNOperator( getFactorList,
                                                     1, [ RPNOperator.Integer ] ),
 
+    'factor_sympy'                   : RPNOperator( getFactorListSympy,
+                                                    1, [ RPNOperator.Integer ] ),
+
     'factorial'                      : RPNOperator( lambda n: fac( n ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 

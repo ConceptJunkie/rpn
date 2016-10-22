@@ -496,8 +496,11 @@ Johansson, who did all the heavy lifting (http://mpmath.org).
     ''',
     'bugs' :
     '''
+The pyecm code used for factoring numbers crashes occasionally.  This is likely
+due to my modifications.
+
 '{' and '}' (multiple operators) don't work with generators because the
-generator only works once, I guess.
+generator only works once, and I haven't worked out a way to reset it.
 
 Chained calls to 'next_new_moon' give the same answer over and over.  Other
 related operators probably do the same thing.
@@ -6498,6 +6501,16 @@ a Pythogorean triples, therefore the face diagonals are also integers.
     'factor' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
+rpn uses code from the pyecm project.  It crashes on occasion which is
+probably something I broke.
+''',
+'''
+''' ],
+
+    'factor_sympy' : [
+'number_theory', 'calculates the prime factorization of n using the SymPy library',
+'''
+Sympy is much slower than the pyecm code in rpn, but it also doesn't crash.
 ''',
 '''
 ''' ],

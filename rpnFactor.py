@@ -27,7 +27,8 @@ import rpnGlobals as g
 from rpnPersistence import loadFactorCache, saveFactorCache
 from rpnPrimes import primes
 from rpnSettings import setAccuracy
-from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList, real, real_int
+from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList, \
+                     getExpandedFactorListSympy, real, real_int
 
 
 # //******************************************************************************
@@ -595,6 +596,22 @@ def getFactorList( n ):
         return [ getFactorList( i ) for i in n ]
 
     return getExpandedFactorList( getFactors( n ) )
+
+
+# //******************************************************************************
+# //
+# //  getFactorListSympy
+# //
+# //******************************************************************************
+
+def getFactorListSympy( n ):
+    # We shouldn't have to check for lists here, but something isn't right...
+    if isinstance( n, list ):
+        return [ getFactorListSympy( i ) for i in n ]
+
+    from sympy.ntheory import factorint
+
+    return getExpandedFactorListSympy( factorint( n ) )
 
 
 # //******************************************************************************

@@ -888,7 +888,7 @@ def getSigma( target ):
         result = fmul( result, fdiv( numerator, denominator ) )
 
         if result != floor( result ):
-            raise ValueError( 'insufficient precision for \'sigma\', increase precision (-p))' )
+            raise ValueError( 'insufficient precision for \'sigma\', increase precision using -p or -a)' )
 
     return result
 
@@ -920,7 +920,7 @@ def getSigmaN( n, k ):
         result = fmul( result, fdiv( numerator, denominator ) )
 
         if result != floor( result ):
-            raise ValueError( 'insufficient precision for \'sigma_n\', increase precision (-p))' )
+            raise ValueError( 'insufficient precision for \'sigma_n\', increase precision using -p or -a)' )
 
     return result
 
