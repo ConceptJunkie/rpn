@@ -207,7 +207,7 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
 
     if level < g.listFormatLevel:
         useIndent = True
-        print( indentString + '[', file=file )
+        print( indentString + '[', end='', file=file )
         levelIndent = ' ' * ( level + 1 ) * 4
     else:
         useIndent = False

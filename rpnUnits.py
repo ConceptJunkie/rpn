@@ -2137,13 +2137,13 @@ by Knuth.
                      ''' ),
 
     'footlambert' :
-        RPNUnitInfo( 'luminance', 'footlambert', 'footlamberts', 'fL',
+        RPNUnitInfo( 'luminance', 'footlambert', 'footlamberts', '',
                      [ 'foot-lambert', 'foot-lamberts', 'feet-lambert' ], [ 'US', 'obsolete' ],
                      '''
                      ''' ),
 
     'lambert' :
-        RPNUnitInfo( 'luminance', 'lambert', 'lamberts', 'L',
+        RPNUnitInfo( 'luminance', 'lambert', 'lamberts', '',
                      [ ], [ 'CGS' ],
                      '''
                      ''' ),
@@ -2305,7 +2305,7 @@ by Knuth.
                      ''' ),
 
     'carat' :
-        RPNUnitInfo( 'mass', 'carat', 'carats', 'kt',
+        RPNUnitInfo( 'mass', 'carat', 'carats', 'ct',
                      [ 'karat', 'karats' ], [ 'US' ],
                      '''
                      ''' ),
@@ -3366,7 +3366,7 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
                      ''' ),
 
     'liter' :
-        RPNUnitInfo( 'volume', 'liter', 'liters', 'l',
+        RPNUnitInfo( 'volume', 'liter', 'liters', 'L',    # The U.S. standard is to use uppercase "L" because the lower case 'l' looks like a 1
                      [ ], [ 'SI' ],
                      '''
                      ''' ),
@@ -3674,7 +3674,7 @@ metricUnits = [
     ( 'joule',              'joules',           'J',    [ ], [ ] ),
     ( 'kelvin',             'kelvins',          'K',    [ ], [ ] ),
     ( 'light-year',         'light-years',      'ly',   [ ], [ ] ),
-    ( 'liter',              'liters',           'l',    [ 'litre' ], [ 'litres' ] ),
+    ( 'liter',              'liters',           'L',    [ 'litre' ], [ 'litres' ] ),
     ( 'lumen',              'lumens',           'lm ',  [ ], [ ] ),
     ( 'lux',                'lux',              'lx',   [ ], [ ] ),
     ( 'maxwell',            'maxwells',         'Mx',   [ ], [ ] ),
