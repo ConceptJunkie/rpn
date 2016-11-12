@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 839
+maxExampleCount = 842
 debugMode = False
 
 
@@ -5567,8 +5567,22 @@ on the digits that comprise an integer.
 '''
 ''' ],
 
+    'is_generalized_dudeney' : [
+'lexicography', 'returns whether an integer n is a generalized Dudeney number',
+'''
+''',
+'''
+''' ],
+
     'is_kaprekar' : [
 'lexicography', 'returns whether an integer n is a Kaprekar number',
+'''
+''',
+'''
+''' ],
+
+    'is_k_narcissistic' : [
+'lexicography', 'returns whether an integer n is base-k narcissistic',
 '''
 ''',
 '''
@@ -5608,6 +5622,22 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''' + makeCommandExample( '123456789 is_pandigital' ) + '''
 ''' + makeCommandExample( '1234567890 is_pandigital' ) + '''
 ''' + makeCommandExample( '-a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital' ) ],
+
+    'is_pdi' : [
+'lexicography', 'returns whether an integer n is a perfect digital invariant',
+'''
+''',
+'''
+''' + makeCommandExample( '370 is_pdi' ) + '''
+''' + makeCommandExample( '371 is_pdi' ) + '''
+''' + makeCommandExample( '1 1000 range lambda x is_pdi filter' ) ],
+
+    'is_sum_product' : [
+'lexicography', 'returns whether an integer n is a sum-product number',
+'''
+''',
+'''
+''' ],
 
     'is_trimorphic' : [
 'lexicography', 'returns whether the digits of n cubed end with n',

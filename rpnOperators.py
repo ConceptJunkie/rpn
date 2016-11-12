@@ -2716,8 +2716,14 @@ operators = {
     'is_automorphic'                 : RPNOperator( lambda n: isMorphic( n, 2 ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_generalized_dudeney'         : RPNOperator( isGeneralizedDudeneyNumber,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
+
     'is_kaprekar'                    : RPNOperator( isKaprekar,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'is_k_narcissistic'              : RPNOperator( isBaseKNarcissistic,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
     'is_morphic'                     : RPNOperator( isMorphic,
                                                     2, [ RPNOperator.Integer, RPNOperator.PositiveInteger ] ),
@@ -2730,6 +2736,15 @@ operators = {
 
     'is_pandigital'                  : RPNOperator( isPandigital,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'is_pddi'                        : RPNOperator( isPerfectDigitToDigitInvariant,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
+
+    'is_pdi'                         : RPNOperator( isPerfectDigitalInvariant,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'is_sum_product'                 : RPNOperator( isSumProductNumber,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
     'is_trimorphic'                  : RPNOperator( lambda n: isMorphic( n, 3 ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),

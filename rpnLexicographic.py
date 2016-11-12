@@ -18,6 +18,7 @@ import string
 from mpmath import arange, fadd, fdiv, floor, fmod, fmul, fprod, fsub, fsum, \
                    log10, mpmathify, nint, power
 
+from rpnBase import convertToBaseN
 from rpnGenerator import RPNGenerator
 from rpnUtils import real, real_int, getMPFIntegerAsString
 
@@ -62,12 +63,39 @@ def getDigits( n, dropZeroes = False ):
 
 # //******************************************************************************
 # //
+# //  getBaseNDigits
+# //
+# //******************************************************************************
+
+def getBaseNDigits( n, base, dropZeroes = False ):
+    digits = convertToBaseN( n, base, outputBaseDigits=True )
+
+    result = [ ]
+
+    for c in digits:
+        if dropZeroes and c == 0:
+            continue
+
+        result.append( c )
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  sumDigits
 # //
 # //******************************************************************************
 
 def sumDigits( n ):
-    return fsum( getDigits( n ) )
+    str = getMPFIntegerAsString( n )
+
+    result = 0
+
+    for c in str:
+        result = fadd( result, int( c ) )
+
+    return result
 
 
 # //******************************************************************************
@@ -252,10 +280,120 @@ def isNarcissistic( n ):
     count = len( digits )
 
     sum = 0
+    oldsum = 0
 
     for d in digits:
         sum = fadd( sum, power( d, count ) )
 
+        if sum > n:
+            return 0
+
+    return 1 if sum == n else 0
+
+
+# //******************************************************************************
+# //
+# //  isPerfectDigitalInvariant
+# //
+# //******************************************************************************
+
+def isPerfectDigitalInvariant( n ):
+    digits = getDigits( real_int( n ) )
+
+    exponent = 1
+
+    oldsum = 0
+
+    while True:
+        sum = 0
+
+        for d in digits:
+            sum = fadd( sum, power( d, exponent ) )
+
+            if sum > n:
+                return 0
+            elif sum == n:
+                return exponent
+
+        if sum == oldsum:
+            return 0
+
+        oldsum = sum
+
+        exponent += 1
+
+
+# //******************************************************************************
+# //
+# //  isBaseKNarcissistic
+# //
+# //******************************************************************************
+
+def isBaseKNarcissistic( n, k ):
+    digits = getBaseNDigits( real_int( n ), k )
+
+    count = len( digits )
+
+    sum = 0
+
+    for d in digits:
+        sum = fadd( sum, power( d, count ) )
+
+        if sum > n:
+            return 0
+
+    return 1 if sum == n else 0
+
+
+# //******************************************************************************
+# //
+# //  isGeneralizedDudeneyNumber
+# //
+# //  http://www.jakob.at/steffen/dudeney.html
+# //
+# //******************************************************************************
+
+def isGeneralizedDudeneyNumber( base, exponent ):
+    n = power( real_int( base ), real_int( exponent ) )
+    return 1 if sumDigits( n ) == base else 0
+
+
+# //******************************************************************************
+# //
+# //  isPerfectDigitToDigitInvariant
+# //
+# //  https://en.wikipedia.org/wiki/Perfect_digit-to-digit_invariant
+# //
+# //******************************************************************************
+
+def isPerfectDigitToDigitInvariant( n, k ):
+    digits = getBaseNDigits( real_int( n ), k )
+
+    sum = 0
+
+    for d in digits:
+        d = int( d )
+
+        if d != 0:
+            sum = fadd( sum, power( d, d ) )
+
+        if sum > n:
+            return 0
+
+    return 1 if sum == n else 0
+
+
+# //******************************************************************************
+# //
+# //  isSumProductNumber
+# //
+# //  https://en.wikipedia.org/wiki/Sum-product_number
+# //
+# //******************************************************************************
+
+def isSumProductNumber( n, k ):
+    digits = getBaseNDigits( real_int( n ), k )
+    sum = fmul( fsum( digits ), fprod( digits ) )
     return 1 if sum == n else 0
 
 

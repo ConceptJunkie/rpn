@@ -46,7 +46,7 @@ specialBaseFunctions = {
 # //
 # //******************************************************************************
 
-def convertToBaseN( value, base, outputBaseDigits, numerals ):
+def convertToBaseN( value, base, outputBaseDigits=False, numerals=g.defaultNumerals ):
     if outputBaseDigits:
         if ( base < 2 ):
             raise ValueError( 'base must be greater than 1' )
@@ -59,9 +59,6 @@ def convertToBaseN( value, base, outputBaseDigits, numerals ):
 
     if value < 0:
         return '-' + convertToBaseN( fneg( value ), base, outputBaseDigits, numerals )
-
-    if base == 10:
-        return str( value )
 
     if outputBaseDigits:
         result = [ ]

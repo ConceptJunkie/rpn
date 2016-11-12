@@ -191,7 +191,7 @@ def getChampernowneConstant( ):
     count = 1
 
     while len( result ) <= mp.dps:
-        result += convertToBaseN( count, g.inputRadix, False, g.defaultNumerals )
+        result += convertToBaseN( count, g.inputRadix )
         count += 1
 
     return convertToBase10( '0', result, g.inputRadix )
