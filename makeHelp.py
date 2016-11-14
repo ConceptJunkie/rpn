@@ -5574,8 +5574,15 @@ on the digits that comprise an integer.
 '''
 ''' ],
 
+    'is_harshad' : [
+'lexicography', 'returns whether an integer n is a Harshad number',
+'''
+''',
+'''
+''' ],
+
     'is_kaprekar' : [
-'lexicography', 'returns whether an integer n is a Kaprekar number',
+'lexicography', 'returns whether an integer n is a Kaprekar number in base k',
 '''
 ''',
 '''
@@ -5631,6 +5638,13 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''' + makeCommandExample( '370 is_pdi' ) + '''
 ''' + makeCommandExample( '371 is_pdi' ) + '''
 ''' + makeCommandExample( '1 1000 range lambda x is_pdi filter' ) ],
+
+    'is_pddi' : [
+'lexicography', 'returns whether an integer n is a perfect digit-to-digti invariant for base k',
+'''
+''',
+'''
+''' ],
 
     'is_sum_product' : [
 'lexicography', 'returns whether an integer n is a sum-product number',

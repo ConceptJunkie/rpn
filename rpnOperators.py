@@ -2719,6 +2719,9 @@ operators = {
     'is_generalized_dudeney'         : RPNOperator( isGeneralizedDudeneyNumber,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
+    'is_harshad'                     : RPNOperator( isHarshadNumber,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
+
     'is_kaprekar'                    : RPNOperator( isKaprekar,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 

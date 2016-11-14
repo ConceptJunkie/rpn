@@ -20,6 +20,7 @@ from mpmath import arange, fadd, fdiv, floor, fmod, fmul, fprod, fsub, fsum, \
 
 from rpnBase import convertToBaseN
 from rpnGenerator import RPNGenerator
+from rpnMath import isDivisible
 from rpnUtils import real, real_int, getMPFIntegerAsString
 
 
@@ -395,6 +396,19 @@ def isSumProductNumber( n, k ):
     digits = getBaseNDigits( real_int( n ), k )
     sum = fmul( fsum( digits ), fprod( digits ) )
     return 1 if sum == n else 0
+
+
+# //******************************************************************************
+# //
+# //  isHarshadNumber
+# //
+# //  https://en.wikipedia.org/wiki/Harshad_number
+# //
+# //******************************************************************************
+
+def isHarshadNumber( n, k ):
+    digits = getBaseNDigits( real_int( n ), k )
+    return 1 if isDivisible( n, fsum( digits ) ) else 0
 
 
 # //******************************************************************************
