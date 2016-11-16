@@ -2153,6 +2153,7 @@ volumeTable = {
     mpmathify( '38500' )        : 'the volume of a 20-foot shipping container',
     mpmathify( '2.5e6' )        : 'the volume of an Olympic-sized swimming pool',
     mpmathify( '3.0e14' )       : 'the estimated volume of crude oil on Earth',
+    mpmathify( '4.17e15' )      : 'the volume of the Grand Canyon',
     mpmathify( '1.2232e16' )    : 'the volume of Lake Superior',
     mpmathify( '2.6e18' )       : 'the volume of Greenland ice cap',
     mpmathify( '1.4e21' )       : 'the volume of water in all of Earth\'s oceans',

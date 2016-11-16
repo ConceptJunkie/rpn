@@ -3631,6 +3631,12 @@ operators = {
     'topic'                          : RPNOperator( printHelpTopic,
                                                     1, [ RPNOperator.String ] ),
 
+    'uuid'                           : RPNOperator( generateUUID,
+                                                    0, [ ] ),
+
+    'uuid_random'                    : RPNOperator( generateRandomUUID,
+                                                    0, [ ] ),
+
     'value'                          : RPNOperator( getValue,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),

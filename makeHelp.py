@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 842
+maxExampleCount = 844
 debugMode = False
 
 
@@ -8990,6 +8990,23 @@ set, of course, but since rpn immediately exits, nothing useful can happen.
     'topic' : [
 'special', 'prints a help topic in interactive mode',
 '''
+''',
+'''
+''' ],
+
+    'uuid_random' : [
+'special', 'generates a random UUID',
+'''
+The UUID is generated completely randomly.
+''',
+'''
+''' ],
+
+    'uuid' : [
+'special', 'generates a UUID',
+'''
+The UUID is generated using the host ID (MAC address if possible, otherwise
+see RFC 4122) and the current time.
 ''',
 '''
 ''' ],
