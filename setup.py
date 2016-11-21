@@ -68,8 +68,10 @@ heavy lifting (http://mpmath.org).
     ],
 
     packages = [ 'rpn' ],
+    # This maps the directories to the installed location under site-packages/
+    package_dir = { 'rpn' : 'rpn' },
 
-    data_files = [ ( rpndata, [ g.dataDir + os.sep + 'balanced_primes.txt',
+    data_files = [ ( 'Lib/site-packages/rpn/' + rpndata, [ g.dataDir + os.sep + 'balanced_primes.txt',
                                 g.dataDir + os.sep + 'cousin_primes.txt',
                                 g.dataDir + os.sep + 'double_balanced_primes.txt',
                                 g.dataDir + os.sep + 'huge_primes.txt',
