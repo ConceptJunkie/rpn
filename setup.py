@@ -2,7 +2,7 @@
 
 # //******************************************************************************
 # //
-# //  rpn.py
+# //  setup.py
 # //
 # //  RPN command-line calculator, setup script
 # //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
@@ -27,7 +27,7 @@ def read( *paths ):
     with open( os.path.join( *paths ), 'r') as f:
         return f.read( )
 
-setup(
+setup (
     name = 'rpn',
     version = PROGRAM_VERSION_NAME,
     description = 'command-line RPN calculator with arbitrary precision',
@@ -68,6 +68,7 @@ heavy lifting (http://mpmath.org).
     ],
 
     packages = [ 'rpn' ],
+
     # This maps the directories to the installed location under site-packages/
     package_dir = { 'rpn' : 'rpn' },
 
@@ -93,6 +94,9 @@ heavy lifting (http://mpmath.org).
     entry_points = {
         'console_scripts': [
             'rpn = rpn.rpn:__main__',
+            'makeHelp = rpn.makeHelp:__main__',
+            'makeUnits = rpn.makeUnits:__main__',
+            'preparePrimeData = rpn.preparePrimeData:__main__',
         ],
     }
 )

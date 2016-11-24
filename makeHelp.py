@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 844
+maxExampleCount = 842
 debugMode = False
 
 

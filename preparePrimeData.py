@@ -56,11 +56,11 @@ def preparePrimeData( baseName ):
 
 # //******************************************************************************
 # //
-# //  __main__
+# //  main
 # //
 # //******************************************************************************
 
-if __name__ == '__main__':
+def main( ):
     getDataPath( )
 
     preparePrimeData( "balanced_primes" )
@@ -81,4 +81,14 @@ if __name__ == '__main__':
     preparePrimeData( "triplet_primes" )
     preparePrimeData( "triple_balanced_primes" )
     preparePrimeData( "twin_primes" )
+
+
+# //******************************************************************************
+# //
+# //  __main__
+# //
+# //******************************************************************************
+
+if __name__ == '__main__':
+    main( )
 
