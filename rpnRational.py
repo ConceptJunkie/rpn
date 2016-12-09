@@ -22,8 +22,8 @@ from fractions import Fraction
 # //******************************************************************************
 
 class RPNRational( Fraction ):
-    """This class represents a rational value.  It is derived from fractions.Fraction,
-       but has support for dealing with mpf, etc.."""
+    '''This class represents a rational value.  It is derived from
+    fractions.Fraction, but has support for dealing with mpf, etc..'''
 
     def __init__( self, value ):
         self = value

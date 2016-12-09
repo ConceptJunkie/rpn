@@ -315,7 +315,7 @@ def getNthPadovanNumber( arg ):
 # //******************************************************************************
 
 class RPNContinuedFraction( list ):
-    """This class represents a continued fraction as a list of integer terms."""
+    '''This class represents a continued fraction as a list of integer terms.'''
     def __init__( self, value, maxterms = 15, cutoff = 1e-10 ):
         if isinstance( value, ( int, float, mpf ) ):
             value = mpmathify( value )
@@ -1306,7 +1306,7 @@ def generatePolydivisibles( _base ):
 # //******************************************************************************
 
 def getNthStern( n ):
-    """Return the nth number of Stern's diatomic series recursively"""
+    '''Returns the nth number of Stern's diatomic series recursively.'''
     if real_int( n ) < 0:
         raise ValueError( 'non-negative, real integer expected' )
 

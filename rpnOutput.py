@@ -194,11 +194,11 @@ def formatOutput( output ):
 # //******************************************************************************
 
 def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
-    """
+    '''
     In print mode, we print each item as the iterator hits it.  If print mode
     is off, then we gather everything up and build a giant string which is
     returned to the caller.
-    """
+    '''
     stringList = [ ]
 
     indentString = ' ' * indent

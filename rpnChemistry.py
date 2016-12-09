@@ -231,7 +231,7 @@ def parseAtom( expression ):
 # //******************************************************************************
 
 class RPNMolecule( collections.Counter ):
-    """This class represents a collection of atoms."""
+    '''This class represents a collection of atoms.'''
     def __init__( self, arg = '' ):
         if isinstance( arg, str ) and arg:
             self.update( self.parseMoleculeString( arg ) )

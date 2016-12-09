@@ -58,6 +58,7 @@ def createConstant( name, args ):
 # //******************************************************************************
 
 def getPlasticConstant( ):
+    '''Computes and returns the Plastic constant.'''
     term = fmul( 12, sqrt( 69 ) )
     return fdiv( fadd( cbrt( fadd( 108, term ) ), cbrt( fsub( 108, term ) ) ), 6 )
 
@@ -70,7 +71,9 @@ def getPlasticConstant( ):
 # //
 # //******************************************************************************
 
+@lru_cache( 1 )
 def getMillsConstant( ):
+    '''The Mills constant is hard-coded.'''
     mills = '''
 1.3063778838 6308069046 8614492602 6057129167 8458515671 3644368053 7599664340
 5376682659 8821501403 7011973957 0729696093 8103086882 2388614478 1635348688
@@ -181,11 +184,10 @@ def getMillsConstant( ):
 # //
 # //  getChampernowneConstant
 # //
-# //  This function creates the Champernowne constant for the input base.
-# //
 # //******************************************************************************
 
 def getChampernowneConstant( ):
+    '''This function creates the Champernowne constant for the input base.'''
     result = ''
 
     count = 1

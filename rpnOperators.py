@@ -89,7 +89,7 @@ class RPNOperator( object ):
     Generator = 13              # Generator needs to be a separate type now, but eventually it should be equivalent to List
     Function = 14
 
-    """This class represents all the data needed to define an operator."""
+    '''This class represents all the data needed to define an operator.'''
     def __init__( self, function, argCount, argTypes = None, allowMeasurements = measurementsNotAllowed ):
         self.function = function
         self.argCount = argCount
@@ -474,7 +474,7 @@ constants = {
 # //******************************************************************************
 
 class RPNFunction( object ):
-    """This class represents a user-defined function in rpn."""
+    '''This class represents a user-defined function in rpn.'''
     def __init__( self, valueList, startingIndex = 0 ):
         self.valueList = [ ]
 
@@ -764,7 +764,7 @@ def filterListByIndex( n, k, invert = False ):
 # //******************************************************************************
 
 def preprocessTerms( terms ):
-    """
+    '''
     Given the initial list of arguments form the user, there are several
     things we want to do to the list before handing it off to the actual
     operator evaluator.  This logic used to be part of the evaluator, but
@@ -773,7 +773,7 @@ def preprocessTerms( terms ):
 
     If this function returns an empty list, then rpn should abort.  This
     function should print out any error messages.
-    """
+    '''
     result = [ ]
 
     # do some basic validation of the arguments we were given...
@@ -1616,7 +1616,7 @@ listOperators = {
     'polynomial_product'    : RPNOperator( multiplyListOfPolynomials,
                                            1, [ RPNOperator.List ] ),
 
-    'polynomial_sum'        : RPNOperator( addListOfPolynomials,
+    'polynomial_sum'        : RPNOperator( sumListOfPolynomials,
                                            1, [ RPNOperator.List ] ),
 
     'solve'                 : RPNOperator( solvePolynomial,

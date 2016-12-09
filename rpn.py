@@ -64,11 +64,11 @@ if not six.PY3:
 # //******************************************************************************
 
 def lookAhead( iterable ):
-    """
+    '''
     Pass through all values from the given iterable, augmented by the
     information if there are more values to come after the current one
     (True), or if it is the last value (False).
-    """
+    '''
     # Get an iterator and pull the first value.
     it = iter( iterable )
     last = next( it )
@@ -90,13 +90,13 @@ def lookAhead( iterable ):
 # //******************************************************************************
 
 def evaluate( terms ):
-    """
+    '''
     This is the core function in rpn that evaluates the terms to be
     calculated.  terms are put into a stack, and popped off one at a time
     when evaluated.  When an operator is popped off and evaluated, the results
     get pushed back on to the stack for further processing, or ultimately,
     output.
-    """
+    '''
     valueList = list( )
     index = 1                 # only used for error messages
 
@@ -149,7 +149,7 @@ def evaluate( terms ):
 # //******************************************************************************
 
 def handleOutput( valueList, indent=0, file=sys.stdout ):
-    """
+    '''
     Once the evaluation of terms is complete, the results need to be
     translated into output.  It is expected there will be a single result,
     otherwise an error is thrown because the expression was incomplete.
@@ -160,15 +160,16 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
 
     Setting file to an io.StringIO objects allows for 'printing' to a string,
     which is used by makeHelp.py to generate actual rpn output for the examples.
-    """
+    '''
     if valueList is None:
         return file
 
     indentString = ' ' * indent
 
     if len( valueList ) != 1:
-        print( indentString + 'rpn:  unexpected end of input', file=file )
-    elif isinstance( valueList[ 0 ], RPNFunction ):
+        valueList = [ valueList ]
+
+    if isinstance( valueList[ 0 ], RPNFunction ):
         print( indentString + 'rpn:  unexpected end of input in function definition', file=file )
     else:
         mp.pretty = True
@@ -225,11 +226,11 @@ def handleOutput( valueList, indent=0, file=sys.stdout ):
 # //******************************************************************************
 
 def enterInteractiveMode( ):
-    """
+    '''
     If rpn is launched with no expression, then it goes into interactive
     mode, where it will continue to evaluate new expressions input until
     the 'exit' command.
-    """
+    '''
     try:
         import readline
     except ImportError:
@@ -291,11 +292,11 @@ def enterInteractiveMode( ):
 # //******************************************************************************
 
 def enterHelpMode( terms ):
-    """
+    '''
     When using rpn interactively, help is a special mode, which allows the user
     to navigate the help contents with much fewer keystrokes than having to
     invoke help over and over.
-    """
+    '''
     printHelpModeHelp( )
 
     while True:
@@ -327,7 +328,7 @@ def enterHelpMode( terms ):
 # //******************************************************************************
 
 def rpn( cmd_args ):
-    """
+    '''
     This is the main function which processes the command-line arguments,
     handling both options and the expression to evaluate.   This function is
     mainly concerned with parsing and handling the command-line options.
@@ -335,7 +336,7 @@ def rpn( cmd_args ):
     It finally calls evaluate( ) with the expression to be calculated, and
     returns the results, which can be formatted for output or used in another
     way (such as the unit test functionality).
-    """
+    '''
     # initialize globals
     g.debugMode = False
     g.outputRadix = 10

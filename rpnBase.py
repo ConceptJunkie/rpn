@@ -40,13 +40,14 @@ specialBaseFunctions = {
 # //
 # //  convertToBaseN
 # //
-# //  This handles any integer base as long as there is a big-enough list of
-# //  numerals to use.  In practice this ends up being 0-9, a-z, and A-Z, which
-# //  allows us to support up to base 62.
-# //
 # //******************************************************************************
 
 def convertToBaseN( value, base, outputBaseDigits=False, numerals=g.defaultNumerals ):
+    '''
+    This handles any integer base as long as there is a big-enough list of
+    numerals to use.  In practice this ends up being 0-9, a-z, and A-Z, which
+    allows us to support up to base 62.
+    '''
     if outputBaseDigits:
         if ( base < 2 ):
             raise ValueError( 'base must be greater than 1' )
@@ -131,15 +132,17 @@ def convertFractionToBaseN( value, base, precision, outputBaseDigits ):
 # //
 # //  convertToSpecialBase
 # //
-# //  This version supports arbitrary non-constant bases.  The place value is
-# //  determined by the function passed in.  The function takes a single argument
-# //  which represents the place, and it returns the value that that place
-# //  represents.   As an example for base 10, the function would return 10^n for
-# //  argument n.
 # //
 # //******************************************************************************
 
 def convertToSpecialBase( value, baseFunction, outputBaseDigits = False, numerals = g.defaultNumerals ):
+    '''
+    This version supports arbitrary non-constant bases.  The place value is
+    determined by the function passed in.  The function takes a single argument
+    which represents the place, and it returns the value that that place
+    represents.   As an example for base 10, the function would return 10^n for
+    argument n.
+    '''
     if value == 0:
         return 0
 
@@ -300,13 +303,16 @@ def convertToPhiBase( num ):
 # //
 # //  convertToFibBase
 # //
-# //  Returns a string with Fibonacci encoding for n (n >= 1).
-# //
-# //  adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
 # //
 # //******************************************************************************
 
 def convertToFibBase( value ):
+    '''
+    Returns a string with Fibonacci encoding for n (n >= 1).
+
+    adapted from https://en.wikipedia.org/wiki/Fibonacci_coding
+    '''
+
     result = ''
 
     n = value

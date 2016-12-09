@@ -36,15 +36,15 @@ from rpnGenerator import RPNGenerator
 # //******************************************************************************
 
 class Polynomial( object ):
-    """This class represents a polynomial as a list of coefficients."""
+    '''This class represents a polynomial as a list of coefficients.'''
     def __init__( self, *args ):
-        """
+        '''
         Create a polynomial in one of three ways:
 
         p = Polynomial( poly )              # copy constructor
         p = Polynomial( [ 1, 2, 3 ... ] )   # from sequence
         p = Polynomial( 1, 2, 3 ... )       # from scalars
-        """
+        '''
         super( Polynomial, self ).__init__( )
 
         if len( args ) == 1:
@@ -180,6 +180,8 @@ class Polynomial( object ):
 # //******************************************************************************
 
 def solveQuadraticPolynomial( a, b, c ):
+    '''This function applies the quadratic formula to solve a polynomial
+    with coefficients of a, b, and c.'''
     if a == 0:
         if b == 0:
             raise ValueError( 'invalid expression, no variable coefficients' )
@@ -204,6 +206,8 @@ def solveQuadraticPolynomial( a, b, c ):
 # //******************************************************************************
 
 def solveCubicPolynomial( a, b, c, d ):
+    '''This function applies the cubic formula to solve a polynomial
+    with coefficients of a, b, c and d.'''
     if mp.dps < 50:
         mp.dps = 50
 
@@ -275,6 +279,8 @@ def solveCubicPolynomial( a, b, c, d ):
 # //******************************************************************************
 
 def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
+    '''This function applies the quartic formula to solve a polynomial
+    with coefficients of a, b, c, d, and e.'''
     if mp.dps < 50:
         mp.dps = 50
 
@@ -354,6 +360,7 @@ def solveQuarticPolynomial( _a, _b, _c, _d, _e ):
 # //******************************************************************************
 
 def addPolynomials( a, b ):
+    '''Adds two polynomials.'''
     len_diff = len( a ) - len( b )
 
     if len_diff > 0:
@@ -376,6 +383,7 @@ def addPolynomials( a, b ):
 # //******************************************************************************
 
 def multiplyPolynomials( a, b ):
+    '''Multiplies two polynomials together.'''
     result = Polynomial( a )
     result *= Polynomial( b )
 
@@ -389,6 +397,7 @@ def multiplyPolynomials( a, b ):
 # //******************************************************************************
 
 def evaluatePolynomial( a, b ):
+    '''Evaluates an arbitrary polynomial a for value b.'''
     if not isinstance( a, list ):
         a = [ a ]
 
@@ -405,6 +414,7 @@ def evaluatePolynomial( a, b ):
 # //******************************************************************************
 
 def exponentiatePolynomial( n, k ):
+    '''Exponentiates an arbitrary polynomial by an integral power k.'''
     if not isinstance( n, list ):
         n = [ n ]
 
@@ -426,6 +436,7 @@ def exponentiatePolynomial( n, k ):
 # //******************************************************************************
 
 def solvePolynomial( args ):
+    '''Uses the mpmath solve function to numerically solve an arbitrary polynomial.'''
     if isinstance( args, RPNGenerator ):
         args = list( args )
     elif not isinstance( args, list ):
@@ -471,6 +482,8 @@ def solvePolynomial( args ):
 # //******************************************************************************
 
 def multiplyListOfPolynomials( args ):
+    '''Interprets args as a list of polynomials and returns the polynomial
+    product.'''
     if isinstance( args, RPNGenerator ):
         args = list( args )
     elif not isinstance( args, list ):
@@ -494,11 +507,12 @@ def multiplyListOfPolynomials( args ):
 
 # //******************************************************************************
 # //
-# //  addListOfPolynomials
+# //  sumListOfPolynomials
 # //
 # //******************************************************************************
 
-def addListOfPolynomials( args ):
+def sumListOfPolynomials( args ):
+    '''Interprets args as a list of polynomials and returns the polynomial sum.'''
     if isinstance( args, RPNGenerator ):
         args = list( args )
     elif not isinstance( args, list ):

@@ -31,6 +31,7 @@ from rpnMath import subtract
 # //******************************************************************************
 
 def getVernalEquinox( n ):
+    '''Returns the date of the next vernal equinox after n.'''
     result = RPNDateTime.convertFromEphemDate( ephem.next_equinox( str( n ) ) )
     return result.getLocalTime( )
 
@@ -42,6 +43,7 @@ def getVernalEquinox( n ):
 # //******************************************************************************
 
 def getSummerSolstice( n ):
+    '''Returns the date of the next summer solstice after n.'''
     result = RPNDateTime.convertFromEphemDate( ephem.next_solstice( str( n ) ) )
     return result.getLocalTime( )
 
@@ -53,6 +55,7 @@ def getSummerSolstice( n ):
 # //******************************************************************************
 
 def getAutumnalEquinox( n ):
+    '''Returns the date of the next autumnal equinox after n.'''
     result = RPNDateTime.convertFromEphemDate( ephem.next_equinox( str( n ) + '-07-01' ) )
     return result.getLocalTime( )
 
@@ -64,6 +67,7 @@ def getAutumnalEquinox( n ):
 # //******************************************************************************
 
 def getWinterSolstice( n ):
+    '''Returns the date of the next winter solstice after n.'''
     result = RPNDateTime.convertFromEphemDate( ephem.next_solstice( str( n ) + '-07-01' ) )
     return result.getLocalTime( )
 
@@ -75,6 +79,7 @@ def getWinterSolstice( n ):
 # //******************************************************************************
 
 def getEphemTime( n, func ):
+    '''Returns a pyephem date-time value from an RPNDateTime value.'''
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'expected a date-time argument' )
 
@@ -89,6 +94,7 @@ def getEphemTime( n, func ):
 # //******************************************************************************
 
 def getMoonPhase( n ):
+    '''Returns the current moon phase as a percentage, starting from the new moon.'''
     if not isinstance( n, RPNDateTime ):
         raise ValueError( '\'moon_phase\' expects a date-time argument' )
 
@@ -110,6 +116,7 @@ def getMoonPhase( n ):
 # //******************************************************************************
 
 def getSkyLocation( n, k ):
+    '''Returns the location of an astronomical object in the sky in terms of right ascension and declination.'''
     if not isinstance( n, ephem.Body ) or not isinstance( k, RPNDateTime ):
         raise ValueError( '\'sky_location\' expects an astronomical object and a date-time' )
 
@@ -125,6 +132,7 @@ def getSkyLocation( n, k ):
 # //******************************************************************************
 
 def getNextRising( body, location, date ):
+    '''Returns the next rising time for an astronomical object.'''
     if isinstance( location, str ):
         location = getLocation( location )
 
@@ -150,6 +158,7 @@ def getNextRising( body, location, date ):
 # //******************************************************************************
 
 def getNextSetting( body, location, date ):
+    '''Returns the next setting time for an astronomical object.'''
     if isinstance( location, str ):
         location = getLocation( location )
 
@@ -275,6 +284,7 @@ def getAntitransitTime( body, location, date ):
 # //******************************************************************************
 
 def getPreviousRising( body, location, date ):
+    '''Returns the previous rising time for an astronomical object.'''
     if isinstance( location, str ):
         location = getLocation( location )
 
@@ -300,6 +310,7 @@ def getPreviousRising( body, location, date ):
 # //******************************************************************************
 
 def getPreviousSetting( body, location, date ):
+    '''Returns the previous setting time for an astronomical object.'''
     if isinstance( location, str ):
         location = getLocation( location )
 

@@ -349,12 +349,14 @@ unitOperators = {
         RPNUnitInfo( 'angle', 'circle', 'circles', '',
                      [ ], [ 'mathematics' ],
                      '''
+The whole circle, all 360 degrees.
                      ''' ),
 
     'degree' :
         RPNUnitInfo( 'angle', 'degree', 'degrees', 'deg',
                      [ ], [ 'astronomy', 'mathematics', 'traditional' ],
                      '''
+The traditional degree, 1/360th of a circle.
                      ''' ),
 
     'furman' :
@@ -549,6 +551,7 @@ arithmetic sometime around 1980.
         RPNUnitInfo( 'capacitance', 'farad', 'farads', 'F',
                      [ ], [ 'SI' ],
                      '''
+The SI unit for capacitance.
                      ''' ),
 
     'jar' :
@@ -752,6 +755,13 @@ Ten:  10e1, or 10
 A dozen is 12.
                      ''' ),
 
+    'bakers_dozen' :
+        RPNUnitInfo( 'constant', 'bakers_dozen', 'bakers_dozens', '',
+                     [ ], [ 'constant' ],
+                     '''
+A baker's dozen is 13.
+                     ''' ),
+
     'score' :
         RPNUnitInfo( 'constant', 'score', 'score', '',
                      [ ], [ 'constant' ],
@@ -791,7 +801,7 @@ One hundred:  10e2, or 100
         RPNUnitInfo( 'constant', 'gross', 'gross', '',
                      [ ], [ 'constant' ],
                      '''
-A gross is a dozen dozen, or 144
+A gross is a dozen dozen, or 144.
                      ''' ),
 
     'thousand' :
@@ -3908,6 +3918,7 @@ unitConversionMatrix = {
     ( 'diuym',                      'liniya' )                              : mpmathify( '10' ),
     ( 'doppelzentner',              'zentner' )                             : mpmathify( '2' ),
     ( 'dozen',                      'unity' )                               : mpmathify( '12' ),
+    ( 'bakers_dozen',               'unity' )                               : mpmathify( '13' ),
     ( 'dram',                       'scruple' )                             : mpmathify( '3' ),
     ( 'dry_barrel',                 'bushel' )                              : mpmathify( '4' ),
     ( 'dry_barrel',                 'cubic_inch' )                          : mpmathify( '7056' ),

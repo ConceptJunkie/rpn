@@ -14,12 +14,12 @@
 
 # //******************************************************************************
 # //
-# //  variable initialization
+# //  version variable initialization
 # //
 # //******************************************************************************
 
-PROGRAM_VERSION = '6.99.33'
-PROGRAM_VERSION_NAME = '7.0a33'
+PROGRAM_VERSION = '6.99.34'
+PROGRAM_VERSION_NAME = '7.0a34'
 COPYRIGHT_MESSAGE = 'copyright (c) 2016 (1988), Rick Gutleber (rickg@his.com)'
 
 PROGRAM_VERSION_STRING = ' ' + PROGRAM_VERSION + ' (' + PROGRAM_VERSION_NAME + ') - '

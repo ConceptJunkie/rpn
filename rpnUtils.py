@@ -54,6 +54,7 @@ from rpnGenerator import RPNGenerator
 # //******************************************************************************
 
 def getDataPath( ):
+    '''Returns the path for the data files.'''
     if getattr( sys, 'frozen', False ):
         g.dataPath = os.path.dirname( sys.executable )
     else:
@@ -69,7 +70,7 @@ def getDataPath( ):
 # //******************************************************************************
 
 class DelayedKeyboardInterrupt( object ):
-    """This class is used to mask keyboard interrupts."""
+    '''This class is used to mask keyboard interrupts.'''
     def __enter__( self ):
         self.signal_received = False
         self.old_handler = signal.getsignal( signal.SIGINT )
@@ -92,7 +93,8 @@ class DelayedKeyboardInterrupt( object ):
 # //******************************************************************************
 
 def getMultipleRandoms( n ):
-    for i in arange( 0, real( n ) ):
+    '''Returns n random numbers.'''
+    for i in arange( 0, real_int( n ) ):
         yield rand( )
 
 
@@ -103,7 +105,8 @@ def getMultipleRandoms( n ):
 # //******************************************************************************
 
 def getRandomIntegers( n, k ):
-    for i in arange( 0, real( k ) ):
+    '''Returns k random integers between 0 and n-1.'''
+    for i in arange( 0, real_int( k ) ):
         yield randrange( n )
 
 
@@ -114,6 +117,8 @@ def getRandomIntegers( n, k ):
 # //******************************************************************************
 
 def removeUnderscores( source ):
+    '''This function replaces the underscores in a string with spaces, and is
+    used for formatting unit output.'''
     result = ''
 
     for c in source:
@@ -132,6 +137,7 @@ def removeUnderscores( source ):
 # //******************************************************************************
 
 def downloadOEISSequence( id ):
+    '''Downloads and formats data from oeis.org.'''
     keywords = downloadOEISText( id, 'K' ).split( ',' )
 
     # If oeis.org isn't available, just punt everything
@@ -162,6 +168,7 @@ def downloadOEISSequence( id ):
 # //******************************************************************************
 
 def downloadOEISText( id, char, addCR = False ):
+    '''Downloads, formats and caches text data from oeis.org.'''
     if six.PY3:
         import urllib.request as urllib2
     else:
@@ -222,6 +229,7 @@ def downloadOEISText( id, char, addCR = False ):
 # //******************************************************************************
 
 def addAliases( operatorList, operatorAliases ):
+    '''Adds the predefined aliases from the operator table into the global alias list.'''
     for index, operator in enumerate( operatorList ):
         aliasList = [ key for key in operatorAliases if operator == operatorAliases[ key ] ]
 
@@ -246,6 +254,8 @@ def addAliases( operatorList, operatorAliases ):
 # //******************************************************************************
 
 def validateOptions( args ):
+    '''Validates arguments for options that take arguments, and also checks for
+    options that are mutually exclusive.'''
     if args.hex:
         if args.output_radix != 10 and args.output_radix != 16:
             return False, '-r and -x can\'t be used together'
@@ -287,6 +297,8 @@ def validateOptions( args ):
 # //******************************************************************************
 
 def validateArguments( terms ):
+    '''Does some preliminary argument validatation, such as checking fo matching
+    braces and braces.'''
     bracketCount = 0
 
     for term in terms:
@@ -336,6 +348,8 @@ def getCurrentArgList( valueList ):
 # //******************************************************************************
 
 def abortArgsNeeded( term, index, argsNeeded ):
+    '''Issues the error message when an operator is provided with an insufficient
+    number of arguments.'''
     print( 'rpn:  error in arg ' + format( index ) + ':  operator \'' + term + '\' requires ' +
            format( argsNeeded ) + ' argument', end = '' )
 
@@ -349,6 +363,7 @@ def abortArgsNeeded( term, index, argsNeeded ):
 # //******************************************************************************
 
 def handleIdentify( result, file=sys.stdout ):
+    '''Calls the mpmath identify function to try to identify a constant.'''
     formula = identify( result )
 
     if formula is None:
@@ -368,6 +383,8 @@ def handleIdentify( result, file=sys.stdout ):
 # //******************************************************************************
 
 def findPolynomial( n, k ):
+    '''Calls the mpmath findpoly function to try to identify a polynomial of
+    degree <= k for which n is a zero.'''
     poly = findpoly( n, int( k ) )
 
     if poly is None:
@@ -386,12 +403,12 @@ def findPolynomial( n, k ):
 # //
 # //  getExpandedFactorList
 # //
-# //  Takes a list of tuples where each tuple is a prime factor and an exponent
-# //  and returns a simple list of prime factors.
 # //
 # //******************************************************************************
 
 def getExpandedFactorList( factors ):
+    '''Takes a list of tuples where each tuple is a prime factor and an exponent
+    and returns a simple list of prime factors.'''
     factorMap = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
     return sorted( reduce( lambda x, y: x + y, factorMap, [ ] ) )
 
@@ -400,12 +417,11 @@ def getExpandedFactorList( factors ):
 # //
 # //  getExpandedFactorListSympy
 # //
-# //  Takes a list of tuples where each tuple is a prime factor and an exponent
-# //  and returns a simple list of prime factors.
-# //
 # //******************************************************************************
 
 def getExpandedFactorListSympy( factors ):
+    '''Takes a list of tuples where each tuple is a prime factor and an exponent
+    and returns a simple list of prime factors.'''
     result = [ ]
 
     for key in factors:
@@ -424,6 +440,7 @@ def getExpandedFactorListSympy( factors ):
 # //******************************************************************************
 
 def real( n ):
+    '''Validates that a value is real and throws an error if it isn't.'''
     if isinstance( n, ( list, RPNGenerator ) ):
         return n
 
@@ -442,6 +459,8 @@ def real( n ):
 # //******************************************************************************
 
 def real_int( n ):
+    '''Validates that a value is a real integer and throws an error if it
+    isn't.'''
     if im( n ) != 0:
         raise ValueError( 'real argument expected ({})'.format( n ) )
 
@@ -458,6 +477,8 @@ def real_int( n ):
 # //******************************************************************************
 
 def getMPFIntegerAsString( n ):
+    '''Turns an mpmath mpf integer value into a string for use by lexicographic
+    operators.'''
     if n == 0:
         return '0'
     else:
@@ -471,6 +492,8 @@ def getMPFIntegerAsString( n ):
 # //******************************************************************************
 
 def addEchoArgument( argument ):
+    '''Echos the argument in the rpn output while continuing to use it for
+    evaluation.'''
     if isinstance( argument, list ) and len( argument ) == 1:
         g.echoArguments.append( argument[ 0 ] )
     else:
@@ -528,6 +551,8 @@ def parseNumerals( argument ):
 # //******************************************************************************
 
 def generateUUID( ):
+    '''Generates a UUID that uses the current machine's MAC address and the
+    current time as seeds.'''
     import uuid
 
     return str( uuid.uuid1( ) )
@@ -540,6 +565,7 @@ def generateUUID( ):
 # //******************************************************************************
 
 def generateRandomUUID( ):
+    '''Generates a completely random UUID.'''
     import uuid
 
     return str( uuid.uuid4( ) )

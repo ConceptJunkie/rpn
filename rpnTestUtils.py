@@ -25,12 +25,13 @@ from mpmath import almosteq, mpf, mpmathify, nan
 # //
 # //  compareResults
 # //
-# //  Does nothing if the results compare successfully, otherwise raises an
-# //  expection.
-# //
 # //******************************************************************************
 
 def compareResults( result1, result2 ):
+    '''Compares two RPN expressions to make sure they produce the same result.
+    Does nothing if the results compare successfully, otherwise raises an
+    exception.'''
+
     if isinstance( result1, RPNGenerator ):
         return compareResults( [ i for i in result1.getGenerator( ) ], result2 )
 

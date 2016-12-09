@@ -43,7 +43,7 @@ import rpnGlobals as g
 # //******************************************************************************
 
 class RPNLocation( object ):
-    """This class represents a location on the surface of the Earth."""
+    '''This class represents a location on the surface of the Earth.'''
     def __init__( self, name, observer=ephem.Observer( ) ):
         self.name = name
         self.observer = observer

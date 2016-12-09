@@ -52,13 +52,14 @@ from rpnUtils import real, real_int
 # //
 # //  getNthAperyNumber
 # //
-# //  http://oeis.org/A005259
-# //
-# //  a(n) = sum(k=0..n, C(n,k)^2 * C(n+k,k)^2 )
-# //
 # //******************************************************************************
 
 def getNthAperyNumber( n ):
+    '''
+    http://oeis.org/A005259
+
+    a(n) = sum(k=0..n, C(n,k)^2 * C(n+k,k)^2 )
+    '''
     result = 0
 
     for k in arange( 0, real( n ) + 1 ):
@@ -111,13 +112,14 @@ def getNthSchroederNumber( n ):
 # //
 # //  getNthMotzkinNumber
 # //
-# //  http://oeis.org/A001006
-# //
-# //  a(n) = sum((-1)^j*binomial(n+1, j)*binomial(2n-3j, n), j=0..floor(n/3))/(n+1)
-# //
 # //******************************************************************************
 
 def getNthMotzkinNumber( n ):
+    '''
+    http://oeis.org/A001006
+
+    a(n) = sum((-1)^j*binomial(n+1, j)*binomial(2n-3j, n), j=0..floor(n/3))/(n+1)
+    '''
     result = 0
 
     for j in arange( 0, floor( fdiv( real( n ), 3 ) ) + 1 ):
@@ -131,13 +133,14 @@ def getNthMotzkinNumber( n ):
 # //
 # //  getNthPellNumber
 # //
-# //  From:  http://oeis.org/A000129
-# //
-# //  a( n ) = round( ( 1 + sqrt( 2 ) ) ^ n )
-# //
 # //******************************************************************************
 
 def getNthPellNumber( n ):
+    '''
+    From:  http://oeis.org/A000129
+
+    a( n ) = round( ( 1 + sqrt( 2 ) ) ^ n )
+    '''
     return getNthLinearRecurrence( [ 1, 2 ], [ 0, 1 ], n )
 
 

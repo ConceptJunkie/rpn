@@ -34,8 +34,9 @@ from rpnUtils import real_int
 # //
 # //******************************************************************************
 
-def isPrime( arg ):
-    return pyprimes.isprime( int( arg ) )
+def isPrime( n ):
+    '''Uses pyprimes to check for the primality of n.'''
+    return pyprimes.isprime( int( n ) )
 
 
 # //******************************************************************************

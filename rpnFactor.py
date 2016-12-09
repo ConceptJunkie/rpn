@@ -35,12 +35,11 @@ from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList, \
 # //
 # //  getCompactFactors
 # //
-# //  Takes a list of factors and returns a list of tuples where each tuple
-# //  is a prime factor and an exponent.
-# //
 # //******************************************************************************
 
 def getCompactFactors( factors ):
+    '''Takes a list of factors and returns a list of tuples where each tuple
+    is a prime factor and an exponent.'''
     counter = collections.Counter( )
 
     for i in sorted( factors ):
@@ -58,16 +57,17 @@ def getCompactFactors( factors ):
 # //
 # //  getSmallFactors
 # //
-# //  This function factors out all small primes (i.e., the primes in the prime
-# //  table in rpnPrimes.py).
-# //
-# //  The return values are the remaining value, and the factors already divided
-# //  out.  The factors is a list of two-tuples, consisting of each prime factor
-# //  and its exponent.
-# //
 # //******************************************************************************
 
 def getSmallFactors( candidate, verbose = False ):
+    '''
+    This function factors out all small primes (i.e., the primes in the prime
+    table in rpnPrimes.py).
+
+    The return values are the remaining value, and the factors already divided
+    out.  The factors is a list of two-tuples, consisting of each prime factor
+    and its exponent.
+    '''
     remaining = candidate
     smallFactors = [ ]
 
@@ -96,13 +96,14 @@ def getSmallFactors( candidate, verbose = False ):
 # //
 # //  doMillerTest
 # //
-# //  n is odd, > 1, and does not divide b, 0 < b < R0.
-# //  if 1 is returned, then *Nptr passes Miller's test for base b.
-# //  if 0 is returned, then *Nptr is composite.
-# //
 # //******************************************************************************
 
 def doMillerTest( n, b ):
+    '''
+    n is odd, > 1, and does not divide b, 0 < b < R0.
+    if 1 is returned, then *Nptr passes Miller's test for base b.
+    if 0 is returned, then *Nptr is composite.
+    '''
     i = 0
     j = 0
 
@@ -135,14 +136,15 @@ def doMillerTest( n, b ):
 # //
 # //  doQPrimeTest
 # //
-# //  n > 1 and not equal to PRIME[0],...,PRIME[4].
-# //  if 1 is returned, then *Nptr passes Miller's test for bases PRIME[0],
-# //  ...,PRIME[16] and is likely to be prime.
-# //  if 0 is returned, then *Nptr is composite.
-# //
 # //******************************************************************************
 
 def doQPrimeTest( n, verbose = False ):
+    '''
+    n > 1 and not equal to PRIME[0],...,PRIME[4].
+    if 1 is returned, then *Nptr passes Miller's test for bases PRIME[0],
+    ...,PRIME[16] and is likely to be prime.
+    if 0 is returned, then *Nptr is composite.
+    '''
     for i in range( 0, 17 ):
         if doMillerTest( n, primes[ i ] ) == 0:
             if verbose:
@@ -160,14 +162,15 @@ def doQPrimeTest( n, verbose = False ):
 # //
 # //  isPerfectPower
 # //
-# //  Here N > 1.
-# //  Returns X if N = X^k, for some X, k > 1,  0 otherwise.
-# //  See E. Bach and J. Sorenson, "Sieve algorithms for perfect power testing"
-# //  Algorithmica 9 (1993) 313-328.
-# //
 # //******************************************************************************
 
 def isPerfectPower( n, verbose = False ):
+    '''
+    Here N > 1.
+    Returns X if N = X^k, for some X, k > 1,  0 otherwise.
+    See E. Bach and J. Sorenson, "Sieve algorithms for perfect power testing"
+    Algorithmica 9 (1993) 313-328.
+    '''
     if verbose:
         print( 'isPerfectPower...' )
 
@@ -197,11 +200,10 @@ def isPerfectPower( n, verbose = False ):
 # //
 # //  getPollard
 # //
-# //  Pollard's p-1 method of factoring *Nptr.
-# //
 # //******************************************************************************
 
 def getPollard( n, verbose = False ):
+    '''Pollard's p-1 method of factoring *Nptr.'''
     b = 1
     PP = 1
     T = 2
@@ -250,11 +252,12 @@ def getPollard( n, verbose = False ):
 # //
 # //  getBrentPollard
 # //
-# //  https://comeoncodeon.wordpress.com/2010/09/18/pollard-rho-brent-integer-factorization/
-# //
 # //******************************************************************************
 
 def getBrentPollard( n ):
+    '''
+    https://comeoncodeon.wordpress.com/2010/09/18/pollard-rho-brent-integer-factorization/
+    '''
     if n % 2 == 0:
         return 2
 
@@ -295,14 +298,16 @@ def getBrentPollard( n ):
 # //
 # //  getLargeFactors
 # //
-# //  n > 1 is not divisible by the primes in rpnPrimes.py.
-# //
-# //  Since we've already checked against all the primes in the primes table,
-# //  if n is smaller than the largest prime squared, we already know it's prime.
-# //
 # //******************************************************************************
 
 def getLargeFactors( n, verbose = False ):
+    '''
+    n > 1 is not divisible by the primes in rpnPrimes.py.
+
+    Since we've already checked against all the primes in the primes table,
+    if n is smaller than the largest prime squared, we already know it's prime.
+    '''
+
     if verbose:
         print( 'getLargeFactors', n )
 
@@ -352,24 +357,26 @@ def getLargeFactors( n, verbose = False ):
 # //
 # //  getPrimeFactors
 # //
-# //  A quasi-prime (q-prime) factor of *Nptr is > 1,000,000,
-# //  is not divisible by PRIMES[0],...,PRIMES[167], passes Millers' test
-# //  for bases PRIMES[0],...,PRIMES[10] and is hence likely to be prime.
-# //
-# //  PRIME_FACTORS returns the number of q-prime factors of n, stores
-# //  them in the global array Q_PRIME[].
-# //
-# //  Any prime factors < 1000 of n and corresponding exponents are printed and
-# //  placed in the arrays Q[ ] and K[ ], while any prime factors > 1000 and all
-# //  q-prime factors and corresponding exponents of n are printed and placed in
-# //  the arrays Q_[ ] and K_[ ].
-# //
-# //  Return values:
-# //    smallFactors, largeFactors, qPrimes
-# //
 # //******************************************************************************
 
 def getPrimeFactors( n, verbose = False ):
+    '''
+    A quasi-prime (q-prime) factor of *Nptr is > 1,000,000,
+    is not divisible by PRIMES[0],...,PRIMES[167], passes Millers' test
+    for bases PRIMES[0],...,PRIMES[10] and is hence likely to be prime.
+
+    PRIME_FACTORS returns the number of q-prime factors of n, stores
+    them in the global array Q_PRIME[].
+
+    Any prime factors < 1000 of n and corresponding exponents are printed and
+    placed in the arrays Q[ ] and K[ ], while any prime factors > 1000 and all
+    q-prime factors and corresponding exponents of n are printed and placed in
+    the arrays Q_[ ] and K_[ ].
+
+    Return values:
+      smallFactors, largeFactors, qPrimes
+    '''
+
     cutoff = primes[ -1 ] * primes[ -1 ]
 
     smallFactors = [ ]
@@ -427,19 +434,21 @@ def getPrimeFactors( n, verbose = False ):
 # //
 # //  doSelfridgeTest
 # //
-# //  Selfridges's test for primality - see "Prime Numbers and Computer
-# //  Methods for Factorization" by H. Riesel, Theorem 4.4, p.106.
-# //  n > 1 is a q-prime.
-# //
-# //  The prime and q-prime factors of n - 1 are first found. If no q-prime
-# //  factor is present and 1 is returned, then n is prime.  However if at
-# //  least one q-prime factor is present and 1 is returned, then n retains its
-# //  q-prime status.  If 0 is returned, then n is either composite or likely
-# //  to be composite.
-# //
 # //******************************************************************************
 
 def doSelfridgeTest( candidate, verbose = False ):
+    '''
+    Selfridges's test for primality - see "Prime Numbers and Computer
+    Methods for Factorization" by H. Riesel, Theorem 4.4, p.106.
+    n > 1 is a q-prime.
+
+    The prime and q-prime factors of n - 1 are first found. If no q-prime
+    factor is present and 1 is returned, then n is prime.  However if at
+    least one q-prime factor is present and 1 is returned, then n retains its
+    q-prime status.  If 0 is returned, then n is either composite or likely
+    to be composite.
+    '''
+
     n_minus_1 = candidate - 1
 
     if verbose:
@@ -487,19 +496,21 @@ def doSelfridgeTest( candidate, verbose = False ):
 # //
 # //  getFactors
 # //
-# //  A factorization of *Nptr into prime and q-prime factors is first obtained.
-# //
-# //  Selfridge's primality test is then applied to any q-prime factors; the test
-# //  is applied repeatedly until either a q-prime is found to be composite or
-# //  likely to be composite (in which case the initial factorization is doubtful
-# //  and an extra base should be used in Miller's test) or we run out of q-primes,
-# //  in which case every q-prime factor of *Nptr is certified as prime.
-# //
-# //  Returns a list of tuples where each tuple is a prime factor and an exponent.
-# //
 # //******************************************************************************
 
 def getFactors( n ):
+    '''
+    A factorization of *Nptr into prime and q-prime factors is first obtained.
+
+    Selfridge's primality test is then applied to any q-prime factors; the test
+    is applied repeatedly until either a q-prime is found to be composite or
+    likely to be composite (in which case the initial factorization is doubtful
+    and an extra base should be used in Miller's test) or we run out of q-primes,
+    in which case every q-prime factor of *Nptr is certified as prime.
+
+    Returns a list of tuples where each tuple is a prime factor and an exponent.
+    '''
+
     verbose = g.verbose
 
     if real( n ) < -1:

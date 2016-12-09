@@ -79,7 +79,7 @@ def calculateEscapeVelocity( mass, radius ):
 # //******************************************************************************
 
 def calculateOrbitalMass( measurement1, measurement2 ):
-    """
+    '''
     To solve for the planetary mass for an object in a circular orbit, we need
     Newton's gravitational constant and two of the following three items:
 
@@ -97,7 +97,7 @@ def calculateOrbitalMass( measurement1, measurement2 ):
 
     ---- mass in terms of velocity and radius
     m = v^2*r/G
-    """
+    '''
     validUnitTypes = [
         [ 'time', 'length' ],
         [ 'velocity', 'length' ],
@@ -144,7 +144,7 @@ def calculateOrbitalMass( measurement1, measurement2 ):
 # //******************************************************************************
 
 def calculateOrbitalPeriod( measurement1, measurement2 ):
-    """
+    '''
     To solve the period of a circular orbit, we need Newton's gravitational
     constant and two of the following three items:
 
@@ -162,7 +162,7 @@ def calculateOrbitalPeriod( measurement1, measurement2 ):
 
     ---- period in terms of mass and velocity
     T = 2*pi*G*m/v^3
-    """
+    '''
     validUnitTypes = [
         [ 'mass', 'length' ],
         [ 'velocity', 'length' ],
@@ -209,7 +209,7 @@ def calculateOrbitalPeriod( measurement1, measurement2 ):
 # //******************************************************************************
 
 def calculateOrbitalRadius( measurement1, measurement2 ):
-    """
+    '''
     To solve the radius of a circular orbit, we need Newton's gravitational
     constant and two of the following three items:
 
@@ -227,7 +227,7 @@ def calculateOrbitalRadius( measurement1, measurement2 ):
 
     ---- radius in terms of velocity and period
     r = v*T/2*pi
-    """
+    '''
     validUnitTypes = [
         [ 'mass', 'time' ],
         [ 'velocity', 'time' ],
@@ -274,7 +274,7 @@ def calculateOrbitalRadius( measurement1, measurement2 ):
 # //******************************************************************************
 
 def calculateOrbitalVelocity( measurement1, measurement2 ):
-    """
+    '''
     To solve the velocity of a circular orbit, we need Newton's gravitational
     constant and two of the following three items:
 
@@ -292,7 +292,7 @@ def calculateOrbitalVelocity( measurement1, measurement2 ):
 
     ---- velocity in terms of mass and period
     v = ( 2*pi*cbrt( T^2*G*m/4*pi^2 ) ) / T
-    """
+    '''
     validUnitTypes = [
         [ 'mass', 'time' ],
         [ 'length', 'time' ],

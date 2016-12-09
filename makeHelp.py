@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 842
+maxExampleCount = 855
 debugMode = False
 
 
@@ -221,7 +221,7 @@ the other, then only that many elements will have the operator applied and the
 resulting list will only be as long as the shorter list.  The rest of the
 items in the longer list are ignored.
 ''' + makeCommandExample( '[ 1 2 3 4 5 6 7 ] [ 1 2 3 4 5 6 7 ] **', indent=4 ) + '''
-''' + makeCommandExample( '[ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *', indent=4 ) + '''
+''' + makeCommandExample( '[ 10 20 30 40 50 60 ] [ 3 2 3 4 ] *', indent=4 ) +   '''
 Some operators take lists as operands 'natively'.  This means the operator
 requires a list, because the operation does not make sense for a single
 value.  For example, 'mean' averages the values of a list.  If the
@@ -501,6 +501,8 @@ due to my modifications.
 
 '{' and '}' (multiple operators) don't work with generators because the
 generator only works once, and I haven't worked out a way to reset it.
+
+'collate' does not work with generators.
 
 Chained calls to 'next_new_moon' give the same answer over and over.  Other
 related operators probably do the same thing.
@@ -5856,7 +5858,7 @@ consecutive number, starting with k, and the original nth element of the list.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range 1 enumerate' ) + '''
-''' + makeCommandExample( '20 30 boiling_point 20 enumerate -s1' ) ],
+''' + makeCommandExample( '20 30 range boiling_point 20 enumerate -s1' ) ],
 
     'exponential_range' : [
 'list_operators', 'generates a list of exponential progression of numbers',
@@ -9052,7 +9054,9 @@ trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '0 acosh' ) + '''
+''' + makeCommandExample( '0.234 acosh cosh' ) + '''
+''' + makeCommandExample( '45 degrees cosh acosh radians degrees convert' ) ],
 
     'acot' : [
 'trigonometry', 'calcuates the arccotangent of n',
@@ -9120,7 +9124,10 @@ asin( y ) = x.
 The hyperbolic arcsine is the inverse of the hyperbolic sine.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '0.5 asinh' ) + '''
+''' + makeCommandExample( '0.345 asinh sinh' ) + '''
+''' + makeCommandExample( '0.75 sqrt asinh radian deg convert' ) + '''
+''' + makeCommandExample( '2 sqrt 1/x asinh radian deg convert' ) ],
 
     'atan' : [
 'trigonometry', 'calculates the arctangent of n',
@@ -9149,7 +9156,10 @@ trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
 ''',
 '''
-''' ],
+''' + makeCommandExample( '3 atanh' ) + '''
+''' + makeCommandExample( '0.5 atanh radians deg convert' ) + '''
+''' + makeCommandExample( '5.612 atanh tan' ) + '''
+''' + makeCommandExample( '89 degrees tanh atanh radians deg convert' ) ],
 
     'cos' : [
 'trigonometry', 'calculates the cosine of n',
@@ -9311,8 +9321,8 @@ can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '30 degrees tan' ) + '''
-''' + makeCommandExample( '' ) + '''
-''' + makeCommandExample( '' ) ],
+''' + makeCommandExample( 'pi 4 / tan' ) + '''
+''' + makeCommandExample( '127 degrees tan' ) ],
 
     'tanh' : [
 'trigonometry', 'calculates the hyperbolic tangent of n',
@@ -9339,6 +9349,7 @@ can handle a value in degrees without having to first convert.
 # //******************************************************************************
 
 def makeHelp( helpTopics ):
+    '''Builds the help data file.'''
     dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + g.dataDir )
     fileName = dataPath + os.sep + 'help.pckl.bz2'
 

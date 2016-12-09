@@ -62,8 +62,8 @@ December = 12
 # //******************************************************************************
 
 class RPNDateTime( arrow.Arrow ):
-    """This class wraps the Arrow class, with lots of convenience functions and
-       implements support for date math."""
+    '''This class wraps the Arrow class, with lots of convenience functions and
+    implements support for date math.'''
     def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
                   microsecond = 0, tzinfo = None, dateOnly = False ):
         self.dateOnly = dateOnly
@@ -631,13 +631,12 @@ def calculatePentecostSunday( year ):
 # //
 # //  calculateAscensionThursday
 # //
-# //
 # //******************************************************************************
 
 def calculateAscensionThursday( year ):
     '''
-    I don't know why it's 39 days instead of 40, but that's how the math
-    works out.
+    I don't know why it's 39 days after Easter instead of 40, but that's how
+    the math works out.
     '''
     return calculateEaster( year ).add( RPNMeasurement( 39, 'days' ) )
 
