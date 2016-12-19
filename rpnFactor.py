@@ -20,7 +20,7 @@ import os
 import pickle
 import random
 
-from mpmath import ceil, fabs, floor, fprod, log, log10, mp, power
+from mpmath import ceil, fabs, floor, fneg, fprod, log, log10, mp, power
 
 import rpnGlobals as g
 

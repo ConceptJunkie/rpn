@@ -2057,10 +2057,14 @@ def runNumberTheoryOperatorTests( ):
 
     # digamma
     testOperator( '3 digamma' )
+    testOperator( '-1.1 digamma' )
+    expectException( '0 digamma' )
+    expectException( '-1 digamma' )
 
     # divisors
     testOperator( '2 3 ** 3 4 ** * divisors' )
     testOperator( '12 ! divisors' )
+    testOperator( '-3690 divisors' )
 
     # double_factorial
     testOperator( '9 double_factorial' )
@@ -2077,18 +2081,25 @@ def runNumberTheoryOperatorTests( ):
 
     # euler_brick
     testOperator( '2 3 make_pyth_3 unlist euler_brick' )
+    expectException( '1 2 3 euler_brick' )
 
     # euler_phi
     testOperator( '1 20 range euler_phi' )
     expectEqual( '1 69 range euler_phi', '10 oeis 69 left' )
 
     # factor
+    testOperator( '-25 factor' )
+    testOperator( '-1 factor' )
+    testOperator( '0 factor' )
+    testOperator( '1 factor' )
     testOperator( '883847311 factor' )
     testOperator( '1 40 range fibonacci factor -s1' )
 
     # factorial
     testOperator( '-a25 -c 23 factorial' )
     expectEqual( '0 22 range !', '142 oeis 23 left' )
+    testOperator( '2.5 factorial' )
+    testOperator( '-1 factorial' )
 
     # fibonacci
     testOperator( '1 50 range fibonacci' )
