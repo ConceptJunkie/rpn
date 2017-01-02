@@ -2373,6 +2373,9 @@ operators = {
                                                     1, [ RPNOperator.String ] ),
 
     # combinatoric
+    'arrangements'                   : RPNOperator( getArrangements,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'bell_polynomial'                : RPNOperator( lambda n, k: bell( n, k ),
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
@@ -3449,6 +3452,9 @@ operators = {
 
     'prime_pi'                       : RPNOperator( getPrimePi,
                                                     1, [ RPNOperator.PositiveInteger ] ),
+
+    'prime_range'                    : RPNOperator( getPrimeRange,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'primorial'                      : RPNOperator( getNthPrimorial,
                                                     1, [ RPNOperator.PositiveInteger ] ),

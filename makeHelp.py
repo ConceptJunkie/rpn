@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 855
+maxExampleCount = 860
 debugMode = False
 
 
@@ -491,8 +491,10 @@ timer_mode:  Turns on the timer for the next operation.  Aliased to '-t'.
 rpn is a command-line Reverse-Polish Notation calculator that was first
 written in C in 1988.  It was rewritten in Python 3 in 2012 and now uses the
 mpmath library.  It was a Python-learning exercise for me, and a fun little
-toy, but when I found mpmath, it became really cool, so props to Fredrik
-Johansson, who did all the heavy lifting (http://mpmath.org).
+toy, but when I found mpmath, it became really cool and powerful, so props
+to Fredrik Johansson, who did all the heavy lifting (http://mpmath.org).  I
+subsequently added support for unit conversions that rivals the GNU units app
+and lots of other cool features thanks to the wealth of Python libraries.
     ''',
     'bugs' :
     '''
@@ -500,7 +502,7 @@ The pyecm code used for factoring numbers crashes occasionally.  This is likely
 due to my modifications.
 
 '{' and '}' (multiple operators) don't work with generators because the
-generator only works once, and I haven't worked out a way to reset it.
+generator only works once.
 
 'collate' does not work with generators.
 
@@ -531,6 +533,8 @@ arguments.
 
 'rpn 1 10 range lambda x twin_primes_ 1/x sum eval' crashes, trying to create an
 mpf fron None.
+
+Complex numbers don't obey the accuracy level on output (-a).
 
 See 'rpn help TODO'.
     ''',
@@ -2985,6 +2989,15 @@ far as rpn is concerned, it's an operator that does nothing.
 # //  combinatoric operators
 # //
 # //******************************************************************************
+
+    'arrangements' : [
+'combinatorics', 'calculates the number of arrangements of n or fewer objects out of n objects',
+'''
+''',
+'''
+''' + makeCommandExample( '1 10 range arrangements' ) + '''
+''' + makeCommandExample( '5 arrangements' ) + '''
+''' + makeCommandExample( '5 0 5 range permutations sum' ) ],
 
     'bell_polynomial' : [
 'combinatorics', 'evaluates the nth Bell polynomial with k',
@@ -8252,6 +8265,19 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''' ],
+
+    'prime_range' : [
+'prime_numbers', 'generates a range of primes starting from index n to index k',
+'''
+This operator is much faster than using 'range' with 'prime'.
+
+Prime numbers can be calculated from scratch, but this would be excessively
+slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
+distributed with data files calculated through several billion pribmes.
+''',
+'''
+''' + makeCommandExample( '1 21 prime_range' ) + '''
+''' + makeCommandExample( '4458934 4458960 prime_range' ) ],
 
     'quadruplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of quadruplet primes',

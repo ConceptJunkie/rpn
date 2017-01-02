@@ -971,6 +971,10 @@ def runChemistryOperatorTests( ):
 # //******************************************************************************
 
 def runCombinatoricsOperatorTests( ):
+    # arrangements
+    expectEqual( '5 arrangements', '5 0 5 range permutations sum' )
+    expectEqual( '-a20 20 arrangements', '-a20 20 0 20 range permutations sum' )
+
     # bell_polynomal
     testOperator( '4 5 bell_polynomial' )
     testOperator( '5 5 10 range bell_polynomial' )
@@ -2099,7 +2103,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a25 -c 23 factorial' )
     expectEqual( '0 22 range !', '142 oeis 23 left' )
     testOperator( '2.5 factorial' )
-    testOperator( '-1 factorial' )
+    expectException( '-1 factorial' )
 
     # fibonacci
     testOperator( '1 50 range fibonacci' )

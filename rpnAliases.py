@@ -278,6 +278,7 @@ operatorAliases = {
     'deca?'                     : 'nth_decagonal',
     'decagonal?'                : 'nth_decagonal',
     'delannoy'                  : 'nth_delannoy',
+    'derangements'              : 'subfactorial',
     'dice'                      : 'roll_dice',
     'dice_'                     : 'roll_dice_',
     'diff'                      : 'diffs',

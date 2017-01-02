@@ -78,7 +78,7 @@ def endOperatorList( valueList ):
 
     for i in range( 0, g.operatorsInList ):
         operator = valueList.pop( )
-        print( 'operator', operator )
+        #print( 'operator', operator )
         result.insert( 0, operator )
 
     valueList.append( result )

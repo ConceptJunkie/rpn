@@ -39,13 +39,13 @@
 # * Yes.........Yes.........No..........p+2
 # * Yes.........Yes.........Yes.........p+4 (table from Derek Holt) (End)
 
-from mpmath import arange, binomial, fac, fadd, fdiv, floor, fmul, fprod, \
-                   fsub, fsum, nint, nsum, power
+from mpmath import arange, binomial, e, fac, fadd, fdiv, floor, fmul, fprod, \
+                   fsub, fsum, log10, mp, nint, nsum, pi, power, fprod, sqrt
 
 from rpnNumberTheory import getNthLinearRecurrence
 from rpnPersistence import cachedFunction
 from rpnPolytope import getNthGeneralizedPolygonalNumber
-from rpnUtils import real, real_int
+from rpnUtils import debugPrint, real, real_int
 
 
 # //******************************************************************************
@@ -159,6 +159,16 @@ def getPermutations( n, r ):
 
 # //******************************************************************************
 # //
+# //  getArrangements
+# //
+# //******************************************************************************
+
+def getArrangements( n ):
+    return floor( fmul( fac( n ), e ) )
+
+
+# //******************************************************************************
+# //
 # //  getNthSylvester
 # //
 # //******************************************************************************
@@ -235,12 +245,12 @@ def getCompositions( n, k ):
 
 # //******************************************************************************
 # //
-# //  getPartitionNumber
+# //  OLDgetPartitionNumber
 # //
 # //******************************************************************************
 
-@cachedFunction( 'partition' )
-def getPartitionNumber( n ):
+#@cachedFunction( 'partition' )
+def OLDgetPartitionNumber( n ):
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
     elif n in ( 0, 1 ):
@@ -261,6 +271,59 @@ def getPartitionNumber( n ):
             sign *= -1
 
         k = getNthGeneralizedPolygonalNumber( i, 5 )
+
+    return total
+
+
+
+@cachedFunction( 'partition' )
+def getPartitionNumber( n ):
+    '''
+    This version is, um, less recursive than the original, which I've kept.
+    The strategy is to create a list of the smaller partition numbers we need
+    to calculate and then start calling them recursively, starting with the
+    smallest.  This will minimize the number of recursions necessary, and in
+    combination with caching values, will calculate practically any integer
+    partition without the risk of a stack overflow.
+
+    I can't help but think this is still grossly inefficient compared to what's
+    possible.  It seems that using this algorithm, calculating any integer
+    partition ends up necessitating calculating the integer partitions of
+    practically every integer smaller than the original argument.
+    '''
+    debugPrint( 'partition', n )
+    if real_int( n ) < 0:
+        raise ValueError( 'non-negative argument expected' )
+    elif n in ( 0, 1 ):
+        return 1
+
+    sign = 1
+    i = 1
+    k = 1
+
+    estimate = log10( fdiv( power( e, fmul( pi, sqrt( fdiv( fmul( 2, n ), 3 ) ) ) ),
+                            fprod( [ 4, n, sqrt( 3 ) ] ) ) )
+    if mp.dps < estimate + 5:
+        mp.dps = estimate + 5
+
+    partitionList = [ ]
+    signList = [ ]
+
+    while n - k >= 0:
+        partitionList.append( ( fsub( n, k ), sign ) )
+        i += 1
+
+        if i % 2:
+            sign *= -1
+
+        k = getNthGeneralizedPolygonalNumber( i, 5 )
+
+    partitionList = partitionList[ : : -1 ]
+
+    total = 0
+
+    for partition, sign in partitionList:
+        total = fadd( total, fmul( sign, getPartitionNumber( partition ) ) )
 
     return total
 
