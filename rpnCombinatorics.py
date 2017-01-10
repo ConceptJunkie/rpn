@@ -291,7 +291,7 @@ def getPartitionNumber( n ):
     partition ends up necessitating calculating the integer partitions of
     practically every integer smaller than the original argument.
     '''
-    debugPrint( 'partition', n )
+    debugPrint( 'partition', int( n ) )
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
     elif n in ( 0, 1 ):

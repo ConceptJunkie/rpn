@@ -19,7 +19,7 @@ import pickle
 import pyprimes
 import sys
 
-from mpmath import arange, fadd, fmul
+from mpmath import arange, fadd, fmul, fsub
 
 from rpnPersistence import openPrimeCache
 
