@@ -22,7 +22,7 @@ from rpnOperators import *
 from rpnAliases import operatorAliases
 from rpnOperators import constants
 from rpnMeasurement import RPNMeasurement
-from rpnPersistence import cachedFunction, flushDirtyCaches, loadUnitNameData
+from rpnPersistence import pickledFunction, flushDirtyCaches, loadUnitNameData
 from rpnTestUtils import *
 from rpnUtils import getDataPath
 
@@ -50,7 +50,7 @@ def initializeAlpha( ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'wolfram' )
+@pickledFunction( 'wolfram' )
 def queryAlpha( query ):
     res = client.query( query )
     return next( res.results ).text

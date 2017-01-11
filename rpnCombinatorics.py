@@ -43,7 +43,7 @@ from mpmath import arange, binomial, e, fac, fadd, fdiv, floor, fmul, fprod, \
                    fsub, fsum, log10, mp, nint, nsum, pi, power, fprod, sqrt
 
 from rpnNumberTheory import getNthLinearRecurrence
-from rpnPersistence import cachedFunction
+from rpnPersistence import cachedFunction, cachedFunctionWithPrecision, pickledFunction
 from rpnPolytope import getNthGeneralizedPolygonalNumber
 from rpnUtils import debugPrint, real, real_int
 
@@ -54,6 +54,7 @@ from rpnUtils import debugPrint, real, real_int
 # //
 # //******************************************************************************
 
+@cachedFunctionWithPrecision( 'apery' )
 def getNthAperyNumber( n ):
     '''
     http://oeis.org/A005259
@@ -249,7 +250,7 @@ def getCompositions( n, k ):
 # //
 # //******************************************************************************
 
-#@cachedFunction( 'partition' )
+#@pickledFunction( 'partition' )
 def OLDgetPartitionNumber( n ):
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
@@ -273,7 +274,6 @@ def OLDgetPartitionNumber( n ):
         k = getNthGeneralizedPolygonalNumber( i, 5 )
 
     return total
-
 
 
 @cachedFunction( 'partition' )

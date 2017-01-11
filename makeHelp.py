@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 860
+maxExampleCount = 861
 debugMode = False
 
 
@@ -5526,6 +5526,7 @@ The operator returns the RPN version number in list format.
 '''
 ''',
 '''
+''' + makeCommandExample( '[ 1 2 3 ] combine_digits' ) + '''
 ''' + makeCommandExample( '9 0 range combine_digits' ) + '''
 ''' + makeCommandExample( '1 1 7 range primes combine_digits' ) ],
 

@@ -26,7 +26,7 @@ from mpmath import arange, binomial, fabs, fac, fadd, fdiv, fib, floor, fmod, \
 from rpnFactor import getECMFactors
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
-from rpnPersistence import cachedFunction
+from rpnPersistence import pickledFunction
 from rpnUtils import real, real_int, getMPFIntegerAsString
 
 import rpnGlobals as g
@@ -38,7 +38,7 @@ import rpnGlobals as g
 # //
 # //******************************************************************************
 
-@cachedFunction( 'alt_factorial' )
+@pickledFunction( 'alt_factorial' )
 def getNthAlternatingFactorial( n ):
     result = 0
 
@@ -287,7 +287,7 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'padovan' )
+@pickledFunction( 'padovan' )
 def getNthPadovanNumber( arg ):
     n = fadd( real( arg ), 4 )
 
@@ -954,7 +954,7 @@ def getAliquotSequence( n, k ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'mobius' )
+@pickledFunction( 'mobius' )
 def getMobius( n ):
     if real( n ) == 1:
         return 1
@@ -977,7 +977,7 @@ def getMobius( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'merten' )
+@pickledFunction( 'merten' )
 def getNthMerten( n ):
     if real( n ) == 1:
         return 1
@@ -996,7 +996,7 @@ def getNthMerten( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'euler_phi' )
+@pickledFunction( 'euler_phi' )
 def getEulerPhi( n ):
     if real( n ) < 2:
         return n
@@ -1449,7 +1449,7 @@ def getNthMersennePrime( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'thue_morse' )
+@pickledFunction( 'thue_morse' )
 def getNthThueMorse( n ):
     if n == 0:
         return 0
