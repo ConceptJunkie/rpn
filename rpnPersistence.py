@@ -318,7 +318,7 @@ def cachedFunctionWithPrecision( name ):
                 return result
 
             result = func( *args, **kwargs )
-            saveToFunctionCacheWithPrecision( g.databases[ name ], g.cursors[ name ], repr( args ), repr( result ), mp.dps, update=lookup )
+            saveToFunctionCacheWithPrecision( g.databases[ name ], g.cursors[ name ], repr( args ), nstr( result, n=mp.dps ), mp.dps, update=lookup )
             return result
 
         return cacheResults
@@ -348,7 +348,10 @@ def cachedFunction( name ):
                 return result
 
             result = func( *args, **kwargs )
-            saveToCache( g.databases[ name ], g.cursors[ name ], repr( args ), repr( result ) )
+            print( )
+            print( nstr( result, n=mp.dps ), mp.dps )
+            print( )
+            saveToCache( g.databases[ name ], g.cursors[ name ], repr( args ), nstr( result, n=mp.dps ) )
             return result
 
         return cacheResults

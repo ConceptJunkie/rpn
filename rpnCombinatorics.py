@@ -281,7 +281,7 @@ def OLDgetPartitionNumber( n ):
     return total
 
 
-@cachedFunction( 'partition' )
+@cachedFunctionWithPrecision( 'partition' )
 def getPartitionNumber( n ):
     '''
     This version is, um, less recursive than the original, which I've kept.

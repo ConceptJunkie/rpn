@@ -26,7 +26,7 @@ from mpmath import arange, binomial, fabs, fac, fadd, fdiv, fib, floor, fmod, \
 from rpnFactor import getECMFactors
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
-from rpnPersistence import pickledFunction
+from rpnPersistence import cachedFunctionWithPrecision, pickledFunction
 from rpnUtils import real, real_int, getMPFIntegerAsString
 
 import rpnGlobals as g
@@ -38,7 +38,7 @@ import rpnGlobals as g
 # //
 # //******************************************************************************
 
-@pickledFunction( 'alt_factorial' )
+@cachedFunctionWithPrecision( 'alt_factorial' )
 def getNthAlternatingFactorial( n ):
     result = 0
 
@@ -146,6 +146,7 @@ def getNthLucasNumber( n ):
 # //
 # //******************************************************************************
 
+@cachedFunctionWithPrecision( 'jacobsthal' )
 def getNthJacobsthalNumber( n ):
     return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], fadd( real( n ), 1 ) )
 
@@ -287,7 +288,7 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 # //
 # //******************************************************************************
 
-@pickledFunction( 'padovan' )
+@cachedFunctionWithPrecision( 'padovan' )
 def getNthPadovanNumber( arg ):
     n = fadd( real( arg ), 4 )
 
