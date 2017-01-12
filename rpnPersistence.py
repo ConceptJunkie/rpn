@@ -25,11 +25,12 @@ import pickle
 import sqlite3
 import types
 
-from mpmath import autoprec, mp, mpf
+from mpmath import autoprec, mp, mpf, mpmathify, nstr
 
 import rpnGlobals as g
 
 from rpnGenerator import RPNGenerator
+from rpnSettings import setPrecision
 from rpnUtils import debugPrint, DelayedKeyboardInterrupt
 from rpnVersion import PROGRAM_VERSION
 
@@ -302,6 +303,8 @@ def openFunctionCache( name ):
 # //
 # //  cachedFunctionWithPrecision
 # //
+# //  This can only be used with a function that returns a single mpf value.
+# //
 # //******************************************************************************
 
 def cachedFunctionWithPrecision( name ):
@@ -311,9 +314,8 @@ def cachedFunctionWithPrecision( name ):
             openFunctionCache( name )
             lookup, result, precision = lookUpFunctionCacheWithPrecision( g.cursors[ name ], repr( args ) )
 
-            if lookup:
-                if mp.dps <= precision:
-                    return result
+            if lookup and mp.dps <= precision:
+                return result
 
             result = func( *args, **kwargs )
             saveToFunctionCacheWithPrecision( g.databases[ name ], g.cursors[ name ], repr( args ), repr( result ), mp.dps, update=lookup )
@@ -472,7 +474,7 @@ def lookUpFunctionCacheWithPrecision( cursor, key ):
     if result is None:
         return False, None, 0
     else:
-        return True, eval( result[ 0 ] ), result[ 1 ]
+        return True, mpmathify( result[ 0 ] ), result[ 1 ]
 
 
 # //******************************************************************************

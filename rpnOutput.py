@@ -314,7 +314,6 @@ def formatUnits( measurement ):
         exponent = units[ unit ]
 
         if exponent > 0:
-
             if unitString != '':
                 unitString += ' '
 

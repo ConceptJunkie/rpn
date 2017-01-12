@@ -76,6 +76,7 @@ def getNthAperyNumber( n ):
 # //
 # //******************************************************************************
 
+@cachedFunctionWithPrecision( 'delannoy' )
 def getNthDelannoyNumber( n ):
     result = 0
 
@@ -91,6 +92,7 @@ def getNthDelannoyNumber( n ):
 # //
 # //******************************************************************************
 
+@cachedFunctionWithPrecision( 'schroeder' )
 def getNthSchroederNumber( n ):
     if real( n ) == 1:
         return 1
@@ -115,6 +117,7 @@ def getNthSchroederNumber( n ):
 # //
 # //******************************************************************************
 
+@cachedFunctionWithPrecision( 'motzkin' )
 def getNthMotzkinNumber( n ):
     '''
     http://oeis.org/A001006
@@ -136,6 +139,7 @@ def getNthMotzkinNumber( n ):
 # //
 # //******************************************************************************
 
+@cachedFunctionWithPrecision( 'pell' )
 def getNthPellNumber( n ):
     '''
     From:  http://oeis.org/A000129
@@ -174,6 +178,7 @@ def getArrangements( n ):
 # //
 # //******************************************************************************
 
+@cachedFunctionWithPrecision( 'sylvester' )
 def getNthSylvester( n ):
     if real( n ) == 1:
         return 2
@@ -289,7 +294,7 @@ def getPartitionNumber( n ):
     I can't help but think this is still grossly inefficient compared to what's
     possible.  It seems that using this algorithm, calculating any integer
     partition ends up necessitating calculating the integer partitions of
-    practically every integer smaller than the original argument.
+    every integer smaller than the original argument.
     '''
     debugPrint( 'partition', int( n ) )
     if real_int( n ) < 0:
@@ -394,6 +399,7 @@ def getNthCatalanNumber( n ):
 # //
 # //******************************************************************************
 
+@cachedFunctionWithPrecision( 'schroeder_hipparchus' )
 def getNthSchroederHipparchusNumber( n ):
     result = 0
 
@@ -411,6 +417,7 @@ def getNthSchroederHipparchusNumber( n ):
 # //
 # //******************************************************************************
 
+@cachedFunctionWithPrecision( 'menage' )
 def getNthMenageNumber( n ):
     if n < 0:
         raise ValueError( '\'menage\' requires a non-negative argument' )
