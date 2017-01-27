@@ -443,94 +443,182 @@ use of "global" in favor of a global module.
 Operators supported by rpn:
 
 abs accuracy acos acosh acot acoth acsc acsch add add_digits aliquot
+
 alternate_signs alternate_signs_2 alternating_factorial alternating_sum
+
 alternating_sum_2 and apery append april argument asec asech ash_wednesday asin
+
 asinh astronomical_dawn astronomical_dusk atan atanh august autumnal_equinox
+
 avogadro balanced_prime balanced_prime_ base bell bell_polynomial bernoulli
+
 binomial calendar carol catalan ceiling centered_cube centered_decagonal
+
 centered_heptagonal centered_hexagonal centered_nonagonal centered_octagonal
+
 centered_pentagonal centered_polygonal centered_square centered_triangular cf
+
 champernowne char combine_digits comma comma_mode compositions conjugate
+
 convert copeland cos cosh cot coth count count_bits count_divisors cousin_prime
+
 cousin_prime_ crt csc csch cube cube_root dawn debruijn decagonal
+
 decagonal_centered_square decagonal_heptagonal decagonal_hexagonal
+
 decagonal_nonagonal decagonal_octagonal decagonal_pentagonal
+
 decagonal_triangular december decimal_grouping default delannoy dhms diffs
 diffs2 distance divide divisors dms dodecahedral double double_balanced
+
 double_balanced_ double_factorial dst_end dst_start dup_digits dup_operator
+
 dup_term dusk e easter ecm eddington_number egypt election_day
+
 electric_constant element estimate euler euler_brick euler_phi eval eval2 eval3
+
 eval_poly exp exp10 exponential_range expphi factor factorial false
+
 faradays_constant february fibonacci fibonorial filter filter_by_index
+
 find_palindrome find_poly fine_structure flatten float floor fraction friday
+
 frobenius from_bahai from_hebrew from_indian_civil from_islamic from_julian
+
 from_mayan from_persian from_unix_time gamma gcd geometric_mean geometric_range
+
 get_digits glaisher group_elements harmonic help heptagonal
+
 heptagonal_hexagonal heptagonal_pentagonal heptagonal_square
+
 heptagonal_triangular heptanacci hexagonal hexagonal_pentagonal
+
 hexagonal_square hexanacci hex_mode hms hyper4_2 hyperfactorial hypotenuse i
+
 icosahedral identify identify_mode imaginary infinity input_radix integer
 integer_grouping interleave intersection invert_units isolated_prime iso_day
+
 is_abundant is_achilles is_deficient is_divisible is_equal is_even is_greater
+
 is_k_semiprime is_less is_not_equal is_not_greater is_not_less is_not_zero
+
 is_odd is_palindrome is_pandigital is_perfect is_powerful is_prime is_pronic
+
 is_rough is_semiprime is_smooth is_sphenic is_square is_squarefree is_unusual
+
 is_zero itoi jacobsthal january july june jupiter khinchin kynea labor_day lah
+
 lambertw latlong latlong_to_nac lcm leading_zero leading_zero_mode left
+
 leonardo leyland lgamma li limit limitn linear_recurrence ln location
+
 location_info log10 log2 logxy long longlong lucas magnetic_constant make_cf
+
 make_iso_time make_julian_time make_pyth_3 make_pyth_4 make_time march mars max
+
 max_char max_double max_float max_index max_long max_longlong max_quadlong
+
 max_short max_uchar max_ulong max_ulonglong max_uquadlong max_ushort may mean
+
 memorial_day mercury mertens mertens_constant mills min min_char min_double
+
 min_float min_index min_long min_longlong min_quadlong min_short min_uchar
+
 min_ulong min_ulonglong min_uquadlong min_ushort mobius modulo monday moon
+
 moonrise moonset moon_antitransit moon_phase moon_transit motzkin
 multifactorial multiply multiply_digits name nand narayana nautical_dawn
+
 nautical_dusk nearest_int negate negative negative_infinity neptune
+
 newtons_constant next_antitransit next_first_quarter_moon next_full_moon
+
 next_last_quarter_moon next_new_moon next_prime next_prime_index
+
 next_quadruplet_prime next_quadruplet_prime_index next_quintuplet_prime
+
 next_rising next_setting next_transit nonagonal nonagonal_heptagonal
+
 nonagonal_hexagonal nonagonal_octagonal nonagonal_pentagonal nonagonal_square
+
 nonagonal_triangular nonzero nor not november now nprod nsum nth_apery
+
 nth_catalan nth_centered_decagonal nth_centered_heptagonal
+
 nth_centered_hexagonal nth_centered_nonagonal nth_centered_octagonal
+
 nth_centered_pentagonal nth_centered_polygonal nth_centered_square
+
 nth_centered_triangular nth_decagonal nth_heptagonal nth_hexagonal
+
 nth_nonagonal nth_octagonal nth_pentagonal nth_polygonal nth_square
+
 nth_triangular nth_weekday nth_weekday_of_year n_sphere_area n_sphere_radius
+
 n_sphere_volume occurrences octagonal octagonal_heptagonal octagonal_hexagonal
+
 octagonal_pentagonal octagonal_square octagonal_triangular octahedral
+
 octal_mode october oeis oeis_comment oeis_ex oeis_name omega or ordinal_name
+
 output_radix pack padovan parity partitions pascal_triangle pell pentagonal
+
 pentagonal_square pentagonal_triangular pentanacci pentatope permutations phi
+
 pi plastic plot plot2 plotc pluto polyadd polygamma polygonal polygon_area
+
 polylog polymul polypower polyprime polyprod polysum polytope power powmod
+
 precision presidents_day previous previous_antitransit
+
 previous_first_quarter_moon previous_full_moon previous_last_quarter_moon
+
 previous_new_moon previous_rising previous_setting previous_transit prevost
+
 prime primepi primes primorial product pyramid quadruplet_prime
+
 quadruplet_prime_ quintuplet_prime quintuplet_prime_ radiation_constant random
+
 random_ random_integer random_integer_ range range2 ratios real reciprocal
+
 reduce repunit result reversal_addition reverse reverse_digits rhombdodec
+
 riesel right robbins root round rydberg_constant safe_prime saturday saturn
+
 schroeder sec sech september set sextuplet_prime sextuplet_prime_ sexy_prime
+
 sexy_prime_ sexy_quadruplet sexy_quadruplet_ sexy_triplet sexy_triplet_
+
 shift_left shift_right short shuffle sigma sign silver_ratio sin sinh
+
 sky_location slice solar_noon solve solve2 solve3 solve4 sophie_prime sort
+
 sort_descending sphere_area sphere_radius sphere_volume square square_root
+
 square_triangular stddev stefan_boltzmann stella_octangula subfactorial sublist
+
 subtract sum summer_solstice sum_digits sun sunday sunrise sunset
+
 sun_antitransit superfactorial superprime sylvester tan tanh tetrahedral
+
 tetranacci tetrate thabit thanksgiving thursday timer timer_mode today tomorrow
+
 topic tower tower2 to_bahai to_bahai_name to_hebrew to_hebrew_name
+
 to_indian_civil to_indian_civil_name to_islamic to_islamic_name to_iso
+
 to_iso_name to_julian to_julian_day to_lilian_day to_mayan to_ordinal_date
+
 to_persian to_persian_name to_unix_time triangle_area triangular tribonacci
+
 triplet_prime triplet_prime_ triple_balanced triple_balanced_ true
+
 truncated_octahedral truncated_tetrahedral tuesday twin_prime twin_prime_ uchar
+
 uinteger ulong ulonglong undouble unfilter unfilter_by_index unfloat union
+
 unique unit_roots unlist unpack uranus use_members ushort value venus
+
 vernal_equinox wednesday weekday winter_solstice x xor y ydhms year_calendar
-yesterday z zero zeta [ ] _dump_aliases _dump_operators _stats { }
+
+yesterday z zero zeta [ ] `_dump_aliases _dump_operators _stats { }`
