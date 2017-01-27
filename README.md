@@ -1,194 +1,141 @@
+# rpn
+
 rpn is a command-line Reverse-Polish Notation calculator.
 
-rpn supports arithmetic with arbitrary precision, powers and roots, logarithms,
-algebraic functions (including polynomials arithmetic and solving),
-trigonometric functions, complex numbers, computer science related functions
-(bitwise math, base conversion), number theory functions, astronomical
-functions, prime number calculations and lookup, can operate with single
-operands or lists of operands and supports a wide variety of flexible unit
-conversions comparable to the GNU units program.
+rpn supports arithmetic with arbitrary precision, powers and roots, logarithms, algebraic functions (including polynomials arithmetic and solving), trigonometric functions, complex numbers, computer science related functions (bitwise math, base conversion), number theory functions, astronomical functions, prime number calculations and lookup, can operate with single operands or lists of operands and supports a wide variety of flexible unit conversions comparable to the GNU units program.
 
-****
+## Updates
 
-UPDATE - August 15, 2016
+### Update - August 15, 2016
 
 I am very excited that people have started noticing rpn!
 
-Please continue with comments, suggestions and bug reports.  rpn has lots of
-little bugs and possibly some big ones, too, and although I have unit tests,
-most of the time, I find bugs from using it.
+Please continue with comments, suggestions and bug reports. rpn has lots of little bugs and possibly some big ones, too, and although I have unit tests, most of the time, I find bugs from using it.
 
-I especially want to thank the folks at The Nineteenth Byte on Stack Exchange
-for their nice comments.  I also love solving puzzles with rpn, so if there's
-something you'd like to see it be able to do, drop me a line at rickg@his.com.
+I especially want to thank the folks at The Nineteenth Byte on Stack Exchange for their nice comments. I also love solving puzzles with rpn, so if there's something you'd like to see it be able to do, drop me a line at rickg@his.com.
 
 I'll try to focus on improving the help in the near future.
 
-UPDATE - July 19, 2016
+### Update - July 19, 2016
 
-I don't know if anyone has ever looked at this project... not even my Mom.  But
-anyhow, I wanted to leave an update anyway.  The "imminent" release of version
-7 is anything but.  I have been too lazy to tackle trying to make the wheel
-work correctly.  I've been making small additions here and there, including bug
-fixes whenever I find problems.
+I don't know if anyone has ever looked at this project... not even my Mom. But anyhow, I wanted to leave an update anyway. The "imminent" release of version 7 is anything but. I have been too lazy to tackle trying to make the wheel work correctly. I've been making small additions here and there, including bug fixes whenever I find problems.
 
-Currently, my short list is topped with switching to SQLite for caching
-function results to disk.  I was experimenting with the sigma function and
-found that once the cache of values got past a million, loading it had become
-unreasonably slow.  I think it would also be a very good idea to convert the
-prime number data files to SQLite tables as well.
+Currently, my short list is topped with switching to SQLite for caching function results to disk. I was experimenting with the sigma function and found that once the cache of values got past a million, loading it had become unreasonably slow. I think it would also be a very good idea to convert the prime number data files to SQLite tables as well.
 
-There are a few Python 2 compatibility problems that remain, and those should
-be easy to fix, but I've been too busy with a combiniation of real life and
-general laziness.  The conversion to using generators mentioned in the last
-update is complete and has greatly improved performance for a lot of operators.
+There are a few Python 2 compatibility problems that remain, and those should be easy to fix, but I've been too busy with a combiniation of real life and general laziness. The conversion to using generators mentioned in the last update is complete and has greatly improved performance for a lot of operators.
 
-RPN continues to proceed slowly and it works just fine right now, so it can be
-used just fine despite being a "pre-release".
+RPN continues to proceed slowly and it works just fine right now, so it can be used just fine despite being a "pre-release".
 
-UPDATE - November 16, 2015
+### Update - November 16, 2015
 
-The scope of changes for version 7 keeps growing.  The transition to lazy list
-evaluation (using generators) is going to be a very big change and currently a
-lot of operators are broken.
+The scope of changes for version 7 keeps growing. The transition to lazy list evaluation (using generators) is going to be a very big change and currently a lot of operators are broken.
 
-It is recommended that anyone using RPN from Git stick with the 7.0.alpha1 tag
-for the time being.
+It is recommended that anyone using RPN from Git stick with the 7.0.alpha1 tag for the time being.
 
-UPDATE - October 15, 2015
+### Update - October 15, 2015
 
-I've decided the upcoming release will be version 7 since so much has been
-added, a lot has been reorganized and I've gotten serious about unit tests.
+I've decided the upcoming release will be version 7 since so much has been added, a lot has been reorganized and I've gotten serious about unit tests.
 
-An official release of version 7 probably won't be for a while, because I
-really want to be able to release it on PyPI.  There's a lot of work I want to
-do before cutting another release, and it's going to take some time, but the
-current git master contains all the latest features and is working fine.
+An official release of version 7 probably won't be for a while, because I really want to be able to release it on PyPI. There's a lot of work I want to do before cutting another release, and it's going to take some time, but the current git master contains all the latest features and is working fine.
 
-rpn should still work on Android, but there are problems with the ephem
-library.  I think it has to do with building the AstroLib code, and haven't had
-a chance to try to diagnose the problem.
+rpn should still work on Android, but there are problems with the ephem library. I think it has to do with building the AstroLib code, and haven't had a chance to try to diagnose the problem.
 
-UPDATE - August 5, 2015
+### Update - August 5, 2015
 
-I am working on creating a wheel for rpn, and I'm hoping I can also make it
-Python 2 compatible before cutting another release.  The biggest roadblock is
-just getting some round tuits instead of adding in new operators, which is much
-more fun.
+I am working on creating a wheel for rpn, and I'm hoping I can also make it Python 2 compatible before cutting another release. The biggest roadblock is just getting some round tuits instead of adding in new operators, which is much more fun.
 
-Another cool update:  rpn can now be run on Android with the Termux app
-(http://termux.com/)!  Right now, it fails a unit test having to do with date
-formatting, which I haven't gotten around to investigating, but otherwise it
-works great.  Where else can you factor a 50-digit number on your Android
-device?
+Another cool update: rpn can now be run on Android with the Termux app
+(http://termux.com/)! Right now, it fails a unit test having to do with date formatting, which I haven't gotten around to investigating, but otherwise it works great. Where else can you factor a 50-digit number on your Android device?
 
-****
+---
 
 The current release is 6.4.0.
 
-rpn is a console app and can be launched from the command-line.  However,
+rpn is a console app and can be launched from the command-line. However,
 there is now an "interactive mode" and an icon to launch rpn for Windows users.
 
-Running RPN using the Windows installer:
+## Running RPN using the Windows installer:
 
-The installer includes the compiled help file, unit conversion tables and
-prime number lookup tables.  Clicking on the icon will launch an rpn "shell",
-which works just like running rpn from the command-line, except you don't need
-to say "python rpn.py".
+The installer includes the compiled help file, unit conversion tables and prime number lookup tables. Clicking on the icon will launch an rpn "shell", which works just like running rpn from the command-line, except you don't need to say "python rpn.py".
 
 There are operators to perform the same thing normally done with command-line
 switches.
 
 See "rpn help settings" for more information.
 
-Running RPN using the source:
+## Running RPN using the source:
 
-rpn is written in Python 3, and requires several libraries for the hard math
-stuff (gmpy2 is optional, but recommended for improved performance).
+rpn is written in Python 3, and requires several libraries for the hard math stuff (gmpy2 is optional, but recommended for improved performance).
 
 If you have pip installed, you can install the prerequisites with the
 following:
 
-    pip install pyprimes
-    pip install mpmath
-    pip install gmpy2
-    pip install arrow
-    pip install pyreadline
-    pip install ephem
-    pip install convertdate
-    pip install geopy
+```
+pip install pyprimes
+pip install mpmath
+pip install gmpy2
+pip install arrow
+pip install pyreadline
+pip install ephem
+pip install convertdate
+pip install geopy
+```
 
 If you are running Python 2, you will also need:
 
-    pip install enum34
-    pip install pylru
+```
+pip install enum34
+pip install pylru
+```
 
-Note:  Windows users will want to install ephem using the wheels provided here:
-http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyephem
+*Note:* Windows users will want to install ephem using the wheels provided here:
+(http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyephem)
 
-Before running rpn, you should run the scripts to generate the data files that
-rpn uses for displaying help, doing unit conversions, and looking up various
-prime numbers.
+Before running rpn, you should run the scripts to generate the data files that rpn uses for displaying help, doing unit conversions, and looking up various prime numbers.
 
-    python makeUnits.py
-    python makeHelp.py
-    python preparePrimeData.py
+```
+python makeUnits.py
+python makeHelp.py
+python preparePrimeData.py
+```
 
 Using rpn:
 
-rpn is very easy to use.  It's just like any RPN calculator:  Operands go first,
-then the operators.  All examples assume "rpn" is an alias for "python
-/<path-to-rpn>/rpn.py".  In interactive mode, you leave off the "rpn".
+rpn is very easy to use. It's just like any RPN calculator: Operands go first, then the operators. All examples assume `rpn` is an alias for `python /<path-to-rpn>/rpn.py`. In interactive mode, you leave off the `rpn`.
 
 For instance:
 
-    rpn 2 2 +
+	rpn 2 2 +
 
 will calculate 2 + 2.
 
-rpn supports more than 600 operators.  ('rpn _dumpops' will list them all.)
+rpn supports more than 600 operators. (`rpn _dumpops` will list them all.)
 
 The entire operator list is also included at the bottom of this document.
 
-rpn has pretty extensive built-in help, although the help files are not
-complete.  However, all operators have at least a brief description, and most
-are obvious enough to use easily.
+rpn has pretty extensive built-in help, although the help files are not complete. However, all operators have at least a brief description, and most are obvious enough to use easily.
 
-Start with "rpn help" for an overview.  To dive right in, see "rpn help
-examples".  In interactive mode, typing "help" will launch help mode.   Then,
-"topics" will print out a list of help topics and "exit" will return to rpn.
+Start with `rpn help` for an overview. To dive right in, see `rpn help examples`. In interactive mode, typing `help` will launch help mode. Then, `topics` will print out a list of help topics and `exit` will return to rpn.
 
-makeRPNPrimes.py consists of a bunch of functions for pre-calculating and
-caching different kinds of prime numbers that was recently pulled out of rpn.py
-(and as of version 6.4.0 isn't finished as a standalone program).
+`makeRPNPrimes.py` consists of a bunch of functions for pre-calculating and caching different kinds of prime numbers that was recently pulled out of `rpn.py` (and as of version 6.4.0 isn't finished as a standalone program).
 
-The data files are stored in the same location as rpn.py in a subdirectory
-called rpndata/.  In the Windows installer version, they are stored in the same
-directory as the EXE.
+The data files are stored in the same location as `rpn.py` in a subdirectory called `rpndata/`. In the Windows installer version, they are stored in the same directory as the `EXE`.
 
-If you really want to generate prime numbers, see my "primes" project:
-https://github.com/ConceptJunkie/primes   I've calculated the first 10 billion
-prime numbers and will someday update the rpn lookup tables.
+If you really want to generate prime numbers, see my "primes" project: https://github.com/ConceptJunkie/primes I've calculated the first 10 billion prime numbers and will someday update the rpn lookup tables.
 
-rpn also provides a simple interface for accessing The On-Line Encyclopedia of
-Integer Sequences (http://oeis.org), see "rpn help special" and "rpn help
-oeis".
+rpn also provides a simple interface for accessing The On-Line Encyclopedia of Integer Sequences (http://oeis.org), see `rpn help special` and `rpn help oeis`.
 
-Feedback, Comments, Bug Reports:
+## Feedback, Comments, Bug Reports:
 
-Any feedback is welcome at rickg@his.com.  This was originally an exercise to
-learn Python, but slowly blossomed into something really useful and fun, so I
-wanted to share it.  rpn also exposes just a few of the features of the amazing
-mpmath library (by Fredrik Johansson, http://mpmath.org/) which is where
-almost all the hard math stuff is actually done.
+Any feedback is welcome at [rickg@his.com](mailto:rickg@his.com). This was originally an exercise to learn Python, but slowly blossomed into something really useful and fun, so I wanted to share it. rpn also exposes just a few of the features of the amazing mpmath library (by Fredrik Johansson, http://mpmath.org/) which is where almost all the hard math stuff is actually done.
 
-Rick Gutleber
-rickg@his.com
+**Rick Gutleber**  
+[rickg@his.com](mailto:rickg@his.com)
 
-p.s. rpn is licensed under the GNU GPL version 3.0.  See (see
-<http://www.gnu.org/licenses/gpl.html> for more information).
+p.s. rpn is licensed under the GNU GPL version 3.0. See (see
+(http://www.gnu.org/licenses/gpl.html) for more information).
 
-Release Notes:
+## Release Notes
 
 6.4.0 - "Factoring Fun"
 
@@ -200,13 +147,9 @@ Added the 'magnetic_constant', 'electric_constant', 'rydberg_constant',
 
 Added 'eulerphi' operator.
 
-Added caching for factorizations.  I often factor the same numbers over and
-over (like when I'm playing with the Fibonaccis) so it made sense to cache the
-results for non-trivial factoring.
+Added caching for factorizations.  I often factor the same numbers over and over (like when I'm playing with the Fibonaccis) so it made sense to cache the results for non-trivial factoring.
 
-Added the 'sigma, 'aliquot', 'polypower', 'mobius' and 'mertens' operators.
-The old 'mertens' operator was renamed to 'mertens_constant'.  The 'aliquot'
-operator is another use-case for caching factorizations... try it with 276.
+Added the 'sigma, 'aliquot', 'polypower', 'mobius' and 'mertens' operators.  The old 'mertens' operator was renamed to 'mertens_constant'.  The 'aliquot' operator is another use-case for caching factorizations... try it with 276.
 rpn can can now factor the first 450 or so in a reasonably short time.
 
 Added the 'frobenius', 'slice', 'sublist', 'left' and 'right' operators.
@@ -238,8 +181,7 @@ Added the 'reduce' operator.
 
 Added the 'lcm' operator.
 
-The 'pascal' operator was renamed to 'pascaltri' to avoid a collision with
-the 'pascal' unit.
+The 'pascal' operator was renamed to 'pascaltri' to avoid a collision with the 'pascal' unit.
 
 Fixed several minor bugs.
 
@@ -251,19 +193,16 @@ in the Windows installer.
 
 'quit' is now an alias for 'exit' in interactive mode and help mode.
 
-Improvements in function definition.  'y' and 'z' are now operators, allowing
-for defining functions on 2 or 3 variables.
+Improvements in function definition.  'y' and 'z' are now operators, allowing for defining functions on 2 or 3 variables.
 
 Operators 'eval2' and 'eval3' allow for evaluation of 2 and 3 variable
 operators.
 
-rpn now throws an error if a user-defined function is invalidly specified,
-instead of going into an infinite loop.
+rpn now throws an error if a user-defined function is invalidly specified, instead of going into an infinite loop.
 
 'filter' allows filtering a list based on a user-defined function.
 
-If the units in a measurement cancel out, then the measurement is converted
-back to a numerical value.
+If the units in a measurement cancel out, then the measurement is converted back to a numerical value.
 
 Added 'rand_' and 'randint_' operators.
 
@@ -275,28 +214,23 @@ Fixed several minor bugs.
 
 New operators:  'maxdouble', 'maxfloat', 'mindouble', 'minfloat'
 
-Base conversion for output is no longer limited to 1000 digits.  There's no
-reason to do that.
+Base conversion for output is no longer limited to 1000 digits.  There's no reason to do that.
 
 'rpn 0 cf' now throws an error rather than dividing by 0.
 
 6.0.1
 
-Added code to prevent scientific notation from messing up base conversions for
-the integral part of the number (up to 1000 digits).
+Added code to prevent scientific notation from messing up base conversions for the integral part of the number (up to 1000 digits).
 
 6.0.0
 
-Introduced interactive mode, including variable declaration and referencing
-previous results by number.  (see 'rpn help interactive_mode')
+Introduced interactive mode, including variable declaration and referencing previous results by number.  (see 'rpn help interactive_mode')
 
-Added caching for OEIS operators.  However, it turns out some OEIS text is
-non-ASCII, so I'll have to deal with that.
+Added caching for OEIS operators.  However, it turns out some OEIS text is non-ASCII, so I'll have to deal with that.
 
 Operator help now includes examples by default.
 
-The 'time' operator type conflicted with the 'time' unit type, so I changed
-the operator type to 'date'... because they were all about dates!
+The 'time' operator type conflicted with the 'time' unit type, so I changed the operator type to 'date'... because they were all about dates!
 
 Fixed a long-standing precision problem with unit conversion.
 
