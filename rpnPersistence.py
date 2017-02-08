@@ -348,9 +348,6 @@ def cachedFunction( name ):
                 return result
 
             result = func( *args, **kwargs )
-            print( )
-            print( nstr( result, n=mp.dps ), mp.dps )
-            print( )
             saveToCache( g.databases[ name ], g.cursors[ name ], repr( args ), nstr( result, n=mp.dps ) )
             return result
 

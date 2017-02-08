@@ -63,7 +63,17 @@ def runCommandLineOptionsTests( ):
 
     testOperator( 'pi -p1000' )
 
+    testOperator( '10 100 10 range2 -re' )
+    testOperator( '10 100 10 range2 -rfac' )
+    testOperator( '10 100 10 range2 -rfac2' )
+    testOperator( '10 100 10 range2 -rfib' )
+    testOperator( '10 100 10 range2 -rlucas' )
     testOperator( '10 100 10 range2 -rphi' )
+    testOperator( '10 100 10 range2 -rpi' )
+    testOperator( '10 100 10 range2 -rprimorial' )
+    testOperator( '10 100 10 range2 -rsqr' )
+    testOperator( '10 100 10 range2 -rsqrt2' )
+    testOperator( '10 100 10 range2 -rtri' )
 
     testOperator( '1 100 range -r2' )
     testOperator( '1 100 range -r3' )
@@ -126,7 +136,6 @@ def runCommandLineOptionsTests( ):
     testOperator( '1 100 range -r60' )
     testOperator( '1 100 range -r61' )
     testOperator( '1 100 range -r62' )
-    testOperator( '1 100 range -rphi' )
     expectException( '1 100 range -r1' )
     expectException( '1 100 range -r63' )
 
@@ -1021,7 +1030,7 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '5 6 lah' )
 
     # menage
-    expectEqual( '-a30 0 25 range nth_menage', '179 oeis 26 left' )
+    expectEqual( '-a30 0 25 range nth_menage', '-a30 179 oeis 26 left' )
 
     # multifactorial
     testOperator( '1 20 range 5 multifactorial' )
@@ -2254,14 +2263,14 @@ def runNumberTheoryOperatorTests( ):
     # nth_thue_morse
     expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
 
+    # nth_padovan
+    testOperator( '-c 76 nth_padovan' )
+    expectEqual( '0 45 range nth_padovan', '931 oeis 50 left 46 right' )
+
     # octanacci
     testOperator( '-a300 -c 906 octanacci' )
     expectEqual( '0 39 range octanacci', '79262 oeis 40 left' )
     expectResult( '0 100 range octanacci', [ getNthKFibonacciNumberTheSlowWay( i, 8 ) for i in range( 0, 101 ) ] )
-
-    # nth_padovan
-    testOperator( '-c 76 nth_padovan' )
-    expectEqual( '0 45 range nth_padovan', '931 oeis 50 left 46 right' )
 
     # pascal_triangle
     testOperator( '12 pascal_triangle' )

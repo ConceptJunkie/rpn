@@ -498,8 +498,8 @@ and lots of other cool features thanks to the wealth of Python libraries.
     ''',
     'bugs' :
     '''
-The pyecm code used for factoring numbers crashes occasionally.  This is likely
-due to my modifications.
+The pyecm code used for factoring numbers crashes occasionally.  This is almost
+certainly due to my modifications.  Increasing the precision sometimes helps.
 
 '{' and '}' (multiple operators) don't work with generators because the
 generator only works once.
@@ -520,7 +520,8 @@ is unavoidable to a certain extent, but it's worse than I think it should be.
 
 'result' doesn't work with measurements.
 
-Date comparisons before the epoch (1970-01-01) don't work.
+Date comparisons before the epoch (1970-01-01) don't work.  It seems to be a
+limitation of the Arrow class.
 
 User-defined functions can't include lists, units or anything other than
 default format numbers.

@@ -14,10 +14,12 @@
 
 import rpnGlobals as g
 
-from mpmath import chop, fac, fac2, fdiv, floor, fmod, fmul, fneg, fsub, log, mp, \
-                   mpmathify, nint, power
+from mpmath import chop, fac, fac2, fadd, fdiv, floor, fmod, fmul, fneg, fsub, \
+                   log, mp, mpmathify, nint, power
 
 from rpnNumberTheory import getNthLucasNumber
+from rpnPolytope import getNthPolygonalNumber
+from rpnPrimeUtils import getNthPrimorial
 
 
 # //******************************************************************************

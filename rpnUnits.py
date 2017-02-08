@@ -1376,6 +1376,12 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
                      '''
                      ''' ),
 
+    'pound_of_TNT' :
+        RPNUnitInfo( 'energy', 'pound_of_TNT', 'pounds_of_TNT', 'pTNT',
+                     [ ], [ 'informal' ],
+                     '''
+                     ''' ),
+
     'quad' :
         RPNUnitInfo( 'energy', 'quad', 'quads', '',
                      [ ], [ 'US' ],
@@ -2838,6 +2844,12 @@ This conversion is required to do mass-energy equivalence calculations.
                      '''
                      ''' ),
 
+    'eon' :
+        RPNUnitInfo( 'time', 'eon', 'eons', '',
+                     [ ], [ 'traditional', 'years' ],
+                     '''
+                     ''' ),
+
     'fortnight' :
         RPNUnitInfo( 'time', 'fortnight', 'fortnights', '',
                      [ ], [ 'traditional' ],
@@ -3929,8 +3941,9 @@ unitConversionMatrix = {
     ( 'dry_tun',                    'dry_hogshead' )                        : mpmathify( '4' ),
     ( 'duodecillion',               'unity' )                               : mpmathify( '1.0e39' ),
     ( 'dword',                      'bit' )                                 : mpmathify( '32' ),
-    ( 'electron-volt',             'joule' )                                : mpmathify( '1.6021766208e-19' ),
+    ( 'electron-volt',              'joule' )                               : mpmathify( '1.6021766208e-19' ),
     ( 'ell',                        'inch' )                                : mpmathify( '45' ),
+    ( 'eon',                        'year' )                                : mpmathify( '1e9' ),
     ( 'every_minute',               'hourly' )                              : mpmathify( '60' ),
     ( 'famn',                       'aln' )                                 : mpmathify( '3' ),
     ( 'farad',                      'jar' )                                 : mpmathify( '9.0e8' ),
@@ -4230,6 +4243,7 @@ unitConversionMatrix = {
     ( 'thousand',                   'unity' )                               : mpmathify( '1000' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
     ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
+    ( 'ton_of_TNT',                 'pound_of_TNT' )                        : mpmathify( '2000' ),
     ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
     ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),

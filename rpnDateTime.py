@@ -65,7 +65,7 @@ class RPNDateTime( arrow.Arrow ):
     '''This class wraps the Arrow class, with lots of convenience functions and
     implements support for date math.'''
     def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
-                  microsecond = 0, tzinfo = None, dateOnly = False ):
+                  microsecond = 0, tzinfo = tz.tzlocal( ), dateOnly = False ):
         self.dateOnly = dateOnly
         super( RPNDateTime, self ).__init__( int( year ), int( month ), int( day ),
                                              int( hour ), int( minute ), int( second ),
@@ -357,7 +357,7 @@ def getNow( ):
 # //******************************************************************************
 
 def getToday( ):
-    now = datetime.datetime.now( )
+    now = getNow( )
     return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
 
 
@@ -368,7 +368,7 @@ def getToday( ):
 # //******************************************************************************
 
 def getTomorrow( ):
-    now = datetime.datetime.now( )
+    now = getNow( )
     now = now + datetime.timedelta( days = 1 )
     return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
 
@@ -380,7 +380,7 @@ def getTomorrow( ):
 # //******************************************************************************
 
 def getYesterday( ):
-    now = datetime.datetime.now( )
+    now = getNow( )
     now = now + datetime.timedelta( days = -1 )
     return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
 
@@ -636,7 +636,7 @@ def calculatePentecostSunday( year ):
 def calculateAscensionThursday( year ):
     '''
     I don't know why it's 39 days after Easter instead of 40, but that's how
-    the math works out.
+    the math works out.  As John Wright says, "Catholics can't count."
     '''
     return calculateEaster( year ).add( RPNMeasurement( 39, 'days' ) )
 

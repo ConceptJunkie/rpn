@@ -21,7 +21,8 @@ import string
 import sys
 import textwrap
 
-from mpmath import floor, frac, inf, im, mp, mpf, mpmathify, nstr, phi, re
+from mpmath import e, floor, frac, inf, im, mp, mpf, mpmathify, nstr, phi, \
+                   pi, re, sqrt
 
 from rpnBase import convertFractionToBaseN, convertToBaseN, convertToFibBase, \
                     convertToNonintegerBase, convertToSpecialBase, specialBaseFunctions

@@ -114,7 +114,8 @@ def interleave( arg1, arg2 ):
 
 def collate( argList ):
     if not isinstance( argList, list ):
-        return argList
+        yield argList
+        return
 
     listOfLists = [ ]
     length = 0
