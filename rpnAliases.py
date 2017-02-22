@@ -409,6 +409,7 @@ operatorAliases = {
     'is_armstrong'              : 'is_narcissistic',
     'is_div'                    : 'is_divisible',
     'is_k_armstrong'            : 'is_k_narcissistic',
+    'is_k_perfect'              : 'is_k_hyperperfect',
     'is_more'                   : 'is_greater',
     'is_n_armstrong'            : 'is_k_narcissistic',
     'is_n_plus_perfect'         : 'is_k_narcissistic',

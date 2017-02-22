@@ -15,6 +15,7 @@
 import arrow
 import calendar
 import datetime
+import tzlocal
 
 from dateutil import tz
 
@@ -84,12 +85,16 @@ class RPNDateTime( arrow.Arrow ):
         return RPNDateTime( result.year, result.month, result.day, result.hour,
                             result.minute, result.second, result.microsecond, result.tzinfo )
 
+    @staticmethod
+    def getUTCOffset( ):
+        tz = tzlocal.get_localzone( ) # local timezone
+        d = datetime.datetime.now( tz )
+        return RPNMeasurement( d.utcoffset( ).total_seconds( ), 'seconds' )
+
     # TODO: fix DST calculation
     def getLocalTime( self ):
-        offset = tz.tzlocal( ).utcoffset( arrow.now( ) )
-        result = self + offset
-        #result.tzinfo = tz.tzlocal( )  # This crashes for dates before the epoch!
-        return result
+        result = self
+        return result.add( self.getUTCOffset( ) )
 
     @staticmethod
     def parseDateTime( n ):
