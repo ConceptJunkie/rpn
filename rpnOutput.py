@@ -384,12 +384,12 @@ def formatDateTime( datetime ):
         raise ValueError( 'expected RPNDateTime' )
 
     if datetime.getDateOnly( ):
-        return datetime.format( 'YYYY-MM-DD' )
+        return datetime.formatDate( )
     else:
         # if datetime.microsecond:
         #     return datetime.format( 'YYYY-MM-DD HH:mm:ss.SSSSSS' )
         # else:
-        return datetime.format( 'YYYY-MM-DD HH:mm:ss' )
+        return datetime.format( )
 
 
 # //******************************************************************************

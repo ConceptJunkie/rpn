@@ -158,6 +158,16 @@ class RPNDateTime( arrow.Arrow ):
                 print( 'rpn:  value is out of range to be converted into a time' )
                 return nan
 
+    def format( self ):
+        return "{0:4d}-{1:02d}-{2:02d} {3:02d}:{4:02d}:{5:02d}".format( self.year, self.month, self.day,
+                                                                        self.hour, self.minute, self.second )
+
+    def formatDate( self ):
+        return "{0:4d}-{1:02d}-{2:02d}".format( self.year, self.month, self.day )
+
+    def formatTime( self ):
+        return "{0:02d}:{1:02d}:{2:02d}".format( self.hour, self.minute, self.second )
+
     def subtract( self, time ):
         if isinstance( time, RPNMeasurement ):
             kneg = RPNMeasurement( fneg( time.getValue( ) ), time.getUnits( ) )

@@ -117,6 +117,7 @@ following:
     pip install ephem
     pip install convertdate
     pip install geopy
+	pip install tzlocal
 
 If you are running Python 2, you will also need:
 
@@ -126,9 +127,9 @@ If you are running Python 2, you will also need:
 Note:  Windows users will want to install ephem using the wheels provided here:
 http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyephem
 
-Before running rpn, you should run the scripts to generate the data files that
+Before running rpn, you need to run the scripts to generate the data files that
 rpn uses for displaying help, doing unit conversions, and looking up various
-prime numbers.
+prime numbers.   These only needs to be run again if they change.
 
     python makeUnits.py
     python makeHelp.py
