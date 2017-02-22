@@ -2863,7 +2863,7 @@ as an operand, so this function cannot be combined with other operators.
 '''
 ''' + makeCommandExample( 'today weekday' ) + '''
 ''' + makeCommandExample( '1776-07-04 weekday' ) + '''
-''' + makeCommandExample( '1851-02-29 weekday' ) + '''
+''' + makeCommandExample( '1852-02-29 weekday' ) + '''
 ''' + makeCommandExample( '1929-10-29 weekday' ) + '''
 ''' + makeCommandExample( '2043-04-17 weekday' ) ],
 

@@ -891,6 +891,11 @@ def runCalendarOperatorTests( ):
 
     # weekday
     testOperator( 'today weekday' )
+    expectException( '2017-00-01 weekday' )
+    expectException( '2017-13-01 weekday' )
+    expectException( '2017-01-32 weekday' )
+    expectException( '2017-04-31 weekday' )
+    expectException( '1951-02-29 weekday' )
 
     # year_calendar
     testOperator( '1965 year_calendar' )
