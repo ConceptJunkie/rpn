@@ -221,7 +221,7 @@ def getDistance( location1, location2 ):
         location2 = getLocation( location2 )
 
     if not isinstance( location1, RPNLocation ) or not isinstance( location2, RPNLocation ):
-        raise ValueError( 'expected an two locations as arguments' )
+        return calculateDistance( location1, location2 )
 
     from geopy.distance import vincenty
 

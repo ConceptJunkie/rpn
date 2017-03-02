@@ -359,13 +359,13 @@ def calculateDistance( measurement1, measurement2 ):
         distance = arguments[ 'length' ]
     elif 'acceleration' in arguments:
         # acceleration and time
-        distance = getProduct( [ 0.5, arguments[ 'acceleration' ], time, time ] )
+        distance = getProduct( [ fdiv( 1, 2 ), arguments[ 'acceleration' ], time, time ] )
     elif 'jerk' in arguments:
         # jerk and time
-        distance = calculateDistance( getProduct( [ 0.5, arguments[ 'jerk' ], time ] ), time )
+        distance = calculateDistance( getProduct( [ fdiv( 1, 2 ), arguments[ 'jerk' ], time ] ), time )
     elif 'jounce' in arguments:
         # jounce and time
-        distance = calculateDistance( getProduct( [ 0.5, arguments[ 'jounce' ], time ] ), time )
+        distance = calculateDistance( getProduct( [ fdiv( 1, 2 ), arguments[ 'jounce' ], time ] ), time )
     else:
         # velocity and time
         distance = multiply( arguments[ 'velocity' ], time )
@@ -429,11 +429,11 @@ def calculateVelocity( measurement1, measurement2 ):
 
 def calculateAcceleration( measurement1, measurement2 ):
     validUnitTypes = [
-        [ 'velocity', 'distance' ],
+        [ 'velocity', 'length' ],
         [ 'velocity', 'time' ],
         [ 'distance', 'time' ],
         [ 'acceleration', 'time' ],
-        [ 'acceleration', 'distance' ],
+        [ 'acceleration', 'length' ],
     ]
 
     arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
@@ -444,6 +444,44 @@ def calculateAcceleration( measurement1, measurement2 ):
         acceleration = RPNMeasurement( '1.0', 'meter/second^2' )
 
     return acceleration.convert( 'meter/second^2' )
+
+
+# //******************************************************************************
+# //
+# //  calculateDistance
+# //
+# //******************************************************************************
+
+def calculateDistance( measurement1, measurement2 ):
+    validUnitTypes = [
+        [ 'length', 'time' ],
+        [ 'velocity', 'time' ],
+        [ 'acceleration', 'time' ],
+        [ 'jerk', 'time' ],
+        [ 'jounce', 'time' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
+
+    if 'length' in arguments:
+        distance = arguments[ 'length' ]
+    elif 'velocity' in arguments:
+        if 'time' in arguments:
+            distance = multiply( arguments[ 'velocity' ], arguments[ 'time' ] )
+    elif 'acceleration' in arguments:
+        if 'time' in arguments:
+            distance = getProduct( [ arguments[ 'acceleration' ], arguments[ 'time' ],
+                                     arguments[ 'time' ], fdiv( 1, 2 ) ] )
+    elif 'jerk' in arguments:
+        if 'time' in arguments:
+            distance = getProduct( [ arguments[ 'acceleration' ], getPower( arguments[ 'time' ], 3 ),
+                                     fdiv( 1, 4 ) ] )
+    elif 'jounce' in arguments:
+        if 'time' in arguments:
+            distance = getProduct( [ arguments[ 'acceleration' ], getPower( arguments[ 'time' ], 4 ),
+                                     fdiv( 1, 8 ) ] )
+
+    return distance.convert( 'meter' )
 
 
 # //******************************************************************************
@@ -464,7 +502,7 @@ def calculateKineticEnergy( measurement1, measurement2 ):
 
     mass = arguments[ 'mass' ]
     velocity = arguments[ 'velocity' ]
-    energy = getProduct( [ 0.5, mass, velocity, velocity ] )
+    energy = getProduct( [ fdiv( 1, 2 ), mass, velocity, velocity ] )
     return energy.convert( 'joule' )
 
 
