@@ -504,6 +504,8 @@ def parseNumbersExpression( arg ):
     result = [ ]
 
     digitRange = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ]
+    oddRange = [ '1', '3', '5', '7', '9' ]
+    evenRange = [ '0', '2', '4', '6', '8' ]
 
     defaultState = 0
     startDigitState = 1
@@ -524,6 +526,10 @@ def parseNumbersExpression( arg ):
         if state == defaultState:
             if ch == 'd':
                 result.append( digitRange )
+            elif ch == 'e':
+                result.append( evenRange )
+            elif ch == 'o':
+                result.append( oddRange )
             elif ch == '[':
                 state = digitState
                 currentGroup = set( )
@@ -545,6 +551,21 @@ def parseNumbersExpression( arg ):
             if '0' <= ch <= '9':
                 currentGroup.add( ch )
                 lastDigit = ch
+            elif ch == 'd':
+                for digit in digitRange:
+                    currentGroup.add( digit )
+
+                lastDigit = ' '
+            elif ch == 'e':
+                for digit in evenRange:
+                    currentGroup.add( digit )
+
+                lastDigit = ' '
+            elif ch == 'o':
+                for digit in oddRange:
+                    currentGroup.add( digit )
+
+                lastDigit = ' '
             elif ch == '-':
                 state = startRangeState
             elif ch == ':':
@@ -553,6 +574,9 @@ def parseNumbersExpression( arg ):
                 result.append( sorted( list( currentGroup ) ) )
                 state = defaultState
         elif state == startRangeState:
+            if lastDigit == ' ':
+                raise ValueError( 'invalid digit range' )
+
             if '0' <= ch <= '9':
                 if ch <= lastDigit:
                     raise ValueError( 'invalid digit range' )

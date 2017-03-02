@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 861
+maxExampleCount = 881
 debugMode = False
 
 
@@ -329,7 +329,7 @@ Some examples:
 ''' + makeCommandExample( '1 inf lambda 2 x ** 1/x nsum', indent=4 ) + '''
 What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
 number with a 1 added on the end?
-''' + makeCommandExample( '-t ddddd build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4, slow=True ) + '''
+''' + makeCommandExample( '-t [d:5] build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4, slow=True ) + '''
 And we can check that our result works:
 ''' + makeCommandExample( '428571 142857 /', indent=4 ),
     'unit_conversion' :
@@ -5511,20 +5511,71 @@ The operator returns the RPN version number in list format.
     'add_digits' : [
 'lexicography', 'adds the digits of k to n',
 '''
+The individual digits are combined lexicographically to produce a number that
+is the equivalent of the concatenation of digits from each argument.
 ''',
 '''
+''' + makeCommandExample( '34 45 add_digits' ) + '''
+''' + makeCommandExample( '12345 67890 add_digits' ) + '''
 ''' ],
 
     'build_numbers' : [
-'lexicography', '',
+'lexicography', 'constructs numbers lexicographically using a simple language',
 '''
+The simple language used to build numbers is similar to regular expressions
+where the result is any permutation of digits that matches the pattern.
+
+The expression consists of one or more digit expressions, each of which
+describes the possible values for each digit in the resulting number.
+
+The resulting numbers are presented in numeric order.
+
+Digit expressions include:
+    '0' through '9':  literal digits
+
+    'd':              all digits, the equivalent of "[0-9]"
+
+    'e':              even digits, the equivalent of "[24680]"
+
+    'o':              odd digits, the equivalent of "[13579]"
+
+    [I[I]...]:        a set of possible values for digits where I is a
+                      literal digit or a range, which is specified by
+                      two separate digits with a '-' in between
+
+    [I[I]...:m]:      a set of possible values, as above, but for m digits,
+                      not just one
+
+    [I[I]...:n:m]:    all permutations of digits from a minimum of n digits
+                      to a maximum of m digits
+
+Please note that 'd', 'e', and 'o' can occur in a digit set (i.e., inside
+brackets).  Also note that 'e' by itself is interpreted as the number e (i.e.,
+Euler's number).  'o' by itself is interpreted as the symbol for 'abohm'.
 ''',
 '''
+''' + makeCommandExample( '[1248] build_numbers' ) + '''
+''' + makeCommandExample( '[e] build_numbers' ) + '''
+''' + makeCommandExample( '[e7] build_numbers' ) + '''
+''' + makeCommandExample( '[o] build_numbers' ) + '''
+''' + makeCommandExample( '[1-37-9] build_numbers' ) + '''
+''' + makeCommandExample( '[1-367-9] build_numbers' ) + '''
+''' + makeCommandExample( '2[1-4]5 build_numbers' ) + '''
+''' + makeCommandExample( '[1-3][4-6] build_numbers' ) + '''
+''' + makeCommandExample( '[1-5:2] build_numbers' ) + '''
+''' + makeCommandExample( '[1-4:2:3] build_numbers' ) + '''
+''' + makeCommandExample( '[1-4:1:2]e build_numbers' ) + '''
 ''' ],
 
     'combine_digits' : [
 'lexicography', 'combines the digits of all elements of list n into a single number',
 '''
+The individual digits are combined lexicographically to produce a number that
+is the equivalent of the concatenation of digits from each item in the argument
+list.
+
+This function is the "list version" of 'add_digits'.  It does the same thing as
+'add_digits', but with a list of arguments instead of two arguments.
 ''',
 '''
 ''' + makeCommandExample( '[ 1 2 3 ] combine_digits' ) + '''
@@ -7245,10 +7296,28 @@ Calculate the surface gravity of a 10-solar-mass black hole:
 ''' + makeCommandExample( '0.99 c * time_dilation' ) ],
 
     'velocity' : [
-'physics', 'calculates velocity...',
+'physics', 'calculates velocity given...',
 '''
+Calculates velocity given measurements in two different units (in either
+order), from one of the following combinations of units:
+    acceleration, length
+    acceleration, time
+    jerk, length
+    jerk, time
+    jounce, length
+    jounce, time
+    length, time
+    velocity, length        (trivial case)
+    velocity, time          (trivial case)
 ''',
 '''
+''' + makeCommandExample( '9.80665 m/s^2 10 seconds velocity' ) + '''
+''' + makeCommandExample( '9.80665 m/s^2 100 feet velocity' ) + '''
+''' + makeCommandExample( '1 m/s^3 10 seconds velocity' ) + '''
+''' + makeCommandExample( '1 m/s^3 100 feet velocity' ) + '''
+''' + makeCommandExample( '1 m/s^4 10 seconds velocity' ) + '''
+''' + makeCommandExample( '1 m/s^4 100 meters velocity' ) + '''
+''' + makeCommandExample( '100 meters 10 seconds velocity' ) + '''
 ''' ],
 
 
