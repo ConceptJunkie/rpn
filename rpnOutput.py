@@ -452,6 +452,21 @@ def printOperatorHelp( term, operatorInfo, operatorHelp ):
     else:
         print( 'No examples are available.' )
 
+    if len( operatorHelp ) > 4 and len( operatorHelp[ 4 ] ) > 0:
+        print( 'see also:  ', end='' )
+
+        bFirst = True
+
+        for name in sorted( operatorHelp[ 4 ] ):
+            if bFirst:
+                bFirst = False
+            else:
+                print( ', ', end='' )
+
+            print( name, end='' )
+
+        print( )
+
 
 # //******************************************************************************
 # //

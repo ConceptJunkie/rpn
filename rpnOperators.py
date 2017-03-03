@@ -2246,6 +2246,9 @@ operators = {
                                                     3, [ RPNOperator.Integer, RPNOperator.Integer,
                                                          RPNOperator.Integer ] ),
 
+    'good_friday'                    : RPNOperator( calculateGoodFriday,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'iso_date'                       : RPNOperator( getISODate,
                                                     1, [ RPNOperator.DateTime ] ),
 
