@@ -2797,7 +2797,7 @@ operators = {
     'li'                             : RPNOperator( lambda n: li( n ),
                                                     1, [ RPNOperator.Default ] ),
 
-    'ln'                             : RPNOperator( lambda n: ln( n ),
+    'log'                            : RPNOperator( lambda n: ln( n ),
                                                     1, [ RPNOperator.Default ] ),
 
     'log10'                          : RPNOperator( lambda n: log10( n ),

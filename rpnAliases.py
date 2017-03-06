@@ -458,7 +458,7 @@ operatorAliases = {
     'little_schroeder'          : 'nth_schroeder_hipparchus',
     'll_nac'                    : 'latlong_to_nac',
     'll_to_nac'                 : 'latlong_to_nac',
-    'log'                       : 'ln',
+    'ln'                        : 'log',
     'loggamma'                  : 'log_gamma',
     'lunar_gravity'             : 'moon_gravity',
     'mP'                        : 'planck_mass',
