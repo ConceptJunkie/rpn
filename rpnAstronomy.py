@@ -137,7 +137,7 @@ def getNextRising( body, location, date ):
         location = getLocation( location )
 
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
     old_horizon = location.observer.horizon
 
@@ -163,7 +163,7 @@ def getNextSetting( body, location, date ):
         location = getLocation( location )
 
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
     old_horizon = location.observer.horizon
 
@@ -189,7 +189,7 @@ def getNextTransit( body, location, date ):
 
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
        not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
     old_horizon = location.observer.horizon
 
@@ -215,7 +215,7 @@ def getNextAntitransit( body, location, date ):
 
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
        not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
     old_horizon = location.observer.horizon
 
@@ -241,7 +241,7 @@ def getTransitTime( body, location, date ):
 
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
        not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
     location.observer.date = date.to( 'utc' ).format( )
     location.observer.horizon = '0'
@@ -265,7 +265,7 @@ def getAntitransitTime( body, location, date ):
 
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
        not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
     location.observer.date = date.to( 'utc' ).format( )
     location.observer.horizon = '0'
@@ -289,7 +289,7 @@ def getPreviousRising( body, location, date ):
         location = getLocation( location )
 
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
     old_horizon = location.observer.horizon
 
@@ -315,7 +315,7 @@ def getPreviousSetting( body, location, date ):
         location = getLocation( location )
 
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
     old_horizon = location.observer.horizon
 
@@ -341,7 +341,7 @@ def getPreviousTransit( body, location, date ):
 
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
        not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
     old_horizon = location.observer.horizon
 
@@ -367,7 +367,7 @@ def getPreviousAntitransit( body, location, date ):
 
     if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or \
        not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected an astronomical object, a locaton and a date-time' )
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
     old_horizon = location.observer.horizon
 
@@ -396,7 +396,7 @@ def getNextDawn( location, date, horizon = -6 ):
         location = getLocation( location )
 
     if not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected locaton and date-time arguments' )
+        raise ValueError( 'expected location and date-time arguments' )
 
     old_horizon = location.observer.horizon
 
@@ -426,7 +426,7 @@ def getNextDusk( location, date, horizon = -6 ):
         location = getLocation( location )
 
     if not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
-        raise ValueError( 'expected locaton and date-time arguments' )
+        raise ValueError( 'expected location and date-time arguments' )
 
     old_horizon = location.observer.horizon
 

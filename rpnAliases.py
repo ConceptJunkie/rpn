@@ -407,6 +407,7 @@ operatorAliases = {
     'intersect'                 : 'intersection',
     'invert'                    : 'invert_units',
     'is_armstrong'              : 'is_narcissistic',
+    'is_bimorphic'              : 'is_automorphic',
     'is_div'                    : 'is_divisible',
     'is_k_armstrong'            : 'is_k_narcissistic',
     'is_k_perfect'              : 'is_k_hyperperfect',

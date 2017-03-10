@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 888
+maxExampleCount = 911
 debugMode = False
 
 
@@ -1645,7 +1645,7 @@ decreased to the next lower integral multiple of i.
 '''
 ''' + makeCommandExample( '[ 5 10 20 ] gcd' ) + '''
 ''' + makeCommandExample( '[ 3150 8820 ] gcd' ),
-[ ] ],
+[ 'reduce', 'lcm' ] ],
 
     'geometric_mean' : [
 'arithmetic', 'calculates the geometric mean of a a list of numbers n',
@@ -1801,7 +1801,7 @@ expects real, integral arguments.
 ''' + makeCommandExample( '7 8 larger' ) + '''
 ''' + makeCommandExample( 'pi 3' ) + '''
 ''' + makeCommandExample( '1 -1 larger' ),
-[ ] ],
+[ 'smaller', 'is_larger' ] ],
 
     'lcm' : [
 'arithmetic', 'calculates the least common multiple of elements in list n',
@@ -1811,7 +1811,7 @@ expects real, integral arguments.
 ''' + makeCommandExample( '[ 3 6 12 ] lcm' ) + '''
 ''' + makeCommandExample( '1 20 range lcm' ) + '''
 ''' + makeCommandExample( '1 5 primes lcm 5 primorial is_equal' ),
-[ ] ],
+[ 'gcd', 'agm' ] ],
 
     'max' : [
 'arithmetic', 'returns the largest value in list n',
@@ -1823,7 +1823,7 @@ This operator returns the largest value in the input list of values n.
 '''
 ''' + makeCommandExample( '[ 5 8 2 23 9 ] max' ) + '''
 ''' + makeCommandExample( '10 1000 random_integer_ max' ),
-[ ] ],
+[ 'min' ] ],
 
     'mean' : [
 'arithmetic', 'calculates the mean of values in list n',
@@ -1836,7 +1836,7 @@ all items divided by the number of items.
 '''
 ''' + makeCommandExample( '1 10 range mean' ) + '''
 ''' + makeCommandExample( '1 1000 range sum_digits mean' ),
-[ ] ],
+[ 'stddev', 'agm' ] ],
 
     'min' : [
 'arithmetic', 'returns the smallest value in list n',
@@ -1856,7 +1856,7 @@ This operator returns the smallest value in the input list of values n.
 ''',
 '''
 ''',
-[ ] ],
+[ 'powmod' ] ],
 
     'multiply' : [
 'arithmetic', 'multiplies n by k',
@@ -1886,7 +1886,7 @@ Multiplication is supported for measurements.
 ''' + makeCommandExample( '1 negative' ) + '''
 ''' + makeCommandExample( '-1 negative' ) + '''
 ''' + makeCommandExample( '0 negative' ),
-[ ] ],
+[ 'sign' ] ],
 
     'nearest_int' : [
 'arithmetic', 'returns the nearest integer to n',
@@ -1899,7 +1899,7 @@ different than 'round'.
 ''' + makeCommandExample( '3 sqrt neg nearest_int' ) + '''
 ''' + makeCommandExample( '0.5 nearest_int' ) + '''
 ''' + makeCommandExample( '1.5 nearest_int' ),
-[ ] ],
+[ 'round' ] ],
 
     'product' : [
 'arithmetic', 'calculates the product of values in list n',
@@ -1999,7 +1999,7 @@ unit circle.
 '''
 ''' + makeCommandExample( '10 50 random_integer_ stddev' ) + '''
 ''' + makeCommandExample( '1 50 range count_div stddev' ) ,
-[ ] ],
+[ 'mean', 'agm' ] ],
 
     'subtract' : [
 'arithmetic', 'subtracts k from n',
@@ -2143,7 +2143,9 @@ In addition to numbers, 'sum' can also add up a list of measurements.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '"San Francisco, CA" 2016-11-02 astronomical_dawn' ) + '''
+''' + makeCommandExample( '"San Francisco, CA" 2016-11-02 nautical_dawn' ) + '''
+''' + makeCommandExample( '"San Francisco, CA" 2016-11-02 dawn' ) ,
 [ 'astronomical_dusk', 'nautical_dawn', 'dawn', 'dusk' ] ],
 
     'astronomical_dusk' : [
@@ -2151,7 +2153,9 @@ In addition to numbers, 'sum' can also add up a list of measurements.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '"Bogota, Bolivia" 2016-09-24 astronomical_dusk' ) + '''
+''' + makeCommandExample( '"Bogota, Bolivia" 2016-09-24 nautical_dusk' ) + '''
+''' + makeCommandExample( '"Bogota, Bolivia" 2016-09-24 dusk' ) ,
 [ 'astronomical_dawn', 'nautical_dusk', 'dawn', 'dusk' ] ],
 
     'autumnal_equinox' : [
@@ -2169,7 +2173,9 @@ The definition of dusk being used the is "civil" definition of dawn, i.e., the
 center of the sun is 6 degrees below the horizon.
 ''',
 '''
-''',
+''' + makeCommandExample( '"Santiago, Chile" 2016-09-24 astronomical_dusk' ) + '''
+''' + makeCommandExample( '"Santiago, Chile" 2016-09-24 nautical_dusk' ) + '''
+''' + makeCommandExample( '"Santiago, Chile" 2016-09-24 dusk' ) ,
 [ 'day_time', 'dusk', 'transit_time', 'antitransit_time', 'night_time' ] ],
 
     'day_time' : [
@@ -2195,7 +2201,9 @@ The definition of dusk being used the is "civil" definition of dusk, i.e., the
 center of the sun is 6 degrees below the horizon.
 ''',
 '''
-''',
+''' + makeCommandExample( '"Napoli, Italy" 2017-05-14 astronomical_dusk' ) + '''
+''' + makeCommandExample( '"Napoli, Italy" 2017-05-14 nautical_dusk' ) + '''
+''' + makeCommandExample( '"Napoli, Italy" 2017-05-14 dusk' ) ,
 [ 'day_time', 'dawn', 'transit_time', 'antitransit_time', 'night_time' ] ],
 
     'moonrise' : [
@@ -2242,24 +2250,28 @@ What was the phase of the moon the day I was born:
 '''
 ''',
 '''
-''',
-[ 'moon_antitransit' ] ],
+''' + makeCommandExample( '"Washington, DC" 2017-03-08 moon_transit' ),
+[ 'moon_antitransit', 'moonrise', 'moonset' ] ],
 
     'nautical_dawn' : [
 'astronomy', 'calculates the time of the nautical dawn for location n and date k',
 '''
 ''',
 '''
-''',
-[ 'nautical_dusk' ] ],
+''' + makeCommandExample( '"Pittsburgh, PA" 2017-06-22 astronomical_dawn' ) + '''
+''' + makeCommandExample( '"Pittsburgh, PA" 2017-06-22 nautical_dawn' ) + '''
+''' + makeCommandExample( '"Pittsburgh, PA" 2017-06-22 dawn' ) ,
+[ 'nautical_dusk', 'dawn', 'astronomical_dawn' ] ],
 
     'nautical_dusk' : [
 'astronomy', 'calculates the time of the nautical dusk for location n and date k',
 '''
 ''',
 '''
-''',
-[ 'nautical_dawn' ] ],
+''' + makeCommandExample( '"Eugene, OR" 2017-01-07 astronomical_dusk' ) + '''
+''' + makeCommandExample( '"Eugene, OR" 2017-01-07 nautical_dusk' ) + '''
+''' + makeCommandExample( '"Eugene, OR" 2017-01-07 dusk' ) ,
+[ 'nautical_dawn', 'dusk', 'astronomical_dusk' ] ],
 
     'next_antitransit' : [
 'astronomy', 'returns the date of the next antitransit of body a, when viewed from location b, at date c',
@@ -2343,7 +2355,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''',
-[ ] ],
+[ 'next_antitransit', 'previous_rising', 'previous_setting', 'previous_transit' ] ],
 
     'previous_first_quarter_moon' : [
 'astronomy', 'returns the date of the previous First Quarter Moon before n',
@@ -2352,7 +2364,7 @@ What was the phase of the moon the day I was born:
 '''
 ''' + makeCommandExample( 'today previous_first_quarter_moon' ) + '''
 ''' + makeCommandExample( '1868-05-03 previous_first_quarter_moon' ) ,
-[ ] ],
+[ 'next_first_quarter_moon', 'previous_last_quarter_moon', 'previous_full_moon', 'previous_new_moon' ] ],
 
     'previous_full_moon' : [
 'astronomy', 'returns the date of the previous Full Moon before n',
@@ -2362,8 +2374,7 @@ What was the phase of the moon the day I was born:
 ''' + makeCommandExample( 'today previous_full_moon' ) + '''
 ''' + makeCommandExample( '2016-10-31 previous_full_moon' ) + '''
 ''' + makeCommandExample( '2005-06-23 previous_full_moon' ) ,
-[ ] ],
-
+[ 'next_full_moon', 'previous_last_quarter_moon', 'previous_first_quarter_moon', 'previous_new_moon' ] ],
 
     'previous_last_quarter_moon' : [
 'astronomy', 'returns the date of the previous Last Quarter Moon before n',
@@ -2372,7 +2383,7 @@ What was the phase of the moon the day I was born:
 '''
 ''' + makeCommandExample( 'today previous_last_quarter_moon' ) + '''
 ''' + makeCommandExample( '1971-01-01 previous_last_quarter_moon' ) ,
-[ ] ],
+[ 'next_last_quarter_moon', 'previous_full_moon', 'previous_first_quarter_moon', 'previous_new_moon' ] ],
 
     'previous_new_moon' : [
 'astronomy', 'returns the date of the previous New Moon before n',
@@ -2381,7 +2392,7 @@ What was the phase of the moon the day I was born:
 '''
 ''' + makeCommandExample( 'today previous_new_moon' ) + '''
 ''' + makeCommandExample( '2020-03-19 previous_new_moon' ) ,
-[ ] ],
+[ 'next_new_moon', 'previous_full_moon', 'previous_first_quarter_moon', 'previous_last_quarter_moon' ] ],
 
     'previous_rising' : [
 'astronomy', 'returns the date of the previous rising of body a, when viewed from location b, at date c',
@@ -2389,7 +2400,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''',
-[ 'previous_setting' ] ],
+[ 'next_rising', 'previous_setting', 'previous_transit', 'previous_antitransit' ] ],
 
     'previous_setting' : [
 'astronomy', 'returns the date of the previous setting of body a, when viewed from location b, at date c',
@@ -2397,7 +2408,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''',
-[ 'previous_rising' ] ],
+[ 'next_setting', 'previous_rising', 'previous_transit', 'previous_antitransit' ] ],
 
     'previous_transit' : [
 'astronomy', 'returns the date of the previous transit of body a, when viewed from location b, at date c',
@@ -2405,7 +2416,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''',
-[ 'previous_antitransit' ] ],
+[ 'next_transit', 'previous_rising', 'previous_setting', 'previous_antitransit' ] ],
 
     'sky_location' : [
 'astronomy', 'returns the sky location of astronomical object n for date-time k',
@@ -2421,7 +2432,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''',
-[ ] ],
+[ 'dawn', 'dusk' ] ],
 
     'summer_solstice' : [
 'astronomy', 'calculates the time of the summer solstice for year n',
@@ -2429,7 +2440,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''',
-[ ] ],
+[ 'winter_solstice', 'autumnal_equinox', 'vernal_equinox' ] ],
 
     'sunrise' : [
 'astronomy', 'calculates the next sunrise time at location n for date-time k',
@@ -2651,7 +2662,7 @@ Easter season.
 '''
 ''' + makeCommandExample( '2017 ascension' ) + '''
 ''' + makeCommandExample( '2017 ascension 2017 easter -' ) ,
-[ 'easter' ] ],
+[ 'easter', 'christmas' ] ],
 
     'ash_wednesday' : [
 'calendars', 'calculates the date of Ash Wednesday for the year specified',
@@ -2683,7 +2694,7 @@ Su Mo Tu We Th Fr Sa
 18 19 20 21 22 23 24
 25 26 27 28 29 30
 ''',
-[ 'year_calendar' ] ],
+[ 'year_calendar', 'weekday' ] ],
 
     'christmas' : [
 'calendars', 'returns the date of Christmas for the year specified',
@@ -2725,7 +2736,7 @@ In the Christian calendar, Easter commemorates the Resurrection of Christ.
 '''
 ''' + makeCommandExample( '2016 easter' ) + '''
 ''' + makeCommandExample( '1973 easter' ) ,
-[ 'ash_wednesday', 'good_friday', 'christmas' ] ],
+[ 'ash_wednesday', 'good_friday', 'christmas', 'pentecost' ] ],
 
     'election_day' : [
 'calendars', 'calculates the date of Election Day (US) for the year specified',
@@ -2737,7 +2748,7 @@ Monday in November.  This definition was established by the U.S. Congress in
 '''
 ''' + makeCommandExample( '2016 election_day' ) + '''
 ''' + makeCommandExample( '1964 election_day' ) ,
-[ 'labor_day' ] ],
+[ 'labor_day', 'memorial_day', 'presidents_day' ] ],
 
     'epiphany' : [
 'calendars', 'returns the date of Epiphany for the year specified',
@@ -2745,7 +2756,7 @@ Monday in November.  This definition was established by the U.S. Congress in
 ''',
 '''
 ''',
-[ 'christmas' ] ],
+[ 'christmas', 'easter' ] ],
 
     'from_bahai' : [
 'calendars', 'converts a date in the Baha\'i calendar to the equivalent Gregorian date',
@@ -2831,7 +2842,7 @@ In the U.S., Labor Day falls on the first Monday of September.
 '''
 ''' + makeCommandExample( '2016 labor_day' ) + '''
 ''' + makeCommandExample( '2016 labor_day 2015 memorial_day -' ) ,
-[ ] ],
+[ 'memorial_day', 'election_day', 'presidents_day' ] ],
 
     'memorial_day' : [
 'calendars', 'calculates the date of Memorial Day (US) for the year specified',
@@ -2843,7 +2854,7 @@ armed services.
 '''
 ''' + makeCommandExample( '2016 memorial_day' ) + '''
 ''' + makeCommandExample( '2020 2025 memorial_day -s1' ) ,
-[ ] ],
+[ 'labor_day', 'election_day', 'presidents_day' ] ],
 
     'nth_weekday' : [
 'calendars', 'finds the nth day (1 = Monday, etc.) of the month',
@@ -2871,7 +2882,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'easter' ] ],
 
     'presidents_day' : [
 'calendars', 'calculates the date of Presidents Day (US) for the year specified',
@@ -2879,7 +2890,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'labor_day', 'memorial_day', 'election_day' ] ],
 
     'thanksgiving' : [
 'calendars', 'calculates the date of Thanksgiving (US) for the year specified',
@@ -2887,7 +2898,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'christmas', 'easter' ] ],
 
     'to_bahai' : [
 'calendars', 'converts a date to the equivalent date in the Baha\'i',
@@ -2895,7 +2906,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_bahai' ] ],
 
     'to_bahai_name' : [
 'calendars', 'converts a date to the equivalent date in the Baha\'i calendar with the weekday and month names',
@@ -2903,7 +2914,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_bahai' ] ],
 
     'to_hebrew' : [
 'calendars', 'converts a date to the equivalent date in the Hebrew calendar',
@@ -2911,7 +2922,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_hebrew' ] ],
 
     'to_hebrew_name' : [
 'calendars', 'converts a date to the equivalent date in the Hebrew calendar with the weekday and month names',
@@ -2919,7 +2930,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_hebrew' ] ],
 
     'to_indian_civil' : [
 'calendars', 'converts a date to the equivalent date in the Indian Civil calendar',
@@ -2927,7 +2938,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_indian_civil' ] ],
 
     'to_indian_civil_name' : [
 'calendars', 'converts a date to the equivalent date in the Indian Civil calendar with the weekday and month names',
@@ -2935,7 +2946,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_indian_civil' ] ],
 
     'to_islamic' : [
 'calendars', 'converts a date to the equivalent date in the Islamic calendar',
@@ -2943,7 +2954,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_islamic' ] ],
 
     'to_islamic_name' : [
 'calendars', 'converts a date to the equivalent date in the Islamic calendar with day and month names',
@@ -2951,7 +2962,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_islamic' ] ],
 
     'to_iso' : [
 'calendars', 'converts a date to the equivalent ISO date',
@@ -2999,7 +3010,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_mayan' ] ],
 
     'to_ordinal_date' : [
 'calendars', 'returns the date in the Ordinal Date format',
@@ -3015,7 +3026,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_persian' ] ],
 
     'to_persian_name' : [
 'calendars', 'converts a date to the equivalent date in the Persian calendar with the weekday and month names',
@@ -3023,7 +3034,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ ] ],
+[ 'from_persian' ] ],
 
     'weekday' : [
 'calendars', 'calculates the day of the week of an absolute time',
@@ -3042,7 +3053,7 @@ as an operand, so this function cannot be combined with other operators.
 ''' + makeCommandExample( '1852-02-29 weekday' ) + '''
 ''' + makeCommandExample( '1929-10-29 weekday' ) + '''
 ''' + makeCommandExample( '2043-04-17 weekday' ) ,
-[ ] ],
+[ 'calendar', 'nth_weekday', 'nth_weekday_of_year' ] ],
 
     'year_calendar' : [
 'calendars', 'prints a month calendar for the date value',
@@ -3053,7 +3064,7 @@ far as rpn is concerned, it's an operator that does nothing.
 ''',
 '''
 ''',
-[ ] ],
+[ 'calendar', 'weekday' ] ],
 
 
 # //******************************************************************************
@@ -3068,7 +3079,7 @@ far as rpn is concerned, it's an operator that does nothing.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range element_name echo atomic_number collate -s1' ) ,
-[ ] ],
+[ 'atomic_symbol', 'atomic_weight', 'element_name' ] ],
 
     'atomic_symbol' : [
 'chemistry', 'returns the atomic symbol of element n',
@@ -3173,7 +3184,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''' + makeCommandExample( 'H2O molar_mass' ) + '''
 ''' + makeCommandExample( 'C12H22O11 molar_mass' ) ,
-[ ] ],
+[ 'atomic_weight' ] ],
 
 
 
@@ -3191,7 +3202,7 @@ far as rpn is concerned, it's an operator that does nothing.
 ''' + makeCommandExample( '1 10 range arrangements' ) + '''
 ''' + makeCommandExample( '5 arrangements' ) + '''
 ''' + makeCommandExample( '5 0 5 range permutations sum' ) ,
-[ ] ],
+[ 'compositions', 'partitions' ] ],
 
     'bell_polynomial' : [
 'combinatorics', 'evaluates the nth Bell polynomial with k',
@@ -3219,7 +3230,7 @@ truncated to integers.
 ''' + makeCommandExample( '5 2 compositions' ) + '''
 ''' + makeCommandExample( '5 3 compositions' ) + '''
 ''' + makeCommandExample( '5 4 compositions' ) ,
-[ 'partitions' ] ],
+[ 'partitions', 'arrangements' ] ],
 
     'debruijn' : [
 'combinatorics', 'generates a deBruijn sequence of n symbols and word-size k',
@@ -3483,7 +3494,7 @@ For example, 4 can be partitioned in five distinct ways:
 ''',
 '''
 ''' + makeCommandExample( '4 partitions' ) ,
-[ 'compositions' ] ],
+[ 'compositions', 'arrangements' ] ],
 
     'permutations' : [
 'combinatorics', 'calculates the number of permutations of k out of n objects',
@@ -5510,7 +5521,7 @@ non-zero value.
 Which of the first 80 fibonacci numbers is prime?
 
 ''' + makeCommandExample( '-a20 1 80 range fib lambda x is_prime filter' ) ,
-[ ] ],
+[ 'filter_by_index', 'lambda', 'unfilter' ] ],
 
     'filter_by_index' : [
 'function', 'filters a list n using function k applied to the list indexes',
@@ -5518,7 +5529,7 @@ Which of the first 80 fibonacci numbers is prime?
 ''',
 '''
 ''',
-[ ] ],
+[ 'filter', 'lambda', 'unfilter_by_index' ] ],
 
     'lambda' : [
 'function', 'begins a function definition',
@@ -5541,7 +5552,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'limitn', 'lambda' ] ],
 
     'limitn' : [
 'function', 'calculates the limit of function k( x ) as x approaches n from above',
@@ -5549,7 +5560,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'limit', 'lamdba' ] ],
 
     'negate' : [
 'function', 'returns 0 if n is not 0 and 1 if n is 0',
@@ -5559,7 +5570,7 @@ with function operators which rely on boolean values.
 ''',
 '''
 ''',
-[ ] ],
+[ 'sign' ] ],
 
     'nprod' : [
 'function', 'calculates the product of function c over the range of a through b',
@@ -5567,7 +5578,7 @@ with function operators which rely on boolean values.
 ''',
 '''
 ''',
-[ ] ],
+[ 'nsum', 'lambda' ] ],
 
     'nsum' : [
 'function', 'calculates the sum of function c over the range of a through b',
@@ -5575,7 +5586,7 @@ with function operators which rely on boolean values.
 ''',
 '''
 ''',
-[ ] ],
+[ 'nprod', 'lambda' ] ],
 
     'plot' : [
 'function', 'plot function c for values of x between a and b',
@@ -5599,7 +5610,7 @@ c:\>rpn 1 50 lambda x fib plot
 c:\>rpn 1 10 lambda x 1 + fib x fib / plot
 
 ''',
-[ ] ],
+[ 'plot2', 'lambda', 'plotc' ] ],
 
     'plot2' : [
 'function', 'plot a 3D function '
@@ -5615,7 +5626,7 @@ a number of extra libraries.
 ''',
 '''
 ''',
-[ ] ],
+[ 'plot', 'lamdba', 'plotc' ] ],
 
     'plotc' : [
 'function', 'plot a complex function e for values of x between a and b real, c and d imaginary',
@@ -5627,7 +5638,7 @@ a number of extra libraries.
 ''',
 '''
 ''',
-[ ] ],
+[ 'plot', 'plot2', 'lambda' ] ],
 
     'unfilter' : [
 'function', 'filters a list n using the inverse of function k',
@@ -5641,7 +5652,7 @@ value.
 
 ''' + makeCommandExample( '1 20 range lambda x is_prime unfilter' ) + '''
 ''' + makeCommandExample( '1 20 range lambda x is_prime negate filter' ) ,
-[ ] ],
+[ 'filter', 'unfilter_by_index', 'lamdba' ] ],
 
     'unfilter_by_index' : [
 'function', 'filters a list n using the inverse of function k applied to the list indexes',
@@ -5649,7 +5660,7 @@ value.
 ''',
 '''
 ''',
-[ ] ],
+[ 'filter_by_index', 'unfilter', 'lamdba' ] ],
 
     'x' : [
 'function', 'used as a variable in user-defined functions',
@@ -5660,7 +5671,7 @@ See the 'user_functions' help topic for more details.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( '1 inf lambda 1 2 x ** / nsum' ) ,
-[ ] ],
+[ 'lamdba', 'y', 'z' ] ],
 
     'y' : [
 'function', 'used as a variable in user-defined functions',
@@ -5668,7 +5679,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'lamdba', 'x', 'z' ] ],
 
     'z' : [
 'function', 'used as a variable in user-defined functions',
@@ -5676,7 +5687,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'lamdba', 'x', 'y' ] ],
 
 
 # //******************************************************************************
@@ -5691,7 +5702,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_volume', 'cone_area', 'prism_area' ] ],
 
     'antiprism_volume' : [
 'geometry', 'calculates the volume of an n-sided antiprism of edge length k',
@@ -5699,7 +5710,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_area', 'cone_volume', 'prism_volume' ] ],
 
     'cone_area' : [
 'geometry', 'calculates the surface area of a cone of radius n and height k',
@@ -5795,7 +5806,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'triangle_area' ] ],
 
     'prism_area' : [
 'geometry', 'calculates the surface area of an a-sided prism of edge length b, and height c',
@@ -5884,7 +5895,7 @@ This operator can also handle length measurements.
 ''' + makeCommandExample( '3 4 5 triangle_area' ) + '''
 ''' + makeCommandExample( '3 inches 4 inches 5 inches triangle_area' ) + '''
 ''' + makeCommandExample( '2 3 make_pyth_3 unlist triangle_area' ) ,
-[ ] ],
+[ 'polygon_area' ] ],
 
 
 # //******************************************************************************
@@ -5944,7 +5955,7 @@ The operator returns number of aliases.
 ''',
 '''
 ''',
-[ ] ],
+[ '_dump_operators', '_stats' ] ],
 
     '_dump_operators' : [
 'internal', 'lists all rpn operators',
@@ -5957,7 +5968,7 @@ The operator returns the RPN version number in list format.
 ''',
 '''
 ''',
-[ ] ],
+[ '_dump_aliases', '_stats' ] ],
 
     '_stats' : [
 'internal', 'dumps rpn statistics',
@@ -5970,7 +5981,7 @@ The operator returns the RPN version number in list format.
 ''',
 '''
 ''',
-[ ] ],
+[ '_dump_aliases', '_dump_operators' ] ],
 
 
 # //******************************************************************************
@@ -5989,7 +6000,7 @@ is the equivalent of the concatenation of digits from each argument.
 ''' + makeCommandExample( '34 45 add_digits' ) + '''
 ''' + makeCommandExample( '12345 67890 add_digits' ) + '''
 ''',
-[ ] ],
+[ 'build_numbers', 'combine_digits', 'dup_digits', 'get_digits' ] ],
 
     'build_numbers' : [
 'lexicography', 'constructs numbers lexicographically using a simple language',
@@ -6114,7 +6125,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_morphic', 'is_trimorphic' ] ],
 
     'is_generalized_dudeney' : [
 'lexicography', 'returns whether an integer n is a generalized Dudeney number',
@@ -6154,7 +6165,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_automorphic', 'is_trimorphic' ] ],
 
     'is_narcissistic' : [
 'lexicography', 'returns whether an integer n is narcissistic',
@@ -6195,7 +6206,7 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''' + makeCommandExample( '370 is_pdi' ) + '''
 ''' + makeCommandExample( '371 is_pdi' ) + '''
 ''' + makeCommandExample( '1 1000 range lambda x is_pdi filter' ) ,
-[ ] ],
+[ 'is_pdi' ] ],
 
     'is_pddi' : [
 'lexicography', 'returns whether an integer n is a perfect digit-to-digti invariant for base k',
@@ -6203,7 +6214,7 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''',
 '''
 ''',
-[ ] ],
+[ 'is_pdi' ] ],
 
     'is_sum_product' : [
 'lexicography', 'returns whether an integer n is a sum-product number',
@@ -6228,7 +6239,7 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''',
 '''
 ''',
-[ ] ],
+[ 'sum_digits', 'get_digits', 'persistence' ] ],
 
     'n_persistence' : [
 'lexicography', 'counts the number of times it takes to successively multiply the digits of n to the kth power to get a one-digit number',
@@ -6236,7 +6247,7 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''',
 '''
 ''',
-[ ] ],
+[ 'persistence', 'show_n_persistence', 'show_erdos_persistence' ] ],
 
     'permute_digits' : [
 'lexicography', 'generates all values with lexicographic permutations of the digits of n',
@@ -6262,7 +6273,7 @@ on until a one-digit number is obtained.
 ''',
 '''
 ''',
-[ ] ],
+[ 'show_persistence', 'n_persistence', 'show_erdos_persistence' ] ],
 
     'reversal_addition' : [
 'lexicography', 'TODO: describe me',
@@ -6287,23 +6298,23 @@ on until a one-digit number is obtained.
 ''',
 '''
 ''',
-[ ] ],
+[ 'persistence', 'show_persistence', 'show_n_persistence' ] ],
 
     'show_n_persistence' : [
-'lexicography', 'shows the multiplicative persistence chain of n for k (see \'n_persistence\')'
+'lexicography', 'shows the multiplicative persistence chain of n for k'
 '''
 ''',
 '''
 ''',
-[ ] ],
+[ 'n_persistence', 'show_persistence', 'show_erdos_persistence' ] ],
 
     'show_persistence' : [
-'lexicography', 'shows the multiplicative persistence chain of n (see \'persistence\')'
+'lexicography', 'shows the multiplicative persistence chain of n'
 '''
 ''',
 '''
 ''',
-[ ] ],
+[ 'persistence', 'show_n_persistence', 'show_erdos_persistence' ] ],
 
     'sum_digits' : [
 'lexicography', 'calculates the sum of the digits of integer n',
@@ -6311,7 +6322,7 @@ on until a one-digit number is obtained.
 ''',
 '''
 ''',
-[ ] ],
+[ 'multiply_digits', 'get_digits' ] ],
 
 
 # //******************************************************************************
@@ -6328,7 +6339,7 @@ every second element reversed, starting with the second.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range alternate_signs' ) ,
-[ ] ],
+[ 'alternate_signs_2' ] ],
 
     'alternate_signs_2' : [
 'list_operators', 'alternates signs in the list by making every odd element negative',
@@ -6338,7 +6349,7 @@ every other element reversed, starting with the first element.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range alternate_signs_2' ) ,
-[ ] ],
+[ 'alternate_signs' ] ],
 
     'alternating_sum' : [
 'list_operators', 'calculates the alternating sum of list n (addition first)',
@@ -6353,7 +6364,7 @@ This operator is the same as using 'alternate_signs sum'.
 ''' + makeCommandExample( '1 10 range alternating_sum' ) + '''
 Calculating e:
 ''' + makeCommandExample( '-a20 0 25 range factorial 1/x alternating_sum 1/x' ) ,
-[ ] ],
+[ 'alternating_sum_2' ] ],
 
     'alternating_sum_2' : [
 'list_operators', 'calaculates the alternating sum of list n (subtraction first)',
@@ -6366,15 +6377,18 @@ This operator is the same as using 'alternate_signs_2 sum'.
 '''
 ''' + makeCommandExample( '1 10 range alternate_signs_2 sum' ) + '''
 ''' + makeCommandExample( '1 10 range alternating_sum_2 sum' ) ,
-[ ] ],
+[ 'alternating_sum' ] ],
 
     'and_all' : [
 'list_operators', 'returns true if every member of the list is non-zero',
 '''
+The operator performs a logical and on every member of the list.  The result is
+a return value of 1 if the list elements are all non-zero, otherwise it returns
+0.
 ''',
 '''
 ''',
-[ ] ],
+[ 'or_all', 'nand_all', 'nor_all' ] ],
 
     'append' : [
 'list_operators', 'appends the second list on to the first list',
@@ -6385,7 +6399,7 @@ then the second operand list.
 ''',
 '''
 ''' + makeCommandExample( '1 5 range 6 10 range append' ) ,
-[ ] ],
+[ 'union', 'intersection', 'permute_lists', 'interleave' ] ],
 
     'collate' : [
 'list_operators', 'returns a list of n-element lists of corresponding elements from each sublist of n',
@@ -6393,7 +6407,7 @@ then the second operand list.
 ''',
 '''
 ''',
-[ ] ],
+[ 'flatten', 'group_elements', 'interleave' ] ],
 
     'count' : [
 'list_operators', 'counts the elements of list n',
@@ -6410,7 +6424,7 @@ This simply counts the number of elements in the list.
 ''',
 '''
 ''',
-[ ] ],
+[ 'diffs2', 'ratios', 'ratios2' ] ],
 
     'diffs2' : [
 'list_operators', 'returns a list with the differences between each element of list n with the first element',
@@ -6418,7 +6432,7 @@ This simply counts the number of elements in the list.
 ''',
 '''
 ''',
-[ ] ],
+[ 'diffs', 'ratios', 'ratios2' ] ],
 
     'element' : [
 'list_operators', 'returns a single element from a list',
@@ -6428,7 +6442,7 @@ The index is zero-based.
 '''
 ''' + makeCommandExample( '1 10 range 5 element' ) + '''
 ''' + makeCommandExample( '0 1000 range 34 element' ) ,
-[ ] ],
+[ 'max_index', 'min_index' ] ],
 
     'enumerate' : [
 'list_operators', 'numbers the items in list n starting with k',
@@ -6451,7 +6465,7 @@ the bth power.  The list is expanded to contain c items.
 ''',
 '''
 ''' + makeCommandExample( '2 2 10 exponential_range' ) ,
-[ ] ],
+[ 'range', 'geometric_range', 'interval_range', 'sized_range' ] ],
 
     'flatten' : [
 'list_operators', 'flattens a nested lists in list n to a single level',
@@ -6459,7 +6473,7 @@ the bth power.  The list is expanded to contain c items.
 ''',
 '''
 ''',
-[ ] ],
+[ 'collate', 'interleave', 'group_elements' ] ],
 
     'geometric_range' : [
 'list_operators', 'generates a list of geometric progression of numbers',
@@ -6471,7 +6485,7 @@ list contains c items.
 ''' + makeCommandExample( '1 2 10 geometric_range' ) + '''
 The intervals of the chromatic scale:
 ''' + makeCommandExample( '1 2 12 // 13 geometric_range' ) ,
-[ ] ],
+[ 'exponential_range', 'range', 'interval_range', 'sized_range' ] ],
 
     'group_elements' : [
 'list_operators', 'groups the elements of list n into sublsts of k elements',
@@ -6483,7 +6497,7 @@ group.
 '''
 ''' + makeCommandExample( '1 10 range 5 group_elements' ) + '''
 ''' + makeCommandExample( '1 11 range 5 group_elements' ) ,
-[ ] ],
+[ 'collate', 'flatten', 'interleave' ] ],
 
     'interleave' : [
 'list_operators', 'interleaves lists n and k into a single list',
@@ -6496,7 +6510,7 @@ then the extra list elements from the longer list are ignored.
 ''' + makeCommandExample( '[ 1 3 5 ] [ 2 4 6 ] interleave' ) + '''
 ''' + makeCommandExample( '[ 1 3 5 ] [ 2 4 6 8 10 ] interleave' ) + '''
 ''' + makeCommandExample( '1 20 2 range2 2 20 2 range2 interleave' ) ,
-[ ] ],
+[ 'group_elements', 'collate', 'flatten' ] ],
 
     'intersection' : [
 'list_operators', 'returns a list of unique elements that exist in both lists',
@@ -6509,7 +6523,7 @@ then the extra list elements from the longer list are ignored.
 ''' + makeCommandExample( '1 10 range 1 10 range prime intersection' ) + '''
 Find numbers that are triangular and square at the same time:
 ''' + makeCommandExample( '1 100 range tri 1 100 range sqr intersect' ) ,
-[ ] ],
+[ 'union', 'append', 'permute_lists', 'interleave' ] ],
 
     'interval_range' : [
 'list_operators', 'generates a list of arithmetic progression of numbers',
@@ -6523,7 +6537,7 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 ''' + makeCommandExample( '1 10 2 interval_range' ) + '''
 ''' + makeCommandExample( '100 90 -2 interval_range' ) + '''
 ''' + makeCommandExample( '1 10 1 10 range interval_range' ) ,
-[ ] ],
+[ 'exponential_range', 'geometric_range', 'range', 'sized_range' ] ],
 
     'left' : [
 'list_operators', 'returns the left k items from list n',
@@ -6533,7 +6547,7 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 ''' + makeCommandExample( '1 10 range 6 left' ) + '''
 ''' + makeCommandExample( '1 10 range 4 left' ) + '''
 ''' + makeCommandExample( '1 10 range 1 4 range left' ) ,
-[ ] ],
+[ 'right', 'slice', 'sublist' ] ],
 
     'max_index' : [
 'list_operators', 'returns the index of largest value in list n',
@@ -6541,7 +6555,7 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 ''',
 '''
 ''',
-[ ] ],
+[ 'min_index', 'element' ] ],
 
     'min_index' : [
 'list_operators', 'returns the index of smallest value in list n',
@@ -6549,7 +6563,7 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 ''',
 '''
 ''',
-[ ] ],
+[ 'max_index', 'element' ] ],
 
     'nand_all' : [
 'list_operators', 'returns true if every member of the list is zero',
@@ -6557,7 +6571,7 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 ''',
 '''
 ''',
-[ ] ],
+[ 'nor_all', 'and_all', 'or_all' ] ],
 
     'nonzero' : [
 'list_operators', 'returns the indices of elements of list n that are not zero',
@@ -6571,7 +6585,7 @@ Indices are zero-based.
 ''' + makeCommandExample( '[ 1 0 2 0 3 0 4 ] nonzero' ) + '''
 List the prime Fibonacci numbers:
 ''' + makeCommandExample( '0 20 range fib is_prime nonzero fib' ) ,
-[ ] ],
+[ 'zero' ] ],
 
     'nor_all' : [
 'list_operators', 'returns true if any member of the list is zero',
@@ -6579,7 +6593,7 @@ List the prime Fibonacci numbers:
 ''',
 '''
 ''',
-[ ] ],
+[ 'and_all', 'or_all', 'nand_all' ] ],
 
     'occurrence_cumulative' : [
 'list_operators', 'returns the cumulative ratio of occurrences of each value in a list',
@@ -6590,7 +6604,7 @@ ones preceding it.  The result will be sorted by values.
 ''',
 '''
 ''',
-[ ] ],
+[ 'occurrence_ratios', 'occurrences' ] ],
 
     'occurrence_ratios' : [
 'list_operators', 'returns the ratio of occurrences of each value in a list',
@@ -6600,7 +6614,7 @@ ratio (out of 1.0).  The result will be sorted by values.
 ''',
 '''
 ''',
-[ ] ],
+[ 'occurrence_cumulative', 'occurrences' ] ],
 
     'occurrences' : [
 'list_operators', 'returns the number of occurrences of each value in a list',
@@ -6612,23 +6626,32 @@ count.  The result will be sorted by values.
 ''' + makeCommandExample( '1 10 range occurrences' ) + '''
 ''' + makeCommandExample( '10 100 random_integer_ occurrences' ) + '''
 ''' + makeCommandExample( '5 6 debruijn occurrences' ) ,
-[ ] ],
+[ 'occurrence_cumulative', 'occurrence_ratios' ] ],
 
     'or_all' : [
 'list_operators', 'returns true if any member of the list is non-zero',
 '''
+The operator performs a logical or on every member of the list.  The result is
+a return value of 1 if any of the list elements is non-zero, otherwise it
+returns 0.
 ''',
 '''
 ''',
-[ ] ],
+[ 'and_all', 'nor_all', 'nand_all' ] ],
 
     'permute_lists' : [
 'list_operators', 'generates all permutations of the members of each list',
 '''
+This operator generates a list of permutations of the members of each sublist.
+
+The operand must consist of a list of lists.  The output results will be a
+sequence of lists where each list contains one element from each sublist of
+the operand.  Every permutation of lists containing one item from each sublist
+will be output.
 ''',
 '''
 ''',
-[ ] ],
+[ 'append', 'interleave', 'intersection', 'union' ] ],
 
     'range' : [
 'list_operators', 'generates a list of successive integers from n to k',
@@ -6636,7 +6659,7 @@ count.  The result will be sorted by values.
 ''',
 '''
 ''',
-[ ] ],
+[ 'exponential_range', 'geometric_range', 'interval_range', 'sized_range' ] ],
 
     'ratios' : [
 'list_operators', 'returns a list with the ratios between successive elements of list n',
@@ -6645,7 +6668,7 @@ This operator is analogous to the 'diffs' operator.
 ''',
 '''
 ''',
-[ ] ],
+[ 'ratios2', 'diffs', 'diffs2' ] ],
 
     'ratios2' : [
 'list_operators', 'returns a list with the ratios between each element of n and the first',
@@ -6654,7 +6677,7 @@ This operator is analogous to the 'diffs2' operator.
 ''',
 '''
 ''',
-[ ] ],
+[ 'ratios', 'diffs', 'diffs2' ] ],
 
     'reduce' : [
 'list_operators', 'reduces out the common factors from each element of a list',
@@ -6664,7 +6687,7 @@ denominator of the whole list.
 ''',
 '''
 ''',
-[ ] ],
+[ 'gcd' ] ],
 
     'reverse' : [
 'list_operators', 'returns list n with its elements reversed',
@@ -6672,7 +6695,7 @@ denominator of the whole list.
 ''',
 '''
 ''',
-[ ] ],
+[ 'shuffle' ] ],
 
     'right' : [
 'list_operators', 'returns the right k items from list n',
@@ -6682,7 +6705,7 @@ denominator of the whole list.
 ''' + makeCommandExample( '1 10 range 6 right' ) + '''
 ''' + makeCommandExample( '1 10 range 4 right' ) + '''
 ''' + makeCommandExample( '1 10 range 1 4 range right' ) ,
-[ ] ],
+[ 'left', 'slice', 'sublist' ] ],
 
     'shuffle' : [
 'list_operators', 'randomly shuffles the elements in a list',
@@ -6690,7 +6713,7 @@ denominator of the whole list.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range shuffle' ) ,
-[ ] ],
+[ 'reverse' ] ],
 
     'sized_range' : [
 'list_operators', 'generates a list of arithmetic progression of numbers',
@@ -6702,7 +6725,7 @@ list contains c items.
 ''' + makeCommandExample( '1 2 10 sized_range' ) + '''
 ''' + makeCommandExample( '10 10 10 sized_range' ) + '''
 ''' + makeCommandExample( '1 1 5 range 5 sized_range' ) ,
-[ ] ],
+[ 'exponential_range', 'geometric_range', 'interval_range', 'range' ] ],
 
     'slice' : [
 'list_operators', 'returns a slice of list a from starting index b to ending index c',
@@ -6720,7 +6743,7 @@ operands as needed.
 ''' + makeCommandExample( '1 10 range 5 9 slice' ) + '''
 ''' + makeCommandExample( '1 10 range 2 -1 slice' ) + '''
 ''' + makeCommandExample( '1 10 range 2 -2 slice' ) ,
-[ ] ],
+[ 'right', 'left', 'sublist' ] ],
 
     'sort' : [
 'list_operators', 'sorts the elements of list n numerically in ascending order',
@@ -6731,7 +6754,7 @@ well.  I might have to reconsider that.
 '''
 ''' + makeCommandExample( '[ rand rand rand ] sort' ) + '''
 ''' + makeCommandExample( '[ [ 3 2 1 ] [ 7 3 4 ] [ 10 5 9 ] ]' ) ,
-[ ] ],
+[ 'sort_descending' ] ],
 
     'sort_descending' : [
 'list_operators', 'sorts the elements of list n numerically in descending order',
@@ -6742,7 +6765,7 @@ the list (and all sublists), except in descending order.
 '''
 ''' + makeCommandExample( '1 70 6 range2 sort_descending' ) + '''
 ''' + makeCommandExample( '1 20 range countdiv sort_descending' ) ,
-[ ] ],
+[ 'sort' ] ],
 
     'sublist' : [
 'list_operators', 'returns a sublist of list a from starting index b consisting of c items',
@@ -6758,7 +6781,7 @@ operands as needed.
 ''' + makeCommandExample( '1 10 range 0 5 sublist' ) + '''
 ''' + makeCommandExample( '1 10 range 1 5 sublist' ) + '''
 ''' + makeCommandExample( '1 10 range 1 3 sublist' ) ,
-[ ] ],
+[ 'right', 'left', 'slice' ] ],
 
     'union' : [
 'list_operators', 'returns the union of unique elements from two lists',
@@ -6766,7 +6789,7 @@ operands as needed.
 ''',
 '''
 ''',
-[ ] ],
+[ 'intersection', 'append', 'permute_lists', 'interleave' ] ],
 
     'unique' : [
 'list_operators', 'returns a list of its unique elements',
@@ -6821,7 +6844,7 @@ List the non-prime Fibonacci numbers:
 ''',
 '''
 ''',
-[ 'log10', 'exp', 'polylog' ] ],
+[ 'log10', 'exp', 'polylog', 'log2', 'exp10', 'logxy' ] ],
 
     'log10' : [
 'logarithms', 'calculates the base-10 logarithm of n',
@@ -6833,7 +6856,7 @@ n.
 ''' + makeCommandExample( '10 log10' ) + '''
 ''' + makeCommandExample( '3221 log10' ) + '''
 ''' + makeCommandExample( '10 3221 log10 1481 log10 + power' ) ,
-[ ] ],
+[ 'log', 'logxy', 'log2', 'exp', 'exp10' ] ],
 
     'log2' : [
 'logarithms', 'calculates the base-2 logarithm of n',
@@ -6847,7 +6870,7 @@ different values.
 '''
 ''' + makeCommandExample( '8 log2' ) + '''
 ''' + makeCommandExample( '65536 log2' ) ,
-[ ] ],
+[ 'log', 'log10', 'logxy', 'exp', 'exp10' ] ],
 
     'logxy' : [
 'logarithms', 'calculates the base-k logarithm of n',
@@ -6859,7 +6882,7 @@ n.
 ''' + makeCommandExample( '1000 10 logxy' ) + '''
 ''' + makeCommandExample( '78125 5 logxy' ) + '''
 ''' + makeCommandExample( 'e sqr e logxy' ) ,
-[ ] ],
+[ 'log', 'log10', 'log2', 'exp', 'exp10' ] ],
 
     'polyexp' : [
 'logarithms', 'calculates the polyexponential of n, k',
@@ -6917,7 +6940,7 @@ take three or more operands do not work with lists.
 ''' + makeCommandExample( '[ 2 3 4 6 7 ] 3 +' ) + '''
 ''' + makeCommandExample( '[ 1 2 3 4 ] [ 4 3 2 1 ] +' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ) ,
-[ ] ],
+[ ']' ] ],
 
     ']' : [
 'modifiers', 'ends a list',
@@ -6951,7 +6974,7 @@ take three or more operands do not work with lists.
 ''' + makeCommandExample( '[ 2 3 4 6 7 ] 3 +' ) + '''
 ''' + makeCommandExample( '[ 1 2 3 4 ] [ 4 3 2 1 ] +' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ) ,
-[ ] ],
+[ '[' ] ],
 
     '{' : [
 'modifiers', 'starts an operator list',
@@ -6959,7 +6982,7 @@ take three or more operands do not work with lists.
 ''',
 '''
 ''',
-[ ] ],
+[ '}' ] ],
 
     '}' : [
 'modifiers', 'end an operator list',
@@ -6967,7 +6990,7 @@ take three or more operands do not work with lists.
 ''',
 '''
 ''',
-[ ] ],
+[ '{' ] ],
 
     'dup_term' : [
 'modifiers', 'duplicates an argument n k times',
@@ -9091,7 +9114,7 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''',
-[ ] ],
+[ 'primes', 'prime_range' ] ],
 
     'primes' : [
 'prime_numbers', 'generates a range of k primes starting from index n',
@@ -9105,7 +9128,7 @@ distributed with data files calculated through several billion pribmes.
 '''
 ''' + makeCommandExample( '1 20 primes' ) + '''
 ''' + makeCommandExample( '320620307 10 primes' ) ,
-[ ] ],
+[ 'prime', 'prime_range' ] ],
 
     'prime_pi' : [
 'prime_numbers', 'estimates the count of prime numbers up to and including n',
@@ -9131,7 +9154,7 @@ distributed with data files calculated through several billion pribmes.
 '''
 ''' + makeCommandExample( '1 21 prime_range' ) + '''
 ''' + makeCommandExample( '4458934 4458960 prime_range' ) ,
-[ ] ],
+[ 'prime', 'primes' ] ],
 
     'quadruplet_prime' : [
 'prime_numbers', 'returns the first of the nth set of quadruplet primes',
@@ -9935,15 +9958,6 @@ set, of course, but since rpn immediately exits, nothing useful can happen.
 ''',
 [ 'help' ] ],
 
-    'uuid_random' : [
-'special', 'generates a random UUID',
-'''
-The UUID is generated completely randomly.
-''',
-'''
-''',
-[ 'uuid' ] ],
-
     'uuid' : [
 'special', 'generates a UUID',
 '''
@@ -9951,8 +9965,17 @@ The UUID is generated using the host ID (MAC address if possible, otherwise
 see RFC 4122) and the current time.
 ''',
 '''
-''',
+''' + makeCommandExample( 'uuid' ) ,
 [ 'uuid_random' ] ],
+
+    'uuid_random' : [
+'special', 'generates a random UUID',
+'''
+The UUID is generated completely randomly.
+''',
+'''
+''' + makeCommandExample( 'uuid_random' ) ,
+[ 'uuid' ] ],
 
     'value' : [
 'special', 'converts a measurement to a numerical value',
