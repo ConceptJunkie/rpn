@@ -2606,6 +2606,9 @@ operators = {
     'distance'                       : RPNOperator( getDistance,
                                                     2, [ RPNOperator.Location, RPNOperator.Location ] ),
 
+    'get_timezone'                   : RPNOperator( getTimeZone,
+                                                    1, [ RPNOperator.Location ] ),
+
     'latlong'                        : RPNOperator( lambda n, k: RPNLocation( n, k ),
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 

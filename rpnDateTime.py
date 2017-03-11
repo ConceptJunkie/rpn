@@ -86,15 +86,14 @@ class RPNDateTime( arrow.Arrow ):
                             result.minute, result.second, result.microsecond, result.tzinfo )
 
     @staticmethod
-    def getUTCOffset( ):
-        tz = tzlocal.get_localzone( ) # local timezone
+    def getUTCOffset( tz = tzlocal.get_localzone( ) ):
         d = datetime.datetime.now( tz )
         return RPNMeasurement( d.utcoffset( ).total_seconds( ), 'seconds' )
 
     # TODO: fix DST calculation
-    def getLocalTime( self ):
+    def getLocalTime( self, tz = tzlocal.get_localzone( ) ):
         result = self
-        return result.add( self.getUTCOffset( ) )
+        return result.add( self.getUTCOffset( tz ) )
 
     @staticmethod
     def parseDateTime( n ):

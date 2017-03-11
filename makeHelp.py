@@ -5912,6 +5912,14 @@ This operator can also handle length measurements.
 ''',
 [ ] ],
 
+    'get_timezone' : [
+'geography', 'returns the timezone for location n',
+'''
+''',
+'''
+''',
+[ ] ],
+
     'latlong' : [
 'geography', 'creates a location object given the lat/long for use with other operators',
 '''

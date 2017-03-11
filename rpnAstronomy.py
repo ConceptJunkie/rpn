@@ -15,9 +15,10 @@
 import ephem
 
 from mpmath import fdiv, fmul, mpmathify, pi
+from pytz import timezone
 
 from rpnDateTime import RPNDateTime
-from rpnLocation import getLocation, RPNLocation
+from rpnLocation import getLocation, RPNLocation, getTimeZone
 from rpnMeasurement import RPNMeasurement
 from rpnMath import subtract
 
@@ -144,7 +145,8 @@ def getNextRising( body, location, date ):
     location.observer.date = date.to( 'utc' ).format( )
     location.observer.horizon = '0'
 
-    result = RPNDateTime.convertFromEphemDate( location.observer.next_rising( body ) ).getLocalTime( )
+    result = RPNDateTime.convertFromEphemDate( location.observer.next_rising( body ) )
+    result = result.getLocalTime( timezone( getTimeZone( location ) ) )
 
     location.observer.horizon = old_horizon
 
@@ -170,7 +172,8 @@ def getNextSetting( body, location, date ):
     location.observer.date = date.to( 'utc' ).format( )
     location.observer.horizon = '0'
 
-    result = RPNDateTime.convertFromEphemDate( location.observer.next_setting( body ) ).getLocalTime( )
+    result = RPNDateTime.convertFromEphemDate( location.observer.next_setting( body ) )
+    result = result.getLocalTime( timezone( getTimeZone( location ) ) )
 
     location.observer.horizon = old_horizon
 
@@ -196,7 +199,8 @@ def getNextTransit( body, location, date ):
     location.observer.date = date.to( 'utc' ).format( )
     location.observer.horizon = '0'
 
-    result = RPNDateTime.convertFromEphemDate( location.observer.next_transit( body ) ).getLocalTime( )
+    result = RPNDateTime.convertFromEphemDate( location.observer.next_transit( body ) )
+    result = result.getLocalTime( timezone( getTimeZone( location ) ) )
 
     location.observer.horizon = old_horizon
 
@@ -222,7 +226,8 @@ def getNextAntitransit( body, location, date ):
     location.observer.date = date.to( 'utc' ).format( )
     location.observer.horizon = '0'
 
-    result = RPNDateTime.convertFromEphemDate( location.observer.next_antitransit( body ) ).getLocalTime( )
+    result = RPNDateTime.convertFromEphemDate( location.observer.next_antitransit( body ) )
+    result = result.getLocalTime( timezone( getTimeZone( location ) ) )
 
     location.observer.horizon = old_horizon
 
@@ -296,7 +301,8 @@ def getPreviousRising( body, location, date ):
     location.observer.date = date.to( 'utc' ).format( )
     location.observer.horizon = '0'
 
-    result = RPNDateTime.convertFromEphemDate( location.observer.previous_rising( body ) ).getLocalTime( )
+    result = RPNDateTime.convertFromEphemDate( location.observer.previous_rising( body ) )
+    result = result.getLocalTime( timezone( getTimeZone( location ) ) )
 
     location.observer.horizon = old_horizon
 
@@ -322,7 +328,8 @@ def getPreviousSetting( body, location, date ):
     location.observer.date = date.to( 'utc' ).format( )
     location.observer.horizon = '0'
 
-    result = RPNDateTime.convertFromEphemDate( location.observer.previous_setting( body ) ).getLocalTime( )
+    result = RPNDateTime.convertFromEphemDate( location.observer.previous_setting( body ) )
+    result = result.getLocalTime( timezone( getTimeZone( location ) ) )
 
     location.observer.horizon = old_horizon
 
@@ -348,7 +355,8 @@ def getPreviousTransit( body, location, date ):
     location.observer.date = date.to( 'utc' ).format( )
     location.observer.horizon = '0'
 
-    result = RPNDateTime.convertFromEphemDate( location.observer.previous_transit( body ) ).getLocalTime( )
+    result = RPNDateTime.convertFromEphemDate( location.observer.previous_transit( body ) )
+    result = result.getLocalTime( timezone( getTimeZone( location ) ) )
 
     location.observer.horizon = old_horizon
 
@@ -374,7 +382,8 @@ def getPreviousAntitransit( body, location, date ):
     location.observer.date = date.to( 'utc' ).format( )
     location.observer.horizon = '0'
 
-    result = RPNDateTime.convertFromEphemDate( location.observer.previous_antitransit( body ) ).getLocalTime( )
+    result = RPNDateTime.convertFromEphemDate( location.observer.previous_antitransit( body ) )
+    result = result.getLocalTime( timezone( getTimeZone( location ) ) )
 
     location.observer.horizon = old_horizon
 
@@ -404,7 +413,8 @@ def getNextDawn( location, date, horizon = -6 ):
     location.observer.horizon = str( horizon )
 
     result = RPNDateTime.convertFromEphemDate(
-                location.observer.next_rising( ephem.Sun( ), use_center=True ) ).getLocalTime( )
+                location.observer.next_rising( ephem.Sun( ), use_center=True ) )
+    result = result.getLocalTime( timezone( getTimeZone( location ) ) )
 
     location.observer.horizon = old_horizon
 
@@ -434,7 +444,8 @@ def getNextDusk( location, date, horizon = -6 ):
     location.observer.horizon = str( horizon )
 
     result = RPNDateTime.convertFromEphemDate(
-                location.observer.next_setting( ephem.Sun( ), use_center=True ) ).getLocalTime( )
+                location.observer.next_setting( ephem.Sun( ), use_center=True ) )
+    result = result.getLocalTime( timezone( getTimeZone( location ) ) )
 
     location.observer.horizon = old_horizon
 

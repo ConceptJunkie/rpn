@@ -196,11 +196,36 @@ def getLocation( name ):
 def getLocationInfo( location ):
     if isinstance( location, str ):
         location = getLocation( location )
-    elif not isinstance( location. RPNLocation ):
+    elif not isinstance( location, RPNLocation ):
         raise ValueError( 'location name or location object expected' )
 
     return [ fdiv( fmul( mpmathify( location.observer.lat ), 180 ), pi ),
              fdiv( fmul( mpmathify( location.observer.long ), 180 ), pi ) ]
+
+
+# //******************************************************************************
+# //
+# //  getTimeZone
+# //
+# //******************************************************************************
+
+def getTimeZone( location ):
+    from timezonefinder import TimezoneFinder
+
+    tf = TimezoneFinder( )
+
+    if isinstance( location, str ):
+        location = getLocation( location )
+    elif not isinstance( location, RPNLocation ):
+        raise ValueError( 'location name or location object expected' )
+
+    timezone_name = tf.timezone_at( lat = location.getLat( ), lng = location.getLong( ) )
+
+    if timezone_name is None:
+        timezone_name = tf.closest_timezone_at( lat = location.getLat( ),
+                                                lng = location.getLong( ) )
+
+    return timezone_name
 
 
 # //******************************************************************************

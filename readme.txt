@@ -118,6 +118,7 @@ following:
     pip install convertdate
     pip install geopy
 	pip install tzlocal
+	pip install timezonefinder
 
 If you are running Python 2, you will also need:
 
