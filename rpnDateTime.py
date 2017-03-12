@@ -15,6 +15,7 @@
 import arrow
 import calendar
 import datetime
+import pytz
 import tzlocal
 
 from dateutil import tz
@@ -90,10 +91,10 @@ class RPNDateTime( arrow.Arrow ):
         d = datetime.datetime.now( tz )
         return RPNMeasurement( d.utcoffset( ).total_seconds( ), 'seconds' )
 
-    # TODO: fix DST calculation
     def getLocalTime( self, tz = tzlocal.get_localzone( ) ):
         result = self
-        return result.add( self.getUTCOffset( tz ) )
+        result = result.add( self.getUTCOffset( tz ) )
+        return result.add( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
 
     @staticmethod
     def parseDateTime( n ):
@@ -817,4 +818,14 @@ def getSecond( n ):
         raise ValueError( 'date/time type required for this operator' )
 
     return n.second + n.microsecond / 1000000
+
+
+# //******************************************************************************
+# //
+# //  isDST
+# //
+# //******************************************************************************
+
+def isDST( t, tz ):
+    return t.astimezone( tz ).dst( ) != datetime.timedelta( 0 )
 
