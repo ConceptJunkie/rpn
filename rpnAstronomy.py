@@ -99,10 +99,10 @@ def getMoonPhase( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( '\'moon_phase\' expects a date-time argument' )
 
-    datetime = n.add( n.getUTCOffset( ) ).format( )
+    datetime = n.format( )
 
-    previous = RPNDateTime.convertFromEphemDate( ephem.previous_new_moon( datetime ) ).getLocalTime( )
-    next = RPNDateTime.convertFromEphemDate( ephem.next_new_moon( datetime ) ).getLocalTime( )
+    previous = RPNDateTime.convertFromEphemDate( ephem.previous_new_moon( datetime ) )
+    next = RPNDateTime.convertFromEphemDate( ephem.next_new_moon( datetime ) )
 
     cycle = next - previous
     current = n - previous
