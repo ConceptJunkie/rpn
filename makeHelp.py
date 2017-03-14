@@ -1373,7 +1373,6 @@ coefficient.
 ''' + makeCommandExample( '[ 1 3 5 ] [ 2 4 6 ] add_polynomials' ) + '''
 ''' + makeCommandExample( '[ 1 1 ] [ 2 2 2 ] add_polynomials' ) + '''
 ''' + makeCommandExample( '[ 1 ] [ 4 5 dup ] add_polynomials' ),
-[ ] ,
 [ ] ],
 
     'eval_polynomial' : [
@@ -1389,7 +1388,6 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 1 2 ] 3 eval_polynomial' ) + '''
 ''' + makeCommandExample( '[ 10 -20 30 -40 50 -60 ] 154 eval_polynomial' ) + '''
 ''' + makeCommandExample( '[ 8 5 3 -4 ] 1 10 range eval_polynomial' ),
-[ ] ,
 [ ] ],
 
     'find_polynomial' : [
@@ -1405,7 +1403,6 @@ will be limited to an order of no higher than k.
 ''' + makeCommandExample( 'silver 10 find_polynomial' ) + '''
 ''' + makeCommandExample( 'plastic 10 find_polynomial' ) + '''
 ''' + makeCommandExample( 'mertens_constant 100 find_polynomial' ),
-[ ] ,
 [ ] ],
 
     'multiply_polynomials' : [
@@ -1421,7 +1418,6 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 1 0 ] [ 1 0 ] multiply_polynomials' ) + '''
 ''' + makeCommandExample( '[ 1 1 ] [ 1 1 1 ] multiply_polynomials' ) + '''
 ''' + makeCommandExample( '[ 6 6 8 8 ] [ 10 12 24 36 ] multiply_polynomials' ),
-[ ] ,
 [ ] ],
 
     'polynomial_power' : [
@@ -1437,7 +1433,6 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 1 1 ] 2 polynomial_power' ) + '''
 ''' + makeCommandExample( '[ 1 2 1 ] 4 polynomial_power' ) + '''
 ''' + makeCommandExample( '[ 1 1 ] 8 polynomial_power' ),
-[ ] ,
 [ ] ],
 
     'polynomial_product' : [
@@ -1453,7 +1448,6 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 3 4 ] [ 2 3 ] multiply_polynomials' ) + '''
 ''' + makeCommandExample( '[ [ 3 4 ] [ 2 3 ] ] polynomial_product' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 10 ] ] polynomial_product' ),
-[ ] ,
 [ ] ],
 
     'polynomial_sum' : [
@@ -1469,7 +1463,6 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 3 4 ] [ 2 3 ] add_polynomials' ) + '''
 ''' + makeCommandExample( '[ [ 3 4 ] [ 2 3 ] ] polynomial_sum' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 10 ] ] polynomial_sum' ),
-[ ] ,
 [ ] ],
 
     'solve' : [
@@ -1486,8 +1479,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 1 3 -28 ] solve' ) + '''
 ''' + makeCommandExample( '[ 1 4 -20 -48 ] solve' ) + '''
 ''' + makeCommandExample( '[ 1 2 -107 -648 -1008 ] solve' ),
-[ ] ,
-[ ] ],
+[ 'solve_quartic', 'solve_quadratic', 'solve_cubic' ] ],
 
     'solve_cubic' : [
 'algebra', 'solves a cubic equation',
@@ -1500,8 +1492,7 @@ operator uses mpmath's numerical solver to do the same thing.
 ''',
 '''
 ''' + makeCommandExample( '1 4 -20 -48 solve_cubic' ),
-[ ] ,
-[ ] ],
+[ 'solve_quartic', 'solve_quadratic', 'solve' ] ],
 
     'solve_quadratic' : [
 'algebra', 'solves a quadratic equation',
@@ -1514,8 +1505,7 @@ This operator uses the quadratic formula to solve quadratic equations.  The
 ''',
 '''
 ''' + makeCommandExample( '1 3 -28 solve_quadratic' ),
-[ ] ,
-[ ] ],
+[ 'solve_quartic', 'solve_cubic', 'solve' ] ],
 
     'solve_quartic' : [
 'algebra', 'solves a quartic equation',
@@ -1529,8 +1519,7 @@ operator uses mpmath's numerical solver to do the same thing.
 ''',
 '''
 ''' + makeCommandExample( '1 2 -107 -648 -1008 solve_quartic' ),
-[ ] ,
-[ ] ],
+[ 'solve_quadratic', 'solve_cubic', 'solve' ] ],
 
 
 # //******************************************************************************
@@ -1551,8 +1540,7 @@ absolute value of a negative number is the number without the negative sign.
 ''' + makeCommandExample( '1 abs' ) + '''
 ''' + makeCommandExample( '-1 abs' ) + '''
 ''' + makeCommandExample( '[ -10 20 -30 40 -50 ] abs' ),
-[ ] ,
-[ ] ],
+[ 'negative' ] ],
 
     'add' : [
 'arithmetic', 'adds n to k',
@@ -1574,7 +1562,7 @@ Addition is supported for measurements..
 ''' + makeCommandExample( '[ 1 2 3 4 5 6 ] [ 10 10 10 10 10 10 ] +' ) + '''
 ''' + makeCommandExample( '[ 1 2 3 4 5 6 ] [ 10 10 10 ] add' ) + '''
 ''' + makeCommandExample( '1 mile 1 km +' ),
-[ 'subtract', 'sum' ] ],
+[ 'subtract', 'sum', 'multiply', 'divide' ] ],
 
     'ceiling' : [
 'arithmetic', 'returns the next higher integer for n',
@@ -1622,7 +1610,7 @@ Division is supported for measurements.
 ''' + makeCommandExample( '1440 24 /' ) + '''
 ''' + makeCommandExample( '2520 1 10 range /' ) + '''
 ''' + makeCommandExample( 'miles hour / furlongs fortnight / convert' ),
-[ 'multiply' ] ],
+[ 'multiply', 'add', 'subtract' ] ],
 
     'floor' : [
 'arithmetic', 'calculates the next lower integer for n',
@@ -1636,7 +1624,7 @@ decreased to the next lower integral multiple of i.
 ''' + makeCommandExample( '0.1 floor' ) + '''
 ''' + makeCommandExample( '-6.9 floor' ) + '''
 ''' + makeCommandExample( '-2.5 5.7 i + floor' ),
-[ 'ceiling' ] ],
+[ 'ceiling', 'round' ] ],
 
     'gcd' : [
 'arithmetic', 'calculates the greatest common denominator of elements in list n',
@@ -2296,7 +2284,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''' + makeCommandExample( 'today next_full_moon' ) + '''
-''' + makeCommandExample( '1911-02-02 next_full_moon' ) ,
+''' + makeCommandExample( '2011-02-02 next_full_moon' ) ,
 [ 'previous_full_moon', 'next_first_quarter_moon', 'next_last_quarter_moon', 'next_new_moon' ] ],
 
     'next_last_quarter_moon' : [
@@ -2363,7 +2351,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''' + makeCommandExample( 'today previous_first_quarter_moon' ) + '''
-''' + makeCommandExample( '1868-05-03 previous_first_quarter_moon' ) ,
+''' + makeCommandExample( '1988-05-03 previous_first_quarter_moon' ) ,
 [ 'next_first_quarter_moon', 'previous_last_quarter_moon', 'previous_full_moon', 'previous_new_moon' ] ],
 
     'previous_full_moon' : [
@@ -5702,7 +5690,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ 'antiprism_volume', 'cone_area', 'prism_area' ] ],
+[ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octohedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'antiprism_volume' : [
 'geometry', 'calculates the volume of an n-sided antiprism of edge length k',
@@ -5710,7 +5698,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ 'antiprism_area', 'cone_volume', 'prism_volume' ] ],
+[ 'antiprism_area', 'prism_volume', 'tetrahedron_volume', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'cone_area' : [
 'geometry', 'calculates the surface area of a cone of radius n and height k',
@@ -5718,7 +5706,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'torus_area', 'sphere_area', 'prism_area', 'n_sphere_area', 'cone_volume' ] ],
 
     'cone_volume' : [
 'geometry', 'calculates the volume of a cone of radius n and height k',
@@ -5726,7 +5714,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'torus_volume', 'sphere_volume', 'prism_volume', 'n_sphere_volume', 'cone_area' ] ],
 
     'dodecahedron_area' : [
 'geometry', 'calculates the surface area of a regular dodecahedron of edge length n',
@@ -5734,7 +5722,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octohedron_area', 'dodecahedron_volume', 'icosahedron_area', 'sphere_area' ] ],
 
     'dodecahedron_volume' : [
 'geometry', 'calculates the volume of a regular dodecahedron of edge length n',
@@ -5742,7 +5730,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'icosahedron_area' : [
 'geometry', 'calculates the surface area of a regular icosahedron of edge length n',
@@ -5750,7 +5738,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octohedron_area', 'dodecahedron_area', 'icosahedron_volume', 'sphere_area' ] ],
 
     'icosahedron_volume' : [
 'geometry', 'calculates the volume of a regular icosahedron of edge length n',
@@ -5758,7 +5746,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_area', 'sphere_volume' ] ],
 
     'n_sphere_area' : [
 'geometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
@@ -5766,7 +5754,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'torus_area', 'sphere_volume', 'prism_area', 'n_sphere_area', 'cone_area', 'n_sphere_radius' ] ],
 
     'n_sphere_radius' : [
 'geometry', 'calculates the radius of an n-sphere of size k (surface area or volume)',
@@ -5774,7 +5762,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'n_sphere_volume', 'sphere_radius', 'n_sphere_area' ] ],
 
     'n_sphere_volume' : [
 'geometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
@@ -5782,7 +5770,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'torus_volume', 'sphere_volume', 'prism_volume', 'n_sphere_area', 'cone_volume', 'n_sphere_radius' ] ],
 
     'octahedron_area' : [
 'geometry', 'calculates the surface area of a regular octahedron of edge length n',
@@ -5790,7 +5778,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_area', 'octohedron_volume', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'octahedron_volume' : [
 'geometry', 'calculates the volume of a regular octahedron of edge length n',
@@ -5798,7 +5786,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octohedron_area', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'polygon_area' : [
 'geometry', 'calculates the area of an regular n-sided polygon with sides of length k',
@@ -5814,7 +5802,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_volume', 'prism_area', 'tetrahedron_area', 'octohedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'prism_volume' : [
 'geometry', 'calculates the volume of an a-sided prism of edge length b, and height c',
@@ -5822,7 +5810,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_volume', 'prism_area', 'tetrahedron_volume', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'sphere_area' : [
 'geometry', 'calculates the surface area of a sphere of size n (radius or volume)',
@@ -5830,7 +5818,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'torus_area', 'sphere_volume', 'prism_area', 'n_sphere_area', 'cone_area', 'sphere_radius' ] ],
 
     'sphere_radius' : [
 'geometry', 'calculates the radius of a sphere of size n (surface area or volume)',
@@ -5838,7 +5826,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'sphere_volume', 'sphere_radius', 'n_sphere_radius' ] ],
 
     'sphere_volume' : [
 'geometry', 'calculates the volume of a sphere of size n (radius or surface area)',
@@ -5846,7 +5834,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'torus_volume', 'sphere_area', 'prism_volume', 'n_sphere_volume', 'cone_volume', 'sphere_radius' ] ],
 
     'tetrahedron_area' : [
 'geometry', 'calculates the surface area of a regular tetrahedron of edge length n',
@@ -5854,7 +5842,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_area', 'prism_area', 'tetrahedron_volume', 'octohedron_area', 'dodecahedron_area', 'icosahedron_area', 'sphere_area' ] ],
 
     'tetrahedron_volume' : [
 'geometry', 'calculates the volume of a regular tetrahedron of edge length n',
@@ -5862,7 +5850,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'antiprism_volume', 'prism_volume', 'tetrahedron_area', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
     'torus_area' : [
 'geometry', 'calculates the surface area of a torus of major radius n and minor radius k',
@@ -5870,7 +5858,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'torus_volume', 'sphere_area', 'prism_area', 'n_sphere_area', 'cone_area' ] ],
 
     'torus_volume' : [
 'geometry', 'calculates the volume of a torus of major radius n and minor radius k',
@@ -5878,7 +5866,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ ] ],
+[ 'torus_area', 'sphere_volume', 'prism_volume', 'n_sphere_volume', 'cone_volume' ] ],
 
     'triangle_area' : [
 'geometry', 'calculates the area of a triangle with sides of length a, b, and c',
@@ -5895,7 +5883,7 @@ This operator can also handle length measurements.
 ''' + makeCommandExample( '3 4 5 triangle_area' ) + '''
 ''' + makeCommandExample( '3 inches 4 inches 5 inches triangle_area' ) + '''
 ''' + makeCommandExample( '2 3 make_pyth_3 unlist triangle_area' ) ,
-[ 'polygon_area' ] ],
+[ 'polygon_area', 'prism_area' ] ],
 
 
 # //******************************************************************************
@@ -5910,7 +5898,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ ] ],
+[ 'location', 'latlong' ] ],
 
     'get_timezone' : [
 'geography', 'returns the timezone for location n',
@@ -5926,7 +5914,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ ] ],
+[ 'location_info', 'location' ] ],
 
     'location' : [
 'geography', 'returns the lat-long for a location string',
@@ -5934,7 +5922,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ ] ],
+[ 'location_info', 'latlong' ] ],
 
     'location_info' : [
 'geography', 'returns the lat-long for a location',
@@ -5942,7 +5930,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ ] ],
+[ 'location', 'latlong', 'distance' ] ],
 
 
 # //******************************************************************************
