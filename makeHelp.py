@@ -1588,7 +1588,7 @@ This operator is the equivalent of 'n 1 subtract'.
 ''' + makeCommandExample( '1 10 range decrement', indent=4 ) + '''
 List the first 10 pronic numbers:
 ''' + makeCommandExample( '1 10 range lambda x x decrement * eval', indent=4 ),
-[ 'increment' ] ],
+[ 'increment', 'subtract' ] ],
 
     'divide' : [
 'arithmetic', 'divides n by k',
@@ -1610,7 +1610,7 @@ Division is supported for measurements.
 ''' + makeCommandExample( '1440 24 /' ) + '''
 ''' + makeCommandExample( '2520 1 10 range /' ) + '''
 ''' + makeCommandExample( 'miles hour / furlongs fortnight / convert' ),
-[ 'multiply', 'add', 'subtract' ] ],
+[ 'multiply', 'add', 'subtract', 'reciprocal' ] ],
 
     'floor' : [
 'arithmetic', 'calculates the next lower integer for n',
@@ -1624,7 +1624,7 @@ decreased to the next lower integral multiple of i.
 ''' + makeCommandExample( '0.1 floor' ) + '''
 ''' + makeCommandExample( '-6.9 floor' ) + '''
 ''' + makeCommandExample( '-2.5 5.7 i + floor' ),
-[ 'ceiling', 'round' ] ],
+[ 'ceiling', 'round', 'nearest_int' ] ],
 
     'gcd' : [
 'arithmetic', 'calculates the greatest common denominator of elements in list n',
@@ -1646,7 +1646,7 @@ values.
 ''' + makeCommandExample( '[ 1 10 range ] geometric_mean' ) + '''
 Calculate the geometric mean of the first n numbers from 1 to 5:
 ''' + makeCommandExample( '[ 1 1 5 range range ] geometric_mean' ),
-[ ] ],
+[ 'mean', 'agm' ] ],
 
     'increment' : [
 'arithmetic', 'returns n + 1',
@@ -1657,7 +1657,7 @@ This operator is the equivalent of 'n 1 add'.
 ''' + makeCommandExample( '1 increment' ) + '''
 ''' + makeCommandExample( '1 10 range increment' ) + '''
 ''' + makeCommandExample( '1 10 range lambda x increment fib x fib / eval' ),
-[ 'decrement' ] ],
+[ 'decrement', 'add' ] ],
 
     'is_divisible' : [
 'arithmetic', 'returns whether n is n divisible by k',
@@ -1690,7 +1690,7 @@ expects real, integral arguments.
 ''' + makeCommandExample( '2 is_even' ) + '''
 ''' + makeCommandExample( '3 is_even' ) + '''
 ''' + makeCommandExample( '1 100 primes lambda x is_even filter' ),
-[ 'is_odd' ] ],
+[ 'is_odd', 'is_zero' ] ],
 
     'is_greater' : [
 'arithmetic', 'returns 1 if n is greater than k, otherwise returns 0',
@@ -1754,7 +1754,7 @@ expects real, integral arguments.
 ''',
 '''
 ''',
-[ 'is_zero' ] ],
+[ 'is_zero', 'is_odd', 'is_even', 'is_not_equal' ] ],
 
     'is_odd' : [
 'arithmetic', 'returns whether n is an odd number',
@@ -1762,7 +1762,7 @@ expects real, integral arguments.
 ''',
 '''
 ''',
-[ 'is_even' ] ],
+[ 'is_even', 'is_zero' ] ],
 
     'is_square' : [
 'arithmetic', 'returns whether n is a perfect square',
@@ -1778,7 +1778,7 @@ expects real, integral arguments.
 ''',
 '''
 ''',
-[ 'is_not_zero' ] ],
+[ 'is_not_zero', 'is_odd', 'is_even', 'is_equal' ] ],
 
     'larger' : [
 'arithmetic', 'returns the larger of n and k',
@@ -1811,7 +1811,7 @@ This operator returns the largest value in the input list of values n.
 '''
 ''' + makeCommandExample( '[ 5 8 2 23 9 ] max' ) + '''
 ''' + makeCommandExample( '10 1000 random_integer_ max' ),
-[ 'min' ] ],
+[ 'min', 'larger', 'is_greater' ] ],
 
     'mean' : [
 'arithmetic', 'calculates the mean of values in list n',
@@ -1824,7 +1824,7 @@ all items divided by the number of items.
 '''
 ''' + makeCommandExample( '1 10 range mean' ) + '''
 ''' + makeCommandExample( '1 1000 range sum_digits mean' ),
-[ 'stddev', 'agm' ] ],
+[ 'stddev', 'agm', 'geometric_mean' ] ],
 
     'min' : [
 'arithmetic', 'returns the smallest value in list n',
@@ -1836,7 +1836,7 @@ This operator returns the smallest value in the input list of values n.
 '''
 ''' + makeCommandExample( '[ 5 8 2 23 9 ] min' ) + '''
 ''' + makeCommandExample( '10 1000 random_integer_ min' ),
-[ ] ],
+[ 'max', 'smaller', 'is_less' ] ],
 
     'modulo' : [
 'arithmetic', 'calculates n modulo k',
@@ -1844,7 +1844,7 @@ This operator returns the smallest value in the input list of values n.
 ''',
 '''
 ''',
-[ 'powmod' ] ],
+[ 'powmod', 'divide' ] ],
 
     'multiply' : [
 'arithmetic', 'multiplies n by k',
@@ -1864,7 +1864,7 @@ Multiplication is supported for measurements.
 ''' + makeCommandExample( '32 56 *' ) + '''
 ''' + makeCommandExample( '7 1 10 range *' ) + '''
 ''' + makeCommandExample( '16800 mA hours * 5 volts * joule convert' ),
-[ ] ],
+[ 'add', 'subtract', 'divide', 'power' ] ],
 
     'negative' : [
 'arithmetic', 'calculates the negative of n',
@@ -1874,7 +1874,7 @@ Multiplication is supported for measurements.
 ''' + makeCommandExample( '1 negative' ) + '''
 ''' + makeCommandExample( '-1 negative' ) + '''
 ''' + makeCommandExample( '0 negative' ),
-[ 'sign' ] ],
+[ 'sign', 'abs' ] ],
 
     'nearest_int' : [
 'arithmetic', 'returns the nearest integer to n',
@@ -1887,7 +1887,7 @@ different than 'round'.
 ''' + makeCommandExample( '3 sqrt neg nearest_int' ) + '''
 ''' + makeCommandExample( '0.5 nearest_int' ) + '''
 ''' + makeCommandExample( '1.5 nearest_int' ),
-[ 'round' ] ],
+[ 'round', 'floor', 'ceiling' ] ],
 
     'product' : [
 'arithmetic', 'calculates the product of values in list n',
@@ -1907,7 +1907,7 @@ Calculating the magnetic constant:
 ''',
 '''
 ''',
-[ ] ],
+[ 'divide' ] ],
 
     'round' : [
 'arithmetic', 'rounds n to the nearest integer',
@@ -1920,7 +1920,7 @@ integers, 'round' will round up to the next highest integer.
 ''' + makeCommandExample( '-7.8 round' ) + '''
 ''' + makeCommandExample( '4.5 round' ) + '''
 ''' + makeCommandExample( '-13.5 round' ),
-[ 'round_by_digits', 'round_by_value' ] ],
+[ 'round_by_digits', 'round_by_value', 'nearest_int' ] ],
 
     'round_by_digits' : [
 'arithmetic', 'rounds n to the nearest kth power of 10',
@@ -1936,7 +1936,7 @@ between the least significant digit, 'round_by_digits' will round up.
 ''' + makeCommandExample( '567 3 round_by_digits' ) + '''
 ''' + makeCommandExample( 'pi -3 round_by_digits' ) + '''
 ''' + makeCommandExample( '-a15 -13 pi round_by_digits -d' ),
-[ 'round', 'round_by_value' ] ],
+[ 'round', 'round_by_value', 'nearest_int' ] ],
 
     'round_by_value' : [
 'arithmetic', 'rounds n to the nearest multiple of k',
@@ -1951,7 +1951,7 @@ is exactly halfway between multiples of k, 'round_by_value' will round up.
 ''' + makeCommandExample( 'pi 0.2 round_by_value' ) + '''
 ''' + makeCommandExample( 'pi 0.03 round_by_value' ) + '''
 ''' + makeCommandExample( 'pi 0.004 round_by_value' ),
-[ 'round_by_digits', 'round' ] ],
+[ 'round_by_digits', 'round', 'nearest_int' ] ],
 
     'sign' : [
 'arithmetic', 'returns the sign of a value',
@@ -1967,7 +1967,7 @@ unit circle.
 ''' + makeCommandExample( '-8 sign' ) + '''
 ''' + makeCommandExample( '0 sign' ) + '''
 ''' + makeCommandExample( '3 4 i + sign' ) ,
-[ 'negative' ] ],
+[ 'negative', 'abs' ] ],
 
     'smaller' : [
 'arithmetic', 'returns the smaller of n and k',
@@ -1978,7 +1978,7 @@ unit circle.
 ''' + makeCommandExample( '1 2 smaller' ) + '''
 ''' + makeCommandExample( '4 3 smaller' ) + '''
 ''' + makeCommandExample( '8 9 ** 9 8 ** smaller' ) ,
-[ 'larger' ] ],
+[ 'larger', 'is_less' ] ],
 
     'stddev' : [
 'arithmetic', 'calculates the standard deviation of values in list n',
@@ -1987,7 +1987,7 @@ unit circle.
 '''
 ''' + makeCommandExample( '10 50 random_integer_ stddev' ) + '''
 ''' + makeCommandExample( '1 50 range count_div stddev' ) ,
-[ 'mean', 'agm' ] ],
+[ 'mean', 'agm', 'geometric_mean' ] ],
 
     'subtract' : [
 'arithmetic', 'subtracts k from n',
