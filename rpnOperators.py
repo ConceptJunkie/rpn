@@ -1008,12 +1008,6 @@ def dumpOperators( ):
         print( '   ' + i )
 
     print( )
-    print( 'constants:' )
-
-    for i in sorted( [ key for key in constants ] ):
-        print( '   ' + i )
-
-    print( )
     print( 'list operators:' )
 
     for i in sorted( [ key for key in listOperators ] ):
@@ -1029,11 +1023,44 @@ def dumpOperators( ):
     print( 'internal operators:' )
 
     for i in sorted( [ key for key in operators if key[ 0 ] == '_' ] ):
-        print( '   ' + i + ', args: ' + str( operators[ i ].argCount ) )
+        print( '   ' + i )
 
     print( )
 
-    return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
+    return len( operators ) + len( listOperators ) + len( modifiers )
+
+
+# //******************************************************************************
+# //
+# //  dumpConstants
+# //
+# //******************************************************************************
+
+def dumpConstants( ):
+    for i in sorted( [ key for key in constants ] ):
+        print( i )
+
+    print( )
+
+    return len( constants )
+
+
+# //******************************************************************************
+# //
+# //  dumpUnits
+# //
+# //******************************************************************************
+
+def dumpUnits( ):
+    if not g.unitOperators:
+        loadUnitData( )
+
+    for i in sorted( [ key for key in g.unitOperators ] ):
+        print( i )
+
+    print( )
+
+    return len( g.unitOperators )
 
 
 # //******************************************************************************
@@ -3757,7 +3784,13 @@ operators = {
     '_dump_aliases'                  : RPNOperator( dumpAliases,
                                                     0, [ ] ),
 
+    '_dump_constants'                : RPNOperator( dumpConstants,
+                                                    0, [ ] ),
+
     '_dump_operators'                : RPNOperator( dumpOperators,
+                                                    0, [ ] ),
+
+    '_dump_units'                    : RPNOperator( dumpUnits,
                                                     0, [ ] ),
 
     '_stats'                         : RPNOperator( dumpStats,

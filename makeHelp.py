@@ -5951,7 +5951,16 @@ The operator returns number of aliases.
 ''',
 '''
 ''',
-[ '_dump_operators', '_stats' ] ],
+[ '_dump_operators', '_stats', '_dump_units', '_dump_constants' ] ],
+
+    '_dump_constants' : [
+'internal', 'dumps the list of constants',
+'''
+The operator returns number of constants.
+''',
+'''
+''',
+[ '_dump_operators', '_stats', '_dump_units', '_dump_aliases' ] ],
 
     '_dump_operators' : [
 'internal', 'lists all rpn operators',
@@ -5960,11 +5969,20 @@ The list of operators is divided into normal operators, list operators (which
 require at least one list argument), modifier operators (which work outside of
 the RPN syntax), and internal operators, which describe RPN itself.
 
-The operator returns the RPN version number in list format.
+The operator returns number of operators.
 ''',
 '''
 ''',
-[ '_dump_aliases', '_stats' ] ],
+[ '_dump_aliases', '_stats', '_dump_units', '_dump_constants' ] ],
+
+    '_dump_units' : [
+'internal', 'lists all rpn units',
+'''
+The operator returns number of units.
+''',
+'''
+''',
+[ '_dump_aliases', '_dump_operators', '_stats', '_dump_constants' ] ],
 
     '_stats' : [
 'internal', 'dumps rpn statistics',
@@ -5977,7 +5995,7 @@ The operator returns the RPN version number in list format.
 ''',
 '''
 ''',
-[ '_dump_aliases', '_dump_operators' ] ],
+[ '_dump_aliases', '_dump_operators', '_dump_units', '_dump_constants' ] ],
 
 
 # //******************************************************************************

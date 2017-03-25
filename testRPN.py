@@ -1672,6 +1672,12 @@ def runInternalOperatorTests( ):
     # _dump_operators
     testOperator( '_dump_operators' )
 
+    # _dump_constants
+    testOperator( '_dump_constants' )
+
+    # _dump_units
+    testOperator( '_dump_units' )
+
     # _stats
     testOperator( '_stats' )
 

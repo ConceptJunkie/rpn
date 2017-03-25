@@ -539,3 +539,71 @@ def openPrimeCache( name ):
             print( 'prime number table ' + name + ' can\'t be found, please run preparePrimeData.py' )
 
 
+# //******************************************************************************
+# //
+# //  createFactorCache
+# //
+# //******************************************************************************
+
+def createFactorCache( name ):
+    db = sqlite3.connect( getCacheFileName( name ) )
+
+    cursor = db.cursor( )
+    cursor.execute( '''CREATE TABLE cache( id INTEGER PRIMARY KEY, value INTEGER )''' )
+    db.commit( )
+
+    return db, cursor
+
+
+# //******************************************************************************
+# //
+# //  openFactorCache
+# //
+# //******************************************************************************
+
+def openFactorCache( name ):
+    if name in g.cursors:
+        return g.cursors[ name ]
+    else:
+        try:
+            g.databases[ name ] = sqlite3.connect( getCacheFileName( name ) )
+            g.cursors[ name ] = g.databases[ name ].cursor( )
+        except:
+            print( 'prime number table ' + name + ' can\'t be found, please run preparePrimeData.py' )
+
+
+# //******************************************************************************
+# //
+# //  lookUpFactorCache
+# //
+# //******************************************************************************
+
+def lookUpFactorCache( cursor, key ):
+    try:
+        cursor.execute( '''SELECT value FROM cache WHERE id=?''', ( key, ) )
+    except sqlite3.DatabaseError:
+        return False, None
+    except sqlite3.IntegrityError:
+        return False, None
+
+    result = cursor.fetchone( )
+
+    if result is None:
+        return False, None, 0
+    else:
+        return True, mpmathify( result[ 0 ] )
+
+
+# //******************************************************************************
+# //
+# //  saveToFactorCache
+# //
+# //******************************************************************************
+
+def saveToFactorCache( db, cursor, key, value, commit=True ):
+    cursor.execute( '''INSERT INTO cache( id, value, precision ) VALUES( ?, ?, ? )''', ( key, value, precision ) )
+
+    if commit:
+        db.commit( )
+
+
