@@ -24,7 +24,7 @@ from mpmath import arange, binomial, fabs, fac, fadd, fdiv, fib, floor, fmod, \
                    phi, polyroots, polyval, power, primepi2, re, root, sqrt, \
                    zetazero
 
-from rpnFactor import getSIQSFactors
+from rpnFactor import getSIQSFactorList
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
 from rpnPersistence import cachedFunction
@@ -39,7 +39,6 @@ import rpnGlobals as g
 # //
 # //******************************************************************************
 
-@cachedFunction( 'alt_factorial' )
 def getNthAlternatingFactorial( n ):
     result = 0
 
@@ -73,12 +72,12 @@ def getNthPascalLine( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'divisor_count' )
 def getDivisorCount( n ):
     if n == 1:
         return 1
 
-    factors = getSIQSFactors( n )
-    return fprod( [ i[ 1 ] + 1 for i in factors ] )
+    return fprod( [ i[ 1 ] + 1 for i in getSIQSFactorList( n ) ] )
 
 
 # //******************************************************************************
@@ -87,18 +86,18 @@ def getDivisorCount( n ):
 # //
 # //******************************************************************************
 
-def createDivisorList( seed, factors ):
+def createDivisorList( seed, factorList ):
     result = [ ]
 
-    factor, count = factors[ 0 ]
+    factor, count = factorList[ 0 ]
 
     for i in range( count + 1 ):
         divisors = [ ]
         divisors.extend( seed )
         divisors.extend( [ factor ] * i )
 
-        if len( factors ) > 1:
-            result.extend( createDivisorList( divisors, factors[ 1 : ] ) )
+        if len( factorList ) > 1:
+            result.extend( createDivisorList( divisors, factorList[ 1 : ] ) )
         else:
             result.extend( [ fprod( divisors ) ] )
 
@@ -117,9 +116,7 @@ def getDivisors( n ):
     elif n == 1:
         return [ 1 ]
 
-    factors = getSIQSFactors( n )
-
-    return sorted( createDivisorList( [ ], factors ) )
+    return sorted( createDivisorList( [ ], getSIQSFactorList( n ) ) )
 
 
 # //******************************************************************************
@@ -147,7 +144,6 @@ def getNthLucasNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'jacobsthal' )
 def getNthJacobsthalNumber( n ):
     return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], fadd( real( n ), 1 ) )
 
@@ -289,7 +285,6 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'padovan' )
 def getNthPadovanNumber( arg ):
     n = fadd( real( arg ), 4 )
 
@@ -866,6 +861,7 @@ def calculateChineseRemainderTheorem( values, mods ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'sigma' )
 def getSigma( target ):
     '''
     Returns the sum of the divisors of n, including 1 and n.
@@ -879,8 +875,7 @@ def getSigma( target ):
     elif n == 1:
         return 1
 
-    factors = getSIQSFactors( n )
-    factorList = list( collections.Counter( factors ).items( ) )
+    factorList = getSIQSFactorList( n )
 
     result = 1
 
@@ -913,11 +908,11 @@ def getSigmaN( n, k ):
     elif n == 1:
         return 1
 
-    factors = getSIQSFactors( n )
+    factorList = getSIQSFactorList( n )
 
     result = 1
 
-    for factor in factors:
+    for factor in factorList:
         numerator = fsub( power( factor[ 0 ], fmul( fadd( factor[ 1 ], 1 ), k ) ), 1 )
         denominator = fsub( power( factor[ 0 ], k ), 1 )
         result = fmul( result, fdiv( numerator, denominator ) )
@@ -962,13 +957,13 @@ def getMobius( n ):
     if real( n ) == 1:
         return 1
 
-    factors = getSIQSFactors( n )
+    factorList = getSIQSFactorList( n )
 
-    for i in factors:
+    for i in factorList:
         if i[ 1 ] > 1:
             return 0
 
-    if len( factors ) % 2:
+    if len( factorList ) % 2:
         return -1
     else:
         return 1
@@ -1004,7 +999,7 @@ def getEulerPhi( n ):
     if real( n ) < 2:
         return n
 
-    return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getSIQSFactors( n ) ) )
+    return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getSIQSFactorList( n ) ) )
 
 
 # //******************************************************************************
@@ -1066,9 +1061,7 @@ def isSmooth( n, k ):
     if real( n ) < real( k ):
         return 0
 
-    factors = getSIQSFactors( n )
-
-    return 1 if max( [ i[ 0 ] for i in factors ] ) <= k else 0
+    return 1 if max( [ i[ 0 ] for i in getSIQSFactorList( n ) ] ) <= k else 0
 
 
 # //******************************************************************************
@@ -1083,9 +1076,7 @@ def isRough( n, k ):
     if real( n ) < real( k ):
         return 0
 
-    factors = getSIQSFactors( n )
-
-    return 1 if min( [ i[ 0 ] for i in factors ] ) >= k else 0
+    return 1 if min( [ i[ 0 ] for i in getSIQSFactorList( n ) ] ) >= k else 0
 
 
 # //******************************************************************************
@@ -1095,9 +1086,7 @@ def isRough( n, k ):
 # //******************************************************************************
 
 def isKSemiPrime( n, k ):
-    factors = getSIQSFactors( n )
-
-    return 1 if sum( [ i[ 1 ] for i in factors ] ) == k else 0
+    return 1 if sum( [ i[ 1 ] for i in getSIQSFactorList( n ) ] ) == k else 0
 
 
 # //******************************************************************************
@@ -1107,12 +1096,12 @@ def isKSemiPrime( n, k ):
 # //******************************************************************************
 
 def isSphenic( n ):
-    factors = getSIQSFactors( n )
+    factorList = getSIQSFactorList( n )
 
-    if len( factors ) != 3:
+    if len( factorList ) != 3:
         return 0
 
-    return 1 if max( [ i[ 1 ] for i in factors ] ) == 1 else 0
+    return 1 if max( [ i[ 1 ] for i in factorList ] ) == 1 else 0
 
 
 # //******************************************************************************
@@ -1125,9 +1114,7 @@ def isSquareFree( n ):
     if real_int( n ) == 0:
         return 0
 
-    factors = getSIQSFactors( n )
-
-    return 1 if max( [ i[ 1 ] for i in factors ] ) == 1 else 0
+    return 1 if max( [ i[ 1 ] for i in getSIQSFactorList( n ) ] ) == 1 else 0
 
 
 # //******************************************************************************
@@ -1137,9 +1124,7 @@ def isSquareFree( n ):
 # //******************************************************************************
 
 def isPowerful( n ):
-    factors = getSIQSFactors( n )
-
-    return 1 if min( [ i[ 1 ] for i in factors ] ) >= 2 else 0
+    return 1 if min( [ i[ 1 ] for i in getSIQSFactorList( n ) ] ) >= 2 else 0
 
 
 # //******************************************************************************
@@ -1149,12 +1134,12 @@ def isPowerful( n ):
 # //******************************************************************************
 
 def isAchillesNumber( n ):
-    factors = getSIQSFactors( n )
+    factorList = getSIQSFactorList( n )
 
-    if min( [ i[ 1 ] for i in factors ] ) < 2:
+    if min( [ i[ 1 ] for i in factorList ] ) < 2:
         return 0
 
-    return 1 if getGCD( [ i[ 1 ] for i in factors ] ) == 1 else 0
+    return 1 if getGCD( [ i[ 1 ] for i in factorList ] ) == 1 else 0
 
 
 # //******************************************************************************
@@ -1169,9 +1154,7 @@ def isUnusual( n ):
     if real_int( n ) < 2:
         return 0
 
-    factors = getSIQSFactors( n )
-
-    return 1 if max( [ i[ 0 ] for i in factors ] ) > sqrt( n ) else 0
+    return 1 if max( [ i[ 0 ] for i in getSIQSFactorList( n ) ] ) > sqrt( n ) else 0
 
 
 # //******************************************************************************

@@ -849,7 +849,7 @@ Yields factors of n.'''
        if veb and f != 1:
            print( 'cache hit:', f )
 
-       for i in getExpandedFactorList( g.factorCache[ f ] ):
+       for i in g.factorCache[ f ]:
            yield i
 
        return
@@ -867,7 +867,7 @@ Yields factors of n.'''
           if veb and f != 1:
               print( 'cache hit:', n )
 
-          for i in getExpandedFactorList( g.factorCache[ n ] ):
+          for i in g.factorCache[ n ]:
               yield i
 
           return
@@ -884,7 +884,7 @@ Yields factors of n.'''
           if veb and factor != 1:
               print( 'cache hit:', factor )
 
-          for i in getExpandedFactorList( g.factorCache[ factor ] ):
+          for i in g.factorCache[ factor ]:
               yield i
 
           return
@@ -905,7 +905,7 @@ Yields factors of n.'''
           if veb and n != 1:
               print( 'cache hit:', n )
 
-          for i in getExpandedFactorList( g.factorCache[ n ] ):
+          for i in g.factorCache[ n ]:
               yield i
 
           return
@@ -1262,7 +1262,7 @@ Notes:
           if veb and n != 1:
               print( 'cache hit:', n )
 
-          for i in getExpandedFactorList( g.factorCache[ n ] ):
+          for i in g.factorCache[ n ]:
               yield i
 
           return
@@ -1319,7 +1319,7 @@ Notes:
              if veb and n != 1:
                  print( 'cache hit:', n )
 
-             for i in getExpandedFactorList( g.factorCache[ n ] ):
+             for i in g.factorCache[ n ]:
                  yield i
 
              return
@@ -1389,7 +1389,7 @@ Notes:
        if veb and n != 1:
            print( 'cache hit:', n )
 
-       for i in getExpandedFactorList( g.factorCache[ n ] ):
+       for i in g.factorCache[ n ]:
            yield i
 
        return

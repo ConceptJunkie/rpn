@@ -54,7 +54,6 @@ from rpnUtils import debugPrint, real, real_int
 # //
 # //******************************************************************************
 
-@cachedFunction( 'apery' )
 def getNthAperyNumber( n ):
     '''
     http://oeis.org/A005259
@@ -76,7 +75,6 @@ def getNthAperyNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'delannoy' )
 def getNthDelannoyNumber( n ):
     result = 0
 
@@ -92,7 +90,6 @@ def getNthDelannoyNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'schroeder' )
 def getNthSchroederNumber( n ):
     if real( n ) == 1:
         return 1
@@ -117,7 +114,6 @@ def getNthSchroederNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'motzkin' )
 def getNthMotzkinNumber( n ):
     '''
     http://oeis.org/A001006
@@ -139,7 +135,6 @@ def getNthMotzkinNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'pell' )
 def getNthPellNumber( n ):
     '''
     From:  http://oeis.org/A000129
@@ -178,7 +173,6 @@ def getArrangements( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'sylvester' )
 def getNthSylvester( n ):
     if real( n ) == 1:
         return 2
@@ -399,7 +393,6 @@ def getNthCatalanNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'schroeder_hipparchus' )
 def getNthSchroederHipparchusNumber( n ):
     result = 0
 
@@ -417,7 +410,6 @@ def getNthSchroederHipparchusNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'menage' )
 def getNthMenageNumber( n ):
     if n < 0:
         raise ValueError( '\'menage\' requires a non-negative argument' )

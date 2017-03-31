@@ -585,12 +585,10 @@ def getFactors( n ):
         product = int( fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] ) )
 
         if product not in g.factorCache:
-            g.factorCache[ product ] = largeFactors
-            g.factorCacheIsDirty = True
+            g.factorCache[ product ] = getExpandedFactorList( largeFactors )
 
         if n > g.minValueToCache and n not in g.factorCache:
-            g.factorCache[ n ] = result
-            g.factorCacheIsDirty = True
+            g.factorCache[ n ] = getExpandedFactorList( result )
 
     return result
 
@@ -679,11 +677,8 @@ def getECMFactors( target ):
         g.factorCache[ product ] = largeFactors
         save = True
 
-    result = list( collections.Counter( result ).items( ) )
-
     if n > g.minValueToCache and n not in g.factorCache:
         g.factorCache[ n ] = result
-        g.factorCacheIsDirty = True
 
     if verbose:
         print( )
@@ -693,21 +688,13 @@ def getECMFactors( target ):
 
 # //******************************************************************************
 # //
-# //  getECMFactorList
-# //
-# //******************************************************************************
-
-def getECMFactorList( n ):
-    return getExpandedFactorList( getECMFactors( n ) )
-
-
-# //******************************************************************************
-# //
 # //  getSIQSFactors
 # //
 # //******************************************************************************
 
 def getSIQSFactors( target ):
+        return getECMFactors( target )
+
     verbose = g.verbose
 
     n = int( floor( target ) )
@@ -730,7 +717,17 @@ def getSIQSFactors( target ):
 
     if n > g.minValueToCache and n not in g.factorCache:
         g.factorCache[ n ] = result
-        g.factorCacheIsDirty = True
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  getSIQSFactorList
+# //
+# //******************************************************************************
+
+def getSIQSFactorList( n ):
+    return list( collections.Counter( getSIQSFactors( n ) ).items( ) )
+
 

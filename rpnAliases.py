@@ -37,6 +37,9 @@ def dumpAliases( ):
 # //******************************************************************************
 
 operatorAliases = {
+    #'Aluminium'                 : 'Aluminum',
+    #Caesium'                   : 'Cesium',
+    #Sulphur'                   : 'Sulfur',
     '!!'                        : 'double_factorial',
     '!'                         : 'factorial',
     '!='                        : 'is_not_equal',
@@ -73,10 +76,7 @@ operatorAliases = {
     '>='                        : 'is_not_less',
     '>>'                        : 'shift_right',
     '?'                         : 'help',
-    #'Aluminium'                 : 'Aluminum',
-    #Caesium'                   : 'Cesium',
     'G'                         : 'newton_constant',
-    #Sulphur'                   : 'Sulfur',
     'TP'                        : 'planck_temperature',
     '^'                         : 'power',
     '_aliases'                  : '_dump_aliases',
@@ -286,6 +286,7 @@ operatorAliases = {
     'dirac_constant'            : 'reduced_planck_constant',
     'divcount'                  : 'count_divisors',
     'divides'                   : 'is_divisible',
+    'divisor_count'             : 'count_divisors',
     'double_bal'                : 'double_balanced',
     'double_bal_'               : 'double_balanced_',
     'doublebal'                 : 'double_balanced',
@@ -867,6 +868,7 @@ operatorAliases = {
     'tP'                        : 'planck_time',
     'tangent'                   : 'tan',
     'thu'                       : 'thursday',
+    'thue_morse'                : 'nth_thue_morse',
     'thurs'                     : 'thursday',
     'to_jalali'                 : 'to_persian',
     'to_lilian'                 : 'to_lilian_day',

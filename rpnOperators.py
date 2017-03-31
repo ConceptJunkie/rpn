@@ -2876,7 +2876,7 @@ operators = {
     'double_factorial'               : RPNOperator( lambda n: fac2( n ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'ecm'                            : RPNOperator( getECMFactorList,
+    'ecm'                            : RPNOperator( getECMFactors,
                                                     1, [ RPNOperator.Integer ] ),
 
     'egypt'                          : RPNOperator( getGreedyEgyptianFraction,
@@ -2892,7 +2892,7 @@ operators = {
     'euler_phi'                      : RPNOperator( getEulerPhi,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'factor'                         : RPNOperator( getFactorList,
+    'factor'                         : RPNOperator( getSIQSFactors,
                                                     1, [ RPNOperator.Integer ] ),
 
     'factor_sympy'                   : RPNOperator( getFactorListSympy,
@@ -3056,9 +3056,6 @@ operators = {
 
     'riesel'                         : RPNOperator( lambda n: fsub( fmul( real( n ), power( 2, n ) ), 1 ),
                                                     1, [ RPNOperator.Real ] ),
-
-    'siqs'                           : RPNOperator( getSIQSFactors,
-                                                    1, [ RPNOperator.Integer ] ),
 
     'show_n_persistence'             : RPNOperator( lambda n, k: RPNGenerator.createGenerator( showPersistence, [ n, k ] ),
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
