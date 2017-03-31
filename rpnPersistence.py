@@ -42,23 +42,7 @@ from rpnVersion import PROGRAM_VERSION
 # //******************************************************************************
 
 def loadFactorCache( ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'rb' ) ) as pickleFile:
-            g.factorCache = pickle.load( pickleFile )
-    except FileNotFoundError:
-        g.factorCache = { }
-
-
-# //******************************************************************************
-# //
-# //  saveFactorCache
-# //
-# //******************************************************************************
-
-def saveFactorCache( ):
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'factors.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( g.factorCache, pickleFile )
+    g.factorCache = PersistentDict( g.dataPath + os.sep + 'factors.cache' )
 
 
 # //******************************************************************************
@@ -221,163 +205,41 @@ def saveConstants( constants ):
 
 # //******************************************************************************
 # //
-# //  loadOperatorCache
-# //
-# //******************************************************************************
-
-def loadOperatorCache( name ):
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + name + '.pckl.bz2', 'rb' ) ) as pickleFile:
-            operatorCache = pickle.load( pickleFile )
-    except FileNotFoundError:
-        operatorCache = { }
-
-    return operatorCache
-
-
-# //******************************************************************************
-# //
-# //  saveOperatorCache
-# //
-# //******************************************************************************
-
-def saveOperatorCache( operatorCache, name ):
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + name + '.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( operatorCache, pickleFile )
-
-
-# //******************************************************************************
-# //
-# //  pickledFunction
-# //
-# //  The caches are saved once when flushDirtyCaches is called by main( ).
-# //
-# //******************************************************************************
-
-def pickledFunction( name ):
-    def namedPickledFunction( func ):
-        @functools.wraps( func )
-        def cacheResults( *args, **kwargs ):
-            if name not in g.operatorCaches:
-                g.operatorCaches[ name ] = loadOperatorCache( name )
-
-            if args in g.operatorCaches[ name ]:
-                return g.operatorCaches[ name ][ args ]
-            else:
-                result = func( *args, **kwargs )
-
-                g.operatorCaches[ name ][ args ] = result
-
-                if name not in g.dirtyCaches:
-                    g.dirtyCaches.add( name )
-
-                return result
-
-        return cacheResults
-
-    return namedPickledFunction
-
-
-# //******************************************************************************
-# //
 # //  openFunctionCache
 # //
 # //******************************************************************************
 
 def openFunctionCache( name ):
-    if name in g.cursors:
-        return g.cursors[ name ]
+    if name in g.functionCaches:
+        return g.functionCaches[ name ]
     else:
         debugPrint( 'opening', name, 'function cache database' )
-        g.databases[ name ] = sqlite3.connect( getCacheFileName( name ) )
-        g.cursors[ name ] = g.databases[ name ].cursor( )
-        g.cursors[ name ].execute(
-            '''CREATE TABLE IF NOT EXISTS cache( id TEXT PRIMARY KEY NOT NULL, value TEXT NOT NULL, precision INTEGER )'''
-        )
-
-        return g.cursors[ name ]
-
-
-# //******************************************************************************
-# //
-# //  cachedFunctionWithPrecision
-# //
-# //  This can only be used with a function that returns a single mpf value.
-# //
-# //******************************************************************************
-
-def cachedFunctionWithPrecision( name ):
-    def namedCachedFunction( func ):
-        @functools.wraps( func )
-        def cacheResults( *args, **kwargs ):
-            openFunctionCache( name )
-            lookup, result, precision = lookUpFunctionCacheWithPrecision( g.cursors[ name ], repr( args ) )
-
-            if lookup and mp.dps <= precision:
-                return result
-
-            result = func( *args, **kwargs )
-            saveToFunctionCacheWithPrecision( g.databases[ name ], g.cursors[ name ], repr( args ), nstr( result, n=mp.dps ), mp.dps, update=lookup )
-            return result
-
-        return cacheResults
-
-    return namedCachedFunction
+        g.functionCaches[ name ] = PersistentDict( getCacheFileName( name ) )
+        return g.functionCaches[ name ]
 
 
 # //******************************************************************************
 # //
 # //  cachedFunction
 # //
-# //  Use this version if the function is smart enough to determine what
-# //  precision it should use.  The primary use-case if for functions that
-# //  return one or more integer values and which determine the precision
-# //  automatically.
-# //
 # //******************************************************************************
 
 def cachedFunction( name ):
     def namedCachedFunction( func ):
         @functools.wraps( func )
+
         def cacheResults( *args, **kwargs ):
-            openFunctionCache( name )
-            lookup, result = lookUpFunctionCache( g.cursors[ name ], repr( args ) )
-
-            if lookup:
+            cache = openFunctionCache( name )
+            if ( args, kwargs ) in cache:
+                return cache[ ( args, kwargs ) ]
+            else:
+                result = func( *args, **kwargs )
+                cache[ ( args, kwargs ) ] = result
                 return result
-
-            result = func( *args, **kwargs )
-            saveToCache( g.databases[ name ], g.cursors[ name ], repr( args ), nstr( result, n=mp.dps ) )
-            return result
 
         return cacheResults
 
     return namedCachedFunction
-
-
-# //******************************************************************************
-# //
-# //  flushDirtyCaches
-# //
-# //******************************************************************************
-
-def flushDirtyCaches( ):
-    for name in g.dirtyCaches:
-        saveOperatorCache( g.operatorCaches[ name ], name )
-
-    g.dirtyCaches.clear( )
-
-    if g.factorCacheIsDirty:
-        saveFactorCache( )
-
-    for name in g.dirtyCaches:
-        debugPrint( 'flushing the', name, 'pickle cache' )
-        saveOperatorCache( g.operatorCaches[ name ], name )
-
-    for name in g.databases:
-        debugPrint( 'closing the', name, 'function cache database' )
-        g.databases[ name ].close( )
 
 
 # //******************************************************************************
@@ -387,17 +249,7 @@ def flushDirtyCaches( ):
 # //******************************************************************************
 
 def getCacheFileName( name ):
-    return g.dataPath + os.sep + name
-
-
-# //******************************************************************************
-# //
-# //  doesCacheExist
-# //
-# //******************************************************************************
-
-def doesCacheExist( name ):
-    return os.path.isfile( getCacheFileName( name ) )
+    return g.dataPath + os.sep + name + '.cache'
 
 
 # //******************************************************************************
@@ -409,101 +261,6 @@ def doesCacheExist( name ):
 def deleteCache( name ):
     if doesCacheExist( name ):
         os.remove( getCacheFileName( name ) )
-
-
-# //******************************************************************************
-# //
-# //  lookUpCache
-# //
-# //******************************************************************************
-
-def lookUpCache( cursor, key ):
-    try:
-        cursor.execute( '''SELECT value FROM cache WHERE id=?''', ( key, ) )
-    except sqlite3.DatabaseError:
-        return False, None
-    except sqlite3.IntegrityError:
-        return False, None
-
-    result = cursor.fetchone( )
-
-    if result is None:
-        return False, None
-    else:
-        return True, eval( result[ 0 ] )
-
-
-# //******************************************************************************
-# //
-# //  lookUpFunctionCache
-# //
-# //******************************************************************************
-
-def lookUpFunctionCache( cursor, key ):
-    try:
-        cursor.execute( '''SELECT value FROM cache WHERE id=?''', ( key, ) )
-    except sqlite3.DatabaseError:
-        return False, None
-    except sqlite3.IntegrityError:
-        return False, None
-
-    result = cursor.fetchone( )
-
-    if result is None:
-        return False, None
-    else:
-        return True, eval( result[ 0 ] )
-
-
-# //******************************************************************************
-# //
-# //  lookUpFunctionCacheWithPrecision
-# //
-# //******************************************************************************
-
-def lookUpFunctionCacheWithPrecision( cursor, key ):
-    try:
-        cursor.execute( '''SELECT value, precision FROM cache WHERE id=?''', ( key, ) )
-    except sqlite3.DatabaseError:
-        return False, None
-    except sqlite3.IntegrityError:
-        return False, None
-
-    result = cursor.fetchone( )
-
-    if result is None:
-        return False, None, 0
-    else:
-        return True, mpmathify( result[ 0 ] ), result[ 1 ]
-
-
-# //******************************************************************************
-# //
-# //  saveToCache
-# //
-# //******************************************************************************
-
-def saveToCache( db, cursor, key, value, commit=True ):
-    cursor.execute( '''INSERT INTO cache( id, value ) VALUES( ?, ? )''', ( key, value ) )
-
-    if commit:
-        db.commit( )
-
-
-# //******************************************************************************
-# //
-# //  saveToFunctionCacheWithPrecision
-# //
-# //******************************************************************************
-
-def saveToFunctionCacheWithPrecision( db, cursor, key, value, precision, commit=True, update=False ):
-    if update:
-        cursor.execute( '''UPDATE cache SET value = ?, precision = ? WHERE id = ?''', ( value, precision, key ) )
-    else:
-        cursor.execute( '''INSERT INTO cache( id, value, precision ) VALUES( ?, ?, ? )''', ( key, value, precision ) )
-
-    if commit:
-        db.commit( )
 
 
 # //******************************************************************************
@@ -541,69 +298,103 @@ def openPrimeCache( name ):
 
 # //******************************************************************************
 # //
-# //  createFactorCache
+# //  class PersistentDict
+# //
+# //  http://stackoverflow.com/questions/9320463/persistent-memoization-in-python
 # //
 # //******************************************************************************
 
-def createFactorCache( name ):
-    db = sqlite3.connect( getCacheFileName( name ) )
+from collections import MutableMapping
 
-    cursor = db.cursor( )
-    cursor.execute( '''CREATE TABLE cache( id INTEGER PRIMARY KEY, value INTEGER )''' )
-    db.commit( )
+class PersistentDict( MutableMapping ):
+    def __init__( self, dbpath, iterable=None, **kwargs ):
+        self.dbpath = dbpath
 
-    return db, cursor
+        with self.get_connection( ) as connection:
+            cursor = connection.cursor( )
+            cursor.execute(
+                'create table if not exists memo '
+                '(key blob primary key not null, value blob not null)'
+            )
 
+        if iterable is not None:
+            self.update( iterable )
 
-# //******************************************************************************
-# //
-# //  openFactorCache
-# //
-# //******************************************************************************
+        self.update( kwargs )
 
-def openFactorCache( name ):
-    if name in g.cursors:
-        return g.cursors[ name ]
-    else:
-        try:
-            g.databases[ name ] = sqlite3.connect( getCacheFileName( name ) )
-            g.cursors[ name ] = g.databases[ name ].cursor( )
-        except:
-            print( 'prime number table ' + name + ' can\'t be found, please run preparePrimeData.py' )
+    def encode( self, obj ):
+        return pickle.dumps( obj )
 
+    def decode( self, blob ):
+        return pickle.loads( blob )
 
-# //******************************************************************************
-# //
-# //  lookUpFactorCache
-# //
-# //******************************************************************************
+    def get_connection( self ):
+        return sqlite3.connect( self.dbpath )
 
-def lookUpFactorCache( cursor, key ):
-    try:
-        cursor.execute( '''SELECT value FROM cache WHERE id=?''', ( key, ) )
-    except sqlite3.DatabaseError:
-        return False, None
-    except sqlite3.IntegrityError:
-        return False, None
+    def  __getitem__( self, key ):
+        key = self.encode( key )
 
-    result = cursor.fetchone( )
+        with self.get_connection( ) as connection:
+            cursor = connection.cursor( )
+            cursor.execute(
+                'select value from memo where key=?',
+                ( key, )
+            )
 
-    if result is None:
-        return False, None, 0
-    else:
-        return True, mpmathify( result[ 0 ] )
+            value = cursor.fetchone( )
 
+        if value is None:
+            raise KeyError( key )
 
-# //******************************************************************************
-# //
-# //  saveToFactorCache
-# //
-# //******************************************************************************
+        return self.decode( value[ 0 ] )
 
-def saveToFactorCache( db, cursor, key, value, commit=True ):
-    cursor.execute( '''INSERT INTO cache( id, value, precision ) VALUES( ?, ?, ? )''', ( key, value, precision ) )
+    def __setitem__( self, key, value ):
+        key = self.encode( key )
+        value = self.encode( value )
 
-    if commit:
-        db.commit( )
+        with self.get_connection( ) as connection:
+            cursor = connection.cursor( )
+            cursor.execute(
+                'insert or replace into memo values (?, ?)',
+                ( key, value )
+            )
 
+    def __delitem__( self, key ):
+        key = self.encode( key )
+        with self.get_connection( ) as connection:
+            cursor = connection.cursor( )
+
+            cursor.execute(
+                'select count(*) from memo where key=?',
+                ( key, )
+            )
+
+            if cursor.fetchone( )[ 0 ] == 0:
+                raise KeyError( key )
+
+            cursor.execute(
+                'delete from memo where key=?',
+                ( key, )
+            )
+
+    def __iter__( self ):
+        with self.get_connection( ) as connection:
+            cursor = connection.cursor( )
+            cursor.execute(
+                'select key from memo'
+            )
+
+            records = cursor.fetchall( )
+
+        for r in records:
+            yield self.decode( r[ 0 ] )
+
+    def __len__( self ):
+        with self.get_connection( ) as connection:
+            cursor = connection.cursor( )
+            cursor.execute(
+                'select count(*) from memo'
+            )
+
+            return cursor.fetchone( )[ 0 ]
 

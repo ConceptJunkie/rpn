@@ -12,6 +12,7 @@
 # //
 # //******************************************************************************
 
+import collections
 import itertools
 import random
 
@@ -23,10 +24,10 @@ from mpmath import arange, binomial, fabs, fac, fadd, fdiv, fib, floor, fmod, \
                    phi, polyroots, polyval, power, primepi2, re, root, sqrt, \
                    zetazero
 
-from rpnFactor import getECMFactors
+from rpnFactor import getSIQSFactors
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
-from rpnPersistence import cachedFunctionWithPrecision, pickledFunction
+from rpnPersistence import cachedFunction
 from rpnUtils import real, real_int, getMPFIntegerAsString
 
 import rpnGlobals as g
@@ -38,7 +39,7 @@ import rpnGlobals as g
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'alt_factorial' )
+@cachedFunction( 'alt_factorial' )
 def getNthAlternatingFactorial( n ):
     result = 0
 
@@ -76,7 +77,7 @@ def getDivisorCount( n ):
     if n == 1:
         return 1
 
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
     return fprod( [ i[ 1 ] + 1 for i in factors ] )
 
 
@@ -116,7 +117,7 @@ def getDivisors( n ):
     elif n == 1:
         return [ 1 ]
 
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     return sorted( createDivisorList( [ ], factors ) )
 
@@ -146,7 +147,7 @@ def getNthLucasNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'jacobsthal' )
+@cachedFunction( 'jacobsthal' )
 def getNthJacobsthalNumber( n ):
     return getNthLinearRecurrence( [ 2, 1 ], [ 0, 1 ], fadd( real( n ), 1 ) )
 
@@ -288,7 +289,7 @@ def getNthKFibonacciNumberTheSlowWay( n, k ):
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'padovan' )
+@cachedFunction( 'padovan' )
 def getNthPadovanNumber( arg ):
     n = fadd( real( arg ), 4 )
 
@@ -878,11 +879,12 @@ def getSigma( target ):
     elif n == 1:
         return 1
 
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
+    factorList = list( collections.Counter( factors ).items( ) )
 
     result = 1
 
-    for factor in factors:
+    for factor in factorList:
         numerator = fsub( power( factor[ 0 ], fadd( factor[ 1 ], 1 ) ), 1 )
         denominator = fsub( factor[ 0 ], 1 )
         #debugPrint( 'sigma', numerator, denominator )
@@ -911,7 +913,7 @@ def getSigmaN( n, k ):
     elif n == 1:
         return 1
 
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     result = 1
 
@@ -955,12 +957,12 @@ def getAliquotSequence( n, k ):
 # //
 # //******************************************************************************
 
-@pickledFunction( 'mobius' )
+@cachedFunction( 'mobius' )
 def getMobius( n ):
     if real( n ) == 1:
         return 1
 
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     for i in factors:
         if i[ 1 ] > 1:
@@ -978,7 +980,7 @@ def getMobius( n ):
 # //
 # //******************************************************************************
 
-@pickledFunction( 'merten' )
+@cachedFunction( 'merten' )
 def getNthMerten( n ):
     if real( n ) == 1:
         return 1
@@ -997,15 +999,12 @@ def getNthMerten( n ):
 # //
 # //******************************************************************************
 
-@pickledFunction( 'euler_phi' )
+@cachedFunction( 'euler_phi' )
 def getEulerPhi( n ):
     if real( n ) < 2:
         return n
 
-    if g.ecm:
-        return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getECMFactors( n ) ) )
-    else:
-        return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getFactors( n ) ) )
+    return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getSIQSFactors( n ) ) )
 
 
 # //******************************************************************************
@@ -1067,7 +1066,7 @@ def isSmooth( n, k ):
     if real( n ) < real( k ):
         return 0
 
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     return 1 if max( [ i[ 0 ] for i in factors ] ) <= k else 0
 
@@ -1084,7 +1083,7 @@ def isRough( n, k ):
     if real( n ) < real( k ):
         return 0
 
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     return 1 if min( [ i[ 0 ] for i in factors ] ) >= k else 0
 
@@ -1096,7 +1095,7 @@ def isRough( n, k ):
 # //******************************************************************************
 
 def isKSemiPrime( n, k ):
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     return 1 if sum( [ i[ 1 ] for i in factors ] ) == k else 0
 
@@ -1108,7 +1107,7 @@ def isKSemiPrime( n, k ):
 # //******************************************************************************
 
 def isSphenic( n ):
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     if len( factors ) != 3:
         return 0
@@ -1126,7 +1125,7 @@ def isSquareFree( n ):
     if real_int( n ) == 0:
         return 0
 
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     return 1 if max( [ i[ 1 ] for i in factors ] ) == 1 else 0
 
@@ -1138,7 +1137,7 @@ def isSquareFree( n ):
 # //******************************************************************************
 
 def isPowerful( n ):
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     return 1 if min( [ i[ 1 ] for i in factors ] ) >= 2 else 0
 
@@ -1150,7 +1149,7 @@ def isPowerful( n ):
 # //******************************************************************************
 
 def isAchillesNumber( n ):
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     if min( [ i[ 1 ] for i in factors ] ) < 2:
         return 0
@@ -1170,7 +1169,7 @@ def isUnusual( n ):
     if real_int( n ) < 2:
         return 0
 
-    factors = getECMFactors( n ) if g.ecm else getFactors( n )
+    factors = getSIQSFactors( n )
 
     return 1 if max( [ i[ 0 ] for i in factors ] ) > sqrt( n ) else 0
 
@@ -1450,7 +1449,7 @@ def getNthMersennePrime( n ):
 # //
 # //******************************************************************************
 
-@pickledFunction( 'thue_morse' )
+@cachedFunction( 'thue_morse' )
 def getNthThueMorse( n ):
     if n == 0:
         return 0

@@ -24,7 +24,7 @@ from mpmath import ceil, fabs, floor, fneg, fprod, log, log10, mp, power
 
 import rpnGlobals as g
 
-from rpnPersistence import loadFactorCache, saveFactorCache
+from rpnPersistence import loadFactorCache
 from rpnPrimes import primes
 from rpnSettings import setAccuracy
 from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList, \
@@ -699,4 +699,38 @@ def getECMFactors( target ):
 
 def getECMFactorList( n ):
     return getExpandedFactorList( getECMFactors( n ) )
+
+
+# //******************************************************************************
+# //
+# //  getSIQSFactors
+# //
+# //******************************************************************************
+
+def getSIQSFactors( target ):
+    verbose = g.verbose
+
+    n = int( floor( target ) )
+
+    if verbose:
+        print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), ' digits)...' )
+
+    if g.factorCache is None:
+        loadFactorCache( )
+
+    if n in g.factorCache:
+        if verbose and n != 1:
+            print( 'cache hit:', n )
+            print( )
+
+        return g.factorCache[ n ]
+
+    from factorise import factorise
+    result = factorise( int( n ) )
+
+    if n > g.minValueToCache and n not in g.factorCache:
+        g.factorCache[ n ] = result
+        g.factorCacheIsDirty = True
+
+    return result
 

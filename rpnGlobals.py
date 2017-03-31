@@ -112,7 +112,7 @@ variables = { }
 promptCount = 0
 
 # factor cache
-minValueToCache = 10000000
+minValueToCache = 1
 factorCache = None
 factorCacheIsDirty = False
 
@@ -126,8 +126,7 @@ constants = { }
 keywords = [ ]
 
 # operator caches
-operatorCaches = { }
-dirtyCaches = set( )
+functionCaches = { }
 
 # prime number data
 databases = { }

@@ -43,7 +43,7 @@ from mpmath import arange, binomial, e, fac, fadd, fdiv, floor, fmul, fprod, \
                    fsub, fsum, log10, mp, nint, nsum, pi, power, fprod, sqrt
 
 from rpnNumberTheory import getNthLinearRecurrence
-from rpnPersistence import cachedFunction, cachedFunctionWithPrecision, pickledFunction
+from rpnPersistence import cachedFunction
 from rpnPolytope import getNthGeneralizedPolygonalNumber
 from rpnUtils import debugPrint, real, real_int
 
@@ -54,7 +54,7 @@ from rpnUtils import debugPrint, real, real_int
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'apery' )
+@cachedFunction( 'apery' )
 def getNthAperyNumber( n ):
     '''
     http://oeis.org/A005259
@@ -76,7 +76,7 @@ def getNthAperyNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'delannoy' )
+@cachedFunction( 'delannoy' )
 def getNthDelannoyNumber( n ):
     result = 0
 
@@ -92,7 +92,7 @@ def getNthDelannoyNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'schroeder' )
+@cachedFunction( 'schroeder' )
 def getNthSchroederNumber( n ):
     if real( n ) == 1:
         return 1
@@ -117,7 +117,7 @@ def getNthSchroederNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'motzkin' )
+@cachedFunction( 'motzkin' )
 def getNthMotzkinNumber( n ):
     '''
     http://oeis.org/A001006
@@ -139,7 +139,7 @@ def getNthMotzkinNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'pell' )
+@cachedFunction( 'pell' )
 def getNthPellNumber( n ):
     '''
     From:  http://oeis.org/A000129
@@ -178,7 +178,7 @@ def getArrangements( n ):
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'sylvester' )
+@cachedFunction( 'sylvester' )
 def getNthSylvester( n ):
     if real( n ) == 1:
         return 2
@@ -255,7 +255,7 @@ def getCompositions( n, k ):
 # //
 # //******************************************************************************
 
-#@pickledFunction( 'partition' )
+@cachedFunction( 'partition' )
 def OLDgetPartitionNumber( n ):
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
@@ -399,7 +399,7 @@ def getNthCatalanNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'schroeder_hipparchus' )
+@cachedFunction( 'schroeder_hipparchus' )
 def getNthSchroederHipparchusNumber( n ):
     result = 0
 
@@ -417,7 +417,7 @@ def getNthSchroederHipparchusNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunctionWithPrecision( 'menage' )
+@cachedFunction( 'menage' )
 def getNthMenageNumber( n ):
     if n < 0:
         raise ValueError( '\'menage\' requires a non-negative argument' )

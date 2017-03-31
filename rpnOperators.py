@@ -3057,6 +3057,9 @@ operators = {
     'riesel'                         : RPNOperator( lambda n: fsub( fmul( real( n ), power( 2, n ) ), 1 ),
                                                     1, [ RPNOperator.Real ] ),
 
+    'siqs'                           : RPNOperator( getSIQSFactors,
+                                                    1, [ RPNOperator.Integer ] ),
+
     'show_n_persistence'             : RPNOperator( lambda n, k: RPNGenerator.createGenerator( showPersistence, [ n, k ] ),
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 

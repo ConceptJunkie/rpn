@@ -44,8 +44,6 @@ from rpnOperators import checkForVariable, constants, evaluateTerm, functionOper
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                       printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
 
-from rpnPersistence import flushDirtyCaches
-
 from rpnUtils import getCurrentArgList, getDataPath, handleIdentify, \
                      parseNumerals, validateArguments, validateOptions
 
@@ -623,7 +621,6 @@ if __name__ == '__main__':
                 profile.run( 'handleOutput( rpn( sys.argv[ 1 : ] ) )' )
 
         handleOutput( rpn( sys.argv[ 1 : ] ) )
-        flushDirtyCaches( )
     except ValueError as error:
         print( '\nrpn:  value error:  {0}'.format( error ) )
 
@@ -634,6 +631,5 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print( )
         print( 'handling ctrl-c keyboard interrupt...' )
-        flushDirtyCaches( )
         sys.exit( 0 )
 
