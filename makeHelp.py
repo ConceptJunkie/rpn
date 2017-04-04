@@ -49,8 +49,8 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 911
-debugMode = False
+maxExampleCount = 912
+debugMode = True
 
 
 # //******************************************************************************
@@ -1102,6 +1102,10 @@ Calculations with lists:
 
     Calculate the first 10 Fibonacci numbers without using the 'fib' operator:
 ''' + makeCommandExample( '[ 1 1 ] 1 1 10 range linear_recurrence', indent=8 ) + '''
+
+    What percentage of numbers have a factor less than 100?
+''' + makeCommandExample( '1 1 100 nth_prime lambda 1 x prime 1/x - nprod - 100 *', indent=8 ) + '''
+
 Calculations with absolute time:
     operators:
 ''' + makeCommandExample( 'now', indent=8 ) + '''
@@ -9071,7 +9075,7 @@ distributed with data files calculated through several billion primes.
 [ ] ],
 
     'nth_prime' : [
-'prime_numbers', 'finds the index of the closest prime greater than or equal n',
+'prime_numbers', 'finds the index of the closest prime less than or equal n',
 '''
 
 Prime numbers can be calculated from scratch, but this would be excessively

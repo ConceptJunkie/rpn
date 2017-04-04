@@ -640,13 +640,13 @@ def getECMFactors( target ):
     processingPower = 1.0
 
     if n < -1:
-        return [ ( -1, 1 ) ] + getECMFactors( fneg( n ) )
+        return [ -1 ] + getECMFactors( fneg( n ) )
     elif n == -1:
-        return [ ( -1, 1 ) ]
+        return [ -1 ]
     elif n == 0:
-        return [ ( 0, 1 ) ]
+        return [ 0 ]
     elif n == 1:
-        return [ ( 1, 1 ) ]
+        return [ 1 ]
 
     if verbose:
         print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), ' digits)...' )
@@ -693,6 +693,7 @@ def getECMFactors( target ):
 # //******************************************************************************
 
 def getSIQSFactors( target ):
+    if target < 1000000000000000000000:
         return getECMFactors( target )
 
     verbose = g.verbose

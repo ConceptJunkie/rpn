@@ -266,12 +266,12 @@ def findPrime( arg ):
     elif target < 541:          # 100th prime
         currentIndex = 4
         p = 7
-    elif target < 15485863:     # 1,000,000th prime
+    elif target <= 15485863:     # 1,000,000th prime
         openPrimeCache( 'small_primes' )
 
         currentIndex, p = g.cursors[ 'small_primes' ].execute(
             '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( target, ) ).fetchone( )
-    elif target < 22801763489:  # 1,000,000,000th prime
+    elif target <= 22801763489:  # 1,000,000,000th prime
         openPrimeCache( 'large_primes' )
 
         currentIndex, p = g.cursors[ 'large_primes' ].execute(
@@ -283,11 +283,12 @@ def findPrime( arg ):
             '''SELECT id, max( value ) FROM cache WHERE value <= ?''', ( target, ) ).fetchone( )
 
     while True:
+        old_p = p
         p = getNextPrime( p )
         currentIndex += 1
 
-        if p >= target:
-            return currentIndex, p
+        if p > target:
+            return currentIndex - 1, old_p
 
 
 # //******************************************************************************
