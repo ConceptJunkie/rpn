@@ -1103,8 +1103,14 @@ Calculations with lists:
     Calculate the first 10 Fibonacci numbers without using the 'fib' operator:
 ''' + makeCommandExample( '[ 1 1 ] 1 1 10 range linear_recurrence', indent=8 ) + '''
 
+    What percentage of numbers have a factor less than or equal to 5?
+''' + makeCommandExample( '1 1 5 nth_prime lambda 1 x prime 1/x - nprod - 100 *', indent=8 ) + '''
     What percentage of numbers have a factor less than 100?
 ''' + makeCommandExample( '1 1 100 nth_prime lambda 1 x prime 1/x - nprod - 100 *', indent=8 ) + '''
+    What percentage of numbers have a factor less than 100?
+''' + makeCommandExample( '1 1 100 nth_prime lambda 1 x prime 1/x - nprod - 100 *', indent=8 ) + '''
+    What percentage of numbers have a factor less than 1000?
+''' + makeCommandExample( '1 1 1000 nth_prime lambda 1 x prime 1/x - nprod - 100 *', indent=8 ) + '''
 
 Calculations with absolute time:
     operators:

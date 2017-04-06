@@ -712,8 +712,10 @@ Yields factors.'''
             if p1 != f:
                for factor in sub_sub_sure_factors(p1, u, curve_parameter):
                   yield factor
+
                for factor in sub_sub_sure_factors(f//p1, u, curve_parameter):
                   yield factor
+
                return
             else:
                still_a_chance = False
@@ -733,8 +735,10 @@ Yields factors.'''
                if p1 != f:
                   for factor in sub_sub_sure_factors(p1, u, curve_parameter):
                      yield factor
+
                   for factor in sub_sub_sure_factors(f//p1, u, curve_parameter):
                      yield factor
+
                   return
 
                else:
@@ -751,6 +755,7 @@ Yields factors.'''
          for factor in sub_sub_sure_factors(r[0], u, curve_parameter):
             for _ in range(i):
                yield factor
+
          return
 
    a = 1 + sqrt(f)
@@ -764,10 +769,13 @@ Yields factors.'''
 
    if bsq == sqrt(bsq)**2:
       b = sqrt(bsq)
+
       for factor in sub_sub_sure_factors(a - b, u, curve_parameter):
          yield factor
+
       for factor in sub_sub_sure_factors(a + b, u, curve_parameter):
          yield factor
+
       return
 
    yield f
@@ -847,7 +855,7 @@ Yields factors of n.'''
 
    if f in g.factorCache:
        if veb and f != 1:
-           print( 'cache hit:', f )
+           print( 'cache hit:', f, g.factorCache[ f ] )
 
        for i in g.factorCache[ f ]:
            yield i
@@ -865,7 +873,7 @@ Yields factors of n.'''
 
       if n in g.factorCache:
           if veb and f != 1:
-              print( 'cache hit:', n )
+              print( 'cache hit:', n, g.factorCache[ n ] )
 
           for i in g.factorCache[ n ]:
               yield i
@@ -882,7 +890,7 @@ Yields factors of n.'''
    for factor in sub_sure_factors(f, u, curve_params):
       if factor in g.factorCache:
           if veb and factor != 1:
-              print( 'cache hit:', factor )
+              print( 'cache hit:', factor, g.factorCache[ factor ] )
 
           for i in g.factorCache[ factor ]:
               yield i
@@ -903,7 +911,7 @@ Yields factors of n.'''
 
       if n in g.factorCache:
           if veb and n != 1:
-              print( 'cache hit:', n )
+              print( 'cache hit:', n, g.factorCache[ n ] )
 
           for i in g.factorCache[ n ]:
               yield i
@@ -1260,7 +1268,7 @@ Notes:
 
       if n in g.factorCache:
           if veb and n != 1:
-              print( 'cache hit:', n )
+              print( 'cache hit:', n, g.factorCache[ n ] )
 
           for i in g.factorCache[ n ]:
               yield i
@@ -1317,7 +1325,7 @@ Notes:
 
          if n in g.factorCache:
              if veb and n != 1:
-                 print( 'cache hit:', n )
+                 print( 'cache hit:', n, g.factorCache[ n ] )
 
              for i in g.factorCache[ n ]:
                  yield i
@@ -1387,7 +1395,7 @@ Notes:
 
    if n in g.factorCache:
        if veb and n != 1:
-           print( 'cache hit:', n )
+           print( 'cache hit:', n, g.factorCache[ n ] )
 
        for i in g.factorCache[ n ]:
            yield i
