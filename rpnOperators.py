@@ -24,10 +24,10 @@ from random import randrange
 
 from mpmath import acosh, acot, acoth, acsc, acsch, agm, altzeta, arg, asec, \
                    asech, asin, asinh, atan, atanh, barnesg, beta, conj, cosh, \
-                   cos, coth, cplot, csc, csch, fac2, fadd, fmod, harmonic, \
-                   hyperfac, lambertw, li, limit, ln, loggamma, nprod, nsum, \
-                   polyexp, polylog, plot, psi, rand, sec, sech, sin, sinh, \
-                   splot, superfac, tan, tanh, unitroots, zeta
+                   cos, coth, cplot, csc, csch, cyclotomic, fac2, fadd, fmod, \
+                   harmonic, hyperfac, lambertw, li, limit, ln, loggamma, \
+                   nprod, nsum, polyexp, polylog, plot, psi, rand, sec, sech, \
+                   sin, sinh, splot, superfac, tan, tanh, unitroots, zeta
 
 from rpnAliases import dumpAliases
 
@@ -2866,6 +2866,9 @@ operators = {
 
     'count_divisors'                 : RPNOperator( getDivisorCount,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'cyclotomic'                     : RPNOperator( lambda n, k: cyclotomic( n, k ),
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.Default ] ),
 
     'digamma'                        : RPNOperator( lambda n: psi( 0, n ),
                                                     1, [ RPNOperator.Default ] ),

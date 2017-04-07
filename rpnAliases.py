@@ -787,6 +787,7 @@ operatorAliases = {
     'robbins'                   : 'robbins_constant',
     'root2'                     : 'square_root',
     'root3'                     : 'cube_root',
+    'roots_of_unity'            : 'unit_roots',
     'rsort'                     : 'sort_descending',
     'safe'                      : 'safe_prime',
     'safeprime'                 : 'safe_prime',

@@ -99,7 +99,7 @@ class RPNGenerator( object ):
 
     @staticmethod
     def createStringProduct( value ):
-        return RPNGenerator( productStringGenerator( value ) )
+        return RPNGenerator( stringProductGenerator( value ) )
 
     @staticmethod
     def createProduct( value ):
@@ -229,11 +229,11 @@ def permutationGenerator( value ):
 
 # //******************************************************************************
 # //
-# //  productStringGenerator
+# //  stringProductGenerator
 # //
 # //******************************************************************************
 
-def productStringGenerator( value ):
+def stringProductGenerator( value ):
     for product in itertools.product( *value ):
         yield mpmathify( ''.join( product ) )
 

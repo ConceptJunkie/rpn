@@ -49,8 +49,8 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 912
-debugMode = True
+maxExampleCount = 915
+debugMode = False
 
 
 # //******************************************************************************
@@ -7158,6 +7158,14 @@ So using the Chinese Remainder Theorem, this function calculates a number that
 is equal to n[ x ] modulo k[ x ,
 [ ] ], where x iterating through the indices of each
 list (which must be the same size).
+''',
+'''
+''',
+[ ] ],
+
+    'cyclotomic' : [
+'number_theory', 'evaluates the the nth cyclotomic polynomial for k',
+'''
 ''',
 '''
 ''',

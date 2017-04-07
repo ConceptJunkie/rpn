@@ -2833,7 +2833,7 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'day' :
-        RPNUnitInfo( 'time', 'day', 'days', 'd', [ 'ephemeris_day' ],
+        RPNUnitInfo( 'time', 'day', 'days', '', [ 'ephemeris_day' ],
                      [ 'traditional' ],
                      '''
                      ''' ),
