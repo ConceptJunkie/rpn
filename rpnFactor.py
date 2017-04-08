@@ -20,7 +20,7 @@ import os
 import pickle
 import random
 
-from mpmath import ceil, fabs, floor, fneg, fprod, log, log10, mp, power
+from mpmath import ceil, fabs, fdiv, floor, fmod, fneg, fprod, log, log10, mp, power
 
 import rpnGlobals as g
 
@@ -49,80 +49,19 @@ def getFactorListSympy( n ):
 
 # //******************************************************************************
 # //
-# //  getECMFactors
-# //
-# //******************************************************************************
-
-def getECMFactors( target ):
-    from pyecm import factors
-
-    n = int( floor( target ) )
-
-    verbose = g.verbose
-    randomSigma = True
-    asymptoticSpeed = 10
-    processingPower = 1.0
-
-    if n < -1:
-        return [ -1 ] + getECMFactors( fneg( n ) )
-    elif n == -1:
-        return [ -1 ]
-    elif n == 0:
-        return [ 0 ]
-    elif n == 1:
-        return [ 1 ]
-
-    if verbose:
-        print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), ' digits)...' )
-
-    if g.factorCache is None:
-        loadFactorCache( )
-
-    if n in g.factorCache:
-        if verbose and n != 1:
-            print( 'cache hit:', n )
-            print( )
-
-        return g.factorCache[ n ]
-
-    result = [ ]
-
-    for factor in factors( n, verbose, randomSigma, asymptoticSpeed, processingPower ):
-        result.append( factor )
-
-    result = [ int( i ) for i in result ]
-
-    largeFactors = list( collections.Counter( [ i for i in result if i > 65535 ] ).items( ) )
-    product = int( fprod( [ power( i[ 0 ], i[ 1 ] ) for i in largeFactors ] ) )
-
-    save = False
-
-    if product not in g.factorCache:
-        g.factorCache[ product ] = largeFactors
-        save = True
-
-    if n > g.minValueToCache and n not in g.factorCache:
-        g.factorCache[ n ] = result
-
-    if verbose:
-        print( )
-
-    return result
-
-
-# //******************************************************************************
-# //
 # //  getSIQSFactors
 # //
 # //******************************************************************************
 
 def getSIQSFactors( target ):
-    if target < 1000000000000000000000:
-        return getECMFactors( target )
+    n = int( floor( target ) )
+
+    try:
+        return factorByTrialDivision( n )   # throws if n is too big
+    except ValueError as error:
+        pass
 
     verbose = g.verbose
-
-    n = int( floor( target ) )
 
     if verbose:
         print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), ' digits)...' )
@@ -154,5 +93,33 @@ def getSIQSFactors( target ):
 
 def getSIQSFactorList( n ):
     return list( collections.Counter( getSIQSFactors( n ) ).items( ) )
+
+
+# //******************************************************************************
+# //
+# //  factorByTrialDivision
+# //
+# //  This is sufficiently fast for small numbers... at least for now.
+# //
+# //******************************************************************************
+
+def factorByTrialDivision( n ):
+    if n > 1073741824:   # 2^30
+        raise ValueError( 'value', n, 'is too big to factor by trial division' )
+
+    result = [ ]
+
+    for i in primes:
+        while n > 1 and fmod( n, i ) == 0:
+            n = fdiv( n, i )
+            result.append( i )
+
+            if n > i * i:
+                break
+
+    if n > 1:
+        result.append( n )
+
+    return result
 
 

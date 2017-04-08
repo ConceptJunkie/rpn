@@ -2879,9 +2879,6 @@ operators = {
     'double_factorial'               : RPNOperator( lambda n: fac2( n ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'ecm'                            : RPNOperator( getECMFactors,
-                                                    1, [ RPNOperator.Integer ] ),
-
     'egypt'                          : RPNOperator( getGreedyEgyptianFraction,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 

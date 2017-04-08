@@ -887,8 +887,6 @@ Added 'crt' operator.
 
 7.0.0
 
-Added 'ecm' operator.
-
 Added the 'hexagonal_square' operator.
 
 Added the 'dup_operator', 'add_digits', and 'dup_digits' operators.
@@ -7201,14 +7199,6 @@ So it could sort of be thought of as a "half factorial".
 ''',
 '''
 ''' + makeCommandExample( '1 10 range double_factorial' ) ,
-[ ] ],
-
-    'ecm' : [
-'number_theory', 'factors n using the elliptical curve method',
-'''
-''',
-'''
-''',
 [ ] ],
 
     'egypt' : [
