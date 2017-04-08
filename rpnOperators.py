@@ -2892,7 +2892,7 @@ operators = {
     'euler_phi'                      : RPNOperator( getEulerPhi,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'factor'                         : RPNOperator( getSIQSFactors,
+    'factor'                         : RPNOperator( getFactors,
                                                     1, [ RPNOperator.Integer ] ),
 
     'factor_sympy'                   : RPNOperator( getFactorListSympy,
@@ -3047,6 +3047,9 @@ operators = {
 
     'polygamma'                      : RPNOperator( lambda n, k: psi( n, k ),
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.Default ] ),
+
+    'radical'                        : RPNOperator( getRadical,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
 
     'repunit'                        : RPNOperator( getNthBaseKRepunit,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),

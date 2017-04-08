@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 915
+maxExampleCount = 923
 debugMode = False
 
 
@@ -2171,15 +2171,17 @@ center of the sun is 6 degrees below the horizon.
 '''
 ''' + makeCommandExample( '"Santiago, Chile" 2016-09-24 astronomical_dusk' ) + '''
 ''' + makeCommandExample( '"Santiago, Chile" 2016-09-24 nautical_dusk' ) + '''
-''' + makeCommandExample( '"Santiago, Chile" 2016-09-24 dusk' ) ,
+''' + makeCommandExample( '"Santiago, Chile" 2016-09-24 dusk' ),
 [ 'day_time', 'dusk', 'transit_time', 'antitransit_time', 'night_time' ] ],
 
     'day_time' : [
-'astronomy', 'calculates the duration of the next day (i.e., transit_time for the sun)'
+'astronomy', 'calculates the duration of the next day (i.e., transit_time for the sun)',
 '''
+This is also the amount of time between sunrise and sunset.
 ''',
 '''
-''',
+''' + makeCommandExample( '"Washington, DC" 2017-04-08 day_time' ) + '''
+''' + makeCommandExample( '"Washington, DC" 2017-04-08 { sunset sunrise } unlist -' ),
 [ 'dawn', 'dusk', 'transit_time', 'antitransit_time', 'night_time' ] ],
 
     'distance_from_earth' : [
@@ -2338,11 +2340,13 @@ What was the phase of the moon the day I was born:
 [ 'previous_transit', 'next_rising', 'next_setting', 'next_antitransit' ] ],
 
     'night_time' : [
-'astronomy', 'calculates the duration of the next night (i.e., antitransit_time for the sun)'
+'astronomy', 'calculates the duration of the next night (i.e., antitransit_time for the sun)',
 '''
+This is also the amount of time between sunset and sunrise.
 ''',
 '''
-''',
+''' + makeCommandExample( '"Washington, DC" 2017-04-08 night_time' ) + '''
+''' + makeCommandExample( '"Washington, DC" 2017-04-09 sunrise "Washington, DC" 2017-04-08 sunset -' ),
 [ 'day_time', 'dawn', 'dusk', 'transit_time', 'antitransit_time', 'night_time' ] ],
 
     'previous_antitransit' : [
@@ -7770,11 +7774,23 @@ distributed with data files calculated through several billion primes.
 ''',
 [ ] ],
 
+    'radical' : [
+'number_theory', 'returns the value of the radical function for n',
+'''
+The radical function is defined as the largest squarefree factor.
+''',
+'''
+''' + makeCommandExample( '1 100 range radical' ) ,
+[ ] ],
+
     'sigma' : [
 'number_theory', 'returns the sum of the proper divisors of n'
 '''
 ''',
 '''
+''' + makeCommandExample( '10 radical' ) + '''
+''' + makeCommandExample( '16 radical' ) + '''
+''' + makeCommandExample( '18 radical' ) + '''
 ''' + makeCommandExample( '1 100 range sigma' ) ,
 [ ] ],
 

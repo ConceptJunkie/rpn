@@ -24,7 +24,7 @@ from mpmath import arange, binomial, fabs, fac, fadd, fdiv, fib, floor, fmod, \
                    phi, polyroots, polyval, power, primepi2, re, root, sqrt, \
                    zetazero
 
-from rpnFactor import getSIQSFactorList
+from rpnFactor import getFactors, getFactorList
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
 from rpnPersistence import cachedFunction
@@ -77,7 +77,7 @@ def getDivisorCount( n ):
     if n == 1:
         return 1
 
-    return fprod( [ i[ 1 ] + 1 for i in getSIQSFactorList( n ) ] )
+    return fprod( [ i[ 1 ] + 1 for i in getFactorList( n ) ] )
 
 
 # //******************************************************************************
@@ -116,7 +116,7 @@ def getDivisors( n ):
     elif n == 1:
         return [ 1 ]
 
-    return sorted( createDivisorList( [ ], getSIQSFactorList( n ) ) )
+    return sorted( createDivisorList( [ ], getFactorList( n ) ) )
 
 
 # //******************************************************************************
@@ -857,6 +857,35 @@ def calculateChineseRemainderTheorem( values, mods ):
 
 # //******************************************************************************
 # //
+# //  getRadical
+# //
+# //******************************************************************************
+
+def getRadical( target ):
+    '''
+    Returns the value of the radical function for n, which is the largest
+    squarefree divisor.
+    '''
+
+    n = floor( target )
+
+    if real( n ) == 0:
+        return 0
+    elif n == 1:
+        return 1
+
+    factors = set( getFactors( n ) )
+
+    result = 1
+
+    for i in factors:
+        result = fmul( result, i )
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  getSigma
 # //
 # //******************************************************************************
@@ -875,7 +904,7 @@ def getSigma( target ):
     elif n == 1:
         return 1
 
-    factorList = getSIQSFactorList( n )
+    factorList = getFactorList( n )
 
     result = 1
 
@@ -908,7 +937,7 @@ def getSigmaN( n, k ):
     elif n == 1:
         return 1
 
-    factorList = getSIQSFactorList( n )
+    factorList = getFactorList( n )
 
     result = 1
 
@@ -957,7 +986,7 @@ def getMobius( n ):
     if real( n ) == 1:
         return 1
 
-    factorList = getSIQSFactorList( n )
+    factorList = getFactorList( n )
 
     for i in factorList:
         if i[ 1 ] > 1:
@@ -999,7 +1028,7 @@ def getEulerPhi( n ):
     if real( n ) < 2:
         return n
 
-    return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getSIQSFactorList( n ) ) )
+    return reduce( fmul, ( fmul( fsub( i[ 0 ], 1 ), power( i[ 0 ], fsub( i[ 1 ], 1 ) ) ) for i in getFactorList( n ) ) )
 
 
 # //******************************************************************************
@@ -1061,7 +1090,7 @@ def isSmooth( n, k ):
     if real( n ) < real( k ):
         return 0
 
-    return 1 if max( [ i[ 0 ] for i in getSIQSFactorList( n ) ] ) <= k else 0
+    return 1 if max( [ i[ 0 ] for i in getFactorList( n ) ] ) <= k else 0
 
 
 # //******************************************************************************
@@ -1076,7 +1105,7 @@ def isRough( n, k ):
     if real( n ) < real( k ):
         return 0
 
-    return 1 if min( [ i[ 0 ] for i in getSIQSFactorList( n ) ] ) >= k else 0
+    return 1 if min( [ i[ 0 ] for i in getFactorList( n ) ] ) >= k else 0
 
 
 # //******************************************************************************
@@ -1086,7 +1115,7 @@ def isRough( n, k ):
 # //******************************************************************************
 
 def isKSemiPrime( n, k ):
-    return 1 if sum( [ i[ 1 ] for i in getSIQSFactorList( n ) ] ) == k else 0
+    return 1 if sum( [ i[ 1 ] for i in getFactorList( n ) ] ) == k else 0
 
 
 # //******************************************************************************
@@ -1096,7 +1125,7 @@ def isKSemiPrime( n, k ):
 # //******************************************************************************
 
 def isSphenic( n ):
-    factorList = getSIQSFactorList( n )
+    factorList = getFactorList( n )
 
     if len( factorList ) != 3:
         return 0
@@ -1114,7 +1143,7 @@ def isSquareFree( n ):
     if real_int( n ) == 0:
         return 0
 
-    return 1 if max( [ i[ 1 ] for i in getSIQSFactorList( n ) ] ) == 1 else 0
+    return 1 if max( [ i[ 1 ] for i in getFactorList( n ) ] ) == 1 else 0
 
 
 # //******************************************************************************
@@ -1124,7 +1153,7 @@ def isSquareFree( n ):
 # //******************************************************************************
 
 def isPowerful( n ):
-    return 1 if min( [ i[ 1 ] for i in getSIQSFactorList( n ) ] ) >= 2 else 0
+    return 1 if min( [ i[ 1 ] for i in getFactorList( n ) ] ) >= 2 else 0
 
 
 # //******************************************************************************
@@ -1134,7 +1163,7 @@ def isPowerful( n ):
 # //******************************************************************************
 
 def isAchillesNumber( n ):
-    factorList = getSIQSFactorList( n )
+    factorList = getFactorList( n )
 
     if min( [ i[ 1 ] for i in factorList ] ) < 2:
         return 0
@@ -1154,7 +1183,7 @@ def isUnusual( n ):
     if real_int( n ) < 2:
         return 0
 
-    return 1 if max( [ i[ 0 ] for i in getSIQSFactorList( n ) ] ) > sqrt( n ) else 0
+    return 1 if max( [ i[ 0 ] for i in getFactorList( n ) ] ) > sqrt( n ) else 0
 
 
 # //******************************************************************************

@@ -26,6 +26,7 @@ import rpnGlobals as g
 
 from rpnPersistence import loadFactorCache
 from rpnPrimes import primes
+from rpnPrimeUtils import isPrime
 from rpnSettings import setAccuracy
 from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList, \
                      getExpandedFactorListSympy, real, real_int
@@ -49,11 +50,11 @@ def getFactorListSympy( n ):
 
 # //******************************************************************************
 # //
-# //  getSIQSFactors
+# //  getFactors
 # //
 # //******************************************************************************
 
-def getSIQSFactors( target ):
+def getFactors( target ):
     n = int( floor( target ) )
 
     try:
@@ -87,12 +88,12 @@ def getSIQSFactors( target ):
 
 # //******************************************************************************
 # //
-# //  getSIQSFactorList
+# //  getFactorList
 # //
 # //******************************************************************************
 
-def getSIQSFactorList( n ):
-    return list( collections.Counter( getSIQSFactors( n ) ).items( ) )
+def getFactorList( n ):
+    return list( collections.Counter( getFactors( n ) ).items( ) )
 
 
 # //******************************************************************************
@@ -114,8 +115,8 @@ def factorByTrialDivision( n ):
             n = fdiv( n, i )
             result.append( i )
 
-            if n > i * i:
-                break
+        if isPrime( n ):
+            break
 
     if n > 1:
         result.append( n )

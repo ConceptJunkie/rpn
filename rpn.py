@@ -44,8 +44,9 @@ from rpnOperators import checkForVariable, constants, evaluateTerm, functionOper
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                       printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
 
-from rpnUtils import getCurrentArgList, getDataPath, handleIdentify, \
-                     parseNumerals, validateArguments, validateOptions
+from rpnUtils import debugPrint, getCurrentArgList, getDataPath, \
+                     handleIdentify, parseNumerals, validateArguments, \
+                     validateOptions
 
 from rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
@@ -426,6 +427,9 @@ def rpn( cmd_args ):
                 options.append( arg )
         else:
             terms.append( arg )
+
+    debugPrint( 'terms', terms )
+    debugPrint( 'options', options )
 
     # OK, let's parse and validate the options
     args = parser.parse_args( options )
