@@ -1299,12 +1299,8 @@ def getNthPolyPrime( n, poly ):
 # //******************************************************************************
 
 def getPrimes( value, count ):
-    result = list( )
-
     for i in getNthPrimeRange( value, count ):
-        result.append( i )
-
-    return result
+        yield i
 
 
 # //******************************************************************************

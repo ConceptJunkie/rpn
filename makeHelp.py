@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 923
+maxExampleCount = 931
 debugMode = False
 
 
@@ -331,7 +331,12 @@ What 5-digit number when preceded by a 1 is 1/3 the value of the same 5-digit
 number with a 1 added on the end?
 ''' + makeCommandExample( '-t [d:5] build_numbers lambda 1 x add_digits x 1 add_digits / 1 3 / is_equal filter', indent=4, slow=True ) + '''
 And we can check that our result works:
-''' + makeCommandExample( '428571 142857 /', indent=4 ),
+''' + makeCommandExample( '428571 142857 /', indent=4 ) + '''
+Here's a list of the first 10 perfect numbers:
+''' + makeCommandExample( '-a60 1 10 range lambda x mersenne 2 x mersenne 1 + log2 1 - ** * eval' ) + '''
+Here's proof they are perfect (i.e., the results are identical):
+''' + makeCommandExample( '-a60 1 10 range lambda x mersenne 2 x mersenne 1 + log2 1 - ** * eval sigma 2 /' ),
+
     'unit_conversion' :
     '''
 [ TODO: describe unit conversions in rpn ]
@@ -1641,7 +1646,16 @@ decreased to the next lower integral multiple of i.
 '''
 ''' + makeCommandExample( '[ 5 10 20 ] gcd' ) + '''
 ''' + makeCommandExample( '[ 3150 8820 ] gcd' ),
-[ 'reduce', 'lcm' ] ],
+[ 'reduce', 'lcm', 'gcd2' ] ],
+
+    'gcd2' : [
+'arithmetic', 'calculates the greatest common denominator of n and k',
+'''
+''',
+'''
+''' + makeCommandExample( '5 20 gcd2' ) + '''
+''' + makeCommandExample( '3150 8820 gcd2' ),
+[ 'reduce', 'lcm', 'gcd' ] ],
 
     'geometric_mean' : [
 'arithmetic', 'calculates the geometric mean of a a list of numbers n',
@@ -1807,7 +1821,16 @@ expects real, integral arguments.
 ''' + makeCommandExample( '[ 3 6 12 ] lcm' ) + '''
 ''' + makeCommandExample( '1 20 range lcm' ) + '''
 ''' + makeCommandExample( '1 5 primes lcm 5 primorial is_equal' ),
-[ 'gcd', 'agm' ] ],
+[ 'gcd', 'agm', 'lcm2' ] ],
+
+    'lcm2' : [
+'arithmetic', 'calculates the least common multiple of n and k',
+'''
+''',
+'''
+''' + makeCommandExample( '3 12 lcm2' ) + '''
+''' + makeCommandExample( '24 36 lcm2' ),
+[ 'gcd', 'agm', 'lcm' ] ],
 
     'max' : [
 'arithmetic', 'returns the largest value in list n',
@@ -1974,7 +1997,7 @@ unit circle.
 ''' + makeCommandExample( '37 sign' ) + '''
 ''' + makeCommandExample( '-8 sign' ) + '''
 ''' + makeCommandExample( '0 sign' ) + '''
-''' + makeCommandExample( '3 4 i + sign' ) ,
+''' + makeCommandExample( '3 4 i + sign' ),
 [ 'negative', 'abs' ] ],
 
     'smaller' : [
@@ -1985,7 +2008,7 @@ unit circle.
 '''
 ''' + makeCommandExample( '1 2 smaller' ) + '''
 ''' + makeCommandExample( '4 3 smaller' ) + '''
-''' + makeCommandExample( '8 9 ** 9 8 ** smaller' ) ,
+''' + makeCommandExample( '8 9 ** 9 8 ** smaller' ),
 [ 'larger', 'is_less' ] ],
 
     'stddev' : [
@@ -1994,7 +2017,7 @@ unit circle.
 ''',
 '''
 ''' + makeCommandExample( '10 50 random_integer_ stddev' ) + '''
-''' + makeCommandExample( '1 50 range count_div stddev' ) ,
+''' + makeCommandExample( '1 50 range count_div stddev' ),
 [ 'mean', 'agm', 'geometric_mean' ] ],
 
     'subtract' : [
@@ -2018,7 +2041,7 @@ Subtraction is supported for measurements.
 ''' + makeCommandExample( '10 [ 1 2 3 4 ] -' ) + '''
 ''' + makeCommandExample( '[ 10 9 8 7 ] [ 6 5 4 3 ] -' ) + '''
 ''' + makeCommandExample( '1 gallon 4 cups -' ) + '''
-''' + makeCommandExample( '1776-06-24 10 days -' ) ,
+''' + makeCommandExample( '1776-06-24 10 days -' ),
 [ 'add', 'multiply', 'divide' ] ],
 
     'sum' : [
@@ -2029,7 +2052,7 @@ In addition to numbers, 'sum' can also add up a list of measurements.
 '''
 ''' + makeCommandExample( '[ 5 8 3 ] sum' ) + '''
 ''' + makeCommandExample( '1 100 range sum' ) + '''
-''' + makeCommandExample( '[ 3 cups 21 teaspoons 7 tablespoons 1.5 deciliters ] sum' ) ,
+''' + makeCommandExample( '[ 3 cups 21 teaspoons 7 tablespoons 1.5 deciliters ] sum' ),
 [ 'add', 'prod' ] ],
 
 
@@ -2141,7 +2164,7 @@ In addition to numbers, 'sum' can also add up a list of measurements.
 '''
 ''' + makeCommandExample( '"San Francisco, CA" 2016-11-02 astronomical_dawn' ) + '''
 ''' + makeCommandExample( '"San Francisco, CA" 2016-11-02 nautical_dawn' ) + '''
-''' + makeCommandExample( '"San Francisco, CA" 2016-11-02 dawn' ) ,
+''' + makeCommandExample( '"San Francisco, CA" 2016-11-02 dawn' ),
 [ 'astronomical_dusk', 'nautical_dawn', 'dawn', 'dusk' ] ],
 
     'astronomical_dusk' : [
@@ -2151,7 +2174,7 @@ In addition to numbers, 'sum' can also add up a list of measurements.
 '''
 ''' + makeCommandExample( '"Bogota, Bolivia" 2016-09-24 astronomical_dusk' ) + '''
 ''' + makeCommandExample( '"Bogota, Bolivia" 2016-09-24 nautical_dusk' ) + '''
-''' + makeCommandExample( '"Bogota, Bolivia" 2016-09-24 dusk' ) ,
+''' + makeCommandExample( '"Bogota, Bolivia" 2016-09-24 dusk' ),
 [ 'astronomical_dawn', 'nautical_dusk', 'dawn', 'dusk' ] ],
 
     'autumnal_equinox' : [
@@ -2201,7 +2224,7 @@ center of the sun is 6 degrees below the horizon.
 '''
 ''' + makeCommandExample( '"Napoli, Italy" 2017-05-14 astronomical_dusk' ) + '''
 ''' + makeCommandExample( '"Napoli, Italy" 2017-05-14 nautical_dusk' ) + '''
-''' + makeCommandExample( '"Napoli, Italy" 2017-05-14 dusk' ) ,
+''' + makeCommandExample( '"Napoli, Italy" 2017-05-14 dusk' ),
 [ 'day_time', 'dawn', 'transit_time', 'antitransit_time', 'night_time' ] ],
 
     'moonrise' : [
@@ -2258,7 +2281,7 @@ What was the phase of the moon the day I was born:
 '''
 ''' + makeCommandExample( '"Pittsburgh, PA" 2017-06-22 astronomical_dawn' ) + '''
 ''' + makeCommandExample( '"Pittsburgh, PA" 2017-06-22 nautical_dawn' ) + '''
-''' + makeCommandExample( '"Pittsburgh, PA" 2017-06-22 dawn' ) ,
+''' + makeCommandExample( '"Pittsburgh, PA" 2017-06-22 dawn' ),
 [ 'nautical_dusk', 'dawn', 'astronomical_dawn' ] ],
 
     'nautical_dusk' : [
@@ -2268,7 +2291,7 @@ What was the phase of the moon the day I was born:
 '''
 ''' + makeCommandExample( '"Eugene, OR" 2017-01-07 astronomical_dusk' ) + '''
 ''' + makeCommandExample( '"Eugene, OR" 2017-01-07 nautical_dusk' ) + '''
-''' + makeCommandExample( '"Eugene, OR" 2017-01-07 dusk' ) ,
+''' + makeCommandExample( '"Eugene, OR" 2017-01-07 dusk' ),
 [ 'nautical_dawn', 'dusk', 'astronomical_dusk' ] ],
 
     'next_antitransit' : [
@@ -2285,7 +2308,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''' + makeCommandExample( 'today next_first_quarter_moon' ) + '''
-''' + makeCommandExample( '2008 easter next_first_quarter_moon' ) ,
+''' + makeCommandExample( '2008 easter next_first_quarter_moon' ),
 [ 'next_full_moon', 'next_last_quarter_moon', 'next_new_moon', 'previous_first_quarter_moon' ] ],
 
     'next_full_moon' : [
@@ -2294,7 +2317,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''' + makeCommandExample( 'today next_full_moon' ) + '''
-''' + makeCommandExample( '2011-02-02 next_full_moon' ) ,
+''' + makeCommandExample( '2011-02-02 next_full_moon' ),
 [ 'previous_full_moon', 'next_first_quarter_moon', 'next_last_quarter_moon', 'next_new_moon' ] ],
 
     'next_last_quarter_moon' : [
@@ -2303,7 +2326,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''' + makeCommandExample( 'today next_last_quarter_moon' ) + '''
-''' + makeCommandExample( '2050-01-01 next_last_quarter_moon' ) ,
+''' + makeCommandExample( '2050-01-01 next_last_quarter_moon' ),
 [ 'previous_last_quarter_moon', 'next_new_moon', 'next_first_quarter_moon', 'next_new_moon' ] ],
 
     'next_new_moon' : [
@@ -2312,7 +2335,7 @@ What was the phase of the moon the day I was born:
 ''',
 '''
 ''' + makeCommandExample( 'today next_new_moon' ) + '''
-''' + makeCommandExample( '5776 05 15 from_hebrew next_new_moon to_hebrew_name' ) ,
+''' + makeCommandExample( '5776 05 15 from_hebrew next_new_moon to_hebrew_name' ),
 [ 'previous_new_moon', 'next_first_quarter_moon', 'next_last_quarter_moon', 'next_full_moon' ] ],
 
     'next_rising' : [
@@ -2363,7 +2386,7 @@ This is also the amount of time between sunset and sunrise.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_first_quarter_moon' ) + '''
-''' + makeCommandExample( '1988-05-03 previous_first_quarter_moon' ) ,
+''' + makeCommandExample( '1988-05-03 previous_first_quarter_moon' ),
 [ 'next_first_quarter_moon', 'previous_last_quarter_moon', 'previous_full_moon', 'previous_new_moon' ] ],
 
     'previous_full_moon' : [
@@ -2373,7 +2396,7 @@ This is also the amount of time between sunset and sunrise.
 '''
 ''' + makeCommandExample( 'today previous_full_moon' ) + '''
 ''' + makeCommandExample( '2016-10-31 previous_full_moon' ) + '''
-''' + makeCommandExample( '2005-06-23 previous_full_moon' ) ,
+''' + makeCommandExample( '2005-06-23 previous_full_moon' ),
 [ 'next_full_moon', 'previous_last_quarter_moon', 'previous_first_quarter_moon', 'previous_new_moon' ] ],
 
     'previous_last_quarter_moon' : [
@@ -2382,7 +2405,7 @@ This is also the amount of time between sunset and sunrise.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_last_quarter_moon' ) + '''
-''' + makeCommandExample( '1971-01-01 previous_last_quarter_moon' ) ,
+''' + makeCommandExample( '1971-01-01 previous_last_quarter_moon' ),
 [ 'next_last_quarter_moon', 'previous_full_moon', 'previous_first_quarter_moon', 'previous_new_moon' ] ],
 
     'previous_new_moon' : [
@@ -2391,7 +2414,7 @@ This is also the amount of time between sunset and sunrise.
 ''',
 '''
 ''' + makeCommandExample( 'today previous_new_moon' ) + '''
-''' + makeCommandExample( '2020-03-19 previous_new_moon' ) ,
+''' + makeCommandExample( '2020-03-19 previous_new_moon' ),
 [ 'next_new_moon', 'previous_full_moon', 'previous_first_quarter_moon', 'previous_last_quarter_moon' ] ],
 
     'previous_rising' : [
@@ -2464,7 +2487,7 @@ This is also the amount of time between sunset and sunrise.
 Think of it sort of like "anti-noon".
 ''',
 '''
-''' + makeCommandExample( '"Bridgeford, CT" today sun_antitransit' ) ,
+''' + makeCommandExample( '"Bridgeford, CT" today sun_antitransit' ),
 [ 'sun_transit', 'sunrise', 'sunset' ] ],
 
     'transit_time' : [
@@ -2473,7 +2496,7 @@ Think of it sort of like "anti-noon".
 a is an astronomical object, b is a location and c is a date-time value
 ''',
 '''
-''' + makeCommandExample( 'moon "Washington, DC" today transit_time hms' ) ,
+''' + makeCommandExample( 'moon "Washington, DC" today transit_time hms' ),
 [ 'day_time', 'dawn', 'dusk', 'antitransit_time', 'night_time' ] ],
 
     'vernal_equinox' : [
@@ -2542,7 +2565,7 @@ is the numerical representation of the string of 'and'ed bits.
 ''',
 '''
 ''' + makeCommandExample( '-x 0x01234567 0xffff0000 nand' ) + '''
-''' + makeCommandExample( '-x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand' ) ,
+''' + makeCommandExample( '-x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand' ),
 [ 'and', 'or', 'not', 'nor', 'xor' ] ],
 
     'nor' : [
@@ -2561,7 +2584,7 @@ is the numerical representation of the string of 'nor'ed bits.
 ''',
 '''
 ''' + makeCommandExample( '-x 0x01234567 0x0000ffff nor' ) + '''
-''' + makeCommandExample( '-x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nor' ) ,
+''' + makeCommandExample( '-x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nor' ),
 [ 'or', 'and', 'not', 'nand', 'xor' ] ],
 
     'not' : [
@@ -2579,7 +2602,7 @@ representation of the string of 'not'ed bits.
 ''',
 '''
 ''' + makeCommandExample( '-x 0xF0F0F0F0 not' ) + '''
-''' + makeCommandExample( '-x [ 0 1 ] not' ) ,
+''' + makeCommandExample( '-x [ 0 1 ] not' ),
 [ 'and', 'or', 'nor', 'nand', 'xor' ] ],
 
     'or' : [
@@ -2598,7 +2621,7 @@ is the numerical representation of the string of 'or'ed bits.
 ''',
 '''
 ''' + makeCommandExample( '-x 0xf0f0f0f0 0x0f0f0f0f or' ) + '''
-''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] or' ) ,
+''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] or' ),
 [ 'and', 'not', 'nand', 'nor', 'xor' ] ],
 
     'parity' : [
@@ -2641,7 +2664,7 @@ is the numerical representation of the string of 'xor'ed bits.
 ''',
 '''
 ''' + makeCommandExample( '-x 0xffff0000 0x12345678 xor' ) + '''
-''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] xor' ) ,
+''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] xor' ),
 [ 'and', 'or', 'nand', 'nor', 'not' ] ],
 
 
@@ -2661,7 +2684,7 @@ Easter season.
 ''',
 '''
 ''' + makeCommandExample( '2017 ascension' ) + '''
-''' + makeCommandExample( '2017 ascension 2017 easter -' ) ,
+''' + makeCommandExample( '2017 ascension 2017 easter -' ),
 [ 'easter', 'christmas' ] ],
 
     'ash_wednesday' : [
@@ -2674,7 +2697,7 @@ Wednesday is actually 46 days.
 ''',
 '''
 ''' + makeCommandExample( '2017 ash_wednesday' ) + '''
-''' + makeCommandExample( '2017 easter 2017 ash_wednesday -' ) ,
+''' + makeCommandExample( '2017 easter 2017 ash_wednesday -' ),
 [ 'easter', 'good_friday' ] ],
 
     'calendar' : [
@@ -2709,7 +2732,7 @@ on the same date, but one day, I was checking the number of days until
 Christmas and used the 'christmas' operator instinctively.
 ''',
 '''
-''' + makeCommandExample( '2017 christmas' ) ,
+''' + makeCommandExample( '2017 christmas' ),
 [ 'thanksgiving', 'easter', 'epiphany' ] ],
 
     'dst_end' : [
@@ -2735,7 +2758,7 @@ In the Christian calendar, Easter commemorates the Resurrection of Christ.
 ''',
 '''
 ''' + makeCommandExample( '2016 easter' ) + '''
-''' + makeCommandExample( '1973 easter' ) ,
+''' + makeCommandExample( '1973 easter' ),
 [ 'ash_wednesday', 'good_friday', 'christmas', 'pentecost' ] ],
 
     'election_day' : [
@@ -2747,7 +2770,7 @@ Monday in November.  This definition was established by the U.S. Congress in
 ''',
 '''
 ''' + makeCommandExample( '2016 election_day' ) + '''
-''' + makeCommandExample( '1964 election_day' ) ,
+''' + makeCommandExample( '1964 election_day' ),
 [ 'labor_day', 'memorial_day', 'presidents_day' ] ],
 
     'epiphany' : [
@@ -2823,7 +2846,7 @@ on Easter Sunday.
 ''',
 '''
 ''' + makeCommandExample( '2017 good_friday' ) + '''
-''' + makeCommandExample( '2017 easter 2017 good_friday -' ) ,
+''' + makeCommandExample( '2017 easter 2017 good_friday -' ),
 [ 'easter', 'ash_wednesday' ] ],
 
     'iso_date' : [
@@ -2841,7 +2864,7 @@ In the U.S., Labor Day falls on the first Monday of September.
 ''',
 '''
 ''' + makeCommandExample( '2016 labor_day' ) + '''
-''' + makeCommandExample( '2016 labor_day 2015 memorial_day -' ) ,
+''' + makeCommandExample( '2016 labor_day 2015 memorial_day -' ),
 [ 'memorial_day', 'election_day', 'presidents_day' ] ],
 
     'memorial_day' : [
@@ -2853,7 +2876,7 @@ armed services.
 ''',
 '''
 ''' + makeCommandExample( '2016 memorial_day' ) + '''
-''' + makeCommandExample( '2020 2025 memorial_day -s1' ) ,
+''' + makeCommandExample( '2020 2025 memorial_day -s1' ),
 [ 'labor_day', 'election_day', 'presidents_day' ] ],
 
     'nth_weekday' : [
@@ -3052,7 +3075,7 @@ as an operand, so this function cannot be combined with other operators.
 ''' + makeCommandExample( '1776-07-04 weekday' ) + '''
 ''' + makeCommandExample( '1852-02-29 weekday' ) + '''
 ''' + makeCommandExample( '1929-10-29 weekday' ) + '''
-''' + makeCommandExample( '2043-04-17 weekday' ) ,
+''' + makeCommandExample( '2043-04-17 weekday' ),
 [ 'calendar', 'nth_weekday', 'nth_weekday_of_year' ] ],
 
     'year_calendar' : [
@@ -3078,7 +3101,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo atomic_number collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo atomic_number collate -s1' ),
 [ 'atomic_symbol', 'atomic_weight', 'element_name' ] ],
 
     'atomic_symbol' : [
@@ -3086,7 +3109,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo atomic_symbol collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo atomic_symbol collate -s1' ),
 [ ] ],
 
     'atomic_weight' : [
@@ -3094,7 +3117,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo atomic_weight collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo atomic_weight collate -s1' ),
 [ ] ],
 
     'element_block' : [
@@ -3102,7 +3125,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_block collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo element_block collate -s1' ),
 [ ] ],
 
     'element_boiling_point' : [
@@ -3110,7 +3133,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_boiling_point collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo element_boiling_point collate -s1' ),
 [ ] ],
 
     'element_density' : [
@@ -3118,7 +3141,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_density collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo element_density collate -s1' ),
 [ ] ],
 
     'element_description' : [
@@ -3126,7 +3149,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_description collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo element_description collate -s1' ),
 [ ] ],
 
     'element_group' : [
@@ -3134,7 +3157,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_group collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo element_group collate -s1' ),
 [ ] ],
 
     'element_melting_point' : [
@@ -3142,7 +3165,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_melting_point collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo element_melting_point collate -s1' ),
 [ ] ],
 
     'element_name' : [
@@ -3150,7 +3173,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range atomic_symbol echo element_name collate -s1' ) ,
+''' + makeCommandExample( '1 10 range atomic_symbol echo element_name collate -s1' ),
 [ ] ],
 
     'element_occurrence' : [
@@ -3158,7 +3181,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_occurrence collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo element_occurrence collate -s1' ),
 [ ] ],
 
     'element_period' : [
@@ -3166,7 +3189,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_period collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo element_period collate -s1' ),
 [ ] ],
 
     'element_state' : [
@@ -3174,7 +3197,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_state collate -s1' ) ,
+''' + makeCommandExample( '1 10 range element_name echo element_state collate -s1' ),
 [ ] ],
 
     'molar_mass' : [
@@ -3183,7 +3206,7 @@ far as rpn is concerned, it's an operator that does nothing.
 ''',
 '''
 ''' + makeCommandExample( 'H2O molar_mass' ) + '''
-''' + makeCommandExample( 'C12H22O11 molar_mass' ) ,
+''' + makeCommandExample( 'C12H22O11 molar_mass' ),
 [ 'atomic_weight' ] ],
 
 
@@ -3201,7 +3224,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''' + makeCommandExample( '1 10 range arrangements' ) + '''
 ''' + makeCommandExample( '5 arrangements' ) + '''
-''' + makeCommandExample( '5 0 5 range permutations sum' ) ,
+''' + makeCommandExample( '5 0 5 range permutations sum' ),
 [ 'compositions', 'partitions' ] ],
 
     'bell_polynomial' : [
@@ -3229,7 +3252,7 @@ truncated to integers.
 '''
 ''' + makeCommandExample( '5 2 compositions' ) + '''
 ''' + makeCommandExample( '5 3 compositions' ) + '''
-''' + makeCommandExample( '5 4 compositions' ) ,
+''' + makeCommandExample( '5 4 compositions' ),
 [ 'partitions', 'arrangements' ] ],
 
     'debruijn' : [
@@ -3247,7 +3270,7 @@ In the example below, you can find every combination of the symbols 0, 1, and
 permutations of the 3 symbols in groups of 3 because the groups can overlap.
 ''',
 '''
-''' + makeCommandExample( '3 3 debruijn' ) ,
+''' + makeCommandExample( '3 3 debruijn' ),
 [ ] ],
 
     'lah' : [
@@ -3273,7 +3296,7 @@ The Lah numbers are only defined for n >= k.
 ''' + makeCommandExample( '15 3 lah' ) + '''
 ''' + makeCommandExample( '15 3 lah [ 13 14 15 ! ] prod 12 / -' ) + '''
 ''' + makeCommandExample( '17 16 lah' ) + '''
-''' + makeCommandExample( '17 16 lah 17 16 * -' ) ,
+''' + makeCommandExample( '17 16 lah 17 16 * -' ),
 [ ] ],
 
     'multifactorial' : [
@@ -3287,7 +3310,7 @@ same as the 'doublefac' operator.
 '''
 ''' + makeCommandExample( '1 20 range 3 multifactorial' ) + '''
 ''' + makeCommandExample( '1 20 range 4 multifactorial' ) + '''
-''' + makeCommandExample( '1 20 range 5 multifactorial' ) ,
+''' + makeCommandExample( '1 20 range 5 multifactorial' ),
 [ 'factorial', 'subfactorial' ] ],
 
     'multinomial' : [
@@ -3312,7 +3335,7 @@ T. V. Narayana (1930-1987).
 ''' + makeCommandExample( '10 5 narayana' ) + '''
 ''' + makeCommandExample( '8 4 narayana' ) + '''
 The 10th row of the 'Narayana triangle':
-''' + makeCommandExample( '10 1 10 range narayana', indent=4 ) ,
+''' + makeCommandExample( '10 1 10 range narayana', indent=4 ),
 [ ] ],
 
     'nth_apery' : [
@@ -3354,7 +3377,7 @@ Bernoulli numbers have the distinction of being the subject of the first
 published complex computer program.
 ''',
 '''
-''' + makeCommandExample( '1 20 range nth_bernoulli' ) ,
+''' + makeCommandExample( '1 20 range nth_bernoulli' ),
 [ ] ],
 
     'nth_catalan' : [
@@ -3368,7 +3391,7 @@ recursively-defined objects. They are named after the Belgian mathematician
 Eugene Charles Catalan (1814-1894).
 ''',
 '''
-''' + makeCommandExample( '1 20 range nth_catalan' ) ,
+''' + makeCommandExample( '1 20 range nth_catalan' ),
 [ ] ],
 
     'nth_delannoy' : [
@@ -3383,7 +3406,7 @@ numbers are named after French army officer and amateur mathematician Henri
 Delannoy.
 ''',
 '''
-''' + makeCommandExample( '1 10 range nth_delannoy' ) ,
+''' + makeCommandExample( '1 10 range nth_delannoy' ),
 [ 'nth_schroeder' ] ],
 
     'nth_menage' : [
@@ -3392,7 +3415,7 @@ Delannoy.
 https://en.wikipedia.org/wiki/M%C3%A9nage_problem
 ''',
 '''
-''' + makeCommandExample( '1 10 range nth_menage' ) ,
+''' + makeCommandExample( '1 10 range nth_menage' ),
 [ ] ],
 
     'nth_motzkin' : [
@@ -3407,7 +3430,7 @@ named after Theodore Motzkin, and have very diverse applications in geometry,
 combinatorics and number theory.
 ''',
 '''
-''' + makeCommandExample( '1 10 range nth_motzkin' ) ,
+''' + makeCommandExample( '1 10 range nth_motzkin' ),
 [ ] ],
 
     'nth_pell' : [
@@ -3422,7 +3445,7 @@ approximations to the square root of 2. This sequence of approximations begins
 1, 2, 5, 12, and 29.
 ''',
 '''
-''' + makeCommandExample( '1 20 range nth_pell' ) ,
+''' + makeCommandExample( '1 20 range nth_pell' ),
 [ ] ],
 
     'nth_schroeder' : [
@@ -3436,7 +3459,7 @@ diagonal.
 They were named after the German mathematician Ernst Schroeder.
 ''',
 '''
-''' + makeCommandExample( '1 10 range nth_schroeder' ) ,
+''' + makeCommandExample( '1 10 range nth_schroeder' ),
 [ 'nth_delannoy' ] ],
 
     'nth_schroeder_hipparchus' : [
@@ -3457,7 +3480,7 @@ mathematician Hipparchus who appears from evidence in Plutarch to have known of
 these numbers.
 ''',
 '''
-''' + makeCommandExample( '1 12 range nth_schroeder_hipparchus' ) ,
+''' + makeCommandExample( '1 12 range nth_schroeder_hipparchus' ),
 [ ] ],
 
     'nth_sylvester' : [
@@ -3472,7 +3495,7 @@ its reciprocals forms a series of unit fractions that converges to 1 more
 rapidly than any other series of unit fractions with the same number of terms.
 ''',
 '''
-''' + makeCommandExample( '1 10 range nth_sylvester' ) ,
+''' + makeCommandExample( '1 10 range nth_sylvester' ),
 [ ] ],
 
     'partitions' : [
@@ -3493,7 +3516,7 @@ For example, 4 can be partitioned in five distinct ways:
     1 + 1 + 1 + 1
 ''',
 '''
-''' + makeCommandExample( '4 partitions' ) ,
+''' + makeCommandExample( '4 partitions' ),
 [ 'compositions', 'arrangements' ] ],
 
     'permutations' : [
@@ -3504,7 +3527,7 @@ When calculating the number of permutations of k objects, order matters.
 '''
 ''' + makeCommandExample( '5 2 permutations' ) + '''
 ''' + makeCommandExample( '10 7 permutations' ) + '''
-''' + makeCommandExample( '20 10 permutations' ) ,
+''' + makeCommandExample( '20 10 permutations' ),
 [ ] ],
 
 
@@ -3522,7 +3545,7 @@ signed angle between the positive real axis and n in the complex plane.
 ''',
 '''
 ''' + makeCommandExample( '3 3 i + arg' ) + '''
-''' + makeCommandExample( '3 3 i + arg radians degrees convert' ) ,
+''' + makeCommandExample( '3 3 i + arg radians degrees convert' ),
 [ 'conjugate', 'real', 'imaginary', 'i' ] ],
 
     'conjugate' : [
@@ -3532,7 +3555,7 @@ The complex conjugate is simply the nunmber with the same real part and an
 imaginary part with the same magnitude but opposite sign.
 ''',
 '''
-''' + makeCommandExample( '3 3 i + conj' ) ,
+''' + makeCommandExample( '3 3 i + conj' ),
 [ 'argument', 'real', 'imaginary', 'i' ] ],
 
     'i' : [
@@ -3555,7 +3578,7 @@ e ^ ( pi * i ) = -1
 '''
 ''' + makeCommandExample( '7 imaginary' ) + '''
 ''' + makeCommandExample( '7 i imaginary' ) + '''
-''' + makeCommandExample( '3 4 i + imaginary' ) ,
+''' + makeCommandExample( '3 4 i + imaginary' ),
 [ 'real', 'i' ] ],
 
     'real' : [
@@ -3565,7 +3588,7 @@ e ^ ( pi * i ) = -1
 '''
 ''' + makeCommandExample( '7 real' ) + '''
 ''' + makeCommandExample( '7 i real' ) + '''
-''' + makeCommandExample( '3 4 i + real' ) ,
+''' + makeCommandExample( '3 4 i + real' ),
 [ 'imaginary', 'i', 'argument', 'conjugate' ] ],
 
 
@@ -3600,7 +3623,7 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''',
 '''
 ''' + makeCommandExample( '-a50 -d5 apery' ) + '''
-''' + makeCommandExample( '-a50 -d5 3 zeta' ) ,
+''' + makeCommandExample( '-a50 -d5 3 zeta' ),
 [ ] ],
 
     'avogadro_number' : [
@@ -3610,7 +3633,7 @@ Ref: CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'avogadro' ) + '''
-''' + makeCommandExample( '-a24 avogadro' ) ,
+''' + makeCommandExample( '-a24 avogadro' ),
 [ ] ],
 
     'bohr_radius' : [
@@ -3635,7 +3658,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' + makeCommandExample( 'catalan_constant' ) ,
+''' + makeCommandExample( 'catalan_constant' ),
 [ ] ],
 
     'champernowne_constant' : [
@@ -3652,7 +3675,7 @@ can also apply the same concept for any input base.
 The base 7 Champernowne constant in base 7:
 ''' + makeCommandExample( '-a60 -b7 champernowne_constant -r7' ) + '''
 The base 7 Champernowne constant converted to base 10:
-''' + makeCommandExample( '-a60 -b7 champernowne_constant' ) ,
+''' + makeCommandExample( '-a60 -b7 champernowne_constant' ),
 [ ] ],
 
     'copeland_erdos_constant' : [
@@ -3660,7 +3683,7 @@ The base 7 Champernowne constant converted to base 10:
 '''
 ''',
 '''
-''' + makeCommandExample( '-a60 copeland' ) ,
+''' + makeCommandExample( '-a60 copeland' ),
 [ ] ],
 
     'default' : [
@@ -3702,7 +3725,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 15,747,724,136,275,002,577,605,653,961,181,555,468,044,717,914,527,116,709,366,231,425,076,185,631,031,296
 protons in the universe and the same number of electrons."  This number is equal to 136 * 2^256.''',
 '''
-''' + makeCommandExample( '-c -a100 eddington_number' ) ,
+''' + makeCommandExample( '-c -a100 eddington_number' ),
 [ ] ],
 
     'electric_constant' : [
@@ -3753,7 +3776,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' + makeCommandExample( 'faraday_constant' ) ,
+''' + makeCommandExample( 'faraday_constant' ),
 [ ] ],
 
     'fine_structure_constant' : [
@@ -3805,7 +3828,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''' + makeCommandExample( '1 inf lambda x fib 1/x nsum' ) + '''
 ''' + makeCommandExample( '1 inf lambda x lucas 1/x nsum' ) + '''
 ''' + makeCommandExample( 'phi' ) + '''
-''' + makeCommandExample( 'infinity lambda x 1 + fib x fib / limit' ) ,
+''' + makeCommandExample( 'infinity lambda x 1 + fib x fib / limit' ),
 [ 'negative_infinity' ] ],
 
     'itoi' : [
@@ -3814,7 +3837,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' + makeCommandExample( '1 i 1 i **' ) + '''
-''' + makeCommandExample( 'itoi' ) ,
+''' + makeCommandExample( 'itoi' ),
 [ 'i' ] ],
 
     'khinchin_constant' : [
@@ -3822,7 +3845,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' + makeCommandExample( 'khinchin_constant' ) ,
+''' + makeCommandExample( 'khinchin_constant' ),
 [ ] ],
 
     'magnetic_constant' : [
@@ -3842,7 +3865,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
 ''' + makeCommandExample( 'max_char' ) + '''
-''' + makeCommandExample( 'max_char -x' ) ,
+''' + makeCommandExample( 'max_char -x' ),
 [ 'min_char', 'max_uchar', 'max_short', 'max_long' ] ],
 
     'max_double' : [
@@ -3852,7 +3875,7 @@ For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( 'max_double' ) + '''
-''' + makeCommandExample( 'max_double double -x' ) ,
+''' + makeCommandExample( 'max_double double -x' ),
 [ 'max_float', 'min_double' ] ],
 
     'max_float' : [
@@ -3862,7 +3885,7 @@ For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( 'max_float' ) + '''
-''' + makeCommandExample( 'max_float float -x' ) ,
+''' + makeCommandExample( 'max_float float -x' ),
 [ 'max_double', 'min_float' ] ],
 
     'max_long' : [
@@ -3875,7 +3898,7 @@ integer assuming two's complement representation.
 '''
 ''' + makeCommandExample( 'max_long' ) + '''
 When does a 32-bit time_t wrap?
-''' + makeCommandExample( '1970-01-01 max_long seconds +' ) ,
+''' + makeCommandExample( '1970-01-01 max_long seconds +' ),
 [ 'min_long', 'max_longlong', 'max_char', 'max_ulong', 'max_short' ] ],
 
     'max_longlong' : [
@@ -3887,7 +3910,7 @@ integer assuming two's complement representation.
 '''
 ''' + makeCommandExample( 'max_longlong' ) + '''
 How long until a 64-bit time_t would wrap?
-''' + makeCommandExample( '-c max_longlong seconds years convert' ) ,
+''' + makeCommandExample( '-c max_longlong seconds years convert' ),
 [ 'min_longlong', 'max_quadlong', 'max_long', 'max_ulonglong' ] ],
 
     'max_quadlong' : [
@@ -3897,7 +3920,7 @@ This is the largest number that can be represented by a 128-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-''' + makeCommandExample( '-a40 max_quadlong' ) ,
+''' + makeCommandExample( '-a40 max_quadlong' ),
 [ 'min_quadlong', 'min_uquadlong', 'max_longlong', 'max_long' ] ],
 
     'max_short' : [
@@ -3907,7 +3930,7 @@ This is the largest number that can be represented by a 16-bit signed
 integer assuming two's complement representation.
 ''',
 '''
-''' + makeCommandExample( 'max_short' ) ,
+''' + makeCommandExample( 'max_short' ),
 [ 'min_short', 'max_ushort', 'max_char', 'max_long' ] ],
 
     'max_uchar' : [
@@ -3917,7 +3940,7 @@ This is the largest number that can be represented by a 16-bit unsigned
 integer.
 ''',
 '''
-''' + makeCommandExample( 'max_uchar' ) ,
+''' + makeCommandExample( 'max_uchar' ),
 [ 'min_uchar', 'max_char', 'max_ushort', 'max_ulong' ] ],
 
     'max_ulong' : [
@@ -3927,7 +3950,7 @@ This is the largest number that can be represented by a 32-bit unsigned
 integer.
 ''',
 '''
-''' + makeCommandExample( 'max_ulong' ) ,
+''' + makeCommandExample( 'max_ulong' ),
 [ 'min_ulong', 'max_long', 'max_uchar', 'max_ushort' ] ],
 
     'max_ulonglong' : [
@@ -3937,7 +3960,7 @@ This is the largest number that can be represented by a 64-bit unsigned
 integer.
 ''',
 '''
-''' + makeCommandExample( '-a20 max_ulonglong' ) ,
+''' + makeCommandExample( '-a20 max_ulonglong' ),
 [ 'min_ulonglong', 'max_longlong', 'max_uquadlong', 'max_ulong' ] ],
 
     'max_uquadlong' : [
@@ -3947,7 +3970,7 @@ This is the largest number that can be represented by a 128-bit unsigned
 integer.
 ''',
 '''
-''' + makeCommandExample( '-a40 max_uquadlong' ) ,
+''' + makeCommandExample( '-a40 max_uquadlong' ),
 [ 'min_uquadlong', 'max_quadlong', 'max_ulonglong', 'max_ulong' ] ],
 
     'max_ushort' : [
@@ -3957,7 +3980,7 @@ This is the largest number that can be represented by a 16-bit unsigned
 integer.
 ''',
 '''
-''' + makeCommandExample( 'max_ushort' ) ,
+''' + makeCommandExample( 'max_ushort' ),
 [ 'min_ushort', 'max_short', 'max_uchar', 'max_ulong' ] ],
 
     'merten_constant' : [
@@ -3965,7 +3988,7 @@ integer.
 '''
 ''',
 '''
-''' + makeCommandExample( '-a50 merten_constant' ) ,
+''' + makeCommandExample( '-a50 merten_constant' ),
 [ ] ],
 
     'mills_constant' : [
@@ -3985,7 +4008,7 @@ rpn does not calculate Mills' constant.  The value is hard-coded to 3500
 decimal places.
 ''',
 '''
-''' + makeCommandExample( '-a50 mills_constant' ) ,
+''' + makeCommandExample( '-a50 mills_constant' ),
 [ ] ],
 
     'min_char' : [
@@ -3997,7 +4020,7 @@ integer assuming two's complement representation.
 '''
 ''' + makeCommandExample( 'min_char' ) + '''
 ''' + makeCommandExample( 'min_char -x' ) + '''
-''' + makeCommandExample( 'max_char min_char -' ) ,
+''' + makeCommandExample( 'max_char min_char -' ),
 [ 'max_char', 'min_uchar', 'min_short', 'min_long' ] ],
 
     'min_double' : [
@@ -4007,7 +4030,7 @@ For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( 'min_double' ) + '''
-''' + makeCommandExample( 'min_double double -x' ) ,
+''' + makeCommandExample( 'min_double double -x' ),
 [ 'max_double', 'min_float' ] ],
 
     'min_float' : [
@@ -4017,7 +4040,7 @@ For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( 'min_float' ) + '''
-''' + makeCommandExample( 'min_float float -x' ) ,
+''' + makeCommandExample( 'min_float float -x' ),
 [ 'max_float', 'min_double' ] ],
 
     'min_long' : [
@@ -4028,7 +4051,7 @@ integer assuming two's complement representation.
 ''',
 '''
 ''' + makeCommandExample( 'min_long' ) + '''
-''' + makeCommandExample( 'max_long min_long -' ) ,
+''' + makeCommandExample( 'max_long min_long -' ),
 [ 'max_long', 'min_ulong', 'min_short', 'min_char' ] ],
 
     'min_longlong' : [
@@ -4039,7 +4062,7 @@ integer assuming two's complement representation.
 ''',
 '''
 ''' + makeCommandExample( 'min_longlong' ) + '''
-''' + makeCommandExample( 'max_longlong min_longlong - 1 + log2' ) ,
+''' + makeCommandExample( 'max_longlong min_longlong - 1 + log2' ),
 [ 'max_longlong', 'min_ulonglong', 'min_long', 'min_quadlong' ] ],
 
     'min_quadlong' : [
@@ -4050,7 +4073,7 @@ integer assuming two's complement representation.
 ''',
 '''
 ''' + makeCommandExample( 'min_quadlong' ) + '''
-''' + makeCommandExample( 'max_quadlong min_quadlong - 1 + log2' ) ,
+''' + makeCommandExample( 'max_quadlong min_quadlong - 1 + log2' ),
 [ 'max_quadlong', 'min_uquadlong', 'min_long', 'min_quadlong' ] ],
 
     'min_short' : [
@@ -4061,7 +4084,7 @@ integer assuming two's complement representation.
 ''',
 '''
 ''' + makeCommandExample( 'min_short' ) + '''
-''' + makeCommandExample( 'max_short min_short -' ) ,
+''' + makeCommandExample( 'max_short min_short -' ),
 [ 'max_short', 'min_ushort', 'min_char', 'min_long' ] ],
 
     'min_uchar' : [
@@ -4071,7 +4094,7 @@ By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
 ''' + makeCommandExample( 'min_uchar' ) + '''
-''' + makeCommandExample( 'max_uchar min_uchar -' ) ,
+''' + makeCommandExample( 'max_uchar min_uchar -' ),
 [ 'min_char', 'max_uchar', 'min_ushort', 'min_ulong' ] ],
 
     'min_ulong' : [
@@ -4081,7 +4104,7 @@ By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
 ''' + makeCommandExample( 'min_ulong' ) + '''
-''' + makeCommandExample( 'max_ulong min_ulong - 1 + log2' ) ,
+''' + makeCommandExample( 'max_ulong min_ulong - 1 + log2' ),
 [ 'max_ulong', 'min_long', 'min_uchar', 'min_ushort' ] ],
 
     'min_ulonglong' : [
@@ -4091,7 +4114,7 @@ By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
 ''' + makeCommandExample( 'min_ulonglong' ) + '''
-''' + makeCommandExample( 'max_ulonglong min_ulonglong - 1 + log2' ) ,
+''' + makeCommandExample( 'max_ulonglong min_ulonglong - 1 + log2' ),
 [ 'min_longlong', 'max_ulonglong', 'min_ulong', 'min_uquadlong' ] ],
 
     'min_uquadlong' : [
@@ -4101,7 +4124,7 @@ By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
 ''' + makeCommandExample( 'min_uquadlong' ) + '''
-''' + makeCommandExample( 'max_uquadlong min_uquadlong - 1 + log2' ) ,
+''' + makeCommandExample( 'max_uquadlong min_uquadlong - 1 + log2' ),
 [ 'min_quadlong', 'max_uquadlong', 'min_ulong', 'min_ulonglong' ] ],
 
     'min_ushort' : [
@@ -4111,7 +4134,7 @@ By definition, the smallest unsigned integer of any size is 0.
 ''',
 '''
 ''' + makeCommandExample( 'min_ushort' ) + '''
-''' + makeCommandExample( 'max_ushort min_ushort -' ) ,
+''' + makeCommandExample( 'max_ushort min_ushort -' ),
 [ 'max_ushort', 'min_short', 'min_uchar', 'min_ulong' ] ],
 
     'muon_mass' : [
@@ -4154,7 +4177,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' + makeCommandExample( 'omega' ) ,
+''' + makeCommandExample( 'omega' ),
 [ ] ],
 
     'phi' : [
@@ -4170,7 +4193,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' + makeCommandExample( 'pi' ) ,
+''' + makeCommandExample( 'pi' ),
 [ 'e', 'phi' ] ],
 
     'planck_area' : [
@@ -4391,7 +4414,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' + makeCommandExample( 'radiation_constant' ) ,
+''' + makeCommandExample( 'radiation_constant' ),
 [ ] ],
 
     'reduced_planck_constant' : [
@@ -4463,7 +4486,7 @@ fluctuations in solar energy output.
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''' + makeCommandExample( 'stefan_boltzmann' ) ,
+''' + makeCommandExample( 'stefan_boltzmann' ),
 [ ] ],
 
     'tau_mass' : [
@@ -5119,7 +5142,7 @@ text.  Some day, I'll write it.  In the meantime, see 'help unit_conversion'.
 ''' + makeCommandExample( '78 kg [ pound ounce ] convert' ) + '''
 This conversions suffers from a minor rounding error I haven't been able to
 fix yet:
-''' + makeCommandExample( '150,000 seconds [ day hour minute second ] convert' ) ,
+''' + makeCommandExample( '150,000 seconds [ day hour minute second ] convert' ),
 [ ] ],
 
     'dhms' : [
@@ -5130,7 +5153,7 @@ convert' in order to convert a time interval to days, hours, minutes and
 seconds.
 ''',
 '''
-''' + makeCommandExample( 'sidereal_year dhms' ) ,
+''' + makeCommandExample( 'sidereal_year dhms' ),
 [ 'hms', 'ydhms' ] ],
 
     'dms' : [
@@ -5140,7 +5163,7 @@ This shortcut operator replaces having to type '[ degree arcminute arcsecond ]
 convert' in order to convert an angle to degrees, arcminutes and arcseconds.
 ''',
 '''
-''' + makeCommandExample( 'pi 7 / radians dms' ) ,
+''' + makeCommandExample( 'pi 7 / radians dms' ),
 [ ] ],
 
     'double' : [
@@ -5150,7 +5173,7 @@ For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( 'pi double -x' ) + '''
-''' + makeCommandExample( '-a20 0x400921fb54442d18 undouble' ) ,
+''' + makeCommandExample( '-a20 0x400921fb54442d18 undouble' ),
 [ 'undouble', 'float' ] ],
 
     'float' : [
@@ -5160,7 +5183,7 @@ For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( 'pi float -x' ) + '''
-''' + makeCommandExample( '0x40490fdb unfloat' ) ,
+''' + makeCommandExample( '0x40490fdb unfloat' ),
 [ 'unfloat', 'double' ] ],
 
     'from_unix_time' : [
@@ -5168,7 +5191,7 @@ For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 '''
 ''',
 '''
-''' + makeCommandExample( '1471461891 from_unix_time' ) ,
+''' + makeCommandExample( '1471461891 from_unix_time' ),
 [ ] ],
 
     'hms' : [
@@ -5179,7 +5202,7 @@ in order to convert a time interval to hours, minutes and seconds.
 ''',
 '''
 ''' + makeCommandExample( '8 microcenturies hms' ) + '''
-''' + makeCommandExample( '15,625 seconds hms' ) ,
+''' + makeCommandExample( '15,625 seconds hms' ),
 [ 'ydhms', 'dhms' ] ],
 
     'integer' : [
@@ -5299,7 +5322,7 @@ For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( 'pi double -x' ) + '''
-''' + makeCommandExample( '-a20 0x400921fb54442d18 undouble' ) ,
+''' + makeCommandExample( '-a20 0x400921fb54442d18 undouble' ),
 [ 'double', 'unfloat' ] ],
 
     'unfloat' : [
@@ -5309,7 +5332,7 @@ For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
 ''',
 '''
 ''' + makeCommandExample( 'pi float -x' ) + '''
-''' + makeCommandExample( '0x40490fdb unfloat' ) ,
+''' + makeCommandExample( '0x40490fdb unfloat' ),
 [ 'float', 'undouble' ] ],
 
     'unpack' : [
@@ -5329,7 +5352,7 @@ fixed-size integer types.
 '''
 ''' + makeCommandExample( '10 ushort' ) + '''
 ''' + makeCommandExample( '100000 ushort' ) + '''
-''' + makeCommandExample( '-2000 ushort' ) ,
+''' + makeCommandExample( '-2000 ushort' ),
 [ 'short', 'uchar', 'ulong', 'uinteger' ] ],
 
     'ydhms' : [
@@ -5340,7 +5363,7 @@ second ] convert' in order to convert a time interval to days, hours, minutes
 and seconds.
 ''',
 '''
-''' + makeCommandExample( '1 billion seconds ydhms' ) ,
+''' + makeCommandExample( '1 billion seconds ydhms' ),
 [ 'hms', 'dhms' ] ],
 
 
@@ -5479,7 +5502,7 @@ in the value n into the function k and returns the result.
 '''
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
-''' + makeCommandExample( '1 10 range lambda x 2 ** 1 - eval' ) ,
+''' + makeCommandExample( '1 10 range lambda x 2 ** 1 - eval' ),
 [ ] ],
 
     'eval2' : [
@@ -5507,7 +5530,7 @@ Solving a quadratic equation the hard way, using the quadratic formula:
 ''' + makeCommandExample( '1 -4 -21 lambda y neg y sqr 4 x * z * - sqrt - 2 x * / eval3' ) + '''
 Of course, rpn has better ways to do this:
 ''' + makeCommandExample( '1 -4 -21 solve2' ) + '''
-''' + makeCommandExample( '[ 1 -4 -21 ] solve' ) ,
+''' + makeCommandExample( '[ 1 -4 -21 ] solve' ),
 [ ] ],
 
     'filter' : [
@@ -5520,7 +5543,7 @@ non-zero value.
 '''
 Which of the first 80 fibonacci numbers is prime?
 
-''' + makeCommandExample( '-a20 1 80 range fib lambda x is_prime filter' ) ,
+''' + makeCommandExample( '-a20 1 80 range fib lambda x is_prime filter' ),
 [ 'filter_by_index', 'lambda', 'unfilter' ] ],
 
     'filter_by_index' : [
@@ -5543,7 +5566,7 @@ See the 'user_functions' help topic for more details.
 '''
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
-''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit' ) ,
+''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit' ),
 [ ] ],
 
     'limit' : [
@@ -5651,7 +5674,7 @@ value.
 'unfilter' is the same as adding 'negate' to 'filter':
 
 ''' + makeCommandExample( '1 20 range lambda x is_prime unfilter' ) + '''
-''' + makeCommandExample( '1 20 range lambda x is_prime negate filter' ) ,
+''' + makeCommandExample( '1 20 range lambda x is_prime negate filter' ),
 [ 'filter', 'unfilter_by_index', 'lamdba' ] ],
 
     'unfilter_by_index' : [
@@ -5670,7 +5693,7 @@ See the 'user_functions' help topic for more details.
 '''
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
-''' + makeCommandExample( '1 inf lambda 1 2 x ** / nsum' ) ,
+''' + makeCommandExample( '1 inf lambda 1 2 x ** / nsum' ),
 [ 'lamdba', 'y', 'z' ] ],
 
     'y' : [
@@ -5894,7 +5917,7 @@ This operator can also handle length measurements.
 '''
 ''' + makeCommandExample( '3 4 5 triangle_area' ) + '''
 ''' + makeCommandExample( '3 inches 4 inches 5 inches triangle_area' ) + '''
-''' + makeCommandExample( '2 3 make_pyth_3 unlist triangle_area' ) ,
+''' + makeCommandExample( '2 3 make_pyth_3 unlist triangle_area' ),
 [ 'polygon_area', 'prism_area' ] ],
 
 
@@ -6090,7 +6113,7 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 '''
 ''' + makeCommandExample( '[ 1 2 3 ] combine_digits' ) + '''
 ''' + makeCommandExample( '9 0 range combine_digits' ) + '''
-''' + makeCommandExample( '1 1 7 range primes combine_digits' ) ,
+''' + makeCommandExample( '1 1 7 range primes combine_digits' ),
 [ ] ],
 
     'dup_digits' : [
@@ -6116,7 +6139,7 @@ multiplying digits, zeroes are dropped, which makes it more interesting.
 '''
 ''',
 '''
-''' + makeCommandExample( '-a30 10911 55 find_palindrome' ) ,
+''' + makeCommandExample( '-a30 10911 55 find_palindrome' ),
 [ ] ],
 
     'get_digits' : [
@@ -6209,7 +6232,7 @@ read the same forwards as backwards, then the operator returns 1.
 ''',
 '''
 ''' + makeCommandExample( '101 is_palindrome' ) + '''
-''' + makeCommandExample( '1201 is_palindrome' ) ,
+''' + makeCommandExample( '1201 is_palindrome' ),
 [ ] ],
 
     'is_pandigital' : [
@@ -6221,7 +6244,7 @@ A pandigital number contains at least one of all the of the digits 0 through
 '''
 ''' + makeCommandExample( '123456789 is_pandigital' ) + '''
 ''' + makeCommandExample( '1234567890 is_pandigital' ) + '''
-''' + makeCommandExample( '-a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital' ) ,
+''' + makeCommandExample( '-a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital' ),
 [ ] ],
 
     'is_pdi' : [
@@ -6231,7 +6254,7 @@ A pandigital number contains at least one of all the of the digits 0 through
 '''
 ''' + makeCommandExample( '370 is_pdi' ) + '''
 ''' + makeCommandExample( '371 is_pdi' ) + '''
-''' + makeCommandExample( '1 1000 range lambda x is_pdi filter' ) ,
+''' + makeCommandExample( '1 1000 range lambda x is_pdi filter' ),
 [ 'is_pdi' ] ],
 
     'is_pddi' : [
@@ -6256,7 +6279,7 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''',
 '''
 ''' + makeCommandExample( '9999 is_trimorphic' ) + '''
-''' + makeCommandExample( '1 50 range is_trimorphic' ) ,
+''' + makeCommandExample( '1 50 range is_trimorphic' ),
 [ ] ],
 
     'multiply_digits' : [
@@ -6283,7 +6306,7 @@ lexicographic permutations of the digits.
 ''',
 '''
 ''' + makeCommandExample( '123 permute_digits' ) + '''
-''' + makeCommandExample( '5567 permute_digits' ) ,
+''' + makeCommandExample( '5567 permute_digits' ),
 [ ] ],
 
     'persistence' : [
@@ -6306,7 +6329,7 @@ on until a one-digit number is obtained.
 '''
 ''',
 '''
-''' + makeCommandExample( '-a20 89 24 rev_add' ) ,
+''' + makeCommandExample( '-a20 89 24 rev_add' ),
 [ ] ],
 
     'reverse_digits' : [
@@ -6315,7 +6338,7 @@ on until a one-digit number is obtained.
 'reverse_digits' converts the argument to an integer.
 ''',
 '''
-''' + makeCommandExample( '123456789 reverse_digits' ) ,
+''' + makeCommandExample( '123456789 reverse_digits' ),
 [ ] ],
 
     'show_erdos_persistence' : [
@@ -6364,7 +6387,7 @@ The return value is a list of the same size as the original with the sign of
 every second element reversed, starting with the second.
 ''',
 '''
-''' + makeCommandExample( '1 10 range alternate_signs' ) ,
+''' + makeCommandExample( '1 10 range alternate_signs' ),
 [ 'alternate_signs_2' ] ],
 
     'alternate_signs_2' : [
@@ -6374,7 +6397,7 @@ The return value is a list of the same size as the original with the sign of
 every other element reversed, starting with the first element.
 ''',
 '''
-''' + makeCommandExample( '1 10 range alternate_signs_2' ) ,
+''' + makeCommandExample( '1 10 range alternate_signs_2' ),
 [ 'alternate_signs' ] ],
 
     'alternating_sum' : [
@@ -6389,7 +6412,7 @@ This operator is the same as using 'alternate_signs sum'.
 ''' + makeCommandExample( '1 10 range alternate_signs sum' ) + '''
 ''' + makeCommandExample( '1 10 range alternating_sum' ) + '''
 Calculating e:
-''' + makeCommandExample( '-a20 0 25 range factorial 1/x alternating_sum 1/x' ) ,
+''' + makeCommandExample( '-a20 0 25 range factorial 1/x alternating_sum 1/x' ),
 [ 'alternating_sum_2' ] ],
 
     'alternating_sum_2' : [
@@ -6402,7 +6425,7 @@ This operator is the same as using 'alternate_signs_2 sum'.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range alternate_signs_2 sum' ) + '''
-''' + makeCommandExample( '1 10 range alternating_sum_2 sum' ) ,
+''' + makeCommandExample( '1 10 range alternating_sum_2 sum' ),
 [ 'alternating_sum' ] ],
 
     'and_all' : [
@@ -6424,7 +6447,7 @@ in a single list containing all items in order from the first operand list and
 then the second operand list.
 ''',
 '''
-''' + makeCommandExample( '1 5 range 6 10 range append' ) ,
+''' + makeCommandExample( '1 5 range 6 10 range append' ),
 [ 'union', 'intersection', 'permute_lists', 'interleave' ] ],
 
     'collate' : [
@@ -6441,7 +6464,7 @@ then the second operand list.
 This simply counts the number of elements in the list.
 ''',
 '''
-''' + makeCommandExample( '1 100 range count' ) ,
+''' + makeCommandExample( '1 100 range count' ),
 [ ] ],
 
     'diffs' : [
@@ -6467,7 +6490,7 @@ The index is zero-based.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range 5 element' ) + '''
-''' + makeCommandExample( '0 1000 range 34 element' ) ,
+''' + makeCommandExample( '0 1000 range 34 element' ),
 [ 'max_index', 'min_index' ] ],
 
     'enumerate' : [
@@ -6478,7 +6501,7 @@ consecutive number, starting with k, and the original nth element of the list.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range 1 enumerate' ) + '''
-''' + makeCommandExample( '20 30 range boiling_point 20 enumerate -s1' ) ,
+''' + makeCommandExample( '20 30 range boiling_point 20 enumerate -s1' ),
 [ ] ],
 
     'exponential_range' : [
@@ -6490,7 +6513,7 @@ Each successive item in the list is calculated by raising the previous item to
 the bth power.  The list is expanded to contain c items.
 ''',
 '''
-''' + makeCommandExample( '2 2 10 exponential_range' ) ,
+''' + makeCommandExample( '2 2 10 exponential_range' ),
 [ 'range', 'geometric_range', 'interval_range', 'sized_range' ] ],
 
     'flatten' : [
@@ -6510,7 +6533,7 @@ list contains c items.
 '''
 ''' + makeCommandExample( '1 2 10 geometric_range' ) + '''
 The intervals of the chromatic scale:
-''' + makeCommandExample( '1 2 12 // 13 geometric_range' ) ,
+''' + makeCommandExample( '1 2 12 // 13 geometric_range' ),
 [ 'exponential_range', 'range', 'interval_range', 'sized_range' ] ],
 
     'group_elements' : [
@@ -6522,7 +6545,7 @@ group.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range 5 group_elements' ) + '''
-''' + makeCommandExample( '1 11 range 5 group_elements' ) ,
+''' + makeCommandExample( '1 11 range 5 group_elements' ),
 [ 'collate', 'flatten', 'interleave' ] ],
 
     'interleave' : [
@@ -6535,7 +6558,7 @@ then the extra list elements from the longer list are ignored.
 '''
 ''' + makeCommandExample( '[ 1 3 5 ] [ 2 4 6 ] interleave' ) + '''
 ''' + makeCommandExample( '[ 1 3 5 ] [ 2 4 6 8 10 ] interleave' ) + '''
-''' + makeCommandExample( '1 20 2 range2 2 20 2 range2 interleave' ) ,
+''' + makeCommandExample( '1 20 2 range2 2 20 2 range2 interleave' ),
 [ 'group_elements', 'collate', 'flatten' ] ],
 
     'intersection' : [
@@ -6548,7 +6571,7 @@ then the extra list elements from the longer list are ignored.
 ''' + makeCommandExample( '[ 1 1 2 3 3 3 ] [ 1 2 3 4 5 5 ] intersection' ) + '''
 ''' + makeCommandExample( '1 10 range 1 10 range prime intersection' ) + '''
 Find numbers that are triangular and square at the same time:
-''' + makeCommandExample( '1 100 range tri 1 100 range sqr intersect' ) ,
+''' + makeCommandExample( '1 100 range tri 1 100 range sqr intersect' ),
 [ 'union', 'append', 'permute_lists', 'interleave' ] ],
 
     'interval_range' : [
@@ -6562,7 +6585,7 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 '''
 ''' + makeCommandExample( '1 10 2 interval_range' ) + '''
 ''' + makeCommandExample( '100 90 -2 interval_range' ) + '''
-''' + makeCommandExample( '1 10 1 10 range interval_range' ) ,
+''' + makeCommandExample( '1 10 1 10 range interval_range' ),
 [ 'exponential_range', 'geometric_range', 'range', 'sized_range' ] ],
 
     'left' : [
@@ -6572,7 +6595,7 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 '''
 ''' + makeCommandExample( '1 10 range 6 left' ) + '''
 ''' + makeCommandExample( '1 10 range 4 left' ) + '''
-''' + makeCommandExample( '1 10 range 1 4 range left' ) ,
+''' + makeCommandExample( '1 10 range 1 4 range left' ),
 [ 'right', 'slice', 'sublist' ] ],
 
     'max_index' : [
@@ -6610,7 +6633,7 @@ Indices are zero-based.
 '''
 ''' + makeCommandExample( '[ 1 0 2 0 3 0 4 ] nonzero' ) + '''
 List the prime Fibonacci numbers:
-''' + makeCommandExample( '0 20 range fib is_prime nonzero fib' ) ,
+''' + makeCommandExample( '0 20 range fib is_prime nonzero fib' ),
 [ 'zero' ] ],
 
     'nor_all' : [
@@ -6651,7 +6674,7 @@ count.  The result will be sorted by values.
 '''
 ''' + makeCommandExample( '1 10 range occurrences' ) + '''
 ''' + makeCommandExample( '10 100 random_integer_ occurrences' ) + '''
-''' + makeCommandExample( '5 6 debruijn occurrences' ) ,
+''' + makeCommandExample( '5 6 debruijn occurrences' ),
 [ 'occurrence_cumulative', 'occurrence_ratios' ] ],
 
     'or_all' : [
@@ -6730,7 +6753,7 @@ denominator of the whole list.
 '''
 ''' + makeCommandExample( '1 10 range 6 right' ) + '''
 ''' + makeCommandExample( '1 10 range 4 right' ) + '''
-''' + makeCommandExample( '1 10 range 1 4 range right' ) ,
+''' + makeCommandExample( '1 10 range 1 4 range right' ),
 [ 'left', 'slice', 'sublist' ] ],
 
     'shuffle' : [
@@ -6738,7 +6761,7 @@ denominator of the whole list.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range shuffle' ) ,
+''' + makeCommandExample( '1 10 range shuffle' ),
 [ 'reverse' ] ],
 
     'sized_range' : [
@@ -6750,7 +6773,7 @@ list contains c items.
 '''
 ''' + makeCommandExample( '1 2 10 sized_range' ) + '''
 ''' + makeCommandExample( '10 10 10 sized_range' ) + '''
-''' + makeCommandExample( '1 1 5 range 5 sized_range' ) ,
+''' + makeCommandExample( '1 1 5 range 5 sized_range' ),
 [ 'exponential_range', 'geometric_range', 'interval_range', 'range' ] ],
 
     'slice' : [
@@ -6768,7 +6791,7 @@ operands as needed.
 ''' + makeCommandExample( '1 10 range 0 5 slice' ) + '''
 ''' + makeCommandExample( '1 10 range 5 9 slice' ) + '''
 ''' + makeCommandExample( '1 10 range 2 -1 slice' ) + '''
-''' + makeCommandExample( '1 10 range 2 -2 slice' ) ,
+''' + makeCommandExample( '1 10 range 2 -2 slice' ),
 [ 'right', 'left', 'sublist' ] ],
 
     'sort' : [
@@ -6779,7 +6802,7 @@ well.  I might have to reconsider that.
 ''',
 '''
 ''' + makeCommandExample( '[ rand rand rand ] sort' ) + '''
-''' + makeCommandExample( '[ [ 3 2 1 ] [ 7 3 4 ] [ 10 5 9 ] ]' ) ,
+''' + makeCommandExample( '[ [ 3 2 1 ] [ 7 3 4 ] [ 10 5 9 ] ]' ),
 [ 'sort_descending' ] ],
 
     'sort_descending' : [
@@ -6790,7 +6813,7 @@ the list (and all sublists), except in descending order.
 ''',
 '''
 ''' + makeCommandExample( '1 70 6 range2 sort_descending' ) + '''
-''' + makeCommandExample( '1 20 range countdiv sort_descending' ) ,
+''' + makeCommandExample( '1 20 range countdiv sort_descending' ),
 [ 'sort' ] ],
 
     'sublist' : [
@@ -6806,7 +6829,7 @@ operands as needed.
 '''
 ''' + makeCommandExample( '1 10 range 0 5 sublist' ) + '''
 ''' + makeCommandExample( '1 10 range 1 5 sublist' ) + '''
-''' + makeCommandExample( '1 10 range 1 3 sublist' ) ,
+''' + makeCommandExample( '1 10 range 1 3 sublist' ),
 [ 'right', 'left', 'slice' ] ],
 
     'union' : [
@@ -6822,7 +6845,7 @@ operands as needed.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 8 range 2 9 range append 3 10 range append unique' ) ,
+''' + makeCommandExample( '1 8 range 2 9 range append 3 10 range append unique' ),
 [ ] ],
 
     'zero' : [
@@ -6838,7 +6861,7 @@ Indices are zero-based.
 '''
 ''' + makeCommandExample( '[ 1 0 2 0 3 0 4 ] zero' ) + '''
 List the non-prime Fibonacci numbers:
-''' + makeCommandExample( '0 20 range fib is_prime zero fib' ) ,
+''' + makeCommandExample( '0 20 range fib is_prime zero fib' ),
 [ ] ],
 
 
@@ -6881,7 +6904,7 @@ n.
 '''
 ''' + makeCommandExample( '10 log10' ) + '''
 ''' + makeCommandExample( '3221 log10' ) + '''
-''' + makeCommandExample( '10 3221 log10 1481 log10 + power' ) ,
+''' + makeCommandExample( '10 3221 log10 1481 log10 + power' ),
 [ 'log', 'logxy', 'log2', 'exp', 'exp10' ] ],
 
     'log2' : [
@@ -6895,7 +6918,7 @@ different values.
 ''',
 '''
 ''' + makeCommandExample( '8 log2' ) + '''
-''' + makeCommandExample( '65536 log2' ) ,
+''' + makeCommandExample( '65536 log2' ),
 [ 'log', 'log10', 'logxy', 'exp', 'exp10' ] ],
 
     'logxy' : [
@@ -6907,7 +6930,7 @@ n.
 '''
 ''' + makeCommandExample( '1000 10 logxy' ) + '''
 ''' + makeCommandExample( '78125 5 logxy' ) + '''
-''' + makeCommandExample( 'e sqr e logxy' ) ,
+''' + makeCommandExample( 'e sqr e logxy' ),
 [ 'log', 'log10', 'log2', 'exp', 'exp10' ] ],
 
     'polyexp' : [
@@ -6965,7 +6988,7 @@ take three or more operands do not work with lists.
 ''' + makeCommandExample( '[ 10 20 30 40 ] prime' ) + '''
 ''' + makeCommandExample( '[ 2 3 4 6 7 ] 3 +' ) + '''
 ''' + makeCommandExample( '[ 1 2 3 4 ] [ 4 3 2 1 ] +' ) + '''
-''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ) ,
+''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ),
 [ ']' ] ],
 
     ']' : [
@@ -6999,7 +7022,7 @@ take three or more operands do not work with lists.
 ''' + makeCommandExample( '[ 10 20 30 40 ] prime' ) + '''
 ''' + makeCommandExample( '[ 2 3 4 6 7 ] 3 +' ) + '''
 ''' + makeCommandExample( '[ 1 2 3 4 ] [ 4 3 2 1 ] +' ) + '''
-''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ) ,
+''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ),
 [ '[' ] ],
 
     '{' : [
@@ -7028,7 +7051,7 @@ resulting expression a list, rather than a set of k expressions.
 ''' + makeCommandExample( '10 2 dup_term +' ) + '''
 ''' + makeCommandExample( '[ 10 10 dup_term ]' ) + '''
 ''' + makeCommandExample( '[ 1 10 range 10 dup_term ]' ) + '''
-''' + makeCommandExample( '[ 1 10 range 10 dup_term ] unique' ) ,
+''' + makeCommandExample( '[ 1 10 range 10 dup_term ] unique' ),
 [ ] ],
 
     'dup_operator' : [
@@ -7064,7 +7087,7 @@ TODO:  This operator is not implemented yet!
 Here, we use 'unlist' to make arguments for 'euler_brick':
 
 ''' + makeCommandExample( '4 5 make_pyth_3' ) + '''
-''' + makeCommandExample( '4 5 make_pyth_3 unlist euler_brick' ) ,
+''' + makeCommandExample( '4 5 make_pyth_3 unlist euler_brick' ),
 [ ] ],
 
 
@@ -7150,7 +7173,7 @@ numbers with a lot of factors.
 ''',
 '''
 ''' + makeCommandExample( '98280 count_divisors' ) + '''
-''' + makeCommandExample( '1 20 range count_divisors' ) ,
+''' + makeCommandExample( '1 20 range count_divisors' ),
 [ ] ],
 
     'crt' : [
@@ -7190,7 +7213,7 @@ integer itself, sorted in order of increasing size.
 ''',
 '''
 ''' + makeCommandExample( '3600 divisors' ) + '''
-''' + makeCommandExample( '[ 2 3 5 ] prod divisors' ) ,
+''' + makeCommandExample( '[ 2 3 5 ] prod divisors' ),
 [ ] ],
 
     'double_factorial' : [
@@ -7202,7 +7225,7 @@ function is that n is multiplied by every second number between it and 1.
 So it could sort of be thought of as a "half factorial".
 ''',
 '''
-''' + makeCommandExample( '1 10 range double_factorial' ) ,
+''' + makeCommandExample( '1 10 range double_factorial' ),
 [ ] ],
 
     'egypt' : [
@@ -7232,7 +7255,7 @@ a Pythogorean triples, therefore the face diagonals are also integers.
 ''' + makeCommandExample( '2 3 make_pyth_3 unlist euler_brick' ) + '''
 ''' + makeCommandExample( '828 2035 hypotenuse' ) + '''
 ''' + makeCommandExample( '828 3120 hypotenuse' ) + '''
-''' + makeCommandExample( '2035 3120 hypotenuse' ) ,
+''' + makeCommandExample( '2035 3120 hypotenuse' ),
 [ ] ],
 
     'euler_phi' : [
@@ -7268,7 +7291,7 @@ Sympy is much slower than the pyecm code in rpn, but it also doesn't crash.
 'factorial' calculates the product of all whole numbers from 1 to n.
 ''',
 '''
-''' + makeCommandExample( '1 10 range factorial' ) ,
+''' + makeCommandExample( '1 10 range factorial' ),
 [ ] ],
 
     'fibonacci' : [
@@ -7285,7 +7308,7 @@ in the 13th century.  The sequence has many amazing properties.
 ''' + makeCommandExample( '1 20 range fibonacci' ) + '''
 This shows the relationship between the Fibonacci numbers and the Lucas numbers
 ''' + makeCommandExample( '1 30 2 range2 fib lambda x sqr 5 * 4 - eval sqrt 2 30 2 range2 fib lambda x sqr 5 * 4 + eval sqrt interleave' ) + '''
-''' + makeCommandExample( '1 30 range lucas' ) ,
+''' + makeCommandExample( '1 30 range lucas' ),
 [ ] ],
 
     'fibonorial' : [
@@ -7294,7 +7317,7 @@ This shows the relationship between the Fibonacci numbers and the Lucas numbers
 The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''',
 '''
-''' + makeCommandExample( '1 10 range fibonorial' ) ,
+''' + makeCommandExample( '1 10 range fibonorial' ),
 [ ] ],
 
     'fraction' : [
@@ -7338,7 +7361,7 @@ The harmonic series consists of the reciprocals of the natural numbers.
 ''' + makeCommandExample( '1 harmonic' ) + '''
 ''' + makeCommandExample( '2 harmonic' ) + '''
 ''' + makeCommandExample( '100 harmonic' ) + '''
-''' + makeCommandExample( '1e100 harmonic' ) ,
+''' + makeCommandExample( '1e100 harmonic' ),
 [ ] ],
 
     'heptanacci' : [
@@ -7364,7 +7387,7 @@ Sloane and Plouffe define the hyperfactorial function as the product of the
 first n numbers each taken to the power of itself.
 ''',
 '''
-''' + makeCommandExample( '-a45 1 10 range hyperfactorial' ) ,
+''' + makeCommandExample( '-a45 1 10 range hyperfactorial' ),
 [ ] ],
 
     'is_abundant' : [
@@ -7563,7 +7586,7 @@ The Octanacci sequence:
 The Pell numbers:
 ''' + makeCommandExample( '[ 1 2 ] [ 0 1 ] 1 15 range linear_recurrence' ) + '''
 The Perrin sequence:
-''' + makeCommandExample( '[ 1 1 0 ] [ 3 0 2 ] 1 20 range linear_recurrence' ) ,
+''' + makeCommandExample( '[ 1 1 0 ] [ 3 0 2 ] 1 20 range linear_recurrence' ),
 [ ] ],
 
     'lucas' : [
@@ -7574,7 +7597,7 @@ The Lucas sequence works just like the Fibonacci sequence, but starts with
 sequence.
 ''',
 '''
-''' + makeCommandExample( '1 17 range lucas' ) ,
+''' + makeCommandExample( '1 17 range lucas' ),
 [ ] ],
 
     'make_cf' : [
@@ -7659,20 +7682,22 @@ F( n ) is the nth Fibonacci number:
 L( n ) = 2F( n + 1 ) - 1
 ''',
 '''
-''' + makeCommandExample( '1 20 range nth_leonardo' ) ,
+''' + makeCommandExample( '1 20 range nth_leonardo' ),
 [ ] ],
 
     'nth_mersenne_prime' : [
-'number_theory', 'returns the nth Mersenne prime',
+'number_theory', 'returns the nth known Mersenne prime',
 '''
 These values are stored in a look-up table.  They are not calculated. ;-)
 
 There are currently 49 known Mersenne primes.  This list is subject to change
 as new Mersenne Primes are being actively searched for.
+
+https://primes.utm.edu/mersenne/index.html
 ''',
 '''
 ''' + makeCommandExample( '-a30 1 10 range nth_mersenne_prime' ) + '''
-''' + makeCommandExample( '49 nth_mersenne_prime' ) ,
+''' + makeCommandExample( '49 nth_mersenne_prime' ),
 [ ] ],
 
     'nth_padovan' : [
@@ -7691,7 +7716,21 @@ but OEIS (http://oeis.org/A000931) provides a non-iterative formula.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range nth_padovan' ) + '''
-''' + makeCommandExample( '1 100 range nth_padovan lambda x is_prime filter' ) ,
+''' + makeCommandExample( '1 100 range nth_padovan lambda x is_prime filter' ),
+[ ] ],
+
+    'nth_perfect_number' : [
+'number_theory', 'returns the nth known perfect number',
+'''
+These values are stored in a look-up table.  They are not calculated. ;-)
+
+The nth known perfect number is computed from the nth known Mersenne prime.
+There are currently 49 known Mersenne primes.  This list is subject to change
+as new Mersenne Primes are being actively searched for.
+''',
+'''
+''' + makeCommandExample( '-a30 1 10 range nth_perfect_number' ) + '''
+''' + makeCommandExample( '49 nth_perfect_number' ),
 [ ] ],
 
     'nth_stern' : [
@@ -7699,7 +7738,7 @@ but OEIS (http://oeis.org/A000931) provides a non-iterative formula.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 100 range nth_stern' ) ,
+''' + makeCommandExample( '1 100 range nth_stern' ),
 [ ] ],
 
     'nth_thue_morse' : [
@@ -7707,7 +7746,7 @@ but OEIS (http://oeis.org/A000931) provides a non-iterative formula.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 100 range nth_thue_morse' ) ,
+''' + makeCommandExample( '1 100 range nth_thue_morse' ),
 [ ] ],
 
     'octanacci' : [
@@ -7723,7 +7762,7 @@ but OEIS (http://oeis.org/A000931) provides a non-iterative formula.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range pascal_triangle -s1' ) ,
+''' + makeCommandExample( '1 10 range pascal_triangle -s1' ),
 [ ] ],
 
     'pentanacci' : [
@@ -7732,7 +7771,7 @@ but OEIS (http://oeis.org/A000931) provides a non-iterative formula.
 ''',
 '''
 ''' + makeCommandExample( '1 20 range pentanacci' ) + '''
-''' + makeCommandExample( 'infinity lambda x 4 + pentanacci x 3 + pentanacci / limit' ) ,
+''' + makeCommandExample( 'infinity lambda x 4 + pentanacci x 3 + pentanacci / limit' ),
 [ ] ],
 
     'polygamma' : [
@@ -7753,7 +7792,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range primorial' ) ,
+''' + makeCommandExample( '1 10 range primorial' ),
 [ ] ],
 
     'repunit' : [
@@ -7763,7 +7802,7 @@ distributed with data files calculated through several billion primes.
 '''
 ''' + makeCommandExample( '11 10 repunit' ) + '''
 ''' + makeCommandExample( '11 4 repunit -r4' ) + '''
-''' + makeCommandExample( '11 4 repunit' ) ,
+''' + makeCommandExample( '11 4 repunit' ),
 [ ] ],
 
     'riesel' : [
@@ -7780,22 +7819,23 @@ distributed with data files calculated through several billion primes.
 The radical function is defined as the largest squarefree factor.
 ''',
 '''
-''' + makeCommandExample( '1 100 range radical' ) ,
+''' + makeCommandExample( '1 100 range radical' ),
 [ ] ],
 
     'sigma' : [
-'number_theory', 'returns the sum of the proper divisors of n'
+'number_theory', 'returns the sum of the proper divisors of n',
 '''
 ''',
 '''
 ''' + makeCommandExample( '10 radical' ) + '''
 ''' + makeCommandExample( '16 radical' ) + '''
 ''' + makeCommandExample( '18 radical' ) + '''
-''' + makeCommandExample( '1 100 range sigma' ) ,
-[ ] ],
+Here's a list of deficient numbers from 1 to 100:
+''' + makeCommandExample( '1 100 range lambda x sigma 2 / x is_less filter' ),
+[ 'sigma_n', 'aliquot' ] ],
 
     'sigma_n' : [
-'number_theory', 'returns the sum of the proper divisors of n each to the kth power'
+'number_theory', 'returns the sum of the proper divisors of n each to the kth power',
 '''
 ''',
 '''
@@ -7803,8 +7843,8 @@ The radical function is defined as the largest squarefree factor.
 ''' + makeCommandExample( '1 10 range 1 sigma_n' ) + '''
 ''' + makeCommandExample( '1 10 range 2 sigma_n' ) + '''
 ''' + makeCommandExample( '1 10 range 3 sigma_n' ) + '''
-''' + makeCommandExample( '1 10 range 4 sigma_n' ) ,
-[ ] ],
+''' + makeCommandExample( '1 10 range 4 sigma_n' ),
+[ 'sigma' ] ],
 
     'subfactorial' : [
 'number_theory', 'calculates the subfactorial of n',
@@ -7820,7 +7860,7 @@ The subfactorial is calculated by the following formula:
 floor( ( n!/e ) + 1/2 )
 ''',
 '''
-''' + makeCommandExample( '1 10 range subfactorial' ) ,
+''' + makeCommandExample( '1 10 range subfactorial' ),
 [ ] ],
 
     'superfactorial' : [
@@ -7831,7 +7871,7 @@ of the first n factorials, which is the equivalent of the integral values of
 the Barnes G-function.
 ''',
 '''
-''' + makeCommandExample( '-a30 1 10 range superfactorial' ) ,
+''' + makeCommandExample( '-a30 1 10 range superfactorial' ),
 [ ] ],
 
     'tetranacci' : [
@@ -7874,7 +7914,7 @@ This is the equivalent of '1 n polygamma'.
 '''
 ''' + makeCommandExample( '2 unit_roots' ) + '''
 ''' + makeCommandExample( '3 unit_roots' ) + '''
-''' + makeCommandExample( '4 unit_roots' ) ,
+''' + makeCommandExample( '4 unit_roots' ),
 [ ] ],
 
     'zeta' : [
@@ -7986,7 +8026,7 @@ time (the period of the orbit)
 '''
 ''' + makeCommandExample( '24 hours earth_mass orbital_velocity' ) + '''
 ''' + makeCommandExample( 'earth_mass 100 miles orbital_velocity' ) + '''
-''' + makeCommandExample( 'sun_mass solar_year orbital_velocity mph convert' ) ,
+''' + makeCommandExample( 'sun_mass solar_year orbital_velocity mph convert' ),
 [ 'orbital_mass', 'orbital_period', 'orbital_radius' ] ],
 
     'schwarzchild_radius' : [
@@ -7995,7 +8035,7 @@ time (the period of the orbit)
 ''',
 '''
 ''' + makeCommandExample( 'earth_mass schwarzchild_radius' ) + '''
-''' + makeCommandExample( '10 solar_mass * schwarzchild_radius' ) ,
+''' + makeCommandExample( '10 solar_mass * schwarzchild_radius' ),
 [ ] ],
 
     'surface_gravity' : [
@@ -8008,7 +8048,7 @@ of density and volume in either order.
 ''' + makeCommandExample( 'earth_mass earth_radius surface_gravity' ) + '''
 ''' + makeCommandExample( '5.51 g/cm^3 earth_volume surface_gravity' ) + '''
 Calculate the surface gravity of a 10-solar-mass black hole:
-''' + makeCommandExample( '10 solar_mass * 10 solar_mass * schwarzchild_radius surface_gravity', indent=4 ) ,
+''' + makeCommandExample( '10 solar_mass * 10 solar_mass * schwarzchild_radius surface_gravity', indent=4 ),
 [ ] ],
 
     'time_dilation' : [
@@ -8017,7 +8057,7 @@ Calculate the surface gravity of a 10-solar-mass black hole:
 ''',
 '''
 ''' + makeCommandExample( '1 million mph time_dilation' ) + '''
-''' + makeCommandExample( '0.99 c * time_dilation' ) ,
+''' + makeCommandExample( '0.99 c * time_dilation' ),
 [ ] ],
 
     'velocity' : [
@@ -8744,7 +8784,7 @@ https://en.wikipedia.org/wiki/Stella_octangula_number
 http://oeis.org/A007588
 ''',
 '''
-''' + makeCommandExample( '1 8 range stelloct' ) ,
+''' + makeCommandExample( '1 8 range stelloct' ),
 [ ] ],
 
     'tetrahedral' : [
@@ -8833,7 +8873,7 @@ n can be any real or complex value.
 '''
 ''' + makeCommandExample( '2 exp' ) + '''
 ''' + makeCommandExample( '1 10 range exp' ) + '''
-''' + makeCommandExample( '1 i exp' ) ,
+''' + makeCommandExample( '1 i exp' ),
 [ 'log', 'exp10', 'expphi', 'polyexp' ] ],
 
     'exp10' : [
@@ -8849,7 +8889,7 @@ n can be any real or complex value.
 '''
 ''' + makeCommandExample( '2 exp10' ) + '''
 ''' + makeCommandExample( '1 10 range exp10' ) + '''
-''' + makeCommandExample( '1 i exp10' ) ,
+''' + makeCommandExample( '1 i exp10' ),
 [ 'log10', 'exp', 'expphi' ] ],
 
     'expphi' : [
@@ -8861,7 +8901,7 @@ It was originally added to make testing the base phi output easier.
 ''',
 '''
 ''' + makeCommandExample( '2 expphi' ) + '''
-''' + makeCommandExample( '3 expphi 2 expphi -' ) ,
+''' + makeCommandExample( '3 expphi 2 expphi -' ),
 [ 'phi', 'exp', 'exp10' ] ],
 
     'hyper4_2' : [
@@ -8880,7 +8920,7 @@ This operator raises the n to the power of k.
 '''
 ''' + makeCommandExample( '4 5 **' ) + '''
 ''' + makeCommandExample( '1 10 range 3 **' ) + '''
-''' + makeCommandExample( '1 foot 3 ** gallon convert' ) ,
+''' + makeCommandExample( '1 foot 3 ** gallon convert' ),
 [ 'root', 'square', 'cube', 'tetrate' ] ],
 
     'powmod' : [
@@ -8900,7 +8940,7 @@ This operator returns the kth root of n.
 '''
 ''' + makeCommandExample( '2 12 //' ) + '''
 ''' + makeCommandExample( '1 10 range 2 //' ) + '''
-''' + makeCommandExample( '4 foot^2 2 //' ) ,
+''' + makeCommandExample( '4 foot^2 2 //' ),
 [ 'power', 'square_root', 'cube_root' ] ],
 
     'square' : [
@@ -8914,7 +8954,7 @@ It returns the square of n.
 ''' + makeCommandExample( 'pi square' ) + '''
 ''' + makeCommandExample( '10 inches square foot^2 convert' ) + '''
 ''' + makeCommandExample( '[ 2 G sun_mass ] prod c square /' ) + '''
-''' + makeCommandExample( '1 10 range square' ) ,
+''' + makeCommandExample( '1 10 range square' ),
 [ 'square_root', 'cube', 'power' ] ],
 
     'square_root' : [
@@ -8937,7 +8977,7 @@ itself k times.
 '''
 ''' + makeCommandExample( '3 3 tetrate' ) + '''
 ''' + makeCommandExample( '10 10 tetrate' ) + '''
-''' + makeCommandExample( '2 1 6 range tetrate' ) ,
+''' + makeCommandExample( '2 1 6 range tetrate' ),
 [ 'power', 'hyper4_2' ] ],
 
     'tower' : [
@@ -9023,7 +9063,7 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '50 double_balanced' ) + '''
-''' + makeCommandExample( '1 10 range double_balanced' ) ,
+''' + makeCommandExample( '1 10 range double_balanced' ),
 [ ] ],
 
     'double_balanced_' : [
@@ -9039,7 +9079,7 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '50 double_balanced_' ) + '''
-''' + makeCommandExample( '50 double_balanced_ diffs' ) ,
+''' + makeCommandExample( '50 double_balanced_ diffs' ),
 [ ] ],
 
     'isolated_prime' : [
@@ -9165,7 +9205,7 @@ distributed with data files calculated through several billion pribmes.
 ''',
 '''
 ''' + makeCommandExample( '1 20 primes' ) + '''
-''' + makeCommandExample( '320620307 10 primes' ) ,
+''' + makeCommandExample( '320620307 10 primes' ),
 [ 'prime', 'prime_range' ] ],
 
     'prime_pi' : [
@@ -9191,7 +9231,7 @@ distributed with data files calculated through several billion pribmes.
 ''',
 '''
 ''' + makeCommandExample( '1 21 prime_range' ) + '''
-''' + makeCommandExample( '4458934 4458960 prime_range' ) ,
+''' + makeCommandExample( '4458934 4458960 prime_range' ),
 [ 'prime', 'primes' ] ],
 
     'quadruplet_prime' : [
@@ -9287,7 +9327,7 @@ nth set of sexy primes, so the value of the result + 6 will also be prime.
 ''',
 '''
 ''' + makeCommandExample( '16387 sexy_prime' ) + '''
-''' + makeCommandExample( '1 10 range sexy_prime' ) ,
+''' + makeCommandExample( '1 10 range sexy_prime' ),
 [ ] ],
 
     'sexy_prime_' : [
@@ -9303,7 +9343,7 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '213819 sexy_prime_' ) + '''
-''' + makeCommandExample( '1001 1010 range sexy_prime_' ) ,
+''' + makeCommandExample( '1001 1010 range sexy_prime_' ),
 [ ] ],
 
     'sexy_triplet' : [
@@ -9389,7 +9429,7 @@ slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/
 distributed with data files calculated through several billion primes.
 ''',
 '''
-''' + makeCommandExample( '1 10 range triple_balanced' ) ,
+''' + makeCommandExample( '1 10 range triple_balanced' ),
 [ ] ],
 
     'triple_balanced_' : [
@@ -9405,7 +9445,7 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '10 triple_balanced_' ) + '''
-''' + makeCommandExample( '10 triple_balanced_ diffs' ) ,
+''' + makeCommandExample( '10 triple_balanced_ diffs' ),
 [ ] ],
 
     'triplet_prime' : [
@@ -9421,7 +9461,7 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1231 triplet_prime' ) + '''
-''' + makeCommandExample( '1 10 range triplet_prime' ) ,
+''' + makeCommandExample( '1 10 range triplet_prime' ),
 [ ] ],
 
     'triplet_prime_' : [
@@ -9437,7 +9477,7 @@ distributed with data files calculated through several billion primes.
 ''',
 '''
 ''' + makeCommandExample( '1231 triplet_prime_' ) + '''
-''' + makeCommandExample( '1 10 range triplet_prime_ -s1' ) ,
+''' + makeCommandExample( '1 10 range triplet_prime_ -s1' ),
 [ ] ],
 
     'twin_prime' : [
@@ -9465,7 +9505,7 @@ distributed with data files calculated through several billion primes.
 ''' + makeCommandExample( '1 20 twin_prime_' ) + '''
 An extremely crude estimation of Brun's twin prime constant:
 
-''' + makeCommandExample( 'rpn 1 50 range twin_primes_ 1/x sum sum' ) ,
+''' + makeCommandExample( 'rpn 1 50 range twin_primes_ 1/x sum sum' ),
 [ ] ],
 
 
@@ -9648,7 +9688,7 @@ applied when the operator list is completed.
 ''',
 '''
 ''' + makeCommandExample( '2 echo 2 +' ) + '''
-''' + makeCommandExample( '2 echo 2 echo +' ) ,
+''' + makeCommandExample( '2 echo 2 echo +' ),
 [ ] ],
 
     'enumerate_dice' : [
@@ -9666,7 +9706,7 @@ expressions.
 ''' + makeCommandExample( '3d6 enumerate_dice', indent=4 ) + '''
 ''' + makeCommandExample( '2d6,d8 enumerate_dice', indent=4 ) + '''
 ''' + makeCommandExample( 'd100 enumerate_dice', indent=4 ) + '''
-''' + makeCommandExample( 'd2,d3,d4,d5,d6,d7,d8 enumerate_dice', indent=4 ) ,
+''' + makeCommandExample( 'd2,d3,d4,d5,d6,d7,d8 enumerate_dice', indent=4 ),
 [ 'roll_dice', 'enumerate_dice_', 'permute_dice', 'roll_dice_' ] ],
 
     'enumerate_dice_' : [
@@ -9679,7 +9719,7 @@ expressions.
 ''',
 '''
 ''' + makeCommandExample( '2d6 10 enumerate_dice_' ) + '''
-''' + makeCommandExample( '4d6x1 6 enumerate_dice_' ) ,
+''' + makeCommandExample( '4d6x1 6 enumerate_dice_' ),
 [ 'roll_dice', 'enumerate_dice', 'permute_dice', 'roll_dice_' ] ],
 
     'estimate' : [
@@ -9706,7 +9746,7 @@ magnitude of the measurement.
 ''' + makeCommandExample( 'c 100 / estimate' ) + '''
 ''' + makeCommandExample( '10000 cubic_miles estimate' ) + '''
 ''' + makeCommandExample( '1 petabyte estimate' ) + '''
-''' + makeCommandExample( '4 million gallons estimate' ) ,
+''' + makeCommandExample( '4 million gallons estimate' ),
 [ 'convert' ] ],
 
     'help' : [
@@ -9740,7 +9780,7 @@ nine hundred ninety-nine...
 ''' + makeCommandExample( '1,234,567,890 name' ) + '''
 ''' + makeCommandExample( '1 gallon name' ) + '''
 ''' + makeCommandExample( '114 feet name' ) + '''
-''' + makeCommandExample( '2337 ounces [ pounds ounces ] convert name' ) ,
+''' + makeCommandExample( '2337 ounces [ pounds ounces ] convert name' ),
 [ 'ordinal_name' ] ],
 
     'oeis' : [
@@ -9752,7 +9792,7 @@ to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
 flushing the cache for a particular entry.
 ''',
 '''
-''' + makeCommandExample( 'rpn 10349 oeis' ) ,
+''' + makeCommandExample( 'rpn 10349 oeis' ),
 [ 'oeis_comment', 'oeis_ex', 'oeis_name' ] ],
 
     'oeis_comment' : [
@@ -9764,7 +9804,7 @@ to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
 flushing the cache for a particular entry.
 ''',
 '''
-''' + makeCommandExample( '98593 oeis_comment' ) ,
+''' + makeCommandExample( '98593 oeis_comment' ),
 [ 'oeis_name', 'oeis_ex', 'oeis' ] ],
 
     'oeis_ex' : [
@@ -9776,7 +9816,7 @@ to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
 flushing the cache for a particular entry.
 ''',
 '''
-''' + makeCommandExample( '178 oeis_ex' ) ,
+''' + makeCommandExample( '178 oeis_ex' ),
 [ 'oeis_comment', 'oeis_name', 'oeis' ] ],
 
     'oeis_name' : [
@@ -9788,7 +9828,7 @@ to delete rpnData/oeis.pckl.bz2.  Eventually, I'll add a tool to allow
 flushing the cache for a particular entry.
 ''',
 '''
-''' + makeCommandExample( '10349 oeis_name' ) ,
+''' + makeCommandExample( '10349 oeis_name' ),
 [ 'oeis_ex', 'oeis', 'oeis_comment' ] ],
 
     'ordinal_name' : [
@@ -9808,7 +9848,7 @@ nine hundred ninety-nine...
 ''' + makeCommandExample( '-a3000 10 3000 ** ordinal_name' ),
 '''
 ''' + makeCommandExample( '1999 ordinal_name' ) + '''
-''' + makeCommandExample( '2001 ordinal_name' ) ,
+''' + makeCommandExample( '2001 ordinal_name' ),
 [ 'name' ] ],
 
     'permute_dice' : [
@@ -9837,7 +9877,7 @@ not reproducible.
 '''
 ''' + makeCommandExample( '10 random_integer' ) + '''
 ''' + makeCommandExample( '1000 random_integer' ) + '''
-''' + makeCommandExample( '1000000 random_integer' ) ,
+''' + makeCommandExample( '1000000 random_integer' ),
 [ 'random', 'random_', 'random_integer_' ] ],
 
     'random_integer_' : [
@@ -9858,7 +9898,7 @@ Test the birthday paradox:
 You will see a duplicate approximately 50% of the time.  Since this command
 is run when the help file is generated, you may or may not see a duplicate
 here, but the exact odds of seeing a duplicate can be computed:
-''' + makeCommandExample( '1 364 364 21 - range 365 / prod -', indent=4 ) ,
+''' + makeCommandExample( '1 364 364 21 - range 365 / prod -', indent=4 ),
 [ 'random_integer', 'random', 'random_' ] ],
 
     'random' : [
@@ -9871,7 +9911,7 @@ in rpn.
 '''
 ''' + makeCommandExample( 'random' ) + '''
 ''' + makeCommandExample( '-a20 random' ) + '''
-''' + makeCommandExample( 'random 1000000 *' ) ,
+''' + makeCommandExample( 'random 1000000 *' ),
 [ ] ],
 
     'random_' : [
@@ -9883,7 +9923,7 @@ precision set in rpn.
 ''',
 '''
 ''' + makeCommandExample( '5 random_' ) + '''
-''' + makeCommandExample( '1000 random_ mean' ) ,
+''' + makeCommandExample( '1000 random_ mean' ),
 [ 'random', 'random_integer', 'random_integer_' ] ],
 
     'result' : [
@@ -9893,7 +9933,7 @@ precision set in rpn.
 ''',
 '''
 ''' + makeCommandExample( '2 sqrt' ) + '''
-''' + makeCommandExample( 'result sqr' ) ,
+''' + makeCommandExample( 'result sqr' ),
 [ ] ],
 
     'roll_dice' : [
@@ -9965,7 +10005,7 @@ And obviously, this can result in a negative value.
 ''' + makeCommandExample( '2d4,2d6x1 roll_dice' ) + '''
 ''' + makeCommandExample( '2d4+2 roll_dice' ) + '''
 ''' + makeCommandExample( '4d6x1-3 roll_dice' ) + '''
-''' + makeCommandExample( '2d4,4d6,8d10 roll_dice' ) ,
+''' + makeCommandExample( '2d4,4d6,8d10 roll_dice' ),
 [ 'roll_dice', 'permute_dice', 'enumerate_dice', 'enumerate_dice_' ] ],
 
     'roll_dice_' : [
@@ -9975,7 +10015,7 @@ Please see 'roll_dice' for an explanation of the dice expression language.
 ''',
 '''
 ''' + makeCommandExample( '2d6 10 roll_dice_' ) + '''
-''' + makeCommandExample( '4d6x1 6 roll_dice_' ) ,
+''' + makeCommandExample( '4d6x1 6 roll_dice_' ),
 [ 'roll_dice', 'permute_dice', 'enumerate_dice', 'enumerate_dice_' ] ],
 
     'set' : [
@@ -10003,7 +10043,7 @@ The UUID is generated using the host ID (MAC address if possible, otherwise
 see RFC 4122) and the current time.
 ''',
 '''
-''' + makeCommandExample( 'uuid' ) ,
+''' + makeCommandExample( 'uuid' ),
 [ 'uuid_random' ] ],
 
     'uuid_random' : [
@@ -10012,7 +10052,7 @@ see RFC 4122) and the current time.
 The UUID is generated completely randomly.
 ''',
 '''
-''' + makeCommandExample( 'uuid_random' ) ,
+''' + makeCommandExample( 'uuid_random' ),
 [ 'uuid' ] ],
 
     'value' : [
@@ -10025,7 +10065,7 @@ numerical part of the measurement value.
 '''
 ''' + makeCommandExample( '1000 light-years value' ) + '''
 ''' + makeCommandExample( '100 years seconds convert value' ) + '''
-''' + makeCommandExample( '2 pounds value 3 gallons value +' ) ,
+''' + makeCommandExample( '2 pounds value 3 gallons value +' ),
 [ ] ],
 
 
@@ -10045,7 +10085,7 @@ acos( y ) = x.
 ''' + makeCommandExample( '0 acos' ) + '''
 ''' + makeCommandExample( '0.5 acos radians deg convert' ) + '''
 ''' + makeCommandExample( '0.234 acos cos' ) + '''
-''' + makeCommandExample( '45 degrees cos acos radians degrees convert' ) ,
+''' + makeCommandExample( '45 degrees cos acos radians degrees convert' ),
 [ 'cos', 'acosh', 'asin', 'atan' ] ],
 
     'acosh' : [
@@ -10060,7 +10100,7 @@ instead of a unit circle.
 '''
 ''' + makeCommandExample( '0 acosh' ) + '''
 ''' + makeCommandExample( '0.234 acosh cosh' ) + '''
-''' + makeCommandExample( '45 degrees cosh acosh radians degrees convert' ) ,
+''' + makeCommandExample( '45 degrees cosh acosh radians degrees convert' ),
 [ ] ],
 
     'acot' : [
@@ -10127,7 +10167,7 @@ asin( y ) = x.
 ''' + makeCommandExample( '0.5 asin' ) + '''
 ''' + makeCommandExample( '0.345 asin sin' ) + '''
 ''' + makeCommandExample( '0.75 sqrt asin radian deg convert' ) + '''
-''' + makeCommandExample( '2 sqrt 1/x asin radian deg convert' ) ,
+''' + makeCommandExample( '2 sqrt 1/x asin radian deg convert' ),
 [ 'sin', 'acos', 'atan', 'asinh' ] ],
 
     'asinh' : [
@@ -10139,7 +10179,7 @@ The hyperbolic arcsine is the inverse of the hyperbolic sine.
 ''' + makeCommandExample( '0.5 asinh' ) + '''
 ''' + makeCommandExample( '0.345 asinh sinh' ) + '''
 ''' + makeCommandExample( '0.75 sqrt asinh radian deg convert' ) + '''
-''' + makeCommandExample( '2 sqrt 1/x asinh radian deg convert' ) ,
+''' + makeCommandExample( '2 sqrt 1/x asinh radian deg convert' ),
 [ 'asin', 'sinh', 'acosh', 'atanh' ] ],
 
     'atan' : [
@@ -10157,7 +10197,7 @@ can handle a value in degrees without having to first convert.
 ''' + makeCommandExample( '1 atan radians deg convert' ) + '''
 ''' + makeCommandExample( '5.612 atan tan' ) + '''
 ''' + makeCommandExample( '10 atan radians deg convert' ) + '''
-''' + makeCommandExample( '89 degrees tan atan radians deg convert' ) ,
+''' + makeCommandExample( '89 degrees tan atan radians deg convert' ),
 [ 'atanh', 'tan', 'acos', 'asin' ] ],
 
     'atanh' : [
@@ -10173,7 +10213,7 @@ instead of a unit circle.
 ''' + makeCommandExample( '3 atanh' ) + '''
 ''' + makeCommandExample( '0.5 atanh radians deg convert' ) + '''
 ''' + makeCommandExample( '5.612 atanh tan' ) + '''
-''' + makeCommandExample( '89 degrees tanh atanh radians deg convert' ) ,
+''' + makeCommandExample( '89 degrees tanh atanh radians deg convert' ),
 [ 'tanh', 'atan', 'acosh', 'asinh' ] ],
 
     'cos' : [
@@ -10188,7 +10228,7 @@ can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( 'pi 2 / cos' ) + '''
-''' + makeCommandExample( '60 degrees cos' ) ,
+''' + makeCommandExample( '60 degrees cos' ),
 [ 'sin', 'tan', 'acos', 'cosh' ] ],
 
     'cosh' : [
@@ -10244,7 +10284,7 @@ can handle a value in degrees without having to first convert.
 ''' + makeCommandExample( '36 degrees csc', indent=4 ) + '''
 Comparing csc to sin:
 ''' + makeCommandExample( '36 degrees csc 1/x', indent=4 ) + '''
-''' + makeCommandExample( '36 degrees sin', indent=4 ) ,
+''' + makeCommandExample( '36 degrees sin', indent=4 ),
 [ 'csch', 'acsc', 'sec', 'cot' ] ],
 
     'csch' : [
@@ -10272,7 +10312,7 @@ calculates what the length of the hypotenuse would be.
 '''
 ''' + makeCommandExample( '3 4 hypotenuse' ) + '''
 ''' + makeCommandExample( '7 24 hypotenuse' ) + '''
-''' + makeCommandExample( '1 1 hypotenuse' ) ,
+''' + makeCommandExample( '1 1 hypotenuse' ),
 [ ] ],
 
     'sec' : [
@@ -10316,7 +10356,7 @@ can handle a value in degrees without having to first convert.
 '''
 ''' + makeCommandExample( '60 degrees sin' ) + '''
 ''' + makeCommandExample( 'pi 2 / sin' ) + '''
-''' + makeCommandExample( '0 sin' ) ,
+''' + makeCommandExample( '0 sin' ),
 [ 'asin', 'cos', 'tan', 'sinh' ] ],
 
     'sinh' : [
@@ -10348,7 +10388,7 @@ can handle a value in degrees without having to first convert.
 '''
 ''' + makeCommandExample( '30 degrees tan' ) + '''
 ''' + makeCommandExample( 'pi 4 / tan' ) + '''
-''' + makeCommandExample( '127 degrees tan' ) ,
+''' + makeCommandExample( '127 degrees tan' ),
 [ 'tanh', 'atan', 'sin', 'cos' ] ],
 
     'tanh' : [

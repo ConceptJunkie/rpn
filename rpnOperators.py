@@ -1932,6 +1932,9 @@ operators = {
     'floor'                          : RPNOperator( getFloor,
                                                     1, [ RPNOperator.Default ] ),
 
+    'gcd2'                           : RPNOperator( lambda n, k: getGCD( [ n, k ] ),
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
     'increment'                      : RPNOperator( lambda n: add( n, 1 ),
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
@@ -1977,6 +1980,9 @@ operators = {
 
     'larger'                         : RPNOperator( getLarger,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
+
+    'lcm2'                           : RPNOperator( lambda n, k: getLCM( [ n, k ] ),
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     'modulo'                         : RPNOperator( lambda n, k: fmod( real( n ), real( k ) ),
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
@@ -3024,6 +3030,9 @@ operators = {
     'nth_padovan'                    : RPNOperator( getNthPadovanNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'nth_perfect_number'             : RPNOperator( getNthPerfectNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'nth_stern'                      : RPNOperator( getNthStern,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
@@ -3483,7 +3492,7 @@ operators = {
     'prime'                          : RPNOperator( getNthPrime,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'primes'                         : RPNOperator( getPrimes,
+    'primes'                         : RPNOperator( lambda n, k: RPNGenerator( getPrimes( n, k ) ),
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'prime_pi'                       : RPNOperator( getPrimePi,

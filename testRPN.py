@@ -2093,9 +2093,6 @@ def runNumberTheoryOperatorTests( ):
     # double_factorial
     testOperator( '9 double_factorial' )
 
-    # ecm
-    testOperator( '-a40 10 20 ** random_integer ecm' )
-
     # egypt
     testOperator( '45 67 egypt' )
 

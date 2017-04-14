@@ -55,17 +55,18 @@ def getFactorListSympy( n ):
 # //******************************************************************************
 
 def getFactors( target ):
+    if target < -1:
+        result = [ -1 ]
+        result.extend( getFactors( fneg( target ) ) )
+        return result
+    elif target == -1:
+        return [ -1 ]
+    elif target == 0:
+        return [ 0 ]
+    elif target == 1:
+        return [ 1 ]
+
     n = int( floor( target ) )
-
-    try:
-        return factorByTrialDivision( n )   # throws if n is too big
-    except ValueError as error:
-        pass
-
-    verbose = g.verbose
-
-    if verbose:
-        print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), ' digits)...' )
 
     if g.factorCache is None:
         loadFactorCache( )
@@ -76,6 +77,22 @@ def getFactors( target ):
             print( )
 
         return g.factorCache[ n ]
+
+    try:
+        result = factorByTrialDivision( n )   # throws if n is too big
+
+        if n > g.minValueToCache and n not in g.factorCache:
+            g.factorCache[ n ] = result
+
+        return result
+
+    except ValueError as error:
+        pass
+
+    verbose = g.verbose
+
+    if verbose:
+        print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), ' digits)...' )
 
     from factorise import factorise
     result = factorise( int( n ) )
@@ -105,7 +122,7 @@ def getFactorList( n ):
 # //******************************************************************************
 
 def factorByTrialDivision( n ):
-    if n > 1073741824:   # 2^30
+    if n > 10000000000:   # 100,000^2
         raise ValueError( 'value', n, 'is too big to factor by trial division' )
 
     result = [ ]
