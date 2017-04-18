@@ -15,12 +15,13 @@
 import itertools
 import string
 
-from mpmath import arange, fadd, fdiv, floor, fmod, fmul, fprod, fsub, fsum, \
-                   log10, mpmathify, nint, power
+from mpmath import arange, fadd, fdiv, floor, fmod, fmul, fprod, fsub, \
+                   fsum, log10, mpmathify, nint, power
 
 from rpnBase import convertToBaseN
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
+from rpnNumberTheory import getPowMod
 from rpnUtils import real, real_int, getMPFIntegerAsString
 
 
@@ -649,17 +650,22 @@ def hasDigits( value, digits ):
 # //
 # //  isMorphic
 # //
+# //  This code won't work correctly for integral powers of 10, but they can
+# //  never be morphic anyway, except for 1, which I handle specially.
+# //
 # //******************************************************************************
 
 def isMorphic( n, k ):
     '''
     Returns true if n to the k power ends with n.
     '''
-    digits = getMPFIntegerAsString( real_int( n ) )
-    sqr_digits = getMPFIntegerAsString( power( n, real_int( k ) ) )
+    if n == 1:
+        return 1
 
-    start = len( sqr_digits ) - len( digits )
-    return 1 if ( sqr_digits[ start : ] == digits ) else 0
+    modulo = power( 10, ceil( log10( n ) ) )
+    powmod = getPowMod( n, real_int( k ), modulo )
+
+    return 1 if ( n == powmod ) else 0
 
 
 # //******************************************************************************
