@@ -15,8 +15,8 @@
 import itertools
 import string
 
-from mpmath import arange, fadd, fdiv, floor, fmod, fmul, fprod, fsub, \
-                   fsum, log10, mpmathify, nint, power
+from mpmath import arange, fadd, ceil, fdiv, floor, fmod, fmul, fprod, \
+                   fsub, fsum, log10, mpmathify, nint, power
 
 from rpnBase import convertToBaseN
 from rpnGenerator import RPNGenerator
