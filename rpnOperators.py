@@ -1757,6 +1757,12 @@ listOperators = {
     'flatten'               : RPNOperator( flatten,
                                            1, [ RPNOperator.List ] ),
 
+    'get_combinations'      : RPNOperator( getListCombinations,
+                                           2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
+
+    'get_permutations'      : RPNOperator( getListPermutations,
+                                           2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
+
     'group_elements'        : RPNOperator( groupElements,
                                            2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
 
@@ -2951,6 +2957,9 @@ operators = {
 
     'is_k_semiprime'                 : RPNOperator( isKSemiPrime,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+
+    'is_k_sphenic'                   : RPNOperator( isKSphenic,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
     'is_perfect'                     : RPNOperator( isPerfect,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),

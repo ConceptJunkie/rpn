@@ -1738,7 +1738,7 @@ def runLexicographyOperatorTests( ):
 
     # is_morphic
     testOperator( '1 100 range lambda x 7 is_morphic filter' )
-    expectEqual( '-a3000 1 1000 range lambda x x is_morphic filter', '-a3000 82576 oeis 58 left' )
+    expectEqual( '1 1000 range lambda x x is_morphic filter', '82576 oeis 58 left' )
 
     # is_narcissistic
     expectResult( '152 is_narcissistic', 0 )
@@ -2077,7 +2077,7 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 104 range count_divisors', '5 oeis 104 left' )
 
     # crt
-    testOperator( '1 3 range 10 20 range 3 primes crt' )
+    testOperator( '1 4 range 10 20 3 range2 crt' )
 
     # digamma
     testOperator( '3 digamma' )
@@ -2139,7 +2139,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '2 sqrt 30 fraction' )
 
     # frobenius
-    testOperator( '10 20 range 3 primes frobenius' )
+    testOperator( '10 20 3 range2 prime frobenius' )
 
     # gamma
     testOperator( '3 gamma' )
@@ -2185,6 +2185,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1000 1030 range is_prime' )
     testOperator( '2049 is_prime' )
     testOperator( '92348759911 is_prime' )
+    expectEqual( '0 200 range lambda 90 x * 73 + is_prime filter 56 left', '195993 oeis 56 left' )
 
     # is_polydivisible
     expectEqual( '3608528850368400786036725 is_polydivisible', '1' )
@@ -2203,7 +2204,9 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 20 range 2 is_smooth' )
 
     # is_sphenic
-    testOperator( '[ 2 3 5 ] prime is_sphenic' )
+    testOperator( '[ 2 3 5 ] prod is_sphenic' )
+    expectEqual( '1 500 range lambda x is_sphenic filter 53 left', '7304 oeis 53 left' )
+    expectEqual( '-a30 1 20 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort 26 left', '268582 oeis 26 left' )
 
     # is_squarefree
     testOperator( '2013 sqr is_squarefree' )

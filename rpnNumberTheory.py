@@ -1135,6 +1135,21 @@ def isSphenic( n ):
 
 # //******************************************************************************
 # //
+# //  isKSphenic
+# //
+# //******************************************************************************
+
+def isKSphenic( n, k ):
+    factorList = getFactorList( n )
+
+    if len( factorList ) != k:
+        return 0
+
+    return 1 if max( [ i[ 1 ] for i in factorList ] ) == 1 else 0
+
+
+# //******************************************************************************
+# //
 # //  isSquareFree
 # //
 # //******************************************************************************
@@ -1164,7 +1179,6 @@ def isPowerful( n ):
 
 def isAchillesNumber( n ):
     factorList = getFactorList( n )
-    print( 'factorList', factorList )
 
     if min( [ i[ 1 ] for i in factorList ] ) < 2:
         return 0

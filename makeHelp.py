@@ -6536,6 +6536,22 @@ The intervals of the chromatic scale:
 ''' + makeCommandExample( '1 2 12 // 13 geometric_range' ),
 [ 'exponential_range', 'range', 'interval_range', 'sized_range' ] ],
 
+    'get_combinations' : [
+'list_operators', 'generates all combinations of k members of list n',
+'''
+''',
+'''
+''',
+[ 'get_permutations' ] ],
+
+    'get_permutations' : [
+'list_operators', 'generates all permutations of k members of list n',
+'''
+''',
+'''
+''',
+[ 'get_combinations' ] ],
+
     'group_elements' : [
 'list_operators', 'groups the elements of list n into sublsts of k elements',
 '''
@@ -7180,8 +7196,7 @@ numbers with a lot of factors.
 'number_theory', 'calculates Chinese Remainder Theorem result of a list n of values and a list k of modulos',
 '''
 So using the Chinese Remainder Theorem, this function calculates a number that
-is equal to n[ x ] modulo k[ x ,
-[ ] ], where x iterating through the indices of each
+is equal to n[ x ] modulo k[ x ], with x iterating through the indices of each
 list (which must be the same size).
 ''',
 '''
@@ -7432,6 +7447,14 @@ first n numbers each taken to the power of itself.
 
     'is_k_semiprime' : [
 'number_theory', 'returns whether n is a k-factor square-free number',
+'''
+''',
+'''
+''',
+[ ] ],
+
+    'is_k_sphenic' : [
+'number_theory', 'returns whether n is a product of k distinct primes',
 '''
 ''',
 '''

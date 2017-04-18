@@ -864,6 +864,60 @@ def permuteLists( lists ):
 
 # //******************************************************************************
 # //
+# //  getListCombinationsGenerator
+# //
+# //******************************************************************************
+
+def getListCombinationsGenerator( n, k ):
+    for i in itertools.combinations( n, int( k ) ):
+        yield list( i )
+
+
+# //******************************************************************************
+# //
+# //  getListCombinations
+# //
+# //******************************************************************************
+
+def getListCombinations( n, k ):
+    if not isinstance( n, ( list, RPNGenerator ) ):
+        raise ValueError( '\'permute_list\' expects a list' )
+
+    if len( n ) < k:
+        raise ValueError( 'k must be greater than or equal to the length of list n' )
+
+    return RPNGenerator( getListCombinationsGenerator( n, k ) )
+
+
+# //******************************************************************************
+# //
+# //  getListPermutationsGenerator
+# //
+# //******************************************************************************
+
+def getListPermutationsGenerator( n, k ):
+    for i in itertools.permutations( n, int( k ) ):
+        yield list( i )
+
+
+# //******************************************************************************
+# //
+# //  getListPermutations
+# //
+# //******************************************************************************
+
+def getListPermutations( n, k ):
+    if not isinstance( n, ( list, RPNGenerator ) ):
+        raise ValueError( '\'permute_list\' expects a list' )
+
+    if len( n ) < k:
+        raise ValueError( 'k must be greater than or equal to the length of list n' )
+
+    return RPNGenerator( getListPermutationsGenerator( n, k ) )
+
+
+# //******************************************************************************
+# //
 # //  forEach
 # //
 # //******************************************************************************

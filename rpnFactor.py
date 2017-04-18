@@ -72,7 +72,7 @@ def getFactors( target ):
         loadFactorCache( )
 
     if n in g.factorCache:
-        if verbose and n != 1:
+        if g.verbose and n != 1:
             print( 'cache hit:', n )
             print( )
 
