@@ -1717,6 +1717,10 @@ listOperators = {
     'unfilter_by_index'     : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k, True ) ),
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
+    # lexicographic
+    'combine_digits'        : RPNOperator( combineDigits,
+                                           1, [ RPNOperator.Generator ] ),
+
     # list
     'alternate_signs'       : RPNOperator( lambda n: RPNGenerator( alternateSigns( n, False ) ),
                                            1, [ RPNOperator.Generator ] ),
@@ -1865,10 +1869,6 @@ listOperators = {
     'linear_recurrence'     : RPNOperator( getNthLinearRecurrence,
                                            3, [ RPNOperator.List, RPNOperator.List,
                                                 RPNOperator.PositiveInteger ] ),
-
-    # lexicographic
-    'combine_digits'        : RPNOperator( combineDigits,
-                                           1, [ RPNOperator.Generator ] ),
 
     # powers_and_roots
     'tower'                 : RPNOperator( calculatePowerTower,
@@ -2761,7 +2761,7 @@ operators = {
     'get_right_truncations'          : RPNOperator( lambda n: RPNGenerator.createGenerator( getRightTruncations, n ),
                                                     1, [ RPNOperator.Integer ] ),
 
-    'is_automorphic'                 : RPNOperator( lambda n: isMorphic( n, 2 ),
+    'is_automorphic'                 : RPNOperator( lambda n: isKMorphic( n, 2 ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_generalized_dudeney'         : RPNOperator( isGeneralizedDudeneyNumber,
@@ -2773,11 +2773,11 @@ operators = {
     'is_kaprekar'                    : RPNOperator( isKaprekar,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_k_morphic'                   : RPNOperator( isKMorphic,
+                                                    2, [ RPNOperator.Integer, RPNOperator.PositiveInteger ] ),
+
     'is_k_narcissistic'              : RPNOperator( isBaseKNarcissistic,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
-
-    'is_morphic'                     : RPNOperator( isMorphic,
-                                                    2, [ RPNOperator.Integer, RPNOperator.PositiveInteger ] ),
 
     'is_narcissistic'                : RPNOperator( isNarcissistic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
@@ -2797,7 +2797,7 @@ operators = {
     'is_sum_product'                 : RPNOperator( isSumProductNumber,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
-    'is_trimorphic'                  : RPNOperator( lambda n: isMorphic( n, 3 ),
+    'is_trimorphic'                  : RPNOperator( lambda n: isKMorphic( n, 3 ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'multiply_digits'                : RPNOperator( multiplyDigits,
