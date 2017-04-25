@@ -648,14 +648,14 @@ def hasDigits( value, digits ):
 
 # //******************************************************************************
 # //
-# //  isMorphic
+# //  isKMorphic
 # //
 # //  This code won't work correctly for integral powers of 10, but they can
 # //  never be morphic anyway, except for 1, which I handle specially.
 # //
 # //******************************************************************************
 
-def isMorphic( n, k ):
+def isKMorphic( n, k ):
     '''
     Returns true if n to the k power ends with n.
     '''

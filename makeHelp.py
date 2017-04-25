@@ -6174,7 +6174,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ 'is_morphic', 'is_trimorphic' ] ],
+[ 'is_k_morphic', 'is_trimorphic' ] ],
 
     'is_generalized_dudeney' : [
 'lexicography', 'returns whether an integer n is a generalized Dudeney number',
@@ -6200,6 +6200,14 @@ on the digits that comprise an integer.
 ''',
 [ ] ],
 
+    'is_k_morphic' : [
+'lexicography', 'returns whether the digits of n to the k power end with n',
+'''
+''',
+'''
+''',
+[ 'is_automorphic', 'is_trimorphic' ] ],
+
     'is_k_narcissistic' : [
 'lexicography', 'returns whether an integer n is base-k narcissistic',
 '''
@@ -6207,14 +6215,6 @@ on the digits that comprise an integer.
 '''
 ''',
 [ ] ],
-
-    'is_morphic' : [
-'lexicography', 'returns whether the digits of n to the k power end with n',
-'''
-''',
-'''
-''',
-[ 'is_automorphic', 'is_trimorphic' ] ],
 
     'is_narcissistic' : [
 'lexicography', 'returns whether an integer n is narcissistic',
@@ -6280,7 +6280,7 @@ A pandigital number contains at least one of all the of the digits 0 through
 '''
 ''' + makeCommandExample( '9999 is_trimorphic' ) + '''
 ''' + makeCommandExample( '1 50 range is_trimorphic' ),
-[ ] ],
+[ 'is_automorphic', 'is_trimorphic' ] ],
 
     'multiply_digits' : [
 'lexicography', 'calculates the product of the digits of integer n',

@@ -117,7 +117,7 @@ def duplicateOperation( valueList ):
 
     duplicateOperations = nint( floor( valueList.pop( ) ) )
 
-    print( 'end of list', valueList[ -1 ] )
+    #print( 'end of list', valueList[ -1 ] )
 
     # operatorInfo = operators[ term ]
     # argsNeeded = operatorInfo.argCount
