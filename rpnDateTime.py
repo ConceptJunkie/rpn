@@ -59,6 +59,21 @@ December = 12
 
 # //******************************************************************************
 # //
+# //  getLocalTimeZone
+# //
+# //******************************************************************************
+
+def getLocalTimeZone( ):
+    if 'time_zone' in g.userConfig:
+        return pytz( g.userConfig[ 'time_zone' ] )
+    elif tz.tzlocal( ) is None:
+        return pytz.timezone( 'US/Eastern' )
+    else:
+        return tz.tzlocal( )
+
+
+# //******************************************************************************
+# //
 # //  class RPNDateTime
 # //
 # //******************************************************************************
@@ -67,7 +82,7 @@ class RPNDateTime( arrow.Arrow ):
     '''This class wraps the Arrow class, with lots of convenience functions and
     implements support for date math.'''
     def __init__( self, year, month, day, hour = 0, minute = 0, second = 0,
-                  microsecond = 0, tzinfo = tz.tzlocal( ), dateOnly = False ):
+                  microsecond = 0, tzinfo = getLocalTimeZone( ), dateOnly = False ):
         self.dateOnly = dateOnly
         super( RPNDateTime, self ).__init__( int( year ), int( month ), int( day ),
                                              int( hour ), int( minute ), int( second ),
@@ -87,7 +102,7 @@ class RPNDateTime( arrow.Arrow ):
                             result.minute, result.second, result.microsecond, result.tzinfo )
 
     @staticmethod
-    def getUTCOffset( tz = tzlocal.get_localzone( ) ):
+    def getUTCOffset( tz = getLocalTimeZone( ) ):
         d = datetime.datetime.now( tz )
         return RPNMeasurement( d.utcoffset( ).total_seconds( ), 'seconds' )
 
@@ -362,7 +377,7 @@ def makeDateTime( n ):
 # //******************************************************************************
 
 def getNow( ):
-    return RPNDateTime.now( tzinfo = tz.tzlocal( ) )
+    return RPNDateTime.now( tzinfo = getLocalTimeZone( ) )
 
 
 # //******************************************************************************
@@ -828,4 +843,5 @@ def getSecond( n ):
 
 def isDST( t, tz ):
     return t.astimezone( tz ).dst( ) != datetime.timedelta( 0 )
+
 
