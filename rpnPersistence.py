@@ -18,6 +18,7 @@ if not six.PY3:
     FileNotFoundError = IOError
 
 import bz2
+import configparser
 import contextlib
 import functools
 import os
@@ -420,4 +421,54 @@ class PersistentDict( MutableMapping ):
             )
 
             return cursor.fetchone( )[ 0 ]
+
+
+# //******************************************************************************
+# //
+# //  getConfigFileName
+# //
+# //******************************************************************************
+
+def getConfigFileName( ):
+    return g.dataPath + os.sep + 'rpn.cfg'
+
+
+# //******************************************************************************
+# //
+# //  saveConfigFile
+# //
+# //******************************************************************************
+
+def saveConfigFile( ):
+    config = configparser.RawConfigParser( )
+
+    config.add_section( 'User Config' )
+
+    for key, value in g.userConfig:
+        config.set( 'User Config', key, value )
+
+    import os.path
+
+    if os.path.isfile( getConfigFileName( ) ):
+        from shutil import copyfile
+        copyfile( getConfigFileName( ), getConfigFileName( ) + '.backup' )
+
+    with open( getConfigFileName( ), 'wb' ) as configfile:
+        config.write( configfile )
+
+
+# //******************************************************************************
+# //
+# //  loadConfigFile
+# //
+# //******************************************************************************
+
+def loadConfigFile( ):
+    config = configparser.RawConfigParser()
+    config.read( getConfigFileName( ) )
+
+    items = ConfigParser.items( 'User Config' )
+
+    for tuple in items:
+        g.userConfig[ tuple[ 0 ] ] = tuple[ 1 ]
 

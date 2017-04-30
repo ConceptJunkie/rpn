@@ -135,3 +135,6 @@ cursors = { }
 elements = None
 atomic_numbers = None
 
+# config
+userConfig = { }
+
