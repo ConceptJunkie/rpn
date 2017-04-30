@@ -116,6 +116,8 @@ def makeAliases( ):
             if pluralUnit != unit:
                 newAliases[ pluralUnit ] = unit             # add plural alias
 
+            newAliases[ prefix[ 1 ] + dataUnit[ 0 ] ] = unit   # add SI abbreviation alias
+            newAliases[ prefix[ 1 ] + dataUnit[ 1 ] ] = unit   # add SI abbreviation alias
             newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit   # add SI abbreviation alias
 
             for alternateUnit in dataUnit[ 3 ]:             # add alternate spelling alias
@@ -131,6 +133,8 @@ def makeAliases( ):
             if pluralUnit != unit:
                 newAliases[ pluralUnit ] = unit                # add plural alias
 
+            newAliases[ prefix[ 1 ] + dataUnit[ 0 ] ] = unit   # add SI abbreviation alias
+            newAliases[ prefix[ 1 ] + dataUnit[ 1 ] ] = unit   # add SI abbreviation alias
             newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit   # add SI abbreviation alias
 
             for alternateUnit in dataUnit[ 3 ]:                # add alternate spelling alias

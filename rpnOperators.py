@@ -852,8 +852,8 @@ def checkForVariable( term ):
     if not term or term[ 0 ] != '$':
         return term
 
-    if not g.interactive and term[ 1 : ] in g.userConfig:
-        return g.userConfig[ term[ 1 : ] ]
+    if not g.interactive and term[ 1 : ] in g.userData:
+        return g.userData[ term[ 1 : ] ]
 
     return RPNVariable( term[ 1 : ] )
 
@@ -1532,26 +1532,26 @@ def printHelpTopic( n ):
 
 # //******************************************************************************
 # //
-# //  getUserConfig
+# //  getUserData
 # //
 # //******************************************************************************
 
-def getUserConfig( key ):
-    if key in g.userConfig:
-        return g.userConfig[ key ]
+def getUserData( key ):
+    if key in g.userData:
+        return g.userData[ key ]
     else:
         return ""
 
 
 # //******************************************************************************
 # //
-# //  setUserConfig
+# //  setUserData
 # //
 # //******************************************************************************
 
-def setUserConfig( key, value ):
-    g.userConfig[ key ] = value
-    g.userConfigIsDirty = True
+def setUserData( key, value ):
+    g.userData[ key ] = value
+    g.userDataIsDirty = True
 
     return value
 
@@ -3690,7 +3690,7 @@ operators = {
     'help'                           : RPNOperator( printHelpMessage,
                                                     0, [ ] ),
 
-    'get_config'                     : RPNOperator( getUserConfig,
+    'get_data'                       : RPNOperator( getUserData,
                                                     1, [ RPNOperator.String ] ),
 
     'name'                           : RPNOperator( getNumberName,
@@ -3726,7 +3726,7 @@ operators = {
     'set'                            : RPNOperator( setVariable,
                                                     2, [ RPNOperator.Default, RPNOperator.String ] ),
 
-    'set_config'                     : RPNOperator( setUserConfig,
+    'set_data'                       : RPNOperator( setUserData,
                                                     2, [ RPNOperator.String, RPNOperator.String ] ),
 
     'topic'                          : RPNOperator( printHelpTopic,

@@ -631,8 +631,8 @@ if __name__ == '__main__':
 
         handleOutput( rpn( sys.argv[ 1 : ] ) )
 
-        if g.userConfigIsDirty:
-            saveConfigFile( )
+        if g.userDataIsDirty:
+            saveUserDataFile( )
     except ValueError as error:
         print( '\nrpn:  value error:  {0}'.format( error ) )
 

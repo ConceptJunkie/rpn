@@ -9788,6 +9788,14 @@ magnitude of the measurement.
 ''' + makeCommandExample( '4 million gallons estimate' ),
 [ 'convert' ] ],
 
+    'get_data' : [
+'special', 'retrieves the value for n in the user config data file',
+'''
+''',
+'''
+''',
+[ 'topic' ] ],
+
     'help' : [
 'special', 'displays help text',
 '''
@@ -10066,6 +10074,14 @@ set, of course, but since rpn immediately exits, nothing useful can happen.
 '''
 ''',
 [ ] ],
+
+    'set_data' : [
+'special', 'set the value k for key n in the user config file',
+'''
+''',
+'''
+''',
+[ 'topic' ] ],
 
     'topic' : [
 'special', 'prints a help topic in interactive mode',

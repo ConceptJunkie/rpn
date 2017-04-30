@@ -137,6 +137,6 @@ elements = None
 atomic_numbers = None
 
 # config
-userConfig = { }
-userConfigIsDirty = False
+userData = { }
+userDataIsDirty = False
 

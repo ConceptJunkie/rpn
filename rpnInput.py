@@ -71,8 +71,8 @@ def parseInputValue( term, inputRadix ):
     if isinstance( term, mpf ):
         return term
 
-    if term[ 0 ] == '$' and not g.interactive and term[ 1 : ] in g.userConfig:
-        term = g.userConfig[ term[ 1 : ] ]
+    if term[ 0 ] == '$' and not g.interactive and term[ 1 : ] in g.userData:
+        term = g.userData[ term[ 1 : ] ]
 
     innerChars = term[ 1 : -1 ]
 

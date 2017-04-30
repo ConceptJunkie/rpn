@@ -442,10 +442,10 @@ def getConfigFileName( ):
 def saveConfigFile( ):
     config = configparser.ConfigParser( )
 
-    config[ 'User Config' ] = { }
+    config[ 'User Data' ] = { }
 
-    for key in g.userConfig.keys( ):
-        config[ 'User Config' ][ key ] = g.userConfig[ key ]
+    for key in g.userData.keys( ):
+        config[ 'User Data' ][ key ] = g.userData[ key ]
 
     import os.path
 
@@ -468,10 +468,10 @@ def loadConfigFile( ):
     config.read( getConfigFileName( ) )
 
     try:
-        items = config.items( 'User Config' )
+        items = config.items( 'User Data' )
     except:
         return
 
     for tuple in items:
-        g.userConfig[ tuple[ 0 ] ] = tuple[ 1 ]
+        g.userData[ tuple[ 0 ] ] = tuple[ 1 ]
 

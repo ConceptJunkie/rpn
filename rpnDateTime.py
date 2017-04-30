@@ -64,8 +64,8 @@ December = 12
 # //******************************************************************************
 
 def getLocalTimeZone( ):
-    if 'time_zone' in g.userConfig:
-        return pytz( g.userConfig[ 'time_zone' ] )
+    if 'time_zone' in g.userData:
+        return pytz( g.userData[ 'time_zone' ] )
     elif tz.tzlocal( ) is None:
         return pytz.timezone( 'US/Eastern' )
     else:
