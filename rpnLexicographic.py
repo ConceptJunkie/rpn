@@ -16,7 +16,7 @@ import itertools
 import string
 
 from mpmath import arange, fadd, ceil, fdiv, floor, fmod, fmul, fprod, \
-                   fsub, fsum, log10, mpmathify, nint, power
+                   fsub, fsum, log10, mpf, mpmathify, nint, power
 
 from rpnBase import convertToBaseN
 from rpnGenerator import RPNGenerator
@@ -223,6 +223,44 @@ def isPandigital( n ):
 
     for c in string.digits:
         if c not in str:
+            return 0
+
+    return 1
+
+
+# //******************************************************************************
+# //
+# //  containsDigits
+# //
+# //******************************************************************************
+
+def containsDigits( n, k ):
+    str = getMPFIntegerAsString( n )
+
+    if isinstance( k, mpf ):
+        k = getMPFIntegerAsString( k )
+
+    for c in k:
+        if c not in str:
+            return 0
+
+    return 1
+
+
+# //******************************************************************************
+# //
+# //  containsOnlyDigits
+# //
+# //******************************************************************************
+
+def containsOnlyDigits( n, k ):
+    str = getMPFIntegerAsString( n )
+
+    if isinstance( k, mpf ):
+        k = getMPFIntegerAsString( k )
+
+    for c in str:
+        if c not in k:
             return 0
 
     return 1

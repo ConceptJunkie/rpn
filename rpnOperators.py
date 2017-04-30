@@ -2761,6 +2761,12 @@ operators = {
     'get_right_truncations'          : RPNOperator( lambda n: RPNGenerator.createGenerator( getRightTruncations, n ),
                                                     1, [ RPNOperator.Integer ] ),
 
+    'has_digits'                     : RPNOperator( containsDigits,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'has_only_digits'                : RPNOperator( containsOnlyDigits,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
     'is_automorphic'                 : RPNOperator( lambda n: isKMorphic( n, 2 ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 

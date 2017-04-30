@@ -6122,7 +6122,7 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 ''',
 '''
 ''',
-[ ] ],
+[ 'add_digits', 'combine_digits' ] ],
 
     'erdos_persistence' : [
 'lexicography', 'counts the Erdos version of multiplicative persistence for n',
@@ -6150,7 +6150,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ ] ],
+[ 'has_digits' ] ],
 
     'get_left_truncations' : [
 'lexicography', 'returns the blah blah blah',
@@ -6158,7 +6158,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ ] ],
+[ 'get_right_truncations' ] ],
 
     'get_right_truncations' : [
 'lexicography', 'returns the blah blah blah',
@@ -6166,7 +6166,23 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ ] ],
+[ 'get_left_truncations' ] ],
+
+    'has_digits' : [
+'lexicography', 'returns whether n contains all of the digits in k',
+'''
+''',
+'''
+''',
+[ 'get_digits', 'has_only_digits' ] ],
+
+    'has_only_digits' : [
+'lexicography', 'returns whether n contains all of the digits in k and no others',
+'''
+''',
+'''
+''',
+[ 'get_digits', 'has_digits' ] ],
 
     'is_automorphic' : [
 'lexicography', 'returns whether the digits of n squared end with n',
