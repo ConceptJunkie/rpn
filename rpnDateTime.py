@@ -106,7 +106,7 @@ class RPNDateTime( arrow.Arrow ):
         d = datetime.datetime.now( tz )
         return RPNMeasurement( d.utcoffset( ).total_seconds( ), 'seconds' )
 
-    def getLocalTime( self, tz = tzlocal.get_localzone( ) ):
+    def getLocalTime( self, tz = getLocalTimeZone( ) ):
         result = self
         result = result.add( self.getUTCOffset( tz ) )
         return result.add( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
@@ -843,5 +843,4 @@ def getSecond( n ):
 
 def isDST( t, tz ):
     return t.astimezone( tz ).dst( ) != datetime.timedelta( 0 )
-
 

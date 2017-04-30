@@ -440,12 +440,12 @@ def getConfigFileName( ):
 # //******************************************************************************
 
 def saveConfigFile( ):
-    config = configparser.RawConfigParser( )
+    config = configparser.ConfigParser( )
 
-    config.add_section( 'User Config' )
+    config[ 'User Config' ] = { }
 
-    for key, value in g.userConfig:
-        config.set( 'User Config', key, value )
+    for key in g.userConfig.keys( ):
+        config[ 'User Config' ][ key ] = g.userConfig[ key ]
 
     import os.path
 
@@ -453,7 +453,7 @@ def saveConfigFile( ):
         from shutil import copyfile
         copyfile( getConfigFileName( ), getConfigFileName( ) + '.backup' )
 
-    with open( getConfigFileName( ), 'wb' ) as configfile:
+    with open( getConfigFileName( ), 'w' ) as configfile:
         config.write( configfile )
 
 
@@ -464,10 +464,13 @@ def saveConfigFile( ):
 # //******************************************************************************
 
 def loadConfigFile( ):
-    config = configparser.RawConfigParser()
+    config = configparser.ConfigParser( )
     config.read( getConfigFileName( ) )
 
-    items = ConfigParser.items( 'User Config' )
+    try:
+        items = config.items( 'User Config' )
+    except:
+        return
 
     for tuple in items:
         g.userConfig[ tuple[ 0 ] ] = tuple[ 1 ]

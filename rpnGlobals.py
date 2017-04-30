@@ -137,4 +137,5 @@ atomic_numbers = None
 
 # config
 userConfig = { }
+userConfigIsDirty = False
 

@@ -1529,6 +1529,32 @@ def printHelpTopic( n ):
 
 # //******************************************************************************
 # //
+# //  getUserConfig
+# //
+# //******************************************************************************
+
+def getUserConfig( key ):
+    if key in g.userConfig:
+        return g.userConfig[ key ]
+    else:
+        return ""
+
+
+# //******************************************************************************
+# //
+# //  setUserConfig
+# //
+# //******************************************************************************
+
+def setUserConfig( key, value ):
+    g.userConfig[ key ] = value
+    g.userConfigIsDirty = True
+
+    return value
+
+
+# //******************************************************************************
+# //
 # //  functionOperators
 # //
 # //  This is a list of operators that terminate the function creation state.
@@ -3661,6 +3687,9 @@ operators = {
     'help'                           : RPNOperator( printHelpMessage,
                                                     0, [ ] ),
 
+    'get_config'                     : RPNOperator( getUserConfig,
+                                                    1, [ RPNOperator.String ] ),
+
     'name'                           : RPNOperator( getNumberName,
                                                     1, [ RPNOperator.Integer ] ),
 
@@ -3693,6 +3722,9 @@ operators = {
 
     'set'                            : RPNOperator( setVariable,
                                                     2, [ RPNOperator.Default, RPNOperator.String ] ),
+
+    'set_config'                     : RPNOperator( setUserConfig,
+                                                    2, [ RPNOperator.String, RPNOperator.String ] ),
 
     'topic'                          : RPNOperator( printHelpTopic,
                                                     1, [ RPNOperator.String ] ),

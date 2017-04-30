@@ -44,6 +44,8 @@ from rpnOperators import checkForVariable, constants, evaluateTerm, functionOper
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                       printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
 
+from rpnPersistence import loadConfigFile, saveConfigFile
+
 from rpnUtils import debugPrint, getCurrentArgList, getDataPath, \
                      handleIdentify, parseNumerals, validateArguments, \
                      validateOptions
@@ -419,6 +421,8 @@ def rpn( cmd_args ):
     options = [ ]
     terms = [ ]
 
+    loadConfigFile( )
+
     for i, arg in enumerate( cmd_args ):
         if ( len( arg ) > 1 ) and ( arg[ 0 ] == '-' ):
             if arg[ 1 ].isdigit( ):     # a negative number, not an option
@@ -625,6 +629,9 @@ if __name__ == '__main__':
                 profile.run( 'handleOutput( rpn( sys.argv[ 1 : ] ) )' )
 
         handleOutput( rpn( sys.argv[ 1 : ] ) )
+
+        if g.userConfigIsDirty:
+            saveConfigFile( )
     except ValueError as error:
         print( '\nrpn:  value error:  {0}'.format( error ) )
 
