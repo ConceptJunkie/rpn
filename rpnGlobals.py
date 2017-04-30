@@ -56,6 +56,7 @@ defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 creatingFunction = False
 echoArguments = [ ]
 helpLoaded = False
+interactive = False
 nestedListLevel = 0
 duplicateOperations = 0
 startTime = 0

@@ -852,6 +852,9 @@ def checkForVariable( term ):
     if not term or term[ 0 ] != '$':
         return term
 
+    if not g.interactive and term[ 1 : ] in g.userConfig:
+        return g.userConfig[ term[ 1 : ] ]
+
     return RPNVariable( term[ 1 : ] )
 
 

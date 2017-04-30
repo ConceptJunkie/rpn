@@ -71,6 +71,9 @@ def parseInputValue( term, inputRadix ):
     if isinstance( term, mpf ):
         return term
 
+    if term[ 0 ] == '$' and not g.interactive and term[ 1 : ] in g.userConfig:
+        term = g.userConfig[ term[ 1 : ] ]
+
     innerChars = term[ 1 : -1 ]
 
     # this helps us parse dates

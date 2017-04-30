@@ -243,6 +243,7 @@ def enterInteractiveMode( ):
     printTitleScreen( g.PROGRAM_NAME, g.PROGRAM_DESCRIPTION )
 
     g.results.append( None )   # g.results[ 0 ]
+    g.interactive = True
 
     while True:
         g.promptCount += 1
