@@ -503,8 +503,9 @@ and lots of other cool features thanks to the wealth of Python libraries.
     ''',
     'bugs' :
     '''
-The pyecm code used for factoring numbers crashes occasionally.  This is almost
-certainly due to my modifications.  Increasing the precision sometimes helps.
+It is not currently possible to convert between hertz and 1/second.  The
+dimensional analysis fails.  This is the only instance where two different
+unit types are so related (i.e., one is the reciprocal of the other).
 
 '{' and '}' (multiple operators) don't work with generators because the
 generator only works once.
@@ -538,7 +539,8 @@ operators that take more than 2 arguments don't handle recursive list
 arguments.
 
 'rpn 1 10 range lambda x twin_primes_ 1/x sum eval' crashes, trying to create an
-mpf fron None.
+mpf fron None.   I think it's because the lambda functionality can't handle any
+operator that returns a list.
 
 Complex numbers don't obey the accuracy level on output (-a).
 

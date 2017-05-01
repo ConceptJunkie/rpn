@@ -109,7 +109,6 @@ class RPNUnits( collections.Counter ):
         for unit in self:
             # if unit not in g.unitOperators:
             #     raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
-
             dimensions = RPNUnits( g.basicUnitTypes[ g.unitOperators[ unit ].unitType ].dimensions )
 
             exponent = self.get( unit )
@@ -126,6 +125,8 @@ class RPNUnits( collections.Counter ):
 
         for unit in old_result:
             if result[ unit ] == 0:
+                del result[ unit ]
+            elif unit == '1':
                 del result[ unit ]
 
         return result

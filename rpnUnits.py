@@ -1490,15 +1490,27 @@ This is the definition of the SI derived unit Newton (N).
                      ''' ),
 
     # frequency
-    'hertz' :
-        RPNUnitInfo( 'frequency', 'hertz', 'hertz', 'Hz',
-                     [ ], [ 'SI' ],
+    '1/second' :
+        RPNUnitInfo( 'frequency', '1/second', '1/second', '',
+                     [ ], [ 'traditional' ],
                      '''
                      ''' ),
 
     'every_minute' :
         RPNUnitInfo( 'frequency', 'x_every_minute', 'x_every_minute', '',
                      [ ], [ 'traditional' ],
+                     '''
+                     ''' ),
+
+    'every_second' :
+        RPNUnitInfo( 'frequency', 'x_every_second', 'x_every_second', '',
+                     [ '' ], [ 'traditional' ],
+                     '''
+                     ''' ),
+
+    'hertz' :
+        RPNUnitInfo( 'frequency', 'hertz', 'hertz', 'Hz',
+                     [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -3861,6 +3873,7 @@ unitConversionMatrix = {
     ( 'arshin',                     'pyad' )                                : mpmathify( '4' ),
     ( 'astronomical_unit',          'meter' )                               : mpmathify( '149597870691' ),
     ( 'atmosphere',                 'pascal' )                              : mpmathify( '101325' ),
+    ( 'bakers_dozen',               'unity' )                               : mpmathify( '13' ),
     ( 'balthazar',                  'liter' )                               : mpmathify( '12.0' ),
     ( 'ban',                        'nat' )                                 : log( 10 ),
     ( 'banana_equivalent_dose',     'sievert' )                             : mpmathify( '9.8e-8' ),
@@ -3930,7 +3943,6 @@ unitConversionMatrix = {
     ( 'diuym',                      'liniya' )                              : mpmathify( '10' ),
     ( 'doppelzentner',              'zentner' )                             : mpmathify( '2' ),
     ( 'dozen',                      'unity' )                               : mpmathify( '12' ),
-    ( 'bakers_dozen',               'unity' )                               : mpmathify( '13' ),
     ( 'dram',                       'scruple' )                             : mpmathify( '3' ),
     ( 'dry_barrel',                 'bushel' )                              : mpmathify( '4' ),
     ( 'dry_barrel',                 'cubic_inch' )                          : mpmathify( '7056' ),
@@ -3945,6 +3957,8 @@ unitConversionMatrix = {
     ( 'ell',                        'inch' )                                : mpmathify( '45' ),
     ( 'eon',                        'year' )                                : mpmathify( '1e9' ),
     ( 'every_minute',               'hourly' )                              : mpmathify( '60' ),
+    ( 'every_second',               '1/second' )                            : mpmathify( '1' ),
+    ( 'every_second',               'every_minute' )                        : mpmathify( '60' ),
     ( 'famn',                       'aln' )                                 : mpmathify( '3' ),
     ( 'farad',                      'jar' )                                 : mpmathify( '9.0e8' ),
     ( 'farad',                      'statfarad' )                           : mpmathify( '898755178736.5' ),
@@ -3987,7 +4001,7 @@ unitConversionMatrix = {
     ( 'henry',                      'abhenry' )                             : mpmathify( '1.0e9' ),
     ( 'henry',                      'weber/ampere' )                        : mpmathify( '1' ),
     ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
-    ( 'hertz',                      'every_minute' )                        : mpmathify( '60' ),
+    ( 'hertz',                      '1/second' )                            : mpmathify( '1' ),
     ( 'homestead',                  'acre' )                                : mpmathify( '160' ),
     ( 'hoppus_ton',                 'cubic_meter' )                         : mpmathify( '1.8027' ),
     ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),

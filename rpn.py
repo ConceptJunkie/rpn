@@ -44,7 +44,7 @@ from rpnOperators import checkForVariable, constants, evaluateTerm, functionOper
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                       printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
 
-from rpnPersistence import loadConfigFile, saveConfigFile
+from rpnPersistence import loadUserDataFile, saveUserDataFile
 
 from rpnUtils import debugPrint, getCurrentArgList, getDataPath, \
                      handleIdentify, parseNumerals, validateArguments, \
@@ -422,7 +422,7 @@ def rpn( cmd_args ):
     options = [ ]
     terms = [ ]
 
-    loadConfigFile( )
+    loadUserDataFile( )
 
     for i, arg in enumerate( cmd_args ):
         if ( len( arg ) > 1 ) and ( arg[ 0 ] == '-' ):

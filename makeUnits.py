@@ -410,6 +410,7 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
         if unit[ -7 : ] == '-second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_' and \
            not any( ( c in [ '*^/' ] ) for c in unit ):
             unitRoot = unit[ : -7 ]
+
             unitInfo = unitOperators[ unit ]
 
             # if we end up with a real unit, then start expanding it with different times
@@ -451,6 +452,10 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
     for unit in unitOperators:
         if unit[ -7 : ] == '/second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_':
             unitRoot = unit[ : -7 ]
+
+            # we don't want to do anything with the unit '1/second'
+            if unitRoot == '1':
+                continue
 
             unitInfo = unitOperators[ unit ]
             rootUnitInfo = unitOperators[ unitRoot ]

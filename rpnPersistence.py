@@ -425,21 +425,21 @@ class PersistentDict( MutableMapping ):
 
 # //******************************************************************************
 # //
-# //  getConfigFileName
+# //  getUserDataFileName
 # //
 # //******************************************************************************
 
-def getConfigFileName( ):
+def getUserDataFileName( ):
     return g.dataPath + os.sep + 'rpn.cfg'
 
 
 # //******************************************************************************
 # //
-# //  saveConfigFile
+# //  saveUserDataFile
 # //
 # //******************************************************************************
 
-def saveConfigFile( ):
+def saveUserDataFile( ):
     config = configparser.ConfigParser( )
 
     config[ 'User Data' ] = { }
@@ -449,23 +449,23 @@ def saveConfigFile( ):
 
     import os.path
 
-    if os.path.isfile( getConfigFileName( ) ):
+    if os.path.isfile( getUserDataFileName( ) ):
         from shutil import copyfile
-        copyfile( getConfigFileName( ), getConfigFileName( ) + '.backup' )
+        copyfile( getUserDataFileName( ), getUserDataFileName( ) + '.backup' )
 
-    with open( getConfigFileName( ), 'w' ) as configfile:
-        config.write( configfile )
+    with open( getUserDataFileName( ), 'w' ) as userDataFile:
+        config.write( userDataFile )
 
 
 # //******************************************************************************
 # //
-# //  loadConfigFile
+# //  loadUserDataFile
 # //
 # //******************************************************************************
 
-def loadConfigFile( ):
+def loadUserDataFile( ):
     config = configparser.ConfigParser( )
-    config.read( getConfigFileName( ) )
+    config.read( getUserDataFileName( ) )
 
     try:
         items = config.items( 'User Data' )
