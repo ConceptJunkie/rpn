@@ -16,8 +16,8 @@ import collections
 import itertools
 import random
 
-from mpmath import arange, fadd, fdiv, fneg, fprod, fsub, fsum, inf, power, \
-                   root, sqrt
+from mpmath import arange, fadd, fdiv, fmul, fneg, fprod, fsub, fsum, inf, \
+                   power, root, sqrt
 
 from rpnGenerator import RPNGenerator
 from rpnMath import add, subtract, divide
@@ -240,8 +240,12 @@ def enumerateList( args, k ):
 # //******************************************************************************
 
 def getSlice( args, start, end ):
-    for i in range( int( start ), int( end + 1 ) ):
-        yield args[ i ]
+    if end == 0:
+        for i in args[ int( start ) : ]:
+            yield i
+    else:
+        for i in args[ int( start ) : int( end ) ]:
+            yield i
 
 
 # //******************************************************************************
@@ -607,6 +611,29 @@ def calculateGeometricMean( args ):
             return [ calculateGeometricMean( list( arg ) ) for arg in args ]
         else:
             return root( fprod( args ), len( args ) )
+    else:
+        return args
+
+
+# //******************************************************************************
+# //
+# //  calculateHarmonicMean
+# //
+# //******************************************************************************
+
+def calculateHarmonicMean( args ):
+    if isinstance( args, RPNGenerator ):
+        return calculateHarmonicMean( list( args ) )
+    elif isinstance( args, list ):
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+            return [ calculateHarmonicMean( list( arg ) ) for arg in args ]
+        else:
+            sum = 0
+
+            for arg in args:
+                sum = fadd( sum, fdiv( 1, arg ) )
+
+            return fdiv( len( args ), sum )
     else:
         return args
 

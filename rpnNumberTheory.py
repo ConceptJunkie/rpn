@@ -1047,6 +1047,7 @@ def getPowMod( a, b, c ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'deficient' )
 def isDeficient( n ):
     if real( n ) < 2:
         return 0
@@ -1060,6 +1061,7 @@ def isDeficient( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'abundant' )
 def isAbundant( n ):
     if real( n ) < 2:
         return 0
@@ -1073,6 +1075,7 @@ def isAbundant( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'perfect' )
 def isPerfect( n ):
     if n < 2:
         return 0
@@ -1086,6 +1089,7 @@ def isPerfect( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'smooth' )
 def isSmooth( n, k ):
     if real( n ) < real( k ):
         return 0
@@ -1101,6 +1105,7 @@ def isSmooth( n, k ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'rough' )
 def isRough( n, k ):
     if real( n ) < real( k ):
         return 0
@@ -1114,6 +1119,7 @@ def isRough( n, k ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'k_semiprime' )
 def isKSemiPrime( n, k ):
     return 1 if sum( [ i[ 1 ] for i in getFactorList( n ) ] ) == k else 0
 
@@ -1124,6 +1130,7 @@ def isKSemiPrime( n, k ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'sphenic' )
 def isSphenic( n ):
     factorList = getFactorList( n )
 
@@ -1139,6 +1146,7 @@ def isSphenic( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'k_sphenic' )
 def isKSphenic( n, k ):
     factorList = getFactorList( n )
 
@@ -1154,6 +1162,7 @@ def isKSphenic( n, k ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'squarefree' )
 def isSquareFree( n ):
     if real_int( n ) == 0:
         return 0
@@ -1177,6 +1186,7 @@ def isPowerful( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'achilles' )
 def isAchillesNumber( n ):
     factorList = getFactorList( n )
 
@@ -1194,6 +1204,7 @@ def isAchillesNumber( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'unusual' )
 def isUnusual( n ):
     if real_int( n ) < 2:
         return 0
@@ -1221,6 +1232,7 @@ def isPronic( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'polydivisible' )
 def isPolydivisible( n ):
     if real_int( n ) < 0:
         raise ValueError( 'non-negative, real integer expected' )
@@ -1332,6 +1344,7 @@ def generatePolydivisibles( _base ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'stern' )
 def getNthStern( n ):
     '''Returns the nth number of Stern's diatomic series recursively.'''
     if real_int( n ) < 0:
@@ -1368,6 +1381,7 @@ def getNthCalkinWilf( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'friendly' )
 def isFriendly( n ):
     first = True
 
@@ -1389,6 +1403,7 @@ def isFriendly( n ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'k_hyperperfect' )
 def isKHyperperfect( n, k ):
     return 1 if fadd( fmul( k, fsub( getSigma( n ), fadd( n, 1 ) ) ), 1 ) == n else 0
 

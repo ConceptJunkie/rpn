@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 931
+maxExampleCount = 961
 debugMode = False
 
 
@@ -1670,7 +1670,19 @@ values.
 ''' + makeCommandExample( '[ 1 10 range ] geometric_mean' ) + '''
 Calculate the geometric mean of the first n numbers from 1 to 5:
 ''' + makeCommandExample( '[ 1 1 5 range range ] geometric_mean' ),
-[ 'mean', 'agm' ] ],
+[ 'mean', 'agm', 'harmonic_mean' ] ],
+
+    'harmonic_mean' : [
+'arithmetic', 'calculates the geometric mean of a a list of numbers n',
+'''
+The harmonic mean is calculated by taking ...
+''',
+'''
+''' + makeCommandExample( '[ 1 2 4 ] harmonic_mean' ) + '''
+''' + makeCommandExample( '[ 1 10 range ] harmonic_mean' ) + '''
+Calculate the harmonic mean of the first n numbers from 1 to 5:
+''' + makeCommandExample( '[ 1 1 5 range range ] harmonic_mean' ),
+[ 'mean', 'agm', 'geometric_mean' ] ],
 
     'increment' : [
 'arithmetic', 'returns n + 1',
@@ -1857,7 +1869,7 @@ all items divided by the number of items.
 '''
 ''' + makeCommandExample( '1 10 range mean' ) + '''
 ''' + makeCommandExample( '1 1000 range sum_digits mean' ),
-[ 'stddev', 'agm', 'geometric_mean' ] ],
+[ 'stddev', 'agm', 'geometric_mean', 'harmonic_mean' ] ],
 
     'min' : [
 'arithmetic', 'returns the smallest value in list n',
@@ -2524,7 +2536,7 @@ a is an astronomical object, b is a location and c is a date-time value
 # //
 # //******************************************************************************
 
-    'and' : [
+    'bitwise_and' : [
 'bitwise', 'calculates the bitwise \'and\' of n and k',
 '''
 'and' is the logical operation which returns true if and only if the two
@@ -2541,17 +2553,9 @@ is the numerical representation of the string of 'and'ed bits.
 '''
 ''' + makeCommandExample( '-x 0xF0F0F0F0 0x12345678 and' ) + '''
 ''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] and' ),
-[ 'or', 'not', 'nor', 'nand', 'xor' ] ],
+[ 'bitwise_or', 'bitwise_not', 'bitwise_nor', 'bitwise_nand', 'bitwise_xor' ] ],
 
-    'count_bits' : [
-'bitwise', 'returns the number of set bits in the value of n',
-'''
-''',
-'''
-''',
-[ 'parity' ] ],
-
-    'nand' : [
+    'bitwise_nand' : [
 'bitwise', 'calculates the bitwise \'nand\' of n and k',
 '''
 'nand' is the logical operation, 'not and' which returns true if zero or one
@@ -2568,9 +2572,9 @@ is the numerical representation of the string of 'and'ed bits.
 '''
 ''' + makeCommandExample( '-x 0x01234567 0xffff0000 nand' ) + '''
 ''' + makeCommandExample( '-x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nand' ),
-[ 'and', 'or', 'not', 'nor', 'xor' ] ],
+[ 'bitwise_and', 'bitwise_or', 'bitwise_not', 'bitwise_nor', 'bitwise_xor' ] ],
 
-    'nor' : [
+    'bitwise_nor' : [
 'bitwise', 'calculates the bitwise \'nor\' of n and k',
 '''
 'nor' is the logical operation 'not or', which returns true if and only if
@@ -2587,9 +2591,9 @@ is the numerical representation of the string of 'nor'ed bits.
 '''
 ''' + makeCommandExample( '-x 0x01234567 0x0000ffff nor' ) + '''
 ''' + makeCommandExample( '-x [ 0x0000 0x0000 0xffff 0xffff ] [ 0x0000 0xffff 0x0000 0xffff ] nor' ),
-[ 'or', 'and', 'not', 'nand', 'xor' ] ],
+[ 'bitwise_or', 'bitwise_and', 'bitwise_not', 'bitwise_nand', 'bitwise_xor' ] ],
 
-    'not' : [
+    'bitwise_not' : [
 'bitwise', 'calculates the bitwise negation of n',
 '''
 'not' is the logical operation, which returns the opposite of the operand.
@@ -2605,9 +2609,9 @@ representation of the string of 'not'ed bits.
 '''
 ''' + makeCommandExample( '-x 0xF0F0F0F0 not' ) + '''
 ''' + makeCommandExample( '-x [ 0 1 ] not' ),
-[ 'and', 'or', 'nor', 'nand', 'xor' ] ],
+[ 'bitwise_and', 'bitwise_or', 'bitwise_nor', 'bitwise_nand', 'bitwise_xor' ] ],
 
-    'or' : [
+    'bitwise_or' : [
 'bitwise', 'calculates the bitwise \'or\' of n and k',
 '''
 'or' is the logical operation which returns true if at least one of the two
@@ -2624,7 +2628,34 @@ is the numerical representation of the string of 'or'ed bits.
 '''
 ''' + makeCommandExample( '-x 0xf0f0f0f0 0x0f0f0f0f or' ) + '''
 ''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] or' ),
-[ 'and', 'not', 'nand', 'nor', 'xor' ] ],
+[ 'bitwise_and', 'bitwise_not', 'bitwise_nand', 'bitwise_nor', 'bitwise_xor' ] ],
+
+    'bitwise_xor' : [
+'bitwise', 'calculates the bitwise \'xor\' of n and k',
+'''
+'xor' is the 'exclusive or' logical operation, which returns true if and only
+if the two operands are different.
+
+The operands are converted to strings of bits large enough to represent the
+larger of the values, rounded up to the next highest multiple of the bitwise
+group size, which defaults to ''' + str( g.defaultBitwiseGroupSize ) + '.' + '''
+
+As a bitwise operator, this operation is applied succesively to each
+corresponding bit in the binary representation of both operands.  The result
+is the numerical representation of the string of 'xor'ed bits.
+''',
+'''
+''' + makeCommandExample( '-x 0xffff0000 0x12345678 xor' ) + '''
+''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] xor' ),
+[ 'bitwise_and', 'bitwise_or', 'bitwise_nand', 'bitwise_nor', 'bitwise_not' ] ],
+
+    'count_bits' : [
+'bitwise', 'returns the number of set bits in the value of n',
+'''
+''',
+'''
+''',
+[ 'parity' ] ],
 
     'parity' : [
 'bitwise', 'returns the bit parity of n (0 == even, 1 == odd)',
@@ -2649,25 +2680,6 @@ is the numerical representation of the string of 'or'ed bits.
 '''
 ''',
 [ 'shift_left' ] ],
-
-    'xor' : [
-'bitwise', 'calculates the bitwise \'xor\' of n and k',
-'''
-'xor' is the 'exclusive or' logical operation, which returns true if and only
-if the two operands are different.
-
-The operands are converted to strings of bits large enough to represent the
-larger of the values, rounded up to the next highest multiple of the bitwise
-group size, which defaults to ''' + str( g.defaultBitwiseGroupSize ) + '.' + '''
-
-As a bitwise operator, this operation is applied succesively to each
-corresponding bit in the binary representation of both operands.  The result
-is the numerical representation of the string of 'xor'ed bits.
-''',
-'''
-''' + makeCommandExample( '-x 0xffff0000 0x12345678 xor' ) + '''
-''' + makeCommandExample( '[ 0 0 1 1 ] [ 0 1 0 1 ] xor' ),
-[ 'and', 'or', 'nand', 'nor', 'not' ] ],
 
 
 # //******************************************************************************
@@ -6342,6 +6354,14 @@ on until a one-digit number is obtained.
 ''',
 [ 'show_persistence', 'n_persistence', 'show_erdos_persistence' ] ],
 
+    'replace_digits' : [
+'lexicography', 'returns the blah blah blah',
+'''
+''',
+'''
+''',
+[ ] ],
+
     'reversal_addition' : [
 'lexicography', 'TODO: describe me',
 '''
@@ -6390,6 +6410,95 @@ on until a one-digit number is obtained.
 '''
 ''',
 [ 'multiply_digits', 'get_digits' ] ],
+
+
+# //******************************************************************************
+# //
+# //  logical operators
+# //
+# //******************************************************************************
+
+    'and' : [
+'logical', 'returns 1 if n and k are both nonzero',
+'''
+''',
+'''
+''' + makeCommandExample( '0 0 and' ) + '''
+''' + makeCommandExample( '0 1 and' ) + '''
+''' + makeCommandExample( '1 0 and' ) + '''
+''' + makeCommandExample( '1 1 and' ) + '''
+''',
+[ 'or', 'nand' ] ],
+
+    'nand' : [
+'logical', 'returns 1 if n and k are both zero',
+'''
+''',
+'''
+''' + makeCommandExample( '0 0 nand' ) + '''
+''' + makeCommandExample( '0 1 nand' ) + '''
+''' + makeCommandExample( '1 0 nand' ) + '''
+''' + makeCommandExample( '1 1 nand' ) + '''
+''',
+[ 'or', 'nand' ] ],
+
+    'nor' : [
+'logical', '',
+'''
+''',
+'''
+''' + makeCommandExample( '0 0 nor' ) + '''
+''' + makeCommandExample( '0 1 nor' ) + '''
+''' + makeCommandExample( '1 0 nor' ) + '''
+''' + makeCommandExample( '1 1 nor' ) + '''
+''',
+[ 'or', 'nand' ] ],
+
+    'not' : [
+'logical', '',
+'''
+''',
+'''
+''' + makeCommandExample( '0 not' ) + '''
+''' + makeCommandExample( '1 not' ) + '''
+''',
+[ 'or', 'nand' ] ],
+
+    'or' : [
+'logical', '',
+'''
+''',
+'''
+''' + makeCommandExample( '0 0 or' ) + '''
+''' + makeCommandExample( '0 1 or' ) + '''
+''' + makeCommandExample( '1 0 or' ) + '''
+''' + makeCommandExample( '1 1 or' ) + '''
+''',
+[ 'nor', 'and' ] ],
+
+    'xnor' : [
+'logical', '',
+'''
+''',
+'''
+''' + makeCommandExample( '0 0 xnor' ) + '''
+''' + makeCommandExample( '0 1 xnor' ) + '''
+''' + makeCommandExample( '1 0 xnor' ) + '''
+''' + makeCommandExample( '1 1 xnor' ) + '''
+''',
+[ 'xor' ] ],
+
+    'xor' : [
+'logical', '',
+'''
+''',
+'''
+''' + makeCommandExample( '0 0 xor' ) + '''
+''' + makeCommandExample( '0 1 xor' ) + '''
+''' + makeCommandExample( '1 0 xor' ) + '''
+''' + makeCommandExample( '1 1 xor' ) + '''
+''',
+[ 'xnor' ] ],
 
 
 # //******************************************************************************
@@ -6817,13 +6926,12 @@ Indices are zero-based, and the ending index is not included in the slice.
 This functionality echoes the Python slicing semantics.  As in Python, a
 negative ending index represents counting backwards from the end of the list.
 
-The starting and ending indices can, of course, be lists, and if they
-are multiple lists will be returned iterating through one or both of the
-operands as needed.
+An ending index of 0 represents the end of the list.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range 0 5 slice' ) + '''
 ''' + makeCommandExample( '1 10 range 5 9 slice' ) + '''
+''' + makeCommandExample( '1 10 range 2 0 slice' ) + '''
 ''' + makeCommandExample( '1 10 range 2 -1 slice' ) + '''
 ''' + makeCommandExample( '1 10 range 2 -2 slice' ),
 [ 'right', 'left', 'sublist' ] ],
@@ -7474,6 +7582,12 @@ first n numbers each taken to the power of itself.
     'is_k_sphenic' : [
 'number_theory', 'returns whether n is a product of k distinct primes',
 '''
+This is my terminology, generalizing the idea of 'sphenic' to having an
+arbitrary number of squarefree factors.
+
+This terminology is not used, as far as I can tell, but there does not seem to
+be an appropriate term to describe having a number of squarefree other than 1
+(prime), 2 (semiprime), or 3 (sphenic).
 ''',
 '''
 ''',
@@ -8875,7 +8989,7 @@ http://oeis.org/A007588
 ''',
 '''
 ''',
-[ ] ],
+[ 'mean', 'geometric_mean', 'harmonic_mean' ] ],
 
     'cube' : [
 'powers_and_roots', 'calculates the cube of n',

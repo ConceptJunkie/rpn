@@ -611,6 +611,46 @@ class RPNFunction( object ):
 
                 if not valueList:
                     self.code += function
+            elif term in listOperators:
+                function = listOperators[ term ].function.__name__
+                debugPrint( 'function', function )
+
+                if function == '<lambda>':
+                    function = inspect.getsource( listOperators[ term ].function )
+
+                    # Inspect returns the actual source line, which is the definition in the
+                    # operators dictionary, so we need to parse out the lambda definition.
+                    className = 'RPNOperator'
+                    function = function[ function.find( className ) + len( className ) : function.find( '\n' ) -1 ] + ' )'
+
+                function += '( '
+
+                first = True
+
+                argList = [ ]
+
+                operands = listOperators[ term ].argCount
+
+                if len( args ) < operands:
+                    raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
+
+                for i in range( 0, operands ):
+                    argList.insert( 0, args.pop( ) )
+
+                for arg in argList:
+                    if first:
+                        first = False
+                    else:
+                        function += ', '
+
+                    function += arg
+
+                function += ' )'
+
+                args.append( function )
+
+                if not valueList:
+                    self.code += function
             else:
                 args.append( term )
 
@@ -1694,6 +1734,9 @@ listOperators = {
     'geometric_mean'        : RPNOperator( calculateGeometricMean,
                                            1, [ RPNOperator.List ] ),
 
+    'harmonic_mean'         : RPNOperator( calculateHarmonicMean,
+                                           1, [ RPNOperator.List ] ),
+
     'min'                   : RPNOperator( getMinimum,
                                            1, [ RPNOperator.List ] ),
 
@@ -2227,23 +2270,26 @@ operators = {
 
 
     # bitwise
-    'and'                            : RPNOperator( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x & y ),
+    'bitwise_and'                    : RPNOperator( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x & y ),
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+
+    'bitwise_nand'                   : RPNOperator( lambda n, k: getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x & y ) ),
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+
+    'bitwise_nor'                    : RPNOperator( lambda n, k: getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x | y ) ),
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+
+    'bitwise_not'                    : RPNOperator( getInvertedBits,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'bitwise_or'                     : RPNOperator( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x | y ),
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+
+    'bitwise_xor'                    : RPNOperator( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x ^ y ),
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     'count_bits'                     : RPNOperator( getBitCount,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
-
-    'nand'                           : RPNOperator( lambda n, k: getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x & y ) ),
-                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
-
-    'nor'                            : RPNOperator( lambda n, k: getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x | y ) ),
-                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
-
-    'not'                            : RPNOperator( getInvertedBits,
-                                                    1, [ RPNOperator.NonnegativeInteger ] ),
-
-    'or'                             : RPNOperator( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x | y ),
-                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     'parity'                         : RPNOperator( lambda n: getBitCount( n ) & 1,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
@@ -2252,9 +2298,6 @@ operators = {
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     'shift_right'                    : RPNOperator( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x >> y ),
-                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
-
-    'xor'                            : RPNOperator( lambda n, k: performBitwiseOperation( n, k, lambda x, y: x ^ y ),
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     # calendar
@@ -2506,7 +2549,6 @@ operators = {
 
     'permutations'                   : RPNOperator( getPermutations,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
-
 
     # complex
     'argument'                       : RPNOperator( lambda n: arg( n ),
@@ -2841,13 +2883,41 @@ operators = {
     'permute_digits'                 : RPNOperator( lambda n: RPNGenerator.createPermutations( getMPFIntegerAsString( n ) ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'replace_digits'                 : RPNOperator( replaceDigits,
+                                                    3, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger,
+                                                         RPNOperator.NonnegativeInteger ] ),
+
     'reverse_digits'                 : RPNOperator( reverseDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'sum_digits'                     : RPNOperator( sumDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    # logical
+
+    'and'                            : RPNOperator( lambda n, k: 1 if ( n != 0 and k != 0 ) else 0,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'not'                            : RPNOperator( lambda n: 1 if n == 0 else 0,
+                                                    1, [ RPNOperator.Integer ] ),
+
+    'nand'                           : RPNOperator( lambda n, k: 0 if ( n != 0 and k != 0 ) else 1,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'nor'                            : RPNOperator( lambda n, k: 0 if ( n != 0 or k != 0 ) else 1,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'or'                             : RPNOperator( lambda n, k: 1 if ( n != 0 or k != 0 ) else 0,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'xnor'                           : RPNOperator( lambda n, k: 1 if ( n != 0 ) == ( k != 0 ) else 0,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'xor'                            : RPNOperator( lambda n, k: 1 if ( n != 0 ) != ( k != 0 ) else 0,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
     # list
+
     'exponential_range'              : RPNOperator( RPNGenerator.createExponential,
                                                     3, [ RPNOperator.Real, RPNOperator.Real,
                                                          RPNOperator.PositiveInteger ] ),
