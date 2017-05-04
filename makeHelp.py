@@ -7247,6 +7247,14 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 ''',
 [ ] ],
 
+    'abundance_ratio' : [
+'number_theory', 'returns the abundance ratio of n',
+'''
+''',
+'''
+''',
+[ ] ],
+
     'aliquot' : [
 'number_theory', 'returns the first k members of the aliquot sequence of n',
 '''

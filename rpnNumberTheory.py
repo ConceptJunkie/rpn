@@ -1043,16 +1043,29 @@ def getPowMod( a, b, c ):
 
 # //******************************************************************************
 # //
+# //  getAbundance
+# //
+# //******************************************************************************
+
+@cachedFunction( 'abundance' )
+def getAbundance( n ):
+    if real( n ) < 2:
+        return 0
+
+    return fsub( getSigma( n ), fmul( n, 2 ) )
+
+
+# //******************************************************************************
+# //
 # //  isDeficient
 # //
 # //******************************************************************************
 
-@cachedFunction( 'deficient' )
 def isDeficient( n ):
     if real( n ) < 2:
         return 0
 
-    return 1 if getSigma( n ) < fmul( n, 2 ) else 0
+    return 1 if getAbundance( n ) < 0 else 0
 
 
 # //******************************************************************************
@@ -1061,12 +1074,11 @@ def isDeficient( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'abundant' )
 def isAbundant( n ):
     if real( n ) < 2:
         return 0
 
-    return 1 if getSigma( n ) > fmul( n, 2 ) else 0
+    return 1 if getAbundance( n ) > 0 else 0
 
 
 # //******************************************************************************
@@ -1075,12 +1087,11 @@ def isAbundant( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'perfect' )
 def isPerfect( n ):
     if n < 2:
         return 0
 
-    return 1 if getSigma( n ) == fmul( n, 2 ) else 0
+    return 1 if getAbundance( n ) == 0 else 0
 
 
 # //******************************************************************************
@@ -1122,22 +1133,6 @@ def isRough( n, k ):
 @cachedFunction( 'k_semiprime' )
 def isKSemiPrime( n, k ):
     return 1 if sum( [ i[ 1 ] for i in getFactorList( n ) ] ) == k else 0
-
-
-# //******************************************************************************
-# //
-# //  isSphenic
-# //
-# //******************************************************************************
-
-@cachedFunction( 'sphenic' )
-def isSphenic( n ):
-    factorList = getFactorList( n )
-
-    if len( factorList ) != 3:
-        return 0
-
-    return 1 if max( [ i[ 1 ] for i in factorList ] ) == 1 else 0
 
 
 # //******************************************************************************

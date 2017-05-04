@@ -2027,12 +2027,12 @@ def runModifierOperatorTests( ):
 def runNumberTheoryOperatorTests( ):
     from rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
 
-    # abundance
-    expectResult( '6 abundance', 2 )
-    expectResult( '28 abundance', 2 )
-    expectResult( '8128 abundance', 2 )
-    expectResult( '120 abundance', 3 )
-    expectResult( '672 abundance', 3 )
+    # abundance_ratio
+    expectResult( '6 abundance_ratio', 2 )
+    expectResult( '28 abundance_ratio', 2 )
+    expectResult( '8128 abundance_ratio', 2 )
+    expectResult( '120 abundance_ratio', 3 )
+    expectResult( '672 abundance_ratio', 3 )
 
     # aliquot
     testOperator( '276 10 aliquot' )

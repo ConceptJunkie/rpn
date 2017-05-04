@@ -2963,7 +2963,10 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
     # number_theory
-    'abundance'                      : RPNOperator( lambda n: fdiv( getSigma( n ), n ),
+    'abundance'                      : RPNOperator( getAbundance,
+                                                    1, RPNOperator.PositiveInteger ),
+
+    'abundance_ratio'                : RPNOperator( lambda n: fdiv( getSigma( n ), n ),
                                                     1, RPNOperator.PositiveInteger ),
 
     'aliquot'                        : RPNOperator( lambda n, k: RPNGenerator.createGenerator( getAliquotSequence, [ n, k ] ),
@@ -3090,7 +3093,7 @@ operators = {
     'is_smooth'                      : RPNOperator( isSmooth,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
-    'is_sphenic'                     : RPNOperator( isSphenic,
+    'is_sphenic'                     : RPNOperator( lambda n: isKSphenic( n, 3 ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_squarefree'                  : RPNOperator( isSquareFree,
