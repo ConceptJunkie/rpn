@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 961
+maxExampleCount = 965
 debugMode = False
 
 
@@ -2749,6 +2749,14 @@ Christmas and used the 'christmas' operator instinctively.
 ''' + makeCommandExample( '2017 christmas' ),
 [ 'thanksgiving', 'easter', 'epiphany' ] ],
 
+    'columbus_day' : [
+'calendars', 'returns the date of Columbus Day as celebrated in the U.S. for the year specified',
+'''
+''',
+'''
+''' + makeCommandExample( '2017 columbus_day' ),
+[ 'independence_day', 'veterans_day', 'memorial_day', 'martin_luther_king_day' ] ],
+
     'dst_end' : [
 'calendars', 'calculates the ending date for Daylight Saving Time for the year specified',
 '''
@@ -2863,6 +2871,14 @@ on Easter Sunday.
 ''' + makeCommandExample( '2017 easter 2017 good_friday -' ),
 [ 'easter', 'ash_wednesday' ] ],
 
+    'independence_day' : [
+'calendars', 'returns the date of Independence Day as celebrated in the U.S. for the year specified',
+'''
+''',
+'''
+''' + makeCommandExample( '2017 independence_day' ),
+[ 'veterans_day', 'memorial_day', 'columbus_day' ] ],
+
     'iso_date' : [
 'calendars', 'returns the date in the ISO format',
 '''
@@ -2880,6 +2896,14 @@ In the U.S., Labor Day falls on the first Monday of September.
 ''' + makeCommandExample( '2016 labor_day' ) + '''
 ''' + makeCommandExample( '2016 labor_day 2015 memorial_day -' ),
 [ 'memorial_day', 'election_day', 'presidents_day' ] ],
+
+    'martin_luther_king_day' : [
+'calendars', 'returns the date of Martin Luther King Day as celebrated in the U.S. for the year specified',
+'''
+''',
+'''
+''' + makeCommandExample( '2017 martin_luther_king_day' ),
+[ 'independence_day', 'veterans_day', 'memorial_day', 'columbus_day' ] ],
 
     'memorial_day' : [
 'calendars', 'calculates the date of Memorial Day (US) for the year specified',
@@ -3072,6 +3096,14 @@ a = four-digit year, b = week (negative values count from the end), c = day
 '''
 ''',
 [ 'from_persian' ] ],
+
+    'veterans_day' : [
+'calendars', 'returns the date of Veterans Day as celebrated in the U.S. for the year specified',
+'''
+''',
+'''
+''' + makeCommandExample( '2017 veterans_day' ),
+[ 'independence_day', 'memorial_day', 'columbus_day' ] ],
 
     'weekday' : [
 'calendars', 'calculates the day of the week of an absolute time',

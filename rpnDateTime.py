@@ -641,6 +641,70 @@ def calculatePresidentsDay( year ):
 
 # //******************************************************************************
 # //
+# //  calculateMartinLutherKingDay
+# //
+# //  the third Monday in January
+# //
+# //******************************************************************************
+
+def calculateMartinLutherKingDay( year ):
+    if isinstance( year, RPNDateTime ):
+        year = year.year
+    else:
+        year = real_int( year )
+
+    return calculateNthWeekdayOfMonth( year, January, 3, Monday )
+
+
+# //******************************************************************************
+# //
+# //  calculateColumbusDay
+# //
+# //  the second Monday in October
+# //
+# //******************************************************************************
+
+def calculateColumbusDay( year ):
+    if isinstance( year, RPNDateTime ):
+        year = year.year
+    else:
+        year = real_int( year )
+
+    return calculateNthWeekdayOfMonth( year, October, 2, Monday )
+
+
+# //******************************************************************************
+# //
+# //  getNewYearsDay
+# //
+# //******************************************************************************
+
+def getNewYearsDay( year ):
+    return RPNDateTime( year, 1, 1, dateOnly = True )
+
+
+# //******************************************************************************
+# //
+# //  getVeteransDay
+# //
+# //******************************************************************************
+
+def getVeteransDay( year ):
+    return RPNDateTime( year, 11, 11, dateOnly = True )
+
+
+# //******************************************************************************
+# //
+# //  getIndependenceDay
+# //
+# //******************************************************************************
+
+def getIndependenceDay( year ):
+    return RPNDateTime( year, 7, 4, dateOnly = True )
+
+
+# //******************************************************************************
+# //
 # //  getChristmasDay
 # //
 # //******************************************************************************

@@ -2313,6 +2313,9 @@ operators = {
     'calendar'                       : RPNOperator( generateMonthCalendar,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'columbus_day'                   : RPNOperator( calculateColumbusDay,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'dst_end'                        : RPNOperator( calculateDSTEnd,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
@@ -2360,13 +2363,22 @@ operators = {
     'good_friday'                    : RPNOperator( calculateGoodFriday,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'independence_day'               : RPNOperator( getIndependenceDay,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'iso_date'                       : RPNOperator( getISODate,
                                                     1, [ RPNOperator.DateTime ] ),
 
     'labor_day'                      : RPNOperator( calculateLaborDay,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'martin_luther_king_day'         : RPNOperator( calculateMartinLutherKingDay,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'memorial_day'                   : RPNOperator( calculateMemorialDay,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'new_years_day'                  : RPNOperator( getNewYearsDay,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'nth_weekday'                    : RPNOperator( calculateNthWeekdayOfMonth,
@@ -2436,6 +2448,9 @@ operators = {
 
     'to_persian_name'                : RPNOperator( getPersianCalendarDateName,
                                                     1, [ RPNOperator.DateTime ] ),
+
+    'veterans_day'                   : RPNOperator( getVeteransDay,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'weekday'                        : RPNOperator( getWeekday,
                                                     1, [ RPNOperator.DateTime ] ),

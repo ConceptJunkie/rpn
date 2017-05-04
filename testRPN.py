@@ -779,6 +779,9 @@ def runCalendarOperatorTests( ):
     # christmas
     testOperator( '2016 christmas' )
 
+    # columbus_day
+    testOperator( '2017 columbus_day' )
+
     # dst_end
     testOperator( '2015 dst_end' )
 
@@ -812,11 +815,17 @@ def runCalendarOperatorTests( ):
     # from_persian
     testOperator( '1394 7 27 from_persian' )
 
+    # independence_day
+    testOperator( '2017 independence_day' )
+
     # iso_date
     testOperator( 'today iso_date' )
 
     # labor_day
     testOperator( '2015 labor_day' )
+
+    # martin_luther_king_day
+    testOperator( '2017 martin_luther_king_day' )
 
     # memorial_day
     testOperator( '2015 memorial_day' )
@@ -888,6 +897,9 @@ def runCalendarOperatorTests( ):
 
     # to_persian_name
     testOperator( 'today to_persian_name' )
+
+    # veterans_day
+    testOperator( '2017 veterans_day' )
 
     # weekday
     testOperator( 'today weekday' )

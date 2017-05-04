@@ -572,6 +572,7 @@ operatorAliases = {
     'minulonglong'              : 'min_ulonglong',
     'minuquadlong'              : 'min_uquadlong',
     'minushort'                 : 'min_ushort',
+    'mlk_day'                   : 'martin_luther_king_day',
     'mod'                       : 'modulo',
     'molar_weight'              : 'molar_mass',
     'mon'                       : 'monday',
