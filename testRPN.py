@@ -2178,6 +2178,9 @@ def runNumberTheoryOperatorTests( ):
     # is_achilles
     testOperator( '1 20 range is_achilles' )
 
+    # is_composite
+    expectEqual( '1 161 range lambda x is_squarefree x is_composite and filter', '120944 oeis 61 left' )
+
     # is_deficient
     testOperator( '1 20 range is_deficient' )
 
@@ -2210,6 +2213,8 @@ def runNumberTheoryOperatorTests( ):
 
     # is_semiprime
     testOperator( '12 is_semiprime' )
+    expectEqual( '1 205 range lambda x is_semiprime x is_squarefree and filter', '6881 oeis 60 left' )
+    expectEqual( ' 1 141 range lambda x is_semiprime x is_squarefree and filter square', '85986 oeis 41 left' )
 
     # is_smooth
     testOperator( '128 4 is_smooth' )
@@ -2224,6 +2229,9 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '2013 sqr is_squarefree' )
     testOperator( '8 primorial is_squarefree' )
     testOperator( '1 20 range is_squarefree' )
+    expectEqual( '1 113 range lambda x is_squarefree filter', '5117 oeis 71 left' )
+    expectEqual( '1 100 range is_squarefree', '8966 oeis 100 left' )
+    expectEqual( '1 515 range lambda x square 1 + is_squarefree not filter', '49532 oeis 54 left' )
 
     # is_unusual
     testOperator( '-a50 81 23 ** is_unusual' )
@@ -2810,6 +2818,7 @@ def runPowersAndRootsOperatorTests( ):
 
     # square_root
     expectEqual( '2 square_root', '4 4 root' )
+    expectEqual( '1 71 range prime sqrt floor', '6 oeis 71 left' )
 
     # tetrate
     testOperator( '3 2 tetrate' )
@@ -2931,6 +2940,7 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '176176176 25 primes' )
     testOperator( '11,000,000,000 25 primes' )
     expectEqual( '1 71 primes sqrt floor', '6 oeis 71 left' )
+    expectEqual( '1 58 primes', '40 oeis 58 left' )
 
     # quadruplet_prime
     testOperator( '17 quadruplet_prime' )

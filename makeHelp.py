@@ -7587,6 +7587,14 @@ first n numbers each taken to the power of itself.
 ''',
 [ ] ],
 
+    'is_composite' : [
+'number_theory', 'returns whether n is composite',
+'''
+''',
+'''
+''',
+[ ] ],
+
     'is_deficient' : [
 'number_theory', 'returns whether or not n is a deficient number',
 '''

@@ -3072,6 +3072,9 @@ operators = {
     'is_achilles'                    : RPNOperator( isAchillesNumber,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_composite'                   : RPNOperator( lambda n: 0 if n == 1 or isPrime( n ) else 1,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
     'is_deficient'                   : RPNOperator( isDeficient,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
