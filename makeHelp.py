@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 965
+maxExampleCount = 969
 debugMode = False
 
 
@@ -2915,6 +2915,14 @@ armed services.
 '''
 ''' + makeCommandExample( '2016 memorial_day' ) + '''
 ''' + makeCommandExample( '2020 2025 memorial_day -s1' ),
+[ 'labor_day', 'election_day', 'presidents_day' ] ],
+
+    'new_years_day' : [
+'calendars', 'returns the date of New Year\'s Day (US) for the year specified',
+'''
+''',
+'''
+''' + makeCommandExample( '2020 new_years_day' ),
 [ 'labor_day', 'election_day', 'presidents_day' ] ],
 
     'nth_weekday' : [
@@ -6625,6 +6633,16 @@ This simply counts the number of elements in the list.
 '''
 ''' + makeCommandExample( '1 100 range count' ),
 [ ] ],
+
+    'difference' : [
+'list_operators', 'returns a list of unique elements in list k that are not found in list n',
+'''
+''',
+'''
+''' + makeCommandExample( '[ 1 2 4 ] [ 3 4 5 ] difference' ) + '''
+''' + makeCommandExample( '[ 1 2 3 ] [ 4 5 6 ] difference' ) + '''
+''' + makeCommandExample( '[ 1 1 2 3 3 3 ] [ 1 2 3 4 5 5 ] difference' ),
+[ 'union', 'append', 'permute_lists', 'interleave' ] ],
 
     'diffs' : [
 'list_operators', 'returns a list with the differences between successive elements of list n',

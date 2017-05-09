@@ -1220,22 +1220,6 @@ def evaluateTwoArgFunction( func, _arg1, _arg2, level = 0 ):
 
 # //******************************************************************************
 # //
-# //  caller
-# //
-# //******************************************************************************
-
-def caller( func, args ):
-    if not args:
-        return func( )
-
-    for arg in args:
-        if isinstance( arg, list ):
-            for i in arg:
-                return [ map( func, *args ) ]
-
-
-# //******************************************************************************
-# //
 # //  callers
 # //
 # //******************************************************************************
@@ -1817,6 +1801,9 @@ listOperators = {
 
     'count'                 : RPNOperator( countElements,
                                            1, [ RPNOperator.Generator ] ),
+
+    'difference'            : RPNOperator( getDifference,
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'diffs'                 : RPNOperator( lambda n: RPNGenerator( getListDiffs( n ) ),
                                            1, [ RPNOperator.Generator ] ),
