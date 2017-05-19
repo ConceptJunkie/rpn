@@ -144,6 +144,11 @@ def downloadOEISSequence( id ):
     if keywords == [ '' ]:
         return 0
 
+    result, success = downloadOEISTable( id )
+
+    if success:
+        return result
+
     if 'nonn' in keywords:
         result = downloadOEISText( id, 'S' )
         result += downloadOEISText( id, 'T' )
@@ -176,14 +181,15 @@ def downloadOEISText( id, char, addCR = False ):
 
     import re as regex
 
-    try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis.pckl.bz2', 'rb' ) ) as pickleFile:
-            oeisCache = pickle.load( pickleFile )
-    except FileNotFoundError:
-        oeisCache = { }
+    if not g.oeisCache:
+        try:
+            with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis.pckl.bz2', 'rb' ) ) as pickleFile:
+                g.oeisCache = pickle.load( pickleFile )
+        except FileNotFoundError:
+            g.oeisCache = { }
 
-    if id in oeisCache:
-        oeisItem = oeisCache[ id ]
+    if id in g.oeisCache:
+        oeisItem = g.oeisCache[ id ]
     else:
         oeisItem = { }
 
@@ -210,16 +216,69 @@ def downloadOEISText( id, char, addCR = False ):
 
     oeisItem[ char ] = result
 
-    oeisCache[ id ] = oeisItem
-
-    if not os.path.isdir( g.dataPath ):
-        os.makedirs( g.dataPath )
+    g.oeisCache[ id ] = oeisItem
 
     with DelayedKeyboardInterrupt( ):
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( oeisCache, pickleFile )
+            pickle.dump( g.oeisCache, pickleFile )
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  downloadOEISTable
+# //
+# //******************************************************************************
+
+def downloadOEISTable( id ):
+    # check the cache first
+    if not g.oeisTableCache:
+        try:
+            with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis_tables.pckl.bz2', 'rb' ) ) as pickleFile:
+                g.oeisTableCache = pickle.load( pickleFile )
+        except FileNotFoundError:
+            g.oeisTableCache = { }
+
+    if id in g.oeisTableCache:
+        return g.oeisTableCache[ id ], True
+
+    # It's not in the cache, so let's try to download it
+    if six.PY3:
+        import urllib.request as urllib2
+    else:
+        import urllib2
+
+    try:
+        data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( id, id ) ).read( )
+    except:
+        return [ ], False
+
+    import re as regex
+    pattern = regex.compile( b'(.*?)\n', regex.DOTALL )
+    lines = pattern.findall( data )
+
+    result = [ ]
+
+    for line in lines:
+        line = line.decode( 'ascii' )
+
+        if line == '':
+            continue
+
+        if line[ 0 ] == '#':
+            continue
+
+        result.append( int( line.split( ' ' )[ 1 ] ) )
+
+    # add the new result to the cache and save the cache to disk
+    g.oeisTableCache[ id ] = result
+
+    with DelayedKeyboardInterrupt( ):
+        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis_tables.pckl.bz2', 'wb' ) ) as pickleFile:
+            pickle.dump( g.oeisTableCache, pickleFile )
+
+    return result, True
 
 
 # //******************************************************************************

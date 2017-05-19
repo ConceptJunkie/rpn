@@ -131,6 +131,11 @@ def getNthLucasNumber( n ):
     elif n == 1:
         return 1
     else:
+        precision = int( fdiv( fmul( n, 2 ), 8 ) )
+
+        if ( mp.dps < precision ):
+            mp.dps = precision
+
         return floor( fadd( power( phi, n ), 0.5 ) )
 
 
@@ -1049,7 +1054,7 @@ def getPowMod( a, b, c ):
 
 @cachedFunction( 'abundance' )
 def getAbundance( n ):
-    if real( n ) < 2:
+    if real_int( n ) < 2:
         return 0
 
     return fsub( getSigma( n ), fmul( n, 2 ) )
@@ -1062,8 +1067,10 @@ def getAbundance( n ):
 # //******************************************************************************
 
 def isDeficient( n ):
-    if real( n ) < 2:
+    if real_int( n ) < 1:
         return 0
+    elif n == 1:
+        return 1
 
     return 1 if getAbundance( n ) < 0 else 0
 
@@ -1075,7 +1082,7 @@ def isDeficient( n ):
 # //******************************************************************************
 
 def isAbundant( n ):
-    if real( n ) < 2:
+    if real_int( n ) < 2:
         return 0
 
     return 1 if getAbundance( n ) > 0 else 0
@@ -1088,7 +1095,7 @@ def isAbundant( n ):
 # //******************************************************************************
 
 def isPerfect( n ):
-    if n < 2:
+    if real_int( n ) < 2:
         return 0
 
     return 1 if getAbundance( n ) == 0 else 0
@@ -1102,7 +1109,7 @@ def isPerfect( n ):
 
 @cachedFunction( 'smooth' )
 def isSmooth( n, k ):
-    if real( n ) < real( k ):
+    if real_int( n ) < real_int( k ):
         return 0
 
     return 1 if max( [ i[ 0 ] for i in getFactorList( n ) ] ) <= k else 0
@@ -1118,7 +1125,7 @@ def isSmooth( n, k ):
 
 @cachedFunction( 'rough' )
 def isRough( n, k ):
-    if real( n ) < real( k ):
+    if real_int( n ) < real_int( k ):
         return 0
 
     return 1 if min( [ i[ 0 ] for i in getFactorList( n ) ] ) >= k else 0

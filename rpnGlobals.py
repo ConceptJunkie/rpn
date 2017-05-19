@@ -119,6 +119,10 @@ factorCache = None
 # location cache
 locationCache = None
 
+# OEIS caches
+oeisCache = None
+oeisTableCache = None
+
 # user-defined constants
 constants = { }
 

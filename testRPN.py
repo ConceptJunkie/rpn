@@ -1034,6 +1034,7 @@ def runCombinatoricsOperatorTests( ):
     # binomial
     testOperator( '12 9 binomial' )
     testOperator( '-a20 -c 120 108 binomial' )
+    expectEqual( '8 1 28 sized_range lambda x 2 * 8 - 7 binomial 8 / eval', '973 oeis 28 left' )
 
     # compositions
     testOperator( '5 2 compositions' )
@@ -1799,6 +1800,7 @@ def runLexicographyOperatorTests( ):
     # reverse_digits
     testOperator( '37 1 8 range * reverse_digits' )
     testOperator( '37 1 2 9 range range * reverse_digits' )
+    expectEqual( '0 1102 range lambda x sqr reverse_digits x reverse_digits sqr equals filter', '61909 oeis 53 left' )
 
     # show_erdos_persistence
     testOperator( '-a30 55555555555555557777777777777 show_erdos_persistence' )
@@ -2087,6 +2089,9 @@ def runNumberTheoryOperatorTests( ):
     # count_divisors
     testOperator( '1024 count_divisors' )
     expectEqual( '1 104 range count_divisors', '5 oeis 104 left' )
+    testOperator( '-a50 0 35 range ! count_divisors' )
+    testOperator( '27423 oeis 36 left' )
+    expectEqual( '-a50 0 35 range ! count_divisors', '-a50 27423 oeis 36 left' )
 
     # crt
     testOperator( '1 4 range 10 20 3 range2 crt' )
@@ -2118,7 +2123,7 @@ def runNumberTheoryOperatorTests( ):
 
     # euler_phi
     testOperator( '1 20 range euler_phi' )
-    expectEqual( '1 69 range euler_phi', '10 oeis 69 left' )
+    expectEqual( '1 1000 range euler_phi', '10 oeis 1000 left' )
 
     # factor
     testOperator( '-25 factor' )
@@ -2130,14 +2135,14 @@ def runNumberTheoryOperatorTests( ):
 
     # factorial
     testOperator( '-a25 -c 23 factorial' )
-    expectEqual( '0 22 range !', '142 oeis 23 left' )
+    expectEqual( '0 100 range !', '142 oeis 101 left' )
     testOperator( '2.5 factorial' )
     expectException( '-1 factorial' )
 
     # fibonacci
     testOperator( '1 50 range fibonacci' )
     testOperator( '-c -a8300 39399 fibonacci' )
-    expectEqual( '0 38 range fibonacci', '45 oeis 39 left' )
+    expectEqual( '0 99 range fibonacci', '45 oeis 100 left' )
     expectResult( '0 100 range fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
 
     # fibonorial
@@ -2166,7 +2171,7 @@ def runNumberTheoryOperatorTests( ):
 
     # hexanacci
     testOperator( '-a300 -c 949 hexanacci' )
-    expectEqual( '0 38 range hexanacci', '1592 oeis 39 left' )
+    expectEqual( '0 99 range hexanacci', '1592 oeis 100 left' )
     expectResult( '0 100 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 101 ) ] )
 
     # hyperfactorial
@@ -2177,18 +2182,21 @@ def runNumberTheoryOperatorTests( ):
 
     # is_achilles
     testOperator( '1 20 range is_achilles' )
+    expectEqual( '1 1000 range lambda x is_achilles filter', '52486 oeis 13 left' )
 
     # is_composite
     expectEqual( '1 161 range lambda x is_squarefree x is_composite and filter', '120944 oeis 61 left' )
 
     # is_deficient
     testOperator( '1 20 range is_deficient' )
+    expectEqual( '1 86 range lambda x is_deficient filter', '5100 oeis 66 left' )
 
     # is_k_hyperperfect
     expectEqual( '1 2100 range lambda x 12 is_k_hyperperfect filter', '[ 697 2041 ]' )
 
     # is_k_semiprime
     testOperator( '1 20 range 3 is_k_semiprime' )
+    expectEqual( '-a30 1 100 range lambda x tribonacci is_semiprime filter', '101757 oeis 12 left' )
 
     # is_perfect
     testOperator( '1 30 range is_perfect' )
@@ -2200,13 +2208,14 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1000 1030 range is_prime' )
     testOperator( '2049 is_prime' )
     testOperator( '92348759911 is_prime' )
-    expectEqual( '0 200 range lambda 90 x * 73 + is_prime filter 56 left', '195993 oeis 56 left' )
+    expectEqual( '0 300 range lambda 90 x * 73 + is_prime filter 100 left', '195993 oeis 100 left' )
 
     # is_polydivisible
     expectEqual( '3608528850368400786036725 is_polydivisible', '1' )
 
     # is_pronic
     testOperator( '1 20 range is_pronic' )
+    expectEqual( '0 9900 range lambda x is_pronic filter', '2378 oeis 100 left' )
 
     # is_rough
     testOperator( '1 20 range 2 is_rough' )
@@ -2238,7 +2247,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 20 range is_unusual' )
 
     # jacobsthal
-    expectEqual( '0 34 range jacobsthal', '1045 oeis 35 left' )
+    expectEqual( '0 99 range jacobsthal', '1045 oeis 100 left' )
 
     # kynea
     expectEqual( '-a20 1 25 range kynea', '93069 oeis 25 left' )
@@ -2250,7 +2259,7 @@ def runNumberTheoryOperatorTests( ):
     expectResult( '1000 10 k_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
 
     # leonardo
-    expectEqual( '0 37 range leonardo', '1595 oeis 38 left' )
+    expectEqual( '0 99 range leonardo', '1595 oeis 100 left' )
 
     # leyland
     testOperator( '7 8 leyland' )
@@ -2263,7 +2272,7 @@ def runNumberTheoryOperatorTests( ):
 
     # lucas
     testOperator( '-a21 99 lucas' )
-    expectEqual( '0 36 range lucas', '32 oeis 37 left' )
+    expectEqual( '0 999 range lucas', '32 oeis 1000 left' )
 
     # make_cf
     testOperator( 'e 20 make_cf' )
@@ -2281,26 +2290,22 @@ def runNumberTheoryOperatorTests( ):
 
     # mobius
     testOperator( '20176 mobius' )
-    expectEqual( '1 77 range mobius', '8683 oeis 77 left' )
+    expectEqual( '1 100 range mobius', '8683 oeis 100 left' )
 
     # nth_mersenne
     testOperator( '-a30 1 10 range nth_mersenne' )
     testOperator( '-c 25 nth_mersenne' )
-
-    # nth_padovan
-    testOperator( '-c 76 nth_padovan' )
-    expectEqual( '0 45 range nth_padovan', '931 oeis 50 left 46 right' )
 
     # nth_thue_morse
     expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
 
     # nth_padovan
     testOperator( '-c 76 nth_padovan' )
-    expectEqual( '0 45 range nth_padovan', '931 oeis 50 left 46 right' )
+    expectEqual( '0 99 range nth_padovan', '931 oeis 104 left 100 right' )
 
     # octanacci
     testOperator( '-a300 -c 906 octanacci' )
-    expectEqual( '0 39 range octanacci', '79262 oeis 40 left' )
+    expectEqual( '0 99 range octanacci', '79262 oeis 100 left' )
     expectResult( '0 100 range octanacci', [ getNthKFibonacciNumberTheSlowWay( i, 8 ) for i in range( 0, 101 ) ] )
 
     # pascal_triangle
@@ -2309,7 +2314,7 @@ def runNumberTheoryOperatorTests( ):
 
     # pentanacci
     testOperator( '16 pentanacci' )
-    expectEqual( '-a20 0 37 range pentanacci', '-a20 1591 oeis 38 left' )
+    expectEqual( '0 99 range pentanacci', '1591 oeis 100 left' )
     expectResult( '0 100 range pentanacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
 
     # polygamma
@@ -2317,6 +2322,7 @@ def runNumberTheoryOperatorTests( ):
 
     # primorial
     testOperator( '1 10 range primorial' )
+    expectEqual( '-a22 0 99 range primorial', '-a22 2110 oeis 100 left' )
 
     # repunit
     testOperator( '-a20 23 5 repunit' )
@@ -2363,11 +2369,11 @@ def runNumberTheoryOperatorTests( ):
 
     # superfactorial
     testOperator( '-a50 -c 12 superfactorial' )
-    expectEqual( '-a50 0 12 range superfactorial', '178 oeis 13 left' )
+    expectEqual( '-a50 0 46 range superfactorial', '178 oeis 47 left' )
 
     # tetranacci
     testOperator( '-a30 -c 87 tetranacci' )
-    expectEqual( '0 37 range tetranacci', '78 oeis 38 left' )
+    expectEqual( '0 99 range tetranacci', '78 oeis 100 left' )
     expectResult( '0 100 range tetranacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 101 ) ] )
 
     # thabit
@@ -2377,7 +2383,7 @@ def runNumberTheoryOperatorTests( ):
     # tribonacci
     testOperator( '1 20 range tribonacci' )
     testOperator( '-c -a2800 10239 tribonacci' )
-    expectEqual( '0 37 range tribonacci', '73 oeis 38 left' )
+    expectEqual( '0 99 range tribonacci', '73 oeis 100 left' )
     expectResult( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
 
     # trigamma
