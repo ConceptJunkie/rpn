@@ -20,9 +20,9 @@ from fractions import Fraction
 from functools import reduce
 
 from mpmath import arange, binomial, fabs, fac, fadd, fdiv, fib, floor, fmod, \
-                   fmul, fneg, fprod, fsub, fsum, mp, mpc, mpf, mpmathify, nint, \
-                   phi, polyroots, polyval, power, primepi2, re, root, sqrt, \
-                   zetazero
+                   fmul, fneg, fprod, fsub, fsum, mp, mpc, mpf, mpmathify, \
+                   nint, phi, polyroots, polyval, power, primepi2, re, root, \
+                   sqrt, zetazero
 
 from rpnFactor import getFactors, getFactorList
 from rpnGenerator import RPNGenerator
@@ -374,6 +374,16 @@ def convertFromContinuedFraction( n ):
 
     fraction = RPNContinuedFraction( n ).getFraction( )
     return fdiv( fraction.numerator, fraction.denominator )
+
+
+# //******************************************************************************
+# //
+# //  makeContinuedFraction
+# //
+# //******************************************************************************
+
+def makeContinuedFraction( n, k ):
+    return RPNContinuedFraction( real( n ), maxterms = real_int( k ), cutoff = power( 10, -( mp.dps - 2 ) ) )
 
 
 # //******************************************************************************
