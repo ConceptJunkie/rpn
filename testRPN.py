@@ -2152,25 +2152,31 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '0 100 range !', '142 oeis 101 left' )
     testOperator( '2.5 factorial' )
     expectException( '-1 factorial' )
+    expectEqual( '0 100 range lambda x 2 * ! x 2 * 1 + ! * x ! sqr / eval', '909 oeis 101 left' )
 
     # fibonacci
     testOperator( '1 50 range fibonacci' )
     testOperator( '-c -a8300 39399 fibonacci' )
-    expectEqual( '0 99 range fibonacci', '45 oeis 100 left' )
+    expectEqual( '0 999 range fibonacci', '45 oeis 1000 left' )
     expectResult( '0 100 range fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
 
     # fibonorial
     testOperator( '5 fibonorial' )
     testOperator( '-a50 24 fibonorial' )
 
-    # generate_polydivisibles
-    testOperator( '3 generate_polydivisibles -r3' )
-
     # fraction
     testOperator( '2 sqrt 30 fraction' )
+    # NOTE: fraction should be setting dps itself!
+    expectEqual( '-p200 2 sqrt 2 199 range fraction flatten lambda x is_even filter_by_index', '1333 oeis 200 left 198 right' )
+    expectEqual( '-p250 5 sqrt 2 200 range fraction flatten lambda x is_odd filter_by_index', '1076 oeis 201 left 199 right' )
 
     # frobenius
     testOperator( '10 20 3 range2 prime frobenius' )
+    expectEqual( '2 1001 range lambda x 1 5 sized_range frobenius eval', '138985 oeis 1000 left' )
+
+    # generate_polydivisibles
+    testOperator( '3 generate_polydivisibles -r3' )
+    expectEqual( '2 8 range lambda x generate_polydivisibles count eval 1 +', '271374 oeis 7 left' )
 
     # gamma
     testOperator( '3 gamma' )
@@ -2181,7 +2187,7 @@ def runNumberTheoryOperatorTests( ):
 
     # heptanacci
     testOperator( '-a200 -c 623 heptanacci' )
-    expectEqual( '0 38 range heptanacci', '122189 oeis 39 left' )
+    expectEqual( '0 100 range heptanacci', '122189 oeis 101 left' )
     expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
 
     # hexanacci
@@ -2194,6 +2200,7 @@ def runNumberTheoryOperatorTests( ):
 
     # is_abundant
     testOperator( '1 20 range is_abundant' )
+    expectEqual( '1 4038 range lambda x is_abundant filter', '5101 oeis 1000 left' )
 
     # is_achilles
     testOperator( '1 20 range is_achilles' )

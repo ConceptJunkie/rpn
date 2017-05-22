@@ -991,10 +991,24 @@ def filterListByIndex( n, k, invert = False ):
 # //
 # //  createRange
 # //
+# //  Used by 'lambda'.
+# //
 # //******************************************************************************
 
 def createRange( start, end ):
     return arange( start, fadd( end, 1 ) )
+
+
+# //******************************************************************************
+# //
+# //  createSizedRange
+# //
+# //  Used by 'lambda'.
+# //
+# //******************************************************************************
+
+def createSizedRange( start, interval, size ):
+    return arange( start, fadd( start, fmul( interval, size ) ), interval )
 
 
 # //******************************************************************************

@@ -320,6 +320,9 @@ class RPNContinuedFraction( list ):
     '''This class represents a continued fraction as a list of integer terms.'''
     def __init__( self, value, maxterms = 15, cutoff = 1e-10 ):
         if isinstance( value, ( int, float, mpf ) ):
+            if mp.dps < maxterms:
+                mp.dps = maxterms
+
             value = mpmathify( value )
             remainder = floor( value )
             self.append( remainder )
@@ -335,6 +338,9 @@ class RPNContinuedFraction( list ):
                     break
 
         elif isinstance( value, ( list, tuple ) ):
+            if mp.dps < maxterms:
+                mp.dps = maxterms
+
             self.extend( value )
         else:
             raise ValueError( 'RPNContinuedFraction requires a number or a list' )
