@@ -928,6 +928,6 @@ operatorAliases = {
     'zero_mode'                 : 'leading_zero_mode',
     'zeroes'                    : 'zero',
     '|'                         : 'is_divisible',
-    '~'                         : 'not',
+    '~'                         : 'bitwise_not',
 }
 

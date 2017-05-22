@@ -120,6 +120,12 @@ def getNthMotzkinNumber( n ):
 
     a(n) = sum((-1)^j*binomial(n+1, j)*binomial(2n-3j, n), j=0..floor(n/3))/(n+1)
     '''
+
+    precision = int( fdiv( n, 1 ) )
+
+    if ( mp.dps < precision ):
+        mp.dps = precision
+
     result = 0
 
     for j in arange( 0, floor( fdiv( real( n ), 3 ) ) + 1 ):

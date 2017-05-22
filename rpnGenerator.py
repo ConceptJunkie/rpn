@@ -123,11 +123,9 @@ class RPNGenerator( object ):
 
 def itemGenerator( value ):
     if isinstance( value, list ):
-        for item in value:
-            yield item
+        yield from value
     else:
-        for item in [ value ]:
-            yield item
+        yield from [ value ]
 
 
 # //******************************************************************************

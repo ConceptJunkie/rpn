@@ -2,11 +2,11 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "rpn"
-#define MyAppVersion "6.2.0"
+#define MyAppVersion "7.0.beta1"
 #define MyAppPublisher "Rick Gutleber"
 #define MyAppURL "https://github.com/ConceptJunkie/rpn"
 #define MyAppExeName "rpn.exe"
-#define BuildDir="c:\sys\ut\rpn\build\exe.win-amd64-3.4"
+#define BuildDir="c:\sys\ut\rpn\build\exe.win-amd64-3.6"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -48,8 +48,8 @@ Source: "{#BuildDir}\help.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\library.zip"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\MSVCR100.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\pyexpat.pyd"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\python34.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildDir}\pywintypes34.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\python36.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildDir}\pywintypes36.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\select.pyd"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\small_primes.pckl.bz2"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildDir}\unicodedata.pyd"; DestDir: "{app}"; Flags: ignoreversion

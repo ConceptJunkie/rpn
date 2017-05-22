@@ -269,7 +269,7 @@ def downloadOEISTable( id ):
         if line[ 0 ] == '#':
             continue
 
-        result.append( int( line.split( ' ' )[ 1 ] ) )
+        result.append( int( line.split( )[ 1 ] ) )
 
     # add the new result to the cache and save the cache to disk
     g.oeisTableCache[ id ] = result
@@ -629,3 +629,82 @@ def generateRandomUUID( ):
     return str( uuid.uuid4( ) )
 
 
+# //******************************************************************************
+# //
+# //  cachedFunction
+# //
+# //******************************************************************************
+
+def cachedFunction( name ):
+    def namedCachedFunction( func ):
+        @functools.wraps( func )
+
+        def cacheResults( *args, **kwargs ):
+            cache = openFunctionCache( name )
+            if ( args, kwargs ) in cache:
+                return cache[ ( args, kwargs ) ]
+            else:
+                result = func( *args, **kwargs )
+                cache[ ( args, kwargs ) ] = result
+                return result
+
+        return cacheResults
+
+    return namedCachedFunction
+
+
+# //******************************************************************************
+# //
+# //  oneArgFunctionEvaluator
+# //
+# //******************************************************************************
+
+#def oneArgFunctionEvaluator( ):
+#    def oneArgFunction( func )
+#        @functools.wraps( func )
+#
+#        def
+#
+#    if isinstance( args, list ):
+#        result = [ evaluateOneArgFunction( func, i, level + 1 ) for i in args ]
+#    elif isinstance( args, RPNGenerator ):
+#        result = RPNGenerator.createChained( args.getGenerator( ), func )
+#    else:
+#        result = func( args )
+#
+#    # if this is the 'echo' operator, just return the result
+#    if func.__name__ == 'addEchoArgument':
+#        return result
+#
+#    # otherwise, check for arguments to be echoed, and echo them before the result
+#    if level == 0 and not g.operatorList and len( g.echoArguments ) > 0:
+#        returnValue = list( g.echoArguments )
+#        returnValue.append( result )
+#        g.echoArguments = [ ]
+#        return returnValue
+#    else:
+#        return result
+
+
+import signal
+import functools
+
+class TimeoutError(Exception): pass
+
+def timeout(seconds, error_message = 'Function call timed out'):
+    def decorated(func):
+        def _handle_timeout(signum, frame):
+            raise TimeoutError(error_message)
+
+        def wrapper(*args, **kwargs):
+            signal.signal(signal.SIGALRM, _handle_timeout)
+            signal.alarm(seconds)
+            try:
+                result = func(*args, **kwargs)
+            finally:
+                signal.alarm(0)
+            return result
+
+        return functools.wraps(func)(wrapper)
+
+    return decorated
