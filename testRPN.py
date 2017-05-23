@@ -309,6 +309,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '1 20 range 6 is_divisible', [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ] )
     expectException( '1 0 is_divisible' )
     expectException( '20 i 4 is_divisible' )
+    expectEqual( '0 2810 range lambda x 2 has_digits x 2 is_divisible or filter', '92451 oeis 2001 left' )
+    expectEqual( '0 2944 range lambda x 9 has_digits x 9 is_divisible or filter', '92457 oeis 1001 left' )
 
     # is_equal
     expectResult( '4 3 is_equal', 0 )
@@ -2808,6 +2810,7 @@ def runFigurateNumberOperatorTests( ):
 
     # triangular
     testOperator( '203 triangular' )
+    expectEqual( '1 102 range triangular lambda x count_different_digits 3 equals filter', '162304 oeis 47 left' )
 
     # truncated_octahedral
     testOperator( '394 truncated_octahedral' )
