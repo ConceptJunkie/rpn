@@ -3033,6 +3033,12 @@ operators = {
     'build_numbers'                  : RPNOperator( buildNumbers,
                                                     1, [ RPNOperator.String ] ),
 
+    'count_different_digits'         : RPNOperator( countDifferentDigits,
+                                                    1, [ RPNOperator.Integer ] ),
+
+    'count_digits'                   : RPNOperator( countDigits,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
     'dup_digits'                     : RPNOperator( duplicateDigits,
                                                     2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
 
@@ -3049,6 +3055,9 @@ operators = {
                                                     1, [ RPNOperator.Integer ] ),
 
     'has_digits'                     : RPNOperator( containsDigits,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'has_any_digits'                 : RPNOperator( containsAnyDigits,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     'has_only_digits'                : RPNOperator( containsOnlyDigits,

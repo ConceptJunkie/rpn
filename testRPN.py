@@ -1723,9 +1723,14 @@ def runLexicographyOperatorTests( ):
     testOperator( '[1-3:2:3] build_numbers' )
     testOperator( '[1-38-9:2:3] build_numbers' )
     testOperator( '[1-3:2][8-9:2] build_numbers' )
+    expectEqual( '[37:1:12] build_numbers', '143967 oeis 8190 left' )
 
     # combine_digits
     expectResult( '1 9 range combine_digits', 123456789 )
+
+    # count_different_digits
+    expectEqual( '1 2579 range lambda x sqr count_different_digits 5 equals filter', '54033 oeis 1000 left' )
+    expectEqual( '1 20000 range triangular lambda x count_different_digits 2 equals filter', '62691 oeis 36 left' )
 
     # dup_digits
     expectResult( '543 2 dup_digits', 54343 )
@@ -1741,6 +1746,15 @@ def runLexicographyOperatorTests( ):
     # get_digits
     testOperator( '123456789 get_digits' )
     expectEqual( '0 10000 range lambda x get_digits 1 left eval flatten', '30 oeis 10001 left' )
+
+    # has_any_digits
+    expectEqual( '1 10776 primes lambda x 2357 has_any_digits filter', '179336 oeis 10000 left' )
+
+    # has_digits
+    expectEqual( '0 30501 range lambda x 0 has_digits filter', '11540 oeis 10000 left' )
+
+    # has_only_digits
+    expectEqual( '1 20000 range lambda x triangular 120 has_only_digits filter', '119034 oeis 15 left' )
 
     # is_automorphic
     testOperator( '1 100 range lambda x is_automorphic filter' )

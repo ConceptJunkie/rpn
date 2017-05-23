@@ -249,7 +249,7 @@ def isPandigital( n ):
 def containsDigits( n, k ):
     str = getMPFIntegerAsString( n )
 
-    if isinstance( k, mpf ):
+    if isinstance( k, ( mpf, int ) ):
         k = getMPFIntegerAsString( k )
 
     for c in k:
@@ -261,6 +261,25 @@ def containsDigits( n, k ):
 
 # //******************************************************************************
 # //
+# //  containsAnyDigits
+# //
+# //******************************************************************************
+
+def containsAnyDigits( n, k ):
+    str = getMPFIntegerAsString( n )
+
+    if isinstance( k, ( mpf, int ) ):
+        k = getMPFIntegerAsString( k )
+
+    for c in k:
+        if c in str:
+            return 1
+
+    return 0
+
+
+# //******************************************************************************
+# //
 # //  containsOnlyDigits
 # //
 # //******************************************************************************
@@ -268,7 +287,7 @@ def containsDigits( n, k ):
 def containsOnlyDigits( n, k ):
     str = getMPFIntegerAsString( n )
 
-    if isinstance( k, mpf ):
+    if isinstance( k, ( mpf, int ) ):
         k = getMPFIntegerAsString( k )
 
     for c in str:
@@ -276,6 +295,37 @@ def containsOnlyDigits( n, k ):
             return 0
 
     return 1
+
+
+# //******************************************************************************
+# //
+# //  countDigits
+# //
+# //******************************************************************************
+
+def countDigits( n, k ):
+    str = getMPFIntegerAsString( n )
+
+    if isinstance( k, ( mpf, int ) ):
+        k = getMPFIntegerAsString( k )
+
+    result = 0
+
+    for c in k:
+        result += str.count( c )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  countDifferentDigits
+# //
+# //******************************************************************************
+
+def countDifferentDigits( n ):
+    str = getMPFIntegerAsString( n )
+    return len( list( set( str ) ) )
 
 
 # //******************************************************************************

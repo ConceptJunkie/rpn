@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 969
+maxExampleCount = 973
 debugMode = False
 
 
@@ -6170,6 +6170,24 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 ''' + makeCommandExample( '1 1 7 range primes combine_digits' ),
 [ ] ],
 
+    'count_digits' : [
+'lexicography', 'counts the occurrences in n of all digits in k',
+'''
+''',
+'''
+''' + makeCommandExample( '1222333456 1 count_digits' ) + '''
+''' + makeCommandExample( '1222333456 23 count_digits' ),
+[ 'count_different_digits', 'has_digits', 'has_any_digits', 'has_only_digits' ] ],
+
+    'count_different_digits' : [
+'lexicography', 'counts the number of different digits in n',
+'''
+''',
+'''
+''' + makeCommandExample( '1222333456 count_different_digits' ) + '''
+''' + makeCommandExample( '7575577755 count_different_digits' ),
+[ 'count_digits', 'has_digits', 'has_only_digits' ] ],
+
     'dup_digits' : [
 'lexicography', 'append n with a copy of its last k digits',
 '''
@@ -6212,7 +6230,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ 'get_right_truncations' ] ],
+[ 'count_digits', 'get_right_truncations', 'has_only_digits' ] ],
 
     'get_right_truncations' : [
 'lexicography', 'returns the blah blah blah',
@@ -6229,6 +6247,14 @@ on the digits that comprise an integer.
 '''
 ''',
 [ 'get_digits', 'has_only_digits' ] ],
+
+    'has_any_digits' : [
+'lexicography', 'returns whether n contains any of the digits in k',
+'''
+''',
+'''
+''',
+[ 'count_different_digits', 'has_digits', 'get_digits', 'has_only_digits' ] ],
 
     'has_only_digits' : [
 'lexicography', 'returns whether n contains all of the digits in k and no others',
