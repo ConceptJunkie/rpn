@@ -2263,6 +2263,9 @@ operators = {
     'lcm2'                           : RPNOperator( lambda n, k: getLCM( [ n, k ] ),
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
+    'mantissa'                       : RPNOperator( lambda n: fsub( n, floor( n ) ),
+                                                    1, [ RPNOperator.Default ] ),
+
     'modulo'                         : RPNOperator( lambda n, k: fmod( real( n ), real( k ) ),
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
@@ -3142,7 +3145,6 @@ operators = {
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     # list
-
     'exponential_range'              : RPNOperator( RPNGenerator.createExponential,
                                                     3, [ RPNOperator.Real, RPNOperator.Real,
                                                          RPNOperator.PositiveInteger ] ),

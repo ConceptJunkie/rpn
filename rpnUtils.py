@@ -31,6 +31,7 @@ def debugPrint( *args, **kwargs ):
 
 import bz2
 import contextlib
+import functools
 import os
 import pickle
 import signal
@@ -44,6 +45,7 @@ from functools import reduce
 
 import rpnGlobals as g
 
+from rpnPersistence import cachedFunction
 from rpnGenerator import RPNGenerator
 
 
@@ -136,6 +138,7 @@ def removeUnderscores( source ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'oeis' )
 def downloadOEISSequence( id ):
     '''Downloads and formats data from oeis.org.'''
     keywords = downloadOEISText( id, 'K' ).split( ',' )
@@ -181,21 +184,6 @@ def downloadOEISText( id, char, addCR = False ):
 
     import re as regex
 
-    if not g.oeisCache:
-        try:
-            with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis.pckl.bz2', 'rb' ) ) as pickleFile:
-                g.oeisCache = pickle.load( pickleFile )
-        except FileNotFoundError:
-            g.oeisCache = { }
-
-    if id in g.oeisCache:
-        oeisItem = g.oeisCache[ id ]
-    else:
-        oeisItem = { }
-
-    if char in oeisItem:
-        return oeisItem[ char ]
-
     try:
         data = urllib2.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( id ) + '&fmt=text' ).read( )
     except:
@@ -214,14 +202,6 @@ def downloadOEISText( id, char, addCR = False ):
 
         result += line.decode( 'ascii' )
 
-    oeisItem[ char ] = result
-
-    g.oeisCache[ id ] = oeisItem
-
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( g.oeisCache, pickleFile )
-
     return result
 
 
@@ -231,19 +211,8 @@ def downloadOEISText( id, char, addCR = False ):
 # //
 # //******************************************************************************
 
+@cachedFunction( 'oeis_table' )
 def downloadOEISTable( id ):
-    # check the cache first
-    if not g.oeisTableCache:
-        try:
-            with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis_tables.pckl.bz2', 'rb' ) ) as pickleFile:
-                g.oeisTableCache = pickle.load( pickleFile )
-        except FileNotFoundError:
-            g.oeisTableCache = { }
-
-    if id in g.oeisTableCache:
-        return g.oeisTableCache[ id ], True
-
-    # It's not in the cache, so let's try to download it
     if six.PY3:
         import urllib.request as urllib2
     else:
@@ -270,13 +239,6 @@ def downloadOEISTable( id ):
             continue
 
         result.append( int( line.split( )[ 1 ] ) )
-
-    # add the new result to the cache and save the cache to disk
-    g.oeisTableCache[ id ] = result
-
-    with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'oeis_tables.pckl.bz2', 'wb' ) ) as pickleFile:
-            pickle.dump( g.oeisTableCache, pickleFile )
 
     return result, True
 
@@ -627,30 +589,6 @@ def generateRandomUUID( ):
     import uuid
 
     return str( uuid.uuid4( ) )
-
-
-# //******************************************************************************
-# //
-# //  cachedFunction
-# //
-# //******************************************************************************
-
-def cachedFunction( name ):
-    def namedCachedFunction( func ):
-        @functools.wraps( func )
-
-        def cacheResults( *args, **kwargs ):
-            cache = openFunctionCache( name )
-            if ( args, kwargs ) in cache:
-                return cache[ ( args, kwargs ) ]
-            else:
-                result = func( *args, **kwargs )
-                cache[ ( args, kwargs ) ] = result
-                return result
-
-        return cacheResults
-
-    return namedCachedFunction
 
 
 # //******************************************************************************

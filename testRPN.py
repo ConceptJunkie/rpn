@@ -29,6 +29,8 @@ from testHelp import *
 
 from mpmath import *
 
+slow = False
+
 
 # //******************************************************************************
 # //
@@ -406,6 +408,9 @@ def runArithmeticOperatorTests( ):
     # lcm
     expectEqual( '1 10 range lcm', '[ 2 2 2 3 3 5 7 ] prod' )
     testOperator( '1 1 10 range range lcm' )
+
+    # mantissa
+    #expectEqual( '-p180 1 15000 range lambda pi x sqrt * exp mantissa 0.0001 less_than filter', '127029 oeis 4 left' )
 
     # max
     expectResult( '1 10 range max', 10 )
@@ -1076,6 +1081,10 @@ def runCombinatoricsOperatorTests( ):
 
     # nth_apery
     testOperator( '-a20 12 nth_apery' )
+    expectEqual( '0 99 range nth_apery', '5259 oeis 100 left' )
+
+    if slow:
+        expectEqual( '0 656 range nth_apery', '5259 oeis 657 left' )
 
     # nth_bell
     testOperator( '-a43 45 nth_bell' )
@@ -1084,6 +1093,7 @@ def runCombinatoricsOperatorTests( ):
     # nth_bernoulli
     testOperator( '16 nth_bernoulli' )
     expectEqual( '-a222 0 200 range nth_bernoulli', '-a20 27641 oeis 201 left 27642 oeis 201 left /' )
+    expectEqual( '1 551 range lambda 2 1 2 x ** - * x bernoulli * eval', '36968 oeis 551 left' )
 
     # nth_catalan
     testOperator( '-a50 85 nth_catalan' )
@@ -1093,9 +1103,15 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '-a80 100 nth_delannoy' )
     expectEqual( '-a80 0 99 range nth_delannoy', '1850 oeis 100 left' )
 
+    if slow:
+        expectEqual( '-a80 0 1308 range nth_delannoy', '1850 oeis 1309 left' )
+
     # nth_motzkin
     testOperator( '-a25 56 nth_motzkin' )
     expectEqual( '0 299 range nth_motzkin', '1006 oeis 300 left' )
+
+    if slow:
+        expectEqual( '0 2106 range nth_motzkin', '1006 oeis 2016 left' )
 
     # nth_pell
     testOperator( '13 nth_pell' )
@@ -1103,6 +1119,10 @@ def runCombinatoricsOperatorTests( ):
 
     # nth_schroeder
     testOperator( '-a50 67 nth_schroeder' )
+    expectEqual( '0 99 range nth_schroeder', '6318 oeis 100 left' )
+
+    if slow:
+        expectEqual( '0 1999 range nth_schroeder', '6318 oeis 2000 left' )
 
     # nth_sylvester
     testOperator( '45 nth_sylvester' )
@@ -2831,13 +2851,17 @@ def runPowersAndRootsOperatorTests( ):
 
     # cube
     testOperator( '3 cube' )
+    expectEqual( '0 10000 range cube', '578 oeis 10001 left' )
 
     # cube_root
     testOperator( 'pi cube_root' )
+    expectEqual( '17 cube_root 0 199 range ** nint', '18025 oeis 200 left' )
+    expectEqual( '11 cube_root 0 199 range ** nint', '18007 oeis 200 left' )
 
     # exp
     testOperator( '13 exp' )
-    expectEqual( ' 2 2001 range lambda euler_constant exp x log log x * * floor x sigma - eval', '58209 oeis 2000 left' )
+    expectEqual( '2 2001 range lambda euler_constant exp x log log x * * floor x sigma - eval', '58209 oeis 2000 left' )
+    expectEqual( '1 999 range lambda x x sin exp * ceiling eval', '134892 oeis 999 left' )
 
     # exp10
     testOperator( '12 exp10' )
@@ -2904,6 +2928,13 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '1 10 range cousin_prime_' )
     testOperator( '4486 cousin_prime_' )
     testOperator( '192765 cousin_prime_' )
+    # cousin primes are currently wrong starting with #99
+    #expectEqual( '1 100 range lambda x cousin_prime_ product eval', '143206 oeis 100 left' )
+    #expectEqual( '1001 1100 range lambda x cousin_prime_ product eval', '143206 oeis 1100 left 100 right' )
+    #expectEqual( '9901 10000 range lambda x cousin_prime_ product eval', '143206 oeis 10000 left 100 right' )
+
+    if slow:
+        expectEqual( '1 10000 range lambda x cousin_prime_ product eval', '143206 oeis 10000 left' )
 
     # double_balanced
     testOperator( '1 5 range double_balanced' )
@@ -2985,8 +3016,8 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '98765 20 primes' )
     testOperator( '176176176 25 primes' )
     testOperator( '11,000,000,000 25 primes' )
-    expectEqual( '1 71 primes sqrt floor', '6 oeis 71 left' )
-    expectEqual( '1 58 primes', '40 oeis 58 left' )
+    expectEqual( '1 10000 primes sqrt floor', '6 oeis 10000 left' )
+    expectEqual( '1 10000 primes', '40 oeis 10000 left' )
 
     # quadruplet_prime
     testOperator( '17 quadruplet_prime' )
@@ -3026,17 +3057,31 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '2 sexy_prime' )
     testOperator( '23235 sexy_prime' )
     testOperator( '29 sexy_prime' )
+    expectEqual( '1 100 range sexy_prime', '23201 oeis 100 left' )
+    expectEqual( '901 1000 range sexy_prime', '23201 oeis 1000 left 100 right' )
+    expectEqual( '4901 5000 range sexy_prime', '23201 oeis 5000 left 100 right' )
+    expectEqual( '9901 10000 range sexy_prime', '23201 oeis 10000 left 100 right' )
+
+    if slow:
+        expectEqual( '1 10000 range sexy_prime', '23201 oeis 10000 left' )
 
     # sexy_prime_
     testOperator( '1 10 range sexy_prime_' )
     testOperator( '29 sexy_prime_' )
     testOperator( '21985 sexy_prime_' )
     testOperator( '-c 100,000,000 sexy_prime_' )
+    expectEqual( '1 100 range lambda x sexy_prime_ product eval', '111192 oeis 100 left' )
+    expectEqual( '1001 1100 range lambda x sexy_prime_ product eval', '111192 oeis 1100 left 100 right' )
+    expectEqual( '9901 10000 range lambda x sexy_prime_ product eval', '111192 oeis 10000 left 100 right' )
+
+    if slow:
+        expectEqual( '1 10000 range lambda x sexy_prime_ product eval', '111192 oeis 10000 left' )
 
     # sexy_quadruplet
     testOperator( '1 10 range sexy_quadruplet' )
     testOperator( '29 sexy_quadruplet' )
     testOperator( '-c 289747 sexy_quadruplet' )
+    #expectEqual( '1 39 range lambda x sexy_quadruplet_ 3 element eval flatten', '46124 oeis 39 left' )
 
     # sexy_quadruplet_
     testOperator( '1 10 range sexy_quadruplet_' )
@@ -3059,6 +3104,12 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '1 10 range sophie_prime' )
     testOperator( '87 sophie_prime' )
     testOperator( '6,500,000 sophie_prime' )
+    expectEqual( '1 200 range sophie_prime', '5384 oeis 200 left' )
+    expectEqual( '9800 10000 range sophie_prime', '5384 oeis 10000 left 201 right' )
+    expectEqual( '99800 100000 range sophie_prime', '5384 oeis 100000 left 201 right' )
+
+    if slow:
+        expectEqual( '1 100000 range sophie_prime', '5384 oeis 100000 left' )
 
     # superprime
     testOperator( '89 superprime' )
@@ -3082,6 +3133,16 @@ def runPrimeNumberOperatorTests( ):
     # twin_prime
     testOperator( '1 10 range twin_prime_' )
     testOperator( '57454632 twin_prime_' )
+    expectEqual( '1 51 range lambda x twin_prime 1 + x twin_prime 1 + factors count - eval', '176915 oeis 51 left' )
+    expectEqual( '1 100 range twin_prime', '1359 oeis 100 left' )
+    expectEqual( '1001 1100 range twin_prime', '1359 oeis 1100 left 100 right' )
+    expectEqual( '5001 5100 range twin_prime', '1359 oeis 5100 left 100 right' )
+    expectEqual( '20001 20100 range twin_prime', '1359 oeis 20100 left 100 right' )
+    expectEqual( '60001 60100 range twin_prime', '1359 oeis 60100 left 100 right' )
+    expectEqual( '99901 100000 range twin_prime', '1359 oeis 100000 left 100 right' )
+
+    if slow:
+        expectEqual( '1 100000 range twin_prime', '1359 oeis 100000 left' )
 
     # twin_prime_
     testOperator( '1 20 range twin_prime' )
@@ -3451,7 +3512,7 @@ def runTests( tests ):
                     print( )
                     rpnTests[ guess[ 0 ] ]( )
                 else:
-                    print( 'I don\'t know what \'' + test + '\' means.' )
+                    print( 'I don\'t know what \'' + test + '\' means in this context.' )
     else:
         for test in rpnTests:
             rpnTests[ test ]( )

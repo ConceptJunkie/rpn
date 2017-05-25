@@ -30,9 +30,10 @@ from mpmath import autoprec, mp, mpf, mpmathify, nstr
 
 import rpnGlobals as g
 
+from rpnDebug import debugPrint
 from rpnGenerator import RPNGenerator
+from rpnKeyboard import DelayedKeyboardInterrupt
 from rpnSettings import setPrecision
-from rpnUtils import debugPrint, DelayedKeyboardInterrupt
 from rpnVersion import PROGRAM_VERSION
 
 

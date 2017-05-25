@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 973
+maxExampleCount = 975
 debugMode = False
 
 
@@ -569,6 +569,7 @@ gets smaller.
 *  'dup_ops' flat out doesn't work any more
 *  'is_equal' should handle measurements of different (but compatible) types
 *  *_primes_ operators seem to be unreasonably slow
+*  'fraction' needs to figure out what precision is needed and set it itself
 
 
 See 'rpn help bugs'.
@@ -1591,7 +1592,7 @@ increased to the next integral multiple of i.
 ''' + makeCommandExample( '3.4 ceil' ) + '''
 ''' + makeCommandExample( '-5.8 ceil' ) + '''
 ''' + makeCommandExample( '5.1 3.4 i +' ),
-[ 'floor' ] ],
+[ 'floor', 'nint', 'mantissa', 'round' ] ],
 
     'decrement' : [
 'arithmetic', 'returns n - 1',
@@ -1639,7 +1640,7 @@ decreased to the next lower integral multiple of i.
 ''' + makeCommandExample( '0.1 floor' ) + '''
 ''' + makeCommandExample( '-6.9 floor' ) + '''
 ''' + makeCommandExample( '-2.5 5.7 i + floor' ),
-[ 'ceiling', 'round', 'nearest_int' ] ],
+[ 'ceiling', 'round', 'nearest_int', 'mantissa' ] ],
 
     'gcd' : [
 'arithmetic', 'calculates the greatest common denominator of elements in list n',
@@ -1846,6 +1847,15 @@ expects real, integral arguments.
 ''' + makeCommandExample( '24 36 lcm2' ),
 [ 'gcd', 'agm', 'lcm' ] ],
 
+    'mantissa' : [
+'arithmetic', 'returns the decimal part of n',
+'''
+''',
+'''
+''' + makeCommandExample( 'pi mantissa' ) + '''
+''' + makeCommandExample( '-p50 652 sqrt pi * exp mantissa' ),
+[ 'floor', 'ceiling', 'nint' ] ],
+
     'max' : [
 'arithmetic', 'returns the largest value in list n',
 '''
@@ -1932,7 +1942,7 @@ different than 'round'.
 ''' + makeCommandExample( '3 sqrt neg nearest_int' ) + '''
 ''' + makeCommandExample( '0.5 nearest_int' ) + '''
 ''' + makeCommandExample( '1.5 nearest_int' ),
-[ 'round', 'floor', 'ceiling' ] ],
+[ 'round', 'floor', 'ceiling', 'mantissa' ] ],
 
     'product' : [
 'arithmetic', 'calculates the product of values in list n',

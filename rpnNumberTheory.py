@@ -398,8 +398,11 @@ def makeContinuedFraction( n, k ):
 # //
 # //******************************************************************************
 
-def interpretAsFraction( i, j ):
-    fraction = RPNContinuedFraction( i, maxterms = j ).getFraction( )
+def interpretAsFraction( n, k ):
+    if ( mp.dps < real_int( k ) ):
+        mp.dps = k
+
+    fraction = RPNContinuedFraction( real( n ), maxterms = k ).getFraction( )
     return [ fraction.numerator, fraction.denominator ]
 
 
