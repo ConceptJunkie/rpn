@@ -24,12 +24,13 @@ from mpmath import ceil, fabs, fdiv, floor, fmod, fneg, fprod, log, log10, mp, p
 
 import rpnGlobals as g
 
+from rpnKeyboard import DelayedKeyboardInterrupt
 from rpnPersistence import loadFactorCache
 from rpnPrimes import primes
 from rpnPrimeUtils import isPrime
 from rpnSettings import setAccuracy
-from rpnUtils import DelayedKeyboardInterrupt, getExpandedFactorList, \
-                     getExpandedFactorListSympy, real, real_int
+from rpnUtils import getExpandedFactorList, getExpandedFactorListSympy, \
+                     real, real_int
 
 
 # //******************************************************************************

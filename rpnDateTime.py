@@ -109,7 +109,8 @@ class RPNDateTime( arrow.Arrow ):
     def getLocalTime( self, tz = getLocalTimeZone( ) ):
         result = self
         result = result.add( self.getUTCOffset( tz ) )
-        return result.add( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
+        #return result.subtract( RPNMeasurement( result.astimezone( tz ).dst( ).seconds, 'seconds' ) )
+        return result
 
     @staticmethod
     def parseDateTime( n ):

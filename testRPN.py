@@ -413,7 +413,7 @@ def runArithmeticOperatorTests( ):
     #expectEqual( '-p180 1 15000 range lambda pi x sqrt * exp mantissa 0.0001 less_than filter', '127029 oeis 4 left' )
 
     # max
-    expectResult( '1 10 range max', 10 )
+    eexpectResult( '1 10 range max', 10 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
     expectEqual( '1 1 10 range range max', '1 10 range' )
@@ -1017,7 +1017,7 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '4 5 bell_polynomial' )
     testOperator( '5 5 10 range bell_polynomial' )
 
-    from rpnUtils import downloadOEISSequence
+    from rpnSpecial import downloadOEISSequence
 
     bell_terms = downloadOEISSequence( 106800 )
 
@@ -1119,7 +1119,7 @@ def runCombinatoricsOperatorTests( ):
 
     # nth_schroeder
     testOperator( '-a50 67 nth_schroeder' )
-    expectEqual( '0 99 range nth_schroeder', '6318 oeis 100 left' )
+    expectEqual( '1 100 range nth_schroeder', '6318 oeis 100 left' )
 
     if slow:
         expectEqual( '0 1999 range nth_schroeder', '6318 oeis 2000 left' )
@@ -1210,7 +1210,10 @@ def runConstantOperatorTests( ):
     testOperator( 'catalan_constant' )
     testOperator( 'champernowne_constant' )
     testOperator( 'copeland_erdos_constant' )
+
     testOperator( 'e' )
+    expectEqual( '-a150 e 0 300 range ** floor', '149 oeis 301 left' )
+
     testOperator( 'eddington_number' )
     testOperator( 'euler_mascheroni_constant' )
     testOperator( 'glaisher_constant' )
@@ -1221,7 +1224,10 @@ def runConstantOperatorTests( ):
     testOperator( 'mills_constant' )
     testOperator( 'negative_infinity' )
     testOperator( 'omega_constant' )
+
     testOperator( 'phi' )
+    expectEqual( '1 10000 range phi * floor', '201 oeis 10000 left' )
+
     testOperator( 'pi' )
     testOperator( 'plastic_constant' )
     testOperator( 'prevost_constant' )
@@ -2025,6 +2031,8 @@ def runLogarithmsOperatorTests( ):
     # log
     testOperator( '1000 log' )
     expectEqual( '0 lambda 1 x ** 5 x * + log 13 x * / limitn', '5 13 /' )
+    expectEqual( '1 10000 range log nearest_int', '193 oeis 10000 left' )
+    expectEqual( '1 10000 range log floor', '195 oeis 10000 left' )
 
     # log10
     expectResult( '1000 log10', 3 )
@@ -2159,6 +2167,7 @@ def runNumberTheoryOperatorTests( ):
 
     # double_factorial
     testOperator( '9 double_factorial' )
+    expectEqual( '0 2 100 sized_range !!', '165 oeis 100 left' )
 
     # egypt
     testOperator( '45 67 egypt' )
@@ -2203,7 +2212,7 @@ def runNumberTheoryOperatorTests( ):
     # fraction
     testOperator( '2 sqrt 30 fraction' )
     # NOTE: fraction should be setting dps itself!
-    expectEqual( '-p200 2 sqrt 2 199 range fraction flatten lambda x is_even filter_by_index', '1333 oeis 200 left 198 right' )
+    expectEqual( '-p250 2 sqrt 2 199 range fraction flatten lambda x is_even filter_by_index', '1333 oeis 200 left 198 right' )
     expectEqual( '-p250 5 sqrt 2 200 range fraction flatten lambda x is_odd filter_by_index', '1076 oeis 201 left 199 right' )
 
     # frobenius
@@ -2324,6 +2333,8 @@ def runNumberTheoryOperatorTests( ):
 
     # linear_recurrence
     testOperator( '1 10 range 2 5 range 17 linear_recur' )
+    expectEqual( '-a22 [ 1 -1 -2 3 ] [ 1 2 4 8 ] 1 200 range linear_recurrence', '126 oeis 200 left' )
+    expectEqual( '-a22 [ -1, 2, 1, -5 4 ] [ 1, 2, 4, 8, 16 ] 1 201 range linear_recurrence', '128 oeis 201 left' )
 
     # log_gamma
     testOperator( '10 log_gamma' )
@@ -2390,44 +2401,93 @@ def runNumberTheoryOperatorTests( ):
 
     # sigma
     testOperator( '1 20 range sigma' )
-    expectEqual( '1 70 range sigma', '203 oeis 70 left' )
+    expectEqual( '1 500 range sigma', '203 oeis 500 left' )
+    expectEqual( '1 499 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval', '118 oeis 500 left 499 right' )
+
+    if slow:
+        expectEqual( '1 100000 range sigma', '203 oeis 100000 left' )
+        expectEqual( '1 49999 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval', '118 oeis 50000 left 49999 right' )
 
     # sigma_n
     testOperator( '1 20 3 range sigma_n' )
     expectEqual( '1 50 range 2 sigma_n', '1157 oeis 50 left' )
-    expectEqual( '1 39 range 3 sigma_n', '1158 oeis 39 left' )
-    expectEqual( '1 33 range 4 sigma_n', '1159 oeis 33 left' )
-    expectEqual( '1 29 range 5 sigma_n', '1160 oeis 29 left' )
-    expectEqual( '1 23 range 6 sigma_n', '13954 oeis 23 left' )
-    expectEqual( '1 22 range 7 sigma_n', '13955 oeis 22 left' )
-    expectEqual( '1 20 range 8 sigma_n', '13956 oeis 20 left' )
-    expectEqual( '1 20 range 9 sigma_n', '13957 oeis 20 left' )
-    expectEqual( '1 17 range 10 sigma_n', '13958 oeis 17 left' )
-    expectEqual( '-a20 -p30 1 17 range 11 sigma_n', '-a20 13959 oeis 17 left' )
-    expectEqual( '-a20 -p30 1 16 range 12 sigma_n', '-a20 13960 oeis 16 left' )
-    expectEqual( '-a20 -p30 1 15 range 13 sigma_n', '-a20 13961 oeis 15 left' )
-    expectEqual( '-a20 -p30 1 15 range 14 sigma_n', '-a20 13962 oeis 15 left' )
-    expectEqual( '-a20 -p30 1 14 range 15 sigma_n', '-a20 13963 oeis 14 left' )
-    expectEqual( '-a20 -p30 1 13 range 16 sigma_n', '-a20 13964 oeis 13 left' )
-    expectEqual( '-a25 -p30 1 13 range 17 sigma_n', '-a25 13965 oeis 13 left' )
-    expectEqual( '-a25 -p30 1 12 range 18 sigma_n', '-a25 13966 oeis 12 left' )
-    expectEqual( '-a25 -p30 1 12 range 19 sigma_n', '-a25 13967 oeis 12 left' )
-    expectEqual( '-a25 -p30 1 12 range 20 sigma_n', '-a25 13968 oeis 12 left' )
-    expectEqual( '-a25 -p35 1 12 range 21 sigma_n', '-a25 13969 oeis 12 left' )
-    expectEqual( '-a25 -p35 1 11 range 22 sigma_n', '-a25 13970 oeis 11 left' )
-    expectEqual( '-a25 -p40 1 11 range 23 sigma_n', '-a25 13971 oeis 11 left' )
-    expectEqual( '-a25 -p40 1 11 range 24 sigma_n', '-a25 13972 oeis 11 left' )
+    expectEqual( '-p30 1 100 range 3 sigma_n', '1158 oeis 100 left' )
+    expectEqual( '-p30 1 100 range 4 sigma_n', '1159 oeis 100 left' )
+    expectEqual( '-p30 1 100 range 5 sigma_n', '1160 oeis 100 left' )
+    expectEqual( '-p30 1 100 range 6 sigma_n', '13954 oeis 100 left' )
+    expectEqual( '-p30 1 100 range 7 sigma_n', '13955 oeis 100 left' )
+    expectEqual( '-p30 1 100 range 8 sigma_n', '13956 oeis 100 left' )
+    expectEqual( '-p35 1 100 range 9 sigma_n', '13957 oeis 100 left' )
+    expectEqual( '-p35 1 100 range 10 sigma_n', '13958 oeis 100 left' )
+    expectEqual( '-p40 1 100 range 11 sigma_n', '13959 oeis 100 left' )
+    expectEqual( '-p45 1 100 range 12 sigma_n', '13960 oeis 100 left' )
+    expectEqual( '-p45 1 100 range 13 sigma_n', '13961 oeis 100 left' )
+    expectEqual( '-p45 1 100 range 14 sigma_n', '13962 oeis 100 left' )
+    expectEqual( '-p50 1 100 range 15 sigma_n', '13963 oeis 100 left' )
+    expectEqual( '-p55 1 100 range 16 sigma_n', '13964 oeis 100 left' )
+    expectEqual( '-p65 1 100 range 17 sigma_n', '13965 oeis 100 left' )
+    expectEqual( '-p75 1 100 range 18 sigma_n', '13966 oeis 100 left' )
+    expectEqual( '-p80 1 100 range 19 sigma_n', '13967 oeis 100 left' )
+    expectEqual( '-p85 1 100 range 20 sigma_n', '13968 oeis 100 left' )
+    expectEqual( '-p90 1 100 range 21 sigma_n', '13969 oeis 100 left' )
+    expectEqual( '-p95 1 100 range 22 sigma_n', '13970 oeis 100 left' )
+    expectEqual( '-p100 1 100 range 23 sigma_n', '13971 oeis 100 left' )
+    expectEqual( '-p100 1 100 range 24 sigma_n', '13972 oeis 100 left' )
+
+    if slow:
+        expectEqual( '-p30 1 1000 range 3 sigma_n', '1158 oeis 1000 left' )
+        expectEqual( '-p30 1 1000 range 4 sigma_n', '1159 oeis 1000 left' )
+        expectEqual( '-p35 1 1000 range 5 sigma_n', '1160 oeis 1000 left' )
+        expectEqual( '-p35 1 1000 range 6 sigma_n', '13954 oeis 1000 left' )
+        expectEqual( '-p45 1 1000 range 7 sigma_n', '13955 oeis 1000 left' )
+        expectEqual( '-p50 1 1000 range 8 sigma_n', '13956 oeis 1000 left' )
+        expectEqual( '-p55 1 1000 range 9 sigma_n', '13957 oeis 1000 left' )
+        expectEqual( '-p60 1 1000 range 10 sigma_n', '13958 oeis 1000 left' )
+        expectEqual( '-p65 1 1000 range 11 sigma_n', '13959 oeis 1000 left' )
+        expectEqual( '-p70 1 999 range 12 sigma_n', '13960 oeis 999 left' )
+        expectEqual( '-p80 1 999 range 13 sigma_n', '13961 oeis 999 left' )
+        expectEqual( '-p85 1 999 range 14 sigma_n', '13962 oeis 999 left' )
+        expectEqual( '-p90 1 999 range 15 sigma_n', '13963 oeis 999 left' )
+        expectEqual( '-p95 1 999 range 16 sigma_n', '13964 oeis 999 left' )
+        expectEqual( '-p100 1 999 range 17 sigma_n', '13965 oeis 999 left' )
+        expectEqual( '-p200 1 10000 range 18 sigma_n', '13966 oeis 10000 left' )
+        expectEqual( '-p210 1 10000 range 19 sigma_n', '13967 oeis 10000 left' )
+        expectEqual( '-p220 1 10000 range 20 sigma_n', '13968 oeis 10000 left' )
+        expectEqual( '-p230 1 10000 range 21 sigma_n', '13969 oeis 10000 left' )
+        expectEqual( '-p240 1 10000 range 22 sigma_n', '13970 oeis 10000 left' )
+        expectEqual( '-p250 1 10000 range 23 sigma_n', '13971 oeis 10000 left' )
+        expectEqual( '-p260 1 10000 range 24 sigma_n', '13972 oeis 10000 left' )
 
     # stern
     testOperator( '1 100 range stern' )
 
     # subfactorial
     testOperator( '-a20 -c 19 subfactorial' )
-    # A000166
+    expectEqual( '1 199 range subfactorial', '166 oeis 200 left 199 right' )
+
+    # sums_of_k_powers
+    testOperator( '1072 3 3 sums_of_k_powers' )
+    expectEqual( '0 576 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 200 left' )
+    expectEqual( '0 99 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 100 left' )
+    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 100 left' )
+    expectEqual( '0 99 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 100 left' )
+
+    if slow:
+        expectEqual( '0 9999 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 10000 left' )
+        expectEqual( '0 39592 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 10000 left' )
+        expectEqual( '0 9999 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 10000 left' )
+        expectEqual( '0 9999 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 10000 left' )
+
+    # sums_of_nonzero_k_powers
+    testOperator( '5104 3 3 sums_of_nonzero_k_powers' )
+    expectEqual( '1 629 range lambda x 2 2 sums_of_nonzero_k_powers count filter', '404 oeis 200 left' )
+
+    if slow:
+        expectEqual( '1 40045 range lambda x 2 2 sums_of_nonzero_k_powers count filter', '404 oeis 10000 left' )
 
     # superfactorial
     testOperator( '-a50 -c 12 superfactorial' )
-    expectEqual( '-a50 0 46 range superfactorial', '178 oeis 47 left' )
+    expectEqual( '0 46 range superfactorial', '178 oeis 47 left' )
 
     # tetranacci
     testOperator( '-a30 -c 87 tetranacci' )
@@ -2888,7 +2948,7 @@ def runPowersAndRootsOperatorTests( ):
 
     # square_root
     expectEqual( '2 square_root', '4 4 root' )
-    expectEqual( '1 71 range prime sqrt floor', '6 oeis 71 left' )
+    expectEqual( '1 10000 range prime sqrt floor', '6 oeis 10000 left' )
 
     # tetrate
     testOperator( '3 2 tetrate' )

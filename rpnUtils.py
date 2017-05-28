@@ -29,16 +29,11 @@ def debugPrint( *args, **kwargs ):
         return
 
 
-import bz2
-import contextlib
 import functools
 import os
-import pickle
-import signal
 import sys
 
-from mpmath import arange, fadd, findpoly, floor, identify, im, log10, \
-                   mpmathify, nint, nstr, rand
+from mpmath import arange, fadd, floor, im, log10, mpmathify, nint, nstr
 
 from random import randrange
 from functools import reduce
@@ -65,55 +60,6 @@ def getDataPath( ):
 
 # //******************************************************************************
 # //
-# //  class DelayedKeyboardInterrupt
-# //
-# //  http://stackoverflow.com/questions/842557/how-to-prevent-a-block-of-code-from-being-interrupted-by-keyboardinterrupt-in-py
-# //
-# //******************************************************************************
-
-class DelayedKeyboardInterrupt( object ):
-    '''This class is used to mask keyboard interrupts.'''
-    def __enter__( self ):
-        self.signal_received = False
-        self.old_handler = signal.getsignal( signal.SIGINT )
-        signal.signal( signal.SIGINT, self.handler )
-
-    def handler( self, signal, frame ):
-        self.signal_received = ( signal, frame )
-
-    def __exit__( self, type, value, traceback ):
-        signal.signal( signal.SIGINT, self.old_handler )
-
-        if self.signal_received:
-            self.old_handler( *self.signal_received )
-
-
-# //******************************************************************************
-# //
-# //  getMultipleRandoms
-# //
-# //******************************************************************************
-
-def getMultipleRandoms( n ):
-    '''Returns n random numbers.'''
-    for i in arange( 0, real_int( n ) ):
-        yield rand( )
-
-
-# //******************************************************************************
-# //
-# //  getRandomIntegers
-# //
-# //******************************************************************************
-
-def getRandomIntegers( n, k ):
-    '''Returns k random integers between 0 and n-1.'''
-    for i in arange( 0, real_int( k ) ):
-        yield randrange( n )
-
-
-# //******************************************************************************
-# //
 # //  removeUnderscores
 # //
 # //******************************************************************************
@@ -130,117 +76,6 @@ def removeUnderscores( source ):
             result += c
 
     return result
-
-
-# //******************************************************************************
-# //
-# //  downloadOEISSequence
-# //
-# //******************************************************************************
-
-@cachedFunction( 'oeis' )
-def downloadOEISSequence( id ):
-    '''Downloads and formats data from oeis.org.'''
-    keywords = downloadOEISText( id, 'K' ).split( ',' )
-
-    # If oeis.org isn't available, just punt everything
-    if keywords == [ '' ]:
-        return 0
-
-    result, success = downloadOEISTable( id )
-
-    if success:
-        return result
-
-    if 'nonn' in keywords:
-        result = downloadOEISText( id, 'S' )
-        result += downloadOEISText( id, 'T' )
-        result += downloadOEISText( id, 'U' )
-    else:
-        result = downloadOEISText( id, 'V' )
-        result += downloadOEISText( id, 'W' )
-        result += downloadOEISText( id, 'X' )
-
-    if 'cons' in keywords:
-        offset = int( downloadOEISText( id, 'O' ).split( ',' )[ 0 ] )
-        result = ''.join( result.split( ',' ) )
-        return mpmathify( result[ : offset ] + '.' + result[ offset : ] )
-    else:
-        return [ int( i ) for i in result.split( ',' ) ]
-
-
-# //******************************************************************************
-# //
-# //  downloadOEISText
-# //
-# //******************************************************************************
-
-def downloadOEISText( id, char, addCR = False ):
-    '''Downloads, formats and caches text data from oeis.org.'''
-    if six.PY3:
-        import urllib.request as urllib2
-    else:
-        import urllib2
-
-    import re as regex
-
-    try:
-        data = urllib2.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( id ) + '&fmt=text' ).read( )
-    except:
-        print( 'rpn:  HTTP access to oeis.org failed' )
-        return ''
-
-    pattern = regex.compile( b'%' + bytes( char, 'ascii' ) + b' A[0-9][0-9][0-9][0-9][0-9][0-9] (.*?)\n', regex.DOTALL )
-
-    lines = pattern.findall( data )
-
-    result = ''
-
-    for line in lines:
-        if result != '' and addCR:
-            result += '\n'
-
-        result += line.decode( 'ascii' )
-
-    return result
-
-
-# //******************************************************************************
-# //
-# //  downloadOEISTable
-# //
-# //******************************************************************************
-
-@cachedFunction( 'oeis_table' )
-def downloadOEISTable( id ):
-    if six.PY3:
-        import urllib.request as urllib2
-    else:
-        import urllib2
-
-    try:
-        data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( id, id ) ).read( )
-    except:
-        return [ ], False
-
-    import re as regex
-    pattern = regex.compile( b'(.*?)\n', regex.DOTALL )
-    lines = pattern.findall( data )
-
-    result = [ ]
-
-    for line in lines:
-        line = line.decode( 'ascii' )
-
-        if line == '':
-            continue
-
-        if line[ 0 ] == '#':
-            continue
-
-        result.append( int( line.split( )[ 1 ] ) )
-
-    return result, True
 
 
 # //******************************************************************************
@@ -375,49 +210,6 @@ def abortArgsNeeded( term, index, argsNeeded ):
            format( argsNeeded ) + ' argument', end = '' )
 
     print( 's' if argsNeeded > 1 else '' )
-
-
-# //******************************************************************************
-# //
-# //  handleIdentify
-# //
-# //******************************************************************************
-
-def handleIdentify( result, file=sys.stdout ):
-    '''Calls the mpmath identify function to try to identify a constant.'''
-    formula = identify( result )
-
-    if formula is None:
-        base = [ 'pi', 'e', 'euler' ]
-        formula = identify( result, base )
-
-    if formula is None:
-        print( '    = [formula cannot be found]', file=file )
-    else:
-        print( '    = ' + formula, file=file )
-
-
-# //******************************************************************************
-# //
-# //  findPolynomial
-# //
-# //******************************************************************************
-
-def findPolynomial( n, k ):
-    '''Calls the mpmath findpoly function to try to identify a polynomial of
-    degree <= k for which n is a zero.'''
-    poly = findpoly( n, int( k ) )
-
-    if poly is None:
-        poly = findpoly( n, int( k ), tol = 1e-10 )
-
-    if poly is None:
-        poly = findpoly( n, int( k ), tol = 1e-7 )
-
-    if poly is None:
-        return [ 0 ]
-    else:
-        return poly
 
 
 # //******************************************************************************
@@ -566,33 +358,6 @@ def parseNumerals( argument ):
 
 # //******************************************************************************
 # //
-# //  generateUUID
-# //
-# //******************************************************************************
-
-def generateUUID( ):
-    '''Generates a UUID that uses the current machine's MAC address and the
-    current time as seeds.'''
-    import uuid
-
-    return str( uuid.uuid1( ) )
-
-
-# //******************************************************************************
-# //
-# //  generateRandomUUID
-# //
-# //******************************************************************************
-
-def generateRandomUUID( ):
-    '''Generates a completely random UUID.'''
-    import uuid
-
-    return str( uuid.uuid4( ) )
-
-
-# //******************************************************************************
-# //
 # //  oneArgFunctionEvaluator
 # //
 # //******************************************************************************
@@ -646,3 +411,4 @@ def timeout(seconds, error_message = 'Function call timed out'):
         return functools.wraps(func)(wrapper)
 
     return decorated
+

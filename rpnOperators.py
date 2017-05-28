@@ -25,7 +25,7 @@ from random import randrange
 from mpmath import acosh, acot, acoth, acsc, acsch, agm, altzeta, arg, asec, \
                    asech, asin, asinh, atan, atanh, barnesg, beta, conj, cosh, \
                    cos, coth, cplot, csc, csch, cyclotomic, fac2, fadd, fmod, \
-                   harmonic, hyperfac, lambertw, li, limit, ln, loggamma, \
+                   harmonic, hyperfac, lambertw, li, limit, ln, loggamma, nint, \
                    nprod, nsum, polyexp, polylog, plot, psi, rand, sec, sech, \
                    sin, sinh, splot, superfac, tan, tanh, unitroots, zeta
 
@@ -58,6 +58,7 @@ from rpnPolynomials import *
 from rpnPolytope import *
 from rpnPrimeUtils import *
 from rpnSettings import *
+from rpnSpecial import *
 from rpnUtils import *
 
 import rpnGlobals as g
@@ -2231,6 +2232,10 @@ operators = {
     'is_greater'                     : RPNOperator( isGreater,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
+    'is_integer'                     : RPNOperator( lambda n: 1 if n == nint( n ) else 0,
+                                                    1, [ RPNOperator.Real ] ),
+
+
     'is_less'                        : RPNOperator( isLess,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
@@ -2315,7 +2320,7 @@ operators = {
     'astronomical_dawn'              : RPNOperator( lambda n, k: getNextDawn( n, k, -18 ),
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'astronomical_dusk'              : RPNOperator( lambda n, k: getNextDawn( n, k, -18 ),
+    'astronomical_dusk'              : RPNOperator( lambda n, k: getNextDusk( n, k, -18 ),
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'autumnal_equinox'               : RPNOperator( getAutumnalEquinox,
@@ -2351,7 +2356,7 @@ operators = {
     'nautical_dawn'                  : RPNOperator( lambda n, k: getNextDawn( n, k, -12 ),
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'nautical_dusk'                  : RPNOperator( lambda n, k: getNextDawn( n, k, -12 ),
+    'nautical_dusk'                  : RPNOperator( lambda n, k: getNextDusk( n, k, -12 ),
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'next_antitransit'               : RPNOperator( getNextAntitransit,
@@ -3434,6 +3439,12 @@ operators = {
     'subfactorial'                   : RPNOperator( lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'sums_of_k_powers'               : RPNOperator( lambda n, k, p: RPNGenerator( findSumsOfKPowers( n, k, p ) ),
+                                                    3, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
+    'sums_of_nonzero_k_powers'       : RPNOperator( lambda n, k, p: RPNGenerator( findSumsOfKPowers( n, k, p, bNonZero = True ) ),
+                                                    3, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
     'superfactorial'                 : RPNOperator( lambda n: superfac( n ),
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
@@ -3995,6 +4006,9 @@ operators = {
 
     'get_data'                       : RPNOperator( getUserData,
                                                     1, [ RPNOperator.String ] ),
+
+    'if'                             : RPNOperator( lambda a, b, c: a if c else b,
+                                                    3, [ RPNOperator.Default, RPNOperator.Default, RPNOperator.Integer ] ),
 
     'name'                           : RPNOperator( getNumberName,
                                                     1, [ RPNOperator.Integer ] ),

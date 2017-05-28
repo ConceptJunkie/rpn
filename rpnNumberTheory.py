@@ -320,9 +320,6 @@ class RPNContinuedFraction( list ):
     '''This class represents a continued fraction as a list of integer terms.'''
     def __init__( self, value, maxterms = 15, cutoff = 1e-10 ):
         if isinstance( value, ( int, float, mpf ) ):
-            if mp.dps < maxterms:
-                mp.dps = maxterms
-
             value = mpmathify( value )
             remainder = floor( value )
             self.append( remainder )
@@ -1525,4 +1522,30 @@ def getNthThueMorse( n ):
         return 0
     else:
         return fmod( fadd( n, getNthThueMorse( floor( fdiv( n, 2 ) ) ) ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  findSumsOfKPowers
+# //
+# //******************************************************************************
+
+def findSumsOfKPowers( n, k, p, bNonZero=False ):
+    limit = fadd( floor( root( n, p ) ), 1 )
+
+    lower = fsub( limit, 1 )
+    upper = fmul( limit, 2 )
+
+    candidates = arange( 1 if bNonZero else 0, limit )
+
+    l = itertools.combinations_with_replacement( candidates, int( k ) )
+
+    for a in l:
+        #sum = fsum( a )
+        #
+        #if lower > sum > upper:
+        #    continue
+
+        if fsum( [ power( i, p ) for i in a ] ) == n:
+            yield list( a )
 

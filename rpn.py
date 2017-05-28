@@ -49,9 +49,10 @@ from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnit
 
 from rpnPersistence import loadUserDataFile, saveUserDataFile
 
+from rpnSpecial import handleIdentify
+
 from rpnUtils import debugPrint, getCurrentArgList, getDataPath, \
-                     handleIdentify, parseNumerals, validateArguments, \
-                     validateOptions
+                     parseNumerals, validateArguments, validateOptions
 
 from rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 

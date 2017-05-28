@@ -7813,8 +7813,7 @@ be an appropriate term to describe having a number of squarefree other than 1
 The factors (a) indicate the multiple of each preceding value to add to create
 the next value in the recurrence list, listed from right to left (meaning the
 last factor corresponds to the n - 1'th value in the sequence.  For the
-Fibonacci or Lucas lists, this would be [ 1 1 ,
-[ ] ], meaning the previous value,
+Fibonacci or Lucas lists, this would be [ 1 1 ], meaning the previous value,
 plus the one before that.  The tribonacci sequence would have a factor list of
 [ 1 1 1 ].
 
@@ -8118,6 +8117,14 @@ floor( ( n!/e ) + 1/2 )
 ''',
 '''
 ''' + makeCommandExample( '1 10 range subfactorial' ),
+[ ] ],
+
+    'sums_of_k_powers' : [
+'number_theory', 'calculates every combination of b cth powers that sum to n',
+'''
+''',
+'''
+''' + makeCommandExample( '5104 3 3 sums_of_k_powers' ),
 [ ] ],
 
     'superfactorial' : [
