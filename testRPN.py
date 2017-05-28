@@ -410,10 +410,11 @@ def runArithmeticOperatorTests( ):
     testOperator( '1 1 10 range range lcm' )
 
     # mantissa
+    # This works on the command line, but not here.  I have no idea why.
     #expectEqual( '-p180 1 15000 range lambda pi x sqrt * exp mantissa 0.0001 less_than filter', '127029 oeis 4 left' )
 
     # max
-    eexpectResult( '1 10 range max', 10 )
+    expectResult( '1 10 range max', 10 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
     expectEqual( '1 1 10 range range max', '1 10 range' )
@@ -3164,9 +3165,9 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '1 10 range sophie_prime' )
     testOperator( '87 sophie_prime' )
     testOperator( '6,500,000 sophie_prime' )
-    expectEqual( '1 200 range sophie_prime', '5384 oeis 200 left' )
-    expectEqual( '9800 10000 range sophie_prime', '5384 oeis 10000 left 201 right' )
-    expectEqual( '99800 100000 range sophie_prime', '5384 oeis 100000 left 201 right' )
+    expectEqual( '1 100 range sophie_prime', '5384 oeis 100 left' )
+    expectEqual( '9900 10000 range sophie_prime', '5384 oeis 10000 left 101 right' )
+    expectEqual( '99900 100000 range sophie_prime', '5384 oeis 100000 left 101 right' )
 
     if slow:
         expectEqual( '1 100000 range sophie_prime', '5384 oeis 100000 left' )

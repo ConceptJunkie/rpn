@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 975
+maxExampleCount = 977
 debugMode = False
 
 
@@ -8127,6 +8127,14 @@ floor( ( n!/e ) + 1/2 )
 ''' + makeCommandExample( '5104 3 3 sums_of_k_powers' ),
 [ ] ],
 
+    'sums_of_k_nonzero_powers' : [
+'number_theory', 'calculates every combination of b nonzero cth powers that sum to n',
+'''
+''',
+'''
+''' + makeCommandExample( '1072 3 3 sums_of_k_powers' ),
+[ ] ],
+
     'superfactorial' : [
 'number_theory', 'calculates the superfactorial of n',
 '''
@@ -10028,6 +10036,14 @@ magnitude of the measurement.
 '''
 ''',
 [ 'topic' ] ],
+
+    'if' : [
+'special', 'TODO: explain me',
+'''
+''',
+'''
+''',
+[ ] ],
 
     'name' : [
 'special', 'returns the English name for the integer value or measurement n',
