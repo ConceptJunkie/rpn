@@ -74,11 +74,11 @@ def findNthPolygonalNumber( n, k ):
 
 # //******************************************************************************
 # //
-# //  getCenteredPolygonalNumber
+# //  getNthCenteredPolygonalNumber
 # //
 # //******************************************************************************
 
-def getCenteredPolygonalNumber( n, k ):
+def getNthCenteredPolygonalNumber( n, k ):
     if real_int( k ) < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
@@ -916,4 +916,153 @@ def getNthPolytopeNumber( n, d ):
 def getNthStarNumber( n ):
     arg = real_int( n )
     return fadd( fmul( fmul( 6, n ), fsub( n, 1 ) ), 1 )
+
+
+@oneArgFunctionEvaluator( )
+def getNthCenteredDecagonalNumber( n ):
+    return getNthCenteredPolygonalNumber( n, 10 )
+
+@oneArgFunctionEvaluator( )
+def getNthCenteredHeptagonalNumber( n ):
+    return getNthCenteredPolygonalNumber( n, 7 )
+
+@oneArgFunctionEvaluator( )
+def getNthCenteredHexagonalNumber( n ):
+    return getNthCenteredPolygonalNumber( n, 6 )
+
+@oneArgFunctionEvaluator( )
+def getNthCenteredNonagonalNumber( n ):
+    return getNthCenteredPolygonalNumber( n, 9 )
+
+@oneArgFunctionEvaluator( )
+def getNthCenteredOctagonalNumber( n ):
+    return getNthCenteredPolygonalNumber( n, 8 )
+
+@oneArgFunctionEvaluator( )
+def getNthCenteredPentagonalNumber( n ):
+    return getNthCenteredPolygonalNumber( n, 5 )
+
+@oneArgFunctionEvaluator( )
+def getNthCenteredSquareNumber( n ):
+    return getNthCenteredPolygonalNumber( n, 4 )
+
+@oneArgFunctionEvaluator( )
+def getNthCenteredTriangularNumber( n ):
+    return getNthCenteredPolygonalNumber( n, 3 )
+
+@oneArgFunctionEvaluator( )
+def getNthDecagonalNumber( n ):
+    return getNthPolygonalNumber( n, 10 )
+
+@oneArgFunctionEvaluator( )
+def getNthGeneralizedPentagonalNumber( n ):
+    return getNthGeneralizedPolygonalNumber( n, 5 )
+
+@oneArgFunctionEvaluator( )
+def getNthHeptagonalNumber( n ):
+    return getNthPolygonalNumber( n, 7 )
+
+@oneArgFunctionEvaluator( )
+def getNthHexagonalNumber( n ):
+    return getNthPolygonalNumber( n, 6 )
+
+@oneArgFunctionEvaluator( )
+def getNthNonagonalNumber( n ):
+    return getNthPolygonalNumber( n, 9 )
+
+@oneArgFunctionEvaluator( )
+def findNthCenteredDecagonalNumber( n ):
+    return findCenteredPolygonalNumber( n, 10 )
+
+@oneArgFunctionEvaluator( )
+def findNthCenteredHeptagonalNumber( n ):
+    return findCenteredPolygonalNumber( n, 7 )
+
+@oneArgFunctionEvaluator( )
+def findNthCenteredHexagonalNumber( n ):
+    return findCenteredPolygonalNumber( n, 6 )
+
+@oneArgFunctionEvaluator( )
+def findNthCenteredNonagonalNumber( n ):
+    return findCenteredPolygonalNumber( n, 9 )
+
+@oneArgFunctionEvaluator( )
+def findNthCenteredOctagonalNumber( n ):
+    return findCenteredPolygonalNumber( n, 8 )
+
+@oneArgFunctionEvaluator( )
+def findNthCenteredPentagonalNumber( n ):
+    return findCenteredPolygonalNumber( n, 5 )
+
+@oneArgFunctionEvaluator( )
+def findNthCenteredSquareNumber( n ):
+    return findCenteredPolygonalNumber( n, 4 )
+
+@oneArgFunctionEvaluator( )
+def findNthCenteredTriangularNumber( n ):
+    return findCenteredPolygonalNumber( n, 3 )
+
+@oneArgFunctionEvaluator( )
+def findNthDecagonalNumber( n ):
+    return findNthPolygonalNumber( n, 10 )
+
+@oneArgFunctionEvaluator( )
+def findNthHeptagonalNumber( n ):
+    return findNthPolygonalNumber( n, 7 )
+
+@oneArgFunctionEvaluator( )
+def findNthHexagonalNumber( n ):
+    return findNthPolygonalNumber( n, 6 )
+
+@oneArgFunctionEvaluator( )
+def findNthNonagonalNumber( n ):
+    return findNthPolygonalNumber( n, 9 )
+
+@oneArgFunctionEvaluator( )
+def findNthOctagonalNumber( n ):
+    return findNthPolygonalNumber( n, 8 )
+
+@oneArgFunctionEvaluator( )
+def findNthPentagonalNumber( n ):
+    return findNthPolygonalNumber( n, 5 )
+
+@oneArgFunctionEvaluator( )
+def findNthSquareNumber( n ):
+    return findNthPolygonalNumber( n, 4 )
+
+@oneArgFunctionEvaluator( )
+def findNthTriangularNumber( n ):
+    return findNthPolygonalNumber( n, 3 )
+
+@oneArgFunctionEvaluator( )
+def getNthOctagonalNumber( n ):
+    return getNthPolygonalNumber( n, 8 )
+
+@oneArgFunctionEvaluator( )
+def getNthPentagonalNumber( n ):
+    return getNthPolygonalNumber( n, 5 )
+
+@oneArgFunctionEvaluator( )
+def getNthTriangularNumber( n ):
+    return getNthPolygonalNumber( n, 3 )
+
+@oneArgFunctionEvaluator( )
+def getNthDodecahedralNumber( n ):
+    return polyval( [ fdiv( 9, 2 ), fdiv( -9, 2 ), 1, 0 ], real( n ) )
+
+@oneArgFunctionEvaluator( )
+def getNthIcosahedralNumber( n ):
+    return polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], real( n ) )
+
+@oneArgFunctionEvaluator( )
+def getNthOctahedralNumber( n ):
+    return polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], real( n ) )
+
+@oneArgFunctionEvaluator( )
+def getNthPyramidalNumber( n ):
+    return getNthPolygonalPyramidalNumber( n, 4 )
+
+@oneArgFunctionEvaluator( )
+def getNthTetrahedralNumber( n ):
+    return polyval( [ fdiv( 1, 6 ), fdiv( 1, 2 ), fdiv( 1, 3 ), 0 ], n )
 

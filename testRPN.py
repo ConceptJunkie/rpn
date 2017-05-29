@@ -1577,6 +1577,9 @@ def runFunctionOperatorTests( ):
     # plot2
     # plotc
 
+    # recurrence
+    expectEqual( '2 99 lambda x git_digits sqr sum recurrence', '216 oeis 100 left' )
+
     # unfilter
     expectEqual( '1 10100 range lambda x is_square unfilter', '37 oeis 10000 left' )
 
@@ -2900,6 +2903,7 @@ def runFigurateNumberOperatorTests( ):
     # triangular
     testOperator( '203 triangular' )
     expectEqual( '1 102 range triangular lambda x count_different_digits 3 equals filter', '162304 oeis 47 left' )
+    expectEqual( '0 29999 range triangular', '217 oeis 30000 left' )
 
     # truncated_octahedral
     testOperator( '394 truncated_octahedral' )

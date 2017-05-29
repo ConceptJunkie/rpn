@@ -2913,6 +2913,248 @@ operators = {
     'yesterday'                      : RPNOperator( getYesterday,
                                                     0, [ ] ),
 
+    # figurate
+    'centered_decagonal'             : RPNOperator( getNthCenteredDecagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_heptagonal'            : RPNOperator( getNthCenteredHeptagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_hexagonal'             : RPNOperator( getNthCenteredHexagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_nonagonal'             : RPNOperator( getNthCenteredNonagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_octagonal'             : RPNOperator( getNthCenteredOctagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_pentagonal'            : RPNOperator( getNthCenteredPentagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_polygonal'             : RPNOperator( getNthCenteredPolygonalNumber,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
+    'centered_square'                : RPNOperator( getNthCenteredSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_triangular'            : RPNOperator( getNthCenteredTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'decagonal'                      : RPNOperator( getNthDecagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'decagonal_centered_square'      : RPNOperator( getNthDecagonalCenteredSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'decagonal_heptagonal'           : RPNOperator( getNthDecagonalHeptagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'decagonal_hexagonal'            : RPNOperator( getNthDecagonalHexagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'decagonal_nonagonal'            : RPNOperator( getNthDecagonalNonagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'decagonal_octagonal'            : RPNOperator( getNthDecagonalOctagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'decagonal_pentagonal'           : RPNOperator( getNthDecagonalPentagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'decagonal_triangular'           : RPNOperator( getNthDecagonalTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'generalized_pentagonal'         : RPNOperator( getNthGeneralizedPentagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'heptagonal'                     : RPNOperator( getNthHeptagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'heptagonal_hexagonal'           : RPNOperator( getNthHeptagonalHexagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'heptagonal_pentagonal'          : RPNOperator( getNthHeptagonalPentagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'heptagonal_square'              : RPNOperator( getNthHeptagonalSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'heptagonal_triangular'          : RPNOperator( getNthHeptagonalTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'hexagonal'                      : RPNOperator( getNthHexagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'hexagonal_pentagonal'           : RPNOperator( getNthHexagonalPentagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'hexagonal_square'               : RPNOperator( getNthHexagonalSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nonagonal'                      : RPNOperator( getNthNonagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nonagonal_heptagonal'           : RPNOperator( getNthNonagonalHeptagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nonagonal_hexagonal'            : RPNOperator( getNthNonagonalHexagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nonagonal_octagonal'            : RPNOperator( getNthNonagonalOctagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nonagonal_pentagonal'           : RPNOperator( getNthNonagonalPentagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nonagonal_square'               : RPNOperator( getNthNonagonalSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nonagonal_triangular'           : RPNOperator( getNthNonagonalTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_centered_decagonal'         : RPNOperator( findNthCenteredDecagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_centered_heptagonal'        : RPNOperator( findNthCenteredHeptagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_centered_hexagonal'         : RPNOperator( findNthCenteredHexagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_centered_nonagonal'         : RPNOperator( findNthCenteredNonagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_centered_octagonal'         : RPNOperator( findNthCenteredOctagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_centered_pentagonal'        : RPNOperator( findNthCenteredPentagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_centered_polygonal'         : RPNOperator( findCenteredPolygonalNumber,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
+    'nth_centered_square'            : RPNOperator( findNthCenteredSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_centered_triangular'        : RPNOperator( findNthCenteredTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_decagonal'                  : RPNOperator( findNthDecagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_heptagonal'                 : RPNOperator( findNthHeptagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_hexagonal'                  : RPNOperator( findNthHexagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_nonagonal'                  : RPNOperator( findNthNonagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_octagonal'                  : RPNOperator( findNthOctagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_pentagonal'                 : RPNOperator( findNthPentagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_polygonal'                  : RPNOperator( findNthPolygonalNumber,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
+    'nth_square'                     : RPNOperator( findNthSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'nth_triangular'                 : RPNOperator( findNthTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'octagonal'                      : RPNOperator( getNthOctagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'octagonal_heptagonal'           : RPNOperator( getNthOctagonalHeptagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'octagonal_hexagonal'            : RPNOperator( getNthOctagonalHexagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'octagonal_pentagonal'           : RPNOperator( getNthOctagonalPentagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'octagonal_square'               : RPNOperator( getNthOctagonalSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'octagonal_triangular'           : RPNOperator( getNthOctagonalTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'pentagonal'                     : RPNOperator( getNthPentagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'pentagonal_square'              : RPNOperator( getNthPentagonalSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'pentagonal_triangular'          : RPNOperator( getNthPentagonalTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'polygonal'                      : RPNOperator( getNthPolygonalNumber,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
+    'square_triangular'              : RPNOperator( getNthSquareTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'star'                           : RPNOperator( getNthStarNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'triangular'                     : RPNOperator( getNthTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    # polyhedral
+    'centered_cube'                  : RPNOperator( getNthCenteredCubeNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_dodecahedral'          : RPNOperator( getNthCenteredDodecahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_icosahedral'           : RPNOperator( getNthCenteredIcosahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_octahedral'            : RPNOperator( getNthCenteredOctahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_tetrahedral'           : RPNOperator( getNthCenteredTetrahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'dodecahedral'                   : RPNOperator( getNthDodecahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'icosahedral'                    : RPNOperator( getNthIcosahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'octahedral'                     : RPNOperator( getNthOctahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'pentatope'                      : RPNOperator( getNthPentatopeNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'polytope'                       : RPNOperator( getNthPolytopeNumber,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
+    'pyramid'                        : RPNOperator( getNthPyramidalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'rhombdodec'                     : RPNOperator( getNthRhombicDodecahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'stella_octangula'               : RPNOperator( getNthStellaOctangulaNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'tetrahedral'                    : RPNOperator( getNthTetrahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'truncated_octahedral'           : RPNOperator( getNthTruncatedOctahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'truncated_tetrahedral'          : RPNOperator( getNthTruncatedTetrahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     # function
     'eval'                           : RPNOperator( lambda n, func: func.evaluate( n ),
                                                     2, [ RPNOperator.Default, RPNOperator.Function ] ),
@@ -3532,248 +3774,6 @@ operators = {
 
     'velocity'                       : RPNOperator( calculateVelocity,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
-
-    # polygonal
-    'centered_decagonal'             : RPNOperator( lambda n: getCenteredPolygonalNumber( n, 10 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_heptagonal'            : RPNOperator( lambda n: getCenteredPolygonalNumber( n, 7 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_hexagonal'             : RPNOperator( lambda n: getCenteredPolygonalNumber( n, 6 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_nonagonal'             : RPNOperator( lambda n: getCenteredPolygonalNumber( n, 9 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_octagonal'             : RPNOperator( lambda n: getCenteredPolygonalNumber( n, 8 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_pentagonal'            : RPNOperator( lambda n: getCenteredPolygonalNumber( n, 5 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_polygonal'             : RPNOperator( getCenteredPolygonalNumber,
-                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
-
-    'centered_square'                : RPNOperator( lambda n: getCenteredPolygonalNumber( n, 4 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_triangular'            : RPNOperator( lambda n: getCenteredPolygonalNumber( n, 3 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'decagonal'                      : RPNOperator( lambda n: getNthPolygonalNumber( n, 10 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'decagonal_centered_square'      : RPNOperator( getNthDecagonalCenteredSquareNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'decagonal_heptagonal'           : RPNOperator( getNthDecagonalHeptagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'decagonal_hexagonal'            : RPNOperator( getNthDecagonalHexagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'decagonal_nonagonal'            : RPNOperator( getNthDecagonalNonagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'decagonal_octagonal'            : RPNOperator( getNthDecagonalOctagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'decagonal_pentagonal'           : RPNOperator( getNthDecagonalPentagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'decagonal_triangular'           : RPNOperator( getNthDecagonalTriangularNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'generalized_pentagonal'         : RPNOperator( lambda n: getNthGeneralizedPolygonalNumber( n, 5 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'heptagonal'                     : RPNOperator( lambda n: getNthPolygonalNumber( n, 7 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'heptagonal_hexagonal'           : RPNOperator( getNthHeptagonalHexagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'heptagonal_pentagonal'          : RPNOperator( getNthHeptagonalPentagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'heptagonal_square'              : RPNOperator( getNthHeptagonalSquareNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'heptagonal_triangular'          : RPNOperator( getNthHeptagonalTriangularNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'hexagonal'                      : RPNOperator( lambda n: getNthPolygonalNumber( n, 6 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'hexagonal_pentagonal'           : RPNOperator( getNthHexagonalPentagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'hexagonal_square'               : RPNOperator( getNthHexagonalSquareNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nonagonal'                      : RPNOperator( lambda n: getNthPolygonalNumber( n, 9 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nonagonal_heptagonal'           : RPNOperator( getNthNonagonalHeptagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nonagonal_hexagonal'            : RPNOperator( getNthNonagonalHexagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nonagonal_octagonal'            : RPNOperator( getNthNonagonalOctagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nonagonal_pentagonal'           : RPNOperator( getNthNonagonalPentagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nonagonal_square'               : RPNOperator( getNthNonagonalSquareNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nonagonal_triangular'           : RPNOperator( getNthNonagonalTriangularNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_centered_decagonal'         : RPNOperator( lambda n: findCenteredPolygonalNumber( n, 10 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_centered_heptagonal'        : RPNOperator( lambda n: findCenteredPolygonalNumber( n, 7 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_centered_hexagonal'         : RPNOperator( lambda n: findCenteredPolygonalNumber( n, 6 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_centered_nonagonal'         : RPNOperator( lambda n: findCenteredPolygonalNumber( n, 9 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_centered_octagonal'         : RPNOperator( lambda n: findCenteredPolygonalNumber( n, 8 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_centered_pentagonal'        : RPNOperator( lambda n: findCenteredPolygonalNumber( n, 5 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_centered_polygonal'         : RPNOperator( findCenteredPolygonalNumber,
-                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
-
-    'nth_centered_square'            : RPNOperator( lambda n: findCenteredPolygonalNumber( n, 4 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_centered_triangular'        : RPNOperator( lambda n: findCenteredPolygonalNumber( n, 3 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_decagonal'                  : RPNOperator( lambda n: findNthPolygonalNumber( n, 10 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_heptagonal'                 : RPNOperator( lambda n: findNthPolygonalNumber( n, 7 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_hexagonal'                  : RPNOperator( lambda n: findNthPolygonalNumber( n, 6 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_nonagonal'                  : RPNOperator( lambda n: findNthPolygonalNumber( n, 9 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_octagonal'                  : RPNOperator( lambda n: findNthPolygonalNumber( n, 8 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_pentagonal'                 : RPNOperator( lambda n: findNthPolygonalNumber( n, 5 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_polygonal'                  : RPNOperator( findNthPolygonalNumber,
-                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
-
-    'nth_square'                     : RPNOperator( lambda n: findNthPolygonalNumber( n, 4 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'nth_triangular'                 : RPNOperator( lambda n: findNthPolygonalNumber( n, 3 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'octagonal'                      : RPNOperator( lambda n: getNthPolygonalNumber( n, 8 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'octagonal_heptagonal'           : RPNOperator( getNthOctagonalHeptagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'octagonal_hexagonal'            : RPNOperator( getNthOctagonalHexagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'octagonal_pentagonal'           : RPNOperator( getNthOctagonalPentagonalNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'octagonal_square'               : RPNOperator( getNthOctagonalSquareNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'octagonal_triangular'           : RPNOperator( getNthOctagonalTriangularNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'pentagonal'                     : RPNOperator( lambda n: getNthPolygonalNumber( n, 5 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'pentagonal_square'              : RPNOperator( getNthPentagonalSquareNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'pentagonal_triangular'          : RPNOperator( getNthPentagonalTriangularNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'polygonal'                      : RPNOperator( getNthPolygonalNumber,
-                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
-
-    'square_triangular'              : RPNOperator( getNthSquareTriangularNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'star'                           : RPNOperator( getNthStarNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'triangular'                     : RPNOperator( lambda n: getNthPolygonalNumber( n, 3 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    # polyhedral
-    'centered_cube'                  : RPNOperator( getNthCenteredCubeNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_dodecahedral'          : RPNOperator( getNthCenteredDodecahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_icosahedral'           : RPNOperator( getNthCenteredIcosahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_octahedral'            : RPNOperator( getNthCenteredOctahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_tetrahedral'           : RPNOperator( getNthCenteredTetrahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'dodecahedral'                   : RPNOperator( lambda n: polyval( [ fdiv( 9, 2 ), fdiv( -9, 2 ), 1, 0 ], real( n ) ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'icosahedral'                    : RPNOperator( lambda n: polyval( [ fdiv( 5, 2 ), fdiv( -5, 2 ), 1, 0 ], real( n ) ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'octahedral'                     : RPNOperator( lambda n: polyval( [ fdiv( 2, 3 ), 0, fdiv( 1, 3 ), 0 ], real( n ) ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'pentatope'                      : RPNOperator( getNthPentatopeNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'polytope'                       : RPNOperator( getNthPolytopeNumber,
-                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
-
-    'pyramid'                        : RPNOperator( lambda n: getNthPolygonalPyramidalNumber( n, 4 ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'rhombdodec'                     : RPNOperator( getNthRhombicDodecahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'stella_octangula'               : RPNOperator( getNthStellaOctangulaNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'tetrahedral'                    : RPNOperator( lambda n: polyval( [ fdiv( 1, 6 ), fdiv( 1, 2 ), fdiv( 1, 3 ), 0 ], n ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'truncated_octahedral'           : RPNOperator( getNthTruncatedOctahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'truncated_tetrahedral'          : RPNOperator( getNthTruncatedTetrahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     # powers_and_roots
     'agm'                            : RPNOperator( getAGM,

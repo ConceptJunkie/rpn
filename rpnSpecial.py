@@ -166,8 +166,9 @@ def downloadOEISTable( id ):
         import urllib2
 
     try:
-        data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( id, id ) ).read( )
+        data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( id ), int( id ) ) ).read( )
     except:
+        print( 'foo!' )
         return [ ], False
 
     import re as regex
