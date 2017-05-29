@@ -362,31 +362,23 @@ def parseNumerals( argument ):
 # //
 # //******************************************************************************
 
-#def oneArgFunctionEvaluator( ):
-#    def oneArgFunction( func )
-#        @functools.wraps( func )
-#
-#        def
-#
-#    if isinstance( args, list ):
-#        result = [ evaluateOneArgFunction( func, i, level + 1 ) for i in args ]
-#    elif isinstance( args, RPNGenerator ):
-#        result = RPNGenerator.createChained( args.getGenerator( ), func )
-#    else:
-#        result = func( args )
-#
-#    # if this is the 'echo' operator, just return the result
-#    if func.__name__ == 'addEchoArgument':
-#        return result
-#
-#    # otherwise, check for arguments to be echoed, and echo them before the result
-#    if level == 0 and not g.operatorList and len( g.echoArguments ) > 0:
-#        returnValue = list( g.echoArguments )
-#        returnValue.append( result )
-#        g.echoArguments = [ ]
-#        return returnValue
-#    else:
-#        return result
+def oneArgFunctionEvaluator( ):
+    def oneArgFunction( func ):
+        @functools.wraps( func )
+
+        def evaluateOneArg( arg ):
+            if isinstance( arg, list ):
+                result = [ evaluateOneArg( i ) for i in arg ]
+            elif isinstance( arg, RPNGenerator ):
+                result = RPNGenerator.createChained( arg.getGenerator( ), func )
+            else:
+                result = func( arg )
+
+            return result
+
+        return evaluateOneArg
+
+    return oneArgFunction
 
 
 import signal

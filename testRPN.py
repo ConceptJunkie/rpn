@@ -288,6 +288,7 @@ def runArithmeticOperatorTests( ):
     expectEqual( '1 52 range lambda 2 log 1 1 x x 2 + * / + log / floor eval', '84587 oeis 52 left' )
     expectEqual( '1 1000 range ! log 7 log / floor', '127033 oeis 1000 left' )
     expectEqual( '1 1000 range lambda x 5 * x 5 * log + ceiling eval', '212454 oeis 1000 left' )
+    expectEqual( '1 1000 range e 1 - * floor', '210 oeis 1000 left' )
 
     # gcd
     expectResult( '1 100 range gcd', 1 )
@@ -1048,6 +1049,9 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '12 9 binomial' )
     testOperator( '-a20 -c 120 108 binomial' )
     expectEqual( '8 1 992 sized_range lambda x 2 * 8 - 7 binomial 8 / eval', '973 oeis 992 left' )
+    expectEqual( '0 999 range lambda x 3 binomial x 2 binomial + x 1 binomial + x 0 binomial + eval', '125 oeis 1000 left' )
+
+    # combinations
 
     # compositions
     testOperator( '5 2 compositions' )
@@ -2461,6 +2465,10 @@ def runNumberTheoryOperatorTests( ):
 
     # stern
     testOperator( '1 100 range stern' )
+    expectEqual( '0 99 range stern', '2487 oeis 100 left' )
+
+    if slow:
+        expectEqual( '0 9999 range stern', '2487 oeis 10000 left' )
 
     # subfactorial
     testOperator( '-a20 -c 19 subfactorial' )
@@ -2479,12 +2487,12 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '0 9999 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 10000 left' )
         expectEqual( '0 9999 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 10000 left' )
 
-    # sums_of_nonzero_k_powers
-    testOperator( '5104 3 3 sums_of_nonzero_k_powers' )
-    expectEqual( '1 629 range lambda x 2 2 sums_of_nonzero_k_powers count filter', '404 oeis 200 left' )
+    # sums_of_k_nonzero_powers
+    testOperator( '5104 3 3 sums_of_k_nonzero_powers' )
+    expectEqual( '1 629 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 200 left' )
 
     if slow:
-        expectEqual( '1 40045 range lambda x 2 2 sums_of_nonzero_k_powers count filter', '404 oeis 10000 left' )
+        expectEqual( '1 40045 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 10000 left' )
 
     # superfactorial
     testOperator( '-a50 -c 12 superfactorial' )
@@ -2497,7 +2505,7 @@ def runNumberTheoryOperatorTests( ):
 
     # thabit
     testOperator( '-a20 -c 45 thabit' )
-    # A055010
+    expectEqual( '0 998 range thabit', '55010 oeis 1000 left 999 right' )
 
     # tribonacci
     testOperator( '1 20 range tribonacci' )
@@ -3066,6 +3074,7 @@ def runPrimeNumberOperatorTests( ):
 
     # prime_pi
     testOperator( '87 prime_pi' )
+    expectEqual( '1 999 range lambda x x prime_pi combinations eval', '37031 oeis 999 left' )
 
     # primes
     testOperator( '1 5 range 5 primes' )
@@ -3482,6 +3491,7 @@ def runTrigonometryOperatorTests( ):
 
     # tan
     testOperator( 'pi 3 / tan' )
+    expectEqual( '0 999 range tan nearest_int', '209 oeis 1000 left' )
 
     # tanh
     testOperator( 'pi 4 / tanh' )

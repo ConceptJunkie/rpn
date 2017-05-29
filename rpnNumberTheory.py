@@ -21,7 +21,7 @@ from functools import reduce
 
 from mpmath import arange, binomial, fabs, fac, fadd, fdiv, fib, floor, fmod, \
                    fmul, fneg, fprod, fsub, fsum, mp, mpc, mpf, mpmathify, \
-                   nint, phi, polyroots, polyval, power, primepi2, re, root, \
+                   nint, phi, polyroots, polyval, power, primepi, re, root, \
                    sqrt, zetazero
 
 from rpnFactor import getFactors, getFactorList
@@ -170,9 +170,7 @@ def getNthBaseKRepunit( n, k ):
 # //******************************************************************************
 
 def getPrimePi( n ):
-    result = primepi2( real( n ) )
-
-    return [ mpf( result.a ), mpf( result.b ) ]
+    return primepi( real( n ) )
 
 
 # //******************************************************************************

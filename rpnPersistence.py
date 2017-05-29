@@ -446,7 +446,7 @@ def saveUserDataFile( ):
     config[ 'User Data' ] = { }
 
     for key in g.userData.keys( ):
-        config[ 'User Data' ][ key ] = g.userData[ key ]
+        config[ 'User Data' ][ key ] = str( g.userData[ key ] )
 
     import os.path
 

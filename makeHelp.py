@@ -49,7 +49,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 977
+maxExampleCount = 993
 debugMode = False
 
 
@@ -1740,6 +1740,20 @@ expects real, integral arguments.
 ''' + makeCommandExample( '3 5 ** 5 3 ** is_greater' ),
 [ 'is_less', 'is_equal' ] ],
 
+    'is_integer' : [
+'arithmetic', 'returns 1 if n is an integer, otherwise returns 0',
+'''
+For complex numbers, is integer considers the real part and the
+complex part seperately.  I don't know if that's appropriate,
+but that's how it works for now.
+''',
+'''
+''' + makeCommandExample( 'pi is_integer' ) + '''
+''' + makeCommandExample( '1 is_integer' ) + '''
+''' + makeCommandExample( '3 i 7 + is_integer' ) + '''
+''' + makeCommandExample( '3.1 i 4 + is_integer' ),
+[ 'is_even', 'is_odd', 'nearest_int' ] ],
+
     'is_less' : [
 'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
 '''
@@ -3307,6 +3321,16 @@ far as rpn is concerned, it's an operator that does nothing.
 ''',
 [ 'multinomial' ] ],
 
+    'combinations' : [
+'combinatorics', 'calculates the number of combinations of k out of n objects',
+'''
+''',
+'''
+''' + makeCommandExample( '6 3 combinations' ) + '''
+''' + makeCommandExample( '10 8 combinations' ) + '''
+''' + makeCommandExample( '21 15 combinations' ),
+[ 'permutations' ] ],
+
     'compositions' : [
 'combinatorics', 'returns a list containing all distinct ordered k-tuples of positive integers whose elements sum to n',
 '''
@@ -3592,7 +3616,7 @@ When calculating the number of permutations of k objects, order matters.
 ''' + makeCommandExample( '5 2 permutations' ) + '''
 ''' + makeCommandExample( '10 7 permutations' ) + '''
 ''' + makeCommandExample( '20 10 permutations' ),
-[ ] ],
+[ 'combinations' ] ],
 
 
 # //******************************************************************************
@@ -5567,7 +5591,7 @@ in the value n into the function k and returns the result.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( '1 10 range lambda x 2 ** 1 - eval' ),
-[ ] ],
+[ 'eval2', 'eval3', 'filter', 'lambda', 'recurrence' ] ],
 
     'eval2' : [
 'function', 'evaluates the function c for the given arguments a and b',
@@ -5578,7 +5602,7 @@ result.
 ''',
 '''
 ''',
-[ ] ],
+[ 'eval', 'eval3', 'filter', 'lambda', 'recurrence' ] ],
 
     'eval3' : [
 'function', 'evaluates the function d for the given arguments a, b, and c',
@@ -5595,7 +5619,7 @@ Solving a quadratic equation the hard way, using the quadratic formula:
 Of course, rpn has better ways to do this:
 ''' + makeCommandExample( '1 -4 -21 solve2' ) + '''
 ''' + makeCommandExample( '[ 1 -4 -21 ] solve' ),
-[ ] ],
+[ 'eval', 'eval3', 'filter', 'lambda', 'recurrence' ] ],
 
     'filter' : [
 'function', 'filters a list n using function k',
@@ -5726,6 +5750,14 @@ a number of extra libraries.
 '''
 ''',
 [ 'plot', 'plot2', 'lambda' ] ],
+
+    'recurrence' : [
+'function', 'evaluates the function k times, starting with n and using the result of each previous function call as an argument for the next',
+'''
+''',
+'''
+''',
+[ 'eval', 'filter', 'lambda' ] ],
 
     'unfilter' : [
 'function', 'filters a list n using the inverse of function k',
@@ -8132,7 +8164,7 @@ floor( ( n!/e ) + 1/2 )
 '''
 ''',
 '''
-''' + makeCommandExample( '1072 3 3 sums_of_k_powers' ),
+''' + makeCommandExample( '1072 3 3 sums_of_k_nonzero_powers' ),
 [ ] ],
 
     'superfactorial' : [
@@ -9481,12 +9513,8 @@ distributed with data files calculated through several billion pribmes.
 [ 'prime', 'prime_range' ] ],
 
     'prime_pi' : [
-'prime_numbers', 'estimates the count of prime numbers up to and including n',
+'prime_numbers', 'calculates the count of prime numbers up to and including n',
 '''
-
-Prime numbers can be calculated from scratch, but this would be excessively
-slow.  RPN supports caching prime values to data files in ''' + g.dataDir + '''/ and is
-distributed with data files calculated through several billion primes.
 ''',
 '''
 ''',
@@ -10027,7 +10055,7 @@ magnitude of the measurement.
 ''',
 '''
 ''',
-[ 'topic' ] ],
+[ 'set_data', 'set' ] ],
 
     'help' : [
 'special', 'displays help text',
@@ -10035,14 +10063,16 @@ magnitude of the measurement.
 ''',
 '''
 ''',
-[ 'topic' ] ],
+[ 'topics' ] ],
 
     'if' : [
-'special', 'TODO: explain me',
+'special', 'returns a if condition c is true, otherwise returns b',
 '''
+'if' is useful in lambda, which is why it was added.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 2 true if' ) + '''
+''' + makeCommandExample( '1 2 false if' ),
 [ ] ],
 
     'name' : [
@@ -10055,7 +10085,6 @@ The upper limit of integers rpn can name is 10^3004 - 1.
 If the number has more digits than the current precision setting of rpn, the
 result will be subject to rounding and will be incorrect.
 
-''' + makeCommandExample( '1 name' ) + '''
 ''' + makeCommandExample( '157 name' ) + '''
 c:\>rpn 10 3000 ** name
 nine hundred ninety-nine octononagintanongentillion nine hundred ninety-nine
@@ -10135,6 +10164,10 @@ septenonagintanongentillion nine hundred ninety-nine senonagintanongentillion
 nine hundred ninety-nine...
 ''' + makeCommandExample( '-a3000 10 3000 ** ordinal_name' ),
 '''
+''' + makeCommandExample( '0 ordinal_name' ) + '''
+''' + makeCommandExample( '1 ordinal_name' ) + '''
+''' + makeCommandExample( '2 ordinal_name' ) + '''
+''' + makeCommandExample( '-1 ordinal_name' ) + '''
 ''' + makeCommandExample( '1999 ordinal_name' ) + '''
 ''' + makeCommandExample( '2001 ordinal_name' ),
 [ 'name' ] ],
@@ -10309,20 +10342,40 @@ Please see 'roll_dice' for an explanation of the dice expression language.
     'set' : [
 'special', 'sets variable n (which must start with \'$\') to value k in interactive mode',
 '''
-The 'set' operator has no effect when not in interactive mode.   The value is
+The 'set' operator has no effect when not in interactive mode.  The value is
 set, of course, but since rpn immediately exits, nothing useful can happen.
+
+Since variable names can easily collide with operator or unit names,
+prefixing a variable name with '$' keeps it from being interpreted as
+something else.
+
+Use 'set_data' for persistent variables.
 ''',
 '''
+rpn (1)>$a 3 set
+3
+rpn (2)>$b 4 set
+4
+rpn (3)>$a $b +
+7
 ''',
-[ ] ],
+[ 'set_data', 'get_data' ] ],
 
     'set_data' : [
 'special', 'set the value k for key n in the user config file',
 '''
+These values can be accessed via the 'get_data' operator, but they
+can be more conveniently accessed with the '$' prefix.
 ''',
 '''
-''',
-[ 'topic' ] ],
+''' + makeCommandExample( 'magic_number 37 set_data' ) + '''
+''' + makeCommandExample( 'magic_number get_data' ) + '''
+c:\>rpn $magic_number
+37
+
+''' + makeCommandExample( 'my_location "Leesburg, VA" set_data' ) + '''
+''' + makeCommandExample( '$my_location today sunrise' ),
+[ 'get_data' ] ],
 
     'topic' : [
 'special', 'prints a help topic in interactive mode',
@@ -10330,7 +10383,15 @@ set, of course, but since rpn immediately exits, nothing useful can happen.
 ''',
 '''
 ''',
-[ 'help' ] ],
+[ 'help', 'topics' ] ],
+
+    'topics' : [
+'special', 'prints a list of help topics in help mode',
+'''
+''',
+'''
+''',
+[ 'help', 'topic' ] ],
 
     'uuid' : [
 'special', 'generates a UUID',
@@ -10376,6 +10437,10 @@ numerical part of the measurement value.
 '''
 The arcosine is the inverse of cosine.  In other words, if cos( x ) = y, then
 acos( y ) = x.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '0 acos' ) + '''
@@ -10392,6 +10457,10 @@ The hyperbolic arccosine is the inverse of the hyperbolic cosine.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '0 acosh' ) + '''
@@ -10402,6 +10471,11 @@ instead of a unit circle.
     'acot' : [
 'trigonometry', 'calcuates the arccotangent of n',
 '''
+The arccotangent is the inverse of the cotangent.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''',
@@ -10415,6 +10489,10 @@ The hyperbolic arccotangent is the inverse of the hyperbolic cotangent.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''',
@@ -10423,6 +10501,11 @@ instead of a unit circle.
     'acsc' : [
 'trigonometry', 'calculates the arccosecant of n',
 '''
+The arccosecant is the inverse of the cosecant.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''',
@@ -10432,6 +10515,14 @@ instead of a unit circle.
 'trigonometry', 'calculates the hyperbolic arccosecant of n',
 '''
 The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.
+
+The hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''',
@@ -10440,6 +10531,11 @@ The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.
     'asec' : [
 'trigonometry', 'calculates the arcsecant of n',
 '''
+The arcsecant is the inverse of the secant.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''',
@@ -10448,6 +10544,15 @@ The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.
     'asech' : [
 'trigonometry', 'calculates the hyperbolic arcsecant of n',
 '''
+The hyperbolic arcsecant is the inverse of the hyperbolic secant.
+
+The hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''',
@@ -10458,6 +10563,10 @@ The hyperbolic arccosecant is the inverse of the hyperbolic cosecant.
 '''
 The arcsine is the inverse of sine.  In other words, if sin( x ) = y, then
 asin( y ) = x.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '0.5 asin' ) + '''
@@ -10470,6 +10579,14 @@ asin( y ) = x.
 'trigonometry', 'calculates the hyperbolic arcsine of n',
 '''
 The hyperbolic arcsine is the inverse of the hyperbolic sine.
+
+The hyperbolic trigonometric functions are analogous to the regular circular
+trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
+instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '0.5 asinh' ) + '''
@@ -10504,6 +10621,10 @@ The hyperbolic arctangent is the inverse of the hyperbolic tangent.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''' + makeCommandExample( '3 atanh' ) + '''
@@ -10533,6 +10654,10 @@ can handle a value in degrees without having to first convert.
 The hyperbolic trigonometric functions are analogous to the regular circular
 trigonometric functions (sin, cos, etc.), except based on a unit hyperbola
 instead of a unit circle.
+
+All trigonometric operators that take angles assume the arguments are in
+radians.  However, the operators also take measurements as arguments, so they
+can handle a value in degrees without having to first convert.
 ''',
 '''
 ''',

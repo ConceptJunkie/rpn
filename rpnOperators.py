@@ -944,6 +944,23 @@ def plotComplexFunction( start1, end1, start2, end2, func ):
 
 # //******************************************************************************
 # //
+# //  evaluateRecurrence
+# //
+# //******************************************************************************
+
+def evaluateRecurrence( start, count, func ):
+    arg = start
+    result = [ start ]
+
+    for i in arange( count ):
+        arg = func.evaluate( arg )
+        result.append( arg )
+
+    return result
+
+
+# //******************************************************************************
+# //
 # //  filterList
 # //
 # //******************************************************************************
@@ -1795,6 +1812,12 @@ def setUserData( key, value ):
     return value
 
 
+
+@oneArgFunctionEvaluator( )
+def square( n ):
+    return getPower( n, 2 )
+
+
 # //******************************************************************************
 # //
 # //  functionOperators
@@ -1816,6 +1839,7 @@ functionOperators = [
     'plot',
     'plot2',
     'plotc',
+    'recurrence',
     'unfilter',
     'unfilter_by_index',
 ]
@@ -2720,6 +2744,9 @@ operators = {
     'binomial'                       : RPNOperator( binomial,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
+    'combinations'                   : RPNOperator( getCombinations,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
     'compositions'                   : RPNOperator( getCompositions,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
@@ -2927,14 +2954,16 @@ operators = {
                                                          RPNOperator.Function ] ),
 
     'plot2'                          : RPNOperator( plot2DFunction,
-                                                    5, [ RPNOperator.Default, RPNOperator.Default,
-                                                         RPNOperator.Default, RPNOperator.Default,
-                                                         RPNOperator.Function ] ),
+                                                    5, [ RPNOperator.Default, RPNOperator.Default, RPNOperator.Default,
+                                                         RPNOperator.Default, RPNOperator.Function ] ),
 
     'plotc'                          : RPNOperator( plotComplexFunction,
-                                                    5, [ RPNOperator.Default, RPNOperator.Default,
-                                                         RPNOperator.Default, RPNOperator.Default,
-                                                         RPNOperator.Function ] ),
+                                                    5, [ RPNOperator.Default, RPNOperator.Default, RPNOperator.Default,
+                                                         RPNOperator.Default, RPNOperator.Function ] ),
+
+    'recurrence'                     : RPNOperator( evaluateRecurrence,
+                                                    3, [ RPNOperator.Default, RPNOperator.PositiveInteger, RPNOperator.Function ] ),
+
 
     # geography
     'distance'                       : RPNOperator( getDistance,
@@ -3442,7 +3471,7 @@ operators = {
     'sums_of_k_powers'               : RPNOperator( lambda n, k, p: RPNGenerator( findSumsOfKPowers( n, k, p ) ),
                                                     3, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'sums_of_nonzero_k_powers'       : RPNOperator( lambda n, k, p: RPNGenerator( findSumsOfKPowers( n, k, p, bNonZero = True ) ),
+    'sums_of_k_nonzero_powers'       : RPNOperator( lambda n, k, p: RPNGenerator( findSumsOfKPowers( n, k, p, bNonZero = True ) ),
                                                     3, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'superfactorial'                 : RPNOperator( lambda n: superfac( n ),
@@ -3790,7 +3819,7 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.Real ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'square'                         : RPNOperator( lambda n: getPower( n, 2 ),
+    'square'                         : RPNOperator( square,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
