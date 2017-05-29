@@ -5,7 +5,7 @@
 # //  rpnCombinatorics.py
 # //
 # //  RPN command-line calculator combinatorics operators
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -45,7 +45,7 @@ from mpmath import arange, binomial, e, fac, fadd, fdiv, floor, fmul, fprod, \
 from rpnNumberTheory import getNthLinearRecurrence
 from rpnPersistence import cachedFunction
 from rpnPolytope import getNthGeneralizedPolygonalNumber
-from rpnUtils import debugPrint, real, real_int
+from rpnUtils import debugPrint, oneArgFunctionEvaluator, real, real_int
 
 
 # //******************************************************************************
@@ -54,6 +54,7 @@ from rpnUtils import debugPrint, real, real_int
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNthAperyNumber( n ):
     '''
     http://oeis.org/A005259
@@ -75,6 +76,7 @@ def getNthAperyNumber( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNthDelannoyNumber( n ):
     result = 0
 
@@ -90,6 +92,7 @@ def getNthDelannoyNumber( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNthSchroederNumber( n ):
     if real( n ) == 1:
         return 1
@@ -114,6 +117,7 @@ def getNthSchroederNumber( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNthMotzkinNumber( n ):
     '''
     http://oeis.org/A001006
@@ -141,6 +145,7 @@ def getNthMotzkinNumber( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNthPellNumber( n ):
     '''
     From:  http://oeis.org/A000129
@@ -182,6 +187,7 @@ def getCombinations( n, r ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getArrangements( n ):
     return floor( fmul( fac( n ), e ) )
 
@@ -192,6 +198,7 @@ def getArrangements( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNthSylvester( n ):
     if real( n ) == 1:
         return 2
@@ -269,6 +276,7 @@ def getCompositions( n, k ):
 # //******************************************************************************
 
 @cachedFunction( 'partition' )
+@oneArgFunctionEvaluator( )
 def OLDgetPartitionNumber( n ):
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
@@ -295,6 +303,7 @@ def OLDgetPartitionNumber( n ):
 
 
 @cachedFunction( 'partition' )
+@oneArgFunctionEvaluator( )
 def getPartitionNumber( n ):
     '''
     This version is, um, less recursive than the original, which I've kept.
@@ -362,6 +371,7 @@ def getNthMultifactorial( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getMultinomial( args ):
     numerator = fac( fsum( args ) )
 
@@ -399,6 +409,7 @@ def getNarayanaNumber( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNthCatalanNumber( n ):
     return fdiv( binomial( fmul( 2, real( n ) ), n ), fadd( n, 1 ) )
 
@@ -412,6 +423,7 @@ def getNthCatalanNumber( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNthSchroederHipparchusNumber( n ):
     result = 0
 

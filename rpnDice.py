@@ -5,7 +5,7 @@
 # //  rpnDice.py
 # //
 # //  RPN command-line calculator dice rolling functions
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -18,7 +18,7 @@ from collections import Counter
 from mpmath import arange
 from random import randrange
 
-from rpnUtils import debugPrint
+from rpnUtils import debugPrint, oneArgFunctionEvaluator
 
 import rpnGlobals as g
 
@@ -29,6 +29,7 @@ import rpnGlobals as g
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def rollDice( expression ):
     values, modifier = evaluateDiceExpression( parseDiceExpression( expression ) )
     return sum( values ) + modifier
@@ -54,6 +55,7 @@ def rollMultipleDice( expression, times ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def enumerateDice( expression ):
     return evaluateDiceExpression( parseDiceExpression( expression ), False )[ 0 ]
 
@@ -85,6 +87,7 @@ def enumerateMultipleDice( expression, times ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def permuteDice( expression ):
     dice = parseDiceExpression( expression )
 

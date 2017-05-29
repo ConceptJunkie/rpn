@@ -5,7 +5,7 @@
 # //  rpnLexicographic.py
 # //
 # //  RPN command-line calculator lexicographic functions
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -22,7 +22,7 @@ from rpnBase import convertToBaseN
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
 from rpnNumberTheory import getPowMod
-from rpnUtils import real, real_int, getMPFIntegerAsString
+from rpnUtils import oneArgFunctionEvaluator, real, real_int, getMPFIntegerAsString
 
 
 # //******************************************************************************
@@ -35,6 +35,7 @@ from rpnUtils import real, real_int, getMPFIntegerAsString
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def splitNumberByDigits( n ):
     str = getMPFIntegerAsString( n )
 
@@ -89,6 +90,7 @@ def getBaseNDigits( n, base, dropZeroes = False ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def sumDigits( n ):
     str = getMPFIntegerAsString( n )
 
@@ -154,6 +156,7 @@ def addDigits( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def combineDigits( n ):
     result = 0
 
@@ -177,6 +180,7 @@ def combineDigits( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def replaceDigits( n ):
     result = 0
 
@@ -202,6 +206,7 @@ def duplicateDigits( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def reverseDigits( n ):
     return mpmathify( getMPFIntegerAsString( n )[ : : -1 ] )
 
@@ -212,6 +217,7 @@ def reverseDigits( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def isPalindrome( n ):
     str = getMPFIntegerAsString( n )
 
@@ -230,6 +236,7 @@ def isPalindrome( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def isPandigital( n ):
     str = getMPFIntegerAsString( n )
 
@@ -323,6 +330,7 @@ def countDigits( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def countDifferentDigits( n ):
     str = getMPFIntegerAsString( n )
     return len( list( set( str ) ) )
@@ -376,6 +384,7 @@ def findPalindrome( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def isNarcissistic( n ):
     digits = getDigits( real_int( n ) )
 
@@ -399,6 +408,7 @@ def isNarcissistic( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def isPerfectDigitalInvariant( n ):
     digits = getDigits( real_int( n ) )
 
@@ -518,6 +528,7 @@ def isHarshadNumber( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def isKaprekar( n ):
     if n == 1:
         return 1
@@ -546,6 +557,7 @@ def convertStringsToNumbers( values ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def buildNumbers( expression ):
     digitLists = parseNumbersExpression( expression )
 
@@ -722,6 +734,7 @@ def parseNumbersExpression( arg ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def hasUniqueDigits( n ):
     digits = getDigits( real_int( n ) )
 
@@ -774,6 +787,7 @@ def isKMorphic( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getLeftTruncations( n ):
     if n < 0:
         raise ValueError( '\'get_left_truncations\' requires a positive argument' )
@@ -790,6 +804,7 @@ def getLeftTruncations( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getRightTruncations( n ):
     if n < 0:
         raise ValueError( '\'get_right_truncations\' requires a positive argument' )
@@ -841,6 +856,7 @@ def showPersistence( n, exponent = 1, dropZeroes = False ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def showErdosPersistence( n ):
     yield n
 

@@ -5,7 +5,7 @@
 # //  rpnMeasurement.py
 # //
 # //  RPN command-line calculator, Measurements class and unit conversion
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -18,7 +18,7 @@ from mpmath import chop, extradps, fadd, fdiv, floor, fmul, frac, fsub, mpf, \
 from rpnGenerator import RPNGenerator
 from rpnPersistence import loadUnitData, loadUnitConversionMatrix
 from rpnUnitClasses import RPNUnits
-from rpnUtils import debugPrint
+from rpnUtils import debugPrint, oneArgFunctionEvaluator
 
 import rpnGlobals as g
 
@@ -724,6 +724,7 @@ def convertUnits( unit1, unit2 ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def convertToDMS( n ):
     return convertUnits( n, [ RPNMeasurement( 1, { 'degree' : 1 } ),
                               RPNMeasurement( 1, { 'arcminute' : 1 } ),
@@ -736,6 +737,7 @@ def convertToDMS( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def estimate( measurement ):
     if not isinstance( measurement, RPNMeasurement ):
         raise TypeError( 'incompatible type for estimating' )

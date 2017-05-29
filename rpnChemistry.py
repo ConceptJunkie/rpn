@@ -5,7 +5,7 @@
 # //  rpnChemistry.py
 # //
 # //  RPN command-line calculator chemistry functions
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -18,6 +18,7 @@ import string
 import rpnGlobals as g
 
 from rpnMeasurement import RPNMeasurement
+from rpnUtils import oneArgFunctionEvaluator
 
 from mpmath import fadd, fdiv, fmul, fsub, mpmathify
 
@@ -282,6 +283,7 @@ def getElementAttribute( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getAtomicNumber( n ):
     if g.elements is None:
         loadChemistryTables( )
@@ -298,6 +300,7 @@ def getAtomicNumber( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getAtomicWeight( n ):
     return fdiv( fadd( mpmathify( getElementAttribute( n, 9 ) ),
                        mpmathify( getElementAttribute( n, 8 ) ) ), 2 )
@@ -309,6 +312,7 @@ def getAtomicWeight( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getElementDensity( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 10 ) ), 'g/cm^3' )
 
@@ -319,6 +323,7 @@ def getElementDensity( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getElementMeltingPoint( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 11 ) ), 'kelvin' )
 
@@ -329,6 +334,7 @@ def getElementMeltingPoint( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getElementBoilingPoint( n ):
     return RPNMeasurement( mpmathify( getElementAttribute( n, 12 ) ), 'kelvin' )
 
@@ -339,6 +345,7 @@ def getElementBoilingPoint( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getMolarMass( n ):
     result = 0
 

@@ -5,7 +5,7 @@
 # //  rpnComputer.py
 # //
 # //  RPN command-line calculator computing operators
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -19,7 +19,7 @@ from mpmath import fadd, fdiv, floor, fmod, fmul, fneg, fsub, fsum, log, mpf, \
 
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
-from rpnUtils import real_int
+from rpnUtils import oneArgFunctionEvaluator, real_int
 
 import rpnGlobals as g
 
@@ -30,6 +30,7 @@ import rpnGlobals as g
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getInvertedBits( n ):
     value = real_int( n )
 
@@ -127,6 +128,7 @@ def performBitwiseOperation( i, j, operation ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getBitCount( n ):
     result = 0
 
@@ -209,6 +211,7 @@ def packInteger( values, fields ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def interpretAsFloat( n ):
     if ( real_int( n ) < 0 ) or ( n >= 2 ** 32 - 1 ):
         raise ValueError( 'value out of range for a 32-bit float' )
@@ -223,6 +226,7 @@ def interpretAsFloat( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def interpretAsDouble( n ):
     if ( real_int( n ) < 0 ) or ( n >= 2 ** 64 - 1 ):
         raise ValueError( 'value out of range for a 64-bit float' )

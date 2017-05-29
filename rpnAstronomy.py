@@ -5,7 +5,7 @@
 # //  rpnAstronomy.py
 # //
 # //  RPN command-line calculator astronomical operators
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -21,6 +21,7 @@ from rpnDateTime import RPNDateTime
 from rpnLocation import getLocation, RPNLocation, getTimeZone
 from rpnMeasurement import RPNMeasurement
 from rpnMath import subtract
+from rpnUtils import oneArgFunctionEvaluator
 
 
 # //******************************************************************************
@@ -31,6 +32,7 @@ from rpnMath import subtract
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getVernalEquinox( n ):
     '''Returns the date of the next vernal equinox after n.'''
     result = RPNDateTime.convertFromEphemDate( ephem.next_equinox( str( n ) ) )
@@ -43,6 +45,7 @@ def getVernalEquinox( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getSummerSolstice( n ):
     '''Returns the date of the next summer solstice after n.'''
     result = RPNDateTime.convertFromEphemDate( ephem.next_solstice( str( n ) ) )
@@ -55,6 +58,7 @@ def getSummerSolstice( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getAutumnalEquinox( n ):
     '''Returns the date of the next autumnal equinox after n.'''
     result = RPNDateTime.convertFromEphemDate( ephem.next_equinox( str( n ) + '-07-01' ) )
@@ -67,6 +71,7 @@ def getAutumnalEquinox( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getWinterSolstice( n ):
     '''Returns the date of the next winter solstice after n.'''
     result = RPNDateTime.convertFromEphemDate( ephem.next_solstice( str( n ) + '-07-01' ) )
@@ -94,6 +99,7 @@ def getEphemTime( n, func ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getMoonPhase( n ):
     '''Returns the current moon phase as a percentage, starting from the new moon.'''
     if not isinstance( n, RPNDateTime ):
@@ -465,4 +471,79 @@ def getDistanceFromEarth( n, k ):
     n.compute( k.to( 'utc' ).format( ) )
 
     return RPNMeasurement( n.earth_distance * ephem.meters_per_au, 'meters' )
+
+
+def getNextAstronomicalDawn( n, k ):
+    return getNextDawn( n, k, -18 )
+
+def getNextAstronomicalDusk( n, k ):
+    return getNextDusk( n, k, -18 )
+
+def getDayTime( n, k ):
+    return getTransitTime( ephem.Sun( ), n, k )
+
+def getNextMoonRise( n, k ):
+    return getNextRising( ephem.Moon( ), n, k )
+
+def getNextMoonSet( n, k ):
+    return getNextSetting( ephem.Moon( ), n, k )
+
+def getNextMoonAntitransit( n, k ):
+    return getNextAntitransit( ephem.Moon( ), n, k )
+
+def getNextMoonTransit( n, k ):
+    return getNextTransit( ephem.Moon( ), n, k )
+
+def getNextNauticalDawn( n, k ):
+    return getNextDawn( n, k, -12 )
+
+def getNextNauticalDusk( n, k ):
+    return getNextDusk( n, k, -12 )
+
+@oneArgFunctionEvaluator( )
+def getNextFirstQuarterMoon( n ):
+    return getEphemTime( n, ephem.next_first_quarter_moon )
+
+@oneArgFunctionEvaluator( )
+def getNextFullMoon( n ):
+    return getEphemTime( n, ephem.next_full_moon )
+
+@oneArgFunctionEvaluator( )
+def getNextLastQuarterMoon( n ):
+    return getEphemTime( n, ephem.next_last_quarter_moon )
+
+@oneArgFunctionEvaluator( )
+def getNextNewMoon( n ):
+    return getEphemTime( n, ephem.next_new_moon )
+
+def getNightTime( n, k ):
+    return getAntitransitTime( ephem.Sun( ), n, k )
+
+@oneArgFunctionEvaluator( )
+def getPreviousFirstQuarterMoon( n ):
+    return getEphemTime( n, ephem.previous_first_quarter_moon )
+
+@oneArgFunctionEvaluator( )
+def getPreviousFullMoon( n ):
+    return getEphemTime( n, ephem.previous_full_moon )
+
+@oneArgFunctionEvaluator( )
+def getPreviousLastQuarterMoon( n ):
+    return getEphemTime( n, ephem.previous_last_quarter_moon )
+
+@oneArgFunctionEvaluator( )
+def getPreviousNewMoon( n ):
+    return getEphemTime( n, ephem.previous_new_moon )
+
+def getSolarNoon( n, k ):
+    return getNextTransit( ephem.Sun( ), n, k )
+
+def getNextSunrise( n, k ):
+    return getNextRising( ephem.Sun( ), n, k )
+
+def getNextSunset( n, k ):
+    return getNextSetting( ephem.Sun( ), n, k )
+
+def getNextSunAntitransit( n, k ):
+    return getNextAntitransit( ephem.Sun( ), n, k )
 

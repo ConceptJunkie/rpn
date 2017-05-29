@@ -5,7 +5,7 @@
 # //  rpnPhysics.py
 # //
 # //  RPN command-line calculator physics operators
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -21,7 +21,7 @@ from rpnList import getProduct
 from rpnMath import divide, getPower, getRoot, multiply
 from rpnMeasurement import checkUnits, getWhichUnitType, matchUnitTypes, \
                            RPNMeasurement, validateUnits
-from rpnUtils import real_int
+from rpnUtils import oneArgFunctionEvaluator, real_int
 
 import rpnGlobals as g
 
@@ -34,6 +34,7 @@ from mpmath import fdiv, fmul, fsub, inf, pi, power, sqrt
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateSchwarzchildRadius( mass ):
     validateUnits( mass, 'mass' )
 
@@ -47,6 +48,7 @@ def calculateSchwarzchildRadius( mass ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateTimeDilation( velocity ):
     validateUnits( velocity, 'velocity' )
 
@@ -526,6 +528,7 @@ def calculateHorizonDistance( altitude, radius ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateEnergyEquivalence( mass ):
     validateUnits( mass, 'mass' )
 
@@ -539,6 +542,7 @@ def calculateEnergyEquivalence( mass ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateMassEquivalence( energy ):
     validateUnits( energy, 'energy' )
 

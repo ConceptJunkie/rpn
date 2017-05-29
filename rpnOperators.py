@@ -5,7 +5,7 @@
 # //  rpnOperators.py
 # //
 # //  RPN command-line calculator operator definitions
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -27,7 +27,7 @@ from mpmath import acosh, acot, acoth, acsc, acsch, agm, altzeta, arg, asec, \
                    cos, coth, cplot, csc, csch, cyclotomic, fac2, fadd, fmod, \
                    harmonic, hyperfac, lambertw, li, limit, ln, loggamma, nint, \
                    nprod, nsum, polyexp, polylog, plot, psi, rand, sec, sech, \
-                   sin, sinh, splot, superfac, tan, tanh, unitroots, zeta
+                   sin, sinh, splot, superfac, tan, tanh, unitroots
 
 from rpnAliases import dumpAliases
 
@@ -1344,26 +1344,26 @@ def dumpUnits( ):
 # //
 # //******************************************************************************
 
-def evaluateOneArgFunction( func, args, level = 0 ):
-    if isinstance( args, list ):
-        result = [ evaluateOneArgFunction( func, i, level + 1 ) for i in args ]
-    elif isinstance( args, RPNGenerator ):
-        result = RPNGenerator.createChained( args.getGenerator( ), func )
-    else:
-        result = func( args )
-
-    # if this is the 'echo' operator, just return the result
-    if func.__name__ == 'addEchoArgument':
-        return result
-
-    # otherwise, check for arguments to be echoed, and echo them before the result
-    if level == 0 and not g.operatorList and len( g.echoArguments ) > 0:
-        returnValue = list( g.echoArguments )
-        returnValue.append( result )
-        g.echoArguments = [ ]
-        return returnValue
-    else:
-        return result
+#def evaluateOneArgFunction( func, args, level = 0 ):
+#    if isinstance( args, list ):
+#        result = [ evaluateOneArgFunction( func, i, level + 1 ) for i in args ]
+#    elif isinstance( args, RPNGenerator ):
+#        result = RPNGenerator.createChained( args.getGenerator( ), func )
+#    else:
+#        result = func( args )
+#
+#    # if this is the 'echo' operator, just return the result
+#    if func.__name__ == 'addEchoArgument':
+#        return result
+#
+#    # otherwise, check for arguments to be echoed, and echo them before the result
+#    if level == 0 and not g.operatorList and len( g.echoArguments ) > 0:
+#        returnValue = list( g.echoArguments )
+#        returnValue.append( result )
+#        g.echoArguments = [ ]
+#        return returnValue
+#    else:
+#        return result
 
 
 # //******************************************************************************
@@ -1457,8 +1457,8 @@ def evaluateTwoArgFunction( func, _arg1, _arg2, level = 0 ):
 # //******************************************************************************
 
 callers = [
-    lambda func, args: [ func( ) ],
-    evaluateOneArgFunction,
+    lambda func, args: func( ),
+    lambda func, args: func( args ),  # evaluateOneArgFunction,
     evaluateTwoArgFunction,
 
     # 3, 4, and 5 argument functions don't recurse with lists more than one level
@@ -1810,12 +1810,6 @@ def setUserData( key, value ):
     g.userDataIsDirty = True
 
     return value
-
-
-
-@oneArgFunctionEvaluator( )
-def square( n ):
-    return getPower( n, 2 )
 
 
 # //******************************************************************************
@@ -2226,7 +2220,7 @@ operators = {
     'ceiling'                        : RPNOperator( getCeiling,
                                                     1, [ RPNOperator.Default ] ),
 
-    'decrement'                      : RPNOperator( lambda n: subtract( n, 1 ),
+    'decrement'                      : RPNOperator( decrement,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
@@ -2239,7 +2233,7 @@ operators = {
     'gcd2'                           : RPNOperator( lambda n, k: getGCD( [ n, k ] ),
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
-    'increment'                      : RPNOperator( lambda n: add( n, 1 ),
+    'increment'                      : RPNOperator( increment,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
@@ -2250,13 +2244,13 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'is_even'                        : RPNOperator( lambda n: 1 if fmod( real( n ), 2 ) == 0 else 0,
+    'is_even'                        : RPNOperator( isEven,
                                                     1, [ RPNOperator.Real ] ),
 
     'is_greater'                     : RPNOperator( isGreater,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
-    'is_integer'                     : RPNOperator( lambda n: 1 if n == nint( n ) else 0,
+    'is_integer'                     : RPNOperator( isInteger,
                                                     1, [ RPNOperator.Real ] ),
 
 
@@ -2273,29 +2267,29 @@ operators = {
     'is_not_less'                    : RPNOperator( isNotLess,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
-    'is_not_zero'                    : RPNOperator( lambda n: 0 if n == 0 else 1,
+    'is_not_zero'                    : RPNOperator( isNotZero,
                                                     1, [ RPNOperator.Default ] ),
 
-    'is_odd'                         : RPNOperator( lambda n: 1 if fmod( real( n ), 2 ) == 1 else 0,
+    'is_odd'                         : RPNOperator( isOdd,
                                                     1, [ RPNOperator.Real ] ),
 
     'is_square'                      : RPNOperator( isSquare,
                                                     1, [ RPNOperator.Default ] ),
 
-    'is_zero'                        : RPNOperator( lambda n: 1 if n == 0 else 0,
+    'is_zero'                        : RPNOperator( isZero,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
     'larger'                         : RPNOperator( getLarger,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
-    'lcm2'                           : RPNOperator( lambda n, k: getLCM( [ n, k ] ),
+    'lcm2'                           : RPNOperator( getLCM2,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
-    'mantissa'                       : RPNOperator( lambda n: fsub( n, floor( n ) ),
+    'mantissa'                       : RPNOperator( getMantissa,
                                                     1, [ RPNOperator.Default ] ),
 
-    'modulo'                         : RPNOperator( lambda n, k: fmod( real( n ), real( k ) ),
+    'modulo'                         : RPNOperator( getModulo,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
     'multiply'                       : RPNOperator( multiply,
@@ -2341,10 +2335,10 @@ operators = {
                                                     3, [ RPNOperator.AstronomicalObject, RPNOperator.Location,
                                                          RPNOperator.DateTime ] ),
 
-    'astronomical_dawn'              : RPNOperator( lambda n, k: getNextDawn( n, k, -18 ),
+    'astronomical_dawn'              : RPNOperator( getNextAstronomicalDawn,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'astronomical_dusk'              : RPNOperator( lambda n, k: getNextDusk( n, k, -18 ),
+    'astronomical_dusk'              : RPNOperator( getNextAstronomicalDusk,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'autumnal_equinox'               : RPNOperator( getAutumnalEquinox,
@@ -2353,7 +2347,7 @@ operators = {
     'dawn'                           : RPNOperator( getNextDawn,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'day_time'                       : RPNOperator( lambda n, k: getTransitTime( ephem.Sun( ), n, k ),
+    'day_time'                       : RPNOperator( getDayTime,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'distance_from_earth'            : RPNOperator( getDistanceFromEarth,
@@ -2362,41 +2356,41 @@ operators = {
     'dusk'                           : RPNOperator( getNextDusk,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'moonrise'                       : RPNOperator( lambda n, k: getNextRising( ephem.Moon( ), n, k ),
+    'moonrise'                       : RPNOperator( getNextMoonRise,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'moonset'                        : RPNOperator( lambda n, k: getNextSetting( ephem.Moon( ), n, k ),
+    'moonset'                        : RPNOperator( getNextMoonSet,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'moon_antitransit'               : RPNOperator( lambda n, k: getNextAntitransit( ephem.Moon( ), n, k ),
+    'moon_antitransit'               : RPNOperator( getNextMoonAntitransit,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'moon_phase'                     : RPNOperator( getMoonPhase,
                                                     1, [ RPNOperator.DateTime ] ),
 
-    'moon_transit'                   : RPNOperator( lambda n, k: getNextTransit( ephem.Moon( ), n, k ),
+    'moon_transit'                   : RPNOperator( getNextTransit,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'nautical_dawn'                  : RPNOperator( lambda n, k: getNextDawn( n, k, -12 ),
+    'nautical_dawn'                  : RPNOperator( getNextNauticalDawn,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'nautical_dusk'                  : RPNOperator( lambda n, k: getNextDusk( n, k, -12 ),
+    'nautical_dusk'                  : RPNOperator( getNextNauticalDusk,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'next_antitransit'               : RPNOperator( getNextAntitransit,
                                                     3, [ RPNOperator.AstronomicalObject, RPNOperator.Location,
                                                          RPNOperator.DateTime ] ),
 
-    'next_first_quarter_moon'        : RPNOperator( lambda n: getEphemTime( n, ephem.next_first_quarter_moon ),
+    'next_first_quarter_moon'        : RPNOperator( getNextFirstQuarterMoon,
                                                     1, [ RPNOperator.DateTime ] ),
 
-    'next_full_moon'                 : RPNOperator( lambda n: getEphemTime( n, ephem.next_full_moon ),
+    'next_full_moon'                 : RPNOperator( getNextFullMoon,
                                                     1, [ RPNOperator.DateTime ] ),
 
-    'next_last_quarter_moon'         : RPNOperator( lambda n: getEphemTime( n, ephem.next_last_quarter_moon ),
+    'next_last_quarter_moon'         : RPNOperator( getNextLastQuarterMoon,
                                                     1, [ RPNOperator.DateTime ] ),
 
-    'next_new_moon'                  : RPNOperator( lambda n: getEphemTime( n, ephem.next_new_moon ),
+    'next_new_moon'                  : RPNOperator( getNextNewMoon,
                                                     1, [ RPNOperator.DateTime ] ),
 
     'next_rising'                    : RPNOperator( getNextRising,
@@ -2411,23 +2405,23 @@ operators = {
                                                     3, [ RPNOperator.AstronomicalObject, RPNOperator.Location,
                                                          RPNOperator.DateTime ] ),
 
-    'night_time'                     : RPNOperator( lambda n, k: getAntitransitTime( ephem.Sun( ), n, k ),
+    'night_time'                     : RPNOperator( getNightTime,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'previous_antitransit'           : RPNOperator( getPreviousAntitransit,
                                                     3, [ RPNOperator.AstronomicalObject, RPNOperator.Location,
                                                          RPNOperator.DateTime ] ),
 
-    'previous_first_quarter_moon'    : RPNOperator( lambda n: getEphemTime( n, ephem.previous_first_quarter_moon ),
+    'previous_first_quarter_moon'    : RPNOperator( getPreviousFirstQuarterMoon,
                                                     1, [ RPNOperator.DateTime ] ),
 
-    'previous_full_moon'             : RPNOperator( lambda n: getEphemTime( n, ephem.previous_full_moon ),
+    'previous_full_moon'             : RPNOperator( getPreviousFullMoon,
                                                     1, [ RPNOperator.DateTime ] ),
 
-    'previous_last_quarter_moon'     : RPNOperator( lambda n: getEphemTime( n, ephem.previous_last_quarter_moon ),
+    'previous_last_quarter_moon'     : RPNOperator( getPreviousLastQuarterMoon,
                                                     1, [ RPNOperator.DateTime ] ),
 
-    'previous_new_moon'              : RPNOperator( lambda n: getEphemTime( n, ephem.previous_new_moon ),
+    'previous_new_moon'              : RPNOperator( getPreviousNewMoon,
                                                     1, [ RPNOperator.DateTime ] ),
 
     'previous_rising'                : RPNOperator( getPreviousRising,
@@ -2445,19 +2439,19 @@ operators = {
     'sky_location'                   : RPNOperator( getSkyLocation,
                                                     2, [ RPNOperator.AstronomicalObject, RPNOperator.DateTime ] ),
 
-    'solar_noon'                     : RPNOperator( lambda n, k: getNextTransit( ephem.Sun( ), n, k ),
+    'solar_noon'                     : RPNOperator( getSolarNoon,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'summer_solstice'                : RPNOperator( getSummerSolstice,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'sunrise'                        : RPNOperator( lambda n, k: getNextRising( ephem.Sun( ), n, k ),
+    'sunrise'                        : RPNOperator( getNextSunrise,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'sunset'                         : RPNOperator( lambda n, k: getNextSetting( ephem.Sun( ), n, k ),
+    'sunset'                         : RPNOperator( getNextSunset,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
-    'sun_antitransit'                : RPNOperator( lambda n, k: getNextAntitransit( ephem.Sun( ), n, k ),
+    'sun_antitransit'                : RPNOperator( getNextSunAntitransit,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'transit_time'                   : RPNOperator( getTransitTime,
@@ -2885,7 +2879,6 @@ operators = {
     'ydhms'                          : RPNOperator( convertToYDHMS,
                                                     1, [ RPNOperator.Measurement ],
                                                     RPNOperator.measurementsAllowed ),
-
     # date_time
     'get_year'                       : RPNOperator( getYear,
                                                     1, [ RPNOperator.DateTime ] ),
@@ -3156,7 +3149,6 @@ operators = {
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     # logical
-
     'and'                            : RPNOperator( lambda n, k: 1 if ( n != 0 and k != 0 ) else 0,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
@@ -3227,7 +3219,7 @@ operators = {
     'abundance'                      : RPNOperator( getAbundance,
                                                     1, RPNOperator.PositiveInteger ),
 
-    'abundance_ratio'                : RPNOperator( lambda n: fdiv( getSigma( n ), n ),
+    'abundance_ratio'                : RPNOperator( getAbundanceRatio,
                                                     1, RPNOperator.PositiveInteger ),
 
     'aliquot'                        : RPNOperator( lambda n, k: RPNGenerator.createGenerator( getAliquotSequence, [ n, k ] ),
@@ -3236,10 +3228,10 @@ operators = {
     'alternating_factorial'          : RPNOperator( getNthAlternatingFactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'barnesg'                        : RPNOperator( lambda n: barnesg( n ),
+    'barnesg'                        : RPNOperator( getBarnesG,
                                                     1, [ RPNOperator.Default ] ),
 
-    'beta'                           : RPNOperator( lambda n, k: beta( n, k ),
+    'beta'                           : RPNOperator( getBeta,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
     'calkin_wilf'                    : RPNOperator( getNthCalkinWilf,
@@ -3248,22 +3240,22 @@ operators = {
     'count_divisors'                 : RPNOperator( getDivisorCount,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'cyclotomic'                     : RPNOperator( lambda n, k: cyclotomic( n, k ),
+    'cyclotomic'                     : RPNOperator( getCyclotomic,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.Default ] ),
 
-    'digamma'                        : RPNOperator( lambda n: psi( 0, n ),
+    'digamma'                        : RPNOperator( getDigamma,
                                                     1, [ RPNOperator.Default ] ),
 
     'divisors'                       : RPNOperator( getDivisors,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'double_factorial'               : RPNOperator( lambda n: fac2( n ),
+    'double_factorial'               : RPNOperator( getDoubleFactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'egypt'                          : RPNOperator( getGreedyEgyptianFraction,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'eta'                            : RPNOperator( lambda n: altzeta( n ),
+    'eta'                            : RPNOperator( getAltZeta,
                                                     1, [ RPNOperator.Default ] ),
 
     'euler_brick'                    : RPNOperator( makeEulerBrick,
@@ -3279,7 +3271,7 @@ operators = {
     'factor_sympy'                   : RPNOperator( getFactorListSympy,
                                                     1, [ RPNOperator.Integer ] ),
 
-    'factorial'                      : RPNOperator( lambda n: fac( n ),
+    'factorial'                      : RPNOperator( getFactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'fibonacci'                      : RPNOperator( getNthFibonacci,
@@ -3291,25 +3283,25 @@ operators = {
     'generate_polydivisibles'        : RPNOperator( lambda n: RPNGenerator.createGenerator( generatePolydivisibles, n ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'erdos_persistence'              : RPNOperator( lambda n: getPersistence( n, 1, True ),
+    'erdos_persistence'              : RPNOperator( getErdosPersistence,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'fraction'                       : RPNOperator( interpretAsFraction,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
-    'gamma'                          : RPNOperator( lambda n: gamma( n ),
+    'gamma'                          : RPNOperator( getGamma,
                                                     1, [ RPNOperator.Default ] ),
 
-    'harmonic'                       : RPNOperator( lambda n: harmonic( n ),
+    'harmonic'                       : RPNOperator( getHarmonic,
                                                     1, [ RPNOperator.Default ] ),
 
-    'heptanacci'                     : RPNOperator( lambda n: getNthKFibonacciNumber( n, 7 ),
+    'heptanacci'                     : RPNOperator( getNthHeptanacci,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'hexanacci'                      : RPNOperator( lambda n: getNthKFibonacciNumber( n, 6 ),
+    'hexanacci'                      : RPNOperator( getNthHexanacci,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'hyperfactorial'                 : RPNOperator( lambda n: hyperfac( n ),
+    'hyperfactorial'                 : RPNOperator( getHyperfactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_abundant'                    : RPNOperator( isAbundant,
@@ -3318,7 +3310,7 @@ operators = {
     'is_achilles'                    : RPNOperator( isAchillesNumber,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'is_composite'                   : RPNOperator( lambda n: 0 if n == 1 or isPrime( n ) else 1,
+    'is_composite'                   : RPNOperator( isComposite,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_deficient'                   : RPNOperator( isDeficient,
@@ -3342,7 +3334,7 @@ operators = {
     'is_powerful'                    : RPNOperator( isPowerful,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'is_prime'                       : RPNOperator( lambda n: 1 if isPrime( n ) else 0,
+    'is_prime'                       : RPNOperator( isPrime,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_pronic'                      : RPNOperator( isPronic,
@@ -3351,13 +3343,13 @@ operators = {
     'is_rough'                       : RPNOperator( isRough,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
-    'is_semiprime'                   : RPNOperator( lambda n: isKSemiPrime( n, 2 ),
+    'is_semiprime'                   : RPNOperator( isSemiPrime,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_smooth'                      : RPNOperator( isSmooth,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
-    'is_sphenic'                     : RPNOperator( lambda n: isKSphenic( n, 3 ),
+    'is_sphenic'                     : RPNOperator( isSphenic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_squarefree'                  : RPNOperator( isSquareFree,
@@ -3369,10 +3361,10 @@ operators = {
     'k_fibonacci'                    : RPNOperator( getNthKFibonacciNumber,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'leyland'                        : RPNOperator( lambda n, k: fadd( power( n, k ), power( k, n ) ),
+    'leyland'                        : RPNOperator( getLeyland,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
-    'log_gamma'                      : RPNOperator( lambda n: loggamma( n ),
+    'log_gamma'                      : RPNOperator( getLogGamma,
                                                     1, [ RPNOperator.Default ] ),
 
     'lucas'                          : RPNOperator( getNthLucasNumber,
@@ -3393,16 +3385,16 @@ operators = {
     'mobius'                         : RPNOperator( getMobius,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'nth_carol'                      : RPNOperator( lambda n: fsub( power( fsub( power( 2, real( n ) ), 1 ), 2 ), 2 ),
+    'nth_carol'                      : RPNOperator( getNthCarol,
                                                     1, [ RPNOperator.Real ] ),
 
     'nth_jacobsthal'                 : RPNOperator( getNthJacobsthalNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'nth_kynea'                      : RPNOperator( lambda n: fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 ),
+    'nth_kynea'                      : RPNOperator( getNthKynea,
                                                     1, [ RPNOperator.Real ] ),
 
-    'nth_leonardo'                   : RPNOperator( lambda n: fsub( fmul( 2, fib( fadd( n, 1 ) ) ), 1 ),
+    'nth_leonardo'                   : RPNOperator( getNthLeonardo,
                                                     1, [ RPNOperator.Real ] ),
 
     'nth_mersenne_prime'             : RPNOperator( getNthMersennePrime,
@@ -3423,19 +3415,19 @@ operators = {
     'n_persistence'                  : RPNOperator( getPersistence,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
-    'octanacci'                      : RPNOperator( lambda n: getNthKFibonacciNumber( n, 8 ),
+    'octanacci'                      : RPNOperator( getNthOctanacci,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'pascal_triangle'                : RPNOperator( lambda n: RPNGenerator.createGenerator( getNthPascalLine, n ),
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'pentanacci'                     : RPNOperator( lambda n: getNthKFibonacciNumber( n, 5 ),
+    'pentanacci'                     : RPNOperator( getNthPentanacci,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'persistence'                    : RPNOperator( getPersistence,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'polygamma'                      : RPNOperator( lambda n, k: psi( n, k ),
+    'polygamma'                      : RPNOperator( getPolygamma,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.Default ] ),
 
     'radical'                        : RPNOperator( getRadical,
@@ -3447,7 +3439,7 @@ operators = {
     'reversal_addition'              : RPNOperator( lambda n, k: RPNGenerator( getNthReversalAddition( n, k ) ),
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'riesel'                         : RPNOperator( lambda n: fsub( fmul( real( n ), power( 2, n ) ), 1 ),
+    'riesel'                         : RPNOperator( getNthRiesel,
                                                     1, [ RPNOperator.Real ] ),
 
     'show_n_persistence'             : RPNOperator( lambda n, k: RPNGenerator.createGenerator( showPersistence, [ n, k ] ),
@@ -3465,7 +3457,7 @@ operators = {
     'sigma_n'                        : RPNOperator( getSigmaN,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
-    'subfactorial'                   : RPNOperator( lambda n: floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) ),
+    'subfactorial'                   : RPNOperator( getSubfactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'sums_of_k_powers'               : RPNOperator( lambda n, k, p: RPNGenerator( findSumsOfKPowers( n, k, p ) ),
@@ -3474,25 +3466,25 @@ operators = {
     'sums_of_k_nonzero_powers'       : RPNOperator( lambda n, k, p: RPNGenerator( findSumsOfKPowers( n, k, p, bNonZero = True ) ),
                                                     3, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'superfactorial'                 : RPNOperator( lambda n: superfac( n ),
+    'superfactorial'                 : RPNOperator( getSuperfactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'tetranacci'                     : RPNOperator( lambda n: getNthKFibonacciNumber( n, 4 ),
+    'tetranacci'                     : RPNOperator( getNthTetranacci,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'thabit'                         : RPNOperator( lambda n: fsub( fmul( 3, power( 2, n ) ), 1 ),
+    'thabit'                         : RPNOperator( getNthThabit,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'tribonacci'                     : RPNOperator( lambda n: getNthKFibonacciNumber( n, 3 ),
+    'tribonacci'                     : RPNOperator( getNthTribonacci,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'trigamma'                       : RPNOperator( lambda n: psi( 1, n ),
+    'trigamma'                       : RPNOperator( getTrigamma,
                                                     1, [ RPNOperator.Default ] ),
 
-    'unit_roots'                     : RPNOperator( lambda n: unitroots( real_int( n ) ),
+    'unit_roots'                     : RPNOperator( getUnitRoots,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'zeta'                           : RPNOperator( lambda n: zeta( n ),
+    'zeta'                           : RPNOperator( getZeta,
                                                     1, [ RPNOperator.Default ] ),
 
     'zeta_zero'                      : RPNOperator( getNthZetaZero,
@@ -3784,24 +3776,24 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     # powers_and_roots
-    'agm'                            : RPNOperator( lambda n, k: agm( n, k ),
+    'agm'                            : RPNOperator( getAGM,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
-    'cube'                           : RPNOperator( lambda n: getPower( n, 3 ),
+    'cube'                           : RPNOperator( cube,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'cube_root'                      : RPNOperator( lambda n: getRoot( n, 3 ),
+    'cube_root'                      : RPNOperator( getCubeRoot,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'exp'                            : RPNOperator( lambda n: exp( n ),
+    'exp'                            : RPNOperator( getExp,
                                                     1, [ RPNOperator.Default ] ),
 
-    'exp10'                          : RPNOperator( lambda n: power( 10, n ),
+    'exp10'                          : RPNOperator( getExp10,
                                                     1, [ RPNOperator.Default ] ),
 
-    'expphi'                         : RPNOperator( lambda n: power( phi, n ),
+    'expphi'                         : RPNOperator( getExpPhi,
                                                     1, [ RPNOperator.Default ] ),
 
     'hyper4_2'                       : RPNOperator( tetrateLarge,
@@ -3823,7 +3815,7 @@ operators = {
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'square_root'                    : RPNOperator( lambda n: getRoot( n, 2 ),
+    'square_root'                    : RPNOperator( getSquareRoot,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
@@ -4042,7 +4034,7 @@ operators = {
     'name'                           : RPNOperator( getNumberName,
                                                     1, [ RPNOperator.Integer ] ),
 
-    'oeis'                           : RPNOperator( lambda n: downloadOEISSequence( real_int( n ) ),
+    'oeis'                           : RPNOperator( downloadOEISSequence,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'oeis_comment'                   : RPNOperator( lambda n: downloadOEISText( real_int( n ), 'C', True ),

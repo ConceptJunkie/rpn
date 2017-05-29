@@ -5,7 +5,7 @@
 # //  rpnFactor.py
 # //
 # //  RPN command-line calculator factoring utilities
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -27,10 +27,10 @@ import rpnGlobals as g
 from rpnKeyboard import DelayedKeyboardInterrupt
 from rpnPersistence import loadFactorCache
 from rpnPrimes import primes
-from rpnPrimeUtils import isPrime
+from rpnPrimeUtils import isPrimeNumber
 from rpnSettings import setAccuracy
 from rpnUtils import getExpandedFactorList, getExpandedFactorListSympy, \
-                     real, real_int
+                     oneArgFunctionEvaluator, real, real_int
 
 
 # //******************************************************************************
@@ -39,6 +39,7 @@ from rpnUtils import getExpandedFactorList, getExpandedFactorListSympy, \
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getFactorListSympy( n ):
     # We shouldn't have to check for lists here, but something isn't right...
     if isinstance( n, list ):
@@ -55,6 +56,7 @@ def getFactorListSympy( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getFactors( target ):
     if target < -1:
         result = [ -1 ]
@@ -133,7 +135,7 @@ def factorByTrialDivision( n ):
             n = fdiv( n, i )
             result.append( i )
 
-        if isPrime( n ):
+        if isPrimeNumber( n ):
             break
 
     if n > 1:

@@ -5,7 +5,7 @@
 # //  rpnCalendar.py
 # //
 # //  RPN command-line calculator calendar operators
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -20,7 +20,7 @@ from mpmath import ceil
 
 from rpnDateTime import RPNDateTime
 from rpnName import getOrdinalName
-from rpnUtils import real_int
+from rpnUtils import oneArgFunctionEvaluator, real_int
 
 
 # //******************************************************************************
@@ -192,6 +192,7 @@ persianDays = [
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getOrdinalDate( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'a date-time type required for this operator' )
@@ -205,6 +206,7 @@ def getOrdinalDate( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def generateMonthCalendar( datetime ):
     if not isinstance( datetime, RPNDateTime ):
         raise ValueError( 'a date-time type required for this operator' )
@@ -222,6 +224,7 @@ def generateMonthCalendar( datetime ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def generateYearCalendar( n ):
     cal = calendar.TextCalendar( firstweekday = 6 )
 
@@ -239,6 +242,7 @@ def generateYearCalendar( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getJulianDay( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'a date-time type required for this operator' )
@@ -252,6 +256,7 @@ def getJulianDay( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getLilianDay( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'a date-time type required for this operator' )
@@ -265,6 +270,7 @@ def getLilianDay( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getISODate( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'a date-time type required for this operator' )
@@ -280,6 +286,7 @@ def getISODate( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getISODateName( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'a date-time type required for this operator' )
@@ -295,6 +302,7 @@ def getISODateName( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getHebrewCalendarDate( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -318,6 +326,7 @@ def convertHebrewDate( year, month, day ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getHebrewCalendarDateName( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -334,6 +343,7 @@ def getHebrewCalendarDateName( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getIndianCivilCalendarDate( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -357,6 +367,7 @@ def convertIndianCivilDate( year, month, day ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getIndianCivilCalendarDateName( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -373,6 +384,7 @@ def getIndianCivilCalendarDateName( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getMayanCalendarDate( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -397,6 +409,7 @@ def convertMayanDate( baktun, katun, tun, uinal, kin ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getIslamicCalendarDate( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -420,6 +433,7 @@ def convertIslamicDate( year, month, day ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getIslamicCalendarDateName( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -436,6 +450,7 @@ def getIslamicCalendarDateName( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getJulianCalendarDate( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -459,6 +474,7 @@ def convertJulianDate( year, month, day ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getPersianCalendarDate( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -482,6 +498,7 @@ def convertPersianDate( year, month, day ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getPersianCalendarDateName( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -498,6 +515,7 @@ def getPersianCalendarDateName( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getBahaiCalendarDate( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )
@@ -521,6 +539,7 @@ def convertBahaiDate( year, month, day ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getBahaiCalendarDateName( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'time type required for this operator' )

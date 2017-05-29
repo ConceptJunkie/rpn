@@ -5,7 +5,7 @@
 # //  rpnSpecial.py
 # //
 # //  RPN command-line calculator special operators
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -29,7 +29,7 @@ import rpnGlobals as g
 
 from rpnGenerator import RPNGenerator
 from rpnPersistence import cachedFunction
-from rpnUtils import real_int
+from rpnUtils import oneArgFunctionEvaluator, real_int
 
 
 # //******************************************************************************
@@ -38,6 +38,7 @@ from rpnUtils import real_int
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getMultipleRandoms( n ):
     '''Returns n random numbers.'''
     for i in arange( 0, real_int( n ) ):
@@ -83,6 +84,7 @@ def removeUnderscores( source ):
 # //******************************************************************************
 
 @cachedFunction( 'oeis' )
+@oneArgFunctionEvaluator( )
 def downloadOEISSequence( id ):
     '''Downloads and formats data from oeis.org.'''
     keywords = downloadOEISText( id, 'K' ).split( ',' )
@@ -129,7 +131,7 @@ def downloadOEISText( id, char, addCR = False ):
     import re as regex
 
     try:
-        data = urllib2.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( id ) + '&fmt=text' ).read( )
+        data = urllib2.urlopen( 'http://oeis.org/search?q=id%3AA{:06}'.format( int( id ) ) + '&fmt=text' ).read( )
     except:
         print( 'rpn:  HTTP access to oeis.org failed' )
         return ''
@@ -156,6 +158,7 @@ def downloadOEISText( id, char, addCR = False ):
 # //******************************************************************************
 
 @cachedFunction( 'oeis_table' )
+@oneArgFunctionEvaluator( )
 def downloadOEISTable( id ):
     if six.PY3:
         import urllib.request as urllib2

@@ -5,7 +5,7 @@
 # //  rpnDateTime.py
 # //
 # //  RPN command-line calculator date and time operations
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -22,7 +22,7 @@ from dateutil import tz
 
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement, convertUnits
-from rpnUtils import real, real_int
+from rpnUtils import oneArgFunctionEvaluator, real, real_int
 
 import rpnGlobals as g
 
@@ -218,6 +218,7 @@ class RPNDateTime( arrow.Arrow ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def convertToUnixTime( n ):
     try:
         result = RPNDateTime.parseDateTime( n ).timestamp
@@ -237,6 +238,7 @@ def convertToUnixTime( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def convertFromUnixTime( n ):
     try:
         result = RPNDateTime.parseDateTime( real( n ) )
@@ -256,6 +258,7 @@ def convertFromUnixTime( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def convertToHMS( n ):
     return convertUnits( n, [ RPNMeasurement( 1, { 'hour' : 1 } ),
                               RPNMeasurement( 1, { 'minute' : 1 } ),
@@ -268,6 +271,7 @@ def convertToHMS( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def convertToDHMS( n ):
     return convertUnits( n, [ RPNMeasurement( 1, { 'day' : 1 } ),
                               RPNMeasurement( 1, { 'hour' : 1 } ),
@@ -281,6 +285,7 @@ def convertToDHMS( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def convertToYDHMS( n ):
     return convertUnits( n, [ RPNMeasurement( 1, { 'year' : 1 } ),
                               RPNMeasurement( 1, { 'day' : 1 } ),
@@ -295,6 +300,7 @@ def convertToYDHMS( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def makeJulianTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeJulianTime( list( n ) )
@@ -324,6 +330,7 @@ def makeJulianTime( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def makeISOTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeISOTime( list( n ) )
@@ -354,6 +361,7 @@ def makeISOTime( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def makeDateTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeDateTime( list( n ) )
@@ -424,6 +432,7 @@ def getYesterday( ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateEaster( year ):
     if isinstance( real( year ), RPNDateTime ):
         year = year.year
@@ -450,6 +459,7 @@ def calculateEaster( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateAshWednesday( year ):
     return calculateEaster( real( year ) ).add( RPNMeasurement( -46, 'day' ) )
 
@@ -462,6 +472,7 @@ def calculateAshWednesday( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateGoodFriday( year ):
     return calculateEaster( real( year ) ).add( RPNMeasurement( -2, 'day' ) )
 
@@ -562,6 +573,7 @@ def calculateNthWeekdayOfMonth( year, month, nth, weekday ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateThanksgiving( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -579,6 +591,7 @@ def calculateThanksgiving( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateLaborDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -596,6 +609,7 @@ def calculateLaborDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateElectionDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -614,6 +628,7 @@ def calculateElectionDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateMemorialDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -631,6 +646,7 @@ def calculateMemorialDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculatePresidentsDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -648,6 +664,7 @@ def calculatePresidentsDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateMartinLutherKingDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -665,6 +682,7 @@ def calculateMartinLutherKingDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateColumbusDay( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -680,6 +698,7 @@ def calculateColumbusDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNewYearsDay( year ):
     return RPNDateTime( year, 1, 1, dateOnly = True )
 
@@ -690,6 +709,7 @@ def getNewYearsDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getVeteransDay( year ):
     return RPNDateTime( year, 11, 11, dateOnly = True )
 
@@ -700,6 +720,7 @@ def getVeteransDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getIndependenceDay( year ):
     return RPNDateTime( year, 7, 4, dateOnly = True )
 
@@ -710,6 +731,7 @@ def getIndependenceDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getChristmasDay( year ):
     return RPNDateTime( year, 12, 25, dateOnly = True )
 
@@ -720,6 +742,7 @@ def getChristmasDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getEpiphanyDay( year ):
     return RPNDateTime( year, 1, 6, dateOnly = True )
 
@@ -730,6 +753,7 @@ def getEpiphanyDay( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculatePentecostSunday( year ):
     return calculateEaster( year ).add( RPNMeasurement( 7, 'weeks' ) )
 
@@ -740,6 +764,7 @@ def calculatePentecostSunday( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateAscensionThursday( year ):
     '''
     I don't know why it's 39 days after Easter instead of 40, but that's how
@@ -756,6 +781,7 @@ def calculateAscensionThursday( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateDSTStart( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -780,6 +806,7 @@ def calculateDSTStart( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def calculateDSTEnd( year ):
     if isinstance( year, RPNDateTime ):
         year = year.year
@@ -802,6 +829,7 @@ def calculateDSTEnd( year ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getISODay( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'date/time type required for this operator' )
@@ -815,6 +843,7 @@ def getISODay( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getWeekday( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'date/time type required for this operator' )
@@ -828,6 +857,7 @@ def getWeekday( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getYear( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'date/time type required for this operator' )
@@ -841,6 +871,7 @@ def getYear( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getMonth( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'date/time type required for this operator' )
@@ -854,6 +885,7 @@ def getMonth( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getDay( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'date/time type required for this operator' )
@@ -867,6 +899,7 @@ def getDay( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getHour( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'date/time type required for this operator' )
@@ -880,6 +913,7 @@ def getHour( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getMinute( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'date/time type required for this operator' )
@@ -893,6 +927,7 @@ def getMinute( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getSecond( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'date/time type required for this operator' )

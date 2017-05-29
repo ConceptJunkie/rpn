@@ -5,7 +5,7 @@
 # //  rpnMath.py
 # //
 # //  RPN command-line calculator, mathematical operators
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -19,7 +19,7 @@ from rpnDateTime import RPNDateTime
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement, RPNUnits
 from rpnName import getOrdinalName
-from rpnUtils import real
+from rpnUtils import oneArgFunctionEvaluator, real
 
 
 # //******************************************************************************
@@ -74,6 +74,7 @@ def subtract( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNegative( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( fneg( n.getValue( ) ), n.getUnits( ) )
@@ -87,6 +88,7 @@ def getNegative( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getSign( n ):
     if isinstance( n, RPNMeasurement ):
         return sign( n.getValue( ) )
@@ -100,6 +102,7 @@ def getSign( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getValue( n ):
     if isinstance( n, RPNMeasurement ):
         return n.getValue( )
@@ -204,6 +207,7 @@ def getRoot( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def takeReciprocal( n ):
     if isinstance( n, RPNMeasurement ):
         return n.invert( )
@@ -220,6 +224,7 @@ def takeReciprocal( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getAbsoluteValue( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( fabs( n.getValue( ) ), n.getUnits( ) )
@@ -236,6 +241,7 @@ def getAbsoluteValue( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNearestInt( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( nint( n.getValue( ) ), n.getUnits( ) )
@@ -299,6 +305,7 @@ def isDivisible( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def isSquare( n ):
     sqrtN = sqrt( n )
 
@@ -404,6 +411,7 @@ def isNotLess( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def isInteger( n ):
     return 1 if n == floor( n ) else 0
 
@@ -414,6 +422,7 @@ def isInteger( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def roundOff( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundOff( n.getValue( ) ), n.getUnits( ) )
@@ -473,6 +482,7 @@ def getSmaller( n, k ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getFloor( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( getFloor( n.getValue( ) ), n.getUnits( ) )
@@ -486,6 +496,7 @@ def getFloor( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getCeiling( n ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( getCeiling( n.getValue( ) ), n.getUnits( ) )
@@ -517,4 +528,70 @@ def getMinimum( n ):
         return [ min( arg ) for arg in n ]
     else:
         return min( n )
+
+
+@oneArgFunctionEvaluator( )
+def square( n ):
+    return getPower( n, 2 )
+
+@oneArgFunctionEvaluator( )
+def decrement( n ):
+    return subtract( n, 1 )
+
+@oneArgFunctionEvaluator( )
+def increment( n ):
+    return add( n, 1 )
+
+@oneArgFunctionEvaluator( )
+def isEven( n ):
+    return 1 if fmod( real( n ), 2 ) == 0 else 0
+
+@oneArgFunctionEvaluator( )
+def isOdd( n ):
+    return 1 if fmod( real( n ), 2 ) == 1 else 0
+
+@oneArgFunctionEvaluator( )
+def isNotZero( n ):
+    return 0 if n == 0 else 1
+
+@oneArgFunctionEvaluator( )
+def isZero( n ):
+    return 1 if n == 0 else 0
+
+def getLCM2( n, k ):
+    return getLCM( [ n, k ] )
+
+@oneArgFunctionEvaluator( )
+def getMantissa( n ):
+    return fsub( n, floor( n ) )
+
+def getModulo( n, k ):
+    return fmod( real( n ), real( k ) )
+
+def getAGM( n, k ):
+    return agm( n, k ),
+
+@oneArgFunctionEvaluator( )
+def cube( n ):
+    return getPower( n, 3 )
+
+@oneArgFunctionEvaluator( )
+def getCubeRoot( n ):
+    return getRoot( n, 3 )
+
+@oneArgFunctionEvaluator( )
+def getExp( n ):
+    return exp( n )
+
+@oneArgFunctionEvaluator( )
+def getExp10( n ):
+    return power( 10, n )
+
+@oneArgFunctionEvaluator( )
+def getExpPhi( n ):
+    return power( phi, n )
+
+@oneArgFunctionEvaluator( )
+def getSquareRoot( n ):
+    return getRoot( n, 2 )
 

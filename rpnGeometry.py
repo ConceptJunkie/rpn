@@ -5,7 +5,7 @@
 # //  rpnGeometry.py
 # //
 # //  RPN command-line calculator geometric operators
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -18,7 +18,7 @@ from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, fsum, gamma, hypot, 
 from rpnList import getProduct, getSum
 from rpnMath import add, divide, getPower, getRoot, multiply, subtract
 from rpnMeasurement import RPNMeasurement
-from rpnUtils import real, real_int
+from rpnUtils import oneArgFunctionEvaluator, real, real_int
 
 
 # //******************************************************************************
@@ -321,6 +321,7 @@ def getConeVolume( r, h ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getTetrahedronSurfaceArea( n ):
     if not isinstance( n, RPNMeasurement ):
         return getTetrahedronSurfaceArea( RPNMeasurement( real( n ), 'meter' ) )
@@ -339,6 +340,7 @@ def getTetrahedronSurfaceArea( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getTetrahedronVolume( n ):
     if not isinstance( n, RPNMeasurement ):
         return getTetrahedronVolume( RPNMeasurement( real( n ), 'meter' ) )
@@ -357,6 +359,7 @@ def getTetrahedronVolume( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getOctahedronSurfaceArea( n ):
     if not isinstance( n, RPNMeasurement ):
         return getOctahedronSurfaceArea( RPNMeasurement( real( n ), 'meter' ) )
@@ -375,6 +378,7 @@ def getOctahedronSurfaceArea( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getOctahedronVolume( n ):
     if not isinstance( n, RPNMeasurement ):
         return getOctahedronVolume( RPNMeasurement( real( n ), 'meter' ) )
@@ -393,6 +397,7 @@ def getOctahedronVolume( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getDodecahedronSurfaceArea( n ):
     if not isinstance( n, RPNMeasurement ):
         return getDodecahedronSurfaceArea( RPNMeasurement( real( n ), 'meter' ) )
@@ -412,6 +417,7 @@ def getDodecahedronSurfaceArea( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getDodecahedronVolume( n ):
     if not isinstance( n, RPNMeasurement ):
         return getDodecahedronVolume( RPNMeasurement( real( n ), 'meter' ) )
@@ -430,6 +436,7 @@ def getDodecahedronVolume( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getIcosahedronSurfaceArea( n ):
     if not isinstance( n, RPNMeasurement ):
         return getIcosahedronVolume( RPNMeasurement( real( n ), 'meter' ) )
@@ -448,6 +455,7 @@ def getIcosahedronSurfaceArea( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getIcosahedronVolume( n ):
     if not isinstance( n, RPNMeasurement ):
         return getIcosahedronVolume( RPNMeasurement( real( n ), 'meter' ) )

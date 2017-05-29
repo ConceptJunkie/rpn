@@ -5,7 +5,7 @@
 # //  rpnLocation.py
 # //
 # //  RPN command-line calculator RPNLocationn class declaration
-# //  copyright (c) 2016, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -29,6 +29,7 @@ from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 from rpnOutput import convertToBaseN
 from rpnPhysics import calculateDistance
+from rpnUtils import oneArgFunctionEvaluator
 
 import rpnGlobals as g
 
@@ -142,6 +143,7 @@ def saveLocationCache( locationCache ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getLocation( name ):
     if not isinstance( name, str ):
         raise ValueError( '\'location\' expects a string argument' )
@@ -193,6 +195,7 @@ def getLocation( name ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getLocationInfo( location ):
     if isinstance( location, str ):
         location = getLocation( location )
@@ -209,6 +212,7 @@ def getLocationInfo( location ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getTimeZone( location ):
     from timezonefinder import TimezoneFinder
 
@@ -264,6 +268,7 @@ def getDistance( location1, location2 ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def convertLatLongToNAC( args ):
     if isinstance( args, RPNGenerator ):
         return convertLatLongToNAC( list( args ) )
