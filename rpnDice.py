@@ -18,6 +18,7 @@ from collections import Counter
 from mpmath import arange
 from random import randrange
 
+from rpnGenerator import RPNGenerator
 from rpnUtils import debugPrint, oneArgFunctionEvaluator
 
 import rpnGlobals as g
@@ -48,6 +49,9 @@ def rollMultipleDice( expression, times ):
         values, modifier = evaluateDiceExpression( dice )
         yield sum( values ) + modifier
 
+def rollMultipleDiceGenerator( n, k ):
+    return RPNGenerator( rollMultipleDice( n, k ) )
+
 
 # //******************************************************************************
 # //
@@ -55,9 +59,12 @@ def rollMultipleDice( expression, times ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def enumerateDice( expression ):
     return evaluateDiceExpression( parseDiceExpression( expression ), False )[ 0 ]
+
+@oneArgFunctionEvaluator( )
+def enumerateDiceGenerator( n ):
+    return RPNGenerator( enumerateDice( n ) )
 
 
 # //******************************************************************************
@@ -66,11 +73,14 @@ def enumerateDice( expression ):
 # //
 # //******************************************************************************
 
-def enumerateMultipleDice( expression, times ):
+def enumerateMultipleDice( expression, count ):
     dice = parseDiceExpression( expression )
 
-    for i in arange( 0, times ):
+    for i in arange( 0, count ):
         yield evaluateDiceExpression( dice )[ 0 ]
+
+def enumerateMultipleDiceGenerator( n, k ):
+    return RPNGenerator( enumerateMultipleDice( n, k ) )
 
 
 # //******************************************************************************
@@ -87,7 +97,6 @@ def enumerateMultipleDice( expression, times ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def permuteDice( expression ):
     dice = parseDiceExpression( expression )
 
@@ -138,6 +147,10 @@ def permuteDice( expression ):
                 yield total
         else:
             yield sum( values ) + modifierTotal
+
+@oneArgFunctionEvaluator( )
+def permuteDiceGenerator( n ):
+    return RPNGenerator( permuteDice( n ) )
 
 
 # //******************************************************************************
