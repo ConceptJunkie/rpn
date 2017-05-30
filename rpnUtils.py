@@ -40,7 +40,6 @@ from functools import reduce
 
 import rpnGlobals as g
 
-from rpnPersistence import cachedFunction
 from rpnGenerator import RPNGenerator
 
 

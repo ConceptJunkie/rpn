@@ -83,8 +83,8 @@ def removeUnderscores( source ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'oeis' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'oeis' )
 def downloadOEISSequence( id ):
     '''Downloads and formats data from oeis.org.'''
     keywords = downloadOEISText( id, 'K' ).split( ',' )
@@ -157,8 +157,8 @@ def downloadOEISText( id, char, addCR = False ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'oeis_table' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'oeis_table' )
 def downloadOEISTable( id ):
     if six.PY3:
         import urllib.request as urllib2

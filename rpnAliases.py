@@ -589,6 +589,7 @@ operatorAliases = {
     'n_fibonacci'               : 'k_fibonacci',
     'napiers_constant'          : 'e',
     'neg'                       : 'negative',
+    'negate'                    : 'not',
     'neptune_year'              : 'neptune_revolution',
     'newtons_constant'          : 'newton_constant',
     'next_first_quarter'        : 'next_first_quarter_moon',

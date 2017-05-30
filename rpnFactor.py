@@ -143,4 +143,3 @@ def factorByTrialDivision( n ):
 
     return result
 
-

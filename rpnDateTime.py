@@ -300,7 +300,6 @@ def convertToYDHMS( n ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def makeJulianTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeJulianTime( list( n ) )
@@ -330,7 +329,6 @@ def makeJulianTime( n ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def makeISOTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeISOTime( list( n ) )
@@ -361,7 +359,6 @@ def makeISOTime( n ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def makeDateTime( n ):
     if isinstance( n, RPNGenerator ):
         return makeDateTime( list( n ) )

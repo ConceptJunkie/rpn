@@ -46,11 +46,11 @@ def splitNumberByDigits( n ):
 
 # //******************************************************************************
 # //
-# //  getDigits
+# //  getDigitList
 # //
 # //******************************************************************************
 
-def getDigits( n, dropZeroes = False ):
+def getDigitList( n, dropZeroes = False ):
     str = getMPFIntegerAsString( n )
 
     result = [ ]
@@ -64,13 +64,22 @@ def getDigits( n, dropZeroes = False ):
     return result
 
 
+@oneArgFunctionEvaluator( )
+def getDigits( n ):
+    return getDigitList( n )
+
+@oneArgFunctionEvaluator( )
+def getNonzeroDigits( n ):
+    return getDigitList( dropZeroes = True )
+
+
 # //******************************************************************************
 # //
 # //  getBaseNDigits
 # //
 # //******************************************************************************
 
-def getBaseNDigits( n, base, dropZeroes = False ):
+def getBaseKDigitList( n, base, dropZeroes = False ):
     digits = convertToBaseN( n, base, outputBaseDigits=True )
 
     result = [ ]
@@ -82,6 +91,13 @@ def getBaseNDigits( n, base, dropZeroes = False ):
         result.append( c )
 
     return result
+
+
+def getBaseKDigits( n, k ):
+    return getBaseKDigitList( n, k )
+
+def getNonzeroBaseKDigits( n, k ):
+    return getBaseKDigitList( dropZeroes = True )
 
 
 # //******************************************************************************
@@ -104,17 +120,31 @@ def sumDigits( n ):
 
 # //******************************************************************************
 # //
-# //  multiplyDigits
+# //  multiplyDigitList
 # //
 # //******************************************************************************
 
-def multiplyDigits( n, exponent = 1, dropZeroes = False ):
+def multiplyDigitList( n, exponent = 1, dropZeroes = False ):
     if exponent < 1:
-        raise ValueError( 'multiplyDigits( ) expects a positive integer for \'exponent\'' )
+        raise ValueError( 'multiplyDigitList( ) expects a positive integer for \'exponent\'' )
     elif exponent == 1:
-        return fprod( getDigits( n, dropZeroes ) )
+        return fprod( getDigitList( n, dropZeroes ) )
     else:
-        return fprod( [ power( i, exponent ) for i in getDigits( n, dropZeroes ) ] )
+        return fprod( [ power( i, exponent ) for i in getDigitList( n, dropZeroes ) ] )
+
+@oneArgFunctionEvaluator( )
+def multiplyDigits( n ):
+    return multiplyDigitList( n )
+
+def multiplyDigitPowers( n, k ):
+    return multiplyDigitList( n, k )
+
+@oneArgFunctionEvaluator( )
+def multiplyNonzeroDigits( n ):
+    return multiplyDigitList( n, dropZeros = True )
+
+def multiplyNonzeroDigitPowers( n, k ):
+    return multiplyDigitList( n, k, dropZeroes = True )
 
 
 # //******************************************************************************
@@ -156,7 +186,6 @@ def addDigits( n, k ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def combineDigits( n ):
     result = 0
 
@@ -180,7 +209,6 @@ def combineDigits( n ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def replaceDigits( n ):
     result = 0
 
@@ -338,13 +366,13 @@ def countDifferentDigits( n ):
 
 # //******************************************************************************
 # //
-# //  getNthReversalAddition
+# //  getNthReversalAdditionGenerator
 # //
 # //  https://en.wikipedia.org/wiki/Lychrel_number
 # //
 # //******************************************************************************
 
-def getNthReversalAddition( n, k ):
+def getNthReversalAdditionGenerator( n, k ):
     next = int( real_int( n ) )
     yield next
 
@@ -357,12 +385,13 @@ def getNthReversalAddition( n, k ):
         next = fadd( reverseDigits( next ), next )
         yield next
 
+def getNthReversalAddition( n, k ):
+    return RPNGenerator( getNthReversalAdditionGenerator( n, k ) )
+
 
 # //******************************************************************************
 # //
 # //  findPalindrome
-# //
-# //  https://en.wikipedia.org/wiki/Lychrel_number
 # //
 # //******************************************************************************
 
@@ -386,7 +415,7 @@ def findPalindrome( n, k ):
 
 @oneArgFunctionEvaluator( )
 def isNarcissistic( n ):
-    digits = getDigits( real_int( n ) )
+    digits = getDigitList( real_int( n ) )
 
     count = len( digits )
 
@@ -410,7 +439,7 @@ def isNarcissistic( n ):
 
 @oneArgFunctionEvaluator( )
 def isPerfectDigitalInvariant( n ):
-    digits = getDigits( real_int( n ) )
+    digits = getDigitList( real_int( n ) )
 
     exponent = 1
 
@@ -736,7 +765,7 @@ def parseNumbersExpression( arg ):
 
 @oneArgFunctionEvaluator( )
 def hasUniqueDigits( n ):
-    digits = getDigits( real_int( n ) )
+    digits = getDigitList( real_int( n ) )
 
     existing = set( )
 
@@ -780,10 +809,18 @@ def isKMorphic( n, k ):
 
     return 1 if ( n == powmod ) else 0
 
+@oneArgFunctionEvaluator( )
+def isAutomorphic( n ):
+    return isKMorphic( n, 2 )
+
+@oneArgFunctionEvaluator( )
+def isTrimorphic( n ):
+    return isKMorphic( n, 3 )
+
 
 # //******************************************************************************
 # //
-# //  getLeftTruncations
+# //  getLeftTruncationsGenerator
 # //
 # //******************************************************************************
 
@@ -797,10 +834,14 @@ def getLeftTruncations( n ):
     for i, e in enumerate( str ):
         yield mpmathify( str[ i : ] )
 
+@oneArgFunctionEvaluator( )
+def getLeftTruncations( n ):
+    return RPNGenerator.createGenerator( getLeftTruncationsGenerator, n )
+
 
 # //******************************************************************************
 # //
-# //  getRightTruncations
+# //  getRightTruncationsGenerator
 # //
 # //******************************************************************************
 
@@ -814,53 +855,84 @@ def getRightTruncations( n ):
     for i in range( len( str ), 0, -1 ):
         yield mpmathify( str[ 0 : i ] )
 
+@oneArgFunctionEvaluator( )
+def getRightTruncations( n ):
+    return RPNGenerator.createGenerator( getRightTruncationsGenerator, n )
+
 
 # //******************************************************************************
 # //
-# //  getPersistence
+# //  getMultiplicativePersistence
 # //
 # //******************************************************************************
 
-def getPersistence( n, exponent = 1, dropZeroes = False, persistence = 0 ):
+def getMultiplicativePersistence( n, exponent = 1, dropZeroes = False, persistence = 0 ):
     if exponent == 1 and n < 10:
         return persistence
 
     if n <= 1:
         return persistence
     else:
-        return getPersistence( multiplyDigits( n, exponent, dropZeroes ), exponent, dropZeroes, persistence + 1 )
+        return getMultiplicativePersistence( multiplyDigitList( n, exponent, dropZeroes ), exponent, dropZeroes, persistence + 1 )
+
+@oneArgFunctionEvaluator( )
+def getPersistence( n ):
+    return getMultiplicativePersistence( n )
+
+def getNPersistence( n, k ):
+    return getMultiplicativePersistence( n, k )
+
+@oneArgFunctionEvaluator( )
+def getErdosPersistence( n ):
+    return getMultiplicativePersistence( n, 1, True )
+
 
 
 # //******************************************************************************
 # //
-# //  showPersistence
+# //  showMultiplicativePersistence
 # //
 # //******************************************************************************
 
-def showPersistence( n, exponent = 1, dropZeroes = False ):
+def showMultiplicativePersistence( n, exponent = 1, dropZeroes = False ):
     yield n
 
     if exponent == 1:
         while n >= 10:
-            n = multiplyDigits( n, exponent, dropZeroes )
+            n = multiplyDigitList( n, exponent, dropZeroes )
             yield n
     else:
         while n > 1:
-            n = multiplyDigits( n, exponent, dropZeroes )
+            n = multiplyDigitList( n, exponent, dropZeroes )
             yield n
+
+@oneArgFunctionEvaluator( )
+def showPersistence( n ):
+    return RPNGenerator.createGenerator( showMultiplicativePersistence, [ n ] )
+
+def showKPersistence( n, k ):
+    return RPNGenerator.createGenerator( showMultiplicativePersistence, [ n, k ] )
 
 
 # //******************************************************************************
 # //
-# //  showErdosPersistence
+# //  showErdosPersistenceGenerator
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def showErdosPersistence( n ):
+def showErdosPersistenceGenerator( n ):
     yield n
 
     while n >= 10:
-        n = multiplyDigits( n, 1, True )
+        n = multiplyDigitList( n, 1, True )
         yield n
+
+@oneArgFunctionEvaluator( )
+def showErdosPersistence( n ):
+    return RPNGenerator.createGenerator( showErdosPersistenceGenerator, [ n ] )
+
+@oneArgFunctionEvaluator( )
+def permuteDigits( n ):
+    return RPNGenerator.createPermutations( getMPFIntegerAsString( n ) )
 

@@ -758,6 +758,9 @@ def runBitwiseOperatorTests( ):
     # count_bits
     testOperator( '0xffff count_bits' )
 
+    # not
+    expectEqual( '[ 0 10 dup ] not', '[ 1 10 dup ]' )
+
     # or
     testOperator( '-x 0x5543 0x7789 bitwise_or' )
 
@@ -1120,7 +1123,10 @@ def runCombinatoricsOperatorTests( ):
 
     # nth_pell
     testOperator( '13 nth_pell' )
-    expectEqual( '-a383 1 1001 range nth_pell', '129 oeis 1001 left' )
+    expectEqual( '-a383 1 100 range nth_pell', '129 oeis 100 left' )
+
+    if slow:
+        expectEqual( '-a383 1 1001 range nth_pell', '129 oeis 1001 left' )
 
     # nth_schroeder
     testOperator( '-a50 67 nth_schroeder' )
@@ -1563,7 +1569,7 @@ def runFunctionOperatorTests( ):
     expectEqual( '0 lambda x x sin / limitn', '1' )
 
     # negate
-    expectEqual( '[ 0 10 dup ] negate', '[ 1 10 dup ]' )
+    expectEqual( '[ 0 10 dup ] not', '[ 1 10 dup ]' )
 
     # nprod
     testOperator( '-a20 -p20 -d5 3 inf lambda x pi / 1/x cos nprod' )
@@ -1578,7 +1584,9 @@ def runFunctionOperatorTests( ):
     # plotc
 
     # recurrence
-    expectEqual( '2 99 lambda x git_digits sqr sum recurrence', '216 oeis 100 left' )
+    expectEqual( '2 99 lambda x get_digits sqr sum recurrence', '216 oeis 100 left' )
+    expectEqual( '3 99 lambda x get_digits sqr sum recurrence', '218 oeis 100 left' )
+    expectEqual( '5 99 lambda x get_digits sqr sum recurrence', '221 oeis 100 left' )
 
     # unfilter
     expectEqual( '1 10100 range lambda x is_square unfilter', '37 oeis 10000 left' )
@@ -1781,13 +1789,22 @@ def runLexicographyOperatorTests( ):
 
     # get_digits
     testOperator( '123456789 get_digits' )
-    expectEqual( '0 10000 range lambda x get_digits 1 left eval flatten', '30 oeis 10001 left' )
+    expectEqual( '0 1000 range lambda x get_digits 1 left eval flatten', '30 oeis 1001 left' )
+
+    if slow:
+        expectEqual( '0 10000 range lambda x get_digits 1 left eval flatten', '30 oeis 10001 left' )
 
     # has_any_digits
-    expectEqual( '1 10776 primes lambda x 2357 has_any_digits filter', '179336 oeis 10000 left' )
+    expectEqual( '1 1113 primes lambda x 2357 has_any_digits filter', '179336 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '1 10776 primes lambda x 2357 has_any_digits filter', '179336 oeis 10000 left' )
 
     # has_digits
-    expectEqual( '0 30501 range lambda x 0 has_digits filter', '11540 oeis 10000 left' )
+    expectEqual( '0 4005 range lambda x 0 has_digits filter', '11540 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '0 30501 range lambda x 0 has_digits filter', '11540 oeis 10000 left' )
 
     # has_only_digits
     expectEqual( '1 20000 range lambda x triangular 120 has_only_digits filter', '119034 oeis 15 left' )
@@ -1831,6 +1848,12 @@ def runLexicographyOperatorTests( ):
 
     # multiply_digits
     expectEqual( '123456789 multiply_digits', '9 !' )
+
+    # multiply_digit_powers
+
+    # multiply_nonzero_digits
+
+    # multiply_nonzero_digit_powers
 
     # n_persistence
     expectResult( '77 1 n_persistence', 4 )
@@ -3261,7 +3284,7 @@ def runSpecialOperatorTests( ):
     # constant
 
     # echo
-    testOperator( '1 10 range echo sqrt collate -s1' )
+    #testOperator( '1 10 range echo sqrt collate -s1' )
 
     # estimate
     testOperator( '150 amps estimate' )
@@ -3513,7 +3536,7 @@ def runTrigonometryOperatorTests( ):
 def runAdvancedTests( ):
     expectResult( '-0', 0 )
     testOperator( '2016 dst_end 2016 dst_start - 2016-12-31 2016-01-01 - /' )
-    testOperator( '"Leesburg, VA" today 0 20 range days + echo daytime collate -s1' )
+    testOperator( '"Leesburg, VA" today 0 20 range days + daytime collate -s1' )
     testOperator( '1 1 thousand range lambda x is_polydivisible filter' )
     expectEqual( '38[147][246]5[246][124679][246][124679]0 build_numbers lambda x is_polydivisible filter lambda x is_pandigital filter', '[ 3816547290 ]' )
     testOperator( '1 50 range twin_primes_ 1/x sum sum' )

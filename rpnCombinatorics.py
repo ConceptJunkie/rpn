@@ -39,9 +39,11 @@
 # * Yes.........Yes.........No..........p+2
 # * Yes.........Yes.........Yes.........p+4 (table from Derek Holt) (End)
 
-from mpmath import arange, binomial, e, fac, fadd, fdiv, floor, fmul, fprod, \
-                   fsub, fsum, log10, mp, nint, nsum, pi, power, fprod, sqrt
+from mpmath import arange, bell, bernoulli, binomial, e, fac, fadd, fdiv, floor, \
+                   fmul, fprod, fsub, fsum, log10, mp, nint, nsum, pi, power, \
+                   fprod, sqrt
 
+from rpnGenerator import RPNGenerator
 from rpnNumberTheory import getNthLinearRecurrence
 from rpnPersistence import cachedFunction
 from rpnPolytope import getNthGeneralizedPolygonalNumber
@@ -244,6 +246,9 @@ def createDeBruijnSequence( n, k ):
 
         v[ l - 1 ] += 1
 
+def getDeBruijnSequence( n, k ):
+    return RPNGenerator( createDeBruijnSequence( n, k ) )
+
 
 # //******************************************************************************
 # //
@@ -275,8 +280,8 @@ def getCompositions( n, k ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'partition' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'partition' )
 def OLDgetPartitionNumber( n ):
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
@@ -302,8 +307,8 @@ def OLDgetPartitionNumber( n ):
     return total
 
 
-@cachedFunction( 'partition' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'partition' )
 def getPartitionNumber( n ):
     '''
     This version is, um, less recursive than the original, which I've kept.
@@ -371,7 +376,6 @@ def getNthMultifactorial( n, k ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getMultinomial( args ):
     numerator = fac( fsum( args ) )
 
@@ -441,6 +445,7 @@ def getNthSchroederHipparchusNumber( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNthMenageNumber( n ):
     if n < 0:
         raise ValueError( '\'menage\' requires a non-negative argument' )
@@ -451,3 +456,19 @@ def getNthMenageNumber( n ):
     else:
         return nsum( lambda k: fdiv( fprod( [ power( -1, k ), fmul( 2, n ), binomial( fsub( fmul( 2, n ), k ), k ),
                                             fac( fsub( n, k ) ) ] ), fsub( fmul( 2, n ), k ) ), [ 0, n ] )
+
+
+def getBellPolynomial( n, k ):
+    return bell( n, k )
+
+def getBinomial( n, k ):
+    return binomial( n, k )
+
+@oneArgFunctionEvaluator( )
+def getNthBell( n ):
+    return bell( n )
+
+@oneArgFunctionEvaluator( )
+def getNthBernoulli( n ):
+    return bernoulli( n )
+

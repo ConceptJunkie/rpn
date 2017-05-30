@@ -92,6 +92,38 @@ def getEphemTime( n, func ):
     result = RPNDateTime.convertFromEphemDate( func( n.format( ) ) )
     return result.getLocalTime( )
 
+@oneArgFunctionEvaluator( )
+def getNextFirstQuarterMoon( n ):
+    return getEphemTime( n, ephem.next_first_quarter_moon )
+
+@oneArgFunctionEvaluator( )
+def getNextFullMoon( n ):
+    return getEphemTime( n, ephem.next_full_moon )
+
+@oneArgFunctionEvaluator( )
+def getNextLastQuarterMoon( n ):
+    return getEphemTime( n, ephem.next_last_quarter_moon )
+
+@oneArgFunctionEvaluator( )
+def getNextNewMoon( n ):
+    return getEphemTime( n, ephem.next_new_moon )
+
+@oneArgFunctionEvaluator( )
+def getPreviousFirstQuarterMoon( n ):
+    return getEphemTime( n, ephem.previous_first_quarter_moon )
+
+@oneArgFunctionEvaluator( )
+def getPreviousFullMoon( n ):
+    return getEphemTime( n, ephem.previous_full_moon )
+
+@oneArgFunctionEvaluator( )
+def getPreviousLastQuarterMoon( n ):
+    return getEphemTime( n, ephem.previous_last_quarter_moon )
+
+@oneArgFunctionEvaluator( )
+def getPreviousNewMoon( n ):
+    return getEphemTime( n, ephem.previous_new_moon )
+
 
 # //******************************************************************************
 # //
@@ -158,6 +190,12 @@ def getNextRising( body, location, date ):
 
     return result
 
+def getNextSunrise( n, k ):
+    return getNextRising( ephem.Sun( ), n, k )
+
+def getNextMoonRise( n, k ):
+    return getNextRising( ephem.Moon( ), n, k )
+
 
 # //******************************************************************************
 # //
@@ -184,6 +222,12 @@ def getNextSetting( body, location, date ):
     location.observer.horizon = old_horizon
 
     return result
+
+def getNextSunset( n, k ):
+    return getNextSetting( ephem.Sun( ), n, k )
+
+def getNextMoonSet( n, k ):
+    return getNextSetting( ephem.Moon( ), n, k )
 
 
 # //******************************************************************************
@@ -212,6 +256,12 @@ def getNextTransit( body, location, date ):
 
     return result
 
+def getSolarNoon( n, k ):
+    return getNextTransit( ephem.Sun( ), n, k )
+
+def getNextMoonTransit( n, k ):
+    return getNextTransit( ephem.Moon( ), n, k )
+
 
 # //******************************************************************************
 # //
@@ -239,6 +289,12 @@ def getNextAntitransit( body, location, date ):
 
     return result
 
+def getNextSunAntitransit( n, k ):
+    return getNextAntitransit( ephem.Sun( ), n, k )
+
+def getNextMoonAntitransit( n, k ):
+    return getNextAntitransit( ephem.Moon( ), n, k )
+
 
 # //******************************************************************************
 # //
@@ -263,6 +319,9 @@ def getTransitTime( body, location, date ):
 
     return subtract( setting, rising )
 
+def getDayTime( n, k ):
+    return getTransitTime( ephem.Sun( ), n, k )
+
 
 # //******************************************************************************
 # //
@@ -286,6 +345,9 @@ def getAntitransitTime( body, location, date ):
     rising = RPNDateTime.convertFromEphemDate( location.observer.next_rising( body, start=ephemSetting ) ).getLocalTime( )
 
     return subtract( rising, setting )
+
+def getNightTime( n, k ):
+    return getAntitransitTime( ephem.Sun( ), n, k )
 
 
 # //******************************************************************************
@@ -426,6 +488,12 @@ def getNextDawn( location, date, horizon = -6 ):
 
     return result
 
+def getNextNauticalDawn( n, k ):
+    return getNextDawn( n, k, -12 )
+
+def getNextAstronomicalDawn( n, k ):
+    return getNextDawn( n, k, -18 )
+
 
 # //******************************************************************************
 # //
@@ -457,6 +525,12 @@ def getNextDusk( location, date, horizon = -6 ):
 
     return result
 
+def getNextNauticalDusk( n, k ):
+    return getNextDusk( n, k, -12 )
+
+def getNextAstronomicalDusk( n, k ):
+    return getNextDusk( n, k, -18 )
+
 
 # //******************************************************************************
 # //
@@ -471,79 +545,4 @@ def getDistanceFromEarth( n, k ):
     n.compute( k.to( 'utc' ).format( ) )
 
     return RPNMeasurement( n.earth_distance * ephem.meters_per_au, 'meters' )
-
-
-def getNextAstronomicalDawn( n, k ):
-    return getNextDawn( n, k, -18 )
-
-def getNextAstronomicalDusk( n, k ):
-    return getNextDusk( n, k, -18 )
-
-def getDayTime( n, k ):
-    return getTransitTime( ephem.Sun( ), n, k )
-
-def getNextMoonRise( n, k ):
-    return getNextRising( ephem.Moon( ), n, k )
-
-def getNextMoonSet( n, k ):
-    return getNextSetting( ephem.Moon( ), n, k )
-
-def getNextMoonAntitransit( n, k ):
-    return getNextAntitransit( ephem.Moon( ), n, k )
-
-def getNextMoonTransit( n, k ):
-    return getNextTransit( ephem.Moon( ), n, k )
-
-def getNextNauticalDawn( n, k ):
-    return getNextDawn( n, k, -12 )
-
-def getNextNauticalDusk( n, k ):
-    return getNextDusk( n, k, -12 )
-
-@oneArgFunctionEvaluator( )
-def getNextFirstQuarterMoon( n ):
-    return getEphemTime( n, ephem.next_first_quarter_moon )
-
-@oneArgFunctionEvaluator( )
-def getNextFullMoon( n ):
-    return getEphemTime( n, ephem.next_full_moon )
-
-@oneArgFunctionEvaluator( )
-def getNextLastQuarterMoon( n ):
-    return getEphemTime( n, ephem.next_last_quarter_moon )
-
-@oneArgFunctionEvaluator( )
-def getNextNewMoon( n ):
-    return getEphemTime( n, ephem.next_new_moon )
-
-def getNightTime( n, k ):
-    return getAntitransitTime( ephem.Sun( ), n, k )
-
-@oneArgFunctionEvaluator( )
-def getPreviousFirstQuarterMoon( n ):
-    return getEphemTime( n, ephem.previous_first_quarter_moon )
-
-@oneArgFunctionEvaluator( )
-def getPreviousFullMoon( n ):
-    return getEphemTime( n, ephem.previous_full_moon )
-
-@oneArgFunctionEvaluator( )
-def getPreviousLastQuarterMoon( n ):
-    return getEphemTime( n, ephem.previous_last_quarter_moon )
-
-@oneArgFunctionEvaluator( )
-def getPreviousNewMoon( n ):
-    return getEphemTime( n, ephem.previous_new_moon )
-
-def getSolarNoon( n, k ):
-    return getNextTransit( ephem.Sun( ), n, k )
-
-def getNextSunrise( n, k ):
-    return getNextRising( ephem.Sun( ), n, k )
-
-def getNextSunset( n, k ):
-    return getNextSetting( ephem.Sun( ), n, k )
-
-def getNextSunAntitransit( n, k ):
-    return getNextAntitransit( ephem.Sun( ), n, k )
 

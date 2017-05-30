@@ -38,6 +38,14 @@ def isPrimeNumber( n ):
     '''Uses pyprimes to check for the primality of n.'''
     return pyprimes.isprime( int( n ) )
 
+@oneArgFunctionEvaluator( )
+def isComposite( n ):
+    return 0 if n == 1 or isPrimeNumber( n ) else 1
+
+@oneArgFunctionEvaluator( )
+def isPrime( n ):
+    return 1 if isPrimeNumber( n ) else 0
+
 
 # //******************************************************************************
 # //
@@ -179,6 +187,10 @@ def getNextPrime( p, func = getNextPrimeCandidate ):
 
     return p
 
+@oneArgFunctionEvaluator( )
+def getNextPrimeOperator( n ):
+    return getNextPrime( n, func=getNextPrimeCandidateForAny )
+
 
 # //******************************************************************************
 # //
@@ -194,6 +206,9 @@ def getNextPrimes( p, k, func = getNextPrimeCandidate ):
         result.append( p )
 
     return result
+
+def getNextPrimesOperator( n, k ):
+    return getNextPrimes( n, k, func=getNextPrimeCandidateForAny )
 
 
 # //******************************************************************************
@@ -291,6 +306,9 @@ def findPrime( arg ):
 
         if p > target:
             return currentIndex - 1, old_p
+@oneArgFunctionEvaluator( )
+def findPrimeOperator( n ):
+    findPrime( n )[ 0 ]
 
 
 # //******************************************************************************
@@ -321,6 +339,14 @@ def findQuadrupletPrimes( arg ):
 
             if p > n:
                 return currentIndex, [ p, p + 2, p + 6, p + 8 ]
+
+@oneArgFunctionEvaluator( )
+def findQuadrupletPrimeOperator( n ):
+    return findQuadrupletPrimes( n )[ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextQuadrupletPrime( n ):
+    return findQuadrupletPrimes( n )[ 1 ]
 
 
 # //******************************************************************************
@@ -546,11 +572,11 @@ def getNthBalancedPrimeList( arg ):
 
 # //******************************************************************************
 # //
-# //  getNthDoubleBalancedPrime
+# //  getNthDoubleBalancedPrimeElement
 # //
 # //******************************************************************************
 
-def getNthDoubleBalancedPrime( arg, first = False ):
+def getNthDoubleBalancedPrimeElement( arg, first = False ):
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -601,7 +627,7 @@ def getNthDoubleBalancedPrime( arg, first = False ):
 
 @oneArgFunctionEvaluator( )
 def getNthDoubleBalancedPrimeList( arg ):
-    p = getNthDoubleBalancedPrime( arg, first = True )
+    p = getNthDoubleBalancedPrimeElement( arg, first = True )
     result = [ p ]
 
     for i in range( 0, 4 ):
@@ -610,14 +636,18 @@ def getNthDoubleBalancedPrimeList( arg ):
 
     return result
 
+@oneArgFunctionEvaluator( )
+def getNthDoubleBalancedPrime( arg ):
+    return getNthDoubleBalancedPrimeElement( arg )
+
 
 # //******************************************************************************
 # //
-# //  getNthTripleBalancedPrime
+# //  getNthTripleBalancedPrimeElement
 # //
 # //******************************************************************************
 
-def getNthTripleBalancedPrime( arg, first = False ):
+def getNthTripleBalancedPrimeElement( arg, first = False ):
     n = int( real_int( arg ) )
 
     if n < 1:
@@ -665,9 +695,8 @@ def getNthTripleBalancedPrime( arg, first = False ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getNthTripleBalancedPrimeList( arg ):
-    p = getNthTripleBalancedPrime( arg, first = True )
+    p = getNthTripleBalancedPrimeElement( arg, first = True )
     result = [ p ]
 
     for i in range( 0, 6 ):
@@ -675,6 +704,11 @@ def getNthTripleBalancedPrimeList( arg ):
         result.append( p )
 
     return result
+
+
+@oneArgFunctionEvaluator( )
+def getNthTripleBalancedPrime( arg ):
+    return getNthTripleBalancedPrimeElement( arg )
 
 
 # //******************************************************************************
@@ -719,6 +753,10 @@ def getNthSophiePrime( arg ):
             currentIndex += 1
 
     return p
+
+@oneArgFunctionEvaluator( )
+def getSafePrime( n ):
+    return fadd( fmul( getNthSophiePrime( n ), 2 ), 1 )
 
 
 # //******************************************************************************
@@ -1184,6 +1222,15 @@ def findQuintupletPrimes( arg ):
                 elif f == 7:
                     return currentIndex, [ p, fadd( p, 4 ), fadd( p, 6 ), fadd( p, 10 ), fadd( p, 12 ) ]
 
+@oneArgFunctionEvaluator( )
+def findQuintupletPrimeOperator( n ):
+    return findQuintupletPrimes( n )[ 0 ]
+
+@oneArgFunctionEvaluator( )
+def getNextQuintupletPrime( n ):
+    return findQuintupletPrimes( n )[ 1 ]
+
+
 
 # //******************************************************************************
 # //
@@ -1330,6 +1377,9 @@ def getNthPolyPrime( n, poly ):
 def getPrimes( value, count ):
     for i in getNthPrimeRange( value, count ):
         yield i
+
+def getPrimesGenerator( n, k ):
+    return RPNGenerator( getPrimes( n, k ) ),
 
 
 # //******************************************************************************

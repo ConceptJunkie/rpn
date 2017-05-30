@@ -190,6 +190,7 @@ def getSimpleUnitType( unit ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def invertUnits( measurement ):
     if not isinstance( measurement, RPNMeasurement ):
         raise ValueError( 'cannot invert non-measurements' )

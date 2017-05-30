@@ -5673,16 +5673,6 @@ See the 'user_functions' help topic for more details.
 ''',
 [ 'limit', 'lamdba' ] ],
 
-    'negate' : [
-'function', 'returns 0 if n is not 0 and 1 if n is 0',
-'''
-Negate really isn't related directly to functions, but it was added for use
-with function operators which rely on boolean values.
-''',
-'''
-''',
-[ 'sign' ] ],
-
     'nprod' : [
 'function', 'calculates the product of function c over the range of a through b',
 '''
@@ -5767,10 +5757,10 @@ which consists only of those elements for which the function returns a zero
 value.
 ''',
 '''
-'unfilter' is the same as adding 'negate' to 'filter':
+'unfilter' is the same as adding 'not' to 'filter':
 
 ''' + makeCommandExample( '1 20 range lambda x is_prime unfilter' ) + '''
-''' + makeCommandExample( '1 20 range lambda x is_prime negate filter' ),
+''' + makeCommandExample( '1 20 range lambda x is_prime not filter' ),
 [ 'filter', 'unfilter_by_index', 'lamdba' ] ],
 
     'unfilter_by_index' : [
@@ -6256,6 +6246,16 @@ multiplying digits, zeroes are dropped, which makes it more interesting.
 ''' + makeCommandExample( '-a30 10911 55 find_palindrome' ),
 [ ] ],
 
+    'get_base_k_digits' : [
+'lexicography', 'returns the list of digits comprising integer n in base k',
+'''
+This operation is useful for working with any lexicographic feature based
+on the digits that comprise an integer.
+''',
+'''
+''',
+[ 'get_nonzero_digits', 'get_nonzero_base_k_digits' ] ],
+
     'get_digits' : [
 'lexicography', 'returns the list of digits comprising integer n',
 '''
@@ -6264,7 +6264,27 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ 'has_digits' ] ],
+[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits' ] ],
+
+    'get_nonzero_base_k_digits' : [
+'lexicography', 'returns the list of non-zero digits comprising integer n in base k',
+'''
+This operation is useful for working with any lexicographic feature based
+on the digits that comprise an integer.
+''',
+'''
+''',
+[ 'get_nonzero_digits', 'get_base_k_digits' ] ],
+
+    'get_nonzero_digits' : [
+'lexicography', 'returns the list of non-zero digits comprising integer n',
+'''
+This operation is useful for working with any lexicographic feature based
+on the digits that comprise an integer.
+''',
+'''
+''',
+[ 'get_digits', 'get_nonzero_base_k_digits' ] ],
 
     'get_left_truncations' : [
 'lexicography', 'returns the blah blah blah',
@@ -6426,7 +6446,31 @@ A pandigital number contains at least one of all the of the digits 0 through
 ''',
 '''
 ''',
-[ 'sum_digits', 'get_digits', 'persistence' ] ],
+[ 'multiply_digit_powers', 'multiply_nonzero_digits', 'multiply_nonzero_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
+
+    'multiply_digit_powers' : [
+'lexicography', 'calculates the product of the kth power of each digit of integer n',
+'''
+''',
+'''
+''',
+[ 'multiply_digits', 'multiply_nonzero_digits', 'multiply_nonzero_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
+
+    'multiply_nonzero_digits' : [
+'lexicography', 'calculates the product of the non-zero digits of integer n',
+'''
+''',
+'''
+''',
+[ 'multiply_digit_powers', 'multiply_digits', 'multiply_nonzero_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
+
+    'multiply_nonzero_digit_powers' : [
+'lexicography', 'calculates the product of the kth power of each non-zero digit of integer n',
+'''
+''',
+'''
+''',
+[ 'multiply_digits', 'multiply_nonzero_digits', 'multiply_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
 
     'n_persistence' : [
 'lexicography', 'counts the number of times it takes to successively multiply the digits of n to the kth power to get a one-digit number',

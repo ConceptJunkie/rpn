@@ -19,7 +19,7 @@ from mpmath import fadd, fdiv, floor, fmod, fmul, fneg, fsub, fsum, log, mpf, \
 
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
-from rpnUtils import oneArgFunctionEvaluator, real_int
+from rpnUtils import oneArgFunctionEvaluator, real, real_int
 
 import rpnGlobals as g
 
@@ -71,6 +71,22 @@ def convertToSignedInt( n, k ):
 
     return value
 
+@oneArgFunctionEvaluator( )
+def convertToChar( n ):
+    return convertToSignedInt( n, 8 )
+
+@oneArgFunctionEvaluator( )
+def convertToShort( n ):
+    return convertToSignedInt( n, 16 )
+
+@oneArgFunctionEvaluator( )
+def convertToLong( n ):
+    return convertToSignedInt( n, 32 )
+
+@oneArgFunctionEvaluator( )
+def convertToLongLong( n ):
+    return convertToSignedInt( n, 64 )
+
 
 # //******************************************************************************
 # //
@@ -121,6 +137,27 @@ def performBitwiseOperation( i, j, operation ):
 
     return result
 
+def getBitwiseAnd( n, k ):
+    return performBitwiseOperation( n, k, lambda x, y: x & y )
+
+def getBitwiseNand( n, k ):
+    return getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x & y ) )
+
+def getBitwiseNor( n, k ):
+    return getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x | y ) )
+
+def getBitwiseOr( n, k ):
+    return performBitwiseOperation( n, k, lambda x, y: x | y )
+
+def getBitwiseXor( n, k ):
+    return performBitwiseOperation( n, k, lambda x, y: x ^ y )
+
+def shiftLeft( n, k ):
+    return performBitwiseOperation( n, k, lambda x, y: x << y )
+
+def shiftRight( n, k ):
+    return performBitwiseOperation( n, k, lambda x, y: x >> y )
+
 
 # //******************************************************************************
 # //
@@ -142,6 +179,10 @@ def getBitCount( n ):
         result += 1
 
     return result
+
+@oneArgFunctionEvaluator( )
+def getParity( n ):
+    return getBitCount( n ) & 1
 
 
 # //******************************************************************************
@@ -233,4 +274,54 @@ def interpretAsDouble( n ):
 
     intValue = struct.pack( 'Q', int( n ) )
     return mpf( struct.unpack( 'd', intValue )[ 0 ] )
+
+
+@oneArgFunctionEvaluator( )
+def convertToDouble( n ):
+    return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'd', float( real( n ) ) ) ) )
+
+@oneArgFunctionEvaluator( )
+def convertToFloat( n ):
+    return fsum( b << 8 * i for i, b in enumerate( struct.pack( 'f', float( real( n ) ) ) ) )
+
+@oneArgFunctionEvaluator( )
+def convertToUnsignedChar( n ):
+    return fmod( real_int( n ), power( 2, 8 ) )
+
+def convertToUnsignedInt( n, k ):
+    return fmod( real_int( n ), power( 2, real( k ) ) )
+
+@oneArgFunctionEvaluator( )
+def convertToUnsignedLong( n ):
+    return fmod( real_int( n ), power( 2, 32 ) )
+
+@oneArgFunctionEvaluator( )
+def convertToUnsignedLongLong( n ):
+    return fmod( real_int( n ), power( 2, 64 ) )
+
+@oneArgFunctionEvaluator( )
+def convertToUnsignedShort( n ):
+    return fmod( real_int( n ), power( 2, 16 ) )
+
+def andOperands( n, k ):
+    return 1 if ( n != 0 and k != 0 ) else 0
+
+@oneArgFunctionEvaluator( )
+def notOperand( n ):
+    return 1 if n == 0 else 0
+
+def nandOperands( n, k ):
+    return 0 if ( n != 0 and k != 0 ) else 1
+
+def norOperands( n, k ):
+    return 0 if ( n != 0 or k != 0 ) else 1
+
+def orOperands( n, k ):
+    return 1 if ( n != 0 or k != 0 ) else 0
+
+def xnorOperands( n, k ):
+    return 1 if ( n != 0 ) == ( k != 0 ) else 0
+
+def xorOperands( n, k ):
+    return 1 if ( n != 0 ) != ( k != 0 ) else 0
 

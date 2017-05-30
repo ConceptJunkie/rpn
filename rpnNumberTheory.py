@@ -19,10 +19,12 @@ import random
 from fractions import Fraction
 from functools import reduce
 
-from mpmath import arange, binomial, fabs, fac, fadd, fdiv, fib, floor, fmod, \
-                   fmul, fneg, fprod, fsub, fsum, mp, mpc, mpf, mpmathify, \
-                   nint, phi, polyroots, polyval, power, primepi, re, root, \
-                   sqrt, zeta, zetazero
+from mpmath import altzeta, arange, barnesg, beta, binomial, e, fabs, fac, \
+                   fac2, fadd, fdiv, fib, floor, fmod, fmul, fneg, fprod, \
+                   fsub, fsum, gamma, harmonic, hyperfac, loggamma, mp, mpc, \
+                   mpf, mpmathify, nint, phi, polyroots, polyval, power, \
+                   primepi, psi, re, root, superfac, sqrt, unitroots, \
+                   zeta, zetazero
 
 from rpnFactor import getFactors, getFactorList
 from rpnGenerator import RPNGenerator
@@ -58,14 +60,17 @@ def getNthAlternatingFactorial( n ):
 
 # //******************************************************************************
 # //
-# //  getNthPascalLine
+# //  getNthPascalLineGenerator
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
-def getNthPascalLine( n ):
+def getNthPascalLineGenerator( n ):
     for i in arange( 0, real( n ) ):
         yield binomial( n - 1, i )
+
+@oneArgFunctionEvaluator( )
+def getNthPascalLine( n ):
+    return RPNGenerator.createGenerator( getNthPascalLineGenerator, n )
 
 
 # //******************************************************************************
@@ -74,8 +79,8 @@ def getNthPascalLine( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'divisor_count' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'divisor_count' )
 def getDivisorCount( n ):
     if n == 1:
         return 1
@@ -256,6 +261,30 @@ def getNthKFibonacciNumber( n, k ):
         result += fdiv( power( roots[ i ], exponent ), polyval( nthPoly, roots[ i ] ) )
 
     return floor( fadd( re( result ), fdiv( 1, 2 ) ) )
+
+@oneArgFunctionEvaluator( )
+def getNthTribonacci( n ):
+    return getNthKFibonacciNumber( n, 3 )
+
+@oneArgFunctionEvaluator( )
+def getNthTetranacci( n ):
+    return getNthKFibonacciNumber( n, 4 )
+
+@oneArgFunctionEvaluator( )
+def getNthPentanacci( n ):
+    return getNthKFibonacciNumber( n, 5 )
+
+@oneArgFunctionEvaluator( )
+def getNthHexanacci( n ):
+    return getNthKFibonacciNumber( n, 6 )
+
+@oneArgFunctionEvaluator( )
+def getNthHeptanacci( n ):
+    return getNthKFibonacciNumber( n, 7 )
+
+@oneArgFunctionEvaluator( )
+def getNthOctanacci( n ):
+    return getNthKFibonacciNumber( n, 8 )
 
 
 # //******************************************************************************
@@ -691,6 +720,9 @@ def getGCD( a, b = 0 ):
 
         return result
 
+def getGCD2( n, k ):
+    return getGCD( [ n, k ] )
+
 
 # //******************************************************************************
 # //
@@ -741,6 +773,9 @@ def getLCM( args ):
             return result
     else:
         return args
+
+def getLCM2( n, k ):
+    return getLCM( [ n, k ] )
 
 
 # //******************************************************************************
@@ -922,8 +957,8 @@ def getRadical( target ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'sigma' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'sigma' )
 def getSigma( target ):
     '''
     Returns the sum of the divisors of n, including 1 and n.
@@ -951,6 +986,10 @@ def getSigma( target ):
             raise ValueError( 'insufficient precision for \'sigma\', increase precision using -p or -a)' )
 
     return result
+
+@oneArgFunctionEvaluator( )
+def getAbundanceRatio( n ):
+    return fdiv( getSigma( n ), n )
 
 
 # //******************************************************************************
@@ -1014,8 +1053,8 @@ def getAliquotSequence( n, k ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'mobius' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'mobius' )
 def getMobius( n ):
     if real( n ) == 1:
         return 1
@@ -1038,8 +1077,8 @@ def getMobius( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'merten' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'merten' )
 def getNthMerten( n ):
     if real( n ) == 1:
         return 1
@@ -1058,8 +1097,8 @@ def getNthMerten( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'euler_phi' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'euler_phi' )
 def getEulerPhi( n ):
     if real( n ) < 2:
         return n
@@ -1083,8 +1122,8 @@ def getPowMod( a, b, c ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'abundance' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'abundance' )
 def getAbundance( n ):
     if real_int( n ) < 2:
         return 0
@@ -1176,6 +1215,10 @@ def isRough( n, k ):
 def isKSemiPrime( n, k ):
     return 1 if sum( [ i[ 1 ] for i in getFactorList( n ) ] ) == k else 0
 
+@oneArgFunctionEvaluator( )
+def isSemiPrime( n ):
+    return isKSemiPrime( n, 2 )
+
 
 # //******************************************************************************
 # //
@@ -1192,6 +1235,10 @@ def isKSphenic( n, k ):
 
     return 1 if max( [ i[ 1 ] for i in factorList ] ) == 1 else 0
 
+@oneArgFunctionEvaluator( )
+def isSphenic( n ):
+    return isKSphenic( n, 3 )
+
 
 # //******************************************************************************
 # //
@@ -1199,8 +1246,8 @@ def isKSphenic( n, k ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'squarefree' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'squarefree' )
 def isSquareFree( n ):
     if real_int( n ) == 0:
         return 0
@@ -1225,8 +1272,8 @@ def isPowerful( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'achilles' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'achilles' )
 def isAchillesNumber( n ):
     factorList = getFactorList( n )
 
@@ -1244,8 +1291,8 @@ def isAchillesNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'unusual' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'unusual' )
 def isUnusual( n ):
     if real_int( n ) < 2:
         return 0
@@ -1274,8 +1321,8 @@ def isPronic( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'polydivisible' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'polydivisible' )
 def isPolydivisible( n ):
     if real_int( n ) < 0:
         raise ValueError( 'non-negative, real integer expected' )
@@ -1334,12 +1381,11 @@ def joinNumber( digits, base ):
 
 # //******************************************************************************
 # //
-# //  generatePolydivisibles
+# //  generatePolydivisiblesGenerator
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
-def generatePolydivisibles( _base ):
+def generatePolydivisiblesGenerator( _base ):
     base = int( _base )
     result = list( range( 1, base ) )
     newItems = list( range( 1, base ) )
@@ -1381,6 +1427,10 @@ def generatePolydivisibles( _base ):
 
         newCandidates = [ ]
 
+@oneArgFunctionEvaluator( )
+def generatePolydivisibles( n ):
+    return RPNGenerator.createGenerator( generatePolydivisiblesGenerator, n )
+
 
 # //******************************************************************************
 # //
@@ -1388,8 +1438,8 @@ def generatePolydivisibles( _base ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'stern' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'stern' )
 def getNthStern( n ):
     '''Returns the nth number of Stern's diatomic series recursively.'''
     if real_int( n ) < 0:
@@ -1427,8 +1477,8 @@ def getNthCalkinWilf( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'friendly' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'friendly' )
 def isFriendly( n ):
     first = True
 
@@ -1556,8 +1606,8 @@ def getNthPerfectNumber( n ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'thue_morse' )
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'thue_morse' )
 def getNthThueMorse( n ):
     if n == 0:
         return 0
@@ -1567,11 +1617,11 @@ def getNthThueMorse( n ):
 
 # //******************************************************************************
 # //
-# //  findSumsOfKPowers
+# //  findSumsOfKPowersGenerator
 # //
 # //******************************************************************************
 
-def findSumsOfKPowers( n, k, p, bNonZero=False ):
+def findSumsOfKPowersGenerator( n, k, p, bNonZero=False ):
     limit = fadd( floor( root( n, p ) ), 1 )
 
     lower = fsub( limit, 1 )
@@ -1590,10 +1640,12 @@ def findSumsOfKPowers( n, k, p, bNonZero=False ):
         if fsum( [ power( i, p ) for i in a ] ) == n:
             yield list( a )
 
+def findSumsOfKPowers( n, k, p ):
+    return RPNGenerator( findSumsOfKPowersGenerator( n, k, p ) )
 
-@oneArgFunctionEvaluator( )
-def getAbundanceRatio( n ):
-    return fdiv( getSigma( n ), n )
+def findSumsOfKNonzeroPowers( n, k, p ):
+    return RPNGenerator( findSumsOfKPowersGenerator( n, k, p, bNonZero = True ) )
+
 
 @oneArgFunctionEvaluator( )
 def getBarnesG( n ):
@@ -1622,10 +1674,6 @@ def getFactorial( n ):
     return fac( n )
 
 @oneArgFunctionEvaluator( )
-def getErdosPersistence( n ):
-    return getPersistence( n, 1, True )
-
-@oneArgFunctionEvaluator( )
 def getGamma( n ):
     return gamma( n )
 
@@ -1634,32 +1682,8 @@ def getHarmonic( n ):
     return harmonic( n )
 
 @oneArgFunctionEvaluator( )
-def getNthHeptanacci( n ):
-    return getNthKFibonacciNumber( n, 7 )
-
-@oneArgFunctionEvaluator( )
-def getNthHexanacci( n ):
-    return getNthKFibonacciNumber( n, 6 )
-
-@oneArgFunctionEvaluator( )
 def getHyperfactorial( n ):
     return hyperfac( n )
-
-@oneArgFunctionEvaluator( )
-def isComposite( n ):
-    return 0 if n == 1 or isPrimeNumber( n ) else 1
-
-@oneArgFunctionEvaluator( )
-def isPrime( n ):
-    return 1 if isPrimeNumber( n ) else 0
-
-@oneArgFunctionEvaluator( )
-def isSemiPrime( n ):
-    return isKSemiPrime( n, 2 )
-
-@oneArgFunctionEvaluator( )
-def isSphenic( n ):
-    return isKSphenic( n, 3 )
 
 def getLeyland( n, k ):
     return fadd( power( n, k ), power( k, n ) )
@@ -1680,14 +1704,6 @@ def getNthKynea( n ):
 def getNthLeonardo( n ):
     return fsub( fmul( 2, fib( fadd( n, 1 ) ) ), 1 )
 
-@oneArgFunctionEvaluator( )
-def getNthOctanacci( n ):
-    return getNthKFibonacciNumber( n, 8 )
-
-@oneArgFunctionEvaluator( )
-def getNthPentanacci( n ):
-    return getNthKFibonacciNumber( n, 5 )
-
 def getPolygamma( n, k ):
     return psi( n, k )
 
@@ -1697,23 +1713,15 @@ def getNthRiesel( n ):
 
 @oneArgFunctionEvaluator( )
 def getSubfactorial( n ):
-    floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) )
+    return floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) )
 
 @oneArgFunctionEvaluator( )
 def getSuperfactorial( n ):
     return superfac( n )
 
 @oneArgFunctionEvaluator( )
-def getNthTetranacci( n ):
-    getNthKFibonacciNumber( n, 4 )
-
-@oneArgFunctionEvaluator( )
 def getNthThabit( n ):
     return fsub( fmul( 3, power( 2, n ) ), 1 )
-
-@oneArgFunctionEvaluator( )
-def getNthTribonacci( n ):
-    return getNthKFibonacciNumber( n, 3 )
 
 @oneArgFunctionEvaluator( )
 def getTrigamma( n ):

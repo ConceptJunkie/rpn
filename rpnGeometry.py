@@ -88,6 +88,10 @@ def getNSphereRadius( n, k ):
         raise ValueError( 'incompatible measurement type for computing the radius: ' +
                           str( dimensions ) )
 
+@oneArgFunctionEvaluator( )
+def getSphereRadius( n ):
+    return getNSphereRadius( n, 3 )
+
 
 # //******************************************************************************
 # //
@@ -129,6 +133,10 @@ def getNSphereSurfaceArea( n, k ):
     else:
         raise ValueError( 'incompatible measurement type for computing the surface area' )
 
+@oneArgFunctionEvaluator( )
+def getSphereArea( n ):
+    return getNSphereSurfaceArea( n, 3 )
+
 
 # //******************************************************************************
 # //
@@ -169,6 +177,10 @@ def getNSphereVolume( n, k ):
         return n
     else:
         raise ValueError( 'incompatible measurement type for computing the volume' )
+
+@oneArgFunctionEvaluator( )
+def getSphereVolume( n ):
+    return getNSphereVolume( n, 3 )
 
 
 # //******************************************************************************
@@ -583,5 +595,4 @@ def getPrismVolume( n, k, h ):
         raise ValueError( '\'prism_volume\' argument 3 must be a length' )
 
     return getProduct( [ fdiv( n, 4 ), h, getPower( k, 2 ), cot( fdiv( pi, n ) ) ] ).convert( 'meter^3' )
-
 

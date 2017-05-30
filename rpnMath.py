@@ -12,8 +12,12 @@
 # //
 # //******************************************************************************
 
-from mpmath import arange, ceil, fabs, fadd, fdiv, floor, fmod, fmul, fneg, \
-                   fsub, mpf, nint, power, root, sign, sqrt
+from mpmath import acosh, acot, acoth, acsc, acsch, agm, arange, arg, asec, \
+                   asech, asin, asinh, atan, atanh, ceil, conj, cos, cosh, \
+                   cot, coth, csc, csch, exp, fabs, fadd, fdiv, floor, fmod, \
+                   fmul, fneg, fsub, im, lambertw, li, ln, log, log10, mpc, \
+                   mpf, nint, phi, polyexp, polylog, power, re, root, sec, \
+                   sech, sign, sin, sinh, sqrt, tan, tanh
 
 from rpnDateTime import RPNDateTime
 from rpnGenerator import RPNGenerator
@@ -44,6 +48,10 @@ def add( n, k ):
     else:
         return fadd( n, k )
 
+@oneArgFunctionEvaluator( )
+def increment( n ):
+    return add( n, 1 )
+
 
 # //******************************************************************************
 # //
@@ -66,6 +74,10 @@ def subtract( n, k ):
         return RPNMeasurement( n ).subtract( k )
     else:
         return fsub( n, k )
+
+@oneArgFunctionEvaluator( )
+def decrement( n ):
+    return subtract( n, 1 )
 
 
 # //******************************************************************************
@@ -162,6 +174,14 @@ def getPower( n, k ):
     else:
         return power( n, k )
 
+@oneArgFunctionEvaluator( )
+def square( n ):
+    return getPower( n, 2 )
+
+@oneArgFunctionEvaluator( )
+def cube( n ):
+    return getPower( n, 3 )
+
 
 # //******************************************************************************
 # //
@@ -196,6 +216,14 @@ def getRoot( n, k ):
         return RPNMeasurement( value, newUnits )
 
     return root( n, k )
+
+@oneArgFunctionEvaluator( )
+def getSquareRoot( n ):
+    return getRoot( n, 2 )
+
+@oneArgFunctionEvaluator( )
+def getCubeRoot( n ):
+    return getRoot( n, 3 )
 
 
 # //******************************************************************************
@@ -326,6 +354,101 @@ def performTrigOperation( i, operation ):
 
     return operation( value )
 
+@oneArgFunctionEvaluator( )
+def get_acos( n ):
+    return performTrigOperation( n, acos )
+
+@oneArgFunctionEvaluator( )
+def get_acosh( n ):
+    return performTrigOperation( n, acosh )
+
+@oneArgFunctionEvaluator( )
+def get_acot( n ):
+    return performTrigOperation( n, acot )
+
+@oneArgFunctionEvaluator( )
+def get_acoth( n ):
+    return performTrigOperation( n, acoth )
+
+@oneArgFunctionEvaluator( )
+def get_acsc( n ):
+    return performTrigOperation( n, acsc )
+
+@oneArgFunctionEvaluator( )
+def get_acsch( n ):
+    return performTrigOperation( n, acsch )
+
+@oneArgFunctionEvaluator( )
+def get_asec( n ):
+    return performTrigOperation( n, asec )
+
+@oneArgFunctionEvaluator( )
+def get_asech( n ):
+    return performTrigOperation( n, asech )
+
+@oneArgFunctionEvaluator( )
+def get_asin( n ):
+    return performTrigOperation( n, asin )
+
+@oneArgFunctionEvaluator( )
+def get_asinh( n ):
+    return performTrigOperation( n, asinh )
+
+@oneArgFunctionEvaluator( )
+def get_atan( n ):
+    return performTrigOperation( n, atan )
+
+@oneArgFunctionEvaluator( )
+def get_atanh( n ):
+    return performTrigOperation( n, atanh )
+
+@oneArgFunctionEvaluator( )
+def get_cos( n ):
+    return performTrigOperation( n, cos )
+
+@oneArgFunctionEvaluator( )
+def get_cosh( n ):
+    return performTrigOperation( n, cosh )
+
+@oneArgFunctionEvaluator( )
+def get_cot( n ):
+    return performTrigOperation( n, cot )
+
+@oneArgFunctionEvaluator( )
+def get_coth( n ):
+    return performTrigOperation( n, coth )
+
+@oneArgFunctionEvaluator( )
+def get_csc( n ):
+    return performTrigOperation( n, csc )
+
+@oneArgFunctionEvaluator( )
+def get_csch( n ):
+    return performTrigOperation( n, csch )
+
+@oneArgFunctionEvaluator( )
+def get_sec( n ):
+    return performTrigOperation( n, sec )
+
+@oneArgFunctionEvaluator( )
+def get_sech( n ):
+    return performTrigOperation( n, sech )
+
+@oneArgFunctionEvaluator( )
+def get_sin( n ):
+    return performTrigOperation( n, sin )
+
+@oneArgFunctionEvaluator( )
+def get_sinh( n ):
+    return performTrigOperation( n, sinh )
+
+@oneArgFunctionEvaluator( )
+def get_tan( n ):
+    return performTrigOperation( n, tan )
+
+@oneArgFunctionEvaluator( )
+def get_tanh( n ):
+    return performTrigOperation( n, tanh )
 
 # //******************************************************************************
 # //
@@ -531,18 +654,6 @@ def getMinimum( n ):
 
 
 @oneArgFunctionEvaluator( )
-def square( n ):
-    return getPower( n, 2 )
-
-@oneArgFunctionEvaluator( )
-def decrement( n ):
-    return subtract( n, 1 )
-
-@oneArgFunctionEvaluator( )
-def increment( n ):
-    return add( n, 1 )
-
-@oneArgFunctionEvaluator( )
 def isEven( n ):
     return 1 if fmod( real( n ), 2 ) == 0 else 0
 
@@ -558,9 +669,6 @@ def isNotZero( n ):
 def isZero( n ):
     return 1 if n == 0 else 0
 
-def getLCM2( n, k ):
-    return getLCM( [ n, k ] )
-
 @oneArgFunctionEvaluator( )
 def getMantissa( n ):
     return fsub( n, floor( n ) )
@@ -570,14 +678,6 @@ def getModulo( n, k ):
 
 def getAGM( n, k ):
     return agm( n, k ),
-
-@oneArgFunctionEvaluator( )
-def cube( n ):
-    return getPower( n, 3 )
-
-@oneArgFunctionEvaluator( )
-def getCubeRoot( n ):
-    return getRoot( n, 3 )
 
 @oneArgFunctionEvaluator( )
 def getExp( n ):
@@ -592,6 +692,54 @@ def getExpPhi( n ):
     return power( phi, n )
 
 @oneArgFunctionEvaluator( )
-def getSquareRoot( n ):
-    return getRoot( n, 2 )
+def getArgument( n ):
+    return arg( n )
+
+@oneArgFunctionEvaluator( )
+def getConjugate( n ):
+    return conj( n )
+
+@oneArgFunctionEvaluator( )
+def getI( n ):
+    return mpc( real = '0.0', imag = n )
+
+@oneArgFunctionEvaluator( )
+def getImaginary( n ):
+    return im( n )
+
+@oneArgFunctionEvaluator( )
+def getReal( n ):
+    return re( n )
+
+@oneArgFunctionEvaluator( )
+def getLambertW( n ):
+    return lambertw( n )
+
+@oneArgFunctionEvaluator( )
+def getLI( n ):
+    return li( n )
+
+@oneArgFunctionEvaluator( )
+def getLog( n ):
+    return ln( n )
+
+@oneArgFunctionEvaluator( )
+def getLog10( n ):
+    return log10( n )
+
+@oneArgFunctionEvaluator( )
+def getLog2( n ):
+    return log( n, 2 )
+
+def getLogXY( n, k ):
+    return log( n, k )
+
+def getPolyexp( n, k ):
+    return polyexp( n, k )
+
+def getPolylog( n, k ):
+    return polylog( n, k )
+
+def calculateHypotenuse( n, k ):
+    return hypot( n, k )
 

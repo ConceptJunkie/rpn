@@ -341,16 +341,53 @@ def getElementBoilingPoint( n ):
 
 # //******************************************************************************
 # //
-# //  getMolarMass
+# //  calculateMolarMass
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getMolarMass( n ):
+def calculateMolarMass( n ):
     result = 0
 
     for atom in n:
         result = fadd( result, fmul( getAtomicWeight( atom ), n[ atom ] ) )
 
     return RPNMeasurement( result, 'gram' )
+
+
+@oneArgFunctionEvaluator( )
+def getAtomicSymbol( n ):
+    return getElementAttribute( n, 1 )
+
+@oneArgFunctionEvaluator( )
+def getElementBlock( n ):
+    return getElementAttribute( n, 4 )
+
+@oneArgFunctionEvaluator( )
+def getElementDescription( n ):
+    return getElementAttribute( n, 7 )
+
+@oneArgFunctionEvaluator( )
+def getElementGroup( n ):
+    return getElementAttribute( n, 2 )
+
+@oneArgFunctionEvaluator( )
+def getElementName( n ):
+    return getElementAttribute( n, 0 )
+
+@oneArgFunctionEvaluator( )
+def getElementOccurrence( n ):
+    return getElementAttribute( n, 6 )
+
+@oneArgFunctionEvaluator( )
+def getElementPeriod( n ):
+    return getElementAttribute( n, 3 )
+
+@oneArgFunctionEvaluator( )
+def getElementState( n ):
+    return getElementAttribute( n, 5 )
+
+@oneArgFunctionEvaluator( )
+def getMolarMass( n ):
+    return calculateMolarMass( RPNMolecule( n ) )
 
