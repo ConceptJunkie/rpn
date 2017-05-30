@@ -544,6 +544,8 @@ operator that returns a list.
 
 Complex numbers don't obey the accuracy level on output (-a).
 
+Cousin primes seem to be broken starting with index 99, according to OEIS.
+
 See 'rpn help TODO'.
     ''',
     'TODO' :

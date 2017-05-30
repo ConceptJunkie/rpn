@@ -3372,19 +3372,19 @@ def runSpecialOperatorTests( ):
 
     # oeis
     testOperator( '1000 oeis' )
-    testOperator( '250000 randint oeis' )
+    testOperator( '280000 randint oeis' )
 
     # oeis_comment
     testOperator( '1000 oeis_comment' )
-    testOperator( '250000 randint oeis_comment' )
+    testOperator( '280000 randint oeis_comment' )
 
     # oeis_ex
     testOperator( '1000 oeis_ex' )
-    testOperator( '250000 randint oeis_ex' )
+    testOperator( '280000 randint oeis_ex' )
 
     # oeis_name
     testOperator( '1000 oeis_name' )
-    testOperator( '250000 randint oeis_name' )
+    testOperator( '280000 randint oeis_name' )
 
     # ordinal_name
     testOperator( '0 10 range ordinal_name -s1' )

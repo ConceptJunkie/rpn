@@ -44,6 +44,10 @@ def getMultipleRandoms( n ):
     for i in arange( 0, real_int( n ) ):
         yield rand( )
 
+@oneArgFunctionEvaluator( )
+def getMultipleRandomsGenerator( n ):
+        return RPNGenerator.createGenerator( getMultipleRandoms, n )
+
 
 # //******************************************************************************
 # //
@@ -55,6 +59,9 @@ def getRandomIntegers( n, k ):
     '''Returns k random integers between 0 and n-1.'''
     for i in arange( 0, real_int( k ) ):
         yield randrange( n )
+
+def getRandomIntegersGenerator( n, k ):
+    return RPNGenerator.createGenerator( getRandomIntegers, [ n, k ] )
 
 
 # //******************************************************************************
@@ -149,6 +156,18 @@ def downloadOEISText( id, char, addCR = False ):
         result += line.decode( 'ascii' )
 
     return result
+
+@oneArgFunctionEvaluator( )
+def downloadOEISComment( n ):
+    return downloadOEISText( real_int( n ), 'C', True )
+
+@oneArgFunctionEvaluator( )
+def downloadOEISExtra( n ):
+    return downloadOEISText( real_int( n ), 'E', True )
+
+@oneArgFunctionEvaluator( )
+def downloadOEISName( n ):
+    return downloadOEISText( real_int( n ), 'N', True )
 
 
 # //******************************************************************************
@@ -259,5 +278,13 @@ def generateRandomUUID( ):
     import uuid
 
     return str( uuid.uuid4( ) )
+
+
+def getRandomNumber( ):
+    return rand( )
+
+@oneArgFunctionEvaluator( )
+def getRandomInteger( n ):
+    return randrange( n )
 
 

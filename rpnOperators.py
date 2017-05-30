@@ -4020,18 +4020,6 @@ operators = {
     'precision'                      : RPNOperator( setPrecision,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'random'                         : RPNOperator( rand,
-                                                    0, [ ] ),
-
-    'random_'                        : RPNOperator( lambda n: RPNGenerator.createGenerator( getMultipleRandoms, n ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'random_integer'                 : RPNOperator( randrange,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'random_integer_'                : RPNOperator( lambda n, k: RPNGenerator.createGenerator( getRandomIntegers, [ n, k ] ),
-                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
-
     'timer'                          : RPNOperator( setTimer,
                                                     1, [ RPNOperator.Boolean ] ),
 
@@ -4043,10 +4031,10 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.String ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'enumerate_dice'                 : RPNOperator( lambda n: RPNGenerator( enumerateDice( n ) ),
+    'enumerate_dice'                 : RPNOperator( enumerateDiceGenerator,
                                                     1, [ RPNOperator.String ] ),
 
-    'enumerate_dice_'                : RPNOperator( lambda n, k: RPNGenerator( enumerateMultipleDice( n, k ) ),
+    'enumerate_dice_'                : RPNOperator( enumerateMultipleDiceGenerator,
                                                     2, [ RPNOperator.String, RPNOperator.PositiveInteger ] ),
 
     'estimate'                       : RPNOperator( estimate,
@@ -4062,19 +4050,19 @@ operators = {
     'if'                             : RPNOperator( lambda a, b, c: a if c else b,
                                                     3, [ RPNOperator.Default, RPNOperator.Default, RPNOperator.Integer ] ),
 
-    'name'                           : RPNOperator( getNumberName,
+    'name'                           : RPNOperator( getName,
                                                     1, [ RPNOperator.Integer ] ),
 
     'oeis'                           : RPNOperator( downloadOEISSequence,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'oeis_comment'                   : RPNOperator( lambda n: downloadOEISText( real_int( n ), 'C', True ),
+    'oeis_comment'                   : RPNOperator( downloadOEISComment,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'oeis_ex'                        : RPNOperator( lambda n: downloadOEISText( real_int( n ), 'E', True ),
+    'oeis_ex'                        : RPNOperator( downloadOEISExtra,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'oeis_name'                      : RPNOperator( lambda n: downloadOEISText( real_int( n ), 'N', True ),
+    'oeis_name'                      : RPNOperator( downloadOEISName,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'ordinal_name'                   : RPNOperator( getOrdinalName,
@@ -4083,13 +4071,25 @@ operators = {
     'result'                         : RPNOperator( loadResult,
                                                     0, [ ] ),
 
-    'permute_dice'                   : RPNOperator( lambda n: RPNGenerator( permuteDice( n ) ),
+    'permute_dice'                   : RPNOperator( permuteDiceGenerator,
                                                     1, [ RPNOperator.String ] ),
+
+    'random'                         : RPNOperator( getRandomNumber,
+                                                    0, [ ] ),
+
+    'random_'                        : RPNOperator( getMultipleRandomsGenerator,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'random_integer'                 : RPNOperator( getRandomInteger,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'random_integer_'                : RPNOperator( getRandomIntegersGenerator,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'roll_dice'                      : RPNOperator( rollDice,
                                                     1, [ RPNOperator.String ] ),
 
-    'roll_dice_'                     : RPNOperator( lambda n, k: RPNGenerator( rollMultipleDice( n, k ) ),
+    'roll_dice_'                     : RPNOperator( rollMultipleDiceGenerator,
                                                     2, [ RPNOperator.String, RPNOperator.PositiveInteger ] ),
 
     'set'                            : RPNOperator( setVariable,

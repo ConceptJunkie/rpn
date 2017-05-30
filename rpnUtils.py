@@ -382,6 +382,89 @@ def oneArgFunctionEvaluator( ):
 
 # //******************************************************************************
 # //
+# //  twoArgFunctionEvaluator
+# //
+# //******************************************************************************
+
+def twoArgFunctionEvaluator( ):
+    def twoArgFunction( func ):
+        @functools.wraps( func )
+
+        def evaluateTwoArgs( _arg1, _arg2 ):
+            if isinstance( _arg1, list ):
+                len1 = len( _arg1 )
+
+                if len1 == 1:
+                    arg1 = _arg1[ 0 ]
+                    list1 = False
+                else:
+                    arg1 = _arg1
+                    list1 = True
+
+                generator1 = False
+            else:
+                arg1 = _arg1
+                list1 = False
+
+            generator1 = isinstance( arg1, RPNGenerator )
+
+            if isinstance( _arg2, list ):
+                len2 = len( _arg2 )
+
+                if len2 == 1:
+                    arg2 = _arg2[ 0 ]
+                    list2 = False
+                else:
+                    arg2 = _arg2
+                    list2 = True
+
+                generator2 = False
+            else:
+                arg2 = _arg2
+                list2 = False
+
+            generator2 = isinstance( arg2, RPNGenerator )
+
+            if generator1:
+                if generator2:
+                    iter1 = iter( arg1 )
+                    iter2 = iter( arg2 )
+
+                    result = [ ]
+
+                    while True:
+                        try:
+                            i1 = iter1.__next__( )
+                            i2 = iter2.__next__( )
+
+                            result.append( func( i1, i2 ) )
+                        except:
+                            break
+                else:
+                    result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1.getGenerator( ) ]
+            elif generator2:
+                result = [ evaluateTwoArgFunction( func, arg1, i, level + 1 ) for i in arg2.getGenerator( ) ]
+            elif list1:
+                if list2:
+                    result = [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ], level + 1 ) for index in range( 0, min( len1, len2 ) ) ]
+                else:
+                    result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1 ]
+
+            else:
+                if list2:
+                    result = [ evaluateTwoArgFunction( func, arg1, j, level + 1 ) for j in arg2 ]
+                else:
+                    result = func( arg2, arg1 )
+
+            return result
+
+        return evaluateTwoArg
+
+    return twoArgFunction
+
+
+# //******************************************************************************
+# //
 # //  timeout
 # //
 # //******************************************************************************

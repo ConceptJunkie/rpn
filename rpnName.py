@@ -197,7 +197,7 @@ def getNumberGroupName( n ):
 
 @oneArgFunctionEvaluator( )
 def getOrdinalName( n ):
-    return getNumberName( real_int( n ), True )
+    return getNumberName( real_int( n ), ordinal = True )
 
 
 # //******************************************************************************
@@ -271,4 +271,9 @@ def getNumberName( n, ordinal = False ):
         name += units
 
     return name
+
+
+@oneArgFunctionEvaluator( )
+def getName( n ):
+    return getNumberName( n )
 

@@ -21,6 +21,7 @@ import sys
 
 from mpmath import arange, fadd, fmul, fsub
 
+from rpnGenerator import RPNGenerator
 from rpnPersistence import openPrimeCache
 
 import rpnGlobals as g
@@ -306,9 +307,10 @@ def findPrime( arg ):
 
         if p > target:
             return currentIndex - 1, old_p
+
 @oneArgFunctionEvaluator( )
 def findPrimeOperator( n ):
-    findPrime( n )[ 0 ]
+    return findPrime( n )[ 0 ]
 
 
 # //******************************************************************************
@@ -695,6 +697,7 @@ def getNthTripleBalancedPrimeElement( arg, first = False ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getNthTripleBalancedPrimeList( arg ):
     p = getNthTripleBalancedPrimeElement( arg, first = True )
     result = [ p ]
@@ -1379,7 +1382,7 @@ def getPrimes( value, count ):
         yield i
 
 def getPrimesGenerator( n, k ):
-    return RPNGenerator( getPrimes( n, k ) ),
+    return RPNGenerator( getPrimes( n, k ) )
 
 
 # //******************************************************************************

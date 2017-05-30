@@ -12,12 +12,12 @@
 # //
 # //******************************************************************************
 
-from mpmath import acosh, acot, acoth, acsc, acsch, agm, arange, arg, asec, \
-                   asech, asin, asinh, atan, atanh, ceil, conj, cos, cosh, \
-                   cot, coth, csc, csch, exp, fabs, fadd, fdiv, floor, fmod, \
-                   fmul, fneg, fsub, im, lambertw, li, ln, log, log10, mpc, \
-                   mpf, nint, phi, polyexp, polylog, power, re, root, sec, \
-                   sech, sign, sin, sinh, sqrt, tan, tanh
+from mpmath import acos, acosh, acot, acoth, acsc, acsch, agm, arange, arg, \
+                   asec, asech, asin, asinh, atan, atanh, ceil, conj, cos, \
+                   cosh, cot, coth, csc, csch, exp, fabs, fadd, fdiv, floor, \
+                   fmod, fmul, fneg, fsub, hypot, im, lambertw, li, ln, log, \
+                   log10, mpc, mpf, nint, phi, polyexp, polylog, power, re, \
+                   root, sec, sech, sign, sin, sinh, sqrt, tan, tanh
 
 from rpnDateTime import RPNDateTime
 from rpnGenerator import RPNGenerator
