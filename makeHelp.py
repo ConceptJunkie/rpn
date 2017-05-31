@@ -23,6 +23,7 @@ import contextlib
 import io
 import pickle
 import os
+import sys
 
 from rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
@@ -37,6 +38,18 @@ print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help f
 print( COPYRIGHT_MESSAGE )
 print( )
 
+parser = argparse.ArgumentParser( prog = g.PROGRAM_NAME, description = g.PROGRAM_NAME +
+                                  PROGRAM_VERSION_STRING + ' - help file generator\n    ' +
+                                  COPYRIGHT_MESSAGE, add_help = False,
+                                  formatter_class = argparse.RawTextHelpFormatter,
+                                  prefix_chars = '-' )
+
+parser.add_argument( '-d', '--debug', action = 'store_true' )
+
+args = parser.parse_args( sys.argv[ 1 : ] )
+
+helpDebugMode = args.debug
+
 exampleCount = 0
 
 
@@ -50,7 +63,6 @@ PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
 maxExampleCount = 993
-debugMode = False
 
 
 # //******************************************************************************
@@ -82,8 +94,8 @@ def makeCommandExample( command, indent=0, slow=False ):
 
     output = io.StringIO( )
 
-    global debugMode
-    if debugMode:
+    global helpDebugMode
+    if helpDebugMode:
         print( )
         print( command )
 
@@ -3181,7 +3193,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo atomic_number collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name atomic_number -s1' ),
 [ 'atomic_symbol', 'atomic_weight', 'element_name' ] ],
 
     'atomic_symbol' : [
@@ -3189,7 +3201,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo atomic_symbol collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name atomic_symbol -s1' ),
 [ ] ],
 
     'atomic_weight' : [
@@ -3197,7 +3209,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo atomic_weight collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name atomic_weight -s1' ),
 [ ] ],
 
     'element_block' : [
@@ -3205,7 +3217,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_block collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name element_block -s1' ),
 [ ] ],
 
     'element_boiling_point' : [
@@ -3213,7 +3225,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_boiling_point collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name element_boiling_point -s1' ),
 [ ] ],
 
     'element_density' : [
@@ -3221,7 +3233,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_density collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name element_density -s1' ),
 [ ] ],
 
     'element_description' : [
@@ -3229,7 +3241,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_description collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name element_description -s1' ),
 [ ] ],
 
     'element_group' : [
@@ -3237,7 +3249,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_group collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name element_group -s1' ),
 [ ] ],
 
     'element_melting_point' : [
@@ -3245,7 +3257,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_melting_point collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name element_melting_point -s1' ),
 [ ] ],
 
     'element_name' : [
@@ -3253,7 +3265,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range atomic_symbol echo element_name collate -s1' ),
+''' + makeCommandExample( '1 10 range atomic_symbol element_name -s1' ),
 [ ] ],
 
     'element_occurrence' : [
@@ -3261,7 +3273,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_occurrence collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name element_occurrence -s1' ),
 [ ] ],
 
     'element_period' : [
@@ -3269,7 +3281,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_period collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name element_period -s1' ),
 [ ] ],
 
     'element_state' : [
@@ -3277,7 +3289,7 @@ far as rpn is concerned, it's an operator that does nothing.
 '''
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name echo element_state collate -s1' ),
+''' + makeCommandExample( '1 10 range element_name element_state -s1' ),
 [ ] ],
 
     'molar_mass' : [
