@@ -24,6 +24,7 @@ from rpnMeasurement import RPNMeasurement
 from rpnPersistence import loadUnitNameData
 from rpnTestUtils import *
 from rpnUtils import getDataPath
+from rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 from testConvert import *
 from testHelp import *
 
@@ -1787,6 +1788,8 @@ def runLexicographyOperatorTests( ):
     testOperator( '-a30 10911 55 find_palindrome' )
     testOperator( '180 200 range 10 find_palindrome -s1' )
 
+    # get_base_k_digits
+
     # get_digits
     testOperator( '123456789 get_digits' )
     expectEqual( '0 1000 range lambda x get_digits 1 left eval flatten', '30 oeis 1001 left' )
@@ -2229,6 +2232,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '2.5 factorial' )
     expectException( '-1 factorial' )
     expectEqual( '0 100 range lambda x 2 * ! x 2 * 1 + ! * x ! sqr / eval', '909 oeis 101 left' )
+    expectEqual( '1 99 range lambda 3 2 x * ! * x 2 + ! x 1 - ! * / eval', '245 oeis 100 left 99 right' )
 
     # fibonacci
     testOperator( '1 50 range fibonacci' )
@@ -2972,6 +2976,7 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '4 5 power' )
     testOperator( '4 1 i power' )
     testOperator( '1 10 range 2 10 range power' )
+    expectEqual( '3 0 199 range power', '244 oeis 200 left' )
 
     # powmod
     testOperator( '43 67 9 powmod' )
@@ -3536,7 +3541,7 @@ def runTrigonometryOperatorTests( ):
 def runAdvancedTests( ):
     expectResult( '-0', 0 )
     testOperator( '2016 dst_end 2016 dst_start - 2016-12-31 2016-01-01 - /' )
-    testOperator( '"Leesburg, VA" today 0 20 range days + daytime collate -s1' )
+    #testOperator( '"Leesburg, VA" today 0 20 range days + echo daytime collate -s1' )
     testOperator( '1 1 thousand range lambda x is_polydivisible filter' )
     expectEqual( '38[147][246]5[246][124679][246][124679]0 build_numbers lambda x is_polydivisible filter lambda x is_pandigital filter', '[ 3816547290 ]' )
     testOperator( '1 50 range twin_primes_ 1/x sum sum' )
@@ -3618,11 +3623,11 @@ def runTests( tests ):
 
 # //******************************************************************************
 # //
-# //  __main__
+# //  main
 # //
 # //******************************************************************************
 
-if __name__ == '__main__':
+def main( ):
     getDataPath( )
     loadHelpData( )
     loadUnitNameData( )
@@ -3653,4 +3658,13 @@ if __name__ == '__main__':
         exit( )
 
     runTests( sys.argv[ 1 : ] )
+
+# //******************************************************************************
+# //
+# //  __main__
+# //
+# //******************************************************************************
+
+if __name__ == '__main__':
+    main( )
 

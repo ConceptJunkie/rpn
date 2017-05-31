@@ -1787,6 +1787,7 @@ def printHelpTopic( n ):
 # //
 # //******************************************************************************
 
+@oneArgFunctionEvaluator( )
 def getUserData( key ):
     if key in g.userData:
         return g.userData[ key ]
