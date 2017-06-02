@@ -1002,6 +1002,30 @@ def filterListByIndex( n, k, invert = False ):
 
 # //******************************************************************************
 # //
+# //  breakOnCondition
+# //
+# //******************************************************************************
+
+def breakOnCondition( n, k ):
+    if isinstance( n, mpf ):
+        n = [ n ]
+
+    if not isinstance( k, RPNFunction ):
+        raise ValueError( '\'break_on\' expects a function argument' )
+
+    for i in n:
+        value = k.evaluate( i )
+
+        if value:
+            yield i
+            return
+
+    yield i
+    return
+
+
+# //******************************************************************************
+# //
 # //  createRange
 # //
 # //  Used by 'lambda'.
@@ -1839,6 +1863,7 @@ def evaluateSum( start, end, func ):
 # //******************************************************************************
 
 functionOperators = [
+    'break_on',
     'eval',
     'eval2',
     'eval3',
@@ -2012,6 +2037,9 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     # function
+    'break_on'              : RPNOperator( lambda n, k: RPNGenerator( breakOnCondition( n, k ) ),
+                                           2, [ RPNOperator.List, RPNOperator.Function ] ),
+
     'filter'                : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k ) ),
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
@@ -3575,6 +3603,9 @@ operators = {
     'hexanacci'                      : RPNOperator( getNthHexanacci,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'hurwitz_zeta'                   : RPNOperator( getHurwitzZeta,
+                                                    2, [ RPNOperator.Default, RPNOperator.Default ] ),
+
     'hyperfactorial'                 : RPNOperator( getHyperfactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
@@ -3670,6 +3701,9 @@ operators = {
 
     'nth_leonardo'                   : RPNOperator( getNthLeonardo,
                                                     1, [ RPNOperator.Real ] ),
+
+    'nth_mersenne_exponent'          : RPNOperator( getNthMersenneExponent,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'nth_mersenne_prime'             : RPNOperator( getNthMersennePrime,
                                                     1, [ RPNOperator.PositiveInteger ] ),
@@ -4064,6 +4098,9 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'oeis_name'                      : RPNOperator( downloadOEISName,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'oeis_offset'                    : RPNOperator( downloadOEISOffset,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'ordinal_name'                   : RPNOperator( getOrdinalName,

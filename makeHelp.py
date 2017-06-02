@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 993
+maxExampleCount = 995
 
 
 # //******************************************************************************
@@ -5595,6 +5595,14 @@ and seconds.
 # //
 # //******************************************************************************
 
+    'break_on' : [
+'function', '',
+'''
+''',
+'''
+''',
+[ 'filter', 'filter_by_index', 'lambda', 'unfilter' ] ],
+
     'eval' : [
 'function', 'evaluates the function n for the given argument[s] k',
 '''
@@ -5646,7 +5654,7 @@ non-zero value.
 Which of the first 80 fibonacci numbers is prime?
 
 ''' + makeCommandExample( '-a20 1 80 range fib lambda x is_prime filter' ),
-[ 'filter_by_index', 'lambda', 'unfilter' ] ],
+[ 'break_on', 'filter_by_index', 'lambda', 'unfilter' ] ],
 
     'filter_by_index' : [
 'function', 'filters a list n using function k applied to the list indexes',
@@ -7705,6 +7713,14 @@ The harmonic series consists of the reciprocals of the natural numbers.
 ''',
 [ ] ],
 
+    'hurwitz_zeta' : [
+'number_theory', 'calculates Hurwitz\'s zeta function for n and k',
+'''
+''',
+'''
+''',
+[ 'zeta' ] ],
+
     'hyperfactorial' : [
 'number_theory', 'calculates the hyperfactorial of n',
 '''
@@ -8031,6 +8047,21 @@ L( n ) = 2F( n + 1 ) - 1
 ''' + makeCommandExample( '1 20 range nth_leonardo' ),
 [ ] ],
 
+    'nth_mersenne_exponent' : [
+'number_theory', '',
+'''
+These values are stored in a look-up table.  They are not calculated. ;-)
+
+There are currently 49 known Mersenne primes.  This list is subject to change
+as new Mersenne Primes are being actively searched for.
+
+https://primes.utm.edu/mersenne/index.html
+''',
+'''
+''' + makeCommandExample( '-a30 1 10 range nth_mersenne_exponent' ) + '''
+''' + makeCommandExample( '49 nth_mersenne_exponent' ),
+[ 'nth_mersenne_prime', 'nth_perfect_number' ] ],
+
     'nth_mersenne_prime' : [
 'number_theory', 'returns the nth known Mersenne prime',
 '''
@@ -8044,7 +8075,7 @@ https://primes.utm.edu/mersenne/index.html
 '''
 ''' + makeCommandExample( '-a30 1 10 range nth_mersenne_prime' ) + '''
 ''' + makeCommandExample( '49 nth_mersenne_prime' ),
-[ ] ],
+[ 'nth_mersenne_exponent', 'nth_perfect_number' ] ],
 
     'nth_padovan' : [
 'number_theory', 'calculates the nth Padovan number',
@@ -8285,7 +8316,7 @@ This is the equivalent of '1 n polygamma'.
 ''',
 '''
 ''',
-[ ] ],
+[ 'hurwitz_zeta' ] ],
 
     'zeta_zero' : [
 'number_theory', 'calculates the nth non-trivial zero of Riemann\'s zeta function',
@@ -10168,7 +10199,7 @@ flushing the cache for a particular entry.
 ''',
 '''
 ''' + makeCommandExample( 'rpn 10349 oeis' ),
-[ 'oeis_comment', 'oeis_ex', 'oeis_name' ] ],
+[ 'oeis_comment', 'oeis_ex', 'oeis_name', 'oeis_offset' ] ],
 
     'oeis_comment' : [
 'special', 'downloads the comment field for the OEIS integer series n',
@@ -10205,6 +10236,18 @@ flushing the cache for a particular entry.
 '''
 ''' + makeCommandExample( '10349 oeis_name' ),
 [ 'oeis_ex', 'oeis', 'oeis_comment' ] ],
+
+    'oeis_offset' : [
+'special', '',
+'''
+All data downloaded from OEIS is cached.  OEIS data is probably seldom
+updated, but if it is, the only way to get rpn to download new data is
+to delete rpnData/oeis.cache.  Eventually, I'll add a tool to allow
+flushing the cache for a particular entry.
+''',
+'''
+''',
+[ 'oeis_name', 'oeis_ex', 'oeis' ] ],
 
     'ordinal_name' : [
 'special', 'returns the English ordinal name for the integer value n',

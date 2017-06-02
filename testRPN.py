@@ -301,6 +301,9 @@ def runArithmeticOperatorTests( ):
     testOperator( '1 10 range geometric_mean' )
     testOperator( '1 1 10 range range geometric_mean' )
 
+    # harmonic_mean
+    # expectEqual( '1 937 range lambda divisors harmonic_mean is_integer filter', '1599 oeis 937 left' )
+
     # increment
     expectResult( '2 increment', 3 )
     expectEqual( '2 i increment', '2 i 1 +' )
@@ -2267,13 +2270,25 @@ def runNumberTheoryOperatorTests( ):
 
     # heptanacci
     testOperator( '-a200 -c 623 heptanacci' )
-    expectEqual( '0 100 range heptanacci', '122189 oeis 101 left' )
+    expectEqual( '0 49 range heptanacci', '122189 oeis 50 left' )
     expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
+
+    if slow:
+        expectEqual( '0 999 range heptanacci', '122189 oeis 1000 left' )
+        expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
 
     # hexanacci
     testOperator( '-a300 -c 949 hexanacci' )
-    expectEqual( '0 99 range hexanacci', '1592 oeis 100 left' )
+    expectEqual( '0 49 range hexanacci', '1592 oeis 50 left' )
     expectResult( '0 100 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 101 ) ] )
+
+    if slow:
+        expectEqual( '0 3360 range hexanacci', '1592 oeis 3361 left' )
+        expectResult( '0 1000 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 1001 ) ] )
+
+    # hurwitz_zeta
+    testOperator( '4 3 hurwitz_zeta' )
+    expectEqual( '1 1 100 range range square 1/x sum', '2 zeta 2 2 101 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
 
     # hyperfactorial
     testOperator( '-a160 -c 17 hyperfactorial' )
@@ -2399,6 +2414,7 @@ def runNumberTheoryOperatorTests( ):
     # nth_mersenne
     testOperator( '-a30 1 10 range nth_mersenne' )
     testOperator( '-c 25 nth_mersenne' )
+    testOperator( '-a30 1 10 range nth_mersenne' )
 
     # nth_thue_morse
     expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )

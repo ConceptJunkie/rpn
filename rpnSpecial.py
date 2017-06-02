@@ -169,6 +169,10 @@ def downloadOEISExtra( n ):
 def downloadOEISName( n ):
     return downloadOEISText( real_int( n ), 'N', True )
 
+@oneArgFunctionEvaluator( )
+def downloadOEISOffset( n ):
+    return int( downloadOEISText( real_int( n ), 'O' ).split( ',' )[ 0 ] )
+
 
 # //******************************************************************************
 # //

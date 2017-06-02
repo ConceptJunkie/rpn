@@ -1522,7 +1522,7 @@ def getNthZetaZero( n ):
 # //
 # //******************************************************************************
 
-mersennePrimes = {
+mersennePrimeExponents = {
     1:   2,
     2:   3,
     3:   5,
@@ -1575,27 +1575,23 @@ mersennePrimes = {
 }
 
 @oneArgFunctionEvaluator( )
-def getNthMersennePrime( n ):
-    if 1 > n > 49:
+def getNthMersenneExponent( n ):
+    if 1 > real_int( n ) > 49:
         raise ValueError( 'invalid index for known Mersenne primes (1 to 49)' )
 
-    return fsub( power( 2, mersennePrimes[ n ] ), 1 )
+    return mersennePrimeExponents[ n ]
 
 
 @oneArgFunctionEvaluator( )
-def getNthMersennePrimePower( n ):
-    if 1 > n > 49:
-        raise ValueError( 'invalid index for known Mersenne primes (1 to 49)' )
-
-    return mersennePrimes[ n ]
+def getNthMersennePrime( n ):
+    return fsub( power( 2, getNthMersenneExponent( n ) ), 1 )
 
 
 @oneArgFunctionEvaluator( )
 def getNthPerfectNumber( n ):
-    if 1 > n > 49:
-        raise ValueError( 'invalid index for known perfect numbers (1 to 49)' )
+    exponent = getNthMersenneExponent( n )
 
-    return fmul( fsub( power( 2, mersennePrimes[ n ] ), 1 ), power( 2, mersennePrimes[ n ] - 1 ) )
+    return fmul( fsub( power( 2, exponent ), 1 ), power( 2, fsub( exponent, 1 ) ) )
 
 
 # //******************************************************************************
@@ -1734,4 +1730,7 @@ def getUnitRoots( n ):
 @oneArgFunctionEvaluator( )
 def getZeta( n ):
     return zeta( n )
+
+def getHurwitzZeta( n, k ):
+    return zeta( n, k )
 
