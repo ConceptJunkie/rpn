@@ -23,7 +23,7 @@ from rpnDateTime import RPNDateTime
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement, RPNUnits
 from rpnName import getOrdinalName
-from rpnUtils import oneArgFunctionEvaluator, real
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real
 
 
 # //******************************************************************************
@@ -36,6 +36,7 @@ from rpnUtils import oneArgFunctionEvaluator, real
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def add( n, k ):
     if isinstance( n, RPNDateTime ) and isinstance( k, RPNMeasurement ):
         return n.add( k )
@@ -62,6 +63,7 @@ def increment( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def subtract( n, k ):
     if isinstance( n, RPNDateTime ):
         return n.subtract( k )
@@ -133,6 +135,7 @@ def getValue( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def divide( n, k ):
     if isinstance( n, RPNMeasurement ):
         return n.divide( k )
@@ -152,6 +155,7 @@ def divide( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def multiply( n, k ):
     if isinstance( n, RPNMeasurement ):
         return n.multiply( k )
@@ -167,6 +171,7 @@ def multiply( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getPower( n, k ):
     if isinstance( n, RPNMeasurement ):
         result = RPNMeasurement( n )
@@ -189,6 +194,7 @@ def cube( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getRoot( n, k ):
     if isinstance( n, RPNMeasurement ):
         n = n.normalizeUnits( )
@@ -288,6 +294,7 @@ def getNearestInt( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def tetrate( i, j ):
     result = i
 
@@ -308,6 +315,7 @@ def tetrate( i, j ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def tetrateLarge( i, j ):
     result = i
 
@@ -323,6 +331,7 @@ def tetrateLarge( i, j ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isDivisible( n, k ):
     return 1 if fmod( real( n ), real( k ) ) == 0 else 0
 
@@ -456,6 +465,7 @@ def get_tanh( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isEqual( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isEqual( k ) else 0
@@ -469,6 +479,7 @@ def isEqual( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isNotEqual( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isNotEqual( k ) else 0
@@ -482,6 +493,7 @@ def isNotEqual( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isGreater( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isLarger( k ) else 0
@@ -495,6 +507,7 @@ def isGreater( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isLess( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isSmaller( k ) else 0
@@ -508,6 +521,7 @@ def isLess( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isNotGreater( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isNotLarger( k ) else 0
@@ -521,6 +535,7 @@ def isNotGreater( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isNotLess( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isNotSmaller( k ) else 0
@@ -559,6 +574,7 @@ def roundOff( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def roundByValue( n, value ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundByValue( n.getValue( ), value ), n.getUnits( ) )
@@ -572,6 +588,7 @@ def roundByValue( n, value ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def roundByDigits( n, digits ):
     if isinstance( n, RPNMeasurement ):
         return RPNMeasurement( roundByDigits( n.getValue( ), digits ), n.getUnits( ) )
@@ -585,6 +602,7 @@ def roundByDigits( n, digits ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getLarger( n, k ):
     return n if real( n ) > real( k ) else k
 
@@ -595,6 +613,7 @@ def getLarger( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getSmaller( n, k ):
     return n if real( n ) < real( k ) else k
 
@@ -673,9 +692,11 @@ def isZero( n ):
 def getMantissa( n ):
     return fsub( n, floor( n ) )
 
+@twoArgFunctionEvaluator( )
 def getModulo( n, k ):
     return fmod( real( n ), real( k ) )
 
+@twoArgFunctionEvaluator( )
 def getAGM( n, k ):
     return agm( n, k ),
 
@@ -731,15 +752,19 @@ def getLog10( n ):
 def getLog2( n ):
     return log( n, 2 )
 
+@twoArgFunctionEvaluator( )
 def getLogXY( n, k ):
     return log( n, k )
 
+@twoArgFunctionEvaluator( )
 def getPolyexp( n, k ):
     return polyexp( n, k )
 
+@twoArgFunctionEvaluator( )
 def getPolylog( n, k ):
     return polylog( n, k )
 
+@twoArgFunctionEvaluator( )
 def calculateHypotenuse( n, k ):
     return hypot( n, k )
 

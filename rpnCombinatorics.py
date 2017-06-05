@@ -47,7 +47,8 @@ from rpnGenerator import RPNGenerator
 from rpnNumberTheory import getNthLinearRecurrence
 from rpnPersistence import cachedFunction
 from rpnPolytope import getNthGeneralizedPolygonalNumber
-from rpnUtils import debugPrint, oneArgFunctionEvaluator, real, real_int
+from rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
+                     real, real_int
 
 
 # //******************************************************************************
@@ -163,6 +164,7 @@ def getNthPellNumber( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getPermutations( n, r ):
     if ( real( r ) > real( n ) ):
         raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
@@ -176,6 +178,7 @@ def getPermutations( n, r ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getCombinations( n, r ):
     if ( real( r ) > real( n ) ):
         raise ValueError( 'number of elements {0} cannot exceed the size of the set {1}'.format( r, n ) )
@@ -221,6 +224,7 @@ def getNthSylvester( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def createDeBruijnSequence( n, k ):
     wordSize = real_int( k )
     symbolCount = real_int( n )
@@ -256,6 +260,7 @@ def getDeBruijnSequence( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getCompositions( n, k ):
     value = int( real_int( n ) )
     count = int( real_int( k ) )
@@ -281,7 +286,6 @@ def getCompositions( n, k ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'partition' )
 def OLDgetPartitionNumber( n ):
     if real_int( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
@@ -366,6 +370,7 @@ def getPartitionNumber( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getNthMultifactorial( n, k ):
     return fprod( arange( real_int( n ), 0, -( real_int( k ) ) ) )
 
@@ -393,6 +398,7 @@ def getMultinomial( args ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getLahNumber( n, k ):
     return fdiv( fmul( binomial( real( n ), real( k ) ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) )
 
@@ -403,6 +409,7 @@ def getLahNumber( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getNarayanaNumber( n, k ):
     return fdiv( fmul( binomial( n, k ), binomial( n, fsub( k, 1 ) ) ), n )
 
@@ -458,9 +465,11 @@ def getNthMenageNumber( n ):
                                             fac( fsub( n, k ) ) ] ), fsub( fmul( 2, n ), k ) ), [ 0, n ] )
 
 
+@twoArgFunctionEvaluator( )
 def getBellPolynomial( n, k ):
     return bell( n, k )
 
+@twoArgFunctionEvaluator( )
 def getBinomial( n, k ):
     return binomial( n, k )
 

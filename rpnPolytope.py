@@ -18,7 +18,8 @@ from mpmath import arange, ceil, fadd, fac, fdiv, floor, fmod, fmul, fneg, fprod
 from rpnNumberTheory import getNthLinearRecurrence
 
 from rpnSettings import setAccuracy
-from rpnUtils import oneArgFunctionEvaluator, real, real_int
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
+                     real, real_int
 
 
 # //******************************************************************************
@@ -27,6 +28,7 @@ from rpnUtils import oneArgFunctionEvaluator, real, real_int
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getNthGeneralizedPolygonalNumber( n, k ):
     if real_int( k ) < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
@@ -57,6 +59,10 @@ def getNthPolygonalNumber( n, k ):
 
     coeff = fdiv( fsub( k, 2 ), 2 )
     return polyval( [ coeff, fneg( fsub( coeff, 1 ) ), 0 ], real( n ) )
+
+@twoArgFunctionEvaluator( )
+def getNthPolygonalNumberOperator( n, k ):
+    return getNthPolygonalNumber( n, k )
 
 @oneArgFunctionEvaluator( )
 def getNthTriangularNumber( n ):
@@ -103,6 +109,10 @@ def findPolygonalNumber( n, k ):
                                              fneg( fmul( 8, k ) ), fneg( fmul( 16, n ) ), 16 ] ) ),
                                k, -4 ] ), fmul( 2, fsub( k, 2 ) ) ) )
 
+@twoArgFunctionEvaluator( )
+def findPolygonalNumberOperator( n, k ):
+    return findPolygonalNumber( n, k )
+
 @oneArgFunctionEvaluator( )
 def findTriangularNumber( n ):
     return findPolygonalNumber( n, 3 )
@@ -148,6 +158,10 @@ def getNthCenteredPolygonalNumber( n, k ):
 
     coefficient = fdiv( k, 2 )
     return polyval( [ coefficient, fneg( coefficient ), 1 ], real( n ) )
+
+@twoArgFunctionEvaluator( )
+def getNthCenteredPolygonalNumberOperator( n, k ):
+    return getNthCenteredPolygonalNumber( n, k )
 
 @oneArgFunctionEvaluator( )
 def getNthCenteredTriangularNumber( n ):
@@ -198,6 +212,10 @@ def findCenteredPolygonalNumber( n, k ):
 
     return nint( fdiv( fadd( sqrt( s ),
                        sqrt( fsum( [ fmul( 4, real( n ) ), s, -4 ] ) ) ), fmul( 2, sqrt( s ) ) ) )
+
+@twoArgFunctionEvaluator( )
+def findCenteredPolygonalNumberOperator( n, k ):
+    return findCenteredPolygonalNumber( n, k )
 
 @oneArgFunctionEvaluator( )
 def findCenteredTriangularNumber( n ):
@@ -1027,6 +1045,7 @@ def getNthPentatopeNumber( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getNthPolytopeNumber( n, d ):
     result = real_int( n )
     m = n + 1

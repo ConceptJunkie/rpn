@@ -30,7 +30,8 @@ from rpnFactor import getFactors, getFactorList
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
 from rpnPersistence import cachedFunction
-from rpnUtils import getMPFIntegerAsString, oneArgFunctionEvaluator, real, real_int
+from rpnUtils import getMPFIntegerAsString, oneArgFunctionEvaluator, \
+                     twoArgFunctionEvaluator, real, real_int
 
 import rpnGlobals as g
 
@@ -433,6 +434,7 @@ def makeContinuedFraction( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def interpretAsFraction( n, k ):
     if ( mp.dps < real_int( k ) ):
         mp.dps = k
@@ -472,12 +474,18 @@ def interpretAsBase( args, base ):
     return value
 
 
+@twoArgFunctionEvaluator( )
+def interpretAsBaseOperator( args, base ):
+    return interpretAsBase( args, base )
+
+
 # //******************************************************************************
 # //
 # //  getGreedyEgyptianFraction
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getGreedyEgyptianFraction( n, d ):
     if real( n ) > real( d ):
         raise ValueError( "'egypt' requires the numerator to be smaller than the denominator" )
@@ -565,6 +573,7 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def makePythagoreanTriple( n, k ):
     if real( n ) < 0 or real( k ) < 0:
         raise ValueError( "'make_pyth_3' requires positive arguments" )
@@ -601,6 +610,7 @@ def makePythagoreanTriple( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def makePythagoreanQuadruple( a, b ):
     if a < 0 or b < 0:
         raise ValueError( "'make_pyth_4' requires positive arguments" )
@@ -720,6 +730,10 @@ def getGCD( a, b = 0 ):
 
         return result
 
+def getGCDOperator( a ):
+    return getGCD( a )
+
+@twoArgFunctionEvaluator( )
 def getGCD2( n, k ):
     return getGCD( [ n, k ] )
 
@@ -774,6 +788,7 @@ def getLCM( args ):
     else:
         return args
 
+@twoArgFunctionEvaluator( )
 def getLCM2( n, k ):
     return getLCM( [ n, k ] )
 
@@ -797,24 +812,30 @@ def getFrobeniusNumber( args ):
     return the largest number, N, that cannot be expressed in the form:
     N = sum(m[i] * x[i]) where all m[i] are non-negative integers.
 
-    >>> frobenius_number((9949, 9967, 9973))
+    >>> frobenius_number( [ 9949, 9967, 9973 ] )
     24812836
 
-    >>> frobenius_number((6, 9, 20))
+    >>> frobenius_number( [ 6, 9, 20 ] )
     43
 
-    >>> frobenius_number((5, 8, 15))
+    >>> frobenius_number( [ 5, 8, 15 ] )
     27
 
-    frobenius_number((5, 8, 9, 12))
+    frobenius_number( [ 5, 8, 9, 12 ] )
     11
     '''
 
+    print( 'args 1', args )
+
     if isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ getFrobeniusNumber( arg ) for arg in args ]
         else:
             a = [ ]
+
+            print( )
+            print( 'args', args, 'getGCD', getGCD( args ) )
+            print( )
 
             if getGCD( args ) > 1:
                 raise ValueError( "the 'frobenius' operator is only valid for lists of values that contain at least one pair of coprime values" )
@@ -920,6 +941,10 @@ def calculateChineseRemainderTheorem( values, mods ):
 
     return x
 
+@twoArgFunctionEvaluator( )
+def calculateChineseRemainderTheoremOperator( values, mods ):
+    return calculateChineseRemainderTheorem( values, mods )
+
 
 # //******************************************************************************
 # //
@@ -957,7 +982,6 @@ def getRadical( target ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 @cachedFunction( 'sigma' )
 def getSigma( target ):
     '''
@@ -988,6 +1012,10 @@ def getSigma( target ):
     return result
 
 @oneArgFunctionEvaluator( )
+def getSigmaOperator( n ):
+    return getSigma( n )
+
+@oneArgFunctionEvaluator( )
 def getAbundanceRatio( n ):
     return fdiv( getSigma( n ), n )
 
@@ -998,6 +1026,7 @@ def getAbundanceRatio( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getSigmaN( n, k ):
     '''
     Returns the sum of the divisors of n, including 1 and n, to the k power.
@@ -1030,6 +1059,7 @@ def getSigmaN( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getAliquotSequence( n, k ):
     '''
     The aliquot sum of n is the sum of the divisors of n, not counting n itself
@@ -1181,6 +1211,7 @@ def isPerfect( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 @cachedFunction( 'smooth' )
 def isSmooth( n, k ):
     if real_int( n ) < real_int( k ):
@@ -1197,6 +1228,7 @@ def isSmooth( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 @cachedFunction( 'rough' )
 def isRough( n, k ):
     if real_int( n ) < real_int( k ):
@@ -1214,6 +1246,10 @@ def isRough( n, k ):
 @cachedFunction( 'k_semiprime' )
 def isKSemiPrime( n, k ):
     return 1 if sum( [ i[ 1 ] for i in getFactorList( n ) ] ) == k else 0
+
+@twoArgFunctionEvaluator( )
+def isKSemiPrimeOperator( n, k ):
+    return isKSemiPrime( n, k )
 
 @oneArgFunctionEvaluator( )
 def isSemiPrime( n ):
@@ -1239,6 +1275,10 @@ def isKSphenic( n, k ):
 def isSphenic( n ):
     return isKSphenic( n, 3 )
 
+@twoArgFunctionEvaluator( )
+def isKSphenicOperator( n, k ):
+    return isKSphenic( n, k )
+
 
 # //******************************************************************************
 # //
@@ -1262,6 +1302,7 @@ def isSquareFree( n ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'powerful' )
 def isPowerful( n ):
     return 1 if min( [ i[ 1 ] for i in getFactorList( n ) ] ) >= 2 else 0
 
@@ -1500,6 +1541,7 @@ def isFriendly( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 @cachedFunction( 'k_hyperperfect' )
 def isKHyperperfect( n, k ):
     return 1 if fadd( fmul( k, fsub( getSigma( n ), fadd( n, 1 ) ) ), 1 ) == n else 0
@@ -1590,7 +1632,6 @@ def getNthMersennePrime( n ):
 @oneArgFunctionEvaluator( )
 def getNthPerfectNumber( n ):
     exponent = getNthMersenneExponent( n )
-
     return fmul( fsub( power( 2, exponent ), 1 ), power( 2, fsub( exponent, 1 ) ) )
 
 
@@ -1647,9 +1688,11 @@ def findSumsOfKNonzeroPowers( n, k, p ):
 def getBarnesG( n ):
     return barnesg( n )
 
+@twoArgFunctionEvaluator( )
 def getBeta( n, k ):
     return beta( n, k )
 
+@twoArgFunctionEvaluator( )
 def getCyclotomic( n, k ):
     return cyclotomic( n, k )
 
@@ -1700,6 +1743,7 @@ def getNthKynea( n ):
 def getNthLeonardo( n ):
     return fsub( fmul( 2, fib( fadd( n, 1 ) ) ), 1 )
 
+@twoArgFunctionEvaluator( )
 def getPolygamma( n, k ):
     return psi( n, k )
 
@@ -1731,6 +1775,7 @@ def getUnitRoots( n ):
 def getZeta( n ):
     return zeta( n )
 
+@twoArgFunctionEvaluator( )
 def getHurwitzZeta( n, k ):
     return zeta( n, k )
 

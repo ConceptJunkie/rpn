@@ -29,7 +29,7 @@ import rpnGlobals as g
 
 from rpnGenerator import RPNGenerator
 from rpnPersistence import cachedFunction
-from rpnUtils import oneArgFunctionEvaluator, real_int
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 
 
 # //******************************************************************************
@@ -60,6 +60,7 @@ def getRandomIntegers( n, k ):
     for i in arange( 0, real_int( k ) ):
         yield randrange( n )
 
+@twoArgFunctionEvaluator( )
 def getRandomIntegersGenerator( n, k ):
     return RPNGenerator.createGenerator( getRandomIntegers, [ n, k ] )
 
@@ -240,6 +241,7 @@ def handleIdentify( result, file=sys.stdout ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def findPolynomial( n, k ):
     '''Calls the mpmath findpoly function to try to identify a polynomial of
     degree <= k for which n is a zero.'''

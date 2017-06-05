@@ -22,7 +22,8 @@ from rpnBase import convertToBaseN
 from rpnGenerator import RPNGenerator
 from rpnMath import isDivisible
 from rpnNumberTheory import getPowMod
-from rpnUtils import oneArgFunctionEvaluator, real, real_int, getMPFIntegerAsString
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
+                     real, real_int, getMPFIntegerAsString
 
 
 # //******************************************************************************
@@ -93,9 +94,11 @@ def getBaseKDigitList( n, base, dropZeroes = False ):
     return result
 
 
+@twoArgFunctionEvaluator( )
 def getBaseKDigits( n, k ):
     return getBaseKDigitList( n, k )
 
+@twoArgFunctionEvaluator( )
 def getNonzeroBaseKDigits( n, k ):
     return getBaseKDigitList( dropZeroes = True )
 
@@ -136,6 +139,7 @@ def multiplyDigitList( n, exponent = 1, dropZeroes = False ):
 def multiplyDigits( n ):
     return multiplyDigitList( n )
 
+@twoArgFunctionEvaluator( )
 def multiplyDigitPowers( n, k ):
     return multiplyDigitList( n, k )
 
@@ -143,6 +147,7 @@ def multiplyDigitPowers( n, k ):
 def multiplyNonzeroDigits( n ):
     return multiplyDigitList( n, dropZeros = True )
 
+@twoArgFunctionEvaluator( )
 def multiplyNonzeroDigitPowers( n, k ):
     return multiplyDigitList( n, k, dropZeroes = True )
 
@@ -166,6 +171,7 @@ def appendDigits( n, digits, digitCount ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def addDigits( n, k ):
     if real( k ) < 0:
         raise ValueError( "'add_digits' requires a non-negative integer for the second argument" )
@@ -221,6 +227,7 @@ def replaceDigits( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def duplicateDigits( n, k ):
     if real( k ) < 0:
         raise ValueError( "'dup_digits' requires a non-negative integer for the second argument" )
@@ -281,6 +288,7 @@ def isPandigital( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def containsDigits( n, k ):
     str = getMPFIntegerAsString( n )
 
@@ -300,6 +308,7 @@ def containsDigits( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def containsAnyDigits( n, k ):
     str = getMPFIntegerAsString( n )
 
@@ -319,6 +328,7 @@ def containsAnyDigits( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def containsOnlyDigits( n, k ):
     str = getMPFIntegerAsString( n )
 
@@ -338,6 +348,7 @@ def containsOnlyDigits( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def countDigits( n, k ):
     str = getMPFIntegerAsString( n )
 
@@ -372,6 +383,7 @@ def countDifferentDigits( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getNthReversalAdditionGenerator( n, k ):
     next = int( real_int( n ) )
     yield next
@@ -395,6 +407,7 @@ def getNthReversalAddition( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def findPalindrome( n, k ):
     next = int( real_int( n ) )
 
@@ -470,6 +483,7 @@ def isPerfectDigitalInvariant( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isBaseKNarcissistic( n, k ):
     digits = getBaseNDigits( real_int( n ), k )
 
@@ -494,6 +508,7 @@ def isBaseKNarcissistic( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isGeneralizedDudeneyNumber( base, exponent ):
     n = power( real_int( base ), real_int( exponent ) )
     return 1 if sumDigits( n ) == base else 0
@@ -507,6 +522,7 @@ def isGeneralizedDudeneyNumber( base, exponent ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isPerfectDigitToDigitInvariant( n, k ):
     digits = getBaseNDigits( real_int( n ), k )
 
@@ -532,6 +548,7 @@ def isPerfectDigitToDigitInvariant( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isSumProductNumber( n, k ):
     digits = getBaseNDigits( real_int( n ), k )
     sum = fmul( fsum( digits ), fprod( digits ) )
@@ -546,6 +563,7 @@ def isSumProductNumber( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def isHarshadNumber( n, k ):
     digits = getBaseNDigits( real_int( n ), k )
     return 1 if isDivisible( n, fsum( digits ) ) else 0
@@ -784,6 +802,7 @@ def hasUniqueDigits( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def hasDigits( value, digits ):
     pass
 
@@ -808,6 +827,10 @@ def isKMorphic( n, k ):
     powmod = getPowMod( n, real_int( k ), modulo )
 
     return 1 if ( n == powmod ) else 0
+
+@twoArgFunctionEvaluator( )
+def isKMorphicOperator( n, k ):
+    return isKMorphic( n, k )
 
 @oneArgFunctionEvaluator( )
 def isAutomorphic( n ):
@@ -879,7 +902,8 @@ def getMultiplicativePersistence( n, exponent = 1, dropZeroes = False, persisten
 def getPersistence( n ):
     return getMultiplicativePersistence( n )
 
-def getNPersistence( n, k ):
+@twoArgFunctionEvaluator( )
+def getKPersistence( n, k ):
     return getMultiplicativePersistence( n, k )
 
 @oneArgFunctionEvaluator( )
@@ -910,6 +934,7 @@ def showMultiplicativePersistence( n, exponent = 1, dropZeroes = False ):
 def showPersistence( n ):
     return RPNGenerator.createGenerator( showMultiplicativePersistence, [ n ] )
 
+@twoArgFunctionEvaluator( )
 def showKPersistence( n, k ):
     return RPNGenerator.createGenerator( showMultiplicativePersistence, [ n, k ] )
 
@@ -920,7 +945,6 @@ def showKPersistence( n, k ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def showErdosPersistenceGenerator( n ):
     yield n
 

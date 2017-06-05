@@ -176,7 +176,7 @@ class RPNOperator( object ):
             #print( 'argList', *reversed( argList ) )
             #print( 'self.function', self.function )
 
-            result = callers[ argsNeeded ]( self.function, *argList )
+            result = callers[ argsNeeded ]( self.function, *reversed( argList ) )
             #result = list( map( self.function, *reversed( argList ) ) )
 
         # process results
@@ -1393,80 +1393,80 @@ def dumpUnits( ):
 # //
 # //******************************************************************************
 
-def evaluateTwoArgFunction( func, _arg1, _arg2, level = 0 ):
-    if isinstance( _arg1, list ):
-        len1 = len( _arg1 )
-
-        if len1 == 1:
-            arg1 = _arg1[ 0 ]
-            list1 = False
-        else:
-            arg1 = _arg1
-            list1 = True
-
-        generator1 = False
-    else:
-        arg1 = _arg1
-        list1 = False
-
-    generator1 = isinstance( arg1, RPNGenerator )
-
-    if isinstance( _arg2, list ):
-        len2 = len( _arg2 )
-
-        if len2 == 1:
-            arg2 = _arg2[ 0 ]
-            list2 = False
-        else:
-            arg2 = _arg2
-            list2 = True
-
-        generator2 = False
-    else:
-        arg2 = _arg2
-        list2 = False
-
-    generator2 = isinstance( arg2, RPNGenerator )
-
-    if generator1:
-        if generator2:
-            iter1 = iter( arg1 )
-            iter2 = iter( arg2 )
-
-            result = [ ]
-
-            while True:
-                try:
-                    i1 = iter1.__next__( )
-                    i2 = iter2.__next__( )
-
-                    result.append( func( i1, i2 ) )
-                except:
-                    break
-        else:
-            result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1.getGenerator( ) ]
-    elif generator2:
-        result = [ evaluateTwoArgFunction( func, arg1, i, level + 1 ) for i in arg2.getGenerator( ) ]
-    elif list1:
-        if list2:
-            result = [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ], level + 1 ) for index in range( 0, min( len1, len2 ) ) ]
-        else:
-            result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1 ]
-
-    else:
-        if list2:
-            result = [ evaluateTwoArgFunction( func, arg1, j, level + 1 ) for j in arg2 ]
-        else:
-            result = func( arg2, arg1 )
-
-    # check for arguments to be echoed, and echo them before the result
-    if level == 0 and not g.operatorList and len( g.echoArguments ) > 0:
-        returnValue = list( g.echoArguments )
-        returnValue.append( result )
-        g.echoArguments = [ ]
-        return returnValue
-    else:
-        return result
+#def evaluateTwoArgFunction( func, _arg1, _arg2, level = 0 ):
+#    if isinstance( _arg1, list ):
+#        len1 = len( _arg1 )
+#
+#        if len1 == 1:
+#            arg1 = _arg1[ 0 ]
+#            list1 = False
+#        else:
+#            arg1 = _arg1
+#            list1 = True
+#
+#        generator1 = False
+#    else:
+#        arg1 = _arg1
+#        list1 = False
+#
+#    generator1 = isinstance( arg1, RPNGenerator )
+#
+#    if isinstance( _arg2, list ):
+#        len2 = len( _arg2 )
+#
+#        if len2 == 1:
+#            arg2 = _arg2[ 0 ]
+#            list2 = False
+#        else:
+#            arg2 = _arg2
+#            list2 = True
+#
+#        generator2 = False
+#    else:
+#        arg2 = _arg2
+#        list2 = False
+#
+#    generator2 = isinstance( arg2, RPNGenerator )
+#
+#    if generator1:
+#        if generator2:
+#            iter1 = iter( arg1 )
+#            iter2 = iter( arg2 )
+#
+#            result = [ ]
+#
+#            while True:
+#                try:
+#                    i1 = iter1.__next__( )
+#                    i2 = iter2.__next__( )
+#
+#                    result.append( func( i1, i2 ) )
+#                except:
+#                    break
+#        else:
+#            result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1.getGenerator( ) ]
+#    elif generator2:
+#        result = [ evaluateTwoArgFunction( func, arg1, i, level + 1 ) for i in arg2.getGenerator( ) ]
+#    elif list1:
+#        if list2:
+#            result = [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ], level + 1 ) for index in range( 0, min( len1, len2 ) ) ]
+#        else:
+#            result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1 ]
+#
+#    else:
+#        if list2:
+#            result = [ evaluateTwoArgFunction( func, arg1, j, level + 1 ) for j in arg2 ]
+#        else:
+#            result = func( arg2, arg1 )
+#
+#    # check for arguments to be echoed, and echo them before the result
+#    if level == 0 and not g.operatorList and len( g.echoArguments ) > 0:
+#        returnValue = list( g.echoArguments )
+#        returnValue.append( result )
+#        g.echoArguments = [ ]
+#        return returnValue
+#    else:
+#        return result
 
 
 # //******************************************************************************
@@ -1477,16 +1477,16 @@ def evaluateTwoArgFunction( func, _arg1, _arg2, level = 0 ):
 
 callers = [
     lambda func, args: func( ),
-    lambda func, args: func( args ),  # evaluateOneArgFunction,
-    evaluateTwoArgFunction,
+    lambda func, arg: func( arg ),
+    lambda func, arg1, arg2: func( arg1, arg2 ),
 
     # 3, 4, and 5 argument functions don't recurse with lists more than one level
     lambda func, arg1, arg2, arg3:
-        [ func( a, b, c ) for c in arg1 for b in arg2 for a in arg3 ],
+        [ func( a, b, c ) for a in arg1 for b in arg2 for c in arg3 ],
     lambda func, arg1, arg2, arg3, arg4:
-        [ func( a, b, c, d ) for d in arg1 for c in arg2 for b in arg3 for a in arg4 ],
+        [ func( a, b, c, d ) for a in arg1 for b in arg2 for c in arg3 for d in arg4 ],
     lambda func, arg1, arg2, arg3, arg4, arg5:
-        [ func( a, b, c, d, e ) for e in arg1 for d in arg2 for c in arg3 for b in arg4 for a in arg5 ],
+        [ func( a, b, c, d, e ) for a in arg1 for b in arg2 for c in arg3 for d in arg4 for e in arg5 ],
 ]
 
 
@@ -1832,6 +1832,7 @@ def setUserData( key, value ):
     return value
 
 
+@twoArgFunctionEvaluator( )
 def evaluateFunction( n, func ):
     return func.evaluate( n )
 
@@ -1841,9 +1842,11 @@ def evaluateFunction2( n, k, func ):
 def evaluateFunction3( a, b, c, func ):
     return func.evaluate( a, b, c )
 
+@twoArgFunctionEvaluator( )
 def evaluateLimit( n, func ):
     return limit( lambda x: func.evaluate( x ), n )
 
+@twoArgFunctionEvaluator( )
 def evaluateReverseLimit( n, func ):
     return limit( lambda x: func.evaluate( x ), n, direction = -1 )
 
@@ -1852,6 +1855,22 @@ def evaluateProduct( start, end, func ):
 
 def evaluateSum( start, end, func ):
     return nsum( lambda x: func.evaluate( x, func ), [ start, end ] )
+
+def createExponentialRange( a, b, c ):
+    return RPNGenerator.createExponential( a, b, c )
+
+def createGeometricRange( a, b, c ):
+    return RPNGenerator.createGeometric( a, b, c )
+
+@twoArgFunctionEvaluator( )
+def createRange( start, end ):
+    return RPNGenerator.createRange( start, end )
+
+def createIntervalRangeOperator( a, b, c ):
+    return RPNGenerator.createRange( a, b, c )
+
+def createSizedRangeOperator( a, b, c ):
+    return RPNGenerator.createSizedRange( a, b, c )
 
 
 # //******************************************************************************
@@ -1979,7 +1998,7 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     # arithmetic
-    'gcd'                   : RPNOperator( getGCD,
+    'gcd'                   : RPNOperator( getGCDOperator,
                                            1, [ RPNOperator.List ] ),
 
     'lcm'                   : RPNOperator( getLCM,
@@ -2189,13 +2208,13 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     # number_theory
-    'base'                  : RPNOperator( interpretAsBase,
+    'base'                  : RPNOperator( interpretAsBaseOperator,
                                            2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
 
     'cf'                    : RPNOperator( convertFromContinuedFraction,
                                            1, [ RPNOperator.List ] ),
 
-    'crt'                   : RPNOperator( calculateChineseRemainderTheorem,
+    'crt'                   : RPNOperator( calculateChineseRemainderTheoremOperator,
                                            2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'frobenius'             : RPNOperator( getFrobeniusNumber,
@@ -2390,7 +2409,7 @@ operators = {
     'autumnal_equinox'               : RPNOperator( getAutumnalEquinox,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'dawn'                           : RPNOperator( getNextDawn,
+    'dawn'                           : RPNOperator( getNextCivilDawn,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'day_time'                       : RPNOperator( getDayTime,
@@ -2399,7 +2418,7 @@ operators = {
     'distance_from_earth'            : RPNOperator( getDistanceFromEarth,
                                                     2, [ RPNOperator.AstronomicalObject, RPNOperator.DateTime ] ),
 
-    'dusk'                           : RPNOperator( getNextDusk,
+    'dusk'                           : RPNOperator( getNextCivilDusk,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'moonrise'                       : RPNOperator( getNextMoonRise,
@@ -2560,7 +2579,7 @@ operators = {
     'bitwise_xor'                    : RPNOperator( getBitwiseXor,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
-    'count_bits'                     : RPNOperator( getBitCount,
+    'count_bits'                     : RPNOperator( getBitCountOperator,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'parity'                         : RPNOperator( getParity,
@@ -2887,7 +2906,7 @@ operators = {
                                                     1, [ RPNOperator.Measurement ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'integer'                        : RPNOperator( convertToSignedInt,
+    'integer'                        : RPNOperator( convertToSignedIntOperator,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     'invert_units'                   : RPNOperator( invertUnits,
@@ -2977,7 +2996,7 @@ operators = {
     'centered_pentagonal'            : RPNOperator( getNthCenteredPentagonalNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'centered_polygonal'             : RPNOperator( getNthCenteredPolygonalNumber,
+    'centered_polygonal'             : RPNOperator( getNthCenteredPolygonalNumberOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'centered_square'                : RPNOperator( getNthCenteredSquareNumber,
@@ -3076,7 +3095,7 @@ operators = {
     'nth_centered_pentagonal'        : RPNOperator( findCenteredPentagonalNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'nth_centered_polygonal'         : RPNOperator( findCenteredPolygonalNumber,
+    'nth_centered_polygonal'         : RPNOperator( findCenteredPolygonalNumberOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'nth_centered_square'            : RPNOperator( findCenteredSquareNumber,
@@ -3103,7 +3122,7 @@ operators = {
     'nth_pentagonal'                 : RPNOperator( findPentagonalNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'nth_polygonal'                  : RPNOperator( findPolygonalNumber,
+    'nth_polygonal'                  : RPNOperator( findPolygonalNumberOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'nth_square'                     : RPNOperator( findSquareNumber,
@@ -3139,7 +3158,7 @@ operators = {
     'pentagonal_triangular'          : RPNOperator( getNthPentagonalTriangularNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'polygonal'                      : RPNOperator( getNthPolygonalNumber,
+    'polygonal'                      : RPNOperator( getNthPolygonalNumberOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'square_triangular'              : RPNOperator( getNthSquareTriangularNumber,
@@ -3283,15 +3302,15 @@ operators = {
     'icosahedron_volume'             : RPNOperator( getIcosahedronVolume,
                                                     1, [ RPNOperator.NonnegativeReal ] ),
 
-    'n_sphere_area'                  : RPNOperator( getNSphereSurfaceArea,
+    'n_sphere_area'                  : RPNOperator( getNSphereSurfaceAreaOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.NonnegativeReal ],
                                                          RPNOperator.measurementsAllowed ),
 
-    'n_sphere_radius'                : RPNOperator( getNSphereRadius,
+    'n_sphere_radius'                : RPNOperator( getNSphereRadiusOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.NonnegativeReal ],
                                                              RPNOperator.measurementsAllowed ),
 
-    'n_sphere_volume'                : RPNOperator( getNSphereVolume,
+    'n_sphere_volume'                : RPNOperator( getNSphereVolumeOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.NonnegativeReal ],
                                                          RPNOperator.measurementsAllowed ),
 
@@ -3301,7 +3320,7 @@ operators = {
     'octahedron_volume'              : RPNOperator( getOctahedronVolume,
                                                     1, [ RPNOperator.NonnegativeReal ] ),
 
-    'polygon_area'                   : RPNOperator( getRegularPolygonArea,
+    'polygon_area'                   : RPNOperator( getRegularPolygonAreaOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.Measurement ] ),
 
     'prism_area'                     : RPNOperator( getPrismSurfaceArea,
@@ -3398,7 +3417,7 @@ operators = {
     'is_kaprekar'                    : RPNOperator( isKaprekar,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'is_k_morphic'                   : RPNOperator( isKMorphic,
+    'is_k_morphic'                   : RPNOperator( isKMorphicOperator,
                                                     2, [ RPNOperator.Integer, RPNOperator.PositiveInteger ] ),
 
     'is_k_narcissistic'              : RPNOperator( isBaseKNarcissistic,
@@ -3473,22 +3492,22 @@ operators = {
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     # list
-    'exponential_range'              : RPNOperator( RPNGenerator.createExponential,
+    'exponential_range'              : RPNOperator( createExponentialRange,
                                                     3, [ RPNOperator.Real, RPNOperator.Real,
                                                          RPNOperator.PositiveInteger ] ),
 
-    'geometric_range'                : RPNOperator( RPNGenerator.createGeometric,
+    'geometric_range'                : RPNOperator( createGeometricRange,
                                                     3, [ RPNOperator.Real, RPNOperator.Real,
                                                          RPNOperator.PositiveInteger ] ),
 
-    'interval_range'                 : RPNOperator( RPNGenerator.createRange,
+    'interval_range'                 : RPNOperator( createIntervalRangeOperator,
                                                     3, [ RPNOperator.Real, RPNOperator.Real,
                                                          RPNOperator.Real ] ),
 
-    'range'                          : RPNOperator( RPNGenerator.createRange,
+    'range'                          : RPNOperator( createRange,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
-    'sized_range'                    : RPNOperator( RPNGenerator.createSizedRange,
+    'sized_range'                    : RPNOperator( createSizedRangeOperator,
                                                     3, [ RPNOperator.Real, RPNOperator.Real,
                                                          RPNOperator.Real ] ),
 
@@ -3624,10 +3643,10 @@ operators = {
     'is_k_hyperperfect'              : RPNOperator( isKHyperperfect,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'is_k_semiprime'                 : RPNOperator( isKSemiPrime,
+    'is_k_semiprime'                 : RPNOperator( isKSemiPrimeOperator,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
-    'is_k_sphenic'                   : RPNOperator( isKSphenic,
+    'is_k_sphenic'                   : RPNOperator( isKSphenicOperator,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
     'is_perfect'                     : RPNOperator( isPerfect,
@@ -3720,7 +3739,7 @@ operators = {
     'nth_thue_morse'                 : RPNOperator( getNthThueMorse,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'n_persistence'                  : RPNOperator( getNPersistence,
+    'n_persistence'                  : RPNOperator( getKPersistence,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
     'octanacci'                      : RPNOperator( getNthOctanacci,
@@ -3759,7 +3778,7 @@ operators = {
     'show_erdos_persistence'         : RPNOperator( showErdosPersistence,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'sigma'                          : RPNOperator( getSigma,
+    'sigma'                          : RPNOperator( getSigmaOperator,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'sigma_n'                        : RPNOperator( getSigmaN,

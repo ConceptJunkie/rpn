@@ -19,7 +19,8 @@ from mpmath import fadd, fdiv, floor, fmod, fmul, fneg, fsub, fsum, log, mpf, \
 
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
-from rpnUtils import oneArgFunctionEvaluator, real, real_int
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
+                     real, real_int
 
 import rpnGlobals as g
 
@@ -70,6 +71,10 @@ def convertToSignedInt( n, k ):
     value = fsub( value, ( power( 2, fsub( k, 1 ) ) ) )
 
     return value
+
+@twoArgFunctionEvaluator( )
+def convertToSignedIntOperator( n, k ):
+    return convertToSignedInt( n, k )
 
 @oneArgFunctionEvaluator( )
 def convertToChar( n ):
@@ -137,24 +142,31 @@ def performBitwiseOperation( i, j, operation ):
 
     return result
 
+@twoArgFunctionEvaluator( )
 def getBitwiseAnd( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x & y )
 
+@twoArgFunctionEvaluator( )
 def getBitwiseNand( n, k ):
     return getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x & y ) )
 
+@twoArgFunctionEvaluator( )
 def getBitwiseNor( n, k ):
     return getInvertedBits( performBitwiseOperation( n, k, lambda x, y: x | y ) )
 
+@twoArgFunctionEvaluator( )
 def getBitwiseOr( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x | y )
 
+@twoArgFunctionEvaluator( )
 def getBitwiseXor( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x ^ y )
 
+@twoArgFunctionEvaluator( )
 def shiftLeft( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x << y )
 
+@twoArgFunctionEvaluator( )
 def shiftRight( n, k ):
     return performBitwiseOperation( n, k, lambda x, y: x >> y )
 
@@ -165,7 +177,6 @@ def shiftRight( n, k ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def getBitCount( n ):
     result = 0
 
@@ -179,6 +190,10 @@ def getBitCount( n ):
         result += 1
 
     return result
+
+@oneArgFunctionEvaluator( )
+def getBitCountOperator( n ):
+    return getBitCount( n ) & 1
 
 @oneArgFunctionEvaluator( )
 def getParity( n ):
@@ -288,6 +303,7 @@ def convertToFloat( n ):
 def convertToUnsignedChar( n ):
     return fmod( real_int( n ), power( 2, 8 ) )
 
+@twoArgFunctionEvaluator( )
 def convertToUnsignedInt( n, k ):
     return fmod( real_int( n ), power( 2, real( k ) ) )
 
@@ -303,6 +319,7 @@ def convertToUnsignedLongLong( n ):
 def convertToUnsignedShort( n ):
     return fmod( real_int( n ), power( 2, 16 ) )
 
+@twoArgFunctionEvaluator( )
 def andOperands( n, k ):
     return 1 if ( n != 0 and k != 0 ) else 0
 
@@ -310,18 +327,23 @@ def andOperands( n, k ):
 def notOperand( n ):
     return 1 if n == 0 else 0
 
+@twoArgFunctionEvaluator( )
 def nandOperands( n, k ):
     return 0 if ( n != 0 and k != 0 ) else 1
 
+@twoArgFunctionEvaluator( )
 def norOperands( n, k ):
     return 0 if ( n != 0 or k != 0 ) else 1
 
+@twoArgFunctionEvaluator( )
 def orOperands( n, k ):
     return 1 if ( n != 0 or k != 0 ) else 0
 
+@twoArgFunctionEvaluator( )
 def xnorOperands( n, k ):
     return 1 if ( n != 0 ) == ( k != 0 ) else 0
 
+@twoArgFunctionEvaluator( )
 def xorOperands( n, k ):
     return 1 if ( n != 0 ) != ( k != 0 ) else 0
 

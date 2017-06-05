@@ -29,7 +29,7 @@ from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 from rpnOutput import convertToBaseN
 from rpnPhysics import calculateDistance
-from rpnUtils import oneArgFunctionEvaluator
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 
 import rpnGlobals as g
 
@@ -238,6 +238,7 @@ def getTimeZone( location ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getDistance( location1, location2 ):
     # if measurements were passed in, we want the physics version of 'distance'
     if isinstance( location1, RPNMeasurement ) or isinstance( location2, RPNMeasurement ):

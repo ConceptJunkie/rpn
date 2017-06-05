@@ -18,7 +18,8 @@ from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, fsum, gamma, hypot, 
 from rpnList import getProduct, getSum
 from rpnMath import add, divide, getPower, getRoot, multiply, subtract
 from rpnMeasurement import RPNMeasurement
-from rpnUtils import oneArgFunctionEvaluator, real, real_int
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
+                     real, real_int
 
 
 # //******************************************************************************
@@ -44,6 +45,10 @@ def getRegularPolygonArea( n, k ):
         raise ValueError( '\'polygon_area\' argument 2 must be a length' )
 
     return multiply( fdiv( n, fmul( 4, tan( fdiv( pi, n ) ) ) ), getPower( k, 2 ) ).convert( 'meter^2' )
+
+@twoArgFunctionEvaluator( )
+def getRegularPolygonAreaOperator( n, k ):
+    return getRegularPolygonArea( n, k )
 
 
 # //******************************************************************************
@@ -87,6 +92,10 @@ def getNSphereRadius( n, k ):
     else:
         raise ValueError( 'incompatible measurement type for computing the radius: ' +
                           str( dimensions ) )
+
+@twoArgFunctionEvaluator( )
+def getNSphereRadiusOperator( n, k ):
+    return getNSphereRadius( n, k )
 
 @oneArgFunctionEvaluator( )
 def getSphereRadius( n ):
@@ -133,6 +142,10 @@ def getNSphereSurfaceArea( n, k ):
     else:
         raise ValueError( 'incompatible measurement type for computing the surface area' )
 
+@twoArgFunctionEvaluator( )
+def getNSphereSurfaceAreaOperator( n, k ):
+    return getNSphereSurfaceArea( n, k )
+
 @oneArgFunctionEvaluator( )
 def getSphereArea( n ):
     return getNSphereSurfaceArea( n, 3 )
@@ -177,6 +190,10 @@ def getNSphereVolume( n, k ):
         return n
     else:
         raise ValueError( 'incompatible measurement type for computing the volume' )
+
+@twoArgFunctionEvaluator( )
+def getNSphereVolumeOperator( n, k ):
+    return getNSphereVolume( n, k )
 
 @oneArgFunctionEvaluator( )
 def getSphereVolume( n ):
@@ -226,6 +243,7 @@ def getTriangleArea( a, b, c ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getTorusSurfaceArea( R, s ):
     if not isinstance( R, RPNMeasurement ):
         return getTorusSurfaceArea( RPNMeasurement( real( R ), 'meter' ), s )
@@ -253,6 +271,7 @@ def getTorusSurfaceArea( R, s ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getTorusVolume( R, s ):
     if not isinstance( R, RPNMeasurement ):
         return getTorusVolume( RPNMeasurement( real( R ), 'meter' ), s )
@@ -280,6 +299,7 @@ def getTorusVolume( R, s ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getConeSurfaceArea( r, h ):
     if not isinstance( r, RPNMeasurement ):
         return getConeSurfaceArea( RPNMeasurement( real( r ), 'meter' ), h )
@@ -309,6 +329,7 @@ def getConeSurfaceArea( r, h ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getConeVolume( r, h ):
     if not isinstance( r, RPNMeasurement ):
         return getConeVolume( RPNMeasurement( real( r ), 'meter' ), h )
@@ -489,6 +510,7 @@ def getIcosahedronVolume( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getAntiprismSurfaceArea( n, k ):
     if real( n ) < 3:
         raise ValueError( 'the number of sides of the prism cannot be less than 3,' )
@@ -514,6 +536,7 @@ def getAntiprismSurfaceArea( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getAntiprismVolume( n, k ):
     if real( n ) < 3:
         raise ValueError( 'the number of sides of the prism cannot be less than 3,' )

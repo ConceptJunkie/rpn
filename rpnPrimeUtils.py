@@ -26,7 +26,7 @@ from rpnPersistence import openPrimeCache
 
 import rpnGlobals as g
 
-from rpnUtils import oneArgFunctionEvaluator, real_int
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 
 
 # //******************************************************************************
@@ -208,6 +208,7 @@ def getNextPrimes( p, k, func = getNextPrimeCandidate ):
 
     return result
 
+@twoArgFunctionEvaluator( )
 def getNextPrimesOperator( n, k ):
     return getNextPrimes( n, k, func=getNextPrimeCandidateForAny )
 
@@ -319,7 +320,6 @@ def findPrimeOperator( n ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def findQuadrupletPrimes( arg ):
     n = int( real_int( arg ) )
 
@@ -1196,7 +1196,6 @@ def getNthQuintupletPrimeList( arg ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def findQuintupletPrimes( arg ):
     n = int( real_int( arg ) )
 
@@ -1294,6 +1293,7 @@ def getNthSextupletPrimeList( arg ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getNthPrimeRange( arg1, arg2 ):
     n = int( real_int( arg1 ) )
     count = int( real_int( arg2 ) )
@@ -1362,6 +1362,7 @@ def getNthSuperPrime( arg ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getNthPolyPrime( n, poly ):
     result = getNthPrime( n )
 
@@ -1377,6 +1378,7 @@ def getNthPolyPrime( n, poly ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getPrimes( value, count ):
     for i in getNthPrimeRange( value, count ):
         yield i
@@ -1391,6 +1393,7 @@ def getPrimesGenerator( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getPrimeRange( start, end ):
     result = list( )
 

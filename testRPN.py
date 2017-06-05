@@ -2414,7 +2414,6 @@ def runNumberTheoryOperatorTests( ):
     # nth_mersenne
     testOperator( '-a30 1 10 range nth_mersenne' )
     testOperator( '-c 25 nth_mersenne' )
-    testOperator( '-a30 1 10 range nth_mersenne' )
 
     # nth_thue_morse
     expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )

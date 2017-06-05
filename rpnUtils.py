@@ -441,24 +441,24 @@ def twoArgFunctionEvaluator( ):
                         except:
                             break
                 else:
-                    result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1.getGenerator( ) ]
+                    result = [ evaluateTwoArgs( i, arg2 ) for i in arg1.getGenerator( ) ]
             elif generator2:
-                result = [ evaluateTwoArgFunction( func, arg1, i, level + 1 ) for i in arg2.getGenerator( ) ]
+                result = [ evaluateTwoArgs( arg1, i ) for i in arg2.getGenerator( ) ]
             elif list1:
                 if list2:
-                    result = [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ], level + 1 ) for index in range( 0, min( len1, len2 ) ) ]
+                    result = [ evaluateTwoArgs( arg1[ index ], arg2[ index ] ) for index in range( 0, min( len1, len2 ) ) ]
                 else:
-                    result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1 ]
+                    result = [ evaluateTwoArgs( i, arg2 ) for i in arg1 ]
 
             else:
                 if list2:
-                    result = [ evaluateTwoArgFunction( func, arg1, j, level + 1 ) for j in arg2 ]
+                    result = [ evaluateTwoArgs( arg1, j ) for j in arg2 ]
                 else:
-                    result = func( arg2, arg1 )
+                    result = func( arg1, arg2 )
 
             return result
 
-        return evaluateTwoArg
+        return evaluateTwoArgs
 
     return twoArgFunction
 

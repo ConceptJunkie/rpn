@@ -19,7 +19,7 @@ from mpmath import arange
 from random import randrange
 
 from rpnGenerator import RPNGenerator
-from rpnUtils import debugPrint, oneArgFunctionEvaluator
+from rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator
 
 import rpnGlobals as g
 
@@ -42,6 +42,7 @@ def rollDice( expression ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def rollMultipleDice( expression, times ):
     dice = parseDiceExpression( expression )
 

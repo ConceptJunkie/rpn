@@ -21,7 +21,7 @@ from rpnDateTime import RPNDateTime
 from rpnLocation import getLocation, RPNLocation, getTimeZone
 from rpnMeasurement import RPNMeasurement
 from rpnMath import subtract
-from rpnUtils import oneArgFunctionEvaluator
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
 
 
 # //******************************************************************************
@@ -154,6 +154,7 @@ def getMoonPhase( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getSkyLocation( n, k ):
     '''Returns the location of an astronomical object in the sky in terms of right ascension and declination.'''
     if not isinstance( n, ephem.Body ) or not isinstance( k, RPNDateTime ):
@@ -190,9 +191,11 @@ def getNextRising( body, location, date ):
 
     return result
 
+@twoArgFunctionEvaluator( )
 def getNextSunrise( n, k ):
     return getNextRising( ephem.Sun( ), n, k )
 
+@twoArgFunctionEvaluator( )
 def getNextMoonRise( n, k ):
     return getNextRising( ephem.Moon( ), n, k )
 
@@ -223,9 +226,11 @@ def getNextSetting( body, location, date ):
 
     return result
 
+@twoArgFunctionEvaluator( )
 def getNextSunset( n, k ):
     return getNextSetting( ephem.Sun( ), n, k )
 
+@twoArgFunctionEvaluator( )
 def getNextMoonSet( n, k ):
     return getNextSetting( ephem.Moon( ), n, k )
 
@@ -256,9 +261,11 @@ def getNextTransit( body, location, date ):
 
     return result
 
+@twoArgFunctionEvaluator( )
 def getSolarNoon( n, k ):
     return getNextTransit( ephem.Sun( ), n, k )
 
+@twoArgFunctionEvaluator( )
 def getNextMoonTransit( n, k ):
     return getNextTransit( ephem.Moon( ), n, k )
 
@@ -289,9 +296,11 @@ def getNextAntitransit( body, location, date ):
 
     return result
 
+@twoArgFunctionEvaluator( )
 def getNextSunAntitransit( n, k ):
     return getNextAntitransit( ephem.Sun( ), n, k )
 
+@twoArgFunctionEvaluator( )
 def getNextMoonAntitransit( n, k ):
     return getNextAntitransit( ephem.Moon( ), n, k )
 
@@ -319,6 +328,7 @@ def getTransitTime( body, location, date ):
 
     return subtract( setting, rising )
 
+@twoArgFunctionEvaluator( )
 def getDayTime( n, k ):
     return getTransitTime( ephem.Sun( ), n, k )
 
@@ -346,6 +356,7 @@ def getAntitransitTime( body, location, date ):
 
     return subtract( rising, setting )
 
+@twoArgFunctionEvaluator( )
 def getNightTime( n, k ):
     return getAntitransitTime( ephem.Sun( ), n, k )
 
@@ -488,9 +499,15 @@ def getNextDawn( location, date, horizon = -6 ):
 
     return result
 
+@twoArgFunctionEvaluator( )
+def getNextCivilDawn( n, k ):
+    return getNextDawn( n, k, -6 )
+
+@twoArgFunctionEvaluator( )
 def getNextNauticalDawn( n, k ):
     return getNextDawn( n, k, -12 )
 
+@twoArgFunctionEvaluator( )
 def getNextAstronomicalDawn( n, k ):
     return getNextDawn( n, k, -18 )
 
@@ -525,9 +542,15 @@ def getNextDusk( location, date, horizon = -6 ):
 
     return result
 
+@twoArgFunctionEvaluator( )
+def getNextCivilDusk( n, k ):
+    return getNextDusk( n, k, -6 )
+
+@twoArgFunctionEvaluator( )
 def getNextNauticalDusk( n, k ):
     return getNextDusk( n, k, -12 )
 
+@twoArgFunctionEvaluator( )
 def getNextAstronomicalDusk( n, k ):
     return getNextDusk( n, k, -18 )
 
@@ -538,6 +561,7 @@ def getNextAstronomicalDusk( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getDistanceFromEarth( n, k ):
     if not isinstance( n, ephem.Body ) or not isinstance( k, RPNDateTime ):
         raise ValueError( '\'sky_location\' expects an astronomical object and a date-time' )
