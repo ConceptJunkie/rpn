@@ -22,7 +22,7 @@ from mpmath import arange, fadd, fdiv, fmul, fneg, fprod, fsub, fsum, inf, \
 from rpnGenerator import RPNGenerator
 from rpnMath import add, subtract, divide
 from rpnMeasurement import RPNMeasurement
-from rpnNumberTheory import getGCD
+from rpnNumberTheory import getGCDOfList
 
 
 # //******************************************************************************
@@ -595,7 +595,7 @@ def reduceList( args ):
         if isinstance( args[ 0 ], list ):
             return [ reduceList( arg ) for arg in args ]
         else:
-            gcd = getGCD( args )
+            gcd = getGCDOfList( args )
 
             result = [ ]
 

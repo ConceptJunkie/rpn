@@ -1998,10 +1998,10 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     # arithmetic
-    'gcd'                   : RPNOperator( getGCDOperator,
+    'gcd'                   : RPNOperator( getGCDOfList,
                                            1, [ RPNOperator.List ] ),
 
-    'lcm'                   : RPNOperator( getLCM,
+    'lcm'                   : RPNOperator( getLCMOfList,
                                            1, [ RPNOperator.List ] ),
 
     'max'                   : RPNOperator( getMaximum,
@@ -2295,7 +2295,7 @@ operators = {
     'floor'                          : RPNOperator( getFloor,
                                                     1, [ RPNOperator.Default ] ),
 
-    'gcd2'                           : RPNOperator( lambda n, k: getGCD( [ n, k ] ),
+    'gcd2'                           : RPNOperator( getGCD,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     'increment'                      : RPNOperator( increment,
@@ -2348,7 +2348,7 @@ operators = {
     'larger'                         : RPNOperator( getLarger,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
-    'lcm2'                           : RPNOperator( getLCM2,
+    'lcm2'                           : RPNOperator( getLCM,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     'mantissa'                       : RPNOperator( getMantissa,

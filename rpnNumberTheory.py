@@ -697,32 +697,20 @@ def getNthFibonorial( n ):
 
 # //******************************************************************************
 # //
-# //  getGCD
-# //
-# //  This function is intended to be used with two numerical values or a
-# //  single list of values.   The list can be recursive (to support the
-# //  'gcd' list operator), but if b is non-zero, then a and b must be single
-# //  values.
+# //  getGCDOfList
 # //
 # //******************************************************************************
 
-def getGCD( a, b = 0 ):
-    if real( b ) == 0:
-        a = list( a )
+def getGCDOfList( args ):
+    if ( isinstance( args, RPNGenerator ) ):
+        args = list( args )
+
+    if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+        return [ getGCDOfList( real( arg ) ) for arg in args ]
     else:
-        a, b = fabs( a ), fabs( b )
+        result = max( args )
 
-        while a:
-            b, a = a, fmod( b, a )
-
-        return b
-
-    if isinstance( a[ 0 ], ( list, RPNGenerator ) ):
-        return [ getGCD( real( arg ) ) for arg in a ]
-    else:
-        result = max( a )
-
-        for pair in itertools.combinations( a, 2 ):
+        for pair in itertools.combinations( args, 2 ):
             gcd = getGCD( *pair )
 
             if gcd < result:
@@ -730,12 +718,12 @@ def getGCD( a, b = 0 ):
 
         return result
 
-def getGCDOperator( a ):
-    return getGCD( a )
-
 @twoArgFunctionEvaluator( )
-def getGCD2( n, k ):
-    return getGCD( [ n, k ] )
+def getGCD( n, k ):
+    while k:
+        n, k = k, fmod( n, k )
+
+    return n
 
 
 # //******************************************************************************
@@ -772,12 +760,12 @@ def getExtendedGCD( a, b ):
 # //
 # //******************************************************************************
 
-def getLCM( args ):
+def getLCMOfList( args ):
     if isinstance( args, RPNGenerator ):
-        return getLCM( list( args ) )
+        return getLCMOfList( list( args ) )
     elif isinstance( args, list ):
         if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
-            return [ getLCM( arg ) for arg in args ]
+            return [ getLCMOfList( arg ) for arg in args ]
         else:
             result = 1
 
@@ -789,8 +777,8 @@ def getLCM( args ):
         return args
 
 @twoArgFunctionEvaluator( )
-def getLCM2( n, k ):
-    return getLCM( [ n, k ] )
+def getLCM( n, k ):
+    return getLCMOfList( [ n, k ] )
 
 
 # //******************************************************************************
@@ -825,7 +813,8 @@ def getFrobeniusNumber( args ):
     11
     '''
 
-    print( 'args 1', args )
+    if isinstance( args, RPNGenerator ):
+        args = list( args )
 
     if isinstance( args, list ):
         if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
@@ -833,11 +822,7 @@ def getFrobeniusNumber( args ):
         else:
             a = [ ]
 
-            print( )
-            print( 'args', args, 'getGCD', getGCD( args ) )
-            print( )
-
-            if getGCD( args ) > 1:
+            if getGCDOfList( args ) > 1:
                 raise ValueError( "the 'frobenius' operator is only valid for lists of values that contain at least one pair of coprime values" )
 
             for i in sorted( args ):
@@ -1321,7 +1306,7 @@ def isAchillesNumber( n ):
     if min( [ i[ 1 ] for i in factorList ] ) < 2:
         return 0
 
-    return 1 if getGCD( [ i[ 1 ] for i in factorList ] ) == 1 else 0
+    return 1 if getGCDOfList( [ i[ 1 ] for i in factorList ] ) == 1 else 0
 
 
 # //******************************************************************************
