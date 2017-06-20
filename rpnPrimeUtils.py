@@ -1378,11 +1378,11 @@ def getNthPolyPrime( n, poly ):
 # //
 # //******************************************************************************
 
-@twoArgFunctionEvaluator( )
 def getPrimes( value, count ):
     for i in getNthPrimeRange( value, count ):
         yield i
 
+@twoArgFunctionEvaluator( )
 def getPrimesGenerator( n, k ):
     return RPNGenerator( getPrimes( n, k ) )
 

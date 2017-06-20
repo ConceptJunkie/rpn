@@ -80,6 +80,7 @@ def enumerateMultipleDice( expression, count ):
     for i in arange( 0, count ):
         yield evaluateDiceExpression( dice )[ 0 ]
 
+@twoArgFunctionEvaluator( )
 def enumerateMultipleDiceGenerator( n, k ):
     return RPNGenerator( enumerateMultipleDice( n, k ) )
 

@@ -1825,6 +1825,7 @@ def getUserData( key ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def setUserData( key, value ):
     g.userData[ key ] = value
     g.userDataIsDirty = True

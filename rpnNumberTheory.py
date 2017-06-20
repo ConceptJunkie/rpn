@@ -171,6 +171,7 @@ def getNthJacobsthalNumber( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getNthBaseKRepunit( n, k ):
     return getNthLinearRecurrence( [ fneg( real( k ) ), fadd( k, 1 ) ], [ 1, fadd( k, 1 ) ], n )
 
@@ -232,6 +233,7 @@ def getNthFibonacciPolynomial( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getNthKFibonacciNumber( n, k ):
     if real( n ) < 0:
         raise ValueError( 'non-negative argument expected' )
@@ -424,6 +426,7 @@ def convertFromContinuedFraction( n ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def makeContinuedFraction( n, k ):
     return RPNContinuedFraction( real( n ), maxterms = real_int( k ), cutoff = power( 10, -( mp.dps - 2 ) ) )
 
@@ -734,6 +737,7 @@ def getGCD( n, k ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def getExtendedGCD( a, b ):
     '''
     Euclid's Extended GCD Algorithm
@@ -1709,6 +1713,7 @@ def getHarmonic( n ):
 def getHyperfactorial( n ):
     return hyperfac( n )
 
+@twoArgFunctionEvaluator( )
 def getLeyland( n, k ):
     return fadd( power( n, k ), power( k, n ) )
 

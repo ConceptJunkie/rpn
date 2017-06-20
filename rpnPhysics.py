@@ -21,7 +21,7 @@ from rpnList import getProduct
 from rpnMath import divide, getPower, getRoot, multiply
 from rpnMeasurement import checkUnits, getWhichUnitType, matchUnitTypes, \
                            RPNMeasurement, validateUnits
-from rpnUtils import oneArgFunctionEvaluator, real_int
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 
 import rpnGlobals as g
 
@@ -66,6 +66,7 @@ def calculateTimeDilation( velocity ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateEscapeVelocity( mass, radius ):
     validateUnits( mass, 'mass' )
     validateUnits( radius, 'length' )
@@ -80,6 +81,7 @@ def calculateEscapeVelocity( mass, radius ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateOrbitalMass( measurement1, measurement2 ):
     '''
     To solve for the planetary mass for an object in a circular orbit, we need
@@ -145,6 +147,7 @@ def calculateOrbitalMass( measurement1, measurement2 ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateOrbitalPeriod( measurement1, measurement2 ):
     '''
     To solve the period of a circular orbit, we need Newton's gravitational
@@ -210,6 +213,7 @@ def calculateOrbitalPeriod( measurement1, measurement2 ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateOrbitalRadius( measurement1, measurement2 ):
     '''
     To solve the radius of a circular orbit, we need Newton's gravitational
@@ -275,6 +279,7 @@ def calculateOrbitalRadius( measurement1, measurement2 ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateOrbitalVelocity( measurement1, measurement2 ):
     '''
     To solve the velocity of a circular orbit, we need Newton's gravitational
@@ -341,6 +346,7 @@ def calculateOrbitalVelocity( measurement1, measurement2 ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateDistance( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'length', 'time' ],
@@ -381,6 +387,7 @@ def calculateDistance( measurement1, measurement2 ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateVelocity( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'length', 'time' ],
@@ -429,6 +436,7 @@ def calculateVelocity( measurement1, measurement2 ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateAcceleration( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'velocity', 'length' ],
@@ -450,48 +458,11 @@ def calculateAcceleration( measurement1, measurement2 ):
 
 # //******************************************************************************
 # //
-# //  calculateDistance
-# //
-# //******************************************************************************
-
-def calculateDistance( measurement1, measurement2 ):
-    validUnitTypes = [
-        [ 'length', 'time' ],
-        [ 'velocity', 'time' ],
-        [ 'acceleration', 'time' ],
-        [ 'jerk', 'time' ],
-        [ 'jounce', 'time' ],
-    ]
-
-    arguments = matchUnitTypes( [ measurement1, measurement2 ], validUnitTypes )
-
-    if 'length' in arguments:
-        distance = arguments[ 'length' ]
-    elif 'velocity' in arguments:
-        if 'time' in arguments:
-            distance = multiply( arguments[ 'velocity' ], arguments[ 'time' ] )
-    elif 'acceleration' in arguments:
-        if 'time' in arguments:
-            distance = getProduct( [ arguments[ 'acceleration' ], arguments[ 'time' ],
-                                     arguments[ 'time' ], fdiv( 1, 2 ) ] )
-    elif 'jerk' in arguments:
-        if 'time' in arguments:
-            distance = getProduct( [ arguments[ 'acceleration' ], getPower( arguments[ 'time' ], 3 ),
-                                     fdiv( 1, 4 ) ] )
-    elif 'jounce' in arguments:
-        if 'time' in arguments:
-            distance = getProduct( [ arguments[ 'acceleration' ], getPower( arguments[ 'time' ], 4 ),
-                                     fdiv( 1, 8 ) ] )
-
-    return distance.convert( 'meter' )
-
-
-# //******************************************************************************
-# //
 # //  calculateKineticEnergy
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateKineticEnergy( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'velocity', 'mass' ],
@@ -514,6 +485,7 @@ def calculateKineticEnergy( measurement1, measurement2 ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateHorizonDistance( altitude, radius ):
     validateUnits( altitude, 'length' )
     validateUnits( radius, 'length' )
@@ -556,6 +528,7 @@ def calculateMassEquivalence( energy ):
 # //
 # //******************************************************************************
 
+@twoArgFunctionEvaluator( )
 def calculateSurfaceGravity( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'mass', 'density' ],

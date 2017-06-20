@@ -1774,6 +1774,7 @@ def runLexicographyOperatorTests( ):
     expectEqual( '[37:1:12] build_numbers', '143967 oeis 8190 left' )
 
     # combine_digits
+    testOperator( '1 1 7 range primes combine_digits' )
     expectResult( '1 9 range combine_digits', 123456789 )
 
     # count_different_digits

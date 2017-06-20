@@ -193,6 +193,9 @@ def addDigits( n, k ):
 # //******************************************************************************
 
 def combineDigits( n ):
+    if isinstance( n, RPNGenerator ):
+        return combineDigits( list( n ) )
+
     result = 0
 
     listResult = False
