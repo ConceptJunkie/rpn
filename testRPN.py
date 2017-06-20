@@ -1793,6 +1793,7 @@ def runLexicographyOperatorTests( ):
     testOperator( '180 200 range 10 find_palindrome -s1' )
 
     # get_base_k_digits
+    testOperator( '1 million 7 get_base_k_digits' )
 
     # get_digits
     testOperator( '123456789 get_digits' )

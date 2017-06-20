@@ -3380,7 +3380,7 @@ operators = {
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     'get_base_k_digits'              : RPNOperator( getBaseKDigits,
-                                                    1, [ RPNOperator.Integer ] ),
+                                                    2, [ RPNOperator.Integer, RPNOperator.PositiveInteger ] ),
 
     'get_digits'                     : RPNOperator( getDigits,
                                                     1, [ RPNOperator.Integer ] ),

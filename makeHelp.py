@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 995
+maxExampleCount = 1000
 
 
 # //******************************************************************************
@@ -1826,7 +1826,9 @@ but that's how it works for now.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '2 is_odd' ) + '''
+''' + makeCommandExample( '3 is_odd' ) + '''
+''' + makeCommandExample( '1 10 range is_odd' ),
 [ 'is_even', 'is_zero' ] ],
 
     'is_square' : [
@@ -5684,7 +5686,7 @@ See the 'user_functions' help topic for more details.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit' ),
 [ 'limitn', 'lambda' ] ],
 
     'limitn' : [
@@ -6275,7 +6277,7 @@ This operation is useful for working with any lexicographic feature based
 on the digits that comprise an integer.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 million 7 get_base_k_digits' ),
 [ 'get_nonzero_digits', 'get_nonzero_base_k_digits' ] ],
 
     'get_digits' : [
