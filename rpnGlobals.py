@@ -139,4 +139,5 @@ atomic_numbers = None
 # config
 userData = { }
 userDataIsDirty = False
-
+userFunctions = { }
+userFunctionsAreDirty = False

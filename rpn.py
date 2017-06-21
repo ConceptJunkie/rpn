@@ -40,9 +40,10 @@ from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 
 from rpnOperators import checkForVariable, constants, evaluateTerm, functionOperators, \
-                         listOperators, loadUnitNameData, modifiers, operators, \
-                         preprocessTerms, RPNFunction, RPNVariable, saveResult, \
-                         setAccuracy, setPrecision
+                         listOperators, loadUnitNameData, loadUserFunctionsFile, \
+                         modifiers, operators, preprocessTerms, RPNFunction, \
+                         RPNVariable, saveResult, saveUserFunctionsFile, setAccuracy, \
+                         setPrecision
 
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                       printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
@@ -427,6 +428,7 @@ def rpn( cmd_args ):
     terms = [ ]
 
     loadUserDataFile( )
+    loadUserFunctionsFile( )
 
     for i, arg in enumerate( cmd_args ):
         if ( len( arg ) > 1 ) and ( arg[ 0 ] == '-' ):
@@ -637,6 +639,9 @@ if __name__ == '__main__':
 
         if g.userDataIsDirty:
             saveUserDataFile( )
+
+        if g.userFunctionsAreDirty:
+            saveUserFunctionsFile( )
     except ValueError as error:
         print( '\nrpn:  value error:  {0}'.format( error ) )
 

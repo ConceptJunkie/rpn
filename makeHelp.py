@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1000
+maxExampleCount = 1002
 
 
 # //******************************************************************************
@@ -5615,7 +5615,7 @@ in the value n into the function k and returns the result.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( '1 10 range lambda x 2 ** 1 - eval' ),
-[ 'eval2', 'eval3', 'filter', 'lambda', 'recurrence' ] ],
+[ 'eval2', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
 
     'eval2' : [
 'function', 'evaluates the function c for the given arguments a and b',
@@ -5626,7 +5626,7 @@ result.
 ''',
 '''
 ''',
-[ 'eval', 'eval3', 'filter', 'lambda', 'recurrence' ] ],
+[ 'eval', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
 
     'eval3' : [
 'function', 'evaluates the function d for the given arguments a, b, and c',
@@ -5643,7 +5643,7 @@ Solving a quadratic equation the hard way, using the quadratic formula:
 Of course, rpn has better ways to do this:
 ''' + makeCommandExample( '1 -4 -21 solve2' ) + '''
 ''' + makeCommandExample( '[ 1 -4 -21 ] solve' ),
-[ 'eval', 'eval3', 'filter', 'lambda', 'recurrence' ] ],
+[ 'eval', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
 
     'filter' : [
 'function', 'filters a list n using function k',
@@ -5666,6 +5666,15 @@ Which of the first 80 fibonacci numbers is prime?
 ''',
 [ 'filter', 'lambda', 'unfilter_by_index' ] ],
 
+    'function': [
+'function', 'creates a user-defined function k named n',
+'''
+''',
+'''
+''' + makeCommandExample( 'test_function lambda x 4 ** function' ) + '''
+''' + makeCommandExample( '1 10 range $test_function' ),
+[ 'eval', 'eval2', 'eval3', 'filter', 'lambda', 'recurrence' ] ],
+
     'lambda' : [
 'function', 'begins a function definition',
 '''
@@ -5679,7 +5688,7 @@ See the 'user_functions' help topic for more details.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit' ),
-[ ] ],
+[ 'eval', 'function', 'limit', 'nsum', 'nprod' ] ],
 
     'limit' : [
 'function', 'calculates the limit of function k( x ) as x approaches n',

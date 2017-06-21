@@ -643,14 +643,16 @@ constants = {
 
 class RPNFunction( object ):
     '''This class represents a user-defined function in rpn.'''
-    def __init__( self, valueList, startingIndex = 0 ):
+    def __init__( self, valueList = None, startingIndex = 0 ):
         self.valueList = [ ]
 
         if isinstance( valueList, list ):
             for value in valueList:
                 self.valueList.append( value )
-        else:
+        elif valueList:
             self.valueList.append( valueList )
+        else:
+            self.valueList = None
 
         self.startingIndex = startingIndex
         self.code = ''
@@ -664,6 +666,7 @@ class RPNFunction( object ):
 
     def evaluate( self, x, y = 0, z = 0 ):
         if not self.function:
+            self.buildCode( )
             self.compile( )
 
         if self.argCount == 1:
@@ -673,13 +676,36 @@ class RPNFunction( object ):
         elif self.argCount == 3:
             return self.function( x, y, z )
 
+    def setCode( self, code ):
+        if code.find( 'rpnInternalFunction( x ):' ) != -1 or \
+           code.find( 'rpnInternalFunction( y ):' ) != -1 or \
+           code.find( 'rpnInternalFunction( z ):' ) != -1:
+            self.argCount = 1
+        elif code.find( 'rpnInternalFunction( x, y ):' ) != -1 or \
+           code.find( 'rpnInternalFunction( x, z ):' ) != -1 or \
+           code.find( 'rpnInternalFunction( y, z ):' ) != -1:
+            self.argCount = 2
+        else:
+            self.argCount = 3
+
+        self.code = code
+        self.compile( )
+
+    def getCode( self ):
+        if not self.code:
+            self.buildCode( )
+            self.compile( )
+
+        return self.code
+
     def getFunction( self ):
         if not self.function:
+            self.buildCode( )
             self.compile( )
 
         return self.function
 
-    def compile( self ):
+    def buildCode( self ):
         valueList = [ ]
 
         xArg = False
@@ -843,6 +869,10 @@ class RPNFunction( object ):
         debugPrint( 'valueList:', self.valueList[ self.startingIndex : ] )
         debugPrint( 'code:', self.code )
 
+    def compile( self ):
+        if not self.code:
+            self.buildCode( )
+
         self.compiled = compile( self.code, '<string>', 'exec' )
 
         exec( self.compiled, globals( ), self.code_locals )
@@ -899,6 +929,51 @@ def addZ( valueList ):
         raise ValueError( '\'z\' requires \'lambda\' to start a function declaration' )
 
     valueList[ -1 ].add( 'z' )
+
+
+# //******************************************************************************
+# //
+# //  loadUserFunctionsFile
+# //
+# //******************************************************************************
+
+def loadUserFunctionsFile( ):
+    config = configparser.ConfigParser( )
+    config.read( getUserFunctionsFileName( ) )
+
+    try:
+        items = config.items( 'User Functions' )
+    except:
+        return
+
+    for tuple in items:
+        func = RPNFunction( )
+        func.setCode( tuple[ 1 ] )
+        g.userFunctions[ tuple[ 0 ] ] = func
+
+
+# //******************************************************************************
+# //
+# //  saveUserFunctionsFile
+# //
+# //******************************************************************************
+
+def saveUserFunctionsFile( ):
+    config = configparser.ConfigParser( )
+
+    config[ 'User Functions' ] = { }
+
+    for key in g.userFunctions.keys( ):
+        config[ 'User Functions' ][ key ] = g.userFunctions[ key ].getCode( )
+
+    import os.path
+
+    if os.path.isfile( getUserFunctionsFileName( ) ):
+        from shutil import copyfile
+        copyfile( getUserFunctionsFileName( ), getUserFunctionsFileName( ) + '.backup' )
+
+    with open( getUserFunctionsFileName( ), 'w' ) as userFunctionsFile:
+        config.write( userFunctionsFile )
 
 
 # //******************************************************************************
@@ -1359,118 +1434,6 @@ def dumpUnits( ):
 
 # //******************************************************************************
 # //
-# //  evaluateOneArgFunction
-# //
-# //******************************************************************************
-
-#def evaluateOneArgFunction( func, args, level = 0 ):
-#    if isinstance( args, list ):
-#        result = [ evaluateOneArgFunction( func, i, level + 1 ) for i in args ]
-#    elif isinstance( args, RPNGenerator ):
-#        result = RPNGenerator.createChained( args.getGenerator( ), func )
-#    else:
-#        result = func( args )
-#
-#    # if this is the 'echo' operator, just return the result
-#    if func.__name__ == 'addEchoArgument':
-#        return result
-#
-#    # otherwise, check for arguments to be echoed, and echo them before the result
-#    if level == 0 and not g.operatorList and len( g.echoArguments ) > 0:
-#        returnValue = list( g.echoArguments )
-#        returnValue.append( result )
-#        g.echoArguments = [ ]
-#        return returnValue
-#    else:
-#        return result
-
-
-# //******************************************************************************
-# //
-# //  evaluateTwoArgFunction
-# //
-# //  This seems somewhat non-pythonic...
-# //
-# //******************************************************************************
-
-#def evaluateTwoArgFunction( func, _arg1, _arg2, level = 0 ):
-#    if isinstance( _arg1, list ):
-#        len1 = len( _arg1 )
-#
-#        if len1 == 1:
-#            arg1 = _arg1[ 0 ]
-#            list1 = False
-#        else:
-#            arg1 = _arg1
-#            list1 = True
-#
-#        generator1 = False
-#    else:
-#        arg1 = _arg1
-#        list1 = False
-#
-#    generator1 = isinstance( arg1, RPNGenerator )
-#
-#    if isinstance( _arg2, list ):
-#        len2 = len( _arg2 )
-#
-#        if len2 == 1:
-#            arg2 = _arg2[ 0 ]
-#            list2 = False
-#        else:
-#            arg2 = _arg2
-#            list2 = True
-#
-#        generator2 = False
-#    else:
-#        arg2 = _arg2
-#        list2 = False
-#
-#    generator2 = isinstance( arg2, RPNGenerator )
-#
-#    if generator1:
-#        if generator2:
-#            iter1 = iter( arg1 )
-#            iter2 = iter( arg2 )
-#
-#            result = [ ]
-#
-#            while True:
-#                try:
-#                    i1 = iter1.__next__( )
-#                    i2 = iter2.__next__( )
-#
-#                    result.append( func( i1, i2 ) )
-#                except:
-#                    break
-#        else:
-#            result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1.getGenerator( ) ]
-#    elif generator2:
-#        result = [ evaluateTwoArgFunction( func, arg1, i, level + 1 ) for i in arg2.getGenerator( ) ]
-#    elif list1:
-#        if list2:
-#            result = [ evaluateTwoArgFunction( func, arg1[ index ], arg2[ index ], level + 1 ) for index in range( 0, min( len1, len2 ) ) ]
-#        else:
-#            result = [ evaluateTwoArgFunction( func, i, arg2, level + 1 ) for i in arg1 ]
-#
-#    else:
-#        if list2:
-#            result = [ evaluateTwoArgFunction( func, arg1, j, level + 1 ) for j in arg2 ]
-#        else:
-#            result = func( arg2, arg1 )
-#
-#    # check for arguments to be echoed, and echo them before the result
-#    if level == 0 and not g.operatorList and len( g.echoArguments ) > 0:
-#        returnValue = list( g.echoArguments )
-#        returnValue.append( result )
-#        g.echoArguments = [ ]
-#        return returnValue
-#    else:
-#        return result
-
-
-# //******************************************************************************
-# //
 # //  callers
 # //
 # //******************************************************************************
@@ -1705,7 +1668,8 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 if not evaluateListOperator( term, index, currentValueList ):
                     return False
         else:
-            # handle a plain old value (i.e., a number or list, not an operator)
+            # handle a plain old value (i.e., a number or list, not an operator)... or
+            # a reference to a user-defined function
             try:
                 currentValueList.append( parseInputValue( term, g.inputRadix ) )
 
@@ -1743,6 +1707,20 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                     print( 'rpn:  Unrecognized operator \'{0}\'.'.format( term ) )
 
                 return False
+
+            # handle a user-defined function
+            if isinstance( currentValueList[ -1 ], RPNFunction ):
+                if currentValueList[ -1 ].argCount == 1:
+                    if not operators[ 'eval' ].evaluate( 'eval', index, currentValueList ):
+                        return False
+                elif currentValueList[ -1 ].argCount == 2:
+                    if not operators[ 'eval2' ].evaluate( 'eval2', index, currentValueList ):
+                        return False
+                elif currentValueList[ -1 ].argCount == 3:
+                    if not operators[ 'eval3' ].evaluate( 'eval3', index, currentValueList ):
+                        return False
+
+                return True
 
     except ( ValueError, AttributeError, TypeError ) as error:
         print( 'rpn:  error for operator at arg ' + format( index ) + ':  {0}'.format( error ) )
@@ -1833,6 +1811,20 @@ def setUserData( key, value ):
     return value
 
 
+# //******************************************************************************
+# //
+# //  createUserFunction
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def createUserFunction( key, func ):
+    g.userFunctions[ key ] = func
+    g.userFunctionsAreDirty = True
+
+    return key
+
+
 @twoArgFunctionEvaluator( )
 def evaluateFunction( n, func ):
     return func.evaluate( n )
@@ -1889,6 +1881,7 @@ functionOperators = [
     'eval3',
     'filter',
     'filter_by_index',
+    'function',
     'limit',
     'limitn',
     'nprod',
@@ -3231,6 +3224,9 @@ operators = {
     'eval3'                          : RPNOperator( evaluateFunction3,
                                                     4, [ RPNOperator.Default, RPNOperator.Default,
                                                          RPNOperator.Default, RPNOperator.Function ] ),
+
+    'function'                       : RPNOperator( createUserFunction,
+                                                    2, [ RPNOperator.String, RPNOperator.Function ] ),
 
     'limit'                          : RPNOperator( evaluateLimit,
                                                     2, [ RPNOperator.Default, RPNOperator.Function ] ),

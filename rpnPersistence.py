@@ -207,45 +207,6 @@ def saveConstants( constants ):
 
 # //******************************************************************************
 # //
-# //  openFunctionCache
-# //
-# //******************************************************************************
-
-def openFunctionCache( name ):
-    if name in g.functionCaches:
-        return g.functionCaches[ name ]
-    else:
-        debugPrint( 'opening', name, 'function cache database' )
-        g.functionCaches[ name ] = PersistentDict( getCacheFileName( name ) )
-        return g.functionCaches[ name ]
-
-
-# //******************************************************************************
-# //
-# //  cachedFunction
-# //
-# //******************************************************************************
-
-def cachedFunction( name ):
-    def namedCachedFunction( func ):
-        @functools.wraps( func )
-
-        def cacheResults( *args, **kwargs ):
-            cache = openFunctionCache( name )
-            if ( args, kwargs ) in cache:
-                return cache[ ( args, kwargs ) ]
-            else:
-                result = func( *args, **kwargs )
-                cache[ ( args, kwargs ) ] = result
-                return result
-
-        return cacheResults
-
-    return namedCachedFunction
-
-
-# //******************************************************************************
-# //
 # //  getCacheFileName
 # //
 # //******************************************************************************
@@ -431,7 +392,36 @@ class PersistentDict( MutableMapping ):
 # //******************************************************************************
 
 def getUserDataFileName( ):
-    return g.dataPath + os.sep + 'rpn.cfg'
+    return g.dataPath + os.sep + 'user_data.cfg'
+
+
+# //******************************************************************************
+# //
+# //  getUserFunctionsFileName
+# //
+# //******************************************************************************
+
+def getUserFunctionsFileName( ):
+    return g.dataPath + os.sep + 'user_functions.cfg'
+
+
+# //******************************************************************************
+# //
+# //  loadUserDataFile
+# //
+# //******************************************************************************
+
+def loadUserDataFile( ):
+    config = configparser.ConfigParser( )
+    config.read( getUserDataFileName( ) )
+
+    try:
+        items = config.items( 'User Data' )
+    except:
+        return
+
+    for tuple in items:
+        g.userData[ tuple[ 0 ] ] = tuple[ 1 ]
 
 
 # //******************************************************************************
@@ -460,19 +450,40 @@ def saveUserDataFile( ):
 
 # //******************************************************************************
 # //
-# //  loadUserDataFile
+# //  openFunctionCache
 # //
 # //******************************************************************************
 
-def loadUserDataFile( ):
-    config = configparser.ConfigParser( )
-    config.read( getUserDataFileName( ) )
+def openFunctionCache( name ):
+    if name in g.functionCaches:
+        return g.functionCaches[ name ]
+    else:
+        debugPrint( 'opening', name, 'function cache database' )
+        g.functionCaches[ name ] = PersistentDict( getCacheFileName( name ) )
+        return g.functionCaches[ name ]
 
-    try:
-        items = config.items( 'User Data' )
-    except:
-        return
 
-    for tuple in items:
-        g.userData[ tuple[ 0 ] ] = tuple[ 1 ]
+# //******************************************************************************
+# //
+# //  cachedFunction
+# //
+# //******************************************************************************
+
+def cachedFunction( name ):
+    def namedCachedFunction( func ):
+        @functools.wraps( func )
+
+        def cacheResults( *args, **kwargs ):
+            cache = openFunctionCache( name )
+            if ( args, kwargs ) in cache:
+                return cache[ ( args, kwargs ) ]
+            else:
+                result = func( *args, **kwargs )
+                cache[ ( args, kwargs ) ] = result
+                return result
+
+        return cacheResults
+
+    return namedCachedFunction
+
 
