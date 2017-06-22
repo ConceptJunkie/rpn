@@ -863,6 +863,43 @@ class RPNFunction( object ):
 
                 if not valueList:
                     self.code += function
+            elif term[ 0 ] == '@' and term[ 1 : ] in g.userFunctions:
+                function2 = g.userFunctions[ term[ 1 : ] ].getCode( )
+                debugPrint( 'function:', function2 )
+
+                function2 = function2.replace( 'def rpnInternalFunction(', '( lambda' )
+                function2 = function2.replace( ' ): return', ':' )
+
+                function2 += ' )( '
+
+                first = True
+
+                argList = [ ]
+
+                operands = g.userFunctions[ term[ 1 : ] ].argCount
+
+                if len( args ) < operands:
+                    raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
+
+                for i in range( 0, operands ):
+                    argList.insert( 0, args.pop( ) )
+
+                for arg in argList:
+                    if first:
+                        first = False
+                    else:
+                        function2 += ', '
+
+                    function2 += arg
+
+                function2 += ' )'
+
+                args.append( function2 )
+
+                if not valueList:
+                    self.code += function2
+            elif term[ 0 ] == '$' and term[ 1 : ] in g.userData:
+                args.append( g.userData[ term[ 1 : ] ] )
             else:
                 args.append( term )
 
@@ -2216,6 +2253,10 @@ listOperators = {
 
     'is_friendly'           : RPNOperator( isFriendly,
                                            1, [ RPNOperator.List ] ),
+
+    'geometric_recurrence'  : RPNOperator( getNthGeometricRecurrence,
+                                           4, [ RPNOperator.List, RPNOperator.List, RPNOperator.List,
+                                                RPNOperator.PositiveInteger ] ),
 
     'linear_recurrence'     : RPNOperator( getNthLinearRecurrence,
                                            3, [ RPNOperator.List, RPNOperator.List,

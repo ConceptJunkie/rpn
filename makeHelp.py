@@ -5598,7 +5598,7 @@ and seconds.
 # //******************************************************************************
 
     'break_on' : [
-'function', '',
+'functions', '',
 '''
 ''',
 '''
@@ -5606,7 +5606,7 @@ and seconds.
 [ 'filter', 'filter_by_index', 'lambda', 'unfilter' ] ],
 
     'eval' : [
-'function', 'evaluates the function n for the given argument[s] k',
+'functions', 'evaluates the function n for the given argument[s] k',
 '''
 'eval' is the simplest operator for user-defined functions.  It just plugs
 in the value n into the function k and returns the result.
@@ -5618,7 +5618,7 @@ in the value n into the function k and returns the result.
 [ 'eval2', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
 
     'eval2' : [
-'function', 'evaluates the function c for the given arguments a and b',
+'functions', 'evaluates the function c for the given arguments a and b',
 '''
 'eval2' is the simplest operator for user-defined functions with 2 variables.
 It just plugs in the values a and b into the function c and returns the
@@ -5629,7 +5629,7 @@ result.
 [ 'eval', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
 
     'eval3' : [
-'function', 'evaluates the function d for the given arguments a, b, and c',
+'functions', 'evaluates the function d for the given arguments a, b, and c',
 '''
 'eval3' is the simplest operator for user-defined functions with 3 variables.
 It just plugs in the values a, b, and c into the function d and returns the
@@ -5646,7 +5646,7 @@ Of course, rpn has better ways to do this:
 [ 'eval', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
 
     'filter' : [
-'function', 'filters a list n using function k',
+'functions', 'filters a list n using function k',
 '''
 The function is applied to each element of the list and a new list is returned
 which consists only of those elements for which the function returned a
@@ -5659,7 +5659,7 @@ Which of the first 80 fibonacci numbers is prime?
 [ 'break_on', 'filter_by_index', 'lambda', 'unfilter' ] ],
 
     'filter_by_index' : [
-'function', 'filters a list n using function k applied to the list indexes',
+'functions', 'filters a list n using function k applied to the list indexes',
 '''
 ''',
 '''
@@ -5667,16 +5667,17 @@ Which of the first 80 fibonacci numbers is prime?
 [ 'filter', 'lambda', 'unfilter_by_index' ] ],
 
     'function': [
-'function', 'creates a user-defined function k named n',
+'functions', 'creates a user-defined function k named n',
 '''
+Functions are invoked by name, prefixed with '@'.
 ''',
 '''
 ''' + makeCommandExample( 'test_function lambda x 4 ** function' ) + '''
-''' + makeCommandExample( '1 10 range $test_function' ),
+''' + makeCommandExample( '1 10 range @test_function' ),
 [ 'eval', 'eval2', 'eval3', 'filter', 'lambda', 'recurrence' ] ],
 
     'lambda' : [
-'function', 'begins a function definition',
+'functions', 'begins a function definition',
 '''
 Allows the user to define a function for use with the eval, nsum, nprod,
 and limit operators, etc.  Basically 'lambda' starts an expression that
@@ -5688,10 +5689,10 @@ See the 'user_functions' help topic for more details.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( 'inf lambda x 1 + fib x fib / limit' ),
-[ 'eval', 'function', 'limit', 'nsum', 'nprod' ] ],
+[ 'eval', 'functions', 'limit', 'nsum', 'nprod' ] ],
 
     'limit' : [
-'function', 'calculates the limit of function k( x ) as x approaches n',
+'functions', 'calculates the limit of function k( x ) as x approaches n',
 '''
 ''',
 '''
@@ -5699,7 +5700,7 @@ See the 'user_functions' help topic for more details.
 [ 'limitn', 'lambda' ] ],
 
     'limitn' : [
-'function', 'calculates the limit of function k( x ) as x approaches n from above',
+'functions', 'calculates the limit of function k( x ) as x approaches n from above',
 '''
 ''',
 '''
@@ -5707,7 +5708,7 @@ See the 'user_functions' help topic for more details.
 [ 'limit', 'lamdba' ] ],
 
     'nprod' : [
-'function', 'calculates the product of function c over the range of a through b',
+'functions', 'calculates the product of function c over the range of a through b',
 '''
 ''',
 '''
@@ -5715,7 +5716,7 @@ See the 'user_functions' help topic for more details.
 [ 'nsum', 'lambda' ] ],
 
     'nsum' : [
-'function', 'calculates the sum of function c over the range of a through b',
+'functions', 'calculates the sum of function c over the range of a through b',
 '''
 ''',
 '''
@@ -5723,7 +5724,7 @@ See the 'user_functions' help topic for more details.
 [ 'nprod', 'lambda' ] ],
 
     'plot' : [
-'function', 'plot function c for values of x between a and b',
+'functions', 'plot function c for values of x between a and b',
 '''
 'plot' is very much considered experimental.  It's easy to construct an
 incompletely-defined function and cause mpmath to go into an infinite loop.
@@ -5747,7 +5748,7 @@ c:\>rpn 1 10 lambda x 1 + fib x fib / plot
 [ 'plot2', 'lambda', 'plotc' ] ],
 
     'plot2' : [
-'function', 'plot a 3D function '
+'functions', 'plot a 3D function '
 '''
 'plot2' is very much considered experimental.
 
@@ -5763,7 +5764,7 @@ a number of extra libraries.
 [ 'plot', 'lamdba', 'plotc' ] ],
 
     'plotc' : [
-'function', 'plot a complex function e for values of x between a and b real, c and d imaginary',
+'functions', 'plot a complex function e for values of x between a and b real, c and d imaginary',
 '''
 'plotc' is very much considered experimental.
 
@@ -5775,7 +5776,7 @@ a number of extra libraries.
 [ 'plot', 'plot2', 'lambda' ] ],
 
     'recurrence' : [
-'function', 'evaluates the function k times, starting with n and using the result of each previous function call as an argument for the next',
+'functions', 'evaluates the function k times, starting with n and using the result of each previous function call as an argument for the next',
 '''
 ''',
 '''
@@ -5783,7 +5784,7 @@ a number of extra libraries.
 [ 'eval', 'filter', 'lambda' ] ],
 
     'unfilter' : [
-'function', 'filters a list n using the inverse of function k',
+'functions', 'filters a list n using the inverse of function k',
 '''
 The function is applied to each element of the list and a new list is returned
 which consists only of those elements for which the function returns a zero
@@ -5797,7 +5798,7 @@ value.
 [ 'filter', 'unfilter_by_index', 'lamdba' ] ],
 
     'unfilter_by_index' : [
-'function', 'filters a list n using the inverse of function k applied to the list indexes',
+'functions', 'filters a list n using the inverse of function k applied to the list indexes',
 '''
 ''',
 '''
@@ -5805,7 +5806,7 @@ value.
 [ 'filter_by_index', 'unfilter', 'lamdba' ] ],
 
     'x' : [
-'function', 'used as a variable in user-defined functions',
+'functions', 'used as a variable in user-defined functions',
 '''
 See the 'user_functions' help topic for more details.
 ''',
@@ -5816,7 +5817,7 @@ See the 'user_functions' help topic for more details.
 [ 'lamdba', 'y', 'z' ] ],
 
     'y' : [
-'function', 'used as a variable in user-defined functions',
+'functions', 'used as a variable in user-defined functions',
 '''
 ''',
 '''
@@ -5824,7 +5825,7 @@ See the 'user_functions' help topic for more details.
 [ 'lamdba', 'x', 'z' ] ],
 
     'z' : [
-'function', 'used as a variable in user-defined functions',
+'functions', 'used as a variable in user-defined functions',
 '''
 ''',
 '''
@@ -7923,6 +7924,28 @@ be an appropriate term to describe having a number of squarefree other than 1
 '''
 ''',
 [ ] ],
+
+    'geometric_recurrence' : [
+'number_theory', 'calculates the dth value of a linear recurrence specified by a list of factors (a), powers (b) and of seeds (c)',
+'''
+The factors (a) indicate the multiple of each preceding value to add to create
+the next value in the recurrence list, listed from right to left (meaning the
+last factor corresponds to the n - 1'th value in the sequence.  For the
+Fibonacci or Lucas lists, this would be [ 1 1 ], meaning the previous value,
+plus the one before that.  The tribonacci sequence would have a factor list of
+[ 1 1 1 ].
+
+The seeds (c), simply specify a list of initial values.  The number of seeds
+cannot exceed the number of factors, but there may be fewer seeds.
+
+The is some disagreement about whether the zeroes count as part of these linear
+recurrence sequences.  In rpn, for the 'fib' and 'lucas', 'tribonacci' operators,
+etc., in accordance with mpmath, they do not.  However, Sloane (oeis.org) does
+count the zeroes.
+''',
+'''
+''',
+[ 'linear_recurrence' ] ],
 
     'linear_recurrence' : [
 'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b)',

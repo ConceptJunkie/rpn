@@ -568,6 +568,61 @@ def getNthLinearRecurrence( recurrence, seeds, n ):
 
 # //******************************************************************************
 # //
+# //  getNthGeometricRecurrence
+# //
+# //******************************************************************************
+
+def getNthGeometricRecurrence( recurrence, powers, seeds, n ):
+    if not isinstance( recurrence, list ):
+        return getNthGeometricRecurrence( [ recurrence ], powers, seeds, n )
+
+    if not isinstance( powers, list ):
+        return getNthGeometricRecurrence( recurrence, [ powers ], seeds, n )
+
+    if not isinstance( seeds, list ):
+        return getNthGeometricRecurrence( recurrence, powers, [ seeds ], n )
+
+    if not seeds:
+        raise ValueError( 'for operator \'geometric_recur\', seeds list cannot be empty' )
+
+    if len( recurrence ) != len( powers ):
+        raise ValueError( 'for operator \'geometric_recur\', recurrence and powers lists must be the same length' )
+
+    # calculate missing seeds
+    for i in range( len( seeds ), len( recurrence ) ):
+        seeds.append( getNthGeometricRecurrence( recurrence[ : i ], powers[ : i ], seeds, i ) )
+
+    if isinstance( n, list ):
+        return [ getNthGeometricRecurrence( recurrence, powers, seeds, real( i ) ) for i in n ]
+
+    if real_int( n ) < len( seeds ):
+        return seeds[ int( n ) - 1 ]
+    else:
+        if not recurrence:
+            raise ValueError( 'internal error:  for operator \'geometric_recur\', '
+                              'recurrence list cannot be empty ' )
+
+        if not powers:
+            raise ValueError( 'internal error:  for operator \'geometric_recur\', '
+                              'powers list cannot be empty ' )
+
+        result = [ ]
+        result.extend( seeds )
+
+        for i in arange( len( seeds ), n ):
+            newValue = 0
+
+            for j in range( -1, -( len( seeds ) + 1 ), -1 ):
+                newValue = fadd( newValue, fmul( power( result[ j ], powers[ j ] ), recurrence[ j ] ) )
+
+            result.append( newValue )
+            del result[ 0 ]
+
+        return result[ -1 ]
+
+
+# //******************************************************************************
+# //
 # //  makePythagoreanTriple
 # //
 # //  Euclid's formula

@@ -2266,6 +2266,12 @@ def runNumberTheoryOperatorTests( ):
     # gamma
     testOperator( '3 gamma' )
 
+    # geometric_recurrence
+    expectEqual( '-a800 [ 1 1 ] [ 2 2 ] [ 0 1 ] 1 15 range geometric_recurrence', '283 oeis 15 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 3 1 ] [ 0 1 ] 1 18 range geometric_recurrence', '280 oeis 18 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 2 1 ] [ 0 1 ] 1 25 range geometric_recurrence', '278 oeis 25 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 1 3 ] [ 0 1 ] 1 11 range geometric_recurrence', '284 oeis 11 left' )
+
     # harmonic
     testOperator( '34 harmonic' )
     expectEqual( '1 1000 range lambda x harmonic x harmonic exp x harmonic log * + floor x sigma - eval', '57641 oeis 1000 left' )
