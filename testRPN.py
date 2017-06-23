@@ -2252,6 +2252,7 @@ def runNumberTheoryOperatorTests( ):
     expectException( '-1 factorial' )
     expectEqual( '0 100 range lambda x 2 * ! x 2 * 1 + ! * x ! sqr / eval', '909 oeis 101 left' )
     expectEqual( '1 99 range lambda 3 2 x * ! * x 2 + ! x 1 - ! * / eval', '245 oeis 100 left 99 right' )
+    expectEqual( '-a20 1 8 range lambda 0 x range 3 * 1 + factorial 0 x range x + factorial divide prod eval', '36687 oeis 9 left 8 right' )
 
     # fibonacci
     testOperator( '1 50 range fibonacci' )

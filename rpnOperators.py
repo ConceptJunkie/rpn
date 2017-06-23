@@ -755,6 +755,7 @@ class RPNFunction( object ):
         self.code += ' ): return '
 
         args = [ ]
+        listArgs = [ ]
         listDepth = 0
 
         debugPrint( 'terms', valueList )
@@ -781,18 +782,31 @@ class RPNFunction( object ):
                 function += '( )'
 
                 if listDepth > 0:
-                    args[ -1 ].append( function )
+                    listArgs[ listDepth - 1 ].append( function )
                 else:
                     args.append( function )
 
                 if not valueList:
                     self.code += function
             elif term == '[':
+                listArgs.append( [ ] )
                 listDepth += 1
-                args.append( '[ ' )
             elif term == ']':
+                arg = '[ '
+
+                for listArg in listArgs[ listDepth - 1 ]:
+                    if arg != '[ ':
+                        arg += ', '
+
+                    arg += listArg
+
+                arg += ' ]'
+
+                args.append( arg )
+
+                del listArgs[ listDepth - 1 ]
+
                 listDepth -= 1
-                args[ -1 ] += ' ]'
             elif term in operators:
                 function = operators[ term ].function.__name__
                 debugPrint( 'function', function )
@@ -813,11 +827,18 @@ class RPNFunction( object ):
 
                 operands = operators[ term ].argCount
 
-                if len( args ) < operands:
-                    raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
+                if listDepth > 0:
+                    if len( listArgs[ listDepth - 1 ] ) < operands:
+                        raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
 
-                for i in range( 0, operands ):
-                    argList.insert( 0, args.pop( ) )
+                    for i in range( 0, operands ):
+                        argList.insert( 0, listArgs[ listDepth - 1 ].pop( ) )
+                else:
+                    if len( args ) < operands:
+                        raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
+
+                    for i in range( 0, operands ):
+                        argList.insert( 0, args.pop( ) )
 
                 for arg in argList:
                     if first:
@@ -830,7 +851,7 @@ class RPNFunction( object ):
                 function += ' )'
 
                 if listDepth > 0:
-                    args[ -1 ] += function
+                    listArgs[ listDepth - 1 ].append( function )
                 else:
                     args.append( function )
 
@@ -873,7 +894,7 @@ class RPNFunction( object ):
                 function += ' )'
 
                 if listDepth > 0:
-                    args[ -1 ] += function
+                    listArgs[ listDepth - 1 ].append( function )
                 else:
                     args.append( function )
 
@@ -911,7 +932,7 @@ class RPNFunction( object ):
                 function2 += ' )'
 
                 if listDepth > 0:
-                    args[ -1 ] += function2
+                    listArgs[ listDepth - 1 ].append( function2 )
                 else:
                     args.append( function2 )
 
@@ -919,15 +940,12 @@ class RPNFunction( object ):
                     self.code += function2
             elif term[ 0 ] == '$' and term[ 1 : ] in g.userData:
                 if listDepth > 0:
-                    args[ -1 ] += g.userData[ term[ 1 : ] ]
+                    listArgs[ listDepth - 1 ].append( g.userData[ term[ 1 : ] ] )
                 else:
                     args.append( g.userData[ term[ 1 : ] ] )
             else:
                 if listDepth > 0:
-                    if args[ -1 ] != '[ ':
-                        args[ -1 ] += ', '
-
-                    args[ -1 ] += term
+                    listArgs[ listDepth - 1 ].append( term )
                 else:
                     args.append( term )
 

@@ -18,9 +18,6 @@
 #  http://mathworld.wolfram.com/FavardConstants.html
 #  How can we create a lambda to produce multiple Favard constants with a single expression?
 
-#  I want this to work:
-#  rpn 1 10 range lambda 0 x range 3 * 1 + factorial 0 x range x + factorial divide prod eval
-
 from __future__ import print_function
 
 import six
