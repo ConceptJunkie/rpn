@@ -955,6 +955,22 @@ def getListPermutations( n, k ):
 
 # //******************************************************************************
 # //
+# //  equalsOneOf
+# //
+# //******************************************************************************
+
+# rpn 1 1000 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter
+
+def equalsOneOf( value, targetList ):
+    for i in targetList:
+        if value == i:
+            return 1
+
+    return 0
+
+
+# //******************************************************************************
+# //
 # //  forEach
 # //
 # //******************************************************************************
@@ -962,4 +978,5 @@ def getListPermutations( n, k ):
 def forEach( list, func ):
     for i in list:
         yield func( *i )
+
 

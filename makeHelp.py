@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1002
+maxExampleCount = 1008
 
 
 # //******************************************************************************
@@ -1642,6 +1642,15 @@ Division is supported for measurements.
 ''' + makeCommandExample( 'miles hour / furlongs fortnight / convert' ),
 [ 'multiply', 'add', 'subtract', 'reciprocal' ] ],
 
+    'equals_one_of' : [
+'arithmetic', 'returns 1 if n equals any value in the list k, otherwise returns 0',
+'''
+''',
+'''
+''' + makeCommandExample( '0 [ 0 1 2 ] equals_one_of' ) + '''
+''' + makeCommandExample( '49 1 10 range sqr equals_one_of' ),
+[ 'is_equal' ] ],
+
     'floor' : [
 'arithmetic', 'calculates the next lower integer for n',
 '''
@@ -1731,7 +1740,7 @@ expects real, integral arguments.
 ''' + makeCommandExample( '1 0 is_equal' ) + '''
 ''' + makeCommandExample( '1 1 is_equal' ) + '''
 ''' + makeCommandExample( 'pi 2 / 1 asin is_equal' ),
-[ 'is_not_equal', 'is_less', 'is_greater' ] ],
+[ 'is_not_equal', 'is_less', 'is_greater', 'equals_one_of' ] ],
 
     'is_even' : [
 'arithmetic', 'returns whether n is an even number',
@@ -5776,7 +5785,7 @@ a number of extra libraries.
 [ 'plot', 'plot2', 'lambda' ] ],
 
     'recurrence' : [
-'functions', 'evaluates the function k times, starting with n and using the result of each previous function call as an argument for the next',
+'functions', 'evaluates the function c, b times, starting with a and using the result of each previous function call as an argument for the next',
 '''
 ''',
 '''
@@ -6298,7 +6307,24 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits' ] ],
+[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_right_digits' ] ],
+
+    'get_left_digits' : [
+'lexicography', 'returns a number composed of the left k digits of n',
+'''
+''',
+'''
+''' + makeCommandExample( '1234567890 5 get_left_digits' ) + '''
+''' + makeCommandExample( '1000001 4 get_left_digits' ),
+[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_digits', 'get_right_digits' ] ],
+
+    'get_left_truncations' : [
+'lexicography', 'returns the blah blah blah',
+'''
+''',
+'''
+''',
+[ 'count_digits', 'get_right_truncations', 'has_only_digits' ] ],
 
     'get_nonzero_base_k_digits' : [
 'lexicography', 'returns the list of non-zero digits comprising integer n in base k',
@@ -6320,13 +6346,14 @@ on the digits that comprise an integer.
 ''',
 [ 'get_digits', 'get_nonzero_base_k_digits' ] ],
 
-    'get_left_truncations' : [
-'lexicography', 'returns the blah blah blah',
+    'get_right_digits' : [
+'lexicography', 'returns a number composed of the right k digits of n',
 '''
 ''',
 '''
-''',
-[ 'count_digits', 'get_right_truncations', 'has_only_digits' ] ],
+''' + makeCommandExample( '1234567890 5 get_right_digits' ) + '''
+''' + makeCommandExample( '1000001 4 get_right_digits' ),
+[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_digits' ] ],
 
     'get_right_truncations' : [
 'lexicography', 'returns the blah blah blah',

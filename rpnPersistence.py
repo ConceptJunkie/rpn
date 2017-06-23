@@ -14,7 +14,10 @@
 
 import six
 
-if not six.PY3:
+if six.PY3:
+    from functools import lru_cache
+else:
+    from pylru import lrudecorator as lru_cache
     FileNotFoundError = IOError
 
 import bz2
@@ -43,6 +46,7 @@ from rpnVersion import PROGRAM_VERSION
 # //
 # //******************************************************************************
 
+@lru_cache( 1 )
 def loadFactorCache( ):
     g.factorCache = PersistentDict( g.dataPath + os.sep + 'factors.cache' )
 
@@ -211,6 +215,7 @@ def saveConstants( constants ):
 # //
 # //******************************************************************************
 
+@lru_cache( 1 )
 def getCacheFileName( name ):
     return g.dataPath + os.sep + name + '.cache'
 
@@ -391,6 +396,7 @@ class PersistentDict( MutableMapping ):
 # //
 # //******************************************************************************
 
+@lru_cache( 1 )
 def getUserDataFileName( ):
     return g.dataPath + os.sep + 'user_data.cfg'
 
@@ -401,6 +407,7 @@ def getUserDataFileName( ):
 # //
 # //******************************************************************************
 
+@lru_cache( 1 )
 def getUserFunctionsFileName( ):
     return g.dataPath + os.sep + 'user_functions.cfg'
 
@@ -485,5 +492,4 @@ def cachedFunction( name ):
         return cacheResults
 
     return namedCachedFunction
-
 

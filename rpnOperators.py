@@ -755,6 +755,7 @@ class RPNFunction( object ):
         self.code += ' ): return '
 
         args = [ ]
+        listDepth = 0
 
         debugPrint( 'terms', valueList )
 
@@ -779,10 +780,19 @@ class RPNFunction( object ):
 
                 function += '( )'
 
-                args.append( function )
+                if listDepth > 0:
+                    args[ -1 ].append( function )
+                else:
+                    args.append( function )
 
                 if not valueList:
                     self.code += function
+            elif term == '[':
+                listDepth += 1
+                args.append( '[ ' )
+            elif term == ']':
+                listDepth -= 1
+                args[ -1 ] += ' ]'
             elif term in operators:
                 function = operators[ term ].function.__name__
                 debugPrint( 'function', function )
@@ -819,7 +829,10 @@ class RPNFunction( object ):
 
                 function += ' )'
 
-                args.append( function )
+                if listDepth > 0:
+                    args[ -1 ] += function
+                else:
+                    args.append( function )
 
                 if not valueList:
                     self.code += function
@@ -859,7 +872,10 @@ class RPNFunction( object ):
 
                 function += ' )'
 
-                args.append( function )
+                if listDepth > 0:
+                    args[ -1 ] += function
+                else:
+                    args.append( function )
 
                 if not valueList:
                     self.code += function
@@ -894,14 +910,26 @@ class RPNFunction( object ):
 
                 function2 += ' )'
 
-                args.append( function2 )
+                if listDepth > 0:
+                    args[ -1 ] += function2
+                else:
+                    args.append( function2 )
 
                 if not valueList:
                     self.code += function2
             elif term[ 0 ] == '$' and term[ 1 : ] in g.userData:
-                args.append( g.userData[ term[ 1 : ] ] )
+                if listDepth > 0:
+                    args[ -1 ] += g.userData[ term[ 1 : ] ]
+                else:
+                    args.append( g.userData[ term[ 1 : ] ] )
             else:
-                args.append( term )
+                if listDepth > 0:
+                    if args[ -1 ] != '[ ':
+                        args[ -1 ] += ', '
+
+                    args[ -1 ] += term
+                else:
+                    args.append( term )
 
         debugPrint( 'valueList:', self.valueList[ self.startingIndex : ] )
         debugPrint( 'code:', self.code )
@@ -1607,6 +1635,7 @@ def unpackUnitExpression( expression, addNullUnit = True ):
 def evaluateTerm( term, index, currentValueList, lastArg = True ):
     isList = isinstance( term, list )
     isGenerator = isinstance( term, RPNGenerator )
+    listDepth = 0
 
     try:
         # handle a modifier operator
@@ -2029,7 +2058,17 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     # arithmetic
+    'equals_one_of'         : RPNOperator( equalsOneOf,
+                                           2, [ RPNOperator.Default, RPNOperator.List ],
+                                           RPNOperator.measurementsAllowed ),
+
     'gcd'                   : RPNOperator( getGCDOfList,
+                                           1, [ RPNOperator.List ] ),
+
+    'geometric_mean'        : RPNOperator( calculateGeometricMean,
+                                           1, [ RPNOperator.List ] ),
+
+    'harmonic_mean'         : RPNOperator( calculateHarmonicMean,
                                            1, [ RPNOperator.List ] ),
 
     'lcm'                   : RPNOperator( getLCMOfList,
@@ -2039,12 +2078,6 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     'mean'                  : RPNOperator( calculateArithmeticMean,
-                                           1, [ RPNOperator.List ] ),
-
-    'geometric_mean'        : RPNOperator( calculateGeometricMean,
-                                           1, [ RPNOperator.List ] ),
-
-    'harmonic_mean'         : RPNOperator( calculateHarmonicMean,
                                            1, [ RPNOperator.List ] ),
 
     'min'                   : RPNOperator( getMinimum,
@@ -3422,8 +3455,14 @@ operators = {
     'get_digits'                     : RPNOperator( getDigits,
                                                     1, [ RPNOperator.Integer ] ),
 
+    'get_left_digits'                : RPNOperator( getLeftDigits,
+                                                    2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
+
     'get_left_truncations'           : RPNOperator( getLeftTruncations,
                                                     1, [ RPNOperator.Integer ] ),
+
+    'get_right_digits'                : RPNOperator( getRightDigits,
+                                                    2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
 
     'get_right_truncations'          : RPNOperator( getRightTruncations,
                                                     1, [ RPNOperator.Integer ] ),

@@ -278,6 +278,9 @@ def runArithmeticOperatorTests( ):
     expectResult( '4 cups 2 cups /', 2 )
     expectException( '1 0 divide' )
 
+    # equals_one_of
+    expectEqual( '1 33100 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter', '353 oeis 1000 left' )
+
     # floor
     expectResult( '-0.4 floor', -1 )
     expectResult( '1 floor', 1 )
@@ -1057,6 +1060,8 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '-a20 -c 120 108 binomial' )
     expectEqual( '8 1 992 sized_range lambda x 2 * 8 - 7 binomial 8 / eval', '973 oeis 992 left' )
     expectEqual( '0 999 range lambda x 3 binomial x 2 binomial + x 1 binomial + x 0 binomial + eval', '125 oeis 1000 left' )
+    expectEqual( '0 1002 range lambda x 4 binomial eval', '332 oeis 1003 left' )
+    #expectEqual( '0 500 range lambda 2 2 x * 1 + ** 2 x * 1 + x 1 + binomial eval', '346 oeis 501 left' )
 
     # combinations
 
@@ -1591,6 +1596,7 @@ def runFunctionOperatorTests( ):
     expectEqual( '2 99 lambda x get_digits sqr sum recurrence', '216 oeis 100 left' )
     expectEqual( '3 99 lambda x get_digits sqr sum recurrence', '218 oeis 100 left' )
     expectEqual( '5 99 lambda x get_digits sqr sum recurrence', '221 oeis 100 left' )
+    expectEqual( '-a1000 1 10000 lambda x tan recurrence floor', '319 oeis 10001 left' )
 
     # unfilter
     expectEqual( '1 10100 range lambda x is_square unfilter', '37 oeis 10000 left' )
@@ -1801,6 +1807,14 @@ def runLexicographyOperatorTests( ):
 
     if slow:
         expectEqual( '0 10000 range lambda x get_digits 1 left eval flatten', '30 oeis 10001 left' )
+
+    # get_left_digits
+
+    # get_right_digits
+    expectEqual( '-a420 1 2000 range lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 42 left 41 right' )
+
+    if slow:
+        expectEqual( '-a21000 dddd[159] build_numbers lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 573 left 572 right' )
 
     # has_any_digits
     expectEqual( '1 1113 primes lambda x 2357 has_any_digits filter', '179336 oeis 1000 left' )
@@ -2803,6 +2817,7 @@ def runFigurateNumberOperatorTests( ):
 
     # hexagonal
     testOperator( '340 hexagonal' )
+    expectEqual( '0 1000 range hexagonal', '384 oeis 1001 left' )
 
     # hexagonal_pentagonal
     testOperator( '-a250 -c 107 hexagonal_pentagonal' )
@@ -2913,6 +2928,7 @@ def runFigurateNumberOperatorTests( ):
 
     # pentagonal
     testOperator( '16 pentagonal' )
+    expectEqual( '0 1000 range pentagonal', '326 oeis 1001 left' )
 
     # pentagonal_square
     testOperator( '-a70 -c 10 pentagonal_square' )
@@ -2934,6 +2950,7 @@ def runFigurateNumberOperatorTests( ):
 
     # pyramid
     testOperator( '304 pyramid' )
+    expectEqual( '0 1000 range pyramid', '330 oeis 1001 left' )
 
     # rhombdodec
     testOperator( '89 rhombdodec' )
