@@ -2036,9 +2036,9 @@ modifiers = {
 
     ']'                 : RPNOperator( decrementNestedListLevel, 0 ),
 
-    '{'                 : RPNOperator( startOperatorList, 0 ),
+    '('                 : RPNOperator( startOperatorList, 0 ),
 
-    '}'                 : RPNOperator( endOperatorList, 0 ),
+    ')'                 : RPNOperator( endOperatorList, 0 ),
 }
 
 

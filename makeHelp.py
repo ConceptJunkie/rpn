@@ -519,7 +519,7 @@ It is not currently possible to convert between hertz and 1/second.  The
 dimensional analysis fails.  This is the only instance where two different
 unit types are so related (i.e., one is the reciprocal of the other).
 
-'{' and '}' (multiple operators) don't work with generators because the
+'(' and ')' (multiple operators) don't work with generators because the
 generator only works once.
 
 'collate' does not work with generators.
@@ -7390,21 +7390,21 @@ take three or more operands do not work with lists.
 ''' + makeCommandExample( '[ [ 1 2 3 4 ] [ 2 3 4 5 ] [ 3 4 5 6 ] ] [ 8 9 10 11 ] +' ),
 [ '[' ] ],
 
-    '{' : [
+    '(' : [
 'modifiers', 'starts an operator list',
 '''
 ''',
 '''
 ''',
-[ '}' ] ],
+[ ')' ] ],
 
-    '}' : [
+    ')' : [
 'modifiers', 'end an operator list',
 '''
 ''',
 '''
 ''',
-[ '{' ] ],
+[ '(' ] ],
 
     'dup_term' : [
 'modifiers', 'duplicates an argument n k times',

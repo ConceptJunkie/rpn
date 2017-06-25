@@ -166,6 +166,18 @@ def validateArguments( terms ):
         print( 'rpn:  mismatched brackets (count: {})'.format( bracketCount ) )
         return False
 
+    parenCount = 0
+
+    for term in terms:
+        if term == '(':
+            parenCount += 1
+        elif term == ')':
+            parenCount -= 1
+
+    if parenCount:
+        print( 'rpn:  mismatched parenthesis (count: {})'.format( parenCount ) )
+        return False
+
     braceCount = 0
 
     for term in terms:

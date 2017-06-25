@@ -142,6 +142,22 @@ def runCommandLineOptionsTests( ):
     expectException( '1 100 range -r1' )
     expectException( '1 100 range -r63' )
 
+    testOperator( '1 100 range -re' )
+    testOperator( '1 100 range -rfac' )
+    testOperator( '1 100 range -rfac2' )
+    testOperator( '1 100 range -rfib' )
+    testOperator( '1 100 range -rlucas' )
+    testOperator( '1 100 range -rphi' )
+    testOperator( '1 100 range -rpi' )
+    testOperator( '1 100 range -rprimorial' )
+    testOperator( '1 100 range -rsqr' )
+    testOperator( '1 100 range -rsqrt2' )
+    testOperator( '1 100 range -rtri' )
+
+    # testRPN compares values not output format
+    #expectEqual( '1 10000 range -rtri', '462 oeis 10000 left' )
+    #expectEqual( '1 40320 range -rtri', '7623 oeis 40320 left' )
+
     testOperator( '-a1000 -d5 7 square_root -r62' )
     testOperator( '-a1000 -d5 pi -r8' )
     testOperator( '2 1 32 range ** -r16' )
@@ -403,6 +419,12 @@ def runArithmeticOperatorTests( ):
     # is_square
     expectResult( '1024 is_square', 1 )
     expectResult( '5 is_square', 0 )
+
+    # is_squarefree
+    expectEqual( '1 1000 range lambda x is_prime not x is_squarefree and filter', '469 oeis 440 left' )
+
+    if slow:
+        expectEqual( '1 20203 range lambda x is_prime not x is_squarefree and filter', '469 oeis 10000 left' )
 
     # is_zero
     expectResult( '-1 is_zero', 0 )
@@ -1782,6 +1804,7 @@ def runLexicographyOperatorTests( ):
     # combine_digits
     testOperator( '1 1 7 range primes combine_digits' )
     expectResult( '1 9 range combine_digits', 123456789 )
+    expectEqual( '1 150 range lambda x 1 range combine_digits eval', '422 oeis 150 left' )
 
     # count_different_digits
     expectEqual( '1 2579 range lambda x sqr count_different_digits 5 equals filter', '54033 oeis 1000 left' )
@@ -2132,12 +2155,12 @@ def runModifierOperatorTests( ):
     # unlist
     expectResult( '[ 1 2 ] unlist +', 3 )
 
-    # {
-    testOperator( '"Leesburg, VA" location today { sunrise sunset moonrise moonset }' )
-    testOperator( '"Leesburg, VA" today { sunrise sunset moonrise moonset }' )
+    # (
+    testOperator( '"Leesburg, VA" location today ( sunrise sunset moonrise moonset )' )
+    testOperator( '"Leesburg, VA" today ( sunrise sunset moonrise moonset )' )
 
-    # }
-    testOperator( '1 10 range { is_prime is_pronic is_semiprime }' )
+    # )
+    testOperator( '1 10 range ( is_prime is_pronic is_semiprime )' )
 
 
 # //******************************************************************************
@@ -2802,6 +2825,7 @@ def runFigurateNumberOperatorTests( ):
 
     # heptagonal
     testOperator( '203 heptagonal' )
+    expectEqual( '0 1000 range heptagonal', '566 oeis 1001 left' )
 
     # heptagonal_hexagonal
     testOperator( '2039 heptagonal_hexagonal' )
@@ -2908,6 +2932,7 @@ def runFigurateNumberOperatorTests( ):
 
     # octagonal
     testOperator( '102 octagonal' )
+    expectEqual( '0 1000 range octagonal', '567 oeis 1001 left' )
 
     # octahedral
     testOperator( '23 octahedral' )
@@ -3018,6 +3043,18 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '4 1 i power' )
     testOperator( '1 10 range 2 10 range power' )
     expectEqual( '3 0 199 range power', '244 oeis 200 left' )
+    expectEqual( '1 100 range lambda 1 x range 4 ** sum eval', '538 oeis 101 left 100 right' )
+    expectEqual( '1 100 range lambda 1 x range 5 ** sum eval', '539 oeis 101 left 100 right' )
+    expectEqual( '1 100 range lambda 1 x range 6 ** sum eval', '540 oeis 101 left 100 right' )
+    expectEqual( '1 100 range lambda 1 x range 7 ** sum eval', '541 oeis 101 left 100 right' )
+    expectEqual( '1 100 range lambda 1 x range 8 ** sum eval', '542 oeis 101 left 100 right' )
+
+    if slow:
+        expectEqual( '1 1000 range lambda 1 x range 4 ** sum eval', '538 oeis 1001 left 1000 right' )
+        expectEqual( '1 1000 range lambda 1 x range 5 ** sum eval', '539 oeis 1001 left 1000 right' )
+        expectEqual( '1 1000 range lambda 1 x range 6 ** sum eval', '540 oeis 1001 left 1000 right' )
+        expectEqual( '1 1000 range lambda 1 x range 7 ** sum eval', '541 oeis 1001 left 1000 right' )
+        expectEqual( '1 1000 range lambda 1 x range 8 ** sum eval', '542 oeis 1001 left 1000 right' )
 
     # powmod
     testOperator( '43 67 9 powmod' )
@@ -3533,6 +3570,7 @@ def runTrigonometryOperatorTests( ):
 
     # cosh
     testOperator( 'pi 3 / cosh' )
+    expectEqual( '0 250 range cosh floor', '501 oeis 251 left' )
 
     # cot
     testOperator( 'pi 7 / cot' )
@@ -3561,10 +3599,13 @@ def runTrigonometryOperatorTests( ):
 
     # sinh
     testOperator( 'pi 2 / sinh' )
+    expectEqual( '0 250 range sinh nearest_int', '495 oeis 251 left' )
+    expectEqual( '0 200 range sinh floor', '471 oeis 201 left' )
 
     # tan
     testOperator( 'pi 3 / tan' )
     expectEqual( '0 999 range tan nearest_int', '209 oeis 1000 left' )
+    expectEqual( '0 1000 range tan floor', '503 oeis 1001 left' )
 
     # tanh
     testOperator( 'pi 4 / tanh' )
