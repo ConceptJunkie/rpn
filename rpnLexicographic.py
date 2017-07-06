@@ -1084,3 +1084,23 @@ def rotateDigitsRight( n, k ):
     str = str[ -rotate : ] + str[ : -rotate ]
     return mpmathify( str )
 
+
+# //******************************************************************************
+# //
+# //  isDigitalPermutation
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def isDigitalPermutation( n, k ):
+    str1 = getMPFIntegerAsString( n )
+    str2 = getMPFIntegerAsString( k )
+
+    if len( str1 ) != len( str2 ):
+        return 0
+
+    if sorted( str1 ) != sorted( str2 ):
+        return 0
+
+    return 1
+

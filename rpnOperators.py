@@ -3528,6 +3528,9 @@ operators = {
     'is_decreasing'                  : RPNOperator( isDecreasing,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_digital_permutation'         : RPNOperator( isDigitalPermutation,
+                                           2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+
     'is_generalized_dudeney'         : RPNOperator( isGeneralizedDudeneyNumber,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 

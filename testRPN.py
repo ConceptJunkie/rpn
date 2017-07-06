@@ -1870,6 +1870,8 @@ def runLexicographyOperatorTests( ):
 
     # is_decreasing
 
+    # is_digital_permutation
+
     # is_harshad
 
     # is_increasing

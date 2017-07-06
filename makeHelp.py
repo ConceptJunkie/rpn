@@ -6416,6 +6416,14 @@ on the digits that comprise an integer.
 ''',
 [ ] ],
 
+    'is_digital_permutation' : [
+'lexicography', 'returns whether k is a digital permutation of n",
+'''
+''',
+'''
+''',
+[ ] ],
+
     'is_generalized_dudeney' : [
 'lexicography', 'returns whether an integer n is a generalized Dudeney number',
 '''
