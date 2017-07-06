@@ -171,15 +171,3 @@ def handleUseMembersOperator( valueList ):
 def getPrevious( valueList ):
     valueList.append( valueList[ -1 ] )
 
-
-# //******************************************************************************
-# //
-# //  forEach
-# //
-# //  TODO
-# //
-# //******************************************************************************
-
-def forEach( valueList ):
-    pass
-

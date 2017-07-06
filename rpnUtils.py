@@ -394,6 +394,31 @@ def oneArgFunctionEvaluator( ):
 
 # //******************************************************************************
 # //
+# //  listAndOneArgFunctionEvaluator
+# //
+# //******************************************************************************
+
+def listAndOneArgFunctionEvaluator( ):
+    def listAndOneArgFunction( func ):
+        @functools.wraps( func )
+
+        def evaluateListAndOneArg( arg1, arg2 ):
+            if isinstance( arg2, list ):
+                result = [ evaluateListAndOneArg( arg1, i ) for i in arg2 ]
+            elif isinstance( arg2, RPNGenerator ):
+                result = RPNGenerator.createChained( arg.getGenerator( ), func )
+            else:
+                result = func( arg1, arg2 )
+
+            return result
+
+        return evaluateListAndOneArg
+
+    return listAndOneArgFunction
+
+
+# //******************************************************************************
+# //
 # //  twoArgFunctionEvaluator
 # //
 # //******************************************************************************
@@ -473,6 +498,90 @@ def twoArgFunctionEvaluator( ):
         return evaluateTwoArgs
 
     return twoArgFunction
+
+
+# //******************************************************************************
+# //
+# //  listAndTwoArgFunctionEvaluator
+# //
+# //******************************************************************************
+
+def listAndTwoArgFunctionEvaluator( ):
+    def listAndTwoArgFunction( func ):
+        @functools.wraps( func )
+
+        def evaluateListAndTwoArgs( arg1, _arg2, _arg3 ):
+            if isinstance( _arg2, list ):
+                len1 = len( _arg2 )
+
+                if len1 == 1:
+                    arg2 = _arg2[ 0 ]
+                    list1 = False
+                else:
+                    arg2 = _arg2
+                    list1 = True
+
+                generator1 = False
+            else:
+                arg2 = _arg2
+                list1 = False
+
+            generator1 = isinstance( arg2, RPNGenerator )
+
+            if isinstance( _arg3, list ):
+                len2 = len( _arg3 )
+
+                if len2 == 1:
+                    arg3 = _arg3[ 0 ]
+                    list2 = False
+                else:
+                    arg3 = _arg3
+                    list2 = True
+
+                generator2 = False
+            else:
+                arg3 = _arg3
+                list2 = False
+
+            generator2 = isinstance( arg3, RPNGenerator )
+
+            if generator1:
+                if generator2:
+                    iter1 = iter( arg2 )
+                    iter2 = iter( arg3 )
+
+                    result = [ ]
+
+                    while True:
+                        try:
+                            i1 = iter1.__next__( )
+                            i2 = iter2.__next__( )
+
+                            result.append( func( i1, i2 ) )
+                        except:
+                            break
+                else:
+                    result = [ evaluateListAndTwoArgs( arg1, i, arg3 ) for i in arg2.getGenerator( ) ]
+            elif generator2:
+                result = [ evaluateListAndTwoArgs( arg1, arg2, i ) for i in arg3.getGenerator( ) ]
+            elif list1:
+                if list2:
+                    result = [ evaluateListAndTwoArgs( arg1, arg2[ index ], arg3[ index ] ) for index in range( 0, min( len1, len2 ) ) ]
+                else:
+                    result = [ evaluateListAndTwoArgs( arg1, i, arg3 ) for i in arg2 ]
+
+            else:
+                if list2:
+                    result = [ evaluateListAndTwoArgs( arg1, arg2, j ) for j in arg3 ]
+                else:
+                    result = func( arg1, arg2, arg3 )
+
+            return result
+
+        return evaluateListAndTwoArgs
+
+    return listAndTwoArgFunction
+
 
 
 # //******************************************************************************

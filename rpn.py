@@ -45,7 +45,7 @@ from rpnOperators import checkForVariable, constants, evaluateTerm, functionOper
 from rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                       printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
 
-from rpnPersistence import loadUserDataFile, saveUserDataFile
+from rpnPersistence import loadUserVariablesFile, saveUserVariablesFile
 
 from rpnSpecial import handleIdentify
 
@@ -424,15 +424,24 @@ def rpn( cmd_args ):
     options = [ ]
     terms = [ ]
 
-    loadUserDataFile( )
+    loadUserVariablesFile( )
     loadUserFunctionsFile( )
 
     for i, arg in enumerate( cmd_args ):
-        if ( len( arg ) > 1 ) and ( arg[ 0 ] == '-' ):
-            if arg[ 1 ].isdigit( ):     # a negative number, not an option
-                terms.append( arg )
+        if ( len( arg ) > 1 ) :
+            if arg[ 0 ] == '$' and arg[ 1 : ] not in g.userVariables:
+                raise ValueError( 'undefined user variable referenced: ' + arg )
+
+            if arg[ 0 ] == '@' and arg[ 1 : ] not in g.userFunctions:
+                raise ValueError( 'undefined user function referenced: ' + arg )
+
+            if ( arg[ 0 ] == '-' ):
+                if arg[ 1 ].isdigit( ):     # a negative number, not an option
+                    terms.append( arg )
+                else:
+                    options.append( arg )
             else:
-                options.append( arg )
+                terms.append( arg )
         else:
             terms.append( arg )
 
@@ -634,8 +643,8 @@ if __name__ == '__main__':
 
         handleOutput( rpn( sys.argv[ 1 : ] ) )
 
-        if g.userDataIsDirty:
-            saveUserDataFile( )
+        if g.userVariablesAreDirty:
+            saveUserVariablesFile( )
 
         if g.userFunctionsAreDirty:
             saveUserFunctionsFile( )

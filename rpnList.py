@@ -23,6 +23,7 @@ from rpnGenerator import RPNGenerator
 from rpnMath import add, subtract, divide
 from rpnMeasurement import RPNMeasurement
 from rpnNumberTheory import getGCDOfList
+from rpnUtils import listAndOneArgFunctionEvaluator, listAndTwoArgFunctionEvaluator
 
 
 # //******************************************************************************
@@ -221,6 +222,7 @@ def getIndexOfMin( args ):
 # //
 # //******************************************************************************
 
+@listAndOneArgFunctionEvaluator( )
 def getListElement( args, index ):
     if isinstance( index, ( list, RPNGenerator ) ):
         for i in index:
@@ -231,25 +233,31 @@ def getListElement( args, index ):
 
 # //******************************************************************************
 # //
-# //  enumerateList
+# //  enumerateListGenerator
 # //
 # //******************************************************************************
 
-def enumerateList( args, k ):
+def enumerateListGenerator( args, k ):
     i = 0
 
     for arg in args:
         yield [ fadd( i, k ), arg ]
         i += 1
 
+@listAndOneArgFunctionEvaluator( )
+def enumerateList( args, k ):
+    return RPNGenerator.createGenerator( enumerateListGenerator, [ args, k ] )
+
+
+
 
 # //******************************************************************************
 # //
-# //  getSlice
+# //  getSliceGenerator
 # //
 # //******************************************************************************
 
-def getSlice( args, start, end ):
+def getSliceGenerator( args, start, end ):
     if end == 0:
         for i in args[ int( start ) : ]:
             yield i
@@ -257,16 +265,24 @@ def getSlice( args, start, end ):
         for i in args[ int( start ) : int( end ) ]:
             yield i
 
+@listAndTwoArgFunctionEvaluator( )
+def getSlice( args, start, end ):
+    return RPNGenerator.createGenerator( getSliceGenerator, [ args, start, end ] )
+
 
 # //******************************************************************************
 # //
-# //  getSublist
+# //  getSublistGenerator
 # //
 # //******************************************************************************
 
-def getSublist( args, start, count ):
-    for i in arange( start, fadd( count, 1 ) ):
+def getSublistGenerator( args, start, count ):
+    for i in arange( start, fadd( start, count ) ):
         yield args[ int( i ) ]
+
+@listAndTwoArgFunctionEvaluator( )
+def getSublist( args, start, count ):
+    return RPNGenerator.createGenerator( getSublistGenerator, [ args, start, count ] )
 
 
 # //******************************************************************************
@@ -275,6 +291,7 @@ def getSublist( args, start, count ):
 # //
 # //******************************************************************************
 
+@listAndOneArgFunctionEvaluator( )
 def getLeft( args, count ):
     result = [ ]
 
@@ -296,6 +313,7 @@ def getLeft( args, count ):
 # //
 # //******************************************************************************
 
+@listAndOneArgFunctionEvaluator( )
 def getRight( args, count ):
     result = [ ]
 
@@ -918,12 +936,39 @@ def getListCombinationsGenerator( n, k ):
 
 def getListCombinations( n, k ):
     if not isinstance( n, ( list, RPNGenerator ) ):
-        raise ValueError( '\'permute_list\' expects a list' )
+        raise ValueError( '\'get_combinations\' expects a list' )
 
     if len( n ) < k:
         raise ValueError( 'k must be greater than or equal to the length of list n' )
 
     return RPNGenerator( getListCombinationsGenerator( n, k ) )
+
+
+# //******************************************************************************
+# //
+# //  getListCombinationsWithRepeatsGenerator
+# //
+# //******************************************************************************
+
+def getListCombinationsWithRepeatsGenerator( n, k ):
+    for i in itertools.combinations_with_replacement( n, int( k ) ):
+        yield list( i )
+
+
+# //******************************************************************************
+# //
+# //  getListCombinationsWithRepeats
+# //
+# //******************************************************************************
+
+def getListCombinationsWithRepeats( n, k ):
+    if not isinstance( n, ( list, RPNGenerator ) ):
+        raise ValueError( '\'get_repeat_combinations\' expects a list' )
+
+    if len( n ) < k:
+        raise ValueError( 'k must be greater than or equal to the length of list n' )
+
+    return RPNGenerator( getListCombinationsWithRepeatsGenerator( n, k ) )
 
 
 # //******************************************************************************
@@ -967,16 +1012,4 @@ def equalsOneOf( value, targetList ):
             return 1
 
     return 0
-
-
-# //******************************************************************************
-# //
-# //  forEach
-# //
-# //******************************************************************************
-
-def forEach( list, func ):
-    for i in list:
-        yield func( *i )
-
 

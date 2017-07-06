@@ -938,11 +938,11 @@ class RPNFunction( object ):
 
                 if not valueList:
                     self.code += function2
-            elif term[ 0 ] == '$' and term[ 1 : ] in g.userData:
+            elif term[ 0 ] == '$' and term[ 1 : ] in g.userVariables:
                 if listDepth > 0:
-                    listArgs[ listDepth - 1 ].append( g.userData[ term[ 1 : ] ] )
+                    listArgs[ listDepth - 1 ].append( g.userVariables[ term[ 1 : ] ] )
                 else:
-                    args.append( g.userData[ term[ 1 : ] ] )
+                    args.append( g.userVariables[ term[ 1 : ] ] )
             else:
                 if listDepth > 0:
                     listArgs[ listDepth - 1 ].append( term )
@@ -1160,6 +1160,20 @@ def filterListByIndex( n, k, invert = False ):
 
 # //******************************************************************************
 # //
+# //  forEach
+# //
+# //******************************************************************************
+
+def forEach( list, func ):
+    if not isinstance( func, RPNFunction ):
+        raise ValueError( '\'for_each\' expects a function argument' )
+
+    for i in list:
+        yield func.evaluate( *i )
+
+
+# //******************************************************************************
+# //
 # //  breakOnCondition
 # //
 # //******************************************************************************
@@ -1177,9 +1191,6 @@ def breakOnCondition( n, k ):
         if value:
             yield i
             return
-
-    yield i
-    return
 
 
 # //******************************************************************************
@@ -1301,8 +1312,8 @@ def checkForVariable( term ):
     if not term or term[ 0 ] != '$':
         return term
 
-    if not g.interactive and term[ 1 : ] in g.userData:
-        return g.userData[ term[ 1 : ] ]
+    if not g.interactive and term[ 1 : ] in g.userVariables:
+        return g.userVariables[ term[ 1 : ] ]
 
     return RPNVariable( term[ 1 : ] )
 
@@ -1869,28 +1880,28 @@ def printHelpTopic( n ):
 
 # //******************************************************************************
 # //
-# //  getUserData
+# //  getUserVariable
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getUserData( key ):
-    if key in g.userData:
-        return g.userData[ key ]
+def getUserVariable( key ):
+    if key in g.userVariables:
+        return g.userVariables[ key ]
     else:
         return ""
 
 
 # //******************************************************************************
 # //
-# //  setUserData
+# //  setUserVariable
 # //
 # //******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def setUserData( key, value ):
-    g.userData[ key ] = value
-    g.userDataIsDirty = True
+def setUserVariable( key, value ):
+    g.userVariables[ key ] = value
+    g.userVariablesAreDirty = True
 
     return value
 
@@ -1965,6 +1976,7 @@ functionOperators = [
     'eval3',
     'filter',
     'filter_by_index',
+    'for_each',
     'function',
     'limit',
     'limitn',
@@ -2021,8 +2033,6 @@ modifiers = {
     'previous'          : RPNOperator( getPrevious, 0 ),
 
     'unlist'            : RPNOperator( unlist, 0 ),
-
-    #'for_each'          : RPNOperator( forEach, 0 ),
 
     'lambda'            : RPNOperator( createFunction, 0 ),
 
@@ -2147,6 +2157,9 @@ listOperators = {
     'filter_by_index'       : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k ) ),
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
+    'for_each'              : RPNOperator( lambda n, k: RPNGenerator( forEach( n, k ) ),
+                                           2, [ RPNOperator.List, RPNOperator.Function ] ),
+
     'unfilter'              : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k, True ) ),
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
@@ -2182,13 +2195,16 @@ listOperators = {
     'count'                 : RPNOperator( countElements,
                                            1, [ RPNOperator.Generator ] ),
 
+    'cumulative_diffs'      : RPNOperator( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ),
+                                           1, [ RPNOperator.Generator ] ),
+
+    'cumulative_ratios'     : RPNOperator( lambda n: RPNGenerator( getCumulativeListRatios( n ) ),
+                                           1, [ RPNOperator.Generator ] ),
+
     'difference'            : RPNOperator( getDifference,
                                            2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'diffs'                 : RPNOperator( lambda n: RPNGenerator( getListDiffs( n ) ),
-                                           1, [ RPNOperator.Generator ] ),
-
-    'diffs2'                : RPNOperator( lambda n: RPNGenerator( getCumulativeListDiffs( n ) ),
                                            1, [ RPNOperator.Generator ] ),
 
     'element'               : RPNOperator( lambda n, k: RPNGenerator( getListElement( n, k ) ),
@@ -2201,6 +2217,9 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     'get_combinations'      : RPNOperator( getListCombinations,
+                                           2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
+
+    'get_repeat_combinations'   : RPNOperator( getListCombinationsWithRepeats,
                                            2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
 
     'get_permutations'      : RPNOperator( getListPermutations,
@@ -2249,9 +2268,6 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     'ratios'                : RPNOperator( lambda n: RPNGenerator( getListRatios( n ) ),
-                                           1, [ RPNOperator.Generator ] ),
-
-    'ratios2'               : RPNOperator( lambda n: RPNGenerator( getCumulativeListRatios( n ) ),
                                            1, [ RPNOperator.Generator ] ),
 
     'reduce'                : RPNOperator( reduceList,
@@ -2830,6 +2846,9 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'weekday'                        : RPNOperator( getWeekday,
+                                                    1, [ RPNOperator.DateTime ] ),
+
+    'weekday_name'                   : RPNOperator( getWeekdayName,
                                                     1, [ RPNOperator.DateTime ] ),
 
     'year_calendar'                  : RPNOperator( generateYearCalendar,
@@ -3476,13 +3495,13 @@ operators = {
     'get_left_digits'                : RPNOperator( getLeftDigits,
                                                     2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
 
-    'get_left_truncations'           : RPNOperator( getLeftTruncations,
+    'get_left_truncations'           : RPNOperator( getLeftTruncationsGenerator,
                                                     1, [ RPNOperator.Integer ] ),
 
     'get_right_digits'                : RPNOperator( getRightDigits,
                                                     2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
 
-    'get_right_truncations'          : RPNOperator( getRightTruncations,
+    'get_right_truncations'          : RPNOperator( getRightTruncationsGenerator,
                                                     1, [ RPNOperator.Integer ] ),
 
     'get_nonzero_base_k_digits'      : RPNOperator( getNonzeroBaseKDigits,
@@ -3503,11 +3522,20 @@ operators = {
     'is_automorphic'                 : RPNOperator( isAutomorphic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_bouncy'                      : RPNOperator( isBouncy,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'is_decreasing'                  : RPNOperator( isDecreasing,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
     'is_generalized_dudeney'         : RPNOperator( isGeneralizedDudeneyNumber,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
     'is_harshad'                     : RPNOperator( isHarshadNumber,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
+
+    'is_increasing'                  : RPNOperator( isIncreasing,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_kaprekar'                    : RPNOperator( isKaprekar,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
@@ -3560,6 +3588,12 @@ operators = {
 
     'reverse_digits'                 : RPNOperator( reverseDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'rotate_digits_left'             : RPNOperator( rotateDigitsLeft,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.Integer ] ),
+
+    'rotate_digits_right'            : RPNOperator( rotateDigitsRight,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.Integer ] ),
 
     'sum_digits'                     : RPNOperator( sumDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
@@ -3638,7 +3672,7 @@ operators = {
     'abundance_ratio'                : RPNOperator( getAbundanceRatio,
                                                     1, RPNOperator.PositiveInteger ),
 
-    'aliquot'                        : RPNOperator( lambda n, k: RPNGenerator.createGenerator( getAliquotSequence, [ n, k ] ),
+    'aliquot'                        : RPNOperator( getAliquotSequence,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'alternating_factorial'          : RPNOperator( getNthAlternatingFactorial,
@@ -3652,6 +3686,9 @@ operators = {
 
     'calkin_wilf'                    : RPNOperator( getNthCalkinWilf,
                                                     1, [ RPNOperator.PositiveInteger ] ),
+
+    'collatz'                        : RPNOperator( getCollatzSequence,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'count_divisors'                 : RPNOperator( getDivisorCount,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
@@ -4193,7 +4230,7 @@ operators = {
     'help'                           : RPNOperator( printHelpMessage,
                                                     0, [ ] ),
 
-    'get_data'                       : RPNOperator( getUserData,
+    'get_variable'                   : RPNOperator( getUserVariable,
                                                     1, [ RPNOperator.String ] ),
 
     'if'                             : RPNOperator( lambda a, b, c: a if c else b,
@@ -4244,10 +4281,7 @@ operators = {
     'roll_dice_'                     : RPNOperator( rollMultipleDiceGenerator,
                                                     2, [ RPNOperator.String, RPNOperator.PositiveInteger ] ),
 
-    'set'                            : RPNOperator( setVariable,
-                                                    2, [ RPNOperator.Default, RPNOperator.String ] ),
-
-    'set_data'                       : RPNOperator( setUserData,
+    'set_variable'                   : RPNOperator( setUserVariable,
                                                     2, [ RPNOperator.String, RPNOperator.String ] ),
 
     'topic'                          : RPNOperator( printHelpTopic,

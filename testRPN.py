@@ -1567,6 +1567,8 @@ def runDateTimeOperatorTests( ):
 # //******************************************************************************
 
 def runFunctionOperatorTests( ):
+    # break_on
+
     # eval
     testOperator( '10 lambda x 5 * eval' )
     testOperator( '-a20 57 lambda x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval' )
@@ -1833,11 +1835,17 @@ def runLexicographyOperatorTests( ):
 
     # get_left_digits
 
+    # get_left_truncations
+    testOperator( '123456789 get_left_truncations' )
+
     # get_right_digits
     expectEqual( '-a420 1 2000 range lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 42 left 41 right' )
 
     if slow:
         expectEqual( '-a21000 dddd[159] build_numbers lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 573 left 572 right' )
+
+    # get_right_truncations
+    testOperator( '123456789 get_right_truncations' )
 
     # has_any_digits
     expectEqual( '1 1113 primes lambda x 2357 has_any_digits filter', '179336 oeis 1000 left' )
@@ -1857,6 +1865,14 @@ def runLexicographyOperatorTests( ):
     # is_automorphic
     testOperator( '1 100 range lambda x is_automorphic filter' )
     expectResult( '-a30 59918212890625 is_automorphic', 1 )
+
+    # is_bouncy
+
+    # is_decreasing
+
+    # is_harshad
+
+    # is_increasing
 
     # is_kaprekar
     expectResult( '533170 is_kaprekar', 1 )
@@ -1885,7 +1901,10 @@ def runLexicographyOperatorTests( ):
 
     # is_pandigital
     expectResult( '1234567890 is_pandigital', 1 )
-    expectResult( '123456789 is_pandigital', 0 )
+    expectResult( '123456789 is_pandigital', 1 )
+    expectResult( '12345670 is_pandigital', 0 )
+    expectResult( '12345 is_pandigital', 1 )
+    expectResult( '321 is_pandigital', 1 )
 
     # is_trimorphic
     testOperator( '1 100 range is_trimorphic' )
@@ -1930,6 +1949,10 @@ def runLexicographyOperatorTests( ):
     testOperator( '37 1 2 9 range range * reverse_digits' )
     expectEqual( '0 1102 range lambda x sqr reverse_digits x reverse_digits sqr equals filter', '61909 oeis 53 left' )
 
+    # rotate_digits_left
+
+    # rotate_digits_right
+
     # show_erdos_persistence
     testOperator( '-a30 55555555555555557777777777777 show_erdos_persistence' )
 
@@ -1973,13 +1996,16 @@ def runListOperatorTests( ):
     # count
     expectResult( '1 10 range count', 10 )
 
+    # cumulative_diffs
+    testOperator( '1 10 range cumulative_diffs' )
+    testOperator( '1 10 range fib cumulative_diffs' )
+
+    # cumulative_ratios
+    testOperator( '1 10 range fib cumulative_ratios' )
+
     # diffs
     testOperator( '1 10 range diffs' )
     testOperator( '1 10 range fib diffs' )
-
-    # diffs2
-    testOperator( '1 10 range diffs2' )
-    testOperator( '1 10 range fib diffs2' )
 
     # element
     expectResult( '1 10 range 5 element', [ 6 ] )
@@ -2041,9 +2067,6 @@ def runListOperatorTests( ):
 
     # ratios
     testOperator( '1 10 range fib ratios' )
-
-    # ratios2
-    testOperator( '1 10 range fib ratios2' )
 
     # reduce
     testOperator( '[ 4 8 12 ] reduce' )

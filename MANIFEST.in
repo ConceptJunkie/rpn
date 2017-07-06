@@ -8,6 +8,5 @@ include test*.py
 include buildRPN.bat
 include gpl-3.0.txt
 include requirements.txt
-include readme.txt
 recursive-include rpndata *.txt
 

@@ -15,7 +15,7 @@
 import itertools
 import string
 
-from mpmath import arange, fadd, ceil, fdiv, floor, fmod, fmul, fprod, \
+from mpmath import arange, fadd, ceil, fdiv, floor, fmod, fmul, fneg, fprod, \
                    fsub, fsum, log10, mpf, mpmathify, nint, power
 
 from rpnBase import convertToBaseN
@@ -300,7 +300,14 @@ def isPalindrome( n ):
 def isPandigital( n ):
     str = getMPFIntegerAsString( n )
 
-    for c in string.digits:
+    length = len( str )
+
+    if length < 10:
+        digitsToCheck = string.digits[ 1 : length + 1 ]
+    else:
+        digitsToCheck = string.digits
+
+    for c in digitsToCheck:
         if c not in str:
             return 0
 
@@ -868,7 +875,7 @@ def isTrimorphic( n ):
 
 # //******************************************************************************
 # //
-# //  getLeftTruncationsGenerator
+# //  getLeftTruncations
 # //
 # //******************************************************************************
 
@@ -883,13 +890,13 @@ def getLeftTruncations( n ):
         yield mpmathify( str[ i : ] )
 
 @oneArgFunctionEvaluator( )
-def getLeftTruncations( n ):
-    return RPNGenerator.createGenerator( getLeftTruncationsGenerator, n )
+def getLeftTruncationsGenerator( n ):
+    return RPNGenerator.createGenerator( getLeftTruncations, n )
 
 
 # //******************************************************************************
 # //
-# //  getRightTruncationsGenerator
+# //  getRightTruncations
 # //
 # //******************************************************************************
 
@@ -904,8 +911,8 @@ def getRightTruncations( n ):
         yield mpmathify( str[ 0 : i ] )
 
 @oneArgFunctionEvaluator( )
-def getRightTruncations( n ):
-    return RPNGenerator.createGenerator( getRightTruncationsGenerator, n )
+def getRightTruncationsGenerator( n ):
+    return RPNGenerator.createGenerator( getRightTruncations, n )
 
 
 # //******************************************************************************
@@ -984,4 +991,96 @@ def showErdosPersistence( n ):
 @oneArgFunctionEvaluator( )
 def permuteDigits( n ):
     return RPNGenerator.createPermutations( getMPFIntegerAsString( n ) )
+
+
+# //******************************************************************************
+# //
+# //  isIncreasing
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def isIncreasing( n ):
+    str = getMPFIntegerAsString( n )
+
+    for i in range( 1, len( str ) ):
+        if str[ i ] < str[ i - 1 ]:
+            return 0
+
+    return 1
+
+
+# //******************************************************************************
+# //
+# //  isDecreasing
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def isDecreasing( n ):
+    str = getMPFIntegerAsString( n )
+
+    for i in range( 1, len( str ) ):
+        if str[ i ] > str[ i - 1 ]:
+            return 0
+
+    return 1
+
+
+# //******************************************************************************
+# //
+# //  isBouncy
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def isBouncy( n ):
+    if isIncreasing( n ) == 0 and isDecreasing( n ) == 0:
+        return 1
+    else:
+        return 0
+
+
+# //******************************************************************************
+# //
+# //  rotateDigitsLeft
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def rotateDigitsLeft( n, k ):
+    if ( k < 0 ):
+        return rotateDigitsRight( n, fneg( k ) )
+
+    str = getMPFIntegerAsString( n )
+
+    if k > len( str ):
+        raise ValueError( 'cannot rotate more digits than the number has' )
+
+    rotate = int( k )
+
+    str = str[ rotate : ] + str[ : rotate ]
+    return mpmathify( str )
+
+
+# //******************************************************************************
+# //
+# //  rotateDigitsRight
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def rotateDigitsRight( n, k ):
+    if ( k < 0 ):
+        return rotateDigitsLeft( n, fneg( k ) )
+
+    str = getMPFIntegerAsString( n )
+
+    if k > len( str ):
+        raise ValueError( 'cannot rotate more digits than the number has' )
+
+    rotate = int( k )
+
+    str = str[ -rotate : ] + str[ : -rotate ]
+    return mpmathify( str )
 

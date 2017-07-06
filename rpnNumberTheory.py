@@ -28,7 +28,7 @@ from mpmath import altzeta, arange, barnesg, beta, binomial, e, fabs, fac, \
 
 from rpnFactor import getFactors, getFactorList
 from rpnGenerator import RPNGenerator
-from rpnMath import isDivisible
+from rpnMath import isDivisible, isEven
 from rpnPersistence import cachedFunction
 from rpnUtils import getMPFIntegerAsString, oneArgFunctionEvaluator, \
                      twoArgFunctionEvaluator, real, real_int
@@ -1099,12 +1099,11 @@ def getSigmaN( n, k ):
 
 # //******************************************************************************
 # //
-# //  getAliquotSequence
+# //  getAliquotSequenceGenerator
 # //
 # //******************************************************************************
 
-@twoArgFunctionEvaluator( )
-def getAliquotSequence( n, k ):
+def getAliquotSequenceGenerator( n, k ):
     '''
     The aliquot sum of n is the sum of the divisors of n, not counting n itself
     as a divisor.  Subsequent aliquot sums can then be computed.  These sequences
@@ -1119,6 +1118,10 @@ def getAliquotSequence( n, k ):
         b = fsub( getSigma( a ), a )
         yield b
         a = b
+
+@twoArgFunctionEvaluator( )
+def getAliquotSequence( n, k ):
+    return RPNGenerator.createGenerator( getAliquotSequenceGenerator, [ n, k ] )
 
 
 # //******************************************************************************
@@ -1551,9 +1554,9 @@ def getNthCalkinWilf( n ):
         raise ValueError( 'non-negative, real integer expected' )
 
     if n == 0:
-        return 0
+        return [ 0, 1 ]
 
-    return fdiv( getNthStern( n ), getNthStern( fadd( n, 1 ) ) )
+    return [ getNthStern( n ), getNthStern( fadd( n, 1 ) ) ]
 
 
 # //******************************************************************************
@@ -1824,3 +1827,35 @@ def getZeta( n ):
 def getHurwitzZeta( n, k ):
     return zeta( n, k )
 
+
+# //******************************************************************************
+# //
+# //  getCollatzSequenceGenerator
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def getCollatzSequenceGenerator( n, k ):
+    yield real( floor( n ) )
+
+    if n == 0:
+        return
+
+    a = n
+
+    for i in arange( 0, real( k ) - 1 ):
+        if isEven( a ):
+            b = fdiv( a, 2 )
+        else:
+            b = fadd( fmul( 3, a ), 1 )
+
+        yield b
+
+        if b == 1:
+            return
+
+        a = b
+
+@twoArgFunctionEvaluator( )
+def getCollatzSequence( n, k ):
+    return RPNGenerator.createGenerator( getCollatzSequenceGenerator, [ n, k ] )

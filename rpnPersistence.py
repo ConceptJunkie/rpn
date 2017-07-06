@@ -392,13 +392,13 @@ class PersistentDict( MutableMapping ):
 
 # //******************************************************************************
 # //
-# //  getUserDataFileName
+# //  getUserVariablesFileName
 # //
 # //******************************************************************************
 
 @lru_cache( 1 )
-def getUserDataFileName( ):
-    return g.dataPath + os.sep + 'user_data.cfg'
+def getUserVariablesFileName( ):
+    return g.dataPath + os.sep + 'user_variables.cfg'
 
 
 # //******************************************************************************
@@ -414,45 +414,45 @@ def getUserFunctionsFileName( ):
 
 # //******************************************************************************
 # //
-# //  loadUserDataFile
+# //  loadUserVariablesFile
 # //
 # //******************************************************************************
 
-def loadUserDataFile( ):
+def loadUserVariablesFile( ):
     config = configparser.ConfigParser( )
-    config.read( getUserDataFileName( ) )
+    config.read( getUserVariablesFileName( ) )
 
     try:
-        items = config.items( 'User Data' )
+        items = config.items( 'User Variables' )
     except:
         return
 
     for tuple in items:
-        g.userData[ tuple[ 0 ] ] = tuple[ 1 ]
+        g.userVariables[ tuple[ 0 ] ] = tuple[ 1 ]
 
 
 # //******************************************************************************
 # //
-# //  saveUserDataFile
+# //  saveUserVariablesFile
 # //
 # //******************************************************************************
 
-def saveUserDataFile( ):
+def saveUserVariablesFile( ):
     config = configparser.ConfigParser( )
 
-    config[ 'User Data' ] = { }
+    config[ 'User Variables' ] = { }
 
-    for key in g.userData.keys( ):
-        config[ 'User Data' ][ key ] = str( g.userData[ key ] )
+    for key in g.userVariables.keys( ):
+        config[ 'User Variables' ][ key ] = str( g.userVariables[ key ] )
 
     import os.path
 
-    if os.path.isfile( getUserDataFileName( ) ):
+    if os.path.isfile( getUserVariablesFileName( ) ):
         from shutil import copyfile
-        copyfile( getUserDataFileName( ), getUserDataFileName( ) + '.backup' )
+        copyfile( getUserVariablesFileName( ), getUserVariablesFileName( ) + '.backup' )
 
-    with open( getUserDataFileName( ), 'w' ) as userDataFile:
-        config.write( userDataFile )
+    with open( getUserVariablesFileName( ), 'w' ) as userVariablesFile:
+        config.write( userVariablesFile )
 
 
 # //******************************************************************************

@@ -64,8 +64,8 @@ December = 12
 # //******************************************************************************
 
 def getLocalTimeZone( ):
-    if 'time_zone' in g.userData:
-        return pytz( g.userData[ 'time_zone' ] )
+    if 'time_zone' in g.userVariables:
+        return pytz( g.userVariables[ 'time_zone' ] )
     elif tz.tzlocal( ) is None:
         return pytz.timezone( 'US/Eastern' )
     else:
@@ -360,10 +360,12 @@ def makeISOTime( n ):
 # //******************************************************************************
 
 def makeDateTime( n ):
-    if isinstance( n, RPNGenerator ):
+    if isinstance( n, ( RPNGenerator, int ) ):
         return makeDateTime( list( n ) )
     elif isinstance( n, str ):
         return RPNDateTime.get( n )
+    elif isinstance( n[ 0 ], list ):
+        return [ makeDateTime( i ) for i in n ]
 
     if len( n ) == 1:
         n.append( 1 )
@@ -845,7 +847,18 @@ def getWeekday( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'date/time type required for this operator' )
 
-    return calendar.day_name[ n.weekday( ) ]
+    return n.weekday( )
+
+
+# //******************************************************************************
+# //
+# //  getWeekdayName
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getWeekdayName( n ):
+    return calendar.day_name[ getWeekday( n ) ]
 
 
 # //******************************************************************************

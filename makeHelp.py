@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1008
+maxExampleCount = 1017
 
 
 # //******************************************************************************
@@ -438,19 +438,6 @@ rpn (3)>$1 5 +
 10
 rpn (4)>$2 sqr
 10
-
-rpn now allows for assigning variables using the 'set' operator:
-
-rpn (5)>side1 3 set
-3
-rpn (6)>side2 4 set
-4
-rpn (7)>$side1 $side2 hypotenuse
-5
-
-The variable can be reference in any subsequent expression using the '$',
-which denotes a variable.  Variable names must start with an alphabetic
-character, and can contain alphanumeric characters.
 
 rpn interactive mode respects the command-line options that are passed to it.
 These settings can be changed with the new settings operators.
@@ -2267,7 +2254,7 @@ This is also the amount of time between sunrise and sunset.
 ''',
 '''
 ''' + makeCommandExample( '"Washington, DC" 2017-04-08 day_time' ) + '''
-''' + makeCommandExample( '"Washington, DC" 2017-04-08 { sunset sunrise } unlist -' ),
+''' + makeCommandExample( '"Washington, DC" 2017-04-08 ( sunset sunrise ) unlist -' ),
 [ 'dawn', 'dusk', 'transit_time', 'antitransit_time', 'night_time' ] ],
 
     'distance_from_earth' : [
@@ -2780,7 +2767,7 @@ Su Mo Tu We Th Fr Sa
 18 19 20 21 22 23 24
 25 26 27 28 29 30
 ''',
-[ 'year_calendar', 'weekday' ] ],
+[ 'year_calendar', 'weekday','weekday_name' ] ],
 
     'christmas' : [
 'calendars', 'returns the date of Christmas for the year specified',
@@ -3166,21 +3153,31 @@ a = four-digit year, b = week (negative values count from the end), c = day
 'calendars', 'calculates the day of the week of an absolute time',
 '''
 Given any date, the 'weekday' operator will determine what day of the week
-that date occurred on.
-
-This operator is special in that it returns a string.  rpn cannot use a string
-as an operand, so this function cannot be combined with other operators.
-
-*** 'weekday' does not currently work with list operands.
+that date occurred on.  It returns a number representing the weekday,
+where 0 == Monday, 1 == Tuesday, 2 == Wednesday, 3 == Thursday,
+4 == Friday, 5 == Saturday and 6 == Sunday.
 ''',
 '''
 ''' + makeCommandExample( 'today weekday' ) + '''
 ''' + makeCommandExample( '1776-07-04 weekday' ) + '''
-''' + makeCommandExample( '1852-02-29 weekday' ) + '''
-''' + makeCommandExample( '1929-10-29 weekday' ) + '''
-''' + makeCommandExample( '2043-04-17 weekday' ),
-[ 'calendar', 'nth_weekday', 'nth_weekday_of_year' ] ],
+''' + makeCommandExample( '1965-03-31 weekday' ) + '''
+''' + makeCommandExample( '1993-04-17 weekday' ),
+[ 'calendar', 'nth_weekday', 'nth_weekday_of_year', 'weekday_name' ] ],
 
+    'weekday_name' : [
+'calendars', 'calculates the day of the week of an absolute time',
+'''
+Given any date, the 'weekday' operator will determine what day of the week
+that date occurred on.  Unlike the 'weekday' operator, 'weekday_name' will
+print out the actual name of the weekday.
+''',
+'''
+''' + makeCommandExample( 'today weekday_name' ) + '''
+''' + makeCommandExample( '1901-01-01 weekday_name' ) + '''
+''' + makeCommandExample( '1852-02-29 weekday_name' ) + '''
+''' + makeCommandExample( '1929-10-29 weekday_name' ) + '''
+''' + makeCommandExample( '2043-04-17 weekday_name' ),
+[ 'calendar', 'nth_weekday', 'nth_weekday_of_year' ] ],
     'year_calendar' : [
 'calendars', 'prints a month calendar for the date value',
 '''
@@ -5675,6 +5672,14 @@ Which of the first 80 fibonacci numbers is prime?
 ''',
 [ 'filter', 'lambda', 'unfilter_by_index' ] ],
 
+    'for_each' : [
+'functions', 'instructs the next operater to act on list members rather than the list itself as an argument'
+'''
+''',
+'''
+''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] ] lambda x y add for_each' ),
+[ ] ],
+
     'function': [
 'functions', 'creates a user-defined function k named n',
 '''
@@ -6178,7 +6183,7 @@ is the equivalent of the concatenation of digits from each argument.
 ''' + makeCommandExample( '34 45 add_digits' ) + '''
 ''' + makeCommandExample( '12345 67890 add_digits' ) + '''
 ''',
-[ 'build_numbers', 'combine_digits', 'dup_digits', 'get_digits' ] ],
+[ 'build_numbers', 'combine_digits', 'dup_digits', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'build_numbers' : [
 'lexicography', 'constructs numbers lexicographically using a simple language',
@@ -6307,7 +6312,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_right_digits' ] ],
+[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_right_digits', 'rotate_digits_left', 'rotate_digits_right' ] ],
 
     'get_left_digits' : [
 'lexicography', 'returns a number composed of the left k digits of n',
@@ -6316,7 +6321,7 @@ on the digits that comprise an integer.
 '''
 ''' + makeCommandExample( '1234567890 5 get_left_digits' ) + '''
 ''' + makeCommandExample( '1000001 4 get_left_digits' ),
-[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_digits', 'get_right_digits' ] ],
+[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_digits', 'get_right_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'get_left_truncations' : [
 'lexicography', 'returns the blah blah blah',
@@ -6353,7 +6358,7 @@ on the digits that comprise an integer.
 '''
 ''' + makeCommandExample( '1234567890 5 get_right_digits' ) + '''
 ''' + makeCommandExample( '1000001 4 get_right_digits' ),
-[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_digits' ] ],
+[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'get_right_truncations' : [
 'lexicography', 'returns the blah blah blah',
@@ -6395,6 +6400,22 @@ on the digits that comprise an integer.
 ''',
 [ 'is_k_morphic', 'is_trimorphic' ] ],
 
+    'is_bouncy' : [
+'lexicography', 'returns whether an integer n is bouncy',
+'''
+''',
+'''
+''',
+[ ] ],
+
+    'is_decreasing' : [
+'lexicography', 'returns whether an integer n is decreasing',
+'''
+''',
+'''
+''',
+[ ] ],
+
     'is_generalized_dudeney' : [
 'lexicography', 'returns whether an integer n is a generalized Dudeney number',
 '''
@@ -6405,6 +6426,14 @@ on the digits that comprise an integer.
 
     'is_harshad' : [
 'lexicography', 'returns whether an integer n is a Harshad number',
+'''
+''',
+'''
+''',
+[ ] ],
+
+    'is_increasing' : [
+'lexicography', 'returns whether an integer n is increasing',
 '''
 ''',
 '''
@@ -6458,9 +6487,13 @@ read the same forwards as backwards, then the operator returns 1.
 'lexicography', 'returns whether an integer n is pandigital',
 '''
 A pandigital number contains at least one of all the of the digits 0 through
-9.
+9.   If the number is smaller than 10 digits, then it is considered pandigital
+if it contains all the digits from 1 to n, where n is the length of the string
+in digits.
 ''',
 '''
+''' + makeCommandExample( '1234 is_pandigital' ) + '''
+''' + makeCommandExample( '1274 is_pandigital' ) + '''
 ''' + makeCommandExample( '123456789 is_pandigital' ) + '''
 ''' + makeCommandExample( '1234567890 is_pandigital' ) + '''
 ''' + makeCommandExample( '-a30 [ 3 3 7 19 928163 1111211111 ] prod is_pandigital' ),
@@ -6590,6 +6623,22 @@ on until a one-digit number is obtained.
 ''',
 '''
 ''' + makeCommandExample( '123456789 reverse_digits' ),
+[ ] ],
+
+    'rotate_digits_left' : [
+'lexicography', 'rotates the digits of n to the left by k digits',
+'''
+''',
+'''
+''',
+[ ] ],
+
+    'rotate_digits_right' : [
+'lexicography', 'rotates the digits of n to the right by k digits',
+'''
+''',
+'''
+''',
 [ ] ],
 
     'show_erdos_persistence' : [
@@ -6807,6 +6856,23 @@ This simply counts the number of elements in the list.
 ''' + makeCommandExample( '1 100 range count' ),
 [ ] ],
 
+    'cumulative_diffs' : [
+'list_operators', 'returns a list with the differences between each element of list n with the first element',
+'''
+''',
+'''
+''',
+[ 'diffs', 'ratios', 'cumulative_ratios' ] ],
+
+    'cumulative_ratios' : [
+'list_operators', 'returns a list with the ratios between each element of n and the first',
+'''
+This operator is analogous to the 'cumulative_diffs' operator.
+''',
+'''
+''',
+[ 'ratios', 'diffs', 'cumulative_diffs' ] ],
+
     'difference' : [
 'list_operators', 'returns a list of unique elements in list k that are not found in list n',
 '''
@@ -6823,15 +6889,7 @@ This simply counts the number of elements in the list.
 ''',
 '''
 ''',
-[ 'diffs2', 'ratios', 'ratios2' ] ],
-
-    'diffs2' : [
-'list_operators', 'returns a list with the differences between each element of list n with the first element',
-'''
-''',
-'''
-''',
-[ 'diffs', 'ratios', 'ratios2' ] ],
+[ 'cumulative_diffs', 'ratios', 'cumulative_ratios' ] ],
 
     'element' : [
 'list_operators', 'returns a single element from a list',
@@ -6892,7 +6950,7 @@ The intervals of the chromatic scale:
 ''',
 '''
 ''',
-[ 'get_permutations' ] ],
+[ 'get_permutations', 'get_repeat_combinations' ] ],
 
     'get_permutations' : [
 'list_operators', 'generates all permutations of k members of list n',
@@ -6901,6 +6959,14 @@ The intervals of the chromatic scale:
 '''
 ''',
 [ 'get_combinations' ] ],
+
+    'get_repeat_combinations' : [
+'list_operators', 'generates all combinations of k members of list n, with repeats allowed',
+'''
+''',
+'''
+''',
+[ 'get_permutations', 'get_combinations' ] ],
 
     'group_elements' : [
 'list_operators', 'groups the elements of list n into sublsts of k elements',
@@ -7083,16 +7149,7 @@ This operator is analogous to the 'diffs' operator.
 ''',
 '''
 ''',
-[ 'ratios2', 'diffs', 'diffs2' ] ],
-
-    'ratios2' : [
-'list_operators', 'returns a list with the ratios between each element of n and the first',
-'''
-This operator is analogous to the 'diffs2' operator.
-''',
-'''
-''',
-[ 'ratios', 'diffs', 'diffs2' ] ],
+[ 'cumulative_ratios', 'diffs', 'cumulative_diffs' ] ],
 
     'reduce' : [
 'list_operators', 'reduces out the common factors from each element of a list',
@@ -7427,15 +7484,6 @@ resulting expression a list, rather than a set of k expressions.
 ''',
 [ ] ],
 
-    'for_each' : [
-'modifiers', 'instructs the next operater to act on list members rather than the list itself as an argument'
-'''
-TODO:  This operator is not implemented yet!
-''',
-'''
-''',
-[ ] ],
-
     'previous' : [
 'modifiers', 'duplicates the previous argument (identical to \'n 2 dup\')',
 '''
@@ -7484,7 +7532,7 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 ''',
 '''
 ''',
-[ ] ],
+[ 'collatz' ] ],
 
     'alternating_factorial' : [
 'number_theory', 'calculates the alternating factorial of n',
@@ -7523,9 +7571,12 @@ The Beta function is the equivalent to 'n gamma k gamma * n k + gamma /'.
     'calkin_wilf' : [
 'number_theory', 'calculates the nth member of the Calkin-Wilf sequence',
 '''
+The operator returns a list of two numbers, the numerator and the denominator
+of the nth Calkin-Wilf number.
 ''',
 '''
-''',
+''' + makeCommandExample( '0 10 range calkin_wilf' ) + '''
+''' + makeCommandExample( '1000000 calkin_wilf' ),
 [ ] ],
 
     'cf' : [
@@ -7535,6 +7586,14 @@ The Beta function is the equivalent to 'n gamma k gamma * n k + gamma /'.
 '''
 ''',
 [ ] ],
+
+    'collatz' : [
+'number_theory', 'returns the first k members of the Collatz sequence of n',
+'''
+''',
+'''
+''',
+[ 'aliquot' ] ],
 
     'count_divisors' : [
 'number_theory', 'returns a count of the divisors of n',
@@ -10199,13 +10258,13 @@ magnitude of the measurement.
 ''' + makeCommandExample( '4 million gallons estimate' ),
 [ 'convert' ] ],
 
-    'get_data' : [
+    'get_variable' : [
 'special', 'retrieves the value for n in the user config data file',
 '''
 ''',
 '''
 ''',
-[ 'set_data', 'set' ] ],
+[ 'set_variable' ] ],
 
     'help' : [
 'special', 'displays help text',
@@ -10501,43 +10560,21 @@ Please see 'roll_dice' for an explanation of the dice expression language.
 ''' + makeCommandExample( '4d6x1 6 roll_dice_' ),
 [ 'roll_dice', 'permute_dice', 'enumerate_dice', 'enumerate_dice_' ] ],
 
-    'set' : [
-'special', 'sets variable n (which must start with \'$\') to value k in interactive mode',
-'''
-The 'set' operator has no effect when not in interactive mode.  The value is
-set, of course, but since rpn immediately exits, nothing useful can happen.
-
-Since variable names can easily collide with operator or unit names,
-prefixing a variable name with '$' keeps it from being interpreted as
-something else.
-
-Use 'set_data' for persistent variables.
-''',
-'''
-rpn (1)>$a 3 set
-3
-rpn (2)>$b 4 set
-4
-rpn (3)>$a $b +
-7
-''',
-[ 'set_data', 'get_data' ] ],
-
-    'set_data' : [
+    'set_variable' : [
 'special', 'set the value k for key n in the user config file',
 '''
-These values can be accessed via the 'get_data' operator, but they
+These values can be accessed via the 'get_variable' operator, but they
 can be more conveniently accessed with the '$' prefix.
 ''',
 '''
-''' + makeCommandExample( 'magic_number 37 set_data' ) + '''
-''' + makeCommandExample( 'magic_number get_data' ) + '''
+''' + makeCommandExample( 'magic_number 37 set_variable' ) + '''
+''' + makeCommandExample( 'magic_number get_variable' ) + '''
 c:\>rpn $magic_number
 37
 
-''' + makeCommandExample( 'my_location "Leesburg, VA" set_data' ) + '''
+''' + makeCommandExample( 'my_location "Leesburg, VA" set_variable' ) + '''
 ''' + makeCommandExample( '$my_location today sunrise' ),
-[ 'get_data' ] ],
+[ 'get_variable' ] ],
 
     'topic' : [
 'special', 'prints a help topic in interactive mode',
