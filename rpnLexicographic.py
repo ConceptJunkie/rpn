@@ -324,7 +324,7 @@ def isPandigital( n ):
 def containsDigits( n, k ):
     str = getMPFIntegerAsString( n )
 
-    if isinstance( k, ( mpf, int ) ):
+    if isinstance( k, ( mpf, int, float ) ):
         k = getMPFIntegerAsString( k )
 
     for c in k:
@@ -344,7 +344,7 @@ def containsDigits( n, k ):
 def containsAnyDigits( n, k ):
     str = getMPFIntegerAsString( n )
 
-    if isinstance( k, ( mpf, int ) ):
+    if isinstance( k, ( mpf, int, float ) ):
         k = getMPFIntegerAsString( k )
 
     for c in k:
@@ -364,7 +364,7 @@ def containsAnyDigits( n, k ):
 def containsOnlyDigits( n, k ):
     str = getMPFIntegerAsString( n )
 
-    if isinstance( k, ( mpf, int ) ):
+    if isinstance( k, ( mpf, int, float ) ):
         k = getMPFIntegerAsString( k )
 
     for c in str:
@@ -384,7 +384,7 @@ def containsOnlyDigits( n, k ):
 def countDigits( n, k ):
     str = getMPFIntegerAsString( n )
 
-    if isinstance( k, ( mpf, int ) ):
+    if isinstance( k, ( mpf, int, float ) ):
         k = getMPFIntegerAsString( k )
 
     result = 0

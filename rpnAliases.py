@@ -738,6 +738,7 @@ operatorAliases = {
     'polyeval'                  : 'eval_polynomial',
     'polygonal?'                : 'nth_polygonal',
     'polymul'                   : 'multiply_polynomials',
+    'polymult'                  : 'multiply_polynomials',
     'polypower'                 : 'polynomial_power',
     'polyprod'                  : 'polynomial_product',
     'polyproduct'               : 'polynomial_product',

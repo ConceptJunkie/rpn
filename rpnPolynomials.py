@@ -101,7 +101,7 @@ class Polynomial( object ):
 
             for selfpow, selfco in enumerate( _s ):
                 for valpow, valco in enumerate( _v ):
-                    res[ selfpow + valpow ] += selfco * valco
+                    res[ selfpow + valpow ] += fmul( selfco, valco )
         else:
             res = [ co * val for co in self.coeffs ]
 
@@ -155,19 +155,9 @@ class Polynomial( object ):
         return self.__add__( -val )
 
     def trim( self ):
-        "Remove trailing 0-coefficients"
-        _co = self.coeffs
-
-        if _co:
-            offs = len( _co ) - 1
-
-            if _co[ offs ] == 0:
-                offs -= 1
-
-                while offs >= 0 and _co[ offs ] == 0:
-                    offs -= 1
-
-                del _co[ offs + 1 : ]
+        "Remove leading 0-coefficients"
+        while self.coeffs[ 0 ] == 0:
+            del self.coeffs[ 0 ]
 
     def getCoefficients( self ):
         return self.coeffs
@@ -498,9 +488,9 @@ def multiplyListOfPolynomials( args ):
             arg = [ arg ]
 
         if result is None:
-            result = Polynomial( [ int( i ) for i in arg ] )
+            result = Polynomial( [ i for i in arg ] )
         else:
-            result *= Polynomial( [ int( i ) for i in arg ] )
+            result *= Polynomial( [ i for i in arg ] )
 
     return result.getCoefficients( )
 
@@ -527,9 +517,9 @@ def sumListOfPolynomials( args ):
             arg = [ arg ]
 
         if result is None:
-            result = Polynomial( [ int( i ) for i in arg ] )
+            result = Polynomial( [ i for i in arg ] )
         else:
-            result += Polynomial( [ int( i ) for i in arg ] )
+            result += Polynomial( [ i for i in arg ] )
 
     return result.getCoefficients( )
 

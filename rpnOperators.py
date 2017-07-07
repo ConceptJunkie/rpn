@@ -725,6 +725,9 @@ class RPNFunction( object ):
 
             valueList.append( item )
 
+        if not xArg and not yArg and not zArg:
+            raise ValueError( 'lambdas must have at least x, y, or z' )
+
         self.code = 'def rpnInternalFunction('
 
         first = True
@@ -944,6 +947,9 @@ class RPNFunction( object ):
                 else:
                     args.append( g.userVariables[ term[ 1 : ] ] )
             else:
+                if term not in ( 'x', 'y', 'z' ):
+                    term = str( parseInputValue( term, g.inputRadix ) )
+
                 if listDepth > 0:
                     listArgs[ listDepth - 1 ].append( term )
                 else:

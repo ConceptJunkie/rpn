@@ -528,18 +528,13 @@ is unavoidable to a certain extent, but it's worse than I think it should be.
 Date comparisons before the epoch (1970-01-01) don't work.  It seems to be a
 limitation of the Arrow class.
 
-User-defined functions can't include lists, units or anything other than
-default format numbers.
+User-defined functions can't include units.
 
 Transitive conversions with units that require special functions don't work.
 
 "rpn 1 1 4 range range 10 15 range 1 3 range range2" crashes because
 operators that take more than 2 arguments don't handle recursive list
 arguments.
-
-'rpn 1 10 range lambda x twin_primes_ 1/x sum eval' crashes, trying to create an
-mpf fron None.   I think it's because the lambda functionality can't handle any
-operator that returns a list.
 
 Complex numbers don't obey the accuracy level on output (-a).
 
@@ -556,14 +551,13 @@ gets smaller.
 *  'name' should handle fractions smaller than 1 gracefully (right now it prints nothing)
 *  support date comparisons, etc. before the epoch
 *  create an output handler for RPNLocation
-*  'result' doesn't work with measurements (see bugs)
+*  'result' doesn't work with measurements
 *  https://en.wikipedia.org/wiki/American_wire_gauge
 *  Add support for lists in user-defined functions:
    'rpn 1970 2016 range lambda x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval'
 *  'rpn 1 20 range dBm kilowatt convert' fails.  This conversion doesn't work because dBm to watt uses a special function.
 *  'mean', 'max' and 'min' should work with measurements, but measurements currently can't be compared.
-*  lists and units aren't supported in user-defined functions
-*  input parsing doesn't happen in a user-defined function, e.g., '1,000' doesn't get translated to 1000
+*  units aren't supported in user-defined functions
 *  http://en.wikipedia.org/wiki/Physical_constant
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
@@ -8078,7 +8072,7 @@ The Perrin sequence:
 ''' + makeCommandExample( '[ 1 1 0 ] [ 3 0 2 ] 20 linear_recurrence' ),
 [ 'linear_recurrence_with_modulo' ] ],
 
-    'linear_recurrence' : [
+    'linear_recurrence_with_modulo' : [
 'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b), where each successive result is taken modulo d',
 '''
 ''',
