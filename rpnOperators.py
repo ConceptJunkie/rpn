@@ -2321,13 +2321,17 @@ listOperators = {
     'is_friendly'           : RPNOperator( isFriendly,
                                            1, [ RPNOperator.List ] ),
 
-    'geometric_recurrence'  : RPNOperator( getNthGeometricRecurrence,
+    'geometric_recurrence'  : RPNOperator( lambda a, b, c, d: RPNGenerator( getGeometricRecurrence( a, b, c, d ) ),
                                            4, [ RPNOperator.List, RPNOperator.List, RPNOperator.List,
                                                 RPNOperator.PositiveInteger ] ),
 
-    'linear_recurrence'     : RPNOperator( getNthLinearRecurrence,
+    'linear_recurrence'     : RPNOperator( lambda a, b, c: RPNGenerator( getLinearRecurrence( a, b, c ) ),
                                            3, [ RPNOperator.List, RPNOperator.List,
                                                 RPNOperator.PositiveInteger ] ),
+
+    'linear_recurrence_with_modulo' : RPNOperator( lambda a, b, c, d: RPNGenerator( getLinearRecurrenceWithModulo( a, b, c, d ) ),
+                                           4, [ RPNOperator.List, RPNOperator.List,
+                                                RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     # powers_and_roots
     'tower'                 : RPNOperator( calculatePowerTower,

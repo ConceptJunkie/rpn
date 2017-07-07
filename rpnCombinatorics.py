@@ -44,7 +44,7 @@ from mpmath import arange, bell, bernoulli, binomial, e, fac, fadd, fdiv, floor,
                    fprod, sqrt
 
 from rpnGenerator import RPNGenerator
-from rpnNumberTheory import getNthLinearRecurrence
+from rpnNumberTheory import getNthLinearRecurrence, getLinearRecurrence
 from rpnPersistence import cachedFunction
 from rpnPolytope import getNthGeneralizedPolygonalNumber
 from rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, \

@@ -520,86 +520,138 @@ def getGreedyEgyptianFraction( n, d ):
 
 # //******************************************************************************
 # //
-# //  getNthLinearRecurrence
+# //  getLinearRecurrence
 # //
-# //  nth element of Fibonacci sequence = rpn [ 1 1 ] 1 n linear
-# //  nth element of Lucas sequence = rpn [ 1 1 ] [ 1 3 ] n linear
+# //  Fibonacci sequence = rpn [ 1 1 ] 1 n linear
+# //  Lucas sequence = rpn [ 1 1 ] [ 1 3 ] n linear
 # //
 # //******************************************************************************
 
-def getNthLinearRecurrence( recurrence, seeds, n ):
-    if not isinstance( recurrence, list ):
-        return getNthLinearRecurrence( [ recurrence ], seeds, real( n ) )
+def getLinearRecurrence( recurrence, seeds, count ):
+    if not isinstance( recurrence, ( list, RPNGenerator ) ):
+        recurrence = [ recurrence ]
 
-    if not isinstance( seeds, list ):
-        return getNthLinearRecurrence( recurrence, [ seeds ], real( n ) )
+    if not isinstance( seeds, ( list, RPNGenerator ) ):
+        seeds = [ seeds ]
 
     if not seeds:
-        raise ValueError( 'for operator \'linear_recur\', seeds list cannot be empty ' )
+        raise ValueError( 'for operator \'linear_recurrence\', seeds list cannot be empty ' )
 
     # calculate missing seeds
     for i in range( len( seeds ), len( recurrence ) ):
-        seeds.append( getNthLinearRecurrence( recurrence[ : i ], seeds, i ) )
+        seeds.append( list( getLinearRecurrence( recurrence[ : i ], seeds, 1 ) ) )
 
-    if isinstance( n, list ):
-        return [ getNthLinearRecurrence( recurrence, seeds, real( i ) ) for i in n ]
-
-    if real( n ) < len( seeds ):
-        return seeds[ int( n ) - 1 ]
+    if real_int( count ) < len( seeds ):
+        for i in range( int( count ) ):
+            yield seeds[ i ]
     else:
         if not recurrence:
-            raise ValueError( 'internal error:  for operator \'linear_recur\', '
+            raise ValueError( 'internal error:  for operator \'linear_recurrence\', '
                               'recurrence list cannot be empty ' )
 
         result = [ ]
         result.extend( seeds )
 
-        for i in arange( len( seeds ), n ):
+        for i in seeds:
+            yield i
+
+        for i in arange( len( seeds ), count ):
             newValue = 0
 
             for j in range( -1, -( len( seeds ) + 1 ), -1 ):
                 newValue = fadd( newValue, fmul( result[ j ], recurrence[ j ] ) )
 
             result.append( newValue )
+            yield newValue
+
             del result[ 0 ]
 
-        return result[ -1 ]
+
+# //******************************************************************************
+# //
+# //  getNthLinearRecurrence
+# //
+# //******************************************************************************
+
+def getNthLinearRecurrence( recurrence, seeds, n ):
+    return list( getLinearRecurrence( recurrence, seeds, n ) )[ -1 ]
 
 
 # //******************************************************************************
 # //
-# //  getNthGeometricRecurrence
+# //  getLinearRecurrenceWithModulo
 # //
 # //******************************************************************************
 
-def getNthGeometricRecurrence( recurrence, powers, seeds, n ):
-    if not isinstance( recurrence, list ):
-        return getNthGeometricRecurrence( [ recurrence ], powers, seeds, n )
+def getLinearRecurrenceWithModulo( recurrence, seeds, count, modulo ):
+    if not isinstance( recurrence, ( list, RPNGenerator ) ):
+        recurrence = [ recurrence ]
 
-    if not isinstance( powers, list ):
-        return getNthGeometricRecurrence( recurrence, [ powers ], seeds, n )
-
-    if not isinstance( seeds, list ):
-        return getNthGeometricRecurrence( recurrence, powers, [ seeds ], n )
+    if not isinstance( seeds, ( list, RPNGenerator ) ):
+        seeds = [ seeds ]
 
     if not seeds:
-        raise ValueError( 'for operator \'geometric_recur\', seeds list cannot be empty' )
-
-    if len( recurrence ) != len( powers ):
-        raise ValueError( 'for operator \'geometric_recur\', recurrence and powers lists must be the same length' )
+        raise ValueError( 'for operator \'linear_recurrence_with_modulo\', seeds list cannot be empty ' )
 
     # calculate missing seeds
     for i in range( len( seeds ), len( recurrence ) ):
-        seeds.append( getNthGeometricRecurrence( recurrence[ : i ], powers[ : i ], seeds, i ) )
+        seeds.append( getLinearRecurrenceWithModulo( recurrence[ : i ], seeds, i, modulo ) )
 
-    if isinstance( n, list ):
-        return [ getNthGeometricRecurrence( recurrence, powers, seeds, real( i ) ) for i in n ]
-
-    if real_int( n ) < len( seeds ):
-        return seeds[ int( n ) - 1 ]
+    if real_int( count ) < len( seeds ):
+        for i in range( int( count ) ):
+            yield seeds[ i ]
     else:
         if not recurrence:
-            raise ValueError( 'internal error:  for operator \'geometric_recur\', '
+            raise ValueError( 'internal error:  for operator \'linear_recurrence_with_modulo\', '
+                              'recurrence list cannot be empty ' )
+
+        result = [ ]
+        result.extend( seeds )
+
+        for i in seeds:
+            yield i
+
+        for i in arange( len( seeds ), count ):
+            newValue = 0
+
+            for j in range( -1, -( len( seeds ) + 1 ), -1 ):
+                newValue = fmod( fadd( newValue, fmul( result[ j ], recurrence[ j ] ) ), modulo )
+
+            result.append( newValue )
+            yield newValue
+
+            del result[ 0 ]
+
+
+# //******************************************************************************
+# //
+# //  getGeometricRecurrence
+# //
+# //******************************************************************************
+
+def getGeometricRecurrence( recurrence, powers, seeds, count ):
+    if not isinstance( recurrence, ( list, RPNGenerator ) ):
+        recurrence = [ recurrence ]
+
+    if not isinstance( powers, ( list, RPNGenerator ) ):
+        powers = [ powers ]
+
+    if not isinstance( seeds, ( list, RPNGenerator ) ):
+        seeds = [ seeds ]
+
+    if not seeds:
+        raise ValueError( 'for operator \'linear_recurrence\', seeds list cannot be empty ' )
+
+    # calculate missing seeds
+    for i in range( len( seeds ), len( recurrence ) ):
+        seeds.append( list( getLinearRecurrence( recurrence[ : i ], seeds, 1 ) ) )
+
+    if real_int( count ) < len( seeds ):
+        for i in range( int( count ) ):
+            yield seeds[ i ]
+    else:
+        if not recurrence:
+            raise ValueError( 'internal error:  for operator \'linear_recurrence\', '
                               'recurrence list cannot be empty ' )
 
         if not powers:
@@ -609,16 +661,19 @@ def getNthGeometricRecurrence( recurrence, powers, seeds, n ):
         result = [ ]
         result.extend( seeds )
 
-        for i in arange( len( seeds ), n ):
+        for i in seeds:
+            yield i
+
+        for i in arange( len( seeds ), count ):
             newValue = 0
 
             for j in range( -1, -( len( seeds ) + 1 ), -1 ):
                 newValue = fadd( newValue, fmul( power( result[ j ], powers[ j ] ), recurrence[ j ] ) )
 
             result.append( newValue )
-            del result[ 0 ]
+            yield newValue
 
-        return result[ -1 ]
+            del result[ 0 ]
 
 
 # //******************************************************************************

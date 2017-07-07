@@ -18,7 +18,7 @@ from rpn import rpn, handleOutput
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement
 
-from mpmath import almosteq, mpf, mpmathify, nan
+from mpmath import almosteq, fsub, mpf, mpmathify, nan
 
 
 # //******************************************************************************
@@ -33,10 +33,10 @@ def compareResults( result1, result2 ):
     exception.'''
 
     if isinstance( result1, RPNGenerator ):
-        return compareResults( [ i for i in result1.getGenerator( ) ], result2 )
+        return compareResults( list( result1.getGenerator( ) ), result2 )
 
     if isinstance( result2, RPNGenerator ):
-        return compareResults( result1, [ i for i in result2.getGenerator( ) ] )
+        return compareResults( result1, list( result2.getGenerator( ) ) )
 
     if isinstance( result1, list ) != isinstance( result2, list ):
         print( '**** error in results comparison' )
@@ -68,6 +68,7 @@ def compareResults( result1, result2 ):
                 print( '**** error in results comparison' )
                 print( type( result1[ i ] ), type( result2[ i ] ) )
                 print( result1[ i ], result2[ i ], 'are not equal' )
+                print( 'difference', fsub( result1[ i ], result2[ i ] ) )
                 print( 'difference found at index', i )
                 raise ValueError( 'unit test failed' )
     elif not compareValues( result1, result2 ):

@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1017
+maxExampleCount = 1016
 
 
 # //******************************************************************************
@@ -264,8 +264,8 @@ Decimal points are not allowed for binary, octal or hexadecimal modes,
 but fractional numbers in bases other than 10 can be input using -b.
 ''' + makeCommandExample( '14.5 -b6', indent=4 ) + '''
 ''' + makeCommandExample( 'hello.hi -b36', indent=4 ) + '''
-A leading '\\' forces the term to be a number rather than an operator (for
-use with higher bases with -b).
+A leading '\\' forces the term to be interpreted as a number rather than an
+operator (for use with higher bases with -b).
 ''' + makeCommandExample( '\\add -b20', indent=4 ) + '''
     ''',
     'output' :
@@ -1108,7 +1108,7 @@ Calculations with lists:
     The first, 12th, and 165th pentagonal numbers are also triangular.
 
     Calculate the first 10 Fibonacci numbers without using the 'fib' operator:
-''' + makeCommandExample( '[ 1 1 ] 1 1 10 range linear_recurrence', indent=8 ) + '''
+''' + makeCommandExample( '[ 1 1 ] [ 0 1 ] 15 linear_recurrence', indent=8 ) + '''
 
     What percentage of numbers have a factor less than or equal to 5?
 ''' + makeCommandExample( '1 1 5 nth_prime lambda 1 x prime 1/x - nprod - 100 *', indent=8 ) + '''
@@ -6417,7 +6417,7 @@ on the digits that comprise an integer.
 [ ] ],
 
     'is_digital_permutation' : [
-'lexicography', 'returns whether k is a digital permutation of n",
+'lexicography', 'returns whether k is a digital permutation of n',
 '''
 ''',
 '''
@@ -8064,19 +8064,26 @@ Internally, rpn uses this same linear recurrence functionality in the
 'nonagonal_hexagonal' operators.
 ''',
 '''
-''' + makeCommandExample( '-c -a55 [ 1 1 ] [ 1 1 ] 250 linear_recurrence' ) + '''
 The Fibonacci sequence:
-''' + makeCommandExample( '[ 1 1 ] [ 0 1 ] 1 18 range linear_recurrence' ) + '''
+''' + makeCommandExample( '[ 1 1 ] [ 0 1 ] 18 linear_recurrence' ) + '''
 The Lucas Sequence:
-''' + makeCommandExample( '[ 1 1 ] [ 1 3 ] 1 17 range linear_recurrence' ) + '''
+''' + makeCommandExample( '[ 1 1 ] [ 1 3 ] 17 linear_recurrence' ) + '''
 The Tribonacci sequence:
-''' + makeCommandExample( '[ 1 1 1 ] [ 0 0 1 ] 1 18 range linear_recurrence' ) + '''
+''' + makeCommandExample( '[ 1 1 1 ] [ 0 0 1 ] 18 linear_recurrence' ) + '''
 The Octanacci sequence:
-''' + makeCommandExample( '[ 1 8 dup ] [ 0 7 dup 1 ] 1 20 range linear_recurrence' ) + '''
+''' + makeCommandExample( '[ 1 8 dup ] [ 0 7 dup 1 ] 20 linear_recurrence' ) + '''
 The Pell numbers:
-''' + makeCommandExample( '[ 1 2 ] [ 0 1 ] 1 15 range linear_recurrence' ) + '''
+''' + makeCommandExample( '[ 1 2 ] [ 0 1 ] 15 linear_recurrence' ) + '''
 The Perrin sequence:
-''' + makeCommandExample( '[ 1 1 0 ] [ 3 0 2 ] 1 20 range linear_recurrence' ),
+''' + makeCommandExample( '[ 1 1 0 ] [ 3 0 2 ] 20 linear_recurrence' ),
+[ 'linear_recurrence_with_modulo' ] ],
+
+    'linear_recurrence' : [
+'number_theory', 'calculates the cth value of a linear recurrence specified by a list of factors (a) and of seeds (b), where each successive result is taken modulo d',
+'''
+''',
+'''
+''',
 [ ] ],
 
     'lucas' : [

@@ -2330,10 +2330,10 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '3 gamma' )
 
     # geometric_recurrence
-    expectEqual( '-a800 [ 1 1 ] [ 2 2 ] [ 0 1 ] 1 15 range geometric_recurrence', '283 oeis 15 left' )
-    expectEqual( '-a800 [ 1 1 ] [ 3 1 ] [ 0 1 ] 1 18 range geometric_recurrence', '280 oeis 18 left' )
-    expectEqual( '-a800 [ 1 1 ] [ 2 1 ] [ 0 1 ] 1 25 range geometric_recurrence', '278 oeis 25 left' )
-    expectEqual( '-a800 [ 1 1 ] [ 1 3 ] [ 0 1 ] 1 11 range geometric_recurrence', '284 oeis 11 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 2 2 ] [ 0 1 ] 15 geometric_recurrence', '-a800 283 oeis 15 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 3 1 ] [ 0 1 ] 18 geometric_recurrence', '280 oeis 18 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 2 1 ] [ 0 1 ] 25 geometric_recurrence', '278 oeis 25 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 1 3 ] [ 0 1 ] 11 geometric_recurrence', '284 oeis 11 left' )
 
     # harmonic
     testOperator( '34 harmonic' )
@@ -2453,9 +2453,9 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '7 8 leyland' )
 
     # linear_recurrence
-    testOperator( '1 10 range 2 5 range 17 linear_recur' )
-    expectEqual( '-a22 [ 1 -1 -2 3 ] [ 1 2 4 8 ] 1 200 range linear_recurrence', '126 oeis 200 left' )
-    expectEqual( '-a22 [ -1, 2, 1, -5 4 ] [ 1, 2, 4, 8, 16 ] 1 201 range linear_recurrence', '128 oeis 201 left' )
+    testOperator( '2 5 17 linear_recurrence' )
+    expectEqual( '-a50 [ 1 -1 -2 3 ] [ 1 2 4 8 ] 200 linear_recurrence', '-a50 126 oeis 200 left' )
+    expectEqual( '-a50 [ -1, 2, 1, -5 4 ] [ 1, 2, 4, 8, 16 ] 201 linear_recurrence', '-a50 128 oeis 201 left' )
 
     # log_gamma
     testOperator( '10 log_gamma' )
