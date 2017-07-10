@@ -502,6 +502,68 @@ def twoArgFunctionEvaluator( ):
 
 # //******************************************************************************
 # //
+# //  listAndOneArgFunctionEvaluator
+# //
+# //******************************************************************************
+
+def listAndOneArgFunctionEvaluator( ):
+    def listAndOneArgFunction( func ):
+        @functools.wraps( func )
+
+        def evaluateListAndOneArg( _arg1, _arg2 ):
+            if isinstance( _arg1, list ):
+                if isinstance( _arg1[ 0 ], list ):
+                    return [ evaluateListAndOneArg( i, _arg2 ) for i in _arg1 ]
+                else:
+                    arg1 = _arg1
+            else:
+                arg1 = [ _arg1 ]
+
+            if isinstance( _arg2, list ):
+                len1 = len( _arg2 )
+
+                if len1 == 1:
+                    arg2 = _arg2[ 0 ]
+                    list1 = False
+                else:
+                    arg2 = _arg2
+                    list1 = True
+
+                generator1 = False
+            else:
+                arg2 = _arg2
+                list1 = False
+
+            generator1 = isinstance( arg2, RPNGenerator )
+
+            if generator1:
+                iter1 = iter( arg2 )
+
+                result = [ ]
+
+                while True:
+                    try:
+                        i1 = iter1.__next__( )
+                        result.append( func( arg1, i1 ) )
+                    except:
+                        break
+                else:
+                    result = [ evaluateListAndOneArg( arg1, i ) for i in arg2.getGenerator( ) ]
+            elif list1:
+                result = [ evaluateListAndOneArg( arg1, i ) for i in arg2 ]
+            else:
+                result = func( arg1, arg2 )
+
+            return result
+
+        return evaluateListAndOneArg
+
+    return listAndOneArgFunction
+
+
+
+# //******************************************************************************
+# //
 # //  listAndTwoArgFunctionEvaluator
 # //
 # //******************************************************************************
@@ -510,7 +572,15 @@ def listAndTwoArgFunctionEvaluator( ):
     def listAndTwoArgFunction( func ):
         @functools.wraps( func )
 
-        def evaluateListAndTwoArgs( arg1, _arg2, _arg3 ):
+        def evaluateListAndTwoArgs( _arg1, _arg2, _arg3 ):
+            if isinstance( _arg1, list ):
+                if isinstance( _arg1[ 0 ], list ):
+                    return [ evaluateListAndTwoArgs( i, _arg2, _arg3 ) for i in _arg1 ]
+                else:
+                    arg1 = _arg1
+            else:
+                arg1 = [ _arg1 ]
+
             if isinstance( _arg2, list ):
                 len1 = len( _arg2 )
 
@@ -557,7 +627,7 @@ def listAndTwoArgFunctionEvaluator( ):
                             i1 = iter1.__next__( )
                             i2 = iter2.__next__( )
 
-                            result.append( func( i1, i2 ) )
+                            result.append( func( arg1, i1, i2 ) )
                         except:
                             break
                 else:
@@ -581,7 +651,6 @@ def listAndTwoArgFunctionEvaluator( ):
         return evaluateListAndTwoArgs
 
     return listAndTwoArgFunction
-
 
 
 # //******************************************************************************

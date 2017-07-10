@@ -770,7 +770,9 @@ class RPNFunction( object ):
             if not isinstance( term, list ) and term in g.operatorAliases:
                 term = g.operatorAliases[ term ]
 
-            if term in constants:
+            if term in ( 'x', 'y', 'z' ) and not valueList:
+                self.code += term
+            elif term in constants:
                 function = constants[ term ].function.__name__
                 debugPrint( 'function', function )
 
@@ -1810,16 +1812,16 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 return False
 
             # handle a user-defined function
-            if isinstance( currentValueList[ -1 ], RPNFunction ):
-                if currentValueList[ -1 ].argCount == 1:
-                    if not operators[ 'eval' ].evaluate( 'eval', index, currentValueList ):
-                        return False
-                elif currentValueList[ -1 ].argCount == 2:
-                    if not operators[ 'eval2' ].evaluate( 'eval2', index, currentValueList ):
-                        return False
-                elif currentValueList[ -1 ].argCount == 3:
-                    if not operators[ 'eval3' ].evaluate( 'eval3', index, currentValueList ):
-                        return False
+            #if isinstance( currentValueList[ -1 ], RPNFunction ):
+            #    if currentValueList[ -1 ].argCount == 1:
+            #        if not operators[ 'eval' ].evaluate( 'eval', index, currentValueList ):
+            #            return False
+            #    elif currentValueList[ -1 ].argCount == 2:
+            #        if not operators[ 'eval2' ].evaluate( 'eval2', index, currentValueList ):
+            #            return False
+            #    elif currentValueList[ -1 ].argCount == 3:
+            #        if not operators[ 'eval3' ].evaluate( 'eval3', index, currentValueList ):
+            #            return False
 
                 return True
 
@@ -1936,6 +1938,16 @@ def evaluateFunction2( n, k, func ):
 def evaluateFunction3( a, b, c, func ):
     return func.evaluate( a, b, c )
 
+@listAndOneArgFunctionEvaluator( )
+def evaluateListFunction( n, func ):
+    return func.evaluate( n )
+
+def evaluateListFunction2( n, k, func ):
+    return func.evaluate( n, k )
+
+def evaluateListFunction3( a, b, c, func ):
+    return func.evaluate( a, b, c )
+
 @twoArgFunctionEvaluator( )
 def evaluateLimit( n, func ):
     return limit( lambda x: func.evaluate( x ), n )
@@ -1980,6 +1992,9 @@ functionOperators = [
     'eval',
     'eval2',
     'eval3',
+    'eval_list',
+    'eval_list2',
+    'eval_list3',
     'filter',
     'filter_by_index',
     'for_each',
@@ -3343,6 +3358,17 @@ operators = {
                                                          RPNOperator.Function ] ),
 
     'eval3'                          : RPNOperator( evaluateFunction3,
+                                                    4, [ RPNOperator.Default, RPNOperator.Default,
+                                                         RPNOperator.Default, RPNOperator.Function ] ),
+
+    'eval_list'                      : RPNOperator( evaluateListFunction,
+                                                    2, [ RPNOperator.Default, RPNOperator.Function ] ),
+
+    'eval_list2'                     : RPNOperator( evaluateListFunction2,
+                                                    3, [ RPNOperator.Default, RPNOperator.Default,
+                                                         RPNOperator.Function ] ),
+
+    'eval_list3'                     : RPNOperator( evaluateListFunction3,
                                                     4, [ RPNOperator.Default, RPNOperator.Default,
                                                          RPNOperator.Default, RPNOperator.Function ] ),
 
