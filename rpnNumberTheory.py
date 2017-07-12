@@ -1316,8 +1316,8 @@ def isPerfect( n ):
 @twoArgFunctionEvaluator( )
 @cachedFunction( 'smooth' )
 def isSmooth( n, k ):
-    if real_int( n ) < real_int( k ):
-        return 0
+    if real_int( n ) <= real_int( k ):
+        return 1
 
     return 1 if max( [ i[ 0 ] for i in getFactorList( n ) ] ) <= k else 0
 
@@ -1333,7 +1333,9 @@ def isSmooth( n, k ):
 @twoArgFunctionEvaluator( )
 @cachedFunction( 'rough' )
 def isRough( n, k ):
-    if real_int( n ) < real_int( k ):
+    if real_int( n ) == 1:
+        return 1
+    elif n < real_int( k ):
         return 0
 
     return 1 if min( [ i[ 0 ] for i in getFactorList( n ) ] ) >= k else 0

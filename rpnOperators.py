@@ -3519,6 +3519,9 @@ operators = {
     'dup_digits'                     : RPNOperator( duplicateDigits,
                                                     2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
 
+    'erdos_persistence'              : RPNOperator( getErdosPersistence,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
     'find_palindrome'                : RPNOperator( findPalindrome,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
@@ -3534,22 +3537,22 @@ operators = {
     'get_left_truncations'           : RPNOperator( getLeftTruncationsGenerator,
                                                     1, [ RPNOperator.Integer ] ),
 
-    'get_right_digits'                : RPNOperator( getRightDigits,
-                                                    2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
-
-    'get_right_truncations'          : RPNOperator( getRightTruncationsGenerator,
-                                                    1, [ RPNOperator.Integer ] ),
-
     'get_nonzero_base_k_digits'      : RPNOperator( getNonzeroBaseKDigits,
                                                     1, [ RPNOperator.Integer ] ),
 
     'get_nonzero_digits'             : RPNOperator( getNonzeroDigits,
                                                     1, [ RPNOperator.Integer ] ),
 
-    'has_digits'                     : RPNOperator( containsDigits,
-                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+    'get_right_digits'                : RPNOperator( getRightDigits,
+                                                    2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
+
+    'get_right_truncations'          : RPNOperator( getRightTruncationsGenerator,
+                                                    1, [ RPNOperator.Integer ] ),
 
     'has_any_digits'                 : RPNOperator( containsAnyDigits,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'has_digits'                     : RPNOperator( containsDigits,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     'has_only_digits'                : RPNOperator( containsOnlyDigits,
@@ -3606,6 +3609,9 @@ operators = {
     'is_trimorphic'                  : RPNOperator( isTrimorphic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'k_persistence'                  : RPNOperator( getKPersistence,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
+
     'multiply_digits'                : RPNOperator( multiplyDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
@@ -3621,6 +3627,9 @@ operators = {
     'permute_digits'                 : RPNOperator( permuteDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'persistence'                    : RPNOperator( getPersistence,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
     'replace_digits'                 : RPNOperator( replaceDigits,
                                                     3, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger,
                                                          RPNOperator.NonnegativeInteger ] ),
@@ -3633,6 +3642,15 @@ operators = {
 
     'rotate_digits_right'            : RPNOperator( rotateDigitsRight,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.Integer ] ),
+
+    'show_persistence'               : RPNOperator( showPersistence,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'show_erdos_persistence'         : RPNOperator( showErdosPersistence,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'show_k_persistence'             : RPNOperator( showKPersistence,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
     'sum_digits'                     : RPNOperator( sumDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
@@ -3772,14 +3790,11 @@ operators = {
     'fibonorial'                     : RPNOperator( getNthFibonorial,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'generate_polydivisibles'        : RPNOperator( lambda n: RPNGenerator.createGenerator( generatePolydivisibles, n ),
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'erdos_persistence'              : RPNOperator( getErdosPersistence,
-                                                    1, [ RPNOperator.NonnegativeInteger ] ),
-
     'fraction'                       : RPNOperator( interpretAsFraction,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'generate_polydivisibles'        : RPNOperator( lambda n: RPNGenerator.createGenerator( generatePolydivisibles, n ),
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'gamma'                          : RPNOperator( getGamma,
                                                     1, [ RPNOperator.Default ] ),
@@ -3910,9 +3925,6 @@ operators = {
     'nth_thue_morse'                 : RPNOperator( getNthThueMorse,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'n_persistence'                  : RPNOperator( getKPersistence,
-                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
-
     'octanacci'                      : RPNOperator( getNthOctanacci,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
@@ -3921,9 +3933,6 @@ operators = {
 
     'pentanacci'                     : RPNOperator( getNthPentanacci,
                                                     1, [ RPNOperator.PositiveInteger ] ),
-
-    'persistence'                    : RPNOperator( getPersistence,
-                                                    1, [ RPNOperator.NonnegativeInteger ] ),
 
     'polygamma'                      : RPNOperator( getPolygamma,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.Default ] ),
@@ -3939,15 +3948,6 @@ operators = {
 
     'riesel'                         : RPNOperator( getNthRiesel,
                                                     1, [ RPNOperator.Real ] ),
-
-    'show_n_persistence'             : RPNOperator( showKPersistence,
-                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
-
-    'show_persistence'               : RPNOperator( showPersistence,
-                                                    1, [ RPNOperator.NonnegativeInteger ] ),
-
-    'show_erdos_persistence'         : RPNOperator( showErdosPersistence,
-                                                    1, [ RPNOperator.NonnegativeInteger ] ),
 
     'sigma'                          : RPNOperator( getSigmaOperator,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),

@@ -5645,6 +5645,30 @@ Of course, rpn has better ways to do this:
 ''' + makeCommandExample( '[ 1 -4 -21 ] solve' ),
 [ 'eval', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
 
+    'eval_list' : [
+'functions', 'evaluates the function n for the given list argument[s] k',
+'''
+''',
+'''
+''',
+[ 'eval', 'eval_list2', 'eval_list3', 'lambda' ] ],
+
+    'eval_list2' : [
+'functions', 'evaluates the function n for the given list argument[s] k',
+'''
+''',
+'''
+''',
+[ 'eval', 'eval_list', 'eval_list3', 'lambda' ] ],
+
+    'eval_list3' : [
+'functions', 'evaluates the function n for the given list argument[s] k',
+'''
+''',
+'''
+''',
+[ 'eval', 'eval_list', 'eval_list2', 'lambda' ] ],
+
     'filter' : [
 'functions', 'filters a list n using function k',
 '''
@@ -6536,6 +6560,14 @@ in digits.
 ''' + makeCommandExample( '1 50 range is_trimorphic' ),
 [ 'is_automorphic', 'is_trimorphic' ] ],
 
+    'k_persistence' : [
+'lexicography', 'counts the number of times it takes to successively multiply the digits of n to the kth power to get a one-digit number',
+'''
+''',
+'''
+''',
+[ 'persistence', 'show_k_persistence', 'show_erdos_persistence' ] ],
+
     'multiply_digits' : [
 'lexicography', 'calculates the product of the digits of integer n',
 '''
@@ -6568,14 +6600,6 @@ in digits.
 ''',
 [ 'multiply_digits', 'multiply_nonzero_digits', 'multiply_digit_powers', 'sum_digits', 'get_digits', 'persistence' ] ],
 
-    'n_persistence' : [
-'lexicography', 'counts the number of times it takes to successively multiply the digits of n to the kth power to get a one-digit number',
-'''
-''',
-'''
-''',
-[ 'persistence', 'show_n_persistence', 'show_erdos_persistence' ] ],
-
     'permute_digits' : [
 'lexicography', 'generates all values with lexicographic permutations of the digits of n',
 '''
@@ -6600,7 +6624,7 @@ on until a one-digit number is obtained.
 ''',
 '''
 ''',
-[ 'show_persistence', 'n_persistence', 'show_erdos_persistence' ] ],
+[ 'show_persistence', 'k_persistence', 'show_erdos_persistence' ] ],
 
     'replace_digits' : [
 'lexicography', 'returns the blah blah blah',
@@ -6649,15 +6673,15 @@ on until a one-digit number is obtained.
 ''',
 '''
 ''',
-[ 'persistence', 'show_persistence', 'show_n_persistence' ] ],
+[ 'persistence', 'show_persistence', 'show_k_persistence' ] ],
 
-    'show_n_persistence' : [
+    'show_k_persistence' : [
 'lexicography', 'shows the multiplicative persistence chain of n for k'
 '''
 ''',
 '''
 ''',
-[ 'n_persistence', 'show_persistence', 'show_erdos_persistence' ] ],
+[ 'k_persistence', 'show_persistence', 'show_erdos_persistence' ] ],
 
     'show_persistence' : [
 'lexicography', 'shows the multiplicative persistence chain of n'
@@ -6665,7 +6689,7 @@ on until a one-digit number is obtained.
 ''',
 '''
 ''',
-[ 'persistence', 'show_n_persistence', 'show_erdos_persistence' ] ],
+[ 'persistence', 'show_k_persistence', 'show_erdos_persistence' ] ],
 
     'sum_digits' : [
 'lexicography', 'calculates the sum of the digits of integer n',

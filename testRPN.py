@@ -1838,6 +1838,10 @@ def runLexicographyOperatorTests( ):
     # get_left_truncations
     testOperator( '123456789 get_left_truncations' )
 
+    # get_nonzero_base_k_digits
+
+    # get_nonzero_digits
+
     # get_right_digits
     expectEqual( '-a420 1 2000 range lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 42 left 41 right' )
 
@@ -1872,6 +1876,8 @@ def runLexicographyOperatorTests( ):
 
     # is_digital_permutation
 
+    # if_generalized_dudeney
+
     # is_harshad
 
     # is_increasing
@@ -1884,6 +1890,8 @@ def runLexicographyOperatorTests( ):
     expectResult( '7272 is_kaprekar', 1 )
     expectResult( '22223 is_kaprekar', 0 )
     expectEqual( '1 10000 range lambda x is_kaprekar filter', '53816 oeis 15 left' )
+
+    # is_k_morphic
 
     # is_morphic
     testOperator( '1 100 range lambda x 7 is_morphic filter' )
@@ -1908,9 +1916,21 @@ def runLexicographyOperatorTests( ):
     expectResult( '12345 is_pandigital', 1 )
     expectResult( '321 is_pandigital', 1 )
 
+    # is_pddi
+
+    # is_pdi
+
+    # is_sum_product
+
     # is_trimorphic
     testOperator( '1 100 range is_trimorphic' )
     expectEqual( '1 1000 range lambda x is_trimorphic filter', '33819 oeis 26 left 25 right' )
+
+    # k_persistence
+    expectResult( '77 1 k_persistence', 4 )
+    testOperator( '679 2 k_persistence' )
+    testOperator( '6788 3 k_persistence' )
+    testOperator( '68889 4 k_persistence' )
 
     # multiply_digits
     expectEqual( '123456789 multiply_digits', '9 !' )
@@ -1920,12 +1940,6 @@ def runLexicographyOperatorTests( ):
     # multiply_nonzero_digits
 
     # multiply_nonzero_digit_powers
-
-    # n_persistence
-    expectResult( '77 1 n_persistence', 4 )
-    testOperator( '679 2 n_persistence' )
-    testOperator( '6788 3 n_persistence' )
-    testOperator( '68889 4 n_persistence' )
 
     # permute_digits
     testOperator( '12345 permute_digits' )
@@ -1938,13 +1952,7 @@ def runLexicographyOperatorTests( ):
     expectResult( '68889 persistence', 7 )
     expectResult( '2677889 persistence', 8 )
 
-    # reversal_addition
-    testOperator( '-a20 89 24 reversal_addition' )
-    testOperator( '-a20 80 89 range 24 reversal_addition' )
-    testOperator( '-a20 89 16 24 range reversal_addition' )
-    testOperator( '-a90 14,104,229,999,995 185 reversal_addition' )
-    testOperator( '-a90 14,104,229,999,995 185 reversal_addition is_palindrome' )
-    expectEqual( '-a120 1000004999700144385 259 reversal_addition', '-a120 281301 oeis 260 left' )
+    # replace_digits
 
     # reverse_digits
     testOperator( '37 1 8 range * reverse_digits' )
@@ -2181,7 +2189,6 @@ def runModifierOperatorTests( ):
     expectResult( '[ 1 2 ] unlist +', 3 )
 
     # (
-    testOperator( '"Leesburg, VA" location today ( sunrise sunset moonrise moonset )' )
     testOperator( '"Leesburg, VA" today ( sunrise sunset moonrise moonset )' )
 
     # )
@@ -2238,12 +2245,10 @@ def runNumberTheoryOperatorTests( ):
     # calkin_wilf
     testOperator( '1 100 range calkin_wilf' )
 
-    # carol
-    testOperator( '-a500 773 carol' )
-    expectEqual( '1 25 range carol', '93112 oeis 25 left' )
-
     # cf
     testOperator( '1 10 range cf' )
+
+    # collatz
 
     # count_divisors
     testOperator( '1024 count_divisors' )
@@ -2254,6 +2259,8 @@ def runNumberTheoryOperatorTests( ):
 
     # crt
     testOperator( '1 4 range 10 20 3 range2 crt' )
+
+    # cyclotomic
 
     # digamma
     testOperator( '3 digamma' )
@@ -2293,6 +2300,8 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '883847311 factor' )
     testOperator( '1 40 range fibonacci factor -s1' )
 
+    # factor_sympy
+
     # factorial
     testOperator( '-a25 -c 23 factorial' )
     expectEqual( '0 100 range !', '142 oeis 101 left' )
@@ -2311,6 +2320,7 @@ def runNumberTheoryOperatorTests( ):
     # fibonorial
     testOperator( '5 fibonorial' )
     testOperator( '-a50 24 fibonorial' )
+    expectEqual( '1 100 range fibonorial', '3266 oeis 100 left' )
 
     # fraction
     testOperator( '2 sqrt 30 fraction' )
@@ -2386,8 +2396,13 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 20 range 3 is_k_semiprime' )
     expectEqual( '-a30 1 100 range lambda x tribonacci is_semiprime filter', '101757 oeis 12 left' )
 
+    # is_k_sphenic
+
     # is_perfect
     testOperator( '1 30 range is_perfect' )
+
+    # is_polydivisible
+    expectEqual( '3608528850368400786036725 is_polydivisible', '1' )
 
     # is_powerful
     testOperator( '1 20 range is_powerful' )
@@ -2398,15 +2413,16 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '92348759911 is_prime' )
     expectEqual( '0 300 range lambda 90 x * 73 + is_prime filter 100 left', '195993 oeis 100 left' )
 
-    # is_polydivisible
-    expectEqual( '3608528850368400786036725 is_polydivisible', '1' )
-
     # is_pronic
     testOperator( '1 20 range is_pronic' )
     expectEqual( '0 9900 range lambda x is_pronic filter', '2378 oeis 100 left' )
 
     # is_rough
     testOperator( '1 20 range 2 is_rough' )
+    expectEqual( '1 4373 range lambda x 11 is_rough filter', '8364 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '1 43747 range lambda x 11 is_rough filter', '8364 oeis 10000 left 9999 right' )
 
     # is_semiprime
     testOperator( '12 is_semiprime' )
@@ -2434,20 +2450,11 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a50 81 23 ** is_unusual' )
     testOperator( '1 20 range is_unusual' )
 
-    # jacobsthal
-    expectEqual( '0 99 range jacobsthal', '1045 oeis 100 left' )
-
-    # kynea
-    expectEqual( '-a20 1 25 range kynea', '93069 oeis 25 left' )
-
     # k_fibonacci
     expectResult( '0 100 range 2 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
     expectResult( '0 100 range 5 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
     expectResult( '0 100 range 10 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 101 ) ] )
     expectResult( '1000 10 k_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
-
-    # leonardo
-    expectEqual( '0 99 range leonardo', '1595 oeis 100 left' )
 
     # leyland
     testOperator( '7 8 leyland' )
@@ -2482,16 +2489,40 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '20176 mobius' )
     expectEqual( '1 100 range mobius', '8683 oeis 100 left' )
 
-    # nth_mersenne
-    testOperator( '-a30 1 10 range nth_mersenne' )
-    testOperator( '-c 25 nth_mersenne' )
+    # nth_carol
+    testOperator( '-a500 773 nth_carol' )
+    expectEqual( '1 25 range nth_carol', '93112 oeis 25 left' )
 
-    # nth_thue_morse
-    expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
+    # nth_jacobsthal
+    expectEqual( '0 99 range nth_jacobsthal', '1045 oeis 100 left' )
+
+    # nth_kynea
+    expectEqual( '-a20 1 25 range nth_kynea', '93069 oeis 25 left' )
+
+    # nth_leonardo
+    expectEqual( '0 99 range nth_leonardo', '1595 oeis 100 left' )
+
+    # nth_mersenne_exponent
+
+    # nth_mersenne_prime
+    testOperator( '-a30 1 10 range nth_mersenne_prime' )
+    testOperator( '-c 25 nth_mersenne_prime' )
 
     # nth_padovan
     testOperator( '-c 76 nth_padovan' )
     expectEqual( '0 99 range nth_padovan', '931 oeis 104 left 100 right' )
+
+    # nth_perfect_number
+
+    # nth_stern
+    testOperator( '1 100 range nth_stern' )
+    expectEqual( '0 99 range nth_stern', '2487 oeis 100 left' )
+
+    if slow:
+        expectEqual( '0 9999 range nth_stern', '2487 oeis 10000 left' )
+
+    # nth_thue_morse
+    expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
 
     # octanacci
     testOperator( '-a300 -c 906 octanacci' )
@@ -2510,6 +2541,8 @@ def runNumberTheoryOperatorTests( ):
     # polygamma
     testOperator( '4 5 polygamma' )
 
+    # radical
+
     # primorial
     testOperator( '1 10 range primorial' )
     expectEqual( '-a22 0 99 range primorial', '-a22 2110 oeis 100 left' )
@@ -2517,8 +2550,18 @@ def runNumberTheoryOperatorTests( ):
     # repunit
     testOperator( '-a20 23 5 repunit' )
 
+    # reversal_addition
+    testOperator( '-a20 89 24 reversal_addition' )
+    testOperator( '-a20 80 89 range 24 reversal_addition' )
+    testOperator( '-a20 89 16 24 range reversal_addition' )
+    testOperator( '-a90 14,104,229,999,995 185 reversal_addition' )
+    testOperator( '-a90 14,104,229,999,995 185 reversal_addition is_palindrome' )
+    expectEqual( '-a120 1000004999700144385 259 reversal_addition', '-a120 281301 oeis 260 left' )
+
     # riesel
     testOperator( '23 riesel' )
+
+    # show_n_persistence
 
     # sigma
     testOperator( '1 20 range sigma' )
@@ -2578,13 +2621,6 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '-p240 1 10000 range 22 sigma_n', '13970 oeis 10000 left' )
         expectEqual( '-p250 1 10000 range 23 sigma_n', '13971 oeis 10000 left' )
         expectEqual( '-p260 1 10000 range 24 sigma_n', '13972 oeis 10000 left' )
-
-    # stern
-    testOperator( '1 100 range stern' )
-    expectEqual( '0 99 range stern', '2487 oeis 100 left' )
-
-    if slow:
-        expectEqual( '0 9999 range stern', '2487 oeis 10000 left' )
 
     # subfactorial
     testOperator( '-a20 -c 19 subfactorial' )
