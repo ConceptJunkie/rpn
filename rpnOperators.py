@@ -1812,16 +1812,16 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 return False
 
             # handle a user-defined function
-            #if isinstance( currentValueList[ -1 ], RPNFunction ):
-            #    if currentValueList[ -1 ].argCount == 1:
-            #        if not operators[ 'eval' ].evaluate( 'eval', index, currentValueList ):
-            #            return False
-            #    elif currentValueList[ -1 ].argCount == 2:
-            #        if not operators[ 'eval2' ].evaluate( 'eval2', index, currentValueList ):
-            #            return False
-            #    elif currentValueList[ -1 ].argCount == 3:
-            #        if not operators[ 'eval3' ].evaluate( 'eval3', index, currentValueList ):
-            #            return False
+            if isinstance( currentValueList[ -1 ], RPNFunction ):
+                if currentValueList[ -1 ].argCount == 1:
+                    if not operators[ 'eval' ].evaluate( 'eval', index, currentValueList ):
+                        return False
+                elif currentValueList[ -1 ].argCount == 2:
+                    if not operators[ 'eval2' ].evaluate( 'eval2', index, currentValueList ):
+                        return False
+                elif currentValueList[ -1 ].argCount == 3:
+                    if not operators[ 'eval3' ].evaluate( 'eval3', index, currentValueList ):
+                        return False
 
                 return True
 
