@@ -1893,7 +1893,6 @@ def getHurwitzZeta( n, k ):
 
 @twoArgFunctionEvaluator( )
 def getCollatzSequenceGenerator( n, k ):
-    yield real( floor( n ) )
 
     if n == 0:
         return
@@ -1916,3 +1915,5 @@ def getCollatzSequenceGenerator( n, k ):
 @twoArgFunctionEvaluator( )
 def getCollatzSequence( n, k ):
     return RPNGenerator.createGenerator( getCollatzSequenceGenerator, [ n, k ] )
+
+

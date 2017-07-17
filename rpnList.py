@@ -222,7 +222,7 @@ def getIndexOfMin( args ):
 # //
 # //******************************************************************************
 
-@listAndOneArgFunctionEvaluator( )
+#@listAndOneArgFunctionEvaluator( )
 def getListElement( args, index ):
     if isinstance( index, ( list, RPNGenerator ) ):
         for i in index:
@@ -244,7 +244,7 @@ def enumerateListGenerator( args, k ):
         yield [ fadd( i, k ), arg ]
         i += 1
 
-@listAndOneArgFunctionEvaluator( )
+#@listAndOneArgFunctionEvaluator( )
 def enumerateList( args, k ):
     return RPNGenerator.createGenerator( enumerateListGenerator, [ args, k ] )
 
@@ -291,7 +291,7 @@ def getSublist( args, start, count ):
 # //
 # //******************************************************************************
 
-@listAndOneArgFunctionEvaluator( )
+#@listAndOneArgFunctionEvaluator( )
 def getLeft( args, count ):
     result = [ ]
 
@@ -313,7 +313,7 @@ def getLeft( args, count ):
 # //
 # //******************************************************************************
 
-@listAndOneArgFunctionEvaluator( )
+#@listAndOneArgFunctionEvaluator( )
 def getRight( args, count ):
     result = [ ]
 

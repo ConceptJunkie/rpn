@@ -3652,6 +3652,9 @@ operators = {
     'show_k_persistence'             : RPNOperator( showKPersistence,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
+    'square_digit_chain'             : RPNOperator( generateSquareDigitChain,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'sum_digits'                     : RPNOperator( sumDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 

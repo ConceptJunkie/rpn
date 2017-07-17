@@ -1104,3 +1104,44 @@ def isDigitalPermutation( n, k ):
 
     return 1
 
+
+# //******************************************************************************
+# //
+# //  getSquareDigitChainGenerator
+# //
+# //******************************************************************************
+
+def generateSquareDigitChainGenerator( n ):
+    n = real( floor( n ) )
+
+    if n == 0:
+        yield 0
+        return
+
+    if n == 1:
+        yield 1
+        return
+
+    if n == 89:
+        yield 89
+        return
+
+    done = False
+
+    while not done:
+        digits = getDigits( n )
+
+        n = 0
+
+        for i in digits:
+            n = fadd( n, pow( i, 2 ) )
+
+        yield n
+
+        if n in ( 1, 89 ):
+            done = True
+
+@oneArgFunctionEvaluator( )
+def generateSquareDigitChain( n ):
+    return RPNGenerator.createGenerator( generateSquareDigitChainGenerator, [ n ] )
+
