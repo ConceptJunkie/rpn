@@ -423,10 +423,11 @@ def getNthReversalAdditionGenerator( n, k ):
     previous = next
 
     for i in arange( k ):
+        next = fadd( reverseDigits( next ), next )
+
         if isPalindrome( next ):
             break
 
-        next = fadd( reverseDigits( next ), next )
         yield next
 
 def getNthReversalAddition( n, k ):
@@ -444,10 +445,10 @@ def findPalindrome( n, k ):
     next = int( real_int( n ) )
 
     for i in range( int( real_int( k ) ) + 1 ):
+        next = reverseDigits( next ) + next
+
         if isPalindrome( next ):
-            return [ i, next ]
-        else:
-            next = reverseDigits( next ) + next
+            return [ i + 1, next ]
 
     return [ k, 0 ]
 

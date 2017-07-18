@@ -6691,6 +6691,14 @@ on until a one-digit number is obtained.
 ''',
 [ 'persistence', 'show_k_persistence', 'show_erdos_persistence' ] ],
 
+    'square_digit_chain' : [
+'lexicography', '',
+'''
+''',
+'''
+''',
+[ ] ],
+
     'sum_digits' : [
 'lexicography', 'calculates the sum of the digits of integer n',
 '''

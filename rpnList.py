@@ -226,9 +226,9 @@ def getIndexOfMin( args ):
 def getListElement( args, index ):
     if isinstance( index, ( list, RPNGenerator ) ):
         for i in index:
-            yield args[ int( i ) ]
+            return args[ int( i ) ]
     else:
-        yield args[ int( index ) ]
+        return args[ int( index ) ]
 
 
 # //******************************************************************************

@@ -2228,7 +2228,7 @@ listOperators = {
     'diffs'                 : RPNOperator( lambda n: RPNGenerator( getListDiffs( n ) ),
                                            1, [ RPNOperator.Generator ] ),
 
-    'element'               : RPNOperator( lambda n, k: RPNGenerator( getListElement( n, k ) ),
+    'element'               : RPNOperator( getListElement,
                                            2, [ RPNOperator.List, RPNOperator.NonnegativeInteger ] ),
 
     'enumerate'             : RPNOperator( lambda n, k: RPNGenerator( enumerateList( n, k ) ),

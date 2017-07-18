@@ -2018,7 +2018,7 @@ def runListOperatorTests( ):
     testOperator( '1 10 range fib diffs' )
 
     # element
-    expectResult( '1 10 range 5 element', [ 6 ] )
+    expectResult( '1 10 range 5 element', 6 )
     testOperator( '-a25 1 100 range fibonacci 55 element' )
 
     # enumerate
@@ -2556,7 +2556,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-a20 89 16 24 range reversal_addition' )
     testOperator( '-a90 14,104,229,999,995 185 reversal_addition' )
     testOperator( '-a90 14,104,229,999,995 185 reversal_addition is_palindrome' )
-    expectEqual( '-a120 1000004999700144385 259 reversal_addition', '-a120 281301 oeis 260 left' )
+    expectEqual( '-a120 1000004999700144385 260 reversal_addition', '-a120 281301 oeis 260 left' )
 
     # riesel
     testOperator( '23 riesel' )
@@ -3322,7 +3322,7 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '1 10 range sexy_quadruplet' )
     testOperator( '29 sexy_quadruplet' )
     testOperator( '-c 289747 sexy_quadruplet' )
-    #expectEqual( '1 39 range lambda x sexy_quadruplet_ 3 element eval flatten', '46124 oeis 39 left' )
+    expectEqual( '1 39 range lambda x sexy_quadruplet_ 3 element eval', '46124 oeis 39 left' )
 
     # sexy_quadruplet_
     testOperator( '1 10 range sexy_quadruplet_' )
