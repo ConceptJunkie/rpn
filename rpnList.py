@@ -249,8 +249,6 @@ def enumerateList( args, k ):
     return RPNGenerator.createGenerator( enumerateListGenerator, [ args, k ] )
 
 
-
-
 # //******************************************************************************
 # //
 # //  getSliceGenerator
@@ -1012,4 +1010,16 @@ def equalsOneOf( value, targetList ):
             return 1
 
     return 0
+
+
+# //******************************************************************************
+# //
+# //  getPowerset
+# //
+# //******************************************************************************
+
+def getPowerset( n ):
+    for i in itertools.chain.from_iterable( itertools.combinations( n, r ) for r in range( len( n ) + 1 ) ):
+        if len( i ) > 0:
+            yield list( i )
 

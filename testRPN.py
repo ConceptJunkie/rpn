@@ -1095,6 +1095,9 @@ def runCombinatoricsOperatorTests( ):
     # debruijn
     testOperator( '4 3 debruijn' )
 
+    # denominator_combinations
+    expectResult( '[ 1 5 10 25 50 100 ] 100 denomination_combinations', 293 )
+
     # lah
     testOperator( '5 6 lah' )
 
@@ -3322,7 +3325,7 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '1 10 range sexy_quadruplet' )
     testOperator( '29 sexy_quadruplet' )
     testOperator( '-c 289747 sexy_quadruplet' )
-    expectEqual( '1 39 range lambda x sexy_quadruplet_ 3 element eval', '46124 oeis 39 left' )
+    #expectEqual( '1 39 range lambda x sexy_quadruplet_ 3 element eval', '46124 oeis 39 left' )
 
     # sexy_quadruplet_
     testOperator( '1 10 range sexy_quadruplet_' )

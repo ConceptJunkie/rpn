@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1016
+maxExampleCount = 1017
 
 
 # //******************************************************************************
@@ -3375,6 +3375,14 @@ permutations of the 3 symbols in groups of 3 because the groups can overlap.
 ''',
 '''
 ''' + makeCommandExample( '3 3 debruijn' ),
+[ ] ],
+
+    'denomination_combinations' : [
+'combinatorics', 'calculates the number of combinations of items on n that add up to k',
+'''
+''',
+'''
+''' + makeCommandExample( '[ 1 5 10 25 50 100 ] 100 denomination_combinations' ),
 [ ] ],
 
     'lah' : [
@@ -7167,6 +7175,16 @@ will be output.
 '''
 ''',
 [ 'append', 'interleave', 'intersection', 'union' ] ],
+
+    'powerset' : [
+'list_operators', 'generates the powerset of list n',
+'''
+I'm going to be honest.  I don't think including an empty list in the output
+would ever be useful, so the operator leaves it out.
+''',
+'''
+''',
+[ ] ],
 
     'range' : [
 'list_operators', 'generates a list of successive integers from n to k',

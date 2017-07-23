@@ -481,3 +481,25 @@ def getNthBell( n ):
 def getNthBernoulli( n ):
     return bernoulli( n )
 
+
+# //******************************************************************************
+# //
+# //  getDenominationCombinations
+# //
+# //  https://math.stackexchange.com/questions/176363/keep-getting-generating-function-wrong-making-change-for-a-dollar/176397#176397
+# //
+# //******************************************************************************
+
+def getDenominationCombinations( denominations, target ):
+    target = int( target )
+    data = [ 0 ] * ( target + 1 )
+    data[ 0 ] = 1
+
+    for k in denominations:
+        k = int( k )
+
+        for i in range( 0, target - k + 1 ):
+            data[ i + k ] += data[ i ]
+
+    return data[ target ]
+

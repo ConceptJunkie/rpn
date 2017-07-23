@@ -1948,6 +1948,10 @@ def evaluateListFunction2( n, k, func ):
 def evaluateListFunction3( a, b, c, func ):
     return func.evaluate( a, b, c )
 
+@listAndOneArgFunctionEvaluator( )
+def filterListOfLists( n, func ):
+    return func.evaluate( n )
+
 @twoArgFunctionEvaluator( )
 def evaluateLimit( n, func ):
     return limit( lambda x: func.evaluate( x ), n )
@@ -2142,6 +2146,9 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     # combinatoric
+    'denomination_combinations' : RPNOperator( getDenominationCombinations,
+                                               2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
+
     'multinomial'           : RPNOperator( getMultinomial,
                                            1, [ RPNOperator.List ] ),
 
@@ -2173,6 +2180,9 @@ listOperators = {
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
     'filter'                : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k ) ),
+                                           2, [ RPNOperator.List, RPNOperator.Function ] ),
+
+    'filter_list'           : RPNOperator( lambda n, k: RPNGenerator( filterListofLists( n, k ) ),
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
     'filter_by_index'       : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k ) ),
@@ -2286,6 +2296,9 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     'permute_lists'         : RPNOperator( permuteLists,
+                                           1, [ RPNOperator.List ] ),
+
+    'powerset'              : RPNOperator( lambda n: RPNGenerator( getPowerset( n ) ),
                                            1, [ RPNOperator.List ] ),
 
     'ratios'                : RPNOperator( lambda n: RPNGenerator( getListRatios( n ) ),

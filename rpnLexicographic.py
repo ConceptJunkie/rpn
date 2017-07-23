@@ -425,10 +425,10 @@ def getNthReversalAdditionGenerator( n, k ):
     for i in arange( k ):
         next = fadd( reverseDigits( next ), next )
 
+        yield next
+
         if isPalindrome( next ):
             break
-
-        yield next
 
 def getNthReversalAddition( n, k ):
     return RPNGenerator( getNthReversalAdditionGenerator( n, k ) )
