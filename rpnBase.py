@@ -304,7 +304,6 @@ def convertToPhiBase( num ):
 # //
 # //  convertToFibBase
 # //
-# //
 # //******************************************************************************
 
 def convertToFibBase( value ):

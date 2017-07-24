@@ -5698,6 +5698,14 @@ Which of the first 80 fibonacci numbers is prime?
 ''',
 [ 'filter', 'lambda', 'unfilter_by_index' ] ],
 
+    'filter_list' : [
+'functions', '',
+'''
+''',
+'''
+''',
+[ 'filter' ] ],
+
     'for_each' : [
 'functions', 'instructs the next operater to act on list members rather than the list itself as an argument'
 '''

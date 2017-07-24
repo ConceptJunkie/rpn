@@ -12,32 +12,7 @@
 # //
 # //******************************************************************************
 
-# http://oeis.org/A000001
-#
-# From Mitch Harris, Oct 25 2006: (Start)
-# For p, q, r primes:
-# a(p) = 1, a(p^2) = 2, a(p^3) = 5, a(p^4) = 14, if p = 2, otherwise 15.
-# a(p^5) = 61 + 2p + 2gcd(p-1,3) + gcd(p-1,4), p>=5, a(2^5)=51, a(3^5)=67.
-# a(p^e) ~ p^((2/27)e^3 + O(e^(8/3)))
-# a(pq) = 1 if gcd(p,q-1) = 1, 2 if gcd(p,q-1) = p. (p < q)
-# a(pq^2) = one of the following:
-# * 5, p=2, q odd,
-# * (p+9)/2, q=1 mod p, p odd,
-# * 5, p=3, q=2,
-# * 3, q = -1 mod p, p and q odd.
-# * 4, p=1 mod q, p > 3, p != 1 mod q^2
-# * 5, p=1 mod q^2
-# * 2, q != +/-1 mod p and p != 1 mod q,
-# a(pqr) (p < q < r) = one of the following:
-# * q==1 mod p r==1 mod p r==1 mod q a(pqr)
-# * No..........No..........No..........1
-# * No..........No..........Yes.........2
-# * No..........Yes.........No..........2
-# * No..........Yes.........Yes.........4
-# * Yes.........No..........No..........2
-# * Yes.........No..........Yes.........3
-# * Yes.........Yes.........No..........p+2
-# * Yes.........Yes.........Yes.........p+4 (table from Derek Holt) (End)
+import itertools
 
 from mpmath import arange, bell, bernoulli, binomial, e, fac, fadd, fdiv, floor, \
                    fmul, fprod, fsub, fsum, log10, mp, nint, nsum, pi, power, \
@@ -48,7 +23,7 @@ from rpnNumberTheory import getNthLinearRecurrence, getLinearRecurrence
 from rpnPersistence import cachedFunction
 from rpnPolytope import getNthGeneralizedPolygonalNumber
 from rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
-                     real, real_int
+                     listAndOneArgFunctionEvaluator, real, real_int
 
 
 # //******************************************************************************
@@ -261,7 +236,7 @@ def getDeBruijnSequence( n, k ):
 # //******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getCompositions( n, k ):
+def getCompositionsGenerator( n, k ):
     value = int( real_int( n ) )
     count = int( real_int( k ) )
 
@@ -269,14 +244,46 @@ def getCompositions( n, k ):
         raise ValueError( "'compositions' expects a size argument greater than 0'" )
 
     if count == 1:
-        return [ [ value ] ]
+        yield [ value ]
     else:
-        result = [ ]
+        #result = [ ]
 
         for i in range( 1, int( ( value - count ) + 2 ) ):
-            result.extend( [ [ nint( i ) ] + comp for comp in getCompositions( n - i, count - 1 ) ] )
+            #result.extend( [ [ nint( i ) ] + comp for comp in getCompositions( n - i, count - 1 ) ] )
+            for comp in getCompositionsGenerator( n - i, count - 1 ):
+                yield [ nint( i ) ] + comp
 
-        return result
+@twoArgFunctionEvaluator( )
+def getCompositions( n, k ):
+    return getCompositionsGenerator( n, k )
+
+
+# //******************************************************************************
+# //
+# //  getCombinationsOfList
+# //
+# //******************************************************************************
+
+def getCombinationsOfListGenerator( n, k ):
+    for comb in itertools.combinations( n, k ):
+        yield list( comb )
+
+def getCombinationsOfList( n, k ):
+    return getCombinationsOfListGenerator( n, int( k ) )
+
+
+# //******************************************************************************
+# //
+# //  getPermutationsOfList
+# //
+# //******************************************************************************
+
+def getPermutationsOfListGenerator( n, k ):
+    for comb in itertools.permutations( n, k ):
+        yield list( comb )
+
+def getPermutationsOfList( n, k ):
+    return getPermutationsOfListGenerator( n, int( k ) )
 
 
 # //******************************************************************************

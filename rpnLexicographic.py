@@ -98,7 +98,7 @@ def getLeftDigits( n, k ):
 
 # //******************************************************************************
 # //
-# //  getBaseNDigits
+# //  getBaseKDigitList
 # //
 # //******************************************************************************
 
@@ -123,6 +123,25 @@ def getBaseKDigits( n, k ):
 @twoArgFunctionEvaluator( )
 def getNonzeroBaseKDigits( n, k ):
     return getBaseKDigitList( dropZeroes = True )
+
+
+# //******************************************************************************
+# //
+# //  isBaseKPandigital
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def isBaseKPandigital( n, base ):
+    digits = convertToBaseN( n, base, outputBaseDigits=True )
+
+    for i in arange( min( base, ceil( log10( n ) ) ) ):
+        try:
+            digits.index( i )
+        except:
+            return 0
+
+    return 1
 
 
 # //******************************************************************************

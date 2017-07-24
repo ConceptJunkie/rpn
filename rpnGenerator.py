@@ -243,6 +243,6 @@ def stringProductGenerator( value ):
 # //******************************************************************************
 
 def productGenerator( value ):
-    for product in itertools.product( *value ):
-        yield [ mpmathify( i ) for i in product ]
+    for item in itertools.product( *value ):
+        yield [ mpmathify( i ) for i in item ]
 
