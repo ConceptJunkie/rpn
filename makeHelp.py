@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1017
+maxExampleCount = 1019
 
 
 # //******************************************************************************
@@ -1809,7 +1809,7 @@ but that's how it works for now.
 ''',
 '''
 ''',
-[ 'is_zero', 'is_odd', 'is_even', 'is_not_equal' ] ],
+[ 'is_zero', 'is_odd', 'is_even', 'is_not_equal', 'is_power' ] ],
 
     'is_odd' : [
 'arithmetic', 'returns whether n is an odd number',
@@ -1820,6 +1820,15 @@ but that's how it works for now.
 ''' + makeCommandExample( '3 is_odd' ) + '''
 ''' + makeCommandExample( '1 10 range is_odd' ),
 [ 'is_even', 'is_zero' ] ],
+
+    'is_power' : [
+'arithmetic', 'returns whether n is a perfect kth power',
+'''
+''',
+'''
+''' + makeCommandExample( '16 4 is_power' ) + '''
+''' + makeCommandExample( '32 5 is_power' ),
+[ 'is_square' ] ],
 
     'is_square' : [
 'arithmetic', 'returns whether n is a perfect square',

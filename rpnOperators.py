@@ -2483,8 +2483,11 @@ operators = {
     'is_odd'                         : RPNOperator( isOdd,
                                                     1, [ RPNOperator.Real ] ),
 
+    'is_power'                       : RPNOperator( isPower,
+                                                    2, [ RPNOperator.Integer, RPNOperator.PositiveInteger ] ),
+
     'is_square'                      : RPNOperator( isSquare,
-                                                    1, [ RPNOperator.Default ] ),
+                                                    1, [ RPNOperator.Integer ] ),
 
     'is_zero'                        : RPNOperator( isZero,
                                                     1, [ RPNOperator.Default ],
