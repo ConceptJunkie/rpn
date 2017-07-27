@@ -10351,6 +10351,16 @@ magnitude of the measurement.
 ''' + makeCommandExample( '1 2 false if' ),
 [ ] ],
 
+    'list_from_file' : [
+'special', 'reads a list of values from a file',
+'''
+The file should have one number per line, and the values are subject to the
+same processing as numerical values on the rpn command line.
+''',
+'''
+''',
+[ ] ],
+
     'name' : [
 'special', 'returns the English name for the integer value or measurement n',
 '''

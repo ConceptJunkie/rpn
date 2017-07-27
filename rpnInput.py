@@ -18,7 +18,9 @@ import math
 from mpmath import fdiv, fneg, mp, mpf, mpmathify
 
 from rpnDateTime import RPNDateTime
+from rpnGenerator import RPNGenerator
 from rpnSettings import setAccuracy
+from rpnUtils import oneArgFunctionEvaluator
 
 import rpnGlobals as g
 
@@ -67,7 +69,7 @@ def convertToBase10( integer, mantissa, inputRadix ):
 # //
 # //******************************************************************************
 
-def parseInputValue( term, inputRadix ):
+def parseInputValue( term, inputRadix = 10 ):
     if isinstance( term, mpf ):
         return term
 
@@ -186,4 +188,28 @@ def parseInputValue( term, inputRadix ):
     # finally, we have a non-radix 10 number to parse
     result = convertToBase10( integer, mantissa, inputRadix )
     return fneg( result ) if negative else mpmathify( result )
+
+
+# //******************************************************************************
+# //
+# //  readListFromFile
+# //
+# //******************************************************************************
+
+def readListFromFileGenerator( filename ):
+    result = [ ]
+
+    with open( filename ) as file:
+        for i in file:
+            if i == '\n':
+                continue
+            else:
+                try:
+                    yield parseInputValue( i )
+                except:
+                    pass
+
+@oneArgFunctionEvaluator( )
+def readListFromFile( filename ):
+    return RPNGenerator( readListFromFileGenerator( filename ) )
 

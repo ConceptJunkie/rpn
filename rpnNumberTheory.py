@@ -1574,7 +1574,7 @@ def generatePolydivisiblesGenerator( _base ):
 
 @oneArgFunctionEvaluator( )
 def generatePolydivisibles( n ):
-    return RPNGenerator.createGenerator( generatePolydivisiblesGenerator, n )
+    return RPNGenerator( generatePolydivisiblesGenerator( n ) )
 
 
 # //******************************************************************************

@@ -15,7 +15,6 @@
 import struct
 
 from rpnConstantUtils import getNewtonsConstant, getSpeedOfLight
-from rpnGenerator import RPNGenerator
 from rpnGeometry import getNSphereRadius
 from rpnList import getProduct
 from rpnMath import divide, getPower, getRoot, multiply

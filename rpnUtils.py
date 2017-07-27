@@ -659,12 +659,13 @@ def listAndTwoArgFunctionEvaluator( ):
 # //
 # //******************************************************************************
 
-import signal
-import functools
-
-class TimeoutError(Exception): pass
+class TimeoutError( Exception ):
+    pass
 
 def timeout(seconds, error_message = 'Function call timed out'):
+    import signal
+    import functools
+
     def decorated(func):
         def _handle_timeout(signum, frame):
             raise TimeoutError(error_message)
@@ -681,4 +682,5 @@ def timeout(seconds, error_message = 'Function call timed out'):
         return functools.wraps(func)(wrapper)
 
     return decorated
+
 

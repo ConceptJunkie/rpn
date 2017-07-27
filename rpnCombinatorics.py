@@ -15,8 +15,8 @@
 import itertools
 
 from mpmath import arange, bell, bernoulli, binomial, e, fac, fadd, fdiv, floor, \
-                   fmul, fprod, fsub, fsum, log10, mp, nint, nsum, pi, power, \
-                   fprod, sqrt
+                   fmul, fprod, fsub, fsum, log10, mp, mpmathify, nint, nsum, pi, \
+                   power, fprod, sqrt
 
 from rpnGenerator import RPNGenerator
 from rpnNumberTheory import getNthLinearRecurrence, getLinearRecurrence
@@ -269,7 +269,7 @@ def getCombinationsOfListGenerator( n, k ):
         yield list( comb )
 
 def getCombinationsOfList( n, k ):
-    return getCombinationsOfListGenerator( n, int( k ) )
+    return RPNGenerator( getCombinationsOfListGenerator( n, k ) )
 
 
 # //******************************************************************************
@@ -283,7 +283,7 @@ def getPermutationsOfListGenerator( n, k ):
         yield list( comb )
 
 def getPermutationsOfList( n, k ):
-    return getPermutationsOfListGenerator( n, int( k ) )
+    return RPNGenerator( getPermutationsOfListGenerator( n, int( k ) ) )
 
 
 # //******************************************************************************
@@ -320,7 +320,7 @@ def OLDgetPartitionNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'partition' )
-def getPartitionNumber( n ):
+def NOT_QUITE_AS_OLDgetPartitionNumber( n ):
     '''
     This version is, um, less recursive than the original, which I've kept.
     The strategy is to create a list of the smaller partition numbers we need
@@ -369,6 +369,36 @@ def getPartitionNumber( n ):
         total = fadd( total, fmul( sign, getPartitionNumber( partition ) ) )
 
     return total
+
+
+@oneArgFunctionEvaluator( )
+@cachedFunction( 'new_partition' )
+def getPartitionNumber( n ):
+    if n < 0:
+        return 0
+
+    if n < 2:
+        return 1
+
+    result = mpmathify( 0 )
+
+    for k in arange( 1, n + 1 ):
+        #n1 = n - k * ( 3 * k - 1 ) / 2
+        n1 = fsub( n, fdiv( fmul( k, fsub( fmul( 3, k ), 1 ) ), 2 ) )
+        #n2 = n - k * ( 3 * k + 1 ) / 2
+        n2 = fsub( n, fdiv( fmul( k, fadd( fmul( 3, k ), 1 ) ), 2 ) )
+
+        result = fadd( result, fmul( power( -1, fadd( k, 1 ) ), fadd( getPartitionNumber( n1 ), getPartitionNumber( n2 ) ) ) )
+
+        if n1 <= 0:
+            break
+
+    #old = NOT_QUITE_AS_OLDgetPartitionNumber( n )
+    #
+    #if ( old != result ):
+    #    raise ValueError( "It's broke." )
+
+    return result
 
 
 # //******************************************************************************
@@ -494,6 +524,10 @@ def getNthBernoulli( n ):
 # //  getDenominationCombinations
 # //
 # //  https://math.stackexchange.com/questions/176363/keep-getting-generating-function-wrong-making-change-for-a-dollar/176397#176397
+# //
+# //  Here's another way from Sloane that doesn't require so much memory:
+# //
+# //  a(n) = (1/n)*Sum_{k=1..n} A008472(k)*a(n-k).
 # //
 # //******************************************************************************
 

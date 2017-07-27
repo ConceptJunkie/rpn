@@ -1197,8 +1197,7 @@ def breakOnCondition( n, k ):
         value = k.evaluate( i )
 
         if value:
-            yield i
-            return
+            return i
 
 
 # //******************************************************************************
@@ -2176,7 +2175,7 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     # function
-    'break_on'              : RPNOperator( lambda n, k: RPNGenerator( breakOnCondition( n, k ) ),
+    'break_on'              : RPNOperator( breakOnCondition,
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
     'filter'                : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k ) ),
@@ -3581,7 +3580,7 @@ operators = {
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_digital_permutation'         : RPNOperator( isDigitalPermutation,
-                                           2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     'is_generalized_dudeney'         : RPNOperator( isGeneralizedDudeneyNumber,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
@@ -3809,7 +3808,7 @@ operators = {
     'fraction'                       : RPNOperator( interpretAsFraction,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
-    'generate_polydivisibles'        : RPNOperator( lambda n: RPNGenerator.createGenerator( generatePolydivisibles, n ),
+    'generate_polydivisibles'        : RPNOperator( generatePolydivisibles,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'gamma'                          : RPNOperator( getGamma,
@@ -4290,6 +4289,9 @@ operators = {
 
     'if'                             : RPNOperator( lambda a, b, c: a if c else b,
                                                     3, [ RPNOperator.Default, RPNOperator.Default, RPNOperator.Integer ] ),
+
+    'list_from_file'                 : RPNOperator( readListFromFile,
+                                                    1, [ RPNOperator.String ] ),
 
     'name'                           : RPNOperator( getName,
                                                     1, [ RPNOperator.Integer ] ),
