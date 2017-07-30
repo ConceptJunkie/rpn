@@ -1034,15 +1034,11 @@ def calculateChineseRemainderTheorem( values, mods ):
         x = _crt( values[ i ], x, mods[ i ], mm )
 
         if not x:
-            break
+            return 0
 
-        mm = getLCM( [ mods[ i ], mm ] )
+        mm = getLCM( mods[ i ], mm )
 
     return x
-
-@twoArgFunctionEvaluator( )
-def calculateChineseRemainderTheoremOperator( values, mods ):
-    return calculateChineseRemainderTheorem( values, mods )
 
 
 # //******************************************************************************
@@ -1319,7 +1315,7 @@ def isSmooth( n, k ):
     if real_int( n ) <= real_int( k ):
         return 1
 
-    return 1 if max( [ i[ 0 ] for i in getFactorList( n ) ] ) <= k else 0
+    return 1 if getFactorList( n )[ -1 ][ 0 ] <= k else 0
 
 
 # //******************************************************************************
@@ -1574,7 +1570,7 @@ def generatePolydivisiblesGenerator( _base ):
 
 @oneArgFunctionEvaluator( )
 def generatePolydivisibles( n ):
-    return RPNGenerator( generatePolydivisiblesGenerator( n ) )
+    return RPNGenerator.createGenerator( generatePolydivisiblesGenerator, n )
 
 
 # //******************************************************************************

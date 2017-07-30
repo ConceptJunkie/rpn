@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1019
+maxExampleCount = 1021
 
 
 # //******************************************************************************
@@ -3356,6 +3356,14 @@ far as rpn is concerned, it's an operator that does nothing.
 ''' + makeCommandExample( '21 15 combinations' ),
 [ 'permutations' ] ],
 
+    'combinations_of_list' : [
+'combinatorics', '',
+'''
+''',
+'''
+''' + makeCommandExample( '[ 1 2 3 4 ] 2 combinations_of_list' ),
+[ 'permutations_of_list' ] ],
+
     'compositions' : [
 'combinatorics', 'returns a list containing all distinct ordered k-tuples of positive integers whose elements sum to n',
 '''
@@ -3650,6 +3658,14 @@ When calculating the number of permutations of k objects, order matters.
 ''' + makeCommandExample( '10 7 permutations' ) + '''
 ''' + makeCommandExample( '20 10 permutations' ),
 [ 'combinations' ] ],
+
+    'permutations_of_list' : [
+'combinatorics', '',
+'''
+''',
+'''
+''' + makeCommandExample( '[ 1 2 3 4 ] 2 permutations_of_list' ),
+[ 'combinations_of_list' ] ],
 
 
 # //******************************************************************************
@@ -6442,6 +6458,14 @@ on the digits that comprise an integer.
 '''
 ''',
 [ 'is_k_morphic', 'is_trimorphic' ] ],
+
+    'is_base_k_pandigital' : [
+'lexicography', '',
+'''
+''',
+'''
+''',
+[ ] ],
 
     'is_bouncy' : [
 'lexicography', 'returns whether an integer n is bouncy',

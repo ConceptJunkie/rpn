@@ -2351,7 +2351,7 @@ listOperators = {
     'cf'                    : RPNOperator( convertFromContinuedFraction,
                                            1, [ RPNOperator.List ] ),
 
-    'crt'                   : RPNOperator( calculateChineseRemainderTheoremOperator,
+    'crt'                   : RPNOperator( calculateChineseRemainderTheorem,
                                            2, [ RPNOperator.List, RPNOperator.List ] ),
 
     'frobenius'             : RPNOperator( getFrobeniusNumber,

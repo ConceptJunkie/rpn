@@ -265,7 +265,10 @@ def getCompositions( n, k ):
 # //******************************************************************************
 
 def getCombinationsOfListGenerator( n, k ):
-    for comb in itertools.combinations( n, k ):
+    if not isinstance( n, ( list, RPNGenerator ) ):
+        n = [ n ]
+
+    for comb in itertools.combinations( n, int( k ) ):
         yield list( comb )
 
 def getCombinationsOfList( n, k ):
@@ -279,7 +282,10 @@ def getCombinationsOfList( n, k ):
 # //******************************************************************************
 
 def getPermutationsOfListGenerator( n, k ):
-    for comb in itertools.permutations( n, k ):
+    if not isinstance( n, ( list, RPNGenerator ) ):
+        n = [ n ]
+
+    for comb in itertools.permutations( n, int( k ) ):
         yield list( comb )
 
 def getPermutationsOfList( n, k ):
