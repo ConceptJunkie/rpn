@@ -8429,18 +8429,18 @@ The radical function is defined as the largest squarefree factor.
 ''' + makeCommandExample( '18 radical' ) + '''
 Here's a list of deficient numbers from 1 to 100:
 ''' + makeCommandExample( '1 100 range lambda x sigma 2 / x is_less filter' ),
-[ 'sigma_n', 'aliquot' ] ],
+[ 'sigma_k', 'aliquot' ] ],
 
-    'sigma_n' : [
+    'sigma_k' : [
 'number_theory', 'returns the sum of the proper divisors of n each to the kth power',
 '''
 ''',
 '''
 ''' + makeCommandExample( '1 10 range sigma' ) + '''
-''' + makeCommandExample( '1 10 range 1 sigma_n' ) + '''
-''' + makeCommandExample( '1 10 range 2 sigma_n' ) + '''
-''' + makeCommandExample( '1 10 range 3 sigma_n' ) + '''
-''' + makeCommandExample( '1 10 range 4 sigma_n' ),
+''' + makeCommandExample( '1 10 range 1 sigma_k' ) + '''
+''' + makeCommandExample( '1 10 range 2 sigma_k' ) + '''
+''' + makeCommandExample( '1 10 range 3 sigma_k' ) + '''
+''' + makeCommandExample( '1 10 range 4 sigma_k' ),
 [ 'sigma' ] ],
 
     'subfactorial' : [

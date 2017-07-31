@@ -2145,17 +2145,11 @@ listOperators = {
                                            1, [ RPNOperator.List ] ),
 
     # combinatoric
-    'combinations_of_list'  : RPNOperator( lambda n, k: RPNGenerator( getCombinationsOfList( n, k ) ),
-                                                    2, [ RPNOperator.Generator, RPNOperator.PositiveInteger ] ),
-
     'denomination_combinations' : RPNOperator( getDenominationCombinations,
                                                2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
 
     'multinomial'           : RPNOperator( getMultinomial,
                                            1, [ RPNOperator.List ] ),
-
-    'permutations_of_list'  : RPNOperator( lambda n, k: RPNGenerator( getPermutationsOfList( n, k ) ),
-                                           2, [ RPNOperator.Generator, RPNOperator.PositiveInteger ] ),
 
     # conversion
     'convert'               : RPNOperator( convertUnits,
@@ -2956,7 +2950,7 @@ operators = {
     'combinations'                   : RPNOperator( getCombinations,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'compositions'                   : RPNOperator( lambda n, k: RPNGenerator( getCompositions( n, k ) ),
+    'compositions'                   : RPNOperator( getCompositions,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'debruijn'                       : RPNOperator( getDeBruijnSequence,
@@ -3582,9 +3576,6 @@ operators = {
     'is_automorphic'                 : RPNOperator( isAutomorphic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'is_base_k_pandigital'           : RPNOperator( isBaseKPandigital,
-                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
-
     'is_bouncy'                      : RPNOperator( isBouncy,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
@@ -3979,7 +3970,7 @@ operators = {
     'sigma'                          : RPNOperator( getSigmaOperator,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'sigma_n'                        : RPNOperator( getSigmaN,
+    'sigma_k'                        : RPNOperator( getSigmaK,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
     'subfactorial'                   : RPNOperator( getSubfactorial,

@@ -1117,12 +1117,12 @@ def getAbundanceRatio( n ):
 
 # //******************************************************************************
 # //
-# //  getSigmaN
+# //  getSigmaK
 # //
 # //******************************************************************************
 
 @twoArgFunctionEvaluator( )
-def getSigmaN( n, k ):
+def getSigmaK( n, k ):
     '''
     Returns the sum of the divisors of n, including 1 and n, to the k power.
 
@@ -1143,7 +1143,7 @@ def getSigmaN( n, k ):
         result = fmul( result, fdiv( numerator, denominator ) )
 
         if result != floor( result ):
-            raise ValueError( 'insufficient precision for \'sigma_n\', increase precision using -p or -a)' )
+            raise ValueError( 'insufficient precision for \'sigma_k\', increase precision using -p or -a)' )
 
     return result
 

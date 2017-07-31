@@ -843,6 +843,7 @@ operatorAliases = {
     'show_n_persistence'        : 'show_k_persistence',
     'sidereal_month'            : 'moon_revolution',
     'sigma_sb'                  : 'stefan_boltzmann_constant',
+    'sigma_n'                   : 'sigma_k',
     'silver'                    : 'silver_ratio',
     'sine'                      : 'sin',
     'sleft'                     : 'shift_left',
