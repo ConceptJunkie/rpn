@@ -1913,3 +1913,20 @@ def getCollatzSequence( n, k ):
     return RPNGenerator.createGenerator( getCollatzSequenceGenerator, [ n, k ] )
 
 
+# //******************************************************************************
+# //
+# //  findNthSumOfSquares
+# //
+# //  http://www.wolframalpha.com/input/?i=(+n+(+n+%2B+1+)+(+2n+%2B+1+)+)+%2F+6+%3D+x,+solve+for+n
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def findNthSumOfSquares( n ):
+    sqrt3 = sqrt( 3 )
+
+    bigTerm = root( fadd( fmul( sqrt3, sqrt( fsub( fmul( 3888, power( n, 2 ) ), 1 ) ) ), fmul( 108, n ) ), 3 )
+
+    return fdiv( fsub( fadd( fdiv( bigTerm, power( 3, fdiv( 2, 3 ) ) ),
+                             fdiv( 1, fmul( root( 3, 3 ), bigTerm ) ) ), 1 ), 2 )
+

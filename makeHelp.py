@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1021
+maxExampleCount = 1023
 
 
 # //******************************************************************************
@@ -7842,6 +7842,15 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range fibonorial' ),
+[ ] ],
+
+    'find_sum_of_squares' : [
+'number_theory', 'calculates the largest x for which the sum of the first xth squares is less than n',
+'''
+''',
+'''
+''' + makeCommandExample( '55 find_sum_of_squares' ) + '''
+''' + makeCommandExample( '506 find_sum_of_squares' ),
 [ ] ],
 
     'fraction' : [

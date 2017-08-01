@@ -255,7 +255,7 @@ def getCompositionsGenerator( n, k ):
 
 @twoArgFunctionEvaluator( )
 def getCompositions( n, k ):
-    return getCompositionsGenerator( n, k )
+    return RPNGenerator( getCompositionsGenerator( n, k ) )
 
 
 # //******************************************************************************
@@ -271,6 +271,7 @@ def getCombinationsOfListGenerator( n, k ):
     for comb in itertools.combinations( n, int( k ) ):
         yield list( comb )
 
+@listAndOneArgFunctionEvaluator( )
 def getCombinationsOfList( n, k ):
     return RPNGenerator( getCombinationsOfListGenerator( n, k ) )
 
@@ -288,6 +289,7 @@ def getPermutationsOfListGenerator( n, k ):
     for comb in itertools.permutations( n, int( k ) ):
         yield list( comb )
 
+@listAndOneArgFunctionEvaluator( )
 def getPermutationsOfList( n, k ):
     return RPNGenerator( getPermutationsOfListGenerator( n, int( k ) ) )
 
@@ -326,7 +328,7 @@ def OLDgetPartitionNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'partition' )
-def NOT_QUITE_AS_OLDgetPartitionNumber( n ):
+def getPartitionNumber( n ):
     '''
     This version is, um, less recursive than the original, which I've kept.
     The strategy is to create a list of the smaller partition numbers we need
@@ -379,7 +381,7 @@ def NOT_QUITE_AS_OLDgetPartitionNumber( n ):
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'new_partition' )
-def getPartitionNumber( n ):
+def NEWgetPartitionNumber( n ):
     if n < 0:
         return 0
 

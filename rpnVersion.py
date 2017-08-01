@@ -18,8 +18,8 @@
 # //
 # //******************************************************************************
 
-PROGRAM_VERSION = '6.999.4'
-PROGRAM_VERSION_NAME = '7.0b4'
+PROGRAM_VERSION = '6.999.5'
+PROGRAM_VERSION_NAME = '7.0b5'
 COPYRIGHT_MESSAGE = 'copyright (c) 2017 (1988), Rick Gutleber (rickg@his.com)'
 
 PROGRAM_VERSION_STRING = ' ' + PROGRAM_VERSION + ' (' + PROGRAM_VERSION_NAME + ') - '

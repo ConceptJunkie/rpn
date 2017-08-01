@@ -316,6 +316,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '[ 8 64 ] gcd', 8 )
     testOperator( '1 2 10 range range gcd' )
 
+    # gcd2
+
     # geometric_mean
     testOperator( '1 10 range geometric_mean' )
     testOperator( '1 1 10 range range geometric_mean' )
@@ -360,6 +362,8 @@ def runArithmeticOperatorTests( ):
 
     expectException( '3 i 6 is_greater' )
     expectException( '4 cups 1 mile is_greater' )
+
+    # is_integer
 
     # is_less
     expectResult( '4 3 is_less', 0 )
@@ -416,12 +420,11 @@ def runArithmeticOperatorTests( ):
     expectResult( '2 is_odd', 0 )
     expectException( '5 i 3 + is_odd' )
 
+    # is_power
+
     # is_square
     expectResult( '1024 is_square', 1 )
     expectResult( '5 is_square', 0 )
-
-    # is_squarefree
-    expectEqual( '1 1000 range lambda x is_prime not x is_squarefree and filter', '469 oeis 440 left' )
 
     if slow:
         expectEqual( '1 20203 range lambda x is_prime not x is_squarefree and filter', '469 oeis 10000 left' )
@@ -438,6 +441,8 @@ def runArithmeticOperatorTests( ):
     # lcm
     expectEqual( '1 10 range lcm', '[ 2 2 2 3 3 5 7 ] prod' )
     testOperator( '1 1 10 range range lcm' )
+
+    # lcm2
 
     # mantissa
     # This works on the command line, but not here.  I have no idea why.
@@ -787,12 +792,6 @@ def runBitwiseOperatorTests( ):
     # count_bits
     testOperator( '0xffff count_bits' )
 
-    # not
-    expectEqual( '[ 0 10 dup ] not', '[ 1 10 dup ]' )
-
-    # or
-    testOperator( '-x 0x5543 0x7789 bitwise_or' )
-
     # parity
     testOperator( '0xff889d8f parity' )
     expectEqual( '0 20000 range parity nonzero', '69 oeis 10001 left' )
@@ -811,6 +810,9 @@ def runBitwiseOperatorTests( ):
 # //******************************************************************************
 
 def runCalendarOperatorTests( ):
+    # ascension
+    testOperator( '2016 ascension' )
+
     # ash_wednesday
     testOperator( '2015 ash_wednesday' )
 
@@ -818,9 +820,6 @@ def runCalendarOperatorTests( ):
     testOperator( '1965-03-31 calendar' )
     testOperator( '2014-10-01 calendar' )
     testOperator( 'today calendar' )
-
-    # ascension
-    testOperator( '2016 ascension' )
 
     # christmas
     testOperator( '2016 christmas' )
@@ -839,6 +838,8 @@ def runCalendarOperatorTests( ):
 
     # election_day
     testOperator( '2015 election_day' )
+
+    # epiphany
 
     # from_bahai
     testOperator( '172 12 4 from_bahai' )
@@ -861,6 +862,8 @@ def runCalendarOperatorTests( ):
     # from_persian
     testOperator( '1394 7 27 from_persian' )
 
+    # good_friday
+
     # independence_day
     testOperator( '2017 independence_day' )
 
@@ -875,6 +878,8 @@ def runCalendarOperatorTests( ):
 
     # memorial_day
     testOperator( '2015 memorial_day' )
+
+    # new_years_day
 
     # nth_weekday
     testOperator( '2015 march 4 thursday nth_weekday' )
@@ -955,6 +960,8 @@ def runCalendarOperatorTests( ):
     expectException( '2017-04-31 weekday' )
     expectException( '1951-02-29 weekday' )
 
+    # weekday_name
+
     # year_calendar
     testOperator( '1965 year_calendar' )
     testOperator( 'today year_calendar' )
@@ -1030,6 +1037,8 @@ def runChemistryOperatorTests( ):
     expectException( '119 element_period' )
     expectException( '0 element_period' )
 
+    # element_state
+
     # molar_mass
     testOperator( 'H2O molar_mass' )
     testOperator( 'C12H22O11 molar_mass' )
@@ -1086,6 +1095,8 @@ def runCombinatoricsOperatorTests( ):
     #expectEqual( '0 500 range lambda 2 2 x * 1 + ** 2 x * 1 + x 1 + binomial eval', '346 oeis 501 left' )
 
     # combinations
+
+    # combinations_of_list
 
     # compositions
     testOperator( '5 2 compositions' )
@@ -1169,6 +1180,8 @@ def runCombinatoricsOperatorTests( ):
     if slow:
         expectEqual( '0 1999 range nth_schroeder', '6318 oeis 2000 left' )
 
+    # nth_schroeder_hipparchus
+
     # nth_sylvester
     testOperator( '45 nth_sylvester' )
     expectEqual( '1 13 range nth_sylvester', '58 oeis 13 left' )
@@ -1180,6 +1193,8 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '8 3 permutations', '8 ! 5 ! /' )
     expectEqual( '-a20 17 12 permutations', '-a20 17 ! 5 ! /' )
     expectException( '6 7 permutations' )
+
+    # permutations_of_list
 
 
 # //******************************************************************************
@@ -1565,1238 +1580,6 @@ def runDateTimeOperatorTests( ):
 
 # //******************************************************************************
 # //
-# //  runFunctionOperatorTests
-# //
-# //******************************************************************************
-
-def runFunctionOperatorTests( ):
-    # break_on
-
-    # eval
-    testOperator( '10 lambda x 5 * eval' )
-    testOperator( '-a20 57 lambda x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval' )
-    expectEqual( '-a121 0 200 range lambda x 0 * 2 x 1 - power + 2 x power 1 - * eval', '6516 oeis 201 left' )
-    expectEqual( '1 9999 range lambda x sqr 2 * 2 + eval', '5893 oeis 10000 left 9999 right' )
-
-    # eval2
-    testOperator( '7 8 lambda x 2 ** y 3 ** + eval2' )
-
-    # eval3
-    testOperator( '15 4 26 lambda x 2 ** y 3 ** + z 4 ** + eval3' )
-
-    # filter
-    testOperator( '-a20 1 80 range fib lambda x is_prime filter' )
-    expectEqual( '1 10000 range lambda x is_prime filter', '1 1229 primes' )
-
-    # filter_by_index
-    expectEqual( '0 10000 range lambda x is_prime filter_by_index', '1 1229 primes' )
-
-    # limit
-    testOperator( 'infinity lambda 1 1 x / + x power limit' )
-    testOperator( '0 lambda x x / 2 -1 x / power + 1/x limit' )
-    testOperator( 'infinity lambda x x ! x root / limit' )   # This one isn't very precise...
-    expectEqual( 'infinity lambda x fibonacci x 1 + fibonacci / limit', 'infinity lambda x lucas x 1 + lucas / limit' )
-    expectEqual( 'infinity lambda 1 1 x / + x power limit', 'e' )
-    expectEqual( 'infinity lambda x 1 x / sin * limit', '1' )
-    expectEqual( 'inf lambda 7 x / 1 + 3 x * ** limit', 'e 7 3 * **' )
-
-    # limitn
-    testOperator( '0 lambda x x / 2 -1 x / power + 1/x limitn' )
-    expectEqual( '0 lambda x x sin / limitn', '1' )
-
-    # negate
-    expectEqual( '[ 0 10 dup ] not', '[ 1 10 dup ]' )
-
-    # nprod
-    testOperator( '-a20 -p20 -d5 3 inf lambda x pi / 1/x cos nprod' )
-
-    # nsum
-    expectEqual( '1 infinity lambda x 3 ** 1/x nsum', '3 zeta' )
-    expectEqual( '0 infinity lambda 1 x ! / nsum', 'e' )
-
-    # These operators use the plotting GUI, so aren't included in the automated tests.
-    # plot
-    # plot2
-    # plotc
-
-    # recurrence
-    expectEqual( '2 99 lambda x get_digits sqr sum recurrence', '216 oeis 100 left' )
-    expectEqual( '3 99 lambda x get_digits sqr sum recurrence', '218 oeis 100 left' )
-    expectEqual( '5 99 lambda x get_digits sqr sum recurrence', '221 oeis 100 left' )
-    expectEqual( '-a1000 1 10000 lambda x tan recurrence floor', '319 oeis 10001 left' )
-
-    # unfilter
-    expectEqual( '1 10100 range lambda x is_square unfilter', '37 oeis 10000 left' )
-
-    # unfilter_by_index
-    expectEqual( '0 2000 range lambda x is_sphenic unfilter_by_index', '0 2000 range lambda x is_sphenic unfilter' )
-
-    # x
-    testOperator( '23 lambda x 4 ** 5 x 3 ** * + x sqrt - eval' )
-
-    # y
-    testOperator( '23 57 lambda x 4 ** 5 x 3 ** * + y sqrt - eval2' )
-
-    # z
-    testOperator( '23 57 86 lambda x 4 ** 5 y 3 ** * + z sqrt - eval3' )
-
-
-# //******************************************************************************
-# //
-# //  runGeographyOperatorTests
-# //
-# //******************************************************************************
-
-def runGeographyOperatorTests( ):
-    # distance
-    testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
-    testOperator( '"Leesburg, VA" "Smithfield, VA" distance' )
-
-    # latlong
-    #testOperator( '"Leesburg, VA" 43 -80 latlong distance' )
-
-    # location
-    testOperator( '"Uppsala, Sweden" location today moonrise' )
-
-    # location_info
-    testOperator( '"Dakar, Senegal" location_info' )
-    testOperator( '"Scottsdale, AZ" location_info' )
-
-
-# //******************************************************************************
-# //
-# //  runGeometryOperatorTests
-# //
-# //******************************************************************************
-
-def runGeometryOperatorTests( ):
-    # antiprism_area
-    testOperator( '8 5 antiprism_area' )
-
-    # antiprism_volume
-    testOperator( '3 8 antiprism_volume' )
-
-    # cone_area
-    testOperator( '4 5 cone_area' )
-
-    # cone_volume
-    testOperator( '3 8 cone_volume' )
-
-    # dodecahedron_area
-    testOperator( '1 dodecahedron_area' )
-
-    # dodecahedron_volume
-    testOperator( '1 dodecahedron_volume' )
-
-    # icosahedron_area
-    testOperator( '1 icosahedron_area' )
-
-    # icosahedron_volume
-    testOperator( '1 icosahedron_volume' )
-
-    # n_sphere_area
-    testOperator( '34 inches 8 n_sphere_area' )
-    testOperator( '34 inches 4 ** 5 n_sphere_area' )
-    testOperator( '34 inches 7 ** 7 n_sphere_area' )
-    expectException( '34 cubic_inches 2 n_sphere_area' )
-
-    # n_sphere_radius
-    testOperator( '3 meters 4 n_sphere_radius' )
-    testOperator( '3 meters 3 ** 4 n_sphere_radius' )
-    testOperator( '3 cubic_meters 4 n_sphere_radius' )
-    expectException( '3 cubic_meters 2 n_sphere_radius' )
-
-    # n_sphere_volume
-    testOperator( '6 inches 8 ** 9 n_sphere_volume' )
-    testOperator( '3 feet 5 ** 6 n_sphere_volume' )
-    testOperator( '50 cubic_centimeters sqr 7 n_sphere_volume' )
-    expectException( '50 cubic_centimeters 1 n_sphere_volume' )
-
-    # octahedron_area
-    testOperator( '1 octahedron_area' )
-
-    # octahedron_volume
-    testOperator( '1 octahedron_volume' )
-
-    # polygon_area
-    testOperator( '13 1 inch polygon_area square_inches convert' )
-    testOperator( '3 10 range 1 polygon_area' )
-
-    # prism_area
-    testOperator( '8 5 2 prism_area' )
-
-    # prism_volume
-    testOperator( '3 8 4 prism_volume' )
-
-    # sphere_area
-    testOperator( '8 inches sphere_area' )
-    testOperator( '8 sq_inches sphere_area' )
-    testOperator( '8 cu_inches sphere_area' )
-
-    # sphere_radius
-    testOperator( '4 inches sphere_radius' )
-    testOperator( '4 square_inches sphere_radius' )
-    testOperator( '4 cubic_inches sphere_radius' )
-
-    # sphere_volume
-    testOperator( '5 inches sphere_volume' )
-    testOperator( '5 sq_inches sphere_volume' )
-    testOperator( '5 cubic_in sphere_volume' )
-
-    # tetrahedron_area
-    testOperator( '1 tetrahedron_area' )
-
-    # tetrahedron_volume
-    testOperator( '1 tetrahedron_volume' )
-
-    # torus_area
-    testOperator( '12 5 torus_area' )
-
-    # torus_volume
-    testOperator( '20 8 torus_volume' )
-
-    # triangle_area
-    testOperator( '456 456 789 triangle_area' )
-
-
-# //******************************************************************************
-# //
-# //  runInternalOperatorTests
-# //
-# //******************************************************************************
-
-def runInternalOperatorTests( ):
-    # _dump_aliases
-    testOperator( '_dump_aliases' )
-
-    # _dump_operators
-    testOperator( '_dump_operators' )
-
-    # _dump_constants
-    testOperator( '_dump_constants' )
-
-    # _dump_units
-    testOperator( '_dump_units' )
-
-    # _stats
-    testOperator( '_stats' )
-
-
-# //******************************************************************************
-# //
-# //  runLexicographyOperatorTests
-# //
-# //******************************************************************************
-
-def runLexicographyOperatorTests( ):
-    # add_digits
-    expectResult( '3 4 add_digits', 34 )
-    expectResult( '3 45 add_digits', 345 )
-    expectResult( '34 567 add_digits', 34567 )
-
-    # build_numbers
-    testOperator( '123d build_numbers' )
-    testOperator( '[0-3]d0[3-5] build_numbers' )
-    testOperator( '[246]d[7-9][12] build_numbers' )
-    testOperator( '[123:1] build_numbers' )
-    testOperator( '[123:2] build_numbers' )
-    testOperator( '[123:3] build_numbers' )
-    testOperator( '[1-3:2:3] build_numbers' )
-    testOperator( '[1-38-9:2:3] build_numbers' )
-    testOperator( '[1-3:2][8-9:2] build_numbers' )
-    expectEqual( '[37:1:12] build_numbers', '143967 oeis 8190 left' )
-
-    # combine_digits
-    testOperator( '1 1 7 range primes combine_digits' )
-    expectResult( '1 9 range combine_digits', 123456789 )
-    expectEqual( '1 150 range lambda x 1 range combine_digits eval', '422 oeis 150 left' )
-
-    # count_different_digits
-    expectEqual( '1 2579 range lambda x sqr count_different_digits 5 equals filter', '54033 oeis 1000 left' )
-    expectEqual( '1 20000 range triangular lambda x count_different_digits 2 equals filter', '62691 oeis 36 left' )
-
-    # dup_digits
-    expectResult( '543 2 dup_digits', 54343 )
-    expectResult( '1024 1 4 range dup_digits', [ 10244, 102424, 1024024, 10241024 ] )
-
-    # erdos_persistence
-    expectResult( '55555555555555557777777777777 erdos_persistence', 12 )
-
-    # find_palindrome
-    testOperator( '-a30 10911 55 find_palindrome' )
-    testOperator( '180 200 range 10 find_palindrome -s1' )
-
-    # get_base_k_digits
-    testOperator( '1 million 7 get_base_k_digits' )
-
-    # get_digits
-    testOperator( '123456789 get_digits' )
-    expectEqual( '0 1000 range lambda x get_digits 1 left eval flatten', '30 oeis 1001 left' )
-
-    if slow:
-        expectEqual( '0 10000 range lambda x get_digits 1 left eval flatten', '30 oeis 10001 left' )
-
-    # get_left_digits
-
-    # get_left_truncations
-    testOperator( '123456789 get_left_truncations' )
-
-    # get_nonzero_base_k_digits
-
-    # get_nonzero_digits
-
-    # get_right_digits
-    expectEqual( '-a420 1 2000 range lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 42 left 41 right' )
-
-    if slow:
-        expectEqual( '-a21000 dddd[159] build_numbers lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 573 left 572 right' )
-
-    # get_right_truncations
-    testOperator( '123456789 get_right_truncations' )
-
-    # has_any_digits
-    expectEqual( '1 1113 primes lambda x 2357 has_any_digits filter', '179336 oeis 1000 left' )
-
-    if slow:
-        expectEqual( '1 10776 primes lambda x 2357 has_any_digits filter', '179336 oeis 10000 left' )
-
-    # has_digits
-    expectEqual( '0 4005 range lambda x 0 has_digits filter', '11540 oeis 1000 left' )
-
-    if slow:
-        expectEqual( '0 30501 range lambda x 0 has_digits filter', '11540 oeis 10000 left' )
-
-    # has_only_digits
-    expectEqual( '1 20000 range lambda x triangular 120 has_only_digits filter', '119034 oeis 15 left' )
-
-    # is_automorphic
-    testOperator( '1 100 range lambda x is_automorphic filter' )
-    expectResult( '-a30 59918212890625 is_automorphic', 1 )
-
-    # is_bouncy
-
-    # is_decreasing
-
-    # is_digital_permutation
-
-    # if_generalized_dudeney
-
-    # is_harshad
-
-    # is_increasing
-
-    # is_kaprekar
-    expectResult( '533170 is_kaprekar', 1 )
-    expectResult( '77777 is_kaprekar', 0 )
-    expectResult( '77778 is_kaprekar', 1 )
-    expectResult( '95121 is_kaprekar', 1 )
-    expectResult( '7272 is_kaprekar', 1 )
-    expectResult( '22223 is_kaprekar', 0 )
-    expectEqual( '1 10000 range lambda x is_kaprekar filter', '53816 oeis 15 left' )
-
-    # is_k_morphic
-
-    # is_morphic
-    testOperator( '1 100 range lambda x 7 is_morphic filter' )
-    expectEqual( '1 10000 range lambda x x is_morphic filter', '82576 oeis 234 left' )
-
-    # is_narcissistic
-    expectResult( '152 is_narcissistic', 0 )
-    expectResult( '153 is_narcissistic', 1 )
-    expectResult( '154 is_narcissistic', 0 )
-    expectEqual( '1 10000 range lambda x is_narcissistic filter', '5188 oeis 16 left' )
-
-    # is_palindrome
-    expectResult( '101 is_palindrome', 1 )
-    expectResult( '1 22 range is_palindrome', [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] )
-    expectResult( '1234567890 is_palindrome', 0 )
-    expectEqual( '0 10000 range lambda x is_palindrome filter', '2113 oeis 199 left' )
-
-    # is_pandigital
-    expectResult( '1234567890 is_pandigital', 1 )
-    expectResult( '123456789 is_pandigital', 1 )
-    expectResult( '12345670 is_pandigital', 0 )
-    expectResult( '12345 is_pandigital', 1 )
-    expectResult( '321 is_pandigital', 1 )
-
-    # is_pddi
-
-    # is_pdi
-
-    # is_sum_product
-
-    # is_trimorphic
-    testOperator( '1 100 range is_trimorphic' )
-    expectEqual( '1 1000 range lambda x is_trimorphic filter', '33819 oeis 26 left 25 right' )
-
-    # k_persistence
-    expectResult( '77 1 k_persistence', 4 )
-    testOperator( '679 2 k_persistence' )
-    testOperator( '6788 3 k_persistence' )
-    testOperator( '68889 4 k_persistence' )
-
-    # multiply_digits
-    expectEqual( '123456789 multiply_digits', '9 !' )
-
-    # multiply_digit_powers
-
-    # multiply_nonzero_digits
-
-    # multiply_nonzero_digit_powers
-
-    # permute_digits
-    testOperator( '12345 permute_digits' )
-    expectEqual( '123456789 permute_digits 18 left', '50289 oeis 18 left' )
-
-    # persistence
-    expectResult( '77 persistence', 4 )
-    expectResult( '679 persistence', 5 )
-    expectResult( '6788 persistence', 6 )
-    expectResult( '68889 persistence', 7 )
-    expectResult( '2677889 persistence', 8 )
-
-    # replace_digits
-
-    # reverse_digits
-    testOperator( '37 1 8 range * reverse_digits' )
-    testOperator( '37 1 2 9 range range * reverse_digits' )
-    expectEqual( '0 1102 range lambda x sqr reverse_digits x reverse_digits sqr equals filter', '61909 oeis 53 left' )
-
-    # rotate_digits_left
-
-    # rotate_digits_right
-
-    # show_erdos_persistence
-    testOperator( '-a30 55555555555555557777777777777 show_erdos_persistence' )
-
-    # show_n_persistence
-    testOperator( '-a60 3 2222222223333333778 3 show_n_persistence' )
-
-    # show_persistence
-    testOperator( '-a20 2222222223333333778 show_persistence' )
-
-    # sum_digits
-    testOperator( '2 32 ** 1 - sum_digits' )
-    expectEqual( '0 10000 range sum_digits', '7953 oeis 10001 left' )
-
-
-# //******************************************************************************
-# //
-# //  runListOperatorTests
-# //
-# //******************************************************************************
-
-def runListOperatorTests( ):
-    # alternate_signs
-    testOperator( '1 10 range alternate_signs' )
-
-    # alternate_signs_2
-    testOperator( '1 10 range alternate_signs_2' )
-
-    # alternating_sum
-    testOperator( '1 10 range alternating_sum' )
-
-    # alternating_sum_2
-    testOperator( '1 10 range alternating_sum_2' )
-
-    # append
-    testOperator( '1 10 range 45 50 range append' )
-    testOperator( '1 10 range 11 20 range append 21 30 range append' )
-
-    # collate
-    testOperator( '[ 1 10 range 1 10 range ] collate' )
-
-    # count
-    expectResult( '1 10 range count', 10 )
-
-    # cumulative_diffs
-    testOperator( '1 10 range cumulative_diffs' )
-    testOperator( '1 10 range fib cumulative_diffs' )
-
-    # cumulative_ratios
-    testOperator( '1 10 range fib cumulative_ratios' )
-
-    # diffs
-    testOperator( '1 10 range diffs' )
-    testOperator( '1 10 range fib diffs' )
-
-    # element
-    expectResult( '1 10 range 5 element', 6 )
-    testOperator( '-a25 1 100 range fibonacci 55 element' )
-
-    # enumerate
-    testOperator( '1 5 range 1 enumerate' )
-
-    # exponential_range
-    testOperator( '1.1 1.1 10 exponential_range' )
-
-    # flatten
-    expectEqual( '[ 1 2 [ 3 4 5 ] [ 6 [ 7 [ 8 9 ] ] 10 ] ] flatten', '1 10 range' )
-
-    # geometric_mean
-    testOperator( '1 100 range geometric_mean' )
-    testOperator( '[ 1 10 range 1 20 range 1 30 range ] geometric_mean' )
-
-    # geometric_range
-    testOperator( '2 8 8 geometric_range' )
-
-    # group_elements
-    #expectEqual( '1 10 range 5 group_elements', '[ 1 5 range 6 10 range ]' )
-    testOperator( '1 10 range 5 group_elements' )
-
-    # interleave
-    testOperator( '1 10 range 1 10 range interleave' )
-    expectEqual( '1 100 2 range2 2 100 2 range2 interleave', '1 100 range' )
-
-    # intersection
-    expectEqual( '1 10 range 1 8 range intersection', '1 8 range' )
-
-    # interval_range
-    expectResult( '1 23 2 interval_range', [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23 ] )
-
-    # left
-    expectResult( '1 10 range 5 left', [ 1, 2, 3, 4, 5 ] )
-
-    # max_index
-    expectResult( '1 10 range max_index', 9 )
-
-    # min_index
-    expectResult( '1 10 range min_index', 0 )
-
-    # nonzero
-    expectEqual( '1 10 range nonzero', '0 9 range' )
-
-    # occurrence_cumulative
-    testOperator( '4 100 random_integer_ occurrence_cumulative' )
-
-    # occurrence_ratios
-    testOperator( '4 100 random_integer_ occurrence_ratios' )
-
-    # occurrences
-    testOperator( '4 100 random_integer_ occurrences' )
-
-    # range
-    expectResult( '1 12 range', [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] )
-
-    # ratios
-    testOperator( '1 10 range fib ratios' )
-
-    # reduce
-    testOperator( '[ 4 8 12 ] reduce' )
-
-    # reverse
-    testOperator( '1 10 range reverse' )
-    testOperator( '1 2 10 range range reverse' )
-    testOperator( '1 2 10 range reverse range reverse' )
-    testOperator( '1 2 10 range reverse range' )
-
-    # right
-    expectEqual( '1 10 range 5 right', '6 10 range' )
-
-    # shuffle
-    testOperator( '1 20 range shuffle' )
-
-    # sized_range
-    expectResult( '10 10 10 sized_range', [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ] )
-    testOperator( '10 1 10 range 10 sized_range -s1' )
-    testOperator( '1 10 range 1 10 range 10 sized_range -s1' )
-
-    # slice
-    testOperator( '1 10 range 3 5 slice' )
-    testOperator( '1 10 range 2 -5 slice' )
-
-    # sort
-    testOperator( '10 1 -1 range2 sort' )
-
-    # sort_descending
-    testOperator( '1 10 range sort_descending' )
-
-    # sublist
-    testOperator( '1 10 range 1 5 sublist' )
-
-    # union
-    testOperator( '1 10 range 11 20 range union' )
-
-    # unique
-    testOperator( '1 10 range unique' )
-    testOperator( '1 10 range 1 10 range append unique' )
-    testOperator( '[ 1 10 range 10 dup ] unique' )
-
-    # zero
-    expectEqual( '-10 10 range zero', '[ 10 ]' )
-    expectEqual( '1 10 range zero', '[ ]' )
-
-
-# //******************************************************************************
-# //
-# //  runLogarithmsOperatorTests
-# //
-# //******************************************************************************
-
-def runLogarithmsOperatorTests( ):
-    # lambertw
-    testOperator( '5 lambertw' )
-
-    # li
-    testOperator( '12 li' )
-
-    # log
-    testOperator( '1000 log' )
-    expectEqual( '0 lambda 1 x ** 5 x * + log 13 x * / limitn', '5 13 /' )
-    expectEqual( '1 10000 range log nearest_int', '193 oeis 10000 left' )
-    expectEqual( '1 10000 range log floor', '195 oeis 10000 left' )
-
-    # log10
-    expectResult( '1000 log10', 3 )
-
-    # log2
-    testOperator( '1000 log2' )
-
-    # logxy
-    testOperator( '6561 3 logxy' )
-
-    # polyexp
-    testOperator( '4 5 polyexp' )
-
-    # polylog
-    testOperator( '9 3 polylog' )
-
-
-# //******************************************************************************
-# //
-# //  runModifierOperatorTests
-# //
-# //******************************************************************************
-
-def runModifierOperatorTests( ):
-    # [
-    testOperator( '[ "Philadelphia, PA" location "Raleigh, NC" location ] today sunrise' )
-    testOperator( '[ "Philadelphia, PA" "Raleigh, NC" ] today sunrise' )
-
-    # ]
-    testOperator( '2 [ 4 5 6 ] eval_poly' )
-
-    # dup_operator
-    testOperator( '2 5 dup_operator sqr' )
-    testOperator( '4 6 5 dup_operator *' )
-
-    # dup_term
-    testOperator( '[ 1 2 10 dup_term ] cf' )
-
-    # previous
-    expectResult( '6 previous *', 36 )
-
-    # for_each
-
-    # unlist
-    expectResult( '[ 1 2 ] unlist +', 3 )
-
-    # (
-    testOperator( '"Leesburg, VA" today ( sunrise sunset moonrise moonset )' )
-
-    # )
-    testOperator( '1 10 range ( is_prime is_pronic is_semiprime )' )
-
-
-# //******************************************************************************
-# //
-# //  runNumberTheoryOperatorTests
-# //
-# //******************************************************************************
-
-def runNumberTheoryOperatorTests( ):
-    from rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
-
-    # abundance
-    expectEqual( '0 10000 15 interval_range lambda x abundance abs x log not_greater filter', '88012 oeis 2 left' )
-
-    # abundance_ratio
-    expectResult( '6 abundance_ratio', 2 )
-    expectResult( '28 abundance_ratio', 2 )
-    expectResult( '8128 abundance_ratio', 2 )
-    expectResult( '120 abundance_ratio', 3 )
-    expectResult( '672 abundance_ratio', 3 )
-
-    # aliquot
-    testOperator( '276 10 aliquot' )
-
-    # alternating_factorial
-    testOperator( '13 alternating_factorial' )
-    testOperator( '-a20 1 20 range alternating_factorial' )
-
-    # base
-    testOperator( '[ 1 1 1 1 1 1 ] 2 10 range base' )
-
-    testOperator( '-a30 1 10 range 11 base' )
-    testOperator( '-a30 1 11 range 12 base' )
-    testOperator( '-a30 1 12 range 13 base' )
-    testOperator( '-a30 1 13 range 14 base' )
-    testOperator( '-a30 1 14 range 15 base' )
-    testOperator( '-a30 1 15 range 16 base' )
-    testOperator( '-a30 1 16 range 17 base' )
-    testOperator( '-a30 1 17 range 18 base' )
-    testOperator( '-a30 1 18 range 19 base' )
-    testOperator( '-a30 1 19 range 20 base' )
-
-    # barnesg
-    testOperator( '2 i barnesg' )
-    expectEqual( '-a30 3 12 range barnesg', '-a30 1 10 range superfac' )
-
-    # beta
-    testOperator( '5 2 beta' )
-
-    # calkin_wilf
-    testOperator( '1 100 range calkin_wilf' )
-
-    # cf
-    testOperator( '1 10 range cf' )
-
-    # collatz
-
-    # count_divisors
-    testOperator( '1024 count_divisors' )
-    expectEqual( '1 104 range count_divisors', '5 oeis 104 left' )
-    testOperator( '-a50 0 35 range ! count_divisors' )
-    testOperator( '27423 oeis 36 left' )
-    expectEqual( '-a50 0 35 range ! count_divisors', '-a50 27423 oeis 36 left' )
-
-    # crt
-    testOperator( '1 4 range 10 20 3 range2 crt' )
-
-    # cyclotomic
-
-    # digamma
-    testOperator( '3 digamma' )
-    testOperator( '-1.1 digamma' )
-    expectException( '0 digamma' )
-    expectException( '-1 digamma' )
-
-    # divisors
-    testOperator( '2 3 ** 3 4 ** * divisors' )
-    testOperator( '12 ! divisors' )
-    testOperator( '-3690 divisors' )
-
-    # double_factorial
-    testOperator( '9 double_factorial' )
-    expectEqual( '0 2 100 sized_range !!', '165 oeis 100 left' )
-
-    # egypt
-    testOperator( '45 67 egypt' )
-
-    # eta
-    testOperator( '4 eta' )
-    expectEqual( '1 eta', '2 ln' )
-
-    # euler_brick
-    testOperator( '2 3 make_pyth_3 unlist euler_brick' )
-    expectException( '1 2 3 euler_brick' )
-
-    # euler_phi
-    testOperator( '1 20 range euler_phi' )
-    expectEqual( '1 1000 range euler_phi', '10 oeis 1000 left' )
-
-    # factor
-    testOperator( '-25 factor' )
-    testOperator( '-1 factor' )
-    testOperator( '0 factor' )
-    testOperator( '1 factor' )
-    testOperator( '883847311 factor' )
-    testOperator( '1 40 range fibonacci factor -s1' )
-
-    # factor_sympy
-
-    # factorial
-    testOperator( '-a25 -c 23 factorial' )
-    expectEqual( '0 100 range !', '142 oeis 101 left' )
-    testOperator( '2.5 factorial' )
-    expectException( '-1 factorial' )
-    expectEqual( '0 100 range lambda x 2 * ! x 2 * 1 + ! * x ! sqr / eval', '909 oeis 101 left' )
-    expectEqual( '1 99 range lambda 3 2 x * ! * x 2 + ! x 1 - ! * / eval', '245 oeis 100 left 99 right' )
-    expectEqual( '-a20 1 8 range lambda 0 x range 3 * 1 + factorial 0 x range x + factorial divide prod eval', '36687 oeis 9 left 8 right' )
-
-    # fibonacci
-    testOperator( '1 50 range fibonacci' )
-    testOperator( '-c -a8300 39399 fibonacci' )
-    expectEqual( '0 999 range fibonacci', '45 oeis 1000 left' )
-    expectResult( '0 100 range fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
-
-    # fibonorial
-    testOperator( '5 fibonorial' )
-    testOperator( '-a50 24 fibonorial' )
-    expectEqual( '1 100 range fibonorial', '3266 oeis 100 left' )
-
-    # fraction
-    testOperator( '2 sqrt 30 fraction' )
-    # NOTE: fraction should be setting dps itself!
-    expectEqual( '-p250 2 sqrt 2 199 range fraction flatten lambda x is_even filter_by_index', '1333 oeis 200 left 198 right' )
-    expectEqual( '-p250 5 sqrt 2 200 range fraction flatten lambda x is_odd filter_by_index', '1076 oeis 201 left 199 right' )
-
-    # frobenius
-    testOperator( '10 20 3 range2 prime frobenius' )
-    expectEqual( '2 1001 range lambda x 1 5 sized_range frobenius eval', '138985 oeis 1000 left' )
-
-    # generate_polydivisibles
-    testOperator( '3 generate_polydivisibles -r3' )
-    expectEqual( '2 8 range lambda x generate_polydivisibles count eval 1 +', '271374 oeis 7 left' )
-
-    # gamma
-    testOperator( '3 gamma' )
-
-    # geometric_recurrence
-    expectEqual( '-a800 [ 1 1 ] [ 2 2 ] [ 0 1 ] 15 geometric_recurrence', '-a800 283 oeis 15 left' )
-    expectEqual( '-a800 [ 1 1 ] [ 3 1 ] [ 0 1 ] 18 geometric_recurrence', '280 oeis 18 left' )
-    expectEqual( '-a800 [ 1 1 ] [ 2 1 ] [ 0 1 ] 25 geometric_recurrence', '278 oeis 25 left' )
-    expectEqual( '-a800 [ 1 1 ] [ 1 3 ] [ 0 1 ] 11 geometric_recurrence', '284 oeis 11 left' )
-
-    # harmonic
-    testOperator( '34 harmonic' )
-    expectEqual( '1 1000 range lambda x harmonic x harmonic exp x harmonic log * + floor x sigma - eval', '57641 oeis 1000 left' )
-
-    # heptanacci
-    testOperator( '-a200 -c 623 heptanacci' )
-    expectEqual( '0 49 range heptanacci', '122189 oeis 50 left' )
-    expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
-
-    if slow:
-        expectEqual( '0 999 range heptanacci', '122189 oeis 1000 left' )
-        expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
-
-    # hexanacci
-    testOperator( '-a300 -c 949 hexanacci' )
-    expectEqual( '0 49 range hexanacci', '1592 oeis 50 left' )
-    expectResult( '0 100 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 101 ) ] )
-
-    if slow:
-        expectEqual( '0 3360 range hexanacci', '1592 oeis 3361 left' )
-        expectResult( '0 1000 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 1001 ) ] )
-
-    # hurwitz_zeta
-    testOperator( '4 3 hurwitz_zeta' )
-    expectEqual( '1 1 100 range range square 1/x sum', '2 zeta 2 2 101 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
-
-    # hyperfactorial
-    testOperator( '-a160 -c 17 hyperfactorial' )
-
-    # is_abundant
-    testOperator( '1 20 range is_abundant' )
-    expectEqual( '1 4038 range lambda x is_abundant filter', '5101 oeis 1000 left' )
-
-    # is_achilles
-    testOperator( '1 20 range is_achilles' )
-    expectEqual( '1 1000 range lambda x is_achilles filter', '52486 oeis 13 left' )
-
-    # is_composite
-    expectEqual( '1 161 range lambda x is_squarefree x is_composite and filter', '120944 oeis 61 left' )
-
-    # is_deficient
-    testOperator( '1 20 range is_deficient' )
-    expectEqual( '1 86 range lambda x is_deficient filter', '5100 oeis 66 left' )
-
-    # is_k_hyperperfect
-    expectEqual( '1 2100 range lambda x 12 is_k_hyperperfect filter', '[ 697 2041 ]' )
-
-    # is_k_semiprime
-    testOperator( '1 20 range 3 is_k_semiprime' )
-    expectEqual( '-a30 1 100 range lambda x tribonacci is_semiprime filter', '101757 oeis 12 left' )
-
-    # is_k_sphenic
-
-    # is_perfect
-    testOperator( '1 30 range is_perfect' )
-
-    # is_polydivisible
-    expectEqual( '3608528850368400786036725 is_polydivisible', '1' )
-
-    # is_powerful
-    testOperator( '1 20 range is_powerful' )
-
-    # is_prime
-    testOperator( '1000 1030 range is_prime' )
-    testOperator( '2049 is_prime' )
-    testOperator( '92348759911 is_prime' )
-    expectEqual( '0 300 range lambda 90 x * 73 + is_prime filter 100 left', '195993 oeis 100 left' )
-
-    # is_pronic
-    testOperator( '1 20 range is_pronic' )
-    expectEqual( '0 9900 range lambda x is_pronic filter', '2378 oeis 100 left' )
-
-    # is_rough
-    testOperator( '1 20 range 2 is_rough' )
-    expectEqual( '1 4373 range lambda x 11 is_rough filter', '8364 oeis 1000 left' )
-
-    if slow:
-        expectEqual( '1 43747 range lambda x 11 is_rough filter', '8364 oeis 10000 left 9999 right' )
-
-    # is_semiprime
-    testOperator( '12 is_semiprime' )
-    expectEqual( '1 205 range lambda x is_semiprime x is_squarefree and filter', '6881 oeis 60 left' )
-    expectEqual( ' 1 141 range lambda x is_semiprime x is_squarefree and filter square', '85986 oeis 41 left' )
-
-    # is_smooth
-    testOperator( '128 4 is_smooth' )
-    testOperator( '1 20 range 2 is_smooth' )
-
-    # is_sphenic
-    testOperator( '[ 2 3 5 ] prod is_sphenic' )
-    expectEqual( '1 500 range lambda x is_sphenic filter 53 left', '7304 oeis 53 left' )
-    expectEqual( '-a30 1 20 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort 26 left', '268582 oeis 26 left' )
-
-    # is_squarefree
-    testOperator( '2013 sqr is_squarefree' )
-    testOperator( '8 primorial is_squarefree' )
-    testOperator( '1 20 range is_squarefree' )
-    expectEqual( '1 113 range lambda x is_squarefree filter', '5117 oeis 71 left' )
-    expectEqual( '1 100 range is_squarefree', '8966 oeis 100 left' )
-    expectEqual( '1 515 range lambda x square 1 + is_squarefree not filter', '49532 oeis 54 left' )
-
-    # is_unusual
-    testOperator( '-a50 81 23 ** is_unusual' )
-    testOperator( '1 20 range is_unusual' )
-
-    # k_fibonacci
-    expectResult( '0 100 range 2 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
-    expectResult( '0 100 range 5 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
-    expectResult( '0 100 range 10 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 101 ) ] )
-    expectResult( '1000 10 k_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
-
-    # leyland
-    testOperator( '7 8 leyland' )
-
-    # linear_recurrence
-    testOperator( '2 5 17 linear_recurrence' )
-    expectEqual( '-a50 [ 1 -1 -2 3 ] [ 1 2 4 8 ] 200 linear_recurrence', '-a50 126 oeis 200 left' )
-    expectEqual( '-a50 [ -1, 2, 1, -5 4 ] [ 1, 2, 4, 8, 16 ] 201 linear_recurrence', '-a50 128 oeis 201 left' )
-
-    # log_gamma
-    testOperator( '10 log_gamma' )
-
-    # lucas
-    testOperator( '-a21 99 lucas' )
-    expectEqual( '0 999 range lucas', '32 oeis 1000 left' )
-
-    # make_cf
-    testOperator( 'e 20 make_cf' )
-    expectEqual( '-a100 2 pi * 3 2 / power 1/x 1 4 / gamma sqr * 100 make_cf', '53002 oeis 100 left' )
-
-    # make_pyth_3
-    testOperator( '12 34 make_pyth_3' )
-
-    # make_pyth_4
-    testOperator( '18 29 make_pyth_4' )
-    expectException( '17 29 make_pyth_4' )
-
-    # merten
-    expectEqual( '1 81 range merten', '2321 oeis 81 left' )
-
-    # mobius
-    testOperator( '20176 mobius' )
-    expectEqual( '1 100 range mobius', '8683 oeis 100 left' )
-
-    # nth_carol
-    testOperator( '-a500 773 nth_carol' )
-    expectEqual( '1 25 range nth_carol', '93112 oeis 25 left' )
-
-    # nth_jacobsthal
-    expectEqual( '0 99 range nth_jacobsthal', '1045 oeis 100 left' )
-
-    # nth_kynea
-    expectEqual( '-a20 1 25 range nth_kynea', '93069 oeis 25 left' )
-
-    # nth_leonardo
-    expectEqual( '0 99 range nth_leonardo', '1595 oeis 100 left' )
-
-    # nth_mersenne_exponent
-
-    # nth_mersenne_prime
-    testOperator( '-a30 1 10 range nth_mersenne_prime' )
-    testOperator( '-c 25 nth_mersenne_prime' )
-
-    # nth_padovan
-    testOperator( '-c 76 nth_padovan' )
-    expectEqual( '0 99 range nth_padovan', '931 oeis 104 left 100 right' )
-
-    # nth_perfect_number
-
-    # nth_stern
-    testOperator( '1 100 range nth_stern' )
-    expectEqual( '0 99 range nth_stern', '2487 oeis 100 left' )
-
-    if slow:
-        expectEqual( '0 9999 range nth_stern', '2487 oeis 10000 left' )
-
-    # nth_thue_morse
-    expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
-
-    # octanacci
-    testOperator( '-a300 -c 906 octanacci' )
-    expectEqual( '0 99 range octanacci', '79262 oeis 100 left' )
-    expectResult( '0 100 range octanacci', [ getNthKFibonacciNumberTheSlowWay( i, 8 ) for i in range( 0, 101 ) ] )
-
-    # pascal_triangle
-    testOperator( '12 pascal_triangle' )
-    testOperator( '1 10 range pascal_triangle -s1' )
-
-    # pentanacci
-    testOperator( '16 pentanacci' )
-    expectEqual( '0 99 range pentanacci', '1591 oeis 100 left' )
-    expectResult( '0 100 range pentanacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
-
-    # polygamma
-    testOperator( '4 5 polygamma' )
-
-    # radical
-
-    # primorial
-    testOperator( '1 10 range primorial' )
-    expectEqual( '-a22 0 99 range primorial', '-a22 2110 oeis 100 left' )
-
-    # repunit
-    testOperator( '-a20 23 5 repunit' )
-
-    # reversal_addition
-    testOperator( '-a20 89 24 reversal_addition' )
-    testOperator( '-a20 80 89 range 24 reversal_addition' )
-    testOperator( '-a20 89 16 24 range reversal_addition' )
-    testOperator( '-a90 14,104,229,999,995 185 reversal_addition' )
-    testOperator( '-a90 14,104,229,999,995 185 reversal_addition is_palindrome' )
-    expectEqual( '-a120 1000004999700144385 260 reversal_addition', '-a120 281301 oeis 260 left' )
-
-    # riesel
-    testOperator( '23 riesel' )
-
-    # show_n_persistence
-
-    # sigma
-    testOperator( '1 20 range sigma' )
-    expectEqual( '1 500 range sigma', '203 oeis 500 left' )
-    expectEqual( '1 499 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval', '118 oeis 500 left 499 right' )
-
-    if slow:
-        expectEqual( '1 100000 range sigma', '203 oeis 100000 left' )
-        expectEqual( '1 49999 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval', '118 oeis 50000 left 49999 right' )
-
-    # sigma_k
-    testOperator( '1 20 3 range sigma_k' )
-    expectEqual( '1 50 range 2 sigma_k', '1157 oeis 50 left' )
-    expectEqual( '-p30 1 100 range 3 sigma_k', '1158 oeis 100 left' )
-    expectEqual( '-p30 1 100 range 4 sigma_k', '1159 oeis 100 left' )
-    expectEqual( '-p30 1 100 range 5 sigma_k', '1160 oeis 100 left' )
-    expectEqual( '-p30 1 100 range 6 sigma_k', '13954 oeis 100 left' )
-    expectEqual( '-p30 1 100 range 7 sigma_k', '13955 oeis 100 left' )
-    expectEqual( '-p30 1 100 range 8 sigma_k', '13956 oeis 100 left' )
-    expectEqual( '-p35 1 100 range 9 sigma_k', '13957 oeis 100 left' )
-    expectEqual( '-p35 1 100 range 10 sigma_k', '13958 oeis 100 left' )
-    expectEqual( '-p40 1 100 range 11 sigma_k', '13959 oeis 100 left' )
-    expectEqual( '-p45 1 100 range 12 sigma_k', '13960 oeis 100 left' )
-    expectEqual( '-p45 1 100 range 13 sigma_k', '13961 oeis 100 left' )
-    expectEqual( '-p45 1 100 range 14 sigma_k', '13962 oeis 100 left' )
-    expectEqual( '-p50 1 100 range 15 sigma_k', '13963 oeis 100 left' )
-    expectEqual( '-p55 1 100 range 16 sigma_k', '13964 oeis 100 left' )
-    expectEqual( '-p65 1 100 range 17 sigma_k', '13965 oeis 100 left' )
-    expectEqual( '-p75 1 100 range 18 sigma_k', '13966 oeis 100 left' )
-    expectEqual( '-p80 1 100 range 19 sigma_k', '13967 oeis 100 left' )
-    expectEqual( '-p85 1 100 range 20 sigma_k', '13968 oeis 100 left' )
-    expectEqual( '-p90 1 100 range 21 sigma_k', '13969 oeis 100 left' )
-    expectEqual( '-p95 1 100 range 22 sigma_k', '13970 oeis 100 left' )
-    expectEqual( '-p100 1 100 range 23 sigma_k', '13971 oeis 100 left' )
-    expectEqual( '-p100 1 100 range 24 sigma_k', '13972 oeis 100 left' )
-
-    if slow:
-        expectEqual( '-p30 1 1000 range 3 sigma_k', '1158 oeis 1000 left' )
-        expectEqual( '-p30 1 1000 range 4 sigma_k', '1159 oeis 1000 left' )
-        expectEqual( '-p35 1 1000 range 5 sigma_k', '1160 oeis 1000 left' )
-        expectEqual( '-p35 1 1000 range 6 sigma_k', '13954 oeis 1000 left' )
-        expectEqual( '-p45 1 1000 range 7 sigma_k', '13955 oeis 1000 left' )
-        expectEqual( '-p50 1 1000 range 8 sigma_k', '13956 oeis 1000 left' )
-        expectEqual( '-p55 1 1000 range 9 sigma_k', '13957 oeis 1000 left' )
-        expectEqual( '-p60 1 1000 range 10 sigma_k', '13958 oeis 1000 left' )
-        expectEqual( '-p65 1 1000 range 11 sigma_k', '13959 oeis 1000 left' )
-        expectEqual( '-p70 1 999 range 12 sigma_k', '13960 oeis 999 left' )
-        expectEqual( '-p80 1 999 range 13 sigma_k', '13961 oeis 999 left' )
-        expectEqual( '-p85 1 999 range 14 sigma_k', '13962 oeis 999 left' )
-        expectEqual( '-p90 1 999 range 15 sigma_k', '13963 oeis 999 left' )
-        expectEqual( '-p95 1 999 range 16 sigma_k', '13964 oeis 999 left' )
-        expectEqual( '-p100 1 999 range 17 sigma_k', '13965 oeis 999 left' )
-        expectEqual( '-p200 1 10000 range 18 sigma_k', '13966 oeis 10000 left' )
-        expectEqual( '-p210 1 10000 range 19 sigma_k', '13967 oeis 10000 left' )
-        expectEqual( '-p220 1 10000 range 20 sigma_k', '13968 oeis 10000 left' )
-        expectEqual( '-p230 1 10000 range 21 sigma_k', '13969 oeis 10000 left' )
-        expectEqual( '-p240 1 10000 range 22 sigma_k', '13970 oeis 10000 left' )
-        expectEqual( '-p250 1 10000 range 23 sigma_k', '13971 oeis 10000 left' )
-        expectEqual( '-p260 1 10000 range 24 sigma_k', '13972 oeis 10000 left' )
-
-    # subfactorial
-    testOperator( '-a20 -c 19 subfactorial' )
-    expectEqual( '1 199 range subfactorial', '166 oeis 200 left 199 right' )
-
-    # sums_of_k_powers
-    testOperator( '1072 3 3 sums_of_k_powers' )
-    expectEqual( '0 576 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 200 left' )
-    expectEqual( '0 99 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 100 left' )
-    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 100 left' )
-    expectEqual( '0 99 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 100 left' )
-
-    if slow:
-        expectEqual( '0 9999 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 10000 left' )
-        expectEqual( '0 39592 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 10000 left' )
-        expectEqual( '0 9999 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 10000 left' )
-        expectEqual( '0 9999 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 10000 left' )
-
-    # sums_of_k_nonzero_powers
-    testOperator( '5104 3 3 sums_of_k_nonzero_powers' )
-    expectEqual( '1 629 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 200 left' )
-
-    if slow:
-        expectEqual( '1 40045 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 10000 left' )
-
-    # superfactorial
-    testOperator( '-a50 -c 12 superfactorial' )
-    expectEqual( '0 46 range superfactorial', '178 oeis 47 left' )
-
-    # tetranacci
-    testOperator( '-a30 -c 87 tetranacci' )
-    expectEqual( '0 99 range tetranacci', '78 oeis 100 left' )
-    expectResult( '0 100 range tetranacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 101 ) ] )
-
-    # thabit
-    testOperator( '-a20 -c 45 thabit' )
-    expectEqual( '0 998 range thabit', '55010 oeis 1000 left 999 right' )
-
-    # tribonacci
-    testOperator( '1 20 range tribonacci' )
-    testOperator( '-c -a2800 10239 tribonacci' )
-    expectEqual( '0 99 range tribonacci', '73 oeis 100 left' )
-    expectResult( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
-
-    # trigamma
-    testOperator( '3 trigamma' )
-
-    # unit_roots
-    testOperator( '7 unit_roots' )
-
-    # zeta
-    testOperator( '4 zeta' )
-
-    # zeta_zero
-    testOperator( '4 zeta_zero' )
-
-
-# //******************************************************************************
-# //
-# //  runPhysicsOperatorTests
-# //
-# //******************************************************************************
-
-def runPhysicsOperatorTests( ):
-    # energy_equivalence
-    testOperator( '1 gram energy_equivalence' )
-
-    # escape_velocity
-    testOperator( 'earth_mass earth_radius escape_velocity' )
-
-    # kinetic_energy
-    testOperator( '310 pounds 65 mph kinetic_energy' )
-    testOperator( '65 mph 310 pounds kinetic_energy' )
-
-    # mass_equivalence
-    testOperator( '1 joule mass_equivalence' )
-
-    # orbital_period
-    testOperator( 'earth_mass earth_radius 640 km + orbital_period' )
-
-    testOperator( 'earth_mass 6872.2568 mph orbital_period' )
-    testOperator( '6872.2568 mph earth_mass orbital_period' )
-    testOperator( 'earth_mass 26250.087 miles orbital_period' )
-    testOperator( '26250.087 miles earth_mass orbital_period' )
-    testOperator( '26250.087 miles 6872.2568 mph orbital_period' )
-    testOperator( '6872.2568 mph 26250.087 miles orbital_period' )
-
-    expectEqual( 'earth_mass 6872.2568 mph orbital_period', '6872.2568 mph earth_mass orbital_period' )
-    expectEqual( 'earth_mass 26250.087 miles orbital_period', '26250.087 miles earth_mass orbital_period' )
-    expectEqual( '26250.087 miles 6872.2568 mph orbital_period', '6872.2568 mph 26250.087 miles orbital_period' )
-
-    expectException( '6872.2568 gallons 25620.087 mph orbital_mass' )
-
-    # orbital_mass
-    testOperator( '25620.087 miles 24 hours orbital_mass' )
-    testOperator( '24 hours 25620.087 miles orbital_mass' )
-    testOperator( '25620.087 miles 6872.2568 mph orbital_mass' )
-    testOperator( '6872.2568 mph 25620.087 miles orbital_mass' )
-    testOperator( '24 hours 6872.2568 mph orbital_mass' )
-    testOperator( '6872.2568 mph 24 hours orbital_mass' )
-
-    expectEqual( '25620.087 miles 24 hours orbital_mass', '24 hours 25620.087 miles orbital_mass' )
-    expectEqual( '25620.087 miles 6872.2568 mph orbital_mass', '6872.2568 mph 25620.087 miles orbital_mass' )
-    expectEqual( '24 hours 6872.2568 mph orbital_mass', '6872.2568 mph 24 hours orbital_mass' )
-
-    expectException( '6872.2568 mph 25620.087 mph orbital_mass' )
-
-    # orbital_radius
-    testOperator( '24 hours 6872 mph orbital_radius' )
-    testOperator( '6872 mph 24 hours orbital_radius' )
-    testOperator( '6872 mph earth_mass orbital_radius' )
-    testOperator( 'earth_mass 6872 mph orbital_radius' )
-    testOperator( '24 hours earth_mass orbital_radius' )
-    testOperator( 'earth_mass 24 hours orbital_radius' )
-
-    expectEqual( '24 hours earth_mass orbital_radius', 'earth_mass 24 hours orbital_radius' )
-    expectEqual( '6872 mph earth_mass orbital_radius', 'earth_mass 6872 mph orbital_radius' )
-    expectEqual( '24 hours 6872 mph orbital_radius', '6872 mph 24 hours orbital_radius' )
-
-    expectEqual( '24 hours 6872 mph orbital_radius', '6872 mph 24 hours orbital_radius' )
-
-    expectException( '24 hours 6872 miles orbital_radius' )
-
-    # orbital_velocity
-    testOperator( 'earth_mass earth_radius 640 km + orbital_velocity' )
-
-    testOperator( 'earth_mass 24 hours orbital_velocity mph convert' )
-    testOperator( '24 hours earth_mass orbital_velocity mph convert' )
-    testOperator( '26250.08 miles 24 hours orbital_velocity mph convert' )
-    testOperator( '24 hours 26250.08 miles orbital_velocity mph convert' )
-    testOperator( 'earth_mass 26250.08 miles orbital_velocity mph convert' )
-    testOperator( 'earth_mass 26250.08 miles orbital_velocity mph convert' )
-
-    expectEqual( 'earth_mass 24 hours orbital_velocity mph convert', '24 hours earth_mass orbital_velocity mph convert' )
-    expectEqual( '26250.08 miles 24 hours orbital_velocity mph convert', '24 hours 26250.08 miles orbital_velocity mph convert' )
-    expectEqual( 'earth_mass 26250.08 miles orbital_velocity mph convert', 'earth_mass 26250.08 miles orbital_velocity mph convert' )
-
-    expectException( '24 hours 6872 pounds orbital_mass' )
-
-    # schwarzchild_radius
-    testOperator( 'earth_mass schwarzchild_radius' )
-
-    # surface_gravity
-
-    # mass length
-    testOperator( 'earth_mass earth_radius surface_gravity' )
-    testOperator( 'earth_radius earth_mass surface_gravity' )
-
-    # volume density
-    testOperator( 'earth_volume earth_density surface_gravity' )
-    testOperator( 'earth_density earth_volume surface_gravity' )
-
-    # mass density
-    testOperator( 'earth_density earth_mass surface_gravity' )
-    testOperator( 'earth_mass earth_density surface_gravity' )
-
-    # mass volume
-    testOperator( 'earth_volume earth_mass surface_gravity' )
-    testOperator( 'earth_mass earth_volume surface_gravity' )
-
-    # density length
-    testOperator( 'earth_density earth_radius surface_gravity' )
-    testOperator( 'earth_radius earth_density surface_gravity' )
-
-    expectException( 'earth_radius earth_volume surface_gravity' )
-    expectException( 'earth_mass sun_mass surface_gravity' )
-
-    # time_dilation
-    testOperator( '1 million miles hour / time_dilation' )
-
-
-# //******************************************************************************
-# //
 # //  runFigurateNumberOperatorTests
 # //
 # //******************************************************************************
@@ -3067,6 +1850,1293 @@ def runFigurateNumberOperatorTests( ):
 
     # truncated_tetrahedral
     testOperator( '683 truncated_tetrahedral' )
+
+
+# //******************************************************************************
+# //
+# //  runFunctionOperatorTests
+# //
+# //******************************************************************************
+
+def runFunctionOperatorTests( ):
+    # break_on
+
+    # eval
+    testOperator( '10 lambda x 5 * eval' )
+    testOperator( '-a20 57 lambda x 8 ** x 7 ** + x 6 ** x 5 ** + + x 4 ** x 3 ** + x 2 ** x + + + eval' )
+    expectEqual( '-a121 0 200 range lambda x 0 * 2 x 1 - power + 2 x power 1 - * eval', '6516 oeis 201 left' )
+    expectEqual( '1 9999 range lambda x sqr 2 * 2 + eval', '5893 oeis 10000 left 9999 right' )
+
+    # eval2
+    testOperator( '7 8 lambda x 2 ** y 3 ** + eval2' )
+
+    # eval3
+    testOperator( '15 4 26 lambda x 2 ** y 3 ** + z 4 ** + eval3' )
+
+    # filter
+    testOperator( '-a20 1 80 range fib lambda x is_prime filter' )
+    expectEqual( '1 10000 range lambda x is_prime filter', '1 1229 primes' )
+
+    # filter_by_index
+    expectEqual( '0 10000 range lambda x is_prime filter_by_index', '1 1229 primes' )
+
+    # filter_list
+
+    # for_each
+
+    # limit
+    testOperator( 'infinity lambda 1 1 x / + x power limit' )
+    testOperator( '0 lambda x x / 2 -1 x / power + 1/x limit' )
+    testOperator( 'infinity lambda x x ! x root / limit' )   # This one isn't very precise...
+    expectEqual( 'infinity lambda x fibonacci x 1 + fibonacci / limit', 'infinity lambda x lucas x 1 + lucas / limit' )
+    expectEqual( 'infinity lambda 1 1 x / + x power limit', 'e' )
+    expectEqual( 'infinity lambda x 1 x / sin * limit', '1' )
+    expectEqual( 'inf lambda 7 x / 1 + 3 x * ** limit', 'e 7 3 * **' )
+
+    # limitn
+    testOperator( '0 lambda x x / 2 -1 x / power + 1/x limitn' )
+    expectEqual( '0 lambda x x sin / limitn', '1' )
+
+    # negate
+    expectEqual( '[ 0 10 dup ] not', '[ 1 10 dup ]' )
+
+    # nprod
+    testOperator( '-a20 -p20 -d5 3 inf lambda x pi / 1/x cos nprod' )
+
+    # nsum
+    expectEqual( '1 infinity lambda x 3 ** 1/x nsum', '3 zeta' )
+    expectEqual( '0 infinity lambda 1 x ! / nsum', 'e' )
+
+    # These operators use the plotting GUI, so aren't included in the automated tests.
+    # plot
+    # plot2
+    # plotc
+
+    # recurrence
+    expectEqual( '2 99 lambda x get_digits sqr sum recurrence', '216 oeis 100 left' )
+    expectEqual( '3 99 lambda x get_digits sqr sum recurrence', '218 oeis 100 left' )
+    expectEqual( '5 99 lambda x get_digits sqr sum recurrence', '221 oeis 100 left' )
+    expectEqual( '-a1000 1 10000 lambda x tan recurrence floor', '319 oeis 10001 left' )
+
+    # unfilter
+    expectEqual( '1 10100 range lambda x is_square unfilter', '37 oeis 10000 left' )
+
+    # unfilter_by_index
+    expectEqual( '0 2000 range lambda x is_sphenic unfilter_by_index', '0 2000 range lambda x is_sphenic unfilter' )
+
+    # x
+    testOperator( '23 lambda x 4 ** 5 x 3 ** * + x sqrt - eval' )
+
+    # y
+    testOperator( '23 57 lambda x 4 ** 5 x 3 ** * + y sqrt - eval2' )
+
+    # z
+    testOperator( '23 57 86 lambda x 4 ** 5 y 3 ** * + z sqrt - eval3' )
+
+
+# //******************************************************************************
+# //
+# //  runGeographyOperatorTests
+# //
+# //******************************************************************************
+
+def runGeographyOperatorTests( ):
+    # distance
+    testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
+    testOperator( '"Leesburg, VA" "Smithfield, VA" distance' )
+
+    # get_timezone
+
+    # latlong
+    #testOperator( '"Leesburg, VA" 43 -80 latlong distance' )
+
+    # location
+    testOperator( '"Uppsala, Sweden" location today moonrise' )
+
+    # location_info
+    testOperator( '"Dakar, Senegal" location_info' )
+    testOperator( '"Scottsdale, AZ" location_info' )
+
+
+# //******************************************************************************
+# //
+# //  runGeometryOperatorTests
+# //
+# //******************************************************************************
+
+def runGeometryOperatorTests( ):
+    # antiprism_area
+    testOperator( '8 5 antiprism_area' )
+
+    # antiprism_volume
+    testOperator( '3 8 antiprism_volume' )
+
+    # cone_area
+    testOperator( '4 5 cone_area' )
+
+    # cone_volume
+    testOperator( '3 8 cone_volume' )
+
+    # dodecahedron_area
+    testOperator( '1 dodecahedron_area' )
+
+    # dodecahedron_volume
+    testOperator( '1 dodecahedron_volume' )
+
+    # icosahedron_area
+    testOperator( '1 icosahedron_area' )
+
+    # icosahedron_volume
+    testOperator( '1 icosahedron_volume' )
+
+    # n_sphere_area
+    testOperator( '34 inches 8 n_sphere_area' )
+    testOperator( '34 inches 4 ** 5 n_sphere_area' )
+    testOperator( '34 inches 7 ** 7 n_sphere_area' )
+    expectException( '34 cubic_inches 2 n_sphere_area' )
+
+    # n_sphere_radius
+    testOperator( '3 meters 4 n_sphere_radius' )
+    testOperator( '3 meters 3 ** 4 n_sphere_radius' )
+    testOperator( '3 cubic_meters 4 n_sphere_radius' )
+    expectException( '3 cubic_meters 2 n_sphere_radius' )
+
+    # n_sphere_volume
+    testOperator( '6 inches 8 ** 9 n_sphere_volume' )
+    testOperator( '3 feet 5 ** 6 n_sphere_volume' )
+    testOperator( '50 cubic_centimeters sqr 7 n_sphere_volume' )
+    expectException( '50 cubic_centimeters 1 n_sphere_volume' )
+
+    # octahedron_area
+    testOperator( '1 octahedron_area' )
+
+    # octahedron_volume
+    testOperator( '1 octahedron_volume' )
+
+    # polygon_area
+    testOperator( '13 1 inch polygon_area square_inches convert' )
+    testOperator( '3 10 range 1 polygon_area' )
+
+    # prism_area
+    testOperator( '8 5 2 prism_area' )
+
+    # prism_volume
+    testOperator( '3 8 4 prism_volume' )
+
+    # sphere_area
+    testOperator( '8 inches sphere_area' )
+    testOperator( '8 sq_inches sphere_area' )
+    testOperator( '8 cu_inches sphere_area' )
+
+    # sphere_radius
+    testOperator( '4 inches sphere_radius' )
+    testOperator( '4 square_inches sphere_radius' )
+    testOperator( '4 cubic_inches sphere_radius' )
+
+    # sphere_volume
+    testOperator( '5 inches sphere_volume' )
+    testOperator( '5 sq_inches sphere_volume' )
+    testOperator( '5 cubic_in sphere_volume' )
+
+    # tetrahedron_area
+    testOperator( '1 tetrahedron_area' )
+
+    # tetrahedron_volume
+    testOperator( '1 tetrahedron_volume' )
+
+    # torus_area
+    testOperator( '12 5 torus_area' )
+
+    # torus_volume
+    testOperator( '20 8 torus_volume' )
+
+    # triangle_area
+    testOperator( '456 456 789 triangle_area' )
+
+
+# //******************************************************************************
+# //
+# //  runInternalOperatorTests
+# //
+# //******************************************************************************
+
+def runInternalOperatorTests( ):
+    # _dump_aliases
+    testOperator( '_dump_aliases' )
+
+    # _dump_operators
+    testOperator( '_dump_operators' )
+
+    # _dump_constants
+    testOperator( '_dump_constants' )
+
+    # _dump_units
+    testOperator( '_dump_units' )
+
+    # _stats
+    testOperator( '_stats' )
+
+
+# //******************************************************************************
+# //
+# //  runLexicographyOperatorTests
+# //
+# //******************************************************************************
+
+def runLexicographyOperatorTests( ):
+    # add_digits
+    expectResult( '3 4 add_digits', 34 )
+    expectResult( '3 45 add_digits', 345 )
+    expectResult( '34 567 add_digits', 34567 )
+
+    # build_numbers
+    testOperator( '123d build_numbers' )
+    testOperator( '[0-3]d0[3-5] build_numbers' )
+    testOperator( '[246]d[7-9][12] build_numbers' )
+    testOperator( '[123:1] build_numbers' )
+    testOperator( '[123:2] build_numbers' )
+    testOperator( '[123:3] build_numbers' )
+    testOperator( '[1-3:2:3] build_numbers' )
+    testOperator( '[1-38-9:2:3] build_numbers' )
+    testOperator( '[1-3:2][8-9:2] build_numbers' )
+    expectEqual( '[37:1:12] build_numbers', '143967 oeis 8190 left' )
+
+    # combine_digits
+    testOperator( '1 1 7 range primes combine_digits' )
+    expectResult( '1 9 range combine_digits', 123456789 )
+    expectEqual( '1 150 range lambda x 1 range combine_digits eval', '422 oeis 150 left' )
+
+    # count_different_digits
+    expectEqual( '1 2579 range lambda x sqr count_different_digits 5 equals filter', '54033 oeis 1000 left' )
+    expectEqual( '1 20000 range triangular lambda x count_different_digits 2 equals filter', '62691 oeis 36 left' )
+
+    # count_digits
+
+    # dup_digits
+    expectResult( '543 2 dup_digits', 54343 )
+    expectResult( '1024 1 4 range dup_digits', [ 10244, 102424, 1024024, 10241024 ] )
+
+    # erdos_persistence
+    expectResult( '55555555555555557777777777777 erdos_persistence', 12 )
+
+    # find_palindrome
+    testOperator( '-a30 10911 55 find_palindrome' )
+    testOperator( '180 200 range 10 find_palindrome -s1' )
+
+    # get_base_k_digits
+    testOperator( '1 million 7 get_base_k_digits' )
+
+    # get_digits
+    testOperator( '123456789 get_digits' )
+    expectEqual( '0 1000 range lambda x get_digits 1 left eval flatten', '30 oeis 1001 left' )
+
+    if slow:
+        expectEqual( '0 10000 range lambda x get_digits 1 left eval flatten', '30 oeis 10001 left' )
+
+    # get_left_digits
+
+    # get_left_truncations
+    testOperator( '123456789 get_left_truncations' )
+
+    # get_nonzero_base_k_digits
+
+    # get_nonzero_digits
+
+    # get_right_digits
+    expectEqual( '-a420 1 2000 range lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 42 left 41 right' )
+
+    if slow:
+        expectEqual( '-a21000 dddd[159] build_numbers lambda x fib x log10 floor 1 + get_right_digits x equals filter', '-a420 350 oeis 573 left 572 right' )
+
+    # get_right_truncations
+    testOperator( '123456789 get_right_truncations' )
+
+    # has_any_digits
+    expectEqual( '1 1113 primes lambda x 2357 has_any_digits filter', '179336 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '1 10776 primes lambda x 2357 has_any_digits filter', '179336 oeis 10000 left' )
+
+    # has_digits
+    expectEqual( '0 4005 range lambda x 0 has_digits filter', '11540 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '0 30501 range lambda x 0 has_digits filter', '11540 oeis 10000 left' )
+
+    # has_only_digits
+    expectEqual( '1 20000 range lambda x triangular 120 has_only_digits filter', '119034 oeis 15 left' )
+
+    # is_automorphic
+    testOperator( '1 100 range lambda x is_automorphic filter' )
+    expectResult( '-a30 59918212890625 is_automorphic', 1 )
+
+    # is_base_k_pandigital
+
+    # is_bouncy
+
+    # is_decreasing
+
+    # is_digital_permutation
+
+    # if_generalized_dudeney
+
+    # is_harshad
+
+    # is_increasing
+
+    # is_kaprekar
+    expectResult( '533170 is_kaprekar', 1 )
+    expectResult( '77777 is_kaprekar', 0 )
+    expectResult( '77778 is_kaprekar', 1 )
+    expectResult( '95121 is_kaprekar', 1 )
+    expectResult( '7272 is_kaprekar', 1 )
+    expectResult( '22223 is_kaprekar', 0 )
+    expectEqual( '1 10000 range lambda x is_kaprekar filter', '53816 oeis 15 left' )
+
+    # is_k_morphic
+    testOperator( '1 100 range lambda x 7 is_k_morphic filter' )
+    expectEqual( '1 10000 range lambda x x is_k_morphic filter', '82576 oeis 234 left' )
+
+    # is_narcissistic
+    expectResult( '152 is_narcissistic', 0 )
+    expectResult( '153 is_narcissistic', 1 )
+    expectResult( '154 is_narcissistic', 0 )
+    expectEqual( '1 10000 range lambda x is_narcissistic filter', '5188 oeis 16 left' )
+
+    # is_palindrome
+    expectResult( '101 is_palindrome', 1 )
+    expectResult( '1 22 range is_palindrome', [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ] )
+    expectResult( '1234567890 is_palindrome', 0 )
+    expectEqual( '0 10000 range lambda x is_palindrome filter', '2113 oeis 199 left' )
+
+    # is_pandigital
+    expectResult( '1234567890 is_pandigital', 1 )
+    expectResult( '123456789 is_pandigital', 1 )
+    expectResult( '12345670 is_pandigital', 0 )
+    expectResult( '12345 is_pandigital', 1 )
+    expectResult( '321 is_pandigital', 1 )
+
+    # is_pddi
+
+    # is_pdi
+
+    # is_sum_product
+
+    # is_trimorphic
+    testOperator( '1 100 range is_trimorphic' )
+    expectEqual( '1 1000 range lambda x is_trimorphic filter', '33819 oeis 26 left 25 right' )
+
+    # k_persistence
+    expectResult( '77 1 k_persistence', 4 )
+    testOperator( '679 2 k_persistence' )
+    testOperator( '6788 3 k_persistence' )
+    testOperator( '68889 4 k_persistence' )
+
+    # multiply_digits
+    expectEqual( '123456789 multiply_digits', '9 !' )
+
+    # multiply_digit_powers
+
+    # multiply_nonzero_digits
+
+    # multiply_nonzero_digit_powers
+
+    # permute_digits
+    testOperator( '12345 permute_digits' )
+    expectEqual( '123456789 permute_digits 18 left', '50289 oeis 18 left' )
+
+    # persistence
+    expectResult( '77 persistence', 4 )
+    expectResult( '679 persistence', 5 )
+    expectResult( '6788 persistence', 6 )
+    expectResult( '68889 persistence', 7 )
+    expectResult( '2677889 persistence', 8 )
+
+    # replace_digits
+
+    # reverse_digits
+    testOperator( '37 1 8 range * reverse_digits' )
+    testOperator( '37 1 2 9 range range * reverse_digits' )
+    expectEqual( '0 1102 range lambda x sqr reverse_digits x reverse_digits sqr equals filter', '61909 oeis 53 left' )
+
+    # rotate_digits_left
+
+    # rotate_digits_right
+
+    # show_erdos_persistence
+    testOperator( '-a30 55555555555555557777777777777 show_erdos_persistence' )
+
+    # show_k_persistence
+    testOperator( '-a60 3 2222222223333333778 3 show_k_persistence' )
+
+    # show_persistence
+    testOperator( '-a20 2222222223333333778 show_persistence' )
+
+    # square_digit_chain
+
+    # sum_digits
+    testOperator( '2 32 ** 1 - sum_digits' )
+    expectEqual( '0 10000 range sum_digits', '7953 oeis 10001 left' )
+
+
+# //******************************************************************************
+# //
+# //  runListOperatorTests
+# //
+# //******************************************************************************
+
+def runListOperatorTests( ):
+    # alternate_signs
+    testOperator( '1 10 range alternate_signs' )
+
+    # alternate_signs_2
+    testOperator( '1 10 range alternate_signs_2' )
+
+    # alternating_sum
+    testOperator( '1 10 range alternating_sum' )
+
+    # alternating_sum_2
+    testOperator( '1 10 range alternating_sum_2' )
+
+    # and_all
+
+    # append
+    testOperator( '1 10 range 45 50 range append' )
+    testOperator( '1 10 range 11 20 range append 21 30 range append' )
+
+    # collate
+    testOperator( '[ 1 10 range 1 10 range ] collate' )
+
+    # count
+    expectResult( '1 10 range count', 10 )
+
+    # cumulative_diffs
+    testOperator( '1 10 range cumulative_diffs' )
+    testOperator( '1 10 range fib cumulative_diffs' )
+
+    # cumulative_ratios
+    testOperator( '1 10 range fib cumulative_ratios' )
+
+    # diffs
+    testOperator( '1 10 range diffs' )
+    testOperator( '1 10 range fib diffs' )
+
+    # element
+    expectResult( '1 10 range 5 element', 6 )
+    testOperator( '-a25 1 100 range fibonacci 55 element' )
+
+    # enumerate
+    testOperator( '1 5 range 1 enumerate' )
+
+    # exponential_range
+    testOperator( '1.1 1.1 10 exponential_range' )
+
+    # flatten
+    expectEqual( '[ 1 2 [ 3 4 5 ] [ 6 [ 7 [ 8 9 ] ] 10 ] ] flatten', '1 10 range' )
+
+    # geometric_mean
+    testOperator( '1 100 range geometric_mean' )
+    testOperator( '[ 1 10 range 1 20 range 1 30 range ] geometric_mean' )
+
+    # geometric_range
+    testOperator( '2 8 8 geometric_range' )
+
+    # get_combinations
+
+    # get_repeat_combinations
+
+    # get_permutations
+
+    # group_elements
+    #expectEqual( '1 10 range 5 group_elements', '[ 1 5 range 6 10 range ]' )
+    testOperator( '1 10 range 5 group_elements' )
+
+    # interleave
+    testOperator( '1 10 range 1 10 range interleave' )
+    expectEqual( '1 100 2 range2 2 100 2 range2 interleave', '1 100 range' )
+
+    # intersection
+    expectEqual( '1 10 range 1 8 range intersection', '1 8 range' )
+
+    # interval_range
+    expectResult( '1 23 2 interval_range', [ 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23 ] )
+
+    # left
+    expectResult( '1 10 range 5 left', [ 1, 2, 3, 4, 5 ] )
+
+    # max_index
+    expectResult( '1 10 range max_index', 9 )
+
+    # min_index
+    expectResult( '1 10 range min_index', 0 )
+
+    # nand_all
+
+    # nonzero
+    expectEqual( '1 10 range nonzero', '0 9 range' )
+
+    # nor_all
+
+    # occurrences
+    testOperator( '4 100 random_integer_ occurrences' )
+
+    # occurrence_cumulative
+    testOperator( '4 100 random_integer_ occurrence_cumulative' )
+
+    # occurrence_ratios
+    testOperator( '4 100 random_integer_ occurrence_ratios' )
+
+    # or_all
+
+    # permute_lists
+
+    # powerset
+
+    # range
+    expectResult( '1 12 range', [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] )
+
+    # ratios
+    testOperator( '1 10 range fib ratios' )
+
+    # reduce
+    testOperator( '[ 4 8 12 ] reduce' )
+
+    # reverse
+    testOperator( '1 10 range reverse' )
+    testOperator( '1 2 10 range range reverse' )
+    testOperator( '1 2 10 range reverse range reverse' )
+    testOperator( '1 2 10 range reverse range' )
+
+    # right
+    expectEqual( '1 10 range 5 right', '6 10 range' )
+
+    # shuffle
+    testOperator( '1 20 range shuffle' )
+
+    # sized_range
+    expectResult( '10 10 10 sized_range', [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ] )
+    testOperator( '10 1 10 range 10 sized_range -s1' )
+    testOperator( '1 10 range 1 10 range 10 sized_range -s1' )
+
+    # slice
+    testOperator( '1 10 range 3 5 slice' )
+    testOperator( '1 10 range 2 -5 slice' )
+
+    # sort
+    testOperator( '10 1 -1 range2 sort' )
+
+    # sort_descending
+    testOperator( '1 10 range sort_descending' )
+
+    # sublist
+    testOperator( '1 10 range 1 5 sublist' )
+
+    # union
+    testOperator( '1 10 range 11 20 range union' )
+
+    # unique
+    testOperator( '1 10 range unique' )
+    testOperator( '1 10 range 1 10 range append unique' )
+    testOperator( '[ 1 10 range 10 dup ] unique' )
+
+    # zero
+    expectEqual( '-10 10 range zero', '[ 10 ]' )
+    expectEqual( '1 10 range zero', '[ ]' )
+
+
+# //******************************************************************************
+# //
+# //  runLogarithmsOperatorTests
+# //
+# //******************************************************************************
+
+def runLogarithmsOperatorTests( ):
+    # lambertw
+    testOperator( '5 lambertw' )
+
+    # li
+    testOperator( '12 li' )
+
+    # log
+    testOperator( '1000 log' )
+    expectEqual( '0 lambda 1 x ** 5 x * + log 13 x * / limitn', '5 13 /' )
+    expectEqual( '1 10000 range log nearest_int', '193 oeis 10000 left' )
+    expectEqual( '1 10000 range log floor', '195 oeis 10000 left' )
+
+    # log10
+    expectResult( '1000 log10', 3 )
+
+    # log2
+    testOperator( '1000 log2' )
+
+    # logxy
+    testOperator( '6561 3 logxy' )
+
+    # polyexp
+    testOperator( '4 5 polyexp' )
+
+    # polylog
+    testOperator( '9 3 polylog' )
+
+
+# //******************************************************************************
+# //
+# //  runLogicOperatorTests
+# //
+# //******************************************************************************
+
+def runLogicOperatorTests( ):
+    # and
+
+    # nand
+
+    # nor
+
+    # not
+    expectEqual( '[ 0 10 dup ] not', '[ 1 10 dup ]' )
+
+    # or
+    testOperator( '-x 0x5543 0x7789 bitwise_or' )
+
+    # xnor
+
+    # xor
+
+
+# //******************************************************************************
+# //
+# //  runModifierOperatorTests
+# //
+# //******************************************************************************
+
+def runModifierOperatorTests( ):
+    # [
+    testOperator( '[ "Philadelphia, PA" location "Raleigh, NC" location ] today sunrise' )
+    testOperator( '[ "Philadelphia, PA" "Raleigh, NC" ] today sunrise' )
+
+    # ]
+    testOperator( '2 [ 4 5 6 ] eval_poly' )
+
+    # dup_operator
+    testOperator( '2 5 dup_operator sqr' )
+    testOperator( '4 6 5 dup_operator *' )
+
+    # dup_term
+    testOperator( '[ 1 2 10 dup_term ] cf' )
+
+    # previous
+    expectResult( '6 previous *', 36 )
+
+    # unlist
+    expectResult( '[ 1 2 ] unlist +', 3 )
+
+    # (
+    testOperator( '"Leesburg, VA" today ( sunrise sunset moonrise moonset )' )
+
+    # )
+    testOperator( '1 10 range ( is_prime is_pronic is_semiprime )' )
+
+
+# //******************************************************************************
+# //
+# //  runNumberTheoryOperatorTests
+# //
+# //******************************************************************************
+
+def runNumberTheoryOperatorTests( ):
+    from rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
+
+    # abundance
+    expectEqual( '0 10000 15 interval_range lambda x abundance abs x log not_greater filter', '88012 oeis 2 left' )
+
+    # abundance_ratio
+    expectResult( '6 abundance_ratio', 2 )
+    expectResult( '28 abundance_ratio', 2 )
+    expectResult( '8128 abundance_ratio', 2 )
+    expectResult( '120 abundance_ratio', 3 )
+    expectResult( '672 abundance_ratio', 3 )
+
+    # aliquot
+    testOperator( '276 10 aliquot' )
+
+    # alternating_factorial
+    testOperator( '13 alternating_factorial' )
+    testOperator( '-a20 1 20 range alternating_factorial' )
+
+    # base
+    testOperator( '[ 1 1 1 1 1 1 ] 2 10 range base' )
+
+    testOperator( '-a30 1 10 range 11 base' )
+    testOperator( '-a30 1 11 range 12 base' )
+    testOperator( '-a30 1 12 range 13 base' )
+    testOperator( '-a30 1 13 range 14 base' )
+    testOperator( '-a30 1 14 range 15 base' )
+    testOperator( '-a30 1 15 range 16 base' )
+    testOperator( '-a30 1 16 range 17 base' )
+    testOperator( '-a30 1 17 range 18 base' )
+    testOperator( '-a30 1 18 range 19 base' )
+    testOperator( '-a30 1 19 range 20 base' )
+
+    # barnesg
+    testOperator( '2 i barnesg' )
+    expectEqual( '-a30 3 12 range barnesg', '-a30 1 10 range superfac' )
+
+    # beta
+    testOperator( '5 2 beta' )
+
+    # calkin_wilf
+    testOperator( '1 100 range calkin_wilf' )
+
+    # cf
+    testOperator( '1 10 range cf' )
+
+    # collatz
+
+    # count_divisors
+    testOperator( '1024 count_divisors' )
+    expectEqual( '1 104 range count_divisors', '5 oeis 104 left' )
+    testOperator( '-a50 0 35 range ! count_divisors' )
+    testOperator( '27423 oeis 36 left' )
+    expectEqual( '-a50 0 35 range ! count_divisors', '-a50 27423 oeis 36 left' )
+
+    # crt
+    testOperator( '1 4 range 10 20 3 range2 crt' )
+
+    # cyclotomic
+
+    # digamma
+    testOperator( '3 digamma' )
+    testOperator( '-1.1 digamma' )
+    expectException( '0 digamma' )
+    expectException( '-1 digamma' )
+
+    # divisors
+    testOperator( '2 3 ** 3 4 ** * divisors' )
+    testOperator( '12 ! divisors' )
+    testOperator( '-3690 divisors' )
+
+    # double_factorial
+    testOperator( '9 double_factorial' )
+    expectEqual( '0 2 100 sized_range !!', '165 oeis 100 left' )
+
+    # egypt
+    testOperator( '45 67 egypt' )
+
+    # eta
+    testOperator( '4 eta' )
+    expectEqual( '1 eta', '2 ln' )
+
+    # euler_brick
+    testOperator( '2 3 make_pyth_3 unlist euler_brick' )
+    expectException( '1 2 3 euler_brick' )
+
+    # euler_phi
+    testOperator( '1 20 range euler_phi' )
+    expectEqual( '1 1000 range euler_phi', '10 oeis 1000 left' )
+
+    # factor
+    testOperator( '-25 factor' )
+    testOperator( '-1 factor' )
+    testOperator( '0 factor' )
+    testOperator( '1 factor' )
+    testOperator( '883847311 factor' )
+    testOperator( '1 40 range fibonacci factor -s1' )
+
+    # factor_sympy
+
+    # factorial
+    testOperator( '-a25 -c 23 factorial' )
+    expectEqual( '0 100 range !', '142 oeis 101 left' )
+    testOperator( '2.5 factorial' )
+    expectException( '-1 factorial' )
+    expectEqual( '0 100 range lambda x 2 * ! x 2 * 1 + ! * x ! sqr / eval', '909 oeis 101 left' )
+    expectEqual( '1 99 range lambda 3 2 x * ! * x 2 + ! x 1 - ! * / eval', '245 oeis 100 left 99 right' )
+    expectEqual( '-a20 1 8 range lambda 0 x range 3 * 1 + factorial 0 x range x + factorial divide prod eval', '36687 oeis 9 left 8 right' )
+
+    # fibonacci
+    testOperator( '1 50 range fibonacci' )
+    testOperator( '-c -a8300 39399 fibonacci' )
+    expectEqual( '0 999 range fibonacci', '45 oeis 1000 left' )
+    expectResult( '0 100 range fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
+
+    # fibonorial
+    testOperator( '5 fibonorial' )
+    testOperator( '-a50 24 fibonorial' )
+    expectEqual( '1 100 range fibonorial', '3266 oeis 100 left' )
+
+    # fraction
+    testOperator( '2 sqrt 30 fraction' )
+    # NOTE: fraction should be setting dps itself!
+    expectEqual( '-p250 2 sqrt 2 199 range fraction flatten lambda x is_even filter_by_index', '1333 oeis 200 left 198 right' )
+    expectEqual( '-p250 5 sqrt 2 200 range fraction flatten lambda x is_odd filter_by_index', '1076 oeis 201 left 199 right' )
+
+    # frobenius
+    testOperator( '10 20 3 range2 prime frobenius' )
+    expectEqual( '2 1001 range lambda x 1 5 sized_range frobenius eval', '138985 oeis 1000 left' )
+
+    # gamma
+    testOperator( '3 gamma' )
+
+    # generate_polydivisibles
+    testOperator( '3 generate_polydivisibles -r3' )
+    expectEqual( '2 8 range lambda x generate_polydivisibles count eval 1 +', '271374 oeis 7 left' )
+
+    # geometric_recurrence
+    expectEqual( '-a800 [ 1 1 ] [ 2 2 ] [ 0 1 ] 15 geometric_recurrence', '-a800 283 oeis 15 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 3 1 ] [ 0 1 ] 18 geometric_recurrence', '280 oeis 18 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 2 1 ] [ 0 1 ] 25 geometric_recurrence', '278 oeis 25 left' )
+    expectEqual( '-a800 [ 1 1 ] [ 1 3 ] [ 0 1 ] 11 geometric_recurrence', '284 oeis 11 left' )
+
+    # harmonic
+    testOperator( '34 harmonic' )
+    expectEqual( '1 1000 range lambda x harmonic x harmonic exp x harmonic log * + floor x sigma - eval', '57641 oeis 1000 left' )
+
+    # heptanacci
+    testOperator( '-a200 -c 623 heptanacci' )
+    expectEqual( '0 49 range heptanacci', '122189 oeis 50 left' )
+    expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
+
+    if slow:
+        expectEqual( '0 999 range heptanacci', '122189 oeis 1000 left' )
+        expectResult( '0 100 range heptanacci', [ getNthKFibonacciNumberTheSlowWay( i, 7 ) for i in range( 0, 101 ) ] )
+
+    # hexanacci
+    testOperator( '-a300 -c 949 hexanacci' )
+    expectEqual( '0 49 range hexanacci', '1592 oeis 50 left' )
+    expectResult( '0 100 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 101 ) ] )
+
+    if slow:
+        expectEqual( '0 3360 range hexanacci', '1592 oeis 3361 left' )
+        expectResult( '0 1000 range hexanacci', [ getNthKFibonacciNumberTheSlowWay( i, 6 ) for i in range( 0, 1001 ) ] )
+
+    # hurwitz_zeta
+    testOperator( '4 3 hurwitz_zeta' )
+    expectEqual( '1 1 100 range range square 1/x sum', '2 zeta 2 2 101 range hurwitz_zeta -' )  # function to compute generalized harmonic numbers
+
+    # hyperfactorial
+    testOperator( '-a160 -c 17 hyperfactorial' )
+
+    # is_abundant
+    testOperator( '1 20 range is_abundant' )
+    expectEqual( '1 4038 range lambda x is_abundant filter', '5101 oeis 1000 left' )
+
+    # is_achilles
+    testOperator( '1 20 range is_achilles' )
+    expectEqual( '1 1000 range lambda x is_achilles filter', '52486 oeis 13 left' )
+
+    # is_composite
+    expectEqual( '1 161 range lambda x is_squarefree x is_composite and filter', '120944 oeis 61 left' )
+
+    # is_deficient
+    testOperator( '1 20 range is_deficient' )
+    expectEqual( '1 86 range lambda x is_deficient filter', '5100 oeis 66 left' )
+
+    # is_friendly
+
+    # is_k_hyperperfect
+    expectEqual( '1 2100 range lambda x 12 is_k_hyperperfect filter', '[ 697 2041 ]' )
+
+    # is_k_semiprime
+    testOperator( '1 20 range 3 is_k_semiprime' )
+    expectEqual( '-a30 1 100 range lambda x tribonacci is_semiprime filter', '101757 oeis 12 left' )
+
+    # is_k_sphenic
+
+    # is_perfect
+    testOperator( '1 30 range is_perfect' )
+
+    # is_polydivisible
+    expectEqual( '3608528850368400786036725 is_polydivisible', '1' )
+
+    # is_powerful
+    testOperator( '1 20 range is_powerful' )
+
+    # is_prime
+    testOperator( '1000 1030 range is_prime' )
+    testOperator( '2049 is_prime' )
+    testOperator( '92348759911 is_prime' )
+    expectEqual( '0 300 range lambda 90 x * 73 + is_prime filter 100 left', '195993 oeis 100 left' )
+
+    # is_pronic
+    testOperator( '1 20 range is_pronic' )
+    expectEqual( '0 9900 range lambda x is_pronic filter', '2378 oeis 100 left' )
+
+    # is_rough
+    testOperator( '1 20 range 2 is_rough' )
+    expectEqual( '1 4373 range lambda x 11 is_rough filter', '8364 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '1 43747 range lambda x 11 is_rough filter', '8364 oeis 10000 left 9999 right' )
+
+    # is_semiprime
+    testOperator( '12 is_semiprime' )
+    expectEqual( '1 205 range lambda x is_semiprime x is_squarefree and filter', '6881 oeis 60 left' )
+    expectEqual( ' 1 141 range lambda x is_semiprime x is_squarefree and filter square', '85986 oeis 41 left' )
+
+    # is_smooth
+    testOperator( '128 4 is_smooth' )
+    testOperator( '1 20 range 2 is_smooth' )
+
+    # is_sphenic
+    testOperator( '[ 2 3 5 ] prod is_sphenic' )
+    expectEqual( '1 500 range lambda x is_sphenic filter 53 left', '7304 oeis 53 left' )
+    expectEqual( '-a30 1 20 range 10 repunit 1 9 range * flatten lambda x is_sphenic filter sort 26 left', '268582 oeis 26 left' )
+
+    # is_squarefree
+    testOperator( '2013 sqr is_squarefree' )
+    testOperator( '8 primorial is_squarefree' )
+    testOperator( '1 20 range is_squarefree' )
+    expectEqual( '1 113 range lambda x is_squarefree filter', '5117 oeis 71 left' )
+    expectEqual( '1 100 range is_squarefree', '8966 oeis 100 left' )
+    expectEqual( '1 515 range lambda x square 1 + is_squarefree not filter', '49532 oeis 54 left' )
+    expectEqual( '1 1000 range lambda x is_prime not x is_squarefree and filter', '469 oeis 440 left' )
+
+    # is_unusual
+    testOperator( '-a50 81 23 ** is_unusual' )
+    testOperator( '1 20 range is_unusual' )
+
+    # k_fibonacci
+    expectResult( '0 100 range 2 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range 5 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
+    expectResult( '0 100 range 10 k_fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 10 ) for i in range( 0, 101 ) ] )
+    expectResult( '1000 10 k_fibonacci', getNthKFibonacciNumberTheSlowWay( 1000, 10 ) )
+
+    # leyland
+    testOperator( '7 8 leyland' )
+
+    # linear_recurrence
+    testOperator( '2 5 17 linear_recurrence' )
+    expectEqual( '-a50 [ 1 -1 -2 3 ] [ 1 2 4 8 ] 200 linear_recurrence', '-a50 126 oeis 200 left' )
+    expectEqual( '-a50 [ -1, 2, 1, -5 4 ] [ 1, 2, 4, 8, 16 ] 201 linear_recurrence', '-a50 128 oeis 201 left' )
+
+    # linear_recurrence_with_modulo
+
+    # log_gamma
+    testOperator( '10 log_gamma' )
+
+    # lucas
+    testOperator( '-a21 99 lucas' )
+    expectEqual( '0 999 range lucas', '32 oeis 1000 left' )
+
+    # make_cf
+    testOperator( 'e 20 make_cf' )
+    expectEqual( '-a100 2 pi * 3 2 / power 1/x 1 4 / gamma sqr * 100 make_cf', '53002 oeis 100 left' )
+
+    # make_pyth_3
+    testOperator( '12 34 make_pyth_3' )
+
+    # make_pyth_4
+    testOperator( '18 29 make_pyth_4' )
+    expectException( '17 29 make_pyth_4' )
+
+    # merten
+    expectEqual( '1 81 range merten', '2321 oeis 81 left' )
+
+    # mobius
+    testOperator( '20176 mobius' )
+    expectEqual( '1 100 range mobius', '8683 oeis 100 left' )
+
+    # nth_carol
+    testOperator( '-a500 773 nth_carol' )
+    expectEqual( '1 25 range nth_carol', '93112 oeis 25 left' )
+
+    # nth_jacobsthal
+    expectEqual( '0 99 range nth_jacobsthal', '1045 oeis 100 left' )
+
+    # nth_kynea
+    expectEqual( '-a20 1 25 range nth_kynea', '93069 oeis 25 left' )
+
+    # nth_leonardo
+    expectEqual( '0 99 range nth_leonardo', '1595 oeis 100 left' )
+
+    # nth_mersenne_exponent
+
+    # nth_mersenne_prime
+    testOperator( '-a30 1 10 range nth_mersenne_prime' )
+    testOperator( '-c 25 nth_mersenne_prime' )
+
+    # nth_padovan
+    testOperator( '-c 76 nth_padovan' )
+    expectEqual( '0 99 range nth_padovan', '931 oeis 104 left 100 right' )
+
+    # nth_perfect_number
+
+    # nth_stern
+    testOperator( '1 100 range nth_stern' )
+    expectEqual( '0 99 range nth_stern', '2487 oeis 100 left' )
+
+    if slow:
+        expectEqual( '0 9999 range nth_stern', '2487 oeis 10000 left' )
+
+    # nth_thue_morse
+    expectEqual( '0 104 range nth_thue_morse', '10060 oeis 105 left' )
+
+    # octanacci
+    testOperator( '-a300 -c 906 octanacci' )
+    expectEqual( '0 99 range octanacci', '79262 oeis 100 left' )
+    expectResult( '0 100 range octanacci', [ getNthKFibonacciNumberTheSlowWay( i, 8 ) for i in range( 0, 101 ) ] )
+
+    # pascal_triangle
+    testOperator( '12 pascal_triangle' )
+    testOperator( '1 10 range pascal_triangle -s1' )
+
+    # pentanacci
+    testOperator( '16 pentanacci' )
+    expectEqual( '0 99 range pentanacci', '1591 oeis 100 left' )
+    expectResult( '0 100 range pentanacci', [ getNthKFibonacciNumberTheSlowWay( i, 5 ) for i in range( 0, 101 ) ] )
+
+    # polygamma
+    testOperator( '4 5 polygamma' )
+
+    # primorial
+    testOperator( '1 10 range primorial' )
+    expectEqual( '-a22 0 99 range primorial', '-a22 2110 oeis 100 left' )
+
+    # radical
+
+    # repunit
+    testOperator( '-a20 23 5 repunit' )
+
+    # reversal_addition
+    testOperator( '-a20 89 24 reversal_addition' )
+    testOperator( '-a20 80 89 range 24 reversal_addition' )
+    testOperator( '-a20 89 16 24 range reversal_addition' )
+    testOperator( '-a90 14,104,229,999,995 185 reversal_addition' )
+    testOperator( '-a90 14,104,229,999,995 185 reversal_addition is_palindrome' )
+    expectEqual( '-a120 1000004999700144385 260 reversal_addition', '-a120 281301 oeis 260 left' )
+
+    # riesel
+    testOperator( '23 riesel' )
+
+    # show_n_persistence
+
+    # sigma
+    testOperator( '1 20 range sigma' )
+    expectEqual( '1 500 range sigma', '203 oeis 500 left' )
+    expectEqual( '1 499 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval', '118 oeis 500 left 499 right' )
+
+    if slow:
+        expectEqual( '1 100000 range sigma', '203 oeis 100000 left' )
+        expectEqual( '1 49999 range lambda x sigma 8 * 32 x 4 / sigma * 0 x 4 / is_integer if - eval', '118 oeis 50000 left 49999 right' )
+
+    # sigma_k
+    testOperator( '1 20 3 range sigma_k' )
+    expectEqual( '1 50 range 2 sigma_k', '1157 oeis 50 left' )
+    expectEqual( '-p30 1 100 range 3 sigma_k', '1158 oeis 100 left' )
+    expectEqual( '-p30 1 100 range 4 sigma_k', '1159 oeis 100 left' )
+    expectEqual( '-p30 1 100 range 5 sigma_k', '1160 oeis 100 left' )
+    expectEqual( '-p30 1 100 range 6 sigma_k', '13954 oeis 100 left' )
+    expectEqual( '-p30 1 100 range 7 sigma_k', '13955 oeis 100 left' )
+    expectEqual( '-p30 1 100 range 8 sigma_k', '13956 oeis 100 left' )
+    expectEqual( '-p35 1 100 range 9 sigma_k', '13957 oeis 100 left' )
+    expectEqual( '-p35 1 100 range 10 sigma_k', '13958 oeis 100 left' )
+    expectEqual( '-p40 1 100 range 11 sigma_k', '13959 oeis 100 left' )
+    expectEqual( '-p45 1 100 range 12 sigma_k', '13960 oeis 100 left' )
+    expectEqual( '-p45 1 100 range 13 sigma_k', '13961 oeis 100 left' )
+    expectEqual( '-p45 1 100 range 14 sigma_k', '13962 oeis 100 left' )
+    expectEqual( '-p50 1 100 range 15 sigma_k', '13963 oeis 100 left' )
+    expectEqual( '-p55 1 100 range 16 sigma_k', '13964 oeis 100 left' )
+    expectEqual( '-p65 1 100 range 17 sigma_k', '13965 oeis 100 left' )
+    expectEqual( '-p75 1 100 range 18 sigma_k', '13966 oeis 100 left' )
+    expectEqual( '-p80 1 100 range 19 sigma_k', '13967 oeis 100 left' )
+    expectEqual( '-p85 1 100 range 20 sigma_k', '13968 oeis 100 left' )
+    expectEqual( '-p90 1 100 range 21 sigma_k', '13969 oeis 100 left' )
+    expectEqual( '-p95 1 100 range 22 sigma_k', '13970 oeis 100 left' )
+    expectEqual( '-p100 1 100 range 23 sigma_k', '13971 oeis 100 left' )
+    expectEqual( '-p100 1 100 range 24 sigma_k', '13972 oeis 100 left' )
+
+    if slow:
+        expectEqual( '-p30 1 1000 range 3 sigma_k', '1158 oeis 1000 left' )
+        expectEqual( '-p30 1 1000 range 4 sigma_k', '1159 oeis 1000 left' )
+        expectEqual( '-p35 1 1000 range 5 sigma_k', '1160 oeis 1000 left' )
+        expectEqual( '-p35 1 1000 range 6 sigma_k', '13954 oeis 1000 left' )
+        expectEqual( '-p45 1 1000 range 7 sigma_k', '13955 oeis 1000 left' )
+        expectEqual( '-p50 1 1000 range 8 sigma_k', '13956 oeis 1000 left' )
+        expectEqual( '-p55 1 1000 range 9 sigma_k', '13957 oeis 1000 left' )
+        expectEqual( '-p60 1 1000 range 10 sigma_k', '13958 oeis 1000 left' )
+        expectEqual( '-p65 1 1000 range 11 sigma_k', '13959 oeis 1000 left' )
+        expectEqual( '-p70 1 999 range 12 sigma_k', '13960 oeis 999 left' )
+        expectEqual( '-p80 1 999 range 13 sigma_k', '13961 oeis 999 left' )
+        expectEqual( '-p85 1 999 range 14 sigma_k', '13962 oeis 999 left' )
+        expectEqual( '-p90 1 999 range 15 sigma_k', '13963 oeis 999 left' )
+        expectEqual( '-p95 1 999 range 16 sigma_k', '13964 oeis 999 left' )
+        expectEqual( '-p100 1 999 range 17 sigma_k', '13965 oeis 999 left' )
+        expectEqual( '-p200 1 10000 range 18 sigma_k', '13966 oeis 10000 left' )
+        expectEqual( '-p210 1 10000 range 19 sigma_k', '13967 oeis 10000 left' )
+        expectEqual( '-p220 1 10000 range 20 sigma_k', '13968 oeis 10000 left' )
+        expectEqual( '-p230 1 10000 range 21 sigma_k', '13969 oeis 10000 left' )
+        expectEqual( '-p240 1 10000 range 22 sigma_k', '13970 oeis 10000 left' )
+        expectEqual( '-p250 1 10000 range 23 sigma_k', '13971 oeis 10000 left' )
+        expectEqual( '-p260 1 10000 range 24 sigma_k', '13972 oeis 10000 left' )
+
+    # subfactorial
+    testOperator( '-a20 -c 19 subfactorial' )
+    expectEqual( '1 199 range subfactorial', '166 oeis 200 left 199 right' )
+
+    # sums_of_k_powers
+    testOperator( '1072 3 3 sums_of_k_powers' )
+    expectEqual( '0 576 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 200 left' )
+    expectEqual( '0 99 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 100 left' )
+    expectEqual( '0 99 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 100 left' )
+    expectEqual( '0 99 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 100 left' )
+
+    if slow:
+        expectEqual( '0 9999 range lambda x 3 2 sums_of_k_powers count eval', '164 oeis 10000 left' )
+        expectEqual( '0 39592 range lambda x 2 2 sums_of_k_powers count filter', '1481 oeis 10000 left' )
+        expectEqual( '0 9999 range lambda x 5 2 sums_of_k_powers count eval', '174 oeis 10000 left' )
+        expectEqual( '0 9999 range lambda x 6 2 sums_of_k_powers count eval', '177 oeis 10000 left' )
+
+    # sums_of_k_nonzero_powers
+    testOperator( '5104 3 3 sums_of_k_nonzero_powers' )
+    expectEqual( '1 629 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 200 left' )
+
+    if slow:
+        expectEqual( '1 40045 range lambda x 2 2 sums_of_k_nonzero_powers count filter', '404 oeis 10000 left' )
+
+    # superfactorial
+    testOperator( '-a50 -c 12 superfactorial' )
+    expectEqual( '0 46 range superfactorial', '178 oeis 47 left' )
+
+    # tetranacci
+    testOperator( '-a30 -c 87 tetranacci' )
+    expectEqual( '0 99 range tetranacci', '78 oeis 100 left' )
+    expectResult( '0 100 range tetranacci', [ getNthKFibonacciNumberTheSlowWay( i, 4 ) for i in range( 0, 101 ) ] )
+
+    # thabit
+    testOperator( '-a20 -c 45 thabit' )
+    expectEqual( '0 998 range thabit', '55010 oeis 1000 left 999 right' )
+
+    # tribonacci
+    testOperator( '1 20 range tribonacci' )
+    testOperator( '-c -a2800 10239 tribonacci' )
+    expectEqual( '0 99 range tribonacci', '73 oeis 100 left' )
+    expectResult( '0 100 range tribonacci', [ getNthKFibonacciNumberTheSlowWay( i, 3 ) for i in range( 0, 101 ) ] )
+
+    # trigamma
+    testOperator( '3 trigamma' )
+
+    # unit_roots
+    testOperator( '7 unit_roots' )
+
+    # zeta
+    testOperator( '4 zeta' )
+
+    # zeta_zero
+    testOperator( '4 zeta_zero' )
+
+
+# //******************************************************************************
+# //
+# //  runPhysicsOperatorTests
+# //
+# //******************************************************************************
+
+def runPhysicsOperatorTests( ):
+    # energy_equivalence
+    testOperator( '1 gram energy_equivalence' )
+
+    # escape_velocity
+    testOperator( 'earth_mass earth_radius escape_velocity' )
+
+    # kinetic_energy
+    testOperator( '310 pounds 65 mph kinetic_energy' )
+    testOperator( '65 mph 310 pounds kinetic_energy' )
+
+    # mass_equivalence
+    testOperator( '1 joule mass_equivalence' )
+
+    # orbital_period
+    testOperator( 'earth_mass earth_radius 640 km + orbital_period' )
+
+    testOperator( 'earth_mass 6872.2568 mph orbital_period' )
+    testOperator( '6872.2568 mph earth_mass orbital_period' )
+    testOperator( 'earth_mass 26250.087 miles orbital_period' )
+    testOperator( '26250.087 miles earth_mass orbital_period' )
+    testOperator( '26250.087 miles 6872.2568 mph orbital_period' )
+    testOperator( '6872.2568 mph 26250.087 miles orbital_period' )
+
+    expectEqual( 'earth_mass 6872.2568 mph orbital_period', '6872.2568 mph earth_mass orbital_period' )
+    expectEqual( 'earth_mass 26250.087 miles orbital_period', '26250.087 miles earth_mass orbital_period' )
+    expectEqual( '26250.087 miles 6872.2568 mph orbital_period', '6872.2568 mph 26250.087 miles orbital_period' )
+
+    expectException( '6872.2568 gallons 25620.087 mph orbital_mass' )
+
+    # orbital_mass
+    testOperator( '25620.087 miles 24 hours orbital_mass' )
+    testOperator( '24 hours 25620.087 miles orbital_mass' )
+    testOperator( '25620.087 miles 6872.2568 mph orbital_mass' )
+    testOperator( '6872.2568 mph 25620.087 miles orbital_mass' )
+    testOperator( '24 hours 6872.2568 mph orbital_mass' )
+    testOperator( '6872.2568 mph 24 hours orbital_mass' )
+
+    expectEqual( '25620.087 miles 24 hours orbital_mass', '24 hours 25620.087 miles orbital_mass' )
+    expectEqual( '25620.087 miles 6872.2568 mph orbital_mass', '6872.2568 mph 25620.087 miles orbital_mass' )
+    expectEqual( '24 hours 6872.2568 mph orbital_mass', '6872.2568 mph 24 hours orbital_mass' )
+
+    expectException( '6872.2568 mph 25620.087 mph orbital_mass' )
+
+    # orbital_radius
+    testOperator( '24 hours 6872 mph orbital_radius' )
+    testOperator( '6872 mph 24 hours orbital_radius' )
+    testOperator( '6872 mph earth_mass orbital_radius' )
+    testOperator( 'earth_mass 6872 mph orbital_radius' )
+    testOperator( '24 hours earth_mass orbital_radius' )
+    testOperator( 'earth_mass 24 hours orbital_radius' )
+
+    expectEqual( '24 hours earth_mass orbital_radius', 'earth_mass 24 hours orbital_radius' )
+    expectEqual( '6872 mph earth_mass orbital_radius', 'earth_mass 6872 mph orbital_radius' )
+    expectEqual( '24 hours 6872 mph orbital_radius', '6872 mph 24 hours orbital_radius' )
+
+    expectEqual( '24 hours 6872 mph orbital_radius', '6872 mph 24 hours orbital_radius' )
+
+    expectException( '24 hours 6872 miles orbital_radius' )
+
+    # orbital_velocity
+    testOperator( 'earth_mass earth_radius 640 km + orbital_velocity' )
+
+    testOperator( 'earth_mass 24 hours orbital_velocity mph convert' )
+    testOperator( '24 hours earth_mass orbital_velocity mph convert' )
+    testOperator( '26250.08 miles 24 hours orbital_velocity mph convert' )
+    testOperator( '24 hours 26250.08 miles orbital_velocity mph convert' )
+    testOperator( 'earth_mass 26250.08 miles orbital_velocity mph convert' )
+    testOperator( 'earth_mass 26250.08 miles orbital_velocity mph convert' )
+
+    expectEqual( 'earth_mass 24 hours orbital_velocity mph convert', '24 hours earth_mass orbital_velocity mph convert' )
+    expectEqual( '26250.08 miles 24 hours orbital_velocity mph convert', '24 hours 26250.08 miles orbital_velocity mph convert' )
+    expectEqual( 'earth_mass 26250.08 miles orbital_velocity mph convert', 'earth_mass 26250.08 miles orbital_velocity mph convert' )
+
+    expectException( '24 hours 6872 pounds orbital_mass' )
+
+    # schwarzchild_radius
+    testOperator( 'earth_mass schwarzchild_radius' )
+
+    # surface_gravity
+
+    # mass length
+    testOperator( 'earth_mass earth_radius surface_gravity' )
+    testOperator( 'earth_radius earth_mass surface_gravity' )
+
+    # volume density
+    testOperator( 'earth_volume earth_density surface_gravity' )
+    testOperator( 'earth_density earth_volume surface_gravity' )
+
+    # mass density
+    testOperator( 'earth_density earth_mass surface_gravity' )
+    testOperator( 'earth_mass earth_density surface_gravity' )
+
+    # mass volume
+    testOperator( 'earth_volume earth_mass surface_gravity' )
+    testOperator( 'earth_mass earth_volume surface_gravity' )
+
+    # density length
+    testOperator( 'earth_density earth_radius surface_gravity' )
+    testOperator( 'earth_radius earth_density surface_gravity' )
+
+    expectException( 'earth_radius earth_volume surface_gravity' )
+    expectException( 'earth_mass sun_mass surface_gravity' )
+
+    # time_dilation
+    testOperator( '1 million miles hour / time_dilation' )
 
 
 # //******************************************************************************
@@ -3718,6 +3788,7 @@ rpnTestList = [
     ( 'lexicography',       runLexicographyOperatorTests ),
     ( 'list',               runListOperatorTests ),
     ( 'logarithms',         runLogarithmsOperatorTests ),
+    ( 'logic',              runLogicOperatorTests ),
     ( 'modifier',           runModifierOperatorTests ),
     ( 'number_theory',      runNumberTheoryOperatorTests ),
     ( 'physics',            runPhysicsOperatorTests ),

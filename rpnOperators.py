@@ -2351,12 +2351,12 @@ listOperators = {
     'frobenius'             : RPNOperator( getFrobeniusNumber,
                                            1, [ RPNOperator.List ] ),
 
-    'is_friendly'           : RPNOperator( isFriendly,
-                                           1, [ RPNOperator.List ] ),
-
     'geometric_recurrence'  : RPNOperator( lambda a, b, c, d: RPNGenerator( getGeometricRecurrence( a, b, c, d ) ),
                                            4, [ RPNOperator.List, RPNOperator.List, RPNOperator.List,
                                                 RPNOperator.PositiveInteger ] ),
+
+    'is_friendly'           : RPNOperator( isFriendly,
+                                           1, [ RPNOperator.List ] ),
 
     'linear_recurrence'     : RPNOperator( lambda a, b, c: RPNGenerator( getLinearRecurrence( a, b, c ) ),
                                            3, [ RPNOperator.List, RPNOperator.List,
@@ -2518,12 +2518,12 @@ operators = {
                                                     1, [ RPNOperator.Real ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'round_by_value'                 : RPNOperator( roundByValue,
-                                                    2, [ RPNOperator.Real, RPNOperator.NonnegativeReal ],
-                                                    RPNOperator.measurementsAllowed ),
-
     'round_by_digits'                : RPNOperator( roundByDigits,
                                                     2, [ RPNOperator.Real, RPNOperator.Integer ],
+                                                    RPNOperator.measurementsAllowed ),
+
+    'round_by_value'                 : RPNOperator( roundByValue,
+                                                    2, [ RPNOperator.Real, RPNOperator.NonnegativeReal ],
                                                     RPNOperator.measurementsAllowed ),
 
     'sign'                           : RPNOperator( getSign,
@@ -2740,10 +2740,10 @@ operators = {
     'ash_wednesday'                  : RPNOperator( calculateAshWednesday,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'christmas'                      : RPNOperator( getChristmasDay,
+    'calendar'                       : RPNOperator( generateMonthCalendar,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'calendar'                       : RPNOperator( generateMonthCalendar,
+    'christmas'                      : RPNOperator( getChristmasDay,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'columbus_day'                   : RPNOperator( calculateColumbusDay,
@@ -2950,6 +2950,9 @@ operators = {
     'combinations'                   : RPNOperator( getCombinations,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
+    'combinations_of_list'           : RPNOperator( getCombinationsOfList,
+                                                    2, [ RPNOperator.Generator, RPNOperator.PositiveInteger ] ),
+
     'compositions'                   : RPNOperator( getCompositions,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
@@ -3004,6 +3007,9 @@ operators = {
     'permutations'                   : RPNOperator( getPermutations,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
+    'permutations_of_list'           : RPNOperator( getPermutationsOfList,
+                                                    2, [ RPNOperator.Generator, RPNOperator.PositiveInteger ] ),
+
     # complex
     'argument'                       : RPNOperator( getArgument,
                                                     1, [ RPNOperator.Default ] ),
@@ -3041,12 +3047,6 @@ operators = {
     'from_unix_time'                 : RPNOperator( convertFromUnixTime,
                                                     1, [ RPNOperator.Integer ] ),
 
-    'long'                           : RPNOperator( convertToLong,
-                                                    1, [ RPNOperator.Integer ] ),
-
-    'longlong'                       : RPNOperator( convertToLongLong,
-                                                    1, [ RPNOperator.Integer ] ),
-
     'hms'                            : RPNOperator( convertToHMS,
                                                     1, [ RPNOperator.Measurement ],
                                                     RPNOperator.measurementsAllowed ),
@@ -3057,6 +3057,20 @@ operators = {
     'invert_units'                   : RPNOperator( invertUnits,
                                                     1, [ RPNOperator.Measurement ],
                                                     RPNOperator.measurementsAllowed ),
+
+    'long'                           : RPNOperator( convertToLong,
+                                                    1, [ RPNOperator.Integer ] ),
+
+    'longlong'                       : RPNOperator( convertToLongLong,
+                                                    1, [ RPNOperator.Integer ] ),
+
+    # pack ???
+
+    'short'                          : RPNOperator( convertToShort,
+                                                    1, [ RPNOperator.Integer ] ),
+
+    'to_unix_time'                   : RPNOperator( convertToUnixTime,
+                                                    1, [ RPNOperator.DateTime ] ),
 
     'uchar'                          : RPNOperator( convertToUnsignedChar,
                                                     1, [ RPNOperator.Integer ] ),
@@ -3076,14 +3090,10 @@ operators = {
     'unfloat'                        : RPNOperator( interpretAsFloat,
                                                     1, [ RPNOperator.Integer ] ),
 
+    # unpack ???
+
     'ushort'                         : RPNOperator( convertToUnsignedShort,
                                                     1, [ RPNOperator.Integer ] ),
-
-    'short'                          : RPNOperator( convertToShort,
-                                                    1, [ RPNOperator.Integer ] ),
-
-    'to_unix_time'                   : RPNOperator( convertToUnixTime,
-                                                    1, [ RPNOperator.DateTime ] ),
 
     'ydhms'                          : RPNOperator( convertToYDHMS,
                                                     1, [ RPNOperator.Measurement ],
@@ -3123,7 +3133,13 @@ operators = {
                                                     0, [ ] ),
 
     # figurate
+    'centered_cube'                  : RPNOperator( getNthCenteredCubeNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'centered_decagonal'             : RPNOperator( getNthCenteredDecagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_dodecahedral'          : RPNOperator( getNthCenteredDodecahedralNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'centered_heptagonal'            : RPNOperator( getNthCenteredHeptagonalNumber,
@@ -3132,10 +3148,16 @@ operators = {
     'centered_hexagonal'             : RPNOperator( getNthCenteredHexagonalNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'centered_icosahedral'           : RPNOperator( getNthCenteredIcosahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'centered_nonagonal'             : RPNOperator( getNthCenteredNonagonalNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'centered_octagonal'             : RPNOperator( getNthCenteredOctagonalNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_octahedral'            : RPNOperator( getNthCenteredOctahedralNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'centered_pentagonal'            : RPNOperator( getNthCenteredPentagonalNumber,
@@ -3145,6 +3167,9 @@ operators = {
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'centered_square'                : RPNOperator( getNthCenteredSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'centered_tetrahedral'           : RPNOperator( getNthCenteredTetrahedralNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'centered_triangular'            : RPNOperator( getNthCenteredTriangularNumber,
@@ -3174,6 +3199,9 @@ operators = {
     'decagonal_triangular'           : RPNOperator( getNthDecagonalTriangularNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'dodecahedral'                   : RPNOperator( getNthDodecahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'generalized_pentagonal'         : RPNOperator( getNthGeneralizedPentagonalNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
@@ -3199,6 +3227,9 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'hexagonal_square'               : RPNOperator( getNthHexagonalSquareNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'icosahedral'                    : RPNOperator( getNthIcosahedralNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'nonagonal'                      : RPNOperator( getNthNonagonalNumber,
@@ -3294,6 +3325,9 @@ operators = {
     'octagonal_triangular'           : RPNOperator( getNthOctagonalTriangularNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'octahedral'                     : RPNOperator( getNthOctahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'pentagonal'                     : RPNOperator( getNthPentagonalNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
@@ -3303,45 +3337,11 @@ operators = {
     'pentagonal_triangular'          : RPNOperator( getNthPentagonalTriangularNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'polygonal'                      : RPNOperator( getNthPolygonalNumberOperator,
-                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
-
-    'square_triangular'              : RPNOperator( getNthSquareTriangularNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'star'                           : RPNOperator( getNthStarNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'triangular'                     : RPNOperator( getNthTriangularNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    # polyhedral
-    'centered_cube'                  : RPNOperator( getNthCenteredCubeNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_dodecahedral'          : RPNOperator( getNthCenteredDodecahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_icosahedral'           : RPNOperator( getNthCenteredIcosahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_octahedral'            : RPNOperator( getNthCenteredOctahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'centered_tetrahedral'           : RPNOperator( getNthCenteredTetrahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'dodecahedral'                   : RPNOperator( getNthDodecahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'icosahedral'                    : RPNOperator( getNthIcosahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
-    'octahedral'                     : RPNOperator( getNthOctahedralNumber,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
     'pentatope'                      : RPNOperator( getNthPentatopeNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
+
+    'polygonal'                      : RPNOperator( getNthPolygonalNumberOperator,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'polytope'                       : RPNOperator( getNthPolytopeNumber,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
@@ -3352,10 +3352,19 @@ operators = {
     'rhombdodec'                     : RPNOperator( getNthRhombicDodecahedralNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'square_triangular'              : RPNOperator( getNthSquareTriangularNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'star'                           : RPNOperator( getNthStarNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'stella_octangula'               : RPNOperator( getNthStellaOctangulaNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'tetrahedral'                    : RPNOperator( getNthTetrahedralNumber,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'triangular'                     : RPNOperator( getNthTriangularNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'truncated_octahedral'           : RPNOperator( getNthTruncatedOctahedralNumber,
@@ -3576,6 +3585,9 @@ operators = {
     'is_automorphic'                 : RPNOperator( isAutomorphic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_base_k_pandigital'           : RPNOperator( isBaseKPandigital,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
+
     'is_bouncy'                      : RPNOperator( isBouncy,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
@@ -3658,42 +3670,20 @@ operators = {
     'rotate_digits_right'            : RPNOperator( rotateDigitsRight,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.Integer ] ),
 
-    'show_persistence'               : RPNOperator( showPersistence,
-                                                    1, [ RPNOperator.NonnegativeInteger ] ),
-
     'show_erdos_persistence'         : RPNOperator( showErdosPersistence,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'show_k_persistence'             : RPNOperator( showKPersistence,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
+    'show_persistence'               : RPNOperator( showPersistence,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
     'square_digit_chain'             : RPNOperator( generateSquareDigitChain,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'sum_digits'                     : RPNOperator( sumDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
-
-    # logical
-    'and'                            : RPNOperator( andOperands,
-                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
-
-    'not'                            : RPNOperator( notOperand,
-                                                    1, [ RPNOperator.Integer ] ),
-
-    'nand'                           : RPNOperator( nandOperands,
-                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
-
-    'nor'                            : RPNOperator( norOperands,
-                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
-
-    'or'                             : RPNOperator( orOperands,
-                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
-
-    'xnor'                           : RPNOperator( xnorOperands,
-                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
-
-    'xor'                            : RPNOperator( xorOperands,
-                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     # list
     'exponential_range'              : RPNOperator( createExponentialRange,
@@ -3739,6 +3729,28 @@ operators = {
 
     'polylog'                        : RPNOperator( getPolylog,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
+
+    # logical
+    'and'                            : RPNOperator( andOperands,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'nand'                           : RPNOperator( nandOperands,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'nor'                            : RPNOperator( norOperands,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'not'                            : RPNOperator( notOperand,
+                                                    1, [ RPNOperator.Integer ] ),
+
+    'or'                             : RPNOperator( orOperands,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'xnor'                           : RPNOperator( xnorOperands,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
+
+    'xor'                            : RPNOperator( xorOperands,
+                                                    2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     # number_theory
     'abundance'                      : RPNOperator( getAbundance,
@@ -3808,14 +3820,17 @@ operators = {
     'fibonorial'                     : RPNOperator( getNthFibonorial,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'find_sum_of_squares'            : RPNOperator( findNthSumOfSquares,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'fraction'                       : RPNOperator( interpretAsFraction,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
-    'generate_polydivisibles'        : RPNOperator( generatePolydivisibles,
-                                                    1, [ RPNOperator.PositiveInteger ] ),
-
     'gamma'                          : RPNOperator( getGamma,
                                                     1, [ RPNOperator.Default ] ),
+
+    'generate_polydivisibles'        : RPNOperator( generatePolydivisibles,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
 
     'harmonic'                       : RPNOperator( getHarmonic,
                                                     1, [ RPNOperator.Default ] ),
@@ -3843,6 +3858,8 @@ operators = {
 
     'is_deficient'                   : RPNOperator( isDeficient,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
+
+    # is_friendly
 
     'is_k_hyperperfect'              : RPNOperator( isKHyperperfect,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
