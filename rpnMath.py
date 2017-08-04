@@ -340,13 +340,19 @@ def isDivisible( n, k ):
 # //
 # //  isSquare
 # //
+# //  The "smarter" algorithm is slower... WHY?!
+# //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def isSquare( n ):
-    sqrtN = sqrt( n )
+    #mod = fmod( n, 16 )
 
-    return 1 if sqrtN == floor( sqrtN ) else 0
+    #if mod in [ 0, 1, 4, 9 ]:
+        sqrtN = sqrt( n )
+        return 1 if sqrtN == floor( sqrtN ) else 0
+    #else:
+    #    return 0
 
 
 # //******************************************************************************

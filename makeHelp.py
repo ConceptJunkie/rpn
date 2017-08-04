@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1023
+maxExampleCount = 1024
 
 
 # //******************************************************************************
@@ -511,6 +511,8 @@ generator only works once.
 
 'collate' does not work with generators.
 
+'unlist' doesn't seem to do anything any more.
+
 Chained calls to 'next_new_moon' give the same answer over and over.  Other
 related operators probably do the same thing.
 
@@ -553,8 +555,6 @@ gets smaller.
 *  create an output handler for RPNLocation
 *  'result' doesn't work with measurements
 *  https://en.wikipedia.org/wiki/American_wire_gauge
-*  Add support for lists in user-defined functions:
-   'rpn 1970 2016 range lambda x dst_end x dst_start - [ x 12 31 ] make_date [ x 1 1 ] make_date - / eval'
 *  'rpn 1 20 range dBm kilowatt convert' fails.  This conversion doesn't work because dBm to watt uses a special function.
 *  'mean', 'max' and 'min' should work with measurements, but measurements currently can't be compared.
 *  units aren't supported in user-defined functions
@@ -7328,7 +7328,7 @@ the list (and all sublists), except in descending order.
 ''',
 '''
 ''' + makeCommandExample( '1 70 6 range2 sort_descending' ) + '''
-''' + makeCommandExample( '1 20 range countdiv sort_descending' ),
+''' + makeCommandExample( '1 20 range count_divisors sort_descending' ),
 [ 'sort' ] ],
 
     'sublist' : [
@@ -7844,6 +7844,15 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''' + makeCommandExample( '1 10 range fibonorial' ),
 [ ] ],
 
+    'find_sum_of_cubes' : [
+'number_theory', 'calculates the largest x for which the sum of the first xth squares is less than n',
+'''
+''',
+'''
+''' + makeCommandExample( '3025 find_sum_of_cubes' ) + '''
+''' + makeCommandExample( '11025 find_sum_of_cubes' ),
+[ 'find_sum_of_squares' ] ],
+
     'find_sum_of_squares' : [
 'number_theory', 'calculates the largest x for which the sum of the first xth squares is less than n',
 '''
@@ -7851,7 +7860,7 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 '''
 ''' + makeCommandExample( '55 find_sum_of_squares' ) + '''
 ''' + makeCommandExample( '506 find_sum_of_squares' ),
-[ ] ],
+[ 'find_sum_of_cubes' ] ],
 
     'fraction' : [
 'number_theory', 'calculates a rational approximation of n using k terms of the continued fraction',
@@ -8433,9 +8442,8 @@ The radical function is defined as the largest squarefree factor.
 '''
 ''',
 '''
-''' + makeCommandExample( '10 radical' ) + '''
-''' + makeCommandExample( '16 radical' ) + '''
-''' + makeCommandExample( '18 radical' ) + '''
+''' + makeCommandExample( '10 sigma' ) + '''
+''' + makeCommandExample( '1 20 range sigma' ) + '''
 Here's a list of deficient numbers from 1 to 100:
 ''' + makeCommandExample( '1 100 range lambda x sigma 2 / x is_less filter' ),
 [ 'sigma_k', 'aliquot' ] ],

@@ -249,6 +249,7 @@ operatorAliases = {
     'cotangent'                 : 'cot',
     'count_div'                 : 'count_divisors',
     'countbits'                 : 'count_bits',
+    'countdiv'                  : 'count_divisors',
     'cousin'                    : 'cousin_prime',
     'cousin?'                   : 'cousin_prime',
     'cousin_'                   : 'cousin_prime_',

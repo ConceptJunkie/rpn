@@ -19,16 +19,16 @@ import random
 from fractions import Fraction
 from functools import reduce
 
-from mpmath import altzeta, arange, barnesg, beta, binomial, e, fabs, fac, \
-                   fac2, fadd, fdiv, fib, floor, fmod, fmul, fneg, fprod, \
-                   fsub, fsum, gamma, harmonic, hyperfac, loggamma, mp, mpc, \
-                   mpf, mpmathify, nint, phi, polyroots, polyval, power, \
-                   primepi, psi, re, root, superfac, sqrt, unitroots, \
+from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, \
+                   fac, fac2, fadd, fdiv, fib, floor, fmod, fmul, fneg, \
+                   fprod, fsub, fsum, gamma, harmonic, hyperfac, loggamma, \
+                   mp, mpc, mpf, mpmathify, nint, phi, polyroots, polyval, \
+                   power, primepi, psi, re, root, superfac, sqrt, unitroots, \
                    zeta, zetazero
 
 from rpnFactor import getFactors, getFactorList
 from rpnGenerator import RPNGenerator
-from rpnMath import isDivisible, isEven
+from rpnMath import isDivisible, isEven, isInteger
 from rpnPersistence import cachedFunction
 from rpnUtils import getMPFIntegerAsString, oneArgFunctionEvaluator, \
                      twoArgFunctionEvaluator, real, real_int
@@ -1102,7 +1102,7 @@ def getSigma( target ):
         result = fmul( result, fdiv( numerator, denominator ) )
 
         if result != floor( result ):
-            raise ValueError( 'insufficient precision for \'sigma\', increase precision using -p or -a)' )
+            raise ValueError( 'insufficient precision for \'sigma\', increase precision using -p or -a' )
 
     return result
 
@@ -1143,7 +1143,7 @@ def getSigmaK( n, k ):
         result = fmul( result, fdiv( numerator, denominator ) )
 
         if result != floor( result ):
-            raise ValueError( 'insufficient precision for \'sigma_k\', increase precision using -p or -a)' )
+            raise ValueError( 'insufficient precision for \'sigma_k\', increase precision using -p or -a' )
 
     return result
 
@@ -1758,24 +1758,30 @@ def getNthThueMorse( n ):
 # //
 # //******************************************************************************
 
-def findSumsOfKPowersGenerator( n, k, p, bNonZero=False ):
-    limit = fadd( floor( root( n, p ) ), 1 )
+def findSumsOfKPowersGenerator( n, k, p, bNonZero=False, prefix=[ ] ):
+    # If we are looking for only one power, then we only have one choice
+    #print( 'n', n, 'k', k, 'p', p, 'prefix', prefix )
+    if k == 1:
+        if n == 0:
+            if not bNonZero and not prefix:
+                yield prefix + [ 0 ]
+        else:
+            value = root( n, p )
 
-    lower = fsub( limit, 1 )
-    upper = fmul( limit, 2 )
+            if isInteger( value ):
+                yield prefix + [ value ]
 
-    candidates = arange( 1 if bNonZero else 0, limit )
+        return
 
-    l = itertools.combinations_with_replacement( candidates, int( k ) )
+    start = prefix[ -1 ] if prefix else 1 if bNonZero else 0
+    limit = ceil( root( n, p ) )
 
-    for a in l:
-        #sum = fsum( a )
-        #
-        #if lower > sum > upper:
-        #    continue
+    for i in arange( start, limit ):
+        remainder = fsub( n, power( i, p ) )
 
-        if fsum( [ power( i, p ) for i in a ] ) == n:
-            yield list( a )
+        if remainder >= fdiv( n, 2 ):
+            yield from findSumsOfKPowersGenerator( fsub( n, power( i, p ) ),
+                                                   fsub( k, 1 ), p, bNonZero, prefix + [ i ] )
 
 def findSumsOfKPowers( n, k, p ):
     return RPNGenerator( findSumsOfKPowersGenerator( n, k, p ) )
@@ -1929,4 +1935,17 @@ def findNthSumOfSquares( n ):
 
     return fdiv( fsub( fadd( fdiv( bigTerm, power( 3, fdiv( 2, 3 ) ) ),
                              fdiv( 1, fmul( root( 3, 3 ), bigTerm ) ) ), 1 ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  findNthSumOfCubes
+# //
+# //  http://www.wolframalpha.com/input/?i=x+%3D+1%2F4+n%5E2+(+n+%2B+1+)%5E2+for+n
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def findNthSumOfCubes( n ):
+    return fdiv( fsub( sqrt( fadd( fmul( 8, sqrt( n ) ), 1 ) ), 1 ), 2 )
 

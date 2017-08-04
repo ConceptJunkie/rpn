@@ -3820,6 +3820,9 @@ operators = {
     'fibonorial'                     : RPNOperator( getNthFibonorial,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'find_sum_of_cubes'              : RPNOperator( findNthSumOfCubes,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'find_sum_of_squares'            : RPNOperator( findNthSumOfSquares,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 

@@ -1165,3 +1165,5 @@ def generateSquareDigitChainGenerator( n ):
 def generateSquareDigitChain( n ):
     return RPNGenerator.createGenerator( generateSquareDigitChainGenerator, [ n ] )
 
+
+
