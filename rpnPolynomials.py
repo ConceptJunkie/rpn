@@ -64,7 +64,7 @@ class Polynomial( object ):
     def __add__( self, val ):
         "Return self+val"
         if isinstance( val, Polynomial ):                    # add Polynomial
-            res = [ a + b for a, b in zip_longest( self.coeffs, val.coeffs, fillvalue = 0 ) ]
+            res = reversed( [ a + b for a, b in zip_longest( reversed( self.coeffs ), reversed( val.coeffs ), fillvalue = 0 ) ] )
         else:                                                # add scalar
             if self.coeffs:
                 res = self.coeffs[ : ]
