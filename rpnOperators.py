@@ -2243,6 +2243,9 @@ listOperators = {
     'enumerate'             : RPNOperator( lambda n, k: RPNGenerator( enumerateList( n, k ) ),
                                            2, [ RPNOperator.List, RPNOperator.Integer ] ),
 
+    'find'                  : RPNOperator( findInList,
+                                           2, [ RPNOperator.List, RPNOperator.Default ] ),
+
     'flatten'               : RPNOperator( flatten,
                                            1, [ RPNOperator.List ] ),
 

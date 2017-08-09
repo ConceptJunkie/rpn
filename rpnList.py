@@ -1023,3 +1023,19 @@ def getPowerset( n ):
         if len( i ) > 0:
             yield list( i )
 
+
+# //******************************************************************************
+# //
+# //  findInList
+# //
+# //******************************************************************************
+
+@listAndOneArgFunctionEvaluator( )
+def findInList( n, target ):
+    try:
+        result = n.index( target )
+    except:
+        return -1
+
+    return result
+

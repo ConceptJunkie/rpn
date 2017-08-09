@@ -2331,6 +2331,9 @@ def runListOperatorTests( ):
     # exponential_range
     testOperator( '1.1 1.1 10 exponential_range' )
 
+    # find
+    testOperator( '1 10 range 4 find' )
+
     # flatten
     expectEqual( '[ 1 2 [ 3 4 5 ] [ 6 [ 7 [ 8 9 ] ] 10 ] ] flatten', '1 10 range' )
 

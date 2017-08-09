@@ -7007,6 +7007,14 @@ the bth power.  The list is expanded to contain c items.
 ''' + makeCommandExample( '2 2 10 exponential_range' ),
 [ 'range', 'geometric_range', 'interval_range', 'sized_range' ] ],
 
+    'find' : [
+'list_operators', 'returns the first index of n that equals k',
+'''
+''',
+'''
+''',
+[ ] ],
+
     'flatten' : [
 'list_operators', 'flattens a nested lists in list n to a single level',
 '''

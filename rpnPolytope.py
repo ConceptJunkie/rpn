@@ -105,7 +105,7 @@ def findPolygonalNumber( n, k ):
     if real_int( k ) < 3:
         raise ValueError( 'the number of sides of the polygon cannot be less than 3,' )
 
-    return nint( fdiv( fsum( [ sqrt( fsum( [ power( k, 2 ), fprod( [ 8, k, real( n ) ] ),
+    return floor( fdiv( fsum( [ sqrt( fsum( [ power( k, 2 ), fprod( [ 8, k, real( n ) ] ),
                                              fneg( fmul( 8, k ) ), fneg( fmul( 16, n ) ), 16 ] ) ),
                                k, -4 ] ), fmul( 2, fsub( k, 2 ) ) ) )
 
