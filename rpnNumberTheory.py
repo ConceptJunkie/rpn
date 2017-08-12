@@ -1764,7 +1764,7 @@ def findSumsOfKPowersGenerator( n, k, p, bNonZero=False, prefix=[ ] ):
     if k == 1:
         if n == 0:
             if not bNonZero and not prefix:
-                yield prefix + [ 0 ]
+                yield [ 0 ]
         else:
             value = root( n, p )
 
@@ -1772,6 +1772,9 @@ def findSumsOfKPowersGenerator( n, k, p, bNonZero=False, prefix=[ ] ):
                 yield prefix + [ value ]
 
         return
+
+    if n == 0:
+        yield prefix + [ 0 ] * int( k )
 
     start = prefix[ -1 ] if prefix else 1 if bNonZero else 0
     limit = ceil( root( n, p ) )

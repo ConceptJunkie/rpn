@@ -222,7 +222,6 @@ def getIndexOfMin( args ):
 # //
 # //******************************************************************************
 
-#@listAndOneArgFunctionEvaluator( )
 def getListElement( args, index ):
     if isinstance( index, ( list, RPNGenerator ) ):
         for i in index:
@@ -244,7 +243,6 @@ def enumerateListGenerator( args, k ):
         yield [ fadd( i, k ), arg ]
         i += 1
 
-#@listAndOneArgFunctionEvaluator( )
 def enumerateList( args, k ):
     return RPNGenerator.createGenerator( enumerateListGenerator, [ args, k ] )
 
@@ -289,7 +287,6 @@ def getSublist( args, start, count ):
 # //
 # //******************************************************************************
 
-#@listAndOneArgFunctionEvaluator( )
 def getLeft( args, count ):
     result = [ ]
 
@@ -311,7 +308,6 @@ def getLeft( args, count ):
 # //
 # //******************************************************************************
 
-#@listAndOneArgFunctionEvaluator( )
 def getRight( args, count ):
     result = [ ]
 
@@ -948,6 +944,7 @@ def getListCombinations( n, k ):
 # //
 # //******************************************************************************
 
+@listAndOneArgFunctionEvaluator( )
 def getListCombinationsWithRepeatsGenerator( n, k ):
     for i in itertools.combinations_with_replacement( n, int( k ) ):
         yield list( i )
@@ -959,6 +956,7 @@ def getListCombinationsWithRepeatsGenerator( n, k ):
 # //
 # //******************************************************************************
 
+@listAndOneArgFunctionEvaluator( )
 def getListCombinationsWithRepeats( n, k ):
     if not isinstance( n, ( list, RPNGenerator ) ):
         raise ValueError( '\'get_repeat_combinations\' expects a list' )
@@ -986,6 +984,7 @@ def getListPermutationsGenerator( n, k ):
 # //
 # //******************************************************************************
 
+@listAndOneArgFunctionEvaluator( )
 def getListPermutations( n, k ):
     if not isinstance( n, ( list, RPNGenerator ) ):
         raise ValueError( '\'permute_list\' expects a list' )
@@ -994,6 +993,35 @@ def getListPermutations( n, k ):
         raise ValueError( 'k must be greater than or equal to the length of list n' )
 
     return RPNGenerator( getListPermutationsGenerator( n, k ) )
+
+
+# //******************************************************************************
+# //
+# //  getListPermutationsWithRepeatsGenerator
+# //
+# //******************************************************************************
+
+@listAndOneArgFunctionEvaluator( )
+def getListPermutationsWithRepeatsGenerator( n, k ):
+    for i in itertools.product( n, repeat=int( k ) ):
+        yield list( i )
+
+
+# //******************************************************************************
+# //
+# //  getListPermutationsWithRepeats
+# //
+# //******************************************************************************
+
+@listAndOneArgFunctionEvaluator( )
+def getListPermutationsWithRepeats( n, k ):
+    if not isinstance( n, ( list, RPNGenerator ) ):
+        raise ValueError( '\'get_repeat_permutations\' expects a list' )
+
+    if len( n ) < k:
+        raise ValueError( 'k must be greater than or equal to the length of list n' )
+
+    return RPNGenerator( getListPermutationsWithRepeatsGenerator( n, k ) )
 
 
 # //******************************************************************************
@@ -1038,4 +1066,20 @@ def findInList( n, target ):
         return -1
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  isPalindromeList
+# //
+# //******************************************************************************
+
+def isPalindromeList( n ):
+    length = len( n )
+
+    for i in range( 0, length // 2 ):
+        if n[ i ] != n[ -( i + 1 ) ]:
+            return 0
+
+    return 1
 

@@ -135,7 +135,7 @@ def getNonzeroBaseKDigits( n, k ):
 def isBaseKPandigital( n, base ):
     digits = convertToBaseN( n, base, outputBaseDigits=True )
 
-    for i in arange( min( base, ceil( log10( n ) ) ) ):
+    for i in arange( min( int( base ), len( digits ) ) ):
         try:
             digits.index( i )
         except:
@@ -1166,4 +1166,78 @@ def generateSquareDigitChain( n ):
     return RPNGenerator.createGenerator( generateSquareDigitChainGenerator, [ n ] )
 
 
+# //******************************************************************************
+# //
+# //  isStepNumber
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def isStepNumber( n ):
+    if n < 10:
+        return 0
+
+    str = getMPFIntegerAsString( n )
+
+    for i in range( 1, len( str ) ):
+        if abs( int( str[ i ] ) - int( str[ i - 1 ] ) ) != 1:
+            return 0
+
+    return 1
+
+
+# //******************************************************************************
+# //
+# //  buildNextStepNumbers
+# //
+# //  This method expects a list of digits.
+# //
+# //******************************************************************************
+
+def buildNextStepNumbers( n ):
+    result = [ ]
+
+    if n[ -1 ] == 0:
+        result.append( n + [ 1 ] )
+    elif n[ -1 ] == 9:
+        result.append( n + [ 8 ] )
+    else:
+        result.append( n + [ n[ -1 ] - 1 ] )
+        result.append( n + [ n[ -1 ] + 1 ] )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  buildStepNumbers
+# //
+# //******************************************************************************
+
+def buildStepNumbersGenerator( maxLength ):
+    if maxLength < 2:
+        raise ValueError( '\'build_step_numbers\' requires an argument of 2 or greater' )
+
+    stepNumbers = [ ]
+
+    for i in range( 1, 10 ):
+        stepNumbers.extend( buildNextStepNumbers( [ i ] ) )
+
+    for i in stepNumbers:
+        yield combineDigits( i )
+
+    for i in range( 0, int( maxLength ) - 2 ):
+        newStepNumbers = [ ]
+
+        for j in stepNumbers:
+            newStepNumbers.extend( buildNextStepNumbers( j ) )
+
+        stepNumbers = newStepNumbers
+
+        for i in stepNumbers:
+            yield combineDigits( i )
+
+@oneArgFunctionEvaluator( )
+def buildStepNumbers( n ):
+    return RPNGenerator.createGenerator( buildStepNumbersGenerator, [ n ] )
 

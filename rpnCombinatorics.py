@@ -23,7 +23,7 @@ from rpnNumberTheory import getNthLinearRecurrence, getLinearRecurrence
 from rpnPersistence import cachedFunction
 from rpnPolytope import getNthGeneralizedPolygonalNumber
 from rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
-                     listAndOneArgFunctionEvaluator, real, real_int
+                     real, real_int
 
 
 # //******************************************************************************
@@ -260,42 +260,6 @@ def getCompositions( n, k ):
 
 # //******************************************************************************
 # //
-# //  getCombinationsOfList
-# //
-# //******************************************************************************
-
-def getCombinationsOfListGenerator( n, k ):
-    if not isinstance( n, ( list, RPNGenerator ) ):
-        n = [ n ]
-
-    for comb in itertools.combinations( n, int( k ) ):
-        yield list( comb )
-
-@listAndOneArgFunctionEvaluator( )
-def getCombinationsOfList( n, k ):
-    return RPNGenerator( getCombinationsOfListGenerator( n, k ) )
-
-
-# //******************************************************************************
-# //
-# //  getPermutationsOfList
-# //
-# //******************************************************************************
-
-def getPermutationsOfListGenerator( n, k ):
-    if not isinstance( n, ( list, RPNGenerator ) ):
-        n = [ n ]
-
-    for comb in itertools.permutations( n, int( k ) ):
-        yield list( comb )
-
-@listAndOneArgFunctionEvaluator( )
-def getPermutationsOfList( n, k ):
-    return RPNGenerator( getPermutationsOfListGenerator( n, int( k ) ) )
-
-
-# //******************************************************************************
-# //
 # //  OLDgetPartitionNumber
 # //
 # //******************************************************************************
@@ -508,7 +472,6 @@ def getNthMenageNumber( n ):
     else:
         return nsum( lambda k: fdiv( fprod( [ power( -1, k ), fmul( 2, n ), binomial( fsub( fmul( 2, n ), k ), k ),
                                             fac( fsub( n, k ) ) ] ), fsub( fmul( 2, n ), k ) ), [ 0, n ] )
-
 
 @twoArgFunctionEvaluator( )
 def getBellPolynomial( n, k ):

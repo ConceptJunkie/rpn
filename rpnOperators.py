@@ -2258,6 +2258,9 @@ listOperators = {
     'get_permutations'      : RPNOperator( getListPermutations,
                                            2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
 
+    'get_repeat_permutations'   : RPNOperator( getListPermutationsWithRepeats,
+                                           2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
+
     'group_elements'        : RPNOperator( groupElements,
                                            2, [ RPNOperator.List, RPNOperator.PositiveInteger ] ),
 
@@ -2266,6 +2269,9 @@ listOperators = {
 
     'intersection'          : RPNOperator( makeIntersection,
                                            2, [ RPNOperator.List, RPNOperator.List ] ),
+
+    'is_palindrome_list'    : RPNOperator( isPalindromeList,
+                                           1, [ RPNOperator.List ] ),
 
     'left'                  : RPNOperator( getLeft,
                                            2, [ RPNOperator.List, RPNOperator.NonnegativeInteger ] ),
@@ -2953,9 +2959,6 @@ operators = {
     'combinations'                   : RPNOperator( getCombinations,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'combinations_of_list'           : RPNOperator( getCombinationsOfList,
-                                                    2, [ RPNOperator.Generator, RPNOperator.PositiveInteger ] ),
-
     'compositions'                   : RPNOperator( getCompositions,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
@@ -3009,9 +3012,6 @@ operators = {
 
     'permutations'                   : RPNOperator( getPermutations,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
-
-    'permutations_of_list'           : RPNOperator( getPermutationsOfList,
-                                                    2, [ RPNOperator.Generator, RPNOperator.PositiveInteger ] ),
 
     # complex
     'argument'                       : RPNOperator( getArgument,
@@ -3537,6 +3537,9 @@ operators = {
     'build_numbers'                  : RPNOperator( buildNumbers,
                                                     1, [ RPNOperator.String ] ),
 
+    'build_step_numbers'             : RPNOperator( buildStepNumbers,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'count_different_digits'         : RPNOperator( countDifferentDigits,
                                                     1, [ RPNOperator.Integer ] ),
 
@@ -3635,6 +3638,9 @@ operators = {
 
     'is_sum_product'                 : RPNOperator( isSumProductNumber,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
+
+    'is_step_number'                 : RPNOperator( isStepNumber,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_trimorphic'                  : RPNOperator( isTrimorphic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),

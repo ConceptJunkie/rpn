@@ -1096,8 +1096,6 @@ def runCombinatoricsOperatorTests( ):
 
     # combinations
 
-    # combinations_of_list
-
     # compositions
     testOperator( '5 2 compositions' )
     testOperator( '6 3 compositions' )
@@ -1108,6 +1106,10 @@ def runCombinatoricsOperatorTests( ):
 
     # denominator_combinations
     expectResult( '[ 1 5 10 25 50 100 ] 100 denomination_combinations', 293 )
+
+    # get_combinations
+
+    # get_permutations
 
     # lah
     testOperator( '5 6 lah' )
@@ -1189,12 +1191,13 @@ def runCombinatoricsOperatorTests( ):
     # partitions
     expectEqual( '0 1000 range partitions', '41 oeis 1001 left' )
 
+    # get_permutations
+
     # permutations
     expectEqual( '8 3 permutations', '8 ! 5 ! /' )
     expectEqual( '-a20 17 12 permutations', '-a20 17 ! 5 ! /' )
     expectException( '6 7 permutations' )
 
-    # permutations_of_list
 
 
 # //******************************************************************************
