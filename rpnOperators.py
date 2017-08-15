@@ -347,7 +347,11 @@ constants = {
                                                    0, [ ] ),
     'magnetic_constant'             : RPNOperator( lambda: RPNMeasurement( fprod( [ 4, pi, power( 10, -7 ) ] ), 'joule/ampere^2*meter' ),
                                                    0, [ ] ),
+    'magnetic_flux_quantum'         : RPNOperator( lambda: RPNMeasurement( '2.067833831e-15', 'Weber' ),
+                                                   0, [ ] ),
     'newton_constant'               : RPNOperator( getNewtonsConstant,
+                                                   0, [ ] ),
+    'nuclear_magneton'              : RPNOperator( lambda: RPNMeasurement( '5.050783699e-27', 'joule/tesla' ),
                                                    0, [ ] ),
     'radiation_constant'            : RPNOperator( lambda: RPNMeasurement( '7.5657e-16', 'kilogram/second^2*meter*kelvin^4' ),
                                                    0, [ ] ),
@@ -4366,6 +4370,9 @@ operators = {
 
     'roll_dice'                      : RPNOperator( rollDice,
                                                     1, [ RPNOperator.String ] ),
+
+    'roll_simple_dice'               : RPNOperator( rollSimpleDice,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     'roll_dice_'                     : RPNOperator( rollMultipleDiceGenerator,
                                                     2, [ RPNOperator.String, RPNOperator.PositiveInteger ] ),

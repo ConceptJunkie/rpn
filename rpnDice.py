@@ -339,3 +339,15 @@ def evaluateDiceExpression( args, sumIfPossible=True ):
 
     return result, modifier
 
+
+# //******************************************************************************
+# //
+# //  rollSimpleDice
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def rollSimpleDice( n, k ):
+    values, modifier = evaluateDiceExpression( [ ( int( n ), int( k ), 0, 0, 0 ) ] )
+    return sum( values ) + modifier
+

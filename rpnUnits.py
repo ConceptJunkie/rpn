@@ -1174,12 +1174,18 @@ One centillion:  10e303
 The conductance quantum appears when measuring the conductance of a quantum
 point contact, and, more generally, is a key component of Landauer formula
 which relates the electrical conductance of a quantum conductor to its quantum
-properties. It is twice the reciprocal of the von Klitzing constant (2/RK).
+properties.  It is twice the reciprocal of the von Klitzing constant (2/RK).
 (https://en.wikipedia.org/wiki/Conductance_quantum)
                      ''' ),
 
     'ampere^2-second^3/kilogram-meter^2':
         RPNUnitInfo( 'electrical_conductance', 'ampere^2*second^3/kilogram*meter^2', 'ampere^2*second^3/kilogram*meter^2', '',
+                     [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
+    'coulomb^2-second/kilogram-meter^2' :
+        RPNUnitInfo( 'electrical_conductance', 'coulomb^2*second/kilogram*meter^2', 'coulomb^2*second/kilogram*meter^2', '',
                      [ ], [ 'SI' ],
                      '''
                      ''' ),
@@ -1218,12 +1224,6 @@ properties. It is twice the reciprocal of the von Klitzing constant (2/RK).
     'german_mile' :
         RPNUnitInfo( 'electrical_resistance', 'german_mile', 'german_miles', '',
                      [ ], [ 'obsolete' ],
-                     '''
-                     ''' ),
-
-    'impedance_of_free_space' :
-        RPNUnitInfo( 'electrical_resistance', 'impedance_of_free_space', 'x impedance_of_free_space', 'Z0',
-                     [ 'vacuum_impedence' ], [ 'natural' ],
                      '''
                      ''' ),
 
@@ -2237,12 +2237,6 @@ by Knuth.
     'centimeter^2-gauss' :
         RPNUnitInfo( 'magnetic_flux', 'centimeter^2*gauss', 'centimeter^2*gauss', '',
                      [ 'gauss-centimeter^2' ], [ 'CGS' ],
-                     '''
-                     ''' ),
-
-    'magnetic_flux_quantum' :
-        RPNUnitInfo( 'magnetic_flux', 'magnetic_flux_quantum', 'magnetic_flux_quantum', 'phi0',
-                     [ ], [ 'science' ],
                      '''
                      ''' ),
 
@@ -4010,7 +4004,6 @@ unitConversionMatrix = {
     ( 'hour',                       'minute' )                              : mpmathify( '60' ),
     ( 'hourly',                     'daily' )                               : mpmathify( '24' ),
     ( 'hundred',                    'unity' )                               : mpmathify( '100' ),
-    ( 'impedance_of_free_space',    'ohm' )                                 : fmul( pi, mpmathify( '119.9169832' ) ),
     ( 'imperial_bushel',            'kenning' )                             : mpmathify( '2' ),
     ( 'imperial_butt',              'imperial_hogshead' )                   : mpmathify( '2' ),
     ( 'imperial_cup',               'imperial_gill' )                       : mpmathify( '2' ),
@@ -4204,6 +4197,7 @@ unitConversionMatrix = {
     ( 'sidereal_month',             'day' )                                 : mpmathify( '27.321661' ),
     ( 'siemens',                    'ampere/volt' )                         : mpmathify( '1' ),
     ( 'siemens',                    'ampere^2-second^3/kilogram-meter^2' )  : mpmathify( '1' ),
+    ( 'siemens',                    'coulomb^2-second/kilogram-meter^2' )   : mpmathify( '1' ),
     ( 'siemens',                    'statsiemens' )                         : mpmathify( '898755178736.5' ),
     ( 'sievert',                    'rem' )                                 : mpmathify( '100' ),
     ( 'siriometer',                 'astronomical_unit' )                   : mpmathify( '1.0e6' ),
@@ -4301,7 +4295,6 @@ unitConversionMatrix = {
     ( 'watt',                       'lusec' )                               : mpmathify( '7500' ),
     ( 'watt',                       'meter-newton/second' )                 : mpmathify( '1' ),
     ( 'watt-second',                'joule' )                               : mpmathify( '1' ),
-    ( 'weber',                      'magnetic_flux_quantum' )               : mpmathify( '4.835976703185e14' ),
     ( 'weber',                      'maxwell' )                             : mpmathify( '1.0e8' ),
     ( 'weber',                      'meter^2-tesla' )                       : mpmathify( '1' ),
     ( 'weber',                      'unit_pole' )                           : mpmathify( '7957747.154594' ),

@@ -3356,14 +3356,6 @@ far as rpn is concerned, it's an operator that does nothing.
 ''' + makeCommandExample( '21 15 combinations' ),
 [ 'permutations' ] ],
 
-    'combinations_of_list' : [
-'combinatorics', '',
-'''
-''',
-'''
-''' + makeCommandExample( '[ 1 2 3 4 ] 2 combinations_of_list' ),
-[ 'permutations_of_list' ] ],
-
     'compositions' : [
 'combinatorics', 'returns a list containing all distinct ordered k-tuples of positive integers whose elements sum to n',
 '''
@@ -3658,14 +3650,6 @@ When calculating the number of permutations of k objects, order matters.
 ''' + makeCommandExample( '10 7 permutations' ) + '''
 ''' + makeCommandExample( '20 10 permutations' ),
 [ 'combinations' ] ],
-
-    'permutations_of_list' : [
-'combinatorics', '',
-'''
-''',
-'''
-''' + makeCommandExample( '[ 1 2 3 4 ] 2 permutations_of_list' ),
-[ 'combinations_of_list' ] ],
 
 
 # //******************************************************************************
@@ -6293,6 +6277,16 @@ Euler's number).  'o' by itself is interpreted as the symbol for 'abohm'.
 ''',
 [ ] ],
 
+    'build_step_numbers' : [
+'list_operators', 'builds all step numbers up to n digits in length',
+'''
+I have to admit, this operator was only created in a failed attempt to solve
+the Euler Project Problem #178.
+''',
+'''
+''',
+[ 'is_step_number' ] ],
+
     'combine_digits' : [
 'lexicography', 'combines the digits of all elements of list n into a single number',
 '''
@@ -6591,6 +6585,14 @@ in digits.
 '''
 ''',
 [ 'is_pdi' ] ],
+
+    'is_step_number' : [
+'list_operators', 'returns 1 if n is a step number else 0',
+'''
+''',
+'''
+''',
+[ 'build_step_numbers' ] ],
 
     'is_sum_product' : [
 'lexicography', 'returns whether an integer n is a sum-product number',
@@ -7049,7 +7051,7 @@ The intervals of the chromatic scale:
 ''',
 '''
 ''',
-[ 'get_combinations' ] ],
+[ 'get_combinations', 'get_repeat_permutations' ] ],
 
     'get_repeat_combinations' : [
 'list_operators', 'generates all combinations of k members of list n, with repeats allowed',
@@ -7058,6 +7060,14 @@ The intervals of the chromatic scale:
 '''
 ''',
 [ 'get_permutations', 'get_combinations' ] ],
+
+    'get_repeat_permutations' : [
+'list_operators', 'generates all permutations of k members of list n, with repeats allowed',
+'''
+''',
+'''
+''',
+[ 'get_permutations', 'get_repeat_combinations' ] ],
 
     'group_elements' : [
 'list_operators', 'groups the elements of list n into sublsts of k elements',
@@ -7110,6 +7120,14 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 ''' + makeCommandExample( '100 90 -2 interval_range' ) + '''
 ''' + makeCommandExample( '1 10 1 10 range interval_range' ),
 [ 'exponential_range', 'geometric_range', 'range', 'sized_range' ] ],
+
+    'is_palindrome_list' : [
+'list_operators', 'returns 1 if list n is a palindrome',
+'''
+''',
+'''
+''',
+[ ] ],
 
     'left' : [
 'list_operators', 'returns the left k items from list n',
@@ -10683,7 +10701,7 @@ And obviously, this can result in a negative value.
 ''' + makeCommandExample( '2d4+2 roll_dice' ) + '''
 ''' + makeCommandExample( '4d6x1-3 roll_dice' ) + '''
 ''' + makeCommandExample( '2d4,4d6,8d10 roll_dice' ),
-[ 'roll_dice', 'permute_dice', 'enumerate_dice', 'enumerate_dice_' ] ],
+[ 'roll_dice', 'roll_simple_dice', 'permute_dice', 'enumerate_dice', 'enumerate_dice_' ] ],
 
     'roll_dice_' : [
 'special', 'evaluates a dice expression to simulate rolling dice k times',
@@ -10694,6 +10712,15 @@ Please see 'roll_dice' for an explanation of the dice expression language.
 ''' + makeCommandExample( '2d6 10 roll_dice_' ) + '''
 ''' + makeCommandExample( '4d6x1 6 roll_dice_' ),
 [ 'roll_dice', 'permute_dice', 'enumerate_dice', 'enumerate_dice_' ] ],
+
+    'roll_simple_dice' : [
+'special', 'rolls n dice with k sides each',
+'''
+''',
+'''
+''' + makeCommandExample( '3 6 roll_simple_dice' ) + '''
+''' + makeCommandExample( '4 random_int 4 roll_simple_dice' ),
+[ 'roll_dice' ] ],
 
     'set_variable' : [
 'special', 'set the value k for key n in the user config file',

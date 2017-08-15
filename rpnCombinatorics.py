@@ -515,3 +515,37 @@ def getDenominationCombinations( denominations, target ):
 
     return data[ target ]
 
+
+#  http://crowsandcats.blogspot.com/2013/04/approximate-restricted-integer.html
+
+#Recursive restricted block partition. Each call reduces the sum, n,
+# and m, the number of parts.
+#def blockpart(n, m, k):
+#
+#    #Is the number of parts only 1?
+#    if(m == 1):
+#        #Trivial: to partition n into one part, we need to be able to use  n
+#        if(n < k):
+#            return 1
+#        else:
+#            return 0
+#    #what is the highest possible sum we may have
+#    #that will still be a valid partition
+#    smax = m * (k - 1)
+#    #This is the lowest term we can add to the partition (subtract from sum)
+#    start = n - k + 1
+#
+#    #If the lowest is too high, then we aren't able to get a valid partition
+#    if( start > smax):
+#        return 0
+#
+#    paths = 0
+#
+#    #add up all possible other partitions after subtracting choices
+#    #to place in the current part (m)
+#    for i in range(max(0,start), 1 + min(smax, n)):
+#        paths += blockpart(i, m - 1, k)
+#
+#    return paths
+
+
