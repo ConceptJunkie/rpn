@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1024
+maxExampleCount = 1026
 
 
 # //******************************************************************************
@@ -5622,6 +5622,7 @@ and seconds.
 ''',
 [ 'filter', 'filter_by_index', 'lambda', 'unfilter' ] ],
 
+
     'eval' : [
 'functions', 'evaluates the function n for the given argument[s] k',
 '''
@@ -5632,7 +5633,15 @@ in the value n into the function k and returns the result.
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''
 ''' + makeCommandExample( '5 lambda x 2 ** 1 - eval' ) + '''
 ''' + makeCommandExample( '1 10 range lambda x 2 ** 1 - eval' ),
-[ 'eval2', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
+[ 'eval0', 'eval2', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
+
+    'eval0' : [
+'functions', 'evaluates the zero-argument function n',
+'''
+''',
+'''
+''',
+[ 'eval', 'eval2', 'eval3', 'filter', 'lambda', 'recurrence', 'function' ] ],
 
     'eval2' : [
 'functions', 'evaluates the function c for the given arguments a and b',
@@ -5716,12 +5725,21 @@ Which of the first 80 fibonacci numbers is prime?
 [ 'filter' ] ],
 
     'for_each' : [
-'functions', 'instructs the next operater to act on list members rather than the list itself as an argument'
+'functions', 'evaluates function k on elements of list n, treating each element as a list of arguments'
 '''
 ''',
 '''
 ''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] ] lambda x y add for_each' ),
-[ ] ],
+[ 'for_each_list', 'repeat' ] ],
+
+    'for_each_list' : [
+'functions', 'evaluates function k on elements of list n, treating each element as a list argument',
+'''
+''',
+'''
+''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 6 7 ] [ 8 9 ] ] lambda x -1 element for_each_list' ) + '''
+''' + makeCommandExample( '[ [ 1 2 ] [ 3 4 ] [ 5 6 ] [ 7 8 ] ] lambda x sum for_each_list' ),
+[ 'for_each', 'repeat' ] ],
 
     'function': [
 'functions', 'creates a user-defined function k named n',
@@ -5835,10 +5853,19 @@ a number of extra libraries.
     'recurrence' : [
 'functions', 'evaluates the function c, b times, starting with a and using the result of each previous function call as an argument for the next',
 '''
+This feature only works with one-argument functions."
 ''',
 '''
 ''',
 [ 'eval', 'filter', 'lambda' ] ],
+
+    'repeat' : [
+'functions', 'evaluates a 0-arg function n, k times',
+'''
+''',
+'''
+''',
+[ 'eval0', 'eval', 'filter', 'lambda' ] ],
 
     'unfilter' : [
 'functions', 'filters a list n using the inverse of function k',

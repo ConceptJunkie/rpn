@@ -668,12 +668,14 @@ class RPNFunction( object ):
     def add( self, arg ):
         self.valueList.append( arg )
 
-    def evaluate( self, x, y = 0, z = 0 ):
+    def evaluate( self, x = 0, y = 0, z = 0 ):
         if not self.function:
             self.buildCode( )
             self.compile( )
 
-        if self.argCount == 1:
+        if self.argCount == 0:
+            return self.function( )
+        elif self.argCount == 1:
             return self.function( x )
         elif self.argCount == 2:
             return self.function( x, y )
@@ -681,7 +683,9 @@ class RPNFunction( object ):
             return self.function( x, y, z )
 
     def setCode( self, code ):
-        if code.find( 'rpnInternalFunction( x ):' ) != -1 or \
+        if code.find( 'rpnInternalFunction( ):' ) != -1:
+            self.argCount = 0
+        elif code.find( 'rpnInternalFunction( x ):' ) != -1 or \
            code.find( 'rpnInternalFunction( y ):' ) != -1 or \
            code.find( 'rpnInternalFunction( z ):' ) != -1:
             self.argCount = 1
@@ -729,9 +733,6 @@ class RPNFunction( object ):
 
             valueList.append( item )
 
-        if not xArg and not yArg and not zArg:
-            raise ValueError( 'lambdas must have at least x, y, or z' )
-
         self.code = 'def rpnInternalFunction('
 
         first = True
@@ -761,6 +762,8 @@ class RPNFunction( object ):
 
         self.code += ' ): return '
 
+        emptyFunction = True
+
         args = [ ]
         listArgs = [ ]
         listDepth = 0
@@ -776,6 +779,8 @@ class RPNFunction( object ):
 
             if term in ( 'x', 'y', 'z' ) and not valueList:
                 self.code += term
+                emptyFunction = False
+
             elif term in constants:
                 function = constants[ term ].function.__name__
                 debugPrint( 'function', function )
@@ -797,6 +802,7 @@ class RPNFunction( object ):
 
                 if not valueList:
                     self.code += function
+                    emptyFunction = False
             elif term == '[':
                 listArgs.append( [ ] )
                 listDepth += 1
@@ -866,6 +872,7 @@ class RPNFunction( object ):
 
                 if not valueList:
                     self.code += function
+                    emptyFunction = False
             elif term in listOperators:
                 function = listOperators[ term ].function.__name__
                 debugPrint( 'function', function )
@@ -909,6 +916,7 @@ class RPNFunction( object ):
 
                 if not valueList:
                     self.code += function
+                    emptyFunction = False
             elif term[ 0 ] == '@' and term[ 1 : ] in g.userFunctions:
                 function2 = g.userFunctions[ term[ 1 : ] ].getCode( )
                 debugPrint( 'function:', function2 )
@@ -947,6 +955,7 @@ class RPNFunction( object ):
 
                 if not valueList:
                     self.code += function2
+                    emptyFunction = False
             elif term[ 0 ] == '$' and term[ 1 : ] in g.userVariables:
                 if listDepth > 0:
                     listArgs[ listDepth - 1 ].append( g.userVariables[ term[ 1 : ] ] )
@@ -961,6 +970,10 @@ class RPNFunction( object ):
                 else:
                     args.append( term )
 
+        if emptyFunction:
+            self.code += args[ 0 ]
+
+        debugPrint( 'args:', args )
         debugPrint( 'valueList:', self.valueList[ self.startingIndex : ] )
         debugPrint( 'code:', self.code )
 
@@ -1126,6 +1139,28 @@ def evaluateRecurrence( start, count, func ):
 
 # //******************************************************************************
 # //
+# //  repeatGenerator
+# //
+# //******************************************************************************
+
+def repeatGenerator( n, func ):
+    for i in arange( 0, n ):
+        yield func.evaluate( )
+
+
+# //******************************************************************************
+# //
+# //  repeatGenerator
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def repeat( n, func ):
+    return RPNGenerator( repeatGenerator( n, func ) )
+
+
+# //******************************************************************************
+# //
 # //  filterList
 # //
 # //******************************************************************************
@@ -1182,6 +1217,20 @@ def forEach( list, func ):
 
     for i in list:
         yield func.evaluate( *i )
+
+
+# //******************************************************************************
+# //
+# //  forEachList
+# //
+# //******************************************************************************
+
+def forEachList( list, func ):
+    if not isinstance( func, RPNFunction ):
+        raise ValueError( '\'for_each_list\' expects a function argument' )
+
+    for i in list:
+        yield func.evaluate( i )
 
 
 # //******************************************************************************
@@ -1816,7 +1865,10 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
             # handle a user-defined function
             if isinstance( currentValueList[ -1 ], RPNFunction ):
-                if currentValueList[ -1 ].argCount == 1:
+                if currentValueList[ -1 ].argCount == 0:
+                    if not operators[ 'eval0' ].evaluate( 'eval0', index, currentValueList ):
+                        return False
+                elif currentValueList[ -1 ].argCount == 1:
                     if not operators[ 'eval' ].evaluate( 'eval', index, currentValueList ):
                         return False
                 elif currentValueList[ -1 ].argCount == 2:
@@ -1931,6 +1983,10 @@ def createUserFunction( key, func ):
     return key
 
 
+@oneArgFunctionEvaluator( )
+def evaluateFunction0( func ):
+    return func.evaluate( )
+
 @twoArgFunctionEvaluator( )
 def evaluateFunction( n, func ):
     return func.evaluate( n )
@@ -1996,6 +2052,7 @@ def createSizedRangeOperator( a, b, c ):
 
 functionOperators = [
     'break_on',
+    'eval0',
     'eval',
     'eval2',
     'eval3',
@@ -2005,6 +2062,7 @@ functionOperators = [
     'filter',
     'filter_by_index',
     'for_each',
+    'for_each_list',
     'function',
     'limit',
     'limitn',
@@ -2014,6 +2072,7 @@ functionOperators = [
     'plot2',
     'plotc',
     'recurrence',
+    'repeat',
     'unfilter',
     'unfilter_by_index',
 ]
@@ -2192,6 +2251,9 @@ listOperators = {
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
     'for_each'              : RPNOperator( lambda n, k: RPNGenerator( forEach( n, k ) ),
+                                           2, [ RPNOperator.List, RPNOperator.Function ] ),
+
+    'for_each_list'         : RPNOperator( lambda n, k: RPNGenerator( forEachList( n, k ) ),
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
     'unfilter'              : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k, True ) ),
@@ -3381,6 +3443,9 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     # function
+    'eval0'                           : RPNOperator( evaluateFunction0,
+                                                    1, [ RPNOperator.Function ] ),
+
     'eval'                           : RPNOperator( evaluateFunction,
                                                     2, [ RPNOperator.Default, RPNOperator.Function ] ),
 
@@ -3434,6 +3499,9 @@ operators = {
 
     'recurrence'                     : RPNOperator( evaluateRecurrence,
                                                     3, [ RPNOperator.Default, RPNOperator.PositiveInteger, RPNOperator.Function ] ),
+
+    'repeat'                        : RPNOperator( repeat,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.Function ] ),
 
 
     # geography
