@@ -5624,10 +5624,10 @@ and seconds.
 
 
     'eval' : [
-'functions', 'evaluates the function n for the given argument[s] k',
+'functions', 'evaluates the function n for the given argument k',
 '''
 'eval' is the simplest operator for user-defined functions.  It just plugs
-in the value n into the function k and returns the result.
+in the value n into the one-argument function k and returns the result.
 ''',
 '''
 ''' + makeCommandExample( '3 lambda x 2 * eval' ) + '''

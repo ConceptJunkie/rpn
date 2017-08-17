@@ -844,13 +844,13 @@ class RPNFunction( object ):
 
                 if listDepth > 0:
                     if len( listArgs[ listDepth - 1 ] ) < operands:
-                        raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
+                        raise ValueError( '\'{0}\' expects {1} operands'.format( term, operands ) )
 
                     for i in range( 0, operands ):
                         argList.insert( 0, listArgs[ listDepth - 1 ].pop( ) )
                 else:
                     if len( args ) < operands:
-                        raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
+                        raise ValueError( '\'{0}\' expects {1} operands'.format( term, operands ) )
 
                     for i in range( 0, operands ):
                         argList.insert( 0, args.pop( ) )
@@ -894,7 +894,7 @@ class RPNFunction( object ):
                 operands = listOperators[ term ].argCount
 
                 if len( args ) < operands:
-                    raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
+                    raise ValueError( '\'{0}\' expects {1} operands'.format( term, operands ) )
 
                 for i in range( 0, operands ):
                     argList.insert( 0, args.pop( ) )
@@ -933,7 +933,7 @@ class RPNFunction( object ):
                 operands = g.userFunctions[ term[ 1 : ] ].argCount
 
                 if len( args ) < operands:
-                    raise ValueError( '{1} expects {2} operands'.format( term, operands ) )
+                    raise ValueError( '{0} expects {1} operands'.format( term, operands ) )
 
                 for i in range( 0, operands ):
                     argList.insert( 0, args.pop( ) )

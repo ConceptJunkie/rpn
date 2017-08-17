@@ -138,9 +138,9 @@ class Polynomial( object ):
                 if po == 0:
                     po = ''
                 elif po == 1:
-                    po = 'X'
+                    po = 'x'
                 else:
-                    po = 'X^' + str( po )
+                    po = 'x^' + str( po )
 
                 res.append( str( co ) + po )
 
