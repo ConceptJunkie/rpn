@@ -2202,6 +2202,22 @@ In addition to numbers, 'sum' can also add up a list of measurements.
 # //
 # //******************************************************************************
 
+    'angular_separation' : [
+'astronomy', 'returns the angular separation of astronomical objects a and b, at location c, for date-time d in radians',
+'''
+''',
+'''
+''',
+[ 'sky_location' ] ],
+
+    'angular_size' : [
+'astronomy', 'returns the angular size of astronomical object a, at location b, for date-time c in radians',
+'''
+''',
+'''
+''',
+[ 'sky_location' ] ],
+
     'antitransit_time' : [
 'astronomy', 'calculates the duration of time from the next setting until the subseqent rising of a body'
 '''
@@ -2266,7 +2282,7 @@ This is also the amount of time between sunrise and sunset.
 ''',
 '''
 ''',
-[ 'sky_location' ] ],
+[ 'sky_location', 'angular_size' ] ],
 
     'dusk' : [
 'astronomy', 'calculates the next dusk time at location n for date-time k',
@@ -2279,6 +2295,16 @@ center of the sun is 6 degrees below the horizon.
 ''' + makeCommandExample( '"Napoli, Italy" 2017-05-14 nautical_dusk' ) + '''
 ''' + makeCommandExample( '"Napoli, Italy" 2017-05-14 dusk' ),
 [ 'day_time', 'dawn', 'transit_time', 'antitransit_time', 'night_time' ] ],
+
+    'eclipse_totality' : [
+'astronomy', 'returns the percentage of the eclipsed body that is covered by the eclipsing body',
+'''
+a and b are the two bodies in question (in any order), c is the location and d
+is the time.
+''',
+'''
+''',
+[ 'sky_location', 'angular_size', 'angular_separation' ] ],
 
     'moonrise' : [
 'astronomy', 'calculates the next moonrise time at location n for date-time k',
@@ -2495,12 +2521,15 @@ This is also the amount of time between sunset and sunrise.
 [ 'next_transit', 'previous_rising', 'previous_setting', 'previous_antitransit' ] ],
 
     'sky_location' : [
-'astronomy', 'returns the sky location of astronomical object n for date-time k',
+'astronomy', 'returns the sky location of astronomical object a, at location b, for date-time c',
 '''
+The location is returned as a list where the elements represent the azimuth and
+altitude in degrees.  Azimuth corresponds to compass direction, and altitude ranges
+from 0 degrees at the horizon to 90 degrees at zenith and -90 degrees at nadir.
 ''',
 '''
 ''',
-[ 'distance_from_earth' ] ],
+[ 'distance_from_earth', 'angular_size' ] ],
 
     'solar_noon' : [
 'astronomy', 'calculates the next solar noon time at location n for date-time k',

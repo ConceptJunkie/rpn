@@ -287,7 +287,7 @@ def formatUnits( measurement ):
     if unitName is not None:
         unitString = ''
 
-        if mpf( -1.0 ) < value > mpf( 1.0 ):
+        if mpf( -1.0 ) < value > mpf( 1.0 ) or value == 0:
             tempString = measurement.getPluralUnitName( )
         else:
             tempString = unitName

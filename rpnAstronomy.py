@@ -14,7 +14,7 @@
 
 import ephem
 
-from mpmath import fdiv, fmul, mpmathify, pi
+from mpmath import acos, fabs, fadd, fdiv, fmul, fsub, mpmathify, pi, power, sqrt
 from pytz import timezone
 
 from rpnDateTime import RPNDateTime
@@ -39,7 +39,7 @@ def getVernalEquinox( n ):
     return result.getLocalTime( )
 
 
-# //******************************************************************************
+# //*****************************************************************************
 # //
 # //  getSummerSolstice
 # //
@@ -154,15 +154,68 @@ def getMoonPhase( n ):
 # //
 # //******************************************************************************
 
-@twoArgFunctionEvaluator( )
-def getSkyLocation( n, k ):
-    '''Returns the location of an astronomical object in the sky in terms of right ascension and declination.'''
-    if not isinstance( n, ephem.Body ) or not isinstance( k, RPNDateTime ):
-        raise ValueError( '\'sky_location\' expects an astronomical object and a date-time' )
+def getSkyLocation( body, location, date ):
+    '''Returns the location of an astronomical object in the sky in terms of azimuth and altitude.'''
+    if isinstance( location, str ):
+        location = getLocation( location )
 
-    n.compute( k.to( 'utc' ).format( ) )
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
 
-    return [ fdiv( fmul( mpmathify( n.ra ), 180 ), pi ), fdiv( fmul( mpmathify( n.dec ), 180 ), pi ) ]
+    location.observer.date = date.to( 'utc' ).format( )
+
+    body.compute( location.observer )
+
+    return [ RPNMeasurement( fdiv( fmul( mpmathify( body.az ), 180 ), pi ), 'degree' ),
+             RPNMeasurement( fdiv( fmul( mpmathify( body.alt ), 180 ), pi ), 'degree' ) ]
+
+
+# //******************************************************************************
+# //
+# //  getAngularSize
+# //
+# //******************************************************************************
+
+def getAngularSize( body, location, date ):
+    '''Returns the angular size of an astronomical object in radians.'''
+    if isinstance( location, str ):
+        location = getLocation( location )
+
+    if not isinstance( body, ephem.Body ) or not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected an astronomical object, a location and a date-time' )
+
+    location.observer.date = date.to( 'utc' ).format( )
+
+    body.compute( location.observer )
+
+    # I have no idea why size seems to return the value in arcseconds... that
+    # goes against the pyephem documentation that it always uses radians for angles.
+    return RPNMeasurement( fdiv( fmul( fdiv( body.size, 3600 ), pi ), 180 ), 'radian' )
+
+
+# //******************************************************************************
+# //
+# //  getAngularSeparation
+# //
+# //******************************************************************************
+
+def getAngularSeparation( body1, body2, location, date ):
+    '''Returns the angular size of an astronomical object in radians.'''
+    if isinstance( location, str ):
+        location = getLocation( location )
+
+    if not isinstance( body1, ephem.Body ) or not isinstance( body2, ephem.Body ) and \
+       not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected two astronomical objects, a location and a date-time' )
+
+    location.observer.date = date.to( 'utc' ).format( )
+
+    body1.compute( location.observer )
+    body2.compute( location.observer )
+
+    separation = ephem.separation( ( body1.az, body1.alt ), ( body2.az, body2.alt ) )
+
+    return RPNMeasurement( separation, 'radian' )
 
 
 # //******************************************************************************
@@ -569,4 +622,79 @@ def getDistanceFromEarth( n, k ):
     n.compute( k.to( 'utc' ).format( ) )
 
     return RPNMeasurement( n.earth_distance * ephem.meters_per_au, 'meters' )
+
+
+# //******************************************************************************
+# //
+# //  getCircleIntersectionTerm
+# //
+# //  http://mathworld.wolfram.com/Circle-CircleIntersection.html
+# //
+# //******************************************************************************
+
+def getCircleIntersectionTerm( radius1, radius2, separation ):
+    distance = fdiv( fadd( fsub( power( separation, 2 ), power( radius1, 2 ) ),
+                           power( radius2, 2 ) ),
+                     fmul( 2, separation ) )
+
+    #print( 'radius1', radius1 )
+    #print( 'radius2', radius2 )
+    #print( 'distance', distance )
+    #print( 'radius1 - distance', fsub( radius1, distance ) )
+    #print( 'radius1^2 - distance^2', fsub( power( radius1, 2 ), power( distance, 2 ) ) )
+    #print( )
+
+    if power( distance, 2 ) > power( radius1, 2 ):
+        return fmul( power( radius1, 2 ), fdiv( pi, 2 ) )
+
+    return fsub( fmul( power( radius1, 2 ), acos( fdiv( distance, radius1 ) ) ),
+                 fmul( distance, sqrt( fsub( power( radius1, 2 ), power( distance, 2 ) ) ) ) )
+
+
+# //******************************************************************************
+# //
+# //  getEclipseTotality
+# //
+# //******************************************************************************
+
+def getEclipseTotality( body1, body2, location, date ):
+    '''Returns the angular size of an astronomical object in radians.'''
+    if isinstance( location, str ):
+        location = getLocation( location )
+
+    if not isinstance( body1, ephem.Body ) or not isinstance( body2, ephem.Body ) and \
+       not isinstance( location, RPNLocation ) or not isinstance( date, RPNDateTime ):
+        raise ValueError( 'expected two astronomical objects, a location and a date-time' )
+
+    location.observer.date = date.to( 'utc' ).format( )
+
+    body1.compute( location.observer )
+    body2.compute( location.observer )
+
+    separation = mpmathify( ephem.separation( ( body1.az, body1.alt ), ( body2.az, body2.alt ) ) )
+
+    radius1 = fdiv( fdiv( fmul( fdiv( body1.size, 3600 ), pi ), 180 ), 2 )
+    radius2 = fdiv( fdiv( fmul( fdiv( body2.size, 3600 ), pi ), 180 ), 2 )
+
+    if separation > fadd( radius1, radius2 ):
+        return 0
+
+    distance1 = body1.earth_distance
+    distance2 = body2.earth_distance
+
+    area1 = fmul( pi, power( radius1, 2 ) )
+    area2 = fmul( pi, power( radius2, 2 ) )
+
+    area_of_intersection = fadd( getCircleIntersectionTerm( radius1, radius2, separation ),
+                                 getCircleIntersectionTerm( radius2, radius1, separation ) )
+
+    if distance1 > distance2:
+        result = fdiv( area_of_intersection, area1 )
+    else:
+        result = fdiv( area_of_intersection, area2 )
+
+    if result > 1:
+        return 1
+    else:
+        return result
 

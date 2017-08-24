@@ -2613,6 +2613,14 @@ operators = {
                                                     RPNOperator.measurementsAllowed ),
 
     # astronomy
+    'angular_separation'             : RPNOperator( getAngularSeparation,
+                                                    4, [ RPNOperator.AstronomicalObject, RPNOperator.AstronomicalObject,
+                                                         RPNOperator.Location, RPNOperator.DateTime ] ),
+
+    'angular_size'                   : RPNOperator( getAngularSize,
+                                                    3, [ RPNOperator.AstronomicalObject, RPNOperator.Location,
+                                                         RPNOperator.DateTime ] ),
+
     'antitransit_time'               : RPNOperator( getAntitransitTime,
                                                     3, [ RPNOperator.AstronomicalObject, RPNOperator.Location,
                                                          RPNOperator.DateTime ] ),
@@ -2637,6 +2645,10 @@ operators = {
 
     'dusk'                           : RPNOperator( getNextCivilDusk,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
+
+    'eclipse_totality'               : RPNOperator( getEclipseTotality,
+                                                    4, [ RPNOperator.AstronomicalObject, RPNOperator.AstronomicalObject,
+                                                         RPNOperator.Location, RPNOperator.DateTime ] ),
 
     'moonrise'                       : RPNOperator( getNextMoonRise,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
@@ -2719,7 +2731,8 @@ operators = {
                                                          RPNOperator.DateTime ] ),
 
     'sky_location'                   : RPNOperator( getSkyLocation,
-                                                    2, [ RPNOperator.AstronomicalObject, RPNOperator.DateTime ] ),
+                                                    3, [ RPNOperator.AstronomicalObject, RPNOperator.Location,
+                                                         RPNOperator.DateTime ] ),
 
     'solar_noon'                     : RPNOperator( getSolarNoon,
                                                     2, [ RPNOperator.Location, RPNOperator.DateTime ] ),
