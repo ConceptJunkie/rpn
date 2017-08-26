@@ -1000,6 +1000,12 @@ One centillion:  10e303
                      '''
                      ''' ),
 
+    'watt/volt' :
+        RPNUnitInfo( 'current', 'watt/volt', 'watt/volt', '',
+                     [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
     # data_rate
     'bit/second' :
         RPNUnitInfo( 'data_rate', 'bit/second', 'bits/second', 'bps',
@@ -2508,6 +2514,12 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     # power
+    'ampere-volt' :
+        RPNUnitInfo( 'power', 'ampere*volt', 'ampere-volts', 'VA',
+                     [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
     'dBm' :
         RPNUnitInfo( 'power', 'dBm', 'dBm', 'dBm',
                      [ 'dBmW', 'decibel-milliwatt' ], [ 'engineering' ],
@@ -2559,12 +2571,6 @@ This conversion is required to do mass-energy equivalence calculations.
     'poncelet' :
         RPNUnitInfo( 'power', 'poncelet', 'poncelets', '',
                      [ ], [ 'obsolete' ],
-                     '''
-                     ''' ),
-
-    'volt-ampere' :
-        RPNUnitInfo( 'power', 'volt*ampere', 'volt-amperes', 'VA',
-                     [ ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -3860,6 +3866,7 @@ unitConversionMatrix = {
     ( 'aln',                        'inch' )                                : mpmathify( '23.377077865' ),
     ( 'ampere',                     'coulomb/second' )                      : mpmathify( '1' ),
     ( 'ampere',                     'statampere' )                          : mpmathify( '299792458' ),
+    ( 'ampere',                     'watt/volt' )                           : mpmathify( '1' ),
     ( 'ampere-second-volt',         'joule' )                               : mpmathify( '1' ),
     ( 'arcminute',                  'arcsecond' )                           : mpmathify( '60' ),
     ( 'are',                        'square_meter' )                        : mpmathify( '100' ),
@@ -3994,8 +4001,8 @@ unitConversionMatrix = {
     ( 'hefnerkerze',                'candela' )                             : mpmathify( '0.920' ),  # approx.
     ( 'henry',                      'abhenry' )                             : mpmathify( '1.0e9' ),
     ( 'henry',                      'weber/ampere' )                        : mpmathify( '1' ),
-    ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
     ( 'hertz',                      '1/second' )                            : mpmathify( '1' ),
+    ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
     ( 'homestead',                  'acre' )                                : mpmathify( '160' ),
     ( 'hoppus_ton',                 'cubic_meter' )                         : mpmathify( '1.8027' ),
     ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
@@ -4288,7 +4295,8 @@ unitConversionMatrix = {
     ( 'vigintillion',               'unity' )                               : mpmathify( '1.0e63' ),
     ( 'virgate',                    'bovate' )                              : mpmathify( '30' ),
     ( 'volt',                       'abvolt' )                              : mpmathify( '1.0e8' ),
-    ( 'volt-ampere',                'watt' )                                : mpmathify( '1' ),
+    ( 'volt',                       'watt/ampere' )                         : mpmathify( '1' ),
+    ( 'ampere-volt',                'watt' )                                : mpmathify( '1' ),
     ( 'volt-coulomb',               'joule' )                               : mpmathify( '1' ),
     ( 'watt',                       'erg/second' )                          : mpmathify( '1.0e7' ),
     ( 'watt',                       'kilogram-meter^2/second^3' )           : mpmathify( '1' ),

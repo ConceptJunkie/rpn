@@ -720,7 +720,7 @@ def runAstronomyOperatorTests( ):
     testOperator( 'saturn "Leesburg, VA" today next_rising' )
 
     # sky_location
-    testOperator( 'mars now sky_location' )
+    testOperator( 'mars "Leesburg, VA" now sky_location' )
 
     # solar_noon
     testOperator( '"Leesburg, VA" location today solar_noon' )

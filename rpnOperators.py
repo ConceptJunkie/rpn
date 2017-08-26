@@ -780,7 +780,6 @@ class RPNFunction( object ):
             if term in ( 'x', 'y', 'z' ) and not valueList:
                 self.code += term
                 emptyFunction = False
-
             elif term in constants:
                 function = constants[ term ].function.__name__
                 debugPrint( 'function', function )
@@ -822,6 +821,7 @@ class RPNFunction( object ):
                 del listArgs[ listDepth - 1 ]
 
                 listDepth -= 1
+            #elif term in specialFormatOperators:
             elif term in operators:
                 function = operators[ term ].function.__name__
                 debugPrint( 'function', function )
@@ -2040,6 +2040,20 @@ def createIntervalRangeOperator( a, b, c ):
 
 def createSizedRangeOperator( a, b, c ):
     return RPNGenerator.createSizedRange( a, b, c )
+
+
+# //******************************************************************************
+# //
+# //  specialFormatOperators
+# //
+# //******************************************************************************
+
+specialFormatOperators = {
+    'and'       : '( {0} and {1} )',
+    'nand'      : '( not ( {0} and {1} ) )',
+    'or'        : '( {0} or {1} )',
+    'nor'       : '( not ( {0} or {1} ) )',
+}
 
 
 # //******************************************************************************
