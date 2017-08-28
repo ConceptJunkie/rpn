@@ -364,6 +364,11 @@ def runArithmeticOperatorTests( ):
     expectException( '4 cups 1 mile is_greater' )
 
     # is_integer
+    expectResult( '1 is_integer', 1 )
+    expectResult( '3 2 i + is_integer', 1 )
+    expectResult( '3 2.5 i + is_integer', 0 )
+    expectResult( '3.5 2 i + is_integer', 0 )
+    expectResult( '3.5 is_integer', 0 )
 
     # is_less
     expectResult( '4 3 is_less', 0 )
@@ -421,6 +426,8 @@ def runArithmeticOperatorTests( ):
     expectException( '5 i 3 + is_odd' )
 
     # is_power
+    expectResult( '1024 is_power', 1 )
+    expectResult( '65 is_power', 0 )
 
     # is_square
     expectResult( '1024 is_square', 1 )
@@ -574,6 +581,10 @@ def runArithmeticOperatorTests( ):
 # //******************************************************************************
 
 def runAstronomyOperatorTests( ):
+    # angular_separation
+
+    # angular_size
+
     # antitransit_time
     testOperator( 'moon "Calais, France" location today antitransit_time' )
     testOperator( 'sun "Calais, France" today antitransit_time' )
@@ -599,25 +610,21 @@ def runAstronomyOperatorTests( ):
     testOperator( '"Nice, France" today day_time' )
     testOperator( '"Allentown, PA" 1975-03-31 0 20 range days + day_time' )
 
+    # distance_from_earth
+
     # dusk
     testOperator( '"Vienna, Austria" location today dusk' )
     testOperator( '"Vienna, Austria" today dusk' )
 
-    # jupiter
-    testOperator( 'jupiter "Ottawa, Canada" location today next_setting' )
-    testOperator( 'jupiter "Ottawa, Canada" today next_setting' )
+    # eclipse_totality
 
-    # mars
-    testOperator( 'mars "Beijing, China" location today next_transit' )
-    testOperator( 'mars "Beijing, China" today next_transit' )
+    # moonrise
+    testOperator( '"Las Cruces, NM" location today moonrise' )
+    testOperator( '"Las Cruces, NM" today moonrise' )
 
-    # mercury
-    testOperator( 'mercury "Los Angeles, CA" location today next_rising' )
-    testOperator( 'mercury "Los Angeles, CA" today next_rising' )
-
-    # moon
-    testOperator( 'saturn "Burlington, VT" location today next_antitransit' )
-    testOperator( 'saturn "Burlington, VT" today next_antitransit' )
+    # moonset
+    testOperator( '"Tacoma, WA" location today moonset' )
+    testOperator( '"Tacoma, WA" today moonset' )
 
     # moon_antitransit
     testOperator( '"Madrid, Spain" location today moon_antitransit' )
@@ -630,14 +637,6 @@ def runAstronomyOperatorTests( ):
     testOperator( '"Riga, Latvia" location today moon_transit' )
     testOperator( '"Riga, Latvia" today moon_transit' )
 
-    # moonrise
-    testOperator( '"Las Cruces, NM" location today moonrise' )
-    testOperator( '"Las Cruces, NM" today moonrise' )
-
-    # moonset
-    testOperator( '"Tacoma, WA" location today moonset' )
-    testOperator( '"Tacoma, WA" today moonset' )
-
     # nautical_dawn
     testOperator( '"Columbia, SC" location today nautical_dawn' )
     testOperator( '"Columbia, SC" today nautical_dawn' )
@@ -645,10 +644,6 @@ def runAstronomyOperatorTests( ):
     # nautical_dusk
     testOperator( '"Norfolk, VA" location today nautical_dusk' )
     testOperator( '"Norfolk, VA" today nautical_dusk' )
-
-    # neptune
-    testOperator( 'neptune "Hatfield, PA" location now next_rising' )
-    testOperator( 'neptune "Hatfield, PA" now next_rising' )
 
     # next_antitransit
     testOperator( 'saturn "Blacksburg, VA" location today next_antitransit' )
@@ -683,10 +678,6 @@ def runAstronomyOperatorTests( ):
     testOperator( '"Nice, France" today night_time' )
     testOperator( '"Cologne, Germany" 2015 winter 1 20 range days + night_time' )
 
-    # pluto
-    testOperator( 'pluto "Johannesburg, South Africa" location now next_rising' )
-    testOperator( 'pluto "Johannesburg, South Africa" now next_rising' )
-
     # previous_antitransit
     testOperator( 'neptune "Leesburg, VA" location now previous_antitransit' )
     testOperator( 'neptune "Leesburg, VA" now previous_antitransit' )
@@ -715,10 +706,6 @@ def runAstronomyOperatorTests( ):
     testOperator( 'mercury "Leesburg, VA" location now previous_transit' )
     testOperator( 'mercury "Leesburg, VA" now previous_transit' )
 
-    # saturn
-    testOperator( 'saturn "Leesburg, VA" location today next_rising' )
-    testOperator( 'saturn "Leesburg, VA" today next_rising' )
-
     # sky_location
     testOperator( 'mars "Leesburg, VA" now sky_location' )
 
@@ -729,14 +716,6 @@ def runAstronomyOperatorTests( ):
     # summer_solstice
     testOperator( '2015 summer_solstice' )
 
-    # sun
-    testOperator( 'sun "Leesburg, VA" location today next_rising' )
-    testOperator( 'sun "Leesburg, VA" today next_rising' )
-
-    # sun_antitransit
-    testOperator( '"Leesburg, VA" location today sun_antitransit' )
-    testOperator( '"Leesburg, VA" today sun_antitransit' )
-
     # sunrise
     testOperator( '"Salzburg, Germany" location today sunrise' )
     testOperator( '"Salzburg, Germany" today sunrise' )
@@ -745,24 +724,61 @@ def runAstronomyOperatorTests( ):
     testOperator( '"New Delhi, India" location today sunset' )
     testOperator( '"New Delhi, India" today sunset' )
 
+    # sun_antitransit
+    testOperator( '"Leesburg, VA" location today sun_antitransit' )
+    testOperator( '"Leesburg, VA" today sun_antitransit' )
+
     # transit_time
     testOperator( 'sun "Munich, Germany" location today transit_time' )
     testOperator( 'moon "Dusseldorf, Germany" today transit_time' )
     testOperator( 'mars "Dortmund, Germany" 2015 summer 1 20 range days + transit_time' )
-
-    # uranus
-    testOperator( 'uranus "Frankfurt, Germany" location today next_rising' )
-    testOperator( 'uranus "Frankfurt, Germany" today next_rising' )
-
-    # venus
-    testOperator( 'venus "Butte, Montana" location today next_rising' )
-    testOperator( 'venus "Butte, Montana" today next_rising' )
 
     # vernal_equinox
     testOperator( '2015 vernal_equinox' )
 
     # winter_solstice
     testOperator( '2015 winter_solstice' )
+
+    # heavenly body operators
+    # sun
+    testOperator( 'sun "Leesburg, VA" location today next_rising' )
+    testOperator( 'sun "Leesburg, VA" today next_rising' )
+
+    # mercury
+    testOperator( 'mercury "Los Angeles, CA" location today next_rising' )
+    testOperator( 'mercury "Los Angeles, CA" today next_rising' )
+
+    # venus
+    testOperator( 'venus "Butte, Montana" location today next_rising' )
+    testOperator( 'venus "Butte, Montana" today next_rising' )
+
+    # moon
+    testOperator( 'saturn "Burlington, VT" location today next_antitransit' )
+    testOperator( 'saturn "Burlington, VT" today next_antitransit' )
+
+    # mars
+    testOperator( 'mars "Beijing, China" location today next_transit' )
+    testOperator( 'mars "Beijing, China" today next_transit' )
+
+    # jupiter
+    testOperator( 'jupiter "Ottawa, Canada" location today next_setting' )
+    testOperator( 'jupiter "Ottawa, Canada" today next_setting' )
+
+    # saturn
+    testOperator( 'saturn "Leesburg, VA" location today next_rising' )
+    testOperator( 'saturn "Leesburg, VA" today next_rising' )
+
+    # uranus
+    testOperator( 'uranus "Frankfurt, Germany" location today next_rising' )
+    testOperator( 'uranus "Frankfurt, Germany" today next_rising' )
+
+    # neptune
+    testOperator( 'neptune "Hatfield, PA" location now next_rising' )
+    testOperator( 'neptune "Hatfield, PA" now next_rising' )
+
+    # pluto
+    testOperator( 'pluto "Johannesburg, South Africa" location now next_rising' )
+    testOperator( 'pluto "Johannesburg, South Africa" now next_rising' )
 
 
 # //******************************************************************************
@@ -840,6 +856,7 @@ def runCalendarOperatorTests( ):
     testOperator( '2015 election_day' )
 
     # epiphany
+    testOperator( '2018 epiphany' )
 
     # from_bahai
     testOperator( '172 12 4 from_bahai' )
@@ -863,6 +880,8 @@ def runCalendarOperatorTests( ):
     testOperator( '1394 7 27 from_persian' )
 
     # good_friday
+    testOperator( '2018 good_friday' )
+    testOperator( '2018 good_friday' )
 
     # independence_day
     testOperator( '2017 independence_day' )
@@ -880,6 +899,7 @@ def runCalendarOperatorTests( ):
     testOperator( '2015 memorial_day' )
 
     # new_years_day
+    testOperator( '2018 new_years_day' )
 
     # nth_weekday
     testOperator( '2015 march 4 thursday nth_weekday' )
@@ -961,6 +981,7 @@ def runCalendarOperatorTests( ):
     expectException( '1951-02-29 weekday' )
 
     # weekday_name
+    testOperator( 'today weekday_name' )
 
     # year_calendar
     testOperator( '1965 year_calendar' )

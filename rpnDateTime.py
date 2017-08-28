@@ -847,7 +847,7 @@ def getWeekday( n ):
     if not isinstance( n, RPNDateTime ):
         raise ValueError( 'date/time type required for this operator' )
 
-    return n.weekday( )
+    return n.weekday( ) + 1
 
 
 # //******************************************************************************
@@ -858,7 +858,7 @@ def getWeekday( n ):
 
 @oneArgFunctionEvaluator( )
 def getWeekdayName( n ):
-    return calendar.day_name[ getWeekday( n ) ]
+    return calendar.day_name[ getWeekday( n ) - 1 ]
 
 
 # //******************************************************************************
