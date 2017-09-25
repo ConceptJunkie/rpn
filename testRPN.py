@@ -426,8 +426,8 @@ def runArithmeticOperatorTests( ):
     expectException( '5 i 3 + is_odd' )
 
     # is_power
-    expectResult( '1024 is_power', 1 )
-    expectResult( '65 is_power', 0 )
+    expectResult( '1024 2 is_power', 1 )
+    expectResult( '65 2 is_power', 0 )
 
     # is_square
     expectResult( '1024 is_square', 1 )

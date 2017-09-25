@@ -23,6 +23,7 @@ from rpnTestUtils import *
 
 def runConvertTests( ):
     testOperator( 'barn gigaparsec * cubic_inch convert' )
+    testOperator( 'cubic_inch barn gigaparsec * convert' )
     testOperator( 'earth_radius 2 pi * * miles convert' )
     testOperator( 'gallon cup convert' )
     testOperator( 'marathon miles convert' )
@@ -95,6 +96,9 @@ def runConvertTests( ):
     # lists of units
     testOperator( '1 20 range dBm watt convert' )
     testOperator( '0 5000 284 range2 seconds [ hour minute second ] convert -s1' )
+
+    # special conversions tests
+    testOperator( '0 100 10 range2 dBm watt convert -s1' )
 
 
 # //******************************************************************************

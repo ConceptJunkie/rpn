@@ -502,6 +502,8 @@ and lots of other cool features thanks to the wealth of Python libraries.
     ''',
     'bugs' :
     '''
+-i doesn't work for lists.
+
 It is not currently possible to convert between hertz and 1/second.  The
 dimensional analysis fails.  This is the only instance where two different
 unit types are so related (i.e., one is the reciprocal of the other).

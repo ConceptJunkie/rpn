@@ -311,11 +311,12 @@ def parseDiceExpression( arg ):
 def evaluateDiceExpression( args, sumIfPossible=True ):
     result = [ ]
 
+    if sumIfPossible:
+        result = [ 0 ]
+
     for diceCount, diceValue, dropLowestCount, dropHighestCount, modifier in args:
         if dropLowestCount == 0 and dropHighestCount == 0:
             if sumIfPossible:
-                result = [ 0 ]
-
                 for i in range( 0, diceCount ):
                     result[ 0 ] += ( randrange( diceValue ) + 1 )
             else:

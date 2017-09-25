@@ -44,7 +44,7 @@ import rpnGlobals as g
 
 specialUnitConversionMatrix = {
     ( 'celsius', 'delisle' )                    : lambda c: fmul( fsub( 100, c ), fdiv( 3, 2 ) ),
-    ( 'celsius', 'degrees_newton' )             : lambda c: fmul( c, fdiv( 33, 100 ) ),
+    ( 'celsius', 'degree_newton' )              : lambda c: fmul( c, fdiv( 33, 100 ) ),
     ( 'celsius', 'fahrenheit' )                 : lambda c: fadd( fmul( c, fdiv( 9, 5 ) ), 32 ),
     ( 'celsius', 'kelvin' )                     : lambda c: fadd( c, mpf( '273.15' ) ),
     ( 'celsius', 'rankine' )                    : lambda c: fmul( fadd( c, mpf( '273.15' ) ), fdiv( 9, 5 ) ),
@@ -52,23 +52,23 @@ specialUnitConversionMatrix = {
     ( 'celsius', 'romer' )                      : lambda c: fadd( fmul( c, fdiv( 21, 40 ) ), mpf( '7.5' ) ),
 
     ( 'delisle', 'celsius' )                    : lambda d: fsub( 100, fmul( fdiv( 2, 3 ), d ) ),
-    ( 'delisle', 'degrees_newton' )             : lambda d: fsub( 33, fmul( d, fdiv( 11, 50 ) ) ),
+    ( 'delisle', 'degree_newton' )              : lambda d: fsub( 33, fmul( d, fdiv( 11, 50 ) ) ),
     ( 'delisle', 'fahrenheit' )                 : lambda d: fsub( 212, fmul( fdiv( 6, 5 ), d ) ),
     ( 'delisle', 'kelvin' )                     : lambda d: fsub( mpf( '373.15' ), fmul( fdiv( 2, 3 ), d ) ),
     ( 'delisle', 'rankine' )                    : lambda d: fsub( mpf( '671.67' ), fmul( fdiv( 6, 5 ), d ) ),
     ( 'delisle', 'reaumur' )                    : lambda d: fsub( 80, fmul( d, fdiv( 8, 15 ) ) ),
     ( 'delisle', 'romer' )                      : lambda d: fsub( 60, fmul( d, fdiv( 7, 20 ) ) ),
 
-    ( 'degrees_newton', 'celsius' )             : lambda n: fmul( n, fdiv( 100, 33 ) ),
-    ( 'degrees_newton', 'delisle' )             : lambda n: fmul( fsub( 33, n ), fdiv( 50, 11 ) ),
-    ( 'degrees_newton', 'fahrenheit' )          : lambda n: fadd( fmul( n, fdiv( 60, 11 ) ), 32 ),
-    ( 'degrees_newton', 'kelvin' )              : lambda n: fadd( fmul( n, fdiv( 100, 33 ) ), mpf( '273.15' ) ),
-    ( 'degrees_newton', 'rankine' )             : lambda n: fadd( fmul( n, fdiv( 60, 11 ) ), mpf( '491.67' ) ),
-    ( 'degrees_newton', 'reaumur' )             : lambda n: fmul( n, fdiv( 80, 33 ) ),
-    ( 'degrees_newton', 'romer' )               : lambda n: fadd( fmul( n, fdiv( 35, 22 ) ), mpf( 7.5 ) ),
+    ( 'degree_newton', 'celsius' )              : lambda n: fmul( n, fdiv( 100, 33 ) ),
+    ( 'degree_newton', 'delisle' )              : lambda n: fmul( fsub( 33, n ), fdiv( 50, 11 ) ),
+    ( 'degree_newton', 'fahrenheit' )           : lambda n: fadd( fmul( n, fdiv( 60, 11 ) ), 32 ),
+    ( 'degree_newton', 'kelvin' )               : lambda n: fadd( fmul( n, fdiv( 100, 33 ) ), mpf( '273.15' ) ),
+    ( 'degree_newton', 'rankine' )              : lambda n: fadd( fmul( n, fdiv( 60, 11 ) ), mpf( '491.67' ) ),
+    ( 'degree_newton', 'reaumur' )              : lambda n: fmul( n, fdiv( 80, 33 ) ),
+    ( 'degree_newton', 'romer' )                : lambda n: fadd( fmul( n, fdiv( 35, 22 ) ), mpf( 7.5 ) ),
 
     ( 'fahrenheit', 'celsius' )                 : lambda f: fmul( fsub( f, 32 ), fdiv( 5, 9 ) ),
-    ( 'fahrenheit', 'degrees_newton' )          : lambda f: fmul( fsub( f, 32 ), fdiv( 11, 60 ) ),
+    ( 'fahrenheit', 'degree_newton' )           : lambda f: fmul( fsub( f, 32 ), fdiv( 11, 60 ) ),
     ( 'fahrenheit', 'delisle' )                 : lambda f: fmul( fsub( 212, f ), fdiv( 5, 6 ) ),
     ( 'fahrenheit', 'kelvin' )                  : lambda f: fadd( fmul( fsub( f, 32 ), fdiv( 5, 9 ) ), mpf( '273.15' ) ),
     ( 'fahrenheit', 'rankine' )                 : lambda f: fadd( f, mpf( '459.67' ) ),
@@ -76,7 +76,7 @@ specialUnitConversionMatrix = {
     ( 'fahrenheit', 'romer' )                   : lambda f: fadd( fmul( fsub( f, 32 ), fdiv( 7, 24 ) ), mpf( '7.5' ) ),
 
     ( 'kelvin', 'celsius' )                     : lambda k: fsub( k, mpf( '273.15' ) ),
-    ( 'kelvin', 'degrees_newton' )              : lambda k: fmul( fsub( k, mpf( '273.15' ) ), fdiv( 33, 100 ) ),
+    ( 'kelvin', 'degree_newton' )               : lambda k: fmul( fsub( k, mpf( '273.15' ) ), fdiv( 33, 100 ) ),
     ( 'kelvin', 'delisle' )                     : lambda k: fmul( fsub( mpf( '373.15' ), k ), fdiv( 3, 2 ) ),
     ( 'kelvin', 'fahrenheit' )                  : lambda k: fsub( fmul( k, fdiv( 9, 5 ) ), mpf( '459.67' ) ),
     ( 'kelvin', 'rankine' )                     : lambda k: fmul( k, fdiv( 9, 5 ) ),
@@ -84,7 +84,7 @@ specialUnitConversionMatrix = {
     ( 'kelvin', 'romer' )                       : lambda k: fadd( fmul( fsub( k, mpf( '273.15' ) ), fdiv( 21, 40 ) ), mpf( 7.5 ) ),
 
     ( 'rankine', 'celsius' )                    : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 5, 9 ) ),
-    ( 'rankine', 'degrees_newton' )             : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 11, 60 ) ),
+    ( 'rankine', 'degree_newton' )              : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 11, 60 ) ),
     ( 'rankine', 'delisle' )                    : lambda r: fmul( fsub( mpf( '671.67' ), r ), fdiv( 5, 6 ) ),
     ( 'rankine', 'fahrenheit' )                 : lambda r: fsub( r, mpf( '459.67' ) ),
     ( 'rankine', 'kelvin' )                     : lambda r: fmul( r, fdiv( 5, 9 ) ),
@@ -92,7 +92,7 @@ specialUnitConversionMatrix = {
     ( 'rankine', 'romer' )                      : lambda r: fadd( fmul( fsub( r, mpf( '491.67' ) ), fdiv( 7, 24 ) ), mpf( '7.5' ) ),
 
     ( 'reaumur', 'celsius' )                    : lambda re: fmul( re, fdiv( 5, 4 ) ),
-    ( 'reaumur', 'degrees_newton' )             : lambda re: fmul( re, fdiv( 33, 80 ) ),
+    ( 'reaumur', 'degree_newton' )              : lambda re: fmul( re, fdiv( 33, 80 ) ),
     ( 'reaumur', 'delisle' )                    : lambda re: fmul( fsub( 80, re ), fdiv( 15, 8 ) ),
     ( 'reaumur', 'fahrenheit' )                 : lambda re: fadd( fmul( re, fdiv( 9, 4 ) ), 32 ),
     ( 'reaumur', 'kelvin' )                     : lambda re: fadd( fmul( re, fdiv( 5, 4 ) ), mpf( '273.15' ) ),
@@ -100,7 +100,7 @@ specialUnitConversionMatrix = {
     ( 'reaumur', 'romer' )                      : lambda re: fadd( fmul( re, fdiv( 21, 32 ) ), mpf( 7.5 ) ),
 
     ( 'romer', 'celsius' )                      : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 40, 21 ) ),
-    ( 'romer', 'degrees_newton' )               : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 22, 35 ) ),
+    ( 'romer', 'degree_newton' )                : lambda ro: fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 22, 35 ) ),
     ( 'romer', 'delisle' )                      : lambda ro: fmul( fsub( 60, ro ), fdiv( 20, 7 ) ),
     ( 'romer', 'fahrenheit' )                   : lambda ro: fadd( fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 24, 7 ) ), 32 ),
     ( 'romer', 'kelvin' )                       : lambda ro: fadd( fmul( fsub( ro, mpf( '7.5' ) ), fdiv( 40, 21 ) ), mpf( '273.15' ) ),
