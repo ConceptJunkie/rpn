@@ -525,7 +525,7 @@ constants = {
                                                    0, [ ] ),
     'earth_mass'                    : RPNOperator( lambda: RPNMeasurement( '5.9640955e24', 'kilogram' ),
                                                    0, [ ] ),        # based on earth_radius and earth_gravity
-    'earth_radius'                  : RPNOperator( lambda: RPNMeasurement( '6371000.8', 'meter' ),
+    'earth_radius'                  : RPNOperator( lambda: RPNMeasurement( '6371800', 'meter' ),
                                                    0, [ ] ),        # https://en.wikipedia.org/wiki/Earth_radius#Global_average_radii - volumetric radius
     'earth_volume'                  : RPNOperator( lambda: RPNMeasurement( '1.083207324897e21', 'meter^3' ),
                                                    0, [ ] ),        # based on earth_radius
