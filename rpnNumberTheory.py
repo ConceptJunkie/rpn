@@ -821,15 +821,15 @@ def getGCDOfList( args ):
     if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         return [ getGCDOfList( real( arg ) ) for arg in args ]
     else:
-        result = max( args )
+        result = set( )
 
         for pair in itertools.combinations( args, 2 ):
-            gcd = getGCD( *pair )
+            result.add( getGCD( *pair ) )
 
-            if gcd < result:
-                result = gcd
-
-        return result
+        if len( result ) == 1:
+            return result.pop( )
+        else:
+            return getGCDOfList( list( result ) )
 
 @twoArgFunctionEvaluator( )
 def getGCD( n, k ):
@@ -937,7 +937,7 @@ def getFrobeniusNumber( args ):
             a = [ ]
 
             if getGCDOfList( args ) > 1:
-                raise ValueError( "the 'frobenius' operator is only valid for lists of values that contain at least one pair of coprime values" )
+                raise ValueError( "the 'frobenius' operator is only valid for lists of values that have a great common denominator of 1" )
 
             for i in sorted( args ):
                 a.append( int( i ) )
@@ -1951,4 +1951,25 @@ def findNthSumOfSquares( n ):
 @oneArgFunctionEvaluator( )
 def findNthSumOfCubes( n ):
     return fdiv( fsub( sqrt( fadd( fmul( 8, sqrt( n ) ), 1 ) ), 1 ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getDigitalRoot
+# //
+# //  https://en.wikipedia.org/wiki/Digital_root
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getDigitalRoot( n ):
+    if n == 0:
+        return 0
+
+    result = fmod( n, 9 )
+
+    if result == 0:
+        return 9
+    else:
+        return result
 

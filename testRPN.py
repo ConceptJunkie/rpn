@@ -314,6 +314,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '1 100 range gcd', 1 )
     expectResult( '[ 124 324 ] gcd', 4 )
     expectResult( '[ 8 64 ] gcd', 8 )
+    expectResult( '[ 6 10 15 ] gcd', 1 )
+    expectResult( '[ 14 22 77 ] gcd', 1 )
     testOperator( '1 2 10 range range gcd' )
 
     # gcd2
@@ -2636,6 +2638,8 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '-1.1 digamma' )
     expectException( '0 digamma' )
     expectException( '-1 digamma' )
+
+    # digital_root
 
     # divisors
     testOperator( '2 3 ** 3 4 ** * divisors' )

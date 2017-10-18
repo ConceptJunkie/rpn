@@ -3894,6 +3894,9 @@ operators = {
     'digamma'                        : RPNOperator( getDigamma,
                                                     1, [ RPNOperator.Default ] ),
 
+    'digital_root'                   : RPNOperator( getDigitalRoot,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
     'divisors'                       : RPNOperator( getDivisors,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 

@@ -7813,6 +7813,15 @@ This is the equivalent of '0 n polygamma'.
 ''',
 [ ] ],
 
+    'digital_root' : [
+'number_theory', 'returns the digital root of N',
+'''
+https://en.wikipedia.org/wiki/Digital_root
+''',
+'''
+''',
+[ ] ],
+
     'divisors' : [
 'number_theory', 'returns a list of divisors of n',
 '''
