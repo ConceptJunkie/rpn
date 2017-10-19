@@ -341,6 +341,8 @@ def runArithmeticOperatorTests( ):
     expectException( '20 i 4 is_divisible' )
     expectEqual( '0 2810 range lambda x 2 has_digits x 2 is_divisible or filter', '92451 oeis 2001 left' )
     expectEqual( '0 2944 range lambda x 9 has_digits x 9 is_divisible or filter', '92457 oeis 1001 left' )
+    expectEqual( '2 14349 range lambda x 1 + x sum_digits x 2 + sum_digits + is_divisible filter', '127271 oeis 1000 left' )
+
 
     # is_equal
     expectResult( '4 3 is_equal', 0 )
@@ -1943,6 +1945,7 @@ def runFunctionOperatorTests( ):
     expectEqual( '3 99 lambda x get_digits sqr sum recurrence', '218 oeis 100 left' )
     expectEqual( '5 99 lambda x get_digits sqr sum recurrence', '221 oeis 100 left' )
     expectEqual( '-a1000 1 10000 lambda x tan recurrence floor', '319 oeis 10001 left' )
+    expectEqual( '1 310 range lambda 2 x ** get_digits 1 left 2 equals filter', '67469 oeis 56 left' )
 
     # unfilter
     expectEqual( '1 10100 range lambda x is_square unfilter', '37 oeis 10000 left' )
@@ -2260,6 +2263,7 @@ def runLexicographyOperatorTests( ):
 
     # multiply_digits
     expectEqual( '123456789 multiply_digits', '9 !' )
+    expectEqual( '1 33883 range lambda x 0 has_digits not filter lambda x multiply_digits 3 is_power filter', '237767 oeis 1000 left' )
 
     # multiply_digit_powers
 
