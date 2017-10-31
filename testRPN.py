@@ -319,6 +319,7 @@ def runArithmeticOperatorTests( ):
     testOperator( '1 2 10 range range gcd' )
 
     # gcd2
+    testOperator( '123 78 gcd2' )
 
     # geometric_mean
     testOperator( '1 10 range geometric_mean' )
@@ -342,7 +343,6 @@ def runArithmeticOperatorTests( ):
     expectEqual( '0 2810 range lambda x 2 has_digits x 2 is_divisible or filter', '92451 oeis 2001 left' )
     expectEqual( '0 2944 range lambda x 9 has_digits x 9 is_divisible or filter', '92457 oeis 1001 left' )
     expectEqual( '2 14349 range lambda x 1 + x sum_digits x 2 + sum_digits + is_divisible filter', '127271 oeis 1000 left' )
-
 
     # is_equal
     expectResult( '4 3 is_equal', 0 )
@@ -454,6 +454,7 @@ def runArithmeticOperatorTests( ):
     testOperator( '1 1 10 range range lcm' )
 
     # lcm2
+    testOperator( '12 14 lcm2' )
 
     # mantissa
     # This works on the command line, but not here.  I have no idea why.
@@ -1063,6 +1064,9 @@ def runChemistryOperatorTests( ):
     expectException( '0 element_period' )
 
     # element_state
+    testOperator( '1 118 range element_state' )
+    expectException( '119 element_state' )
+    expectException( '0 element_state' )
 
     # molar_mass
     testOperator( 'H2O molar_mass' )
@@ -1158,6 +1162,7 @@ def runCombinatoricsOperatorTests( ):
 
     # narayana
     testOperator( '6 8 narayana' )
+    expectEqual( '-a15 1 27 range lambda x 1 x range narayana eval flatten 364 left', '1263 oeis 364 left' )
 
     # nth_apery
     testOperator( '-a20 12 nth_apery' )
@@ -2785,6 +2790,11 @@ def runNumberTheoryOperatorTests( ):
 
     # is_powerful
     testOperator( '1 20 range is_powerful' )
+
+    expectEqual( '1 1000 range lambda x is_powerful filter', '1694 oeis 54 left' )
+
+    if slow:
+        expectEqual( '1 100000 range lambda x is_powerful filter', '1694 oeis 619 left' )
 
     # is_prime
     testOperator( '1000 1030 range is_prime' )

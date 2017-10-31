@@ -823,6 +823,9 @@ def getGCDOfList( args ):
     else:
         result = set( )
 
+        if len( args ) == 1:
+            return args[ 0 ]
+
         for pair in itertools.combinations( args, 2 ):
             result.add( getGCD( *pair ) )
 
@@ -1369,7 +1372,11 @@ def isKSphenic( n, k ):
     if len( factorList ) != k:
         return 0
 
-    return 1 if max( [ i[ 1 ] for i in factorList ] ) == 1 else 0
+    for i in getFactorList( n ):
+        if i[ 1 ] > 1:
+            return 0
+
+    return 1
 
 @oneArgFunctionEvaluator( )
 def isSphenic( n ):
@@ -1392,7 +1399,11 @@ def isSquareFree( n ):
     if real_int( n ) == 0:
         return 0
 
-    return 1 if max( [ i[ 1 ] for i in getFactorList( n ) ] ) == 1 else 0
+    for i in getFactorList( n ):
+        if i[ 1 ] > 1:
+            return 0
+
+    return 1
 
 
 # //******************************************************************************
@@ -1404,7 +1415,14 @@ def isSquareFree( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'powerful' )
 def isPowerful( n ):
-    return 1 if min( [ i[ 1 ] for i in getFactorList( n ) ] ) >= 2 else 0
+    if real_int( n ) == 1:
+        return 1
+
+    for i in getFactorList( n ):
+        if i[ 1 ] == 1:
+            return 0
+
+    return 1
 
 
 # //******************************************************************************
