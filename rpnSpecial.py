@@ -196,18 +196,18 @@ def downloadOEISTable( id ):
         return [ ], False
 
     import re as regex
-    pattern = regex.compile( b'(.*?)\n', regex.DOTALL )
+    pattern = regex.compile( b'(.*?)[\n]', regex.DOTALL )
     lines = pattern.findall( data )
 
     result = [ ]
 
     for line in lines:
-        line = line.decode( 'ascii' )
+        line = line.decode( 'ascii' ).strip( )
 
         if line == '':
             continue
 
-        if line[ 0 ] == '#':
+        if line[ 0 ] == '#' or len( line ) == 0:
             continue
 
         result.append( int( line.split( )[ 1 ] ) )

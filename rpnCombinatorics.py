@@ -409,7 +409,7 @@ def getMultinomial( args ):
 
 @twoArgFunctionEvaluator( )
 def getLahNumber( n, k ):
-    return fdiv( fmul( binomial( real( n ), real( k ) ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) )
+    return fmul( power( -1, n ), fdiv( fmul( binomial( real( n ), real( k ) ), fac( fsub( n, 1 ) ) ), fac( fsub( k, 1 ) ) ) )
 
 
 # //******************************************************************************
@@ -445,6 +445,9 @@ def getNthCatalanNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def getNthSchroederHipparchusNumber( n ):
+    if n == 0:
+        return 1
+
     result = 0
 
     for i in arange( n ):
