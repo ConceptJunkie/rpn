@@ -472,7 +472,7 @@ def getDodecahedronVolume( n ):
 @oneArgFunctionEvaluator( )
 def getIcosahedronSurfaceArea( n ):
     if not isinstance( n, RPNMeasurement ):
-        return getIcosahedronVolume( RPNMeasurement( real( n ), 'meter' ) )
+        return getIcosahedronSurfaceArea( RPNMeasurement( real( n ), 'meter' ) )
 
     if n.getDimensions( ) != { 'length' : 1 }:
         raise ValueError( '\'icosahedron_area\' argument must be a length' )

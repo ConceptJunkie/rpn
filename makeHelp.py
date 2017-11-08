@@ -7068,10 +7068,11 @@ the bth power.  The list is expanded to contain c items.
 [ 'range', 'geometric_range', 'interval_range', 'sized_range' ] ],
 
     'find' : [
-'list_operators', 'returns the first index of n that equals k',
+'list_operators', 'returns the first index of k that equals n',
 '''
 ''',
 '''
+This used to have the arguments swapped, but that seemed wrong.
 ''',
 [ ] ],
 

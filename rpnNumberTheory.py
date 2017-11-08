@@ -408,7 +408,6 @@ class RPNContinuedFraction( list ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 def convertFromContinuedFraction( n ):
     if not isinstance( n, list ):
         n = [ n ]
@@ -1636,7 +1635,6 @@ def getNthCalkinWilf( n ):
 # //
 # //******************************************************************************
 
-@oneArgFunctionEvaluator( )
 @cachedFunction( 'friendly' )
 def isFriendly( n ):
     first = True

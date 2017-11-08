@@ -2258,7 +2258,7 @@ listOperators = {
     'filter'                : RPNOperator( lambda n, k: RPNGenerator( filterList( n, k ) ),
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
-    'filter_list'           : RPNOperator( lambda n, k: RPNGenerator( filterListofLists( n, k ) ),
+    'filter_list'           : RPNOperator( lambda n, k: RPNGenerator( filterListOfLists( n, k ) ),
                                            2, [ RPNOperator.List, RPNOperator.Function ] ),
 
     'filter_by_index'       : RPNOperator( lambda n, k: RPNGenerator( filterListByIndex( n, k ) ),
@@ -3667,7 +3667,7 @@ operators = {
                                                     1, [ RPNOperator.Integer ] ),
 
     'get_nonzero_base_k_digits'      : RPNOperator( getNonzeroBaseKDigits,
-                                                    1, [ RPNOperator.Integer ] ),
+                                                    2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
 
     'get_nonzero_digits'             : RPNOperator( getNonzeroDigits,
                                                     1, [ RPNOperator.Integer ] ),
@@ -3751,13 +3751,13 @@ operators = {
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'multiply_digit_powers'          : RPNOperator( multiplyDigitPowers,
-                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     'multiply_nonzero_digits'        : RPNOperator( multiplyNonzeroDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'multiply_nonzero_digit_powers'  : RPNOperator( multiplyNonzeroDigitPowers,
-                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     'permute_digits'                 : RPNOperator( permuteDigits,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),

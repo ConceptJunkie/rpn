@@ -1059,9 +1059,9 @@ def getPowerset( n ):
 # //******************************************************************************
 
 @listAndOneArgFunctionEvaluator( )
-def findInList( n, target ):
+def findInList( target, k ):
     try:
-        result = n.index( target )
+        result = k.index( target )
     except:
         return -1
 

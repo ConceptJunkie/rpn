@@ -71,7 +71,7 @@ def getDigits( n ):
 
 @oneArgFunctionEvaluator( )
 def getNonzeroDigits( n ):
-    return getDigitList( dropZeroes = True )
+    return getDigitList( n, dropZeroes = True )
 
 
 # //******************************************************************************
@@ -122,7 +122,7 @@ def getBaseKDigits( n, k ):
 
 @twoArgFunctionEvaluator( )
 def getNonzeroBaseKDigits( n, k ):
-    return getBaseKDigitList( dropZeroes = True )
+    return getBaseKDigitList( n, k, dropZeroes = True )
 
 
 # //******************************************************************************
@@ -186,7 +186,7 @@ def multiplyDigitPowers( n, k ):
 
 @oneArgFunctionEvaluator( )
 def multiplyNonzeroDigits( n ):
-    return multiplyDigitList( n, dropZeros = True )
+    return multiplyDigitList( n, dropZeroes = True )
 
 @twoArgFunctionEvaluator( )
 def multiplyNonzeroDigitPowers( n, k ):
@@ -259,8 +259,10 @@ def combineDigits( n ):
 # //
 # //******************************************************************************
 
-def replaceDigits( n ):
+def replaceDigits( n, source, replace ):
     result = 0
+
+    print( 'Not implemented yet!' )
 
     return result
 
@@ -537,7 +539,7 @@ def isPerfectDigitalInvariant( n ):
 
 @twoArgFunctionEvaluator( )
 def isBaseKNarcissistic( n, k ):
-    digits = getBaseNDigits( real_int( n ), k )
+    digits = getBaseKDigits( real_int( n ), k )
 
     count = len( digits )
 
@@ -576,7 +578,7 @@ def isGeneralizedDudeneyNumber( base, exponent ):
 
 @twoArgFunctionEvaluator( )
 def isPerfectDigitToDigitInvariant( n, k ):
-    digits = getBaseNDigits( real_int( n ), k )
+    digits = getBaseKDigits( real_int( n ), k )
 
     sum = 0
 
@@ -602,7 +604,7 @@ def isPerfectDigitToDigitInvariant( n, k ):
 
 @twoArgFunctionEvaluator( )
 def isSumProductNumber( n, k ):
-    digits = getBaseNDigits( real_int( n ), k )
+    digits = getBaseKDigits( real_int( n ), k )
     sum = fmul( fsum( digits ), fprod( digits ) )
     return 1 if sum == n else 0
 
@@ -617,7 +619,7 @@ def isSumProductNumber( n, k ):
 
 @twoArgFunctionEvaluator( )
 def isHarshadNumber( n, k ):
-    digits = getBaseNDigits( real_int( n ), k )
+    digits = getBaseKDigits( real_int( n ), k )
     return 1 if isDivisible( n, fsum( digits ) ) else 0
 
 
