@@ -585,10 +585,13 @@ def getStandardDeviation( args ):
     elif isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         return [ getStandardDeviation( arg ) for arg in args ]
 
+    if len( args ) < 2:
+        return 0
+
     mean = fsum( args ) / len( args )
 
     dev = [ power( fsub( i, mean ), 2 ) for i in args ]
-    return sqrt( fsum( dev ) / len( dev ) )
+    return sqrt( fdiv( fsum( dev ), fsub( len( dev ), 1 ) ) )
 
 
 # //******************************************************************************

@@ -2456,10 +2456,10 @@ listOperators = {
                                                 RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
     # powers_and_roots
-    'tower'                 : RPNOperator( calculatePowerTower,
+    'power_tower'           : RPNOperator( calculatePowerTower,
                                            1, [ RPNOperator.List ] ),
 
-    'tower2'                : RPNOperator( calculatePowerTower2,
+    'power_tower2'          : RPNOperator( calculatePowerTower2,
                                            1, [ RPNOperator.List ] ),
 
     # special

@@ -1235,7 +1235,7 @@ Calculation (or approximation) of various mathematical constants:
 ''' + makeCommandExample( '-a20 3 zeta', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 apery', indent=8 ) + '''
     An approximation of the Omega Constant
-''' + makeCommandExample( '-a20 [ e 1/x 100 dup ] tower2', indent=8 ) + '''
+''' + makeCommandExample( '-a20 [ e 1/x 100 dup ] power_tower2', indent=8 ) + '''
 ''' + makeCommandExample( '-a20 omega', indent=8 ) + '''
     Liouville Number
 ''' + makeCommandExample( '-a120 1 inf lambda 10 x ! power 1/x nsum', indent=8 ) + '''
@@ -1248,7 +1248,7 @@ Calculation (or approximation) of various mathematical constants:
 ''' + makeCommandExample( '-a7 1 1 100000 primes sqr 1/x - prod', indent=8, slow=True ) + '''
 ''' + makeCommandExample( '2 zeta 1/x', indent=8 ) + '''
     An approximation of the infinite tetration of i
-''' + makeCommandExample( '-a20 [ 1 i 1000 dup ] tower2', indent=8 ) + '''
+''' + makeCommandExample( '-a20 [ 1 i 1000 dup ] power_tower2', indent=8 ) + '''
     Cahen's Constant
 ''' + makeCommandExample( '1 inf lambda x nth_sylvester 1 - 1/x -1 x 1 + ** * nsum', indent=8 ) + '''
     Erdos-Borwein Constant
@@ -9647,6 +9647,23 @@ This operator raises the n to the power of k.
 ''' + makeCommandExample( '1 foot 3 ** gallon convert' ),
 [ 'root', 'square', 'cube', 'tetrate' ] ],
 
+    'power_tower' : [
+'powers_and_roots', 'calculates list n as a power tower',
+'''
+''',
+'''
+''',
+[ 'power_tower2', 'power' ] ],
+
+    'power_tower2' : [
+'powers_and_roots', 'calculates list n as a right-associative power tower',
+'''
+''',
+'''
+''',
+[ 'power_tower', 'power' ] ],
+
+
     'powmod' : [
 'powers_and_roots', 'calculates a to the bth power modulo c',
 '''
@@ -9703,23 +9720,6 @@ itself k times.
 ''' + makeCommandExample( '10 10 tetrate' ) + '''
 ''' + makeCommandExample( '2 1 6 range tetrate' ),
 [ 'power', 'hyper4_2' ] ],
-
-    'tower' : [
-'powers_and_roots', 'calculates list n as a power tower',
-'''
-''',
-'''
-''',
-[ 'tower2', 'power' ] ],
-
-    'tower2' : [
-'powers_and_roots', 'calculates list n as a right-associative power tower',
-'''
-''',
-'''
-''',
-[ 'tower', 'power' ] ],
-
 
 # //******************************************************************************
 # //

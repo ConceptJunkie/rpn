@@ -339,6 +339,9 @@ def runArithmeticOperatorTests( ):
     # gcd2
     testOperator( '123 78 gcd2' )
 
+    expectEqual( '-a4200 0 20000 range lambda x x fib gcd2 eval', '104714 oeis 20001 left' )
+    expectEqual( '-a500 1 1000 range lambda 2 x ** 1 - 3 x ** 1 - gcd2 eval', '86892 oeis 1000 left' )
+
     # geometric_mean
     testOperator( '1 10 range geometric_mean' )
     testOperator( '1 1 10 range range geometric_mean' )
@@ -469,7 +472,6 @@ def runArithmeticOperatorTests( ):
     expectResult( '1024 is_square', 1 )
     expectResult( '5 is_square', 0 )
 
-
     # is_zero
     expectResult( '-1 is_zero', 0 )
     expectResult( '0 is_zero', 1 )
@@ -482,6 +484,11 @@ def runArithmeticOperatorTests( ):
     # lcm
     expectEqual( '1 10 range lcm', '[ 2 2 2 3 3 5 7 ] prod' )
     testOperator( '1 1 10 range range lcm' )
+
+    expectEqual( '-a500 1 300 range lambda 1 x range lcm eval', '3418 oeis 301 left 300 right' )
+
+    if slow:
+        expectEqual( '-a3800 1 2308 range lambda 1 x range lcm eval', '3418 oeis 2309 left 2308 right' )
 
     # lcm2
     testOperator( '12 14 lcm2' )
@@ -521,6 +528,11 @@ def runArithmeticOperatorTests( ):
     expectResult( '8875 49 modulo', 6 )
     expectResult( '199467 8876 modulo', 4195 )
 
+    expectEqual( '1 1000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 1001 less_than filter' )
+
+    if slow:
+        expectEqual( '1 10000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 10001 less_than filter' )
+
     expectException( '20 i 3 modulo' )
 
     # multiply
@@ -533,6 +545,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '0.1 nearest_int', 0 )
     expectResult( '4.5 nearest_int', 4 )
     expectResult( 'pi nearest_int', 3 )
+
+    expectResult( '0 1000 range x phi nearest_int', '7067 oeis 1001 left' )
 
     # negative
     expectResult( '-4 negative', 4 )
@@ -603,6 +617,11 @@ def runArithmeticOperatorTests( ):
     # stddev
     testOperator( '1 10 range stddev' )
     testOperator( '1 1 10 range range stddev' )
+
+    expectEqual( '1 7654 oeis 6 left 5 right range stddev', '7655 oeis 6 left 5 right' )
+
+    if slow:
+        expectEqual( '1 7654 oeis 7 left 6 right range stddev', '7655 oeis 7 left 6 right' )
 
     # subtract
     testOperator( '3948 474 subtract' )
@@ -3204,12 +3223,17 @@ def runNumberTheoryOperatorTests( ):
     expectException( '17 29 make_pyth_4' )
 
     # merten
+    testOperator( '1 10 range merten' )
+
     expectEqual( '1 81 range merten', '2321 oeis 81 left' )
 
     # mobius
     testOperator( '20176 mobius' )
 
-    expectEqual( '1 100 range mobius', '8683 oeis 100 left' )
+    expectEqual( '1 1000 range mobius', '8683 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '1 10000 range mobius', '8683 oeis 10000 left' )
 
     # nth_carol
     testOperator( '-a500 773 nth_carol' )
@@ -3217,13 +3241,24 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( '1 25 range nth_carol', '93112 oeis 25 left' )
 
     # nth_jacobsthal
-    expectEqual( '0 99 range nth_jacobsthal', '1045 oeis 100 left' )
+    testOperator( '1 10 range nth_jacobsthal' )
+
+    expectEqual( '0 999 range nth_jacobsthal', '1045 oeis 1000 left' )
+
+    expectEqual( '-a302 0 999 range nth_jacobsthal', '1045 oeis 1000 left' )
+
+    if slow:
+        expectEqual( '-a1002 0 3316 range nth_jacobsthal', '1045 oeis 3317 left' )
 
     # nth_kynea
+    testOperator( '1 10 range nth_kynea' )
+
     expectEqual( '-a20 1 25 range nth_kynea', '93069 oeis 25 left' )
 
     # nth_leonardo
-    expectEqual( '0 99 range nth_leonardo', '1595 oeis 100 left' )
+    testOperator( '1 10 range nth_leonardo' )
+
+    expectEqual( '-a106 0 499 range nth_leonardo', '1595 oeis 500 left' )
 
     # nth_mersenne_exponent
     testOperator( '1 10 range nth_mersenne_exponent' )
@@ -3291,6 +3326,12 @@ def runNumberTheoryOperatorTests( ):
     # repunit
     testOperator( '-a20 23 5 repunit' )
 
+    expectEqual( '-a300 1 250 range 15 repunit', '135518 oeis 250 left' )
+    expectEqual( '-a300 1 250 range 14 repunit', '135519 oeis 250 left' )
+
+    if slow:
+        expectEqual( '-a1000 1 873 range 14 repunit', '135519 oeis 873 left' )
+
     # reversal_addition
     testOperator( '-a20 89 24 reversal_addition' )
     testOperator( '-a20 80 89 range 24 reversal_addition' )
@@ -3303,8 +3344,10 @@ def runNumberTheoryOperatorTests( ):
     # riesel
     testOperator( '23 riesel' )
 
+    expectEqual( '-a100 1 300 range riesel', '3261 oeis 300 left' )
+
     # show_k_persistence
-    testOperator( '1 10 5 show_k_persistence' )
+    testOperator( '-a30 1 10 5 show_k_persistence -s1' )
 
     # sigma
     testOperator( '1 20 range sigma' )
@@ -3597,6 +3640,12 @@ def runPowersAndRootsOperatorTests( ):
         expectEqual( '1 1000 range lambda 1 x range 7 ** sum eval', '541 oeis 1001 left 1000 right' )
         expectEqual( '1 1000 range lambda 1 x range 8 ** sum eval', '542 oeis 1001 left 1000 right' )
 
+    # power_tower
+    testOperator( '-c -a30 [ 2 3 2 ] power_tower' )
+
+    # power_tower2
+    testOperator( '-a160 -c [ 4 4 4 ] power_tower2' )
+
     # powmod
     testOperator( '43 67 9 powmod' )
 
@@ -3612,12 +3661,6 @@ def runPowersAndRootsOperatorTests( ):
 
     # tetrate
     testOperator( '3 2 tetrate' )
-
-    # tower
-    testOperator( '-c -a30 [ 2 3 2 ] tower' )
-
-    # tower2
-    testOperator( '-a160 -c [ 4 4 4 ] tower2' )
 
 
 # //******************************************************************************
