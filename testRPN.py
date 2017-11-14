@@ -546,7 +546,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '4.5 nearest_int', 4 )
     expectResult( 'pi nearest_int', 3 )
 
-    expectResult( '0 1000 range x phi nearest_int', '7067 oeis 1001 left' )
+    expectEqual( '0 1000 range phi * nearest_int', '7067 oeis 1001 left' )
 
     # negative
     expectResult( '-4 negative', 4 )
