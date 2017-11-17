@@ -91,7 +91,7 @@ from rpnMath import getPower, getRoot
 #    'gallon_of_ethanol'             : RPNOperator( lambda: RPNMeasurement( '8.4e7', 'joule' ), 0 ),
 #    'gallon_of_gasoline'            : RPNOperator( lambda: RPNMeasurement( '1.2e8', 'joule' ), 0 ),
 #    'density_of_water'              : RPNOperator( lambda: RPNMeasurement( '1000', 'kilogram/meter^3' ), 0 ),
-#    'density_of_hg'                 : RPNOperator( lambda: RPNMeasurement( '13595.1', 'kilogram/meter^3' ), 0 ),
+#    'density_of_hg'                 : RPNOperator( lambda: RPNMeasurement( '13534', 'kilogram/meter^3' ), 0 ),
 #
 #    # physical constants
 #    'avogadro_number'               : RPNOperator( lambda: '6.022140857e23', 0 ),

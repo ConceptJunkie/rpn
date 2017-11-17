@@ -213,7 +213,7 @@ def getAngularSeparation( body1, body2, location, date ):
     body1.compute( location.observer )
     body2.compute( location.observer )
 
-    separation = ephem.separation( ( body1.az, body1.alt ), ( body2.az, body2.alt ) )
+    separation = float( ephem.separation( ( body1.az, body1.alt ), ( body2.az, body2.alt ) ) )
 
     return RPNMeasurement( separation, 'radian' )
 

@@ -1339,8 +1339,8 @@ def runGeographyOperatorTests( ):
     #testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
     #testOperator( '"Leesburg, VA" "Smithfield, VA" distance' )
 
-    # latlong
-    ##testOperator( '"Leesburg, VA" 43 -80 latlong distance' )
+    # lat_long
+    ##testOperator( '"Leesburg, VA" 43 -80 lat_long distance' )
 
     # location
     #testOperator( '"Uppsala, Sweden" location today moonrise' )

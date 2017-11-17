@@ -326,6 +326,7 @@ def runArithmeticOperatorTests( ):
     expectEqual( '1 1000 range ! log 7 log / floor', '127033 oeis 1000 left' )
     expectEqual( '1 1000 range lambda x 5 * x 5 * log + ceiling eval', '212454 oeis 1000 left' )
     expectEqual( '1 1000 range e 1 - * floor', '210 oeis 1000 left' )
+    expectEqual( '-a2003 2 0 4999 range 2 / floor **', '16116 oeis 5000 left' )
 
     # gcd
     testOperator( '1 2 10 range range gcd' )
@@ -657,8 +658,10 @@ def runArithmeticOperatorTests( ):
 
 def runAstronomyOperatorTests( ):
     # angular_separation
+    testOperator( 'sun moon "Corolla, NC" "2017-08-21 14:50" angular_separation dms' )
 
     # angular_size
+    testOperator( 'sun "Herndon, VA" now angular_size dms' )
 
     # antitransit_time
     testOperator( 'moon "Calais, France" location today antitransit_time' )
@@ -686,12 +689,14 @@ def runAstronomyOperatorTests( ):
     testOperator( '"Allentown, PA" 1975-03-31 0 20 range days + day_time' )
 
     # distance_from_earth
+    testOperator( 'mars now distance_from_earth miles convert' )
 
     # dusk
     testOperator( '"Vienna, Austria" location today dusk' )
     testOperator( '"Vienna, Austria" today dusk' )
 
     # eclipse_totality
+    testOperator( 'sun moon "Corolla, NC" "2017-08-21 14:50" eclipse_totality' )
 
     # moonrise
     testOperator( '"Las Cruces, NM" location today moonrise' )
@@ -1334,10 +1339,10 @@ def runCombinatoricsOperatorTests( ):
     # nth_schroeder
     testOperator( '-a50 67 nth_schroeder' )
 
-    expectEqual( '1 100 range nth_schroeder', '6318 oeis 100 left' )
+    expectEqual( '-a80 1 100 range nth_schroeder', '6318 oeis 100 left' )
 
     if slow:
-        expectEqual( '0 1999 range nth_schroeder', '6318 oeis 2000 left' )
+        expectEqual( '-a1600 1 2000 range nth_schroeder', '6318 oeis 2000 left' )
 
     # nth_schroeder_hipparchus
     testOperator( '1 10 range nth_schroeder_hipparchus' )
@@ -1356,8 +1361,6 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '1 10 range partitions' )
 
     expectEqual( '0 1000 range partitions', '41 oeis 1001 left' )
-
-    # get_permutations
 
     # permutations
     expectEqual( '8 3 permutations', '8 ! 5 ! /' )
@@ -1384,6 +1387,8 @@ def runComplexMathOperatorTests( ):
 
     # i
     expectEqual( '3 i', '-9 sqrt' )
+
+    expectEqual( '-a70 1 2 i + 0 199 range ** real', '6495 oeis 200 left' )
 
     # imaginary
     expectResult( '3 i 4 + imaginary', 3 )
@@ -2179,8 +2184,8 @@ def runGeographyOperatorTests( ):
     # get_timezone
     testOperator( '"Leesburg, VA" get_timezone' )
 
-    # latlong
-    #testOperator( '"Leesburg, VA" 43 -80 latlong distance' )
+    # lat_long
+    #testOperator( '"Leesburg, VA" 43 -80 lat_long distance' )
 
     # location
     testOperator( '"Uppsala, Sweden" location today moonrise' )
@@ -2218,6 +2223,9 @@ def runGeometryOperatorTests( ):
     testOperator( '1 dodecahedron_volume' )
 
     expectEqual( '-a1001 1 dodecahedron_volume value 10 1001 ** * get_digits 1000 left', '102769 oeis 1000 left' )
+
+    # hypotenuse
+    testOperator( '3 4 hypotenuse' )
 
     # icosahedron_area
     testOperator( '1 icosahedron_area' )
@@ -2791,6 +2799,7 @@ def runLogarithmsOperatorTests( ):
     expectEqual( '0 lambda 1 x ** 5 x * + log 13 x * / limitn', '5 13 /' )
     expectEqual( '1 10000 range log nearest_int', '193 oeis 10000 left' )
     expectEqual( '1 10000 range log floor', '195 oeis 10000 left' )
+    expectEqual( '-a5005 phi log 10 5002 ** * get_digits 5000 left', '2390 oeis 5000 left' )
 
     # log10
     expectResult( '1000 log10', 3 )
@@ -2944,6 +2953,8 @@ def runNumberTheoryOperatorTests( ):
     # digamma
     testOperator( '3 digamma' )
     testOperator( '-1.1 digamma' )
+
+    expectEqual( '-a110 1 8 / digamma negative 10 107 ** * get_digits 105 left', '250129 oeis 105 left' )
 
     expectException( '0 digamma' )
     expectException( '-1 digamma' )
@@ -4121,23 +4132,46 @@ def runTrigonometryOperatorTests( ):
     # acos
     testOperator( '0.8 acos' )
 
+    expectEqual( '-a105 2 pi / acos 10 103 ** * get_digits 102 left', '275477 oeis 102 left' )
+    expectEqual( '-a110 -1 4 / acos 10 107 ** * get_digits 105 left', '140244 oeis 105 left' )
+    expectEqual( '-a110 180 -1 4 / acos * pi / 10 107 ** * get_digits 105 left', '140245 oeis 105 left' )
+    expectEqual( '-a110 7 8 / acos 10 107 ** * get_digits 105 left', '140240 oeis 105 left' )
+    expectEqual( '-a110 180 7 8 / acos * pi / 10 107 ** * get_digits 105 left', '140241 oeis 105 left' )
+    expectEqual( '-a110 11 16 / acos 10 107 ** * get_digits 105 left', '140242 oeis 105 left' )
+    expectEqual( '-a110 180 11 16 / acos * pi / 10 107 ** * get_digits 105 left', '140243 oeis 105 left' )
+
     # acosh
     testOperator( '0.6 acosh' )
+
+    expectEqual( '-a1005 2 sqrt acosh 10 1001 ** * get_digits 1001 left', '91648 oeis 1001 left' )
 
     # acot
     testOperator( '0.4 acot' )
 
+    expectEqual( '-a105 9 acot 10 101 ** * get_digits 100 left', '195786 oeis 100 left' )
+    expectEqual( '-a105 10 acot 10 101 ** * get_digits 99 left', '195790 oeis 100 left 99 right' )
+
     # acoth
     testOperator( '0.3 acoth' )
+
+    expectEqual( '-a110 3 4 / 3 sqrt * 3 sqrt acoth * 10 108 ** * get_digits 100 left', '257436 oeis 100 left' )
 
     # acsc
     testOperator( '0.2 acsc' )
 
+    expectEqual( '-a105 9 acsc 10 101 ** * get_digits 100 left', '195788 oeis 100 left' )
+    expectEqual( '-a105 8 acsc 10 101 ** * get_digits 100 left', '195784 oeis 100 left' )
+
     # acsch
     testOperator( '0.67 acsch' )
 
+    expectEqual( '-a110 2 5 sqrt * 5 / 2 acsch * 10 108 ** * get_digits 102 left', '86466 oeis 102 left' )
+
     # asec
     testOperator( '0.4 asec' )
+
+    expectEqual( '-a105 9 asec 10 101 ** * get_digits 100 left', '195787 oeis 100 left' )
+    expectEqual( '-a105 8 asec 10 101 ** * get_digits 100 left', '195783 oeis 100 left' )
 
     # asech
     testOperator( '0.1 asech' )
@@ -4145,11 +4179,22 @@ def runTrigonometryOperatorTests( ):
     # asin
     testOperator( '0.8 asin' )
 
+    expectEqual( '-a40 0 1000 range lambda x asin x acos - sin sqr eval', '239607 oeis 1001 left' )
+
     # asinh
     testOperator( '0.3 asinh' )
 
+    expectEqual( '-a5005 2 2 sqrt + 1 asinh 5 * + 15 / 10 5002 ** * get_digits 5001 left', '91505 oeis 5001 left' )
+
     # atan
     testOperator( '0.2 atan' )
+
+    expectEqual( '-a2005 e atan 10 2002 ** * get_digits 2000 left', '257777 oeis 2000 left' )
+    expectEqual( '-a2005 1 e / atan 10 2002 ** * get_digits 2000 left', '258428 oeis 2000 left' )
+    expectEqual( '-a2005 pi e atan - 2 pi * / 10 2002 ** * get_digits 2000 left', '257896 oeis 2000 left' )
+    expectEqual( '-a105 10 atan 10 101 ** * get_digits 100 left', '195789 oeis 100 left' )
+    expectEqual( '-a105 9 atan 10 101 ** * get_digits 100 left', '195785 oeis 100 left' )
+    expectEqual( '-a105 8 atan 10 101 ** * get_digits 100 left', '195781 oeis 100 left' )
 
     # atanh
     testOperator( '0.45 atanh' )
@@ -4160,40 +4205,62 @@ def runTrigonometryOperatorTests( ):
     expectEqual( '45 degrees cos', '2 sqrt 1/x' )
     expectEqual( '0 lambda 1 x cos - x sqr / limitn', '0.5' )
 
+    expectEqual( '-a105 1 cos 10 100 ** * get_digits 98 left', '49470 oeis 98 left' )
+
     # cosh
     testOperator( 'pi 3 / cosh' )
+
     expectEqual( '0 250 range cosh floor', '501 oeis 251 left' )
+    expectEqual( '-a1005 1 cosh 10 1000 ** * get_digits 1000 left', '73743 oeis 1000 left' )
 
     # cot
     testOperator( 'pi 7 / cot' )
 
+    expectEqual( '-a110 1 coth 10 105 ** * get_digits 103 left', '73747 oeis 103 left' )
+
     # coth
     testOperator( 'pi 9 / coth' )
+
+    expectEqual( '-a1005 1 coth 10 1000 ** * get_digits 1000 left', '73747 oeis 1000 left' )
 
     # csc
     testOperator( 'pi 12 / csc' )
 
+    expectEqual( '-a110 1 csc 10 107 ** * get_digits 105 left', '73447 oeis 105 left' )
+    expectEqual( '-a1005 phi csc 10 1002 ** * get_digits 1000 left', '139350 oeis 1000 left' )
+    expectEqual( '-a110 pi 8 / csc 10 107 ** * get_digits 105 left', '121601 oeis 105 left' )
+    expectEqual( '-a110 pi 7 / csc 10 107 ** * get_digits 105 left', '121598 oeis 105 left' )
+    expectEqual( '-a110 pi 5 / csc 10 107 ** * get_digits 105 left', '121570 oeis 105 left' )
+    expectEqual( '1 2000 range lambda x csc x 1 + csc is_less filter', '246410 oeis 1000 left' )
+    expectEqual( '1 2000 range lambda x csc x 1 + csc is_greater filter', '246413 oeis 1000 left' )
+
     # csch
     testOperator( 'pi 13 / csch' )
 
-    # hypotenuse
-    testOperator( '3 4 hypotenuse' )
+    expectEqual( '-a1005 1 csch 10 1002 ** * get_digits 1001 left', '73745 oeis 1001 left' )
 
     # sec
     testOperator( 'pi 7 / sec' )
 
+    expectEqual( '-a110 1 sec 10 107 ** * get_digits 105 left', '73448 oeis 105 left' )
+
     # sech
     testOperator( 'pi 7 / sech' )
+
+    expectEqual( '-a1005 1 sech 10 1001 ** * get_digits 1001 left', '73746 oeis 1001 left' )
 
     # sin
     expectEqual( 'pi 4 / sin', '2 sqrt 1/x' )
     expectEqual( '0 lambda 2 x * sin 3 x * sin / limitn', '2 3 /' )
+
+    expectEqual( '-a105 1 sin 10 100 ** * get_digits 98 left', '49469 oeis 98 left' )
 
     # sinh
     testOperator( 'pi 2 / sinh' )
 
     expectEqual( '0 250 range sinh nearest_int', '495 oeis 251 left' )
     expectEqual( '0 200 range sinh floor', '471 oeis 201 left' )
+    expectEqual( '-a1005 1 sinh 10 1001 ** * get_digits 1001 left', '73742 oeis 1001 left' )
 
     # tan
     testOperator( 'pi 3 / tan' )
@@ -4203,6 +4270,8 @@ def runTrigonometryOperatorTests( ):
 
     # tanh
     testOperator( 'pi 4 / tanh' )
+
+    expectEqual( '-a1005 1 tanh 10 1002 ** * get_digits 1001 left', '73744 oeis 1001 left' )
 
 
 # //******************************************************************************

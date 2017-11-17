@@ -323,7 +323,7 @@ constants = {
                                                    0, [ ] ),
     'density_of_water'              : RPNOperator( lambda: RPNMeasurement( '1000', 'kilogram/meter^3' ),
                                                    0, [ ] ),
-    'density_of_hg'                 : RPNOperator( lambda: RPNMeasurement( '13595.1', 'kilogram/meter^3' ),
+    'density_of_hg'                 : RPNOperator( lambda: RPNMeasurement( '13534', 'kilogram/meter^3' ),
                                                    0, [ ] ),
     'solar_constant'                : RPNOperator( lambda: RPNMeasurement( '1360.8', 'watt/meter^2' ),
                                                    0, [ ] ),       # average... it varies slightly
@@ -3538,7 +3538,7 @@ operators = {
     'get_timezone'                   : RPNOperator( getTimeZone,
                                                     1, [ RPNOperator.Location ] ),
 
-    'latlong'                        : RPNOperator( lambda n, k: RPNLocation( n, k ),
+    'lat_long'                       : RPNOperator( lambda n, k: RPNLocation( n, k ),
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
     'location'                       : RPNOperator( getLocation,
@@ -3565,6 +3565,9 @@ operators = {
 
     'dodecahedron_volume'            : RPNOperator( getDodecahedronVolume,
                                                     1, [ RPNOperator.NonnegativeReal ] ),
+
+    'hypotenuse'                     : RPNOperator( calculateHypotenuse,
+                                                    2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
     'icosahedron_area'               : RPNOperator( getIcosahedronSurfaceArea,
                                                     1, [ RPNOperator.NonnegativeReal ] ),
@@ -4563,9 +4566,6 @@ operators = {
     'csch'                           : RPNOperator( get_csch,
                                                     1, [ RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
-
-    'hypotenuse'                     : RPNOperator( calculateHypotenuse,
-                                                    2, [ RPNOperator.Real, RPNOperator.Real ] ),
 
     'sec'                            : RPNOperator( get_sec,
                                                     1, [ RPNOperator.Default ],

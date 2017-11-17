@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1026
+maxExampleCount = 1148
 
 
 # //******************************************************************************
@@ -100,6 +100,7 @@ def makeCommandExample( command, indent=0, slow=False ):
         print( command )
 
     print( ' ' * indent + 'c:\\>rpn ' + command, file=output )
+
     handleOutput( rpn( shlex.split( command.replace( '\\', '\\\\' ) ) ), indent=indent, file=output )
 
     if slow:
@@ -505,8 +506,9 @@ and lots of other cool features thanks to the wealth of Python libraries.
 -i doesn't work for lists.
 
 It is not currently possible to convert between hertz and 1/second.  The
-dimensional analysis fails.  This is the only instance where two different
-unit types are so related (i.e., one is the reciprocal of the other).
+dimensional analysis fails.  This is one of only 2 instances where two
+different types are so related (i.e., one is the reciprocal of the other).
+The other instance is 'ohm' and 'mho'.
 
 '(' and ')' (multiple operators) don't work with generators because the
 generator only works once.
@@ -544,6 +546,8 @@ Complex numbers don't obey the accuracy level on output (-a).
 
 Cousin primes seem to be broken starting with index 99, according to OEIS.
 
+'dup_ops' flat out doesn't work any more.
+
 See 'rpn help TODO'.
     ''',
     'TODO' :
@@ -563,7 +567,6 @@ gets smaller.
 *  http://en.wikipedia.org/wiki/Physical_constant
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
-*  'dup_ops' flat out doesn't work any more
 *  'is_equal' should handle measurements of different (but compatible) types
 *  *_primes_ operators seem to be unreasonably slow
 *  'fraction' needs to figure out what precision is needed and set it itself
@@ -1837,15 +1840,23 @@ but that's how it works for now.
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '16 is_square' ) + '''
+''' + makeCommandExample( '32 is_square' ) + '''
+This works with complex numbers:
+
+''' + makeCommandExample( '2 i 1 + sqr' ) + '''
+''' + makeCommandExample( '-3 4 i + is_square' ),
+[ 'is_power' ] ],
 
     'is_zero' : [
 'arithmetic', 'returns whether n is zero',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '0 is_zero' ) + '''
+''' + makeCommandExample( '1 is_zero' ) + '''
+''' + makeCommandExample( '2 i is_zero' ) + '''
+''' + makeCommandExample( '0 i is_zero' ),
 [ 'is_not_zero', 'is_odd', 'is_even', 'is_equal' ] ],
 
     'larger' : [
@@ -1929,7 +1940,8 @@ This operator returns the smallest value in the input list of values n.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '7 4 modulo' ) + '''
+''' + makeCommandExample( '143 12 modulo' ),
 [ 'powmod', 'divide' ] ],
 
     'multiply' : [
@@ -2205,19 +2217,19 @@ In addition to numbers, 'sum' can also add up a list of measurements.
 # //******************************************************************************
 
     'angular_separation' : [
-'astronomy', 'returns the angular separation of astronomical objects a and b, at location c, for date-time d in radians',
+'astronomy', 'returns the angular separation of astronomical objects a and b in radians, at location c, for date-time d',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'sun moon "Kitty Hawk, NC" "2017-08-21 14:50" angular_separation dms' ),
 [ 'sky_location' ] ],
 
     'angular_size' : [
-'astronomy', 'returns the angular size of astronomical object a, at location b, for date-time c in radians',
+'astronomy', 'returns the angular size of astronomical object a in radians, at location b, for date-time c',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'sun "Paris, France" now angular_size dms' ),
 [ 'sky_location' ] ],
 
     'antitransit_time' : [
@@ -3212,6 +3224,7 @@ print out the actual name of the weekday.
 ''' + makeCommandExample( '1929-10-29 weekday_name' ) + '''
 ''' + makeCommandExample( '2043-04-17 weekday_name' ),
 [ 'calendar', 'nth_weekday', 'nth_weekday_of_year' ] ],
+
     'year_calendar' : [
 'calendars', 'prints a month calendar for the date value',
 '''
@@ -3755,8 +3768,9 @@ e ^ ( pi * i ) = -1
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( 'aa_battery' ) + '''
+''' + makeCommandExample( 'gallon_of_gasoline aa_battery /' ),
+[ 'gallon_of_gasoline' ] ],
 
     'alpha_particle_mass' : [
 'constants', 'returns ',
@@ -3764,7 +3778,8 @@ e ^ ( pi * i ) = -1
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'alpha_particle_mass' ) + '''
+''' + makeCommandExample( 'alpha_particle_mass proton_mass /' ),
 [ 'proton_mass', 'electron_mass', 'helion_mass', 'neutron_mass', 'deuteron_mass' ] ],
 
     'apery_constant' : [
@@ -3793,7 +3808,7 @@ Ref: CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'bohr_radius' ),
 [ ] ],
 
     'boltzmann_constant' : [
@@ -3802,7 +3817,7 @@ Ref: CODATA 2014
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'boltzmann_constant' ),
 [ ] ],
 
     'catalan_constant' : [
@@ -3851,7 +3866,8 @@ The base 7 Champernowne constant converted to base 10:
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'density_of_hg' ) + '''
+''' + makeCommandExample( '80 element_density gram centimeter 3 ** / convert' ),
 [ ] ],
 
     'deuteron_mass' : [
@@ -3860,7 +3876,7 @@ The base 7 Champernowne constant converted to base 10:
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'deuteron_mass' ),
 [ 'triton_mass', 'proton_mass', 'electron_mass', 'alpha_particle_mass', 'neutron_mass', 'helion_mass' ] ],
 
     'e' : [
@@ -3868,7 +3884,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'e' ),
 [ 'pi', 'phi' ] ],
 
     'eddington_number' : [
@@ -3886,7 +3902,7 @@ protons in the universe and the same number of electrons."  This number is equal
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'electric_constant' ),
 [ ] ],
 
     'electron_charge' : [
@@ -3894,7 +3910,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'electron_charge' ),
 [ ] ],
 
     'electron_mass' : [
@@ -3903,7 +3919,8 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'electron_mass' ) + '''
+''' + makeCommandExample( 'proton_mass electron_mass /' ),
 [ 'proton_mass', 'muon_mass', 'tau_mass', 'neutron_mass' ] ],
 
     'euler_mascheroni_constant' : [
@@ -3911,7 +3928,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'euler_mascheroni_constant' ),
 [ ] ],
 
     'false' : [
@@ -3936,7 +3953,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'fine_structure_constant' ),
 [ ] ],
 
     'gallon_of_ethanol' : [
@@ -3944,23 +3961,25 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( 'gallon_of_ethanol' ) + '''
+''' + makeCommandExample( 'gallon_of_gasoline gallon_of_ethanol /' ),
+[ 'gallon_of_gasoline', 'aa_battery' ] ],
 
     'gallon_of_gasoline' : [
 'constants', 'returns ',
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( 'gallon_of_gasoline' ) + '''
+''' + makeCommandExample( 'gallon_of_gasoline gallon_of_ethanol /' ),
+[ 'gallon_of_ethanol', 'aa_battery' ] ],
 
     'glaisher_constant' : [
 'constants', 'returns Glaisher\'s constant',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'glaisher_constant' ),
 [ ] ],
 
     'helion_mass' : [
@@ -3969,7 +3988,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'helion_mass' ),
 [ 'proton_mass', 'alpha_particle_mass', 'neutron_mass', 'deuteron_mass', 'triton_mass' ] ],
 
     'infinity' : [
@@ -4008,7 +4027,7 @@ This constant is exact by definition.
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'magnetic_constant' ),
 [ ] ],
 
     'max_char' : [
@@ -4312,7 +4331,8 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'neutron_mass' ) + '''
+''' + makeCommandExample( 'proton_mass neutron_mass /' ),
 [ 'proton_mass', 'electron_mass', 'alpha_particle_mass', 'helion_mass', 'deuteron_mass', 'triton_mass' ] ],
 
     'newton_constant' : [
@@ -4321,7 +4341,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'newton_constant' ),
 [ ] ],
 
     'omega_constant' : [
@@ -4329,7 +4349,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''' + makeCommandExample( 'omega' ),
+''' + makeCommandExample( 'omega_constant' ),
 [ ] ],
 
     'phi' : [
@@ -4337,7 +4357,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'phi' ),
 [ 'e', 'pi' ] ],
 
     'pi' : [
@@ -4357,7 +4377,7 @@ length.
 Ref:  CODATA 2014
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_area' ),
 [ ] ],
 
     'planck_angular_frequency' : [
@@ -4365,7 +4385,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_angular_frequency' ),
 [ ] ],
 
     'planck_charge' : [
@@ -4373,7 +4393,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_charge' ),
 [ ] ],
 
     'planck_constant' : [
@@ -4383,7 +4403,7 @@ Ref:  CODATA 2014
 Ref:  CODATA 2014
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_constant' ),
 [ ] ],
 
     'planck_current' : [
@@ -4391,7 +4411,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_current' ),
 [ ] ],
 
     'planck_density' : [
@@ -4403,7 +4423,7 @@ mass and Planck length.
 Ref:  CODATA 2014
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_density' ),
 [ ] ],
 
     'planck_energy' : [
@@ -4413,7 +4433,7 @@ Ref:  CODATA 2014
 Ref:  CODATA 2014
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_energy' ),
 [ ] ],
 
     'planck_energy_density' : [
@@ -4421,7 +4441,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_energy_density' ),
 [ ] ],
 
     'planck_force' : [
@@ -4433,7 +4453,7 @@ mass, Planck length and Planck time.
 Ref:  CODATA 2014
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_force' ),
 [ ] ],
 
     'planck_impedance' : [
@@ -4441,7 +4461,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_impedance' ),
 [ ] ],
 
     'planck_intensity' : [
@@ -4449,7 +4469,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_intensity' ),
 [ ] ],
 
     'planck_length' : [
@@ -4459,7 +4479,7 @@ Ref:  CODATA 2014
 Ref:  CODATA 2014
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_length' ),
 [ ] ],
 
     'planck_mass' : [
@@ -4469,7 +4489,7 @@ Ref:  CODATA 2014
 Ref:  CODATA 2014
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_mass' ),
 [ ] ],
 
     'planck_momentum' : [
@@ -4477,7 +4497,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_momentum' ),
 [ ] ],
 
     'planck_power' : [
@@ -4485,7 +4505,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_power' ),
 [ ] ],
 
     'planck_pressure' : [
@@ -4493,7 +4513,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_pressure' ),
 [ ] ],
 
     'planck_temperature' : [
@@ -4502,7 +4522,7 @@ Ref:  CODATA 2014
 Ref:  CODATA 2014
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_temperature' ),
 [ ] ],
 
     'planck_time' : [
@@ -4512,7 +4532,7 @@ Ref:  CODATA 2014
 Ref:  CODATA 2014
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_time' ),
 [ ] ],
 
     'planck_voltage' : [
@@ -4520,7 +4540,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_voltage' ),
 [ ] ],
 
     'planck_volume' : [
@@ -4532,7 +4552,7 @@ length.
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'planck_volume' ),
 [ ] ],
 
     'plastic_constant' : [
@@ -4540,7 +4560,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'plastic_constant' ),
 [ ] ],
 
     'prevost_constant' : [
@@ -4549,7 +4569,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 ''',
 '''
-''',
+''' + makeCommandExample( 'prevost_constant' ),
 [ ] ],
 
     'proton_mass' : [
@@ -4558,7 +4578,7 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'proton_mass' ),
 [ 'neutron_mass', 'electron_mass', 'alpha_particle_mass', 'helion_mass', 'deuteron_mass', 'triton_mass' ] ],
 
     'radiation_constant' : [
@@ -4575,7 +4595,8 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'reduced_planck_constant' ) + '''
+''' + makeCommandExample( 'planck_constant reduced_planck_constant /' ),
 [ ] ],
 
     'robbins_constant' : [
@@ -4585,7 +4606,7 @@ Robbins' constant represents the average distance between two points selected
 at random within a unit cube.
 ''',
 '''
-''',
+''' + makeCommandExample( 'robbins_constant' ),
 [ ] ],
 
     'rydberg_constant' : [
@@ -4594,7 +4615,7 @@ at random within a unit cube.
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'rydberg_constant' ),
 [ ] ],
 
     'sidereal_year' : [
@@ -4602,7 +4623,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'sidereal_year' ),
 [ ] ],
 
     'silver_ratio' : [
@@ -4610,7 +4631,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'silver_ratio' ),
 [ ] ],
 
     'solar_constant' : [
@@ -4621,7 +4642,7 @@ from the Sun.  The solar constant does vary slightly over time due to
 fluctuations in solar energy output.
 ''',
 '''
-''',
+''' + makeCommandExample( 'solar_constant' ),
 [ ] ],
 
     'speed_of_light' : [
@@ -4629,7 +4650,7 @@ fluctuations in solar energy output.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'speed_of_light' ),
 [ ] ],
 
     'stefan_boltzmann_constant' : [
@@ -4638,7 +4659,7 @@ fluctuations in solar energy output.
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''' + makeCommandExample( 'stefan_boltzmann' ),
+''' + makeCommandExample( 'stefan_boltzmann_constant' ),
 [ ] ],
 
     'tau_mass' : [
@@ -4647,7 +4668,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'tau_mass' ),
 [ 'proton_mass', 'neutron_mass', 'electron_mass', 'muon_mass' ] ],
 
     'thue_morse_constant' : [
@@ -4655,7 +4676,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'thue_morse_constant' ),
 [ ] ],
 
     'triton_mass' : [
@@ -4664,7 +4685,8 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'triton_mass' ) + '''
+''' + makeCommandExample( 'triton_mass avogadros_number * grams convert' ),
 [ 'proton_mass', 'neutron_mass', 'electron_mass', 'alpha_particle_mass', 'helion_mass', 'deuteron_mass', 'helion_mass' ] ],
 
     'tropical_year' : [
@@ -4672,7 +4694,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'tropical_year' ),
 [ ] ],
 
     'true' : [
@@ -4696,7 +4718,7 @@ rpn (3)>5 12 **
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'vacuum_impedance' ),
 [ ] ],
 
     'von_klitzing_constant' : [
@@ -4705,7 +4727,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 Ref:  CODATA 2014
 ''',
 '''
-''',
+''' + makeCommandExample( 'von_klitzing_constant' ),
 [ ] ],
 
 
@@ -4720,7 +4742,7 @@ Ref:  CODATA 2014
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'sun_luminosity' ),
 [ ] ],
 
     'sun_mass' : [
@@ -4729,7 +4751,7 @@ Ref:  CODATA 2014
 Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''',
 '''
-''',
+''' + makeCommandExample( 'sun_mass' ),
 [ ] ],
 
     'sun_radius' : [
@@ -4737,7 +4759,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'sun_radius' ),
 [ ] ],
 
     'sun_volume' : [
@@ -4745,7 +4767,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'sun_volume' ),
 [ ] ],
 
     'mercury_mass' : [
@@ -4753,7 +4775,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'mercury_mass' ),
 [ ] ],
 
     'mercury_radius' : [
@@ -4761,7 +4783,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'mercury_radius' ),
 [ ] ],
 
     'mercury_revolution' : [
@@ -4769,7 +4791,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'mercury_revolution' ),
 [ ] ],
 
     'mercury_volume' : [
@@ -4777,7 +4799,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'mercury_volume' ),
 [ ] ],
 
     'venus_mass' : [
@@ -4785,7 +4807,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'venus_mass' ),
 [ ] ],
 
     'venus_radius' : [
@@ -4793,7 +4815,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'venus_radius' ),
 [ ] ],
 
     'venus_revolution' : [
@@ -4801,7 +4823,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'venus_revolution' ),
 [ ] ],
 
     'venus_volume' : [
@@ -4809,7 +4831,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'venus_volume' ),
 [ ] ],
 
     'earth_gravity' : [
@@ -4817,7 +4839,8 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'earth_gravity' ) + '''
+''' + makeCommandExample( 'earth_mass earth_radius surface_gravity' ),
 [ ] ],
 
     'earth_mass' : [
@@ -4825,7 +4848,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'earth_mass' ),
 [ ] ],
 
     'earth_radius' : [
@@ -4833,31 +4856,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
-[ ] ],
-
-    'earth_moon_mass' : [
-'constants', 'returns the estimated mass of the combined Earth-Moon system',
-'''
-''',
-'''
-''',
-[ ] ],
-
-    'moon_gravity' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''',
-[ ] ],
-
-    'moon_radius' : [
-'constants', 'returns ',
-'''
-''',
-'''
-''',
+''' + makeCommandExample( 'earth_radius' ),
 [ ] ],
 
     'earth_volume' : [
@@ -4865,7 +4864,23 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
+''' + makeCommandExample( 'earth_volume' ),
+[ ] ],
+
+    'moon_gravity' : [
+'constants', 'returns ',
+'''
 ''',
+'''
+''' + makeCommandExample( 'moon_mass moon_radius surface_gravity' ),
+[ ] ],
+
+    'moon_radius' : [
+'constants', 'returns ',
+'''
+''',
+'''
+''' + makeCommandExample( 'moon_radius' ),
 [ ] ],
 
     'moon_revolution' : [
@@ -4873,7 +4888,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'moon_revolution' ),
 [ ] ],
 
     'moon_volume' : [
@@ -4881,7 +4896,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'moon_volume' ),
 [ ] ],
 
     'mars_mass' : [
@@ -4889,7 +4904,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'mars_mass' ),
 [ ] ],
 
     'mars_radius' : [
@@ -4897,7 +4912,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'mars_radius' ),
 [ ] ],
 
     'mars_revolution' : [
@@ -4905,7 +4920,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'mars_revolution' ),
 [ ] ],
 
     'mars_volume' : [
@@ -4913,7 +4928,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'mars_volume' ),
 [ ] ],
 
     'jupiter_mass' : [
@@ -4921,7 +4936,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'jupiter_mass' ),
 [ ] ],
 
     'jupiter_radius' : [
@@ -4929,7 +4944,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'jupiter_radius' ),
 [ ] ],
 
     'jupiter_revolution' : [
@@ -4937,7 +4952,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'jupiter_revolution' ),
 [ ] ],
 
     'jupiter_volume' : [
@@ -4945,7 +4960,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'jupiter_volume' ),
 [ ] ],
 
     'saturn_mass' : [
@@ -4953,7 +4968,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'saturn_mass' ),
 [ ] ],
 
     'saturn_radius' : [
@@ -4961,7 +4976,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'saturn_radius' ),
 [ ] ],
 
     'saturn_revolution' : [
@@ -4969,7 +4984,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'saturn_revolution' ),
 [ ] ],
 
     'saturn_volume' : [
@@ -4977,7 +4992,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'saturn_volume' ),
 [ ] ],
 
     'uranus_mass' : [
@@ -4985,7 +5000,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'uranus_mass' ),
 [ ] ],
 
     'uranus_radius' : [
@@ -4993,7 +5008,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'uranus_radius' ),
 [ ] ],
 
     'uranus_revolution' : [
@@ -5001,7 +5016,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'uranus_revolution' ),
 [ ] ],
 
     'uranus_volume' : [
@@ -5009,7 +5024,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'uranus_volume' ),
 [ ] ],
 
     'neptune_mass' : [
@@ -5017,7 +5032,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'neptune_mass' ),
 [ ] ],
 
     'neptune_radius' : [
@@ -5025,7 +5040,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'neptune_radius' ),
 [ ] ],
 
     'neptune_revolution' : [
@@ -5033,7 +5048,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'neptune_revolution' ),
 [ ] ],
 
     'neptune_volume' : [
@@ -5041,7 +5056,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'neptune_volume' ),
 [ ] ],
 
     'pluto_mass' : [
@@ -5049,7 +5064,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'pluto_mass' ),
 [ ] ],
 
     'pluto_radius' : [
@@ -5057,7 +5072,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'pluto_radius' ),
 [ ] ],
 
     'pluto_revolution' : [
@@ -5065,7 +5080,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'pluto_revolution' ),
 [ ] ],
 
     'pluto_volume' : [
@@ -5073,7 +5088,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'pluto_volume' ),
 [ ] ],
 
 
@@ -6002,6 +6017,18 @@ See the 'user_functions' help topic for more details.
 ''',
 [ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_volume', 'sphere_volume' ] ],
 
+    'hypotenuse' : [
+'geometry', 'calculates the hypotenuse of n and k',
+'''
+Given a right triangle with sides of n and k, the 'hypotenuse' operator
+calculates what the length of the hypotenuse would be.
+''',
+'''
+''' + makeCommandExample( '3 4 hypotenuse' ) + '''
+''' + makeCommandExample( '7 24 hypotenuse' ) + '''
+''' + makeCommandExample( '1 1 hypotenuse' ),
+[ ] ],
+
     'icosahedron_area' : [
 'geometry', 'calculates the surface area of a regular icosahedron of edge length n',
 '''
@@ -6168,7 +6195,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ 'location', 'latlong' ] ],
+[ 'location', 'lat_long' ] ],
 
     'get_timezone' : [
 'geography', 'returns the timezone for location n',
@@ -6178,7 +6205,7 @@ This operator can also handle length measurements.
 ''',
 [ ] ],
 
-    'latlong' : [
+    'lat_long' : [
 'geography', 'creates a location object given the lat/long for use with other operators',
 '''
 ''',
@@ -6192,7 +6219,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ 'location_info', 'latlong' ] ],
+[ 'location_info', 'lat_long' ] ],
 
     'location_info' : [
 'geography', 'returns the lat-long for a location',
@@ -6200,7 +6227,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ 'location', 'latlong', 'distance' ] ],
+[ 'location', 'lat_long', 'distance' ] ],
 
 
 # //******************************************************************************
@@ -11152,18 +11179,6 @@ can handle a value in degrees without having to first convert.
 '''
 ''',
 [ 'csc', 'sech', 'acsch', 'coth' ] ],
-
-    'hypotenuse' : [
-'trigonometry', 'calculates the hypotenuse of n and k',
-'''
-Given a right triangle with sides of n and k, the 'hypotenuse' operator
-calculates what the length of the hypotenuse would be.
-''',
-'''
-''' + makeCommandExample( '3 4 hypotenuse' ) + '''
-''' + makeCommandExample( '7 24 hypotenuse' ) + '''
-''' + makeCommandExample( '1 1 hypotenuse' ),
-[ ] ],
 
     'sec' : [
 'trigonometry', 'calculates the secant of n',
