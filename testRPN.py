@@ -204,6 +204,11 @@ def runAlgebraOperatorTests( ):
     # polynomial_power
     testOperator( '[ 1 2 3 4 ] 5 polynomial_power' )
 
+    expectEqual( '[ 1 1 ] 5 polynomial_power', '6 pascal_triangle' )
+    expectEqual( '[ 1 1 ] 15 polynomial_power', '16 pascal_triangle' )
+    expectEqual( '-a50 [ 1 1 ] 150 polynomial_power', '-a50 151 pascal_triangle' )
+    expectEqual( '-a150 [ 1 1 ] 500 polynomial_power', '-a150 501 pascal_triangle' )
+
     expectException( '1 10 range polynomial_power' )
 
     # polynomial_product
@@ -1163,6 +1168,142 @@ def runChemistryOperatorTests( ):
 
     expectException( 'ZoO2 molar_mass' )
 
+    expectException( '2 H atomic_number' )
+
+    # Check to see where atomic symbols collide with other aliases, and if the exception handling deals with it correctly.
+    testOperator( 'H molar_mass' )
+    testOperator( 'H element_description' )
+
+    testOperator( 'H atomic_number' )       # henry
+    testOperator( 'He atomic_number' )
+    testOperator( 'Li atomic_number' )
+    testOperator( 'Be atomic_number' )
+    testOperator( 'B atomic_number' )       # byte
+    testOperator( 'C atomic_number' )       # coulomb
+    testOperator( 'N atomic_number' )       # newton
+    testOperator( 'O atomic_number' )       # ohm
+    testOperator( 'F atomic_number' )       # farad
+    testOperator( 'Ne atomic_number' )
+
+    testOperator( 'Na atomic_number' )
+    testOperator( 'Mg atomic_number' )      # megagram
+    testOperator( 'Al atomic_number' )
+    testOperator( 'Si atomic_number' )
+    testOperator( 'P atomic_number' )
+    testOperator( 'S atomic_number' )       # siemens
+    testOperator( 'Cl atomic_number' )
+    testOperator( 'Ar atomic_number' )
+    testOperator( 'K atomic_number' )       # kelvin
+    testOperator( 'Ca atomic_number' )
+
+    testOperator( 'Sc atomic_number' )
+    testOperator( 'Ti atomic_number' )
+    testOperator( 'V atomic_number' )       # volt
+    testOperator( 'Cr atomic_number' )
+    testOperator( 'Mn atomic_number' )
+    testOperator( 'Fe atomic_number' )
+    testOperator( 'Co atomic_number' )
+    testOperator( 'Ni atomic_number' )
+    testOperator( 'Cu atomic_number' )
+    testOperator( 'Zn atomic_number' )
+
+    testOperator( 'Ga atomic_number' )      # gigare
+    testOperator( 'Ge atomic_number' )
+    testOperator( 'As atomic_number' )      # ampere-second
+    testOperator( 'Se atomic_number' )
+    testOperator( 'Br atomic_number' )
+    testOperator( 'Kr atomic_number' )
+    testOperator( 'Rb atomic_number' )
+    testOperator( 'Sr atomic_number' )
+    testOperator( 'Y atomic_number' )
+    testOperator( 'Zr atomic_number' )
+
+    testOperator( 'Nb atomic_number' )
+    testOperator( 'Mo atomic_number' )
+    testOperator( 'Tc atomic_number' )
+    testOperator( 'Ru atomic_number' )
+    testOperator( 'Rh atomic_number' )
+    testOperator( 'Pd atomic_number' )
+    testOperator( 'Ag atomic_number' )
+    testOperator( 'Cd atomic_number' )
+    testOperator( 'In atomic_number' )
+    testOperator( 'Sn atomic_number' )
+
+    testOperator( 'Sb atomic_number' )
+    testOperator( 'Te atomic_number' )
+    testOperator( 'I atomic_number' )
+    testOperator( 'Xe atomic_number' )
+    testOperator( 'Cs atomic_number' )
+    testOperator( 'Ba atomic_number' )      # barye
+    testOperator( 'La atomic_number' )
+    testOperator( 'Ce atomic_number' )
+    testOperator( 'Pr atomic_number' )
+    testOperator( 'Nd atomic_number' )
+
+    testOperator( 'Pm atomic_number' )      # petameter
+    testOperator( 'Sm atomic_number' )
+    testOperator( 'Eu atomic_number' )
+    testOperator( 'Gd atomic_number' )
+    testOperator( 'Tb atomic_number' )      # terabit
+    testOperator( 'Dy atomic_number' )
+    testOperator( 'Ho atomic_number' )
+    testOperator( 'Er atomic_number' )
+    testOperator( 'Tm atomic_number' )      # terameter
+    testOperator( 'Yb atomic_number' )      # yottabit
+
+    testOperator( 'Lu atomic_number' )
+    testOperator( 'Hf atomic_number' )
+    testOperator( 'Ta atomic_number' )      # terare
+    testOperator( 'W atomic_number' )       # watt
+    testOperator( 'Re atomic_number' )      # reaumur
+    testOperator( 'Os atomic_number' )
+    testOperator( 'Ir atomic_number' )
+    testOperator( 'Pt atomic_number' )
+    testOperator( 'Au atomic_number' )
+    testOperator( 'Hg atomic_number' )
+
+    testOperator( 'Tl atomic_number' )
+    testOperator( 'Pb atomic_number' )      # petabit
+    testOperator( 'Bi atomic_number' )
+    testOperator( 'Po atomic_number' )
+    testOperator( 'At atomic_number' )
+    testOperator( 'Rn atomic_number' )
+    testOperator( 'Fr atomic_number' )      # franklin
+    testOperator( 'Ra atomic_number' )
+    testOperator( 'Ac atomic_number' )
+    testOperator( 'Th atomic_number' )
+
+    testOperator( 'Pa atomic_number' )      # petare
+    testOperator( 'U atomic_number' )
+    testOperator( 'Np atomic_number' )
+    testOperator( 'Pu atomic_number' )
+    testOperator( 'Am atomic_number' )      # ampere-minute
+    testOperator( 'Cm atomic_number' )
+    testOperator( 'Bk atomic_number' )
+    testOperator( 'Cf atomic_number' )
+    testOperator( 'Es atomic_number' )      # exasecond
+    testOperator( 'Fm atomic_number' )
+
+    testOperator( 'Md atomic_number' )
+    testOperator( 'No atomic_number' )
+    testOperator( 'Lr atomic_number' )
+    testOperator( 'Rf atomic_number' )
+    testOperator( 'Db atomic_number' )
+    testOperator( 'Sg atomic_number' )
+    testOperator( 'Bh atomic_number' )
+    testOperator( 'Hs atomic_number' )
+    testOperator( 'Mt atomic_number' )
+    testOperator( 'Ds atomic_number' )
+
+    testOperator( 'Rg atomic_number' )
+    testOperator( 'Cn atomic_number' )
+    testOperator( 'Nh atomic_number' )
+    testOperator( 'Fl atomic_number' )
+    testOperator( 'Mc atomic_number' )
+    testOperator( 'Lv atomic_number' )
+    testOperator( 'Ts atomic_number' )      # terasecond
+    testOperator( 'Og atomic_number' )
+
 
 # //******************************************************************************
 # //
@@ -1732,6 +1873,16 @@ def runDateTimeOperatorTests( ):
 
     # make_datetime
     testOperator( '[ 1965 03 31 ] make_datetime' )
+
+    # expectEqual can't handle date values
+    #expectEqual( '[ 1965 03 31 ] make_datetime', '1965-03-31' )
+
+    expectException( '[ 1965 0 12 ] make_datetime' )
+    expectException( '[ 1965 3 0 ] make_datetime' )
+    expectException( '[ 1965 3 32 ] make_datetime' )
+    expectException( '[ 1965 13 13 ] make_datetime' )
+    expectException( '[ 1965 4 31 ] make_datetime' )
+    expectException( '[ 1965 2 29 ] make_datetime' )
 
     # make_iso_time
     testOperator( '[ 2015 34 6 ] make_iso_time' )
@@ -3254,8 +3405,6 @@ def runNumberTheoryOperatorTests( ):
     # nth_jacobsthal
     testOperator( '1 10 range nth_jacobsthal' )
 
-    expectEqual( '0 999 range nth_jacobsthal', '1045 oeis 1000 left' )
-
     expectEqual( '-a302 0 999 range nth_jacobsthal', '1045 oeis 1000 left' )
 
     if slow:
@@ -4198,6 +4347,9 @@ def runTrigonometryOperatorTests( ):
 
     # atanh
     testOperator( '0.45 atanh' )
+
+    expectEqual( '-a112 4 -14 pi 7 / sin pi 7 / tan * 2 / sqrt asinh * exp atanh * exp 1 - sqrt 10 110 ** * get_digits 108 left', '293415 oeis 108 left' )
+    expectEqual( '-a112 4 -18 pi 9 / sin pi 9 / tan * 2 / sqrt asinh * exp atanh * exp 1 - sqrt 10 110 ** * get_digits 108 left', '293416 oeis 108 left' )
 
     # cos
     testOperator( 'pi radians cos' )

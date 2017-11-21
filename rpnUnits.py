@@ -841,8 +841,9 @@ One billion:  10e9 or 1,000,000,000
 One trillion:  10e12 or 1,000,000,000,000
                      ''' ),
 
+    # 'P' can't be used here since it's used for 'Phosphorus'
     'quadrillion' :
-        RPNUnitInfo( 'constant', 'quadrillion', 'quadrillion', 'P',
+        RPNUnitInfo( 'constant', 'quadrillion', 'quadrillion', '',
                      [ 'peta' ], [ 'constant' ],
                      '''
 One quadrillion:  10e15 or 1,000,000,000,000,000
@@ -862,8 +863,9 @@ One quintillion:  10e18 or 1,000,000,000,000,000,000
 One sextillion:  10e21 or 1,000,000,000,000,000,000,000
                      ''' ),
 
+    # 'Y' can't be used here since it's used for 'Yttrium'
     'septillion' :
-        RPNUnitInfo( 'constant', 'septillion', 'septillion', 'Y',
+        RPNUnitInfo( 'constant', 'septillion', 'septillion', '',
                      [ 'yotta' ], [ 'constant' ],
                      '''
 One septillion:  10e24 or 1,000,000,000,000,000,000,000,000

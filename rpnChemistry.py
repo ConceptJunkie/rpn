@@ -262,6 +262,9 @@ class RPNMolecule( collections.Counter ):
 # //******************************************************************************
 
 def getElementAttribute( n, k ):
+    if isinstance( n, RPNMeasurement ):
+        n = convertMeasurementToAtomicSymbol( n )
+
     if isinstance( n, str ):
         n = getAtomicNumber( n )
 
@@ -279,6 +282,103 @@ def getElementAttribute( n, k ):
 
 # //******************************************************************************
 # //
+# //  convertMeasurementToAtomicSymbol
+# //
+# //******************************************************************************
+
+def convertMeasurementToAtomicSymbol( n ):
+    # If there is a value other than the default 1, then let's just bail, because
+    # something more complicated is going on.
+    if n.getValue( ) != 1:
+        return n
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'henry' ).getUnits( ):
+        return 'H'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'henry' ).getUnits( ):
+        return 'H'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'byte' ).getUnits( ):
+        return 'B'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'coulomb' ).getUnits( ):
+        return 'C'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'newton' ).getUnits( ):
+        return 'N'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'ohm' ).getUnits( ):
+        return 'O'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'farad' ).getUnits( ):
+        return 'F'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'megagram' ).getUnits( ):
+        return 'Mg'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'siemens' ).getUnits( ):
+        return 'S'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'kelvin' ).getUnits( ):
+        return 'K'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'volt' ).getUnits( ):
+        return 'V'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'gigare' ).getUnits( ):
+        return 'Ga'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'ampere-second' ).getUnits( ):
+        return 'As'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'barye' ).getUnits( ):
+        return 'Ba'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'petameter' ).getUnits( ):
+        return 'Pm'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'terabit' ).getUnits( ):
+        return 'Tb'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'terameter' ).getUnits( ):
+        return 'Tm'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'yottabit' ).getUnits( ):
+        return 'Yb'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'terare' ).getUnits( ):
+        return 'Te'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'watt' ).getUnits( ):
+        return 'W'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'reaumur' ).getUnits( ):
+        return 'Re'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'petabit' ).getUnits( ):
+        return 'Pb'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'franklin' ).getUnits( ):
+        return 'Fr'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'petare' ).getUnits( ):
+        return 'Pa'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'ampere-minute' ).getUnits( ):
+        return 'Am'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'exasecond' ).getUnits( ):
+        return 'Es'
+
+    if n.getUnits( ) == RPNMeasurement( 1, 'terasecond' ).getUnits( ):
+        return 'Ts'
+
+    # No matches?  Then let an exception be thrown.
+    return n
+
+
+# //******************************************************************************
+# //
 # //  getAtomicNumber
 # //
 # //******************************************************************************
@@ -287,6 +387,9 @@ def getElementAttribute( n, k ):
 def getAtomicNumber( n ):
     if g.elements is None:
         loadChemistryTables( )
+
+    if isinstance( n, RPNMeasurement ):
+        n = convertMeasurementToAtomicSymbol( n )
 
     if n not in g.atomic_numbers:
         raise ValueError( 'invalid atomic symbol' )
@@ -302,6 +405,9 @@ def getAtomicNumber( n ):
 
 @oneArgFunctionEvaluator( )
 def getAtomicWeight( n ):
+    if isinstance( n, RPNMeasurement ):
+        n = convertMeasurementToAtomicSymbol( n )
+
     return fdiv( fadd( mpmathify( getElementAttribute( n, 9 ) ),
                        mpmathify( getElementAttribute( n, 8 ) ) ), 2 )
 
@@ -389,5 +495,8 @@ def getElementState( n ):
 
 @oneArgFunctionEvaluator( )
 def getMolarMass( n ):
+    if isinstance( n, RPNMeasurement ):
+        n = convertMeasurementToAtomicSymbol( n )
+
     return calculateMolarMass( RPNMolecule( n ) )
 
