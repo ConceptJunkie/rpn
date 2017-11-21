@@ -3186,6 +3186,21 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '10 20 3 range2 prime frobenius' )
 
     expectEqual( '2 1001 range lambda x 1 5 sized_range frobenius eval', '138985 oeis 1000 left' )
+    expectEqual( '2 59 range lambda x 1 6 sized_range frobenius eval', '138986 oeis 58 left' )
+    expectEqual( '2 60 range lambda x 1 7 sized_range frobenius eval', '138987 oeis 59 left' )
+    expectEqual( '2 60 range lambda x 1 8 sized_range frobenius eval', '138988 oeis 59 left' )
+    expectEqual( '1 999 range lambda x 2 primes frobenius eval', '37165 oeis 999 left' )
+    expectEqual( '1 46 range lambda x 3 primes frobenius eval', '138989 oeis 46 left' )
+    expectEqual( '1 1000 range lambda x 4 primes frobenius eval', '138990 oeis 1000 left' )
+    expectEqual( '1 48 range lambda x 5 primes frobenius eval', '138991 oeis 48 left' )
+    expectEqual( '1 49 range lambda x 6 primes frobenius eval', '138992 oeis 49 left' )
+    expectEqual( '1 50 range lambda x 7 primes frobenius eval', '138993 oeis 50 left' )
+    expectEqual( '1 50 range lambda x 8 primes frobenius eval', '138994 oeis 50 left' )
+    expectEqual( '2 100 range lambda [ x x 1 + x 2 + ] triangular frobenius eval', '69755 oeis 99 left' )
+    expectEqual( '3 30 range lambda [ x x 1 + ] fib frobenius eval', '59769 oeis 28 left' )
+
+    if slow:
+        expectEqual( '2 1000 range lambda [ x x 1 + x 2 + ] triangular frobenius eval', '69755 oeis 999 left' )
 
     # gamma
     testOperator( '3 gamma' )
