@@ -3350,6 +3350,12 @@ far as rpn is concerned, it's an operator that does nothing.
     'molar_mass' : [
 'chemistry', 'returns the molar mass of molecule n',
 '''
+Currently, the parser for molecules is very simple.  Molecule expressions
+consist solely of:
+
+EN[EN...]
+
+Where E is the atomic symbol of an element, and N is the count of atoms.
 ''',
 '''
 ''' + makeCommandExample( 'H2O molar_mass' ) + '''
@@ -3773,8 +3779,11 @@ e ^ ( pi * i ) = -1
 [ 'gallon_of_gasoline' ] ],
 
     'alpha_particle_mass' : [
-'constants', 'returns ',
+'constants', 'returns the mass of an alpha particle',
 '''
+The alpha particle is the equivalent of a helium nucleus, and consists of two
+protons and two neutrons.
+
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
 '''
@@ -3804,7 +3813,7 @@ Ref: CODATA 2014
 [ ] ],
 
     'bohr_radius' : [
-'constants', 'returns ',
+'constants', 'returns the Bohr radius',
 '''
 ''',
 '''
@@ -3906,7 +3915,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ ] ],
 
     'electron_charge' : [
-'constants', 'returns ',
+'constants', 'returns the charge of an electron',
 '''
 ''',
 '''
@@ -3914,7 +3923,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ ] ],
 
     'electron_mass' : [
-'constants', 'returns ',
+'constants', 'returns the mass of an electron',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -3957,7 +3966,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ ] ],
 
     'gallon_of_ethanol' : [
-'constants', 'returns ',
+'constants', 'returns the energy content of a gallon of ethanol',
 '''
 ''',
 '''
@@ -3966,7 +3975,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ 'gallon_of_gasoline', 'aa_battery' ] ],
 
     'gallon_of_gasoline' : [
-'constants', 'returns ',
+'constants', 'returns the energy content of a gallon of gasoline',
 '''
 ''',
 '''
@@ -3983,7 +3992,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ ] ],
 
     'helion_mass' : [
-'constants', 'returns ',
+'constants', 'returns the mass of a helion',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -4309,7 +4318,7 @@ By definition, the smallest unsigned integer of any size is 0.
 [ 'max_ushort', 'min_short', 'min_uchar', 'min_ulong' ] ],
 
     'muon_mass' : [
-'constants', 'returns ',
+'constants', 'returns the mass of a muon',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -4326,7 +4335,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ 'infinity' ] ],
 
     'neutron_mass' : [
-'constants', 'returns ',
+'constants', 'returns the mass of a neutron',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -4369,7 +4378,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ 'e', 'phi' ] ],
 
     'planck_area' : [
-'constants', 'returns ',
+'constants', 'returns the Planck area',
 '''
 This is a derived constant calculated from the CODATA value for the Planck
 length.
@@ -4389,7 +4398,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_charge' : [
-'constants', 'returns ',
+'constants', 'returns the Planck charge',
 '''
 ''',
 '''
@@ -4407,7 +4416,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_current' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck current',
 '''
 ''',
 '''
@@ -4415,7 +4424,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_density' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck density',
 '''
 This is a derived constant calculated from the CODATA values for the Planck
 mass and Planck length.
@@ -4427,7 +4436,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_energy' : [
-'constants', 'returns ',
+'constants', 'returns the Planck energy',
 '''
 
 Ref:  CODATA 2014
@@ -4437,7 +4446,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_energy_density' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck energy density',
 '''
 ''',
 '''
@@ -4445,7 +4454,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_force' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck force',
 '''
 This is a derived constant calculated from the CODATA values for the Planck
 mass, Planck length and Planck time.
@@ -4457,7 +4466,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_impedance' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck impedance',
 '''
 ''',
 '''
@@ -4465,7 +4474,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_intensity' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck intensity',
 '''
 ''',
 '''
@@ -4473,7 +4482,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_length' : [
-'constants', 'returns ',
+'constants', 'returns the Planck length',
 '''
 
 Ref:  CODATA 2014
@@ -4483,7 +4492,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_mass' : [
-'constants', 'returns the Planck Mass',
+'constants', 'returns the Planck mass',
 '''
 
 Ref:  CODATA 2014
@@ -4501,7 +4510,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_power' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck power',
 '''
 ''',
 '''
@@ -4509,7 +4518,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_pressure' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck pressure',
 '''
 ''',
 '''
@@ -4517,7 +4526,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_temperature' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck temperature',
 '''
 Ref:  CODATA 2014
 ''',
@@ -4526,7 +4535,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_time' : [
-'constants', 'returns ',
+'constants', 'returns Planck time',
 '''
 
 Ref:  CODATA 2014
@@ -4536,7 +4545,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_voltage' : [
-'constants', 'returns the ',
+'constants', 'returns the Planck voltage',
 '''
 ''',
 '''
@@ -4544,7 +4553,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'planck_volume' : [
-'constants', 'returns ',
+'constants', 'returns the Planck volume',
 '''
 This is a derived constant calculated from the CODATA value for the Planck
 length.
@@ -4610,7 +4619,7 @@ at random within a unit cube.
 [ ] ],
 
     'rydberg_constant' : [
-'constants', 'returns a Rydberg constant',
+'constants', 'returns the Rydberg constant',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -4619,7 +4628,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ ] ],
 
     'sidereal_year' : [
-'constants', 'returns ',
+'constants', 'returns the length of a sideral year for the Earth',
 '''
 ''',
 '''
@@ -4627,7 +4636,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ ] ],
 
     'silver_ratio' : [
-'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )'
+'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )',
 '''
 ''',
 '''
@@ -4663,7 +4672,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ ] ],
 
     'tau_mass' : [
-'constants', 'returns ',
+'constants', 'returns the mass of a tau particle',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -4680,7 +4689,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ ] ],
 
     'triton_mass' : [
-'constants', 'returns the mass of the tritium nucleus',
+'constants', 'returns the mass of a tritium nucleus',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -4690,7 +4699,7 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 [ 'proton_mass', 'neutron_mass', 'electron_mass', 'alpha_particle_mass', 'helion_mass', 'deuteron_mass', 'helion_mass' ] ],
 
     'tropical_year' : [
-'constants', 'returns ',
+'constants', 'returns the length of a tropical year for the Earth',
 '''
 ''',
 '''
@@ -4713,7 +4722,7 @@ rpn (3)>5 12 **
 [ 'false' ] ],
 
     'vacuum_impedance' : [
-'constants', 'returns ',
+'constants', 'returns the vacuum impedence constant',
 '''
 Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''',
@@ -4746,7 +4755,7 @@ Ref:  CODATA 2014
 [ ] ],
 
     'sun_mass' : [
-'constants', 'returns the estimated mass of the Sun',
+'constants', 'returns the mass of the Sun',
 '''
 Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''',
@@ -4771,7 +4780,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'mercury_mass' : [
-'constants', 'returns the estimated mass of the planet Mercury',
+'constants', 'returns the mass of the planet Mercury',
 '''
 ''',
 '''
@@ -4779,7 +4788,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'mercury_radius' : [
-'constants', 'returns ',
+'constants', 'returns the radius of the planet Mercury',
 '''
 ''',
 '''
@@ -4787,7 +4796,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'mercury_revolution' : [
-'constants', 'returns ',
+'constants', 'returns the revolution time of the planet Mercury around the Sun',
 '''
 ''',
 '''
@@ -4795,7 +4804,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'mercury_volume' : [
-'constants', 'returns the estimated volume of the planet Mercury',
+'constants', 'returns the volume of the planet Mercury',
 '''
 ''',
 '''
@@ -4803,7 +4812,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'venus_mass' : [
-'constants', 'returns the estimated mass of the planet Venus',
+'constants', 'returns the mass of the planet Venus',
 '''
 ''',
 '''
@@ -4811,7 +4820,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'venus_radius' : [
-'constants', 'returns ',
+'constants', 'returns the radius of the planet Venus',
 '''
 ''',
 '''
@@ -4819,7 +4828,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'venus_revolution' : [
-'constants', 'returns ',
+'constants', 'returns the revolution time of the planet Venus around the Sun',
 '''
 ''',
 '''
@@ -4827,7 +4836,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'venus_volume' : [
-'constants', 'returns the estimated volume of the planet Venus',
+'constants', 'returns the volume of the planet Venus',
 '''
 ''',
 '''
@@ -4835,7 +4844,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'earth_gravity' : [
-'constants', 'returns ',
+'constants', 'returns the surface gravity of the planet Earth',
 '''
 ''',
 '''
@@ -4844,7 +4853,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'earth_mass' : [
-'constants', 'returns ',
+'constants', 'returns the mass of the Earth',
 '''
 ''',
 '''
@@ -4852,7 +4861,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'earth_radius' : [
-'constants', 'returns ',
+'constants', 'returns the radius of the planet Earth',
 '''
 ''',
 '''
@@ -4860,7 +4869,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'earth_volume' : [
-'constants', 'returns the estimated volume of the planet Earth',
+'constants', 'returns the volume of the planet Earth',
 '''
 ''',
 '''
@@ -4868,7 +4877,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'moon_gravity' : [
-'constants', 'returns ',
+'constants', 'returns surface gravity of the Moon',
 '''
 ''',
 '''
@@ -4876,7 +4885,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'moon_radius' : [
-'constants', 'returns ',
+'constants', 'returns the radius of the Moon',
 '''
 ''',
 '''
@@ -4884,7 +4893,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'moon_revolution' : [
-'constants', 'returns ',
+'constants', 'returns teh revolution time for the Moon around the Earth',
 '''
 ''',
 '''
@@ -4892,7 +4901,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'moon_volume' : [
-'constants', 'returns the estimated volume of the Moon',
+'constants', 'returns the volume of the Moon',
 '''
 ''',
 '''
@@ -4900,7 +4909,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'mars_mass' : [
-'constants', 'returns the estimated mass of the planet Mars',
+'constants', 'returns the mass of the planet Mars',
 '''
 ''',
 '''
@@ -4908,7 +4917,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'mars_radius' : [
-'constants', 'returns ',
+'constants', 'returns the radius ofthe planet Mars',
 '''
 ''',
 '''
@@ -4916,7 +4925,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'mars_revolution' : [
-'constants', 'returns ',
+'constants', 'returns revolution time of the planet Mars around the Sun',
 '''
 ''',
 '''
@@ -4924,7 +4933,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'mars_volume' : [
-'constants', 'returns the estimated volume of the planet Mars',
+'constants', 'returns the volume of the planet Mars',
 '''
 ''',
 '''
@@ -4932,7 +4941,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'jupiter_mass' : [
-'constants', 'returns the estimated mass of the planet Jupiter',
+'constants', 'returns the mass of the planet Jupiter',
 '''
 ''',
 '''
@@ -4940,7 +4949,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'jupiter_radius' : [
-'constants', 'returns ',
+'constants', 'returns the radius of the planet Jupiter',
 '''
 ''',
 '''
@@ -4948,7 +4957,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'jupiter_revolution' : [
-'constants', 'returns ',
+'constants', 'returns the revolution time of the planet Jupiter around the Sun',
 '''
 ''',
 '''
@@ -4956,7 +4965,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'jupiter_volume' : [
-'constants', 'returns the estimated volume of the planet Jupiter',
+'constants', 'returns the volume of the planet Jupiter',
 '''
 ''',
 '''
@@ -4964,7 +4973,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'saturn_mass' : [
-'constants', 'returns the estimated mass of the planet Saturn',
+'constants', 'returns the mass of the planet Saturn',
 '''
 ''',
 '''
@@ -4972,7 +4981,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'saturn_radius' : [
-'constants', 'returns ',
+'constants', 'returns the radius of the planet Saturn',
 '''
 ''',
 '''
@@ -4980,7 +4989,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'saturn_revolution' : [
-'constants', 'returns ',
+'constants', 'returns the revolution time of the planet Saturn around the Sun',
 '''
 ''',
 '''
@@ -4988,7 +4997,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'saturn_volume' : [
-'constants', 'returns the estimated volume of the planet Saturn',
+'constants', 'returns the volume of the planet Saturn',
 '''
 ''',
 '''
@@ -4996,7 +5005,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'uranus_mass' : [
-'constants', 'returns the estimated mass of the planet Uranus',
+'constants', 'returns the mass of the planet Uranus',
 '''
 ''',
 '''
@@ -5004,7 +5013,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'uranus_radius' : [
-'constants', 'returns ',
+'constants', 'returns the radius of the planet Uranus',
 '''
 ''',
 '''
@@ -5012,7 +5021,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'uranus_revolution' : [
-'constants', 'returns ',
+'constants', 'returns the revolution time of the planet Uranus around the Sun',
 '''
 ''',
 '''
@@ -5020,7 +5029,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'uranus_volume' : [
-'constants', 'returns the estimated volume of the planet Uranus',
+'constants', 'returns the volume of the planet Uranus',
 '''
 ''',
 '''
@@ -5028,7 +5037,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'neptune_mass' : [
-'constants', 'returns the estimated mass of the planet Neptune',
+'constants', 'returns the mass of the planet Neptune',
 '''
 ''',
 '''
@@ -5036,7 +5045,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'neptune_radius' : [
-'constants', 'returns ',
+'constants', 'returns the radius ofthe planet Neptune',
 '''
 ''',
 '''
@@ -5044,7 +5053,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'neptune_revolution' : [
-'constants', 'returns ',
+'constants', 'returns the revolution time of the planet Neptune around the Sun',
 '''
 ''',
 '''
@@ -5052,7 +5061,7 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'neptune_volume' : [
-'constants', 'returns the estimated volume of the planet Neptune',
+'constants', 'returns the volume of the planet Neptune',
 '''
 ''',
 '''
@@ -5060,32 +5069,36 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 [ ] ],
 
     'pluto_mass' : [
-'constants', 'returns the estimated mass of the planet Pluto',
+'constants', 'returns the mass of the planet Pluto',
 '''
+Yes, I still count Pluto as a planet.
 ''',
 '''
 ''' + makeCommandExample( 'pluto_mass' ),
 [ ] ],
 
     'pluto_radius' : [
-'constants', 'returns ',
+'constants', 'returns the radius of the planet Pluto',
 '''
+Yes, I still count Pluto as a planet.
 ''',
 '''
 ''' + makeCommandExample( 'pluto_radius' ),
 [ ] ],
 
     'pluto_revolution' : [
-'constants', 'returns ',
+'constants', 'returns the revolution time of the planet Pluto around the Sun',
 '''
+Yes, I still count Pluto as a planet.
 ''',
 '''
 ''' + makeCommandExample( 'pluto_revolution' ),
 [ ] ],
 
     'pluto_volume' : [
-'constants', 'returns the estimated volume of the planet Pluto',
+'constants', 'returns the volume of the planet Pluto',
 '''
+Yes, I still count Pluto as a planet.
 ''',
 '''
 ''' + makeCommandExample( 'pluto_volume' ),

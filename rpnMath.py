@@ -23,7 +23,7 @@ from rpnDateTime import RPNDateTime
 from rpnGenerator import RPNGenerator
 from rpnMeasurement import RPNMeasurement, RPNUnits
 from rpnName import getOrdinalName
-from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real
+from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real, real_int
 
 
 # //******************************************************************************
@@ -213,7 +213,7 @@ def getRoot( n, k ):
                 else:
                     name = getOrdinalName( k )
 
-                raise ValueError( 'cannot take the ' + name + ' root of this measurement: ', n.getUnits( ) ) #print measurement RPNMeasurement.getValue( ) )
+                raise ValueError( 'cannot take the ' + name + ' root of this measurement: ', n.getUnits( ) )
 
             newUnits[ unit ] /= k
 
@@ -363,7 +363,7 @@ def isSquare( n ):
 
 @twoArgFunctionEvaluator( )
 def isPower( n, k ):
-    rootN = root( n, k )
+    rootN = root( real_int( n ), real_int( k ) )
 
     return 1 if rootN == floor( rootN ) else 0
 
@@ -478,6 +478,7 @@ def get_tan( n ):
 def get_tanh( n ):
     return performTrigOperation( n, tanh )
 
+
 # //******************************************************************************
 # //
 # //  isEqual
@@ -489,7 +490,10 @@ def isEqual( n, k ):
     if isinstance( n, RPNMeasurement ):
         return 1 if n.isEqual( k ) else 0
     else:
-        return 1 if n == k else 0
+        if isinstance( n, RPNMeasurement ):
+            return 1 if k.isEqual( n ) else 0
+        else:
+            return 1 if n == k else 0
 
 
 # //******************************************************************************
@@ -500,10 +504,7 @@ def isEqual( n, k ):
 
 @twoArgFunctionEvaluator( )
 def isNotEqual( n, k ):
-    if isinstance( n, RPNMeasurement ):
-        return 1 if n.isNotEqual( k ) else 0
-    else:
-        return 1 if n != k else 0
+    return 0 if isEqual( n, k ) else 1
 
 
 # //******************************************************************************
@@ -691,97 +692,264 @@ def getMinimum( n ):
         return min( n )
 
 
+# //******************************************************************************
+# //
+# //  isEven
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def isEven( n ):
     return 1 if fmod( real( n ), 2 ) == 0 else 0
+
+
+# //******************************************************************************
+# //
+# //  isOdd
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def isOdd( n ):
     return 1 if fmod( real( n ), 2 ) == 1 else 0
 
+
+# //******************************************************************************
+# //
+# //  isNotZero
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def isNotZero( n ):
     return 0 if n == 0 else 1
+
+
+# //******************************************************************************
+# //
+# //  isZero
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def isZero( n ):
     return 1 if n == 0 else 0
 
+
+# //******************************************************************************
+# //
+# //  getMantissa
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def getMantissa( n ):
     return fsub( n, floor( n ) )
+
+
+# //******************************************************************************
+# //
+# //  getModulo
+# //
+# //******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getModulo( n, k ):
     return fmod( real( n ), real( k ) )
 
+
+# //******************************************************************************
+# //
+# //  getAGM
+# //
+# //******************************************************************************
+
 @twoArgFunctionEvaluator( )
 def getAGM( n, k ):
     return agm( n, k ),
+
+
+# //******************************************************************************
+# //
+# //  getExp
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getExp( n ):
     return exp( n )
 
+
+# //******************************************************************************
+# //
+# //  getExp10
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def getExp10( n ):
     return power( 10, n )
+
+
+# //******************************************************************************
+# //
+# //  getExpPhi
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getExpPhi( n ):
     return power( phi, n )
 
+
+# //******************************************************************************
+# //
+# //  getArgument
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def getArgument( n ):
     return arg( n )
+
+
+# //******************************************************************************
+# //
+# //  getConjugate
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getConjugate( n ):
     return conj( n )
 
+
+# //******************************************************************************
+# //
+# //  getI
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def getI( n ):
     return mpc( real = '0.0', imag = n )
+
+
+# //******************************************************************************
+# //
+# //  getImaginary
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getImaginary( n ):
     return im( n )
 
+
+# //******************************************************************************
+# //
+# //  getReal
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def getReal( n ):
     return re( n )
+
+
+# //******************************************************************************
+# //
+# //  getLambertW
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getLambertW( n ):
     return lambertw( n )
 
+
+# //******************************************************************************
+# //
+# //  getLI
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def getLI( n ):
     return li( n )
+
+
+# //******************************************************************************
+# //
+# //  getLog
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getLog( n ):
     return ln( n )
 
+
+# //******************************************************************************
+# //
+# //  getLog10
+# //
+# //******************************************************************************
+
 @oneArgFunctionEvaluator( )
 def getLog10( n ):
     return log10( n )
+
+
+# //******************************************************************************
+# //
+# //  getLog2
+# //
+# //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getLog2( n ):
     return log( n, 2 )
 
+
+# //******************************************************************************
+# //
+# //  getLogXY
+# //
+# //******************************************************************************
+
 @twoArgFunctionEvaluator( )
 def getLogXY( n, k ):
     return log( n, k )
+
+
+# //******************************************************************************
+# //
+# //  getPolyexp
+# //
+# //******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def getPolyexp( n, k ):
     return polyexp( n, k )
 
+
+# //******************************************************************************
+# //
+# //  getPolylog
+# //
+# //******************************************************************************
+
 @twoArgFunctionEvaluator( )
 def getPolylog( n, k ):
     return polylog( n, k )
+
+
+# //******************************************************************************
+# //
+# //  calculateHypotenuse
+# //
+# //******************************************************************************
 
 @twoArgFunctionEvaluator( )
 def calculateHypotenuse( n, k ):

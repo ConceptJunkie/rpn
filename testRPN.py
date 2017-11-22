@@ -46,7 +46,7 @@ def runCommandLineOptionsTests( ):
     testOperator( '120012022211222012 -b3' )
     testOperator( 'rick -b36' )
 
-    expectException( '9999 -b8' )
+    expectException( '9999 -b8' )   # invalid base 8 number
 
     testOperator( '6 8 ** -c' )
 
@@ -141,8 +141,8 @@ def runCommandLineOptionsTests( ):
     testOperator( '1 100 range -r61' )
     testOperator( '1 100 range -r62' )
 
-    expectException( '1 100 range -r1' )
-    expectException( '1 100 range -r63' )
+    expectException( '1 100 range -r1' )    # invalid output base
+    expectException( '1 100 range -r63' )   # invalid output base
 
     testOperator( '1 100 range -re' )
     testOperator( '1 100 range -rfac' )
@@ -182,24 +182,24 @@ def runAlgebraOperatorTests( ):
     # add_polynomials
     expectEqual( '1 10 range 1 10 range add_polynomials', '2 20 2 range2' )
 
-    expectException( '1 10 range add_polynomials' )
+    expectException( '1 10 range add_polynomials' )   # too few arguments
 
     # eval_polynomial
     testOperator( '1 10 range 6 eval_polynomial' )
     testOperator( '[ 4 -2 3 5 -6 20 ] 1 10 range eval_polynomial' )
 
-    expectException( '1 eval_polynomial' )
-    expectException( '1 10 range eval_polynomial' )
+    expectException( '1 eval_polynomial' )            # too few arguments
+    expectException( '1 10 range eval_polynomial' )   # too few arguments
 
     # find_polynomial
     expectEqual( 'phi 3 find_polynomial', '[ -1 1 1 ]' )
 
-    expectException( '1 find_polynomial' )
+    expectException( '1 find_polynomial' )            # too few arguments
 
     # multiply_polynomials
     testOperator( '1 10 range 1 10 range multiply_polynomials' )
 
-    expectException( '1 10 range multiply_polynomials' )
+    expectException( '1 10 range multiply_polynomials' )   # too few arguments
 
     # polynomial_power
     testOperator( '[ 1 2 3 4 ] 5 polynomial_power' )
@@ -209,7 +209,7 @@ def runAlgebraOperatorTests( ):
     expectEqual( '-a50 [ 1 1 ] 150 polynomial_power', '-a50 151 pascal_triangle' )
     expectEqual( '-a150 [ 1 1 ] 500 polynomial_power', '-a150 501 pascal_triangle' )
 
-    expectException( '1 10 range polynomial_power' )
+    expectException( '1 10 range polynomial_power' )    # too few arguments
 
     # polynomial_product
     testOperator( '[ 1 10 range 1 10 range 2 11 range ] polynomial_product' )
@@ -220,11 +220,11 @@ def runAlgebraOperatorTests( ):
     # solve
     testOperator( '1 8 range solve' )
 
-    expectException( '0 solve' )
-    expectException( '1 solve' )
-    expectException( '[ 0 1 ] solve' )
-    expectException( '[ 0 0 1 ] solve' )
-    expectException( '[ 0 0 0 ] solve' )
+    expectException( '0 solve' )            # order too low
+    expectException( '1 solve' )            # order too low
+    expectException( '[ 0 1 ] solve' )      # order too low
+    expectException( '[ 0 0 1 ] solve' )    # order too low
+    expectException( '[ 0 0 0 ] solve' )    # order too low
 
     # solve_cubic
     expectEquivalent( '1 0 0 0 solve_cubic', '[ 1 0 0 0 ] solve' )
@@ -235,8 +235,8 @@ def runAlgebraOperatorTests( ):
     expectEquivalent( '10 -10 10 -10 solve_cubic', '[ 10 -10 10 -10 ] solve' )
     expectEquivalent( '57 -43 15 28 solve_cubic', '[ 57 -43 15 28 ] solve' )
 
-    expectException( '0 0 0 0 solve_cubic' )
-    expectException( '0 0 0 1 solve_cubic' )
+    expectException( '0 0 0 0 solve_cubic' )   # order too low
+    expectException( '0 0 0 1 solve_cubic' )   # order too low
 
     # solve_quadratic
     expectEquivalent( '1 0 0 solve_quadratic', '[ 1 0 0 ] solve' )
@@ -247,8 +247,8 @@ def runAlgebraOperatorTests( ):
     expectEquivalent( '8 9 10 solve_quadratic', '[ 8 9 10 ] solve' )
     expectEquivalent( '-36 150 93 solve_quadratic', '[ -36 150 93 ] solve' )
 
-    expectException( '0 0 0 solve_quadratic' )
-    expectException( '0 0 1 solve_quadratic' )
+    expectException( '0 0 0 solve_quadratic' )   # order too low
+    expectException( '0 0 1 solve_quadratic' )   # order too low
 
     # solve_quartic
     expectEquivalent( '1 0 0 0 0 solve_quartic', '[ 1 0 0 0 0 ] solve' )
@@ -260,8 +260,8 @@ def runAlgebraOperatorTests( ):
     expectEquivalent( '2 -3 2 -3 2 solve_quartic', '[ 2 -3 2 -3 2 ] solve' )
     expectEquivalent( '54 23 -87 19 2042 solve_quartic', '[ 54 23 -87 19 2042 ] solve' )
 
-    expectException( '0 0 0 0 0 solve_quadratic' )
-    expectException( '0 0 0 0 1 solve_quadratic' )
+    expectException( '0 0 0 0 0 solve_quartic' )   # order too low
+    expectException( '0 0 0 0 1 solve_quartic' )   # order too low
 
 
 # //******************************************************************************
@@ -291,7 +291,7 @@ def runArithmeticOperatorTests( ):
     expectResult( '4 3 add', 7 )
     expectResult( '3 feet 7 inches + inches convert', RPNMeasurement( 43, 'inch' ) )
 
-    expectException( '2 cups 3 weeks +' )
+    expectException( '2 cups 3 weeks +' )   # incompatible measurements
 
     # ceiling
     expectResult( '9.99999 ceiling', 10 )
@@ -304,6 +304,11 @@ def runArithmeticOperatorTests( ):
     expectResult( '2 decrement', 1 )
     expectResult( '3 miles decrement', RPNMeasurement( 2, 'miles' ) )
 
+    #expectEqual( 'infinity decrement', 'infinity' )        # The test can't compare infinity.
+    #expectEqual( 'negative_infinity decrement', 'negative_infinity' )
+
+    expectEqual( '2 i decrement', '2 i 1 -' )
+
     # divide
     testOperator( '12 13 divide' )
     testOperator( '10 days 7 / dhms' )
@@ -313,7 +318,7 @@ def runArithmeticOperatorTests( ):
 
     expectResult( '4 cups 2 cups /', 2 )
 
-    expectException( '1 0 divide' )
+    expectException( '1 0 divide' )     # division by zero
 
     # equals_one_of
     expectEqual( '1 33100 primes lambda x 40 mod [ 7 19 23 ] equals_one_of x 1 - 2 / is_prime and filter', '353 oeis 1000 left' )
@@ -362,8 +367,12 @@ def runArithmeticOperatorTests( ):
 
     # increment
     expectResult( '2 increment', 3 )
+    expectResult( '-1 increment', 0 )
+    expectResult( '0.5 increment', 1.5 )
     expectResult( '3 miles increment', RPNMeasurement( 4, 'miles' ) )
 
+    #expectEqual( 'infinity increment', 'infinity' )        # The test can't compare infinity.
+    #expectEqual( 'negative_infinity increment', 'negative_infinity' )
     expectEqual( '2 i increment', '2 i 1 +' )
 
     # is_divisible
@@ -376,12 +385,19 @@ def runArithmeticOperatorTests( ):
     expectEqual( '0 2944 range lambda x 9 has_digits x 9 is_divisible or filter', '92457 oeis 1001 left' )
     expectEqual( '2 14349 range lambda x 1 + x sum_digits x 2 + sum_digits + is_divisible filter', '127271 oeis 1000 left' )
 
-    expectException( '1 0 is_divisible' )
-    expectException( '20 i 4 is_divisible' )
+    expectException( '1 0 is_divisible' )       # division by zero
+    expectException( '20 i 4 is_divisible' )    # real arguments required
+    expectException( '20 4 i is_divisible' )    # real arguments required
 
     # is_equal
     expectResult( '4 3 is_equal', 0 )
     expectResult( 'pi pi is_equal', 1 )
+    expectResult( '2 cups 3 cups is_equal', 0 )
+    expectResult( '2 cups 1 pint is_equal', 1 )
+    expectResult( '128 fluid_ounces 1 gallon is_equal', 1 )
+    expectResult( '4 1 cup is_equal', 0 )
+
+    expectException( '4 cups 1 is_equal' )      # can't compare a measurement with an integer
 
     # is_even
     expectResult( '-2 is_even', 1 )
@@ -392,7 +408,7 @@ def runArithmeticOperatorTests( ):
 
     expectEqual( '0 20000 range lambda x is_even filter', '5843 oeis 10001 left' )
 
-    expectException( '1 i is_even' )
+    expectException( '1 i is_even' )    # real argument required
 
     # is_greater
     expectResult( '4 3 is_greater', 1 )
@@ -402,8 +418,9 @@ def runArithmeticOperatorTests( ):
     expectResult( '8 miles 40000 feet is_greater', 1 )
     expectResult( '1 light-year 1 parsec is_greater', 0 )
 
-    expectException( '3 i 6 is_greater' )
-    expectException( '4 cups 1 mile is_greater' )
+    expectException( '3 i 6 is_greater' )           # real arguments required
+    expectException( '3 6 i is_greater' )           # real arguments required
+    expectException( '4 cups 1 mile is_greater' )   # incompatible measurements
 
     # is_integer
     expectResult( '1 is_integer', 1 )
@@ -420,8 +437,9 @@ def runArithmeticOperatorTests( ):
     expectResult( '8 miles 40000 feet is_less', 0 )
     expectResult( '1 light-year 1 parsec is_less', 1 )
 
-    expectException( '5 i 4 is_less' )
-    expectException( '1 gallon 1 watt is_not_equal' )
+    expectException( '5 i 4 is_less' )                  # real arguments required
+    expectException( '5 4 i is_less' )                  # real arguments required
+    expectException( '1 gallon 1 watt is_not_equal' )   # incompatible measurements
 
     # is_not_equal
     expectResult( '4 3 is_not_equal', 1 )
@@ -431,17 +449,20 @@ def runArithmeticOperatorTests( ):
     expectResult( '8 miles 40000 feet is_not_equal', 1 )
     expectResult( '1 light-year 1 parsec is_not_equal', 1 )
     expectResult( '1 inch 1 inch is_not_equal', 0 )
+    expectResult( '4 1 cup is_not_equal', 1 )
 
-    expectException( '4 cups 1 is_not_equal' )
-    expectException( '1 inch 1 cup is_not_equal' )
+    expectException( '4 cups 1 is_not_equal' )         # can't compare a measurement with an integer
+    expectException( '1 inch 1 cup is_not_equal' )  # incompatible measurements
 
     # is_not_greater
     expectResult( '4 3 is_not_greater', 0 )
     expectResult( '77 77 is_not_greater', 1 )
     expectResult( '2 99 is_not_greater', 1 )
     expectResult( '2 miles 2 kilometers is_not_greater', 0 )
+    expectResult( '129 fluid_ounces 1 gallon is_not_greater', 0 )
 
-    expectException( '2 i 7 is_not_greater' )
+    expectException( '2 i 7 is_not_greater' )   # real arguments required
+    expectException( '2 7 i is_not_greater' )   # real arguments required
 
     # is_not_less
     expectResult( '4 3 is_not_less', 1 )
@@ -451,13 +472,16 @@ def runArithmeticOperatorTests( ):
     expectResult( '8 miles 40000 feet is_not_less', 1 )
     expectResult( '1 light-year 1 parsec is_not_less', 0 )
     expectResult( '12 inches 1 foot is_not_less', 1 )
+    expectResult( '129 fluid_ounces 1 gallon is_not_less', 1 )
 
-    expectException( '8 i -14 is_not_less' )
+    expectException( '8 i -14 is_not_less' )    # real arguments required
+    expectException( '8 -14 i is_not_less' )    # real arguments required
 
     # is_not_zero
     expectResult( '-1 is_not_zero', 1 )
     expectResult( '0 is_not_zero', 0 )
     expectResult( '1 is_not_zero', 1 )
+    expectResult( '1 i is_not_zero', 1 )
 
     # is_odd
     expectResult( '-2 is_odd', 0 )
@@ -468,7 +492,8 @@ def runArithmeticOperatorTests( ):
 
     expectEqual( '0 20001 range lambda x is_odd filter', '5408 oeis 10001 left' )
 
-    expectException( '5 i 3 + is_odd' )
+    expectException( '5 i 3 + is_odd' )  # real arguments required
+    expectException( '5 3 i - is_odd' )  # real arguments required
 
     # is_power
     expectResult( '1024 2 is_power', 1 )
@@ -1087,88 +1112,88 @@ def runChemistryOperatorTests( ):
     expectResult( 'Fe atomic_number', 26 )
     expectResult( 'U atomic_number', 92 )
 
-    expectException( 'Va atomic_number' )
+    expectException( 'Va atomic_number' )   # invalid atomic symbol
 
     # atomic_symbol
     testOperator( '1 atomic_symbol' )
     testOperator( '118 atomic_symbol' )
 
-    expectException( '119 atomic_symbol' )
-    expectException( '0 atomic_symbol' )
+    expectException( '119 atomic_symbol' )  # atomic number out of range
+    expectException( '0 atomic_symbol' )    # atomic number out of range
 
     # atomic_weight
     testOperator( '1 118 range atomic_weight' )
 
-    expectException( '119 atomic_symbol' )
-    expectException( '0 atomic_symbol' )
+    expectException( '119 atomic_symbol' )  # atomic number out of range
+    expectException( '0 atomic_symbol' )    # atomic number out of range
 
     # element_block
     testOperator( '1 118 range element_block')
 
-    expectException( '119 element_block' )
-    expectException( '0 element_block' )
+    expectException( '119 element_block' )  # atomic number out of range
+    expectException( '0 element_block' )    # atomic number out of range
 
     # element_boiling_point
     testOperator( '1 118 range element_boiling_point')
 
-    expectException( '119 element_boiling_point' )
-    expectException( '0 element_boiling_point' )
+    expectException( '119 element_boiling_point' )   # atomic number out of range
+    expectException( '0 element_boiling_point' )     # atomic number out of range
 
     # element_density
     testOperator( '1 118 range element_density')
 
-    expectException( '119 element_density' )
-    expectException( '0 element_density' )
+    expectException( '119 element_density' )   # atomic number out of range
+    expectException( '0 element_density' )     # atomic number out of range
 
     # element_description
     testOperator( '1 118 range element_description' )
 
-    expectException( '119 element_description' )
-    expectException( '0 element_description' )
+    expectException( '119 element_description' )   # atomic number out of range
+    expectException( '0 element_description' )     # atomic number out of range
 
     # element_group
     testOperator( '1 118 range element_group')
 
-    expectException( '119 element_group' )
-    expectException( '0 element_group' )
+    expectException( '119 element_group' )   # atomic number out of range
+    expectException( '0 element_group' )     # atomic number out of range
 
     # element_melting_point
     testOperator( '1 118 range element_melting_point')
 
-    expectException( '119 element_melting_point' )
-    expectException( '0 element_melting_point' )
+    expectException( '119 element_melting_point' )   # atomic number out of range
+    expectException( '0 element_melting_point' )     # atomic number out of range
 
     # element_name
     testOperator( '1 118 range element_name' )
 
-    expectException( '119 element_name' )
-    expectException( '0 element_name' )
+    expectException( '119 element_name' )    # atomic number out of range
+    expectException( '0 element_name' )      # atomic number out of range
 
     # element_occurrence
     testOperator( '1 118 range element_occurrence' )
 
-    expectException( '119 element_occurrence' )
-    expectException( '0 element_occurrence' )
+    expectException( '119 element_occurrence' )   # atomic number out of range
+    expectException( '0 element_occurrence' )     # atomic number out of range
 
     # element_period
     testOperator( '1 118 range element_period' )
 
-    expectException( '119 element_period' )
-    expectException( '0 element_period' )
+    expectException( '119 element_period' )    # atomic number out of range
+    expectException( '0 element_period' )      # atomic number out of range
 
     # element_state
     testOperator( '1 118 range element_state' )
 
-    expectException( '119 element_state' )
-    expectException( '0 element_state' )
+    expectException( '119 element_state' )     # atomic number out of range
+    expectException( '0 element_state' )       # atomic number out of range
 
     # molar_mass
     testOperator( 'H2O molar_mass' )
     testOperator( 'C12H22O11 molar_mass' )
 
-    expectException( 'ZoO2 molar_mass' )
+    expectException( 'ZoO2 molar_mass' )       # invalid molecule expression
 
-    expectException( '2 H atomic_number' )
+    expectException( '2 H atomic_number' )     # non-unit measurement can't be a validly expressed atomic symbol
 
     # Check to see where atomic symbols collide with other aliases, and if the exception handling deals with it correctly.
     testOperator( 'H molar_mass' )

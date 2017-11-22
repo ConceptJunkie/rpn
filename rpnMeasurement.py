@@ -495,6 +495,9 @@ class RPNMeasurement( object ):
         elif isinstance( other, ( RPNUnits, dict, str ) ):
             measurement = RPNMeasurement( 1, other )
             return RPNMeasurement( self.convertValue( measurement ), measurement.getUnits( ) )
+        elif isinstance( other, mpf ):
+            measurement = RPNMeasurement( other, 'unity' )
+            return RPNMeasurement( self.convertValue( measurement ), measurement.getUnits( ) )
         else:
             raise ValueError( 'convert doesn\'t know what to do with this argument' )
 
