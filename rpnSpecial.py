@@ -19,8 +19,8 @@ import os
 import signal
 import sys
 
-from mpmath import arange, fadd, findpoly, floor, identify, im, log10, \
-                   mpmathify, nint, nstr, rand
+from mpmath import arange, e, euler, fadd, findpoly, floor, identify, im, log10, \
+                   mpmathify, nint, nstr, pi, rand, sqrt
 
 from random import randrange
 from functools import reduce
@@ -226,7 +226,7 @@ def handleIdentify( result, file=sys.stdout ):
     formula = identify( result )
 
     if formula is None:
-        base = [ 'pi', 'e', 'euler' ]
+        base = [ 'pi', 'e', 'euler', 'sqrt(pi)', 'phi' ]
         formula = identify( result, base )
 
     if formula is None:

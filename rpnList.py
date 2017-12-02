@@ -408,10 +408,11 @@ def getReverse( args ):
 # //******************************************************************************
 
 def shuffleList( args ):
-    if not isinstance( args, list ):
+    if isinstance( args, RPNGenerator ):
+        return shuffleList( list( args ) )
+    elif not isinstance( args, list ):
         return args
-
-    if isinstance( args[ 0 ], list ):
+    elif isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         result = [ ]
 
         for i in range( 0, len( args ) ):
@@ -443,7 +444,7 @@ def getUniqueElements( args ):
 def sortAscending( args ):
     result = [ ]
 
-    if isinstance( args[ 0 ], list ):
+    if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         for i in range( 0, len( args ) ):
             result.append( sorted( args[ i ] ) )
 
@@ -461,7 +462,7 @@ def sortAscending( args ):
 def sortDescending( args ):
     result = [ ]
 
-    if isinstance( args[ 0 ], list ):
+    if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         for i in range( 0, len( args ) ):
             result.append( sorted( args[ i ], reverse = True ) )
 
@@ -477,7 +478,9 @@ def sortDescending( args ):
 # //******************************************************************************
 
 def calculatePowerTower( args ):
-    if isinstance( args[ 0 ], list ):
+    if isinstance( args, RPNGenerator ):
+        return calculatePowerTower( list( args ) )
+    elif isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         return [ calculatePowerTower( arg ) for arg in args ]
 
     result = args[ 0 ]
@@ -495,7 +498,9 @@ def calculatePowerTower( args ):
 # //******************************************************************************
 
 def calculatePowerTower2( args ):
-    if isinstance( args[ 0 ], list ):
+    if isinstance( args, RPNGenerator ):
+        return calculatePowerTower2( list( args ) )
+    if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
         return [ calculatePowerTower2( arg ) for arg in args ]
 
     result = args[ -1 ]
@@ -607,7 +612,7 @@ def reduceList( args ):
     if isinstance( args, RPNGenerator ):
         return reduceList( list( args ) )
     elif isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ reduceList( arg ) for arg in args ]
         else:
             gcd = getGCDOfList( args )
@@ -724,7 +729,7 @@ def groupElements( args, count ):
     if isinstance( count, list ):
         return [ groupElements( args, i ) for i in count ]
     elif isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ groupElements( args, count ) for arg in args ]
         else:
             result = [ ]
@@ -747,7 +752,7 @@ def groupElements( args, count ):
 
 def getOccurrences( args ):
     if isinstance( args, list ):
-        if isinstance( args[ 0 ], list ):
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ getOccurrences( arg ) for arg in args ]
         else:
             counter = collections.Counter( )
@@ -776,7 +781,7 @@ def getOccurrenceRatios( args ):
     if isinstance( args, list ):
         count = len( args )
 
-        if isinstance( args[ 0 ], list ):
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ getOccurrences( arg ) for arg in args ]
         else:
             counter = collections.Counter( )
@@ -805,7 +810,7 @@ def getCumulativeOccurrenceRatios( args ):
     if isinstance( args, list ):
         count = len( args )
 
-        if isinstance( args[ 0 ], list ):
+        if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ getOccurrences( arg ) for arg in args ]
         else:
             counter = collections.Counter( )

@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1148
+maxExampleCount = 1149
 
 
 # //******************************************************************************
@@ -1271,6 +1271,8 @@ Calculation (or approximation) of various mathematical constants:
 ''' + makeCommandExample( '1 2 inf lambda 1 x zeta 1/x - nsum +', indent=8 ) + '''
     Kepler-Bouwkamp constant
 ''' + makeCommandExample( '3 inf lambda pi x / cos nprod', indent=8 ) + '''
+    Exponential Factorial Constant
+''' + makeCommandExample( '-a80 1 inf lambda 1 x 1 range power_tower / nsum', indent=8 ) + '''
     ''',
     'notes' :
     '''

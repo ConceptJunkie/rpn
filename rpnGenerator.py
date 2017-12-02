@@ -42,8 +42,12 @@ class RPNGenerator( object ):
     def __next__( self ):
         return self.generator.__next__( )
 
+    # I have to admit, I have no idea how I came up with this or why it's necessary.
     def __getitem__( self, index ):
-        return next( itertools.islice( self.generator, index, index + 1 ) )
+        if isinstance( index, slice ):
+            return next( itertools.islice( self.generator, index.start, index.end, 1 ) )
+        else:
+            return next( itertools.islice( self.generator, index, index + 1 ) )
 
     def clone( self ):
         self.generator, newGenerator = itertools.tee( self.generator )

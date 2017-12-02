@@ -901,7 +901,12 @@ def getLCM( n, k ):
 # //
 # //  getFrobeniusNumber
 # //
-# //  adapted from http://ccgi.gladman.plus.com/wp/?page_id=1500
+# //  adapted from http://ccgi.gladman.plus.com/wp/?page_id=1500,
+# //  (c) copyright 2010-2016, Brian Gladman
+# //
+# //  That address is dead, but I found the same page in another location:
+# //
+# //  http://brg.a2hosted.com/?page_id=1500
 # //
 # //  Since this is classified as a list operator, it has to behave like the
 # //  other operators in rpnList.py.

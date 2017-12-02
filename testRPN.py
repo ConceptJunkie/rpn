@@ -275,6 +275,10 @@ def runArithmeticOperatorTests( ):
     expectResult( '-394 abs', 394 )
     expectResult( '0 abs', 0 )
     expectResult( '394 abs', 394 )
+    expectResult( '2 i abs', 2 )
+    expectResult( '-7 i abs', 7 )
+    expectResult( '3 i 4 + abs', 5 )
+    expectResult( '-3 i 4 + abs', 5 )
 
     # add
     testOperator( 'today 7 days +' )
@@ -3823,6 +3827,14 @@ def runPowersAndRootsOperatorTests( ):
 
     # power
     testOperator( '4 5 power' )
+    testOperator( '4 [ 5 7 9 ] power' )
+    testOperator( '4 1 6 range power' )
+    testOperator( '[ 5 7 9 ] 4 power' )
+    testOperator( '1 6 4 range power' )
+    testOperator( '[ 5 7 9 ] [ 2 3 4 ] power' )
+    testOperator( '3 5 range [ 2 3 4 ] power' )
+    testOperator( '[ 2 3 4 ] 3 5 range power' )
+    testOperator( '2 4 range 3 5 range power' )
     testOperator( '4 1 i power' )
     testOperator( '1 10 range 2 10 range power' )
 
@@ -3842,9 +3854,13 @@ def runPowersAndRootsOperatorTests( ):
 
     # power_tower
     testOperator( '-c -a30 [ 2 3 2 ] power_tower' )
+    testOperator( '[ [ 2 5 4 ] [ 3 2 4 ] [ 3 2 2 ] ] power_tower' )
+    testOperator( '[ 2 3 range 2 4 range ] power_tower' )
 
     # power_tower2
     testOperator( '-a160 -c [ 4 4 4 ] power_tower2' )
+    testOperator( '[ [ 2 5 4 ] [ 3 2 4 ] [ 3 2 2 ] ] power_tower2' )
+    testOperator( '[ 2 3 range 2 4 range ] power_tower2' )
 
     # powmod
     testOperator( '43 67 9 powmod' )
@@ -3857,7 +3873,7 @@ def runPowersAndRootsOperatorTests( ):
 
     # square_root
     expectEqual( '2 square_root', '4 4 root' )
-    expectEqual( '1 10000 range prime sqrt floor', '6 oeis 10000 left' )
+    expectEqual( '1 10000 primes sqrt floor', '6 oeis 10000 left' )
 
     # tetrate
     testOperator( '3 2 tetrate' )
