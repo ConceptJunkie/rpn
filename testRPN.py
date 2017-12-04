@@ -180,6 +180,12 @@ def runCommandLineOptionsTests( ):
 
 def runAlgebraOperatorTests( ):
     # add_polynomials
+    testOperator( '[ 2 4 6 8 10 ] [ 3 5 7 ] add_polynomials' )
+    testOperator( '1 13 3 range2 [ 3 5 7 ] add_polynomials' )
+    testOperator( '[ 3 5 7 ] 1 5 range add_polynomials' )
+    testOperator( '1 8 range 8 1 range add_polynomials' )
+    #testOperator( '[ [ 1 2 3 ] [ 2 2 3 ] ] [ 8 7 6 ] add_polynomials' )
+
     expectEqual( '1 10 range 1 10 range add_polynomials', '2 20 2 range2' )
 
     expectException( '1 10 range add_polynomials' )   # too few arguments
@@ -203,6 +209,7 @@ def runAlgebraOperatorTests( ):
 
     # polynomial_power
     testOperator( '[ 1 2 3 4 ] 5 polynomial_power' )
+    testOperator( '[ 1 1 1 ] 1 10 range polynomial_power -s1' )
 
     expectEqual( '[ 1 1 ] 5 polynomial_power', '6 pascal_triangle' )
     expectEqual( '[ 1 1 ] 15 polynomial_power', '16 pascal_triangle' )
@@ -213,9 +220,11 @@ def runAlgebraOperatorTests( ):
 
     # polynomial_product
     testOperator( '[ 1 10 range 1 10 range 2 11 range ] polynomial_product' )
+    testOperator( '[ [ 1 10 range 1 10 range 2 11 range ] [ 1 5 range 2 6 range ] ] polynomial_product' )
 
     # polynomial_sum
     testOperator( '[ 1 10 range 2 11 range ] polynomial_sum' )
+    testOperator( '[ [ 1 10 range 1 10 range 2 11 range ] [ 1 5 range 2 6 range ] ] polynomial_sum' )
 
     # solve
     testOperator( '1 8 range solve' )

@@ -409,7 +409,7 @@ def exponentiatePolynomial( n, k ):
         n = [ n ]
 
     if isinstance( k, list ):
-        return [ multiplyPolynomials( n, i ) for i in k ]
+        return [ exponentiatePolynomial( n, i ) for i in k ]
     else:
         result = n
 
@@ -476,6 +476,8 @@ def multiplyListOfPolynomials( args ):
     product.'''
     if isinstance( args, RPNGenerator ):
         args = list( args )
+    elif isinstance( args[ 0 ][ 0 ], ( list, RPNGenerator ) ):
+        return [ multiplyListOfPolynomials( arg ) for arg in args ]
     elif not isinstance( args, list ):
         args = [ args ]
 
@@ -505,6 +507,8 @@ def sumListOfPolynomials( args ):
     '''Interprets args as a list of polynomials and returns the polynomial sum.'''
     if isinstance( args, RPNGenerator ):
         args = list( args )
+    elif isinstance( args[ 0 ][ 0 ], ( list, RPNGenerator ) ):
+        return [ sumListOfPolynomials( arg ) for arg in args ]
     elif not isinstance( args, list ):
         args = [ args ]
 
