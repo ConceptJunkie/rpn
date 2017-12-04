@@ -23,7 +23,8 @@ from rpnGenerator import RPNGenerator
 from rpnMath import add, subtract, divide
 from rpnMeasurement import RPNMeasurement
 from rpnNumberTheory import getGCDOfList
-from rpnUtils import listAndOneArgFunctionEvaluator, listAndTwoArgFunctionEvaluator
+from rpnUtils import listAndOneArgFunctionEvaluator, listAndTwoArgFunctionEvaluator, \
+                     listArgFunctionEvaluator
 
 
 # //******************************************************************************
@@ -180,6 +181,7 @@ def getDifference( arg1, arg2 ):
 # //
 # //******************************************************************************
 
+#@listArgFunctionEvaluator( )
 def getIndexOfMax( args ):
     maximum = -inf
     result = -1

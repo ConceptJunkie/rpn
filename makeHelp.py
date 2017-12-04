@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1149
+maxExampleCount = 1150
 
 
 # //******************************************************************************
@@ -151,7 +151,10 @@ command-line options:
         displays basic help information
 
     -i, --identify
-        identify the result (may repeat input)
+        identify the result (may just repeat input)
+
+    -I, --ignore_cache
+         ignore cached results, and recalculates values, then updates cache
 
     -ln, --line_length
         line length to use for formatting help (default: ''' + str( g.defaultLineLength ) + ')' + '''
@@ -1273,6 +1276,8 @@ Calculation (or approximation) of various mathematical constants:
 ''' + makeCommandExample( '3 inf lambda pi x / cos nprod', indent=8 ) + '''
     Exponential Factorial Constant
 ''' + makeCommandExample( '-a80 1 inf lambda 1 x 1 range power_tower / nsum', indent=8 ) + '''
+    Conway's Constant
+''' + makeCommandExample( '-a80 [ 1, 0, -1, -2, -1, 2, 2, 1, -1, -1, -1, -1, -1, 2, 5, 3, -2, -10, -3, -2, 6, 6, 1, 9, -3, -7, -8, -8, 10, 6, 8, -5, -12, 7, -7, 7, 1, -3, 10, 1, -6, -2, -10, -3, 2, 9, -3, 14, -8, 0, -7, 9, 3, -4, -10, -7, 12, 7, 2, -12, -4, -2, 5, 0, 1, -7, 7, -4, 12, -6, 3, -6 ] solve real max', indent=8, slow=True ) + '''
     ''',
     'notes' :
     '''

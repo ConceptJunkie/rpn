@@ -30,6 +30,7 @@ def debugPrint( *args, **kwargs ):
 
 
 import functools
+import itertools
 import os
 import sys
 
@@ -390,6 +391,31 @@ def oneArgFunctionEvaluator( ):
         return evaluateOneArg
 
     return oneArgFunction
+
+
+# //******************************************************************************
+# //
+# //  listArgFunctionEvaluator
+# //
+# //******************************************************************************
+
+def listArgFunctionEvaluator( ):
+    def listArgFunction( func ):
+        @functools.wraps( func )
+
+        def evaluateList( arg ):
+            args = list( arg )
+
+            if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
+                result = [ evaluateList( i ) for i in args ]
+            else:
+                result = func( args )
+
+            return result
+
+        return evaluateList
+
+    return listArgFunction
 
 
 # //******************************************************************************

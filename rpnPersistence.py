@@ -482,12 +482,14 @@ def cachedFunction( name ):
 
         def cacheResults( *args, **kwargs ):
             cache = openFunctionCache( name )
-            if ( args, kwargs ) in cache:
-                return cache[ ( args, kwargs ) ]
-            else:
-                result = func( *args, **kwargs )
-                cache[ ( args, kwargs ) ] = result
-                return result
+
+            if not g.ignoreCache:
+                if ( args, kwargs ) in cache:
+                    return cache[ ( args, kwargs ) ]
+
+            result = func( *args, **kwargs )
+            cache[ ( args, kwargs ) ] = result
+            return result
 
         return cacheResults
 

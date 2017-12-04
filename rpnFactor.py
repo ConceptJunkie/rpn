@@ -74,12 +74,13 @@ def getFactors( target ):
     if g.factorCache is None:
         loadFactorCache( )
 
-    if n in g.factorCache:
-        if g.verbose and n != 1:
-            print( 'cache hit:', n )
-            print( )
+    if not g.ignoreCache:
+        if n in g.factorCache:
+            if g.verbose and n != 1:
+                print( 'cache hit:', n )
+                print( )
 
-        return g.factorCache[ n ]
+            return g.factorCache[ n ]
 
     try:
         result = factorByTrialDivision( n )   # throws if n is too big

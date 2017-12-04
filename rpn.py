@@ -398,6 +398,7 @@ def rpn( cmd_args ):
                          default = 0, const = g.defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action = 'store_true' )
     parser.add_argument( '-i', '--identify', action = 'store_true' )
+    parser.add_argument( '-I', '--ignore_cache', action = 'store_true' )
     parser.add_argument( '-l', '--line_length', type = int, action = 'store',
                          default = g.defaultLineLength )
     parser.add_argument( '-m', '--maximum_fixed', type = int, action = 'store', default = g.defaultMaximumFixed )
@@ -488,6 +489,9 @@ def rpn( cmd_args ):
 
     # handle -i
     g.identify = args.identify
+
+    # handle -I
+    g.ignoreCache = args.ignore_cache
 
     # handle -l
     g.lineLength = args.line_length
@@ -599,6 +603,7 @@ def rpn( cmd_args ):
         print( '--hex:  ' + ( 'true' if args.hex else 'false' ) )
         print( '--identify:  ' + ( 'true' if args.identify else 'false' ) )
         print( '--leading_zero:  ' + ( 'true' if g.leadingZero else 'false' ) )
+        print( '--ignore_cache:  ' + ( 'true' if g.ignoreCache else 'false' ) )
         print( )
 
     g.creatingFunction = False

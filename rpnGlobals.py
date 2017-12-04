@@ -73,6 +73,7 @@ debugMode = False
 decimalDelimiter = defaultDecimalDelimiter
 decimalGrouping = 0
 identify = False
+ignoreCache = False
 inputRadix = defaultInputRadix
 leadingZero = False
 lineLength = defaultLineLength
