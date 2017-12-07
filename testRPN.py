@@ -442,6 +442,11 @@ def runArithmeticOperatorTests( ):
     expectResult( '3.5 2 i + is_integer', 0 )
     expectResult( '3.5 is_integer', 0 )
 
+    # is_kth_power
+    expectResult( '1024 2 is_kth_power', 1 )
+    expectResult( '32 2 is_kth_power', 0 )
+    expectResult( '36864 2 is_kth_power', 1 )
+
     # is_less
     expectResult( '4 3 is_less', 0 )
     expectResult( '2 2 is_less', 0 )
@@ -511,6 +516,7 @@ def runArithmeticOperatorTests( ):
     # is_power
     expectResult( '1024 2 is_power', 1 )
     expectResult( '65 2 is_power', 0 )
+    expectResult( '36864 2 is_power', 0 )
 
     # is_square
     expectResult( '1024 is_square', 1 )
@@ -2727,7 +2733,7 @@ def runLexicographyOperatorTests( ):
     testOperator( '243384 multiply_digits' )
 
     expectEqual( '123456789 multiply_digits', '9 !' )
-    expectEqual( '1 33883 range lambda x 0 has_digits not filter lambda x multiply_digits 3 is_power filter', '237767 oeis 1000 left' )
+    expectEqual( '1 33883 range lambda x 0 has_digits not filter lambda x multiply_digits 3 is_kth_power filter', '237767 oeis 1000 left' )
 
     # multiply_digit_powers
     testOperator( '5734475 2 multiply_digit_powers' )

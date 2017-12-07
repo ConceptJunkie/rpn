@@ -363,6 +363,19 @@ def isSquare( n ):
 
 @twoArgFunctionEvaluator( )
 def isPower( n, k ):
+    logN = log( real_int( n ), real_int( k ) )
+
+    return 1 if logN == floor( logN ) else 0
+
+
+# //******************************************************************************
+# //
+# //  isKthPower
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def isKthPower( n, k ):
     rootN = root( real_int( n ), real_int( k ) )
 
     return 1 if rootN == floor( rootN ) else 0

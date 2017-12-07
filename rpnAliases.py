@@ -906,6 +906,7 @@ operatorAliases = {
     'sylvester'                     : 'nth_sylvester',
     'tP'                            : 'planck_time',
     'tangent'                       : 'tan',
+    'tau'                           : 'count_divisors',
     'thu'                           : 'thursday',
     'thue_morse'                    : 'nth_thue_morse',
     'thurs'                         : 'thursday',

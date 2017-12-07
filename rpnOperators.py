@@ -2546,6 +2546,8 @@ operators = {
     'is_integer'                     : RPNOperator( isInteger,
                                                     1, [ RPNOperator.Real ] ),
 
+    'is_kth_power'                   : RPNOperator( isKthPower,
+                                                    2, [ RPNOperator.Integer, RPNOperator.PositiveInteger ] ),
 
     'is_less'                        : RPNOperator( isLess,
                                                     2, [ RPNOperator.Real, RPNOperator.Real ] ),

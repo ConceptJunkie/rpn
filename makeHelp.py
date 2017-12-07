@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1150
+maxExampleCount = 1152
 
 
 # //******************************************************************************
@@ -1770,6 +1770,15 @@ but that's how it works for now.
 ''' + makeCommandExample( '3.1 i 4 + is_integer' ),
 [ 'is_even', 'is_odd', 'nearest_int' ] ],
 
+    'is_kth_power' : [
+'arithmetic', 'returns whether n is a perfect kth power',
+'''
+''',
+'''
+''' + makeCommandExample( '16 4 is_kth_power' ) + '''
+''' + makeCommandExample( '32 5 is_kth_power' ),
+[ 'is_square', 'is_power' ] ],
+
     'is_less' : [
 'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
 '''
@@ -1821,7 +1830,7 @@ but that's how it works for now.
 ''',
 '''
 ''',
-[ 'is_zero', 'is_odd', 'is_even', 'is_not_equal', 'is_power' ] ],
+[ 'is_zero', 'is_odd', 'is_even', 'is_not_equal' ] ],
 
     'is_odd' : [
 'arithmetic', 'returns whether n is an odd number',
@@ -1834,17 +1843,18 @@ but that's how it works for now.
 [ 'is_even', 'is_zero' ] ],
 
     'is_power' : [
-'arithmetic', 'returns whether n is a perfect kth power',
+'arithmetic', 'returns whether n is a perfect power of k',
 '''
 ''',
 '''
 ''' + makeCommandExample( '16 4 is_power' ) + '''
-''' + makeCommandExample( '32 5 is_power' ),
-[ 'is_square' ] ],
+''' + makeCommandExample( '32 2 is_power' ),
+[ 'is_square', 'is_kth_power' ] ],
 
     'is_square' : [
 'arithmetic', 'returns whether n is a perfect square',
 '''
+This operator is also the equivalent of 'n 2 is_kth_power'.
 ''',
 '''
 ''' + makeCommandExample( '16 is_square' ) + '''
@@ -1853,7 +1863,7 @@ This works with complex numbers:
 
 ''' + makeCommandExample( '2 i 1 + sqr' ) + '''
 ''' + makeCommandExample( '-3 4 i + is_square' ),
-[ 'is_power' ] ],
+[ 'is_power', 'is_kth_power' ] ],
 
     'is_zero' : [
 'arithmetic', 'returns whether n is zero',
