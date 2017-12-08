@@ -18,6 +18,8 @@
 #  http://mathworld.wolfram.com/FavardConstants.html
 #  How can we create a lambda to produce multiple Favard constants with a single expression?
 
+#  rpn 4 meters meters * is_square
+
 from __future__ import print_function
 
 import six

@@ -743,7 +743,7 @@ Unity, one, 1
 
     'ten' :
         RPNUnitInfo( 'constant', 'ten', 'tens', '',
-                     [ 'deca', 'deka', 'dicker' ], [ 'constant' ],
+                     [ 'deca', 'deka', 'dicker', 'dickers' ], [ 'constant' ],
                      '''
 Ten:  10e1, or 10
                      ''' ),
@@ -806,7 +806,7 @@ A gross is a dozen dozen, or 144.
 
     'thousand' :
         RPNUnitInfo( 'constant', 'thousand', 'thousand', 'k',
-                     [ 'kilo' ], [ 'constant' ],
+                     [ 'kilo', 'chiliad' ], [ 'constant' ],
                      '''
 One thousand:  10e3, or 1,000
                      ''' ),
@@ -1417,6 +1417,12 @@ burning 100 cubic feet (often referred to as 1 CCF) of natural gas.
 (https://en.wikipedia.org/wiki/Therm)
                      ''' ),
 
+    'ton_of_coal' :
+        RPNUnitInfo( 'energy', 'ton_of_coal', 'tons_of_coal', '',
+                     [ ], [ 'informal' ],
+                     '''
+                     ''' ),
+
     'ton_of_TNT' :
         RPNUnitInfo( 'energy', 'ton_of_TNT', 'tons_of_TNT', 'tTNT',
                      [ ], [ 'informal' ],
@@ -1571,6 +1577,12 @@ This is the definition of the SI derived unit Newton (N).
                      ''' ),
 
     # illuminance
+    'flame' :
+        RPNUnitInfo( 'illuminance', 'flame', 'flame', '',
+                     [ ], [ '' ],
+                     '''
+                     ''' ),
+
     'footcandle' :
         RPNUnitInfo( 'illuminance', 'footcandle', 'footcandles', 'fc',
                      [ ], [ 'FPS' ],
@@ -1878,6 +1890,18 @@ by Knuth.
                      '''
                      ''' ),
 
+    'french' :
+        RPNUnitInfo( 'length', 'french', 'French', '',
+                     [ 'french_gauge', 'french_scale', 'charrier' ], [ 'France' ],
+                     '''
+The French scale or French gauge system is commonly used to measure the size of
+a catheter.  It is most often abbreviated as Fr, but can often be seen
+abbreviated as Fg, Ga, FR or F.  It may also be abbreviated as CH or Ch (for
+Charriere, its inventor).
+
+https://en.wikipedia.org/wiki/French_catheter_scale
+                     ''' ),
+
     'furlong' :
         RPNUnitInfo( 'length', 'furlong', 'furlongs', '', [ ], [ 'imperial' ],
                      '''
@@ -1916,6 +1940,12 @@ by Knuth.
     'handbreadth' :
         RPNUnitInfo( 'length', 'handbreadth', 'handbreadths', '',
                      [ 'handsbreadth' ], [ 'obsolete' ],
+                     '''
+                     ''' ),
+
+    'hubble' :
+        RPNUnitInfo( 'length', 'hubble', 'hubbles', '',
+                     [ ], [ 'astronomy' ],
                      '''
                      ''' ),
 
@@ -2075,6 +2105,19 @@ by Knuth.
                      '''
                      ''' ),
 
+    'rack_unit' :
+        RPNUnitInfo( 'length', 'rack_unit', 'rack_units', '',
+                     [ ], [ 'computers' ],
+                     '''
+A rack unit (abbreviated U or RU) is a unit of measure defined as 44.50
+millimetres (1.752 in).  It is most frequently used as a measurement of the
+overall height of 19-inch and 23-inch rack frames, as well as the height of
+equipment that mounts in these frames, whereby the height of the frame or
+equipment is expressed as multiples of rack units.
+
+https://en.wikipedia.org/wiki/Rack_unit
+                     ''' ),
+
     'reed' :
         RPNUnitInfo( 'length', 'reed', 'reeds', '',
                      [ ], [ 'obsolete' ],
@@ -2130,7 +2173,7 @@ by Knuth.
                      ''' ),
 
     'twip' :
-        RPNUnitInfo( 'length', 'twip', 'twips', '',
+        RPNUnitInfo( 'length', 'twip', 'twips', 'twp',
                      [ ], [ 'computing' ],
                      '''
                      ''' ),
@@ -2245,6 +2288,12 @@ by Knuth.
     'centimeter^2-gauss' :
         RPNUnitInfo( 'magnetic_flux', 'centimeter^2*gauss', 'centimeter^2*gauss', '',
                      [ 'gauss-centimeter^2' ], [ 'CGS' ],
+                     '''
+                     ''' ),
+
+    'magnetic_flux_quantum' :
+        RPNUnitInfo( 'magnetic_flux', 'magnetic_flux_quantum', 'magnetic_flux_quanta', '',
+                     [ ], [ 'science' ],
                      '''
                      ''' ),
 
@@ -2445,7 +2494,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'quintal' :
         RPNUnitInfo( 'mass', 'quintal', 'quintals', 'q',
-                     [ ], [ ],
+                     [ 'cantar', 'cantars' ], [ ],
                      '''
                      ''' ),
 
@@ -2708,7 +2757,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'sphere' :
         RPNUnitInfo( 'solid_angle', 'sphere', 'spheres', '',
-                     [ ], [ 'mathematics' ],
+                     [ 'spat' ], [ 'mathematics' ],
                      '''
                      ''' ),
 
@@ -2823,8 +2872,8 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'blink' :
-        RPNUnitInfo( 'time', 'blink', 'blink', '',
-                     [ ], [ ],
+        RPNUnitInfo( 'time', 'blink', 'blinks', '',
+                     [ 'metric_second', 'metric_seconds' ], [ ],
                      '''
                      ''' ),
 
@@ -3037,7 +3086,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'meter/second' :
         RPNUnitInfo( 'velocity', 'meter/second', 'meters/second', 'mps',
-                     [ ], [ 'SI' ],
+                     [ 'benz' ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -3971,6 +4020,7 @@ unitConversionMatrix = {
     ( 'fingerbreadth',              'inch' )                                : mpmathify( '0.75' ),
     ( 'firkin',                     'gallon' )                              : mpmathify( '9' ),
     ( 'firkin',                     'pin' )                                 : mpmathify( '2' ),
+    ( 'flame',                      'lux' )                                 : mpmathify( '43.0556416668' ),
     ( 'flock',                      'unity' )                               : mpmathify( '40' ),
     ( 'fluid_ounce',                'dram' )                                : mpmathify( '8' ),
     ( 'fluid_ounce',                'tablespoon' )                          : mpmathify( '2' ),
@@ -4012,6 +4062,7 @@ unitConversionMatrix = {
     ( 'horsepower-second',          'joule' )                               : mpmathify( '745.69987158227022' ),
     ( 'hour',                       'minute' )                              : mpmathify( '60' ),
     ( 'hourly',                     'daily' )                               : mpmathify( '24' ),
+    ( 'hubble',                     'light-year' )                          : mpmathify( '1.0e9' ),
     ( 'hundred',                    'unity' )                               : mpmathify( '100' ),
     ( 'imperial_bushel',            'kenning' )                             : mpmathify( '2' ),
     ( 'imperial_butt',              'imperial_hogshead' )                   : mpmathify( '2' ),
@@ -4063,6 +4114,7 @@ unitConversionMatrix = {
     ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '1' ),
     ( 'lux',                        'nox' )                                 : mpmathify( '1000' ),
     ( 'mach',                       'meter/second' )                        : mpmathify( '295.0464' ),
+    ( 'magnetic_flux_quantum',      'weber' )                               : mpmathify( '2.067833831e-15' ),
     ( 'magnum',                     'bottle' )                              : mpmathify( '2' ),
     ( 'magnum',                     'liter' )                               : mpmathify( '1.5' ),
     ( 'marathon',                   'yard' )                                : mpmathify( '46145' ),
@@ -4072,6 +4124,7 @@ unitConversionMatrix = {
     ( 'melchior',                   'liter' )                               : mpmathify( '18.0' ),
     ( 'melchizedek',                'liter' )                               : mpmathify( '30.0' ),
     ( 'meter',                      'angstrom' )                            : mpmathify( '1.0e10' ),
+    ( 'meter',                      'french' )                              : mpmathify( '3000' ),
     ( 'meter',                      'kyu' )                                 : mpmathify( '4000' ),
     ( 'meter',                      'micron' )                              : mpmathify( '1.0e6' ),
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
@@ -4176,6 +4229,7 @@ unitConversionMatrix = {
     ( 'quintant',                   'degree' )                              : mpmathify( '72' ),
     ( 'quintillion',                'unity' )                               : mpmathify( '1.0e18' ),
     ( 'qword',                      'bit' )                                 : mpmathify( '64' ),
+    ( 'rack_unit',                  'meter' )                               : mpmathify( '0.0445' ),
     ( 'radian',                     'centrad' )                             : mpmathify( '100' ),
     ( 'radian',                     'degree' )                              : fdiv( 180, pi ),
     ( 'reed',                       'foot' )                                : mpmathify( '9' ),
@@ -4260,6 +4314,7 @@ unitConversionMatrix = {
     ( 'therm',                      'btu' )                                 : mpmathify( '100000' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '1000' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
+    ( 'ton_of_coal',                'joule' )                               : mpmathify( '29.288e9' ),
     ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
     ( 'ton_of_TNT',                 'pound_of_TNT' )                        : mpmathify( '2000' ),
     ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),

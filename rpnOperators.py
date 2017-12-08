@@ -2568,7 +2568,7 @@ operators = {
     'is_odd'                         : RPNOperator( isOdd,
                                                     1, [ RPNOperator.Real ] ),
 
-    'is_power'                       : RPNOperator( isPower,
+    'is_power_of_k'                  : RPNOperator( isPower,
                                                     2, [ RPNOperator.Integer, RPNOperator.PositiveInteger ] ),
 
     'is_square'                      : RPNOperator( isSquare,

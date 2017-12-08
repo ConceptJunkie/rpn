@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1152
+maxExampleCount = 1153
 
 
 # //******************************************************************************
@@ -565,12 +565,11 @@ gets smaller.
 *  'result' doesn't work with measurements
 *  https://en.wikipedia.org/wiki/American_wire_gauge
 *  'rpn 1 20 range dBm kilowatt convert' fails.  This conversion doesn't work because dBm to watt uses a special function.
-*  'mean', 'max' and 'min' should work with measurements, but measurements currently can't be compared.
+*  'mean' should work with measurements
 *  units aren't supported in user-defined functions
 *  http://en.wikipedia.org/wiki/Physical_constant
 *  http://stackoverflow.com/questions/14698104/how-to-predict-tides-using-harmonic-constants
 *  OEIS comment text occasionally contains non-ASCII characters, and rpn chokes on that
-*  'is_equal' should handle measurements of different (but compatible) types
 *  *_primes_ operators seem to be unreasonably slow
 *  'fraction' needs to figure out what precision is needed and set it itself
 
@@ -1777,7 +1776,7 @@ but that's how it works for now.
 '''
 ''' + makeCommandExample( '16 4 is_kth_power' ) + '''
 ''' + makeCommandExample( '32 5 is_kth_power' ),
-[ 'is_square', 'is_power' ] ],
+[ 'is_square', 'is_power_of_k' ] ],
 
     'is_less' : [
 'arithmetic', 'returns 1 if n is less than k, otherwise returns 0',
@@ -1842,13 +1841,13 @@ but that's how it works for now.
 ''' + makeCommandExample( '1 10 range is_odd' ),
 [ 'is_even', 'is_zero' ] ],
 
-    'is_power' : [
+    'is_power_of_k' : [
 'arithmetic', 'returns whether n is a perfect power of k',
 '''
 ''',
 '''
-''' + makeCommandExample( '16 4 is_power' ) + '''
-''' + makeCommandExample( '32 2 is_power' ),
+''' + makeCommandExample( '16 4 is_power_of_k' ) + '''
+''' + makeCommandExample( '32 2 is_power_of_k' ),
 [ 'is_square', 'is_kth_power' ] ],
 
     'is_square' : [
@@ -1863,7 +1862,7 @@ This works with complex numbers:
 
 ''' + makeCommandExample( '2 i 1 + sqr' ) + '''
 ''' + makeCommandExample( '-3 4 i + is_square' ),
-[ 'is_power', 'is_kth_power' ] ],
+[ 'is_power_of_k', 'is_kth_power' ] ],
 
     'is_zero' : [
 'arithmetic', 'returns whether n is zero',
@@ -2867,6 +2866,9 @@ Christmas and used the 'christmas' operator instinctively.
     'dst_start' : [
 'calendars', 'calculates the starting date for Daylight Saving Time for the year specified',
 '''
+The history of Daylight Saving Time is rather complicated, and this function
+attempts to return correct historical values for every year since DST was
+adopted in the United States.
 ''',
 '''
 ''',
@@ -3261,80 +3263,94 @@ far as rpn is concerned, it's an operator that does nothing.
 # //******************************************************************************
 
     'atomic_number' : [
-'chemistry', 'returns the atomic number of atomic symbol n',
+'chemistry', 'returns the atomic number of element n',
 '''
+Elements can be referred to by atomic symbol or name.
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name atomic_number -s1' ),
+''' + makeCommandExample( 'He atomic_number -s1' ) + '''
+''' + makeCommandExample( 'Beryllium atomic_number -s1' ),
 [ 'atomic_symbol', 'atomic_weight', 'element_name' ] ],
 
     'atomic_symbol' : [
 'chemistry', 'returns the atomic symbol of element n',
 '''
+Elements can be referred to by atomic number or name.
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name atomic_symbol -s1' ),
-[ ] ],
+''' + makeCommandExample( '1 10 range atomic_symbol -s1' ),
+[ 'atomic_number', 'element_name', 'atomic_weight' ] ],
 
     'atomic_weight' : [
 'chemistry', 'returns the atomic weight of element n',
 '''
+Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name atomic_weight -s1' ),
-[ ] ],
+''' + makeCommandExample( '1 10 range atomic_weight -s1' ),
+[ 'atomic_number', 'element_name', 'atomic_symbol', 'molar_mass' ] ],
 
     'element_block' : [
 'chemistry', 'returns the block of element n',
 '''
+Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name element_block -s1' ),
-[ ] ],
+''' + makeCommandExample( '1 10 range element_block -s1' ),
+[ 'element_group', 'element_description', 'element_period' ] ],
 
     'element_boiling_point' : [
 'chemistry', 'returns the boiling point of element n',
 '''
+Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
-''' + makeCommandExample( '1 10 range element_name element_boiling_point -s1' ),
-[ ] ],
+''' + makeCommandExample( '1 10 range element_boiling_point -s1' ),
+[ 'element_melting_point', 'element_density' ] ],
 
     'element_density' : [
 'chemistry', 'returns the density of element n for STP',
 '''
+Elements can be referred to by atomic symbol, atomic number or name.
+
+Density is reported in grams per cubic centimeter under standard temperature
+and pressure conditions.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range element_name element_density -s1' ),
-[ ] ],
+[ 'atomic_weight' ] ],
 
     'element_description' : [
 'chemistry', 'returns the description of element n',
 '''
+Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range element_name element_description -s1' ),
-[ ] ],
+[ 'element_block', 'element_group', 'element_period', 'element_occurrence' ] ],
 
     'element_group' : [
 'chemistry', 'returns the group of element n',
 '''
+Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range element_name element_group -s1' ),
-[ ] ],
+[ 'element_block', 'element_description', 'element_period' ] ],
 
     'element_melting_point' : [
 'chemistry', 'returns the melting point of element n',
 '''
+Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range element_name element_melting_point -s1' ),
-[ ] ],
+[ 'element_boiling_point', 'element_density' ] ],
 
     'element_name' : [
 'chemistry', 'returns the name of element n',
 '''
+Elements can be referred to by atomic symbol or atomic number.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range atomic_symbol element_name -s1' ),
@@ -3343,26 +3359,29 @@ far as rpn is concerned, it's an operator that does nothing.
     'element_occurrence' : [
 'chemistry', 'returns the occurrence of element n',
 '''
+Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range element_name element_occurrence -s1' ),
-[ ] ],
+[ 'element_description', 'element_state' ] ],
 
     'element_period' : [
 'chemistry', 'returns the period of element n',
 '''
+Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range element_name element_period -s1' ),
-[ ] ],
+[ 'element_block', 'element_group' ] ],
 
     'element_state' : [
 'chemistry', 'returns the state (at STP) of element n',
 '''
+Elements can be referred to by atomic symbol, atomic number or name.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range element_name element_state -s1' ),
-[ ] ],
+[ 'element_description', 'element_occurrence' ] ],
 
     'molar_mass' : [
 'chemistry', 'returns the molar mass of molecule n',
@@ -10545,7 +10564,7 @@ magnitude of the measurement.
     'if' : [
 'special', 'returns a if condition c is true, otherwise returns b',
 '''
-'if' is useful in lambda, which is why it was added.
+'if' is useful in lambdas, which is why it was added.
 ''',
 '''
 ''' + makeCommandExample( '1 2 true if' ) + '''

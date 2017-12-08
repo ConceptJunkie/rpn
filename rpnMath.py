@@ -363,7 +363,7 @@ def isSquare( n ):
 
 @twoArgFunctionEvaluator( )
 def isPower( n, k ):
-    logN = log( real_int( n ), real_int( k ) )
+    logN = log( n, k )
 
     return 1 if logN == floor( logN ) else 0
 
@@ -376,7 +376,7 @@ def isPower( n, k ):
 
 @twoArgFunctionEvaluator( )
 def isKthPower( n, k ):
-    rootN = root( real_int( n ), real_int( k ) )
+    rootN = root( n, real_int( k ) )
 
     return 1 if rootN == floor( rootN ) else 0
 
@@ -637,6 +637,9 @@ def roundByDigits( n, digits ):
 
 @twoArgFunctionEvaluator( )
 def getLarger( n, k ):
+    if isinstance( n, RPNMeasurement ):
+        return n if isGreater( n, k ) else k
+
     return n if real( n ) > real( k ) else k
 
 
@@ -648,6 +651,9 @@ def getLarger( n, k ):
 
 @twoArgFunctionEvaluator( )
 def getSmaller( n, k ):
+    if isinstance( n, RPNMeasurement ):
+        return n if isLess( n, k ) else k
+
     return n if real( n ) < real( k ) else k
 
 

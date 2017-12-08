@@ -40,6 +40,9 @@ import rpnGlobals as g
 # //
 # //  ( first unit, second unit, conversion function )
 # //
+# //  For temperature conversions, see
+# //  https://en.wikipedia.org/wiki/Conversion_of_units_of_temperature.
+# //
 # //******************************************************************************
 
 specialUnitConversionMatrix = {
@@ -247,6 +250,18 @@ class RPNMeasurement( object ):
 
     def __ne__( self, other ):
         return not __eq__( self, other )
+
+    def __lt__( self, other ):
+        return self.isSmaller( other )
+
+    def __gt__( self, other ):
+        return self.isLarger( other )
+
+    def __ge__( self, other ):
+        return not self.isSmaller( other )
+
+    def __le__( self, other ):
+        return not self.isLarger( other )
 
     #def __repr__( self ):
     #    return 'RPNMeasurement(\'' + str( mpf( self ) ) + '\',' + \

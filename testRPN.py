@@ -446,6 +446,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '1024 2 is_kth_power', 1 )
     expectResult( '32 2 is_kth_power', 0 )
     expectResult( '36864 2 is_kth_power', 1 )
+    expectResult( '32 i 2 is_kth_power', 1 )
+    expectResult( '128 i 128 - 3 is_kth_power', 1 )
 
     # is_less
     expectResult( '4 3 is_less', 0 )
@@ -514,21 +516,27 @@ def runArithmeticOperatorTests( ):
     expectException( '5 3 i - is_odd' )  # real arguments required
 
     # is_power
-    expectResult( '1024 2 is_power', 1 )
-    expectResult( '65 2 is_power', 0 )
-    expectResult( '36864 2 is_power', 0 )
+    expectResult( '1024 2 is_power_of_k', 1 )
+    expectResult( '65 2 is_power_of_k', 0 )
+    expectResult( '36864 2 is_power_of_k', 0 )
 
     # is_square
     expectResult( '1024 is_square', 1 )
     expectResult( '5 is_square', 0 )
+    expectResult( '12 16 i + is_square', 1 )
 
     # is_zero
     expectResult( '-1 is_zero', 0 )
     expectResult( '0 is_zero', 1 )
     expectResult( '1 is_zero', 0 )
+    expectResult( '1 i is_zero', 0 )
 
     # larger
     expectResult( '7 -7 larger', 7 )
+
+    expectEqual( '45 pounds 30 kilograms larger' , '30 kilograms' )
+    expectEqual( '3 miles 3 kilometers larger' , '3 miles' )
+
     expectException( '5 i 3 + 6 larger' )
 
     # lcm
@@ -660,6 +668,9 @@ def runArithmeticOperatorTests( ):
     expectResult( '-2 cups sign', -1 )
 
     # smaller
+    expectEqual( '3 cups 2 cups smaller' , '2 cups' )
+    expectEqual( '3 miles 3 km smaller' , '3 km' )
+
     expectResult( '7 -7 smaller' , -7 )
 
     expectException( '2 i 5 + 3 smaller' )

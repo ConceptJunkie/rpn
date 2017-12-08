@@ -1237,15 +1237,21 @@ luminanceTable = {
 # //  lumens : description
 # //
 # //  https://en.wikipedia.org/wiki/Orders_of_magnitude_%28luminous_flux%29
+# //  https://en.wikipedia.org/wiki/Lumen_(unit)
 # //
 # //******************************************************************************
 
 luminousFluxTable = {
     mpmathify( '0.025' )      : 'the luminous flux of the light of a firefly',
     mpmathify( '12.57' )      : 'the luminous flux of the light of a candle',
-    mpmathify( '780' )        : 'the luminous flux of a 60 W incandescent light bulb',
-    mpmathify( '930' )        : 'the luminous flux of a 75 W incandescent light bulb',
-    mpmathify( '2990' )       : 'the luminous flux of a 200 W incandescent light bulb',
+    mpmathify( '200' )        : 'the luminous flux of a 25 W incandescent light bulb',
+    mpmathify( '450' )        : 'the luminous flux of a 40 W incandescent light bulb',
+    mpmathify( '800' )        : 'the luminous flux of a 60 W incandescent light bulb',
+    mpmathify( '1100' )       : 'the luminous flux of a 75 W incandescent light bulb',
+    mpmathify( '1600' )       : 'the luminous flux of a 100 W incandescent light bulb',
+    mpmathify( '2400' )       : 'the luminous flux of a 150 W incandescent light bulb',
+    mpmathify( '3100' )       : 'the luminous flux of a 200 W incandescent light bulb',
+    mpmathify( '4000' )       : 'the luminous flux of a 300 W incandescent light bulb',
     mpmathify( '6.0e5' )      : 'the luminous flux of an IMAX projector bulb',
     mpmathify( '4.23e10' )    : 'the luminous flux of the Luxor Sky Beam spotlight array in Las Vegas',
     mpmathify( '4.6e24' )     : 'the luminous flux of the dimmest class of red dwarf star',
