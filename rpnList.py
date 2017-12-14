@@ -689,6 +689,8 @@ def calculateArithmeticMean( args ):
     elif isinstance( args, list ):
         if isinstance( args[ 0 ], ( list, RPNGenerator ) ):
             return [ calculateArithmeticMean( list( arg ) ) for arg in args ]
+        elif isinstance( args[ 0 ], RPNMeasurement ):
+            pass # TODO: handle measurements
         else:
             return fdiv( fsum( args ), len( args ) )
     else:

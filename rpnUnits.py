@@ -736,7 +736,7 @@ One half:  1/2 or 0.5
 
     'unity' :
         RPNUnitInfo( 'constant', 'x unity', 'x unity', '',
-                     [ ], [ 'constant' ],
+                     [ 'one', 'ones' ], [ 'constant' ],
                      '''
 Unity, one, 1
                      ''' ),
@@ -778,7 +778,7 @@ A flock is an archaic name for 40.
 
     'shock' :
         RPNUnitInfo( 'constant', 'shock', 'shocks', '',
-                     [ ], [ 'constant', 'obsolete' ],
+                     [ 'shook', 'shooks' ], [ 'constant', 'obsolete' ],
                      '''
 A shock is an archaic name for 60.
                      ''' ),
@@ -828,7 +828,7 @@ One million:  10e6 or 1,000,000
     # 'G' can't be used here since it's used for 'standard gravity'
     'billion' :
         RPNUnitInfo( 'constant', 'billion', 'billion', '',
-                     [ 'giga' ], [ 'constant' ],
+                     [ 'giga', 'gigas', 'milliard', 'milliards' ], [ 'constant' ],
                      '''
 One billion:  10e9 or 1,000,000,000
                      ''' ),
@@ -844,7 +844,7 @@ One trillion:  10e12 or 1,000,000,000,000
     # 'P' can't be used here since it's used for 'Phosphorus'
     'quadrillion' :
         RPNUnitInfo( 'constant', 'quadrillion', 'quadrillion', '',
-                     [ 'peta' ], [ 'constant' ],
+                     [ 'peta', 'petas', 'billiard', 'billiards' ], [ 'constant' ],
                      '''
 One quadrillion:  10e15 or 1,000,000,000,000,000
                      ''' ),
@@ -858,7 +858,7 @@ One quintillion:  10e18 or 1,000,000,000,000,000,000
 
     'sextillion' :
         RPNUnitInfo( 'constant', 'sextillion', 'sextillion', 'Z',
-                     [ 'zetta' ], [ 'constant' ],
+                     [ 'zetta', 'zettas', 'trilliard', 'trilliards' ], [ 'constant' ],
                      '''
 One sextillion:  10e21 or 1,000,000,000,000,000,000,000
                      ''' ),
@@ -1121,7 +1121,7 @@ One centillion:  10e303
 
     'pascal-second' :
         RPNUnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal-seconds', 'Pas',
-                     [ ], [ 'SI' ],
+                     [ 'poiseuille', 'poiseuilles' ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -1332,7 +1332,7 @@ properties.  It is twice the reciprocal of the von Klitzing constant (2/RK).
                      ''' ),
 
     'foe' :
-        RPNUnitInfo( 'energy', 'foe', 'foes', 'J',
+        RPNUnitInfo( 'energy', 'foe', 'foes', '',
                      [ 'bethe', 'bethes' ], [ 'astrophysics' ],
                      '''
 A foe is a unit of energy equal to 10^44 joules or 10^51 ergs, used to measure
@@ -1415,6 +1415,21 @@ The therm (symbol thm) is a non-SI unit of heat energy equal to 100,000
 British thermal units (BTU).  It is approximately the energy equivalent of
 burning 100 cubic feet (often referred to as 1 CCF) of natural gas.
 (https://en.wikipedia.org/wiki/Therm)
+                     ''' ),
+
+    'toe' :
+        RPNUnitInfo( 'energy', 'toe', 'toes', '',
+                     [ 'tonne_of_oil_equivalent', 'tonnes_of_oil_equivalent' ], [ 'international' ],
+                     '''
+"Toe" is a symbol for tonne of oil equivalent, a unit of energy used in the
+international energy industry.  One toe represents the energy available from
+burning approximately one tonne (metric ton) of crude oil; this is defined by
+the International Energy Agency to be exactly 10^7 kilocalories, equivalent to
+approximately 7.4 barrels of oil, 1270 cubic meters of natural gas, or 1.4
+tonnes of coal. 1 toe is also equivalent to 41.868 gigajoules (GJ), 39.683
+million Btu (MM Btu) or dekatherms, or 11.630 megawatt hours (MWh).
+
+http://www.unc.edu/~rowlett/units/dictT.html
                      ''' ),
 
     'ton_of_coal' :
@@ -1766,6 +1781,19 @@ by Knuth.
         RPNUnitInfo( 'jerk', 'meter/second^3', 'meter/second^3', '',
                      [ ], [ 'SI' ],
                      '''
+                     ''' ),
+
+    'stapp' :
+        RPNUnitInfo( 'jerk', 'stapp', 'stapps', '',
+                     [ ], [ 'SI' ],
+                     '''
+The stapp a unit used to express the effects of acceleration or deceleration on
+the human body.  One stapp represents an acceleration of 1 g for a period of 1
+second, or 9.80665 meters per second per second for 1 second.  The unit is
+named for the U.S. Air Force physician John P. Stapp (1910-1999), a pioneer in
+research on the human effects of acceleration during the 1940s and 1950s.
+
+http://www.unc.edu/~rowlett/units/dictS.html
                      ''' ),
 
     # jounce
@@ -2172,6 +2200,12 @@ https://en.wikipedia.org/wiki/Rack_unit
                      '''
                      ''' ),
 
+    'stadium' :
+        RPNUnitInfo( 'length', 'stadium', 'stadia', '',
+                     [ ], [ 'Rome' ],
+                     '''
+                     ''' ),
+
     'twip' :
         RPNUnitInfo( 'length', 'twip', 'twips', 'twp',
                      [ ], [ 'computing' ],
@@ -2323,7 +2357,7 @@ https://en.wikipedia.org/wiki/Rack_unit
 
     'weber' :
         RPNUnitInfo( 'magnetic_flux', 'weber', 'webers', 'Wb',
-                     [ ], [ 'SI' ],
+                     [ 'promaxwell', 'promaxwells' ], [ 'SI' ],
                      '''
                      ''' ),
 
@@ -2504,6 +2538,12 @@ This conversion is required to do mass-energy equivalence calculations.
                      '''
                      ''' ),
 
+    'slinch' :
+        RPNUnitInfo( 'mass', 'slinch', 'slinches', '',
+                     [ 'mug', 'mugs', 'snail', 'snails' ], [ 'NASA' ],
+                     '''
+                     ''' ),
+
     'slug' :
         RPNUnitInfo( 'mass', 'slug', 'slugs', '',
                      [ 'gee_pound', 'geepound', 'gee-pound', 'gee_pounds', 'geepounds', 'gee-pounds' ], [ 'FPS' ],
@@ -2535,7 +2575,7 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'troy_ounce' :
-        RPNUnitInfo( 'mass', 'troy_ounce', 'troy_ounces', '',
+        RPNUnitInfo( 'mass', 'troy_ounce', 'troy_ounces', 'toz',
                      [ ], [ 'traditional' ],
                      '''
                      ''' ),
@@ -2757,7 +2797,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'sphere' :
         RPNUnitInfo( 'solid_angle', 'sphere', 'spheres', '',
-                     [ 'spat' ], [ 'mathematics' ],
+                     [ 'spat', 'spats' ], [ 'mathematics' ],
                      '''
                      ''' ),
 
@@ -2817,7 +2857,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     # temperature
     'celsius' :
-        RPNUnitInfo( 'temperature', 'celsius', 'degrees_celsius', '',
+        RPNUnitInfo( 'temperature', 'celsius', 'degrees_celsius', 'Cel',
                      [ 'centigrade', 'degC', 'degreesC', 'degree_centigrade', 'degrees_centigrade' ], [ 'SI' ],
                      '''
                      ''' ),
@@ -3073,7 +3113,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'year' :
         RPNUnitInfo( 'time', 'year', 'years', '',
-                     [ 'annum', 'annums', 'julian_year', 'julian_years' ], [ 'traditional', 'years' ],
+                     [ 'annum', 'annums', 'julian_year', 'julian_years', 'twelvemonth', 'twelvemonths' ], [ 'traditional', 'years' ],
                      '''
                      ''' ),
 
@@ -3175,6 +3215,18 @@ This conversion is required to do mass-energy equivalence calculations.
                      '''
                      ''' ),
 
+    'coffeespoon' :
+        RPNUnitInfo( 'volume', 'coffeespoon', 'coffeespoons', '',
+                     [ ], [ 'traditional', 'cooking' ],
+                     '''
+                     ''' ),
+
+    'coomb' :
+        RPNUnitInfo( 'volume', 'coomb', 'coombs', '',
+                     [ ], [ 'imperial' ],
+                     '''
+                     ''' ),
+
     'cord' :
         RPNUnitInfo( 'volume', 'cord', 'cords', '',
                      [ ], [ 'traditional' ],
@@ -3196,12 +3248,6 @@ This conversion is required to do mass-energy equivalence calculations.
     'cubic_meter' :
         RPNUnitInfo( 'volume', 'cubic_meter', 'cubic_meters', '',
                      [ 'cum', 'cu_m', 'cu_meter', 'cu_meters', 'cubic_m' ], [ 'SI' ],
-                     '''
-                     ''' ),
-
-    'coomb' :
-        RPNUnitInfo( 'volume', 'coomb', 'coombs', '',
-                     [ ], [ 'imperial' ],
                      '''
                      ''' ),
 
@@ -3309,7 +3355,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'gill' :
         RPNUnitInfo( 'volume', 'gill', 'gills', '',
-                     [ 'noggin' ], [ 'imperial' ],
+                     [ 'noggin', 'noggins', 'teacup', 'teacups' ], [ 'imperial' ],
                      '''
                      ''' ),
 
@@ -3380,7 +3426,7 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 
     'imperial_gallon' :
         RPNUnitInfo( 'volume', 'imperial_gallon', 'imperial_gallons', '',
-                     [ ], [ 'imperial' ],
+                     [ 'congius', 'congii' ], [ 'imperial' ],
                      '''
                      ''' ),
 
@@ -3404,7 +3450,7 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 
     'imperial_pint' :
         RPNUnitInfo( 'volume', 'imperial_pint', 'imperial_pints', '',
-                     [ ], [ 'imperial' ],
+                     [ 'octarius', 'octarii' ], [ 'imperial' ],
                      '''
                      ''' ),
 
@@ -3605,6 +3651,12 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
                      '''
                      ''' ),
 
+    'saltspoon' :
+        RPNUnitInfo( 'volume', 'saltspoon', 'saltspoons', '',
+                     [ ], [ 'traditional', 'cooking' ],
+                     '''
+                     ''' ),
+
     'scruple' :
         RPNUnitInfo( 'volume', 'scruple', 'scruples', '',
                      [ 'fluid_scruple', 'fluid_scruples' ], [ 'traditional' ],
@@ -3615,6 +3667,13 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
         RPNUnitInfo( 'volume', 'smidgen', 'smidgens', '',
                      [ 'smidgeon', 'smidgeons' ], [ 'traditional', 'cooking' ],
                      '''
+                     ''' ),
+
+    'snit' :
+        RPNUnitInfo( 'volume', 'snit', 'snits', '',
+                     [ ], [ 'U.S.' ],
+                     '''
+http://www.unc.edu/~rowlett/units/dictS.html
                      ''' ),
 
     'spanish_almude' :
@@ -3639,6 +3698,17 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
         RPNUnitInfo( 'volume', 'standard', 'standards', '',
                      [ ], [ 'wine' ],
                      '''
+                     ''' ),
+
+    'stein' :
+        RPNUnitInfo( 'volume', 'stein', 'steins', '',
+                     [ ], [ 'Germany' ],
+                     '''
+A stein is a German beer mug.  Steins come in various sizes, but the most
+common size seems to be 1/2 liter (1.057 U.S pint or 0.880 British Imperial
+pint).
+
+http://www.unc.edu/~rowlett/units/dictS.html
                      ''' ),
 
     'stere' :
@@ -3682,6 +3752,12 @@ equal to 562,000 megaliters.
     'tun' :
         RPNUnitInfo( 'volume', 'tun', 'tuns', '',
                      [ ], [ 'imperial' ],
+                     '''
+                     ''' ),
+
+    'wineglass' :
+        RPNUnitInfo( 'volume', 'wineglass', 'wineglasses', '',
+                     [ 'wine_glass', 'wine_glasses' ], [ 'imperial', 'wine' ],
                      '''
                      ''' ),
 
@@ -3977,6 +4053,7 @@ unitConversionMatrix = {
     ( 'cup',                        'dram' )                                : mpmathify( '64' ),
     ( 'cup',                        'fluid_ounce' )                         : mpmathify( '8' ),
     ( 'cup',                        'gill' )                                : mpmathify( '2' ),
+    ( 'cup',                        'wineglass' )                           : mpmathify( '4' ),
     ( 'curie',                      'becquerel' )                           : mpmathify( '3.7e10' ),
     ( 'daily',                      'monthly' )                             : mpmathify( '30' ),
     ( 'daily',                      'weekly' )                              : mpmathify( '7' ),
@@ -4106,6 +4183,7 @@ unitConversionMatrix = {
     ( 'light-year',                 'light-second' )                        : mpmathify( '31557600' ),
     ( 'link',                       'inch' )                                : mpmathify( '7.92' ),
     ( 'liter',                      'ngogn' )                               : mpmathify( '86.2477899004' ),
+    ( 'liter',                      'stein' )                               : mpmathify( '2' ),
     ( 'long_cubit',                 'inch' )                                : mpmathify( '21' ),
     ( 'long_hundred',               'unity' )                               : mpmathify( '120' ),
     ( 'long_reed',                  'foot' )                                : mpmathify( '10.5' ),
@@ -4268,7 +4346,9 @@ unitConversionMatrix = {
     ( 'skot',                       'bril' )                                : mpmathify( '1.0e4' ),
     ( 'skot',                       'lambert' )                             : mpmathify( '1.0e7' ),
     ( 'slug',                       'pound' )                               : mpmathify( '32.174048556' ),
+    ( 'slug',                       'slinch' )                              : mpmathify( '12' ),
     ( 'smoot',                      'inch' )                                : mpmathify( '67' ),
+    ( 'snit',                       'jigger' )                              : mpmathify( '2' ),
     ( 'solomon',                    'liter' )                               : mpmathify( '20.0' ),
     ( 'sovereign',                  'liter' )                               : mpmathify( '25.0' ),
     ( 'span',                       'inch' )                                : mpmathify( '9' ),
@@ -4285,7 +4365,9 @@ unitConversionMatrix = {
     ( 'square_quadrant',            'square_degree' )                       : mpmathify( '8100' ),
     ( 'square_sextant',             'square_degree' )                       : mpmathify( '3600' ),
     ( 'square_yard',                'square_foot' )                         : mpmathify( '9' ),
+    ( 'stadium',                    'foot' )                                : mpmathify( '606.95' ),
     ( 'standard',                   'liter' )                               : mpmathify( '0.75' ),
+    ( 'stapp',                      'meter/second^3' )                      : mpmathify( '9.80665' ),
     ( 'statcoulomb',                'coulomb' )                             : mpmathify( '3.335641e-10' ),  # 0.1A*m/c, approx.
     ( 'statcoulomb',                'franklin' )                            : mpmathify( '1' ),
     ( 'stathenry',                  'henry' )                               : mpmathify( '898755178740' ),
@@ -4302,6 +4384,8 @@ unitConversionMatrix = {
     ( 'strike',                     'imperial_bushel' )                     : mpmathify( '2' ),
     ( 'sydharb',                    'liter' )                               : mpmathify( '5.62e11' ),
     ( 'tablespoon',                 'teaspoon' )                            : mpmathify( '3' ),
+    ( 'teaspoon',                   'coffeespoon' )                         : mpmathify( '2' ),
+    ( 'teaspoon',                   'saltspoon' )                           : mpmathify( '4' ),
     ( 'teaspoon',                   'dash' )                                : mpmathify( '8' ),
     ( 'teaspoon',                   'pinch' )                               : mpmathify( '16' ),
     ( 'teaspoon',                   'smidgen' )                             : mpmathify( '32' ),
@@ -4313,6 +4397,7 @@ unitConversionMatrix = {
     ( 'tesla',                      'weber/meter^2' )                       : mpmathify( '1' ),
     ( 'therm',                      'btu' )                                 : mpmathify( '100000' ),
     ( 'thousand',                   'unity' )                               : mpmathify( '1000' ),
+    ( 'toe',                        'calorie' )                             : mpmathify( '1.0e10' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
     ( 'ton_of_coal',                'joule' )                               : mpmathify( '29.288e9' ),
     ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),

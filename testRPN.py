@@ -186,6 +186,8 @@ def runAlgebraOperatorTests( ):
     testOperator( '1 8 range 8 1 range add_polynomials' )
     #testOperator( '[ [ 1 2 3 ] [ 2 2 3 ] ] [ 8 7 6 ] add_polynomials' )
 
+    expectEqual( '[ 10 56 10 ] [ 78 -45 20 ] add_polynomials', '[ 10 56 10 ] [ 78 -45 20 ] add' )
+    expectEqual( '1 1000 range 1001 2000 range add_polynomials', '1 1000 range 1001 2000 range add' )
     expectEqual( '1 10 range 1 10 range add_polynomials', '2 20 2 range2' )
 
     expectException( '1 10 range add_polynomials' )   # too few arguments
@@ -221,6 +223,7 @@ def runAlgebraOperatorTests( ):
     # polynomial_product
     testOperator( '[ 1 10 range 1 10 range 2 11 range ] polynomial_product' )
     testOperator( '[ [ 1 10 range 1 10 range 2 11 range ] [ 1 5 range 2 6 range ] ] polynomial_product' )
+    expectEqual( '[ [ 1 1 ] [ 1 1 ] [ 1 1 ] [ 1 1 ] [ 1 1 ] ] polynomial_product', '6 pascal_triangle' )
 
     # polynomial_sum
     testOperator( '[ 1 10 range 2 11 range ] polynomial_sum' )
