@@ -141,8 +141,9 @@ def runCommandLineOptionsTests( ):
     testOperator( '1 100 range -r61' )
     testOperator( '1 100 range -r62' )
 
-    expectException( '1 100 range -r1' )    # invalid output base
-    expectException( '1 100 range -r63' )   # invalid output base
+    expectException( '1 100 range -r1' )        # invalid output base
+    expectException( '1 100 range -r63' )       # invalid output base
+    expectException( '1 100 range -rsqrt3' )    # invalid output base
 
     testOperator( '1 100 range -re' )
     testOperator( '1 100 range -rfac' )
@@ -223,6 +224,7 @@ def runAlgebraOperatorTests( ):
     # polynomial_product
     testOperator( '[ 1 10 range 1 10 range 2 11 range ] polynomial_product' )
     testOperator( '[ [ 1 10 range 1 10 range 2 11 range ] [ 1 5 range 2 6 range ] ] polynomial_product' )
+
     expectEqual( '[ [ 1 1 ] [ 1 1 ] [ 1 1 ] [ 1 1 ] [ 1 1 ] ] polynomial_product', '6 pascal_triangle' )
 
     # polynomial_sum
@@ -559,12 +561,16 @@ def runArithmeticOperatorTests( ):
     #expectEqual( '-p180 1 15000 range lambda pi x sqrt * exp mantissa 0.0001 less_than filter', '127029 oeis 4 left' )
 
     # max
+    testOperator( '[ 2 miles 11000 feet 127000 inches ] max' )
+
     expectResult( '1 10 range max', 10 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
 
     expectEqual( '1 1 10 range range max', '1 10 range' )
+    expectEqual( '[ 1 gallon 7 cups 250 tablespoons ] min', '7 cups' )
 
+    expectException( '[ 6 pounds 12 inches ] max' )
     expectException( '[ 5 i 3 6 7 ] max' )
 
     # mean
@@ -575,13 +581,17 @@ def runArithmeticOperatorTests( ):
     expectEqual( '1 10000 range mean', '5000.5' )
 
     # min
+    testOperator( '[ 2 miles 11000 feet 127000 inches ] min' )
+
     expectResult( '1 10 range min', 1 )
     expectResult( '10 1 range min', 1 )
     expectResult( '[ 9 4 7 2 5 6 3 8 ] min', 2 )
 
     expectEqual( '1 1 10 range range min', '[ 1 10 dup ]' )
+    expectEqual( '[ 2 cups 5 cups 1 cup ] min', '1 cup' )
 
     expectException( '[ 5 i 3 6 7 ] min' )
+    expectException( '[ 120 volts 10 amps ] min' )
 
     # modulo
     expectResult( '11001 100 modulo', 1 )
@@ -599,6 +609,7 @@ def runArithmeticOperatorTests( ):
     # multiply
     testOperator( '15 mph 10 hours *' )
     testOperator( 'c m/s convert 1 nanosecond * inches convert' )
+    testOperator( '10 5 i + 20 4 i + *' )
 
     expectResult( '5 7 multiply', 35 )
 
@@ -607,6 +618,8 @@ def runArithmeticOperatorTests( ):
     expectResult( '4.5 nearest_int', 4 )
     expectResult( 'pi nearest_int', 3 )
 
+    expectEqual( '2 i 3.4 + nearest_int', '2 i 3 +' )
+    expectEqual( '2.6 i 4 + nearest_int', '3 i 4 +' )
     expectEqual( '0 1000 range phi * nearest_int', '7067 oeis 1001 left' )
 
     # negative

@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1153
+maxExampleCount = 1193
 
 
 # //******************************************************************************
@@ -74,7 +74,7 @@ maxExampleCount = 1153
 def makeCommandExample( command, indent=0, slow=False ):
     '''
     You know, it didn't occur to me for years that I should make the help
-    actually use rpn to run the examples.  This way, when minor things change,
+    actually use rpn to run the examples.  This way, when things change,
     the output is always accurate.
     '''
     global exampleCount
@@ -462,12 +462,13 @@ command-line option.
 
 comma_mode:  Turns on commas only for the next operation.  Aliased to '-c'.
 
-decimal_grouping:  Sets the decimal grouping number.  Equivalent to the '-d'
-command-line option.
+decimal_grouping:  Sets the decimal grouping number.  This is equivalent to the
+'-d' command-line option.
 
 hex_mode:  Aliased to '-x'.
 
-identify:
+identify:  Attempts to find an algebraic representation of the result.  This is
+equivalent to the '-i" command-line option.
 
 identify_mode:  Aliased to '-i'.
 
@@ -481,13 +482,13 @@ leading_zero_mode:  Aliased to '-z'.
 
 octal_mode:  Aliased to '-o'.
 
-output_radix:
+output_radix:  s
 
 precision:
 
 The precision will not be set lower than the accuracy + 2.
 
-timer:
+timer:  The timer function prints out the time taken for each operation.
 
 timer_mode:  Turns on the timer for the next operation.  Aliased to '-t'.
     ''',
@@ -1557,6 +1558,12 @@ The absolute value of a number represents its magnitude, regardless of sign.
 
 The absolute value of 0 or a postive number is the number itself.  The
 absolute value of a negative number is the number without the negative sign.
+
+The absolute value of a complex number is the modulus of that number, i.e.,
+it's distance from the origin of the complex plane, which is calculated by
+finding the length of the hypotenuse of right triangle formed by the X-axis,
+the Y-axis and the line segment betweent the origin and the complex number
+itself.
 ''',
 '''
 ''' + makeCommandExample( '1 abs' ) + '''
@@ -5153,7 +5160,8 @@ Yes, I still count Pluto as a planet.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '2018 1 3 1 nth_weekday' ) + '''
+''' + makeCommandExample( '2018 january 3 monday nth_weekday' ),
 [ 'sunday', 'tuesday' ] ],
 
     'tuesday' : [
@@ -5162,7 +5170,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '2018 24 2 nth_weekday_of_year' ) + '''
+''' + makeCommandExample( '2018 24 tuesday nth_weekday_of_year' ),
 [ 'monday', 'wednesday' ] ],
 
     'wednesday' : [
@@ -5171,7 +5180,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '1967 3 4 3 nth_weekday' ) + '''
+''' + makeCommandExample( '1967 march 4 wednesday nth_weekday' ),
 [ 'tuesday', 'thursday' ] ],
 
     'thursday' : [
@@ -5180,7 +5190,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '1973 8 -1 4 nth_weekday' ) + '''
+''' + makeCommandExample( '1973 august -1 thursday nth_weekday' ),
 [ 'wednesday', 'friday' ] ],
 
     'friday' : [
@@ -5189,7 +5200,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '2001 43 5 nth_weekday_of_year' ) + '''
+''' + makeCommandExample( '2001 43 friday nth_weekday_of_year' ),
 [ 'thursday', 'saturday' ] ],
 
     'saturday' : [
@@ -5198,7 +5210,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '1981 8 6 nth_weekday_of_year' ) + '''
+''' + makeCommandExample( '1981 8 saturday nth_weekday_of_year' ),
 [ 'friday', 'sunday' ] ],
 
     'sunday' : [
@@ -5207,7 +5220,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '1998 4 -2 7 nth_weekday' ) + '''
+''' + makeCommandExample( '1998 april -2 sunday nth_weekday' ),
 [ 'saturday', 'monday' ] ],
 
 
@@ -5223,7 +5237,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '2015 1 3 1 nth_weekday' ) + '''
+''' + makeCommandExample( '2015 january 3 monday nth_weekday' ),
 [ 'december', 'february' ] ],
 
     'february' : [
@@ -5232,7 +5247,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '1921 2 1 4 nth_weekday' ) + '''
+''' + makeCommandExample( '1921 february 1 thursday nth_weekday' ),
 [ 'january', 'march' ] ],
 
     'march' : [
@@ -5241,7 +5257,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '1945 3 1 3 nth_weekday' ) + '''
+''' + makeCommandExample( '1945 march 1 wednesday nth_weekday' ),
 [ 'february', 'april' ] ],
 
     'april' : [
@@ -5250,7 +5267,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '2050 4 1 5 nth_weekday' ) + '''
+''' + makeCommandExample( '2050 april 1 friday nth_weekday' ),
 [ 'march', 'may' ] ],
 
     'may' : [
@@ -5259,7 +5277,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '1899 5 -3 7 nth_weekday' ) + '''
+''' + makeCommandExample( '1899 may -3 sunday nth_weekday' ),
 [ 'april', 'june' ] ],
 
     'june' : [
@@ -5268,7 +5287,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '2017 6 3 6 nth_weekday' ) + '''
+''' + makeCommandExample( '2017 june 3 saturday nth_weekday' ),
 [ 'may', 'july' ] ],
 
     'july' : [
@@ -5277,7 +5297,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '2100 7 1 1 nth_weekday' ) + '''
+''' + makeCommandExample( '2100 july 1 monday nth_weekday' ),
 [ 'june', 'august' ] ],
 
     'august' : [
@@ -5286,7 +5307,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '2017 8 4 2 nth_weekday' ) + '''
+''' + makeCommandExample( '2017 august 4 tuesday nth_weekday' ),
 [ 'july', 'september' ] ],
 
     'september' : [
@@ -5295,7 +5317,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '1987 9 2 5 nth_weekday' ) + '''
+''' + makeCommandExample( '1987 september 2 friday nth_weekday' ),
 [ 'august', 'october' ] ],
 
     'october' : [
@@ -5304,7 +5327,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '1961 10 4 3 nth_weekday' ) + '''
+''' + makeCommandExample( '1961 october 4 wednesday nth_weekday' ),
 [ 'september', 'november' ] ],
 
     'november' : [
@@ -5313,7 +5337,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '2007 11 1 1 nth_weekday' ) + '''
+''' + makeCommandExample( '2007 november 1 monday nth_weekday' ),
 [ 'october', 'december' ] ],
 
     'december' : [
@@ -5322,7 +5347,8 @@ This is defined for convenience for use with date operators.
 This is defined for convenience for use with date operators.
 ''',
 '''
-''',
+''' + makeCommandExample( '2000 12 5 7 nth_weekday' ) + '''
+''' + makeCommandExample( '2000 december 5 sunday nth_weekday' ),
 [ 'november', 'january' ] ],
 
 
@@ -5434,9 +5460,13 @@ in order to convert a time interval to hours, minutes and seconds.
 '''
 This operation returns an equivalent measurement with the units inverted from
 the original operand.
+
+The result is the same value, but in inverted units.  This is useful for turning
+a result into something more intuitive and readable.
 ''',
 '''
-''',
+''' + makeCommandExample( '3 cups invert_units' ) + '''
+''' + makeCommandExample( '40 mph invert_units' ),
 [ ] ],
 
     'latlong_to_nac' : [
