@@ -221,7 +221,7 @@ def getRoot( n, k ):
 
         return RPNMeasurement( value, newUnits )
 
-    return root( n, k )
+    return root( n, real( k ) )
 
 @oneArgFunctionEvaluator( )
 def getSquareRoot( n ):

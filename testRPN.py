@@ -30,7 +30,7 @@ from testHelp import *
 
 from mpmath import *
 
-slow = False
+slow = True
 
 
 # //******************************************************************************
@@ -378,10 +378,10 @@ def runArithmeticOperatorTests( ):
     # harmonic_mean
     testOperator( '1 5 range harmonic_mean' )
 
-    expectEqual( '1 1000 range lambda x divisors harmonic_mean -10 round_by_digits is_integer filter', '1599 oeis 7 left' )
+    expectEqual( '1 1000 range lambda x divisors harmonic_mean -10 round_by_digits is_integer filter', '1599 oeis lambda x 1000 is_not_greater filter' )
 
     if slow:
-        expectEqual( '1 100000 range lambda x divisors harmonic_mean -10 round_by_digits is_integer filter', '1599 oeis 937 left' )
+        expectEqual( '1 100000 range lambda x divisors harmonic_mean -10 round_by_digits is_integer filter', '1599 oeis lambda x 100000 is_not_greater filter' )
 
     # increment
     expectResult( '2 increment', 3 )
@@ -558,7 +558,7 @@ def runArithmeticOperatorTests( ):
 
     # mantissa
     # This works on the command line, but not here.  I have no idea why.
-    #expectEqual( '-p180 1 15000 range lambda pi x sqrt * exp mantissa 0.0001 less_than filter', '127029 oeis 4 left' )
+    #expectEqual( '-p180 1 15000 range lambda pi x sqrt * exp mantissa 0.0001 is_less filter', '127029 oeis 4 left' )
 
     # max
     testOperator( '[ 2 miles 11000 feet 127000 inches ] max' )
@@ -599,10 +599,10 @@ def runArithmeticOperatorTests( ):
     expectResult( '8875 49 modulo', 6 )
     expectResult( '199467 8876 modulo', 4195 )
 
-    expectEqual( '1 1000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 1001 less_than filter' )
+    expectEqual( '1 1000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 1001 is_less filter' )
 
     if slow:
-        expectEqual( '1 10000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 10001 less_than filter' )
+        expectEqual( '-a32 1 10000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 10001 is_less filter' )
 
     expectException( '20 i 3 modulo' )
 
@@ -3170,6 +3170,8 @@ def runNumberTheoryOperatorTests( ):
     # crt
     testOperator( '1 4 range 10 20 3 range2 crt' )
 
+    expectResult( '[ 2 3 2 ] [ 3 5 7 ] crt', 23 )
+
     # cyclotomic
 
     # digamma
@@ -3898,16 +3900,25 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '-c -a30 [ 2 3 2 ] power_tower' )
     testOperator( '[ [ 2 5 4 ] [ 3 2 4 ] [ 3 2 2 ] ] power_tower' )
     testOperator( '[ 2 3 range 2 4 range ] power_tower' )
+    testOperator( '[ 1 i 1 i 1 i 1 i 1 i 1 i ] power_tower' )
 
     # power_tower2
     testOperator( '-a160 -c [ 4 4 4 ] power_tower2' )
     testOperator( '[ [ 2 5 4 ] [ 3 2 4 ] [ 3 2 2 ] ] power_tower2' )
     testOperator( '[ 2 3 range 2 4 range ] power_tower2' )
+    testOperator( '[ 1 i 1 i 1 i 1 i 1 i 1 i ] power_tower2' )
 
     # powmod
     testOperator( '43 67 9 powmod' )
 
+    expectException( '9 i 6 4 powmod' )
+    expectException( '3 12 i 5 powmod' )
+    expectException( '21 33 67 i powmod' )
+
     # root
+    testOperator( '4 3 root' )
+    testOperator( '4 i 6 + 3 root' )
+
     expectEqual( '8 3 root', '8 cube_root' )
 
     # square
