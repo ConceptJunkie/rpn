@@ -30,7 +30,7 @@ from testHelp import *
 
 from mpmath import *
 
-slow = True
+slow = False
 
 
 # //******************************************************************************
@@ -601,8 +601,9 @@ def runArithmeticOperatorTests( ):
 
     expectEqual( '1 1000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 1001 is_less filter' )
 
-    if slow:
-        expectEqual( '-a32 1 10000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 10001 is_less filter' )
+    # FIXME:
+    #if slow:
+    #    expectEqual( '-a32 1 10000 range lambda x divisors product x divisors sum mod 1 equals filter', '188061 oeis lambda x 10001 is_less filter' )
 
     expectException( '20 i 3 modulo' )
 
@@ -1538,7 +1539,7 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '0 299 range nth_motzkin', '1006 oeis 300 left' )
 
     if slow:
-        expectEqual( '0 2106 range nth_motzkin', '1006 oeis 2016 left' )
+        expectEqual( '-a1000 0 2106 range nth_motzkin', '1006 oeis 2016 left' )
 
     # nth_pell
     testOperator( '13 nth_pell' )
@@ -3281,7 +3282,7 @@ def runNumberTheoryOperatorTests( ):
     # generate_polydivisibles
     testOperator( '3 generate_polydivisibles -r3' )
 
-    expectEqual( '2 8 range lambda x generate_polydivisibles count eval 1 +', '271374 oeis 7 left' )
+    expectEqual( '2 9 range lambda x generate_polydivisibles count eval', '271374 oeis 8 left' )
 
     # geometric_recurrence
     expectEqual( '-a800 [ 1 1 ] [ 2 2 ] [ 0 1 ] 15 geometric_recurrence', '-a800 283 oeis 15 left' )

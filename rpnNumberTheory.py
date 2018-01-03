@@ -1553,6 +1553,8 @@ def generatePolydivisiblesGenerator( _base ):
     result = list( range( 1, base ) )
     newItems = list( range( 1, base ) )
 
+    yield 0
+
     for i in newItems:
         yield i
 
