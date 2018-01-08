@@ -4001,6 +4001,9 @@ operators = {
     'is_prime'                       : RPNOperator( isPrime,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_prime_old'                   : RPNOperator( isPrimeOld,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
     'is_pronic'                      : RPNOperator( isPronic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 

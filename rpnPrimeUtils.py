@@ -21,6 +21,8 @@ import sys
 
 from mpmath import arange, fadd, fmul, fsub
 
+from baillie_psw import baillie_psw
+
 from rpnGenerator import RPNGenerator
 from rpnPersistence import openPrimeCache
 
@@ -36,8 +38,7 @@ from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 # //******************************************************************************
 
 def isPrimeNumber( n ):
-    '''Uses pyprimes to check for the primality of n.'''
-    return pyprimes.isprime( int( n ) )
+    return 1 if baillie_psw( n ) else 0
 
 @oneArgFunctionEvaluator( )
 def isComposite( n ):
@@ -45,6 +46,21 @@ def isComposite( n ):
 
 @oneArgFunctionEvaluator( )
 def isPrime( n ):
+    return 1 if isPrimeNumber( n ) else 0
+
+
+# //******************************************************************************
+# //
+# //  isPrimeNumberOld
+# //
+# //******************************************************************************
+
+def isPrimeNumberOld( n ):
+    '''Uses pyprimes to check for the primality of n.'''
+    return pyprimes.isprime( int( n ) )
+
+@oneArgFunctionEvaluator( )
+def isPrimeOld( n ):
     return 1 if isPrimeNumber( n ) else 0
 
 
