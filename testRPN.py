@@ -5,7 +5,7 @@
 # //  testRPN
 # //
 # //  main test script for RPN
-# //  copyright (c) 2017, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2018, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -3377,6 +3377,8 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1000 1030 range is_prime' )
     testOperator( '2049 is_prime' )
     testOperator( '92348759911 is_prime' )
+
+    expectResult( '-a700 1 16 range nth_mersenne_prime is_prime and_all', 1 )
 
     expectEqual( '0 300 range lambda 90 x * 73 + is_prime filter 100 left', '195993 oeis 100 left' )
 
