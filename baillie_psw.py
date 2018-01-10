@@ -12,7 +12,7 @@
 from rpnPrimes import primes
 from rpnMath import isSquare
 
-from mpmath import power
+from mpmath import fdiv, fmod, fsub, power
 
 from miller_rabin import miller_rabin_base_2
 from jacobi_symbol import jacobi_symbol
@@ -33,10 +33,11 @@ def D_chooser( candidate ):
 
 def baillie_psw( candidate ):
     """Perform the Baillie-PSW probabilistic primality test on candidate"""
-    if candidate > power( 10, 700 ):
-        raise ValueError( 'rpn cannot handle primality tests for numbers this large yet' )
-
-    if candidate in primes:
+    if candidate < 0:
+        raise ValueError( "'is_prime' is not defined for negative numbers" )
+    elif candidate == 1:
+        return False
+    elif candidate in primes:
         return True
 
     # Check divisibility by a short list of primes less than 50
