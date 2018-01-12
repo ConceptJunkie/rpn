@@ -19,11 +19,12 @@ import pickle
 import pyprimes
 import sys
 
+from baillie_psw import baillie_psw
+from bisect import bisect_left
 from mpmath import arange, fadd, fmul, fsub
 
-from baillie_psw import baillie_psw
-
 from rpnGenerator import RPNGenerator
+from rpnPrimes import primes
 from rpnPersistence import openPrimeCache
 
 import rpnGlobals as g
@@ -38,7 +39,10 @@ from rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 # //******************************************************************************
 
 def isPrimeNumber( n ):
-    return 1 if baillie_psw( n ) else 0
+    if n < 3317044064679887385961981:
+        return miller_rabin( int( n ) )
+    else:
+        return 1 if baillie_psw( n ) else 0
 
 @oneArgFunctionEvaluator( )
 def isComposite( n ):
@@ -61,7 +65,34 @@ def isPrimeNumberOld( n ):
 
 @oneArgFunctionEvaluator( )
 def isPrimeOld( n ):
-    return 1 if isPrimeNumber( n ) else 0
+    return 1 if isPrimeNumberOld( n ) else 0
+
+
+# //******************************************************************************
+# //
+# //  isPrimeNumberSimple
+# //
+# //  Use this for numbers smaller than 10,000,000,000.
+# //
+# //******************************************************************************
+
+def isPrimeNumberSimple( n ):
+    # if prime is already in the list, just pick it
+    if n <= max( primes ):
+        i = bisect_left( primes, n )
+        return i != len( primes ) and primes[ i ] == n
+
+    # Divide by each known prime
+    limit = int( n ** .5 )
+
+    for p in primes:
+        if p > limit:
+            return True
+
+        if n % p == 0:
+            return False
+
+    return True
 
 
 # //******************************************************************************
@@ -1471,4 +1502,86 @@ def printStats( cacheName, name ):
     key, value = getMaxPrime( cacheName )
 
     print( '{:10,} {:23} max: {:14,} ({:,})'.format( count, name, key, value ) )
+
+
+# //******************************************************************************
+# //
+# //  miller_rabin_pass
+# //
+# //  https://gist.github.com/sharnett/5479106
+# //
+# //******************************************************************************
+
+''' partly stolen from http://en.literateprograms.org/Miller-Rabin_primality_test_(Python) '''
+
+def miller_rabin_pass( a, s, d, n ):
+    a_to_power = pow( a, d, n )
+
+    if a_to_power == 1:
+        return True
+
+    for i in range( s - 1 ):
+        if a_to_power == n - 1:
+            return True
+
+        a_to_power = (a_to_power * a_to_power) % n
+
+    return a_to_power == n - 1
+
+
+# //******************************************************************************
+# //
+# //  miller_rabin
+# //
+# //  https://gist.github.com/sharnett/5479106
+# //
+# //  Use this version for numbers < 2^64 (18446744073709551616)
+# //
+# //******************************************************************************
+
+def miller_rabin( n ):
+    '''if n < 1,373,653, it is enough to test a = 2 and 3;
+    if n < 9,080,191, it is enough to test a = 31 and 73;
+    if n < 4,759,123,141, it is enough to test a = 2, 7, and 61;
+    if n < 2,152,302,898,747, it is enough to test a = 2, 3, 5, 7, and 11;'''
+
+    if n < 2:
+        return False
+
+    if n < 1373653:
+        testPrimes = [ 2, 3 ]
+    elif n < 9080191:
+        testPrimes = [ 31, 73 ]
+    elif n < 4759123141:
+        testPrimes = [ 2, 7, 61 ]
+    elif n < 2152302898747:
+        testPrimes = [ 2, 3, 5, 7, 11 ]
+    elif n < 3474749660383:
+        testPrimes = [ 2, 3, 5, 7, 11, 13 ]
+    elif n < 341550071728321:
+        testPrimes = [ 2, 3, 5, 7, 11, 13, 17 ]
+    elif n < 18446744073709551616:
+        testPrimes = [ 2, 325, 9375, 28178, 450775, 9780504, 1795265022 ]
+    elif n < 318665857834031151167461:
+        testPrimes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 ]
+    elif n < 3317044064679887385961981:
+        testPrimes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41 ]
+    else:
+        raise ValueError( str( n ) + ' is too large to use the deterministic Miller-Rabin test for 13 prime bases' )
+
+    if n in testPrimes:
+        return True
+
+    d = n - 1
+    s = 0
+
+    while d % 2 == 0:
+        d >>= 1
+        s += 1
+
+    for a in testPrimes:
+        if not miller_rabin_pass( a, s, d, n ):
+            return False
+
+    return True
 

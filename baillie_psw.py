@@ -10,7 +10,7 @@
 # //******************************************************************************
 
 from rpnPrimes import primes
-from rpnMath import isSquare
+from rpnMath import isInteger, isSquare
 
 from mpmath import fdiv, fmod, fsub, power
 
@@ -36,6 +36,8 @@ def baillie_psw( candidate ):
     if candidate < 0:
         raise ValueError( "'is_prime' is not defined for negative numbers" )
     elif candidate == 1:
+        return False
+    elif not isInteger( candidate ):
         return False
     elif candidate in primes:
         return True

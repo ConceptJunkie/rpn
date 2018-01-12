@@ -8237,6 +8237,21 @@ be an appropriate term to describe having a number of squarefree other than 1
     'is_prime' : [
 'number_theory', 'returns whether n is prime',
 '''
+My goal is optimize primality testing automatically so it can use the much
+faster Miller-Rabin test without being unsure of the result.
+
+Right now it's kind of dumb.  It just calls the old algorithm
+for numbers smaller than a trillion.
+''',
+'''
+''',
+[ ] ],
+
+    'is_prime_old' : [
+'number_theory', 'returns whether n is prime',
+'''
+This uses the much, much faster Miller-Rabin code, but it can't be 100% sure
+beyond a certain size.
 ''',
 '''
 ''',
