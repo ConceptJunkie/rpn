@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1193
+maxExampleCount = 1197
 
 
 # //******************************************************************************
@@ -9944,16 +9944,20 @@ and is distributed with data files calculated through several billion primes.
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '10 next_prime' ) + '''
+Generate a random 200-digit prime:
+
+''' + makeCommandExample( '-a201 10 200 ** random_int next_prime' ),
+[ 'prime', 'primes', 'next_primes' ] ],
 
     'next_primes' : [
 'prime_numbers', 'returns the next k prime numbers greater than or equal to n',
 '''
 ''',
 '''
-''',
-[ ] ],
+''' + makeCommandExample( '100 10 next_primes' ) + '''
+''' + makeCommandExample( '-a71 10 70 ** random_int 5 next_primes -s1' ),
+[ 'prime', 'primes', 'next_prime' ] ],
 
     'next_quadruplet_prime' : [
 'prime_numbers', 'finds the closest set of quadruplet primes above n',
