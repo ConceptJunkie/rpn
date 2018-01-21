@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1197
+maxExampleCount = 1200
 
 
 # //******************************************************************************
@@ -5854,7 +5854,7 @@ Which of the first 80 fibonacci numbers is prime?
 '''
 ''',
 '''
-''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] ] lambda x y add for_each' ),
+''' + makeCommandExample( '[ [ 2 3 ] [ 4 5 ] [ 7 9 ] [ 4 3 ] ] lambda x y power for_each' ),
 [ 'for_each_list', 'repeat' ] ],
 
     'for_each_list' : [
@@ -7405,7 +7405,9 @@ the operand.  Every permutation of lists containing one item from each sublist
 will be output.
 ''',
 '''
-''',
+''' + makeCommandExample( '[ 1 4 range 5 8 range ] permute_lists combine_digits' ) + '''
+''' + makeCommandExample( '[ 1 4 range 5 8 range [ 1 3 5 ] ] permute_lists combine_digits' ) + '''
+''' + makeCommandExample( 'rpn [ 1 5 primes 1 5 primes 1 5 primes ] permute_lists product sort' ),
 [ 'append', 'interleave', 'intersection', 'union' ] ],
 
     'powerset' : [
