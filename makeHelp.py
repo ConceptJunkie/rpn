@@ -7407,7 +7407,7 @@ will be output.
 '''
 ''' + makeCommandExample( '[ 1 4 range 5 8 range ] permute_lists combine_digits' ) + '''
 ''' + makeCommandExample( '[ 1 4 range 5 8 range [ 1 3 5 ] ] permute_lists combine_digits' ) + '''
-''' + makeCommandExample( 'rpn [ 1 5 primes 1 5 primes 1 5 primes ] permute_lists product sort' ),
+''' + makeCommandExample( '[ 1 5 primes 1 5 primes 1 5 primes ] permute_lists product sort' ),
 [ 'append', 'interleave', 'intersection', 'union' ] ],
 
     'powerset' : [
