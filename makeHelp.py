@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1200
+maxExampleCount = 1201
 
 
 # //******************************************************************************
@@ -550,7 +550,7 @@ Complex numbers don't obey the accuracy level on output (-a).
 
 Cousin primes seem to be broken starting with index 99, according to OEIS.
 
-'dup_ops' flat out doesn't work any more.
+'duplicate_ops' flat out doesn't work any more.
 
 See 'rpn help TODO'.
     ''',
@@ -900,7 +900,7 @@ Added 'crt' operator.
 
 Added the 'hexagonal_square' operator.
 
-Added the 'dup_operator', 'add_digits', and 'dup_digits' operators.
+Added the 'duplicate_operator', 'add_digits', and 'duplicate_digits' operators.
 
 Ctrl-c can no longer interrupt saving the cache files, causing corruption.
 
@@ -6390,7 +6390,7 @@ is the equivalent of the concatenation of digits from each argument.
 ''' + makeCommandExample( '34 45 add_digits' ) + '''
 ''' + makeCommandExample( '12345 67890 add_digits' ) + '''
 ''',
-[ 'build_numbers', 'combine_digits', 'dup_digits', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
+[ 'build_numbers', 'combine_digits', 'duplicate_digits', 'duplicate_number', 'get_digits', 'rotate_digits_left', 'rotate_digits_right'  ] ],
 
     'build_numbers' : [
 'lexicography', 'constructs numbers lexicographically using a simple language',
@@ -6485,13 +6485,30 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 ''' + makeCommandExample( '7575577755 count_different_digits' ),
 [ 'count_digits', 'has_digits', 'has_only_digits' ] ],
 
-    'dup_digits' : [
+    'cyclic_permutations' : [
+'lexicography', 'returns a list of all cyclic permutations of n',
+'''
+''',
+'''
+All of the circular primes up to a million:
+''' + makeCommandExample( '[1379:1:6] build_numbers lambda x cyclic_permutations is_prime and_all filter [ 2 5 ] append sort' ),
+[ 'rotate_left', 'rotate_right' ] ],
+
+    'duplicate_digits' : [
 'lexicography', 'append n with a copy of its last k digits',
 '''
 ''',
 '''
 ''',
-[ 'add_digits', 'combine_digits' ] ],
+[ 'add_digits', 'combine_digits', 'duplicate_number' ] ],
+
+    'duplicate_number' : [
+'lexicography', 'return a number with the digits of n duplicated k times',
+'''
+''',
+'''
+''',
+[ 'add_digits', 'combine_digits', 'duplicate_dugits' ] ],
 
     'erdos_persistence' : [
 'lexicography', 'counts the Erdos version of multiplicative persistence for n',
@@ -7749,20 +7766,20 @@ take three or more operands do not work with lists.
 ''',
 [ '(' ] ],
 
-    'dup_term' : [
+    'duplicate_term' : [
 'modifiers', 'duplicates an argument n k times',
 '''
 This function duplicates terms, but requires the bracket operators to make the
 resulting expression a list, rather than a set of k expressions.
 ''',
 '''
-''' + makeCommandExample( '10 2 dup_term +' ) + '''
-''' + makeCommandExample( '[ 10 10 dup_term ]' ) + '''
-''' + makeCommandExample( '[ 1 10 range 10 dup_term ]' ) + '''
-''' + makeCommandExample( '[ 1 10 range 10 dup_term ] unique' ),
+''' + makeCommandExample( '10 2 duplicate_term +' ) + '''
+''' + makeCommandExample( '[ 10 10 duplicate_term ]' ) + '''
+''' + makeCommandExample( '[ 1 10 range 10 duplicate_term ]' ) + '''
+''' + makeCommandExample( '[ 1 10 range 10 duplicate_term ] unique' ),
 [ ] ],
 
-    'dup_operator' : [
+    'duplicate_operator' : [
 'modifiers', 'duplicates an operation n times',
 '''
 ''',

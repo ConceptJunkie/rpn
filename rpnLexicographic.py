@@ -276,9 +276,30 @@ def replaceDigits( n, source, replace ):
 @twoArgFunctionEvaluator( )
 def duplicateDigits( n, k ):
     if real( k ) < 0:
-        raise ValueError( "'dup_digits' requires a non-negative integer for the second argument" )
+        raise ValueError( "'duplicate_digits' requires a non-negative integer for the second argument" )
 
     return appendDigits( real( n ), fmod( n, power( 10, nint( floor( k ) ) ) ), k )
+
+
+# //******************************************************************************
+# //
+# //  duplicateNumber
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def duplicateNumber( n, k ):
+    if real( k ) < 0:
+        raise ValueError( "'duplicate_number' requires a non-negative integer for the second argument" )
+
+    str = getMPFIntegerAsString( n )
+
+    target = ''
+
+    for i in arange( k ):
+        target += str
+
+    return mpmathify( target )
 
 
 # //******************************************************************************
@@ -1105,6 +1126,25 @@ def rotateDigitsRight( n, k ):
 
     str = str[ -rotate : ] + str[ : -rotate ]
     return mpmathify( str )
+
+
+# //******************************************************************************
+# //
+# //  getCyclicPermutations
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getCyclicPermutations( n ):
+    result = [ n ]
+
+    str = getMPFIntegerAsString( n )
+
+    for i in range( len( str ) - 1 ):
+        str = str[ 1 : ] + str[ : 1 ]
+        result.append( mpmathify( str ) )
+
+    return result
 
 
 # //******************************************************************************

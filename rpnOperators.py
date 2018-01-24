@@ -2127,29 +2127,29 @@ sideEffectOperators = [
 # //******************************************************************************
 
 modifiers = {
-    'dup_term'          : RPNOperator( duplicateTerm, 1 ),
+    'duplicate_term'        : RPNOperator( duplicateTerm, 1 ),
 
-    'dup_operator'      : RPNOperator( duplicateOperation, 1 ),
+    'duplicate_operator'    : RPNOperator( duplicateOperation, 1 ),
 
-    'previous'          : RPNOperator( getPrevious, 0 ),
+    'previous'              : RPNOperator( getPrevious, 0 ),
 
-    'unlist'            : RPNOperator( unlist, 0 ),
+    'unlist'                : RPNOperator( unlist, 0 ),
 
-    'lambda'            : RPNOperator( createFunction, 0 ),
+    'lambda'                : RPNOperator( createFunction, 0 ),
 
-    'x'                 : RPNOperator( addX, 0 ),
+    'x'                     : RPNOperator( addX, 0 ),
 
-    'y'                 : RPNOperator( addY, 0 ),
+    'y'                     : RPNOperator( addY, 0 ),
 
-    'z'                 : RPNOperator( addZ, 0 ),
+    'z'                     : RPNOperator( addZ, 0 ),
 
-    '['                 : RPNOperator( incrementNestedListLevel, 0 ),
+    '['                     : RPNOperator( incrementNestedListLevel, 0 ),
 
-    ']'                 : RPNOperator( decrementNestedListLevel, 0 ),
+    ']'                     : RPNOperator( decrementNestedListLevel, 0 ),
 
-    '('                 : RPNOperator( startOperatorList, 0 ),
+    '('                     : RPNOperator( startOperatorList, 0 ),
 
-    ')'                 : RPNOperator( endOperatorList, 0 ),
+    ')'                     : RPNOperator( endOperatorList, 0 ),
 }
 
 
@@ -3650,7 +3650,13 @@ operators = {
     'count_digits'                   : RPNOperator( countDigits,
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
-    'dup_digits'                     : RPNOperator( duplicateDigits,
+    'cyclic_permutations'            : RPNOperator( getCyclicPermutations,
+                                                    1, [ RPNOperator.Integer ] ),
+
+    'duplicate_digits'               : RPNOperator( duplicateDigits,
+                                                    2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
+
+    'duplicate_number'               : RPNOperator( duplicateNumber,
                                                     2, [ RPNOperator.Integer, RPNOperator.NonnegativeInteger ] ),
 
     'erdos_persistence'              : RPNOperator( getErdosPersistence,

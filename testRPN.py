@@ -2591,9 +2591,9 @@ def runLexicographyOperatorTests( ):
 
     # count_digits
 
-    # dup_digits
-    expectResult( '543 2 dup_digits', 54343 )
-    expectResult( '1024 1 4 range dup_digits', [ 10244, 102424, 1024024, 10241024 ] )
+    # duplicate_digits
+    expectResult( '543 2 duplicate_digits', 54343 )
+    expectResult( '1024 1 4 range duplicate_digits', [ 10244, 102424, 1024024, 10241024 ] )
 
     # erdos_persistence
     expectResult( '55555555555555557777777777777 erdos_persistence', 12 )
@@ -3083,12 +3083,12 @@ def runModifierOperatorTests( ):
     # ]
     testOperator( '2 [ 4 5 6 ] eval_poly' )
 
-    # dup_operator
-    testOperator( '2 5 dup_operator sqr' )
-    testOperator( '4 6 5 dup_operator *' )
+    # duplicate_operator
+    testOperator( '2 5 duplicate_operator sqr' )
+    testOperator( '4 6 5 duplicate_operator *' )
 
-    # dup_term
-    testOperator( '[ 1 2 10 dup_term ] cf' )
+    # duplicate_term
+    testOperator( '[ 1 2 10 duplicate_term ] cf' )
 
     # previous
     expectResult( '6 previous *', 36 )
