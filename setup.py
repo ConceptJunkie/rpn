@@ -30,15 +30,24 @@ def read( *paths ):
 setup (
     name = 'rpn',
     version = PROGRAM_VERSION_NAME,
-    description = 'command-line RPN calculator with arbitrary precision',
+    #description = 'command-line RPN calculator with arbitrary precision',
+    description = 'command-line RPN calculator',
+#    long_description =
+#'''
+#rpn is a command-line Reverse-Polish Notation calculator that was first
+#written in C in 1988 as a four-function calculator.  It was rewritten in
+#Python 3 in 2012 and now uses the mpmath library.  It was a Python learning
+#exercise for me, and a fun little toy, but when I found mpmath, it became
+#really cool and powerful, so props to Fredrik Johansson, who did all the
+#heavy lifting (http://mpmath.org).
+#''',
+
     long_description =
 '''
-rpn is a command-line Reverse-Polish Notation calculator that was first
-written in C in 1988 as a four-function calculator.  It was rewritten in
-Python 3 in 2012 and now uses the mpmath library.  It was a Python learning
-exercise for me, and a fun little toy, but when I found mpmath, it became
-really cool and powerful, so props to Fredrik Johansson, who did all the
-heavy lifting (http://mpmath.org).
+rpn is a command-line Reverse-Polish Notation
+calculator with over 700 operators, based
+on mpmath (props to Fredrik Johansson,
+http://mpmath.org).
 ''',
 
     url = 'http://github.com/ConceptJunkie/rpn/',
@@ -63,16 +72,18 @@ heavy lifting (http://mpmath.org).
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Scientific/Engineering :: Mathematics',
         'Environment :: Console',
     ],
 
-    packages = [ 'rpn' ],
+    packages = find_packages( ),
 
     # This maps the directories to the installed location under site-packages/
     package_dir = { 'rpn' : 'rpn' },
 
-    data_files = [ ( 'Lib/site-packages/rpn/' + rpndata, [ g.dataDir + os.sep + 'balanced_primes.txt',
+    data_files = [ ( 'Lib/site-packages/rpn/' + rpndata,
+                              [ g.dataDir + os.sep + 'balanced_primes.txt',
                                 g.dataDir + os.sep + 'cousin_primes.txt',
                                 g.dataDir + os.sep + 'double_balanced_primes.txt',
                                 g.dataDir + os.sep + 'huge_primes.txt',

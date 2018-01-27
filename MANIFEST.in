@@ -1,10 +1,13 @@
 include rpn*.py
-include pyecm.py
 include setup.py
 include makeHelp.py
-include makeRPN.py
+include makeUnits.py
 include preparePrimeData.py
 include test*.py
+include baillie_psw.py
+include jacobi_symbol.py
+include lucas_pp.py
+include miller_rabin.py
 include buildRPN.bat
 include gpl-3.0.txt
 include requirements.txt
