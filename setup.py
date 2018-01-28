@@ -16,6 +16,7 @@ requirements = 'requirements.txt'
 rpndata = 'rpndata'
 
 import os
+import glob
 
 from setuptools import setup, find_packages
 from rpnVersion import PROGRAM_VERSION_NAME
@@ -78,9 +79,10 @@ http://mpmath.org).
     ],
 
     packages = find_packages( ),
+    py_modules = [ os.path.splitext( os.path.basename( i ) )[ 0 ] for i in glob.glob( "*.py" ) ],
 
     # This maps the directories to the installed location under site-packages/
-    package_dir = { 'rpn' : 'rpn' },
+    package_dir = { '.' : 'rpn' },
 
     data_files = [ ( 'Lib/site-packages/rpn/' + rpndata,
                               [ g.dataDir + os.sep + 'balanced_primes.txt',
@@ -104,10 +106,11 @@ http://mpmath.org).
 
     entry_points = {
         'console_scripts': [
-            'rpn = rpn.rpn:__main__',
-            'makeHelp = rpn.makeHelp:__main__',
-            'makeUnits = rpn.makeUnits:__main__',
-            'preparePrimeData = rpn.preparePrimeData:__main__',
+            'rpn = rpn:__main__',
+            'makeHelp = makeHelp:__main__',
+            'makeUnits = makeUnits:__main__',
+            'preparePrimeData = preparePrimeData:__main__',
+            'testRPN = rpn.testRPN:__main__',
         ],
     }
 )
