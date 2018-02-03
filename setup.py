@@ -19,9 +19,9 @@ import os
 import glob
 
 from setuptools import setup, find_packages
-from rpnVersion import PROGRAM_VERSION_NAME
+from rpn.rpnVersion import PROGRAM_VERSION_NAME
 
-import rpnGlobals as g
+import rpn.rpnGlobals as g
 
 def read( *paths ):
     '''Build a file path from *paths* and return the contents.'''
@@ -82,35 +82,35 @@ http://mpmath.org).
     py_modules = [ os.path.splitext( os.path.basename( i ) )[ 0 ] for i in glob.glob( "*.py" ) ],
 
     # This maps the directories to the installed location under site-packages/
-    package_dir = { '.' : 'rpn' },
+    package_dir = { 'rpn' : 'rpn' },
 
     data_files = [ ( 'Lib/site-packages/rpn/' + rpndata,
-                              [ g.dataDir + os.sep + 'balanced_primes.txt',
-                                g.dataDir + os.sep + 'cousin_primes.txt',
-                                g.dataDir + os.sep + 'double_balanced_primes.txt',
-                                g.dataDir + os.sep + 'huge_primes.txt',
-                                g.dataDir + os.sep + 'isolated_primes.txt',
-                                g.dataDir + os.sep + 'large_primes.txt',
-                                g.dataDir + os.sep + 'quad_primes.txt',
-                                g.dataDir + os.sep + 'quint_primes.txt',
-                                g.dataDir + os.sep + 'sext_primes.txt',
-                                g.dataDir + os.sep + 'sexy_primes.txt',
-                                g.dataDir + os.sep + 'sexy_quadruplets.txt',
-                                g.dataDir + os.sep + 'sexy_triplets.txt',
-                                g.dataDir + os.sep + 'small_primes.txt',
-                                g.dataDir + os.sep + 'sophie_primes.txt',
-                                g.dataDir + os.sep + 'super_primes.txt',
-                                g.dataDir + os.sep + 'triple_balanced_primes.txt',
-                                g.dataDir + os.sep + 'triplet_primes.txt',
-                                g.dataDir + os.sep + 'twin_primes.txt' ] ) ],
+                              [ 'rpn' + os.sep + g.dataDir + os.sep + 'balanced_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'cousin_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'double_balanced_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'huge_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'isolated_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'large_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'quad_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'quint_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'sext_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'sexy_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'sexy_quadruplets.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'sexy_triplets.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'small_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'sophie_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'super_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'triple_balanced_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'triplet_primes.txt',
+                                'rpn' + os.sep + g.dataDir + os.sep + 'twin_primes.txt' ] ) ],
 
     entry_points = {
         'console_scripts': [
-            'rpn = rpn:__main__',
-            'makeHelp = makeHelp:__main__',
-            'makeUnits = makeUnits:__main__',
-            'preparePrimeData = preparePrimeData:__main__',
-            'testRPN = rpn.testRPN:__main__',
+            'rpn = rpn.rpn:main',
+            'makeHelp = rpn.makeHelp:main',
+            'makeUnits = rpn.makeUnits:main',
+            'preparePrimeData = rpn.preparePrimeData:main',
+            'testRPN = rpn.testRPN:main',
         ],
     }
 )

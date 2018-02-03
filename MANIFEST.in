@@ -1,15 +1,15 @@
-include rpn*.py
+include rpn/rpn*.py
 include setup.py
-include makeHelp.py
-include makeUnits.py
-include preparePrimeData.py
-include test*.py
-include baillie_psw.py
-include jacobi_symbol.py
-include lucas_pp.py
-include miller_rabin.py
+include rpn/makeHelp.py
+include rpn/makeUnits.py
+include rpn/preparePrimeData.py
+include rpn/test*.py
+include rpn/baillie_psw.py
+include rpn/jacobi_symbol.py
+include rpn/lucas_pp.py
+include rpn/miller_rabin.py
 include buildRPN.bat
 include gpl-3.0.txt
 include requirements.txt
-recursive-include rpndata *.txt
+recursive-include rpn/rpndata *.txt
 
