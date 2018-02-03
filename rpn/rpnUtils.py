@@ -27,20 +27,18 @@ def debugPrint( *args, **kwargs ):
     else:
         return
 
-
 import functools
 import itertools
 import os
 import sys
 
-from mpmath import arange, fadd, floor, im, log10, mpmathify, nint, nstr
-
-from random import randrange
 from functools import reduce
-
-import rpn.rpnGlobals as g
+from mpmath import arange, fadd, floor, im, log10, mpmathify, nint, nstr
+from random import randrange
 
 from rpn.rpnGenerator import RPNGenerator
+
+import rpn.rpnGlobals as g
 
 
 # //******************************************************************************

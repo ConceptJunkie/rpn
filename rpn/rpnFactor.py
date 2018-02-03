@@ -98,7 +98,7 @@ def getFactors( target ):
     if verbose:
         print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), ' digits)...' )
 
-    from factorise import rpn.factorise
+    from rpn.factorise import factorise
     result = factorise( int( n ) )
 
     if n > g.minValueToCache and n not in g.factorCache:

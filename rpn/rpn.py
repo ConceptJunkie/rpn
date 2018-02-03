@@ -43,7 +43,6 @@ import signal
 import time
 
 from contextlib import contextmanager
-
 from mpmath import inf, mp, nan, nstr
 
 from rpn.rpnAliases import operatorAliases

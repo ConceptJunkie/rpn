@@ -1392,7 +1392,7 @@ def runCombinatoricsOperatorTests( ):
     testOperator( '4 5 bell_polynomial' )
     testOperator( '5 5 10 range bell_polynomial' )
 
-    from rpnSpecial import downloadOEISSequence
+    from rpn.rpnSpecial import downloadOEISSequence
 
     bell_terms = downloadOEISSequence( 106800 )
 
@@ -3110,7 +3110,7 @@ def runModifierOperatorTests( ):
 # //******************************************************************************
 
 def runNumberTheoryOperatorTests( ):
-    from rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
+    from rpn.rpnNumberTheory import getNthKFibonacciNumberTheSlowWay
 
     # abundance
     expectEqual( '0 10000 15 interval_range lambda x abundance abs x log not_greater filter', '88012 oeis 2 left' )

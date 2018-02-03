@@ -130,7 +130,7 @@ def loadLocationCache( ):
 # //******************************************************************************
 
 def saveLocationCache( locationCache ):
-    from rpnKeyboard import DelayedKeyboardInterrupt
+    from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 
     with DelayedKeyboardInterrupt( ):
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'locations.pckl.bz2', 'wb' ) ) as pickleFile:

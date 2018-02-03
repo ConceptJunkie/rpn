@@ -9,8 +9,8 @@
 # //
 # //******************************************************************************
 
-from mpmath import fdiv, fmod, fsub, power
 from math import sqrt
+from mpmath import fdiv, fmod, fsub, power
 
 from rpn.rpnPrimes import primes
 from rpn.rpnMath import isInteger, isSquare

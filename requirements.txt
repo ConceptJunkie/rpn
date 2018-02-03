@@ -4,8 +4,11 @@ enum34
 ephem
 geopy
 gmpy2
-mpmath>=0.19
+mpmath>=1.0.0
 pylru
 pyprimes
 pyreadline>=2.1
+pytz
+timezonefinder
+tzlocal
 

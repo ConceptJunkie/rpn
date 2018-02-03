@@ -20,9 +20,8 @@ import itertools
 import struct
 
 from enum import Enum
-from random import randrange
-
 from mpmath import cplot, fadd, fmod, limit, nint, nprod, nsum, plot, splot
+from random import randrange
 
 from rpn.rpnAliases import dumpAliases
 

@@ -25,9 +25,8 @@ import pickle
 import os
 import sys
 
-from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
-
 from rpn.rpn import rpn, handleOutput
+from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 import rpn.rpnGlobals as g
 
