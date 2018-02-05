@@ -1395,7 +1395,7 @@ coefficient.
 ''' + makeCommandExample( '[ 1 3 5 ] [ 2 4 6 ] add_polynomials' ) + '''
 ''' + makeCommandExample( '[ 1 1 ] [ 2 2 2 ] add_polynomials' ) + '''
 ''' + makeCommandExample( '[ 1 ] [ 4 5 dup ] add_polynomials' ),
-[ ] ],
+[ 'multiply_polynomials', 'polynomial_power', 'polynomial_sum' ] ],
 
     'eval_polynomial' : [
 'algebra', 'interprets the list as a polynomial and evaluates it for value k',
@@ -1410,7 +1410,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 1 2 ] 3 eval_polynomial' ) + '''
 ''' + makeCommandExample( '[ 10 -20 30 -40 50 -60 ] 154 eval_polynomial' ) + '''
 ''' + makeCommandExample( '[ 8 5 3 -4 ] 1 10 range eval_polynomial' ),
-[ ] ],
+[ 'add_polynomials', 'find_polynomials', 'multiply_polynomials', 'polynomial_power' ] ],
 
     'find_polynomial' : [
 'algebra', 'finds a polynomial, of order less than or equal to k, for which n is a zero',
@@ -1425,7 +1425,7 @@ will be limited to an order of no higher than k.
 ''' + makeCommandExample( 'silver 10 find_polynomial' ) + '''
 ''' + makeCommandExample( 'plastic 10 find_polynomial' ) + '''
 ''' + makeCommandExample( 'mertens_constant 100 find_polynomial' ),
-[ ] ],
+[ 'eval_polynomial', 'solve' ] ],
 
     'multiply_polynomials' : [
 'algebra', 'interprets two lists as polynomials and multiplies them',
@@ -1440,7 +1440,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 1 0 ] [ 1 0 ] multiply_polynomials' ) + '''
 ''' + makeCommandExample( '[ 1 1 ] [ 1 1 1 ] multiply_polynomials' ) + '''
 ''' + makeCommandExample( '[ 6 6 8 8 ] [ 10 12 24 36 ] multiply_polynomials' ),
-[ ] ],
+[ 'add_polynomials', 'eval_polynomial', 'polynomial_power', 'polynomial_product' ] ],
 
     'polynomial_power' : [
 'algebra', 'exponentiates polynomial n by the integer power k',
@@ -1455,7 +1455,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 1 1 ] 2 polynomial_power' ) + '''
 ''' + makeCommandExample( '[ 1 2 1 ] 4 polynomial_power' ) + '''
 ''' + makeCommandExample( '[ 1 1 ] 8 polynomial_power' ),
-[ ] ],
+[ 'add_polynomials', 'eval_polynomial', 'multiply_polynomial', 'polynomial_product' ] ],
 
     'polynomial_product' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their product',
@@ -1470,7 +1470,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 3 4 ] [ 2 3 ] multiply_polynomials' ) + '''
 ''' + makeCommandExample( '[ [ 3 4 ] [ 2 3 ] ] polynomial_product' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 10 ] ] polynomial_product' ),
-[ ] ],
+[ 'add_polynomials', 'eval_polynomial', 'multiply_polynomial', 'polynomial_power' ] ],
 
     'polynomial_sum' : [
 'algebra', 'interprets elements of list n as polynomials and calculates their sum',
@@ -1485,7 +1485,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 3 4 ] [ 2 3 ] add_polynomials' ) + '''
 ''' + makeCommandExample( '[ [ 3 4 ] [ 2 3 ] ] polynomial_sum' ) + '''
 ''' + makeCommandExample( '[ [ 1 2 3 ] [ 4 5 6 ] [ 7 8 9 10 ] ] polynomial_sum' ),
-[ ] ],
+[ 'add_polynomials', 'multiply_polynomial', 'polynomial_power' ] ],
 
     'solve' : [
 'algebra', 'interprets list n as a polynomial and solves for its roots',
@@ -1501,7 +1501,7 @@ representing the coefficient of x^0 (i.e., the constant).
 ''' + makeCommandExample( '[ 1 3 -28 ] solve' ) + '''
 ''' + makeCommandExample( '[ 1 4 -20 -48 ] solve' ) + '''
 ''' + makeCommandExample( '[ 1 2 -107 -648 -1008 ] solve' ),
-[ 'solve_quartic', 'solve_quadratic', 'solve_cubic' ] ],
+[ 'find_polynomial', 'solve_quartic', 'solve_quadratic', 'solve_cubic' ] ],
 
     'solve_cubic' : [
 'algebra', 'solves a cubic equation',
@@ -1568,7 +1568,7 @@ itself.
 ''' + makeCommandExample( '1 abs' ) + '''
 ''' + makeCommandExample( '-1 abs' ) + '''
 ''' + makeCommandExample( '[ -10 20 -30 40 -50 ] abs' ),
-[ 'negative' ] ],
+[ 'negative', 'sign' ] ],
 
     'add' : [
 'arithmetic', 'adds n to k',
