@@ -16,7 +16,6 @@ import bz2
 import contextlib
 import os
 import pickle
-import pyprimes
 import sys
 
 from bisect import bisect_left
@@ -51,21 +50,6 @@ def isComposite( n ):
 @oneArgFunctionEvaluator( )
 def isPrime( n ):
     return 1 if isPrimeNumber( n ) else 0
-
-
-# //******************************************************************************
-# //
-# //  isPrimeNumberOld
-# //
-# //******************************************************************************
-
-def isPrimeNumberOld( n ):
-    '''Uses pyprimes to check for the primality of n.'''
-    return pyprimes.isprime( int( n ) )
-
-@oneArgFunctionEvaluator( )
-def isPrimeOld( n ):
-    return 1 if isPrimeNumberOld( n ) else 0
 
 
 # //******************************************************************************
