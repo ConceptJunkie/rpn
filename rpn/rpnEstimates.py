@@ -40,6 +40,8 @@ accelerationTable = {
     mpmathify( '3.8e6' )      : 'the surface gravity of white dwarf Sirius B',
     mpmathify( '1.9e9' )      : 'the mean acceleration of a proton in the Large Hadron Collider',
     mpmathify( '7.0e12' )     : 'the maximum surface gravity of a neutron star',
+    mpmathify( '9.149e21' )   : 'classical (Bohr model) acceleration of an electron around a H nucleus',
+    mpmathify( '5.561e51' )   : 'Planck acceleration',
 }
 
 

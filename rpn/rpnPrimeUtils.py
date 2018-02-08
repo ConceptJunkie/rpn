@@ -19,7 +19,7 @@ import pickle
 import sys
 
 from bisect import bisect_left
-from mpmath import arange, fadd, fmul, fsub
+from mpmath import arange, fadd, fmul, fsub, mp
 
 from rpn.baillie_psw import baillie_psw
 
@@ -39,7 +39,7 @@ import rpn.rpnGlobals as g
 
 def isPrimeNumber( n ):
     if n < 3317044064679887385961981:
-        return miller_rabin( int( n ) )
+        return isPrimeMillerRabin( int( n ) )
     else:
         return 1 if baillie_psw( n ) else 0
 
@@ -1515,15 +1515,13 @@ def miller_rabin_pass( a, s, d, n ):
 
 # //******************************************************************************
 # //
-# //  miller_rabin
+# //  isPrimeMillerRabin
 # //
 # //  https://gist.github.com/sharnett/5479106
 # //
-# //  Use this version for numbers < 2^64 (18446744073709551616)
-# //
 # //******************************************************************************
 
-def miller_rabin( n ):
+def isPrimeMillerRabin( n ):
     '''if n < 1,373,653, it is enough to test a = 2 and 3;
     if n < 9,080,191, it is enough to test a = 31 and 73;
     if n < 4,759,123,141, it is enough to test a = 2, 7, and 61;
