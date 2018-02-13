@@ -4283,6 +4283,12 @@ operators = {
     'polyprime'                      : RPNOperator( getNthPolyPrime,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
+    'previous_prime'                 : RPNOperator( getPreviousPrimeOperator,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'previous_primes'                : RPNOperator( getPreviousPrimesOperator,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
     'prime'                          : RPNOperator( getNthPrime,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 

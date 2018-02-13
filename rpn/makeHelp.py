@@ -61,7 +61,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1201
+maxExampleCount = 1205
 
 
 # //******************************************************************************
@@ -9966,7 +9966,7 @@ and is distributed with data files calculated through several billion primes.
 Generate a random 200-digit prime:
 
 ''' + makeCommandExample( '-a201 10 200 ** random_int next_prime' ),
-[ 'prime', 'primes', 'next_primes' ] ],
+[ 'prime', 'primes', 'next_primes', 'previous_prime', 'previous_primes' ] ],
 
     'next_primes' : [
 'prime_numbers', 'returns the next k prime numbers greater than or equal to n',
@@ -9975,7 +9975,7 @@ Generate a random 200-digit prime:
 '''
 ''' + makeCommandExample( '100 10 next_primes' ) + '''
 ''' + makeCommandExample( '-a71 10 70 ** random_int 5 next_primes -s1' ),
-[ 'prime', 'primes', 'next_prime' ] ],
+[ 'prime', 'primes', 'next_prime', 'previous_primes' ] ],
 
     'next_quadruplet_prime' : [
 'prime_numbers', 'finds the closest set of quadruplet primes above n',
@@ -10048,6 +10048,24 @@ distributed with data files calculated through several billion primes.
 '''
 ''',
 [ ] ],
+
+    'previous_prime' : [
+'prime_numbers', 'returns the previous prime number less than n',
+'''
+''',
+'''
+''' + makeCommandExample( '10 previous_prime' ) + '''
+''' + makeCommandExample( '100 previous_prime' ),
+[ 'prime', 'primes', 'next_primes', 'next_prime', 'previous_primes' ] ],
+
+    'previous_primes' : [
+'prime_numbers', 'returns the previous k prime numbers less than n',
+'''
+''',
+'''
+''' + makeCommandExample( '100 10 previous_primes' ) + '''
+''' + makeCommandExample( '-a71 10 70 ** random_int 5 previous_primes -s1' ),
+[ 'prime', 'primes', 'next_prime', 'next_primes', 'previous_prime' ] ],
 
     'prime' : [
 'prime_numbers', 'returns the nth prime',

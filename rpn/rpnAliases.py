@@ -770,6 +770,8 @@ operatorAliases = {
     'prev_full_moon'                : 'previous_full_moon',
     'prev_last_quarter'             : 'previous_last_quarter_moon',
     'prev_new_moon'                 : 'previous_new_moon',
+    'prev_prime'                    : 'previous_prime',
+    'prev_primes'                   : 'previous_primes',
     'prime?'                        : 'next_prime',
     'primepi'                       : 'prime_pi',
     'prod'                          : 'product',

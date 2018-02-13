@@ -4031,6 +4031,14 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '4 3 polyprime' )
     testOperator( '5 8 polyprime' )
 
+    # previous_prime
+    testOperator( '10 previous_prime' )
+
+    # previous_primes
+    testOperator( '100 10 previous_primes' )
+
+    expectEqual( '220 47 previous_primes sort', '1 47 primes' )
+
     # prime
     testOperator( '1 101 range prime' )
     testOperator( '8783 prime' )
