@@ -19,9 +19,9 @@ import os
 import glob
 
 from setuptools import setup, find_packages
-from rpnVersion import PROGRAM_VERSION_NAME
+from rpn.rpnVersion import PROGRAM_VERSION_NAME
 
-import rpnGlobals as g
+import rpn.rpnGlobals as g
 
 def read( *paths ):
     '''Build a file path from *paths* and return the contents.'''
