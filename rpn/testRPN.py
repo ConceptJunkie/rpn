@@ -4035,7 +4035,7 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '10 previous_prime' )
 
     # previous_primes
-    testOperator( '100 10 previous_primes' )
+    testOperator( '1000 100 previous_primes' )
 
     expectEqual( '220 47 previous_primes sort', '1 47 primes' )
 

@@ -238,7 +238,7 @@ def getPreviousPrimeCandidateForAny( p ):
         80 : 1, 81 : 2, 82 : 3, 83 : 4, 84 : 5, 85 : 6, 86 : 7, 87 : 8,
         88 : 1, 89 : 2, 90 : 3, 91 : 4,
         92 : 1, 93 : 2,
-        93 : 1, 94 : 2, 95 : 3, 97 : 4,
+        94 : 1, 95 : 2, 96 : 3, 97 : 4,
         98 : 1, 99 : 2,
         100: 1, 101 : 2, 102 : 3, 103 : 4,
         104 : 1, 105 : 2, 106 : 3, 107 : 4, 108 : 5, 109 : 6, 110 : 7, 111 : 8,
@@ -326,9 +326,6 @@ def getPreviousPrimeOperator( n ):
 # //******************************************************************************
 
 def getNextPrimes( p, k, func = getNextPrimeCandidate ):
-    if getNthPrime( p ) < k:
-        raiseError( 'There is no previous prime to 2.' )
-
     result = [ ]
 
     for i in arange( 0, k ):
@@ -349,6 +346,9 @@ def getNextPrimesOperator( n, k ):
 # //******************************************************************************
 
 def getPreviousPrimes( p, k, func = getPreviousPrimeCandidateForAny ):
+    if p < 1000000000 and getNthPrime( p ) < k:
+        raiseError( 'There is no previous prime to 2.' )
+
     result = [ ]
 
     for i in arange( 0, k ):

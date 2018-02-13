@@ -16,5 +16,5 @@ include rpn\miller_rabin.py
 include buildRPN.bat
 include gpl-3.0.txt
 include requirements.txt
-recursive-include rpn\rpndata *.txt
+include rpn\rpndata\*.txt
 
