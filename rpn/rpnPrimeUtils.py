@@ -276,7 +276,9 @@ def getPreviousPrimeCandidateForAny( p ):
 # //******************************************************************************
 
 def getNextPrime( p, func = getNextPrimeCandidate ):
-    if ( p < 3 ):
+    if ( p < 2 ):
+        return 2
+    if ( p == 2 ):
         return 3
     elif ( p < 5 ):
         return 5
