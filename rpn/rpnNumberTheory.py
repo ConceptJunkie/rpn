@@ -30,6 +30,7 @@ from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMath import isDivisible, isEven, isInteger
 from rpn.rpnPersistence import cachedFunction
+from rpn.rpnPrimeUtils import isPrime, getPreviousPrime
 from rpn.rpnUtils import getMPFIntegerAsString, oneArgFunctionEvaluator, \
                          twoArgFunctionEvaluator, real, real_int
 
@@ -1318,16 +1319,26 @@ def isPerfect( n ):
 # //
 # //******************************************************************************
 
-@twoArgFunctionEvaluator( )
 @cachedFunction( 'smooth' )
+def isSmoothCached( n, k ):
+    return 1 if getFactorList( n )[ -1 ][ 0 ] <= k else 0
+
+
+@twoArgFunctionEvaluator( )
 def isSmooth( n, k ):
     if real_int( k ) < 2:
         return 0
 
-    if real_int( n ) <= k:
+    if real_int( n ) < 2:
+        return 0
+
+    if n <= k:
         return 1
 
-    return 1 if getFactorList( n )[ -1 ][ 0 ] <= k else 0
+    if not isPrime( k ):
+        return isSmoothCached( n, getPreviousPrime( k ) )
+
+    return isSmoothCached( n, k )
 
 
 # //******************************************************************************
