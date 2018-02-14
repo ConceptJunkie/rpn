@@ -29,7 +29,7 @@ def read( *paths ):
         return f.read( )
 
 setup (
-    name = 'rpn',
+    name = 'rpnChilada',
     version = PROGRAM_VERSION_NAME,
     #description = 'command-line RPN calculator with arbitrary precision',
     description = 'command-line RPN calculator',
@@ -45,9 +45,9 @@ setup (
 
     long_description =
 '''
-rpn is a command-line Reverse-Polish Notation
-calculator with over 700 operators, based
-on mpmath (props to Fredrik Johansson,
+rpnChilada is a command-line Reverse-Polish
+Notation calculator with over 700 operators,
+based on mpmath (props to Fredrik Johansson,
 http://mpmath.org).
 ''',
 
