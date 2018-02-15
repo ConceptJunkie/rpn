@@ -1428,6 +1428,7 @@ def runCombinatoricsOperatorTests( ):
     #expectEqual( '0 500 range lambda 2 2 x * 1 + ** 2 x * 1 + x 1 + binomial eval', '346 oeis 501 left' )
 
     # combinations
+    expectEqual( '0 99 range lambda x 2 * x combinations sqr x 2 * x combinations + 2 / eval', '37967 oeis 100 left' )
 
     # compositions
     testOperator( '5 2 compositions' )

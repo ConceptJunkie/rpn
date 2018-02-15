@@ -2012,3 +2012,44 @@ def getDigitalRoot( n ):
     else:
         return result
 
+
+
+
+############################################################################
+# License: Freely available for use, abuse and modification
+# (this is the Simplified BSD License, aka FreeBSD license)
+# Copyright 2001-2012 Robert Campbell. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+#    1. Redistributions of source code must retain the above copyright notice,
+#       this list of conditions and the following disclaimer.
+#
+#    2. Redistributions in binary form must reproduce the above copyright
+#       notice, this list of conditions and the following disclaimer in
+#       the documentation and/or other materials provided with the distribution.
+############################################################################
+#def carmichaellambda(n):
+#        """carmichaellambda(n) - Computer Carmichael's Lambda function
+#        of n - the smallest exponent e such that b**e = 1 for all b coprime to n.
+#        Otherwise defined as the exponent of the group of integers mod n."""
+#        thefactors = factors(n)
+#        thefactors.sort()
+#        thefactors += [0]  # Mark the end of the list of factors
+#        carlambda = 1 # The Carmichael Lambda function of n
+#        carlambda_comp = 1 # The Carmichael Lambda function of the component p**e
+#        oldfact = 1
+#        for fact in thefactors:
+#                if fact==oldfact:
+#                        carlambda_comp = (carlambda_comp*fact)
+#                else:
+#                        if ((oldfact == 2) and (carlambda_comp >= 4)): carlambda_comp /= 2 # Z_(2**e) is not cyclic for e>=3
+#                        if carlambda == 1:
+#                                carlambda = carlambda_comp
+#                        else:
+#                                carlambda = (carlambda * carlambda_comp)/gcd(carlambda,carlambda_comp)
+#                        carlambda_comp = fact-1
+#                        oldfact = fact
+#        return carlambda
+

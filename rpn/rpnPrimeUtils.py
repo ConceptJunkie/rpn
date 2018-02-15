@@ -306,7 +306,7 @@ def getNextPrimeOperator( n ):
 def getPreviousPrime( p, func = getPreviousPrimeCandidateForAny ):
     if p < 12:
         if p < 3:
-            raise ValueError( 'There is previous prime to 2.' )
+            raise ValueError( 'There is no previous prime to 2.' )
         elif p == 3:
             return 2
         elif p <= 5:
