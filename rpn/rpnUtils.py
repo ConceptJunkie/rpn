@@ -185,7 +185,7 @@ def validateArguments( terms ):
             braceCount -= 1
 
     if braceCount:
-        print( 'rpn:  mismatched brace (count: {})'.format( braceCount ) )
+        print( 'rpn:  mismatched braces (count: {})'.format( braceCount ) )
         return False
 
     return True

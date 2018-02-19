@@ -1,11 +1,13 @@
-arrow
-convertdate
-enum34
-ephem
-geopy
-gmpy2
-mpmath>=0.19
-pylru
-pyprimes
+arrow>=0.12.1
+convertdate>=2.1.2
+enum34>=1.1.6
+ephem>=3.7.6.0
+geopy>=1.11.0
+gmpy2>=2.0.8
+mpmath>=1.0.0
+pylru>=1.0.9
 pyreadline>=2.1
+pytz>=2017.3
+six>=1.11.0
+tzlocal>=1.5.1
 

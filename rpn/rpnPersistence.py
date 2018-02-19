@@ -64,11 +64,15 @@ def loadUnitNameData( ):
             g.unitOperatorNames = pickle.load( pickleFile )
             g.operatorAliases.update( pickle.load( pickleFile ) )
     except IOError:
-        print( 'rpn:  Unable to load unit names.  Run makeUnits.py to make the unit data files.' )
-        return False
+        print( 'rpn:  Unable to load unit names.  Running one-time units data geneation....' )
+        import rpn.makeUnits
+        rpn.makeUnits.main( )
+        return True
 
     if g.unitsVersion != PROGRAM_VERSION:
-        print( 'rpn:  units data file version mismatch' )
+        print( 'rpn:  units data file version mismatch.  Running one-time units data generation...' )
+        import rpn.makeUnits
+        rpn.makeUnits.main( )
 
     return True
 
@@ -84,7 +88,9 @@ def loadUnitConversionMatrix( ):
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitConversionMatrix.update( pickle.load( pickleFile ) )
     except FileNotFoundError:
-        print( 'rpn:  Unable to load unit conversion data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
+        print( 'rpn:  Unable to load unit conversion data.  Running one-time units data generation...' )
+        import rpn.makeUnits
+        rpn.makeUnits.main( )
 
 
 # //******************************************************************************
@@ -100,11 +106,15 @@ def loadUnitData( ):
             g.basicUnitTypes.update( pickle.load( pickleFile ) )
             g.unitOperators.update( pickle.load( pickleFile ) )
     except IOError:
-        print( 'rpn:  Unable to load unit info data.  Unit conversion will be unavailable.  Run makeUnits.py to make the unit data files.' )
-        return False
+        print( 'rpn:  Unable to load unit info data.  Running one-time units data generation...' )
+        import rpn.makeUnits
+        rpn.makeUnits.main( )
+        return True
 
     if g.unitsVersion != PROGRAM_VERSION:
-        print( 'rpn:  units data file version mismatch' )
+        print( 'rpn:  units data file version mismatch.  Running one-time units data generation...' )
+        import rpn.makeUnits
+        rpn.makeUnits.main( )
 
     return True
 
@@ -125,15 +135,18 @@ def loadHelpData( ):
             g.helpTopics = pickle.load( pickleFile )
             g.operatorHelp = pickle.load( pickleFile )
     except FileNotFoundError:
-        print( 'rpn:  Unable to load help file.  Help will be unavailable.  Run makeHelp.py to create the help files.' )
+        print( 'rpn:  Unable to load help file.  Running one-time help file generation...' )
+        import rpn.makeHelp
+        rpn.makeHelp.main( )
         return
 
     try:
         with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitTypeDict = pickle.load( pickleFile )
     except FileNotFoundError:
-        print( 'rpn:  Unable to load unit help data.  Run makeUnits.py to make the unit data files.' )
-        return False
+        print( 'rpn:  Unable to load unit help data.  Running one-time help file generation...' )
+        import rpn.makeHelp
+        rpn.makeHelp.main( )
 
     g.operatorCategories = set( g.operatorHelp[ key ][ 0 ] for key in g.operatorHelp )
 
@@ -284,7 +297,9 @@ def openPrimeCache( name ):
             g.databases[ name ] = sqlite3.connect( getCacheFileName( name ) )
             g.cursors[ name ] = g.databases[ name ].cursor( )
         except:
-            print( 'prime number table ' + name + ' can\'t be found, please run preparePrimeData.py' )
+            print( 'prime number table ' + name + ' can\'t be found.  Running one-time prime number data generation...' )
+        import rpn.preparePrimeData
+        rpn.preparePrimeData.main( )
 
 
 # //******************************************************************************

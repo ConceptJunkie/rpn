@@ -6,6 +6,13 @@ rpn supports arithmetic with arbitrary precision, powers and roots, logarithms, 
 
 ## Updates
 
+### Update - February 19, 2018
+
+rpn is now available on pypi.org.  Since there always was a project called "rpn", I had to come up with a new name, so I'm happy to introduce "rpnChilada".
+
+Windows users will want to use Christophe Gohlke's Windows installers for gmpy2 and pyephem at https://www.lfd.uci.edu/~gohlke/pythonlibs/.
+
+
 ### Update - August 15, 2016
 
 I am very excited that people have started noticing rpn!
