@@ -624,7 +624,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     print( 'Saving everything...' )
 
     # save the list of unit operator names and aliases
-    GetDataPath( )
+    getDataPath( )
 
     fileName = g.dataPath + os.sep + 'unit_names.pckl.bz2'
 
