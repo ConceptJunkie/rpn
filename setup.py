@@ -63,14 +63,6 @@ number of operators since version 6.4 has increased by at least 200.  It also
 supports user-defined variables and functions.
 ''',
 
-    long_description =
-'''
-rpnChilada is a command-line Reverse-Polish
-Notation calculator with over 700 operators,
-based on mpmath (props to Fredrik Johansson,
-http://mpmath.org).
-''',
-
     url = 'http://github.com/ConceptJunkie/rpn/',
     license = 'GPL3',
     author = 'Rick Gutleber',
