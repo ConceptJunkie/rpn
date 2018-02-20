@@ -5,9 +5,11 @@ ephem>=3.7.6.0
 geopy>=1.11.0
 gmpy2>=2.0.8
 mpmath>=1.0.0
+numpy>=1.14.0
 pylru>=1.0.9
 pyreadline>=2.1
 pytz>=2017.3
 six>=1.11.0
+timezonefinder>=2.1.2
 tzlocal>=1.5.1
 

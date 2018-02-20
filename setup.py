@@ -82,9 +82,9 @@ http://mpmath.org).
     entry_points = {
         'console_scripts': [
             'rpn = rpn.rpn:main',
-            'makeHelp = rpn.makeHelp:main',
-            'makeUnits = rpn.makeUnits:main',
-            'preparePrimeData = rpn.preparePrimeData:main',
+            'makeRPNHelp = rpn.makeHelp:main',
+            'makeRPNUnits = rpn.makeUnits:main',
+            'prepareRPNPrimeData = rpn.preparePrimeData:main',
             'testRPN = rpn.testRPN:main',
         ],
     }

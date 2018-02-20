@@ -65,12 +65,16 @@ def loadUnitNameData( ):
             g.operatorAliases.update( pickle.load( pickleFile ) )
     except IOError:
         print( 'rpn:  Unable to load unit names.  Running one-time units data geneation....' )
+        import rpn.preparePrimeData
+        rpn.preparePrimeData.main( )
         import rpn.makeUnits
         rpn.makeUnits.main( )
         return True
 
     if g.unitsVersion != PROGRAM_VERSION:
         print( 'rpn:  units data file version mismatch.  Running one-time units data generation...' )
+        import rpn.preparePrimeData
+        rpn.preparePrimeData.main( )
         import rpn.makeUnits
         rpn.makeUnits.main( )
 
@@ -89,6 +93,8 @@ def loadUnitConversionMatrix( ):
             g.unitConversionMatrix.update( pickle.load( pickleFile ) )
     except FileNotFoundError:
         print( 'rpn:  Unable to load unit conversion data.  Running one-time units data generation...' )
+        import rpn.preparePrimeData
+        rpn.preparePrimeData.main( )
         import rpn.makeUnits
         rpn.makeUnits.main( )
 
@@ -107,12 +113,16 @@ def loadUnitData( ):
             g.unitOperators.update( pickle.load( pickleFile ) )
     except IOError:
         print( 'rpn:  Unable to load unit info data.  Running one-time units data generation...' )
+        import rpn.preparePrimeData
+        rpn.preparePrimeData.main( )
         import rpn.makeUnits
         rpn.makeUnits.main( )
         return True
 
     if g.unitsVersion != PROGRAM_VERSION:
         print( 'rpn:  units data file version mismatch.  Running one-time units data generation...' )
+        import rpn.preparePrimeData
+        rpn.preparePrimeData.main( )
         import rpn.makeUnits
         rpn.makeUnits.main( )
 
@@ -298,8 +308,8 @@ def openPrimeCache( name ):
             g.cursors[ name ] = g.databases[ name ].cursor( )
         except:
             print( 'prime number table ' + name + ' can\'t be found.  Running one-time prime number data generation...' )
-        import rpn.preparePrimeData
-        rpn.preparePrimeData.main( )
+            import rpn.preparePrimeData
+            rpn.preparePrimeData.main( )
 
 
 # //******************************************************************************
