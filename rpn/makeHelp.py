@@ -51,6 +51,8 @@ helpDebugMode = args.debug
 
 exampleCount = 0
 
+getDataPath( )
+
 
 # //******************************************************************************
 # //
@@ -11437,8 +11439,6 @@ def makeHelp( helpTopics ):
 # //******************************************************************************
 
 def main( ):
-    getDataPath( )
-
     primeFile = Path( g.dataPath + os.sep + 'small_primes.cache' )
 
     if not primeFile.is_file( ):
