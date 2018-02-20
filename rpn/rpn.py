@@ -70,9 +70,6 @@ from rpn.rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 import rpn.rpnGlobals as g
 
-if not six.PY3:
-    g.dataDir = "rpndata2"
-
 
 # //******************************************************************************
 # //
@@ -653,7 +650,30 @@ def rpn( cmd_args ):
 # //
 # //******************************************************************************
 
+
+from pathlib import Path
+
+my_file = Path("/path/to/file")
+if my_file.is_file():
+    # file exists
+
+
 def main( ):
+    primeFile = Path( g.dataDir + os.sep + 'small_primes.cache' )
+
+    if not primeFile.is_file( ):
+        print( 'Please run "prepareRPNPrimeData" to initialize the prime number data files.' )
+
+    unitsFile = Path( g.dataDir + os.sep + 'units.pckl.bz2' )
+
+    if not unitsFile.is_file( ):
+        print( 'Please run "makeRPNUnits" to initialize the unit conversion data files.' )
+
+    helpFile = Path( g.dataDir + os.sep + 'help.pckl.bz2' )
+
+    if not unitsFile.is_file( ):
+        print( 'Please run "makeRPNHelp" to initialize the help files.' )
+
     try:
         for arg in sys.argv:
             if arg == '-e':
