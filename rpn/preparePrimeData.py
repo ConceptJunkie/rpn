@@ -23,6 +23,7 @@ import rpn.rpnGlobals as g
 
 from rpn.rpnPersistence import createPrimeCache, deleteCache, saveToCache
 from rpn.rpnUtils import getDataPath
+from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 if not six.PY3:
     g.dataDir = "rpndata2"
@@ -63,6 +64,10 @@ def preparePrimeData( baseName ):
 def main( ):
     getDataPath( )
 
+    print( 'preparePrimeData' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
+    print( COPYRIGHT_MESSAGE )
+    print( )
+
     preparePrimeData( "balanced_primes" )
     preparePrimeData( "cousin_primes" )
     preparePrimeData( "double_balanced_primes" )
@@ -82,6 +87,7 @@ def main( ):
     preparePrimeData( "triple_balanced_primes" )
     preparePrimeData( "twin_primes" )
 
+    print( )
 
 # //******************************************************************************
 # //
