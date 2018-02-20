@@ -12,9 +12,11 @@
 # //
 # //******************************************************************************
 
+import os
 import sys
 
 from collections import OrderedDict
+from pathlib import Path
 
 from rpn.rpnOperators import *
 
@@ -4651,6 +4653,25 @@ def runTests( tests ):
 
 def main( ):
     getDataPath( )
+
+    primeFile = Path( g.dataPath + os.sep + 'small_primes.cache' )
+
+    if not primeFile.is_file( ):
+        print( 'Please run "prepareRPNPrimeData" to initialize the prime number data files.' )
+        sys.exit( 0 )
+
+    unitsFile = Path( g.dataPath + os.sep + 'units.pckl.bz2' )
+
+    if not unitsFile.is_file( ):
+        print( 'Please run "makeRPNUnits" to initialize the unit conversion data files.' )
+        sys.exit( 0 )
+
+    helpFile = Path( g.dataPath + os.sep + 'help.pckl.bz2' )
+
+    if not unitsFile.is_file( ):
+        print( 'Please run "makeRPNHelp" to initialize the help files.' )
+        sys.exit( 0 )
+
     loadHelpData( )
     loadUnitNameData( )
 

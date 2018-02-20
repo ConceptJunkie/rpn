@@ -28,12 +28,10 @@ from mpmath import mp, fdiv, fmul
 mp.dps = 50
 
 from rpn.rpnUnits import *
+from rpn.rpnUtils import getDataPath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 import rpn.rpnGlobals as g
-
-if not six.PY3:
-    g.dataDir = "rpndata2"
 
 
 # //******************************************************************************
@@ -626,11 +624,12 @@ def initializeConversionMatrix( unitConversionMatrix ):
     print( 'Saving everything...' )
 
     # save the list of unit operator names and aliases
-    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + g.dataDir )
-    fileName = dataPath + os.sep + 'unit_names.pckl.bz2'
+    GetDataPath( )
 
-    if not os.path.isdir( dataPath ):
-        os.makedirs( dataPath )
+    fileName = g.dataPath + os.sep + 'unit_names.pckl.bz2'
+
+    if not os.path.isdir( g.dataPath ):
+        os.makedirs( g.dataPath )
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
@@ -638,15 +637,14 @@ def initializeConversionMatrix( unitConversionMatrix ):
         pickle.dump( newAliases, pickleFile )
 
     # save the actual unit data
-    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + g.dataDir )
-    fileName = dataPath + os.sep + 'units.pckl.bz2'
+    fileName = g.dataPath + os.sep + 'units.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( basicUnitTypes, pickleFile )
         pickle.dump( unitOperators, pickleFile )
 
-    fileName = dataPath + os.sep + 'unit_conversions.pckl.bz2'
+    fileName = g.dataPath + os.sep + 'unit_conversions.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( unitConversionMatrix, pickleFile )
@@ -659,7 +657,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     for unit in unitOperators:
         unitTypeDict[ unitOperators[ unit ].unitType ].append( unit )
 
-    fileName = dataPath + os.sep + 'unit_help.pckl.bz2'
+    fileName = g.dataPath + os.sep + 'unit_help.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( unitTypeDict, pickleFile )

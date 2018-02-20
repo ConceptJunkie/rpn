@@ -25,9 +25,6 @@ from rpn.rpnPersistence import createPrimeCache, deleteCache, saveToCache
 from rpn.rpnUtils import getDataPath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
-if not six.PY3:
-    g.dataDir = "rpndata2"
-
 
 # //******************************************************************************
 # //

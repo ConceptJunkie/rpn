@@ -38,12 +38,14 @@ from __future__ import print_function
 import six
 
 import argparse
+import os
 import sys
 import signal
 import time
 
 from contextlib import contextmanager
 from mpmath import inf, mp, nan, nstr
+from pathlib import Path
 
 from rpn.rpnAliases import operatorAliases
 from rpn.rpnDateTime import RPNDateTime
@@ -356,8 +358,6 @@ def rpn( cmd_args ):
     g.debugMode = False
     g.outputRadix = 10
 
-    getDataPath( )
-
     # look for help argument before we start setting everything up (because it's faster this way)
     help = False
     helpArg = ''
@@ -650,29 +650,26 @@ def rpn( cmd_args ):
 # //
 # //******************************************************************************
 
-
-from pathlib import Path
-
-my_file = Path("/path/to/file")
-if my_file.is_file():
-    # file exists
-
-
 def main( ):
-    primeFile = Path( g.dataDir + os.sep + 'small_primes.cache' )
+    getDataPath( )
+
+    primeFile = Path( g.dataPath + os.sep + 'small_primes.cache' )
 
     if not primeFile.is_file( ):
         print( 'Please run "prepareRPNPrimeData" to initialize the prime number data files.' )
+        sys.exit( 0 )
 
-    unitsFile = Path( g.dataDir + os.sep + 'units.pckl.bz2' )
+    unitsFile = Path( g.dataPath + os.sep + 'units.pckl.bz2' )
 
     if not unitsFile.is_file( ):
         print( 'Please run "makeRPNUnits" to initialize the unit conversion data files.' )
+        sys.exit( 0 )
 
-    helpFile = Path( g.dataDir + os.sep + 'help.pckl.bz2' )
+    helpFile = Path( g.dataPath + os.sep + 'help.pckl.bz2' )
 
-    if not unitsFile.is_file( ):
+    if not helpFile.is_file( ):
         print( 'Please run "makeRPNHelp" to initialize the help files.' )
+        sys.exit( 0 )
 
     try:
         for arg in sys.argv:

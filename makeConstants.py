@@ -19,13 +19,13 @@ import os
 import re as regex
 
 from collections import namedtuple
-
 from mpmath import mp, mpmathify
 
 #  This has to go here so the mpf's in the import get created with 50 places of precision.
 mp.dps = 50
 
 from rpnMeasurement import RPNMeasurement
+from rpn.rpnUtils import getDataPath
 from rpnVersion import *
 
 import rpnGlobals as g
@@ -52,7 +52,7 @@ def main( ):
     print( COPYRIGHT_MESSAGE )
     print( )
 
-    g.dataPath = os.path.dirname( os.path.realpath( __file__ ) ) + os.sep + g.dataDir
+    getDataPath( )
 
     lineCount = 0
 

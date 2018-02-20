@@ -25,13 +25,13 @@ import pickle
 import os
 import sys
 
+from pathlib import Path
+
 from rpn.rpn import rpn, handleOutput
+from rpn.rpnUtils import getDataPath
 from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 
 import rpn.rpnGlobals as g
-
-if not six.PY3:
-    g.dataDir = "rpndata2"
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
 print( COPYRIGHT_MESSAGE )
@@ -11417,11 +11417,10 @@ can handle a value in degrees without having to first convert.
 
 def makeHelp( helpTopics ):
     '''Builds the help data file.'''
-    dataPath = os.path.abspath( os.path.realpath( __file__ ) + os.sep + '..' + os.sep + g.dataDir )
-    fileName = dataPath + os.sep + 'help.pckl.bz2'
+    fileName = g.dataPath + os.sep + 'help.pckl.bz2'
 
-    if not os.path.isdir( dataPath ):
-        os.makedirs( dataPath )
+    if not os.path.isdir( g.dataPath ):
+        os.makedirs( g.dataPath )
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
@@ -11438,6 +11437,20 @@ def makeHelp( helpTopics ):
 # //******************************************************************************
 
 def main( ):
+    getDataPath( )
+
+    primeFile = Path( g.dataPath + os.sep + 'small_primes.cache' )
+
+    if not primeFile.is_file( ):
+        print( 'Please run "prepareRPNPrimeData" to initialize the prime number data files.' )
+        sys.exit( 0 )
+
+    unitsFile = Path( g.dataPath + os.sep + 'units.pckl.bz2' )
+
+    if not unitsFile.is_file( ):
+        print( 'Please run "makeRPNUnits" to initialize the unit conversion data files.' )
+        sys.exit( 0 )
+
     makeHelp( helpTopics )
 
 
