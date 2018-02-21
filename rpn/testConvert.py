@@ -31,6 +31,7 @@ def runConvertTests( ):
     testOperator( 'mph miles hour / convert' )
     testOperator( 'miles hour / mph convert' )
     testOperator( '65 miles hour / furlongs fortnight / convert' )
+    testOperator( '1 watt dBm convert' )
 
     # compound units
     testOperator( 'ampere coulomb/second convert' )

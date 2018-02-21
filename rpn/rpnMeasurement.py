@@ -12,8 +12,8 @@
 # //
 # //******************************************************************************
 
-from mpmath import chop, extradps, fadd, fdiv, floor, fmul, frac, fsub, mpf, \
-                   mpmathify, nstr, power
+from mpmath import chop, extradps, fadd, fdiv, floor, fmul, frac, fsub, log10, \
+                   mpf, mpmathify, nstr, power
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPersistence import loadUnitData, loadUnitConversionMatrix

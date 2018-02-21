@@ -18,6 +18,9 @@
 #  http://mathworld.wolfram.com/FavardConstants.html
 #  How can we create a lambda to produce multiple Favard constants with a single expression?
 
+#  Bug:
+#  rpn 1 milliwatt dBm convert
+
 #  rpn 4 meters meters * is_square
 
 # Wind chill temperature index is a measurement of the combined cooling effect of low air temperature and

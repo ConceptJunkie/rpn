@@ -95,9 +95,9 @@ supports user-defined variables and functions.
         'console_scripts': [
             'rpn = rpn.rpn:main',
             'rpnChilada = rpn.rpn:main',
-            'makeRPNHelp = rpn.makeHelp:main',
-            'makeRPNUnits = rpn.makeUnits:main',
-            'prepareRPNPrimeData = rpn.preparePrimeData:main',
+            #'makeRPNHelp = rpn.makeHelp:main',
+            #'makeRPNUnits = rpn.makeUnits:main',
+            #'prepareRPNPrimeData = rpn.preparePrimeData:main',
             'testRPN = rpn.testRPN:main',
         ],
     }
