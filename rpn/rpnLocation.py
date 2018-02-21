@@ -167,10 +167,13 @@ def getLocation( name ):
     from geopy.geocoders import Nominatim
     geolocator = Nominatim( )
 
-    try:
-        location = geolocator.geocode( name )
-    except:
-        raise ValueError( 'location lookup connection failure, check network connectivity' )
+    for attempts in range( 3 ):
+        try:
+            location = geolocator.geocode( name )
+            break
+        except:
+            if attempts == 2:
+                raise ValueError( 'location lookup connection failure, check network connectivity' )
 
     if location is None:
         raise ValueError( 'location lookup failed, try a different search term' )
