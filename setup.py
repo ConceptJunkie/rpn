@@ -55,12 +55,18 @@ examples.
 rpnChilada also comes with a fairly extensive test suite, which is being
 constantly improved.
 
-There are still bugs, and since it's a one-person side-project, progress
-is slow, but bug reports and feature requests are welcome at rickg@his.com.
-
 Version 7 has been in the works for more than two and a half years, and the
 number of operators since version 6.4 has increased by at least 200.  It also
 supports user-defined variables and functions.
+
+There are still bugs, and since it's a one-person side-project, progress
+is slow, but bug reports and feature requests are welcome at rickg@his.com.
+
+Note, Windows users will want the Windows-specific wheels for pyephem and
+gmpy2:
+
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyephem
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#gmpy
 ''',
 
     url = 'http://github.com/ConceptJunkie/rpn/',

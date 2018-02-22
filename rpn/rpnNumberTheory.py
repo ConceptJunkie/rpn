@@ -1753,12 +1753,13 @@ mersennePrimeExponents = {
     47:  43112609,
     48:  57885161,
     49:  74207281,
+    50:  77232917,
 }
 
 @oneArgFunctionEvaluator( )
 def getNthMersenneExponent( n ):
-    if 1 > real_int( n ) > 49:
-        raise ValueError( 'invalid index for known Mersenne primes (1 to 49)' )
+    if 1 > real_int( n ) > 50:
+        raise ValueError( 'invalid index for known Mersenne primes (1 to 50)' )
 
     return mersennePrimeExponents[ n ]
 
