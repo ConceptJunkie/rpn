@@ -67,6 +67,10 @@ gmpy2:
 
 https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyephem
 https://www.lfd.uci.edu/~gohlke/pythonlibs/#gmpy
+
+rpnChilada can be launched with 'rpnChilada' or 'rpn'.
+
+For a quick primer on rpnChilada's use, try "rpn help examples".
 ''',
 
     url = 'http://github.com/ConceptJunkie/rpn/',
@@ -79,7 +83,8 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/#gmpy
     include_package_data = True,
 
     classifiers = [
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 4 - Beta',
+        #'Development Status :: 5 - Production/Stable',
         'Intended Audience :: End Users/Desktop',
         'Natural Language :: English',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
