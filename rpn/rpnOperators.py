@@ -96,6 +96,7 @@ class RPNOperator( object ):
 
         self.allowMeasurements = allowMeasurements
 
+    # This method isn't used yet, but I hope to start using it soon.
     @staticmethod
     def validateArgType( self, term, arg, argType ):
         if isinstance( arg, ( list, RPNGenerator ) ) and argType not in ( RPNOperator.List, RPNOperator.Generator ):
@@ -1597,6 +1598,7 @@ callers = [
     lambda func, arg1, arg2: func( arg1, arg2 ),
 
     # 3, 4, and 5 argument functions don't recurse with lists more than one level
+    # I have some ideas about how to improve this.
     lambda func, arg1, arg2, arg3:
         [ func( a, b, c ) for a in arg1 for b in arg2 for c in arg3 ],
     lambda func, arg1, arg2, arg3, arg4:

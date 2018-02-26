@@ -1677,6 +1677,7 @@ decreased to the next lower integral multiple of i.
     'gcd2' : [
 'arithmetic', 'calculates the greatest common denominator of n and k',
 '''
+'n k gcd2' is equivalent to '[ n k ] gcd'
 ''',
 '''
 ''' + makeCommandExample( '5 20 gcd2' ) + '''
@@ -1734,6 +1735,8 @@ expects real, integral arguments.
     'is_equal' : [
 'arithmetic', 'returns 1 if n equals k, otherwise returns 0',
 '''
+This operator returns 1 if the two arguments are equal, otherwise it returns 0.
+It is most useful in lambdas.
 ''',
 '''
 ''' + makeCommandExample( '0 1 is_equal' ) + '''
@@ -1745,6 +1748,8 @@ expects real, integral arguments.
     'is_even' : [
 'arithmetic', 'returns whether n is an even number',
 '''
+This operator returns 1 if the argument is an even integer, otherwise it returns 0.
+It is most useful in lambdas.
 ''',
 '''
 ''' + makeCommandExample( '2 is_even' ) + '''
@@ -1755,6 +1760,8 @@ expects real, integral arguments.
     'is_greater' : [
 'arithmetic', 'returns 1 if n is greater than k, otherwise returns 0',
 '''
+This operator returns 1 if the second argument is greater than the first,
+otherwise it returns 0.  It is most useful in lambdas.
 ''',
 '''
 ''' + makeCommandExample( '0 1 is_greater' ) + '''
@@ -1766,9 +1773,9 @@ expects real, integral arguments.
     'is_integer' : [
 'arithmetic', 'returns 1 if n is an integer, otherwise returns 0',
 '''
-For complex numbers, is integer considers the real part and the
-complex part seperately.  I don't know if that's appropriate,
-but that's how it works for now.
+For complex numbers, is integer considers the real part and the complex part
+seperately.  I don't know if that's appropriate, but that's how it works for
+now.
 ''',
 '''
 ''' + makeCommandExample( 'pi is_integer' ) + '''
@@ -1907,6 +1914,7 @@ This works with complex numbers:
     'lcm2' : [
 'arithmetic', 'calculates the least common multiple of n and k',
 '''
+'n k lcm2' is equivalent to '[ n k ] lcm'.
 ''',
 '''
 ''' + makeCommandExample( '3 12 lcm2' ) + '''
@@ -3915,12 +3923,12 @@ The base 7 Champernowne constant converted to base 10:
 [ ] ],
 
     'density_of_hg' : [
-'constants', '',
+'constants', 'returns the density of mercury in kg/m^3',
 '''
 ''',
 '''
 ''' + makeCommandExample( 'density_of_hg' ) + '''
-''' + makeCommandExample( '80 element_density gram centimeter 3 ** / convert' ),
+''' + makeCommandExample( '80 element_density kilogram meter 3 ** / convert' ),
 [ ] ],
 
     'deuteron_mass' : [
