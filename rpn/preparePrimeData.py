@@ -61,7 +61,7 @@ def preparePrimeData( baseName ):
 def main( ):
     getDataPath( )
 
-    print( 'preparePrimeData' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
+    print( 'preparePrimeData' + PROGRAM_VERSION_STRING + 'RPN command-line prime number data file converter' )
     print( COPYRIGHT_MESSAGE )
     print( )
 
