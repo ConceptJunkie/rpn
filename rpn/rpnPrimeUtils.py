@@ -14,6 +14,7 @@
 
 import bz2
 import contextlib
+import gmpy2
 import os
 import pickle
 import sys
@@ -26,7 +27,7 @@ from rpn.baillie_psw import baillie_psw
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPrimes import primes
 from rpn.rpnPersistence import openPrimeCache
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
+from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 
 import rpn.rpnGlobals as g
 
@@ -41,7 +42,8 @@ def isPrimeNumber( n ):
     if n < 3317044064679887385961981:
         return isPrimeMillerRabin( int( n ) )
     else:
-        return 1 if baillie_psw( n ) else 0
+        debugPrint( 'primality testing of ' + str( int( n ) ) )
+        return 1 if gmpy2.is_bpsw_prp( n ) else 0
 
 @oneArgFunctionEvaluator( )
 def isComposite( n ):

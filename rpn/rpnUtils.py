@@ -27,6 +27,12 @@ def debugPrint( *args, **kwargs ):
     else:
         return
 
+def debugPrintNoNewLine( *args, **kwargs ):
+    if g.debugMode:
+        builtins.print( *args, **kwargs, end='\r' )
+    else:
+        return
+
 import functools
 import itertools
 import os
@@ -705,5 +711,4 @@ def timeout(seconds, error_message = 'Function call timed out'):
         return functools.wraps(func)(wrapper)
 
     return decorated
-
 

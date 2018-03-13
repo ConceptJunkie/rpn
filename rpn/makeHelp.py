@@ -508,6 +508,8 @@ and lots of other cool features thanks to the wealth of Python libraries.
     ''',
     'bugs' :
     '''
+"rpn 3 50 range fib factor count 1 - zeroes 3 +" should not give an empty answer.
+
 -i doesn't work for lists.
 
 It is not currently possible to convert between hertz and 1/second.  The
@@ -530,9 +532,6 @@ related operators probably do the same thing.
 Converting negative numbers to different bases gives weird answers.
 
 -u doesn't work with complex numbers
-
-Unit conversion suffers from small rounding errors in some situations.  This
-is unavoidable to a certain extent, but it's worse than I think it should be.
 
 'result' doesn't work with measurements.
 
