@@ -1250,7 +1250,37 @@ def getEulerPhi( n ):
 # //
 # //******************************************************************************
 
-def getPowMod( a, b, c ):
+def getPowMod( x, y, z ):
+    "Calculate (x ** y) % z efficiently."
+    result = 1
+
+    while y:
+        if fmod( y, 2 ) == 1:
+            result = fmod( fmul( result, x ), z )
+
+        y = floor( fdiv( y, 2 ) )
+        x = fmod( fmul( x, x ), z )
+
+    return result
+
+
+# //******************************************************************************
+# //
+# //  getPowModOperatorNew
+# //
+# //******************************************************************************
+
+def getPowModOperatorNew( a, b, c ):
+    return getPowMod( real_int( a ), real_int( b ), real_int( c ) )
+
+
+# //******************************************************************************
+# //
+# //  getPowModOperator
+# //
+# //******************************************************************************
+
+def getPowModOperator( a, b, c ):
     return pow( real_int( a ), real_int( b ), real_int( c ) )
 
 
@@ -1320,12 +1350,12 @@ def isPerfect( n ):
 # //******************************************************************************
 
 @cachedFunction( 'smooth' )
-def isSmoothCached( n, k ):
+def isSmooth( n, k ):
     return 1 if getFactorList( n )[ -1 ][ 0 ] <= k else 0
 
 
 @twoArgFunctionEvaluator( )
-def isSmooth( n, k ):
+def isSmoothOperator( n, k ):
     if real_int( k ) < 2:
         return 0
 
@@ -1336,9 +1366,9 @@ def isSmooth( n, k ):
         return 1
 
     if not isPrime( k ):
-        return isSmoothCached( n, getPreviousPrime( k ) )
+        return isSmooth( n, getPreviousPrime( k ) )
 
-    return isSmoothCached( n, k )
+    return isSmooth( n, k )
 
 
 # //******************************************************************************
@@ -1349,15 +1379,26 @@ def isSmooth( n, k ):
 # //
 # //******************************************************************************
 
-@twoArgFunctionEvaluator( )
 @cachedFunction( 'rough' )
 def isRough( n, k ):
-    if real_int( n ) == 1:
+    return 1 if min( [ i[ 0 ] for i in getFactorList( n ) ] ) >= k else 0
+
+
+@twoArgFunctionEvaluator( )
+def isRoughOperator( n, k ):
+    if real_int( k ) < 2:
         return 1
-    elif n < real_int( k ):
+
+    if real_int( n ) < 2:
+        return 1
+
+    if n < k:
         return 0
 
-    return 1 if min( [ i[ 0 ] for i in getFactorList( n ) ] ) >= k else 0
+    if not isPrime( k ):
+        return isRough( n, getPreviousPrime( k ) )
+
+    return isRough( n, k )
 
 
 # //******************************************************************************

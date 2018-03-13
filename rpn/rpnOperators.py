@@ -4011,13 +4011,13 @@ operators = {
     'is_pronic'                      : RPNOperator( isPronic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'is_rough'                       : RPNOperator( isRough,
+    'is_rough'                       : RPNOperator( isRoughOperator,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     'is_semiprime'                   : RPNOperator( isSemiPrime,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'is_smooth'                      : RPNOperator( isSmooth,
+    'is_smooth'                      : RPNOperator( isSmoothOperator,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
 
     'is_sphenic'                     : RPNOperator( isSphenic,
@@ -4220,7 +4220,7 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.Default ],
                                                     RPNOperator.measurementsAllowed ),
 
-    'powmod'                         : RPNOperator( getPowMod,
+    'powmod'                         : RPNOperator( getPowModOperator,
                                                     3, [ RPNOperator.Integer, RPNOperator.Integer,
                                                          RPNOperator.Integer ] ),
 

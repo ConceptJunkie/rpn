@@ -43,7 +43,7 @@ def isPrimeNumber( n ):
         return isPrimeMillerRabin( int( n ) )
     else:
         debugPrint( 'primality testing of ' + str( int( n ) ) )
-        return 1 if gmpy2.is_bpsw_prp( n ) else 0
+        return 1 if gmpy2.is_bpsw_prp( int( n ) ) else 0
 
 @oneArgFunctionEvaluator( )
 def isComposite( n ):

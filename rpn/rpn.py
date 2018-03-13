@@ -71,7 +71,7 @@ from rpn.rpnSpecial import handleIdentify
 from rpn.rpnUtils import debugPrint, getCurrentArgList, getDataPath, \
                          parseNumerals, validateArguments, validateOptions
 
-from rpn.rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
+from rpn.rpnVersion import PROGRAM_VERSION_STRING, PROGRAM_VERSION, COPYRIGHT_MESSAGE
 
 import rpn.rpnGlobals as g
 
@@ -427,6 +427,7 @@ def rpn( cmd_args ):
     parser.add_argument( '-t', '--timer', action = 'store_true' )
     parser.add_argument( '-T', '--time_limit', nargs = '?', type = int, action = 'store',
                          default = 0, const = g.timeLimit )
+    parser.add_argument( '-V', '--version', action = 'store_true' )
     parser.add_argument( '-v', '--verbose', action = 'store_true' )
     parser.add_argument( '-w', '--bitwise_group_size', type = int, action = 'store',
                          default = g.defaultBitwiseGroupSize )
@@ -586,6 +587,10 @@ def rpn( cmd_args ):
 
     # handle -v
     g.verbose = args.verbose
+
+    # handle -V
+    if args.version:
+        return [ int( i ) for i in PROGRAM_VERSION.split( '.' ) ]
 
     # handle -x
     if args.hex:
