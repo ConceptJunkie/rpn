@@ -222,6 +222,7 @@ def formatListOutput( result, level=0, indent=0, file=sys.stdout ):
                 first = False
 
                 if useIndent:
+                    print( file=file )
                     print( indentString + levelIndent, end='', file=file )
             else:
                 if useIndent:
