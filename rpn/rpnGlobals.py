@@ -72,6 +72,7 @@ comma = False
 debugMode = False
 decimalDelimiter = defaultDecimalDelimiter
 decimalGrouping = 0
+echo_command = False
 identify = False
 ignoreCache = False
 inputRadix = defaultInputRadix

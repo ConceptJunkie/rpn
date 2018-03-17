@@ -3979,6 +3979,9 @@ operators = {
     'is_achilles'                    : RPNOperator( isAchillesNumber,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_carmichael'                  : RPNOperator( isCarmichaelNumberOperator,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
+
     'is_composite'                   : RPNOperator( isComposite,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 

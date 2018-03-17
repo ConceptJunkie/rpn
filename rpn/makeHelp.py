@@ -256,7 +256,7 @@ harmonic numbers:
 ''' + makeCommandExample( '1 1 10 range range 1/x sum', indent=4 ),
     'input' :
     '''
-For integers, rpn understands hexidecimal input of the form '0x....'.
+For integers, rpn understands hexidecimal input of the form '0x...'.
 ''' + makeCommandExample( 'rpn 0x10', indent=4 ) + '''
 A number consisting solely of 0s and 1s with a trailing 'b' or 'B' is
 interpreted as binary.
@@ -1583,7 +1583,7 @@ corresponding member in the other list and the result is a list.  If the lists
 are not of equal length, then the resulting list is the length of the shorter
 of the two.
 
-Addition is supported for measurements..
+Addition is supported for measurements.
 ''',
 '''
 ''' + makeCommandExample( '2 2 +' ) + '''
@@ -8177,6 +8177,14 @@ first n numbers each taken to the power of itself.
 
     'is_achilles' : [
 'number_theory', 'returns whether or not n is an Achilles number',
+'''
+''',
+'''
+''',
+[ ] ],
+
+    'is_carmichael' : [
+'number_theory', 'returns whether n is a Carmichael number',
 '''
 ''',
 '''

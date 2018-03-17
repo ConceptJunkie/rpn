@@ -329,6 +329,8 @@ def tetrateLarge( i, j ):
 # //
 # //  isDivisible
 # //
+# //  Is n divisible by k?
+# //
 # //******************************************************************************
 
 @twoArgFunctionEvaluator( )

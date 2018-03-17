@@ -2055,6 +2055,43 @@ def getDigitalRoot( n ):
         return result
 
 
+# //******************************************************************************
+# //
+# //  isCarmichaelNumber
+# //
+# //  https://en.wikipedia.org/wiki/Carmichael_number
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@cachedFunction( 'carmichael' )
+def isCarmichaelNumber( n ):
+    if not isSquareFree( n ):
+        return 0
+
+    factorList = getFactorList( n )
+
+    # check to see that the number is squarefree
+    for i in factorList:
+        if i[ 1 ] > 1:
+            return 0
+
+    for i in factorList:
+        if i[ 0 ] == 2:
+            return 0
+
+        if not isDivisible( n - 1, i[ 0 ] - 1 ):
+            return 0
+
+    return 1
+
+
+@oneArgFunctionEvaluator( )
+def isCarmichaelNumberOperator( n ):
+    if real_int( n ) == 1 or isDivisible( n, 2 ) or isPrime( n ):
+        return 0
+
+    return isCarmichaelNumber( n )
 
 
 ############################################################################
