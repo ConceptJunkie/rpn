@@ -408,6 +408,7 @@ def rpn( cmd_args ):
                          default = 0, const = g.defaultDecimalGrouping )
     parser.add_argument( '-D', '--DEBUG', action = 'store_true' )
     parser.add_argument( '-e', '--profile', action = 'store_true' )
+    parser.add_argument( '-E', '--echo_command', action = 'store_true' )
     parser.add_argument( '-g', '--integer_grouping', nargs = '?', type = int, action = 'store',
                          default = 0, const = g.defaultIntegerGrouping )
     parser.add_argument( '-h', '--help', action = 'store_true' )
@@ -501,6 +502,9 @@ def rpn( cmd_args ):
     # handle -D
     if args.DEBUG:
         g.debugMode = True
+
+    # handle -e
+    g.echo_command = args.echo_command
 
     # handle -i
     g.identify = args.identify
@@ -645,6 +649,9 @@ def rpn( cmd_args ):
     # waiting until we've validated the arguments to do this because it's slow
     if not loadUnitNameData( ):
         return
+
+    if g.echo_command:
+        print( *sys.argv )
 
     if g.timer:
         g.startTime = time.process_time( )
