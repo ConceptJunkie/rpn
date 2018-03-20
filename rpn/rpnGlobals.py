@@ -93,6 +93,7 @@ tempTimerMode = False
 timeLimit = 0
 timer = False
 verbose = False
+zhangConjecturesAllowed = False
 
 # unit data
 basicUnitTypes = { }

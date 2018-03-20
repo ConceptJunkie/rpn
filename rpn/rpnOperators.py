@@ -4029,6 +4029,9 @@ operators = {
     'is_squarefree'                  : RPNOperator( isSquareFree,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_strong_pseudoprime'          : RPNOperator( isStrongPseudoprime,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+
     'is_unusual'                     : RPNOperator( isUnusual,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 

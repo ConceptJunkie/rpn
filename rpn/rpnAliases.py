@@ -437,6 +437,7 @@ operatorAliases = {
     'is_not_more'                   : 'is_not_greater',
     'is_plus_perfect'               : 'is_narcissistic',
     'is_sqr'                        : 'is_square',
+    'is_spsp'                       : 'is_strong_pseudoprime',
     'is_unequal'                    : 'is_not_equal',
     'j'                             : 'i',
     'jacobsthal'                    : 'nth_jacobsthal',

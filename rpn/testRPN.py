@@ -1428,6 +1428,7 @@ def runCombinatoricsOperatorTests( ):
     expectEqual( '0 999 range lambda x 3 binomial x 2 binomial + x 1 binomial + x 0 binomial + eval', '125 oeis 1000 left' )
     expectEqual( '0 1002 range lambda x 4 binomial eval', '332 oeis 1003 left' )
     #expectEqual( '0 500 range lambda 2 2 x * 1 + ** 2 x * 1 + x 1 + binomial eval', '346 oeis 501 left' )
+    expectEqual( '0 27 range lambda 10 x + 1 - x binomial 1 - eval', '35927 oeis 28 left' )
 
     # combinations
     expectEqual( '0 99 range lambda x 2 * x combinations sqr x 2 * x combinations + 2 / eval', '37967 oeis 100 left' )
@@ -3338,6 +3339,14 @@ def runNumberTheoryOperatorTests( ):
 
     expectEqual( '1 1000 range lambda x is_achilles filter', '52486 oeis 13 left' )
 
+    # is_carmichael
+    expectEqual( '1 10000 2 interval_range lambda x is_carmichael filter', '2997 oeis 7 left' )
+
+    expectResult( '-a15 -I 2997 oeis 200 left is_carmichael and_all', 1 )
+
+    if slow:
+        expectResult( '-I 2997 oeis is_carmichael and_all', 1 )
+
     # is_composite
     expectEqual( '1 161 range lambda x is_squarefree x is_composite and filter', '120944 oeis 61 left' )
 
@@ -3425,6 +3434,25 @@ def runNumberTheoryOperatorTests( ):
 
     if slow:
         expectEqual( '1 20203 range lambda x is_prime not x is_squarefree and filter', '469 oeis 10000 left' )
+
+    # is_strong_pseudoprime
+    expectResult( '1543267864443420616877677640751301 1 19 primes is_strong_pseudoprime and_all', 1 )
+
+    expectEqual( '1 100000 range lambda x 2 is_strong_pseudoprime filter', '1262 oeis 16 left' )
+    expectEqual( '1 100000 range lambda x 3 is_strong_pseudoprime filter', '20229 oeis 23 left' )
+    expectEqual( '1 100000 range lambda x 4 is_strong_pseudoprime filter', '20230 oeis 31 left' )
+    expectEqual( '1 100000 range lambda x 5 is_strong_pseudoprime filter', '20231 oeis 16 left' )
+    expectEqual( '1 100000 range lambda x 6 is_strong_pseudoprime filter', '20232 oeis 30 left' )
+    expectEqual( '1 100000 range lambda x 7 is_strong_pseudoprime filter', '20233 oeis 21 left' )
+    expectEqual( '1 100000 range lambda x 8 is_strong_pseudoprime filter', '20234 oeis 44 left' )
+
+    expectResult( '1262 oeis 2 is_strong_pseudoprime and_all', 1 )
+    expectResult( '20229 oeis 3 is_strong_pseudoprime and_all', 1 )
+    expectResult( '20230 oeis 4 is_strong_pseudoprime and_all', 1 )
+    expectResult( '20231 oeis 5 is_strong_pseudoprime and_all', 1 )
+    expectResult( '20232 oeis 6 is_strong_pseudoprime and_all', 1 )
+    expectResult( '20233 oeis 7 is_strong_pseudoprime and_all', 1 )
+    expectResult( '20234 oeis 8 is_strong_pseudoprime and_all', 1 )
 
     # is_unusual
     testOperator( '-a50 81 23 ** is_unusual' )

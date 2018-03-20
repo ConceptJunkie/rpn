@@ -20,7 +20,7 @@ import pickle
 import sys
 
 from bisect import bisect_left
-from mpmath import arange, fadd, fmul, fsub, mp
+from mpmath import arange, fadd, fmod, fmul, fsub, mp
 
 from rpn.baillie_psw import baillie_psw
 
@@ -39,7 +39,9 @@ import rpn.rpnGlobals as g
 # //******************************************************************************
 
 def isPrimeNumber( n ):
-    if n < 3317044064679887385961981:
+    if g.zhangConjecturesAllowed and n < 1543267864443420616877677640751301:
+        return isPrimeMillerRabin( int( n ) )
+    elif n < 3317044064679887385961981:
         return isPrimeMillerRabin( int( n ) )
     else:
         debugPrint( 'primality testing of ' + str( int( n ) ) )
@@ -1625,8 +1627,6 @@ def printStats( cacheName, name ):
 # //
 # //******************************************************************************
 
-''' partly stolen from http://en.literateprograms.org/Miller-Rabin_primality_test_(Python) '''
-
 def miller_rabin_pass( a, s, d, n ):
     a_to_power = pow( a, d, n )
 
@@ -1637,7 +1637,7 @@ def miller_rabin_pass( a, s, d, n ):
         if a_to_power == n - 1:
             return True
 
-        a_to_power = (a_to_power * a_to_power) % n
+        a_to_power = ( a_to_power * a_to_power ) % n
 
     return a_to_power == n - 1
 
@@ -1647,19 +1647,19 @@ def miller_rabin_pass( a, s, d, n ):
 # //  isPrimeMillerRabin
 # //
 # //  https://gist.github.com/sharnett/5479106
+# //  http://mathworld.wolfram.com/StrongPseudoprime.html
+# //
+# //  http://pi-e.de/Miller-Rabin-Pseudoprimzahlen.htm - check this out!
 # //
 # //******************************************************************************
 
 def isPrimeMillerRabin( n ):
-    '''if n < 1,373,653, it is enough to test a = 2 and 3;
-    if n < 9,080,191, it is enough to test a = 31 and 73;
-    if n < 4,759,123,141, it is enough to test a = 2, 7, and 61;
-    if n < 2,152,302,898,747, it is enough to test a = 2, 3, 5, 7, and 11;'''
-
     if n < 2:
         return False
 
-    if n < 1373653:
+    if n < 2047:
+        testPrimes = [ 2 ]
+    elif n < 1373653:
         testPrimes = [ 2, 3 ]
     elif n < 9080191:
         testPrimes = [ 31, 73 ]
@@ -1677,8 +1677,19 @@ def isPrimeMillerRabin( n ):
         testPrimes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 ]
     elif n < 3317044064679887385961981:
         testPrimes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41 ]
+    elif n < 6003094289670105800312596501 and g.zhangConjecturesAllowed:
+        testPrimes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43 ]
+    elif n < 59276361075595573263446330101 and g.zhangConjecturesAllowed:
+        testPrimes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47 ]
+    elif n < 564132928021909221014087501701 and g.zhangConjecturesAllowed:
+        testPrimes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59 ]
+    elif n < 1543267864443420616877677640751301 and g.zhangConjecturesAllowed:
+        testPrimes = [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67 ]
     else:
-        raise ValueError( str( n ) + ' is too large to use the deterministic Miller-Rabin test for 13 prime bases' )
+        if g.zhangConjecturesAllowed:
+            raise ValueError( str( n ) + ' is too large to use the deterministic Miller-Rabin test for 19 prime bases' )
+        else:
+            raise ValueError( str( n ) + ' is too large to use the deterministic Miller-Rabin test for 13 prime bases' )
 
     if n in testPrimes:
         return True
@@ -1695,4 +1706,25 @@ def isPrimeMillerRabin( n ):
             return False
 
     return True
+
+
+# //******************************************************************************
+# //
+# //  isStrongPseudoprime
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def isStrongPseudoprime( n, k ):
+    if n < k or fmod( n, 2 ) == 0 or isPrime( n ):
+        return 0
+
+    d = int( n - 1 )
+    s = 0
+
+    while d % 2 == 0:
+        d >>= 1
+        s += 1
+
+    return 1 if miller_rabin_pass( int( k ), s, d, int( n ) ) else 0
 
