@@ -2169,11 +2169,11 @@ listOperators = {
     'add_polynomials'       : RPNOperator( addPolynomials,
                                            2, [ RPNOperator.List, RPNOperator.List ] ),
 
+    'discriminant'          : RPNOperator( getPolynomialDiscriminant,
+                                           1, [ RPNOperator.List ] ),
+
     'eval_polynomial'       : RPNOperator( evaluatePolynomial,
                                            2, [ RPNOperator.List, RPNOperator.List ] ),
-
-    'get_discriminant'      : RPNOperator( getPolynomialDiscriminant,
-                                           1, [ RPNOperator.List ] ),
 
     'multiply_polynomials'  : RPNOperator( multiplyPolynomials,
                                            2, [ RPNOperator.List, RPNOperator.List ] ),

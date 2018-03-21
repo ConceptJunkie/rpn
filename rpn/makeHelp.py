@@ -63,7 +63,7 @@ getDataPath( )
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1205
+maxExampleCount = 1207
 
 
 # //******************************************************************************
@@ -508,7 +508,9 @@ and lots of other cool features thanks to the wealth of Python libraries.
     ''',
     'bugs' :
     '''
-"rpn 3 50 range fib factor count 1 - zeroes 3 +" should not give an empty answer.
+Using 'for_each' on a nested list should give a nice error message.
+
+Using 'for_each_list' on a non-nested list crashes.
 
 -i doesn't work for lists.
 
@@ -785,10 +787,6 @@ More bug fixes thanks to the test script!
 
 More bug fixes and code cleanup.  Added the 'unfloat' and 'undouble'
 operators.
-    ''',
-    'release_notes' :
-    '''
-For notes about earlier versions, use 'help release_notes_5'.
 
 6.0.0
 
@@ -1025,6 +1023,19 @@ Added a number of unit tests and argument validation for most of the operators.
 Implemented lots of unit tests.
 
 ...and the usual bug fixes.
+
+Please note that through the alpha and beta releases I neglected to make
+release notes, so there are a ton of new features not mentioned here.
+    ''',
+    'release_notes' :
+    '''
+For notes about earlier versions, use 'help old_release_notes'.
+
+7.1.0
+
+Added 'discriminant' and 'is_strong_pseudoprime' operators.
+
+Fixed a few mistakes in the help examples.
     ''',
     'license' :
     '''
@@ -1089,10 +1100,12 @@ Calculations with lists:
     List of primes in the first 50 fibonacci numbers:
 ''' + makeCommandExample( '1 50 range fib is_prime nonzero 1 + fib', indent=8 ) + '''
     List the indices of the primes in the first 50 fibonacci numbers:
-''' + makeCommandExample( '3 50 range fib factor count 1 - zeroes 3 +', indent=8 ) + '''
+''' + makeCommandExample( '3 50 range fib factor lambda x count for_each_list 1 - zeroes 3 +', indent=8 ) + '''
     This calculation works by listing the indices of fibonacci numbers with a
     single factor.  We are skipping fib( 1 ) and fib( 2 ) because they have a
-    single factor (of 1), but of course, aren't prime.
+    single factor (of 1), but of course, aren't prime.  Of course, we could
+    just use 'is_prime' again, but I wanted to show solving the problem another
+    way.
 
     Which of the first thousand pentagonal numbers are also triangular:
 ''' + makeCommandExample( '1000 pent tri?', indent=8 ) + '''
@@ -1397,6 +1410,34 @@ coefficient.
 ''' + makeCommandExample( '[ 1 1 ] [ 2 2 2 ] add_polynomials' ) + '''
 ''' + makeCommandExample( '[ 1 ] [ 4 5 dup ] add_polynomials' ),
 [ 'multiply_polynomials', 'polynomial_power', 'polynomial_sum' ] ],
+
+    'discriminant' : [
+'algebra', 'calculates the discriminant of polynomial n',
+'''
+from https://en.wikipedia.org/wiki/Discriminant:
+
+In algebra, the discriminant of a polynomial is a polynomial function of its
+coefficients, which allows deducing some properties of the roots without
+computing them. For example, the discriminant of the quadratic polynomial is
+zero if and only if the polynomial has a double root, and (in the case of
+real coefficients) is positive if and only if the polynomial has two real
+roots.
+
+More generally, for a polynomial of an arbitrary degree, the discriminant is
+zero if and only if it has a multiple root, and, in the case of real
+coefficients, it is positive if and only if the number of non-real roots is a
+multiple of 4 when the degree is 4 or higher.
+
+The discriminant is widely used in number theory, either directly or through
+its generalization as the discriminant of a number field. For factoring a
+polynomial with integer coefficients, the standard method consists in
+factoring first its reduction modulo a prime number not dividing the
+discriminant (and not dividing the leading coefficient).
+''',
+'''
+''' + makeCommandExample( '[ 5 4 3 2 1 ] get_discriminant' ) + '''
+''' + makeCommandExample( '[ 4 -20 25 ] get_discriminant' ),
+[ 'add_polynomials', 'eval_polynomial', 'multiply_polynomials', 'polynomial_power' ] ],
 
     'eval_polynomial' : [
 'algebra', 'interprets the list as a polynomial and evaluates it for value k',
@@ -1881,6 +1922,7 @@ This works with complex numbers:
     'is_zero' : [
 'arithmetic', 'returns whether n is zero',
 '''
+The operator is primarily useful in lambdas.
 ''',
 '''
 ''' + makeCommandExample( '0 is_zero' ) + '''
@@ -4618,10 +4660,29 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
     'plastic_constant' : [
 'constants', 'returns the Plastic constant',
 '''
+From https://en.wikipedia.org/wiki/Plastic_number:
+
+In mathematics, the plastic number ? (also known as the plastic constant, the
+minimal Pisot number, the platin number, Siegel's number or, in French, le
+nombre radiant) is a mathematical constant which is the unique real solution
+of the cubic equation x^3 = x + 1.
+
+Dutch architect and Benedictine monk Dom Hans van der Laan gave the name
+plastic number ('het plastische getal' in Dutch) to this number in 1928.  In
+1924, 4 years prior to von der Laan's christening of the number's name, French
+engineer Gerard Cordonnier had already discovered the number and referred to it
+as the radiant number ('le nombre radiant' in French).  Unlike the names of the
+golden ratio and silver ratio, the word plastic was not intended by van der
+Laan to refer to a specific substance, but rather in its adjectival sense,
+meaning something that can be given a three-dimensional shape.  This, according
+to Padovan, is because the characteristic ratios of the number,
+3/4 and 1/7, relate to the limits of human perception in relating one physical
+size to another.  Van der Laan designed the 1967 St. Benedictusberg Abbey church
+to these plastic number proportions.
 ''',
 '''
 ''' + makeCommandExample( 'plastic_constant' ),
-[ ] ],
+[ 'silver_ratio', 'phi' ] ],
 
     'prevost_constant' : [
 'constants', 'calculates Prevost\'s constant',
