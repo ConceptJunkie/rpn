@@ -27,6 +27,52 @@ from mpmath import acos, arange, chop, cos, fadd, fdiv, fmul, fneg, fprod, fsub,
 from rpn.rpnGenerator import RPNGenerator
 
 
+def determinant( M ):
+    """
+    Computes the determinant of a matrix via the Schur determinant identity.
+    Input: M -- square matrix; i.e., a list of lists.
+    Output: A number.  If all input elements are integers, then this will also
+            be an integer.
+    Examples:
+    >>> determinant([[1,2,3,4],[1,2,3,5],[1,2,4,4],[4,3,2,1]])
+    5
+
+    Adapted from https://pypi.python.org/pypi/labmath, which carries the MIT license
+    but has no copyright notice.
+    """
+    # TODO: What is the algorithm's complexity?
+    k = len( M )
+    assert all( len( r ) == k for r in M )
+
+    if k == 1:
+        return M[ 0 ][ 0 ]
+
+    if k == 2:
+        return M[ 0 ][ 0 ] * M[ 1 ][ 1 ] - M[ 0 ][ 1 ] * M[ 1 ][ 0 ]
+
+    if k == 3:
+        a, b, c, d, e, f, g, h, i = M[ 0 ][ 0 ], M[ 0 ][ 1 ], M[ 0 ][ 2 ], M[ 1 ][ 0 ], M[ 1 ][ 1 ], M[ 1 ][ 2 ], M[ 2 ][ 0 ], M[ 2 ][ 1 ], M[ 2 ][ 2 ]
+        return a * e * i + b * f * g + c * d * h - a * f * h - b * d * i - c * e * g
+
+    sign = 1
+
+    for r in range( k ):
+        if M[ r ][ 0 ] != 0:
+            break
+    else:
+        return 0
+
+    if r != 0:
+        M[ 0 ], M[ r ], sign = M[ r ], M[ 0 ], -1
+
+    a = M[ 0 ][ 0 ]
+
+    aD_CB = [ [ a * M[ r ][ s ] - M[ r ][ 0 ] * M[ 0 ][ s ] for s in range( 1, k ) ] for r in range( 1, k ) ]
+    d = determinant( aD_CB )
+    ints = isinstance( d, int ) and isinstance( a, int )
+    return sign * d // a ** ( k - 2 ) if ints else sign * d / a ** ( k - 2 )
+
+
 # //******************************************************************************
 # //
 # //  class Polynomial
@@ -62,7 +108,7 @@ class Polynomial( object ):
         self.trim( )
 
     def __add__( self, val ):
-        "Return self+val"
+        "Return self + val"
         if isinstance( val, Polynomial ):                    # add Polynomial
             res = reversed( [ a + b for a, b in zip_longest( reversed( self.coeffs ), reversed( val.coeffs ), fillvalue = 0 ) ] )
         else:                                                # add scalar
@@ -75,7 +121,7 @@ class Polynomial( object ):
         return self.__class__( res )
 
     def __call__( self, val ):
-        "Evaluate at X==val"
+        "Evaluate at X == val"
         res = 0
         pwr = 1
 
@@ -86,14 +132,14 @@ class Polynomial( object ):
         return res
 
     def __eq__( self, val ):
-        "Test self==val"
+        "Test self == val"
         if isinstance( val, Polynomial ):
             return self.coeffs == val.coeffs
         else:
             return len( self.coeffs ) == 1 and self.coeffs[ 0 ] == val
 
     def __mul__( self, val ):
-        "Return self*val"
+        "Return self * val"
         if isinstance( val, Polynomial ):
             _s = self.coeffs
             _v = val.coeffs
@@ -115,18 +161,18 @@ class Polynomial( object ):
         raise NotImplemented( )
 
     def _radd__( self, val ):
-        "Return val+self"
+        "Return val + self"
         return self + val
 
     def __repr__( self ):
         return "{0}({1})".format( self.__class__.__name__, self.coeffs )
 
     def __rmul__( self, val ):
-        "Return val*self"
+        "Return val * self"
         return self * val
 
     def __rsub__( self, val ):
-        "Return val-self"
+        "Return val - self"
         return -self + val
 
     def __str__( self ):
@@ -161,6 +207,28 @@ class Polynomial( object ):
 
     def getCoefficients( self ):
         return self.coeffs
+
+    def getDiscriminant( self ):
+        """
+        Computes the discriminant of a polynomial.  The input is ordered from lowest
+        degree to highest so that coefs[k] is the coefficient of the x**k term.
+        Input: coefs -- list of numbers
+        Output: A number
+        Examples:
+        >>> discriminant([1,2,3,4,5])
+        10800
+
+        Adapted from https://pypi.python.org/pypi/labmath, which carries the MIT license
+        but has no copyright notice.
+        """
+        r = [ ]
+        a = self.coeffs[ ::-1 ]
+        n = len( a ) - 1
+        for x in range( n - 1 ): r.append( [ 0 ] * x  +  a  +  [ 0 ] * ( n - 2 - x ) )
+        del a[ -1 ]
+        for x in range( n ): a[ x ] *= n - x
+        for x in range( n ): r.append( [ 0 ] * x  +  a  +  [ 0 ] * ( n - 1 - x ) )
+        return ( -1 ) ** ( n * ( n - 1 ) // 2 ) * determinant( r ) / self.coeffs[ -1 ]
 
 
 # //******************************************************************************
@@ -526,4 +594,14 @@ def sumListOfPolynomials( args ):
             result += Polynomial( [ i for i in arg ] )
 
     return result.getCoefficients( )
+
+
+# //******************************************************************************
+# //
+# //  getPolynomialDiscriminant
+# //
+# //******************************************************************************
+
+def getPolynomialDiscriminant( n ):
+    return Polynomial( n ).getDiscriminant( )
 

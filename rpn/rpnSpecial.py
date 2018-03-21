@@ -92,7 +92,7 @@ def removeUnderscores( source ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'oeis' )
+@cachedFunction( 'oeis', True )
 def downloadOEISSequence( id ):
     '''Downloads and formats data from oeis.org.'''
     keywords = downloadOEISText( id, 'K' ).split( ',' )

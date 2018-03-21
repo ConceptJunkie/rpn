@@ -14,6 +14,7 @@
 
 import os
 import sys
+import time
 
 from collections import OrderedDict
 from pathlib import Path
@@ -1577,7 +1578,8 @@ def runCombinatoricsOperatorTests( ):
     # partitions
     testOperator( '1 10 range partitions' )
 
-    expectEqual( '0 1000 range partitions', '41 oeis 1001 left' )
+    # This function is extremely slow without caching.
+    expectEqual( '0 15 range partitions', '41 oeis 16 left' )
 
     # permutations
     expectEqual( '8 3 permutations', '8 ! 5 ! /' )
@@ -2808,6 +2810,7 @@ def runLexicographyOperatorTests( ):
 
     # show_k_persistence
     testOperator( '-a60 3 2222222223333333778 3 show_k_persistence' )
+    testOperator( '-a30 1 10 range 5 show_k_persistence -s1' )
 
     # show_persistence
     testOperator( '-a20 2222222223333333778 show_persistence' )
@@ -3342,10 +3345,10 @@ def runNumberTheoryOperatorTests( ):
     # is_carmichael
     expectEqual( '1 10000 2 interval_range lambda x is_carmichael filter', '2997 oeis 7 left' )
 
-    expectResult( '-a15 -I 2997 oeis 200 left is_carmichael and_all', 1 )
+    expectResult( '-a15 2997 oeis 200 left is_carmichael and_all', 1 )
 
     if slow:
-        expectResult( '-I 2997 oeis is_carmichael and_all', 1 )
+        expectResult( '2997 oeis is_carmichael and_all', 1 )
 
     # is_composite
     expectEqual( '1 161 range lambda x is_squarefree x is_composite and filter', '120944 oeis 61 left' )
@@ -3627,9 +3630,6 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '23 riesel' )
 
     expectEqual( '-a100 1 300 range riesel', '3261 oeis 300 left' )
-
-    # show_k_persistence
-    testOperator( '-a30 1 10 5 show_k_persistence -s1' )
 
     # sigma
     testOperator( '1 20 range sigma' )
@@ -4677,6 +4677,8 @@ def runTests( tests ):
 # //******************************************************************************
 
 def main( ):
+    startTime = time.process_time( )
+
     getDataPath( )
 
     primeFile = Path( g.dataPath + os.sep + 'small_primes.cache' )
@@ -4726,6 +4728,9 @@ def main( ):
         exit( )
 
     runTests( sys.argv[ 1 : ] )
+
+    print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
+
 
 # //******************************************************************************
 # //

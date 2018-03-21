@@ -106,7 +106,7 @@ def compareValues( result1, result2 ):
 def expectException( command ):
     print( 'rpn', command )
 
-    result = rpn( shlex.split( command ) )
+    result = rpn( shlex.split( command + ' -I' ) )
 
     if result == [ nan ]:
         print( 'exception test passed!' )
@@ -127,8 +127,8 @@ def expectEqual( command1, command2 ):
     print( 'rpn', command1 )
     print( 'rpn', command2 )
 
-    result1 = rpn( shlex.split( command1 ) )[ 0 ]
-    result2 = rpn( shlex.split( command2 ) )[ 0 ]
+    result1 = rpn( shlex.split( command1 + ' -I' ) )[ 0 ]
+    result2 = rpn( shlex.split( command2 + ' -I' ) )[ 0 ]
 
     compareResults( result1, result2 )
 
@@ -171,8 +171,8 @@ def expectEquivalent( command1, command2 ):
     print( 'rpn', command1 )
     print( 'rpn', command2 )
 
-    result1 = rpn( shlex.split( command1 ) )[ 0 ]
-    result2 = rpn( shlex.split( command2 ) )[ 0 ]
+    result1 = rpn( shlex.split( command1 + ' -I' ) )[ 0 ]
+    result2 = rpn( shlex.split( command2 + ' -I' ) )[ 0 ]
 
     if isinstance( result1, list ) != isinstance( result2, list ):
         print( '**** error in results comparison' )
@@ -196,9 +196,13 @@ def expectEquivalent( command1, command2 ):
 # //
 # //******************************************************************************
 
-def testOperator( command ):
+def testOperator( command, ignoreCache = True ):
     print( 'rpn', command )
-    result = rpn( shlex.split( command ) )
+
+    if ignoreCache:
+        result = rpn( shlex.split( command + ' -I' ) )
+    else:
+        result = rpn( shlex.split( command ) )
 
     if result is not None and isinstance( result[ 0 ], mpf ) and result == [ nan ]:
         raise ValueError( 'unit test failed' )
@@ -218,7 +222,7 @@ def testOperator( command ):
 
 def expectResult( command, expected ):
     print( 'rpn', command )
-    result = rpn( shlex.split( command ) )[ 0 ]
+    result = rpn( shlex.split( command + ' -I' ) )[ 0 ]
 
     compare = None
 

@@ -8340,6 +8340,14 @@ beyond a certain size.
 ''',
 [ ] ],
 
+    'is_strong_pseudoprime' : [
+'number_theory', 'returns whether n is a strong pseudoprime to base k',
+'''
+''',
+'''
+''',
+[ ] ],
+
     'is_unusual' : [
 'number_theory', 'returns whether n is an unusual number',
 '''

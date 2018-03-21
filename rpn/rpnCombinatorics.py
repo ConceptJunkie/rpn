@@ -290,6 +290,15 @@ def OLDgetPartitionNumber( n ):
     return total
 
 
+#public static long partition(long k, long n){
+#    long sum = 0;
+#    if(k > n) return 0;
+#    if(k == n) return 1;
+#    sum += partition(k+1, n) + partition(k, n-k);
+#    return sum;
+#}
+
+
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'partition' )
 def getPartitionNumber( n ):
