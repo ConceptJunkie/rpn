@@ -1359,14 +1359,14 @@ def isSmoothOperator( n, k ):
     if real_int( k ) < 2:
         return 0
 
-    if real_int( n ) < 2:
+    if real_int( n ) < 1:
         return 0
 
     if n <= k:
         return 1
 
     if not isPrime( k ):
-        return isSmooth( n, getPreviousPrime( k ) )
+        raise ValueError( "'is_smooth' requires a prime number for the second argument" )
 
     return isSmooth( n, k )
 
@@ -1376,6 +1376,8 @@ def isSmoothOperator( n, k ):
 # //  isRough
 # //
 # //  https://en.wikipedia.org/wiki/Rough_number
+# //
+# //  Please note that rough is not the opposite of smooth.
 # //
 # //******************************************************************************
 
@@ -1389,14 +1391,20 @@ def isRoughOperator( n, k ):
     if real_int( k ) < 2:
         return 1
 
-    if real_int( n ) < 2:
+    if real_int( n ) < 1:
+        return 0
+
+    if n == 1:
         return 1
 
     if n < k:
         return 0
 
+    if n == k:
+        return 1
+
     if not isPrime( k ):
-        return isRough( n, getPreviousPrime( k ) )
+        raise ValueError( "'is_rough' requires a prime number for the second argument" )
 
     return isRough( n, k )
 

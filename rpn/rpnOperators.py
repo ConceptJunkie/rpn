@@ -2306,6 +2306,9 @@ listOperators = {
     'collate'               : RPNOperator( lambda n: RPNGenerator( collate( n ) ),
                                            1, [ RPNOperator.List ] ),
 
+    'compare_lists'         : RPNOperator( compareLists,
+                                           2, [ RPNOperator.List, RPNOperator.List ] ),
+
     'count'                 : RPNOperator( countElements,
                                            1, [ RPNOperator.Generator ] ),
 

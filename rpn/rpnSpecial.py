@@ -182,7 +182,7 @@ def downloadOEISOffset( n ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'oeis_table' )
+@cachedFunction( 'oeis_table', True )
 def downloadOEISTable( id ):
     if six.PY3:
         import urllib.request as urllib2
@@ -192,7 +192,6 @@ def downloadOEISTable( id ):
     try:
         data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( id ), int( id ) ) ).read( )
     except:
-        print( 'foo!' )
         return [ ], False
 
     import re as regex

@@ -3169,8 +3169,6 @@ def runNumberTheoryOperatorTests( ):
 
     # count_divisors
     testOperator( '1024 count_divisors' )
-    testOperator( '-a50 0 35 range ! count_divisors' )
-    testOperator( '27423 oeis 36 left' )
 
     expectEqual( '1 104 range count_divisors', '5 oeis 104 left' )
     expectEqual( '-a50 0 35 range ! count_divisors', '-a50 27423 oeis 36 left' )
@@ -3219,7 +3217,10 @@ def runNumberTheoryOperatorTests( ):
     # euler_phi
     testOperator( '1 20 range euler_phi' )
 
-    expectEqual( '1 1000 range euler_phi', '10 oeis 1000 left' )
+    expectEqual( '1 100 range euler_phi', '10 oeis 100 left' )
+
+    if slow:
+        expectEqual( '1 1000 range euler_phi', '10 oeis 1000 left' )
 
     # factor
     testOperator( '-25 factor' )
@@ -3246,7 +3247,10 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 50 range fibonacci' )
     testOperator( '-c -a8300 39399 fibonacci' )
 
-    expectEqual( '0 999 range fibonacci', '45 oeis 1000 left' )
+    expectEqual( '0 99 range fibonacci', '45 oeis 100 left' )
+
+    if slow:
+        expectEqual( '0 999 range fibonacci', '45 oeis 1000 left' )
 
     expectResult( '0 100 range fibonacci', [ getNthKFibonacciNumberTheSlowWay( i, 2 ) for i in range( 0, 101 ) ] )
 
@@ -3335,12 +3339,15 @@ def runNumberTheoryOperatorTests( ):
     # is_abundant
     testOperator( '1 20 range is_abundant' )
 
-    expectEqual( '1 4038 range lambda x is_abundant filter', '5101 oeis 1000 left' )
+    expectEqual( '1 1000 range lambda x is_abundant filter', '5101 oeis lambda x 1000 is_not_greater filter' )
+
+    if slow:
+        expectEqual( '1 4038 range lambda x is_abundant filter', '5101 oeis 1000 left' )
 
     # is_achilles
     testOperator( '1 20 range is_achilles' )
 
-    expectEqual( '1 1000 range lambda x is_achilles filter', '52486 oeis 13 left' )
+    expectEqual( '1 500 range lambda x is_achilles filter', '52486 oeis lambda x 500 is_not_greater filter' )
 
     # is_carmichael
     expectEqual( '1 10000 2 interval_range lambda x is_carmichael filter', '2997 oeis 7 left' )
@@ -3367,7 +3374,7 @@ def runNumberTheoryOperatorTests( ):
     # is_k_semiprime
     testOperator( '1 20 range 3 is_k_semiprime' )
 
-    expectEqual( '-a30 1 100 range lambda x tribonacci is_semiprime filter', '101757 oeis 12 left' )
+    expectEqual( '-a30 1 100 range lambda x tribonacci is_semiprime filter', '101757 oeis lambda x 100 is_not_greater filter' )
 
     # is_k_sphenic
     testOperator( '30 3 is_k_sphenic' )
@@ -3399,12 +3406,17 @@ def runNumberTheoryOperatorTests( ):
 
     # is_pronic
     testOperator( '1 20 range is_pronic' )
+
     expectEqual( '0 9900 range lambda x is_pronic filter', '2378 oeis 100 left' )
 
     # is_rough
     testOperator( '1 20 range 2 is_rough' )
 
-    expectEqual( '1 4373 range lambda x 11 is_rough filter', '8364 oeis 1000 left' )
+    expectEqual( '1 500 range lambda x 11 is_rough filter', '8364 oeis lambda x 500 is_not_greater filter' )
+    expectEqual( '1 500 range lambda x 19 is_rough filter', '166061 oeis lambda x 500 is_not_greater filter' )
+    expectEqual( '1 500 range lambda x 23 is_rough filter', '166063 oeis lambda x 500 is_not_greater filter' )
+
+    expectException( '1 20 range 12 is_rough' )
 
     if slow:
         expectEqual( '1 43747 range lambda x 11 is_rough filter', '8364 oeis 10000 left 9999 right' )
@@ -3416,8 +3428,14 @@ def runNumberTheoryOperatorTests( ):
     expectEqual( ' 1 141 range lambda x is_semiprime x is_squarefree and filter square', '85986 oeis 41 left' )
 
     # is_smooth
-    testOperator( '128 4 is_smooth' )
-    testOperator( '1 20 range 2 is_smooth' )
+    testOperator( '128 3 is_smooth' )
+    testOperator( '1 20 range 5 is_smooth' )
+
+    expectEqual( '1 500 range lambda x 3 is_smooth filter', '3586 oeis lambda x 500 is_not_greater filter' )
+    expectEqual( '1 500 range lambda x 7 is_smooth filter', '2473 oeis lambda x 500 is_not_greater filter' )
+    expectEqual( '1 500 range lambda x 17 is_smooth filter', '80681 oeis lambda x 500 is_not_greater filter' )
+
+    expectException( '1 20 range 12 is_smooth' )
 
     # is_sphenic
     testOperator( '[ 2 3 5 ] prod is_sphenic' )

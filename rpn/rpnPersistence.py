@@ -475,20 +475,20 @@ def openFunctionCache( name ):
 # //
 # //******************************************************************************
 
-def cachedFunction( name, override=False ):
+def cachedFunction( name, overrideIgnore=False ):
     def namedCachedFunction( func ):
         @functools.wraps( func )
 
         def cacheResults( *args, **kwargs ):
             cache = openFunctionCache( name )
 
-            if not g.ignoreCache and not override:
+            if not g.ignoreCache or overrideIgnore:
                 if ( args, kwargs ) in cache:
                     return cache[ ( args, kwargs ) ]
 
             result = func( *args, **kwargs )
 
-            if not g.ignoreCache and not override:
+            if not g.ignoreCache or overrideIgnore:
                 cache[ ( args, kwargs ) ] = result
             return result
 
