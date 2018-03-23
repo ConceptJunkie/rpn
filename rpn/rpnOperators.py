@@ -72,17 +72,18 @@ class RPNOperator( object ):
     Real = 1
     NonnegativeReal = 2         # real >= 0
     Integer = 3
-    NonnegativeInteger = 5      # integer >= 0
     PositiveInteger = 4         # integer >= 1
-    String = 6
-    DateTime = 7
-    Location = 8                # location object (operators will automatically convert a string)
-    Boolean = 9                 # 0 or 1
-    Measurement = 10
-    AstronomicalObject = 11
-    List = 12                   # the argument must be a list
-    Generator = 13              # Generator needs to be a separate type now, but eventually it should be equivalent to List
-    Function = 14
+    NonnegativeInteger = 5      # integer >= 0
+    PrimeInteger = 6,
+    String = 7
+    DateTime = 8
+    Location = 9                # location object (operators will automatically convert a string)
+    Boolean = 10                # 0 or 1
+    Measurement = 11
+    AstronomicalObject = 12
+    List = 13                   # the argument must be a list
+    Generator = 14              # Generator needs to be a separate type now, but eventually it should be equivalent to List
+    Function = 15
 
     '''This class represents all the data needed to define an operator.'''
     def __init__( self, function, argCount, argTypes = None, allowMeasurements = measurementsNotAllowed ):
@@ -4021,13 +4022,13 @@ operators = {
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_rough'                       : RPNOperator( isRoughOperator,
-                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PrimeInteger ] ),
 
     'is_semiprime'                   : RPNOperator( isSemiPrime,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_smooth'                      : RPNOperator( isSmoothOperator,
-                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PrimeInteger ] ),
 
     'is_sphenic'                     : RPNOperator( isSphenic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),

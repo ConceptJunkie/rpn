@@ -63,7 +63,7 @@ getDataPath( )
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1207
+maxExampleCount = 1211
 
 
 # //******************************************************************************
@@ -508,6 +508,8 @@ and lots of other cool features thanks to the wealth of Python libraries.
     ''',
     'bugs' :
     '''
+'base' doesn't seem to do anything useful.
+
 Using 'for_each' on a nested list should give a nice error message.
 
 Using 'for_each_list' on a non-nested list crashes.
@@ -576,6 +578,13 @@ gets smaller.
 *  *_primes_ operators seem to be unreasonably slow
 *  'fraction' needs to figure out what precision is needed and set it itself
 
+Long-term goals
+
+*  Performance, performance, performance.  There's a lot of functionality in rpn which is way too slow.
+*  This is a big one, and may not be possible with the current syntax, but I would love to support nested lambdas.
+*  Turn rpn into a full-blown scripting language.  It's 2/3 of the way there.  Why not go all the way?
+*  Redesign the parsing logic.  It's excessively complex has lots of edge cases where it breaks down.
+*  Lambdas are converted into Python code, compiled and run.  Perhaps all expressions should work this way.
 
 See 'rpn help bugs'.
     ''',
@@ -1033,9 +1042,13 @@ For notes about earlier versions, use 'help old_release_notes'.
 
 7.1.0
 
-Added 'discriminant' and 'is_strong_pseudoprime' operators.
+Added 'discriminant', 'is_strong_pseudoprime' and 'compare_lists' operators.
 
 Fixed a few mistakes in the help examples.
+
+The unit tests no longer used cached values for functions (but it still uses
+the cache for functions that access the Internet: the OEIS functions and the
+location functions.
     ''',
     'license' :
     '''
@@ -1435,8 +1448,8 @@ factoring first its reduction modulo a prime number not dividing the
 discriminant (and not dividing the leading coefficient).
 ''',
 '''
-''' + makeCommandExample( '[ 5 4 3 2 1 ] get_discriminant' ) + '''
-''' + makeCommandExample( '[ 4 -20 25 ] get_discriminant' ),
+''' + makeCommandExample( '[ 5 4 3 2 1 ] discriminant' ) + '''
+''' + makeCommandExample( '[ 4 -20 25 ] discriminant' ),
 [ 'add_polynomials', 'eval_polynomial', 'multiply_polynomials', 'polynomial_power' ] ],
 
     'eval_polynomial' : [
@@ -1788,8 +1801,9 @@ It is most useful in lambdas.
     'is_even' : [
 'arithmetic', 'returns whether n is an even number',
 '''
-This operator returns 1 if the argument is an even integer, otherwise it returns 0.
-It is most useful in lambdas.
+This operator returns 1 if the argument is an even integer (i.e., an
+integer n such that n % 2 == 0), otherwise it returns 0.  It expects a real
+argument.
 ''',
 '''
 ''' + makeCommandExample( '2 is_even' ) + '''
@@ -1881,14 +1895,20 @@ now.
     'is_not_zero' : [
 'arithmetic', 'returns whether n is not zero',
 '''
+This is simply a check for a non-zero value.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 is_not_zero' ) + '''
+''' + makeCommandExample( '0 is_not_zero' ),
 [ 'is_zero', 'is_odd', 'is_even', 'is_not_equal' ] ],
 
     'is_odd' : [
 'arithmetic', 'returns whether n is an odd number',
 '''
+This operator returns 1 if the argument is an odd integer (i.e., an
+integer n such that n % 2 == 1), otherwise it returns 0.  It expects a real
+argument.
+n % 2 == 1).
 ''',
 '''
 ''' + makeCommandExample( '2 is_odd' ) + '''
@@ -1899,6 +1919,8 @@ now.
     'is_power_of_k' : [
 'arithmetic', 'returns whether n is a perfect power of k',
 '''
+Returns 1 if n is an integral power of k, otherwise it returns 0.  It accepts
+complex arguments.
 ''',
 '''
 ''' + makeCommandExample( '16 4 is_power_of_k' ) + '''
@@ -1908,7 +1930,8 @@ now.
     'is_square' : [
 'arithmetic', 'returns whether n is a perfect square',
 '''
-This operator is also the equivalent of 'n 2 is_kth_power'.
+This operator is also the equivalent of 'n 2 is_kth_power'.  It accepts complex
+arguments.
 ''',
 '''
 ''' + makeCommandExample( '16 is_square' ) + '''
@@ -7181,6 +7204,17 @@ then the second operand list.
 '''
 ''',
 [ 'flatten', 'group_elements', 'interleave' ] ],
+
+    'compare_lists' : [
+'list_operators', 'compares lists n and k',
+'''
+'is_equal' is not a list operator, so it will only compare elements of two
+lists up to the length of the shorter of the two lists.
+''',
+'''
+''' + makeCommandExample( '[ 1 2 3 4 ] 1 4 range compare_lists' ) + '''
+''' + makeCommandExample( '1 3 range 1 4 range compare_lists' ),
+[ 'append' ] ],
 
     'count' : [
 'list_operators', 'counts the elements of list n',
