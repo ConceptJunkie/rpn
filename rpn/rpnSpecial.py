@@ -19,9 +19,9 @@ import os
 import signal
 import sys
 
-from mpmath import arange, ceil, e, euler, fabs, fadd, fib, findpoly, floor, \
+from mpmath import arange, cbrt, ceil, e, euler, fabs, fadd, fib, findpoly, floor, \
                    fmul, identify, im, log, log10, mpf, mpmathify, nint, nstr, \
-                   pi, rand, sqrt
+                   pi, rand, root, sqrt
 
 from random import randrange
 from functools import reduce
@@ -32,12 +32,14 @@ from rpn.rpnLexicographic import sumDigits, multiplyDigits, multiplyNonzeroDigit
                                  isBaseKPandigital, isPandigital
 from rpn.rpnMath import isEven, isInteger, isKthPower, isOdd
 from rpn.rpnName import getNumberName, getShortOrdinalName
-from rpn.rpnNumberTheory import getDivisorCount
+from rpn.rpnNumberTheory import getDivisorCount, getNthBaseKRepunit, \
+                                getNthJacobsthalNumber, getNthLucasNumber
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
 from rpn.rpnPrimeUtils import isPrimeNumber
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
+from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
+                         real_int
 
 import rpn.rpnGlobals as g
 
@@ -312,8 +314,12 @@ def getRandomInteger( n ):
 def findInput( value, func, estimator ):
     guess1 = floor( estimator( value ) )
 
+    if guess1 < 1:
+        guess1 = 1
+
     # closing in
     result = func( guess1 )
+    debugPrint( 'findInput func call', guess1 )
 
     if result == value:
         return True, guess1
@@ -327,6 +333,7 @@ def findInput( value, func, estimator ):
     guess2 = guess1 + delta
 
     result = func( guess2 )
+    debugPrint( 'findInput func call', guess2 )
 
     if result == value:
         return True, guess2
@@ -341,21 +348,23 @@ def findInput( value, func, estimator ):
         guess2 += delta
 
         result = func( guess2 )
+        debugPrint( 'findInput func call', guess2 )
 
         if result == value:
             return True, guess2
 
-    debugPrint( 'guesses:', guess1, guess2 )
-
-    if guess1 < guess2:
+    if guess1 > guess2:
         guess1, guess2 = int( guess2 ), int( guess1 )
     else:
         guess1, guess2 = int( guess1 ), int( guess2 )
+
+    debugPrint( 'guesses:', guess1, guess2 )
 
     while guess1 + 1 != guess2:
         newGuess = guess1 + ( guess2 - guess1 ) // 2
 
         result = func( newGuess )
+        debugPrint( 'findInput func call', newGuess )
 
         if result == value:
             return True, newGuess
@@ -363,6 +372,8 @@ def findInput( value, func, estimator ):
             guess2 = newGuess
         else:
             guess1 = newGuess
+
+    debugPrint( 'didn\'t find anything' )
 
     return False, 0
 
@@ -403,63 +414,94 @@ def describeInteger( n ):
         isPrime = False
 
     if isKthPower( n, 2 ):
-        print( indent + 'square' )
+        print( indent + 'the ' + getShortOrdinalName( sqrt( n ) ) + ' square number' )
 
     if isKthPower( n, 3 ):
-        print( indent + 'a cube' )
+        print( indent + 'the ' + getShortOrdinalName( cbrt( n ) ) + ' cube number' )
 
     for i in arange( 4, fadd( ceil( log( fabs( n ), 2 ) ), 1 ) ):
         if isKthPower( n, i ):
-            print( indent + 'a ' + getNumberName( i, True ) + ' power' )
+            print( indent + 'the ' + getShortOrdinalName( root( n, i ) ) + ' ' + \
+                   getNumberName( i, True ) + ' power'  )
 
-    if getNthPolygonalNumber( findPolygonalNumber( n, 3 ), 3 ) == n:
-        print( indent + 'triangular' )
+    guess = findPolygonalNumber( n, 3 )
 
-    if getNthPolygonalNumber( findPolygonalNumber( n, 5 ), 5 ) == n:
-        print( indent + 'pentagonal' )
+    if getNthPolygonalNumber( guess, 3 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' triangular number' )
 
-    if getNthPolygonalNumber( findPolygonalNumber( n, 6 ), 6 ) == n:
-        print( indent + 'hexagonal' )
+    guess = findPolygonalNumber( n, 5 )
 
-    if getNthPolygonalNumber( findPolygonalNumber( n, 7 ), 7 ) == n:
-        print( indent + 'heptagonal' )
+    if getNthPolygonalNumber( guess, 5 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' pentagonal number' )
 
-    if getNthPolygonalNumber( findPolygonalNumber( n, 8 ), 8 ) == n:
-        print( indent + 'octagonal' )
+    guess = findPolygonalNumber( n, 6 )
 
-    if getNthPolygonalNumber( findPolygonalNumber( n, 9 ), 9 ) == n:
-        print( indent + 'nonagonal' )
+    if getNthPolygonalNumber( guess, 6 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' hexagonal number' )
 
-    if getNthPolygonalNumber( findPolygonalNumber( n, 10 ), 10 ) == n:
-        print( indent + 'decagonal' )
+    guess = findPolygonalNumber( n, 7 )
+
+    if getNthPolygonalNumber( guess, 7 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' heptagonal number' )
+
+    guess = findPolygonalNumber( n, 8 )
+
+    if getNthPolygonalNumber( guess, 8 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' octagonal number' )
+
+    guess = findPolygonalNumber( n, 9 )
+
+    if getNthPolygonalNumber( guess, 9 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' nonagonal number' )
+
+    guess = findPolygonalNumber( n, 10 )
+
+    if getNthPolygonalNumber( guess, 10 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' decagonal number' )
 
     #for i in range( 11, 101 ):
     #    if getNthPolygonalNumber( findPolygonalNumber( n, i ), i ) == n:
     #        print( indent + str( i ) + '-gonal' )
 
-    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 3 ), 3 ) == n:
-        print( indent + 'centered triangular' )
+    guess = findCenteredPolygonalNumber( n, 3 )
 
-    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 4 ), 4 ) == n:
-        print( indent + 'centered square' )
+    if getNthCenteredPolygonalNumber( guess, 3 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' centered triangular' )
 
-    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 5 ), 5 ) == n:
-        print( indent + 'centered pentagonal' )
+    guess = findCenteredPolygonalNumber( n, 4 )
 
-    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 6 ), 6 ) == n:
-        print( indent + 'centered hexagonal' )
+    if getNthCenteredPolygonalNumber( guess, 4 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' centered square number' )
 
-    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 7 ), 7 ) == n:
-        print( indent + 'centered heptagonal' )
+    guess = findCenteredPolygonalNumber( n, 5 )
 
-    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 8 ), 8 ) == n:
-        print( indent + 'centered octagonal' )
+    if getNthCenteredPolygonalNumber( guess, 5 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' centered pentagonal number' )
 
-    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 9 ), 9 ) == n:
-        print( indent + 'centered nonagonal' )
+    guess = findCenteredPolygonalNumber( n, 6 )
 
-    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 10 ), 10 ) == n:
-        print( indent + 'centered decagonal' )
+    if getNthCenteredPolygonalNumber( guess, 6 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' centered hexagonal number' )
+
+    guess = findCenteredPolygonalNumber( n, 7 )
+
+    if getNthCenteredPolygonalNumber( guess, 7 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' centered heptagonal number' )
+
+    guess = findCenteredPolygonalNumber( n, 8 )
+
+    if getNthCenteredPolygonalNumber( guess, 8 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' centered octagonal number' )
+
+    guess = findCenteredPolygonalNumber( n, 9 )
+
+    if getNthCenteredPolygonalNumber( guess, 9 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' centered nonagonal number' )
+
+    guess - findCenteredPolygonalNumber( n, 10 )
+
+    if getNthCenteredPolygonalNumber( guess, 10 ) == n:
+        print( indent + 'the ' + getShortOrdinalName( guess ) + ' centered decagonal number' )
 
     if isPandigital( n ):
         print( indent + 'pandigital' )
@@ -468,10 +510,30 @@ def describeInteger( n ):
     #    if isBaseKPandigital( n, i ):
     #        print( indent + 'base ' + str( i ) + ' pandigital' )
 
+    # Fibonacci numbers
     result = findInput( n, fib, lambda n: fmul( log10( n ), 5 ) )
 
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Fibonacci number' )
+
+    # Lucas numbers
+    result = findInput( n, getNthLucasNumber, lambda n: fmul( log10( n ), 5 ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Lucas number' )
+
+    # Jacobsthal numbers
+    result = findInput( n, getNthJacobsthalNumber, lambda n: fmul( log( n ), 1.6 ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Jacobsthal number' )
+
+    if n > 1:
+        for i in range( 2, 21 ):
+            result = findInput( n, lambda x: getNthBaseKRepunit( x, i ), lambda n: log( n, i ) )
+
+            if result[ 0 ]:
+                print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' base ' + str( i ) + ' repunit' )
 
     print( )
     print( int( n ), 'has:' )
