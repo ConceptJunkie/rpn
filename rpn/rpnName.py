@@ -191,6 +191,32 @@ def getNumberGroupName( n ):
 
 # //******************************************************************************
 # //
+# //  getShortOrdinalName
+# //
+# //******************************************************************************
+
+def getShortOrdinalName( n ):
+    if n == 11:
+        return '11th'
+    elif n == 12:
+        return '12th'
+    elif n == 13:
+        return '13th'
+
+    modulo = int( fmod( n, 10 ) )
+
+    if modulo in [ 0, 4, 5, 6, 7, 8, 9 ]:
+        return str( int( n ) ) + 'th'
+    elif modulo == 1:
+        return str( int( n ) ) + 'st'
+    elif modulo == 2:
+        return str( int( n ) ) + 'nd'
+    else:
+        return str( int( n ) ) + 'rd'
+
+
+# //******************************************************************************
+# //
 # //  getOrdinalName
 # //
 # //******************************************************************************
