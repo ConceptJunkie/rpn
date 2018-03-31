@@ -15,13 +15,17 @@
 import itertools
 import string
 
+from functools import reduce
 from mpmath import arange, fadd, ceil, fdiv, floor, fmod, fmul, fneg, fprod, \
                    fsub, fsum, log10, mpf, mpmathify, nint, power
 
 from rpn.rpnBase import convertToBaseN
+from rpn.rpnFactor import getFactors
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMath import isDivisible
 from rpn.rpnNumberTheory import getPowMod
+from rpn.rpnPersistence import cachedFunction
+from rpn.rpnPrimeUtils import isPrime
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
                          real, real_int, getMPFIntegerAsString
 
@@ -1282,6 +1286,77 @@ def buildStepNumbersGenerator( maxLength ):
 @oneArgFunctionEvaluator( )
 def buildStepNumbers( n ):
     return RPNGenerator.createGenerator( buildStepNumbersGenerator, [ n ] )
+
+
+# //******************************************************************************
+# //
+# //  isSmithNumber
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@cachedFunction( 'smith' )
+def isSmithNumber( n ):
+    if isPrime( real_int( n ) ) or n < 2:
+        return 0
+
+    sum1 = sumDigits( n )
+    sum2 = fsum( [ sumDigits( i ) for i in getFactors( n ) ] )
+
+    return 1 if sum1 == sum2 else 0
+
+
+# //******************************************************************************
+# //
+# //  isBaseKSmithNumber
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@cachedFunction( 'base_k_smith' )
+def isBaseKSmithNumber( n, k ):
+    if real_int( k ) < 2:
+        raise ValueError( "'is_base_k_smith_number' base argument must be 2 or greater" )
+
+    if k > 4 and n == 4:
+        return 1
+
+    if k > 4 and n < k:
+        return 0
+
+    if isPrime( real_int( n ) ) or n < 2:
+        return 0
+
+    sum1 = fsum( getBaseKDigits( n, k ) )
+    sum2 = fsum( [ fsum( getBaseKDigits( i, k ) ) for i in getFactors( n ) ] )
+
+    return 1 if sum1 == sum2 else 0
+
+
+# //******************************************************************************
+# //
+# //  isOrderKSmithNumber
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+@cachedFunction( 'order_k_smith' )
+def isOrderKSmithNumber( n, k ):
+    if isPrime( real_int( n ) ) or n < 2:
+        return 0
+
+    digitList1 = getNonzeroDigits( n )
+    digitList2 = [ item for sublist in [ getNonzeroDigits( m ) for m in getFactors( n ) ] for item in sublist ]
+
+    if sorted( digitList1 ) == sorted( digitList2 ):
+        return 0
+
+    sum1 = fsum( [ power( i, k ) for i in getDigits( n ) ] )
+    sum2 = fsum( [ power( j, k ) for j in [ item for sublist in [ getDigits( m ) for m in getFactors( n ) ] for item in sublist ] ] )
+
+    return 1 if sum1 == sum2 else 0
+
+
 
 
 #  Look and Say from:

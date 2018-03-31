@@ -3540,7 +3540,6 @@ operators = {
     'repeat'                        : RPNOperator( repeat,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.Function ] ),
 
-
     # geography
     'distance'                       : RPNOperator( getDistance,
                                                     2, [ RPNOperator.Location, RPNOperator.Location ] ),
@@ -3712,6 +3711,9 @@ operators = {
     'is_base_k_pandigital'           : RPNOperator( isBaseKPandigital,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
+    'is_base_k_smith_number'         : RPNOperator( isBaseKSmithNumber,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+
     'is_bouncy'                      : RPNOperator( isBouncy,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
@@ -3742,6 +3744,9 @@ operators = {
     'is_narcissistic'                : RPNOperator( isNarcissistic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
+    'is_order_k_smith_number'        : RPNOperator( isOrderKSmithNumber,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.NonnegativeInteger ] ),
+
     'is_palindrome'                  : RPNOperator( isPalindrome,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
@@ -3754,11 +3759,14 @@ operators = {
     'is_pdi'                         : RPNOperator( isPerfectDigitalInvariant,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'is_sum_product'                 : RPNOperator( isSumProductNumber,
-                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
+    'is_smith_number'                : RPNOperator( isSmithNumber,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_step_number'                 : RPNOperator( isStepNumber,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
+
+    'is_sum_product'                 : RPNOperator( isSumProductNumber,
+                                                    2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
     'is_trimorphic'                  : RPNOperator( isTrimorphic,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
@@ -3965,6 +3973,9 @@ operators = {
     'generate_polydivisibles'        : RPNOperator( generatePolydivisibles,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'get_base_k_digits'              : RPNOperator( getBaseKDigits,
+                                           2, [ RPNOperator.Integer, RPNOperator.PositiveInteger ] ),
+
     'harmonic'                       : RPNOperator( getHarmonic,
                                                     1, [ RPNOperator.Default ] ),
 
@@ -4023,6 +4034,9 @@ operators = {
 
     'is_rough'                       : RPNOperator( isRoughOperator,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PrimeInteger ] ),
+
+    'is_ruth_aaron'                  : RPNOperator( isRuthAaronNumber,
+                                                    1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_semiprime'                   : RPNOperator( isSemiPrime,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
@@ -4435,6 +4449,9 @@ operators = {
     'constant'                       : RPNOperator( createConstant,
                                                     2, [ RPNOperator.Default, RPNOperator.String ],
                                                     RPNOperator.measurementsAllowed ),
+
+    'describe'                       : RPNOperator( describeInteger,
+                                                    1, [ RPNOperator.Integer ] ),
 
     'enumerate_dice'                 : RPNOperator( enumerateDiceGenerator,
                                                     1, [ RPNOperator.String ] ),

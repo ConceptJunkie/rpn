@@ -63,10 +63,9 @@ def formatNumber( number, outputRadix, leadingZero, integerGrouping ):
         strInteger = convertToSpecialBase( floor( number ), specialBaseFunctions[ outputRadix ] )
         strMantissa = ''
     elif ( outputRadix != 10 ) or ( g.numerals != g.defaultNumerals ):
-        strInteger = str( convertToBaseN( floor( number ), outputRadix, g.outputBaseDigits, g.numerals ) )
+        strInteger = str( convertToBaseN( floor( number ), outputRadix, False, g.numerals ) )
         strMantissa = str( convertFractionToBaseN( frac( number ), outputRadix,
-                                                   int( mp.dps / math.log10( outputRadix ) ),
-                                                   g.outputBaseDigits ) )
+                                                   int( mp.dps / math.log10( outputRadix ) ), False ) )
         if strMantissa == '[]':
             strMantissa = ''
     else:

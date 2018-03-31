@@ -3421,6 +3421,11 @@ def runNumberTheoryOperatorTests( ):
     if slow:
         expectEqual( '1 43747 range lambda x 11 is_rough filter', '8364 oeis 10000 left 9999 right' )
 
+    # is_ruth_aaron
+    testOperator( '1 20 range is_ruth_aaron' )
+
+    expectEqual( '1 1000 range lambda x is_ruth_aaron filter', '39752 oeis lambda x 1000 is_not_greater filter' )
+
     # is_semiprime
     testOperator( '12 is_semiprime' )
 

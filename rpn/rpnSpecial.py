@@ -19,14 +19,21 @@ import os
 import signal
 import sys
 
-from mpmath import arange, e, euler, fadd, findpoly, floor, identify, im, log10, \
-                   mpmathify, nint, nstr, pi, rand, sqrt
+from mpmath import arange, ceil, e, euler, fabs, fadd, findpoly, floor, identify, \
+                   im, log, log10, mpmathify, nint, nstr, pi, rand, sqrt
 
 from random import randrange
 from functools import reduce
 
+from rpn.rpnFactor import getFactors
 from rpn.rpnGenerator import RPNGenerator
+from rpn.rpnMath import isEven, isInteger, isKthPower, isOdd
+from rpn.rpnName import getNumberName
+from rpn.rpnNumberTheory import getDivisorCount
 from rpn.rpnPersistence import cachedFunction
+from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
+                            getNthCenteredPolygonalNumber, getNthPolygonalNumber
+from rpn.rpnPrimeUtils import isPrimeNumber
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 
 import rpn.rpnGlobals as g
@@ -291,5 +298,117 @@ def getRandomNumber( ):
 @oneArgFunctionEvaluator( )
 def getRandomInteger( n ):
     return randrange( n )
+
+
+# //******************************************************************************
+# //
+# //  describeInteger
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def describeInteger( n ):
+    indent = ' ' * 4
+
+    print( )
+    print( real_int( n ), 'is:' )
+
+    if n > 0:
+        print( indent + 'positive' )
+    elif n < 0:
+        print( indent + 'negative' )
+
+    if isOdd( n ):
+        print( indent + 'odd' )
+    elif isEven( n ):
+        print( indent + 'even' )
+
+    if isPrimeNumber( n ):
+        isPrime = True
+        print( indent + 'prime' )
+    elif n > 3:
+        isPrime = False
+        print( indent + 'composite' )
+
+    if isKthPower( n, 2 ):
+        print( indent + 'square' )
+
+    if isKthPower( n, 3 ):
+        print( indent + 'a cube' )
+
+    for i in arange( 4, fadd( ceil( log( fabs( n ), 2 ) ), 1 ) ):
+        if isKthPower( n, i ):
+            print( indent + 'a ' + getNumberName( i, True ) + ' power' )
+
+    if getNthPolygonalNumber( findPolygonalNumber( n, 3 ), 3 ) == n:
+        print( indent + 'triangular' )
+
+    if getNthPolygonalNumber( findPolygonalNumber( n, 5 ), 5 ) == n:
+        print( indent + 'pentagonal' )
+
+    if getNthPolygonalNumber( findPolygonalNumber( n, 6 ), 6 ) == n:
+        print( indent + 'hexagonal' )
+
+    if getNthPolygonalNumber( findPolygonalNumber( n, 7 ), 7 ) == n:
+        print( indent + 'heptagonal' )
+
+    if getNthPolygonalNumber( findPolygonalNumber( n, 8 ), 8 ) == n:
+        print( indent + 'octagonal' )
+
+    if getNthPolygonalNumber( findPolygonalNumber( n, 9 ), 9 ) == n:
+        print( indent + 'nonagonal' )
+
+    if getNthPolygonalNumber( findPolygonalNumber( n, 10 ), 10 ) == n:
+        print( indent + 'decagonal' )
+
+    #for i in range( 11, 101 ):
+    #    if getNthPolygonalNumber( findPolygonalNumber( n, i ), i ) == n:
+    #        print( indent + str( i ) + '-gonal' )
+
+    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 3 ), 3 ) == n:
+        print( indent + 'centered triangular' )
+
+    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 4 ), 4 ) == n:
+        print( indent + 'centered square' )
+
+    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 5 ), 5 ) == n:
+        print( indent + 'centered pentagonal' )
+
+    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 6 ), 6 ) == n:
+        print( indent + 'centered hexagonal' )
+
+    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 7 ), 7 ) == n:
+        print( indent + 'centered heptagonal' )
+
+    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 8 ), 8 ) == n:
+        print( indent + 'centered octagonal' )
+
+    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 9 ), 9 ) == n:
+        print( indent + 'centered nonagonal' )
+
+    if getNthCenteredPolygonalNumber( findCenteredPolygonalNumber( n, 10 ), 10 ) == n:
+        print( indent + 'centered decagonal' )
+
+    print( )
+    print( int( n ), 'has:' )
+
+    digits = log10( fabs( n ) )
+
+    if isInteger( digits ):
+        digits += 1
+    else:
+        digits = ceil( digits )
+
+    print( indent + str( int( digits ) ) + ' digits' )
+
+    if not isPrime:
+        factors = getFactors( n )
+        print( indent + str( len( factors ) ) + ' prime factors: ', ', '.join( [ str( int( i ) ) for i in factors ] ) )
+
+        print( indent + str( int( getDivisorCount( n ) ) ) + ' divisors' )
+
+    print( )
+
+    return n
 
 

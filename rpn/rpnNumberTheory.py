@@ -31,8 +31,8 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMath import isDivisible, isEven, isInteger
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPrimeUtils import isPrime, getPreviousPrime
-from rpn.rpnUtils import getMPFIntegerAsString, oneArgFunctionEvaluator, \
-                         twoArgFunctionEvaluator, real, real_int
+from rpn.rpnUtils import getMPFIntegerAsString, listAndOneArgFunctionEvaluator, \
+                         oneArgFunctionEvaluator, twoArgFunctionEvaluator, real, real_int
 
 import rpn.rpnGlobals as g
 
@@ -477,7 +477,7 @@ def interpretAsBase( args, base ):
     return value
 
 
-@twoArgFunctionEvaluator( )
+@listAndOneArgFunctionEvaluator( )
 def interpretAsBaseOperator( args, base ):
     return interpretAsBase( args, base )
 
@@ -1213,7 +1213,20 @@ def getMobius( n ):
 # //
 # //  getNthMerten
 # //
+# //  This recursive version is much, much faster when the cache is being used.
+# //
 # //******************************************************************************
+
+#@oneArgFunctionEvaluator( )
+#@cachedFunction( 'merten' )
+#def getNthMertenNew( n, acc=1 ):
+#    while True:
+#        if real( n ) == 1:
+#            return 1
+#
+#        return fadd( getNthMertenNew( n - 1 ), getMobius( n ) )
+#        break
+
 
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'merten' )
@@ -2100,6 +2113,21 @@ def isCarmichaelNumberOperator( n ):
         return 0
 
     return isCarmichaelNumber( n )
+
+
+
+# //******************************************************************************
+# //
+# //  isRuthAaronNumber
+# //
+# //  http://mathworld.wolfram.com/Ruth-AaronPair.html
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+@cachedFunction( 'ruth_aaron' )
+def isRuthAaronNumber( n ):
+    return 1 if fsum( getFactors( real_int( n ) ) ) == fsum( getFactors( fadd( n, 1 ) ) ) else 0
 
 
 ############################################################################

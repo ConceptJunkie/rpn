@@ -182,11 +182,6 @@ command-line options:
         number being converted exceeds the accuracy setting, it will appear to
         be converted accurately.
 
-    -Rn, --output_radix_numerals n
-        output a list of digits, where each digit is a base-10 number
-
-        The same accuracy warning given for -r applies here as well.
-
     -sn, --list_format_level n
         output lists with one item per line, up to n levels deep of nested lists
 
@@ -278,7 +273,7 @@ operator (for use with higher bases with -b).
 [ TODO: describe output formats supported by rpn ]
 
 For now, go to 'rpn help options' and see -a, -c, -d, -g, -l, -m, -o, -r,
--R, -s, -t, -v, -w, -x, and -z,
+-s, -t, -v, -w, -x, and -z,
     ''',
     'time_features' :
     '''
@@ -508,8 +503,6 @@ and lots of other cool features thanks to the wealth of Python libraries.
     ''',
     'bugs' :
     '''
-'base' doesn't seem to do anything useful.
-
 Using 'for_each' on a nested list should give a nice error message.
 
 Using 'for_each_list' on a non-nested list crashes.
@@ -1093,7 +1086,7 @@ Convert an IP address to a 32-bit value and back:
     We'll use '-x' to convert the result to hexadecimal:
 ''' + makeCommandExample( '-x [ 192 168 0 1 ] 256 base', indent=8 ) + '''
     We can convert it back by use base 256:
-''' + makeCommandExample( '-R256 0xc0a80001', indent=8 ) + '''
+''' + makeCommandExample( '0xc0a80001 256 get_base_k_digits', indent=8 ) + '''
 Construct the square root of two from a continued fraction:
 
     First, here's the square root of two to 20 places:
@@ -6734,6 +6727,15 @@ on the digits that comprise an integer.
 ''',
 [ ] ],
 
+    'is_base_k_smith_number' : [
+'lexicography', 'returns whether n is a Smith Number in base k',
+'''
+https://en.wikipedia.org/wiki/Smith_number
+''',
+'''
+''',
+[ 'is_smith_number', 'is_order_k_smith_number' ] ],
+
     'is_bouncy' : [
 'lexicography', 'returns whether an integer n is bouncy',
 '''
@@ -6814,6 +6816,15 @@ on the digits that comprise an integer.
 ''',
 [ ] ],
 
+    'is_order_k_smith_number' : [
+'lexicography', 'returns whether n is am order-k Smith Number',
+'''
+https://en.wikipedia.org/wiki/Smith_number
+''',
+'''
+''',
+[ 'is_smith_number', 'is_base_k_smith_number' ] ],
+
     'is_palindrome' : [
 'lexicography', 'returns whether an integer n is palindromic',
 '''
@@ -6874,6 +6885,15 @@ in digits.
 '''
 ''',
 [ ] ],
+
+    'is_smith_number' : [
+'lexicography', 'returns whether n is a Smith Number',
+'''
+https://en.wikipedia.org/wiki/Smith_number
+''',
+'''
+''',
+[ 'is_base_k_smith_number', 'is_order_k_smith_number' ] ],
 
     'is_trimorphic' : [
 'lexicography', 'returns whether the digits of n cubed end with n',
@@ -7963,7 +7983,7 @@ The Barnes G-function is the generalization of the superfactorial.
 ''',
 '''
 ''',
-[ ] ],
+[ 'get_base_k_digits' ] ],
 
     'beta' : [
 'number_theory', 'evaluates the Beta function for n and k',
@@ -8216,6 +8236,14 @@ The name is a portmanteau of 'fibonacci' and 'factorial'.
 ''',
 [ ] ],
 
+    'get_base_k_digits' : [
+'number_theory', 'interprets n as a list digits in base k',
+'''
+''',
+'''
+''',
+[ 'base' ] ],
+
     'harmonic' : [
 'number_theory', 'returns the sum of the first n terms of the harmonic series',
 '''
@@ -8398,6 +8426,15 @@ beyond a certain size.
     'is_rough' : [
 'number_theory', 'returns whether n is a k-rough number',
 '''
+''',
+'''
+''',
+[ ] ],
+
+    'is_ruth_aaron' : [
+'number_theory', 'returns whether n is a Ruth-Aaron number',
+'''
+# //  http://mathworld.wolfram.com/Ruth-AaronPair.html
 ''',
 '''
 ''',
@@ -10676,6 +10713,17 @@ rpn (3)>5 12 **
 'special', 'creates a user-defined constant',
 '''
 This operator is not implemented yet!
+''',
+'''
+''',
+[ ] ],
+
+    'describe' : [
+'special', 'outputs a list of properties of integer n',
+'''
+This is a special operator whose output is simply printed to the console.  The
+actual return value of the operator is the integer argument, so from RPN's
+point of view, it doesn't actually do anything.
 ''',
 '''
 ''',

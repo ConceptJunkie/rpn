@@ -82,7 +82,6 @@ listFormatLevel = 0
 maximumFixed = defaultMaximumFixed
 numerals = ''
 outputAccuracy = -1
-outputBaseDigits = False
 outputRadix = defaultOutputRadix
 tempCommaMode = False
 tempHexMode = False

@@ -422,7 +422,6 @@ def rpn( cmd_args ):
     parser.add_argument( '-p', '--precision', type = int, action = 'store', default = g.defaultPrecision )
     parser.add_argument( '-r', '--output_radix', type = str, action = 'store',
                          default = g.defaultOutputRadix )
-    parser.add_argument( '-R', '--output_radix_numerals', type = int, action = 'store', default = 0 )
     parser.add_argument( '-s', '--list_format_level', nargs = '?', type = int, action = 'store', default = 0,
                          const = g.defaultListFormatLevel )
     parser.add_argument( '-t', '--timer', action = 'store_true' )
@@ -563,19 +562,8 @@ def rpn( cmd_args ):
             print( 'rpn:  can\'t interpret output radix \'%s\' as a number' % args.output_radix )
             return [ nan ]
 
-    # handle -R
-    if args.output_radix_numerals > 0:
-        g.outputBaseDigits = True
-        g.outputRadix = args.output_radix_numerals
-    else:
-        g.outputBaseDigits = False
-
-    # -r/-R validation
-    if g.outputBaseDigits:
-        if ( g.outputRadix < 2 ):
-            print( 'rpn:  output radix must be greater than 1' )
-            return [ nan ]
-    elif ( ( g.outputRadix < g.maxSpecialBase ) or ( g.outputRadix == 0 ) or
+    # -r validation
+    if ( ( g.outputRadix < g.maxSpecialBase ) or ( g.outputRadix == 0 ) or
            ( g.outputRadix == 1 ) or ( g.outputRadix > 62 ) ):
         print( 'rpn:  output radix must be from 2 to 62, fib, phi, fac, doublefac, square, lucas' )
         return [ nan ]
@@ -618,7 +606,6 @@ def rpn( cmd_args ):
         print( '--octal:  ' + ( 'true' if args.octal else 'false' ) )
         print( '--precision:  %d' % args.precision )
         print( '--output_radix:  %d' % g.outputRadix )
-        print( '--output_radix_numerals:  %d' % args.output_radix_numerals )
         print( '--list_format_level:  %d' % g.listFormatLevel )
         print( '--timer:  ' + ( 'true' if args.timer else 'false' ) )
         print( '--verbose:  ' + ( 'true' if g.verbose else 'false' ) )

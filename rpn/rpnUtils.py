@@ -126,25 +126,8 @@ def validateOptions( args ):
         if args.output_radix != 10 and args.output_radix != 8:
             return False, '-r and -o can\'t be used together'
 
-    if args.output_radix_numerals > 0:
-        if args.hex:
-            return False, '-R and -x can\'t be used together'
-
-        if args.octal:
-            return False, '-R and -o can\'t be used together'
-
-        if args.output_radix != 10:
-            return False, '-R and -r can\'t be used together'
-
-        if args.output_radix_numerals < 2:
-            return False, 'output radix must be greater than 1'
-
     if args.comma and args.integer_grouping > 0 :
         return False, 'rpn:  -c can\'t be used with -i'
-
-    if args.output_radix_numerals > 0 and \
-       ( args.comma or args.decimal_grouping > 0 or args.integer_grouping > 0 ):
-        return False, '-c, -d and -i can\'t be used with -R'
 
     return True, ''
 
