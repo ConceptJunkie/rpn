@@ -19,9 +19,9 @@ import os
 import signal
 import sys
 
-from mpmath import arange, cbrt, ceil, e, euler, fabs, fadd, fib, findpoly, floor, \
-                   fmul, identify, im, log, log10, mpf, mpmathify, nint, nstr, \
-                   pi, rand, root, sqrt
+from mpmath import arange, cbrt, ceil, e, euler, fabs, fadd, fdiv, fib, findpoly, \
+                   floor, fmul, identify, im, log, log10, mpf, mpmathify, nint, \
+                   nstr, pi, power, rand, root, sqrt
 
 from random import randrange
 from functools import reduce
@@ -32,12 +32,17 @@ from rpn.rpnLexicographic import sumDigits, multiplyDigits, multiplyNonzeroDigit
                                  isBaseKPandigital, isPandigital
 from rpn.rpnMath import isEven, isInteger, isKthPower, isOdd
 from rpn.rpnName import getNumberName, getShortOrdinalName
-from rpn.rpnNumberTheory import getDivisorCount, getNthBaseKRepunit, \
-                                getNthJacobsthalNumber, getNthLucasNumber
+from rpn.rpnNumberTheory import getDivisorCount, getEulerPhi, getMobius, getNthBaseKRepunit, \
+                                getNthCarolNumber, getNthFibonorial, getNthJacobsthalNumber, \
+                                getNthKFibonacciNumber, getNthLucasNumber, getNthPadovanNumber, \
+                                getRadical, getSigma, isAbundant, isAchillesNumber, isDeficient, \
+                                isFriendly, isKHyperperfect, isPerfect, isPolydivisible, \
+                                isPowerful, isPronic, isRough, isSemiPrime, isSmooth, isSphenic, \
+                                isSquareFree, isUnusual
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
-from rpn.rpnPrimeUtils import isPrimeNumber
+from rpn.rpnPrimeUtils import getPrimes, isPrimeNumber
 from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
                          real_int
 
@@ -459,9 +464,10 @@ def describeInteger( n ):
     if getNthPolygonalNumber( guess, 10 ) == n:
         print( indent + 'the ' + getShortOrdinalName( guess ) + ' decagonal number' )
 
-    #for i in range( 11, 101 ):
-    #    if getNthPolygonalNumber( findPolygonalNumber( n, i ), i ) == n:
-    #        print( indent + str( i ) + '-gonal' )
+    #if n > 1:
+    #    for i in range( 11, 101 ):
+    #        if getNthPolygonalNumber( findPolygonalNumber( n, i ), i ) == n:
+    #            print( indent + str( i ) + '-gonal' )
 
     guess = findCenteredPolygonalNumber( n, 3 )
 
@@ -516,18 +522,43 @@ def describeInteger( n ):
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Fibonacci number' )
 
+    result = findInput( n, lambda n : getNthKFibonacciNumber( n, 3 ), lambda n: fmul( log10( n ), 5 ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Tribonacci number' )
+
+    result = findInput( n, lambda n : getNthKFibonacciNumber( n, 4 ), lambda n: fmul( log10( n ), 5 ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Tetranacci number' )
+
+    result = findInput( n, lambda n : getNthKFibonacciNumber( n, 5 ), lambda n: fmul( log10( n ), 5 ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Pentanacci number' )
+
+    result = findInput( n, lambda n : getNthKFibonacciNumber( n, 6 ), lambda n: fmul( log10( n ), 5 ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Hexanacci number' )
+
+    result = findInput( n, lambda n : getNthKFibonacciNumber( n, 7 ), lambda n: fmul( log10( n ), 5 ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Heptanacci number' )
+
+    result = findInput( n, lambda n : getNthKFibonacciNumber( n, 8 ), lambda n: fmul( log10( n ), 5 ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Octanacci number' )
+
     # Lucas numbers
     result = findInput( n, getNthLucasNumber, lambda n: fmul( log10( n ), 5 ) )
 
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Lucas number' )
 
-    # Jacobsthal numbers
-    result = findInput( n, getNthJacobsthalNumber, lambda n: fmul( log( n ), 1.6 ) )
-
-    if result[ 0 ]:
-        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Jacobsthal number' )
-
+    # base-k repunits
     if n > 1:
         for i in range( 2, 21 ):
             result = findInput( n, lambda x: getNthBaseKRepunit( x, i ), lambda n: log( n, i ) )
@@ -535,9 +566,98 @@ def describeInteger( n ):
             if result[ 0 ]:
                 print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' base ' + str( i ) + ' repunit' )
 
+    # Jacobsthal numbers
+    result = findInput( n, getNthJacobsthalNumber, lambda n: fmul( log( n ), 1.6 ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Jacobsthal number' )
+
+    # Padovan numbers
+    result = findInput( n, getNthPadovanNumber, lambda n: fmul( log10( n ), 9 ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Padovan number' )
+
+    # Fibonorial numbers
+    result = findInput( n, getNthFibonorial, lambda n: sqrt( fmul( log( n ), 10 ) ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Fibonorial number' )
+
+    if not isPrime and n != 1 and n < power( 10, 60 ):
+        # deficient
+        if isDeficient( n ):
+            print( indent + 'deficient' )
+
+        # abundant
+        if isAbundant( n ):
+            print( indent + 'abundant' )
+
+        # perfect
+        if isPerfect( n ):
+            print( indent + 'perfect' )
+
+        # smooth
+        for i in getPrimes( 2, 50 ):
+            if isSmooth( n, i ):
+                print( indent + str( i ) + '-smooth' )
+                break
+
+        previousPrime = 2
+
+        # rough
+        for i in getPrimes( 2, 50 ):
+            if not isRough( n, i ):
+                print( indent + str( previousPrime ) + '-rough' )
+                break
+
+            previousPrime = i
+
+        # is_semiprime
+        if isSemiPrime( n ):
+            print( indent + 'semiprime' )
+
+        # is_sphenic
+        elif isSphenic( n ):
+            print( indent + 'sphenic' )
+        elif isSquareFree( n ):
+            print( indent + 'square-free' )
+
+        # powerful
+        if isPowerful( n ):
+            print( indent + 'powerful' )
+
+        # Achilles
+        if isAchillesNumber( n ):
+            print( indent + 'an Achilles number' )
+
+        # unusual
+        if isUnusual( n ):
+            print( indent + 'unusual' )
+
+        # hyperperfect
+        for i in range( 2, 21 ):
+            if isKHyperperfect( n, i ):
+                print( indent + str( i ) + '-hyperperfect' )
+
+    # pronic
+    if isPronic( n ):
+        print( indent + 'pronic' )
+
+    # polydivisible
+    if isPolydivisible( n ):
+        print( indent + 'polydivisible' )
+
+    # Carol numbers
+    result = findInput( n, getNthCarolNumber, lambda n: fmul( log( n ), fdiv( 5, 3 ) ) )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Carol number' )
+
     print( )
     print( int( n ), 'has:' )
 
+    # number of digits
     digits = log10( n )
 
     if isInteger( digits ):
@@ -546,28 +666,37 @@ def describeInteger( n ):
         digits = ceil( digits )
 
     print( indent + str( int( digits ) ) + ' digit' + ( 's' if digits > 1 else '' ) )
+
+    # digit sum
     print( indent + 'a digit sum of ' + str( int( sumDigits( n ) ) ) )
 
+    # digit product
     digitProduct = multiplyDigits( n )
 
     print( indent + 'a digit product of ' + str( int( digitProduct ) ) )
 
+    # non-zero digit product
     if digitProduct == 0:
         print( indent + 'a non-zero digit product of ' + str( int( multiplyNonzeroDigits( n ) ) ) )
 
-    if not isPrime and n != 1:
+    if not isPrime and n != 1 and n < power( 10, 60 ):
+        # factors
         factors = getFactors( n )
         factorCount = len( factors )
         print( indent + str( factorCount ) + ' prime factor' + ( 's' if factorCount > 1 else '' ) + \
                ': ' + ', '.join( [ str( int( i ) ) for i in factors ] ) )
 
+        # number of divisors
         divisorCount = int( getDivisorCount( n ) )
         print( indent + str( divisorCount ) + ' divisor' + ( 's' if divisorCount > 1 else '' ) )
+
+    if n < power( 10, 60 ):
+        print( indent + 'a sum of divisors of ' + str( int( getSigma( n ) ) ) )
+        print( indent + 'a Mobius value of ' + str( int( getMobius( n ) ) ) )
+        print( indent + 'a radical of ' + str( int( getRadical( n ) ) ) )
+        print( indent + 'a Euler phi value of ' + str( int( getEulerPhi( n ) ) ) )
 
     print( )
 
     return n
-
-
-
 

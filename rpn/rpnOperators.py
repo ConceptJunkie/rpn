@@ -4083,16 +4083,16 @@ operators = {
     'mobius'                         : RPNOperator( getMobius,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'nth_carol'                      : RPNOperator( getNthCarol,
+    'nth_carol'                      : RPNOperator( getNthCarolNumber,
                                                     1, [ RPNOperator.Real ] ),
 
     'nth_jacobsthal'                 : RPNOperator( getNthJacobsthalNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'nth_kynea'                      : RPNOperator( getNthKynea,
+    'nth_kynea'                      : RPNOperator( getNthKyneaNumber,
                                                     1, [ RPNOperator.Real ] ),
 
-    'nth_leonardo'                   : RPNOperator( getNthLeonardo,
+    'nth_leonardo'                   : RPNOperator( getNthLeonardoNumber,
                                                     1, [ RPNOperator.Real ] ),
 
     'nth_mersenne_exponent'          : RPNOperator( getNthMersenneExponent,
@@ -4134,7 +4134,7 @@ operators = {
     'reversal_addition'              : RPNOperator( getNthReversalAddition,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'riesel'                         : RPNOperator( getNthRiesel,
+    'riesel'                         : RPNOperator( getNthRieselNumber,
                                                     1, [ RPNOperator.Real ] ),
 
     'sigma'                          : RPNOperator( getSigmaOperator,
@@ -4158,7 +4158,7 @@ operators = {
     'tetranacci'                     : RPNOperator( getNthTetranacci,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'thabit'                         : RPNOperator( getNthThabit,
+    'thabit'                         : RPNOperator( getNthThabitNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'tribonacci'                     : RPNOperator( getNthTribonacci,

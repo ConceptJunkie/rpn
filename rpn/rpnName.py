@@ -206,13 +206,23 @@ def getShortOrdinalName( n ):
     modulo = int( fmod( n, 10 ) )
 
     if modulo in [ 0, 4, 5, 6, 7, 8, 9 ]:
-        return str( int( n ) ) + 'th'
+        result = str( int( n ) ) + 'th'
     elif modulo == 1:
-        return str( int( n ) ) + 'st'
+        result = str( int( n ) ) + 'st'
     elif modulo == 2:
-        return str( int( n ) ) + 'nd'
+        result = str( int( n ) ) + 'nd'
     else:
-        return str( int( n ) ) + 'rd'
+        result = str( int( n ) ) + 'rd'
+
+    length = len( result )
+    offset = -5
+
+    while offset > -length:
+        result = result[ : offset ] + ',' + result[ offset : ]
+        offset -= 4
+        length += 1
+
+    return result
 
 
 # //******************************************************************************

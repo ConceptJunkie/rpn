@@ -1944,15 +1944,15 @@ def getLogGamma( n ):
     return loggamma( n )
 
 @oneArgFunctionEvaluator( )
-def getNthCarol( n ):
+def getNthCarolNumber( n ):
     return fsub( power( fsub( power( 2, real( n ) ), 1 ), 2 ), 2 )
 
 @oneArgFunctionEvaluator( )
-def getNthKynea( n ):
+def getNthKyneaNumber( n ):
     return fsub( power( fadd( power( 2, n ), 1 ), 2 ), 2 )
 
 @oneArgFunctionEvaluator( )
-def getNthLeonardo( n ):
+def getNthLeonardoNumber( n ):
     return fsub( fmul( 2, fib( fadd( n, 1 ) ) ), 1 )
 
 @twoArgFunctionEvaluator( )
@@ -1960,7 +1960,7 @@ def getPolygamma( n, k ):
     return psi( n, k )
 
 @oneArgFunctionEvaluator( )
-def getNthRiesel( n ):
+def getNthRieselNumber( n ):
     return fsub( fmul( real( n ), power( 2, n ) ), 1 )
 
 @oneArgFunctionEvaluator( )
@@ -1972,7 +1972,7 @@ def getSuperfactorial( n ):
     return superfac( n )
 
 @oneArgFunctionEvaluator( )
-def getNthThabit( n ):
+def getNthThabitNumber( n ):
     return fsub( fmul( 3, power( 2, n ) ), 1 )
 
 @oneArgFunctionEvaluator( )
