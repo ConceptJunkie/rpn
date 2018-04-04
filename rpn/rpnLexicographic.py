@@ -1357,8 +1357,6 @@ def isOrderKSmithNumber( n, k ):
     return 1 if sum1 == sum2 else 0
 
 
-
-
 #  Look and Say from:
 #  https://www.rosettacode.org/wiki/Look-and-say_sequence#Python
 

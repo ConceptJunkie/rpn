@@ -174,12 +174,12 @@ def getArrangements( n ):
 
 # //******************************************************************************
 # //
-# //  getNthSylvester
+# //  getNthSylvesterNumber
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def getNthSylvester( n ):
+def getNthSylvesterNumber( n ):
     if real( n ) == 1:
         return 2
     elif n == 2:
@@ -542,7 +542,7 @@ def getDenominationCombinations( denominations, target ):
 #        else:
 #            return 0
 #    #what is the highest possible sum we may have
-#    #that will still be a valid partition
+#    #thatbb will still be a valid partition
 #    smax = m * (k - 1)
 #    #This is the lowest term we can add to the partition (subtract from sum)
 #    start = n - k + 1

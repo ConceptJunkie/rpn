@@ -4363,6 +4363,12 @@ def runSpecialOperatorTests( ):
 
     # help - help is handled separately
 
+    # describe
+    testOperator( '1 describe' )
+    testOperator( '10 describe' )
+    testOperator( '121 describe' )
+    testOperator( '19395876549 describe' )
+
     # name
     expectResult( '0 name', 'zero' )
     expectResult( '1 name', 'one' )
@@ -4378,17 +4384,17 @@ def runSpecialOperatorTests( ):
     testOperator( '-a100 45 primorial name' )
 
     # oeis
-    testOperator( '1000 oeis' )
+    testOperator( '2000 oeis' )
     testOperator( '290000 randint oeis' )
 
     # oeis_comment
-    testOperator( '1000 oeis_comment' )
+    testOperator( '2000 oeis_comment' )
 
     # oeis_ex
-    testOperator( '1000 oeis_ex' )
+    testOperator( '2000 oeis_ex' )
 
     # oeis_name
-    testOperator( '1000 oeis_name' )
+    testOperator( '2000 oeis_name' )
 
     # ordinal_name
     testOperator( '0 10 range ordinal_name -s1' )

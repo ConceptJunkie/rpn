@@ -1912,7 +1912,7 @@ def getDigamma( n ):
     return psi( 0, n )
 
 @oneArgFunctionEvaluator( )
-def getDoubleFactorial( n ):
+def getNthDoubleFactorial( n ):
     return fac2( n )
 
 @oneArgFunctionEvaluator( )
@@ -1920,7 +1920,7 @@ def getAltZeta( n ):
     return altzeta( n )
 
 @oneArgFunctionEvaluator( )
-def getFactorial( n ):
+def getNthFactorial( n ):
     return fac( n )
 
 @oneArgFunctionEvaluator( )
@@ -1932,7 +1932,7 @@ def getHarmonic( n ):
     return harmonic( n )
 
 @oneArgFunctionEvaluator( )
-def getHyperfactorial( n ):
+def getNthHyperfactorial( n ):
     return hyperfac( n )
 
 @twoArgFunctionEvaluator( )
@@ -1964,11 +1964,11 @@ def getNthRieselNumber( n ):
     return fsub( fmul( real( n ), power( 2, n ) ), 1 )
 
 @oneArgFunctionEvaluator( )
-def getSubfactorial( n ):
+def getNthSubfactorial( n ):
     return floor( fadd( fdiv( fac( n ), e ), fdiv( 1, 2 ) ) )
 
 @oneArgFunctionEvaluator( )
-def getSuperfactorial( n ):
+def getNthSuperfactorial( n ):
     return superfac( n )
 
 @oneArgFunctionEvaluator( )
@@ -2087,6 +2087,9 @@ def getDigitalRoot( n ):
 @oneArgFunctionEvaluator( )
 @cachedFunction( 'carmichael' )
 def isCarmichaelNumber( n ):
+    if n == 1:
+        return 0
+
     if not isSquareFree( n ):
         return 0
 

@@ -3107,7 +3107,7 @@ operators = {
     'nth_schroeder_hipparchus'       : RPNOperator( getNthSchroederHipparchusNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'nth_sylvester'                  : RPNOperator( getNthSylvester,
+    'nth_sylvester'                  : RPNOperator( getNthSylvesterNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'partitions'                     : RPNOperator( getPartitionNumber,
@@ -3927,7 +3927,7 @@ operators = {
     'divisors'                       : RPNOperator( getDivisors,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
-    'double_factorial'               : RPNOperator( getDoubleFactorial,
+    'double_factorial'               : RPNOperator( getNthDoubleFactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'egypt'                          : RPNOperator( getGreedyEgyptianFraction,
@@ -3949,7 +3949,7 @@ operators = {
     'factor_sympy'                   : RPNOperator( getFactorListSympy,
                                                     1, [ RPNOperator.Integer ] ),
 
-    'factorial'                      : RPNOperator( getFactorial,
+    'factorial'                      : RPNOperator( getNthFactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'fibonacci'                      : RPNOperator( getNthFibonacci,
@@ -3988,7 +3988,7 @@ operators = {
     'hurwitz_zeta'                   : RPNOperator( getHurwitzZeta,
                                                     2, [ RPNOperator.Default, RPNOperator.Default ] ),
 
-    'hyperfactorial'                 : RPNOperator( getHyperfactorial,
+    'hyperfactorial'                 : RPNOperator( getNthHyperfactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'is_abundant'                    : RPNOperator( isAbundant,
@@ -4143,7 +4143,7 @@ operators = {
     'sigma_k'                        : RPNOperator( getSigmaK,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger ] ),
 
-    'subfactorial'                   : RPNOperator( getSubfactorial,
+    'subfactorial'                   : RPNOperator( getNthSubfactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'sums_of_k_powers'               : RPNOperator( findSumsOfKPowers,
@@ -4152,7 +4152,7 @@ operators = {
     'sums_of_k_nonzero_powers'       : RPNOperator( findSumsOfKNonzeroPowers,
                                                     3, [ RPNOperator.NonnegativeInteger, RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
-    'superfactorial'                 : RPNOperator( getSuperfactorial,
+    'superfactorial'                 : RPNOperator( getNthSuperfactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
     'tetranacci'                     : RPNOperator( getNthTetranacci,
