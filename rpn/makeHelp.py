@@ -63,7 +63,7 @@ getDataPath( )
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1211
+maxExampleCount = 1221
 
 
 # //******************************************************************************
@@ -503,6 +503,10 @@ and lots of other cool features thanks to the wealth of Python libraries.
     ''',
     'bugs' :
     '''
+Perhaps the worst bug is the some operations that use generators still manage
+to rack up astronomical memory usage.  I haven't been able to figure out how
+this happens, but it's probably something stupid on my part.
+
 Using 'for_each' on a nested list should give a nice error message.
 
 Using 'for_each_list' on a non-nested list crashes.
@@ -9330,6 +9334,8 @@ triangular.
     'heptagonal_hexagonal' : [
 'figurate_numbers', 'calculates the nth heptagonal hexagonal number',
 '''
+'heptagonal_hexagonal' calculates the nth number that is both heptagonal and
+hexagonal.
 ''',
 '''
 ''',
@@ -9338,6 +9344,8 @@ triangular.
     'heptagonal_pentagonal' : [
 'figurate_numbers', 'calculates the nth heptagonal pentagonal number',
 '''
+'heptagonal_pentagonal' calculates the nth number that is both heptagonal and
+pentgonal.
 ''',
 '''
 ''',
@@ -9346,6 +9354,8 @@ triangular.
     'heptagonal_square' : [
 'figurate_numbers', 'calculates the nth heptagonal square number',
 '''
+'heptagonal_square' calculates the nth number that is both heptagonal and
+square.
 ''',
 '''
 ''',
@@ -9354,6 +9364,8 @@ triangular.
     'heptagonal_triangular' : [
 'figurate_numbers', 'calculates the nth heptagonal triangular number',
 '''
+'heptagonal_triangular' calculates the nth number that is both heptagonal and
+triangular.
 ''',
 '''
 ''',
@@ -9370,6 +9382,8 @@ triangular.
     'hexagonal_pentagonal' : [
 'figurate_numbers', 'calculates the nth hexagonal pentagonal number',
 '''
+'hexagonal_pentagonal' calculates the nth number that is both hexagonal and
+pentagonal.
 ''',
 '''
 ''',
@@ -9378,6 +9392,8 @@ triangular.
     'hexagonal_square' : [
 'figurate_numbers', 'calculates the nth hexagonal square number',
 '''
+'hexagonal_square' calculates the nth number that is both hexagonal and
+square.
 ''',
 '''
 ''',
@@ -9667,6 +9683,8 @@ number.
     'octagonal_heptagonal' : [
 'figurate_numbers', 'returns the nth octagonal heptagonal number',
 '''
+'octagonal_heptagonal' calculates the nth number that is both octagonal and
+heptagonal.
 ''',
 '''
 ''',
@@ -9675,6 +9693,8 @@ number.
     'octagonal_hexagonal' : [
 'figurate_numbers', 'calculates the nth octagonal hexagonal number',
 '''
+'octagonal_hexagonal' calculates the nth number that is both octagonal and
+hexagonal.
 ''',
 '''
 ''',
@@ -9683,6 +9703,8 @@ number.
     'octagonal_pentagonal' : [
 'figurate_numbers', 'calculates the nth octagonal pentagonal number',
 '''
+'octagonal_pentagonal' calculates the nth number that is both octagonal and
+pentagonal.
 ''',
 '''
 ''',
@@ -9691,6 +9713,8 @@ number.
     'octagonal_square' : [
 'figurate_numbers', 'calculates the nth octagonal square number',
 '''
+'octagonal_square' calculates the nth number that is both octagonal and
+square.
 ''',
 '''
 ''',
@@ -9699,6 +9723,8 @@ number.
     'octagonal_triangular' : [
 'figurate_numbers', 'calculates the nth octagonal triangular number',
 '''
+'octagonal_triangular' calculates the nth number that is both octagonal and
+triangular.
 ''',
 '''
 ''',
@@ -9749,7 +9775,9 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '13 triangular' ) + '''
+''' + makeCommandExample( '13 3 polygonal' ) + '''
+''' + makeCommandExample( '-a25 387 8925662618878671 polygonal' ),
 [ ] ],
 
     'polytope' : [
@@ -9768,20 +9796,22 @@ number.
 ''',
 [ ] ],
 
-    'rhombdodec' : [
+    'rhombic_dodecahedral' : [
 'figurate_numbers', 'calculates the nth rhombic dodecahedral number',
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 8 range rhombic_dodecahedral' ),
 [ ] ],
 
     'square_triangular' : [
 'figurate_numbers', 'calculates the nth square triangular number',
 '''
+'square_triangular' calculates the nth number that is both square and
+triangular.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 8 range square_triangular' ),
 [ ] ],
 
     'star' : [
@@ -9789,7 +9819,7 @@ number.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 8 range star' ),
 [ ] ],
 
     'stella_octangula' : [
@@ -9804,7 +9834,7 @@ https://en.wikipedia.org/wiki/Stella_octangula_number
 http://oeis.org/A007588
 ''',
 '''
-''' + makeCommandExample( '1 8 range stelloct' ),
+''' + makeCommandExample( '1 8 range stella_octangula' ),
 [ ] ],
 
     'tetrahedral' : [
@@ -9812,7 +9842,7 @@ http://oeis.org/A007588
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 8 range tetrahedral' ),
 [ ] ],
 
     'triangular' : [
@@ -9820,7 +9850,7 @@ http://oeis.org/A007588
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 8 range triangular' ),
 [ ] ],
 
     'truncated_octahedral' : [
@@ -9828,7 +9858,7 @@ http://oeis.org/A007588
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 8 range truncated_octahedral' ),
 [ ] ],
 
     'truncated_tetrahedral' : [
@@ -9836,7 +9866,7 @@ http://oeis.org/A007588
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '1 8 range truncated_tetrahedral' ),
 [ ] ],
 
 #   'antitet' : [ findTetrahedralNumber, 1, [ ] ],

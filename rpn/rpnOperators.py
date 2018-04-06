@@ -3455,7 +3455,7 @@ operators = {
     'pyramid'                        : RPNOperator( getNthPyramidalNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
-    'rhombdodec'                     : RPNOperator( getNthRhombicDodecahedralNumber,
+    'rhombic_dodecahedral'           : RPNOperator( getNthRhombicDodecahedralNumber,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'square_triangular'              : RPNOperator( getNthSquareTriangularNumber,

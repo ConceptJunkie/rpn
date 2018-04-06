@@ -820,6 +820,7 @@ operatorAliases = {
     'rev_add'                       : 'reversal_addition',
     'rev_dig'                       : 'reverse_digits',
     'rev_digits'                    : 'reverse_digits',
+    'rhombdodec'                    : 'rhombic_dodecahedral',
     'robbins'                       : 'robbins_constant',
     'root2'                         : 'square_root',
     'root3'                         : 'cube_root',

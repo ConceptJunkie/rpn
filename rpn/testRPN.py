@@ -2280,8 +2280,8 @@ def runFigurateNumberOperatorTests( ):
 
     expectEqual( '0 1000 range pyramid', '330 oeis 1001 left' )
 
-    # rhombdodec
-    testOperator( '89 rhombdodec' )
+    # rhombic_dodecahedral
+    testOperator( '89 rhombic_dodecahedral' )
 
     # square_triangular
     testOperator( '-a60 -c 34 square_triangular' )

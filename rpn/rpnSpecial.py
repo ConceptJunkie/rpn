@@ -20,7 +20,7 @@ import signal
 import sys
 
 from mpmath import arange, cbrt, ceil, e, euler, fabs, fadd, fdiv, fib, findpoly, \
-                   floor, fmul, fsub, identify, im, log, log10, mpf, mpmathify, \
+                   floor, fmul, fsub, identify, im, inf, log, log10, mpf, mpmathify, \
                    nint, nstr, phi, pi, power, rand, root, sqrt
 
 from random import randrange
@@ -50,8 +50,7 @@ from rpn.rpnNumberTheory import getDigitalRoot, getDivisorCount, getNthDoubleFac
                                 getNthThabitNumber, getRadical, getSigma, isAbundant, isAchillesNumber, \
                                 isCarmichaelNumber, isDeficient, isFriendly, isKHyperperfect, \
                                 isPolydivisible, isPowerful, isPronic, isRough, isRuthAaronNumber, \
-                                isSemiPrime, isSmooth, isSphenic, isSquareFree, isUnusual, \
-                                mersennePrimeExponents
+                                isSemiPrime, isSmooth, isSphenic, isSquareFree, isUnusual
 from rpn.rpnPersistence import cachedFunction
 from rpn.rpnPolytope import findCenteredPolygonalNumber, findPolygonalNumber, \
                             getNthCenteredPolygonalNumber, getNthPolygonalNumber
@@ -331,8 +330,11 @@ def getRandomInteger( n ):
 
 largestNumberToFactor = power( 10, 50 )
 
-def findInput( value, func, estimator ):
+def findInput( value, func, estimator, max=inf ):
     guess1 = floor( estimator( value ) )
+
+    if guess1 > max:
+        guess1 = max
 
     if guess1 < 1:
         guess1 = 1
@@ -352,6 +354,9 @@ def findInput( value, func, estimator ):
 
     guess2 = guess1 + delta
 
+    if guess2 > max:
+        guess2 = max
+
     result = func( guess2 )
     debugPrint( 'findInput func call', guess2 )
 
@@ -367,6 +372,9 @@ def findInput( value, func, estimator ):
         delta *= 2
         guess1 = guess2
         guess2 += delta
+
+        if guess2 > max:
+            return False, 0
 
         result = func( guess2 )
         debugPrint( 'findInput func call', guess2 )
@@ -623,11 +631,17 @@ def describeInteger( n ):
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Mersenne prime' )
 
-    # perfect number
+    ## perfect number
     result = findInput( n, getNthPerfectNumber, lambda n: fmul( log( log( n ) ), 2.6 ) )
 
     if result[ 0 ]:
         print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' perfect number' )
+
+    # Mersenne exponent
+    result = findInput( n, getNthMersenneExponent, lambda n: fmul( log( n ), 2.7 ), max=50 )
+
+    if result[ 0 ]:
+        print( indent + 'the ' + getShortOrdinalName( result[ 1 ] ) + ' Mersenne exponent' )
 
     if not isPrime and n != 1 and n <= largestNumberToFactor:
         # deficient
