@@ -1043,9 +1043,12 @@ Added 'discriminant', 'is_strong_pseudoprime' and 'compare_lists' operators.
 
 Fixed a few mistakes in the help examples.
 
-The unit tests no longer used cached values for functions (but it still uses
+The unit tests no longer use cached values for functions (but it still uses
 the cache for functions that access the Internet: the OEIS functions and the
-location functions.
+location functions).
+
+Added 'describe', 'is_smith_number', 'is_base_k_smith_number',
+'is_order_k_smith_number' operators.
     ''',
     'license' :
     '''
