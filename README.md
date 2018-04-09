@@ -69,7 +69,7 @@ rpn is written in Python 3, and requires several libraries for the hard math stu
 If you have pip installed, you can install the prerequisites with the following:
 
 ```
-pip install arrow>=0.12.1
+arrow>=0.12.1
 convertdate>=2.1.2
 enum34>=1.1.6
 ephem>=3.7.6.0
@@ -83,8 +83,6 @@ pytz>=2017.3
 six>=1.11.0
 timezonefinder>=2.1.2
 tzlocal>=1.5.1
-
-
 ```
 
 Windows users will want to use Christophe Gohlke's Windows installers for gmpy2 and pyephem at https://www.lfd.uci.edu/~gohlke/pythonlibs/.
