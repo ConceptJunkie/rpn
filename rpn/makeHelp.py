@@ -63,7 +63,7 @@ getDataPath( )
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1221
+maxExampleCount = 1223
 
 
 # //******************************************************************************
@@ -6627,7 +6627,7 @@ This operation is useful for working with any lexicographic feature based
 on the digits that comprise an integer.
 ''',
 '''
-''' + makeCommandExample( '1 million 7 get_base_k_digits' ),
+''' + makeCommandExample( '1 million 2 10 range get_base_k_digits -s1' ),
 [ 'get_nonzero_digits', 'get_nonzero_base_k_digits' ] ],
 
     'get_digits' : [
@@ -6664,7 +6664,7 @@ This operation is useful for working with any lexicographic feature based
 on the digits that comprise an integer.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 million 2 10 range get_nonzero_base_k_digits -s1' ),
 [ 'get_nonzero_digits', 'get_base_k_digits' ] ],
 
     'get_nonzero_digits' : [
@@ -6674,7 +6674,7 @@ This operation is useful for working with any lexicographic feature based
 on the digits that comprise an integer.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 10 range get_nonzero_digits -s1' ),
 [ 'get_digits', 'get_nonzero_base_k_digits' ] ],
 
     'get_right_digits' : [
