@@ -66,7 +66,7 @@ See "rpn help settings" for more information.
 
 rpn is written in Python 3, and requires several libraries for the hard math stuff (gmpy2 is optional, but recommended for improved performance).
 
-If you have pip installed, you can install the prerequisites with the following:
+If you have pip installed, you will need to install the following prerequisites:
 
 ```
 arrow>=0.12.1
