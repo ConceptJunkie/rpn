@@ -26,7 +26,7 @@ from rpn.baillie_psw import baillie_psw
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPrimes import primes
-from rpn.rpnPersistence import openPrimeCache
+from rpn.rpnPersistence import cachedFunction, openPrimeCache
 from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
 
 import rpn.rpnGlobals as g
@@ -297,6 +297,7 @@ def getNextPrime( p, func = getNextPrimeCandidate ):
     return p
 
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'next_prime' )
 def getNextPrimeOperator( n ):
     return getNextPrime( n, func=getNextPrimeCandidateForAny )
 
@@ -328,6 +329,7 @@ def getPreviousPrime( p, func = getPreviousPrimeCandidateForAny ):
     return p
 
 @oneArgFunctionEvaluator( )
+@cachedFunction( 'previous_prime' )
 def getPreviousPrimeOperator( n ):
     return getPreviousPrime( n, func=getPreviousPrimeCandidateForAny )
 
