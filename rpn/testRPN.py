@@ -4364,10 +4364,10 @@ def runSpecialOperatorTests( ):
     # help - help is handled separately
 
     # describe
+    # Note: the cache is turned off, so only test really small numbers
     testOperator( '1 describe' )
     testOperator( '10 describe' )
     testOperator( '121 describe' )
-    testOperator( '19395876549 describe' )
 
     # name
     expectResult( '0 name', 'zero' )

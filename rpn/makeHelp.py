@@ -63,7 +63,7 @@ getDataPath( )
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1223
+maxExampleCount = 1224
 
 
 # //******************************************************************************
@@ -1049,6 +1049,9 @@ location functions).
 
 Added 'describe', 'is_smith_number', 'is_base_k_smith_number',
 'is_order_k_smith_number' operators.
+
+Replaced the -R option with 'get_base_k_digits'.   It should have been an
+operator all along.
     ''',
     'license' :
     '''
@@ -6737,6 +6740,9 @@ on the digits that comprise an integer.
     'is_base_k_smith_number' : [
 'lexicography', 'returns whether n is a Smith Number in base k',
 '''
+A Smith number is a composite number for which the sum of its digits is equal
+to the sum of the digits in its prime factorization.
+
 https://en.wikipedia.org/wiki/Smith_number
 ''',
 '''
@@ -6826,10 +6832,12 @@ https://en.wikipedia.org/wiki/Smith_number
     'is_order_k_smith_number' : [
 'lexicography', 'returns whether n is am order-k Smith Number',
 '''
-https://en.wikipedia.org/wiki/Smith_number
+An order-k Smith number is a composite number for which the sum of the kth
+power of its digits is equal to the sum of the kth power of the digits of its
+prime factorization.
 ''',
 '''
-''',
+''' + makeCommandExample( '1 1000 range lambda x 2 is_order_k_smith_number filter' ),
 [ 'is_smith_number', 'is_base_k_smith_number' ] ],
 
     'is_palindrome' : [
@@ -6896,7 +6904,8 @@ in digits.
     'is_smith_number' : [
 'lexicography', 'returns whether n is a Smith Number',
 '''
-https://en.wikipedia.org/wiki/Smith_number
+A Smith number is a composite number for which the sum of its digits is equal
+to the sum of the digits in its prime factorization.
 ''',
 '''
 ''',
