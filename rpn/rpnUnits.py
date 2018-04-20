@@ -2654,7 +2654,7 @@ This conversion is required to do mass-energy equivalence calculations.
                      ''' ),
 
     'pferdestarke' :
-        RPNUnitInfo( 'power', 'pferdestarke', 'pferdestarke', '',
+        RPNUnitInfo( 'power', 'pferdestarke', 'pferdestarke', 'PS',
                      [ ], [ 'obsolete', 'Germany' ],
                      '''
                      ''' ),

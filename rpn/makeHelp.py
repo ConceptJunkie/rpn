@@ -145,6 +145,9 @@ command-line options:
     -e, --profile
         gather performance statistics
 
+    -E, --echo_command
+        echoes the command line options (so can they can be included in redirected output)
+
     -g[n], --integer_grouping [n]
         display integer separated into groups (default: ''' + str( g.defaultIntegerGrouping ) + ')' + '''
 
