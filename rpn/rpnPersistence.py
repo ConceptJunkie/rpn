@@ -35,6 +35,7 @@ from rpn.rpnDebug import debugPrint
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnSettings import setPrecision
+from rpn.rpnUtils import getDataPath, getUserDataPath
 from rpn.rpnVersion import PROGRAM_VERSION
 
 import rpn.rpnGlobals as g
@@ -48,7 +49,7 @@ import rpn.rpnGlobals as g
 
 @lru_cache( 1 )
 def loadFactorCache( ):
-    g.factorCache = PersistentDict( g.dataPath + os.sep + 'factors.cache' )
+    g.factorCache = PersistentDict( getUserDataPath( ) + os.sep + 'factors.cache' )
 
 
 # //******************************************************************************
@@ -59,7 +60,7 @@ def loadFactorCache( ):
 
 def loadUnitNameData( ):
     try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_names.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'unit_names.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitsVersion = pickle.load( pickleFile )
             g.unitOperatorNames = pickle.load( pickleFile )
             g.operatorAliases.update( pickle.load( pickleFile ) )
@@ -81,7 +82,7 @@ def loadUnitNameData( ):
 
 def loadUnitConversionMatrix( ):
     try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'unit_conversions.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitConversionMatrix.update( pickle.load( pickleFile ) )
     except FileNotFoundError:
         print( 'rpn:  Unable to load unit conversion data.  Run "makeRPNUnits" to generate the unit data files.' )
@@ -95,7 +96,7 @@ def loadUnitConversionMatrix( ):
 
 def loadUnitData( ):
     try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitsVersion = pickle.load( pickleFile )
             g.basicUnitTypes.update( pickle.load( pickleFile ) )
             g.unitOperators.update( pickle.load( pickleFile ) )
@@ -121,7 +122,7 @@ def loadHelpData( ):
         return
 
     try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'help.pckl.bz2', 'rb' ) ) as pickleFile:
             g.helpVersion = pickle.load( pickleFile )
             g.helpTopics = pickle.load( pickleFile )
             g.operatorHelp = pickle.load( pickleFile )
@@ -129,7 +130,7 @@ def loadHelpData( ):
         raise ValueError( 'rpn:  Unable to load help.  Run "makeRPNHelp" to generate the help data files.' )
 
     try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'unit_help.pckl.bz2', 'rb' ) ) as pickleFile:
             g.unitTypeDict = pickle.load( pickleFile )
     except FileNotFoundError:
         raise ValueError( 'rpn:  Unable to load unit help data.  Run "makeRPNHelp" to generate the help data files.' )
@@ -149,7 +150,7 @@ def loadHelpData( ):
 
 def loadResult( ):
     try:
-        fileName = g.dataPath + os.sep + 'result.pckl.bz2'
+        fileName = getUserDataPath( ) + os.sep + 'result.pckl.bz2'
 
         with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
             result = pickle.load( pickleFile )
@@ -166,10 +167,7 @@ def loadResult( ):
 # //******************************************************************************
 
 def saveResult( result ):
-    if not os.path.isdir( g.dataPath ):
-        os.makedirs( g.dataPath )
-
-    fileName = g.dataPath + os.sep + 'result.pckl.bz2'
+    fileName = getUserDataPath( ) + os.sep + 'result.pckl.bz2'
 
     # TODO:  handle RPNGenerator and RPNMeasurement
     try:
@@ -188,7 +186,7 @@ def saveResult( result ):
 
 def loadConstants( ):
     try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'constants.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'constants.pckl.bz2', 'rb' ) ) as pickleFile:
             constants = pickle.load( pickleFile )
     except FileNotFoundError:
         constants = { }
@@ -204,7 +202,7 @@ def loadConstants( ):
 
 def saveConstants( constants ):
     with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'constants.pckl.bz2', 'wb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'constants.pckl.bz2', 'wb' ) ) as pickleFile:
             pickle.dump( constants, pickleFile )
 
 
@@ -214,9 +212,9 @@ def saveConstants( constants ):
 # //
 # //******************************************************************************
 
-@lru_cache( 1 )
+@lru_cache( 10 )
 def getCacheFileName( name ):
-    return g.dataPath + os.sep + name + '.cache'
+    return getUserDataPath( ) + os.sep + name + '.cache'
 
 
 # //******************************************************************************
@@ -397,7 +395,7 @@ class PersistentDict( MutableMapping ):
 
 @lru_cache( 1 )
 def getUserVariablesFileName( ):
-    return g.dataPath + os.sep + 'user_variables.cfg'
+    return getUserDataPath( ) + os.sep + 'user_variables.cfg'
 
 
 # //******************************************************************************
@@ -408,7 +406,7 @@ def getUserVariablesFileName( ):
 
 @lru_cache( 1 )
 def getUserFunctionsFileName( ):
-    return g.dataPath + os.sep + 'user_functions.cfg'
+    return getUserDataPath( ) + os.sep + 'user_functions.cfg'
 
 
 # //******************************************************************************

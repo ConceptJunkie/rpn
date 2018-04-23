@@ -3946,9 +3946,6 @@ operators = {
     'factor'                         : RPNOperator( getFactors,
                                                     1, [ RPNOperator.Integer ] ),
 
-    'factor_sympy'                   : RPNOperator( getFactorListSympy,
-                                                    1, [ RPNOperator.Integer ] ),
-
     'factorial'                      : RPNOperator( getNthFactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 

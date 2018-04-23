@@ -18,8 +18,10 @@ import six
 
 if six.PY3:
     import builtins
+    from functools import lru_cache
 else:
     FileNotFoundError = IOError
+    from pylru import lrudecorator as lru_cache
 
 def debugPrint( *args, **kwargs ):
     if g.debugMode:
@@ -53,12 +55,38 @@ import rpn.rpnGlobals as g
 # //
 # //******************************************************************************
 
+@lru_cache( 1 )
 def getDataPath( ):
     '''Returns the path for the data files.'''
     if getattr( sys, 'frozen', False ):
-        g.dataPath = os.path.dirname( sys.executable )
+        dataPath = os.path.dirname( sys.executable )
     else:
-        g.dataPath = os.path.dirname( os.path.realpath( __file__ ) ) + os.sep + g.dataDir
+        dataPath = os.path.dirname( os.path.realpath( __file__ ) ) + os.sep + g.dataDir
+
+    if not os.path.isdir( dataPath ):
+        os.makedirs( dataPath )
+
+    return dataPath
+
+
+# //******************************************************************************
+# //
+# //  getUserDataPath
+# //
+# //******************************************************************************
+
+@lru_cache( 1 )
+def getUserDataPath( ):
+    '''Returns the path for the cache files.'''
+    if os.name == 'nt':
+        userDataPath = getDataPath( )
+    else:
+        userDataPath = os.path.expanduser( '~' ) + os.sep + '.' + g.dataDir
+
+    if not os.path.isdir( userDataPath ):
+        os.makedirs( userDataPath )
+
+    return userDataPath
 
 
 # //******************************************************************************
@@ -221,24 +249,6 @@ def getExpandedFactorList( factors ):
     and returns a simple list of prime factors.'''
     factorMap = map( lambda x: [ x[ 0 ] ] * x[ 1 ], factors )
     return sorted( reduce( lambda x, y: x + y, factorMap, [ ] ) )
-
-
-# //******************************************************************************
-# //
-# //  getExpandedFactorListSympy
-# //
-# //******************************************************************************
-
-def getExpandedFactorListSympy( factors ):
-    '''Takes a list of tuples where each tuple is a prime factor and an exponent
-    and returns a simple list of prime factors.'''
-    result = [ ]
-
-    for key in factors:
-        for i in arange( 0, factors[ key ] ):
-            result.append( key )
-
-    return sorted( result )
 
 
 # //******************************************************************************

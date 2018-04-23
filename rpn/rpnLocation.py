@@ -29,7 +29,7 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnPhysics import calculateDistance
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
 
@@ -115,7 +115,7 @@ class RPNLocation( object ):
 
 def loadLocationCache( ):
     try:
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'locations.pckl.bz2', 'rb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'locations.pckl.bz2', 'rb' ) ) as pickleFile:
             locationCache = pickle.load( pickleFile )
     except FileNotFoundError:
         locationCache = { }
@@ -133,7 +133,7 @@ def saveLocationCache( locationCache ):
     from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 
     with DelayedKeyboardInterrupt( ):
-        with contextlib.closing( bz2.BZ2File( g.dataPath + os.sep + 'locations.pckl.bz2', 'wb' ) ) as pickleFile:
+        with contextlib.closing( bz2.BZ2File( getUserDataPath( ) + os.sep + 'locations.pckl.bz2', 'wb' ) ) as pickleFile:
             pickle.dump( locationCache, pickleFile )
 
 

@@ -27,27 +27,9 @@ from rpn.rpnPersistence import loadFactorCache
 from rpn.rpnPrimes import primes
 from rpn.rpnPrimeUtils import isPrimeNumber
 from rpn.rpnSettings import setAccuracy
-from rpn.rpnUtils import getExpandedFactorList, getExpandedFactorListSympy, \
-                         oneArgFunctionEvaluator, real, real_int
+from rpn.rpnUtils import getExpandedFactorList, oneArgFunctionEvaluator, real, real_int
 
 import rpn.rpnGlobals as g
-
-
-# //******************************************************************************
-# //
-# //  getFactorListSympy
-# //
-# //******************************************************************************
-
-@oneArgFunctionEvaluator( )
-def getFactorListSympy( n ):
-    # We shouldn't have to check for lists here, but something isn't right...
-    if isinstance( n, list ):
-        return [ getFactorListSympy( i ) for i in n ]
-
-    from sympy.ntheory import factorint
-
-    return getExpandedFactorListSympy( factorint( n ) )
 
 
 # //******************************************************************************

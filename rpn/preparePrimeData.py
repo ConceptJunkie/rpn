@@ -35,7 +35,7 @@ from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_ME
 def preparePrimeData( baseName ):
     print( 'processing ' + baseName + '...' )
 
-    inputFileName = g.dataPath + os.sep + baseName + '.txt'
+    inputFileName = getDataPath( ) + os.sep + baseName + '.txt'
 
     deleteCache( baseName )
     db, cursor = createPrimeCache( baseName )
@@ -59,8 +59,6 @@ def preparePrimeData( baseName ):
 # //******************************************************************************
 
 def main( ):
-    getDataPath( )
-
     print( 'preparePrimeData' + PROGRAM_VERSION_STRING + 'RPN command-line prime number data file converter' )
     print( COPYRIGHT_MESSAGE )
     print( )

@@ -653,21 +653,19 @@ def rpn( cmd_args ):
 # //******************************************************************************
 
 def main( ):
-    getDataPath( )
-
-    primeFile = Path( g.dataPath + os.sep + 'small_primes.cache' )
+    primeFile = Path( getDataPath( ) + os.sep + 'small_primes.cache' )
 
     if not primeFile.is_file( ):
         print( 'Please run "prepareRPNPrimeData" to initialize the prime number data files.' )
         sys.exit( 0 )
 
-    unitsFile = Path( g.dataPath + os.sep + 'units.pckl.bz2' )
+    unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
 
     if not unitsFile.is_file( ):
         print( 'Please run "makeRPNUnits" to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
-    helpFile = Path( g.dataPath + os.sep + 'help.pckl.bz2' )
+    helpFile = Path( getDataPath( ) + os.sep + 'help.pckl.bz2' )
 
     if not helpFile.is_file( ):
         print( 'Please run "makeRPNHelp" to initialize the help files.' )

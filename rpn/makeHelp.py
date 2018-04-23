@@ -51,8 +51,6 @@ helpDebugMode = args.debug
 
 exampleCount = 0
 
-getDataPath( )
-
 
 # //******************************************************************************
 # //
@@ -8154,17 +8152,6 @@ a Pythogorean triples, therefore the face diagonals are also integers.
     'factor' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
-rpn uses code from the pyecm project.  It crashes on occasion which is
-probably something I broke.
-''',
-'''
-''',
-[ ] ],
-
-    'factor_sympy' : [
-'number_theory', 'calculates the prime factorization of n using the SymPy library',
-'''
-Sympy is much slower than the pyecm code in rpn, but it also doesn't crash.
 ''',
 '''
 ''',
@@ -11630,10 +11617,7 @@ can handle a value in degrees without having to first convert.
 
 def makeHelp( helpTopics ):
     '''Builds the help data file.'''
-    fileName = g.dataPath + os.sep + 'help.pckl.bz2'
-
-    if not os.path.isdir( g.dataPath ):
-        os.makedirs( g.dataPath )
+    fileName = getDataPath( ) + os.sep + 'help.pckl.bz2'
 
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
@@ -11650,13 +11634,13 @@ def makeHelp( helpTopics ):
 # //******************************************************************************
 
 def main( ):
-    primeFile = Path( g.dataPath + os.sep + 'small_primes.cache' )
+    primeFile = Path( getDataPath( ) + os.sep + 'small_primes.cache' )
 
     if not primeFile.is_file( ):
         print( 'Please run "prepareRPNPrimeData" to initialize the prime number data files.' )
         sys.exit( 0 )
 
-    unitsFile = Path( g.dataPath + os.sep + 'units.pckl.bz2' )
+    unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
 
     if not unitsFile.is_file( ):
         print( 'Please run "makeRPNUnits" to initialize the unit conversion data files.' )
