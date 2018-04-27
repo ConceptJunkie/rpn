@@ -121,7 +121,7 @@ def removeUnderscores( source ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'oeis', True )
+@cachedFunction( 'oeis', overrideIgnore=True )
 def downloadOEISSequence( id ):
     '''Downloads and formats data from oeis.org.'''
     keywords = downloadOEISText( id, 'K' ).split( ',' )
@@ -211,7 +211,7 @@ def downloadOEISOffset( n ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'oeis_table', True )
+@cachedFunction( 'oeis_table', overrideIgnore=True )
 def downloadOEISTable( id ):
     if six.PY3:
         import urllib.request as urllib2

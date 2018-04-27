@@ -117,6 +117,11 @@ def makeCommandExample( command, indent=0, slow=False ):
 # //
 # //******************************************************************************
 
+#    -e, --profile
+#        gather performance statistics
+#
+
+
 helpTopics = {
     'options' :
     'rpn' + PROGRAM_VERSION_STRING + PROGRAM_DESCRIPTION + '\n' +
@@ -139,9 +144,6 @@ command-line options:
 
     -D, --DEBUG
         output debugging information
-
-    -e, --profile
-        gather performance statistics
 
     -E, --echo_command
         echoes the command line options (so can they can be included in redirected output)
@@ -553,6 +555,8 @@ Complex numbers don't obey the accuracy level on output (-a).
 Cousin primes seem to be broken starting with index 99, according to OEIS.
 
 'duplicate_ops' flat out doesn't work any more.
+
+'reversal_addition' doesn't work with generators.
 
 See 'rpn help TODO'.
     ''',

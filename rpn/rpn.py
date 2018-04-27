@@ -672,10 +672,10 @@ def main( ):
         sys.exit( 0 )
 
     try:
-        for arg in sys.argv:
-            if arg == '-e':
-                import profile
-                profile.run( 'handleOutput( rpn( sys.argv[ 1 : ] ) )' )
+        #for arg in sys.argv:
+        #    if arg == '-e':
+        #        import profile
+        #        profile.run( 'handleOutput( rpn( sys.argv[ 1 : ] ) )' )
 
         handleOutput( rpn( sys.argv[ 1 : ] ) )
 

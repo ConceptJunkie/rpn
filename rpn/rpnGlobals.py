@@ -114,7 +114,7 @@ variables = { }
 promptCount = 0
 
 # factor cache
-minValueToCache = 1000000
+minValueToCache = 100000
 factorCache = None
 
 # location cache

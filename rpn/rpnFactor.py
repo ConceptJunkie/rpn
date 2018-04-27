@@ -108,7 +108,7 @@ def getFactorList( n ):
 # //******************************************************************************
 
 def factorByTrialDivision( n ):
-    if n > 10000000000:   # 100,000^2
+    if n > 100000000:  # 10,000 squared because we check all primes below 10,000
         raise ValueError( 'value', n, 'is too big to factor by trial division' )
 
     result = [ ]
@@ -122,7 +122,7 @@ def factorByTrialDivision( n ):
             break
 
     if n > 1:
-        result.append( n )
+        result.append( int( n ) )
 
     return result
 

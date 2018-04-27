@@ -3383,7 +3383,7 @@ def runNumberTheoryOperatorTests( ):
     testOperator( '1 30 range is_perfect' )
 
     # is_polydivisible
-    expectEqual( '3608528850368400786036725 is_polydivisible', '1' )
+    expectResult( '3608528850368400786036725 is_polydivisible', 1 )
 
     # is_powerful
     testOperator( '1 20 range is_powerful' )
@@ -3544,7 +3544,7 @@ def runNumberTheoryOperatorTests( ):
         expectEqual( '1 10000 range mobius', '8683 oeis 10000 left' )
 
     # nth_carol
-    testOperator( '-a500 773 nth_carol' )
+    testOperator( '-a500 -c 773 nth_carol' )
 
     expectEqual( '1 25 range nth_carol', '93112 oeis 25 left' )
 
@@ -4383,7 +4383,6 @@ def runSpecialOperatorTests( ):
 
     # oeis
     testOperator( '2000 oeis' )
-    testOperator( '290000 randint oeis' )
 
     # oeis_comment
     testOperator( '2000 oeis_comment' )

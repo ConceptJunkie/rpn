@@ -219,6 +219,17 @@ def getCacheFileName( name ):
 
 # //******************************************************************************
 # //
+# //  getPrimeCacheFileName
+# //
+# //******************************************************************************
+
+@lru_cache( 10 )
+def getPrimeCacheFileName( name ):
+    return getDataPath( ) + os.sep + name + '.cache'
+
+
+# //******************************************************************************
+# //
 # //  deleteCache
 # //
 # //******************************************************************************
@@ -278,7 +289,7 @@ def openPrimeCache( name ):
         return g.cursors[ name ]
     else:
         try:
-            g.databases[ name ] = sqlite3.connect( getCacheFileName( name ) )
+            g.databases[ name ] = sqlite3.connect( getPrimeCacheFileName( name ) )
             g.cursors[ name ] = g.databases[ name ].cursor( )
         except:
             raise ValueError( 'prime number table ' + name + ' can\'t be found.  Run "prepareRPNPrimeData" to create the prime data.' )
@@ -465,6 +476,23 @@ def openFunctionCache( name ):
         debugPrint( 'opening', name, 'function cache database' )
         g.functionCaches[ name ] = PersistentDict( getCacheFileName( name ) )
         return g.functionCaches[ name ]
+
+
+# //******************************************************************************
+# //
+# //  deleteFromFunctionCache
+# //
+# //******************************************************************************
+
+def deleteFromFunctionCache( name, key ):
+    pass
+    #goobles
+    #if name in g.functionCaches:
+    #    return g.functionCaches[ name ]
+    #else:
+    #    debugPrint( 'opening', name, 'function cache database' )
+    #    g.functionCaches[ name ] = PersistentDict( getCacheFileName( name ) )
+    #    return g.functionCaches[ name ]
 
 
 # //******************************************************************************

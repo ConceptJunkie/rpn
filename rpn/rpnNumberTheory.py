@@ -1364,7 +1364,7 @@ def isPerfect( n ):
 
 @cachedFunction( 'smooth' )
 def isSmooth( n, k ):
-    return 1 if getFactorList( n )[ -1 ][ 0 ] <= k else 0
+    return 1 if sorted( getFactorList( n ) )[ -1 ][ 0 ] <= k else 0
 
 
 @twoArgFunctionEvaluator( )

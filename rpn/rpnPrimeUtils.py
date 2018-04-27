@@ -22,8 +22,6 @@ import sys
 from bisect import bisect_left
 from mpmath import arange, fadd, fmod, fmul, fsub, mp
 
-from rpn.baillie_psw import baillie_psw
-
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPrimes import primes
 from rpn.rpnPersistence import cachedFunction, openPrimeCache
