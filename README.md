@@ -55,10 +55,7 @@ Another cool update: rpn can now be run on Android with the Termux app
 
 ---
 
-The current release is 7.0.0.
-
-rpn is a console app and can be launched from the command-line. However,
-there is now an "interactive mode" and an icon to launch rpn for Windows users.
+The current release is 7.1.0.
 
 See "rpn help settings" for more information.
 
@@ -66,7 +63,7 @@ See "rpn help settings" for more information.
 
 rpn is written in Python 3, and requires several libraries for the hard math stuff (gmpy2 is optional, but recommended for improved performance).
 
-If you have pip installed, you will need to install the following prerequisites:
+You will need to install the following prerequisites:
 
 ```
 arrow>=0.12.1
@@ -79,7 +76,7 @@ mpmath>=1.0.0
 numpy>=1.14.0
 pylru>=1.0.9
 pyreadline>=2.1
-pytz>=2017.3
+pytz==2017.3
 six>=1.11.0
 timezonefinder>=2.1.2
 tzlocal>=1.5.1

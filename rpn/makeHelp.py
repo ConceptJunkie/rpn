@@ -1057,6 +1057,8 @@ Added 'describe', 'is_smith_number', 'is_base_k_smith_number',
 
 Replaced the -R option with 'get_base_k_digits'.   It should have been an
 operator all along.
+
+The rpnChilada wheel works on Linux now.
     ''',
     'license' :
     '''
