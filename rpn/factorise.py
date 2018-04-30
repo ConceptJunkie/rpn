@@ -938,6 +938,7 @@ def factorise( n ):
         raise ValueError("Number needs to be an integer >= 1")
 
     if verbose:
+        print( )
         print("Factorising %d (%d digits)..." % (n, len(str(n))))
 
     if n == 1:
