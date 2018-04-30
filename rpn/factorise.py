@@ -669,11 +669,12 @@ def siqs_factorise(n):
                 i_poly % 8 == 0 and len(smooth_relations) > prev_cnt):
 
                 if verbose:
-                    print("Total %d/%d relations." % (len(smooth_relations), required_relations))
+                    print( "Total %d/%d relations." % (len(smooth_relations), required_relations), end='\r' )
 
                 prev_cnt = len(smooth_relations)
 
         if verbose:
+            print( )
             print("*** Step 2/2: Linear Algebra ***")
             print("Building matrix for linear algebra step...")
 
