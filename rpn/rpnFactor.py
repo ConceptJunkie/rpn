@@ -75,10 +75,10 @@ def getFactors( target ):
     except ValueError as error:
         pass
 
-    verbose = g.verbose
+    verbose = g.verbose or g.debugMode
 
     if verbose:
-        print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), ' digits)...' )
+        print( '\nfactoring', n, '(', int( floor( log10( n ) ) ), 'digits)...' )
 
     from rpn.factorise import factorise
     result = factorise( int( n ) )

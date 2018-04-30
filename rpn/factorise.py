@@ -6,6 +6,8 @@ from fractions import gcd
 import sys
 from builtins import ValueError
 
+import rpn.rpnGlobals as g
+
 
 """This script factorises a natural number given as a command line
 parameter into its prime factors. It first attempts to use trial
@@ -33,7 +35,7 @@ SIQS_MAX_PRIME_POLYNOMIAL = 4000
 # Number of iterations for the Miller-Rabin primality test
 MILLER_RABIN_ITERATIONS = 50
 
-verbose = False
+verbose = g.verbose or g.debugMode
 
 class Polynomial:
     """A polynomial used for the Self-Initializing Quadratic Sieve."""
@@ -928,7 +930,7 @@ def product(factors):
     return prod
 
 
-def factorise(n):
+def factorise( n ):
     """Factorise the given integer n >= 1 into its prime factors."""
 
     if type(n) != int or n < 1:

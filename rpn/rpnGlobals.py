@@ -53,17 +53,17 @@ defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY
 
 # state variables
 creatingFunction = False
+duplicateOperations = 0
 echoArguments = [ ]
 helpLoaded = False
 interactive = False
+lastOperand = 0
 nestedListLevel = 0
-duplicateOperations = 0
+operandsToRemove = 0
+operatorList = False
+operatorsInList = 0
 startTime = 0
 useMembers = 0
-operatorList = False
-lastOperand = 0
-operandsToRemove = 0
-operatorsInList = 0
 
 # options
 bitwiseGroupSize = 0
