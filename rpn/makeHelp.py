@@ -61,7 +61,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1224
+maxExampleCount = 1228
 
 
 # //******************************************************************************
@@ -2994,6 +2994,17 @@ Monday in November.  This definition was established by the U.S. Congress in
 ''',
 [ 'christmas', 'easter' ] ],
 
+    'fathers_day' : [
+'calendars', 'calculates the date of Father\'s Day (US) for the year specified',
+'''
+In the U.S., and most other countries, Father's Day occurs on the third Sunday
+in June.
+''',
+'''
+''' + makeCommandExample( 'today fathers_day' ) + '''
+''' + makeCommandExample( '1993 fathers_day' ),
+[ 'mothers_day', 'thanksgiving' ] ],
+
     'from_bahai' : [
 'calendars', 'converts a date in the Baha\'i calendar to the equivalent Gregorian date',
 '''
@@ -3108,6 +3119,17 @@ armed services.
 ''' + makeCommandExample( '2020 2025 memorial_day -s1' ),
 [ 'labor_day', 'election_day', 'presidents_day' ] ],
 
+    'mothers_day' : [
+'calendars', 'calculates the date of Mother\'s Day (US) for the year specified',
+'''
+In the U.S., and most other countries, Mother's Day occurs on the second Sunday
+in May.
+''',
+'''
+''' + makeCommandExample( 'today mothers_day' ) + '''
+''' + makeCommandExample( '1993 mothers_day' ),
+[ 'fathers_day', 'thanksgiving' ] ],
+
     'new_years_day' : [
 'calendars', 'returns the date of New Year\'s Day (US) for the year specified',
 '''
@@ -3158,7 +3180,7 @@ a = four-digit year, b = week (negative values count from the end), c = day
 ''',
 '''
 ''',
-[ 'christmas', 'easter' ] ],
+[ 'christmas', 'easter', 'mothers_day', 'fathers_day' ] ],
 
     'to_bahai' : [
 'calendars', 'converts a date to the equivalent date in the Baha\'i',

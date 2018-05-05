@@ -597,7 +597,7 @@ def calculateLaborDay( year ):
     else:
         year = real_int( year )
 
-    return calculateNthWeekdayOfMonth( year, 9, 1, 1 )
+    return calculateNthWeekdayOfMonth( year, September, 1, Monday )
 
 
 # //******************************************************************************
@@ -689,6 +689,42 @@ def calculateColumbusDay( year ):
         year = real_int( year )
 
     return calculateNthWeekdayOfMonth( year, October, 2, Monday )
+
+
+# //******************************************************************************
+# //
+# //  calculateMothersDay
+# //
+# //  the second Sunday in May (in the U.S. and most other countries)
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateMothersDay( year ):
+    if isinstance( year, RPNDateTime ):
+        year = year.year
+    else:
+        year = real_int( year )
+
+    return calculateNthWeekdayOfMonth( year, May, 2, Sunday )
+
+
+# //******************************************************************************
+# //
+# //  calculateFathersDay
+# //
+# //  the third Sunday in June (in the U.S. and most other countries)
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateFathersDay( year ):
+    if isinstance( year, RPNDateTime ):
+        year = year.year
+    else:
+        year = real_int( year )
+
+    return calculateNthWeekdayOfMonth( year, June, 3, Sunday )
 
 
 # //******************************************************************************

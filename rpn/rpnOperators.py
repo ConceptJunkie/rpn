@@ -2876,6 +2876,9 @@ operators = {
     'epiphany'                       : RPNOperator( getEpiphanyDay,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
+    'fathers_day'                    : RPNOperator( calculateFathersDay,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
     'from_bahai'                     : RPNOperator( convertBahaiDate,
                                                     3, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger,
                                                          RPNOperator.PositiveInteger ] ),
@@ -2921,6 +2924,9 @@ operators = {
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'memorial_day'                   : RPNOperator( calculateMemorialDay,
+                                                    1, [ RPNOperator.PositiveInteger ] ),
+
+    'mothers_day'                    : RPNOperator( calculateMothersDay,
                                                     1, [ RPNOperator.PositiveInteger ] ),
 
     'new_years_day'                  : RPNOperator( getNewYearsDay,

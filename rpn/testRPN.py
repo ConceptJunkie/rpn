@@ -1019,6 +1019,9 @@ def runCalendarOperatorTests( ):
     # epiphany
     testOperator( '2018 epiphany' )
 
+    # fathers_day
+    testOperator( '2018 fathers_day' )
+
     # from_bahai
     testOperator( '172 12 4 from_bahai' )
 
@@ -1057,6 +1060,9 @@ def runCalendarOperatorTests( ):
 
     # memorial_day
     testOperator( '2015 memorial_day' )
+
+    # mothers_day
+    testOperator( '2018 mothers_day' )
 
     # new_years_day
     testOperator( '2018 new_years_day' )

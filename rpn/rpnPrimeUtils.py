@@ -101,12 +101,6 @@ def isPrimeNumberSimple( n ):
 # simpler version:   rpn 3 x [ 2 3 ] + eval
 
 
-# //******************************************************************************
-# //
-# //  getNextPrimeCandidate
-# //
-# //******************************************************************************
-
 def getNextPrimeCandidate( p ):
     f = ( p - 10 ) % 30
 
@@ -277,7 +271,7 @@ def getPreviousPrimeCandidateForAny( p ):
 # //
 # //******************************************************************************
 
-def getNextPrime( p, func = getNextPrimeCandidate ):
+def getNextPrime( p, func = getNextPrimeCandidateForAny ):
     if ( p < 2 ):
         return 2
     if ( p == 2 ):
@@ -288,6 +282,8 @@ def getNextPrime( p, func = getNextPrimeCandidate ):
         return 7
 
     p = func( p )
+
+    debugPrint( 'testing', p )
 
     while not isPrimeNumber( p ):
         p = func( p )
@@ -338,7 +334,7 @@ def getPreviousPrimeOperator( n ):
 # //
 # //******************************************************************************
 
-def getNextPrimes( p, k, func = getNextPrimeCandidate ):
+def getNextPrimes( p, k, func = getNextPrimeCandidateForAny ):
     result = [ ]
 
     for i in arange( 0, k ):
@@ -1498,7 +1494,7 @@ def getNthPrimeRange( arg1, arg2 ):
     found = 1
 
     while found < count:
-        p = getNextPrimeCandidate( p )
+        p = getNextPrimeCandidateForAny( p )
 
         if isPrimeNumber( p ):
             result.append( p )
