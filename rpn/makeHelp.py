@@ -61,7 +61,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1228
+maxExampleCount = 1233
 
 
 # //******************************************************************************
@@ -1041,6 +1041,13 @@ release notes, so there are a ton of new features not mentioned here.
     'release_notes' :
     '''
 For notes about earlier versions, use 'help old_release_notes'.
+
+7.2.0
+
+Added 'random_element' operator.
+
+The gmpy2 digits( ) function is a much faster way to convert numbers to bases
+2 through 62.
 
 7.1.0
 
@@ -6598,7 +6605,7 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 '''
 ''' + makeCommandExample( '1222333456 1 count_digits' ) + '''
 ''' + makeCommandExample( '1222333456 23 count_digits' ),
-[ 'count_different_digits', 'has_digits', 'has_any_digits', 'has_only_digits' ] ],
+[ 'count_different_digits', 'digits', 'has_digits', 'has_any_digits', 'has_only_digits' ] ],
 
     'count_different_digits' : [
 'lexicography', 'counts the number of different digits in n',
@@ -6617,6 +6624,15 @@ This function is the "list version" of 'add_digits'.  It does the same thing as
 All of the circular primes up to a million:
 ''' + makeCommandExample( '[1379:1:6] build_numbers lambda x cyclic_permutations is_prime and_all filter [ 2 5 ] append sort' ),
 [ 'rotate_left', 'rotate_right' ] ],
+
+    'digits' : [
+'lexicography', 'counts the number of digits in an integer',
+'''
+''',
+'''
+''' + makeCommandExample( '1222333456 digits' ) + '''
+''' + makeCommandExample( '10 digits' ),
+[ 'count_digits', 'has_digits', 'has_any_digits', 'has_only_digits' ] ],
 
     'duplicate_digits' : [
 'lexicography', 'append n with a copy of its last k digits',
@@ -6670,7 +6686,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_right_digits', 'rotate_digits_left', 'rotate_digits_right' ] ],
+[ 'digits', 'has_digits', 'get_nonzero_digits', 'get_base_k_digits', 'get_left_digits', 'get_right_digits', 'rotate_digits_left', 'rotate_digits_right' ] ],
 
     'get_left_digits' : [
 'lexicography', 'returns a number composed of the left k digits of n',
@@ -6687,7 +6703,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ 'count_digits', 'get_right_truncations', 'has_only_digits' ] ],
+[ 'count_digits', 'digits', 'get_right_truncations', 'has_only_digits' ] ],
 
     'get_nonzero_base_k_digits' : [
 'lexicography', 'returns the list of non-zero digits comprising integer n in base k',
@@ -6724,7 +6740,7 @@ on the digits that comprise an integer.
 ''',
 '''
 ''',
-[ 'get_left_truncations' ] ],
+[ 'digits', 'get_left_truncations' ] ],
 
     'has_digits' : [
 'lexicography', 'returns whether n contains all of the digits in k',
@@ -7487,7 +7503,7 @@ is not equal to a plus a multiple of c, then it will not appear in the list.
 ''' + makeCommandExample( '1 10 range 6 left' ) + '''
 ''' + makeCommandExample( '1 10 range 4 left' ) + '''
 ''' + makeCommandExample( '1 10 range 1 4 range left' ),
-[ 'right', 'slice', 'sublist' ] ],
+[ 'right', 'slice', 'sublist', 'random_element' ] ],
 
     'max_index' : [
 'list_operators', 'returns the index of largest value in list n',
@@ -7605,6 +7621,16 @@ would ever be useful, so the operator leaves it out.
 ''',
 [ ] ],
 
+    'random_element' : [
+'list_operators', 'returns a random element from list n',
+'''
+''',
+'''
+''' + makeCommandExample( '1 10 range random_element' ) + '''
+''' + makeCommandExample( '[ 1 5 10 12 15 19 ] random_element' ) + '''
+''' + makeCommandExample( '[ 1 4 range 5 8 range 9 12 range ] random_element' ),
+[ 'shuffle', 'sublist', 'reverse', 'powerset' ] ],
+
     'range' : [
 'list_operators', 'generates a list of successive integers from n to k',
 '''
@@ -7638,7 +7664,7 @@ denominator of the whole list.
 ''',
 '''
 ''',
-[ 'shuffle' ] ],
+[ 'shuffle', 'random_element' ] ],
 
     'right' : [
 'list_operators', 'returns the right k items from list n',
@@ -7648,7 +7674,7 @@ denominator of the whole list.
 ''' + makeCommandExample( '1 10 range 6 right' ) + '''
 ''' + makeCommandExample( '1 10 range 4 right' ) + '''
 ''' + makeCommandExample( '1 10 range 1 4 range right' ),
-[ 'left', 'slice', 'sublist' ] ],
+[ 'left', 'slice', 'sublist', 'random_element' ] ],
 
     'shuffle' : [
 'list_operators', 'randomly shuffles the elements in a list',
@@ -7656,7 +7682,7 @@ denominator of the whole list.
 ''',
 '''
 ''' + makeCommandExample( '1 10 range shuffle' ),
-[ 'reverse' ] ],
+[ 'reverse', 'random_element' ] ],
 
     'sized_range' : [
 'list_operators', 'generates a list of arithmetic progression of numbers',

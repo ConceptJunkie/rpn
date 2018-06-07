@@ -44,6 +44,7 @@ defaultInputRadix = 10
 defaultIntegerGrouping = 3
 defaultLineLength = 80
 defaultListFormatLevel = 1
+defaultMinValueForYAFU = 1000000000000000000
 defaultMaximumFixed = 5
 defaultOutputAccuracy = 12
 defaultOutputRadix = 10
@@ -79,6 +80,8 @@ leadingZero = False
 lineLength = defaultLineLength
 listFormatLevel = 0
 maximumFixed = defaultMaximumFixed
+maxToFactorByTrialDivision = 100000000  # 10,000 squared because we check all primes below 10,000
+minValueForYAFU = defaultMinValueForYAFU
 numerals = ''
 outputAccuracy = -1
 outputRadix = defaultOutputRadix
@@ -90,7 +93,10 @@ tempOctalMode = False
 tempTimerMode = False
 timeLimit = 0
 timer = False
+useYAFU = True
 verbose = False
+yafuPath = "c:\\app\\yafu"
+yafuBinary = "yafu-x64.core2.exe"
 zhangConjecturesAllowed = False
 
 # unit data

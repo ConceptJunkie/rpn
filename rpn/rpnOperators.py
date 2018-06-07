@@ -2397,6 +2397,9 @@ listOperators = {
     'powerset'              : RPNOperator( lambda n: RPNGenerator( getPowerset( n ) ),
                                            1, [ RPNOperator.List ] ),
 
+    'random_element'        : RPNOperator( getRandomElement,
+                                           1, [ RPNOperator.List ] ),
+
     'ratios'                : RPNOperator( lambda n: RPNGenerator( getListRatios( n ) ),
                                            1, [ RPNOperator.Generator ] ),
 
@@ -3664,6 +3667,9 @@ operators = {
                                                     2, [ RPNOperator.Integer, RPNOperator.Integer ] ),
 
     'cyclic_permutations'            : RPNOperator( getCyclicPermutations,
+                                                    1, [ RPNOperator.Integer ] ),
+
+    'digits'                         : RPNOperator( getDigitCount,
                                                     1, [ RPNOperator.Integer ] ),
 
     'duplicate_digits'               : RPNOperator( duplicateDigits,

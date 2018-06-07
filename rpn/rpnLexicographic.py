@@ -12,6 +12,7 @@
 # //
 # //******************************************************************************
 
+import gmpy2
 import itertools
 import string
 
@@ -104,10 +105,30 @@ def getLeftDigits( n, k ):
 # //
 # //  getBaseKDigitList
 # //
+# //  gmpy2's digits( ) function is way faster, but only works for bases 2 to
+# //  62.  I need to overhaul convertToBaseN( )... it's way too slow.
+# //
 # //******************************************************************************
 
 def getBaseKDigitList( n, base, dropZeroes = False ):
-    digits = convertToBaseN( n, base, outputBaseDigits=True )
+    if base < 63:
+        ascii_digits = gmpy2.digits( int( n ), int( base ) )
+
+        digits = [ ]
+
+        ord0 = ord( '0' )
+        orda = ord( 'a' )
+        ordA = ord( 'A' )
+
+        for i in ascii_digits:
+            if i >= '0' and i <= '9':
+                digits.append( ord( i ) - ord0 )
+            elif i >= 'a' and i <= 'z':
+                digits.append( ord( i ) - orda )
+            else:
+                digits.append( ord( i ) - ordA )
+    else:
+        digits = convertToBaseN( n, base, outputBaseDigits=True )
 
     result = [ ]
 
@@ -439,6 +460,17 @@ def countDigits( n, k ):
         result += str.count( c )
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  getDigitCount
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getDigitCount( n ):
+    return len( getMPFIntegerAsString( n ) )
 
 
 # //******************************************************************************

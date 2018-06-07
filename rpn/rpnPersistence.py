@@ -311,10 +311,8 @@ class PersistentDict( MutableMapping ):
 
         with self.get_connection( ) as connection:
             cursor = connection.cursor( )
-            cursor.execute(
-                'create table if not exists memo '
-                '(key blob primary key not null, value blob not null)'
-            )
+            cursor.execute( 'create table if not exists memo '
+                            '(key blob primary key not null, value blob not null)' )
 
         if iterable is not None:
             self.update( iterable )
@@ -335,10 +333,7 @@ class PersistentDict( MutableMapping ):
 
         with self.get_connection( ) as connection:
             cursor = connection.cursor( )
-            cursor.execute(
-                'select value from memo where key=?',
-                ( key, )
-            )
+            cursor.execute( 'select value from memo where key=?', ( key, ) )
 
             value = cursor.fetchone( )
 
@@ -353,35 +348,24 @@ class PersistentDict( MutableMapping ):
 
         with self.get_connection( ) as connection:
             cursor = connection.cursor( )
-            cursor.execute(
-                'insert or replace into memo values (?, ?)',
-                ( key, value )
-            )
+            cursor.execute( 'insert or replace into memo values (?, ?)', ( key, value ) )
 
     def __delitem__( self, key ):
         key = self.encode( key )
         with self.get_connection( ) as connection:
             cursor = connection.cursor( )
 
-            cursor.execute(
-                'select count(*) from memo where key=?',
-                ( key, )
-            )
+            cursor.execute( 'select count(*) from memo where key=?', ( key, ) )
 
             if cursor.fetchone( )[ 0 ] == 0:
                 raise KeyError( key )
 
-            cursor.execute(
-                'delete from memo where key=?',
-                ( key, )
-            )
+            cursor.execute( 'delete from memo where key=?', ( key, ) )
 
     def __iter__( self ):
         with self.get_connection( ) as connection:
             cursor = connection.cursor( )
-            cursor.execute(
-                'select key from memo'
-            )
+            cursor.execute( 'select key from memo' )
 
             records = cursor.fetchall( )
 
@@ -391,9 +375,7 @@ class PersistentDict( MutableMapping ):
     def __len__( self ):
         with self.get_connection( ) as connection:
             cursor = connection.cursor( )
-            cursor.execute(
-                'select count(*) from memo'
-            )
+            cursor.execute( 'select count(*) from memo' )
 
             return cursor.fetchone( )[ 0 ]
 

@@ -1087,7 +1087,8 @@ def getRadical( target ):
 # //
 # //******************************************************************************
 
-@cachedFunction( 'sigma' )
+#@cachedFunction( 'sigma' )    # This resulted in some really weird bugs in the 'aliquot' operator, and having the
+                               # factors already cached means it really isn't necessary.
 def getSigma( target ):
     '''
     Returns the sum of the divisors of n, including 1 and n.

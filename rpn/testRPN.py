@@ -2963,6 +2963,10 @@ def runListOperatorTests( ):
     # powerset
     testOperator( '1 5 range powerset' )
 
+    # right
+    testOperator( '1 10 range random_element' )
+    testOperator( '[ 1 10 range 11 20 range 21 30 range ] random_element' )
+
     # range
     expectResult( '1 12 range', [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] )
 
@@ -3972,6 +3976,25 @@ def runPowersAndRootsOperatorTests( ):
     # powmod
     testOperator( '43 67 9 powmod' )
 
+    # pseudoprimes to base 2
+    expectEqual( '3 100000 2 range2 lambda x is_prime not filter lambda 2 x 1 - x powmod 1 equals filter',
+                 '1567 oeis lambda x 100000 is_less filter' )
+    # pseudoprimes to base 3
+    expectEqual( '2 50000 range lambda x is_prime not filter lambda 3 x 1 - x powmod 1 equals filter',
+                 '5935 oeis lambda x 50000 is_less filter' )
+    # pseudoprimes to base 4
+    expectEqual( '2 50000 range lambda x is_prime not filter lambda 4 x 1 - x powmod 1 equals filter',
+                 '20136 oeis lambda x 50000 is_less filter' )
+    # pseudoprimes to base 5
+    expectEqual( '2 50000 range lambda x is_prime not filter lambda 5 x 1 - x powmod 1 equals filter',
+                 '5936 oeis lambda x 50000 is_less filter' )
+    # pseudoprimes to base 6
+    expectEqual( '2 50000 range lambda x is_prime not filter lambda 6 x 1 - x powmod 1 equals filter',
+                 '5937 oeis lambda x 50000 is_less filter' )
+    # psuedoprimes to base 100
+    expectEqual( '2 50000 range lambda x is_prime not filter lambda 100 x 1 - x powmod 1 equals filter',
+                 '20228 oeis lambda x 50000 is_less filter' )
+
     expectException( '9 i 6 4 powmod' )
     expectException( '3 12 i 5 powmod' )
     expectException( '21 33 67 i powmod' )
@@ -4051,6 +4074,8 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '-c 6 13 ** 1 + next_prime' )
     testOperator( '-c 7 13 ** 1 + next_prime' )
 
+    expectEqual( '-a202 0 199 range lambda 10 x ** next_prime 10 x ** - eval', '33873 oeis 200 left' )
+
     # next_primes
     testOperator( '35 100 next_primes' )
     testOperator( '8783 50 next_primes' )
@@ -4096,6 +4121,7 @@ def runPrimeNumberOperatorTests( ):
     testOperator( '1000 100 previous_primes' )
 
     expectEqual( '220 47 previous_primes sort', '1 47 primes' )
+    expectEqual( '-a202 1 200 range lambda 10 x ** previous_prime 10 x ** - eval neg', '33874 oeis 200 left' )
 
     # prime
     testOperator( '1 101 range prime' )
