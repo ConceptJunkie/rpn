@@ -16,10 +16,6 @@
 dataDir = 'rpndata'
 ecm = True
 
-# constants
-PROGRAM_NAME = 'rpn'
-PROGRAM_DESCRIPTION = 'RPN command-line calculator'
-
 # base identifiers
 phiBase = -1
 fibBase = -2
@@ -95,8 +91,6 @@ timeLimit = 0
 timer = False
 useYAFU = True
 verbose = False
-yafuPath = "c:\\app\\yafu"
-yafuBinary = "yafu-x64.core2.exe"
 zhangConjecturesAllowed = False
 
 # unit data
@@ -148,4 +142,6 @@ userVariables = { }
 userVariablesAreDirty = False
 userFunctions = { }
 userFunctionsAreDirty = False
+userConfiguration = { }
+userConfigurationIsDirty = False
 

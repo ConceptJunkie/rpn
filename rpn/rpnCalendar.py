@@ -214,8 +214,9 @@ def generateMonthCalendar( datetime ):
     cal = calendar.TextCalendar( firstweekday = 6 )
     print( )
     cal.prmonth( datetime.year, datetime.month )
+    print( )
 
-    return ''
+    return [ datetime.year, datetime.month ]
 
 
 # //******************************************************************************

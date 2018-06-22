@@ -64,14 +64,16 @@ from rpn.rpnOperators import checkForVariable, constants, evaluateTerm, function
 from rpn.rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                           printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
 
-from rpn.rpnPersistence import loadUserVariablesFile, saveUserVariablesFile
+from rpn.rpnPersistence import loadUserVariablesFile, saveUserVariablesFile, \
+                               loadUserConfigurationFile, saveUserConfigurationFile
 
 from rpn.rpnSpecial import handleIdentify
 
 from rpn.rpnUtils import debugPrint, getCurrentArgList, getDataPath, \
                          parseNumerals, validateArguments, validateOptions
 
-from rpn.rpnVersion import PROGRAM_VERSION_STRING, PROGRAM_VERSION, COPYRIGHT_MESSAGE
+from rpn.rpnVersion import RPN_PROGRAM_NAME, PROGRAM_NAME, PROGRAM_VERSION, \
+                           PROGRAM_DESCRIPTION, COPYRIGHT_MESSAGE
 
 import rpn.rpnGlobals as g
 
@@ -258,7 +260,7 @@ def enterInteractiveMode( ):
     readline.parse_and_bind( 'tab: complete' )
     readline.parse_and_bind( 'set editing-mode vi' )
 
-    printTitleScreen( g.PROGRAM_NAME, g.PROGRAM_DESCRIPTION )
+    printTitleScreen( PROGRAM_NAME, PROGRAM_DESCRIPTION )
 
     g.results.append( None )   # g.results[ 0 ]
     g.interactive = True
@@ -373,8 +375,8 @@ def rpn( cmd_args ):
                 helpArg = cmd_args[ i ]
 
     if help:
-        parser = argparse.ArgumentParser( prog = g.PROGRAM_NAME, description = g.PROGRAM_NAME +
-                                          PROGRAM_VERSION_STRING + g.PROGRAM_DESCRIPTION + '\n    ' +
+        parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME +
+                                          ' - ' + PROGRAM_DESCRIPTION + '\n    ' +
                                           COPYRIGHT_MESSAGE, add_help = False,
                                           formatter_class = argparse.RawTextHelpFormatter,
                                           prefix_chars = '-' )
@@ -393,8 +395,8 @@ def rpn( cmd_args ):
         return
 
     # set up the command-line options parser
-    parser = argparse.ArgumentParser( prog = g.PROGRAM_NAME, description = g.PROGRAM_NAME +
-                                      PROGRAM_VERSION_STRING + g.PROGRAM_DESCRIPTION + '\n    ' +
+    parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME +
+                                      ' - ' + PROGRAM_DESCRIPTION + '\n    ' +
                                       COPYRIGHT_MESSAGE, add_help = False,
                                       formatter_class = argparse.RawTextHelpFormatter,
                                       prefix_chars = '-' )
@@ -442,6 +444,12 @@ def rpn( cmd_args ):
 
     loadUserVariablesFile( )
     loadUserFunctionsFile( )
+    loadUserConfigurationFile( )
+
+    if 'yafu_path' in g.userConfiguration and 'yafu_binary' in g.userConfiguration:
+        g.useYAFU = True
+    else:
+        g.useYAFU = False
 
     for i, arg in enumerate( cmd_args ):
         if ( len( arg ) > 1 ) :
@@ -684,6 +692,9 @@ def main( ):
 
         if g.userFunctionsAreDirty:
             saveUserFunctionsFile( )
+
+        if g.userConfigurationIsDirty:
+            saveUserConfigurationFile( )
     except ValueError as error:
         print( '\nrpn:  value error:  {0}'.format( error ) )
 

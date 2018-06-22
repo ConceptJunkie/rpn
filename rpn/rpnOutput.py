@@ -31,7 +31,8 @@ from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnPersistence import loadHelpData
-from rpn.rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_STRING
+from rpn.rpnVersion import COPYRIGHT_MESSAGE, PROGRAM_VERSION, PROGRAM_VERSION_STRING, \
+                           RPN_PROGRAM_NAME, PROGRAM_DESCRIPTION
 from rpn.rpnUtils import addAliases
 
 import rpn.rpnGlobals as g
@@ -600,7 +601,7 @@ def printHelp( operators, constants, listOperators, modifiers, term, interactive
 # //******************************************************************************
 
 def printGeneralHelp( ):
-    print( g.PROGRAM_NAME + PROGRAM_VERSION_STRING + g.PROGRAM_DESCRIPTION )
+    print( RPN_PROGRAM_NAME + " - " + PROGRAM_DESCRIPTION )
     print( COPYRIGHT_MESSAGE )
     print( )
 

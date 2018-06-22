@@ -141,8 +141,9 @@ def factorByTrialDivision( n ):
 def runYAFU( n ):
     import subprocess
 
-    full_out = subprocess.run( [ g.yafuPath + os.sep + g.yafuBinary, str( int( n ) ), '-xover', '120' ],
-                             stdout=subprocess.PIPE, cwd=g.yafuPath ).stdout.decode( 'ascii' )
+    full_out = subprocess.run( [ g.userConfiguration[ 'yafu_path' ] + os.sep +
+                                 g.userConfiguration[ 'yafu_binary' ], str( int( n ) ), '-xover', '120' ],
+                             stdout=subprocess.PIPE, cwd=g.userConfiguration[ 'yafu_path' ] ).stdout.decode( 'ascii' )
 
     #print( 'out', full_out )
 

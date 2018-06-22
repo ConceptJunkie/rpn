@@ -24,6 +24,7 @@ from rpnOperators import constants
 from rpnMeasurement import RPNMeasurement
 from rpnPersistence import cachedFunction, loadUnitNameData
 from rpnTestUtils import *
+from rpnUtils import getDataPath
 
 from mpmath import *
 
@@ -3027,6 +3028,7 @@ def runTests( tests ):
 # //******************************************************************************
 
 if __name__ == '__main__':
+    getDataPath( )
     loadUnitNameData( )
     client = initializeAlpha( )
 

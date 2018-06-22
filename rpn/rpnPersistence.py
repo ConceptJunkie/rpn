@@ -36,7 +36,7 @@ from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnKeyboard import DelayedKeyboardInterrupt
 from rpn.rpnSettings import setPrecision
 from rpn.rpnUtils import getDataPath, getUserDataPath
-from rpn.rpnVersion import PROGRAM_VERSION
+from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_NAME
 
 import rpn.rpnGlobals as g
 
@@ -388,7 +388,7 @@ class PersistentDict( MutableMapping ):
 
 @lru_cache( 1 )
 def getUserVariablesFileName( ):
-    return getUserDataPath( ) + os.sep + 'user_variables.cfg'
+    return getUserDataPath( ) + os.sep + PROGRAM_NAME + '_user_variables.cfg'
 
 
 # //******************************************************************************
@@ -399,7 +399,18 @@ def getUserVariablesFileName( ):
 
 @lru_cache( 1 )
 def getUserFunctionsFileName( ):
-    return getUserDataPath( ) + os.sep + 'user_functions.cfg'
+    return getUserDataPath( ) + os.sep + PROGRAM_NAME + '_user_functions.cfg'
+
+
+# //******************************************************************************
+# //
+# //  getUserConfigurationFileName
+# //
+# //******************************************************************************
+
+@lru_cache( 1 )
+def getUserConfigurationFileName( ):
+    return getUserDataPath( ) + os.sep + PROGRAM_NAME + '_user_config.cfg'
 
 
 # //******************************************************************************
@@ -503,4 +514,47 @@ def cachedFunction( name, overrideIgnore=False ):
         return cacheResults
 
     return namedCachedFunction
+
+
+# //******************************************************************************
+# //
+# //  loadUserConfigurationFile
+# //
+# //******************************************************************************
+
+def loadUserConfigurationFile( ):
+    config = configparser.ConfigParser( )
+    config.read( getUserConfigurationFileName( ) )
+
+    try:
+        items = config.items( 'User Configuration' )
+    except:
+        return
+
+    for tuple in items:
+        g.userConfiguration[ tuple[ 0 ] ] = tuple[ 1 ]
+
+
+# //******************************************************************************
+# //
+# //  saveUserConfigurationFile
+# //
+# //******************************************************************************
+
+def saveUserConfigurationFile( ):
+    config = configparser.ConfigParser( )
+
+    config[ 'User Configuration' ] = { }
+
+    for key in g.userConfiguration.keys( ):
+        config[ 'User Configuration' ][ key ] = g.userConfiguration[ key ]
+
+    import os.path
+
+    if os.path.isfile( getUserConfigurationFileName( ) ):
+        from shutil import copyfile
+        copyfile( getUserConfigurationFileName( ), getUserConfigurationFileName( ) + '.backup' )
+
+    with open( getUserConfigurationFileName( ), 'w' ) as userConfigurationFile:
+        config.write( userConfigurationFile )
 

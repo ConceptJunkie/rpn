@@ -29,7 +29,8 @@ from pathlib import Path
 
 from rpn.rpn import rpn, handleOutput
 from rpn.rpnUtils import getDataPath
-from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
+from rpn.rpnVersion import PROGRAM_VERSION, PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE, \
+                           PROGRAM_NAME, RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
 
@@ -37,9 +38,9 @@ print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help f
 print( COPYRIGHT_MESSAGE )
 print( )
 
-parser = argparse.ArgumentParser( prog = g.PROGRAM_NAME, description = g.PROGRAM_NAME +
-                                  PROGRAM_VERSION_STRING + ' - help file generator\n    ' +
-                                  COPYRIGHT_MESSAGE, add_help = False,
+parser = argparse.ArgumentParser( prog = PROGRAM_NAME, description = RPN_PROGRAM_NAME +
+                                  ' - help file generator\n    ' + COPYRIGHT_MESSAGE,
+                                  add_help = False,
                                   formatter_class = argparse.RawTextHelpFormatter,
                                   prefix_chars = '-' )
 
@@ -270,6 +271,10 @@ but fractional numbers in bases other than 10 can be input using -b.
 A leading '\\' forces the term to be interpreted as a number rather than an
 operator (for use with higher bases with -b).
 ''' + makeCommandExample( '\\add -b20', indent=4 ) + '''
+    ''',
+    'settings' :
+    '''
+Configuration Settings:
     ''',
     'output' :
     '''

@@ -82,6 +82,9 @@ def parseInputValue( term, inputRadix = 10 ):
             term = g.userFunctions[ term[ 1 : ] ]
             return term
 
+        if term[ 0 ] == "'":
+            return term[ 1 : ]
+
     innerChars = term[ 1 : -1 ]
 
     # this helps us parse dates

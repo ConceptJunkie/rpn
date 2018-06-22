@@ -52,6 +52,8 @@ def main( ):
     print( COPYRIGHT_MESSAGE )
     print( )
 
+    getDataPath( )
+
     lineCount = 0
 
     definitions = { }

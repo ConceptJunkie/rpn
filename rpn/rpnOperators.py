@@ -1973,6 +1973,66 @@ def setUserVariable( key, value ):
 
 # //******************************************************************************
 # //
+# //  getUserConfiguration
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def getUserConfiguration( key ):
+    if key in g.userConfiguration:
+        return g.userConfiguration[ key ]
+    else:
+        return ""
+
+
+# //******************************************************************************
+# //
+# //  setUserConfiguration
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def setUserConfiguration( key, value ):
+    g.userConfiguration[ key ] = value
+    g.userConfigurationIsDirty = True
+
+    return value
+
+
+# //******************************************************************************
+# //
+# //  deleteUserConfiguration
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def deleteUserConfiguration( key ):
+    if key not in g.userConfiguration:
+        raise ValueError( 'key \'' + key + '\' not found' )
+
+    del g.userConfiguration[ key ]
+    g.userConfigurationIsDirty = True
+
+    return key
+
+
+# //******************************************************************************
+# //
+# //  dumpUserConfiguration
+# //
+# //******************************************************************************
+
+def dumpUserConfiguration( ):
+    for i in g.userConfiguration:
+        print( i + ':', '"' + g.userConfiguration[ i ] + '"' );
+
+    print( )
+
+    return len( g.userConfiguration )
+
+
+# //******************************************************************************
+# //
 # //  createUserFunction
 # //
 # //******************************************************************************
@@ -4459,8 +4519,14 @@ operators = {
                                                     2, [ RPNOperator.Default, RPNOperator.String ],
                                                     RPNOperator.measurementsAllowed ),
 
+    'delete_config'                  : RPNOperator( deleteUserConfiguration,
+                                                    1, [ RPNOperator.String ] ),
+
     'describe'                       : RPNOperator( describeInteger,
                                                     1, [ RPNOperator.Integer ] ),
+
+    'dump_config'                    : RPNOperator( dumpUserConfiguration,
+                                                    0, [ ] ),
 
     'enumerate_dice'                 : RPNOperator( enumerateDiceGenerator,
                                                     1, [ RPNOperator.String ] ),
@@ -4474,6 +4540,9 @@ operators = {
 
     'help'                           : RPNOperator( printHelpMessage,
                                                     0, [ ] ),
+
+    'get_config'                     : RPNOperator( getUserConfiguration,
+                                                    1, [ RPNOperator.String ] ),
 
     'get_variable'                   : RPNOperator( getUserVariable,
                                                     1, [ RPNOperator.String ] ),
@@ -4531,6 +4600,9 @@ operators = {
 
     'roll_dice_'                     : RPNOperator( rollMultipleDiceGenerator,
                                                     2, [ RPNOperator.String, RPNOperator.PositiveInteger ] ),
+
+    'set_config'                     : RPNOperator( setUserConfiguration,
+                                                    2, [ RPNOperator.String, RPNOperator.String ] ),
 
     'set_variable'                   : RPNOperator( setUserVariable,
                                                     2, [ RPNOperator.String, RPNOperator.String ] ),
