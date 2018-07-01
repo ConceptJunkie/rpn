@@ -450,7 +450,7 @@ arithmetic sometime around 1980.
                      '''
                      ''' ),
 
-    'homestead':
+    'homestead' :
         RPNUnitInfo( 'area', 'homestead', 'homesteads', '',
                      [ ], [ 'US' ],
                      '''
@@ -492,7 +492,7 @@ arithmetic sometime around 1980.
                      '''
                      ''' ),
 
-    'section':
+    'section' :
         RPNUnitInfo( 'area', 'section', 'sections', '',
                      [ ], [ 'US' ],
                      '''
@@ -522,13 +522,13 @@ arithmetic sometime around 1980.
                      '''
                      ''' ),
 
-    'township':
+    'township' :
         RPNUnitInfo( 'area', 'township', 'townships', '',
                      [ ], [ 'US' ],
                      '''
                      ''' ),
 
-    'virgate':
+    'virgate' :
         RPNUnitInfo( 'area', 'virgate', 'virgates', '',
                      [ ], [ 'imperial' ],
                      '''
@@ -1050,56 +1050,56 @@ One duodecillion:  10e39
         RPNUnitInfo( 'constant', 'tredecillion', 'tredecillion', '',
                      [ ], [ 'constant' ],
                      '''
-One decillion:  10e42
+One tredecillion:  10e42
                      ''' ),
 
     'quattuordecillion' :
         RPNUnitInfo( 'constant', 'quattuordecillion', 'quattuordecillion', '',
                      [ ], [ 'constant' ],
                      '''
-One decillion:  10e45
+One quattuordecillion:  10e45
                      ''' ),
 
     'quindecillion' :
         RPNUnitInfo( 'constant', 'quindecillion', 'quindecillion', '',
                      [ 'quinquadecillion' ], [ 'constant' ],
                      '''
-One decillion:  10e48
+One quindecillion:  10e48
                      ''' ),
 
     'sexdecillion' :
         RPNUnitInfo( 'constant', 'sexdecillion', 'sexdecillion', '',
                      [ ], [ 'constant' ],
                      '''
-One decillion:  10e51
+One sexdecillion:  10e51
                      ''' ),
 
     'septendecillion' :
         RPNUnitInfo( 'constant', 'septemdecillion', 'septemdecillion', '',
                      [ ], [ 'constant' ],
                      '''
-One decillion:  10e54
+One septendecillion:  10e54
                      ''' ),
 
     'octodecillion' :
         RPNUnitInfo( 'constant', 'octodecillion', 'octodecillion', '',
                      [ ], [ 'constant' ],
                      '''
-One decillion:  10e57
+One octodecillion:  10e57
                      ''' ),
 
     'novemdecillion' :
         RPNUnitInfo( 'constant', 'novemdecillion', 'novemdecillion', '',
                      [ 'novendecillion' ], [ 'constant' ],
                      '''
-One decillion:  10e60
+One novemdecillion:  10e60
                      ''' ),
 
     'vigintillion' :
         RPNUnitInfo( 'constant', 'vigintillion', 'vigintillion', '',
                      [ ], [ 'constant' ],
                      '''
-One decillion:  10e63
+One vigintdecillion:  10e63
                      ''' ),
 
     'googol' :
@@ -1271,34 +1271,9 @@ One centillion:  10e303
                      '''
                      ''' ),
 
-    # electric_potential
-    'abvolt' :
-        RPNUnitInfo( 'electric_potential', 'abvolt', 'abvolts', 'abV',
-                     [ ], [ 'CGS' ],
-                     '''
-                     ''' ),
-
-    'coulomb/farad' :
-        RPNUnitInfo( 'electric_potential', 'coulomb/farad', 'coulombs/farad', '',
-                     [ ], [ 'SI' ],
-                     '''
-                     ''' ),
-
-    'volt' :
-        RPNUnitInfo( 'electric_potential', 'volt', 'volts', 'V',
-                     [ ], [ 'SI' ],
-                     '''
-                     ''' ),
-
-    'watt/ampere' :
-        RPNUnitInfo( 'electric_potential', 'watt/ampere', 'watts/ampere', '',
-                     [ ], [ 'SI' ],
-                     '''
-                     ''' ),
-
-    'statvolt' :
-        RPNUnitInfo( 'electric_potential', 'statvolt', 'statvolts', 'statV',
-                     [ 'esu_potential' ], [ 'CGS' ],
+    'reynolds' :
+        RPNUnitInfo( 'dynamic_viscosity', 'reynolds', 'reynolds', '',
+                     [ 'reyn', 'reyns' ], [ 'CGS' ],
                      '''
                      ''' ),
 
@@ -1353,6 +1328,37 @@ properties.  It is twice the reciprocal of the von Klitzing constant (2/RK).
     'statsiemens' :
         RPNUnitInfo( 'electrical_conductance', 'statsiemens', 'statsiemens', 'statS',
                      [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
+    # electric_potential
+    'abvolt' :
+        RPNUnitInfo( 'electric_potential', 'abvolt', 'abvolts', 'abV',
+                     [ ], [ 'CGS' ],
+                     '''
+                     ''' ),
+
+    'coulomb/farad' :
+        RPNUnitInfo( 'electric_potential', 'coulomb/farad', 'coulombs/farad', '',
+                     [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
+    'volt' :
+        RPNUnitInfo( 'electric_potential', 'volt', 'volts', 'V',
+                     [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
+    'watt/ampere' :
+        RPNUnitInfo( 'electric_potential', 'watt/ampere', 'watts/ampere', '',
+                     [ ], [ 'SI' ],
+                     '''
+                     ''' ),
+
+    'statvolt' :
+        RPNUnitInfo( 'electric_potential', 'statvolt', 'statvolts', 'statV',
+                     [ 'esu_potential' ], [ 'CGS' ],
                      '''
                      ''' ),
 
@@ -3213,6 +3219,12 @@ This conversion is required to do mass-energy equivalence calculations.
                      '''
                      ''' ),
 
+    'sidereal_year' :
+        RPNUnitInfo( 'time', 'sidereal_year', 'sidereal_years', '',
+                     [ ], [ 'science' ],
+                     '''
+                     ''' ),
+
     'svedberg' :
         RPNUnitInfo( 'time', 'svedberg', 'svedbergs', '',
                      [ ], [ ],
@@ -3273,12 +3285,6 @@ This conversion is required to do mass-energy equivalence calculations.
     'knot' :
         RPNUnitInfo( 'velocity', 'knot', 'knots', 'kt',
                      [ ], [ 'nautical' ],
-                     '''
-                     ''' ),
-
-    'light' :
-        RPNUnitInfo( 'velocity', 'light', 'x_light', '',
-                     [ ], [ 'natural' ],
                      '''
                      ''' ),
 
@@ -3540,12 +3546,6 @@ Myanmar (Burma), are still stated in hoppus tons.
 Ref:  https://en.wikipedia.org/wiki/Hoppus
                      ''' ),
 
-    'imperial' :
-        RPNUnitInfo( 'volume', 'imperial', 'imperials', '',
-                     [ ], [ 'wine' ],
-                     '''
-                     ''' ),
-
     'imperial_bushel' :
         RPNUnitInfo( 'volume', 'imperial_bushel', 'imperial_bushels', '',
                      [ ], [ 'imperial' ],
@@ -3677,7 +3677,7 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
                      '''
                      ''' ),
 
-    'minim':
+    'minim' :
         RPNUnitInfo( 'volume', 'minim', 'minims', 'gtt',
                      [ 'drop' ], [ 'traditional' ],
                      '''
@@ -4270,11 +4270,15 @@ unitConversionMatrix = {
     ( 'grad',                       'degree' )                              : mpmathify( '0.9' ),
     ( 'gram',                       'dolya' )                               : mpmathify( '22.50481249152' ),
     ( 'gram-equivalent',            'joule' )                               : fdiv( power( mpf( '299792458' ), 2 ), 1000 ),
+    ( 'gram-force',                 'newton' )                              : mpmathify( '0.00980665' ),
     ( 'gray',                       'joule/kilogram' )                      : mpmathify( '1' ),
     ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
+    ( 'gray',                       'sievert' )                             : mpmathify( '1' ),
     ( 'great_gross',                'gross' )                               : mpmathify( '12' ),
+    ( 'gregorian_year',             'second' )                              : mpmathify( '31556952' ),
     ( 'greek_cubit',                'inch' )                                : mpmathify( '18.22' ),
     ( 'gross',                      'unity' )                               : mpmathify( '144' ),
+    ( 'hand',                       'inch' )                                : mpmathify( '4' ),
     ( 'handbreadth',                'inch' )                                : mpmathify( '3' ),
     ( 'hartree',                    'rydberg' )                             : mpmathify( '2' ),
     ( 'hefnerkerze',                'candela' )                             : mpmathify( '0.920' ),  # approx.
@@ -4282,6 +4286,7 @@ unitConversionMatrix = {
     ( 'henry',                      'weber/ampere' )                        : mpmathify( '1' ),
     ( 'hertz',                      '1/second' )                            : mpmathify( '1' ),
     ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
+    ( 'hogshead',                   'liter' )                               : mpmathify( '238.481' ),
     ( 'homestead',                  'acre' )                                : mpmathify( '160' ),
     ( 'hoppus_ton',                 'cubic_meter' )                         : mpmathify( '1.8027' ),
     ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
@@ -4321,6 +4326,7 @@ unitConversionMatrix = {
     ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
     ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
     ( 'kilderkin',                  'firkin' )                              : mpmathify( '2' ),
+    ( 'kilogram/meter^3',           'kilogram/liter' )                      : mpmathify( '1000' ),
     ( 'kip',                        'pound' )                               : mpmathify( '1000' ),
     ( 'kosaya_sazhen',              'meter' )                               : mpmathify( '2.48' ),
     ( 'kovac',                      'wolverton' )                           : mpmathify( '10' ),
@@ -4328,7 +4334,6 @@ unitConversionMatrix = {
     ( 'league',                     'mile' )                                : mpmathify( '3' ),
     ( 'leo',                        'meter/second^2' )                      : mpmathify( '10' ),
     ( 'library_of_congress',        'byte' )                                : mpmathify( '1.0e13' ),
-    ( 'light',                      'meter/second' )                        : mpmathify( '299792458' ),
     ( 'light-second',               'meter' )                               : mpmathify( '299792458' ),
     ( 'light-year',                 'light-second' )                        : mpmathify( '31557600' ),
     ( 'link',                       'inch' )                                : mpmathify( '7.92' ),
@@ -4338,6 +4343,7 @@ unitConversionMatrix = {
     ( 'long_hundred',               'unity' )                               : mpmathify( '120' ),
     ( 'long_reed',                  'foot' )                                : mpmathify( '10.5' ),
     ( 'lot',                        'dolya' )                               : mpmathify( '288' ),
+    ( 'lumen',                      'candela-steradian' )                   : mpmathify( '1' ),
     ( 'lustrum',                    'year' )                                : mpmathify( '5' ),
     ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '1' ),
     ( 'lux',                        'nox' )                                 : mpmathify( '1000' ),
@@ -4355,6 +4361,7 @@ unitConversionMatrix = {
     ( 'meter',                      'french' )                              : mpmathify( '3000' ),
     ( 'meter',                      'kyu' )                                 : mpmathify( '4000' ),
     ( 'meter',                      'micron' )                              : mpmathify( '1.0e6' ),
+    ( 'meter-newton',               'joule' )                               : mpmathify( '1' ),
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
     ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
     ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
@@ -4428,12 +4435,15 @@ unitConversionMatrix = {
     ( 'pascal-second',              'kilogram/meter-second' )               : mpmathify( '1' ),
     ( 'pascal-second',              'poise' )                               : mpmathify( '10' ),
     ( 'peck',                       'dry_gallon' )                          : mpmathify( '2' ),
+    ( 'pennyweight',                'gram' )                                : mpmathify( '1.55517384' ),
     ( 'perch',                      'foot' )                                : mpmathify( '16.5' ),
     ( 'pferdestarke',               'watt' )                                : mpmathify( '735.49875' ),
     ( 'pfund',                      'gram' )                                : mpmathify( '500' ),
     ( 'phot',                       'lux' )                                 : mpmathify( '10000' ),
     ( 'piccolo',                    'liter' )                               : mpmathify( '0.1875' ),
     ( 'pieze',                      'pascal' )                              : mpmathify( '1000' ),
+    ( 'quintal',                    'gram' )                                : mpmathify( '100000' ),
+    ( 'tun',                        'pipe' )                                : mpmathify( '2' ),
     ( 'pointangle',                 'degree' )                              : fdiv( 360, 32 ),
     ( 'poncelet',                   'watt' )                                : mpmathify( '980.665' ),
     ( 'pony',                       'dram' )                                : mpmathify( '6' ),
@@ -4446,7 +4456,7 @@ unitConversionMatrix = {
     ( 'pound',                      'grain' )                               : mpmathify( '7000' ),
     ( 'pound',                      'ounce' )                               : mpmathify( '16' ),
     ( 'pound',                      'sheet' )                               : mpmathify( '700' ),
-    ( 'psi',                        'pascal' )                              : mpmathify( '6894.757' ),        # approx.
+    ( 'psi',                        'pascal' )                              : mpmathify( '6894.75728' ),      # approx.
     ( 'pyad',                       'inch' )                                : mpmathify( '7' ),
     ( 'pyad',                       'vershok' )                             : mpmathify( '4' ),
     ( 'quad',                       'btu' )                                 : mpmathify( '10e15' ),
@@ -4465,6 +4475,7 @@ unitConversionMatrix = {
     ( 'radian',                     'degree' )                              : fdiv( 180, pi ),
     ( 'reed',                       'foot' )                                : mpmathify( '9' ),
     ( 'rehoboam',                   'liter' )                               : mpmathify( '4.5' ),
+    ( 'reynolds',                   'pascal-second' )                       : mpmathify( '6894.75729' ),
     ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
     ( 'roentgen',                   'rad' )                                 : mpmathify( '0.877' ),
     ( 'rood',                       'square_yard' )                         : mpmathify( '1210' ),
@@ -4491,7 +4502,10 @@ unitConversionMatrix = {
     ( 'sidereal_day',               'hour' )                                : mpmathify( '23.9344699' ),
     ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
     ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
+    ( 'sidereal_minute',            'sidereal_second' )                     : mpmathify( '60' ),
     ( 'sidereal_month',             'day' )                                 : mpmathify( '27.321661' ),
+    ( 'sidereal_year',              'second' )                              : mpmathify( '21558150' ),
+    ( 'sidereal_year',              'sidereal_day' )                        : mpmathify( '366.256401477692' ),
     ( 'siemens',                    'ampere/volt' )                         : mpmathify( '1' ),
     ( 'siemens',                    'ampere^2-second^3/kilogram-meter^2' )  : mpmathify( '1' ),
     ( 'siemens',                    'coulomb^2-second/kilogram-meter^2' )   : mpmathify( '1' ),
@@ -4521,6 +4535,7 @@ unitConversionMatrix = {
     ( 'square_meter',               'shed' )                                : mpmathify( '1.0e52' ),
     ( 'square_octant',              'square_degree' )                       : mpmathify( '2025' ),
     ( 'square_quadrant',            'square_degree' )                       : mpmathify( '8100' ),
+    ( 'square_quintant',            'square_degree' )                       : mpmathify( '5184' ),
     ( 'square_sextant',             'square_degree' )                       : mpmathify( '3600' ),
     ( 'square_yard',                'square_foot' )                         : mpmathify( '9' ),
     ( 'stadium',                    'foot' )                                : mpmathify( '606.95' ),
@@ -4535,6 +4550,7 @@ unitConversionMatrix = {
     ( 'steradian',                  'radian^2' )                            : mpmathify( '1' ),
     ( 'steradian',                  'square_degree' )                       : power( fdiv( 180, pi ), 2 ),
     ( 'steradian',                  'square_grad' )                         : power( fdiv( 200, pi ), 2 ),
+    ( 'stere',                      'liter' )                               : mpmathify( '1000' ),
     ( 'sthene',                     'newton' )                              : mpmathify( '1000' ),
     ( 'stilb',                      'candela/meter^2' )                     : mpmathify( '10000' ),
     ( 'stone',                      'pound' )                               : mpmathify( '14' ),
@@ -4572,6 +4588,7 @@ unitConversionMatrix = {
     ( 'tropical_year',              'day' )                                 : mpmathify( '365.2421897' ),
     ( 'troy_ounce',                 'gram' )                                : mpmathify( '31.1034768' ),
     ( 'troy_pound',                 'pound' )                               : mpmathify( '12' ),
+    ( 'tun',                        'gallon' )                              : mpmathify( '252' ),
     ( 'tryte',                      'trit' )                                : mpmathify( '6' ),   # as defined by the Setun computer
     ( 'two',                        'unity' )                               : mpmathify( '2' ),
     ( 'undecillion',                'unity' )                               : mpmathify( '1.0e36' ),

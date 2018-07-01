@@ -777,7 +777,6 @@ operatorAliases = {
     'prime?'                        : 'next_prime',
     'primepi'                       : 'prime_pi',
     'prod'                          : 'product',
-    'psi'                           : 'digamma',
     'puff'                          : 'picofarad',
     'pyr'                           : 'pyramid',
     'qP'                            : 'planck_charge',

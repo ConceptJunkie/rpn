@@ -36,6 +36,8 @@
 # The Canadian formula, with temperatures in C and wind speed in km/h, is
 # WCTI = 13.12 + 0.6215T - 11.37V0.16 + 0.3965TV0.16.
 
+# rpn needs to be able to parse "meter/second^2" as a unit.  It's the "^" that's the problem.
+
 from __future__ import print_function
 
 import six
