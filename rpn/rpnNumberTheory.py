@@ -21,10 +21,10 @@ from functools import reduce
 
 from mpmath import altzeta, arange, barnesg, beta, binomial, ceil, e, fabs, \
                    fac, fac2, fadd, fdiv, fib, floor, fmod, fmul, fneg, \
-                   fprod, fsub, fsum, gamma, harmonic, hyperfac, loggamma, \
-                   mp, mpc, mpf, mpmathify, nint, phi, polyroots, polyval, \
-                   power, primepi, psi, re, root, superfac, sqrt, unitroots, \
-                   zeta, zetazero
+                   fprod, fsub, fsum, gamma, harmonic, hyperfac, log10, \
+                   loggamma, mp, mpc, mpf, mpmathify, nint, phi, polyroots, \
+                   polyval, power, primepi, psi, re, root, superfac, sqrt, \
+                   unitroots, zeta, zetazero
 
 from rpn.rpnFactor import getFactors, getFactorList
 from rpn.rpnGenerator import RPNGenerator
@@ -1184,6 +1184,29 @@ def getAliquotSequenceGenerator( n, k ):
 @twoArgFunctionEvaluator( )
 def getAliquotSequence( n, k ):
     return RPNGenerator.createGenerator( getAliquotSequenceGenerator, [ n, k ] )
+
+
+# //******************************************************************************
+# //
+# //  getLimitedAliquotSequenceGenerator
+# //
+# //******************************************************************************
+
+@twoArgFunctionEvaluator( )
+def getLimitedAliquotSequenceGenerator( n, k ):
+    '''
+    '''
+    yield real( floor( n ) )
+
+    a = n
+
+    while log10( a ) <= k and a != 0:
+        b = fsub( getSigma( a ), a )
+        yield b
+        a = b
+
+def getLimitedAliquotSequence( n, k ):
+    return RPNGenerator.createGenerator( getLimitedAliquotSequenceGenerator, [ n, k ] )
 
 
 # //******************************************************************************

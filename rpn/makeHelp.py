@@ -1054,6 +1054,10 @@ Added 'random_element' operator.
 The gmpy2 digits( ) function is a much faster way to convert numbers to bases
 2 through 62.
 
+Added support for using yafu for factoring.
+
+Added 'aliquot_limit' operator.
+
 7.1.0
 
 Added 'discriminant', 'is_strong_pseudoprime' and 'compare_lists' operators.
@@ -8034,7 +8038,15 @@ Here, we use 'unlist' to make arguments for 'euler_brick':
 ''',
 '''
 ''',
-[ 'collatz' ] ],
+[ 'aliquot_limit', 'collatz' ] ],
+
+    'aliquot_limit' : [
+'number_theory', 'returns the members of the aliquot sequence of n until a value in the sequence exceeds 10^k',
+'''
+''',
+'''
+''',
+[ 'aliquot', 'collatz' ] ],
 
     'alternating_factorial' : [
 'number_theory', 'calculates the alternating factorial of n',
@@ -9085,6 +9097,8 @@ Not implemented yet!
     'orbital_period' : [
 'physics', 'calculates the orbital period of an object orbiting mass n at radius k',
 '''
+Mass n is really the combined mass of the object orbiting and the object being
+orbited.
 ''',
 '''
 ''',
@@ -9093,6 +9107,8 @@ Not implemented yet!
     'orbital_radius' : [
 'physics', '',
 '''
+Mass n is really the combined mass of the object orbiting and the object being
+orbited.
 ''',
 '''
 ''',
@@ -9107,6 +9123,9 @@ any order:
 mass (the mass of the object being orbited)
 length (the radius of the orbit)
 time (the period of the orbit)
+
+Mass n is really the combined mass of the object orbiting and the object being
+orbited.
 ''',
 '''
 ''' + makeCommandExample( '24 hours earth_mass orbital_velocity' ) + '''
@@ -10809,6 +10828,22 @@ This operator is not implemented yet!
 ''',
 [ ] ],
 
+    'delete_config' : [
+'special', 'delete configuration setting n',
+'''
+''',
+'''
+''',
+[ 'dump_config', 'get_config', 'set_config' ] ],
+
+    'dump_config' : [
+'special', 'dumps all configuration settings',
+'''
+''',
+'''
+''',
+[ 'delete_config', 'get_config', 'set_config' ] ],
+
     'describe' : [
 'special', 'outputs a list of properties of integer n',
 '''
@@ -10888,6 +10923,14 @@ magnitude of the measurement.
 ''' + makeCommandExample( '1 petabyte estimate' ) + '''
 ''' + makeCommandExample( '4 million gallons estimate' ),
 [ 'convert' ] ],
+
+    'get_config' : [
+'special', 'get configuration setting n',
+'''
+''',
+'''
+''',
+[ 'delete_config', 'dump_config', 'set_config' ] ],
 
     'get_variable' : [
 'special', 'retrieves the value for n in the user config data file',
@@ -11209,6 +11252,17 @@ Please see 'roll_dice' for an explanation of the dice expression language.
 ''' + makeCommandExample( '3 6 roll_simple_dice' ) + '''
 ''' + makeCommandExample( '4 random_int 4 roll_simple_dice' ),
 [ 'roll_dice' ] ],
+
+    'set_config' : [
+'special', 'set configuration setting n with value k',
+'''
+Since rpn has lots of argument-parsing rules, prepending a single-quote (') to
+the argument tells rpn to bypass all the parsing and just treat the argument as
+a string.
+''',
+'''
+''',
+[ 'delete_config', 'dump_config', 'get_config' ] ],
 
     'set_variable' : [
 'special', 'set the value k for key n in the user config file',

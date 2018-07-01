@@ -3969,6 +3969,9 @@ operators = {
     'aliquot'                        : RPNOperator( getAliquotSequence,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
 
+    'aliquot_limit'                  : RPNOperator( getLimitedAliquotSequence,
+                                                    2, [ RPNOperator.PositiveInteger, RPNOperator.PositiveInteger ] ),
+
     'alternating_factorial'          : RPNOperator( getNthAlternatingFactorial,
                                                     1, [ RPNOperator.NonnegativeInteger ] ),
 
