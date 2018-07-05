@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1233
+maxExampleCount = 1237
 
 
 # //******************************************************************************
@@ -1057,6 +1057,15 @@ The gmpy2 digits( ) function is a much faster way to convert numbers to bases
 Added support for using yafu for factoring.
 
 Added 'aliquot_limit' operator.
+
+Added support for user configuration:  'set_config', 'get_config',
+'delete_config' and 'dump_config'.
+
+Added the 'mothers_day' and 'fathers_day' operators.
+
+Added unit tests for converting units, and made a few fixes accordingly.
+
+Verbose mode for factoring gets turned on with -D.
 
 7.1.0
 
@@ -8223,6 +8232,16 @@ a Pythogorean triples, therefore the face diagonals are also integers.
     'factor' : [
 'number_theory', 'calculates the prime factorization of n',
 '''
+In order to take advantage of YAFU, please set the following configuration
+values:
+
+'yafu_binary' needs to be set to the YAFU executable name.
+'yafu_path' needs to be set to the location of the YAFU executable.
+
+e.g.:
+
+rpn yafu_binary 'yafu-x64.core2.exe
+rpn yafu_path 'c:\app\yafu
 ''',
 '''
 ''',
@@ -10927,6 +10946,10 @@ magnitude of the measurement.
     'get_config' : [
 'special', 'get configuration setting n',
 '''
+There are currently only two configuration settings supported:
+
+'yafu_binary' - the YAFU executable name.
+'yafu_path' - the location of the YAFU executable.
 ''',
 '''
 ''',
@@ -10937,7 +10960,9 @@ magnitude of the measurement.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( 'magic_number 37 set_variable' ) + '''
+''' + makeCommandExample( 'magic_number get_variable' ) + '''
+''' + makeCommandExample( '$magic_number' ),
 [ 'set_variable' ] ],
 
     'help' : [
@@ -11259,6 +11284,11 @@ Please see 'roll_dice' for an explanation of the dice expression language.
 Since rpn has lots of argument-parsing rules, prepending a single-quote (') to
 the argument tells rpn to bypass all the parsing and just treat the argument as
 a string.
+
+There are currently only two configuration settings supported:
+
+'yafu_binary' - the YAFU executable name.
+'yafu_path' - the location of the YAFU executable.
 ''',
 '''
 ''',
@@ -11273,9 +11303,7 @@ can be more conveniently accessed with the '$' prefix.
 '''
 ''' + makeCommandExample( 'magic_number 37 set_variable' ) + '''
 ''' + makeCommandExample( 'magic_number get_variable' ) + '''
-c:\>rpn $magic_number
-37
-
+''' + makeCommandExample( '$magic_number' ) + '''
 ''' + makeCommandExample( 'my_location "Leesburg, VA" set_variable' ) + '''
 ''' + makeCommandExample( '$my_location today sunrise' ),
 [ 'get_variable' ] ],
