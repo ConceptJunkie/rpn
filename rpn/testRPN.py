@@ -2413,14 +2413,14 @@ def runFunctionOperatorTests( ):
 
 def runGeographyOperatorTests( ):
     # distance
-    testOperator( '"Leesburg, VA" location "Smithfield, VA" location distance' )
-    testOperator( '"Leesburg, VA" "Smithfield, VA" distance' )
+    testOperator( '"Leesburg, VA" location "Smithfield, VA" location geo_distance' )
+    testOperator( '"Leesburg, VA" "Smithfield, VA" geo_distance' )
 
     # get_timezone
     testOperator( '"Leesburg, VA" get_timezone' )
 
     # lat_long
-    #testOperator( '"Leesburg, VA" 43 -80 lat_long distance' )
+    #testOperator( '"Leesburg, VA" 43 -80 lat_long geo_distance' )
 
     # location
     testOperator( '"Uppsala, Sweden" location today moonrise' )
@@ -3795,6 +3795,13 @@ def runNumberTheoryOperatorTests( ):
 # //******************************************************************************
 
 def runPhysicsOperatorTests( ):
+    # distance
+    testOperator( '10 feet 10 seconds distance' )   # trivial version
+    testOperator( '65 mph 10 seconds distance' )
+    testOperator( 'gee 10 seconds distance' )
+    testOperator( '10 m/s^3 10 seconds distance' )
+    testOperator( '10 m/s^4 10 seconds distance' )
+
     # energy_equivalence
     testOperator( '1 gram energy_equivalence' )
 

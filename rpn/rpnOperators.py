@@ -3606,11 +3606,11 @@ operators = {
     'recurrence'                     : RPNOperator( evaluateRecurrence,
                                                     3, [ RPNOperator.Default, RPNOperator.PositiveInteger, RPNOperator.Function ] ),
 
-    'repeat'                        : RPNOperator( repeat,
+    'repeat'                         : RPNOperator( repeat,
                                                     2, [ RPNOperator.NonnegativeInteger, RPNOperator.Function ] ),
 
     # geography
-    'distance'                       : RPNOperator( getDistance,
+    'geo_distance'                   : RPNOperator( getDistance,
                                                     2, [ RPNOperator.Location, RPNOperator.Location ] ),
 
     'get_timezone'                   : RPNOperator( getTimeZone,
@@ -4250,6 +4250,9 @@ operators = {
 
     # physics
     'acceleration'                   : RPNOperator( calculateAcceleration,
+                                                    2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
+
+    'distance'                       : RPNOperator( calculateDistance,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
     'energy_equivalence'             : RPNOperator( calculateEnergyEquivalence,

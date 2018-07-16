@@ -440,7 +440,7 @@ def calculateAcceleration( measurement1, measurement2 ):
     validUnitTypes = [
         [ 'velocity', 'length' ],
         [ 'velocity', 'time' ],
-        [ 'distance', 'time' ],
+        [ 'length', 'time' ],
         [ 'acceleration', 'time' ],
         [ 'acceleration', 'length' ],
     ]
@@ -449,8 +449,13 @@ def calculateAcceleration( measurement1, measurement2 ):
 
     if 'acceleration' in arguments:
         acceleration = arguments[ 'acceleration' ]
-    else:
-        acceleration = RPNMeasurement( '1.0', 'meter/second^2' )
+    elif 'velocity' in arguments:
+        if 'length' in arguments:
+            acceleration = divide( getPower( arguments[ 'velocity' ], 2 ), multiply( arguments[ 'length' ], 2 ) )
+        else:
+            acceleration = divide( arguments[ 'velocity' ], arguments[ 'time' ] )
+    elif 'length' in arguments and 'time' in arguments:
+        acceleration = multiply( 2, divide( arguments[ 'length' ], getPower( arguments[ 'time' ], 2 ) ) )
 
     return acceleration.convert( 'meter/second^2' )
 

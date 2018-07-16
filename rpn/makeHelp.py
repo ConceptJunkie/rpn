@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1237
+maxExampleCount = 1243
 
 
 # //******************************************************************************
@@ -1067,6 +1067,11 @@ Added unit tests for converting units, and made a few fixes accordingly.
 
 Verbose mode for factoring gets turned on with -D.
 
+Oops, there were two operators named 'distance'.  'distance' now refers to the
+physics operator and the geography operator is now named 'geo_distance'.
+
+...and the usual bug fixes.
+
 7.1.0
 
 Added 'discriminant', 'is_strong_pseudoprime' and 'compare_lists' operators.
@@ -1074,7 +1079,7 @@ Added 'discriminant', 'is_strong_pseudoprime' and 'compare_lists' operators.
 Fixed a few mistakes in the help examples.
 
 The unit tests no longer use cached values for functions (but it still uses
-the cache for functions that access the Internet: the OEIS functions and the
+the cache for functions that access the Internet:  the OEIS functions and the
 location functions).
 
 Added 'describe', 'is_smith_number', 'is_base_k_smith_number',
@@ -1238,11 +1243,10 @@ Unit conversions:
 
     Here's a little more advanced version of the problem.  Let's say we have
     launched a rocket that is accelerated at 5 Gs for 5 minutes.  How long
-    would it take for it to reach Jupiter (assume Jupiter is 500,000,000 miles
-    away)?
-''' + makeCommandExample( '500 million miles 5 gee * 5 minutes * /', indent=8 ) + '''
+    would it take for it to reach Jupiter?
+''' + makeCommandExample( 'jupiter now distance_from_earth 5 gee * 5 minutes * / dhms', indent=8 ) + '''
     Note that constants (e.g., gee) must use the 'multiply' operator, i.e.,
-    '5 gee *', but units do not require it (e.g., '500 million miles').  This
+    '5 gee *', but units do not require it (e.g., '5 minutes').  This
     isn't consistent, but I don't know of a better way to handle this because
     you don't want adjacent constants to automatically be multiplied.
 
@@ -2426,7 +2430,8 @@ This is also the amount of time between sunrise and sunset.
 '''
 ''',
 '''
-''',
+''' + makeCommandExample( '-c mars "2018-07-10 16:00" distance_from_earth miles convert' ) + '''
+''' + makeCommandExample( '-c jupiter "2018-07-10 16:00" distance_from_earth miles convert' ),
 [ 'sky_location', 'angular_size' ] ],
 
     'dusk' : [
@@ -6417,7 +6422,7 @@ This operator can also handle length measurements.
 # //
 # //******************************************************************************
 
-    'distance' : [
+    'geo_distance' : [
 'geography', 'calculates the distance, along the Earth\'s surface, of two locations',
 '''
 ''',
@@ -6431,7 +6436,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ ] ],
+[ 'location_info' ] ],
 
     'lat_long' : [
 'geography', 'creates a location object given the lat/long for use with other operators',
@@ -6439,7 +6444,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ 'location_info', 'location' ] ],
+[ 'location_info', 'location', 'geo_distance' ] ],
 
     'location' : [
 'geography', 'returns the lat-long for a location string',
@@ -6447,7 +6452,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ 'location_info', 'lat_long' ] ],
+[ 'location_info', 'lat_long', 'geo_distance' ] ],
 
     'location_info' : [
 'geography', 'returns the lat-long for a location',
@@ -6455,7 +6460,7 @@ This operator can also handle length measurements.
 ''',
 '''
 ''',
-[ 'location', 'lat_long', 'distance' ] ],
+[ 'location', 'lat_long', 'geo_distance', 'get_timezone' ] ],
 
 
 # //******************************************************************************
@@ -9059,11 +9064,35 @@ This is the equivalent of '1 n polygamma'.
     'acceleration' : [
 'physics', 'calculates acceleration...',
 '''
-Not implemented yet!
+Calculates constant acceleration from a stationary start, given measurements
+in two different units (in either order), from one of the following
+combinations of units:
+    velocity, length
+    velocity, time
+    distance, time
+    acceleration, time      (trivial case)
+    acceleration, length    (trivial case)
 ''',
 '''
-''',
+''' + makeCommandExample( '490.3325 meters 10 seconds acceleration' ),
 [ 'velocity', 'distance' ] ],
+
+    'distance' : [
+'physics', 'calculates distance...',
+'''
+Calculates distance given measurements in two different units (in either
+order), from one of the following combinations of units:
+    length, time          (trivial case)
+    velocity, time
+    acceleration, time
+    jerk, time
+    jounce, time
+''',
+'''
+''' + makeCommandExample( '1 mile 5 seconds distance' ) + '''
+''' + makeCommandExample( '100 mph 10 seconds distance' ) + '''
+''' + makeCommandExample( 'gee 5 seconds distance' ),
+[ 'velocity', 'acceleration' ] ],
 
     'energy_equivalence' : [
 'physics', 'calculates the energy equivalence of mass n',
