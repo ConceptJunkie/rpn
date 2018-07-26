@@ -78,15 +78,26 @@ def runConvertTests( ):
     testOperator( 'virgate meter*meter convert' )
 
     # capacitance
+    #testOperator( '1/ohm*hertz farad convert' )
     testOperator( 'abfarad farad convert' )
+    testOperator( 'ampere*second/volt farad convert' )
     testOperator( 'coulomb/volt farad convert' )
+    testOperator( 'coulomb^2/joule farad convert' )
+    testOperator( 'coulomb^2/newton*meter farad convert' )
     testOperator( 'jar farad convert' )
+    testOperator( 'joule/volt^2 farad convert' )
+    testOperator( 'newton*meter/volt^2 farad convert' )
+    testOperator( 'second/ohm farad convert' )
+    testOperator( 'second^2*coulomb^2/meter^2*kilogram farad convert' )
+    testOperator( 'second^2/henry farad convert' )
+    testOperator( 'second^4*ampere^2/meter^2*kilogram farad convert' )
     testOperator( 'statfarad farad convert' )
+    testOperator( 'watt*second/volt^2 farad convert' )
 
     # charge
     testOperator( 'abcoulomb coulomb convert' )
-    testOperator( 'ampere-second coulomb convert' )
-    testOperator( 'farad-volt coulomb convert' )
+    testOperator( 'ampere*second coulomb convert' )
+    testOperator( 'farad*volt coulomb convert' )
     testOperator( 'franklin coulomb convert' )
     testOperator( 'faraday coulomb convert' )
     testOperator( 'joule/volt coulomb convert' )
@@ -155,7 +166,7 @@ def runConvertTests( ):
     testOperator( 'watt/ampere*ampere ohm convert' )
 
     # energy
-    testOperator( 'ampere-second-volt joule convert' )
+    testOperator( 'ampere*second*volt joule convert' )
     testOperator( 'btu joule convert' )
     testOperator( 'calorie joule convert' )
     testOperator( 'electron-volt joule convert' )
@@ -163,10 +174,10 @@ def runConvertTests( ):
     testOperator( 'foe joule convert' )
     testOperator( 'gram-equivalent joule convert' )
     testOperator( 'hartree joule convert' )
-    testOperator( 'horsepower-second joule convert' )
+    testOperator( 'horsepower*second joule convert' )
     testOperator( 'kilogram*meter*meter/second*second joule convert' )
-    testOperator( 'meter-newton joule convert' )
-    testOperator( 'meter*meter*meter*pascal joule convert' )
+    testOperator( 'meter*newton joule convert' )
+    testOperator( 'meter^3*pascal joule convert' )
     testOperator( 'pound_of_TNT joule convert' )
     testOperator( 'quad joule convert' )
     testOperator( 'rydberg joule convert' )
@@ -174,11 +185,11 @@ def runConvertTests( ):
     testOperator( 'toe joule convert' )
     testOperator( 'ton_of_coal joule convert' )
     testOperator( 'ton_of_TNT joule convert' )
-    testOperator( 'volt-coulomb joule convert' )
-    testOperator( 'watt-second joule convert' )
+    testOperator( 'volt*coulomb joule convert' )
+    testOperator( 'watt*second joule convert' )
 
     # force
-    #testOperator( 'amp*weber/meter newton convert' )
+    testOperator( 'amp*weber/meter newton convert' )
     testOperator( 'dyne newton convert' )
     testOperator( 'gram-force newton convert' )
     testOperator( 'joule/meter newton convert' )
@@ -211,8 +222,14 @@ def runConvertTests( ):
 
     # inductance
     testOperator( 'abhenry henry convert' )
-    testOperator( 'weber/ampere henry convert' )
+    testOperator( 'joule/ampere^2 henry convert' )
+    testOperator( 'kilogram*meter^2/coulomb^2 henry convert' )
+    testOperator( 'kilogram*meter^2/second^2*ampere^2 henry convert' )
+    testOperator( 'ohm*second henry convert' )
+    testOperator( 'ohm/hertz henry convert' )
+    testOperator( 'second^2/farad henry convert' )
     testOperator( 'stathenry henry convert' )
+    testOperator( 'weber/ampere henry convert' )
 
     # information_entropy
     testOperator( 'ban bit convert' )
@@ -316,7 +333,7 @@ def runConvertTests( ):
     testOperator( 'stilb candela/meter*meter convert' )
 
     # luminous_flux
-    testOperator( 'candela-steradian lumen convert' )
+    testOperator( 'candela*steradian lumen convert' )
 
     # luminous_intensity
     testOperator( 'hefnerkerze candela convert' )
@@ -328,16 +345,21 @@ def runConvertTests( ):
     testOperator( 'centimeter*centimeter*gauss weber convert' )
     testOperator( 'magnetic_flux_quantum weber convert' )
     testOperator( 'maxwell weber convert' )
-    testOperator( 'volt-second weber convert' )
+    testOperator( 'volt*second weber convert' )
     testOperator( 'unit_pole weber convert' )
     testOperator( 'meter*meter*tesla weber convert' )
 
     # magnetic_flux_density
     testOperator( 'gauss tesla convert' )
+    testOperator( 'henry*ampere/meter^2 tesla convert' )
+    testOperator( 'joule/ampere*meter^2 tesla convert' )
     testOperator( 'kilogram/ampere*second*second tesla convert' )
+    testOperator( 'kilogram/coulomb*second tesla convert' )
     testOperator( 'maxwell/centimeter*centimeter tesla convert' )
     testOperator( 'newton*second/coulomb*meter tesla convert' )
+    testOperator( 'newton/ampere*meter tesla convert' )
     testOperator( 'second*volt/meter*meter tesla convert' )
+    testOperator( 'volt*second/meter^2 tesla convert' )
     testOperator( 'weber/meter*meter tesla convert' )
 
     # mass
@@ -375,14 +397,14 @@ def runConvertTests( ):
     testOperator( 'zolotnik gram convert' )
 
     # power
-    testOperator( 'ampere-volt watt convert' )
+    testOperator( 'ampere*volt watt convert' )
     testOperator( 'dBm watt convert' )
     testOperator( 'erg/second watt convert' )
     testOperator( 'horsepower watt convert' )
     testOperator( 'joule/second watt convert' )
     testOperator( 'lusec watt convert' )
     testOperator( 'kilogram*meter*meter/second*second*second watt convert' )
-    testOperator( 'meter-newton/second watt convert' )
+    testOperator( 'meter*newton/second watt convert' )
     testOperator( 'pferdestarke watt convert' )
     testOperator( 'poncelet watt convert' )
 
@@ -473,7 +495,7 @@ def runConvertTests( ):
     testOperator( 'kilometer/hour meter/second convert' )
 
     # volume
-    testOperator( 'acre-foot liter convert' )
+    testOperator( 'acre*foot liter convert' )
     testOperator( 'balthazar liter convert' )
     testOperator( 'beer_barrel liter convert' )
     testOperator( 'beer_keg liter convert' )
@@ -597,7 +619,7 @@ def runConvertTests( ):
     testOperator( 'lux lumen meter sqr / convert' )
     testOperator( 'mach meter/second convert' )
     testOperator( 'maxwell gauss centimeter sqr * convert' )
-    testOperator( 'meter-newton newton meter * convert' )
+    testOperator( 'meter*newton newton meter * convert' )
     testOperator( 'nat joule/kelvin convert' )
     testOperator( 'newton joule/meter convert' )
     testOperator( 'newton kilogram meter * second sqr / convert' )

@@ -328,7 +328,7 @@ def convertMeasurementToAtomicSymbol( n ):
     if n.getUnits( ) == RPNMeasurement( 1, 'gigare' ).getUnits( ):
         return 'Ga'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'ampere-second' ).getUnits( ):
+    if n.getUnits( ) == RPNMeasurement( 1, 'ampere*second' ).getUnits( ):
         return 'As'
 
     if n.getUnits( ) == RPNMeasurement( 1, 'barye' ).getUnits( ):
@@ -364,7 +364,7 @@ def convertMeasurementToAtomicSymbol( n ):
     if n.getUnits( ) == RPNMeasurement( 1, 'petare' ).getUnits( ):
         return 'Pa'
 
-    if n.getUnits( ) == RPNMeasurement( 1, 'ampere-minute' ).getUnits( ):
+    if n.getUnits( ) == RPNMeasurement( 1, 'ampere*minute' ).getUnits( ):
         return 'Am'
 
     if n.getUnits( ) == RPNMeasurement( 1, 'exasecond' ).getUnits( ):

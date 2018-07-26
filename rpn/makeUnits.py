@@ -406,7 +406,7 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
     # we need to store the new ones in a different dictionary because we can't
     # modified unitOperators while iterating through it
     for unit in unitOperators:
-        if unit[ -7 : ] == '-second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_' and \
+        if unit[ -7 : ] == '*second' and unit[ : 7 ] != 'square_' and unit[ : 6 ] != 'cubic_' and \
            not any( ( c in [ '*^/' ] ) for c in unit ):
             unitRoot = unit[ : -7 ]
 
@@ -419,7 +419,7 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
             rootUnitInfo = unitOperators[ unitRoot ]
 
             for timeUnit in timeUnits:
-                newUnit = unitRoot + '-' + timeUnit[ 0 ]
+                newUnit = unitRoot + '*' + timeUnit[ 0 ]
                 newPlural = unitRoot + '-' + timeUnit[ 1 ]
                 newAliases[ newPlural ] = newUnit
                 newAliases[ unitRoot + '-' + timeUnit[ 1 ] ] = newUnit

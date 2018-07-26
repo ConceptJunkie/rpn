@@ -32,8 +32,9 @@ from mpmath import arange, cbrt, fadd, fdiv, fib, fmul, fprod, fsub, log, mp, \
 
 from rpn.rpnComputer import interpretAsDouble, interpretAsFloat
 from rpn.rpnInput import convertToBase10
+from rpn.rpnList import getProduct
 from rpn.rpnMath import getPower, getRoot
-from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnMeasurement import RPNMeasurement, convertUnits
 from rpn.rpnNumberTheory import getNthThueMorse
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnPrimeUtils import getNthPrime
@@ -292,6 +293,8 @@ def getMinFloat( ):
 # //
 # //  getNewtonsConstant
 # //
+# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?bg
+# //
 # //******************************************************************************
 
 #@lru_cache( 1 )
@@ -302,6 +305,8 @@ def getNewtonsConstant( ):
 # //******************************************************************************
 # //
 # //  getSpeedOfLight
+# //
+# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
 # //
 # //******************************************************************************
 
@@ -314,16 +319,29 @@ def getSpeedOfLight( ):
 # //
 # //  getElectricConstant
 # //
+# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
+# //
 # //******************************************************************************
 
 #@lru_cache( 1 )
 def getElectricConstant( ):
     return RPNMeasurement( '8.854187817e-12', 'farad/meter' )
 
+def getElectricConstant_2( ):
+    return RPNMeasurement( '8.854187817e-12', 'ampere^2*second^4/kilogram*meter^3' )
+
+def getElectricConstant_3( ):
+    return RPNMeasurement( '8.854187817e-12', 'coulomb^2/newton*meter^2' )
+
+def getElectricConstant_4( ):
+    return RPNMeasurement( '8.854187817e-12', 'coulomb/volt*meter' )
+
 
 # //******************************************************************************
 # //
 # //  getPlanckConstant
+# //
+# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?h
 # //
 # //******************************************************************************
 
@@ -347,33 +365,54 @@ def getReducedPlanckConstant( ):
 # //
 # //  getFineStructureConstant
 # //
+# //  I'm cheating here, but the units really do cancel out.
+# //
 # //******************************************************************************
 
 @lru_cache( 1 )
 def getFineStructureConstant( ):
-    return mpmathify( '7.2973525664e-3' )
+    return getPower( getElectronCharge( ), 2 ).divide(
+                getProduct( [ getReducedPlanckConstant( ), getSpeedOfLight( ),
+                              4, pi, getElectricConstant_3( ) ] ) ).getValue( )
 
 
 # //******************************************************************************
 # //
 # //  getElectronCharge
 # //
+# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?e
+# //
 # //******************************************************************************
 
 #@lru_cache( 1 )
 def getElectronCharge( ):
-    return RPNMeasurement( '1.602176565e-19', 'coulomb' )
+    return RPNMeasurement( '1.6021766208e-19', 'coulomb' )
 
 
 # //******************************************************************************
 # //
 # //  getBoltzmannsConstant
 # //
+# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?e
+# //
 # //******************************************************************************
 
 #@lru_cache( 1 )
 def getBoltzmannsConstant( ):
     return RPNMeasurement( '1.38064852e-23', 'kilogram*meter^2/second^2*kelvin' )
+
+
+# //******************************************************************************
+# //
+# //  getVacuumImpedance
+# //
+# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?z0
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getVacuumImpedance( ):
+    return RPNMeasurement( '376.730313461', 'ohm' )
 
 
 # //******************************************************************************
@@ -437,6 +476,241 @@ def getPlanckTemperature( ):
 
 # //******************************************************************************
 # //
+# //  getPlanckArea
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckArea( ):
+    return getReducedPlanckConstant( ).multiply( getNewtonsConstant( ) ).divide( getPower( getSpeedOfLight( ), 3 ) )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckVolume
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckVolume( ):
+    return getRoot( getPower( getReducedPlanckConstant( ).multiply( getNewtonsConstant( ) ), 3 ).divide( getPower( getSpeedOfLight( ), 9 ) ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckMomentum
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckMomentum( ):
+    return getRoot( getReducedPlanckConstant( ).multiply( getPower( getSpeedOfLight( ), 3 ) ).divide( getNewtonsConstant( ) ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckEnergy
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckEnergy( ):
+    return convertUnits( getRoot( getReducedPlanckConstant( ).
+                            multiply( getPower( getSpeedOfLight( ), 5 ) ).
+                                divide( getNewtonsConstant( ) ), 2 ), 'joule' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckForce
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckForce( ):
+    return convertUnits( getPower( getSpeedOfLight( ), 4 ).divide( getNewtonsConstant( ) ), 'newton' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckPower
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckPower( ):
+    return convertUnits( getPower( getSpeedOfLight( ), 5 ).divide( getNewtonsConstant( ) ), 'watt' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckDensity
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckDensity( ):
+    return convertUnits( getPower( getSpeedOfLight( ), 5 ).divide( getReducedPlanckConstant( ).
+                                                multiply( getPower( getNewtonsConstant( ), 2 ) ) ),
+                         'kilogram/meter^3' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckEnergyDensity
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckEnergyDensity( ):
+    result = getPower( getSpeedOfLight( ), 7 ).divide( getReducedPlanckConstant( ).
+                                                multiply( getPower( getNewtonsConstant( ), 2 ) ) )
+
+    result = convertUnits( result.multiply( RPNMeasurement( 1, 'meter^3' ) ), 'joule' ).getValue( )
+
+    return RPNMeasurement( result, 'joule/meter^3' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckEnergyIntensity
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckIntensity( ):
+    return convertUnits( getPower( getSpeedOfLight( ), 8 ).divide( getReducedPlanckConstant( ).
+                                                multiply( getPower( getNewtonsConstant( ), 2 ) ) ),
+                         'watt/meter^2' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckAngularFrequency
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckAngularFrequency( ):
+    return RPNMeasurement( getRoot( getPower( getSpeedOfLight( ), 5 ).divide( getReducedPlanckConstant( ).
+                                                        multiply( getNewtonsConstant( ) ) ), 2 ).getValue( ),
+                           'radian/second' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckPressure
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckPressure( ):
+    return convertUnits( getPower( getSpeedOfLight( ), 7 ).divide( getReducedPlanckConstant( ).
+                                        multiply( getPower( getNewtonsConstant( ), 2 ) ) ), 'pascal' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckCurrent
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckCurrent( ):
+    e_0 = getElectricConstant_2( )
+
+    return getRoot( getProduct( [ 4, pi, e_0, getPower( getSpeedOfLight( ), 6 ) ] ).
+                                    divide( getNewtonsConstant( ) ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckVoltage
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckVoltage( ):
+    return getRoot( getProduct( [ 4, pi, getElectricConstant_2( ), getPower( getSpeedOfLight( ), 6 ) ] ).
+                            divide( getNewtonsConstant( ) ), 2 )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckImpedance
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckImpedance( ):
+    return getVacuumImpedance( ).divide( fmul( 4, pi ) )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckMagneticInductance
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckMagneticInductance( ):
+    # goobles, need to take square root and convert to tesla
+    return getPower( getSpeedOfLight( ), 5 ).divide( getProduct( [ getReducedPlanckConstant( ),
+                                                                   getPower( getNewtonsConstant( ), 2 ), 4, pi,
+                                                                   getElectricConstant( ) ] ) )
+
+# //******************************************************************************
+# //
+# //  getPlanckElectricalInductance
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckElectricalInductance( ):
+    return convertUnits( getRoot( getNewtonsConstant( ).multiply( getReducedPlanckConstant( ) ).divide(
+                                         getPower( getSpeedOfLight( ), 7 ).
+                                            multiply( getPower( getProduct( [ 4, pi, getElectricConstant_2( ) ] ), 2 ) ) ),
+                                  2 ), 'henry' )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckVolumetricFlowRate
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckVolumetricFlowRate( ):
+    return getReducedPlanckConstant( ).multiply( getNewtonsConstant( ) ).divide( getPower( getSpeedOfLight( ), 2 ) )
+
+
+# //******************************************************************************
+# //
+# //  getPlanckViscosity
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckViscosity( ):
+    return convertUnits( getRoot( getPower( getSpeedOfLight( ), 9 ).
+                            divide( getPower( getNewtonsConstant( ), 3 ).
+                                multiply( getReducedPlanckConstant( ) ) ), 2 ), 'pascal*second' )
+
+# //******************************************************************************
+# //
+# //  getPlanckAcceleration
+# //
+# //******************************************************************************
+
+#@lru_cache( 1 )
+def getPlanckAcceleration( ):
+    return getRoot( getPower( getSpeedOfLight( ), 7 ).
+            divide( getReducedPlanckConstant( ).
+                multiply( getNewtonsConstant( ) ) ), 2 )
+
+
+# //******************************************************************************
+# //
 # //  getThueMorseConstant
 # //
 # //  https://en.wikipedia.org/wiki/Prouhet%E2%80%93Thue%E2%80%93Morse_constant
@@ -452,4 +726,136 @@ def getThueMorseConstant( ):
         factor = fdiv( factor, 2 )
 
     return result
+
+
+# //******************************************************************************
+# //
+# //  getAvogadrosNumber
+# //
+# //
+# //
+# //******************************************************************************
+
+def getAvogadrosNumber( ):
+    return mpmathify( '6.022140857e23' )
+
+
+# //******************************************************************************
+# //
+# //  getBohrRadius
+# //
+# //
+# //
+# //******************************************************************************
+
+def getBohrRadius( ):
+    return RPNMeasurement( '5.2917721e-11', [ { 'meter' : 1 } ] )
+
+
+# //******************************************************************************
+# //
+# //  getCoulombsConstant
+# //
+# //
+# //
+# //******************************************************************************
+
+def getCoulombsConstant( ):
+    return RPNMeasurement( '8.9875517873681764e9', 'joule*meter/coulomb^2' )
+
+
+# //******************************************************************************
+# //
+# //  getFaradaysConstant
+# //
+# //
+# //
+# //******************************************************************************
+
+def getFaradaysConstant( ):
+    return RPNMeasurement( '96485.33289', 'coulomb/mole' )
+
+
+# //******************************************************************************
+# //
+# //  getMagneticConstant
+# //
+# //
+# //
+# //******************************************************************************
+
+def getMagneticConstant( ):
+    return RPNMeasurement( fprod( [ 4, pi, power( 10, -7 ) ] ) )
+
+
+# //******************************************************************************
+# //
+# //  getMagneticFluxQuantum
+# //
+# //
+# //
+# //******************************************************************************
+
+def getMagneticFluxQuantum( ):
+    return RPNMeasurement( '2.067833831e-15', 'Weber' )
+
+
+# //******************************************************************************
+# //
+# //  getNuclearMagneton
+# //
+# //
+# //
+# //******************************************************************************
+
+def getNuclearMagneton( ):
+    return RPNMeasurement( '5.050783699e-27', 'joule/tesla' )
+
+
+# //******************************************************************************
+# //
+# //  getRadiationConstant
+# //
+# //
+# //
+# //******************************************************************************
+
+def getRadiationConstant( ):
+    return RPNMeasurement( '7.5657e-16', 'kilogram/second^2*meter*kelvin^4' )
+
+
+# //******************************************************************************
+# //
+# //  getRydbergConstant
+# //
+# //
+# //
+# //******************************************************************************
+
+def getRydbergConstant( ):
+    return RPNMeasurement( '10973731.568508', 'meter^-1' )
+
+
+# //******************************************************************************
+# //
+# //  getStefanBoltzmannConstant
+# //
+# //
+# //
+# //******************************************************************************
+
+def getStefanBoltzmannConstant( ):
+    return RPNMeasurement( '5.670367e-8', 'watt/meter^2*kelvin^4' )
+
+
+# //******************************************************************************
+# //
+# //  getVonKlitzingConstant
+# //
+# //
+# //
+# //******************************************************************************
+
+def getVonKlitzingConstant( ):
+    return RPNMeasurement( '25812.8074555', 'ohm' )
 

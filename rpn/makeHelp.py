@@ -1070,6 +1070,10 @@ Verbose mode for factoring gets turned on with -D.
 Oops, there were two operators named 'distance'.  'distance' now refers to the
 physics operator and the geography operator is now named 'geo_distance'.
 
+The 'acceleration' operator has been implemented.
+
+The derived Planck units are now calculated, instead of hard-coded.
+
 ...and the usual bug fixes.
 
 7.1.0

@@ -585,8 +585,8 @@ class RPNMeasurement( object ):
                 loadUnitConversionMatrix( )
 
             # look for a straight-up conversion
-            unit1NoStar = unit1String.replace( '*', '-' )
-            unit2NoStar = unit2String.replace( '*', '-' )
+            unit1NoStar = unit1String.replace( '-', '*' )
+            unit2NoStar = unit2String.replace( '-', '*' )
 
             debugPrint( 'unit1NoStar: ', unit1NoStar )
             debugPrint( 'unit2NoStar: ', unit2NoStar )
@@ -662,8 +662,8 @@ class RPNMeasurement( object ):
                     if tryReverse:
                         return fdiv( 1, other.convertValue( self, False ) )
                     else:
-                        raise ValueError( 'unable to convert ' + self.getUnitString( ) +
-                                          ' to ' + other.getUnitString( ) )
+                        raise ValueError( 'unable to convert ' + other.getUnitString( ) + ' to ' +
+                                          self.getUnitString( ) )
 
                 for conversion in conversions:
                     if conversion[ 0 ] == conversion[ 1 ]:

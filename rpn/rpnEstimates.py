@@ -2004,6 +2004,19 @@ radiationExposureTable = {
 
 # //******************************************************************************
 # //
+# //  radiosityTable
+# //
+# //  watts/meter^2 : description
+# //
+# //******************************************************************************
+
+radiosityTable = {
+    mpmathify( '1.0' )      : 'one watt per square meter',   # goobles... fill me in
+}
+
+
+# //******************************************************************************
+# //
 # //  solidAngleTable
 # //
 # //  steradians : description
