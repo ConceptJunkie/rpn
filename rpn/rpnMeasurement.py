@@ -733,6 +733,8 @@ def convertUnits( unit1, unit2 ):
         debugPrint( 'unit1:', unit1.getUnitTypes( ) )
         debugPrint( 'unit2:', unit2.getUnitTypes( ) )
 
+        # TODO:  remove common units from unit1 and unit2 before converting!
+
         return RPNMeasurement( unit1.convertValue( unit2 ), unit2.getUnits( ),
                                unit2.getUnitName( ), unit2.getPluralUnitName( ) )
 

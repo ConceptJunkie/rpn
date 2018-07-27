@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1243
+maxExampleCount = 1244
 
 
 # //******************************************************************************
@@ -4498,6 +4498,15 @@ By definition, the smallest unsigned integer of any size is 0.
 ''' + makeCommandExample( 'min_ushort' ) + '''
 ''' + makeCommandExample( 'max_ushort min_ushort -' ),
 [ 'max_ushort', 'min_short', 'min_uchar', 'min_ulong' ] ],
+
+    'molar_gas_constant' : [
+'constants', 'returns the molar gas constant',
+'''
+Ref:  CODATA 2014
+''',
+'''
+''' + makeCommandExample( 'molar_gas_constant' ),
+[ ] ],
 
     'muon_mass' : [
 'constants', 'returns the mass of a muon',

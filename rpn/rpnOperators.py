@@ -350,6 +350,8 @@ constants = {
                                                    0, [ ] ),
     'magnetic_flux_quantum'         : RPNOperator( getMagneticFluxQuantum,
                                                    0, [ ] ),
+    'molar_gas_constant'            : RPNOperator( getMolarGasConstant,
+                                                   0, [ ] ),
     'newton_constant'               : RPNOperator( getNewtonsConstant,
                                                    0, [ ] ),
     'nuclear_magneton'              : RPNOperator( getNuclearMagneton,

@@ -419,6 +419,10 @@ def getVacuumImpedance( ):
 # //
 # //  getPlanckLength
 # //
+# //  All the Planck unit stuff used this source of information:
+# //
+# //  https://en.wikipedia.org/wiki/Planck_units
+# //
 # //******************************************************************************
 
 #@lru_cache( 1 )
@@ -732,7 +736,7 @@ def getThueMorseConstant( ):
 # //
 # //  getAvogadrosNumber
 # //
-# //
+# //  https://physics.nist.gov/cgi-bin/cuu/Value?na
 # //
 # //******************************************************************************
 
@@ -744,19 +748,19 @@ def getAvogadrosNumber( ):
 # //
 # //  getBohrRadius
 # //
-# //
+# //  https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
 # //
 # //******************************************************************************
 
 def getBohrRadius( ):
-    return RPNMeasurement( '5.2917721e-11', [ { 'meter' : 1 } ] )
+    return RPNMeasurement( '5.2917721067e-11', [ { 'meter' : 1 } ] )
 
 
 # //******************************************************************************
 # //
 # //  getCoulombsConstant
 # //
-# //
+# //  https://en.wikipedia.org/wiki/Coulomb%27s_constant
 # //
 # //******************************************************************************
 
@@ -768,7 +772,7 @@ def getCoulombsConstant( ):
 # //
 # //  getFaradaysConstant
 # //
-# //
+# //  https://physics.nist.gov/cgi-bin/cuu/Value?f
 # //
 # //******************************************************************************
 
@@ -780,19 +784,19 @@ def getFaradaysConstant( ):
 # //
 # //  getMagneticConstant
 # //
-# //
+# //  https://physics.nist.gov/cgi-bin/cuu/Value?mu0
 # //
 # //******************************************************************************
 
 def getMagneticConstant( ):
-    return RPNMeasurement( fprod( [ 4, pi, power( 10, -7 ) ] ) )
+    return RPNMeasurement( fprod( [ 4, pi, power( 10, -7 ) ] ), 'newton/ampere^2' )
 
 
 # //******************************************************************************
 # //
 # //  getMagneticFluxQuantum
 # //
-# //
+# //  https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
 # //
 # //******************************************************************************
 
@@ -804,7 +808,7 @@ def getMagneticFluxQuantum( ):
 # //
 # //  getNuclearMagneton
 # //
-# //
+# //  https://physics.nist.gov/cgi-bin/cuu/Value?mun
 # //
 # //******************************************************************************
 
@@ -816,19 +820,19 @@ def getNuclearMagneton( ):
 # //
 # //  getRadiationConstant
 # //
-# //
+# //  https://en.wikipedia.org/wiki/Stefan%E2%80%93Boltzmann_constant
 # //
 # //******************************************************************************
 
 def getRadiationConstant( ):
-    return RPNMeasurement( '7.5657e-16', 'kilogram/second^2*meter*kelvin^4' )
+    return getStefanBoltzmannConstant( ).multiply( 4 ).divide( getSpeedOfLight( ) )
 
 
 # //******************************************************************************
 # //
 # //  getRydbergConstant
 # //
-# //
+# //  https://physics.nist.gov/cgi-bin/cuu/Value?ryd
 # //
 # //******************************************************************************
 
@@ -840,7 +844,7 @@ def getRydbergConstant( ):
 # //
 # //  getStefanBoltzmannConstant
 # //
-# //
+# //  https://physics.nist.gov/cgi-bin/cuu/Value?sigma
 # //
 # //******************************************************************************
 
@@ -852,10 +856,23 @@ def getStefanBoltzmannConstant( ):
 # //
 # //  getVonKlitzingConstant
 # //
-# //
+# //  https://physics.nist.gov/cgi-bin/cuu/Value?rk
 # //
 # //******************************************************************************
 
 def getVonKlitzingConstant( ):
     return RPNMeasurement( '25812.8074555', 'ohm' )
+
+
+# //******************************************************************************
+# //
+# //  getMolarGasConstant
+# //
+# //  https://physics.nist.gov/cgi-bin/cuu/Value?r
+# //
+# //******************************************************************************
+
+def getMolarGasConstant( ):
+    return RPNMeasurement( '8.3144598', 'joule/mole*kelvin' )
+
 
