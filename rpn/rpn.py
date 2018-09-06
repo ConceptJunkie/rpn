@@ -38,6 +38,9 @@
 
 # rpn needs to be able to parse "meter/second^2" as a unit.  It's the "^" that's the problem.
 
+#  "rpn [ 1 0 ] [ 1 -4 ] 3 polypower polymult solve" throws an exception
+
+
 from __future__ import print_function
 
 import six

@@ -329,6 +329,7 @@ operatorAliases = {
     'fine_structure'                : 'fine_structure_constant',
     'frac'                          : 'fraction',
     'free_space'                    : 'magnetic_constant',
+    'free_space_permittivity'       : 'electric_constant',
     'fresnel'                       : 'terahertz',
     'fresnels'                      : 'terahertz',
     'fri'                           : 'friday',
