@@ -1203,7 +1203,12 @@ def getLimitedAliquotSequenceGenerator( n, k ):
     while log10( a ) <= k and a != 0:
         b = fsub( getSigma( a ), a )
         yield b
+
+        if a == b:    # This will break on perfect numbers, but not amicable loops
+            break
+
         a = b
+
 
 def getLimitedAliquotSequence( n, k ):
     return RPNGenerator.createGenerator( getLimitedAliquotSequenceGenerator, [ n, k ] )

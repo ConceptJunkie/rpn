@@ -4015,6 +4015,8 @@ def runPowersAndRootsOperatorTests( ):
     testOperator( '4 3 root' )
     testOperator( '4 i 6 + 3 root' )
 
+    expectResult( '8 0.5 root', 64 )
+
     expectEqual( '8 3 root', '8 cube_root' )
 
     # square

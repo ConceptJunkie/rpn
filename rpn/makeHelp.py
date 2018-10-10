@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1244
+maxExampleCount = 1245
 
 
 # //******************************************************************************
@@ -11395,7 +11395,11 @@ numerical part of the measurement value.
 '''
 ''' + makeCommandExample( '1000 light-years value' ) + '''
 ''' + makeCommandExample( '100 years seconds convert value' ) + '''
-''' + makeCommandExample( '2 pounds value 3 gallons value +' ),
+''' + makeCommandExample( '2 pounds value 3 gallons value +' ) + '''
+Koide's Constant... is it really 2/3?
+(see https://www.johndcook.com/blog/2018/09/11/koide/)
+
+''' + makeCommandExample( '[ electron_mass value muon_mass value tau_mass value ] sum [ electron_mass value sqrt muon_mass value sqrt tau_mass value sqrt ] sum sqr /' ),
 [ ] ],
 
 
