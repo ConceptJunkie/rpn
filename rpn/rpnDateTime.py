@@ -773,6 +773,22 @@ def getChristmasDay( year ):
 
 # //******************************************************************************
 # //
+# //  calculateAdvent
+# //
+# //  4 Sundays before Christmas
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateAdvent( year ):
+    firstAdvent = getChristmasDay( real( year ) ).add( RPNMeasurement( -3, 'week' ) )
+    firstAdvent = firstAdvent.subtract( RPNMeasurement( getWeekday( firstAdvent ), 'day'  ) )
+
+    return RPNDateTime( firstAdvent.year, firstAdvent.month, firstAdvent.day, dateOnly = True )
+
+
+# //******************************************************************************
+# //
 # //  getEpiphanyDay
 # //
 # //******************************************************************************
