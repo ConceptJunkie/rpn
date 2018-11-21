@@ -30,6 +30,7 @@ from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnOutput import convertToBaseN
 from rpn.rpnPhysics import calculateDistance
 from rpn.rpnUtils import getUserDataPath, oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnVersion import RPN_PROGRAM_NAME
 
 import rpn.rpnGlobals as g
 
@@ -165,7 +166,7 @@ def getLocation( name ):
         return result
 
     from geopy.geocoders import Nominatim
-    geolocator = Nominatim( )
+    geolocator = Nominatim( user_agent=RPN_PROGRAM_NAME )
 
     for attempts in range( 3 ):
         try:
