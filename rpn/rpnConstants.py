@@ -234,29 +234,6 @@ from rpn.rpnMath import getPower, getRoot
 #    'pluto_radius'                  : RPNOperator( lambda: RPNMeasurement( '1.185e6', 'meter' ), 0 ),
 #    'pluto_revolution'              : RPNOperator( lambda: RPNMeasurement( '247.94', 'year' ), 0 ),
 #    'pluto_volume'                  : RPNOperator( lambda: RPNMeasurement( '6.97e18', 'meter^3' ), 0 ),
-#
-#    # Astronomical object operators
-#
-#    #    # Planetary moon operators
-#    #    'phobos'                        : RPNOperator( ephem.Phobos, 0 ),
-#    #    'deimos'                        : RPNOperator( ephem.Deimos, 0 ),
-#    #    'io'                            : RPNOperator( ephem.Io, 0 ),
-#    #    'europa'                        : RPNOperator( ephem.Europa, 0 ),
-#    #    'ganymede'                      : RPNOperator( ephem.Ganymede, 0 ),
-#    #    'callisto'                      : RPNOperator( ephem.Callisto, 0 ),
-#    #    'mimas'                         : RPNOperator( ephem.Mimas, 0 ),
-#    #    'enceladus'                     : RPNOperator( ephem.Enceladus, 0 ),
-#    #    'tethys'                        : RPNOperator( ephem.Tethys, 0 ),
-#    #    'dione'                         : RPNOperator( ephem.Dione, 0 ),
-#    #    'rhea'                          : RPNOperator( ephem.Rhea, 0 ),
-#    #    'titan'                         : RPNOperator( ephem.Titan, 0 ),
-#    #    'hyperion'                      : RPNOperator( ephem.Hyperion, 0 ),
-#    #    'iapetus'                       : RPNOperator( ephem.Iapetus, 0 ),
-#    #    'ariel'                         : RPNOperator( ephem.Ariel, 0 ),
-#    #    'umbriel'                       : RPNOperator( ephem.Umbriel, 0 ),
-#    #    'titania'                       : RPNOperator( ephem.Titania, 0 ),
-#    #    'oberon'                        : RPNOperator( ephem.Oberon, 0 ),
-#    #    'miranda'                       : RPNOperator( ephem.Miranda, 0 ),
 #}
 #
 #  Earth's approximate water volume (the total water supply of the world) is

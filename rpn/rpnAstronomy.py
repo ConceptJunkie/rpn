@@ -21,22 +21,42 @@ from rpn.rpnDateTime import RPNDateTime
 from rpn.rpnLocation import getLocation, RPNLocation, getTimeZone
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnMath import subtract
-from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator
+from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, \
+                         loadAstronomyData, real_int
+
+import rpn.rpnGlobals as g
+
+
+# //******************************************************************************
+# //
+# //  getSeason
+# //
+# //  0 = spring, 1 = summer, 2 = autumn, 3 = winter
+# //
+# //******************************************************************************
+
+def getSeason( n, season ):
+    '''Returns the date of the season for year n.'''
+    from skyfield import almanac
+    loadAstronomyData( )
+
+    t, y = almanac.find_discrete( g.timescale.utc( real_int( n ), 1, 1 ),
+                                  g.timescale.utc( n, 12, 31 ), almanac.seasons( g.ephemeris ) )
+    result = RPNDateTime.parseDateTime( t[ season ].utc_datetime( ) )
+    return result.getLocalTime( )
 
 
 # //******************************************************************************
 # //
 # //  getVernalEquinox
 # //
-# //  http://rhodesmill.org/pyephem/quick.html
-# //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getVernalEquinox( n ):
-    '''Returns the date of the next vernal equinox after n.'''
-    result = RPNDateTime.convertFromEphemDate( ephem.next_equinox( str( n ) ) )
-    return result.getLocalTime( )
+    '''Returns the date of the vernal equinox for year n.'''
+    return getSeason( n, 0 )
+
 
 
 # //*****************************************************************************
@@ -47,9 +67,8 @@ def getVernalEquinox( n ):
 
 @oneArgFunctionEvaluator( )
 def getSummerSolstice( n ):
-    '''Returns the date of the next summer solstice after n.'''
-    result = RPNDateTime.convertFromEphemDate( ephem.next_solstice( str( n ) ) )
-    return result.getLocalTime( )
+    '''Returns the date of the summer solstice for year n.'''
+    return getSeason( n, 1 )
 
 
 # //******************************************************************************
@@ -60,22 +79,20 @@ def getSummerSolstice( n ):
 
 @oneArgFunctionEvaluator( )
 def getAutumnalEquinox( n ):
-    '''Returns the date of the next autumnal equinox after n.'''
-    result = RPNDateTime.convertFromEphemDate( ephem.next_equinox( str( n ) + '-07-01' ) )
-    return result.getLocalTime( )
+    '''Returns the date of the autumnal equinox for year n.'''
+    return getSeason( n, 2 )
 
 
-# //******************************************************************************
+# //*****************************************************************************
 # //
-# //  getAutumnalEquinox
+# //  getWinterSolstice
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
 def getWinterSolstice( n ):
-    '''Returns the date of the next winter solstice after n.'''
-    result = RPNDateTime.convertFromEphemDate( ephem.next_solstice( str( n ) + '-07-01' ) )
-    return result.getLocalTime( )
+    '''Returns the date of the winter solstice for year n.'''
+    return getSeason( n, 3 )
 
 
 # //******************************************************************************

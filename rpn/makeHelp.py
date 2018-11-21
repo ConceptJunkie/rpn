@@ -2910,6 +2910,13 @@ is the numerical representation of the string of 'xor'ed bits.
 # //
 # //******************************************************************************
 
+    'advent' : [
+'calendars', 'returns the date of the first Sunday of Advent for the year specified',
+'''
+''',
+'''
+''' + makeCommandExample( '2018 advent' ),
+[ 'thanksgiving', 'easter', 'epiphany', 'christmas' ] ],
     'ascension' : [
 'calendars', 'returns the date of Ascension Thursday for the year specified',
 '''
@@ -2969,7 +2976,7 @@ Christmas and used the 'christmas' operator instinctively.
 ''',
 '''
 ''' + makeCommandExample( '2017 christmas' ),
-[ 'thanksgiving', 'easter', 'epiphany' ] ],
+[ 'thanksgiving', 'easter', 'epiphany', 'advent' ] ],
 
     'columbus_day' : [
 'calendars', 'returns the date of Columbus Day as celebrated in the U.S. for the year specified',

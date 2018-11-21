@@ -49,6 +49,7 @@ defaultPrecision = 20
 defaultNumerals = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 # state variables
+astroDataLoaded = False
 creatingFunction = False
 duplicateOperations = 0
 echoArguments = [ ]
@@ -144,4 +145,9 @@ userFunctions = { }
 userFunctionsAreDirty = False
 userConfiguration = { }
 userConfigurationIsDirty = False
+
+# astronomy data
+planets = None
+ephemeris = None
+timescale = None
 

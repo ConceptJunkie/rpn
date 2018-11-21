@@ -706,3 +706,27 @@ def timeout( seconds, error_message = 'Function call timed out' ):
     return decorated
 
 
+# //******************************************************************************
+# //
+# //  loadAstronomyData
+# //
+# //******************************************************************************
+
+def loadAstronomyData( ):
+    if g.astroDataLoaded:
+        return
+
+    #from skyfield.api import Loader
+    #load = Loader( getUserDataPath( ) )
+
+    from skyfield.api import load_file
+    from skyfield import api
+
+    g.timescale = api.load.timescale( )
+    g.planets = load_file( getUserDataPath( ) + os.sep + 'de405.bsp' )
+    g.ephemeris = load_file( getUserDataPath( ) + os.sep + 'de421.bsp' )
+
+    g.astroDataLoaded = True
+
+    return True
+
