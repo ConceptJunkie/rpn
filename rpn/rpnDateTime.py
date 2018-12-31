@@ -86,7 +86,7 @@ class RPNDateTime( arrow.Arrow ):
         self.dateOnly = dateOnly
         super( RPNDateTime, self ).__init__( int( year ), int( month ), int( day ),
                                              int( hour ), int( minute ), int( second ),
-                                             microsecond, tzinfo )
+                                             int( microsecond ), tzinfo )
 
     def setDateOnly( self, dateOnly = True ):
         self.dateOnly = dateOnly
@@ -100,6 +100,9 @@ class RPNDateTime( arrow.Arrow ):
 
         return RPNDateTime( result.year, result.month, result.day, result.hour,
                             result.minute, result.second, result.microsecond, result.tzinfo )
+
+    def getYMD( self ):
+        return ( self.year, self.month, self.day )
 
     @staticmethod
     def getUTCOffset( tz = getLocalTimeZone( ) ):
@@ -396,7 +399,7 @@ def getNow( ):
 
 def getToday( ):
     now = getNow( )
-    return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
+    return RPNDateTime( *now.getYMD( ), dateOnly = True )
 
 
 # //******************************************************************************
@@ -408,7 +411,7 @@ def getToday( ):
 def getTomorrow( ):
     now = getNow( )
     now = now + datetime.timedelta( days = 1 )
-    return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
+    return RPNDateTime( *now.getYMD( ), dateOnly = True )
 
 
 # //******************************************************************************
@@ -420,7 +423,7 @@ def getTomorrow( ):
 def getYesterday( ):
     now = getNow( )
     now = now + datetime.timedelta( days = -1 )
-    return RPNDateTime( now.year, now.month, now.day, dateOnly = True )
+    return RPNDateTime( *now.getYMD( ), dateOnly = True )
 
 
 # //******************************************************************************
@@ -460,7 +463,8 @@ def calculateEaster( year ):
 
 @oneArgFunctionEvaluator( )
 def calculateAshWednesday( year ):
-    return calculateEaster( real( year ) ).add( RPNMeasurement( -46, 'day' ) )
+    ash_wednesday = calculateEaster( real( year ) ).add( RPNMeasurement( -46, 'day' ) )
+    return RPNDateTime( *ash_wednesday.getYMD( ), dateOnly = True )
 
 
 # //******************************************************************************
@@ -473,7 +477,8 @@ def calculateAshWednesday( year ):
 
 @oneArgFunctionEvaluator( )
 def calculateGoodFriday( year ):
-    return calculateEaster( real( year ) ).add( RPNMeasurement( -2, 'day' ) )
+    good_friday = calculateEaster( real( year ) ).add( RPNMeasurement( -2, 'day' ) )
+    return RPNDateTime( *good_friday.getYMD( ), dateOnly = True )
 
 
 # //******************************************************************************
@@ -616,7 +621,9 @@ def calculateElectionDay( year ):
         year = real_int( year )
 
     result = calculateNthWeekdayOfMonth( year, November, 1, Monday)
-    return result.replace( day = result.day + 1 )
+    result.replace( day = result.day + 1 )
+
+    return RPNDateTime( *result.getYMD( ), dateOnly = True )
 
 
 # //******************************************************************************
@@ -784,7 +791,7 @@ def calculateAdvent( year ):
     firstAdvent = getChristmasDay( real( year ) ).add( RPNMeasurement( -3, 'week' ) )
     firstAdvent = firstAdvent.subtract( RPNMeasurement( getWeekday( firstAdvent ), 'day'  ) )
 
-    return RPNDateTime( firstAdvent.year, firstAdvent.month, firstAdvent.day, dateOnly = True )
+    return RPNDateTime( *firstAdvent.getYMD( ), dateOnly = True )
 
 
 # //******************************************************************************
@@ -806,7 +813,8 @@ def getEpiphanyDay( year ):
 
 @oneArgFunctionEvaluator( )
 def calculatePentecostSunday( year ):
-    return calculateEaster( year ).add( RPNMeasurement( 7, 'weeks' ) )
+    return RPNDateTime( *( calculateEaster( year ).add( RPNMeasurement( 7, 'weeks' ) ).getYMD( ) ),
+                        dateOnly = True )
 
 
 # //******************************************************************************
@@ -821,7 +829,8 @@ def calculateAscensionThursday( year ):
     I don't know why it's 39 days after Easter instead of 40, but that's how
     the math works out.  As John Wright says, "Catholics can't count."
     '''
-    return calculateEaster( year ).add( RPNMeasurement( 39, 'days' ) )
+    return RPNDateTime( *calculateEaster( year ).add( RPNMeasurement( 39, 'days' ) ).getYMD( ),
+                        dateOnly = True )
 
 
 # //******************************************************************************
