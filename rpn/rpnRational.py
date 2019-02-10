@@ -19,6 +19,8 @@ from fractions import Fraction
 # //
 # //  class RPNRational
 # //
+# //  Maybe I'll get around to implementing this some day.
+# //
 # //******************************************************************************
 
 class RPNRational( Fraction ):

@@ -3650,15 +3650,15 @@ operators = {
     'icosahedron_volume'             : RPNOperator( getIcosahedronVolume,
                                                     1, [ RPNOperator.NonnegativeReal ] ),
 
-    'n_sphere_area'                  : RPNOperator( getNSphereSurfaceAreaOperator,
+    'k_sphere_area'                  : RPNOperator( getKSphereSurfaceAreaOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.NonnegativeReal ],
                                                          RPNOperator.measurementsAllowed ),
 
-    'n_sphere_radius'                : RPNOperator( getNSphereRadiusOperator,
+    'k_sphere_radius'                : RPNOperator( getKSphereRadiusOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.NonnegativeReal ],
                                                              RPNOperator.measurementsAllowed ),
 
-    'n_sphere_volume'                : RPNOperator( getNSphereVolumeOperator,
+    'k_sphere_volume'                : RPNOperator( getKSphereVolumeOperator,
                                                     2, [ RPNOperator.PositiveInteger, RPNOperator.NonnegativeReal ],
                                                          RPNOperator.measurementsAllowed ),
 

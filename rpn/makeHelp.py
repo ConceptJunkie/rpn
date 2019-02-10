@@ -62,7 +62,7 @@ exampleCount = 0
 PROGRAM_NAME = 'rpn'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 
-maxExampleCount = 1245
+maxExampleCount = 1246
 
 
 # //******************************************************************************
@@ -6244,7 +6244,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ 'torus_area', 'sphere_area', 'prism_area', 'n_sphere_area', 'cone_volume' ] ],
+[ 'torus_area', 'sphere_area', 'prism_area', 'k_sphere_area', 'cone_volume' ] ],
 
     'cone_volume' : [
 'geometry', 'calculates the volume of a cone of radius n and height k',
@@ -6252,7 +6252,7 @@ See the 'user_functions' help topic for more details.
 ''',
 '''
 ''',
-[ 'torus_volume', 'sphere_volume', 'prism_volume', 'n_sphere_volume', 'cone_area' ] ],
+[ 'torus_volume', 'sphere_volume', 'prism_volume', 'k_sphere_volume', 'cone_area' ] ],
 
     'dodecahedron_area' : [
 'geometry', 'calculates the surface area of a regular dodecahedron of edge length n',
@@ -6298,29 +6298,29 @@ calculates what the length of the hypotenuse would be.
 ''',
 [ 'antiprism_volume', 'prism_volume', 'tetrahedron_volume', 'octohedron_volume', 'dodecahedron_volume', 'icosahedron_area', 'sphere_volume' ] ],
 
-    'n_sphere_area' : [
+    'k_sphere_area' : [
 'geometry', 'calculates the surface area of an n-sphere of size k (radius or volume)',
 '''
 ''',
 '''
 ''',
-[ 'torus_area', 'sphere_volume', 'prism_area', 'n_sphere_area', 'cone_area', 'n_sphere_radius' ] ],
+[ 'torus_area', 'sphere_volume', 'prism_area', 'k_sphere_area', 'cone_area', 'k_sphere_radius' ] ],
 
-    'n_sphere_radius' : [
+    'k_sphere_radius' : [
 'geometry', 'calculates the radius of an n-sphere of size k (surface area or volume)',
 '''
 ''',
 '''
 ''',
-[ 'n_sphere_volume', 'sphere_radius', 'n_sphere_area' ] ],
+[ 'k_sphere_volume', 'sphere_radius', 'k_sphere_area' ] ],
 
-    'n_sphere_volume' : [
+    'k_sphere_volume' : [
 'geometry', 'calculates the volume of an n-sphere of size k (radius or surface area)',
 '''
 ''',
 '''
 ''',
-[ 'torus_volume', 'sphere_volume', 'prism_volume', 'n_sphere_area', 'cone_volume', 'n_sphere_radius' ] ],
+[ 'torus_volume', 'sphere_volume', 'prism_volume', 'k_sphere_area', 'cone_volume', 'k_sphere_radius' ] ],
 
     'octahedron_area' : [
 'geometry', 'calculates the surface area of a regular octahedron of edge length n',
@@ -6368,7 +6368,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'torus_area', 'sphere_volume', 'prism_area', 'n_sphere_area', 'cone_area', 'sphere_radius' ] ],
+[ 'torus_area', 'sphere_volume', 'prism_area', 'k_sphere_area', 'cone_area', 'sphere_radius' ] ],
 
     'sphere_radius' : [
 'geometry', 'calculates the radius of a sphere of size n (surface area or volume)',
@@ -6376,7 +6376,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'sphere_volume', 'sphere_radius', 'n_sphere_radius' ] ],
+[ 'sphere_volume', 'sphere_radius', 'k_sphere_radius' ] ],
 
     'sphere_volume' : [
 'geometry', 'calculates the volume of a sphere of size n (radius or surface area)',
@@ -6384,7 +6384,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'torus_volume', 'sphere_area', 'prism_volume', 'n_sphere_volume', 'cone_volume', 'sphere_radius' ] ],
+[ 'torus_volume', 'sphere_area', 'prism_volume', 'k_sphere_volume', 'cone_volume', 'sphere_radius' ] ],
 
     'tetrahedron_area' : [
 'geometry', 'calculates the surface area of a regular tetrahedron of edge length n',
@@ -6408,7 +6408,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'torus_volume', 'sphere_area', 'prism_area', 'n_sphere_area', 'cone_area' ] ],
+[ 'torus_volume', 'sphere_area', 'prism_area', 'k_sphere_area', 'cone_area' ] ],
 
     'torus_volume' : [
 'geometry', 'calculates the volume of a torus of major radius n and minor radius k',
@@ -6416,7 +6416,7 @@ calculates what the length of the hypotenuse would be.
 ''',
 '''
 ''',
-[ 'torus_area', 'sphere_volume', 'prism_volume', 'n_sphere_volume', 'cone_volume' ] ],
+[ 'torus_area', 'sphere_volume', 'prism_volume', 'k_sphere_volume', 'cone_volume' ] ],
 
     'triangle_area' : [
 'geometry', 'calculates the area of a triangle with sides of length a, b, and c',

@@ -12,8 +12,8 @@
 # //
 # //******************************************************************************
 
-from mpmath import cos, cot, fadd, fdiv, fmul, fprod, fsub, fsum, gamma, hypot, \
-                   power, pi, root, sin, sqrt, tan
+from mpmath import cos, cot, fadd, fdiv, floor, fmul, fprod, fsub, fsum, gamma, \
+                   hypot, power, pi, root, sin, sqrt, tan
 
 from rpn.rpnList import getProduct, getSum
 from rpn.rpnMath import add, divide, getPower, getRoot, multiply, subtract
@@ -53,17 +53,17 @@ def getRegularPolygonAreaOperator( n, k ):
 
 # //******************************************************************************
 # //
-# //  getNSphereRadius
+# //  getKSphereRadius
 # //
 # //  n - measurement
 # //  k - dimension
 # //
-# //  n needs to be an RPNMeasurement so getNSphereRadius can tell if it's an
+# //  n needs to be an RPNMeasurement so getKSphereRadius can tell if it's an
 # //  area or a volume and use the correct formula.
 # //
 # //******************************************************************************
 
-def getNSphereRadius( n, k ):
+def getKSphereRadius( n, k ):
     if real_int( k ) < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
@@ -94,17 +94,17 @@ def getNSphereRadius( n, k ):
                           str( dimensions ) )
 
 @twoArgFunctionEvaluator( )
-def getNSphereRadiusOperator( n, k ):
-    return getNSphereRadius( n, k )
+def getKSphereRadiusOperator( n, k ):
+    return getKSphereRadius( n, k )
 
 @oneArgFunctionEvaluator( )
 def getSphereRadius( n ):
-    return getNSphereRadius( n, 3 )
+    return getKSphereRadius( n, 3 )
 
 
 # //******************************************************************************
 # //
-# //  getNSphereSurfaceArea
+# //  getKSphereSurfaceArea
 # //
 # //  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
 # //
@@ -117,12 +117,12 @@ def getSphereRadius( n ):
 # //
 # //******************************************************************************
 
-def getNSphereSurfaceArea( n, k ):
+def getKSphereSurfaceArea( n, k ):
     if real_int( k ) < 3:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     if not isinstance( n, RPNMeasurement ):
-        return getNSphereSurfaceArea( n, RPNMeasurement( real( n ), 'meter' ) )
+        return getKSphereSurfaceArea( n, RPNMeasurement( real( n ), 'meter' ) )
 
     dimensions = n.getDimensions( )
 
@@ -137,23 +137,23 @@ def getNSphereSurfaceArea( n, k ):
     elif dimensions == { 'length' : int( k - 1 ) }:
         return n
     elif dimensions == { 'length' : int( k ) }:
-        radius = getNSphereRadius( n, k )
-        return getNSphereSurfaceArea( radius, k )
+        radius = getKSphereRadius( n, k )
+        return getKSphereSurfaceArea( radius, k )
     else:
         raise ValueError( 'incompatible measurement type for computing the surface area' )
 
 @twoArgFunctionEvaluator( )
-def getNSphereSurfaceAreaOperator( n, k ):
-    return getNSphereSurfaceArea( n, k )
+def getKSphereSurfaceAreaOperator( n, k ):
+    return getKSphereSurfaceArea( n, k )
 
 @oneArgFunctionEvaluator( )
 def getSphereArea( n ):
-    return getNSphereSurfaceArea( n, 3 )
+    return getKSphereSurfaceArea( n, 3 )
 
 
 # //******************************************************************************
 # //
-# //  getNSphereVolume
+# //  getKSphereVolume
 # //
 # //  https://en.wikipedia.org/wiki/N-sphere#Volume_and_surface_area
 # //
@@ -166,12 +166,12 @@ def getSphereArea( n ):
 # //
 # //******************************************************************************
 
-def getNSphereVolume( n, k ):
+def getKSphereVolume( n, k ):
     if real_int( k ) < 1:
         raise ValueError( 'the number of dimensions must be at least 3' )
 
     if not isinstance( n, RPNMeasurement ):
-        return getNSphereVolume( RPNMeasurement( real( n ), 'meter' ), k )
+        return getKSphereVolume( RPNMeasurement( real( n ), 'meter' ), k )
 
     dimensions = n.getDimensions( )
     m = n.getValue( )
@@ -184,20 +184,20 @@ def getNSphereVolume( n, k ):
 
         return RPNMeasurement( result, [ { 'meter' : k } ] )
     elif dimensions == { 'length' : int( k - 1 ) }:
-        radius = getNSphereRadius( n, k )
-        return getNSphereVolume( radius, k )
+        radius = getKSphereRadius( n, k )
+        return getKSphereVolume( radius, k )
     elif dimensions == { 'length' : int( k ) }:
         return n
     else:
         raise ValueError( 'incompatible measurement type for computing the volume' )
 
 @twoArgFunctionEvaluator( )
-def getNSphereVolumeOperator( n, k ):
-    return getNSphereVolume( n, k )
+def getKSphereVolumeOperator( n, k ):
+    return getKSphereVolume( n, k )
 
 @oneArgFunctionEvaluator( )
 def getSphereVolume( n ):
-    return getNSphereVolume( n, 3 )
+    return getKSphereVolume( n, 3 )
 
 
 # //******************************************************************************

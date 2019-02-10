@@ -15,7 +15,7 @@
 import struct
 
 from rpn.rpnConstantUtils import getNewtonsConstant, getSpeedOfLight
-from rpn.rpnGeometry import getNSphereRadius
+from rpn.rpnGeometry import getKSphereRadius
 from rpn.rpnList import getProduct
 from rpn.rpnMath import divide, getPower, getRoot, multiply
 from rpn.rpnMeasurement import checkUnits, getWhichUnitType, matchUnitTypes, \
@@ -554,14 +554,14 @@ def calculateSurfaceGravity( measurement1, measurement2 ):
             length = arguments[ 'length' ]
         elif 'density' in arguments:
             volume = divide( mass, arguments[ 'density' ] )
-            length = getNSphereRadius( volume, 3 )
+            length = getKSphereRadius( volume, 3 )
         else:
-            length = getNSphereRadius( arguments[ 'volume' ], 3 )
+            length = getKSphereRadius( arguments[ 'volume' ], 3 )
     elif 'volume' in arguments:
         # density, volume
         volume = arguments[ 'volume' ]
         mass = multiply( arguments[ 'density' ], volume )
-        length = getNSphereRadius( volume, 3 )
+        length = getKSphereRadius( volume, 3 )
     else:
         # density, length
         length = arguments[ 'length' ]
