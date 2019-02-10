@@ -5,7 +5,7 @@
 # //  rpnVersion.py
 # //
 # //  RPN command-line calculator version identification
-# //  copyright (c) 2018, Rick Gutleber (rickg@his.com)
+# //  copyright (c) 2019, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
 # //  information).
@@ -21,7 +21,7 @@
 PROGRAM_NAME = 'rpnChilada'
 PROGRAM_VERSION = '7.1.90003'
 PROGRAM_VERSION_NAME = '7.2.beta3'
-COPYRIGHT_MESSAGE = 'copyright (c) 2018 (1988), Rick Gutleber (rickg@his.com)'
+COPYRIGHT_MESSAGE = 'copyright (c) 2019 (1988), Rick Gutleber (rickg@his.com)'
 
 PROGRAM_VERSION_STRING = ' ' + PROGRAM_VERSION + ' (' + PROGRAM_VERSION_NAME + ') - '
 
