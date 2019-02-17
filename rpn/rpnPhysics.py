@@ -14,10 +14,11 @@
 
 import struct
 
-from rpn.rpnConstantUtils import getNewtonsConstant, getSpeedOfLight
+from rpn.rpnConstantUtils import getBoltzmannsConstant, getNewtonsConstant, \
+                                 getReducedPlanckConstant, getSpeedOfLight
 from rpn.rpnGeometry import getKSphereRadius
 from rpn.rpnList import getProduct
-from rpn.rpnMath import divide, getPower, getRoot, multiply
+from rpn.rpnMath import divide, getLog, getPower, getRoot, multiply
 from rpn.rpnMeasurement import checkUnits, getWhichUnitType, matchUnitTypes, \
                                RPNMeasurement, validateUnits
 from rpn.rpnUtils import oneArgFunctionEvaluator, twoArgFunctionEvaluator, real_int
@@ -29,16 +30,274 @@ from mpmath import fdiv, fmul, fsub, inf, pi, power, sqrt
 
 # //******************************************************************************
 # //
-# //  calculateSchwarzchildRadius
+# //  calculateBlackHoleMass
 # //
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateSchwarzchildRadius( mass ):
-    validateUnits( mass, 'mass' )
+def calculateBlackHoleMass( measurement ):
+    validUnitTypes = [
+        [ 'mass' ],
+        [ 'length' ],
+        [ 'acceleration' ],
+        [ 'area' ],
+        [ 'temperature' ],
+        [ 'power' ],
+        [ 'time' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( 'black_hole_mass: invalid argument' )
+
+    if 'mass' in arguments:
+        return arguments[ 'mass' ].convert( 'kilogram' )
+    elif 'length' in arguments:
+        radius = arguments[ 'length' ]
+
+        return divide( getProduct( [ getPower( getSpeedOfLight( ), 2 ), radius ] ),
+                       getProduct( [ 2, getNewtonsConstant( ) ] ) ).convert( 'kilogram' )
+    elif 'acceleration' in arguments:
+        gravity = arguments[ 'acceleration' ]
+
+        return divide( getPower( getSpeedOfLight( ), 4 ),
+                       getProduct( [ 4, getNewtonsConstant( ), gravity ] ) ).convert( 'kilogram' )
+    elif 'area' in arguments:
+        area = arguments[ 'area' ].convert( 'meters^2' )
+
+        return getRoot( divide( getProduct( [ getPower( getSpeedOfLight( ), 4 ), area ] ),
+                                getProduct( [ 16, pi, getPower( getNewtonsConstant( ), 2 ) ] ) ), 2 ).convert( 'kilogram' )
+    elif 'temperature' in arguments:
+        temperature = arguments[ 'temperature' ]
+
+        return divide( getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 3 ) ] ),
+                       getProduct( [ temperature, 8, getBoltzmannsConstant( ), pi, getNewtonsConstant( ) ] ) ).convert( 'kilogram' )
+    elif 'power' in arguments:
+        luminosity = arguments[ 'power' ]
+
+        return getRoot( divide( getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 6 ) ] ),
+                                getProduct( [ luminosity.convert( 'kilogram*meter^2/second^3' ), 15360, pi,
+                                     getPower( getNewtonsConstant( ), 2 ) ] ) ), 2  ).convert( 'kilogram' )
+    elif 'time' in arguments:
+        lifetime = arguments[ 'time' ]
+
+        return getRoot( divide( getProduct( [ lifetime, getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 4 ) ] ),
+                                getProduct( [ 5120, pi, getPower( getNewtonsConstant( ), 2 ) ] ) ), 3 ).convert( 'kilogram' )
+
+    raise ValueError( 'invalid arguments to black hole operator' )
+
+
+# //******************************************************************************
+# //
+# //  calculateBlackHoleRadius
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateBlackHoleRadius( measurement ):
+    validUnitTypes = [
+        [ 'mass' ],
+        [ 'length' ],
+        [ 'acceleration' ],
+        [ 'area' ],
+        [ 'temperature' ],
+        [ 'power' ],
+        [ 'time' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( 'black_hole_radius: invalid argument' )
+
+    mass = calculateBlackHoleMass( measurement )
 
     radius = getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( getPower( getSpeedOfLight( ), 2 ) )
     return radius.convert( 'meter' )
+
+
+# //******************************************************************************
+# //
+# //  calculateBlackHoleSurfaceArea
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateBlackHoleSurfaceArea( measurement ):
+    validUnitTypes = [
+        [ 'mass' ],
+        [ 'length' ],
+        [ 'acceleration' ],
+        [ 'area' ],
+        [ 'temperature' ],
+        [ 'power' ],
+        [ 'time' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( 'black_hole_surface_area: invalid argument' )
+
+    mass = calculateBlackHoleMass( measurement )
+
+    area = divide( getProduct( [ 16, pi, getPower( getNewtonsConstant( ), 2 ), getPower( mass, 2 ) ] ).
+                   getPower( getSpeedOfLight( ), 4 ) )
+    return area.convert( 'meter^2' )
+
+
+# //******************************************************************************
+# //
+# //  calculateBlackHoleSurfaceGravity
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateBlackHoleSurfaceGravity( measurement ):
+    validUnitTypes = [
+        [ 'mass' ],
+        [ 'length' ],
+        [ 'acceleration' ],
+        [ 'area' ],
+        [ 'temperature' ],
+        [ 'power' ],
+        [ 'time' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( 'black_hole_surface_gravity: invalid argument' )
+
+    mass = calculateBlackHoleMass( measurement )
+
+    gravity = divide( getPower( getSpeedOfLight( ), 4 ), getProduct( [ mass, 4, getNewtonsConstant( ) ] ) )
+    return gravity.convert( 'meter/second^2' )
+
+
+# //******************************************************************************
+# //
+# //  calculateBlackHoleEntropy
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateBlackHoleEntropy( measurement ):
+    validUnitTypes = [
+        [ 'mass' ],
+        [ 'length' ],
+        [ 'acceleration' ],
+        [ 'area' ],
+        [ 'temperature' ],
+        [ 'power' ],
+        [ 'time' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( 'black_hole_entropy: invalid argument' )
+
+    mass = calculateBlackHoleMass( measurement )
+
+    entropy = divide( getProduct( [ getPower( mass, 2 ), 4, pi, getNewstonsConstant( ) ] ),
+                     getProduct( [ getReducedPlanckConstant( ), getSpeedOfLight( ), getLog( 10.0 ) ] ) )
+
+    return entropy
+
+
+# //******************************************************************************
+# //
+# //  calculateBlackHoleTemperature
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateBlackHoleTemperature( measurement ):
+    validUnitTypes = [
+        [ 'mass' ],
+        [ 'length' ],
+        [ 'acceleration' ],
+        [ 'area' ],
+        [ 'temperature' ],
+        [ 'power' ],
+        [ 'time' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( 'black_hole_temperature: invalid argument' )
+
+    mass = calculateBlackHoleMass( measurement )
+
+    temperature = divide( getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 3 ) ] ),
+                          getProduct( [ mass, 8, getBoltzmannsConstant( ), pi, getNewtonsConstant( ) ] ) )
+
+    return temperature.convert( 'kelvin' )
+
+
+# //******************************************************************************
+# //
+# //  calculateBlackHoleLuminosity
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateBlackHoleLuminosity( measurement ):
+    validUnitTypes = [
+        [ 'mass' ],
+        [ 'length' ],
+        [ 'acceleration' ],
+        [ 'area' ],
+        [ 'temperature' ],
+        [ 'power' ],
+        [ 'time' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( 'black_hole_luminosity: invalid argument' )
+
+    mass = calculateBlackHoleMass( measurement )
+
+    luminosity = divide( getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 6 ) ] ),
+                          getProduct( [ getPower( mass, 2 ), 15360, pi, getPower( getNewtonsConstant( ), 2 ) ] ) )
+
+    return luminonsity.convert( 'watts' )
+
+
+# //******************************************************************************
+# //
+# //  calculateBlackHoleLifetime
+# //
+# //******************************************************************************
+
+@oneArgFunctionEvaluator( )
+def calculateBlackHoleLifetime( mass ):
+    validUnitTypes = [
+        [ 'mass' ],
+        [ 'length' ],
+        [ 'acceleration' ],
+        [ 'area' ],
+        [ 'temperature' ],
+        [ 'power' ],
+        [ 'time' ],
+    ]
+
+    arguments = matchUnitTypes( [ measurement ], validUnitTypes )
+
+    if not arguments:
+        raise ValueError( 'black_hole_lifetime: invalid argument' )
+
+    mass = calculateBlackHoleMass( measurement )
+
+    lifetime = divide( getProduct( [ getPower( mass, 3 ), 5120, pi, getPower( getNewtonsConstant( ), 2 ) ] ),
+                       getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 4 ) ] ) )
+
+    return luminonsity.convert( 'seconds' )
 
 
 # //******************************************************************************

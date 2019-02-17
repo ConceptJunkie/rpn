@@ -4249,6 +4249,30 @@ operators = {
     'acceleration'                   : RPNOperator( calculateAcceleration,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
+    'black_hole_entropy'             : RPNOperator( calculateBlackHoleEntropy,
+                                                    1, [ RPNOperator.Measurement ] ),
+
+    'black_hole_lifetime'            : RPNOperator( calculateBlackHoleLifetime,
+                                                    1, [ RPNOperator.Measurement ] ),
+
+    'black_hole_luminosity'          : RPNOperator( calculateBlackHoleLuminosity,
+                                                    1, [ RPNOperator.Measurement ] ),
+
+    'black_hole_mass'                : RPNOperator( calculateBlackHoleMass,
+                                                    1, [ RPNOperator.Measurement ] ),
+
+    'black_hole_radius'              : RPNOperator( calculateBlackHoleRadius,
+                                                    1, [ RPNOperator.Measurement ] ),
+
+    'black_hole_temperature'         : RPNOperator( calculateBlackHoleTemperature,
+                                                    1, [ RPNOperator.Measurement ] ),
+
+    'black_hole_surface_area'        : RPNOperator( calculateBlackHoleSurfaceArea,
+                                                    1, [ RPNOperator.Measurement ] ),
+
+    'black_hole_surface_gravity'     : RPNOperator( calculateBlackHoleSurfaceGravity,
+                                                    1, [ RPNOperator.Measurement ] ),
+
     'distance'                       : RPNOperator( calculateDistance,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
 
@@ -4278,9 +4302,6 @@ operators = {
 
     'orbital_velocity'               : RPNOperator( calculateOrbitalVelocity,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),
-
-    'schwarzchild_radius'            : RPNOperator( calculateSchwarzchildRadius,
-                                                    1, [ RPNOperator.Measurement ] ),
 
     'surface_gravity'                : RPNOperator( calculateSurfaceGravity,
                                                     2, [ RPNOperator.Measurement, RPNOperator.Measurement ] ),

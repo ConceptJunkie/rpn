@@ -385,9 +385,16 @@ class RPNMeasurement( object ):
 
     def isCompatible( self, other ):
         if isinstance( other, RPNUnits ):
+            #print( 'isCompatible 2' )
+            #print( 'self.getUnitTypes( )', self.getUnitTypes( ) )
+            #print( 'other.getUnitTypes( )', other.getUnitTypes( ) )
+            #print( 'self.getDimensions( )', self.getDimensions( ) )
+            #print( 'other.getDimensions( )', other.getDimensions( ) )
             return self.getUnitTypes( ) == other.getUnitTypes( )
         elif isinstance( other, dict ):
             return self.getUnitTypes( ) == other
+        elif isinstance( other, str ):
+            return isCompatible( self, RPNMeasurement( 1, other ) )
         elif isinstance( other, list ):
             result = True
 
@@ -448,7 +455,6 @@ class RPNMeasurement( object ):
             return g.unitOperators[ unitString ].representation
         else:
             return unitString
-
 
     def getPluralUnitName( self ):
         if self.pluralUnitName:
@@ -829,10 +835,18 @@ def applyNumberValueToUnit( number, term ):
 # //******************************************************************************
 
 def checkUnits( measurement, unitType ):
+    #print( )
+    #print( 'unitType', unitType )
+    #print( 'base', g.basicUnitTypes[ unitType ].baseUnit )
+    #print( 'dim', g.basicUnitTypes[ unitType ].dimensions )
+    #print( 'measurement units', measurement.getUnits( ) )
+    #print( 'measurement dim', measurement.getDimensions( ) )
+    #print( )
+
     if measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].baseUnit ) ):
         return True
 
-    return measurement.isCompatible( RPNUnits( g.basicUnitTypes[ unitType ].dimensions ) )
+    return measurement.getDimensions( ) == g.basicUnitTypes[ unitType ].dimensions
 
 
 # //******************************************************************************
@@ -887,6 +901,7 @@ def matchUnitTypes( args, validUnitTypes ):
             else:
                 result = { }
                 #print( 'breaking...' )
+                #print( )
                 break
 
             unitTypes.remove( unitType )

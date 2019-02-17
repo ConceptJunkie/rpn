@@ -2880,7 +2880,7 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'tonne' :
         RPNUnitInfo( 'mass', 'tonne', 'tonnes', '',
-                     [ ], [ 'MTS' ],
+                     [ 'metric_ton', 'metric_tons' ], [ 'MTS' ],
                      '''
 ''' ),
 
