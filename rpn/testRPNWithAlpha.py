@@ -1073,14 +1073,12 @@ def runConstantOperatorTests( ):
     #testOperator( 'venus_revolution' )
     #testOperator( 'venus_volume' )
 
-    #testOperator( 'earth_gravity' )
     #testOperator( 'earth_mass' )
     #testOperator( 'earth_radius' )
     #testOperator( 'earth_volume' )
     #testOperator( 'sidereal_year' )
     #testOperator( 'tropical_year' )
 
-    #testOperator( 'moon_gravity' )
     #testOperator( 'moon_mass' )
     #testOperator( 'moon_radius' )
     #testOperator( 'moon_revolution' )

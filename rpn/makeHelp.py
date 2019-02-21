@@ -44,7 +44,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1282
+maxExampleCount = 1281
 
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
@@ -1249,20 +1249,14 @@ Unit conversions:
     Here's a little more advanced version of the problem.  Let's say we have
     launched a rocket that is accelerated at 5 Gs for 5 minutes.  How long
     would it take for it to reach Jupiter?
-''' + makeCommandExample( 'jupiter now distance_from_earth 5 gee * 5 minutes * / dhms', indent=8 ) + '''
-    Note that constants (e.g., gee) must use the 'multiply' operator, i.e.,
-    '5 gee *', but units do not require it (e.g., '5 minutes').  This
-    isn't consistent, but I don't know of a better way to handle this because
-    you don't want adjacent constants to automatically be multiplied.
-
-    'pi' is a constant:
-''' + makeCommandExample( '2 pi *', indent=8 ) + '''
-    'million' is a unit.
-''' + makeCommandExample( '500 million miles', indent=8 ) + '''
-    'gee' is a constant.
-''' + makeCommandExample( '5 gee *', indent=8 ) + '''
+''' + makeCommandExample( 'jupiter now distance_from_earth 5 gee 5 minutes * / dhms', indent=8 ) + '''
     And finally, let's convert our example to better units:
-''' + makeCommandExample( '500 million miles 5 gee * 5 minutes * / dhms', indent=8 ) + '''
+''' + makeCommandExample( '500 million miles 5 gee 5 minutes * / dhms', indent=8 ) + '''
+
+    Now, let's compare the density of Sagittarius A, the black hole at the
+    center of the Milky Way, to the density of gold...
+''' + makeCommandExample( 'rpn 4.3 million solar_mass * 4.3 million solar_mass * black_hole_radius sphere_volume / Gold element_density /', indent=8 ) + '''
+
 Advanced examples:
 
 Calculation (or approximation) of various mathematical constants:
@@ -5061,15 +5055,6 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' + makeCommandExample( 'venus_volume' ),
 [ ] ],
 
-    'earth_gravity' : [
-'constants', 'returns the surface gravity of the planet Earth',
-'''
-''',
-'''
-''' + makeCommandExample( 'earth_gravity' ) + '''
-''' + makeCommandExample( 'earth_mass earth_radius surface_gravity' ),
-[ ] ],
-
     'earth_mass' : [
 'constants', 'returns the mass of the Earth',
 '''
@@ -5092,14 +5077,6 @@ Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''',
 '''
 ''' + makeCommandExample( 'earth_volume' ),
-[ ] ],
-
-    'moon_gravity' : [
-'constants', 'returns surface gravity of the Moon',
-'''
-''',
-'''
-''' + makeCommandExample( 'moon_mass moon_radius surface_gravity' ),
 [ ] ],
 
     'moon_radius' : [
@@ -9108,20 +9085,22 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '1 year black_hole_mass' ) + '''
 ''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
 ''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
-''' + makeCommandExample( 'gee black_hole_mass' ),
+''' + makeCommandExample( '1 gee black_hole_mass' ) + '''
+''' + makeCommandExample( '100 tons black_hole_mass' ),
 [ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime' ] ],
 
-    'black_hole_luminosity' : [
+    'black_hole_lifetime' : [
 'physics', 'calculates the lifetime of a black hole given one of several different measurements'
 '''
 http://xaonon.dyndns.org/hawking/
 ''',
 '''
-''' + makeCommandExample( '1000 miles^2 black_hole_mass' ) + '''
-''' + makeCommandExample( '1 year black_hole_mass' ) + '''
-''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
-''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
-''' + makeCommandExample( 'gee black_hole_mass' ),
+''' + makeCommandExample( '1000 miles^2 black_hole_lifetime' ) + '''
+''' + makeCommandExample( '1 year black_hole_lifetime' ) + '''
+''' + makeCommandExample( '373 kelvin black_hole_lifetime' ) + '''
+''' + makeCommandExample( '1 billion watts black_hole_lifetime' ) + '''
+''' + makeCommandExample( '1.0e12 kg black_hole_lifetime' ) + '''
+''' + makeCommandExample( 'gee black_hole_lifetime' ),
 [ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_luminosity' ] ],
 
     'black_hole_luminosity' : [

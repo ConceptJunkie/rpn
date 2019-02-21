@@ -201,7 +201,7 @@ def calculateBlackHoleEntropy( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    entropy = divide( getProduct( [ getPower( mass, 2 ), 4, pi, getNewstonsConstant( ) ] ),
+    entropy = divide( getProduct( [ getPower( mass, 2 ), 4, pi, getNewtonsConstant( ) ] ),
                      getProduct( [ getReducedPlanckConstant( ), getSpeedOfLight( ), getLog( 10.0 ) ] ) )
 
     return entropy
@@ -266,7 +266,7 @@ def calculateBlackHoleLuminosity( measurement ):
     luminosity = divide( getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 6 ) ] ),
                           getProduct( [ getPower( mass, 2 ), 15360, pi, getPower( getNewtonsConstant( ), 2 ) ] ) )
 
-    return luminonsity.convert( 'watts' )
+    return luminosity.convert( 'watts' )
 
 
 # //******************************************************************************
@@ -276,7 +276,7 @@ def calculateBlackHoleLuminosity( measurement ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-def calculateBlackHoleLifetime( mass ):
+def calculateBlackHoleLifetime( measurement ):
     validUnitTypes = [
         [ 'mass' ],
         [ 'length' ],
@@ -297,7 +297,7 @@ def calculateBlackHoleLifetime( mass ):
     lifetime = divide( getProduct( [ getPower( mass, 3 ), 5120, pi, getPower( getNewtonsConstant( ), 2 ) ] ),
                        getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 4 ) ] ) )
 
-    return luminonsity.convert( 'seconds' )
+    return lifetime.convert( 'seconds' )
 
 
 # //******************************************************************************

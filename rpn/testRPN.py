@@ -1802,14 +1802,12 @@ def runConstantOperatorTests( ):
     testOperator( 'venus_revolution' )
     testOperator( 'venus_volume' )
 
-    testOperator( 'earth_gravity' )
     testOperator( 'earth_mass' )
     testOperator( 'earth_radius' )
     testOperator( 'earth_volume' )
     testOperator( 'sidereal_year' )
     testOperator( 'tropical_year' )
 
-    testOperator( 'moon_gravity' )
     testOperator( 'moon_mass' )
     testOperator( 'moon_radius' )
     testOperator( 'moon_revolution' )
@@ -3807,6 +3805,78 @@ def runPhysicsOperatorTests( ):
     testOperator( '10 m/s^3 10 seconds distance' )
     testOperator( '10 m/s^4 10 seconds distance' )
 
+    # black_hole_entropy
+    testOperator( 'sun_mass black_hole_entropy' )
+    testOperator( '1 square_centimeter black_hole_entropy' )
+    testOperator( 'earth_gravity black_hole_entropy' )
+    testOperator( '100 kelvin black_hole_entropy' )
+    testOperator( '1 watt black_hole_entropy' )
+    testOperator( '1 trillion years black_hole_entropy' )
+    testOperator( '1 angstrom years black_hole_entropy' )
+
+    # black_hole_lifetime
+    testOperator( '1.0e100 years black_hole_lifetime' )
+    testOperator( 'sun_mass black_hole_lifetime' )
+    testOperator( '1 square_centimeter black_hole_lifetime' )
+    testOperator( 'earth_gravity black_hole_lifetime' )
+    testOperator( '1 kelvin black_hole_lifetime' )
+    testOperator( '1.5 PW black_hole_lifetime' )
+    testOperator( '100 miles black_hole_lifetime' )
+
+    # black_hole_luminosity
+    testOperator( '1 gram black_hole_luminosity' )
+    testOperator( '10 square_miles black_hole_luminosity' )
+    testOperator( 'earth_gravity black_hole_luminosity' )
+    testOperator( '273.16 kelvin black_hole_luminosity' )
+    testOperator( '1 day black_hole_luminosity' )
+    testOperator( '1000 miles black_hole_luminosity' )
+    testOperator( '1.0e20 W black_hole_mass' )
+
+    # black_hole_mass
+    testOperator( '1000 watts black_hole_mass' )
+    testOperator( '1 barn black_hole_mass' )
+    testOperator( '1000000 meters/second^2 black_hole_mass' )
+    testOperator( '1.0e12 kelvin black_hole_mass' )
+    testOperator( '1 quadrillion years black_hole_mass' )
+    testOperator( '1 millimeter black_hole_mass' )
+    testOperator( '1 horsepower black_hole_mass' )
+
+    # black_hole_radius
+    testOperator( '1 mile black_hole_radius' )
+    testOperator( 'earth_mass black_hole_radius' )
+    testOperator( '100 square_miles black_hole_radius' )
+    testOperator( '10 gee black_hole_radius' )
+    testOperator( '10000 kelvin black_hole_radius' )
+    testOperator( '1 TW black_hole_radius' )
+    testOperator( '1 billion years black_hole_radius' )
+
+    # black_hole_temperature
+    testOperator( '50 K black_hole_temperature' )
+    testOperator( '1e20 watts black_hole_temperature' )
+    testOperator( '1 square_light-year black_hole_temperature' )
+    testOperator( '1.0e-9 meters/second^2 black_hole_temperature' )
+    testOperator( '1.0e15 kg black_hole_temperature' )
+    testOperator( '1 minute black_hole_temperature' )
+    testOperator( '1 mile black_hole_temperature' )
+
+    # black_hole_surface_area
+    testOperator( '1 acre black_hole_surface_area' )
+    testOperator( '1e20 watts black_hole_surface_area' )
+    testOperator( '1 K black_hole_surface_area' )
+    testOperator( '1.0e25 meters/second^2 black_hole_surface_area' )
+    testOperator( '1.0e-15 kg black_hole_surface_area' )
+    testOperator( '1 hour black_hole_surface_area' )
+    testOperator( '1 parsec black_hole_surface_area' )
+
+    # black_hole_surface_gravity
+    testOperator( 'moon_gravity black_hole_surface_gravity' )
+    testOperator( '1e25 watts black_hole_surface_gravity' )
+    testOperator( '1e12 K black_hole_surface_gravity' )
+    testOperator( '1.0e30 meters/second^2 black_hole_surface_gravity' )
+    testOperator( '1.0e20 kg black_hole_surface_gravity' )
+    testOperator( '1 quintillion years black_hole_surface_gravity' )
+    testOperator( '1 foot black_hole_surface_gravity' )
+
     # energy_equivalence
     testOperator( '1 gram energy_equivalence' )
 
@@ -3881,9 +3951,6 @@ def runPhysicsOperatorTests( ):
     expectEqual( 'earth_mass 26250.08 miles orbital_velocity mph convert', 'earth_mass 26250.08 miles orbital_velocity mph convert' )
 
     expectException( '24 hours 6872 pounds orbital_mass' )
-
-    # schwarzchild_radius
-    testOperator( 'earth_mass schwarzchild_radius' )
 
     # surface_gravity
     # mass length

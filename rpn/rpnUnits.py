@@ -315,6 +315,12 @@ unitOperators = {
                      '''
 ''' ),
 
+    'earth_gravity' :
+        RPNUnitInfo( 'acceleration', 'earth_gravity', 'earth_gravities', '',
+                     [ 'gee', 'gees', 'standard_gravity', 'standard_gravities' ], [ 'natural' ],
+                     '''
+''' ),
+
     'leo' :
         RPNUnitInfo( 'acceleration', 'leo', 'leos', '',
                      [ ], [ 'CGS' ],
@@ -327,11 +333,17 @@ unitOperators = {
                      '''
 ''' ),
 
+    'moon_gravity' :
+        RPNUnitInfo( 'acceleration', 'moon_gravity', 'moon_gravities', '',
+                     [ 'lunar_gravity', 'lunar_gravities' ], [ 'natural' ],
+                     '''
+''' ),
+
 
     # amount of substance
     'mole' :
         RPNUnitInfo( 'amount_of_substance', 'mole', 'mole', 'mol',
-                     [ 'einstein' ], [ 'SI' ],
+                     [ 'einstein', 'einsteins' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -4421,6 +4433,7 @@ unitConversionMatrix = {
     ( 'dry_tun',                    'dry_hogshead' )                        : mpmathify( '4' ),
     ( 'duodecillion',               'unity' )                               : mpmathify( '1.0e39' ),
     ( 'dword',                      'bit' )                                 : mpmathify( '32' ),
+    ( 'earth_gravity',              'meter/second^2' )                      : mpmathify( '9.80665' ),
     ( 'eight',                      'unity' )                               : mpmathify( '8' ),
     ( 'eighteen',                   'unity' )                               : mpmathify( '18' ),
     ( 'eighty',                     'unity' )                               : mpmathify( '80' ),
@@ -4595,6 +4608,7 @@ unitConversionMatrix = {
     ( 'minute',                     'second' )                              : mpmathify( '60' ),
     ( 'mmHg',                       'pascal' )                              : mpmathify( '133.3224' ),        # approx.
     ( 'month',                      'day' )                                 : mpmathify( '30' ),
+    ( 'moon_gravity',               'meter/second^2' )                      : mpmathify( '1.62' ),
     ( 'mordechai',                  'liter' )                               : mpmathify( '9.0' ),
     ( 'morgen',                     'are' )                                 : mpmathify( '85.6532' ),
     ( 'nail',                       'inch' )                                : mpmathify( '2.25' ),

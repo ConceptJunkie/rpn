@@ -131,6 +131,11 @@ class RPNUnits( collections.Counter ):
 
         return result
 
+    def simplifyDimensions( self ):
+        result = RPNUnits( )
+
+        return result
+
     def getUnitString( self ):
         '''Returns a string with the algebraic representation of the units.'''
         resultString = ''

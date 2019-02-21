@@ -192,14 +192,12 @@ from rpn.rpnMath import getPower, getRoot
 #    'venus_revolution'              : RPNOperator( lambda: RPNMeasurement( '224.701', 'day' ), 0 ),
 #    'venus_volume'                  : RPNOperator( lambda: RPNMeasurement( '9.2843e20', 'meter^3' ), 0 ),
 #
-#    'earth_gravity'                 : RPNOperator( lambda: RPNMeasurement( '9.806650', 'meter/second^2' ), 0 ),
 #    'earth_mass'                    : RPNOperator( lambda: RPNMeasurement( '5.9742e24', 'kilogram' ), 0 ),
 #    'earth_radius'                  : RPNOperator( lambda: RPNMeasurement( '6378136', 'meter' ), 0 ),
 #    'earth_volume'                  : RPNOperator( lambda: RPNMeasurement( '1.08321e21', 'meter^3' ), 0 ),
 #    'sidereal_year'                 : RPNOperator( lambda: RPNMeasurement( '365.256360417', 'day' ), 0 ),
 #    'tropical_year'                 : RPNOperator( lambda: RPNMeasurement( '365.24219', 'day' ), 0 ),
 #
-#    'moon_gravity'                  : RPNOperator( lambda: RPNMeasurement( '1.62', 'meter/second^2' ), 0 ),
 #    'moon_mass'                     : RPNOperator( lambda: RPNMeasurement( '7.342e22', 'kilogram' ), 0 ),
 #    'moon_radius'                   : RPNOperator( lambda: RPNMeasurement( '1.7381e6', 'meter' ), 0 ),
 #    'moon_revolution'               : RPNOperator( lambda: RPNMeasurement( '27.3217', 'day' ), 0 ),
