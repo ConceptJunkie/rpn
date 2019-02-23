@@ -6,6 +6,12 @@ rpn supports arithmetic with arbitrary precision, powers and roots, logarithms, 
 
 ## Updates
 
+### Update - February 22, 2019
+
+Not much has happened with rpn lately, but I do have some good plans.  I haven't released 7.3 mostly due to laziness, but I've also got some solid ideas for improvements with the unit conversion functionality.  For one thing, I want to fold the constants into the units database, and I have an idea for adding some implicit unit conversion.
+
+I've also wanted to migrate from pyephem, which is no longer being developed, to Skyfield, which is recommended by the people who used to make pyephem.  Skyfield is also a pure Python library, which makes my life easier.  However, Skyfield is a more low-level library, so there's not a one-to-one correspondence for most of the pyephem functionality I've been using.
+
 ### Update - February 21, 2018
 
 rpn is available on pypi.org.  Since there always was a project called "rpn", I had to come up with a new name, so I'm happy to introduce "rpnChilada".
