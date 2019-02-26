@@ -289,6 +289,16 @@ basicUnitTypes = {
 }
 
 
+constantOperators = {
+    'earth_gravity' :
+        RPNUnitInfo( 'acceleration', 'earth_gravity', 'earth_gravities', '',
+                     [ 'gee', 'gees', 'standard_gravity', 'standard_gravities' ], [ 'natural' ],
+                     Measurement( '9.80665', 'meter/second^2' ),
+                     '''
+''' ),
+}
+
+
 # //******************************************************************************
 # //
 # //  unitOperators
@@ -313,12 +323,6 @@ unitOperators = {
     'galileo' :
         RPNUnitInfo( 'acceleration', 'galileo', 'galileos', '',
                      [ ], [ 'CGS' ], '',
-                     '''
-''' ),
-
-    'earth_gravity' :
-        RPNUnitInfo( 'acceleration', 'earth_gravity', 'earth_gravities', '',
-                     [ 'gee', 'gees', 'standard_gravity', 'standard_gravities' ], [ 'natural' ], '',
                      '''
 ''' ),
 
@@ -3517,6 +3521,12 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
                      '''
 ''' ),
 
+    'speed_of_sound' :
+        RPNUnitInfo( 'velocity', 'speed_of_sound', 'x speed_of_sound', '',
+                     [ ], [ 'natural' ], '',
+                     '''
+''' ),
+
     # volume
     'acre*foot' :
         RPNUnitInfo( 'volume', 'acre*foot', 'acre*feet', '',
@@ -4434,7 +4444,6 @@ unitConversionMatrix = {
     ( 'dry_tun',                    'dry_hogshead' )                        : mpmathify( '4' ),
     ( 'duodecillion',               'unity' )                               : mpmathify( '1.0e39' ),
     ( 'dword',                      'bit' )                                 : mpmathify( '32' ),
-    ( 'earth_gravity',              'meter/second^2' )                      : mpmathify( '9.80665' ),
     ( 'eight',                      'unity' )                               : mpmathify( '8' ),
     ( 'eighteen',                   'unity' )                               : mpmathify( '18' ),
     ( 'eighty',                     'unity' )                               : mpmathify( '80' ),
@@ -4578,7 +4587,7 @@ unitConversionMatrix = {
     ( 'lustrum',                    'year' )                                : mpmathify( '5' ),
     ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '1' ),
     ( 'lux',                        'nox' )                                 : mpmathify( '1000' ),
-    ( 'mach',                       'meter/second' )                        : mpmathify( '295.0464' ),
+    ( 'mach',                       'meter/second' )                        : mpmathify( '340.2868' ),
     ( 'magnetic_flux_quantum',      'weber' )                               : mpmathify( '2.067833831e-15' ),
     ( 'magnum',                     'bottle' )                              : mpmathify( '2' ),
     ( 'magnum',                     'liter' )                               : mpmathify( '1.5' ),
@@ -4757,6 +4766,7 @@ unitConversionMatrix = {
     ( 'sovereign',                  'liter' )                               : mpmathify( '25.0' ),
     ( 'span',                       'inch' )                                : mpmathify( '9' ),
     ( 'spanish_almude',             'liter' )                               : mpmathify( '4.625' ),
+    ( 'speed_of_sound',             'meter/second' )                        : mpmathify( '343' ),
     ( 'sphere',                     'hemisphere' )                          : mpmathify( '2' ),
     ( 'sphere',                     'steradian' )                           : fmul( 4, pi ),
     ( 'square_arcminute',           'square_arcsecond' )                    : mpmathify( '3600' ),
@@ -4812,9 +4822,9 @@ unitConversionMatrix = {
     ( 'three',                      'unity' )                               : mpmathify( '3' ),
     ( 'toe',                        'calorie' )                             : mpmathify( '1.0e10' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
-    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
-    ( 'ton_of_coal',                'joule' )                               : mpmathify( '29.288e9' ),
     ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
+    ( 'ton_of_coal',                'joule' )                               : mpmathify( '29.288e9' ),
+    ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
     ( 'ton_of_TNT',                 'pound_of_TNT' )                        : mpmathify( '2000' ),
     ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),
