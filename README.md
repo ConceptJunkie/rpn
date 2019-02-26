@@ -6,6 +6,12 @@ rpn supports arithmetic with arbitrary precision, powers and roots, logarithms, 
 
 ## Updates
 
+### Update - February 26, 2019
+
+OK, stick a fork in 7.2.0.  It's done.  I'd intended to get back to releasing often, but 10 months is not "often".
+
+Aside from the usual ton of bug fixes and minor improvements, this version offers several operators having to do with the physics of black holes.  See "rpn help physics" for details.
+
 ### Update - February 22, 2019
 
 Not much has happened with rpn lately, but I do have some good plans.  I haven't released 7.3 mostly due to laziness, but I've also got some solid ideas for improvements with the unit conversion functionality.  For one thing, I want to fold the constants into the units database, and I have an idea for adding some implicit unit conversion.
