@@ -160,6 +160,9 @@ class RPNDateTime( arrow.Arrow ):
         if not isinstance( time, RPNMeasurement ):
             ValueError( 'RPNMeasurement expected' )
 
+        #print( 'time.getUnitString( )', time.getUnitString( ) )
+        #print( 'g.unitOperators[ time.getUnitString( ) ].categories', g.unitOperators[ time.getUnitString( ) ].categories )
+
         if 'years' in g.unitOperators[ time.getUnitString( ) ].categories:
             years = convertUnits( time, 'year' ).getValue( )
             return self.replace( year = self.year + years )

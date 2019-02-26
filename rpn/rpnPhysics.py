@@ -142,7 +142,7 @@ def calculateBlackHoleSurfaceArea( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    area = divide( getProduct( [ 16, pi, getPower( getNewtonsConstant( ), 2 ), getPower( mass, 2 ) ] ).
+    area = divide( getProduct( [ 16, pi, getPower( getNewtonsConstant( ), 2 ), getPower( mass, 2 ) ] ),
                    getPower( getSpeedOfLight( ), 4 ) )
     return area.convert( 'meter^2' )
 

@@ -61,14 +61,14 @@ def loadFactorCache( ):
 def loadUnitNameData( ):
     try:
         with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'unit_names.pckl.bz2', 'rb' ) ) as pickleFile:
-            g.unitsVersion = pickle.load( pickleFile )
+            unitsVersion = pickle.load( pickleFile )
             g.unitOperatorNames = pickle.load( pickleFile )
             g.operatorAliases.update( pickle.load( pickleFile ) )
     except IOError:
         print( 'rpn:  Unable to load unit names.  Run "makeRPNUnits" to generate the unit data files.' )
         return False
 
-    if g.unitsVersion != PROGRAM_VERSION:
+    if unitsVersion != PROGRAM_VERSION:
         print( 'rpn:  units data file version mismatch.  Run "makeRPNUnits" to generate the unit data files.' )
 
     return True
@@ -97,14 +97,26 @@ def loadUnitConversionMatrix( ):
 def loadUnitData( ):
     try:
         with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'units.pckl.bz2', 'rb' ) ) as pickleFile:
-            g.unitsVersion = pickle.load( pickleFile )
+            unitsVersion = pickle.load( pickleFile )
             g.basicUnitTypes.update( pickle.load( pickleFile ) )
             g.unitOperators.update( pickle.load( pickleFile ) )
     except IOError:
         print( 'rpn:  Unable to load unit info data.  Run "makeRPNUnits" to generate the unit data files.' )
         return False
 
-    if g.unitsVersion != PROGRAM_VERSION:
+    if unitsVersion != PROGRAM_VERSION:
+        print( 'rpn:  units data file version mismatch.  Run "makeRPNUnits" to generate the unit data files.' )
+        return False
+
+    try:
+        with contextlib.closing( bz2.BZ2File( getDataPath( ) + os.sep + 'constants.pckl.bz2', 'rb' ) ) as pickleFile:
+            constantsVersion = pickle.load( pickleFile )
+            g.constantOperators.update( pickle.load( pickleFile ) )
+    except IOError:
+        print( 'rpn:  Unable to load constant info data.  Run "makeRPNUnits" to generate the unit data files.' )
+        return False
+
+    if constantsVersion != PROGRAM_VERSION:
         print( 'rpn:  units data file version mismatch.  Run "makeRPNUnits" to generate the unit data files.' )
         return False
 

@@ -44,7 +44,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1281
+maxExampleCount = 1279
 
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
@@ -1249,9 +1249,9 @@ Unit conversions:
     Here's a little more advanced version of the problem.  Let's say we have
     launched a rocket that is accelerated at 5 Gs for 5 minutes.  How long
     would it take for it to reach Jupiter?
-''' + makeCommandExample( 'jupiter now distance_from_earth 5 gee 5 minutes * / dhms', indent=8 ) + '''
+''' + makeCommandExample( 'jupiter now distance_from_earth 5 gee * 5 minutes * / dhms', indent=8 ) + '''
     And finally, let's convert our example to better units:
-''' + makeCommandExample( '500 million miles 5 gee 5 minutes * / dhms', indent=8 ) + '''
+''' + makeCommandExample( '500 million miles 5 gee * 5 minutes * / dhms', indent=8 ) + '''
 
     Now, let's compare the density of Sagittarius A, the black hole at the
     center of the Milky Way, to the density of gold...
@@ -9085,7 +9085,7 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '1 year black_hole_mass' ) + '''
 ''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
 ''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
-''' + makeCommandExample( '1 gee black_hole_mass' ) + '''
+''' + makeCommandExample( 'gee black_hole_mass' ) + '''
 ''' + makeCommandExample( '100 tons black_hole_mass' ),
 [ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_surface_area', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime' ] ],
 
@@ -9109,11 +9109,11 @@ http://xaonon.dyndns.org/hawking/
 http://xaonon.dyndns.org/hawking/
 ''',
 '''
-''' + makeCommandExample( '1000 miles^2 black_hole_mass' ) + '''
-''' + makeCommandExample( '1 year black_hole_mass' ) + '''
-''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
-''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
-''' + makeCommandExample( 'gee black_hole_mass' ),
+''' + makeCommandExample( '1000 miles^2 black_hole_luminosity' ) + '''
+''' + makeCommandExample( '1 year black_hole_luminosity' ) + '''
+''' + makeCommandExample( '373 kelvin black_hole_luminosity' ) + '''
+''' + makeCommandExample( '1 billion watts black_hole_luminosity' ) + '''
+''' + makeCommandExample( 'gee black_hole_luminosity' ),
 [ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_surface_gravity', 'black_hole_lifetime' ] ],
 
     'black_hole_mass' : [
@@ -9144,11 +9144,11 @@ http://xaonon.dyndns.org/hawking/
 http://xaonon.dyndns.org/hawking/
 ''',
 '''
-''' + makeCommandExample( '1000 miles^2 black_hole_mass' ) + '''
-''' + makeCommandExample( '1 year black_hole_mass' ) + '''
-''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
-''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
-''' + makeCommandExample( 'gee black_hole_mass' ),
+''' + makeCommandExample( '1000 miles^2 black_hole_surface_area' ) + '''
+''' + makeCommandExample( '1 year black_hole_surface_area' ) + '''
+''' + makeCommandExample( '373 kelvin black_hole_surface_area' ) + '''
+''' + makeCommandExample( '1 billion watts black_hole_surface_area' ) + '''
+''' + makeCommandExample( 'gee black_hole_surface_area' ),
 [ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime' ] ],
 
     'black_hole_surface_gravity' : [
@@ -9157,11 +9157,11 @@ http://xaonon.dyndns.org/hawking/
 http://xaonon.dyndns.org/hawking/
 ''',
 '''
-''' + makeCommandExample( '1000 miles^2 black_hole_mass' ) + '''
-''' + makeCommandExample( '1 year black_hole_mass' ) + '''
-''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
-''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
-''' + makeCommandExample( 'gee black_hole_mass' ),
+''' + makeCommandExample( '1000 miles^2 black_hole_surface_gravity' ) + '''
+''' + makeCommandExample( '1 year black_hole_surface_gravity' ) + '''
+''' + makeCommandExample( '373 kelvin black_hole_surface_gravity' ) + '''
+''' + makeCommandExample( '1 billion watts black_hole_surface_gravity' ) + '''
+''' + makeCommandExample( 'gee black_hole_surface_gravity' ),
 [ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'surface_gravity' ] ],
 
     'black_hole_temperature' : [
@@ -9170,11 +9170,11 @@ http://xaonon.dyndns.org/hawking/
 http://xaonon.dyndns.org/hawking/
 ''',
 '''
-''' + makeCommandExample( '1000 miles^2 black_hole_mass' ) + '''
-''' + makeCommandExample( '1 year black_hole_mass' ) + '''
-''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
-''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
-''' + makeCommandExample( 'gee black_hole_mass' ),
+''' + makeCommandExample( '1000 miles^2 black_hole_temperature' ) + '''
+''' + makeCommandExample( '1 year black_hole_temperature' ) + '''
+''' + makeCommandExample( '373 kelvin black_hole_temperature' ) + '''
+''' + makeCommandExample( '1 billion watts black_hole_temperature' ) + '''
+''' + makeCommandExample( 'gee black_hole_temperature' ),
 [ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_lifetime', 'black_hole_sureface_gravity', 'black_hole_luminosity' ] ],
 
     'distance' : [

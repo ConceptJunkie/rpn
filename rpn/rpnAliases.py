@@ -351,6 +351,8 @@ operatorAliases = {
     'gamma_flux'                    : 'nanotesla',
     'gammaflux'                     : 'nanotesla',
     'gas_constant'                  : 'molar_gas_constant',
+    'gee'                           : 'earth_gravity',
+    'gees'                          : 'earth_gravity',
     'gemmho'                        : 'microsiemens',
     'gen_polydiv'                   : 'generate_polydivisibles',
     'gen_polydivisibles'            : 'generate_polydivisibles',

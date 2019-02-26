@@ -539,17 +539,21 @@ constants = {
 
     'earth_density'                 : RPNOperator( lambda: RPNMeasurement( '5.514', 'gram/centimeter^3' ),
                                                    0, [ ] ),        # https://en.wikipedia.org/wiki/Earth#Composition_and_structure
+    'earth_gravity'                 : RPNOperator( lambda: RPNMeasurement( '9.80665', 'meter/second^2' ),
+                                                   0, [ ] ),        # based on earth_radius
     'earth_mass'                    : RPNOperator( lambda: RPNMeasurement( '5.9640955e24', 'kilogram' ),
                                                    0, [ ] ),        # based on earth_radius and earth_gravity
     'earth_radius'                  : RPNOperator( lambda: RPNMeasurement( '6371800', 'meter' ),
                                                    0, [ ] ),        # https://en.wikipedia.org/wiki/Earth_radius#Global_average_radii - volumetric radius
     'earth_volume'                  : RPNOperator( lambda: RPNMeasurement( '1.083207324897e21', 'meter^3' ),
                                                    0, [ ] ),        # based on earth_radius
+
     'sidereal_year'                 : RPNOperator( lambda: RPNMeasurement( '365.256360417', 'day' ),
                                                    0, [ ] ),
     'tropical_year'                 : RPNOperator( lambda: RPNMeasurement( '365.24219', 'day' ),
                                                    0, [ ] ),
 
+                                                   0, [ ] ),        # based on earth_radius
     'moon_mass'                     : RPNOperator( lambda: RPNMeasurement( '7.342e22', 'kilogram' ),
                                                    0, [ ] ),
     'moon_radius'                   : RPNOperator( lambda: RPNMeasurement( '1.7381e6', 'meter' ),
