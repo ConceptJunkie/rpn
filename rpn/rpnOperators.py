@@ -553,6 +553,7 @@ constants = {
     'tropical_year'                 : RPNOperator( lambda: RPNMeasurement( '365.24219', 'day' ),
                                                    0, [ ] ),
 
+    'moon_gravity'                  : RPNOperator( lambda: RPNMeasurement( '1.62', 'meter/second^2' ),
                                                    0, [ ] ),        # based on earth_radius
     'moon_mass'                     : RPNOperator( lambda: RPNMeasurement( '7.342e22', 'kilogram' ),
                                                    0, [ ] ),

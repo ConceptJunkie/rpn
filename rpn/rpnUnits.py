@@ -293,7 +293,14 @@ constantOperators = {
     'earth_gravity' :
         RPNUnitInfo( 'acceleration', 'earth_gravity', 'earth_gravities', '',
                      [ 'gee', 'gees', 'standard_gravity', 'standard_gravities' ], [ 'natural' ],
-                     Measurement( '9.80665', 'meter/second^2' ),
+                     #RPNMeasurement( '9.80665', 'meter/second^2' ),
+                     '''
+''' ),
+
+    'moon_gravity' :
+        RPNUnitInfo( 'acceleration', 'moon_gravity', 'moon_gravities', '',
+                     [ 'lunar_gravity', 'lunar_gravities' ], [ 'natural' ],
+                     #RPNMeasurement( '1.62', 'meter/second^2' ),
                      '''
 ''' ),
 }
@@ -315,32 +322,26 @@ unitOperators = {
     # _null_type - used internally
     '_null_unit' :
         RPNUnitInfo( '_null_type', '', '', '',
-                     [ ], [ ], None,
+                     [ ], [ ],
                      '''
 ''' ),
 
     # acceleration
     'galileo' :
         RPNUnitInfo( 'acceleration', 'galileo', 'galileos', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'leo' :
         RPNUnitInfo( 'acceleration', 'leo', 'leos', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'meter/second^2' :
         RPNUnitInfo( 'acceleration', 'meter/second^2', 'meters/second^2', '',
-                     [ ], [ 'SI' ], None,
-                     '''
-''' ),
-
-    'moon_gravity' :
-        RPNUnitInfo( 'acceleration', 'moon_gravity', 'moon_gravities', '',
-                     [ 'lunar_gravity', 'lunar_gravities' ], [ 'natural' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -348,46 +349,46 @@ unitOperators = {
     # amount of substance
     'mole' :
         RPNUnitInfo( 'amount_of_substance', 'mole', 'mole', 'mol',
-                     [ 'einstein', 'einsteins' ], [ 'SI' ], None,
+                     [ 'einstein', 'einsteins' ], [ 'SI' ],
                      '''
 ''' ),
 
     # angle
     'arcminute' :
         RPNUnitInfo( 'angle', 'arcminute', 'arcminutes', '',
-                     [ 'arcmin', 'arcmins' ], [ 'astronomy', 'mathematics' ], None,
+                     [ 'arcmin', 'arcmins' ], [ 'astronomy', 'mathematics' ],
                      '''
 ''' ),
 
     'arcsecond' :
         RPNUnitInfo( 'angle', 'arcsecond', 'arcseconds', '',
-                     [ 'arcsec', 'arcsecs' ], [ 'astronomy', 'mathematics' ], None,
+                     [ 'arcsec', 'arcsecs' ], [ 'astronomy', 'mathematics' ],
                      '''
 ''' ),
 
     'centrad' :
         RPNUnitInfo( 'angle', 'centrad', 'centrads', '',
-                     [ ], [ 'mathematics', 'science' ], None,
+                     [ ], [ 'mathematics', 'science' ],
                      '''
 ''' ),
 
     'circle' :
         RPNUnitInfo( 'angle', 'circle', 'circles', '',
-                     [ ], [ 'mathematics' ], None,
+                     [ ], [ 'mathematics' ],
                      '''
 The whole circle, all 360 degrees.
 ''' ),
 
     'degree' :
         RPNUnitInfo( 'angle', 'degree', 'degrees', 'deg',
-                     [ ], [ 'astronomy', 'mathematics', 'traditional' ], None,
+                     [ ], [ 'astronomy', 'mathematics', 'traditional' ],
                      '''
 The traditional degree, 1/360th of a circle.
 ''' ),
 
     'furman' :
         RPNUnitInfo( 'angle', 'furman', 'furmans', '',
-                     [ ], [ 'non-standard' ], None,
+                     [ ], [ 'non-standard' ],
                      '''
 From https://en.wikipedia.org/wiki/List_of_unusual_units_of_measurement#Furman:
 
@@ -399,164 +400,164 @@ arithmetic sometime around 1980.
 
     'grad' :
         RPNUnitInfo( 'angle', 'grad', 'grads', '',
-                     [ 'gon', 'gons' ], [ 'mathematics' ], None,
+                     [ 'gon', 'gons' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'octant' :
         RPNUnitInfo( 'angle', 'octant', 'octants', '',
-                     [ ], [ 'mathematics' ], None,
+                     [ ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'pointangle' :
         RPNUnitInfo( 'angle', 'pointangle', 'pointangles', '',
-                     [ ], [ 'navigation' ], None,
+                     [ ], [ 'navigation' ],
                      '''
 ''' ),
 
     'quadrant' :
         RPNUnitInfo( 'angle', 'quadrant', 'quadrants', '',
-                     [ ], [ 'mathematics' ], None,
+                     [ ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'quintant' :
         RPNUnitInfo( 'angle', 'quintant', 'quintants', '',
-                     [ ], [ 'mathematics' ], None,
+                     [ ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'radian' :
         RPNUnitInfo( 'angle', 'radian', 'radians', '',
-                     [ ], [ 'mathematics', 'SI' ], None,
+                     [ ], [ 'mathematics', 'SI' ],
                      '''
 ''' ),
 
     'sextant' :
         RPNUnitInfo( 'angle', 'sextant', 'sextants', '',
-                     [ 'flat', 'flats' ], [ 'mathematics' ], None,
+                     [ 'flat', 'flats' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'streck' :
         RPNUnitInfo( 'angle', 'streck', 'strecks', '',
-                     [ ], [ 'Sweden' ], None,
+                     [ ], [ 'Sweden' ],
                      '''
 ''' ),
 
     # area
     'acre' :
         RPNUnitInfo( 'area', 'acre', 'acres', 'ac',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'are' :
         RPNUnitInfo( 'area', 'are', 'ares', 'a',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'barn' :
         RPNUnitInfo( 'area', 'barn', 'barns', '',
-                     [ 'bethe', 'bethes', 'oppenheimer', 'oppenheimers' ], [ 'science' ], None,
+                     [ 'bethe', 'bethes', 'oppenheimer', 'oppenheimers' ], [ 'science' ],
                      '''
 ''' ),
 
     'bovate' :
         RPNUnitInfo( 'area', 'bovate', 'bovates', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'carucate' :
         RPNUnitInfo( 'area', 'carucate', 'carucates', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'homestead' :
         RPNUnitInfo( 'area', 'homestead', 'homesteads', '',
-                     [ ], [ 'US' ], None,
+                     [ ], [ 'US' ],
                      '''
 ''' ),
 
     'imperial_square' :
         RPNUnitInfo( 'area', 'imperial_sqaure', 'imperial_squares', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'meter^2' :
         RPNUnitInfo( 'area', 'meter^2', 'meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'morgen' :
         RPNUnitInfo( 'area', 'morgen', 'morgens', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'nanoacre' :
         RPNUnitInfo( 'area', 'nanoacre', 'nanoacres', 'nac',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'outhouse' :
         RPNUnitInfo( 'area', 'outhouse', 'outhouse', '',
-                     [ ], [ 'science', 'humorous' ], None,
+                     [ ], [ 'science', 'humorous' ],
                      '''
 ''' ),
 
     'rood' :
         RPNUnitInfo( 'area', 'rood', 'roods', '',
-                     [ 'farthingdale' ], [ 'imperial' ], None,
+                     [ 'farthingdale' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'section' :
         RPNUnitInfo( 'area', 'section', 'sections', '',
-                     [ ], [ 'US' ], None,
+                     [ ], [ 'US' ],
                      '''
 ''' ),
 
     'shed' :
         RPNUnitInfo( 'area', 'shed', 'sheds', '',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'square_foot' :
         RPNUnitInfo( 'area', 'square_foot', 'square_feet', '',
-                     [ 'sqft', 'sq_ft', 'sq_foot', 'sq_feet', 'square_ft' ], [ 'imperial' ], None,
+                     [ 'sqft', 'sq_ft', 'sq_foot', 'sq_feet', 'square_ft' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'square_meter' :
         RPNUnitInfo( 'area', 'square_meter', 'square_meters', '',
-                     [ 'sqm', 'sq_m', 'sq_meter', 'sq_meters', 'square_m' ], [ 'SI' ], None,
+                     [ 'sqm', 'sq_m', 'sq_meter', 'sq_meters', 'square_m' ], [ 'SI' ],
                      '''
 ''' ),
 
     'square_yard' :
         RPNUnitInfo( 'area', 'square_yard', 'square_yards', '',
-                     [ 'sqyd', 'sq_yd', 'sq_yard', 'sq_yards', 'square_yd' ], [ 'imperial' ], None,
+                     [ 'sqyd', 'sq_yd', 'sq_yard', 'sq_yards', 'square_yd' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'township' :
         RPNUnitInfo( 'area', 'township', 'townships', '',
-                     [ ], [ 'US' ], None,
+                     [ ], [ 'US' ],
                      '''
 ''' ),
 
     'virgate' :
         RPNUnitInfo( 'area', 'virgate', 'virgates', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
@@ -564,129 +565,129 @@ arithmetic sometime around 1980.
 
     '1/hertz*ohm' :
         RPNUnitInfo( 'capacitance', '1/ohm*hertz', '1/ohm*hertz', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'abfarad' :
         RPNUnitInfo( 'capacitance', 'abfarad', 'abfarads', 'abF',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'ampere*second/volt' :
         RPNUnitInfo( 'capacitance', 'ampere*second/volt', 'ampere*second/volt', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'coulomb^2/joule' :
         RPNUnitInfo( 'capacitance', 'coulomb^2/joule', 'coulomb^2/joule', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'coulomb^2/meter*newton' :
         RPNUnitInfo( 'capacitance', 'coulomb^2/newton*meter', 'coulomb^2/newton*meter', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'coulomb/volt' :
         RPNUnitInfo( 'capacitance', 'coulomb/volt', 'coulombs/volt', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'farad' :
         RPNUnitInfo( 'capacitance', 'farad', 'farads', 'F',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 The SI unit for capacitance.
 ''' ),
 
     'jar' :
         RPNUnitInfo( 'capacitance', 'jar', 'jars', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'joule/volt^2' :
         RPNUnitInfo( 'capacitance', 'joule/volt^2', 'joule/volt^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'meter*newton/volt^2' :
         RPNUnitInfo( 'capacitance', 'newton*meter/volt^2', 'newton*meter/volt^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'second/ohm' :
         RPNUnitInfo( 'capacitance', 'second/ohm', 'second/ohm', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'coulomb^2*second^2/kilogram*meter^2' :
         RPNUnitInfo( 'capacitance', 'second^2*coulomb^2/meter^2*kilogram', 'second^2*coulomb^2/meter^2*kilogram', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'second^2/henry' :
         RPNUnitInfo( 'capacitance', 'second^2/henry', 'second^2/henry', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'ampere^2*second^4/kilogram*meter^2' :
         RPNUnitInfo( 'capacitance', 'second^4*ampere^2/meter^2*kilogram', 'second^4*ampere^2/meter^2*kilogram', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'statfarad' :
         RPNUnitInfo( 'capacitance', 'statfarad', 'statfarads', 'statF',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'second*watt/volt^2' :
         RPNUnitInfo( 'capacitance', 'watt*second/volt^2', 'watt*second/volt^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     # charge
     'abcoulomb' :
         RPNUnitInfo( 'charge', 'abcoulomb', 'abcoulombs', 'abC',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'ampere*second' :
         RPNUnitInfo( 'charge', 'ampere*second', 'ampere*seconds', 'As',
-                     [ 'second*ampere', 'second*amperes' ], [ 'SI' ], None,
+                     [ 'second*ampere', 'second*amperes' ], [ 'SI' ],
                      '''
 ''' ),
 
     'coulomb' :
         RPNUnitInfo( 'charge', 'coulomb', 'coulombs', 'C',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'farad*volt' :
         RPNUnitInfo( 'charge', 'farad*volt', 'farad*volts', 'FV',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'franklin' :
         RPNUnitInfo( 'charge', 'franklin', 'franklins', 'Fr',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
@@ -698,13 +699,13 @@ The SI unit for capacitance.
 
     'joule/volt' :
         RPNUnitInfo( 'charge', 'joule/volt', 'joule/volt', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'statcoulomb' :
         RPNUnitInfo( 'charge', 'statcoulomb', 'statcoulombs', 'statC',
-                     [ 'esu_charge' ], [ 'CGS' ], None,
+                     [ 'esu_charge' ], [ 'CGS' ],
                      '''
 ''' ),
 
@@ -713,21 +714,21 @@ The SI unit for capacitance.
 #            value instead of alphabetical order like all the others
     'decillionth' :
         RPNUnitInfo( 'constant', 'decillionth', 'decillionths', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One decillionth:  10e-33 or 1/1,000,000,000,000,000,000,000,000,000,000,000
 ''' ),
 
     'nonillionth' :
         RPNUnitInfo( 'constant', 'nonillionth', 'nonillionths', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One nonillionth:  10e-30 or 1/1,000,000,000,000,000,000,000,000,000,000
 ''' ),
 
     'octillionth' :
         RPNUnitInfo( 'constant', 'octillionth', 'octillionths', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One octillionth:  10e-27 or 1/1,000,000,000,000,000,000,000,000,000
 ''' ),
@@ -735,7 +736,7 @@ One octillionth:  10e-27 or 1/1,000,000,000,000,000,000,000,000,000
     # 'y' can't be used here since it's an operator
     'septillionth' :
         RPNUnitInfo( 'constant', 'septillionth', 'septillionths', '',
-                     [ 'yocto' ], [ 'constant' ], None,
+                     [ 'yocto' ], [ 'constant' ],
                      '''
 One septillionth:  10e-24 or 1/1,000,000,000,000,000,000,000,000
 ''' ),
@@ -743,7 +744,7 @@ One septillionth:  10e-24 or 1/1,000,000,000,000,000,000,000,000
     # 'z' can't be used here since it's an operator
     'sextillionth' :
         RPNUnitInfo( 'constant', 'sextillionth', 'sextillionths', '',
-                     [ 'zepto' ], [ 'constant' ], None,
+                     [ 'zepto' ], [ 'constant' ],
                      '''
 One sextillionth:  10e-21 or 1/1,000,000,000,000,000,000,000
 ''' ),
@@ -751,35 +752,35 @@ One sextillionth:  10e-21 or 1/1,000,000,000,000,000,000,000
     # 'a' can't be used here since it's used for 'are'
     'quintillionth' :
         RPNUnitInfo( 'constant', 'quintillionth', 'quintillionths', '',
-                     [ 'atto' ], [ 'constant' ], None,
+                     [ 'atto' ], [ 'constant' ],
                      '''
 One quintillionth:  10e-18 or 1/1,000,000,000,000,000,000
 ''' ),
 
     'quadrillionth' :
         RPNUnitInfo( 'constant', 'quadrillionth', 'quadrillionths', 'f',
-                     [ 'femto' ], [ 'constant' ], None,
+                     [ 'femto' ], [ 'constant' ],
                      '''
 One quadrillionth:  10e-15 or 1/1,000,000,000,000,000
 ''' ),
 
     'trillionth' :
         RPNUnitInfo( 'constant', 'trillionth', 'trillionths', 'p',
-                     [ 'pico' ], [ 'constant' ], None,
+                     [ 'pico' ], [ 'constant' ],
                      '''
 One trillionth:  10e-12 or 1/1,000,000,000,000
 ''' ),
 
     'billionth' :
         RPNUnitInfo( 'constant', 'billionth', 'billionths', 'n',
-                     [ 'nano' ], [ 'constant' ], None,
+                     [ 'nano' ], [ 'constant' ],
                      '''
 One billionth:  10e-9 or 1/1,000,000,000
 ''' ),
 
     'millionth' :
         RPNUnitInfo( 'constant', 'millionth', 'millionths', 'u',
-                     [ 'micro' ], [ 'constant' ], None,
+                     [ 'micro' ], [ 'constant' ],
                      '''
 One millionth:  10e-6 or 1/1,000,000
 ''' ),
@@ -787,273 +788,273 @@ One millionth:  10e-6 or 1/1,000,000
     # 'm' can't be used here since it's used for 'meter'
     'thousandth' :
         RPNUnitInfo( 'constant', 'thousandth', 'thousandths', '',
-                     [ 'milli' ], [ 'constant' ], None,
+                     [ 'milli' ], [ 'constant' ],
                      '''
 One thousandth:  10e-3 or 1/1,000
 ''' ),
 
     'percent' :
         RPNUnitInfo( 'constant', 'percent', 'percent', '%',
-                     [ 'hundredth', 'centi' ], [ 'constant' ], None,
+                     [ 'hundredth', 'centi' ], [ 'constant' ],
                      '''
 One hundredth:  10e-2 or 1/100
 ''' ),
 
     'tenth' :
         RPNUnitInfo( 'constant', 'tenth', 'tenths', '',
-                     [ 'deci', 'tithe' ], [ 'constant' ], None,
+                     [ 'deci', 'tithe' ], [ 'constant' ],
                      '''
 One tenth:  10e-1 or 1/10
 ''' ),
 
     'quarter' :
         RPNUnitInfo( 'constant', 'quarter', 'quarters', '',
-                     [ 'fourth', 'fourths' ], [ 'constant' ], None,
+                     [ 'fourth', 'fourths' ], [ 'constant' ],
                      '''
 One quarter:  1/4 or 0.25
 ''' ),
 
     'third' :
         RPNUnitInfo( 'constant', 'third', 'thirds', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One third:  1/3 or 0.333333...
 ''' ),
 
     'half' :
         RPNUnitInfo( 'constant', 'half', 'halves', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One half:  1/2 or 0.5
 ''' ),
 
     'unity' :
         RPNUnitInfo( 'constant', 'x unity', 'x unity', '',
-                     [ 'one', 'ones' ], [ 'constant' ], None,
+                     [ 'one', 'ones' ], [ 'constant' ],
                      '''
 Unity, one, 1
 ''' ),
 
     'two' :
         RPNUnitInfo( 'constant', 'two', 'twos', '',
-                     [ 'pair', 'pairs' ], [ 'constant' ], None,
+                     [ 'pair', 'pairs' ], [ 'constant' ],
                      '''
 two, 2
 ''' ),
 
     'three' :
         RPNUnitInfo( 'constant', 'three', 'threes', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 three, 3
 ''' ),
 
     'four' :
         RPNUnitInfo( 'constant', 'four', 'fours', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 four, 4
 ''' ),
 
     'five' :
         RPNUnitInfo( 'constant', 'five', 'fives', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 five, 5
 ''' ),
 
     'six' :
         RPNUnitInfo( 'constant', 'six', 'sixes', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 six, 6
 ''' ),
 
     'seven' :
         RPNUnitInfo( 'constant', 'seven', 'sevens', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 seven, 7
 ''' ),
 
     'eight' :
         RPNUnitInfo( 'constant', 'eight', 'eights', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 eight, 8
 ''' ),
 
     'nine' :
         RPNUnitInfo( 'constant', 'nine', 'nines', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 nine, 9
 ''' ),
 
     'ten' :
         RPNUnitInfo( 'constant', 'ten', 'tens', '',
-                     [ 'deca', 'deka', 'dicker', 'dickers' ], [ 'constant' ], None,
+                     [ 'deca', 'deka', 'dicker', 'dickers' ], [ 'constant' ],
                      '''
 Ten:  10e1, or 10
 ''' ),
 
     'eleven' :
         RPNUnitInfo( 'constant', 'eleven', 'elevens', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 eleven, 11
 ''' ),
 
     'dozen' :
         RPNUnitInfo( 'constant', 'dozen', 'dozen', '',
-                     [ 'twelve', 'twelves' ], [ 'constant' ], None,
+                     [ 'twelve', 'twelves' ], [ 'constant' ],
                      '''
 A dozen is 12.
 ''' ),
 
     'bakers_dozen' :
         RPNUnitInfo( 'constant', 'bakers_dozen', 'bakers_dozens', '',
-                     [ 'thirteen', 'thirteens' ], [ 'constant' ], None,
+                     [ 'thirteen', 'thirteens' ], [ 'constant' ],
                      '''
 A baker's dozen is 13.
 ''' ),
 
     'fourteen' :
         RPNUnitInfo( 'constant', 'fourteen', 'fourteens', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 fourteen, 14
 ''' ),
 
     'fifteen' :
         RPNUnitInfo( 'constant', 'fifteen', 'fifteens', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 fifteen, 15
 ''' ),
 
     'sixteen' :
         RPNUnitInfo( 'constant', 'sixteen', 'sixteens', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 sixteen, 16
 ''' ),
 
     'seventeen' :
         RPNUnitInfo( 'constant', 'seventeen', 'seventeens', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 seventeen, 17
 ''' ),
 
     'eighteen' :
         RPNUnitInfo( 'constant', 'eighteen', 'eighteens', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 eighteen, 18
 ''' ),
 
     'nineteen' :
         RPNUnitInfo( 'constant', 'nineteen', 'nineteens', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 nineteen, 19
 ''' ),
 
     'score' :
         RPNUnitInfo( 'constant', 'score', 'score', '',
-                     [ 'twenty', 'twenties' ], [ 'constant' ], None,
+                     [ 'twenty', 'twenties' ], [ 'constant' ],
                      '''
 A score is 20.
 ''' ),
 
     'thirty' :
         RPNUnitInfo( 'constant', 'thirty', 'thirties', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 thirty, 30
 ''' ),
 
     'flock' :
         RPNUnitInfo( 'constant', 'flock', 'flocks', '',
-                     [ 'forty', 'forties' ], [ 'constant', 'obsolete' ], None,
+                     [ 'forty', 'forties' ], [ 'constant', 'obsolete' ],
                      '''
 A flock is an archaic name for 40.
 ''' ),
 
     'fifty' :
         RPNUnitInfo( 'constant', 'fifty', 'fifties', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 fifty, 50
 ''' ),
 
     'shock' :
         RPNUnitInfo( 'constant', 'shock', 'shocks', '',
-                     [ 'shook', 'shooks', 'sixty', 'sixties' ], [ 'constant', 'obsolete' ], None,
+                     [ 'shook', 'shooks', 'sixty', 'sixties' ], [ 'constant', 'obsolete' ],
                      '''
 A shock is an archaic name for 60.
 ''' ),
 
     'seventy' :
         RPNUnitInfo( 'constant', 'seventy', 'seventies', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 seventy, 70
 ''' ),
 
     'eighty' :
         RPNUnitInfo( 'constant', 'eighty', 'eighties', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 eighty, 80
 ''' ),
 
     'ninety' :
         RPNUnitInfo( 'constant', 'ninety', 'nineties', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 ninety, 90
 ''' ),
 
     'hundred' :
         RPNUnitInfo( 'constant', 'hundred', 'hundred', '',
-                     [ 'hecto', 'toncount', 'toncounts' ], [ 'constant' ], None,
+                     [ 'hecto', 'toncount', 'toncounts' ], [ 'constant' ],
                      '''
 One hundred:  10e2, or 100
 ''' ),
 
     'long_hundred' :
         RPNUnitInfo( 'constant', 'long_hundred', 'long_hundreds', '',
-                     [ ], [ 'constant', 'obsolete' ], None,
+                     [ ], [ 'constant', 'obsolete' ],
                      '''
 \'long\' hundred is an archaic term for 120.
 ''' ),
 
     'gross' :
         RPNUnitInfo( 'constant', 'gross', 'gross', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 A gross is a dozen dozen, or 144.
 ''' ),
 
     'thousand' :
         RPNUnitInfo( 'constant', 'thousand', 'thousand', 'k',
-                     [ 'kilo', 'chiliad' ], [ 'constant' ], None,
+                     [ 'kilo', 'chiliad' ], [ 'constant' ],
                      '''
 One thousand:  10e3, or 1,000
 ''' ),
 
     'great_gross' :
         RPNUnitInfo( 'constant', 'great_gross', 'great_gross', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 A great gross is a dozen gross, or 1728.
 ''' ),
 
     'million' :
         RPNUnitInfo( 'constant', 'million', 'million', 'M',
-                     [ 'mega' ], [ 'constant' ], None,
+                     [ 'mega' ], [ 'constant' ],
                      '''
 One million:  10e6 or 1,000,000
 ''' ),
@@ -1061,7 +1062,7 @@ One million:  10e6 or 1,000,000
     # 'G' can't be used here since it's used for 'standard gravity'
     'billion' :
         RPNUnitInfo( 'constant', 'billion', 'billion', '',
-                     [ 'giga', 'gigas', 'milliard', 'milliards' ], [ 'constant' ], None,
+                     [ 'giga', 'gigas', 'milliard', 'milliards' ], [ 'constant' ],
                      '''
 One billion:  10e9 or 1,000,000,000
 ''' ),
@@ -1069,7 +1070,7 @@ One billion:  10e9 or 1,000,000,000
     # 'T' can't be used here since it's used for 'tesla'
     'trillion' :
         RPNUnitInfo( 'constant', 'trillion', 'trillion', '',
-                     [ 'tera' ], [ 'constant' ], None,
+                     [ 'tera' ], [ 'constant' ],
                      '''
 One trillion:  10e12 or 1,000,000,000,000
 ''' ),
@@ -1077,21 +1078,21 @@ One trillion:  10e12 or 1,000,000,000,000
     # 'P' can't be used here since it's used for 'Phosphorus'
     'quadrillion' :
         RPNUnitInfo( 'constant', 'quadrillion', 'quadrillion', '',
-                     [ 'peta', 'petas', 'billiard', 'billiards' ], [ 'constant' ], None,
+                     [ 'peta', 'petas', 'billiard', 'billiards' ], [ 'constant' ],
                      '''
 One quadrillion:  10e15 or 1,000,000,000,000,000
 ''' ),
 
     'quintillion' :
         RPNUnitInfo( 'constant', 'quintillion', 'quintillion', 'E',
-                     [ 'exa' ], [ 'constant' ], None,
+                     [ 'exa' ], [ 'constant' ],
                      '''
 One quintillion:  10e18 or 1,000,000,000,000,000,000
 ''' ),
 
     'sextillion' :
         RPNUnitInfo( 'constant', 'sextillion', 'sextillion', 'Z',
-                     [ 'zetta', 'zettas', 'trilliard', 'trilliards' ], [ 'constant' ], None,
+                     [ 'zetta', 'zettas', 'trilliard', 'trilliards' ], [ 'constant' ],
                      '''
 One sextillion:  10e21 or 1,000,000,000,000,000,000,000
 ''' ),
@@ -1099,105 +1100,105 @@ One sextillion:  10e21 or 1,000,000,000,000,000,000,000
     # 'Y' can't be used here since it's used for 'Yttrium'
     'septillion' :
         RPNUnitInfo( 'constant', 'septillion', 'septillion', '',
-                     [ 'yotta' ], [ 'constant' ], None,
+                     [ 'yotta' ], [ 'constant' ],
                      '''
 One septillion:  10e24 or 1,000,000,000,000,000,000,000,000
 ''' ),
 
     'octillion' :
         RPNUnitInfo( 'constant', 'octillion', 'octillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One octillion:  10e27 or 1,000,000,000,000,000,000,000,000,000
 ''' ),
 
     'nonillion' :
         RPNUnitInfo( 'constant', 'nonillion', 'nonillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One nonillion:  10e30 or 1,000,000,000,000,000,000,000,000,000,000
 ''' ),
 
     'decillion' :
         RPNUnitInfo( 'constant', 'decillion', 'decillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One decillion:  10e33 or 1,000,000,000,000,000,000,000,000,000,000,000
 ''' ),
 
     'undecillion' :
         RPNUnitInfo( 'constant', 'undecillion', 'undecillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One undecillion:  10e36
 ''' ),
 
     'duodecillion' :
         RPNUnitInfo( 'constant', 'duodecillion', 'duodecillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One duodecillion:  10e39
 ''' ),
 
     'tredecillion' :
         RPNUnitInfo( 'constant', 'tredecillion', 'tredecillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One tredecillion:  10e42
 ''' ),
 
     'quattuordecillion' :
         RPNUnitInfo( 'constant', 'quattuordecillion', 'quattuordecillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One quattuordecillion:  10e45
 ''' ),
 
     'quindecillion' :
         RPNUnitInfo( 'constant', 'quindecillion', 'quindecillion', '',
-                     [ 'quinquadecillion' ], [ 'constant' ], None,
+                     [ 'quinquadecillion' ], [ 'constant' ],
                      '''
 One quindecillion:  10e48
 ''' ),
 
     'sexdecillion' :
         RPNUnitInfo( 'constant', 'sexdecillion', 'sexdecillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One sexdecillion:  10e51
 ''' ),
 
     'septendecillion' :
         RPNUnitInfo( 'constant', 'septemdecillion', 'septemdecillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One septendecillion:  10e54
 ''' ),
 
     'octodecillion' :
         RPNUnitInfo( 'constant', 'octodecillion', 'octodecillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One octodecillion:  10e57
 ''' ),
 
     'novemdecillion' :
         RPNUnitInfo( 'constant', 'novemdecillion', 'novemdecillion', '',
-                     [ 'novendecillion' ], [ 'constant' ], None,
+                     [ 'novendecillion' ], [ 'constant' ],
                      '''
 One novemdecillion:  10e60
 ''' ),
 
     'vigintillion' :
         RPNUnitInfo( 'constant', 'vigintillion', 'vigintillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One vigintdecillion:  10e63
 ''' ),
 
     'googol' :
         RPNUnitInfo( 'constant', 'googol', 'googols', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One googol:  10e100 or ten duotrigintillion, famously named in 1920 by
 9-year-old Milton Sirotta.
@@ -1205,7 +1206,7 @@ One googol:  10e100 or ten duotrigintillion, famously named in 1920 by
 
     'centillion' :
         RPNUnitInfo( 'constant', 'centillion', 'centillion', '',
-                     [ ], [ 'constant' ], None,
+                     [ ], [ 'constant' ],
                      '''
 One centillion:  10e303
 ''' ),
@@ -1213,123 +1214,123 @@ One centillion:  10e303
     # current
     'abampere' :
         RPNUnitInfo( 'current', 'abampere', 'abamperes', 'abA',
-                     [ 'abamp', 'abamps', 'biot', 'biots' ], [ 'CGS' ], None,
+                     [ 'abamp', 'abamps', 'biot', 'biots' ], [ 'CGS' ],
                      '''
 ''' ),
 
     'ampere' :
         RPNUnitInfo( 'current', 'ampere', 'amperes', 'A',
-                     [ 'amp', 'amps', 'galvat', 'galvats' ], [ 'SI' ], None,
+                     [ 'amp', 'amps', 'galvat', 'galvats' ], [ 'SI' ],
                      '''
 ''' ),
 
     'coulomb/second' :
         RPNUnitInfo( 'current', 'coulomb/second', 'coulombs/second', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'statampere' :
         RPNUnitInfo( 'current', 'statampere', 'statamperes', 'statA',
-                     [ 'statamp', 'statamps', 'esu_current' ], [ 'CGS' ], None,
+                     [ 'statamp', 'statamps', 'esu_current' ], [ 'CGS' ],
                      '''
 ''' ),
 
     'watt/volt' :
         RPNUnitInfo( 'current', 'watt/volt', 'watt/volt', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     # data_rate
     'bit/second' :
         RPNUnitInfo( 'data_rate', 'bit/second', 'bits/second', 'bps',
-                     [ 'bips' ], [ 'computing' ], None,
+                     [ 'bips' ], [ 'computing' ],
                      '''
 ''' ),
 
     'byte/second' :
         RPNUnitInfo( 'data_rate', 'byte/second', 'bytes/second', 'Bps',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'oc1' :
         RPNUnitInfo( 'data_rate', 'oc1', 'x_oc1', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'oc3' :
         RPNUnitInfo( 'data_rate', 'oc3', 'x_oc3', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'oc12' :
         RPNUnitInfo( 'data_rate', 'oc12', 'x_oc12', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'oc24' :
         RPNUnitInfo( 'data_rate', 'oc24', 'x_oc24', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'oc48' :
         RPNUnitInfo( 'data_rate', 'oc48', 'x_oc24', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'oc192' :
         RPNUnitInfo( 'data_rate', 'oc192', 'x_oc192', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'oc768' :
         RPNUnitInfo( 'data_rate', 'oc768', 'x_oc768', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'usb1' :
         RPNUnitInfo( 'data_rate', 'usb1', 'x_usb1', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'usb2' :
         RPNUnitInfo( 'data_rate', 'usb2', 'x_usb2', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'usb3.0' :
         RPNUnitInfo( 'data_rate', 'usb3.0', 'x_usb3.0', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'usb3.1' :
         RPNUnitInfo( 'data_rate', 'usb3.1', 'x_usb3.1', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     # density
     'kilogram/liter' :
         RPNUnitInfo( 'density', 'kilogram/liter', 'kilograms/liter', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'kilogram/meter^3' :
         RPNUnitInfo( 'density', 'kilogram/meter^3', 'kilograms/meter^3', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1342,50 +1343,50 @@ One centillion:  10e303
 
     'kilogram/meter*second' :
         RPNUnitInfo( 'dynamic_viscosity', 'kilogram/meter*second', 'kilogram/meter*second', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'newton*second/meter^2' :
         RPNUnitInfo( 'dynamic_viscosity', 'newton*second/meter^2', 'newton*second/meter^2', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'pascal*second' :
         RPNUnitInfo( 'dynamic_viscosity', 'pascal*second', 'pascal*seconds', 'Pas',
-                     [ 'poiseuille', 'poiseuilles' ], [ 'SI' ], None,
+                     [ 'poiseuille', 'poiseuilles' ], [ 'SI' ],
                      '''
 ''' ),
 
     'poise' :
         RPNUnitInfo( 'dynamic_viscosity', 'poise', 'poise', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'reynolds' :
         RPNUnitInfo( 'dynamic_viscosity', 'reynolds', 'reynolds', '',
-                     [ 'reyn', 'reyns' ], [ 'CGS' ], None,
+                     [ 'reyn', 'reyns' ], [ 'CGS' ],
                      '''
 ''' ),
 
     # electrical_conductance
     'abmho' :
         RPNUnitInfo( 'electrical_conductance', 'abmho', 'abmhos', '',
-                     [ 'absiemens' ], [ 'CGS' ], None,
+                     [ 'absiemens' ], [ 'CGS' ],
                      '''
 ''' ),
 
     'ampere/volt' :
         RPNUnitInfo( 'electrical_conductance', 'ampere/volt', 'amperes/volt', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'conductance_quantum' :
         RPNUnitInfo( 'electrical_conductance', 'conductance_quantum', 'conductance_quanta', 'G0',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 The conductance quantum appears when measuring the conductance of a quantum
 point contact, and, more generally, is a key component of Landauer formula
@@ -1397,38 +1398,38 @@ https://en.wikipedia.org/wiki/Conductance_quantum
 
     'ampere^2*second^3/kilogram*meter^2':
         RPNUnitInfo( 'electrical_conductance', 'ampere^2*second^3/kilogram*meter^2', 'ampere^2*second^3/kilogram*meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'coulomb^2*second/kilogram*meter^2' :
         RPNUnitInfo( 'electrical_conductance', 'coulomb^2*second/kilogram*meter^2', 'coulomb^2*second/kilogram*meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'siemens' :
         RPNUnitInfo( 'electrical_conductance', 'siemens', 'siemens', 'S',
-                     [ 'mho', 'mhos' ], [ 'SI' ], None,
+                     [ 'mho', 'mhos' ], [ 'SI' ],
                      '''
 ''' ),
 
     'statmho' :
         RPNUnitInfo( 'electrical_conductance', 'statmho', 'statmhos', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'statsiemens' :
         RPNUnitInfo( 'electrical_conductance', 'statsiemens', 'statsiemens', 'statS',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     # electric_potential
     'abvolt' :
         RPNUnitInfo( 'electric_potential', 'abvolt', 'abvolts', 'abV',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
@@ -1436,7 +1437,7 @@ https://en.wikipedia.org/wiki/Conductance_quantum
 
     'coulomb/farad' :
         RPNUnitInfo( 'electric_potential', 'coulomb/farad', 'coulombs/farad', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1446,62 +1447,62 @@ https://en.wikipedia.org/wiki/Conductance_quantum
 
     'volt' :
         RPNUnitInfo( 'electric_potential', 'volt', 'volts', 'V',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'watt/ampere' :
         RPNUnitInfo( 'electric_potential', 'watt/ampere', 'watts/ampere', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'statvolt' :
         RPNUnitInfo( 'electric_potential', 'statvolt', 'statvolts', 'statV',
-                     [ 'esu_potential' ], [ 'CGS' ], None,
+                     [ 'esu_potential' ], [ 'CGS' ],
                      '''
 ''' ),
 
     # electrical_resistance
     '1/siemens' :
         RPNUnitInfo( 'electrical_resistance', '1/siemens', '1/siemens', '',
-                     [ '1/mho' ], [ 'SI' ], None,
+                     [ '1/mho' ], [ 'SI' ],
                      '''
 ''' ),
 
     'abohm' :
         RPNUnitInfo( 'electrical_resistance', 'abohm', 'abohms', 'o',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'german_mile' :
         RPNUnitInfo( 'electrical_resistance', 'german_mile', 'german_miles', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'jacobi' :
         RPNUnitInfo( 'electrical_resistance', 'jacobi', 'jacobis', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'joule*second/coulomb^2' :
         RPNUnitInfo( 'electrical_resistance', 'joule*second/coulomb^2', 'joule*second/coulomb^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'joule/ampere^2*second' :
         RPNUnitInfo( 'electrical_resistance', 'joule/ampere^2*second', 'joule/ampere^2*second', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'kilogram*meter^2/ampere^2*second^3' :
         RPNUnitInfo( 'electrical_resistance', 'kilogram*meter^2/ampere^2*second^3', 'kilogram*meter^2/ampere^2*second^3', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1515,19 +1516,19 @@ https://en.wikipedia.org/wiki/Conductance_quantum
 
     'ohm' :
         RPNUnitInfo( 'electrical_resistance', 'ohm', 'ohms', 'O',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'second/farad' :
         RPNUnitInfo( 'electrical_resistance', 'second/farad', 'second/farad', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'statohm' :
         RPNUnitInfo( 'electrical_resistance', 'statohm', 'statohms', 'statO',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1539,7 +1540,7 @@ https://en.wikipedia.org/wiki/Conductance_quantum
 
     'volt/ampere' :
         RPNUnitInfo( 'electrical_resistance', 'volt/ampere', 'volts/ampere', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -1547,43 +1548,43 @@ https://en.wikipedia.org/wiki/Conductance_quantum
 
     'watt/ampere^2' :
         RPNUnitInfo( 'electrical_resistance', 'watt/ampere^2', 'watts/ampere^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     # energy
     'ampere*second*volt' :
         RPNUnitInfo( 'energy', 'ampere*second*volt', 'ampere*second*volt', 'AVs',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'btu' :
-        RPNUnitInfo( 'energy', 'BTU', 'BTUs', '', [ 'btu', 'btus' ], None,
-                     [ 'England', 'US' ], None,
+        RPNUnitInfo( 'energy', 'BTU', 'BTUs', '', [ 'btu', 'btus' ],
+                     [ 'England', 'US' ],
                      '''
 ''' ),
 
     'calorie' :
-        RPNUnitInfo( 'energy', 'calorie', 'calories', '', [ ], [ 'CGS' ], None,
+        RPNUnitInfo( 'energy', 'calorie', 'calories', '', [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'electron-volt' :
         RPNUnitInfo( 'energy', 'electron-volt', 'electron-volts', 'eV',
-                     [ 'electronvolt', 'electronvolts' ], [ 'science' ], None,
+                     [ 'electronvolt', 'electronvolts' ], [ 'science' ],
                      '''
 ''' ),
 
     'erg' :
         RPNUnitInfo( 'energy', 'erg', 'ergs', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'foe' :
         RPNUnitInfo( 'energy', 'foe', 'foes', '',
-                     [ 'bethe', 'bethes' ], [ 'astrophysics' ], None,
+                     [ 'bethe', 'bethes' ], [ 'astrophysics' ],
                      '''
 A foe is a unit of energy equal to 10^44 joules or 10^51 ergs, used to measure
 the large amount of energy released by a supernova.  The word is an acronym
@@ -1594,55 +1595,55 @@ by Gerald Brown of Stony Brook University in his work with Hans Bethe, because
 
     'gram-equivalent' :
         RPNUnitInfo( 'energy', 'gram-equivalent', 'grams-equivalent', 'gE',
-                     [ 'gram-energy', 'grams-energy', 'gramme-equivalent', 'grammes-equivalent',  'gramme-energy', 'grammes-energy' ], [ 'natural' ], None,
+                     [ 'gram-energy', 'grams-energy', 'gramme-equivalent', 'grammes-equivalent',  'gramme-energy', 'grammes-energy' ], [ 'natural' ],
                      '''
 ''' ),
 
     'hartree' :
         RPNUnitInfo( 'energy', 'hartree', 'hartrees', 'Eh',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'horsepower*second' :
         RPNUnitInfo( 'energy', 'horsepower*second', 'horsepower*seconds', 'hps',
-                     [ 'second*horsepower' ], [ 'US' ], None,
+                     [ 'second*horsepower' ], [ 'US' ],
                      '''
 ''' ),
 
     'joule' :
         RPNUnitInfo( 'energy', 'joule', 'joules', 'J',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'kilogram*meter^2/second^2' :
         RPNUnitInfo( 'energy', 'kilogram*meter^2/second^2', 'kilogram*meter^2/second^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'meter*newton' :
         RPNUnitInfo( 'energy', 'meter*newton', 'meter*newtons', '',
-                     [ 'newton*meter', 'newton*meters' ], [ 'SI' ], None,
+                     [ 'newton*meter', 'newton*meters' ], [ 'SI' ],
                      '''
 ''' ),
 
     'meter^3*pascal' :
         RPNUnitInfo( 'energy', 'meter^3*pascal', 'meter^3*pascal', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'pound_of_TNT' :
         RPNUnitInfo( 'energy', 'pound_of_TNT', 'pounds_of_TNT', 'pTNT',
-                     [ ], [ 'informal' ], None,
+                     [ ], [ 'informal' ],
                      '''
 ''' ),
 
     'quad' :
         RPNUnitInfo( 'energy', 'quad', 'quads', '',
-                     [ ], [ 'US' ], None,
+                     [ ], [ 'US' ],
                      '''
 A quad is a unit of energy equal to 10^15 (a short-scale quadrillion) BTU, or
 1.055e18 joules (1.055 exajoules or EJ) in SI units.  The unit is used by
@@ -1654,13 +1655,13 @@ The global primary energy production in 2004 was 446 quad, equivalent to 471 EJ.
 
     'rydberg' :
         RPNUnitInfo( 'energy', 'rydberg', 'rydbergs', 'Ry',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'therm' :
         RPNUnitInfo( 'energy', 'therm', 'therms', '',
-                     [ 'thm' ], [ 'England', 'US' ], None,
+                     [ 'thm' ], [ 'England', 'US' ],
                      '''
 The therm (symbol thm) is a non-SI unit of heat energy equal to 100,000
 British thermal units (BTU).  It is approximately the energy equivalent of
@@ -1671,7 +1672,7 @@ burning 100 cubic feet (often referred to as 1 CCF) of natural gas.
 
     'toe' :
         RPNUnitInfo( 'energy', 'toe', 'toes', '',
-                     [ 'tonne_of_oil_equivalent', 'tonnes_of_oil_equivalent' ], [ 'international' ], None,
+                     [ 'tonne_of_oil_equivalent', 'tonnes_of_oil_equivalent' ], [ 'international' ],
                      '''
 "Toe" is a symbol for tonne of oil equivalent, a unit of energy used in the
 international energy industry.  One toe represents the energy available from
@@ -1686,258 +1687,258 @@ http://www.unc.edu/~rowlett/units/dictT.html
 
     'ton_of_coal' :
         RPNUnitInfo( 'energy', 'ton_of_coal', 'tons_of_coal', '',
-                     [ ], [ 'informal' ], None,
+                     [ ], [ 'informal' ],
                      '''
 ''' ),
 
     'ton_of_TNT' :
         RPNUnitInfo( 'energy', 'ton_of_TNT', 'tons_of_TNT', 'tTNT',
-                     [ ], [ 'informal' ], None,
+                     [ ], [ 'informal' ],
                      '''
 ''' ),
 
     'coulomb*volt' :
         RPNUnitInfo( 'energy', 'volt*coulomb', 'volt*coulomb', 'VC',
-                     [ 'coulomb*volt', 'coulomb*volts' ], [ 'SI' ], None,
+                     [ 'coulomb*volt', 'coulomb*volts' ], [ 'SI' ],
                      '''
 ''' ),
 
     'second*watt' :
         RPNUnitInfo( 'energy', 'watt*second', 'watt*seconds', 'Ws',
-                     [ 'second*watt', 'second*watts' ], [ 'SI' ], None,
+                     [ 'second*watt', 'second*watts' ], [ 'SI' ],
                      '''
 ''' ),
 
     # force
     'ampere*weber/meter' :
         RPNUnitInfo( 'force', 'ampere*weber/meter', 'ampere*weber/meter', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'dyne' :
         RPNUnitInfo( 'force', 'dyne', 'dynes', 'dyn',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'gram-force' :
         RPNUnitInfo( 'force', 'gram-force', 'grams-force', 'g-m',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'joule/meter' :
         RPNUnitInfo( 'force', 'joule/meter', 'joule/meter', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'kilogram*meter/second^2' :
         RPNUnitInfo( 'energy', 'kilogram*meter/second^2', 'kilogram*meter/second^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 This is the definition of the SI derived unit Newton (N).
 ''' ),
 
     'newton' :
         RPNUnitInfo( 'force', 'newton', 'newtons', 'N',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'pond' :
         RPNUnitInfo( 'force', 'pond', 'ponds', '',
-                     [ ], [ 'metric' ], None,
+                     [ ], [ 'metric' ],
                      '''
 ''' ),
 
     'foot*pound/second^2' :
         RPNUnitInfo( 'force', 'pound*foot/second^2', 'pound*foot/second^2', '',
-                     [ ], [ 'FPS' ], None,
+                     [ ], [ 'FPS' ],
                      '''
 ''' ),
 
     'poundal' :
         RPNUnitInfo( 'force', 'poundal', 'poundals', 'pdl',
-                     [ ], [ 'England' ], None,
+                     [ ], [ 'England' ],
                      '''
 ''' ),
 
     'sthene' :
         RPNUnitInfo( 'force', 'sthene', 'sthenes', 'sn',
-                     [ 'funal' ], [ 'MTS' ], None,
+                     [ 'funal' ], [ 'MTS' ],
                      '''
 ''' ),
 
     # frequency
     '1/second' :
         RPNUnitInfo( 'frequency', '1/second', '1/second', '',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'every_minute' :
         RPNUnitInfo( 'frequency', 'x_every_minute', 'x_every_minute', '',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'every_second' :
         RPNUnitInfo( 'frequency', 'x_every_second', 'x_every_second', '',
-                     [ '' ], [ 'traditional' ], None,
+                     [ '' ], [ 'traditional' ],
                      '''
 ''' ),
 
     'hertz' :
         RPNUnitInfo( 'frequency', 'hertz', 'hertz', 'Hz',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'hourly' :
         RPNUnitInfo( 'frequency', 'x_hourly', 'x_hourly', '',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'daily' :
         RPNUnitInfo( 'frequency', 'x_daily', 'x_daily', '',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'weekly' :
         RPNUnitInfo( 'frequency', 'x_weekly', 'x_weekly', '',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'monthly' :
         RPNUnitInfo( 'frequency', 'x_monthly', 'x_monthly', '',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'yearly' :
         RPNUnitInfo( 'frequency', 'x_yearly', 'x_yearly', '',
-                     [ 'annually' ], [ 'traditional' ], None,
+                     [ 'annually' ], [ 'traditional' ],
                      '''
 ''' ),
 
     'becquerel' :
         RPNUnitInfo( 'frequency', 'becquerel', 'becquerels', 'Bq',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'curie' :
         RPNUnitInfo( 'frequency', 'curie', 'curies', 'Ci',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'rutherford' :
         RPNUnitInfo( 'frequency', 'rutherford', 'rutherfords', 'rd',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     # illuminance
     'flame' :
         RPNUnitInfo( 'illuminance', 'flame', 'flame', '',
-                     [ ], [ '' ], None,
+                     [ ], [ '' ],
                      '''
 ''' ),
 
     'footcandle' :
         RPNUnitInfo( 'illuminance', 'footcandle', 'footcandles', 'fc',
-                     [ ], [ 'FPS' ], None,
+                     [ ], [ 'FPS' ],
                      '''
 ''' ),
 
     'lux' :
         RPNUnitInfo( 'illuminance', 'lux', 'lux', 'lx',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'lumen/meter^2' :
         RPNUnitInfo( 'illuminance', 'lumen/meter^2', 'lumens/meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'lumen/foot^2' :
         RPNUnitInfo( 'illuminance', 'lumen/foot^2', 'lumens/foot^2', '',
-                     [ ], [ 'FPS' ], None,
+                     [ ], [ 'FPS' ],
                      '''
 ''' ),
 
     'nox' :
         RPNUnitInfo( 'illuminance', 'nox', 'nox', 'nx',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'phot' :
         RPNUnitInfo( 'illuminance', 'phot', 'phots', 'ph',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     # inductance
     'abhenry' :
         RPNUnitInfo( 'inductance', 'abhenry', 'abhenries', 'abH',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'henry' :
         RPNUnitInfo( 'inductance', 'henry', 'henries', 'H',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'joule/ampere^2' :
         RPNUnitInfo( 'inductance', 'joule/ampere^2', 'joule/ampere^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'kilogram*meter^2/coulomb^2' :
         RPNUnitInfo( 'inductance', 'kilogram*meter^2/coulomb^2', 'kilogram*meter^2/coulomb^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'kilogram*meter^2/ampere^2*second^2' :
         RPNUnitInfo( 'inductance', 'kilogram*meter^2/second^2*ampere^2', 'kilogram*meter^2/second^2*ampere^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'ohm*second' :
         RPNUnitInfo( 'inductance', 'ohm*second', 'ohm*second', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'ohm/hertz' :
         RPNUnitInfo( 'inductance', 'ohm/hertz', 'ohm/hertz', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'second^2/farad' :
         RPNUnitInfo( 'inductance', 'second^2/farad', 'second^2/farad', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'stathenry' :
         RPNUnitInfo( 'inductance', 'stathenry', 'stathenries', 'statH',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
@@ -1946,27 +1947,27 @@ This is the definition of the SI derived unit Newton (N).
 
     'weber/ampere' :
         RPNUnitInfo( 'inductance', 'weber/ampere', 'webers/ampere', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     # information_entropy
     'ban' :
         RPNUnitInfo( 'information_entropy', 'ban', 'bans', '',
-                     [ 'hartley', 'hartleys', 'dit', 'dits' ], [ 'IEC' ], None,
+                     [ 'hartley', 'hartleys', 'dit', 'dits' ], [ 'IEC' ],
                      '''
 ''' ),
 
     'bit' :
         RPNUnitInfo( 'information_entropy', 'bit', 'bits', 'b',
-                     [ 'shannon', 'shannons' ], [ 'computing' ], None,
+                     [ 'shannon', 'shannons' ], [ 'computing' ],
                      '''
 A 'binary digit', which can store two values.
 ''' ),
 
     'byte' :
         RPNUnitInfo( 'information_entropy', 'byte', 'bytes', 'B',
-                     [ 'octet', 'octets' ], [ 'computing' ], None,
+                     [ 'octet', 'octets' ], [ 'computing' ],
                      '''
 The traditional unit of computer storage, whose value has varied over the years
 and on different platforms, but is now commonly defined to be 8 bits in size.
@@ -1974,32 +1975,32 @@ and on different platforms, but is now commonly defined to be 8 bits in size.
 
     'btupf' :
         RPNUnitInfo( 'information_entropy', 'btupf', 'btupf', '',
-                     [ ], [ 'England' ], None,
+                     [ ], [ 'England' ],
                      '''
 ''' ),
 
     'clausius' :
         RPNUnitInfo( 'information_entropy', 'clausius', 'clausius', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'dword' :
         RPNUnitInfo( 'information_entropy', 'dword', 'dwords', '',
-                     [ 'double_word', 'double_words', 'long_integer', 'long_integers' ], [ 'computing' ], None,
+                     [ 'double_word', 'double_words', 'long_integer', 'long_integers' ], [ 'computing' ],
                      '''
 A 'double-word' consisting of 2 16-bits words, or 32 bits total.
 ''' ),
 
     'joule/kelvin' :
         RPNUnitInfo( 'information_entropy', 'joule/kelvin', 'joules/kelvin', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'library_of_congress' :
         RPNUnitInfo( 'information_entropy', 'library_of_congress', 'x_library_of_congress', 'LoC',
-                     [ 'congress', 'congresses', 'loc' ], [ 'computing' ], None,
+                     [ 'congress', 'congresses', 'loc' ], [ 'computing' ],
                      '''
 An informal unit of information measurement based on the contents of the U.S.
 Library of Congress, estimated to be the equivalent of 10 terabytes in size.
@@ -2007,7 +2008,7 @@ Library of Congress, estimated to be the equivalent of 10 terabytes in size.
 
     'nibble' :
         RPNUnitInfo( 'information_entropy', 'nibble', 'nibbles', '',
-                     [ 'nybble', 'nybbles' ], [ 'computing' ], None,
+                     [ 'nybble', 'nybbles' ], [ 'computing' ],
                      '''
 A nybble is a half-byte, or 4 bits.  A nybble can be represented by a single
 hexadecimal digit.
@@ -2015,7 +2016,7 @@ hexadecimal digit.
 
     'nat' :
         RPNUnitInfo( 'information_entropy', 'nat', 'nats', '',
-                     [ 'nip', 'nips', 'nepit', 'nepits' ], [ 'IEC' ], None,
+                     [ 'nip', 'nips', 'nepit', 'nepits' ], [ 'IEC' ],
                      '''
 ''' ),
 
@@ -2029,21 +2030,21 @@ commonly used term.
 
     'oword' :
         RPNUnitInfo( 'information_entropy', 'oword', 'owords', '',
-                     [ 'octaword', 'octawords', 'octoword', 'octowords' ], [ 'computing' ], None,
+                     [ 'octaword', 'octawords', 'octoword', 'octowords' ], [ 'computing' ],
                      '''
 An 'octo-word' consisting of 8 16-bit words or 128 bits total.
 ''' ),
 
     'qword' :
         RPNUnitInfo( 'information_entropy', 'qword', 'qwords', '',
-                     [ 'quad_word', 'quad_words', 'longlong_integer', 'longlong_integers' ], [ 'computing' ], None,
+                     [ 'quad_word', 'quad_words', 'longlong_integer', 'longlong_integers' ], [ 'computing' ],
                      '''
 A 'quad-word' consisting of 4 16-bit words, or 64 bits total.
 ''' ),
 
     'trit' :
         RPNUnitInfo( 'information_entropy', 'trit', 'trits', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 A trit is a 'ternary digit', by extension from the term 'bit' for 'binary
 digit'.  In 1958 the Setun balanced ternary computer was developed at Moscow
@@ -2052,7 +2053,7 @@ State University, which used trits and 6-trit trytes.
 
     'tryte' :
         RPNUnitInfo( 'information_entropy', 'tryte', 'trytes', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 A tryte consists of 6 trits (i.e., 'ternary digits'), and is named by extension
 from the term 'byte'.  In 1958 the Setun balanced ternary computer was
@@ -2061,7 +2062,7 @@ developed at Moscow State University, which used trits and 6-trit trytes.
 
     'word' :
         RPNUnitInfo( 'information_entropy', 'word', 'words', '',
-                     [ 'short_integer', 'short_integers', 'short_int', 'short_ints', 'wyde' ], [ 'computing' ], None,
+                     [ 'short_integer', 'short_integers', 'short_int', 'short_ints', 'wyde' ], [ 'computing' ],
                      '''
 A word is traditionally two bytes, or 16 bits.  The term 'wyde' was suggested
 by Knuth.
@@ -2070,13 +2071,13 @@ by Knuth.
     # jerk
     'meter/second^3' :
         RPNUnitInfo( 'jerk', 'meter/second^3', 'meter/second^3', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'stapp' :
         RPNUnitInfo( 'jerk', 'stapp', 'stapps', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 The stapp a unit used to express the effects of acceleration or deceleration on
 the human body.  One stapp represents an acceleration of 1 g for a period of 1
@@ -2090,128 +2091,128 @@ http://www.unc.edu/~rowlett/units/dictS.html
     # jounce
     'meter/second^4' :
         RPNUnitInfo( 'jounce', 'meter/second^4', 'meter/second^4', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     # length
     'aln' :
         RPNUnitInfo( 'length', 'aln', 'alns', '',
-                     [ 'alen', 'alens' ], [ 'obsolete' ], None,
+                     [ 'alen', 'alens' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'angstrom' :
         RPNUnitInfo( 'length', 'angstrom', 'angstroms', 'A',
-                     [ 'angstroem', 'angstroems' ], [ 'science' ], None,
+                     [ 'angstroem', 'angstroems' ], [ 'science' ],
                      '''
 ''' ),
 
     'arpent' :
         RPNUnitInfo( 'length', 'arpent', 'arpents', '',
-                     [ ], [ 'obsolete', 'France' ], None,
+                     [ ], [ 'obsolete', 'France' ],
                      '''
 ''' ),
 
     'arshin' :
         RPNUnitInfo( 'length', 'arshin', 'arshins', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'astronomical_unit' :
         RPNUnitInfo( 'length', 'astronomical_unit', 'astronomical_units', 'au',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'barleycorn' :
         RPNUnitInfo( 'length', 'barleycorn', 'barleycorns', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'bolt' :
         RPNUnitInfo( 'length', 'bolt', 'bolts', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'caliber' :
         RPNUnitInfo( 'length', 'caliber', 'caliber', '',
-                     [ 'calibre' ], [ 'US' ], None,
+                     [ 'calibre' ], [ 'US' ],
                      '''
 ''' ),
 
     'chain' :
         RPNUnitInfo( 'length', 'chain', 'chains', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'cicero' :
         RPNUnitInfo( 'length', 'cicero', 'ciceros', '',
-                     [ ], [ 'typography', 'obsolete' ], None,
+                     [ ], [ 'typography', 'obsolete' ],
                      '''
 ''' ),
 
     'cubit' :
         RPNUnitInfo( 'length', 'cubit', 'cubits', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'diuym' :
         RPNUnitInfo( 'length', 'diuym', 'diuyms', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'ell' :
         RPNUnitInfo( 'length', 'ell', 'ells', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'famn' :
         RPNUnitInfo( 'length', 'famn', 'famns', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'farshimmelt_potrzebie' :
         RPNUnitInfo( 'length', 'farshimmelt_potrzebie', 'farshimmelt_potrzebies', 'fpz',
-                     [ 'far-potrzebie', 'far-potrzebies' ], [ 'Potrzebie', 'humorous' ], None,
+                     [ 'far-potrzebie', 'far-potrzebies' ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'fathom' :
         RPNUnitInfo( 'length', 'fathom', 'fathoms', 'fath',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'finger' :
         RPNUnitInfo( 'length', 'finger', 'fingers', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'fingerbreadth' :
         RPNUnitInfo( 'length', 'fingerbreadth', 'fingerbreadths', '',
-                     [ 'fingersbreadth' ], [ 'obsolete' ], None,
+                     [ 'fingersbreadth' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'foot' :
         RPNUnitInfo( 'length', 'foot', 'feet', 'ft',
-                     [ ], [ 'traditional', 'FPS' ], None,
+                     [ ], [ 'traditional', 'FPS' ],
                      '''
 ''' ),
 
     'french' :
         RPNUnitInfo( 'length', 'french', 'French', '',
-                     [ 'french_gauge', 'french_scale', 'charrier' ], [ 'France' ], None,
+                     [ 'french_gauge', 'french_scale', 'charrier' ], [ 'France' ],
                      '''
 The French scale or French gauge system is commonly used to measure the size of
 a catheter.  It is most often abbreviated as Fr, but can often be seen
@@ -2222,211 +2223,211 @@ https://en.wikipedia.org/wiki/French_catheter_scale
 ''' ),
 
     'furlong' :
-        RPNUnitInfo( 'length', 'furlong', 'furlongs', '', [ ], [ 'imperial' ], None,
+        RPNUnitInfo( 'length', 'furlong', 'furlongs', '', [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'furshlugginer_potrzebie' :
         RPNUnitInfo( 'length', 'furshlugginer_potrzebie', 'furshlugginer_potrzebies', 'Fpz',
-                     [ 'fur-potrzebie', 'fur-potrzebies', 'Fur-potrzebie', 'Fur-potrzebies' ], [ 'Potrzebie', 'humorous' ], None,
+                     [ 'fur-potrzebie', 'fur-potrzebies', 'Fur-potrzebie', 'Fur-potrzebies' ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'fut' :
         RPNUnitInfo( 'length', 'fut', 'futs', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'greek_cubit' :
         RPNUnitInfo( 'length', 'greek_cubit', 'greek_cubits', '',
-                     [ ], [ 'obsolete', 'Greece' ], None,
+                     [ ], [ 'obsolete', 'Greece' ],
                      '''
 ''' ),
 
     'gutenberg' :
         RPNUnitInfo( 'length', 'gutenberg', 'gutenbergs', '',
-                     [ ], [ 'typography' ], None,
+                     [ ], [ 'typography' ],
                      '''
 ''' ),
 
     'hand' :
         RPNUnitInfo( 'length', 'hand', 'hands', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'handbreadth' :
         RPNUnitInfo( 'length', 'handbreadth', 'handbreadths', '',
-                     [ 'handsbreadth' ], [ 'obsolete' ], None,
+                     [ 'handsbreadth' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'hubble' :
         RPNUnitInfo( 'length', 'hubble', 'hubbles', '',
-                     [ ], [ 'astronomy' ], None,
+                     [ ], [ 'astronomy' ],
                      '''
 ''' ),
 
     'inch' :
         RPNUnitInfo( 'length', 'inch', 'inches', 'in',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'ken' :
         RPNUnitInfo( 'length', 'ken', 'kens', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'kosaya_sazhen' :
         RPNUnitInfo( 'length', 'kosaya_sazhen', 'kosaya_sazhens', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'kyu' :
         RPNUnitInfo( 'length', 'kyu', 'kyus', '',
-                     [ 'Q' ], [ 'typography', 'computing' ], None,
+                     [ 'Q' ], [ 'typography', 'computing' ],
                      '''
 ''' ),
 
     'league' :
         RPNUnitInfo( 'length', 'league', 'leagues', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'light-second' :
         RPNUnitInfo( 'length', 'light-second', 'light-seconds', '',
-                      [ ], [ 'science' ], None,
+                      [ ], [ 'science' ],
                      '''
 ''' ),
 
     'light-year' :
         RPNUnitInfo( 'length', 'light-year', 'light-years', 'ly',
-                     [ 'a1' ], [ 'science' ], None,
+                     [ 'a1' ], [ 'science' ],
                      '''
 ''' ),
 
     'liniya' :
         RPNUnitInfo( 'length', 'liniya', 'liniya', '',
-                     [ ], [ 'informal' ], None,
+                     [ ], [ 'informal' ],
                      '''
 ''' ),
 
     'link' :
         RPNUnitInfo( 'length', 'link', 'links', '',
-                     [ ], [ 'informal' ], None,
+                     [ ], [ 'informal' ],
                      '''
 ''' ),
 
     'long_cubit' :
         RPNUnitInfo( 'length', 'long_cubit', 'long_cubits', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'long_reed' :
         RPNUnitInfo( 'length', 'long_reed', 'long_reeds', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'marathon' :
         RPNUnitInfo( 'length', 'marathon', 'marathons', '',
-                     [ ], [ 'informal' ], None,
+                     [ ], [ 'informal' ],
                      '''
 ''' ),
 
     'mezhevaya_versta' :
         RPNUnitInfo( 'length', 'mezhevaya_versta', 'mezhevaya_verstas', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'meter' :
         RPNUnitInfo( 'length', 'meter', 'meters', 'm',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'metric_foot' :
         RPNUnitInfo( 'length', 'metric_foot', 'metric_feet', '',
-                     [ ], [ 'UK', 'unofficial' ], None,
+                     [ ], [ 'UK', 'unofficial' ],
                      '''
 ''' ),
 
     'micron' :
         RPNUnitInfo( 'length', 'micron', 'microns', '',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'mil' :
         RPNUnitInfo( 'length', 'mil', 'mils', '',
-                     [ 'thou' ], [ 'US' ], None,
+                     [ 'thou' ], [ 'US' ],
                      '''
 ''' ),
 
     'mile' :
         RPNUnitInfo( 'length', 'mile', 'miles', 'mi',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'nail' :
         RPNUnitInfo( 'length', 'nail', 'nails', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'nautical_mile' :
         RPNUnitInfo( 'length', 'nautical_mile', 'nautical_miles', '',
-                     [ ], [ 'nautical' ], None,
+                     [ ], [ 'nautical' ],
                      '''
 ''' ),
 
     'parsec' :
         RPNUnitInfo( 'length', 'parsec', 'parsecs', 'pc',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'perch' :
         RPNUnitInfo( 'length', 'perch', 'perches', '',
-                     [ 'pole', 'poles' ], [ 'imperial' ], None,
+                     [ 'pole', 'poles' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'pica' :
         RPNUnitInfo( 'length', 'pica', 'picas', '',
-                     [ ], [ 'typography' ], None,
+                     [ ], [ 'typography' ],
                      '''
 ''' ),
 
     'point' :
         RPNUnitInfo( 'length', 'point', 'points', '',
-                     [ ], [ 'typography' ], None,
+                     [ ], [ 'typography' ],
                      '''
 ''' ),
 
     'poppyseed' :
         RPNUnitInfo( 'length', 'poppyseed', 'poppyseeds', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'pyad' :
         RPNUnitInfo( 'length', 'pyad', 'pyads', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'rack_unit' :
         RPNUnitInfo( 'length', 'rack_unit', 'rack_units', '',
-                     [ ], [ 'computers' ], None,
+                     [ ], [ 'computers' ],
                      '''
 A rack unit (abbreviated U or RU) is a unit of measure defined as 44.50
 millimetres (1.752 in).  It is most frequently used as a measurement of the
@@ -2439,31 +2440,31 @@ https://en.wikipedia.org/wiki/Rack_unit
 
     'reed' :
         RPNUnitInfo( 'length', 'reed', 'reeds', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'rod' :
         RPNUnitInfo( 'length', 'rod', 'rods', 'rd',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'rope' :
         RPNUnitInfo( 'length', 'rope', 'ropes', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'potrzebie' :
         RPNUnitInfo( 'length', 'potrzebie', 'potrzebies', 'pz',
-                     [ ], [ 'Potrzebie', 'humorous' ], None,
+                     [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'sazhen' :
         RPNUnitInfo( 'length', 'sazhen', 'sazhens', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
@@ -2475,144 +2476,144 @@ https://en.wikipedia.org/wiki/Rack_unit
 
     'skein' :
         RPNUnitInfo( 'length', 'skein', 'skeins', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'smoot' :
         RPNUnitInfo( 'length', 'smoot', 'smoots', '',
-                     [ ], [ 'humorous' ], None,
+                     [ ], [ 'humorous' ],
                      '''
 ''' ),
 
     'span' :
         RPNUnitInfo( 'length', 'span', 'spans', '',
-                     [ 'breadth' ], [ 'imperial' ], None,
+                     [ 'breadth' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'stadium' :
         RPNUnitInfo( 'length', 'stadium', 'stadia', '',
-                     [ ], [ 'Rome' ], None,
+                     [ ], [ 'Rome' ],
                      '''
 ''' ),
 
     'twip' :
         RPNUnitInfo( 'length', 'twip', 'twips', 'twp',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'vershok' :
         RPNUnitInfo( 'length', 'vershok', 'vershoks', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'versta' :
         RPNUnitInfo( 'length', 'versta', 'verstas', '',
-                     [ 'verst', 'versts' ], [ 'Russia', 'obsolete' ], None,
+                     [ 'verst', 'versts' ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'yard' :
         RPNUnitInfo( 'length', 'yard', 'yards', 'yd',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     # luminance
     'apostilb' :
         RPNUnitInfo( 'luminance', 'apostilb', 'apostilbs', 'asb',
-                     [ 'blondel', 'blondels' ], [ 'CGS' ], None,
+                     [ 'blondel', 'blondels' ], [ 'CGS' ],
                      '''
 ''' ),
 
     'bril' :
         RPNUnitInfo( 'luminance', 'bril', 'brils', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'candela/meter^2' :
         RPNUnitInfo( 'luminance', 'candela/meter^2', 'candelas/meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'footlambert' :
         RPNUnitInfo( 'luminance', 'footlambert', 'footlamberts', '',
-                     [ 'foot*lambert', 'foot*lamberts', 'feet*lambert' ], [ 'US', 'obsolete' ], None,
+                     [ 'foot*lambert', 'foot*lamberts', 'feet*lambert' ], [ 'US', 'obsolete' ],
                      '''
 ''' ),
 
     'lambert' :
         RPNUnitInfo( 'luminance', 'lambert', 'lamberts', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'nit' :
         RPNUnitInfo( 'luminance', 'nit', 'nits', 'nt',
-                     [ 'meterlambert', 'meter*lambert', 'meterlamberts', 'meter*lamberts' ], [ 'obsolete' ], None,
+                     [ 'meterlambert', 'meter*lambert', 'meterlamberts', 'meter*lamberts' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'skot' :
         RPNUnitInfo( 'luminance', 'skot', 'skots', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'stilb' :
         RPNUnitInfo( 'luminance', 'stilb', 'stilbs', 'sb',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     # luminous_flux
     'lumen' :
         RPNUnitInfo( 'luminous_flux', 'lumen', 'lumens', 'lm',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'candela*steradian' :
         RPNUnitInfo( 'luminous_flux', 'candela*steradian', 'candela*steradians', '',
-                     [ 'cd*sr', 'steradian*candela', 'steradian*candelas' ], [ 'SI' ], None,
+                     [ 'cd*sr', 'steradian*candela', 'steradian*candelas' ], [ 'SI' ],
                      '''
 ''' ),
 
     # luminous_intensity
     'candela' :
         RPNUnitInfo( 'luminous_intensity', 'candela', 'candelas', 'cd',
-                     [ 'candle', 'candles', 'bougie', 'bougies' ], [ 'SI' ], None,
+                     [ 'candle', 'candles', 'bougie', 'bougies' ], [ 'SI' ],
                      '''
 ''' ),
 
     'hefnerkerze' :
         RPNUnitInfo( 'luminous_intensity', 'hefnerkerze', 'hefnerkerze', 'HK',
-                     [ ], [ 'obsolete', 'Germany' ], None,
+                     [ ], [ 'obsolete', 'Germany' ],
                      '''
 ''' ),
 
     # magnetic_field_strength
     'ampere/meter' :
         RPNUnitInfo( 'magnetic_field_strength', 'ampere/meter', 'amperes/meter', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'oersted' :
         RPNUnitInfo( 'magnetic_field_strength', 'oersted', 'oersted', 'Oe',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     # magnetic_flux
     'centimeter^2*gauss' :
         RPNUnitInfo( 'magnetic_flux', 'centimeter^2*gauss', 'centimeter^2*gauss', '',
-                     [ 'gauss*centimeter^2' ], [ 'CGS' ], None,
+                     [ 'gauss*centimeter^2' ], [ 'CGS' ],
                      '''
 ''' ),
 
@@ -2621,184 +2622,184 @@ https://en.wikipedia.org/wiki/Rack_unit
 
     'magnetic_flux_quantum' :
         RPNUnitInfo( 'magnetic_flux', 'magnetic_flux_quantum', 'magnetic_flux_quanta', '',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'maxwell' :
         RPNUnitInfo( 'magnetic_flux', 'maxwell', 'maxwells', 'Mx',
-                     [ 'line', 'lines' ], [ 'CGS' ], None,
+                     [ 'line', 'lines' ], [ 'CGS' ],
                      '''
 ''' ),
 
     'meter^2*tesla' :
         RPNUnitInfo( 'magnetic_flux', 'meter^2*tesla', 'meter^2*tesla', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'unit_pole' :
         RPNUnitInfo( 'magnetic_flux', 'unit_pole', 'unit_poles', '',
-                     [ 'unitpole', 'unitpoles' ], [ 'CGS' ], None,
+                     [ 'unitpole', 'unitpoles' ], [ 'CGS' ],
                      '''
 ''' ),
 
     'second*volt' :
         RPNUnitInfo( 'magnetic_flux', 'volt*second', 'volt*second', 'Vs',
-                     [ 'second*volt', 'second*volts' ], [ 'SI' ], None,
+                     [ 'second*volt', 'second*volts' ], [ 'SI' ],
                      '''
 ''' ),
 
     'weber' :
         RPNUnitInfo( 'magnetic_flux', 'weber', 'webers', 'Wb',
-                     [ 'promaxwell', 'promaxwells' ], [ 'SI' ], None,
+                     [ 'promaxwell', 'promaxwells' ], [ 'SI' ],
                      '''
 ''' ),
 
     # magnetic_flux_density
     'gauss' :
         RPNUnitInfo( 'magnetic_flux_density', 'gauss', 'gauss', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'ampere*henry/meter^2' :
         RPNUnitInfo( 'magnetic_flux_density', 'henry*ampere/meter^2', 'henry*ampere/meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'joule/ampere*meter^2' :
         RPNUnitInfo( 'magnetic_flux_density', 'joule/ampere*meter^2', 'joule/ampere*meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'kilogram/ampere*second^2' :
         RPNUnitInfo( 'magnetic_flux_density', 'kilogram/ampere*second^2', 'kilogram/ampere*second^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'kilogram/coulomb*second' :
         RPNUnitInfo( 'magnetic_flux_density', 'kilogram/coulomb*second', 'kilogram/coulomb*second', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'maxwell/centimeter^2' :
         RPNUnitInfo( 'magnetic_flux_density', 'maxwell/centimeter^2', 'maxwells/centimeter^2', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'newton/ampere*meter' :
         RPNUnitInfo( 'magnetic_flux_density', 'newton/ampere*meter', 'newton/ampere*meter', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'newton*second/coulomb*meter' :
         RPNUnitInfo( 'magnetic_flux_density', 'newton*second/coulomb*meter', 'newton*second/coulomb*meter', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'second*volt/meter^2' :
         RPNUnitInfo( 'magnetic_flux_density', 'second*volt/meter^2', 'second*volt/meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'tesla' :
         RPNUnitInfo( 'magnetic_flux_density', 'tesla', 'teslas', 'T',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'second*volt/meter^2' :
         RPNUnitInfo( 'magnetic_flux_density', 'volt*second/meter^2', 'volt*second/meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
 
     'weber/meter^2' :
         RPNUnitInfo( 'magnetic_flux_density', 'weber/meter^2', 'webers/meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     # mass
     'berkovets' :
         RPNUnitInfo( 'mass', 'berkovets', 'berkovets', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'blintz' :
         RPNUnitInfo( 'mass', 'blintz', 'blintzes', '',
-                     [ ], [ 'Potrzebie', 'humorous' ], None,
+                     [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'carat' :
         RPNUnitInfo( 'mass', 'carat', 'carats', 'ct',
-                     [ 'karat', 'karats' ], [ 'US' ], None,
+                     [ 'karat', 'karats' ], [ 'US' ],
                      '''
 ''' ),
 
     'chandrasekhar_limit' :
         RPNUnitInfo( 'mass', 'chandrasekhar_limit', 'x chandrasekhar_limit', '',
-                     [ 'chandrasekhar', 'chandrasekhars' ], [ 'science' ], None,
+                     [ 'chandrasekhar', 'chandrasekhars' ], [ 'science' ],
                      '''
 ''' ),
 
     'dalton' :
         RPNUnitInfo( 'mass', 'dalton', 'daltons', '',
-                     [ 'amu', 'atomic_mass_unit' ], [ 'science' ], None,
+                     [ 'amu', 'atomic_mass_unit' ], [ 'science' ],
                      '''
 ''' ),
 
     'dolya' :
         RPNUnitInfo( 'mass', 'dolya', 'dolyas', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'doppelzentner' :
         RPNUnitInfo( 'mass', 'doppelzentner', 'doppelzentners', '',
-                     [ ], [ 'Germany' ], None,
+                     [ ], [ 'Germany' ],
                      '''
 ''' ),
 
     'farshimmelt_blintz' :
         RPNUnitInfo( 'mass', 'farshimmelt_blintz', 'farshimmelt_blintzes', 'fb',
-                     [ 'far-blintz', 'far-blintzes' ], [ 'Potrzebie', 'humorous' ], None,
+                     [ 'far-blintz', 'far-blintzes' ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'funt' :
         RPNUnitInfo( 'mass', 'funt', 'funts', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'furshlugginer_blintz' :
         RPNUnitInfo( 'mass', 'furshlugginer_blintz', 'furshlugginer_blintzes', 'Fb',
-                     [ 'fur-blintz', 'fur-blintzes', 'Fur-blintz', 'Fur-blintzes' ], [ 'Potrzebie', 'humorous' ], None,
+                     [ 'fur-blintz', 'fur-blintzes', 'Fur-blintz', 'Fur-blintzes' ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'grain' :
         RPNUnitInfo( 'mass', 'grain', 'grains', 'gr',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'gram' :
         RPNUnitInfo( 'mass', 'gram', 'grams', 'g',
-                     [ 'gramme', 'grammes' ], [ 'SI' ], None,
+                     [ 'gramme', 'grammes' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2806,135 +2807,135 @@ https://en.wikipedia.org/wiki/Rack_unit
 
     'joule*second^2/meter^2' :
         RPNUnitInfo( 'mass', 'joule*second^2/meter^2', 'joule*second^2/meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 This conversion is required to do mass-energy equivalence calculations.
 ''' ),
 
     'kip' :
         RPNUnitInfo( 'mass', 'kip', 'kips', '',
-                     [ 'kilopound', 'kilopounds' ], [ 'US' ], None,
+                     [ 'kilopound', 'kilopounds' ], [ 'US' ],
                      '''
 ''' ),
 
     'lot' :
         RPNUnitInfo( 'mass', 'lot', 'lots', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'ounce' :
         RPNUnitInfo( 'mass', 'ounce', 'ounces', 'oz',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'pennyweight' :
         RPNUnitInfo( 'mass', 'pennyweight', 'pennyweights', 'dwt',
-                     [ 'pwt' ], [ 'traditional', 'England' ], None,
+                     [ 'pwt' ], [ 'traditional', 'England' ],
                      '''
 ''' ),
 
     'pfund' :
         RPNUnitInfo( 'mass', 'pfund', 'pfunds', '',
-                     [ ], [ 'Germany' ], None,
+                     [ ], [ 'Germany' ],
                      '''
 ''' ),
 
     'pood' :
         RPNUnitInfo( 'mass', 'pood', 'poods', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     'pound' :
         RPNUnitInfo( 'mass', 'pound', 'pounds', 'lb',
-                     [ ], [ 'US', 'traditional', 'FPS' ], None,
+                     [ ], [ 'US', 'traditional', 'FPS' ],
                      '''
 ''' ),
 
     'quintal' :
         RPNUnitInfo( 'mass', 'quintal', 'quintals', 'q',
-                     [ 'cantar', 'cantars' ], [ ], None,
+                     [ 'cantar', 'cantars' ], [ ],
                      '''
 ''' ),
 
     'sheet' :
         RPNUnitInfo( 'mass', 'sheet', 'sheets', '',
-                     [ ], [ ], None,
+                     [ ], [ ],
                      '''
 ''' ),
 
     'slinch' :
         RPNUnitInfo( 'mass', 'slinch', 'slinches', '',
-                     [ 'mug', 'mugs', 'snail', 'snails' ], [ 'NASA' ], None,
+                     [ 'mug', 'mugs', 'snail', 'snails' ], [ 'NASA' ],
                      '''
 ''' ),
 
     'slug' :
         RPNUnitInfo( 'mass', 'slug', 'slugs', '',
-                     [ 'gee_pound', 'geepound', 'gee-pound', 'gee_pounds', 'geepounds', 'gee-pounds' ], [ 'FPS' ], None,
+                     [ 'gee_pound', 'geepound', 'gee-pound', 'gee_pounds', 'geepounds', 'gee-pounds' ], [ 'FPS' ],
                      '''
 ''' ),
 
     'stone' :
         RPNUnitInfo( 'mass', 'stone', 'stones', '',
-                     [ ], [ 'traditional', 'England' ], None,
+                     [ ], [ 'traditional', 'England' ],
                      '''
 ''' ),
 
     'stone_us' :
         RPNUnitInfo( 'mass', 'stone_us', 'stones_us', '',
-                     [ 'us_stone', 'us_stones' ], [ 'US' ], None,
+                     [ 'us_stone', 'us_stones' ], [ 'US' ],
                      '''
 ''' ),
 
     'ton' :
         RPNUnitInfo( 'mass', 'ton', 'tons', '',
-                     [ ], [ 'traditional', 'US' ], None,
+                     [ ], [ 'traditional', 'US' ],
                      '''
 ''' ),
 
     'tonne' :
         RPNUnitInfo( 'mass', 'tonne', 'tonnes', '',
-                     [ 'metric_ton', 'metric_tons' ], [ 'MTS' ], None,
+                     [ 'metric_ton', 'metric_tons' ], [ 'MTS' ],
                      '''
 ''' ),
 
     'troy_ounce' :
         RPNUnitInfo( 'mass', 'troy_ounce', 'troy_ounces', 'toz',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'troy_pound' :
         RPNUnitInfo( 'mass', 'troy_pound', 'troy_pounds', '',
-                     [ ], [ 'traditional'  ], None,
+                     [ ], [ 'traditional'  ],
                      '''
 ''' ),
 
     'wey' :
         RPNUnitInfo( 'mass', 'wey', 'weys', '',
-                     [ ], [ 'obsolete', 'England' ], None,
+                     [ ], [ 'obsolete', 'England' ],
                      '''
 ''' ),
 
     'zentner' :
         RPNUnitInfo( 'mass', 'zentner', 'zentners', '',
-                     [ ], [ 'Germany' ], None,
+                     [ ], [ 'Germany' ],
                      '''
 ''' ),
 
     'zolotnik' :
         RPNUnitInfo( 'mass', 'zolotnik', 'zolotniks', '',
-                     [ ], [ 'Russia', 'obsolete' ], None,
+                     [ ], [ 'Russia', 'obsolete' ],
                      '''
 ''' ),
 
     # power
     'ampere*volt' :
         RPNUnitInfo( 'power', 'ampere*volt', 'ampere*volts', 'VA',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -2942,55 +2943,55 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'dBm' :
         RPNUnitInfo( 'power', 'dBm', 'dBm', 'dBm',
-                     [ 'dBmW', 'decibel-milliwatt' ], [ 'engineering' ], None,
+                     [ 'dBmW', 'decibel-milliwatt' ], [ 'engineering' ],
                      '''
 ''' ),
 
     'erg/second' :
         RPNUnitInfo( 'power', 'erg/second', 'ergs/second', 'erg/s',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'horsepower' :
         RPNUnitInfo( 'power', 'horsepower', 'horsepower', 'hp',
-                     [ ], [ 'US' ], None,
+                     [ ], [ 'US' ],
                      '''
 ''' ),
 
     'joule/second' :
         RPNUnitInfo( 'power', 'joule/second', 'joules/second', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'lusec' :
         RPNUnitInfo( 'power', 'lusec', 'lusecs', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'kilogram*meter^2/second^3' :
         RPNUnitInfo( 'power', 'kilogram*meter^2/second^3', 'kilogram*meter^2/second^3', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'meter*newton/second' :
         RPNUnitInfo( 'power', 'meter*newton/second', 'meter*newton/second', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'pferdestarke' :
         RPNUnitInfo( 'power', 'pferdestarke', 'pferdestarke', 'PS',
-                     [ ], [ 'obsolete', 'Germany' ], None,
+                     [ ], [ 'obsolete', 'Germany' ],
                      '''
 ''' ),
 
     'poncelet' :
         RPNUnitInfo( 'power', 'poncelet', 'poncelets', '',
-                     [ ], [ 'obsolete' ], None,
+                     [ ], [ 'obsolete' ],
                      '''
 ''' ),
 
@@ -2998,32 +2999,32 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'watt' :
         RPNUnitInfo( 'power', 'watt', 'watts', 'W',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     # pressure
     'atmosphere' :
         RPNUnitInfo( 'pressure', 'atmosphere', 'atmospheres', 'atm',
-                     [ ], [ 'natural' ], None,
+                     [ ], [ 'natural' ],
                      '''
 ''' ),
 
     'bar' :
         RPNUnitInfo( 'pressure', 'bar', 'bars', '',
-                     [ ], [ ], None,
+                     [ ], [ ],
                      '''
 ''' ),
 
     'barye' :
         RPNUnitInfo( 'pressure', 'barye', 'baryes', 'Ba',
-                     [ 'barad', 'barads' ], [ 'CGS' ], None,
+                     [ 'barad', 'barads' ], [ 'CGS' ],
                      '''
 ''' ),
 
     'mmHg' :
         RPNUnitInfo( 'pressure', 'mmHg', 'mmHg', '',
-                     [ ], [ 'metric' ], None,
+                     [ ], [ 'metric' ],
                      '''
 ''' ),
 
@@ -3031,31 +3032,31 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'kilogram/meter*second^2' :
         RPNUnitInfo( 'pressure', 'kilogram/meter*second^2', 'kilogram/meter*second^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'newton/meter^2' :
         RPNUnitInfo( 'pressure', 'newton/meter^2', 'newtons/meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'pascal' :
         RPNUnitInfo( 'pressure', 'pascal', 'pascals', 'Pa',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'pieze' :
         RPNUnitInfo( 'pressure', 'pieze', 'piezes', '',
-                     [ ], [ 'MTS' ], None,
+                     [ ], [ 'MTS' ],
                      '''
 ''' ),
 
     'psi' :
         RPNUnitInfo( 'pressure', 'pound/inch^2', 'pounds/inch^2', '',
-                     [ ], [ 'FPS' ], None,
+                     [ ], [ 'FPS' ],
                      '''
 ''' ),
 
@@ -3063,14 +3064,14 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'torr' :
         RPNUnitInfo( 'pressure', 'torr', 'torr', '',
-                     [ ], [ ], None,
+                     [ ], [ ],
                      '''
 ''' ),
 
     # radiation_dose
     'banana_equivalent_dose' :
         RPNUnitInfo( 'radiation_dose', 'banana_equivalent_dose', 'banana_equivalent_doses', '',
-                     [ 'banana', 'bananas' ], [ 'natural', 'informal' ], None,
+                     [ 'banana', 'bananas' ], [ 'natural', 'informal' ],
                      '''
 ''' ),
 
@@ -3082,282 +3083,282 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'joule/kilogram' :
         RPNUnitInfo( 'radiation_dose', 'joule/kilogram', 'joules/kilogram', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'rem' :
         RPNUnitInfo( 'radiation_dose', 'rem', 'rems', '',
-                     [ 'roentgen_equivalent_man' ], [ 'CGS' ], None,
+                     [ 'roentgen_equivalent_man' ], [ 'CGS' ],
                      '''
 ''' ),
 
     'sievert' :
         RPNUnitInfo( 'radiation_dose', 'sievert', 'sieverts', 'Sv',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     # radiation_exposure
     'coulomb/kilogram' :
         RPNUnitInfo( 'radiation_exposure', 'coulomb/kilogram', 'coulombs/kilogram', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'rad' :
         RPNUnitInfo( 'radiation_exposure', 'rad', 'rads', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'roentgen' :
         RPNUnitInfo( 'radiation_exposure', 'roentgen', 'roentgens', 'R',
-                     [ 'parker', 'parkers', 'rep', 'reps' ], [ 'NIST' ], None,
+                     [ 'parker', 'parkers', 'rep', 'reps' ], [ 'NIST' ],
                      '''
 ''' ),
 
     # radiosity
     'kilogram/second^3' :
         RPNUnitInfo( 'radiosity', 'kilogram/second^3', 'kilogram/second^3', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'watt/meter^2' :
         RPNUnitInfo( 'radiosity', 'watt/meter^2', 'watt/meter^2', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     # solid_angle
     'hemisphere' :
         RPNUnitInfo( 'solid_angle', 'hemisphere', 'hemisphere', '',
-                     [ 'half_sphere', 'half_spheres', 'halfsphere', 'halfspheres' ], [ 'mathematics' ], None,
+                     [ 'half_sphere', 'half_spheres', 'halfsphere', 'halfspheres' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'radian^2' :
         RPNUnitInfo( 'solid_angle', 'radian^2', 'radian^2', '',
-                     [ ], [ 'SI', 'mathematics' ], None,
+                     [ ], [ 'SI', 'mathematics' ],
                      '''
 ''' ),
 
     'sphere' :
         RPNUnitInfo( 'solid_angle', 'sphere', 'spheres', '',
-                     [ 'spat', 'spats' ], [ 'mathematics' ], None,
+                     [ 'spat', 'spats' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'square_arcminute' :
         RPNUnitInfo( 'solid_angle', 'arcminute^2', 'arcminutes^2', '',
-                     [ 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2', 'spherical_minute', 'spherical_minutes' ], [ 'mathematics' ], None,
+                     [ 'square_arcminutes', 'solid_arcminute', 'solid_arcminutes', 'sq_arcminute', 'sq_arcminutes', 'sqarcmin', 'sqarcmins', 'arcmins^2', 'spherical_minute', 'spherical_minutes' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'square_arcsecond' :
         RPNUnitInfo( 'solid_angle', 'arcsecond^2', 'arcseconds^2', '',
-                     [ 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2', 'spherical_second', 'spherical_seconds' ], [ 'mathematics' ], None,
+                     [ 'square_arcseconds', 'solid_arcsecond', 'solid_arcseconds', 'sq_arcsecond', 'sq_arcseconds', 'sqarcsec', 'sqarcsecs', 'arcsecs^2', 'spherical_second', 'spherical_seconds' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'square_degree' :
         RPNUnitInfo( 'solid_angle', 'degree^2', 'degrees^2', '',
-                     [ 'square_degrees', 'sqdeg', 'solid_degree', 'solid_degrees', 'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs', 'spherical_degree', 'spherical_degrees' ], [ 'mathematics' ], None,
+                     [ 'square_degrees', 'sqdeg', 'solid_degree', 'solid_degrees', 'sq_degree', 'sq_degrees', 'sqdeg', 'sqdegs', 'spherical_degree', 'spherical_degrees' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'square_octant' :
         RPNUnitInfo( 'solid_angle', 'octant^2', 'octants^2', '',
-                     [ 'square_octants', 'sqoctant', 'sqoctants', 'solid_octant', 'solid_octants', 'sq_octant', 'sq_octants', 'spherical_octant', 'spherical_octants' ], [ 'mathematics' ], None,
+                     [ 'square_octants', 'sqoctant', 'sqoctants', 'solid_octant', 'solid_octants', 'sq_octant', 'sq_octants', 'spherical_octant', 'spherical_octants' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'square_quadrant' :
         RPNUnitInfo( 'solid_angle', 'quadrant^2', 'quadrants^2', '',
-                     [ 'square_quadrants', 'sqquadrant', 'sqquadrants', 'solid_quadrant', 'solid_quadrants', 'sq_quadrant', 'sq_quadrants', 'spherical_quadrant', 'spherical_quadrants' ], [ 'mathematics' ], None,
+                     [ 'square_quadrants', 'sqquadrant', 'sqquadrants', 'solid_quadrant', 'solid_quadrants', 'sq_quadrant', 'sq_quadrants', 'spherical_quadrant', 'spherical_quadrants' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'square_quintant' :
         RPNUnitInfo( 'solid_angle', 'quintant^2', 'quintants^2', '',
-                     [ 'square_quintants', 'sqquintant', 'sqquintants', 'solid_quintant', 'solid_quintants', 'sq_quintant', 'sq_quintants', 'spherical_quintant', 'spherical_quintants' ], [ 'mathematics' ], None,
+                     [ 'square_quintants', 'sqquintant', 'sqquintants', 'solid_quintant', 'solid_quintants', 'sq_quintant', 'sq_quintants', 'spherical_quintant', 'spherical_quintants' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'square_sextant' :
         RPNUnitInfo( 'solid_angle', 'sextant^2', 'sextants^2', '',
-                     [ 'square_sextants', 'sqsextant', 'sqsextants', 'solid_sextant', 'solid_sextants', 'sq_sextant', 'sq_sextants', 'spherical_sextant', 'spherical_sextants' ], [ 'mathematics' ], None,
+                     [ 'square_sextants', 'sqsextant', 'sqsextants', 'solid_sextant', 'solid_sextants', 'sq_sextant', 'sq_sextants', 'spherical_sextant', 'spherical_sextants' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'square_grad' :
         RPNUnitInfo( 'solid_angle', 'grad^2', 'grads^2', '',
-                     [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons', 'sqgon', 'sqgons', 'grad^2', 'grads^2', 'gon^2', 'gons^2', 'spherical_gon', 'spherical_gons', 'spherical_grad', 'spherical_grads' ], [ 'mathematics' ], None,
+                     [ 'square_grads', 'sqgrad', 'square_gon', 'square_gons', 'sq_gon', 'sq_gons', 'sqgon', 'sqgons', 'grad^2', 'grads^2', 'gon^2', 'gons^2', 'spherical_gon', 'spherical_gons', 'spherical_grad', 'spherical_grads' ], [ 'mathematics' ],
                      '''
 ''' ),
 
     'steradian' :
         RPNUnitInfo( 'solid_angle', 'steradian', 'steradians', 'sr',
-                     [ 'square_radian', 'square_radians', 'sq_radian', 'sq_radians', 'sq_rad', 'sqrad', 'spherical_radian', 'spherical_radians' ], [ 'SI', 'mathematics' ], None,
+                     [ 'square_radian', 'square_radians', 'sq_radian', 'sq_radians', 'sq_rad', 'sqrad', 'spherical_radian', 'spherical_radians' ], [ 'SI', 'mathematics' ],
                      '''
 ''' ),
 
     # temperature
     'celsius' :
         RPNUnitInfo( 'temperature', 'celsius', 'degrees_celsius', 'Cel',
-                     [ 'centigrade', 'degC', 'degreesC', 'degree_centigrade', 'degrees_centigrade' ], [ 'SI' ], None,
+                     [ 'centigrade', 'degC', 'degreesC', 'degree_centigrade', 'degrees_centigrade' ], [ 'SI' ],
                      '''
 ''' ),
 
     'degree_newton' :
         RPNUnitInfo( 'temperature', 'degree_newton', 'degrees_newton', '',
-                     [ 'newton_degree', 'newton_degrees', 'degN', 'degreesN' ], [ 'obsolete' ], None,
+                     [ 'newton_degree', 'newton_degrees', 'degN', 'degreesN' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'delisle' :
         RPNUnitInfo( 'temperature', 'delisle', 'degrees_delisle', 'De',
-                     [ 'degD', 'degreesD' ], [ 'obsolete' ], None,
+                     [ 'degD', 'degreesD' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'fahrenheit' :
         RPNUnitInfo( 'temperature', 'fahrenheit', 'degrees_fahrenheit', '',
-                     [ 'fahr', 'degF', 'degreesF' ], [ 'US', 'traditional' ], None,
+                     [ 'fahr', 'degF', 'degreesF' ], [ 'US', 'traditional' ],
                      '''
 ''' ),
 
     'kelvin' :
         RPNUnitInfo( 'temperature', 'kelvin', 'degrees_kelvin', 'K',
-                     [ 'degK', 'degreesK' ], [ 'SI' ], None,
+                     [ 'degK', 'degreesK' ], [ 'SI' ],
                      '''
 ''' ),
 
     'rankine' :
         RPNUnitInfo( 'temperature', 'rankine', 'degrees_rankine', 'R',
-                     [ 'degR', 'degreesR' ], [ 'obsolete' ], None,
+                     [ 'degR', 'degreesR' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'reaumur' :
         RPNUnitInfo( 'temperature', 'reaumur', 'degrees_reaumur', 'Re',
-                     [ 'degRe', 'degreesRe' ], [ 'obsolete' ], None,
+                     [ 'degRe', 'degreesRe' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'romer' :
         RPNUnitInfo( 'temperature', 'romer', 'degrees_romer', 'Ro',
-                     [ 'degRo', 'degreesRo' ], [ 'obsolete' ], None,
+                     [ 'degRo', 'degreesRo' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     # time
     'beat' :
         RPNUnitInfo( 'time', 'beat', 'beat', '',
-                     [ ], [ ], None,
+                     [ ], [ ],
                      '''
 ''' ),
 
     'blink' :
         RPNUnitInfo( 'time', 'blink', 'blinks', '',
-                     [ 'metric_second', 'metric_seconds' ], [ ], None,
+                     [ 'metric_second', 'metric_seconds' ], [ ],
                      '''
 ''' ),
 
     'century' :
         RPNUnitInfo( 'time', 'century', 'centuries', '',
-                     [ ], [ 'traditional', 'years' ], None,
+                     [ ], [ 'traditional', 'years' ],
                      '''
 ''' ),
 
     'clarke' :
         RPNUnitInfo( 'time', 'clarke', 'clarkes', '',
-                     [ ], [ 'Potrzebie', 'humorous' ], None,
+                     [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'cowznofski' :
         RPNUnitInfo( 'time', 'cowznofski', 'cowznofskis', '',
-                     [ ], [ 'Potrzebie', 'humorous' ], None,
+                     [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'day' :
-        RPNUnitInfo( 'time', 'day', 'days', '', [ 'ephemeris_day' ], None,
-                     [ 'traditional' ], None,
+        RPNUnitInfo( 'time', 'day', 'days', '', [ 'ephemeris_day' ],
+                     [ 'traditional' ],
                      '''
 ''' ),
 
     'decade' :
         RPNUnitInfo( 'time', 'decade', 'decades', '',
-                     [ ], [ 'traditional', 'years' ], None,
+                     [ ], [ 'traditional', 'years' ],
                      '''
 ''' ),
 
     'eon' :
         RPNUnitInfo( 'time', 'eon', 'eons', '',
-                     [ ], [ 'traditional', 'years' ], None,
+                     [ ], [ 'traditional', 'years' ],
                      '''
 ''' ),
 
     'fortnight' :
         RPNUnitInfo( 'time', 'fortnight', 'fortnights', '',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'gregorian_year' :
         RPNUnitInfo( 'time', 'gregorian_year', 'gregorian_years', '',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'hour' :
         RPNUnitInfo( 'time', 'hour', 'hours', 'hr',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'kovac' :
         RPNUnitInfo( 'time', 'kovac', 'kovacs', '',
-                     [ ], [ 'Potrzebie', 'humorous' ], None,
+                     [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'jiffy' :
         RPNUnitInfo( 'time', 'jiffy', 'jiffies', '',
-                     [ ], [ 'computing' ], None,
+                     [ ], [ 'computing' ],
                      '''
 ''' ),
 
     'lustrum' :
         RPNUnitInfo( 'time', 'lustrum', 'lustra', '',
-                     [ ], [ 'obsolete', 'years' ], None,
+                     [ ], [ 'obsolete', 'years' ],
                      '''
 ''' ),
 
     'martin' :
         RPNUnitInfo( 'time', 'martin', 'martins', '',
-                     [ ], [ 'Potrzebie', 'humorous' ], None,
+                     [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'microcentury' :
         RPNUnitInfo( 'time', 'microcentury', 'microcenturies', '',
-                     [ ], [ 'humorous', 'computing' ], None,
+                     [ ], [ 'humorous', 'computing' ],
                      '''
 ''' ),
 
     'microfortnight' :
         RPNUnitInfo( 'time', 'microfortnight', 'microfortnights', '',
-                     [ ], [ 'humorous', 'computing' ], None,
+                     [ ], [ 'humorous', 'computing' ],
                      '''
 ''' ),
 
     'mingo' :
         RPNUnitInfo( 'time', 'mingo', 'mingoes', '',
-                     [ ], [ 'Potrzebie', 'humorous' ], None,
+                     [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
@@ -3369,13 +3370,13 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'month' :
         RPNUnitInfo( 'time', 'month', 'months', 'mo',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'nanocentury' :
         RPNUnitInfo( 'time', 'nanocentury', 'nanocenturies', '',
-                     [ ], [ 'humorous', 'computing' ], None,
+                     [ ], [ 'humorous', 'computing' ],
                      '''
 ''' ),
 
@@ -3387,94 +3388,94 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'shake' :
         RPNUnitInfo( 'time', 'shake', 'shakes', '',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'sidereal_day' :
         RPNUnitInfo( 'time', 'sidereal_day', 'sidereal_days', '',
-                     [ 'earth_day', 'earth_days' ], [ 'science' ], None,
+                     [ 'earth_day', 'earth_days' ], [ 'science' ],
                      '''
 ''' ),
 
     'sidereal_hour' :
         RPNUnitInfo( 'time', 'sidereal_hour', 'sidereal_hours', '',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'sidereal_minute' :
         RPNUnitInfo( 'time', 'sidereal_minute', 'sidereal_minutes', '',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'sidereal_month' :
         RPNUnitInfo( 'time', 'sidereal_month', 'sidereal_months', '',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'sidereal_second' :
         RPNUnitInfo( 'time', 'sidereal_second', 'sidereal_seconds', '',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'sidereal_year' :
         RPNUnitInfo( 'time', 'sidereal_year', 'sidereal_years', '',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'svedberg' :
         RPNUnitInfo( 'time', 'svedberg', 'svedbergs', '',
-                     [ ], [ ], None,
+                     [ ], [ ],
                      '''
 ''' ),
 
     'tropical_month' :
         RPNUnitInfo( 'time', 'tropical_month', 'tropical_months', '',
-                     [ ], [ 'science' ], None,
+                     [ ], [ 'science' ],
                      '''
 ''' ),
 
     'tropical_year' :
         RPNUnitInfo( 'time', 'tropical_year', 'tropical_years', '',
-                     [ 'solar_year', 'solar_years' ], [ 'science' ], None,
+                     [ 'solar_year', 'solar_years' ], [ 'science' ],
                      '''
 The definition used is the calculation of the mean tropical year on
 1 January 2000.
 ''' ),
 
     'week' :
-        RPNUnitInfo( 'time', 'week', 'weeks', 'wk', [ 'sennight' ], None,
-                     [ 'traditional' ], None,
+        RPNUnitInfo( 'time', 'week', 'weeks', 'wk', [ 'sennight' ],
+                     [ 'traditional' ],
                      '''
 ''' ),
 
     'wolverton' :
         RPNUnitInfo( 'time', 'wolverton', 'wolvertons', '',
-                     [ ], [ 'Potrzebie', 'humorous' ], None,
+                     [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'wood' :
         RPNUnitInfo( 'time', 'wood', 'woods', '',
-                     [ ], [ 'Potrzebie', 'humorous' ], None,
+                     [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'year' :
         RPNUnitInfo( 'time', 'year', 'years', '',
-                     [ 'annum', 'annums', 'julian_year', 'julian_years', 'twelvemonth', 'twelvemonths' ], [ 'traditional', 'years' ], None,
+                     [ 'annum', 'annums', 'julian_year', 'julian_years', 'twelvemonth', 'twelvemonths' ], [ 'traditional', 'years' ],
                      '''
 ''' ),
 
     # velocity
     'bubnoff_unit' :
         RPNUnitInfo( 'velocity', 'bubnoff_unit', 'bubnoff_units', '',
-                     [ 'bubnoff', 'bubnoffs' ], [ 'science' ], None,
+                     [ 'bubnoff', 'bubnoffs' ], [ 'science' ],
                      '''
 The Bubnoff unit is employed in geology to measure rates of lowering of earth
 surfaces due to erosion and is named after the Russian (German-Baltic)
@@ -3487,37 +3488,37 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
 
     'kine' :
         RPNUnitInfo( 'velocity', 'kine', 'kine', '',
-                     [ ], [ 'CGS' ], None,
+                     [ ], [ 'CGS' ],
                      '''
 ''' ),
 
     'meter/second' :
         RPNUnitInfo( 'velocity', 'meter/second', 'meters/second', 'mps',
-                     [ 'benz' ], [ 'SI' ], None,
+                     [ 'benz' ], [ 'SI' ],
                      '''
 ''' ),
 
     'knot' :
         RPNUnitInfo( 'velocity', 'knot', 'knots', 'kt',
-                     [ ], [ 'nautical' ], None,
+                     [ ], [ 'nautical' ],
                      '''
 ''' ),
 
     'mach' :
         RPNUnitInfo( 'velocity', 'mach', 'mach', '',
-                     [ ], [ 'US' ], None,
+                     [ ], [ 'US' ],
                      '''
 ''' ),
 
     'mile/hour' :
         RPNUnitInfo( 'velocity', 'mile/hour', 'miles/hour', 'mph',
-                     [ ], [ 'FPS', 'imperial' ], None,
+                     [ ], [ 'FPS', 'imperial' ],
                      '''
 ''' ),
 
     'kilometer/hour' :
         RPNUnitInfo( 'velocity', 'kilometer/hour', 'kilometers/hour', 'kph',
-                     [ ], [ 'FPS', 'imperial' ], None,
+                     [ ], [ 'FPS', 'imperial' ],
                      '''
 ''' ),
 
@@ -3530,217 +3531,217 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
     # volume
     'acre*foot' :
         RPNUnitInfo( 'volume', 'acre*foot', 'acre*feet', '',
-                     [ ], [ 'FPS', 'imperial' ], None,
+                     [ ], [ 'FPS', 'imperial' ],
                      '''
 ''' ),
 
     'balthazar' :
         RPNUnitInfo( 'volume', 'balthazar', 'balthazars', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'beer_barrel' :
         RPNUnitInfo( 'volume', 'beer_barrel', 'beer_barrel', '',
-                     [ ], [ 'US', 'beer' ], None,
+                     [ ], [ 'US', 'beer' ],
                      '''
 ''' ),
 
     'beer_keg' :
         RPNUnitInfo( 'volume', 'beer_keg', 'beer_kegs', '',
-                     [ ], [ 'US', 'beer' ], None,
+                     [ ], [ 'US', 'beer' ],
                      '''
 ''' ),
 
     'bottle' :
         RPNUnitInfo( 'volume', 'bottle', 'bottles', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'bucket' :
         RPNUnitInfo( 'volume', 'bucket', 'buckets', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'bushel' :
         RPNUnitInfo( 'volume', 'bushel', 'bushels', 'bu',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'chopine' :
         RPNUnitInfo( 'volume', 'chopine', 'chopines', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'clavelin' :
         RPNUnitInfo( 'volume', 'clavelin', 'clavelins', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'coffeespoon' :
         RPNUnitInfo( 'volume', 'coffeespoon', 'coffeespoons', '',
-                     [ ], [ 'traditional', 'cooking' ], None,
+                     [ ], [ 'traditional', 'cooking' ],
                      '''
 ''' ),
 
     'coomb' :
         RPNUnitInfo( 'volume', 'coomb', 'coombs', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'cord' :
         RPNUnitInfo( 'volume', 'cord', 'cords', '',
-                     [ ], [ 'traditional' ], None,
+                     [ ], [ 'traditional' ],
                      '''
 ''' ),
 
     'cubic_inch' :
         RPNUnitInfo( 'volume', 'cubic_inch', 'cubic_inches', '',
-                     [ 'cuin', 'cu_in', 'cu_inch', 'cu_inches', 'cubic_in' ], [ 'traditional' ], None,
+                     [ 'cuin', 'cu_in', 'cu_inch', 'cu_inches', 'cubic_in' ], [ 'traditional' ],
                      '''
 ''' ),
 
     'cubic_foot' :
         RPNUnitInfo( 'volume', 'cubic_foot', 'cubic_feet', '',
-                     [ 'cuft', 'cu_ft', 'cu_foot', 'cu_feet', 'cubic_ft' ], [ 'traditional', 'FPS' ], None,
+                     [ 'cuft', 'cu_ft', 'cu_foot', 'cu_feet', 'cubic_ft' ], [ 'traditional', 'FPS' ],
                      '''
 ''' ),
 
     'cubic_meter' :
         RPNUnitInfo( 'volume', 'cubic_meter', 'cubic_meters', '',
-                     [ 'cum', 'cu_m', 'cu_meter', 'cu_meters', 'cubic_m' ], [ 'SI' ], None,
+                     [ 'cum', 'cu_m', 'cu_meter', 'cu_meters', 'cubic_m' ], [ 'SI' ],
                      '''
 ''' ),
 
     'cup' :
         RPNUnitInfo( 'volume', 'cup', 'cups', '',
-                     [ ], [ 'traditional', 'cooking' ], None,
+                     [ ], [ 'traditional', 'cooking' ],
                      '''
 ''' ),
 
     'dash' :
         RPNUnitInfo( 'volume', 'dash', 'dashes', '',
-                    [ ], [ 'cooking' ], None,
+                    [ ], [ 'cooking' ],
                      '''
 ''' ),
 
     'demi' :
         RPNUnitInfo( 'volume', 'demi', 'demis', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'dessertspoon' :
         RPNUnitInfo( 'volume', 'dessertspoon', 'dessertspoons', '',
-                     [ ], [ 'traditional', 'cooking' ], None,
+                     [ ], [ 'traditional', 'cooking' ],
                      '''
 ''' ),
 
     'dram' :
         RPNUnitInfo( 'volume', 'dram', 'drams', '',
-                     [ 'fluid_dram', 'fluid_drams', 'fluidram', 'fluidrams', 'fluid_drachm', 'fluid_drachms', 'fldr' ], [ 'traditional' ], None,
+                     [ 'fluid_dram', 'fluid_drams', 'fluidram', 'fluidrams', 'fluid_drachm', 'fluid_drachms', 'fldr' ], [ 'traditional' ],
                      '''
 ''' ),
 
     'dry_barrel' :
         RPNUnitInfo( 'volume', 'dry_barrel', 'dry_barrels', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'dry_hogshead' :
         RPNUnitInfo( 'volume', 'dry_hogshead', 'dry_hogsheads', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'dry_gallon' :
         RPNUnitInfo( 'volume', 'dry_gallon', 'dry_gallons', '',
-                     [ ], [ 'traditional', 'US' ], None,
+                     [ ], [ 'traditional', 'US' ],
                      '''
 ''' ),
 
     'dry_pint' :
         RPNUnitInfo( 'volume', 'dry_pint', 'dry_pints', '',
-                     [ ], [ 'traditional', 'US' ], None,
+                     [ ], [ 'traditional', 'US' ],
                      '''
 ''' ),
 
     'dry_quart' :
         RPNUnitInfo( 'volume', 'dry_quart', 'dry_quarts', '',
-                     [ ], [ 'traditional', 'US' ], None,
+                     [ ], [ 'traditional', 'US' ],
                      '''
 ''' ),
 
     'dry_tun' :
         RPNUnitInfo( 'volume', 'dry_tun', 'dry_tuns', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'farshimmelt_ngogn' :
         RPNUnitInfo( 'volume', 'farshimmelt_ngogn', 'farshimmelt_ngogns', 'fn',
-                     [ 'far-ngogn', 'far-ngogns' ], [ 'Potrzebie', 'humorous' ], None,
+                     [ 'far-ngogn', 'far-ngogns' ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'fifth' :
         RPNUnitInfo( 'volume', 'fifth', 'fifths', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'firkin' :
         RPNUnitInfo( 'volume', 'firkin', 'firkins', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'fluid_ounce' :
         RPNUnitInfo( 'volume', 'fluid_ounce', 'fluid_ounces', '',
-                     [ 'floz' ], [ 'traditional' ], None,
+                     [ 'floz' ], [ 'traditional' ],
                      '''
 ''' ),
 
     'furshlugginer_ngogn' :
         RPNUnitInfo( 'volume', 'furshlugginer_ngogn', 'furshlugginer_ngogns', 'Fn',
-                     [ 'Fur-ngogn', 'Fur-ngogns', 'fur-ngogn', 'fur-ngogns' ], [ 'Potrzebie', 'humorous' ], None,
+                     [ 'Fur-ngogn', 'Fur-ngogns', 'fur-ngogn', 'fur-ngogns' ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'gallon' :
         RPNUnitInfo( 'volume', 'gallon', 'gallons', 'gal',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'gill' :
         RPNUnitInfo( 'volume', 'gill', 'gills', '',
-                     [ 'noggin', 'noggins', 'teacup', 'teacups' ], [ 'imperial' ], None,
+                     [ 'noggin', 'noggins', 'teacup', 'teacups' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'goliath' :
         RPNUnitInfo( 'volume', 'goliath', 'goliaths', '',
-                     [ 'primat' ], [ 'wine' ], None,
+                     [ 'primat' ], [ 'wine' ],
                      '''
 ''' ),
 
     'hogshead' :
         RPNUnitInfo( 'volume', 'hogshead', 'hogsheads', '',
-                     [ ], [ 'traditional', 'wine' ], None,
+                     [ ], [ 'traditional', 'wine' ],
                      '''
 ''' ),
 
     'hoppus_foot' :
         RPNUnitInfo( 'volume', 'hoppus_foot', 'hoppus_feet', '',
-                     [ 'hoppus_cube', 'hoppus_cubes' ], [ 'England', 'obsolete' ], None,
+                     [ 'hoppus_cube', 'hoppus_cubes' ], [ 'England', 'obsolete' ],
                      '''
 The hoppus cubic foot (or 'hoppus cube') was the standard volume measurement
 used for timber in the British Empire and countries in the British sphere of
@@ -3757,7 +3758,7 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 
     'hoppus_ton' :
         RPNUnitInfo( 'volume', 'hoppus_ton', 'hoppus_tons', '',
-                     [ ], [ 'England', 'obsolete' ], None,
+                     [ ], [ 'England', 'obsolete' ],
                      '''
 The hoppus ton (HT) was also a traditionally used unit of volume in British
 forestry. One hoppus ton is equal to 50 hoppus feet or 1.8027 cubic metres.
@@ -3769,301 +3770,301 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 
     'imperial_bushel' :
         RPNUnitInfo( 'volume', 'imperial_bushel', 'imperial_bushels', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'imperial_butt' :
         RPNUnitInfo( 'volume', 'imperial_butt', 'imperial_butts', '',
-                     [ 'imperial_pipe', 'imperial_pipes' ], [ 'imperial' ], None,
+                     [ 'imperial_pipe', 'imperial_pipes' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'imperial_cup' :
         RPNUnitInfo( 'volume', 'imperial_cup', 'imperial_cups', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'imperial_gallon' :
         RPNUnitInfo( 'volume', 'imperial_gallon', 'imperial_gallons', '',
-                     [ 'congius', 'congii' ], [ 'imperial' ], None,
+                     [ 'congius', 'congii' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'imperial_gill' :
         RPNUnitInfo( 'volume', 'imperial_gill', 'imperial_gills', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'imperial_hogshead' :
         RPNUnitInfo( 'volume', 'imperial_hogshead', 'imperial_hogsheads', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'imperial_peck' :
         RPNUnitInfo( 'volume', 'imperial_peck', 'imperial_pecks', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'imperial_pint' :
         RPNUnitInfo( 'volume', 'imperial_pint', 'imperial_pints', '',
-                     [ 'octarius', 'octarii' ], [ 'imperial' ], None,
+                     [ 'octarius', 'octarii' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'imperial_quart' :
         RPNUnitInfo( 'volume', 'imperial_quart', 'imperial_quarts', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'jack' :
         RPNUnitInfo( 'volume', 'jack', 'jacks', '',
-                     [ 'jackpot', 'jackpots' ], [ 'imperial' ], None,
+                     [ 'jackpot', 'jackpots' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'jennie' :
         RPNUnitInfo( 'volume', 'jennie', 'jennies', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'jeroboam' :
         RPNUnitInfo( 'volume', 'jeroboam', 'jeroboams', '',
-                     [ 'double_magnum', 'double_magnums' ], [ 'wine' ], None,
+                     [ 'double_magnum', 'double_magnums' ], [ 'wine' ],
                      '''
 ''' ),
 
     'jigger' :
         RPNUnitInfo( 'volume', 'jigger', 'jiggers', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'kenning' :
         RPNUnitInfo( 'volume', 'kenning', 'kennings', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'kilderkin' :
         RPNUnitInfo( 'volume', 'kilderkin', 'kilderkins', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'liter' :
         RPNUnitInfo( 'volume', 'liter', 'liters', 'L',    # The U.S. standard is to use uppercase "L" because the lower case 'l' looks like a 1
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
 
     'magnum' :
         RPNUnitInfo( 'volume', 'magnum', 'magnums', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'marie_jeanne' :
         RPNUnitInfo( 'volume', 'marie_jeanne', 'marie_jeannes', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'melchior' :
         RPNUnitInfo( 'volume', 'melchior', 'melchiors', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'melchizedek' :
         RPNUnitInfo( 'volume', 'melchizedek', 'melchizedeks', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'meter^3' :
         RPNUnitInfo( 'volume', 'meter^3', 'meter^3', '',
-                     [ ], [ 'SI' ], None,
+                     [ ], [ 'SI' ],
                      '''
 ''' ),
     'methuselah' :
         RPNUnitInfo( 'volume', 'methuselah', 'methuselahs', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'minim' :
         RPNUnitInfo( 'volume', 'minim', 'minims', 'gtt',
-                     [ 'drop' ], [ 'traditional' ], None,
+                     [ 'drop' ], [ 'traditional' ],
                      '''
 ''' ),
 
     'mordechai' :
         RPNUnitInfo( 'volume', 'mordechai', 'mordechais', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'nebuchadnezzar' :
         RPNUnitInfo( 'volume', 'nebuchadnezzar', 'nebuchadnezzars', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'ngogn' :
         RPNUnitInfo( 'volume', 'ngogn', 'ngogns', '',
-                     [ ], [ 'Potrzebie', 'humorous' ], None,
+                     [ ], [ 'Potrzebie', 'humorous' ],
                      '''
 ''' ),
 
     'oil_barrel' :
         RPNUnitInfo( 'volume', 'oil_barrel', 'oil_barrels', 'bbl',
-                     [ ], [ 'US' ], None,
+                     [ ], [ 'US' ],
                      '''
 ''' ),
 
     'peck' :
         RPNUnitInfo( 'volume', 'peck', 'pecks', 'pk',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'piccolo' :
         RPNUnitInfo( 'volume', 'piccolo', 'piccolos', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'pinch' :
         RPNUnitInfo( 'volume', 'pinch', 'pinches', '',
-                     [ ], [ 'traditional', 'cooking' ], None,
+                     [ ], [ 'traditional', 'cooking' ],
                      '''
 ''' ),
 
     'pin' :
         RPNUnitInfo( 'volume', 'pin', 'pins', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'pint' :
         RPNUnitInfo( 'volume', 'pint', 'pints', 'pt',
-                     [ ], [ 'traditional', 'cooking', 'US' ], None,
+                     [ ], [ 'traditional', 'cooking', 'US' ],
                      '''
 ''' ),
 
     'pipe' :
         RPNUnitInfo( 'volume', 'pipe', 'pipes', '',
-                     [ 'butt', 'butts' ], [ 'imperial' ], None,
+                     [ 'butt', 'butts' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'pony' :
         RPNUnitInfo( 'volume', 'pony', 'ponies', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'portuguese_almude' :
         RPNUnitInfo( 'volume', 'portuguese_almude', 'portuguese_almudes', '',
-                     [ ], [ 'Portugal' ], None,
+                     [ ], [ 'Portugal' ],
                      '''
 ''' ),
 
     'pottle' :
         RPNUnitInfo( 'volume', 'pottle', 'pottles', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'puncheon' :
         RPNUnitInfo( 'volume', 'puncheon', 'puncheons', '',
-                     [ 'tertian', 'tertians' ], [ 'wine' ], None,
+                     [ 'tertian', 'tertians' ], [ 'wine' ],
                      '''
 ''' ),
 
     'quart' :
         RPNUnitInfo( 'volume', 'quart', 'quarts', '',
-                     [ ], [ 'US' ], None,
+                     [ ], [ 'US' ],
                      '''
 ''' ),
 
     'rehoboam' :
         RPNUnitInfo( 'volume', 'rehoboam', 'rehoboams', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'rundlet' :
         RPNUnitInfo( 'volume', 'rundlet', 'rundlets', '',
-                     [ ], [ 'imperial', 'wine' ], None,
+                     [ ], [ 'imperial', 'wine' ],
                      '''
 ''' ),
 
     'salmanazar' :
         RPNUnitInfo( 'volume', 'salmanazar', 'salmanazars', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'saltspoon' :
         RPNUnitInfo( 'volume', 'saltspoon', 'saltspoons', '',
-                     [ ], [ 'traditional', 'cooking' ], None,
+                     [ ], [ 'traditional', 'cooking' ],
                      '''
 ''' ),
 
     'scruple' :
         RPNUnitInfo( 'volume', 'scruple', 'scruples', '',
-                     [ 'fluid_scruple', 'fluid_scruples' ], [ 'traditional' ], None,
+                     [ 'fluid_scruple', 'fluid_scruples' ], [ 'traditional' ],
                      '''
 ''' ),
 
     'smidgen' :
         RPNUnitInfo( 'volume', 'smidgen', 'smidgens', '',
-                     [ 'smidgeon', 'smidgeons' ], [ 'traditional', 'cooking' ], None,
+                     [ 'smidgeon', 'smidgeons' ], [ 'traditional', 'cooking' ],
                      '''
 ''' ),
 
     'snit' :
         RPNUnitInfo( 'volume', 'snit', 'snits', '',
-                     [ ], [ 'U.S.' ], None,
+                     [ ], [ 'U.S.' ],
                      '''
 http://www.unc.edu/~rowlett/units/dictS.html
 ''' ),
 
     'spanish_almude' :
         RPNUnitInfo( 'volume', 'spanish_almude', 'spanish_almudes', '',
-                     [ ], [ 'Spain' ], None,
+                     [ ], [ 'Spain' ],
                      '''
 ''' ),
 
     'solomon' :
         RPNUnitInfo( 'volume', 'solomon', 'solomons', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'sovereign' :
         RPNUnitInfo( 'volume', 'sovereign', 'sovereigns', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'standard' :
         RPNUnitInfo( 'volume', 'standard', 'standards', '',
-                     [ ], [ 'wine' ], None,
+                     [ ], [ 'wine' ],
                      '''
 ''' ),
 
     'stein' :
         RPNUnitInfo( 'volume', 'stein', 'steins', '',
-                     [ ], [ 'Germany' ], None,
+                     [ ], [ 'Germany' ],
                      '''
 A stein is a German beer mug.  Steins come in various sizes, but the most
 common size seems to be 1/2 liter (1.057 U.S pint or 0.880 British Imperial
@@ -4080,13 +4081,13 @@ http://www.unc.edu/~rowlett/units/dictS.html
 
     'strike' :
         RPNUnitInfo( 'volume', 'strike', 'strikes', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'sydharb' :
         RPNUnitInfo( 'volume', 'sydharb', 'sydharbs', '',
-                     [ ], [ 'informal' ], None,
+                     [ ], [ 'informal' ],
                      '''
 The approximate volume of the Syndey Harbor at high tide, considered to be
 equal to 562,000 megaliters.
@@ -4094,67 +4095,67 @@ equal to 562,000 megaliters.
 
     'tablespoon' :
         RPNUnitInfo( 'volume', 'tablespoon', 'tablespoons', 'tbsp',
-                     [ ], [ 'traditional', 'cooking' ], None,
+                     [ ], [ 'traditional', 'cooking' ],
                      '''
 ''' ),
 
     'teaspoon' :
         RPNUnitInfo( 'volume', 'teaspoon', 'teaspoons', 'tsp',
-                     [ ], [ 'traditional', 'cooking' ], None,
+                     [ ], [ 'traditional', 'cooking' ],
                      '''
 ''' ),
 
     'tierce' :
         RPNUnitInfo( 'volume', 'tierce', 'tierces', '',
-                     [ ], [ 'wine', 'imperial' ], None,
+                     [ ], [ 'wine', 'imperial' ],
                      '''
 ''' ),
 
     'tun' :
         RPNUnitInfo( 'volume', 'tun', 'tuns', '',
-                     [ ], [ 'imperial' ], None,
+                     [ ], [ 'imperial' ],
                      '''
 ''' ),
 
     'wineglass' :
         RPNUnitInfo( 'volume', 'wineglass', 'wineglasses', '',
-                     [ 'wine_glass', 'wine_glasses' ], [ 'imperial', 'wine' ], None,
+                     [ 'wine_glass', 'wine_glasses' ], [ 'imperial', 'wine' ],
                      '''
 ''' ),
 
     'wine_barrel' :
         RPNUnitInfo( 'volume', 'wine_barrel', 'wine_barrels', '',
-                     [ ], [ 'imperial', 'wine' ], None,
+                     [ ], [ 'imperial', 'wine' ],
                      '''
 ''' ),
 
     'wine_butt' :
         RPNUnitInfo( 'volume', 'wine_butt', 'wine_butts', '',
-                     [ ], [ 'imperial', 'wine' ], None,
+                     [ ], [ 'imperial', 'wine' ],
                      '''
 ''' ),
 
     'wine_gallon' :
         RPNUnitInfo( 'volume', 'wine_gallon', 'wine_gallons', '',
-                     [ ], [ 'imperial', 'wine' ], None,
+                     [ ], [ 'imperial', 'wine' ],
                      '''
 ''' ),
 
     'wine_hogshead' :
         RPNUnitInfo( 'volume', 'wine_hogshead', 'wine_hogsheads', '',
-                     [ ], [ 'imperial', 'wine' ], None,
+                     [ ], [ 'imperial', 'wine' ],
                      '''
 ''' ),
 
     'wine_pipe' :
         RPNUnitInfo( 'volume', 'wine_pipe', 'wine_pipes', '',
-                     [ 'wine_butt', 'wine_butts' ], [ 'imperial' ], None,
+                     [ 'wine_butt', 'wine_butts' ], [ 'imperial' ],
                      '''
 ''' ),
 
     'wine_tun' :
         RPNUnitInfo( 'volume', 'wine_tun', 'wine_tuns', '',
-                     [ ], [ 'imperial', 'wine' ], None,
+                     [ ], [ 'imperial', 'wine' ],
                      '''
 ''' ),
 }
@@ -4618,7 +4619,6 @@ unitConversionMatrix = {
     ( 'minute',                     'second' )                              : mpmathify( '60' ),
     ( 'mmHg',                       'pascal' )                              : mpmathify( '133.3224' ),        # approx.
     ( 'month',                      'day' )                                 : mpmathify( '30' ),
-    ( 'moon_gravity',               'meter/second^2' )                      : mpmathify( '1.62' ),
     ( 'mordechai',                  'liter' )                               : mpmathify( '9.0' ),
     ( 'morgen',                     'are' )                                 : mpmathify( '85.6532' ),
     ( 'nail',                       'inch' )                                : mpmathify( '2.25' ),

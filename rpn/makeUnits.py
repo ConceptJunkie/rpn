@@ -181,11 +181,11 @@ def expandMetricUnits( ):
                 if metricUnit[ 2 ]:
                     unitOperators[ newName ] = \
                         RPNUnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
-                                     prefix[ 1 ] + metricUnit[ 2 ], [ ], None, [ 'SI' ], True )
+                                     prefix[ 1 ] + metricUnit[ 2 ], [ ], [ 'SI' ], True )
                 else:
                     unitOperators[ newName ] = \
                         RPNUnitInfo( unitOperators[ metricUnit[ 0 ] ].unitType, newName, newPlural,
-                                     '', [ ], None, [ 'SI' ], True )
+                                     '', [ ], [ 'SI' ], True )
 
 
                 newConversion = power( 10, mpmathify( prefix[ 2 ] ) )
@@ -254,7 +254,7 @@ def expandDataUnits( ):
             # constuct unit operator info
             unitOperators[ newName ] = \
                 RPNUnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
-                             prefix[ 1 ] + dataUnit[ 2 ], [ ], None,
+                             prefix[ 1 ] + dataUnit[ 2 ], [ ],
                              unitOperators[ dataUnit[ 0 ] ].categories, True )
 
             # create new conversions
@@ -270,7 +270,7 @@ def expandDataUnits( ):
             # constuct unit operator info
             unitOperators[ newName ] = \
                 RPNUnitInfo( unitOperators[ dataUnit[ 0 ] ].unitType, newName, newPlural,
-                             prefix[ 1 ] + dataUnit[ 2 ], [ ], None,
+                             prefix[ 1 ] + dataUnit[ 2 ], [ ],
                              unitOperators[ dataUnit[ 0 ] ].categories, True )
 
             # create new conversions
@@ -304,7 +304,7 @@ def makeAreaOperator( unit, unitPlural ):
         newAliases[ 'sq_' + unitInfo.abbrev ] = newUnit
 
     newUnitInfo = RPNUnitInfo( 'area', unit + '^2', 'square_' + unitPlural, abbrev,
-                               [ ], None, unitInfo.categories, True )
+                               [ ], unitInfo.categories, True )
 
     newAliases[ 'square_' + unitInfo.plural ] = newUnit
     newAliases[ 'square_' + unitInfo.abbrev ] = newUnit
@@ -338,7 +338,7 @@ def makeVolumeOperator( unit, unitPlural ):
         newAliases[ 'cu_' + unitInfo.abbrev ] = newUnit
 
     newUnitInfo = RPNUnitInfo( 'volume', unit + '^3', 'cubic_' + unitPlural, abbrev,
-                               [ ], None, unitInfo.categories, True )
+                               [ ], unitInfo.categories, True )
 
     newAliases[ 'cubic_' + unitInfo.plural ] = newUnit
     newAliases[ 'cubic_' + unitInfo.abbrev ] = newUnit
@@ -439,7 +439,7 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
 
                 newUnitOperators[ newUnit ] = \
                     RPNUnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural,
-                                 '', [ ], None, unitInfo.categories, True )
+                                 '', [ ], unitInfo.categories, True )
 
                 conversion = mpmathify( timeUnit[ 3 ] )
                 unitConversionMatrix[ ( newUnit, unit ) ] = conversion
@@ -478,7 +478,7 @@ def expandCompoundTimeUnits( unitConversionMatrix, unitOperators, newAliases ):
 
                 newUnitOperators[ newUnit ] = \
                     RPNUnitInfo( unitInfo.unitType, unitRoot + '*' + timeUnit[ 0 ], newPlural,
-                                 '', [ ], None, unitInfo.categories, True )
+                                 '', [ ], unitInfo.categories, True )
 
                 conversion = mpmathify( timeUnit[ 3 ] )
                 unitConversionMatrix[ ( newUnit, unit ) ] = fdiv( 1, conversion )
@@ -638,6 +638,12 @@ def initializeConversionMatrix( unitConversionMatrix ):
         pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( basicUnitTypes, pickleFile )
         pickle.dump( unitOperators, pickleFile )
+
+    fileName = getDataPath( ) + os.sep + 'constants.pckl.bz2'
+
+    with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
+        pickle.dump( PROGRAM_VERSION, pickleFile )
+        pickle.dump( constantOperators, pickleFile )
 
     fileName = getDataPath( ) + os.sep + 'unit_conversions.pckl.bz2'
 
