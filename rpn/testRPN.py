@@ -26,7 +26,7 @@ from rpn.rpnOperators import constants
 from rpn.rpnMeasurement import RPNMeasurement
 from rpn.rpnPersistence import loadUnitNameData
 from rpn.rpnTestUtils import *
-from rpn.rpnUtils import getDataPath
+from rpn.rpnUtils import getDataPath, loadAstronomyData
 from rpn.rpnVersion import PROGRAM_VERSION_STRING, COPYRIGHT_MESSAGE
 from rpn.testConvert import *
 from rpn.testHelp import *
@@ -737,6 +737,11 @@ def runArithmeticOperatorTests( ):
 # //******************************************************************************
 
 def runAstronomyOperatorTests( ):
+    loadAstronomyData( )
+
+    if not g.astroDataAvailable:
+        return
+
     # angular_separation
     testOperator( 'sun moon "Corolla, NC" "2017-08-21 14:50" angular_separation dms' )
 
@@ -2455,7 +2460,7 @@ def runGeometryOperatorTests( ):
     # dodecahedron_area
     testOperator( '1 dodecahedron_area' )
 
-    expectEqual( '-a125 1 dodecahedron_area value 10 121 ** * get_digits 120 left', '131595 oeis 121 left' )
+    expectEqual( '-a125 1 dodecahedron_area value 10 121 ** * get_digits 120 left', '131595 oeis 120 left' )
 
     # dodecahedron_volume
     testOperator( '1 dodecahedron_volume' )
@@ -4865,6 +4870,10 @@ def main( ):
         exit( )
 
     runTests( sys.argv[ 1 : ] )
+
+    if ( not g.astroDataAvailable ):
+        print( 'Astronomy tests were skipped because data could not be downloaded.' )
+        print( )
 
     print( 'Tests complete.  Time elapsed:  {:.3f} seconds'.format( time.process_time( ) - startTime ) )
 

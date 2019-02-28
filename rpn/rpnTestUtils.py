@@ -70,6 +70,12 @@ def compareResults( result1, result2 ):
                 print( result1[ i ], result2[ i ], 'are not equal' )
                 print( 'difference', fsub( result1[ i ], result2[ i ] ) )
                 print( 'difference found at index', i )
+
+                print( )
+                for i in range( len( result1 ) ):
+                    print( i, result1[ i ], result2[ i ] )
+                print( )
+
                 raise ValueError( 'unit test failed' )
     elif not compareValues( result1, result2 ):
         print( '**** error in results comparison' )

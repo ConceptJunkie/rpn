@@ -477,7 +477,9 @@ def getNthSchroederHipparchusNumber( n ):
 def getNthMenageNumber( n ):
     if n < 0:
         raise ValueError( '\'menage\' requires a non-negative argument' )
-    elif n in [ 1, 2 ]:
+    elif n == 1:
+        return -1
+    elif n == 2:
         return 0
     elif n in [ 0, 3 ]:
         return 1

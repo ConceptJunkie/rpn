@@ -40,6 +40,9 @@ def getSeason( n, season ):
     from skyfield import almanac
     loadAstronomyData( )
 
+    if not g.astroDataAvailable:
+        raise ValueError( "Astronomy functions are unavailable." )
+
     t, y = almanac.find_discrete( g.timescale.utc( real_int( n ), 1, 1 ),
                                   g.timescale.utc( n, 12, 31 ), almanac.seasons( g.ephemeris ) )
     result = RPNDateTime.parseDateTime( t[ season ].utc_datetime( ) )

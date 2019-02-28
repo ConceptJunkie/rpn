@@ -32,5 +32,8 @@ include rpn\rpndata\units.pckl.bz2
 include rpn\rpndata\unit_conversions.pckl.bz2
 include rpn\rpndata\unit_help.pckl.bz2
 include rpn\rpndata\unit_names.pckl.bz2
+include rpn\rpndata\deltat.data
+include rpn\rpndata\deltat.preds
+include rpn\rpndata\Leap_Second.dat
 include rpn\test*.py
 include setup.py

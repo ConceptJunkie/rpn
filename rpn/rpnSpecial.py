@@ -211,7 +211,6 @@ def downloadOEISOffset( n ):
 # //******************************************************************************
 
 @oneArgFunctionEvaluator( )
-@cachedFunction( 'oeis_table', overrideIgnore=True )
 def downloadOEISTable( id ):
     if six.PY3:
         import urllib.request as urllib2

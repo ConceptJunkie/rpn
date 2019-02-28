@@ -695,6 +695,7 @@ def timeout( seconds, error_message = 'Function call timed out' ):
         def wrapper( *args, **kwargs ):
             signal.signal( signal.SIGALRM, _handle_timeout )
             signal.alarm( seconds )
+
             try:
                 result = func( *args, **kwargs )
             finally:
@@ -723,10 +724,21 @@ def loadAstronomyData( ):
     from skyfield import api
 
     g.timescale = load.timescale( )
-    g.planets = load_file( getUserDataPath( ) + os.sep + 'de405.bsp' )
-    g.ephemeris = load_file( getUserDataPath( ) + os.sep + 'de421.bsp' )
+
+    try:
+        print( "Downloading skyfield planetary data files...", file=sys.stderr )
+        g.planets = load( 'de405.bsp' )
+
+        print( "Downloading skyfield ephemeris data files...", file=sys.stderr )
+        g.ephemeris = load( 'de421.bsp' )
+    except:
+        print( "Downloading the astronomy data failed.  Some astronomical functions will not be available.", file=sys.stderr )
+        g.astroDataLoaded = True
+        g.astroDataAvailable = False
+        return
 
     g.astroDataLoaded = True
+    g.astroDataAvailable = True
 
     return True
 

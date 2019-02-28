@@ -140,6 +140,38 @@ class RPNDateTime( arrow.Arrow ):
     def getNow( ):
         return RPNDateTime.convertFromArrow( arrow.now( ) )
 
+    def compare( self, value ):
+        if self.year > value.year:
+            return 1
+        elif self.year < value.year:
+            return -1
+        elif self.month > value.month:
+            return 1
+        elif self.month > value.month:
+            return -1
+        elif self.day > value.day:
+            return 1
+        elif self.day > value.day:
+            return -1
+        elif self.hour > value.hour:
+            return 1
+        elif self.hour > value.hour:
+            return -1
+        elif self.minute > value.minute:
+            return 1
+        elif self.minute > value.minute:
+            return -1
+        elif self.second > value.second:
+            return 1
+        elif self.second > value.second:
+            return -1
+        elif self.microsecond > value.microsecond:
+            return 1
+        elif self.microsecond > value.microsecond:
+            return -1
+        else:
+             return 0
+
     def incrementMonths( self, months ):
         newDay = self.day
         newMonth = self.month + int( months )
@@ -194,7 +226,6 @@ class RPNDateTime( arrow.Arrow ):
         if isinstance( time, RPNMeasurement ):
             kneg = RPNMeasurement( fneg( time.getValue( ) ), time.getUnits( ) )
             return self.add( kneg )
-
         elif isinstance( time, RPNDateTime ):
             if self > time:
                 delta = self - time
@@ -216,6 +247,27 @@ class RPNDateTime( arrow.Arrow ):
             return result
         else:
             raise ValueError( 'incompatible type for subtracting from an absolute time' )
+
+    def __gt__( self, value ):
+        return ( self.compare( value ) > 0 )
+
+    def __lt__( self, value ):
+        return ( self.compare( value ) < 0 )
+
+    def __eq__( self, value ):
+        return ( self.compare( value ) == 0 )
+
+    def __ge__( self, value ):
+        return ( self.compare( value ) >= 0 )
+
+    def __le__( self, value ):
+        return ( self.compare( value ) <= 0 )
+
+    def _isdst( dt ):
+        try:
+            return super( RPNDateTime, self )._isdst( dt )
+        except:
+            return False
 
 
 # //******************************************************************************
@@ -251,7 +303,7 @@ def convertFromUnixTime( n ):
     except OverflowError:
         print( 'rpn:  out of range error for \'from_unix_time\'' )
         return nan
-    except TypeErrorme:
+    except TypeError:
         print( 'rpn:  expected time value for \'from_unix_time\'' )
         return nan
 
