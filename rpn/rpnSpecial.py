@@ -220,6 +220,7 @@ def downloadOEISTable( id ):
     try:
         data = urllib2.urlopen( 'http://oeis.org/A{:06}/b{:06}.txt'.format( int( id ), int( id ) ) ).read( )
     except:
+        print( 'HTTP access to oeis.org failed', file=sys.stderr )
         return [ ], False
 
     import re as regex

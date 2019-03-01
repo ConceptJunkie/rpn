@@ -1062,7 +1062,10 @@ Added 'aliquot_limit' operator.
 Added support for user configuration:  'set_config', 'get_config',
 'delete_config' and 'dump_config'.
 
-Added the 'mothers_day' and 'fathers_day' operators.
+Added the 'mothers_day', 'fathers_day' and 'advent' operators.
+
+Added the 'molar_gas_constant', 'aliquot_limit' and 'distance' operators
+(the old 'distance' operator is now called 'geo_distance').
 
 Added unit tests for converting units, and made a few fixes accordingly.
 
@@ -1074,6 +1077,11 @@ physics operator and the geography operator is now named 'geo_distance'.
 The 'acceleration' operator has been implemented.
 
 The derived Planck units are now calculated, instead of hard-coded.
+
+Block Hole operators:  'black_hole_entropy', 'black_hole_lifetime',
+'black_hole_luminosity', 'black_hole_mass', 'black_hole_radius' (was
+'schwarzchild_radius'), 'black_hole_surface_area',
+'black_hole_surface_gravity', 'black_hole_temperature'
 
 ...and the usual bug fixes.
 
