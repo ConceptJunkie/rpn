@@ -726,10 +726,7 @@ def loadAstronomyData( ):
     g.timescale = load.timescale( )
 
     try:
-        print( "Downloading skyfield planetary data files...", file=sys.stderr )
         g.planets = load( 'de405.bsp' )
-
-        print( "Downloading skyfield ephemeris data files...", file=sys.stderr )
         g.ephemeris = load( 'de421.bsp' )
     except:
         print( "Downloading the astronomy data failed.  Some astronomical functions will not be available.", file=sys.stderr )
