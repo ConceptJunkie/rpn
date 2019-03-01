@@ -1,12 +1,8 @@
 include buildRPN.bat
 include gpl-3.0.txt
 include requirements.txt
-include rpn\baillie_psw.py
-include rpn\jacobi_symbol.py
-include rpn\lucas_pp.py
 include rpn\makeHelp.py
 include rpn\makeUnits.py
-include rpn\miller_rabin.py
 include rpn\preparePrimeData.py
 include rpn\rpn*.py
 include rpn\rpndata\balanced_primes.cache
