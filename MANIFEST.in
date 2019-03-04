@@ -8,7 +8,6 @@ include rpn\rpn*.py
 include rpn\rpndata\balanced_primes.cache
 include rpn\rpndata\cousin_primes.cache
 include rpn\rpndata\double_balanced_primes.cache
-include rpn\rpndata\help.pckl.bz2
 include rpn\rpndata\huge_primes.cache
 include rpn\rpndata\isolated_primes.cache
 include rpn\rpndata\large_primes.cache
@@ -24,12 +23,13 @@ include rpn\rpndata\super_primes.cache
 include rpn\rpndata\triplet_primes.cache
 include rpn\rpndata\triple_balanced_primes.cache
 include rpn\rpndata\twin_primes.cache
-include rpn\rpndata\units.pckl.bz2
-include rpn\rpndata\unit_conversions.pckl.bz2
-include rpn\rpndata\unit_help.pckl.bz2
-include rpn\rpndata\unit_names.pckl.bz2
 include rpn\rpndata\deltat.data
 include rpn\rpndata\deltat.preds
 include rpn\rpndata\Leap_Second.dat
+include rpn\rpndata\help.pckl.bz2
+include rpn\rpndata\unit_conversions.pckl.bz2
+include rpn\rpndata\unit_help.pckl.bz2
+include rpn\rpndata\unit_names.pckl.bz2
+include rpn\rpndata\units.pckl.bz2
 include rpn\test*.py
 include setup.py

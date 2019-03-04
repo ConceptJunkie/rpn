@@ -197,7 +197,7 @@ operatorAliases = {
     'carol'                         : 'nth_carol',
     'catalan'                       : 'catalan_constant',
     'cbrt'                          : 'cube_root',
-    'cc'                            : 'cubic_centimeter',
+    'cc'                            : 'centimeter^3',
     'ccube'                         : 'centered_cube',
     'ccubic'                        : 'centered_cube',
     'cdec'                          : 'centered_decagonal',

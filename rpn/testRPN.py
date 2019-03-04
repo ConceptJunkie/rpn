@@ -2480,26 +2480,26 @@ def runGeometryOperatorTests( ):
 
     expectEqual( '-a1001 1 icosahedron_volume value 10 1001 ** * get_digits 1000 left', '102208 oeis 1000 left' )
 
-    # n_sphere_area
-    testOperator( '34 inches 8 n_sphere_area' )
-    testOperator( '34 inches 4 ** 5 n_sphere_area' )
-    testOperator( '34 inches 7 ** 7 n_sphere_area' )
+    # k_sphere_area
+    testOperator( '34 inches 8 k_sphere_area' )
+    testOperator( '34 inches 4 ** 5 k_sphere_area' )
+    testOperator( '34 inches 7 ** 7 k_sphere_area' )
 
-    expectException( '34 cubic_inches 2 n_sphere_area' )
+    expectException( '34 cubic_inches 2 k_sphere_area' )
 
-    # n_sphere_radius
-    testOperator( '3 meters 4 n_sphere_radius' )
-    testOperator( '3 meters 3 ** 4 n_sphere_radius' )
-    testOperator( '3 cubic_meters 4 n_sphere_radius' )
+    # k_sphere_radius
+    testOperator( '3 meters 4 k_sphere_radius' )
+    testOperator( '3 meters 3 ** 4 k_sphere_radius' )
+    testOperator( '3 cubic_meters 4 k_sphere_radius' )
 
-    expectException( '3 cubic_meters 2 n_sphere_radius' )
+    expectException( '3 cubic_meters 2 k_sphere_radius' )
 
-    # n_sphere_volume
-    testOperator( '6 inches 8 ** 9 n_sphere_volume' )
-    testOperator( '3 feet 5 ** 6 n_sphere_volume' )
-    testOperator( '50 cubic_centimeters sqr 7 n_sphere_volume' )
+    # k_sphere_volume
+    testOperator( '6 inches 8 ** 9 k_sphere_volume' )
+    testOperator( '3 feet 5 ** 6 k_sphere_volume' )
+    testOperator( '50 cubic_centimeters sqr 7 k_sphere_volume' )
 
-    expectException( '50 cubic_centimeters 1 n_sphere_volume' )
+    expectException( '50 cubic_centimeters 1 k_sphere_volume' )
 
     # octahedron_area
     testOperator( '1 octahedron_area' )
@@ -2795,6 +2795,9 @@ def runLexicographyOperatorTests( ):
     # permute_digits
     testOperator( '12345 permute_digits' )
 
+    expectEqual( '12345 permute_digits', '30299 oeis 153 left 120 right' )
+    expectEqual( '123456 permute_digits', '30299 oeis 873 left 720 right' )
+    expectEqual( '1234567 permute_digits', '30299 oeis 5913 left 5040 right' )
     expectEqual( '123456789 permute_digits 18 left', '50289 oeis 18 left' )
 
     # persistence

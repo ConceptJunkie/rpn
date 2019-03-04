@@ -68,6 +68,7 @@ Note, Windows users will want the Windows-specific wheels for pyephem and
 gmpy2:
 
 https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyephem
+
 https://www.lfd.uci.edu/~gohlke/pythonlibs/#gmpy
 
 rpnChilada can be launched with 'rpnChilada' or 'rpn' in the Python Scripts/
@@ -88,8 +89,7 @@ access.
     include_package_data = True,
 
     classifiers = [
-        'Development Status :: 4 - Beta',
-        #'Development Status :: 5 - Production/Stable',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: End Users/Desktop',
         'Natural Language :: English',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',

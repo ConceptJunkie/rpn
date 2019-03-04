@@ -1048,6 +1048,15 @@ release notes, so there are a ton of new features not mentioned here.
     '''
 For notes about earlier versions, use 'help old_release_notes'.
 
+7.2.1
+
+Unit conversion is now a lot smarter because the automatically-generated area
+and volume units are generated more intelligently.  This means expressions
+using the "square" and "cubic" units will convert automatically and you won't
+end up with something like "foot^2/square_mile".
+
+...and yes, a few bug fixes.
+
 7.2.0
 
 Added 'random_element' operator.

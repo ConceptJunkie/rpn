@@ -17,7 +17,7 @@ from mpmath import chop, extradps, fadd, fdiv, floor, fmul, frac, fsub, log10, \
 
 from rpn.rpnGenerator import RPNGenerator
 from rpn.rpnPersistence import loadUnitData, loadUnitConversionMatrix
-from rpn.rpnUnitClasses import RPNUnits
+from rpn.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator
 
 import rpn.rpnGlobals as g
@@ -113,59 +113,6 @@ specialUnitConversionMatrix = {
     ( 'dBm', 'watt' )                           : lambda dBm: power( 10, fdiv( fsub( dBm, 30 ), 10 ) ),
     ( 'watt', 'dBm' )                           : lambda W: fmul( log10( fmul( W, 1000 ) ), 10 ),
 }
-
-
-# //******************************************************************************
-# //
-# //  combineUnits
-# //
-# //  Combine units2 into units1
-# //
-# //******************************************************************************
-
-def combineUnits( units1, units2 ):
-    if not g.unitConversionMatrix:
-        loadUnitConversionMatrix( )
-
-    newUnits = RPNUnits( units1 )
-
-    factor = mpmathify( 1 )
-
-    for unit2 in units2:
-        if unit2 in newUnits:
-            newUnits[ unit2 ] += units2[ unit2 ]
-        else:
-            for unit1 in units1:
-                if unit1 == unit2:
-                    newUnits[ unit2 ] += units2[ unit2 ]
-                    break
-                elif getUnitType( unit1 ) == getUnitType( unit2 ):
-                    factor = fdiv( factor, pow( mpmathify( g.unitConversionMatrix[ ( unit1, unit2 ) ] ), units2[ unit2 ] ) )
-                    newUnits[ unit1 ] += units2[ unit2 ]
-                    break
-            else:
-                newUnits[ unit2 ] = units2[ unit2 ]
-
-    return factor, newUnits
-
-
-# //******************************************************************************
-# //
-# //  getUnitType
-# //
-# //******************************************************************************
-
-def getUnitType( unit ):
-    if unit in g.basicUnitTypes:
-        return unit
-
-    if unit in g.operatorAliases:
-        unit = g.operatorAliases[ unit ]
-
-    if unit in g.unitOperators:
-        return g.unitOperators[ unit ].unitType
-    else:
-        raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
 
 # //******************************************************************************
@@ -311,7 +258,7 @@ class RPNMeasurement( object ):
         if isinstance( other, RPNMeasurement ):
             newValue = fmul( self.value, other.value )
 
-            factor, newUnits = combineUnits( self.getUnits( ), other.getUnits( ) )
+            factor, newUnits = self.getUnits( ).combineUnits( other.getUnits( ) )
 
             self = RPNMeasurement( fmul( newValue, factor ), newUnits )
         else:
@@ -326,7 +273,7 @@ class RPNMeasurement( object ):
         if isinstance( other, RPNMeasurement ):
             newValue = fdiv( self.value, other.value )
 
-            factor, newUnits = combineUnits( self.getUnits( ), other.getUnits( ).inverted( ) )
+            factor, newUnits = self.getUnits( ).combineUnits( other.getUnits( ).inverted( ) )
 
             self = RPNMeasurement( fmul( newValue, factor ), newUnits )
         else:

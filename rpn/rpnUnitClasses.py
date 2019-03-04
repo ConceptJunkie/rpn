@@ -14,9 +14,30 @@
 
 import collections
 
-from mpmath import floor
+from mpmath import fdiv, floor, mpmathify
+
+from rpn.rpnPersistence import loadUnitConversionMatrix
 
 import rpn.rpnGlobals as g
+
+
+# //******************************************************************************
+# //
+# //  getUnitType
+# //
+# //******************************************************************************
+
+def getUnitType( unit ):
+    if unit in g.basicUnitTypes:
+        return unit
+
+    if unit in g.operatorAliases:
+        unit = g.operatorAliases[ unit ]
+
+    if unit in g.unitOperators:
+        return g.unitOperators[ unit ].unitType
+    else:
+        raise ValueError( 'undefined unit type \'{}\''.format( unit ) )
 
 
 # //******************************************************************************
@@ -87,6 +108,42 @@ class RPNUnits( collections.Counter ):
         result.invert( )
         return result
 
+    def combineUnits( self, units ):
+        #print( 'units1', self )
+        #print( 'units2', units )
+
+        #print( 'units1.getDimensions( )', self.getDimensions( ) )
+        #print( 'units2.getDimensions( )', units.getDimensions( ) )
+
+        #dimensions = self.getDimensions( )
+        #dimensions.update( units.getDimensions( ) )
+        #print( 'Dimensions( )', dimensions )
+
+        if not g.unitConversionMatrix:
+            loadUnitConversionMatrix( )
+
+        newUnits = RPNUnits( self )
+
+        factor = mpmathify( 1 )
+
+        for unit2 in units:
+            if unit2 in newUnits:
+                newUnits[ unit2 ] += units[ unit2 ]
+            else:
+                for unit1 in self:
+                    if unit1 == unit2:
+                        newUnits[ unit2 ] += units[ unit2 ]
+                        break
+                    elif getUnitType( unit1 ) == getUnitType( unit2 ):
+                        factor = fdiv( factor, pow( mpmathify( g.unitConversionMatrix[ ( unit1, unit2 ) ] ), units[ unit2 ] ) )
+                        newUnits[ unit1 ] += units[ unit2 ]
+                        break
+                else:
+                    newUnits[ unit2 ] = units[ unit2 ]
+
+        #print( 'newUnits', newUnits )
+        return factor, newUnits
+
     def getUnitTypes( self ):
         types = RPNUnits( )
 
@@ -128,11 +185,6 @@ class RPNUnits( collections.Counter ):
                 del result[ unit ]
             elif unit == '1':
                 del result[ unit ]
-
-        return result
-
-    def simplifyDimensions( self ):
-        result = RPNUnits( )
 
         return result
 

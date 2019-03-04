@@ -477,6 +477,12 @@ arithmetic sometime around 1980.
                      '''
 ''' ),
 
+    'foot^2' :
+        RPNUnitInfo( 'area', 'foot^2', 'foot^2', '',
+                     [ 'sqft', 'sq_ft', 'square_ft', 'square_foot', 'square_feet', 'sq_foot', 'sq_feet', 'sqfoot', 'sqfeet' ], [ 'imperial' ],
+                     '''
+''' ),
+
     'homestead' :
         RPNUnitInfo( 'area', 'homestead', 'homesteads', '',
                      [ ], [ 'US' ],
@@ -491,7 +497,7 @@ arithmetic sometime around 1980.
 
     'meter^2' :
         RPNUnitInfo( 'area', 'meter^2', 'meter^2', '',
-                     [ ], [ 'SI' ],
+                     [ 'sqm', 'sq_m', 'square_m', 'square_meter', 'square_meters', 'sq_meter', 'sq_meters', 'sqmeter', 'sqmeters' ], [ 'SI' ],
                      '''
 ''' ),
 
@@ -531,24 +537,6 @@ arithmetic sometime around 1980.
                      '''
 ''' ),
 
-    'square_foot' :
-        RPNUnitInfo( 'area', 'square_foot', 'square_feet', '',
-                     [ 'sqft', 'sq_ft', 'sq_foot', 'sq_feet', 'square_ft' ], [ 'imperial' ],
-                     '''
-''' ),
-
-    'square_meter' :
-        RPNUnitInfo( 'area', 'square_meter', 'square_meters', '',
-                     [ 'sqm', 'sq_m', 'sq_meter', 'sq_meters', 'square_m' ], [ 'SI' ],
-                     '''
-''' ),
-
-    'square_yard' :
-        RPNUnitInfo( 'area', 'square_yard', 'square_yards', '',
-                     [ 'sqyd', 'sq_yd', 'sq_yard', 'sq_yards', 'square_yd' ], [ 'imperial' ],
-                     '''
-''' ),
-
     'township' :
         RPNUnitInfo( 'area', 'township', 'townships', '',
                      [ ], [ 'US' ],
@@ -564,7 +552,7 @@ arithmetic sometime around 1980.
     # capacitance
 
     '1/hertz*ohm' :
-        RPNUnitInfo( 'capacitance', '1/ohm*hertz', '1/ohm*hertz', '',
+        RPNUnitInfo( 'capacitance', '1/hertz*ohm', '1/hertz*ohm', '',
                      [ ], [ 'SI' ],
                      '''
 ''' ),
@@ -3601,21 +3589,9 @@ https://en.wikipedia.org/wiki/Bubnoff_unit
                      '''
 ''' ),
 
-    'cubic_inch' :
-        RPNUnitInfo( 'volume', 'cubic_inch', 'cubic_inches', '',
-                     [ 'cuin', 'cu_in', 'cu_inch', 'cu_inches', 'cubic_in' ], [ 'traditional' ],
-                     '''
-''' ),
-
-    'cubic_foot' :
-        RPNUnitInfo( 'volume', 'cubic_foot', 'cubic_feet', '',
-                     [ 'cuft', 'cu_ft', 'cu_foot', 'cu_feet', 'cubic_ft' ], [ 'traditional', 'FPS' ],
-                     '''
-''' ),
-
-    'cubic_meter' :
-        RPNUnitInfo( 'volume', 'cubic_meter', 'cubic_meters', '',
-                     [ 'cum', 'cu_m', 'cu_meter', 'cu_meters', 'cubic_m' ], [ 'SI' ],
+    'foot^3' :
+        RPNUnitInfo( 'volume', 'foot^3', 'foot^3', '',
+                     [ 'cuft', 'cu_ft', 'cubic_ft', 'cubic_foot', 'cubic_feet', 'cu_foot', 'cu_feet', 'cufoot', 'cufeet'  ], [ 'traditional', 'FPS' ],
                      '''
 ''' ),
 
@@ -3890,9 +3866,10 @@ Ref:  https://en.wikipedia.org/wiki/Hoppus
 
     'meter^3' :
         RPNUnitInfo( 'volume', 'meter^3', 'meter^3', '',
-                     [ ], [ 'SI' ],
+                     [ 'cum', 'cu_m', 'cubic_m', 'cubic_meter', 'cubic_meters', 'cu_meter', 'cu_meters', 'cumeter', 'cumeters' ], [ 'SI' ],
                      '''
 ''' ),
+
     'methuselah' :
         RPNUnitInfo( 'volume', 'methuselah', 'methuselahs', '',
                      [ ], [ 'wine' ],
@@ -4350,8 +4327,8 @@ unitConversionMatrix = {
     ( 'abfarad',                    'farad' )                               : mpmathify( '1.0e9' ),
     ( 'abmho',                      'siemens' )                             : mpmathify( '1.0e9' ),
     ( 'acre',                       'nanoacre' )                            : mpmathify( '1.0e9' ),
-    ( 'acre',                       'square_yard' )                         : mpmathify( '4840' ),
-    ( 'acre*foot',                  'cubic_foot' )                          : mpmathify( '43560' ),
+    ( 'acre',                       'foot^2' )                              : mpmathify( '43560' ),
+    ( 'acre*foot',                  'foot^3' )                              : mpmathify( '43560' ),
     ( 'aln',                        'inch' )                                : mpmathify( '23.377077865' ),
     ( 'ampere',                     'coulomb/second' )                      : mpmathify( '1' ),
     ( 'ampere',                     'statampere' )                          : mpmathify( '299792458' ),
@@ -4359,7 +4336,7 @@ unitConversionMatrix = {
     ( 'ampere*second*volt',         'joule' )                               : mpmathify( '1' ),
     ( 'ampere*volt',                'watt' )                                : mpmathify( '1' ),
     ( 'arcminute',                  'arcsecond' )                           : mpmathify( '60' ),
-    ( 'are',                        'square_meter' )                        : mpmathify( '100' ),
+    ( 'are',                        'meter^2' )                             : mpmathify( '100' ),
     ( 'arpent',                     'foot' )                                : mpmathify( '192' ),
     ( 'arshin',                     'pyad' )                                : mpmathify( '4' ),
     ( 'astronomical_unit',          'meter' )                               : mpmathify( '149597870691' ),
@@ -4403,7 +4380,7 @@ unitConversionMatrix = {
     ( 'clavelin',                   'liter' )                               : mpmathify( '0.62' ),
     ( 'conductance_quantum',        'siemens' )                             : mpmathify( '7.7480917310e-5' ),
     ( 'coomb',                      'strike' )                              : mpmathify( '2' ),
-    ( 'cord',                       'cubic_foot' )                          : mpmathify( '128' ),
+    ( 'cord',                       'foot^3' )                              : mpmathify( '128' ),
     ( 'coulomb',                    'ampere*second' )                       : mpmathify( '1' ),
     ( 'coulomb',                    'farad*volt' )                          : mpmathify( '1' ),
     ( 'coulomb',                    'joule/volt' )                          : mpmathify( '1' ),
@@ -4411,7 +4388,7 @@ unitConversionMatrix = {
     ( 'coulomb/kilogram',           'roentgen' )                            : mpmathify( '3876' ),
     ( 'coulomb/volt',               'farad' )                               : mpmathify( '1' ),
     ( 'cowznofski',                 'mingo' )                               : mpmathify( '10' ),
-    ( 'cubic_meter',                'liter' )                               : mpmathify( '1000' ),
+    ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
     ( 'cubit',                      'inch' )                                : mpmathify( '18' ),
     ( 'cup',                        'dram' )                                : mpmathify( '64' ),
     ( 'cup',                        'fluid_ounce' )                         : mpmathify( '8' ),
@@ -4437,10 +4414,10 @@ unitConversionMatrix = {
     ( 'dozen',                      'unity' )                               : mpmathify( '12' ),
     ( 'dram',                       'scruple' )                             : mpmathify( '3' ),
     ( 'dry_barrel',                 'bushel' )                              : mpmathify( '4' ),
-    ( 'dry_barrel',                 'cubic_inch' )                          : mpmathify( '7056' ),
+    ( 'dry_barrel',                 'foot^2' )                              : fdiv( mpmathify( '49' ), mpmathify( '12' ) ),
     ( 'dry_gallon',                 'dry_quart' )                           : mpmathify( '4' ),
     ( 'dry_hogshead',               'dry_barrel' )                          : mpmathify( '2' ),
-    ( 'dry_pint',                   'cubic_inch' )                          : mpmathify( '33.6003125' ),
+    ( 'dry_pint',                   'foot^3' )                              : mpmathify( '0.0194446252894' ),
     ( 'dry_quart',                  'dry_pint' )                            : mpmathify( '2' ),
     ( 'dry_tun',                    'dry_hogshead' )                        : mpmathify( '4' ),
     ( 'duodecillion',               'unity' )                               : mpmathify( '1.0e39' ),
@@ -4527,7 +4504,7 @@ unitConversionMatrix = {
     ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
     ( 'hogshead',                   'liter' )                               : mpmathify( '238.481' ),
     ( 'homestead',                  'acre' )                                : mpmathify( '160' ),
-    ( 'hoppus_ton',                 'cubic_meter' )                         : mpmathify( '1.8027' ),
+    ( 'hoppus_ton',                 'meter^3' )                             : mpmathify( '1.8027' ),
     ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
     ( 'horsepower',                 'watt' )                                : mpmathify( '745.69987158227022' ),
     ( 'horsepower*second',          'joule' )                               : mpmathify( '745.69987158227022' ),
@@ -4544,7 +4521,7 @@ unitConversionMatrix = {
     ( 'imperial_peck',              'imperial_quart' )                      : mpmathify( '2' ),
     ( 'imperial_pint',              'imperial_cup' )                        : mpmathify( '2' ),
     ( 'imperial_quart',             'imperial_pint' )                       : mpmathify( '2' ),
-    ( 'imperial_square',            'square_foot' )                         : mpmathify( '100' ),
+    ( 'imperial_square',            'foot^2' )                              : mpmathify( '100' ),
     ( 'inch',                       'barleycorn' )                          : mpmathify( '3' ),
     ( 'inch',                       'caliber' )                             : mpmathify( '100' ),
     ( 'inch',                       'cicero' )                              : fdiv( mpmathify( '50.8' ), mpmathify( '9' ) ),
@@ -4606,6 +4583,8 @@ unitConversionMatrix = {
     ( 'meter/second',               'bubnoff_unit' )                        : mpmathify( '3.15576e13' ),
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
     ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
+    ( 'meter^2',                    'foot^2' )                              : mpmathify( '10.7639104167' ),
+    ( 'meter^3',                    'foot^3' )                              : mpmathify( '35.3146667215' ),
     ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
     ( 'meter^3*pascal',             'joule' )                               : mpmathify( '1' ),
     ( 'methuselah',                 'liter' )                               : mpmathify( '6.0' ),
@@ -4719,7 +4698,7 @@ unitConversionMatrix = {
     ( 'reynolds',                   'pascal*second' )                       : mpmathify( '6894.75729' ),
     ( 'rod',                        'foot' )                                : mpmathify( '16.5' ),
     ( 'roentgen',                   'rad' )                                 : mpmathify( '0.877' ),
-    ( 'rood',                       'square_yard' )                         : mpmathify( '1210' ),
+    ( 'rood',                       'foot^2' )                              : mpmathify( '10890' ),
     ( 'rope',                       'foot' )                                : mpmathify( '20' ),
     ( 'rutherford',                 'becquerel' )                           : mpmathify( '1.0e6' ),
     ( 'rydberg',                    'joule' )                               : mpmathify( '2.17987232498e-18' ),
@@ -4771,15 +4750,13 @@ unitConversionMatrix = {
     ( 'sphere',                     'steradian' )                           : fmul( 4, pi ),
     ( 'square_arcminute',           'square_arcsecond' )                    : mpmathify( '3600' ),
     ( 'square_degree',              'square_arcminute' )                    : mpmathify( '3600' ),
-    ( 'square_meter',               'barn' )                                : mpmathify( '1.0e28' ),
-    ( 'square_meter',               'meter^2' )                             : mpmathify( '1' ),
-    ( 'square_meter',               'outhouse' )                            : mpmathify( '1.0e34' ),
-    ( 'square_meter',               'shed' )                                : mpmathify( '1.0e52' ),
+    ( 'meter^2',                    'barn' )                                : mpmathify( '1.0e28' ),
+    ( 'meter^2',                    'outhouse' )                            : mpmathify( '1.0e34' ),
+    ( 'meter^2',                    'shed' )                                : mpmathify( '1.0e52' ),
     ( 'square_octant',              'square_degree' )                       : mpmathify( '2025' ),
     ( 'square_quadrant',            'square_degree' )                       : mpmathify( '8100' ),
     ( 'square_quintant',            'square_degree' )                       : mpmathify( '5184' ),
     ( 'square_sextant',             'square_degree' )                       : mpmathify( '3600' ),
-    ( 'square_yard',                'square_foot' )                         : mpmathify( '9' ),
     ( 'stadium',                    'foot' )                                : mpmathify( '606.95' ),
     ( 'standard',                   'liter' )                               : mpmathify( '0.75' ),
     ( 'stapp',                      'meter/second^3' )                      : mpmathify( '9.80665' ),

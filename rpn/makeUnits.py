@@ -198,10 +198,10 @@ def expandMetricUnits( ):
             # create area and volume operators for new length units
             if unitOperators[ metricUnit[ 0 ] ].unitType == 'length':
                 # create new area operators
-                newUnit = 'square_' + newName
+                newUnit = newName + '^2'
 
                 areaConversion = power( newConversion, 2 )
-                oldUnit = 'square_' + metricUnit[ 0 ]
+                oldUnit = metricUnit[ 0 ] + '^2'
 
                 if newUnit not in unitOperators:
                     newUnitInfo, newUnitAliases = makeAreaOperator( newName, newPlural )
@@ -214,10 +214,10 @@ def expandMetricUnits( ):
                     metricConversions[ ( newUnit, oldUnit ) ] = fdiv( 1, areaConversion )
 
                 # create new volume operators
-                newUnit = 'cubic_' + newName
+                newUnit = newName + '^3'
 
                 volumeConversion = power( newConversion, 3 )
-                oldUnit = 'cubic_' + metricUnit[ 0 ]
+                oldUnit = metricUnit[ 0 ] + '^3'
 
                 if newUnit not in unitOperators:
                     newUnitInfo, newUnitAliases = makeVolumeOperator( newName, newPlural )
@@ -293,25 +293,25 @@ def makeAreaOperator( unit, unitPlural ):
 
     newAliases = { }
 
-    newUnit = 'square_' + unit
+    newUnit = unit + '^2'
 
     if unitInfo.abbrev == '':
         abbrev = 'sq' + unit
     else:
         abbrev = 'sq' + unitInfo.abbrev
-        newAliases[ 'sq_' + unit ] = newUnit
         newAliases[ 'sq' + unitInfo.abbrev ] = newUnit
         newAliases[ 'sq_' + unitInfo.abbrev ] = newUnit
+        newAliases[ 'square_' + unitInfo.abbrev ] = newUnit
 
-    newUnitInfo = RPNUnitInfo( 'area', unit + '^2', 'square_' + unitPlural, abbrev,
-                               [ ], unitInfo.categories, True )
-
+    newAliases[ 'square_' + unit ] = newUnit
     newAliases[ 'square_' + unitInfo.plural ] = newUnit
-    newAliases[ 'square_' + unitInfo.abbrev ] = newUnit
-    newAliases[ 'sq' + unitInfo.plural ] = newUnit
+    newAliases[ 'sq_' + unit ] = newUnit
     newAliases[ 'sq_' + unitInfo.plural ] = newUnit
-    newAliases[ unit + '^2' ] = newUnit
-    newAliases[ unitInfo.plural + '^2' ] = newUnit
+    newAliases[ 'sq' + unit ] = newUnit
+    newAliases[ 'sq' + unitInfo.plural ] = newUnit
+
+    newUnitInfo = RPNUnitInfo( 'area', newUnit, newUnit, abbrev, [ ],
+                               unitInfo.categories, True )
 
     return newUnitInfo, newAliases
 
@@ -327,25 +327,25 @@ def makeVolumeOperator( unit, unitPlural ):
 
     newAliases = { }
 
-    newUnit = 'cubic_' + unit
+    newUnit = unit + '^3'
 
     if unitInfo.abbrev == '':
         abbrev = 'cu' + unit
     else:
         abbrev = 'cu' + unitInfo.abbrev
-        newAliases[ 'cu_' + unit ] = newUnit
         newAliases[ 'cu' + unitInfo.abbrev ] = newUnit
         newAliases[ 'cu_' + unitInfo.abbrev ] = newUnit
+        newAliases[ 'cubic_' + unitInfo.abbrev ] = newUnit
 
-    newUnitInfo = RPNUnitInfo( 'volume', unit + '^3', 'cubic_' + unitPlural, abbrev,
-                               [ ], unitInfo.categories, True )
-
+    newAliases[ 'cubic_' + unit ] = newUnit
     newAliases[ 'cubic_' + unitInfo.plural ] = newUnit
-    newAliases[ 'cubic_' + unitInfo.abbrev ] = newUnit
-    newAliases[ 'cu' + unitInfo.plural ] = newUnit
+    newAliases[ 'cu_' + unit ] = newUnit
     newAliases[ 'cu_' + unitInfo.plural ] = newUnit
-    newAliases[ unit + '^3' ] = newUnit
-    newAliases[ unitInfo.plural + '^3' ] = newUnit
+    newAliases[ 'cu' + unit ] = newUnit
+    newAliases[ 'cu' + unitInfo.plural ] = newUnit
+
+    newUnitInfo = RPNUnitInfo( 'volume', newUnit, newUnit, abbrev, [ ],
+                               unitInfo.categories, True )
 
     return newUnitInfo, newAliases
 
@@ -367,7 +367,7 @@ def createAreaAndVolumeOperators( unitOperators ):
             newAliases[ unitInfo.representation ] = unit
 
         if unitInfo.unitType == 'length':
-            newUnit = 'square_' + unit
+            newUnit = unit + '^2'
 
             if newUnit not in unitOperators:
                 newUnitInfo, newUnitAliases = \
@@ -379,7 +379,7 @@ def createAreaAndVolumeOperators( unitOperators ):
                 compoundUnit = unit + '^2'
                 newAliases[ compoundUnit ] = newUnit
 
-            newUnit = 'cubic_' + unit
+            newUnit = unit + '^3'
 
             if newUnit not in unitOperators:
                 newUnitInfo, newUnitAliases = \
