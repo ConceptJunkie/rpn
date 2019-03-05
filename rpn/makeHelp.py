@@ -44,7 +44,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1279
+maxExampleCount = 1278
 
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
@@ -1154,7 +1154,7 @@ Basic trigonometry usage:
 Convert an IP address to a 32-bit value and back:
     We'll use '-x' to convert the result to hexadecimal:
 ''' + makeCommandExample( '-x [ 192 168 0 1 ] 256 base', indent=8 ) + '''
-    We can convert it back by use base 256:
+    We can convert it back by using base 256:
 ''' + makeCommandExample( '0xc0a80001 256 get_base_k_digits', indent=8 ) + '''
 Construct the square root of two from a continued fraction:
 
@@ -1173,7 +1173,7 @@ Construct the square root of two from a continued fraction:
 ''' + makeCommandExample( '-a20 [ 1 2 30 dup ] cf', indent=8 ) + '''
 Calculations with lists:
     List of primes in the first 50 fibonacci numbers:
-''' + makeCommandExample( '1 50 range fib is_prime nonzero 1 + fib', indent=8 ) + '''
+''' + makeCommandExample( '1 50 range fib lambda x is_prime filter', indent=8 ) + '''
     List the indices of the primes in the first 50 fibonacci numbers:
 ''' + makeCommandExample( '3 50 range fib factor lambda x count for_each_list 1 - zeroes 3 +', indent=8 ) + '''
     This calculation works by listing the indices of fibonacci numbers with a
@@ -1183,7 +1183,7 @@ Calculations with lists:
     way.
 
     Which of the first thousand pentagonal numbers are also triangular:
-''' + makeCommandExample( '1000 pent tri?', indent=8 ) + '''
+''' + makeCommandExample( '1000 pent nth_triangular', indent=8 ) + '''
     So the thousandth pentagonal number is a little bigger than the 1731st
     triangular number.  That tells us how many triangular numbers to look at.
 ''' + makeCommandExample( '1 1000 range pent 1 1731 range tri intersection', indent=8 ) + '''
@@ -1266,13 +1266,11 @@ Unit conversions:
     Here's a little more advanced version of the problem.  Let's say we have
     launched a rocket that is accelerated at 5 Gs for 5 minutes.  How long
     would it take for it to reach Jupiter?
-''' + makeCommandExample( 'jupiter now distance_from_earth 5 gee * 5 minutes * / dhms', indent=8 ) + '''
-    And finally, let's convert our example to better units:
-''' + makeCommandExample( '500 million miles 5 gee * 5 minutes * / dhms', indent=8 ) + '''
+''' + makeCommandExample( 'jupiter now distance_from_earth 5 gee 5 minutes * / dhms', indent=8 ) + '''
 
     Now, let's compare the density of Sagittarius A, the black hole at the
     center of the Milky Way, to the density of gold...
-''' + makeCommandExample( 'rpn 4.3 million solar_mass * 4.3 million solar_mass * black_hole_radius sphere_volume / Gold element_density /', indent=8 ) + '''
+''' + makeCommandExample( '4.3 million solar_mass 4.3 million solar_mass black_hole_radius sphere_volume / Gold element_density /', indent=8 ) + '''
 
 Advanced examples:
 
@@ -9143,7 +9141,7 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '1 year black_hole_mass' ) + '''
 ''' + makeCommandExample( '373 kelvin black_hole_mass' ) + '''
 ''' + makeCommandExample( '1 billion watts black_hole_mass' ) + '''
-''' + makeCommandExample( 'gee black_hole_mass' ),
+''' + makeCommandExample( '10 gee black_hole_mass' ),
 [ 'black_hole_surface_aarea', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime' ] ],
 
     'black_hole_radius' : [
@@ -9152,7 +9150,7 @@ http://xaonon.dyndns.org/hawking/
 ''',
 '''
 ''' + makeCommandExample( 'earth_mass black_hole_radius' ) + '''
-''' + makeCommandExample( '10 solar_mass * black_hole_radius' ),
+''' + makeCommandExample( '10 solar_mass black_hole_radius' ),
 [ 'black_hole_surface_aarea', 'black_hole_sureface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime' ] ],
 
     'black_hole_surface_area' : [
@@ -9165,7 +9163,7 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '1 year black_hole_surface_area' ) + '''
 ''' + makeCommandExample( '373 kelvin black_hole_surface_area' ) + '''
 ''' + makeCommandExample( '1 billion watts black_hole_surface_area' ) + '''
-''' + makeCommandExample( 'gee black_hole_surface_area' ),
+''' + makeCommandExample( '50 gee black_hole_surface_area' ),
 [ 'black_hole_mass', 'black_hole_surface_gravity', 'black_hole_entropy', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime' ] ],
 
     'black_hole_surface_gravity' : [
@@ -9178,7 +9176,7 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '1 year black_hole_surface_gravity' ) + '''
 ''' + makeCommandExample( '373 kelvin black_hole_surface_gravity' ) + '''
 ''' + makeCommandExample( '1 billion watts black_hole_surface_gravity' ) + '''
-''' + makeCommandExample( 'gee black_hole_surface_gravity' ),
+''' + makeCommandExample( '2 gee black_hole_surface_gravity' ),
 [ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_temperature', 'black_hole_luminosity', 'black_hole_lifetime', 'surface_gravity' ] ],
 
     'black_hole_temperature' : [
@@ -9191,7 +9189,7 @@ http://xaonon.dyndns.org/hawking/
 ''' + makeCommandExample( '1 year black_hole_temperature' ) + '''
 ''' + makeCommandExample( '373 kelvin black_hole_temperature' ) + '''
 ''' + makeCommandExample( '1 billion watts black_hole_temperature' ) + '''
-''' + makeCommandExample( 'gee black_hole_temperature' ),
+''' + makeCommandExample( '0.01 gee black_hole_temperature' ),
 [ 'black_hole_mass', 'black_hole_entropy', 'black_hole_surface_aarea', 'black_hole_lifetime', 'black_hole_sureface_gravity', 'black_hole_luminosity' ] ],
 
     'distance' : [
@@ -9308,7 +9306,7 @@ of density and volume in either order.
 ''' + makeCommandExample( 'earth_mass earth_radius surface_gravity' ) + '''
 ''' + makeCommandExample( '5.51 g/cm^3 earth_volume surface_gravity' ) + '''
 Calculate the surface gravity of a 10-solar-mass black hole:
-''' + makeCommandExample( '10 solar_mass * 10 solar_mass * black_hole_radius surface_gravity', indent=4 ) + '''
+''' + makeCommandExample( '10 solar_mass 10 solar_mass black_hole_radius surface_gravity', indent=4 ) + '''
 ''' + makeCommandExample( '10 solar_mass black_hole_surface_gravity', indent=4 ),
 [ 'black_hole_gravity' ] ],
 

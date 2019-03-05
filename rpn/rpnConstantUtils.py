@@ -2,7 +2,7 @@
 
 # //******************************************************************************
 # //
-# //  rpnConstants.py
+# //  rpnConstantUtils.py
 # //
 # //  RPN command-line calculator constant operator utilities
 # //  copyright (c) 2019, Rick Gutleber (rickg@his.com)

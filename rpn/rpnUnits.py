@@ -15,7 +15,7 @@
 from mpmath import fadd, fdiv, fmul, log, mpf, mpmathify, pi, power
 
 from rpn.rpnEstimates import *
-from rpn.rpnUnitClasses import RPNUnitInfo, RPNUnitTypeInfo
+from rpn.rpnUnitClasses import RPNConstantInfo, RPNUnitInfo, RPNUnitTypeInfo
 
 
 # //******************************************************************************
@@ -289,19 +289,376 @@ basicUnitTypes = {
 }
 
 
+# //******************************************************************************
+# //
+# //  constantOperators
+# //
+# //  unit name : value, aliases, description
+# //
+# //  When unit types are multiplied in compound units, they need to be
+# //  specified in alphabetical order in the name, but not the representations.
+# //
+# //******************************************************************************
+
 constantOperators = {
-    'earth_gravity' :
-        RPNUnitInfo( 'acceleration', 'earth_gravity', 'earth_gravities', '',
-                     [ 'gee', 'gees', 'standard_gravity', 'standard_gravities' ], [ 'natural' ],
-                     #RPNMeasurement( '9.80665', 'meter/second^2' ),
-                     '''
+    # subatomic particle constants
+    'alpha_particle_mass' :
+        RPNConstantInfo( '6.644657230e-27', 'kilogram',
+                         [ ],
+                         '''
 ''' ),
 
+    'deuteron_mass' :
+        RPNConstantInfo( '3.343583719e-27', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'electron_mass' :
+        RPNConstantInfo( '9.10938356e-31', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'helion_mass' :
+        RPNConstantInfo( '5.006412700e-27', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'muon_mass' :
+        RPNConstantInfo( '1.883531594e-28', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'neutron_mass' :
+        RPNConstantInfo( '1.674927471e-27', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'proton_mass' :
+        RPNConstantInfo( '1.672621898e-27', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'tau_mass' :
+        RPNConstantInfo( '3.16747e-27', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'triton_mass' :
+        RPNConstantInfo( '5.007356665e-27', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+
+    # heavenly body constants
+    # sun_day
+    'sun_luminosity' :
+        RPNConstantInfo( '3.826e26', 'watt',
+                         [ ],
+                         '''
+''' ),
+
+    'sun_mass' :
+        RPNConstantInfo( '1.988500e30', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'sun_radius' :
+        RPNConstantInfo( '6.9599e8', 'meter',
+                         [ ],
+                         '''
+''' ),
+
+    'sun_volume' :
+        RPNConstantInfo( '1.412e27', 'meter^3',
+                         [ ],
+                         '''
+''' ),
+
+
+    'mercury_mass' :
+        RPNConstantInfo( '3.301e26', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    # equitorial radius
+    'mercury_radius' :
+        RPNConstantInfo( '2.4397e6', 'meter',
+                         [ ],
+                         '''
+''' ),
+
+    # sidereal orbit period
+    'mercury_revolution' :
+        RPNConstantInfo( '87.969', 'day',
+                         [ ],
+                         '''
+''' ),
+
+    'mercury_volume' :
+        RPNConstantInfo( '6.083e19', 'meter^3',
+                         [ ],
+                         '''
+''' ),
+
+
+    'venus_mass' :
+        RPNConstantInfo( '4.8689952e24', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'venus_radius' :
+        RPNConstantInfo( '6.0518e6', 'meter',
+                         [ ],
+                         '''
+''' ),
+
+    'venus_revolution' :
+        RPNConstantInfo( '224.701', 'day',
+                         [ ],
+                         '''
+''' ),
+
+    'venus_volume' :
+        RPNConstantInfo( '9.2843e20', 'meter^3',
+                         [ ],
+                         '''
+''' ),
+
+
+    'earth_density' :
+        RPNConstantInfo( '5.514', 'gram/centimeter^3',
+                         [ ],                                       # https://en.wikipedia.org/wiki/Earth#Composition_and_structure
+                         '''
+''' ),
+
+    'earth_gravity' :
+        RPNConstantInfo( '9.80665', 'meter/second^2',
+                         [ 'earth_gravities', 'gee', 'gees', 'standard_gravity', 'standard_gravities' ],  # based on earth_radius
+                         '''
+''' ),
+
+    'earth_mass' :
+        RPNConstantInfo( '5.9640955e24', 'kilogram',
+                         [ ],                                       # based on earth_radius and earth_gravity
+                         '''
+''' ),
+
+    'earth_radius' :
+        RPNConstantInfo( '6371800', 'meter',
+                         [ ],                                       # https://en.wikipedia.org/wiki/Earth_radius#Global_average_radii - volumetric radius
+                         '''
+''' ),
+
+    'earth_volume' :
+        RPNConstantInfo( '1.083207324897e21', 'meter^3',
+                         [ ],                                       # based on earth_radius
+                         '''
+''' ),
+
+
+    'sidereal_year' :
+        RPNConstantInfo( '365.256360417', 'day',
+                         [ ],
+                         '''
+''' ),
+
+    'tropical_year' :
+        RPNConstantInfo( '365.24219', 'day',
+                         [ ],
+                         '''
+''' ),
+
+
     'moon_gravity' :
-        RPNUnitInfo( 'acceleration', 'moon_gravity', 'moon_gravities', '',
-                     [ 'lunar_gravity', 'lunar_gravities' ], [ 'natural' ],
-                     #RPNMeasurement( '1.62', 'meter/second^2' ),
-                     '''
+        RPNConstantInfo( '1.62', 'meter/second^2',                  # based on moon_radius
+                         [ 'moon_gravities', 'lunar_gravity', 'lunar_gravities' ],
+                         '''
+''' ),
+
+    'moon_mass' :
+        RPNConstantInfo( '7.342e22', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+
+    'moon_radius' :
+        RPNConstantInfo( '1.7381e6', 'meter',
+                         [ ],
+                         '''
+''' ),
+
+    'moon_revolution' :
+        RPNConstantInfo( '27.3217', 'day',
+                         [ ],
+                         '''
+''' ),
+
+    'moon_volume' :
+        RPNConstantInfo( '2.1958e19', 'meter^3',
+                         [ ],
+                         '''
+''' ),
+
+
+    'mars_mass' :
+        RPNConstantInfo( '6.4191269e23', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'mars_radius' :
+        RPNConstantInfo( '3.3962e6', 'meter',
+                         [ ],
+                         '''
+''' ),
+
+    'mars_revolution' :
+        RPNConstantInfo( '686.980', 'day',
+                         [ ],
+                         '''
+''' ),
+
+    'mars_volume' :
+        RPNConstantInfo( '1.6318e20', 'meter^3',
+                         [ ],
+                         '''
+''' ),
+
+
+    'jupiter_mass' :
+        RPNConstantInfo( '1.8983e27', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'jupiter_radius' :
+        RPNConstantInfo( '7.1492e7', 'meter',
+                         [ ],
+                         '''
+''' ),
+
+    'jupiter_revolution' :
+        RPNConstantInfo( '11.862', 'year',
+                         [ ],
+                         '''
+''' ),
+
+    'jupiter_volume' :
+        RPNConstantInfo( '1.43128e24', 'meter^3',
+                         [ ],
+                         '''
+''' ),
+
+
+    'saturn_mass' :
+        RPNConstantInfo( '5.6836e26', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'saturn_radius' :
+        RPNConstantInfo( '6.0268e7', 'meter',
+                         [ ],
+                         '''
+''' ),
+
+    'saturn_revolution' :
+        RPNConstantInfo( '29.457', 'year',
+                         [ ],
+                         '''
+''' ),
+
+    'saturn_volume' :
+        RPNConstantInfo( '8.2713e23', 'meter^3',
+                         [ ],
+                         '''
+''' ),
+
+
+    'uranus_mass' :
+        RPNConstantInfo( '8.6816e25', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'uranus_radius' :
+        RPNConstantInfo( '2.5559e7', 'meter',
+                         [ ],
+                         '''
+''' ),
+
+    'uranus_revolution' :
+        RPNConstantInfo( '84.011', 'year',
+                         [ ],
+                         '''
+''' ),
+
+    'uranus_volume' :
+        RPNConstantInfo( '6.833e22', 'meter^3',
+                         [ ],
+                         '''
+''' ),
+
+
+    'neptune_mass' :
+        RPNConstantInfo( '1.0242e26', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'neptune_radius' :
+        RPNConstantInfo( '2.4764e7', 'meter',
+                         [ ],
+                         '''
+''' ),
+
+    'neptune_revolution' :
+        RPNConstantInfo( '164.79', 'year',
+                         [ ],
+                         '''
+''' ),
+
+    'neptune_volume' :
+        RPNConstantInfo( '6.254e22', 'meter^3',
+                         [ ],
+                         '''
+''' ),
+
+
+    'pluto_mass' :
+        RPNConstantInfo( '1.0303e22', 'kilogram',
+                         [ ],
+                         '''
+''' ),
+
+    'pluto_radius' :
+        RPNConstantInfo( '1.185e6', 'meter',
+                         [ ],
+                         '''
+''' ),
+
+    'pluto_revolution' :
+        RPNConstantInfo( '247.94', 'year',
+                         [ ],
+                         '''
+''' ),
+
+    'pluto_volume' :
+        RPNConstantInfo( '6.97e18', 'meter^3',
+                         [ ],
+                         '''
 ''' ),
 }
 
@@ -310,8 +667,9 @@ constantOperators = {
 # //
 # //  unitOperators
 # //
-# //  unit name : unitType, representation, plural, abbrev, aliases,
-# //              categories, unit type (for constants, otherwise it's blank)
+# //  unit name : unitType, representation, plural, abbrev,
+# //              aliases, categories,
+# //              description
 # //
 # //  When unit types are multiplied in compound units, they need to be
 # //  specified in alphabetical order in the name, but not the representations.

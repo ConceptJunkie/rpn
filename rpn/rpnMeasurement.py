@@ -16,7 +16,7 @@ from mpmath import chop, extradps, fadd, fdiv, floor, fmul, frac, fsub, log10, \
                    mpf, mpmathify, nstr, power
 
 from rpn.rpnGenerator import RPNGenerator
-from rpn.rpnPersistence import loadUnitData, loadUnitConversionMatrix
+from rpn.rpnPersistence import loadUnitConversionMatrix
 from rpn.rpnUnitClasses import getUnitType, RPNUnits
 from rpn.rpnUtils import debugPrint, oneArgFunctionEvaluator
 
@@ -163,11 +163,6 @@ class RPNMeasurement( object ):
     pluralUnitName = None
 
     def __init__( self, value, units = RPNUnits( ), unitName = None, pluralUnitName = None ):
-        if not g.unitOperators:
-            loadUnitData( )
-
-        #print( '__init__', value, units, unitName, pluralUnitName )
-
         if isinstance( value, str ):
             self.value = mpmathify( value )
             self.units = RPNUnits( units )
@@ -763,14 +758,18 @@ def estimate( measurement ):
 # //
 # //******************************************************************************
 
-def applyNumberValueToUnit( number, term ):
+def applyNumberValueToUnit( number, term, constant ):
     if isinstance( term, RPNUnits ):
         value = RPNMeasurement( number, term )
-    elif g.unitOperators[ term ].unitType == 'constant':
-        value = RPNMeasurement( number, term ).convertValue( RPNMeasurement( 1, { 'unity' : 1 } ) )
+    elif constant:
+        value = RPNMeasurement( fmul( number, mpmathify( g.constantOperators[ term ].value ) ),
+                                g.constantOperators[ term ].unit )
     else:
-        value = RPNMeasurement( number, term, g.unitOperators[ term ].representation,
-                                g.unitOperators[ term ].plural )
+        if g.unitOperators[ term ].unitType == 'constant':
+            value = RPNMeasurement( number, term ).convertValue( RPNMeasurement( 1, { 'unity' : 1 } ) )
+        else:
+            value = RPNMeasurement( number, term, g.unitOperators[ term ].representation,
+                                    g.unitOperators[ term ].plural )
 
     return value
 

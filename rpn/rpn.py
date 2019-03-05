@@ -68,7 +68,7 @@ from rpn.rpnOperators import checkForVariable, constants, evaluateTerm, function
 from rpn.rpnOutput import formatDateTime, formatListOutput, formatOutput, formatUnits, \
                           printHelp, printHelpModeHelp, printInteractiveHelp, printTitleScreen
 
-from rpn.rpnPersistence import loadUserVariablesFile, saveUserVariablesFile, \
+from rpn.rpnPersistence import loadUnitData, loadUserVariablesFile, saveUserVariablesFile, \
                                loadUserConfigurationFile, saveUserConfigurationFile
 
 from rpn.rpnSpecial import handleIdentify
@@ -124,6 +124,10 @@ def evaluate( terms ):
     '''
     valueList = list( )
     index = 1                 # only used for error messages
+
+    # handle a unit operator
+    if not g.unitOperators:
+        loadUnitData( )
 
     # start parsing terms and populating the evaluation stack... this is the heart of rpn
     for term, hasMore in lookAhead( terms ):

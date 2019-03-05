@@ -21,7 +21,10 @@ import itertools
 import struct
 
 from enum import Enum
-from mpmath import cplot, fadd, fmod, limit, nint, nprod, nsum, plot, splot
+from mpmath import apery, bell, bernoulli, catalan, cplot, e, euler, exp, \
+                   fadd, fmod, glaisher, inf, khinchin, lambertw, limit, \
+                   mertens, nint, nprod, nsum, phi, pi, plot, splot
+
 from random import randrange
 
 from rpn.rpnAliases import dumpAliases
@@ -31,7 +34,6 @@ from rpn.rpnCalendar import *
 from rpn.rpnChemistry import *
 from rpn.rpnCombinatorics import *
 from rpn.rpnComputer import *
-from rpn.rpnConstants import *
 from rpn.rpnConstantUtils import *
 from rpn.rpnDateTime import *
 from rpn.rpnDice import *
@@ -437,7 +439,6 @@ constants = {
     'planck_temperature'            : RPNOperator( getPlanckTemperature,
                                                    0, [ ] ),
 
-
     # We should calculate these derived constants, rather than just hard-code them.
     # https://en.wikipedia.org/wiki/Planck_units#Derived_units
 
@@ -478,144 +479,6 @@ constants = {
     'planck_volumetric_flow_rate'   : RPNOperator( getPlanckVolumetricFlowRate,
                                                    0, [ ] ),
     'planck_volume'                 : RPNOperator( getPlanckVolume,
-                                                   0, [ ] ),
-
-    # https://en.wikipedia.org/wiki/Natural_units
-    # Stoney Units
-    # Hartee Atomic Units
-    # QCD Units
-    # Natural Units
-
-    # subatomic particle constants
-    'alpha_particle_mass'           : RPNOperator( lambda: RPNMeasurement( '6.644657230e-27', 'kilogram' ),
-                                                   0, [ ] ),
-    'deuteron_mass'                 : RPNOperator( lambda: RPNMeasurement( '3.343583719e-27', 'kilogram' ),
-                                                   0, [ ] ),
-    'electron_mass'                 : RPNOperator( lambda: RPNMeasurement( '9.10938356e-31', 'kilogram' ),
-                                                   0, [ ] ),
-    'helion_mass'                   : RPNOperator( lambda: RPNMeasurement( '5.006412700e-27', 'kilogram' ),
-                                                   0, [ ] ),
-    'muon_mass'                     : RPNOperator( lambda: RPNMeasurement( '1.883531594e-28', 'kilogram' ),
-                                                   0, [ ] ),
-    'neutron_mass'                  : RPNOperator( lambda: RPNMeasurement( '1.674927471e-27', 'kilogram' ),
-                                                   0, [ ] ),
-    'proton_mass'                   : RPNOperator( lambda: RPNMeasurement( '1.672621898e-27', 'kilogram' ),
-                                                   0, [ ] ),
-    'tau_mass'                      : RPNOperator( lambda: RPNMeasurement( '3.16747e-27', 'kilogram' ),
-                                                   0, [ ] ),
-    'triton_mass'                   : RPNOperator( lambda: RPNMeasurement( '5.007356665e-27', 'kilogram' ),
-                                                   0, [ ] ),
-
-    # heavenly body constants
-    # sun_day
-    'sun_luminosity'                : RPNOperator( lambda: RPNMeasurement( '3.826e26', 'watt' ),
-                                                   0, [ ] ),
-    'sun_mass'                      : RPNOperator( lambda: RPNMeasurement( '1.988500e30', 'kilogram' ),
-                                                   0, [ ] ),
-    'sun_radius'                    : RPNOperator( lambda: RPNMeasurement( '6.9599e8', 'meter' ),
-                                                   0, [ ] ),
-    'sun_volume'                    : RPNOperator( lambda: RPNMeasurement( '1.412e27', 'meter^3' ),
-                                                   0, [ ] ),
-
-    'mercury_mass'                  : RPNOperator( lambda: RPNMeasurement( '3.301e26', 'kilogram' ),
-                                                   0, [ ] ),
-    # equitorial radius
-    'mercury_radius'                : RPNOperator( lambda: RPNMeasurement( '2.4397e6', 'meter' ),
-                                                   0, [ ] ),
-    # sidereal orbit period
-    'mercury_revolution'            : RPNOperator( lambda: RPNMeasurement( '87.969', 'day' ),
-                                                   0, [ ] ),
-    'mercury_volume'                : RPNOperator( lambda: RPNMeasurement( '6.083e19', 'meter^3' ),
-                                                   0, [ ] ),
-
-    'venus_mass'                    : RPNOperator( lambda: RPNMeasurement( '4.8689952e24', 'kilogram' ),
-                                                   0, [ ] ),
-    'venus_radius'                  : RPNOperator( lambda: RPNMeasurement( '6.0518e6', 'meter' ),
-                                                   0, [ ] ),
-    'venus_revolution'              : RPNOperator( lambda: RPNMeasurement( '224.701', 'day' ),
-                                                   0, [ ] ),
-    'venus_volume'                  : RPNOperator( lambda: RPNMeasurement( '9.2843e20', 'meter^3' ),
-                                                   0, [ ] ),
-
-    'earth_density'                 : RPNOperator( lambda: RPNMeasurement( '5.514', 'gram/centimeter^3' ),
-                                                   0, [ ] ),        # https://en.wikipedia.org/wiki/Earth#Composition_and_structure
-    'earth_gravity'                 : RPNOperator( lambda: RPNMeasurement( '9.80665', 'meter/second^2' ),
-                                                   0, [ ] ),        # based on earth_radius
-    'earth_mass'                    : RPNOperator( lambda: RPNMeasurement( '5.9640955e24', 'kilogram' ),
-                                                   0, [ ] ),        # based on earth_radius and earth_gravity
-    'earth_radius'                  : RPNOperator( lambda: RPNMeasurement( '6371800', 'meter' ),
-                                                   0, [ ] ),        # https://en.wikipedia.org/wiki/Earth_radius#Global_average_radii - volumetric radius
-    'earth_volume'                  : RPNOperator( lambda: RPNMeasurement( '1.083207324897e21', 'meter^3' ),
-                                                   0, [ ] ),        # based on earth_radius
-
-    'sidereal_year'                 : RPNOperator( lambda: RPNMeasurement( '365.256360417', 'day' ),
-                                                   0, [ ] ),
-    'tropical_year'                 : RPNOperator( lambda: RPNMeasurement( '365.24219', 'day' ),
-                                                   0, [ ] ),
-
-    'moon_gravity'                  : RPNOperator( lambda: RPNMeasurement( '1.62', 'meter/second^2' ),
-                                                   0, [ ] ),        # based on earth_radius
-    'moon_mass'                     : RPNOperator( lambda: RPNMeasurement( '7.342e22', 'kilogram' ),
-                                                   0, [ ] ),
-    'moon_radius'                   : RPNOperator( lambda: RPNMeasurement( '1.7381e6', 'meter' ),
-                                                   0, [ ] ),
-    'moon_revolution'               : RPNOperator( lambda: RPNMeasurement( '27.3217', 'day' ),
-                                                   0, [ ] ),
-    'moon_volume'                   : RPNOperator( lambda: RPNMeasurement( '2.1958e19', 'meter^3' ),
-                                                   0, [ ] ),
-
-    'mars_mass'                     : RPNOperator( lambda: RPNMeasurement( '6.4191269e23', 'kilogram' ),
-                                                   0, [ ] ),
-    'mars_radius'                   : RPNOperator( lambda: RPNMeasurement( '3.3962e6', 'meter' ),
-                                                   0, [ ] ),
-    'mars_revolution'               : RPNOperator( lambda: RPNMeasurement( '686.980', 'day' ),
-                                                   0, [ ] ),
-    'mars_volume'                   : RPNOperator( lambda: RPNMeasurement( '1.6318e20', 'meter^3' ),
-                                                   0, [ ] ),
-
-    'jupiter_mass'                  : RPNOperator( lambda: RPNMeasurement( '1.8983e27', 'kilogram' ),
-                                                   0, [ ] ),
-    'jupiter_radius'                : RPNOperator( lambda: RPNMeasurement( '7.1492e7', 'meter' ),
-                                                   0, [ ] ),
-    'jupiter_revolution'            : RPNOperator( lambda: RPNMeasurement( '11.862', 'year' ),
-                                                   0, [ ] ),
-    'jupiter_volume'                : RPNOperator( lambda: RPNMeasurement( '1.43128e24', 'meter^3' ),
-                                                   0, [ ] ),
-
-    'saturn_mass'                   : RPNOperator( lambda: RPNMeasurement( '5.6836e26', 'kilogram' ),
-                                                   0, [ ] ),
-    'saturn_radius'                 : RPNOperator( lambda: RPNMeasurement( '6.0268e7', 'meter' ),
-                                                   0, [ ] ),
-    'saturn_revolution'             : RPNOperator( lambda: RPNMeasurement( '29.457', 'year' ),
-                                                   0, [ ] ),
-    'saturn_volume'                 : RPNOperator( lambda: RPNMeasurement( '8.2713e23', 'meter^3' ),
-                                                   0, [ ] ),
-
-    'uranus_mass'                   : RPNOperator( lambda: RPNMeasurement( '8.6816e25', 'kilogram' ),
-                                                   0, [ ] ),
-    'uranus_radius'                 : RPNOperator( lambda: RPNMeasurement( '2.5559e7', 'meter' ),
-                                                   0, [ ] ),
-    'uranus_revolution'             : RPNOperator( lambda: RPNMeasurement( '84.011', 'year' ),
-                                                   0, [ ] ),
-    'uranus_volume'                 : RPNOperator( lambda: RPNMeasurement( '6.833e22', 'meter^3' ),
-                                                   0, [ ] ),
-
-    'neptune_mass'                  : RPNOperator( lambda: RPNMeasurement( '1.0242e26', 'kilogram' ),
-                                                   0, [ ] ),
-    'neptune_radius'                : RPNOperator( lambda: RPNMeasurement( '2.4764e7', 'meter' ),
-                                                   0, [ ] ),
-    'neptune_revolution'            : RPNOperator( lambda: RPNMeasurement( '164.79', 'year' ),
-                                                   0, [ ] ),
-    'neptune_volume'                : RPNOperator( lambda: RPNMeasurement( '6.254e22', 'meter^3' ),
-                                                   0, [ ] ),
-
-    'pluto_mass'                    : RPNOperator( lambda: RPNMeasurement( '1.0303e22', 'kilogram' ),
-                                                   0, [ ] ),
-    'pluto_radius'                  : RPNOperator( lambda: RPNMeasurement( '1.185e6', 'meter' ),
-                                                   0, [ ] ),
-    'pluto_revolution'              : RPNOperator( lambda: RPNMeasurement( '247.94', 'year' ),
-                                                   0, [ ] ),
-    'pluto_volume'                  : RPNOperator( lambda: RPNMeasurement( '6.97e18', 'meter^3' ),
                                                    0, [ ] ),
 }
 
@@ -1277,6 +1140,8 @@ def createSizedRange( start, interval, size ):
 # //
 # //  preprocessTerms
 # //
+# //  *** Not used yet! ***
+# //
 # //******************************************************************************
 
 def preprocessTerms( terms ):
@@ -1296,21 +1161,18 @@ def preprocessTerms( terms ):
     if not validateArguments( terms ):
         return result
 
+    print( 'operators', operators )
+
     for term in terms:
         # translate the aliases into their real names
         if term in g.operatorAliases:
             result.append( g.operatorAliases[ term ] )
         # operators and unit operator names can be stuck right back in the list
-        elif term in ( operators, g.unitOperatorNames ):
+        elif term in g.unitOperatorNames or term in g.constantOperatorNames:
             result.append( term )
         # translate compound units in the equivalent operators
         elif ( '*' in term or '^' in term or '/' in term ) and \
             any( c in term for c in string.ascii_letters ):
-
-            # handle a unit operator
-            if not g.unitOperators:
-                loadUnitData( )
-
             newTerms = unpackUnitExpression( term )
 
             for newTerm in newTerms:
@@ -1556,12 +1418,15 @@ def dumpOperators( ):
 # //******************************************************************************
 
 def dumpConstants( ):
-    for i in sorted( [ key for key in constants ] ):
-        print( i )
+    if not g.constantOperators:
+        loadUnitData( )
+
+    for i in sorted( [ key for key in constantOperators ] ):
+        print( i, g.constantOperators[ i ].value )
 
     print( )
 
-    return len( constants )
+    return len( g.constantOperators )
 
 
 # //******************************************************************************
@@ -1728,15 +1593,15 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
         if not isList and not isGenerator and term in modifiers:
             operatorInfo = modifiers[ term ]
             operatorInfo.function( currentValueList )
-        elif not isList and term in g.unitOperatorNames or \
+        elif not isList and term in g.unitOperatorNames or term in g.constantOperatorNames or \
              ( '*' in term or '^' in term or '/' in term ) and \
              any( c in term for c in string.ascii_letters ):
 
-            # handle a unit operator
-            if not g.unitOperators:
-                loadUnitData( )
-
-            if term not in g.unitOperatorNames:
+            if term in g.unitOperatorNames:
+                isConstant = False
+            elif term in g.constantOperatorNames:
+                isConstant = True
+            else:
                 newTerms = unpackUnitExpression( term )
 
                 if len( newTerms ) == 1 and newTerms[ 0 ] == term:
@@ -1751,13 +1616,13 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
             if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
                 isinstance( currentValueList[ -1 ], RPNDateTime ) or ( isinstance( currentValueList[ -1 ], list ) and
                                                                        isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
-                    currentValueList.append( applyNumberValueToUnit( 1, term ) )
+                    currentValueList.append( applyNumberValueToUnit( 1, term, isConstant ) )
             # if the unit comes after a generator, convert it to a list and apply the unit to each
             elif isinstance( currentValueList[ -1 ], RPNGenerator ):
                 newArg = [ ]
 
                 for value in list( currentValueList.pop( ) ):
-                    newArg.append( applyNumberValueToUnit( value, term ) )
+                    newArg.append( applyNumberValueToUnit( value, term, isConstant ) )
 
                 currentValueList.append( newArg )
             # if the unit comes after a list, then apply it to every item in the list
@@ -1767,18 +1632,15 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
                 newArg = [ ]
 
                 for listItem in argList:
-                    newArg.append( applyNumberValueToUnit( listItem, term ) )
+                    newArg.append( applyNumberValueToUnit( listItem, term, isConstant ) )
 
                 currentValueList.append( newArg )
             # and if it's a plain old number, then apply it to the unit
             elif isinstance( currentValueList[ -1 ], ( mpf, int ) ):
-                currentValueList.append( applyNumberValueToUnit( currentValueList.pop( ), term ) )
+                currentValueList.append( applyNumberValueToUnit( currentValueList.pop( ), term, isConstant ) )
             else:
                 raise ValueError( 'unsupported type for a unit operator' )
         elif term in constants:
-            if not g.unitOperators:
-                loadUnitData( )
-
             if not evaluateConstantOperator( term, index, currentValueList ):
                 return False
         elif term in operators:

@@ -57,6 +57,21 @@ class RPNUnitTypeInfo( object ):
 
 # //******************************************************************************
 # //
+# //  class RPNConstantInfo
+# //
+# //******************************************************************************
+
+class RPNConstantInfo( object ):
+    '''This class defines the information needed to define a constant.'''
+    def __init__( self, value, unit, aliases, description = '' ):
+        self.value = value
+        self.unit = unit
+        self.aliases = aliases
+        self.description = description
+
+
+# //******************************************************************************
+# //
 # //  class RPNUnitInfo
 # //
 # //******************************************************************************

@@ -113,16 +113,16 @@ def makeAliases( ):
             pluralUnit = prefix[ 0 ] + dataUnit[ 1 ]
 
             if pluralUnit != unit:
-                newAliases[ pluralUnit ] = unit             # add plural alias
+                newAliases[ pluralUnit ] = unit                 # add plural alias
 
-            newAliases[ prefix[ 1 ] + dataUnit[ 0 ] ] = unit   # add SI abbreviation alias
-            newAliases[ prefix[ 1 ] + dataUnit[ 1 ] ] = unit   # add SI abbreviation alias
-            newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit   # add SI abbreviation alias
+            newAliases[ prefix[ 1 ] + dataUnit[ 0 ] ] = unit    # add SI abbreviation alias
+            newAliases[ prefix[ 1 ] + dataUnit[ 1 ] ] = unit    # add SI abbreviation alias
+            newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit    # add SI abbreviation alias
 
-            for alternateUnit in dataUnit[ 3 ]:             # add alternate spelling alias
+            for alternateUnit in dataUnit[ 3 ]:                 # add alternate spelling alias
                 newAliases[ prefix[ 0 ] + alternateUnit ] = unit
 
-            for alternateUnit in dataUnit[ 4 ]:             # add alternate spelling plural alias
+            for alternateUnit in dataUnit[ 4 ]:                 # add alternate spelling plural alias
                 newAliases[ prefix[ 0 ] + alternateUnit ] = unit
 
         for prefix in binaryPrefixes:
@@ -130,16 +130,16 @@ def makeAliases( ):
             pluralUnit = prefix[ 0 ] + dataUnit[ 1 ]
 
             if pluralUnit != unit:
-                newAliases[ pluralUnit ] = unit                # add plural alias
+                newAliases[ pluralUnit ] = unit                 # add plural alias
 
-            newAliases[ prefix[ 1 ] + dataUnit[ 0 ] ] = unit   # add SI abbreviation alias
-            newAliases[ prefix[ 1 ] + dataUnit[ 1 ] ] = unit   # add SI abbreviation alias
-            newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit   # add SI abbreviation alias
+            newAliases[ prefix[ 1 ] + dataUnit[ 0 ] ] = unit    # add SI abbreviation alias
+            newAliases[ prefix[ 1 ] + dataUnit[ 1 ] ] = unit    # add SI abbreviation alias
+            newAliases[ prefix[ 1 ] + dataUnit[ 2 ] ] = unit    # add SI abbreviation alias
 
-            for alternateUnit in dataUnit[ 3 ]:                # add alternate spelling alias
+            for alternateUnit in dataUnit[ 3 ]:                 # add alternate spelling alias
                 newAliases[ prefix[ 0 ] + alternateUnit ] = unit
 
-            for alternateUnit in dataUnit[ 4 ]:                # add alternate spelling plural alias
+            for alternateUnit in dataUnit[ 4 ]:                 # add alternate spelling plural alias
                 newAliases[ prefix[ 0 ] + alternateUnit ] = unit
 
     for unit in unitOperators:
@@ -153,6 +153,12 @@ def makeAliases( ):
 
         if unitInfo.abbrev != '':
             newAliases[ unitInfo.abbrev ] = unit
+
+    for constant in constantOperators:
+        constantInfo = constantOperators[ constant ]
+
+        for alias in constantInfo.aliases:
+            newAliases[ alias ] = constant
 
     return newAliases
 
@@ -629,6 +635,7 @@ def initializeConversionMatrix( unitConversionMatrix ):
     with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
         pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( list( unitOperators.keys( ) ), pickleFile )
+        pickle.dump( list( constantOperators.keys( ) ), pickleFile )
         pickle.dump( newAliases, pickleFile )
 
     # save the actual unit data
@@ -638,11 +645,6 @@ def initializeConversionMatrix( unitConversionMatrix ):
         pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( basicUnitTypes, pickleFile )
         pickle.dump( unitOperators, pickleFile )
-
-    fileName = getDataPath( ) + os.sep + 'constants.pckl.bz2'
-
-    with contextlib.closing( bz2.BZ2File( fileName, 'wb' ) ) as pickleFile:
-        pickle.dump( PROGRAM_VERSION, pickleFile )
         pickle.dump( constantOperators, pickleFile )
 
     fileName = getDataPath( ) + os.sep + 'unit_conversions.pckl.bz2'

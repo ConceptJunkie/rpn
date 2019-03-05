@@ -98,6 +98,7 @@ zhangConjecturesAllowed = False
 # unit data
 basicUnitTypes = { }
 constantOperators = { }
+constantOperatorNames = [ ]
 operatorAliases = { }
 unitConversionMatrix = { }
 unitOperators = { }
