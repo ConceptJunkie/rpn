@@ -1421,7 +1421,7 @@ def dumpConstants( ):
     if not g.constantOperators:
         loadUnitData( )
 
-    for i in sorted( [ key for key in constantOperators ] ):
+    for i in sorted( [ key for key in g.constantOperators ] ):
         print( i, g.constantOperators[ i ].value )
 
     print( )
