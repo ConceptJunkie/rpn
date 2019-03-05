@@ -316,7 +316,7 @@ constantOperators = {
 
     'electron_mass' :
         RPNConstantInfo( '9.10938356e-31', 'kilogram',
-                         [ ],
+                         [ 'electron_rest_mass' ],
                          '''
 ''' ),
 
@@ -361,25 +361,25 @@ constantOperators = {
     # sun_day
     'sun_luminosity' :
         RPNConstantInfo( '3.826e26', 'watt',
-                         [ ],
+                         [ 'solar_luminosity' ],
                          '''
 ''' ),
 
     'sun_mass' :
         RPNConstantInfo( '1.988500e30', 'kilogram',
-                         [ ],
+                         [ 'solar_mass' ],
                          '''
 ''' ),
 
     'sun_radius' :
         RPNConstantInfo( '6.9599e8', 'meter',
-                         [ ],
+                         [ 'solar_radius' ],
                          '''
 ''' ),
 
     'sun_volume' :
         RPNConstantInfo( '1.412e27', 'meter^3',
-                         [ ],
+                         [ 'solar_volume' ],
                          '''
 ''' ),
 
@@ -400,7 +400,7 @@ constantOperators = {
     # sidereal orbit period
     'mercury_revolution' :
         RPNConstantInfo( '87.969', 'day',
-                         [ ],
+                         [ 'mercury_year' ],
                          '''
 ''' ),
 
@@ -425,7 +425,7 @@ constantOperators = {
 
     'venus_revolution' :
         RPNConstantInfo( '224.701', 'day',
-                         [ ],
+                         [ 'venus_year' ],
                          '''
 ''' ),
 
@@ -488,26 +488,26 @@ constantOperators = {
 
     'moon_mass' :
         RPNConstantInfo( '7.342e22', 'kilogram',
-                         [ ],
+                         [ 'lunar_mass' ],
                          '''
 ''' ),
 
 
     'moon_radius' :
         RPNConstantInfo( '1.7381e6', 'meter',
-                         [ ],
+                         [ 'lunar_radius' ],
                          '''
 ''' ),
 
     'moon_revolution' :
         RPNConstantInfo( '27.3217', 'day',
-                         [ ],
+                         [ 'sidereal_month', 'lunar_revolution' ],
                          '''
 ''' ),
 
     'moon_volume' :
         RPNConstantInfo( '2.1958e19', 'meter^3',
-                         [ ],
+                         [ 'lunar_volume' ],
                          '''
 ''' ),
 
@@ -526,7 +526,7 @@ constantOperators = {
 
     'mars_revolution' :
         RPNConstantInfo( '686.980', 'day',
-                         [ ],
+                         [  'mars_year' ],
                          '''
 ''' ),
 
@@ -551,7 +551,7 @@ constantOperators = {
 
     'jupiter_revolution' :
         RPNConstantInfo( '11.862', 'year',
-                         [ ],
+                         [ 'jupiter_year' ],
                          '''
 ''' ),
 
@@ -576,7 +576,7 @@ constantOperators = {
 
     'saturn_revolution' :
         RPNConstantInfo( '29.457', 'year',
-                         [ ],
+                         [ 'saturn_year' ],
                          '''
 ''' ),
 
@@ -601,7 +601,7 @@ constantOperators = {
 
     'uranus_revolution' :
         RPNConstantInfo( '84.011', 'year',
-                         [ ],
+                         [ 'uranus_year' ],
                          '''
 ''' ),
 
@@ -626,7 +626,7 @@ constantOperators = {
 
     'neptune_revolution' :
         RPNConstantInfo( '164.79', 'year',
-                         [ ],
+                         [ 'neptune_year' ],
                          '''
 ''' ),
 
@@ -651,7 +651,7 @@ constantOperators = {
 
     'pluto_revolution' :
         RPNConstantInfo( '247.94', 'year',
-                         [ ],
+                         [ 'pluto_year' ],
                          '''
 ''' ),
 

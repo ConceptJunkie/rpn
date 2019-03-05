@@ -4429,7 +4429,7 @@ def runSpecialOperatorTests( ):
     testOperator( '150 degrees estimate' )
     testOperator( '150 farads estimate' )
     testOperator( '150 feet estimate' )
-    testOperator( '150 gee * estimate' )
+    testOperator( '150 gee estimate' )
     testOperator( '150 gallons estimate' )
     testOperator( '150 grams estimate' )
     testOperator( '150 GW estimate' )
