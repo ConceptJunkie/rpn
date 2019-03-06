@@ -223,55 +223,6 @@ class RPNOperator( object ):
 # //******************************************************************************
 
 constants = {
-    'default'                       : RPNOperator( lambda: -1,
-                                                   0, [ ] ),
-    'false'                         : RPNOperator( lambda: 0,
-                                                   0, [ ] ),
-    'true'                          : RPNOperator( lambda: 1,
-                                                   0, [ ] ),
-
-    # day of week constants
-    'monday'                        : RPNOperator( lambda: 1,
-                                                   0, [ ] ),
-    'tuesday'                       : RPNOperator( lambda: 2,
-                                                   0, [ ] ),
-    'wednesday'                     : RPNOperator( lambda: 3,
-                                                   0, [ ] ),
-    'thursday'                      : RPNOperator( lambda: 4,
-                                                   0, [ ] ),
-    'friday'                        : RPNOperator( lambda: 5,
-                                                   0, [ ] ),
-    'saturday'                      : RPNOperator( lambda: 6,
-                                                   0, [ ] ),
-    'sunday'                        : RPNOperator( lambda: 7,
-                                                   0, [ ] ),
-
-    # month constants
-    'january'                       : RPNOperator( lambda: 1,
-                                                   0, [ ] ),
-    'february'                      : RPNOperator( lambda: 2,
-                                                   0, [ ] ),
-    'march'                         : RPNOperator( lambda: 3,
-                                                   0, [ ] ),
-    'april'                         : RPNOperator( lambda: 4,
-                                                   0, [ ] ),
-    'may'                           : RPNOperator( lambda: 5,
-                                                   0, [ ] ),
-    'june'                          : RPNOperator( lambda: 6,
-                                                   0, [ ] ),
-    'july'                          : RPNOperator( lambda: 7,
-                                                   0, [ ] ),
-    'august'                        : RPNOperator( lambda: 8,
-                                                   0, [ ] ),
-    'september'                     : RPNOperator( lambda: 9,
-                                                   0, [ ] ),
-    'october'                       : RPNOperator( lambda: 10,
-                                                   0, [ ] ),
-    'november'                      : RPNOperator( lambda: 11,
-                                                   0, [ ] ),
-    'december'                      : RPNOperator( lambda: 12,
-                                                   0, [ ] ),
-
     # mathematical constants
     'apery_constant'                : RPNOperator( lambda: mpf( apery ),
                                                    0, [ ] ),
@@ -370,56 +321,6 @@ constants = {
     'vacuum_impedance'              : RPNOperator( getVacuumImpedance,
                                                    0, [ ] ),
     'von_klitzing_constant'         : RPNOperator( getVonKlitzingConstant,
-                                                   0, [ ] ),
-
-    # programming integer constants
-    'max_char'                      : RPNOperator( lambda: ( 1 << 7 ) - 1,
-                                                   0, [ ] ),
-    'max_double'                    : RPNOperator( getMaxDouble,
-                                                   0, [ ] ),
-    'max_float'                     : RPNOperator( getMaxFloat,
-                                                   0, [ ] ),
-    'max_long'                      : RPNOperator( lambda: ( 1 << 31 ) - 1,
-                                                   0, [ ] ),
-    'max_longlong'                  : RPNOperator( lambda: ( 1 << 63 ) - 1,
-                                                   0, [ ] ),
-    'max_quadlong'                  : RPNOperator( lambda: ( 1 << 127 ) - 1,
-                                                   0, [ ] ),
-    'max_short'                     : RPNOperator( lambda: ( 1 << 15 ) - 1,
-                                                   0, [ ] ),
-    'max_uchar'                     : RPNOperator( lambda: ( 1 << 8 ) - 1,
-                                                   0, [ ] ),
-    'max_ulong'                     : RPNOperator( lambda: ( 1 << 32 ) - 1,
-                                                   0, [ ] ),
-    'max_ulonglong'                 : RPNOperator( lambda: ( 1 << 64 ) - 1,
-                                                   0, [ ] ),
-    'max_uquadlong'                 : RPNOperator( lambda: ( 1 << 128 ) - 1,
-                                                   0, [ ] ),
-    'max_ushort'                    : RPNOperator( lambda: ( 1 << 16 ) - 1,
-                                                   0, [ ] ),
-    'min_char'                      : RPNOperator( lambda: -( 1 << 7 ),
-                                                   0, [ ] ),
-    'min_double'                    : RPNOperator( getMinDouble,
-                                                   0, [ ] ),
-    'min_float'                     : RPNOperator( getMinFloat,
-                                                   0, [ ] ),
-    'min_long'                      : RPNOperator( lambda: -( 1 << 31 ),
-                                                   0, [ ] ),
-    'min_longlong'                  : RPNOperator( lambda: -( 1 << 63 ),
-                                                   0, [ ] ),
-    'min_quadlong'                  : RPNOperator( lambda: -( 1 << 127 ),
-                                                   0, [ ] ),
-    'min_short'                     : RPNOperator( lambda: -( 1 << 15 ),
-                                                   0, [ ] ),
-    'min_uchar'                     : RPNOperator( lambda: 0,
-                                                   0, [ ] ),
-    'min_ulong'                     : RPNOperator( lambda: 0,
-                                                   0, [ ] ),
-    'min_ulonglong'                 : RPNOperator( lambda: 0,
-                                                   0, [ ] ),
-    'min_uquadlong'                 : RPNOperator( lambda: 0,
-                                                   0, [ ] ),
-    'min_ushort'                    : RPNOperator( lambda: 0,
                                                    0, [ ] ),
 
     # Planck constants
@@ -1597,10 +1498,13 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
              ( '*' in term or '^' in term or '/' in term ) and \
              any( c in term for c in string.ascii_letters ):
 
+            multipliable = True
+
             if term in g.unitOperatorNames:
                 isConstant = False
             elif term in g.constantOperatorNames:
                 isConstant = True
+                multipliable = g.constantOperators[ term ].multipliable
             else:
                 newTerms = unpackUnitExpression( term )
 
@@ -1612,34 +1516,43 @@ def evaluateTerm( term, index, currentValueList, lastArg = True ):
 
                     return True
 
-            # look for unit without a value (in which case we give it a value of 1)
-            if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
-                isinstance( currentValueList[ -1 ], RPNDateTime ) or ( isinstance( currentValueList[ -1 ], list ) and
-                                                                       isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
-                    currentValueList.append( applyNumberValueToUnit( 1, term, isConstant ) )
-            # if the unit comes after a generator, convert it to a list and apply the unit to each
-            elif isinstance( currentValueList[ -1 ], RPNGenerator ):
-                newArg = [ ]
+            if multipliable:
+                # look for unit without a value (in which case we give it a value of 1)
+                if ( len( currentValueList ) == 0 ) or isinstance( currentValueList[ -1 ], RPNMeasurement ) or \
+                    isinstance( currentValueList[ -1 ], RPNDateTime ) or ( isinstance( currentValueList[ -1 ], list ) and
+                                                                           isinstance( currentValueList[ -1 ][ 0 ], RPNMeasurement ) ):
+                        currentValueList.append( applyNumberValueToUnit( 1, term, isConstant ) )
+                # if the unit comes after a generator, convert it to a list and apply the unit to each
+                elif isinstance( currentValueList[ -1 ], RPNGenerator ):
+                    newArg = [ ]
 
-                for value in list( currentValueList.pop( ) ):
-                    newArg.append( applyNumberValueToUnit( value, term, isConstant ) )
+                    for value in list( currentValueList.pop( ) ):
+                        newArg.append( applyNumberValueToUnit( value, term, isConstant ) )
 
-                currentValueList.append( newArg )
-            # if the unit comes after a list, then apply it to every item in the list
-            elif isinstance( currentValueList[ -1 ], list ):
-                argList = currentValueList.pop( )
+                    currentValueList.append( newArg )
+                # if the unit comes after a list, then apply it to every item in the list
+                elif isinstance( currentValueList[ -1 ], list ):
+                    argList = currentValueList.pop( )
 
-                newArg = [ ]
+                    newArg = [ ]
 
-                for listItem in argList:
-                    newArg.append( applyNumberValueToUnit( listItem, term, isConstant ) )
+                    for listItem in argList:
+                        newArg.append( applyNumberValueToUnit( listItem, term, isConstant ) )
 
-                currentValueList.append( newArg )
-            # and if it's a plain old number, then apply it to the unit
-            elif isinstance( currentValueList[ -1 ], ( mpf, int ) ):
-                currentValueList.append( applyNumberValueToUnit( currentValueList.pop( ), term, isConstant ) )
+                    currentValueList.append( newArg )
+                # and if it's a plain old number, then apply it to the unit
+                elif isinstance( currentValueList[ -1 ], ( mpf, int ) ):
+                    currentValueList.append( applyNumberValueToUnit( currentValueList.pop( ), term, isConstant ) )
+                else:
+                    raise ValueError( 'unsupported type for a unit operator' )
             else:
-                raise ValueError( 'unsupported type for a unit operator' )
+                # only constant operators can be non-multipliable
+                constantInfo = g.constantOperators[ term ]
+
+                if constantInfo.unit == '':
+                    currentValueList.append( mpmathify( constantInfo.value ) )
+                else:
+                    currentValueList.append( RPNMeasurement( constantInfo.value, constantInfo.unit ) )
         elif term in constants:
             if not evaluateConstantOperator( term, index, currentValueList ):
                 return False

@@ -511,6 +511,7 @@ def cachedFunction( name, overrideIgnore=False ):
 
             if not g.ignoreCache or overrideIgnore:
                 cache[ ( args, kwargs ) ] = result
+
             return result
 
         return cacheResults

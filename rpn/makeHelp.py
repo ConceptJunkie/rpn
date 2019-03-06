@@ -838,7 +838,7 @@ reason to do that.
 
 6.2.0
 
-Experimental support for mpath plotting functionality using the new
+Experimental support for mpmath plotting functionality using the new
 operators, 'plot', 'plot2', 'plotc'.  These operators are not supported
 in the Windows installer.
 

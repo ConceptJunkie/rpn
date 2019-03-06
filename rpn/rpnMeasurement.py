@@ -762,8 +762,11 @@ def applyNumberValueToUnit( number, term, constant ):
     if isinstance( term, RPNUnits ):
         value = RPNMeasurement( number, term )
     elif constant:
-        value = RPNMeasurement( fmul( number, mpmathify( g.constantOperators[ term ].value ) ),
-                                g.constantOperators[ term ].unit )
+        if ( g.constantOperators[ term ].unit ):
+            value = RPNMeasurement( fmul( number, mpmathify( g.constantOperators[ term ].value ) ),
+                                    g.constantOperators[ term ].unit )
+        else:
+            value = fmul( number, g.constantOperators[ term ].value )
     else:
         if g.unitOperators[ term ].unitType == 'constant':
             value = RPNMeasurement( number, term ).convertValue( RPNMeasurement( 1, { 'unity' : 1 } ) )

@@ -33,6 +33,8 @@ from rpn.testHelp import *
 
 from mpmath import *
 
+import rpn.rpnGlobals as g
+
 slow = False
 
 

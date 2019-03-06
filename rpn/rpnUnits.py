@@ -14,6 +14,7 @@
 
 from mpmath import fadd, fdiv, fmul, log, mpf, mpmathify, pi, power
 
+from rpn.rpnConstantUtils import *
 from rpn.rpnEstimates import *
 from rpn.rpnUnitClasses import RPNConstantInfo, RPNUnitInfo, RPNUnitTypeInfo
 
@@ -293,7 +294,7 @@ basicUnitTypes = {
 # //
 # //  constantOperators
 # //
-# //  unit name : value, aliases, description
+# //  unit name : value, unit, aliases, multipliable, description
 # //
 # //  When unit types are multiplied in compound units, they need to be
 # //  specified in alphabetical order in the name, but not the representations.
@@ -303,56 +304,47 @@ basicUnitTypes = {
 constantOperators = {
     # subatomic particle constants
     'alpha_particle_mass' :
-        RPNConstantInfo( '6.644657230e-27', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '6.644657230e-27', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'deuteron_mass' :
-        RPNConstantInfo( '3.343583719e-27', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '3.343583719e-27', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'electron_mass' :
-        RPNConstantInfo( '9.10938356e-31', 'kilogram',
-                         [ 'electron_rest_mass' ],
+        RPNConstantInfo( '9.10938356e-31', 'kilogram', [ 'electron_rest_mass' ], True,
                          '''
 ''' ),
 
     'helion_mass' :
-        RPNConstantInfo( '5.006412700e-27', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '5.006412700e-27', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'muon_mass' :
-        RPNConstantInfo( '1.883531594e-28', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '1.883531594e-28', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'neutron_mass' :
-        RPNConstantInfo( '1.674927471e-27', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '1.674927471e-27', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'proton_mass' :
-        RPNConstantInfo( '1.672621898e-27', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '1.672621898e-27', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'tau_mass' :
-        RPNConstantInfo( '3.16747e-27', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '3.16747e-27', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'triton_mass' :
-        RPNConstantInfo( '5.007356665e-27', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '5.007356665e-27', 'kilogram', [ ], True,
                          '''
 ''' ),
 
@@ -360,304 +352,493 @@ constantOperators = {
     # heavenly body constants
     # sun_day
     'sun_luminosity' :
-        RPNConstantInfo( '3.826e26', 'watt',
-                         [ 'solar_luminosity' ],
+        RPNConstantInfo( '3.826e26', 'watt', [ 'solar_luminosity' ], True,
                          '''
 ''' ),
 
     'sun_mass' :
-        RPNConstantInfo( '1.988500e30', 'kilogram',
-                         [ 'solar_mass' ],
+        RPNConstantInfo( '1.988500e30', 'kilogram', [ 'solar_mass' ], True,
                          '''
 ''' ),
 
     'sun_radius' :
-        RPNConstantInfo( '6.9599e8', 'meter',
-                         [ 'solar_radius' ],
+        RPNConstantInfo( '6.9599e8', 'meter', [ 'solar_radius' ], True,
                          '''
 ''' ),
 
     'sun_volume' :
-        RPNConstantInfo( '1.412e27', 'meter^3',
-                         [ 'solar_volume' ],
+        RPNConstantInfo( '1.412e27', 'meter^3', [ 'solar_volume' ], True,
                          '''
 ''' ),
 
 
     'mercury_mass' :
-        RPNConstantInfo( '3.301e26', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '3.301e26', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     # equitorial radius
     'mercury_radius' :
-        RPNConstantInfo( '2.4397e6', 'meter',
-                         [ ],
+        RPNConstantInfo( '2.4397e6', 'meter', [ ], True,
                          '''
 ''' ),
 
     # sidereal orbit period
     'mercury_revolution' :
-        RPNConstantInfo( '87.969', 'day',
-                         [ 'mercury_year' ],
+        RPNConstantInfo( '87.969', 'day', [ 'mercury_year' ], True,
                          '''
 ''' ),
 
     'mercury_volume' :
-        RPNConstantInfo( '6.083e19', 'meter^3',
-                         [ ],
+        RPNConstantInfo( '6.083e19', 'meter^3', [ ], True,
                          '''
 ''' ),
 
 
     'venus_mass' :
-        RPNConstantInfo( '4.8689952e24', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '4.8689952e24', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'venus_radius' :
-        RPNConstantInfo( '6.0518e6', 'meter',
-                         [ ],
+        RPNConstantInfo( '6.0518e6', 'meter', [ ], True,
                          '''
 ''' ),
 
     'venus_revolution' :
-        RPNConstantInfo( '224.701', 'day',
-                         [ 'venus_year' ],
+        RPNConstantInfo( '224.701', 'day', [ 'venus_year' ], True,
                          '''
 ''' ),
 
     'venus_volume' :
-        RPNConstantInfo( '9.2843e20', 'meter^3',
-                         [ ],
+        RPNConstantInfo( '9.2843e20', 'meter^3', [ ], True,
                          '''
 ''' ),
 
 
     'earth_density' :
-        RPNConstantInfo( '5.514', 'gram/centimeter^3',
-                         [ ],                                       # https://en.wikipedia.org/wiki/Earth#Composition_and_structure
+        RPNConstantInfo( '5.514', 'gram/centimeter^3', [ ], True,   # https://en.wikipedia.org/wiki/Earth#Composition_and_structure
                          '''
 ''' ),
 
     'earth_gravity' :
-        RPNConstantInfo( '9.80665', 'meter/second^2',
-                         [ 'earth_gravities', 'gee', 'gees', 'standard_gravity', 'standard_gravities' ],  # based on earth_radius
+        RPNConstantInfo( '9.80665', 'meter/second^2',               # based on earth_radius
+                         [ 'earth_gravities', 'gee', 'gees', 'standard_gravity', 'standard_gravities' ], True,
                          '''
 ''' ),
 
     'earth_mass' :
-        RPNConstantInfo( '5.9640955e24', 'kilogram',
-                         [ ],                                       # based on earth_radius and earth_gravity
+        RPNConstantInfo( '5.9640955e24', 'kilogram', [ ], True,     # based on earth_radius and earth_gravity
                          '''
 ''' ),
 
     'earth_radius' :
-        RPNConstantInfo( '6371800', 'meter',
-                         [ ],                                       # https://en.wikipedia.org/wiki/Earth_radius#Global_average_radii - volumetric radius
+        RPNConstantInfo( '6371800', 'meter', [ ], True,             # https://en.wikipedia.org/wiki/Earth_radius#Global_average_radii - volumetric radius
                          '''
 ''' ),
 
     'earth_volume' :
-        RPNConstantInfo( '1.083207324897e21', 'meter^3',
-                         [ ],                                       # based on earth_radius
+        RPNConstantInfo( '1.083207324897e21', 'meter^3', [ ], True, # based on earth_radius
                          '''
 ''' ),
 
 
     'sidereal_year' :
-        RPNConstantInfo( '365.256360417', 'day',
-                         [ ],
+        RPNConstantInfo( '365.256360417', 'day', [ ], True,
                          '''
 ''' ),
 
     'tropical_year' :
-        RPNConstantInfo( '365.24219', 'day',
-                         [ ],
+        RPNConstantInfo( '365.24219', 'day', [ ], True,
                          '''
 ''' ),
 
 
     'moon_gravity' :
         RPNConstantInfo( '1.62', 'meter/second^2',                  # based on moon_radius
-                         [ 'moon_gravities', 'lunar_gravity', 'lunar_gravities' ],
+                         [ 'moon_gravities', 'lunar_gravity', 'lunar_gravities' ], True,
                          '''
 ''' ),
 
     'moon_mass' :
-        RPNConstantInfo( '7.342e22', 'kilogram',
-                         [ 'lunar_mass' ],
+        RPNConstantInfo( '7.342e22', 'kilogram', [ 'lunar_mass' ], True,
                          '''
 ''' ),
 
 
     'moon_radius' :
-        RPNConstantInfo( '1.7381e6', 'meter',
-                         [ 'lunar_radius' ],
+        RPNConstantInfo( '1.7381e6', 'meter', [ 'lunar_radius' ], True,
                          '''
 ''' ),
 
     'moon_revolution' :
-        RPNConstantInfo( '27.3217', 'day',
-                         [ 'sidereal_month', 'lunar_revolution' ],
+        RPNConstantInfo( '27.3217', 'day', [ 'sidereal_month', 'lunar_revolution' ], True,
                          '''
 ''' ),
 
     'moon_volume' :
-        RPNConstantInfo( '2.1958e19', 'meter^3',
-                         [ 'lunar_volume' ],
+        RPNConstantInfo( '2.1958e19', 'meter^3', [ 'lunar_volume' ], True,
                          '''
 ''' ),
 
 
     'mars_mass' :
-        RPNConstantInfo( '6.4191269e23', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '6.4191269e23', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'mars_radius' :
-        RPNConstantInfo( '3.3962e6', 'meter',
-                         [ ],
+        RPNConstantInfo( '3.3962e6', 'meter', [ ], True,
                          '''
 ''' ),
 
     'mars_revolution' :
-        RPNConstantInfo( '686.980', 'day',
-                         [  'mars_year' ],
+        RPNConstantInfo( '686.980', 'day', [  'mars_year' ], True,
                          '''
 ''' ),
 
     'mars_volume' :
-        RPNConstantInfo( '1.6318e20', 'meter^3',
-                         [ ],
+        RPNConstantInfo( '1.6318e20', 'meter^3', [ ], True,
                          '''
 ''' ),
 
 
     'jupiter_mass' :
-        RPNConstantInfo( '1.8983e27', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '1.8983e27', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'jupiter_radius' :
-        RPNConstantInfo( '7.1492e7', 'meter',
-                         [ ],
+        RPNConstantInfo( '7.1492e7', 'meter', [ ], True,
                          '''
 ''' ),
 
     'jupiter_revolution' :
-        RPNConstantInfo( '11.862', 'year',
-                         [ 'jupiter_year' ],
+        RPNConstantInfo( '11.862', 'year', [ 'jupiter_year' ], True,
                          '''
 ''' ),
 
     'jupiter_volume' :
-        RPNConstantInfo( '1.43128e24', 'meter^3',
-                         [ ],
+        RPNConstantInfo( '1.43128e24', 'meter^3', [ ], True,
                          '''
 ''' ),
 
 
     'saturn_mass' :
-        RPNConstantInfo( '5.6836e26', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '5.6836e26', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'saturn_radius' :
-        RPNConstantInfo( '6.0268e7', 'meter',
-                         [ ],
+        RPNConstantInfo( '6.0268e7', 'meter', [ ], True,
                          '''
 ''' ),
 
     'saturn_revolution' :
-        RPNConstantInfo( '29.457', 'year',
-                         [ 'saturn_year' ],
+        RPNConstantInfo( '29.457', 'year', [ 'saturn_year' ], True,
                          '''
 ''' ),
 
     'saturn_volume' :
-        RPNConstantInfo( '8.2713e23', 'meter^3',
-                         [ ],
+        RPNConstantInfo( '8.2713e23', 'meter^3', [ ], True,
                          '''
 ''' ),
 
 
     'uranus_mass' :
-        RPNConstantInfo( '8.6816e25', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '8.6816e25', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'uranus_radius' :
-        RPNConstantInfo( '2.5559e7', 'meter',
-                         [ ],
+        RPNConstantInfo( '2.5559e7', 'meter', [ ], True,
                          '''
 ''' ),
 
     'uranus_revolution' :
-        RPNConstantInfo( '84.011', 'year',
-                         [ 'uranus_year' ],
+        RPNConstantInfo( '84.011', 'year', [ 'uranus_year' ], True,
                          '''
 ''' ),
 
     'uranus_volume' :
-        RPNConstantInfo( '6.833e22', 'meter^3',
-                         [ ],
+        RPNConstantInfo( '6.833e22', 'meter^3', [ ], True,
                          '''
 ''' ),
 
 
     'neptune_mass' :
-        RPNConstantInfo( '1.0242e26', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '1.0242e26', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'neptune_radius' :
-        RPNConstantInfo( '2.4764e7', 'meter',
-                         [ ],
+        RPNConstantInfo( '2.4764e7', 'meter', [ ], True,
                          '''
 ''' ),
 
     'neptune_revolution' :
-        RPNConstantInfo( '164.79', 'year',
-                         [ 'neptune_year' ],
+        RPNConstantInfo( '164.79', 'year', [ 'neptune_year' ], True,
                          '''
 ''' ),
 
     'neptune_volume' :
-        RPNConstantInfo( '6.254e22', 'meter^3',
-                         [ ],
+        RPNConstantInfo( '6.254e22', 'meter^3', [ ], True,
                          '''
 ''' ),
 
 
     'pluto_mass' :
-        RPNConstantInfo( '1.0303e22', 'kilogram',
-                         [ ],
+        RPNConstantInfo( '1.0303e22', 'kilogram', [ ], True,
                          '''
 ''' ),
 
     'pluto_radius' :
-        RPNConstantInfo( '1.185e6', 'meter',
-                         [ ],
+        RPNConstantInfo( '1.185e6', 'meter', [ ], True,
                          '''
 ''' ),
 
     'pluto_revolution' :
-        RPNConstantInfo( '247.94', 'year',
-                         [ 'pluto_year' ],
+        RPNConstantInfo( '247.94', 'year', [ 'pluto_year' ], True,
                          '''
 ''' ),
 
     'pluto_volume' :
-        RPNConstantInfo( '6.97e18', 'meter^3',
-                         [ ],
+        RPNConstantInfo( '6.97e18', 'meter^3', [ ], True,
+                         '''
+''' ),
+
+
+    # boolean constants
+    'default' :
+        RPNConstantInfo( '-1', '', [ ], False,
+                         '''
+''' ),
+
+    'false' :
+        RPNConstantInfo( 0, '', [ ], False,
+                         '''
+''' ),
+
+    'true' :
+        RPNConstantInfo( 1, '', [ ], False,
+                         '''
+''' ),
+
+    # day of week constants
+    'monday' :
+        RPNConstantInfo( 1, '', [ 'mon' ], False,
+                         '''
+''' ),
+
+    'tuesday' :
+        RPNConstantInfo( 2, '', [ 'tue', 'tues' ], False,
+                         '''
+''' ),
+
+    'wednesday' :
+        RPNConstantInfo( 3, '', [ 'wed' ], False,
+                         '''
+''' ),
+
+    'thursday' :
+        RPNConstantInfo( 4, '', [ 'thu', 'thur','thurs' ], False,
+                         '''
+''' ),
+
+    'friday' :
+        RPNConstantInfo( 5, '', [ 'fri' ], False,
+                         '''
+''' ),
+
+    'saturday' :
+        RPNConstantInfo( 6, '', [ 'sat' ], False,
+                         '''
+''' ),
+
+    'sunday' :
+        RPNConstantInfo( 7, '', [ ], False,
+                         '''
+''' ),
+
+    # month constants
+    'january' :
+        RPNConstantInfo( 1, '', [ 'jan' ], False,
+                         '''
+''' ),
+
+    'february' :
+        RPNConstantInfo( 2, '', [ 'feb' ],  False,
+                         '''
+''' ),
+
+    'march' :
+        RPNConstantInfo( 3, '', [ 'mar' ], False,
+                         '''
+''' ),
+
+    'april' :
+        RPNConstantInfo( 4, '', [ 'apr' ], False,
+                         '''
+''' ),
+
+    'may' :
+        RPNConstantInfo( 5, '', [ ], False,
+                         '''
+''' ),
+
+    'june' :
+        RPNConstantInfo( 6, '', [ 'jun' ], False,
+                         '''
+''' ),
+
+    'july' :
+        RPNConstantInfo( 7, '', [ 'jul' ], False,
+                         '''
+''' ),
+
+    'august' :
+        RPNConstantInfo( 8, '', [ 'aug' ], False,
+                         '''
+''' ),
+
+    'september' :
+        RPNConstantInfo( 9, '', [ 'sep' ], False,
+                         '''
+''' ),
+
+    'october' :
+        RPNConstantInfo( 10, '', [ 'oct' ], False,
+                         '''
+''' ),
+
+    'november' :
+        RPNConstantInfo( 11, '', [ 'nov' ], False,
+                         '''
+''' ),
+
+    'december' :
+        RPNConstantInfo( 12, '', [ 'dec' ], False,
+                         '''
+''' ),
+
+    # programming integer constants
+    'max_char' :
+        RPNConstantInfo( ( 1 << 7 ) - 1, '', [ 'maxchar', 'max_int8', 'maxint8' ], False,
+                         '''
+''' ),
+
+    'max_double' :
+        RPNConstantInfo( getMaxDouble( ), '', [ 'maxdouble' ], False,
+                         '''
+''' ),
+
+    'max_float' :
+        RPNConstantInfo( getMaxFloat( ), '', [ 'maxfloat' ], False,
+                         '''
+''' ),
+
+    'max_long' :
+        RPNConstantInfo( ( 1 << 31 ) - 1, '', [ 'max_int', 'maxint', 'max_int32', 'maxint32', 'maxlong' ], False,
+                         '''
+''' ),
+
+    'max_longlong' :
+        RPNConstantInfo( ( 1 << 63 ) - 1, '', [ 'max_int64', 'maxint64', 'maxlonglong' ], False,
+                         '''
+''' ),
+
+    'max_quadlong' :
+        RPNConstantInfo( ( 1 << 127 ) - 1, '', [ 'max_int128', 'maxint128', 'max_quad', 'maxquad', 'maxquadlong' ], False,
+                         '''
+''' ),
+
+    'max_short' :
+        RPNConstantInfo( ( 1 << 15 ) - 1, '', [ 'max_int16', 'maxint16', 'maxshort' ], False,
+                         '''
+''' ),
+
+    'max_uchar' :
+        RPNConstantInfo( ( 1 << 8 ) - 1, '', [ 'max_uint8', 'maxuint8', 'maxuchar' ], False,
+                         '''
+''' ),
+
+    'max_ulong' :
+        RPNConstantInfo( ( 1 << 32 ) - 1, '', [ 'max_uint32', 'maxuint32', 'max_uint', 'maxuint', 'maxulong' ], False,
+                         '''
+''' ),
+
+    'max_ulonglong' :
+        RPNConstantInfo( ( 1 << 64 ) - 1, '', [ 'max_uint64', 'maxuint64', 'maxulonglong' ], False,
+                         '''
+''' ),
+
+    'max_uquadlong' :
+        RPNConstantInfo( ( 1 << 128 ) - 1, '', [ 'max_uint128', 'maxuint128', 'maxuquadlong' ], False,
+                         '''
+''' ),
+
+    'max_ushort' :
+        RPNConstantInfo( ( 1 << 16 ) - 1, '', [ 'max_uint16', 'maxuint16', 'maxushort' ], False,
+                         '''
+''' ),
+
+    'min_char' :
+        RPNConstantInfo( -( 1 << 7 ), '', [ 'min_int8', 'minint8', 'minchar' ], False,
+                         '''
+''' ),
+
+    'min_double' :
+        RPNConstantInfo( getMinDouble( ), '', [ 'mindouble' ], False,
+                         '''
+''' ),
+
+    'min_float' :
+        RPNConstantInfo( getMinFloat( ), '', [ 'minfloat' ], False,
+                         '''
+''' ),
+
+    'min_long' :
+        RPNConstantInfo( -( 1 << 31 ), '', [ 'min_int32', 'minint32', 'minlong' ], False,
+                         '''
+''' ),
+
+    'min_longlong' :
+        RPNConstantInfo( -( 1 << 63 ), '', [ 'min_int64', 'minint64', 'minlonglong' ], False,
+                         '''
+''' ),
+
+    'min_quadlong' :
+        RPNConstantInfo( -( 1 << 127 ), '', [ 'min_int128', 'minint128', 'min_quad', 'minquad', 'minquadlong' ], False,
+                         '''
+''' ),
+
+    'min_short' :
+        RPNConstantInfo( -( 1 << 15 ), '', [ 'min_int16', 'minint16', 'minshort' ], False,
+                         '''
+''' ),
+
+    'min_uchar' :
+        RPNConstantInfo( 0, '', [ 'min_uint8', 'minuint8', 'minuchar' ], False,
+                         '''
+''' ),
+
+    'min_ulong' :
+        RPNConstantInfo( 0, '', [ 'min_uint32', 'minuint32', 'minulong' ], False,
+                         '''
+''' ),
+
+    'min_ulonglong' :
+        RPNConstantInfo( 0, '', [ 'min_uint64', 'minuint64', 'minulonglong' ], False,
+                         '''
+''' ),
+
+    'min_uquadlong' :
+        RPNConstantInfo( 0, '', [ 'min_uint128', 'minuint128', 'min_quad', 'minquad', 'minquadlong' ], False,
+                         '''
+''' ),
+
+    'min_ushort' :
+        RPNConstantInfo( 0, '', [ 'min_uint16', 'minuint16', 'minushort' ], False,
                          '''
 ''' ),
 }

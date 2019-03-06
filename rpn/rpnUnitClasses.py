@@ -63,10 +63,11 @@ class RPNUnitTypeInfo( object ):
 
 class RPNConstantInfo( object ):
     '''This class defines the information needed to define a constant.'''
-    def __init__( self, value, unit, aliases, description = '' ):
+    def __init__( self, value, unit, aliases, multipliable, description = '' ):
         self.value = value
         self.unit = unit
         self.aliases = aliases
+        self.multipliable = multipliable
         self.description = description
 
 
