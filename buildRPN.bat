@@ -2,11 +2,11 @@ rem TCC script for building the RPN wheel
 
 del dist\*.whl
 del dist\*.gz
-rem del rpn\rpndata\oeis.cache
-rem del rpn\rpndata\locations.pckl.bz2
+del rpn\rpndata\oeis.cache
+del rpn\rpndata\locations.pckl.bz2
 
-rem python makeUnits.py
-rem python makeHelp.py
+python makeUnits.py
+python makeHelp.py
 
 python setup.py sdist bdist_wheel
 

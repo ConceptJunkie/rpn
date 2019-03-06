@@ -51,6 +51,26 @@ import rpn.rpnGlobals as g
 
 # //******************************************************************************
 # //
+# //  getSourcePath
+# //
+# //******************************************************************************
+
+@lru_cache( 1 )
+def getSourcePath( ):
+    '''Returns the path for the data files.'''
+    if getattr( sys, 'frozen', False ):
+        sourcePath = os.path.dirname( sys.executable )
+    else:
+        sourcePath = os.path.dirname( os.path.realpath( __file__ ) )
+
+    if not os.path.isdir( sourcePath ):
+        os.makedirs( sourcePath )
+
+    return sourcePath
+
+
+# //******************************************************************************
+# //
 # //  getDataPath
 # //
 # //******************************************************************************
