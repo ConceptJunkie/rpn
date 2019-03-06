@@ -2525,6 +2525,13 @@ A 'double-word' consisting of 2 16-bits words, or 32 bits total.
                      '''
 ''' ),
 
+    'kilogram*meter^2/kelvin*second^2' :
+        RPNUnitInfo( 'information_entropy', 'kilogram*meter^2/kelvin*second^2', 'kilogram*meter^2/kelvin*second^2', '',
+                     [ ], [ 'physics' ],
+                     '''
+This is the unit of the Boltzmann constant.
+''' ),
+
     'library_of_congress' :
         RPNUnitInfo( 'information_entropy', 'library_of_congress', 'x_library_of_congress', 'LoC',
                      [ 'congress', 'congresses', 'loc' ], [ 'computing' ],
@@ -3734,49 +3741,49 @@ This conversion is required to do mass-energy equivalence calculations.
     # temperature
     'celsius' :
         RPNUnitInfo( 'temperature', 'celsius', 'degrees_celsius', 'Cel',
-                     [ 'centigrade', 'degC', 'degreesC', 'degree_centigrade', 'degrees_centigrade' ], [ 'SI' ],
+                     [ 'centigrade', 'degC', 'degreeC', 'degreesC', 'degree_centigrade', 'degrees_centigrade' ], [ 'SI' ],
                      '''
 ''' ),
 
     'degree_newton' :
         RPNUnitInfo( 'temperature', 'degree_newton', 'degrees_newton', '',
-                     [ 'newton_degree', 'newton_degrees', 'degN', 'degreesN' ], [ 'obsolete' ],
+                     [ 'degN', 'degreeN', 'degreesN' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'delisle' :
         RPNUnitInfo( 'temperature', 'delisle', 'degrees_delisle', 'De',
-                     [ 'degD', 'degreesD' ], [ 'obsolete' ],
+                     [ 'degD', 'degreeD', 'degreesD', 'degree_delisle' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'fahrenheit' :
         RPNUnitInfo( 'temperature', 'fahrenheit', 'degrees_fahrenheit', '',
-                     [ 'fahr', 'degF', 'degreesF' ], [ 'US', 'traditional' ],
+                     [ 'fahr', 'degF', 'degreeF', 'degreesF', 'degree_fahrenheit' ], [ 'US', 'traditional' ],
                      '''
 ''' ),
 
     'kelvin' :
         RPNUnitInfo( 'temperature', 'kelvin', 'degrees_kelvin', 'K',
-                     [ 'degK', 'degreesK' ], [ 'SI' ],
+                     [ 'degK', 'degreeK', 'degreesK', 'degree_kelvin' ], [ 'SI' ],
                      '''
 ''' ),
 
     'rankine' :
         RPNUnitInfo( 'temperature', 'rankine', 'degrees_rankine', 'R',
-                     [ 'degR', 'degreesR' ], [ 'obsolete' ],
+                     [ 'degR', 'degreeR', 'degreesR', 'degree_rankine' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'reaumur' :
         RPNUnitInfo( 'temperature', 'reaumur', 'degrees_reaumur', 'Re',
-                     [ 'degRe', 'degreesRe' ], [ 'obsolete' ],
+                     [ 'degRe', 'degreeRe', 'degreesRe', 'degree_reaumur' ], [ 'obsolete' ],
                      '''
 ''' ),
 
     'romer' :
         RPNUnitInfo( 'temperature', 'romer', 'degrees_romer', 'Ro',
-                     [ 'degRo', 'degreesRo' ], [ 'obsolete' ],
+                     [ 'degRo', 'degreeRo', 'degreesRo', 'degree_romer' ], [ 'obsolete' ],
                      '''
 ''' ),
 
@@ -4865,8 +4872,8 @@ unitConversionMatrix = {
     ( 'abcoulomb',                  'coulomb' )                             : mpmathify( '10' ),
     ( 'abfarad',                    'farad' )                               : mpmathify( '1.0e9' ),
     ( 'abmho',                      'siemens' )                             : mpmathify( '1.0e9' ),
-    ( 'acre',                       'nanoacre' )                            : mpmathify( '1.0e9' ),
     ( 'acre',                       'foot^2' )                              : mpmathify( '43560' ),
+    ( 'acre',                       'nanoacre' )                            : mpmathify( '1.0e9' ),
     ( 'acre*foot',                  'foot^3' )                              : mpmathify( '43560' ),
     ( 'aln',                        'inch' )                                : mpmathify( '23.377077865' ),
     ( 'ampere',                     'coulomb/second' )                      : mpmathify( '1' ),
@@ -4891,6 +4898,7 @@ unitConversionMatrix = {
     ( 'beer_barrel',                'gallon' )                              : mpmathify( '31' ),
     ( 'berkovets',                  'dolya' )                               : mpmathify( '3686400' ),
     ( 'billion',                    'unity' )                               : mpmathify( '1.0e9' ),
+    ( 'bit',                        'kilogram*meter^2/kelvin*second^2' )    : fmul( mpmathify( '1.38064852e-23' ), log( 2 ) ),
     ( 'bit',                        'nat' )                                 : log( 2 ),
     ( 'blintz',                     'farshimmelt_blintz' )                  : mpmathify( '1.0e5' ),
     ( 'blintz',                     'furshlugginer_blintz' )                : mpmathify( '1.0e-6' ),
@@ -4905,6 +4913,8 @@ unitConversionMatrix = {
     ( 'carat',                      'grain' )                               : fadd( 3, fdiv( 1, 6 ) ),
     ( 'carucate',                   'acre' )                                : mpmathify( '120' ),
     ( 'carucate',                   'bovate' )                              : mpmathify( '8' ),
+    ( 'celsius',                    'degree_newton' )                       : fdiv( 33, 100 ),
+    ( 'celsius',                    'reaumur' )                             : fdiv( 5, 4 ),
     ( 'centillion',                 'unity' )                               : mpmathify( '1.0e303' ),
     ( 'century',                    'microcentury' )                        : mpmathify( '1.0e6' ),
     ( 'century',                    'nanocentury' )                         : mpmathify( '1.0e9' ),
@@ -4927,7 +4937,6 @@ unitConversionMatrix = {
     ( 'coulomb/kilogram',           'roentgen' )                            : mpmathify( '3876' ),
     ( 'coulomb/volt',               'farad' )                               : mpmathify( '1' ),
     ( 'cowznofski',                 'mingo' )                               : mpmathify( '10' ),
-    ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
     ( 'cubit',                      'inch' )                                : mpmathify( '18' ),
     ( 'cup',                        'dram' )                                : mpmathify( '64' ),
     ( 'cup',                        'fluid_ounce' )                         : mpmathify( '8' ),
@@ -4953,7 +4962,7 @@ unitConversionMatrix = {
     ( 'dozen',                      'unity' )                               : mpmathify( '12' ),
     ( 'dram',                       'scruple' )                             : mpmathify( '3' ),
     ( 'dry_barrel',                 'bushel' )                              : mpmathify( '4' ),
-    ( 'dry_barrel',                 'foot^2' )                              : fdiv( mpmathify( '49' ), mpmathify( '12' ) ),
+    ( 'dry_barrel',                 'foot^2' )                              : fdiv( 49, 12 ),
     ( 'dry_gallon',                 'dry_quart' )                           : mpmathify( '4' ),
     ( 'dry_hogshead',               'dry_barrel' )                          : mpmathify( '2' ),
     ( 'dry_pint',                   'foot^3' )                              : mpmathify( '0.0194446252894' ),
@@ -5018,7 +5027,7 @@ unitConversionMatrix = {
     ( 'googol',                     'unity' )                               : mpmathify( '1.0e100' ),
     ( 'grad',                       'degree' )                              : mpmathify( '0.9' ),
     ( 'gram',                       'dolya' )                               : mpmathify( '22.50481249152' ),
-    ( 'gram-equivalent',            'joule' )                               : fdiv( power( mpf( '299792458' ), 2 ), 1000 ),
+    ( 'gram-equivalent',            'joule' )                               : fdiv( power( 299792458, 2 ), 1000 ),
     ( 'gram-force',                 'newton' )                              : mpmathify( '0.00980665' ),
     ( 'gray',                       'joule/kilogram' )                      : mpmathify( '1' ),
     ( 'gray',                       'rad' )                                 : mpmathify( '100' ),
@@ -5043,8 +5052,8 @@ unitConversionMatrix = {
     ( 'hertz',                      'becquerel' )                           : mpmathify( '1' ),
     ( 'hogshead',                   'liter' )                               : mpmathify( '238.481' ),
     ( 'homestead',                  'acre' )                                : mpmathify( '160' ),
-    ( 'hoppus_ton',                 'meter^3' )                             : mpmathify( '1.8027' ),
     ( 'hoppus_ton',                 'hoppus_foot' )                         : mpmathify( '50' ),
+    ( 'hoppus_ton',                 'meter^3' )                             : mpmathify( '1.8027' ),
     ( 'horsepower',                 'watt' )                                : mpmathify( '745.69987158227022' ),
     ( 'horsepower*second',          'joule' )                               : mpmathify( '745.69987158227022' ),
     ( 'hour',                       'minute' )                              : mpmathify( '60' ),
@@ -5063,7 +5072,7 @@ unitConversionMatrix = {
     ( 'imperial_square',            'foot^2' )                              : mpmathify( '100' ),
     ( 'inch',                       'barleycorn' )                          : mpmathify( '3' ),
     ( 'inch',                       'caliber' )                             : mpmathify( '100' ),
-    ( 'inch',                       'cicero' )                              : fdiv( mpmathify( '50.8' ), mpmathify( '9' ) ),
+    ( 'inch',                       'cicero' )                              : fdiv( mpmathify( '50.8' ), 9 ),
     ( 'inch',                       'gutenberg' )                           : mpmathify( '7200' ),
     ( 'inch',                       'meter' )                               : mpmathify( '0.0254' ),
     ( 'inch',                       'mil' )                                 : mpmathify( '1000' ),
@@ -5080,6 +5089,7 @@ unitConversionMatrix = {
     ( 'joule',                      'second*watt' )                         : mpmathify( '1' ),
     ( 'joule*second^2/meter^2',     'gram' )                                : mpmathify( '1000' ),
     ( 'joule/second',               'watt' )                                : mpmathify( '1' ),
+    ( 'kelvin',                     'rankine' )                             : fdiv( 9, 5 ),
     ( 'ken',                        'inch' )                                : mpmathify( '83.4' ),
     ( 'kenning',                    'imperial_peck' )                       : mpmathify( '2' ),
     ( 'kilderkin',                  'firkin' )                              : mpmathify( '2' ),
@@ -5122,8 +5132,12 @@ unitConversionMatrix = {
     ( 'meter/second',               'bubnoff_unit' )                        : mpmathify( '3.15576e13' ),
     ( 'meter/second',               'kine' )                                : mpmathify( '100' ),
     ( 'meter/second',               'knot' )                                : mpmathify( '1.943844492' ),
+    ( 'meter^2',                    'barn' )                                : mpmathify( '1.0e28' ),
     ( 'meter^2',                    'foot^2' )                              : mpmathify( '10.7639104167' ),
+    ( 'meter^2',                    'outhouse' )                            : mpmathify( '1.0e34' ),
+    ( 'meter^2',                    'shed' )                                : mpmathify( '1.0e52' ),
     ( 'meter^3',                    'foot^3' )                              : mpmathify( '35.3146667215' ),
+    ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
     ( 'meter^3',                    'liter' )                               : mpmathify( '1000' ),
     ( 'meter^3*pascal',             'joule' )                               : mpmathify( '1' ),
     ( 'methuselah',                 'liter' )                               : mpmathify( '6.0' ),
@@ -5232,6 +5246,7 @@ unitConversionMatrix = {
     ( 'rack_unit',                  'meter' )                               : mpmathify( '0.0445' ),
     ( 'radian',                     'centrad' )                             : mpmathify( '100' ),
     ( 'radian',                     'degree' )                              : fdiv( 180, pi ),
+    ( 'reaumur',                    'degree_newton' )                       : fdiv( 33, 80 ),
     ( 'reed',                       'foot' )                                : mpmathify( '9' ),
     ( 'rehoboam',                   'liter' )                               : mpmathify( '4.5' ),
     ( 'reynolds',                   'pascal*second' )                       : mpmathify( '6894.75729' ),
@@ -5289,9 +5304,6 @@ unitConversionMatrix = {
     ( 'sphere',                     'steradian' )                           : fmul( 4, pi ),
     ( 'square_arcminute',           'square_arcsecond' )                    : mpmathify( '3600' ),
     ( 'square_degree',              'square_arcminute' )                    : mpmathify( '3600' ),
-    ( 'meter^2',                    'barn' )                                : mpmathify( '1.0e28' ),
-    ( 'meter^2',                    'outhouse' )                            : mpmathify( '1.0e34' ),
-    ( 'meter^2',                    'shed' )                                : mpmathify( '1.0e52' ),
     ( 'square_octant',              'square_degree' )                       : mpmathify( '2025' ),
     ( 'square_quadrant',            'square_degree' )                       : mpmathify( '8100' ),
     ( 'square_quintant',            'square_degree' )                       : mpmathify( '5184' ),
@@ -5304,7 +5316,7 @@ unitConversionMatrix = {
     ( 'stathenry',                  'henry' )                               : mpmathify( '898755178740' ),
     ( 'statmho',                    'siemens' )                             : mpmathify( '8.99e11' ),
     ( 'statohm',                    'ohm' )                                 : mpmathify( '898755178740' ),
-    ( 'statvolt',                   'volt' )                                : fdiv( mpf( '299792458' ), mpf( '1.0e6' ) ),
+    ( 'statvolt',                   'volt' )                                : fdiv( 299792458, 1000000 ),
     ( 'steradian',                  'radian^2' )                            : mpmathify( '1' ),
     ( 'steradian',                  'square_degree' )                       : power( fdiv( 180, pi ), 2 ),
     ( 'steradian',                  'square_grad' )                         : power( fdiv( 200, pi ), 2 ),
@@ -5339,9 +5351,9 @@ unitConversionMatrix = {
     ( 'toe',                        'calorie' )                             : mpmathify( '1.0e10' ),
     ( 'ton',                        'pound' )                               : mpmathify( '2000' ),
     ( 'ton_of_TNT',                 'joule' )                               : mpmathify( '4.184e9' ),
+    ( 'ton_of_TNT',                 'pound_of_TNT' )                        : mpmathify( '2000' ),
     ( 'ton_of_coal',                'joule' )                               : mpmathify( '29.288e9' ),
     ( 'tonne',                      'gram' )                                : mpmathify( '1.0e6' ),
-    ( 'ton_of_TNT',                 'pound_of_TNT' )                        : mpmathify( '2000' ),
     ( 'torr',                       'mmHg' )                                : mpmathify( '1' ),
     ( 'township',                   'acre' )                                : mpmathify( '23040' ),
     ( 'tredecillion',               'unity' )                               : mpmathify( '1.0e42' ),
@@ -5406,5 +5418,6 @@ unitConversionMatrix = {
     ( 'year',                       'day' )                                 : mpmathify( '365.25' ),   # Julian year = 365 and 1/4 days
     ( 'zentner',                    'gram' )                                : mpmathify( '50000' ),
     ( 'zolotnik',                   'dolya' )                               : mpmathify( '96' ),
+
 }
 

@@ -4,7 +4,7 @@
 # //
 # //  setup.py
 # //
-# //  RPN command-line calculator, setup script
+# //  RPN command-line calculator, setup script for the rpnChilada wheel
 # //  copyright (c) 2018, Rick Gutleber (rickg@his.com)
 # //
 # //  License: GNU GPL 3.0 (see <http://www.gnu.org/licenses/gpl.html> for more
@@ -25,7 +25,7 @@ import rpn.rpnGlobals as g
 
 def read( *paths ):
     '''Build a file path from *paths* and return the contents.'''
-    with open( os.path.join( *paths ), 'r') as f:
+    with open( os.path.join( *paths ), 'r' ) as f:
         return f.read( )
 
 setup(
@@ -98,6 +98,7 @@ access.
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Scientific/Engineering :: Mathematics',
         'Environment :: Console',
     ],

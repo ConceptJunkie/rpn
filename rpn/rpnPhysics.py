@@ -204,7 +204,7 @@ def calculateBlackHoleEntropy( measurement ):
     entropy = divide( getProduct( [ getPower( mass, 2 ), 4, pi, getNewtonsConstant( ) ] ),
                      getProduct( [ getReducedPlanckConstant( ), getSpeedOfLight( ), getLog( 10.0 ) ] ) )
 
-    return entropy
+    return getBoltzmannsConstant( ).multiply( entropy ).convert( 'bit' )
 
 
 # //******************************************************************************

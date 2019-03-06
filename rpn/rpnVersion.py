@@ -21,6 +21,7 @@
 PROGRAM_NAME = 'rpnChilada'
 PROGRAM_VERSION = '7.2.2'
 PROGRAM_VERSION_NAME = '7.2.2'
+DATA_VERSION = "1.0.0"
 COPYRIGHT_MESSAGE = 'copyright (c) 2019 (1988), Rick Gutleber (rickg@his.com)'
 
 PROGRAM_VERSION_STRING = ' ' + PROGRAM_VERSION + ' (' + PROGRAM_VERSION_NAME + ') - '

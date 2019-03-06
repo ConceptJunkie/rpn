@@ -45,9 +45,9 @@ import rpn.rpnGlobals as g
 # //
 # //******************************************************************************
 
+
 specialUnitConversionMatrix = {
     ( 'celsius', 'delisle' )                    : lambda c: fmul( fsub( 100, c ), fdiv( 3, 2 ) ),
-    ( 'celsius', 'degree_newton' )              : lambda c: fmul( c, fdiv( 33, 100 ) ),
     ( 'celsius', 'fahrenheit' )                 : lambda c: fadd( fmul( c, fdiv( 9, 5 ) ), 32 ),
     ( 'celsius', 'kelvin' )                     : lambda c: fadd( c, mpf( '273.15' ) ),
     ( 'celsius', 'rankine' )                    : lambda c: fmul( fadd( c, mpf( '273.15' ) ), fdiv( 9, 5 ) ),
@@ -62,12 +62,10 @@ specialUnitConversionMatrix = {
     ( 'delisle', 'reaumur' )                    : lambda d: fsub( 80, fmul( d, fdiv( 8, 15 ) ) ),
     ( 'delisle', 'romer' )                      : lambda d: fsub( 60, fmul( d, fdiv( 7, 20 ) ) ),
 
-    ( 'degree_newton', 'celsius' )              : lambda n: fmul( n, fdiv( 100, 33 ) ),
     ( 'degree_newton', 'delisle' )              : lambda n: fmul( fsub( 33, n ), fdiv( 50, 11 ) ),
     ( 'degree_newton', 'fahrenheit' )           : lambda n: fadd( fmul( n, fdiv( 60, 11 ) ), 32 ),
     ( 'degree_newton', 'kelvin' )               : lambda n: fadd( fmul( n, fdiv( 100, 33 ) ), mpf( '273.15' ) ),
     ( 'degree_newton', 'rankine' )              : lambda n: fadd( fmul( n, fdiv( 60, 11 ) ), mpf( '491.67' ) ),
-    ( 'degree_newton', 'reaumur' )              : lambda n: fmul( n, fdiv( 80, 33 ) ),
     ( 'degree_newton', 'romer' )                : lambda n: fadd( fmul( n, fdiv( 35, 22 ) ), mpf( 7.5 ) ),
 
     ( 'fahrenheit', 'celsius' )                 : lambda f: fmul( fsub( f, 32 ), fdiv( 5, 9 ) ),
@@ -82,7 +80,6 @@ specialUnitConversionMatrix = {
     ( 'kelvin', 'degree_newton' )               : lambda k: fmul( fsub( k, mpf( '273.15' ) ), fdiv( 33, 100 ) ),
     ( 'kelvin', 'delisle' )                     : lambda k: fmul( fsub( mpf( '373.15' ), k ), fdiv( 3, 2 ) ),
     ( 'kelvin', 'fahrenheit' )                  : lambda k: fsub( fmul( k, fdiv( 9, 5 ) ), mpf( '459.67' ) ),
-    ( 'kelvin', 'rankine' )                     : lambda k: fmul( k, fdiv( 9, 5 ) ),
     ( 'kelvin', 'reaumur' )                     : lambda k: fmul( fsub( k, mpf( '273.15' ) ), fdiv( 4, 5 ) ),
     ( 'kelvin', 'romer' )                       : lambda k: fadd( fmul( fsub( k, mpf( '273.15' ) ), fdiv( 21, 40 ) ), mpf( 7.5 ) ),
 
@@ -90,12 +87,9 @@ specialUnitConversionMatrix = {
     ( 'rankine', 'degree_newton' )              : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 11, 60 ) ),
     ( 'rankine', 'delisle' )                    : lambda r: fmul( fsub( mpf( '671.67' ), r ), fdiv( 5, 6 ) ),
     ( 'rankine', 'fahrenheit' )                 : lambda r: fsub( r, mpf( '459.67' ) ),
-    ( 'rankine', 'kelvin' )                     : lambda r: fmul( r, fdiv( 5, 9 ) ),
     ( 'rankine', 'reaumur' )                    : lambda r: fmul( fsub( r, mpf( '491.67' ) ), fdiv( 4, 9 ) ),
     ( 'rankine', 'romer' )                      : lambda r: fadd( fmul( fsub( r, mpf( '491.67' ) ), fdiv( 7, 24 ) ), mpf( '7.5' ) ),
 
-    ( 'reaumur', 'celsius' )                    : lambda re: fmul( re, fdiv( 5, 4 ) ),
-    ( 'reaumur', 'degree_newton' )              : lambda re: fmul( re, fdiv( 33, 80 ) ),
     ( 'reaumur', 'delisle' )                    : lambda re: fmul( fsub( 80, re ), fdiv( 15, 8 ) ),
     ( 'reaumur', 'fahrenheit' )                 : lambda re: fadd( fmul( re, fdiv( 9, 4 ) ), 32 ),
     ( 'reaumur', 'kelvin' )                     : lambda re: fadd( fmul( re, fdiv( 5, 4 ) ), mpf( '273.15' ) ),
@@ -443,7 +437,12 @@ class RPNMeasurement( object ):
             debugPrint( 'unit', unit, 'newUnit', newUnit )
 
             if unit != newUnit:
-                value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] ) )
+                if ( unit, newUnit ) in g.unitConversionMatrix:
+                    value = fmul( value, power( mpf( g.unitConversionMatrix[ ( unit, newUnit ) ] ), self.units[ unit ] ) )
+                elif ( unit, newUnit ) in specialUnitConversionMatrix:
+                    value = power( specialUnitConversionMatrix[ ( unit, newUnit ) ]( value ), self.units[ unit ] )
+                else:
+                    raise ValueError( 'cannot find conversion for ' + unit + ' and ' + newUnit )
 
             units.update( RPNUnits( g.unitOperators[ newUnit ].representation + "^" + str( self.units[ unit ] ) ) )
             debugPrint( 'value', value )
