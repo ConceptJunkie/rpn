@@ -22,7 +22,7 @@ The 7.2.0 release will show up on PyPI in the next day or two as soon as I have 
 
 ### Update - February 22, 2019
 
-Not much has happened with rpn lately, but I do have some good plans.  I haven't released 7.3 mostly due to laziness, but I've also got some solid ideas for improvements with the unit conversion functionality.  For one thing, I want to fold the constants into the units database, and I have an idea for adding some implicit unit conversion.
+Not much has happened with rpn lately, but I do have some good plans.  I haven't released 7.2 mostly due to laziness, but I've also got some solid ideas for improvements with the unit conversion functionality.  For one thing, I want to fold the constants into the units database, and I have an idea for adding some implicit unit conversion.
 
 I've also wanted to migrate from pyephem, which is no longer being developed, to Skyfield, which is recommended by the people who used to make pyephem.  Skyfield is also a pure Python library, which makes my life easier.  However, Skyfield is a more low-level library, so there's not a one-to-one correspondence for most of the pyephem functionality I've been using.
 
