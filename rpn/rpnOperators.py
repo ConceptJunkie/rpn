@@ -284,8 +284,6 @@ constants = {
                                                    0, [ ] ),       # average... it varies slightly
 
     # physical constants
-    'avogadro_number'               : RPNOperator( getAvogadrosNumber,
-                                                   0, [ ] ),
     'bohr_radius'                   : RPNOperator( getBohrRadius,
                                                    0, [ ] ),
     'boltzmann_constant'            : RPNOperator( getBoltzmannsConstant,

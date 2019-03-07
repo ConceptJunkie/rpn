@@ -4831,19 +4831,19 @@ def main( ):
     primeFile = Path( getDataPath( ) + os.sep + 'small_primes.cache' )
 
     if not primeFile.is_file( ):
-        print( 'Please run "prepareRPNPrimeData" to initialize the prime number data files.' )
+        print( 'Please run "preparePrimeData" to initialize the prime number data files.' )
         sys.exit( 0 )
 
     unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
 
     if not unitsFile.is_file( ):
-        print( 'Please run "makeRPNUnits" to initialize the unit conversion data files.' )
+        print( 'Please run "makeUnits" to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
     helpFile = Path( getDataPath( ) + os.sep + 'help.pckl.bz2' )
 
     if not helpFile.is_file( ):
-        print( 'Please run "makeRPNHelp" to initialize the help files.' )
+        print( 'Please run "makeHelp" to initialize the help files.' )
         sys.exit( 0 )
 
     loadHelpData( )

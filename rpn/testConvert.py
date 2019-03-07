@@ -487,6 +487,8 @@ def runConvertTests( ):
     testOperator( 'wood second convert' )
     testOperator( 'year second convert' )
 
+    expectResult( 'day second convert value', 86400 )
+
     # velocity
     testOperator( 'kine meter/second convert' )
     testOperator( 'knot meter/second convert' )

@@ -44,7 +44,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1283
+maxExampleCount = 1280
 
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
@@ -399,7 +399,7 @@ km/second*Mpc?
 What is the acceleration due to gravity at the Earth's surface?
 ''' + makeCommandExample( 'G earth_mass * earth_radius 2 ** /', indent=4 ) + '''
 What is the escape velocity from the Earth's surface?
-''' + makeCommandExample( '2 G * earth_mass * earth_radius / sqrt', indent=4 ) + '''
+''' + makeCommandExample( '2 G earth_mass * earth_radius / sqrt', indent=4 ) + '''
 Obviously, this doesn't take air resistance into account.
 
 What is the orbital velocity of a satellite orbiting the Earth at an altitude
@@ -4001,16 +4001,6 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 ''' + makeCommandExample( '-a50 -d5 3 zeta' ),
 [ ] ],
 
-    'avogadro_number' : [
-'constants', 'returns Avogadro\'s number, the number of atoms in a mole',
-'''
-Ref: CODATA 2014
-''',
-'''
-''' + makeCommandExample( 'avogadro' ) + '''
-''' + makeCommandExample( '-a24 avogadro' ),
-[ ] ],
-
     'bohr_radius' : [
 'constants', 'returns the Bohr radius',
 '''
@@ -4551,15 +4541,6 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''' + makeCommandExample( 'neutron_mass' ) + '''
 ''' + makeCommandExample( 'proton_mass neutron_mass /' ),
 [ 'proton_mass', 'electron_mass', 'alpha_particle_mass', 'helion_mass', 'deuteron_mass', 'triton_mass' ] ],
-
-    'newton_constant' : [
-'constants', 'returns Newton\'s gravitational constant',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'newton_constant' ),
-[ ] ],
 
     'omega_constant' : [
 'constants', 'returns the Omega constant',
@@ -11923,13 +11904,13 @@ def main( ):
     primeFile = Path( getDataPath( ) + os.sep + 'small_primes.cache' )
 
     if not primeFile.is_file( ):
-        print( 'Please run "prepareRPNPrimeData" to initialize the prime number data files.' )
+        print( 'Please run "preparePrimeData" to initialize the prime number data files.' )
         sys.exit( 0 )
 
     unitsFile = Path( getDataPath( ) + os.sep + 'units.pckl.bz2' )
 
     if not unitsFile.is_file( ):
-        print( 'Please run "makeRPNUnits" to initialize the unit conversion data files.' )
+        print( 'Please run "makeUnits" to initialize the unit conversion data files.' )
         sys.exit( 0 )
 
     makeHelp( helpTopics )

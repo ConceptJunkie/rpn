@@ -45,7 +45,6 @@ import rpn.rpnGlobals as g
 # //
 # //******************************************************************************
 
-
 specialUnitConversionMatrix = {
     ( 'celsius', 'delisle' )                    : lambda c: fmul( fsub( 100, c ), fdiv( 3, 2 ) ),
     ( 'celsius', 'fahrenheit' )                 : lambda c: fadd( fmul( c, fdiv( 9, 5 ) ), 32 ),
@@ -321,11 +320,6 @@ class RPNMeasurement( object ):
 
     def isCompatible( self, other ):
         if isinstance( other, RPNUnits ):
-            #print( 'isCompatible 2' )
-            #print( 'self.getUnitTypes( )', self.getUnitTypes( ) )
-            #print( 'other.getUnitTypes( )', other.getUnitTypes( ) )
-            #print( 'self.getDimensions( )', self.getDimensions( ) )
-            #print( 'other.getDimensions( )', other.getDimensions( ) )
             return self.getUnitTypes( ) == other.getUnitTypes( )
         elif isinstance( other, dict ):
             return self.getUnitTypes( ) == other
@@ -679,6 +673,7 @@ def convertUnits( unit1, unit2 ):
         debugPrint( 'convertUnits' )
         debugPrint( 'unit1:', unit1.getUnitTypes( ) )
         debugPrint( 'unit2:', unit2.getUnitTypes( ) )
+        debugPrint( 'value:', unit1.convertValue( unit2 ) )
 
         # TODO:  remove common units from unit1 and unit2 before converting!
 

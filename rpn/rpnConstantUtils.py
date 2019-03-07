@@ -299,7 +299,8 @@ def getMinFloat( ):
 
 @lru_cache( 1 )
 def getNewtonsConstant( ):
-    return RPNMeasurement( '6.67408e-11', 'meter^3/kilogram*second^2' )
+    return RPNMeasurement( g.constantOperators[ 'newton_constant' ].value,
+                           g.constantOperators[ 'newton_constant' ].unit )
 
 
 # //******************************************************************************
@@ -731,18 +732,6 @@ def getThueMorseConstant( ):
         factor = fdiv( factor, 2 )
 
     return result
-
-
-# //******************************************************************************
-# //
-# //  getAvogadrosNumber
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?na
-# //
-# //******************************************************************************
-
-def getAvogadrosNumber( ):
-    return mpmathify( '6.022140857e23' )
 
 
 # //******************************************************************************
