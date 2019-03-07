@@ -6,6 +6,12 @@ rpn supports arithmetic with arbitrary precision, powers and roots, logarithms, 
 
 ## Updates
 
+### Update - March 7, 2019
+
+This is embarrassing.  I just discovered a long-standing bug with the unit conversion code where for some reason it thinks there are 59021.97 seconds in a day.  I've narrowed the bug down to between the 7.0.0 and 7.1.0 releases.  This is weird because
+every other unit conversion I checked, including other conversions with days and seconds work correctly.  The makeUnits code has been in place for about 3 or 4 years and always seemed to be rock-solid.  I'll try to push a 7.2.2 in the next few days, or
+possibly even 7.3.0 depending on what else gets included.
+
 ### Update - February 26, 2019
 
 OK, stick a fork in 7.2.0.  It's done.  I'd intended to get back to releasing often, but 10 months is not "often".
