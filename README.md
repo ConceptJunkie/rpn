@@ -75,7 +75,7 @@ Another cool update: rpn can now be run on Android with the Termux app
 
 ---
 
-The current release is 7.1.0.
+The current release is 7.2.1.
 
 See "rpn help settings" for more information.
 
@@ -92,12 +92,13 @@ enum34>=1.1.6
 ephem>=3.7.6.0
 geopy>=1.11.0
 gmpy2>=2.0.8
-mpmath>=1.0.0
+mpmath>=1.1.0
 numpy>=1.14.0
 pylru>=1.0.9
 pyreadline>=2.1
-pytz==2017.3
+pytz>=2017.3
 six>=1.11.0
+skyfield>=1.10
 timezonefinder>=2.1.2
 tzlocal>=1.5.1
 ```
@@ -142,6 +143,52 @@ p.s. rpn is licensed under the GNU GPL version 3.0. See (see
 (http://www.gnu.org/licenses/gpl.html) for more information).
 
 ## Release Notes
+
+7.2.1
+
+Unit conversion is now a lot smarter because the automatically-generated area
+and volume units are generated more intelligently.  This means expressions
+using the "square" and "cubic" units will convert automatically and you won't
+end up with something like "foot^2/square_mile".
+
+...and yes, a few bug fixes.
+
+7.2.0
+
+Added 'random_element' operator.
+
+The gmpy2 digits( ) function is a much faster way to convert numbers to bases
+2 through 62.
+
+Added support for using yafu for factoring.
+
+Added 'aliquot_limit' operator.
+
+Added support for user configuration:  'set_config', 'get_config',
+'delete_config' and 'dump_config'.
+
+Added the 'mothers_day', 'fathers_day' and 'advent' operators.
+
+Added the 'molar_gas_constant', 'aliquot_limit' and 'distance' operators
+(the old 'distance' operator is now called 'geo_distance').
+
+Added unit tests for converting units, and made a few fixes accordingly.
+
+Verbose mode for factoring gets turned on with -D.
+
+Oops, there were two operators named 'distance'.  'distance' now refers to the
+physics operator and the geography operator is now named 'geo_distance'.
+
+The 'acceleration' operator has been implemented.
+
+The derived Planck units are now calculated, instead of hard-coded.
+
+Block Hole operators:  'black_hole_entropy', 'black_hole_lifetime',
+'black_hole_luminosity', 'black_hole_mass', 'black_hole_radius' (was
+'schwarzchild_radius'), 'black_hole_surface_area',
+'black_hole_surface_gravity', 'black_hole_temperature'
+
+...and the usual bug fixes.
 
 7.0.0
 
@@ -456,269 +503,140 @@ use of "global" in favor of a global module.
 
 Operators supported by rpn:
 
-( ) abs abundance abundance_ratio acceleration accuracy acos acosh acot acoth
-
-acsc acsch add add_digits add_polynomials agm aliquot alternate_signs
-
-alternate_signs_2 alternating_factorial alternating_sum alternating_sum_2 and
-
-and_all angular_separation angular_size antiprism_area antiprism_volume
-
-antitransit_time append argument arrangements ascension asec asech
-
-ash_wednesday asin asinh astronomical_dawn astronomical_dusk atan atanh
-
-atomic_number atomic_symbol atomic_weight autumnal_equinox balanced_prime
-
-balanced_prime_ barnesg base bell_polynomial beta binomial bitwise_and
-
-bitwise_nand bitwise_nor bitwise_not bitwise_or bitwise_xor break_on
-
+abs abundance abundance_ratio acceleration accuracy acos acosh acot acoth acsc
+acsch add add_digits advent agm aliquot aliquot_limit alternating_factorial
+and angular_separation angular_size antiprism_area antiprism_volume
+antitransit_time argument arrangements ascension asec asech ash_wednesday
+asin asinh astronomical_dawn astronomical_dusk atan atanh atomic_number
+atomic_symbol atomic_weight autumnal_equinox balanced_prime balanced_prime_
+barnesg bell_polynomial beta binomial bitwise_and bitwise_nand bitwise_nor
+bitwise_not bitwise_or bitwise_xor black_hole_entropy black_hole_lifetime
+black_hole_luminosity black_hole_mass black_hole_radius
+black_hole_surface_area black_hole_surface_gravity black_hole_temperature
 build_numbers build_step_numbers calendar calkin_wilf ceiling centered_cube
-
 centered_decagonal centered_dodecahedral centered_heptagonal centered_hexagonal
-
 centered_icosahedral centered_nonagonal centered_octagonal centered_octahedral
-
 centered_pentagonal centered_polygonal centered_square centered_tetrahedral
-
-centered_triangular cf char christmas collate collatz columbus_day combinations
-
-combine_digits comma comma_mode compare_lists compositions cone_area
-
-cone_volume conjugate constant convert cos cosh cot coth count count_bits
-
-count_different_digits count_digits count_divisors cousin_prime cousin_prime_
-
-crt csc csch cube cube_root cumulative_diffs cumulative_ratios
-
-cyclic_permutations cyclotomic dawn day_time debruijn decagonal
-
-decagonal_centered_square decagonal_heptagonal decagonal_hexagonal
-
-decagonal_nonagonal decagonal_octagonal decagonal_pentagonal
-
-decagonal_triangular decimal_grouping decrement denomination_combinations
-
-describe dhms difference diffs digamma digital_root discriminant distance
-
+centered_triangular char christmas collatz columbus_day combinations comma
+comma_mode compositions cone_area cone_volume conjugate constant cos cosh cot
+coth count_bits count_different_digits count_digits count_divisors
+cousin_prime cousin_prime_ csc csch cube cube_root cyclic_permutations
+cyclotomic dawn day_time debruijn decagonal decagonal_centered_square
+decagonal_heptagonal decagonal_hexagonal decagonal_nonagonal
+decagonal_octagonal decagonal_pentagonal decagonal_triangular decimal_grouping
+decrement delete_config describe dhms digamma digital_root digits distance
 distance_from_earth divide divisors dms dodecahedral dodecahedron_area
-
 dodecahedron_volume double double_balanced double_balanced_ double_factorial
-
-dst_end dst_start duplicate_digits duplicate_number duplicate_operator
-
-duplicate_term dusk easter echo eclipse_totality egypt election_day element
-
-element_block element_boiling_point element_density element_description
-
-element_group element_melting_point element_name element_occurrence
-
-element_period element_state energy_equivalence enumerate enumerate_dice
-
-enumerate_dice_ epiphany equals_one_of erdos_persistence escape_velocity
-
+dst_end dst_start dump_config duplicate_digits duplicate_number dusk easter
+eclipse_totality egypt election_day element_block element_boiling_point
+element_density element_description element_group element_melting_point
+element_name element_occurrence element_period element_state energy_equivalence
+enumerate_dice enumerate_dice_ epiphany erdos_persistence escape_velocity
 estimate eta euler_brick euler_phi eval eval0 eval2 eval3 eval_list eval_list2
-
-eval_list3 eval_polynomial exp exp10 exponential_range expphi factor factorial
-
-factor_sympy fibonacci fibonorial filter filter_by_index filter_list find
-
-find_palindrome find_polynomial find_sum_of_cubes find_sum_of_squares flatten
-
-float floor for_each for_each_list fraction frobenius from_bahai from_hebrew
-
+eval_list3 exp exp10 exponential_range expphi factor factorial fathers_day
+fibonacci fibonorial find_palindrome find_polynomial find_sum_of_cubes
+find_sum_of_squares float floor fraction from_bahai from_hebrew
 from_indian_civil from_islamic from_julian from_mayan from_persian
-
-from_unix_time function gamma gcd gcd2 generalized_pentagonal
-
-generate_polydivisibles geometric_mean geometric_range geometric_recurrence
-
-get_base_k_digits get_combinations get_day get_digits get_hour get_left_digits
-
-get_left_truncations get_minute get_month get_nonzero_base_k_digits
-
-get_nonzero_digits get_permutations get_repeat_combinations
-
-get_repeat_permutations get_right_digits get_right_truncations get_second
-
-get_timezone get_variable get_year good_friday group_elements harmonic
-
-harmonic_mean has_any_digits has_digits has_only_digits help heptagonal
-
-heptagonal_hexagonal heptagonal_pentagonal heptagonal_square
-
-heptagonal_triangular heptanacci hexagonal hexagonal_pentagonal
-
-hexagonal_square hexanacci hex_mode hms horizon_distance hurwitz_zeta hyper4_2
-
+from_unix_time function gamma gcd2 generalized_pentagonal
+generate_polydivisibles geo_distance geometric_range get_base_k_digits
+get_config get_day get_digits get_hour get_left_digits get_left_truncations
+get_minute get_month get_nonzero_base_k_digits get_nonzero_digits
+get_right_digits get_right_truncations get_second get_timezone get_variable
+get_year good_friday harmonic has_any_digits has_digits has_only_digits help
+heptagonal heptagonal_hexagonal heptagonal_pentagonal heptagonal_square
+heptagonal_triangular heptanacci hex_mode hexagonal hexagonal_pentagonal
+hexagonal_square hexanacci hms horizon_distance hurwitz_zeta hyper4_2
 hyperfactorial hypotenuse i icosahedral icosahedron_area icosahedron_volume
-
 identify identify_mode if imaginary increment independence_day input_radix
-
-integer integer_grouping interleave intersection interval_range invert_units
-
-isolated_prime iso_date iso_day is_abundant is_achilles is_automorphic
-
-is_base_k_pandigital is_base_k_smith_number is_bouncy is_carmichael
-
-is_composite is_decreasing is_deficient is_digital_permutation is_divisible
-
-is_equal is_even is_friendly is_generalized_dudeney is_greater is_harshad
-
-is_increasing is_integer is_kaprekar is_kth_power is_k_hyperperfect
-
-is_k_morphic is_k_narcissistic is_k_semiprime is_k_sphenic is_less
-
-is_narcissistic is_not_equal is_not_greater is_not_less is_not_zero is_odd
-
-is_order_k_smith_number is_palindrome is_palindrome_list is_pandigital is_pddi
-
-is_pdi is_perfect is_polydivisible is_powerful is_power_of_k is_prime is_pronic
-
-is_rough is_ruth_aaron is_semiprime is_smith_number is_smooth is_sphenic
-
-is_square is_squarefree is_step_number is_strong_pseudoprime is_sum_product
-
-is_trimorphic is_unusual is_zero jupiter kinetic_energy k_fibonacci
-
-k_persistence labor_day lah lambda lambertw larger latlong_to_nac lat_long lcm
-
-lcm2 leading_zero leading_zero_mode left leyland li limit limitn
-
-linear_recurrence linear_recurrence_with_modulo list_from_file location
-
-location_info log log10 log2 logxy log_gamma long longlong lucas make_cf
-
-make_datetime make_iso_time make_julian_time make_pyth_3 make_pyth_4 mantissa
-
-mars martin_luther_king_day mass_equivalence max max_index mean memorial_day
-
-mercury merten min min_index mobius modulo molar_mass moon moonrise moonset
-
-moon_antitransit moon_phase moon_transit multifactorial multinomial multiply
-
-multiply_digits multiply_digit_powers multiply_nonzero_digits
-
-multiply_nonzero_digit_powers multiply_polynomials name nand nand_all narayana
-
-nautical_dawn nautical_dusk nearest_int negative neptune new_years_day
-
+integer integer_grouping interval_range invert_units is_abundant is_achilles
+is_automorphic is_base_k_pandigital is_base_k_smith_number is_bouncy
+is_carmichael is_composite is_decreasing is_deficient is_digital_permutation
+is_divisible is_equal is_even is_generalized_dudeney is_greater is_harshad
+is_increasing is_integer is_k_hyperperfect is_k_morphic is_k_narcissistic
+is_k_semiprime is_k_sphenic is_kaprekar is_kth_power is_less is_narcissistic
+is_not_equal is_not_greater is_not_less is_not_zero is_odd
+is_order_k_smith_number is_palindrome is_pandigital is_pddi is_pdi is_perfect
+is_polydivisible is_power_of_k is_powerful is_prime is_pronic is_rough
+is_ruth_aaron is_semiprime is_smith_number is_smooth is_sphenic is_square
+is_squarefree is_step_number is_strong_pseudoprime is_sum_product is_trimorphic
+is_unusual is_zero iso_date iso_day isolated_prime jupiter k_fibonacci
+k_persistence k_sphere_area k_sphere_radius k_sphere_volume kinetic_energy
+labor_day lah lambertw larger lat_long lcm2 leading_zero leading_zero_mode
+leyland li limit limitn list_from_file location location_info log log10 log2
+log_gamma logxy long longlong lucas make_cf make_pyth_3 make_pyth_4 mantissa
+mars martin_luther_king_day mass_equivalence memorial_day mercury merten mobius
+modulo molar_mass moon moon_antitransit moon_phase moon_transit moonrise
+moonset mothers_day multifactorial multiply multiply_digit_powers
+multiply_digits multiply_nonzero_digit_powers multiply_nonzero_digits name nand
+narayana nautical_dawn nautical_dusk nearest_int negative neptune new_years_day
 next_antitransit next_first_quarter_moon next_full_moon next_last_quarter_moon
-
 next_new_moon next_prime next_primes next_quadruplet_prime
-
 next_quintuplet_prime next_rising next_setting next_transit night_time
-
 nonagonal nonagonal_heptagonal nonagonal_hexagonal nonagonal_octagonal
-
-nonagonal_pentagonal nonagonal_square nonagonal_triangular nonzero nor nor_all
-
-not now nprod nsum nth_apery nth_bell nth_bernoulli nth_carol nth_catalan
-
+nonagonal_pentagonal nonagonal_square nonagonal_triangular nor not now nprod
+nsum nth_apery nth_bell nth_bernoulli nth_carol nth_catalan
 nth_centered_decagonal nth_centered_heptagonal nth_centered_hexagonal
-
 nth_centered_nonagonal nth_centered_octagonal nth_centered_pentagonal
-
 nth_centered_polygonal nth_centered_square nth_centered_triangular
-
 nth_decagonal nth_delannoy nth_heptagonal nth_hexagonal nth_jacobsthal
-
 nth_kynea nth_leonardo nth_menage nth_mersenne_exponent nth_mersenne_prime
-
 nth_motzkin nth_nonagonal nth_octagonal nth_padovan nth_pell nth_pentagonal
-
 nth_perfect_number nth_polygonal nth_prime nth_quadruplet_prime
-
 nth_quintuplet_prime nth_schroeder nth_schroeder_hipparchus nth_square
-
 nth_stern nth_sylvester nth_thue_morse nth_triangular nth_weekday
-
-nth_weekday_of_year n_sphere_area n_sphere_radius n_sphere_volume occurrences
-
-occurrence_cumulative occurrence_ratios octagonal octagonal_heptagonal
-
-octagonal_hexagonal octagonal_pentagonal octagonal_square octagonal_triangular
-
-octahedral octahedron_area octahedron_volume octal_mode octanacci oeis
-
-oeis_comment oeis_ex oeis_name oeis_offset or orbital_mass orbital_period
-
-orbital_radius orbital_velocity ordinal_name or_all output_radix pack parity
-
-partitions pascal_triangle pentagonal pentagonal_square pentagonal_triangular
-
-pentanacci pentatope pentecost permutations permute_dice permute_digits
-
-permute_lists persistence plot plot2 plotc pluto polyexp polygamma polygonal
-
-polygon_area polylog polynomial_power polynomial_product polynomial_sum
-
-polyprime polytope power powerset power_tower power_tower2 powmod precision
-
-presidents_day previous previous_antitransit previous_first_quarter_moon
-
-previous_full_moon previous_last_quarter_moon previous_new_moon previous_prime
-
-previous_primes previous_rising previous_setting previous_transit prime primes
-
-prime_pi prime_range primorial prism_area prism_volume product pyramid
-
-quadruplet_prime quadruplet_prime_ quintuplet_prime quintuplet_prime_ radical
-
-random random_ random_integer random_integer_ range ratios real reciprocal
-
-recurrence reduce repeat replace_digits repunit result reversal_addition
-
-reverse reverse_digits rhombic_dodecahedral riesel right roll_dice roll_dice_
-
-roll_simple_dice root rotate_digits_left rotate_digits_right round
-
-round_by_digits round_by_value safe_prime saturn schwarzchild_radius sec sech
-
+nth_weekday_of_year octagonal octagonal_heptagonal octagonal_hexagonal
+octagonal_pentagonal octagonal_square octagonal_triangular octahedral
+octahedron_area octahedron_volume octal_mode octanacci oeis oeis_comment
+oeis_ex oeis_name oeis_offset or orbital_mass orbital_period orbital_radius
+orbital_velocity ordinal_name output_radix parity partitions pascal_triangle
+pentagonal pentagonal_square pentagonal_triangular pentanacci pentatope
+pentecost permutations permute_dice permute_digits persistence plot plot2 plotc
+pluto polyexp polygamma polygon_area polygonal polylog polyprime polytope power
+powmod precision presidents_day previous_antitransit
+previous_first_quarter_moon previous_full_moon previous_last_quarter_moon
+previous_new_moon previous_prime previous_primes previous_rising
+previous_setting previous_transit prime prime_pi prime_range primes primorial
+prism_area prism_volume pyramid quadruplet_prime quadruplet_prime_
+quintuplet_prime quintuplet_prime_ radical random random_ random_integer
+random_integer_ range real reciprocal recurrence repeat replace_digits repunit
+result reversal_addition reverse_digits rhombic_dodecahedral riesel roll_dice
+roll_dice_ roll_simple_dice root rotate_digits_left rotate_digits_right round
+round_by_digits round_by_value safe_prime saturn sec sech set_config
 set_variable sextuplet_prime sextuplet_prime_ sexy_prime sexy_prime_
-
 sexy_quadruplet sexy_quadruplet_ sexy_triplet sexy_triplet_ shift_left
-
 shift_right short show_erdos_persistence show_k_persistence show_persistence
-
-shuffle sigma sigma_k sign sin sinh sized_range sky_location slice smaller
-
-solar_noon solve solve_cubic solve_quadratic solve_quartic sophie_prime sort
-
-sort_descending sphere_area sphere_radius sphere_volume square
-
-square_digit_chain square_root square_triangular star stddev stella_octangula
-
-subfactorial sublist subtract sum summer_solstice sums_of_k_nonzero_powers
-
-sums_of_k_powers sum_digits sun sunrise sunset sun_antitransit superfactorial
-
-superprime surface_gravity tan tanh tetrahedral tetrahedron_area
-
-tetrahedron_volume tetranacci tetrate thabit thanksgiving timer timer_mode
-
-time_dilation today tomorrow topic torus_area torus_volume to_bahai
-
-to_bahai_name to_hebrew to_hebrew_name to_indian_civil to_indian_civil_name
-
-to_islamic to_islamic_name to_iso to_iso_name to_julian to_julian_day
-
-to_lilian_day to_mayan to_ordinal_date to_persian to_persian_name to_unix_time
-
-transit_time triangle_area triangular tribonacci trigamma triplet_prime
-
-triplet_prime_ triple_balanced triple_balanced_ truncated_octahedral
-
-truncated_tetrahedral twin_prime twin_prime_ uchar uinteger ulong ulonglong
-
-undouble unfilter unfilter_by_index unfloat union unique unit_roots unlist
-
-unpack uranus ushort uuid uuid_random value velocity venus vernal_equinox
-
-veterans_day weekday weekday_name winter_solstice x xnor xor y ydhms
-
-year_calendar yesterday z zero zeta zeta_zero [ ]
-
-`_dump_aliases _dump_constants _dump_operators _dump_units _stats { }`
-
+sigma sigma_k sign sin sinh sized_range sky_location smaller solar_noon
+solve_cubic solve_quadratic solve_quartic sophie_prime sphere_area
+sphere_radius sphere_volume square square_digit_chain square_root
+square_triangular star stella_octangula subfactorial subtract sum_digits
+summer_solstice sums_of_k_nonzero_powers sums_of_k_powers sun sun_antitransit
+sunrise sunset superfactorial superprime surface_gravity tan tanh tetrahedral
+tetrahedron_area tetrahedron_volume tetranacci tetrate thabit thanksgiving
+time_dilation timer timer_mode to_bahai to_bahai_name to_hebrew to_hebrew_name
+to_indian_civil to_indian_civil_name to_islamic to_islamic_name to_iso
+to_iso_name to_julian to_julian_day to_lilian_day to_mayan to_ordinal_date
+to_persian to_persian_name to_unix_time today tomorrow topic torus_area
+torus_volume transit_time triangle_area triangular tribonacci trigamma
+triple_balanced triple_balanced_ triplet_prime triplet_prime_
+truncated_octahedral truncated_tetrahedral twin_prime twin_prime_ uchar
+uinteger ulong ulonglong undouble unfloat unit_roots uranus ushort uuid
+uuid_random value velocity venus vernal_equinox veterans_day weekday
+weekday_name winter_solstice xnor xor ydhms year_calendar yesterday zeta
+zeta_zero add_polynomials alternate_signs alternate_signs_2 alternating_sum
+alternating_sum_2 and_all append base break_on cf collate combine_digits
+compare_lists convert count crt cumulative_diffs cumulative_ratios
+denomination_combinations difference diffs discriminant echo element enumerate
+equals_one_of eval_polynomial filter filter_by_index filter_list find flatten
+for_each for_each_list frobenius gcd geometric_mean geometric_recurrence
+get_combinations get_permutations get_repeat_combinations
+get_repeat_permutations group_elements harmonic_mean interleave intersection
+is_friendly is_palindrome_list latlong_to_nac lcm left linear_recurrence
+linear_recurrence_with_modulo make_datetime make_iso_time make_julian_time max
+max_index mean min min_index multinomial multiply_polynomials nand_all nonzero
+nor_all occurrence_cumulative occurrence_ratios occurrences or_all pack
+permute_lists polynomial_power polynomial_product polynomial_sum power_tower
+power_tower2 powerset product random_element ratios reduce reverse right
+shuffle slice solve sort sort_descending stddev sublist sum unfilter
+unfilter_by_index union unique unpack zero ( ) [ ] duplicate_operator
+duplicate_term lambda previous unlist x y z _dump_aliases _dump_constants
+_dump_operators _dump_units _stats
