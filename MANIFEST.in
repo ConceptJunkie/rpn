@@ -5,8 +5,6 @@ include rpn\makeHelp.py
 include rpn\makeUnits.py
 include rpn\preparePrimeData.py
 include rpn\rpn*.py
-include rpn\rpndata\oeis.cache
-include rpn\rpndata\location.pckl.bz2
 include rpn\rpndata\deltat.data
 include rpn\rpndata\deltat.preds
 include rpn\rpndata\Leap_Second.dat
