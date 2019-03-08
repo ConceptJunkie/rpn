@@ -677,19 +677,6 @@ Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
 ''' ),
 
 
-    'sidereal_year' :
-        RPNConstantInfo( '365.256360417', 'day', [ ], True,
-                         '',
-                         '''
-''' ),
-
-    'tropical_year' :
-        RPNConstantInfo( '365.24219', 'day', [ ], True,
-                         '',
-                         '''
-''' ),
-
-
     'moon_gravity' :
         RPNConstantInfo( '1.62', 'meter/second^2',                  # based on moon_radius
                          [ 'moon_gravities', 'lunar_gravity', 'lunar_gravities' ], True,
@@ -5584,11 +5571,12 @@ unitConversionMatrix = {
     ( 'sextant',                    'degree' )                              : mpmathify( '60' ),
     ( 'sextillion',                 'unity' )                               : mpmathify( '1.0e21' ),
     ( 'shock',                      'unity' )                               : mpmathify( '60' ),
+    ( 'sidereal_day',               'second' )                              : mpmathify( '86164.0905' ),   # https://en.wikipedia.org/wiki/Sidereal_time
     ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
     ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
     ( 'sidereal_minute',            'sidereal_second' )                     : mpmathify( '60' ),
     ( 'sidereal_month',             'day' )                                 : mpmathify( '27.321661' ),
-    ( 'sidereal_day',               'second' )                              : mpmathify( '86164.0905' ),   # https://en.wikipedia.org/wiki/Sidereal_time
+    ( 'sidereal_year',              'day' )                                 : mpmathify( '365.256360417' ),
     ( 'siemens',                    'ampere/volt' )                         : mpmathify( '1' ),
     ( 'siemens',                    'ampere^2*second^3/kilogram*meter^2' )  : mpmathify( '1' ),
     ( 'siemens',                    'coulomb^2*second/kilogram*meter^2' )   : mpmathify( '1' ),
@@ -5727,6 +5715,5 @@ unitConversionMatrix = {
     ( 'year',                       'day' )                                 : mpmathify( '365.25' ),   # Julian year = 365 and 1/4 days
     ( 'zentner',                    'gram' )                                : mpmathify( '50000' ),
     ( 'zolotnik',                   'dolya' )                               : mpmathify( '96' ),
-
 }
 
