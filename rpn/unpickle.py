@@ -21,7 +21,8 @@ import sys
 def unpickle( fileName ):
     with contextlib.closing( bz2.BZ2File( fileName, 'rb' ) ) as pickleFile:
         result = repr( pickle.load( pickleFile ) )
-        print( result.replace( ',', ',\n' ) )
+        #print( result.replace( ',', ',\n' ) )
+        print( result.replace( ', (', ',\n(' ) )
 
 
 # //******************************************************************************

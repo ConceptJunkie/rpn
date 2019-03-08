@@ -75,7 +75,7 @@ Another cool update: rpn can now be run on Android with the Termux app
 
 ---
 
-The current release is 7.2.1.
+The current release is 7.2.2.
 
 See "rpn help settings" for more information.
 
@@ -143,6 +143,17 @@ p.s. rpn is licensed under the GNU GPL version 3.0. See (see
 (http://www.gnu.org/licenses/gpl.html) for more information).
 
 ## Release Notes
+
+7.2.2
+
+A big change that doesn't affect functionality is that the prime number data
+now resides in a separate package called rpnChiladaData.  This data rarely
+changes so there's no reason to download it.
+
+A major bug was uncovered after almost a year.  rpnChilada thought there were
+51920.97 seconds in a day because of a typo.  This has been fixed, and I
+figured out how to detect other similar problems if they exist.  This change
+will be implemented in the next few days.
 
 7.2.1
 

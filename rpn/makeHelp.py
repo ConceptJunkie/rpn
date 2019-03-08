@@ -1048,6 +1048,17 @@ release notes, so there are a ton of new features not mentioned here.
     '''
 For notes about earlier versions, use 'help old_release_notes'.
 
+7.2.2
+
+A big change that doesn't affect functionality is that the prime number data
+now resides in a separate package called rpnChiladaData.  This data rarely
+changes so there's no reason to download it.
+
+A major bug was uncovered after almost a year.  rpnChilada thought there were
+51920.97 seconds in a day because of a typo.  This has been fixed, and I
+figured out how to detect other similar problems if they exist.  This change
+will be implemented in the next few days.
+
 7.2.1
 
 Unit conversion is now a lot smarter because the automatically-generated area
