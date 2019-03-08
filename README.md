@@ -6,6 +6,10 @@ rpn supports arithmetic with arbitrary precision, powers and roots, logarithms, 
 
 ## Updates
 
+### Update - March 8, 2019
+
+rpnChilada 7.2.3 fixes the unit conversion bug.  Please upgrade.
+
 ### Update - March 7, 2019
 
 This is embarrassing.  I just discovered a long-standing bug with the unit conversion code where for some reason it thinks there are 59021.97 seconds in a day.  I've narrowed the bug down to between the 7.0.0 and 7.1.0 releases.  This is weird because
@@ -75,7 +79,7 @@ Another cool update: rpn can now be run on Android with the Termux app
 
 ---
 
-The current release is 7.2.2.
+The current release is 7.2.3.
 
 See "rpn help settings" for more information.
 
@@ -143,6 +147,10 @@ p.s. rpn is licensed under the GNU GPL version 3.0. See (see
 (http://www.gnu.org/licenses/gpl.html) for more information).
 
 ## Release Notes
+
+7.2.3
+
+I messed up the upload for 7.2.2.  No code changes, just fixed packaging.
 
 7.2.2
 

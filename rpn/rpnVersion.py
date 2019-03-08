@@ -19,13 +19,13 @@
 # //******************************************************************************
 
 PROGRAM_NAME = 'rpnChilada'
-PROGRAM_VERSION = '7.2.2'
-PROGRAM_VERSION_NAME = '7.2.2'
+PROGRAM_VERSION = '7.2.3'
+PROGRAM_VERSION_NAME = '7.2.3'
 COPYRIGHT_MESSAGE = 'copyright (c) 2019 (1988), Rick Gutleber (rickg@his.com)'
 
-PROGRAM_VERSION_STRING = ' ' + PROGRAM_VERSION + ' (' + PROGRAM_VERSION_NAME + ') - '
+PROGRAM_VERSION_STRING = ' ' + PROGRAM_VERSION + ' (' + PROGRAM_VERSION_NAME + ')'
 
-RPN_PROGRAM_NAME = PROGRAM_NAME + ' ' + PROGRAM_VERSION_STRING
+RPN_PROGRAM_NAME = PROGRAM_NAME + PROGRAM_VERSION_STRING
 
 PROGRAM_DESCRIPTION = 'RPN command-line calculator'
 

@@ -47,7 +47,7 @@ PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 maxExampleCount = 1280
 
 
-print( 'makeHelp' + PROGRAM_VERSION_STRING + 'RPN command-line calculator help file generator' )
+print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - RPN command-line calculator help file generator' )
 print( COPYRIGHT_MESSAGE )
 print( )
 
@@ -1047,6 +1047,10 @@ release notes, so there are a ton of new features not mentioned here.
     'release_notes' :
     '''
 For notes about earlier versions, use 'help old_release_notes'.
+
+7.2.3
+
+I messed up the upload for 7.2.2.  No code changes, just fixed packaging.
 
 7.2.2
 
