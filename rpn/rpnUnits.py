@@ -684,7 +684,7 @@ Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
 ''' ),
 
     'tropical_year' :
-        RPNConstantInfo( '365.24219', 'day', [ ], True,
+        RPNConstantInfo( '365.24219', 'day', [ 'solar_year' ], True,
                          '',
                          '''
 The definition used is the calculation of the mean tropical year on
