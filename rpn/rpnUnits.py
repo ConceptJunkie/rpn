@@ -677,6 +677,21 @@ Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
 ''' ),
 
 
+    'sidereal_year' :
+        RPNConstantInfo( '365.256360417', 'day', [ ], True,
+                         '',
+                         '''
+''' ),
+
+    'tropical_year' :
+        RPNConstantInfo( '365.24219', 'day', [ ], True,
+                         '',
+                         '''
+The definition used is the calculation of the mean tropical year on
+1 January 2000.
+''' ),
+
+
     'moon_gravity' :
         RPNConstantInfo( '1.62', 'meter/second^2',                  # based on moon_radius
                          [ 'moon_gravities', 'lunar_gravity', 'lunar_gravities' ], True,
@@ -4254,12 +4269,6 @@ This conversion is required to do mass-energy equivalence calculations.
                      '''
 ''' ),
 
-    'sidereal_year' :
-        RPNUnitInfo( 'time', 'sidereal_year', 'sidereal_years', '',
-                     [ ], [ 'science' ],
-                     '''
-''' ),
-
     'svedberg' :
         RPNUnitInfo( 'time', 'svedberg', 'svedbergs', '',
                      [ ], [ ],
@@ -4270,14 +4279,6 @@ This conversion is required to do mass-energy equivalence calculations.
         RPNUnitInfo( 'time', 'tropical_month', 'tropical_months', '',
                      [ ], [ 'science' ],
                      '''
-''' ),
-
-    'tropical_year' :
-        RPNUnitInfo( 'time', 'tropical_year', 'tropical_years', '',
-                     [ 'solar_year', 'solar_years' ], [ 'science' ],
-                     '''
-The definition used is the calculation of the mean tropical year on
-1 January 2000.
 ''' ),
 
     'week' :
@@ -5571,12 +5572,11 @@ unitConversionMatrix = {
     ( 'sextant',                    'degree' )                              : mpmathify( '60' ),
     ( 'sextillion',                 'unity' )                               : mpmathify( '1.0e21' ),
     ( 'shock',                      'unity' )                               : mpmathify( '60' ),
-    ( 'sidereal_day',               'second' )                              : mpmathify( '86164.0905' ),   # https://en.wikipedia.org/wiki/Sidereal_time
     ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
     ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
     ( 'sidereal_minute',            'sidereal_second' )                     : mpmathify( '60' ),
     ( 'sidereal_month',             'day' )                                 : mpmathify( '27.321661' ),
-    ( 'sidereal_year',              'day' )                                 : mpmathify( '365.256360417' ),
+    ( 'sidereal_day',               'second' )                              : mpmathify( '86164.0905' ),   # https://en.wikipedia.org/wiki/Sidereal_time
     ( 'siemens',                    'ampere/volt' )                         : mpmathify( '1' ),
     ( 'siemens',                    'ampere^2*second^3/kilogram*meter^2' )  : mpmathify( '1' ),
     ( 'siemens',                    'coulomb^2*second/kilogram*meter^2' )   : mpmathify( '1' ),
@@ -5657,7 +5657,6 @@ unitConversionMatrix = {
     ( 'trillion',                   'unity' )                               : mpmathify( '1.0e12' ),
     ( 'trit',                       'nat' )                                 : log( 3 ),
     ( 'tropical_month',             'day' )                                 : mpmathify( '27.321582' ),
-    ( 'tropical_year',              'day' )                                 : mpmathify( '365.2421897' ),
     ( 'troy_ounce',                 'gram' )                                : mpmathify( '31.1034768' ),
     ( 'troy_pound',                 'pound' )                               : mpmathify( '12' ),
     ( 'tryte',                      'trit' )                                : mpmathify( '6' ),   # as defined by the Setun computer
@@ -5715,5 +5714,6 @@ unitConversionMatrix = {
     ( 'year',                       'day' )                                 : mpmathify( '365.25' ),   # Julian year = 365 and 1/4 days
     ( 'zentner',                    'gram' )                                : mpmathify( '50000' ),
     ( 'zolotnik',                   'dolya' )                               : mpmathify( '96' ),
+
 }
 
