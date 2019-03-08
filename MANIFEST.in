@@ -1,5 +1,7 @@
 include buildRPN.bat
-include gpl-3.0.txt
+include CODE_OF_CONDUCT.md
+include LICENSE
+include README.md
 include requirements.txt
 include rpn\makeHelp.py
 include rpn\makeUnits.py
@@ -15,3 +17,4 @@ include rpn\rpndata\unit_names.pckl.bz2
 include rpn\rpndata\units.pckl.bz2
 include rpn\test*.py
 include setup.py
+

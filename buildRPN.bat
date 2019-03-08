@@ -9,4 +9,5 @@ python makeHelp.py
 python setup.py sdist bdist_wheel
 
 del /sxyz /nt rpnChilada.egg-info
+del /sxyz /nt build
 
