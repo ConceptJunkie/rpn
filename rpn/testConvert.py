@@ -617,7 +617,6 @@ def runConvertTests( ):
     testOperator( 'joule pascal meter cubed * convert' )
     testOperator( 'joule/second watt convert' )
     testOperator( 'kine meter/second convert' )
-    testOperator( 'speed_of_light meter/second convert' )
     testOperator( 'lux lumen meter sqr / convert' )
     testOperator( 'mach meter/second convert' )
     testOperator( 'maxwell gauss centimeter sqr * convert' )

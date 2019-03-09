@@ -12,7 +12,7 @@
 # //
 # //******************************************************************************
 
-from mpmath import fadd, fdiv, fmul, log, mpf, mpmathify, pi, power
+from mpmath import fadd, fdiv, fmul, fprod, log, mpf, mpmathify, pi, power
 
 from rpn.rpnConstantUtils import *
 from rpn.rpnEstimates import *
@@ -303,223 +303,198 @@ basicUnitTypes = {
 
 constantOperators = {
     # physical constants
-    'newton_constant' :
-        RPNConstantInfo( '6.67408e-11', 'meter^3/kilogram*second^2', [ 'G', 'newtons_constant' ], True,
-                         'Newton\'s constant of gravitation',
-                         '''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''' ),
-
     'avogadro_number' :
         RPNConstantInfo( '6.022140857e23', '', [ 'avogadro', 'avogadros_number' ], True,
                          'Avogadro\'s number, the number of atoms in a mole',
                          '''
-Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?na
 ''' ),
 
+    'boltzmann_constant' :
+        RPNConstantInfo( '1.38064852e-23', 'kilogram*meter^2/second^2*kelvin', [ 'boltzmann', 'boltzmanns_const', 'k_sub_b', 'k_b' ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?e
+''' ),
 
-# //******************************************************************************
-# //
-# //  getBohrRadius
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
-# //
-# //******************************************************************************
+    'bohr_radius' :
+        RPNConstantInfo( '5.2917721067e-11', 'meter', [ ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?bohrrada0
+''' ),
 
-#def getBohrRadius( ):
-#    return RPNMeasurement( '5.2917721067e-11', [ { 'meter' : 1 } ] )
+    'coulomb_constant' :
+        RPNConstantInfo( '8.9875517873681764e9', 'joule*meter/coulomb^2', [ ], True,
+                         '',
+                         '''
+Ref:  https://en.wikipedia.org/wiki/Coulomb%27s_constant
+''' ),
 
+    'electric_constant' :
+        RPNConstantInfo( '8.854187817e-12', 'ampere^2*second^4/kilogram*meter^3', [ 'e0', 'e_0', 'e_nought', 'e_sub_0', 'free_space_permittivity', 'vacuum_permittivity' ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
+''' ),
 
-# //******************************************************************************
-# //
-# //  getCoulombsConstant
-# //
-# //  https://en.wikipedia.org/wiki/Coulomb%27s_constant
-# //
-# //******************************************************************************
+    'electric_constant_2' :
+        RPNConstantInfo( '8.854187817e-12', 'coulomb^2/newton*meter^2', [ ], True,
+                         'same as the electric_constant, but with different units',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
+''' ),
 
-#def getCoulombsConstant( ):
-#    return RPNMeasurement( '8.9875517873681764e9', 'joule*meter/coulomb^2' )
-
-
-# //******************************************************************************
-# //
-# //  getFaradaysConstant
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?f
-# //
-# //******************************************************************************
-
-#def getFaradaysConstant( ):
-#    return RPNMeasurement( '96485.33289', 'coulomb/mole' )
-
-# //******************************************************************************
-# //
-# //  getMagneticFluxQuantum
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
-# //
-# //******************************************************************************
-
-#def getMagneticFluxQuantum( ):
-#    return RPNMeasurement( '2.067833831e-15', 'Weber' )
-
-
-# //******************************************************************************
-# //
-# //  getNuclearMagneton
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?mun
-# //
-# //******************************************************************************
-
-#def getNuclearMagneton( ):
-#    return RPNMeasurement( '5.050783699e-27', 'joule/tesla' )
-
-# //******************************************************************************
-# //
-# //  getRydbergConstant
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?ryd
-# //
-# //******************************************************************************
-
-#def getRydbergConstant( ):
-#    return RPNMeasurement( '10973731.568508', 'meter^-1' )
-
-
-# //******************************************************************************
-# //
-# //  getStefanBoltzmannConstant
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?sigma
-# //
-# //******************************************************************************
-
-#def getStefanBoltzmannConstant( ):
-#    return RPNMeasurement( '5.670367e-8', 'watt/meter^2*kelvin^4' )
-
-
-# //******************************************************************************
-# //
-# //  getVonKlitzingConstant
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?rk
-# //
-# //******************************************************************************
-
-#def getVonKlitzingConstant( ):
-#    return RPNMeasurement( '25812.8074555', 'ohm' )
-
-
-# //******************************************************************************
-# //
-# //  getMolarGasConstant
-# //
-# //  https://physics.nist.gov/cgi-bin/cuu/Value?r
-# //
-# //******************************************************************************
-
-#def getMolarGasConstant( ):
-#    return RPNMeasurement( '8.3144598', 'joule/mole*kelvin' )
-
-# //******************************************************************************
-# //
-# //  getSpeedOfLight
-# //
-# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
-# //
-# //******************************************************************************
-
-#@lru_cache( 1 )
-#def getSpeedOfLight( ):
-#    return RPNMeasurement( '299792458', 'meter/second' )
-
-
-# //******************************************************************************
-# //
-# //  getElectricConstant
-# //
-# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ep0
-# //
-# //******************************************************************************
-
-#@lru_cache( 1 )
-#def getElectricConstant( ):
-#    return RPNMeasurement( '8.854187817e-12', 'ampere^2*second^4/kilogram*meter^3' )
-
-#def getElectricConstant_2( ):
 #    return RPNMeasurement( '8.854187817e-12', 'farad/meter' )
-
-#@lru_cache( 1 )
-#def getElectricConstant_3( ):
-#    return RPNMeasurement( '8.854187817e-12', 'coulomb^2/newton*meter^2' )
-
-#def getElectricConstant_4( ):
 #    return RPNMeasurement( '8.854187817e-12', 'coulomb/volt*meter' )
 
+    'electron_charge' :
+        RPNConstantInfo( '1.6021766208e-19', 'coulomb', [ 'elementary_charge' ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?e
+''' ),
 
-# //******************************************************************************
-# //
-# //  getPlanckConstant
-# //
-# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?h
-# //
-# //******************************************************************************
+    'faraday_constant' :
+        RPNConstantInfo( '96485.33289', 'coulomb/mole', [ 'faradays_constant' ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?f
+''' ),
 
-#@lru_cache( 1 )
-#def getPlanckConstant( ):
-#    return RPNMeasurement( '6.626070040e-34', 'kilogram*meter^2/second' )
+    'magnetic_constant' :
+        RPNConstantInfo( fprod( [ 4, pi, 1.0e-7 ] ), 'newton/ampere^2', [ 'free_space_permeability', 'mu0', 'mu_0', 'mu_sub_0', 'mu_nought' ], True,
+                         '',
+                         '''
+This constant is exact by definition.
 
-# //******************************************************************************
-# //
-# //  getElectronCharge
-# //
-# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?e
-# //
-# //******************************************************************************
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?mu0
+''' ),
 
-#@lru_cache( 1 )
-#def getElectronCharge( ):
-#    return RPNMeasurement( '1.6021766208e-19', 'coulomb' )
+    'magnetic_flux_quantum' :
+        RPNConstantInfo( '2.067833831e-15', 'weber', [ 'magnetic_flux', 'magnetic_flux_quantum', 'magnetic_flux_quanta' ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?flxquhs2e
+''' ),
 
+    'molar_gas_constant' :
+        RPNConstantInfo( '8.3144598', 'joule/mole*kelvin', [ 'gas_constant', 'ideal_gas_constant', 'universal_gas_constant' ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?r
+''' ),
 
-# //******************************************************************************
-# //
-# //  getBoltzmannsConstant
-# //
-# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?e
-# //
-# //******************************************************************************
+    'newton_constant' :
+        RPNConstantInfo( '6.67408e-11', 'meter^3/kilogram*second^2', [ 'G', 'newtons_constant' ], True,
+                         'Newton\'s constant of gravitation',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?bg
+''' ),
 
-#@lru_cache( 1 )
-#def getBoltzmannsConstant( ):
-#    return RPNMeasurement( '1.38064852e-23', 'kilogram*meter^2/second^2*kelvin' )
+    'nuclear_magneton' :
+        RPNConstantInfo( '5.050783699e-27', 'joule/tesla', [ ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?mun
 
+''' ),
 
-# //******************************************************************************
-# //
-# //  getVacuumImpedance
-# //
-# //  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?z0
-# //
-# //******************************************************************************
+    'planck_constant' :
+        RPNConstantInfo( '6.626070040e-34', 'kilogram*meter^2/second', [ 'h', 'planck' ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?h
+''' ),
 
-#@lru_cache( 1 )
-#def getVacuumImpedance( ):
-#    return RPNMeasurement( '376.730313461', 'ohm' )
+    'reduced_planck_constant' :
+        RPNConstantInfo( fdiv( mpmathify( '6.626070040e-34' ), fmul( 2, pi ) ), 'kilogram*meter^2/second', [ 'h_bar', 'reduced_planck', 'dirac', 'dirac_constant' ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?h
+''' ),
 
+    'rydberg_constant' :
+        RPNConstantInfo( '10973731.568508', 'meter^-1', [ ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?ryd
+''' ),
+
+    'speed_of_light' :
+        RPNConstantInfo( '299792458', 'meter/second', [ 'c', 'lightspeed', 'light_speed', 'planck_speed', 'planck_velocity' ], True,
+                         'the speed of light in a vacuum',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?c
+''' ),
+
+    'stefan_boltzmann_constant' :
+        RPNConstantInfo( '5.670367e-8', 'watt/meter^2*kelvin^4', [ 'sigma_sb', 'stefan_boltzmann' ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?sigma
+''' ),
+
+    'vacuum_impedance' :
+        RPNConstantInfo( '376.730313461', 'ohm', [ 'z_nought', 'z0','z_0', 'z_sub_0' ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?z0
+''' ),
+
+    'von_klitzing_constant' :
+        RPNConstantInfo( '25812.8074555', 'ohm', [ ], True,
+                         '',
+                         '''
+Ref:  CODATA 2014 value - https://physics.nist.gov/cgi-bin/cuu/Value?rk
+''' ),
+
+    # physical quantities
+    'aa_battery' :
+        RPNConstantInfo( '15400', 'joule', [ ], True,
+                         'Typical energy charge of a fully-charged alkaline AA battery',
+                         '''
+''' ),
+
+    'gallon_of_ethanol' :
+        RPNConstantInfo( '8.4e7', 'joule', [ ], True,
+                         'Energy content of a U.S. gallon of ethanol',
+                         '''
+''' ),
+
+    'gallon_of_gasoline' :
+        RPNConstantInfo( '1.2e8', 'joule', [ ], True,
+                         'Typical energy content of a U.S. gallon of gasoline',
+                         '''
+''' ),
+
+    'density_of_water' :
+        RPNConstantInfo( '997.0474', 'kilogram/meter^3', [ 'water' ], True,
+                         'Density of pure water at 25 degress Celsius',
+                         '''
+''' ),
+
+    'solar_constant' :
+        RPNConstantInfo( '1360.8', 'watt/meter^2', [ ], True,
+                         'Average maximum energy received from the Sun on the Earth\'s surface',
+                         '''
+This constant represents the average maximum amount of luminous energy the
+Earth receives from the Sun.  The solar constant does vary slightly over
+time due to fluctuations in solar energy output.
+''' ),
 
     # subatomic particle constants
     'alpha_particle_mass' :
         RPNConstantInfo( '6.644657230e-27', 'kilogram', [ ], True,
                          'Alpha particle (helium nucleus) mass',
                          '''
+The alpha particle is the equivalent of a helium nucleus, and consists of two
+protons and two neutrons.
 ''' ),
 
     'deuteron_mass' :
         RPNConstantInfo( '3.343583719e-27', 'kilogram', [ ], True,
-                         '',
+                         'Deuterium nucleus mass',
                          '''
 ''' ),
 
@@ -531,7 +506,7 @@ Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
 
     'helion_mass' :
         RPNConstantInfo( '5.006412700e-27', 'kilogram', [ ], True,
-                         '',
+                         'Helium-3 nucleus mass',
                          '''
 ''' ),
 
@@ -565,9 +540,7 @@ Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
                          '''
 ''' ),
 
-
     # heavenly body constants
-    # sun_day
     'sun_luminosity' :
         RPNConstantInfo( '3.826e26', 'watt', [ 'solar_luminosity' ], True,
                          '',
@@ -578,6 +551,7 @@ Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
         RPNConstantInfo( '1.988500e30', 'kilogram', [ 'solar_mass' ], True,
                          '',
                          '''
+Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
 ''' ),
 
     'sun_radius' :
@@ -595,30 +569,29 @@ Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
 
     'mercury_mass' :
         RPNConstantInfo( '3.301e26', 'kilogram', [ ], True,
-                         '',
+                         'the mass of the planet Mercury',
                          '''
 ''' ),
 
     # equitorial radius
     'mercury_radius' :
         RPNConstantInfo( '2.4397e6', 'meter', [ ], True,
-                         '',
+                         'the radius of the planet Mercury',
                          '''
 ''' ),
 
     # sidereal orbit period
     'mercury_revolution' :
         RPNConstantInfo( '87.969', 'day', [ 'mercury_year' ], True,
-                         '',
+                         'the revolution time of the planet Mercury around the Sun',
                          '''
 ''' ),
 
     'mercury_volume' :
         RPNConstantInfo( '6.083e19', 'meter^3', [ ], True,
-                         '',
+                         'the volume of the planet Mercury',
                          '''
 ''' ),
-
 
     'venus_mass' :
         RPNConstantInfo( '4.8689952e24', 'kilogram', [ ], True,
@@ -643,7 +616,6 @@ Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
                          '',
                          '''
 ''' ),
-
 
     'earth_density' :
         RPNConstantInfo( '5.514', 'gram/centimeter^3', [ ], True,   # https://en.wikipedia.org/wiki/Earth#Composition_and_structure
@@ -676,7 +648,6 @@ Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
                          '''
 ''' ),
 
-
     'sidereal_year' :
         RPNConstantInfo( '365.256360417', 'day', [ ], True,
                          '',
@@ -690,7 +661,6 @@ Ref:  https://physics.nist.gov/cgi-bin/cuu/Value?na
 The definition used is the calculation of the mean tropical year on
 1 January 2000.
 ''' ),
-
 
     'moon_gravity' :
         RPNConstantInfo( '1.62', 'meter/second^2',                  # based on moon_radius
@@ -713,7 +683,7 @@ The definition used is the calculation of the mean tropical year on
 ''' ),
 
     'moon_revolution' :
-        RPNConstantInfo( '27.3217', 'day', [ 'sidereal_month', 'lunar_revolution' ], True,
+        RPNConstantInfo( '27.321662', 'day', [ 'sidereal_month', 'lunar_revolution' ], True,
                          '',
                          '''
 ''' ),
@@ -723,7 +693,6 @@ The definition used is the calculation of the mean tropical year on
                          '',
                          '''
 ''' ),
-
 
     'mars_mass' :
         RPNConstantInfo( '6.4191269e23', 'kilogram', [ ], True,
@@ -749,7 +718,6 @@ The definition used is the calculation of the mean tropical year on
                          '''
 ''' ),
 
-
     'jupiter_mass' :
         RPNConstantInfo( '1.8983e27', 'kilogram', [ ], True,
                          '',
@@ -773,7 +741,6 @@ The definition used is the calculation of the mean tropical year on
                          '',
                          '''
 ''' ),
-
 
     'saturn_mass' :
         RPNConstantInfo( '5.6836e26', 'kilogram', [ ], True,
@@ -799,7 +766,6 @@ The definition used is the calculation of the mean tropical year on
                          '''
 ''' ),
 
-
     'uranus_mass' :
         RPNConstantInfo( '8.6816e25', 'kilogram', [ ], True,
                          '',
@@ -823,7 +789,6 @@ The definition used is the calculation of the mean tropical year on
                          '',
                          '''
 ''' ),
-
 
     'neptune_mass' :
         RPNConstantInfo( '1.0242e26', 'kilogram', [ ], True,
@@ -849,49 +814,63 @@ The definition used is the calculation of the mean tropical year on
                          '''
 ''' ),
 
-
     'pluto_mass' :
         RPNConstantInfo( '1.0303e22', 'kilogram', [ ], True,
                          '',
                          '''
+Yes, I still count Pluto as a planet.
 ''' ),
 
     'pluto_radius' :
         RPNConstantInfo( '1.185e6', 'meter', [ ], True,
                          '',
                          '''
+Yes, I still count Pluto as a planet.
 ''' ),
 
     'pluto_revolution' :
         RPNConstantInfo( '247.94', 'year', [ 'pluto_year' ], True,
                          '',
                          '''
+Yes, I still count Pluto as a planet.
 ''' ),
 
     'pluto_volume' :
         RPNConstantInfo( '6.97e18', 'meter^3', [ ], True,
                          '',
                          '''
+Yes, I still count Pluto as a planet.
 ''' ),
 
-
-    # boolean constants
+    # settings constants
     'default' :
         RPNConstantInfo( '-1', '', [ ], False,
-                         '',
+                         '\'default\' simply evaluates to -1',
                          '''
+used with settings operators
+
 ''' ),
 
     'false' :
         RPNConstantInfo( 0, '', [ ], False,
-                         '',
+                         '\'false\' simply evaluates to 0',
                          '''
+used with boolean settings operators
+
 ''' ),
 
     'true' :
         RPNConstantInfo( 1, '', [ ], False,
-                         '',
+                         '\'true\' simply evaluates to 1',
                          '''
+used with boolean settings operators
+
+rpn (1)>5 12 **
+244140625
+rpn (2)>true comma
+1
+rpn (3)>5 12 **
+244,140,625
 ''' ),
 
     # day of week constants
@@ -899,6 +878,7 @@ The definition used is the calculation of the mean tropical year on
         RPNConstantInfo( 1, '', [ 'mon' ], False,
                          '',
                          '''
+This is defined for convenience for use with date operators.
 ''' ),
 
     'tuesday' :
@@ -1013,146 +993,190 @@ The definition used is the calculation of the mean tropical year on
     # programming integer constants
     'max_char' :
         RPNConstantInfo( ( 1 << 7 ) - 1, '', [ 'maxchar', 'max_int8', 'maxint8' ], False,
-                         '',
+                         'the maximum 8-bit signed integer',
                          '''
+This is the largest number that can be represented by an 8-bit signed
+integer assuming two's complement representation.
 ''' ),
 
     'max_double' :
         RPNConstantInfo( getMaxDouble( ), '', [ 'maxdouble' ], False,
-                         '',
+                         'the largest value that can be represented by a 64-bit IEEE 754 float',
                          '''
+For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''' ),
 
     'max_float' :
         RPNConstantInfo( getMaxFloat( ), '', [ 'maxfloat' ], False,
-                         '',
+                         'the largest value that can be represented by a 32-bit IEEE 754 float',
                          '''
+For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''' ),
 
     'max_long' :
         RPNConstantInfo( ( 1 << 31 ) - 1, '', [ 'max_int', 'maxint', 'max_int32', 'maxint32', 'maxlong' ], False,
-                         '',
+                         'the maximum 32-bit signed integer',
                          '''
+This is the largest number that can be represented by a 32-bit signed
+integer assuming two's complement representation.
 ''' ),
 
     'max_longlong' :
         RPNConstantInfo( ( 1 << 63 ) - 1, '', [ 'max_int64', 'maxint64', 'maxlonglong' ], False,
-                         '',
+                         'the maximum 64-bit signed integer',
                          '''
+This is the largest number that can be represented by a 64-bit signed
+integer assuming two's complement representation.
 ''' ),
 
     'max_quadlong' :
         RPNConstantInfo( ( 1 << 127 ) - 1, '', [ 'max_int128', 'maxint128', 'max_quad', 'maxquad', 'maxquadlong' ], False,
-                         '',
+                         'the maximum 128-bit signed integer',
                          '''
+This is the largest number that can be represented by a 128-bit signed
+integer assuming two's complement representation.
 ''' ),
 
     'max_short' :
         RPNConstantInfo( ( 1 << 15 ) - 1, '', [ 'max_int16', 'maxint16', 'maxshort' ], False,
-                         '',
+                         'the maximum 16-bit signed integer',
                          '''
+This is the largest number that can be represented by a 16-bit signed
+integer assuming two's complement representation.
 ''' ),
 
     'max_uchar' :
         RPNConstantInfo( ( 1 << 8 ) - 1, '', [ 'max_uint8', 'maxuint8', 'maxuchar' ], False,
-                         '',
+                         'the maximum 8-bit unsigned integer',
                          '''
+This is the largest number that can be represented by an 8-bit unsigned
+integer assuming two's complement representation.
 ''' ),
 
     'max_ulong' :
         RPNConstantInfo( ( 1 << 32 ) - 1, '', [ 'max_uint32', 'maxuint32', 'max_uint', 'maxuint', 'maxulong' ], False,
-                         '',
+                         'the maximum 32-bit unsigned integer',
                          '''
+This is the largest number that can be represented by a 32-bit unsigned
+integer assuming two's complement representation.
 ''' ),
 
     'max_ulonglong' :
         RPNConstantInfo( ( 1 << 64 ) - 1, '', [ 'max_uint64', 'maxuint64', 'maxulonglong' ], False,
-                         '',
+                         'the maximum 64-bit unsigned integer',
                          '''
+This is the largest number that can be represented by a 64-bit unsigned
+integer assuming two's complement representation.
 ''' ),
 
     'max_uquadlong' :
         RPNConstantInfo( ( 1 << 128 ) - 1, '', [ 'max_uint128', 'maxuint128', 'maxuquadlong' ], False,
-                         '',
+                         'the maximum 128-bit unsigned integer',
                          '''
+This is the largest number that can be represented by a 128-bit unsigned
+integer assuming two's complement representation.
 ''' ),
 
     'max_ushort' :
         RPNConstantInfo( ( 1 << 16 ) - 1, '', [ 'max_uint16', 'maxuint16', 'maxushort' ], False,
-                         '',
+                         'the maximum 16-bit unsigned integer',
                          '''
+This is the largest number that can be represented by a 16-bit unsigned
+integer assuming two's complement representation.
 ''' ),
 
     'min_char' :
         RPNConstantInfo( -( 1 << 7 ), '', [ 'min_int8', 'minint8', 'minchar' ], False,
-                         '',
+                         'the minimum 8-bit signed integer',
                          '''
+This is the smallest number that can be represented by an 8-bit signed
+integer assuming two's complement representation.
 ''' ),
 
     'min_double' :
         RPNConstantInfo( getMinDouble( ), '', [ 'mindouble' ], False,
-                         '',
+                         'the smallest value that can be represented by a 64-bit IEEE 754 float',
                          '''
+For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''' ),
 
     'min_float' :
         RPNConstantInfo( getMinFloat( ), '', [ 'minfloat' ], False,
-                         '',
+                         'the smallest value that can be represented by a 32-bit IEEE 754 float',
                          '''
+For all IEEE 754 floating point numbers, rpn assumes big-endian byte ordering.
 ''' ),
 
     'min_long' :
         RPNConstantInfo( -( 1 << 31 ), '', [ 'min_int32', 'minint32', 'minlong' ], False,
-                         '',
+                         'the minimum 32-bit signed integer',
                          '''
+This is the smallest number that can be represented by a 32-bit signed
+integer assuming two's complement representation.
 ''' ),
 
     'min_longlong' :
         RPNConstantInfo( -( 1 << 63 ), '', [ 'min_int64', 'minint64', 'minlonglong' ], False,
-                         '',
+                         'the minimum 64-bit signed integer',
                          '''
+This is the smallest number that can be represented by a 64-bit signed
+integer assuming two's complement representation.
 ''' ),
 
     'min_quadlong' :
         RPNConstantInfo( -( 1 << 127 ), '', [ 'min_int128', 'minint128', 'min_quad', 'minquad', 'minquadlong' ], False,
-                         '',
+                         'the minimum 128-bit signed integer',
                          '''
+This is the smallest number that can be represented by a 128-bit signed
+integer assuming two's complement representation.
 ''' ),
 
     'min_short' :
         RPNConstantInfo( -( 1 << 15 ), '', [ 'min_int16', 'minint16', 'minshort' ], False,
-                         '',
+                         'the minimum 16-bit signed integer',
                          '''
+This is the smallest number that can be represented by a 16-bit signed
+integer assuming two's complement representation.
 ''' ),
 
     'min_uchar' :
         RPNConstantInfo( 0, '', [ 'min_uint8', 'minuint8', 'minuchar' ], False,
-                         '',
+                         'the minimum 8-bit unsigned integer',
                          '''
+This is the smallest number that can be represented by an 8-bit unsigned
+integer assuming two's complement representation.
 ''' ),
 
     'min_ulong' :
         RPNConstantInfo( 0, '', [ 'min_uint32', 'minuint32', 'minulong' ], False,
-                         '',
+                         'the minimum 32-bit unsigned integer',
                          '''
+This is the smallest number that can be represented by a 32-bit unsigned
+integer assuming two's complement representation.
 ''' ),
 
     'min_ulonglong' :
         RPNConstantInfo( 0, '', [ 'min_uint64', 'minuint64', 'minulonglong' ], False,
-                         '',
+                         'the minimum 64-bit unsigned integer',
                          '''
+This is the smallest number that can be represented by a 64-bit unsigned
+integer assuming two's complement representation.
 ''' ),
 
     'min_uquadlong' :
         RPNConstantInfo( 0, '', [ 'min_uint128', 'minuint128', 'min_quad', 'minquad', 'minquadlong' ], False,
-                         '',
+                         'the minimum 128-bit unsigned integer',
                          '''
+This is the smallest number that can be represented by a 128-bit unsigned
+integer assuming two's complement representation.
 ''' ),
 
     'min_ushort' :
         RPNConstantInfo( 0, '', [ 'min_uint16', 'minuint16', 'minushort' ], False,
-                         '',
+                         'the minimum 16-bit unsigned integer',
                          '''
+This is the smallest number that can be represented by a 16-bit unsigned
+integer assuming two's complement representation.
 ''' ),
 }
 
@@ -3467,12 +3491,6 @@ https://en.wikipedia.org/wiki/Rack_unit
     # kilogram*meter^2/ampere*second^2
     # joule/ampere
 
-    'magnetic_flux_quantum' :
-        RPNUnitInfo( 'magnetic_flux', 'magnetic_flux_quantum', 'magnetic_flux_quanta', '',
-                     [ ], [ 'science' ],
-                     '''
-''' ),
-
     'maxwell' :
         RPNUnitInfo( 'magnetic_flux', 'maxwell', 'maxwells', 'Mx',
                      [ 'line', 'lines' ], [ 'CGS' ],
@@ -4253,12 +4271,6 @@ This conversion is required to do mass-energy equivalence calculations.
 
     'sidereal_minute' :
         RPNUnitInfo( 'time', 'sidereal_minute', 'sidereal_minutes', '',
-                     [ ], [ 'science' ],
-                     '''
-''' ),
-
-    'sidereal_month' :
-        RPNUnitInfo( 'time', 'sidereal_month', 'sidereal_months', '',
                      [ ], [ 'science' ],
                      '''
 ''' ),
@@ -5414,7 +5426,6 @@ unitConversionMatrix = {
     ( 'lux',                        'lumen/meter^2' )                       : mpmathify( '1' ),
     ( 'lux',                        'nox' )                                 : mpmathify( '1000' ),
     ( 'mach',                       'meter/second' )                        : mpmathify( '340.2868' ),
-    ( 'magnetic_flux_quantum',      'weber' )                               : mpmathify( '2.067833831e-15' ),
     ( 'magnum',                     'bottle' )                              : mpmathify( '2' ),
     ( 'magnum',                     'liter' )                               : mpmathify( '1.5' ),
     ( 'marathon',                   'yard' )                                : mpmathify( '46145' ),
@@ -5575,7 +5586,6 @@ unitConversionMatrix = {
     ( 'sidereal_day',               'sidereal_hour' )                       : mpmathify( '24' ),
     ( 'sidereal_hour',              'sidereal_minute' )                     : mpmathify( '60' ),
     ( 'sidereal_minute',            'sidereal_second' )                     : mpmathify( '60' ),
-    ( 'sidereal_month',             'day' )                                 : mpmathify( '27.321661' ),
     ( 'sidereal_day',               'second' )                              : mpmathify( '86164.0905' ),   # https://en.wikipedia.org/wiki/Sidereal_time
     ( 'siemens',                    'ampere/volt' )                         : mpmathify( '1' ),
     ( 'siemens',                    'ampere^2*second^3/kilogram*meter^2' )  : mpmathify( '1' ),

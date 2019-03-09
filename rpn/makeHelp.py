@@ -44,7 +44,7 @@ import rpn.rpnGlobals as g
 PROGRAM_NAME = 'makeHelp'
 PROGRAM_DESCRIPTION = 'RPN command-line calculator help generator'
 
-maxExampleCount = 1280
+maxExampleCount = 1121
 
 
 print( 'makeHelp' + PROGRAM_VERSION_STRING + ' - RPN command-line calculator help file generator' )
@@ -3983,28 +3983,6 @@ e ^ ( pi * i ) = -1
 # //
 # //******************************************************************************
 
-    'aa_battery' : [
-'constants', 'returns the approximate energy content of a fully-charged AA alkaline battery',
-'''
-''',
-'''
-''' + makeCommandExample( 'aa_battery' ) + '''
-''' + makeCommandExample( 'gallon_of_gasoline aa_battery /' ),
-[ 'gallon_of_gasoline' ] ],
-
-    'alpha_particle_mass' : [
-'constants', 'returns the mass of an alpha particle',
-'''
-The alpha particle is the equivalent of a helium nucleus, and consists of two
-protons and two neutrons.
-
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'alpha_particle_mass' ) + '''
-''' + makeCommandExample( 'alpha_particle_mass proton_mass /' ),
-[ 'proton_mass', 'electron_mass', 'helion_mass', 'neutron_mass', 'deuteron_mass' ] ],
-
     'apery_constant' : [
 'constants', 'returns Apery\'s constant',
 '''
@@ -4014,23 +3992,6 @@ from 1 to infinity.  It is also, therefore, zeta( 3 ).
 '''
 ''' + makeCommandExample( '-a50 -d5 apery' ) + '''
 ''' + makeCommandExample( '-a50 -d5 3 zeta' ),
-[ ] ],
-
-    'bohr_radius' : [
-'constants', 'returns the Bohr radius',
-'''
-''',
-'''
-''' + makeCommandExample( 'bohr_radius' ),
-[ ] ],
-
-    'boltzmann_constant' : [
-'constants', 'returns the Boltzmann constant',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'boltzmann_constant' ),
 [ ] ],
 
     'catalan_constant' : [
@@ -4066,32 +4027,6 @@ The base 7 Champernowne constant converted to base 10:
 ''' + makeCommandExample( '-a60 copeland' ),
 [ ] ],
 
-    'default' : [
-'constants', 'used with settings operators',
-'''
-''',
-'''
-''',
-[ ] ],
-
-    'density_of_hg' : [
-'constants', 'returns the density of mercury in kg/m^3',
-'''
-''',
-'''
-''' + makeCommandExample( 'density_of_hg' ) + '''
-''' + makeCommandExample( '80 element_density kilogram meter 3 ** / convert' ),
-[ ] ],
-
-    'deuteron_mass' : [
-'constants', 'returns the mass of a deuterium nucleus',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'deuteron_mass' ),
-[ 'triton_mass', 'proton_mass', 'electron_mass', 'alpha_particle_mass', 'neutron_mass', 'helion_mass' ] ],
-
     'e' : [
 'constants', 'returns e (Euler\'s number)',
 '''
@@ -4109,56 +4044,12 @@ protons in the universe and the same number of electrons."  This number is equal
 ''' + makeCommandExample( '-c -a100 eddington_number' ),
 [ ] ],
 
-    'electric_constant' : [
-'constants', 'returns the electric constant',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'electric_constant' ),
-[ ] ],
-
-    'electron_charge' : [
-'constants', 'returns the charge of an electron',
-'''
-''',
-'''
-''' + makeCommandExample( 'electron_charge' ),
-[ ] ],
-
-    'electron_mass' : [
-'constants', 'returns the mass of an electron',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'electron_mass' ) + '''
-''' + makeCommandExample( 'proton_mass electron_mass /' ),
-[ 'proton_mass', 'muon_mass', 'tau_mass', 'neutron_mass' ] ],
-
     'euler_mascheroni_constant' : [
 'constants', 'returns the Euler-Mascheroni constant',
 '''
 ''',
 '''
 ''' + makeCommandExample( 'euler_mascheroni_constant' ),
-[ ] ],
-
-    'false' : [
-'constants', 'used with boolean settings operators',
-'''
-'false' simply evaluates to 0
-''',
-'''
-''',
-[ 'true' ] ],
-
-    'faraday_constant' : [
-'constants', 'returns Faraday\'s Constant',
-'''
-''',
-'''
-''' + makeCommandExample( 'faraday_constant' ),
 [ ] ],
 
     'fine_structure_constant' : [
@@ -4169,24 +4060,6 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''' + makeCommandExample( 'fine_structure_constant' ),
 [ ] ],
 
-    'gallon_of_ethanol' : [
-'constants', 'returns the energy content of a gallon of ethanol',
-'''
-''',
-'''
-''' + makeCommandExample( 'gallon_of_ethanol' ) + '''
-''' + makeCommandExample( 'gallon_of_gasoline gallon_of_ethanol /' ),
-[ 'gallon_of_gasoline', 'aa_battery' ] ],
-
-    'gallon_of_gasoline' : [
-'constants', 'returns the energy content of a gallon of gasoline',
-'''
-''',
-'''
-''' + makeCommandExample( 'gallon_of_gasoline' ) + '''
-''' + makeCommandExample( 'gallon_of_gasoline gallon_of_ethanol /' ),
-[ 'gallon_of_ethanol', 'aa_battery' ] ],
-
     'glaisher_constant' : [
 'constants', 'returns Glaisher\'s constant',
 '''
@@ -4194,15 +4067,6 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''' + makeCommandExample( 'glaisher_constant' ),
 [ ] ],
-
-    'helion_mass' : [
-'constants', 'returns the mass of a helion',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'helion_mass' ),
-[ 'proton_mass', 'alpha_particle_mass', 'neutron_mass', 'deuteron_mass', 'triton_mass' ] ],
 
     'infinity' : [
 'constants', 'evaluates to infinity, used to describe ranges for nsum, nprod, and limit',
@@ -4243,130 +4107,6 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''' + makeCommandExample( 'magnetic_constant' ),
 [ ] ],
 
-    'max_char' : [
-'constants', 'returns the maximum 8-bit signed integer',
-'''
-''',
-'''
-''' + makeCommandExample( 'max_char' ) + '''
-''' + makeCommandExample( 'max_char -x' ),
-[ 'min_char', 'max_uchar', 'max_short', 'max_long' ] ],
-
-    'max_double' : [
-'constants', 'returns the largest value that can be represented by a 64-bit IEEE 754 float',
-'''
-For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
-''',
-'''
-''' + makeCommandExample( 'max_double' ) + '''
-''' + makeCommandExample( 'max_double double -x' ),
-[ 'max_float', 'min_double' ] ],
-
-    'max_float' : [
-'constants', 'returns the largest value that can be represented by a 32-bit IEEE 754 float',
-'''
-For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
-''',
-'''
-''' + makeCommandExample( 'max_float' ) + '''
-''' + makeCommandExample( 'max_float float -x' ),
-[ 'max_double', 'min_float' ] ],
-
-    'max_long' : [
-'constants', 'returns the maximum 32-bit signed integer',
-'''
-This is the largest number that can be represented by a 32-bit signed
-integer assuming two's complement representation.
-
-''',
-'''
-''' + makeCommandExample( 'max_long' ) + '''
-When does a 32-bit time_t wrap?
-''' + makeCommandExample( '1970-01-01 max_long seconds +' ),
-[ 'min_long', 'max_longlong', 'max_char', 'max_ulong', 'max_short' ] ],
-
-    'max_longlong' : [
-'constants', 'returns the maximum 64-bit signed integer',
-'''
-This is the largest number that can be represented by a 64-bit signed
-integer assuming two's complement representation.
-''',
-'''
-''' + makeCommandExample( 'max_longlong' ) + '''
-How long until a 64-bit time_t would wrap?
-''' + makeCommandExample( '-c max_longlong seconds years convert' ),
-[ 'min_longlong', 'max_quadlong', 'max_long', 'max_ulonglong' ] ],
-
-    'max_quadlong' : [
-'constants', 'returns the maximum 128-bit signed integer',
-'''
-This is the largest number that can be represented by a 128-bit signed
-integer assuming two's complement representation.
-''',
-'''
-''' + makeCommandExample( '-a40 max_quadlong' ),
-[ 'min_quadlong', 'min_uquadlong', 'max_longlong', 'max_long' ] ],
-
-    'max_short' : [
-'constants', 'returns the maximum 16-bit signed integer',
-'''
-This is the largest number that can be represented by a 16-bit signed
-integer assuming two's complement representation.
-''',
-'''
-''' + makeCommandExample( 'max_short' ),
-[ 'min_short', 'max_ushort', 'max_char', 'max_long' ] ],
-
-    'max_uchar' : [
-'constants', 'returns the maximum 8-bit unsigned integer',
-'''
-This is the largest number that can be represented by a 16-bit unsigned
-integer.
-''',
-'''
-''' + makeCommandExample( 'max_uchar' ),
-[ 'min_uchar', 'max_char', 'max_ushort', 'max_ulong' ] ],
-
-    'max_ulong' : [
-'constants', 'returns the maximum 32-bit unsigned integer',
-'''
-This is the largest number that can be represented by a 32-bit unsigned
-integer.
-''',
-'''
-''' + makeCommandExample( 'max_ulong' ),
-[ 'min_ulong', 'max_long', 'max_uchar', 'max_ushort' ] ],
-
-    'max_ulonglong' : [
-'constants', 'returns the maximum 64-bit unsigned integer',
-'''
-This is the largest number that can be represented by a 64-bit unsigned
-integer.
-''',
-'''
-''' + makeCommandExample( '-a20 max_ulonglong' ),
-[ 'min_ulonglong', 'max_longlong', 'max_uquadlong', 'max_ulong' ] ],
-
-    'max_uquadlong' : [
-'constants', 'returns the maximum 128-bit unsigned integer',
-'''
-This is the largest number that can be represented by a 128-bit unsigned
-integer.
-''',
-'''
-''' + makeCommandExample( '-a40 max_uquadlong' ),
-[ 'min_uquadlong', 'max_quadlong', 'max_ulonglong', 'max_ulong' ] ],
-
-    'max_ushort' : [
-'constants', 'returns the maximum 16-bit unsigned integer',
-'''
-This is the largest number that can be represented by a 16-bit unsigned
-integer.
-''',
-'''
-''' + makeCommandExample( 'max_ushort' ),
-[ 'min_ushort', 'max_short', 'max_uchar', 'max_ulong' ] ],
-
     'merten_constant' : [
 'constants', 'returns Merten\'s constant',
 '''
@@ -4395,150 +4135,6 @@ decimal places.
 ''' + makeCommandExample( '-a50 mills_constant' ),
 [ ] ],
 
-    'min_char' : [
-'constants', 'returns the minimum 8-bit signed integer',
-'''
-This is the smallest number that can be represented by an 8-bit signed
-integer assuming two's complement representation.
-''',
-'''
-''' + makeCommandExample( 'min_char' ) + '''
-''' + makeCommandExample( 'min_char -x' ) + '''
-''' + makeCommandExample( 'max_char min_char -' ),
-[ 'max_char', 'min_uchar', 'min_short', 'min_long' ] ],
-
-    'min_double' : [
-'constants', 'returns the smallest value that can be represented by a 64-bit IEEE 754 float',
-'''
-For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
-''',
-'''
-''' + makeCommandExample( 'min_double' ) + '''
-''' + makeCommandExample( 'min_double double -x' ),
-[ 'max_double', 'min_float' ] ],
-
-    'min_float' : [
-'constants', 'returns the smallest value that can be represented by a 32-bit IEEE 754 float',
-'''
-For all IEEE 754 floating point numbers, rpn assumed big-endian byte ordering.
-''',
-'''
-''' + makeCommandExample( 'min_float' ) + '''
-''' + makeCommandExample( 'min_float float -x' ),
-[ 'max_float', 'min_double' ] ],
-
-    'min_long' : [
-'constants', 'returns the minimum 32-bit signed integer',
-'''
-This is the smallest number that can be represented by a 32-bit signed
-integer assuming two's complement representation.
-''',
-'''
-''' + makeCommandExample( 'min_long' ) + '''
-''' + makeCommandExample( 'max_long min_long -' ),
-[ 'max_long', 'min_ulong', 'min_short', 'min_char' ] ],
-
-    'min_longlong' : [
-'constants', 'returns the minimum 64-bit signed integer',
-'''
-This is the smallest number that can be represented by a 64-bit signed
-integer assuming two's complement representation.
-''',
-'''
-''' + makeCommandExample( 'min_longlong' ) + '''
-''' + makeCommandExample( 'max_longlong min_longlong - 1 + log2' ),
-[ 'max_longlong', 'min_ulonglong', 'min_long', 'min_quadlong' ] ],
-
-    'min_quadlong' : [
-'constants', 'returns the minimum 128-bit signed integer',
-'''
-This is the smallest number that can be represented by a 128-bit signed
-integer assuming two's complement representation.
-''',
-'''
-''' + makeCommandExample( 'min_quadlong' ) + '''
-''' + makeCommandExample( 'max_quadlong min_quadlong - 1 + log2' ),
-[ 'max_quadlong', 'min_uquadlong', 'min_long', 'min_quadlong' ] ],
-
-    'min_short' : [
-'constants', 'returns the minimum 16-bit signed integer',
-'''
-This is the smallest number that can be represented by a 16-bit signed
-integer assuming two's complement representation.
-''',
-'''
-''' + makeCommandExample( 'min_short' ) + '''
-''' + makeCommandExample( 'max_short min_short -' ),
-[ 'max_short', 'min_ushort', 'min_char', 'min_long' ] ],
-
-    'min_uchar' : [
-'constants', 'returns the minimum 8-bit unsigned integer',
-'''
-By definition, the smallest unsigned integer of any size is 0.
-''',
-'''
-''' + makeCommandExample( 'min_uchar' ) + '''
-''' + makeCommandExample( 'max_uchar min_uchar -' ),
-[ 'min_char', 'max_uchar', 'min_ushort', 'min_ulong' ] ],
-
-    'min_ulong' : [
-'constants', 'returns the minimum 32-bit unsigned integer',
-'''
-By definition, the smallest unsigned integer of any size is 0.
-''',
-'''
-''' + makeCommandExample( 'min_ulong' ) + '''
-''' + makeCommandExample( 'max_ulong min_ulong - 1 + log2' ),
-[ 'max_ulong', 'min_long', 'min_uchar', 'min_ushort' ] ],
-
-    'min_ulonglong' : [
-'constants', 'returns the minimum 64-bit unsigned integer',
-'''
-By definition, the smallest unsigned integer of any size is 0.
-''',
-'''
-''' + makeCommandExample( 'min_ulonglong' ) + '''
-''' + makeCommandExample( 'max_ulonglong min_ulonglong - 1 + log2' ),
-[ 'min_longlong', 'max_ulonglong', 'min_ulong', 'min_uquadlong' ] ],
-
-    'min_uquadlong' : [
-'constants', 'returns the minimum 128-bit unsigned integer',
-'''
-By definition, the smallest unsigned integer of any size is 0.
-''',
-'''
-''' + makeCommandExample( 'min_uquadlong' ) + '''
-''' + makeCommandExample( 'max_uquadlong min_uquadlong - 1 + log2' ),
-[ 'min_quadlong', 'max_uquadlong', 'min_ulong', 'min_ulonglong' ] ],
-
-    'min_ushort' : [
-'constants', 'returns the minimum 16-bit unsigned integer',
-'''
-By definition, the smallest unsigned integer of any size is 0.
-''',
-'''
-''' + makeCommandExample( 'min_ushort' ) + '''
-''' + makeCommandExample( 'max_ushort min_ushort -' ),
-[ 'max_ushort', 'min_short', 'min_uchar', 'min_ulong' ] ],
-
-    'molar_gas_constant' : [
-'constants', 'returns the molar gas constant',
-'''
-Ref:  CODATA 2014
-''',
-'''
-''' + makeCommandExample( 'molar_gas_constant' ),
-[ ] ],
-
-    'muon_mass' : [
-'constants', 'returns the mass of a muon',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''',
-[ 'proton_mass', 'electron_mass', 'tau_mass', 'neutron_mass' ] ],
-
     'negative_infinity' : [
 'constants', 'evaluates to negative infinity, used to describe ranges for nsum, nprod, and limit',
 '''
@@ -4546,16 +4142,6 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''',
 [ 'infinity' ] ],
-
-    'neutron_mass' : [
-'constants', 'returns the mass of a neutron',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'neutron_mass' ) + '''
-''' + makeCommandExample( 'proton_mass neutron_mass /' ),
-[ 'proton_mass', 'electron_mass', 'alpha_particle_mass', 'helion_mass', 'deuteron_mass', 'triton_mass' ] ],
 
     'omega_constant' : [
 'constants', 'returns the Omega constant',
@@ -4607,16 +4193,6 @@ Ref:  CODATA 2014
 ''',
 '''
 ''' + makeCommandExample( 'planck_charge' ),
-[ ] ],
-
-    'planck_constant' : [
-'constants', 'returns the Planck constant',
-'''
-
-Ref:  CODATA 2014
-''',
-'''
-''' + makeCommandExample( 'planck_constant' ),
 [ ] ],
 
     'planck_current' : [
@@ -4804,31 +4380,12 @@ Prevost's constant is the sum of the reciprocals of the Fibonacci numbers.
 ''' + makeCommandExample( 'prevost_constant' ),
 [ ] ],
 
-    'proton_mass' : [
-'constants', 'returns the mass of a proton',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'proton_mass' ),
-[ 'neutron_mass', 'electron_mass', 'alpha_particle_mass', 'helion_mass', 'deuteron_mass', 'triton_mass' ] ],
-
     'radiation_constant' : [
 'constants', 'returns the Radiation Constant',
 '''
 ''',
 '''
 ''' + makeCommandExample( 'radiation_constant' ),
-[ ] ],
-
-    'reduced_planck_constant' : [
-'constants', 'returns the reduced Planck constant',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'reduced_planck_constant' ) + '''
-''' + makeCommandExample( 'planck_constant reduced_planck_constant /' ),
 [ ] ],
 
     'robbins_constant' : [
@@ -4841,23 +4398,6 @@ at random within a unit cube.
 ''' + makeCommandExample( 'robbins_constant' ),
 [ ] ],
 
-    'rydberg_constant' : [
-'constants', 'returns the Rydberg constant',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'rydberg_constant' ),
-[ ] ],
-
-    'sidereal_year' : [
-'constants', 'returns the length of a sideral year for the Earth',
-'''
-''',
-'''
-''' + makeCommandExample( 'sidereal_year' ),
-[ ] ],
-
     'silver_ratio' : [
 'constants', 'returns the "silver ratio", defined to be 1 + sqrt( 2 )',
 '''
@@ -4866,43 +4406,6 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 ''' + makeCommandExample( 'silver_ratio' ),
 [ ] ],
 
-    'solar_constant' : [
-'constants', 'returns the solar constant',
-'''
-This operator returns the average amount of luminous energy the Earth receives
-from the Sun.  The solar constant does vary slightly over time due to
-fluctuations in solar energy output.
-''',
-'''
-''' + makeCommandExample( 'solar_constant' ),
-[ ] ],
-
-    'speed_of_light' : [
-'constants', 'returns the speed of light in a vacuum in meters per second',
-'''
-''',
-'''
-''' + makeCommandExample( 'speed_of_light' ),
-[ ] ],
-
-    'stefan_boltzmann_constant' : [
-'constants', 'returns the Stefan-Boltzmann constant',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'stefan_boltzmann_constant' ),
-[ ] ],
-
-    'tau_mass' : [
-'constants', 'returns the mass of a tau particle',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'tau_mass' ),
-[ 'proton_mass', 'neutron_mass', 'electron_mass', 'muon_mass' ] ],
-
     'thue_morse_constant' : [
 'constants', 'calculates the Thue-Morse constant',
 '''
@@ -4910,609 +4413,6 @@ Ref:  http://physics.nist.gov/cuu/Constants/index.html
 '''
 ''' + makeCommandExample( 'thue_morse_constant' ),
 [ ] ],
-
-    'triton_mass' : [
-'constants', 'returns the mass of a tritium nucleus',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'triton_mass' ) + '''
-''' + makeCommandExample( 'triton_mass avogadros_number * grams convert' ),
-[ 'proton_mass', 'neutron_mass', 'electron_mass', 'alpha_particle_mass', 'helion_mass', 'deuteron_mass', 'helion_mass' ] ],
-
-    'tropical_year' : [
-'constants', 'returns the length of a tropical year for the Earth',
-'''
-''',
-'''
-''' + makeCommandExample( 'tropical_year' ),
-[ ] ],
-
-    'true' : [
-'constants', 'used with boolean settings operators',
-'''
-'true' simply evaluates to 1
-''',
-'''
-rpn (1)>5 12 **
-244140625
-rpn (2)>true comma
-1
-rpn (3)>5 12 **
-244,140,625
-''',
-[ 'false' ] ],
-
-    'vacuum_impedance' : [
-'constants', 'returns the vacuum impedence constant',
-'''
-Ref:  http://physics.nist.gov/cuu/Constants/index.html
-''',
-'''
-''' + makeCommandExample( 'vacuum_impedance' ),
-[ ] ],
-
-    'von_klitzing_constant' : [
-'constants', 'returns the von Klitzing constant',
-'''
-Ref:  CODATA 2014
-''',
-'''
-''' + makeCommandExample( 'von_klitzing_constant' ),
-[ ] ],
-
-
-# //******************************************************************************
-# //
-# //  planet, sun and moon constants
-# //
-# //******************************************************************************
-
-    'sun_luminosity' : [
-'constants', 'returns the luminosity of the Sun',
-'''
-''',
-'''
-''' + makeCommandExample( 'sun_luminosity' ),
-[ ] ],
-
-    'sun_mass' : [
-'constants', 'returns the mass of the Sun',
-'''
-Ref:  http://nssdc.gsfc.nasa.gov/planetary/factsheet/sunfact.html
-''',
-'''
-''' + makeCommandExample( 'sun_mass' ),
-[ ] ],
-
-    'sun_radius' : [
-'constants', 'returns the radius of the Sun',
-'''
-''',
-'''
-''' + makeCommandExample( 'sun_radius' ),
-[ ] ],
-
-    'sun_volume' : [
-'constants', 'returns the volume of the Sun',
-'''
-''',
-'''
-''' + makeCommandExample( 'sun_volume' ),
-[ ] ],
-
-    'mercury_mass' : [
-'constants', 'returns the mass of the planet Mercury',
-'''
-''',
-'''
-''' + makeCommandExample( 'mercury_mass' ),
-[ ] ],
-
-    'mercury_radius' : [
-'constants', 'returns the radius of the planet Mercury',
-'''
-''',
-'''
-''' + makeCommandExample( 'mercury_radius' ),
-[ ] ],
-
-    'mercury_revolution' : [
-'constants', 'returns the revolution time of the planet Mercury around the Sun',
-'''
-''',
-'''
-''' + makeCommandExample( 'mercury_revolution' ),
-[ ] ],
-
-    'mercury_volume' : [
-'constants', 'returns the volume of the planet Mercury',
-'''
-''',
-'''
-''' + makeCommandExample( 'mercury_volume' ),
-[ ] ],
-
-    'venus_mass' : [
-'constants', 'returns the mass of the planet Venus',
-'''
-''',
-'''
-''' + makeCommandExample( 'venus_mass' ),
-[ ] ],
-
-    'venus_radius' : [
-'constants', 'returns the radius of the planet Venus',
-'''
-''',
-'''
-''' + makeCommandExample( 'venus_radius' ),
-[ ] ],
-
-    'venus_revolution' : [
-'constants', 'returns the revolution time of the planet Venus around the Sun',
-'''
-''',
-'''
-''' + makeCommandExample( 'venus_revolution' ),
-[ ] ],
-
-    'venus_volume' : [
-'constants', 'returns the volume of the planet Venus',
-'''
-''',
-'''
-''' + makeCommandExample( 'venus_volume' ),
-[ ] ],
-
-    'earth_mass' : [
-'constants', 'returns the mass of the Earth',
-'''
-''',
-'''
-''' + makeCommandExample( 'earth_mass' ),
-[ ] ],
-
-    'earth_radius' : [
-'constants', 'returns the radius of the planet Earth',
-'''
-''',
-'''
-''' + makeCommandExample( 'earth_radius' ),
-[ ] ],
-
-    'earth_volume' : [
-'constants', 'returns the volume of the planet Earth',
-'''
-''',
-'''
-''' + makeCommandExample( 'earth_volume' ),
-[ ] ],
-
-    'moon_radius' : [
-'constants', 'returns the radius of the Moon',
-'''
-''',
-'''
-''' + makeCommandExample( 'moon_radius' ),
-[ ] ],
-
-    'moon_revolution' : [
-'constants', 'returns teh revolution time for the Moon around the Earth',
-'''
-''',
-'''
-''' + makeCommandExample( 'moon_revolution' ),
-[ ] ],
-
-    'moon_volume' : [
-'constants', 'returns the volume of the Moon',
-'''
-''',
-'''
-''' + makeCommandExample( 'moon_volume' ),
-[ ] ],
-
-    'mars_mass' : [
-'constants', 'returns the mass of the planet Mars',
-'''
-''',
-'''
-''' + makeCommandExample( 'mars_mass' ),
-[ ] ],
-
-    'mars_radius' : [
-'constants', 'returns the radius ofthe planet Mars',
-'''
-''',
-'''
-''' + makeCommandExample( 'mars_radius' ),
-[ ] ],
-
-    'mars_revolution' : [
-'constants', 'returns revolution time of the planet Mars around the Sun',
-'''
-''',
-'''
-''' + makeCommandExample( 'mars_revolution' ),
-[ ] ],
-
-    'mars_volume' : [
-'constants', 'returns the volume of the planet Mars',
-'''
-''',
-'''
-''' + makeCommandExample( 'mars_volume' ),
-[ ] ],
-
-    'jupiter_mass' : [
-'constants', 'returns the mass of the planet Jupiter',
-'''
-''',
-'''
-''' + makeCommandExample( 'jupiter_mass' ),
-[ ] ],
-
-    'jupiter_radius' : [
-'constants', 'returns the radius of the planet Jupiter',
-'''
-''',
-'''
-''' + makeCommandExample( 'jupiter_radius' ),
-[ ] ],
-
-    'jupiter_revolution' : [
-'constants', 'returns the revolution time of the planet Jupiter around the Sun',
-'''
-''',
-'''
-''' + makeCommandExample( 'jupiter_revolution' ),
-[ ] ],
-
-    'jupiter_volume' : [
-'constants', 'returns the volume of the planet Jupiter',
-'''
-''',
-'''
-''' + makeCommandExample( 'jupiter_volume' ),
-[ ] ],
-
-    'saturn_mass' : [
-'constants', 'returns the mass of the planet Saturn',
-'''
-''',
-'''
-''' + makeCommandExample( 'saturn_mass' ),
-[ ] ],
-
-    'saturn_radius' : [
-'constants', 'returns the radius of the planet Saturn',
-'''
-''',
-'''
-''' + makeCommandExample( 'saturn_radius' ),
-[ ] ],
-
-    'saturn_revolution' : [
-'constants', 'returns the revolution time of the planet Saturn around the Sun',
-'''
-''',
-'''
-''' + makeCommandExample( 'saturn_revolution' ),
-[ ] ],
-
-    'saturn_volume' : [
-'constants', 'returns the volume of the planet Saturn',
-'''
-''',
-'''
-''' + makeCommandExample( 'saturn_volume' ),
-[ ] ],
-
-    'uranus_mass' : [
-'constants', 'returns the mass of the planet Uranus',
-'''
-''',
-'''
-''' + makeCommandExample( 'uranus_mass' ),
-[ ] ],
-
-    'uranus_radius' : [
-'constants', 'returns the radius of the planet Uranus',
-'''
-''',
-'''
-''' + makeCommandExample( 'uranus_radius' ),
-[ ] ],
-
-    'uranus_revolution' : [
-'constants', 'returns the revolution time of the planet Uranus around the Sun',
-'''
-''',
-'''
-''' + makeCommandExample( 'uranus_revolution' ),
-[ ] ],
-
-    'uranus_volume' : [
-'constants', 'returns the volume of the planet Uranus',
-'''
-''',
-'''
-''' + makeCommandExample( 'uranus_volume' ),
-[ ] ],
-
-    'neptune_mass' : [
-'constants', 'returns the mass of the planet Neptune',
-'''
-''',
-'''
-''' + makeCommandExample( 'neptune_mass' ),
-[ ] ],
-
-    'neptune_radius' : [
-'constants', 'returns the radius ofthe planet Neptune',
-'''
-''',
-'''
-''' + makeCommandExample( 'neptune_radius' ),
-[ ] ],
-
-    'neptune_revolution' : [
-'constants', 'returns the revolution time of the planet Neptune around the Sun',
-'''
-''',
-'''
-''' + makeCommandExample( 'neptune_revolution' ),
-[ ] ],
-
-    'neptune_volume' : [
-'constants', 'returns the volume of the planet Neptune',
-'''
-''',
-'''
-''' + makeCommandExample( 'neptune_volume' ),
-[ ] ],
-
-    'pluto_mass' : [
-'constants', 'returns the mass of the planet Pluto',
-'''
-Yes, I still count Pluto as a planet.
-''',
-'''
-''' + makeCommandExample( 'pluto_mass' ),
-[ ] ],
-
-    'pluto_radius' : [
-'constants', 'returns the radius of the planet Pluto',
-'''
-Yes, I still count Pluto as a planet.
-''',
-'''
-''' + makeCommandExample( 'pluto_radius' ),
-[ ] ],
-
-    'pluto_revolution' : [
-'constants', 'returns the revolution time of the planet Pluto around the Sun',
-'''
-Yes, I still count Pluto as a planet.
-''',
-'''
-''' + makeCommandExample( 'pluto_revolution' ),
-[ ] ],
-
-    'pluto_volume' : [
-'constants', 'returns the volume of the planet Pluto',
-'''
-Yes, I still count Pluto as a planet.
-''',
-'''
-''' + makeCommandExample( 'pluto_volume' ),
-[ ] ],
-
-
-# //******************************************************************************
-# //
-# //  day of week name constants
-# //
-# //******************************************************************************
-
-    'monday' : [
-'constants', 'returns 1, which is the code for Monday',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '2018 1 3 1 nth_weekday' ) + '''
-''' + makeCommandExample( '2018 january 3 monday nth_weekday' ),
-[ 'sunday', 'tuesday' ] ],
-
-    'tuesday' : [
-'constants', 'returns 2, which is the code for Tuesday',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '2018 24 2 nth_weekday_of_year' ) + '''
-''' + makeCommandExample( '2018 24 tuesday nth_weekday_of_year' ),
-[ 'monday', 'wednesday' ] ],
-
-    'wednesday' : [
-'constants', 'returns 3, which is the code for Wednesday',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '1967 3 4 3 nth_weekday' ) + '''
-''' + makeCommandExample( '1967 march 4 wednesday nth_weekday' ),
-[ 'tuesday', 'thursday' ] ],
-
-    'thursday' : [
-'constants', 'returns 4, which is the code for Thursday',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '1973 8 -1 4 nth_weekday' ) + '''
-''' + makeCommandExample( '1973 august -1 thursday nth_weekday' ),
-[ 'wednesday', 'friday' ] ],
-
-    'friday' : [
-'constants', 'returns 5, which is the code for Friday',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '2001 43 5 nth_weekday_of_year' ) + '''
-''' + makeCommandExample( '2001 43 friday nth_weekday_of_year' ),
-[ 'thursday', 'saturday' ] ],
-
-    'saturday' : [
-'constants', 'returns 6, which is the code for Saturday',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '1981 8 6 nth_weekday_of_year' ) + '''
-''' + makeCommandExample( '1981 8 saturday nth_weekday_of_year' ),
-[ 'friday', 'sunday' ] ],
-
-    'sunday' : [
-'constants', 'returns 7, which is the code for Sunday',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '1998 4 -2 7 nth_weekday' ) + '''
-''' + makeCommandExample( '1998 april -2 sunday nth_weekday' ),
-[ 'saturday', 'monday' ] ],
-
-
-# //******************************************************************************
-# //
-# //  month name constants
-# //
-# //******************************************************************************
-
-    'january' : [
-'constants', 'returns 1, which is the code for January',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '2015 1 3 1 nth_weekday' ) + '''
-''' + makeCommandExample( '2015 january 3 monday nth_weekday' ),
-[ 'december', 'february' ] ],
-
-    'february' : [
-'constants', 'returns 1, which is the code for February',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '1921 2 1 4 nth_weekday' ) + '''
-''' + makeCommandExample( '1921 february 1 thursday nth_weekday' ),
-[ 'january', 'march' ] ],
-
-    'march' : [
-'constants', 'returns 1, which is the code for March',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '1945 3 1 3 nth_weekday' ) + '''
-''' + makeCommandExample( '1945 march 1 wednesday nth_weekday' ),
-[ 'february', 'april' ] ],
-
-    'april' : [
-'constants', 'returns 1, which is the code for April',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '2050 4 1 5 nth_weekday' ) + '''
-''' + makeCommandExample( '2050 april 1 friday nth_weekday' ),
-[ 'march', 'may' ] ],
-
-    'may' : [
-'constants', 'returns 1, which is the code for May',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '1899 5 -3 7 nth_weekday' ) + '''
-''' + makeCommandExample( '1899 may -3 sunday nth_weekday' ),
-[ 'april', 'june' ] ],
-
-    'june' : [
-'constants', 'returns 1, which is the code for June',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '2017 6 3 6 nth_weekday' ) + '''
-''' + makeCommandExample( '2017 june 3 saturday nth_weekday' ),
-[ 'may', 'july' ] ],
-
-    'july' : [
-'constants', 'returns 1, which is the code for July',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '2100 7 1 1 nth_weekday' ) + '''
-''' + makeCommandExample( '2100 july 1 monday nth_weekday' ),
-[ 'june', 'august' ] ],
-
-    'august' : [
-'constants', 'returns 1, which is the code for August',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '2017 8 4 2 nth_weekday' ) + '''
-''' + makeCommandExample( '2017 august 4 tuesday nth_weekday' ),
-[ 'july', 'september' ] ],
-
-    'september' : [
-'constants', 'returns 9, which is the code for September',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '1987 9 2 5 nth_weekday' ) + '''
-''' + makeCommandExample( '1987 september 2 friday nth_weekday' ),
-[ 'august', 'october' ] ],
-
-    'october' : [
-'constants', 'returns 10, which is the code for October',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '1961 10 4 3 nth_weekday' ) + '''
-''' + makeCommandExample( '1961 october 4 wednesday nth_weekday' ),
-[ 'september', 'november' ] ],
-
-    'november' : [
-'constants', 'returns 11, which is the code for November',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '2007 11 1 1 nth_weekday' ) + '''
-''' + makeCommandExample( '2007 november 1 monday nth_weekday' ),
-[ 'october', 'december' ] ],
-
-    'december' : [
-'constants', 'returns 12, which is the code for December',
-'''
-This is defined for convenience for use with date operators.
-''',
-'''
-''' + makeCommandExample( '2000 12 5 7 nth_weekday' ) + '''
-''' + makeCommandExample( '2000 december 5 sunday nth_weekday' ),
-[ 'november', 'january' ] ],
 
 
 # //******************************************************************************
@@ -9317,7 +8217,7 @@ Calculate the surface gravity of a 10-solar-mass black hole:
 ''',
 '''
 ''' + makeCommandExample( '1 million mph time_dilation' ) + '''
-''' + makeCommandExample( '0.99 c * time_dilation' ),
+''' + makeCommandExample( '0.99 c time_dilation' ),
 [ ] ],
 
     'velocity' : [

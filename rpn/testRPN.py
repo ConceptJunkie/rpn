@@ -376,10 +376,6 @@ def runArithmeticOperatorTests( ):
     expectEqual( '-a4200 0 20000 range lambda x x fib gcd2 eval', '104714 oeis 20001 left' )
     expectEqual( '-a500 1 1000 range lambda 2 x ** 1 - 3 x ** 1 - gcd2 eval', '86892 oeis 1000 left' )
 
-    # geometric_mean
-    testOperator( '1 10 range geometric_mean' )
-    testOperator( '1 1 10 range range geometric_mean' )
-
     # harmonic_mean
     testOperator( '1 5 range harmonic_mean' )
 
@@ -1699,37 +1695,7 @@ def runConstantOperatorTests( ):
     expectEqual( '-a150 e 0 300 range ** floor', '149 oeis 301 left' )
     expectEqual( '1 10000 range phi * floor', '201 oeis 10000 left' )
 
-    # physical quantities
-    testOperator( 'aa_battery' )
-    testOperator( 'gallon_of_ethanol' )
-    testOperator( 'gallon_of_gasoline' )
-    testOperator( 'density_of_water' )
-    testOperator( 'density_of_hg' )
-
-    # physical constants
-    testOperator( 'avogadro_number' )
-    testOperator( 'bohr_radius' )
-    testOperator( 'boltzmann_constant' )
-    testOperator( 'coulomb_constant' )
-    testOperator( 'electric_constant' )
-    testOperator( 'electron_charge' )
-    testOperator( 'faraday_constant' )
-    testOperator( 'fine_structure_constant' )
-    testOperator( 'magnetic_constant' )
-    testOperator( 'newton_constant' )
-    testOperator( 'radiation_constant' )
-    testOperator( 'rydberg_constant' )
-    testOperator( 'speed_of_light' )
-    testOperator( 'stefan_boltzmann_constant' )
-    testOperator( 'vacuum_impedance' )
-    testOperator( 'von_klitzing_constant' )
-
     # programming integer constants
-    testOperator( 'max_double' )
-    testOperator( 'max_float' )
-    testOperator( 'min_double' )
-    testOperator( 'min_float' )
-
     expectResult( 'min_uchar', 0 )
     expectResult( 'min_ulong', 0 )
     expectResult( 'min_ulonglong', 0 )
@@ -1753,9 +1719,6 @@ def runConstantOperatorTests( ):
     expectEqual( 'min_short', '2 15 ** negative' )
 
     # Planck constants
-    testOperator( 'planck_constant' )
-    testOperator( 'reduced_planck_constant' )
-
     testOperator( 'planck_length' )
     testOperator( 'planck_mass' )
     testOperator( 'planck_time' )
@@ -1781,74 +1744,6 @@ def runConstantOperatorTests( ):
     testOperator( 'planck_voltage' )
     testOperator( 'planck_volumetric_flow_rate' )
     testOperator( 'planck_volume' )
-
-    # subatomic particle constants
-    testOperator( 'alpha_particle_mass' )
-    testOperator( 'deuteron_mass' )
-    testOperator( 'electron_mass' )
-    testOperator( 'helion_mass' )
-    testOperator( 'muon_mass' )
-    testOperator( 'neutron_mass' )
-    testOperator( 'proton_mass' )
-    testOperator( 'tau_mass' )
-    testOperator( 'triton_mass' )
-
-    # heavenly body constants
-    testOperator( 'solar_luminosity' )
-    testOperator( 'solar_mass' )
-    testOperator( 'solar_radius' )
-    testOperator( 'solar_volume' )
-
-    testOperator( 'mercury_mass' )
-    testOperator( 'mercury_radius' )
-    testOperator( 'mercury_revolution' )
-    testOperator( 'mercury_volume' )
-
-    testOperator( 'venus_mass' )
-    testOperator( 'venus_radius' )
-    testOperator( 'venus_revolution' )
-    testOperator( 'venus_volume' )
-
-    testOperator( 'earth_mass' )
-    testOperator( 'earth_radius' )
-    testOperator( 'earth_volume' )
-    testOperator( 'sidereal_year' )
-    testOperator( 'tropical_year' )
-
-    testOperator( 'moon_mass' )
-    testOperator( 'moon_radius' )
-    testOperator( 'moon_revolution' )
-    testOperator( 'moon_volume' )
-
-    testOperator( 'mars_mass' )
-    testOperator( 'mars_radius' )
-    testOperator( 'mars_revolution' )
-    testOperator( 'mars_volume' )
-
-    testOperator( 'jupiter_mass' )
-    testOperator( 'jupiter_radius' )
-    testOperator( 'jupiter_revolution' )
-    testOperator( 'jupiter_volume' )
-
-    testOperator( 'saturn_mass' )
-    testOperator( 'saturn_radius' )
-    testOperator( 'saturn_revolution' )
-    testOperator( 'saturn_volume' )
-
-    testOperator( 'uranus_mass' )
-    testOperator( 'uranus_radius' )
-    testOperator( 'uranus_revolution' )
-    testOperator( 'uranus_volume' )
-
-    testOperator( 'neptune_mass' )
-    testOperator( 'neptune_radius' )
-    testOperator( 'neptune_revolution' )
-    testOperator( 'neptune_volume' )
-
-    testOperator( 'pluto_mass' )
-    testOperator( 'pluto_radius' )
-    testOperator( 'pluto_revolution' )
-    testOperator( 'pluto_volume' )
 
 
 # //******************************************************************************
@@ -2906,6 +2801,7 @@ def runListOperatorTests( ):
     expectEqual( '[ 1 2 [ 3 4 5 ] [ 6 [ 7 [ 8 9 ] ] 10 ] ] flatten', '1 10 range' )
 
     # geometric_mean
+    testOperator( '1 1 10 range range geometric_mean' )
     testOperator( '1 100 range geometric_mean' )
     testOperator( '[ 1 10 range 1 20 range 1 30 range ] geometric_mean' )
 

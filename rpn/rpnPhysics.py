@@ -14,8 +14,7 @@
 
 import struct
 
-from rpn.rpnConstantUtils import getBoltzmannsConstant, getNewtonsConstant, \
-                                 getReducedPlanckConstant, getSpeedOfLight
+from rpn.rpnConstantUtils import getConstant
 from rpn.rpnGeometry import getKSphereRadius
 from rpn.rpnList import getProduct
 from rpn.rpnMath import divide, getLog, getPower, getRoot, multiply
@@ -56,34 +55,34 @@ def calculateBlackHoleMass( measurement ):
     elif 'length' in arguments:
         radius = arguments[ 'length' ]
 
-        return divide( getProduct( [ getPower( getSpeedOfLight( ), 2 ), radius ] ),
-                       getProduct( [ 2, getNewtonsConstant( ) ] ) ).convert( 'kilogram' )
+        return divide( getProduct( [ getPower( getConstant( 'speed_of_light' ), 2 ), radius ] ),
+                       getProduct( [ 2, getConstant( 'newton_constant' ) ] ) ).convert( 'kilogram' )
     elif 'acceleration' in arguments:
         gravity = arguments[ 'acceleration' ]
 
-        return divide( getPower( getSpeedOfLight( ), 4 ),
-                       getProduct( [ 4, getNewtonsConstant( ), gravity ] ) ).convert( 'kilogram' )
+        return divide( getPower( getConstant( 'speed_of_light' ), 4 ),
+                       getProduct( [ 4, getConstant( 'newton_constant' ), gravity ] ) ).convert( 'kilogram' )
     elif 'area' in arguments:
         area = arguments[ 'area' ].convert( 'meters^2' )
 
-        return getRoot( divide( getProduct( [ getPower( getSpeedOfLight( ), 4 ), area ] ),
-                                getProduct( [ 16, pi, getPower( getNewtonsConstant( ), 2 ) ] ) ), 2 ).convert( 'kilogram' )
+        return getRoot( divide( getProduct( [ getPower( getConstant( 'speed_of_light' ), 4 ), area ] ),
+                                getProduct( [ 16, pi, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2 ).convert( 'kilogram' )
     elif 'temperature' in arguments:
         temperature = arguments[ 'temperature' ]
 
-        return divide( getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 3 ) ] ),
-                       getProduct( [ temperature, 8, getBoltzmannsConstant( ), pi, getNewtonsConstant( ) ] ) ).convert( 'kilogram' )
+        return divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 3 ) ] ),
+                       getProduct( [ temperature, 8, getConstant( 'boltzmann_constant' ), pi, getConstant( 'newton_constant' ) ] ) ).convert( 'kilogram' )
     elif 'power' in arguments:
         luminosity = arguments[ 'power' ]
 
-        return getRoot( divide( getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 6 ) ] ),
+        return getRoot( divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 6 ) ] ),
                                 getProduct( [ luminosity.convert( 'kilogram*meter^2/second^3' ), 15360, pi,
-                                     getPower( getNewtonsConstant( ), 2 ) ] ) ), 2  ).convert( 'kilogram' )
+                                     getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 2  ).convert( 'kilogram' )
     elif 'time' in arguments:
         lifetime = arguments[ 'time' ]
 
-        return getRoot( divide( getProduct( [ lifetime, getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 4 ) ] ),
-                                getProduct( [ 5120, pi, getPower( getNewtonsConstant( ), 2 ) ] ) ), 3 ).convert( 'kilogram' )
+        return getRoot( divide( getProduct( [ lifetime, getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 4 ) ] ),
+                                getProduct( [ 5120, pi, getPower( getConstant( 'newton_constant' ), 2 ) ] ) ), 3 ).convert( 'kilogram' )
 
     raise ValueError( 'invalid arguments to black hole operator' )
 
@@ -113,7 +112,7 @@ def calculateBlackHoleRadius( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    radius = getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( getPower( getSpeedOfLight( ), 2 ) )
+    radius = getProduct( [ 2, getConstant( 'newton_constant' ), mass ] ).divide( getPower( getConstant( 'speed_of_light' ), 2 ) )
     return radius.convert( 'meter' )
 
 
@@ -142,8 +141,8 @@ def calculateBlackHoleSurfaceArea( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    area = divide( getProduct( [ 16, pi, getPower( getNewtonsConstant( ), 2 ), getPower( mass, 2 ) ] ),
-                   getPower( getSpeedOfLight( ), 4 ) )
+    area = divide( getProduct( [ 16, pi, getPower( getConstant( 'newton_constant' ), 2 ), getPower( mass, 2 ) ] ),
+                   getPower( getConstant( 'speed_of_light' ), 4 ) )
     return area.convert( 'meter^2' )
 
 
@@ -172,7 +171,7 @@ def calculateBlackHoleSurfaceGravity( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    gravity = divide( getPower( getSpeedOfLight( ), 4 ), getProduct( [ mass, 4, getNewtonsConstant( ) ] ) )
+    gravity = divide( getPower( getConstant( 'speed_of_light' ), 4 ), getProduct( [ mass, 4, getConstant( 'newton_constant' ) ] ) )
     return gravity.convert( 'meter/second^2' )
 
 
@@ -201,10 +200,10 @@ def calculateBlackHoleEntropy( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    entropy = divide( getProduct( [ getPower( mass, 2 ), 4, pi, getNewtonsConstant( ) ] ),
-                     getProduct( [ getReducedPlanckConstant( ), getSpeedOfLight( ), getLog( 10.0 ) ] ) )
+    entropy = divide( getProduct( [ getPower( mass, 2 ), 4, pi, getConstant( 'newton_constant' ) ] ),
+                     getProduct( [ getConstant( 'reduced_planck_constant' ), getConstant( 'speed_of_light' ), getLog( 10.0 ) ] ) )
 
-    return getBoltzmannsConstant( ).multiply( entropy ).convert( 'bit' )
+    return getConstant( 'boltzmann_constant' ).multiply( entropy ).convert( 'bit' )
 
 
 # //******************************************************************************
@@ -232,8 +231,8 @@ def calculateBlackHoleTemperature( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    temperature = divide( getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 3 ) ] ),
-                          getProduct( [ mass, 8, getBoltzmannsConstant( ), pi, getNewtonsConstant( ) ] ) )
+    temperature = divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 3 ) ] ),
+                          getProduct( [ mass, 8, getConstant( 'boltzmann_constant' ), pi, getConstant( 'newton_constant' ) ] ) )
 
     return temperature.convert( 'kelvin' )
 
@@ -263,8 +262,8 @@ def calculateBlackHoleLuminosity( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    luminosity = divide( getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 6 ) ] ),
-                          getProduct( [ getPower( mass, 2 ), 15360, pi, getPower( getNewtonsConstant( ), 2 ) ] ) )
+    luminosity = divide( getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 6 ) ] ),
+                          getProduct( [ getPower( mass, 2 ), 15360, pi, getPower( getConstant( 'newton_constant' ), 2 ) ] ) )
 
     return luminosity.convert( 'watts' )
 
@@ -294,8 +293,8 @@ def calculateBlackHoleLifetime( measurement ):
 
     mass = calculateBlackHoleMass( measurement )
 
-    lifetime = divide( getProduct( [ getPower( mass, 3 ), 5120, pi, getPower( getNewtonsConstant( ), 2 ) ] ),
-                       getProduct( [ getReducedPlanckConstant( ), getPower( getSpeedOfLight( ), 4 ) ] ) )
+    lifetime = divide( getProduct( [ getPower( mass, 3 ), 5120, pi, getPower( getConstant( 'newton_constant' ), 2 ) ] ),
+                       getProduct( [ getConstant( 'reduced_planck_constant' ), getPower( getConstant( 'speed_of_light' ), 4 ) ] ) )
 
     return lifetime.convert( 'seconds' )
 
@@ -310,7 +309,7 @@ def calculateBlackHoleLifetime( measurement ):
 def calculateTimeDilation( velocity ):
     validateUnits( velocity, 'velocity' )
 
-    c_ratio = divide( velocity, getSpeedOfLight( ) ).value
+    c_ratio = divide( velocity, getConstant( 'speed_of_light' ) ).value
 
     if c_ratio == 1:
         return inf
@@ -329,7 +328,7 @@ def calculateEscapeVelocity( mass, radius ):
     validateUnits( mass, 'mass' )
     validateUnits( radius, 'length' )
 
-    velocity = getRoot( getProduct( [ 2, getNewtonsConstant( ), mass ] ).divide( radius ), 2 )
+    velocity = getRoot( getProduct( [ 2, getConstant( 'newton_constant' ), mass ] ).divide( radius ), 2 )
     return velocity.convert( 'meter/second' )
 
 
@@ -384,17 +383,17 @@ def calculateOrbitalMass( measurement1, measurement2 ):
         # velocity and radius
         radius = arguments[ 'length' ]
         velocity = arguments[ 'velocity' ]
-        mass = divide( getProduct( [ velocity, velocity, radius ] ), getNewtonsConstant( ) )
+        mass = divide( getProduct( [ velocity, velocity, radius ] ), getConstant( 'newton_constant' ) )
         return mass.convert( 'kilogram' )
 
     if bRadius:
         # radius and period
         mass = divide( getProduct( [ 4, pi, pi, radius, radius, radius ] ),
-                       getProduct( [ getNewtonsConstant( ), period, period ] ) )
+                       getProduct( [ getConstant( 'newton_constant' ), period, period ] ) )
     else:
         # velocity and period
         mass = divide( getProduct( [ velocity, velocity, velocity, period ] ),
-                       getProduct( [ 2, pi, getNewtonsConstant( ) ] ) )
+                       getProduct( [ 2, pi, getConstant( 'newton_constant' ) ] ) )
 
     return mass.convert( 'kilogram' )
 
@@ -455,11 +454,11 @@ def calculateOrbitalPeriod( measurement1, measurement2 ):
 
     if bRadius:
         # radius and mass
-        term = divide( getPower( radius, 3 ), multiply( getNewtonsConstant( ), mass ) )
+        term = divide( getPower( radius, 3 ), multiply( getConstant( 'newton_constant' ), mass ) )
         period = getProduct( [ 2, pi, getRoot( term, 2 ) ] )
     else:
         # velocity and mass
-        period = divide( getProduct( [ 2, pi, getNewtonsConstant( ), mass ] ),
+        period = divide( getProduct( [ 2, pi, getConstant( 'newton_constant' ), mass ] ),
                          getPower( velocity, 3 ) )
 
     return period.convert( 'second' )
@@ -521,12 +520,12 @@ def calculateOrbitalRadius( measurement1, measurement2 ):
 
     if bPeriod:
         # period and mass
-        term = divide( getProduct( [ getPower( period, 2 ), getNewtonsConstant( ), mass ] ),
+        term = divide( getProduct( [ getPower( period, 2 ), getConstant( 'newton_constant' ), mass ] ),
                        fmul( 4, power( pi, 2 ) ) )
         radius = getRoot( term, 3 )
     else:
         # velocity and mass
-        radius = divide( multiply( getNewtonsConstant( ), mass ), getPower( velocity, 2 ) )
+        radius = divide( multiply( getConstant( 'newton_constant' ), mass ), getPower( velocity, 2 ) )
 
     return radius.convert( 'meter' )
 
@@ -587,10 +586,10 @@ def calculateOrbitalVelocity( measurement1, measurement2 ):
 
     if bRadius:
         # mass and radius
-        velocity = getRoot( divide( multiply( getNewtonsConstant( ), mass ), radius ), 2 )
+        velocity = getRoot( divide( multiply( getConstant( 'newton_constant' ), mass ), radius ), 2 )
     else:
         # mass and period
-        term = divide( getProduct( [ period, period, getNewtonsConstant( ), mass ] ),
+        term = divide( getProduct( [ period, period, getConstant( 'newton_constant' ), mass ] ),
                        getProduct( [ 4, pi, pi ] ) )
 
         velocity = divide( getProduct( [ 2, pi, getRoot( term, 3 ) ] ), period )
@@ -767,7 +766,7 @@ def calculateHorizonDistance( altitude, radius ):
 def calculateEnergyEquivalence( mass ):
     validateUnits( mass, 'mass' )
 
-    energy = getProduct( [ mass, getSpeedOfLight( ), getSpeedOfLight( ) ] )
+    energy = getProduct( [ mass, getConstant( 'speed_of_light' ), getConstant( 'speed_of_light' ) ] )
     return energy.convert( 'joule' )
 
 
@@ -781,7 +780,7 @@ def calculateEnergyEquivalence( mass ):
 def calculateMassEquivalence( energy ):
     validateUnits( energy, 'energy' )
 
-    mass = divide( energy, multiply( getSpeedOfLight( ), getSpeedOfLight( ) ) )
+    mass = divide( energy, multiply( getConstant( 'speed_of_light' ), getConstant( 'speed_of_light' ) ) )
     return mass.convert( 'kilogram' )
 
 
@@ -827,6 +826,6 @@ def calculateSurfaceGravity( measurement1, measurement2 ):
         volume = getPower( length, 3 )
         mass = multiply( arguments[ 'density' ], volume )
 
-    gravity = multiply( divide( mass, getPower( length, 2 ) ), getNewtonsConstant( ) )
+    gravity = multiply( divide( mass, getPower( length, 2 ) ), getConstant( 'newton_constant' ) )
     return gravity.convert( 'meters/seconds^2' )
 

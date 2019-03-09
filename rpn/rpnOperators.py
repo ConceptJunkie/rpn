@@ -269,64 +269,13 @@ constants = {
     'thue_morse_constant'           : RPNOperator( getThueMorseConstant,
                                                    0, [ ] ),
 
-    # physical quantities
-    'aa_battery'                    : RPNOperator( lambda: RPNMeasurement( '15400', 'joule' ),
-                                                   0, [ ] ),
-    'gallon_of_ethanol'             : RPNOperator( lambda: RPNMeasurement( '8.4e7', 'joule' ),
-                                                   0, [ ] ),
-    'gallon_of_gasoline'            : RPNOperator( lambda: RPNMeasurement( '1.2e8', 'joule' ),
-                                                   0, [ ] ),
-    'density_of_water'              : RPNOperator( lambda: RPNMeasurement( '1000', 'kilogram/meter^3' ),
-                                                   0, [ ] ),
-    'density_of_hg'                 : RPNOperator( lambda: RPNMeasurement( '13534', 'kilogram/meter^3' ),
-                                                   0, [ ] ),
-    'solar_constant'                : RPNOperator( lambda: RPNMeasurement( '1360.8', 'watt/meter^2' ),
-                                                   0, [ ] ),       # average... it varies slightly
-
     # physical constants
-    'bohr_radius'                   : RPNOperator( getBohrRadius,
-                                                   0, [ ] ),
-    'boltzmann_constant'            : RPNOperator( getBoltzmannsConstant,
-                                                   0, [ ] ),
-    'coulomb_constant'              : RPNOperator( getCoulombsConstant,
-                                                   0, [ ] ),
-    'electric_constant'             : RPNOperator( getElectricConstant,
-                                                   0, [ ] ),
-    'electron_charge'               : RPNOperator( getElectronCharge,
-                                                   0, [ ] ),
-    'faraday_constant'              : RPNOperator( getFaradaysConstant,
-                                                   0, [ ] ),
     'fine_structure_constant'       : RPNOperator( getFineStructureConstant,
-                                                   0, [ ] ),
-    'magnetic_constant'             : RPNOperator( getMagneticConstant,
-                                                   0, [ ] ),
-    'magnetic_flux_quantum'         : RPNOperator( getMagneticFluxQuantum,
-                                                   0, [ ] ),
-    'molar_gas_constant'            : RPNOperator( getMolarGasConstant,
-                                                   0, [ ] ),
-    'newton_constant'               : RPNOperator( getNewtonsConstant,
-                                                   0, [ ] ),
-    'nuclear_magneton'              : RPNOperator( getNuclearMagneton,
                                                    0, [ ] ),
     'radiation_constant'            : RPNOperator( getRadiationConstant,
                                                    0, [ ] ),
-    'rydberg_constant'              : RPNOperator( getRydbergConstant,
-                                                   0, [ ] ),
-    'speed_of_light'                : RPNOperator( getSpeedOfLight,
-                                                   0, [ ] ),
-    'stefan_boltzmann_constant'     : RPNOperator( getStefanBoltzmannConstant,
-                                                   0, [ ] ),
-    'vacuum_impedance'              : RPNOperator( getVacuumImpedance,
-                                                   0, [ ] ),
-    'von_klitzing_constant'         : RPNOperator( getVonKlitzingConstant,
-                                                   0, [ ] ),
 
     # Planck constants
-    'planck_constant'               : RPNOperator( getPlanckConstant,
-                                                   0, [ ] ),
-    'reduced_planck_constant'       : RPNOperator( getReducedPlanckConstant,
-                                                   0, [ ] ),
-
     'planck_length'                 : RPNOperator( getPlanckLength,
                                                    0, [ ] ),
     'planck_mass'                   : RPNOperator( getPlanckMass,
@@ -337,9 +286,6 @@ constants = {
                                                    0, [ ] ),
     'planck_temperature'            : RPNOperator( getPlanckTemperature,
                                                    0, [ ] ),
-
-    # We should calculate these derived constants, rather than just hard-code them.
-    # https://en.wikipedia.org/wiki/Planck_units#Derived_units
 
     'planck_acceleration'           : RPNOperator( getPlanckAcceleration,
                                                    0, [ ] ),
@@ -4313,10 +4259,6 @@ operators = {
                                                     0, [ ] ),
 
     # special
-    'constant'                       : RPNOperator( createConstant,
-                                                    2, [ RPNOperator.Default, RPNOperator.String ],
-                                                    RPNOperator.measurementsAllowed ),
-
     'delete_config'                  : RPNOperator( deleteUserConfiguration,
                                                     1, [ RPNOperator.String ] ),
 

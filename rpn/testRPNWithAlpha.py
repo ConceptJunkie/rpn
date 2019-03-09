@@ -12,18 +12,20 @@
 # //
 # //******************************************************************************
 
+import os
 import sys
 import wolframalpha
 
 from collections import OrderedDict
 
-from rpnOperators import *
+from rpn.rpnOperators import *
 
-from rpnAliases import operatorAliases
-from rpnOperators import constants
-from rpnMeasurement import RPNMeasurement
-from rpnPersistence import cachedFunction, loadUnitNameData
-from rpnTestUtils import *
+from rpn.rpnAliases import operatorAliases
+from rpn.rpnOperators import constants
+from rpn.rpnMeasurement import RPNMeasurement
+from rpn.rpnPersistence import cachedFunction, loadUnitNameData
+from rpn.rpnTestUtils import *
+from rpn.rpnUtils import getDataPath
 
 from mpmath import *
 
@@ -37,7 +39,7 @@ client = None
 # //******************************************************************************
 
 def initializeAlpha( ):
-    with open( 'wolframalpha.key', "r" ) as input:
+    with open( getDataPath( ) + os.sep + 'wolframalpha.key', "r" ) as input:
         key = input.read( ).replace( '\n', '' )
 
     return wolframalpha.Client( key )
@@ -51,15 +53,10 @@ def initializeAlpha( ):
 
 @cachedFunction( 'wolfram' )
 def queryAlpha( query ):
+    print( 'client', client )
     res = client.query( query )
     return next( res.results ).text
 
-
-# //******************************************************************************
-# //
-# //  __main__
-# //
-# //******************************************************************************
 
 # //******************************************************************************
 # //
@@ -164,235 +161,13 @@ def runAlgebraOperatorTests( ):
 # //******************************************************************************
 
 def runArithmeticOperatorTests( ):
-    # abs
-    #expectResult( '-394 abs', 394 )
-    #expectResult( '0 abs', 0 )
-    #expectResult( '394 abs', 394 )
-
-    # add
-    #expectResult( '4 3 add', 7 )
-    #expectResult( '3 feet 7 inches + inches convert', RPNMeasurement( 43, 'inch' ) )
-    #testOperator( 'today 7 days +' )
-    #testOperator( 'today 3 weeks +' )
-    #testOperator( 'today 50 years +' )
-    #testOperator( '4 cups 13 teaspoons +' )
-    #expectResult( '55 mph 10 miles hour / +', RPNMeasurement( 65, 'mile/hour' ) )
-    #testOperator( '55 mph 10 meters second / +' )
-    #testOperator( '55 mph 10 furlongs fortnight / +' )
-    #testOperator( 'today 3 days add' )
-    #testOperator( 'today 3 weeks add' )
-    #testOperator( 'now 150 miles 10 furlongs fortnight / / add' )
-
-    # ceiling
-    #expectResult( '9.99999 ceiling', 10 )
-    #expectResult( '-0.00001 ceiling', 0 )
-
-    # decrement
-    #expectResult( '2 decrement', 1 )
-
-    # divide
-    #testOperator( '12 13 divide' )
-    #testOperator( '10 days 7 / dhms' )
-    #testOperator( 'marathon 100 miles hour / / minutes convert' )
-    #testOperator( '2 zeta sqrt 24 sqrt / 12 *' )
-    #testOperator( 'now 2014-01-01 - minutes /' )
-    #expectException( '1 0 divide' )
-
-    # floor
-    #expectResult( '-0.4 floor', -1 )
-    #expectResult( '1 floor', 1 )
-    #expectResult( '3.4 floor', 3 )
-    #expectEqual( '10.3 cups floor', '10 cups' )
-    #expectEqual( '88 mph 10 round_by_value', '90 mph' )
-
     # gcd
     expectEqual( '[ 124 324 ] gcd', queryAlpha( 'gcd of 324 and 124' ) )
     expectEqual( '[ 1296 1440 ] gcd', queryAlpha( 'gcd of 1296 and 1440' ) )
 
-    # geometric_mean
-    #testOperator( '1 10 range geometric_mean' )
-    #testOperator( '1 1 10 range range geometric_mean' )
-
-    # increment
-    #expectResult( '2 increment', 3 )
-
-    # is_divisible
-    #expectResult( '1000 10000 is_divisible', 0 )
-    #expectResult( '10000 1000 is_divisible', 1 )
-    #expectResult( '12 1 12 range is_divisible', [ 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1 ] )
-    #expectResult( '1 20 range 6 is_divisible', [ 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 ] )
-    #expectException( '1 0 is_divisible' )
-    ##expectException( '2 i 1 is_divisible' )
-
-    # is_equal
-    #expectResult( '4 3 is_equal', 0 )
-    #expectResult( 'pi pi is_equal', 1 )
-
-    # is_even
-    #expectResult( '-2 is_even', 1 )
-    #expectResult( '-1 is_even', 0 )
-    #expectResult( '0 is_even', 1 )
-    #expectResult( '1 is_even', 0 )
-    #expectResult( '2 is_even', 1 )
-    #expectException( '1 i is_even' )
-
-    # is_greater
-    #expectResult( '4 3 is_greater', 1 )
-    #expectResult( '55 55 is_greater', 0 )
-    #expectResult( 'e pi is_greater', 0 )
-
-    # is_less
-    #expectResult( '4 3 is_less', 0 )
-    #expectResult( '2 2 is_less', 0 )
-    #expectResult( '2 3 is_less', 1 )
-
-    # is_not_equal
-    #expectResult( '4 3 is_not_equal', 1 )
-    #expectResult( '3 3 is_not_equal', 0 )
-
-    # is_not_greater
-    #expectResult( '4 3 is_not_greater', 0 )
-    #expectResult( '77 77 is_not_greater', 1 )
-    #expectResult( '2 99 is_not_greater', 1 )
-
-    # is_not_less
-    #expectResult( '4 3 is_not_less', 1 )
-    #expectResult( '663 663 is_not_less', 1 )
-    #expectResult( '-100 100 is_not_less', 0 )
-
-    # is_not_zero
-    #expectResult( '-1 is_not_zero', 1 )
-    #expectResult( '0 is_not_zero', 0 )
-    #expectResult( '1 is_not_zero', 1 )
-
-    # is_odd
-    #expectResult( '-2 is_odd', 0 )
-    #expectResult( '-1 is_odd', 1 )
-    #expectResult( '0 is_odd', 0 )
-    #expectResult( '1 is_odd', 1 )
-    #expectResult( '2 is_odd', 0 )
-
-    # is_square
-    #expectResult( '1024 is_square', 1 )
-    #expectResult( '5 is_square', 0 )
-
-    # is_zero
-    #expectResult( '-1 is_zero', 0 )
-    #expectResult( '0 is_zero', 1 )
-    #expectResult( '1 is_zero', 0 )
-
-    # larger
-    #expectResult( '7 -7 larger' , 7 )
-
     # lcm
     expectEqual( '[ 3 12 36 65 10 ] lcm', queryAlpha( 'least common multiple of 3 12 36 65 10' ) )
     expectEqual( '[ 1296 728 3600 460 732 ] lcm', queryAlpha( 'least common multiple of 1296 728 3600 460 732' ) )
-
-    # max
-    #expectResult( '1 10 range max', 10 )
-    #expectResult( '10 1 range min', 1 )
-    #expectResult( '[ 9 4 7 2 5 6 3 8 ] max', 9 )
-    #expectEqual( '1 1 10 range range max', '1 10 range' )
-
-    # mean
-    #expectResult( '1 10 range mean', 5.5 )
-    #expectEqual( '1 10000 range mean', '5000.5' )
-    #testOperator( '1 1 10 range range mean' )
-
-    # min
-    #expectResult( '1 10 range min', 1 )
-    #expectResult( '10 1 range min', 1 )
-    #expectResult( '[ 9 4 7 2 5 6 3 8 ] min', 2 )
-    #expectEqual( '1 1 10 range range min', '[ 1 10 dup ]' )
-
-    # modulo
-    #expectResult( '11001 100 modulo', 1 )
-    #expectResult( '-120 7 modulo', 6 )
-    #expectResult( '8875 49 modulo', 6 )
-    #expectResult( '199467 8876 modulo', 4195 )
-
-    # multiply
-    #expectResult( '5 7 multiply', 35 )
-    #testOperator( '15 mph 10 hours *' )
-    #testOperator( 'c m/s convert 1 nanosecond * inches convert' )
-
-    # nearest_int
-    #expectResult( '0.1 nearest_int', 0 )
-    #expectResult( '4.5 nearest_int', 4 )
-    #expectResult( 'pi nearest_int', 3 )
-
-    # negative
-    #expectResult( '-4 negative', 4 )
-    #expectResult( '0 negative', 0 )
-    #expectResult( '4 negative', -4 )
-
-    # product
-    #expectEqual( '-a200 1 100 range product', '-a200 100 !' )
-    #expectResult( '[ 2 cups ] product', RPNMeasurement( 2, 'cup' ) )
-    #expectResult( '[ 3 2 cups ] product', RPNMeasurement( 6, 'cup' ) )
-    #expectResult( '[ 2 cups 8 16 ] product', RPNMeasurement( 256, 'cup' ) )
-    #expectResult( '[ 3 2 cups 8 16 ] product', RPNMeasurement( 768, 'cup' ) )
-    #testOperator( '1 1 10 range range prod' )
-
-    # reciprocal
-    #expectEqual( '6 7 / reciprocal', '7 6 /' )
-
-    # round
-    #expectResult( '0.1 round', 0 )
-    #expectResult( '4.5 round', 5 )
-    #expectEqual( '9.9 W round', '10 W' )
-
-    # round_by_digits
-    #expectResult( '0.1 0 round_by_digits', 0 )
-    #expectResult( '4.5 0 round_by_digits', 5 )
-    #expectResult( '4.5 1 round_by_digits', 0 )
-    #expectResult( '8 1 round_by_digits', 10 )
-    #expectResult( '4500 3 round_by_digits', 5000 )
-    #expectEqual( 'pi -2 round_by_digits', '3.14' )
-    #expectEqual( '88 mph 1 round_by_digits', '90 mph' )
-    #expectEqual( 'avogadro 20 round_by_digits', '6.022e23' )
-
-    # round_by_value
-    #expectResult( '0.1 1 round_by_value', 0 )
-    #expectResult( '4.5 1 round_by_value', 5 )
-    #expectResult( '4.5 2 round_by_value', 4 )
-    #expectResult( '8 3 round_by_value', 9 )
-    #expectResult( '4500 7 round_by_value', 4501 )
-    #expectEqual( 'pi 0.01 round_by_value', '3.14' )
-    #expectEqual( '88 mph 10 round_by_value', '90 mph' )
-
-    # sign
-    #expectResult( '1 sign', 1 )
-    #expectResult( '0 sign', 0 )
-    #expectResult( '-1 sign', -1 )
-    #expectResult( 'infinity sign', 1 )
-    #expectResult( 'negative_infinity sign', -1 )
-    #expectResult( '-2 cups sign', -1 )
-
-    # smaller
-    #expectResult( '7 -7 smaller' , -7 )
-
-    # stddev
-    #testOperator( '1 10 range stddev' )
-    #testOperator( '1 1 10 range range stddev' )
-
-    # subtract
-    #testOperator( '3948 474 subtract' )
-    #expectResult( '4 cups 27 teaspoons - teaspoons convert', RPNMeasurement( 165, 'teaspoon' ) )
-    #testOperator( '57 hectares 23 acres -' )
-    #testOperator( '10 Mb second / 700 MB hour / -' )
-    #testOperator( 'today 3 days -' )
-    #testOperator( 'today 3 weeks -' )
-    #testOperator( 'today 3 months -' )
-    #testOperator( 'now earth_radius 2 pi * * miles convert 4 mph / -' )
-    #testOperator( 'today 2 months -' )
-    #testOperator( 'today 1965-03-31 -' )
-    #testOperator( '2015-01-01 1965-03-31 -' )
-
-    # sum
-    #expectResult( '1 10 range sum', 55 )
-    #testOperator( '[ 27 days 7 hour 43 minute 12 second ] sum' )
-    #testOperator( '1 1 10 range range sum' )
 
 
 # //******************************************************************************
@@ -643,127 +418,6 @@ def runBitwiseOperatorTests( ):
 # //******************************************************************************
 
 def runCalendarOperatorTests( ):
-    # ash_wednesday
-    #testOperator( '2015 ash_wednesday' )
-
-    # calendar
-    #testOperator( '1965-03-31 calendar' )
-    #testOperator( '2014-10-01 calendar' )
-    #testOperator( 'today calendar' )
-
-    # dst_end
-    #testOperator( '2015 dst_end' )
-
-    # dst_start
-    #testOperator( '2015 dst_start' )
-
-    # easter
-    #testOperator( '2015 easter' )
-
-    # election_day
-    #testOperator( '2015 election_day' )
-
-    # from_bahai
-    #testOperator( '172 12 4 from_bahai' )
-
-    # from_hebrew
-    #testOperator( '5776 8 6 from_hebrew' )
-
-    # from_indian_civil
-    #testOperator( '1937 7 27 from_indian_civil' )
-
-    # from_islamic
-    #testOperator( '1437 1 5 from_islamic' )
-
-    # from_julian
-    #testOperator( '2015 10 6 from_julian' )
-
-    # from_mayan
-    #testOperator( '13 0 2 15 12 from_mayan' )
-
-    # from_persian
-    #testOperator( '1394 7 27 from_persian' )
-
-    # iso_date
-    #testOperator( 'today iso_date' )
-
-    # labor_day
-    #testOperator( '2015 labor_day' )
-
-    # memorial_day
-    #testOperator( '2015 memorial_day' )
-
-    # nth_weekday
-    #testOperator( '2015 march 4 thursday nth_weekday' )
-    #testOperator( '2015 march -1 thursday nth_weekday' )
-
-    # nth_weekday_of_year
-    #testOperator( '2015 20 thursday nth_weekday_of_year' )
-    #testOperator( '2015 -1 thursday nth_weekday_of_year' )
-
-    # presidents_day
-    #testOperator( '2015 presidents_day' )
-
-    # thanksgiving
-    #testOperator( '2015 thanksgiving' )
-
-    # to_bahai
-    #testOperator( 'today to_bahai' )
-
-    # to_bahai_name
-    #testOperator( 'today to_bahai_name' )
-
-    # to_hebrew
-    #testOperator( 'today to_hebrew' )
-
-    # to_hebrew_name
-    #testOperator( 'today to_hebrew_name' )
-
-    # to_indian_civil
-    #testOperator( 'today to_indian_civil' )
-
-    # to_indian_civil_name
-    #testOperator( 'today to_indian_civil_name' )
-
-    # to_islamic
-    #testOperator( 'today to_islamic' )
-
-    # to_islamic_name
-    #testOperator( 'today to_islamic_name' )
-
-    # to_iso
-    #testOperator( 'today to_iso' )
-
-    # to_iso_name
-    #testOperator( 'today to_iso_name' )
-
-    # to_julian
-    #testOperator( 'today to_julian' )
-
-    # to_julian_day
-    #testOperator( 'today to_julian_day' )
-
-    # to_lilian_day
-    #testOperator( 'today to_lilian_day' )
-
-    # to_mayan
-    #testOperator( 'today to_mayan' )
-
-    # to_ordinal_date
-    #testOperator( 'today to_ordinal_date' )
-
-    # to_persian
-    #testOperator( 'today to_persian' )
-
-    # to_persian_name
-    #testOperator( 'today to_persian_name' )
-
-    # weekday
-    #testOperator( 'today weekday' )
-
-    # year_calendar
-    #testOperator( '1965 year_calendar' )
-    #testOperator( 'today year_calendar' )
     pass
 
 
@@ -886,24 +540,6 @@ def runCombinatoricsOperatorTests( ):
 # //******************************************************************************
 
 def runComplexMathOperatorTests( ):
-    # argument
-    #testOperator( '3 3 i + argument' )
-
-    # conjugate
-    #testOperator( '3 3 i + conjugate' )
-
-    # i
-    #expectEqual( '3 i', '-9 sqrt' )
-
-    # imaginary
-    #expectResult( '3 i 4 + imaginary', 3 )
-    #expectResult( '5 imaginary', 0 )
-    #expectResult( '7 i imaginary', 7 )
-
-    # real
-    #expectResult( '3 i 4 + real', 4 )
-    #expectResult( '5 real', 5 )
-    #expectResult( '7 i real', 0 )
     pass
 
 
@@ -914,205 +550,6 @@ def runComplexMathOperatorTests( ):
 # //******************************************************************************
 
 def runConstantOperatorTests( ):
-    #expectResult( 'default', -1 )
-    #expectResult( 'false', 0 )
-    #expectResult( 'true', 1 )
-
-    # infinity
-    #testOperator( 'infinity lambda x fib x 1 - fib / limit' )
-    #expectEqual( 'infinity lambda x fib x 1 - fib / limit', 'phi' )
-    #testOperator( 'infinity lambda x 1/x 1 + x ** limit' )
-
-    # days of the week
-    #expectResult( 'monday', 1 )
-    #expectResult( 'tuesday', 2 )
-    #expectResult( 'wednesday', 3 )
-    #expectResult( 'thursday', 4 )
-    #expectResult( 'friday', 5 )
-    #expectResult( 'saturday', 6 )
-    #expectResult( 'sunday', 7 )
-
-    # months
-    #expectResult( 'january', 1 )
-    #expectResult( 'february', 2 )
-    #expectResult( 'march', 3 )
-    #expectResult( 'april', 4 )
-    #expectResult( 'may', 5 )
-    #expectResult( 'june', 6 )
-    #expectResult( 'july', 7 )
-    #expectResult( 'august', 8 )
-    #expectResult( 'september', 9 )
-    #expectResult( 'october', 10 )
-    #expectResult( 'november', 11 )
-    #expectResult( 'december', 12 )
-
-    # mathematical constants
-    #testOperator( 'apery_constant' )
-    #testOperator( 'catalan_constant' )
-    #testOperator( 'champernowne_constant' )
-    #testOperator( 'copeland_erdos_constant' )
-    #testOperator( 'e' )
-    #testOperator( 'eddington_number' )
-    #testOperator( 'euler_mascheroni_constant' )
-    #testOperator( 'glaisher_constant' )
-    #testOperator( 'infinity' )
-    #testOperator( 'itoi' )
-    #testOperator( 'khinchin_constant' )
-    #testOperator( 'merten_constant' )
-    #testOperator( 'mills_constant' )
-    #testOperator( 'negative_infinity' )
-    #testOperator( 'omega_constant' )
-    #testOperator( 'phi' )
-    #testOperator( 'pi' )
-    #testOperator( 'plastic_constant' )
-    #testOperator( 'prevost_constant' )
-    #testOperator( 'robbins_constant' )
-    #testOperator( 'silver_ratio' )
-
-    # physical quantities
-    #testOperator( 'aa_battery' )
-    #testOperator( 'gallon_of_ethanol' )
-    #testOperator( 'gallon_of_gasoline' )
-    #testOperator( 'density_of_water' )
-    #testOperator( 'density_of_hg' )
-
-    # physical constants
-    #testOperator( 'avogadro_number' )
-    #testOperator( 'bohr_radius' )
-    #testOperator( 'boltzmann_constant' )
-    #testOperator( 'coulomb_constant' )
-    #testOperator( 'electric_constant' )
-    #testOperator( 'electron_charge' )
-    #testOperator( 'faraday_constant' )
-    #testOperator( 'fine_structure_constant' )
-    #testOperator( 'magnetic_constant' )
-    #testOperator( 'newton_constant' )
-    #testOperator( 'radiation_constant' )
-    #testOperator( 'rydberg_constant' )
-    #testOperator( 'speed_of_light' )
-    #testOperator( 'stefan_boltzmann_constant' )
-    #testOperator( 'vacuum_impedance' )
-    #testOperator( 'von_klitzing_constant' )
-
-    # programming integer constants
-    #expectEqual( 'max_char', '2 7 ** 1 -' )
-    #testOperator( 'max_double' )
-    #testOperator( 'max_float' )
-    #expectEqual( 'max_long', '2 31 ** 1 -' )
-    #expectEqual( '-a20 max_longlong', '-a20 2 63 ** 1 -' )
-    #expectEqual( '-a40 max_quadlong', '-a40 2 127 ** 1 -' )
-    #expectEqual( 'max_short', '2 15 ** 1 -' )
-    #expectEqual( 'max_uchar', '2 8 ** 1 -' )
-    #expectEqual( 'max_ulong', '2 32 ** 1 -' )
-    #expectEqual( '-a20 max_ulonglong', '-a20 2 64 ** 1 -' )
-    #expectEqual( '-a40 max_uquadlong', '-a40 2 128 ** 1 -' )
-    #expectEqual( 'max_ushort', '2 16 ** 1 -' )
-
-    #expectEqual( 'min_char', '2 7 ** negative' )
-    #testOperator( 'min_double' )
-    #testOperator( 'min_float' )
-    #expectEqual( 'min_long', '2 31 ** negative' )
-    #expectEqual( '-a20 min_longlong', '-a20 2 63 ** negative' )
-    #expectEqual( '-a40 min_quadlong', '-a40 2 127 ** negative' )
-    #expectEqual( 'min_short', '2 15 ** negative' )
-    #expectResult( 'min_uchar', 0 )
-    #expectResult( 'min_ulong', 0 )
-    #expectResult( 'min_ulonglong', 0 )
-    #expectResult( 'min_uquadlong', 0 )
-    #expectResult( 'min_ushort', 0 )
-
-    # Planck constants
-    #testOperator( 'planck_constant' )
-    #testOperator( 'reduced_planck_constant' )
-
-    #testOperator( 'planck_length' )
-    #testOperator( 'planck_mass' )
-    #testOperator( 'planck_time' )
-    #testOperator( 'planck_charge' )
-    #testOperator( 'planck_temperature' )
-
-    #testOperator( 'planck_angular_frequency' )
-    #testOperator( 'planck_area' )
-    #testOperator( 'planck_current' )
-    #testOperator( 'planck_density' )
-    #testOperator( 'planck_energy' )
-    #testOperator( 'planck_energy_density' )
-    #testOperator( 'planck_force' )
-    #testOperator( 'planck_impedance' )
-    #testOperator( 'planck_intensity' )
-    #testOperator( 'planck_momentum' )
-    #testOperator( 'planck_power' )
-    #testOperator( 'planck_pressure' )
-    #testOperator( 'planck_voltage' )
-    #testOperator( 'planck_volume' )
-
-    # subatomic particle constants
-    #testOperator( 'alpha_particle_mass' )
-    #testOperator( 'deuteron_mass' )
-    #testOperator( 'electron_mass' )
-    #testOperator( 'helion_mass' )
-    #testOperator( 'muon_mass' )
-    #testOperator( 'neutron_mass' )
-    #testOperator( 'proton_mass' )
-    #testOperator( 'tau_mass' )
-    #testOperator( 'triton_mass' )
-
-    # heavenly body constants
-    #testOperator( 'solar_luminosity' )
-    #testOperator( 'solar_mass' )
-    #testOperator( 'solar_radius' )
-    #testOperator( 'solar_volume' )
-
-    #testOperator( 'mercury_mass' )
-    #testOperator( 'mercury_radius' )
-    #testOperator( 'mercury_revolution' )
-    #testOperator( 'mercury_volume' )
-
-    #testOperator( 'venus_mass' )
-    #testOperator( 'venus_radius' )
-    #testOperator( 'venus_revolution' )
-    #testOperator( 'venus_volume' )
-
-    #testOperator( 'earth_mass' )
-    #testOperator( 'earth_radius' )
-    #testOperator( 'earth_volume' )
-    #testOperator( 'sidereal_year' )
-    #testOperator( 'tropical_year' )
-
-    #testOperator( 'moon_mass' )
-    #testOperator( 'moon_radius' )
-    #testOperator( 'moon_revolution' )
-    #testOperator( 'moon_volume' )
-
-    #testOperator( 'mars_mass' )
-    #testOperator( 'mars_radius' )
-    #testOperator( 'mars_revolution' )
-    #testOperator( 'mars_volume' )
-
-    #testOperator( 'jupiter_mass' )
-    #testOperator( 'jupiter_radius' )
-    #testOperator( 'jupiter_revolution' )
-    #testOperator( 'jupiter_volume' )
-
-    #testOperator( 'saturn_mass' )
-    #testOperator( 'saturn_radius' )
-    #testOperator( 'saturn_revolution' )
-    #testOperator( 'saturn_volume' )
-
-    #testOperator( 'uranus_mass' )
-    #testOperator( 'uranus_radius' )
-    #testOperator( 'uranus_revolution' )
-    #testOperator( 'uranus_volume' )
-
-    #testOperator( 'neptune_mass' )
-    #testOperator( 'neptune_radius' )
-    #testOperator( 'neptune_revolution' )
-    #testOperator( 'neptune_volume' )
-
-    #testOperator( 'pluto_mass' )
-    #testOperator( 'pluto_radius' )
-    #testOperator( 'pluto_revolution' )
-    #testOperator( 'pluto_volume' )
     pass
 
 
@@ -1123,83 +560,6 @@ def runConstantOperatorTests( ):
 # //******************************************************************************
 
 def runConversionOperatorTests( ):
-    # char
-    #testOperator( '0x101 char' )
-
-    # convert - convert is handled separately
-
-    # dhms
-    #testOperator( '8 million seconds dhms' )
-
-    # dms
-    #testOperator( '1 radian dms' )
-
-    # double
-    #testOperator( '-x 10 20 ** double' )
-    #testOperator( '-x pi double' )
-
-    # float
-    #testOperator( '-x 1029.3 float' )
-    #testOperator( 'pi float' )
-
-    # from_unix_time
-    #testOperator( '1234567890 from_unix_time' )
-
-    # hms
-    #testOperator( '54658 seconds hms' )
-
-    # integer
-    #testOperator( '456 8 integer' )
-
-    # invert_units
-    #testOperator( '30 miles gallon / invert_units' )
-
-    # latlong_to_nac
-    #testOperator( '"Detroit, MI" location_info latlong_to_nac' )
-
-    # long
-    #testOperator( '3456789012 long' )
-
-    # longlong
-    #testOperator( '1234567890123456789012 longlong' )
-
-    # pack
-    #testOperator( '-x [ 192 168 0 1 ] [ 8 8 8 8 ] pack' )
-
-    # short
-    #testOperator( '32800 short' )
-
-    # to_unix_time
-    #testOperator( '[ 2014 4 30 0 0 0 ] make_time to_unix_time' )
-
-    # uchar
-    #testOperator( '290 uchar' )
-
-    # uinteger
-    #testOperator( '200 8 uinteger' )
-
-    # ulong
-    #testOperator( '234567890 ulong' )
-
-    # ulonglong
-    #testOperator( '-a20 12345678901234567890 ulonglong' )
-
-    # undouble
-    #testOperator( '0x400921fb54442d18 undouble' )
-    #testOperator( '0xcdcdcdcdcdcdcdcd undouble' )
-
-    # unfloat
-    #testOperator( '0x40490fdb unfloat' )
-    #testOperator( '0xcdcdcdcd unfloat' )
-
-    # unpack
-    #testOperator( '503942034 [ 3 4 5 11 4 4 ] unpack' )
-
-    # ushort
-    #testOperator( '23456 ushort' )
-
-    # ydhms
-    #testOperator( '14578 seconds ydhms' )
     pass
 
 
@@ -1210,47 +570,6 @@ def runConversionOperatorTests( ):
 # //******************************************************************************
 
 def runDateTimeOperatorTests( ):
-    # get_day
-    #testOperator( 'now get_day' )
-
-    # get_hour
-    #testOperator( 'now get_hour' )
-
-    # get_minute
-    #testOperator( 'now get_minute' )
-
-    # get_month
-    #testOperator( 'now get_month' )
-
-    # get_second
-    #testOperator( 'now get_second' )
-
-    # get_year
-    #testOperator( 'now get_year' )
-
-    # iso_day
-    #testOperator( 'today iso_day' )
-
-    # make_datetime
-    #testOperator( '[ 1965 03 31 ] make_datetime' )
-
-    # make_iso_time
-    #testOperator( '[ 2015 34 6 ] make_iso_time' )
-
-    # make_julian_time
-    #testOperator( '[ 2015 7 5 4 3 ] make_julian_time' )
-
-    # now
-    #testOperator( 'now' )
-
-    # today
-    #testOperator( 'today' )
-
-    # tomorrow
-    #testOperator( 'tomorrow' )
-
-    # yesterday
-    #testOperator( 'yesterday' )
     pass
 
 
@@ -1588,45 +907,11 @@ def runLexicographyOperatorTests( ):
 # //******************************************************************************
 
 def runListOperatorTests( ):
-    # alternate_signs
-    #testOperator( '1 10 range alternate_signs' )
-
-    # alternate_signs_2
-    #testOperator( '1 10 range alternate_signs_2' )
-
     # alternating_sum
     #testOperator( '1 10 range alternating_sum' )
 
     # alternating_sum_2
     #testOperator( '1 10 range alternating_sum_2' )
-
-    # append
-    #testOperator( '1 10 range 45 50 range append' )
-    #testOperator( '1 10 range 11 20 range append 21 30 range append' )
-
-    # collate
-    #testOperator( '[ 1 10 range 1 10 range ] collate' )
-
-    # count
-    #expectResult( '1 10 range count', 10 )
-
-    # diffs
-    #testOperator( '1 10 range diffs' )
-    #testOperator( '1 10 range fib diffs' )
-
-    # diffs2
-    #testOperator( '1 10 range diffs2' )
-    #testOperator( '1 10 range fib diffs2' )
-
-    # element
-    #testOperator( '1 10 range 5 element' )
-    #testOperator( '-a25 1 100 range fibonacci 55 element' )
-
-    # exponential_range
-    #testOperator( '1.1 1.1 10 exponential_range' )
-
-    # flatten
-    #expectEqual( '[ 1 2 [ 3 4 5 ] [ 6 [ 7 [ 8 9 ] ] 10 ] ] flatten', '1 10 range' )
 
     # geometric_mean
     #testOperator( '1 100 range geometric_mean' )
@@ -1635,88 +920,6 @@ def runListOperatorTests( ):
     # geometric_range
     #testOperator( '2 8 8 geometric_range' )
 
-    # group_elements
-    #testOperator( '1 10 range 5 group_elements' )
-
-    # interleave
-    #testOperator( '1 10 range 1 10 range interleave' )
-    #expectEqual( '1 100 2 range2 2 100 2 range2 interleave', '1 100 range' )
-
-    # intersection
-    #testOperator( '1 10 range 1 8 range intersection' )
-
-    # left
-    #expectResult( '1 10 range 5 left', [ 1, 2, 3, 4, 5 ] )
-
-    # max_index
-    #testOperator( '1 10 range max_index' )
-
-    # min_index
-    #testOperator( '1 10 range min_index' )
-
-    # nonzero
-    #testOperator( '1 10 range nonzero' )
-
-    # occurrence_cumulative
-    #testOperator( '4 100 random_integer_ occurrence_cumulative' )
-
-    # occurrence_ratios
-    #testOperator( '4 100 random_integer_ occurrence_ratios' )
-
-    # occurrences
-    #testOperator( '4 100 random_integer_ occurrences' )
-
-    # range
-    #expectResult( '1 12 range', [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ] )
-
-    # range2
-    #testOperator( '1 23 2 range2' )
-
-    # ratios
-    #testOperator( '1 10 range fib ratios' )
-
-    # ratios2
-    #testOperator( '1 10 range fib ratios2' )
-
-    # reduce
-    #testOperator( '[ 4 8 12 ] reduce' )
-
-    # reverse
-    #testOperator( '1 10 range reverse' )
-    ##testOperator( '1 2 10 range range reverse' )
-    ##testOperator( '1 2 10 range reverse range reverse' )
-    ##testOperator( '1 2 10 range reverse range' )
-
-    # right
-    #expectEqual( '1 10 range 5 right', '6 10 range' )
-
-    # shuffle
-    #testOperator( '1 20 range shuffle' )
-
-    # slice
-    #testOperator( '1 10 range 3 5 slice' )
-    #testOperator( '1 10 range 2 -5 slice' )
-
-    # sort
-    #testOperator( '10 1 -1 range2 sort' )
-
-    # sort_descending
-    #testOperator( '1 10 range sort_descending' )
-
-    # sublist
-    #testOperator( '1 10 range 1 5 sublist' )
-
-    # union
-    #testOperator( '1 10 range 11 20 range union' )
-
-    # unique
-    #testOperator( '1 10 range unique' )
-    #testOperator( '1 10 range 1 10 range append unique' )
-    #testOperator( '[ 1 10 range 10 dup ] unique' )
-
-    # zero
-    #expectEqual( '-10 10 range zero', '[ 10 ]' )
-    #expectEqual( '1 10 range zero', '[ ]' )
     pass
 
 
@@ -3020,13 +2223,23 @@ def runTests( tests ):
 
 # //******************************************************************************
 # //
+# //  main
+# //
+# //******************************************************************************
+
+def main( ):
+    loadUnitNameData( )
+    client = initializeAlpha( )
+
+    runTests( sys.argv[ 1 : ] )
+
+
+# //******************************************************************************
+# //
 # //  __main__
 # //
 # //******************************************************************************
 
 if __name__ == '__main__':
-    loadUnitNameData( )
-    client = initializeAlpha( )
-
-    runTests( sys.argv[ 1 : ] )
+    main( )
 
